@@ -1,6 +1,6 @@
-* IDS Web components Proof Of Concept
+# IDS Web components Proof Of Concept
 
-** Goals 
+## Goals 
 
 - Very simple and Flat Folder Structure (x)
 - One Component Per Folder (x)
@@ -31,7 +31,7 @@
 - Examples in Vue, React and NG
   - https://css-tricks.com/advanced-tooling-for-web-components/ 
 
-** General Principals
+## General Principals
 
 - Create need Better "Marketing" - convince people to use the stuff without thinking too hard about it
 - Make Better Communication Plans - Incident Reports and Release and Change Communication ect.
@@ -42,17 +42,16 @@
 - Have accessibility and tests from the start
 - All Guidelines for keyboard https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard-interaction-12 and also  http://w3c.github.io/aria-practices/#button
 
-** Js Principals and Standards
+## Js Principals and Standards
 
-Top 3 Articles
-
+Top 3 Articles:
 1. https://github.com/webcomponents/gold-standard/wiki
 2. 
 3.
 
-** Css Principals
+## Css Principals
 
-Top 3 Articles
+Top 3 Articles:
 1. https://blog.webf.zone/on-styling-web-components-b74b8c70c492
 2. https://webpack.js.org/loaders/sass-loader/
 3.
@@ -65,19 +64,19 @@ Top 3 Articles
 - Smacss - Like abbreviations. -l- for layout, -is- o -has- for states
 - Use Standard Guidelines https://cssguidelin.es/
 
-** Webpack Principals
+## Webpack Principals
 
-Top 3 Articles 
+Top 3 Articles:
 1. https://vaadin.com/learn/tutorials/using-web-components
 
-** Documentation Principals
+## Documentation Principals
 
-Top 3 Articles
+Top 3 Articles:
 1. https://jacobian.org/speaking/writing-great-documentation/
 
-** Test Tools Principals
+## Test Tools Principals
 
-Top 3 Articles
+Top 3 Articles:
 1. https://dev.to/davert/5-reasons-you-should-not-use-protractor-in-2019-3l4b
 
 Tools to evaluate
@@ -85,7 +84,7 @@ Tools to evaluate
 - https://codecept.io/
 - Jest (Stencil Js uses Jest and Puppeteer )
 
-** Other Component Library Examples
+## Other Component Library Examples
 
 https://component.kitchen/elix (source: https://github.com/elix/elix/tree/13.0.0/src/base)
 https://vaadin.com/components
@@ -94,13 +93,12 @@ https://www.htmlelements.com/demos/tree/overview/
 https://boxy-svg.com/app
 https://xel-toolkit.org/elements/x-slider
 
-** Discoveries
+## Discoveries
 
-- Interesting that you need `<script src="main.js" defer></script>`
+- You need `<script src="main.js" defer></script>` ?
 - How important is the hard requirement for standalone Css?
 
-** Decisions
-* https://stenciljs.com/ 
+## Decisions
 * Webpack vs Rollup - Suggest Webpack
-* TS or No? - Suggest no but add Types?
-* Use CSSStyleSheet with poly fill? https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts
+* TS - Suggest no but add Types this is done in a lot of libs like elix
+* Use CSSStyleSheet  - With poly fill  https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts
