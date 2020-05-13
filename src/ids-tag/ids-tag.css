@@ -1,0 +1,43 @@
+/* Ids Tokens - Exposed as Css Variables - Root/Global Tokens */
+:root {
+  /* Ids Color Pallette */
+  --ids-theme-color-palette-graphite-20: #d8d8d8;
+  --ids-theme-color-palette-white: #ffffff;
+  --ids-theme-color-status-caution: #ffd726;
+  --ids-theme-color-status-danger: #e84f4f;
+  --ids-theme-color-status-error: #e84f4f;
+  --ids-theme-color-status-success: #80ce4d;
+  --ids-theme-color-status-warning: #ff9426;
+
+  --ids-theme-theme-color-font-base: #1a1a1a;
+
+  /* Ids Font Sizes */
+  --ids-theme-size-font-px-14: 14px; 
+}
+
+/* Style on the custom element */
+.ids-tag {
+  /* Tag Css Variables and Token Properties */
+  --ids-tag-border-radius: 15px;
+  --ids-tag-height: 22px;
+  --ids-tag-background-color: var(--ids-theme-color-palette-white);
+  --ids-tag-color: var(--ids-theme-theme-color-font-base);
+
+  -webkit-font-smoothing: antialiased;
+
+  /*
+    TODO: Make Exposable Parts fx. Height, Shape.
+    ids-rounded-borders
+    ids-field-height-normal
+   */
+    
+  background-color: var(--ids-tag-background-color);
+  border: 1px solid;
+  border-color: var(--ids-theme-color-palette-graphite-20);
+  border-radius: var(--ids-tag-border-radius);
+  color: var(--ids-tag-color);
+  font-size: var(--ids-theme-size-font-px-14);
+  line-height: var(--ids-tag-height);
+  margin: 0 5px 5px 0;
+  padding: 0 10px;
+}
