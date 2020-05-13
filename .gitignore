@@ -1,1 +1,6 @@
+# Built and Npm Folders
 node_modules/
+.git
+
+# OS Setting Files
+.DS_Store
