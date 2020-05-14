@@ -1,0 +1,15 @@
+@import '../ids-base/ids-base';
+
+.ids-tag {
+  @include antialiased();
+  @include font-sans();
+  @include rounded-md();
+  @include text-px-14();
+  @include text-base();
+  @include bg-graphite-20();
+  @include border();
+  @include border-graphite-20();
+
+  margin: 0 5px 5px 0;
+  padding: 1px 10px;
+}

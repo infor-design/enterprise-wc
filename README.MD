@@ -1,48 +1,71 @@
-# IDS Web components Proof Of Concept
+# IDS Web Components Proof Of Concept
 
-## Goals 
+## Getting Started 
 
-- Very simple and Flat Folder Structure (x)
-- One Component Per Folder (x)
-- Show a Test and Example Pages (x)
-- Include a draft Technical Spec (x)
-- Include the Designs in the the Technical Spec (x)
-- Css / sass 
-  - Add Sass handling and external Css Code 
-  - Finish Styling to uplift 
-  - Change tokens to pixels? 
-  - Add token namespaces for css variables
-- Push this repo up for share
-- Show one example side by side with a 4.x version
-- Show some basic Webcomponent Code
-  - Settings 
-  - Event Handlers
-  - Linting
-  - Base
-  - add TS types https://github.com/elix/elix/tree/13.0.0/src/base
-- List of tokens for the component
+```
+mkdir enterprise-wc
+cd enterprise-wc
+git clone https://github.com/infor-design/enterprise-wc.git .
+npm i 
+npm run start
+```
+
+## Task List for this POC
+
+- [x] Create a simple flat(ish) folder structure with one component per folder
+- [x] Show an example page per each component
+- [x] Include a draft Technical Spec including designs and tests (see README's)
+- [x] CSS/SASS
+  - [ ] Finish css styling for uplift using functional css and separation
+  - [ ] Add token namespaces for css variables
+  - [x] Add Sass handling with webpack
+  - [ ] List of tokens for the component if needed
+  - [ ] Change tokens to  use pixels instead of rems
+  - [ ] Solve for theme/modes or whatever they are called 
+  - [ ] Add style lint
+by side
+- [ ] Webcomponent 
+  - [x] Settings
+  - [ ] Event Handler
+  - [ ] Keyboard
+  - [x] Linting
+  - [ ] Make a Base
+  - [ ] Create a mixin (Close Mixin)
+  - [ ] add TS types https://github.com/elix/elix/tree/13.0.0/src/base
+- [ ] Make a test with the old and new components side 
 - Create a LitElement (or some base) which has
-  - Invoked Components - Modal
-  - Current States
-  - Event Handlers
-  - Rendering / Updating info
-- Include Unit Tests
-- Themes
-- Examples in Vue, React and NG
+  - [ ] Invoked Components - Modal
+  - [ ] Current States
+  - [ ] Event Handlers
+  - [ ] Rendering / Updating info
+- [ ] Css? Grid 
+- [ ] Typography Component
+- [ ] Listview Component
+- [ ] Add Unit Tests
+- [ ] Upgrade Docs
+- [ ] Api and example Documentation
+- [ ] CSP/Security Scans
+- [ ] Right to Left
+- [ ] Localization
+- [ ] Examples in Vue, React and NG
   - https://css-tricks.com/advanced-tooling-for-web-components/ 
+  - Use snowpack exmaple projects
+- [ ] Component Checklist (accessibility, tests ect see General Principals) 
+  - include https://developers.google.com/web/fundamentals/web-components/best-practices#do-not-self-apply-classes
 
 ## General Principals
 
-- Create need Better "Marketing" - convince people to use the stuff without thinking too hard about it
+- Make Better "Marketing" - convince people to use the stuff without thinking too hard about it
 - Make Better Communication Plans - Incident Reports and Release and Change Communication ect.
 - Make a Better Support Channel - More helpers ect - Maybe something other than teams?
-- We need to Do Tests, Security, Documentation from the start
+- We need to Do Tests, Security, Documentation and Upgrade Docs from the start
 - Make sure to run veracode from the start
 - Make sure to do CSP from the start
+- Make sure to do Linting - Using Sass linter, Html Linter ect
 - Have accessibility and tests from the start
 - All Guidelines for keyboard https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard-interaction-12 and also  http://w3c.github.io/aria-practices/#button
 
-## Js Principals and Standards
+## Js and Webcomponent Principals and Standards
 
 Top 3 Articles:
 1. https://github.com/webcomponents/gold-standard/wiki
@@ -57,7 +80,6 @@ Top 3 Articles:
 3.
 
 - Namespaced - ids-
-- Linted - Using Sass linter
 - Css Variables - For tokens on top and component level
 - Keep It Flat - One or two levels (exceptions) selectors MAX
 - https://bradfrost.com/blog/post/css-architecture-for-design-systems/

@@ -1,25 +1,51 @@
 {
-  "name": "webcomponent-poc",
+  "name": "enterprise-wc",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A Web Components version of the IDS Enterprise component library.",
+  "main": "src/index.js",
   "directories": {
-    "doc": "doc",
+    "lib": "source",
     "test": "test"
   },
   "scripts": {
-    "test": "npm run test"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack",
+    "start": "webpack-dev-server --open"
   },
-  "author": "",
-  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/infor-design/enterprise-wc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/infor-design/enterprise-wc/issues"
+  },
+  "author": "Hook & Loop",
+  "license": "Apache-2.0",
+  "homepage": "https://design.infor.com",
   "devDependencies": {
-    "ids-identity": "^2.9.9",
+    "@babel/core": "^7.9.6",
+    "@babel/preset-env": "^7.9.6",
+    "autoprefixer": "^9.7.6",
+    "babel-loader": "^8.1.0",
+    "css-loader": "^3.5.3",
+    "cssnano": "^4.1.10",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsdoc": "^24.0.0",
     "eslint-plugin-wc": "^1.2.0",
+    "html-loader": "^1.1.0",
+    "html-webpack-plugin": "^4.3.0",
+    "ids-identity": "^2.9.9",
+    "mini-css-extract-plugin": "^0.9.0",
+    "node-sass": "^4.14.1",
+    "postcss-loader": "^3.0.0",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
-  }
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "dependencies": {}
 }

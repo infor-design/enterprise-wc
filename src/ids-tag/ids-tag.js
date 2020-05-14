@@ -7,7 +7,8 @@ class IdsTag extends HTMLElement {
    */
   constructor() {
     super();
-    this.render();
+    this.name = 'ids-tag'; // TODO: Base Method
+    this.render(); // TODO: Base Method
   }
 
   /**
@@ -30,7 +31,7 @@ class IdsTag extends HTMLElement {
 
   /**
    * Handle Setting changes
-   * TODO: Goes in base
+   * TODO: Base Method
    * @param  {string} name The property name
    * @param  {string} oldValue The property old value
    * @param  {string} newValue The property new value
@@ -49,24 +50,42 @@ class IdsTag extends HTMLElement {
 
   set color(value) {
     const hasColor = this.hasAttribute('color');
-    if (hasColor || !value) {
+    if (hasColor && value) {
       this.setAttribute('color', value);
-      this.style.setProperty('--ids-tag-background-color', `var(--ids-theme-color-status-${value})`);
-    } else {
-      this.removeAttribute('color');
-      this.style.removeProperty('--ids-tag-background-color');
+      const prop = value.substr(0, 1) === '#' ? value : `var(--ids-theme-color-status-${value})`;
+      this.style.backgroundColor = prop;
+      this.style.borderColor = value === 'secondary' ? '' : prop;
+
+      // TODO: Do this with css classes
+      if (value === 'error' || value === 'success') {
+        this.style.color = 'var(--ids-theme-color-palette-white)';
+      }
+
+      if (value === 'secondary') {
+        this.style.borderColor = 'var(--ids-theme-color-palette-graphite-30)';
+      }
+      return;
     }
+
+    this.removeAttribute('color');
+    this.style.backgroundColor = '';
+    this.style.borderColor = '';
+    this.style.color = '';
   }
 
   /**
    * Render the component
    */
   render() {
+    // Append the Template to the Shadown DOM (TODO: Base Method)
     const template = document.createElement('template');
     template.innerHTML = IdsTag.template();
     this.attachShadow({ mode: 'open' });
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+    // Add the class  (TODO: Base Method)
+    this.classList.add(this.name);
   }
 }
 
-customElements.define('ids-tag', IdsTag);
+export default IdsTag;

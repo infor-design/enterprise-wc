@@ -10,7 +10,7 @@ class IdsIcon extends HTMLElement {
       wide: 32,
       narrow: 24,
       default: 24,
-      condensed: 16,
+      condensed: 16
     };
 
     this.render();
@@ -23,7 +23,7 @@ class IdsIcon extends HTMLElement {
   iconData() {
     const paths = {
       close: 'M10.414 9l5.293-5.293a.999.999 0 10-1.414-1.414L9 7.586 3.707 2.293a.999.999 0 10-1.414 1.414L7.586 9l-5.293 5.293a.999.999 0 101.414 1.414L9 10.414l5.293 5.293a.997.997 0 001.414 0 .999.999 0 000-1.414L10.414 9',
-      'caret-right': 'M5.452 1L4 2.356 11.109 9 4 15.643 5.452 17 14 9.01 13.99 9l.01-.011z',
+      'caret-right': 'M5.452 1L4 2.356 11.109 9 4 15.643 5.452 17 14 9.01 13.99 9l.01-.011z'
     };
     return paths[this.icon];
   }
@@ -35,9 +35,7 @@ class IdsIcon extends HTMLElement {
    */
   template() {
     const size = this.compactSizes[this.compactness] || this.compactSizes.default;
-    return `<svg
-      xmlns="http://www.w3.org/2000/svg" height="${size}" width="${size}" viewBox="0 0 18 18"
-      >
+    return `<svg xmlns="http://www.w3.org/2000/svg" height="${size}" width="${size}" viewBox="0 0 18 18">
       <path d="${this.iconData()}" />
     </svg>`;
   }
@@ -96,4 +94,4 @@ class IdsIcon extends HTMLElement {
   }
 }
 
-customElements.define('ids-icon', IdsIcon);
+export default IdsIcon;

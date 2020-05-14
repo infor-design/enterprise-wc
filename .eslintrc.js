@@ -17,6 +17,9 @@ module.exports = {
   rules: {
     semi: ['error'],
     indent: ['error', 2],
-    'jsdoc/newline-after-description': 0
+    'jsdoc/newline-after-description': 0,
+    'comma-dangle': ['error', 'never'],
+    'import/no-extraneous-dependencies': ["error", { devDependencies: true, }],
+    'wc/no-self-class': 0
   }
 }

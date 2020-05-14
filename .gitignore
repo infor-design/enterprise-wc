@@ -1,6 +1,7 @@
 # Built and Npm Folders
 node_modules/
 .git
+dist
 
 # OS Setting Files
 .DS_Store
