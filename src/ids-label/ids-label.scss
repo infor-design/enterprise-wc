@@ -1,0 +1,6 @@
+/* Ids Label Css */
+.ids-label {
+  @include antialiased();
+  @include font-sans();
+  @include block();
+}

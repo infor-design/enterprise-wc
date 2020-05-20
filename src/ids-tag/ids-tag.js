@@ -50,19 +50,20 @@ class IdsTag extends HTMLElement {
 
   set color(value) {
     const hasColor = this.hasAttribute('color');
+
     if (hasColor && value) {
       this.setAttribute('color', value);
-      const prop = value.substr(0, 1) === '#' ? value : `var(--ids-theme-color-status-${value})`;
+      const prop = value.substr(0, 1) === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
       this.style.backgroundColor = prop;
       this.style.borderColor = value === 'secondary' ? '' : prop;
 
       // TODO: Do this with css classes
-      if (value === 'error' || value === 'success') {
-        this.style.color = 'var(--ids-theme-color-palette-white)';
+      if (value === 'error' || value === 'success' || value === 'danger') {
+        this.style.color = 'var(--ids-color-palette-white)';
       }
 
       if (value === 'secondary') {
-        this.style.borderColor = 'var(--ids-theme-color-palette-graphite-30)';
+        this.style.borderColor = 'var(--ids-color-palette-graphite-30)';
       }
       return;
     }

@@ -1,52 +1,29 @@
 /* Ids Tokens - Exposed as Css Variables - Root/Global Tokens */
+@import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift.variables.css';
+
 :root {
-  /* Ids Color Pallette */
-  --ids-theme-color-palette-graphite-20: #D3D3D3;
-  --ids-theme-color-palette-graphite-30: #B1B1B1;
-  --ids-theme-color-palette-white: #ffffff;
-  --ids-theme-color-status-caution: #FFD726;
-  --ids-theme-color-status-danger: #e84f4f;
-  --ids-theme-color-status-error: #DA1217;
-  --ids-theme-color-status-success: #2AC371;
-  --ids-theme-color-status-warning: #ff9426;
-
-  --ids-theme-theme-color-font-base: #1a1a1a;
-
-  /* Ids Font Sizes */
-  --ids-theme-size-font-px-14: 14px; 
+  font-size: 62.5%
 }
 
-/* Ids Font Charactistics */
-@mixin font-sans {
-  font-family: "source sans pro", helvetica, arial, san-serif;
+/* Font Sizes and Charactistics */
+@import '../ids-typography/ids-typography.scss';
+
+/* Display */
+@mixin block {
+  display: block;
 }
 
-@mixin antialiased {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-@mixin text-bold {
-  font-style: bold;
-}
-
-/* Ids Font Sizes */
-@mixin text-px-14 {
-  font-size: var(--ids-theme-size-font-px-14);
-}
-
-/* Ids Font Colors */
-@mixin text-base {
-  color: var(--ids-theme-theme-color-font-base);
+@mixin inline-flex {
+  display: inline-flex ;
 }
 
 /* Background Colors */
 @mixin bg-graphite-20 {
-  background-color: var(--ids-theme-color-palette-graphite-20);
+  background-color: var(--ids-color-palette-graphite-20);
 }
 
 @mixin bg-white {
-  background-color: var(--ids-theme-color-palette-white);
+  background-color: var(--ids-color-palette-white);
 }
 
 /* Borders */
@@ -59,9 +36,32 @@
 }
 
 @mixin border-graphite-20 {
-  border-color: var(--ids-theme-color-palette-graphite-20);
+  border-color: var(--ids-color-palette-graphite-20);
 }
 
 @mixin border-graphite-30 {
-  border-color: var(--ids-theme-color-palette-graphite-30);
+  border-color: var(--ids-color-palette-graphite-30);
 }
+
+/* Margins */
+@mixin margin-r-5 {
+  margin-right: 5px;
+}
+
+@mixin margin-b-5 {
+  margin-bottom: 5px;
+}
+
+/* Padding */
+@mixin padding-x-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+@mixin padding-y-1 {
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+/* Base Components */
+@import '../ids-label/ids-label.scss';

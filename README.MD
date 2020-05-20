@@ -3,27 +3,31 @@
 ## Getting Started 
 
 ```
-mkdir enterprise-wc
+git clone https://github.com/infor-design/enterprise-wc.git
 cd enterprise-wc
-git clone https://github.com/infor-design/enterprise-wc.git .
 npm i 
 npm run start
 ```
+
+At that point the server should open your default browser to http://localhost:4300/
 
 ## Task List for this POC
 
 - [x] Create a simple flat(ish) folder structure with one component per folder
 - [x] Show an example page per each component
 - [x] Include a draft Technical Spec including designs and tests (see README's)
+- [x] Include Webpack
 - [x] CSS/SASS
-  - [ ] Finish css styling for uplift using functional css and separation
-  - [ ] Add token namespaces for css variables
+  - [x] Add token namespaces for css variables
+  - [x] Finish css styling for uplift using functional css and separation
   - [x] Add Sass handling with webpack
   - [ ] List of tokens for the component if needed
-  - [ ] Change tokens to  use pixels instead of rems
-  - [ ] Solve for theme/modes or whatever they are called 
-  - [ ] Add style lint
+  - [x] Change tokens to  use pixels instead of rems
+  - [ ] Add css style lint
+  - [x] Test Custom Fonts 
+  - [ ] Use CSSStyleSheet  - With poly fill  https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts
 by side
+  - [ ] Solve for theme/modes or whatever they are called 
 - [ ] Webcomponent 
   - [x] Settings
   - [ ] Event Handler
@@ -31,27 +35,30 @@ by side
   - [x] Linting
   - [ ] Make a Base
   - [ ] Create a mixin (Close Mixin)
-  - [ ] add TS types https://github.com/elix/elix/tree/13.0.0/src/base
+  - [ ] Add TS types https://github.com/elix/elix/tree/13.0.0/src/base
+  - [ ] What can we do for more flexibility? Hooks?
 - [ ] Make a test with the old and new components side 
 - Create a LitElement (or some base) which has
   - [ ] Invoked Components - Modal
+  - [ ] Locale, Env ect...
   - [ ] Current States
   - [ ] Event Handlers
   - [ ] Rendering / Updating info
 - [ ] Css? Grid 
-- [ ] Typography Component
+- [x] Typography "Component"
 - [ ] Listview Component
 - [ ] Add Unit Tests
 - [ ] Upgrade Docs
 - [ ] Api and example Documentation
 - [ ] CSP/Security Scans
-- [ ] Right to Left
 - [ ] Localization
+- [ ] Right to Left
+- [ ] Change to node webserver
+- [ ] Test Server Side Rendering example
 - [ ] Examples in Vue, React and NG
   - https://css-tricks.com/advanced-tooling-for-web-components/ 
-  - Use snowpack exmaple projects
-- [ ] Component Checklist (accessibility, tests ect see General Principals) 
-  - include https://developers.google.com/web/fundamentals/web-components/best-practices#do-not-self-apply-classes
+  - Use snowpack example projects
+- [x] Component Checklist (accessibility, tests ect see General Principals) 
 
 ## General Principals
 
@@ -115,12 +122,8 @@ https://www.htmlelements.com/demos/tree/overview/
 https://boxy-svg.com/app
 https://xel-toolkit.org/elements/x-slider
 
-## Discoveries
+## Discoveries and Questions
 
 - You need `<script src="main.js" defer></script>` ?
 - How important is the hard requirement for standalone Css?
-
-## Decisions
-* Webpack vs Rollup - Suggest Webpack
-* TS - Suggest no but add Types this is done in a lot of libs like elix
-* Use CSSStyleSheet  - With poly fill  https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts
+- How to handle token namespaces?

@@ -1,0 +1,128 @@
+/* Ids Tag Typography Css */
+
+/* Font Charactistics */
+@mixin font-sans {
+  font-family: var(--ids-font-family-base);
+}
+
+@mixin antialiased {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@mixin text-uppercase {
+  text-transform: uppercase;
+}
+
+@mixin text-bold {
+  font-style: bold;
+}
+
+/* Font Colors */
+@mixin text-base {
+  color: var(--ids-color-font-base);
+}
+
+/* Font Sizes */
+@mixin text-px-10 {
+  font-size: var(--ids-size-font-px-10);
+}
+
+.ids-text-px-10 {
+  @include text-px-10();
+  @include text-uppercase();
+}
+
+@mixin text-px-12 {
+  font-size: var(--ids-size-font-px-12);
+}
+
+.ids-text-px-12,
+.ids-text-xs  {
+  @include text-px-12();
+  @include text-uppercase();
+}
+
+@mixin text-px-14 {
+  font-size: var(--ids-size-font-px-14);
+}
+
+.ids-text-px-14,
+.ids-text-sm {
+  @include text-px-14();
+}
+
+@mixin text-px-16 {
+  font-size: var(--ids-size-font-px-16);
+}
+
+.ids-text-px-16,
+.ids-text-base {
+  @include text-px-16();
+}
+
+@mixin text-px-20 {
+  font-size: var(--ids-size-font-px-20);
+}
+
+.ids-text-px-20 {
+  @include text-px-20();
+}
+
+@mixin text-px-24 {
+  font-size: var(--ids-size-font-px-24);
+}
+
+.ids-text-px-24,
+.ids-text-lg {
+  @include text-px-24();
+}
+
+@mixin text-px-28 {
+  font-size: var(--ids-size-font-px-28);
+}
+
+.ids-text-px-28 {
+  @include text-px-28();
+}
+
+@mixin text-px-32 {
+  font-size: var(--ids-size-font-px-32);
+}
+
+.ids-text-px-32,
+.ids-text-xl {
+  @include text-px-32();
+}
+
+@mixin text-px-40 {
+  font-size: var(--ids-size-font-px-40);
+}
+
+.ids-text-px-40 {
+  @include text-px-40();
+}
+
+@mixin text-px-48 {
+  font-size: var(--ids-size-font-px-48);
+}
+
+.ids-text-px-48 {
+  @include text-px-48();
+}
+
+@mixin text-px-60 {
+  font-size: var(--ids-size-font-px-60);
+}
+
+.ids-text-px-60 {
+  @include text-px-60();
+}
+
+@mixin text-px-72 {
+  font-size: var(--ids-size-font-px-72);
+}
+
+.ids-text-px-72  {
+  @include text-px-72();
+}
