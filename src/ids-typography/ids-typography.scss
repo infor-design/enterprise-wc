@@ -38,7 +38,7 @@
 }
 
 .ids-text-px-12,
-.ids-text-xs  {
+.ids-text-xs {
   @include text-px-12();
   @include text-uppercase();
 }
@@ -123,6 +123,6 @@
   font-size: var(--ids-size-font-px-72);
 }
 
-.ids-text-px-72  {
+.ids-text-px-72 {
   @include text-px-72();
 }

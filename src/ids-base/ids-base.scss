@@ -2,7 +2,7 @@
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift.variables.css';
 
 :root {
-  font-size: 62.5%
+  font-size: 62.5%;
 }
 
 /* Font Sizes and Charactistics */
@@ -14,7 +14,7 @@
 }
 
 @mixin inline-flex {
-  display: inline-flex ;
+  display: inline-flex;
 }
 
 /* Background Colors */
@@ -59,8 +59,8 @@
 }
 
 @mixin padding-y-1 {
-  padding-top: 1px;
   padding-bottom: 1px;
+  padding-top: 1px;
 }
 
 /* Base Components */

@@ -3,6 +3,7 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const uglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const webpack = require('webpack');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const StylelintPlugin = require('stylelint-webpack-plugin');
 
 const libraryName = 'ids-enterprise-wc';
 const outputFile = `${libraryName}.min.js`;
@@ -64,6 +65,7 @@ module.exports = {
       inject: 'head',
       title: 'IDS Enterprise Web Components'
     }),
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(),
+    new StylelintPlugin({ })
   ]
 };
