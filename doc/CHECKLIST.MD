@@ -26,16 +26,20 @@ by side
   - [ ] Add TS types https://github.com/elix/elix/tree/13.0.0/src/base
   - [ ] What can we do for more flexibility? Hooks?
 - [ ] Make a test with the old and new components side 
-- Create a LitElement (or some base) which has
+- [ ] Create a a base and look at LitElement
   - [ ] Invoked Components - Modal
   - [ ] Locale, Env ect...
   - [ ] Current States
   - [ ] Event Handlers
   - [ ] Rendering / Updating info
-- [ ] Css? Grid 
+- [ ] Add Css Grid 
 - [x] Typography "Component"
 - [ ] Listview Component
-- [ ] Add Unit Tests
+- [ ] Add Unit Tests (evaluate)
+  - [ ] https://webdriver.io/
+  - [ ] https://codecept.io/
+  - [ ] https://docs.cypress.io/
+  - [ ] Jest (Stencil Js uses Jest and Puppeteer )
 - [ ] Upgrade Docs
 - [ ] Api and example Documentation
 - [ ] CSP/Security Scans
@@ -43,18 +47,19 @@ by side
 - [ ] Right to Left
 - [ ] Md Lint and Other linters?
 - [ ] Change to node webserver
-- [ ] Test Server Side Rendering example
+- [ ] Test a server side Rendering example
 - [ ] Examples in Vue, React and NG
-  - https://css-tricks.com/advanced-tooling-for-web-components/ 
-  - Use snowpack example projects
+  - [ ] https://css-tricks.com/advanced-tooling-for-web-components/ 
+  - [ ] Use snowpack example projects
 - [x] Component Checklist (accessibility, tests ect see General Principals) 
 
 # Component Status Checklist
 
 | Component               | Code        | Docs         | Tests      | Accessibility | Gold Standard | Converted |
 |-------------------------|-------------|--------------|------------|---------------|---------------|-----------|
+| Css Grid                |            -|             -|           -|              -|              -|          -| 
 | Icons                   |            -|             -|           -|              -|              -|          -|
 | Labels                  |            -|             -|           -|              -|              -|          -|
-| Tag                     |            -|             -|           -|              -|              -|          -|
 | Listview                |            -|             -|           -|              -|              -|          -|
+| Tag                     |            -|             -|           -|              -|              -|          -|
 | Typograph               |            -|             -|           -|              -|              -|          -| 

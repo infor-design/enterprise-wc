@@ -11,7 +11,7 @@ npm run start
 
 At that point the server should open your default browser to http://localhost:4300/
 
-## Quality Principals
+## Recommended Principals
 
 - Do complete tests from the start
 - Do complete security scans and CSP (for example inline css) from the start 
@@ -23,3 +23,7 @@ At that point the server should open your default browser to http://localhost:43
 - Make Better "Marketing" - convince people to use the stuff without thinking too hard about it
 - Make Better Communication Plans - Incident Reports and Release and Change Communication ect.
 - Make a Better Support Channel - More helpers - Maybe something other than teams
+- Use Namespaces - ids-
+- Use Css Variables - For some tokens top level tokens
+- Keep Css Flat - Max two levels selectors keep [Selector Speed](https://csswizardry.com/2011/09/writing-efficient-css-selectors) in mind and only use the top 4 or 5 if possible
+
