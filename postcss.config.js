@@ -1,12 +1,18 @@
 const autoprefixer = require('autoprefixer');
 const cssnano = require('cssnano');
 
-// It is handy to not have those transformations while we developing
+// Only Minify on Prod Setting
 if (process.env.NODE_ENV === 'production') {
   module.exports = {
     plugins: [
       autoprefixer,
       cssnano
+    ]
+  };
+} else {
+  module.exports = {
+    plugins: [
+      autoprefixer
     ]
   };
 }

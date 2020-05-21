@@ -1,45 +1,31 @@
+import IdsElement from '../ids-base/ids-element';
+
 /**
  * IDS Tag Component
  */
-class IdsTag extends HTMLElement {
+class IdsTag extends IdsElement {
   /**
    * Call the constructor and initialize
    */
   constructor() {
     super();
-    this.name = 'ids-tag'; // TODO: Base Method
-    this.render(); // TODO: Base Method
+    this.render();
   }
 
   /**
    * Create the Template for the contents
-   *
    * @returns {string} The template
    */
-  static template() {
+  template() {
     return '<span class="ids-tag-text"><slot></slot></span>';
   }
 
   /**
-   * Handle Settings.
-   *
-   * @type {Array}
+   * Return the properties we handle settings for
+   * @returns {string} The template
    */
-  static get observedAttributes() {
+  settings() {
     return ['color'];
-  }
-
-  /**
-   * Handle Setting changes
-   * TODO: Base Method
-   * @param  {string} name The property name
-   * @param  {string} oldValue The property old value
-   * @param  {string} newValue The property new value
-   */
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue !== newValue) {
-      this[name] = newValue;
-    }
   }
 
   /**
@@ -48,6 +34,11 @@ class IdsTag extends HTMLElement {
    */
   get color() { return this.getAttribute('color'); }
 
+  /**
+   * Set the color of the tab
+   * @param {string} value The color value, this can be not provided,
+   * secondary (white), error, success, danger, caution or a hex code with the #
+   */
   set color(value) {
     const hasColor = this.hasAttribute('color');
 
@@ -72,20 +63,6 @@ class IdsTag extends HTMLElement {
     this.style.backgroundColor = '';
     this.style.borderColor = '';
     this.style.color = '';
-  }
-
-  /**
-   * Render the component
-   */
-  render() {
-    // Append the Template to the Shadown DOM (TODO: Base Method)
-    const template = document.createElement('template');
-    template.innerHTML = IdsTag.template();
-    this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-
-    // Add the class  (TODO: Base Method)
-    this.classList.add(this.name);
   }
 }
 

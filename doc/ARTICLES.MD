@@ -52,3 +52,4 @@ https://github.com/vanillawc
 https://www.htmlelements.com/demos/tree/overview/
 https://boxy-svg.com/app
 https://xel-toolkit.org/elements/x-slider
+https://opensource.adobe.com/spectrum-web-components/components/styles

@@ -1,6 +1,6 @@
 {
   "name": "enterprise-wc",
-  "version": "1.0.0",
+  "version": "5.0.0",
   "description": "A Web Components version of the IDS Enterprise component library.",
   "main": "src/index.js",
   "directories": {
@@ -8,10 +8,11 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack",
     "start": "webpack-dev-server --open",
-    "check-dependencies": "npx ncu"
+    "lint": "npx eslint src test && npx stylelint 'src/**/*.scss' --config .stylelintrc",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ncu": "npx ncu"
   },
   "repository": {
     "type": "git",
@@ -27,11 +28,13 @@
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "autoprefixer": "^9.8.0",
+    "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^3.5.3",
     "cssnano": "^4.1.10",
     "eslint": "^7.0.0",
     "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-compat": "3.7.0-1",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-jsdoc": "^25.4.2",
     "eslint-plugin-wc": "^1.2.0",
