@@ -1,4 +1,4 @@
-# Resources and Articles
+intro# Resources and Articles
 
 A curated list of resources related to this project
 
@@ -13,6 +13,7 @@ A curated list of resources related to this project
 - [Web Pack SassLoader](https://webpack.js.org/loaders/sass-loader)
 - [Css Standards](https://bradfrost.com/blog/post/css-architecture-for-design-systems/)
 - [Writing sane, manageable, scalable CSS](https://cssguidelin.es)
+- [Succinct intro to OOCSS](https://www.keycdn.com/blog/oocss)
 
 ## Webpack
 

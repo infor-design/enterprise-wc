@@ -9,7 +9,7 @@ const libraryName = 'ids-enterprise-wc';
 const outputFile = `${libraryName}.min.js`;
 
 module.exports = {
-  entry: './src/index.js',
+  entry: './app/index.js',
   mode: 'development',
   optimization: {
     minimize: false
@@ -61,7 +61,7 @@ module.exports = {
     }),
     new uglifyJsPlugin(), //eslint-disable-line
     new HTMLWebpackPlugin({
-      template: 'index.html',
+      template: 'app/index.html',
       inject: 'head',
       title: 'IDS Enterprise Web Components'
     }),

@@ -12,9 +12,9 @@
   - [x] Change tokens to  use pixels instead of rems
   - [x] Add css style lint
   - [x] Test Custom Fonts 
+  - [ ] Show side by side with current tags
   - [ ] Solve for theme/modes or whatever they are called 
   - [ ] Evaluate CSSStyleSheet  - With poly fill  https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts
-  - [ ] Show side by side with current tags
 by side
 - [ ] Webcomponent 
   - [x] Settings
@@ -25,6 +25,7 @@ by side
   - [x] Linting
   - [ ] Add TS types https://github.com/elix/elix/tree/13.0.0/src/base
   - [ ] What can we do for more flexibility? Hooks?
+  - [ ] Ability to set Id's
 - [ ] Make a test with the old and new components side 
 - [ ] Create a a base and look at LitElement
   - [ ] Invoked Components - Modal
@@ -35,6 +36,9 @@ by side
 - [ ] Add Css Grid 
 - [x] Typography "Component"
 - [ ] Listview Component
+  - [ ] Make a Datasource
+  - [ ] Handle Tokens
+  - [ ] Expose listview "pieces"
 - [ ] Add Unit Tests (evaluate)
   - [ ] https://webdriver.io/
   - [ ] https://codecept.io/

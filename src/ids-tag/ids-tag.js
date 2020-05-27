@@ -5,11 +5,19 @@ import IdsElement from '../ids-base/ids-element';
  */
 class IdsTag extends IdsElement {
   /**
-   * Call the constructor and initialize
+   * Call the constructor and then initialize
    */
   constructor() {
     super();
     this.render();
+  }
+
+  /**
+   * Return the properties we handle as getters/setters
+   * @returns {string} The template
+   */
+  static get properties() {
+    return ['color'];
   }
 
   /**
@@ -18,14 +26,6 @@ class IdsTag extends IdsElement {
    */
   template() {
     return '<span class="ids-tag-text"><slot></slot></span>';
-  }
-
-  /**
-   * Return the properties we handle settings for
-   * @returns {string} The template
-   */
-  settings() {
-    return ['color'];
   }
 
   /**
