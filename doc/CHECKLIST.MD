@@ -8,11 +8,11 @@
   - [x] Add token namespaces for css variables
   - [x] Finish css styling for uplift using functional css and separation
   - [x] Add Sass handling with webpack
-  - [ ] List of tokens for the component if needed
+  - [ ] List of tokens for the component if needed or how to handle tag tokens?
   - [x] Change tokens to  use pixels instead of rems
   - [x] Add css style lint
   - [x] Test Custom Fonts 
-  - [ ] Show side by side with current tags
+  - [x] Show side by side with current tags -> as expected its problematic on the soho side
   - [ ] Solve for theme/modes or whatever they are called 
   - [ ] Evaluate CSSStyleSheet  - With poly fill  https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts
 by side
@@ -43,7 +43,7 @@ by side
   - [ ] https://webdriver.io/
   - [ ] https://codecept.io/
   - [ ] https://docs.cypress.io/
-  - [ ] Jest (Stencil Js uses Jest and Puppeteer )
+  - [ ] Jest (Stencil Js uses Jest and Puppeteer (or just Puppeteer like elix))
 - [ ] Upgrade Docs
 - [ ] Api and example Documentation
 - [ ] CSP/Security Scans

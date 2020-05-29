@@ -2,7 +2,7 @@
   "name": "enterprise-wc",
   "version": "5.0.0",
   "description": "A Web Components version of the IDS Enterprise component library.",
-  "main": "src/index.js",
+  "main": "app/index.js",
   "directories": {
     "lib": "source",
     "test": "test"
@@ -30,6 +30,7 @@
     "autoprefixer": "^9.8.0",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
+    "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.5.3",
     "cssnano": "^4.1.10",
     "eslint": "^7.1.0",
@@ -43,6 +44,7 @@
     "ids-identity": "^3.0.0-beta.0",
     "mini-css-extract-plugin": "^0.9.0",
     "node-sass": "^4.14.1",
+    "pino": "^6.3.0",
     "postcss-loader": "^3.0.0",
     "sass-loader": "^8.0.2",
     "style-loader": "^1.2.1",

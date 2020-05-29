@@ -5,6 +5,6 @@ import '../src/ids-tag/ids-tag.scss';
 
 // Establish the Custom Elements on Load TODO: BASE
 window.onload = () => {
-  customElements.define('ids-icon', IdsIcon);
-  customElements.define('ids-tag', IdsTag);
+  //customElements.define('ids-icon', IdsIcon);
+  //customElements.define('ids-tag', IdsTag);
 };
