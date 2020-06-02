@@ -2,7 +2,8 @@
 const WebpackDevServer = require('webpack-dev-server');
 const webpack = require('webpack');
 const path = require('path');
-const config = require('../webpack.config.js');
+const log = require('loglevel');
+const config = require('./webpack.config.js');
 
 // Setup the port to run on
 const PORT = 4300;
@@ -24,5 +25,5 @@ const server = new WebpackDevServer(compiler, options);
 
 // Listen for requests
 server.listen(PORT, 'localhost', () => {
-  console.log(`Dev server listening on port ${PORT}`);
+  log.warn(`Dev server listening on port ${PORT}`);
 });

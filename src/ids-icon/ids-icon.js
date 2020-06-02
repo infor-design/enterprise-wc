@@ -1,31 +1,30 @@
+import { IdsElement, customElement } from '../ids-base/ids-element';
+
 /**
  * IDS Icon Component
  */
-class IdsIcon extends HTMLElement {
+@customElement('ids-icon')
+class IdsIcon extends IdsElement {
   constructor() {
     super();
 
     // Declare constants
     this.compactSizes = {
-      wide: 32,
-      narrow: 24,
-      default: 24,
-      condensed: 16
+      wide: 24,
+      narrow: 18,
+      default: 18,
+      condensed: 14
     };
 
     this.render();
   }
 
   /**
-   * Return the icon data for the svg based on the icon name
-   * @returns {string} the path data
+   * Return the properties we handle as getters/setters
+   * @returns {Array} The properties in an array
    */
-  iconData() {
-    const paths = {
-      close: 'M10.414 9l5.293-5.293a.999.999 0 10-1.414-1.414L9 7.586 3.707 2.293a.999.999 0 10-1.414 1.414L7.586 9l-5.293 5.293a.999.999 0 101.414 1.414L9 10.414l5.293 5.293a.997.997 0 001.414 0 .999.999 0 000-1.414L10.414 9',
-      'caret-right': 'M5.452 1L4 2.356 11.109 9 4 15.643 5.452 17 14 9.01 13.99 9l.01-.011z'
-    };
-    return paths[this.icon];
+  static get properties() {
+    return ['icon', 'compactness'];
   }
 
   /**
@@ -41,18 +40,15 @@ class IdsIcon extends HTMLElement {
   }
 
   /**
-   * Handle Settings.
-   *
-   * @type {Array}
+   * Return the icon data for the svg based on the icon name
+   * @returns {string} the path data
    */
-  static get observedAttributes() {
-    return ['icon', 'compactness'];
-  }
-
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue !== newValue) {
-      this[name] = newValue;
-    }
+  iconData() {
+    const paths = {
+      close: 'M10.414 9l5.293-5.293a.999.999 0 10-1.414-1.414L9 7.586 3.707 2.293a.999.999 0 10-1.414 1.414L7.586 9l-5.293 5.293a.999.999 0 101.414 1.414L9 10.414l5.293 5.293a.997.997 0 001.414 0 .999.999 0 000-1.414L10.414 9',
+      'caret-right': 'M5.452 1L4 2.356 11.109 9 4 15.643 5.452 17 14 9.01 13.99 9l.01-.011z'
+    };
+    return paths[this.icon];
   }
 
   /**
@@ -81,16 +77,6 @@ class IdsIcon extends HTMLElement {
     } else {
       this.removeAttribute('compactness');
     }
-  }
-
-  /**
-   * Render the component
-   */
-  render() {
-    const template = document.createElement('template');
-    template.innerHTML = this.template();
-    this.attachShadow({ mode: 'open' });
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 }
 

@@ -11,8 +11,9 @@ const libraryName = 'ids-enterprise-wc';
 
 module.exports = {
   entry: {
-    root: ['./app/index.js'],
+    index: ['./app/index.js'],
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
+    'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
   },
   mode: 'development',
   optimization: {
@@ -39,7 +40,10 @@ module.exports = {
           {
             loader: 'babel-loader',
             options: {
-              presets: ['@babel/preset-env']
+              presets: ['@babel/preset-env'],
+              plugins: [
+                ['@babel/plugin-proposal-decorators', { legacy: true }]
+              ]
             }
           }
         ]
@@ -64,19 +68,25 @@ module.exports = {
     new UglifyJsPlugin(),
     new HTMLWebpackPlugin({
       template: 'app/index.html',
-      inject: 'head',
+      inject: 'body',
       title: 'IDS Enterprise Web Components',
-      chunks: ['root']
+      chunks: ['index']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-tag/index.html',
-      inject: 'head',
+      inject: 'body',
       filename: 'ids-tag/index.html',
       chunks: ['ids-tag/ids-tag']
     }),
     new HTMLWebpackPlugin({
+      template: './app/ids-icon/index.html',
+      inject: 'body',
+      filename: 'ids-icon/index.html',
+      chunks: ['ids-icon/ids-icon']
+    }),
+    new HTMLWebpackPlugin({
       template: './app/ids-tag/test-compatibility.html',
-      inject: 'head',
+      inject: 'body',
       filename: 'ids-tag/test-compatibility',
       chunks: ['ids-tag/ids-tag'],
       title: 'Test Tag Compatibility with IDS 4.0'

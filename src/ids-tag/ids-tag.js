@@ -1,8 +1,9 @@
-import IdsElement from '../ids-base/ids-element';
+import { IdsElement, customElement } from '../ids-base/ids-element';
 
 /**
  * IDS Tag Component
  */
+@customElement('ids-tag')
 class IdsTag extends IdsElement {
   /**
    * Call the constructor and then initialize
@@ -14,7 +15,7 @@ class IdsTag extends IdsElement {
 
   /**
    * Return the properties we handle as getters/setters
-   * @returns {string} The template
+   * @returns {Array} The properties in an array
    */
   static get properties() {
     return ['color'];

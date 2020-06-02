@@ -11,14 +11,20 @@
   - [ ] List of tokens for the component if needed or how to handle tag tokens?
   - [x] Change tokens to  use pixels instead of rems
   - [x] Add css style lint
-  - [x] Test Custom Fonts 
+  - [x] Test Custom Fonts
   - [x] Show side by side with current tags -> as expected its problematic on the soho side
-  - [ ] Solve for theme/modes or whatever they are called 
+  - [ ] Solve for theme/modes or whatever they are called
   - [ ] Evaluate CSSStyleSheet  - With poly fill  https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts
 by side
-- [ ] Webcomponent 
+- [ ] Webcomponent
   - [x] Settings
-  - [ ] Make a Base
+  - [x] Create a a base and look at LitElement
+    - [x] Invoked Components - Modal (we dont need this)
+    - [ ] Locale, Env ect...
+    - [ ] Current States
+    - [ ] Event Handlers
+    - [ ] Rendering / Updating info
+  - [x] Create decorators
   - [ ] Create a mixin (Close Mixin)
   - [ ] Event Handlers
   - [ ] Keyboard
@@ -26,14 +32,9 @@ by side
   - [ ] Add TS types https://github.com/elix/elix/tree/13.0.0/src/base
   - [ ] What can we do for more flexibility? Hooks?
   - [ ] Ability to set Id's
-- [ ] Make a test with the old and new components side 
-- [ ] Create a a base and look at LitElement
-  - [ ] Invoked Components - Modal
-  - [ ] Locale, Env ect...
-  - [ ] Current States
-  - [ ] Event Handlers
-  - [ ] Rendering / Updating info
-- [ ] Add Css Grid 
+  - [ ] Locales to set Id's
+- [ ] Make a test with the old and new components side
+- [ ] Add a Css Grid
 - [x] Typography "Component"
 - [ ] Listview Component
   - [ ] Make a Datasource
@@ -44,6 +45,7 @@ by side
   - [ ] https://codecept.io/
   - [ ] https://docs.cypress.io/
   - [ ] Jest (Stencil Js uses Jest and Puppeteer (or just Puppeteer like elix))
+  - [ ] Travis
 - [ ] Upgrade Docs
 - [ ] Api and example Documentation
 - [ ] CSP/Security Scans
@@ -53,17 +55,23 @@ by side
 - [ ] Change to node webserver
 - [ ] Test a server side Rendering example
 - [ ] Examples in Vue, React and NG
-  - [ ] https://css-tricks.com/advanced-tooling-for-web-components/ 
+  - [ ] https://css-tricks.com/advanced-tooling-for-web-components/
   - [ ] Use snowpack example projects
-- [x] Component Checklist (accessibility, tests ect see General Principals) 
+- [x] Component Checklist (accessibility, tests ect see General Principals)
 
 # Component Status Checklist
 
 | Component               | Code        | Docs         | Tests      | Accessibility | Gold Standard | Converted |
 |-------------------------|-------------|--------------|------------|---------------|---------------|-----------|
-| Css Grid                |            -|             -|           -|              -|              -|          -| 
+| Css Grid                |            -|             -|           -|              -|              -|          -|
 | Icons                   |            -|             -|           -|              -|              -|          -|
 | Labels                  |            -|             -|           -|              -|              -|          -|
 | Listview                |            -|             -|           -|              -|              -|          -|
 | Tag                     |            -|             -|           -|              -|              -|          -|
-| Typograph               |            -|             -|           -|              -|              -|          -| 
+| Typograph               |            -|             -|           -|              -|              -|          -|
+
+# Big Questions
+
+1) How do we handle working with other teams in this system. Design / Docs ect
+2) How do we handle tokens
+3) Standalone Css
