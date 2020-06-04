@@ -13,8 +13,10 @@
   - [x] Add css style lint
   - [x] Test Custom Fonts
   - [x] Show side by side with current tags -> as expected its problematic on the soho side
+  - [ ] Test initialize
   - [ ] Solve for theme/modes or whatever they are called
   - [ ] Evaluate CSSStyleSheet  - With poly fill  https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts
+  - [ ] https://github.com/FullHuman/purgecss and https://tailwindcss.com (add a tailwind config to ids tokens)
 by side
 - [ ] Webcomponent
   - [x] Settings
@@ -25,7 +27,7 @@ by side
     - [ ] Event Handlers
     - [ ] Rendering / Updating info
   - [x] Create decorators
-  - [ ] Create a mixin (Close Mixin)
+  - [ ] Create a mixin (Close Button Mixin) https://vaadin.com/docs/v14/flow/creating-components/tutorial-component-mixins.html
   - [ ] Event Handlers
   - [ ] Keyboard
   - [x] Linting
@@ -40,6 +42,7 @@ by side
   - [ ] Make a Datasource
   - [ ] Handle Tokens
   - [ ] Expose listview "pieces"
+  - [ ] Make infinite scrolling https://developers.google.com/web/updates/2016/07/infinite-scroller
 - [ ] Add Unit Tests (evaluate)
   - [ ] https://webdriver.io/
   - [ ] https://codecept.io/

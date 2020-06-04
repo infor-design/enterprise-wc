@@ -1,12 +1,15 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
    <title><%= htmlWebpackPlugin.options.title %></title>
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;display=swap" rel="stylesheet"/>
 </head>
 <body>
-  <%= require('html-loader!./ids-tag/index.html') %>
-  <%= require('html-loader!./ids-icon/index.html') %>
-  <%= require('html-loader!./ids-typography/index.html') %>
+  <div role="main">
+    <h1 class="ids-label ids-text-px-18">Ids Components</h1>
+    <%= require('html-loader!./ids-tag/index.html') %>
+    <%= require('html-loader!./ids-icon/index.html') %>
+    <%= require('html-loader!./ids-typography/index.html') %>
+  </div>
 </body>
 </html>

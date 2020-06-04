@@ -15,4 +15,10 @@
   @include rounded-md();
   @include text-px-14();
   @include text-base();
+
+  .ids-icon {
+    @include padding-x-10();
+    display: inline-flex;
+    vertical-align: middle;
+  }
 }

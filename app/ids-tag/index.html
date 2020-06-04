@@ -5,8 +5,14 @@
 <ids-tag color="success">Success Tag</ids-tag>
 <ids-tag color="caution">Warning Tag</ids-tag>
 <ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
-<ids-tag>Clickable Tag</ids-tag>
-<ids-tag>Dismissible Tag</ids-tag>
+<ids-tag clickable="true">
+    Clickable Tag
+    <ids-icon icon="caret-right" compactness="condensed"></ids-icon>
+</ids-tag>
+<ids-tag dismissible="true">
+    <bold>Dismissibles</bold> <span>Tags</span>
+    <ids-icon icon="close" compactness="condensed"></ids-icon>
+</ids-tag>
 
 <h2 class="ids-label ids-text-px-12">Tag Standalone CSS</h2>
 <span class="ids-tag">Normal Tag</span>
