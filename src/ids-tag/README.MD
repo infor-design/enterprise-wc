@@ -2,7 +2,8 @@
 
 ## Description
 
-Tags are UI embellishments that are used to label, categorize and organize keywords surrounding some contextual element such as a form. Be car
+Tags are UI embellishments that are used to label, categorize and organize keywords surrounding
+some contextual element such as a form. Be car
 
 ## Use Cases
 
@@ -11,9 +12,9 @@ Tags are UI embellishments that are used to label, categorize and organize keywo
 
 ## Terminology
 
-Tag - A UI embellishments for classification
-Dismissible - Tag can be closed with an X
-Classification - How tags are labelled with colors and text
+Tag -   A UI embellishments for classification
+Dismissible -   Tag can be closed with an X
+Classification -   How tags are labelled with colors and text
 
 ## Features (With Code Examples)
 
@@ -39,9 +40,9 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 <ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
 ```
 
-Clickable/Dismissible - Tag can be closed with an X.
-Linkable - Tag can be followed as a link, when it does it has an caret to show its a link.
-Disabled - Tag can be disabled so it cannot be followed or clicked.
+Clickable/Dismissible -   Tag can be closed with an X.
+Linkable -   Tag can be followed as a link, when it does it has an caret to show its a link.
+Disabled -   Tag can be disabled so it cannot be followed or clicked.
 
 ## States and Variations (With Code Examples)
 
@@ -91,30 +92,33 @@ NA
 1. Linkable/Clickable
 1. Resize/Responsive Behavior
 1. Repeat Tests in All Supported Browsers
-1. Some of these as test cases https://github.com/webcomponents/gold-standard/wiki#api
+1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
 1. Can be consumed (pull it in standalone/built see it works standalone)
 
 ## QA - BDD Steps
 
 ### Scenario 1: Dismissible Tag
+
 Given I am on desktop
-And I am on https://master-enterprise.demo.design.infor.com/components/tag/example-index.html
+And I am on the tag page
 Then I should see page with different tag examples
 And able to navigate in each example Tags
 And when I click the ‘#Dismissible’ tag
 Then I the Tag should be removed or disappear in the example list.
 
 ### Scenario 2: Clickable / Linkable Tag
+
 Given I am on desktop
-And I am on https://master-enterprise.demo.design.infor.com/components/tag/example-linkable.html
+And I am on the tag page
 Then I should see page with different Linkable tag examples
 And able to navigate in each example Tags
 And when I click the ‘Linkable Tag Info >’ tag
 Then I should be able to redirect or navigate through the selected Tag
 
 ### Scenario 3: Colors
+
 Given I am on desktop
-And I am on https://master-enterprise.demo.design.infor.com/components/tag/example-index.html
+And I am on the tag page
 Then I should see page with different Linkable tag examples
 And able to navigate in each example Tags
 And I should be able to see Tags with different color e.g (Red, Green Yellow)
@@ -122,7 +126,7 @@ And I should be able to see Tags with different color e.g (Red, Green Yellow)
 ## Accessibility Guidelines
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
-- 1.4.3 Contrast (Minimum) - The visual presentation of text and images of text has a contrast ratio of at least 4.5:1. Ensure the color tags pass contrast.
+- 1.4.3 Contrast (Minimum) - The visual presentation of text and images of text has a contrast ratio of at least 4.5:1.   Ensure the color tags pass contrast.
 
 ## Regional Considerations
 

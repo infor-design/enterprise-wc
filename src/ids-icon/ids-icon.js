@@ -9,7 +9,7 @@ class IdsIcon extends IdsElement {
   constructor() {
     super();
 
-    // Declare constants
+    // Declare constants - or do we like "compact, cozy, and comfortable"?
     this.sizes = {
       wide: 24,
       narrow: 18,

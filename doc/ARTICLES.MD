@@ -1,4 +1,4 @@
-intro# Resources and Articles
+# Resources and Articles
 
 A curated list of resources related to this project
 

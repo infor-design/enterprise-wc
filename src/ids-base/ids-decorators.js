@@ -2,13 +2,13 @@
 const pjson = require('../../package.json');
 
 /**
- * Add the version to all component
- * @param {number} id A number for testing;
+ * Add the version to the component
+ * @param {number} value A number for testing;
  * @returns {Function} The decoratored function
  */
-export function version(id) {
+export function version(value) {
   return (target, property, descriptor) => { //eslint-disable-line
-    target.version = pjson.version;
+    target.version = value || pjson.version;
   };
 }
 
