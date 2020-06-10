@@ -1,0 +1,15 @@
+/* Ids Layout TODO: Use functions, and make minmax a setting and add responsive */
+@import '../ids-base/ids-base';
+
+.ids-layout-grid {
+  display: grid;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  margin: 20px 12px;
+
+  .ids-layout-column.ids-background-fill {
+    background-color: var(--ids-color-palette-graphite-10);
+    padding: 40px 15px;
+  }
+}

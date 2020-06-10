@@ -1,12 +1,14 @@
+/* eslint no-param-reassign: ["error", { "props": false }] */
+const pjson = require('../../package.json');
+
 /**
- * Rest decorator TODO Remove
+ * Add the version to all component
  * @param {number} id A number for testing;
  * @returns {Function} The decoratored function
  */
-export function dec(id) {
-  console.log('evaluated', id); //eslint-disable-line
+export function version(id) {
   return (target, property, descriptor) => { //eslint-disable-line
-    console.log('executed', id); //eslint-disable-line
+    target.version = pjson.version;
   };
 }
 

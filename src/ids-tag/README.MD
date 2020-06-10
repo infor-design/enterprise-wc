@@ -17,12 +17,26 @@ Classification - How tags are labelled with colors and text
 
 ## Features (With Code Examples)
 
+A normal tag used as a web component.
+
 ```html
-<div class="tag-list">
-    <span class="tag hide-focus"><span class="tag-content">#Tagged 1</span></span>
-    <span class="tag hide-focus"><span class="tag-content">#Tagged 2</span></span>
-    <span class="tag hide-focus"><span class="tag-content">#Tagged 3</span></span>
-</div>
+<ids-tag>Normal Tag</ids-tag>
+```
+
+A normal tag used using just the css. This is limited to normal tags only.
+
+```html
+<span class="ids-tag">Normal Tag</span>
+```
+
+A colored tag is done by adding the `color` attribute and one of the following: secondary, error, success, caution or a hex color beginning with a # character.
+
+```html
+<ids-tag color="secondary">Secondary Tags</ids-tag>
+<ids-tag color="error">Error Tag</ids-tag>
+<ids-tag color="success">Success Tag</ids-tag>
+<ids-tag color="caution">Warning Tag</ids-tag>
+<ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
 ```
 
 Clickable/Dismissible - Tag can be closed with an X.
@@ -52,7 +66,7 @@ Disabled - Tag can be disabled so it cannot be followed or clicked.
 3.x - Tags have new markup and classes.
 4.x - Tags have new markup and classes for web components.
 
-## Designs 
+## Designs
 
 [Figma Design Specs](https://www.figma.com/files/team/715586812838044954/Hook%26Loop)
 
@@ -71,37 +85,38 @@ NA
 1. Accessibility - Color Contrast
 1. Accessibility - Web Aim
 1. Accessibility - Keyboard
-1. Visual Regression Tests for all states 
+1. Visual Regression Tests for all states
 1. Click Events
-1. Clickable 
+1. Clickable
 1. Linkable/Clickable
 1. Resize/Responsive Behavior
-1. Repeat Tests in All Supported Browsers 
+1. Repeat Tests in All Supported Browsers
 1. Some of these as test cases https://github.com/webcomponents/gold-standard/wiki#api
+1. Can be consumed (pull it in standalone/built see it works standalone)
 
 ## QA - BDD Steps
 
 ### Scenario 1: Dismissible Tag
 Given I am on desktop
 And I am on https://master-enterprise.demo.design.infor.com/components/tag/example-index.html
-Then I should see page with different tag examples 
+Then I should see page with different tag examples
 And able to navigate in each example Tags
 And when I click the ‘#Dismissible’ tag
-Then I the Tag should be removed or disappear in the example list. 	
+Then I the Tag should be removed or disappear in the example list.
 
 ### Scenario 2: Clickable / Linkable Tag
 Given I am on desktop
 And I am on https://master-enterprise.demo.design.infor.com/components/tag/example-linkable.html
-Then I should see page with different Linkable tag examples 
+Then I should see page with different Linkable tag examples
 And able to navigate in each example Tags
 And when I click the ‘Linkable Tag Info >’ tag
 Then I should be able to redirect or navigate through the selected Tag
 
-### Scenario 3: Colors 
+### Scenario 3: Colors
 Given I am on desktop
 And I am on https://master-enterprise.demo.design.infor.com/components/tag/example-index.html
-Then I should see page with different Linkable tag examples 
-And able to navigate in each example Tags 
+Then I should see page with different Linkable tag examples
+And able to navigate in each example Tags
 And I should be able to see Tags with different color e.g (Red, Green Yellow)
 
 ## Accessibility Guidelines

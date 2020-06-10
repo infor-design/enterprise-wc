@@ -7,20 +7,19 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // installed via
 const path = require('path');
 const webpack = require('webpack');
 
-const libraryName = 'ids-enterprise-wc';
-
 module.exports = {
   entry: {
     index: ['./app/index.js'],
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
+    'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
   },
   mode: 'development',
   optimization: {
     minimize: false
   },
   output: {
-    library: libraryName,
+    library: '[name]-lib.js',
     libraryTarget: 'umd',
     libraryExport: 'default',
     path: path.resolve(__dirname, 'dist'),
@@ -63,7 +62,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
-      filename: `css/${libraryName}.min.css`
+      filename: 'css/[name].min.css'
     }),
     new UglifyJsPlugin(),
     new HTMLWebpackPlugin({
@@ -90,6 +89,12 @@ module.exports = {
       filename: 'ids-tag/test-compatibility',
       chunks: ['ids-tag/ids-tag'],
       title: 'Test Tag Compatibility with IDS 4.0'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-layout-grid/index.html',
+      inject: 'body',
+      filename: 'ids-layout-grid/index.html',
+      chunks: ['ids-layout-grid/ids-layout-grid']
     }),
     new StylelintPlugin({ }),
     new webpack.HotModuleReplacementPlugin()

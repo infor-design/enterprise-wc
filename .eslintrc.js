@@ -1,11 +1,10 @@
 module.exports = {
   env: {
     browser: true,
-    // All source code is at least ES6 friendly
-    es6: true
+    es6: true // All source code is at least ES6 friendly
   },
   extends: [
-    // Import some AirBNB rules
+    // Import some AirBNB rules and some web component and jsdoc rules
     // https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base/rules
     'airbnb-base',
     'plugin:wc/recommended',
@@ -17,8 +16,7 @@ module.exports = {
   plugins: [
     'import'
   ],
-  // Need `ecmaVersion: 9` for:
-  // - [Object spread syntax](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax#Spread_in_object_literals)
+  // Add `ecmaVersion: 9` for Object spread syntax
   parserOptions: {
     ecmaVersion: 9,
     sourceType: 'module'
@@ -39,6 +37,8 @@ module.exports = {
     'wc/no-self-class': 0,
     // Allow methods to return static content
     // https://eslint.org/docs/rules/class-methods-use-this
-    'class-methods-use-this': ['error', { exceptMethods: ['template', 'settings'] }]
+    'class-methods-use-this': ['error', { exceptMethods: ['template', 'settings'] }],
+    // Allow Ids Imports to be unsed in index.js files
+    'no-unused-vars': ['error', { varsIgnorePattern: '[Ids]' }]
   }
 };

@@ -35,14 +35,16 @@ by side
   - [ ] What can we do for more flexibility? Hooks?
   - [ ] Ability to set Id's
   - [ ] Locales to set Id's
-- [ ] Make a test with the old and new components side
-- [ ] Add a Css Grid
+- [x] Add a Css Grid
 - [x] Typography "Component"
 - [ ] Listview Component
   - [ ] Make a Datasource
   - [ ] Handle Tokens
   - [ ] Expose listview "pieces"
   - [ ] Make infinite scrolling https://developers.google.com/web/updates/2016/07/infinite-scroller
+- [ ] Toast Component
+  - [ ] https://github.com/elix/elix/blob/13.0.0/src/base/Toast.js
+  - [ ] https://github.com/elix/elix/blob/13.0.0/src/base/Toast.js
 - [ ] Add Unit Tests (evaluate)
   - [ ] https://webdriver.io/
   - [ ] https://codecept.io/

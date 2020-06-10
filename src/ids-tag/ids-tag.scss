@@ -17,8 +17,7 @@
   @include text-base();
 
   .ids-icon {
-    @include padding-x-10();
-    display: inline-flex;
-    vertical-align: middle;
+    @include inline-flex();
+    @include padding-l-3();
   }
 }

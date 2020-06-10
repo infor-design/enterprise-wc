@@ -1,4 +1,5 @@
 import { IdsElement, customElement } from '../ids-base/ids-element';
+import './ids-tag.scss';
 
 /**
  * IDS Tag Component
@@ -30,13 +31,13 @@ class IdsTag extends IdsElement {
   }
 
   /**
-   * Handle The Color Setting
+   * Handle The color setting
    * @returns {string} The color
    */
   get color() { return this.getAttribute('color'); }
 
   /**
-   * Set the color of the tab
+   * Set the color of the tag
    * @param {string} value The color value, this can be not provided,
    * secondary (white), error, success, danger, caution or a hex code with the #
    */

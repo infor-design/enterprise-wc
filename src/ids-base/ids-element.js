@@ -1,4 +1,4 @@
-import { customElement, dec } from './ids-decorators';
+import { customElement, version } from './ids-decorators';
 
 /**
  * IDS Base Element
@@ -6,13 +6,13 @@ import { customElement, dec } from './ids-decorators';
 class IdsElement extends HTMLElement {
   constructor() {
     super();
+    this.version = '5.0.0';
     this.addBaseName();
   }
 
   /**
    * Add the component name and baseclass
    */
-  @dec(1)
   addBaseName() {
     // Add the base class
     this.name = this.nodeName?.toLowerCase() || 'ids-element';
@@ -63,4 +63,4 @@ class IdsElement extends HTMLElement {
   }
 }
 
-export { IdsElement, customElement, dec };
+export { IdsElement, customElement };

@@ -1,12 +1,18 @@
-/* Ids Tokens - Exposed as Css Variables - Root/Global Tokens */
+/* Ids Layout Grid */
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift.variables.css';
 
 :root {
   font-size: 62.5%;
+  margin: 0;
 }
 
 /* Font Sizes and Charactistics */
 @import '../ids-typography/ids-typography.scss';
+
+/* Alignment */
+@mixin align-middle {
+  vertical-align: middle;
+}
 
 /* Display */
 @mixin block {
@@ -53,6 +59,11 @@
 }
 
 /* Padding */
+@mixin padding-x-5 {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 @mixin padding-x-10 {
   padding-left: 10px;
   padding-right: 10px;
@@ -61,6 +72,18 @@
 @mixin padding-y-1 {
   padding-bottom: 1px;
   padding-top: 1px;
+}
+
+@mixin padding-l-3 {
+  padding-left: 5px;
+}
+
+@mixin padding-l-5 {
+  padding-left: 5px;
+}
+
+@mixin padding-r-5 {
+  padding-right: 5px;
 }
 
 /* Base Components */

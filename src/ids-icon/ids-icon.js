@@ -1,3 +1,4 @@
+import pathData from 'ids-identity/dist/theme-uplift/icons/standard/path-data.json';
 import { IdsElement, customElement } from '../ids-base/ids-element';
 
 /**
@@ -9,11 +10,11 @@ class IdsIcon extends IdsElement {
     super();
 
     // Declare constants
-    this.compactSizes = {
+    this.sizes = {
       wide: 24,
       narrow: 18,
       default: 18,
-      condensed: 14
+      condensed: 10
     };
 
     this.render();
@@ -33,8 +34,8 @@ class IdsIcon extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const size = this.compactSizes[this.compactness] || this.compactSizes.default;
-    return `<svg xmlns="http://www.w3.org/2000/svg" height="${size}" width="${size}" viewBox="0 0 18 18">
+    const size = this.sizes[this.compactness] || this.sizes.default;
+    return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18">
       <path d="${this.iconData()}" />
     </svg>`;
   }
@@ -44,11 +45,7 @@ class IdsIcon extends IdsElement {
    * @returns {string} the path data
    */
   iconData() {
-    const paths = {
-      close: 'M10.414 9l5.293-5.293a.999.999 0 10-1.414-1.414L9 7.586 3.707 2.293a.999.999 0 10-1.414 1.414L7.586 9l-5.293 5.293a.999.999 0 101.414 1.414L9 10.414l5.293 5.293a.997.997 0 001.414 0 .999.999 0 000-1.414L10.414 9',
-      'caret-right': 'M5.452 1L4 2.356 11.109 9 4 15.643 5.452 17 14 9.01 13.99 9l.01-.011z'
-    };
-    return paths[this.icon];
+    return pathData[this.icon];
   }
 
   /**
