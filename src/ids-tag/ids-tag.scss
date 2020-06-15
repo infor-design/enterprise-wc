@@ -20,4 +20,13 @@
     @include inline-flex();
     @include padding-l-3();
   }
+
+  &.ids-dismissible .ids-icon {
+    @include color-100();
+    @include cursor-pointer();
+
+    &:hover {
+      @include color-60();
+    }
+  }
 }

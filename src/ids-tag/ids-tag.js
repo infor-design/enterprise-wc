@@ -12,6 +12,7 @@ class IdsTag extends IdsElement {
   constructor() {
     super();
     this.render();
+    this.handleEvents();
   }
 
   /**
@@ -19,7 +20,7 @@ class IdsTag extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['color'];
+    return ['color', 'clickable', 'dismissible'];
   }
 
   /**
@@ -29,12 +30,6 @@ class IdsTag extends IdsElement {
   template() {
     return '<span class="ids-tag-text"><slot></slot></span>';
   }
-
-  /**
-   * Handle The color setting
-   * @returns {string} The color
-   */
-  get color() { return this.getAttribute('color'); }
 
   /**
    * Set the color of the tag
@@ -65,6 +60,48 @@ class IdsTag extends IdsElement {
     this.style.backgroundColor = '';
     this.style.borderColor = '';
     this.style.color = '';
+  }
+
+  get color() { return this.getAttribute('color'); }
+
+  /**
+   * Set if the tag may be dismissed
+   * @param {boolean} value True of false depending if the tag may be dismissed
+   */
+  set dismissible(value) {
+    const hasProp = this.hasAttribute('dismissible');
+
+    if (hasProp && value) {
+      this.setAttribute('dismissible', value);
+      this.classList.add('ids-dismissible');
+      return;
+    }
+
+    this.removeAttribute('dismissible');
+    this.classList.remove('ids-dismissible');
+  }
+
+  get dismissible() { return this.getAttribute('dismissible'); }
+
+  /**
+   * Establish Internal Event Handlers
+   * @private
+   */
+  handleEvents() {
+    const closeIcon = this.querySelector('ids-icon[icon="close"]');
+    if (closeIcon) {
+      this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
+    }
+  }
+
+  /**
+   * Remove the tag from the page
+   */
+  dismiss() {
+    if (!this.dismissible) {
+      return;
+    }
+    this.remove();
   }
 }
 

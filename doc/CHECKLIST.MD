@@ -68,9 +68,9 @@ Idea for including tokens.. As a list
 ## Other Components
 - [x] Add a Css Grid
 - [x] Typography "Component"
-- [ ] Listview:  Component
-- [ ] Listview:  Make a Datasource
-- [ ] Listview:  Handle Tokens
+- [ ] Listview: Component
+- [ ] Listview: Make a Datasource
+- [ ] Listview: Handle Tokens
 - [ ] Listview: Expose listview "pieces"
 - [ ] Listview Make infinite scrolling [for example](https://developers.google.com/web/updates/2016/07/infinite-scroller)
 - [ ] Toast Component [for example](https://github.com/elix/elix/blob/13.0.0/src/base/Toast.js)

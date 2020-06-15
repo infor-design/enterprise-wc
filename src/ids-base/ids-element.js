@@ -1,4 +1,5 @@
 import { customElement, version } from './ids-decorators';
+import { IdsEventHandler } from './ids-event-handler';
 
 /**
  * IDS Base Element
@@ -8,6 +9,7 @@ class IdsElement extends HTMLElement {
     super();
     this.version = '5.0.0';
     this.addBaseName();
+    this.eventHandlers = new IdsEventHandler();
   }
 
   /**
@@ -60,6 +62,13 @@ class IdsElement extends HTMLElement {
     if (oldValue !== newValue) {
       this[name] = newValue;
     }
+  }
+
+  /**
+   * Release events and cleanup.
+   */
+  disconnectedCallback() {
+    this.eventHandlers.removeAll();
   }
 }
 

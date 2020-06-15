@@ -6,6 +6,7 @@ A curated list of resources related to this project
 
 - [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki)
 - [Fixing memory leaks](https://nolanlawson.com/2020/02/19/fixing-memory-leaks-in-web-applications)
+- [Tricks on building a menu component](https://component.kitchen/blog/posts/building-a-great-menu-component-is-so-much-trickier-than-youd-think)
 
 ## Css
 
