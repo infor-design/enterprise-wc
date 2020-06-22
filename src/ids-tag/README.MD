@@ -46,7 +46,7 @@ Disabled -   Tag can be disabled so it cannot be followed or clicked.
 
 ## States and Variations (With Code Examples)
 
-- Color
+- Color (See Color)
 - Linkable
 - Badge
 - Disabled

@@ -22,3 +22,14 @@ export function customElement(name) {
     customElements.define(name, target);
   };
 }
+
+/**
+ * Mixin Decorator
+ * @param  {object} obj The class/object to register
+ * @returns {Function} The decoratored function
+ */
+export function mixin(obj) {
+  return (target) => {
+    Object.assign(target.prototype, obj);
+  };
+}

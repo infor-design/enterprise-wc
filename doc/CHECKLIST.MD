@@ -22,7 +22,7 @@
 - [x] Test initialize in side by side example
 - [ ] Solve for versions/modes or whatever they will be called
 - [ ] Evaluate CSSStyleSheet  - With [poly fill](https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts)
-- [ ] Try to include [tailwind](https://tailwindcss.com) (add a tailwind config to ids tokens) by side
+- [x] Try to include [tailwind](https://tailwindcss.com) (add a tailwind config to ids tokens) by side
 - [ ] Change to node webserver
 - [ ] Test a server side Rendering example
 
@@ -30,13 +30,16 @@ Idea for including tokens.. As a list
 
 ```json
     {
+        "rounded": "rounded-md",
+        "border": " border-graphite-20",
+    }
+```
+
+```json for component structure
+    {
         "tag": {
-            "attributes": {
-                "prop1": "value",
-                "prop2": "value",
-                "prop3": "value",
-                "prop4": "value",
-            }
+            "rounded": "rounded-md",
+            "border": " border-graphite-20",
         }
     }
 ```
@@ -45,16 +48,17 @@ Idea for including tokens.. As a list
 - [x] Settings
 - [x] Create a a base and look at LitElement
 - [x] Invoked Components - Modal (we dont need this)
-- [ ] Event Handlers and Omitters
+- [x] Event Handlers
+- [ ] Add pattern for even omitting see this [great explanation](https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations)
 - [ ] Keyboard Handling
+- [x] Create a mixin [see docs](https://javascript.info/mixins) and [another article](https://medium.com/javascript-scene/functional-mixins-composing-software-ffb66d5e731c)
 - [ ] Locale, Env ect...
 - [x] Create decorators
-- [ ] Create a mixin [Close Button Mixin](https://vaadin.com/docs/v14/flow/creating-components/tutorial-component-mixins.html)
 - [ ] Event Handlers
 - [ ] Keyboard
 - [x] Linting
 - [ ] Add TS types [for example](https://github.com/elix/elix/tree/13.0.0/src/base)
-- [ ] What can we do for more flexibility? Hooks? Mixins
+- [ ] What can we do for more flexibility? Hooks?
 - [ ] Ability to set Id's
 - [ ] Locales to set Locales
 - [ ] Examples in Vue, React and NG Use snowpack example projects
@@ -64,16 +68,22 @@ Idea for including tokens.. As a list
 - [ ] CSP/Security Scans
 - [ ] Localization
 - [ ] FOUC
+- [ ] Two way data binding
+- [ ] Try [super linter](https://github.com/github/super-linter/) and use git hub actions
 
 ## Other Components
 - [x] Add a Css Grid
 - [x] Typography "Component"
 - [ ] Listview: Component
-- [ ] Listview: Make a Datasource
+- [ ] Listview: Make a Datasource. And check if [redux will work](https://react-redux.js.org/introduction/basic-tutorial) [Handling Data](https://itnext.io/handling-data-with-web-components-9e7e4a452e6e)
 - [ ] Listview: Handle Tokens
 - [ ] Listview: Expose listview "pieces"
 - [ ] Listview Make infinite scrolling [for example](https://developers.google.com/web/updates/2016/07/infinite-scroller)
 - [ ] Toast Component [for example](https://github.com/elix/elix/blob/13.0.0/src/base/Toast.js)
+
+## Documentation
+- [ ] What do we need to do with design system exct
+- [ ] General API into the MD [Js Doc MD](https://github.com/jaydenseric/jsdoc-md)
 
 ## Test Tools
 - [ ] Evaulate Test Tools: [Webdriver.IO](https://webdriver.io/)

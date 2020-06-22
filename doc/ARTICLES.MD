@@ -7,6 +7,8 @@ A curated list of resources related to this project
 - [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki)
 - [Fixing memory leaks](https://nolanlawson.com/2020/02/19/fixing-memory-leaks-in-web-applications)
 - [Tricks on building a menu component](https://component.kitchen/blog/posts/building-a-great-menu-component-is-so-much-trickier-than-youd-think)
+- [Standards Checklist](https://developers.google.com/web/fundamentals/web-components/best-practices)
+- [Mixins](https://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
 
 ## Css
 
@@ -15,6 +17,7 @@ A curated list of resources related to this project
 - [Css Standards](https://bradfrost.com/blog/post/css-architecture-for-design-systems/)
 - [Writing sane, manageable, scalable CSS](https://cssguidelin.es)
 - [Succinct intro to OOCSS](https://www.keycdn.com/blog/oocss)
+- [10 Things you need to know about css](http://dsheiko.com/weblog/10-things-to-need-to-know-about-css/)
 
 ## Webpack
 
@@ -39,3 +42,4 @@ A curated list of resources related to this project
 - [Smart Elements](https://www.htmlelements.com/demos/tree/overview/)
 - [Xel](https://xel-toolkit.org/elements/x-slider)
 - [Adobe](https://opensource.adobe.com/spectrum-web-components/components/styles)
+- [Toast](https://ui.toast.com/)

@@ -33,6 +33,7 @@ module.exports = {
       functions: 'never'
     }],
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    'import/prefer-default-export': ['off', { }],
     // Allow clases to be set on the web components
     'wc/no-self-class': 0,
     // Allow methods to return static content

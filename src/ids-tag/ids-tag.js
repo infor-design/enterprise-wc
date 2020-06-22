@@ -1,18 +1,24 @@
-import { IdsElement, customElement } from '../ids-base/ids-element';
+import { IdsElement, customElement, mixin } from '../ids-base/ids-element';
+import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import './ids-tag.scss';
 
+// TODO Document, Emitions, Properties, Methods
 /**
  * IDS Tag Component
  */
 @customElement('ids-tag')
+@mixin(IdsExampleMixin)
 class IdsTag extends IdsElement {
   /**
    * Call the constructor and then initialize
    */
   constructor() {
     super();
-    this.render();
-    this.handleEvents();
+    this
+      .render()
+      .handleEvents();
+
+    this.sayHi();
   }
 
   /**
@@ -86,12 +92,14 @@ class IdsTag extends IdsElement {
   /**
    * Establish Internal Event Handlers
    * @private
+   * @returns {object} The object for chaining.
    */
   handleEvents() {
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
       this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
     }
+    return this;
   }
 
   /**
