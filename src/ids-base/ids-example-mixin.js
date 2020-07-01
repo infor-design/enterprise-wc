@@ -3,10 +3,10 @@
  */
 const IdsExampleMixin = {
   sayHi() {
-    console.log(`Hello ${this.name}`);
+    console.info(`Hello ${this.name}`);
   },
   sayBye() {
-    console.log(`Bye ${this.name}`);
+    console.info(`Bye ${this.name}`);
   }
 };
 

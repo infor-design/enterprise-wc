@@ -35,7 +35,7 @@ export default function IdsEventHandler() {
    * @param {object} options The custom data to send
    */
   this.dispatchEvent = (eventName, target, options) => {
-    const event = new CustomEvent(eventName, options);
+    const event = new CustomEvent(eventName, { detail: options });
     target.dispatchEvent(event);
   };
 

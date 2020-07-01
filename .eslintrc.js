@@ -11,6 +11,19 @@ module.exports = {
     'plugin:jsdoc/recommended'
   ],
   globals: {
+    page: true,
+    browser: true,
+    context: true,
+    jestPuppeteer: true,
+    jest: true,
+    it: true,
+    describe: true,
+    beforeAll: true,
+    afterAll: true,
+    afterEach: true,
+    beforeEach: true,
+    expect: true,
+    test: true
   },
   parser: 'babel-eslint',
   plugins: [
@@ -24,6 +37,8 @@ module.exports = {
   rules: {
     // Dont force a new line after comments
     'jsdoc/newline-after-description': 0,
+    // Allow a few custom jsdoc tags
+    'jsdoc/check-tag-names': ['error', { definedTags: ['jest-environment'] }],
     // require trailing commas in multiline object literals
     'comma-dangle': ['off', {
       arrays: 'never',

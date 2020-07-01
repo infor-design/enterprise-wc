@@ -14,7 +14,8 @@
 
 - [x] Finish css styling for uplift using functional css and separation
 - [x] Add Sass handling with webpack
-- [ ] List of tokens for the component if needed or how to handle tag tokens? Maybe like this?
+- [ ] List of tokens for the component if needed or how to handle tag tokens
+- [ ] Generate the mixin functions from settings in design system
 - [x] Change tokens to  use pixels instead of rems
 - [x] Add css style lint
 - [x] Test Custom Fonts
@@ -52,15 +53,13 @@ Idea for including tokens.. As a list
 - [ ] Add pattern for even omitting see this [great explanation](https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations)
 - [ ] Keyboard Handling
 - [x] Create a mixin [see docs](https://javascript.info/mixins) and [another article](https://medium.com/javascript-scene/functional-mixins-composing-software-ffb66d5e731c)
-- [ ] Locale, Env ect...
 - [x] Create decorators
-- [ ] Event Handlers
-- [ ] Keyboard
+- [x] Event Handlers
 - [x] Linting
 - [ ] Add TS types [for example](https://github.com/elix/elix/tree/13.0.0/src/base)
 - [ ] What can we do for more flexibility? Hooks?
 - [ ] Ability to set Id's
-- [ ] Locales to set Locales
+- [ ] Locales
 - [ ] Examples in Vue, React and NG Use snowpack example projects
 - [ ] Right to Left
 - [ ] Upgrade Docs
@@ -82,12 +81,11 @@ Idea for including tokens.. As a list
 - [ ] Toast Component [for example](https://github.com/elix/elix/blob/13.0.0/src/base/Toast.js)
 
 ## Documentation
-- [ ] What do we need to do with design system exct
+- [ ] What do we need to do with design system ect
 - [ ] General API into the MD [Js Doc MD](https://github.com/jaydenseric/jsdoc-md)
 
 ## Test Tools
-- [ ] Evaulate Test Tools: [Webdriver.IO](https://webdriver.io/)
-- [ ] Evaulate Test Tools: [codecept](https://codecept.io/)
-- [ ] Evaulate Test Tools: [cypress](https://docs.cypress.io/)
-- [ ] Evaulate Test Tools: Jest (Stencil Js uses Jest and Puppeteer (or just Puppeteer like elix))
-- [ ] Travis
+- [x] Evaulate Test Tools: [Webdriver.IO](https://webdriver.io/)
+- [x] Evaulate Test Tools: [codecept](https://codecept.io/)
+- [x] Evaulate Test Tools: [cypress](https://docs.cypress.io/)
+- [x] Evaulate Test Tools: Jest (Stencil Js uses Jest and Puppeteer (or just Puppeteer like elix))

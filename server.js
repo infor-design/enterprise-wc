@@ -6,7 +6,7 @@ const log = require('loglevel');
 const config = require('./webpack.config.js');
 
 // Setup the port to run on
-const PORT = 4300;
+const PORT = process.env.PORT || 4300;
 
 // Configure options for hot reload / web pack dev server
 const options = {
@@ -14,7 +14,6 @@ const options = {
   writeToDisk: true,
   contentBase: path.resolve(__dirname, 'dist'),
   liveReload: true,
-  open: true,
   hot: false // not sure why this doesnt work as reliably as liveReload
 };
 

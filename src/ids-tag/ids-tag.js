@@ -2,7 +2,6 @@ import { IdsElement, customElement, mixin } from '../ids-base/ids-element';
 import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import './ids-tag.scss';
 
-// TODO Document, Emitions, Properties, Methods
 /**
  * IDS Tag Component
  */
@@ -43,9 +42,7 @@ class IdsTag extends IdsElement {
    * secondary (white), error, success, danger, caution or a hex code with the #
    */
   set color(value) {
-    const hasColor = this.hasAttribute('color');
-
-    if (hasColor && value) {
+    if (value) {
       this.setAttribute('color', value);
       const prop = value.substr(0, 1) === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
       this.style.backgroundColor = prop;
@@ -77,17 +74,42 @@ class IdsTag extends IdsElement {
   set dismissible(value) {
     const hasProp = this.hasAttribute('dismissible');
 
-    if (hasProp && value) {
+    if (value) {
       this.setAttribute('dismissible', value);
       this.classList.add('ids-dismissible');
+      this.appendIcon('close');
       return;
     }
 
     this.removeAttribute('dismissible');
+    this.removeIcon('close');
     this.classList.remove('ids-dismissible');
   }
 
   get dismissible() { return this.getAttribute('dismissible'); }
+
+  /**
+   * Check if an icon exists if not add it
+   * @param {string} iconName The icon name to check
+   * @private
+   */
+  appendIcon(iconName) {
+    if (this.querySelectorAll(`[icon="${iconName}"]`).length === 0) {
+      this.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconName}" compactness="condensed" class="ids-icon"></ids-icon>`);
+      this.handleEvents();
+    }
+  }
+
+  /**
+   * Check if an icon exists if not add it
+   * @param {string} iconName The icon name to check
+   * @private
+   */
+  removeIcon(iconName) {
+    if (this.querySelectorAll(`[icon="${iconName}"]`).length > 0) {
+      this.querySelector(`[icon="${iconName}"]`).remove();
+    }
+  }
 
   /**
    * Establish Internal Event Handlers
@@ -109,7 +131,20 @@ class IdsTag extends IdsElement {
     if (!this.dismissible) {
       return;
     }
+
+    let canDismiss = true;
+    const response = (veto) => {
+      canDismiss = !!veto;
+    };
+    this.eventHandlers.dispatchEvent('beforetagremoved', this, { elem: this, response });
+
+    if (!canDismiss) {
+      return;
+    }
+
     this.remove();
+    this.eventHandlers.dispatchEvent('tagremoved', this, { elem: this });
+    this.eventHandlers.dispatchEvent('aftertagremoved', this, { elem: this });
   }
 }
 

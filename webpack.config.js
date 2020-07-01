@@ -37,13 +37,8 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           {
+            // Options are all in babel.config.js
             loader: 'babel-loader',
-            options: {
-              presets: ['@babel/preset-env'],
-              plugins: [
-                ['@babel/plugin-proposal-decorators', { legacy: true }]
-              ]
-            }
           }
         ]
       },
