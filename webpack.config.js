@@ -3,6 +3,7 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // installed via npm
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 
 const path = require('path');
 const webpack = require('webpack');
@@ -55,6 +56,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new FaviconsWebpackPlugin('app/assets/favicon.ico'),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].min.css'

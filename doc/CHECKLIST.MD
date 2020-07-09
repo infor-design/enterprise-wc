@@ -21,7 +21,7 @@
 - [x] Test Custom Fonts
 - [x] Show side by side with current tags -> as expected its problematic on the soho side
 - [x] Test initialize in side by side example
-- [ ] Solve for versions/modes or whatever they will be called
+- [ ] Solve for versions/modes/themes or whatever they will be called
 - [ ] Evaluate CSSStyleSheet  - With [poly fill](https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts)
 - [x] Try to include [tailwind](https://tailwindcss.com) (add a tailwind config to ids tokens) by side
 - [ ] Change to node webserver
@@ -50,11 +50,12 @@ Idea for including tokens.. As a list
 - [x] Create a a base and look at LitElement
 - [x] Invoked Components - Modal (we dont need this)
 - [x] Event Handlers
-- [ ] Add pattern for even omitting see this [great explanation](https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations)
+- [x] Add pattern for even omitting see this [great explanation](https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations)
 - [ ] Keyboard Handling
 - [x] Create a mixin [see docs](https://javascript.info/mixins) and [another article](https://medium.com/javascript-scene/functional-mixins-composing-software-ffb66d5e731c)
 - [x] Create decorators
 - [x] Event Handlers
+- [ ] Event Handlers - make it a mixin
 - [x] Linting
 - [ ] Add TS types [for example](https://github.com/elix/elix/tree/13.0.0/src/base)
 - [ ] What can we do for more flexibility? Hooks?

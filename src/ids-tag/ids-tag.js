@@ -142,8 +142,8 @@ class IdsTag extends IdsElement {
       return;
     }
 
-    this.remove();
     this.eventHandlers.dispatchEvent('tagremoved', this, { elem: this });
+    this.remove();
     this.eventHandlers.dispatchEvent('aftertagremoved', this, { elem: this });
   }
 }

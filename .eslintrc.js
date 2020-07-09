@@ -55,6 +55,10 @@ module.exports = {
     // https://eslint.org/docs/rules/class-methods-use-this
     'class-methods-use-this': ['error', { exceptMethods: ['template', 'settings'] }],
     // Allow Ids Imports to be unsed in index.js files
-    'no-unused-vars': ['error', { varsIgnorePattern: '[Ids]' }]
+    'no-unused-vars': ['error', { varsIgnorePattern: '[Ids]' }],
+    // Allow Arrow functions to be on the next line or below
+    'implicit-arrow-linebreak': ['off', { }],
+    // Allow single quotes only or template literals
+    quotes: ['error', 'single', { allowTemplateLiterals: true }]
   }
 };

@@ -35,7 +35,7 @@ class IdsIcon extends IdsElement {
    */
   template() {
     const size = this.sizes[this.compactness] || this.sizes.default;
-    return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18">
+    return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
       <path d="${this.iconData()}" />
     </svg>`;
   }

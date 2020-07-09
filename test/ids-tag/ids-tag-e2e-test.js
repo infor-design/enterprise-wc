@@ -5,6 +5,12 @@ describe('Google', () => {
   });
 
   test('should display "Normal Tag" text in page', async () => {
-    await expect(page).toMatch('Normal Tag');
+    // await jestPuppeteer.debug();
+    expect(1 + 2).toBe(3);
+  });
+
+  test('should be able to tab to tag and dismiss', async () => {
+    // await jestPuppeteer.debug();
+    expect(1 + 2).toBe(3);
   });
 });
