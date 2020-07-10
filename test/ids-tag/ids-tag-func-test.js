@@ -27,6 +27,13 @@ describe('IdsTag Component', () => {
 
   it('renders correctly', () => {
     expect(tag.outerHTML).toMatchSnapshot();
+
+    tag.dismissible = true;
+    expect(tag.outerHTML).toMatchSnapshot();
+
+    tag.dismissible = false;
+    tag.color = 'error';
+    expect(tag.outerHTML).toMatchSnapshot();
   });
 
   it('renders success color from an attribute', () => {
