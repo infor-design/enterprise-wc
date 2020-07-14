@@ -1,13 +1,15 @@
 /* Ids Layout Grid */
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift.variables.css';
 
+// TODO ? Can we get rid of this?
 :root {
   font-size: 62.5%;
   margin: 0;
 }
 
-/* Font Sizes and Charactistics */
+/* Other Css Modules */
 @import '../ids-typography/ids-typography.scss';
+@import '../ids-loader/ids-loader.scss';
 
 /* Alignment */
 @mixin align-middle {

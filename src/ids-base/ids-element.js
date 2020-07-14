@@ -1,5 +1,4 @@
 import { customElement, version, mixin } from './ids-decorators';
-import { IdsEventHandler } from './ids-event-handler';
 
 /**
  * IDS Base Element
@@ -9,7 +8,6 @@ class IdsElement extends HTMLElement {
     super();
     this.version = '5.0.0'; // TODO Pull from package json
     this.addBaseName();
-    this.eventHandlers = new IdsEventHandler();
   }
 
   /**
@@ -41,7 +39,17 @@ class IdsElement extends HTMLElement {
    * in a component you can just call super.
    */
   disconnectedCallback() {
-    this.eventHandlers.removeAll();
+    if (this.eventHandlers) {
+      this.eventHandlers.removeAll();
+    }
+  }
+
+  /**
+   * Do stuff as the component is connected.
+   */
+  connectedCallback() {
+    this.loadingClass = 'ids-loading';
+    document.querySelector('body').classList.remove(this.loadingClass);
   }
 
   /**

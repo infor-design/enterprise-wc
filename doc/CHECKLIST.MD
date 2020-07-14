@@ -55,21 +55,20 @@ Idea for including tokens.. As a list
 - [x] Create a mixin [see docs](https://javascript.info/mixins) and [another article](https://medium.com/javascript-scene/functional-mixins-composing-software-ffb66d5e731c)
 - [x] Create decorators
 - [x] Event Handlers
-- [ ] Event Handlers - make it a mixin
+- [x] Event Handlers - make it a mixin
+- [x] FOUC - Done but will add loader when designed
 - [x] Linting
 - [ ] Add TS types [for example](https://github.com/elix/elix/tree/13.0.0/src/base)
-- [ ] What can we do for more flexibility? Hooks?
-- [ ] Ability to set Id's
+- [x] What can we do for more flexibility: use web component live cycle + super, providing slots, making them work with css based on immediate parent
+- [x] Ability to set Id's - Just put them on the web components that are actionable
 - [ ] Locales
 - [ ] Examples in Vue, React and NG Use snowpack example projects
 - [ ] Right to Left
 - [ ] Upgrade Docs
 - [ ] Api and example Documentation
-- [ ] CSP/Security Scans
+- [x] CSP/Security Scans
 - [ ] Localization
-- [ ] FOUC
 - [ ] Two way data binding
-- [ ] Try [super linter](https://github.com/github/super-linter/) and use git hub actions
 
 ## Other Components
 - [x] Add a Css Grid

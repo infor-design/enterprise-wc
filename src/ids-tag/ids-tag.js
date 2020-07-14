@@ -1,5 +1,6 @@
 import { IdsElement, customElement, mixin } from '../ids-base/ids-element';
 import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import './ids-tag.scss';
 
 /**
@@ -7,6 +8,7 @@ import './ids-tag.scss';
  */
 @customElement('ids-tag')
 @mixin(IdsExampleMixin)
+@mixin(IdsEventsMixin)
 class IdsTag extends IdsElement {
   /**
    * Call the constructor and then initialize
@@ -16,8 +18,6 @@ class IdsTag extends IdsElement {
     this
       .render()
       .handleEvents();
-
-    this.sayHi();
   }
 
   /**
