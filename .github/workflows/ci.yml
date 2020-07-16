@@ -19,26 +19,41 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
+    
     - name: Cache multiple paths
       uses: actions/cache@v2
       with:
         path: node_modules
         key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+    
     - name: Install Dependencies
       run: npm i
-    - uses: ./
+    
     - name: Run a test build
       run: npm run build
+    
     - name: Run Lint Checks
       run: npm run lint
+      
     - name: Run Test 
       run: npm run test:ci
-    - uses: mattallty/jest-github-action@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        test-command: "npm run test:coverage"
+        
+  test-coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - run: npm i
+
+      - name: Comment with Test Coverage
+        uses: dkershner6/jest-coverage-commenter-action@v1
+        with:
+          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          test_command: "npm run test:coverage"
