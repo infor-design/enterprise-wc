@@ -1,6 +1,5 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests and linters across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
-
 name: Build Status
 
 on:
@@ -16,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 13.x]
+        node-version: [12.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -25,7 +24,19 @@ jobs:
       
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm ci
-    - run: npm run build
-    - run: npm run lint
-    - run: npm test
+    - name: Cache multiple paths
+      uses: actions/cache@v2
+      with:
+        path: |
+          ~/cache
+          !~/cache/exclude
+          **/node_modules
+        key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+    - name: Install Dependencies
+      run: npm i
+    - name: Run a test build
+      run: npm run build
+    - name: Run Lint Checks
+      run: npm run lint
+    - name: Run Test 
+      run: npm test
