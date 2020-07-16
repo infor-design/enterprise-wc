@@ -21,7 +21,6 @@ jobs:
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
-      
       with:
         node-version: ${{ matrix.node-version }}
     - name: Cache multiple paths
@@ -31,6 +30,7 @@ jobs:
         key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
     - name: Install Dependencies
       run: npm i
+    - uses: ./
     - name: Run a test build
       run: npm run build
     - name: Run Lint Checks
