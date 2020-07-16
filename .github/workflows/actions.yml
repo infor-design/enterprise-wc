@@ -39,5 +39,5 @@ jobs:
       run: npm run test:ci
     - uses: ziishaned/jest-reporter-action@v0.0.1
       with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
+        github-token: 11f79b30db3082558025f3d71f867067d5
         test-command: "npm run test:coverage"
