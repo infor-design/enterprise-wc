@@ -36,8 +36,8 @@ jobs:
     - name: Run Lint Checks
       run: npm run lint
     - name: Run Test 
-      run: npm test
+      run: npm test:ci
     - uses: ziishaned/jest-reporter-action@v0.0.1
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-        test-command: "npm jest --coverage"
+        test-command: "npm run test:coverage"
