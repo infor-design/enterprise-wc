@@ -3,10 +3,10 @@ import { customElement, version, mixin } from './ids-decorators';
 /**
  * IDS Base Element
  */
+@version()
 class IdsElement extends HTMLElement {
   constructor() {
     super();
-    this.version = '5.0.0'; // TODO Pull from package json
     this.addBaseName();
   }
 
@@ -85,4 +85,9 @@ class IdsElement extends HTMLElement {
   }
 }
 
-export { IdsElement, customElement, mixin };
+export {
+  IdsElement,
+  customElement,
+  mixin,
+  version
+};

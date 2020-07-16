@@ -8,7 +8,7 @@ const pjson = require('../../package.json');
  */
 export function version(value) {
   return (target, property, descriptor) => { //eslint-disable-line
-    target.version = value || pjson.version;
+    target.prototype.version = value || pjson.version;
   };
 }
 

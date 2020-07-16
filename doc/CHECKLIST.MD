@@ -59,7 +59,7 @@ Idea for including tokens.. As a list
 - [x] FOUC - Done but will add loader when designed
 - [x] Linting
 - [ ] Add TS types [for example](https://github.com/elix/elix/tree/13.0.0/src/base)
-- [x] What can we do for more flexibility: use web component live cycle + super, providing slots, making them work with css based on immediate parent
+- [x] What can we do for more flexibility: use web component live cycle + super, providing slots, making them work with css based on [immediate parent](https://github.com/webcomponents/gold-standard/wiki#styling)
 - [x] Ability to set Id's - Just put them on the web components that are actionable
 - [ ] Locales
 - [ ] Examples in Vue, React and NG Use snowpack example projects
@@ -83,6 +83,8 @@ Idea for including tokens.. As a list
 ## Documentation
 - [ ] What do we need to do with design system ect
 - [ ] General API into the MD [Js Doc MD](https://github.com/jaydenseric/jsdoc-md)
+- [ ] Document each component
+- [ ] Add a [core-principles](https://github.com/elix/elix#core-principles) section and update README
 
 ## Test Tools
 - [x] Evaulate Test Tools: [Webdriver.IO](https://webdriver.io/)

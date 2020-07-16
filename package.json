@@ -1,7 +1,7 @@
 {
   "name": "enterprise-wc",
   "version": "5.0.0",
-  "description": "A Web Components version of the IDS Enterprise component library.",
+  "description": "The Web Component version of the IDS Enterprise component library",
   "main": "app/index.js",
   "directories": {
     "lib": "source",

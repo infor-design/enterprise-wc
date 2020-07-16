@@ -1,18 +1,31 @@
 # Ids Base
 
-This folder contains source code for the common base code for IDS. This includes shared functions, Core Css and The webcomponent base class IdsElement.
+This folder contains source code for the common base code for IDS. This includes shared functions, Core Css and The webcomponent base class `IdsElement`.
 
 ## Ids Base Css
 
-The Ids base css class contains typography (including labels), the Ids Identity token css variables and the functional classes (similar to tailwind css).
+The Ids base css class contains imports for core modules like typography (including labels), and imports for the Ids Identity token css variables and the functional classes mixins (similar to tailwind css).
 
 ## Ids Decorators
 
-The ids-decorators are imported directly into ids-element and may not need to be called directly. Current there is only two. One to add a version to the webcomponent and one to make a customer element for the web components. See ids-tag.js for proper usage.
+The ids-decorators are imported directly into ids-element and may not need to be called directly. Current there are there
+
+1. One to add a version to the webcomponent and one to make a customer element for the web components. This is added in IdsElement if used
+1. One to make the component a customElement
+1. One to add a mixin to the components
 
 ## Ids Element
 
-TODO
+Ids Element is the general base class for most web components in IDS. Its used to have a base layer with common functions that all components will have. If only some components will have the functionality use a mixin instead. Ids Element current adds the following:
+
+1. A version number from the package json
+1. A name property from the element name
+1. Handles setting changes
+1. Removed attached event handlers (if the mixin is used)
+1. Prevents flash of unstyled content
+1. Holds the property (settings) list
+1. Renders a template from the template property
+1. Exports all mixins
 
 ## Ids Keyboard
 

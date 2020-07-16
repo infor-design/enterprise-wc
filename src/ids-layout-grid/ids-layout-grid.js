@@ -1,10 +1,11 @@
-import { IdsElement, customElement } from '../ids-base/ids-element';
+import { IdsElement, customElement, version } from '../ids-base/ids-element';
 import './ids-layout-grid.scss';
 
 /**
  * IDS Layout Component
  */
 @customElement('ids-layout-grid')
+@version()
 class IdsLayoutGrid extends HTMLElement {
   constructor() {
     super();
