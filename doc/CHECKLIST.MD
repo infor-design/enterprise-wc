@@ -9,6 +9,7 @@
 - [x] CSS/SASS
 - [x] Add token namespaces for css variables
 - [x] Md Lint and Other linters?
+- [ ] [Usage statistics](https://github.com/vaadin/vaadin-usage-statistics)
 
 ## Css
 
@@ -54,19 +55,21 @@ Idea for including tokens.. As a list
 - [ ] Keyboard Handling
 - [x] Create a mixin [see docs](https://javascript.info/mixins) and [another article](https://medium.com/javascript-scene/functional-mixins-composing-software-ffb66d5e731c)
 - [x] Create decorators
-- [x] Event Handlers
-- [x] Event Handlers - make it a mixin
+- [x] Event Handlers (mixin)
 - [x] FOUC - Done but will add loader when designed
 - [x] Linting
-- [ ] Add TS types [for example](https://github.com/elix/elix/tree/13.0.0/src/base)
+- [x] Add TS types [for example](https://github.com/elix/elix/tree/13.0.0/src/base)
 - [x] What can we do for more flexibility: use web component live cycle + super, providing slots, making them work with css based on [immediate parent](https://github.com/webcomponents/gold-standard/wiki#styling)
 - [x] Ability to set Id's - Just put them on the web components that are actionable
 - [ ] Locales
-- [ ] Examples in Vue, React and NG Use snowpack example projects
+- [ ] Examples in Vue (stackblitz)
+- [x] Example in NG (stackblitz)
+- [ ] Example in React (stackblitz)
 - [ ] Right to Left
 - [ ] Upgrade Docs
 - [ ] Api and example Documentation
-- [x] CSP/Security Scans
+- [x] Security Scans
+- [ ] CSP
 - [ ] Localization
 - [ ] Two way data binding
 
@@ -74,7 +77,7 @@ Idea for including tokens.. As a list
 - [x] Add a Css Grid
 - [x] Typography "Component"
 - [ ] Listview: Component
-- [ ] Listview: Make a Datasource. And check if [redux will work](https://react-redux.js.org/introduction/basic-tutorial) [Handling Data](https://itnext.io/handling-data-with-web-components-9e7e4a452e6e)
+- [ ] Listview: Make a Datasource. And check if [redux will work](https://react-redux.js.org/introduction/basic-tutorial) [Handling Data](https://itnext.io/handling-data-with-web-components-9e7e4a452e6e). Dataset can also handle rerender (two way binding)
 - [ ] Listview: Handle Tokens
 - [ ] Listview: Expose listview "pieces"
 - [ ] Listview Make infinite scrolling [for example](https://developers.google.com/web/updates/2016/07/infinite-scroller)

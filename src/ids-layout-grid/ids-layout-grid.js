@@ -12,6 +12,10 @@ class IdsLayoutGrid extends HTMLElement {
     this.init();
   }
 
+  connectedCallBack() {
+    this.init();
+  }
+
   init() {
     this.classList.add('ids-layout-grid');
   }

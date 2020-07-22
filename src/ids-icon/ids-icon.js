@@ -8,7 +8,9 @@ import { IdsElement, customElement } from '../ids-base/ids-element';
 class IdsIcon extends IdsElement {
   constructor() {
     super();
+  }
 
+  connectedCallBack() {
     // Declare constants - or do we like "compact, cozy, and comfortable"?
     this.sizes = {
       wide: 24,

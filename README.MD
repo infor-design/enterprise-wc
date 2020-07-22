@@ -1,5 +1,7 @@
 # IDS Web Components Proof Of Concept
 
+![Build Status](https://github.com/infor-design/enterprise-wc/workflows/Build%20Status/badge.svg?branch=master)
+
 ## Getting Started
 
 ```bash
