@@ -14,6 +14,12 @@ interface tagremoved extends Event {
   }
 }
 
+interface beforetagremoved extends Event {
+  detail: {
+    elem: IdsTag
+  }
+}
+
 export class IdsTag extends HTMLElement {
   nativeElement: nativeElement;
 }

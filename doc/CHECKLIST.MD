@@ -56,7 +56,7 @@ Idea for including tokens.. As a list
 - [x] Create a mixin [see docs](https://javascript.info/mixins) and [another article](https://medium.com/javascript-scene/functional-mixins-composing-software-ffb66d5e731c)
 - [x] Create decorators
 - [x] Event Handlers (mixin)
-- [x] FOUC - Done but will add loader when designed
+- [ ] FOUC - Done but will add loader when designed
 - [x] Linting
 - [x] Add TS types [for example](https://github.com/elix/elix/tree/13.0.0/src/base)
 - [x] What can we do for more flexibility: use web component live cycle + super, providing slots, making them work with css based on [immediate parent](https://github.com/webcomponents/gold-standard/wiki#styling)

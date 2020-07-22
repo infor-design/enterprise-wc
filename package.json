@@ -14,6 +14,7 @@
     "mdlint": "remark .",
     "test": "jest",
     "test:coverage": "jest --coverage",
+    "test:coverage-only-changed": "jest --coverage --onlyChanged",
     "test:ci": "jest --maxWorkers=2",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "ncu": "npx ncu"
