@@ -23,6 +23,7 @@ class IdsTag extends IdsElement {
       .handleEvents();
   }
 
+
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
