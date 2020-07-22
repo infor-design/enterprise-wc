@@ -8,10 +8,9 @@ import './ids-layout-grid.scss';
 class IdsLayoutColumn extends IdsElement {
   constructor() {
     super();
-    this.init();
   }
 
-  init() {
+  connectedCallBack() {
     this.classList.add('ids-layout-column');
   }
 

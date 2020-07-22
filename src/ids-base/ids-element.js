@@ -7,7 +7,6 @@ import { customElement, version, mixin } from './ids-decorators';
 class IdsElement extends HTMLElement {
   constructor() {
     super();
-    this.addBaseName();
   }
 
   /**
@@ -48,6 +47,10 @@ class IdsElement extends HTMLElement {
    * Do stuff as the component is connected.
    */
   connectedCallback() {
+    this.addBaseName();
+    if (this.connectedCallBack) {
+      this.connectedCallBack();
+    }
     this.loadingClass = 'ids-loading';
     document.querySelector('body').classList.remove(this.loadingClass);
   }

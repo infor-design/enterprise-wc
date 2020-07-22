@@ -59,6 +59,8 @@ module.exports = {
     // Allow Arrow functions to be on the next line or below
     'implicit-arrow-linebreak': ['off', { }],
     // Allow single quotes only or template literals
-    quotes: ['error', 'single', { allowTemplateLiterals: true }]
+    quotes: ['error', 'single', { allowTemplateLiterals: true }],
+    // Allow Arrow functions to be on the next line or below
+    'no-useless-constructor': ['off', { }],
   }
 };

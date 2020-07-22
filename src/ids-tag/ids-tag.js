@@ -15,6 +15,9 @@ class IdsTag extends IdsElement {
    */
   constructor() {
     super();
+  }
+
+  connectedCallBack() {
     this
       .render()
       .handleEvents();
