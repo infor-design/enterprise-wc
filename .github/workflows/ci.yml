@@ -40,20 +40,8 @@ jobs:
     - name: Run Lint Checks
       run: npm run lint
       
-    - name: Run Test 
-      run: npm run test:ci
-        
-  test-coverage:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - run: npm i
-
-      - name: Comment with Test Coverage
-        uses: dkershner6/jest-coverage-commenter-action@v1
-        with:
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
-          test_command: "npm run test:coverage"
+    - name: Run tests with Test Coverage
+      uses: dkershner6/jest-coverage-commenter-action@v1
+      with:
+        github_token: "${{ secrets.GITHUB_TOKEN }}"
+        test_command: "npm run test:coverage"
