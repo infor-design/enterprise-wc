@@ -1,6 +1,6 @@
 {
   "tagname-lowercase": true,
-  "attr-lowercase": true,
+  "attr-lowercase": ["viewBox"],
   "attr-value-double-quotes": true,
   "doctype-first": false,
   "tag-pair": true,
