@@ -23,6 +23,7 @@ A curated list of resources related to this project
 
 - [Model for including web components](https://vaadin.com/learn/tutorials/using-web-components)
 - [Understanding Entry Points](https://kuzzmi.com/blog/truly-multiple-entries-with-webpack/)
+- [Gentle Intro](https://ui.dev/webpack/)
 
 ## Documentation
 

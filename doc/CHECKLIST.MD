@@ -10,6 +10,7 @@
 - [x] Add token namespaces for css variables
 - [x] Md Lint and Other linters?
 - [ ] [Usage statistics](https://github.com/vaadin/vaadin-usage-statistics)
+- [ ] [Use partials](https://github.com/colbyfayock/html-webpack-partials-plugin/tree/master/examples/page-template)
 
 ## Css
 
@@ -22,29 +23,11 @@
 - [x] Test Custom Fonts
 - [x] Show side by side with current tags -> as expected its problematic on the soho side
 - [x] Test initialize in side by side example
-- [ ] Solve for versions/modes/themes or whatever they will be called
-- [ ] Evaluate CSSStyleSheet  - With [poly fill](https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts)
+- [ ] Solve for versions/modes/themes or whatever they will be called - add a toggle that changes sheet. Make a switcher component and check out [dark mode](https://googlechromelabs.github.io/dark-mode-toggle/demo/index.html) as its doing something clever with the FOUC.
+- [x] Evaluate CSSStyleSheet  - With [poly fill](https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts) (not easy maybe try again later)
 - [x] Try to include [tailwind](https://tailwindcss.com) (add a tailwind config to ids tokens) by side
 - [ ] Change to node webserver
 - [ ] Test a server side Rendering example
-
-Idea for including tokens.. As a list
-
-```json
-    {
-        "rounded": "rounded-md",
-        "border": " border-graphite-20",
-    }
-```
-
-```json for component structure
-    {
-        "tag": {
-            "rounded": "rounded-md",
-            "border": " border-graphite-20",
-        }
-    }
-```
 
 ## Webcomponent Code
 - [x] Settings
@@ -65,12 +48,12 @@ Idea for including tokens.. As a list
 - [ ] Examples in Vue (stackblitz)
 - [x] Example in NG (stackblitz)
 - [ ] Example in React (stackblitz)
+- [ ] Localization
 - [ ] Right to Left
 - [ ] Upgrade Docs
 - [ ] Api and example Documentation
 - [x] Security Scans
 - [ ] CSP
-- [ ] Localization
 - [ ] Two way data binding
 
 ## Other Components

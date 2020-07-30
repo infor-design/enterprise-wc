@@ -10,7 +10,7 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack-dev-server --open",
-    "lint": "npx eslint *.js src test app && npx stylelint 'src/**/*.scss' --config .stylelintrc && npm run mdlint",
+    "lint": "npx eslint *.js src test app && npx stylelint src/**/*.scss --config .stylelintrc && npm run mdlint && npx htmlhint app/**/*.html",
     "mdlint": "remark .",
     "test": "jest",
     "test:coverage": "jest --coverage",
@@ -55,6 +55,7 @@
     "favicons-webpack-plugin": "^3.0.1",
     "html-loader": "^1.1.0",
     "html-webpack-plugin": "^4.3.0",
+    "htmlhint": "^0.14.1",
     "ids-identity": "^3.0.0-beta.1",
     "install": "^0.13.0",
     "jest": "^26.1.0",
