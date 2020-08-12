@@ -1,6 +1,6 @@
-<%= require('html-loader!./layouts/head.html') %>
-  <%= require('html-loader!./ids-tag/index.html') %>
-  <%= require('html-loader!./ids-typography/index.html') %>
-  <%= require('html-loader!./ids-icon/index.html') %>
-  <%= require('html-loader!./ids-layout-grid/index.html') %>
-<%= require('html-loader!./layouts/footer.html') %>
+{{> layouts/head.html title=htmlWebpackPlugin.options.title }}
+  {{> ids-tag/index.html }}
+  {{> ids-typography/index.html  }}
+  {{> ids-icon/index.html }}
+  {{> ids-layout-grid/index.html  }}
+{{> layouts/footer.html }}

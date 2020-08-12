@@ -33,6 +33,7 @@ module.exports = {
   },
   module: {
     rules: [
+      { test: /\.html$/, loader: 'handlebars-loader' },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -56,6 +57,11 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        handlebarsLoader: {}
+      }
+    }),
     new FaviconsWebpackPlugin('app/assets/favicon.ico'),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
@@ -72,12 +78,14 @@ module.exports = {
       template: './app/ids-tag/index.html',
       inject: 'body',
       filename: 'ids-tag/index.html',
+      title: 'IDS Tag Component',
       chunks: ['ids-tag/ids-tag']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-icon/index.html',
       inject: 'body',
       filename: 'ids-icon/index.html',
+      title: 'IDS Icon Component',
       chunks: ['ids-icon/ids-icon']
     }),
     new HTMLWebpackPlugin({
