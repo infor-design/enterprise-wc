@@ -14,6 +14,9 @@ module.exports = {
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
+    'ids-trigger-field/ids-trigger-field': ['./app/ids-trigger-field/index.js'],
+    'ids-trigger-button/ids-trigger-button': ['./app/ids-trigger-button/index.js'],
+    'ids-input/ids-input': ['./app/ids-input/index.js'],
   },
   mode: 'development',
   optimization: {
@@ -44,9 +47,10 @@ module.exports = {
         ]
       },
       {
-        test: /\.scss$/,
+        test: /\.(scss|css)$/,
         exclude: /node_modules/,
         use: [
+          'sass-to-string',
           { loader: MiniCssExtractPlugin.loader },
           { loader: 'css-loader' },
           { loader: 'postcss-loader' },

@@ -1,0 +1,19 @@
+@import '../ids-base/ids-base';
+
+.ids-trigger-field {
+  @include flex();
+
+  position: relative;
+  width: 100%;
+
+  .ids-input {
+    width: 100%;
+  }
+
+  .ids-trigger-button {
+    position: absolute;
+    right: var(--spacing-unit);
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}

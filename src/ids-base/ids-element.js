@@ -79,7 +79,6 @@ class IdsElement extends HTMLElement {
     if (!html) {
       return this;
     }
-
     const template = document.createElement('template');
     template.innerHTML = html;
     this.attachShadow({ mode: 'open' });
