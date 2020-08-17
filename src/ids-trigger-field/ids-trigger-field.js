@@ -27,7 +27,21 @@ class IdsTriggerField extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TABBABLE, props.APPEARANCE, props.ICON];
+    return [props.TABBABLE, props.APPEARANCE, props.ICON, props.DISABLE_EVENTS];
+  }
+
+  /**
+   * Create the Template for the contents
+   * @returns {string} The template
+   */
+  template() {
+    return `
+      <style>@import url('css/ids-trigger-field/ids-trigger-field.min.css');</style>
+      <div class="ids-trigger-field">
+        <ids-input type="text" ${this.disableNativeEvents ? `disable-native-events="${this.disabledNativeEvents}"` : ''}></ids-input>
+        <ids-trigger-button ${this.disableNativeEvents ? `disable-native-events="${this.disabledNativeEvents}"` : ''}><ids-icon icon="${this.icon}"><ids-icon></ids-trigger-button>
+      </div>
+    `;
   }
 
   /**
@@ -47,8 +61,8 @@ class IdsTriggerField extends IdsElement {
   get tabbable() { return this.getAttribute(props.TABBABLE); }
 
   /**
-   * Set the appearance of the trigger field
-   * @param {string} value TODO: Provide different options for appearance
+   * TODO: Set the appearance of the trigger field
+   * @param {string} value Provide different options for appearance ['Normal', 'Compact']
    */
   set appearance(value) {
     if (value) {
@@ -64,8 +78,6 @@ class IdsTriggerField extends IdsElement {
    * Return the icon name
    * @returns {string} the path data
    */
-  get icon() { return this.getAttribute(props.ICON); }
-
   set icon(value) {
     if (this.hasAttribute(props.ICON) && value) {
       this.setAttribute(props.ICON, value);
@@ -74,19 +86,22 @@ class IdsTriggerField extends IdsElement {
     }
   }
 
+  get icon() { return this.getAttribute(props.ICON); }
+
   /**
-   * Create the Template for the contents
-   * @returns {string} The template
+   * Set if the button handles events
+   * @param {boolean} value True of false depending if the button handles events
    */
-  template() {
-    return `
-      <style>@import url('css/ids-trigger-field/ids-trigger-field.min.css');</style>
-      <div class="ids-trigger-field">
-        <ids-input type="text"></ids-input>
-        <ids-trigger-button><ids-icon icon="${this.icon}"><ids-icon></ids-trigger-button>
-      </div>
-    `;
+  set disableNativeEvents(value) {
+    const isDisabled = this.utilities.stringToBool(value);
+    if (isDisabled) {
+      this.setAttribute(props.DISABLE_EVENTS, value);
+    }
+
+    this.removeAttribute(props.DISABLE_EVENTS);
   }
+
+  get disableNativeEvents() { return this.getAttribute(props.DISABLE_EVENTS); }
 }
 
 export default IdsTriggerField;

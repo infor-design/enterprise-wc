@@ -1,5 +1,6 @@
 import { IdsElement, customElement, mixin } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsUtilitiesMixin } from '../ids-base/ids-utilities-mixin';
 import { props } from '../ids-base/ids-constants';
 import './ids-input.scss';
 
@@ -8,6 +9,7 @@ import './ids-input.scss';
  */
 @customElement('ids-input')
 @mixin(IdsEventsMixin)
+@mixin(IdsUtilitiesMixin)
 class IdsInput extends IdsElement {
   /**
    * Call the constructor and then initialize
@@ -42,19 +44,20 @@ class IdsInput extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const type = this.types[this.type] || this.types.default;
+    // const type = this.types[this.type] || this.types.default;
     return `
       <style>@import url('css/ids-input/ids-input.min.css');</style>
-      <input class="ids-input-field" tabindex="0" type="${type}" ${ this.placeholder ? `placeholder="${this.placeholder}"` : '' }/>
+      <input class="ids-input-field" tabindex="0" type="${this.types[this.type]}" ${ this.placeholder ? `placeholder="${this.placeholder}"` : '' }/>
     `;
   }
 
   /**
    * Set if the input field handles events
-   * @param {boolean} value True of false depending if the trigger field is tabbable
+   * @param {boolean} value True of false depending if the input field handles events
    */
   set disableNativeEvents(value) {
-    if (value) {
+    const isDisabled = this.utilities.stringToBool(value);
+    if (isDisabled) {
       this.setAttribute(props.DISABLE_EVENTS, value);
     }
 
@@ -70,9 +73,9 @@ class IdsInput extends IdsElement {
   set type(value) {
     if (value) {
       this.setAttribute(props.TYPE, value);
+    } else {
+      this.setAttribute(props.TYPE, this.types.default);
     }
-
-    this.removeAttribute(props.TYPE);
   }
 
   get type() { return this.getAttribute(props.TYPE); }
@@ -94,7 +97,7 @@ class IdsInput extends IdsElement {
    * Set the placeholder of input
    * @param {boolean} value
    */
-  set plcaeholder(value) {
+  set placeholder(value) {
     if (value) {
       this.setAttribute(props.PLACEHOLDER, value);
     }
@@ -102,7 +105,7 @@ class IdsInput extends IdsElement {
     this.removeAttribute(props.PLACEHOLDER);
   }
 
-  get plcaeholder() { return this.getAttribute(props.PLACEHOLDER); }
+  get placeholder() { return this.getAttribute(props.PLACEHOLDER); }
 
   /**
    * Establish Internal Event Handlers

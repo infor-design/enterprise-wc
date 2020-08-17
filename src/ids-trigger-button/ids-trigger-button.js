@@ -1,5 +1,6 @@
 import { IdsElement, customElement, mixin } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsUtilitiesMixin } from '../ids-base/ids-utilities-mixin';
 import { props } from '../ids-base/ids-constants';
 import './ids-trigger-button.scss';
 
@@ -9,6 +10,7 @@ import './ids-trigger-button.scss';
  */
 @customElement('ids-trigger-button')
 @mixin(IdsEventsMixin)
+@mixin(IdsUtilitiesMixin)
 class IdsTriggerButton extends IdsElement {
   /**
    * Call the constructor and then initialize
@@ -43,11 +45,12 @@ class IdsTriggerButton extends IdsElement {
   }
 
   /**
-   * Set if the trigger field handles events
-   * @param {boolean} value True of false depending if the trigger field is tabbable
+   * Set if the button handles events
+   * @param {boolean} value True of false depending if the button handles events
    */
   set disableNativeEvents(value) {
-    if (value) {
+    const isDisabled = this.utilities.stringToBool(value);
+    if (isDisabled) {
       this.setAttribute(props.DISABLE_EVENTS, value);
     }
 

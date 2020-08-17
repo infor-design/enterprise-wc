@@ -12,11 +12,12 @@
     "start": "webpack-dev-server --open",
     "lint": "npx eslint *.js src test app && npx stylelint src/**/*.scss --config .stylelintrc && npm run mdlint && npx htmlhint app/**/*.html",
     "mdlint": "remark .",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "test:coverage": "jest --coverage",
     "test:coverage-only-changed": "jest --coverage --onlyChanged",
     "test:ci": "jest --maxWorkers=2",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "test:snapshots": "jest -u",
     "ncu": "npx ncu"
   },
   "remarkConfig": {

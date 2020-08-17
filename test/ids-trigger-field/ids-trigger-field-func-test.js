@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsTag from '../../src/ids-trigger-field/ids-trigger-field';
+import IdsTriggerField from '../../src/ids-trigger-field/ids-trigger-field';
 
 describe('IdsTriggerField Component', () => {
   let triggerField;
@@ -18,11 +18,23 @@ describe('IdsTriggerField Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsTag();
+    const elem = new IdsTriggerField();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('.ids-trigger-field').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('renders correctly', () => {
+    expect(triggerField.outerHTML).toMatchSnapshot();
+
+    triggerField.icon = 'close';
+    expect(triggerField.outerHTML).toMatchSnapshot();
+  });
+
+  it('renders icon from an attribute', () => {
+    triggerField.setAttribute('icon', 'close');
+    expect(triggerField.getAttribute('icon')).toEqual('close');
+    expect(triggerField.icon).toEqual('close');
+  });
 });
