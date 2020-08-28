@@ -1,5 +1,4 @@
-import { customElement, IdsElement } from '../ids-base/ids-element';
-import './ids-layout-grid.scss';
+import { customElement, IdsElement, scss } from '../ids-base/ids-element';
 
 /**
  * IDS Column Component
@@ -11,7 +10,7 @@ class IdsLayoutColumn extends IdsElement {
   }
 
   connectedCallBack() {
-    this.classList.add('ids-layout-column');
+    this.classList.add(this.name);
   }
 
   /**

@@ -50,7 +50,8 @@ We could improve this...
 ## To Figure Out
 
 - [ ] Add [jest dom](https://github.com/testing-library/jest-dom)
-- [ ] Snap Shots - good for aria tests
+- [x] Snap Shots - good for aria tests
 - [ ] Add [image testing](https://github.com/americanexpress/jest-image-snapshot)
-- [ ] Travis / CI / Or github actions
-- [ ] Browser Stack with [percy](https://percy.io/?utm_source=automate_paid&utm_medium=email&utm_campaign=percy_acquisition)
+- [ ] Browser Stack with [percy](https://percy.io)
+- [x] Travis / CI / Or github actions
+- [ ] Axe test Examples

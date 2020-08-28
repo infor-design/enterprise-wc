@@ -35,6 +35,10 @@ A curated list of resources related to this project
 - [Protractor Might be Dead](https://dev.to/davert/5-reasons-you-should-not-use-protractor-in-2019-3l4b)
 - [Unit Testing with Puppeteer](https://www.sitepoint.com/puppeteer-end-to-end-testing/)
 
+## Frameworks
+
+- [Angular Tips](https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties)
+
 ## Other Component Library Examples
 
 - [Elix](https://github.com/elix/elix/tree/13.0.0/src/base)
@@ -44,3 +48,6 @@ A curated list of resources related to this project
 - [Xel](https://xel-toolkit.org/elements/x-slider)
 - [Adobe](https://opensource.adobe.com/spectrum-web-components/components/styles)
 - [Toast](https://ui.toast.com/)
+- [Material Web Components](https://dannymoerkerke.github.io/material-webcomponents/material-dialog)
+- [Author Elements](https://github.com/author-elements)
+- [How To google](https://github.com/GoogleChromeLabs/howto-components/tree/master/elements)

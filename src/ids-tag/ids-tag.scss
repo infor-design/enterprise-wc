@@ -4,29 +4,35 @@
 .ids-tag {
   @include antialiased();
   @include bg-graphite-20();
-  @include border();
+  @include border-1();
   @include border-graphite-20();
+  @include border-solid();
   @include font-sans();
   @include inline-flex();
-  @include margin-b-5();
-  @include margin-r-5();
-  @include padding-x-10();
-  @include padding-y-1();
-  @include rounded-md();
-  @include text-px-14();
-  @include text-base();
+  @include mb-4();
+  @include mr-4();
+  @include px-8();
+  @include py-1();
+  @include rounded-lg();
+  @include text-14();
+  @include text-slate-100();
 
-  .ids-icon {
+  ids-icon {
+    @include self-center();
     @include inline-flex();
-    @include padding-l-3();
+    @include pl-4();
+    @include pt-1();
   }
 
-  &.ids-dismissible .ids-icon {
-    @include color-100();
+  &.ids-dismissible {
     @include cursor-pointer();
 
-    &:hover {
-      @include color-60();
+    ids-icon {
+      @include text-slate-100();
+    }
+
+    ids-icon:hover {
+      @include text-slate-60();
     }
   }
 }

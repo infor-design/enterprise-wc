@@ -24,10 +24,11 @@
 - [x] Show side by side with current tags -> as expected its problematic on the soho side
 - [x] Test initialize in side by side example
 - [ ] Solve for versions/modes/themes or whatever they will be called - add a toggle that changes sheet. Make a switcher component and check out [dark mode](https://googlechromelabs.github.io/dark-mode-toggle/demo/index.html) as its doing something clever with the FOUC.
-- [x] Evaluate CSSStyleSheet  - With [poly fill](https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts) (not easy maybe try again later)
+- [x] Evaluate CSSStyleSheet  - With [poly fill](https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts)
 - [x] Try to include [tailwind](https://tailwindcss.com) (add a tailwind config to ids tokens) by side
 - [ ] Change to node webserver
 - [ ] Test a server side Rendering example
+- [x] Import separated css in see maybe [scss in webcomponents article](https://dev.to/m4thieulavoie/how-i-managed-to-use-scss-inside-web-components-3lk9) and [importing sass](https://blog.webf.zone/on-styling-web-components-b74b8c70c492)
 
 ## Webcomponent Code
 - [x] Settings

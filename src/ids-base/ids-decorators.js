@@ -33,3 +33,14 @@ export function mixin(obj) {
     Object.assign(target.prototype, obj);
   };
 }
+
+/**
+ * Styles Decorator
+ * @param {string} css The css string
+ * @returns {Function} The decoratored function
+ */
+export function scss(css) {
+  return (target) => {
+    target.prototype.styles = css;
+  };
+}

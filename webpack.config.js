@@ -2,8 +2,10 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // installed via npm
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const sass = require('node-sass');
 
 const path = require('path');
 const webpack = require('webpack');
@@ -11,6 +13,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: {
     index: ['./app/index.js'],
+    'ids-label/ids-label': ['./app/ids-label/index.js'],
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
@@ -48,11 +51,16 @@ module.exports = {
         test: /\.scss$/,
         exclude: /node_modules/,
         use: [
-          { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader' },
-          { loader: 'postcss-loader' },
-          { loader: 'sass-loader' }
-        ]
+          'sass-to-string',
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                outputStyle: 'nested' // 'compressed',
+              },
+            },
+          },
+        ],
       }
     ]
   },
@@ -89,11 +97,25 @@ module.exports = {
       chunks: ['ids-icon/ids-icon']
     }),
     new HTMLWebpackPlugin({
-      template: './app/ids-tag/test-compatibility.html',
+      template: './app/ids-label/index.html',
       inject: 'body',
-      filename: 'ids-tag/test-compatibility',
+      filename: 'ids-label/index.html',
+      title: 'IDS Label Component',
+      chunks: ['ids-label/ids-label']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-tag/compatibility.html',
+      inject: 'body',
+      filename: 'ids-tag/compatibility',
       chunks: ['ids-tag/ids-tag'],
       title: 'Test Tag Compatibility with IDS 4.0'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-tag/standalone-css.html',
+      inject: 'body',
+      filename: 'ids-tag/standalone-css',
+      chunks: ['ids-tag/ids-tag'],
+      title: 'Tag - Standalone Css'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-layout-grid/index.html',
@@ -101,7 +123,34 @@ module.exports = {
       filename: 'ids-layout-grid/index.html',
       chunks: ['ids-layout-grid/ids-layout-grid']
     }),
+    // Show Style Lint Errors in the console and fail
     new StylelintPlugin({ }),
-    new webpack.HotModuleReplacementPlugin()
+    // Handle Hot Swap When files change - files must be added via entry points
+    new webpack.HotModuleReplacementPlugin(),
+    // Make a Copy of the Sass Files only for standalone Css
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './src/**/*.scss', // './src/**/*.scss'
+          transformPath(targetPath) {
+            return targetPath.replace('src', '').replace('.scss', '.css');
+          },
+          transform(content, transFormPath) {
+            const result = sass.renderSync({
+              file: transFormPath
+            });
+            let css = result.css.toString();
+            css = css.replace(':host {', ':root {');
+            return css;
+          }
+        },
+        {
+          from: './src/**/*.d.ts',
+          transformPath(targetPath) {
+            return targetPath.replace('src', '');
+          },
+        }
+      ]
+    }),
   ]
 };

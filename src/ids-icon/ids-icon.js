@@ -10,24 +10,12 @@ class IdsIcon extends IdsElement {
     super();
   }
 
-  connectedCallBack() {
-    // Declare constants - or do we like "compact, cozy, and comfortable"?
-    this.sizes = {
-      wide: 24,
-      narrow: 18,
-      default: 18,
-      condensed: 10
-    };
-
-    this.render();
-  }
-
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['icon', 'compactness'];
+    return ['icon', 'size'];
   }
 
   /**
@@ -36,7 +24,13 @@ class IdsIcon extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const size = this.sizes[this.compactness] || this.sizes.default;
+    const sizes = {
+      large: 24,
+      normal: 18,
+      medium: 18,
+      small: 10
+    };
+    const size = sizes[this.size] || sizes.normal;
     return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
       <path d="${this.iconData()}" />
     </svg>`;
@@ -65,16 +59,16 @@ class IdsIcon extends IdsElement {
   }
 
   /**
-   * Return the compact mode. May be wide, narrow or condensed
+   * Return the size. May be large, normal/medium or small
    * @returns {string} the path data
    */
-  get compactness() { return this.getAttribute('compactness') || 'narrow'; }
+  get size() { return this.getAttribute('size') || 'normal'; }
 
-  set compactness(value) {
-    if (this.hasAttribute('compactness') && value) {
-      this.setAttribute('compactness', value);
+  set size(value) {
+    if (this.hasAttribute('size') && value) {
+      this.setAttribute('size', value);
     } else {
-      this.removeAttribute('compactness');
+      this.removeAttribute('size');
     }
   }
 }
