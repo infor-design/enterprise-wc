@@ -24,7 +24,7 @@ class IdsElement extends HTMLElement {
    */
   addBaseName() {
     // Add the base class
-    this.name = this.nodeName?.toLowerCase() || 'ids-element';
+    this.name = this.nodeName?.toLowerCase();
   }
 
   /**
@@ -44,6 +44,7 @@ class IdsElement extends HTMLElement {
   /**
    * Release events and cleanup, if implementing disconnectedCallback
    * in a component you can just call super.
+   * @private
    */
   disconnectedCallback() {
     if (this.eventHandlers) {
@@ -55,7 +56,6 @@ class IdsElement extends HTMLElement {
    * Do stuff as the component is connected.
    */
   connectedCallback() {
-    this.addBaseName();
     if (this.connectedCallBack) {
       this.connectedCallBack();
     }
@@ -80,35 +80,30 @@ class IdsElement extends HTMLElement {
    * @returns {object} The object for chaining.
    */
   render() {
-    if (!this.template) {
+    if (!this.template || !this.template()) {
       return this;
     }
-    let html = this.template();
 
     // Make template and shadow objects
     const template = document.createElement('template');
     this.attachShadow({ mode: 'open' });
 
     // Append Styles if present
-    if (this.styles && !this.shadowRoot.adoptedStyleSheets) {
+    if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
       const style = document.createElement('style');
-      style.textContent = this.styles.replace(':host', `.${this.name}`);
+      style.textContent = this.cssStyles.replace(':host', `.${this.name}`);
       this.shadowRoot.appendChild(style);
     }
 
-    if (this.styles && this.shadowRoot.adoptedStyleSheets) {
+    if (this.cssStyles && this.shadowRoot.adoptedStyleSheets) {
       const style = new CSSStyleSheet();
-      style.replaceSync(this.styles);
+      style.replaceSync(this.cssStyles);
       this.shadowRoot.adoptedStyleSheets = [style];
     }
 
-    html = html.replace('<slot></slot>', this.innerHTML);
-    this.innerHTML = '';
-    template.innerHTML = html;
-    const clone = template.content.cloneNode(true);
-    this.shadowRoot.appendChild(clone);
-
-    this.root = this.shadowRoot.querySelector(`.${this.name}`);
+    template.innerHTML = this.template();
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.container = this.shadowRoot.querySelector(`.${this.name}`);
 
     return this;
   }

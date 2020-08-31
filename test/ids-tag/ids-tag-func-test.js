@@ -9,7 +9,7 @@ describe('IdsTag Component', () => {
   beforeEach(async () => {
     const elem = new IdsTag();
     document.body.appendChild(elem);
-    tag = document.querySelector('.ids-tag');
+    tag = document.querySelector('ids-tag');
   });
 
   afterEach(async () => {
@@ -21,13 +21,12 @@ describe('IdsTag Component', () => {
     const elem = new IdsTag();
     document.body.appendChild(elem);
     elem.remove();
-    expect(document.querySelectorAll('.ids-tag').length).toEqual(1);
+    expect(document.querySelectorAll('ids-tag').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
   it('renders correctly', () => {
     expect(tag.outerHTML).toMatchSnapshot();
-
     tag.dismissible = true;
     expect(tag.outerHTML).toMatchSnapshot();
 
@@ -95,7 +94,7 @@ describe('IdsTag Component', () => {
   it('dismisses on click', () => {
     tag.dismissible = true;
     tag.querySelector('ids-icon[icon="close"]').click();
-    expect(document.querySelectorAll('.ids-tag').length).toEqual(0);
+    expect(document.querySelectorAll('ids-tag').length).toEqual(0);
   });
 
   it('fires beforetagremoved on dismiss', () => {
@@ -122,8 +121,23 @@ describe('IdsTag Component', () => {
     expect(document.body.contains(tag)).toEqual(false);
   });
 
-  it('should not dismiss when not dismissible', () => {
-  //  tag.dismiss();
-  //  expect(document.body.contains(tag)).toEqual(true);
+  it('should cancel dismiss when not dismissible', () => {
+    tag.dismiss();
+    expect(document.body.contains(tag)).toEqual(true);
+  });
+
+  it('should handle slot change when dismissible', () => {
+    const mockCallback = jest.fn((x) => {
+      expect(x.detail.elem).toBeTruthy();
+    });
+
+    tag.dismissible = true;
+    const icon = tag.querySelector('ids-icon[icon="close"]');
+    const span = document.createElement('span');
+    span.innerHTML = 'test';
+    tag.insertBefore(span, icon);
+    tag.insertBefore(icon, span);
+
+    tag.addEventListener('slotchange', mockCallback);
   });
 });

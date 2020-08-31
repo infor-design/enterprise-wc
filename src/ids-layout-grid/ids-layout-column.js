@@ -34,7 +34,7 @@ class IdsLayoutColumn extends IdsElement {
   set fill(value) {
     const hasFill = this.hasAttribute('fill');
 
-    if (hasFill && value) {
+    if (value) {
       this.setAttribute('fill', value);
       this.classList.add('ids-background-fill');
       return;
@@ -43,3 +43,5 @@ class IdsLayoutColumn extends IdsElement {
     this.classList.remove('ids-background-fill');
   }
 }
+
+export default IdsLayoutColumn;

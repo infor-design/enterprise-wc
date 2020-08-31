@@ -38,13 +38,13 @@ class IdsLabel extends IdsElement {
   set fontSize(value) {
     if (value) {
       this.setAttribute('font-size', value);
-      this.root.classList.add(`ids-text-${value}`);
+      this.container.classList.add(`ids-text-${value}`);
       return;
     }
 
     this.removeAttribute('font-size');
-    this.root.className = '';
-    this.root.classList.add('ids-label');
+    this.container.className = '';
+    this.container.classList.add('ids-label');
   }
 
   get fontSize() { return this.getAttribute('font-size'); }

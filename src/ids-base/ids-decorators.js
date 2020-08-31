@@ -36,11 +36,11 @@ export function mixin(obj) {
 
 /**
  * Styles Decorator
- * @param {string} css The css string
+ * @param {string} cssStyles The css string'd stylesheet
  * @returns {Function} The decoratored function
  */
-export function scss(css) {
+export function scss(cssStyles) {
   return (target) => {
-    target.prototype.styles = css;
+    target.prototype.cssStyles = cssStyles;
   };
 }

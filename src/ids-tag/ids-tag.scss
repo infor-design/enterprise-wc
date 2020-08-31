@@ -16,23 +16,19 @@
   @include rounded-lg();
   @include text-14();
   @include text-slate-100();
+}
 
-  ids-icon {
-    @include self-center();
-    @include inline-flex();
-    @include pl-4();
-    @include pt-1();
-  }
+// Adjust icons in the tag
+::slotted(ids-icon) {
+  @include cursor-pointer();
+  @include self-center();
+  @include inline-flex();
+  @include pl-4();
+  @include pt-1();
+  @include text-slate-100();
+}
 
-  &.ids-dismissible {
-    @include cursor-pointer();
-
-    ids-icon {
-      @include text-slate-100();
-    }
-
-    ids-icon:hover {
-      @include text-slate-60();
-    }
-  }
+// Adjust hover state
+::slotted(ids-icon:hover) {
+  @include text-slate-60();
 }

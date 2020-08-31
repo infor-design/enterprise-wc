@@ -11,7 +11,6 @@ import styles from './ids-layout-grid.scss';
  */
 @customElement('ids-layout-grid')
 @scss(styles)
-@version()
 class IdsLayoutGrid extends IdsElement {
   constructor() {
     super();
@@ -31,7 +30,7 @@ class IdsLayoutGrid extends IdsElement {
     if (!firstSheet) {
       const style = document.createElement('style');
       style.setAttribute('id', 'ids-layout-grid-styles');
-      style.textContent = this.styles;
+      style.textContent = this.cssStyles;
       this.appendChild(style);
     }
   }
@@ -45,8 +44,6 @@ class IdsLayoutGrid extends IdsElement {
    * @param {boolean} value true or false/nothing
    */
   set fixed(value) {
-    const hasProp = this.hasAttribute('fixed');
-
     if (value) {
       this.setAttribute('fixed', value);
       this.classList.add('ids-fixed');
