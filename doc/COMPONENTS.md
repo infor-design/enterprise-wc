@@ -64,4 +64,4 @@ new HTMLWebpackPlugin({
 }),
 ```
 
-After these steps, if Webpack Dev Server is still running, make sure to restart.
+After these steps, if Webpack Dev Server is still running, make sure to restart. Or if you run the server with `npm run start:watch` it should restart as you save the web pack config file. Check the console to be sure it was restarted.
