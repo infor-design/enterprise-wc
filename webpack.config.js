@@ -13,10 +13,10 @@ const webpack = require('webpack');
 module.exports = {
   entry: {
     index: ['./app/index.js'],
-    'ids-label/ids-label': ['./app/ids-label/index.js'],
-    'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
+    'ids-label/ids-label': ['./app/ids-label/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
+    'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
   },
   mode: 'development',
   optimization: {
@@ -87,41 +87,41 @@ module.exports = {
       inject: 'body',
       filename: 'ids-tag/index.html',
       title: 'IDS Tag Component',
-      chunks: ['ids-tag/ids-tag']
+      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-icon/index.html',
       inject: 'body',
       filename: 'ids-icon/index.html',
       title: 'IDS Icon Component',
-      chunks: ['ids-icon/ids-icon']
+      chunks: ['ids-icon/ids-icon', 'ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-label/index.html',
       inject: 'body',
       filename: 'ids-label/index.html',
       title: 'IDS Label Component',
-      chunks: ['ids-label/ids-label']
+      chunks: ['ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-tag/compatibility.html',
       inject: 'body',
       filename: 'ids-tag/compatibility',
-      chunks: ['ids-tag/ids-tag'],
+      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid'],
       title: 'Test Tag Compatibility with IDS 4.0'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-tag/standalone-css.html',
       inject: 'body',
       filename: 'ids-tag/standalone-css',
-      chunks: ['ids-tag/ids-tag'],
+      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid'],
       title: 'Tag - Standalone Css'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-layout-grid/index.html',
       inject: 'body',
       filename: 'ids-layout-grid/index.html',
-      chunks: ['ids-layout-grid/ids-layout-grid']
+      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label']
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({ }),

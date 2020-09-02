@@ -1,11 +1,6 @@
 // Imports Used in the Examples
 import pathData from 'ids-identity/dist/theme-uplift/icons/standard/path-data.json';
 import IdsIcon from '../../src/ids-icon/ids-icon';
-import IdsLabel from '../../src/ids-label/ids-label';
-import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
-import IdsLayoutColumn from '../../src/ids-layout-grid/ids-layout-column';
-
-// Example Code used in the examples
 
 // Here we append all the HTML to show off the icons to the icon div section
 document.addEventListener('DOMContentLoaded', () => {
@@ -18,5 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
       <ids-icon icon="${x[0]}" size="small"></ids-icon></span>`;
     return x;
   });
-  section.insertAdjacentHTML('beforeend', iconHtml);
+
+  if (section) {
+    section.insertAdjacentHTML('beforeend', iconHtml);
+  }
 });
