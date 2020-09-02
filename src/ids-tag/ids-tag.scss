@@ -16,6 +16,15 @@
   @include rounded-lg();
   @include text-14();
   @include text-slate-100();
+
+  &.ids-secondary {
+    @include border-graphite-30();
+  }
+
+  &.ids-white {
+    @include bg-white();
+    @include text-white();
+  }
 }
 
 // Adjust icons in the tag
@@ -31,4 +40,10 @@
 // Adjust hover state
 ::slotted(ids-icon:hover) {
   @include text-slate-60();
+}
+
+// Handle white coloring
+.ids-white ::slotted(ids-icon),
+.ids-white ::slotted(ids-icon:hover) {
+  @include text-white();
 }
