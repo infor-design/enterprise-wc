@@ -17,6 +17,7 @@ module.exports = {
     'ids-label/ids-label': ['./app/ids-label/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
+    'ids-popup/ids-popup': ['./app/ids-popup/index.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -139,7 +140,13 @@ module.exports = {
       template: './app/ids-trigger-field/index.html',
       inject: 'body',
       filename: 'ids-trigger-field/index.html',
-      title: 'IDS Trigger Field',
+      title: 'IDS Trigger Field'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-popup/index.html',
+      inject: 'body',
+      filename: 'ids-popup/index.html',
+      chunks: ['ids-popup/ids-popup']
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),

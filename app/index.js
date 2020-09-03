@@ -1,6 +1,7 @@
 // Import All Components Used in the Page
 import IdsLabel from '../src/ids-label/ids-label';
 import IdsIcon from '../src/ids-icon/ids-icon';
+import IdsPopup from '../src/ids-popup/ids-popup';
 import IdsTag from '../src/ids-tag/ids-tag';
 import IdsLayoutGrid from '../src/ids-layout-grid/ids-layout-grid';
 import IdsLayoutColumn from '../src/ids-layout-grid/ids-layout-column';

@@ -1,0 +1,15 @@
+/* Ids Popup Component */
+@import '../ids-base/ids-base';
+
+:host {
+  position: relative;
+}
+
+.ids-popup {
+  border: 1px solid #2ac371;
+  position: fixed;
+}
+
+.content-wrapper {
+  position: static;
+}

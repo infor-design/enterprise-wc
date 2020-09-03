@@ -9,3 +9,4 @@ Released on May 2nd 2021
     - If using properties/settings these are now attributes: dismissible, color
     - Markup has changed to a custom element `<ids-tag color="error">Text</ids-tag>`
     - Can now be imported as a single js file and be used with encapsulated styles
+- `[Popup]` Added the Popup WebComponent. ([#4259](https://github.com/infor-design/enterprise/issues/4259))
