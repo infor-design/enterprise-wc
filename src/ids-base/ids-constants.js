@@ -4,8 +4,8 @@ export const props = {
   PLACEHOLDER: 'placeholder',
   TABBABLE: 'tabbable',
   ICON: 'icon'
-}
+};
 
 export const prefix = {
   PREFIX: 'ids'
-}
+};

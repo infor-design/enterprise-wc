@@ -33,8 +33,6 @@ class IdsInput extends IdsElement {
     super();
   }
 
-  connectedCallBack() { }
-
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
@@ -49,7 +47,7 @@ class IdsInput extends IdsElement {
    */
   template() {
     return `
-      <input class="ids-input-field" tabindex="0" type="${types[this.type]}" ${ this.placeholder ? `placeholder="${this.placeholder}"` : '' }/>
+      <input class="ids-input-field" tabindex="0" type="${types[this.type]}" ${this.placeholder ? `placeholder="${this.placeholder}"` : ''}/>
     `;
   }
 
@@ -68,11 +66,12 @@ class IdsInput extends IdsElement {
   get type() { return this.getAttribute(props.TYPE); }
 
   /**
-  * Set if the input is tabbable
-  * @param {boolean} value True of false depending if the input is tabbable
-  */
+   * Set if the input is tabbable
+   * @param {boolean} value True of false depending if the input is tabbable
+   */
   set tabbable(value) {
-    if (value == 'false') {
+    const isTabbable = this.utilities.stringToBool(value);
+    if (!isTabbable) {
       this.setAttribute(props.TABBABLE, value);
       this.setAttribute('tabindex', '-1');
     }
@@ -82,7 +81,7 @@ class IdsInput extends IdsElement {
 
   /**
    * Set the placeholder of input
-   * @param {boolean} value
+   * @param {string} value of the placeholder property
    */
   set placeholder(value) {
     if (value) {

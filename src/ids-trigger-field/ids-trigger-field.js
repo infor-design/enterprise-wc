@@ -93,7 +93,7 @@ class IdsTriggerField extends IdsElement {
    * Establish Internal Event Handlers
    * @private
    * @returns {object} The object for chaining.
-  */
+   */
   handleEvents() {
     const button = this.querySelector('ids-trigger-button');
     if (button) {
@@ -112,13 +112,11 @@ class IdsTriggerField extends IdsElement {
       canTrigger = !!veto;
     };
 
-    this.eventHandlers.dispatchEvent('triggerfield', this, { elem: this,  response });
-
     if (!canTrigger) {
       return;
     }
 
-    console.log('triggerfield event');
+    this.eventHandlers.dispatchEvent('triggerfield', this, { elem: this, response });
   }
 }
 

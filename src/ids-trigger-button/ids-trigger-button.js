@@ -9,7 +9,6 @@ import { IdsUtilitiesMixin } from '../ids-base/ids-utilities-mixin';
 import { props } from '../ids-base/ids-constants';
 import styles from './ids-trigger-button.scss';
 
-
 /**
  * IDS Trigger Field Components
  */
@@ -24,8 +23,6 @@ class IdsTriggerButton extends IdsElement {
   constructor() {
     super();
   }
-
-  connectedCallBack() {}
 
   /**
    * Return the properties we handle as getters/setters
