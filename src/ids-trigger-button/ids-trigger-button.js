@@ -42,21 +42,6 @@ class IdsTriggerButton extends IdsElement {
   template() {
     return `<button class="ids-trigger-button" tabindex="0"><slot></slot></button>`;
   }
-
-  /**
-   * Set if the button handles events
-   * @param {boolean} value True of false depending if the button handles events
-   */
-  set disableNativeEvents(value) {
-    const isDisabled = this.utilities.stringToBool(value);
-    if (isDisabled) {
-      this.setAttribute(props.DISABLE_EVENTS, value);
-    }
-
-    this.removeAttribute(props.DISABLE_EVENTS);
-  }
-
-  get disableNativeEvents() { return this.getAttribute(props.DISABLE_EVENTS); }
 }
 
 export default IdsTriggerButton;

@@ -9,7 +9,7 @@ describe('IdsInput Component', () => {
   beforeEach(async () => {
     const elem = new IdsInput();
     document.body.appendChild(elem);
-    input = document.querySelector('.ids-input');
+    input = document.querySelector('ids-input');
   });
 
   afterEach(async () => {
@@ -21,7 +21,7 @@ describe('IdsInput Component', () => {
     const elem = new IdsInput();
     document.body.appendChild(elem);
     elem.remove();
-    expect(document.querySelectorAll('.ids-input').length).toEqual(1);
+    expect(document.querySelectorAll('ids-input').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -29,11 +29,5 @@ describe('IdsInput Component', () => {
     input.type = 'text';
 
     expect(input.outerHTML).toMatchSnapshot();
-  });
-
-  it('renders type from an attribute', () => {
-    input.setAttribute('type', 'text');
-    expect(input.getAttribute('type')).toEqual('text');
-    expect(input.type).toEqual('text');
   });
 });

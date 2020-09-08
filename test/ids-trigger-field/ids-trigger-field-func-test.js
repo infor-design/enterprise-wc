@@ -9,7 +9,7 @@ describe('IdsTriggerField Component', () => {
   beforeEach(async () => {
     const elem = new IdsTriggerField();
     document.body.appendChild(elem);
-    triggerField = document.querySelector('.ids-trigger-field');
+    triggerField = document.querySelector('ids-trigger-field');
   });
 
   afterEach(async () => {
@@ -21,7 +21,7 @@ describe('IdsTriggerField Component', () => {
     const elem = new IdsTriggerField();
     document.body.appendChild(elem);
     elem.remove();
-    expect(document.querySelectorAll('.ids-trigger-field').length).toEqual(1);
+    expect(document.querySelectorAll('ids-trigger-field').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -32,9 +32,12 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.outerHTML).toMatchSnapshot();
   });
 
-  it('renders icon from an attribute', () => {
-    triggerField.setAttribute('icon', 'close');
-    expect(triggerField.getAttribute('icon')).toEqual('close');
-    expect(triggerField.icon).toEqual('close');
+  it('fires triggerevent on trigger', () => {
+    triggerField.addEventListener('beforetagremoved', (e) => {
+      e.detail.response(false);
+    });
+    triggerField.trigger();
+
+    expect(document.body.contains(triggerField)).toEqual(true);
   });
 });

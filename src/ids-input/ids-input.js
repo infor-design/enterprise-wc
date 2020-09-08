@@ -14,7 +14,8 @@ const types = {
   default: 'text',
   text: 'text',
   password: 'password',
-  number: 'number'
+  number: 'number',
+  email: 'email'
 };
 
 /**
@@ -39,7 +40,7 @@ class IdsInput extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.DISABLE_EVENTS, props.TYPE, props.PLACEHOLDER, props.TABBABLE];
+    return [props.TYPE, props.PLACEHOLDER, props.TABBABLE];
   }
 
   /**
@@ -53,23 +54,8 @@ class IdsInput extends IdsElement {
   }
 
   /**
-   * Set if the input field handles events
-   * @param {boolean} value True of false depending if the input field handles events
-   */
-  set disableNativeEvents(value) {
-    const isDisabled = this.utilities.stringToBool(value);
-    if (isDisabled) {
-      this.setAttribute(props.DISABLE_EVENTS, value);
-    }
-
-    this.removeAttribute(props.DISABLE_EVENTS);
-  }
-
-  get disableNativeEvents() { return this.getAttribute(props.DISABLE_EVENTS); }
-
-  /**
    * Set the type of input
-   * @param {boolean} value [text, password, number]
+   * @param {boolean} value [text, password, number, email]
    */
   set type(value) {
     if (value) {

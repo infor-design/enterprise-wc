@@ -75,20 +75,6 @@ class IdsTriggerField extends IdsElement {
   get appearance() { return this.getAttribute(props.APPEARANCE); }
 
   /**
-   * Return the icon name
-   * @returns {string} the path data
-   */
-  set icon(value) {
-    if (this.hasAttribute(props.ICON) && value) {
-      this.setAttribute(props.ICON, value);
-    } else {
-      this.removeAttribute(props.ICON);
-    }
-  }
-
-  get icon() { return this.getAttribute(props.ICON); }
-
-  /**
    * Set if the button handles events
    * @param {boolean} value True of false depending if the button handles events
    */
@@ -109,8 +95,10 @@ class IdsTriggerField extends IdsElement {
    * @returns {object} The object for chaining.
   */
   handleEvents() {
-    const icon = this.querySelector('ids-icon');
-    this.eventHandlers.addEventListener('click', icon, (e) => this.trigger());
+    const button = this.querySelector('ids-trigger-button');
+    if (button) {
+      this.eventHandlers.addEventListener('click', button, () => this.trigger());
+    }
 
     return this;
   }
@@ -119,7 +107,17 @@ class IdsTriggerField extends IdsElement {
    * Fire trigger event
    */
   trigger() {
-    this.eventHandlers.dispatchEvent('triggerfield', this, { elem: this });
+    let canTrigger = true;
+    const response = (veto) => {
+      canTrigger = !!veto;
+    };
+
+    this.eventHandlers.dispatchEvent('triggerfield', this, { elem: this,  response });
+
+    if (!canTrigger) {
+      return;
+    }
+
     console.log('triggerfield event');
   }
 }

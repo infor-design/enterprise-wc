@@ -9,7 +9,7 @@ describe('IdsTriggerButton Component', () => {
   beforeEach(async () => {
     const elem = new IdsTriggerButton();
     document.body.appendChild(elem);
-    triggerButton = document.querySelector('.ids-trigger-button');
+    triggerButton = document.querySelector('ids-trigger-button');
   });
 
   afterEach(async () => {
@@ -21,7 +21,7 @@ describe('IdsTriggerButton Component', () => {
     const elem = new IdsTriggerButton();
     document.body.appendChild(elem);
     elem.remove();
-    expect(document.querySelectorAll('.ids-trigger-button').length).toEqual(1);
+    expect(document.querySelectorAll('ids-trigger-button').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
