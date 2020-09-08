@@ -32,9 +32,7 @@ class IdsInput extends IdsElement {
     super();
   }
 
-  connectedCallBack() {
-    this.handleEvents();
-  }
+  connectedCallBack() { }
 
   /**
    * Return the properties we handle as getters/setters
@@ -109,21 +107,6 @@ class IdsInput extends IdsElement {
   }
 
   get placeholder() { return this.getAttribute(props.PLACEHOLDER); }
-
-  /**
-   * Establish Internal Event Handlers
-   * @private
-   * @returns {object} The object for chaining.
-   */
-  handleEvents() {
-    if (this.disableNativeEvents) {
-      return;
-    }
-    this.eventHandlers.addEventListener('click', this, (e) => {
-      console.log(e);
-    });
-    return this;
-  }
 }
 
 export default IdsInput;

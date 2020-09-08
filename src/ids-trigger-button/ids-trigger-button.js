@@ -25,10 +25,7 @@ class IdsTriggerButton extends IdsElement {
     super();
   }
 
-  connectedCallBack() {
-    this
-      .handleEvents()
-  }
+  connectedCallBack() {}
 
   /**
    * Return the properties we handle as getters/setters
@@ -43,9 +40,7 @@ class IdsTriggerButton extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return `
-      <button class="ids-trigger-button" tabindex="0"><slot></slot></button>
-    `;
+    return `<button class="ids-trigger-button" tabindex="0"><slot></slot></button>`;
   }
 
   /**
@@ -62,21 +57,6 @@ class IdsTriggerButton extends IdsElement {
   }
 
   get disableNativeEvents() { return this.getAttribute(props.DISABLE_EVENTS); }
-
-  /**
-   * Establish Internal Event Handlers
-   * @private
-   * @returns {object} The object for chaining.
-   */
-  handleEvents() {
-    if (this.disableNativeEvents) {
-      return;
-    }
-    this.eventHandlers.addEventListener('click', this, (e) => {
-      console.log(e);
-    });
-    return this;
-  }
 }
 
 export default IdsTriggerButton;

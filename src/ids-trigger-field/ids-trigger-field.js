@@ -24,7 +24,9 @@ class IdsTriggerField extends IdsElement {
     super();
   }
 
-  connectedCallBack() { }
+  connectedCallBack() {
+    this.handleEvents();
+  }
 
   /**
    * Return the properties we handle as getters/setters
@@ -100,6 +102,26 @@ class IdsTriggerField extends IdsElement {
   }
 
   get disableNativeEvents() { return this.getAttribute(props.DISABLE_EVENTS); }
+
+  /**
+   * Establish Internal Event Handlers
+   * @private
+   * @returns {object} The object for chaining.
+  */
+  handleEvents() {
+    const icon = this.querySelector('ids-icon');
+    this.eventHandlers.addEventListener('click', icon, (e) => this.trigger());
+
+    return this;
+  }
+
+  /**
+   * Fire trigger event
+   */
+  trigger() {
+    this.eventHandlers.dispatchEvent('triggerfield', this, { elem: this });
+    console.log('triggerfield event');
+  }
 }
 
 export default IdsTriggerField;

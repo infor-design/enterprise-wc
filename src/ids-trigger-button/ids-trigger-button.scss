@@ -1,8 +1,8 @@
 @import '../ids-base/ids-base';
 
 .ids-trigger-button {
-  background-color: transparent;
+  @include bg-transparent();
+  @include cursor-pointer();
+
   border: none;
-  cursor: pointer;
-  padding: 0;
 }
