@@ -1,10 +1,8 @@
 @import '../ids-base/ids-base';
 
-.ids-input {
-  width: 100%;
-}
-
 .ids-input-field {
-  padding: var(--spacing-unit);
+  @include px-8();
+  @include py-8();
+
   width: 100%;
 }

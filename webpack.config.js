@@ -2,8 +2,10 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin'); // installed via npm
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const sass = require('node-sass');
 
 const path = require('path');
 const webpack = require('webpack');
@@ -11,12 +13,10 @@ const webpack = require('webpack');
 module.exports = {
   entry: {
     index: ['./app/index.js'],
-    'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
+    'ids-label/ids-label': ['./app/ids-label/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
-    'ids-trigger-field/ids-trigger-field': ['./app/ids-trigger-field/index.js'],
-    'ids-trigger-button/ids-trigger-button': ['./app/ids-trigger-button/index.js'],
-    'ids-input/ids-input': ['./app/ids-input/index.js'],
+    'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
   },
   mode: 'development',
   optimization: {
@@ -36,6 +36,7 @@ module.exports = {
   },
   module: {
     rules: [
+      { test: /\.html$/, loader: 'handlebars-loader' },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -47,19 +48,28 @@ module.exports = {
         ]
       },
       {
-        test: /\.(scss|css)$/,
+        test: /\.scss$/,
         exclude: /node_modules/,
         use: [
           'sass-to-string',
-          { loader: MiniCssExtractPlugin.loader },
-          { loader: 'css-loader' },
-          { loader: 'postcss-loader' },
-          { loader: 'sass-loader' }
-        ]
+          {
+            loader: 'sass-loader',
+            options: {
+              sassOptions: {
+                outputStyle: 'nested' // 'compressed',
+              },
+            },
+          },
+        ],
       }
     ]
   },
   plugins: [
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        handlebarsLoader: {}
+      }
+    }),
     new FaviconsWebpackPlugin('app/assets/favicon.ico'),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
@@ -76,28 +86,77 @@ module.exports = {
       template: './app/ids-tag/index.html',
       inject: 'body',
       filename: 'ids-tag/index.html',
-      chunks: ['ids-tag/ids-tag']
+      title: 'IDS Tag Component',
+      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-icon/index.html',
       inject: 'body',
       filename: 'ids-icon/index.html',
-      chunks: ['ids-icon/ids-icon']
+      title: 'IDS Icon Component',
+      chunks: ['ids-icon/ids-icon', 'ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
     }),
     new HTMLWebpackPlugin({
-      template: './app/ids-tag/test-compatibility.html',
+      template: './app/ids-label/index.html',
       inject: 'body',
-      filename: 'ids-tag/test-compatibility',
-      chunks: ['ids-tag/ids-tag'],
+      filename: 'ids-label/index.html',
+      title: 'IDS Label Component',
+      chunks: ['ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-tag/compatibility.html',
+      inject: 'body',
+      filename: 'ids-tag/compatibility',
+      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid'],
       title: 'Test Tag Compatibility with IDS 4.0'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-tag/standalone-css.html',
+      inject: 'body',
+      filename: 'ids-tag/standalone-css',
+      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid'],
+      title: 'Tag - Standalone Css'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-layout-grid/index.html',
       inject: 'body',
       filename: 'ids-layout-grid/index.html',
-      chunks: ['ids-layout-grid/ids-layout-grid']
+      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label']
     }),
-    new StylelintPlugin({ }),
-    new webpack.HotModuleReplacementPlugin()
+    new HTMLWebpackPlugin({
+      template: './app/ids-trigger-field/index.html',
+      inject: 'body',
+      filename: 'ids-trigger-field/index.html',
+      title: 'IDS Trigger Field',
+    }),
+    // Show Style Lint Errors in the console and fail
+    new StylelintPlugin({}),
+    // Handle Hot Swap When files change - files must be added via entry points
+    new webpack.HotModuleReplacementPlugin(),
+    // Make a Copy of the Sass Files only for standalone Css
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './src/**/*.scss', // './src/**/*.scss'
+          transformPath(targetPath) {
+            return targetPath.replace('src', '').replace('.scss', '.css');
+          },
+          transform(content, transFormPath) {
+            const result = sass.renderSync({
+              file: transFormPath
+            });
+            let css = result.css.toString();
+            css = css.replace(':host {', ':root {');
+            return css;
+          }
+        },
+        {
+          from: './src/**/*.d.ts',
+          transformPath(targetPath) {
+            return targetPath.replace('src', '');
+          },
+        }
+      ]
+    }),
   ]
 };

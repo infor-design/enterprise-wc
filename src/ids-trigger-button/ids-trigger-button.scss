@@ -1,12 +1,8 @@
 @import '../ids-base/ids-base';
 
 .ids-trigger-button {
-  @include flex();
-  @include items-center();
-  @include justify-center();
-  @include cursor-pointer();
-
   background-color: transparent;
   border: none;
+  cursor: pointer;
   padding: 0;
 }

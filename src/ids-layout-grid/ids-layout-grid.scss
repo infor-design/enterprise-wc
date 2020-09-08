@@ -1,15 +1,30 @@
-/* Ids Layout TODO: Use functions, and make minmax a setting and add responsive */
-@import '../ids-base/ids-base';
+/* Ids Layout Grid Component */
+@import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 
+// Style the grid
 .ids-layout-grid {
+  @include mx-12();
+  @include my-20();
+
   display: grid;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  margin: 20px 12px;
+}
 
-  .ids-layout-column.ids-background-fill {
-    background-color: var(--ids-color-palette-graphite-10);
-    padding: 40px 15px;
+// Add Optional Background Fill
+.ids-layout-column {
+  &.ids-background-fill {
+    @include py-40();
+    @include px-16();
+
+    background-color: #efeff0; // Get this one from a variable somehow
+  }
+}
+
+// Tablet down - Go full
+@media all and (max-width: 768px) {
+  .ids-layout-grid:not(.ids-fixed) {
+    grid-template-columns: none;
   }
 }

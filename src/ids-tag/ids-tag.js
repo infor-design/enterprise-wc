@@ -1,26 +1,27 @@
-import { IdsElement, customElement, mixin } from '../ids-base/ids-element';
+import {
+  IdsElement,
+  customElement,
+  mixin,
+  scss
+} from '../ids-base/ids-element';
 import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import './ids-tag.scss';
+import styles from './ids-tag.scss';
 
 /**
  * IDS Tag Component
  */
 @customElement('ids-tag')
+@scss(styles)
 @mixin(IdsExampleMixin)
 @mixin(IdsEventsMixin)
 class IdsTag extends IdsElement {
-  /**
-   * Call the constructor and then initialize
-   */
   constructor() {
     super();
   }
 
   connectedCallBack() {
-    this
-      .render()
-      .handleEvents();
+    this.handleEvents();
   }
 
   /**
@@ -36,7 +37,7 @@ class IdsTag extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return '<span class="ids-tag-text"><slot></slot></span>';
+    return '<span class="ids-tag"><slot></slot></span>';
   }
 
   /**
@@ -48,24 +49,23 @@ class IdsTag extends IdsElement {
     if (value) {
       this.setAttribute('color', value);
       const prop = value.substr(0, 1) === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
-      this.style.backgroundColor = prop;
-      this.style.borderColor = value === 'secondary' ? '' : prop;
+      this.container.style.backgroundColor = prop;
+      this.container.style.borderColor = value === 'secondary' ? '' : prop;
 
-      // TODO: Do this with css classes
       if (value === 'error' || value === 'success' || value === 'danger') {
-        this.style.color = 'var(--ids-color-palette-white)';
+        this.container.classList.add('ids-white');
       }
 
       if (value === 'secondary') {
-        this.style.borderColor = 'var(--ids-color-palette-graphite-30)';
+        this.container.classList.add('ids-secondary');
       }
       return;
     }
 
     this.removeAttribute('color');
-    this.style.backgroundColor = '';
-    this.style.borderColor = '';
-    this.style.color = '';
+    this.container.style.backgroundColor = '';
+    this.container.style.borderColor = '';
+    this.container.style.color = '';
   }
 
   get color() { return this.getAttribute('color'); }
@@ -79,14 +79,12 @@ class IdsTag extends IdsElement {
 
     if (value) {
       this.setAttribute('dismissible', value);
-      this.classList.add('ids-dismissible');
       this.appendIcon('close');
       return;
     }
 
     this.removeAttribute('dismissible');
     this.removeIcon('close');
-    this.classList.remove('ids-dismissible');
   }
 
   get dismissible() { return this.getAttribute('dismissible'); }
@@ -97,8 +95,9 @@ class IdsTag extends IdsElement {
    * @private
    */
   appendIcon(iconName) {
-    if (this.querySelectorAll(`[icon="${iconName}"]`).length === 0) {
-      this.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconName}" compactness="condensed" class="ids-icon"></ids-icon>`);
+    const icon = this.querySelector(`[icon="${iconName}"]`);
+    if (!icon) {
+      this.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
       this.handleEvents();
     }
   }
@@ -109,8 +108,9 @@ class IdsTag extends IdsElement {
    * @private
    */
   removeIcon(iconName) {
-    if (this.querySelectorAll(`[icon="${iconName}"]`).length > 0) {
-      this.querySelector(`[icon="${iconName}"]`).remove();
+    const icon = this.querySelector(`[icon="${iconName}"]`);
+    if (icon) {
+      icon.remove();
     }
   }
 
@@ -124,6 +124,17 @@ class IdsTag extends IdsElement {
     if (closeIcon) {
       this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
     }
+
+    // Ensure icon is always last
+    let isChanging = false;
+    this.eventHandlers.addEventListener('slotchange', this.shadowRoot.querySelector('slot'), () => {
+      if (this.dismissible && !isChanging && this.lastElementChild.nodeName !== 'IDS-ICON') {
+        isChanging = true;
+        this.removeIcon('close');
+        this.appendIcon('close');
+        isChanging = false;
+      }
+    });
     return this;
   }
 

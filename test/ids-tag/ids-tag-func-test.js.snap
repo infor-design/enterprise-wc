@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsTag Component renders correctly 1`] = `"<ids-tag class=\\"ids-tag\\"></ids-tag>"`;
+exports[`IdsTag Component renders correctly 1`] = `"<ids-tag></ids-tag>"`;
 
-exports[`IdsTag Component renders correctly 2`] = `"<ids-tag class=\\"ids-tag ids-dismissible\\" dismissible=\\"true\\"><ids-icon icon=\\"close\\" compactness=\\"condensed\\" class=\\"ids-icon\\"></ids-icon></ids-tag>"`;
+exports[`IdsTag Component renders correctly 2`] = `"<ids-tag dismissible=\\"true\\"><ids-icon icon=\\"close\\" size=\\"small\\" class=\\"ids-icon\\"></ids-icon></ids-tag>"`;
 
-exports[`IdsTag Component renders correctly 3`] = `"<ids-tag class=\\"ids-tag\\" color=\\"error\\"></ids-tag>"`;
+exports[`IdsTag Component renders correctly 3`] = `"<ids-tag color=\\"error\\"></ids-tag>"`;

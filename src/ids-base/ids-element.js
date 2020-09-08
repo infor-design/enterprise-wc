@@ -1,12 +1,21 @@
-import { customElement, version, mixin } from './ids-decorators';
+import { IdsStringUtilsMixin } from './ids-string-utils-mixin';
+import {
+  customElement,
+  version,
+  mixin,
+  scss
+} from './ids-decorators';
 
 /**
  * IDS Base Element
  */
 @version()
+@mixin(IdsStringUtilsMixin)
 class IdsElement extends HTMLElement {
   constructor() {
     super();
+    this.addBaseName();
+    this.render();
   }
 
   /**
@@ -15,8 +24,7 @@ class IdsElement extends HTMLElement {
    */
   addBaseName() {
     // Add the base class
-    this.name = this.nodeName?.toLowerCase() || 'ids-element';
-    this.classList.add(this.name);
+    this.name = this.nodeName?.toLowerCase();
   }
 
   /**
@@ -29,13 +37,14 @@ class IdsElement extends HTMLElement {
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
-      this[name] = newValue;
+      this[this.camelCase(name)] = newValue;
     }
   }
 
   /**
    * Release events and cleanup, if implementing disconnectedCallback
    * in a component you can just call super.
+   * @private
    */
   disconnectedCallback() {
     if (this.eventHandlers) {
@@ -47,12 +56,9 @@ class IdsElement extends HTMLElement {
    * Do stuff as the component is connected.
    */
   connectedCallback() {
-    this.addBaseName();
     if (this.connectedCallBack) {
       this.connectedCallBack();
     }
-    this.loadingClass = 'ids-loading';
-    document.querySelector('body').classList.remove(this.loadingClass);
   }
 
   /**
@@ -65,7 +71,6 @@ class IdsElement extends HTMLElement {
 
   /**
    * Properties for this web component.
-   * TODO: We may need to do this https://developers.google.com/web/fundamentals/web-components/best-practices#lazy-properties
    * @returns {object} The properties object
    */
   static get properties() { return {}; }
@@ -75,14 +80,31 @@ class IdsElement extends HTMLElement {
    * @returns {object} The object for chaining.
    */
   render() {
-    const html = this.template();
-    if (!html) {
+    if (!this.template || !this.template()) {
       return this;
     }
+
+    // Make template and shadow objects
     const template = document.createElement('template');
-    template.innerHTML = html;
     this.attachShadow({ mode: 'open' });
+
+    // Append Styles if present
+    if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
+      const style = document.createElement('style');
+      style.textContent = this.cssStyles.replace(':host', `.${this.name}`);
+      this.shadowRoot.appendChild(style);
+    }
+
+    if (this.cssStyles && this.shadowRoot.adoptedStyleSheets) {
+      const style = new CSSStyleSheet();
+      style.replaceSync(this.cssStyles);
+      this.shadowRoot.adoptedStyleSheets = [style];
+    }
+
+    template.innerHTML = this.template();
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.container = this.shadowRoot.querySelector(`.${this.name}`);
+
     return this;
   }
 }
@@ -91,5 +113,6 @@ export {
   IdsElement,
   customElement,
   mixin,
+  scss,
   version
 };

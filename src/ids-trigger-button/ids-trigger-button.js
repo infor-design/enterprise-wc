@@ -1,14 +1,20 @@
-import { IdsElement, customElement, mixin } from '../ids-base/ids-element';
+import {
+  IdsElement,
+  customElement,
+  mixin,
+  scss
+} from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsUtilitiesMixin } from '../ids-base/ids-utilities-mixin';
 import { props } from '../ids-base/ids-constants';
-import './ids-trigger-button.scss';
+import styles from './ids-trigger-button.scss';
 
 
 /**
  * IDS Trigger Field Components
  */
 @customElement('ids-trigger-button')
+@scss(styles)
 @mixin(IdsEventsMixin)
 @mixin(IdsUtilitiesMixin)
 class IdsTriggerButton extends IdsElement {
@@ -21,7 +27,6 @@ class IdsTriggerButton extends IdsElement {
 
   connectedCallBack() {
     this
-      .render()
       .handleEvents()
   }
 
@@ -39,7 +44,6 @@ class IdsTriggerButton extends IdsElement {
    */
   template() {
     return `
-      <style>@import url('css/ids-trigger-button/ids-trigger-button.min.css');</style>
       <button class="ids-trigger-button" tabindex="0"><slot></slot></button>
     `;
   }

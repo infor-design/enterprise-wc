@@ -62,5 +62,7 @@ module.exports = {
     quotes: ['error', 'single', { allowTemplateLiterals: true }],
     // Allow Arrow functions to be on the next line or below
     'no-useless-constructor': ['off', { }],
+    // Allow hasOwnProperty
+    'no-prototype-builtins': ['off', { }],
   }
 };

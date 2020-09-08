@@ -41,6 +41,7 @@ jobs:
       run: npm run lint
       
     - name: Run tests with Test Coverage
+      if: ${{ github.event_name == 'pull_request' }}
       uses: dkershner6/jest-coverage-commenter-action@v1
       with:
         github_token: "${{ secrets.GITHUB_TOKEN }}"

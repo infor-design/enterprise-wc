@@ -1,13 +1,27 @@
-import { IdsElement, customElement, mixin } from '../ids-base/ids-element';
+import {
+  IdsElement,
+  customElement,
+  mixin,
+  scss
+} from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsUtilitiesMixin } from '../ids-base/ids-utilities-mixin';
 import { props } from '../ids-base/ids-constants';
-import './ids-input.scss';
+import styles from './ids-input.scss';
+
+// Setting Defaults
+const types = {
+  default: 'text',
+  text: 'text',
+  password: 'password',
+  number: 'number'
+};
 
 /**
  * IDS Trigger Field Components
  */
 @customElement('ids-input')
+@scss(styles)
 @mixin(IdsEventsMixin)
 @mixin(IdsUtilitiesMixin)
 class IdsInput extends IdsElement {
@@ -19,16 +33,7 @@ class IdsInput extends IdsElement {
   }
 
   connectedCallBack() {
-    this.types = {
-      default: 'text',
-      text: 'text',
-      password: 'password',
-      number: 'number'
-    };
-
-    this
-      .render()
-      .handleEvents();
+    this.handleEvents();
   }
 
   /**
@@ -44,10 +49,8 @@ class IdsInput extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    // const type = this.types[this.type] || this.types.default;
     return `
-      <style>@import url('css/ids-input/ids-input.min.css');</style>
-      <input class="ids-input-field" tabindex="0" type="${this.types[this.type]}" ${ this.placeholder ? `placeholder="${this.placeholder}"` : '' }/>
+      <input class="ids-input-field" tabindex="0" type="${types[this.type]}" ${ this.placeholder ? `placeholder="${this.placeholder}"` : '' }/>
     `;
   }
 

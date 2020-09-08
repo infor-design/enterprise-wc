@@ -1,13 +1,19 @@
-import { IdsElement, customElement, mixin } from '../ids-base/ids-element';
+import {
+  IdsElement,
+  customElement,
+  mixin,
+  scss
+} from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsUtilitiesMixin } from '../ids-base/ids-utilities-mixin';
 import { props } from '../ids-base/ids-constants';
-import './ids-trigger-field.scss';
+import styles from './ids-trigger-field.scss';
 
 /**
  * IDS Trigger Field Components
  */
 @customElement('ids-trigger-field')
+@scss(styles)
 @mixin(IdsEventsMixin)
 @mixin(IdsUtilitiesMixin)
 class IdsTriggerField extends IdsElement {
@@ -18,16 +24,14 @@ class IdsTriggerField extends IdsElement {
     super();
   }
 
-  connectedCallBack() {
-    this.render();
-  }
+  connectedCallBack() { }
 
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TABBABLE, props.APPEARANCE, props.ICON, props.DISABLE_EVENTS];
+    return [props.TABBABLE, props.APPEARANCE, props.DISABLE_EVENTS];
   }
 
   /**
@@ -35,13 +39,7 @@ class IdsTriggerField extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return `
-      <style>@import url('css/ids-trigger-field/ids-trigger-field.min.css');</style>
-      <div class="ids-trigger-field">
-        <ids-input type="text" ${this.disableNativeEvents ? `disable-native-events="${this.disabledNativeEvents}"` : ''}></ids-input>
-        <ids-trigger-button ${this.disableNativeEvents ? `disable-native-events="${this.disabledNativeEvents}"` : ''}><ids-icon icon="${this.icon}"><ids-icon></ids-trigger-button>
-      </div>
-    `;
+    return `<div class="ids-trigger-field"><slot></slot></div>`;
   }
 
   /**
