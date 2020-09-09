@@ -12,6 +12,15 @@ const IdsStringUtilsMixin = {
       .replace(/([-_ ]){1,}/g, ' ')
       .split(/[-_ ]/)
       .reduce((cur, acc) => cur + acc[0].toUpperCase() + acc.substring(1));
+  },
+
+  /**
+   *
+   * @param {string} val string value from the property
+   * @returns {boolean} true/false value
+   */
+  stringToBool(val) {
+    return (val).toLowerCase() === 'true';
   }
 };
 

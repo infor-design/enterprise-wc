@@ -5,7 +5,7 @@ import {
   scss
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsUtilitiesMixin } from '../ids-base/ids-utilities-mixin';
+import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
 import styles from './ids-trigger-field.scss';
 
@@ -15,7 +15,7 @@ import styles from './ids-trigger-field.scss';
 @customElement('ids-trigger-field')
 @scss(styles)
 @mixin(IdsEventsMixin)
-@mixin(IdsUtilitiesMixin)
+@mixin(IdsStringUtilsMixin)
 class IdsTriggerField extends IdsElement {
   /**
    * Call the constructor and then initialize
@@ -49,7 +49,7 @@ class IdsTriggerField extends IdsElement {
    * @param {boolean} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    const isTabbable = this.utilities.stringToBool(value);
+    const isTabbable = this.stringToBool(value);
     if (!isTabbable) {
       this.setAttribute(props.TABBABLE, value);
       this.setAttribute('tabindex', '-1');

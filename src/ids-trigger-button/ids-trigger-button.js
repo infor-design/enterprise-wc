@@ -5,7 +5,6 @@ import {
   scss
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsUtilitiesMixin } from '../ids-base/ids-utilities-mixin';
 import { props } from '../ids-base/ids-constants';
 import styles from './ids-trigger-button.scss';
 
@@ -15,7 +14,6 @@ import styles from './ids-trigger-button.scss';
 @customElement('ids-trigger-button')
 @scss(styles)
 @mixin(IdsEventsMixin)
-@mixin(IdsUtilitiesMixin)
 class IdsTriggerButton extends IdsElement {
   /**
    * Call the constructor and then initialize
