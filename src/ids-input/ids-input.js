@@ -38,7 +38,7 @@ class IdsInput extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TYPE, props.PLACEHOLDER, props.TABBABLE];
+    return [props.TYPE, props.PLACEHOLDER];
   }
 
   /**
@@ -64,20 +64,6 @@ class IdsInput extends IdsElement {
   }
 
   get type() { return this.getAttribute(props.TYPE); }
-
-  /**
-   * Set if the input is tabbable
-   * @param {boolean} value True or false depending if the input is tabbable
-   */
-  set tabbable(value) {
-    const isTabbable = this.stringToBool(value);
-    if (!isTabbable) {
-      this.setAttribute(props.TABBABLE, value);
-      this.setAttribute('tabindex', '-1');
-    }
-  }
-
-  get tabbable() { return this.getAttribute(props.TABBABLE); }
 
   /**
    * Set the placeholder of input
