@@ -20,7 +20,7 @@ const IdsStringUtilsMixin = {
    * @returns {boolean} The return boolean
    */
   stringToBool(val) {
-    return (val + '').toLowerCase() === 'true';
+    return (val + '').toLowerCase() === 'true'; //eslint-disable-line
   }
 };
 

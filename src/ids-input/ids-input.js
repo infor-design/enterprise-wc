@@ -47,7 +47,7 @@ class IdsInput extends IdsElement {
    */
   template() {
     return `
-      <input class="ids-input-field" type="${this.type ? types[this.type] : types['default']}" ${this.placeholder ? `placeholder="${this.placeholder}"` : ''}/>
+      <input class="ids-input-field" type="${this.type ? types[this.type] : types.default}" ${this.placeholder ? `placeholder="${this.placeholder}"` : ''}/>
     `;
   }
 

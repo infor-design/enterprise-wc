@@ -96,11 +96,10 @@ class IdsTriggerField extends IdsElement {
    */
   handleEvents() {
     if (this.disableNativeEvents) {
-      return;
+      return false;
     }
 
     const button = this.querySelector('ids-trigger-button');
-
     if (button) {
       this.eventHandlers.addEventListener('click', button, () => this.trigger());
     }
