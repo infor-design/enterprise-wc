@@ -15,12 +15,12 @@ const IdsStringUtilsMixin = {
   },
 
   /**
-   *
-   * @param {string} val string value from the property
-   * @returns {boolean} true/false value
+   * Convert a string value into a boolean
+   * @param {string} val string value from the component property
+   * @returns {boolean} The return boolean
    */
   stringToBool(val) {
-    return (val).toLowerCase() === 'true';
+    return (val + '').toLowerCase() === 'true';
   }
 };
 

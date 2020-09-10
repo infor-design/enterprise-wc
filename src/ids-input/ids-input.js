@@ -47,7 +47,7 @@ class IdsInput extends IdsElement {
    */
   template() {
     return `
-      <input class="ids-input-field" tabindex="0" type="${types[this.type]}" ${this.placeholder ? `placeholder="${this.placeholder}"` : ''}/>
+      <input class="ids-input-field" type="${this.type ? types[this.type] : types['default']}" ${this.placeholder ? `placeholder="${this.placeholder}"` : ''}/>
     `;
   }
 
@@ -59,7 +59,7 @@ class IdsInput extends IdsElement {
     if (value) {
       this.setAttribute(props.TYPE, value);
     } else {
-      this.setAttribute(props.TYPE, this.types.default);
+      this.setAttribute(props.TYPE, types.default);
     }
   }
 
@@ -67,7 +67,7 @@ class IdsInput extends IdsElement {
 
   /**
    * Set if the input is tabbable
-   * @param {boolean} value True of false depending if the input is tabbable
+   * @param {boolean} value True or false depending if the input is tabbable
    */
   set tabbable(value) {
     const isTabbable = this.stringToBool(value);

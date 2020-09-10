@@ -1,5 +1,5 @@
 export const props = {
-  DISABLE_EVENTS: 'disableNativeEvents',
+  DISABLE_EVENTS: 'disable-native-events',
   TYPE: 'type',
   PLACEHOLDER: 'placeholder',
   TABBABLE: 'tabbable',

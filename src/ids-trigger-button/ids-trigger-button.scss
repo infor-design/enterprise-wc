@@ -2,7 +2,6 @@
 
 .ids-trigger-button {
   @include bg-transparent();
+  @include border-0();
   @include cursor-pointer();
-
-  border: none;
 }

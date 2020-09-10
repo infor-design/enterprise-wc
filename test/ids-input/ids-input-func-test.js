@@ -30,4 +30,34 @@ describe('IdsInput Component', () => {
 
     expect(input.outerHTML).toMatchSnapshot();
   });
+
+  it('renders default field type', () => {
+    input.type = 'text';
+    expect(input.getAttribute('type')).toEqual('text');
+    expect(input.type).toEqual('text');
+  });
+
+  it('renders field type of text', () => {
+    input.type = 'text';
+    expect(input.getAttribute('type')).toEqual('text');
+    expect(input.type).toEqual('text');
+  });
+
+  it('renders field type of email', () => {
+    input.type = 'email';
+    expect(input.getAttribute('type')).toEqual('email');
+    expect(input.type).toEqual('email');
+  });
+
+  it('renders field type of password', () => {
+    input.type = 'password';
+    expect(input.getAttribute('type')).toEqual('password');
+    expect(input.type).toEqual('password');
+  });
+
+  it('renders field type of number', () => {
+    input.type = 'number';
+    expect(input.getAttribute('type')).toEqual('number');
+    expect(input.type).toEqual('number');
+  });
 });

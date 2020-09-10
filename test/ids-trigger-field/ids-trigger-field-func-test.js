@@ -33,7 +33,7 @@ describe('IdsTriggerField Component', () => {
   });
 
   it('fires triggerevent on trigger', () => {
-    triggerField.addEventListener('beforetagremoved', (e) => {
+    triggerField.addEventListener('triggerfield', (e) => {
       e.detail.response(false);
     });
     triggerField.trigger();

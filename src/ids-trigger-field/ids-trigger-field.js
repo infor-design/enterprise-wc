@@ -79,7 +79,7 @@ class IdsTriggerField extends IdsElement {
    * @param {boolean} value True of false depending if the button handles events
    */
   set disableNativeEvents(value) {
-    const isDisabled = this.utilities.stringToBool(value);
+    const isDisabled = this.stringToBool(value);
     if (isDisabled) {
       this.setAttribute(props.DISABLE_EVENTS, value);
     }
@@ -95,7 +95,12 @@ class IdsTriggerField extends IdsElement {
    * @returns {object} The object for chaining.
    */
   handleEvents() {
+    if (this.disableNativeEvents) {
+      return;
+    }
+
     const button = this.querySelector('ids-trigger-button');
+
     if (button) {
       this.eventHandlers.addEventListener('click', button, () => this.trigger());
     }
