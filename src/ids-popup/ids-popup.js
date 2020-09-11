@@ -13,6 +13,8 @@ const ALIGNMENT_EDGES = [undefined, 'bottom', 'top', 'left', 'right'];
 // Methods for X/Y-coordinate alignment against a parent
 const ALIGNMENTS_X = ['center', 'left', 'right'];
 const ALIGNMENTS_Y = ['center', 'top', 'bottom'];
+const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== 'center');
+const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== 'center');
 
 /**
  * IDS Popup Component
@@ -30,6 +32,7 @@ class IdsPopup extends IdsElement {
 
   connectedCallBack() {
     this.handleEvents();
+    this.refresh();
   }
 
   /**
@@ -59,6 +62,7 @@ class IdsPopup extends IdsElement {
   set alignTarget(val) {
     if (typeof val !== 'string' || !val.length) {
       this.alignment.target = undefined;
+      this.refresh();
       return;
     }
 
@@ -85,15 +89,26 @@ class IdsPopup extends IdsElement {
    */
   set align(val) {
     this.shouldUpdate = false;
-    const vals = val.split(',');
+    let vals = val.split(',');
+    vals = vals.map((thisVal) => thisVal.trim().toLowerCase());
 
-    vals[0] = vals[0].trim().toLowerCase();
-    this.alignX = vals[0];
+    this.alignEdge = vals[0];
 
-    if (typeof vals[1] === 'string') {
-      vals[1] = vals[1].trim().toLowerCase();
-      this.alignY = vals[1];
+    // If there's no second value, assume it's 'center'
+    if (!vals[1]) {
+      vals.push('center');
     }
+
+    // If the values are defined in reverse (y, x), switch them
+    if (ALIGNMENTS_EDGES_Y.includes(vals[0]) || ALIGNMENTS_EDGES_X.includes(vals[1])) {
+      const val1 = vals[1];
+      vals[1] = vals[0];
+      vals[0] = val1;
+    }
+
+    this.alignX = vals[0];
+    this.alignY = vals[1];
+
     this.shouldUpdate = true;
     this.refresh();
   }
@@ -102,7 +117,20 @@ class IdsPopup extends IdsElement {
    * @returns {string} a DOM-friendly string reprentation of alignment types
    */
   get align() {
-    return `${this.alignX}, ${this.alignY}`;
+    const { alignX, alignY } = this;
+    const edge = this.alignEdge;
+    const center = 'center';
+
+    if (ALIGNMENTS_EDGES_Y.includes(edge)) {
+      if (alignX === center) {
+        return `${edge}`;
+      }
+      return `${edge}, ${alignX}`;
+    }
+    if (alignY === 'center') {
+      return `${edge}`;
+    }
+    return `${edge}, ${alignY}`;
   }
 
   /**
@@ -232,21 +260,62 @@ class IdsPopup extends IdsElement {
       return;
     }
 
+    // Build a resize observer is one doesn't exist
+    // (this doesn't need updating)
+    if (!this.ro && typeof ResizeObserver !== 'undefined') {
+      this.ro = new ResizeObserver(() => {
+        this.refresh();
+      });
+      this.ro.observe(this.parentNode);
+    }
+
     // If no alignment target is present, do a simple x/y coordinate placement.
-    const alignTarget = this.alignTarget;
+    const { alignTarget } = this;
     if (!alignTarget) {
       this.container.style.left = !Number.isNaN(this.x) ? `${this.x}px` : 'auto';
       this.container.style.top = !Number.isNaN(this.y) ? `${this.y}px` : 'auto';
+
+      // Remove an established MutationObserver if one exists.
+      if (this.mo) {
+        this.mo.disconnect();
+        delete this.mo;
+      }
+
       return;
     }
 
     let x = !Number.isNaN(this.x) ? this.x : 0;
     let y = !Number.isNaN(this.y) ? this.y : 0;
 
+    // Setup a MutationObserver on the alignTarget that will cause this Popup instance
+    // to move itself whenever an attribute that controls size is changed.
+    // This can help adjust the popup automatically when its target moves.
+    // @TODO: Implement a way to detect CSS property changes on the alignTarget.
+    // @TODO: this should probably also update if the `alignTarget` changes to something else,
+    // but we don't currently have a way to detect that.
+    if (!this.mo && typeof MutationObserver !== 'undefined') {
+      this.mo = new MutationObserver((mutation) => {
+        switch (mutation.type) {
+          case 'childList':
+            break;
+          default: // 'attributes'
+            this.refresh();
+        }
+      });
+
+      // connect the alignTarget
+      this.mo.observe(this.alignTarget, {
+        attributes: true,
+        attributeFilter: ['style', 'height', 'width'],
+        attributeOldValue: true,
+        subtree: true
+      });
+    }
+
     // Detect sizes/locations of the popup and the alignment target Element
     const popupRect = this.container.getBoundingClientRect();
     const targetRect = this.alignTarget.getBoundingClientRect();
-    const alignEdge = this.alignEdge;
+    const { alignEdge } = this;
 
     /*
      * NOTE: All calculatations are based on the top/left corner of the element rectangles.
@@ -254,12 +323,16 @@ class IdsPopup extends IdsElement {
     // If alignment edge is top or bottom, the defined Y coordinate is used as an offset,
     // and the X position will be set using the provided X alignment rule (or centered by default)
     // and use the defined X coordinate as a X offset.
-    if (['top', 'bottom'].includes(alignEdge)) {
-      if (alignEdge === 'top') {
-        y = targetRect.top - popupRect.height - y;
-      }
-      if (alignEdge === 'bottom') {
-        y = targetRect.bottom + y;
+    if (ALIGNMENTS_Y.includes(alignEdge)) {
+      switch (alignEdge) {
+        case 'top':
+          y = targetRect.top - popupRect.height - y;
+          break;
+        case 'bottom':
+          y = targetRect.bottom + y;
+          break;
+        default: // center
+          y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
       }
 
       switch (this.alignX) {
@@ -277,13 +350,16 @@ class IdsPopup extends IdsElement {
     // If alignment edge is left or right, the defined X coordinate is used as an offset,
     // and the Y position will be set using the provided Y alignment rule (or centered by default)
     // and use the defined Y coordinate as a Y offset.
-    if (['left', 'right'].includes(alignEdge)) {
-      if (alignEdge === 'left') {
-        x = targetRect.left - popupRect.width - x;
-      }
-
-      if (alignEdge === 'right') {
-        x = targetRect.right + x;
+    if (ALIGNMENTS_X.includes(alignEdge)) {
+      switch (alignEdge) {
+        case 'left':
+          x = targetRect.left - popupRect.width - x;
+          break;
+        case 'right':
+          x = targetRect.right + x;
+          break;
+        default: // center
+          x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
       }
 
       switch (this.alignY) {

@@ -1,0 +1,27 @@
+{{> ../layouts/head.html }}
+
+<style id="test-style">
+  #popup-align-target {
+    border: 1px dashed #999;
+    display: inline-block;
+    margin-left: 200px;
+    margin-top: 200px;
+  }
+
+  ids-popup {
+    display: inline-block;
+    position: fixed;
+  }
+</style>
+
+<ids-layout-grid>
+  <id-layout-column fill="true">
+    <span id="popup-align-target">Center Point</span>
+  </id-layout-column>
+</ids-layout-grid>
+
+<ids-popup x="0" y="0" align-target="#popup-align-target" align="bottom">
+  <p slot="content">My Popup Contents</p>
+</ids-popup>
+
+{{> ../layouts/footer.html }}

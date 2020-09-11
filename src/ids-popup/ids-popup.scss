@@ -2,7 +2,8 @@
 @import '../ids-base/ids-base';
 
 :host {
-  position: relative;
+  display: inline-block;
+  position: absolute;
 }
 
 .ids-popup {

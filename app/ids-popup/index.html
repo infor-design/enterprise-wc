@@ -1,3 +1,18 @@
-{{> ../layouts/head.html }}
+<!doctype html>
+<html lang="en">
+<head>
+  {{> ../layouts/head-contents.html }}
+  <style id="layout-style">
+    html, body {
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      border: 0;
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
 {{> example.html }}
 {{> ../layouts/footer.html }}

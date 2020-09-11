@@ -1,18 +1,37 @@
-<ids-layout-grid>
-  <id-layout-column fill="true">
-    <span id="popup-align-target">Hey Man</span>
-  </id-layout-column>
-</ids-layout-grid>
-
-<ids-popup x="0" y="0" align-target="#popup-align-target" align="top, left" align-edge="bottom">
-  <p slot="content">Position: Absolute</p>
-</ids-popup>
-
 <style id="test-style">
+  #test-section {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
+  }
+
   #popup-align-target {
     border: 1px dashed #999;
     display: inline-block;
-    margin-left: 200px;
-    margin-top: 200px;
+    padding: 10px;
+  }
+
+  .demo-popup {
+    padding: 20px;
+  }
+
+  ids-popup {
+    display: inline-block;
+    position: fixed;
   }
 </style>
+
+<section id="test-section">
+  <span id="popup-align-target" style="margin-top: 100px;">Center Point</span>
+</section>
+
+<ids-popup x="0" y="0" align-target="#popup-align-target" align="bottom">
+  <div slot="content">
+    <div class="demo-popup">
+      My Popup Contents<br />
+      are better than yours
+    </div>
+  </div>
+</ids-popup>
