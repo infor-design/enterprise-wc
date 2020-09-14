@@ -1,0 +1,121 @@
+/* CSS 12/8/4 column grid */
+@import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
+
+// Grid - Sass Vars
+$grid-cols-lg: 12;
+$grid-cols-md: 8;
+$grid-cols-sm: 4;
+$breakpoint-xs: 360px;
+$breakpoint-sm: 600px;
+$breakpoint-md: 840px;
+$breakpoint-lg: 1280px;
+$breakpoint-xl: 1440px;
+
+// Grid - Definition
+.ids-grid {
+  --grid-unit: 8px;
+  --grid-gap: calc(var(--grid-unit) * 2);
+  --grid-margin: calc(var(--grid-unit) * 2);
+
+  @media (min-width: $breakpoint-md) {
+    --grid-margin: calc(var(--grid-unit) * 3);
+  }
+
+  @media (min-width: $breakpoint-xs) {
+    --grid-cols: 4;
+  }
+
+  @media (min-width: $breakpoint-sm) {
+    --grid-cols: 8;
+  }
+
+  @media (min-width: $breakpoint-md) {
+    --grid-cols: 12;
+  }
+
+  display: grid;
+  grid-gap: var(--grid-gap);
+  grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+  margin: var(--grid-margin);
+
+  .ids-background-fill {
+    @include py-40();
+    @include px-16();
+
+    background-color: #efeff0;
+  }
+}
+
+// Grid - XSmall and up
+@media (min-width: $breakpoint-xs) {
+  @for $i from 1 through $grid-cols-sm {
+    .ids-grid > .ids-grid-col-span--#{$i} {
+      grid-column-end: span $i;
+      width: auto;
+    }
+  }
+
+  // Set all the span classes above 4 columns to full span
+  @for $i from $grid-cols-sm through $grid-cols-lg {
+    .ids-grid > .ids-grid-col-span--#{$i} {
+      grid-column-end: span $grid-cols-md;
+      width: auto;
+    }
+  }
+}
+
+// Grid - Small and up
+@media (min-width: $breakpoint-sm) {
+  @for $i from 1 through $grid-cols-md {
+    .ids-grid > .ids-grid-col-span--#{$i} {
+      grid-column-end: span $i;
+      width: auto;
+    }
+  }
+
+  // Set all the span classes above 8 columns to full span
+  @for $i from $grid-cols-md through $grid-cols-lg {
+    .ids-grid > .ids-grid-col-span--#{$i} {
+      grid-column-end: span $grid-cols-md;
+      width: auto;
+    }
+  }
+}
+
+// Grid - Medium and up
+@media (min-width: $breakpoint-md) {
+  @for $i from 1 through $grid-cols-md {
+    .ids-grid > .ids-grid-col-span--#{$i} {
+      grid-column-end: span $i;
+      width: auto;
+    }
+  }
+
+  // Set all the span classes above 8 columns to full span
+  @for $i from $grid-cols-md through $grid-cols-lg {
+    .ids-grid > .ids-grid-col-span--#{$i} {
+      grid-column-end: span $grid-cols-md;
+      width: auto;
+    }
+  }
+}
+
+// Grid - Large and up
+@media (min-width: $breakpoint-lg) {
+  @for $i from 1 through $grid-cols-lg {
+    .ids-grid > .ids-grid-col-span--#{$i} {
+      grid-column-end: span $i;
+      width: auto;
+    }
+  }
+}
+
+// Grid - XLarge and up
+@media (min-width: $breakpoint-xl) {
+  @for $i from 1 through $grid-cols-lg {
+    .ids-grid > .ids-grid-col-span--#{$i} {
+      grid-column-end: span $i;
+      width: auto;
+    }
+  }
+}
