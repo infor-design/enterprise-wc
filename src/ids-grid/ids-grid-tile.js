@@ -3,8 +3,8 @@ import { customElement, IdsElement } from '../ids-base/ids-element';
 /**
  * IDS Column Component
  */
-@customElement('ids-grid-column')
-class IdsGridColumn extends IdsElement {
+@customElement('ids-grid-tile')
+class IdsGridTile extends IdsElement {
   constructor() {
     super();
   }
@@ -57,7 +57,7 @@ class IdsGridColumn extends IdsElement {
   set span(value) {
     if (value) {
       this.setAttribute('span', value);
-      this.classList.add(`ids-grid-col-span--${value}`);
+      this.classList.add(`ids-grid-span--${value}`);
       return;
     }
 
@@ -65,4 +65,4 @@ class IdsGridColumn extends IdsElement {
   }
 }
 
-export default IdsGridColumn;
+export default IdsGridTile;

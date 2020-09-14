@@ -1,2 +1,2 @@
-import IdsGrid from '../../src/ids-layout-grid/ids-grid';
-import IdsGridColumn from '../../src/ids-layout-grid/ids-grid-column';
+import IdsGridContainer from '../../src/ids-grid/ids-grid-container';
+import IdsGridTile from '../../src/ids-grid/ids-grid-tile';

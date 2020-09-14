@@ -9,9 +9,9 @@ import styles from './ids-grid.scss';
 /**
  * IDS Layout Component
  */
-@customElement('ids-grid')
+@customElement('ids-grid-container')
 @scss(styles)
-class IdsGrid extends IdsElement {
+class IdsGridContainer extends IdsElement {
   constructor() {
     super();
   }
@@ -57,4 +57,4 @@ class IdsGrid extends IdsElement {
   get fixed() { return this.getAttribute('fixed'); }
 }
 
-export default IdsGrid;
+export default IdsGridContainer;

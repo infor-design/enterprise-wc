@@ -49,7 +49,7 @@ $breakpoint-xl: 1440px;
 // Grid - XSmall and up
 @media (min-width: $breakpoint-xs) {
   @for $i from 1 through $grid-cols-sm {
-    .ids-grid > .ids-grid-col-span--#{$i} {
+    .ids-grid > .ids-grid-span--#{$i} {
       grid-column-end: span $i;
       width: auto;
     }
@@ -57,7 +57,7 @@ $breakpoint-xl: 1440px;
 
   // Set all the span classes above 4 columns to full span
   @for $i from $grid-cols-sm through $grid-cols-lg {
-    .ids-grid > .ids-grid-col-span--#{$i} {
+    .ids-grid > .ids-grid-span--#{$i} {
       grid-column-end: span $grid-cols-md;
       width: auto;
     }
@@ -67,7 +67,7 @@ $breakpoint-xl: 1440px;
 // Grid - Small and up
 @media (min-width: $breakpoint-sm) {
   @for $i from 1 through $grid-cols-md {
-    .ids-grid > .ids-grid-col-span--#{$i} {
+    .ids-grid > .ids-grid-span--#{$i} {
       grid-column-end: span $i;
       width: auto;
     }
@@ -75,7 +75,7 @@ $breakpoint-xl: 1440px;
 
   // Set all the span classes above 8 columns to full span
   @for $i from $grid-cols-md through $grid-cols-lg {
-    .ids-grid > .ids-grid-col-span--#{$i} {
+    .ids-grid > .ids-grid-span--#{$i} {
       grid-column-end: span $grid-cols-md;
       width: auto;
     }
@@ -85,7 +85,7 @@ $breakpoint-xl: 1440px;
 // Grid - Medium and up
 @media (min-width: $breakpoint-md) {
   @for $i from 1 through $grid-cols-md {
-    .ids-grid > .ids-grid-col-span--#{$i} {
+    .ids-grid > .ids-grid-span--#{$i} {
       grid-column-end: span $i;
       width: auto;
     }
@@ -93,7 +93,7 @@ $breakpoint-xl: 1440px;
 
   // Set all the span classes above 8 columns to full span
   @for $i from $grid-cols-md through $grid-cols-lg {
-    .ids-grid > .ids-grid-col-span--#{$i} {
+    .ids-grid > .ids-grid-span--#{$i} {
       grid-column-end: span $grid-cols-md;
       width: auto;
     }
@@ -103,7 +103,7 @@ $breakpoint-xl: 1440px;
 // Grid - Large and up
 @media (min-width: $breakpoint-lg) {
   @for $i from 1 through $grid-cols-lg {
-    .ids-grid > .ids-grid-col-span--#{$i} {
+    .ids-grid > .ids-grid-span--#{$i} {
       grid-column-end: span $i;
       width: auto;
     }
@@ -113,7 +113,7 @@ $breakpoint-xl: 1440px;
 // Grid - XLarge and up
 @media (min-width: $breakpoint-xl) {
   @for $i from 1 through $grid-cols-lg {
-    .ids-grid > .ids-grid-col-span--#{$i} {
+    .ids-grid > .ids-grid-span--#{$i} {
       grid-column-end: span $i;
       width: auto;
     }
