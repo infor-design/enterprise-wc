@@ -125,6 +125,7 @@ class IdsPopup extends IdsElement {
 
     this.alignX = vals[0];
     this.alignY = vals[1];
+    this.setAttribute('align', this.align);
 
     this.shouldUpdate = true;
     this.refresh();
@@ -164,6 +165,10 @@ class IdsPopup extends IdsElement {
       this.alignment.x = ALIGNMENTS_X[0];
     }
 
+    if (this.shouldUpdate) {
+      this.setAttribute('align', this.align);
+    }
+
     this.refresh();
   }
 
@@ -186,6 +191,10 @@ class IdsPopup extends IdsElement {
       this.alignment.y = val;
     } else {
       this.alignment.y = ALIGNMENTS_Y[0];
+    }
+
+    if (this.shouldUpdate) {
+      this.setAttribute('align', this.align);
     }
 
     this.refresh();
@@ -235,7 +244,14 @@ class IdsPopup extends IdsElement {
    * @param {boolean} val whether or not the component should animate its movement
    */
   set animated(val) {
-    this.container.classList[val ? 'add' : 'remove']('animated');
+    const trueVal = val === true || val === 'true';
+    if (trueVal) {
+      this.setAttribute('animated', true);
+      this.container.classList.add('animated');
+      return;
+    }
+    this.removeAttribute('animated');
+    this.container.classList.remove('animated');
   }
 
   /**
@@ -253,6 +269,7 @@ class IdsPopup extends IdsElement {
     const trueVal = parseInt(val, 10);
     if (!Number.isNaN(trueVal)) {
       this.coords.x = trueVal;
+      this.setAttribute('x', trueVal);
     }
     this.refresh();
   }
@@ -272,6 +289,7 @@ class IdsPopup extends IdsElement {
     const trueVal = parseInt(val, 10);
     if (!Number.isNaN(trueVal)) {
       this.coords.y = trueVal;
+      this.setAttribute('y', trueVal);
     }
     this.refresh();
   }
