@@ -5,6 +5,7 @@ import {
   scss
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import styles from './ids-popup.scss';
 
 // Locations in which a parent-positioned Popup can be located
@@ -22,6 +23,7 @@ const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== 'center');
 @customElement('ids-popup')
 @scss(styles)
 @mixin(IdsEventsMixin)
+@mixin(IdsResizeMixin)
 class IdsPopup extends IdsElement {
   constructor() {
     super();
@@ -32,7 +34,21 @@ class IdsPopup extends IdsElement {
 
   connectedCallBack() {
     this.handleEvents();
+    this.setupDetectMutations();
+    this.setupResize();
     this.refresh();
+  }
+
+  disconnectedCallback() {
+    if (this.shouldResize()) {
+      this.ro.unobserve(this.parentNode);
+      this.disconnectResize();
+    }
+
+    if (this.shouldDetectMutations()) {
+      this.mo.unobserve(this.alignTarget);
+      this.disconnectDetectMutations();
+    }
   }
 
   /**
@@ -44,6 +60,7 @@ class IdsPopup extends IdsElement {
       'align',
       'align-edge',
       'align-target',
+      'animated',
       'x',
       'y'
     ];
@@ -215,6 +232,20 @@ class IdsPopup extends IdsElement {
   }
 
   /**
+   * @param {boolean} val whether or not the component should animate its movement
+   */
+  set animated(val) {
+    this.container.classList[val ? 'add' : 'remove']('animated');
+  }
+
+  /**
+   * @returns {boolean} whether or not the component is currently animating its movement.
+   */
+  get animated() {
+    return this.container.classList.contains('animated');
+  }
+
+  /**
    * Sets the X (left) coordinate of the Popup
    * @param {number} val the coordinate's value
    */
@@ -262,10 +293,7 @@ class IdsPopup extends IdsElement {
 
     // Build a resize observer is one doesn't exist
     // (this doesn't need updating)
-    if (!this.ro && typeof ResizeObserver !== 'undefined') {
-      this.ro = new ResizeObserver(() => {
-        this.refresh();
-      });
+    if (this.shouldResize()) {
       this.ro.observe(this.parentNode);
     }
 
@@ -276,40 +304,25 @@ class IdsPopup extends IdsElement {
       this.container.style.top = !Number.isNaN(this.y) ? `${this.y}px` : 'auto';
 
       // Remove an established MutationObserver if one exists.
-      if (this.mo) {
-        this.mo.disconnect();
-        delete this.mo;
+      if (this.hasMutations) {
+        this.disconnectDetectMutations();
+        delete this.hasMutations;
       }
-
       return;
     }
 
     let x = !Number.isNaN(this.x) ? this.x : 0;
     let y = !Number.isNaN(this.y) ? this.y : 0;
 
-    // Setup a MutationObserver on the alignTarget that will cause this Popup instance
-    // to move itself whenever an attribute that controls size is changed.
-    // This can help adjust the popup automatically when its target moves.
-    // @TODO: Implement a way to detect CSS property changes on the alignTarget.
-    // @TODO: this should probably also update if the `alignTarget` changes to something else,
-    // but we don't currently have a way to detect that.
-    if (!this.mo && typeof MutationObserver !== 'undefined') {
-      this.mo = new MutationObserver((mutation) => {
-        switch (mutation.type) {
-          case 'childList':
-            break;
-          default: // 'attributes'
-            this.refresh();
-        }
-      });
-
-      // connect the alignTarget
+    // connect the alignTarget to the global MutationObserver, if applicable.
+    if (this.shouldDetectMutations() && !this.hasMutations) {
       this.mo.observe(this.alignTarget, {
         attributes: true,
         attributeFilter: ['style', 'height', 'width'],
         attributeOldValue: true,
         subtree: true
       });
+      this.hasMutations = true;
     }
 
     // Detect sizes/locations of the popup and the alignment target Element
