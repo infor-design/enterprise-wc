@@ -1,0 +1,14 @@
+@import '../ids-base/ids-base';
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+.ids-input-field {
+  @include px-8();
+  @include py-8();
+
+  width: 100%;
+}

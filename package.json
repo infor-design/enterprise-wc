@@ -22,6 +22,7 @@
     "test:coverage-only-changed": "jest --coverage --onlyChanged",
     "test:ci": "jest --maxWorkers=2",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
+    "test:updateSnapshot": "jest --updateSnapshot",
     "ncu": "npx ncu"
   },
   "remarkConfig": {

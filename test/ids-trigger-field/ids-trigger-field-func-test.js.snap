@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsTriggerField Component renders correctly 1`] = `"<ids-trigger-field></ids-trigger-field>"`;
+
+exports[`IdsTriggerField Component renders correctly 2`] = `"<ids-trigger-field></ids-trigger-field>"`;

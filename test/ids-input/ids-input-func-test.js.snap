@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsInput Component renders correctly 1`] = `"<ids-input type=\\"text\\"></ids-input>"`;
