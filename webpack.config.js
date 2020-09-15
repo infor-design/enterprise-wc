@@ -146,7 +146,8 @@ module.exports = {
       template: './app/ids-popup/index.html',
       inject: 'body',
       filename: 'ids-popup/index.html',
-      chunks: ['ids-popup/ids-popup']
+      chunks: ['ids-popup/ids-popup'],
+      title: 'IDS Popup Component'
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),
