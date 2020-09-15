@@ -13,8 +13,20 @@
     padding: 10px;
   }
 
+  #other-test-section {
+    position: relative;
+  }
+
+  #other-popup-align-target {
+    border: 1px dashed #555;
+    display: inline-block;
+    padding: 10px;
+    position: absolute;
+  }
+
   .demo-popup {
     padding: 20px;
+    white-space: nowrap;
   }
 
   ids-popup {
@@ -22,6 +34,10 @@
     position: fixed;
   }
 </style>
+
+<section id="other-test-section">
+  <span id="other-popup-align-target" style="right: 150px; top: 150px;">Secondary Alignment Target (cool)</span>
+</section>
 
 <section id="test-section">
   <span id="popup-align-target" style="margin-top: 100px;">Center Point</span>

@@ -9,13 +9,29 @@ import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import styles from './ids-popup.scss';
 
 // Locations in which a parent-positioned Popup can be located
-const ALIGNMENT_EDGES = [undefined, 'bottom', 'top', 'left', 'right'];
+const ALIGNMENT_EDGES = ['center', 'bottom', 'top', 'left', 'right'];
 
 // Methods for X/Y-coordinate alignment against a parent
 const ALIGNMENTS_X = ['center', 'left', 'right'];
 const ALIGNMENTS_Y = ['center', 'top', 'bottom'];
 const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== 'center');
 const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== 'center');
+
+// Formats the value of the `align` attribute.
+function formatAlignAttribute(alignX, alignY, edge) {
+  const center = 'center';
+
+  if (ALIGNMENTS_EDGES_Y.includes(edge)) {
+    if (alignX === center) {
+      return `${edge}`;
+    }
+    return `${edge}, ${alignX}`;
+  }
+  if (alignY === 'center') {
+    return `${edge}`;
+  }
+  return `${edge}, ${alignY}`;
+}
 
 /**
  * IDS Popup Component
@@ -79,6 +95,7 @@ class IdsPopup extends IdsElement {
   set alignTarget(val) {
     if (typeof val !== 'string' || !val.length) {
       this.alignment.target = undefined;
+      this.removeAttribute('align-target');
       this.refresh();
       return;
     }
@@ -90,6 +107,7 @@ class IdsPopup extends IdsElement {
     }
 
     this.alignment.target = elem;
+    this.setAttribute('align-target', val);
     this.refresh();
   }
 
@@ -109,7 +127,8 @@ class IdsPopup extends IdsElement {
     let vals = val.split(',');
     vals = vals.map((thisVal) => thisVal.trim().toLowerCase());
 
-    this.alignEdge = vals[0];
+    const edge = vals[0];
+    this.alignEdge = edge;
 
     // If there's no second value, assume it's 'center'
     if (!vals[1]) {
@@ -125,7 +144,7 @@ class IdsPopup extends IdsElement {
 
     this.alignX = vals[0];
     this.alignY = vals[1];
-    this.setAttribute('align', this.align);
+    this.setAttribute('align', formatAlignAttribute(vals[0], vals[1], edge));
 
     this.shouldUpdate = true;
     this.refresh();
@@ -137,18 +156,7 @@ class IdsPopup extends IdsElement {
   get align() {
     const { alignX, alignY } = this;
     const edge = this.alignEdge;
-    const center = 'center';
-
-    if (ALIGNMENTS_EDGES_Y.includes(edge)) {
-      if (alignX === center) {
-        return `${edge}`;
-      }
-      return `${edge}, ${alignX}`;
-    }
-    if (alignY === 'center') {
-      return `${edge}`;
-    }
-    return `${edge}, ${alignY}`;
+    return formatAlignAttribute(alignX, alignY, edge);
   }
 
   /**
@@ -318,19 +326,15 @@ class IdsPopup extends IdsElement {
     // If no alignment target is present, do a simple x/y coordinate placement.
     const { alignTarget } = this;
     if (!alignTarget) {
-      this.container.style.left = !Number.isNaN(this.x) ? `${this.x}px` : 'auto';
-      this.container.style.top = !Number.isNaN(this.y) ? `${this.y}px` : 'auto';
-
       // Remove an established MutationObserver if one exists.
       if (this.hasMutations) {
         this.disconnectDetectMutations();
         delete this.hasMutations;
       }
+
+      this.placeAtCoords();
       return;
     }
-
-    let x = !Number.isNaN(this.x) ? this.x : 0;
-    let y = !Number.isNaN(this.y) ? this.y : 0;
 
     // connect the alignTarget to the global MutationObserver, if applicable.
     if (this.shouldDetectMutations() && !this.hasMutations) {
@@ -343,10 +347,67 @@ class IdsPopup extends IdsElement {
       this.hasMutations = true;
     }
 
+    this.placeAgainstTarget();
+  }
+
+  /**
+   * Places the Popup using numeric x/y coordinates as a starting point.
+   * @private
+   * @returns {void}
+   */
+  placeAtCoords() {
+    // @TODO: influence coord-based placement with the align edge
+    const popupRect = this.container.getBoundingClientRect();
+    let x = !Number.isNaN(this.x) ? this.x : 0;
+    let y = !Number.isNaN(this.y) ? this.y : 0;
+
+    /*
+    // Original Logic on the two lines below
+    this.container.style.left = !Number.isNaN(this.x) ? `${this.x}px` : 'auto';
+    this.container.style.top = !Number.isNaN(this.y) ? `${this.y}px` : 'auto';
+    */
+
+    switch (this.alignX) {
+      case 'right':
+        x -= popupRect.width;
+        break;
+      case 'center':
+        x -= popupRect.width / 2;
+        break;
+      default: // left
+        break;
+    }
+
+    switch (this.alignY) {
+      case 'bottom':
+        y -= popupRect.height;
+        break;
+      case 'center':
+        y -= popupRect.height / 2;
+        break;
+      default: // top
+        break;
+    }
+
+    this.container.style.left = `${x}px`;
+    this.container.style.top = `${y}px`;
+  }
+
+  /**
+   * Places the Popup using an external element as a starting point.
+   * @private
+   * @returns {void}
+   */
+  placeAgainstTarget() {
+    let x = !Number.isNaN(this.x) ? this.x : 0;
+    let y = !Number.isNaN(this.y) ? this.y : 0;
+
     // Detect sizes/locations of the popup and the alignment target Element
     const popupRect = this.container.getBoundingClientRect();
     const targetRect = this.alignTarget.getBoundingClientRect();
     const { alignEdge } = this;
+    let alignXCentered = false;
+    let alignYCentered = false;
 
     /*
      * NOTE: All calculatations are based on the top/left corner of the element rectangles.
@@ -364,6 +425,7 @@ class IdsPopup extends IdsElement {
           break;
         default: // center
           y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
+          alignYCentered = true;
       }
 
       switch (this.alignX) {
@@ -371,10 +433,11 @@ class IdsPopup extends IdsElement {
           x = targetRect.left + x;
           break;
         case 'right':
-          x = targetRect.right - popupRect.width + x;
+          x = targetRect.right - popupRect.width - x;
           break;
         default: // center
           x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
+          alignXCentered = true;
       }
     }
 
@@ -390,6 +453,9 @@ class IdsPopup extends IdsElement {
           x = targetRect.right + x;
           break;
         default: // center
+          if (alignXCentered) {
+            break;
+          }
           x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
       }
 
@@ -401,6 +467,9 @@ class IdsPopup extends IdsElement {
           y = targetRect.bottom - popupRect.height + y;
           break;
         default: // center
+          if (alignYCentered) {
+            break;
+          }
           y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
       }
     }

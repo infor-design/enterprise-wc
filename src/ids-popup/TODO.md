@@ -1,7 +1,9 @@
 # TODO on the IDS Popup
-- [ ] Fix centering - `align="center"` should position the element directly over top
-- [ ] See if we can fix the attribute display in the DOM to match what comes from `get align()`;
-- [ ] Fix the bad placement on initial load
+- [x] Fix centering - `align="center"` should position the element directly over top
+- [x] See if we can fix the attribute display in the DOM to match what comes from `get align()`;
+- [x] Fix the bad placement on initial load
+- [x] Make switching the alignment target work
+- [x] Influence the "direction" the popup is placed in when using an alignEdge with coordinate-based placement
 - [ ] Tests for basic placement
 
 # Items to discuss about design
