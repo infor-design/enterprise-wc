@@ -4,6 +4,7 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import styles from './ids-popup.scss';
 
@@ -44,6 +45,7 @@ function formatAlignAttribute(alignX, alignY, edge) {
  */
 @customElement('ids-popup')
 @scss(styles)
+@mixin(IdsEventsMixin)
 @mixin(IdsResizeMixin)
 class IdsPopup extends IdsElement {
   constructor() {
@@ -70,6 +72,7 @@ class IdsPopup extends IdsElement {
     this.animated = this.hasAttribute('animated');
     this.setupDetectMutations();
     this.setupResize();
+    this.handleEvents();
     this.refresh();
   }
 
@@ -99,7 +102,6 @@ class IdsPopup extends IdsElement {
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (this.shouldUpdate) {
-      console.log(`${name}: "${newValue}"`);
       IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
     }
   }
@@ -560,6 +562,17 @@ class IdsPopup extends IdsElement {
         <slot name="content"></slot>
       </div>
     </span>`;
+  }
+
+  /**
+   * @private
+   * @returns {void}
+   */
+  handleEvents() {
+    const slot = this.shadowRoot.querySelector('slot');
+    this.eventHandlers.addEventListener('slotchange', slot, () => {
+      this.refresh();
+    });
   }
 }
 
