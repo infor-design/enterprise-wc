@@ -4,30 +4,36 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import styles from './ids-popup.scss';
 
+const CENTER = 'center';
+
 // Locations in which a parent-positioned Popup can be located
-const ALIGNMENT_EDGES = ['center', 'bottom', 'top', 'left', 'right'];
+const ALIGNMENT_EDGES = [CENTER, 'bottom', 'top', 'left', 'right'];
 
 // Methods for X/Y-coordinate alignment against a parent
-const ALIGNMENTS_X = ['center', 'left', 'right'];
-const ALIGNMENTS_Y = ['center', 'top', 'bottom'];
-const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== 'center');
-const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== 'center');
+const ALIGNMENTS_X = [CENTER, 'left', 'right'];
+const ALIGNMENTS_Y = [CENTER, 'top', 'bottom'];
+const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== CENTER);
+const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== CENTER);
 
-// Formats the value of the `align` attribute.
+/**
+ * Formats the text value of the `align` attribute.
+ * @private
+ * @param {string} alignX matches a value from the ALIGNMENTS_X array
+ * @param {string} alignY matches a value from the ALIGNMENTS_Y array
+ * @param {string} edge matches a value from the ALIGNMENT_EDGES array
+ * @returns {string} containing the properly formatted align value
+ */
 function formatAlignAttribute(alignX, alignY, edge) {
-  const center = 'center';
-
   if (ALIGNMENTS_EDGES_Y.includes(edge)) {
-    if (alignX === center) {
+    if (!alignX || !alignX.length || alignX === CENTER) {
       return `${edge}`;
     }
     return `${edge}, ${alignX}`;
   }
-  if (alignY === 'center') {
+  if (!alignY || !alignY.length || alignY === CENTER) {
     return `${edge}`;
   }
   return `${edge}, ${alignY}`;
@@ -38,23 +44,40 @@ function formatAlignAttribute(alignX, alignY, edge) {
  */
 @customElement('ids-popup')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsResizeMixin)
 class IdsPopup extends IdsElement {
   constructor() {
     super();
-    this.alignment = {};
-    this.coords = {};
+    this.alignment = {
+      edge: ALIGNMENT_EDGES[0],
+      target: undefined,
+      x: ALIGNMENTS_X[0],
+      y: ALIGNMENTS_Y[0]
+    };
+    this.coords = {
+      x: 0,
+      y: 0
+    };
     this.shouldUpdate = true;
   }
 
+  /**
+   * `IdsElement.prototype.connectedCallBack` implementation
+   * @private
+   * @returns {void}
+   */
   connectedCallBack() {
-    this.handleEvents();
+    this.animated = this.hasAttribute('animated');
     this.setupDetectMutations();
     this.setupResize();
     this.refresh();
   }
 
+  /**
+   * Custom Element `disconnectedCallback` implementation
+   * @private
+   * @returns {void}
+   */
   disconnectedCallback() {
     if (this.shouldResize()) {
       this.ro.unobserve(this.parentNode);
@@ -62,8 +85,22 @@ class IdsPopup extends IdsElement {
     }
 
     if (this.shouldDetectMutations()) {
-      this.mo.unobserve(this.alignTarget);
       this.disconnectDetectMutations();
+    }
+  }
+
+  /**
+   * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
+   * check for a true `shouldUpdate` property.
+   * @private
+   * @param  {string} name The property name
+   * @param  {string} oldValue The property old value
+   * @param  {string} newValue The property new value
+   */
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (this.shouldUpdate) {
+      console.log(`${name}: "${newValue}"`);
+      IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
     }
   }
 
@@ -74,6 +111,8 @@ class IdsPopup extends IdsElement {
   static get properties() {
     return [
       'align',
+      'align-x',
+      'align-y',
       'align-edge',
       'align-target',
       'animated',
@@ -83,6 +122,7 @@ class IdsPopup extends IdsElement {
   }
 
   /**
+   * @readonly
    * @returns {HTMLElement} reference to the `content-wrapper` element
    */
   get wrapper() {
@@ -95,7 +135,9 @@ class IdsPopup extends IdsElement {
   set alignTarget(val) {
     if (typeof val !== 'string' || !val.length) {
       this.alignment.target = undefined;
+      this.shouldUpdate = false;
       this.removeAttribute('align-target');
+      this.shouldUpdate = true;
       this.refresh();
       return;
     }
@@ -124,9 +166,15 @@ class IdsPopup extends IdsElement {
    */
   set align(val) {
     this.shouldUpdate = false;
-    let vals = val.split(',');
-    vals = vals.map((thisVal) => thisVal.trim().toLowerCase());
 
+    let trueVal = val;
+    if (typeof trueVal !== 'string' || !trueVal.length) {
+      trueVal = CENTER;
+    }
+
+    // Normalize values and store the first entry as the "edge" to align against
+    let vals = trueVal.split(',');
+    vals = vals.map((thisVal) => thisVal.trim().toLowerCase());
     const edge = vals[0];
     this.alignEdge = edge;
 
@@ -142,9 +190,22 @@ class IdsPopup extends IdsElement {
       vals[0] = val1;
     }
 
-    this.alignX = vals[0];
-    this.alignY = vals[1];
-    this.setAttribute('align', formatAlignAttribute(vals[0], vals[1], edge));
+    // Update each alignment value if it's valid, and render the attribute
+    let attrX;
+    let attrY;
+    if (ALIGNMENTS_X.includes(vals[0])) {
+      attrX = vals[0];
+      this.alignX = vals[0];
+    } else {
+      attrX = this.alignX;
+    }
+    if (ALIGNMENTS_Y.includes(vals[1])) {
+      attrY = vals[1];
+      this.alignY = vals[1];
+    } else {
+      attrY = this.alignY;
+    }
+    this.setAttribute('align', formatAlignAttribute(attrX, attrY, edge));
 
     this.shouldUpdate = true;
     this.refresh();
@@ -173,8 +234,14 @@ class IdsPopup extends IdsElement {
       this.alignment.x = ALIGNMENTS_X[0];
     }
 
+    // If `align-x` was used directy, standardize against the `align` attribute
+    if (this.hasAttribute('align-x')) {
+      this.shouldUpdate = false;
+      this.removeAttribute('align-x');
+      this.shouldUpdate = true;
+    }
     if (this.shouldUpdate) {
-      this.setAttribute('align', this.align);
+      this.setAttribute('align', formatAlignAttribute(val, this.alignment.y, val));
     }
 
     this.refresh();
@@ -201,8 +268,14 @@ class IdsPopup extends IdsElement {
       this.alignment.y = ALIGNMENTS_Y[0];
     }
 
+    // If `align-y` was used directy, standardize against the `align` attribute
+    if (this.hasAttribute('align-y')) {
+      this.shouldUpdate = false;
+      this.removeAttribute('align-y');
+      this.shouldUpdate = true;
+    }
     if (this.shouldUpdate) {
-      this.setAttribute('align', this.align);
+      this.setAttribute('align', formatAlignAttribute(this.alignment.x, val, val));
     }
 
     this.refresh();
@@ -274,11 +347,13 @@ class IdsPopup extends IdsElement {
    * @param {number} val the coordinate's value
    */
   set x(val) {
-    const trueVal = parseInt(val, 10);
-    if (!Number.isNaN(trueVal)) {
-      this.coords.x = trueVal;
-      this.setAttribute('x', trueVal);
+    let trueVal = parseInt(val, 10);
+    if (Number.isNaN(trueVal)) {
+      trueVal = 0;
     }
+
+    this.coords.x = trueVal;
+    this.setAttribute('x', trueVal);
     this.refresh();
   }
 
@@ -294,11 +369,13 @@ class IdsPopup extends IdsElement {
    * @param {number} val the coordinate's value
    */
   set y(val) {
-    const trueVal = parseInt(val, 10);
-    if (!Number.isNaN(trueVal)) {
-      this.coords.y = trueVal;
-      this.setAttribute('y', trueVal);
+    let trueVal = parseInt(val, 10);
+    if (Number.isNaN(trueVal)) {
+      trueVal = 0;
     }
+
+    this.coords.y = trueVal;
+    this.setAttribute('y', trueVal);
     this.refresh();
   }
 
@@ -317,8 +394,9 @@ class IdsPopup extends IdsElement {
       return;
     }
 
-    // Build a resize observer is one doesn't exist
+    // Attach to the global ResizeObserver
     // (this doesn't need updating)
+    // @TODO possibly replace `this.parentNode` with IdsPopupBoundary (specifically to contain)
     if (this.shouldResize()) {
       this.ro.observe(this.parentNode);
     }
@@ -328,6 +406,7 @@ class IdsPopup extends IdsElement {
     if (!alignTarget) {
       // Remove an established MutationObserver if one exists.
       if (this.hasMutations) {
+        this.mo.disconnect();
         this.disconnectDetectMutations();
         delete this.hasMutations;
       }
@@ -356,16 +435,9 @@ class IdsPopup extends IdsElement {
    * @returns {void}
    */
   placeAtCoords() {
-    // @TODO: influence coord-based placement with the align edge
     const popupRect = this.container.getBoundingClientRect();
     let x = !Number.isNaN(this.x) ? this.x : 0;
     let y = !Number.isNaN(this.y) ? this.y : 0;
-
-    /*
-    // Original Logic on the two lines below
-    this.container.style.left = !Number.isNaN(this.x) ? `${this.x}px` : 'auto';
-    this.container.style.top = !Number.isNaN(this.y) ? `${this.y}px` : 'auto';
-    */
 
     switch (this.alignX) {
       case 'right':
@@ -488,16 +560,6 @@ class IdsPopup extends IdsElement {
         <slot name="content"></slot>
       </div>
     </span>`;
-  }
-
-  /**
-   * Establish Internal Event Handlers
-   * @private
-   */
-  handleEvents() {
-    this.eventHandlers.addEventListener('log', this.shadowRoot.querySelector('slot'), () => {
-      console.log('events');
-    });
   }
 }
 

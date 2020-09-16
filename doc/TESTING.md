@@ -7,6 +7,14 @@ The IDS components are backed by both functional and end-to-end (e2e) test suite
 - [Jest](https://https://webdriver.io/) test runner for all tests.
 - [Jest Puppeteer](https://github.com/smooth-code/jest-puppeteer) test runner for e2e tests.
 
+## Setting up the test environment
+
+If you have never run the tests before, prior to running `npm run test` it may be necessary to install Puppeteer to allow a browser connection:
+
+```sh
+node node_modules/puppeteer/install.js
+```
+
 ## Debugging Functional Tests
 
 - Add a debugger statement to the test
@@ -73,3 +81,4 @@ We should have one visual regression image per component. When you PR a test an 
 - [ ] Browser Stack with [percy](https://percy.io)
 - [x] Travis / CI / Or github actions
 - [ ] Axe test Examples
+- [ ] Postinstall script for Puppeteer install

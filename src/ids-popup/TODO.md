@@ -4,6 +4,7 @@
 - [x] Fix the bad placement on initial load
 - [x] Make switching the alignment target work
 - [x] Influence the "direction" the popup is placed in when using an alignEdge with coordinate-based placement
+- [x] Figure out how to fix `top, top` and `left, left` when setting opposite dimensions, like `align-x="top"` or `align-y="left"`
 - [ ] Tests for basic placement
 
 # Items to discuss about design
