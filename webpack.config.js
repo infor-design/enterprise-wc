@@ -123,8 +123,14 @@ module.exports = {
       filename: 'ids-layout-grid/index.html',
       chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label']
     }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-trigger-field/index.html',
+      inject: 'body',
+      filename: 'ids-trigger-field/index.html',
+      title: 'IDS Trigger Field',
+    }),
     // Show Style Lint Errors in the console and fail
-    new StylelintPlugin({ }),
+    new StylelintPlugin({}),
     // Handle Hot Swap When files change - files must be added via entry points
     new webpack.HotModuleReplacementPlugin(),
     // Make a Copy of the Sass Files only for standalone Css

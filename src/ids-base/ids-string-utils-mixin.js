@@ -12,6 +12,15 @@ const IdsStringUtilsMixin = {
       .replace(/([-_ ]){1,}/g, ' ')
       .split(/[-_ ]/)
       .reduce((cur, acc) => cur + acc[0].toUpperCase() + acc.substring(1));
+  },
+
+  /**
+   * Convert a string value into a boolean
+   * @param {string} val string value from the component property
+   * @returns {boolean} The return boolean
+   */
+  stringToBool(val) {
+    return (val + '').toLowerCase() === 'true'; //eslint-disable-line
   }
 };
 
