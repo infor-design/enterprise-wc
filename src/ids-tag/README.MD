@@ -98,7 +98,7 @@ N/A
 
 Given I am on desktop
 And I am on the tag page
-Then I should see page with different tag examples
+Then I should see a page with different tag examples
 And able to navigate in each example Tags
 And when I click the ‘#Dismissible’ tag
 Then I the Tag should be removed or disappear in the example list.
@@ -107,7 +107,7 @@ Then I the Tag should be removed or disappear in the example list.
 
 Given I am on desktop
 And I am on the tag page
-Then I should see page with different Linkable tag examples
+Then I should see a page with different Linkable tag examples
 And able to navigate in each example Tags
 And when I click the ‘Linkable Tag Info >’ tag
 Then I should be able to redirect or navigate through the selected Tag
@@ -116,7 +116,7 @@ Then I should be able to redirect or navigate through the selected Tag
 
 Given I am on desktop
 And I am on the tag page
-Then I should see page with different Linkable tag examples
+Then I should see a page with different Linkable tag examples
 And able to navigate in each example Tags
 And I should be able to see Tags with different color e.g (Red, Green Yellow)
 
