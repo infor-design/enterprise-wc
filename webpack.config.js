@@ -43,7 +43,10 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.html$/, loader: 'handlebars-loader' },
+      {
+        test: /\.html$/,
+        loader: 'handlebars-loader'
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -56,7 +59,10 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules/,
+          path.resolve(__dirname, 'app')
+        ],
         use: [
           'sass-to-string',
           {
@@ -68,7 +74,29 @@ module.exports = {
             },
           },
         ],
-      }
+      },
+      {
+        test: /\.scss$/,
+        exclude: [
+          /node_modules/,
+          path.resolve(__dirname, 'src')
+        ],
+        use: [
+          // Creates `style` nodes from JS strings
+          {
+            loader: 'style-loader',
+            options: {
+              attributes: {
+                id: 'demo-styles'
+              }
+            }
+          },
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ]
+      },
     ]
   },
   plugins: [

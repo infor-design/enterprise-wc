@@ -1,55 +1,13 @@
-<style id="test-style">
-  #test-section {
-    align-items: center;
-    display: flex;
-    height: 100%;
-    justify-content: center;
-    width: 100%;
-  }
-
-  #popup-align-target {
-    border: 1px dashed #999;
-    display: inline-block;
-    padding: 10px;
-  }
-
-  #other-test-section,
-  #another-test-section {
-    position: relative;
-  }
-
-  #other-popup-align-target,
-  #another-popup-align-target {
-    border: 1px dashed #555;
-    display: inline-block;
-    position: absolute;
-  }
-
-  #other-popup-align-target {
-    padding: 10px;
-  }
-
-  .demo-popup {
-    padding: 20px;
-    white-space: nowrap;
-  }
-
-  ids-popup {
-    display: inline-block;
-    position: fixed;
-  }
-</style>
-
 <section id="other-test-section">
-  <span id="other-popup-align-target" style="right: 150px; top: 150px;">Secondary Alignment Target (cool)</span>
+  <span id="other-popup-align-target">Secondary Alignment Target (cool)</span>
 </section>
 
 <section id="another-test-section">
-  <span id="another-popup-align-target" style="left: 300px; top: 300px; height: 50px; width: 50px;">[:)]</span>
+  <span id="another-popup-align-target">[:)]</span>
 </section>
 
 <section id="test-section">
-  <span id="popup-align-target" style="margin-top: 100px;">Center Point</span>
+  <span id="popup-align-target">Center Point</span>
 </section>
 
 <ids-popup x="0" y="0" align-target="#popup-align-target" align="bottom" animated="true">

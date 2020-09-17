@@ -1,0 +1,56 @@
+/*
+body {
+  background-color: #f00;
+}
+*/
+
+html,
+body,
+div[role='main'] {
+  border: 0;
+  box-sizing: border-box;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+#test-section {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 100%;
+}
+
+#popup-align-target {
+  border: 1px dashed #999;
+  display: inline-block;
+  padding: 10px;
+}
+
+#other-test-section,
+#another-test-section {
+  position: relative;
+}
+
+#other-popup-align-target,
+#another-popup-align-target {
+  border: 1px dashed #555;
+  display: inline-block;
+  position: absolute;
+}
+
+#other-popup-align-target {
+  padding: 10px;
+}
+
+.demo-popup {
+  padding: 20px;
+  white-space: nowrap;
+}
+
+ids-popup {
+  display: inline-block;
+  position: fixed;
+}
