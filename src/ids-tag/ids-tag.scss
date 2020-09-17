@@ -17,13 +17,27 @@
   @include text-14();
   @include text-slate-100();
 
+  // Secondary has a darker border
   &.ids-secondary {
     @include border-graphite-30();
   }
 
+  // Some colors require white text
   &.ids-white {
     @include bg-white();
     @include text-white();
+  }
+
+  // Clickable tags can be focused and clicked
+  &.ids-focusable {
+    @include cursor-pointer();
+
+    &:focus {
+      @include cursor-pointer();
+      @include border-azure-60();
+      @include outline-none();
+      @include shadow();
+    }
   }
 }
 

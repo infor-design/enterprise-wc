@@ -21,6 +21,10 @@ The IDS components are backed by both functional and end-to-end (e2e) test suite
 - In chrome go to url `chrome://inspect/`
 - Click the "inspect" target and then click go in the debugger to get to your test debug point
 
+## Running test in watch mode
+
+If your doing a lot of testing and changing you can save a lot of time running jest in watch mode. When you do any tests that change will be quickly rerun. To do so type `npm run test:watch` in the command line and then change a test file and watch that it reruns right away.
+
 ## Debugging e2e Tests
 
 We could improve this...

@@ -47,9 +47,8 @@ class IdsElement extends HTMLElement {
    * @private
    */
   disconnectedCallback() {
-    if (this.eventHandlers) {
-      this.eventHandlers.removeAll();
-    }
+    this.eventHandlers?.removeAll();
+    this.keyboard?.destroy();
   }
 
   /**
@@ -70,12 +69,6 @@ class IdsElement extends HTMLElement {
   }
 
   /**
-   * Properties for this web component.
-   * @returns {object} The properties object
-   */
-  static get properties() { return {}; }
-
-  /**
    * Render the component using the defined template.
    * @returns {object} The object for chaining.
    */
@@ -86,7 +79,9 @@ class IdsElement extends HTMLElement {
 
     // Make template and shadow objects
     const template = document.createElement('template');
-    this.attachShadow({ mode: 'open' });
+    if (!this.shadowRoot) {
+      this.attachShadow({ mode: 'open' });
+    }
 
     // Append Styles if present
     if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {

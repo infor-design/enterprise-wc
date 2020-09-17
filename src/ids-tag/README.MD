@@ -3,7 +3,7 @@
 ## Description
 
 Tags are UI embellishments that are used to label, categorize and organize keywords surrounding
-some contextual element such as a form. Be car
+some contextual element such as a form.
 
 ## Use Cases
 
@@ -12,9 +12,10 @@ some contextual element such as a form. Be car
 
 ## Terminology
 
-Tag -   A UI embellishments for classification
-Dismissible -   Tag can be closed with an X
-Classification -   How tags are labelled with colors and text
+- Tag: A UI embellishments for classification
+- Clickable/Dismissible: Tag can be closed and removed with an X button
+- Classification:  How tags are labelled with colors and text
+- Disabled: Tag can be disabled so it cannot be followed or clicked.
 
 ## Features (With Code Examples)
 
@@ -40,13 +41,9 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 <ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
 ```
 
-Clickable/Dismissible -   Tag can be closed with an X.
-Linkable -   Tag can be followed as a link, when it does it has an caret to show its a link.
-Disabled -   Tag can be disabled so it cannot be followed or clicked.
-
 ## States and Variations (With Code Examples)
 
-- Color (See Color)
+- Color
 - Linkable
 - Badge
 - Disabled
@@ -60,12 +57,12 @@ Disabled -   Tag can be disabled so it cannot be followed or clicked.
 
 ## Responsive Guidelines
 
-- Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent css.
+- Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent dimensions.
 
 ## Converting from Previous Versions
 
-3.x - Tags have new markup and classes.
-4.x - Tags have new markup and classes for web components.
+- 3.x: Tags have all new markup and classes.
+- 4.x: Tags have all new markup and classes for web components.
 
 ## Designs
 
@@ -73,7 +70,7 @@ Disabled -   Tag can be disabled so it cannot be followed or clicked.
 
 ## Alternate Designs
 
-NA
+N/A
 
 ## Proposed Changes
 
@@ -130,4 +127,4 @@ And I should be able to see Tags with different color e.g (Red, Green Yellow)
 
 ## Regional Considerations
 
-Labels should be localized in the current language. The close and link icons should flip to the alternate side in Right To Left mode. In some languages test may be a lot longer (German) and not wrap (Thai)
+Labels should be localized in the current language. The close and link icons will flip to the alternate side in Right To Left mode. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai).
