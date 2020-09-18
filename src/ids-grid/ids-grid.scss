@@ -72,24 +72,16 @@ $breakpoint-xl: 1440px;
   }
 }
 
-// Grid - Base
-@for $i from 1 through $grid-cols-max {
-  .ids-grid > .ids-grid-span-#{$i} {
-    grid-column-end: span $i;
-    width: auto;
-  }
-}
-
 // Grid - XSmall and up
 @media (min-width: $breakpoint-xs) {
   @for $i from 1 through $grid-cols-min {
-    .ids-grid > .ids-grid-span-xs-#{$i} {
+    .ids-grid > .ids-grid-span-#{$i} {
       grid-column-end: span $i;
       width: auto;
     }
   }
 
-  // Reset base classes to full width
+  // Reset classes above $grid-cols-min to full width
   @for $i from $grid-cols-min through $grid-cols-max {
     .ids-grid > .ids-grid-span-#{$i} {
       grid-column-end: span $grid-cols-min;
@@ -101,13 +93,13 @@ $breakpoint-xl: 1440px;
 // Grid - Small and up
 @media (min-width: $breakpoint-sm) {
   @for $i from 1 through $grid-cols-median {
-    .ids-grid > .ids-grid-span-sm-#{$i} {
+    .ids-grid > .ids-grid-span-#{$i} {
       grid-column-end: span $i;
       width: auto;
     }
   }
 
-  // Reset base classes to full width
+  // Reset classes above $grid-cols-median to full width
   @for $i from $grid-cols-median through $grid-cols-max {
     .ids-grid > .ids-grid-span-#{$i} {
       grid-column-end: span $grid-cols-median;
@@ -119,11 +111,6 @@ $breakpoint-xl: 1440px;
 // Grid - Medium and up
 @media (min-width: $breakpoint-md) {
   @for $i from 1 through $grid-cols-max {
-    .ids-grid > .ids-grid-span-md-#{$i} {
-      grid-column-end: span $i;
-      width: auto;
-    }
-
     .ids-grid > .ids-grid-span-#{$i} {
       grid-column-end: span $i;
       width: auto;
@@ -134,7 +121,7 @@ $breakpoint-xl: 1440px;
 // Grid - Large and up
 @media (min-width: $breakpoint-lg) {
   @for $i from 1 through $grid-cols-max {
-    .ids-grid > .ids-grid-span-lg-#{$i} {
+    .ids-grid > .ids-grid-span-#{$i} {
       grid-column-end: span $i;
       width: auto;
     }
@@ -144,7 +131,7 @@ $breakpoint-xl: 1440px;
 // Grid - XLarge and up
 @media (min-width: $breakpoint-xl) {
   @for $i from 1 through $grid-cols-max {
-    .ids-grid > .ids-grid-span-xl-#{$i} {
+    .ids-grid > .ids-grid-span-#{$i} {
       grid-column-end: span $i;
       width: auto;
     }
