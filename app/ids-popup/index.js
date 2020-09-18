@@ -7,7 +7,6 @@ import './index.scss';
 // When the Popup page loads, we need to use the CSSOM to append some styles
 // that can be modified by changing the attribute (tests the MutationObserver/ResizeObserver)
 document.addEventListener('DOMContentLoaded', () => {
-  debugger;
   const popupAlignTargetEl = document.querySelector('#popup-align-target');
   const otherPopupAlignTargetEl = document.querySelector('#other-popup-align-target');
   const anotherPopupAlignTargetEl = document.querySelector('#another-popup-align-target');
