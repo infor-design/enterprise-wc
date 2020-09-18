@@ -17,11 +17,6 @@ $breakpoint-xl: 1440px;
   --grid-gap: calc(var(--grid-spacing-unit) * 2);
   --grid-margin: calc(var(--grid-spacing-unit) * 2);
 
-  // Increase grid margin on larger screens
-  @media (min-width: $breakpoint-md) {
-    --grid-margin: calc(var(--grid-spacing-unit) * 3);
-  }
-
   // Define number of columns based on breakpoints
   @media (min-width: $breakpoint-xs) {
     --grid-cols: 4;
