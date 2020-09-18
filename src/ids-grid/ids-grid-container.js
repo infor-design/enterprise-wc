@@ -36,7 +36,7 @@ class IdsGridContainer extends IdsElement {
   }
 
   static get properties() {
-    return ['fixed'];
+    return ['fixed', 'auto'];
   }
 
   /**
@@ -55,6 +55,23 @@ class IdsGridContainer extends IdsElement {
   }
 
   get fixed() { return this.getAttribute('fixed'); }
+
+  /**
+   *
+   *
+   */
+  set auto(value) {
+    if (value) {
+      this.setAttribute('auto', value);
+      this.classList.add('ids-grid-cols-auto');
+      return;
+    }
+
+    this.removeAttribute('auto');
+    this.classList.remove('ids-grid-cols-auto');
+  }
+
+  get auto() { return this.getAttribute('auto'); }
 }
 
 export default IdsGridContainer;

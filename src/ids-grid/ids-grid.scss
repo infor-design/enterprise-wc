@@ -11,16 +11,18 @@ $breakpoint-md: 840px;
 $breakpoint-lg: 1280px;
 $breakpoint-xl: 1440px;
 
-// Grid - Definition
 .ids-grid {
+  // Define css custom props
   --grid-unit: 8px;
   --grid-gap: calc(var(--grid-unit) * 2);
   --grid-margin: calc(var(--grid-unit) * 2);
 
+  // Increase grid margin on larger screens
   @media (min-width: $breakpoint-md) {
     --grid-margin: calc(var(--grid-unit) * 3);
   }
 
+  // Define number of columns based on breakpoints
   @media (min-width: $breakpoint-xs) {
     --grid-cols: 4;
   }
@@ -33,16 +35,40 @@ $breakpoint-xl: 1440px;
     --grid-cols: 12;
   }
 
+  // Base grid definition
   display: grid;
   grid-gap: var(--grid-gap);
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
   margin: var(--grid-margin);
 
+  // Add bg color for placeholders
   .ids-background-fill {
     @include py-40();
     @include px-16();
 
     background-color: #efeff0;
+  }
+
+  // Grid Gap classes
+  &.ids-grid-gap-8 {
+    grid-gap: var(--grid-unit);
+  }
+
+  &.ids-grid-gap-16 {
+    grid-gap: calc(var(--grid-unit) * 2);
+  }
+
+  &.ids-grid-gap-24 {
+    grid-gap: calc(var(--grid-unit) * 3);
+  }
+
+  &.ids-grid-gap-32 {
+    grid-gap: calc(var(--grid-unit) * 4);
+  }
+
+  // Grid Auto layout
+  &.ids-grid-cols-auto {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
   }
 }
 
@@ -58,7 +84,7 @@ $breakpoint-xl: 1440px;
   // Set all the span classes above 4 columns to full span
   @for $i from $grid-cols-sm through $grid-cols-lg {
     .ids-grid > .ids-grid-span--#{$i} {
-      grid-column-end: span $grid-cols-md;
+      grid-column-end: span $grid-cols-sm;
       width: auto;
     }
   }
@@ -84,17 +110,9 @@ $breakpoint-xl: 1440px;
 
 // Grid - Medium and up
 @media (min-width: $breakpoint-md) {
-  @for $i from 1 through $grid-cols-md {
+  @for $i from 1 through $grid-cols-lg {
     .ids-grid > .ids-grid-span--#{$i} {
       grid-column-end: span $i;
-      width: auto;
-    }
-  }
-
-  // Set all the span classes above 8 columns to full span
-  @for $i from $grid-cols-md through $grid-cols-lg {
-    .ids-grid > .ids-grid-span--#{$i} {
-      grid-column-end: span $grid-cols-md;
       width: auto;
     }
   }

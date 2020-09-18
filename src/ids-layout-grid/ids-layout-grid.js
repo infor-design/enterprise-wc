@@ -36,7 +36,7 @@ class IdsLayoutGrid extends IdsElement {
   }
 
   static get properties() {
-    return ['fixed'];
+    return ['fixed', 'auto', 'cols', 'rows'];
   }
 
   /**
@@ -55,6 +55,61 @@ class IdsLayoutGrid extends IdsElement {
   }
 
   get fixed() { return this.getAttribute('fixed'); }
+
+  /**
+   *
+   *
+   */
+  set auto(value) {
+    if (value) {
+      this.setAttribute('auto', value);
+      this.classList.add('ids-layout-cols-auto');
+      return;
+    }
+
+    this.removeAttribute('auto');
+    this.classList.remove('ids-layout-cols-auto');
+  }
+
+  get auto() { return this.getAttribute('auto'); }
+
+  /**
+   *
+   *
+   */
+  set cols(value) {
+    if (value) {
+      this.auto = false;
+      this.setAttribute('cols', value);
+      this.classList.add(`ids-layout-cols-${value}`);
+      this.classList.remove('ids-layout-cols-auto');
+      return;
+    }
+
+    this.removeAttribute('auto');
+    this.classList.remove(`ids-layout-cols-${value}`);
+  }
+
+  get cols() { return this.getAttribute('cols'); }
+
+  /**
+   *
+   *
+   */
+  set rows(value) {
+    if (value) {
+      this.auto = false;
+      this.setAttribute('rows', value);
+      this.classList.add(`ids-layout-rows-${value}`);
+      this.classList.remove('ids-layout-cols-auto');
+      return;
+    }
+
+    this.removeAttribute('auto');
+    this.classList.remove(`ids-layout-rows-${value}`);
+  }
+
+  get rows() { return this.getAttribute('rows'); }
 }
 
 export default IdsLayoutGrid;

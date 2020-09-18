@@ -43,7 +43,6 @@ class IdsGridTile extends IdsElement {
     this.classList.remove('ids-background-fill');
   }
 
-
   /**
    * Handle the span setting
    * @returns {string} The amount of columns to span in the grid

@@ -1,6 +1,8 @@
 /* Ids Layout Grid Component */
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 
+$cols: 12;
+
 // Style the grid
 .ids-layout-grid {
   @include mx-12();
@@ -9,7 +11,10 @@
   display: grid;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+
+  &.ids-layout-cols-auto {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
 }
 
 // Add Optional Background Fill
@@ -26,5 +31,19 @@
 @media all and (max-width: 768px) {
   .ids-layout-grid:not(.ids-fixed) {
     grid-template-columns: none;
+  }
+}
+
+@for $i from 1 through $cols {
+  .ids-layout-grid.ids-layout-cols-#{$i} {
+    grid-template-columns: repeat($i, minmax(100px, 1fr));
+  }
+
+  .ids-layout-grid > .ids-layout-cols-span-#{$i} {
+    grid-column: span $i / span $i;
+  }
+
+  .ids-layout-grid.ids-layout-rows-#{$i} {
+    grid-template-rows: repeat($i, minmax(100px, 1fr));
   }
 }
