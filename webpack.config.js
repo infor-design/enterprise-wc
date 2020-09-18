@@ -16,8 +16,10 @@ module.exports = {
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
     'ids-label/ids-label': ['./app/ids-label/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
-    'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
-    'ids-popup/ids-popup': ['./app/ids-popup/index.js']
+    'ids-popup/ids-popup': ['./app/ids-popup/index.js'],
+    'ids-popup/test-target-in-grid': ['./app/ids-popup/test-target-in-grid.js'],
+    'ids-popup/test-target-on-page': ['./app/ids-popup/test-target-on-page.js'],
+    'ids-tag/ids-tag': ['./app/ids-tag/index.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -176,6 +178,20 @@ module.exports = {
       filename: 'ids-popup/index.html',
       chunks: ['ids-popup/ids-popup'],
       title: 'IDS Popup Component'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-popup/test-target-in-grid.html',
+      inject: 'body',
+      filename: 'ids-popup/test-target-in-grid',
+      chunks: ['ids-popup/test-target-in-grid'],
+      title: 'Popup Test - Align Target inside a Layout Grid'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-popup/test-target-on-page.html',
+      inject: 'body',
+      filename: 'ids-popup/test-target-on-page',
+      chunks: ['ids-popup/test-target-on-page'],
+      title: 'Popup Test - Align Targets on the page'
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),

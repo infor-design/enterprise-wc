@@ -1,0 +1,24 @@
+{{> ../layouts/head.html }}
+
+<section id="other-test-section">
+  <span id="other-popup-align-target">Secondary Alignment Target (cool)</span>
+</section>
+
+<section id="another-test-section">
+  <span id="another-popup-align-target">[:)]</span>
+</section>
+
+<section id="test-section">
+  <span id="popup-align-target">Center Point</span>
+</section>
+
+<ids-popup x="0" y="0" align-target="#popup-align-target" align="bottom" animated="true">
+  <div slot="content">
+    <div class="demo-popup">
+      My Popup Contents<br />
+      are better than yours
+    </div>
+  </div>
+</ids-popup>
+
+{{> ../layouts/footer.html }}
