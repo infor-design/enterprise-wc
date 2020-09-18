@@ -57,13 +57,22 @@ class IdsGridContainer extends IdsElement {
   get fixed() { return this.getAttribute('fixed'); }
 
   /**
-   *
-   *
+   * Sets the grid to `auto-fit`
+   * @param {boolean} value true or false/nothing
    */
   set auto(value) {
+    const gridTile = this.querySelectorAll('ids-grid-tile');
     if (value) {
       this.setAttribute('auto', value);
       this.classList.add('ids-grid-cols-auto');
+      gridTile.forEach(tile => {
+        tile.removeAttribute('span');
+        tile.removeAttribute('xs-span');
+        tile.removeAttribute('sm-span');
+        tile.removeAttribute('md-span');
+        tile.removeAttribute('lg-span');
+        tile.removeAttribute('xl-span');
+      });
       return;
     }
 

@@ -2,6 +2,11 @@
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 
 $cols: 12;
+$breakpoint-xs: 360px;
+$breakpoint-sm: 600px;
+$breakpoint-md: 840px;
+$breakpoint-lg: 1280px;
+$breakpoint-xl: 1440px;
 
 // Style the grid
 .ids-layout-grid {
@@ -27,23 +32,43 @@ $cols: 12;
   }
 }
 
-// Tablet down - Go full
-@media all and (max-width: 768px) {
-  .ids-layout-grid:not(.ids-fixed) {
-    grid-template-columns: none;
+@for $i from 1 through $cols {
+  // Define column classes
+  .ids-layout-grid.ids-layout-cols-#{$i} {
+    grid-template-columns: repeat($i, minmax(100px, 1fr));
+
+    @media all and (max-width: $breakpoint-md) {
+      grid-template-columns: none;
+    }
+  }
+
+  // Define column span classes
+  .ids-layout-grid > .ids-layout-cols-span-#{$i} {
+    grid-column: span $i / span $i;
+
+    @media all and (max-width: $breakpoint-md) {
+      grid-column: span 1 / span 1;
+    }
+  }
+
+  // Define row classes
+  .ids-layout-grid.ids-layout-rows-#{$i} {
+    grid-template-rows: repeat($i, minmax(100px, 1fr));
+
+    @media all and (max-width: $breakpoint-md) {
+      grid-template-rows: none;
+    }
+  }
+
+  // Define row span classes
+  .ids-layout-grid > .ids-layout-rows-span-#{$i} {
+    grid-row: span $i / span $i;
   }
 }
 
-@for $i from 1 through $cols {
-  .ids-layout-grid.ids-layout-cols-#{$i} {
-    grid-template-columns: repeat($i, minmax(100px, 1fr));
-  }
-
-  .ids-layout-grid > .ids-layout-cols-span-#{$i} {
-    grid-column: span $i / span $i;
-  }
-
-  .ids-layout-grid.ids-layout-rows-#{$i} {
-    grid-template-rows: repeat($i, minmax(100px, 1fr));
+// Tablet down - Go full
+@media all and (max-width: $breakpoint-md) {
+  .ids-layout-grid:not(.ids-fixed) {
+    grid-template-columns: none;
   }
 }
