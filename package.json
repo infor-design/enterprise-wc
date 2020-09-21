@@ -22,6 +22,7 @@
     "test:coverage": "jest --coverage",
     "test:coverage-only-changed": "jest --coverage --onlyChanged",
     "test:ci": "jest --maxWorkers=2",
+    "test:visuals": "npx percy exec -- npx jest --maxWorkers=2",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "test:updateSnapshot": "jest --updateSnapshot",
     "ncu": "npx ncu"
@@ -47,6 +48,7 @@
     "@babel/plugin-proposal-decorators": "^7.10.5",
     "@babel/plugin-transform-runtime": "^7.11.5",
     "@babel/preset-env": "^7.11.5",
+    "@percy/puppeteer": "^1.1.0",
     "@wordpress/jest-puppeteer-axe": "^1.9.0",
     "autoprefixer": "^10.0.0",
     "babel-eslint": "^10.1.0",

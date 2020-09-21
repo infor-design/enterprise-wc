@@ -39,6 +39,10 @@ We could improve this...
 - edit the jest-puppeteer.config.js and set `devtools: true` and `headless: false`
 - run `npm run test`
 
+## Visual Regression tests
+
+We are using [percy.io](https://docs.percy.io/docs/puppeteer) for visual regression tests. First run the e2e tests with the special "percy" command `npm run test:visuals`.
+
 ## Skipping Tests
 
 - To run only one test in a suite add only. For example `test.only(`

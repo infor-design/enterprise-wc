@@ -87,6 +87,7 @@ class IdsElement extends HTMLElement {
     if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
       const style = document.createElement('style');
       style.textContent = this.cssStyles.replace(':host', `.${this.name}`);
+      style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
       this.shadowRoot.appendChild(style);
     }
 
