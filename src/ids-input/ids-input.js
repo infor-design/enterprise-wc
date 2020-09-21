@@ -47,7 +47,7 @@ class IdsInput extends IdsElement {
    */
   template() {
     return `
-      <input class="ids-input-field" type="${this.type ? types[this.type] : types.default}" ${this.placeholder ? `placeholder="${this.placeholder}"` : ''}/>
+      <input class="ids-input-field" type="${types.default}" ${this.placeholder ? `placeholder="${this.placeholder}"` : ''}/>
     `;
   }
 
@@ -58,9 +58,9 @@ class IdsInput extends IdsElement {
   set type(value) {
     if (value) {
       this.setAttribute(props.TYPE, value);
-    } else {
-      this.setAttribute(props.TYPE, types.default);
+      return;
     }
+    this.setAttribute(props.TYPE, types.default);
   }
 
   get type() { return this.getAttribute(props.TYPE); }
@@ -72,6 +72,7 @@ class IdsInput extends IdsElement {
   set placeholder(value) {
     if (value) {
       this.setAttribute(props.PLACEHOLDER, value);
+      return;
     }
 
     this.removeAttribute(props.PLACEHOLDER);

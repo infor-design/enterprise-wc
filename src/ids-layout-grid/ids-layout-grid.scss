@@ -2,6 +2,7 @@
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 
 // Style the grid
+:host,
 .ids-layout-grid {
   @include mx-12();
   @include my-20();
@@ -13,13 +14,12 @@
 }
 
 // Add Optional Background Fill
-.ids-layout-column {
-  &.ids-background-fill {
-    @include py-40();
-    @include px-16();
+::slotted(.ids-background-fill),
+.ids-layout-column.ids-background-fill {
+  @include py-40();
+  @include px-16();
 
-    background-color: #efeff0; // Get this one from a variable somehow
-  }
+  background-color: #efeff0; // Get this one from a variable somehow
 }
 
 // Tablet down - Go full

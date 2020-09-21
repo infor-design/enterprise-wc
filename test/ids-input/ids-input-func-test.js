@@ -37,6 +37,31 @@ describe('IdsInput Component', () => {
     expect(input.type).toEqual('text');
   });
 
+  it('removes type if reset', () => {
+    input.type = null;
+    expect(input.getAttribute('type')).toEqual('text');
+    expect(input.type).toEqual('text');
+  });
+
+  it('renders placeholder', () => {
+    document.body.innerHTML = '';
+    const elem = new IdsInput();
+    input.placeholder = 'Placeholder Text';
+    input.template();
+    document.body.appendChild(elem);
+
+    input.placeholder = 'Placeholder Text';
+    expect(input.getAttribute('placeholder')).toEqual('Placeholder Text');
+    expect(input.placeholder).toEqual('Placeholder Text');
+  });
+
+  it('removes placeholder if reset', () => {
+    input.placeholder = 'Placeholder Text';
+    input.placeholder = null;
+    expect(input.getAttribute('placeholder')).toEqual(null);
+    expect(input.placeholder).toEqual(null);
+  });
+
   it('renders field type of text', () => {
     input.type = 'text';
     expect(input.getAttribute('type')).toEqual('text');

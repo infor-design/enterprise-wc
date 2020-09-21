@@ -55,7 +55,7 @@ class IdsTag extends IdsElement {
       this.container.style.backgroundColor = prop;
       this.container.style.borderColor = value === 'secondary' ? '' : prop;
 
-      if (value === 'error' || value === 'success' || value === 'danger') {
+      if (value === 'error' || value === 'danger') {
         this.container.classList.add('ids-white');
       }
 

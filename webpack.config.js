@@ -1,11 +1,11 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const sass = require('node-sass');
+const TerserPlugin = require('terser-webpack-plugin');
 
 const path = require('path');
 const webpack = require('webpack');
@@ -18,9 +18,15 @@ module.exports = {
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
   },
+  devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
   optimization: {
-    minimize: false
+    minimize: false, // try true for prod
+    minimizer: [
+      new TerserPlugin({
+        test: /\.js(\?.*)?$/i,
+      }),
+    ],
   },
   output: {
     library: '[name]-lib.js',
@@ -75,7 +81,6 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].min.css'
     }),
-    new UglifyJsPlugin(),
     new HTMLWebpackPlugin({
       template: 'app/index.html',
       inject: 'body',
@@ -122,6 +127,13 @@ module.exports = {
       inject: 'body',
       filename: 'ids-layout-grid/index.html',
       chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-layout-grid/standalone-css.html',
+      inject: 'body',
+      filename: 'ids-layout-grid/standalone-css',
+      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label'],
+      title: 'Layout - Standalone Css'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-trigger-field/index.html',

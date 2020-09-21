@@ -20,7 +20,7 @@ class IdsLabel extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['font-size']; // TODO: type - i.e label
+    return ['font-size', 'type'];
   }
 
   /**
@@ -28,7 +28,16 @@ class IdsLabel extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return '<span class="ids-label"><slot></slot></span>';
+    const tag = this.type || 'span';
+    return `<${tag} class="ids-label${this.fontSize ? ` ids-text-${this.fontSize}` : ''}"><slot></slot></${tag}>`;
+  }
+
+  /**
+   * Rerender the component template
+   * @private
+   */
+  rerender() {
+    this.shadowRoot.innerHTML = this.template();
   }
 
   /**
@@ -48,6 +57,23 @@ class IdsLabel extends IdsElement {
   }
 
   get fontSize() { return this.getAttribute('font-size'); }
+
+  /**
+   * Set the type of object it is (h1-h6, label, span (default))
+   * @param {string} value The font size in the font scheme i.e. 10, 12, 16 or xs, sm, base, lg, xl
+   */
+  set type(value) {
+    if (value) {
+      this.setAttribute('type', value);
+      this.rerender();
+      return;
+    }
+
+    this.removeAttribute('type');
+    this.rerender();
+  }
+
+  get type() { return this.getAttribute('type'); }
 }
 
 export default IdsLabel;

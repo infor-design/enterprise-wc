@@ -29,6 +29,8 @@ describe('IdsLabel Component', () => {
     expect(elem.outerHTML).toMatchSnapshot();
     elem.fontSize = 24;
     expect(elem.outerHTML).toMatchSnapshot();
+    elem.type = 'h1';
+    expect(elem.outerHTML).toMatchSnapshot();
   });
 
   it('renders font size setting', () => {
@@ -45,5 +47,22 @@ describe('IdsLabel Component', () => {
     elem.fontSize = null;
     expect(elem.fontSize).toEqual(null);
     expect(elem.getAttribute('font-size')).toEqual(null);
+  });
+
+  it('renders type setting', () => {
+    elem.type = 'h1';
+    expect(elem.type).toEqual('h1');
+    expect(elem.shadowRoot.querySelectorAll('h1').length).toEqual(1);
+  });
+
+  it('renders font-size setting then removes it', () => {
+    elem = new IdsLabel();
+    document.body.appendChild(elem);
+    elem.type = 'h1';
+    expect(elem.type).toEqual('h1');
+    elem.type = null;
+    expect(elem.type).toEqual(null);
+    expect(elem.getAttribute('type')).toEqual(null);
+    expect(elem.shadowRoot.querySelectorAll('span').length).toEqual(1);
   });
 });

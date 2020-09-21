@@ -32,21 +32,10 @@ class IdsIcon extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const size = sizes[this.size] || sizes.normal;
+    const size = sizes[this.size];
     return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
       <path d="${this.iconData()}" />
     </svg>`;
-  }
-
-  /**
-   * Rerender the component with the current settings
-   */
-  rerender() {
-    const svg = this.shadowRoot.querySelector('svg');
-    if (!svg) {
-      return;
-    }
-    this.shadowRoot.innerHTML = this.template();
   }
 
   /**
@@ -64,12 +53,12 @@ class IdsIcon extends IdsElement {
   get icon() { return this.getAttribute('icon'); }
 
   set icon(value) {
-    if (this.hasAttribute('icon') && value) {
+    if (value) {
       this.setAttribute('icon', value);
       this.shadowRoot.querySelector('svg path').setAttribute('d', this.iconData());
     } else {
       this.removeAttribute('icon');
-      this.shadowRoot.querySelector('svg').remove();
+      this.shadowRoot.querySelector('svg')?.remove();
     }
   }
 
@@ -80,7 +69,7 @@ class IdsIcon extends IdsElement {
   get size() { return this.getAttribute('size') || 'normal'; }
 
   set size(value) {
-    if (this.hasAttribute('size') && value) {
+    if (value) {
       this.setAttribute('size', value);
       this.shadowRoot.querySelector('svg').setAttribute('height', sizes[this.size]);
       this.shadowRoot.querySelector('svg').setAttribute('width', sizes[this.size]);

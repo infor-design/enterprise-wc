@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsIcon Component renders correctly 1`] = `"<ids-icon icon=\\"close\\"></ids-icon>"`;
+
+exports[`IdsIcon Component renders correctly 2`] = `"<ids-icon icon=\\"close\\" size=\\"small\\"></ids-icon>"`;

@@ -3,7 +3,8 @@ export const props = {
   TYPE: 'type',
   PLACEHOLDER: 'placeholder',
   TABBABLE: 'tabbable',
-  ICON: 'icon'
+  ICON: 'icon',
+  APPEARANCE: 'appearance'
 };
 
 export const prefix = {

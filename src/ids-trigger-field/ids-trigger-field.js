@@ -51,26 +51,23 @@ class IdsTriggerField extends IdsElement {
   set tabbable(value) {
     const isTabbable = this.stringToBool(value);
     const button = this.querySelector('ids-trigger-button');
-    if (!isTabbable) {
-      this.setAttribute(props.TABBABLE, value);
-      button.setAttribute('tabindex', '-1');
-    } else {
-      button.setAttribute('tabindex', '0');
-    }
+    this.setAttribute(props.TABBABLE, value);
+    button?.setAttribute('tabindex', !isTabbable ? '-1' : '0');
   }
 
   get tabbable() { return this.getAttribute(props.TABBABLE); }
 
   /**
    * TODO: Set the appearance of the trigger field
-   * @param {string} value Provide different options for appearance ['Normal', 'Compact']
+   * @param {string} value Provide different options for appearance 'normal' | 'compact'
    */
   set appearance(value) {
     if (value) {
       this.setAttribute(props.APPEARANCE, value);
+      return;
     }
 
-    this.removeAttribute(props.APPEARANCE);
+    this.setAttribute(props.APPEARANCE, 'normal');
   }
 
   get appearance() { return this.getAttribute(props.APPEARANCE); }
@@ -83,6 +80,8 @@ class IdsTriggerField extends IdsElement {
     const isDisabled = this.stringToBool(value);
     if (isDisabled) {
       this.setAttribute(props.DISABLE_EVENTS, value);
+      this.handleEvents();
+      return;
     }
 
     this.removeAttribute(props.DISABLE_EVENTS);
@@ -116,12 +115,13 @@ class IdsTriggerField extends IdsElement {
     const response = (veto) => {
       canTrigger = !!veto;
     };
+    this.eventHandlers.dispatchEvent('beforetriggerclicked', this, { elem: this, response });
 
     if (!canTrigger) {
       return;
     }
 
-    this.eventHandlers.dispatchEvent('triggerfield', this, { elem: this, response });
+    this.eventHandlers.dispatchEvent('triggerclicked', this, { elem: this });
   }
 }
 

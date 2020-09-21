@@ -3,7 +3,7 @@
  */
 import IdsTag from '../../src/ids-tag/ids-tag';
 import { IdsElement } from '../../src/ids-base/ids-element';
-import { IdsStringUtilsMixin as stringUtils } from '../../src/ids-base/ids-string-utils-mixin';
+import { IdsExampleMixin as exampleMixin } from '../../src/ids-base/ids-example-mixin';
 
 describe('IdsBase Tests', () => {
   afterEach(async () => {
@@ -23,8 +23,8 @@ describe('IdsBase Tests', () => {
     expect(elem.shadowRoot.adoptedStyleSheets[0].cssRules).toBeTruthy();
   });
 
-  it('can camel case properties', () => {
-    expect(stringUtils.camelCase('test-me')).toEqual('testMe');
-    expect(stringUtils.camelCase('testxyz')).toEqual('testxyz');
+  it('can call events in a mixin', () => {
+    expect(exampleMixin.prop1).toEqual('test');
+    expect(exampleMixin.methodOne()).toEqual('test');
   });
 });
