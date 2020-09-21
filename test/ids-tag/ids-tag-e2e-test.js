@@ -1,5 +1,4 @@
 const { percySnapshot } = require('@percy/puppeteer');
-const puppeteer = require('puppeteer');
 
 describe('Ids Tag e2e Tests', () => {
   const url = 'http://localhost:4444/ids-tag';
