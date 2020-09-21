@@ -65,14 +65,7 @@ class IdsGridContainer extends IdsElement {
     if (value) {
       this.setAttribute('auto', value);
       this.classList.add('ids-grid-cols-auto');
-      gridTile.forEach(tile => {
-        tile.removeAttribute('span');
-        tile.removeAttribute('xs-span');
-        tile.removeAttribute('sm-span');
-        tile.removeAttribute('md-span');
-        tile.removeAttribute('lg-span');
-        tile.removeAttribute('xl-span');
-      });
+      gridTile.forEach(tile => tile.removeAttribute('span'));
       return;
     }
 

@@ -5,7 +5,7 @@ import IdsTag from '../src/ids-tag/ids-tag';
 import IdsLayoutGrid from '../src/ids-layout-grid/ids-layout-grid';
 import IdsLayoutColumn from '../src/ids-layout-grid/ids-layout-column';
 import IdsGrid from '../src/ids-grid/ids-grid-container';
-import IdsGridColumn from '../src/ids-grid/ids-grid-tile';
+import IdsGridcell from '../src/ids-grid/ids-grid-cell';
 import IdsInput from '../src/ids-input/ids-input';
 import IdsTriggerField from '../src/ids-trigger-field/ids-trigger-field';
 import IdsTriggerButton from '../src/ids-trigger-button/ids-trigger-button';
