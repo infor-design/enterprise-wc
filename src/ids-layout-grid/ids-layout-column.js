@@ -18,7 +18,7 @@ class IdsLayoutColumn extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['fill', 'span'];
+    return ['fill', 'col-span', 'col-start', 'col-end', 'row-start', 'row-end'];
   }
 
   /**
@@ -47,21 +47,21 @@ class IdsLayoutColumn extends IdsElement {
    * Handle the span setting
    * @returns {string} The amount of columns to span in the grid
    */
-  get span() { return this.getAttribute('span') };
+  get colSpan() { return this.getAttribute('span') };
 
   /**
    * Set the amount of columns to span
    * @param {string} value The number value for the columns to span in the grid
    */
-  set span(value) {
+  set colSpan(value) {
     if (value) {
-      this.setAttribute('span', value);
-      this.classList.add(`ids-layout-cols-span-${value}`);
+      this.setAttribute('col-span', value);
+      this.classList.add(`ids-layout-col-span-${value}`);
       return;
     }
 
-    this.classList.remove(`ids-layout-cols-span-${value}`);
-    this.removeAttribute('span');
+    this.classList.remove(`ids-layout-col-span-${value}`);
+    this.removeAttribute('col-span');
   }
 }
 

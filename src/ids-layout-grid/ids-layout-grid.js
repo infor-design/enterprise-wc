@@ -57,8 +57,8 @@ class IdsLayoutGrid extends IdsElement {
   get fixed() { return this.getAttribute('fixed'); }
 
   /**
-   *
-   *
+   * Sets the grid to `auto-fit`
+   * @param {boolean} value true or false/nothing
    */
   set auto(value) {
     if (value) {
@@ -74,8 +74,8 @@ class IdsLayoutGrid extends IdsElement {
   get auto() { return this.getAttribute('auto'); }
 
   /**
-   *
-   *
+   * Sets the amount of columns in the grid
+   * @param {string} value number of columns of the grid
    */
   set cols(value) {
     if (value) {
@@ -93,8 +93,8 @@ class IdsLayoutGrid extends IdsElement {
   get cols() { return this.getAttribute('cols'); }
 
   /**
-   *
-   *
+   * Sets the amount of rows in the grid. Works best with fixed height grids
+   * @param {string} value number of rows in a fixed grid
    */
   set rows(value) {
     if (value) {

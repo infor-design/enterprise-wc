@@ -10,6 +10,8 @@ $breakpoint-xl: 1440px;
 
 // Style the grid
 .ids-layout-grid {
+  --grid-spacing-unit: 8px;
+
   @include mx-12();
   @include my-20();
 
@@ -17,8 +19,26 @@ $breakpoint-xl: 1440px;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 
+  // Auto layout
   &.ids-layout-cols-auto {
     grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+
+  // Grid Gap
+  &.ids-grid-gap-8 {
+    grid-gap: var(--grid-spacing-unit);
+  }
+
+  &.ids-grid-gap-16 {
+    grid-gap: calc(var(--grid-spacing-unit) * 2);
+  }
+
+  &.ids-grid-gap-24 {
+    grid-gap: calc(var(--grid-spacing-unit) * 3);
+  }
+
+  &.ids-grid-gap-32 {
+    grid-gap: calc(var(--grid-spacing-unit) * 4);
   }
 }
 
@@ -34,7 +54,7 @@ $breakpoint-xl: 1440px;
 
 @for $i from 1 through $cols {
   // Define column classes
-  .ids-layout-grid.ids-layout-cols-#{$i} {
+  .ids-layout-grid.ids-layout-col-#{$i} {
     grid-template-columns: repeat($i, minmax(100px, 1fr));
 
     @media all and (max-width: $breakpoint-md) {
@@ -43,12 +63,22 @@ $breakpoint-xl: 1440px;
   }
 
   // Define column span classes
-  .ids-layout-grid > .ids-layout-cols-span-#{$i} {
+  .ids-layout-grid > .ids-layout-col-span-#{$i} {
     grid-column: span $i / span $i;
 
     @media all and (max-width: $breakpoint-md) {
       grid-column: span 1 / span 1;
     }
+  }
+
+  // Define column start classes
+  .ids-layout-grid > .ids-layout-col-start-#{$i} {
+    grid-column-start: $i;
+  }
+
+  // Define column end classes
+  .ids-layout-grid > .ids-layout-col-end-#{$i} {
+    grid-column-end: $i;
   }
 
   // Define row classes
@@ -64,6 +94,16 @@ $breakpoint-xl: 1440px;
   .ids-layout-grid > .ids-layout-rows-span-#{$i} {
     grid-row: span $i / span $i;
   }
+
+  // Define row start classes
+  .ids-layout-grid > .ids-layout-rows-start-#{$i} {
+    grid-row-start: $i;
+  }
+
+  // Define row end classes
+  .ids-layout-grid > .ids-layout-rows-end-#{$i} {
+    grid-row-end: $i;
+  }
 }
 
 // Tablet down - Go full
@@ -71,4 +111,21 @@ $breakpoint-xl: 1440px;
   .ids-layout-grid:not(.ids-fixed) {
     grid-template-columns: none;
   }
+}
+
+// Grid Flow
+.ids-grid-flow-row {
+  grid-auto-flow: row;
+}
+
+.ids-grid-flow-col {
+  grid-auto-flow: column;
+}
+
+.ids-grid-flow-row-dense {
+  grid-auto-flow: row dense;
+}
+
+.ids-grid-flow-col-dense {
+  grid-auto-flow: column dense;
 }
