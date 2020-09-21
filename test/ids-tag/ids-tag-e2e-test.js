@@ -2,7 +2,7 @@ const { toMatchImageSnapshot } = require('jest-image-snapshot');
 
 expect.extend({ toMatchImageSnapshot });
 
-describe('Ids Tag e2e Tests', () => {
+describe.only('Ids Tag e2e Tests', () => {
   const url = 'http://localhost:4444/ids-tag';
 
   beforeAll(async () => {
@@ -25,7 +25,10 @@ describe('Ids Tag e2e Tests', () => {
   it.only('should not have visual regressions', async () => {
     const image = await page.screenshot();
     expect(image).toMatchImageSnapshot({
-      comparisonMethod: 'ssim'
+      customSnapshotIdentifier: 'ids-tag-image-snapshot',
+      comparisonMethod: 'ssim',
+      customSnapshotsDir: __dirname,
+      customDiffDir: `${__dirname}/diff`
     });
   });
 });
