@@ -46,3 +46,10 @@ jobs:
       with:
         github_token: "${{ secrets.GITHUB_TOKEN }}"
         test_command: "npm run test:coverage"
+
+    - name: Run Percy Tests
+      uses: percy/exec-action@v0.3.0
+      with:
+        command: "npm run test:ci"
+      env:
+        PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
