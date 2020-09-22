@@ -37,7 +37,10 @@ class IdsLabel extends IdsElement {
    * @private
    */
   rerender() {
-    this.shadowRoot.querySelector('.ids-label').outerHTML = this.template();
+    const template = document.createElement('template');
+    this.shadowRoot.querySelector('.ids-label').remove();
+    template.innerHTML = this.template();
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   /**
