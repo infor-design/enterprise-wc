@@ -19,17 +19,6 @@ describe('Ids Tag e2e Tests', () => {
     await expect(page).toPassAxeTests();
   });
 
-  /*
-    it('should not have visual regressions', async () => {
-      const image = await page.screenshot();
-      expect(image).toMatchImageSnapshot({
-        customSnapshotIdentifier: 'ids-tag-image-snapshot',
-        comparisonMethod: 'ssim',
-        customSnapshotsDir: __dirname,
-        customDiffDir: `${__dirname}/diff`
-    });
-  */
-
   it('should not have visual regressions (percy)', async () => {
     await page.setBypassCSP(true);
     await page.goto('http://localhost:4444/ids-tag', { waitUntil: 'load' });

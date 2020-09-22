@@ -41,7 +41,17 @@ We could improve this...
 
 ## Visual Regression tests
 
-We are using [percy.io](https://docs.percy.io/docs/puppeteer) for visual regression tests. First run the e2e tests with the special "percy" command `npm run test:visuals`.
+We are using [percy.io](https://docs.percy.io/docs/puppeteer) for visual regression tests. First run the e2e tests with the special "percy" command `npm run test:visuals`. To run this you need to add the `PERCY_TOKEN` to your bashrc from the [percy settings page](https://percy.io/Infor-Design-System/IDS-Web-Components/settings).
+
+We should have one visual regression image per component. When you PR a test an action will ask that reviewers check the images and approve. An example test looks like this:
+
+```js
+  it('should not have visual regressions (percy)', async () => {
+    await page.setBypassCSP(true);
+    await page.goto('http://localhost:4444/ids-tag', { waitUntil: 'load' });
+    await percySnapshot(page, 'ids-tag');
+  });
+```
 
 ## Skipping Tests
 
