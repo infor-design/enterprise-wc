@@ -31,15 +31,6 @@ describe('Ids Tag e2e Tests', () => {
   */
 
   it('should not have visual regressions (percy)', async () => {
-    const page = await browser.newPage();
-    page.on('error', (err) => {
-      console.log('error happen at the page: ', err);  //eslint-disable-line
-    });
-
-    page.on('pageerror', (pageerr) => {
-      console.log('pageerror occurred: ', pageerr); //eslint-disable-line
-    });
-
     await page.setBypassCSP(true);
     await page.goto('http://localhost:4444/ids-tag', { waitUntil: 'load' });
     await percySnapshot(page, 'ids-tag');
