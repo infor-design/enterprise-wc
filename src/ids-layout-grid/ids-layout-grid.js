@@ -16,27 +16,12 @@ class IdsLayoutGrid extends IdsElement {
     super();
   }
 
-  connectedCallBack() {
-    this.init();
-  }
-
-  init() {
-    // Add class
-    this.classList.add('ids-layout-grid');
-
-    // Append One style sheet
-    const firstSheet = document.querySelector('#ids-layout-grid-styles');
-
-    if (!firstSheet) {
-      const style = document.createElement('style');
-      style.setAttribute('id', 'ids-layout-grid-styles');
-      style.textContent = this.cssStyles;
-      this.appendChild(style);
-    }
-  }
-
   static get properties() {
     return ['fixed'];
+  }
+
+  template() {
+    return `<slot></slot>`;
   }
 
   /**

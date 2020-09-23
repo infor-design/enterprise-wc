@@ -1,1 +1,1 @@
-module.exports = {};
+module.exports = `::host { background-color: transparent; }`;

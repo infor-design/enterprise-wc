@@ -133,10 +133,9 @@ module.exports = {
 
   // A list of paths to modules that run some code to configure
   // or set up the testing framework before each test
-  // setupFilesAfterEnv: [],
-
-  // A list of paths to snapshot serializer modules Jest should use for snapshot testing
-  // snapshotSerializers: [],
+  setupFilesAfterEnv: [
+    '@wordpress/jest-puppeteer-axe'
+  ],
 
   // Change the name convention of the snapshot to be next to the test
   snapshotResolver: '<rootDir>/test/helpers/snapshot-resolver.js',

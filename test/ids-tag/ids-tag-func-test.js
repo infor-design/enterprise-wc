@@ -97,6 +97,15 @@ describe('IdsTag Component', () => {
     expect(document.querySelectorAll('ids-tag').length).toEqual(0);
   });
 
+  it('dismisses on backspace/delete', () => {
+    tag.dismissible = true;
+
+    const event = new KeyboardEvent('keydown', { key: 'Backspace' });
+    tag.dispatchEvent(event);
+
+    expect(document.querySelectorAll('ids-tag').length).toEqual(0);
+  });
+
   it('fires beforetagremoved on dismiss', () => {
     tag.dismissible = true;
     tag.addEventListener('beforetagremoved', (e) => {
@@ -139,5 +148,28 @@ describe('IdsTag Component', () => {
     tag.insertBefore(icon, span);
 
     tag.addEventListener('slotchange', mockCallback);
+  });
+
+  it('can be clickable', () => {
+    tag.clickable = true;
+    const mockHandler = jest.fn();
+    tag.keyboard.listen('Enter', tag, mockHandler);
+
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    tag.dispatchEvent(event);
+
+    expect(tag.container.classList.contains('ids-focusable')).toEqual(true);
+    expect(mockHandler.mock.calls.length).toBe(1);
+  });
+
+  it('removes the clickable attribute when reset', () => {
+    tag.clickable = true;
+    expect(tag.getAttribute('clickable')).toEqual('true');
+    expect(tag.clickable).toEqual('true');
+
+    tag.clickable = false;
+    expect(tag.getAttribute('clickable')).toEqual(null);
+    expect(tag.clickable).toEqual(null);
+    expect(tag.container.classList.contains('ids-focusable')).toEqual(false);
   });
 });

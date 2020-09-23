@@ -2,10 +2,10 @@
  * An example mixin that shows the general format of a mixin that will extend a IDS component.
  */
 const IdsExampleMixin = {
-  prop1: {},
+  prop1: 'test',
 
   methodOne() {
-    // Do somethings
+    return 'test';
   }
 };
 

@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsLabel Component renders correctly 1`] = `"<ids-label></ids-label>"`;
+
+exports[`IdsLabel Component renders correctly 2`] = `"<ids-label font-size=\\"24\\"></ids-label>"`;
+
+exports[`IdsLabel Component renders correctly 3`] = `"<ids-label font-size=\\"24\\" type=\\"h1\\"></ids-label>"`;
