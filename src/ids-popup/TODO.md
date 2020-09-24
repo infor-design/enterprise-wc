@@ -8,6 +8,7 @@
 - [ ] Add MutationObserver detection for the Popup content wrapper, do a `refresh()` when it changes
 - [x] Tests for basic placement
 - [ ] Fix bad input tests (see functional tests)
-- [ ] Move current Popup `alignTarget` samples to another page, use a button on the index to place Popup by target.
+- [x] Move current Popup `alignTarget` samples to another page, use a button on the index to place Popup by target.
 - [ ] Create a "Click in the boundary" page that places a Popup by coordinates.
-- [ ] Add Popup "open" (visible) and "closed" (hidden) states.
+- [x] Add Popup "open" (visible) and "closed" (hidden) states.
+- [ ] Figure out how to get default placement/visibility working again after adding `shouldUpdate: true` setting to the `connectedCallback` (Friday afternoon)

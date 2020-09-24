@@ -89,7 +89,8 @@ module.exports = {
             loader: 'style-loader',
             options: {
               attributes: {
-                id: 'demo-styles'
+                id: 'demo-styles',
+                nonce: '0a59a005' // needs to match a global nonce instance
               }
             }
           },

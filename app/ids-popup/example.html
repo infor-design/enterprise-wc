@@ -1,4 +1,4 @@
-<ids-popup x="0" y="0" align-target="#popup-align-target" align="bottom" animated="true" style="display: none;">
+<ids-popup x="0" y="0" align-target="#popup-align-target" align="bottom" animated="true">
   <div slot="content">
     <div class="demo-popup">
       My Popup Content
@@ -6,6 +6,10 @@
   </div>
 </ids-popup>
 
-<button class="btn" id="popup-trigger-btn">
-  <span>Trigger a Popup</span>
-</button>
+<ids-layout-grid>
+  <ids-layout-column>
+    <button class="btn" id="popup-trigger-btn">
+      <span>Trigger a Popup</span>
+    </button>
+  </ids-layout-column>
+</ids-layout-grid>

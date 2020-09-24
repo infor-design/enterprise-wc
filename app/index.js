@@ -11,4 +11,5 @@ import IdsTriggerButton from '../src/ids-trigger-button/ids-trigger-button';
 
 // Import Example Code
 import './ids-icon/index.js'; //eslint-disable-line
+import './ids-popup/index.js'; //eslint-disable-line
 import './ids-trigger-field/index.js'; //eslint-disable-line

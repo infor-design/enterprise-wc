@@ -51,6 +51,7 @@ describe('IdsPopup Component', () => {
     const edge = popup.alignEdge;
     const target = popup.alignTarget;
     const animated = popup.animated;
+    const visible = popup.visible;
 
     expect(x).toEqual(0);
     expect(y).toEqual(0);
@@ -58,7 +59,15 @@ describe('IdsPopup Component', () => {
     expect(alignX).toEqual('center');
     expect(alignY).toEqual('center');
     expect(target).not.toBeDefined();
+    expect(animated).toBeDefined();
     expect(animated).toBeFalsy();
+    expect(visible).toBeDefined();
+    expect(visible).toBeFalsy();
+  });
+
+  it('has access to globals', () => {
+    expect(this.ro instanceof ResizeObserver).toBeTruthy();
+    expect(this.mo instanceof MutationObserver).toBeTruthy();
   });
 
   // NOTE: Needs to mock `getBoundingClientRect` on the `container`

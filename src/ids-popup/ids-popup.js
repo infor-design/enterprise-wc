@@ -70,6 +70,7 @@ class IdsPopup extends IdsElement {
    */
   connectedCallBack() {
     this.animated = this.hasAttribute('animated');
+    this.visible = this.hasAttribute('visible');
     this.setupDetectMutations();
     this.setupResize();
     this.handleEvents();
@@ -118,6 +119,7 @@ class IdsPopup extends IdsElement {
       'align-edge',
       'align-target',
       'animated',
+      'visible',
       'x',
       'y'
     ];
@@ -327,14 +329,16 @@ class IdsPopup extends IdsElement {
    * @param {boolean} val whether or not the component should animate its movement
    */
   set animated(val) {
-    const trueVal = val === true || val === 'true';
+    this.refresh();
+
+    const trueVal = val === true || (typeof val === 'string' && val.length);
     if (trueVal) {
       this.setAttribute('animated', true);
       this.container.classList.add('animated');
-      return;
+    } else {
+      this.removeAttribute('animated');
+      this.container.classList.remove('animated');
     }
-    this.removeAttribute('animated');
-    this.container.classList.remove('animated');
   }
 
   /**
@@ -342,6 +346,44 @@ class IdsPopup extends IdsElement {
    */
   get animated() {
     return this.container.classList.contains('animated');
+  }
+
+  /**
+   * @param {boolean} val whether or not the component should be displayed
+   */
+  set visible(val) {
+    this.container.transitionend = null;
+
+    const trueVal = val === true || (typeof val === 'string' && val.length);
+    if (trueVal) {
+      // Show
+      this.shouldUpdate = false;
+      this.setAttribute('visible', true);
+      this.shouldUpdate = true;
+      this.container.classList.add('visible');
+      this.refresh();
+      setTimeout(() => {
+        this.container.classList.add('open');
+      }, 10);
+      return;
+    }
+
+    // Hide
+    this.shouldUpdate = false;
+    this.container.ontransitionend = () => {
+      this.removeAttribute('visible', true);
+      this.container.classList.remove('visible');
+      this.container.ontransitionend = null;
+      this.shouldUpdate = true;
+    };
+    this.container.classList.remove('open');
+  }
+
+  /**
+   * @returns {boolean} whether or not the component is currently displayed
+   */
+  get visible() {
+    return this.container.classList.contains('visible');
   }
 
   /**
