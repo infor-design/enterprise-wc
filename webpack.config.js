@@ -90,7 +90,7 @@ module.exports = {
             options: {
               attributes: {
                 id: 'demo-styles',
-                nonce: '0a59a005' // needs to match a global nonce instance
+                nonce: '0a59a005' // @TODO needs to match a global nonce instance
               }
             }
           },

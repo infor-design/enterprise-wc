@@ -9,10 +9,9 @@ $transition-length: 200ms;
 }
 
 .ids-popup {
-  background-color: #fff;
-  border: 1px solid #2ac371;
+  @include opacity-0();
+
   display: none;
-  opacity: 0;
   position: fixed;
 
   // Actually renders the popup, but doesn't "unhide" it
@@ -22,7 +21,7 @@ $transition-length: 200ms;
 
   // Added to ".visible" to animate the opening.
   &.open {
-    opacity: 1;
+    @include opacity-100();
   }
 
   // Animates X/Y movement, fade in/out of the popup.
@@ -36,6 +35,66 @@ $transition-length: 200ms;
         left $transition-length cubic-bezier(0.4, 0, 0.6, 1),
         top $transition-length cubic-bezier(0.4, 0, 0.6, 1);
     }
+  }
+
+  // style: "none" (temporary)
+  // maybe makes sense to be "custom"?
+  // @TODO remove this or replace it with something that makes more sense.
+  &.none {
+    @include bg-white();
+    @include border-1();
+    @include border-solid();
+    @include border-emerald-30();
+    @include p-12();
+  }
+
+  // style: "menu"
+  &.menu {
+    @include bg-white();
+    @include border-1();
+    @include border-solid();
+    @include font-sans();
+    @include p-12();
+    @include rounded-default();
+    @include shadow();
+    @include text-14();
+
+    border-color: var(--ids-color-border-lighter);
+  }
+
+  // style: "menu-alt"
+  &.menu-alt {
+    @include bg-slate-100();
+    @include border-1();
+    @include border-solid();
+    @include font-sans();
+    @include p-12();
+    @include shadow();
+    @include rounded-default();
+    @include text-14();
+    @include text-white();
+
+    border-color: var(--ids-color-border-darker);
+  }
+
+  // style: "tooltip"
+  &.tooltip {
+    @include bg-slate-100();
+    @include font-sans();
+    @include p-12();
+    @include rounded-md();
+    @include text-12();
+    @include text-white();
+  }
+
+  // style: "tooltip-alt"
+  &.tooltip-alt {
+    @include bg-white();
+    @include font-sans();
+    @include p-12();
+    @include rounded-md();
+    @include text-12();
+    @include text-black();
   }
 }
 

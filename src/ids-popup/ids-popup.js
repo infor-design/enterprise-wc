@@ -19,6 +19,9 @@ const ALIGNMENTS_Y = [CENTER, 'top', 'bottom'];
 const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== CENTER);
 const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== CENTER);
 
+// Types of Popup styles
+const TYPES = ['none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'];
+
 // Properties exposed with getters/setters
 // safeSet/RemoveAttribute also use these so we pull them out
 const POPUP_PROPERTIES = [
@@ -28,6 +31,7 @@ const POPUP_PROPERTIES = [
   'align-edge',
   'align-target',
   'animated',
+  'type',
   'visible',
   'x',
   'y'
@@ -76,6 +80,7 @@ class IdsPopup extends IdsElement {
     };
     this.isVisible = false;
     this.isAnimated = false;
+    this.trueType = 'none';
     this.shouldUpdate = true;
   }
 
@@ -85,8 +90,8 @@ class IdsPopup extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
-    // this.isAnimated = this.hasAttribute('animated');
     this.animated = this.hasAttribute('animated');
+    this.trueType = this.getAttribute('type') || this.trueType;
     this.isVisible = this.hasAttribute('visible');
     this.setupDetectMutations();
     this.setupResize();
@@ -347,6 +352,25 @@ class IdsPopup extends IdsElement {
   }
 
   /**
+   *
+   */
+  set type(val) {
+    if (val && TYPES.includes(val)) {
+      this.trueType = val;
+    }
+
+    this.safeSetAttribute('type', this.trueType);
+    this.refresh();
+  }
+
+  /**
+   *
+   */
+  get type() {
+    return this.trueType;
+  }
+
+  /**
    * @param {boolean} val whether or not the component should be displayed
    */
   set visible(val) {
@@ -424,6 +448,17 @@ class IdsPopup extends IdsElement {
     if (this.shouldResize()) {
       this.ro.observe(this.parentNode);
     }
+
+    // Set the Popup type
+    const thisType = this.trueType;
+    const thisCl = this.container.classList;
+    TYPES.forEach((type) => {
+      if (type !== thisType && thisCl.contains(type)) {
+        thisCl.remove(type);
+      } else if (type === thisType && !thisCl.contains(type)) {
+        thisCl.add(type);
+      }
+    });
 
     // Make the popup actually render before doing placement calcs
     if (this.isVisible) {
