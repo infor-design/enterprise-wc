@@ -19,6 +19,20 @@ const ALIGNMENTS_Y = [CENTER, 'top', 'bottom'];
 const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== CENTER);
 const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== CENTER);
 
+// Properties exposed with getters/setters
+// safeSet/RemoveAttribute also use these so we pull them out
+const POPUP_PROPERTIES = [
+  'align',
+  'align-x',
+  'align-y',
+  'align-edge',
+  'align-target',
+  'animated',
+  'visible',
+  'x',
+  'y'
+];
+
 /**
  * Formats the text value of the `align` attribute.
  * @private
@@ -60,6 +74,8 @@ class IdsPopup extends IdsElement {
       x: 0,
       y: 0
     };
+    this.isVisible = false;
+    this.isAnimated = false;
     this.shouldUpdate = true;
   }
 
@@ -69,8 +85,9 @@ class IdsPopup extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
-    this.animated = this.hasAttribute('animated');
-    this.visible = this.hasAttribute('visible');
+    this.isAnimated = this.hasAttribute('animated');
+    //this.animated = this.hasAttribute('animated');
+    this.isVisible = this.hasAttribute('visible');
     this.setupDetectMutations();
     this.setupResize();
     this.handleEvents();
@@ -112,17 +129,7 @@ class IdsPopup extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [
-      'align',
-      'align-x',
-      'align-y',
-      'align-edge',
-      'align-target',
-      'animated',
-      'visible',
-      'x',
-      'y'
-    ];
+    return POPUP_PROPERTIES;
   }
 
   /**
@@ -139,9 +146,7 @@ class IdsPopup extends IdsElement {
   set alignTarget(val) {
     if (typeof val !== 'string' || !val.length) {
       this.alignment.target = undefined;
-      this.shouldUpdate = false;
       this.removeAttribute('align-target');
-      this.shouldUpdate = true;
       this.refresh();
       return;
     }
@@ -240,9 +245,7 @@ class IdsPopup extends IdsElement {
 
     // If `align-x` was used directy, standardize against the `align` attribute
     if (this.hasAttribute('align-x')) {
-      this.shouldUpdate = false;
-      this.removeAttribute('align-x');
-      this.shouldUpdate = true;
+      this.safeRemoveAttribute('align-x');
     }
     if (this.shouldUpdate) {
       this.setAttribute('align', formatAlignAttribute(val, this.alignment.y, val));
@@ -274,9 +277,7 @@ class IdsPopup extends IdsElement {
 
     // If `align-y` was used directy, standardize against the `align` attribute
     if (this.hasAttribute('align-y')) {
-      this.shouldUpdate = false;
-      this.removeAttribute('align-y');
-      this.shouldUpdate = true;
+      this.safeRemoveAttribute('align-y');
     }
     if (this.shouldUpdate) {
       this.setAttribute('align', formatAlignAttribute(this.alignment.x, val, val));
@@ -329,16 +330,12 @@ class IdsPopup extends IdsElement {
    * @param {boolean} val whether or not the component should animate its movement
    */
   set animated(val) {
-    this.refresh();
-
-    const trueVal = val === true || (typeof val === 'string' && val.length);
-    if (trueVal) {
-      this.setAttribute('animated', true);
-      this.container.classList.add('animated');
-    } else {
+    this.isAnimated = val === true || (typeof val === 'string' && val.length);
+    if (!this.isAnimated) {
       this.removeAttribute('animated');
       this.container.classList.remove('animated');
     }
+    this.refresh();
   }
 
   /**
@@ -356,15 +353,8 @@ class IdsPopup extends IdsElement {
 
     const trueVal = val === true || (typeof val === 'string' && val.length);
     if (trueVal) {
-      // Show
-      this.shouldUpdate = false;
-      this.setAttribute('visible', true);
-      this.shouldUpdate = true;
-      this.container.classList.add('visible');
+      this.isVisible = true;
       this.refresh();
-      setTimeout(() => {
-        this.container.classList.add('open');
-      }, 10);
       return;
     }
 
@@ -374,7 +364,9 @@ class IdsPopup extends IdsElement {
       this.removeAttribute('visible', true);
       this.container.classList.remove('visible');
       this.container.ontransitionend = null;
+      this.isVisible = false;
       this.shouldUpdate = true;
+      this.refresh();
     };
     this.container.classList.remove('open');
   }
@@ -383,7 +375,7 @@ class IdsPopup extends IdsElement {
    * @returns {boolean} whether or not the component is currently displayed
    */
   get visible() {
-    return this.container.classList.contains('visible');
+    return this.isVisible;
   }
 
   /**
@@ -445,6 +437,12 @@ class IdsPopup extends IdsElement {
       this.ro.observe(this.parentNode);
     }
 
+    // Make the popup actually render before doing placement calcs
+    if (this.isVisible) {
+      this.safeSetAttribute('visible', true);
+      this.container.classList.add('visible');
+    }
+
     // If no alignment target is present, do a simple x/y coordinate placement.
     const { alignTarget } = this;
     if (!alignTarget) {
@@ -456,21 +454,34 @@ class IdsPopup extends IdsElement {
       }
 
       this.placeAtCoords();
-      return;
+    } else {
+      // connect the alignTarget to the global MutationObserver, if applicable.
+      if (this.shouldDetectMutations() && !this.hasMutations) {
+        this.mo.observe(this.alignTarget, {
+          attributes: true,
+          attributeFilter: ['style', 'height', 'width'],
+          attributeOldValue: true,
+          subtree: true
+        });
+        this.hasMutations = true;
+      }
+
+      this.placeAgainstTarget();
     }
 
-    // connect the alignTarget to the global MutationObserver, if applicable.
-    if (this.shouldDetectMutations() && !this.hasMutations) {
-      this.mo.observe(this.alignTarget, {
-        attributes: true,
-        attributeFilter: ['style', 'height', 'width'],
-        attributeOldValue: true,
-        subtree: true
-      });
-      this.hasMutations = true;
+    this.offsetHeight;
+
+    if (this.isAnimated) {
+      this.setAttribute('animated', true);
+      this.container.classList.add('animated');
     }
 
-    this.placeAgainstTarget();
+    // If the visible setting is true, show the popup
+    if (this.isVisible) {
+      setTimeout(() => {
+        this.container.classList.add('open');
+      }, 10);
+    }
   }
 
   /**
@@ -592,6 +603,35 @@ class IdsPopup extends IdsElement {
 
     this.container.style.left = `${x}px`;
     this.container.style.top = `${y}px`;
+  }
+
+  /**
+   * Turns off the ability of the popup to respond to attribute changes, in order to
+   * set an attribute that may incorrectly change the popup's display/state otherwise.
+   * @param {string} attr the attribute of the popup that will change, passed to `setAttribute`
+   * @param {any} value the value to pass to `setAttribute`
+   */
+  safeSetAttribute(attr, value) {
+    if (!POPUP_PROPERTIES.includes(attr)) {
+      return;
+    }
+    this.shouldUpdate = false;
+    this.setAttribute(attr, value);
+    this.shouldUpdate = true;
+  }
+
+  /**
+   * Turns off the ability of the popup to respond to attribute changes, in order to
+   * remove an attribute that may incorrectly change the popup's display/state otherwise.
+   * @param {string} attr the attribute of the popup that will be removed
+   */
+  safeRemoveAttribute(attr) {
+    if (!POPUP_PROPERTIES.includes(attr)) {
+      return;
+    }
+    this.shouldUpdate = false;
+    this.removeAttribute(attr);
+    this.shouldUpdate = true;
   }
 
   /**
