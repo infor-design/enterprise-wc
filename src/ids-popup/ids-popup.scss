@@ -14,7 +14,6 @@ $transition-length: 200ms;
   display: none;
   opacity: 0;
   position: fixed;
-  transition: opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1);
 
   // Actually renders the popup, but doesn't "unhide" it
   &.visible {
@@ -26,13 +25,17 @@ $transition-length: 200ms;
     opacity: 1;
   }
 
-  // Animates X/Y movement of the popup on the page.
+  // Animates X/Y movement, fade in/out of the popup.
   &.animated {
-    transition: opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-      height $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-      width $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-      left $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-      top $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+    transition: opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+
+    &.open {
+      transition: opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1),
+        height $transition-length cubic-bezier(0.4, 0, 0.6, 1),
+        width $transition-length cubic-bezier(0.4, 0, 0.6, 1),
+        left $transition-length cubic-bezier(0.4, 0, 0.6, 1),
+        top $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+    }
   }
 }
 

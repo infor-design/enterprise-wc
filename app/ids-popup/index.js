@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const popup = document.querySelector('ids-popup');
 
   // Preconfigure the Popup
+  /*
   popup.shouldUpdate = false;
   popup.alignTarget = triggerId;
   popup.align = 'right';
@@ -15,6 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   popup.y = 0;
   popup.shouldUpdate = true;
   popup.refresh();
+  */
 
   // Toggle the Popup
   triggerBtn.addEventListener('click', () => {

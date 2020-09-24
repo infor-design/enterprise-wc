@@ -85,8 +85,8 @@ class IdsPopup extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
-    this.isAnimated = this.hasAttribute('animated');
-    //this.animated = this.hasAttribute('animated');
+    // this.isAnimated = this.hasAttribute('animated');
+    this.animated = this.hasAttribute('animated');
     this.isVisible = this.hasAttribute('visible');
     this.setupDetectMutations();
     this.setupResize();
@@ -331,9 +331,10 @@ class IdsPopup extends IdsElement {
    */
   set animated(val) {
     this.isAnimated = val === true || (typeof val === 'string' && val.length);
-    if (!this.isAnimated) {
-      this.removeAttribute('animated');
-      this.container.classList.remove('animated');
+    if (this.isAnimated) {
+      this.safeSetAttribute('animated', true);
+    } else {
+      this.safeRemoveAttribute('animated');
     }
     this.refresh();
   }
@@ -342,33 +343,20 @@ class IdsPopup extends IdsElement {
    * @returns {boolean} whether or not the component is currently animating its movement.
    */
   get animated() {
-    return this.container.classList.contains('animated');
+    return this.isAnimated;
   }
 
   /**
    * @param {boolean} val whether or not the component should be displayed
    */
   set visible(val) {
-    this.container.transitionend = null;
-
-    const trueVal = val === true || (typeof val === 'string' && val.length);
-    if (trueVal) {
-      this.isVisible = true;
-      this.refresh();
-      return;
+    this.isVisible = val === true || (typeof val === 'string' && val.length);
+    if (this.isVisible) {
+      this.safeSetAttribute('visible', true);
+    } else {
+      this.safeRemoveAttribute('visible');
     }
-
-    // Hide
-    this.shouldUpdate = false;
-    this.container.ontransitionend = () => {
-      this.removeAttribute('visible', true);
-      this.container.classList.remove('visible');
-      this.container.ontransitionend = null;
-      this.isVisible = false;
-      this.shouldUpdate = true;
-      this.refresh();
-    };
-    this.container.classList.remove('open');
+    this.refresh();
   }
 
   /**
@@ -439,8 +427,9 @@ class IdsPopup extends IdsElement {
 
     // Make the popup actually render before doing placement calcs
     if (this.isVisible) {
-      this.safeSetAttribute('visible', true);
       this.container.classList.add('visible');
+    } else {
+      this.container.classList.remove('open');
     }
 
     // If no alignment target is present, do a simple x/y coordinate placement.
@@ -469,19 +458,24 @@ class IdsPopup extends IdsElement {
       this.placeAgainstTarget();
     }
 
-    this.offsetHeight;
-
-    if (this.isAnimated) {
-      this.setAttribute('animated', true);
-      this.container.classList.add('animated');
-    }
-
     // If the visible setting is true, show the popup
-    if (this.isVisible) {
-      setTimeout(() => {
+    setTimeout(() => {
+      if (this.isVisible && !this.container.classList.contains('open')) {
         this.container.classList.add('open');
-      }, 10);
-    }
+      }
+      if (!this.isAnimated && this.container.classList.contains('animated')) {
+        this.container.classList.remove('animated');
+      }
+    }, 70);
+
+    setTimeout(() => {
+      if (!this.isVisible && this.container.classList.contains('visible')) {
+        this.container.classList.remove('visible');
+      }
+      if (this.isAnimated && !this.container.classList.contains('animated')) {
+        this.container.classList.add('animated');
+      }
+    }, 200);
   }
 
   /**
