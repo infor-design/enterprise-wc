@@ -352,7 +352,7 @@ class IdsPopup extends IdsElement {
   }
 
   /**
-   *
+   * @param {string} val containing a valid Popup type
    */
   set type(val) {
     if (val && TYPES.includes(val)) {
@@ -364,7 +364,7 @@ class IdsPopup extends IdsElement {
   }
 
   /**
-   *
+   * @returns {string} representing the Popup type
    */
   get type() {
     return this.trueType;

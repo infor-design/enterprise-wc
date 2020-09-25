@@ -52,6 +52,7 @@ describe('IdsPopup Component', () => {
     const target = popup.alignTarget;
     const animated = popup.animated;
     const visible = popup.visible;
+    const type = popup.type;
 
     expect(x).toEqual(0);
     expect(y).toEqual(0);
@@ -63,11 +64,12 @@ describe('IdsPopup Component', () => {
     expect(animated).toBeFalsy();
     expect(visible).toBeDefined();
     expect(visible).toBeFalsy();
+    expect(type).toEqual('none');
   });
 
-  it('has access to globals', () => {
-    expect(this.ro instanceof ResizeObserver).toBeTruthy();
-    expect(this.mo instanceof MutationObserver).toBeTruthy();
+  it('gives access to the element that wraps the slotted content', () => {
+    expect(popup.wrapper).toBeDefined();
+    expect(popup.wrapper.classList.contains('content-wrapper')).toBeTruthy();
   });
 
   // NOTE: Needs to mock `getBoundingClientRect` on the `container`
@@ -235,6 +237,60 @@ describe('IdsPopup Component', () => {
     expect(popup.container.style.top).toEqual('275px');
   });
 
+  it('can set the alignment edge by itself', () => {
+    popup.alignX = 'center';
+    popup.alignY = 'center';
+    popup.alignEdge = 'top';
+
+    // Top has become the primary edge. Center is the secondary "X" alignment, and goes unreported.
+    expect(popup.align).toEqual('top');
+    expect(popup.alignX).toEqual('center');
+    expect(popup.alignY).toEqual('top');
+
+    popup.alignEdge = 'right';
+
+    // Right has become the primary edge. Top remains set and becomes the secondary "Y" alignment.
+    expect(popup.align).toEqual('right, top');
+    expect(popup.alignX).toEqual('right');
+    expect(popup.alignY).toEqual('top');
+
+    popup.alignEdge = 'center';
+
+    expect(popup.align).toEqual('center');
+    expect(popup.alignX).toEqual('center');
+    expect(popup.alignY).toEqual('center');
+  });
+
+  it('can remove an alignTarget and switch to coordinate placement', () => {
+    // Create/Set the alignment target
+    const alignTargetContainer = document.createElement('div');
+    alignTargetContainer.style.position = 'relative';
+    const a = document.createElement('div');
+    a.id = 'test-align-target';
+    a.style.position = 'absolute';
+    a.style.height = '50px';
+    a.style.left = '300px';
+    a.style.top = '300px';
+    a.style.width = '50px';
+    alignTargetContainer.appendChild(a);
+    document.body.appendChild(alignTargetContainer);
+
+    popup.alignTarget = '#test-align-target';
+
+    expect(popup.getAttribute('align-target')).toEqual('#test-align-target');
+
+    // Remove the alignment target.  Placement will revert back to coordinates.
+    popup.alignTarget = undefined;
+
+    expect(popup.hasAttribute('align-target')).toBeFalsy();
+  });
+
+  it('rejects setting a bad alignTarget', () => {
+    popup.alignTarget = '#lol';
+
+    expect(popup.alignTarget).not.toBeDefined();
+  });
+
   it('should autocorrect some alignment definitions to become their shorthand values', () => {
     const c = popup.container;
     const originalCGetBoundingClientRect = c.getBoundingClientRect;
@@ -317,5 +373,90 @@ describe('IdsPopup Component', () => {
     popup.align = 'center, right';
     expect(popup.getAttribute('align')).toEqual('center');
     */
+  });
+
+  it('can set its type', () => {
+    popup.type = 'menu';
+
+    expect(popup.container.classList.contains('none')).toBeFalsy();
+    expect(popup.container.classList.contains('menu')).toBeTruthy();
+
+    popup.type = 'menu-alt';
+
+    expect(popup.container.classList.contains('menu')).toBeFalsy();
+    expect(popup.container.classList.contains('menu-alt')).toBeTruthy();
+
+    popup.type = 'tooltip';
+
+    expect(popup.container.classList.contains('menu-alt')).toBeFalsy();
+    expect(popup.container.classList.contains('tooltip')).toBeTruthy();
+
+    popup.type = 'tooltip-alt';
+
+    expect(popup.container.classList.contains('tooltip')).toBeFalsy();
+    expect(popup.container.classList.contains('tooltip-alt')).toBeTruthy();
+
+    // Try a bad type.  It should be rejected and the stored type should not change.
+    popup.type = 'not-real';
+
+    expect(popup.container.classList.contains('not-real')).toBeFalsy();
+    expect(popup.container.classList.contains('tooltip-alt')).toBeTruthy();
+  });
+
+  it('can enable/disable animation', (done) => {
+    popup.animated = true;
+
+    setTimeout(() => {
+      expect(popup.container.classList.contains('animated')).toBeTruthy();
+      popup.animated = false;
+
+      setTimeout(() => {
+        expect(popup.container.classList.contains('animated')).toBeFalsy();
+        done();
+      }, 200);
+    }, 200);
+  });
+
+  it('can enable/disable visibility', (done) => {
+    popup.visible = true;
+
+    setTimeout(() => {
+      expect(popup.container.classList.contains('visible')).toBeTruthy();
+      popup.visible = false;
+
+      setTimeout(() => {
+        expect(popup.container.classList.contains('visible')).toBeFalsy();
+        done();
+      }, 200);
+    }, 200);
+  });
+
+  it('can set/remove attributes without causing UI updates', () => {
+    popup.safeSetAttribute('type', 'tooltip');
+
+    expect(popup.getAttribute('type')).toEqual('tooltip');
+    expect(popup.type).toEqual('none');
+    expect(popup.container.classList.contains('tooltip')).toBeFalsy();
+
+    popup.type = 'tooltip';
+
+    // Using the property causes the update to occur normally.
+    expect(popup.getAttribute('type')).toEqual('tooltip');
+    expect(popup.type).toEqual('tooltip');
+    expect(popup.container.classList.contains('tooltip')).toBeTruthy();
+
+    popup.safeRemoveAttribute('type');
+
+    // Type is changed but the rerender won't occur.
+    expect(popup.hasAttribute('type')).toBeFalsy();
+    expect(popup.type).toEqual('tooltip');
+    expect(popup.container.classList.contains('tooltip')).toBeTruthy();
+
+    // Don't accept junk attributes
+    popup.safeSetAttribute('haha', 'true');
+
+    expect(popup.hasAttribute('haha')).toBeFalsy();
+
+    popup.safeRemoveAttribute('haha');
   });
 });

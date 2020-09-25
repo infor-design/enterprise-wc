@@ -132,7 +132,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (changedOnce || mutation.type !== 'attributes') {
         return;
       }
-      alignmentDisplayEl.textContent = `${popupEl.align}`;
+      alignmentDisplayEl.textContent = `Edge order: "${popupEl.align}"`;
       changedOnce = true;
     });
   });
