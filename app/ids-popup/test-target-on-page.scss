@@ -9,18 +9,30 @@ div[role='main'] {
   width: 100%;
 }
 
+div[role='main'] {
+  position: relative;
+}
+
+.fixed-bottom {
+  bottom: 0;
+  left: 0;
+  position: fixed;
+  right: 0;
+}
+
+.align-target {
+  border: 1px dashed #999;
+  display: inline-block;
+  padding: 10px;
+}
+
 #test-section {
   align-items: center;
   display: flex;
   height: 100%;
   justify-content: center;
+  position: absolute;
   width: 100%;
-}
-
-#popup-align-target {
-  border: 1px dashed #999;
-  display: inline-block;
-  padding: 10px;
 }
 
 #other-test-section,
@@ -30,13 +42,7 @@ div[role='main'] {
 
 #other-popup-align-target,
 #another-popup-align-target {
-  border: 1px dashed #555;
-  display: inline-block;
   position: absolute;
-}
-
-#other-popup-align-target {
-  padding: 10px;
 }
 
 .demo-popup {

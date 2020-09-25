@@ -1,15 +1,15 @@
 {{> ../layouts/head.html }}
 
 <section id="other-test-section">
-  <span id="other-popup-align-target">Secondary Alignment Target (cool)</span>
+  <span class="align-target" id="other-popup-align-target">Secondary Alignment Target (cool)</span>
 </section>
 
 <section id="another-test-section">
-  <span id="another-popup-align-target">[:)]</span>
+  <span class="align-target" id="another-popup-align-target">:D</span>
 </section>
 
 <section id="test-section">
-  <span id="popup-align-target">Center Point</span>
+  <span class="align-target" id="popup-align-target">Center Point</span>
 </section>
 
 <ids-popup x="0" y="0" align-target="#popup-align-target" align="bottom" animated="true" visible="true" type="menu">
@@ -20,5 +20,74 @@
     </div>
   </div>
 </ids-popup>
+
+<section id="test-controls" class="fixed-bottom">
+  <ids-layout-grid>
+    <ids-layout-column>
+      <fieldset id="align-targets" class="radio-group">
+        <legend>Alignment Targets:</legend>
+        <input type="radio" class="radio" name="align-targets" id="align-targets-option1" value="" />
+        <label for="align-targets-option1" class="radio-label">None (Use Coordinates)</label>
+        <br/>
+        <input type="radio" class="radio" name="align-targets" id="align-targets-option2" value="#popup-align-target" checked="true" />
+        <label for="align-targets-option2" class="radio-label">`#popup-align-target`</label>
+        <br/>
+        <input type="radio" class="radio" name="align-targets" id="align-targets-option3" value="#other-popup-align-target" />
+        <label for="align-targets-option3" class="radio-label">`#other-popup-align-target`</label>
+        <br/>
+        <input type="radio" class="radio" name="align-targets" id="align-targets-option4" value="#another-popup-align-target" />
+        <label for="align-targets-option4" class="radio-label">`#another-popup-align-target`</label>
+      </fieldset>
+    </ids-layout-column>
+    <ids-layout-column>
+      <fieldset id="x-alignments" class="radio-group">
+        <legend>X Alignment</legend>
+        <input type="radio" class="radio" name="x-alignments" id="x-alignments-option1" value="left"/>
+        <label for="x-alignments-option1" class="radio-label">Left</label>
+        <br/>
+        <input type="radio" class="radio" name="x-alignments" id="x-alignments-option2" value="center" checked/>
+        <label for="x-alignments-option2" class="radio-label">Center</label>
+        <br/>
+        <input type="radio" class="radio" name="x-alignments" id="x-alignments-option3" value="right" />
+        <label for="x-alignments-option3" class="radio-label">Right</label>
+      </fieldset>
+    </ids-layout-column>
+    <ids-layout-column>
+      <fieldset id="y-alignments" class="radio-group">
+        <legend>Y Alignment</legend>
+        <input type="radio" class="radio" name="y-alignments" id="y-alignments-option1" value="top"/>
+        <label for="y-alignments-option1" class="radio-label">Top</label>
+        <br/>
+        <input type="radio" class="radio" name="y-alignments" id="y-alignments-option2" value="center"/>
+        <label for="y-alignments-option2" class="radio-label">Center</label>
+        <br/>
+        <input type="radio" class="radio" name="y-alignments" id="y-alignments-option3" value="bottom" checked/>
+        <label for="y-alignments-option3" class="radio-label">Bottom</label>
+      </fieldset>
+    </ids-layout-column>
+    <ids-layout-column>
+      <fieldset id="xy-controls" class="radio-group">
+        <legend>Offsets</legend>
+        <label for="x-control">X: </ids-label>
+        <input class="ids-input" id="x-control" value="0" />
+        <br />
+        <label for="y-control">Y: </label>
+        <input class="ids-input" id="y-control" value="0" />
+      </fieldset>
+    </ids-layout-column>
+    <ids-layout-column>
+      <fieldset id="other-controls" class="radio-group">
+        <legend>Other</legend>
+        <input type="checkbox" class="checkbox" name="animated" id="animated-option" checked/>
+        <label for="animated-option" class="checkbox-label">Animated</label>
+        <br />
+        <input type="checkbox" class="checkbox" name="visible" id="visible-option" checked/>
+        <label for="visible-option" class="checkbox-label">Visible</label>
+        <br />
+
+      </fieldset>
+    </ids-layout-column>
+  </ids-layout-grid>
+</section>
 
 {{> ../layouts/footer.html }}
