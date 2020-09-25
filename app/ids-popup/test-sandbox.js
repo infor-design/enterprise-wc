@@ -4,7 +4,7 @@ import IdsLabel from '../../src/ids-label/ids-label';
 import IdsLayoutColumn from '../../src/ids-layout-grid/ids-layout-column';
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 
-import './test-target-on-page.scss';
+import './test-sandbox.scss';
 
 let popupEl;
 let xyControlFieldsetLabelEl;
