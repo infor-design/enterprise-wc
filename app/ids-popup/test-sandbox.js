@@ -8,6 +8,7 @@ import './test-sandbox.scss';
 
 let popupEl;
 let xyControlFieldsetLabelEl;
+let alignmentDisplayEl;
 
 /**
  * @param {Event} e the change event object
@@ -68,6 +69,7 @@ function visibleChangeHandler(e) {
 document.addEventListener('DOMContentLoaded', () => {
   popupEl = document.querySelector('ids-popup');
   xyControlFieldsetLabelEl = document.querySelector('#xy-controls legend');
+  alignmentDisplayEl = document.querySelector('#alignment-display');
 
   const popupAlignTargetEl = document.querySelector('#popup-align-target');
   const otherPopupAlignTargetEl = document.querySelector('#other-popup-align-target');
@@ -121,4 +123,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const visibleControlEl = document.querySelector('#visible-option');
   visibleControlEl.addEventListener('change', visibleChangeHandler);
+
+  // Have a MutationObserver watch the popup for attribute changes,
+  // causing an update to some control displays.
+  const testMo = new MutationObserver((mutations) => {
+    let changedOnce = false;
+    mutations.forEach((mutation) => {
+      if (changedOnce || mutation.type !== 'attributes') {
+        return;
+      }
+      alignmentDisplayEl.textContent = `${popupEl.align}`;
+      changedOnce = true;
+    });
+  });
+  testMo.observe(popupEl, {
+    attributes: true,
+    attributeFilter: ['align'],
+    attributeOldValue: true,
+    subtree: true
+  });
 });

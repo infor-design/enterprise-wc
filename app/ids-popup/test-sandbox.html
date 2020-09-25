@@ -40,35 +40,44 @@
       </fieldset>
     </ids-layout-column>
     <ids-layout-column>
-      <fieldset id="x-alignments" class="radio-group">
-        <legend>X Alignment</legend>
-        <input type="radio" class="radio" name="x-alignments" id="x-alignments-option1" value="left"/>
-        <label for="x-alignments-option1" class="radio-label">Left</label>
-        <br/>
-        <input type="radio" class="radio" name="x-alignments" id="x-alignments-option2" value="center" checked/>
-        <label for="x-alignments-option2" class="radio-label">Center</label>
-        <br/>
-        <input type="radio" class="radio" name="x-alignments" id="x-alignments-option3" value="right" />
-        <label for="x-alignments-option3" class="radio-label">Right</label>
+      <fieldset id="alignment">
+        <legend>Alignment</legend>
+        <ids-label id="alignment-display" font-size="14">center, bottom</ids-label>
+        <ids-layout-grid>
+          <ids-layout-column>
+            <div id="x-alignments" class="radio-group">
+              <ids-label font-size="10">X Alignment</ids-label>
+              <input type="radio" class="radio" name="x-alignments" id="x-alignments-option1" value="left"/>
+              <label for="x-alignments-option1" class="radio-label">Left</label>
+              <br/>
+              <input type="radio" class="radio" name="x-alignments" id="x-alignments-option2" value="center" checked/>
+              <label for="x-alignments-option2" class="radio-label">Center</label>
+              <br/>
+              <input type="radio" class="radio" name="x-alignments" id="x-alignments-option3" value="right" />
+              <label for="x-alignments-option3" class="radio-label">Right</label>
+            </div>
+          </ids-layout-column>
+          <ids-layout-column>
+            <div id="y-alignments" class="radio-group">
+              <ids-label font-size="10">Y Alignment</ids-label>
+              <input type="radio" class="radio" name="y-alignments" id="y-alignments-option1" value="top"/>
+              <label for="y-alignments-option1" class="radio-label">Top</label>
+              <br/>
+              <input type="radio" class="radio" name="y-alignments" id="y-alignments-option2" value="center"/>
+              <label for="y-alignments-option2" class="radio-label">Center</label>
+              <br/>
+              <input type="radio" class="radio" name="y-alignments" id="y-alignments-option3" value="bottom" checked/>
+              <label for="y-alignments-option3" class="radio-label">Bottom</label>
+            </div>
+          </ids-layout-column>
+        </ids-layout-grid>
       </fieldset>
-    </ids-layout-column>
-    <ids-layout-column>
-      <fieldset id="y-alignments" class="radio-group">
-        <legend>Y Alignment</legend>
-        <input type="radio" class="radio" name="y-alignments" id="y-alignments-option1" value="top"/>
-        <label for="y-alignments-option1" class="radio-label">Top</label>
-        <br/>
-        <input type="radio" class="radio" name="y-alignments" id="y-alignments-option2" value="center"/>
-        <label for="y-alignments-option2" class="radio-label">Center</label>
-        <br/>
-        <input type="radio" class="radio" name="y-alignments" id="y-alignments-option3" value="bottom" checked/>
-        <label for="y-alignments-option3" class="radio-label">Bottom</label>
-      </fieldset>
+
     </ids-layout-column>
     <ids-layout-column>
       <fieldset id="xy-controls" class="radio-group">
         <legend>Offsets</legend>
-        <label for="x-control">X: </ids-label>
+        <label for="x-control">X: </label>
         <input class="ids-input" id="x-control" value="0" />
         <br />
         <label for="y-control">Y: </label>
@@ -83,8 +92,6 @@
         <br />
         <input type="checkbox" class="checkbox" name="visible" id="visible-option" checked/>
         <label for="visible-option" class="checkbox-label">Visible</label>
-        <br />
-
       </fieldset>
     </ids-layout-column>
   </ids-layout-grid>
