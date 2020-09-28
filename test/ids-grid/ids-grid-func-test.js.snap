@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsGrid Component renders correctly 1`] = `"<ids-grid-container class=\\"ids-grid\\"><style id=\\"ids-grid-styles\\">[object Object]</style><ids-grid-cell class=\\"ids-grid-cell\\"></ids-grid-cell><ids-grid-cell class=\\"ids-grid-cell\\"></ids-grid-cell><ids-grid-cell class=\\"ids-grid-cell\\"></ids-grid-cell></ids-grid-container>"`;
+
+exports[`IdsGrid Component renders correctly 2`] = `"<ids-grid-container class=\\"ids-grid\\"><style id=\\"ids-grid-styles\\">[object Object]</style><ids-grid-cell class=\\"ids-grid-cell\\"></ids-grid-cell><ids-grid-cell class=\\"ids-grid-cell\\"></ids-grid-cell><ids-grid-cell class=\\"ids-grid-cell\\"></ids-grid-cell></ids-grid-container>"`;
