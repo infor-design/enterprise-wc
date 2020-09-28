@@ -1,7 +1,7 @@
 /* Ids Layout Grid Component */
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 
-$cols: 12;
+$cols: 16;
 $breakpoint-xs: 360px;
 $breakpoint-sm: 600px;
 $breakpoint-md: 840px;
@@ -54,8 +54,8 @@ $breakpoint-xl: 1440px;
 
 @for $i from 1 through $cols {
   // Define column classes
-  .ids-layout-grid.ids-layout-col-#{$i} {
-    grid-template-columns: repeat($i, minmax(100px, 1fr));
+  .ids-layout-grid.ids-layout-cols-#{$i} {
+    grid-template-columns: repeat($i, minmax(0, 1fr));
 
     @media all and (max-width: $breakpoint-md) {
       grid-template-columns: none;
