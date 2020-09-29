@@ -46,14 +46,20 @@ const POPUP_PROPERTIES = [
  * @returns {string} containing the properly formatted align value
  */
 function formatAlignAttribute(alignX, alignY, edge) {
+  // Check the edge for a "Y" alignment
   if (ALIGNMENTS_EDGES_Y.includes(edge)) {
     if (!alignX || !alignX.length || alignX === CENTER) {
       return `${edge}`;
     }
     return `${edge}, ${alignX}`;
   }
+
+  // Alignment is definitely "X"
   if (!alignY || !alignY.length || alignY === CENTER) {
-    return `${edge}`;
+    return `${alignX}`;
+  }
+  if (edge === CENTER) {
+    return `${alignY}`;
   }
   return `${edge}, ${alignY}`;
 }
@@ -189,10 +195,15 @@ class IdsPopup extends IdsElement {
     // Normalize values and store the first entry as the "edge" to align against
     let vals = trueVal.split(',');
     vals = vals.map((thisVal) => thisVal.trim().toLowerCase());
-    const edge = vals[0];
-    this.alignEdge = edge;
 
-    // If there's no second value, assume it's 'center'
+    // Adust the first value and set it as the "edge"
+    const edge = vals[0];
+    if (ALIGNMENT_EDGES.includes(edge)) {
+      this.alignEdge = edge;
+      vals[0] = this.alignEdge;
+    }
+
+    // If there's no second value, assumxae it's 'center'
     if (!vals[1]) {
       vals.push('center');
     }
@@ -219,7 +230,7 @@ class IdsPopup extends IdsElement {
     } else {
       attrY = this.alignY;
     }
-    this.setAttribute('align', formatAlignAttribute(attrX, attrY, edge));
+    this.setAttribute('align', formatAlignAttribute(attrX, attrY, this.alignment.edge));
 
     this.shouldUpdate = true;
     this.refresh();
@@ -242,18 +253,20 @@ class IdsPopup extends IdsElement {
       return;
     }
 
-    if (ALIGNMENTS_X.includes(val)) {
-      this.alignment.x = val;
-    } else {
-      this.alignment.x = ALIGNMENTS_X[0];
+    let alignX = val;
+    if (!ALIGNMENTS_X.includes(val)) {
+      alignX = ALIGNMENTS_X[0];
     }
+
+    this.alignment.x = alignX;
+    const alignY = this.alignment.y;
 
     // If `align-x` was used directy, standardize against the `align` attribute
     if (this.hasAttribute('align-x')) {
       this.safeRemoveAttribute('align-x');
-    }
-    if (this.shouldUpdate) {
-      this.setAttribute('align', formatAlignAttribute(val, this.alignment.y, val));
+      this.align = formatAlignAttribute(alignX, alignY, alignX);
+    } else if (this.shouldUpdate) {
+      this.align = formatAlignAttribute(alignX, alignY, alignX);
     }
 
     this.refresh();
@@ -274,18 +287,20 @@ class IdsPopup extends IdsElement {
       return;
     }
 
+    let alignY = ALIGNMENTS_Y[0];
     if (ALIGNMENTS_Y.includes(val)) {
-      this.alignment.y = val;
-    } else {
-      this.alignment.y = ALIGNMENTS_Y[0];
+      alignY = val;
     }
+
+    this.alignment.y = alignY;
+    const alignX = this.alignment.x;
 
     // If `align-y` was used directy, standardize against the `align` attribute
     if (this.hasAttribute('align-y')) {
       this.safeRemoveAttribute('align-y');
-    }
-    if (this.shouldUpdate) {
-      this.setAttribute('align', formatAlignAttribute(this.alignment.x, val, val));
+      this.align = formatAlignAttribute(alignX, alignY, alignY);
+    } else if (this.shouldUpdate) {
+      this.align = formatAlignAttribute(alignX, alignY, alignY);
     }
 
     this.refresh();
@@ -307,20 +322,29 @@ class IdsPopup extends IdsElement {
       return;
     }
 
-    // If alignment target is present, use bottom/top/left/right.
-    // Otherwise, no edge alignment is possible.
+    // Sanitize the alignment edge
     let edge;
-    if (this.alignTarget) {
-      if (ALIGNMENT_EDGES.includes(val)) {
-        edge = val;
-      } else {
-        edge = ALIGNMENT_EDGES[1];
+    let alignX = this.alignment.x;
+    let alignY = this.alignment.y;
+    if (ALIGNMENT_EDGES.includes(val)) {
+      edge = val;
+      if (val === CENTER) {
+        alignX = val;
+        alignY = val;
       }
     } else {
       edge = ALIGNMENT_EDGES[0];
     }
 
     this.alignment.edge = edge;
+    if (this.hasAttribute('align-edge')) {
+      this.shouldUpdate = false;
+      this.removeAttribute('align-edge');
+      this.align = formatAlignAttribute(alignX, alignY, edge);
+      this.shouldUpdate = true;
+    } else if (this.shouldUpdate) {
+      this.align = formatAlignAttribute(alignX, alignY, edge);
+    }
     this.refresh();
   }
 

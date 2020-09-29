@@ -29,7 +29,8 @@ $transition-length: 200ms;
     transition: opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1);
 
     &.open {
-      transition: opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1),
+      transition:
+        opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1),
         height $transition-length cubic-bezier(0.4, 0, 0.6, 1),
         width $transition-length cubic-bezier(0.4, 0, 0.6, 1),
         left $transition-length cubic-bezier(0.4, 0, 0.6, 1),

@@ -79,6 +79,12 @@ describe('IdsPopup Component', () => {
 
     // Basic coord alignment (center/center against the point, for modals)
     c.getBoundingClientRect = jest.fn(() => ({
+      x: 0,
+      y: 0,
+      left: -50,
+      right: 50,
+      top: -50,
+      bottom: 50,
       width: 100,
       height: 100
     }));
@@ -89,6 +95,16 @@ describe('IdsPopup Component', () => {
     expect(popup.container.style.top).toEqual('-50px');
 
     // Left/Top (standard for context menus)
+    c.getBoundingClientRect = jest.fn(() => ({
+      x: 0,
+      y: 0,
+      left: 0,
+      right: 100,
+      top: 0,
+      bottom: 100,
+      width: 100,
+      height: 100
+    }));
     popup.alignX = 'left';
     popup.alignY = 'top';
 
@@ -96,6 +112,16 @@ describe('IdsPopup Component', () => {
     expect(popup.container.style.top).toEqual('0px');
 
     // Bottom/Right (left/top edges will be at X:-100,y:-100)
+    c.getBoundingClientRect = jest.fn(() => ({
+      x: 0,
+      y: 0,
+      left: -100,
+      right: 0,
+      top: -100,
+      bottom: 0,
+      width: 100,
+      height: 100
+    }));
     popup.alignX = 'right';
     popup.alignY = 'bottom';
 
@@ -103,6 +129,16 @@ describe('IdsPopup Component', () => {
     expect(popup.container.style.top).toEqual('-100px');
 
     // Center (popup will center itself at X:0,Y:0)
+    c.getBoundingClientRect = jest.fn(() => ({
+      x: 0,
+      y: 0,
+      left: -50,
+      right: 50,
+      top: -50,
+      bottom: 50,
+      width: 100,
+      height: 100
+    }));
     popup.alignX = 'center';
     popup.alignY = 'center';
 
@@ -237,28 +273,118 @@ describe('IdsPopup Component', () => {
     expect(popup.container.style.top).toEqual('275px');
   });
 
-  it('can set the alignment edge by itself', () => {
-    popup.alignX = 'center';
-    popup.alignY = 'center';
+  it('rejects setting bad alignment values', () => {
+    popup.align = 'junk, junk';
+
+    expect(popup.align).toEqual('center');
+  });
+
+  it('rejects setting bad individual alignment values', () => {
+    popup.alignX = 'junk';
+
+    expect(popup.align).toEqual('center');
+    expect(popup.hasAttribute('alignX')).toBeFalsy();
+
+    popup.alignX = 1;
+
+    expect(popup.align).toEqual('center');
+    expect(popup.hasAttribute('alignX')).toBeFalsy();
+
+    popup.alignY = 'junk';
+
+    expect(popup.align).toEqual('center');
+    expect(popup.hasAttribute('alignY')).toBeFalsy();
+
+    popup.alignY = 1;
+
+    expect(popup.align).toEqual('center');
+    expect(popup.hasAttribute('alignY')).toBeFalsy();
+  });
+
+  it('can set align attributes independently', () => {
+    popup.setAttribute('align-y', 'top');
+
+    expect(popup.align).toEqual('top');
+    expect(popup.hasAttribute('align-y')).toBeFalsy();
+
+    // Setting `align-x` explicitly also changes the `align-edge` to this value,
+    // making it become the primary alignment edge.
+    popup.setAttribute('align-x', 'left');
+
+    expect(popup.align).toEqual('left, top');
+    expect(popup.hasAttribute('align-x')).toBeFalsy();
+
+    // Set `align-x` to center, which will change to the default "center" x alignment,
+    // but removes it from the attribute output, leaving only Y behind
+    popup.setAttribute('align-x', 'center');
+
+    expect(popup.align).toEqual('top');
+
+    // `align-edge` sets the primary edge
+    popup.setAttribute('align-x', 'right');
+    popup.setAttribute('align-edge', 'right');
+
+    expect(popup.align).toEqual('right, top');
+
+    popup.setAttribute('align-y', 'center');
+
+    expect(popup.align).toEqual('right');
+  });
+
+  it('can set the alignment edge by itself (js)', () => {
+    // Top has become the primary edge. Center is the secondary "X" alignment, and goes unreported.
     popup.alignEdge = 'top';
 
-    // Top has become the primary edge. Center is the secondary "X" alignment, and goes unreported.
     expect(popup.align).toEqual('top');
     expect(popup.alignX).toEqual('center');
     expect(popup.alignY).toEqual('top');
 
+    // Right has become the primary edge. Top remains set and becomes the secondary "Y" alignment.
     popup.alignEdge = 'right';
 
-    // Right has become the primary edge. Top remains set and becomes the secondary "Y" alignment.
     expect(popup.align).toEqual('right, top');
     expect(popup.alignX).toEqual('right');
     expect(popup.alignY).toEqual('top');
 
+    // Explicitly setting 'center' as the align edge will make both alignments "center".
     popup.alignEdge = 'center';
 
     expect(popup.align).toEqual('center');
     expect(popup.alignX).toEqual('center');
     expect(popup.alignY).toEqual('center');
+  });
+
+  it('can set the alignment edge by itself (attribute)', () => {
+    // Top has become the primary edge. Center is the secondary "X" alignment, and goes unreported.
+    popup.setAttribute('align-edge', 'top');
+
+    expect(popup.align).toEqual('top');
+    expect(popup.alignX).toEqual('center');
+    expect(popup.alignY).toEqual('top');
+
+    // Right has become the primary edge. Top remains set and becomes the secondary "Y" alignment.
+    popup.setAttribute('align-edge', 'right');
+
+    expect(popup.align).toEqual('right, top');
+    expect(popup.alignX).toEqual('right');
+    expect(popup.alignY).toEqual('top');
+
+    // Explicitly setting 'center' as the align edge will make both alignments "center".
+    popup.setAttribute('align-edge', 'center');
+
+    expect(popup.align).toEqual('center');
+    expect(popup.alignX).toEqual('center');
+    expect(popup.alignY).toEqual('center');
+  });
+
+  it('rejects a bad alignment edge value', () => {
+    popup.alignEdge = 'junk';
+
+    expect(popup.alignEdge).toEqual('center');
+
+    popup.alignEdge = 1;
+
+    expect(popup.alignEdge).toEqual('center');
   });
 
   it('can remove an alignTarget and switch to coordinate placement', () => {
@@ -289,6 +415,16 @@ describe('IdsPopup Component', () => {
     popup.alignTarget = '#lol';
 
     expect(popup.alignTarget).not.toBeDefined();
+  });
+
+  it('will not set non-numeric values as x/y numbers', () => {
+    popup.x = 'tree';
+
+    expect(popup.coords.x).toEqual(0);
+
+    popup.y = 'tree';
+
+    expect(popup.coords.y).toEqual(0);
   });
 
   it('should autocorrect some alignment definitions to become their shorthand values', () => {
@@ -351,28 +487,22 @@ describe('IdsPopup Component', () => {
     popup.align = '';
     expect(popup.getAttribute('align')).toEqual('center');
 
-    /*
     // Check bad input
     // (should be ignored and values should be retained)
-    // @TODO figure out why this doesn't work
     popup.align = 'dude';
     expect(popup.getAttribute('align')).toEqual('center');
 
     popup.align = 'top, left';
     popup.align = 'dude, dude';
     expect(popup.getAttribute('align')).toEqual('top, left');
-    */
 
-    /*
     // If "center" is set as the "edge" and a secondary alignment of "right" or "left" is defined,
     // the secondary alignment should switch to the first.
-    // @TODO make this work
     popup.align = 'center, left';
-    expect(popup.getAttribute('align')).toEqual('center');
+    expect(popup.getAttribute('align')).toEqual('left');
 
     popup.align = 'center, right';
-    expect(popup.getAttribute('align')).toEqual('center');
-    */
+    expect(popup.getAttribute('align')).toEqual('right');
   });
 
   it('can set its type', () => {
