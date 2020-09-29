@@ -14,14 +14,10 @@ function checkForIDS() {
 // whenever the resizeObserver is triggered.
 let resizeTargets = [];
 
-// This is a global array of mutationObserver targets.
-// Any elements that end up here will have their `refresh()` methods called
-// whenever the mutationObserver is triggered.
-let mutationTargets = [];
-
 /**
- * This mixin provides access to a global ResizeObserver/MutationObserver instances
- * used by all IDS Components.
+ * This mixin provides access to a global ResizeObserver instance used by all IDS Components,
+ * and is responsible for setting up a local MutationObserver instance for this component that
+ * automatically triggers a `refresh()` method if one is available.
  */
 const IdsResizeMixin = {
   /**
@@ -76,21 +72,15 @@ const IdsResizeMixin = {
   },
 
   /**
-   * Sets up a global instance of MutationObserver that will fire an IDS Component's `refresh()`
+   * Sets up a MutationObserver that will fire an IDS Component's `refresh()`
    * method when it needs to update.
    * @returns {void}
    */
   setupDetectMutations() {
     checkForIDS();
 
-    // Setup a MutationObserver on the alignTarget that will cause this Popup instance
-    // to move itself whenever an attribute that controls size is changed.
-    // This can help adjust the popup automatically when its target moves.
-    // @TODO: Implement a way to detect CSS property changes on the alignTarget.
-    // @TODO: this should probably also update if the `alignTarget` changes to something else,
-    // but we don't currently have a way to detect that.
-    if (!window.Ids.mutationObserver && typeof MutationObserver !== 'undefined') {
-      window.Ids.mutationObserver = new MutationObserver((mutation) => {
+    if (!this.mo && typeof MutationObserver !== 'undefined') {
+      this.mo = new MutationObserver((mutation) => {
         switch (mutation.type) {
           case 'childList':
             break;
@@ -102,19 +92,17 @@ const IdsResizeMixin = {
       });
     }
 
-    // Connect the `mo` property to the global instance
-    if (!this.mo) {
-      this.mo = window.Ids.mutationObserver;
+    if (!this.mutationTargets) {
+      this.mutationTargets = [];
     }
-
-    if (!mutationTargets.includes(this)) {
-      mutationTargets.push(this);
+    if (!this.mutationTargets.includes(this)) {
+      this.mutationTargets.push(this);
     }
   },
 
   disconnectDetectMutations() {
     if (this.mo) {
-      mutationTargets = mutationTargets.filter((e) => !this.isEqualNode(e));
+      this.mutationTargets = [];
       delete this.mo;
     }
   },
