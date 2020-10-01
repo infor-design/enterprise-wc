@@ -7,6 +7,9 @@ export const props = {
   APPEARANCE: 'appearance',
   ANIMATED: 'animated',
   VISIBLE: 'visible',
+  CSS_CLASS: 'css-class',
+  DISABLED: 'disabled',
+  FOCUSABLE: 'focusable'
 };
 
 export const prefix = {

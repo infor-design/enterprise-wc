@@ -13,6 +13,7 @@ const webpack = require('webpack');
 module.exports = {
   entry: {
     index: ['./app/index.js'],
+    'ids-button/ids-button': ['./app/ids-button/index.js'],
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
     'ids-label/ids-label': ['./app/ids-label/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
@@ -118,6 +119,13 @@ module.exports = {
       inject: 'body',
       title: 'IDS Enterprise Web Components',
       chunks: ['index']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-button/index.html',
+      inject: 'body',
+      filename: 'ids-button/index.html',
+      title: 'IDS Button Component',
+      chunks: ['ids-button/ids-button']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-tag/index.html',

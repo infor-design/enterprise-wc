@@ -4,6 +4,7 @@ Released on May 2nd 2021
 
 ## 5.0.0 Breaking Changes
 
+- `[Button]` The button component has been changed to a web component.
 - `[Tags]` The Tag component has been changed to a web component. This involves the following changes
     - If using events events are now plain JS events. beforetagremoved, tagremoved, aftertagremoved
     - If using properties/settings these are now attributes: dismissible, color

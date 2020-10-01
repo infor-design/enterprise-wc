@@ -3,3 +3,7 @@
 
 /* Other Css Modules */
 @import '../ids-loader/ids-loader.scss';
+
+/* Global variables (might need to become tokens) */
+$transition-length: 200ms;
+$transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
