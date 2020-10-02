@@ -1,5 +1,10 @@
 @import '../ids-base/ids-base';
 
+// Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
+@mixin blank-shadow() {
+  box-shadow: 0 0 3px 2px rgba(54, 138, 192, 0);
+}
+
 // Used to make the focus "border" appear to be separated from the button.
 @mixin solid-button-shadow() {
   box-shadow:
@@ -8,13 +13,17 @@
     0 0 4px 3px var(--ids-color-palette-azure-70) // primary color (shadowy-part)
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+:host {
+  @include inline-flex();
+}
+
+::slotted(ids-icon),
+::slotted(span) {
+  vertical-align: middle;
 }
 
 .ids-button {
+  @include blank-shadow();
   @include border-1();
   @include border-solid();
   @include font-normal();
@@ -23,6 +32,12 @@
   @include py-8();
   @include rounded-default();
   @include text-16();
+
+  &,
+  &::before,
+  &::after {
+    box-sizing: border-box;
+  }
 
   // Nothing inside the button itself should accept mouse events
   * {

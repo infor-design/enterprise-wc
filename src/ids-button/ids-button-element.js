@@ -67,7 +67,7 @@ class IdsButtonElement extends IdsElement {
     }
 
     return `<button class="ids-button${type}${cssClass}" ${tabindex}${disabled}>
-      <slot name="content"></slot>
+      <slot></slot>
     </button>`;
   }
 
