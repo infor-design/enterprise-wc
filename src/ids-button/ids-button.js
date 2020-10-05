@@ -32,9 +32,10 @@ const BUTTON_DEFAULTS = {
 @customElement('ids-button')
 @scss(styles)
 @mixin(IdsEventsMixin)
-class IdsButtonElement extends IdsElement {
+class IdsButton extends IdsElement {
   constructor() {
     super();
+    this.shouldUpdate = true;
     this.state = {};
     Object.keys(BUTTON_DEFAULTS).forEach((prop) => {
       this.state[prop] = BUTTON_DEFAULTS[prop];
@@ -42,33 +43,26 @@ class IdsButtonElement extends IdsElement {
   }
 
   /**
-   * Inner template contents
-   * @returns {string} The template
+   * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
+   * check for a true `shouldUpdate` property.
+   * @private
+   * @param  {string} name The property name
+   * @param  {string} oldValue The property old value
+   * @param  {string} newValue The property new value
    */
-  template() {
-    let cssClass = '';
-    let disabled = '';
-    let tabindex = 'tabindex="0"';
-    let type = '';
-    if (this.state?.cssClass) {
-      cssClass = ` ${['ids-button']
-        .concat(this.cssClass)
-        .concat(this.state.type !== 'default' ? this.state.type : '')
-        .join(' ')}`;
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (this.shouldUpdate) {
+      IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
     }
-    if (this.state?.disabled) {
-      disabled = ` disabled`;
-    }
-    if (this.state?.focusable) {
-      tabindex = `${this.state.focusable ? 0 : -1}`;
-    }
-    if (this.state && this.state?.type !== 'default') {
-      type = ` btn-${this.state.type}`;
-    }
+  }
 
-    return `<button class="ids-button${type}${cssClass}" ${tabindex}${disabled}>
-      <slot></slot>
-    </button>`;
+  /**
+   * Button-level `connectedCallBack` implementation
+   * @private
+   * @returns {void}
+   */
+  connectedCallBack() {
+    this.shouldUpdate = true;
   }
 
   /**
@@ -86,6 +80,46 @@ class IdsButtonElement extends IdsElement {
   }
 
   /**
+   * @returns {Array} containing classes used to identify this button prototype
+   */
+  get protoClasses() {
+    return ['ids-button'];
+  }
+
+  /**
+   * Inner template contents
+   * @returns {string} The template
+   */
+  template() {
+    let cssClasses = '';
+    let protoClasses = '';
+    let disabled = '';
+    let tabindex = 'tabindex="0"';
+    let type = '';
+    if (this.state?.cssClass) {
+      cssClasses = ` ${this.cssClass
+        .concat(this.state.type !== 'default' ? this.state.type : '')
+        .join(' ')}`;
+    }
+    if (this.state?.disabled) {
+      disabled = ` disabled="true"`;
+    }
+    if (this.state?.focusable) {
+      tabindex = `${this.state.focusable ? 0 : -1}`;
+    }
+    if (this.state && this.state?.type !== 'default') {
+      type = ` btn-${this.state.type}`;
+    }
+    if (this.protoClasses.length) {
+      protoClasses = `${this.protoClasses.join(' ')}`;
+    }
+
+    return `<button class="${protoClasses}${type}${cssClasses}" ${tabindex}${disabled}>
+      <slot></slot>
+    </button>`;
+  }
+
+  /**
    * @readonly
    * @returns {HTMLButtonElement} reference to the true button element used in the Shadow Root
    */
@@ -98,15 +132,17 @@ class IdsButtonElement extends IdsElement {
    * Strings will be split into an array and separated by whitespace.
    */
   set cssClass(val) {
+    let attr = val;
     if (Array.isArray(val)) {
       this.state.cssClasses = val;
-      this.setAttribute('css-class', val.join(' '));
-      return;
-    }
-    if (typeof val === 'string') {
+      attr = val.join(' ');
+    } else if (typeof val === 'string') {
       this.state.cssClasses = val.split(' ');
-      this.setAttribute('css-class', val);
     }
+
+    this.shouldUpdate = false;
+    this.setAttribute('css-class', attr);
+    this.shouldUpdate = true;
   }
 
   /**
@@ -126,11 +162,15 @@ class IdsButtonElement extends IdsElement {
     if (this.button) {
       this.button.disabled = trueVal;
     }
-    if (trueVal) {
+
+    this.shouldUpdate = false;
+    if (trueVal && !this.hasAttribute('disabled')) {
       this.setAttribute('disabled', true);
-      return;
     }
-    this.removeAttribute('disabled');
+    if (!trueVal && this.hasAttribute('disabled')) {
+      this.removeAttribute('disabled');
+    }
+    this.shouldUpdate = true;
   }
 
   /**
@@ -151,7 +191,15 @@ class IdsButtonElement extends IdsElement {
     if (this.button) {
       this.button.tabIndex = trueVal ? 0 : -1;
     }
-    this.setAttribute('focusable', this.state.focusable);
+
+    this.shouldUpdate = false;
+    if (trueVal && !this.hasAttribute('focusable')) {
+      this.setAttribute('focusable', this.state.focusable);
+    }
+    if (!trueVal && this.hasAttribute('focusable')) {
+      this.removeAttribute('focusable');
+    }
+    this.shouldUpdate = true;
   }
 
   /**
@@ -204,4 +252,4 @@ class IdsButtonElement extends IdsElement {
   }
 }
 
-export default IdsButtonElement;
+export default IdsButton;

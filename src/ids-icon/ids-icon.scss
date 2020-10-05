@@ -1,6 +1,8 @@
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 @import '../ids-base/ids-base';
 
+// Button sizes
+// @TODO pull from tokens instead?
 $small-size: 10px;
 $medium-size: 18px;
 $large-size: 24px;

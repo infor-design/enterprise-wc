@@ -1,9 +1,12 @@
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift.host.variables.scss';
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 
-/* Other Css Modules */
-@import '../ids-loader/ids-loader.scss';
-
 /* Global variables (might need to become tokens) */
 $transition-length: 200ms;
 $transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
+
+/* Global SCSS Mixins (might need to become tokens) */
+@import './ids-mixins';
+
+/* Other Css Modules */
+@import '../ids-loader/ids-loader.scss';

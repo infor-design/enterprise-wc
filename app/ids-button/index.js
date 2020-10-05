@@ -1,4 +1,5 @@
-import IdsButtonElement from '../../src/ids-button/ids-button-element';
+import IdsButton from '../../src/ids-button/ids-button';
+import IdsIconButton from '../../src/ids-button/ids-icon-button';
 
 // Supporting components
 import IdsIcon from '../../src/ids-icon/ids-icon';
