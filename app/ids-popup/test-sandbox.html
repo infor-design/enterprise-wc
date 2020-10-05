@@ -1,18 +1,18 @@
 {{> ../layouts/head.html }}
 
 <section id="other-test-section">
-  <span class="align-target" id="other-popup-align-target">Secondary Target</span>
+  <span class="align-target" id="second-target">Secondary Target</span>
 </section>
 
 <section id="another-test-section">
-  <span class="align-target" id="another-popup-align-target">Third Target</span>
+  <span class="align-target" id="third-target">Third Target</span>
 </section>
 
 <section id="test-section">
-  <span class="align-target" id="popup-align-target">Center Point</span>
+  <span class="align-target" id="center-point">Center Point</span>
 </section>
 
-<ids-popup x="0" y="0" align-target="#popup-align-target" align="bottom" animated="true" visible="true" type="menu">
+<ids-popup x="0" y="0" align-target="#center-point" align="bottom" animated="true" visible="true" type="menu">
   <div slot="content">
     <div class="demo-popup">
       My Popup Contents<br />
@@ -29,14 +29,14 @@
         <input type="radio" class="radio" name="align-targets" id="align-targets-option1" value="" />
         <label for="align-targets-option1" class="radio-label">None (Use Coordinates)</label>
         <br/>
-        <input type="radio" class="radio" name="align-targets" id="align-targets-option2" value="#popup-align-target" checked="true" />
-        <label for="align-targets-option2" class="radio-label">`#popup-align-target`</label>
+        <input type="radio" class="radio" name="align-targets" id="align-targets-option2" value="#center-point" checked="true" />
+        <label for="align-targets-option2" class="radio-label">`#center-point`</label>
         <br/>
-        <input type="radio" class="radio" name="align-targets" id="align-targets-option3" value="#other-popup-align-target" />
-        <label for="align-targets-option3" class="radio-label">`#other-popup-align-target`</label>
+        <input type="radio" class="radio" name="align-targets" id="align-targets-option3" value="#second-target" />
+        <label for="align-targets-option3" class="radio-label">`#second-target`</label>
         <br/>
-        <input type="radio" class="radio" name="align-targets" id="align-targets-option4" value="#another-popup-align-target" />
-        <label for="align-targets-option4" class="radio-label">`#another-popup-align-target`</label>
+        <input type="radio" class="radio" name="align-targets" id="align-targets-option4" value="#third-target" />
+        <label for="align-targets-option4" class="radio-label">`#third-target`</label>
       </fieldset>
     </ids-layout-column>
     <ids-layout-column>

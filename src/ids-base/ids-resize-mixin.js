@@ -18,10 +18,15 @@ let resizeTargets = [];
  * This mixin provides access to a global ResizeObserver instance used by all IDS Components,
  * and is responsible for setting up a local MutationObserver instance for this component that
  * automatically triggers a `refresh()` method if one is available.
+ *
+ * NOTE: When using this mixin, it's still required for you to implement
+ * `ResizeObserver.connect()/disconnect()` and `MutationObserver.connect()/disconnect()`
+ * when connecting/disconnecting a component.
  */
 const IdsResizeMixin = {
   /**
    * This method needs to run
+   * @private
    * @returns {void}
    */
   setupResize() {
@@ -53,6 +58,7 @@ const IdsResizeMixin = {
 
   /**
    * Disconnects this component from the Global Resize handler
+   * @private
    * @returns {void}
    */
   disconnectResize() {
@@ -63,7 +69,8 @@ const IdsResizeMixin = {
   },
 
   /**
-   * Property that can be used to detect the existence
+   * Detects whether or not this component should be checking for resize.
+   * @private
    * @returns {boolean} whether or not this component should currently listen
    * for Resize instructions.
    */
@@ -74,6 +81,7 @@ const IdsResizeMixin = {
   /**
    * Sets up a MutationObserver that will fire an IDS Component's `refresh()`
    * method when it needs to update.
+   * @private
    * @returns {void}
    */
   setupDetectMutations() {
@@ -100,6 +108,10 @@ const IdsResizeMixin = {
     }
   },
 
+  /**
+   * @private
+   * @returns {void}
+   */
   disconnectDetectMutations() {
     if (this.mo) {
       this.mutationTargets = [];
@@ -108,7 +120,8 @@ const IdsResizeMixin = {
   },
 
   /**
-   * Property that can be used to detect the existence
+   * Detects whether or not this component should be watching for DOM Mutations.
+   * @private
    * @returns {boolean} whether or not this component should currently listen
    * for Resize instructions.
    */

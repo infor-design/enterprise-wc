@@ -71,23 +71,23 @@ document.addEventListener('DOMContentLoaded', () => {
   xyControlFieldsetLabelEl = document.querySelector('#xy-controls legend');
   alignmentDisplayEl = document.querySelector('#alignment-display');
 
-  const popupAlignTargetEl = document.querySelector('#popup-align-target');
-  const otherPopupAlignTargetEl = document.querySelector('#other-popup-align-target');
-  const anotherPopupAlignTargetEl = document.querySelector('#another-popup-align-target');
+  const centerTargetEl = document.querySelector('#center-point');
+  const secondTargetEl = document.querySelector('#second-target');
+  const thirdTargetEl = document.querySelector('#third-target');
 
   // This one is centered on the page, but needs a 100px top margin to shift it around
-  popupAlignTargetEl.style.marginTop = '100px';
+  centerTargetEl.style.marginTop = '100px';
 
   // This one is aligned 150px from the top and right viewport edges
-  otherPopupAlignTargetEl.style.top = '150px';
-  otherPopupAlignTargetEl.style.right = '150px';
+  secondTargetEl.style.top = '150px';
+  secondTargetEl.style.right = '150px';
 
   // This one is aligned 300px from the top and left viewport edges,
   // as well as allows the size to be controlled (tests some other math)
-  anotherPopupAlignTargetEl.style.top = '300px';
-  anotherPopupAlignTargetEl.style.left = '300px';
-  anotherPopupAlignTargetEl.style.height = '50px';
-  anotherPopupAlignTargetEl.style.width = '50px';
+  thirdTargetEl.style.top = '300px';
+  thirdTargetEl.style.left = '300px';
+  thirdTargetEl.style.height = '50px';
+  thirdTargetEl.style.width = '50px';
 
   // Setup align-target controls
   const alignTargetGroupEl = document.querySelector('#align-targets');
