@@ -4,6 +4,7 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
+import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import styles from './ids-popup.scss';
@@ -19,7 +20,7 @@ const ALIGNMENTS_Y = [CENTER, 'top', 'bottom'];
 const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== CENTER);
 const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== CENTER);
 
-// Types of Popup styles
+// Types of Popups
 const TYPES = ['none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'];
 
 // Properties exposed with getters/setters
@@ -30,9 +31,9 @@ const POPUP_PROPERTIES = [
   'align-y',
   'align-edge',
   'align-target',
-  'animated',
-  'type',
-  'visible',
+  props.ANIMATED,
+  props.TYPE,
+  props.VISIBLE,
   'x',
   'y'
 ];
@@ -111,6 +112,8 @@ class IdsPopup extends IdsElement {
    * @returns {void}
    */
   disconnectedCallback() {
+    IdsElement.prototype.disconnectedCallback.apply(this);
+
     if (this.shouldResize()) {
       this.ro.unobserve(this.parentNode);
       this.disconnectResize();
@@ -518,6 +521,7 @@ class IdsPopup extends IdsElement {
     }
 
     // If the visible setting is true, show the popup
+    // @TODO Replace these with RenderLoop-timed callbacks when that exists
     setTimeout(() => {
       if (this.isVisible && !this.container.classList.contains('open')) {
         this.container.classList.add('open');

@@ -4,7 +4,9 @@ export const props = {
   PLACEHOLDER: 'placeholder',
   TABBABLE: 'tabbable',
   ICON: 'icon',
-  APPEARANCE: 'appearance'
+  APPEARANCE: 'appearance',
+  ANIMATED: 'animated',
+  VISIBLE: 'visible',
 };
 
 export const prefix = {
