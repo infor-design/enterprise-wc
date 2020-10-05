@@ -14,3 +14,4 @@
 - [x] Figure out how to get default placement/visibility working again after adding `shouldUpdate: true` setting to the `connectedCallback`
 - [ ] Add tests for "type"
 - [x] Improve test page for placement within the page
+- [ ] Add option to close on clicking out in the page
