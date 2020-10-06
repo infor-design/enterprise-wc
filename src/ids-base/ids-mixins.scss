@@ -2,6 +2,39 @@
  * Mixins in this file may want to eventually be moved to the Design Tokens.
  */
 
+// All vendor prefixes
+$prefixes: -webkit-, -moz-, -o-, -ms-, '';
+
+// Prefixes that are only relevant to animations/transitions
+$animation-prefixes: -webkit-, -moz-, '';
+
+// Builds a list of vendor-prefixed animation definitions
+@mixin animation($animate...) {
+  $max: length($animate);
+  $animations: '';
+
+  @for $i from 1 through $max {
+    $animations: #{$animations + nth($animate, $i)};
+
+    @if $i < $max {
+      $animations: #{$animations + ', '};
+    }
+  }
+
+  @each $prefix in $animation-prefixes {
+    #{$prefix}animation: $animations;
+  }
+}
+
+// Builds out vendor-prefixed keyframe definitions
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} { @content; }
+
+  @-moz-keyframes #{$animation-name} { @content; }
+
+  @keyframes #{$animation-name} { @content; }
+}
+
 // Hides text from the screen in a way that is friendly to Screen Reading software
 @mixin audible() {
   clip: rect(0, 0, 0, 0);

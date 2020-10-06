@@ -6,7 +6,7 @@
 - [x] Focusable prop
 - [x] Disabled prop (figure out why it broke?)
 - [ ] "Hide Focus" behavior (mixin?)
-- [ ] Ripple effect (take coords instead of mouse directly)
+- [x] Ripple effect (take coords instead of mouse directly)
 - [ ] Dispatch events?
 - [ ] Why doesn't the linter like `get protoClasses()` if it works?
 

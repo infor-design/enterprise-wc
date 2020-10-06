@@ -62,6 +62,7 @@ class IdsButton extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
+    this.handleEvents();
     this.shouldUpdate = true;
   }
 
@@ -117,6 +118,38 @@ class IdsButton extends IdsElement {
     return `<button class="${protoClasses}${type}${cssClasses}" ${tabindex}${disabled}>
       <slot></slot>
     </button>`;
+  }
+
+  /**
+   * Sets up event listeners
+   * @returns {void}
+   */
+  handleEvents() {
+    let x;
+    let y;
+    let preceededByTouchstart = false;
+
+    this.eventHandlers.addEventListener('click', this.button, (e) => {
+      if (preceededByTouchstart) {
+        preceededByTouchstart = false;
+        return;
+      }
+      x = e.pageX !== 0 ? e.pageX : undefined;
+      y = e.pageY !== 0 ? e.pageY : undefined;
+      this.createRipple(x, y);
+    });
+
+    this.eventHandlers.addEventListener('touchstart', this.button, (e) => {
+      if (e.touches && e.touches.length > 0) {
+        const touch = e.touches[0];
+        x = touch.pageX !== 0 ? touch.pageX : undefined;
+        y = touch.pageY !== 0 ? touch.pageY : undefined;
+        this.createRipple(x, y);
+        preceededByTouchstart = true;
+      }
+    }, {
+      passive: true
+    });
   }
 
   /**
@@ -249,6 +282,83 @@ class IdsButton extends IdsElement {
         this.button.classList.remove(typeClassName);
       }
     });
+  }
+
+  /**
+   * The math used for getting the ripple offsets
+   * @private
+   * @param {number} x the X coordinate
+   * @param {number} y the Y coordinate
+   * @returns {Array} containing x/y coordinates of the ripple
+   */
+  getRippleOffsets(x, y) {
+    const btnRect = this.getBoundingClientRect();
+    const halfRippleSize = 125;
+    let btnX;
+    let btnY;
+
+    // If "X" is defined, assume it's page coordinates and subtract the
+    // custom element's offsets from its location in the page.
+    // Otherwise, simply set the offset to the center of the button.
+    if (!x) {
+      btnX = (btnRect.width / 2);
+    } else {
+      btnX = x - btnRect.left;
+    }
+
+    // If "Y" is defined, assume it's page coordinates and subtract the
+    // custom element's offsets from its location in the page.
+    // Otherwise, simply set the offset to the center of the button.
+    if (!y) {
+      btnY = (btnRect.height / 2);
+    } else {
+      btnY = y - btnRect.top;
+    }
+
+    // Subtract half the ripple size from each dimension
+    btnX -= halfRippleSize;
+    btnY -= halfRippleSize;
+
+    return { x: btnX, y: btnY };
+  }
+
+  /**
+   * Generates an SVG-based "ripple" effect on a specified location inside the button's boundaries.
+   * The coordinates defined are actual page coordinates, using the top/left of the page as [0,0],
+   * which allows this to connect easily to mouse/touch events.
+   * @param {number} x the X coordinate
+   * @param {number} y the Y coordinate
+   * @returns {void}
+   */
+  createRipple(x, y) {
+    if (this.disabled) {
+      return;
+    }
+
+    // Remove pre-existing ripples
+    const otherRippleEls = this.container.querySelectorAll('.ripple-effect');
+    otherRippleEls.forEach((rippleEl) => {
+      rippleEl.remove();
+    });
+
+    // Make/Place a new ripple
+    const rippleEl = document.createElement('span');
+    const btnOffsets = this.getRippleOffsets(x, y);
+    rippleEl.classList.add('ripple-effect');
+    rippleEl.setAttribute('aria-hidden', true);
+    rippleEl.setAttribute('focusable', false);
+    rippleEl.setAttribute('role', 'presentation');
+
+    this.container.prepend(rippleEl);
+    rippleEl.style.left = `${btnOffsets.x}px`;
+    rippleEl.style.top = `${btnOffsets.y}px`;
+    rippleEl.classList.add('animating');
+
+    // After a short time, remove the ripple effect
+    // @TODO replace this with a renderloop callback
+    setTimeout(() => {
+      rippleEl.remove();
+    }, 1200);
   }
 }
 
