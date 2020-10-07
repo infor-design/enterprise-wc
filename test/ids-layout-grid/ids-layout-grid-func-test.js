@@ -2,16 +2,16 @@
  * @jest-environment jsdom
  */
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
-import IdsLayoutColumn from '../../src/ids-layout-grid/ids-layout-column';
+import IdsLayoutPanel from '../../src/ids-layout-grid/ids-layout-panel';
 
 describe('IdsLayoutGrid Component', () => {
   let gridElem;
 
   beforeEach(async () => {
     const grid = new IdsLayoutGrid();
-    const column1 = new IdsLayoutColumn();
-    const column2 = new IdsLayoutColumn();
-    const column3 = new IdsLayoutColumn();
+    const column1 = new IdsLayoutPanel();
+    const column2 = new IdsLayoutPanel();
+    const column3 = new IdsLayoutPanel();
 
     document.body.appendChild(grid);
 
@@ -32,7 +32,7 @@ describe('IdsLayoutGrid Component', () => {
     document.body.appendChild(elem);
     elem.remove();
 
-    elem = new IdsLayoutColumn();
+    elem = new IdsLayoutPanel();
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-layout-grid').length).toEqual(1);
@@ -54,7 +54,7 @@ describe('IdsLayoutGrid Component', () => {
   });
 
   it('renders fill setting', () => {
-    const col = new IdsLayoutColumn();
+    const col = new IdsLayoutPanel();
     col.fill = true;
     document.body.appendChild(col);
     expect(col.fill).toEqual('true');
@@ -71,7 +71,7 @@ describe('IdsLayoutGrid Component', () => {
   });
 
   it('renders fill setting then removes it', () => {
-    const col = new IdsLayoutColumn();
+    const col = new IdsLayoutPanel();
     document.body.appendChild(col);
     col.fill = true;
     col.fill = false;
@@ -115,7 +115,7 @@ describe('IdsLayoutGrid Component', () => {
   });
 
   it('renders col-span setting', () => {
-    const col = new IdsLayoutColumn();
+    const col = new IdsLayoutPanel();
     col.colSpan = 4;
     document.body.appendChild(col);
     expect(col.colSpan).toEqual('4');
@@ -124,7 +124,7 @@ describe('IdsLayoutGrid Component', () => {
   });
 
   it('renders col-start setting', () => {
-    const col = new IdsLayoutColumn();
+    const col = new IdsLayoutPanel();
     col.colStart = 4;
     document.body.appendChild(col);
     expect(col.colStart).toEqual('4');
@@ -133,7 +133,7 @@ describe('IdsLayoutGrid Component', () => {
   });
 
   it('renders col-end setting', () => {
-    const col = new IdsLayoutColumn();
+    const col = new IdsLayoutPanel();
     col.colEnd = 4;
     document.body.appendChild(col);
     expect(col.colEnd).toEqual('4');
@@ -142,7 +142,7 @@ describe('IdsLayoutGrid Component', () => {
   });
 
   it('renders row-span setting', () => {
-    const col = new IdsLayoutColumn();
+    const col = new IdsLayoutPanel();
     col.rowSpan = 4;
     document.body.appendChild(col);
     expect(col.rowSpan).toEqual('4');
@@ -151,7 +151,7 @@ describe('IdsLayoutGrid Component', () => {
   });
 
   it('renders row-start setting', () => {
-    const col = new IdsLayoutColumn();
+    const col = new IdsLayoutPanel();
     col.rowStart = 4;
     document.body.appendChild(col);
     expect(col.rowStart).toEqual('4');
@@ -160,7 +160,7 @@ describe('IdsLayoutGrid Component', () => {
   });
 
   it('renders row-end setting', () => {
-    const col = new IdsLayoutColumn();
+    const col = new IdsLayoutPanel();
     col.rowEnd = 4;
     document.body.appendChild(col);
     expect(col.rowEnd).toEqual('4');

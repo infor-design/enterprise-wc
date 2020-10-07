@@ -29,6 +29,11 @@ $breakpoint-xl: 1440px;
   grid-auto-flow: row;
 }
 
+// Full Page Layout
+:host(.ids-layout-page) {
+  height: 100vh;
+}
+
 // Auto Layout
 :host(.ids-layout-cols-auto),
 .ids-layout-grid.ids-layout-cols-auto {

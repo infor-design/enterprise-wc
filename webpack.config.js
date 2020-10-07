@@ -168,6 +168,13 @@ module.exports = {
       title: 'Layout - Standalone Css'
     }),
     new HTMLWebpackPlugin({
+      template: './app/ids-layout-grid/test-sandbox.html',
+      inject: 'body',
+      filename: 'ids-layout-grid/test-sandbox',
+      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label'],
+      title: 'Layout - Sandbox'
+    }),
+    new HTMLWebpackPlugin({
       template: './app/ids-trigger-field/index.html',
       inject: 'body',
       filename: 'ids-trigger-field/index.html',

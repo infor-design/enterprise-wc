@@ -2,10 +2,10 @@ import { customElement, IdsElement, scss } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
 
 /**
- * IDS Column Component
+ * IDS Grid Panel Component
  */
-@customElement('ids-layout-column')
-class IdsLayoutColumn extends IdsElement {
+@customElement('ids-layout-panel')
+class IdsLayoutPanel extends IdsElement {
   constructor() {
     super();
   }
@@ -165,4 +165,4 @@ class IdsLayoutColumn extends IdsElement {
   get rowEnd() { return this.getAttribute(props.GRID_ROW_END) };
 }
 
-export default IdsLayoutColumn;
+export default IdsLayoutPanel;
