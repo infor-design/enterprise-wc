@@ -122,11 +122,13 @@ class IdsLayoutGrid extends IdsElement {
     if (value) {
       this.auto = false;
       this.setAttribute('rows', value);
+      this.style.setProperty('--grid-rows', value);
       this.classList.add(`ids-layout-rows`);
       this.classList.remove('ids-layout-cols-auto');
       return;
     }
 
+    this.style.removeProperty('--grid-rows');
     this.removeAttribute('auto');
     this.classList.remove(`ids-layout-rows`);
   }
