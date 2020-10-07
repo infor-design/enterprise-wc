@@ -8,6 +8,7 @@ $breakpoint-lg: 1280px;
 $breakpoint-xl: 1440px;
 
 // Style the grid
+:host,
 .ids-layout-grid {
   --grid-cols: 16;
   --grid-col-span: 0;
@@ -18,120 +19,131 @@ $breakpoint-xl: 1440px;
   --grid-row-start: 0;
   --grid-row-end: 0;
   --grid-spacing-unit: 8px;
-  --breakpoint-xs: 360px;
-  --breakpoint-sm: 600px;
-  --breakpoint-md: 840px;
-  --breakpoint-lg: 1280px;
-  --breakpoint-xl: 1440px;
-  --min-col-width: 100px;
+  --grid-fill-color: #efeff0;
+  --grid-min-col-width: 100px;
 
   @include mx-16();
   @include my-16();
 
   display: grid;
   grid-auto-flow: row;
-
-  // Auto layout
-  &.ids-layout-cols-auto {
-    grid-template-columns: repeat(auto-fit, minmax(var(--min-col-width), 1fr));
-  }
-
-  // Grid Columns
-  &.ids-layout-cols {
-    grid-template-columns: repeat(var(--grid-cols), minmax(var(--min-col-width), 1fr));
-  }
-
-  // Grid Column Span
-  .ids-layout-col-span {
-    grid-column: span var(--grid-col-span) / span var(--grid-col-span);
-  }
-
-  // Grid Column Start
-  .ids-layout-col-start {
-    grid-column-start: var(--grid-col-start);
-  }
-
-  // Grid Column End
-  .ids-layout-col-end {
-    grid-column-end: var(--grid-col-end);
-  }
-
-  // Grid Rows
-  &.ids-layout-rows {
-    grid-template-rows: repeat(var(--grid-rows), minmax(var(--min-col-width), 1fr));
-  }
-
-  // Grid Row Span
-  .ids-layout-row-span {
-    grid-row: span var(--grid-row-span) / span var(--grid-row-span);
-  }
-
-  // Grid Row Start
-  .ids-layout-row-start {
-    grid-row-start: var(--grid-row-start);
-  }
-
-  // Grid Row End
-  .ids-layout-row-end {
-    grid-row-end: var(--grid-row-end);
-  }
-
-  // Grid Gap
-  &.ids-grid-gap-none {
-    grid-gap: 0;
-  }
-
-  &.ids-grid-gap-sm {
-    grid-gap: var(--grid-spacing-unit);
-  }
-
-  &.ids-grid-gap-md {
-    grid-gap: calc(var(--grid-spacing-unit) * 2);
-  }
-
-  &.ids-grid-gap-lg {
-    grid-gap: calc(var(--grid-spacing-unit) * 3);
-  }
-
-  &.ids-grid-gap-xl {
-    grid-gap: calc(var(--grid-spacing-unit) * 4);
-  }
 }
 
-// Add Optional Background Fill
-.ids-layout-column {
-  &.ids-background-fill {
-    @include py-40();
-    @include px-16();
-
-    background-color: #efeff0; // Get this one from a variable somehow
-  }
+// Auto Layout
+:host(.ids-layout-cols-auto),
+.ids-layout-grid.ids-layout-cols-auto {
+  grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col-width), 1fr));
 }
 
-// Tablet down - Go Auto
-@media all and (max-width: $breakpoint-md) {
-  .ids-layout-grid:not(.ids-fixed) {
+// Grid Columns
+:host(.ids-layout-cols),
+.ids-layout-grid.ids-layout-cols {
+  grid-template-columns: repeat(var(--grid-cols), minmax(var(--grid-min-col-width), 1fr));
+
+  // Tablet down go to auto layout
+  @media all and (max-width: $breakpoint-md) {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
+}
 
-  .ids-layout-grid > .ids-layout-col-span {
+// Grid Column Span
+::slotted(.ids-layout-col-span),
+.ids-layout-grid > .ids-layout-col-span {
+  grid-column: span var(--grid-col-span) / span var(--grid-col-span);
+
+  // Tablet down go to auto layout
+  @media all and (max-width: $breakpoint-md) {
     grid-column: auto;
   }
 }
 
+// Grid Column Start
+::slotted(.ids-layout-col-start),
+.ids-layout-grid > .ids-layout-col-start {
+  grid-column-start: var(--grid-col-start);
+}
+
+// Grid Column End
+::slotted(.ids-layout-col-end),
+.ids-layout-grid > .ids-layout-col-end {
+  grid-column-end: var(--grid-col-end);
+}
+
+// Grid Gap
+:host(.ids-grid-gap-none),
+.ids-layout-grid.ids-grid-gap-none {
+  grid-gap: 0;
+}
+
+:host(.ids-grid-gap-sm),
+.ids-layout-grid.ids-grid-gap-sm {
+  grid-gap: var(--grid-spacing-unit);
+}
+
+:host(.ids-grid-gap-md),
+.ids-layout-grid.ids-grid-gap-md {
+  grid-gap: calc(var(--grid-spacing-unit) * 2);
+}
+
+:host(.ids-grid-gap-lg),
+.ids-layout-grid.ids-grid-gap-lg {
+  grid-gap: calc(var(--grid-spacing-unit) * 3);
+}
+
+:host(.ids-grid-gap-xl),
+.ids-layout-grid.ids-grid-gap-xl {
+  grid-gap: calc(var(--grid-spacing-unit) * 4);
+}
+
+// Grid Rows
+:host(.ids-layout-rows),
+.ids-layout-grid.ids-layout-rows {
+  grid-template-rows: repeat(var(--grid-rows), minmax(var(--grid-min-col-width), 1fr));
+}
+
+// Grid Row Span
+::slotted(.ids-layout-row-span),
+.ids-layout-grid > .ids-layout-row-span {
+  grid-row: span var(--grid-row-span) / span var(--grid-row-span);
+}
+
+// Grid Row Start
+::slotted(.ids-layout-row-start),
+.ids-layout-grid > .ids-layout-row-start {
+  grid-row-start: var(--grid-row-start);
+}
+
+// Grid Row End
+::slotted(.ids-layout-row-end) {
+  grid-row-end: var(--grid-row-end);
+}
+
+// Add Optional Background Fill
+::slotted(.ids-background-fill),
+.ids-layout-grid > .ids-background-fill {
+  @include py-40();
+  @include px-16();
+
+  background-color: var(--grid-fill-color);
+}
+
 // Grid Flow
-.ids-grid-flow-row {
+:host(.ids-grid-flow-row),
+.ids-layout-grid.ids-grid-flow-row {
   grid-auto-flow: row;
 }
 
-.ids-grid-flow-col {
+:host(.ids-grid-flow-col),
+.ids-layout-grid.ids-grid-flow-col {
   grid-auto-flow: column;
 }
 
-.ids-grid-flow-row-dense {
+:host(.ids-grid-flow-row-dense),
+.ids-layout-grid.ids-grid-flow-row-dense {
   grid-auto-flow: row dense;
 }
 
-.ids-grid-flow-col-dense {
+:host(.ids-grid-flow-col-dense),
+.ids-layout-grid.ids-grid-flow-col-dense {
   grid-auto-flow: column dense;
 }

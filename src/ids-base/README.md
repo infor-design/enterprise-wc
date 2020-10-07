@@ -27,11 +27,28 @@ Ids Element is the general base class for most web components in IDS. Its used t
 1. Renders a template from the template property
 1. Exports all mixins
 
-## Ids Keyboard
+## Ids Keyboard Mixin
 
 - Handles detaching if a key is pressed down currently
-- Adds a hot key mapper (for example google hot keys)
+- Adds a hot key mapper
 - Can list the supported keys for a component
+
+The Keyboard mixin needs to record its state differently so cannot be attached with the `@mixin` decorator. Instead its invoked as with the new keyword. To use it to respond to keys in a component you can use it like this:
+
+```js
+handleKeys() {
+    this.keyboard = new IdsKeyboardMixin();
+    this.keyboard.listen(['Delete', 'Backspace'], this, (e) => {
+        // Do something on either Delete or Backspace
+    });
+
+    this.keyboard.listen('Enter', this, (e) => {
+        // Do something on Enter
+    });
+}
+```
+
+Also at any time you can check `this.keyboard.pressedKeys` to see what keys are current down. `this.hotkeys` contains all the currently watched keys.
 
 ## Ids Event Handler
 
@@ -46,3 +63,7 @@ Adds a small wrapper around component events. This can be used to see what event
 ## Ids Mixins
 
 Mixins are simply functions with shared functionality that can be injected into a component. For example the IdsEventOmitter. They get around the issue that in JS that you cannot inherit from more than one object. Also they prevent the Base Element from getting bloated with functionality that not every component uses. Ids is using a simple object as a mixin that in "injected" into the component in the contructor and then used according to its documentation. If the mixin has UI elements it should probably be a web component instead.
+
+## Ids Resize Mixin
+
+This mixin contains lifecycle methods for making a component detect page and element resizing.  The mixin allows a component to be registered against a global instance of ResizeObserver, which can trigger size changes throughout the UI, and fire a `refresh()` method on the component if one is defined.  The mixin also has lifecycle methods for setting up and tearing down a MutationObserver that can will fire a `refresh()` method on the component if one is defined.

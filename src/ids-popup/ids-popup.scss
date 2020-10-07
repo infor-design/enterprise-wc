@@ -1,0 +1,104 @@
+/* Ids Popup Component */
+@import '../ids-base/ids-base';
+
+$transition-length: 200ms;
+
+:host {
+  display: inline-block;
+  position: absolute;
+}
+
+.ids-popup {
+  @include opacity-0();
+
+  display: none;
+  position: fixed;
+
+  // Actually renders the popup, but doesn't "unhide" it
+  &.visible {
+    display: unset;
+  }
+
+  // Added to ".visible" to animate the opening.
+  &.open {
+    @include opacity-100();
+  }
+
+  // Animates X/Y movement, fade in/out of the popup.
+  &.animated {
+    transition: opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+
+    &.open {
+      transition:
+        opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1),
+        height $transition-length cubic-bezier(0.4, 0, 0.6, 1),
+        width $transition-length cubic-bezier(0.4, 0, 0.6, 1),
+        left $transition-length cubic-bezier(0.4, 0, 0.6, 1),
+        top $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+    }
+  }
+
+  // style: "none" (temporary)
+  // maybe makes sense to be "custom"?
+  // @TODO remove this or replace it with something that makes more sense.
+  &.none {
+    @include bg-white();
+    @include border-1();
+    @include border-solid();
+    @include border-emerald-30();
+    @include p-12();
+  }
+
+  // style: "menu"
+  &.menu {
+    @include bg-white();
+    @include border-1();
+    @include border-solid();
+    @include font-sans();
+    @include p-12();
+    @include rounded-default();
+    @include shadow();
+    @include text-14();
+
+    border-color: var(--ids-color-border-lighter);
+  }
+
+  // style: "menu-alt"
+  &.menu-alt {
+    @include bg-slate-100();
+    @include border-1();
+    @include border-solid();
+    @include font-sans();
+    @include p-12();
+    @include shadow();
+    @include rounded-default();
+    @include text-14();
+    @include text-white();
+
+    border-color: var(--ids-color-border-darker);
+  }
+
+  // style: "tooltip"
+  &.tooltip {
+    @include bg-slate-100();
+    @include font-sans();
+    @include p-12();
+    @include rounded-md();
+    @include text-12();
+    @include text-white();
+  }
+
+  // style: "tooltip-alt"
+  &.tooltip-alt {
+    @include bg-white();
+    @include font-sans();
+    @include p-12();
+    @include rounded-md();
+    @include text-12();
+    @include text-black();
+  }
+}
+
+.content-wrapper {
+  position: static;
+}

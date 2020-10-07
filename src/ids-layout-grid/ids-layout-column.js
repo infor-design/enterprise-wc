@@ -9,9 +9,7 @@ class IdsLayoutColumn extends IdsElement {
     super();
   }
 
-  connectedCallBack() {
-    this.classList.add(this.name);
-  }
+  connectedCallBack() { }
 
   /**
    * Return the properties we handle as getters/setters

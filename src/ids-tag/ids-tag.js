@@ -4,8 +4,9 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
-import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import styles from './ids-tag.scss';
 
 /**
@@ -13,15 +14,17 @@ import styles from './ids-tag.scss';
  */
 @customElement('ids-tag')
 @scss(styles)
-@mixin(IdsExampleMixin)
 @mixin(IdsEventsMixin)
+@mixin(IdsExampleMixin)
 class IdsTag extends IdsElement {
   constructor() {
     super();
   }
 
   connectedCallBack() {
-    this.handleEvents();
+    this
+      .handleEvents()
+      .handleKeys();
   }
 
   /**
@@ -52,7 +55,7 @@ class IdsTag extends IdsElement {
       this.container.style.backgroundColor = prop;
       this.container.style.borderColor = value === 'secondary' ? '' : prop;
 
-      if (value === 'error' || value === 'success' || value === 'danger') {
+      if (value === 'error' || value === 'danger') {
         this.container.classList.add('ids-white');
       }
 
@@ -69,25 +72,6 @@ class IdsTag extends IdsElement {
   }
 
   get color() { return this.getAttribute('color'); }
-
-  /**
-   * Set if the tag may be dismissed
-   * @param {boolean} value True of false depending if the tag may be dismissed
-   */
-  set dismissible(value) {
-    const hasProp = this.hasAttribute('dismissible');
-
-    if (value) {
-      this.setAttribute('dismissible', value);
-      this.appendIcon('close');
-      return;
-    }
-
-    this.removeAttribute('dismissible');
-    this.removeIcon('close');
-  }
-
-  get dismissible() { return this.getAttribute('dismissible'); }
 
   /**
    * Check if an icon exists if not add it
@@ -115,11 +99,58 @@ class IdsTag extends IdsElement {
   }
 
   /**
+   * If set to true the tag has an x to dismiss
+   * @param {boolean} value true of false depending if the tag is dismissed
+   */
+  set dismissible(value) {
+    const hasProp = this.hasAttribute('dismissible');
+
+    if (value) {
+      this.setAttribute('dismissible', value);
+      this.container.classList.add('ids-focusable');
+      this.container.setAttribute('tabindex', '0');
+      this.appendIcon('close');
+      this.handleKeys();
+      return;
+    }
+
+    this.removeAttribute('dismissible');
+    this.removeIcon('close');
+    this.container.removeAttribute('tabindex');
+    this.container.classList.remove('ids-focusable');
+  }
+
+  get dismissible() { return this.getAttribute('dismissible'); }
+
+  /**
+   * If set to true the tag has focus state and becomes a clickable linnk
+   * @param {boolean} value true of false depending if the tag is clickable
+   */
+  set clickable(value) {
+    const hasProp = this.hasAttribute('clickable');
+
+    if (value) {
+      this.setAttribute('clickable', value);
+      this.container.classList.add('ids-focusable');
+      this.container.setAttribute('tabindex', '0');
+      this.handleKeys();
+      return;
+    }
+
+    this.removeAttribute('clickable');
+    this.container.removeAttribute('tabindex');
+    this.container.classList.remove('ids-focusable');
+  }
+
+  get clickable() { return this.getAttribute('clickable'); }
+
+  /**
    * Establish Internal Event Handlers
    * @private
    * @returns {object} The object for chaining.
    */
   handleEvents() {
+    // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
       this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
@@ -135,6 +166,32 @@ class IdsTag extends IdsElement {
         isChanging = false;
       }
     });
+
+    return this;
+  }
+
+  /**
+   * Establish Internal Keyboard shortcuts
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  handleKeys() {
+    if (this.dismissible || this.clickable) {
+      this.keyboard = new IdsKeyboardMixin();
+    }
+
+    if (this.dismissible) {
+      this.keyboard.listen(['Delete', 'Backspace'], this, () => {
+        this.dismiss();
+      });
+    }
+
+    if (this.clickable) {
+      this.keyboard.listen('Enter', this, () => {
+        this.click();
+      });
+    }
+
     return this;
   }
 

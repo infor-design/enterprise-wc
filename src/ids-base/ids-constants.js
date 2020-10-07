@@ -3,7 +3,10 @@ export const props = {
   TYPE: 'type',
   PLACEHOLDER: 'placeholder',
   TABBABLE: 'tabbable',
-  ICON: 'icon'
+  ICON: 'icon',
+  APPEARANCE: 'appearance',
+  ANIMATED: 'animated',
+  VISIBLE: 'visible',
 };
 
 export const prefix = {

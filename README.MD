@@ -1,6 +1,7 @@
 # IDS Web Components
 
 ![Build Status](https://github.com/infor-design/enterprise-wc/workflows/Build%20Status/badge.svg?branch=master)
+[![Visual Regression Status](https://percy.io/static/images/percy-badge.svg)](https://percy.io/Infor-Design-System/IDS-Web-Components)
 
 Infor Design System (IDS) Web Components is an Infor community sourced, open source project that creates high quality web components that contain the common patterns and styles used in Infor Applications. We built these in such a way that they could be used by any application in a variety of popular frameworks (Angular, React Vue).
 
