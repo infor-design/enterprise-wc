@@ -16,7 +16,10 @@ module.exports = {
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
     'ids-label/ids-label': ['./app/ids-label/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
-    'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
+    'ids-popup/ids-popup': ['./app/ids-popup/index.js'],
+    'ids-popup/test-sandbox': ['./app/ids-popup/test-sandbox.js'],
+    'ids-popup/test-target-in-grid': ['./app/ids-popup/test-target-in-grid.js'],
+    'ids-tag/ids-tag': ['./app/ids-tag/index.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -42,7 +45,10 @@ module.exports = {
   },
   module: {
     rules: [
-      { test: /\.html$/, loader: 'handlebars-loader' },
+      {
+        test: /\.html$/,
+        loader: 'handlebars-loader'
+      },
       {
         test: /\.js$/,
         exclude: /node_modules/,
@@ -55,7 +61,10 @@ module.exports = {
       },
       {
         test: /\.scss$/,
-        exclude: /node_modules/,
+        exclude: [
+          /node_modules/,
+          path.resolve(__dirname, 'app')
+        ],
         use: [
           'sass-to-string',
           {
@@ -67,7 +76,30 @@ module.exports = {
             },
           },
         ],
-      }
+      },
+      {
+        test: /\.scss$/,
+        exclude: [
+          /node_modules/,
+          path.resolve(__dirname, 'src')
+        ],
+        use: [
+          // Creates `style` nodes from JS strings
+          {
+            loader: 'style-loader',
+            options: {
+              attributes: {
+                id: 'demo-styles',
+                nonce: '0a59a005' // @TODO needs to match a global nonce instance
+              }
+            }
+          },
+          // Translates CSS into CommonJS
+          'css-loader',
+          // Compiles Sass to CSS
+          'sass-loader',
+        ]
+      },
     ]
   },
   plugins: [
@@ -139,7 +171,28 @@ module.exports = {
       template: './app/ids-trigger-field/index.html',
       inject: 'body',
       filename: 'ids-trigger-field/index.html',
-      title: 'IDS Trigger Field',
+      title: 'IDS Trigger Field'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-popup/index.html',
+      inject: 'body',
+      filename: 'ids-popup/index.html',
+      chunks: ['ids-popup/ids-popup'],
+      title: 'IDS Popup Component'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-popup/test-sandbox.html',
+      inject: 'body',
+      filename: 'ids-popup/test-sandbox',
+      chunks: ['ids-popup/test-sandbox'],
+      title: 'Popup Test - Sandbox'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-popup/test-target-in-grid.html',
+      inject: 'body',
+      filename: 'ids-popup/test-target-in-grid',
+      chunks: ['ids-popup/test-target-in-grid'],
+      title: 'Popup Test - Align Target inside a Layout Grid'
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),

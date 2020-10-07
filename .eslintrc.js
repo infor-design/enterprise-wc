@@ -64,5 +64,7 @@ module.exports = {
     'no-useless-constructor': ['off', { }],
     // Allow hasOwnProperty
     'no-prototype-builtins': ['off', { }],
+    // Don't require array destructuring
+    'prefer-destructuring': ['off', { }],
   }
 };
