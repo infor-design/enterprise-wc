@@ -1,7 +1,6 @@
 /* Ids Layout Grid Component */
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 
-$cols: 16;
 $breakpoint-xs: 360px;
 $breakpoint-sm: 600px;
 $breakpoint-md: 840px;
@@ -10,34 +9,85 @@ $breakpoint-xl: 1440px;
 
 // Style the grid
 .ids-layout-grid {
+  --grid-cols: 16;
+  --grid-col-span: 0;
+  --grid-col-start: 0;
+  --grid-col-end: 0;
+  --grid-row-span: 0;
+  --grid-row-start: 0;
+  --grid-row-end: 0;
   --grid-spacing-unit: 8px;
+  --breakpoint-xs: 360px;
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 840px;
+  --breakpoint-lg: 1280px;
+  --breakpoint-xl: 1440px;
+  --min-col-width: 100px;
 
-  @include mx-12();
-  @include my-20();
+  @include mx-16();
+  @include my-16();
 
   display: grid;
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
+  grid-auto-flow: row;
 
   // Auto layout
   &.ids-layout-cols-auto {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(var(--min-col-width), 1fr));
+  }
+
+  // Grid Columns
+  &.ids-layout-cols {
+    grid-template-columns: repeat(var(--grid-cols), minmax(var(--min-col-width), 1fr));
+  }
+
+  // Grid Column Span
+  .ids-layout-col-span {
+    grid-column: span var(--grid-col-span) / span var(--grid-col-span);
+  }
+
+  // Grid Column Start
+  .ids-layout-col-start {
+    grid-column-start: var(--grid-col-start);
+  }
+
+  // Grid Column End
+  .ids-layout-col-end {
+    grid-column-end: var(--grid-col-end);
+  }
+
+  // Grid Row Span
+  .ids-layout-row-span {
+    grid-row: span var(--grid-row-span) / span var(--grid-row-span);
+  }
+
+  // Grid Row Start
+  .ids-layout-row-start {
+    grid-row-start: var(--grid-row-start);
+  }
+
+  // Grid Row End
+  .ids-layout-row-end {
+    grid-row-end: var(--grid-row-end);
   }
 
   // Grid Gap
-  &.ids-grid-gap-8 {
+  &.ids-grid-gap-none {
+    grid-gap: 0;
+  }
+
+  &.ids-grid-gap-sm {
     grid-gap: var(--grid-spacing-unit);
   }
 
-  &.ids-grid-gap-16 {
+  &.ids-grid-gap-md {
     grid-gap: calc(var(--grid-spacing-unit) * 2);
   }
 
-  &.ids-grid-gap-24 {
+  &.ids-grid-gap-lg {
     grid-gap: calc(var(--grid-spacing-unit) * 3);
   }
 
-  &.ids-grid-gap-32 {
+  &.ids-grid-gap-xl {
     grid-gap: calc(var(--grid-spacing-unit) * 4);
   }
 }
@@ -52,64 +102,14 @@ $breakpoint-xl: 1440px;
   }
 }
 
-@for $i from 1 through $cols {
-  // Define column classes
-  .ids-layout-grid.ids-layout-cols-#{$i} {
-    grid-template-columns: repeat($i, minmax(0, 1fr));
-
-    @media all and (max-width: $breakpoint-md) {
-      grid-template-columns: none;
-    }
-  }
-
-  // Define column span classes
-  .ids-layout-grid > .ids-layout-col-span-#{$i} {
-    grid-column: span $i / span $i;
-
-    @media all and (max-width: $breakpoint-md) {
-      grid-column: span 1 / span 1;
-    }
-  }
-
-  // Define column start classes
-  .ids-layout-grid > .ids-layout-col-start-#{$i} {
-    grid-column-start: $i;
-  }
-
-  // Define column end classes
-  .ids-layout-grid > .ids-layout-col-end-#{$i} {
-    grid-column-end: $i;
-  }
-
-  // Define row classes
-  .ids-layout-grid.ids-layout-rows-#{$i} {
-    grid-template-rows: repeat($i, minmax(100px, 1fr));
-
-    @media all and (max-width: $breakpoint-md) {
-      grid-template-rows: none;
-    }
-  }
-
-  // Define row span classes
-  .ids-layout-grid > .ids-layout-rows-span-#{$i} {
-    grid-row: span $i / span $i;
-  }
-
-  // Define row start classes
-  .ids-layout-grid > .ids-layout-rows-start-#{$i} {
-    grid-row-start: $i;
-  }
-
-  // Define row end classes
-  .ids-layout-grid > .ids-layout-rows-end-#{$i} {
-    grid-row-end: $i;
-  }
-}
-
-// Tablet down - Go full
+// Tablet down - Go Auto
 @media all and (max-width: $breakpoint-md) {
   .ids-layout-grid:not(.ids-fixed) {
-    grid-template-columns: none;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+
+  .ids-layout-grid > .ids-layout-col-span {
+    grid-column: auto;
   }
 }
 

@@ -18,7 +18,7 @@ class IdsLayoutColumn extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['fill', 'col-span', 'col-start', 'col-end', 'row-span', 'row-start', 'row-end'];
+    return ['fill', 'gap', 'col-span', 'col-start', 'col-end', 'row-span', 'row-start', 'row-end'];
   }
 
   /**
@@ -50,11 +50,13 @@ class IdsLayoutColumn extends IdsElement {
   set colSpan(value) {
     if (value) {
       this.setAttribute('col-span', value);
-      this.classList.add(`ids-layout-col-span-${value}`);
+      this.style.setProperty('--grid-col-span', value);
+      this.classList.add(`ids-layout-col-span`);
       return;
     }
 
-    this.classList.remove(`ids-layout-col-span-${value}`);
+    this.style.setProperty('--grid-col-span');
+    this.classList.remove(`ids-layout-col-span`);
     this.removeAttribute('col-span');
   }
 
@@ -67,11 +69,13 @@ class IdsLayoutColumn extends IdsElement {
   set colStart(value) {
     if (value) {
       this.setAttribute('col-start', value);
-      this.classList.add(`ids-layout-col-start-${value}`);
+      this.style.setProperty('--grid-col-start', value);
+      this.classList.add(`ids-layout-col-start`);
       return;
     }
 
-    this.classList.remove(`ids-layout-col-start-${value}`);
+    this.style.removeProperty('--grid-col-start');
+    this.classList.remove(`ids-layout-col-start`);
     this.removeAttribute('col-start');
   }
 
@@ -84,11 +88,13 @@ class IdsLayoutColumn extends IdsElement {
   set colEnd(value) {
     if (value) {
       this.setAttribute('col-end', value);
-      this.classList.add(`ids-layout-col-end-${value}`);
+      this.style.setProperty('--grid-col-end', value);
+      this.classList.add(`ids-layout-col-end`);
       return;
     }
 
-    this.classList.remove(`ids-layout-col-end-${value}`);
+    this.style.removeProperty('--grid-col-end');
+    this.classList.remove(`ids-layout-col-end`);
     this.removeAttribute('col-end');
   }
 
@@ -101,11 +107,13 @@ class IdsLayoutColumn extends IdsElement {
   set rowSpan(value) {
     if (value) {
       this.setAttribute('row-span', value);
-      this.classList.add(`ids-layout-row-span-${value}`);
+      this.style.setProperty('--grid-row-span', value);
+      this.classList.add(`ids-layout-row-span`);
       return;
     }
 
-    this.classList.remove(`ids-layout-row-span-${value}`);
+    this.style.removeProperty('--grid-row-span');
+    this.classList.remove(`ids-layout-row-span`);
     this.removeAttribute('row-span');
   }
 
@@ -118,11 +126,13 @@ class IdsLayoutColumn extends IdsElement {
   set rowStart(value) {
     if (value) {
       this.setAttribute('row-start', value);
-      this.classList.add(`ids-layout-row-start-${value}`);
+      this.style.setProperty('--grid-row-start', value);
+      this.classList.add(`ids-layout-row-start`);
       return;
     }
 
-    this.classList.remove(`ids-layout-row-start-${value}`);
+    this.style.removeProperty('--grid-row-start');
+    this.classList.remove(`ids-layout-row-start`);
     this.removeAttribute('row-start');
   }
 
@@ -135,11 +145,13 @@ class IdsLayoutColumn extends IdsElement {
   set rowEnd(value) {
     if (value) {
       this.setAttribute('row-end', value);
-      this.classList.add(`ids-layout-row-end-${value}`);
+      this.style.setProperty('--grid-row-end', value);
+      this.classList.add(`ids-layout-row-end`);
       return;
     }
 
-    this.classList.remove(`ids-layout-row-end-${value}`);
+    this.style.removeProperty('--grid-row-end');
+    this.classList.remove(`ids-layout-row-end`);
     this.removeAttribute('row-end');
   }
 
