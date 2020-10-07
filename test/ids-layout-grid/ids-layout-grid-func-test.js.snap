@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsLayoutGrid Component renders correctly 1`] = `"<ids-layout-grid><ids-layout-panel class=\\"ids-layout-panel\\"></ids-layout-panel><ids-layout-panel class=\\"ids-layout-panel\\"></ids-layout-panel><ids-layout-panel class=\\"ids-layout-panel\\"></ids-layout-panel></ids-layout-grid>"`;
+exports[`IdsLayoutGrid Component renders correctly 1`] = `"<ids-layout-grid><ids-layout-panel></ids-layout-panel><ids-layout-panel></ids-layout-panel><ids-layout-panel></ids-layout-panel></ids-layout-grid>"`;
 
-exports[`IdsLayoutGrid Component renders correctly 2`] = `"<ids-layout-grid fixed=\\"true\\" class=\\"ids-fixed\\"><ids-layout-panel class=\\"ids-layout-panel\\"></ids-layout-panel><ids-layout-panel class=\\"ids-layout-panel\\"></ids-layout-panel><ids-layout-panel class=\\"ids-layout-panel\\"></ids-layout-panel></ids-layout-grid>"`;
+exports[`IdsLayoutGrid Component renders correctly 2`] = `"<ids-layout-grid fixed=\\"true\\" class=\\"ids-fixed\\"><ids-layout-panel></ids-layout-panel><ids-layout-panel></ids-layout-panel><ids-layout-panel></ids-layout-panel></ids-layout-grid>"`;

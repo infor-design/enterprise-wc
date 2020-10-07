@@ -96,6 +96,14 @@ describe('IdsLayoutGrid Component', () => {
     expect(document.querySelectorAll('.ids-layout-cols-auto').length).toEqual(0);
   });
 
+  it('renders grid gap setting', () => {
+    const elem = new IdsLayoutGrid();
+    elem.gap = 'md';
+    document.body.appendChild(elem);
+    expect(elem.gap).toEqual('md');
+    expect(document.querySelectorAll('.ids-grid-gap-md').length).toEqual(1);
+  });
+
   it('renders cols setting', () => {
     const elem = new IdsLayoutGrid();
     elem.cols = 16;
