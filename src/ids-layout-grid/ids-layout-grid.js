@@ -5,6 +5,7 @@ import {
   scss
 } from '../ids-base/ids-element';
 import styles from './ids-layout-grid.scss';
+import { props } from '../ids-base/ids-constants';
 
 /**
  * IDS Layout Component
@@ -17,7 +18,13 @@ class IdsLayoutGrid extends IdsElement {
   }
 
   static get properties() {
-    return ['fixed', 'gap', 'auto', 'cols', 'rows'];
+    return [
+      props.GRID_FIXED,
+      props.GRID_GAP,
+      props.GRID_AUTO,
+      props.GRID_COLS,
+      props.GRID_ROWS
+    ];
   }
 
   template() {
@@ -30,22 +37,22 @@ class IdsLayoutGrid extends IdsElement {
    */
   set fixed(value) {
     if (value) {
-      this.setAttribute('fixed', value);
+      this.setAttribute(props.GRID_FIXED, value);
       this.classList.add('ids-fixed');
       return;
     }
 
-    this.removeAttribute('fixed');
+    this.removeAttribute(props.GRID_FIXED);
     this.classList.remove('ids-fixed');
   }
 
-  get fixed() { return this.getAttribute('fixed'); }
+  get fixed() { return this.getAttribute(props.GRID_FIXED); }
 
   /**
    * Handle The Gap Setting
    * @returns {string} The Gap [none, sm, md, lg, xl]
    */
-  get gap() { return this.getAttribute('gap'); }
+  get gap() { return this.getAttribute(props.GRID_GAP); }
 
   /**
    * Set the grid gap
@@ -53,11 +60,11 @@ class IdsLayoutGrid extends IdsElement {
    */
   set gap(value) {
     if (value) {
-      this.setAttribute('gap', value);
+      this.setAttribute(props.GRID_GAP, value);
       this.classList.add(`ids-grid-gap-${value}`);
       return;
     }
-    this.removeAttribute('gap');
+    this.removeAttribute(props.GRID_GAP);
     this.classList.remove(`ids-grid-gap-${value}`);
   }
 
@@ -67,16 +74,16 @@ class IdsLayoutGrid extends IdsElement {
    */
   set auto(value) {
     if (value) {
-      this.setAttribute('auto', value);
+      this.setAttribute(props.GRID_AUTO, value);
       this.classList.add('ids-layout-cols-auto');
       return;
     }
 
-    this.removeAttribute('auto');
+    this.removeAttribute(props.GRID_AUTO);
     this.classList.remove('ids-layout-cols-auto');
   }
 
-  get auto() { return this.getAttribute('auto'); }
+  get auto() { return this.getAttribute(props.GRID_AUTO); }
 
   /**
    * Sets the amount of columns in the grid
@@ -85,7 +92,7 @@ class IdsLayoutGrid extends IdsElement {
   set cols(value) {
     if (value) {
       this.auto = false;
-      this.setAttribute('cols', value);
+      this.setAttribute(props.GRID_COLS, value);
       this.style.setProperty('--grid-cols', value);
       this.classList.add(`ids-layout-cols`);
       this.classList.remove('ids-layout-cols-auto');
@@ -93,11 +100,11 @@ class IdsLayoutGrid extends IdsElement {
     }
 
     this.style.removeProperty('--grid-cols');
-    this.removeAttribute('auto');
+    this.removeAttribute(props.GRID_AUTO);
     this.classList.remove(`ids-layout-cols`);
   }
 
-  get cols() { return this.getAttribute('cols'); }
+  get cols() { return this.getAttribute(props.GRID_COLS); }
 
   /**
    * Sets the amount of rows in the grid. Works best with fixed height grids
@@ -106,7 +113,7 @@ class IdsLayoutGrid extends IdsElement {
   set rows(value) {
     if (value) {
       this.auto = false;
-      this.setAttribute('rows', value);
+      this.setAttribute(props.GRID_ROWS, value);
       this.style.setProperty('--grid-rows', value);
       this.classList.add(`ids-layout-rows`);
       this.classList.remove('ids-layout-cols-auto');
@@ -114,11 +121,11 @@ class IdsLayoutGrid extends IdsElement {
     }
 
     this.style.removeProperty('--grid-rows');
-    this.removeAttribute('auto');
+    this.removeAttribute(props.GRID_AUTO);
     this.classList.remove(`ids-layout-rows`);
   }
 
-  get rows() { return this.getAttribute('rows'); }
+  get rows() { return this.getAttribute(props.GRID_ROWS); }
 }
 
 export default IdsLayoutGrid;
