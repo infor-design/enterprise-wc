@@ -129,12 +129,6 @@ module.exports = {
       filename: 'ids-trigger-field/index.html',
       title: 'IDS Trigger Field',
     }),
-    new HTMLWebpackPlugin({
-      template: './app/ids-grid/index.html',
-      inject: 'body',
-      filename: 'ids-grid/index.html',
-      title: 'IDS Grid',
-    }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),
     // Handle Hot Swap When files change - files must be added via entry points

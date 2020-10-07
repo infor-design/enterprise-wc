@@ -13,6 +13,7 @@ $breakpoint-xl: 1440px;
   --grid-col-span: 0;
   --grid-col-start: 0;
   --grid-col-end: 0;
+  --grid-rows: 0;
   --grid-row-span: 0;
   --grid-row-start: 0;
   --grid-row-end: 0;
@@ -53,6 +54,11 @@ $breakpoint-xl: 1440px;
   // Grid Column End
   .ids-layout-col-end {
     grid-column-end: var(--grid-col-end);
+  }
+
+  // Grid Rows
+  &.ids-layout-rows {
+    grid-template-rows: repeat(var(--grid-rows), minmax(var(--min-col-width), 1fr));
   }
 
   // Grid Row Span
