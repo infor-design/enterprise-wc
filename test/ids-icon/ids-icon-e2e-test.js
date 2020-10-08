@@ -19,11 +19,4 @@ describe('Ids Icon e2e Tests', () => {
     await page.goto(`${url}?count=1`, { waitUntil: 'load' });
     await expect(page).toPassAxeTests();
   });
-
-  it('should not have visual regressions (percy)', async () => {
-    page = await browser.newPage();
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
-    await percySnapshot(page, 'ids-tag');
-  });
 });
