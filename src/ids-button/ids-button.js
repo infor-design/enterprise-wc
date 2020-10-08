@@ -4,6 +4,7 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
+import { IdsDOMUtilsMixin } from '../ids-base/ids-dom-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
@@ -26,11 +27,23 @@ const BUTTON_DEFAULTS = {
   type: BUTTON_TYPES[0]
 };
 
+// Definable attributes
+const BUTTON_PROPS = [
+  props.CSS_CLASS,
+  props.DISABLED,
+  props.FOCUSABLE,
+  props.ICON,
+  'id',
+  props.TEXT,
+  'type'
+];
+
 /**
  * IDS Button Component
  */
 @customElement('ids-button')
 @scss(styles)
+@mixin(IdsDOMUtilsMixin)
 @mixin(IdsEventsMixin)
 class IdsButton extends IdsElement {
   constructor() {
@@ -71,19 +84,17 @@ class IdsButton extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [
-      props.CSS_CLASS,
-      props.DISABLED,
-      props.FOCUSABLE,
-      'id',
-      'type'
-    ];
+    return BUTTON_PROPS;
   }
 
   /**
    * @returns {Array} containing classes used to identify this button prototype
    */
   get protoClasses() {
+    const textSlot = this.querySelector('span');
+    if (!textSlot) {
+      return ['ids-icon-button'];
+    }
     return ['ids-button'];
   }
 
@@ -95,7 +106,9 @@ class IdsButton extends IdsElement {
     let cssClasses = '';
     let protoClasses = '';
     let disabled = '';
+    let icon = '';
     let tabindex = 'tabindex="0"';
+    let text = '';
     let type = '';
     if (this.state?.cssClass) {
       cssClasses = ` ${this.cssClass
@@ -106,7 +119,13 @@ class IdsButton extends IdsElement {
       disabled = ` disabled="true"`;
     }
     if (this.state?.focusable) {
-      tabindex = `${this.state.focusable ? 0 : -1}`;
+      tabindex = `tabindex="${this.state.focusable ? 0 : -1}"`;
+    }
+    if (this.state?.icon) {
+      icon = `<ids-icon slot="icon" icon="${this.state.icon}"></ids-icon>`;
+    }
+    if (this.state?.text) {
+      text = `<span slot="text">${this.state.text}</span>`;
     }
     if (this.state && this.state?.type !== 'default') {
       type = ` btn-${this.state.type}`;
@@ -116,7 +135,8 @@ class IdsButton extends IdsElement {
     }
 
     return `<button class="${protoClasses}${type}${cssClasses}" ${tabindex}${disabled}>
-      <slot></slot>
+      <slot name="icon">${icon}</slot>
+      <slot name="text">${text}</slot>
     </button>`;
   }
 
@@ -134,16 +154,16 @@ class IdsButton extends IdsElement {
         preceededByTouchstart = false;
         return;
       }
-      x = e.pageX !== 0 ? e.pageX : undefined;
-      y = e.pageY !== 0 ? e.pageY : undefined;
+      x = e.clientX !== 0 ? e.clientX : undefined;
+      y = e.clientY !== 0 ? e.clientY : undefined;
       this.createRipple(x, y);
     });
 
     this.eventHandlers.addEventListener('touchstart', this.button, (e) => {
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
-        x = touch.pageX !== 0 ? touch.pageX : undefined;
-        y = touch.pageY !== 0 ? touch.pageY : undefined;
+        x = touch.clientX !== 0 ? touch.clientX : undefined;
+        y = touch.clientY !== 0 ? touch.clientY : undefined;
         this.createRipple(x, y);
         preceededByTouchstart = true;
       }
@@ -243,6 +263,29 @@ class IdsButton extends IdsElement {
   }
 
   /**
+   * @param {string} val the text value
+   * @returns {void}
+   */
+  set text(val) {
+    if (!typeof val !== 'string' || !val.length) {
+      this.state.text = '';
+      this.removeAttribute('text');
+      return;
+    }
+
+    // @TODO: Run this through an XSS check
+    this.state.text = val;
+    this.setAttribute('text', val);
+  }
+
+  /**
+   * @returns {string} the current text value
+   */
+  get text() {
+    return this.state.text;
+  }
+
+  /**
    * @param {string} val a valid
    */
   set type(val) {
@@ -293,7 +336,7 @@ class IdsButton extends IdsElement {
    */
   getRippleOffsets(x, y) {
     const btnRect = this.getBoundingClientRect();
-    const halfRippleSize = 125;
+    const halfRippleSize = this.button.classList.contains('ids-icon-button') ? 35 : 125;
     let btnX;
     let btnY;
 
@@ -315,7 +358,7 @@ class IdsButton extends IdsElement {
       btnY = y - btnRect.top;
     }
 
-    // Subtract half the ripple size from each dimension
+    // Subtract half the ripple size from each dimension.
     btnX -= halfRippleSize;
     btnY -= halfRippleSize;
 
@@ -336,7 +379,7 @@ class IdsButton extends IdsElement {
     }
 
     // Remove pre-existing ripples
-    const otherRippleEls = this.container.querySelectorAll('.ripple-effect');
+    const otherRippleEls = this.button.querySelectorAll('.ripple-effect');
     otherRippleEls.forEach((rippleEl) => {
       rippleEl.remove();
     });
@@ -349,7 +392,7 @@ class IdsButton extends IdsElement {
     rippleEl.setAttribute('focusable', false);
     rippleEl.setAttribute('role', 'presentation');
 
-    this.container.prepend(rippleEl);
+    this.button.prepend(rippleEl);
     rippleEl.style.left = `${btnOffsets.x}px`;
     rippleEl.style.top = `${btnOffsets.y}px`;
     rippleEl.classList.add('animating');
@@ -362,4 +405,4 @@ class IdsButton extends IdsElement {
   }
 }
 
-export default IdsButton;
+export { IdsButton, BUTTON_PROPS };

@@ -1,23 +1,37 @@
+/**
+ * Ids Button Component CSS
+ * (Includes standard and icon button rules)
+ */
 @import './ids-button-base';
 
 :host {
   @include inline-flex();
 }
 
+// Standard slot rules
 ::slotted(ids-icon),
 ::slotted(span) {
   vertical-align: middle;
+}
+
+// Icon button slot rules
+::slotted(span.audible) {
+  @include audible();
+
+  vertical-align: middle;
+}
+
+::slotted(ids-icon:only-child) {
+  @include block();
 }
 
 .ripple-effect {
   @include block();
   @include rounded-round();
 
-  height: 250px;
   opacity: 0;
   position: absolute;
   transform: scale(0);
-  width: 250px;
 
   &.animating {
     @include animation(ripple-animation 1.2s ease-out);
@@ -26,16 +40,37 @@
 
 .ids-button {
   @include ids-base-button-styles();
+
+  .ripple-effect {
+    height: 250px;
+    width: 250px;
+  }
+}
+
+.ids-icon-button {
+  @include ids-base-button-styles();
+
+  // Everything below is only for icon buttons
+  @include px-8();
+  @include py-8();
+  @include rounded-round();
+
+  .ripple-effect {
+    height: 70px;
+    width: 70px;
+  }
 }
 
 @include keyframes(ripple-animation) {
   from {
-    opacity: 0.5;
+    @include opacity-50();
+
     transform: scale(0);
   }
 
   to {
-    opacity: 0;
+    @include opacity-0();
+
     transform: scale(2);
   }
 }

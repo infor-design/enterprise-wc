@@ -8,12 +8,12 @@
 - [ ] "Hide Focus" behavior (mixin?)
 - [x] Ripple effect (take coords instead of mouse directly)
 - [ ] Dispatch events?
-- [ ] Why doesn't the linter like `get protoClasses()` if it works?
+- [x] Why doesn't the linter like `get protoClasses()` if it works?
 
 # Icon Button
 
-[ ] get/set icon def
-[ ] get/set audible text/label def
+[x] get/set icon def
+[x] get/set audible text/label def
 
 # Toggle Button
 

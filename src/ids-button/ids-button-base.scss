@@ -1,3 +1,7 @@
+/**
+ * Ids Button Base CSS
+ * Use these mixins inside Ids Button CSS classes to define their base styles.
+ */
 @import '../ids-base/ids-base';
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
@@ -72,6 +76,7 @@
     box-shadow $transition-length $transition-ease,
     color $transition-length $transition-ease,
     opacity $transition-length $transition-ease;
+  white-space: nowrap;
 
   &:focus {
     @include shadow();

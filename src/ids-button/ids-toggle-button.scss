@@ -1,35 +1,23 @@
+/**
+ * Ids Toggle Button CSS
+ */
 @import './ids-button-base';
 
 :host {
   @include inline-flex();
 }
 
+::slotted(ids-icon),
 ::slotted(span) {
-  @include audible();
-
   vertical-align: middle;
-}
-
-::slotted(ids-icon) {
-  @include block();
-}
-
-.ids-icon-button {
-  // Base Styles
-  @include ids-base-button-styles();
-
-  // Everything below is only for icon buttons
-  @include px-8();
-  @include py-8();
-  @include rounded-round();
 }
 
 .ripple-effect {
   @include block();
+  @include opacity-0();
   @include rounded-round();
 
   height: 250px;
-  opacity: 0;
   position: absolute;
   transform: scale(0);
   width: 250px;
@@ -37,6 +25,10 @@
   &.animating {
     @include animation(ripple-animation 1.2s ease-out);
   }
+}
+
+.ids-toggle-button {
+  @include ids-base-button-styles();
 }
 
 @include keyframes(ripple-animation) {
