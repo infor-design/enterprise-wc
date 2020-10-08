@@ -20,6 +20,7 @@ describe('Ids Label e2e Tests', () => {
   });
 
   it('should not have visual regressions (percy)', async () => {
+    page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
     await percySnapshot(page, 'ids-label');

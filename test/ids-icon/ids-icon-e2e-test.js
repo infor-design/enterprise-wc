@@ -2,6 +2,7 @@ const { percySnapshot } = require('@percy/puppeteer');
 
 describe('Ids Icon e2e Tests', () => {
   const url = 'http://localhost:4444/ids-icon';
+  let page;
 
   beforeAll(async () => {
     page = await browser.newPage();
@@ -15,13 +16,14 @@ describe('Ids Icon e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto('http://localhost:4444/ids-icon', { waitUntil: 'load' });
+    await page.goto(`${url}?count=1`, { waitUntil: 'load' });
     await expect(page).toPassAxeTests();
   });
 
   it('should not have visual regressions (percy)', async () => {
+    page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto('http://localhost:4444/ids-icon', { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: 'load' });
     await percySnapshot(page, 'ids-tag');
   });
 });
