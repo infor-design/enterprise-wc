@@ -128,6 +128,20 @@ module.exports = {
       chunks: ['ids-button/ids-button']
     }),
     new HTMLWebpackPlugin({
+      template: './app/ids-button/icon-button.html',
+      inject: 'body',
+      filename: 'ids-button/icon-button',
+      chunks: ['ids-button/ids-button', 'ids-button/icon-button'],
+      title: 'IDS Icon Button Component'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-button/toggle-button.html',
+      inject: 'body',
+      filename: 'ids-button/toggle-button',
+      chunks: ['ids-button/ids-button', 'ids-button/toggle-button'],
+      title: 'IDS Toggle Button Component'
+    }),
+    new HTMLWebpackPlugin({
       template: './app/ids-tag/index.html',
       inject: 'body',
       filename: 'ids-tag/index.html',

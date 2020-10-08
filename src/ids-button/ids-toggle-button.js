@@ -3,7 +3,7 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
-import { IdsButton, BUTTON_PROPS } from './ids-button';
+import { IdsButton, BUTTON_PROPS, BUTTON_TYPES } from './ids-button';
 import IdsIcon from '../ids-icon/ids-icon';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
@@ -13,6 +13,11 @@ import styles from './ids-toggle-button.scss';
 // Default Toggle Button Icons
 const DEFAULT_ICON_OFF = 'star-outlined';
 const DEFAULT_ICON_ON = 'star-filled';
+
+// Default Toggle Button Text States
+// @TODO Localize these strings
+const DEFAULT_TEXT_OFF = 'Off';
+const DEFAULT_TEXT_ON = 'On';
 
 /**
  * IDS Toggle Button Component
@@ -26,6 +31,10 @@ class IdsToggleButton extends IdsButton {
     this.icons = {
       off: DEFAULT_ICON_OFF,
       on: DEFAULT_ICON_ON
+    };
+    this.texts = {
+      off: DEFAULT_TEXT_OFF,
+      on: DEFAULT_TEXT_ON
     };
   }
 
@@ -48,6 +57,8 @@ class IdsToggleButton extends IdsButton {
     return BUTTON_PROPS.concat([
       'icon-off',
       'icon-on',
+      'text-off',
+      'text-on',
       'pressed',
     ]);
   }
@@ -60,6 +71,7 @@ class IdsToggleButton extends IdsButton {
   connectedCallBack() {
     IdsButton.prototype.connectedCallBack.apply(this);
     this.refreshIcon();
+    this.refreshText();
   }
 
   /**
@@ -74,8 +86,10 @@ class IdsToggleButton extends IdsButton {
     } else {
       this.removeAttribute('pressed');
     }
-    this.refreshIcon();
     this.shouldUpdate = true;
+
+    this.refreshIcon();
+    this.refreshText();
   }
 
   /**
@@ -86,23 +100,44 @@ class IdsToggleButton extends IdsButton {
   }
 
   /**
+   * Override setting the "type" on Toggle Buttons, since they can only be the default style.
+   * @param {string} val a valid
+   * @returns {void}
+   */
+  set type(val) {
+    this.state.type = BUTTON_TYPES[0];
+    if (this.hasAttribute('type')) {
+      this.shouldUpdate = false;
+      this.removeAttribute('type');
+      this.shouldUpdate = true;
+    }
+    this.setTypeClass(this.state.type);
+  }
+
+  /**
    * Defines the `unpressed/off` toggle state icon.
    * @param {string} val corresponds to an IdsIcon's `icon` property
    * @returns {void}
    */
   set iconOff(val) {
-    this.shouldUpdate = false;
-    if (typeof val !== 'string' || !val.length) {
-      this.icons.off = DEFAULT_ICON_OFF;
-      this.removeAttribute('icon-off');
-    } else {
-      this.icons.off = val;
-      this.setAttribute('icon-off', this.icons.off);
+    let isValid = false;
+    if (typeof val === 'string' && val.length) {
+      isValid = true;
     }
-    this.shouldUpdate = true;
+    this.icons.off = isValid ? val : DEFAULT_ICON_OFF;
+
+    if (isValid) {
+      this.setAttribute('icon-off', this.icons.off);
+    } else {
+      this.removeAttribute('icon-off');
+    }
+
     this.refreshIcon();
   }
 
+  /**
+   * @returns {string} the current icon representing the `unpressed/off` state
+   */
   get iconOff() {
     return this.icons.off;
   }
@@ -113,20 +148,71 @@ class IdsToggleButton extends IdsButton {
    * @returns {void}
    */
   set iconOn(val) {
-    this.shouldUpdate = false;
-    if (typeof val !== 'string' || !val.length) {
-      this.icons.on = DEFAULT_ICON_ON;
-      this.removeAttribute('icon-on');
-    } else {
-      this.icons.on = val;
-      this.setAttribute('icon-on', this.icons.on);
+    let isValid = false;
+    if (typeof val === 'string' && val.length) {
+      isValid = true;
     }
-    this.shouldUpdate = true;
+    this.icons.on = isValid ? val : DEFAULT_ICON_ON;
+
+    if (isValid) {
+      this.setAttribute('icon-on', this.icons.on);
+    } else {
+      this.removeAttribute('icon-on');
+    }
     this.refreshIcon();
   }
 
+  /**
+   * @returns {string} the current icon representing the `pressed/on` state
+   */
   get iconOn() {
     return this.icons.on;
+  }
+
+  /**
+   * Defines the `unpressed/off` toggle state text.
+   * @param {string} val `unpressed/off` description text
+   * @returns {void}
+   */
+  set textOff(val) {
+    if (typeof val !== 'string' || !val.length) {
+      this.texts.off = DEFAULT_TEXT_OFF;
+      this.removeAttribute('text-off');
+    } else {
+      this.texts.off = val;
+      this.setAttribute('text-off', this.texts.off);
+    }
+    this.refreshText();
+  }
+
+  /**
+   * @returns {string} the current icon representing the `unpressed/off` state
+   */
+  get textOff() {
+    return this.texts.off;
+  }
+
+  /**
+   * Defines the `pressed/on` toggle state icon.
+   * @param {string} val corresponds to an IdsIcon's `icon` property
+   * @returns {void}
+   */
+  set textOn(val) {
+    if (typeof val !== 'string' || !val.length) {
+      this.texts.on = DEFAULT_TEXT_ON;
+      this.removeAttribute('text-on');
+    } else {
+      this.texts.on = val;
+      this.setAttribute('text-on', this.texts.on);
+    }
+    this.refreshText();
+  }
+
+  /**
+   * @returns {string} the current icon representing the `pressed/on` state
+   */
+  get textOn() {
+    return this.texts.on;
   }
 
   /**
@@ -141,5 +227,20 @@ class IdsToggleButton extends IdsButton {
     }
 
     slottedIcon.icon = this[this.pressed ? 'iconOn' : 'iconOff'];
+  }
+
+  /**
+   * Sets (or creates) a slotted span that contains text
+   * @returns {void}
+   */
+  refreshText() {
+    let slottedText = this.querySelector('span[slot]');
+    if (!slottedText) {
+      slottedText = document.createElement('span');
+      slottedText.setAttribute('slot', 'text');
+      this.append(slottedText);
+    }
+
+    this.text = this[this.pressed ? 'textOn' : 'textOff'];
   }
 }

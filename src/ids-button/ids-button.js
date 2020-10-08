@@ -267,15 +267,20 @@ class IdsButton extends IdsElement {
    * @returns {void}
    */
   set text(val) {
-    if (!typeof val !== 'string' || !val.length) {
+    if (typeof val !== 'string' || !val.length) {
       this.state.text = '';
       this.removeAttribute('text');
-      return;
+    } else {
+      // @TODO: Run this through an XSS check
+      this.state.text = val;
+      this.setAttribute('text', val);
     }
 
-    // @TODO: Run this through an XSS check
-    this.state.text = val;
-    this.setAttribute('text', val);
+    // Update an existing text slot with the new text
+    const textSlot = this.querySelector('span[slot]');
+    if (textSlot) {
+      textSlot.textContent = this.state.text;
+    }
   }
 
   /**
@@ -405,4 +410,4 @@ class IdsButton extends IdsElement {
   }
 }
 
-export { IdsButton, BUTTON_PROPS };
+export { IdsButton, BUTTON_PROPS, BUTTON_TYPES };

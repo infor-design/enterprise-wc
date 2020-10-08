@@ -9,6 +9,7 @@
 - [x] Ripple effect (take coords instead of mouse directly)
 - [ ] Dispatch events?
 - [x] Why doesn't the linter like `get protoClasses()` if it works?
+- [ ] Lots of tests
 
 # Icon Button
 
@@ -17,11 +18,14 @@
 
 # Toggle Button
 
-[ ] get/set pressed() state
-[ ] "unpressed" icon def
-[ ] "pressed" icon def
+[x] get/set pressed() state
+[x] "unpressed" icon def
+[x] "pressed" icon def
+[x] "unpressed" text def
+[x] "pressed" text def
 
 # Menu Button
 
-[ ] open popup
-[ ] get/set value() from menu?
+[ ] get/set value() from menu? (store/report menu's current value)
+[ ] "is-open" state?
+[ ] make it open a popup (maybe call this `IdsPopupButton`?)
