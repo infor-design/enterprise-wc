@@ -4,15 +4,16 @@
 $transition-length: 200ms;
 
 :host {
+  @include absolute();
+
   display: inline-block;
-  position: absolute;
 }
 
 .ids-popup {
   @include opacity-0();
+  @include fixed();
 
   display: none;
-  position: fixed;
 
   // Actually renders the popup, but doesn't "unhide" it
   &.visible {
@@ -100,5 +101,5 @@ $transition-length: 200ms;
 }
 
 .content-wrapper {
-  position: static;
+  @include static();
 }

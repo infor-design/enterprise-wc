@@ -23,6 +23,17 @@ describe('IdsBase Tests', () => {
     expect(elem.shadowRoot.adoptedStyleSheets[0].cssRules).toBeTruthy();
   });
 
+  it('replace host with name of the component when adoptedStyleSheets are not supported (mocked)', () => {
+    const elem = new IdsTag();
+    elem.cssStyles = `:host {}`;
+    elem.render();
+    expect(elem.shadowRoot.querySelector('style').textContent).toEqual('.ids-tag { background-color: transparent; }');
+
+    elem.cssStyles = `::host {}`;
+    elem.render();
+    expect(elem.shadowRoot.querySelector('style').textContent).toEqual('.ids-tag { background-color: transparent; }');
+  });
+
   it('can call events in a mixin', () => {
     expect(exampleMixin.prop1).toEqual('test');
     expect(exampleMixin.methodOne()).toEqual('test');
