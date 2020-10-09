@@ -53,6 +53,14 @@ describe('IdsLayoutGrid Component', () => {
     expect(document.querySelectorAll('.ids-fixed').length).toEqual(1);
   });
 
+  it('renders no-margins setting', () => {
+    const elem = new IdsLayoutGrid();
+    elem.noMargins = true;
+    document.body.appendChild(elem);
+    expect(elem.noMargins).toEqual('true');
+    expect(document.querySelectorAll('.ids-layout-grid-no-margins').length).toEqual(1);
+  });
+
   it('renders fill setting', () => {
     const col = new IdsLayoutPanel();
     col.fill = true;

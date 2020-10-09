@@ -4,7 +4,9 @@ import {
   version,
   scss
 } from '../ids-base/ids-element';
+import { mixin } from '../ids-base/ids-decorators';
 import styles from './ids-layout-grid.scss';
+import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
 
 /**
@@ -12,6 +14,7 @@ import { props } from '../ids-base/ids-constants';
  */
 @customElement('ids-layout-grid')
 @scss(styles)
+@mixin(IdsStringUtilsMixin)
 class IdsLayoutGrid extends IdsElement {
   constructor() {
     super();
@@ -23,7 +26,8 @@ class IdsLayoutGrid extends IdsElement {
       props.GRID_GAP,
       props.GRID_AUTO,
       props.GRID_COLS,
-      props.GRID_ROWS
+      props.GRID_ROWS,
+      props.GRID_NO_MARGINS
     ];
   }
 
@@ -126,6 +130,23 @@ class IdsLayoutGrid extends IdsElement {
   }
 
   get rows() { return this.getAttribute(props.GRID_ROWS); }
+
+  /**
+   * If true the grid will not have any margins
+   * @param {boolean} value true or false/nothing
+   */
+  set noMargins(value) {
+    if (value) {
+      this.setAttribute(props.GRID_NO_MARGINS, value);
+      this.classList.add('ids-layout-grid-no-margins');
+      return;
+    }
+
+    this.removeAttribute(props.GRID_NO_MARGINS);
+    this.classList.remove('ids-layout-grid-no-margins');
+  }
+
+  get noMargins() { return this.getAttribute(props.GRID_NO_MARGINS); }
 }
 
 export default IdsLayoutGrid;

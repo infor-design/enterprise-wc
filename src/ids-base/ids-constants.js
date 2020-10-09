@@ -18,7 +18,8 @@ export const props = {
   GRID_COL_END: 'col-end',
   GRID_ROW_SPAN: 'row-span',
   GRID_ROW_START: 'row-start',
-  GRID_ROW_END: 'row-end'
+  GRID_ROW_END: 'row-end',
+  GRID_NO_MARGINS: 'no-margins'
 };
 
 export const prefix = {
