@@ -34,7 +34,7 @@ class IdsIcon extends IdsElement {
   template() {
     const size = sizes[this.size];
     return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
-      <path d="${this.iconData()}" />
+      ${this.iconData()}
     </svg>`;
   }
 
@@ -55,7 +55,7 @@ class IdsIcon extends IdsElement {
   set icon(value) {
     if (value) {
       this.setAttribute('icon', value);
-      this.shadowRoot.querySelector('svg path').setAttribute('d', this.iconData());
+      this.shadowRoot.querySelector('svg').innerHTML = this.iconData();
     } else {
       this.removeAttribute('icon');
       this.shadowRoot.querySelector('svg')?.remove();

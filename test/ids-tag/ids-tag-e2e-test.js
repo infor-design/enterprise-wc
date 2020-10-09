@@ -15,13 +15,14 @@ describe('Ids Tag e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto('http://localhost:4444/ids-tag', { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: 'load' });
     await expect(page).toPassAxeTests();
   });
 
   it('should not have visual regressions (percy)', async () => {
+    page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto('http://localhost:4444/ids-tag', { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: 'load' });
     await percySnapshot(page, 'ids-tag');
   });
 });

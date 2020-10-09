@@ -66,5 +66,7 @@ module.exports = {
     'no-prototype-builtins': ['off', { }],
     // Don't require array destructuring
     'prefer-destructuring': ['off', { }],
+    // Allow i++
+    'no-plusplus': ['off', { }],
   }
 };
