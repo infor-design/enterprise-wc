@@ -10,8 +10,6 @@ class IdsLayoutPanel extends IdsElement {
     super();
   }
 
-  connectedCallBack() { }
-
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
@@ -67,7 +65,7 @@ class IdsLayoutPanel extends IdsElement {
     this.removeAttribute(props.GRID_COL_SPAN);
   }
 
-  get colSpan() { return this.getAttribute(props.GRID_COL_SPAN) };
+  get colSpan() { return this.getAttribute(props.GRID_COL_SPAN); }
 
   /**
    * Set the starting column
@@ -86,7 +84,7 @@ class IdsLayoutPanel extends IdsElement {
     this.removeAttribute(props.GRID_COL_START);
   }
 
-  get colStart() { return this.getAttribute(props.GRID_COL_START) };
+  get colStart() { return this.getAttribute(props.GRID_COL_START); }
 
   /**
    * Set the ending column
@@ -105,7 +103,7 @@ class IdsLayoutPanel extends IdsElement {
     this.removeAttribute(props.GRID_COL_END);
   }
 
-  get colEnd() { return this.getAttribute(props.GRID_COL_END) };
+  get colEnd() { return this.getAttribute(props.GRID_COL_END); }
 
   /**
    * Set the amount of rows to span
@@ -124,7 +122,7 @@ class IdsLayoutPanel extends IdsElement {
     this.removeAttribute(props.GRID_ROW_SPAN);
   }
 
-  get rowSpan() { return this.getAttribute(props.GRID_ROW_SPAN) };
+  get rowSpan() { return this.getAttribute(props.GRID_ROW_SPAN); }
 
   /**
    * Set the starting row
@@ -143,7 +141,7 @@ class IdsLayoutPanel extends IdsElement {
     this.removeAttribute(props.GRID_ROW_START);
   }
 
-  get rowStart() { return this.getAttribute(props.GRID_ROW_START) };
+  get rowStart() { return this.getAttribute(props.GRID_ROW_START); }
 
   /**
    * Set the ending row
@@ -162,7 +160,7 @@ class IdsLayoutPanel extends IdsElement {
     this.removeAttribute(props.GRID_ROW_END);
   }
 
-  get rowEnd() { return this.getAttribute(props.GRID_ROW_END) };
+  get rowEnd() { return this.getAttribute(props.GRID_ROW_END); }
 }
 
 export default IdsLayoutPanel;
