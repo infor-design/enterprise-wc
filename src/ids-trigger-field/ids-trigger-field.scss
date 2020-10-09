@@ -1,17 +1,18 @@
 @import '../ids-base/ids-base';
 
 .ids-trigger-field {
-  position: relative;
-  width: 100%;
+  @include relative();
+  @include w-full();
 }
 
 ::slotted(ids-input) {
-  width: 100%;
+  @include w-full();
 }
 
 ::slotted(ids-trigger-button) {
-  position: absolute;
-  right: 8px;
+  @include absolute();
+  @include right-8();
+
   top: 50%;
   transform: translateY(-50%);
 }
