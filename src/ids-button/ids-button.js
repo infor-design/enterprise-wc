@@ -277,7 +277,7 @@ class IdsButton extends IdsElement {
    * @param {boolean} val true if the button will be focusable
    */
   set focusable(val) {
-    const trueVal = val === true;
+    const trueVal = val === true || val === 'true';
     this.state.focusable = trueVal;
     if (this.button) {
       this.button.tabIndex = trueVal ? 0 : -1;

@@ -66,6 +66,20 @@ describe('IdsButton Component', () => {
     expect(btn.focusable).toBeTruthy();
     expect(btn.button.getAttribute('tabindex')).toEqual('0');
     expect(btn.state.focusable).toBeTruthy();
+
+    btn.setAttribute('focusable', false);
+
+    expect(btn.hasAttribute('focusable')).toBeFalsy();
+    expect(btn.focusable).toBeFalsy();
+    expect(btn.button.getAttribute('tabindex')).toEqual('-1');
+    expect(btn.state.focusable).toBeFalsy();
+
+    btn.setAttribute('focusable', true);
+
+    expect(btn.hasAttribute('focusable')).toBeTruthy();
+    expect(btn.focusable).toBeTruthy();
+    expect(btn.button.getAttribute('tabindex')).toEqual('0');
+    expect(btn.state.focusable).toBeTruthy();
   });
 
   it('can add extra CSS classes to the button', () => {
@@ -142,6 +156,20 @@ describe('IdsButton Component', () => {
     expect(btn.text).toEqual('');
     expect(btn.state.text).toEqual('');
   });
+
+  it('can add/remove its icon', () => {
+    btn.icon = 'settings';
+
+    expect(btn.getAttribute('icon')).toBe('settings');
+    expect(btn.icon).toBe('settings');
+    expect(btn.querySelector('ids-icon').icon).toBe('settings');
+
+    btn.icon = '';
+
+    expect(btn.hasAttribute('icon')).toBeFalsy();
+    expect(btn.icon).not.toBeDefined();
+    expect(btn.querySelector('ids-icon')).toBe(null);
+  });
 });
 
 // ============================================================
@@ -162,9 +190,24 @@ describe('IdsButton ripple effect tests', () => {
     btn = null;
   });
 
-  it('creates a ripple when clicked', () => {
+  it('creates a ripple when clicked (keyboard)', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
-    btn.dispatchEvent(event);
+    btn.button.dispatchEvent(event);
+
+    expect(btn.button.querySelector('.ripple-effect')).toBeDefined();
+  });
+
+  it('creates a ripple when clicked (mouse)', () => {
+    const event = new MouseEvent('click', {
+      button: 1,
+      pageX: 0,
+      pageY: 0,
+      target: btn.button,
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    btn.button.dispatchEvent(event);
 
     expect(btn.button.querySelector('.ripple-effect')).toBeDefined();
   });
@@ -181,7 +224,7 @@ describe('IdsButton ripple effect tests', () => {
       cancelable: true,
       view: window
     });
-    btn.dispatchEvent(event);
+    btn.button.dispatchEvent(event);
 
     expect(btn.button.querySelector('.ripple-effect')).toBeDefined();
   });
