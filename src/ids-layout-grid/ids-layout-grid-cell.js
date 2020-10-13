@@ -4,8 +4,8 @@ import { props } from '../ids-base/ids-constants';
 /**
  * IDS Grid Panel Component
  */
-@customElement('ids-grid-cell')
-class IdsGridCell extends IdsElement {
+@customElement('ids-layout-grid-cell')
+class IdsLayoutGridCell extends IdsElement {
   constructor() {
     super();
   }
@@ -16,13 +16,13 @@ class IdsGridCell extends IdsElement {
    */
   static get properties() {
     return [
-      props.GRID_FILL,
-      props.GRID_COL_SPAN,
-      props.GRID_COL_START,
-      props.GRID_COL_END,
-      props.GRID_ROW_SPAN,
-      props.GRID_ROW_START,
-      props.GRID_ROW_END
+      props.FILL,
+      props.COL_SPAN,
+      props.COL_START,
+      props.COL_END,
+      props.ROW_SPAN,
+      props.ROW_START,
+      props.ROW_END
     ];
   }
 
@@ -30,21 +30,21 @@ class IdsGridCell extends IdsElement {
    * Handle The Fill Setting
    * @returns {string} The fill color or true for theme default color
    */
-  get fill() { return this.getAttribute(props.GRID_FILL); }
+  get fill() { return this.getAttribute(props.FILL); }
 
   /**
    * Set the background fill color
    * @param {string} value The fill color or true for theme default color
    */
   set fill(value) {
-    const hasFill = this.hasAttribute(props.GRID_FILL);
+    const hasFill = this.hasAttribute(props.FILL);
 
     if (value) {
-      this.setAttribute(props.GRID_FILL, value);
+      this.setAttribute(props.FILL, value);
       this.classList.add('ids-background-fill');
       return;
     }
-    this.removeAttribute(props.GRID_FILL);
+    this.removeAttribute(props.FILL);
     this.classList.remove('ids-background-fill');
   }
 
@@ -54,7 +54,7 @@ class IdsGridCell extends IdsElement {
    */
   set colSpan(value) {
     if (value) {
-      this.setAttribute(props.GRID_COL_SPAN, value);
+      this.setAttribute(props.COL_SPAN, value);
       this.style.setProperty('--grid-col-span', value);
       this.classList.add(`ids-layout-col-span`);
       return;
@@ -62,10 +62,10 @@ class IdsGridCell extends IdsElement {
 
     this.style.setProperty('--grid-col-span');
     this.classList.remove(`ids-layout-col-span`);
-    this.removeAttribute(props.GRID_COL_SPAN);
+    this.removeAttribute(props.COL_SPAN);
   }
 
-  get colSpan() { return this.getAttribute(props.GRID_COL_SPAN); }
+  get colSpan() { return this.getAttribute(props.COL_SPAN); }
 
   /**
    * Set the starting column
@@ -73,7 +73,7 @@ class IdsGridCell extends IdsElement {
    */
   set colStart(value) {
     if (value) {
-      this.setAttribute(props.GRID_COL_START, value);
+      this.setAttribute(props.COL_START, value);
       this.style.setProperty('--grid-col-start', value);
       this.classList.add(`ids-layout-col-start`);
       return;
@@ -81,10 +81,10 @@ class IdsGridCell extends IdsElement {
 
     this.style.removeProperty('--grid-col-start');
     this.classList.remove(`ids-layout-col-start`);
-    this.removeAttribute(props.GRID_COL_START);
+    this.removeAttribute(props.COL_START);
   }
 
-  get colStart() { return this.getAttribute(props.GRID_COL_START); }
+  get colStart() { return this.getAttribute(props.COL_START); }
 
   /**
    * Set the ending column
@@ -92,7 +92,7 @@ class IdsGridCell extends IdsElement {
    */
   set colEnd(value) {
     if (value) {
-      this.setAttribute(props.GRID_COL_END, value);
+      this.setAttribute(props.COL_END, value);
       this.style.setProperty('--grid-col-end', value);
       this.classList.add(`ids-layout-col-end`);
       return;
@@ -100,10 +100,10 @@ class IdsGridCell extends IdsElement {
 
     this.style.removeProperty('--grid-col-end');
     this.classList.remove(`ids-layout-col-end`);
-    this.removeAttribute(props.GRID_COL_END);
+    this.removeAttribute(props.COL_END);
   }
 
-  get colEnd() { return this.getAttribute(props.GRID_COL_END); }
+  get colEnd() { return this.getAttribute(props.COL_END); }
 
   /**
    * Set the amount of rows to span
@@ -111,7 +111,7 @@ class IdsGridCell extends IdsElement {
    */
   set rowSpan(value) {
     if (value) {
-      this.setAttribute(props.GRID_ROW_SPAN, value);
+      this.setAttribute(props.ROW_SPAN, value);
       this.style.setProperty('--grid-row-span', value);
       this.classList.add(`ids-layout-row-span`);
       return;
@@ -119,10 +119,10 @@ class IdsGridCell extends IdsElement {
 
     this.style.removeProperty('--grid-row-span');
     this.classList.remove(`ids-layout-row-span`);
-    this.removeAttribute(props.GRID_ROW_SPAN);
+    this.removeAttribute(props.ROW_SPAN);
   }
 
-  get rowSpan() { return this.getAttribute(props.GRID_ROW_SPAN); }
+  get rowSpan() { return this.getAttribute(props.ROW_SPAN); }
 
   /**
    * Set the starting row
@@ -130,7 +130,7 @@ class IdsGridCell extends IdsElement {
    */
   set rowStart(value) {
     if (value) {
-      this.setAttribute(props.GRID_ROW_START, value);
+      this.setAttribute(props.ROW_START, value);
       this.style.setProperty('--grid-row-start', value);
       this.classList.add(`ids-layout-row-start`);
       return;
@@ -138,10 +138,10 @@ class IdsGridCell extends IdsElement {
 
     this.style.removeProperty('--grid-row-start');
     this.classList.remove(`ids-layout-row-start`);
-    this.removeAttribute(props.GRID_ROW_START);
+    this.removeAttribute(props.ROW_START);
   }
 
-  get rowStart() { return this.getAttribute(props.GRID_ROW_START); }
+  get rowStart() { return this.getAttribute(props.ROW_START); }
 
   /**
    * Set the ending row
@@ -149,7 +149,7 @@ class IdsGridCell extends IdsElement {
    */
   set rowEnd(value) {
     if (value) {
-      this.setAttribute(props.GRID_ROW_END, value);
+      this.setAttribute(props.ROW_END, value);
       this.style.setProperty('--grid-row-end', value);
       this.classList.add(`ids-layout-row-end`);
       return;
@@ -157,10 +157,10 @@ class IdsGridCell extends IdsElement {
 
     this.style.removeProperty('--grid-row-end');
     this.classList.remove(`ids-layout-row-end`);
-    this.removeAttribute(props.GRID_ROW_END);
+    this.removeAttribute(props.ROW_END);
   }
 
-  get rowEnd() { return this.getAttribute(props.GRID_ROW_END); }
+  get rowEnd() { return this.getAttribute(props.ROW_END); }
 }
 
-export default IdsGridCell;
+export default IdsLayoutGridCell;

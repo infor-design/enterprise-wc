@@ -76,28 +76,28 @@ $breakpoint-xl: 1440px;
 }
 
 // Grid Gap
-:host(.ids-grid-gap-none),
-.ids-layout-grid.ids-grid-gap-none {
+:host(.ids-layout-grid-gap-none),
+.ids-layout-grid.ids-layout-grid-gap-none {
   grid-gap: 0;
 }
 
-:host(.ids-grid-gap-sm),
-.ids-layout-grid.ids-grid-gap-sm {
+:host(.ids-layout-grid-gap-sm),
+.ids-layout-grid.ids-layout-grid-gap-sm {
   grid-gap: var(--grid-spacing-unit);
 }
 
-:host(.ids-grid-gap-md),
-.ids-layout-grid.ids-grid-gap-md {
+:host(.ids-layout-grid-gap-md),
+.ids-layout-grid.ids-layout-grid-gap-md {
   grid-gap: calc(var(--grid-spacing-unit) * 2);
 }
 
-:host(.ids-grid-gap-lg),
-.ids-layout-grid.ids-grid-gap-lg {
+:host(.ids-layout-grid-gap-lg),
+.ids-layout-grid.ids-layout-grid-gap-lg {
   grid-gap: calc(var(--grid-spacing-unit) * 3);
 }
 
-:host(.ids-grid-gap-xl),
-.ids-layout-grid.ids-grid-gap-xl {
+:host(.ids-layout-grid-gap-xl),
+.ids-layout-grid.ids-layout-grid-gap-xl {
   grid-gap: calc(var(--grid-spacing-unit) * 4);
 }
 

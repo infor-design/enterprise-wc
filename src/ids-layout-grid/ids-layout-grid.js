@@ -22,12 +22,12 @@ class IdsLayoutGrid extends IdsElement {
 
   static get properties() {
     return [
-      props.GRID_FIXED,
-      props.GRID_GAP,
-      props.GRID_AUTO,
-      props.GRID_COLS,
-      props.GRID_ROWS,
-      props.GRID_NO_MARGINS
+      props.FIXED,
+      props.GAP,
+      props.AUTO,
+      props.COLS,
+      props.ROWS,
+      props.NO_MARGINS
     ];
   }
 
@@ -41,22 +41,22 @@ class IdsLayoutGrid extends IdsElement {
    */
   set fixed(value) {
     if (value) {
-      this.setAttribute(props.GRID_FIXED, value);
+      this.setAttribute(props.FIXED, value);
       this.classList.add('ids-fixed');
       return;
     }
 
-    this.removeAttribute(props.GRID_FIXED);
+    this.removeAttribute(props.FIXED);
     this.classList.remove('ids-fixed');
   }
 
-  get fixed() { return this.getAttribute(props.GRID_FIXED); }
+  get fixed() { return this.getAttribute(props.FIXED); }
 
   /**
    * Handle The Gap Setting
    * @returns {string} The Gap [none, sm, md, lg, xl]
    */
-  get gap() { return this.getAttribute(props.GRID_GAP); }
+  get gap() { return this.getAttribute(props.GAP); }
 
   /**
    * Set the grid gap
@@ -64,12 +64,12 @@ class IdsLayoutGrid extends IdsElement {
    */
   set gap(value) {
     if (value) {
-      this.setAttribute(props.GRID_GAP, value);
-      this.classList.add(`ids-grid-gap-${value}`);
+      this.setAttribute(props.GAP, value);
+      this.classList.add(`ids-layout-grid-gap-${value}`);
       return;
     }
-    this.removeAttribute(props.GRID_GAP);
-    this.classList.remove(`ids-grid-gap-${value}`);
+    this.removeAttribute(props.GAP);
+    this.classList.remove(`ids-layout-grid-gap-${value}`);
   }
 
   /**
@@ -78,16 +78,16 @@ class IdsLayoutGrid extends IdsElement {
    */
   set auto(value) {
     if (value) {
-      this.setAttribute(props.GRID_AUTO, value);
+      this.setAttribute(props.AUTO, value);
       this.classList.add('ids-layout-cols-auto');
       return;
     }
 
-    this.removeAttribute(props.GRID_AUTO);
+    this.removeAttribute(props.AUTO);
     this.classList.remove('ids-layout-cols-auto');
   }
 
-  get auto() { return this.getAttribute(props.GRID_AUTO); }
+  get auto() { return this.getAttribute(props.AUTO); }
 
   /**
    * Sets the amount of columns in the grid
@@ -96,7 +96,7 @@ class IdsLayoutGrid extends IdsElement {
   set cols(value) {
     if (value) {
       this.auto = false;
-      this.setAttribute(props.GRID_COLS, value);
+      this.setAttribute(props.COLS, value);
       this.style.setProperty('--grid-cols', value);
       this.classList.add(`ids-layout-cols`);
       this.classList.remove('ids-layout-cols-auto');
@@ -104,11 +104,11 @@ class IdsLayoutGrid extends IdsElement {
     }
 
     this.style.removeProperty('--grid-cols');
-    this.removeAttribute(props.GRID_AUTO);
+    this.removeAttribute(props.AUTO);
     this.classList.remove(`ids-layout-cols`);
   }
 
-  get cols() { return this.getAttribute(props.GRID_COLS); }
+  get cols() { return this.getAttribute(props.COLS); }
 
   /**
    * Sets the amount of rows in the grid. Works best with fixed height grids
@@ -117,7 +117,7 @@ class IdsLayoutGrid extends IdsElement {
   set rows(value) {
     if (value) {
       this.auto = false;
-      this.setAttribute(props.GRID_ROWS, value);
+      this.setAttribute(props.ROWS, value);
       this.style.setProperty('--grid-rows', value);
       this.classList.add(`ids-layout-rows`);
       this.classList.remove('ids-layout-cols-auto');
@@ -125,11 +125,11 @@ class IdsLayoutGrid extends IdsElement {
     }
 
     this.style.removeProperty('--grid-rows');
-    this.removeAttribute(props.GRID_AUTO);
+    this.removeAttribute(props.AUTO);
     this.classList.remove(`ids-layout-rows`);
   }
 
-  get rows() { return this.getAttribute(props.GRID_ROWS); }
+  get rows() { return this.getAttribute(props.ROWS); }
 
   /**
    * If true the grid will not have any margins
@@ -137,16 +137,16 @@ class IdsLayoutGrid extends IdsElement {
    */
   set noMargins(value) {
     if (value) {
-      this.setAttribute(props.GRID_NO_MARGINS, value);
+      this.setAttribute(props.NO_MARGINS, value);
       this.classList.add('ids-layout-grid-no-margins');
       return;
     }
 
-    this.removeAttribute(props.GRID_NO_MARGINS);
+    this.removeAttribute(props.NO_MARGINS);
     this.classList.remove('ids-layout-grid-no-margins');
   }
 
-  get noMargins() { return this.getAttribute(props.GRID_NO_MARGINS); }
+  get noMargins() { return this.getAttribute(props.NO_MARGINS); }
 }
 
 export default IdsLayoutGrid;

@@ -7,19 +7,19 @@ export const props = {
   APPEARANCE: 'appearance',
   ANIMATED: 'animated',
   VISIBLE: 'visible',
-  GRID_FIXED: 'fixed',
-  GRID_GAP: 'gap',
-  GRID_AUTO: 'auto',
-  GRID_COLS: 'cols',
-  GRID_ROWS: 'rows',
-  GRID_FILL: 'fill',
-  GRID_COL_SPAN: 'col-span',
-  GRID_COL_START: 'col-start',
-  GRID_COL_END: 'col-end',
-  GRID_ROW_SPAN: 'row-span',
-  GRID_ROW_START: 'row-start',
-  GRID_ROW_END: 'row-end',
-  GRID_NO_MARGINS: 'no-margins'
+  FIXED: 'fixed',
+  GAP: 'gap',
+  AUTO: 'auto',
+  COLS: 'cols',
+  ROWS: 'rows',
+  FILL: 'fill',
+  COL_SPAN: 'col-span',
+  COL_START: 'col-start',
+  COL_END: 'col-end',
+  ROW_SPAN: 'row-span',
+  ROW_START: 'row-start',
+  ROW_END: 'row-end',
+  NO_MARGINS: 'no-margins'
 };
 
 export const prefix = {
