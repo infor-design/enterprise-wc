@@ -8,16 +8,11 @@ import IdsIcon from '../ids-icon/ids-icon';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
-import styles from './ids-toggle-button.scss';
+import styles from './ids-button.scss';
 
 // Default Toggle Button Icons
 const DEFAULT_ICON_OFF = 'star-outlined';
 const DEFAULT_ICON_ON = 'star-filled';
-
-// Default Toggle Button Text States
-// @TODO Localize these strings
-const DEFAULT_TEXT_OFF = 'Off';
-const DEFAULT_TEXT_ON = 'On';
 
 /**
  * IDS Toggle Button Component
@@ -33,19 +28,19 @@ class IdsToggleButton extends IdsButton {
       on: DEFAULT_ICON_ON
     };
     this.texts = {
-      off: DEFAULT_TEXT_OFF,
-      on: DEFAULT_TEXT_ON
+      off: '',
+      on: ''
     };
   }
 
   /**
-   * CSS Classes that are specific to the Icon Button prototype.
+   * CSS Classes that are specific to the Toggle Button prototype.
    * @returns {Array} containing css classes specific to styling this component
    */
   get protoClasses() {
-    const slottedIcon = this.querySelector('ids-icon');
-    if (!slottedIcon) {
-      return ['ids-button'];
+    const textSlot = this.querySelector('span[slot]');
+    if (!textSlot || !textSlot.textContent) {
+      return ['ids-icon-button'];
     }
     return ['ids-toggle-button'];
   }
@@ -78,7 +73,7 @@ class IdsToggleButton extends IdsButton {
    * @param {boolean} val if true, the "toggle" is activated
    */
   set pressed(val) {
-    const trueVal = val === true;
+    const trueVal = val === true || val === 'true';
     this.state.pressed = trueVal;
     this.shouldUpdate = false;
     if (trueVal) {
@@ -176,7 +171,7 @@ class IdsToggleButton extends IdsButton {
    */
   set textOff(val) {
     if (typeof val !== 'string' || !val.length) {
-      this.texts.off = DEFAULT_TEXT_OFF;
+      this.texts.off = '';
       this.removeAttribute('text-off');
     } else {
       this.texts.off = val;
@@ -199,7 +194,7 @@ class IdsToggleButton extends IdsButton {
    */
   set textOn(val) {
     if (typeof val !== 'string' || !val.length) {
-      this.texts.on = DEFAULT_TEXT_ON;
+      this.texts.on = '';
       this.removeAttribute('text-on');
     } else {
       this.texts.on = val;
@@ -220,13 +215,7 @@ class IdsToggleButton extends IdsButton {
    * @returns {void}
    */
   refreshIcon() {
-    let slottedIcon = this.querySelector('ids-icon');
-    if (!slottedIcon) {
-      slottedIcon = new IdsIcon();
-      this.prepend(slottedIcon);
-    }
-
-    slottedIcon.icon = this[this.pressed ? 'iconOn' : 'iconOff'];
+    this.icon = this[this.pressed ? 'iconOn' : 'iconOff'];
   }
 
   /**
@@ -234,13 +223,8 @@ class IdsToggleButton extends IdsButton {
    * @returns {void}
    */
   refreshText() {
-    let slottedText = this.querySelector('span[slot]');
-    if (!slottedText) {
-      slottedText = document.createElement('span');
-      slottedText.setAttribute('slot', 'text');
-      this.append(slottedText);
-    }
-
     this.text = this[this.pressed ? 'textOn' : 'textOff'];
   }
 }
+
+export default IdsToggleButton;

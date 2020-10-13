@@ -4,7 +4,6 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
-import { IdsDOMUtilsMixin } from '../ids-base/ids-dom-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
@@ -43,16 +42,15 @@ const BUTTON_PROPS = [
  */
 @customElement('ids-button')
 @scss(styles)
-@mixin(IdsDOMUtilsMixin)
 @mixin(IdsEventsMixin)
 class IdsButton extends IdsElement {
   constructor() {
     super();
-    this.shouldUpdate = true;
     this.state = {};
     Object.keys(BUTTON_DEFAULTS).forEach((prop) => {
       this.state[prop] = BUTTON_DEFAULTS[prop];
     });
+    this.shouldUpdate = true;
   }
 
   /**
@@ -88,18 +86,36 @@ class IdsButton extends IdsElement {
   }
 
   /**
+   * @private
+   * @readonly
    * @returns {Array} containing classes used to identify this button prototype
    */
   get protoClasses() {
-    const textSlot = this.querySelector('span');
-    if (!textSlot) {
+    const iconSlot = this.querySelector('ids-icon[slot]');
+    const textSlot = this.querySelector('span[slot]');
+    if (iconSlot && !textSlot) {
       return ['ids-icon-button'];
     }
     return ['ids-button'];
   }
 
   /**
+   * Refreshes this button's prototype CSS class
+   * @private
+   * @returns {void}
+   */
+  refreshProtoClasses() {
+    const cl = this.button.classList;
+    const newProtoClass = this.protoClasses;
+    const protoClasses = ['ids-button', 'ids-toggle-button', 'ids-icon-button'];
+
+    cl.remove(...protoClasses);
+    cl.add(newProtoClass);
+  }
+
+  /**
    * Inner template contents
+   * @private
    * @returns {string} The template
    */
   template() {
@@ -142,6 +158,7 @@ class IdsButton extends IdsElement {
 
   /**
    * Sets up event listeners
+   * @private
    * @returns {void}
    */
   handleEvents() {
@@ -186,16 +203,37 @@ class IdsButton extends IdsElement {
    */
   set cssClass(val) {
     let attr = val;
+    let newCl = [];
+    // @TODO replace with clone utils method
+    const prevClasses = [].concat(this.state.cssClasses);
+
     if (Array.isArray(val)) {
-      this.state.cssClasses = val;
+      newCl = val;
       attr = val.join(' ');
-    } else if (typeof val === 'string') {
-      this.state.cssClasses = val.split(' ');
+    } else if (typeof val === 'string' && val.length) {
+      newCl = val.split(' ');
     }
 
-    this.shouldUpdate = false;
-    this.setAttribute('css-class', attr);
-    this.shouldUpdate = true;
+    this.state.cssClasses = newCl;
+    if (newCl.length) {
+      this.setAttribute('css-class', attr);
+    } else {
+      this.removeAttribute('css-class');
+    }
+
+    // Remove/Set CSS classes on the actual inner Button component
+    const buttonCl = this.button.classList;
+    const buttonClArr = Array.from(buttonCl);
+    prevClasses.forEach((cssClass) => {
+      if (!newCl.includes(cssClass)) {
+        buttonCl.remove(cssClass);
+      }
+    });
+    newCl.forEach((newCssClass) => {
+      if (!buttonClArr.includes(newCssClass)) {
+        buttonCl.add(newCssClass);
+      }
+    });
   }
 
   /**
@@ -263,6 +301,55 @@ class IdsButton extends IdsElement {
   }
 
   /**
+   * @param {string} val representing the icon to set
+   */
+  set icon(val) {
+    if (typeof val !== 'string' || !val.length) {
+      this.removeAttribute('icon');
+      this.state.icon = undefined;
+      this.removeIcon();
+      return;
+    }
+    this.state.icon = val;
+    this.setAttribute('icon', val);
+    this.appendIcon(val);
+  }
+
+  /**
+   * @returns {undefined|string} a defined IdsIcon's `icon` attribute, if one is present
+   */
+  get icon() {
+    return this.querySelector('ids-icon[slot]')?.icon;
+  }
+
+  /**
+   * Check if an icon exists, and adds the icon if it's missing
+   * @param {string} iconName The icon name to check
+   * @private
+   */
+  appendIcon(iconName) {
+    const icon = this.querySelector(`ids-icon[slot="icon"]`);
+    if (icon) {
+      icon.icon = iconName;
+    } else {
+      this.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
+    }
+    this.refreshProtoClasses();
+  }
+
+  /**
+   * Check if an icon exists, and removes the icon if it's present
+   * @private
+   */
+  removeIcon() {
+    const icon = this.querySelector(`ids-icon[slot="icon"]`);
+    if (icon) {
+      icon.remove();
+    }
+    this.refreshProtoClasses();
+  }
+
+  /**
    * @param {string} val the text value
    * @returns {void}
    */
@@ -270,17 +357,14 @@ class IdsButton extends IdsElement {
     if (typeof val !== 'string' || !val.length) {
       this.state.text = '';
       this.removeAttribute('text');
-    } else {
-      // @TODO: Run this through an XSS check
-      this.state.text = val;
-      this.setAttribute('text', val);
+      this.removeText();
+      return;
     }
 
-    // Update an existing text slot with the new text
-    const textSlot = this.querySelector('span[slot]');
-    if (textSlot) {
-      textSlot.textContent = this.state.text;
-    }
+    // @TODO: Run this through an XSS check
+    this.state.text = val;
+    this.setAttribute('text', val);
+    this.appendText(val);
   }
 
   /**
@@ -291,10 +375,37 @@ class IdsButton extends IdsElement {
   }
 
   /**
-   * @param {string} val a valid
+   * Check if the text slot exists, and appends it if it's missing
+   * @param {string} val New text contents
+   * @private
+   */
+  appendText(val) {
+    const text = this.querySelector(`span[slot="text"]`);
+    if (text) {
+      text.textContent = val;
+    } else {
+      this.insertAdjacentHTML('afterbegin', `<span slot="text">${val}</span>`);
+    }
+    this.refreshProtoClasses();
+  }
+
+  /**
+   * Checks if the text slot exists, and removes it if necessary
+   * @private
+   */
+  removeText() {
+    const text = this.querySelector(`span[slot="text"]`);
+    if (text) {
+      text.remove();
+    }
+    this.refreshProtoClasses();
+  }
+
+  /**
+   * @param {string} val a valid button "type"
    */
   set type(val) {
-    if (!val || BUTTON_TYPES.indexOf(val) === -1) {
+    if (!val || BUTTON_TYPES.indexOf(val) <= 0) { // BUTTON_TYPES[0] === 'default'
       this.removeAttribute('type');
       this.state.type = BUTTON_TYPES[0];
     } else {

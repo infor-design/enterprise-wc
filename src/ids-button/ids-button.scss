@@ -38,7 +38,8 @@
   }
 }
 
-.ids-button {
+.ids-button,
+.ids-toggle-button {
   @include ids-base-button-styles();
 
   .ripple-effect {
