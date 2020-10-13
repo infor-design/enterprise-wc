@@ -1,7 +1,7 @@
 import IdsPopup from '../../src/ids-popup/ids-popup';
 import IdsInput from '../../src/ids-input/ids-input';
 import IdsLabel from '../../src/ids-label/ids-label';
-import IdsLayoutPanel from '../../src/ids-layout-grid/ids-layout-panel';
+import IdsGridCell from '../../src/ids-layout-grid/ids-grid-cell';
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 
 import './test-sandbox.scss';

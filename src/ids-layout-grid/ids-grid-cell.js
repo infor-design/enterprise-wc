@@ -4,8 +4,8 @@ import { props } from '../ids-base/ids-constants';
 /**
  * IDS Grid Panel Component
  */
-@customElement('ids-layout-panel')
-class IdsLayoutPanel extends IdsElement {
+@customElement('ids-grid-cell')
+class IdsGridCell extends IdsElement {
   constructor() {
     super();
   }
@@ -163,4 +163,4 @@ class IdsLayoutPanel extends IdsElement {
   get rowEnd() { return this.getAttribute(props.GRID_ROW_END); }
 }
 
-export default IdsLayoutPanel;
+export default IdsGridCell;
