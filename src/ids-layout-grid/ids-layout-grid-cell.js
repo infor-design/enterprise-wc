@@ -28,12 +28,12 @@ class IdsLayoutGridCell extends IdsElement {
 
   /**
    * Handle The Fill Setting
-   * @returns {string} The fill color or true for theme default color
+   * @returns {string} The fill to true for theme default color
    */
   get fill() { return this.getAttribute(props.FILL); }
 
   /**
-   * Set the background fill color
+   * Set the background fill
    * @param {string} value The fill color or true for theme default color
    */
   set fill(value) {
@@ -41,10 +41,13 @@ class IdsLayoutGridCell extends IdsElement {
 
     if (value) {
       this.setAttribute(props.FILL, value);
+      // this.style.setProperty('--grid-fill-color', `var(--body-color-primary-background)`);
       this.classList.add('ids-background-fill');
       return;
     }
+
     this.removeAttribute(props.FILL);
+    // this.style.removeProperty('--grid-fill-color');
     this.classList.remove('ids-background-fill');
   }
 
@@ -60,7 +63,7 @@ class IdsLayoutGridCell extends IdsElement {
       return;
     }
 
-    this.style.setProperty('--grid-col-span');
+    this.style.removeProperty('--grid-col-span');
     this.classList.remove(`ids-layout-col-span`);
     this.removeAttribute(props.COL_SPAN);
   }

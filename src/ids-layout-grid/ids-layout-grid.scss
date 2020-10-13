@@ -1,11 +1,6 @@
 /* Ids Layout Grid Component */
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
-
-$breakpoint-xs: 360px;
-$breakpoint-sm: 600px;
-$breakpoint-md: 840px;
-$breakpoint-lg: 1280px;
-$breakpoint-xl: 1440px;
+@import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift.scss';
 
 // Style the grid
 :host,
