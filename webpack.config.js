@@ -158,21 +158,22 @@ module.exports = {
       template: './app/ids-layout-grid/index.html',
       inject: 'body',
       filename: 'ids-layout-grid/index.html',
-      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label']
+      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label'],
+      title: 'IDS Layout Grid'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-layout-grid/standalone-css.html',
       inject: 'body',
       filename: 'ids-layout-grid/standalone-css',
       chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label'],
-      title: 'Layout - Standalone Css'
+      title: 'IDS Layout Grid - Standalone Css'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-layout-grid/test-sandbox.html',
       inject: 'body',
       filename: 'ids-layout-grid/test-sandbox',
       chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label'],
-      title: 'Layout - Sandbox'
+      title: 'IDS Layout Grid - Sandbox'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-trigger-field/index.html',
