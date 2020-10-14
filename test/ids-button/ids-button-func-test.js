@@ -170,6 +170,17 @@ describe('IdsButton Component', () => {
     expect(btn.icon).not.toBeDefined();
     expect(btn.querySelector('ids-icon')).toBe(null);
   });
+
+  it('can be an "icon-only" button', () => {
+    btn.icon = 'settings';
+    btn.text = '';
+
+    expect(btn.getAttribute('icon')).toBe('settings');
+    expect(btn.icon).toBe('settings');
+    expect(btn.querySelector('ids-icon').icon).toBe('settings');
+    expect(btn.button.classList.contains('ids-icon-button')).toBeTruthy();
+    expect(btn.button.classList.contains('ids-button')).toBeFalsy();
+  });
 });
 
 // ============================================================
@@ -239,6 +250,36 @@ describe('IdsButton ripple effect tests', () => {
   it('only creates one ripple at a time', () => {
     btn.createRipple(0, 0);
     btn.createRipple(0, 0);
+
+    expect(btn.button.querySelectorAll('.ripple-effect').length).toEqual(1);
+  });
+
+  it('only creates one ripple if a touch event is followed by a click event', () => {
+    // Touch event will always occur first
+    const touchEvent = new TouchEvent('touchstart', {
+      touches: [{
+        identifier: '123',
+        pageX: 0,
+        pageY: 0,
+        target: btn
+      }],
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    btn.button.dispatchEvent(touchEvent);
+
+    // Click Event occurs second
+    const clickEvent = new MouseEvent('click', {
+      button: 1,
+      pageX: 0,
+      pageY: 0,
+      target: btn.button,
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    btn.button.dispatchEvent(clickEvent);
 
     expect(btn.button.querySelectorAll('.ripple-effect').length).toEqual(1);
   });
