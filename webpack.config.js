@@ -19,7 +19,9 @@ module.exports = {
     'ids-popup/ids-popup': ['./app/ids-popup/index.js'],
     'ids-popup/test-sandbox': ['./app/ids-popup/test-sandbox.js'],
     'ids-popup/test-target-in-grid': ['./app/ids-popup/test-target-in-grid.js'],
-    'ids-tag/ids-tag': ['./app/ids-tag/index.js']
+    'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
+    'ids-validation-message/ids-validation-message': ['./app/ids-validation-message/index.js'],
+    'ids-field/ids-field': ['./app/ids-field/index.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -201,6 +203,18 @@ module.exports = {
       filename: 'ids-popup/test-target-in-grid',
       chunks: ['ids-popup/test-target-in-grid'],
       title: 'Popup Test - Align Target inside a Layout Grid'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-validation-message/index.html',
+      inject: 'body',
+      filename: 'ids-validation-message/index.html',
+      title: 'IDS Validation Message'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-field/index.html',
+      inject: 'body',
+      filename: 'ids-field/index.html',
+      title: 'IDS Field'
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),

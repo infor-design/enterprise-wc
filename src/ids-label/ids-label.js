@@ -1,8 +1,11 @@
 import {
   IdsElement,
   customElement,
+  mixin,
   scss
 } from '../ids-base/ids-element';
+import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
+import { props } from '../ids-base/ids-constants';
 import styles from './ids-label.scss';
 
 /**
@@ -10,6 +13,7 @@ import styles from './ids-label.scss';
  */
 @customElement('ids-label')
 @scss(styles)
+@mixin(IdsStringUtilsMixin)
 class IdsLabel extends IdsElement {
   constructor() {
     super();
@@ -20,7 +24,7 @@ class IdsLabel extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['font-size', 'type'];
+    return ['font-size', props.TYPE, props.REQUIRED, props.STATE];
   }
 
   /**
@@ -29,7 +33,15 @@ class IdsLabel extends IdsElement {
    */
   template() {
     const tag = this.type || 'span';
-    return `<${tag} class="ids-label${this.fontSize ? ` ids-text-${this.fontSize}` : ''}"><slot></slot></${tag}>`;
+    let classList = 'ids-label';
+    classList += this.audible ? ' audible' : '';
+    classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
+    classList += this.type === 'label' && this.stringToBool(this.required) ? ' required' : '';
+    classList = ` class="${classList}"`;
+    let state = this.state === 'disabled' ? ' disabled' : '';
+    state = this.state === 'readonly' ? ' readonly' : state;
+
+    return `<${tag}${classList}${state}><slot></slot></${tag}>`;
   }
 
   /**
@@ -67,16 +79,67 @@ class IdsLabel extends IdsElement {
    */
   set type(value) {
     if (value) {
-      this.setAttribute('type', value);
+      this.setAttribute(props.TYPE, value);
       this.rerender();
       return;
     }
 
-    this.removeAttribute('type');
+    this.removeAttribute(props.TYPE);
     this.rerender();
   }
 
-  get type() { return this.getAttribute('type'); }
+  get type() { return this.getAttribute(props.TYPE); }
+
+  /**
+   * Set `required` attribute
+   * @param {boolean} value If true will set `required` attribute
+   */
+  set required(value) {
+    const val = this.stringToBool(value);
+
+    if (val) {
+      this.setAttribute(props.REQUIRED, val);
+      this.rerender();
+      return;
+    }
+    this.removeAttribute(props.REQUIRED);
+    this.rerender();
+  }
+
+  get required() { return this.getAttribute(props.REQUIRED); }
+
+  /**
+   * Set `audible` attribute
+   * @param {string} value The `audible` attribute
+   */
+  set audible(value) {
+    if (value) {
+      this.setAttribute('audible', value);
+      this.rerender();
+      return;
+    }
+    this.removeAttribute('audible');
+    this.rerender();
+  }
+
+  get audible() { return this.getAttribute('audible'); }
+
+  /**
+   * Set the `state` attribute of input
+   * @param {string} val the value property
+   */
+  set state(val) {
+    if (val) {
+      this.setAttribute(props.STATE, val);
+      this.rerender();
+      return;
+    }
+
+    this.removeAttribute(props.STATE);
+    this.rerender();
+  }
+
+  get state() { return this.getAttribute(props.STATE); }
 }
 
 export default IdsLabel;

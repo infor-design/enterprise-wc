@@ -1,0 +1,13 @@
+@import './ids-base';
+
+::slotted(.icon-dirty) {
+  @include absolute();
+  @include text-alert-caution();
+
+  left: 2px;
+  top: -2px;
+}
+
+::slotted(.icon-dirty.has-label) {
+  top: 26px;
+}

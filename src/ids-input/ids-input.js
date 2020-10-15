@@ -33,12 +33,26 @@ class IdsInput extends IdsElement {
     super();
   }
 
+  connectedCallBack() {
+    this.input = this.shadowRoot.querySelector('.ids-input-field');
+    this.handleEvents();
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (name === props.STATE) {
+      this.setState(oldValue, newValue);
+    }
+    if (name === props.VALIDATION_STATUS) {
+      this.setValidationStatus(oldValue, newValue);
+    }
+  }
+
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TYPE, props.PLACEHOLDER];
+    return [props.TYPE, props.PLACEHOLDER, props.VALUE, props.STATE, props.VALIDATION_STATUS];
   }
 
   /**
@@ -46,8 +60,14 @@ class IdsInput extends IdsElement {
    * @returns {string} The template
    */
   template() {
+    const type = ` type="${this.type || types.default}"`;
+    const value = this.value ? ` value="${this.value}"` : '';
+    const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
+    let state = this.state === 'disabled' ? ' disabled' : '';
+    state = this.state === 'readonly' ? ' readonly' : state;
+
     return `
-      <input class="ids-input-field" type="${types.default}" ${this.placeholder ? `placeholder="${this.placeholder}"` : ''}/>
+      <input class="ids-input-field"${type}${value}${placeholder}${state}/>
     `;
   }
 
@@ -79,6 +99,131 @@ class IdsInput extends IdsElement {
   }
 
   get placeholder() { return this.getAttribute(props.PLACEHOLDER); }
+
+  /**
+   * Set the `value` attribute of input
+   * @param {string} val the value property
+   */
+  set value(val) {
+    if (val) {
+      this.setAttribute(props.VALUE, val);
+      return;
+    }
+
+    this.removeAttribute(props.VALUE);
+  }
+
+  get value() { return this.getAttribute(props.VALUE); }
+
+  /**
+   * Set the `state` attribute of input
+   * @param {string} val the value property
+   */
+  set state(val) {
+    if (val) {
+      this.setAttribute(props.STATE, val);
+      return;
+    }
+
+    this.removeAttribute(props.STATE);
+  }
+
+  get state() { return this.getAttribute(props.STATE); }
+
+  /**
+   * Set the `validationStatus` attribute of input
+   * @param {string} val the value property
+   */
+  set validationStatus(val) {
+    if (val) {
+      this.setAttribute(props.VALIDATION_STATUS, val);
+      return;
+    }
+
+    this.removeAttribute(props.VALIDATION_STATUS);
+  }
+
+  get validationStatus() { return this.getAttribute(props.VALIDATION_STATUS); }
+
+  /**
+   * set state `enabled/disabled/readonly`
+   * @private
+   * @param {string} oldValue the old value
+   * @param {string} newValue the new value
+   * @returns {void}
+   */
+  setState(oldValue, newValue) {
+    this.input?.removeAttribute('disabled');
+    this.input?.removeAttribute('readonly');
+
+    if (/\b(disabled|readonly)\b/g.test(newValue)) {
+      this.input?.setAttribute(newValue, '');
+    }
+  }
+
+  /**
+   * set validation status
+   * @private
+   * @param {string} oldValue the old value
+   * @param {string} newValue the new value
+   * @returns {void}
+   */
+  setValidationStatus(oldValue, newValue) {
+    const action = this.validationStatus ? 'add' : 'remove';
+    const className = this.validationStatus ? newValue : oldValue;
+    this.input?.classList[action](className);
+  }
+
+  /**
+   * Establish Internal Event Handlers
+   * @private
+   * @returns {object} The object for chaining.
+   */
+  handleEvents() {
+    if (this.input) {
+      const events = ['click', 'change', 'focus', 'blur'];
+      events.forEach((evt) => {
+        this.eventHandlers.addEventListener(evt, this.input, (e) => this.trigger(e));
+      });
+    }
+    return this;
+  }
+
+  /**
+   * Fire trigger event
+   * @private
+   * @param  {object} e The native event
+   */
+  trigger(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.stopImmediatePropagation();
+
+    if (this.input) {
+      const val = this.input.value;
+      this.value = val;
+      this.input.setAttribute(props.VALUE, val);
+
+      // Event args
+      const args = { elem: this, nativeEvent: e, value: val };
+
+      let canTrigger = true;
+      const response = (veto) => { canTrigger = !!veto; };
+      this.eventHandlers.dispatchEvent(`trigger${e.type}`, this, { ...args, response });
+      if (!canTrigger) {
+        return;
+      }
+
+      /**
+       * Trigger event on parent and compose the args
+       * will fire `trigger + nativeEvent` as triggerclick, triggerchange etc.
+       * @private
+       * @param  {object} elem Actual event
+       * @param  {string} value The updated input element value
+       */
+      this.eventHandlers.dispatchEvent(`trigger${e.type}`, this, args);
+    }
+  }
 }
 
 export default IdsInput;

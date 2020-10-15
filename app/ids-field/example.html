@@ -1,0 +1,42 @@
+<ids-layout-grid>
+  <ids-label font-size="12">Ids Field</ids-label>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true" gap="md">
+
+  <ids-layout-grid-cell>
+    <ids-field trackdirty="true" validate="required">
+      <ids-label type="label">First Name</ids-label>
+      <ids-input type="text" placeholder="Enter first name" value="Lorem"></ids-input>
+    </ids-field>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-field trackdirty="true">
+      <ids-label type="label">Last Name</ids-label>
+      <ids-input type="text" placeholder="Enter last name" value="Ipsum"></ids-input>
+    </ids-field>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-field validate="email required">
+      <ids-label type="label">Email</ids-label>
+      <ids-input type="text" placeholder="Enter email address"></ids-input>
+    </ids-field>
+  </ids-layout-grid-cell>
+
+</ids-layout-grid>
+
+<ids-layout-grid cols="3" gap="md">
+  <ids-layout-grid-cell>
+    <ids-label font-size="12">Enable/ Disable/ Readonly</ids-label>
+    <ids-field id="test-enable-disable-readonly">
+      <ids-label type="label">Text Field</ids-label>
+      <ids-input type="text" Value="Some text"></ids-input>
+    </ids-field>
+    <br>
+    <button id="btn-enable">Enable</button>
+    <button id="btn-disable">Disable</button>
+    <button id="btn-readonly">Readonly</button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>

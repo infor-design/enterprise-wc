@@ -19,7 +19,13 @@ export const props = {
   ROW_SPAN: 'row-span',
   ROW_START: 'row-start',
   ROW_END: 'row-end',
-  NO_MARGINS: 'no-margins'
+  NO_MARGINS: 'no-margins',
+  REQUIRED: 'required',
+  VALUE: 'value',
+  TRACKDIRTY: 'trackdirty',
+  VALIDATE: 'validate',
+  STATE: 'state',
+  VALIDATION_STATUS: 'validation-status'
 };
 
 export const prefix = {

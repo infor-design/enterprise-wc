@@ -5,4 +5,58 @@
   @include px-8();
   @include py-8();
   @include w-full();
+
+  &[disabled] {
+    @include text-slate-30();
+  }
+
+  &[readonly] {
+    @include bg-slate-20();
+    @include border-1();
+    @include border-solid();
+    @include border-slate-40();
+    @include rounded-default();
+    @include text-black();
+  }
+
+  &.alert {
+    @include border-alert-warning();
+
+    :not(:focus) {
+      @include text-alert-warning();
+    }
+  }
+
+  &.error {
+    @include border-alert-danger();
+
+    :not(:focus) {
+      @include text-alert-danger();
+    }
+  }
+
+  &.info {
+    @include border-alert-info();
+
+    :not(:focus) {
+      @include text-alert-info();
+    }
+  }
+
+  &.success {
+    @include border-alert-success();
+
+    :not(:focus) {
+      @include text-alert-success();
+    }
+  }
+
+  &.alert,
+  &.error,
+  &.info,
+  &.success {
+    @include border-1();
+    @include border-solid();
+    @include rounded-default();
+  }
 }
