@@ -15,9 +15,8 @@ const IdsTrackdirtyMixin = {
    */
   handleTrackdirty() {
     if (this.trackdirty) {
-      const input = this.querySelector('ids-input');
-      if (input) {
-        const val = input.getAttribute('value');
+      if (this.input) {
+        const val = this.input.getAttribute('value');
         this.dirty = { original: val !== null ? val : '' };
         this.useTrackdirty = true;
         this.trackdirtyEvents();
@@ -112,10 +111,9 @@ const IdsTrackdirtyMixin = {
    * @returns {void}
    */
   trackdirtyEvents(option) {
-    const input = this.querySelector('ids-input');
     const action = option === 'remove' ? 'removeEventListener' : 'addEventListener';
-    if (input) {
-      this.eventHandlers[action]('triggerchange', input, (e) => {
+    if (this.input) {
+      this.eventHandlers[action]('triggerchange', this.input, (e) => {
         if (e?.detail) {
           this.setTrackdirty(e.detail?.value);
         }
@@ -128,8 +126,7 @@ const IdsTrackdirtyMixin = {
    * @returns {void}
    */
   destroyTrackdirty() {
-    const input = this.querySelector('ids-input');
-    if (input) {
+    if (this.input) {
       this.trackdirtyEvents('remove');
     }
     this.removeTrackdirtyIcon();

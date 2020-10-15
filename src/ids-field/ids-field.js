@@ -34,6 +34,9 @@ class IdsField extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
+    this.input = this.querySelector('ids-input');
+    this.label = this.querySelector('ids-label');
+
     this.handleTrackdirty();
     this.handleValidation();
   }
@@ -90,18 +93,15 @@ class IdsField extends IdsElement {
    */
   set fieldState(value) {
     const val = value;
-    const input = this.querySelector('ids-input');
-    const label = this.querySelector('ids-label');
-
     if (val) {
       this.setAttribute(props.FIELD_STATE, val);
-      input?.setAttribute(props.FIELD_STATE, val);
-      label?.setAttribute(props.FIELD_STATE, val);
+      this.input?.setAttribute(props.FIELD_STATE, val);
+      this.label?.setAttribute(props.FIELD_STATE, val);
       return;
     }
     this.removeAttribute(props.FIELD_STATE);
-    input?.removeAttribute(props.FIELD_STATE);
-    label?.removeAttribute(props.FIELD_STATE);
+    this.input?.removeAttribute(props.FIELD_STATE);
+    this.label?.removeAttribute(props.FIELD_STATE);
   }
 
   get fieldState() { return this.getAttribute(props.FIELD_STATE); }
