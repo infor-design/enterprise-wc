@@ -43,7 +43,7 @@ class IdsField extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.VALIDATE, props.TRACKDIRTY, props.STATE];
+    return [props.VALIDATE, props.TRACKDIRTY, props.FIELD_STATE];
   }
 
   /**
@@ -85,68 +85,26 @@ class IdsField extends IdsElement {
   get trackdirty() { return this.getAttribute(props.TRACKDIRTY); }
 
   /**
-   * Set `state` attribute
-   * @param {boolean} value If true will set `state` attribute
+   * Set `fieldState` attribute
+   * @param {boolean} value If true will set `fieldState` attribute
    */
-  set state(value) {
+  set fieldState(value) {
     const val = value;
     const input = this.querySelector('ids-input');
     const label = this.querySelector('ids-label');
 
     if (val) {
-      this.setAttribute(props.STATE, val);
-      input?.setAttribute(props.STATE, val);
-      label?.setAttribute(props.STATE, val);
+      this.setAttribute(props.FIELD_STATE, val);
+      input?.setAttribute(props.FIELD_STATE, val);
+      label?.setAttribute(props.FIELD_STATE, val);
       return;
     }
-    this.removeAttribute(props.STATE);
-    input?.removeAttribute(props.STATE);
-    label?.removeAttribute(props.STATE);
+    this.removeAttribute(props.FIELD_STATE);
+    input?.removeAttribute(props.FIELD_STATE);
+    label?.removeAttribute(props.FIELD_STATE);
   }
 
-  get state() { return this.getAttribute(props.STATE); }
-
-  /**
-   * set enable disable
-   * @private
-   * @returns {void}
-   */
-  enable() {
-    if (this.state === 'enabled') {
-      const input = this.querySelector('ids-input');
-      const label = this.querySelector('ids-label');
-      input?.setAttribute(props.STATE, this.state);
-      label?.setAttribute(props.STATE, this.state);
-    }
-  }
-
-  /**
-   * set state disable
-   * @private
-   * @returns {void}
-   */
-  disable() {
-    if (this.state === 'disabled') {
-      const input = this.querySelector('ids-input');
-      const label = this.querySelector('ids-label');
-      input?.setAttribute(props.STATE, this.state);
-      label?.setAttribute(props.STATE, this.state);
-    }
-  }
-
-  /**
-   * set readonly disable
-   * @private
-   * @returns {void}
-   */
-  readonly() {
-    if (this.state === 'readonly') {
-      const input = this.querySelector('ids-input');
-      const label = this.querySelector('ids-label');
-      input?.setAttribute(props.STATE, this.state);
-      label?.setAttribute(props.STATE, this.state);
-    }
-  }
+  get fieldState() { return this.getAttribute(props.FIELD_STATE); }
 }
 
 export default IdsField;

@@ -17,6 +17,9 @@
     @include border-slate-40();
     @include rounded-default();
     @include text-black();
+
+    padding-bottom: 9px;
+    padding-top: 9px;
   }
 
   &.alert {

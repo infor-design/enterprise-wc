@@ -20,11 +20,13 @@ export const props = {
   ROW_START: 'row-start',
   ROW_END: 'row-end',
   NO_MARGINS: 'no-margins',
-  REQUIRED: 'required',
+  FONT_SIZE: 'font-size',
   VALUE: 'value',
+  FIELD_STATE: 'field-state',
   TRACKDIRTY: 'trackdirty',
+  AUDIBLE: 'audible',
+  REQUIRED: 'required',
   VALIDATE: 'validate',
-  STATE: 'state',
   VALIDATION_STATUS: 'validation-status'
 };
 

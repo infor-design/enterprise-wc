@@ -39,7 +39,7 @@ class IdsInput extends IdsElement {
   }
 
   attributeChangedCallback(name, oldValue, newValue) {
-    if (name === props.STATE) {
+    if (name === props.FIELD_STATE) {
       this.setState(oldValue, newValue);
     }
     if (name === props.VALIDATION_STATUS) {
@@ -52,7 +52,7 @@ class IdsInput extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TYPE, props.PLACEHOLDER, props.VALUE, props.STATE, props.VALIDATION_STATUS];
+    return [props.TYPE, props.PLACEHOLDER, props.VALUE, props.FIELD_STATE, props.VALIDATION_STATUS];
   }
 
   /**
@@ -63,11 +63,11 @@ class IdsInput extends IdsElement {
     const type = ` type="${this.type || types.default}"`;
     const value = this.value ? ` value="${this.value}"` : '';
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
-    let state = this.state === 'disabled' ? ' disabled' : '';
-    state = this.state === 'readonly' ? ' readonly' : state;
+    let fieldState = this.fieldState === 'disabled' ? ' disabled' : '';
+    fieldState = this.fieldState === 'readonly' ? ' readonly' : fieldState;
 
     return `
-      <input class="ids-input-field"${type}${value}${placeholder}${state}/>
+      <input class="ids-input-field"${type}${value}${placeholder}${fieldState}/>
     `;
   }
 
@@ -116,19 +116,19 @@ class IdsInput extends IdsElement {
   get value() { return this.getAttribute(props.VALUE); }
 
   /**
-   * Set the `state` attribute of input
+   * Set the `fieldState` attribute of input
    * @param {string} val the value property
    */
-  set state(val) {
+  set fieldState(val) {
     if (val) {
-      this.setAttribute(props.STATE, val);
+      this.setAttribute(props.FIELD_STATE, val);
       return;
     }
 
-    this.removeAttribute(props.STATE);
+    this.removeAttribute(props.FIELD_STATE);
   }
 
-  get state() { return this.getAttribute(props.STATE); }
+  get fieldState() { return this.getAttribute(props.FIELD_STATE); }
 
   /**
    * Set the `validationStatus` attribute of input

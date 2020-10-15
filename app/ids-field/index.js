@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * @param {string} state to set
    */
   function setState(el, state) {
-    el?.setAttribute('state', state);
+    el?.setAttribute('field-state', state);
   }
 
   // Enable

@@ -24,7 +24,7 @@ class IdsLabel extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['font-size', props.TYPE, props.REQUIRED, props.STATE];
+    return [props.TYPE, props.FONT_SIZE, props.REQUIRED, props.AUDIBLE, props.FIELD_STATE];
   }
 
   /**
@@ -38,10 +38,10 @@ class IdsLabel extends IdsElement {
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
     classList += this.type === 'label' && this.stringToBool(this.required) ? ' required' : '';
     classList = ` class="${classList}"`;
-    let state = this.state === 'disabled' ? ' disabled' : '';
-    state = this.state === 'readonly' ? ' readonly' : state;
+    let fieldState = this.fieldState === 'disabled' ? ' disabled' : '';
+    fieldState = this.fieldState === 'readonly' ? ' readonly' : fieldState;
 
-    return `<${tag}${classList}${state}><slot></slot></${tag}>`;
+    return `<${tag}${classList}${fieldState}><slot></slot></${tag}>`;
   }
 
   /**
@@ -61,17 +61,17 @@ class IdsLabel extends IdsElement {
    */
   set fontSize(value) {
     if (value) {
-      this.setAttribute('font-size', value);
+      this.setAttribute(props.FONT_SIZE, value);
       this.container.classList.add(`ids-text-${value}`);
       return;
     }
 
-    this.removeAttribute('font-size');
+    this.removeAttribute(props.FONT_SIZE);
     this.container.className = '';
     this.container.classList.add('ids-label');
   }
 
-  get fontSize() { return this.getAttribute('font-size'); }
+  get fontSize() { return this.getAttribute(props.FONT_SIZE); }
 
   /**
    * Set the type of object it is (h1-h6, label, span (default))
@@ -114,32 +114,32 @@ class IdsLabel extends IdsElement {
    */
   set audible(value) {
     if (value) {
-      this.setAttribute('audible', value);
+      this.setAttribute(props.AUDIBLE, value);
       this.rerender();
       return;
     }
-    this.removeAttribute('audible');
+    this.removeAttribute(props.AUDIBLE);
     this.rerender();
   }
 
-  get audible() { return this.getAttribute('audible'); }
+  get audible() { return this.getAttribute(props.AUDIBLE); }
 
   /**
-   * Set the `state` attribute of input
+   * Set the `fieldState` attribute of input
    * @param {string} val the value property
    */
-  set state(val) {
+  set fieldState(val) {
     if (val) {
-      this.setAttribute(props.STATE, val);
+      this.setAttribute(props.FIELD_STATE, val);
       this.rerender();
       return;
     }
 
-    this.removeAttribute(props.STATE);
+    this.removeAttribute(props.FIELD_STATE);
     this.rerender();
   }
 
-  get state() { return this.getAttribute(props.STATE); }
+  get fieldState() { return this.getAttribute(props.FIELD_STATE); }
 }
 
 export default IdsLabel;

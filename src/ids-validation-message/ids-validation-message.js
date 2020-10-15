@@ -3,6 +3,7 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
+import { props } from '../ids-base/ids-constants';
 import styles from './ids-validation-message.scss';
 
 const icons = {
@@ -43,7 +44,7 @@ class IdsValidationMessage extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['type', 'audible'];
+    return [props.TYPE, props.AUDIBLE];
   }
 
   /**
@@ -62,13 +63,13 @@ class IdsValidationMessage extends IdsElement {
    */
   set type(value) {
     if (value) {
-      this.setAttribute('type', value);
+      this.setAttribute(props.TYPE, value);
       return;
     }
-    this.removeAttribute('type');
+    this.removeAttribute(props.TYPE);
   }
 
-  get type() { return this.getAttribute('type'); }
+  get type() { return this.getAttribute(props.TYPE); }
 
   /**
    * Set `audible` attribute
@@ -76,13 +77,13 @@ class IdsValidationMessage extends IdsElement {
    */
   set audible(value) {
     if (value) {
-      this.setAttribute('audible', value);
+      this.setAttribute(props.AUDIBLE, value);
       return;
     }
-    this.removeAttribute('audible');
+    this.removeAttribute(props.AUDIBLE);
   }
 
-  get audible() { return this.getAttribute('audible'); }
+  get audible() { return this.getAttribute(props.AUDIBLE); }
 
   /**
    * Refresh to reset
