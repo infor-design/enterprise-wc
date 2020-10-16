@@ -66,7 +66,7 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 ## Designs
 
-[Figma Design Specs](https://www.figma.com/files/team/715586812838044954/Hook%26Loop)
+[Figma Design Specs](https://www.figma.com/files/project/2768042/Infor-Design-System)
 
 ## Alternate Designs
 

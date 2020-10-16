@@ -4,8 +4,16 @@
 .ids-label {
   @include antialiased();
   @include font-sans();
+  @include font-normal();
   @include block();
-  @include mb-8();
+}
+
+h1,
+h2 {
+  @include mb-12();
+
+  margin-block-end: 0;
+  margin-block-start: 0;
 }
 
 /* Ids Typography System */

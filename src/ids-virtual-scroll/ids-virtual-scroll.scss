@@ -1,0 +1,24 @@
+/* Ids Virtual Scroller Css */
+@import '../ids-base/ids-base';
+
+.ids-virtual-scroll {
+  @include border-1();
+  @include border-slate-20();
+  @include border-solid();
+
+  height: 250px;
+  overflow: auto;
+  width: 50%;
+
+  &:focus {
+    @include cursor-pointer();
+    @include border-azure-60();
+    @include outline-none();
+    @include shadow();
+  }
+}
+
+.ids-virtual-scroll-viewport {
+  overflow: hidden; // Take off for th sticky to work
+  position: relative;
+}

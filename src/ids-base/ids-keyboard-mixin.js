@@ -1,8 +1,6 @@
 /**
  * Handle keyboard shortcuts and pressed down keys
  */
-const hotkeys = new Map();
-
 class IdsKeyboardMixin {
   /**
    * Initializes the keyboard management system with the current object

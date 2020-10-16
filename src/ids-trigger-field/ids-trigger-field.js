@@ -14,7 +14,6 @@ import styles from './ids-trigger-field.scss';
  */
 @customElement('ids-trigger-field')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsStringUtilsMixin)
 class IdsTriggerField extends IdsElement {
   /**
@@ -99,6 +98,7 @@ class IdsTriggerField extends IdsElement {
       return false;
     }
 
+    this.eventHandlers = new IdsEventsMixin();
     const button = this.querySelector('ids-trigger-button');
     if (button) {
       this.eventHandlers.addEventListener('click', button, () => this.trigger());

@@ -1,10 +1,8 @@
 /**
  * Light-weight wrapper around events.
  */
-const IdsEventsMixin = {};
-
-IdsEventsMixin.eventHandlers = {
-  handledEvents: new Map(),
+class IdsEventsMixin {
+  handledEvents = new Map();
 
   /**
    * Add and keep track of an event listener.
@@ -16,7 +14,7 @@ IdsEventsMixin.eventHandlers = {
   addEventListener(eventName, target, callback, options) {
     target.addEventListener(eventName, callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
-  },
+  }
 
   /**
    * Add and keep track of an event listener.
@@ -28,7 +26,7 @@ IdsEventsMixin.eventHandlers = {
     const handler = this.handledEvents.get(eventName);
     target.removeEventListener(eventName, handler.callback, options || handler.options);
     this.handledEvents.delete(eventName);
-  },
+  }
 
   /**
    * Create and trigger a custom event
@@ -39,7 +37,7 @@ IdsEventsMixin.eventHandlers = {
   dispatchEvent(eventName, target, options) {
     const event = new CustomEvent(eventName, { detail: options });
     target.dispatchEvent(event);
-  },
+  }
 
   /**
    * Detach all event handlers
@@ -49,6 +47,6 @@ IdsEventsMixin.eventHandlers = {
       this.removeEventListener(key, value.target, value.options);
     });
   }
-};
+}
 
 export { IdsEventsMixin };

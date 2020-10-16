@@ -8,23 +8,28 @@ const sass = require('node-sass');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
+const glob = require('glob');
+
+const isProduction = false;
 
 module.exports = {
-  entry: {
-    index: ['./app/index.js'],
-    'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
-    'ids-label/ids-label': ['./app/ids-label/index.js'],
-    'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
-    'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
-  },
-  devtool: 'cheap-source-map', // try source-map for prod
-  mode: 'development',
+  entry: glob.sync('./app/**/index.js').reduce((acc, filePath) => {
+    let entry = filePath.replace('/index.js', '');
+    entry = (entry === './app' ? 'index' : entry.replace('./app/', ''));
+
+    acc[entry === 'index' ? entry : `${entry}/${entry}`] = filePath;
+    return acc;
+  }, {}),
+  devtool: isProduction ? 'source-map' : 'cheap-source-map', // try source-map for prod
+  mode: isProduction ? 'production' : 'development',
   optimization: {
-    minimize: false, // try true for prod
+    minimize: !!isProduction,
     minimizer: [
       new TerserPlugin({
         test: /\.js(\?.*)?$/i,
+        sourceMap: true
       }),
     ],
   },
@@ -35,10 +40,20 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js'
   },
+  // Configure the dev server (node) with settings
   devServer: {
     port: 4300,
     writeToDisk: true,
-    contentBase: path.resolve(__dirname, 'dist')
+    contentBase: path.resolve(__dirname, 'dist'),
+    // Server the files in app/data as a JSON "API"
+    // For example: http://localhost:4300/api/bikes
+    before: (app) => {
+      app.get('/api/:fileName', (req, res) => {
+        const { fileName } = req.params;
+        const json = fs.readFileSync(`./app/data/${fileName}.json`, 'utf8');
+        res.json(JSON.parse(json));
+      });
+    },
   },
   module: {
     rules: [
@@ -76,7 +91,6 @@ module.exports = {
         handlebarsLoader: {}
       }
     }),
-    new FaviconsWebpackPlugin('app/assets/favicon.ico'),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].min.css'
@@ -87,64 +101,8 @@ module.exports = {
       title: 'IDS Enterprise Web Components',
       chunks: ['index']
     }),
-    new HTMLWebpackPlugin({
-      template: './app/ids-tag/index.html',
-      inject: 'body',
-      filename: 'ids-tag/index.html',
-      title: 'IDS Tag Component',
-      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid']
-    }),
-    new HTMLWebpackPlugin({
-      template: './app/ids-icon/index.html',
-      inject: 'body',
-      filename: 'ids-icon/index.html',
-      title: 'IDS Icon Component',
-      chunks: ['ids-icon/ids-icon', 'ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
-    }),
-    new HTMLWebpackPlugin({
-      template: './app/ids-label/index.html',
-      inject: 'body',
-      filename: 'ids-label/index.html',
-      title: 'IDS Label Component',
-      chunks: ['ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
-    }),
-    new HTMLWebpackPlugin({
-      template: './app/ids-tag/compatibility.html',
-      inject: 'body',
-      filename: 'ids-tag/compatibility',
-      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid'],
-      title: 'Test Tag Compatibility with IDS 4.0'
-    }),
-    new HTMLWebpackPlugin({
-      template: './app/ids-tag/standalone-css.html',
-      inject: 'body',
-      filename: 'ids-tag/standalone-css',
-      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid'],
-      title: 'Tag - Standalone Css'
-    }),
-    new HTMLWebpackPlugin({
-      template: './app/ids-layout-grid/index.html',
-      inject: 'body',
-      filename: 'ids-layout-grid/index.html',
-      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label']
-    }),
-    new HTMLWebpackPlugin({
-      template: './app/ids-layout-grid/standalone-css.html',
-      inject: 'body',
-      filename: 'ids-layout-grid/standalone-css',
-      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label'],
-      title: 'Layout - Standalone Css'
-    }),
-    new HTMLWebpackPlugin({
-      template: './app/ids-trigger-field/index.html',
-      inject: 'body',
-      filename: 'ids-trigger-field/index.html',
-      title: 'IDS Trigger Field',
-    }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),
-    // Handle Hot Swap When files change - files must be added via entry points
-    new webpack.HotModuleReplacementPlugin(),
     // Make a Copy of the Sass Files only for standalone Css
     new CopyWebpackPlugin({
       patterns: [
@@ -169,6 +127,37 @@ module.exports = {
           },
         }
       ]
-    }),
+    })
   ]
 };
+
+// Fix build error on prod about favicon
+if (!isProduction) {
+  module.exports.plugins.push(new FaviconsWebpackPlugin('app/assets/favicon.ico'));
+}
+
+// Dynamically add all html examples
+glob.sync('./app/**/*.html').reduce((acc, filePath) => {
+  const folderName = path.dirname(filePath).replace('./app/', '');
+  const folderAndFile = filePath.replace('./app/', '');
+  let title = `${folderName.split('-').map((word) =>
+    `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`)
+    .join(' ')} Component`;
+
+  title = title.replace('Ids', 'IDS');
+
+  if (folderName === 'layouts' || folderAndFile.indexOf('example.html') > -1 || folderAndFile === 'index.html') {
+    return folderName;
+  }
+
+  module.exports.plugins.push(
+    new HTMLWebpackPlugin({
+      template: filePath,
+      inject: 'body',
+      filename: folderAndFile,
+      title,
+      chunks: [`${folderName}/${folderName}`, 'ids-icon/ids-icon', 'ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
+    }),
+  );
+  return folderName;
+}, {});

@@ -1,0 +1,19 @@
+<ids-layout-grid>
+  <ids-label font-size="12" type="h1">List View</ids-label>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-card>
+    <div slot="card-header">
+      <ids-label font-size="20" type="h2">Card Title One</ids-label>
+    </div>
+    <div slot="card-content">
+      <ids-list-view id="list-view-1">
+        <template>
+          <ids-label font-size="16" type="h2">${productName}</ids-label>
+          <ids-label font-size="12" type="span">Count: ${units}</ids-label>
+          <ids-label font-size="12" type="span">Price: $ ${unitPrice}</ids-label>
+        </template>
+      </ids-list-view>
+    </div>
+  </ids-card>
+</ids-layout-grid>
