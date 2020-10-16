@@ -1,7 +1,7 @@
 const { percySnapshot } = require('@percy/puppeteer');
 
-describe('Ids Tag e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-tag';
+describe('Ids Layout Grid e2e Tests', () => {
+  const url = 'http://localhost:4444/ids-layout-grid';
 
   beforeAll(async () => {
     page = await browser.newPage();
@@ -9,7 +9,7 @@ describe('Ids Tag e2e Tests', () => {
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Tag Component');
+    await expect(page.title()).resolves.toMatch('IDS Layout Grid');
   });
 
   it('should pass Axe accessibility tests', async () => {
@@ -23,6 +23,6 @@ describe('Ids Tag e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    await percySnapshot(page, 'ids-tag');
+    await percySnapshot(page, 'ids-layout-grid');
   });
 });

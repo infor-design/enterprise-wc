@@ -1,0 +1,13 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid>
+  <ids-layout-grid-cell fill="true">
+    <span id="popup-align-target">Center Point</span>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-popup x="0" y="0" align-target="#popup-align-target" align="bottom" visible="true" type="menu">
+  <p slot="content">My Popup Contents</p>
+</ids-popup>
+
+{{> ../layouts/footer.html }}

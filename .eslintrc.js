@@ -67,6 +67,10 @@ module.exports = {
     // Allow functions with no this in them
     'no-restricted-syntax': ['off', { }],
     // https://eslint.org/docs/rules/no-continue
-    'no-continue': ['off']
+    'no-continue': ['off'],
+    // Don't require array destructuring
+    'prefer-destructuring': ['off', { }],
+    // Allow i++
+    'no-plusplus': ['off', { }],
   }
 };
