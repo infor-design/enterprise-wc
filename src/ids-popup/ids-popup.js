@@ -6,6 +6,7 @@ import {
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import styles from './ids-popup.scss';
 
@@ -71,6 +72,7 @@ function formatAlignAttribute(alignX, alignY, edge) {
 @customElement('ids-popup')
 @scss(styles)
 @mixin(IdsEventsMixin)
+@mixin(IdsRenderLoopMixin)
 @mixin(IdsResizeMixin)
 class IdsPopup extends IdsElement {
   constructor() {
@@ -100,6 +102,7 @@ class IdsPopup extends IdsElement {
     this.animated = this.hasAttribute('animated');
     this.trueType = this.getAttribute('type') || this.trueType;
     this.isVisible = this.hasAttribute('visible');
+    this.setupRenderLoop();
     this.setupDetectMutations();
     this.setupResize();
     this.handleEvents();
@@ -113,6 +116,8 @@ class IdsPopup extends IdsElement {
    */
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
+
+    this.disconnectRenderLoop();
 
     if (this.shouldResize()) {
       this.ro.unobserve(this.parentNode);
@@ -520,25 +525,37 @@ class IdsPopup extends IdsElement {
       this.placeAgainstTarget();
     }
 
-    // If the visible setting is true, show the popup
-    // @TODO Replace these with RenderLoop-timed callbacks when that exists
-    setTimeout(() => {
-      if (this.isVisible && !this.container.classList.contains('open')) {
-        this.container.classList.add('open');
+    // Adds a RenderLoop-staggered check for whether to show the Popup.
+    if (this.openCheck) {
+      this.openCheck.destroy(true);
+    }
+    this.openCheck = this.rl.register(new IdsRenderLoopItem({
+      duration: 5,
+      timeoutCallback: () => {
+        if (this.isVisible && !this.container.classList.contains('open')) {
+          this.container.classList.add('open');
+        }
+        if (!this.isAnimated && this.container.classList.contains('animated')) {
+          this.container.classList.remove('animated');
+        }
       }
-      if (!this.isAnimated && this.container.classList.contains('animated')) {
-        this.container.classList.remove('animated');
-      }
-    }, 70);
+    }));
 
-    setTimeout(() => {
-      if (!this.isVisible && this.container.classList.contains('visible')) {
-        this.container.classList.remove('visible');
+    // Adds another RenderLoop-staggered check for whether to hide the Popup.
+    if (this.animatedCheck) {
+      this.animatedCheck.destroy(true);
+    }
+    this.animatedCheck = this.rl.register(new IdsRenderLoopItem({
+      duration: 20,
+      timeoutCallback: () => {
+        if (!this.isVisible && this.container.classList.contains('visible')) {
+          this.container.classList.remove('visible');
+        }
+        if (this.isAnimated && !this.container.classList.contains('animated')) {
+          this.container.classList.add('animated');
+        }
       }
-      if (this.isAnimated && !this.container.classList.contains('animated')) {
-        this.container.classList.add('animated');
-      }
-    }, 200);
+    }));
   }
 
   /**
@@ -672,9 +689,11 @@ class IdsPopup extends IdsElement {
     if (!POPUP_PROPERTIES.includes(attr)) {
       return;
     }
+
+    const prev = this.shouldUpdate;
     this.shouldUpdate = false;
     this.setAttribute(attr, value);
-    this.shouldUpdate = true;
+    this.shouldUpdate = prev;
   }
 
   /**
@@ -686,9 +705,11 @@ class IdsPopup extends IdsElement {
     if (!POPUP_PROPERTIES.includes(attr)) {
       return;
     }
+
+    const prev = this.shouldUpdate;
     this.shouldUpdate = false;
     this.removeAttribute(attr);
-    this.shouldUpdate = true;
+    this.shouldUpdate = prev;
   }
 
   /**
