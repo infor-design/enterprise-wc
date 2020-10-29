@@ -22,7 +22,7 @@ const BUTTON_TYPES = [
 const BUTTON_DEFAULTS = {
   cssClasses: [],
   disabled: false,
-  focusable: true,
+  tabindex: true,
   type: BUTTON_TYPES[0]
 };
 
@@ -30,11 +30,11 @@ const BUTTON_DEFAULTS = {
 const BUTTON_PROPS = [
   props.CSS_CLASS,
   props.DISABLED,
-  props.FOCUSABLE,
   props.ICON,
   'id',
   props.TEXT,
-  'type'
+  'type',
+  'tabindex'
 ];
 
 /**
@@ -134,8 +134,8 @@ class IdsButton extends IdsElement {
     if (this.state?.disabled) {
       disabled = ` disabled="true"`;
     }
-    if (this.state?.focusable) {
-      tabindex = `tabindex="${this.state.focusable ? 0 : -1}"`;
+    if (this.state?.tabindex) {
+      tabindex = `tabindex="${this.state.tabindex ? this.state.tabindex : -1}"`;
     }
     if (this.state?.icon) {
       icon = `<ids-icon slot="icon" icon="${this.state.icon}"></ids-icon>`;
@@ -244,24 +244,19 @@ class IdsButton extends IdsElement {
   }
 
   /**
-   * Pass a disabled attribute along to the inner Button element
+   * Passes a disabled attribute from the custom element to the button
    * @param {boolean} val true if the button will be disabled
    */
   set disabled(val) {
-    const trueVal = val === true;
+    this.shouldUpdate = false;
+    this.removeAttribute('disabled');
+    this.shouldUpdate = true;
+
+    const trueVal = val === true || val === 'true';
     this.state.disabled = trueVal;
     if (this.button) {
       this.button.disabled = trueVal;
     }
-
-    this.shouldUpdate = false;
-    if (trueVal && !this.hasAttribute('disabled')) {
-      this.setAttribute('disabled', true);
-    }
-    if (!trueVal && this.hasAttribute('disabled')) {
-      this.removeAttribute('disabled');
-    }
-    this.shouldUpdate = true;
   }
 
   /**
@@ -273,31 +268,30 @@ class IdsButton extends IdsElement {
   }
 
   /**
-   * Controls the ability of the inner button to become focused
-   * @param {boolean} val true if the button will be focusable
+   * Passes a tabindex attribute from the custom element to the button
+   * @param {number} val the tabindex value
+   * @returns {void}
    */
-  set focusable(val) {
-    const trueVal = val === true || val === 'true';
-    this.state.focusable = trueVal;
-    if (this.button) {
-      this.button.tabIndex = trueVal ? 0 : -1;
-    }
-
+  set tabindex(val) {
     this.shouldUpdate = false;
-    if (trueVal && !this.hasAttribute('focusable')) {
-      this.setAttribute('focusable', this.state.focusable);
-    }
-    if (!trueVal && this.hasAttribute('focusable')) {
-      this.removeAttribute('focusable');
-    }
+    this.removeAttribute('tabindex');
     this.shouldUpdate = true;
+
+    const trueVal = parseInt(val, 10);
+    if (Number.isNaN(trueVal) || trueVal < -1) {
+      this.state.tabindex = 0;
+      this.button.removeAttribute('tabindex');
+      return;
+    }
+    this.state.tabindex = trueVal;
+    this.button.setAttribute('tabindex', trueVal);
   }
 
   /**
-   * @returns {boolean} true if the inner button's tabIndex is zero (focusable)
+   * @returns {number} the current tabindex number for the button
    */
-  get focusable() {
-    return this.state.focusable;
+  get tabindex() {
+    return this.state.tabindex;
   }
 
   /**
@@ -482,7 +476,7 @@ class IdsButton extends IdsElement {
   }
 
   /**
-   * Generates an SVG-based "ripple" effect on a specified location inside the button's boundaries.
+   * Generates a "ripple" effect on a specified location inside the button's boundaries.
    * The coordinates defined are actual page coordinates, using the top/left of the page as [0,0],
    * which allows this to connect easily to mouse/touch events.
    * @param {number} x the X coordinate

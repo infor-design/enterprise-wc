@@ -39,7 +39,7 @@ describe('IdsButton Component', () => {
   it('can be disabled/enabled', () => {
     btn.disabled = true;
 
-    expect(btn.hasAttribute('disabled')).toBeTruthy();
+    expect(btn.hasAttribute('disabled')).toBeFalsy();
     expect(btn.disabled).toBeTruthy();
     expect(btn.button.hasAttribute('disabled')).toBeTruthy();
     expect(btn.state.disabled).toBeTruthy();
@@ -53,33 +53,48 @@ describe('IdsButton Component', () => {
   });
 
   it('can be focusable or not', () => {
-    btn.focusable = false;
+    btn.tabindex = -1;
+
+    expect(btn.hasAttribute('tabindex')).toBeFalsy();
+    expect(btn.tabindex).toEqual(-1);
+    expect(btn.button.getAttribute('tabindex')).toEqual('-1');
+    expect(btn.state.tabindex).toEqual(-1);
+
+    btn.tabindex = 0;
+
+    expect(btn.hasAttribute('tabindex')).toBeFalsy();
+    expect(btn.tabindex).toEqual(0);
+    expect(btn.button.getAttribute('tabindex')).toEqual('0');
+    expect(btn.state.tabindex).toEqual(0);
+
+    btn.setAttribute('tabindex', '-1');
 
     expect(btn.hasAttribute('focusable')).toBeFalsy();
-    expect(btn.focusable).toBeFalsy();
+    expect(btn.tabindex).toEqual(-1);
     expect(btn.button.getAttribute('tabindex')).toEqual('-1');
-    expect(btn.state.focusable).toBeFalsy();
+    expect(btn.state.tabindex).toEqual(-1);
 
-    btn.focusable = true;
+    btn.setAttribute('tabindex', '0');
 
-    expect(btn.hasAttribute('focusable')).toBeTruthy();
-    expect(btn.focusable).toBeTruthy();
+    expect(btn.hasAttribute('tabindex')).toBeFalsy();
+    expect(btn.tabindex).toEqual(0);
     expect(btn.button.getAttribute('tabindex')).toEqual('0');
-    expect(btn.state.focusable).toBeTruthy();
+    expect(btn.state.tabindex).toEqual(0);
 
-    btn.setAttribute('focusable', false);
+    // Handles incorrect values
+    btn.tabindex = 'fish';
 
-    expect(btn.hasAttribute('focusable')).toBeFalsy();
-    expect(btn.focusable).toBeFalsy();
-    expect(btn.button.getAttribute('tabindex')).toEqual('-1');
-    expect(btn.state.focusable).toBeFalsy();
+    expect(btn.hasAttribute('tabindex')).toBeFalsy();
+    expect(btn.tabindex).toEqual(0);
+    expect(btn.button.hasAttribute('tabindex')).toBeFalsy();
+    expect(btn.state.tabindex).toEqual(0);
 
-    btn.setAttribute('focusable', true);
+    btn.tabindex = -2;
 
-    expect(btn.hasAttribute('focusable')).toBeTruthy();
-    expect(btn.focusable).toBeTruthy();
-    expect(btn.button.getAttribute('tabindex')).toEqual('0');
-    expect(btn.state.focusable).toBeTruthy();
+    expect(btn.hasAttribute('tabindex')).toBeFalsy();
+    expect(btn.tabindex).toEqual(0);
+    expect(btn.button.hasAttribute('tabindex')).toBeFalsy();
+    expect(btn.state.tabindex).toEqual(0);
   });
 
   it('can add extra CSS classes to the button', () => {
