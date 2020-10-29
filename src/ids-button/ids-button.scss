@@ -9,9 +9,12 @@
 }
 
 // Standard slot rules
-::slotted(ids-icon),
-::slotted(span) {
+::slotted(ids-icon) {
   vertical-align: middle;
+}
+
+::slotted(span) {
+  vertical-align: bottom;
 }
 
 // Icon button slot rules
@@ -23,6 +26,14 @@
 
 ::slotted(ids-icon:only-child) {
   @include block();
+}
+
+button {
+  font-size: 0;
+}
+
+slot[name='icon'] + slot[name='text']::slotted(span) {
+  padding-left: 4px;
 }
 
 .ripple-effect {

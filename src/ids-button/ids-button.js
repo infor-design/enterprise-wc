@@ -336,7 +336,7 @@ class IdsButton extends IdsElement {
     if (icon) {
       icon.icon = iconName;
     } else {
-      this.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
+      this.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="${iconName}" class="ids-icon"></ids-icon>`);
     }
     this.refreshProtoClasses();
   }
@@ -358,16 +358,16 @@ class IdsButton extends IdsElement {
    * @returns {void}
    */
   set text(val) {
+    this.removeAttribute('text');
+
     if (typeof val !== 'string' || !val.length) {
       this.state.text = '';
-      this.removeAttribute('text');
       this.removeText();
       return;
     }
 
     // @TODO: Run this through an XSS check
     this.state.text = val;
-    this.setAttribute('text', val);
     this.appendText(val);
   }
 
