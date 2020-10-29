@@ -20,7 +20,7 @@ const BUTTON_TYPES = [
 
 // Default Button state values
 const BUTTON_DEFAULTS = {
-  cssClasses: [],
+  cssClass: [],
   disabled: false,
   tabindex: true,
   type: BUTTON_TYPES[0]
@@ -119,7 +119,7 @@ class IdsButton extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    let cssClasses = '';
+    let cssClass = '';
     let protoClasses = '';
     let disabled = '';
     let icon = '';
@@ -127,7 +127,7 @@ class IdsButton extends IdsElement {
     let text = '';
     let type = '';
     if (this.state?.cssClass) {
-      cssClasses = ` ${this.cssClass
+      cssClass = ` ${this.cssClass
         .concat(this.state.type !== 'default' ? this.state.type : '')
         .join(' ')}`;
     }
@@ -150,10 +150,20 @@ class IdsButton extends IdsElement {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }
 
-    return `<button class="${protoClasses}${type}${cssClasses}" ${tabindex}${disabled}>
+    return `<button class="${protoClasses}${type}${cssClass}" ${tabindex}${disabled}>
       <slot name="icon">${icon}</slot>
       <slot name="text">${text}</slot>
     </button>`;
+  }
+
+  /**
+   * Rerender the component template
+   * @private
+   */
+  rerender() {
+    const template = document.createElement('template');
+    template.innerHTML = this.template();
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   /**
@@ -205,7 +215,7 @@ class IdsButton extends IdsElement {
     let attr = val;
     let newCl = [];
     // @TODO replace with clone utils method
-    const prevClasses = [].concat(this.state.cssClasses);
+    const prevClasses = [].concat(this.state.cssClass);
 
     if (Array.isArray(val)) {
       newCl = val;
@@ -214,7 +224,7 @@ class IdsButton extends IdsElement {
       newCl = val.split(' ');
     }
 
-    this.state.cssClasses = newCl;
+    this.state.cssClass = newCl;
     if (newCl.length) {
       this.setAttribute('css-class', attr);
     } else {
@@ -240,7 +250,7 @@ class IdsButton extends IdsElement {
    * @returns {Array} containing extra CSS classes that are applied to the button
    */
   get cssClass() {
-    return this.state.cssClasses;
+    return this.state.cssClass;
   }
 
   /**

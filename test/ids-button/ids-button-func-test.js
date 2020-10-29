@@ -196,6 +196,20 @@ describe('IdsButton Component', () => {
     expect(btn.button.classList.contains('ids-icon-button')).toBeTruthy();
     expect(btn.button.classList.contains('ids-button')).toBeFalsy();
   });
+
+  // @TODO write a better test for this without `rerender` if we start using settings objects
+  it('can rerender', () => {
+    btn.text = 'New';
+    btn.icon = 'check';
+    btn.disabled = true;
+    btn.tabindex = -1;
+    btn.type = 'secondary';
+    btn.cssClass = ['awesome'];
+
+    btn.rerender();
+
+    expect(btn.text).toEqual('New');
+  });
 });
 
 // ============================================================
@@ -326,5 +340,25 @@ describe('IdsButton ripple effect tests', () => {
 
     expect(rippleOffsets.x).toEqual(-124);
     expect(rippleOffsets.y).toEqual(-124);
+  });
+
+  it('removes the ripple effect HTML when it completes', (done) => {
+    const event = new MouseEvent('click', {
+      button: 1,
+      pageX: 0,
+      pageY: 0,
+      target: btn.button,
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    btn.button.dispatchEvent(event);
+
+    expect(btn.button.querySelector('.ripple-effect')).toBeDefined();
+
+    setTimeout(() => {
+      expect(btn.button.querySelector('.ripple-effect')).toBe(null);
+      done();
+    }, 2000);
   });
 });
