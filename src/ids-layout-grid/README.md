@@ -105,6 +105,7 @@ A layout grid is not on its own keyboard focusable and has no keyboard interacti
 ## Proposed Changes
 
 - May need to re-visit responsiveness as we begin to test complex layouts.
+- Add fixed unit sizind options for cells and rows.
 
 ## Test Plan
 
