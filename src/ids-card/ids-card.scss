@@ -19,12 +19,12 @@
 
 .ids-card-content {
   height: 310px;
-  overflow: auto;
+  overflow: hidden;
   width: 100%;
 }
 
 // Style the title
-slot[name=card-header]::slotted(*) {
+.ids-card-header {
   @include border-b-1();
   @include border-slate-30();
   @include px-20();

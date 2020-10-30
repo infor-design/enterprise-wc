@@ -35,10 +35,7 @@ class IdsVirtualScroll extends IdsElement {
    * @returns {object} This API as used for joining
    */
   init() {
-    this.container.style.height = `${this.height}px`;
-    this.container.querySelector('.ids-virtual-scroll-viewport').style.height = `${this.viewPortHeight}px`;
-    this.itemContainer = this.querySelector('[slot="contents"]');
-    this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
+    this.applyHeight();
     this.renderItems();
     return this;
   }
@@ -89,6 +86,17 @@ class IdsVirtualScroll extends IdsElement {
   }
 
   /**
+   * Set the height of the containers
+   * @private
+   */
+  applyHeight() {
+    this.container.style.height = `${this.height}px`;
+    this.container.querySelector('.ids-virtual-scroll-viewport').style.height = `${this.viewPortHeight}px`;
+    this.itemContainer = this.querySelector('[slot="contents"]');
+    this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
+  }
+
+  /**
    * Render the visible section plus the cached data
    * @private
    * @returns {Array} The array of visible data
@@ -124,7 +132,7 @@ class IdsVirtualScroll extends IdsElement {
 
     if (value) {
       this.setAttribute('height', value);
-      this.container.style.height = `${value}px`;
+      this.applyHeight();
       return;
     }
 
@@ -138,10 +146,9 @@ class IdsVirtualScroll extends IdsElement {
    * @param {number} value the height of each item in pixels
    */
   set itemHeight(value) {
-    const hasProp = this.hasAttribute('item-height');
-
     if (value) {
       this.setAttribute('item-height', value);
+      this.applyHeight();
       this.renderItems();
       return;
     }

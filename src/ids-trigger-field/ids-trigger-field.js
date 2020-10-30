@@ -2,11 +2,11 @@ import {
   IdsElement,
   customElement,
   mixin,
-  scss
+  scss,
+  props
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
-import { props } from '../ids-base/ids-constants';
 import styles from './ids-trigger-field.scss';
 
 /**

@@ -1,5 +1,8 @@
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift.host.variables.scss';
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 
-/* Other Css Modules */
-@import '../ids-loader/ids-loader.scss';
+$breakpoint-lg: 1280px;
+$breakpoint-md: 840px;
+$breakpoint-sm: 600px;
+$breakpoint-xl: 1440px;
+$breakpoint-xs: 360px;

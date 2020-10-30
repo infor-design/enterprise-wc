@@ -28,8 +28,7 @@ module.exports = {
     minimize: !!isProduction,
     minimizer: [
       new TerserPlugin({
-        test: /\.js(\?.*)?$/i,
-        sourceMap: true
+        test: /\.js(\?.*)?$/i
       }),
     ],
   },
@@ -124,6 +123,7 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].min.css'
     }),
+    // Append index "kitchen sink", rest is dynamic below
     new HTMLWebpackPlugin({
       template: 'app/index.html',
       inject: 'body',
@@ -168,7 +168,7 @@ if (!isProduction) {
 // Dynamically add all html examples
 glob.sync('./app/**/*.html').reduce((acc, filePath) => {
   const folderName = path.dirname(filePath).replace('./app/', '');
-  const folderAndFile = filePath.replace('./app/', '');
+  let folderAndFile = filePath.replace('./app/', '');
   let title = `${folderName.split('-').map((word) =>
     `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`)
     .join(' ')} Component`;
@@ -177,6 +177,10 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
 
   if (folderName === 'layouts' || folderAndFile.indexOf('example.html') > -1 || folderAndFile === 'index.html') {
     return folderName;
+  }
+
+  if (folderAndFile.indexOf('index.html') === -1) {
+    folderAndFile = folderAndFile.replace('.html', '');
   }
 
   module.exports.plugins.push(

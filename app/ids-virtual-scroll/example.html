@@ -1,27 +1,41 @@
 <ids-layout-grid>
   <ids-label font-size="12" type="h1">Virtual Scroller</ids-label>
 </ids-layout-grid>
-<ids-layout-grid>
-  <ids-layout-column>
-    <ids-virtual-scroll id="virtual-scroll-1" height="400" item-height="18" item-count="1000">
-      <div class="ids-list-view">
-        <ul slot="contents">
-        </ul>
+<ids-layout-grid cols="2" gap="xl">
+  <ids-layout-grid-cell>
+    <ids-card>
+      <div slot="card-header">
+        <ids-label font-size="20" type="h2">List With Virtual Scroll</ids-label>
       </div>
-    </ids-virtual-scroll>
-  </ids-layout-column>
-  <ids-layout-column>
-    <ids-virtual-scroll id="virtual-scroll-2" height="400" item-height="20" item-count="1000">
-      <table class="ids-data-grid">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Product</th>
-          </tr>
-        </thead>
-        <tbody slot="contents">
-        </tbody>
-      </table>
-    </ids-virtual-scroll>
-  </ids-layout-column>
+      <div slot="card-content">
+        <ids-virtual-scroll id="virtual-scroll-1" height="310" item-height="18" item-count="1000">
+          <div class="ids-list-view">
+            <ul slot="contents">
+            </ul>
+          </div>
+        </ids-virtual-scroll>
+      </div>
+    </ids-card>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-card>
+      <div slot="card-header">
+        <ids-label font-size="20" type="h2">Table With Virtual Scroll</ids-label>
+      </div>
+      <div slot="card-content">
+        <ids-virtual-scroll id="virtual-scroll-2" height="310" item-height="20" item-count="1000">
+          <table class="ids-data-grid">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Product</th>
+              </tr>
+            </thead>
+            <tbody slot="contents">
+            </tbody>
+          </table>
+        </ids-virtual-scroll>
+      </div>
+    </ids-card>
+  </ids-layout-grid-cell>
 </ids-layout-grid>

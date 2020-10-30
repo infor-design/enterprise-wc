@@ -1,6 +1,5 @@
 /* Ids Layout Grid Component */
-@import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
-@import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift.scss';
+@import '../ids-base/ids-base';
 
 // Style the grid
 :host,
@@ -52,7 +51,16 @@
 .ids-layout-grid > .ids-layout-col-span {
   grid-column: span var(--grid-col-span) / span var(--grid-col-span);
 
-  //Tablet down go to auto layout
+  // Tablet down go to auto layout
+  @media all and (max-width: $breakpoint-md) {
+    grid-column: auto;
+  }
+}
+
+.ids-layout-colspan-2 {
+  grid-column: span var(2) / span var(2);
+
+  // Tablet down go to auto layout
   @media all and (max-width: $breakpoint-md) {
     grid-column: auto;
   }

@@ -1,6 +1,9 @@
 @import '../ids-base/ids-base';
 
 .ids-list-view {
+  height: 310px;
+  overflow: auto;
+
   ul {
     @include list-none();
     @include px-0();

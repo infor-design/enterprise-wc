@@ -1,4 +1,5 @@
 // Import All Components Used in the Page
+import IdsLoader from '../src/ids-loader/ids-loader';
 import IdsLabel from '../src/ids-label/ids-label';
 import IdsIcon from '../src/ids-icon/ids-icon';
 import IdsPopup from '../src/ids-popup/ids-popup';

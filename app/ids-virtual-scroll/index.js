@@ -1,4 +1,5 @@
 import IdsVirtualScroll from '../../src/ids-virtual-scroll/ids-virtual-scroll';
+import IdsCard from '../../src/ids-card/ids-card';
 
 // Example for populating the Virtual Scoller
 const virtualScrollUl = document.querySelector('#virtual-scroll-1');

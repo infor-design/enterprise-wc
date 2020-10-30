@@ -5,6 +5,7 @@ import {
   mixin,
   scss
 } from './ids-decorators';
+import { props } from './ids-constants';
 
 /**
  * IDS Base Element
@@ -113,5 +114,6 @@ export {
   customElement,
   mixin,
   scss,
-  version
+  version,
+  props
 };

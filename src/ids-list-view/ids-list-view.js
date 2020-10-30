@@ -1,7 +1,8 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  props
 } from '../ids-base/ids-element';
 import { IdsDataSourceMixin } from '../ids-base/ids-data-source-mixin';
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
@@ -28,7 +29,7 @@ class IdsListView extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['data'];
+    return [props.DATA, props.VIRTUAL_SCROLL];
   }
 
   /**
@@ -36,14 +37,27 @@ class IdsListView extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    if (this?.data.length > 0) {
-      let html = `<div class="ids-list-view"><ul>`;
+    let html = '';
+
+    if (this?.data.length > 0 && this.virtualScroll !== 'true') {
+      html = `<div class="ids-list-view"><ul>`;
 
       this.data.forEach((item) => {
         html += `<li>${this.itemTemplate(item)}</li>`;
       });
 
       html += `</ul></div>`;
+      return html;
+    }
+
+    if (this?.data.length > 0 && this.virtualScroll === 'true') {
+      // TODO Make 310 dynamic  item-height="43" item-count="1000"
+      html = `<ids-virtual-scroll height="310">
+          <div class="ids-list-view">
+            <ul slot="contents">
+            </ul>
+          </div>
+        </ids-virtual-scroll>`;
       return html;
     }
     return `<div class="ids-list-view"></div>`;
@@ -59,22 +73,39 @@ class IdsListView extends IdsElement {
   }
 
   /**
-   * Rerender the component
+   * Rerender the list by re applying the template
    * @private
    */
   rerender() {
     const template = document.createElement('template');
-    const oldRoot = this.shadowRoot?.querySelector('.ids-list-view');
     const html = this.template();
 
-    if (oldRoot) {
-      oldRoot.remove();
+    if (this.shadowRoot) {
+      this.shadowRoot.innerHTML = '';
     }
 
     if (html) {
       template.innerHTML = html;
       this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
+
+    if (this.virtualScroll === 'true' && this?.data.length > 0) {
+      this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
+      this.virtualScrollContainer.itemTemplate = (item) => `<li>${this.itemTemplate(item)}</li>`;
+      this.virtualScrollContainer.itemCount = this.data.length;
+      this.virtualScrollContainer.itemHeight = this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0] || {})}</li>`);
+      this.virtualScrollContainer.data = this.data;
+
+      this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
+    }
+  }
+
+  checkTemplateHeight(itemTemplate) {
+    this.shadowRoot.querySelector('.ids-list-view ul').insertAdjacentHTML('beforeEnd', itemTemplate);
+    const tester = this.shadowRoot.querySelector('#height-tester');
+    const height = tester.offsetHeight;
+    tester.remove();
+    return height;
   }
 
   /**
@@ -92,6 +123,23 @@ class IdsListView extends IdsElement {
   }
 
   get data() { return this?.datasource?.data || []; }
+
+  /**
+   * Set the list view to use virtual scrolling for a large amount of elements.
+   * @param {boolean} value true to use virtual scrolling
+   */
+  set virtualScroll(value) {
+    if (value) {
+      this.setAttribute(props.VIRTUAL_SCROLL, value);
+      this.rerender();
+      return;
+    }
+
+    this.removeAttribute(props.VIRTUAL_SCROLL);
+    this.rerender();
+  }
+
+  get virtualScroll() { return this.getAttribute(props.VIRTUAL_SCROLL) || 'true'; }
 }
 
 export default IdsListView;
