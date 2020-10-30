@@ -135,6 +135,13 @@ module.exports = {
       title: 'IDS Icon Button Component'
     }),
     new HTMLWebpackPlugin({
+      template: './app/ids-button/disabled-button.html',
+      inject: 'body',
+      filename: 'ids-button/toggle-button',
+      chunks: ['ids-button/ids-button', 'ids-button/disabled-button'],
+      title: 'IDS Button Component (disabled state)'
+    }),
+    new HTMLWebpackPlugin({
       template: './app/ids-button/toggle-button.html',
       inject: 'body',
       filename: 'ids-button/toggle-button',
