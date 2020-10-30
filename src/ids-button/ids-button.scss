@@ -6,34 +6,18 @@
 
 :host {
   @include inline-flex();
-}
 
-// Standard slot rules
-::slotted(ids-icon) {
-  vertical-align: middle;
-}
+  ::slotted(span) {
+    vertical-align: bottom;
+  }
 
-::slotted(span) {
-  vertical-align: bottom;
-}
+  ::slotted(ids-icon) {
+    vertical-align: middle;
+  }
 
-// Icon button slot rules
-::slotted(span.audible) {
-  @include audible();
-
-  vertical-align: middle;
-}
-
-::slotted(ids-icon:only-child) {
-  @include block();
-}
-
-button {
-  font-size: 0;
-}
-
-slot[name='icon'] + slot[name='text']::slotted(span) {
-  padding-left: 4px;
+  ::slotted(span.audible) {
+    @include audible();
+  }
 }
 
 .ripple-effect {
@@ -53,6 +37,18 @@ slot[name='icon'] + slot[name='text']::slotted(span) {
 .ids-toggle-button {
   @include ids-base-button-styles();
 
+  // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
+  ::slotted(ids-icon:nth-child(2):last-child), // shadowroot + text + icon
+  ::slotted(span:nth-child(2):last-child), // shadowroot + icon + text
+  ::slotted(span:nth-child(3):last-child) { // shadowroot + icon + (audible text) + text
+    @include pl-4();
+  }
+
+  // Technically not valid
+  ::slotted(ids-icon:only-child) {
+    @include block();
+  }
+
   .ripple-effect {
     height: 250px;
     width: 250px;
@@ -66,6 +62,11 @@ slot[name='icon'] + slot[name='text']::slotted(span) {
   @include px-8();
   @include py-8();
   @include rounded-round();
+
+  ::slotted(ids-icon) {
+    @include block();
+    @include pl-0();
+  }
 
   .ripple-effect {
     height: 70px;

@@ -34,18 +34,6 @@ class IdsToggleButton extends IdsButton {
   }
 
   /**
-   * CSS Classes that are specific to the Toggle Button prototype.
-   * @returns {Array} containing css classes specific to styling this component
-   */
-  get protoClasses() {
-    const textSlot = this.querySelector('span[slot]');
-    if (!textSlot || !textSlot.textContent) {
-      return ['ids-icon-button'];
-    }
-    return ['ids-toggle-button'];
-  }
-
-  /**
    * @returns {Array} containing configurable properties on this component
    */
   static get properties() {

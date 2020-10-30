@@ -142,6 +142,13 @@ module.exports = {
       title: 'IDS Toggle Button Component'
     }),
     new HTMLWebpackPlugin({
+      template: './app/ids-button/test-fallback-slot.html',
+      inject: 'body',
+      filename: 'ids-button/test-fallback-slot',
+      chunks: ['ids-button/ids-button'],
+      title: 'IDS Button Component using an unnamed slot for content'
+    }),
+    new HTMLWebpackPlugin({
       template: './app/ids-tag/index.html',
       inject: 'body',
       filename: 'ids-tag/index.html',

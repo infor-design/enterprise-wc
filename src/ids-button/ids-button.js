@@ -91,8 +91,10 @@ class IdsButton extends IdsElement {
    * @returns {Array} containing classes used to identify this button prototype
    */
   get protoClasses() {
-    const iconSlot = this.querySelector('ids-icon[slot]');
-    const textSlot = this.querySelector('span[slot]');
+    const textSlot = this.querySelector('span:not(.audible)');
+    const iconSlot = this.querySelector('ids-icon[slot]')
+      || this.querySelector('ids-icon');
+
     if (iconSlot && !textSlot) {
       return ['ids-icon-button'];
     }
@@ -127,15 +129,13 @@ class IdsButton extends IdsElement {
     let text = '';
     let type = '';
     if (this.state?.cssClass) {
-      cssClass = ` ${this.cssClass
-        .concat(this.state.type !== 'default' ? this.state.type : '')
-        .join(' ')}`;
+      cssClass = ` ${this.cssClass.join(' ')}`;
     }
     if (this.state?.disabled) {
       disabled = ` disabled="true"`;
     }
     if (this.state?.tabindex) {
-      tabindex = `tabindex="${this.state.tabindex ? this.state.tabindex : -1}"`;
+      tabindex = `tabindex="${this.state.tabindex}"`;
     }
     if (this.state?.icon) {
       icon = `<ids-icon slot="icon" icon="${this.state.icon}"></ids-icon>`;
@@ -153,6 +153,7 @@ class IdsButton extends IdsElement {
     return `<button class="${protoClasses}${type}${cssClass}" ${tabindex}${disabled}>
       <slot name="icon">${icon}</slot>
       <slot name="text">${text}</slot>
+      <slot>${icon}${text}</slot>
     </button>`;
   }
 
@@ -323,7 +324,7 @@ class IdsButton extends IdsElement {
    * @returns {undefined|string} a defined IdsIcon's `icon` attribute, if one is present
    */
   get icon() {
-    return this.querySelector('ids-icon[slot]')?.icon;
+    return this.querySelector('ids-icon')?.icon;
   }
 
   /**
@@ -332,11 +333,13 @@ class IdsButton extends IdsElement {
    * @private
    */
   appendIcon(iconName) {
-    const icon = this.querySelector(`ids-icon[slot="icon"]`);
+    // First look specifically for an icon slot.
+    const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
+
     if (icon) {
       icon.icon = iconName;
     } else {
-      this.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="${iconName}" class="ids-icon"></ids-icon>`);
+      this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}" class="ids-icon"></ids-icon>`);
     }
     this.refreshProtoClasses();
   }
@@ -346,7 +349,8 @@ class IdsButton extends IdsElement {
    * @private
    */
   removeIcon() {
-    const icon = this.querySelector(`ids-icon[slot="icon"]`);
+    const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
+
     if (icon) {
       icon.remove();
     }
@@ -375,6 +379,10 @@ class IdsButton extends IdsElement {
    * @returns {string} the current text value
    */
   get text() {
+    const textElem = this.querySelector('span:not(.audible)');
+    if (textElem && textElem.textContent?.length) {
+      return textElem.textContent;
+    }
     return this.state.text;
   }
 
@@ -384,11 +392,11 @@ class IdsButton extends IdsElement {
    * @private
    */
   appendText(val) {
-    const text = this.querySelector(`span[slot="text"]`);
+    const text = this.querySelector(`span:not(.audible)`);
     if (text) {
       text.textContent = val;
     } else {
-      this.insertAdjacentHTML('afterbegin', `<span slot="text">${val}</span>`);
+      this.insertAdjacentHTML('afterbegin', `<span>${val}</span>`);
     }
     this.refreshProtoClasses();
   }
@@ -398,7 +406,7 @@ class IdsButton extends IdsElement {
    * @private
    */
   removeText() {
-    const text = this.querySelector(`span[slot="text"]`);
+    const text = this.querySelector(`span:not(.audible)`);
     if (text) {
       text.remove();
     }
