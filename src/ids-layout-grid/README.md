@@ -70,6 +70,15 @@ Nested Grid. An IdsLayoutGrid component can be nested inside an IDSLayoutGridCel
 </ids-layout-grid>
 ```
 
+Standalone CSS Example
+
+```html
+<div class="ids-layout-grid ids-layout-cols ids-layout-grid-gap-md" style="--grid-cols: 3;">
+  <div class="ids-layout-grid-cell ids-layout-col-span ids-background-fill" style="--grid-col-span: 2"><ids-label font-size="12">A</ids-label></div>
+  <div class="ids-layout-grid-cell ids-background-fill"><ids-label font-size="12">B</ids-label></div>
+</div>
+```
+
 ## States and Variations
 
 IDSLayoutGrid
