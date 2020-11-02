@@ -52,7 +52,9 @@ class IdsTriggerField extends IdsElement {
     const isTabbable = this.stringToBool(value);
     const button = this.querySelector('ids-trigger-button');
     this.setAttribute(props.TABBABLE, value);
-    button?.setAttribute('tabindex', !isTabbable ? '-1' : '0');
+    if (button) {
+      button.tabindex = !isTabbable ? '-1' : '0';
+    }
   }
 
   get tabbable() { return this.getAttribute(props.TABBABLE); }
