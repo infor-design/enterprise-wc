@@ -1,6 +1,6 @@
 // Import All Components Used in the Page
 import IdsButton from '../src/ids-button/ids-button';
-import IdsToggleButton from '../src/ids-button/ids-toggle-button';
+import IdsToggleButton from '../src/ids-toggle-button/ids-toggle-button';
 import IdsLabel from '../src/ids-label/ids-label';
 import IdsIcon from '../src/ids-icon/ids-icon';
 import IdsPopup from '../src/ids-popup/ids-popup';

@@ -6,8 +6,8 @@ The IDS Button component is a simple wrapper around a standard HTMLButtonElement
 
 ## Use Cases
 
-- Use to create standalone buttons
-- Use to create multiple buttons, each with different styling to provide context for actions that are primary, secondary, and tertiary.
+- Create standalone buttons
+- Create multiple buttons, each with different styling to provide context for actions that are primary, secondary, and tertiary.
 
 ## Terminology
 

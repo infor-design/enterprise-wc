@@ -3,12 +3,12 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
-import { IdsButton, BUTTON_PROPS, BUTTON_TYPES } from './ids-button';
+import { IdsButton, BUTTON_PROPS, BUTTON_TYPES } from '../ids-button/ids-button';
 import IdsIcon from '../ids-icon/ids-icon';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
-import styles from './ids-button.scss';
+import styles from '../ids-button/ids-button.scss';
 
 // Default Toggle Button Icons
 const DEFAULT_ICON_OFF = 'star-outlined';

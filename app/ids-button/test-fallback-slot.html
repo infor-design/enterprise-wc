@@ -33,11 +33,13 @@
   <ids-label font-size="12" type="h1">Button containing icon + audible span + span</ids-label>
 </ids-layout-grid>
 <ids-layout-grid cols="4" gap="md">
-  <ids-button id="btn-five">
-    <ids-icon icon="settings"></ids-icon>
-    <span class="audible">This text isn't visible.</span>
-    <span>This text IS visible!</span>
-  </ids-button>
-</ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-button id="btn-five">
+      <ids-icon icon="settings"></ids-icon>
+      <span class="audible">This text isn't visible.</span>
+      <span>This text IS visible!</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
 
 {{> ../layouts/footer.html }}

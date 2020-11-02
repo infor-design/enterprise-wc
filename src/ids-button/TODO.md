@@ -11,6 +11,8 @@
 - [x] Why doesn't the linter like `get protoClasses()` if it works?
 - [x] See if we can remove the button-level "disabled" and "focusable" in favor of one that's component-level
 - [x] Lots of tests
+- [ ] API method/prop for toggling the `.audible` class on the text span
+- [ ] API method/prop for re-arranging the order of named text/icon slots?
 
 # Icon Button
 
