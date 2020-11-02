@@ -9,7 +9,8 @@
 - [x] Ripple effect (take coords instead of mouse directly)
 - [ ] Dispatch events?
 - [x] Why doesn't the linter like `get protoClasses()` if it works?
-- [ ] Lots of tests
+- [x] See if we can remove the button-level "disabled" and "focusable" in favor of one that's component-level
+- [x] Lots of tests
 
 # Icon Button
 
