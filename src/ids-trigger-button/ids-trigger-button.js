@@ -25,7 +25,7 @@ class IdsTriggerButton extends IdsButton {
    * @returns {Array} containing css classes specific to styling this component
    */
   get protoClasses() {
-    return ['ids-trigger-button'];
+    return [this.name];
   }
 
   /**
