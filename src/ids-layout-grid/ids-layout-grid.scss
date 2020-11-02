@@ -48,7 +48,12 @@
 
 // Grid Column Span
 ::slotted(.ids-layout-grid-col-span) {
-  grid-column: auto / span var(--grid-col-span);
+  grid-column: span var(--grid-col-span) / span var(--grid-col-span);
+
+  // Tablet down go to auto layout
+  @media all and (max-width: $breakpoint-md) {
+    grid-column: auto;
+  }
 }
 
 // Grid Column Start
@@ -146,13 +151,18 @@
 
     // Tablet down go to auto layout
     @media all and (max-width: $breakpoint-md) {
-      grid-template-columns: repeat(auto-fit, minmax(calc(var(--grid-min-col-width) * 2), 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(calc(var(--grid-min-col-width) * 2), 1fr));
     }
   }
 
   // Grid Column Span
   .ids-layout-grid > .ids-layout-grid-col-span-#{$i} {
     grid-column: auto / span $i;
+
+    // Tablet down go to auto layout
+    @media all and (max-width: $breakpoint-md) {
+      grid-column: auto;
+    }
   }
 
   // Grid Column Start
