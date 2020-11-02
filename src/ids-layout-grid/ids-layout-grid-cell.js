@@ -59,12 +59,12 @@ class IdsLayoutGridCell extends IdsElement {
     if (value) {
       this.setAttribute(props.COL_SPAN, value);
       this.style.setProperty('--grid-col-span', value);
-      this.classList.add(`ids-layout-col-span`);
+      this.classList.add(`ids-layout-grid-col-span`);
       return;
     }
 
     this.style.removeProperty('--grid-col-span');
-    this.classList.remove(`ids-layout-col-span`);
+    this.classList.remove(`ids-layout-grid-col-span`);
     this.removeAttribute(props.COL_SPAN);
   }
 
@@ -78,12 +78,12 @@ class IdsLayoutGridCell extends IdsElement {
     if (value) {
       this.setAttribute(props.COL_START, value);
       this.style.setProperty('--grid-col-start', value);
-      this.classList.add(`ids-layout-col-start`);
+      this.classList.add(`ids-layout-grid-col-start`);
       return;
     }
 
     this.style.removeProperty('--grid-col-start');
-    this.classList.remove(`ids-layout-col-start`);
+    this.classList.remove(`ids-layout-grid-col-start`);
     this.removeAttribute(props.COL_START);
   }
 
@@ -97,12 +97,12 @@ class IdsLayoutGridCell extends IdsElement {
     if (value) {
       this.setAttribute(props.COL_END, value);
       this.style.setProperty('--grid-col-end', value);
-      this.classList.add(`ids-layout-col-end`);
+      this.classList.add(`ids-layout-grid-col-end`);
       return;
     }
 
     this.style.removeProperty('--grid-col-end');
-    this.classList.remove(`ids-layout-col-end`);
+    this.classList.remove(`ids-layout-grid-col-end`);
     this.removeAttribute(props.COL_END);
   }
 
@@ -116,12 +116,12 @@ class IdsLayoutGridCell extends IdsElement {
     if (value) {
       this.setAttribute(props.ROW_SPAN, value);
       this.style.setProperty('--grid-row-span', value);
-      this.classList.add(`ids-layout-row-span`);
+      this.classList.add(`ids-layout-grid-row-span`);
       return;
     }
 
     this.style.removeProperty('--grid-row-span');
-    this.classList.remove(`ids-layout-row-span`);
+    this.classList.remove(`ids-layout-grid-row-span`);
     this.removeAttribute(props.ROW_SPAN);
   }
 
@@ -135,12 +135,12 @@ class IdsLayoutGridCell extends IdsElement {
     if (value) {
       this.setAttribute(props.ROW_START, value);
       this.style.setProperty('--grid-row-start', value);
-      this.classList.add(`ids-layout-row-start`);
+      this.classList.add(`ids-layout-grid-row-start`);
       return;
     }
 
     this.style.removeProperty('--grid-row-start');
-    this.classList.remove(`ids-layout-row-start`);
+    this.classList.remove(`ids-layout-grid-row-start`);
     this.removeAttribute(props.ROW_START);
   }
 
@@ -154,12 +154,12 @@ class IdsLayoutGridCell extends IdsElement {
     if (value) {
       this.setAttribute(props.ROW_END, value);
       this.style.setProperty('--grid-row-end', value);
-      this.classList.add(`ids-layout-row-end`);
+      this.classList.add(`ids-layout-grid-row-end`);
       return;
     }
 
     this.style.removeProperty('--grid-row-end');
-    this.classList.remove(`ids-layout-row-end`);
+    this.classList.remove(`ids-layout-grid-row-end`);
     this.removeAttribute(props.ROW_END);
   }
 
