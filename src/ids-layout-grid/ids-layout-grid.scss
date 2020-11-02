@@ -48,12 +48,7 @@
 
 // Grid Column Span
 ::slotted(.ids-layout-grid-col-span) {
-  grid-column: span var(--grid-col-span) / span var(--grid-col-span);
-
-  //Tablet down go to auto layout
-  @media all and (max-width: $breakpoint-md) {
-    grid-column: auto;
-  }
+  grid-column: auto / span var(--grid-col-span);
 }
 
 // Grid Column Start
@@ -157,12 +152,7 @@
 
   // Grid Column Span
   .ids-layout-grid > .ids-layout-grid-col-span-#{$i} {
-    grid-column: span $i / span $i;
-
-    //Tablet down go to auto layout
-    @media all and (max-width: $breakpoint-md) {
-      grid-column: auto;
-    }
+    grid-column: auto / span $i;
   }
 
   // Grid Column Start
