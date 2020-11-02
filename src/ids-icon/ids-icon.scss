@@ -1,26 +1,7 @@
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 @import '../ids-base/ids-base';
 
-// Icon sizes
-// @TODO pull from tokens instead?
-$small-size: 10px;
-$medium-size: 18px;
-$large-size: 24px;
-
 :host {
   @include inline-flex();
   @include self-center();
-
-  height: $medium-size;
-  width: $medium-size;
-
-  &[size='small'] {
-    height: $small-size;
-    width: $small-size;
-  }
-
-  &[size='large'] {
-    height: $large-size;
-    width: $large-size;
-  }
 }

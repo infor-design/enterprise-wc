@@ -66,6 +66,8 @@
   ::slotted(ids-icon) {
     @include block();
     @include pl-0();
+
+    font-size: 0;
   }
 
   .ripple-effect {

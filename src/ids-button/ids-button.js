@@ -95,7 +95,7 @@ class IdsButton extends IdsElement {
     const iconSlot = this.querySelector('ids-icon[slot]')
       || this.querySelector('ids-icon');
 
-    if (iconSlot && !textSlot) {
+    if (iconSlot && (!textSlot)) {
       return ['ids-icon-button'];
     }
     return ['ids-button'];
