@@ -438,6 +438,7 @@ class IdsButton extends IdsElement {
 
   /**
    * Sets the correct type class on the Shadow button.
+   * @private
    * @param {string} val desired type class
    */
   setTypeClass(val) {

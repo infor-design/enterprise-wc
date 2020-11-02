@@ -213,6 +213,14 @@ class IdsToggleButton extends IdsButton {
   refreshText() {
     this.text = this[this.pressed ? 'textOn' : 'textOff'];
   }
+
+  /**
+   * Toggles the "pressed" state of the button
+   * @returns {void}
+   */
+  toggle() {
+    this.pressed = !this.pressed;
+  }
 }
 
 export default IdsToggleButton;

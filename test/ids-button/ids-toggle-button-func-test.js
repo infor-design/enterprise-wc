@@ -58,6 +58,18 @@ describe('IdsToggleButton Component', () => {
     expect(btn.text).toBe('Test Button (Off)');
   });
 
+  it('can be toggled', () => {
+    btn.toggle();
+
+    expect(btn.icon).toBe('star-filled');
+    expect(btn.text).toBe('Test Button (On)');
+
+    btn.toggle();
+
+    expect(btn.icon).toBe('star-outlined');
+    expect(btn.text).toBe('Test Button (Off)');
+  });
+
   it('cannot be any other type but "default"', () => {
     btn.type = 'primary';
 
