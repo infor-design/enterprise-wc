@@ -92,7 +92,7 @@ describe('IdsLayoutGrid Component', () => {
     elem.auto = true;
     document.body.appendChild(elem);
     expect(elem.auto).toEqual('true');
-    expect(document.querySelectorAll('.ids-layout-cols-auto').length).toEqual(1);
+    expect(document.querySelectorAll('.ids-layout-grid-auto').length).toEqual(1);
   });
 
   it('renders auto setting then removes it', () => {
@@ -101,7 +101,7 @@ describe('IdsLayoutGrid Component', () => {
     elem.auto = false;
     document.body.appendChild(elem);
     expect(elem.auto).toEqual(null);
-    expect(document.querySelectorAll('.ids-layout-cols-auto').length).toEqual(0);
+    expect(document.querySelectorAll('.ids-layout-grid-cols-auto').length).toEqual(0);
   });
 
   it('renders grid gap setting', () => {
@@ -117,7 +117,7 @@ describe('IdsLayoutGrid Component', () => {
     elem.cols = 16;
     document.body.appendChild(elem);
     expect(elem.cols).toEqual('16');
-    expect(document.querySelectorAll('.ids-layout-cols').length).toEqual(1);
+    expect(document.querySelectorAll('.ids-layout-grid-cols').length).toEqual(1);
     expect(elem.getAttribute('style')).toEqual(`--grid-cols: 16;`);
   });
 
@@ -126,7 +126,7 @@ describe('IdsLayoutGrid Component', () => {
     elem.rows = 4;
     document.body.appendChild(elem);
     expect(elem.rows).toEqual('4');
-    expect(document.querySelectorAll('.ids-layout-rows').length).toEqual(1);
+    expect(document.querySelectorAll('.ids-layout-grid-rows').length).toEqual(1);
     expect(elem.getAttribute('style')).toEqual(`--grid-rows: 4;`);
   });
 
@@ -135,7 +135,7 @@ describe('IdsLayoutGrid Component', () => {
     col.colSpan = 4;
     document.body.appendChild(col);
     expect(col.colSpan).toEqual('4');
-    expect(document.querySelectorAll('.ids-layout-col-span').length).toEqual(1);
+    expect(document.querySelectorAll('.ids-layout-grid-col-span').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-col-span: 4;`);
   });
 
@@ -144,7 +144,7 @@ describe('IdsLayoutGrid Component', () => {
     col.colStart = 4;
     document.body.appendChild(col);
     expect(col.colStart).toEqual('4');
-    expect(document.querySelectorAll('.ids-layout-col-start').length).toEqual(1);
+    expect(document.querySelectorAll('.ids-layout-grid-col-start').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-col-start: 4;`);
   });
 
@@ -153,7 +153,7 @@ describe('IdsLayoutGrid Component', () => {
     col.colEnd = 4;
     document.body.appendChild(col);
     expect(col.colEnd).toEqual('4');
-    expect(document.querySelectorAll('.ids-layout-col-end').length).toEqual(1);
+    expect(document.querySelectorAll('.ids-layout-grid-col-end').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-col-end: 4;`);
   });
 
@@ -162,7 +162,7 @@ describe('IdsLayoutGrid Component', () => {
     col.rowSpan = 4;
     document.body.appendChild(col);
     expect(col.rowSpan).toEqual('4');
-    expect(document.querySelectorAll('.ids-layout-row-span').length).toEqual(1);
+    expect(document.querySelectorAll('.ids-layout-grid-row-span').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-row-span: 4;`);
   });
 
@@ -171,7 +171,7 @@ describe('IdsLayoutGrid Component', () => {
     col.rowStart = 4;
     document.body.appendChild(col);
     expect(col.rowStart).toEqual('4');
-    expect(document.querySelectorAll('.ids-layout-row-start').length).toEqual(1);
+    expect(document.querySelectorAll('.ids-layout-grid-row-start').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-row-start: 4;`);
   });
 
@@ -180,7 +180,7 @@ describe('IdsLayoutGrid Component', () => {
     col.rowEnd = 4;
     document.body.appendChild(col);
     expect(col.rowEnd).toEqual('4');
-    expect(document.querySelectorAll('.ids-layout-row-end').length).toEqual(1);
+    expect(document.querySelectorAll('.ids-layout-grid-row-end').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-row-end: 4;`);
   });
 });
