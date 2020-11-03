@@ -1,4 +1,6 @@
 // Import All Components Used in the Page
+import IdsButton from '../src/ids-button/ids-button';
+import IdsToggleButton from '../src/ids-toggle-button/ids-toggle-button';
 import IdsLabel from '../src/ids-label/ids-label';
 import IdsIcon from '../src/ids-icon/ids-icon';
 import IdsPopup from '../src/ids-popup/ids-popup';
@@ -10,6 +12,7 @@ import IdsTriggerField from '../src/ids-trigger-field/ids-trigger-field';
 import IdsTriggerButton from '../src/ids-trigger-button/ids-trigger-button';
 
 // Import Example Code
+import './ids-button/index.js'; // eslint-disable-line
 import './ids-icon/index.js'; //eslint-disable-line
 import './ids-popup/index.js'; //eslint-disable-line
 import './ids-trigger-field/index.js'; //eslint-disable-line

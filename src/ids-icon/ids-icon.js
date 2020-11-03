@@ -1,5 +1,6 @@
 import pathData from 'ids-identity/dist/theme-uplift/icons/standard/path-data.json';
-import { IdsElement, customElement } from '../ids-base/ids-element';
+import { IdsElement, scss, customElement } from '../ids-base/ids-element';
+import styles from './ids-icon.scss';
 
 // Setting Defaults
 const sizes = {
@@ -13,6 +14,7 @@ const sizes = {
  * IDS Icon Component
  */
 @customElement('ids-icon')
+@scss(styles)
 class IdsIcon extends IdsElement {
   constructor() {
     super();

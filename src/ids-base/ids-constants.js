@@ -19,7 +19,11 @@ export const props = {
   ROW_SPAN: 'row-span',
   ROW_START: 'row-start',
   ROW_END: 'row-end',
-  NO_MARGINS: 'no-margins'
+  NO_MARGINS: 'no-margins',
+  CSS_CLASS: 'css-class',
+  DISABLED: 'disabled',
+  FOCUSABLE: 'focusable',
+  TEXT: 'text'
 };
 
 export const prefix = {
