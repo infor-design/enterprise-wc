@@ -13,13 +13,15 @@ const webpack = require('webpack');
 module.exports = {
   entry: {
     index: ['./app/index.js'],
+    'ids-button/ids-button': ['./app/ids-button/index.js'],
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
     'ids-label/ids-label': ['./app/ids-label/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
     'ids-popup/ids-popup': ['./app/ids-popup/index.js'],
     'ids-popup/test-sandbox': ['./app/ids-popup/test-sandbox.js'],
     'ids-popup/test-target-in-grid': ['./app/ids-popup/test-target-in-grid.js'],
-    'ids-tag/ids-tag': ['./app/ids-tag/index.js']
+    'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
+    'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js'],
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -118,6 +120,41 @@ module.exports = {
       inject: 'body',
       title: 'IDS Enterprise Web Components',
       chunks: ['index']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-button/index.html',
+      inject: 'body',
+      filename: 'ids-button/index.html',
+      title: 'IDS Button Component',
+      chunks: ['ids-button/ids-button']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-button/icon-button.html',
+      inject: 'body',
+      filename: 'ids-button/icon-button',
+      chunks: ['ids-button/ids-button', 'ids-button/icon-button'],
+      title: 'IDS Icon Button Component'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-button/disabled-button.html',
+      inject: 'body',
+      filename: 'ids-button/disabled-button',
+      chunks: ['ids-button/ids-button', 'ids-button/disabled-button'],
+      title: 'IDS Button Component (disabled state)'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-button/index.html',
+      inject: 'body',
+      filename: 'ids-toggle-button/index.html',
+      chunks: ['ids-button/ids-button', 'ids-toggle-button/ids-toggle-button'],
+      title: 'IDS Toggle Button Component'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-button/test-fallback-slot.html',
+      inject: 'body',
+      filename: 'ids-button/test-fallback-slot',
+      chunks: ['ids-button/ids-button'],
+      title: 'IDS Button Component using an unnamed slot for content'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-tag/index.html',
