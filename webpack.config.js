@@ -22,6 +22,7 @@ module.exports = {
     'ids-popup/test-target-in-grid': ['./app/ids-popup/test-target-in-grid.js'],
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js'],
+    'ids-render-loop/ids-render-loop': ['./app/ids-render-loop/index.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -238,6 +239,13 @@ module.exports = {
       filename: 'ids-popup/test-target-in-grid',
       chunks: ['ids-popup/test-target-in-grid'],
       title: 'Popup Test - Align Target inside a Layout Grid'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-render-loop/index.html',
+      inject: 'body',
+      filename: 'ids-render-loop/index.html',
+      chunks: ['ids-render-loop/ids-render-loop'],
+      title: 'IDS RenderLoop'
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),

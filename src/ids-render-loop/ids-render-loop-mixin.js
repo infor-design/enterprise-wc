@@ -30,6 +30,7 @@ const IdsRenderLoopMixin = {
 
     if (!this.rl) {
       this.rl = window.Ids.renderLoop;
+      this.rl.updated(settings);
     }
   },
 

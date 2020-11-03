@@ -27,7 +27,7 @@ class IdsRenderLoopItem extends Object {
     // `updateCallback()`, if defined
     this.updateDuration = opts.updateDuration || 1;
     if (this.updateDuration > 0) {
-      this.timeUntilNextUpdate = this.updateDuration;
+      this.setNextUpdateTime();
     }
 
     // handles the setting of user-defined callback functions
@@ -35,8 +35,8 @@ class IdsRenderLoopItem extends Object {
 
     // Internal state
     this.paused = false;
-    this.elapsedTime = 0;
     this.startTime = timestamp();
+    this.totalStoppedTime = 0;
 
     return this;
   }
@@ -52,12 +52,21 @@ class IdsRenderLoopItem extends Object {
     }
 
     if (typeof opts.updateCallback === 'function') {
-      this.updateCallback = opts.updateCallback;
+      this.updateCallback = opts.updateCallback.bind(this);
     }
 
     if (typeof opts.timeoutCallback === 'function') {
-      this.timeoutCallback = opts.timeoutCallback;
+      this.timeoutCallback = opts.timeoutCallback.bind(this);
     }
+  }
+
+  /**
+   * Appends the update duration to a current timestamp and stores it, to define
+   * when this item will next run its update callback.
+   * @returns {void}
+   */
+  setNextUpdateTime() {
+    this.nextUpdateTime = timestamp() + this.updateDuration;
   }
 
   /**
@@ -76,6 +85,7 @@ class IdsRenderLoopItem extends Object {
    */
   pause() {
     this.paused = true;
+    this.lastPauseTime = timestamp();
   }
 
   /**
@@ -83,28 +93,20 @@ class IdsRenderLoopItem extends Object {
    * @returns {void}
    */
   resume() {
+    this.resumeTime = timestamp();
+    if (this.lastPauseTime) {
+      this.totalStoppedTime += this.resumeTime - this.lastPauseTime;
+      delete this.lastPauseTime;
+    }
     this.paused = false;
   }
 
   /**
-   * Increases this item's tracking of elapsed time in the loop, as well as
-   * how many more frames exist until an update callback occurs.
-   * @returns {void}
+   * @readonly
+   * @returns {number} the elapsed time this RenderLoop item has existed for
    */
-  count() {
-    // Always add to elapsed time
-    this.elapsedTime++;
-
-    // If this item updates on a step value, subtract from the internal count
-    // until it hits zero. When changing count on 0, the update time resets.
-    if (typeof this.timeUntilNextUpdate === 'number') {
-      if (this.timeUntilNextUpdate === 0) {
-        this.timeUntilNextUpdate = this.updateDuration;
-      }
-      if (this.timeUntilNextUpdate > 0) {
-        --this.timeUntilNextUpdate;
-      }
-    }
+  get elapsedTime() {
+    return timestamp() - (this.startTime + this.totalStoppedTime);
   }
 
   /**
@@ -112,20 +114,23 @@ class IdsRenderLoopItem extends Object {
    * @returns {boolean} true if the item's `updateCallback` will be fired on this renderLoop tick
    */
   get canUpdate() {
-    return typeof this.timeUntilNextUpdate === 'number' && this.timeUntilNextUpdate === 0;
+    return typeof this.nextUpdateTime === 'number' && timestamp() > this.nextUpdateTime;
   }
 
   /**
    * Fires a defined `updateCallback()` under the right conditions
-   * @param {...Array<any>} [callbackArgs] gets passed to an `updateCallback`
+   * @param {object} timeInfo containing raw time information from the loop (last, delta, now)
+   * @param {...Array<any>} [callbackArgs] user-defined parameters that get passed
+   *  to an `updateCallback()` method.
    * @returns {void}
    */
-  update(...callbackArgs) {
+  update(timeInfo, ...callbackArgs) {
     if (typeof this.updateCallback !== 'function' || !this.canUpdate) {
       return;
     }
 
-    this.updateCallback(callbackArgs);
+    // NOTE: This runs in this `IdsRenderLoopItem`s context
+    this.updateCallback(timeInfo, ...callbackArgs);
   }
 
   /**
@@ -137,6 +142,7 @@ class IdsRenderLoopItem extends Object {
       return;
     }
 
+    // NOTE: This runs in this `IdsRenderLoopItem`s context
     this.timeoutCallback();
   }
 
