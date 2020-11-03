@@ -1,0 +1,46 @@
+<ids-layout-grid cols="3" gap="md">
+  <ids-layout-grid-cell>
+    <ids-label font-size="12" type="h2">Ids Input</ids-label>
+
+    <ids-input type="text" label="First Name" name="first-name" placeholder="Normal text Field"></ids-input>
+
+    <ids-input type="text" label="Last Name" name="last-name" validate="required"></ids-input>
+
+    <ids-input type="text" label="Email Address" name="email-address" placeholder="Company@address.com" validate="email required"></ids-input>
+
+    <ids-input type="text" label="Disabled" disabled="true" value="Field not editable" name="department"></ids-input>
+
+    <ids-input type="text" label="Readonly" readonly="true" value="02006" name="department-code"></ids-input>
+
+    <ids-input type="text" label="Dirty Tracking" dirty-tracker="true" placeholder="Dirty Tracking" name="department-code-dirty-tracker"></ids-input>
+
+  </ids-layout-grid-cell>
+
+  <!-- Sizes -->
+  <ids-layout-grid-cell>
+    <ids-label font-size="12" type="h2">Ids Input - Sizes</ids-label>
+
+    <!-- sizes: [xs, sm, mm, md, lg, full] -->
+    <ids-input size="xs" label="Xtra Small"></ids-input>
+    <ids-input size="sm" label="Small"></ids-input>
+    <ids-input size="mm" label="Small - Medium"></ids-input>
+    <ids-input size="md" label="Medium"></ids-input>
+
+  </ids-layout-grid-cell>
+
+  <!-- Enable, Disable, Readonly -->
+  <ids-layout-grid-cell>
+    <ids-label font-size="12" type="h2">Input - Enable/ Disable/ Readonly</ids-label>
+    <ids-input id="input-toggle-state" label="Text Field" value="Some text"></ids-input>
+
+    <ids-button id="btn-input-enable" type="secondary">
+      <span slot="text">Enable</span>
+    </ids-button>
+    <ids-button id="btn-input-disable" type="secondary">
+      <span slot="text">Disable</span>
+    </ids-button>
+    <ids-button id="btn-input-readonly" type="secondary">
+      <span slot="text">Readonly</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>

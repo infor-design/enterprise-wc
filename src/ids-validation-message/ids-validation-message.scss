@@ -1,0 +1,29 @@
+@import '../ids-base/ids-base';
+
+.ids-validation-message {
+  @include antialiased();
+  @include font-sans();
+
+  display: flex;
+
+  .ids-icon {
+    @include mb-4();
+    @include mr-4();
+  }
+}
+
+:host([type='alert']) {
+  @include text-alert-warning();
+}
+
+:host([type='error']) {
+  @include text-alert-danger();
+}
+
+:host([type='info']) {
+  @include text-alert-info();
+}
+
+:host([type='success']) {
+  @include text-alert-success();
+}

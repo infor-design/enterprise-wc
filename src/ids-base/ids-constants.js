@@ -23,7 +23,18 @@ export const props = {
   CSS_CLASS: 'css-class',
   DISABLED: 'disabled',
   FOCUSABLE: 'focusable',
-  TEXT: 'text'
+  TEXT: 'text',
+  SIZE: 'size',
+  FONT_SIZE: 'font-size',
+  REQUIRED: 'required',
+  AUDIBLE: 'audible',
+  VALIDATE: 'validate',
+  VALUE: 'value',
+  LABEL: 'label',
+  LABEL_FONT_SIZE: 'label-font-size',
+  DIRTY_TRACKER: 'dirty-tracker',
+  READONLY: 'readonly',
+  NAME: 'name'
 };
 
 export const prefix = {

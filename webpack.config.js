@@ -15,6 +15,7 @@ module.exports = {
     index: ['./app/index.js'],
     'ids-button/ids-button': ['./app/ids-button/index.js'],
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
+    'ids-input/ids-input': ['./app/ids-input/index.js'],
     'ids-label/ids-label': ['./app/ids-label/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
     'ids-popup/ids-popup': ['./app/ids-popup/index.js'],
@@ -22,6 +23,7 @@ module.exports = {
     'ids-popup/test-target-in-grid': ['./app/ids-popup/test-target-in-grid.js'],
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js'],
+    'ids-validation-message/ids-validation-message': ['./app/ids-validation-message/index.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -171,6 +173,13 @@ module.exports = {
       chunks: ['ids-icon/ids-icon', 'ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
     }),
     new HTMLWebpackPlugin({
+      template: './app/ids-input/index.html',
+      inject: 'body',
+      filename: 'ids-input/index.html',
+      title: 'IDS Input Component',
+      chunks: ['ids-input/ids-input']
+    }),
+    new HTMLWebpackPlugin({
       template: './app/ids-label/index.html',
       inject: 'body',
       filename: 'ids-label/index.html',
@@ -238,6 +247,13 @@ module.exports = {
       filename: 'ids-popup/test-target-in-grid',
       chunks: ['ids-popup/test-target-in-grid'],
       title: 'Popup Test - Align Target inside a Layout Grid'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-validation-message/index.html',
+      inject: 'body',
+      filename: 'ids-validation-message/index.html',
+      title: 'IDS Validation Message',
+      chunks: ['ids-validation-message/ids-validation-message']
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),

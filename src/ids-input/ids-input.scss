@@ -1,8 +1,126 @@
 @import '../ids-base/ids-base';
+@import '../ids-base/ids-dirty-tracker-mixin';
+
+// Field Sizes
+$input-size-xs: 75px;
+$input-size-sm: 150px;
+$input-size-mm: 225px;
+$input-size-md: 300px;
+$input-size-lg: 400px;
+$input-size-full: 100%;
+
+// Set default size
+$input-size-default: $input-size-md;
+
+:host {
+  @include block();
+  @include mb-16();
+}
+
+.ids-input-label {
+  @include text-slate-60();
+
+  align-items: baseline;
+  display: flex;
+
+  &.required {
+    margin-top: -4px;
+
+    &::after {
+      @include relative();
+      @include font-sans();
+      @include mx-2();
+      @include text-20();
+      @include text-alert-danger();
+
+      content: '*';
+      top: 1px;
+    }
+
+    &.disabled::after {
+      @include text-ruby-30();
+    }
+  }
+
+  &.disabled {
+    @include text-slate-30();
+  }
+}
 
 .ids-input-field {
+  @include antialiased();
+  @include bg-white();
   @include box-border();
-  @include px-8();
-  @include py-8();
-  @include w-full();
+  @include border-1();
+  @include border-slate-40();
+  @include border-solid();
+  @include mb-4();
+  @include p-8();
+  @include rounded-default();
+  @include text-14();
+  @include text-black();
+
+  -webkit-appearance: none;
+  border-collapse: separate;
+  border-radius: 2px;
+  display: inline-block;
+  height: 38px;
+  max-width: 100%;
+  resize: none;
+  text-align: left;
+  width: $input-size-default;
+
+  &:hover {
+    @include border-slate-90();
+  }
+
+  &:focus {
+    @include border-azure-60();
+    @include shadow();
+
+    outline: none;
+    outline-color: transparent;
+  }
+
+  &[disabled] {
+    @include border-slate-30();
+    @include text-slate-30();
+  }
+
+  &[readonly] {
+    @include bg-slate-20();
+    @include border-1();
+    @include border-solid();
+    @include border-slate-40();
+    @include rounded-default();
+    @include text-black();
+
+    padding-bottom: 9px;
+    padding-top: 9px;
+  }
+
+  // input sizes: [xs, sm, mm, md, lg, full]
+  &.xs {
+    width: $input-size-xs;
+  }
+
+  &.sm {
+    width: $input-size-sm;
+  }
+
+  &.mm {
+    width: $input-size-mm;
+  }
+
+  &.md {
+    width: $input-size-md;
+  }
+
+  &.lg {
+    width: $input-size-lg;
+  }
+
+  &.full {
+    width: $input-size-full;
+  }
 }
