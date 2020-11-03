@@ -74,6 +74,20 @@ class IdsRenderLoop {
     this.doLoop = false;
 
     /**
+     * @property {number} totalStoppedTime records the total number of stopped ticks
+     */
+    this.totalStoppedTime = 0;
+
+    this.handleSettings(settings);
+  }
+
+  /**
+   * @private
+   * @param {object} [settings] incoming settings
+   * @returns {void}
+   */
+  handleSettings(settings) {
+    /**
      * @property {HTMLElement} element used as the target for renderloop DOM events.
      */
     if (settings.eventTargetElement instanceof HTMLElement) {
@@ -91,11 +105,23 @@ class IdsRenderLoop {
    */
   start() {
     this.doLoop = true;
+    let resume = false;
 
     /**
      * @property {number} startTime contains a timestamp number for when the loop begins.
      */
-    this.startTime = timestamp();
+    if (!this.startTime) {
+      this.startTime = timestamp();
+    }
+
+    // If the loop was previously stopped, record some timestamps
+    // about when it resumed, and the pause duration.
+    if (this.lastStopTime) {
+      resume = true;
+      this.resumeTime = timestamp();
+      this.totalStoppedTime += this.resumeTime - this.lastStopTime;
+      delete this.lastStopTime;
+    }
 
     const self = this;
     let last = timestamp();
@@ -126,9 +152,13 @@ class IdsRenderLoop {
           return;
         }
 
-        // Add to elapsedTime
-        if (!loopItem.paused) {
-          loopItem.count();
+        if (resume) {
+          loopItem.resume();
+        }
+
+        // Return out if we're "paused"
+        if (loopItem.paused) {
+          return;
         }
 
         // Check duration
@@ -143,20 +173,22 @@ class IdsRenderLoop {
           }
         }
 
-        // Arguments produced for the updateCallback contain:
-        // [0] the current RenderLoopItem
-        // [1] overall timing values for the RenderLoop
-        const modifiedArgs = [loopItem, {
+        // Pass information about current timing
+        // last = previous timestamp
+        // now = current timestamp
+        // delta = difference between the two
+        const timeInfo = {
           last,
           delta: deltaTime,
           now
-        }];
+        };
 
-        loopItem.update(modifiedArgs);
+        loopItem.update(timeInfo);
       });
 
       // Continue the loop
       last = now;
+      resume = false;
       requestAnimationFrame(tick);
     }
 
@@ -169,13 +201,19 @@ class IdsRenderLoop {
    */
   stop() {
     this.doLoop = false;
+    this.lastStopTime = timestamp();
+
+    this.items.forEach((loopItem) => {
+      loopItem.pause();
+    });
   }
 
   /**
+   * @readonly
    * @returns {number} amount of time that has passed since the RenderLoop was started.
    */
-  totalDuration() {
-    return timestamp() - this.startTime;
+  get elapsedTime() {
+    return timestamp() - (this.startTime + this.totalStoppedTime);
   }
 
   /**
@@ -352,6 +390,17 @@ class IdsRenderLoop {
     resumableItem.resume();
 
     return resumableItem;
+  }
+
+  /**
+   * Passes in new/updated settings to the RenderLoop instance
+   * @param {object} [settings] incoming settings.
+   * @returns {void}
+   */
+  updated(settings) {
+    if (typeof settings === 'object') {
+      this.handleSettings(settings);
+    }
   }
 }
 

@@ -1,5 +1,5 @@
 /**
- * Gets an accurate timestamp from the system.
+ * Gets an accurate, current timestamp from the system.
  * @private
  * @returns {number} a current timestamp
  */
