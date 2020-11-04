@@ -1,10 +1,12 @@
+@import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
+
 // ========================================
 // RenderLoop example styles
 
 #renderloop-countdown {
-  font-weight: 700;
+  @include font-bold();
 
   &.done {
-    color: var(--ids-color-palette-ruby-90);
+    @include text-ruby-70();
   }
 }

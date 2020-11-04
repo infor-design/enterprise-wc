@@ -25,7 +25,8 @@ module.exports = {
     'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js'],
     'ids-validation-message/ids-validation-message': ['./app/ids-validation-message/index.js'],
     'ids-render-loop/ids-render-loop': ['./app/ids-render-loop/index.js'],
-    'ids-render-loop/test-elapsed-time': ['./app/ids-render-loop/test-elapsed-time.js']
+    'ids-render-loop/test-elapsed-time': ['./app/ids-render-loop/test-elapsed-time.js'],
+    'ids-render-loop/test-flying-popup': ['./app/ids-render-loop/test-flying-popup.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -269,7 +270,14 @@ module.exports = {
       inject: 'body',
       filename: 'ids-render-loop/test-elapsed-time',
       chunks: ['ids-render-loop/test-elapsed-time'],
-      title: 'IDS RenderLoop'
+      title: 'RenderLoop Test - Elapsed Time'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-render-loop/test-flying-popup.html',
+      inject: 'body',
+      filename: 'ids-render-loop/test-flying-popup',
+      chunks: ['ids-render-loop/test-flying-popup'],
+      title: 'RenderLoop Test - Flying Popup'
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),
