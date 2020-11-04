@@ -1,5 +1,6 @@
 import pathData from 'ids-identity/dist/theme-uplift/icons/standard/path-data.json';
 import { IdsElement, scss, customElement } from '../ids-base/ids-element';
+import { props } from '../ids-base/ids-constants';
 import styles from './ids-icon.scss';
 
 // Setting Defaults
@@ -25,7 +26,7 @@ class IdsIcon extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['icon', 'size'];
+    return [props.ICON, props.SIZE];
   }
 
   /**
@@ -34,7 +35,7 @@ class IdsIcon extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const size = sizes[this.size];
+    const size = sizes[this.size] || sizes.normal;
     return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
       ${this.iconData()}
     </svg>`;
@@ -52,14 +53,14 @@ class IdsIcon extends IdsElement {
    * Return the icon name
    * @returns {string} the path data
    */
-  get icon() { return this.getAttribute('icon'); }
+  get icon() { return this.getAttribute(props.ICON); }
 
   set icon(value) {
     if (value) {
-      this.setAttribute('icon', value);
+      this.setAttribute(props.ICON, value);
       this.shadowRoot.querySelector('svg').innerHTML = this.iconData();
     } else {
-      this.removeAttribute('icon');
+      this.removeAttribute(props.ICON);
       this.shadowRoot.querySelector('svg')?.remove();
     }
   }
@@ -68,15 +69,16 @@ class IdsIcon extends IdsElement {
    * Return the size. May be large, normal/medium or small
    * @returns {string} the path data
    */
-  get size() { return this.getAttribute('size') || 'normal'; }
+  get size() { return this.getAttribute(props.SIZE) || 'normal'; }
 
   set size(value) {
     if (value) {
-      this.setAttribute('size', value);
-      this.shadowRoot.querySelector('svg').setAttribute('height', sizes[this.size]);
-      this.shadowRoot.querySelector('svg').setAttribute('width', sizes[this.size]);
+      const size = sizes[this.size] || sizes.normal;
+      this.setAttribute(props.SIZE, value);
+      this.shadowRoot.querySelector('svg').setAttribute('height', size);
+      this.shadowRoot.querySelector('svg').setAttribute('width', size);
     } else {
-      this.removeAttribute('size');
+      this.removeAttribute(props.SIZE);
     }
   }
 }
