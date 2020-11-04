@@ -9,7 +9,8 @@ import IdsButton from '../../src/ids-button/ids-button';
 // Styles
 import './index.scss';
 
-// Setup
+// Setup access to the global RenderLoop instance.
+// When actually using the mixin, the `rl` property exists on the component and provides access.
 const rlMixin = IdsRenderLoopMixin;
 rlMixin.setupRenderLoop();
 const renderLoop = rlMixin.rl;
@@ -28,6 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (timer) {
       timer.destroy(true);
     }
+
+    countdownSpan.classList.remove('done');
 
     // Create a RenderLoop item that updates a countdown number on its callback
     timer = new IdsRenderLoopItem({

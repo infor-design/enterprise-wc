@@ -131,6 +131,7 @@ class IdsRenderLoopItem extends Object {
 
     // NOTE: This runs in this `IdsRenderLoopItem`s context
     this.updateCallback(timeInfo, ...callbackArgs);
+    this.setNextUpdateTime();
   }
 
   /**

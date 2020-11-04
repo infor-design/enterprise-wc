@@ -6,6 +6,8 @@ import IdsLayoutGridCell from '../../src/ids-layout-grid/ids-layout-grid-cell';
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
 
+// Setup access to the global RenderLoop instance.
+// When actually using the mixin, the `rl` property exists on the component and provides access.
 const rlMixin = IdsRenderLoopMixin;
 rlMixin.setupRenderLoop();
 const renderLoop = rlMixin.rl;
