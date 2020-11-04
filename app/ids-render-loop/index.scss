@@ -1,0 +1,10 @@
+// ========================================
+// RenderLoop example styles
+
+#renderloop-countdown {
+  font-weight: 700;
+
+  &.done {
+    color: var(--ids-color-palette-ruby-90);
+  }
+}

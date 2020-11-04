@@ -10,9 +10,11 @@ import IdsLayoutGridCell from '../src/ids-layout-grid/ids-layout-grid-cell';
 import IdsInput from '../src/ids-input/ids-input';
 import IdsTriggerField from '../src/ids-trigger-field/ids-trigger-field';
 import IdsTriggerButton from '../src/ids-trigger-button/ids-trigger-button';
+import IdsRenderLoopMixin from '../src/ids-render-loop/ids-render-loop-mixin';
 
 // Import Example Code
-import './ids-button/index.js'; // eslint-disable-line
-import './ids-icon/index.js'; //eslint-disable-line
-import './ids-popup/index.js'; //eslint-disable-line
-import './ids-trigger-field/index.js'; //eslint-disable-line
+import './ids-button/index';
+import './ids-icon/index';
+import './ids-popup/index';
+import './ids-render-loop/index';
+import './ids-trigger-field/index';
