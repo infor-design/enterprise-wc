@@ -4,46 +4,12 @@
 
 <ids-layout-grid cols="2" gap="md">
   <ids-layout-grid-cell>
-    <ids-label font-size="16">RenderLoop Elapsed Time:</ids-label>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell>
-    <span id="renderloop-elapsed-time">0</span>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-
-<ids-layout-grid cols="2" gap="md">
-  <ids-layout-grid-cell>
-    <ids-label font-size="16">RenderLoop Total Stopped Time:</ids-label>
-    <ids-label font-size="12">(only updates when the loop runs)</ids-label>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell>
-    <span id="renderloop-stopped-time">0</span>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-
-<ids-layout-grid cols="2" gap="md">
-  <ids-layout-grid-cell>
-    <ids-label font-size="16">Item Elapsed Time:</ids-label>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell>
-    <span id="item-elapsed-time">0</span>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-
-<ids-layout-grid cols="2" gap="md">
-  <ids-layout-grid-cell>
-    <ids-label font-size="16">Item Total Paused Time:</ids-label>
-    <ids-label font-size="12">(only updates when the item is not paused)</ids-label>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell>
-    <span id="item-paused-time">0</span>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-
-<!-- Playback controls -->
-<ids-layout-grid>
-  <ids-layout-grid-cell>
-    <ids-toggle-button id="loop-playback-btn" icon-off="play" icon-on="pause" text-off="Play Loop" text-on="Pause Loop" pressed="true"></ids-toggle-button>
-    <ids-toggle-button id="item-playback-btn" icon-off="play" icon-on="pause" text-off="Play Item" text-on="Pause Item" pressed="true"></ids-toggle-button>
+    <p>
+      <ids-label id="renderloop-countdown" font-size="48">1000</ids-label>
+    </p>
+    
+    <ids-button id="countdown-trigger-btn" type="primary">
+      <span>Trigger a Countdown</span>
+    </ids-button>
   </ids-layout-grid-cell>
 </ids-layout-grid>

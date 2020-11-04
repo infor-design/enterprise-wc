@@ -24,7 +24,8 @@ module.exports = {
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js'],
     'ids-validation-message/ids-validation-message': ['./app/ids-validation-message/index.js'],
-    'ids-render-loop/ids-render-loop': ['./app/ids-render-loop/index.js']
+    'ids-render-loop/ids-render-loop': ['./app/ids-render-loop/index.js'],
+    'ids-render-loop/test-elapsed-time': ['./app/ids-render-loop/test-elapsed-time.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -261,6 +262,13 @@ module.exports = {
       inject: 'body',
       filename: 'ids-render-loop/index.html',
       chunks: ['ids-render-loop/ids-render-loop'],
+      title: 'IDS RenderLoop'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-render-loop/test-elapsed-time.html',
+      inject: 'body',
+      filename: 'ids-render-loop/test-elapsed-time',
+      chunks: ['ids-render-loop/test-elapsed-time'],
       title: 'IDS RenderLoop'
     }),
     // Show Style Lint Errors in the console and fail
