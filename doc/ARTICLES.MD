@@ -1,6 +1,6 @@
 # Resources and Articles
 
-A curated list of resources related to this project
+A curated list of resources related to this project and web components.
 
 ## Js / Webcomponent
 
