@@ -10,21 +10,21 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnEnable = document.querySelector('#btn-input-enable');
   const btnDisable = document.querySelector('#btn-input-disable');
   const btnReadonly = document.querySelector('#btn-input-readonly');
-  const inputToggleState = document.querySelector('#input-toggle-state') || {};
+  const input = document.querySelector('#input-toggle-state') || {};
 
   // Enable
   btnEnable?.addEventListener('click', () => {
-    inputToggleState.disabled = false;
-    inputToggleState.readonly = false;
+    input.disabled = false;
+    input.readonly = false;
   });
 
   // Disable
   btnDisable?.addEventListener('click', () => {
-    inputToggleState.disabled = true;
+    input.disabled = true;
   });
 
   // Readonly
   btnReadonly?.addEventListener('click', () => {
-    inputToggleState.readonly = true;
+    input.readonly = true;
   });
 });

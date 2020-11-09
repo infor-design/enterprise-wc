@@ -7,50 +7,50 @@ import IdsText from '../../src/ids-text/ids-text';
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const inputValidationError = document.querySelector('#input-validation-error');
-  const inputValidationAlert = document.querySelector('#input-validation-alert');
-  const inputValidationSuccess = document.querySelector('#input-validation-success');
-  const inputValidationInfo = document.querySelector('#input-validation-info');
-  const inputValidationIconDefault = document.querySelector('#input-validation-icon-default');
-  const inputValidationIconCustom = document.querySelector('#input-validation-icon-custom');
+  const inputError = document.querySelector('#input-validation-error');
+  const inputAlert = document.querySelector('#input-validation-alert');
+  const inputSuccess = document.querySelector('#input-validation-success');
+  const inputInfo = document.querySelector('#input-validation-info');
+  const inputIconDefault = document.querySelector('#input-validation-icon-default');
+  const inputIconCustom = document.querySelector('#input-validation-icon-custom');
 
   // Error
-  inputValidationError?.addMessage({
+  inputError?.addMessage({
     message: 'Something is wrong do not continue',
     type: 'error',
     id: 'error'
   });
 
   // Alert
-  inputValidationAlert?.addMessage({
+  inputAlert?.addMessage({
     message: 'Warning the value may be incorrect',
     type: 'alert',
     id: 'alert'
   });
 
   // Success
-  inputValidationSuccess?.addMessage({
+  inputSuccess?.addMessage({
     message: 'This value is correct',
     type: 'success',
     id: 'success'
   });
 
   // Info
-  inputValidationInfo?.addMessage({
+  inputInfo?.addMessage({
     message: 'Random information about this field',
     type: 'info',
     id: 'info'
   });
 
   // Icon default
-  inputValidationIconDefault?.addMessage({
+  inputIconDefault?.addMessage({
     message: 'Something about your user profile',
     type: 'icon',
     id: 'icon-default'
   });
 
   // Icon custom (mail)
-  inputValidationIconCustom?.addMessage({
+  inputIconCustom?.addMessage({
     message: 'Something about your mail information',
     type: 'icon',
     id: 'icon-custom',
