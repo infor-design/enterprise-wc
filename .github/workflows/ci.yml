@@ -48,7 +48,7 @@ jobs:
         test_command: "npm run test:coverage"
 
     - name: Run Percy Tests
-      uses: percy/exec-action@v0.3.0
+      uses: percy/exec-action@v0.3.1
       with:
         command: "npm run test:ci"
       env:
