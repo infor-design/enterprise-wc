@@ -78,10 +78,7 @@ class IdsInput extends IdsElement {
    */
   connectedCallBack() {
     this.input = this.shadowRoot.querySelector(`#${ID}`);
-    this.label = this.shadowRoot.querySelector(`[for="${ID}"]`);
-
-    this.handleDirtyTracker();
-    this.handleValidation();
+    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
   }
 
   /**
@@ -104,7 +101,7 @@ class IdsInput extends IdsElement {
 
     return `
       <label for="${ID}"${labelClass}>
-        <ids-label${labelFontSize}>${this.labelText}</ids-label>
+        <ids-text${labelFontSize}>${this.label}</ids-text>
       </label>
       <input id="${ID}"${fieldName}${type}${inputClass}${value}${placeholder}${inputState} />
     `;
@@ -118,6 +115,7 @@ class IdsInput extends IdsElement {
    */
   setInputState(prop) {
     if (prop === props.READONLY || prop === props.DISABLED) {
+      const msgNodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
       const options = {
         prop1: prop,
         prop2: prop !== props.READONLY ? props.READONLY : props.DISABLED,
@@ -125,13 +123,16 @@ class IdsInput extends IdsElement {
       };
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
-        this.label?.classList.remove(options.prop2);
+        this.labelEl?.classList.remove(options.prop2);
+        msgNodes.forEach((x) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, true);
-        this.label?.classList.add(options.prop1);
+        this.labelEl?.classList.add(options.prop1);
+        msgNodes.forEach((x) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
-        this.label?.classList.remove(options.prop1);
+        this.labelEl?.classList.remove(options.prop1);
+        msgNodes.forEach((x) => x.classList.remove(options.prop1));
       }
     }
   }
@@ -144,9 +145,10 @@ class IdsInput extends IdsElement {
     if (value) {
       const val = this.stringToBool(value);
       this.setAttribute(props.DIRTY_TRACKER, val);
-      return;
+    } else {
+      this.removeAttribute(props.DIRTY_TRACKER);
     }
-    this.removeAttribute(props.DIRTY_TRACKER);
+    this.handleDirtyTracker();
   }
 
   get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
@@ -199,15 +201,23 @@ class IdsInput extends IdsElement {
    * Set the `label` text of input label
    * @param {string} value of the `label` text property
    */
-  set labelText(value) {
+  set label(value) {
+    const setLabelText = () => {
+      const labelText = this.shadowRoot.querySelector(`[for="${ID}"] ids-text`);
+      if (labelText) {
+        labelText.innerHTML = value || '';
+      }
+    };
     if (value) {
       this.setAttribute(props.LABEL, value);
+      setLabelText();
       return;
     }
     this.removeAttribute(props.LABEL);
+    setLabelText();
   }
 
-  get labelText() { return this.getAttribute(props.LABEL) || ''; }
+  get label() { return this.getAttribute(props.LABEL) || ''; }
 
   /**
    * Set the `placeholder` of input
@@ -244,11 +254,12 @@ class IdsInput extends IdsElement {
    * @param {string} value [xs, sm, mm, md, lg, full]
    */
   set size(value) {
-    if (SIZES[value]) {
-      this.setAttribute(props.SIZE, SIZES[value]);
-      return;
+    const size = SIZES[value];
+    this.setAttribute(props.SIZE, size || SIZES.default);
+    if (this.input) {
+      this.input.classList.remove(...Object.values(SIZES));
+      this.input.classList.add(size || SIZES.default);
     }
-    this.setAttribute(props.SIZE, SIZES.default);
   }
 
   get size() { return this.getAttribute(props.SIZE) || SIZES.default; }
@@ -271,12 +282,13 @@ class IdsInput extends IdsElement {
    * Set `validate` attribute
    * @param {string} value The `validate` attribute
    */
-  set validate(value) {
+  set validate(value) { // this.handleValidation();
     if (value) {
       this.setAttribute(props.VALIDATE, value);
-      return;
+    } else {
+      this.removeAttribute(props.VALIDATE);
     }
-    this.removeAttribute(props.VALIDATE);
+    this.handleValidation();
   }
 
   get validate() { return this.getAttribute(props.VALIDATE); }

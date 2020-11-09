@@ -4,14 +4,14 @@ import {
   scss
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
-import styles from './ids-label.scss';
+import styles from './ids-text.scss';
 
 /**
- * IDS Label Component
+ * IDS Text Component
  */
-@customElement('ids-label')
+@customElement('ids-text')
 @scss(styles)
-class IdsLabel extends IdsElement {
+class IdsText extends IdsElement {
   constructor() {
     super();
   }
@@ -30,7 +30,7 @@ class IdsLabel extends IdsElement {
    */
   template() {
     const tag = this.type || 'span';
-    let classList = 'ids-label';
+    let classList = 'ids-text';
     classList += this.audible ? ' audible' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
     classList = ` class="${classList}"`;
@@ -44,13 +44,13 @@ class IdsLabel extends IdsElement {
    */
   rerender() {
     const template = document.createElement('template');
-    this.shadowRoot.querySelector('.ids-label').remove();
+    this.shadowRoot.querySelector('.ids-text').remove();
     template.innerHTML = this.template();
     this.shadowRoot.appendChild(template.content.cloneNode(true));
   }
 
   /**
-   * Set the font size/style of the label with a class.
+   * Set the font size/style of the text with a class.
    * @param {string} value The font size in the font scheme i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set fontSize(value) {
@@ -62,13 +62,13 @@ class IdsLabel extends IdsElement {
 
     this.removeAttribute(props.FONT_SIZE);
     this.container.className = '';
-    this.container.classList.add('ids-label');
+    this.container.classList.add('ids-text');
   }
 
   get fontSize() { return this.getAttribute(props.FONT_SIZE); }
 
   /**
-   * Set the type of object it is (h1-h6, label, span (default))
+   * Set the type of object it is (h1-h6, span (default))
    * @param {string} value The font size in the font scheme i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set type(value) {
@@ -101,4 +101,4 @@ class IdsLabel extends IdsElement {
   get audible() { return this.getAttribute(props.AUDIBLE); }
 }
 
-export default IdsLabel;
+export default IdsText;

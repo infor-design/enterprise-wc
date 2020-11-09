@@ -1,4 +1,4 @@
-/* Ids Label Css */
+/* Ids Text Css */
 @import '../ids-base/ids-base';
 
 @mixin audible {
@@ -14,7 +14,7 @@
   width: 1px;
 }
 
-.ids-label {
+.ids-text {
   @include antialiased();
   @include font-sans();
   @include block();

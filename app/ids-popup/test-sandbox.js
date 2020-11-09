@@ -1,6 +1,6 @@
 import IdsPopup from '../../src/ids-popup/ids-popup';
 import IdsInput from '../../src/ids-input/ids-input';
-import IdsLabel from '../../src/ids-label/ids-label';
+import IdsText from '../../src/ids-text/ids-text';
 import IdsLayoutGridCell from '../../src/ids-layout-grid/ids-layout-grid-cell';
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 

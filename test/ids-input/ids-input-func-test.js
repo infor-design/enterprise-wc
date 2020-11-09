@@ -27,7 +27,6 @@ describe('IdsInput Component', () => {
 
   it('renders correctly', () => {
     input.type = 'text';
-
     expect(input.outerHTML).toMatchSnapshot();
   });
 
@@ -84,5 +83,74 @@ describe('IdsInput Component', () => {
     input.type = 'number';
     expect(input.getAttribute('type')).toEqual('number');
     expect(input.type).toEqual('number');
+  });
+
+  it('renders field as disabled', () => {
+    expect(input.getAttribute('disabled')).toEqual(null);
+    expect(input.input.getAttribute('disabled')).toBe(null);
+    expect(input.labelEl.classList).not.toContain('disabled');
+    input.disabled = true;
+    expect(input.getAttribute('disabled')).toEqual('true');
+    expect(input.input.getAttribute('disabled')).toBe('true');
+    expect(input.labelEl.classList).toContain('disabled');
+  });
+
+  it('renders field as readonly', () => {
+    expect(input.getAttribute('readonly')).toEqual(null);
+    expect(input.input.getAttribute('readonly')).toBe(null);
+    expect(input.labelEl.classList).not.toContain('readonly');
+    input.readonly = true;
+    expect(input.getAttribute('readonly')).toEqual('true');
+    expect(input.input.getAttribute('readonly')).toBe('true');
+    expect(input.labelEl.classList).toContain('readonly');
+  });
+
+  it('should dirty tracking', () => {
+    expect(input.getAttribute('dirty-tracker')).toEqual(null);
+    expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+    expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
+    input.dirtyTracker = true;
+    expect(input.getAttribute('dirty-tracker')).toEqual('true');
+    expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+    expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
+    input.input.value = 'test';
+    input.setDirtyTracker(input.input.value);
+    expect(input.getAttribute('dirty-tracker')).toEqual('true');
+    expect(input.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+    expect(input.labelEl.querySelector('.msg-dirty')).toBeTruthy();
+    input.input.value = '';
+    input.setDirtyTracker(input.input.value);
+    expect(input.getAttribute('dirty-tracker')).toEqual('true');
+    expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+    expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
+    input.dirtyTracker = false;
+    expect(input.getAttribute('dirty-tracker')).toEqual(null);
+    expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+    expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
+    input.dirtyTracker = true;
+    input.input.value = 'test2';
+    input.setDirtyTracker(input.input.value);
+    expect(input.getAttribute('dirty-tracker')).toEqual('true');
+    expect(input.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+    expect(input.labelEl.querySelector('.msg-dirty')).toBeTruthy();
+    input.dirtyTracker = false;
+    expect(input.getAttribute('dirty-tracker')).toEqual(null);
+    expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+    expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
+  });
+
+  it('should input sizes', () => {
+    const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
+    const checkSize = (size) => {
+      input.size = size;
+      expect(input.getAttribute('size')).toEqual(size);
+      expect(input.input.classList).toContain(size);
+      sizes.filter((s) => s !== size).forEach((s) => {
+        expect(input.input.classList).not.toContain(s);
+      });
+    };
+    expect(input.getAttribute('size')).toEqual(null);
+    expect(input.input.classList).toContain('md');
+    sizes.forEach((s) => checkSize(s));
   });
 });
