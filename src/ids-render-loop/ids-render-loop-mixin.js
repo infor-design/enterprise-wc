@@ -1,47 +1,19 @@
 import IdsRenderLoop from './ids-render-loop';
 import IdsRenderLoopItem from './ids-render-loop-item';
 
-/**
- * Builds the global IDS object
- * @private
- * @returns {void}
- */
-function checkForIDS() {
-  if (!window.Ids) {
-    window.Ids = {};
-  }
-}
-
-/**
- * This mixin provides access to a global `requestAnimationFrame` loop, configured to run a queue of
- * callback methods on each tick.
- */
+// Stores the global RenderLoop instance.
+let rl = null;
 const IdsRenderLoopMixin = {
   /**
-   * @param {object} [settings] incoming IdsRenderLoop settings
-   * @returns {void}
+   * Provides access to a global `requestAnimationFrame` loop, configured to run a queue of
+   * callback methods on each tick.
+   * @returns {IdsRenderLoop} link to the global RenderLoop instance
    */
-  setupRenderLoop(settings) {
-    checkForIDS();
-
-    if (!window.Ids.renderLoop) {
-      window.Ids.renderLoop = new IdsRenderLoop(settings);
+  get rl() {
+    if (!rl) {
+      rl = new IdsRenderLoop();
     }
-
-    if (!this.rl) {
-      this.rl = window.Ids.renderLoop;
-      this.rl.updated(settings);
-    }
-  },
-
-  /**
-   * Removes the connection to the RenderLoop
-   * @returns {void}
-   */
-  disconnectRenderLoop() {
-    if (this.rl) {
-      delete this.rl;
-    }
+    return rl;
   }
 };
 

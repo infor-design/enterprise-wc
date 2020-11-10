@@ -102,7 +102,6 @@ class IdsPopup extends IdsElement {
     this.animated = this.hasAttribute('animated');
     this.trueType = this.getAttribute('type') || this.trueType;
     this.isVisible = this.hasAttribute('visible');
-    this.setupRenderLoop();
     this.setupDetectMutations();
     this.setupResize();
     this.handleEvents();
@@ -116,8 +115,6 @@ class IdsPopup extends IdsElement {
    */
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
-
-    this.disconnectRenderLoop();
 
     if (this.shouldResize()) {
       this.ro.unobserve(this.parentNode);

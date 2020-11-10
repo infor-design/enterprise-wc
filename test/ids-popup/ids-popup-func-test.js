@@ -543,8 +543,8 @@ describe('IdsPopup Component', () => {
       setTimeout(() => {
         expect(popup.container.classList.contains('animated')).toBeFalsy();
         done();
-      }, 200);
-    }, 200);
+      }, 300);
+    }, 300);
   });
 
   it('can enable/disable visibility', (done) => {
@@ -557,8 +557,8 @@ describe('IdsPopup Component', () => {
       setTimeout(() => {
         expect(popup.container.classList.contains('visible')).toBeFalsy();
         done();
-      }, 200);
-    }, 200);
+      }, 300);
+    }, 300);
   });
 
   it('can set/remove attributes without causing UI updates', () => {

@@ -8,10 +8,9 @@ import IdsButton from '../../src/ids-button/ids-button';
 // Styles
 import './test-flying-popup.scss';
 
-// Setup access to the global RenderLoop instance.
-// When actually using the mixin, the `rl` property exists on the component and provides access.
+// Access the global RenderLoop instance.
+// When using the mixin on a real component, the `rl` property exists on the component instance.
 const rlMixin = IdsRenderLoopMixin;
-rlMixin.setupRenderLoop();
 const renderLoop = rlMixin.rl;
 
 // Setup functionality on page load
