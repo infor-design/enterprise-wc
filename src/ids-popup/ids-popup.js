@@ -530,7 +530,7 @@ class IdsPopup extends IdsElement {
       this.openCheck.destroy(true);
     }
     this.openCheck = this.rl.register(new IdsRenderLoopItem({
-      duration: 5,
+      duration: 70,
       timeoutCallback: () => {
         if (this.isVisible && !this.container.classList.contains('open')) {
           this.container.classList.add('open');
@@ -546,7 +546,7 @@ class IdsPopup extends IdsElement {
       this.animatedCheck.destroy(true);
     }
     this.animatedCheck = this.rl.register(new IdsRenderLoopItem({
-      duration: 20,
+      duration: 200,
       timeoutCallback: () => {
         if (!this.isVisible && this.container.classList.contains('visible')) {
           this.container.classList.remove('visible');
