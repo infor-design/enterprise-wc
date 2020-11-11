@@ -12,8 +12,9 @@
 ```
 - [x] Can we add more complete input styles from current uplift?
 - [x] Add tests functional
+- [x] Added more functional test for jest coverage
 - [x] Add e2e tests
-- [ ] Fix e2e skipped tests
+- [x] Fix e2e skipped tests
 - [x] Add docs and a typings file(s)
 
 ## Dirty Tracker
@@ -26,4 +27,4 @@
 - [x] Rename `ids-label` to `ids-text`
 
 ## Trigger Field
-- [ ] Fix trigger button alignment for all input sizes
+- [x] Fix trigger button alignment for all input sizes
