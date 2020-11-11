@@ -54,6 +54,31 @@ describe('IdsInput Component', () => {
     expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
   });
 
+  it('should add/remove required and email error', () => {
+    elem.validate = 'required email';
+    elem.template();
+    document.body.appendChild(elem);
+
+    expect(elem.getAttribute('validate')).toEqual('required email');
+    expect(elem.validate).toEqual('required email');
+    expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
+    elem.input.value = '';
+    elem.checkValidation();
+    let msgEl = elem.shadowRoot.querySelector('.validation-message');
+    expect(msgEl).toBeTruthy();
+    expect(msgEl.getAttribute('validation-id')).toEqual('required');
+
+    elem.input.value = 'test';
+    elem.checkValidation();
+    msgEl = elem.shadowRoot.querySelector('.validation-message');
+    expect(msgEl).toBeTruthy();
+    expect(msgEl.getAttribute('validation-id')).toEqual('email');
+
+    elem.input.value = 'test@test.com';
+    elem.checkValidation();
+    expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
+  });
+
   it('should add input error message', () => {
     elem.addMessage({ message: 'test', type: 'error', id: 'error' });
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
@@ -100,5 +125,38 @@ describe('IdsInput Component', () => {
     expect(msgEl).toBeTruthy();
     expect(msgEl.getAttribute('validation-id')).toEqual('icon-custom');
     expect(msgEl.textContent).toEqual('test');
+  });
+
+  it('should destroy validation', () => {
+    elem.validate = 'required';
+    elem.template();
+    document.body.appendChild(elem);
+    expect(elem.getAttribute('validate')).toEqual('required');
+    expect(elem.validate).toEqual('required');
+    expect(elem.labelEl.classList).toContain('required');
+
+    elem.validate = null;
+    elem.destroyValidation();
+    expect(elem.getAttribute('validate')).toEqual(null);
+    expect(elem.validate).not.toEqual('required');
+    expect(elem.labelEl.classList).not.toContain('required');
+  });
+
+  it('should remove all the messages from input', () => {
+    elem.validate = 'required';
+    elem.template();
+    document.body.appendChild(elem);
+
+    expect(elem.getAttribute('validate')).toEqual('required');
+    expect(elem.validate).toEqual('required');
+    expect(elem.labelEl.classList).toContain('required');
+    expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
+    elem.checkValidation();
+    let msgEl = elem.shadowRoot.querySelector('.validation-message');
+    expect(msgEl).toBeTruthy();
+    expect(msgEl.getAttribute('validation-id')).toEqual('required');
+    elem.removeAllMessage();
+    msgEl = elem.shadowRoot.querySelector('.validation-message');
+    expect(msgEl).toBeFalsy();
   });
 });

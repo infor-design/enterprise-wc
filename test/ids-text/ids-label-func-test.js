@@ -65,4 +65,14 @@ describe('IdsText Component', () => {
     expect(elem.getAttribute('type')).toEqual(null);
     expect(elem.shadowRoot.querySelectorAll('span').length).toEqual(1);
   });
+
+  it('renders audible setting then removes it', () => { // ids-text audible
+    elem = new IdsText();
+    document.body.appendChild(elem);
+    expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
+    elem.audible = true;
+    expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
+    elem.audible = false;
+    expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
+  });
 });

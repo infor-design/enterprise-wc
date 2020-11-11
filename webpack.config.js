@@ -23,7 +23,8 @@ module.exports = {
     'ids-popup/test-sandbox': ['./app/ids-popup/test-sandbox.js'],
     'ids-popup/test-target-in-grid': ['./app/ids-popup/test-target-in-grid.js'],
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
-    'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js']
+    'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js'],
+    'ids-trigger-field/ids-trigger-field': ['./app/ids-trigger-field/index.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -232,6 +233,7 @@ module.exports = {
       template: './app/ids-trigger-field/index.html',
       inject: 'body',
       filename: 'ids-trigger-field/index.html',
+      chunks: ['ids-trigger-field/ids-trigger-field'],
       title: 'IDS Trigger Field'
     }),
     new HTMLWebpackPlugin({

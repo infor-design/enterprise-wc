@@ -98,6 +98,7 @@ const IdsValidationMixin = {
 
         elem = document.createElement('div');
         elem.setAttribute('validation-id', id);
+        elem.setAttribute('type', type);
         elem.className = cssClass;
         elem.innerHTML = `${iconHtml}<ids-text class="message-text">${audible}${message}</ids-text>`;
         this.shadowRoot.appendChild(elem);
@@ -114,13 +115,9 @@ const IdsValidationMixin = {
   removeMessage(settings) {
     const { id, type } = settings;
     const elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
-    const len = [].slice.call(this.shadowRoot.querySelectorAll(`validation-message`)).length;
 
     elem?.remove();
     this.input?.classList.remove(type);
-    if (!len) {
-      this.input?.removeAttribute('validation-status');
-    }
   },
 
   /**
@@ -128,7 +125,7 @@ const IdsValidationMixin = {
    * @returns {void}
    */
   removeAllMessage() {
-    const nodes = [].slice.call(this.shadowRoot.querySelectorAll(`validation-message`));
+    const nodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
     nodes.forEach((node) => {
       this.removeMessage({
         id: node.getAttribute('validation-id'),

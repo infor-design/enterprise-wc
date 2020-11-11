@@ -6,6 +6,7 @@ import {
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
+import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 import { props } from '../ids-base/ids-constants';
@@ -41,6 +42,7 @@ const SIZES = {
 @scss(styles)
 @mixin(IdsEventsMixin)
 @mixin(IdsStringUtilsMixin)
+@mixin(IdsDomUtilsMixin)
 @mixin(IdsDirtyTrackerMixin)
 @mixin(IdsValidationMixin)
 class IdsInput extends IdsElement {
@@ -96,7 +98,7 @@ class IdsInput extends IdsElement {
     inputState = this.stringToBool(this.disabled) ? ' disabled' : inputState;
 
     // Label
-    const labelFontSize = this.labelFontSize ? ` font-size="${this.labelFontSize}"` : '';
+    const labelFontSize = this.labelFontSize ? ` ${props.FONT_SIZE}="${this.labelFontSize}"` : '';
     const labelClass = ` class="ids-input-label${inputState}"`;
 
     return `
@@ -135,6 +137,15 @@ class IdsInput extends IdsElement {
         msgNodes.forEach((x) => x.classList.remove(options.prop1));
       }
     }
+  }
+
+  /**
+   * Get input field current width
+   * @returns {number} input field curent width
+   */
+  get inputWidth() {
+    const input = this.shadowRoot.querySelector(`#${ID}`);
+    return this.outerWidth(input);
   }
 
   /**
@@ -188,11 +199,14 @@ class IdsInput extends IdsElement {
    * @param {string} value of the `label-font-size` property
    */
   set labelFontSize(value) {
+    const labelText = this.shadowRoot.querySelector(`[for="${ID}"] ids-text`) || document.createElement('div');
     if (value) {
       this.setAttribute(props.LABEL_FONT_SIZE, value);
+      labelText.setAttribute(props.FONT_SIZE, value);
       return;
     }
     this.removeAttribute(props.LABEL_FONT_SIZE);
+    labelText.removeAttribute(props.FONT_SIZE);
   }
 
   get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
@@ -202,19 +216,14 @@ class IdsInput extends IdsElement {
    * @param {string} value of the `label` text property
    */
   set label(value) {
-    const setLabelText = () => {
-      const labelText = this.shadowRoot.querySelector(`[for="${ID}"] ids-text`);
-      if (labelText) {
-        labelText.innerHTML = value || '';
-      }
-    };
+    const labelText = this.shadowRoot.querySelector(`[for="${ID}"] ids-text`) || document.createElement('div');
     if (value) {
       this.setAttribute(props.LABEL, value);
-      setLabelText();
+      labelText.innerHTML = value;
       return;
     }
     this.removeAttribute(props.LABEL);
-    setLabelText();
+    labelText.innerHTML = '';
   }
 
   get label() { return this.getAttribute(props.LABEL) || ''; }
@@ -256,10 +265,8 @@ class IdsInput extends IdsElement {
   set size(value) {
     const size = SIZES[value];
     this.setAttribute(props.SIZE, size || SIZES.default);
-    if (this.input) {
-      this.input.classList.remove(...Object.values(SIZES));
-      this.input.classList.add(size || SIZES.default);
-    }
+    this.input?.classList.remove(...Object.values(SIZES));
+    this.input?.classList.add(size || SIZES.default);
   }
 
   get size() { return this.getAttribute(props.SIZE) || SIZES.default; }
@@ -298,11 +305,15 @@ class IdsInput extends IdsElement {
    * @param {string} val the value property
    */
   set value(val) {
+    const input = this.shadowRoot.querySelector(`[id="${ID}"]`) || document.createElement('input');
+
     if (val) {
       this.setAttribute(props.VALUE, val);
+      input.value = val;
       return;
     }
     this.removeAttribute(props.VALUE);
+    input.value = '';
   }
 
   get value() { return this.getAttribute(props.VALUE); }
