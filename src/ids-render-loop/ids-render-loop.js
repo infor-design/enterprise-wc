@@ -2,51 +2,6 @@ import { timestamp } from './ids-render-loop-common';
 import IdsRenderLoopItem from './ids-render-loop-item';
 
 /**
- * Converts a plain object into an `IdsRenderLoopItem`.
- * @param {Function} updateCallback - (can also be the "updateCallback" function)
- * @param {Function} [timeoutCallback] callback function that gets fired at
- *  the end of this item's lifecycle
- * @param {number} [duration] the amount of time in frames that this item should exist
- * @param {string} [namespace] the namespace for this item
- * @returns {IdsRenderLoopItem} the item that was registered
- */
-function buildRenderLoopItem(updateCallback, timeoutCallback, duration, namespace) {
-  let noNamespace = typeof namespace !== 'string' || !namespace.length;
-  let usedNamespace = namespace;
-  let usedDuration = duration;
-
-  // valid for a callback not to have a duration, as long as it's
-  // namespaced for future manual removal
-  if (typeof duration === 'string') {
-    if (noNamespace) {
-      usedNamespace = duration;
-      usedDuration = -1;
-      noNamespace = false;
-    } else {
-      const numberDuration = Number(duration);
-      if (!isNaN(numberDuration)) { // eslint-disable-line
-        usedDuration = numberDuration;
-      }
-    }
-  } else if (typeof duration !== 'number') {
-    usedDuration = -1;
-  }
-
-  if (typeof namespace !== 'string' || !namespace.length) {
-    usedDuration = ''; // TODO: make unique
-  }
-
-  const loopItem = new IdsRenderLoopItem({
-    id: namespace,
-    updateCallback,
-    timeoutCallback,
-    duration
-  });
-
-  return loopItem;
-}
-
-/**
  * Sets up a timed loop using the `requestAnimationFrame` API.
  * This can be used for controlling animations,  or asynchronously staggering
  * routines for a specified duration.
@@ -59,8 +14,7 @@ class IdsRenderLoop {
    * causes RenderLoop events to be triggered on this element
    */
   constructor(settings = {
-    autoStart: true,
-    eventTargetElement: null
+    autoStart: true
   }) {
     /**
      * On each RenderLoop tick (requestAnimationFrame), this array is iterated.
@@ -78,22 +32,7 @@ class IdsRenderLoop {
      */
     this.totalStoppedTime = 0;
 
-    this.handleSettings(settings);
-  }
-
-  /**
-   * @private
-   * @param {object} [settings] incoming settings
-   * @returns {void}
-   */
-  handleSettings(settings) {
-    /**
-     * @property {HTMLElement} element used as the target for renderloop DOM events.
-     */
-    if (settings.eventTargetElement instanceof HTMLElement) {
-      this.element = settings.eventTargetElement;
-    }
-
+    // Handle Settings
     if (settings.autoStart) {
       this.start();
     }
@@ -163,10 +102,6 @@ class IdsRenderLoop {
 
         // Check duration
         if (typeof loopItem.duration === 'number' && loopItem.duration > -1) {
-          if (!loopItem.startTime) {
-            loopItem.init();
-          }
-
           if (loopItem.elapsedTime >= loopItem.duration) {
             loopItem.destroy();
             return;
@@ -196,7 +131,7 @@ class IdsRenderLoop {
   }
 
   /**
-   * Stops the entire render loop
+   * Stops the entire render loop and pauses every item.
    * @returns {void}
    */
   stop() {
@@ -217,100 +152,11 @@ class IdsRenderLoop {
   }
 
   /**
-   * External method for getting the callback queue contents
-   * @returns {Array} list of internal RenderLoopItems
+   * @param {IdsRenderLoopItem} loopItem the pre-constructed loop item.
+   * @returns {void}
    */
-  queue() {
-    return this.items;
-  }
-
-  /**
-   * @param {IdsRenderLoopItem|Function} loopItem - (can also be the "updateCallback" function)
-   * @param {Function} [timeoutCallback] callback function that gets fired at
-   *  the end of this item's lifecycle
-   * @param {number} [duration] the amount of time in frames that this item should exist
-   * @param {string} [namespace] the namespace for this item
-   * @returns {IdsRenderLoopItem} the item that was registered
-   */
-  register(loopItem, timeoutCallback, duration, namespace) {
-    let usedLoopItem = loopItem;
-    // If we're not working with a RenderLoopItem off the bat, take arguments
-    // and convert to a RenderLoopItem.  Consider the first argument
-    // to be the "updateCallback" function
-    if (!(loopItem instanceof IdsRenderLoopItem)) {
-      usedLoopItem = buildRenderLoopItem(loopItem, timeoutCallback, duration, namespace);
-    }
-
-    this.items.push(usedLoopItem);
-
-    return usedLoopItem;
-  }
-
-  /**
-   * @param {Function} callback callback function to be unregistered
-   * @param {string} [namespace] namespace to be unregistered
-   * @returns {IdsRenderLoopItem} the item that was unregistered
-   */
-  unregister(callback, namespace) {
-    let usedCallback = callback;
-    let usedNamespace = namespace;
-
-    if (typeof callback !== 'function' && typeof callback !== 'string' && typeof namespace !== 'string') {
-      throw new Error('must provide either a callback function or a namespace string to remove an entry from the RenderLoop queue.');
-    }
-
-    // If callback is defined as a string, simply swap it for the namespace.
-    if (typeof callback === 'string') {
-      usedNamespace = callback;
-      usedCallback = undefined;
-    }
-
-    return this.remove({
-      cb: usedCallback,
-      id: usedNamespace
-    });
-  }
-
-  /**
-   * Uses a callback function, or a defined namespace, to grab a RenderLoop item from the queue.
-   * @private
-   * @param {Function} updateCallback callback function to be retrieved
-   * @param {string} [namespace] namespace to be retrieved
-   * @returns {IdsRenderLoopItem} the RenderLoopItem that represents the item that was paused.
-   */
-  getFromQueue(updateCallback, namespace) {
-    let usedUpdateCallback = updateCallback;
-    let usedNamespace = namespace;
-
-    // If callback is defined as a string, simply swap it for the namespace.
-    if (typeof callback === 'string') {
-      usedNamespace = updateCallback;
-      usedUpdateCallback = undefined;
-    }
-
-    let retreivedItem;
-
-    if (typeof usedUpdateCallback === 'function') {
-      // Remove by callback method
-      this.items.forEach((item) => {
-        if (`${item.updateCallback}` !== `${usedUpdateCallback}`) {
-          return true;
-        }
-        retreivedItem = item;
-        return false;
-      });
-    } else if (typeof usedNamespace === 'string') {
-      // Remove by namespace
-      this.items.forEach((item) => {
-        if (item.id !== usedNamespace) {
-          return true;
-        }
-        retreivedItem = item;
-        return false;
-      });
-    }
-
-    return retreivedItem;
+  register(loopItem) {
+    this.items.push(loopItem);
   }
 
   /**
@@ -318,28 +164,22 @@ class IdsRenderLoop {
    * Pulled out into its own function because it can be automatically called by
    * the tick, or manually triggered from an external API call.
    * @private
-   * @param {IdsRenderLoopItem|object} obj the renderLoopItem
+   * @param {IdsRenderLoopItem|string} obj the renderLoopItem, or its ID string
    * @returns {IdsRenderLoopItem} reference to the removed renderLoopItem
    */
   remove(obj) {
     let removedItem;
 
+    // Remove directly
     if (obj instanceof IdsRenderLoopItem) {
       removedItem = obj;
       this.items = this.items.filter((item) => item !== obj);
-    } else if (typeof obj.updateCallback === 'function') {
-      // Remove by callback method
+    }
+
+    // Remove by id
+    if (typeof obj === 'string') {
       this.items = this.items.filter((item) => {
-        if (`${item.updateCallback}` !== `${obj.updateCallback}`) {
-          return true;
-        }
-        removedItem = item;
-        return false;
-      });
-    } else if (typeof obj.id === 'string') {
-      // Remove by namespace
-      this.items = this.items.filter((item) => {
-        if (item.id !== obj.id) {
+        if (item.id !== obj) {
           return true;
         }
         removedItem = item;
@@ -348,59 +188,12 @@ class IdsRenderLoop {
     }
 
     // Cause the item to timeout
-    removedItem.timeout();
-
-    if (this.element) {
-      this.element.triggerHandler('remove.renderLoop', [removedItem]);
+    if (removedItem?.timeoutCallback) {
+      removedItem.timeout();
     }
 
     // If this is undefined, an item was NOT removed from the queue successfully.
     return removedItem;
-  }
-
-  /**
-   * @param {Function} callback callback function to be paused
-   * @param {string} [namespace] namespace to be paused
-   * @returns {IdsRenderLoopItem} the RenderLoopItem that represents the item that was paused.
-   */
-  pause(callback, namespace) {
-    if (typeof callback !== 'function' && typeof callback !== 'string' && typeof namespace !== 'string') {
-      throw new Error('must provide either a callback function or a namespace string to pause an entry in the RenderLoop queue.');
-    }
-
-    const pausedItem = this.getFromQueue(callback, namespace);
-
-    pausedItem.pause();
-
-    return pausedItem;
-  }
-
-  /**
-   * @param {Function} callback callback function to be resumed
-   * @param {string} [namespace] namespace to be resumed
-   * @returns {IdsRenderLoopItem} the RenderLoopItem that represents the item that was resumed.
-   */
-  resume(callback, namespace) {
-    if (typeof callback !== 'function' && typeof callback !== 'string' && typeof namespace !== 'string') {
-      throw new Error('must provide either a callback function or a namespace string to pause an entry in the RenderLoop queue.');
-    }
-
-    const resumableItem = this.getFromQueue(callback, namespace);
-
-    resumableItem.resume();
-
-    return resumableItem;
-  }
-
-  /**
-   * Passes in new/updated settings to the RenderLoop instance
-   * @param {object} [settings] incoming settings.
-   * @returns {void}
-   */
-  updated(settings) {
-    if (typeof settings === 'object') {
-      this.handleSettings(settings);
-    }
   }
 }
 

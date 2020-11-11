@@ -4,7 +4,5 @@
  * @returns {number} a current timestamp
  */
 export function timestamp() {
-  return window.performance && window.performance.now
-    ? window.performance.now()
-    : new Date().getTime();
+  return window.performance.now();
 }

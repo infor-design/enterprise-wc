@@ -5,18 +5,21 @@ import { timestamp } from './ids-render-loop-common';
  */
 class IdsRenderLoopItem extends Object {
   /**
-   * @param {object} opts incoming item options
+   * @param {object} settings incoming item options
    * @returns {IdsRenderLoopItem} component instance
    */
-  constructor(opts = {}) {
+  constructor(settings = {}) {
     super();
 
     // This can be referenced by the RenderLoopAPI to change this item's settings
-    this.id = opts.id;
+    this.id = settings.id;
 
     // Setting a duration greater than '-1' causes the RenderLoopItem to automatically
     // remove itself from the queue after that duration.
-    this.duration = opts.duration || -1;
+    this.duration = -1;
+    if (typeof settings.duration === 'number') {
+      this.duration = parseInt(settings.duration, 10);
+    }
 
     // Either ID or a duration is required.
     if (this.duration < 1 && (typeof this.id !== 'string' || !this.id.length)) {
@@ -25,13 +28,24 @@ class IdsRenderLoopItem extends Object {
 
     // Number of frames this loop item will step before running its
     // `updateCallback()`, if defined
-    this.updateDuration = opts.updateDuration || 1;
-    if (this.updateDuration > 0) {
-      this.setNextUpdateTime();
+    this.updateDuration = 1;
+    if (typeof settings.updateDuration === 'number') {
+      this.updateDuration = parseInt(settings.updateDuration, 10);
     }
+    this.setNextUpdateTime();
 
     // handles the setting of user-defined callback functions
-    this.setFuncs(opts);
+    if (typeof settings.updateCallback !== 'function' && typeof settings.timeoutCallback !== 'function') {
+      throw new Error('cannot register callback to RenderLoop because callback is not a function');
+    }
+
+    if (typeof settings.updateCallback === 'function') {
+      this.updateCallback = settings.updateCallback.bind(this);
+    }
+
+    if (typeof settings.timeoutCallback === 'function') {
+      this.timeoutCallback = settings.timeoutCallback.bind(this);
+    }
 
     // Internal state
     this.paused = false;
@@ -42,41 +56,12 @@ class IdsRenderLoopItem extends Object {
   }
 
   /**
-   * Handles the setting of user-defined callback functions
-   * @private
-   * @param {object} opts incoming settings
-   */
-  setFuncs(opts = {}) {
-    if (typeof opts.updateCallback !== 'function' && typeof opts.timeoutCallback !== 'function') {
-      throw new Error('cannot register callback to RenderLoop because callback is not a function');
-    }
-
-    if (typeof opts.updateCallback === 'function') {
-      this.updateCallback = opts.updateCallback.bind(this);
-    }
-
-    if (typeof opts.timeoutCallback === 'function') {
-      this.timeoutCallback = opts.timeoutCallback.bind(this);
-    }
-  }
-
-  /**
    * Appends the update duration to a current timestamp and stores it, to define
    * when this item will next run its update callback.
    * @returns {void}
    */
   setNextUpdateTime() {
     this.nextUpdateTime = timestamp() + this.updateDuration;
-  }
-
-  /**
-   * Defines the time this item begins its lifecycle
-   * @returns {void}
-   */
-  init() {
-    if (!this.startTime) {
-      this.startTime = timestamp();
-    }
   }
 
   /**
@@ -94,10 +79,8 @@ class IdsRenderLoopItem extends Object {
    */
   resume() {
     this.resumeTime = timestamp();
-    if (this.lastPauseTime) {
-      this.totalStoppedTime += this.resumeTime - this.lastPauseTime;
-      delete this.lastPauseTime;
-    }
+    this.totalStoppedTime += this.resumeTime - this.lastPauseTime;
+    delete this.lastPauseTime;
     this.paused = false;
   }
 
