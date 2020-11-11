@@ -372,6 +372,7 @@ describe('Ids RenderLoop Mixin', () => {
     expect(rl).not.toBe(null);
 
     // @TODO only needed for coverage?
+    // Compares both references to ensure they are the same.
     const otherRl = mixin.rl;
 
     expect(rl).toEqual(otherRl);
