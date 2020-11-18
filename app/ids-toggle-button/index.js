@@ -2,7 +2,7 @@ import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
 
 // Supporting components
 import IdsIcon from '../../src/ids-icon/ids-icon';
-import IdsLabel from '../../src/ids-label/ids-label';
+import IdsText from '../../src/ids-text/ids-text';
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 
 document.addEventListener('DOMContentLoaded', () => {
