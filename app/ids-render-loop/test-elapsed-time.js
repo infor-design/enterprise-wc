@@ -1,7 +1,7 @@
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../../src/ids-render-loop/ids-render-loop-mixin';
 
 // Supporting Components
-import IdsLabel from '../../src/ids-label/ids-label';
+import IdsText from '../../src/ids-text/ids-text';
 import IdsLayoutGridCell from '../../src/ids-layout-grid/ids-layout-grid-cell';
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';

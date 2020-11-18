@@ -2,7 +2,7 @@ import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../../src/ids-render-loop
 
 // Supporting Components
 import IdsPopup from '../../src/ids-popup/ids-popup';
-import IdsLabel from '../../src/ids-label/ids-label';
+import IdsText from '../../src/ids-text/ids-text';
 import IdsButton from '../../src/ids-button/ids-button';
 
 // Styles

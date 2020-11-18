@@ -25,7 +25,6 @@ module.exports = {
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js'],
     'ids-trigger-field/ids-trigger-field': ['./app/ids-trigger-field/index.js'],
-    'ids-validation-message/ids-validation-message': ['./app/ids-validation-message/index.js'],
     'ids-render-loop/ids-render-loop': ['./app/ids-render-loop/index.js'],
     'ids-render-loop/test-elapsed-time': ['./app/ids-render-loop/test-elapsed-time.js'],
     'ids-render-loop/test-flying-popup': ['./app/ids-render-loop/test-flying-popup.js']
