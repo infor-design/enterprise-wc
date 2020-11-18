@@ -12,15 +12,15 @@ The IDS RenderLoop exists to provide an alternative, performance-friendly way to
 
 ## Terminology
 
-_RenderLoop:_ The main queuing system that wraps `requestAnimationFrame`.
+*RenderLoop:* The main queuing system that wraps `requestAnimationFrame`.
 
-_RenderLoopItem:_ Describes an object that lives inside the RenderLoop's `items` array that is configured to trigger callback methods at certain intervals, at the end of its lifespan, or both.
+*RenderLoopItem:* Describes an object that lives inside the RenderLoop's `items` array that is configured to trigger callback methods at certain intervals, at the end of its lifespan, or both.
 
-_Tick:_ identifies the timing on which the RenderLoop cycles through its `items` array and runs Updates or Timeouts on each, if necessary.
+*Tick:* identifies the timing on which the RenderLoop cycles through its `items` array and runs Updates or Timeouts on each, if necessary.
 
-_Timeout:_ The end of a RenderLoop Item's lifecycle.  In some cases, a `timeoutCallback` method may occur.
+*Timeout:* The end of a RenderLoop Item's lifecycle.  In some cases, a `timeoutCallback` method may occur.
 
-_Update:_ A specified time in which a callback representing an update is fired (by default, this occurs on every tick if an `updateCallback` is defined).
+*Update:* A specified time in which a callback representing an update is fired (by default, this occurs on every tick if an `updateCallback` is defined).
 
 ## Features (With Code Samples)
 
