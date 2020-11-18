@@ -22,7 +22,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const shiftDuration = 1000;
   let timer;
 
-  // Takes a "current" alignment target and figures out the next one
+  /**
+   * Takes a "current" alignment target and figures out the next one
+   * @param {HTMLElement} target an element representing an alignment target
+   * @returns {HTMLElement} the new element to target
+   */
   function getNextTarget(target) {
     let newIndex = alignTargets.indexOf(target) + 1;
     if (newIndex >= alignTargets.length) {
@@ -31,8 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
     return alignTargets[newIndex];
   }
 
-  // Create a RenderLoopItem that constantly updates the timer that displays
-  // the countdown until the next target change.
+  /**
+   * Create a RenderLoopItem that constantly updates the timer that displays
+   * the countdown until the next target change.
+   * @returns {void}
+   */
   function generateTimer() {
     if (timer) {
       timer.destroy(true);
