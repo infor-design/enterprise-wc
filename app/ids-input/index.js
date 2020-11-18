@@ -3,9 +3,8 @@ import IdsInput from '../../src/ids-input/ids-input';
 // Supporting components
 import IdsButton from '../../src/ids-button/ids-button';
 import IdsIcon from '../../src/ids-icon/ids-icon';
-import IdsLabel from '../../src/ids-label/ids-label';
+import IdsText from '../../src/ids-text/ids-text';
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
-import IdsValidationMessage from '../../src/ids-validation-message/ids-validation-message';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnEnable = document.querySelector('#btn-input-enable');

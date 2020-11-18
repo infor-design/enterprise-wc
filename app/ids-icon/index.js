@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const iconData = Object.entries(pathData);
 
   for (let i = 0; i < iconData.length; i++) {
-    iconHtml += `<span class="ids-icon-container"><ids-label font-size="10">icon-${iconData[i][0]}</ids-label><br/>
+    iconHtml += `<span class="ids-icon-container"><ids-text font-size="10">icon-${iconData[i][0]}</ids-text><br/>
       <ids-icon icon="${iconData[i][0]}" size="large"></ids-icon>
       <ids-icon icon="${iconData[i][0]}"></ids-icon>
       <ids-icon icon="${iconData[i][0]}" size="small"></ids-icon></span>`;

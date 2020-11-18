@@ -1,5 +1,6 @@
 @import '../ids-base/ids-base';
 @import '../ids-base/ids-dirty-tracker-mixin';
+@import '../ids-base/ids-validation-mixin';
 
 // Field Sizes
 $input-size-xs: 75px;
@@ -122,5 +123,73 @@ $input-size-default: $input-size-md;
 
   &.full {
     width: $input-size-full;
+  }
+
+  // input message: [alert, error, info, success]
+  &.alert,
+  &.alert:hover {
+    @include border-alert-warning();
+    @include text-alert-warning();
+
+    &:focus {
+      @include border-alert-warning();
+
+      box-shadow: rgba(249, 131, 0, 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-amber-30();
+      @include text-amber-30();
+    }
+  }
+
+  &.error,
+  &.error:hover {
+    @include border-alert-danger();
+    @include text-alert-danger();
+
+    &:focus {
+      @include border-alert-danger();
+      @include shadow-error();
+    }
+
+    &[disabled] {
+      @include border-ruby-30();
+      @include text-ruby-30();
+    }
+  }
+
+  &.info,
+  &.info:hover {
+    @include border-alert-info();
+    @include text-alert-info();
+
+    &:focus {
+      @include border-alert-info();
+
+      box-shadow: rgba(0, 102, 212, 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-azure-30();
+      @include text-azure-30();
+    }
+  }
+
+  &.success,
+  &.success:hover {
+    @include border-alert-success();
+    @include text-alert-success();
+
+    &:focus {
+      @include border-alert-success();
+
+      box-shadow: rgba(42, 195, 113, 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-emerald-30();
+      @include text-emerald-30();
+    }
   }
 }

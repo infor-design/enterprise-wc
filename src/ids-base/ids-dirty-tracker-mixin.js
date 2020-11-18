@@ -13,6 +13,8 @@ const IdsDirtyTrackerMixin = {
         this.dirty = { original: val !== null ? val : '' };
         this.dirtyTrackerEvents();
       }
+    } else {
+      this.destroyDirtyTracker();
     }
   },
 
@@ -50,13 +52,13 @@ const IdsDirtyTrackerMixin = {
    * @returns {void}
    */
   appendDirtyTrackerMsg() {
-    let msg = this.label?.querySelector('.msg-dirty');
+    let msg = this.labelEl?.querySelector('.msg-dirty');
     if (!msg) {
-      msg = document.createElement('ids-label');
+      msg = document.createElement('ids-text');
       msg.setAttribute('audible', true);
       msg.className = 'msg-dirty';
       msg.innerHTML = ', Modified';
-      this.label?.appendChild(msg);
+      this.labelEl?.appendChild(msg);
     }
   },
 
@@ -66,7 +68,7 @@ const IdsDirtyTrackerMixin = {
    * @returns {void}
    */
   removeDirtyTrackerMsg() {
-    const msg = this.label?.querySelector('.msg-dirty');
+    const msg = this.labelEl?.querySelector('.msg-dirty');
     if (msg) {
       msg.remove();
     }
@@ -101,11 +103,18 @@ const IdsDirtyTrackerMixin = {
    * @returns {void}
    */
   dirtyTrackerEvents(option) {
-    const action = option === 'remove' ? 'removeEventListener' : 'addEventListener';
     if (this.input) {
-      this.eventHandlers[action]('change', this.input, () => {
-        this.setDirtyTracker(this.input.value);
-      });
+      const eventName = 'change';
+      if (option === 'remove') {
+        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        if (handler && handler.target === this.input) {
+          this.eventHandlers.removeEventListener(eventName, this.input);
+        }
+      } else {
+        this.eventHandlers.addEventListener(eventName, this.input, () => {
+          this.setDirtyTracker(this.input.value);
+        });
+      }
     }
   },
 
@@ -116,6 +125,7 @@ const IdsDirtyTrackerMixin = {
   destroyDirtyTracker() {
     this.dirtyTrackerEvents('remove');
     this.removeDirtyTrackerIcon();
+    this.removeDirtyTrackerMsg();
   }
 };
 

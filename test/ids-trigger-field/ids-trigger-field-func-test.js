@@ -6,6 +6,16 @@ import IdsInput from '../../src/ids-input/ids-input';
 import IdsTriggerButton from '../../src/ids-trigger-button/ids-trigger-button';
 import { props } from '../../src/ids-base/ids-constants';
 
+const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
+  this.observe = jest.fn();
+  this.disconnect = jest.fn();
+  this.unobserve = jest.fn();
+  this.trigger = (entryList) => {
+    callback(entryList, this);
+  };
+});
+global.ResizeObserver = resizeObserverMock;
+
 describe('IdsTriggerField Component', () => {
   let triggerField;
 
@@ -106,5 +116,34 @@ describe('IdsTriggerField Component', () => {
     triggerField.disableNativeEvents = false;
     expect(triggerField.getAttribute(props.DISABLE_EVENTS)).toEqual(null);
     expect(triggerField.disableNativeEvents).toEqual(null);
+  });
+
+  it('renders icon clock', () => {
+    document.body.innerHTML = '';
+    const trigger = new IdsTriggerField();
+    const input = new IdsInput();
+    trigger.appendChild(input);
+    const button = new IdsTriggerButton();
+    button.icon = 'clock';
+    trigger.appendChild(button);
+    document.body.appendChild(trigger);
+    triggerField = document.querySelector('ids-trigger-field');
+    triggerField.refresh();
+    const triggerButton = triggerField.querySelector('ids-trigger-button');
+    expect(triggerButton.classList).toContain('has-icon-clock');
+  });
+
+  it('renders label class', () => {
+    const input = triggerField.querySelector('ids-input');
+    triggerField.shouldUpdate = false;
+    input.size = 'lg';
+    triggerField.refresh();
+    expect(input.getAttribute('size')).toEqual('lg');
+    expect(input.input.classList).toContain('lg');
+    triggerField.shouldUpdate = true;
+    input.size = 'sm';
+    triggerField.refresh();
+    expect(input.getAttribute('size')).toEqual('sm');
+    expect(input.input.classList).toContain('sm');
   });
 });

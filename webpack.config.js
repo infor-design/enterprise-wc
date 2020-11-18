@@ -16,13 +16,15 @@ module.exports = {
     'ids-button/ids-button': ['./app/ids-button/index.js'],
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
     'ids-input/ids-input': ['./app/ids-input/index.js'],
-    'ids-label/ids-label': ['./app/ids-label/index.js'],
+    'ids-input/test-validation-message': ['./app/ids-input/test-validation-message.js'],
+    'ids-text/ids-text': ['./app/ids-text/index.js'],
     'ids-layout-grid/ids-layout-grid': ['./app/ids-layout-grid/index.js'],
     'ids-popup/ids-popup': ['./app/ids-popup/index.js'],
     'ids-popup/test-sandbox': ['./app/ids-popup/test-sandbox.js'],
     'ids-popup/test-target-in-grid': ['./app/ids-popup/test-target-in-grid.js'],
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js'],
+    'ids-trigger-field/ids-trigger-field': ['./app/ids-trigger-field/index.js'],
     'ids-validation-message/ids-validation-message': ['./app/ids-validation-message/index.js'],
     'ids-render-loop/ids-render-loop': ['./app/ids-render-loop/index.js'],
     'ids-render-loop/test-elapsed-time': ['./app/ids-render-loop/test-elapsed-time.js'],
@@ -166,14 +168,14 @@ module.exports = {
       inject: 'body',
       filename: 'ids-tag/index.html',
       title: 'IDS Tag Component',
-      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid']
+      chunks: ['ids-tag/ids-tag', 'ids-text/ids-text', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-icon/index.html',
       inject: 'body',
       filename: 'ids-icon/index.html',
       title: 'IDS Icon Component',
-      chunks: ['ids-icon/ids-icon', 'ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
+      chunks: ['ids-icon/ids-icon', 'ids-text/ids-text', 'ids-layout-grid/ids-layout-grid']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-input/index.html',
@@ -183,51 +185,59 @@ module.exports = {
       chunks: ['ids-input/ids-input']
     }),
     new HTMLWebpackPlugin({
-      template: './app/ids-label/index.html',
+      template: './app/ids-input/test-validation-message.html',
       inject: 'body',
-      filename: 'ids-label/index.html',
-      title: 'IDS Label Component',
-      chunks: ['ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
+      filename: 'ids-input/test-validation-message.html',
+      title: 'IDS Input Component - Validation Message',
+      chunks: ['ids-input/test-validation-message']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-text/index.html',
+      inject: 'body',
+      filename: 'ids-text/index.html',
+      title: 'IDS Text Component',
+      chunks: ['ids-text/ids-text', 'ids-layout-grid/ids-layout-grid']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-tag/compatibility.html',
       inject: 'body',
       filename: 'ids-tag/compatibility',
-      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid'],
+      chunks: ['ids-tag/ids-tag', 'ids-text/ids-text', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid'],
       title: 'Test Tag Compatibility with IDS 4.0'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-tag/standalone-css.html',
       inject: 'body',
       filename: 'ids-tag/standalone-css',
-      chunks: ['ids-tag/ids-tag', 'ids-label/ids-label', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid'],
+      chunks: ['ids-tag/ids-tag', 'ids-text/ids-text', 'ids-icon/ids-icon', 'ids-layout-grid/ids-layout-grid'],
       title: 'Tag - Standalone Css'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-layout-grid/index.html',
       inject: 'body',
       filename: 'ids-layout-grid/index.html',
-      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label'],
+      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-text/ids-text'],
       title: 'IDS Layout Grid'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-layout-grid/standalone-css.html',
       inject: 'body',
       filename: 'ids-layout-grid/standalone-css',
-      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label'],
+      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-text/ids-text'],
       title: 'IDS Layout Grid - Standalone Css'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-layout-grid/test-sandbox.html',
       inject: 'body',
       filename: 'ids-layout-grid/test-sandbox',
-      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-label/ids-label'],
+      chunks: ['ids-layout-grid/ids-layout-grid', 'ids-text/ids-text'],
       title: 'IDS Layout Grid - Sandbox'
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-trigger-field/index.html',
       inject: 'body',
       filename: 'ids-trigger-field/index.html',
+      chunks: ['ids-trigger-field/ids-trigger-field'],
       title: 'IDS Trigger Field'
     }),
     new HTMLWebpackPlugin({
@@ -250,13 +260,6 @@ module.exports = {
       filename: 'ids-popup/test-target-in-grid',
       chunks: ['ids-popup/test-target-in-grid'],
       title: 'Popup Test - Align Target inside a Layout Grid'
-    }),
-    new HTMLWebpackPlugin({
-      template: './app/ids-validation-message/index.html',
-      inject: 'body',
-      filename: 'ids-validation-message/index.html',
-      title: 'IDS Validation Message',
-      chunks: ['ids-validation-message/ids-validation-message']
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-render-loop/index.html',

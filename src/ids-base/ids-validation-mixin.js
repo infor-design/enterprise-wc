@@ -4,17 +4,28 @@
 const IdsValidationMixin = {
   useRules: new Map(),
 
+  // Default icon
+  VALIDATION_DEFAULT_ICON: 'user-profile',
+
+  // Icons
+  VALIDATION_ICONS: {
+    alert: 'alert-solid',
+    error: 'error-solid',
+    info: 'info-solid',
+    success: 'success-solid',
+  },
+
   /**
    * Handle the validation rules
    * @returns {void}
    */
   handleValidation() {
-    if (this.label && this.input && typeof this.validate === 'string') {
+    if (this.labelEl && this.input && typeof this.validate === 'string') {
       const getRule = (id) => ({ id, rule: this.rules[id] });
       let isRulesAdded = false;
       this.validate.split(' ').forEach((strRule) => {
         if (strRule === 'required') {
-          this.label.classList.add('required');
+          this.labelEl.classList.add('required');
           this.input.setAttribute('aria-required', true);
         }
         const useRules = this.useRules.get(this.input);
@@ -53,49 +64,74 @@ const IdsValidationMixin = {
       const useRules = this.useRules.get(this.input);
       useRules?.forEach((thisRule) => {
         if (!thisRule.rule.check(this.input)) {
-          this.addError(thisRule.rule);
+          this.addMessage(thisRule.rule);
         } else {
-          this.removeError(thisRule.rule);
+          this.removeMessage(thisRule.rule);
         }
       });
     }
   },
 
   /**
-   * Add the error for given rule
-   * @private
-   * @param {object} rule The rule to add error
+   * Add a message to input
+   * @param {object} [settings] incoming settings
    * @returns {void}
    */
-  addError(rule) {
-    const { id, type, message } = rule;
-    let errorEl = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+  addMessage(settings) {
+    const { id, type, message, icon } = settings; // eslint-disable-line
+    if (id) {
+      let elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+      if (!elem) {
+        const regex = new RegExp(`^\\b(${Object.keys(this.VALIDATION_ICONS).join('|')})\\b$`, 'g');
+        const isValidationIcon = type && (regex.test(type));
+        let audible = isValidationIcon ? type.replace(/^./, type[0].toUpperCase()) : null;
+        audible = audible ? `<ids-text audible="true">${audible} </ids-text>` : '';
+        let cssClass = 'validation-message';
+        let iconName = this.VALIDATION_ICONS[type];
+        if (!iconName && type === 'icon') {
+          iconName = icon || this.VALIDATION_DEFAULT_ICON;
+          cssClass += iconName ? ' has-custom-icon' : '';
+        }
+        cssClass += isValidationIcon ? ` ${type}` : '';
+        cssClass += this.disabled ? ' disabled' : '';
+        const iconHtml = iconName ? `<ids-icon icon="${iconName}" class="ids-icon"></ids-icon>` : '';
 
-    if (!errorEl) {
-      const audible = type.replace(/^./, type[0].toUpperCase());
-      errorEl = document.createElement('ids-validation-message');
-      errorEl.setAttribute('type', type);
-      errorEl.setAttribute('validation-id', id);
-      errorEl.innerHTML = `<span class="audible">${audible} </span>${message}`;
-      this.shadowRoot.appendChild(errorEl);
+        elem = document.createElement('div');
+        elem.setAttribute('validation-id', id);
+        elem.setAttribute('type', type);
+        elem.className = cssClass;
+        elem.innerHTML = `${iconHtml}<ids-text class="message-text">${audible}${message}</ids-text>`;
+        this.shadowRoot.appendChild(elem);
+        this.input?.classList.add(type);
+      }
     }
   },
 
   /**
-   * Remove the error for given rule
-   * @private
-   * @param {object} rule The rule to add error
+   * Remove the given message from input
+   * @param {object} [settings] incoming settings
    * @returns {void}
    */
-  removeError(rule) {
-    const { id } = rule;
-    const errorElem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
-    const errorLen = [].slice.call(this.querySelectorAll(`ids-validation-message`)).length;
+  removeMessage(settings) {
+    const { id, type } = settings;
+    const elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
 
-    errorElem?.remove();
-    if (!errorLen) {
-      this.input?.removeAttribute('validation-status');
-    }
+    elem?.remove();
+    this.input?.classList.remove(type);
+  },
+
+  /**
+   * Remove all the messages from input
+   * @returns {void}
+   */
+  removeAllMessage() {
+    const nodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
+    nodes.forEach((node) => {
+      this.removeMessage({
+        id: node.getAttribute('validation-id'),
+        type: node.getAttribute('type')
+      });
+    });
   },
 
   /**
@@ -105,11 +141,18 @@ const IdsValidationMixin = {
    * @returns {void}
    */
   validationEvents(option) {
-    const action = option === 'remove' ? 'removeEventListener' : 'addEventListener';
     if (this.input) {
-      this.eventHandlers[action]('blur', this.input, () => {
-        this.checkValidation();
-      });
+      const eventName = 'blur';
+      if (option === 'remove') {
+        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        if (handler && handler.target === this.input) {
+          this.eventHandlers.removeEventListener(eventName, this.input);
+        }
+      } else {
+        this.eventHandlers.addEventListener(eventName, this.input, () => {
+          this.checkValidation();
+        });
+      }
     }
   },
 
@@ -121,15 +164,11 @@ const IdsValidationMixin = {
     if (this.input) {
       const useRules = this.useRules.get(this.input);
       if (useRules) {
-        useRules.forEach((thisRule) => {
-          if (thisRule.id === 'required') {
-            const label = this.querySelector('ids-label');
-            label?.removeAttribute('required');
-          }
-        });
         this.validationEvents('remove');
         this.useRules.delete(this.input);
       }
+      this.labelEl?.classList.remove('required');
+      this.removeAllMessage();
     }
   },
 
