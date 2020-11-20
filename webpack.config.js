@@ -24,7 +24,10 @@ module.exports = {
     'ids-popup/test-target-in-grid': ['./app/ids-popup/test-target-in-grid.js'],
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js'],
-    'ids-trigger-field/ids-trigger-field': ['./app/ids-trigger-field/index.js']
+    'ids-trigger-field/ids-trigger-field': ['./app/ids-trigger-field/index.js'],
+    'ids-render-loop/ids-render-loop': ['./app/ids-render-loop/index.js'],
+    'ids-render-loop/test-elapsed-time': ['./app/ids-render-loop/test-elapsed-time.js'],
+    'ids-render-loop/test-flying-popup': ['./app/ids-render-loop/test-flying-popup.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -256,6 +259,27 @@ module.exports = {
       filename: 'ids-popup/test-target-in-grid',
       chunks: ['ids-popup/test-target-in-grid'],
       title: 'Popup Test - Align Target inside a Layout Grid'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-render-loop/index.html',
+      inject: 'body',
+      filename: 'ids-render-loop/index.html',
+      chunks: ['ids-render-loop/ids-render-loop'],
+      title: 'IDS RenderLoop'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-render-loop/test-elapsed-time.html',
+      inject: 'body',
+      filename: 'ids-render-loop/test-elapsed-time',
+      chunks: ['ids-render-loop/test-elapsed-time'],
+      title: 'RenderLoop Test - Elapsed Time'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-render-loop/test-flying-popup.html',
+      inject: 'body',
+      filename: 'ids-render-loop/test-flying-popup',
+      chunks: ['ids-render-loop/test-flying-popup'],
+      title: 'RenderLoop Test - Flying Popup'
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),

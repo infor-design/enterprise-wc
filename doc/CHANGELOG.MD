@@ -8,6 +8,9 @@ Released on May 2nd 2021
     - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
     - Can now be imported as a single JS file and used with encapsulated styles.
     - Some button properties are now attributes - "type", "text", "icon", "disabled", "focusable", etc.
+- `[RenderLoop]` The RenderLoop component has been implemented.
+    - Added `IdsRenderLoopMixin` for access to a global renderLoop instance from within WebComponents.
+    - API has been simplified and made more user-friendly.
 - `[Tags]` The Tag component has been changed to a web component. This involves the following changes
     - If using events events are now plain JS events. beforetagremoved, tagremoved, aftertagremoved
     - If using properties/settings these are now attributes: dismissible, color
