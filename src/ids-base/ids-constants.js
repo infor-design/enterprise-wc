@@ -1,4 +1,5 @@
 export const props = {
+  ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
   APPEARANCE: 'appearance',
   AUTO: 'auto',

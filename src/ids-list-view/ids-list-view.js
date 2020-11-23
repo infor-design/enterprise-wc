@@ -4,13 +4,14 @@ import {
   scss,
   props
 } from '../ids-base/ids-element';
+
 import { IdsDataSourceMixin } from '../ids-base/ids-data-source-mixin';
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-list-view.scss';
 
 /**
- * IDS Label Component
+ * IDS List View Component
  */
 @customElement('ids-list-view')
 @scss(styles)
@@ -100,6 +101,12 @@ class IdsListView extends IdsElement {
     }
   }
 
+  /**
+   * Calculate the height of a  template element.
+   * @private
+   * @param  {string} itemTemplate The item template
+   * @returns {number} The item height
+   */
   checkTemplateHeight(itemTemplate) {
     this.shadowRoot.querySelector('.ids-list-view ul').insertAdjacentHTML('beforeEnd', itemTemplate);
     const tester = this.shadowRoot.querySelector('#height-tester');
