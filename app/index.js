@@ -19,4 +19,5 @@ import './ids-input/index';
 import './ids-input/test-validation-message';
 import './ids-popup/index';
 import './ids-render-loop/index';
+import './ids-toggle-button/index';
 import './ids-trigger-field/index';
