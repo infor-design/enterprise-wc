@@ -1,0 +1,7 @@
+@import './ids-base';
+
+.icon-dirty {
+  @include absolute();
+  @include m-4();
+  @include text-alert-caution();
+}

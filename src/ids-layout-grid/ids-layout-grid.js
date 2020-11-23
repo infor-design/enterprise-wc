@@ -79,12 +79,12 @@ class IdsLayoutGrid extends IdsElement {
   set auto(value) {
     if (value) {
       this.setAttribute(props.AUTO, value);
-      this.classList.add('ids-layout-cols-auto');
+      this.classList.add('ids-layout-grid-auto');
       return;
     }
 
     this.removeAttribute(props.AUTO);
-    this.classList.remove('ids-layout-cols-auto');
+    this.classList.remove('ids-layout-grid-auto');
   }
 
   get auto() { return this.getAttribute(props.AUTO); }
@@ -98,14 +98,14 @@ class IdsLayoutGrid extends IdsElement {
       this.auto = false;
       this.setAttribute(props.COLS, value);
       this.style.setProperty('--grid-cols', value);
-      this.classList.add(`ids-layout-cols`);
-      this.classList.remove('ids-layout-cols-auto');
+      this.classList.add(`ids-layout-grid-cols`);
+      this.classList.remove('ids-layout-grid-auto');
       return;
     }
 
     this.style.removeProperty('--grid-cols');
     this.removeAttribute(props.AUTO);
-    this.classList.remove(`ids-layout-cols`);
+    this.classList.remove(`ids-layout-grid-cols`);
   }
 
   get cols() { return this.getAttribute(props.COLS); }
@@ -119,14 +119,14 @@ class IdsLayoutGrid extends IdsElement {
       this.auto = false;
       this.setAttribute(props.ROWS, value);
       this.style.setProperty('--grid-rows', value);
-      this.classList.add(`ids-layout-rows`);
-      this.classList.remove('ids-layout-cols-auto');
+      this.classList.add(`ids-layout-grid-rows`);
+      this.classList.remove('ids-layout-grid-auto');
       return;
     }
 
     this.style.removeProperty('--grid-rows');
     this.removeAttribute(props.AUTO);
-    this.classList.remove(`ids-layout-rows`);
+    this.classList.remove(`ids-layout-grid-rows`);
   }
 
   get rows() { return this.getAttribute(props.ROWS); }

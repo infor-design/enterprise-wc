@@ -13,6 +13,17 @@
   @include absolute();
   @include right-8();
 
-  top: 50%;
-  transform: translateY(-50%);
+  top: 16px;
+}
+
+::slotted(ids-trigger-button.has-input-label) {
+  top: 36px;
+}
+
+::slotted(ids-trigger-button.has-input-required) {
+  @include mt-16();
+}
+
+::slotted(ids-trigger-button.has-input-label.has-input-required) {
+  @include mt-4();
 }

@@ -30,14 +30,13 @@
 }
 
 // Auto Layout
-:host(.ids-layout-cols-auto),
-.ids-layout-grid.ids-layout-cols-auto {
+:host(.ids-layout-grid-auto),
+.ids-layout-grid.ids-layout-grid-auto {
   grid-template-columns: repeat(auto-fit, minmax(var(--grid-min-col-width), 1fr));
 }
 
 // Grid Columns
-:host(.ids-layout-cols),
-.ids-layout-grid.ids-layout-cols {
+:host(.ids-layout-grid-cols) {
   grid-template-columns: repeat(var(--grid-cols), minmax(calc(var(--grid-min-col-width) * 2), 1fr));
 
   // Tablet down go to auto layout
@@ -47,8 +46,7 @@
 }
 
 // Grid Column Span
-::slotted(.ids-layout-col-span),
-.ids-layout-grid > .ids-layout-col-span {
+::slotted(.ids-layout-grid-col-span) {
   grid-column: span var(--grid-col-span) / span var(--grid-col-span);
 
   // Tablet down go to auto layout
@@ -57,24 +55,14 @@
   }
 }
 
-.ids-layout-colspan-2 {
-  grid-column: span var(2) / span var(2);
-
-  // Tablet down go to auto layout
-  @media all and (max-width: $breakpoint-md) {
-    grid-column: auto;
-  }
-}
-
 // Grid Column Start
-::slotted(.ids-layout-col-start),
-.ids-layout-grid > .ids-layout-col-start {
+::slotted(.ids-layout-col-start) {
   grid-column-start: var(--grid-col-start);
 }
 
 // Grid Column End
-::slotted(.ids-layout-col-end),
-.ids-layout-grid > .ids-layout-col-end {
+::slotted(.ids-layout-grid-col-end),
+.ids-layout-grid > .ids-layout-grid-col-end {
   grid-column-end: var(--grid-col-end);
 }
 
@@ -105,25 +93,22 @@
 }
 
 // Grid Rows
-:host(.ids-layout-rows),
-.ids-layout-grid.ids-layout-rows {
+:host(.ids-layout-grid-rows) {
   grid-template-rows: repeat(var(--grid-rows), minmax(var(--grid-min-col-width), 1fr));
 }
 
 // Grid Row Span
-::slotted(.ids-layout-row-span),
-.ids-layout-grid > .ids-layout-row-span {
+::slotted(.ids-layout-grid-row-span) {
   grid-row: span var(--grid-row-span) / span var(--grid-row-span);
 }
 
 // Grid Row Start
-::slotted(.ids-layout-row-start),
-.ids-layout-grid > .ids-layout-row-start {
+::slotted(.ids-layout-grid-row-start) {
   grid-row-start: var(--grid-row-start);
 }
 
 // Grid Row End
-::slotted(.ids-layout-row-end) {
+::slotted(.ids-layout-grid-row-end) {
   grid-row-end: var(--grid-row-end);
 }
 
@@ -155,4 +140,57 @@
 :host(.ids-grid-flow-col-dense),
 .ids-layout-grid.ids-grid-flow-col-dense {
   grid-auto-flow: column dense;
+}
+
+// Grid - Standalone CSS Classes
+@for $i from 1 through 16 {
+  // Grid Columns
+  .ids-layout-grid.ids-layout-grid-cols-#{$i} {
+    grid-template-columns: repeat($i, minmax(calc(var(--grid-min-col-width) * 2), 1fr));
+
+    // Tablet down go to auto layout
+    @media all and (max-width: $breakpoint-md) {
+      grid-template-columns: repeat(auto-fill, minmax(calc(var(--grid-min-col-width) * 2), 1fr));
+    }
+  }
+
+  // Grid Column Span
+  .ids-layout-grid > .ids-layout-grid-col-span-#{$i} {
+    grid-column: auto / span $i;
+
+    // Tablet down go to auto layout
+    @media all and (max-width: $breakpoint-md) {
+      grid-column: auto;
+    }
+  }
+
+  // Grid Column Start
+  .ids-layout-grid > .ids-layout-grid-col-start-#{$i} {
+    grid-column-start: $i;
+  }
+
+  // Grid Column End
+  .ids-layout-grid > .ids-layout-grid-col-end-#{$i} {
+    grid-column-end: $i;
+  }
+
+  // Grid Rows
+  .ids-layout-grid.ids-layout-grid-rows-#{$i} {
+    grid-template-rows: repeat($i, minmax(var(--grid-min-col-width), 1fr));
+  }
+
+  // Grid Row Span
+  .ids-layout-grid > .ids-layout-grid-row-span-#{$i} {
+    grid-row: span $i / span $i;
+  }
+
+  // Grid Row Start
+  .ids-layout-grid > .ids-layout-grid-row-start-#{$i} {
+    grid-row-start: $i;
+  }
+
+  // Grid Row End
+  .ids-layout-grid > .ids-layout-grid-row-end-#{$i} {
+    grid-row-end: $i;
+  }
 }

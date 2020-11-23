@@ -1,9 +1,8 @@
 import {
-  IdsElement,
   customElement,
-  mixin,
   scss
 } from '../ids-base/ids-element';
+import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { props } from '../ids-base/ids-constants';
 import styles from './ids-trigger-button.scss';
@@ -13,8 +12,7 @@ import styles from './ids-trigger-button.scss';
  */
 @customElement('ids-trigger-button')
 @scss(styles)
-@mixin(IdsEventsMixin)
-class IdsTriggerButton extends IdsElement {
+class IdsTriggerButton extends IdsButton {
   /**
    * Call the constructor and then initialize
    */
@@ -23,19 +21,19 @@ class IdsTriggerButton extends IdsElement {
   }
 
   /**
+   * CSS Classes that are specific to the Icon Button prototype.
+   * @returns {Array} containing css classes specific to styling this component
+   */
+  get protoClasses() {
+    return [this.name];
+  }
+
+  /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.DISABLE_EVENTS];
-  }
-
-  /**
-   * Create the Template for the contents
-   * @returns {string} The template
-   */
-  template() {
-    return `<button class="ids-trigger-button" tabindex="0"><slot></slot></button>`;
+    return BUTTON_PROPS.concat([props.DISABLE_EVENTS]);
   }
 }
 

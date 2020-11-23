@@ -6,16 +6,33 @@ import {
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
+import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
+import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
+import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 import { props } from '../ids-base/ids-constants';
 import styles from './ids-input.scss';
 
-// Setting Defaults
-const types = {
+// Input id
+const ID = 'ids-input-id';
+
+// Types
+const TYPES = {
   default: 'text',
   text: 'text',
   password: 'password',
   number: 'number',
   email: 'email'
+};
+
+// Setting defaults sizes
+const SIZES = {
+  default: 'md',
+  xs: 'xs',
+  sm: 'sm',
+  mm: 'mm',
+  md: 'md',
+  lg: 'lg',
+  full: 'full'
 };
 
 /**
@@ -25,6 +42,9 @@ const types = {
 @scss(styles)
 @mixin(IdsEventsMixin)
 @mixin(IdsStringUtilsMixin)
+@mixin(IdsDomUtilsMixin)
+@mixin(IdsDirtyTrackerMixin)
+@mixin(IdsValidationMixin)
 class IdsInput extends IdsElement {
   /**
    * Call the constructor and then initialize
@@ -38,7 +58,29 @@ class IdsInput extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TYPE, props.PLACEHOLDER];
+    return [
+      props.DIRTY_TRACKER,
+      props.DISABLED,
+      props.LABEL,
+      props.LABEL_FONT_SIZE,
+      props.NAME,
+      props.PLACEHOLDER,
+      props.SIZE,
+      props.READONLY,
+      props.TYPE,
+      props.VALIDATE,
+      props.VALUE
+    ];
+  }
+
+  /**
+   * Custom Element `connectedCallBack` implementation
+   * @private
+   * @returns {void}
+   */
+  connectedCallBack() {
+    this.input = this.shadowRoot.querySelector(`#${ID}`);
+    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
   }
 
   /**
@@ -46,39 +88,235 @@ class IdsInput extends IdsElement {
    * @returns {string} The template
    */
   template() {
+    // Input
+    const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
+    const value = this.value !== null ? ` value="${this.value}"` : '';
+    const fieldName = this.fieldName !== null ? ` name="${this.fieldName}"` : '';
+    const type = ` type="${this.type || TYPES.default}"`;
+    const inputClass = ` class="ids-input-field ${this.size}"`;
+    let inputState = this.stringToBool(this.readonly) ? ' readonly' : '';
+    inputState = this.stringToBool(this.disabled) ? ' disabled' : inputState;
+
+    // Label
+    const labelFontSize = this.labelFontSize ? ` ${props.FONT_SIZE}="${this.labelFontSize}"` : '';
+    const labelClass = ` class="ids-input-label${inputState}"`;
+
     return `
-      <input class="ids-input-field" type="${types.default}" ${this.placeholder ? `placeholder="${this.placeholder}"` : ''}/>
+      <label for="${ID}"${labelClass}>
+        <ids-text${labelFontSize}>${this.label}</ids-text>
+      </label>
+      <input id="${ID}"${fieldName}${type}${inputClass}${value}${placeholder}${inputState} />
     `;
   }
 
   /**
-   * Set the type of input
-   * @param {boolean} value [text, password, number, email]
+   * Set input state for disabled or readonly
+   * @private
+   * @param {string} prop The property
+   * @returns {void}
    */
-  set type(value) {
-    if (value) {
-      this.setAttribute(props.TYPE, value);
-      return;
+  setInputState(prop) {
+    if (prop === props.READONLY || prop === props.DISABLED) {
+      const msgNodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
+      const options = {
+        prop1: prop,
+        prop2: prop !== props.READONLY ? props.READONLY : props.DISABLED,
+        val: this.stringToBool(this[prop])
+      };
+      if (options.val) {
+        this.input?.removeAttribute(options.prop2);
+        this.labelEl?.classList.remove(options.prop2);
+        msgNodes.forEach((x) => x.classList.remove(options.prop2));
+
+        this.input?.setAttribute(options.prop1, true);
+        this.labelEl?.classList.add(options.prop1);
+        msgNodes.forEach((x) => x.classList.add(options.prop1));
+      } else {
+        this.input?.removeAttribute(options.prop1);
+        this.labelEl?.classList.remove(options.prop1);
+        msgNodes.forEach((x) => x.classList.remove(options.prop1));
+      }
     }
-    this.setAttribute(props.TYPE, types.default);
   }
 
-  get type() { return this.getAttribute(props.TYPE); }
+  /**
+   * Get input field current width
+   * @returns {number} input field curent width
+   */
+  get inputWidth() {
+    const input = this.shadowRoot.querySelector(`#${ID}`);
+    return this.outerWidth(input);
+  }
 
   /**
-   * Set the placeholder of input
-   * @param {string} value of the placeholder property
+   * Set `dirty-tracker` attribute
+   * @param {boolean} value If true will set `dirty-tracker` attribute
+   */
+  set dirtyTracker(value) {
+    if (value) {
+      const val = this.stringToBool(value);
+      this.setAttribute(props.DIRTY_TRACKER, val);
+    } else {
+      this.removeAttribute(props.DIRTY_TRACKER);
+    }
+    this.handleDirtyTracker();
+  }
+
+  get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
+
+  /**
+   * Set `disabled` attribute
+   * @param {boolean} value If true will set `disabled` attribute
+   */
+  set disabled(value) {
+    if (value) {
+      const val = this.stringToBool(value);
+      this.setAttribute(props.DISABLED, val);
+    } else {
+      this.removeAttribute(props.DISABLED);
+    }
+    this.setInputState(props.DISABLED);
+  }
+
+  get disabled() { return this.getAttribute(props.DISABLED); }
+
+  /**
+   * Set the field `name` of input
+   * @param {string} value of the field `name` property
+   */
+  set fieldName(value) {
+    if (value) {
+      this.setAttribute(props.NAME, value);
+      return;
+    }
+    this.removeAttribute(props.NAME);
+  }
+
+  get fieldName() { return this.getAttribute(props.NAME); }
+
+  /**
+   * Set the `label-font-size` of input label
+   * @param {string} value of the `label-font-size` property
+   */
+  set labelFontSize(value) {
+    const labelText = this.shadowRoot.querySelector(`[for="${ID}"] ids-text`) || document.createElement('div');
+    if (value) {
+      this.setAttribute(props.LABEL_FONT_SIZE, value);
+      labelText.setAttribute(props.FONT_SIZE, value);
+      return;
+    }
+    this.removeAttribute(props.LABEL_FONT_SIZE);
+    labelText.removeAttribute(props.FONT_SIZE);
+  }
+
+  get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
+
+  /**
+   * Set the `label` text of input label
+   * @param {string} value of the `label` text property
+   */
+  set label(value) {
+    const labelText = this.shadowRoot.querySelector(`[for="${ID}"] ids-text`) || document.createElement('div');
+    if (value) {
+      this.setAttribute(props.LABEL, value);
+      labelText.innerHTML = value;
+      return;
+    }
+    this.removeAttribute(props.LABEL);
+    labelText.innerHTML = '';
+  }
+
+  get label() { return this.getAttribute(props.LABEL) || ''; }
+
+  /**
+   * Set the `placeholder` of input
+   * @param {string} value of the `placeholder` property
    */
   set placeholder(value) {
     if (value) {
       this.setAttribute(props.PLACEHOLDER, value);
       return;
     }
-
     this.removeAttribute(props.PLACEHOLDER);
   }
 
   get placeholder() { return this.getAttribute(props.PLACEHOLDER); }
+
+  /**
+   * Set the `readonly` of input
+   * @param {boolean} value If true will set `readonly` attribute
+   */
+  set readonly(value) {
+    if (value) {
+      const val = this.stringToBool(value);
+      this.setAttribute(props.READONLY, val);
+    } else {
+      this.removeAttribute(props.READONLY);
+    }
+    this.setInputState(props.READONLY);
+  }
+
+  get readonly() { return this.getAttribute(props.READONLY); }
+
+  /**
+   * Set the size of input
+   * @param {string} value [xs, sm, mm, md, lg, full]
+   */
+  set size(value) {
+    const size = SIZES[value];
+    this.setAttribute(props.SIZE, size || SIZES.default);
+    this.input?.classList.remove(...Object.values(SIZES));
+    this.input?.classList.add(size || SIZES.default);
+  }
+
+  get size() { return this.getAttribute(props.SIZE) || SIZES.default; }
+
+  /**
+   * Set the type of input
+   * @param {string} value [text, password, number, email]
+   */
+  set type(value) {
+    if (TYPES[value]) {
+      this.setAttribute(props.TYPE, TYPES[value]);
+      return;
+    }
+    this.setAttribute(props.TYPE, TYPES.default);
+  }
+
+  get type() { return this.getAttribute(props.TYPE); }
+
+  /**
+   * Set `validate` attribute
+   * @param {string} value The `validate` attribute
+   */
+  set validate(value) { // this.handleValidation();
+    if (value) {
+      this.setAttribute(props.VALIDATE, value);
+    } else {
+      this.removeAttribute(props.VALIDATE);
+    }
+    this.handleValidation();
+  }
+
+  get validate() { return this.getAttribute(props.VALIDATE); }
+
+  /**
+   * Set the `value` attribute of input
+   * @param {string} val the value property
+   */
+  set value(val) {
+    const input = this.shadowRoot.querySelector(`[id="${ID}"]`) || document.createElement('input');
+
+    if (val) {
+      this.setAttribute(props.VALUE, val);
+      input.value = val;
+      return;
+    }
+    this.removeAttribute(props.VALUE);
+    input.value = '';
+  }
+
+  get value() { return this.getAttribute(props.VALUE); }
 }
 
 export default IdsInput;

@@ -1,19 +1,33 @@
-/* Ids Label Css */
+/* Ids Text Css */
 @import '../ids-base/ids-base';
 
-.ids-label {
+@mixin audible {
+  @include absolute();
+  @include m-0();
+  @include min-h-0();
+  @include p-0();
+
+  clip: rect(0, 0, 0, 0);
+  height: 0;
+  line-height: 0;
+  overflow: hidden;
+  width: 1px;
+}
+
+.ids-text {
   @include antialiased();
   @include font-sans();
   @include font-normal();
   @include block();
+  @include mb-8();
+
+  &.audible {
+    @include audible();
+  }
 }
 
-h1,
-h2 {
-  @include mb-12();
-
-  margin-block-end: 0;
-  margin-block-start: 0;
+::slotted(.audible) {
+  @include audible();
 }
 
 /* Ids Typography System */

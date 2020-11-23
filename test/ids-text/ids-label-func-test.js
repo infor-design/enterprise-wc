@@ -1,15 +1,15 @@
 /**
  * @jest-environment jsdom
  */
-import IdsLabel from '../../src/ids-label/ids-label';
+import IdsText from '../../src/ids-text/ids-text';
 
-describe('IdsLabel Component', () => {
+describe('IdsText Component', () => {
   let elem;
 
   beforeEach(async () => {
-    const label = new IdsLabel();
-    document.body.appendChild(label);
-    elem = document.querySelector('ids-label');
+    const text = new IdsText();
+    document.body.appendChild(text);
+    elem = document.querySelector('ids-text');
   });
 
   afterEach(async () => {
@@ -19,9 +19,9 @@ describe('IdsLabel Component', () => {
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     elem.remove();
-    elem = new IdsLabel();
+    elem = new IdsText();
     document.body.appendChild(elem);
-    expect(document.querySelectorAll('ids-label').length).toEqual(1);
+    expect(document.querySelectorAll('ids-text').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -36,11 +36,11 @@ describe('IdsLabel Component', () => {
   it('renders font size setting', () => {
     elem.fontSize = 24;
     expect(elem.fontSize).toEqual('24');
-    expect(document.querySelectorAll('ids-label').length).toEqual(1);
+    expect(document.querySelectorAll('ids-text').length).toEqual(1);
   });
 
   it('renders font-size setting then removes it', () => {
-    elem = new IdsLabel();
+    elem = new IdsText();
     document.body.appendChild(elem);
     elem.fontSize = 24;
     expect(elem.fontSize).toEqual('24');
@@ -56,7 +56,7 @@ describe('IdsLabel Component', () => {
   });
 
   it('renders font-size setting then removes it', () => {
-    elem = new IdsLabel();
+    elem = new IdsText();
     document.body.appendChild(elem);
     elem.type = 'h1';
     expect(elem.type).toEqual('h1');
@@ -64,5 +64,15 @@ describe('IdsLabel Component', () => {
     expect(elem.type).toEqual(null);
     expect(elem.getAttribute('type')).toEqual(null);
     expect(elem.shadowRoot.querySelectorAll('span').length).toEqual(1);
+  });
+
+  it('renders audible setting then removes it', () => { // ids-text audible
+    elem = new IdsText();
+    document.body.appendChild(elem);
+    expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
+    elem.audible = true;
+    expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
+    elem.audible = false;
+    expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
   });
 });

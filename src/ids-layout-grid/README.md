@@ -70,6 +70,15 @@ Nested Grid. An IdsLayoutGrid component can be nested inside an IdsLayoutGridCel
 </ids-layout-grid>
 ```
 
+Standalone CSS Example
+
+```html
+<div class="ids-layout-grid ids-layout-cols ids-layout-grid-gap-md" style="--grid-cols: 3;">
+  <div class="ids-layout-grid-cell ids-layout-col-span ids-background-fill" style="--grid-col-span: 2"><ids-text font-size="12">A</ids-text></div>
+  <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">B</ids-text></div>
+</div>
+```
+
 ## States and Variations
 
 IdsLayoutGrid
@@ -105,6 +114,7 @@ TODO
 ## Alternate Designs
 
 - May need to re-visit responsiveness as we begin to test complex layouts.
+- Add fixed unit sizing options for cells and rows.
 
 ## Test Plan
 
@@ -118,4 +128,4 @@ TODO
 
 ## Regional Considerations
 
-Grid cells should naturally flip with the pager order in used in Right-To-Left languages.
+It's possible that some use cases cells will be flipped when in Right-To-Left languages. This is a TODO still.

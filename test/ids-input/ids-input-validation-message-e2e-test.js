@@ -1,7 +1,7 @@
 const { percySnapshot } = require('@percy/puppeteer');
 
-describe('Ids Label e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-label';
+describe('Ids Input Validation Message e2e Tests', () => {
+  const url = 'http://localhost:4444/ids-input/test-validation-message.html';
 
   beforeAll(async () => {
     page = await browser.newPage();
@@ -9,20 +9,20 @@ describe('Ids Label e2e Tests', () => {
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Label Component');
+    await expect(page.title()).resolves.toMatch('IDS Input Component - Validation Message');
   });
 
   it('should pass Axe accessibility tests', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    await expect(page).toPassAxeTests();
+    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast'] });
   });
 
   it('should not have visual regressions (percy)', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    await percySnapshot(page, 'ids-label');
+    await percySnapshot(page, 'ids-input-validation-message');
   });
 });
