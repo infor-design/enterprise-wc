@@ -49,7 +49,11 @@ describe('IdsInput Component', () => {
     expect(msgEl).toBeTruthy();
     expect(msgEl.getAttribute('validation-id')).toEqual('email');
 
+    // elem.input.focus();
+    elem.input.dispatchEvent(new Event('focus'));
     elem.input.value = 'test@test.com';
+    elem.input.dispatchEvent(new Event('blur'));
+    // elem.input.blur();
     elem.checkValidation();
     expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
   });
@@ -80,6 +84,7 @@ describe('IdsInput Component', () => {
   });
 
   it('should add input error message', () => {
+    elem.addMessage({});
     elem.addMessage({ message: 'test', type: 'error', id: 'error' });
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(msgEl).toBeTruthy();
@@ -158,5 +163,11 @@ describe('IdsInput Component', () => {
     elem.removeAllMessage();
     msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(msgEl).toBeFalsy();
+  });
+
+  it('should not error for input', () => {
+    elem.input.remove();
+    elem.input = null;
+    elem.checkValidation();
   });
 });

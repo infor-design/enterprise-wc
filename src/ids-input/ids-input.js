@@ -4,11 +4,18 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
+
+// Mixins
+import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
+import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
+import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
-import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
-import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
+
+// Supporting components
+import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
+
 import { props } from '../ids-base/ids-constants';
 import styles from './ids-input.scss';
 
@@ -35,15 +42,24 @@ const SIZES = {
   full: 'full'
 };
 
+// Setting defaults text-align
+const TEXT_ALIGN = {
+  default: 'left',
+  left: 'left',
+  center: 'center',
+  right: 'right'
+};
+
 /**
  * IDS Trigger Field Components
  */
 @customElement('ids-input')
 @scss(styles)
+@mixin(IdsClearableMixin)
+@mixin(IdsDirtyTrackerMixin)
+@mixin(IdsDomUtilsMixin)
 @mixin(IdsEventsMixin)
 @mixin(IdsStringUtilsMixin)
-@mixin(IdsDomUtilsMixin)
-@mixin(IdsDirtyTrackerMixin)
 @mixin(IdsValidationMixin)
 class IdsInput extends IdsElement {
   /**
@@ -59,6 +75,8 @@ class IdsInput extends IdsElement {
    */
   static get properties() {
     return [
+      props.AUTOSELECT,
+      props.CLEARABLE,
       props.DIRTY_TRACKER,
       props.DISABLED,
       props.LABEL,
@@ -67,6 +85,8 @@ class IdsInput extends IdsElement {
       props.PLACEHOLDER,
       props.SIZE,
       props.READONLY,
+      props.TEXT_ALIGN,
+      props.TRIGGERFIELD,
       props.TYPE,
       props.VALIDATE,
       props.VALUE
@@ -81,6 +101,19 @@ class IdsInput extends IdsElement {
   connectedCallBack() {
     this.input = this.shadowRoot.querySelector(`#${ID}`);
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
+
+    this.handleEvents();
+  }
+
+  /**
+   * Custom Element `disconnectedCallback` implementation
+   * @private
+   * @returns {void}
+   */
+  disconnectedCallback() {
+    this.handleInputChangeEvent('remove');
+    this.handleInputFocusEvent('remove');
+    this.handleNativeEvents('remove');
   }
 
   /**
@@ -140,6 +173,109 @@ class IdsInput extends IdsElement {
   }
 
   /**
+   * Handle autoselect
+   * @private
+   * @returns {void}
+   */
+  handleAutoselect() {
+    if (this.autoselect) {
+      this.handleInputFocusEvent();
+    } else {
+      this.handleInputFocusEvent('remove');
+    }
+  }
+
+  /**
+   * Handle input focus event
+   * @private
+   * @param {string} option If 'remove', will remove attached events
+   * @returns {void}
+   */
+  handleInputFocusEvent(option) {
+    const input = this.input || this.shadowRoot.querySelector(`#${ID}`);
+    if (input) {
+      const eventName = 'focus';
+      if (option === 'remove') {
+        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        if (handler && handler.target === input) {
+          this.eventHandlers.removeEventListener(eventName, input);
+        }
+      } else {
+        this.eventHandlers.addEventListener(eventName, input, () => {
+          input.select();
+        });
+      }
+    }
+  }
+
+  /**
+   * Handle input change event
+   * @private
+   * @param {string} option If 'remove', will remove attached events
+   * @returns {void}
+   */
+  handleInputChangeEvent(option) {
+    if (this.input) {
+      const eventName = 'change';
+      if (option === 'remove') {
+        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        if (handler && handler.target === this.input) {
+          this.eventHandlers.removeEventListener(eventName, this.input);
+        }
+      } else {
+        this.eventHandlers.addEventListener(eventName, this.input, () => {
+          this.value = this.input.value;
+        });
+      }
+    }
+  }
+
+  /**
+   * Establish Internal Event Handlers
+   * @private
+   * @param {string} option If 'remove', will remove attached events
+   * @returns {object} The object for chaining.
+   */
+  handleNativeEvents(option) {
+    if (this.input) {
+      const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+      events.forEach((evt) => {
+        if (option === 'remove') {
+          const handler = this.eventHandlers?.handledEvents?.get(evt);
+          if (handler && handler.target === this.input) {
+            this.eventHandlers.removeEventListener(evt, this.input);
+          }
+        } else {
+          this.eventHandlers.addEventListener(evt, this.input, (e) => {
+            /**
+             * Trigger event on parent and compose the args
+             * will fire `trigger + nativeEvent` as triggerclick, triggerchange etc.
+             * @private
+             * @param  {object} elem Actual event
+             * @param  {string} value The updated input element value
+             */
+            this.eventHandlers.dispatchEvent(`trigger${e.type}`, this, { elem: this, nativeEvent: e, value: this.value });
+          });
+        }
+      });
+    }
+    return this;
+  }
+
+  /**
+   * Handle events
+   * @private
+   * @returns {void}
+   */
+  handleEvents() {
+    if (this.value === null) {
+      this.value = '';
+    }
+    this.handleInputChangeEvent();
+    this.handleNativeEvents();
+  }
+
+  /**
    * Get input field current width
    * @returns {number} input field curent width
    */
@@ -147,6 +283,38 @@ class IdsInput extends IdsElement {
     const input = this.shadowRoot.querySelector(`#${ID}`);
     return this.outerWidth(input);
   }
+
+  /**
+   * Set `autoselect` attribute
+   * @param {boolean} value If true will set `autoselect` attribute
+   */
+  set autoselect(value) {
+    if (value) {
+      const val = this.stringToBool(value);
+      this.setAttribute(props.AUTOSELECT, val);
+    } else {
+      this.removeAttribute(props.AUTOSELECT);
+    }
+    this.handleAutoselect();
+  }
+
+  get autoselect() { return this.getAttribute(props.AUTOSELECT); }
+
+  /**
+   * Set `clearable` attribute
+   * @param {boolean} value If true will set `clearable` attribute
+   */
+  set clearable(value) {
+    if (value) {
+      const val = this.stringToBool(value);
+      this.setAttribute(props.CLEARABLE, val);
+    } else {
+      this.removeAttribute(props.CLEARABLE);
+    }
+    this.handleClearable();
+  }
+
+  get clearable() { return this.getAttribute(props.CLEARABLE); }
 
   /**
    * Set `dirty-tracker` attribute
@@ -272,6 +440,36 @@ class IdsInput extends IdsElement {
   get size() { return this.getAttribute(props.SIZE) || SIZES.default; }
 
   /**
+   * Set the `text-align` of input
+   * @param {string} value [left, center, right]
+   */
+  set textAlign(value) {
+    const input = this.input || this.shadowRoot.querySelector(`[id="${ID}"]`);
+    const textAlign = TEXT_ALIGN[value];
+    this.setAttribute(props.TEXT_ALIGN, textAlign || TEXT_ALIGN.default);
+    input?.classList.remove(...Object.values(TEXT_ALIGN));
+    input?.classList.add(textAlign || TEXT_ALIGN.default);
+  }
+
+  get textAlign() { return this.getAttribute(props.TEXT_ALIGN) || TEXT_ALIGN.default; }
+
+  /**
+   * Set the triggerfield of input
+   * @param {boolean} value If true will set `triggerfield` attribute
+   */
+  set triggerfield(value) {
+    if (value) {
+      const val = this.stringToBool(value);
+      this.setAttribute(props.TRIGGERFIELD, val);
+    } else {
+      this.removeAttribute(props.TRIGGERFIELD);
+    }
+    this.input?.classList[this.triggerfield ? 'add' : 'remove']('has-triggerfield');
+  }
+
+  get triggerfield() { return this.getAttribute(props.TRIGGERFIELD); }
+
+  /**
    * Set the type of input
    * @param {string} value [text, password, number, email]
    */
@@ -305,15 +503,12 @@ class IdsInput extends IdsElement {
    * @param {string} val the value property
    */
   set value(val) {
-    const input = this.shadowRoot.querySelector(`[id="${ID}"]`) || document.createElement('input');
-
-    if (val) {
-      this.setAttribute(props.VALUE, val);
-      input.value = val;
-      return;
+    const input = this.shadowRoot.querySelector(`[id="${ID}"]`);
+    const v = val || '';
+    this.setAttribute(props.VALUE, v);
+    if (input) {
+      input.value = v;
     }
-    this.removeAttribute(props.VALUE);
-    input.value = '';
   }
 
   get value() { return this.getAttribute(props.VALUE); }

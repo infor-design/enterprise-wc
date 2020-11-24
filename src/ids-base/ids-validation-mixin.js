@@ -61,14 +61,17 @@ const IdsValidationMixin = {
    */
   checkValidation() {
     if (this.input) {
+      let isValid = true;
       const useRules = this.useRules.get(this.input);
       useRules?.forEach((thisRule) => {
         if (!thisRule.rule.check(this.input)) {
           this.addMessage(thisRule.rule);
+          isValid = false;
         } else {
           this.removeMessage(thisRule.rule);
         }
       });
+      this.eventHandlers.dispatchEvent('validated', this, { elem: this, value: this.value, isValid });
     }
   },
 

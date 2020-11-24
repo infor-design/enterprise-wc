@@ -2,6 +2,8 @@
 // confirm our code is type safe, and to support TypeScript users.
 
 interface nativeElement extends HTMLElement {
+  autoselect: boolean;
+  clearable: boolean;
   dirtyTracker: boolean;
   disabled: boolean;
   label: string;
@@ -10,6 +12,8 @@ interface nativeElement extends HTMLElement {
   placeholder: string
   size: 'xs' | 'sm ' | 'mm' | 'md' | 'lg' | 'full' | string;
   readonly: boolean;
+  textAlign: 'left' | 'center ' | 'right' | string;
+  triggerfield: boolean;
   type: 'text' | 'password' | 'email' | 'number' | string;
   validate: 'required' | 'email' | string;
   value: string | number;

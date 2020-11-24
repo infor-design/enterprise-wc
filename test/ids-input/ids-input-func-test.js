@@ -210,6 +210,24 @@ describe('IdsInput Component', () => {
   });
 
   it('should setup dirty tracking', () => {
+    input.dirtyTracker = true;
+    input.input.remove();
+    input.input = null;
+    input.dirtyTrackerEvents();
+    expect(input.dirty).toEqual({ original: '' });
+    document.body.innerHTML = '';
+    let elem = new IdsInput();
+    document.body.appendChild(elem);
+    input = document.querySelector('ids-input');
+    input.dirtyTracker = true;
+    input.input.remove();
+    input.input = null;
+    input.handleDirtyTracker();
+    expect(input.dirty).toEqual({ original: '' });
+    document.body.innerHTML = '';
+    elem = new IdsInput();
+    document.body.appendChild(elem);
+    input = document.querySelector('ids-input');
     expect(input.getAttribute('dirty-tracker')).toEqual(null);
     expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
@@ -271,6 +289,119 @@ describe('IdsInput Component', () => {
     expect(input.getAttribute('dirty-tracker')).toEqual(null);
     expect(input.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(input.labelEl.querySelector('.msg-dirty')).toBeFalsy();
+  });
+
+  it('should not error for input', () => {
+    input.input.remove();
+    input.input = null;
+    input.handleInputFocusEvent();
+    input.handleInputChangeEvent();
+    input.clearable = true;
+  });
+
+  it('should autoselect', () => {
+    input.autoselect = true;
+    input.value = 'test';
+    expect(input.getAttribute('autoselect')).toEqual('true');
+    input.input.focus();
+    input.shadowRoot.querySelector('.ids-input-field').focus();
+    input.autoselect = false;
+    expect(input.getAttribute('autoselect')).toEqual(null);
+  });
+
+  it('should renders clearable', () => {
+    input.clearable = true;
+    expect(input.getAttribute('clearable')).toEqual('true');
+    expect(input.input.classList).toContain('has-clearable');
+    expect(input.shadowRoot.querySelector('.btn-clear').classList).toContain('is-empty');
+    input.input.focus();
+    input.value = 'test';
+    input.checkContents();
+    let xButton = input.shadowRoot.querySelector('.btn-clear');
+    expect(xButton.classList).not.toContain('is-empty');
+    input.input.blur();
+    input.input.focus();
+    input.value = 'test2';
+    input.checkContents();
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    xButton = input.shadowRoot.querySelector('.btn-clear');
+    xButton.dispatchEvent(event);
+    expect(input.value).toEqual('');
+    input.clearable = false;
+    expect(input.getAttribute('clearable')).toEqual(null);
+    expect(input.input.classList).not.toContain('has-clearable');
+  });
+
+  it('should clear on click', () => {
+    input.clearable = true;
+    input.value = 'test';
+    expect(input.value).toEqual('test');
+    input.shadowRoot.querySelector('.btn-clear').click();
+    expect(input.value).toEqual('');
+  });
+
+  it('should renders triggerfield', () => {
+    input.triggerfield = true;
+    input.value = 'test';
+    expect(input.getAttribute('triggerfield')).toEqual('true');
+    expect(input.input.classList).toContain('has-triggerfield');
+    input.triggerfield = false;
+    expect(input.getAttribute('triggerfield')).toEqual(null);
+    expect(input.input.classList).not.toContain('has-triggerfield');
+  });
+
+  it('should clear field', () => {
+    input.clearable = true;
+    input.value = 'test';
+    expect(input.getAttribute('clearable')).toEqual('true');
+    input.shadowRoot.querySelector('.btn-clear').click();
+    input.clearable = false;
+    expect(input.getAttribute('clearable')).toEqual(null);
+  });
+
+  it('should not set wrong text-align', () => {
+    input.input.remove();
+    input.input = null;
+    input.textAlign = 'test';
+    document.body.innerHTML = '';
+    const elem = new IdsInput();
+    document.body.appendChild(elem);
+    input = document.querySelector('ids-input');
+    input.textAlign = 'test2';
+    expect(input.getAttribute('text-align')).toEqual('left');
+    expect(input.input.classList).not.toContain('test');
+    const textAlign = 'right';
+    input.textAlign = textAlign;
+    expect(input.getAttribute('text-align')).toEqual(textAlign);
+    expect(input.input.classList).toContain(textAlign);
+  });
+
+  it('should input text-align', () => {
+    const textAligns = ['left', 'center', 'right'];
+    const checkAlign = (textAlign) => {
+      input.textAlign = textAlign;
+      expect(input.getAttribute('text-align')).toEqual(textAlign);
+      expect(input.input.classList).toContain(textAlign);
+      textAligns.filter((s) => s !== textAlign).forEach((s) => {
+        expect(input.input.classList).not.toContain(s);
+      });
+    };
+    expect(input.getAttribute('text-align')).toEqual(null);
+    expect(input.textAlign).toContain('left');
+    textAligns.forEach((s) => checkAlign(s));
+  });
+
+  it('should dispatch native events', () => {
+    const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    events.forEach((evt) => {
+      let response = null;
+      input.addEventListener(`trigger${evt}`, () => {
+        response = 'triggered';
+      });
+      const event = new Event(evt);
+      input.input.dispatchEvent(event);
+      expect(response).toEqual('triggered');
+    });
   });
 
   it('should not set wrong size', () => {

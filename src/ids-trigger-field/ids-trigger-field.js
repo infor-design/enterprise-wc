@@ -168,6 +168,7 @@ class IdsTriggerField extends IdsElement {
       if (icon) {
         trigger.classList.add(`has-icon-${icon.getAttribute('icon')}`);
       }
+      input.setAttribute(props.TRIGGERFIELD, true);
     }
   }
 

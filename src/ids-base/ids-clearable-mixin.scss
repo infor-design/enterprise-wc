@@ -1,0 +1,33 @@
+@import './ids-base';
+
+.ids-input-field {
+  ~ .btn-clear {
+    margin-left: -28px;
+    margin-top: 10px;
+    position: absolute;
+
+    &.is-empty {
+      display: none;
+    }
+
+    [slot='icon'] {
+      @include text-slate-60();
+    }
+
+    &:hover [slot='icon'] {
+      @include text-slate-100();
+    }
+  }
+
+  &.has-clearable {
+    @include pr-28();
+
+    &.has-triggerfield {
+      padding-right: 50px;
+    }
+
+    &.has-triggerfield ~ .btn-clear {
+      margin-left: -53px;
+    }
+  }
+}
