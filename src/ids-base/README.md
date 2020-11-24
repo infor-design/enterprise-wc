@@ -74,7 +74,7 @@ This mixin tracks the input element text/value changes and show a dirty indicato
 
 ## Ids Clearable Mixin
 
-This mixin adds (x) button to input element and bind click/keys to clear the input value/text. It triggers events the `cleared` when clears the contents of the input element and `contents-checked` when checks the contents of input element for empty.
+This mixin adds a clear button (x icon) to an input element ands bind click and key events to clear the text in the input when clicked. It will trigger the `cleared` when the contents of the input element are cleared and a `contents-checked` event when the contents of input are being checked for empty.
 
 ## Ids Validation Mixin
 
