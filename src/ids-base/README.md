@@ -78,4 +78,4 @@ This mixin adds a clear button (x icon) to an input element ands bind click and 
 
 ## Ids Validation Mixin
 
-This mixin add/removes validation icon and messages to form fields. It triggers the `validated` event and pass argument validation boolean results with `isValid`.
+This mixin add functionality for validation to the component. This includes a add/remove message function api.  Also triggers the `validated` event when evaluated and passes an `isValid` argument for the current state.
