@@ -60,7 +60,7 @@ Set validation `required` to Text Input this way:
 <ids-input label="Last Name" validate="required"></ids-input>
 ```
 
-Set the Clearable to Text Input this way:
+Set the input to clearbale and add a clear button:
 
 ```html
 <ids-input label="Clearable" clearable="true"></ids-input>
