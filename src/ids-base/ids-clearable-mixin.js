@@ -1,5 +1,5 @@
 /**
- * Clearable (Shows an X button to clear).
+ * Clearable (Shows an x-icon button to clear).
  */
 const IdsClearableMixin = {
   // Input clearable events
@@ -22,7 +22,7 @@ const IdsClearableMixin = {
   },
 
   /**
-   * Check if clearable X button exists if not add it
+   * Check if clearable x-icon button exists if not add it
    * @private
    * @returns {void}
    */
@@ -48,7 +48,7 @@ const IdsClearableMixin = {
   },
 
   /**
-   * Remove if clearable X button exists
+   * Remove if clearable x-icon button exists
    * @private
    * @returns {void}
    */
@@ -61,7 +61,6 @@ const IdsClearableMixin = {
 
   /**
    * Clears the contents of the input element
-   * @private
    * @returns {void}
    */
   clear() {
@@ -98,8 +97,8 @@ const IdsClearableMixin = {
    * @returns {void}
    */
   clearableEvents() {
-    this.handleClearableXbtnKeydown();
-    this.handleClearableXbtnClick();
+    this.handleClearBtnKeydown();
+    this.handleClearBtnClick();
     this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e));
 
     // Set initial state
@@ -112,7 +111,7 @@ const IdsClearableMixin = {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleClearableXbtnKeydown(option) {
+  handleClearBtnKeydown(option) {
     const xButton = this.shadowRoot.querySelector('.btn-clear');
     if (xButton) {
       const eventName = 'keydown';
@@ -134,12 +133,12 @@ const IdsClearableMixin = {
   },
 
   /**
-   * Handle clearable xButton click event
+   * Handle clearable x-icon button click event
    * @private
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleClearableXbtnClick(option) {
+  handleClearBtnClick(option) {
     const xButton = this.shadowRoot.querySelector('.btn-clear');
     if (xButton) {
       const eventName = 'click';
@@ -186,8 +185,8 @@ const IdsClearableMixin = {
    */
   destroyClearable() {
     this.input?.classList.remove('has-clearable');
-    this.handleClearableXbtnClick('remove');
-    this.handleClearableXbtnKeydown('remove');
+    this.handleClearBtnClick('remove');
+    this.handleClearBtnKeydown('remove');
     this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e, 'remove'));
     this.removeClearableButton();
   }

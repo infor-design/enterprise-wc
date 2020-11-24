@@ -51,7 +51,7 @@ const TEXT_ALIGN = {
 };
 
 /**
- * IDS Trigger Field Components
+ * IDS Input Component
  */
 @customElement('ids-input')
 @scss(styles)
