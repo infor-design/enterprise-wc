@@ -1,18 +1,18 @@
 <ids-layout-grid>
-  <ids-label font-size="12" type="h1">List View</ids-label>
+  <ids-text font-size="12" type="h1">List View</ids-text>
 </ids-layout-grid>
 <ids-layout-grid cols="2">
   <ids-layout-grid-cell col-span="1">
     <ids-card>
       <div slot="card-header">
-        <ids-label font-size="20" type="h2">Card Title One</ids-label>
+        <ids-text font-size="20" type="h2">Card Title One</ids-text>
       </div>
       <div slot="card-content">
         <ids-list-view id="list-view-1" virtual-scroll="true">
           <template>
-            <ids-label font-size="16" type="h2">${productName}</ids-label>
-            <ids-label font-size="12" type="span">Count: ${units}</ids-label>
-            <ids-label font-size="12" type="span">Price: $ ${unitPrice}</ids-label>
+            <ids-text font-size="16" type="h2">${productName}</ids-text>
+            <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+            <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
           </template>
         </ids-list-view>
       </div>

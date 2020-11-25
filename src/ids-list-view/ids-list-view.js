@@ -52,7 +52,6 @@ class IdsListView extends IdsElement {
     }
 
     if (this?.data.length > 0 && this.virtualScroll === 'true') {
-      // TODO Make 310 dynamic  item-height="43" item-count="1000"
       html = `<ids-virtual-scroll height="310">
           <div class="ids-list-view">
             <ul slot="contents">

@@ -189,7 +189,7 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
       inject: 'body',
       filename: folderAndFile,
       title,
-      chunks: [`${folderName}/${folderName}`, 'ids-icon/ids-icon', 'ids-label/ids-label', 'ids-layout-grid/ids-layout-grid']
+      chunks: [`${folderName}/${folderName}`, 'ids-icon/ids-icon', 'ids-text/ids-text', 'ids-layout-grid/ids-layout-grid']
     }),
   );
   return folderName;

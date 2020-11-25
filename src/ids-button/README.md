@@ -11,11 +11,9 @@ The IDS Button component is a simple wrapper around a standard HTMLButtonElement
 
 ## Terminology
 
-_Primary:_ A primary action that is the definitive "use" of a particular feature.  For example, after doing data entry on a form, the primary action might be to "Save" the contents of that form to a record.
-
-_Secondary:_ A secondary action is one that might be related to the primary action, but alternative in nature.  For example, a secondary action that might sit next to our above primary action could be "reset", which would remove the user-entered contents of the form and start from scratch.
-
-_Tertiary:_ Sometimes also called "destructive" in IDS, a tertiary action is one that might "undo" or be completely separate from the primary/secondary actions, but labelled with enough importance to be displayed aside them. Building on the above examples, a tertiary action might be "cancel" or "close", which would cause the form to close, and return the user to the previous workflow.
+- Primary: A primary action that is the definitive "use" of a particular feature.  For example, after doing data entry on a form, the primary action might be to "Save" the contents of that form to a record.
+- Secondary: A secondary action is one that might be related to the primary action, but alternative in nature.  For example, a secondary action that might sit next to our above primary action could be "reset", which would remove the user-entered contents of the form and start from scratch.
+- Tertiary: Sometimes also called "destructive" in IDS, a tertiary action is one that might "undo" or be completely separate from the primary/secondary actions, but labelled with enough importance to be displayed aside them. Building on the above examples, a tertiary action might be "cancel" or "close", which would cause the form to close, and return the user to the previous workflow.
 
 ## Features (With Code Samples)
 
@@ -112,10 +110,10 @@ The IDS Button component is now a WebComponent.  Instead of using classes to def
 ## Test Plan
 
 1. Accessibility - Axe
-2. Visual Regression Test
-3. Repeat Tests in All Supported Browsers
-4. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-5. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
+1. Visual Regression Test
+1. Repeat Tests in All Supported Browsers
+1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
+1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
 
 ## Accessibility Guidelines
 

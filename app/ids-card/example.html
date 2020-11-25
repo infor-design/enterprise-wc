@@ -1,23 +1,23 @@
 <ids-layout-grid>
-  <ids-label font-size="12" type="h1">Cards</ids-label>
+  <ids-text font-size="12" type="h1">Cards</ids-text>
 </ids-layout-grid>
-<ids-layout-grid>
-  <ids-layout-column>
+<ids-layout-grid cols="2" gap="md">
+  <ids-layout-grid-cell>
     <ids-card>
       <div slot="card-header">
-        <ids-label font-size="20" type="h2">Card Title One</ids-label>
+        <ids-text font-size="20" type="h2">Card Title One</ids-text>
       </div>
       <div slot="card-content">
       </div>
     </ids-card>
-  </ids-layout-column>
-  <ids-layout-column>
-    <ids-card auto-height="true">
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-card>
       <div slot="card-header">
-        <ids-label font-size="20" type="h2">Card Title Two</ids-label>
+        <ids-text font-size="20" type="h2">Card Title Two</ids-text>
       </div>
       <div slot="card-content">
       </div>
     </ids-card>
-  </ids-layout-column>
+  </ids-layout-grid-cell>
 </ids-layout-grid>

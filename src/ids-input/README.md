@@ -11,10 +11,8 @@ The IDS Input component is a simple wrapper around a standard HTMLInputElement t
 
 ## Terminology
 
-_Input:_ A standard basic input element. It can set to various types, size, and functionality. IDS Input will add `aria-required` for required elements.
-
-_Label:_ HTMLLabelElement to keep matching with HTMLInputElement. Make sure the input label has a meaningful relative to input. IDS Input will add sudo ui `*` for required elements.
-
+- Input: A standard basic input element. It can set to various types, size, and functionality. IDS Input will add `aria-required` for required elements.
+- Label: HTMLLabelElement to keep matching with HTMLInputElement. Make sure the input label has a meaningful relative to input. IDS Input will add sudo ui `*` for required elements.
 
 ## Features (With Code Samples)
 
@@ -111,10 +109,10 @@ The IDS Input component is now a WebComponent. Instead of using classes to defin
 ## Test Plan
 
 1. Accessibility - Axe
-2. Visual Regression Test
-3. Repeat Tests in All Supported Browsers
-4. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-5. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
+1. Visual Regression Test
+1. Repeat Tests in All Supported Browsers
+1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
+1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
 
 ## Accessibility Guidelines
 

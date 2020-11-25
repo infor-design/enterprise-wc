@@ -9,7 +9,7 @@ describe('IdsCard Component', () => {
   beforeEach(async () => {
     const elem = new IdsCard();
     elem.innerHTML = `<div slot="card-header">
-            <ids-label font-size="20" type="h2">Card Title Two</ids-label>
+            <ids-text font-size="20" type="h2">Card Title Two</ids-text>
           </div>
           <div slot="card-content">
           </div>`;

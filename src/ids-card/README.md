@@ -21,7 +21,7 @@ A card is created by using the custom `ids-card` element. A card has two content
 ```html
 <ids-card>
   <div slot="card-header">
-    <ids-label font-size="20" type="h2">Card Title One</ids-label>
+    <ids-text font-size="20" type="h2">Card Title One</ids-text>
   </div>
   <div slot="card-content">
   </div>

@@ -1,3 +1,5 @@
+import { IdsEventsMixin } from './ids-events-mixin';
+
 /**
  * The validation rules.
  */
@@ -47,7 +49,7 @@ const IdsValidationMixin = {
         }
       });
       if (isRulesAdded) {
-        this.validationEvents();
+        this.handleValidationEvents();
       }
     } else {
       this.destroyValidation();
@@ -55,7 +57,7 @@ const IdsValidationMixin = {
   },
 
   /**
-   * Check the validation and set to add/remove errors
+   * Check the validation and add/remove errors as needed
    * @private
    * @returns {void}
    */
@@ -73,7 +75,7 @@ const IdsValidationMixin = {
   },
 
   /**
-   * Add a message to input
+   * Add a message to an input
    * @param {object} [settings] incoming settings
    * @returns {void}
    */
@@ -108,7 +110,7 @@ const IdsValidationMixin = {
   },
 
   /**
-   * Remove the given message from input
+   * Remove the message(s) from an input
    * @param {object} [settings] incoming settings
    * @returns {void}
    */
@@ -124,7 +126,7 @@ const IdsValidationMixin = {
    * Remove all the messages from input
    * @returns {void}
    */
-  removeAllMessage() {
+  removeAllMessages() {
     const nodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
     nodes.forEach((node) => {
       this.removeMessage({
@@ -140,7 +142,11 @@ const IdsValidationMixin = {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  validationEvents(option) {
+  handleValidationEvents(option) {
+    if (!this.eventHandlers) {
+      this.eventHandlers = new IdsEventsMixin();
+    }
+
     if (this.input) {
       const eventName = 'blur';
       if (option === 'remove') {
@@ -157,18 +163,18 @@ const IdsValidationMixin = {
   },
 
   /**
-   * Destroy validation
+   * Destroy the validation mixin
    * @returns {void}
    */
   destroyValidation() {
     if (this.input) {
       const useRules = this.useRules.get(this.input);
       if (useRules) {
-        this.validationEvents('remove');
+        this.handleValidationEvents('remove');
         this.useRules.delete(this.input);
       }
       this.labelEl?.classList.remove('required');
-      this.removeAllMessage();
+      this.removeAllMessages();
     }
   },
 
