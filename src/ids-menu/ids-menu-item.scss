@@ -1,0 +1,54 @@
+/* Ids Menu Item Component */
+@import '../ids-base/ids-base';
+
+$menu-item-height: 40px;
+$transition-length: 100ms;
+
+:host {
+  @include block();
+  @include font-sans();
+
+  list-style: none;
+
+  ::slotted(ids-icon) {
+    @include px-4();
+
+    display: inline-block;
+    vertical-align: middle;
+  }
+}
+
+.ids-menu-item {
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  transition: background-color $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+
+  &.highlighted {
+    background-color: var(--ids-color-palette-slate-20);
+  }
+
+  // ================================================
+  // Standard Rules for a menu item with no icons
+  a {
+    @include px-4();
+    @include py-8();
+
+    > * {
+      margin-right: 5px;
+      vertical-align: middle;
+    }
+  }
+
+  ids-icon {
+    @include block();
+  }
+
+  // ================================================
+  // Has Icons
+  &.no-icon {
+    a {
+      @include pl-40();
+    }
+  }
+}

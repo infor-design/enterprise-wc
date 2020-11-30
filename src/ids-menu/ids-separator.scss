@@ -1,0 +1,11 @@
+/* Ids Menu Component */
+@import '../ids-base/ids-base';
+
+:host {
+  @include block();
+  @include my-8();
+
+  background-color: var(--ids-color-brand-secondary-lighter);
+  height: 1px;
+  list-style: none;
+}
