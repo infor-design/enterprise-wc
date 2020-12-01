@@ -146,4 +146,10 @@ describe('IdsTriggerField Component', () => {
     expect(input.getAttribute('size')).toEqual('sm');
     expect(input.input.classList).toContain('sm');
   });
+
+  it('renders input triggerfield', () => {
+    const input = triggerField.querySelector('ids-input');
+    expect(input.getAttribute('triggerfield')).toEqual('true');
+    expect(input.input.classList).toContain('has-triggerfield');
+  });
 });
