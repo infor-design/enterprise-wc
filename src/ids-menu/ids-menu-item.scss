@@ -9,23 +9,20 @@ $transition-length: 100ms;
   @include font-sans();
 
   list-style: none;
-
-  ::slotted(ids-icon) {
-    @include px-4();
-
-    display: inline-block;
-    vertical-align: middle;
-  }
 }
 
 .ids-menu-item {
   align-items: center;
   cursor: pointer;
-  display: flex;
   transition: background-color $transition-length cubic-bezier(0.4, 0, 0.6, 1);
 
   &.highlighted {
     background-color: var(--ids-color-palette-slate-20);
+  }
+
+  ids-icon,
+  .ids-icon {
+    @include block();
   }
 
   // ================================================
@@ -34,21 +31,32 @@ $transition-length: 100ms;
     @include px-4();
     @include py-8();
 
+    display: grid;
+    grid-template-columns: min-content;
+    max-width: 100%;
+    white-space: nowrap;
+
     > * {
-      margin-right: 5px;
       vertical-align: middle;
+    }
+
+    ids-icon,
+    .ids-icon {
+      grid-column-start: 1;
+    }
+
+    .ids-menu-item-text {
+      grid-column-start: 2;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
-  ids-icon {
-    @include block();
-  }
-
   // ================================================
-  // Has Icons
-  &.no-icon {
+  // Rules for a menu item with an icon
+  &.has-icon {
     a {
-      @include pl-40();
+      grid-template-columns: 30px calc(100% - 40px);
     }
   }
 }

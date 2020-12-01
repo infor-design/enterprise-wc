@@ -18,8 +18,8 @@ import styles from './ids-menu.scss';
 function itemIcons(idsMenu) {
   const icons = [];
   idsMenu.items.forEach((item) => {
-    if (item.icon) {
-      icons.push(item.icon);
+    if (item.iconEl) {
+      icons.push(item.iconEl);
     }
   });
   return icons;
@@ -77,7 +77,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
-    // this.detectIcons();
+    this.detectIcons();
     this.handleEvents();
   }
 
@@ -87,7 +87,7 @@ class IdsMenu extends IdsElement {
    */
   template() {
     const hasIconsClass = itemIcons(this).length ? ' has-icons' : '';
-    return `<ul class="ids-menu${hasIconsClass}">
+    return `<ul class="ids-menu${hasIconsClass}" role="menu">
       <slot></slot>
     </ul>`;
   }
@@ -97,7 +97,7 @@ class IdsMenu extends IdsElement {
    * @returns {Array<IdsMenuItem>} available menu items
    */
   get items() {
-    return Array.from(this.querySelectorAll('ids-menu-item'));
+    return Array.from(this.querySelectorAll('ids-menu-item, .ids-menu-item'));
   }
 
   /**
@@ -122,9 +122,9 @@ class IdsMenu extends IdsElement {
     const icons = itemIcons(this);
     const hasIcons = icons.length > 0;
     this.classList[hasIcons ? 'add' : 'remove']('has-icons');
-    this.items.forEach(() => {
-      // @TODO: make it work
-      // item.alignForIcons(hasIcons);
+
+    this.items.forEach((item) => {
+      item.setDisplayType(hasIcons);
     });
   }
 }

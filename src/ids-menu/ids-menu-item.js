@@ -6,14 +6,19 @@ import {
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import IdsIcon from '../ids-icon/ids-icon';
 
 import styles from './ids-menu-item.scss';
+
+// @TODO handle other menu-item sizes
+const MENU_ITEM_SIZE = 'medium';
 
 // Default Button state values
 const MENU_DEFAULTS = {
   disabled: false,
   href: null,
   icon: null,
+  showIcon: false,
   tabindex: true,
   value: null,
 };
@@ -25,17 +30,6 @@ const MENU_PROPS = [
   props.HREF,
   props.TABINDEX,
   props.VALUE
-];
-
-// Alignment styles
-const MENU_ITEM_ALIGNMENTS = [
-  'none',
-  'icon',
-  'check',
-  'icon-check',
-  'no-icon',
-  'no-check',
-  'no-icon-check'
 ];
 
 /**
@@ -77,20 +71,28 @@ class IdsMenuItem extends IdsElement {
       href = ` href="${this.state.href}"`;
     }
 
+    // Icon
     let icon = '';
-    if (this.state?.icon) {
-      icon = `<ids-icon icon="${this.state.icon}"></ids-icon>`;
+    if (this.state?.showIcon && this.state?.icon) {
+      icon = `<ids-icon icon="${this.state.icon}" size="${MENU_ITEM_SIZE}"></ids-icon>`;
     }
+    const iconSlot = `<slot name="icon">
+      ${icon}
+    </slot>`;
 
+    // Tabindex
     let tabindex = 'tabindex="0"';
     if (this.state?.tabindex) {
       tabindex = ` tabindex="${this.state.tabindex}"`;
     }
 
-    return `<li class="ids-menu-item ${disabledClass}">
-      ${icon}
-      <a ${href} ${tabindex} ${disabledAttr}>
-        <slot></slot>
+    // Text
+    const textSlot = `<span class="ids-menu-item-text"><slot></slot></span>`;
+
+    // Main
+    return `<li class="ids-menu-item${disabledClass}" role="presentation">
+      <a ${href} ${tabindex} ${disabledAttr} role="menuitem">
+        ${iconSlot}${textSlot}
       </a>
     </li>`;
   }
@@ -188,18 +190,25 @@ class IdsMenuItem extends IdsElement {
       this.removeAttribute('icon');
       this.state.icon = undefined;
       this.removeIcon();
-      return;
+    } else {
+      this.state.icon = val;
+      this.setAttribute('icon', val);
+      this.appendIcon(val);
     }
-    this.state.icon = val;
-    this.setAttribute('icon', val);
-    this.appendIcon(val);
   }
 
   /**
    * @returns {undefined|string} a defined IdsIcon's `icon` attribute, if one is present
    */
   get icon() {
-    return this.querySelector('ids-icon')?.icon;
+    return this.iconEl?.icon;
+  }
+
+  /**
+   * @returns {undefined|IdsIcon} reference to a defined IDS Icon element, if applicable
+   */
+  get iconEl() {
+    return this.querySelector('ids-icon[slot="icon"]');
   }
 
   /**
@@ -209,12 +218,11 @@ class IdsMenuItem extends IdsElement {
    */
   appendIcon(iconName) {
     // First look specifically for an icon slot.
-    const icon = this.querySelector(`ids-icon`); // @TODO check for submenu icons here
-
+    const icon = this.querySelector(`ids-icon[slot="icon"]`); // @TODO check for submenu icons here
     if (icon) {
       icon.icon = iconName;
     } else {
-      this.insertAdjacentHTML('afterbegin', `<ids-icon icon="${iconName}" class="ids-icon"></ids-icon>`);
+      this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}" size="${MENU_ITEM_SIZE}" class="ids-icon"></ids-icon>`);
     }
   }
 
@@ -223,8 +231,7 @@ class IdsMenuItem extends IdsElement {
    * @private
    */
   removeIcon() {
-    const icon = this.querySelector(`ids-icon`); // @TODO check for submenu icons here
-
+    const icon = this.querySelector(`ids-icon[slot="icon"]`); // @TODO check for submenu icons here
     if (icon) {
       icon.remove();
     }
@@ -294,6 +301,13 @@ class IdsMenuItem extends IdsElement {
    */
   unhighlight() {
     this.highlighted = false;
+  }
+
+  /**
+   * @param {boolean} val true if icons are present
+   */
+  setDisplayType(val) {
+    this.container.classList[val === true ? 'add' : 'remove']('has-icon');
   }
 }
 
