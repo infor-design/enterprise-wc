@@ -41,6 +41,7 @@ export const props = {
   ROW_START: 'row-start',
   ROWS: 'rows',
   SIZE: 'size',
+  SUBMENU: 'submenu',
   TABBABLE: 'tabbable',
   TRIGGERFIELD: 'triggerfield',
   TEXT: 'text',

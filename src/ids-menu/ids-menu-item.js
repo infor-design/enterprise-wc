@@ -18,7 +18,6 @@ const MENU_DEFAULTS = {
   disabled: false,
   href: null,
   icon: null,
-  showIcon: false,
   tabindex: true,
   value: null,
 };
@@ -28,6 +27,7 @@ const MENU_PROPS = [
   props.DISABLED,
   props.ICON,
   props.HREF,
+  props.SUBMENU,
   props.TABINDEX,
   props.VALUE
 ];
@@ -73,12 +73,18 @@ class IdsMenuItem extends IdsElement {
 
     // Icon
     let icon = '';
-    if (this.state?.showIcon && this.state?.icon) {
+    if (this.state?.icon) {
       icon = `<ids-icon icon="${this.state.icon}" size="${MENU_ITEM_SIZE}"></ids-icon>`;
     }
     const iconSlot = `<slot name="icon">
       ${icon}
     </slot>`;
+
+    // Submenu
+    let submenuClass = '';
+    if (this.state?.submenu) {
+      submenuClass = ' has-submenu';
+    }
 
     // Tabindex
     let tabindex = 'tabindex="0"';
@@ -90,7 +96,7 @@ class IdsMenuItem extends IdsElement {
     const textSlot = `<span class="ids-menu-item-text"><slot></slot></span>`;
 
     // Main
-    return `<li class="ids-menu-item${disabledClass}" role="presentation">
+    return `<li class="ids-menu-item${disabledClass}${submenuClass}" role="presentation">
       <a ${href} ${tabindex} ${disabledAttr} role="menuitem">
         ${iconSlot}${textSlot}
       </a>
@@ -222,7 +228,7 @@ class IdsMenuItem extends IdsElement {
     if (icon) {
       icon.icon = iconName;
     } else {
-      this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}" size="${MENU_ITEM_SIZE}" class="ids-icon"></ids-icon>`);
+      this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-display-icon"></ids-icon>`);
     }
   }
 
@@ -234,6 +240,37 @@ class IdsMenuItem extends IdsElement {
     const icon = this.querySelector(`ids-icon[slot="icon"]`); // @TODO check for submenu icons here
     if (icon) {
       icon.remove();
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this menu item contains a submenu
+   */
+  get submenu() {
+    // @TODO Flesh this out a bit
+    return this.container.classList.contains('has-submenu');
+  }
+
+  /**
+   * @param {boolean} val true if this menu item should display a submenu
+   */
+  set submenu(val) {
+    // @TODO Flesh this out a bit
+    this.container.classList[val ? 'add' : 'remove']('has-submenu');
+    this.toggleSubmenuIcon(val);
+  }
+
+  /**
+   * @param {boolean} val true if the submenu icon should be shown
+   */
+  toggleSubmenuIcon(val) {
+    const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
+    if (val === true || val === 'true') {
+      if (!icon) {
+        this.a.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="dropdown" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`);
+      }
+    } else {
+      icon?.remove();
     }
   }
 

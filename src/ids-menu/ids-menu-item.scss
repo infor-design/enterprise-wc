@@ -41,7 +41,8 @@ $transition-length: 100ms;
     }
 
     ids-icon,
-    .ids-icon {
+    .ids-icon,
+    .ids-menu-item-display-icon {
       grid-column-start: 1;
     }
 
@@ -50,13 +51,19 @@ $transition-length: 100ms;
       overflow: hidden;
       text-overflow: ellipsis;
     }
+
+    .ids-menu-item-submenu-icon {
+      grid-column-start: 3;
+      -webkit-transform: rotateZ(-90deg);
+      transform: rotateZ(-90deg);
+    }
   }
 
   // ================================================
   // Rules for a menu item with an icon
   &.has-icon {
     a {
-      grid-template-columns: 30px calc(100% - 40px);
+      grid-template-columns: 30px calc(100% - 50px);
     }
   }
 }
