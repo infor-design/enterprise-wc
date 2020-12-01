@@ -58,8 +58,31 @@ Set validation `required` to Text Input this way:
 <ids-input label="Last Name" validate="required"></ids-input>
 ```
 
+Set the input to clearbale and add a clear button:
+
+```html
+<ids-input label="Clearable" clearable="true"></ids-input>
+```
+
+Set the Auto Select to Text Input this way:
+
+```html
+<ids-input label="Autoselect" value="Text select on focus" autoselect="true"></ids-input>
+```
+
+Set the Text Align to Text Input this way:
+
+```html
+<ids-input label="Default align (left)" value="Default align"></ids-input>
+<ids-input label="Left align" value="Left align" text-align="left"></ids-input>
+<ids-input label="Center align" value="Center align" text-align="center"></ids-input>
+<ids-input label="Right align" value="Right align" text-align="right"></ids-input>
+```
+
 ## Attributes and Properties
 
+- `autoselect` {boolean} set auto select text on focus to input.
+- `clearable` {boolean} set (x) button to clear text on click/key to input.
 - `dirty-tracker` {boolean} set dirty tracker to input.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
@@ -68,6 +91,8 @@ Set validation `required` to Text Input this way:
 - `placeholder` {string} set the placeholder text to input.
 - `size` {string} set the input size, it will set `md` as defaults.
 - `readonly` {boolean} set readonly state.
+- `text-align` {string} set text-align to input, it will set `left` as defaults.
+- `triggerfield` {boolean} if true will add css class/style `has-triggerfield`.
 - `type` {string} set the input type, it will set `text` as defaults.
 - `validate` {string} set the input validation rules, use `space` to add multiple validation rules.
 - `value` {string} set the input value.
