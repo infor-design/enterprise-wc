@@ -16,10 +16,6 @@ $transition-length: 100ms;
   cursor: pointer;
   transition: background-color $transition-length cubic-bezier(0.4, 0, 0.6, 1);
 
-  &.highlighted {
-    background-color: var(--ids-color-palette-slate-20);
-  }
-
   ids-icon,
   .ids-icon {
     @include block();
@@ -57,6 +53,29 @@ $transition-length: 100ms;
       -webkit-transform: rotateZ(-90deg);
       transform: rotateZ(-90deg);
     }
+  }
+
+  // ================================================
+  // Disabled state
+
+  &.disabled {
+    @include text-slate-30;
+
+    a {
+      color: inherit;
+    }
+
+    ids-icon,
+    .ids-icon {
+      fill: var(--ids-color-palette-slate-30);
+    }
+  }
+
+  // ================================================
+  // Highlighted state
+
+  &.highlighted {
+    background-color: var(--ids-color-palette-slate-20);
   }
 
   // ================================================

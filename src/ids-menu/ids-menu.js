@@ -6,11 +6,13 @@ import {
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import IdsMenuItem from './ids-menu-item';
 
 import styles from './ids-menu.scss';
 
 /**
+ * References all icons that describe menu item contents (ignores dropdown/check icons)
  * @private
  * @param {HTMLElement} idsMenu the IdsMenu element
  * @returns {Array<HTMLElement>} list of items
@@ -26,6 +28,23 @@ function itemIcons(idsMenu) {
 }
 
 /**
+ * @private
+ * @param {IdsMenuItem} item the element to be checked
+ * @param {HTMLElement} idsMenu the parent menu element
+ * @param {boolean} [checkDisabled] true if "usable" should also mean "not disabled" while checking
+ * @returns {boolean} true if the provided element is a "currently-usable" IdsMenuItem type.
+ */
+function isUsableItem(item, idsMenu, checkDisabled = false) {
+  const isItem = item instanceof IdsMenuItem;
+  const menuHasItem = idsMenu.contains(item);
+  let notDisabled = true;
+  if (isItem && checkDisabled) {
+    notDisabled = !item.disabled;
+  }
+  return (isItem && menuHasItem && notDisabled);
+}
+
+/**
  * IDS Menu Component
  */
 @customElement('ids-menu')
@@ -34,28 +53,27 @@ function itemIcons(idsMenu) {
 class IdsMenu extends IdsElement {
   constructor() {
     super();
+    this.state = {};
   }
 
   /**
    * @returns {void}
    */
   handleEvents() {
+    // Highlight handler -- Menu Items Only, don't change if the target is disabled
     const highlightItem = (e) => {
-      // Menu Items Only, don't change if the target is disabled
       const thisItem = e.target.closest('ids-menu-item');
-      if (!thisItem || !this.contains(thisItem) || thisItem.disabled) {
-        return;
+      if (isUsableItem(thisItem, this, true)) {
+        this.highlightItem(thisItem);
       }
-      this.highlightItem(thisItem);
     };
 
+    // Unhighlight handler - Menu Items Only
     const unhighlightItem = (e) => {
-      // Menu Items Only
       const thisItem = e.target.closest('ids-menu-item');
-      if (!thisItem || !this.contains(thisItem)) {
-        return;
+      if (isUsableItem(thisItem, this)) {
+        thisItem.unhighlight();
       }
-      thisItem.unhighlight();
     };
 
     // Highlight the item on click
@@ -67,12 +85,39 @@ class IdsMenu extends IdsElement {
   }
 
   /**
+   * Sets up the connection to the global keyboard handler
+   * @returns {void}
+   */
+  handleKeys() {
+    this.keyboard = new IdsKeyboardMixin();
+
+    // Arrow Up/Left navigates focus backward
+    this.keyboard.listen(['ArrowUp', 'ArrowLeft'], this, () => {
+      this.navigate(-1, true);
+    });
+
+    // Arrow Right/Down navigates focus forward
+    this.keyboard.listen(['ArrowDown', 'ArrowRight'], this, () => {
+      this.navigate(1, true);
+    });
+
+    // Enter/Spacebar select the menu item
+    this.keyboard.listen(['Enter', 'Spacebar', ' '], this, (e) => {
+      const thisItem = e.target.closest('ids-menu-item');
+      if (isUsableItem(thisItem, this, true)) {
+        this.selectItem(thisItem);
+      }
+    });
+  }
+
+  /**
    * Runs when the menu element is connected to the DOM.
    * @returns {void}
    */
   connectedCallBack() {
     this.detectIcons();
     this.handleEvents();
+    this.handleKeys();
   }
 
   /**
@@ -96,15 +141,15 @@ class IdsMenu extends IdsElement {
 
   /**
    * @readonly
-   * @returns {Array<IdsMenuItem>} focused menu items
+   * @returns {IdsMenuItem} the currently focused menu item, if one exists
    */
   get focused() {
-    return this.items.filter((item) => document.activeElement.isEqualNode(item));
+    return this.items.find((item) => document.activeElement.isEqualNode(item));
   }
 
   /**
    * @readonly
-   * @returns {Array<IdsMenuItem>} menu items that are currently highlighted
+   * @returns {Array<IdsMenuItem>} all menu items that are currently highlighted
    */
   get highlighted() {
     return this.items.filter((item) => item.highlighted);
@@ -140,6 +185,66 @@ class IdsMenu extends IdsElement {
     this.items.forEach((item) => {
       item.setDisplayType(hasIcons);
     });
+  }
+
+  /**
+   * Uses a currently-highlighted menu item to "navigate" a specified number
+   * of steps to another menu item, highlighting it.
+   * @param {number} [amt] the amount of items to navigate
+   * @param {boolean} [doFocus] if true, causes the new item to become focused.
+   * @returns {IdsMenuItem} the item that will be highlighted
+   */
+  navigate(amt = 0, doFocus = false) {
+    const items = this.items;
+    let currentItem = this.focused || items[0];
+
+    if (Number.isNaN(amt)) {
+      return currentItem;
+    }
+
+    // Calculate steps/meta
+    const negative = amt < 0;
+    let steps = Math.abs(amt);
+    let currentIndex = items.indexOf(currentItem);
+
+    // Step through items to the target
+    while (steps > 0) {
+      currentItem = items[currentIndex + (negative ? -1 : 1)];
+      currentIndex = items.indexOf(currentItem);
+
+      // "-1" means we've crossed the boundary and need to loop back around
+      if (currentIndex < 0) {
+        currentIndex = (negative ? items.length - 1 : 0);
+        currentItem = items[currentIndex];
+      }
+
+      // Don't count disabled items as "taking a step"
+      if (!currentItem.disabled) {
+        steps -= 1;
+      }
+    }
+
+    if (doFocus) {
+      currentItem.a.focus();
+    }
+
+    return currentItem;
+  }
+
+  /**
+   * Selects a menu item contained by this menu.
+   * @param {IdsMenuItem} menuItem the item to be selected
+   * @returns {void}
+   */
+  selectItem(menuItem) {
+    const items = this.items;
+    items.forEach((item) => {
+      if (!item.isEqualNode(menuItem)) {
+        item.deselect();
+      }
+    });
+
+    menuItem.select();
   }
 }
 

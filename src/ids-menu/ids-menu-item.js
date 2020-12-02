@@ -27,6 +27,7 @@ const MENU_PROPS = [
   props.DISABLED,
   props.ICON,
   props.HREF,
+  props.SELECTED,
   props.SUBMENU,
   props.TABINDEX,
   props.VALUE
@@ -184,7 +185,7 @@ class IdsMenuItem extends IdsElement {
       this.shouldUpdate = shouldUpdate;
     }
 
-    this.container.classList[trueVal ? 'add' : 'remove']('is-disabled');
+    this.container.classList[trueVal ? 'add' : 'remove']('disabled');
     if (this.a) {
       this.a.disabled = trueVal;
     }
@@ -298,6 +299,36 @@ class IdsMenuItem extends IdsElement {
     } else {
       icon?.remove();
     }
+  }
+
+  /**
+   * @returns {boolean} true if this item is currently selected
+   */
+  get selected() {
+    return this.state.selected;
+  }
+
+  /**
+   * @param {boolean} val true if the item should be selected
+   */
+  set selected(val) {
+    const trueVal = val === true || val === 'true';
+    this.state.selected = trueVal;
+    // @TODO handle selected state markers (checks?)
+  }
+
+  /**
+   * @returns {void}
+   */
+  select() {
+    this.selected = true;
+  }
+
+  /**
+   * @returns {void}
+   */
+  deselect() {
+    this.selected = false;
   }
 
   /**
