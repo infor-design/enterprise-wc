@@ -1,5 +1,92 @@
 @import '../ids-base/ids-base';
 
-.ids-datagrid {
-  height: 310px;
+$cell-border-color: var(--ids-color-palette-slate-30);
+$header-bg-color: var(--ids-color-palette-slate-80);
+
+.ids-data-grid {
+  // Outside border and Background
+  @include bg-white();
+  @include border-1();
+  @include border-solid();
+  @include rounded-default();
+
+  border-color: $cell-border-color;
+
+  // Size and scrolling
+  @include w-full();
+
+  // Table Styles
+  table {
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+
+    // Font Info
+    @include antialiased();
+    @include font-sans();
+    @include text-16();
+
+    // Size and scrolling
+    @include w-full();
+  }
+
+  // Header Styles
+  th {
+    // Border and Background
+    @include border-0();
+    @include border-l-1();
+    @include border-solid();
+
+    &:first-child {
+      border-left: 0;
+    }
+
+    background-color: $header-bg-color;
+    border-color: $cell-border-color;
+    height: 35px;
+
+    // Font Styles
+    @include px-16();
+    @include text-14();
+    @include text-white();
+
+    text-align: left;
+
+    // Positioning
+    @include sticky();
+    @include z-2();
+
+    top: 0;
+  }
+
+  // Cell Styles
+  td {
+    // Border and Background
+    @include border-0();
+    @include border-l-1();
+    @include border-t-1();
+    @include border-solid();
+
+    border-color: $cell-border-color;
+
+    // Spacing and Padding
+    @include px-16();
+
+    // Line Height Setting
+    height: 49px;
+    min-width: 30px;
+
+    // Hide first border
+    &:first-child {
+      border-left: 0;
+    }
+  }
+
+  // Row Styles
+  tr {
+    // Hide last row border
+    &:last-child td {
+      border-bottom: 0;
+    }
+  }
 }

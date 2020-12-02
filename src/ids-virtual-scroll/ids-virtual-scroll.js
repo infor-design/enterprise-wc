@@ -4,17 +4,19 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsDataSourceMixin } from '../ids-base/ids-data-source-mixin';
+import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 import styles from './ids-virtual-scroll.scss';
 
 /**
  * IDS Virtual Scroll Component
- * TODO: Table version https://gist.github.com/okvv/1934a120d05d91d692ab2f4f07daa52e
  */
 @customElement('ids-virtual-scroll')
 @scss(styles)
 @mixin(IdsEventsMixin)
+@mixin(IdsRenderLoopMixin)
 class IdsVirtualScroll extends IdsElement {
   constructor() {
     super();
@@ -46,8 +48,20 @@ class IdsVirtualScroll extends IdsElement {
    * @returns {object} The object for chaining.
    */
   handleEvents() {
+    let timeout = null;
+
     this.eventHandlers = new IdsEventsMixin();
-    this.eventHandlers.addEventListener('scroll', this.container, (e) => this.handleScroll(e), { passive: true });
+    this.eventHandlers.addEventListener('scroll', this.container, (e) => {
+      const target = e.target;
+      if (timeout) {
+        cancelAnimationFrame(timeout);
+      }
+
+      timeout = requestAnimationFrame(() => {
+        this.scrollTop = target.scrollTop;
+        this.renderItems(this.scrollTop);
+      });
+    }, { passive: true });
     return this;
   }
 
@@ -57,7 +71,6 @@ class IdsVirtualScroll extends IdsElement {
    * @param {object} e The scroll event
    */
   handleScroll(e) {
-    // TODO Debounce the RAF https://css-tricks.com/debouncing-throttling-explained-examples/
     this.scrollTop = e.target.scrollTop;
     requestAnimationFrame(() => {
       this.renderItems(this.scrollTop);
@@ -75,8 +88,8 @@ class IdsVirtualScroll extends IdsElement {
     );
 
     let html = '';
-    data.map((item) => {
-      const node = this.itemTemplate(item);
+    data.map((item, index) => {
+      const node = this.itemTemplate(item, index);
       html += node;
       return node;
     });

@@ -17,7 +17,7 @@
 }
 
 ::slotted(ids-trigger-button.has-input-label) {
-  top: 36px;
+  top: 32px;
 }
 
 ::slotted(ids-trigger-button.has-input-required) {
@@ -25,5 +25,5 @@
 }
 
 ::slotted(ids-trigger-button.has-input-label.has-input-required) {
-  @include mt-4();
+  @include mt-8();
 }

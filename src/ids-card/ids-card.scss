@@ -18,9 +18,10 @@
 }
 
 .ids-card-content {
+  @include w-full();
+
   height: 310px;
   overflow: hidden;
-  width: 100%;
 }
 
 // Style the title

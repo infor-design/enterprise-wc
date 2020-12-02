@@ -271,6 +271,8 @@ class IdsInput extends IdsElement {
     if (this.value === null) {
       this.value = '';
     }
+    this.eventHandlers = new IdsEventsMixin();
+
     this.handleInputChangeEvent();
     this.handleNativeEvents();
   }

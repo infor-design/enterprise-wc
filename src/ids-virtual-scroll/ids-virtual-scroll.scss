@@ -2,9 +2,10 @@
 @import '../ids-base/ids-base';
 
 .ids-virtual-scroll {
+  @include w-full();
+
   height: 250px;
   overflow: auto;
-  width: 100%;
 
   &:focus {
     @include outline-none();
@@ -12,6 +13,5 @@
 }
 
 .ids-virtual-scroll-viewport {
-  overflow: hidden; // Take off for th sticky to work
   position: relative;
 }

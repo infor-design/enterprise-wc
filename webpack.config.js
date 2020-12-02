@@ -14,12 +14,20 @@ const glob = require('glob');
 
 const isProduction = false;
 
+// 'ids-data-grid/ids-data-grid': './app/ids-data-grid/index.js',
+// 'ids-data-grid/virtual-scroll': '.app/ids-data-grid/virtual-scroll.js'
+
 module.exports = {
-  entry: glob.sync('./app/**/index.js').reduce((acc, filePath) => {
-    let entry = filePath.replace('/index.js', '');
+  entry: glob.sync('./app/**/**.js').reduce((acc, filePath) => {
+    let entry = filePath.replace(`/${path.basename(filePath)}`, '');
     entry = (entry === './app' ? 'index' : entry.replace('./app/', ''));
 
-    acc[entry === 'index' ? entry : `${entry}/${entry}`] = filePath;
+    if (path.basename(filePath) === 'index.js') {
+      acc[entry === 'index' ? entry : `${entry}/${entry}`] = filePath;
+    } else {
+      acc[`${entry}/${path.basename(filePath).replace('.js', '')}`] = filePath;
+    }
+
     return acc;
   }, {}),
   devtool: isProduction ? 'source-map' : 'cheap-source-map', // try source-map for prod
@@ -183,13 +191,19 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
     folderAndFile = folderAndFile.replace('.html', '');
   }
 
+  let chunk = `${folderName}/${folderName}`;
+  const jsFile = path.basename(filePath).replace('.html', '.js');
+  if (jsFile !== 'index.js' && fs.existsSync(filePath.replace('.html', '.js'))) {
+    chunk = `${folderName}/${jsFile.replace('.js', '')}`;
+  }
+
   module.exports.plugins.push(
     new HTMLWebpackPlugin({
       template: filePath,
       inject: 'body',
       filename: folderAndFile,
       title,
-      chunks: [`${folderName}/${folderName}`, 'ids-icon/ids-icon', 'ids-text/ids-text', 'ids-layout-grid/ids-layout-grid']
+      chunks: [chunk, 'ids-icon/ids-icon', 'ids-text/ids-text', 'ids-layout-grid/ids-layout-grid']
     }),
   );
   return folderName;

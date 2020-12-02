@@ -84,7 +84,19 @@ class IdsElement extends HTMLElement {
       this.attachShadow({ mode: 'open' });
     }
 
-    // Append Styles if present
+    this.appendStyles();
+
+    template.innerHTML = this.template();
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.container = this.shadowRoot.querySelector(`.${this.name}`);
+
+    return this;
+  }
+
+  /**
+   * Append Styles if present
+   */
+  appendStyles() {
     if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
       const style = document.createElement('style');
       style.textContent = this.cssStyles;
@@ -100,12 +112,6 @@ class IdsElement extends HTMLElement {
       style.replaceSync(this.cssStyles);
       this.shadowRoot.adoptedStyleSheets = [style];
     }
-
-    template.innerHTML = this.template();
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-    this.container = this.shadowRoot.querySelector(`.${this.name}`);
-
-    return this;
   }
 }
 

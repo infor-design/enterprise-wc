@@ -15,8 +15,11 @@
   }
 
   .ids-icon {
+    @include mt-1();
     @include mb-4();
     @include mr-4();
+
+    width: 17px;
   }
 
   &.alert {

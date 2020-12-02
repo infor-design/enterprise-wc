@@ -6,10 +6,9 @@ import {
   mixin
 } from '../ids-base/ids-element';
 
+import { IdsDataGridFormatters } from './ids-data-grid-formatters';
 import { IdsDataSourceMixin } from '../ids-base/ids-data-source-mixin';
 import { IdsDeepCloneMixin } from '../ids-base/ids-deep-clone-mixin';
-
-import { IdsDataGridFormatters } from './ids-data-grid-formatters';
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
@@ -41,6 +40,7 @@ class IdsDataGrid extends IdsElement {
   /**
    * Inner template contents
    * @returns {string} The template
+   * @private
    */
   template() {
     let html = '';
@@ -58,56 +58,32 @@ class IdsDataGrid extends IdsElement {
     }
 
     // Virtual Scrolling Datagrid
-    html = `<ids-virtual-scroll height="310">
-        <div class="ids-data-grid">
-          <ul slot="contents">
-          </ul>
-        </div>
-      </ids-virtual-scroll>`;
+    /*
+    <ids-virtual-scroll id="virtual-scroll-2" height="310" item-height="22" item-count="1000">
+      <table class="ids-data-grid">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Product</th>
+          </tr>
+        </thead>
+        <tbody slot="contents">
+        </tbody>
+      </table>
+    </ids-virtual-scroll>
+     */
+
+    html = `<div class="ids-data-grid">
+      <ids-virtual-scroll>
+        <table>
+          ${this.headerTemplate()}
+          <tbody slot="contents">
+          </tbody>
+        </table>
+      </ids-virtual-scroll>
+    </div>`;
+
     return html;
-  }
-
-  headerTemplate() {
-    let colgroup = '<colgroup>';
-    let thead = '<thead><tr>';
-
-    if (!this.currentColumns) {
-      return colgroup;
-    }
-
-    this.currentColumns.forEach((columnData) => {
-      colgroup += `<col>`;
-      thead += `<th scope="col" role=columnheader">${this.headerCellTemplate(columnData)}</th>`;
-    });
-    return `${colgroup}</colgroup>${thead}</tr></thead>`;
-  }
-
-  headerCellTemplate(columnData) {
-    return `<div class="ids-column-header">${columnData.name || ''}</div>`;
-  }
-
-  bodyTemplate() {
-    let html = '';
-
-    if (!this.data) {
-      return html;
-    }
-
-    this.data.forEach((rowData, i) => {
-      html += `<tr role="row" aria-rowindex="${i}" class="ids-data-grid-row">`;
-
-      this.currentColumns.forEach((columnData, j) => {
-        html += `<td role="gridcell" aria-colindex="${j}">${this.cellTemplate(rowData, columnData)}</td>`;
-      });
-
-      html += '</tr>';
-    });
-
-    return `${html}</tr>`;
-  }
-
-  cellTemplate(rowData, columnData) {
-    return `<div class="ids-data-grid-cell-wrapper">${this.formatters.text(rowData, columnData)}</div>`;
   }
 
   /**
@@ -115,6 +91,10 @@ class IdsDataGrid extends IdsElement {
    * @private
    */
   rerender() {
+    if (this.columns.length === 0 && this.data.length === 0) {
+      return;
+    }
+
     const template = document.createElement('template');
     const html = this.template();
 
@@ -127,9 +107,89 @@ class IdsDataGrid extends IdsElement {
     }
 
     if (html) {
+      this.appendStyles();
       template.innerHTML = html;
       this.shadowRoot.appendChild(template.content.cloneNode(true));
     }
+
+    if (this.virtualScroll === 'true' && this?.data.length > 0) {
+      this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
+      this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
+      this.virtualScrollContainer.itemCount = this.data.length;
+      this.virtualScrollContainer.height = 310;
+      this.virtualScrollContainer.itemHeight = 50; // TODO Row Height setting
+      this.virtualScrollContainer.data = this.data;
+    }
+  }
+
+  /**
+   * Header template markup
+   * @returns {string} The template
+   * @private
+   */
+  headerTemplate() {
+    let colgroup = '<colgroup>';
+    let thead = '<thead><tr>';
+
+    if (!this.currentColumns) {
+      return colgroup;
+    }
+
+    this.currentColumns.forEach((columnData) => {
+      colgroup += `<col>`;
+      thead += `<th scope="col" role="columnheader">${this.headerCellTemplate(columnData)}</th>`;
+    });
+    return `${colgroup}</colgroup>${thead}</tr></thead>`;
+  }
+
+  headerCellTemplate(columnData) {
+    return `<div class="ids-column-header">${columnData.name || ''}</div>`;
+  }
+
+  /**
+   * Body template markup
+   * @returns {string} The template
+   * @private
+   */
+  bodyTemplate() {
+    let html = '';
+
+    if (!this.data) {
+      return html;
+    }
+
+    this.data.forEach((row, index) => {
+      html += this.rowTemplate(row, index);
+    });
+
+    return `${html}</tr>`;
+  }
+
+  /**
+   * Return the row's markup
+   * @param  {object} row The row data object
+   * @param  {number} index [description]
+   * @returns {string} The html string for the row
+   */
+  rowTemplate(row, index) {
+    let html = `<tr role="row" aria-rowindex="${index}" class="ids-data-grid-row">`;
+
+    this.currentColumns.forEach((column, j) => {
+      html += `<td role="gridcell" aria-colindex="${j}">${this.cellTemplate(row, column)}</td>`;
+    });
+
+    html += '</tr>';
+    return html;
+  }
+
+  /**
+   * Render the individual cell using the column formatter
+   * @param  {object} row The data item for the row
+   * @param  {object} column The column data for the row
+   * @returns {string} The template
+   */
+  cellTemplate(row, column) {
+    return `<div class="ids-data-grid-cell-wrapper">${this.formatters.text(row, column)}</div>`;
   }
 
   /**

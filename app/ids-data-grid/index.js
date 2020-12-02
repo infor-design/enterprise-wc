@@ -8,6 +8,7 @@ const xmlhttp = new XMLHttpRequest();
 const url = 'http://localhost:4300/api/books';
 const columns = [];
 
+// Set up columns
 columns.push({
   id: 'selectionCheckbox',
   sortable: false,

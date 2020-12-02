@@ -36,6 +36,7 @@ class IdsListView extends IdsElement {
   /**
    * Inner template contents
    * @returns {string} The template
+   * @private
    */
   template() {
     let html = '';

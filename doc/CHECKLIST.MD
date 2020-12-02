@@ -2,113 +2,113 @@
 
 ## Component Checklist
 
-| Component | New Name | Documentation | 100% Test Coverage | Feature Parity | Upgrade Docs | Typings | NG Example | React Example | Vue Example | Standalone Css | Comments |
+| Component | New Name | Documentation | 100% Test Coverage | Feature Parity | Upgrade Docs | Typings | NG Example | React Example | Vue Example | Standalone Css | Works with Old Component | Comments |
 |----------|------:|:-------------:|------:|------:|------:|------:|------:|------:|------:|------:|------:|
-| About | ids-about | | | | | | | | | | |
-| Accordion | ids-accordion | | | | | | | | | | |
-| Alerts | ids-icon | | | | | | | | | | |
-| Applicationmenu | ids-app-menu | | | | | | | | | | |
-| Area | ids-area-chart | | | | | | | | | | |
-| Arrange | ids-swaplist | | | | | | | | | | |
-| Autocomplete | ids-autocomplete | | | | | | | | | | |
-| Badges | ids-badge | | | | | | | | | | |
-| Bar | ids-bar-chart | | | | | | | | | | |
-| Blockgrid | ids-block-grid | | | | | | | | | | |
-| Breadcrumb | ids-bread-crumb | | | | | | | | | | |
-| Bubble | ids-bubble-chart | | | | | | | | | | |
-| Bullet | ids-bulet-chart | | | | | | | | | | |
-| Loader | ids-loader | | | | | | | | | | |
+| About | ids-about | | | | | | | | | | | |
+| Accordion | ids-accordion | | | | | | | | | | | |
+| Alerts | ids-icon | | | | | | | | | | | |
+| Applicationmenu | ids-app-menu | | | | | | | | | | | |
+| Area | ids-area-chart | | | | | | | | | | | |
+| Arrange | ids-swaplist | | | | | | | | | | | |
+| Autocomplete | ids-autocomplete | | | | | | | | | | | |
+| Badges | ids-badge | | | | | | | | | | | |
+| Bar | ids-bar-chart | | | | | | | | | | | |
+| Blockgrid | ids-block-grid | | | | | | | | | | | |
+| Breadcrumb | ids-bread-crumb | | | | | | | | | | | |
+| Bubble | ids-bubble-chart | | | | | | | | | | | |
+| Bullet | ids-bulet-chart | | | | | | | | | | | |
+| Loader | ids-loader | | | | | | | | | | | |
 | Button | ids-button | x | - | x | - | - | - | - | - | - |
 | Calendar | ids-calendar| | | | | | | | | | |
-| Cards | ids-card | | | | | | | | | | |
-| Checkboxes | ids-checkbox | | | | | | | | | | |
-| Circlepager | ids-pager | | | | | | | | | | |
-| Colorpicker | ids-color-picker | | | | | | | | | | |
-| Column | ids-column-chart / ids-bar | | | | | | | | | | |
-| Completion Chart | ids-completion-chart | | | | | | | | | | |
+| Cards | ids-card | | | | | | | | | | | |
+| Checkboxes | ids-checkbox | | | | | | | | | | | |
+| Circlepager | ids-pager | | | | | | | | | | | |
+| Colorpicker | ids-color-picker | | | | | | | | | | | |
+| Column | ids-column-chart / ids-bar | | | | | | | | | | | |
+| Completion Chart | ids-completion-chart | | | | | | | | | | | |
 | Contextualactionpanel | ids-contextual-action-panel | | | | | | | | | | Depends on ids-modal |
-| Counts | ids-count | | | | | | | | | | |
-| Datagrid | ids-data-grid | | | | | | | | | | |
-| Datepicker | ids-date-picker | | | | | | | | | | |
-| Donut | | | | | | | | | | | |
-| Drag | | | | | | | | | | | |
-| Dropdown | | | | | | | | | | | |
-| Editor | | | | | | | | | | | |
-| Emptymessage | | | | | | | | | | | |
-| Error Page | | | | | | | | | | | |
-| Expandablearea | | | | | | | | | | | |
-| Field Filter | | | | | | | | | | | |
-| Fieldset  | | | | | | | | | | | |
-| Fileupload | | | | | | | | | | | |
-| Fileupload Advanced | | | | | | | | | | | |
-| Fontpicker | | | | | | | | | | | |
-| Form | | | | | | | | | | | |
-| Grid | | | | | | | | | | | |
-| Header | | | | | | | | | | | |
-| Hierarchy | | | | | | | | | | | |
-| Homepage | | | | | | | | | | | |
-| Hyperlinks | | | | | | | | | | | |
-| Icons | | | | | | | | | | | |
-| Images | | | | | | | | | | | |
-| Input | | | | | | | | | | | |
-| Line | | | | | | | | | | | |
-| Listbuilder | | | | | | | | | | | |
-| Listview | | | | | | | | | | | |
-| Locale | | | | | | | | | | | |
-| Lookup | | | | | | | | | | | |
-| Mask | | | | | | | | | | | |
-| Masthead | | | | | | | | | | | |
-| Message | | | | | | | | | | | |
-| Modal | | | | | | | | | | | |
-| Monthview | | | | | | | | | | | |
-| Multiselect | | | | | | | | | | | |
-| Notification | | | | | | | | | | | |
-| Page Layouts | | | | | | | | | | | |
-| Page Patterns | | | | | | | | | | | |
-| Pager | | | | | | | | | | | |
-| Personalize | | | | | | | | | | | |
-| Pie | | | | | | | | | | | |
-| Place | | | | | | | | | | | |
-| Popover | | | | | | | | | | | |
-| Popupmenu (ids-menu) | | | | | | | | | | | |
-| Positive Negative | | | | | | | | | | | |
-| Processindicator | | | | | | | | | | | |
-| Progress | | | | | | | | | | | |
-| Radar | | | | | | | | | | | |
-| Radios | | | | | | | | | | | |
-| Rating | | | | | | | | | | | |
-| Renderloop | | | | | | | | | | | |
-| Scatterplot | | | | | | | | | | | |
-| Searchfield | | | | | | | | | | | |
-| Signin | | | | | | | | | | | |
-| Skiplink | | | | | | | | | | | |
-| Slider | | | | | | | | | | | |
-| Sparkline | | | | | | | | | | | |
-| Spinbox | | | | | | | | | | | |
-| Splitter | | | | | | | | | | | |
-| Stepchart | | | | | | | | | | | |
-| Swaplist | | | | | | | | | | | |
-| Switch | | | | | | | | | | | |
-| Tabs | | | | | | | | | | | |
-| Tabs Header | | | | | | | | | | | |
-| Tabs Module | | | | | | | | | | | |
-| Tabs Multi | | | | | | | | | | | |
-| Tabs Vertical | | | | | | | | | | | |
-| Tag | | | | | | | | | | | |
-| Targeted Achievement | | | | | | | | | | | |
-| Textarea | | | | | | | | | | | |
-| Timeline | | | | | | | | | | | |
-| Timepicker | | | | | | | | | | | |
-| Toast | | | | | | | | | | | |
-| Toolbar | | | | | | | | | | | |
-| Tooltip | | | | | | | | | | | |
-| Trackdirty | | | | | | | | | | | |
-| Tree | | | | | | | | | | | |
-| Treemap | | | | | | | | | | | |
-| Typography | | | | | | | | | | | |
-| Validation | | | | | | | | | | | |
-| Week View | | | | | | | | | | | |
-| Wizard | | | | | | | | | | | |
+| Counts | ids-count | | | | | | | | | | | |
+| Datagrid | ids-data-grid | | | | | | | | | | | |
+| Datepicker | ids-date-picker | | | | | | | | | | | |
+| Donut | | | | | | | | | | | | |
+| Drag | | | | | | | | | | | | |
+| Dropdown | | | | | | | | | | | | |
+| Editor | | | | | | | | | | | | |
+| Emptymessage | | | | | | | | | | | | |
+| Error Page | | | | | | | | | | | | |
+| Expandablearea | | | | | | | | | | | | |
+| Field Filter | | | | | | | | | | | | |
+| Fieldset  | | | | | | | | | | | | |
+| Fileupload | | | | | | | | | | | | |
+| Fileupload Advanced | | | | | | | | | | | | |
+| Fontpicker | | | | | | | | | | | | |
+| Form | | | | | | | | | | | | |
+| Grid | | | | | | | | | | | | |
+| Header | | | | | | | | | | | | |
+| Hierarchy | | | | | | | | | | | | |
+| Homepage | | | | | | | | | | | | |
+| Hyperlinks | | | | | | | | | | | | |
+| Icons | | | | | | | | | | | | |
+| Images | | | | | | | | | | | | |
+| Input | | | | | | | | | | | | |
+| Line | | | | | | | | | | | | |
+| Listbuilder | | | | | | | | | | | | |
+| Listview | | | | | | | | | | | | |
+| Locale | | | | | | | | | | | | |
+| Lookup | | | | | | | | | | | | |
+| Mask | | | | | | | | | | | | |
+| Masthead | | | | | | | | | | | | |
+| Message | | | | | | | | | | | | |
+| Modal | | | | | | | | | | | | |
+| Monthview | | | | | | | | | | | | |
+| Multiselect | | | | | | | | | | | | |
+| Notification | | | | | | | | | | | | |
+| Page Layouts | | | | | | | | | | | | |
+| Page Patterns | | | | | | | | | | | | |
+| Pager | | | | | | | | | | | | |
+| Personalize | | | | | | | | | | | | |
+| Pie | | | | | | | | | | | | |
+| Place | | | | | | | | | | | | |
+| Popover | | | | | | | | | | | | |
+| Popupmenu (ids-menu) | | | | | | | | | | | | |
+| Positive Negative | | | | | | | | | | | | |
+| Processindicator | | | | | | | | | | | | |
+| Progress | | | | | | | | | | | | |
+| Radar | | | | | | | | | | | | |
+| Radios | | | | | | | | | | | | |
+| Rating | | | | | | | | | | | | |
+| Renderloop | | | | | | | | | | | | |
+| Scatterplot | | | | | | | | | | | | |
+| Searchfield | | | | | | | | | | | | |
+| Signin | | | | | | | | | | | | |
+| Skiplink | | | | | | | | | | | | |
+| Slider | | | | | | | | | | | | |
+| Sparkline | | | | | | | | | | | | |
+| Spinbox | | | | | | | | | | | | |
+| Splitter | | | | | | | | | | | | |
+| Stepchart | | | | | | | | | | | | |
+| Swaplist | | | | | | | | | | | | |
+| Switch | | | | | | | | | | | | |
+| Tabs | | | | | | | | | | | | |
+| Tabs Header | | | | | | | | | | | | |
+| Tabs Module | | | | | | | | | | | | |
+| Tabs Multi | | | | | | | | | | | | |
+| Tabs Vertical | | | | | | | | | | | | |
+| Tag | | | | | | | | | | | | |
+| Targeted Achievement | | | | | | | | | | | | |
+| Textarea | | | | | | | | | | | | |
+| Timeline | | | | | | | | | | | | |
+| Timepicker | | | | | | | | | | | | |
+| Toast | | | | | | | | | | | | |
+| Toolbar | | | | | | | | | | | | |
+| Tooltip | | | | | | | | | | | | |
+| Trackdirty | | | | | | | | | | | | |
+| Tree | | | | | | | | | | | | |
+| Treemap | | | | | | | | | | | | |
+| Typography | | | | | | | | | | | | |
+| Validation | | | | | | | | | | | | |
+| Week View | | | | | | | | | | | | |
+| Wizard | | | | | | | | | | | | |
 
 ## Other Things to Look at
 
