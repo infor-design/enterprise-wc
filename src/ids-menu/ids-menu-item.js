@@ -131,14 +131,40 @@ class IdsMenuItem extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
+    this.handleEvents();
     this.shouldUpdate = true;
   }
 
   /**
+   * @returns {void}
+   */
+  handleEvents() {
+    this.eventHandlers.addEventListener('mouseenter', this, () => {
+      this.menu.highlightItem(this);
+    });
+    this.eventHandlers.addEventListener('mouseleave', this, () => {
+      this.unhighlight();
+    });
+  }
+
+  /**
+   * @readonly
    * @returns {HTMLAnchorElement} reference to the Menu Item's anchor
    */
   get a() {
     return this.shadowRoot.querySelector('a');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement} reference to the parent IdsMenu component, if one exists.
+   */
+  get menu() {
+    const menu = this.parentNode;
+    if (menu.tagName !== 'IDS-MENU') {
+      return undefined;
+    }
+    return menu;
   }
 
   /**
@@ -328,7 +354,6 @@ class IdsMenuItem extends IdsElement {
    * @returns {void}
    */
   highlight() {
-    this.a.focus();
     this.highlighted = true;
   }
 
@@ -344,6 +369,7 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if icons are present
    */
   setDisplayType(val) {
+    // @TODO include checkmarks/selected/other states
     this.container.classList[val === true ? 'add' : 'remove']('has-icon');
   }
 }

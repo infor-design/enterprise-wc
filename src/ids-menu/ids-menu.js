@@ -46,30 +46,24 @@ class IdsMenu extends IdsElement {
       if (!thisItem || !this.contains(thisItem) || thisItem.disabled) {
         return;
       }
-
-      // Unhighlight everything, then highlight this.
-      this.items.forEach((item) => {
-        if (!thisItem.isEqualNode(item)) {
-          item.unhighlight();
-        }
-      });
-      thisItem.highlight();
+      this.highlightItem(thisItem);
     };
 
-    // Highlight the item on click/hover/focusin
-    this.eventHandlers.addEventListener('click', this, highlightItem);
-    this.eventHandlers.addEventListener('hover', this, highlightItem);
-    this.eventHandlers.addEventListener('focusin', this, highlightItem);
-
-    // Unhighlight if focus is removed
-    this.eventHandlers.addEventListener('focusout', this, (e) => {
+    const unhighlightItem = (e) => {
       // Menu Items Only
       const thisItem = e.target.closest('ids-menu-item');
       if (!thisItem || !this.contains(thisItem)) {
         return;
       }
       thisItem.unhighlight();
-    });
+    };
+
+    // Highlight the item on click
+    this.eventHandlers.addEventListener('click', this, highlightItem);
+
+    // Focus in/out causes highlight to change
+    this.eventHandlers.addEventListener('focusin', this, highlightItem);
+    this.eventHandlers.addEventListener('focusout', this, unhighlightItem);
   }
 
   /**
@@ -101,6 +95,7 @@ class IdsMenu extends IdsElement {
   }
 
   /**
+   * @readonly
    * @returns {Array<IdsMenuItem>} focused menu items
    */
   get focused() {
@@ -108,10 +103,29 @@ class IdsMenu extends IdsElement {
   }
 
   /**
+   * @readonly
    * @returns {Array<IdsMenuItem>} menu items that are currently highlighted
    */
   get highlighted() {
     return this.items.filter((item) => item.highlighted);
+  }
+
+  /**
+   * Unhighlights all menu items, then highlights a specified item.
+   * @param {IdsMenuItem} menuItem reference to the menu item that will be highlighted
+   * @returns {void}
+   */
+  highlightItem(menuItem) {
+    if (!(menuItem instanceof IdsMenuItem)) {
+      return;
+    }
+
+    this.items.forEach((item) => {
+      if (!menuItem.isEqualNode(item)) {
+        item.unhighlight();
+      }
+    });
+    menuItem.highlight();
   }
 
   /**
