@@ -1,7 +1,5 @@
 # v5.0.0
 
-Released on May 2nd 2021
-
 ## 5.0.0 Breaking Changes
 
 - `[Button]` The button component has been changed to a web component. ([#4390](https://github.com/infor-design/enterprise/issues/4390))
