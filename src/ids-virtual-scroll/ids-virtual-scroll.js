@@ -52,29 +52,38 @@ class IdsVirtualScroll extends IdsElement {
 
     this.eventHandlers = new IdsEventsMixin();
     this.eventHandlers.addEventListener('scroll', this.container, (e) => {
-      const target = e.target;
       if (timeout) {
         cancelAnimationFrame(timeout);
       }
 
+      const target = e.target;
       timeout = requestAnimationFrame(() => {
         this.scrollTop = target.scrollTop;
         this.renderItems(this.scrollTop);
       });
     }, { passive: true });
-    return this;
-  }
 
-  /**
-   * Handle the scroll event, create a rAF to reduce layout changes
-   * @private
-   * @param {object} e The scroll event
-   */
-  handleScroll(e) {
-    this.scrollTop = e.target.scrollTop;
-    requestAnimationFrame(() => {
-      this.renderItems(this.scrollTop);
-    });
+    /*
+    let timeout = null;
+    this.eventHandlers = new IdsEventsMixin();
+
+    this.eventHandlers.addEventListener('scroll', this.container, (e) => {
+      if (timeout) {
+        timeout.destroy(true);
+      }
+
+      const target = e.target;
+      timeout = this.rl.register(new IdsRenderLoopItem({
+        id: 'virtual-scroll-loop-item',
+        duration: 0,
+        timeoutCallback: () => {
+          this.scrollTop = target.scrollTop;
+          this.renderItems(this.scrollTop);
+        }
+      }));
+    }, { passive: true });
+    */
+    return this;
   }
 
   /**
@@ -82,20 +91,42 @@ class IdsVirtualScroll extends IdsElement {
    * @private
    */
   renderItems() {
+    if (!this.data || this.data.length === 0) {
+      return;
+    }
+
+    const startIndex = this.startIndex;
+    const endIndex = this.startIndex + this.visibleItemCount();
+
+    if (this.lastStart === startIndex && this.lastEnd === endIndex) {
+      return;
+    }
+
+    this.lastStart = startIndex;
+    this.lastEnd = endIndex;
+
     const data = this.data.slice(
-      this.startIndex,
-      this.startIndex + this.visibleItemCount()
+      startIndex,
+      endIndex
     );
 
     let html = '';
     data.map((item, index) => {
-      const node = this.itemTemplate(item, index + this.startIndex);
+      const node = this.itemTemplate(item, index + startIndex);
       html += node;
       return node;
     });
 
+    // For tables append a spacer row for putting the header in the right place
+    if (this.table) {
+      html += '<tr class="ids-vs-spacer"><td></td></tr>';
+    }
     this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
     this.itemContainer.innerHTML = html;
+
+    if (this.table) {
+      this.table.querySelector('.ids-vs-spacer td').style.height = `${this.viewPortHeight - this.table.offsetHeight - this.scrollTop}px`;
+    }
   }
 
   /**
@@ -107,6 +138,7 @@ class IdsVirtualScroll extends IdsElement {
     this.container.querySelector('.ids-virtual-scroll-viewport').style.height = `${this.viewPortHeight}px`;
     this.itemContainer = this.querySelector('[slot="contents"]');
     this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
+    this.table = this.querySelector('table');
   }
 
   /**

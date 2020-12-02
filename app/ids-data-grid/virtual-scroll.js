@@ -56,7 +56,6 @@ xmlhttp.onreadystatechange = function onreadystatechange() {
   if (this.readyState === 4 && this.status === 200) {
     dataGrid.columns = columns;
     dataGrid.data = JSON.parse(this.responseText);
-    console.log(dataGrid.data[0])
   }
 };
 
