@@ -1,0 +1,135 @@
+/**
+ * Checkbox Mixins.
+ */
+@import './ids-colorpalette-variables';
+
+// Unchecked
+@mixin checkbox-unchecked {
+  @include absolute();
+  @include border-1();
+  @include border-slate-80();
+  @include border-solid();
+  @include rounded-default();
+
+  height: 14px;
+  left: 0;
+  top: 2px;
+  width: 14px;
+}
+
+@mixin checkbox-unchecked-error {
+  @include border-alert-danger();
+}
+
+// Checked
+@mixin checkbox-checked {
+  @include bg-azure-60();
+  @include border-azure-60();
+}
+
+@mixin checkbox-checked-after {
+  @include absolute();
+  @include animation(check 0.15s);
+  @include block();
+  @include border-solid();
+  @include border-white();
+  @include css3(transform, rotate(45deg));
+
+  border-width: 0 2px 2px 0;
+  content: '';
+  height: 10px;
+  left: 4px;
+  top: 0;
+  width: 4px;
+}
+
+// Indeterminate
+@mixin checkbox-indeterminate {
+  @include bg-azure-60();
+  @include border-azure-60();
+}
+
+@mixin checkbox-indeterminate-after {
+  @include absolute();
+  @include animation(checkindeterminate 0.15s);
+  @include block();
+  @include border-solid();
+  @include border-white();
+
+  border-width: 0 0 2px;
+  content: '';
+  height: 6px;
+  left: 2px;
+  top: 0;
+  transform: none;
+  width: 10px;
+}
+
+// Disabled
+@mixin checkbox-disabled-unchecked {
+  @include bg-slate-20();
+  @include border-slate-30();
+  @include cursor-default();
+}
+
+@mixin checkbox-disabled-unchecked-error {
+  @include border-ruby-30();
+}
+
+@mixin checkbox-disabled-checked {
+  @include bg-slate-30();
+}
+
+@mixin checkbox-disabled-text {
+  @include cursor-default();
+  @include text-slate-30();
+}
+
+// Focus
+@mixin checkbox-focus {
+  @include border-azure-60();
+  @include shadow();
+}
+
+// Colored
+@mixin checkbox-colored() {
+  @each $name in $color-names {
+    $i: index($color-names, $name);
+    $option: palette;
+
+    @each $color-status-name in $color-status-names {
+      @if (str-index($name, $color-status-name)) { // if $name contains
+        $option: status;
+      }
+    }
+
+    $color: var(--ids-color-#{$option}-#{nth($color-vars, $i)});
+
+    &[color='#{$name}'] input[type='checkbox'] {
+      ~ .checkmark {
+        @include checkbox-colored-box($color);
+      }
+
+      &:disabled ~ .checkmark {
+        @include checkbox-disabled-unchecked();
+      }
+
+      &:disabled:checked ~ .checkmark {
+        @include checkbox-disabled-checked();
+      }
+
+      &:focus:not(.hide-focus) ~ .checkmark {
+        @include checkbox-colored-box-focus($color);
+      }
+    }
+  }
+}
+
+@mixin checkbox-colored-box($color) {
+  background-color: $color;
+  border-color: $color;
+}
+
+@mixin checkbox-colored-box-focus($color) {
+  border-color: $color;
+}

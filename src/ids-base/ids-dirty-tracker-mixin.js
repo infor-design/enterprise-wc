@@ -1,15 +1,20 @@
+import IdsIcon from '../ids-icon/ids-icon';
 /**
  * Track changes on inputs elements and show a dirty indicator.
  */
 const IdsDirtyTrackerMixin = {
+  radioCheckbox: false,
   /**
    * Handle dirty tracker values
    * @returns {void}
    */
   handleDirtyTracker() {
+    // Checkbox, Radio buttons or Switch
+    this.radioCheckbox = /checkbox|radio/.test(this.input?.getAttribute('type'));
+
     if (this.dirtyTracker) {
       if (this.input) {
-        const val = this.input.value;
+        const val = this.valMethod(this.input);
         this.dirty = { original: val !== null ? val : '' };
         this.dirtyTrackerEvents();
       }
@@ -30,7 +35,11 @@ const IdsDirtyTrackerMixin = {
       icon.setAttribute('icon', 'dirty');
       icon.setAttribute('size', 'small');
       icon.className = 'icon-dirty';
-      this.input?.parentNode?.insertBefore(icon, this.input);
+      if (this.radioCheckbox) {
+        this.labelEl?.appendChild(icon);
+      } else {
+        this.input?.parentNode?.insertBefore(icon, this.input);
+      }
     }
   },
 
@@ -75,6 +84,23 @@ const IdsDirtyTrackerMixin = {
   },
 
   /**
+   * Get the value or checked if checkbox or radio
+   * @private
+   * @param {object} el .
+   * @returns {string} element value
+   */
+  valMethod(el) {
+    switch (el.getAttribute('type')) {
+      case 'checkbox':
+      case 'radio':
+        return el.checked;
+      default: {
+        return el.value;
+      }
+    }
+  },
+
+  /**
    * Set dirtyTracker
    * @private
    * @param {string} val The current element value
@@ -88,11 +114,11 @@ const IdsDirtyTrackerMixin = {
 
     this.isDirty = this.dirty?.original !== val;
     if (this.isDirty) {
-      this.appendDirtyTrackerIcon();
       this.appendDirtyTrackerMsg();
+      this.appendDirtyTrackerIcon();
     } else {
-      this.removeDirtyTrackerIcon();
       this.removeDirtyTrackerMsg();
+      this.removeDirtyTrackerIcon();
     }
   },
 
@@ -112,7 +138,8 @@ const IdsDirtyTrackerMixin = {
         }
       } else {
         this.eventHandlers.addEventListener(eventName, this.input, () => {
-          this.setDirtyTracker(this.input.value);
+          const val = this.valMethod(this.input);
+          this.setDirtyTracker(val);
         });
       }
     }

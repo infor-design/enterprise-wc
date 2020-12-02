@@ -19,6 +19,9 @@ import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
 import { props } from '../ids-base/ids-constants';
 import styles from './ids-input.scss';
 
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsText from '../ids-text/ids-text';
+
 // Input id
 const ID = 'ids-input-id';
 
@@ -81,7 +84,6 @@ class IdsInput extends IdsElement {
       props.DISABLED,
       props.LABEL,
       props.LABEL_FONT_SIZE,
-      props.NAME,
       props.PLACEHOLDER,
       props.SIZE,
       props.READONLY,
@@ -124,7 +126,6 @@ class IdsInput extends IdsElement {
     // Input
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const value = this.value !== null ? ` value="${this.value}"` : '';
-    const fieldName = this.fieldName !== null ? ` name="${this.fieldName}"` : '';
     const type = ` type="${this.type || TYPES.default}"`;
     const inputClass = ` class="ids-input-field ${this.size}"`;
     let inputState = this.stringToBool(this.readonly) ? ' readonly' : '';
@@ -138,7 +139,7 @@ class IdsInput extends IdsElement {
       <label for="${ID}"${labelClass}>
         <ids-text${labelFontSize}>${this.label}</ids-text>
       </label>
-      <input id="${ID}"${fieldName}${type}${inputClass}${value}${placeholder}${inputState} />
+      <input id="${ID}"${type}${inputClass}${value}${placeholder}${inputState} />
     `;
   }
 
@@ -321,12 +322,14 @@ class IdsInput extends IdsElement {
    * @param {boolean} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
+    const val = this.stringToBool(value);
     if (value) {
-      const val = this.stringToBool(value);
       this.setAttribute(props.DIRTY_TRACKER, val);
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
+    this.input = this.shadowRoot.querySelector(`#${ID}`);
+    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
     this.handleDirtyTracker();
   }
 
@@ -337,8 +340,8 @@ class IdsInput extends IdsElement {
    * @param {boolean} value If true will set `disabled` attribute
    */
   set disabled(value) {
+    const val = this.stringToBool(value);
     if (value) {
-      const val = this.stringToBool(value);
       this.setAttribute(props.DISABLED, val);
     } else {
       this.removeAttribute(props.DISABLED);
@@ -347,20 +350,6 @@ class IdsInput extends IdsElement {
   }
 
   get disabled() { return this.getAttribute(props.DISABLED); }
-
-  /**
-   * Set the field `name` of input
-   * @param {string} value of the field `name` property
-   */
-  set fieldName(value) {
-    if (value) {
-      this.setAttribute(props.NAME, value);
-      return;
-    }
-    this.removeAttribute(props.NAME);
-  }
-
-  get fieldName() { return this.getAttribute(props.NAME); }
 
   /**
    * Set the `label-font-size` of input label
@@ -415,8 +404,8 @@ class IdsInput extends IdsElement {
    * @param {boolean} value If true will set `readonly` attribute
    */
   set readonly(value) {
+    const val = this.stringToBool(value);
     if (value) {
-      const val = this.stringToBool(value);
       this.setAttribute(props.READONLY, val);
     } else {
       this.removeAttribute(props.READONLY);
@@ -493,6 +482,8 @@ class IdsInput extends IdsElement {
     } else {
       this.removeAttribute(props.VALIDATE);
     }
+    this.input = this.shadowRoot.querySelector(`#${ID}`);
+    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
     this.handleValidation();
   }
 
