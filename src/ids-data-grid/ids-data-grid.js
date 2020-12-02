@@ -49,31 +49,16 @@ class IdsDataGrid extends IdsElement {
       return html;
     }
 
+    const additionalClasses = this.alternateRowShading ? ' alt-row-shading' : '';
     if (this?.virtualScroll !== 'true') {
-      html = `<div class="ids-data-grid"><table role="grid">`;
+      html = `<div class="ids-data-grid${additionalClasses}"><table role="grid">`;
       html += this.headerTemplate();
       html += this.bodyTemplate();
       html += `</table></div>`;
       return html;
     }
 
-    // Virtual Scrolling Datagrid
-    /*
-    <ids-virtual-scroll id="virtual-scroll-2" height="310" item-height="22" item-count="1000">
-      <table class="ids-data-grid">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Product</th>
-          </tr>
-        </thead>
-        <tbody slot="contents">
-        </tbody>
-      </table>
-    </ids-virtual-scroll>
-     */
-
-    html = `<div class="ids-data-grid">
+    html = `<div class="ids-data-grid${additionalClasses}">
       <ids-virtual-scroll>
         <table>
           ${this.headerTemplate()}
@@ -194,15 +179,19 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Set a style on every alternate row for better readability.
-   * @param {boolean} value true to use alternate row shading
+   * @param {boolean|string} value true to use alternate row shading
    */
   set alternateRowShading(value) {
-    if (value) {
+    if (value === true || value === 'true') {
       this.setAttribute(props.ALTERNATE_ROW_SHADING, value);
+      this.shadowRoot?.querySelector('.ids-data-grid').classList.add('alt-row-shading');
       return;
     }
 
-    this.removeAttribute(props.ALTERNATE_ROW_SHADING);
+    if (!value || value === false || value === 'false') {
+      this.shadowRoot?.querySelector('.ids-data-grid').classList.remove('alt-row-shading');
+      this.setAttribute(props.ALTERNATE_ROW_SHADING, value);
+    }
   }
 
   get alternateRowShading() { return this.getAttribute(props.ALTERNATE_ROW_SHADING) || 'false'; }

@@ -89,7 +89,7 @@ class IdsVirtualScroll extends IdsElement {
 
     let html = '';
     data.map((item, index) => {
-      const node = this.itemTemplate(item, index);
+      const node = this.itemTemplate(item, index + this.startIndex);
       html += node;
       return node;
     });

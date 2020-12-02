@@ -89,4 +89,8 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       border-bottom: 0;
     }
   }
+
+  &.alt-row-shading tr:nth-child(odd) td {
+    @include bg-slate-10();
+  }
 }

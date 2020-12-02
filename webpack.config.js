@@ -14,9 +14,6 @@ const glob = require('glob');
 
 const isProduction = false;
 
-// 'ids-data-grid/ids-data-grid': './app/ids-data-grid/index.js',
-// 'ids-data-grid/virtual-scroll': '.app/ids-data-grid/virtual-scroll.js'
-
 module.exports = {
   entry: glob.sync('./app/**/**.js').reduce((acc, filePath) => {
     let entry = filePath.replace(`/${path.basename(filePath)}`, '');
