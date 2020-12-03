@@ -61,6 +61,11 @@ $transition-length: 100ms;
   &.disabled {
     @include text-slate-30;
 
+    // Disable all mouse interactions
+    cursor: default;
+    pointer-events: none;
+    user-select: none;
+
     a {
       color: inherit;
     }

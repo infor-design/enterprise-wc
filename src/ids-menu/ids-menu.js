@@ -161,7 +161,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   highlightItem(menuItem) {
-    if (!(menuItem instanceof IdsMenuItem)) {
+    if (!isUsableItem(menuItem, this, true)) {
       return;
     }
 
@@ -224,11 +224,19 @@ class IdsMenu extends IdsElement {
       }
     }
 
-    if (doFocus) {
+    if (!currentItem.disabled && doFocus) {
       currentItem.a.focus();
     }
 
     return currentItem;
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<IdsMenuItem>} list of selected menu items
+   */
+  get selectedItems() {
+    return this.items.filter((item) => item.selected);
   }
 
   /**
@@ -239,6 +247,7 @@ class IdsMenu extends IdsElement {
   selectItem(menuItem) {
     const items = this.items;
     items.forEach((item) => {
+      // @TODO handle multiple selection / group-only selection
       if (!item.isEqualNode(menuItem)) {
         item.deselect();
       }

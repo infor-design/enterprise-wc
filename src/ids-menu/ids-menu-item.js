@@ -64,7 +64,7 @@ class IdsMenuItem extends IdsElement {
     let disabledAttr = '';
     if (this.state?.disabled) {
       disabledClass = ' is-disabled';
-      disabledAttr = ' disabled="true"';
+      disabledAttr = ' disabled';
     }
 
     let href = '';
@@ -89,7 +89,7 @@ class IdsMenuItem extends IdsElement {
 
     // Tabindex
     let tabindex = 'tabindex="0"';
-    if (this.state?.tabindex) {
+    if (this.state?.tabindex && !this.state?.disabled) {
       tabindex = ` tabindex="${this.state.tabindex}"`;
     }
 
@@ -173,22 +173,34 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if the button will be disabled
    */
   set disabled(val) {
-    const trueVal = val === true || val === 'true';
+    const trueVal = val !== null;
     this.state.disabled = trueVal;
 
     // Update attribute if it doesn't match
+    const a = this.a;
     const shouldUpdate = this.shouldUpdate;
-    const currentAttr = this.getAttribute('disabled');
-    if (trueVal !== currentAttr) {
+    const currentAttr = this.hasAttribute('disabled');
+    if ((!currentAttr && trueVal) || (currentAttr && !trueVal)) {
       this.shouldUpdate = false;
-      this.setAttribute('disabled', trueVal);
+      if (trueVal) {
+        this.setAttribute('disabled', '');
+        if (a) {
+          a.disabled = true;
+          a.setAttribute('disabled', '');
+        }
+      } else {
+        this.removeAttribute('disabled');
+        if (a) {
+          a.disabled = false;
+          a.removeAttribute('disabled');
+        }
+      }
       this.shouldUpdate = shouldUpdate;
     }
 
+    // Adjust tabindex/focus
+    this.tabindex = trueVal ? -1 : 0;
     this.container.classList[trueVal ? 'add' : 'remove']('disabled');
-    if (this.a) {
-      this.a.disabled = trueVal;
-    }
   }
 
   /**
@@ -203,6 +215,10 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if the menu item should appear highlighted
    */
   set highlighted(val) {
+    if (this.disabled) {
+      return;
+    }
+
     const trueVal = val === true || val === 'true';
     this.state.highlighted = trueVal;
     this.container.classList[trueVal ? 'add' : 'remove']('highlighted');
@@ -312,8 +328,26 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if the item should be selected
    */
   set selected(val) {
-    const trueVal = val === true || val === 'true';
+    if (this.disabled) {
+      return;
+    }
+
+    const trueVal = val !== null && val !== false;
     this.state.selected = trueVal;
+
+    // Sync the attribute
+    const shouldUpdate = this.shouldUpdate;
+    const currentAttr = this.hasAttribute('selected');
+    if ((!currentAttr && trueVal) || (currentAttr && !trueVal)) {
+      this.shouldUpdate = false;
+      if (trueVal) {
+        this.setAttribute('selected', '');
+      } else {
+        this.removeAttribute('selected');
+      }
+      this.shouldUpdate = shouldUpdate;
+    }
+
     // @TODO handle selected state markers (checks?)
   }
 

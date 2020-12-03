@@ -2,11 +2,13 @@
 
 ## Features
 
-- [] Disabled state (single item, entire menu)
-- [] Checked/Selected state (single/multi)
-- [] Checked/Selected behavior for items
+- [x] Disabled state (single item)
+- [] Disabled state (entire menu)
+- [x] Selected state (single)
+- [] Selected state (multi/group)
+- [] Selected callback at the menu level
 - [] Trigger `selected` event (optionally pass a trigger element)
-- [] Expose "selected" list values on the component
+- [x] Expose "selected" list values on the component
 - [x] Submenu state
 - [] Submenu functionality
 - [x] Keyboard
