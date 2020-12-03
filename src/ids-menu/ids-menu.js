@@ -77,7 +77,13 @@ class IdsMenu extends IdsElement {
     };
 
     // Highlight the item on click
-    this.eventHandlers.addEventListener('click', this, highlightItem);
+    this.eventHandlers.addEventListener('click', this, (e) => {
+      const thisItem = e.target.closest('ids-menu-item');
+      if (isUsableItem(thisItem, this, true)) {
+        this.highlightItem(thisItem);
+        this.selectItem(thisItem);
+      }
+    });
 
     // Focus in/out causes highlight to change
     this.eventHandlers.addEventListener('focusin', this, highlightItem);
@@ -246,14 +252,21 @@ class IdsMenu extends IdsElement {
    */
   selectItem(menuItem) {
     const items = this.items;
+    let targetDeselection;
+
     items.forEach((item) => {
       // @TODO handle multiple selection / group-only selection
-      if (!item.isEqualNode(menuItem)) {
-        item.deselect();
+      if (!item.isEqualNode(menuItem) && item.selected) {
+        targetDeselection = item;
       }
     });
 
+    // Select the new item, and do a deselection if necessary.
+    // @TODO This logic might need to be different for multiselection/group selection
     menuItem.select();
+    if (menuItem.selected && targetDeselection) {
+      targetDeselection.deselect();
+    }
   }
 }
 

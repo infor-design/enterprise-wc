@@ -332,7 +332,26 @@ class IdsMenuItem extends IdsElement {
       return;
     }
 
+    // Determine true state and event names
     const trueVal = val !== null && val !== false;
+    const duringEventName = trueVal ? 'selected' : 'deselected';
+    const beforeEventName = `before${duringEventName}`;
+
+    // Build/Fire a `beforeselect` event that will allow an external hook to
+    // determine if this menu item can be selected, or perform other actions.
+    let canSelect = true;
+    const beforeSelectResponse = (veto) => {
+      canSelect = !!veto;
+    };
+    this.eventHandlers.dispatchEvent(beforeEventName, this, {
+      elem: this,
+      response: beforeSelectResponse
+    });
+    if (!canSelect) {
+      return;
+    }
+
+    // Store true state
     this.state.selected = trueVal;
 
     // Sync the attribute
@@ -349,6 +368,9 @@ class IdsMenuItem extends IdsElement {
     }
 
     // @TODO handle selected state markers (checks?)
+
+    // Build/Fire a `selected` event for performing other actions.
+    this.eventHandlers.dispatchEvent(duringEventName, this, { elem: this });
   }
 
   /**
