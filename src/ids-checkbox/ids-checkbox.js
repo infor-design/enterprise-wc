@@ -97,7 +97,7 @@ class IdsCheckbox extends IdsElement {
       <div class="ids-checkbox${disabled}">
         <label>
           <input type="checkbox"${checkboxClass}${disabled}${checked}>
-          <span class="checkmark"></span>
+          <span class="checkmark${checked}"></span>
           <ids-text class="label-text"${labelFontSize}>${this.label}</ids-text>
         </label>
       </div>
@@ -121,6 +121,7 @@ class IdsCheckbox extends IdsElement {
       } else {
         this.eventHandlers.addEventListener(eventName, this.input, () => {
           this.indeterminate = false;
+          this.checked = this.input.checked;
         });
       }
     }
@@ -178,14 +179,17 @@ class IdsCheckbox extends IdsElement {
    * @param {boolean} value If true will set `checked` attribute
    */
   set checked(value) {
+    const checkmark = this.shadowRoot.querySelector('.checkmark');
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const val = this.stringToBool(value);
     if (val) {
       this.setAttribute(props.CHECKED, val);
       this.input?.setAttribute(props.CHECKED, val);
+      checkmark?.classList.add(props.CHECKED);
     } else {
       this.removeAttribute(props.CHECKED);
       this.input?.removeAttribute(props.CHECKED);
+      checkmark?.classList.remove(props.CHECKED);
     }
   }
 
