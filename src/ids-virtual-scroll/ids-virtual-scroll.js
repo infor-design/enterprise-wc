@@ -125,7 +125,8 @@ class IdsVirtualScroll extends IdsElement {
     this.itemContainer.innerHTML = html;
 
     if (this.table) {
-      this.table.querySelector('.ids-vs-spacer td').style.height = `${this.viewPortHeight - this.table.offsetHeight - this.scrollTop}px`;
+      const bufferHeight = this.viewPortHeight - this.table.offsetHeight - this.offsetY;
+      this.table.querySelector('.ids-vs-spacer td').style.height = `${bufferHeight}px`;
     }
   }
 
