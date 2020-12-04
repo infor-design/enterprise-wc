@@ -726,6 +726,8 @@ class IdsPopup extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
+    this.eventHandlers = new IdsEventsMixin();
+
     const slot = this.shadowRoot.querySelector('slot');
     this.eventHandlers.addEventListener('slotchange', slot, () => {
       this.refresh();

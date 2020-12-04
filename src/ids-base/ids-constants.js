@@ -1,4 +1,6 @@
+// Please keep constants alphabetized
 export const props = {
+  ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
   APPEARANCE: 'appearance',
   AUDIBLE: 'audible',
@@ -10,6 +12,7 @@ export const props = {
   COL_START: 'col-start',
   COLS: 'cols',
   CSS_CLASS: 'css-class',
+  DATA: 'data',
   DIRTY_TRACKER: 'dirty-tracker',
   DISABLE_EVENTS: 'disable-native-events',
   DISABLED: 'disabled',
@@ -38,7 +41,8 @@ export const props = {
   TYPE: 'type',
   VALIDATE: 'validate',
   VALUE: 'value',
-  VISIBLE: 'visible'
+  VIRTUAL_SCROLL: 'virtual-scroll',
+  VISIBLE: 'visible',
 };
 
 export const prefix = {

@@ -1,3 +1,5 @@
+import { IdsEventsMixin } from './ids-events-mixin';
+
 /**
  * Track changes on inputs elements and show a dirty indicator.
  */
@@ -103,6 +105,10 @@ const IdsDirtyTrackerMixin = {
    * @returns {void}
    */
   dirtyTrackerEvents(option) {
+    if (!this.eventHandlers) {
+      this.eventHandlers = new IdsEventsMixin();
+    }
+
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {

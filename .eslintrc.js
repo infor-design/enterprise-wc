@@ -53,7 +53,7 @@ module.exports = {
     'wc/no-self-class': 0,
     // Allow methods to return static content
     // https://eslint.org/docs/rules/class-methods-use-this
-    'class-methods-use-this': ['error', { exceptMethods: ['template', 'settings'] }],
+    'class-methods-use-this': ['off', { }],
     // Allow Ids Imports to be unsed in index.js files
     'no-unused-vars': ['error', { varsIgnorePattern: '[Ids]' }],
     // Allow Arrow functions to be on the next line or below
@@ -64,6 +64,10 @@ module.exports = {
     'no-useless-constructor': ['off', { }],
     // Allow hasOwnProperty
     'no-prototype-builtins': ['off', { }],
+    // Allow functions with no this in them
+    'no-restricted-syntax': ['off', { }],
+    // https://eslint.org/docs/rules/no-continue
+    'no-continue': ['off'],
     // Don't require array destructuring
     'prefer-destructuring': ['off', { }],
     // Allow i++

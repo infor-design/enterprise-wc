@@ -2,13 +2,13 @@ import {
   IdsElement,
   customElement,
   mixin,
-  scss
+  scss,
+  props
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
 import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
-import { props } from '../ids-base/ids-constants';
 import styles from './ids-trigger-field.scss';
 
 /**
@@ -16,7 +16,6 @@ import styles from './ids-trigger-field.scss';
  */
 @customElement('ids-trigger-field')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsStringUtilsMixin)
 @mixin(IdsDomUtilsMixin)
 @mixin(IdsResizeMixin)
@@ -127,6 +126,7 @@ class IdsTriggerField extends IdsElement {
       return false;
     }
 
+    this.eventHandlers = new IdsEventsMixin();
     const button = this.querySelector('ids-trigger-button');
     if (button) {
       this.eventHandlers.addEventListener('click', button, () => this.trigger());

@@ -1,5 +1,33 @@
-/* Ids Loader - This Will eventually be a top page loader */
+/* Ids Loader */
+@import '../ids-base/ids-base';
 
-.ids-loading {
-  visibility: hidden;
+.ids-loader {
+  @include fixed();
+  @include h-full();
+  @include z-1();
+  @include w-full();
+
+  left: 0;
+  top: 0;
+}
+
+@keyframes progress-indeterminate-1 {
+  0% {
+    transform: scaleX(0);
+  }
+
+  100% {
+    transform: scaleX(1);
+  }
+}
+
+.ids-loader-indeterminate-1 {
+  @include absolute();
+  @include bg-azure-70();
+  @include w-full();
+
+  animation: progress-indeterminate-1 2.5s linear infinite;
+  height: 2px;
+  left: 0;
+  transform-origin: 0% 100%;
 }

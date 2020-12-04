@@ -176,6 +176,7 @@ class IdsButton extends IdsElement {
     let x;
     let y;
     let preceededByTouchstart = false;
+    this.eventHandlers = new IdsEventsMixin();
 
     this.eventHandlers.addEventListener('click', this.button, (e) => {
       if (preceededByTouchstart) {

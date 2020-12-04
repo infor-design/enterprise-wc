@@ -10,11 +10,9 @@ The IDS Toggle Button component is an extension of the standard IDS Button compo
 
 ## Terminology
 
-_Unpressed:_ an unpressed state is the visual equivalent to turning a feature "off".
-
-_Pressed:_ a pressed state is the visual equivalent to turning a feature "on".
-
-_Toggle:_ the action of toggling switches between unpressed and pressed, swapping to the alternate of what is currently set.
+- Unpressed: an unpressed state is the visual equivalent to turning a feature "off".
+- Pressed: a pressed state is the visual equivalent to turning a feature "on".
+- Toggle: the action of toggling switches between unpressed and pressed, swapping to the alternate of what is currently set.
 
 ## Features (With Code Examples)
 
@@ -71,10 +69,10 @@ Toggle buttons can only be displayed in the "default" button type
 ## Test Plan
 
 1. Accessibility - Axe
-2. Visual Regression Test
-3. Repeat Tests in All Supported Browsers
-4. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-5. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
+1. Visual Regression Test
+1. Repeat Tests in All Supported Browsers
+1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
+1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
 
 ## Accessibility Guidelines
 

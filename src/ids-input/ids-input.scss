@@ -20,14 +20,14 @@ $input-size-default: $input-size-md;
 }
 
 .ids-input-label {
+  @include antialiased();
   @include text-slate-60();
+  @include mb-4();
 
   align-items: baseline;
   display: flex;
 
   &.required {
-    margin-top: -4px;
-
     &::after {
       @include relative();
       @include font-sans();
