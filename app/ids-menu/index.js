@@ -1,4 +1,5 @@
 import IdsMenu from '../../src/ids-menu/ids-menu';
+import IdsMenuHeader from '../../src/ids-menu/ids-menu-header';
 import IdsMenuItem from '../../src/ids-menu/ids-menu-item';
 import IdsSeparator from '../../src/ids-menu/ids-separator';
 import IdsIcon from '../../src/ids-icon/ids-icon';

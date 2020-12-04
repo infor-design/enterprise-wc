@@ -1,0 +1,10 @@
+/* Ids Menu Group Component */
+@import './ids-menu-base';
+
+:host {
+  @include block();
+}
+
+.ids-menu-group {
+  @include reset-menu-style();
+}

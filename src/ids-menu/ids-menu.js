@@ -7,6 +7,7 @@ import {
 import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+import IdsMenuGroup from './ids-menu-group';
 import IdsMenuItem from './ids-menu-item';
 
 import styles from './ids-menu.scss';
@@ -25,6 +26,22 @@ function itemIcons(idsMenu) {
     }
   });
   return icons;
+}
+
+/**
+ * @private
+ * @param {string} groupName the group to search for
+ * @param {HTMLElement} idsMenu the parent menu element
+ * @returns {boolean} true if the provided `groupName` exists on a group within the menu
+ */
+function isValidGroup(groupName, idsMenu) {
+  let hasGroup = false;
+  idsMenu.groups.forEach((group) => {
+    if (group?.id === groupName) {
+      hasGroup = true;
+    }
+  });
+  return hasGroup;
 }
 
 /**
@@ -132,14 +149,22 @@ class IdsMenu extends IdsElement {
    */
   template() {
     const hasIconsClass = itemIcons(this).length ? ' has-icons' : '';
-    return `<ul class="ids-menu${hasIconsClass}" role="menu">
+    return `<nav class="ids-menu${hasIconsClass}" role="menu">
       <slot></slot>
-    </ul>`;
+    </nav>`;
   }
 
   /**
    * @readonly
-   * @returns {Array<IdsMenuItem>} available menu items
+   * @returns {Array<IdsMenuGroup>} all available groups
+   */
+  get groups() {
+    return Array.from(this.querySelectorAll('ids-menu-group, .ids-menu-group'));
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<IdsMenuItem>} all available menu items
    */
   get items() {
     return Array.from(this.querySelectorAll('ids-menu-item, .ids-menu-item'));
@@ -238,11 +263,18 @@ class IdsMenu extends IdsElement {
   }
 
   /**
-   * @readonly
+   * Retrieves a list of selected items in this menu.
+   * @param {string} [groupName] optionally limits results to within the specified group id
    * @returns {Array<IdsMenuItem>} list of selected menu items
    */
-  get selectedItems() {
-    return this.items.filter((item) => item.selected);
+  getSelectedItems(groupName = '') {
+    const hasGroup = isValidGroup(groupName, this);
+    return this.items.filter((item) => {
+      if (hasGroup) {
+        return item.selected && item.group?.id === groupName;
+      }
+      return item.selected;
+    });
   }
 
   /**
@@ -251,7 +283,12 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   selectItem(menuItem) {
-    const items = this.items;
+    if (!isUsableItem(menuItem, this, true)) {
+      return;
+    }
+
+    const group = menuItem.parentNode;
+    const items = group.items;
     let targetDeselection;
 
     items.forEach((item) => {
@@ -267,6 +304,27 @@ class IdsMenu extends IdsElement {
     if (menuItem.selected && targetDeselection) {
       targetDeselection.deselect();
     }
+  }
+
+  /**
+   * Clears any selected items in the menu, or specified group
+   * @param {string} [groupName] optionally limits results to within the specified group id
+   * @returns {void}
+   */
+  clearSelectedItems(groupName) {
+    const hasGroup = isValidGroup(groupName, this);
+    this.items.forEach((item) => {
+      let doDeselect = false;
+      if (hasGroup) {
+        doDeselect = item.selected && item.group?.id === groupName;
+      } else {
+        doDeselect = item.selected;
+      }
+
+      if (doDeselect) {
+        item.deselect();
+      }
+    });
   }
 }
 

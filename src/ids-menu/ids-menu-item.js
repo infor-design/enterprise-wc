@@ -34,6 +34,15 @@ const MENU_PROPS = [
 ];
 
 /**
+ * Determines if a menu item's stored value can safely be described by its attribute inside the DOM.
+ * @param {any} value the value to be checked
+ * @returns {boolean} true if the value can be "stringified" safely for the DOM attribute
+ */
+function safeForAttribute(value) {
+  return ['string', 'number', 'boolean'].includes(typeof value);
+}
+
+/**
  * IDS Menu Item Component
  */
 @customElement('ids-menu-item')
@@ -97,7 +106,7 @@ class IdsMenuItem extends IdsElement {
     const textSlot = `<span class="ids-menu-item-text"><slot></slot></span>`;
 
     // Main
-    return `<li class="ids-menu-item${disabledClass}${submenuClass}" role="presentation">
+    return `<li role="presentation" class="ids-menu-item${disabledClass}${submenuClass}">
       <a ${href} ${tabindex} ${disabledAttr} role="menuitem">
         ${iconSlot}${textSlot}
       </a>
@@ -161,11 +170,15 @@ class IdsMenuItem extends IdsElement {
    * @returns {HTMLElement} reference to the parent IdsMenu component, if one exists.
    */
   get menu() {
-    const menu = this.parentNode;
-    if (menu.tagName !== 'IDS-MENU') {
-      return undefined;
-    }
-    return menu;
+    return this.closest('ids-menu');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement} reference to the parent IdsMenuGroup component, if one exists.
+   */
+  get group() {
+    return this.closest('ids-menu-group');
   }
 
   /**
@@ -419,13 +432,14 @@ class IdsMenuItem extends IdsElement {
    * @param {any} val the value for this menu item
    */
   set value(val) {
-    this.state.val = val;
+    this.state.value = val;
 
-    // Don't display the value inside the element if it doesn't make sense.
-    if (!['string', 'number', 'boolean'].includes(typeof val)) {
+    // Don't display the value in the DOM if it doesn't make sense.
+    if (!safeForAttribute(val)) {
+      const shouldUpdate = this.shouldUpdate;
       this.shouldUpdate = false;
       this.removeAttribute('value');
-      this.shouldUpdate = true;
+      this.shouldUpdate = shouldUpdate;
     }
   }
 
@@ -433,7 +447,7 @@ class IdsMenuItem extends IdsElement {
    * @returns {any} the value of the menu item.
    */
   get value() {
-    return this.state.val;
+    return this.state.value;
   }
 
   /**

@@ -1,19 +1,16 @@
 /* Ids Menu Item Component */
-@import '../ids-base/ids-base';
-
-$menu-item-height: 40px;
-$transition-length: 100ms;
+@import './ids-menu-base';
 
 :host {
   @include block();
-  @include font-sans();
-
-  list-style: none;
 }
 
 .ids-menu-item {
+  @include font-sans();
+
   align-items: center;
   cursor: pointer;
+  list-style: none;
   transition: background-color $transition-length cubic-bezier(0.4, 0, 0.6, 1);
 
   ids-icon,
