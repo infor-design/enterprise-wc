@@ -3,6 +3,7 @@
  */
 const IdsValidationMixin = {
   useRules: new Map(),
+  validationEventsList: [],
 
   // Default icon
   VALIDATION_DEFAULT_ICON: 'user-profile',
@@ -21,6 +22,10 @@ const IdsValidationMixin = {
    */
   handleValidation() {
     if (this.labelEl && this.input && typeof this.validate === 'string') {
+      const radioCheckbox = /checkbox|radio/.test(this.input?.getAttribute('type'));
+      const defaultEvents = radioCheckbox ? 'change' : 'blur';
+      const events = this.validationEvents && typeof this.validationEvents === 'string' ? this.validationEvents : defaultEvents;
+      this.validationEventsList = [...new Set(events.split(' '))];
       const getRule = (id) => ({ id, rule: this.rules[id] });
       let isRulesAdded = false;
       this.validate.split(' ').forEach((strRule) => {
@@ -47,7 +52,7 @@ const IdsValidationMixin = {
         }
       });
       if (isRulesAdded) {
-        this.validationEvents();
+        this.handleValidationEvents();
       }
     } else {
       this.destroyValidation();
@@ -104,8 +109,13 @@ const IdsValidationMixin = {
         elem.setAttribute('type', type);
         elem.className = cssClass;
         elem.innerHTML = `${iconHtml}<ids-text class="message-text">${audible}${message}</ids-text>`;
-        this.shadowRoot.appendChild(elem);
         this.input?.classList.add(type);
+        const typeAttr = this.input?.getAttribute('type');
+        let parent = this.shadowRoot;
+        if (typeAttr === 'checkbox') {
+          parent = this.shadowRoot.querySelector('.ids-checkbox');
+        }
+        parent.appendChild(elem);
       }
     }
   },
@@ -143,19 +153,20 @@ const IdsValidationMixin = {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  validationEvents(option) {
+  handleValidationEvents(option) {
     if (this.input) {
-      const eventName = 'blur';
-      if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
-        if (handler && handler.target === this.input) {
-          this.eventHandlers.removeEventListener(eventName, this.input);
+      this.validationEventsList.forEach((eventName) => {
+        if (option === 'remove') {
+          const handler = this.eventHandlers?.handledEvents?.get(eventName);
+          if (handler && handler.target === this.input) {
+            this.eventHandlers.removeEventListener(eventName, this.input);
+          }
+        } else {
+          this.eventHandlers.addEventListener(eventName, this.input, () => {
+            this.checkValidation();
+          });
         }
-      } else {
-        this.eventHandlers.addEventListener(eventName, this.input, () => {
-          this.checkValidation();
-        });
-      }
+      });
     }
   },
 
@@ -167,7 +178,7 @@ const IdsValidationMixin = {
     if (this.input) {
       const useRules = this.useRules.get(this.input);
       if (useRules) {
-        this.validationEvents('remove');
+        this.handleValidationEvents('remove');
         this.useRules.delete(this.input);
       }
       this.labelEl?.classList.remove('required');
@@ -186,6 +197,10 @@ const IdsValidationMixin = {
      */
     required: {
       check: (input) => {
+        const isCheckbox = input.getAttribute('type') === 'checkbox';
+        if (isCheckbox) {
+          return input.checked;
+        }
         const val = input.value;
         return !((val === null) || (typeof val === 'string' && val === '') || (typeof val === 'number' && isNaN(val))) // eslint-disable-line
       },
