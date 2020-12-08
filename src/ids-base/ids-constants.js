@@ -23,6 +23,7 @@ export const props = {
   LABEL_FONT_SIZE: 'label-font-size',
   NAME: 'name',
   NO_MARGINS: 'no-margins',
+  OPEN: 'open',
   PLACEHOLDER: 'placeholder',
   READONLY: 'readonly',
   REQUIRED: 'required',

@@ -10,6 +10,7 @@ import IdsLayoutGridCell from '../src/ids-layout-grid/ids-layout-grid-cell';
 import IdsInput from '../src/ids-input/ids-input';
 import IdsTriggerField from '../src/ids-trigger-field/ids-trigger-field';
 import IdsTriggerButton from '../src/ids-trigger-button/ids-trigger-button';
+import IdsExpandableArea from '../src/ids-expandable-area/ids-expandable-area';
 import IdsRenderLoopMixin from '../src/ids-render-loop/ids-render-loop-mixin';
 
 // Import Example Code
