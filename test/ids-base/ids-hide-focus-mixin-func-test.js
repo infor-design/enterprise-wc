@@ -33,13 +33,29 @@ describe('IdsHideFocusMixin Tests', () => {
     event = new Event(evt);
     cb.input.dispatchEvent(event);
     expect(cb.input.classList).toContain('hide-focus');
+    cb.isClick = true;
+    cb.isFocused = true;
+    cb.labelClicked = true;
+    evt = 'focusin';
+    event = new Event(evt);
+    cb.input.dispatchEvent(event);
+    expect(cb.input.classList).toContain('hide-focus');
+    cb.radioCheckbox = false;
+    evt = 'focusout';
+    event = new Event(evt);
+    cb.input.dispatchEvent(event);
+    expect(cb.input.classList).toContain('hide-focus');
   });
 
   it('should handle click', () => {
     expect(cb.input.classList).toContain('hide-focus');
     cb.input.classList.remove('hide-focus');
     expect(cb.input.classList).not.toContain('hide-focus');
-    const event = new MouseEvent('mousedown', { bubbles: true });
+    let event = new MouseEvent('mousedown', { bubbles: true });
+    cb.input.dispatchEvent(event);
+    expect(cb.input.classList).toContain('hide-focus');
+    cb.radioCheckbox = false;
+    event = new MouseEvent('mousedown', { bubbles: true });
     cb.input.dispatchEvent(event);
     expect(cb.input.classList).toContain('hide-focus');
   });

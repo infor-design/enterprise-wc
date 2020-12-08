@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Checkbox component is a simple wrapper around a standard HTMLInputElement that is styled with Infor branding, and contains some additional API that makes it easy to set checkbox, label, and functionality. IDS Checkbox let user select one or more values at a time.
+The IDS Checkbox component is a simple wrapper around a standard HTMLInputElement that is styled with Infor branding, and contains some additional API that makes it easy to set checkbox, label, and functionality. IDS Checkbox lets the user select one or more values at a time.
 
 ## Use Cases
 
@@ -14,7 +14,6 @@ The IDS Checkbox component is a simple wrapper around a standard HTMLInputElemen
 _Checkbox:_ A standard basic checkbox element. It can set to checked, unchecked, indeterminate and disabled. IDS checkbox will add `aria-required` for required elements.
 
 _Label:_ HTMLLabelElement to keep matching with HTMLInputElement. Make sure the input label has a meaningful relative to input. IDS Input will add sudo ui `*` for required elements.
-
 
 ## Features (With Code Samples)
 
@@ -114,14 +113,7 @@ The IDS Checkbox component is now a WebComponent. Instead of using classes to de
 
 <!-- this is the same input using the WebComponent -->
 <ids-checkbox label="Unchecked"></ids-checkbox>
-
 ```
-
-## Designs
-
-## Alternate Designs
-
-## Proposed Changes
 
 ## Test Plan
 
@@ -130,7 +122,3 @@ The IDS Checkbox component is now a WebComponent. Instead of using classes to de
 3. Repeat Tests in All Supported Browsers
 4. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
 5. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
-
-## Accessibility Guidelines
-
-## Regional Considerations

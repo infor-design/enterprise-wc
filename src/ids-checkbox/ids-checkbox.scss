@@ -38,7 +38,7 @@
     }
   }
 
-  &.display-inline {
+  &.horizontal {
     @include mr-12();
 
     display: inline-block;

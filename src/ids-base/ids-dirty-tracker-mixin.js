@@ -15,7 +15,7 @@ const IdsDirtyTrackerMixin = {
     if (this.dirtyTracker) {
       if (this.input) {
         const val = this.valMethod(this.input);
-        this.dirty = { original: val !== null ? val : '' };
+        this.dirty = { original: val };
         this.dirtyTrackerEvents();
       }
     } else {

@@ -205,19 +205,19 @@ describe('IdsCheckbox Component', () => {
     expect(cb.input.classList).not.toContain('indeterminate');
   });
 
-  it('should rander display inline', () => {
+  it('should rander display horizontal', () => {
     let rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
-    expect(rootEl.classList).not.toContain('display-inline');
-    expect(cb.getAttribute('display-inline')).toEqual(null);
-    cb.displayInline = true;
+    expect(rootEl.classList).not.toContain('horizontal');
+    expect(cb.getAttribute('horizontal')).toEqual(null);
+    cb.horizontal = true;
     rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
-    expect(rootEl.classList).toContain('display-inline');
-    expect(cb.getAttribute('display-inline')).toEqual('true');
-    cb.displayInline = false;
+    expect(rootEl.classList).toContain('horizontal');
+    expect(cb.getAttribute('horizontal')).toEqual('true');
+    cb.horizontal = false;
     rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
-    expect(rootEl.classList).not.toContain('display-inline');
-    expect(cb.getAttribute('display-inline')).toEqual(null);
-    expect(cb.displayInline).toEqual(null);
+    expect(rootEl.classList).not.toContain('horizontal');
+    expect(cb.getAttribute('horizontal')).toEqual(null);
+    expect(cb.horizontal).toEqual(null);
   });
 
   it('should dispatch native events', () => {
@@ -252,5 +252,26 @@ describe('IdsCheckbox Component', () => {
       cb.input.dispatchEvent(event);
       expect(response).not.toEqual('triggered');
     });
+  });
+
+  it('should renders template', () => {
+    document.body.innerHTML = '';
+    cb = document.createElement('ids-checkbox');
+    cb.setAttribute('disabled', true);
+    cb.setAttribute('horizontal', true);
+    cb.setAttribute('checked', true);
+    cb.setAttribute('indeterminate', true);
+    cb.setAttribute('label-font-size', 'lg');
+    cb.template();
+    expect(cb.getAttribute('disabled')).toEqual('true');
+    expect(cb.input.hasAttribute('disabled')).toBe(true);
+    const rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
+    expect(rootEl.classList).toContain('disabled');
+    expect(rootEl.classList).toContain('horizontal');
+    expect(cb.getAttribute('horizontal')).toEqual('true');
+    expect(cb.getAttribute('checked')).toEqual('true');
+    expect(cb.checked).toEqual('true');
+    expect(cb.getAttribute('indeterminate')).toEqual('true');
+    expect(cb.input.classList).toContain('indeterminate');
   });
 });

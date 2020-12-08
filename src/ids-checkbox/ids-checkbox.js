@@ -42,7 +42,7 @@ class IdsCheckbox extends IdsElement {
       props.COLOR,
       props.DIRTY_TRACKER,
       props.DISABLED,
-      props.DISPLAY_INLINE,
+      props.HORIZONTAL,
       props.INDETERMINATE,
       props.LABEL,
       props.LABEL_FONT_SIZE,
@@ -85,7 +85,9 @@ class IdsCheckbox extends IdsElement {
   template() {
     // Checkbox
     const disabled = this.stringToBool(this.disabled) ? ' disabled' : '';
+    const horizontal = this.stringToBool(this.horizontal) ? ' horizontal' : '';
     const checked = this.stringToBool(this.checked) ? ' checked' : '';
+    const rootClass = ` class="ids-checkbox${disabled}${horizontal}"`;
     let checkboxClass = 'checkbox';
     checkboxClass += this.stringToBool(this.indeterminate) ? ' indeterminate' : '';
     checkboxClass = ` class="${checkboxClass}"`;
@@ -94,7 +96,7 @@ class IdsCheckbox extends IdsElement {
     const labelFontSize = this.labelFontSize ? ` ${props.FONT_SIZE}="${this.labelFontSize}"` : '';
 
     return `
-      <div class="ids-checkbox${disabled}">
+      <div${rootClass}>
         <label>
           <input type="checkbox"${checkboxClass}${disabled}${checked}>
           <span class="checkmark${checked}"></span>
@@ -252,22 +254,22 @@ class IdsCheckbox extends IdsElement {
   get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
-   * Set `display-inline` attribute `inline|block`, default as `block`
-   * @param {boolean} value If true will set `display-inline` attribute
+   * Set `horizontal` attribute `inline|block`, default as `block`
+   * @param {boolean} value If true will set `horizontal` attribute
    */
-  set displayInline(value) {
+  set horizontal(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
     const val = this.stringToBool(value);
     if (value) {
-      this.setAttribute(props.DISPLAY_INLINE, val);
-      rootEl?.classList.add(props.DISPLAY_INLINE);
+      this.setAttribute(props.HORIZONTAL, val);
+      rootEl?.classList.add(props.HORIZONTAL);
     } else {
-      this.removeAttribute(props.DISPLAY_INLINE);
-      rootEl?.classList.remove(props.DISPLAY_INLINE);
+      this.removeAttribute(props.HORIZONTAL);
+      rootEl?.classList.remove(props.HORIZONTAL);
     }
   }
 
-  get displayInline() { return this.getAttribute(props.DISPLAY_INLINE); }
+  get horizontal() { return this.getAttribute(props.HORIZONTAL); }
 
   /**
    * Set `indeterminate` attribute

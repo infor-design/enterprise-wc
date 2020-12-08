@@ -95,15 +95,7 @@
 @mixin checkbox-colored() {
   @each $name in $color-names {
     $i: index($color-names, $name);
-    $option: palette;
-
-    @each $color-status-name in $color-status-names {
-      @if (str-index($name, $color-status-name)) { // if $name contains
-        $option: status;
-      }
-    }
-
-    $color: var(--ids-color-#{$option}-#{nth($color-vars, $i)});
+    $color: var(#{nth($color-vars, $i)});
 
     &[color='#{$name}'] input[type='checkbox'] {
       ~ .checkmark {
