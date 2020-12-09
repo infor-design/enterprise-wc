@@ -22,7 +22,10 @@ class IdsExpandableArea extends IdsElement {
     super();
     this.state = {};
     this.expander = this.shadowRoot.querySelector('.ids-expandable-area-expander');
+    this.expanderTextDefault = this.shadowRoot.querySelector('[name="expander-text-default"]');
+    this.expanderTextOpen = this.shadowRoot.querySelector('[name="expander-text-open"]');
     this.pane = this.shadowRoot.querySelector('.ids-expandable-area-pane');
+    this.text = this.expanderText;
     this.setAttribute('role', 'region');
     this.switchState();
     this.handleEvents();
@@ -36,8 +39,20 @@ class IdsExpandableArea extends IdsElement {
    */
   static get properties() {
     return [
-      props.OPEN
+      props.OPEN,
+      'expander-text',
+      'expander-text-open'
     ];
+  }
+
+  static get observedAttributes() {
+    return [props.OPEN]
+  }
+
+  attributeChangedCallback(name) {
+    if (name === props.OPEN) {
+      this.switchState();
+    }
   }
 
   /**
@@ -53,30 +68,23 @@ class IdsExpandableArea extends IdsElement {
           <slot name="pane"></slot>
         </div>
         <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false">
-          <slot name="expander"></slot>
+          <slot name="expander-text-default"></slot>
+          <slot name="expander-text-open" hidden></slot>
         </a>
       </div>
     `;
-  }
-
-  static get observedAttributes() {
-    return [props.OPEN]
-  }
-
-  attributeChangedCallback(name) {
-    if (name === props.OPEN) {
-      this.switchState();
-    }
   }
 
   switchState() {
     this.state.expanded = this.getAttribute(props.OPEN) === 'true' || false;
     this.expander.setAttribute('aria-expanded', this.state.expanded);
     this.pane.hidden = !this.state.expanded;
+    this.expanderTextDefault.hidden = this.state.expanded;
+    this.expanderTextOpen.hidden = !this.state.expanded;
   }
 
   handleEvents() {
-    this.eventHandlers.addEventListener('click', this.expander, (e) => {
+    this.eventHandlers.addEventListener('click', this.expander, () => {
       this.setAttribute(props.OPEN, this.getAttribute(props.OPEN) === 'true' ? 'false' : 'true')
     });
   }
