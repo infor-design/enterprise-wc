@@ -23,7 +23,7 @@ class IdsExpandableArea extends IdsElement {
     this.state = {};
     this.expander = this.shadowRoot.querySelector('.ids-expandable-area-expander');
     this.expanderTextDefault = this.shadowRoot.querySelector('[name="expander-text-default"]');
-    this.expanderTextOpen = this.shadowRoot.querySelector('[name="expander-text-open"]');
+    this.expanderTextExpanded = this.shadowRoot.querySelector('[name="expander-text-expanded"]');
     this.pane = this.shadowRoot.querySelector('.ids-expandable-area-pane');
     this.text = this.expanderText;
     this.setAttribute('role', 'region');
@@ -39,17 +39,17 @@ class IdsExpandableArea extends IdsElement {
    */
   static get properties() {
     return [
-      props.OPEN,
+      props.EXPANDED,
       props.ANIMATED
     ];
   }
 
   static get observedAttributes() {
-    return [props.OPEN]
+    return [props.EXPANDED]
   }
 
   attributeChangedCallback(name) {
-    if (name === props.OPEN) {
+    if (name === props.EXPANDED) {
       this.switchState();
     }
   }
@@ -68,18 +68,18 @@ class IdsExpandableArea extends IdsElement {
         </div>
         <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false">
           <slot name="expander-text-default"></slot>
-          <slot name="expander-text-open" hidden></slot>
+          <slot name="expander-text-expanded" hidden></slot>
         </a>
       </div>
     `;
   }
 
   switchState() {
-    this.state.expanded = this.getAttribute(props.OPEN) === 'true' || false;
+    this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
     this.expander.setAttribute('aria-expanded', this.state.expanded);
-    this.expanderTextDefault.hidden = this.state.expanded;
-    this.expanderTextOpen.hidden = !this.state.expanded;
     this.pane.setAttribute('data-expanded', this.state.expanded);
+    this.expanderTextDefault.hidden = this.state.expanded;
+    this.expanderTextExpanded.hidden = !this.state.expanded;
 
     if (!this.state.expanded) {
       this.collapsePane();
@@ -88,23 +88,23 @@ class IdsExpandableArea extends IdsElement {
     }
   }
 
-  handleEvents() {
-    this.eventHandlers.addEventListener('click', this.expander, () => {
-      this.setAttribute(props.OPEN, this.getAttribute(props.OPEN) === 'true' ? 'false' : 'true')
-    });
-  }
-
   collapsePane() {
     requestAnimationFrame(() => {
-      this.pane.style.height = this.pane.scrollHeight + 'px';
+      this.pane.style.height = `${this.pane.scrollHeight}px`;
       requestAnimationFrame(() => {
-        this.pane.style.height = 0 + 'px';
+        this.pane.style.height = `0px`;
       });
     });
   }
 
   expandPane() {
-    this.pane.style.height = this.pane.scrollHeight + 'px';
+    this.pane.style.height = `${this.pane.scrollHeight}px`;
+  }
+
+  handleEvents() {
+    this.eventHandlers.addEventListener('click', this.expander, () => {
+      this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true')
+    });
   }
 }
 
