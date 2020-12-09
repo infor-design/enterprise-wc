@@ -6,7 +6,7 @@
 
 <ids-layout-grid auto="true">
   <ids-layout-grid-cell>
-    <ids-expandable-area expander-text="Show More">
+    <ids-expandable-area>
       <ids-text slot="header" font-size="16">Procurement</ids-text>
       <ids-text slot="pane" font-size="14">
         Ubiquitous out-of-the-box, scalable; communities disintermediate beta-test, enable utilize markets dynamic
@@ -14,6 +14,60 @@
         bleeding-edge tagclouds." Platforms extend interactive B2C benchmark proactive, embrace e-markets,
         transition generate peer-to-peer.
       </ids-text>
+      <ids-text slot="expander-text-default" font-size="14">Show More</ids-text>
+      <ids-text slot="expander-text-open" font-size="14">Show Less</ids-text>
+    </ids-expandable-area>
+
+    <hr>
+
+    <ids-expandable-area>
+      <ids-text slot="header" font-size="16">Design &amp; Definition</ids-text>
+      <ids-layout-grid slot="pane" cols="2" no-margins="true">
+        <ids-layout-grid-cell>
+          <ids-text font-size="12">Company Name</ids-text>
+          <ids-text font-size="14">Building Suppliers</ids-text>
+          <br>
+          <ids-text font-size="12">Company Type</ids-text>
+          <ids-text font-size="14">Contractor</ids-text>
+          <br>
+          <ids-text font-size="12">Company Address</ids-text>
+          <ids-text font-size="14">
+            4209 Industrial Avenue<br>
+            Los Angeles, California 90001 USA
+          </ids-text>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-text font-size="12">Phone Number</ids-text>
+          <ids-text font-size="14">(999) 810-2604</ids-text>
+          <br>
+          <ids-text font-size="12">Website</ids-text>
+          <ids-text font-size="14">www.buildings.com</ids-text>
+          <br>
+          <ids-text font-size="12">Estimated Delivery</ids-text>
+          <ids-text font-size="14">June 21, 2015 (4 days)</ids-text>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
+      <ids-text slot="expander-text-default" font-size="14">Show More</ids-text>
+      <ids-text slot="expander-text-open" font-size="14">Show Less</ids-text>
+    </ids-expandable-area>
+
+    <hr>
+
+    <ids-expandable-area>
+      <div slot="header">
+        <ids-text font-size="16">Customer Information</ids-text>
+        <ids-layout-grid cols="2" gap="md" no-margins="true">
+          <ids-layout-grid-cell>
+            <ids-input size="full" type="text" label="Customer Name" name="customer-name" placeholder="Normal text Field"></ids-input>
+          </ids-layout-grid-cell>
+          <ids-layout-grid-cell>
+            <ids-input size="full" type="text" label="Location" name="location" placeholder="Normal text Field"></ids-input>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+      </div>
+      <ids-layout-grid slot="pane" cols="2" no-margins="true">
+        <ids-input size="full" type="text" label="More Customer Details" name="more-customer-details" placeholder="Normal text Field"></ids-input>
+      </ids-layout-grid>
       <ids-text slot="expander-text-default" font-size="14">Show More</ids-text>
       <ids-text slot="expander-text-open" font-size="14">Show Less</ids-text>
     </ids-expandable-area>

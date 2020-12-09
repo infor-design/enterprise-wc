@@ -40,8 +40,7 @@ class IdsExpandableArea extends IdsElement {
   static get properties() {
     return [
       props.OPEN,
-      'expander-text',
-      'expander-text-open'
+      props.ANIMATED
     ];
   }
 
@@ -64,7 +63,7 @@ class IdsExpandableArea extends IdsElement {
     return `
       <div class="ids-expandable-area">
         <slot name="header"></slot>
-        <div class="ids-expandable-area-pane" hidden>
+        <div class="ids-expandable-area-pane" data-expanded="false">
           <slot name="pane"></slot>
         </div>
         <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false">
@@ -78,15 +77,34 @@ class IdsExpandableArea extends IdsElement {
   switchState() {
     this.state.expanded = this.getAttribute(props.OPEN) === 'true' || false;
     this.expander.setAttribute('aria-expanded', this.state.expanded);
-    this.pane.hidden = !this.state.expanded;
     this.expanderTextDefault.hidden = this.state.expanded;
     this.expanderTextOpen.hidden = !this.state.expanded;
+    this.pane.setAttribute('data-expanded', this.state.expanded);
+
+    if (!this.state.expanded) {
+      this.collapsePane();
+    } else {
+      this.expandPane();
+    }
   }
 
   handleEvents() {
     this.eventHandlers.addEventListener('click', this.expander, () => {
       this.setAttribute(props.OPEN, this.getAttribute(props.OPEN) === 'true' ? 'false' : 'true')
     });
+  }
+
+  collapsePane() {
+    requestAnimationFrame(() => {
+      this.pane.style.height = this.pane.scrollHeight + 'px';
+      requestAnimationFrame(() => {
+        this.pane.style.height = 0 + 'px';
+      });
+    });
+  }
+
+  expandPane() {
+    this.pane.style.height = this.pane.scrollHeight + 'px';
   }
 }
 

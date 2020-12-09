@@ -1,1 +1,10 @@
 @import '../ids-base/ids-base';
+
+.ids-expandable-area-expander {
+  display: inline-block;
+}
+
+.ids-expandable-area-pane {
+  overflow: hidden;
+  transition: all $transition-length $transition-ease;
+}
