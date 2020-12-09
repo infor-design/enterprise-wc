@@ -28,7 +28,8 @@ module.exports = {
     'ids-trigger-field/ids-trigger-field': ['./app/ids-trigger-field/index.js'],
     'ids-render-loop/ids-render-loop': ['./app/ids-render-loop/index.js'],
     'ids-render-loop/test-elapsed-time': ['./app/ids-render-loop/test-elapsed-time.js'],
-    'ids-render-loop/test-flying-popup': ['./app/ids-render-loop/test-flying-popup.js']
+    'ids-render-loop/test-flying-popup': ['./app/ids-render-loop/test-flying-popup.js'],
+    'ids-switch/ids-switch': ['./app/ids-switch/index.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -296,6 +297,21 @@ module.exports = {
       chunks: ['ids-render-loop/test-flying-popup'],
       title: 'RenderLoop Test - Flying Popup'
     }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-switch/index.html',
+      inject: 'body',
+      filename: 'ids-switch/index.html',
+      title: 'IDS Switch Component',
+      chunks: ['ids-switch/ids-switch']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-switch/standalone-css.html',
+      inject: 'body',
+      filename: 'ids-switch/standalone-css.html',
+      title: 'IDS Switch Component - Standalone-css',
+      chunks: []
+    }),
+
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),
     // Handle Hot Swap When files change - files must be added via entry points
