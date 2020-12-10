@@ -3,6 +3,7 @@
 
 interface nativeElement extends HTMLElement {
   expanded: string;
+  type: null | 'toggle-btn' | string;
 }
 
 export class IdsExpandableArea extends HTMLElement {
