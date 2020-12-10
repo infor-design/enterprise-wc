@@ -5,6 +5,7 @@
 }
 
 .ids-expandable-area-pane {
+  height: 0;
   overflow: hidden;
-  transition: all $transition-length $transition-ease;
+  transition: height $transition-length $transition-ease;
 }

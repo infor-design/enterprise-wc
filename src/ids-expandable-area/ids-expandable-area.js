@@ -5,7 +5,6 @@ import {
   scss
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import styles from './ids-expandable-area.scss';
 import { props } from '../ids-base/ids-constants';
@@ -25,13 +24,18 @@ class IdsExpandableArea extends IdsElement {
     this.expanderTextDefault = this.shadowRoot.querySelector('[name="expander-text-default"]');
     this.expanderTextExpanded = this.shadowRoot.querySelector('[name="expander-text-expanded"]');
     this.pane = this.shadowRoot.querySelector('.ids-expandable-area-pane');
-    this.text = this.expanderText;
-    this.setAttribute('role', 'region');
-    this.switchState();
-    this.handleEvents();
   }
 
-  connectedCallBack() {}
+  /**
+   * ExpandedArea `connectedCallBack` implementation
+   * @private
+   * @returns {void}
+   */
+  connectedCallBack() {
+    this.setAttribute('role', 'region');
+    this.handleEvents();
+    this.switchState();
+  }
 
   /**
    * Return the properties we handle as getters/setters
@@ -39,15 +43,23 @@ class IdsExpandableArea extends IdsElement {
    */
   static get properties() {
     return [
-      props.EXPANDED,
-      props.ANIMATED
+      props.EXPANDED
     ];
   }
 
+  /**
+   * Identify just the `expanded` attribute as an observed attribute
+   * @private
+   * @returns {Array}
+   */
   static get observedAttributes() {
     return [props.EXPANDED]
   }
 
+  /**
+   * When `expanded` changes value, execute switchState()
+   * @param {string} name
+   */
   attributeChangedCallback(name) {
     if (name === props.EXPANDED) {
       this.switchState();
@@ -74,6 +86,11 @@ class IdsExpandableArea extends IdsElement {
     `;
   }
 
+  /**
+   * The main state switching function
+   * @private
+   * @returns {void}
+   */
   switchState() {
     this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
     this.expander.setAttribute('aria-expanded', this.state.expanded);
@@ -88,6 +105,11 @@ class IdsExpandableArea extends IdsElement {
     }
   }
 
+  /**
+   * Collapse the expandable area pane.
+   * @private
+   * @returns {void}
+   */
   collapsePane() {
     requestAnimationFrame(() => {
       this.pane.style.height = `${this.pane.scrollHeight}px`;
@@ -97,10 +119,20 @@ class IdsExpandableArea extends IdsElement {
     });
   }
 
+  /**
+   * Expand the expandable area pane.
+   * @private
+   * @returns {void}
+   */
   expandPane() {
     this.pane.style.height = `${this.pane.scrollHeight}px`;
   }
 
+  /**
+   * Sets up event listeners
+   * @private
+   * @returns {void}
+   */
   handleEvents() {
     this.eventHandlers.addEventListener('click', this.expander, () => {
       this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true')
