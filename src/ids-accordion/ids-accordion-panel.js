@@ -6,6 +6,7 @@ import {
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
+import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import styles from './ids-accordion-panel.scss';
 import { props } from '../ids-base/ids-constants';
 
@@ -22,6 +23,7 @@ class IdsAccordionPanel extends IdsElement {
     this.state = {};
     this.expander = this.querySelector('[slot="header"]');
     this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
+    this.keyboard = new IdsKeyboardMixin();
   }
 
   /**
@@ -110,7 +112,10 @@ class IdsAccordionPanel extends IdsElement {
    */
   handleEvents() {
     this.eventHandlers.addEventListener('click', this.expander, () => {
-      this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true')
+      this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true');
+    });
+    this.keyboard.listen('Enter', this.expander, () => {
+      this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true');
     });
   }
 

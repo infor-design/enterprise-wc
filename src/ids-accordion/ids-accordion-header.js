@@ -46,7 +46,7 @@ class IdsAccordionHeader extends IdsElement {
    */
   template() {
     return `
-      <div class="ids-accordion-header">
+      <div class="ids-accordion-header" tabindex="1">
         <slot></slot>
         <ids-icon icon=${DEFAULT_ICON_OFF}></ids-icon>
       </div>
