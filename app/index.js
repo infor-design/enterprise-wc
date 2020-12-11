@@ -1,5 +1,6 @@
 // Import All Components Used in the Page
 import IdsButton from '../src/ids-button/ids-button';
+import IdsCheckbox from '../src/ids-checkbox/ids-checkbox';
 import IdsToggleButton from '../src/ids-toggle-button/ids-toggle-button';
 import IdsText from '../src/ids-text/ids-text';
 import IdsIcon from '../src/ids-icon/ids-icon';
@@ -18,6 +19,7 @@ import IdsRenderLoopMixin from '../src/ids-render-loop/ids-render-loop-mixin';
 
 // Import Example Code
 import './ids-button/index';
+import './ids-checkbox/index';
 import './ids-icon/index';
 import './ids-input/index';
 import './ids-input/test-validation-message';

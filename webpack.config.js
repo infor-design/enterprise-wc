@@ -14,6 +14,7 @@ module.exports = {
   entry: {
     index: ['./app/index.js'],
     'ids-button/ids-button': ['./app/ids-button/index.js'],
+    'ids-checkbox/ids-checkbox': ['./app/ids-checkbox/index.js'],
     'ids-icon/ids-icon': ['./app/ids-icon/index.js'],
     'ids-input/ids-input': ['./app/ids-input/index.js'],
     'ids-input/test-validation-message': ['./app/ids-input/test-validation-message.js'],
@@ -161,6 +162,20 @@ module.exports = {
       filename: 'ids-button/test-fallback-slot',
       chunks: ['ids-button/ids-button'],
       title: 'IDS Button Component using an unnamed slot for content'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-checkbox/index.html',
+      inject: 'body',
+      filename: 'ids-checkbox/index.html',
+      title: 'IDS Checkbox Component',
+      chunks: ['ids-checkbox/ids-checkbox']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-checkbox/standalone-css.html',
+      inject: 'body',
+      filename: 'ids-checkbox/standalone-css.html',
+      title: 'IDS Checkbox Component - Standalone-css',
+      chunks: []
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-tag/index.html',
