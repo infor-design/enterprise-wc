@@ -11,6 +11,9 @@ import IdsInput from '../src/ids-input/ids-input';
 import IdsTriggerField from '../src/ids-trigger-field/ids-trigger-field';
 import IdsTriggerButton from '../src/ids-trigger-button/ids-trigger-button';
 import IdsExpandableArea from '../src/ids-expandable-area/ids-expandable-area';
+import IdsAccordion from '../src/ids-accordion/ids-accordion';
+import IdsAccordionPanel from '../src/ids-accordion/ids-accordion-panel';
+import IdsAccordionHeader from '../src/ids-accordion/ids-accordion-header';
 import IdsRenderLoopMixin from '../src/ids-render-loop/ids-render-loop-mixin';
 
 // Import Example Code

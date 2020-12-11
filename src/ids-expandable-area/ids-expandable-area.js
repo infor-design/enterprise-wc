@@ -86,43 +86,6 @@ class IdsExpandableArea extends IdsElement {
   }
 
   /**
-   * Inner template contents
-   * @private
-   * @returns {string} The template
-   */
-  template() {
-    if (this.type === EXPANDABLE_AREA_TYPES[0]) {
-      return `
-        <div class="ids-expandable-area">
-          <div class="ids-expandable-area-header" aria-expanded="false" data-expander="header">
-            <slot name="header"></slot>
-          </div>
-          <div class="ids-expandable-area-pane" data-expanded="false">
-            <slot name="pane"></slot>
-          </div>
-        </div>
-      `;
-    } else {
-      return `
-        <div class="ids-expandable-area">
-          <div class="ids-expandable-area-header">
-            <slot name="header"></slot>
-          </div>
-          <div class="ids-expandable-area-pane" data-expanded="false">
-            <slot name="pane"></slot>
-          </div>
-          <div class="ids-expandable-area-footer">
-            <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false" data-expander="link">
-              <slot name="expander-text-default"></slot>
-              <slot name="expander-text-expanded" hidden></slot>
-            </a>
-          </div>
-        </div>
-      `;
-    }
-  }
-
-  /**
    * The main state switching function
    * @private
    * @returns {void}
@@ -183,6 +146,43 @@ class IdsExpandableArea extends IdsElement {
     this.eventHandlers.addEventListener('click', expander, () => {
       this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true')
     });
+  }
+
+  /**
+   * Inner template contents
+   * @private
+   * @returns {string} The template
+   */
+  template() {
+    if (this.type === EXPANDABLE_AREA_TYPES[0]) {
+      return `
+        <div class="ids-expandable-area">
+          <div class="ids-expandable-area-header" aria-expanded="false" data-expander="header">
+            <slot name="header"></slot>
+          </div>
+          <div class="ids-expandable-area-pane" data-expanded="false">
+            <slot name="pane"></slot>
+          </div>
+        </div>
+      `;
+    } else {
+      return `
+        <div class="ids-expandable-area">
+          <div class="ids-expandable-area-header">
+            <slot name="header"></slot>
+          </div>
+          <div class="ids-expandable-area-pane" data-expanded="false">
+            <slot name="pane"></slot>
+          </div>
+          <div class="ids-expandable-area-footer">
+            <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false" data-expander="link">
+              <slot name="expander-text-default"></slot>
+              <slot name="expander-text-expanded" hidden></slot>
+            </a>
+          </div>
+        </div>
+      `;
+    }
   }
 }
 

@@ -1,0 +1,13 @@
+@import '../ids-base/ids-base';
+
+.ids-accordion-pane {
+  @include box-border();
+
+  height: 0;
+  overflow: hidden;
+  transition: height $transition-length $transition-ease;
+}
+
+.ids-accordion-pane-content {
+  @include p-16();
+}

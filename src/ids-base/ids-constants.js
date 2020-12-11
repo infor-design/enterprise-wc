@@ -20,6 +20,8 @@ export const props = {
   FONT_SIZE: 'font-size',
   GAP: 'gap',
   ICON: 'icon',
+  ICON_ON: 'icon-on',
+  ICON_OFF: 'icon-off',
   LABEL: 'label',
   LABEL_FONT_SIZE: 'label-font-size',
   NAME: 'name',
