@@ -7,7 +7,6 @@ import {
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import styles from './ids-accordion-header.scss';
-import { props } from '../ids-base/ids-constants';
 
 // Default Icons
 const DEFAULT_ICON_OFF = 'caret-down';
@@ -46,7 +45,7 @@ class IdsAccordionHeader extends IdsElement {
    */
   template() {
     return `
-      <div class="ids-accordion-header" tabindex="1">
+      <div class="ids-accordion-header" tabindex="0">
         <slot></slot>
         <ids-icon icon=${DEFAULT_ICON_OFF}></ids-icon>
       </div>
