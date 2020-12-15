@@ -126,16 +126,6 @@ describe('IdsInput Component', () => {
     expect(label.getAttribute('font-size')).toBe(null);
   });
 
-  it('should set field name', () => {
-    input.fieldName = 'first-name';
-    expect(input.getAttribute('name')).toEqual('first-name');
-    expect(input.fieldName).toEqual('first-name');
-
-    input.fieldName = null;
-    expect(input.getAttribute('name')).toEqual(null);
-    expect(input.fieldName).toEqual(null);
-  });
-
   it('should set value', () => {
     input.input.remove();
     input.value = '';
@@ -152,13 +142,11 @@ describe('IdsInput Component', () => {
 
   it('should call template', () => {
     input.value = 'test';
-    input.fieldName = 'test2';
     input.readonly = 'true';
     input.disabled = 'true';
     input.labelFontSize = 'lg';
     input.template();
     expect(input.input.value).toEqual('test');
-    expect(input.getAttribute('name')).toEqual('test2');
   });
 
   it('renders field as disabled', () => {

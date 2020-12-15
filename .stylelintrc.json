@@ -18,7 +18,7 @@
       "declarations"
     ],
     "order/properties-alphabetical-order": true,
-    "max-nesting-depth": 2,
+    "max-nesting-depth": 3,
     "selector-pseudo-class-no-unknown": [true, {
       "ignorePseudoClasses": ["root", "host", "unresolved"]
     }],
