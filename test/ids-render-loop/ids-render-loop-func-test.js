@@ -120,7 +120,7 @@ describe('Ids RenderLoop', () => {
         loop.start();
 
         expect(loop.resumeTime).toBeDefined();
-        expect(loop.totalStoppedTime).toBeGreaterThan(timeoutLength);
+        expect(loop.totalStoppedTime).toBeGreaterThan((timeoutLength - 1));
         done();
       }, timeoutLength);
     }, 10);
@@ -263,7 +263,7 @@ describe('Ids RenderLoop', () => {
         setTimeout(() => {
           item.resume();
 
-          expect(item.totalStoppedTime).toBeGreaterThan(timeoutLength);
+          expect(item.totalStoppedTime).toBeGreaterThan((timeoutLength - 1));
           done();
         }, timeoutLength);
       }, 10);
