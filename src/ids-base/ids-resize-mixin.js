@@ -83,6 +83,17 @@ const IdsResizeMixin = {
   },
 
   /**
+   * @returns {HTMLElement} that should receive a resize observer
+   */
+  resizeDetectionTarget() {
+    let target = this.parentNode;
+    if (target instanceof DocumentFragment) {
+      target = target.host;
+    }
+    return target;
+  },
+
+  /**
    * Sets up a MutationObserver that will fire an IDS Component's `refresh()`
    * method when it needs to update.
    * @private

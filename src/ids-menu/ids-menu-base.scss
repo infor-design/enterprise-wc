@@ -8,6 +8,8 @@ $transition-length: 100ms;
 
 // Resets the User-Agent stylesheet rules for `<ul>` in Chrome
 @mixin reset-menu-style() {
+  @include block();
+
   margin-block-end: 0;
   margin-block-start: 0;
   padding-inline-start: 0;

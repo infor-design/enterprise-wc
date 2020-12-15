@@ -13,22 +13,6 @@ import IdsMenuItem from './ids-menu-item';
 import styles from './ids-menu.scss';
 
 /**
- * References all icons that describe menu item contents (ignores dropdown/check icons)
- * @private
- * @param {HTMLElement} idsMenu the IdsMenu element
- * @returns {Array<HTMLElement>} list of items
- */
-function itemIcons(idsMenu) {
-  const icons = [];
-  idsMenu.items.forEach((item) => {
-    if (item.iconEl) {
-      icons.push(item.iconEl);
-    }
-  });
-  return icons;
-}
-
-/**
  * @private
  * @param {string} groupName the group to search for
  * @param {HTMLElement} idsMenu the parent menu element
@@ -74,6 +58,8 @@ class IdsMenu extends IdsElement {
   }
 
   /**
+   * Sets up event handlers used in this menu.
+   * @private
    * @returns {void}
    */
   handleEvents() {
@@ -94,11 +80,17 @@ class IdsMenu extends IdsElement {
     };
 
     // Highlight the item on click
+    // If the item doesn't contain a submenu, select it.
+    // If the item does have a submenu, activate it.
     this.eventHandlers.addEventListener('click', this, (e) => {
       const thisItem = e.target.closest('ids-menu-item');
       if (isUsableItem(thisItem, this, true)) {
         this.highlightItem(thisItem);
-        this.selectItem(thisItem);
+        if (thisItem.hasSubmenu) {
+          thisItem.showSubmenu();
+        } else {
+          this.selectItem(thisItem);
+        }
       }
     });
 
@@ -115,17 +107,26 @@ class IdsMenu extends IdsElement {
     this.keyboard = new IdsKeyboardMixin();
 
     // Arrow Up/Left navigates focus backward
-    this.keyboard.listen(['ArrowUp', 'ArrowLeft'], this, () => {
+    this.keyboard.listen(['ArrowUp', 'ArrowLeft'], this, (e) => {
+      if (this.parentMenu) {
+        e.stopPropagation();
+      }
       this.navigate(-1, true);
     });
 
     // Arrow Right/Down navigates focus forward
-    this.keyboard.listen(['ArrowDown', 'ArrowRight'], this, () => {
+    this.keyboard.listen(['ArrowDown', 'ArrowRight'], this, (e) => {
+      if (this.parentMenu) {
+        e.stopPropagation();
+      }
       this.navigate(1, true);
     });
 
     // Enter/Spacebar select the menu item
     this.keyboard.listen(['Enter', 'Spacebar', ' '], this, (e) => {
+      if (this.parentMenu) {
+        e.stopPropagation();
+      }
       const thisItem = e.target.closest('ids-menu-item');
       if (isUsableItem(thisItem, this, true)) {
         this.selectItem(thisItem);
@@ -148,7 +149,7 @@ class IdsMenu extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const hasIconsClass = itemIcons(this).length ? ' has-icons' : '';
+    const hasIconsClass = this.itemIcons.length ? ' has-icons' : '';
     return `<nav class="ids-menu${hasIconsClass}" role="menu">
       <slot></slot>
     </nav>`;
@@ -159,7 +160,7 @@ class IdsMenu extends IdsElement {
    * @returns {Array<IdsMenuGroup>} all available groups
    */
   get groups() {
-    return Array.from(this.querySelectorAll('ids-menu-group, .ids-menu-group'));
+    return [...this.children].filter((e) => e.matches('ids-menu-group'));
   }
 
   /**
@@ -167,7 +168,26 @@ class IdsMenu extends IdsElement {
    * @returns {Array<IdsMenuItem>} all available menu items
    */
   get items() {
-    return Array.from(this.querySelectorAll('ids-menu-item, .ids-menu-item'));
+    let i = [];
+    this.groups.forEach((group) => {
+      i = i.concat([...group.children].filter((e) => e.matches('ids-menu-item')));
+    });
+    return i;
+  }
+
+  /**
+   * References all icons that describe menu item contents (ignores dropdown/check icons)
+   * @readonly
+   * @returns {Array<HTMLElement>} list of items
+   */
+  get itemIcons() {
+    const icons = [];
+    this.items.forEach((item) => {
+      if (item.iconEl) {
+        icons.push(item.iconEl);
+      }
+    });
+    return icons;
   }
 
   /**
@@ -184,6 +204,37 @@ class IdsMenu extends IdsElement {
    */
   get highlighted() {
     return this.items.filter((item) => item.highlighted);
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsMenu} parent menu component, if this menu is a submenu
+   */
+  get parentMenu() {
+    return this.parentNode.closest('ids-menu, ids-popup-menu');
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsMenuItem} parent menu item, if this menu is a submenu
+   */
+  get parentMenuItem() {
+    return this.parentNode.closest('ids-menu-item');
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<IdsMenu>} list of all available submenus
+   */
+  get submenus() {
+    const submenus = [];
+    this.items.forEach((item) => {
+      const submenu = item.submenu;
+      if (submenu) {
+        submenus.push(submenu);
+      }
+    });
+    return submenus;
   }
 
   /**
@@ -209,7 +260,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   detectIcons() {
-    const icons = itemIcons(this);
+    const icons = this.itemIcons;
     const hasIcons = icons.length > 0;
     this.classList[hasIcons ? 'add' : 'remove']('has-icons');
 

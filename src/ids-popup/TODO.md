@@ -1,4 +1,5 @@
 # TODO on the IDS Popup
+
 - [x] Fix centering - `align="center"` should position the element directly over top
 - [x] See if we can fix the attribute display in the DOM to match what comes from `get align()`;
 - [x] Fix the bad placement on initial load
@@ -15,3 +16,4 @@
 - [ ] Add tests for "type"
 - [x] Improve test page for placement within the page
 - [ ] Add option to close on clicking out in the page
+- [ ] Improve "alignTarget" to accept an element reference directly (IDS Popup Menu).

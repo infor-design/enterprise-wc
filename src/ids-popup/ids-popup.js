@@ -117,7 +117,7 @@ class IdsPopup extends IdsElement {
     IdsElement.prototype.disconnectedCallback.apply(this);
 
     if (this.shouldResize()) {
-      this.ro.unobserve(this.parentNode);
+      this.ro.unobserve(this.resizeDetectionTarget());
       this.disconnectResize();
     }
 
@@ -160,21 +160,29 @@ class IdsPopup extends IdsElement {
    * @param {string} val a CSS selector string
    */
   set alignTarget(val) {
-    if (typeof val !== 'string' || !val.length) {
+    const isString = typeof val === 'string' && val.length;
+    const isElem = val instanceof HTMLElement;
+
+    if (!isString && !isElem) {
       this.alignment.target = undefined;
       this.removeAttribute('align-target');
       this.refresh();
       return;
     }
 
-    // @TODO Harden for security (XSS)
-    const elem = document.querySelector(val);
-    if (!(elem instanceof HTMLElement)) {
-      return;
+    let elem;
+    if (isString) {
+      // @TODO Harden for security (XSS)
+      elem = document.querySelector(val);
+      if (!(elem instanceof HTMLElement)) {
+        return;
+      }
+      this.setAttribute('align-target', val);
+    } else {
+      elem = val;
     }
 
     this.alignment.target = elem;
-    this.setAttribute('align-target', val);
     this.refresh();
   }
 
@@ -473,9 +481,10 @@ class IdsPopup extends IdsElement {
 
     // Attach to the global ResizeObserver
     // (this doesn't need updating)
-    // @TODO possibly replace `this.parentNode` with IdsPopupBoundary (specifically to contain)
+    // @TODO possibly replace `this.resizeDetectionTarget()`
+    // with IdsPopupBoundary (specifically to contain)
     if (this.shouldResize()) {
-      this.ro.observe(this.parentNode);
+      this.ro.observe(this.resizeDetectionTarget());
     }
 
     // Set the Popup type

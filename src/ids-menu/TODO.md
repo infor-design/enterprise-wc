@@ -12,6 +12,7 @@
 - [] Submenu functionality
 - [x] Keyboard Nav
 - [x] Keyboard Select
+- [] Make keyboard navigation not occur twice on nested menu items (prevent bubbling after it occurs once?)
 - [] Ensure current aria labels work properly to describe groups (Voiceover doesn't currently read out group headers)
 - [] Tests
 

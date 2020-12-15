@@ -3,7 +3,6 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
-import IdsMenuItem from './ids-menu-item';
 
 import styles from './ids-menu-group.scss';
 
@@ -40,7 +39,7 @@ class IdsMenuGroup extends IdsElement {
 
   /**
    * @readonly
-   * @returns {Array<IdsMenuItem>} all available menu items in this group
+   * @returns {Array<HTMLElement>} all available menu items in this group
    */
   get items() {
     return Array.from(this.querySelectorAll('ids-menu-item, .ids-menu-item'));

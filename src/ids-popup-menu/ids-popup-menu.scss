@@ -1,0 +1,5 @@
+@import '../ids-menu/ids-menu-base';
+
+:host {
+  @include block();
+}

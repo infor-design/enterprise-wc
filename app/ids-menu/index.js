@@ -1,6 +1,7 @@
 import IdsMenu from '../../src/ids-menu/ids-menu';
 import IdsMenuHeader from '../../src/ids-menu/ids-menu-header';
 import IdsMenuItem from '../../src/ids-menu/ids-menu-item';
+import IdsMenuGroup from '../../src/ids-menu/ids-menu-group';
 import IdsSeparator from '../../src/ids-menu/ids-separator';
 import IdsIcon from '../../src/ids-icon/ids-icon';
 
@@ -15,8 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Add a `beforeselected` veto to one of the menu items
   const nonSelectableItem = document.querySelector('#no-select');
   nonSelectableItem.addEventListener('beforeselected', (e) => {
-    console.log('%c You cannot select this item', 'color: #ff0000;');
-    console.log(e.detail.elem);
+    console.log('%c You cannot select this item', 'color: #ff0000;', e.detail.elem);
     e.detail.response(false);
   });
 

@@ -59,7 +59,6 @@ $transition-length: 200ms;
     @include p-12();
     @include rounded-default();
     @include shadow();
-    @include text-14();
 
     border-color: var(--ids-color-border-lighter);
   }

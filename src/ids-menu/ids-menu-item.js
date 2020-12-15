@@ -6,6 +6,7 @@ import {
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 import IdsIcon from '../ids-icon/ids-icon';
 
 import styles from './ids-menu-item.scss';
@@ -48,6 +49,7 @@ function safeForAttribute(value) {
 @customElement('ids-menu-item')
 @scss(styles)
 @mixin(IdsEventsMixin)
+@mixin(IdsRenderLoopMixin)
 class IdsMenuItem extends IdsElement {
   /**
    * Build the menu item
@@ -110,6 +112,7 @@ class IdsMenuItem extends IdsElement {
       <a ${href} ${tabindex} ${disabledAttr} role="menuitem">
         ${iconSlot}${textSlot}
       </a>
+      <slot name="submenu"></slot>
     </li>`;
   }
 
@@ -136,11 +139,12 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
-   * Button-level `connectedCallBack` implementation
+   * Menu-level `connectedCallBack` implementation
    * @private
    * @returns {void}
    */
   connectedCallBack() {
+    this.detectSubmenu();
     this.handleEvents();
     this.shouldUpdate = true;
   }
@@ -149,10 +153,36 @@ class IdsMenuItem extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
+    let hoverTimeout;
+    const self = this;
+    const clearTimeout = () => {
+      if (hoverTimeout) {
+        hoverTimeout.destroy(true);
+        hoverTimeout = null;
+      }
+    };
+
+    // On 'mouseenter', after a specified duration, run some events,
+    // including activation of submenus where applicable.
     this.eventHandlers.addEventListener('mouseenter', this, () => {
+      if (!this.disabled && this.hasSubmenu) {
+        clearTimeout();
+        hoverTimeout = new IdsRenderLoopItem({
+          duration: 200,
+          timeoutCallback() {
+            self.showSubmenu();
+          }
+        });
+        this.rl.register(hoverTimeout);
+      }
+
+      // Highlight
       this.menu.highlightItem(this);
     });
+
+    // On 'mouseleave', clear any pending timeouts and unhighlight the item
     this.eventHandlers.addEventListener('mouseleave', this, () => {
+      clearTimeout();
       this.unhighlight();
     });
   }
@@ -170,7 +200,7 @@ class IdsMenuItem extends IdsElement {
    * @returns {HTMLElement} reference to the parent IdsMenu component, if one exists.
    */
   get menu() {
-    return this.closest('ids-menu');
+    return this.closest('ids-menu, ids-popup-menu');
   }
 
   /**
@@ -300,32 +330,48 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
-   * @returns {boolean} true if this menu item contains a submenu
+   * @readonly
+   * @returns {HTMLElement} an IdsMenuGroup, if one is present.
    */
   get submenu() {
-    // @TODO Flesh this out a bit
-    return this.container.classList.contains('has-submenu');
+    return this.querySelector('ids-menu, ids-popup-menu');
   }
 
   /**
-   * @param {boolean} val true if this menu item should display a submenu
+   * @readonly
+   * @returns {boolean} true if a submenu is present
    */
-  set submenu(val) {
-    // @TODO Flesh this out a bit
-    this.container.classList[val ? 'add' : 'remove']('has-submenu');
-    this.toggleSubmenuIcon(val);
+  get hasSubmenu() {
+    // @TODO remove to enable submenu functionality in standalone menu
+    const prototypeHasMenu = (this.menu?.tagName !== 'IDS-MENU') || false;
+    return prototypeHasMenu && !!this.submenu;
   }
 
   /**
-   * @param {boolean} val true if the submenu icon should be shown
+   * @returns {boolean} true if this menu item contains a submenu structure.
    */
-  toggleSubmenuIcon(val) {
+  detectSubmenu() {
+    const hasSubmenu = this.hasSubmenu;
+    this.container.classList[hasSubmenu ? 'add' : 'remove']('has-submenu');
+    this.decorateSubmenu(hasSubmenu);
+    return hasSubmenu;
+  }
+
+  /**
+   * @param {boolean} val true if a submenu is present and should be identified
+   * with icons and correct aria properties
+   */
+  decorateSubmenu(val) {
     const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
     if (val === true || val === 'true') {
+      this.container.setAttribute('aria-haspopup', true);
+      this.container.setAttribute('aria-expanded', false);
       if (!icon) {
         this.a.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="dropdown" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`);
       }
     } else {
+      this.container.removeAttribute('aria-haspopup');
+      this.container.removeAttribute('aria-expanded');
       icon?.remove();
     }
   }
@@ -472,6 +518,30 @@ class IdsMenuItem extends IdsElement {
   setDisplayType(val) {
     // @TODO include checkmarks/selected/other states
     this.container.classList[val === true ? 'add' : 'remove']('has-icon');
+  }
+
+  /**
+   * Displays this menu item's submenu, if one is present.
+   * @returns {void}
+   */
+  showSubmenu() {
+    if (!this.hasSubmenu) {
+      return;
+    }
+    this.container.setAttribute('aria-expanded', true);
+    this.submenu?.show();
+  }
+
+  /**
+   * Hides this menu item's submenu, if one is present.
+   * @returns {void}
+   */
+  hideSubmenu() {
+    if (!this.hasSubmenu) {
+      return;
+    }
+    this.container.setAttribute('aria-expanded', false);
+    this.submenu?.hide();
   }
 }
 

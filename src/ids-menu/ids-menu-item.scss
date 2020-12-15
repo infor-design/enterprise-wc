@@ -3,6 +3,12 @@
 
 :host {
   @include block();
+
+  // @TODO: remove slotted rules if we decide to
+  // support Submenus inside standalone ids-menu
+  ::slotted(ids-menu) {
+    display: none;
+  }
 }
 
 .ids-menu-item {
