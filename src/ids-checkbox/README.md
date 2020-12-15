@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Checkbox component is a simple wrapper around a standard HTMLInputElement that is styled with Infor branding, and contains some additional API that makes it easy to set checkbox, label, and functionality. IDS Checkbox lets the user select one or more values at a time.
+The IDS Checkbox component is a simple wrapper around a standard HTMLInputElement that is styled with Infor branding, and contains some additional API that makes it easy to set checkbox, label, and functionality.
 
 ## Use Cases
 
@@ -13,7 +13,7 @@ The IDS Checkbox component is a simple wrapper around a standard HTMLInputElemen
 
 _Checkbox:_ A standard basic checkbox element. It can set to checked, unchecked, indeterminate and disabled. IDS checkbox will add `aria-required` for required elements.
 
-_Label:_ HTMLLabelElement to keep matching with HTMLInputElement. Make sure the input label has a meaningful relative to input. IDS Input will add sudo ui `*` for required elements.
+_Label:_ HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful relative. IDS Checkbox will add sudo ui `*` for required elements.
 
 ## Features (With Code Samples)
 
@@ -78,7 +78,7 @@ Set as Indeterminate the checkbox. This `indeterminate` attribute will remove on
 - `color` {string} set the color for checkbox.
 - `dirty-tracker` {boolean} set dirty tracker.
 - `disabled` {boolean} set disabled state.
-- `display-inline` {boolean} set checkbox layout inline, most cases use as horizontal.
+- `horizontal` {boolean} set checkbox layout inline as horizontal.
 - `indeterminate` {boolean} This set to neither checked nor unchecked.
 - `label` {string} set the label text.
 - `label-font-size` {string|number} set the label font size.
@@ -96,7 +96,7 @@ The IDS Checkbox doesn't contain any interactions beyond a standard HTMLInputEle
 
 ## Responsive Guidelines
 
-- Default display set as `block`, but can change to `inline-block` by use of `display-inline` attribute as `true`.
+- Default display set as `block`, but can change to `inline-block` by use of `horizontal` attribute as `true`.
 
 ## Converting from Previous Versions
 
@@ -105,13 +105,13 @@ The IDS Checkbox doesn't contain any interactions beyond a standard HTMLInputEle
 The IDS Checkbox component is now a WebComponent. Instead of using classes to define, it is done directly:
 
 ```html
-<!-- 4.x input example -->
+<!-- 4.x checkbox example -->
 <div class="field">
   <input type="checkbox" class="checkbox" name="checkbox1" id="checkbox1"/>
   <label for="checkbox1" class="checkbox-label">Unchecked</label>
 </div>
 
-<!-- this is the same input using the WebComponent -->
+<!-- this is the same checkbox using the WebComponent -->
 <ids-checkbox label="Unchecked"></ids-checkbox>
 ```
 

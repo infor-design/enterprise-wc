@@ -1,0 +1,74 @@
+@import '../ids-base/ids-base';
+
+.ids-switch {
+  @include mb-2();
+
+  label {
+    @include cursor-pointer();
+    @include no-select();
+    @include pl-40();
+    @include relative();
+
+    display: inline-block;
+
+    &:hover .slider::after {
+      @include switch-hover-after();
+    }
+
+    // For some reason, `:active` MUST come after `:hover` (if present) in the CSS definition in order to be effective!
+    &:active .slider::after {
+      @include switch-focus-after();
+    }
+  }
+
+  &.disabled label {
+    @include cursor-default();
+  }
+
+  input[type='checkbox'] {
+    @include absolute();
+    @include cursor-pointer();
+    @include opacity-0();
+
+    height: 0;
+    width: 0;
+
+    ~ .slider {
+      @include switch-off();
+
+      &::after {
+        @include switch-off-after();
+      }
+    }
+
+    &:checked ~ .slider {
+      @include switch-on();
+
+      &::after {
+        @include switch-on-after();
+      }
+    }
+
+    &:disabled {
+      ~ .slider {
+        @include switch-disabled-off();
+      }
+
+      ~ .slider::after {
+        @include switch-disabled-off-after();
+      }
+
+      ~ .label-text {
+        @include switch-disabled-text();
+      }
+
+      &:checked ~ .slider::after {
+        @include switch-disabled-on-after();
+      }
+    }
+
+    &:focus:not(.hide-focus) ~ .slider::after {
+      @include switch-focus-after();
+    }
+  }
+}
