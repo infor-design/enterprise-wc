@@ -207,15 +207,15 @@ class IdsTag extends IdsElement {
     const response = (veto) => {
       canDismiss = !!veto;
     };
-    this.eventHandlers.dispatchEvent('beforetagremoved', this, { elem: this, response });
+    this.eventHandlers.dispatchEvent('beforetagremoved', this, { detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
-    this.eventHandlers.dispatchEvent('tagremoved', this, { elem: this });
+    this.eventHandlers.dispatchEvent('tagremoved', this, { detail: { elem: this } });
     this.remove();
-    this.eventHandlers.dispatchEvent('aftertagremoved', this, { elem: this });
+    this.eventHandlers.dispatchEvent('aftertagremoved', this, { detail: { elem: this } });
   }
 }
 

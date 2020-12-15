@@ -143,13 +143,13 @@ class IdsTriggerField extends IdsElement {
     const response = (veto) => {
       canTrigger = !!veto;
     };
-    this.eventHandlers.dispatchEvent('beforetriggerclicked', this, { elem: this, response });
+    this.eventHandlers.dispatchEvent('beforetriggerclicked', this, { detail: { elem: this, response } });
 
     if (!canTrigger) {
       return;
     }
 
-    this.eventHandlers.dispatchEvent('triggerclicked', this, { elem: this });
+    this.eventHandlers.dispatchEvent('triggerclicked', this, { detail: { elem: this } });
   }
 
   /**
