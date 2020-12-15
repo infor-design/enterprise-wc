@@ -309,7 +309,7 @@ describe('IdsInput Component', () => {
     expect(input.getAttribute('autoselect')).toEqual(null);
   });
 
-  it('should renders clearable', () => {
+  it('should render clearable icon', () => {
     input.clearable = true;
     expect(input.getAttribute('clearable')).toEqual('true');
     expect(input.input.classList).toContain('has-clearable');
@@ -338,6 +338,13 @@ describe('IdsInput Component', () => {
     expect(input.value).toEqual('test');
     input.shadowRoot.querySelector('.btn-clear').click();
     expect(input.value).toEqual('');
+  });
+
+  it('should not error calling with no button', () => {
+    input.clearable = true;
+    input.clearable = false;
+    input.handleClearBtnKeydown();
+    expect(input.shadowRoot.querySelector('.btn-clear')).toBeFalsy();
   });
 
   it('should renders triggerfield', () => {

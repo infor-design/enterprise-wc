@@ -1,3 +1,5 @@
+import { IdsKeyboardMixin } from './ids-keyboard-mixin';
+
 /**
  * Clearable (Shows an x-icon button to clear).
  */
@@ -108,28 +110,20 @@ const IdsClearableMixin = {
   /**
    * Handle clearable xButton keydown event
    * @private
-   * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleClearBtnKeydown(option) {
+  handleClearBtnKeydown() {
     const xButton = this.shadowRoot.querySelector('.btn-clear');
-    if (xButton) {
-      const eventName = 'keydown';
-      if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
-        if (handler && handler.target === xButton) {
-          this.eventHandlers.removeEventListener(eventName, xButton);
-        }
-      } else {
-        this.eventHandlers.addEventListener(eventName, xButton, (e) => {
-          const key = e.key;
-          if (key === 'Enter' || (e.altKey && (key === 'Delete' || key === 'Backspace'))) {
-            e.preventDefault();
-            this.clear();
-          }
-        });
-      }
+    if (!xButton) {
+      return;
     }
+
+    if (!this.keyboard) {
+      this.keyboard = new IdsKeyboardMixin();
+    }
+    this.keyboard.listen(['Enter'], xButton, () => {
+      this.clear();
+    });
   },
 
   /**
@@ -163,7 +157,7 @@ const IdsClearableMixin = {
    * @returns {void}
    */
   handleClearableInputEvents(evt, option) {
-    const input = this.input || this.shadowRoot.querySelector(`#${this.ID || 'ids-input-id'}`);
+    const input = this.input;
     if (input && evt && typeof evt === 'string') {
       const eventName = evt;
       if (option === 'remove') {
@@ -186,7 +180,7 @@ const IdsClearableMixin = {
   destroyClearable() {
     this.input?.classList.remove('has-clearable');
     this.handleClearBtnClick('remove');
-    this.handleClearBtnKeydown('remove');
+    this.keyboard.destroy();
     this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e, 'remove'));
     this.removeClearableButton();
   }

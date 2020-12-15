@@ -30,7 +30,7 @@ class IdsListView extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.DATA, props.VIRTUAL_SCROLL];
+    return [props.VIRTUAL_SCROLL];
   }
 
   /**
@@ -81,20 +81,15 @@ class IdsListView extends IdsElement {
     const template = document.createElement('template');
     const html = this.template();
 
-    if (this.shadowRoot) {
-      this.shadowRoot.innerHTML = '';
-    }
-
-    if (html) {
-      template.innerHTML = html;
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
-    }
+    this.shadowRoot.innerHTML = '';
+    template.innerHTML = html;
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     if (this.virtualScroll === 'true' && this?.data.length > 0) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.itemTemplate = (item) => `<li>${this.itemTemplate(item)}</li>`;
       this.virtualScrollContainer.itemCount = this.data.length;
-      this.virtualScrollContainer.itemHeight = this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0] || {})}</li>`);
+      this.virtualScrollContainer.itemHeight = this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
       this.virtualScrollContainer.data = this.data;
 
       this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
@@ -120,13 +115,8 @@ class IdsListView extends IdsElement {
    * @param {Array} value The array to use
    */
   set data(value) {
-    if (value) {
-      this.datasource.data = value;
-      this.rerender();
-      return;
-    }
-
-    this.datasource.data = null;
+    this.datasource.data = value || [];
+    this.rerender();
   }
 
   get data() { return this?.datasource?.data || []; }
@@ -146,7 +136,7 @@ class IdsListView extends IdsElement {
     this.rerender();
   }
 
-  get virtualScroll() { return this.getAttribute(props.VIRTUAL_SCROLL) || 'true'; }
+  get virtualScroll() { return this.getAttribute(props.VIRTUAL_SCROLL) || 'false'; }
 }
 
 export default IdsListView;

@@ -160,7 +160,7 @@ describe('IdsInput Component', () => {
     let msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(msgEl).toBeTruthy();
     expect(msgEl.getAttribute('validation-id')).toEqual('required');
-    elem.removeAllMessage();
+    elem.removeAllMessages();
     msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(msgEl).toBeFalsy();
   });

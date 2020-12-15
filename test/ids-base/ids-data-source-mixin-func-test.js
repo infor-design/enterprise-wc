@@ -3,7 +3,7 @@
  */
 import { IdsDataSourceMixin } from '../../src/ids-base/ids-data-source-mixin';
 
-describe('IdsDataSourceMixin Tests', () => {
+describe.only('IdsDataSourceMixin Tests', () => {
   let datasource;
 
   beforeEach(async () => {
@@ -17,5 +17,16 @@ describe('IdsDataSourceMixin Tests', () => {
     dataset[0].prop1 = 'a';
 
     expect(datasource.data[0].prop1).toEqual(1);
+  });
+
+  it('can iterate', () => {
+    const dataset = [{ prop1: 1, prop2: 2 }, { prop1: 1, prop2: 2 }];
+
+    datasource.data = dataset;
+
+    datasource.forEach((data) => {
+      expect(data.prop1).toEqual(1);
+      expect(data.prop2).toEqual(2);
+    });
   });
 });

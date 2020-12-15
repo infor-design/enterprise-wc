@@ -146,15 +146,11 @@ const IdsValidationMixin = {
    * @returns {void}
    */
   handleValidationEvents(option) {
-    if (!this.eventHandlers) {
-      this.eventHandlers = new IdsEventsMixin();
-    }
-
     if (this.input) {
       const eventName = 'blur';
       if (option === 'remove') {
         const handler = this.eventHandlers?.handledEvents?.get(eventName);
-        if (handler && handler.target === this.input) {
+        if (handler) {
           this.eventHandlers.removeEventListener(eventName, this.input);
         }
       } else {

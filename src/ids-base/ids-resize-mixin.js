@@ -36,6 +36,7 @@ const IdsResizeMixin = {
     // The global resize handler will attempt to run a `refresh` method
     // if it finds one on any registered component.
     if (!window.Ids.resizeObserver && typeof ResizeObserver !== 'undefined') {
+      /* istanbul ignore next */
       window.Ids.resizeObserver = new ResizeObserver(() => {
         resizeTargets.forEach((e) => {
           if (typeof e.refresh === 'function') {
@@ -100,6 +101,7 @@ const IdsResizeMixin = {
       });
     }
 
+    /* istanbul ignore next */
     if (!this.mutationTargets) {
       this.mutationTargets = [];
     }

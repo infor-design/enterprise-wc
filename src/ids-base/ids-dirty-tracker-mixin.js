@@ -12,7 +12,7 @@ const IdsDirtyTrackerMixin = {
     if (this.dirtyTracker) {
       if (this.input) {
         const val = this.input.value;
-        this.dirty = { original: val !== null ? val : '' };
+        this.dirty = { original: val };
         this.dirtyTrackerEvents();
       }
     } else {
@@ -105,10 +105,6 @@ const IdsDirtyTrackerMixin = {
    * @returns {void}
    */
   dirtyTrackerEvents(option) {
-    if (!this.eventHandlers) {
-      this.eventHandlers = new IdsEventsMixin();
-    }
-
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {

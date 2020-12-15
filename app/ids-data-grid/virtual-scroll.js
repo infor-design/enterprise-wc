@@ -1,4 +1,4 @@
-import { IdsDataGrid, IdsDataGridFormatters } from '../../src/ids-data-grid/ids-data-grid';
+import { IdsDataGrid } from '../../src/ids-data-grid/ids-data-grid';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector('#data-grid-1');
@@ -13,43 +13,44 @@ columns.push({
   id: 'id',
   name: 'ID',
   field: 'id',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text,
+  width: 50
 });
 columns.push({
   id: 'color',
   name: 'Color',
   field: 'color',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'inStock',
   name: 'In Stock',
   field: 'inStock',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'productId',
   name: 'Product Id',
   field: 'productId',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'productName',
   name: 'Product Name',
   field: 'productName',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'unitPrice',
   name: 'Unit Price',
   field: 'unitPrice',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'units',
   name: 'Units',
   field: 'units',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 
 xmlhttp.onreadystatechange = function onreadystatechange() {

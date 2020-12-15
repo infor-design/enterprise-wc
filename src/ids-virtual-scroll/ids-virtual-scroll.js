@@ -48,42 +48,26 @@ class IdsVirtualScroll extends IdsElement {
    * @returns {object} The object for chaining.
    */
   handleEvents() {
-    let timeout = null;
+    this.timeout = null;
 
     this.eventHandlers = new IdsEventsMixin();
     this.eventHandlers.addEventListener('scroll', this.container, (e) => {
-      if (timeout) {
-        cancelAnimationFrame(timeout);
-      }
-
-      const target = e.target;
-      timeout = requestAnimationFrame(() => {
-        this.scrollTop = target.scrollTop;
-        this.renderItems(this.scrollTop);
-      });
+      this.handleScroll(e);
     }, { passive: true });
 
-    /*
-    let timeout = null;
-    this.eventHandlers = new IdsEventsMixin();
-
-    this.eventHandlers.addEventListener('scroll', this.container, (e) => {
-      if (timeout) {
-        timeout.destroy(true);
-      }
-
-      const target = e.target;
-      timeout = this.rl.register(new IdsRenderLoopItem({
-        id: 'virtual-scroll-loop-item',
-        duration: 0,
-        timeoutCallback: () => {
-          this.scrollTop = target.scrollTop;
-          this.renderItems(this.scrollTop);
-        }
-      }));
-    }, { passive: true });
-    */
     return this;
+  }
+
+  handleScroll(e) {
+    if (this.timeout) {
+      cancelAnimationFrame(this.timeout);
+    }
+
+    const target = e.target;
+    this.timeout = requestAnimationFrame(() => {
+      this.scrollTop = target.scrollTop;
+      this.renderItems(this.scrollTop);
+    });
   }
 
   /**
@@ -117,17 +101,8 @@ class IdsVirtualScroll extends IdsElement {
       return node;
     });
 
-    // For tables append a spacer row for putting the header in the right place
-    if (this.table) {
-      html += '<tr class="ids-vs-spacer"><td></td></tr>';
-    }
     this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
     this.itemContainer.innerHTML = html;
-
-    if (this.table) {
-      const bufferHeight = this.viewPortHeight - this.table.offsetHeight - this.offsetY;
-      this.table.querySelector('.ids-vs-spacer td').style.height = `${bufferHeight}px`;
-    }
   }
 
   /**
@@ -139,7 +114,11 @@ class IdsVirtualScroll extends IdsElement {
     this.container.querySelector('.ids-virtual-scroll-viewport').style.height = `${this.viewPortHeight}px`;
     this.itemContainer = this.querySelector('[slot="contents"]');
     this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
-    this.table = this.querySelector('table');
+
+    this.isTable = this.querySelectorAll('.ids-data-grid-container').length > 0;
+    if (this.isTable) {
+      this.shadowRoot.querySelector('.ids-virtual-scroll').style.overflow = 'inherit';
+    }
   }
 
   /**
@@ -299,6 +278,23 @@ class IdsVirtualScroll extends IdsElement {
 
   get data() {
     return this?.datasource?.data;
+  }
+
+  /**
+   * Set the scroll target to a external parent
+   * @param {object} value The array to use
+   */
+  set scrollTarget(value) {
+    if (value) {
+      this.eventTarget = value;
+      this.eventHandlers.addEventListener('scroll', this.eventTarget, (e) => {
+        this.handleScroll(e);
+      }, { passive: true });
+    }
+  }
+
+  get scrollTarget() {
+    return this?.eventTarget;
   }
 }
 

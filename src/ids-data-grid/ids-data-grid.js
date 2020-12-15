@@ -24,6 +24,10 @@ class IdsDataGrid extends IdsElement {
     super();
   }
 
+  /**
+   * Handle setup when connected
+   * @private
+   */
   connectedCallBack() {
     this.formatters = new IdsDataGridFormatters();
     this.datasource = new IdsDataSourceMixin();
@@ -31,10 +35,11 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Return the properties we handle as getters/setters
+   * @private
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.DATA, props.VIRTUAL_SCROLL, props.ALTERNATE_ROW_SHADING];
+    return [props.VIRTUAL_SCROLL, props.ALTERNATE_ROW_SHADING];
   }
 
   /**
@@ -45,26 +50,26 @@ class IdsDataGrid extends IdsElement {
   template() {
     let html = '';
 
-    if (this?.data.length === 0) {
+    if (this?.data.length === 0 && this?.columns.length === 0) {
       return html;
     }
 
-    const additionalClasses = this.alternateRowShading ? ' alt-row-shading' : '';
+    const additionalClasses = this.alternateRowShading === 'true' ? ' alt-row-shading' : '';
     if (this?.virtualScroll !== 'true') {
-      html = `<div class="ids-data-grid${additionalClasses}"><table role="grid">`;
-      html += this.headerTemplate();
-      html += this.bodyTemplate();
-      html += `</table></div>`;
+      html = `<div class="ids-data-grid${additionalClasses}" role="table" aria-label="${this.label}">
+      ${this.headerTemplate()}
+      ${this.bodyTemplate()}
+      </div>`;
       return html;
     }
 
-    html = `<div class="ids-data-grid${additionalClasses}">
+    html = `<div class="ids-data-grid${additionalClasses}" role="table" aria-label="${this.label}">
+      ${this.headerTemplate()}
       <ids-virtual-scroll>
-        <table>
-          ${this.headerTemplate()}
-          <tbody slot="contents">
-          </tbody>
-        </table>
+        <div class="ids-data-grid-container">
+          <div class="ids-data-grid-body" role="rowgroup" slot="contents">
+          </div>
+        </div>
       </ids-virtual-scroll>
     </div>`;
 
@@ -83,25 +88,21 @@ class IdsDataGrid extends IdsElement {
     const template = document.createElement('template');
     const html = this.template();
 
-    if (this.shadowRoot) {
-      this.shadowRoot.innerHTML = '';
-    }
+    // Render and append styles
+    this.shadowRoot.innerHTML = '';
+    this.appendStyles();
+    this.setColumnWidths();
+    template.innerHTML = html;
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    if (!this.shadowRoot) {
-      this.attachShadow({ mode: 'open' });
-    }
-
-    if (html) {
-      this.appendStyles();
-      template.innerHTML = html;
-      this.shadowRoot.appendChild(template.content.cloneNode(true));
-    }
-
+    // Setup virtual scrolling
     if (this.virtualScroll === 'true' && this?.data.length > 0) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
+      this.virtualScrollContainer.scrollTarget = this.shadowRoot.querySelector('.ids-data-grid');
+
       this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
       this.virtualScrollContainer.itemCount = this.data.length;
-      this.virtualScrollContainer.height = 310;
+      this.virtualScrollContainer.height = 310 - 35; // TODO Height setting ?
       this.virtualScrollContainer.itemHeight = 50; // TODO Row Height setting
       this.virtualScrollContainer.data = this.data;
     }
@@ -113,22 +114,22 @@ class IdsDataGrid extends IdsElement {
    * @private
    */
   headerTemplate() {
-    let colgroup = '<colgroup>';
-    let thead = '<thead><tr>';
+    let header = '<div class="ids-data-grid-header" role="rowgroup"><div role="row" class="ids-data-grid-row">';
 
-    if (!this.currentColumns) {
-      return colgroup;
-    }
-
-    this.currentColumns.forEach((columnData) => {
-      colgroup += `<col>`;
-      thead += `<th scope="col" role="columnheader">${this.headerCellTemplate(columnData)}</th>`;
+    this.columns.forEach((columnData) => {
+      header += `${this.headerCellTemplate(columnData)}`;
     });
-    return `${colgroup}</colgroup>${thead}</tr></thead>`;
+    return `${header}</div></div>`;
   }
 
-  headerCellTemplate(columnData) {
-    return `<div class="ids-column-header">${columnData.name || ''}</div>`;
+  /**
+   * Returns the markup for a header cell.
+   * @param {object} column The column info
+   * @returns {string} The resuling header cell template
+   * @private
+   */
+  headerCellTemplate(column) {
+    return `<span class="ids-data-grid-header-cell" role="columnheader"><span class="ids-data-grid-header-text">${column.name || ''}</span></span>`;
   }
 
   /**
@@ -137,17 +138,13 @@ class IdsDataGrid extends IdsElement {
    * @private
    */
   bodyTemplate() {
-    let html = '';
-
-    if (!this.data) {
-      return html;
-    }
+    let html = '<div class="ids-data-grid-container"><div class="ids-data-grid-body" role="rowgroup">';
 
     this.data.forEach((row, index) => {
       html += this.rowTemplate(row, index);
     });
 
-    return `${html}</tr>`;
+    return `${html}</div></div>`;
   }
 
   /**
@@ -157,13 +154,13 @@ class IdsDataGrid extends IdsElement {
    * @returns {string} The html string for the row
    */
   rowTemplate(row, index) {
-    let html = `<tr role="row" aria-rowindex="${index}" class="ids-data-grid-row">`;
+    let html = `<div role="row" aria-rowindex="${index}" class="ids-data-grid-row">`;
 
-    this.currentColumns.forEach((column, j) => {
-      html += `<td role="gridcell" aria-colindex="${j}">${this.cellTemplate(row, column)}</td>`;
+    this.columns.forEach((column, j) => {
+      html += `<span role="cell" class="ids-data-grid-cell" aria-colindex="${j}">${this.cellTemplate(row, column)}</span>`;
     });
 
-    html += '</tr>';
+    html += '</div>';
     return html;
   }
 
@@ -174,7 +171,48 @@ class IdsDataGrid extends IdsElement {
    * @returns {string} The template
    */
   cellTemplate(row, column) {
-    return `<div class="ids-data-grid-cell-wrapper">${this.formatters.text(row, column)}</div>`;
+    return this.formatters.text(row, column);
+  }
+
+  /**
+   * Set the column widths by generating the lengths in the css grid
+   * and setting the css variable.
+   */
+  setColumnWidths() {
+    let css = '';
+    let colsWithoutWidth = 0;
+
+    let styleSheet = null;
+
+    if (this.shadowRoot.adoptedStyleSheets) {
+      styleSheet = this.shadowRoot.adoptedStyleSheets[0];
+    } else if (this.shadowRoot.styleSheets) {
+      styleSheet = this.shadowRoot.styleSheets[0];
+    }
+
+    if (!styleSheet) {
+      return;
+    }
+
+    this.columns.forEach((column, i) => {
+      if (column.width && this.columns.length === i + 1) {
+        css += `minmax(110px, 1fr)`;
+      }
+      if (column.width && this.columns.length !== i + 1) {
+        css += `${column.width}px `;
+      }
+      if (!column.width) {
+        colsWithoutWidth++;
+      }
+    });
+
+    if (colsWithoutWidth) {
+      css += ` repeat(${colsWithoutWidth}, minmax(110px, 1fr))`;
+    }
+
+    styleSheet.insertRule(`:host {
+      --ids-data-grid-column-widths: ${css} !important;
+    }`);
   }
 
   /**
@@ -201,16 +239,11 @@ class IdsDataGrid extends IdsElement {
    * @param {Array} value The array to use
    */
   set columns(value) {
-    if (value) {
-      this.currentColumns = this.deepClone(value);
-      this.rerender();
-      return;
-    }
-
-    this.currentColumns = null;
+    this.currentColumns = value ? this.deepClone(value) : [{ id: '', name: '' }];
+    this.rerender();
   }
 
-  get columns() { return this?.currentColumns || []; }
+  get columns() { return this?.currentColumns || [{ id: '', name: '' }]; }
 
   /**
    * Set the data array of the listview
@@ -233,7 +266,7 @@ class IdsDataGrid extends IdsElement {
    * @param {boolean} value true to use virtual scrolling
    */
   set virtualScroll(value) {
-    if (value) {
+    if (value === true || value === 'true') {
       this.setAttribute(props.VIRTUAL_SCROLL, value);
       this.rerender();
       return;
@@ -243,7 +276,7 @@ class IdsDataGrid extends IdsElement {
     this.rerender();
   }
 
-  get virtualScroll() { return this.getAttribute(props.VIRTUAL_SCROLL) || 'true'; }
+  get virtualScroll() { return this.getAttribute(props.VIRTUAL_SCROLL) || 'false'; }
 }
 
 export { IdsDataGrid, IdsDataGridFormatters };

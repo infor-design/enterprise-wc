@@ -1,4 +1,4 @@
-import { IdsDataGrid, IdsDataGridFormatters } from '../../src/ids-data-grid/ids-data-grid';
+import { IdsDataGrid } from '../../src/ids-data-grid/ids-data-grid';
 
 // Example for populating the DataGrid
 const dataGrid = document.querySelector('#data-grid-1');
@@ -13,87 +13,89 @@ columns.push({
   id: 'selectionCheckbox',
   sortable: false,
   resizable: false,
-  formatter: IdsDataGridFormatters.Text,
-  align: 'center'
+  formatter: dataGrid.formatters.text,
+  align: 'center',
+  width: 20
 });
 columns.push({
   id: 'book',
   name: 'Book',
   field: 'book',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text,
+  width: 65
 });
 columns.push({
   id: 'description',
   name: 'Description',
   field: 'description',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'ledger',
   name: 'Ledger',
   field: 'ledger',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'bookCurrency',
   name: 'Book Currency',
   field: 'bookCurrency',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'transactionCurrency',
   name: 'Transaction Currency',
   field: 'transactionCurrency',
-  formatter: IdsDataGridFormatters.Text,
+  formatter: dataGrid.formatters.text,
 });
 columns.push({
   id: 'postHistory',
   name: 'Post History',
   field: 'postHistory',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'active',
   name: 'Active',
   field: 'active',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'convention',
   name: 'Convention',
   field: 'convention',
-  formatter: IdsDataGridFormatters.Text
+  formatter: dataGrid.formatters.text
 });
 columns.push({
   id: 'methodSwitch',
   name: 'Method Switch',
   field: 'methodSwitch',
-  formatter: IdsDataGridFormatters.Text,
+  formatter: dataGrid.formatters.text,
   filterType: 'select'
 });
 columns.push({
   id: 'trackDeprecationHistory',
   name: 'Track Deprecation History',
   field: 'trackDeprecationHistory',
-  formatter: IdsDataGridFormatters.Dropdown
+  formatter: dataGrid.formatters.dropdown
 });
 columns.push({
   id: 'useForEmployee',
   name: 'Use For Employee',
   field: 'useForEmployee',
-  formatter: IdsDataGridFormatters.Dropdown
+  formatter: dataGrid.formatters.dropdown
 });
 columns.push({
   id: 'deprecationHistory',
   name: 'Deprecation History',
   field: 'deprecationHistory',
-  formatter: IdsDataGridFormatters.Dropdown
+  formatter: dataGrid.formatters.dropdown
 });
 
 xmlhttp.onreadystatechange = function onreadystatechange() {
   if (this.readyState === 4 && this.status === 200) {
-    dataGrid.columns = columns;
     dataGrid.data = JSON.parse(this.responseText);
+    dataGrid.columns = columns;
   }
 };
 

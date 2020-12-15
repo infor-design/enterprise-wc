@@ -5,7 +5,7 @@ import { IdsDeepCloneMixin } from './ids-deep-clone-mixin';
 
 /**
  * Handle Attaching Array / Object Data to Components
- * TODO:
+ * Features (now and future):
  *  - data
  *  - sort
  *  - filter
@@ -46,7 +46,7 @@ class IdsDataSourceMixin {
    * @param {Function} fn An optional function to iterate the array
    */
   forEach(fn) {
-    this.activeData.forEach(fn);
+    this.currentData.forEach(fn);
   }
 }
 
