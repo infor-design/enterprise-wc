@@ -6,6 +6,7 @@ import {
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
+import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import styles from './ids-expandable-area.scss';
 import { props } from '../ids-base/ids-constants';
 
@@ -25,9 +26,10 @@ class IdsExpandableArea extends IdsElement {
     super();
     this.state = {};
     this.expander = this.shadowRoot.querySelector('[data-expander]');
-    this.expanderTextDefault = this.shadowRoot.querySelector('[name="expander-text-default"]');
-    this.expanderTextExpanded = this.shadowRoot.querySelector('[name="expander-text-expanded"]');
+    this.expanderDefault = this.shadowRoot.querySelector('[name="expander-default"]');
+    this.expanderExpanded = this.shadowRoot.querySelector('[name="expander-expanded"]');
     this.pane = this.shadowRoot.querySelector('.ids-expandable-area-pane');
+    this.keyboard = new IdsKeyboardMixin();
   }
 
   /**
@@ -36,7 +38,6 @@ class IdsExpandableArea extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
-    this.setAttribute('role', 'region');
     this.handleEvents();
     this.switchState();
   }
@@ -57,14 +58,32 @@ class IdsExpandableArea extends IdsElement {
    * @param {string} value The Type [null, toggle-btn]
    */
   set type(value) {
-    if (value) {
+    if (value === EXPANDABLE_AREA_TYPES[0]) {
       this.setAttribute(props.TYPE, value);
       return;
+    } else {
+      this.setAttribute(props.TYPE, null);
     }
     this.removeAttribute(props.TYPE);
   }
 
   get type() { return this.getAttribute(props.TYPE); }
+
+  /**
+   * Set the expanded property
+   * @param {boolean} value true/false
+   */
+  set expanded(value) {
+    if (value) {
+      this.setAttribute(props.EXPANDED, value);
+      return;
+    }
+  }
+
+  /**
+   * Get the expanded property
+   */
+  get expanded() { return this.getAttribute(props.EXPANDED); }
 
   /**
    * Identify just the `expanded` attribute as an observed attribute
@@ -97,8 +116,8 @@ class IdsExpandableArea extends IdsElement {
 
     // Hide/show the text link if default
     if (this.type === null) {
-      this.expanderTextDefault.hidden = this.state.expanded;
-      this.expanderTextExpanded.hidden = !this.state.expanded;
+      this.expanderDefault.hidden = this.state.expanded;
+      this.expanderExpanded.hidden = !this.state.expanded;
     }
 
     if (!this.state.expanded) {
@@ -132,19 +151,38 @@ class IdsExpandableArea extends IdsElement {
   }
 
   /**
+   * Sets the expanded state attribute
+   * @private
+   * @returns {void}
+   */
+  setAttributes() {
+    this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true');
+  }
+
+  /**
    * Sets up event listeners
    * @private
    * @returns {void}
    */
   handleEvents() {
     let expander;
+    
     if (this.type === EXPANDABLE_AREA_TYPES[0]) {
       expander = this.querySelector('ids-toggle-button');
     } else {
       expander = this.expander;
     }
+
     this.eventHandlers.addEventListener('click', expander, () => {
-      this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true')
+      this.setAttributes();
+    });
+
+    this.eventHandlers.addEventListener('touchstart', expander, (e) => {
+      if (e.touches && e.touches.length > 0) {
+        this.setAttributes();
+      }
+    }, {
+      passive: true
     });
   }
 
@@ -176,8 +214,8 @@ class IdsExpandableArea extends IdsElement {
           </div>
           <div class="ids-expandable-area-footer">
             <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false" data-expander="link">
-              <slot name="expander-text-default"></slot>
-              <slot name="expander-text-expanded" hidden></slot>
+              <slot name="expander-default"></slot>
+              <slot name="expander-expanded" hidden></slot>
             </a>
           </div>
         </div>

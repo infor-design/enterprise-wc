@@ -19,7 +19,8 @@ export function version(value) {
  */
 export function customElement(name) {
   return (target) => {
-    customElements.define(name, target);
+    customElements.get(name) || customElements.define(name, target);
+    // customElements.define(name, target);
   };
 }
 

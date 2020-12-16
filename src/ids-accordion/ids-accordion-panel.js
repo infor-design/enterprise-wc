@@ -106,16 +106,25 @@ class IdsAccordionPanel extends IdsElement {
   }
 
   /**
+   * Sets the expanded state attribute
+   * @private
+   * @returns {void}
+   */
+  setAttributes() {
+    this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true');
+  }
+
+  /**
    * Sets up event listeners
    * @private
    * @returns {void}
    */
   handleEvents() {
     this.eventHandlers.addEventListener('click', this.expander, () => {
-      this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true');
+      this.setAttributes();
     });
     this.keyboard.listen('Enter', this.expander, () => {
-      this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true');
+      this.setAttributes();
     });
   }
 

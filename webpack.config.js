@@ -28,7 +28,8 @@ module.exports = {
     'ids-trigger-field/ids-trigger-field': ['./app/ids-trigger-field/index.js'],
     'ids-render-loop/ids-render-loop': ['./app/ids-render-loop/index.js'],
     'ids-render-loop/test-elapsed-time': ['./app/ids-render-loop/test-elapsed-time.js'],
-    'ids-render-loop/test-flying-popup': ['./app/ids-render-loop/test-flying-popup.js']
+    'ids-render-loop/test-flying-popup': ['./app/ids-render-loop/test-flying-popup.js'],
+    'ids-expandable-area/ids-expandable-area': ['./app/ids-expandable-area/index.js'],
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -295,6 +296,13 @@ module.exports = {
       filename: 'ids-render-loop/test-flying-popup',
       chunks: ['ids-render-loop/test-flying-popup'],
       title: 'RenderLoop Test - Flying Popup'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-expandable-area/index.html',
+      inject: 'body',
+      filename: 'ids-expandable-area/index.html',
+      chunks: ['ids-expandable-area/ids-expandable-area', 'ids-input/ids-input', 'ids-toggle-button/ids-toggle-button'],
+      title: 'IDS Expandable Area Component'
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),

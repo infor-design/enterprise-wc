@@ -1,5 +1,11 @@
 @import '../ids-base/ids-base';
 
+:host([type='toggle-btn']) {
+  .ids-expandable-area-header {
+    @include mb-16();
+  }
+}
+
 .ids-expandable-area-pane {
   height: 0;
   overflow: hidden;
@@ -8,4 +14,9 @@
 
 [data-expander='link'] {
   display: inline-block;
+}
+
+.ids-expandable-area-header ::slotted(ids-text) {
+  @include block();
+  @include mb-16();
 }
