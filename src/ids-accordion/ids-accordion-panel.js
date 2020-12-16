@@ -24,6 +24,8 @@ class IdsAccordionPanel extends IdsElement {
     this.expander = this.querySelector('[slot="header"]');
     this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
     this.keyboard = new IdsKeyboardMixin();
+
+    console.log(this);
   }
 
   /**
@@ -32,8 +34,14 @@ class IdsAccordionPanel extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
+    this.createTitles();
     this.handleEvents();
     this.switchState();
+  }
+
+  createTitles() {
+    const accordionPane = this.shadowRoot.querySelector('.ids-accordion-pane');
+    accordionPane.setAttribute('title', `${this.expander.innerText}`);
   }
 
   /**

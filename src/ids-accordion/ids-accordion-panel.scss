@@ -11,3 +11,7 @@
 .ids-accordion-pane-content {
   @include p-16();
 }
+
+.ids-accordion-pane-title {
+  @include audible();
+}
