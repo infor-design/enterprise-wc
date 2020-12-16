@@ -30,6 +30,7 @@ module.exports = {
     'ids-render-loop/test-elapsed-time': ['./app/ids-render-loop/test-elapsed-time.js'],
     'ids-render-loop/test-flying-popup': ['./app/ids-render-loop/test-flying-popup.js'],
     'ids-expandable-area/ids-expandable-area': ['./app/ids-expandable-area/index.js'],
+    'ids-accordion/ids-accordion': ['./app/ids-accordion/index.js'],
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -303,6 +304,13 @@ module.exports = {
       filename: 'ids-expandable-area/index.html',
       chunks: ['ids-expandable-area/ids-expandable-area', 'ids-input/ids-input', 'ids-toggle-button/ids-toggle-button'],
       title: 'IDS Expandable Area Component'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-accordion/index.html',
+      inject: 'body',
+      filename: 'ids-accordion/index.html',
+      chunks: ['ids-accordion/ids-accordion', 'ids-icon/ids-icon'],
+      title: 'IDS Accordion Component'
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),
