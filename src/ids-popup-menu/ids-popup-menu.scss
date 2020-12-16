@@ -1,5 +1,16 @@
 @import '../ids-menu/ids-menu-base';
 
+$popupmenu-width: 150px;
+
 :host {
   @include block();
+}
+
+.ids-popup-menu {
+  @include block();
+
+  .ids-menu {
+    // min-width: $popupmenu-width;
+    position: relative;
+  }
 }

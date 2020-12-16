@@ -4,7 +4,7 @@
 $transition-length: 200ms;
 
 :host {
-  @include absolute();
+  // @include absolute();
 
   display: inline-block;
 }
@@ -52,11 +52,12 @@ $transition-length: 200ms;
 
   // style: "menu"
   &.menu {
+    @include antialiased();
     @include bg-white();
     @include border-1();
     @include border-solid();
     @include font-sans();
-    @include p-12();
+    @include py-8();
     @include rounded-default();
     @include shadow();
 

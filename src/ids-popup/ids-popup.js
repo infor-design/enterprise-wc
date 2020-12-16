@@ -723,11 +723,11 @@ class IdsPopup extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return `<span class="ids-popup">
+    return `<div class="ids-popup">
       <div class="content-wrapper">
         <slot name="content"></slot>
       </div>
-    </span>`;
+    </div>`;
   }
 
   /**

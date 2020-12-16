@@ -11,6 +11,8 @@ import IdsText from '../../src/ids-text/ids-text';
 import IdsLayoutGridCell from '../../src/ids-layout-grid/ids-layout-grid-cell';
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 
+import './index.scss';
+
 document.addEventListener('DOMContentLoaded', () => {
   const popupmenuEl = document.querySelector('ids-popup-menu');
   const popupEl = popupmenuEl.popup;
@@ -38,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuItems = document.querySelector('#popupmenu').items;
   menuItems.forEach((item) => {
     item.addEventListener('selected', (e) => {
-      console.log(`Item "${e.detail.elem.textContent.trim()}" was selected`);
+      console.log(`Item "${e.detail.elem.text}" was selected`);
     });
   });
 });

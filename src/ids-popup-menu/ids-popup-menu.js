@@ -54,7 +54,6 @@ class IdsPopupMenu extends IdsMenu {
     IdsMenu.prototype.handleEvents.apply(this);
 
     this.eventHandlers.addEventListener('selected', this, () => {
-      console.log('bollocks');
       this.hide();
     });
   }
@@ -79,14 +78,7 @@ class IdsPopupMenu extends IdsMenu {
     this.popup.visible = false;
 
     // Hide all submenus
-    const submenus = this.submenus;
-    if (submenus) {
-      submenus.forEach((submenu) => {
-        if (!submenu.hidden) {
-          submenu.hide();
-        }
-      });
-    }
+    this.hideSubmenus();
   }
 
   /**
@@ -103,6 +95,17 @@ class IdsPopupMenu extends IdsMenu {
     }
 
     // Hide any "open" submenus (in the event the menu is already open and being positioned)
+    this.hideSubmenus();
+
+    // Show this popup
+    this.popup.visible = true;
+  }
+
+  /**
+   * Hides any "open" submenus within this menu structure
+   * @returns {void}
+   */
+  hideSubmenus() {
     const submenus = this.submenus;
     if (submenus) {
       submenus.forEach((submenu) => {
@@ -111,9 +114,6 @@ class IdsPopupMenu extends IdsMenu {
         }
       });
     }
-
-    // Show this popup
-    this.popup.visible = true;
   }
 }
 

@@ -4,6 +4,8 @@
 :host {
   @include block();
 
+  position: static;
+
   // @TODO: remove slotted rules if we decide to
   // support Submenus inside standalone ids-menu
   ::slotted(ids-menu) {
@@ -17,6 +19,7 @@
   align-items: center;
   cursor: pointer;
   list-style: none;
+  position: static;
   transition: background-color $transition-length cubic-bezier(0.4, 0, 0.6, 1);
 
   ids-icon,
@@ -27,12 +30,13 @@
   // ================================================
   // Standard Rules for a menu item with no icons
   a {
-    @include px-4();
+    @include px-8();
     @include py-8();
 
     display: grid;
     grid-template-columns: min-content;
     max-width: 100%;
+    position: relative;
     white-space: nowrap;
 
     > * {
@@ -52,6 +56,8 @@
     }
 
     .ids-menu-item-submenu-icon {
+      @include ml-4();
+
       grid-column-start: 3;
       -webkit-transform: rotateZ(-90deg);
       transform: rotateZ(-90deg);
@@ -90,7 +96,27 @@
   // Rules for a menu item with an icon
   &.has-icon {
     a {
-      grid-template-columns: 30px calc(100% - 50px);
+      @include pl-4();
+
+      grid-template-columns: 30px calc(100% - 60px);
+    }
+  }
+
+  // ================================================
+  // Rules for a menu item with a submenu + submenu icon
+  &.has-submenu {
+    a {
+      @include pr-0();
+
+      grid-template-columns: 0 calc(100% - 25px) 25px;
+    }
+  }
+
+  // ================================================
+  // Rules for a menu item with both an action-defined icon, and a submenu + submenu icon
+  &.has-icon.has-submenu {
+    a {
+      grid-template-columns: 30px calc(100% - 55px) 25px;
     }
   }
 }

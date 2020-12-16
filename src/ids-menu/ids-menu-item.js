@@ -300,7 +300,9 @@ class IdsMenuItem extends IdsElement {
    * @returns {undefined|IdsIcon} reference to a defined IDS Icon element, if applicable
    */
   get iconEl() {
-    return this.querySelector('ids-icon[slot="icon"]');
+    // return this.querySelector('ids-icon[slot="icon"]');
+    const icon = [...this.children].find((e) => e.matches('ids-icon'));
+    return icon;
   }
 
   /**
@@ -364,6 +366,7 @@ class IdsMenuItem extends IdsElement {
   decorateSubmenu(val) {
     const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
     if (val === true || val === 'true') {
+      this.submenu.setAttribute('slot', 'submenu');
       this.container.setAttribute('aria-haspopup', true);
       this.container.setAttribute('aria-expanded', false);
       if (!icon) {
@@ -403,8 +406,10 @@ class IdsMenuItem extends IdsElement {
       canSelect = !!veto;
     };
     this.eventHandlers.dispatchEvent(beforeEventName, this, {
-      elem: this,
-      response: beforeSelectResponse
+      detail: {
+        elem: this,
+        response: beforeSelectResponse
+      }
     });
     if (!canSelect) {
       return;
@@ -429,7 +434,13 @@ class IdsMenuItem extends IdsElement {
     // @TODO handle selected state markers (checks?)
 
     // Build/Fire a `selected` event for performing other actions.
-    this.eventHandlers.dispatchEvent(duringEventName, this, { elem: this });
+    this.eventHandlers.dispatchEvent(duringEventName, this, {
+      bubbles: true,
+      detail: {
+        elem: this,
+        value: this.value
+      }
+    });
   }
 
   /**
@@ -472,6 +483,17 @@ class IdsMenuItem extends IdsElement {
    */
   get tabindex() {
     return this.state.tabindex;
+  }
+
+  /**
+   * @readonly
+   * @returns {string} containing the text content of the menu item
+   */
+  get text() {
+    if (this.hasSubmenu) {
+      return [...this.childNodes].find((i) => i.nodeType === Node.TEXT_NODE).textContent.trim();
+    }
+    return this.textContent.trim();
   }
 
   /**
@@ -529,6 +551,7 @@ class IdsMenuItem extends IdsElement {
       return;
     }
     this.container.setAttribute('aria-expanded', true);
+    this.menu.hideSubmenus();
     this.submenu?.show();
   }
 

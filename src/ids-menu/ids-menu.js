@@ -84,14 +84,9 @@ class IdsMenu extends IdsElement {
     // If the item does have a submenu, activate it.
     this.eventHandlers.addEventListener('click', this, (e) => {
       const thisItem = e.target.closest('ids-menu-item');
-      if (isUsableItem(thisItem, this, true)) {
-        this.highlightItem(thisItem);
-        if (thisItem.hasSubmenu) {
-          thisItem.showSubmenu();
-        } else {
-          this.selectItem(thisItem);
-        }
-      }
+      this.highlightItem(thisItem);
+      this.selectItem(thisItem);
+      e.stopPropagation();
     });
 
     // Focus in/out causes highlight to change
@@ -108,29 +103,23 @@ class IdsMenu extends IdsElement {
 
     // Arrow Up/Left navigates focus backward
     this.keyboard.listen(['ArrowUp', 'ArrowLeft'], this, (e) => {
-      if (this.parentMenu) {
-        e.stopPropagation();
-      }
+      e.preventDefault();
+      e.stopPropagation();
       this.navigate(-1, true);
     });
 
     // Arrow Right/Down navigates focus forward
     this.keyboard.listen(['ArrowDown', 'ArrowRight'], this, (e) => {
-      if (this.parentMenu) {
-        e.stopPropagation();
-      }
+      e.preventDefault();
+      e.stopPropagation();
       this.navigate(1, true);
     });
 
     // Enter/Spacebar select the menu item
     this.keyboard.listen(['Enter', 'Spacebar', ' '], this, (e) => {
-      if (this.parentMenu) {
-        e.stopPropagation();
-      }
       const thisItem = e.target.closest('ids-menu-item');
-      if (isUsableItem(thisItem, this, true)) {
-        this.selectItem(thisItem);
-      }
+      this.selectItem(thisItem);
+      e.stopPropagation();
     });
   }
 
@@ -335,6 +324,13 @@ class IdsMenu extends IdsElement {
    */
   selectItem(menuItem) {
     if (!isUsableItem(menuItem, this, true)) {
+      return;
+    }
+
+    // If the menu item is a submenu container, by definition it cannot be selected.
+    // In this case, just make an attempt to open the submenu.
+    if (menuItem.hasSubmenu) {
+      menuItem.showSubmenu();
       return;
     }
 
