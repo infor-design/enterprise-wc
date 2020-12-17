@@ -1,7 +1,5 @@
 @import '../ids-menu/ids-menu-base';
 
-$popupmenu-width: 150px;
-
 :host {
   @include block();
 }
@@ -10,7 +8,6 @@ $popupmenu-width: 150px;
   @include block();
 
   .ids-menu {
-    // min-width: $popupmenu-width;
     position: relative;
   }
 }

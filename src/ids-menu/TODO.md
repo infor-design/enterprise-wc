@@ -18,12 +18,17 @@
 - [] Tests
 - [] Docs
 
+## Ids Popup
+
+- [] Add "flip" and "nudge" logic
+- [] Might also need to create Ids Popup Boundary?
+
 ## Ids Popup Menu
 
 - [x] Combine Popup and Menu
 - [x] Create hidden / nested fly-out behavior for submenus
 
-## ContextMenu Mixin
+## ContextMenu Mixin?
 
 - [] Apply an IdsPopupMenu to an element with API for open/close and menu functions
 

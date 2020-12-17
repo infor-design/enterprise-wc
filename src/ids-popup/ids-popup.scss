@@ -4,7 +4,8 @@
 $transition-length: 200ms;
 
 :host {
-  // @include absolute();
+  // Take the WebComponent out of document flow
+  @include absolute();
 
   display: inline-block;
 }
@@ -57,7 +58,7 @@ $transition-length: 200ms;
     @include border-1();
     @include border-solid();
     @include font-sans();
-    @include py-8();
+    @include py-4();
     @include rounded-default();
     @include shadow();
 
