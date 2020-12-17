@@ -409,7 +409,7 @@ describe('IdsInput Component', () => {
     expect(input.input.classList).toContain(size);
   });
 
-  it('should input sizes', () => {
+  it('should rendr input sizes', () => {
     const sizes = ['xs', 'sm', 'mm', 'md', 'lg', 'full'];
     const checkSize = (size) => {
       input.size = size;

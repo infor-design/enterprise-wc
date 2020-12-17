@@ -279,15 +279,6 @@ class IdsInput extends IdsElement {
   }
 
   /**
-   * Get input field current width
-   * @returns {number} input field curent width
-   */
-  get inputWidth() {
-    const input = this.shadowRoot.querySelector(`#${ID}`);
-    return this.outerWidth(input);
-  }
-
-  /**
    * Set `autoselect` attribute
    * @param {boolean} value If true will set `autoselect` attribute
    */

@@ -141,9 +141,10 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: './src/**/*.scss', // './src/**/*.scss'
-          transformPath(targetPath) {
-            return targetPath.replace('src', '').replace('.scss', '.css');
+          from: './src/**/*.scss',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            return `${baseName.replace('.scss', '')}/${baseName.replace('scss', 'css')}`;
           },
           transform(content, transFormPath) {
             const result = sass.renderSync({
@@ -156,8 +157,9 @@ module.exports = {
         },
         {
           from: './src/**/*.d.ts',
-          transformPath(targetPath) {
-            return targetPath.replace('src', '');
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            return `${baseName.replace('.d.ts', '')}/${baseName}`;
           },
         }
       ]
@@ -200,7 +202,7 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
       inject: 'body',
       filename: folderAndFile,
       title,
-      chunks: [chunk, 'ids-icon/ids-icon', 'ids-text/ids-text', 'ids-layout-grid/ids-layout-grid']
+      chunks: jsFile === 'standalone-css.js' ? [] : [chunk, 'ids-icon/ids-icon', 'ids-text/ids-text', 'ids-layout-grid/ids-layout-grid']
     }),
   );
   return folderName;

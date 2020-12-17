@@ -36,6 +36,7 @@ $input-size-default: $input-size-md;
       @include text-alert-danger();
 
       content: '*';
+      margin-top: -10px;
       top: 1px;
     }
 

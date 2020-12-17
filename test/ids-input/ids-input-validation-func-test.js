@@ -132,6 +132,22 @@ describe('IdsInput Component', () => {
     expect(msgEl.textContent).toEqual('test');
   });
 
+  it('should remove disabled on message', () => {
+    elem.addMessage({
+      message: 'test',
+      type: 'icon',
+      id: 'icon-custom',
+      icon: 'mail'
+    });
+
+    const msgEl = elem.shadowRoot.querySelector('.validation-message');
+    elem.disabled = true;
+
+    expect(msgEl.classList.contains('disabled')).toEqual(true);
+    elem.disabled = false;
+    expect(msgEl.classList.contains('disabled')).toEqual(false);
+  });
+
   it('should destroy validation', () => {
     elem.validate = 'required';
     elem.template();

@@ -3,7 +3,7 @@
 @import '../ids-base/ids-validation-mixin';
 
 .ids-checkbox {
-  @include mb-2();
+  @include mb-8();
 
   label {
     @include cursor-pointer();

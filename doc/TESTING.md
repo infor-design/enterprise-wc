@@ -28,6 +28,7 @@ node node_modules/puppeteer/install.js
 - Type `npm run test:debug` in the command line
 - In chrome go to url `chrome://inspect/`
 - Click the "inspect" target and then click go in the debugger to get to your test debug point
+- You can also debug a single test with `node --inspect-brk node_modules/.bin/jest --runInBand -- ids-virtual-scroll-func-test`
 
 ## Running test in watch mode
 

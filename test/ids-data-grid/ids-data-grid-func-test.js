@@ -123,6 +123,10 @@ describe('IdsDataGrid Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('renders correctly', () => {
+    expect(dataGrid.shadowRoot.innerHTML).toMatchSnapshot();
+  });
+
   it('renders row data', () => {
     const errors = jest.spyOn(global.console, 'error');
     expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);

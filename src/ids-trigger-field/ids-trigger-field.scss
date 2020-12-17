@@ -1,29 +1,23 @@
 @import '../ids-base/ids-base';
 
 .ids-trigger-field {
-  @include relative();
   @include w-full();
+
+  align-items: center;
+  display: flex;
 }
 
 ::slotted(ids-input) {
-  @include w-full();
+  display: inline;
+}
+
+::slotted(ids-input[size='full']) {
+  width: 100%;
 }
 
 ::slotted(ids-trigger-button) {
-  @include absolute();
-  @include right-8();
-
-  top: 16px;
-}
-
-::slotted(ids-trigger-button.has-input-label) {
-  top: 32px;
-}
-
-::slotted(ids-trigger-button.has-input-required) {
-  @include mt-16();
-}
-
-::slotted(ids-trigger-button.has-input-label.has-input-required) {
-  @include mt-8();
+  align-self: flex-start;
+  margin-left: -36px;
+  position: relative;
+  top: 24px;
 }

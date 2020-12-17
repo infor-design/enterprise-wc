@@ -156,6 +156,11 @@ const IdsValidationMixin = {
    * @returns {void}
    */
   handleValidationEvents(option) {
+    /* istanbul ignore next */
+    if (!this.eventHandlers) {
+      this.eventHandlers = new IdsEventsMixin();
+    }
+
     if (this.input) {
       this.validationEventsList.forEach((eventName) => {
         if (option === 'remove') {
@@ -177,6 +182,7 @@ const IdsValidationMixin = {
    * @returns {void}
    */
   destroyValidation() {
+    /* istanbul ignore next */
     if (this.input) {
       const useRules = this.useRules.get(this.input);
       if (useRules) {
