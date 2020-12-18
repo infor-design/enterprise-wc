@@ -1,5 +1,7 @@
 /* Ids Menu Item Component */
 @import './ids-menu-base';
+@import '../ids-base/ids-check-mixin';
+@import '../ids-base/ids-checkbox-mixin';
 
 :host {
   @include block();
@@ -34,7 +36,7 @@
     @include py-8();
 
     display: grid;
-    grid-template-columns: min-content;
+    grid-template-columns: 0 min-content;
     max-width: 100%;
     position: relative;
     white-space: nowrap;
@@ -94,6 +96,7 @@
 
   // ================================================
   // Rules for a menu item with an icon
+
   &.has-icon {
     a {
       @include pl-4();
@@ -103,7 +106,39 @@
   }
 
   // ================================================
+  // Rules for a menu item with a checkmark
+
+  &.has-checkmark,
+  &.has-multi-checkmark {
+    a {
+      @include pl-4();
+
+      grid-template-columns: 30px 0 calc(100% - 30px);
+
+      // When checkmarks are present, all column placements change
+      .check {
+        grid-column-start: 1;
+      }
+
+      ids-icon,
+      .ids-icon,
+      .ids-menu-item-display-icon {
+        grid-column-start: 2;
+      }
+
+      .ids-menu-item-text {
+        grid-column-start: 3;
+      }
+
+      .ids-menu-item-submenu-icon {
+        grid-column-start: 4;
+      }
+    }
+  }
+
+  // ================================================
   // Rules for a menu item with a submenu + submenu icon
+
   &.has-submenu {
     a {
       @include pr-0();
@@ -113,10 +148,90 @@
   }
 
   // ================================================
-  // Rules for a menu item with both an action-defined icon, and a submenu + submenu icon
-  &.has-icon.has-submenu {
+  // Rules for a menu item with a checkmark
+
+  &.has-icon.has-checkmark,
+  &.has-icon.has-multi-checkmark {
+    a {
+      @include pl-4();
+
+      grid-template-columns: 30px 30px calc(100% - 60px);
+    }
+  }
+
+  // ================================================
+  // Rules for a menu item with an action-defined icon, and a submenu + submenu icon
+  // Also for a menu item with a checkmark, and a submenu + submenu icon
+
+  &.has-icon.has-submenu,
+  &.has-checkmark.has-submenu,
+  &.has-multi-checkmark.has-submenu {
     a {
       grid-template-columns: 30px calc(100% - 55px) 25px;
+    }
+  }
+
+  // ================================================
+  // Rules for a menu item with a checkmark, action-defined icon, and a submenu + submenu icon
+
+  &.has-icon.has-checkmark.has-submenu,
+  &.has-icon.has-multi-checkmark.has-submenu {
+    a {
+      grid-template-columns: 30px 30px calc(100% - 85px) 25px;
+    }
+  }
+}
+
+// ===============================================
+// Checkmark Styles
+
+.has-checkmark {
+  span.check {
+    @include check-base();
+  }
+
+  &.selected {
+    span.check::after {
+      @include check-icon();
+    }
+
+    &.disabled {
+      span.check::after {
+        @include check-icon-disabled();
+      }
+    }
+  }
+}
+
+.has-multi-checkmark {
+  span.check {
+    @include checkbox-unchecked();
+
+    align-self: center;
+    justify-self: center;
+    position: relative;
+    top: 0;
+  }
+
+  &.selected {
+    span.check {
+      @include checkbox-checked();
+
+      &::after { //stylelint-disable
+        @include checkbox-checked-after();
+      }
+    }
+  }
+
+  &.disabled {
+    span.check {
+      @include checkbox-disabled-unchecked();
+    }
+
+    &.selected {
+      span.check {
+        @include checkbox-disabled-checked();
+      }
     }
   }
 }

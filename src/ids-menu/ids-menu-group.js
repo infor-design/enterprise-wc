@@ -6,6 +6,13 @@ import {
 
 import styles from './ids-menu-group.scss';
 
+// Menu Selection Types
+const MENU_GROUP_SELECT_TYPES = [
+  'none',
+  'single',
+  'multiple'
+];
+
 /**
  * IDS Menu Group Component
  */
@@ -16,8 +23,14 @@ class IdsMenuGroup extends IdsElement {
     super();
   }
 
-  connectedCallBack() {
-    this.refresh();
+  /**
+   * Return the properties we handle as getters/setters
+   * @returns {Array} properties
+   */
+  static get properties() {
+    return [
+      'select'
+    ];
   }
 
   template() {
@@ -26,7 +39,18 @@ class IdsMenuGroup extends IdsElement {
       describedBy = ` aria-labelledby="${this.header.id}"`;
     }
 
-    return `<ul class="ids-menu-group" role="group" ${describedBy}><slot></slot></ul>`;
+    // Group Selection Method
+    let selectProp = '';
+    const selectVal = this.select;
+    if (selectVal !== MENU_GROUP_SELECT_TYPES[0]) {
+      selectProp = ` select="${selectVal}"`;
+    }
+
+    return `<ul class="ids-menu-group" role="group"${selectProp}${describedBy}><slot></slot></ul>`;
+  }
+
+  connectedCallBack() {
+    this.refresh();
   }
 
   refresh() {
@@ -47,12 +71,39 @@ class IdsMenuGroup extends IdsElement {
 
   /**
    * Gets this groups descriptive header, if one is defined.
+   * @readonly
    * @returns {HTMLElement} containing a menu
    */
   get header() {
     const inlineHeader = this.querySelector('ids-menu-header');
     const preceedingHeader = this.previousElementSibling?.tagName === 'IDS-MENU-HEADER' && this.previousElementSibling;
     return inlineHeader || preceedingHeader;
+  }
+
+  /**
+   * @returns {string|undefined} containing the type of selection this group allows
+   */
+  get select() {
+    return this.getAttribute('select');
+  }
+
+  /**
+   * @param {string} val the type of selection to set this group
+   */
+  set select(val) {
+    let trueVal = `${val}`;
+    if (MENU_GROUP_SELECT_TYPES.indexOf(trueVal) === -1) {
+      trueVal = MENU_GROUP_SELECT_TYPES[0];
+    }
+
+    // Sync the attribute
+    switch (trueVal) {
+      case 'none':
+        this.removeAttribute('select');
+        break;
+      default:
+        this.setAttribute('select', trueVal);
+    }
   }
 }
 

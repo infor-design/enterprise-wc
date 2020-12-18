@@ -83,14 +83,18 @@ class IdsMenuItem extends IdsElement {
       href = ` href="${this.state.href}"`;
     }
 
+    // Check
+    let check = '';
+    if (this.group?.select !== 'none') {
+      check = '<span class="check"></span>';
+    }
+
     // Icon
     let icon = '';
     if (this.state?.icon) {
-      icon = `<ids-icon icon="${this.state.icon}" size="${MENU_ITEM_SIZE}"></ids-icon>`;
+      icon = `<ids-icon slot="icon" icon="${this.state.icon}" size="${MENU_ITEM_SIZE}"></ids-icon>`;
     }
-    const iconSlot = `<slot name="icon">
-      ${icon}
-    </slot>`;
+    const iconSlot = `<slot name="icon">${icon}</slot>`;
 
     // Submenu
     let submenuClass = '';
@@ -110,7 +114,7 @@ class IdsMenuItem extends IdsElement {
     // Main
     return `<li role="presentation" class="ids-menu-item${disabledClass}${submenuClass}">
       <a ${href} ${tabindex} ${disabledAttr} role="menuitem">
-        ${iconSlot}${textSlot}
+        ${check}${iconSlot}${textSlot}
       </a>
       <slot name="submenu"></slot>
     </li>`;
@@ -145,6 +149,7 @@ class IdsMenuItem extends IdsElement {
    */
   connectedCallBack() {
     this.detectSubmenu();
+    this.detectSelectability();
     this.handleEvents();
     this.shouldUpdate = true;
   }
@@ -380,6 +385,27 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
+   * Decorates the menu for selectability, adding/removing a checkmark
+   * @returns {void}
+   */
+  detectSelectability() {
+    const selectType = this.group.select;
+    const isSelectable = selectType !== null;
+    const check = this.container.querySelector('span.check');
+
+    if (isSelectable) {
+      this.container.classList.add(selectType === 'multiple' ? 'has-multi-checkmark' : 'has-checkmark');
+      this.container.classList.remove(selectType === 'multiple' ? 'has-checkmark' : 'has-multi-checkmark');
+      if (!check) {
+        this.a.insertAdjacentHTML('afterbegin', `<span class="check"></span>`);
+      }
+    } else {
+      this.container.classList.remove('has-checkmark', 'has-multi-checkmark');
+      check?.remove();
+    }
+  }
+
+  /**
    * @returns {boolean} true if this item is currently selected
    */
   get selected() {
@@ -417,6 +443,7 @@ class IdsMenuItem extends IdsElement {
 
     // Store true state
     this.state.selected = trueVal;
+    this.container.classList[trueVal ? 'add' : 'remove']('selected');
 
     // Sync the attribute
     const shouldUpdate = this.shouldUpdate;
