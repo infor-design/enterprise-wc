@@ -53,8 +53,11 @@ class IdsPopupMenu extends IdsMenu {
   handleEvents() {
     IdsMenu.prototype.handleEvents.apply(this);
 
-    this.eventHandlers.addEventListener('selected', this, () => {
-      this.hide();
+    this.eventHandlers.addEventListener('selected', this, (e) => {
+      const item = e.detail.elem;
+      if (!item.group.keepOpen) {
+        this.hide();
+      }
     });
   }
 

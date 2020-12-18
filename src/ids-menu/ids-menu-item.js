@@ -96,6 +96,12 @@ class IdsMenuItem extends IdsElement {
     }
     const iconSlot = `<slot name="icon">${icon}</slot>`;
 
+    // Selected
+    let selectedClass = '';
+    if (this.state?.selected) {
+      selectedClass = ' selected';
+    }
+
     // Submenu
     let submenuClass = '';
     if (this.state?.submenu) {
@@ -112,7 +118,7 @@ class IdsMenuItem extends IdsElement {
     const textSlot = `<span class="ids-menu-item-text"><slot></slot></span>`;
 
     // Main
-    return `<li role="presentation" class="ids-menu-item${disabledClass}${submenuClass}">
+    return `<li role="presentation" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}">
       <a ${href} ${tabindex} ${disabledAttr} role="menuitem">
         ${check}${iconSlot}${textSlot}
       </a>

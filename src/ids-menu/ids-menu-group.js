@@ -29,6 +29,7 @@ class IdsMenuGroup extends IdsElement {
    */
   static get properties() {
     return [
+      'keep-open',
       'select'
     ];
   }
@@ -46,7 +47,13 @@ class IdsMenuGroup extends IdsElement {
       selectProp = ` select="${selectVal}"`;
     }
 
-    return `<ul class="ids-menu-group" role="group"${selectProp}${describedBy}><slot></slot></ul>`;
+    // Keep Open
+    let keepOpenProp = '';
+    if (this.keepOpen) {
+      keepOpenProp = ` keep-open`;
+    }
+
+    return `<ul class="ids-menu-group" role="group"${keepOpenProp}${selectProp}${describedBy}><slot></slot></ul>`;
   }
 
   connectedCallBack() {
@@ -103,6 +110,26 @@ class IdsMenuGroup extends IdsElement {
         break;
       default:
         this.setAttribute('select', trueVal);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if selection of an item within this group should
+   * cause the parent menu to close
+   */
+  get keepOpen() {
+    return this.hasAttribute('keep-open');
+  }
+
+  /**
+   * @param {boolean} val true if the menu should close when an item in this group is selected
+   */
+  set keepOpen(val) {
+    const trueVal = val !== null;
+    if (trueVal) {
+      this.setAttribute('keep-open', '');
+    } else {
+      this.removeAttribute('keep-open');
     }
   }
 }

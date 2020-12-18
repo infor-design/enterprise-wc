@@ -4,8 +4,8 @@
 
 - [x] Disabled state (single item)
 - [] Disabled state (entire menu)
-- [] Selected state (single)
-- [] Selected state (multi/group)
+- [x] Selected state (single)
+- [x] Selected state (multi/group)
 - [x] Trigger `selected` event (optionally pass a trigger element)
 - [x] Expose "selected" list values on the component
 - [x] Submenu state

@@ -9,6 +9,7 @@
   @include font-bold();
   @include font-sans();
   @include my-8();
+  @include px-8();
   @include text-12();
 
   color: var(--ids-color-palette-slate-70);

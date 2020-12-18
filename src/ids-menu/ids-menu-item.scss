@@ -193,6 +193,9 @@
   &.selected {
     span.check::after {
       @include check-icon();
+
+      left: 11px;
+      margin-top: 2px;
     }
 
     &.disabled {

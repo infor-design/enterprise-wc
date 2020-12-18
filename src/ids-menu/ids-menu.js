@@ -339,17 +339,25 @@ class IdsMenu extends IdsElement {
     let targetDeselection;
 
     items.forEach((item) => {
-      // @TODO handle multiple selection / group-only selection
       if (!item.isEqualNode(menuItem) && item.selected) {
         targetDeselection = item;
       }
     });
 
-    // Select the new item, and do a deselection if necessary.
     // @TODO This logic might need to be different for multiselection/group selection
-    menuItem.select();
-    if (menuItem.selected && targetDeselection) {
-      targetDeselection.deselect();
+    switch (group.select) {
+      case 'multiple':
+        // Multiple-select mode (Toggles selection, ignores others)
+        menuItem[menuItem.selected ? 'deselect' : 'select']();
+        break;
+      default:
+        // Standard single select mode.
+        // Select the new item, and do a deselection if necessary.
+        menuItem.select();
+        if (menuItem.selected && targetDeselection) {
+          targetDeselection.deselect();
+        }
+        break;
     }
   }
 
