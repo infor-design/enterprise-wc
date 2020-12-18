@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsExpandableArea from '../../src/ids-expandable-area/ids-expandable-area';
+import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
 
 describe('IdsExpandableArea Component', () => {
   let el;
@@ -32,16 +33,46 @@ describe('IdsExpandableArea Component', () => {
   });
 
   it('can change its type', () => {
-    el.type = 'toggle-btn';
-
-    expect(el.getAttribute('type')).toBe('toggle-btn');
-    expect(el.type).toBe('toggle-btn');
-
-    // Setting a bad type will make the type become null
-    el.type = 'bad-name';
+    el.type = 'fake-name';
 
     expect(el.getAttribute('type')).toBe(null);
     expect(el.type).toBe(null);
+    expect(el.expander.classList.contains('ids-expandable-area-expander'))
+
+    el.type = 'toggle-btn';
+    el.expander = new IdsToggleButton();
+
+    expect(el.getAttribute('type')).toBe('toggle-btn');
+    expect(el.type).toBe('toggle-btn');
+    expect(el.expander.classList.contains('ids-expandable-area-expander')).toBeFalsy();
+  });
+
+  it('can change set its aria-expanded attribute', () => {
+    el.state.expanded = true;
+    el.expander.setAttribute('aria-expanded', el.state.expanded);
+
+    expect(el.expander.getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('can set its data-expanded attribute', () => {
+    el.state.expanded = true;
+    el.pane.setAttribute('aria-expanded', el.state.expanded);
+
+    expect(el.pane.getAttribute('aria-expanded')).toBe('true');
+  });
+
+  it('can set its expanded attribute', () => {
+    el.expanded = true;
+    el.state.expanded = true;
+
+    expect(el.getAttribute('expanded')).toBe('true');
+    expect(el.expanded).toBe('true');
+
+    el.expanded = false;
+    el.state.expanded = false;
+
+    expect(el.getAttribute('expanded')).toBe('false');
+    expect(el.expanded).toBe('false');
   });
 
   it('can be expanded/collapsed when clicked (mouse)', () => {
@@ -86,5 +117,4 @@ describe('IdsExpandableArea Component', () => {
     expect(el.state.expanded).toBe(false);
     expect(el.expanded).toBe('false');
   });
-
 });

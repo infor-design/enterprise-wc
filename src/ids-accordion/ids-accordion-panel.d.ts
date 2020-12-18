@@ -2,7 +2,7 @@
 // confirm our code is type safe, and to support TypeScript users.
 
 interface nativeElement extends HTMLElement {
-  expanded: string;
+  expanded: boolean;
 }
 
 export class IdsAccordionPanel extends HTMLElement {

@@ -24,8 +24,6 @@ class IdsAccordionPanel extends IdsElement {
     this.expander = this.querySelector('[slot="header"]');
     this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
     this.keyboard = new IdsKeyboardMixin();
-
-    console.log(this);
   }
 
   /**
@@ -34,15 +32,32 @@ class IdsAccordionPanel extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
-    this.createTitles();
+    this.setTitles();
     this.handleEvents();
     this.switchState();
   }
 
-  createTitles() {
-    const accordionPane = this.shadowRoot.querySelector('.ids-accordion-pane');
-    accordionPane.setAttribute('title', `${this.expander.innerText}`);
+  setTitles() {
+    this.pane.setAttribute('title', `${this.expander?.innerText}`);
   }
+
+  /**
+   * Set the expanded property
+   * @param {boolean} value true/false
+   */
+  set expanded(value) {
+    if (value) {
+      this.setAttribute(props.EXPANDED, value);
+      return;
+    } else {
+      this.setAttribute(props.EXPANDED, false);
+    }
+  }
+
+  /**
+   * Get the expanded property
+   */
+  get expanded() { return this.getAttribute(props.EXPANDED); }
 
   /**
    * Return the properties we handle as getters/setters
