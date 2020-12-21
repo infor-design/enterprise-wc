@@ -1,4 +1,5 @@
 @import '../ids-base/ids-base';
+@import '../ids-base/ids-checkbox-mixin';
 @import '../ids-base/ids-dirty-tracker-mixin';
 @import '../ids-base/ids-validation-mixin';
 
@@ -101,38 +102,4 @@
 
   // Colored Checkboxes
   @include checkbox-colored();
-}
-
-// Keyframes ===========================================
-@include keyframes(check) {
-  0% {
-    height: 0;
-    left: 0;
-    top: 8px;
-    width: 0;
-  }
-
-  50% {
-    height: 0;
-    left: 0;
-    top: 8px;
-    width: 4px;
-  }
-
-  100% {
-    height: 10px;
-    left: 4px;
-    top: 0;
-    width: 4px;
-  }
-}
-
-@include keyframes(checkindeterminate) {
-  0% {
-    width: 0;
-  }
-
-  100% {
-    width: 10px;
-  }
 }

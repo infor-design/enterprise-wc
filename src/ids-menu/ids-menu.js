@@ -318,6 +318,14 @@ class IdsMenu extends IdsElement {
   }
 
   /**
+   * @param {string} [groupName] optionally limits results to within the specified group id
+   * @returns {Array<any>} list of the values contained by selected menu items
+   */
+  getSelectedValues(groupName = '') {
+    return this.getSelectedItems(groupName).map((item) => (item.value));
+  }
+
+  /**
    * Selects a menu item contained by this menu.
    * @param {IdsMenuItem} menuItem the item to be selected
    * @returns {void}

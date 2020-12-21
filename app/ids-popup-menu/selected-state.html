@@ -1,7 +1,7 @@
 {{> ../layouts/head.html }}
 
 <ids-popup-menu id="popupmenu">
-  <ids-menu-group select="single">
+  <ids-menu-group id="single-select" select="single">
     <ids-menu-header>Single-selectable Items</ids-menu-header>
     <ids-menu-item>Single Item One</ids-menu-item>
     <ids-menu-item>Single Item Two</ids-menu-item>
@@ -9,7 +9,7 @@
     <ids-menu-item>Single Item Four</ids-menu-item>
   </ids-menu-group>
   <ids-separator></ids-separator>
-  <ids-menu-group select="multiple" keep-open>
+  <ids-menu-group id="multi-select" select="multiple" keep-open>
     <ids-menu-header>Multi-selectable Items</ids-menu-header>
     <ids-menu-item>Multi Item One</ids-menu-item>
     <ids-menu-item>Multi Item Two</ids-menu-item>
@@ -22,14 +22,14 @@
     <ids-menu-item>
       More Selectable Items...
       <ids-popup-menu>
-        <ids-menu-group select="multiple" keep-open>
+        <ids-menu-group id="multi-sub-items" select="multiple" keep-open>
           <ids-menu-item icon="settings">Sub-Item One</ids-menu-item>
           <ids-menu-item icon="settings">Sub-Item Two</ids-menu-item>
           <ids-menu-item icon="settings">Sub-Item Three</ids-menu-item>
           <ids-menu-item icon="settings">
             Sub-Item Four
             <ids-popup-menu>
-              <ids-menu-group select="single" keep-open>
+              <ids-menu-group id="single-sub-items" select="single" keep-open>
                 <ids-menu-item>Sub-Sub-Item One</ids-menu-item>
                 <ids-menu-item>Sub-Sub-Item Two</ids-menu-item>
                 <ids-menu-item>Sub-Sub-Item Three</ids-menu-item>
