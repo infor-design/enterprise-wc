@@ -20,6 +20,9 @@ export const props = {
   FOCUSABLE: 'focusable',
   FONT_SIZE: 'font-size',
   GAP: 'gap',
+  GROUP: 'group',
+  GROUP_COLOR: 'group-color',
+  GROUP_DISABLED: 'group-disabled',
   HORIZONTAL: 'horizontal',
   ICON: 'icon',
   INDETERMINATE: 'indeterminate',
@@ -42,6 +45,7 @@ export const props = {
   TYPE: 'type',
   VALIDATE: 'validate',
   VALIDATION_EVENTS: 'validation-events',
+  VALIDATION_HAS_ERROR: 'validation-has-error',
   VALUE: 'value',
   VISIBLE: 'visible'
 };

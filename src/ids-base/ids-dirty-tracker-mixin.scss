@@ -6,6 +6,13 @@
   @include text-alert-caution();
 }
 
+// Radio
+.ids-radio-group {
+  .icon-dirty {
+    margin: 1px 0 0 -2px;
+  }
+}
+
 // Checkbox
 .ids-checkbox {
   input[type='checkbox'] {

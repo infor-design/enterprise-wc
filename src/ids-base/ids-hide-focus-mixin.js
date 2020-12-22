@@ -71,9 +71,14 @@ const IdsHideFocusMixin = {
             const label = this.shadowRoot.querySelector('label');
             const labelText = this.shadowRoot.querySelector('.label-text');
             const checkmark = this.shadowRoot.querySelector('.checkmark');
+            const circle = this.shadowRoot.querySelector('.circle');
+            const rootEl = this.shadowRoot.querySelector('.ids-radio');
+            rootEl?.classList.remove('hide-focus');
+
             this.labelClicked = this.labelClicked === label
               || this.labelClicked === labelText
-              || this.labelClicked === checkmark;
+              || this.labelClicked === checkmark
+              || this.labelClicked === circle;
           }
         });
       }
@@ -110,6 +115,8 @@ const IdsHideFocusMixin = {
             this.eventHandlers.addEventListener(eventName, el, () => {
               this.hidefocusHandleMousedown();
               if (this.radioCheckbox) {
+                const rootEl = this.shadowRoot.querySelector('.ids-radio');
+                rootEl?.classList.add('hide-focus');
                 this.labelClicked = el;
               }
             });
@@ -121,6 +128,7 @@ const IdsHideFocusMixin = {
         setEvent(this.shadowRoot.querySelector('label'));
         setEvent(this.shadowRoot.querySelector('.label-text'));
         setEvent(this.shadowRoot.querySelector('.checkmark'));
+        setEvent(this.shadowRoot.querySelector('.circle'));
       } else {
         // TODO soon added other components (ie. hyperlinks)
         // setEvent(this.input);

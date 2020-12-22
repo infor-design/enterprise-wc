@@ -3,14 +3,16 @@ import IdsIcon from '../ids-icon/ids-icon';
  * Track changes on inputs elements and show a dirty indicator.
  */
 const IdsDirtyTrackerMixin = {
-  radioCheckbox: false,
+  isCheckbox: false,
+  isRadioGroup: false,
+
   /**
    * Handle dirty tracker values
    * @returns {void}
    */
   handleDirtyTracker() {
-    // Checkbox, Radio buttons or Switch
-    this.radioCheckbox = /checkbox|radio/.test(this.input?.getAttribute('type'));
+    this.isCheckbox = this.input?.getAttribute('type') === 'checkbox';
+    this.isRadioGroup = this.input?.classList.contains('ids-radio-group');
 
     if (this.dirtyTracker) {
       if (this.input) {
@@ -35,8 +37,11 @@ const IdsDirtyTrackerMixin = {
       icon.setAttribute('icon', 'dirty');
       icon.setAttribute('size', 'small');
       icon.className = 'icon-dirty';
-      if (this.radioCheckbox) {
+      if (this.isCheckbox) {
         this.labelEl?.appendChild(icon);
+      } else if (this.isRadioGroup) {
+        const refEl = this.shadowRoot.querySelector('slot');
+        this.input?.insertBefore(icon, refEl);
       } else {
         this.input?.parentNode?.insertBefore(icon, this.input);
       }
@@ -90,14 +95,7 @@ const IdsDirtyTrackerMixin = {
    * @returns {string} element value
    */
   valMethod(el) {
-    switch (el.getAttribute('type')) {
-      case 'checkbox':
-      case 'radio':
-        return el.checked;
-      default: {
-        return el.value;
-      }
-    }
+    return (this.isCheckbox || this.isRadioGroup) ? this.checked : el.value;
   },
 
   /**
