@@ -21,7 +21,6 @@ export const props = {
   FONT_SIZE: 'font-size',
   GAP: 'gap',
   GROUP: 'group',
-  GROUP_COLOR: 'group-color',
   GROUP_DISABLED: 'group-disabled',
   HORIZONTAL: 'horizontal',
   ICON: 'icon',
