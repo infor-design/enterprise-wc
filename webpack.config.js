@@ -31,6 +31,7 @@ module.exports = {
     'ids-render-loop/test-flying-popup': ['./app/ids-render-loop/test-flying-popup.js'],
     'ids-expandable-area/ids-expandable-area': ['./app/ids-expandable-area/index.js'],
     'ids-accordion/ids-accordion': ['./app/ids-accordion/index.js'],
+    'ids-switch/ids-switch': ['./app/ids-switch/index.js']
   },
   devtool: 'cheap-source-map', // try source-map for prod
   mode: 'development',
@@ -312,6 +313,21 @@ module.exports = {
       chunks: ['ids-accordion/ids-accordion', 'ids-icon/ids-icon'],
       title: 'IDS Accordion Component'
     }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-switch/index.html',
+      inject: 'body',
+      filename: 'ids-switch/index.html',
+      title: 'IDS Switch Component',
+      chunks: ['ids-switch/ids-switch']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-switch/standalone-css.html',
+      inject: 'body',
+      filename: 'ids-switch/standalone-css.html',
+      title: 'IDS Switch Component - Standalone-css',
+      chunks: []
+    }),
+
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),
     // Handle Hot Swap When files change - files must be added via entry points
