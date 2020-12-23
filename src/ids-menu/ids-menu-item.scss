@@ -23,6 +23,7 @@
   list-style: none;
   position: static;
   transition: background-color $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+  user-select: none;
 
   ids-icon,
   .ids-icon {
@@ -39,6 +40,7 @@
     grid-template-columns: 0 min-content;
     max-width: 100%;
     position: relative;
+    user-select: inherit;
     white-space: nowrap;
 
     > * {

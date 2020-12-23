@@ -30,6 +30,7 @@
             Sub-Item Four
             <ids-popup-menu>
               <ids-menu-group id="single-sub-items" select="single" keep-open>
+                <ids-menu-header>Single-selectable Items that keep the menu open</ids-menu-header>
                 <ids-menu-item>Sub-Sub-Item One</ids-menu-item>
                 <ids-menu-item>Sub-Sub-Item Two</ids-menu-item>
                 <ids-menu-item>Sub-Sub-Item Three</ids-menu-item>
@@ -42,5 +43,17 @@
     </ids-menu-item>
   </ids-menu-group>
 </ids-popup-menu>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Popup Menu (Selected States)</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text>Click anywhere in the page to activate a Popupmenu.  Many of the items in the menu are single/multi-selectable.</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
 
 {{> ../layouts/footer.html }}

@@ -1,11 +1,15 @@
 @import '../ids-menu/ids-menu-base';
 
 :host {
-  @include block();
+  &:not([hidden]) {
+    @include block();
+  }
 }
 
 .ids-popup-menu {
-  @include block();
+  &:not([hidden]) {
+    @include block();
+  }
 
   .ids-menu {
     position: relative;

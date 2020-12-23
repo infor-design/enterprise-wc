@@ -396,7 +396,7 @@ class IdsMenuItem extends IdsElement {
    */
   detectSelectability() {
     const selectType = this.group.select;
-    const isSelectable = selectType !== null;
+    const isSelectable = selectType !== null && !this.submenu;
     const check = this.container.querySelector('span.check');
 
     if (isSelectable) {
@@ -598,6 +598,15 @@ class IdsMenuItem extends IdsElement {
     }
     this.container.setAttribute('aria-expanded', false);
     this.submenu?.hide();
+  }
+
+  /**
+   * Correctly focuses the menu item.  In this case, override the browser's default
+   * focus routine and force focusing to occur on the anchor.
+   * @returns {void}
+   */
+  focus() {
+    this.a.focus();
   }
 }
 

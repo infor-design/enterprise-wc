@@ -189,6 +189,22 @@ class IdsMenu extends IdsElement {
 
   /**
    * @readonly
+   * @returns {IdsMenuItem} the item that is:
+   * - currently/previously selected,
+   * - the first available menu item closest to the top of the menu that is not disabled or hidden.
+   */
+  get focusTarget() {
+    let selected = this.getSelectedItems();
+    if (!selected.length) {
+      selected = this.getFirstAvailableItem();
+    } else {
+      selected = selected[0];
+    }
+    return selected;
+  }
+
+  /**
+   * @readonly
    * @returns {Array<IdsMenuItem>} all menu items that are currently highlighted
    */
   get highlighted() {
@@ -296,10 +312,28 @@ class IdsMenu extends IdsElement {
     }
 
     if (!currentItem.disabled && doFocus) {
-      currentItem.a.focus();
+      currentItem.focus();
     }
 
     return currentItem;
+  }
+
+  /**
+   * @returns {IdsMenuItem} the first available item, closest to the top of the menu.
+   */
+  getFirstAvailableItem() {
+    const items = this.items;
+    const itemLength = items.length;
+    let item;
+    let i = 0;
+
+    while (!item && i < itemLength) {
+      if (!items[i].disabled && !items[i].hidden) {
+        item = items[i];
+      }
+      i += 1;
+    }
+    return item;
   }
 
   /**
@@ -310,7 +344,7 @@ class IdsMenu extends IdsElement {
   getSelectedItems(groupName = '') {
     const hasGroup = isValidGroup(groupName, this);
     return this.items.filter((item) => {
-      if (hasGroup) {
+      if (groupName.length && hasGroup) {
         return item.selected && item.group?.id === groupName;
       }
       return item.selected;
