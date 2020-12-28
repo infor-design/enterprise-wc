@@ -7,3 +7,6 @@ test/**/diff
 
 # OS Setting Files
 .DS_Store
+
+# VS Code settings
+.vscode/

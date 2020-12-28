@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "alwaysStrict": true,
+    "checkJs": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "lib": ["es2017", "dom"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noImplicitThis": true,
+    "target": "esnext",
+    "strict": false,
+  },
+  "include": [
+    "src/*/*.ts"
+  ],
+  "exclude": [
+  ]
+}
