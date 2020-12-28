@@ -538,14 +538,18 @@ class IdsPopup extends IdsElement {
     this.openCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 70,
       timeoutCallback: () => {
-        if (this.isVisible && !this.container.classList.contains('open')) {
-          this.container.classList.add('open');
+        if (this.isVisible) {
+          // Always fire the 'show' event
           this.eventHandlers.dispatchEvent('show', this, {
             bubbles: true,
             detail: {
               elem: this
             }
           });
+          // Add the open class if it's not there
+          if (!this.container.classList.contains('open')) {
+            this.container.classList.add('open');
+          }
         }
         if (!this.isAnimated && this.container.classList.contains('animated')) {
           this.container.classList.remove('animated');
@@ -560,14 +564,18 @@ class IdsPopup extends IdsElement {
     this.animatedCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 200,
       timeoutCallback: () => {
-        if (!this.isVisible && this.container.classList.contains('visible')) {
-          this.container.classList.remove('visible');
+        if (!this.isVisible) {
+          // Always fire the 'hide' event
           this.eventHandlers.dispatchEvent('hide', this, {
             bubbles: true,
             detail: {
               elem: this
             }
           });
+          // Remove the `visible` class if its there
+          if (this.container.classList.contains('visible')) {
+            this.container.classList.remove('visible');
+          }
         }
         if (this.isAnimated && !this.container.classList.contains('animated')) {
           this.container.classList.add('animated');

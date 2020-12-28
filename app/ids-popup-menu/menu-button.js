@@ -1,3 +1,4 @@
+import IdsButton from '../../src/ids-button/ids-button';
 import IdsPopupMenu from '../../src/ids-popup-menu/ids-popup-menu';
 import IdsMenuHeader from '../../src/ids-menu/ids-menu-header';
 import IdsMenuItem from '../../src/ids-menu/ids-menu-item';
@@ -12,14 +13,10 @@ import IdsLayoutGridCell from '../../src/ids-layout-grid/ids-layout-grid-cell';
 import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const popupmenuEl = document.querySelector('ids-popup-menu');
-  const popupEl = popupmenuEl.popup;
-
-  // Preconfigure the Popup
-  popupEl.align = 'top, left';
+  const popupmenuEl = document.querySelector('#menu-button + ids-popup-menu');
 
   // Add a console log for all the others on `selected`
-  const menuItems = document.querySelector('#popupmenu').items;
+  const menuItems = popupmenuEl.items;
   menuItems.forEach((item) => {
     item.addEventListener('selected', (e) => {
       console.log(`Item "${e.detail.elem.text}" was selected`);

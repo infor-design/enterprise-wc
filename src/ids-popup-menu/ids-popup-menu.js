@@ -14,6 +14,17 @@ import IdsPopup from '../ids-popup/ids-popup';
 
 import styles from './ids-popup-menu.scss';
 
+const POPUPMENU_PROPERTIES = [
+  props.TARGET,
+  props.TRIGGER
+];
+
+const POPUPMENU_TRIGGER_TYPES = [
+  'contextmenu',
+  'click',
+  'immediate'
+];
+
 /**
  * IDS PopupMenu Component
  */
@@ -24,6 +35,15 @@ import styles from './ids-popup-menu.scss';
 class IdsPopupMenu extends IdsMenu {
   constructor() {
     super();
+    this.state.trigger = POPUPMENU_TRIGGER_TYPES[0];
+  }
+
+  /**
+   * Return the properties we handle as getters/setters
+   * @returns {Array} The properties in an array
+   */
+  static get properties() {
+    return POPUPMENU_PROPERTIES;
   }
 
   /**
@@ -47,6 +67,16 @@ class IdsPopupMenu extends IdsMenu {
     if (!this.hasAttribute('hidden')) {
       this.setAttribute('hidden', '');
     }
+    this.shouldUpdate = true;
+
+    // If this Popupmenu is a submenu, and no target is pre-defined,
+    // align the menu against the parent menu item.
+    // @TODO change this logic if Popup accepts HTMLElement
+    if (this.parentMenuItem && !this.target) {
+      this.target = this.parentMenuItem;
+      this.popup.align = 'right, top';
+    }
+
     IdsMenu.prototype.connectedCallBack.apply(this);
   }
 
@@ -78,6 +108,9 @@ class IdsPopupMenu extends IdsMenu {
 
     // When the underlying Popup triggers it's "show" event, focus on the derived focusTarget.
     this.eventHandlers.addEventListener('show', this.container, doFocusHandler);
+
+    // Set up all the events specifically-related to the "trigger" type
+    this.refreshTriggerEvents();
   }
 
   /**
@@ -89,6 +122,119 @@ class IdsPopupMenu extends IdsMenu {
   }
 
   /**
+   * @returns {HTMLElement|undefined} reference to a target element, if applicable
+   */
+  get target() {
+    return this.popup.alignTarget;
+  }
+
+  /**
+   * @param {HTMLElement|string} val reference to an element, or a string that will be used
+   * as a CSS Selector referencing an element, that the Popupmenu will align against.
+   */
+  set target(val) {
+    this.popup.alignTarget = val;
+  }
+
+  /**
+   * @returns {string} the type of action that will trigger this Popupmenu
+   */
+  get trigger() {
+    return this.state.trigger;
+  }
+
+  /**
+   * @param {string} val a valid trigger type
+   */
+  set trigger(val) {
+    let trueTriggerType = val;
+    if (!POPUPMENU_TRIGGER_TYPES.includes(val)) {
+      trueTriggerType = POPUPMENU_TRIGGER_TYPES[0];
+    }
+    this.state.trigger = trueTriggerType;
+    this.refreshTriggerEvents();
+  }
+
+  /**
+   * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
+   * @private
+   */
+  refreshTriggerEvents() {
+    if (!this.shouldUpdate) {
+      return;
+    }
+
+    // @TODO unbind pre-existing trigger events so we can switch the trigger type
+    const targetElem = this.target || window;
+
+    switch (this.trigger) {
+      case 'immediate':
+        // @TODO
+        break;
+      case 'click':
+        // Open/Close the menu when the trigger element is clicked
+        this.eventHandlers.addEventListener('click', targetElem, (e) => {
+          e.preventDefault();
+          if (this.hidden) {
+            this.popup.align = 'bottom, left';
+            this.popup.y = 10;
+            this.show();
+          } else {
+            this.hide();
+          }
+        });
+
+        break;
+      default:
+        // Standard `contextmenu` event behavior.
+        // `contextmenu` events should only apply to top-level popupmenus.
+        // (submenus open/close events are handled by their parent items)
+        if (this.parentMenu) {
+          break;
+        }
+
+        // Attach a contextmenu handler to the target element for opening the popup
+        this.eventHandlers.addEventListener('contextmenu', targetElem, (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          this.popup.x = e.pageX;
+          this.popup.y = e.pageY;
+          this.show();
+        });
+        break;
+    }
+  }
+
+  /**
+   * Attaches some events when the Popupmenu is opened.
+   * @returns {void}
+   */
+  addOpenEvents() {
+    // Attach all these events on a Renderloop-staggered timeout
+    this.rl.register(new IdsRenderLoopItem({
+      duration: 1,
+      timeoutCallback: () => {
+        // Attach a click handler to the window for detecting clicks outside the popup.
+        // If these aren't captured by a popup, the menu will close.
+        this.eventHandlers.addEventListener('click', window, (e) => {
+          const clickedInMenu = e.target.closest('ids-popup-menu');
+          if (!clickedInMenu) {
+            this.hide();
+          }
+        });
+      }
+    }));
+  }
+
+  /**
+   * Detaches some events when the Popupmenu is closed.
+   * @returns {void}
+   */
+  removeOpenEvents() {
+    this.eventHandlers.removeEventListener('click', window);
+  }
+
+  /**
    * Hides this menu and any of its submenus.
    * @returns {void}
    */
@@ -96,11 +242,10 @@ class IdsPopupMenu extends IdsMenu {
     this.hidden = true;
     this.container.classList.remove('is-expanded');
 
-    // Hide the Ids Popup
+    // Hide the Ids Popup and all Submenus
     this.popup.visible = false;
-
-    // Hide all submenus
     this.hideSubmenus();
+    this.removeOpenEvents();
   }
 
   /**
@@ -110,17 +255,13 @@ class IdsPopupMenu extends IdsMenu {
     this.hidden = false;
     this.container.classList.add('is-expanded');
 
-    // @TODO change this logic if Popup accepts HTMLElement
-    if (this.parentMenuItem && !this.popup.alignTarget) {
-      this.popup.alignTarget = this.parentMenuItem;
-      this.popup.align = 'right, top';
-    }
-
     // Hide any "open" submenus (in the event the menu is already open and being positioned)
     this.hideSubmenus();
 
     // Show this popup
     this.popup.visible = true;
+
+    this.addOpenEvents();
   }
 
   /**
