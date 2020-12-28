@@ -71,7 +71,7 @@ const IdsClearableMixin = {
       this.input.dispatchEvent(new Event('change'));
       this.input.focus();
       this.checkContents();
-      this.eventHandlers.dispatchEvent('cleared', this, { elem: this, value: this.value });
+      this.eventHandlers.dispatchEvent('cleared', this, { detail: { elem: this, value: this.value } });
     }
   },
 
@@ -89,7 +89,7 @@ const IdsClearableMixin = {
       } else {
         xButton.classList.remove('is-empty');
       }
-      this.eventHandlers.dispatchEvent('contents-checked', this, { elem: this, value: this.value });
+      this.eventHandlers.dispatchEvent('contents-checked', this, { detail: { elem: this, value: this.value } });
     }
   },
 

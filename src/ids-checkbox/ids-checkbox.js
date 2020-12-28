@@ -157,10 +157,12 @@ class IdsCheckbox extends IdsElement {
              * @param  {string} value The updated input element value
              */
             this.eventHandlers.dispatchEvent(`trigger${e.type}`, this, {
-              elem: this,
-              nativeEvent: e,
-              value: this.value,
-              checked: this.input.checked
+              detail: {
+                elem: this,
+                nativeEvent: e,
+                value: this.value,
+                checked: this.input.checked
+              }
             });
           });
         }

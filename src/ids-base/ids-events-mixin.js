@@ -32,10 +32,10 @@ class IdsEventsMixin {
    * Create and trigger a custom event
    * @param {string} eventName The event id with optional namespace
    * @param {HTMLElement} target The DOM element to register
-   * @param {object} options The custom data to send
+   * @param {object} [options] The custom data to send
    */
-  dispatchEvent(eventName, target, options) {
-    const event = new CustomEvent(eventName, { detail: options });
+  dispatchEvent(eventName, target, options = {}) {
+    const event = new CustomEvent(eventName, options);
     target.dispatchEvent(event);
   }
 

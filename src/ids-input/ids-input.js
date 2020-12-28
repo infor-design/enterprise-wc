@@ -255,7 +255,13 @@ class IdsInput extends IdsElement {
              * @param  {object} elem Actual event
              * @param  {string} value The updated input element value
              */
-            this.eventHandlers.dispatchEvent(`trigger${e.type}`, this, { elem: this, nativeEvent: e, value: this.value });
+            this.eventHandlers.dispatchEvent(`trigger${e.type}`, this, {
+              detail: {
+                elem: this,
+                nativeEvent: e,
+                value: this.value
+              }
+            });
           });
         }
       });

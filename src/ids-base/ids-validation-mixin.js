@@ -78,7 +78,7 @@ const IdsValidationMixin = {
           this.removeMessage(thisRule.rule);
         }
       });
-      this.eventHandlers.dispatchEvent('validated', this, { elem: this, value: this.value, isValid });
+      this.eventHandlers.dispatchEvent('validated', this, { detail: { elem: this, value: this.value, isValid } });
     }
   },
 
