@@ -9,6 +9,7 @@ import {
 import { IdsDataGridFormatters } from './ids-data-grid-formatters';
 import { IdsDataSourceMixin } from '../ids-base/ids-data-source-mixin';
 import { IdsDeepCloneMixin } from '../ids-base/ids-deep-clone-mixin';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
@@ -106,6 +107,8 @@ class IdsDataGrid extends IdsElement {
       this.virtualScrollContainer.itemHeight = 50; // TODO Row Height setting
       this.virtualScrollContainer.data = this.data;
     }
+
+    this.handleEvents();
   }
 
   /**
@@ -129,7 +132,17 @@ class IdsDataGrid extends IdsElement {
    * @private
    */
   headerCellTemplate(column) {
-    return `<span class="ids-data-grid-header-cell" role="columnheader"><span class="ids-data-grid-header-text">${column.name || ''}</span></span>`;
+    const sortIndicator = `<div class="sort-indicator">
+      <ids-icon icon="dropdown"></ids-icon>
+      <ids-icon icon="dropdown"></ids-icon>
+    </div>`;
+    const cssClasses = `${column.sortable ? 'is-sortable' : ''}`;
+
+    const headerTemplate = `<span class="ids-data-grid-header-cell ${cssClasses}" data-column-id="${column.id}" role="columnheader">
+      <span class="ids-data-grid-header-text">${column.name || ''}</span>
+      ${column.sortable ? sortIndicator : ''}
+    </span>`;
+    return headerTemplate;
   }
 
   /**
@@ -175,6 +188,28 @@ class IdsDataGrid extends IdsElement {
   }
 
   /**
+   * Handle all triggering and handling of events
+   */
+  handleEvents() {
+    const sortableColumns = this.shadowRoot.querySelector('.ids-data-grid-header');
+    if (this.eventHandlers) {
+      this.eventHandlers.removeAll();
+    }
+    this.eventHandlers = new IdsEventsMixin();
+
+    // Add a single click handler
+    if (sortableColumns) {
+      this.eventHandlers.addEventListener('click', sortableColumns, (e) => {
+        const header = e.target.closest('.is-sortable');
+
+        if (header) {
+          this.setSortColumn(header.getAttribute('data-column-id'), header.getAttribute('aria-sort') !== 'ascending');
+        }
+      });
+    }
+  }
+
+  /**
    * Set the column widths by generating the lengths in the css grid
    * and setting the css variable.
    */
@@ -196,7 +231,7 @@ class IdsDataGrid extends IdsElement {
 
     this.columns.forEach((column, i) => {
       if (column.width && this.columns.length === i + 1) {
-        css += `minmax(110px, 1fr)`;
+        css += `minmax(250px, 1fr)`;
       }
       if (column.width && this.columns.length !== i + 1) {
         css += `${column.width}px `;
@@ -213,6 +248,38 @@ class IdsDataGrid extends IdsElement {
     styleSheet.insertRule(`:host {
       --ids-data-grid-column-widths: ${css} !important;
     }`);
+  }
+
+  /**
+   * Set the sort column and sort direction
+   * @param {string} id The field id to sort on
+   * @param {boolean} ascending Set in ascending (lowest first) or descending (lowest last)
+   */
+  setSortColumn(id, ascending = true) {
+    this.sortColumn = { id, ascending };
+    this.datasource.sort(id, ascending);
+    this.rerender();
+    this.setSortState(id, ascending);
+    this.eventHandlers.dispatchEvent('sorted', this, { elem: this, sortColumn: this.sortColumn });
+  }
+
+  /**
+   * Set the sort column and sort direction on the UI only
+   * @private
+   * @param {string} id The field id to sort on
+   * @param {boolean} ascending Set in ascending (lowest first) or descending (lowest last)
+   */
+  setSortState(id, ascending = true) {
+    const sortedHeaders = this.shadowRoot.querySelectorAll('.is-sortable');
+    for (let i = 0; i < sortedHeaders.length; i++) {
+      sortedHeaders[i].removeAttribute('aria-sort');
+    }
+
+    const header = this.shadowRoot.querySelector(`[data-column-id="${id}"]`);
+
+    if (header && header.classList.contains('is-sortable')) {
+      header.setAttribute('aria-sort', ascending ? 'ascending' : 'descending');
+    }
   }
 
   /**

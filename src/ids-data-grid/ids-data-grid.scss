@@ -50,11 +50,12 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     top: 0;
   }
 
+  // Header Cell Area
   .ids-data-grid-header-cell {
-    // Border and Background
     @include border-0();
     @include border-l-1();
     @include border-solid();
+    @include flex();
 
     background-color: $header-bg-color;
     border-color: $cell-border-color;
@@ -67,17 +68,80 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   .ids-data-grid-header-text {
+    @include block();
     @include px-16();
     @include py-8();
     @include font-bold();
     @include text-14();
     @include text-white();
 
-    display: block;
     overflow: hidden;
     text-align: left;
     text-overflow: ellipsis;
+    user-select: none;
     white-space: nowrap;
+  }
+
+  // Header sort styles
+  .sort-indicator {
+    @include relative();
+
+    height: 16px;
+    left: -6px;
+    width: 18px;
+  }
+
+  // Sort Hover states
+  .is-sortable {
+    ids-icon {
+      color: var(--ids-color-palette-slate-50);
+      opacity: 0;
+      transition: opacity 0.3s cubic-bezier(0.17, 0.04, 0.03, 0.94) 0s;
+    }
+
+    ids-icon:first-child {
+      @include relative();
+
+      top: 4px;
+      transform: rotate(180deg);
+    }
+
+    ids-icon:last-child {
+      @include relative();
+
+      top: -9px;
+    }
+
+    &[aria-sort='descending'] ids-icon {
+      &:first-child {
+        opacity: 1;
+      }
+
+      &:last-child {
+        color: var(--ids-color-palette-white);
+        opacity: 1;
+      }
+    }
+
+    // stylelint-disable
+    &[aria-sort='ascending'] ids-icon {
+      &:first-child {
+        color: var(--ids-color-palette-white);
+        opacity: 1;
+      }
+
+      &:last-child {
+        opacity: 1;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      .sort-indicator ids-icon {
+        opacity: 1;
+      }
+    }
   }
 
   // Cell Styles
@@ -87,10 +151,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include border-l-1();
     @include border-t-1();
     @include border-solid();
+    @include inline-flex();
 
     align-items: center;
     border-color: $cell-border-color;
-    display: flex;
 
     // Spacing and Padding
     @include px-16();
@@ -103,11 +167,13 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   // Standalone Css
   tr.ids-data-grid-row {
-    display: table-row;
+    @include table-row();
+
     height: 50px;
   }
 
-  td.ids-data-grid-cell {
-    display: table-cell;
+  td.ids-data-grid-cell,
+  th.ids-data-grid-header-cell {
+    @include table-cell();
   }
 }

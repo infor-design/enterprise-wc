@@ -138,6 +138,7 @@ const IdsClearableMixin = {
       const eventName = 'click';
       if (option === 'remove') {
         const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        /* istanbul ignore next */
         if (handler && handler.target === xButton) {
           this.eventHandlers.removeEventListener(eventName, xButton);
         }
@@ -158,6 +159,7 @@ const IdsClearableMixin = {
    */
   handleClearableInputEvents(evt, option) {
     const input = this.input;
+    /* istanbul ignore next */
     if (input && evt && typeof evt === 'string') {
       const eventName = evt;
       if (option === 'remove') {

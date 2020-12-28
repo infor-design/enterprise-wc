@@ -22,13 +22,15 @@ describe('IdsDataGrid Component', () => {
       name: 'Book',
       field: 'book',
       formatter: formatters.text,
-      width: 65
+      width: 65,
+      sortable: true
     });
     cols.push({
       id: 'description',
       name: 'Description',
       field: 'description',
-      formatter: formatters.text
+      formatter: formatters.text,
+      sortable: true
     });
     cols.push({
       id: 'ledger',
@@ -251,5 +253,31 @@ describe('IdsDataGrid Component', () => {
     dataGrid.columns = columns().slice(0, 2);
 
     expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(2);
+  });
+
+  it('fires sorted event on sort', () => {
+    const mockCallback = jest.fn((x) => {
+      expect(x.detail.elem).toBeTruthy();
+      expect(x.detail.sortColumn.id).toEqual('description');
+      expect(x.detail.sortColumn.ascending).toEqual(true);
+    });
+
+    dataGrid.addEventListener('sorted', mockCallback);
+    dataGrid.setSortColumn('description', true);
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
+  it('fires sorted event on sort', () => {
+    const mockCallback = jest.fn((x) => {
+      expect(x.detail.elem).toBeTruthy();
+      expect(x.detail.sortColumn.id).toEqual('description');
+      expect(x.detail.sortColumn.ascending).toEqual(false);
+    });
+
+    dataGrid.addEventListener('sorted', mockCallback);
+    dataGrid.setSortColumn('description', false);
+
+    expect(mockCallback.mock.calls.length).toBe(1);
   });
 });

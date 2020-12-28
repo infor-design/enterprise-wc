@@ -72,7 +72,7 @@ We should have one visual regression image per component. When you PR a test an 
 ## Coverage
 
 - To run in coverage mode (since it takes longer) use the command `npm run test:coverage`
-- Open the [coverage report](../coverage/index.html)  in any browser
+- Open the [coverage report](../coverage/index.html) in any browser
 - Drill in to the component in question and try and improve coverage to 100%
 
 ## To Figure Out

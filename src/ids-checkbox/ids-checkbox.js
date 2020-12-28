@@ -19,7 +19,6 @@ import IdsText from '../ids-text/ids-text';
  */
 @customElement('ids-checkbox')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsHideFocusMixin)
 @mixin(IdsStringUtilsMixin)
 @mixin(IdsDirtyTrackerMixin)

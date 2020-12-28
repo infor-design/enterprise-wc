@@ -14,43 +14,50 @@ columns.push({
   name: 'ID',
   field: 'id',
   formatter: dataGrid.formatters.text,
-  width: 50
+  width: 80,
+  sortable: true
 });
 columns.push({
   id: 'color',
   name: 'Color',
   field: 'color',
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
+  sortable: true
 });
 columns.push({
   id: 'inStock',
   name: 'In Stock',
   field: 'inStock',
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
+  sortable: true
 });
 columns.push({
   id: 'productId',
   name: 'Product Id',
   field: 'productId',
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
+  sortable: true
 });
 columns.push({
   id: 'productName',
   name: 'Product Name',
   field: 'productName',
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
+  sortable: true
 });
 columns.push({
   id: 'unitPrice',
   name: 'Unit Price',
   field: 'unitPrice',
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
+  sortable: true
 });
 columns.push({
   id: 'units',
   name: 'Units',
   field: 'units',
-  formatter: dataGrid.formatters.text
+  formatter: dataGrid.formatters.text,
+  sortable: true
 });
 
 xmlhttp.onreadystatechange = function onreadystatechange() {

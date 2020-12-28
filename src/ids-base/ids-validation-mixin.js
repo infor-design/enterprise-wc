@@ -156,7 +156,6 @@ const IdsValidationMixin = {
    * @returns {void}
    */
   handleValidationEvents(option) {
-    /* istanbul ignore next */
     if (!this.eventHandlers) {
       this.eventHandlers = new IdsEventsMixin();
     }

@@ -22,12 +22,14 @@ columns.push({
   name: 'Book',
   field: 'book',
   formatter: dataGrid.formatters.text,
+  sortable: true,
   width: 65
 });
 columns.push({
   id: 'description',
   name: 'Description',
   field: 'description',
+  sortable: true,
   formatter: dataGrid.formatters.text
 });
 columns.push({

@@ -48,6 +48,34 @@ class IdsDataSourceMixin {
   forEach(fn) {
     this.currentData.forEach(fn);
   }
+
+  /**
+   * Sort the dataset
+   * @param  {string} field The dataset field
+   * @param  {boolean} reverse Sort ascending or descending
+   * @param  {Function} primer Optional primer function
+   */
+  sort(field, reverse, primer) {
+    const sort = this.sortFunction(field, reverse, primer);
+    this.currentData.sort(sort);
+  }
+
+  /**
+   * An overridable array sort function
+   * @param  {string} field The dataset field
+   * @param  {boolean} reverse Sort ascending or descending
+   * @param  {Function} primer Primer function
+   * @returns {object} The sorted dataset or it uses
+   */
+  sortFunction(field, reverse, primer) {
+    const key = (x) => (primer ? primer(x[field]) : x[field]);
+
+    return (a, b) => {
+      const A = key(a);
+      const B = key(b);
+      return ((A < B) ? -1 : ((A > B) ? 1 : 0)) * [-1, 1][+!!reverse]; // eslint-disable-line
+    };
+  }
 }
 
 export { IdsDataSourceMixin };

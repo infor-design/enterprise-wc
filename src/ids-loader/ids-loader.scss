@@ -2,32 +2,74 @@
 @import '../ids-base/ids-base';
 
 .ids-loader {
+  @include bg-azure-10();
   @include fixed();
   @include h-full();
   @include z-1();
   @include w-full();
 
+  height: 2px;
   left: 0;
   top: 0;
 }
 
-@keyframes progress-indeterminate-1 {
+@keyframes indeterminate {
   0% {
-    transform: scaleX(0);
+    left: -35%;
+    right: 100%;
+  }
+
+  60% {
+    left: 100%;
+    right: -90%;
   }
 
   100% {
-    transform: scaleX(1);
+    left: 100%;
+    right: -90%;
   }
 }
 
-.ids-loader-indeterminate-1 {
-  @include absolute();
-  @include bg-azure-70();
-  @include w-full();
+@keyframes indeterminate-short {
+  0% {
+    left: -200%;
+    right: 100%;
+  }
 
-  animation: progress-indeterminate-1 2.5s linear infinite;
-  height: 2px;
-  left: 0;
-  transform-origin: 0% 100%;
+  60% {
+    left: 107%;
+    right: -8%;
+  }
+
+  100% {
+    left: 107%;
+    right: -8%;
+  }
+}
+
+.ids-loader-indeterminate {
+  @include bg-azure-70();
+
+  &::before {
+    animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+    background-color: inherit;
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    top: 0;
+    will-change: left, right;
+  }
+
+  &::after {
+    animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation-delay: 1.15s;
+    background-color: inherit;
+    bottom: 0;
+    content: '';
+    left: 0;
+    position: absolute;
+    top: 0;
+    will-change: left, right;
+  }
 }

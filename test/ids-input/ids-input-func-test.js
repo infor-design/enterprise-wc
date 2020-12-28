@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsInput from '../../src/ids-input/ids-input';
+import { IdsClearableMixin } from '../../src/ids-base/ids-clearable-mixin';
 
 describe('IdsInput Component', () => {
   let input;
@@ -326,6 +327,18 @@ describe('IdsInput Component', () => {
     expect(input.value).toEqual('test');
     input.shadowRoot.querySelector('.btn-clear').click();
     expect(input.value).toEqual('');
+  });
+
+  it('handle clearable edge cases', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    IdsClearableMixin.clear();
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('should clearable edge case', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    input.checkContents();
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('should not error calling with no button', () => {

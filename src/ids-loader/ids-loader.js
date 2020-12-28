@@ -25,7 +25,7 @@ class IdsLoader extends IdsElement {
    */
   template() {
     return `<div class="ids-loader">
-      <div class="ids-loader-indeterminate-1"></div>
+      <div class="ids-loader-indeterminate"></div>
     </div>`;
   }
 }
