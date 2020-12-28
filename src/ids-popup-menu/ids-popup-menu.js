@@ -216,12 +216,14 @@ class IdsPopupMenu extends IdsMenu {
       timeoutCallback: () => {
         // Attach a click handler to the window for detecting clicks outside the popup.
         // If these aren't captured by a popup, the menu will close.
-        this.eventHandlers.addEventListener('click', window, (e) => {
+        this.eventHandlers.addEventListener('click.toplevel', window, (e) => {
           const clickedInMenu = e.target.closest('ids-popup-menu');
           if (!clickedInMenu) {
             this.hide();
           }
         });
+
+        this.hasOpenEvents = true;
       }
     }));
   }
@@ -231,7 +233,11 @@ class IdsPopupMenu extends IdsMenu {
    * @returns {void}
    */
   removeOpenEvents() {
-    this.eventHandlers.removeEventListener('click', window);
+    if (!this.hasOpenEvents) {
+      return;
+    }
+    this.eventHandlers.removeEventListener('click.toplevel', window);
+    this.hasOpenEvents = false;
   }
 
   /**

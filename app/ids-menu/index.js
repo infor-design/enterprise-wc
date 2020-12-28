@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const menuItems = document.querySelector('#complex-menu').items;
   menuItems.forEach((item) => {
     item.addEventListener('selected', (e) => {
-      console.log(`Item "${e.detail.elem.textContent}" was selected`);
+      console.log(`Item "${e.detail.elem.text}" was selected`);
     });
   });
 });

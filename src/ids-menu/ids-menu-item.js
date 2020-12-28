@@ -227,14 +227,15 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if the button will be disabled
    */
   set disabled(val) {
-    const trueVal = val !== null;
+    const trueVal = val !== false && val !== 'false';
+    const notNull = val !== null;
     this.state.disabled = trueVal;
 
     // Update attribute if it doesn't match
     const a = this.a;
     const shouldUpdate = this.shouldUpdate;
     const currentAttr = this.hasAttribute('disabled');
-    if ((!currentAttr && trueVal) || (currentAttr && !trueVal)) {
+    if ((!currentAttr && notNull) || (currentAttr && !notNull)) {
       this.shouldUpdate = false;
       if (trueVal) {
         this.setAttribute('disabled', '');
@@ -311,7 +312,6 @@ class IdsMenuItem extends IdsElement {
    * @returns {undefined|IdsIcon} reference to a defined IDS Icon element, if applicable
    */
   get iconEl() {
-    // return this.querySelector('ids-icon[slot="icon"]');
     const icon = [...this.children].find((e) => e.matches('ids-icon'));
     return icon;
   }
@@ -520,13 +520,13 @@ class IdsMenuItem extends IdsElement {
 
   /**
    * @readonly
-   * @returns {string} containing the text content of the menu item
+   * @returns {string} a menu item's textContent stripped of any extraneous white space.
    */
   get text() {
     if (this.hasSubmenu) {
       return [...this.childNodes].find((i) => i.nodeType === Node.TEXT_NODE).textContent.trim();
     }
-    return this.textContent.trim();
+    return this.textContent.replace(/[\n\r]+/g, '').replace(/\s{2,10}/);
   }
 
   /**

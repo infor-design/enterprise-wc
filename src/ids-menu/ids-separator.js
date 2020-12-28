@@ -18,7 +18,7 @@ class IdsSeparator extends IdsElement {
 
   template() {
     let tagName = 'div';
-    if (this.parentNode.tagName === 'IDS-MENU-GROUP') {
+    if (this.parentNode?.tagName === 'IDS-MENU-GROUP') {
       tagName = 'li';
     }
     return `<${tagName} class="ids-separator"></${tagName}>`;
