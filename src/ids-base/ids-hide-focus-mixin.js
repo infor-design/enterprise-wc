@@ -15,10 +15,28 @@ const IdsHideFocusMixin = {
     // Checkbox, Radio buttons or Switch
     this.radioCheckbox = /checkbox|radio/.test(this.input?.getAttribute('type'));
 
-    this.input?.classList.add('hide-focus');
+    this.hidefocusToggle(this.input);
     this.hidefocusFocusin();
     this.hidefocusFocusout();
     this.hidefocusMousedown();
+  },
+
+  /**
+   * Toggle hidefocus class and trigger event
+   * @private
+   * @param {object} elem The element node
+   * @param {boolean} isRemove If true, will remove
+   * @param {boolean} noTrigger If true, will not trigger
+   * @returns {void}
+   */
+  hidefocusToggle(elem, isRemove, noTrigger) {
+    if (elem) {
+      const action = isRemove ? 'remove' : 'add';
+      elem.classList[action]('hide-focus');
+      if (!noTrigger) {
+        this.eventHandlers.dispatchEvent(`hidefocus${action}`, this, { elem, action });
+      }
+    }
   },
 
   /**
@@ -38,7 +56,7 @@ const IdsHideFocusMixin = {
       } else {
         this.eventHandlers.addEventListener(eventName, this.input, () => {
           if (!this.isClick && !this.isFocused && !this.labelClicked) {
-            this.input.classList.remove('hide-focus');
+            this.hidefocusToggle(this.input, true);
           }
           this.isClick = false;
           this.isFocused = true;
@@ -64,7 +82,7 @@ const IdsHideFocusMixin = {
         }
       } else {
         this.eventHandlers.addEventListener(eventName, this.input, () => {
-          this.input.classList.add('hide-focus');
+          this.hidefocusToggle(this.input);
           this.isClick = false;
           this.isFocused = false;
           if (this.radioCheckbox) {
@@ -73,7 +91,7 @@ const IdsHideFocusMixin = {
             const checkmark = this.shadowRoot.querySelector('.checkmark');
             const circle = this.shadowRoot.querySelector('.circle');
             const rootEl = this.shadowRoot.querySelector('.ids-radio');
-            rootEl?.classList.remove('hide-focus');
+            this.hidefocusToggle(rootEl, true, true);
 
             this.labelClicked = this.labelClicked === label
               || this.labelClicked === labelText
@@ -91,7 +109,7 @@ const IdsHideFocusMixin = {
    * @returns {void}
    */
   hidefocusHandleMousedown() {
-    this.input?.classList.add('hide-focus');
+    this.hidefocusToggle(this.input);
     this.isClick = true;
   },
 
@@ -116,7 +134,7 @@ const IdsHideFocusMixin = {
               this.hidefocusHandleMousedown();
               if (this.radioCheckbox) {
                 const rootEl = this.shadowRoot.querySelector('.ids-radio');
-                rootEl?.classList.add('hide-focus');
+                this.hidefocusToggle(rootEl);
                 this.labelClicked = el;
               }
             });
@@ -141,7 +159,7 @@ const IdsHideFocusMixin = {
    * @returns {void}
    */
   destroyHideFocus() {
-    this.input?.classList.remove('hide-focus');
+    this.hidefocusToggle(this.input, true);
     this.hidefocusFocusin('remove');
     this.hidefocusFocusout('remove');
     this.hidefocusMousedown('remove');

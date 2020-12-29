@@ -12,7 +12,7 @@ import { props } from '../ids-base/ids-constants';
 import styles from './ids-radio.scss';
 
 import IdsText from '../ids-text/ids-text';
-import IdsRadioGroup from '../ids-radio-group/ids-radio-group';
+import IdsRadioGroup from './ids-radio-group';
 
 /**
  * IDS Radio Component

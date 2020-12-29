@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsRadio from '../../src/ids-radio/ids-radio';
-import IdsRadioGroup from '../../src/ids-radio-group/ids-radio-group';
+import IdsRadioGroup from '../../src/ids-radio/ids-radio-group';
 
 jest.useFakeTimers();
 
@@ -61,10 +61,16 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.getAttribute('dirty-tracker')).toEqual('true');
     expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(rg.labelEl.querySelector('.msg-dirty')).toBeFalsy();
+    jest.advanceTimersByTime(1);
     rg.dirtyTracker = false;
     expect(rg.getAttribute('dirty-tracker')).toEqual(null);
     expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
     expect(rg.labelEl.querySelector('.msg-dirty')).toBeFalsy();
+    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    radioArr.forEach((r) => r.remove());
+    rg.dirtyTracker = true;
+    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    expect(radioArr.length).toEqual(0);
   });
 
   it('should renders as disabled', () => {
@@ -336,39 +342,6 @@ describe('IdsRadioGroup Component', () => {
     });
   });
 
-  // it('should remove events', () => {
-  // rg.input = null;
-  // document.body.innerHTML = '';
-  // const rb1 = new IdsRadio();
-  // const rb2 = new IdsRadio();
-  // const elem = new IdsRadioGroup();
-  // elem.appendChild(rb1);
-  // elem.appendChild(rb2);
-  // document.body.appendChild(elem);
-  // rg = document.querySelector('ids-radio-group');
-  //
-  // rg.handleRadioGroupChangeEvent('remove');
-  // rg.handleRadioGroupKeydown('remove');
-  // const radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
-  // let response = null;
-  // radioArr[0].addEventListener('triggerchange', () => {
-  //   response = 'triggered';
-  // });
-  // const event = new Event('change');
-  // radioArr[0].input.dispatchEvent(event);
-  // expect(response).not.toEqual('triggered');
-  // const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
-  // events.forEach((evt) => {
-  //   let response = null;
-  //   rg.addEventListener(`trigger${evt}`, () => {
-  //     response = 'triggered';
-  //   });
-  //   const event = new Event(evt);
-  //   rg.input.dispatchEvent(event);
-  //   expect(response).not.toEqual('triggered');
-  // });
-  // });
-
   it('should renders template', () => {
     document.body.innerHTML = '';
     rg = document.createElement('ids-radio-group');
@@ -381,9 +354,5 @@ describe('IdsRadioGroup Component', () => {
     expect(rootEl.classList).toContain('disabled');
     expect(rootEl.classList).toContain('horizontal');
     expect(rg.getAttribute('horizontal')).toEqual('true');
-    // document.body.innerHTML = '';
-    // rg = document.createElement('ids-radio-group');
-    // rg.setAttribute('label', 'test');
-    // rg.template();
   });
 });
