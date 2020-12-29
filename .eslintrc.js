@@ -8,7 +8,8 @@ module.exports = {
     // https://github.com/airbnb/javascript/tree/master/packages/eslint-config-airbnb-base/rules
     'airbnb-base',
     'plugin:wc/recommended',
-    'plugin:jsdoc/recommended'
+    'plugin:jsdoc/recommended',
+    'plugin:@typescript-eslint/recommended'
   ],
   globals: {
     page: true,
@@ -27,8 +28,20 @@ module.exports = {
   },
   parser: 'babel-eslint',
   plugins: [
-    'import'
+    'import',
+    "@typescript-eslint"
   ],
+  'settings': {
+    'import/extensions': ['.js','.ts'],
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts']
+    },
+    'import/resolver': {
+      'node': {
+        'extensions': ['.js', '.ts']
+      }
+    }
+  },
   // Add `ecmaVersion: 9` for Object spread syntax
   parserOptions: {
     ecmaVersion: 9,
