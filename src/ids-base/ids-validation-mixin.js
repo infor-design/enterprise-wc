@@ -91,6 +91,7 @@ const IdsValidationMixin = {
     const { id, type, message, icon } = settings; // eslint-disable-line
     if (id) {
       let elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+      /* istanbul ignore next */
       if (!elem) {
         const regex = new RegExp(`^\\b(${Object.keys(this.VALIDATION_ICONS).join('|')})\\b$`, 'g');
         const isValidationIcon = type && (regex.test(type));
@@ -156,10 +157,12 @@ const IdsValidationMixin = {
    * @returns {void}
    */
   handleValidationEvents(option) {
+    /* istanbul ignore next */
     if (!this.eventHandlers) {
       this.eventHandlers = new IdsEventsMixin();
     }
 
+    /* istanbul ignore next */
     if (this.input) {
       this.validationEventsList.forEach((eventName) => {
         if (option === 'remove') {
@@ -209,6 +212,7 @@ const IdsValidationMixin = {
           return input.checked;
         }
         const val = input.value;
+        /* istanbul ignore next */
         return !((val === null) || (typeof val === 'string' && val === '') || (typeof val === 'number' && isNaN(val))) // eslint-disable-line
       },
       message: 'Required',

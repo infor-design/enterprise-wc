@@ -40,7 +40,12 @@ class IdsDataGrid extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.VIRTUAL_SCROLL, props.ALTERNATE_ROW_SHADING];
+    return [
+      props.ALTERNATE_ROW_SHADING,
+      props.LABEL,
+      props.ROW_HEIGHT,
+      props.VIRTUAL_SCROLL
+    ];
   }
 
   /**
@@ -57,14 +62,14 @@ class IdsDataGrid extends IdsElement {
 
     const additionalClasses = this.alternateRowShading === 'true' ? ' alt-row-shading' : '';
     if (this?.virtualScroll !== 'true') {
-      html = `<div class="ids-data-grid${additionalClasses}" role="table" aria-label="${this.label}">
+      html = `<div class="ids-data-grid${additionalClasses}" role="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
       ${this.headerTemplate()}
       ${this.bodyTemplate()}
       </div>`;
       return html;
     }
 
-    html = `<div class="ids-data-grid${additionalClasses}" role="table" aria-label="${this.label}">
+    html = `<div class="ids-data-grid${additionalClasses}" role="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
       ${this.headerTemplate()}
       <ids-virtual-scroll>
         <div class="ids-data-grid-container">
@@ -103,8 +108,9 @@ class IdsDataGrid extends IdsElement {
 
       this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
       this.virtualScrollContainer.itemCount = this.data.length;
-      this.virtualScrollContainer.height = 310 - 35; // TODO Height setting ?
-      this.virtualScrollContainer.itemHeight = 50; // TODO Row Height setting
+      // TODO Dynamic Height setting - header height
+      this.virtualScrollContainer.height = 350 - this.headerPixelHeight;
+      this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
       this.virtualScrollContainer.data = this.data;
     }
 
@@ -127,18 +133,18 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Returns the markup for a header cell.
+   * @private
    * @param {object} column The column info
    * @returns {string} The resuling header cell template
-   * @private
    */
   headerCellTemplate(column) {
     const sortIndicator = `<div class="sort-indicator">
       <ids-icon icon="dropdown"></ids-icon>
       <ids-icon icon="dropdown"></ids-icon>
     </div>`;
-    const cssClasses = `${column.sortable ? 'is-sortable' : ''}`;
+    const cssClasses = `${column.sortable ? ' is-sortable' : ''}`;
 
-    const headerTemplate = `<span class="ids-data-grid-header-cell ${cssClasses}" data-column-id="${column.id}" role="columnheader">
+    const headerTemplate = `<span class="ids-data-grid-header-cell${cssClasses}" data-column-id="${column.id}" role="columnheader">
       <span class="ids-data-grid-header-text">${column.name || ''}</span>
       ${column.sortable ? sortIndicator : ''}
     </span>`;
@@ -147,8 +153,8 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Body template markup
-   * @returns {string} The template
    * @private
+   * @returns {string} The template
    */
   bodyTemplate() {
     let html = '<div class="ids-data-grid-container"><div class="ids-data-grid-body" role="rowgroup">';
@@ -162,6 +168,7 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Return the row's markup
+   * @private
    * @param  {object} row The row data object
    * @param  {number} index [description]
    * @returns {string} The html string for the row
@@ -179,6 +186,7 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Render the individual cell using the column formatter
+   * @private
    * @param  {object} row The data item for the row
    * @param  {object} column The column data for the row
    * @returns {string} The template
@@ -189,6 +197,7 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Handle all triggering and handling of events
+   * @private
    */
   handleEvents() {
     const sortableColumns = this.shadowRoot.querySelector('.ids-data-grid-header');
@@ -198,20 +207,19 @@ class IdsDataGrid extends IdsElement {
     this.eventHandlers = new IdsEventsMixin();
 
     // Add a single click handler
-    if (sortableColumns) {
-      this.eventHandlers.addEventListener('click', sortableColumns, (e) => {
-        const header = e.target.closest('.is-sortable');
+    this.eventHandlers.addEventListener('click', sortableColumns, (e) => {
+      const header = e.target.closest('.is-sortable');
 
-        if (header) {
-          this.setSortColumn(header.getAttribute('data-column-id'), header.getAttribute('aria-sort') !== 'ascending');
-        }
-      });
-    }
+      if (header) {
+        this.setSortColumn(header.getAttribute('data-column-id'), header.getAttribute('aria-sort') !== 'ascending');
+      }
+    });
   }
 
   /**
    * Set the column widths by generating the lengths in the css grid
    * and setting the css variable.
+   * @private
    */
   setColumnWidths() {
     let css = '';
@@ -260,7 +268,7 @@ class IdsDataGrid extends IdsElement {
     this.datasource.sort(id, ascending);
     this.rerender();
     this.setSortState(id, ascending);
-    this.eventHandlers.dispatchEvent('sorted', this, { elem: this, sortColumn: this.sortColumn });
+    this.eventHandlers.dispatchEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
   }
 
   /**
@@ -284,6 +292,7 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Set a style on every alternate row for better readability.
+   * @private
    * @param {boolean|string} value true to use alternate row shading
    */
   set alternateRowShading(value) {
@@ -313,7 +322,7 @@ class IdsDataGrid extends IdsElement {
   get columns() { return this?.currentColumns || [{ id: '', name: '' }]; }
 
   /**
-   * Set the data array of the listview
+   * Set the data array of the datagrid
    * @param {Array} value The array to use
    */
   set data(value) {
@@ -344,6 +353,66 @@ class IdsDataGrid extends IdsElement {
   }
 
   get virtualScroll() { return this.getAttribute(props.VIRTUAL_SCROLL) || 'false'; }
+
+  /**
+   * Set the aria-label element in the DOM. This should be translated.
+   * @param {string} value The aria label
+   */
+  set label(value) {
+    if (value) {
+      this.setAttribute(props.LABEL, value);
+      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', value);
+      this.rerender();
+      return;
+    }
+
+    this.removeAttribute(props.LABEL);
+    this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', 'Data Grid');
+    this.rerender();
+  }
+
+  get label() { return this.getAttribute(props.LABEL) || 'Data Grid'; }
+
+  /**
+   * Set the row height between extra-small, small, medium and large (default)
+   * @param {string} value The row height
+   */
+  set rowHeight(value) {
+    if (value) {
+      this.setAttribute(props.ROW_HEIGHT, value);
+      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', value);
+    } else {
+      this.removeAttribute(props.ROW_HEIGHT);
+      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', 'large');
+    }
+
+    if (this.stringToBool(this.virtualScroll)) {
+      this.rerender();
+    }
+  }
+
+  get rowHeight() { return this.getAttribute(props.ROW_HEIGHT) || 'large'; }
+
+  /**
+   * Get the row height in pixels
+   * @private
+   * @returns {number} The pixel height
+   */
+  get rowPixelHeight() {
+    if (this.rowHeight === 'medium') return 40;
+    if (this.rowHeight === 'small') return 35;
+    if (this.rowHeight === 'extra-small') return 30;
+    return 50;
+  }
+
+  /**
+   * Get the header height in pixels
+   * @private
+   * @returns {number} The pixel height
+   */
+  get headerPixelHeight() {
+    return 35;
+  }
 }
 
 export { IdsDataGrid, IdsDataGridFormatters };

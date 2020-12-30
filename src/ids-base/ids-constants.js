@@ -34,6 +34,7 @@ export const props = {
   READONLY: 'readonly',
   REQUIRED: 'required',
   ROW_END: 'row-end',
+  ROW_HEIGHT: 'row-height',
   ROW_SPAN: 'row-span',
   ROW_START: 'row-start',
   ROWS: 'rows',

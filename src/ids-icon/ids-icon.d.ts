@@ -3,7 +3,7 @@
 
 interface nativeElement extends HTMLElement {
   /* The size of the icon to display */
-  type: 'normal' | 'small' | 'medium' | 'medium' | 'large';
+  type: 'normal' | 'small' | 'medium' | 'large';
   /* The name of the icon to display */
   icon: string;
 }

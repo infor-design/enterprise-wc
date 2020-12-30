@@ -2,6 +2,6 @@
 
 exports[`IdsLoader Component renders correctly 1`] = `
 "<style nonce=\\"0a59a005\\">.ids-loader { background-color: transparent; }</style><div class=\\"ids-loader\\">
-      <div class=\\"ids-loader-indeterminate-1\\"></div>
+      <div class=\\"ids-loader-indeterminate\\"></div>
     </div>"
 `;

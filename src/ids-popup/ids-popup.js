@@ -364,7 +364,7 @@ class IdsPopup extends IdsElement {
    * @param {boolean} val whether or not the component should animate its movement
    */
   set animated(val) {
-    this.isAnimated = val === true || (typeof val === 'string' && val.length);
+    this.isAnimated = this.stringToBool(val);
     if (this.isAnimated) {
       this.safeSetAttribute('animated', true);
     } else {
@@ -403,7 +403,7 @@ class IdsPopup extends IdsElement {
    * @param {boolean} val whether or not the component should be displayed
    */
   set visible(val) {
-    this.isVisible = val === true || (typeof val === 'string' && val.length);
+    this.isVisible = this.stringToBool(val);
     if (this.isVisible) {
       this.safeSetAttribute('visible', true);
     } else {
@@ -562,8 +562,8 @@ class IdsPopup extends IdsElement {
    */
   placeAtCoords() {
     const popupRect = this.container.getBoundingClientRect();
-    let x = !Number.isNaN(this.x) ? this.x : 0;
-    let y = !Number.isNaN(this.y) ? this.y : 0;
+    let x = this.x;
+    let y = this.y;
 
     switch (this.alignX) {
       case 'right':
@@ -597,8 +597,8 @@ class IdsPopup extends IdsElement {
    * @returns {void}
    */
   placeAgainstTarget() {
-    let x = !Number.isNaN(this.x) ? this.x : 0;
-    let y = !Number.isNaN(this.y) ? this.y : 0;
+    let x = this.x;
+    let y = this.y;
 
     // Detect sizes/locations of the popup and the alignment target Element
     const popupRect = this.container.getBoundingClientRect();

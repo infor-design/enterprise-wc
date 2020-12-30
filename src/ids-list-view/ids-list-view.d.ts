@@ -7,7 +7,7 @@ interface nativeElement extends HTMLElement {
   /** Set the internal list template */
   itemTemplate: Function | string;
   /** Attach a DataSet and render */
-  data(value: Array<Object>): void;
+  data: Array<Object>;
 }
 
 export class IdsListView extends HTMLElement {

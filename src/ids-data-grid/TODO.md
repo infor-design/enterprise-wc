@@ -2,14 +2,13 @@
 
 ## Tier One
 
-- [] Alternate Row Shading
-- [] Sorting
+- [x] Alternate Row Shading
+- [x] Sorting
 - [] Editing see (example)[https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html]
-- [] Check all current features
 - [] Selection
 - [] Paging
 - [] Frozen Columns
-- [] Column Sizes
+- [] Column Sizes/Widths
 - [] Column Resize
 - [] Filter Row
 - [] Formatters
@@ -17,6 +16,8 @@
 - [] Fixed header
 - [] Frozen Columns
 - [] Keyboard Navigation see (standards)[https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids] (actionable mode, cell navigation, row navigation)
+- [] Check all current options
+- [] More Accessibility see (standards)[https://design.infor.com/code/ids-enterprise/latest/listview#accessibility]
 
 ## Tier Two
 
@@ -37,9 +38,9 @@
 - [] Context Menus
 - [] Automation id's
 - [] Errors and Validation
-- [] Disables Rows
+- [] Disabled Rows
 - [] Export to excel (Seperate Util/Api)
-- [] API/Events
+- [] Check all current API/Events
 
 ## Tier Three/Deprecate
 

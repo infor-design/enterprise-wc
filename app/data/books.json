@@ -2,7 +2,7 @@
 	{
 		"book": 101,
 		"description": "101",
-		"ledger": "CORE",
+		"ledger": "",
 		"bookCurrency": "USD",
 		"transactionCurrency": "Book",
 		"postHistory": "No",
@@ -17,7 +17,6 @@
     "book": 102,
     "description": "102",
     "ledger": "CORE",
-    "bookCurrency": "USD",
     "transactionCurrency": "Book",
     "postHistory": "No",
     "active": "Yes",
@@ -31,7 +30,6 @@
     "book": 103,
     "description": "103",
     "ledger": "CORE",
-    "bookCurrency": "USD",
     "transactionCurrency": "Book",
     "postHistory": "No",
     "active": "Yes",
@@ -100,7 +98,7 @@
   {
     "book": 108,
     "description": "108",
-    "ledger": "CORE",
+    "ledger": "",
     "bookCurrency": "USD",
     "transactionCurrency": "Book",
     "postHistory": "No",
@@ -114,7 +112,7 @@
   {
     "book": 109,
     "description": "109",
-    "ledger": "CORE",
+    "ledger": null,
     "bookCurrency": "USD",
     "transactionCurrency": "Book",
     "postHistory": "No",

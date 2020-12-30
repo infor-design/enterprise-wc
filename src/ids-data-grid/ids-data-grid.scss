@@ -32,12 +32,24 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
   }
 
-  // Line Height
+  // Row Height Feature
   .ids-data-grid-body .ids-data-grid-row {
     height: 50px;
   }
 
-  // Row Styles - Alternate Row Setting
+  &[data-row-height='medium'] .ids-data-grid-body .ids-data-grid-row {
+    height: 40px;
+  }
+
+  &[data-row-height='small'] .ids-data-grid-body .ids-data-grid-row {
+    height: 35px;
+  }
+
+  &[data-row-height='extra-small'] .ids-data-grid-body .ids-data-grid-row {
+    height: 30px;
+  }
+
+  // Row Alternate Row Setting Feature
   &.alt-row-shading .ids-data-grid-body [role='row']:nth-child(odd) {
     @include bg-slate-10();
   }
@@ -155,6 +167,8 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     align-items: center;
     border-color: $cell-border-color;
+    overflow: hidden;
+    white-space: nowrap;
 
     // Spacing and Padding
     @include px-16();
@@ -162,6 +176,14 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     // Hide first border
     &:first-child {
       border-left: 0;
+    }
+
+    // Text ellipsis
+    .text-ellipsis {
+      @include block();
+
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

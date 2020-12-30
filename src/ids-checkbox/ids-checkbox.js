@@ -60,10 +60,7 @@ class IdsCheckbox extends IdsElement {
   connectedCallBack() {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
-
-    if (!this.eventHandlers) {
-      this.eventHandlers = new IdsEventsMixin();
-    }
+    this.eventHandlers = new IdsEventsMixin();
 
     this.hideFocus();
     this.handleEvents();

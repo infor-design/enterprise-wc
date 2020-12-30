@@ -47,11 +47,13 @@ const IdsResizeMixin = {
     }
 
     // Connect the `ro` property to the global instance
+    /* istanbul ignore next */
     if (!this.ro) {
       this.ro = window.Ids.resizeObserver;
     }
 
     // Check the global resize targets array and add this component if it's not already there.
+    /* istanbul ignore next */
     if (!resizeTargets.includes(this)) {
       resizeTargets.push(this);
     }
@@ -63,6 +65,7 @@ const IdsResizeMixin = {
    * @returns {void}
    */
   disconnectResize() {
+    /* istanbul ignore next */
     if (this.ro) {
       resizeTargets = resizeTargets.filter((e) => !this.isEqualNode(e));
       delete this.ro;
@@ -88,6 +91,7 @@ const IdsResizeMixin = {
   setupDetectMutations() {
     checkForIDS();
 
+    /* istanbul ignore next */
     if (!this.mo && typeof MutationObserver !== 'undefined') {
       this.mo = new MutationObserver((mutation) => {
         switch (mutation.type) {
@@ -105,6 +109,7 @@ const IdsResizeMixin = {
     if (!this.mutationTargets) {
       this.mutationTargets = [];
     }
+    /* istanbul ignore next */
     if (!this.mutationTargets.includes(this)) {
       this.mutationTargets.push(this);
     }
@@ -115,6 +120,7 @@ const IdsResizeMixin = {
    * @returns {void}
    */
   disconnectDetectMutations() {
+    /* istanbul ignore next */
     if (this.mo) {
       this.mutationTargets = [];
       delete this.mo;

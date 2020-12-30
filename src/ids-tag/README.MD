@@ -12,10 +12,10 @@ some contextual element such as a form.
 
 ## Terminology
 
-- Tag: A UI embellishments for classification
-- Clickable/Dismissible: Tag can be closed and removed with an X button
-- Classification:  How tags are labelled with colors and text
-- Disabled: Tag can be disabled so it cannot be followed or clicked.
+- **Tag**: A UI embellishments for classification
+- **Clickable/Dismissible**: Tag can be closed and removed with an X button
+- **Classification**:  How tags are labelled with colors and text
+- **Disabled**: Tag can be disabled so it cannot be followed or clicked.
 
 ## Features (With Code Examples)
 
@@ -40,6 +40,12 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 <ids-tag color="caution">Warning Tag</ids-tag>
 <ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
 ```
+
+## Settings and Attributes
+
+- `clickable` {boolean} Turns on the functionality to make the tag clickable like a link
+- `dismissible` {boolean} Turns on the functionality to add an (x) button to clear remove the tag
+- `color` {string} Sets the color to a internal color such as `azure` or may be a hex starting with a `#`
 
 ## States and Variations (With Code Examples)
 
@@ -91,34 +97,6 @@ N/A
 1. Repeat Tests in All Supported Browsers
 1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
 1. Can be consumed (pull it in standalone/built see it works standalone)
-
-## QA - BDD Steps
-
-### Scenario 1: Dismissible Tag
-
-Given I am on desktop
-And I am on the tag page
-Then I should see a page with different tag examples
-And able to navigate in each example Tags
-And when I click the ‘#Dismissible’ tag
-Then I the Tag should be removed or disappear in the example list.
-
-### Scenario 2: Clickable / Linkable Tag
-
-Given I am on desktop
-And I am on the tag page
-Then I should see a page with different Linkable tag examples
-And able to navigate in each example Tags
-And when I click the ‘Linkable Tag Info >’ tag
-Then I should be able to redirect or navigate through the selected Tag
-
-### Scenario 3: Colors
-
-Given I am on desktop
-And I am on the tag page
-Then I should see a page with different Linkable tag examples
-And able to navigate in each example Tags
-And I should be able to see Tags with different color e.g (Red, Green Yellow)
 
 ## Accessibility Guidelines
 

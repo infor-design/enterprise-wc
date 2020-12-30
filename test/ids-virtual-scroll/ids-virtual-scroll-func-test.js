@@ -38,6 +38,14 @@ describe('IdsVirtualScroll Component', () => {
     expect(virtualScroll.innerHTML).toMatchSnapshot();
   });
 
+  it('renders rows on native scroll events', async () => {
+    const startingHtml = virtualScroll.innerHTML;
+
+    virtualScroll.container.dispatchEvent(new Event('scroll'));
+
+    expect(virtualScroll.innerHTML).toEqual(startingHtml);
+  });
+
   it('renders rows on scroll', async () => {
     const startingHtml = virtualScroll.innerHTML;
 
@@ -60,5 +68,56 @@ describe('IdsVirtualScroll Component', () => {
     await new Promise((r) => setTimeout(r, 50));
 
     expect(virtualScroll.innerHTML).not.toEqual(startingHtml);
+  });
+
+  it('can set the bufferSize attribute', async () => {
+    expect((virtualScroll.innerHTML.match(/<li/g) || []).length).toEqual(56);
+    virtualScroll.bufferSize = 100;
+    expect(virtualScroll.getAttribute('buffer-size')).toEqual('100');
+
+    virtualScroll.renderItems();
+
+    expect((virtualScroll.innerHTML.match(/<li/g) || []).length).toEqual(216);
+  });
+
+  it('removes the height attribute when reset', () => {
+    virtualScroll.height = null;
+    expect(virtualScroll.getAttribute('height')).toEqual(null);
+  });
+
+  it('removes the bufferSize attribute when reset', () => {
+    virtualScroll.bufferSize = null;
+    expect(virtualScroll.getAttribute('buffer-size')).toEqual(null);
+  });
+
+  it('removes the itemHeight attribute when reset', () => {
+    virtualScroll.itemHeight = null;
+    expect(virtualScroll.getAttribute('item-height')).toEqual(null);
+  });
+
+  it('removes the itemCount attribute when reset', () => {
+    virtualScroll.itemCount = null;
+    expect(virtualScroll.getAttribute('item-count')).toEqual(null);
+  });
+
+  it('removes the data value when reset', () => {
+    virtualScroll.data = null;
+    expect(virtualScroll.datasource.data).toEqual(null);
+  });
+
+  it('has a simple default template', () => {
+    const elem = new IdsVirtualScroll();
+    elem.stringTemplate = '<div class="ids-virtual-scroll-item">${productName}</div>'; //eslint-disable-line
+    const template = elem.itemTemplate({ productName: 'test' });
+    expect(template).toEqual('<div class="ids-virtual-scroll-item">test</div>');
+  });
+
+  it('handles setting scrollTarget', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    virtualScroll.scrollTarget = virtualScroll.shadowRoot.querySelector('.ids-virtual-scroll');
+    expect(virtualScroll.scrollTarget).not.toBe(null);
+
+    virtualScroll.scrollTarget = null;
+    expect(errors).not.toHaveBeenCalled();
   });
 });

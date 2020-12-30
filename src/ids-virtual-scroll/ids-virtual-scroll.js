@@ -201,7 +201,7 @@ class IdsVirtualScroll extends IdsElement {
   get bufferSize() { return this.getAttribute('buffer-size') || 20; }
 
   /**
-   * Set the scrolltop position
+   * Set the scroll top position and scroll down to that location
    * @param {number} value The number of pixels from the top
    */
   set scrollTop(value) {
@@ -287,6 +287,7 @@ class IdsVirtualScroll extends IdsElement {
   set scrollTarget(value) {
     if (value) {
       this.eventTarget = value;
+      /* istanbul ignore next */
       this.eventHandlers.addEventListener('scroll', this.eventTarget, (e) => {
         this.handleScroll(e);
       }, { passive: true });

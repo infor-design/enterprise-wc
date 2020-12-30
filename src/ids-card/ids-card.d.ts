@@ -3,7 +3,7 @@
 
 interface nativeElement extends HTMLElement {
   /** Set the card height */
-  height: 'single' | 'double' | 'triple' | 'auto';
+  autoHeight: boolean;
 }
 
 export class IdsCard extends HTMLElement {

@@ -35,7 +35,7 @@ class IdsIcon extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const size = sizes[this.size] || sizes.normal;
+    const size = sizes[this.size];
     return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
       ${this.iconData()}
     </svg>`;
@@ -73,7 +73,7 @@ class IdsIcon extends IdsElement {
 
   set size(value) {
     if (value) {
-      const size = sizes[this.size] || sizes.normal;
+      const size = sizes[this.size];
       this.setAttribute(props.SIZE, value);
       this.shadowRoot.querySelector('svg').setAttribute('height', size);
       this.shadowRoot.querySelector('svg').setAttribute('width', size);

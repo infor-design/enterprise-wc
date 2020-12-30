@@ -280,4 +280,122 @@ describe('IdsDataGrid Component', () => {
 
     expect(mockCallback.mock.calls.length).toBe(1);
   });
+
+  it('fires defaults to ascending sort', () => {
+    const mockCallback = jest.fn((x) => {
+      expect(x.detail.elem).toBeTruthy();
+      expect(x.detail.sortColumn.id).toEqual('description');
+      expect(x.detail.sortColumn.ascending).toEqual(true);
+    });
+
+    dataGrid.addEventListener('sorted', mockCallback);
+    dataGrid.setSortColumn('description');
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
+  it('sets sort state via the API', () => {
+    dataGrid.setSortState('book');
+    expect(dataGrid.shadowRoot.querySelectorAll('[data-column-id]')[1].getAttribute('aria-sort')).toBe('ascending');
+  });
+
+  it('handles wrong ID on sort', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    dataGrid.setSortColumn('bookx', false);
+
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('fires sorted event on click', () => {
+    const mockCallback = jest.fn((x) => {
+      expect(x.detail.elem).toBeTruthy();
+      expect(x.detail.sortColumn.id).toEqual('book');
+      expect(x.detail.sortColumn.ascending).toEqual(true);
+    });
+
+    dataGrid.addEventListener('sorted', mockCallback);
+    dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[1].click();
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
+  it('should not error clicking on a non sortable column', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const mockCallback = jest.fn();
+
+    dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[5].click();
+    dataGrid.addEventListener('sorted', mockCallback);
+
+    expect(mockCallback.mock.calls.length).toBe(0);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('can set the label setting', () => {
+    dataGrid.label = 'Books';
+    expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('aria-label')).toEqual('Books');
+    expect(dataGrid.getAttribute('label')).toEqual('Books');
+
+    dataGrid.label = null;
+    expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('aria-label')).toEqual('Data Grid');
+    expect(dataGrid.getAttribute('label')).toEqual(null);
+  });
+
+  it('can set the rowHeight setting', () => {
+    dataGrid.rowHeight = 'extra-small';
+    expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('extra-small');
+    expect(dataGrid.getAttribute('row-height')).toEqual('extra-small');
+
+    dataGrid.rowHeight = 'small';
+    expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('small');
+    expect(dataGrid.getAttribute('row-height')).toEqual('small');
+
+    dataGrid.rowHeight = 'medium';
+    expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('medium');
+    expect(dataGrid.getAttribute('row-height')).toEqual('medium');
+
+    dataGrid.rowHeight = null;
+    expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('large');
+    expect(dataGrid.getAttribute('row-height')).toEqual(null);
+
+    dataGrid.rowHeight = 'large';
+    expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('large');
+    expect(dataGrid.getAttribute('row-height')).toEqual('large');
+  });
+
+  it('can set the rowHeight setting in virtualScroll mode', () => {
+    dataGrid.virtualScroll = true;
+    dataGrid.rowHeight = 'extra-small';
+    expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('30');
+
+    dataGrid.rowHeight = 'small';
+    expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('35');
+
+    dataGrid.rowHeight = 'medium';
+    expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('40');
+
+    dataGrid.rowHeight = null;
+    expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
+
+    dataGrid.rowHeight = 'large';
+    expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
+
+    dataGrid.virtualScroll = false;
+    dataGrid.rowHeight = 'small';
+    expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('small');
+    expect(dataGrid.getAttribute('row-height')).toEqual('small');
+  });
+
+  it('can render with the text formatter', () => {
+    // Renders text
+    expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+      .querySelectorAll('.ids-data-grid-cell')[1].querySelector('.text-ellipsis').innerHTML).toEqual('101');
+
+    // Renders undefined
+    expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+      .querySelectorAll('.ids-data-grid-cell')[3].querySelector('.text-ellipsis').innerHTML).toEqual('');
+
+    // Renders null
+    expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
+      .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('');
+  });
 });

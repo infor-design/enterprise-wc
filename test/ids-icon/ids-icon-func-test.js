@@ -59,4 +59,9 @@ describe('IdsIcon Component', () => {
     expect(elem.icon).toEqual(null);
     expect(elem.getAttribute('size')).toEqual(null);
   });
+
+  it('defaults to normal size', () => {
+    expect(elem.template()).toContain('height="18"');
+    expect(elem.template()).toContain('width="18"');
+  });
 });

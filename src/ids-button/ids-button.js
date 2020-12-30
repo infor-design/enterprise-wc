@@ -146,6 +146,7 @@ class IdsButton extends IdsElement {
     if (this.state && this.state?.type !== 'default') {
       type = ` btn-${this.state.type}`;
     }
+    /* istanbul ignore next */
     if (this.protoClasses.length) {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }
@@ -172,6 +173,7 @@ class IdsButton extends IdsElement {
    * @private
    * @returns {void}
    */
+  /* istanbul ignore next */
   handleEvents() {
     let x;
     let y;
@@ -266,6 +268,8 @@ class IdsButton extends IdsElement {
 
     const trueVal = val === true || val === 'true';
     this.state.disabled = trueVal;
+
+    /* istanbul ignore next */
     if (this.button) {
       this.button.disabled = trueVal;
     }
@@ -415,10 +419,11 @@ class IdsButton extends IdsElement {
   }
 
   /**
+   * Set the button types between 'default', 'primary', 'secondary', 'tertiary', or 'destructive'
    * @param {string} val a valid button "type"
    */
   set type(val) {
-    if (!val || BUTTON_TYPES.indexOf(val) <= 0) { // BUTTON_TYPES[0] === 'default'
+    if (!val || BUTTON_TYPES.indexOf(val) <= 0) {
       this.removeAttribute('type');
       this.state.type = BUTTON_TYPES[0];
     } else {
@@ -466,6 +471,7 @@ class IdsButton extends IdsElement {
    */
   getRippleOffsets(x, y) {
     const btnRect = this.getBoundingClientRect();
+    /* istanbul ignore next */
     const halfRippleSize = this.button.classList.contains('ids-icon-button') ? 35 : 125;
     let btnX;
     let btnY;
@@ -499,6 +505,7 @@ class IdsButton extends IdsElement {
    * Generates a "ripple" effect on a specified location inside the button's boundaries.
    * The coordinates defined are actual page coordinates, using the top/left of the page as [0,0],
    * which allows this to connect easily to mouse/touch events.
+   * @private
    * @param {number} x the X coordinate
    * @param {number} y the Y coordinate
    * @returns {void}
