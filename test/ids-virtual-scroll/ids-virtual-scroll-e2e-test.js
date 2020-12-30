@@ -23,6 +23,7 @@ describe('Ids Virtual Scroll e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
+    await page.waitForSelector('.ids-data-grid-row');
     await percySnapshot(page, 'ids-virtual-scroll');
   });
 });

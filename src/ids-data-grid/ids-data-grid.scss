@@ -188,6 +188,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   // Standalone Css
+  tr.ids-data-grid-header {
+    position: initial;
+  }
+
   tr.ids-data-grid-row {
     @include table-row();
 
