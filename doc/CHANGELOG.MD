@@ -8,30 +8,30 @@
   - Some button properties are now attributes - "type", "text", "icon", "disabled", "focusable", etc.
 - `[Card]` The Card/Widget component has been changed to a web component and renamed to ids-card.
   - Markup has changed to a custom element `<ids-card></ids-card>` and has slots for the header and body content
-  - Can now be imported as a single JS file and used with encapsulated styles (in some browsers)
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Datagrid]` The Datagrid component has been changed to a web component `ids-data-grid`.
   - If using events events are now plain JS events for example: sorted, rendered
   - If using properties/settings these are now attributes or as plain properties for example: data, virtual-scroll
   - Markup has changed to a custom element `<ids-data-grid></ids-data-grid>`
-  - Can now be imported as a single JS file and used with encapsulated styles (in some browsers)
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Icons]` The icons are now a web component called ids-icon. You no longer need the huge block of svg in the page
   - The icon and size are set via properties/attributes
-  - Can now be imported as a single JS file and used with encapsulated styles (in some browsers)
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Loader]` The Busy Indicator component has been changed to a web component and renamed to ids-loader.
   - If using properties/settings these are now attributes: dismissible, color
   - Markup has changed to a custom element `<ids-loader></ids-loader>`
-  - Can now be imported as a single JS file and used with encapsulated styles (in some browsers)
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[ListView]` The List View component has been changed to a web component and renamed to ids-list-view.
   - If using properties/settings these are now attributes.
   - Markup has changed to a custom element `<ids-list-view></ids-list-view>`
   - If using events events are now plain JS events for example
   - The template is now a template element that uses simple string substitution
-  - Can now be imported as a single JS file and used with encapsulated styles (in some browsers)
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Popup]` Added the Popup WebComponent. ([#4259](https://github.com/infor-design/enterprise/issues/4259))
   - This is the new base component to be used for building Popupmenu, Tooltip, Modal, and any other component that requires placement of a fixed-position element.
   - If using properties/settings, these are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.
   - Popup is now driven by its own HTMLElement rather than a being a behavior applied to any element: `<ids-popup x="0" y="0" align="top, left">My Popup</ids-popup>`
-  - Can now be imported as a single JS file and used with encapsulated styles (in some browsers)
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[RenderLoop]` The RenderLoop component has been implemented as a mixin.
   - Added `IdsRenderLoopMixin` for access to a global renderLoop instance from within WebComponents.
   - API has been simplified and made more user-friendly.
@@ -39,4 +39,4 @@
   - If using events events are now plain JS events. beforetagremoved, tagremoved, aftertagremoved
   - If using properties/settings these are now attributes: dismissible, color
   - Markup has changed to a custom element `<ids-tag color="error">Text</ids-tag>`
-  - Can now be imported as a single JS file and used with encapsulated styles (in some browsers)
+  - Can now be imported as a single JS file and used with encapsulated styles
