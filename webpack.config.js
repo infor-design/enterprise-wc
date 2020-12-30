@@ -50,7 +50,7 @@ module.exports = {
     writeToDisk: true,
     contentBase: path.resolve(__dirname, 'dist'),
     // Server the files in app/data as a JSON "API"
-    // For example: http://localhost:4300/api/bikes
+    // For example: http://localhost:4300/api/bikes or relative as /api/bikes
     before: (app) => {
       app.get('/api/:fileName', (req, res) => {
         const { fileName } = req.params;

@@ -8,7 +8,7 @@ const virtualScrollTable = document.querySelector('#virtual-scroll-2');
 
 // 1. Do an ajax request
 const xmlhttp = new XMLHttpRequest();
-const url = 'http://localhost:4300/api/products';
+const url = '/api/products';
 
 xmlhttp.onreadystatechange = function onreadystatechange() {
   if (this.readyState === 4 && this.status === 200) {

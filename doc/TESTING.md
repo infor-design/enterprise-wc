@@ -46,7 +46,7 @@ We could improve this...
   });
 ```
 - edit the jest-puppeteer.config.js and set `devtools: true` and `headless: false`
-- run `npm run test`
+- run `npm run test -- ids-virtual-scroll-e2e-test`
 
 ## Visual Regression tests
 

@@ -32,4 +32,12 @@ describe('Ids List View e2e Tests', () => {
     await page.goto('http://localhost:4444/ids-list-view/standalone-css', { waitUntil: 'load' });
     await percySnapshot(page, 'ids-list-view-css');
   });
+
+  it('should not have visual regressions (percy)', async () => {
+    await jestPuppeteer.debug();
+    page = await browser.newPage();
+    await page.setBypassCSP(true);
+    await page.goto('http://localhost:4444/ids-list-view/virtual-scroll', { waitUntil: 'load' });
+    await percySnapshot(page, 'ids-list-view-virtual-scroll');
+  });
 });

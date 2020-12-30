@@ -5,7 +5,7 @@ const dataGrid = document.querySelector('#data-grid-1');
 
 // Do an ajax request
 const xmlhttp = new XMLHttpRequest();
-const url = 'http://localhost:4300/api/books';
+const url = '/api/books';
 const columns = [];
 
 // Set up columns
