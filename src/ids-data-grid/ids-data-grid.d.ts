@@ -31,6 +31,17 @@ interface sorted extends Event {
   }
 }
 
+interface activecellchanged extends Event {
+  detail: {
+    elem: IdsDataGrid,
+    activeCell: {
+      cell: number;
+      row: number;
+      node: HTMLElement
+    }
+  }
+}
+
 export class IdsDataGrid extends HTMLElement {
   nativeElement: nativeElement;
 }

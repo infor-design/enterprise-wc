@@ -10,6 +10,7 @@ import { IdsDataGridFormatters } from './ids-data-grid-formatters';
 import { IdsDataSourceMixin } from '../ids-base/ids-data-source-mixin';
 import { IdsDeepCloneMixin } from '../ids-base/ids-deep-clone-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
 import styles from './ids-data-grid.scss';
@@ -115,6 +116,11 @@ class IdsDataGrid extends IdsElement {
     }
 
     this.handleEvents();
+
+    if (this.data.length > 0) {
+      this.setActiveCell(0, 0);
+      this.handleKeys();
+    }
   }
 
   /**
@@ -206,7 +212,7 @@ class IdsDataGrid extends IdsElement {
     }
     this.eventHandlers = new IdsEventsMixin();
 
-    // Add a single click handler
+    // Add a sort Handler
     this.eventHandlers.addEventListener('click', sortableColumns, (e) => {
       const header = e.target.closest('.is-sortable');
 
@@ -214,6 +220,39 @@ class IdsDataGrid extends IdsElement {
         this.setSortColumn(header.getAttribute('data-column-id'), header.getAttribute('aria-sort') !== 'ascending');
       }
     });
+
+    // Add a cell click handler
+    this.eventHandlers.addEventListener('click', this.shadowRoot.querySelector('.ids-data-grid-body'), (e) => {
+      const cell = e.target.closest('.ids-data-grid-cell');
+      const row = cell.parentNode;
+      // TODO Handle Hidden Cells
+      this.setActiveCell(parseInt(cell.getAttribute('aria-colindex'), 10), parseInt(row.getAttribute('aria-rowindex'), 10));
+    });
+  }
+
+  /**
+   * Establish Internal Keyboard shortcuts
+   * @private
+   * @returns {object} This API object for chaining
+   */
+  handleKeys() {
+    if (this.keyboard) {
+      this.keyboard.destroy();
+    }
+    this.keyboard = new IdsKeyboardMixin();
+
+    // Handle arrow navigation
+    this.keyboard.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e) => {
+      const key = e.key;
+      const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
+      const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
+
+      this.setActiveCell(this.activeCell.cell + cellDiff, this.activeCell.row + rowDiff);
+      e.preventDefault();
+      e.stopPropagation();
+    });
+
+    return this;
   }
 
   /**
@@ -412,6 +451,37 @@ class IdsDataGrid extends IdsElement {
    */
   get headerPixelHeight() {
     return 35;
+  }
+
+  /**
+   * Set the active cell for focus
+   * @param  {number} cell [description]
+   * @param  {number} row  [description]
+   * @returns {object} the current active cell
+   */
+  setActiveCell(cell, row) {
+    // TODO Hidden Columns
+    if (row < 0 || cell < 0 || row > this.data.length - 1 || cell > this.columns.length - 1) {
+      return this.activeCell;
+    }
+
+    if (!this.activeCell) {
+      this.activeCell = {};
+    }
+
+    this.activeCell.cell = cell;
+    this.activeCell.row = row;
+
+    const rowNode = this.shadowRoot.querySelectorAll('.ids-data-grid-body .ids-data-grid-row')[row]; // exclude header rows
+    const cellNode = rowNode.querySelectorAll('.ids-data-grid-cell')[cell];
+    this.activeCell?.node?.removeAttribute('tabindex');
+
+    this.activeCell.node = cellNode;
+    cellNode.setAttribute('tabindex', '0');
+    cellNode.focus();
+
+    this.eventHandlers.dispatchEvent('activecellchanged', this, { detail: { elem: this, activeCell: this.activeCell } });
+    return this.activeCell;
   }
 }
 

@@ -170,9 +170,6 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     overflow: hidden;
     white-space: nowrap;
 
-    // Spacing and Padding
-    @include px-16();
-
     // Hide first border
     &:first-child {
       border-left: 0;
@@ -181,9 +178,17 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     // Text ellipsis
     .text-ellipsis {
       @include block();
+      @include px-16();
 
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    // Focus State
+    &:focus {
+      @include shadow();
+      outline: 1px solid var(--ids-color-palette-azure-60);
+      outline-offset: -1px;
     }
   }
 

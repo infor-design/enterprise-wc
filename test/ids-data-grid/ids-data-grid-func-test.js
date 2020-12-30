@@ -398,4 +398,129 @@ describe('IdsDataGrid Component', () => {
     expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
       .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('');
   });
+
+  it('can handle ArrowRight key', () => {
+    expect(dataGrid.activeCell.row).toEqual(0);
+    expect(dataGrid.activeCell.cell).toEqual(0);
+
+    const event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+    dataGrid.dispatchEvent(event);
+
+    expect(dataGrid.activeCell.row).toEqual(0);
+    expect(dataGrid.activeCell.cell).toEqual(1);
+
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(2);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(3);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(4);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(5);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(6);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(7);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(8);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(9);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(10);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(11);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(12);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(12);
+  });
+
+  it('can handle ArrowLeft key', () => {
+    expect(dataGrid.activeCell.row).toEqual(0);
+    expect(dataGrid.activeCell.cell).toEqual(0);
+
+    let event = new KeyboardEvent('keydown', { key: 'ArrowRight' });
+    dataGrid.dispatchEvent(event);
+
+    expect(dataGrid.activeCell.row).toEqual(0);
+    expect(dataGrid.activeCell.cell).toEqual(1);
+
+    event = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(0);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.cell).toEqual(0);
+  });
+
+  it('can handle ArrowDown key', () => {
+    expect(dataGrid.activeCell.row).toEqual(0);
+    expect(dataGrid.activeCell.cell).toEqual(0);
+
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dataGrid.dispatchEvent(event);
+
+    expect(dataGrid.activeCell.row).toEqual(1);
+    expect(dataGrid.activeCell.cell).toEqual(0);
+
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(2);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(3);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(4);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(5);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(6);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(7);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(8);
+  });
+
+  it('can handle ArrowUp key', () => {
+    expect(dataGrid.activeCell.row).toEqual(0);
+
+    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dataGrid.dispatchEvent(event);
+
+    expect(dataGrid.activeCell.row).toEqual(1);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(2);
+
+    event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(1);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(0);
+    dataGrid.dispatchEvent(event);
+    expect(dataGrid.activeCell.row).toEqual(0);
+  });
+
+  it('fires activecellchanged event', () => {
+    const mockCallback = jest.fn((x) => {
+      expect(x.detail.elem).toBeTruthy();
+      expect(x.detail.activeCell.row).toEqual(1);
+      expect(x.detail.activeCell.cell).toEqual(0);
+      expect(x.detail.activeCell.node).toBeTruthy();
+    });
+
+    dataGrid.addEventListener('activecellchanged', mockCallback);
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dataGrid.dispatchEvent(event);
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
+  it('fires activecellchanged event on click', () => {
+    const mockCallback = jest.fn();
+
+    dataGrid.addEventListener('activecellchanged', mockCallback);
+    dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[3]
+      .querySelectorAll('.ids-data-grid-cell')[3].click();
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+    expect(dataGrid.activeCell.row).toEqual(2);
+    expect(dataGrid.activeCell.cell).toEqual(3);
+  });
 });
