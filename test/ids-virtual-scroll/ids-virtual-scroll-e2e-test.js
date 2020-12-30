@@ -20,7 +20,6 @@ describe('Ids Virtual Scroll e2e Tests', () => {
   });
 
   it('should not have visual regressions (percy)', async () => {
-    await jestPuppeteer.debug();
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });

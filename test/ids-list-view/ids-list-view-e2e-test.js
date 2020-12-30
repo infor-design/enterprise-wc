@@ -34,7 +34,6 @@ describe('Ids List View e2e Tests', () => {
   });
 
   it('should not have visual regressions (percy)', async () => {
-    await jestPuppeteer.debug();
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto('http://localhost:4444/ids-list-view/virtual-scroll', { waitUntil: 'load' });
