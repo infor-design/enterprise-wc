@@ -465,8 +465,6 @@ class IdsMenuItem extends IdsElement {
       this.shouldUpdate = shouldUpdate;
     }
 
-    // @TODO handle selected state markers (checks?)
-
     // Build/Fire a `selected` event for performing other actions.
     this.eventHandlers.dispatchEvent(duringEventName, this, {
       bubbles: true,
@@ -524,10 +522,7 @@ class IdsMenuItem extends IdsElement {
    * @returns {string} a menu item's textContent stripped of any extraneous white space.
    */
   get text() {
-    if (this.hasSubmenu) {
-      return [...this.childNodes].find((i) => i.nodeType === Node.TEXT_NODE).textContent.trim();
-    }
-    return this.textContent.replace(/[\n\r]+/g, '').replace(/\s{2,10}/);
+    return [...this.childNodes].find((i) => i.nodeType === Node.TEXT_NODE).textContent.trim();
   }
 
   /**

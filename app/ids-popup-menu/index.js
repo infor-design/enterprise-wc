@@ -4,12 +4,6 @@ import IdsMenuItem from '../../src/ids-menu/ids-menu-item';
 import IdsMenuGroup from '../../src/ids-menu/ids-menu-group';
 import IdsSeparator from '../../src/ids-menu/ids-separator';
 import IdsPopup from '../../src/ids-popup/ids-popup';
-import IdsIcon from '../../src/ids-icon/ids-icon';
-
-// Supporting Components
-import IdsText from '../../src/ids-text/ids-text';
-import IdsLayoutGridCell from '../../src/ids-layout-grid/ids-layout-grid-cell';
-import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 
 import './index.scss';
 
