@@ -2,13 +2,17 @@
 // confirm our code is type safe, and to support TypeScript users.
 
 interface nativeElement extends HTMLElement {
-  checked: boolean;
+  dirtyTracker: boolean;
   disabled: boolean;
+  horizontal: boolean;
   label: string;
   labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 | 'xs' | 'sm ' | 'lg' | 'xl' | string | number;
+  labelRequired: boolean;
+  validate: 'required' | string;
+  validationEvents: 'change' | string;
   value: string;
 }
 
-export class IdsSwitch extends HTMLElement {
+export class IdsRadioGroup extends HTMLElement {
   nativeElement: nativeElement;
 }
