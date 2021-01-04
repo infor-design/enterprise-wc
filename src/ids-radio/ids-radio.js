@@ -20,7 +20,6 @@ import IdsRadioGroup from './ids-radio-group';
 @customElement('ids-radio')
 @scss(styles)
 @mixin(IdsDomUtilsMixin)
-@mixin(IdsEventsMixin)
 @mixin(IdsHideFocusMixin)
 @mixin(IdsStringUtilsMixin)
 class IdsRadio extends IdsElement {

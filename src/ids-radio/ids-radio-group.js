@@ -18,7 +18,6 @@ import IdsText from '../ids-text/ids-text';
  */
 @customElement('ids-radio-group')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsStringUtilsMixin)
 @mixin(IdsDirtyTrackerMixin)
 @mixin(IdsValidationMixin)
