@@ -3,6 +3,7 @@
 
 :host {
   @include inline-flex();
+  @include self-center();
 
   place-self: center;
 }

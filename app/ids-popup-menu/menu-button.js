@@ -15,11 +15,8 @@ import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
 document.addEventListener('DOMContentLoaded', () => {
   const popupmenuEl = document.querySelector('#menu-button + ids-popup-menu');
 
-  // Add a console log for all the others on `selected`
-  const menuItems = popupmenuEl.items;
-  menuItems.forEach((item) => {
-    item.addEventListener('selected', (e) => {
-      console.log(`Item "${e.detail.elem.text}" was selected`);
-    });
+  // Log to the console on `selected`
+  popupmenuEl.addEventListener('selected', (e) => {
+    console.log(`Item "${e.detail.elem.text}" was selected`);
   });
 });

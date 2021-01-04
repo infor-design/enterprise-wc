@@ -20,11 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
   // Preconfigure the Popup
   popupEl.align = 'top, left';
 
-  // Add a console log for all the others on `selected`
-  const menuItems = document.querySelector('#popupmenu').items;
-  menuItems.forEach((item) => {
-    item.addEventListener('selected', (e) => {
-      console.log(`Item "${e.detail.elem.text}" was selected`);
-    });
+  // Log to the console on `selected`
+  popupmenuEl.addEventListener('selected', (e) => {
+    console.log(`Item "${e.detail.elem.text}" was selected`);
   });
 });

@@ -3,7 +3,7 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
-
+import { props } from '../ids-base/ids-constants';
 import styles from './ids-menu-group.scss';
 
 // Menu Selection Types
@@ -29,8 +29,8 @@ class IdsMenuGroup extends IdsElement {
    */
   static get properties() {
     return [
-      'keep-open',
-      'select'
+      props.KEEP_OPEN,
+      props.SELECT
     ];
   }
 
@@ -44,13 +44,13 @@ class IdsMenuGroup extends IdsElement {
     let selectProp = '';
     const selectVal = this.select;
     if (selectVal !== MENU_GROUP_SELECT_TYPES[0]) {
-      selectProp = ` select="${selectVal}"`;
+      selectProp = ` ${props.SELECT}="${selectVal}"`;
     }
 
     // Keep Open
     let keepOpenProp = '';
     if (this.keepOpen) {
-      keepOpenProp = ` keep-open`;
+      keepOpenProp = ` ${props.KEEP_OPEN}`;
     }
 
     return `<ul class="ids-menu-group" role="group"${keepOpenProp}${selectProp}${describedBy}><slot></slot></ul>`;
