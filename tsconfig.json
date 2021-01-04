@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "checkJs": true,
+    "noEmit": true,
+    "noImplicitAny": false,
+    "noImplicitReturns": false,
+    "noUnusedLocals": true,
+    "strict": true,
+    "target": "ES2019",
+    "types": []
+  },
+  "include": ["src/**/*.js"],
+  "exclude": ["node_modules", "test" , "app"]
+}

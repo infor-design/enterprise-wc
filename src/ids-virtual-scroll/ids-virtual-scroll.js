@@ -205,8 +205,6 @@ class IdsVirtualScroll extends IdsElement {
    * @param {number} value The number of pixels from the top
    */
   set scrollTop(value) {
-    const hasProp = this.hasAttribute('scroll-top');
-
     if (value) {
       this.setAttribute('scroll-top', value);
       this.container.scrollTop = value;
@@ -230,8 +228,6 @@ class IdsVirtualScroll extends IdsElement {
    * @private
    */
   set itemCount(value) {
-    const hasProp = this.hasAttribute('item-count');
-
     if (value) {
       this.setAttribute('item-count', value);
       return;
@@ -263,7 +259,7 @@ class IdsVirtualScroll extends IdsElement {
 
   /**
    * Set the data array of the listview
-   * @param {Array} value The array to use
+   * @param {Array|undefined} value The array to use
    */
   set data(value) {
     if (value) {
@@ -282,13 +278,13 @@ class IdsVirtualScroll extends IdsElement {
 
   /**
    * Set the scroll target to a external parent
-   * @param {object} value The array to use
+   * @param {object|undefined} value The array to use
    */
   set scrollTarget(value) {
     if (value) {
       this.eventTarget = value;
       /* istanbul ignore next */
-      this.eventHandlers.addEventListener('scroll', this.eventTarget, (e) => {
+      this.eventHandlers?.addEventListener('scroll', this.eventTarget, (e) => {
         this.handleScroll(e);
       }, { passive: true });
     }

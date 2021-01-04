@@ -12,8 +12,6 @@ interface nativeElement extends HTMLElement {
   text?: string;
   /* The type/purpose of the button to display */
   type: 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive'
-  /* Generates a visual ripple effect inside the button at the x/y coordinates provided (or in the center if 0, 0) */
-  createRipple(x?: number, y?: number): void;
 }
 
 export class IdsButton extends HTMLElement {
