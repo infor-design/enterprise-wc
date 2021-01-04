@@ -1,5 +1,6 @@
 // Required Libraries
 const WebpackDevServer = require('webpack-dev-server');
+const fs = require('fs');
 const webpack = require('webpack');
 const path = require('path');
 const log = require('loglevel');
@@ -14,7 +15,14 @@ const options = {
   writeToDisk: true,
   contentBase: path.resolve(__dirname, 'dist'),
   liveReload: true,
-  hot: false // not sure why this doesnt work as reliably as liveReload
+  hot: false, // not sure why this doesnt work as reliably as liveReload
+  before: (app) => {
+    app.get('/api/:fileName', (req, res) => {
+      const { fileName } = req.params;
+      const json = fs.readFileSync(`./app/data/${fileName}.json`, 'utf8');
+      res.json(JSON.parse(json));
+    });
+  },
 };
 
 // Start Express / webpack dev server

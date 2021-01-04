@@ -1,80 +1,986 @@
 # Task List for this POC
 
-## Structure/Tools
+## Component Checklist
 
-- [x] Create a simple flat(ish) folder structure with one component per folder
-- [x] Show an example page per each component
-- [x] Include a draft Technical Spec including designs and tests (see README's)
-- [x] Include Webpack
-- [x] CSS/SASS
-- [x] Add token namespaces for css variables
-- [x] Md Lint and Other linters?
-- [ ] [Usage statistics](https://github.com/vaadin/vaadin-usage-statistics)
-- [ ] [Use partials](https://github.com/colbyfayock/html-webpack-partials-plugin/tree/master/examples/page-template)
+**About** (ids-about)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
 
-## Css
+**Accordion** (ids-accordion)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
 
-- [x] Finish css styling for uplift using functional css and separation
-- [x] Add Sass handling with webpack
-- [ ] List of tokens for the component if needed or how to handle tag tokens
-- [ ] Generate the mixin functions from settings in design system
-- [x] Change tokens to  use pixels instead of rems
-- [x] Add css style lint
-- [x] Test Custom Fonts
-- [x] Show side by side with current tags -> as expected its problematic on the soho side
-- [x] Test initialize in side by side example
-- [ ] Solve for versions/modes/themes or whatever they will be called - add a toggle that changes sheet. Make a switcher component and check out [dark mode](https://googlechromelabs.github.io/dark-mode-toggle/demo/index.html) as its doing something clever with the FOUC.
-- [x] Evaluate CSSStyleSheet  - With [poly fill](https://github.com/Polymer/lit-element/blob/master/src/lib/css-tag.ts)
-- [x] Try to include [tailwind](https://tailwindcss.com) (add a tailwind config to ids tokens) by side
-- [ ] Change to node webserver
-- [ ] Test a server side Rendering example
-- [x] Import separated css in see maybe [scss in webcomponents article](https://dev.to/m4thieulavoie/how-i-managed-to-use-scss-inside-web-components-3lk9) and [importing sass](https://blog.webf.zone/on-styling-web-components-b74b8c70c492)
+**Alerts** (ids-icon)
+ - [x] Docs
+ - [x] 100% Test Coverage
+ - [x] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [x] Typings
+ - [x] NG / Vue / React Example
+ - [x] Works in Page with 4.x
 
-## Webcomponent Code
-- [x] Settings
-- [x] Create a a base and look at LitElement
-- [x] Invoked Components - Modal (we dont need this)
-- [x] Event Handlers
-- [x] Add pattern for even omitting see this [great explanation](https://github.com/millermedeiros/js-signals/wiki/Comparison-between-different-Observer-Pattern-implementations)
-- [ ] Keyboard Handling
-- [x] Create a mixin [see docs](https://javascript.info/mixins) and [another article](https://medium.com/javascript-scene/functional-mixins-composing-software-ffb66d5e731c)
-- [x] Create decorators
-- [x] Event Handlers (mixin)
-- [ ] FOUC - Done but will add loader when designed
-- [x] Linting
-- [x] Add TS types [for example](https://github.com/elix/elix/tree/13.0.0/src/base)
-- [x] What can we do for more flexibility: use web component live cycle + super, providing slots, making them work with css based on [immediate parent](https://github.com/webcomponents/gold-standard/wiki#styling)
-- [x] Ability to set Id's - Just put them on the web components that are actionable
-- [ ] Locales
-- [ ] Examples in Vue (stackblitz)
-- [x] Example in NG (stackblitz)
-- [ ] Example in React (stackblitz)
-- [ ] Localization
-- [ ] Right to Left
-- [ ] Upgrade Docs
-- [ ] Api and example Documentation
-- [x] Security Scans
-- [ ] CSP
-- [ ] Two way data binding
+Standalone Css not applicable use SVG files or PNG files. Could also still use an ids-alert explicit component.
 
-## Other Components
-- [x] Add a Css Grid
-- [x] Typography "Component"
-- [ ] Listview: Component
-- [ ] Listview: Make a Datasource. And check if [redux will work](https://react-redux.js.org/introduction/basic-tutorial) [Handling Data](https://itnext.io/handling-data-with-web-components-9e7e4a452e6e). Dataset can also handle rerender (two way binding)
-- [ ] Listview: Handle Tokens
-- [ ] Listview: Expose listview "pieces"
-- [ ] Listview Make infinite scrolling [for example](https://developers.google.com/web/updates/2016/07/infinite-scroller)
-- [ ] Toast Component [for example](https://github.com/elix/elix/blob/13.0.0/src/base/Toast.js)
+**Applicationmenu** (ids-app-menu)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
 
-## Documentation
-- [ ] What do we need to do with design system ect
-- [ ] General API into the MD [Js Doc MD](https://github.com/jaydenseric/jsdoc-md)
-- [ ] Document each component
-- [ ] Add a [core-principles](https://github.com/elix/elix#core-principles) section and update README
+**Area** (ids-area-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
 
-## Test Tools
-- [x] Evaulate Test Tools: [Webdriver.IO](https://webdriver.io/)
-- [x] Evaulate Test Tools: [codecept](https://codecept.io/)
-- [x] Evaulate Test Tools: [cypress](https://docs.cypress.io/)
-- [x] Evaulate Test Tools: Jest (Stencil Js uses Jest and Puppeteer (or just Puppeteer like elix))
+**Autocomplete** (ids-autocomplete)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Badges** (ids-badge)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Bar** (ids-bar-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Blockgrid** (ids-block-grid)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Breadcrumb** (ids-bread-crumb)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Bubble** (ids-bubble-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Bullet** (ids-bulet-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Loader** (ids-loader) aka Busy Indicator / Loading Indicator
+ - [x] Docs
+ - [x] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [x] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Button** (ids-button)
+ - [x] Docs
+ - [ ] 100% Test Coverage
+ - [x] Feature Parity with 4.x
+ - [x] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Calendar** (ids-calendar)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Cards** (ids-card)
+ - [x] Docs
+ - [x] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [x] Upgrade Docs in Changelog
+ - [x] Typings
+ - [ ] NG / Vue / React Example
+ - [x] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Checkboxes** (ids-checkbox)
+ - [x] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [x] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Circlepager** (ids-pager)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+Will make a pager type for this.
+
+**Colorpicker** (ids-color-picker)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Column** (ids-column-chart or ids-bar with a orientation setting)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Completion Chart** (ids-completion-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Contextualactionpanel** (ids-contextual-action-panel or ids-modal)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Datagrid** (ids-data-grid)
+ - [x] Docs
+ - [x] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [x] Upgrade Docs in Changelog
+ - [x] Typings
+ - [ ] NG / Vue / React Example
+ - [x] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Datepicker** (ids-date-picker)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Donut** (ids-dount or combined with ids-pie)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Dropdown** (ids-drop-down)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Editor** (ids-editor)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Emptymessage** (ids-empty-message)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Error Page** (ids-page-error)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Expandablearea** (ids-expandable-area)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Fieldset** (ids-field-set)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Fileupload** (ids-file-upload)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Fileupload Advanced** (ids-file-upload with options)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Fontpicker** (ids-font-picker)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Form ** (ids-form if needed)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Grid** (ids-layout-grid)
+ - [x] Docs
+ - [ ] 100% Test Coverage
+ - [x] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [x] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Header** (ids-header)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Hierarchy** (ids-hierarchy)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Homepage** (ids-homepage)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Hyperlinks** (ids-hyperlink)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Icons** (ids-icon)
+ - [x] Docs
+ - [x] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [x] Upgrade Docs in Changelog
+ - [x] Typings
+ - [x] NG / Vue / React Example
+ - [x] Standalone Css (Not Possible use design system icons and png)
+ - [ ] Works in Page with 4.x
+
+**Images** (ids-image)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Input** (ids-input)
+ - [x] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [x] Typings
+ - [ ] NG / Vue / React Example
+ - [x] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Line** (ids-line-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Listbuilder** (ids-list-builder)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Listview** (ids-list-view)
+ - [x] Docs
+ - [x] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [x] Upgrade Docs in Changelog
+ - [x] Typings
+ - [ ] NG / Vue / React Example
+ - [x] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Locale** (ids-locale)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Lookup** (ids-lookup)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Mask** (ids-mask - done as a mixin on components that support it)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Masthead** (ids-mast-head)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Message** (ids-message)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Modal** (ids-modal)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Monthview** (ids-month-view)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Multiselect** (ids-multi-select)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Notification** (ids-notification)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Page Layouts** (ids-page-layout or as individual separate examples)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Page Patterns** (ids-page-pattern or as individual separate examples)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Pager** (ids-pager)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Personalize** (ids-personalize or as a mixin on components thats support)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Pie** (ids-pie-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Popover** (ids-popup)
+ - [x] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [x] Upgrade Docs in Changelog
+ - [x] Typings
+ - [ ] NG / Vue / React Example
+ - [x] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Popupmenu** (ids-menu)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Positive Negative** (ids-positive-negative-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Radar** (ids-radar-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Radios** (ids-radio)
+ - [x] Docs
+ - [ ] 100% Test Coverage
+ - [x] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [x] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Rating** (ids-rating)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Renderloop** (ids-render-loop)
+ - [x] Docs
+ - [x] 100% Test Coverage
+ - [x] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [x] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Scatterplot** (ids-scatter-plot-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Searchfield** (ids-search-field)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Signin** (ids-sign-in)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Skiplink** (ids-skip-link)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Slider** (ids-slider)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Sparkline** (ids-spark-line-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Spinbox** (ids-spin-box)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Splitter** (ids-splitter)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Stepchart** (ids-step-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Swaplist** (ids-swap-list)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Switch** (ids-switch)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Tabs** (ids-tabs)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Tabs Header** (ids-tabs with option)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Tabs Module** (ids-tabs with option)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Tabs Multi** (ids-tabs with option)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Tabs Vertical** (ids-tabs with option)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Tag** (ids-tag)
+ - [x] Docs
+ - [x] 100% Test Coverage
+ - [x] Feature Parity with 4.x
+ - [x] Upgrade Docs in Changelog
+ - [x] Typings
+ - [x] NG / Vue / React Example
+ - [x] Standalone Css
+ - [x] Works in Page with 4.x
+
+**Targeted Achievement** (ids-target-chart)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Textarea** (ids-text-area)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Timeline** (ids-time-line)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Timepicker** (ids-time-picker)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Toast** (ids-toast)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Toolbar** (ids-toolbar)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Tooltip** (ids-tooltip)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Trackdirty** (ids-dirty-tracker)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [x] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Tree** (ids-tree)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Treemap** (ids-tree-map)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Typography** (ids-text)
+ - [ ] Docs
+ - [x] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [x] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Validation** (ids-validation (mixin))
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Week View** (ids-week-view)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x
+
+**Wizard** (ids-wizard)
+ - [ ] Docs
+ - [ ] 100% Test Coverage
+ - [ ] Feature Parity with 4.x
+ - [ ] Upgrade Docs in Changelog
+ - [ ] Typings
+ - [ ] NG / Vue / React Example
+ - [ ] Standalone Css
+ - [ ] Works in Page with 4.x

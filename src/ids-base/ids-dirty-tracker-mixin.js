@@ -1,4 +1,5 @@
 import IdsIcon from '../ids-icon/ids-icon';
+
 /**
  * Track changes on inputs elements and show a dirty indicator.
  */
@@ -182,6 +183,7 @@ const IdsDirtyTrackerMixin = {
 
   /**
    * Destroy dirty tracker
+   * @private
    * @returns {void}
    */
   destroyDirtyTracker() {

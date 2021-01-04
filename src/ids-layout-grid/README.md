@@ -2,13 +2,13 @@
 
 ## Description
 
-The IDS Layout Grid is comprised of 2 web components, IDSLayoutGrid and IDSLayoutGridCell. IDSLayoutGrid is the parent grid container in which the columns and rows are defined. IDSLayoutGridCell is a child element of Layout Grid. These elements contain the contents of your UI and can span multi columns or rows and be positioned along the tracks of the Layout Grid. A Layout Grid can also be nested inside a Layout Grid Cell.
+The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayoutGridCell. IdsLayoutGrid is the parent grid container in which the columns and rows are defined. IdsLayoutGridCell is a child element of Layout Grid. These elements contain the contents of your UI and can span multi columns or rows and be positioned along the tracks of the Layout Grid. A Layout Grid can also be nested inside a Layout Grid Cell.
 
 ## Use Cases
 
 - Use to create full page layouts (i.e Header, Sidebar, Main Content, Footer).
 - Use to layout complex forms
-- Use to layout a list of IDSCards
+- Use to layout a list of IdsCards
 
 ## Terminology
 
@@ -34,7 +34,7 @@ For auto layout the grid cells have a min/max value of 100px and 1fr respectivel
 </ids-layout-grid>
 ```
 
-An IDS Layout Grid with a custom number of columns or rows. The example below shows a 4 column grid where the first cell spans 3 columns and the 3rd cell spans 2 rows.
+An Ids Layout Grid with a custom number of columns or rows. The example below shows a 4 column grid where the first cell spans 3 columns and the 3rd cell spans 2 rows.
 
 ```html
 <ids-layout-grid cols="4">
@@ -49,7 +49,7 @@ An IDS Layout Grid with a custom number of columns or rows. The example below sh
 </ids-layout-grid>
 ```
 
-Nested Grid. An IdsLayoutGrid component can be nested inside an IDSLayoutGridCell.
+Nested Grid. An IdsLayoutGrid component can be nested inside an IdsLayoutGridCell.
 
 ```html
 <ids-layout-grid cols="4">
@@ -81,13 +81,13 @@ Standalone CSS Example
 
 ## States and Variations
 
-IDSLayoutGrid
+IdsLayoutGrid
 - Auto
 - Fixed
 - Cols
 - Rows
 
-IDSLayoutGridCell
+IdsLayoutGridCell
 - Fill
 - ColSpan
 - ColStart
@@ -103,15 +103,15 @@ A layout grid is not on its own keyboard focusable and has no keyboard interacti
 ## Responsive Guidelines
 
 - A Layout Grid set to auto will flow automatically with the screen size.
-- As of now, Layout Grids with column and row settings will flow as normal until the medium breakpoint (840px). Then they will switch to auto-fit and
+- As of now, Layout GrIds with column and row settings will flow as normal until the medium breakpoint (840px). Then they will switch to auto-fit and
 
 ## Converting from Previous Versions
+
+TODO
 
 ## Designs
 
 ## Alternate Designs
-
-## Proposed Changes
 
 - May need to re-visit responsiveness as we begin to test complex layouts.
 - Add fixed unit sizing options for cells and rows.
@@ -119,13 +119,13 @@ A layout grid is not on its own keyboard focusable and has no keyboard interacti
 ## Test Plan
 
 1. Accessibility - Axe
-2. Visual Regression Test
-3. Repeat Tests in All Supported Browsers
-4. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-5. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
+1. Visual Regression Test
+1. Repeat Tests in All Supported Browsers
+1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
+1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
 
 ## Accessibility Guidelines
 
 ## Regional Considerations
 
-It's possible that some use cases will be flipped when in Right-To-Left languages. This is a TODO still.
+It's possible that some use cases cells will be flipped when in Right-To-Left languages. This is a TODO still.

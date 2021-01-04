@@ -11,9 +11,8 @@ The IDS Switch component is a simple wrapper around a standard HTMLInputElement 
 
 ## Terminology
 
-_Checkbox:_ IDS Switch checkbox is a standard basic checkbox element. It can set to checked, unchecked and disabled.
-
-_Label:_ HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful relative.
+*Checkbox*: IDS Switch checkbox is a standard basic checkbox element. It can set to checked, unchecked and disabled.
+*Label*: HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful relative.
 
 ## Features (With Code Samples)
 
@@ -72,11 +71,3 @@ The IDS Switch component is now a WebComponent. Instead of using classes to defi
 <!-- this is the same switch using the WebComponent -->
 <ids-switch label="Allow notifications" checked="true"></ids-switch>
 ```
-
-## Test Plan
-
-1. Accessibility - Axe
-2. Visual Regression Test
-3. Repeat Tests in All Supported Browsers
-4. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-5. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)

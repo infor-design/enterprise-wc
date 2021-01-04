@@ -1,0 +1,19 @@
+@import '../ids-base/ids-base';
+
+.ids-list-view {
+  height: 310px;
+  overflow: auto;
+
+  ul {
+    @include list-none();
+    @include px-0();
+    @include m-0();
+  }
+
+  li {
+    @include py-12();
+    @include px-20();
+    @include border-b-1();
+    @include border-slate-20();
+  }
+}

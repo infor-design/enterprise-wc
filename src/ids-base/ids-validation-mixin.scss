@@ -15,6 +15,7 @@
   }
 
   .ids-icon {
+    @include mb-4();
     @include mr-4();
 
     margin-bottom: 6px;

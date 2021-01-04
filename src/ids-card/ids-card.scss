@@ -1,0 +1,33 @@
+@import '../ids-base/ids-base';
+
+.ids-card {
+  @include bg-white();
+  @include border-1();
+  @include border-slate-30();
+  @include border-solid();
+  @include rounded-md();
+  @include mb-20();
+
+  box-shadow: rgba(0, 0, 0, 0.1) 0 0 8px;
+  height: 360px;
+
+  // Adjust the heights with settings
+  &.ids-card-auto-height {
+    min-height: auto;
+  }
+}
+
+.ids-card-content {
+  @include w-full();
+
+  height: 310px;
+  overflow: hidden;
+}
+
+// Style the title
+.ids-card-header {
+  @include border-b-1();
+  @include border-slate-30();
+  @include px-20();
+  @include py-12();
+}

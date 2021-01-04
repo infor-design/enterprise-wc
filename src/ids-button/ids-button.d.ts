@@ -11,8 +11,7 @@ interface nativeElement extends HTMLElement {
   /* API-level method of setting a button's text content. This will become the content of the Shadow Root button's `text` slot when set. */
   text?: string;
   /* The type/purpose of the button to display */
-  type: 'default' | 'primary' | 'secondary' | 'tertiary';
-
+  type: 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive'
   /* Generates a visual ripple effect inside the button at the x/y coordinates provided (or in the center if 0, 0) */
   createRipple(x?: number, y?: number): void;
 }

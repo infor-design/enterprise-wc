@@ -157,6 +157,7 @@ class IdsRenderLoop {
    */
   register(loopItem) {
     this.items.push(loopItem);
+    return loopItem;
   }
 
   /**
