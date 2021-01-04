@@ -24,13 +24,6 @@ class IdsAccordionHeader extends IdsElement {
   }
 
   /**
-   * ExpandedArea `connectedCallBack` implementation
-   * @private
-   * @returns {void}
-   */
-  connectedCallBack() { }
-
-  /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */

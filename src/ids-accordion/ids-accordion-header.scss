@@ -15,10 +15,6 @@
   display: flex;
 }
 
-::slotted(span) {
-  @include font-sans();
-}
-
 :host {
   ids-icon {
     margin-left: auto;

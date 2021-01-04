@@ -1,22 +1,36 @@
 @import '../ids-base/ids-base';
 
+.ids-expandable-area {
+  .ids-expandable-area-header {
+    [name='header'] {
+      display: block;
+
+      span {
+        background-color: green;
+        display: block;
+      }
+
+      ids-text {
+        @include mb-8();
+
+        display: block;
+      }
+    }
+  }
+}
+
 :host([type='toggle-btn']) {
   .ids-expandable-area-header {
     @include mb-16();
   }
 }
 
-.ids-expandable-area-pane {
-  height: 0;
-  overflow: hidden;
-  transition: height $transition-length $transition-ease;
-}
-
 [data-expander='link'] {
   display: inline-block;
 }
 
-.ids-expandable-area-header ::slotted(ids-text) {
-  @include block();
-  @include mb-16();
+.ids-expandable-area-pane {
+  height: 0;
+  overflow: hidden;
+  transition: height $transition-length $transition-ease;
 }

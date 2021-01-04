@@ -64,7 +64,6 @@ class IdsExpandableArea extends IdsElement {
     } else {
       this.setAttribute(props.TYPE, null);
     }
-    this.removeAttribute(props.TYPE);
   }
 
   get type() { return this.getAttribute(props.TYPE); }
@@ -167,17 +166,19 @@ class IdsExpandableArea extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
+    let expander;
+
     if (this.type === EXPANDABLE_AREA_TYPES[0]) {
-      this.expander = this.querySelector('ids-toggle-button');
+      expander = this.querySelector('ids-toggle-button');
     } else {
-      this.expander = this.expander;
+      expander = this.expander;
     }
 
-    this.eventHandlers.addEventListener('click', this.expander, () => {
+    this.eventHandlers.addEventListener('click', expander, () => {
       this.setAttributes();
     });
 
-    this.eventHandlers.addEventListener('touchstart', this.expander, (e) => {
+    this.eventHandlers.addEventListener('touchstart', expander, (e) => {
       if (e.touches && e.touches.length > 0) {
         this.setAttributes();
       }
