@@ -16,6 +16,6 @@ interface nativeElement extends HTMLElement {
   value: string;
 }
 
-export class IdsInput extends HTMLElement {
+export class IdsCheckbox extends HTMLElement {
   nativeElement: nativeElement;
 }

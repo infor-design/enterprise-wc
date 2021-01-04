@@ -26,6 +26,7 @@ module.exports = {
     'ids-tag/ids-tag': ['./app/ids-tag/index.js'],
     'ids-toggle-button/ids-toggle-button': ['./app/ids-toggle-button/index.js'],
     'ids-trigger-field/ids-trigger-field': ['./app/ids-trigger-field/index.js'],
+    'ids-radio/ids-radio': ['./app/ids-radio/index.js'],
     'ids-render-loop/ids-render-loop': ['./app/ids-render-loop/index.js'],
     'ids-render-loop/test-elapsed-time': ['./app/ids-render-loop/test-elapsed-time.js'],
     'ids-render-loop/test-flying-popup': ['./app/ids-render-loop/test-flying-popup.js'],
@@ -275,6 +276,20 @@ module.exports = {
       filename: 'ids-popup/test-target-in-grid',
       chunks: ['ids-popup/test-target-in-grid'],
       title: 'Popup Test - Align Target inside a Layout Grid'
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-radio/index.html',
+      inject: 'body',
+      filename: 'ids-radio/index.html',
+      title: 'IDS Radio Component',
+      chunks: ['ids-radio/ids-radio']
+    }),
+    new HTMLWebpackPlugin({
+      template: './app/ids-radio/standalone-css.html',
+      inject: 'body',
+      filename: 'ids-radio/standalone-css.html',
+      title: 'IDS Radio Component - Standalone-css',
+      chunks: []
     }),
     new HTMLWebpackPlugin({
       template: './app/ids-render-loop/index.html',

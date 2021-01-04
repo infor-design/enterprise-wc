@@ -21,9 +21,11 @@ const IdsValidationMixin = {
    * @returns {void}
    */
   handleValidation() {
-    if (this.labelEl && this.input && typeof this.validate === 'string') {
-      const radioCheckbox = /checkbox|radio/.test(this.input?.getAttribute('type'));
-      const defaultEvents = radioCheckbox ? 'change' : 'blur';
+    const isRadioGroup = this.input?.classList.contains('ids-radio-group');
+    const canRadio = ((!isRadioGroup) || (!!(isRadioGroup && this.querySelector('ids-radio'))));
+    if (this.labelEl && this.input && typeof this.validate === 'string' && canRadio) {
+      const isCheckbox = this.input?.getAttribute('type') === 'checkbox';
+      const defaultEvents = (isCheckbox || isRadioGroup) ? 'change' : 'blur';
       const events = this.validationEvents && typeof this.validationEvents === 'string' ? this.validationEvents : defaultEvents;
       this.validationEventsList = [...new Set(events.split(' '))];
       const getRule = (id) => ({ id, rule: this.rules[id] });
@@ -61,7 +63,6 @@ const IdsValidationMixin = {
 
   /**
    * Check the validation and set to add/remove errors
-   * @private
    * @returns {void}
    */
   checkValidation() {
@@ -116,6 +117,11 @@ const IdsValidationMixin = {
           parent = this.shadowRoot.querySelector('.ids-checkbox');
         }
         parent.appendChild(elem);
+        const isRadioGroup = this.input?.classList.contains('ids-radio-group');
+        if (isRadioGroup) {
+          const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+          radioArr.forEach((r) => r.setAttribute('validation-has-error', true));
+        }
       }
     }
   },
@@ -131,6 +137,11 @@ const IdsValidationMixin = {
 
     elem?.remove();
     this.input?.classList.remove(type);
+    const isRadioGroup = this.input?.classList.contains('ids-radio-group');
+    if (isRadioGroup) {
+      const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+      radioArr.forEach((r) => r.removeAttribute('validation-has-error'));
+    }
   },
 
   /**
@@ -197,9 +208,13 @@ const IdsValidationMixin = {
      */
     required: {
       check: (input) => {
-        const isCheckbox = input.getAttribute('type') === 'checkbox';
-        if (isCheckbox) {
+        // Checkbox
+        if (input.getAttribute('type') === 'checkbox') {
           return input.checked;
+        }
+        // Radio
+        if (input.classList.contains('ids-radio-group')) {
+          return input.getRootNode()?.host?.checked;
         }
         const val = input.value;
         return !((val === null) || (typeof val === 'string' && val === '') || (typeof val === 'number' && isNaN(val))) // eslint-disable-line
