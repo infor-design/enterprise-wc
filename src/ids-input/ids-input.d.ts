@@ -8,8 +8,8 @@ interface nativeElement extends HTMLElement {
   disabled: boolean;
   label: string;
   labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 | 'xs' | 'sm ' | 'lg' | 'xl' | string | number;
-  name: string
-  placeholder: string
+  name: string;
+  placeholder: string;
   size: 'xs' | 'sm ' | 'mm' | 'md' | 'lg' | 'full' | string;
   readonly: boolean;
   textAlign: 'left' | 'center ' | 'right' | string;
