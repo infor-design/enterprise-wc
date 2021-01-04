@@ -14,7 +14,6 @@
     "start": "webpack-dev-server --open",
     "start:watch": "nodemon --watch webpack.config.js --exec \"npx webpack-dev-server\"",
     "lint": "npx eslint *.js src test app && npx stylelint src/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint app/**/*.html",
-    "lint:types": "tsc",
     "mdlint": "remark .",
     "publish:dry-run": "npm run build && cp -f package.json dist && cp -f README.md dist && cp -f LICENSE dist && cd dist && npm publish --dry-run",
     "publish:npm": "npm run build && cp -f package.json dist && cp -f README.md dist && cp -f LICENSE dist && cd dist && npm publish",
