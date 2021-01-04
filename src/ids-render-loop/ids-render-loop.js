@@ -62,7 +62,7 @@ class IdsRenderLoop {
       delete this.lastStopTime;
     }
 
-    const that = this;
+    const self = this;
     let last = timestamp();
     let now;
     let deltaTime;
@@ -73,7 +73,7 @@ class IdsRenderLoop {
      */
     function tick() {
       // Don't continue if the loop is stopped externally
-      if (!that.doLoop) {
+      if (!self.doLoop) {
         return;
       }
 
@@ -84,10 +84,10 @@ class IdsRenderLoop {
       // In some cases, items will be removed from the queue automatically.
       // In some cases, `update` events will be triggered on loop items, if they are
       // ready to be externally updated.
-      that.items.forEach((loopItem) => {
+      self.items.forEach((loopItem) => {
         // Remove if we've set the `doRemoveOnNextTick` flag.
         if (loopItem.doRemoveOnNextTick) {
-          that.remove(loopItem);
+          self.remove(loopItem);
           return;
         }
 

@@ -9,6 +9,9 @@ interface nativeElement extends HTMLElement {
   /** Dismiss a dismissible tag */
   dismiss(): void;
 }
+export class IdsTag extends HTMLElement {
+  nativeElement: nativeElement;
+}
 
 interface tagremoved extends Event {
   detail: {
@@ -20,8 +23,4 @@ interface beforetagremoved extends Event {
   detail: {
     elem: IdsTag
   }
-}
-
-export class IdsTag extends HTMLElement {
-  nativeElement: nativeElement;
 }

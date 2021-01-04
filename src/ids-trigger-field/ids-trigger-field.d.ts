@@ -7,12 +7,12 @@ interface nativeElement extends HTMLElement {
   trigger(): void;
 }
 
+export class IdsTriggerField extends HTMLElement {
+  nativeElement: nativeElement;
+}
+
 interface triggerfield extends Event {
   detail: {
     elem: IdsTriggerField
   }
-}
-
-export class IdsTriggerField extends HTMLElement {
-  nativeElement: nativeElement;
 }

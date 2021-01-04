@@ -26,10 +26,10 @@ module.exports = {
     expect: true,
     test: true
   },
-  parser: 'babel-eslint',
+  parser: '@typescript-eslint/parser',
   plugins: [
     'import',
-    "@typescript-eslint"
+    '@typescript-eslint',
   ],
   'settings': {
     'import/extensions': ['.js','.ts'],
@@ -44,6 +44,7 @@ module.exports = {
   },
   // Add `ecmaVersion: 9` for Object spread syntax
   parserOptions: {
+    parser: 'babel-eslint',
     ecmaVersion: 9,
     sourceType: 'module'
   },
@@ -68,7 +69,7 @@ module.exports = {
     // https://eslint.org/docs/rules/class-methods-use-this
     'class-methods-use-this': ['error', { exceptMethods: ['template', 'settings'] }],
     // Allow Ids Imports to be unsed in index.js files
-    'no-unused-vars': ['error', { varsIgnorePattern: '[Ids]' }],
+    'no-unused-vars': ['error', { varsIgnorePattern: '[Ids]', 'args': 'none' }],
     // Allow Arrow functions to be on the next line or below
     'implicit-arrow-linebreak': ['off', { }],
     // Allow single quotes only or template literals
@@ -82,6 +83,15 @@ module.exports = {
     // Allow i++
     'no-plusplus': ['off', { }],
     // Disallow the use of require statements except in import statements
-    '@typescript-eslint/no-var-requires': 0
+    '@typescript-eslint/no-var-requires': 0,
+    '@typescript-eslint/no-empty-function': ['error', { 'allow': ['arrowFunctions'] }],
+    '@typescript-eslint/no-this-alias': [
+      'error',
+      {
+        'allowDestructuring': true, // Allow `const { props, state } = this`; false by default
+        'allowedNames': ['self'] // Allow `const self = this`; `[]` by default
+      }
+    ],
+    "max-classes-per-file": ["error", 2],
   }
 };
