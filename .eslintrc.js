@@ -82,6 +82,6 @@ module.exports = {
     // Allow i++
     'no-plusplus': ['off', { }],
     // Disallow the use of require statements except in import statements
-    '@typescript-eslint/no-var-requires': true
+    '@typescript-eslint/no-var-requires': 0
   }
 };
