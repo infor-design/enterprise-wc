@@ -30,7 +30,6 @@ const POPUPMENU_TRIGGER_TYPES = [
  */
 @customElement('ids-popup-menu')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsRenderLoopMixin)
 class IdsPopupMenu extends IdsMenu {
   constructor() {

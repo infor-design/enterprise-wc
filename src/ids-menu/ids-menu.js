@@ -1,7 +1,6 @@
 import {
   IdsElement,
   customElement,
-  mixin,
   scss
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
@@ -50,7 +49,6 @@ function isUsableItem(item, idsMenu, checkDisabled = false) {
  */
 @customElement('ids-menu')
 @scss(styles)
-@mixin(IdsEventsMixin)
 class IdsMenu extends IdsElement {
   constructor() {
     super();
@@ -63,6 +61,8 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
+    this.eventHandlers = new IdsEventsMixin();
+
     // Highlight handler -- Menu Items Only, don't change if the target is disabled
     const highlightItem = (e) => {
       const thisItem = e.target.closest('ids-menu-item');

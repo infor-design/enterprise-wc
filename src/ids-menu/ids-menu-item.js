@@ -48,7 +48,6 @@ function safeForAttribute(value) {
  */
 @customElement('ids-menu-item')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsRenderLoopMixin)
 class IdsMenuItem extends IdsElement {
   /**
@@ -164,6 +163,8 @@ class IdsMenuItem extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
+    this.eventHandlers = new IdsEventsMixin();
+
     let hoverTimeout;
     const self = this;
     const clearTimeout = () => {
