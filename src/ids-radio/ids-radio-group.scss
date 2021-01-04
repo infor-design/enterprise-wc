@@ -1,0 +1,53 @@
+@import '../ids-base/ids-base';
+@import '../ids-base/ids-dirty-tracker-mixin';
+@import '../ids-base/ids-validation-mixin';
+
+:host {
+  @include block();
+  @include mb-16();
+}
+
+.ids-radio-group {
+  @include border-0();
+  @include m-0();
+  @include p-0();
+  @include relative();
+
+  display: inline-block;
+
+  .group-label-text {
+    @include text-slate-80();
+
+    &.required::after {
+      @include absolute();
+      @include font-sans();
+      @include mx-2();
+      @include text-20();
+      @include text-alert-danger();
+
+      content: '*';
+      right: -13px;
+      top: -2px;
+    }
+
+    &.no-required-indicator::after {
+      content: '';
+    }
+  }
+
+  &.horizontal {
+    @include mr-12();
+
+    display: inline-block;
+  }
+
+  &.disabled {
+    .group-label-text {
+      @include radio-disabled-text();
+
+      &.required::after {
+        @include text-ruby-30();
+      }
+    }
+  }
+}

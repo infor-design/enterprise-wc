@@ -128,28 +128,19 @@ describe('IdsTriggerField Component', () => {
     trigger.appendChild(button);
     document.body.appendChild(trigger);
     triggerField = document.querySelector('ids-trigger-field');
-    triggerField.refresh();
     const triggerButton = triggerField.querySelector('ids-trigger-button');
-    expect(triggerButton.classList).toContain('has-icon-clock');
+    expect(triggerButton.querySelector('ids-icon').getAttribute('icon')).toEqual('clock');
   });
 
   it('renders label class', () => {
     const input = triggerField.querySelector('ids-input');
     triggerField.shouldUpdate = false;
     input.size = 'lg';
-    triggerField.refresh();
     expect(input.getAttribute('size')).toEqual('lg');
     expect(input.input.classList).toContain('lg');
     triggerField.shouldUpdate = true;
     input.size = 'sm';
-    triggerField.refresh();
     expect(input.getAttribute('size')).toEqual('sm');
     expect(input.input.classList).toContain('sm');
-  });
-
-  it('renders input triggerfield', () => {
-    const input = triggerField.querySelector('ids-input');
-    expect(input.getAttribute('triggerfield')).toEqual('true');
-    expect(input.input.classList).toContain('has-triggerfield');
   });
 });

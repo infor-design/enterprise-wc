@@ -20,10 +20,10 @@
     "order/properties-alphabetical-order": true,
     "max-nesting-depth": 3,
     "selector-pseudo-class-no-unknown": [true, {
-      "ignorePseudoClasses": ["root", "host"]
+      "ignorePseudoClasses": ["root", "host", "unresolved"]
     }],
     "selector-pseudo-element-no-unknown": [true, {
-      "ignorePseudoElements": ["root", "host"]
+      "ignorePseudoElements": ["root", "host", "unresolved"]
     }],
     "selector-type-no-unknown":  [true, {
       "ignore": ["custom-elements"]

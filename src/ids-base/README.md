@@ -54,10 +54,17 @@ Also at any time you can check `this.keyboard.pressedKeys` to see what keys are 
 
 Adds a small wrapper around component events. This can be used to see what event handlers are attached on a component as well as the fact that the Ids Element Base will call removeAll to remove all used event handlers.
 
-## Ids Event Emitter
+The Event mixin needs to record its state in a map for each component so it cant be used `@mixin` decorator. Instead its invoked as with the new keyword. To use it to respond to keys in a component you can use it like this:
+
+```js
+  this.eventHandlers = new IdsEventsMixin();
+
+  // Handle Clicking the x for dismissible
+  const closeIcon = this.querySelector('ids-icon[icon="close"]');
+  this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
 
 - Handles consistency on the data sent (element, event data, id, idx, custom ect)
-- Some events can be vetoed
+- Before events events can be vetoed
 - All events should have past tense for example activated, beforeactivated, afteractived not activate, beforeactivate, afteractivate
 
 ## Ids Mixins
@@ -67,6 +74,10 @@ Mixins are simply functions with shared functionality that can be injected into 
 ## Ids Resize Mixin
 
 This mixin contains lifecycle methods for making a component detect page and element resizing.  The mixin allows a component to be registered against a global instance of ResizeObserver, which can trigger size changes throughout the UI, and fire a `refresh()` method on the component if one is defined.  The mixin also has lifecycle methods for setting up and tearing down a MutationObserver that can will fire a `refresh()` method on the component if one is defined.
+
+## Ids Deep Clone Mixin
+
+This mixin makes a deep copy of an array or object even if its nested, or contains functions. Its optimized to be very fast. In addition it can handle circular references. Its used in the data source mixin.
 
 ## Ids Dirty Tracker Mixin
 

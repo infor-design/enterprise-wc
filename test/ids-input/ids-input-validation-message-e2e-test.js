@@ -1,7 +1,7 @@
 const { percySnapshot } = require('@percy/puppeteer');
 
 describe('Ids Input Validation Message e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-input/test-validation-message.html';
+  const url = 'http://localhost:4444/ids-input/test-validation-message';
 
   beforeAll(async () => {
     page = await browser.newPage();
@@ -9,7 +9,7 @@ describe('Ids Input Validation Message e2e Tests', () => {
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Input Component - Validation Message');
+    await expect(page.title()).resolves.toMatch('IDS Input Component');
   });
 
   it('should pass Axe accessibility tests', async () => {

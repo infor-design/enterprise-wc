@@ -19,7 +19,6 @@ import IdsText from '../ids-text/ids-text';
  */
 @customElement('ids-checkbox')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsHideFocusMixin)
 @mixin(IdsStringUtilsMixin)
 @mixin(IdsDirtyTrackerMixin)
@@ -61,6 +60,7 @@ class IdsCheckbox extends IdsElement {
   connectedCallBack() {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
+    this.eventHandlers = new IdsEventsMixin();
 
     this.hideFocus();
     this.handleEvents();

@@ -28,6 +28,7 @@ node node_modules/puppeteer/install.js
 - Type `npm run test:debug` in the command line
 - In chrome go to url `chrome://inspect/`
 - Click the "inspect" target and then click go in the debugger to get to your test debug point
+- You can also debug a single test with `node --inspect-brk node_modules/.bin/jest --runInBand -- ids-virtual-scroll-func-test`
 
 ## Running test in watch mode
 
@@ -45,7 +46,7 @@ We could improve this...
   });
 ```
 - edit the jest-puppeteer.config.js and set `devtools: true` and `headless: false`
-- run `npm run test`
+- run `npm run test -- ids-virtual-scroll-e2e-test`
 
 ## Visual Regression tests
 
@@ -63,6 +64,7 @@ We should have one visual regression image per component. When you PR a test an 
 
 ## Skipping Tests
 
+- You can run a specific test by name such as `npm run test -- ids-data-source-mixin-func-test`
 - To run only one test in a suite add only. For example `test.only(`
 - To run only one suite use `describe.only(`
 - To skip a test add `test.skip(`
@@ -70,7 +72,7 @@ We should have one visual regression image per component. When you PR a test an 
 ## Coverage
 
 - To run in coverage mode (since it takes longer) use the command `npm run test:coverage`
-- Open the [coverage report](../coverage/index.html)  in any browser
+- Open the [coverage report](../coverage/index.html) in any browser
 - Drill in to the component in question and try and improve coverage to 100%
 
 ## To Figure Out

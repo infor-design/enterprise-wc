@@ -1,0 +1,17 @@
+html {
+  font-family: 'source sans pro', helvetica, arial, sans-serif;
+}
+
+.ids-data-grid-row {
+  grid-template-columns: 125px 1fr !important;
+}
+
+.ids-data-grid {
+  border: 0;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 4px 20px;
+}

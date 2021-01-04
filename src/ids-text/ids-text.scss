@@ -4,8 +4,9 @@
 .ids-text {
   @include antialiased();
   @include font-sans();
+  @include font-normal();
   @include block();
-  @include mb-8();
+  @include m-0();
 
   &.audible {
     @include audible();

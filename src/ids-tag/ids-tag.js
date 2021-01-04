@@ -1,12 +1,10 @@
 import {
   IdsElement,
   customElement,
-  mixin,
   scss
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import styles from './ids-tag.scss';
 
 /**
@@ -14,8 +12,6 @@ import styles from './ids-tag.scss';
  */
 @customElement('ids-tag')
 @scss(styles)
-@mixin(IdsEventsMixin)
-@mixin(IdsExampleMixin)
 class IdsTag extends IdsElement {
   constructor() {
     super();
@@ -150,6 +146,8 @@ class IdsTag extends IdsElement {
    * @returns {object} The object for chaining.
    */
   handleEvents() {
+    this.eventHandlers = new IdsEventsMixin();
+
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {

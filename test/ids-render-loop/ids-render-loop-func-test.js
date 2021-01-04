@@ -77,8 +77,8 @@ describe('Ids RenderLoop', () => {
     // By the time we get to 300ms the loop should have been called
     // at least 5 times (IdsRenderLoop timing now matches `setTimeout`)
     setTimeout(() => {
-      expect(updateCallback.mock.calls.length).toBeGreaterThan(3);
-      expect(count).toBeGreaterThan(3);
+      expect(updateCallback.mock.calls.length).toBeGreaterThan(2);
+      expect(count).toBeGreaterThan(2);
 
       // Removes the item from the loop when we're done.
       // Removing via the RenderLoop API (as opposed to the RenderLoopItem API) causes the

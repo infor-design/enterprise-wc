@@ -21,4 +21,11 @@ describe('IdsStringUtils Tests', () => {
     expect(stringUtils.stringToBool('TRUE')).toEqual(true);
     expect(stringUtils.stringToBool('True')).toEqual(true);
   });
+
+  it('can inject a template variable', () => {
+    const obj = { field: 'test-value' };
+    const template = 'Test String <b>${field}</b>'; //eslint-disable-line
+
+    expect(stringUtils.injectTemplate(template, obj)).toEqual('Test String <b>test-value</b>');
+  });
 });
