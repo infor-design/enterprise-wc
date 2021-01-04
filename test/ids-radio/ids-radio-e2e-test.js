@@ -16,7 +16,7 @@ describe('Ids Radio e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast'] });
+    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-allowed-attr'] });
   });
 
   it('should not have visual regressions (percy)', async () => {

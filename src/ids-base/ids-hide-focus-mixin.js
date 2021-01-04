@@ -1,3 +1,5 @@
+import { IdsEventsMixin } from './ids-events-mixin';
+
 /**
  * HideFocus: Only shows the focus state on key entry.
  */
@@ -33,6 +35,11 @@ const IdsHideFocusMixin = {
     if (elem) {
       const action = isRemove ? 'remove' : 'add';
       elem.classList[action]('hide-focus');
+
+      if (!this.eventHandlers) {
+        this.eventHandlers = new IdsEventsMixin();
+      }
+
       if (!noTrigger) {
         this.eventHandlers.dispatchEvent(`hidefocus${action}`, this, { elem, action });
       }

@@ -1,25 +1,25 @@
 <ids-layout-grid cols="3" gap="md">
+  <ids-text font-size="12" type="h1">Ids Radio</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
-    <ids-text font-size="12" type="h1">Ids Radio</ids-text>
-    <ids-radio-group label="Select delivery method">
+    <ids-radio-group label="Normal">
       <ids-radio value="opt1" label="Option one"></ids-radio>
       <ids-radio value="opt2" label="Option two" checked="true"></ids-radio>
     </ids-radio-group>
 
-    <ids-text font-size="12" type="h2">Ids Radio - Disabled Group</ids-text>
-    <ids-radio-group label="Select delivery method" disabled="true">
+    <ids-radio-group label="Disabled Group" disabled="true">
       <ids-radio value="opt1" label="Option one" checked="true"></ids-radio>
       <ids-radio value="opt2" label="Option two"></ids-radio>
     </ids-radio-group>
 
-    <ids-text font-size="12" type="h2">Ids Radio - Disabled Item</ids-text>
-    <ids-radio-group label="Select delivery method">
+    <ids-radio-group label="Disabled Item">
       <ids-radio value="opt1" label="Option one"></ids-radio>
       <ids-radio value="opt2" label="Option two" checked="true"></ids-radio>
       <ids-radio value="opt3" label="Option three" disabled="true"></ids-radio>
     </ids-radio-group>
 
-    <ids-text font-size="12" type="h2">Ids Radio - No label</ids-text>
     <ids-radio-group>
       <ids-radio value="opt1" label="Option one"></ids-radio>
       <ids-radio value="opt2" label="Option two" checked="true"></ids-radio>
@@ -27,22 +27,19 @@
 
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
-    <ids-text font-size="12" type="h2">Ids Radio - Dirty tracking</ids-text>
-    <ids-radio-group label="Select delivery method" dirty-tracker="true">
+    <ids-radio-group label="Dirty tracking" dirty-tracker="true">
       <ids-radio value="opt1" label="Option one"></ids-radio>
       <ids-radio value="opt2" label="Option two" checked="true"></ids-radio>
       <ids-radio value="opt3" label="Option three" disabled="true"></ids-radio>
       <ids-radio value="opt4" label="Option four"></ids-radio>
     </ids-radio-group>
 
-    <ids-text font-size="12" type="h2">Ids Radio - Set Group Checked and Value</ids-text>
-    <ids-radio-group label="Select delivery method" value="opt1">
+    <ids-radio-group label="Set Group Checked and Value" value="opt1">
       <ids-radio value="opt1" label="Option one"></ids-radio>
       <ids-radio value="opt2" label="Option two"></ids-radio>
     </ids-radio-group>
 
-    <ids-text font-size="12" type="h2">Ids Radio - Colored</ids-text>
-    <ids-radio-group label="Select color">
+    <ids-radio-group label="Colored Radios">
       <ids-radio color="emerald07" value="emerald07" label="Emerald 07"></ids-radio>
       <ids-radio color="amethyst07" value="amethyst07" label="Amethyst 07"></ids-radio>
       <ids-radio color="azure07" value="azure07" label="Azure 07"></ids-radio>
@@ -54,9 +51,7 @@
 
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
-    <ids-text font-size="12" type="h2">Ids Radio - Validation (required) </ids-text>
-
-    <ids-radio-group label="Select delivery method" validate="required" id="ids-radio-validation-1">
+    <ids-radio-group label="Radio with Validation" validate="required" id="ids-radio-validation-1">
       <ids-radio value="opt1" label="Option one"></ids-radio>
       <ids-radio value="opt2" label="Option two"></ids-radio>
       <ids-radio value="opt3" label="Option three" disabled="true"></ids-radio>
@@ -69,9 +64,8 @@
     </ids-button>
 
     <br/><br/>
-    <ids-text font-size="12" type="h2">Ids Radio - Validation (required - no indicator) </ids-text>
 
-    <ids-radio-group label="Select delivery method" label-required="false" validate="required" id="ids-radio-validation-2">
+    <ids-radio-group label="Radio - Validation (no indicator)" label-required="false" validate="required" id="ids-radio-validation-2">
       <ids-radio value="opt1" label="Option one"></ids-radio>
       <ids-radio value="opt2" label="Option two"></ids-radio>
     </ids-radio-group>
@@ -83,14 +77,12 @@
     </ids-button>
 
     <br/><br/>
-    <ids-text font-size="12" type="h2">Ids Radio - Horizontal</ids-text>
-    <ids-radio-group label="Select delivery method" horizontal="true">
+    <ids-radio-group label="Horizontal Radio" horizontal="true">
       <ids-radio value="opt1" label="Option one"></ids-radio>
       <ids-radio value="opt2" label="Option two" checked="true"></ids-radio>
       <ids-radio value="opt3" label="Option three" disabled="true"></ids-radio>
     </ids-radio-group>
 
-    <ids-text font-size="12" type="h2">Ids Radio - Horizontal (No label)</ids-text>
     <ids-radio-group horizontal="true">
       <ids-radio value="opt1" label="Option one"></ids-radio>
       <ids-radio value="opt2" label="Option two" checked="true"></ids-radio>

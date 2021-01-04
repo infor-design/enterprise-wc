@@ -56,6 +56,8 @@ class IdsRadioGroup extends IdsElement {
   connectedCallBack() {
     this.input = this.shadowRoot.querySelector('.ids-radio-group');
     this.labelEl = this.shadowRoot.querySelector('.group-label-text');
+    this.eventHandlers = new IdsEventsMixin();
+
     this.setValue();
     this.handleEvents();
   }
@@ -109,7 +111,7 @@ class IdsRadioGroup extends IdsElement {
   clear() {
     this.value = null;
     this.checked = null;
-    this.removeAllMessage();
+    this.removeAllMessages();
     const radio = this.querySelector('ids-radio');
     const rootEl = radio.shadowRoot?.querySelector('.ids-radio');
     rootEl?.setAttribute('tabindex', '0');
@@ -147,6 +149,7 @@ class IdsRadioGroup extends IdsElement {
    */
   handleRadioGroupChangeEvent() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+
     radioArr.forEach((r) => {
       this.eventHandlers.addEventListener('triggerchange', r, () => {
         this.makeChecked(r);

@@ -25,6 +25,7 @@ const IdsValidationMixin = {
   handleValidation() {
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
     const canRadio = ((!isRadioGroup) || (!!(isRadioGroup && this.querySelector('ids-radio'))));
+
     if (this.labelEl && this.input && typeof this.validate === 'string' && canRadio) {
       const isCheckbox = this.input?.getAttribute('type') === 'checkbox';
       const defaultEvents = (isCheckbox || isRadioGroup) ? 'change' : 'blur';
@@ -32,6 +33,7 @@ const IdsValidationMixin = {
       this.validationEventsList = [...new Set(events.split(' '))];
       const getRule = (id) => ({ id, rule: this.rules[id] });
       let isRulesAdded = false;
+
       this.validate.split(' ').forEach((strRule) => {
         if (strRule === 'required') {
           this.labelEl.classList.add('required');
