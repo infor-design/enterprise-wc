@@ -113,6 +113,37 @@ class IdsPopupMenu extends IdsMenu {
   }
 
   /**
+   * Sets up the connection to the global keyboard handler
+   * @returns {void}
+   */
+  handleKeys() {
+    IdsMenu.prototype.handleKeys.apply(this);
+
+    // @TODO work out opening/closing with "RightArrow"/"LeftArrow" respectively.
+    // Arrow Right on an item containing a submenu causes that submenu to open
+    this.keyboard.listen(['ArrowRight'], this, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      const thisItem = e.target.closest('ids-menu-item');
+      if (thisItem.hasSubmenu) {
+        thisItem.showSubmenu();
+      }
+    });
+
+    // Arrow Left on a submenu item causes the submenu to close, as well as focus
+    // on a parent menu item to occur.
+    this.keyboard.listen(['ArrowLeft'], this, (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      if (!this.parentMenu) {
+        return;
+      }
+      this.hide();
+      this.parentMenuItem.focus();
+    });
+  }
+
+  /**
    * @readonly
    * @returns {IdsPopup} reference to the inner Popup component
    */

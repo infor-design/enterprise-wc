@@ -101,15 +101,15 @@ class IdsMenu extends IdsElement {
   handleKeys() {
     this.keyboard = new IdsKeyboardMixin();
 
-    // Arrow Up/Left navigates focus backward
-    this.keyboard.listen(['ArrowUp', 'ArrowLeft'], this, (e) => {
+    // Arrow Up navigates focus backward
+    this.keyboard.listen(['ArrowUp'], this, (e) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(-1, true);
     });
 
-    // Arrow Right/Down navigates focus forward
-    this.keyboard.listen(['ArrowDown', 'ArrowRight'], this, (e) => {
+    // Arrow Right navigates focus forward
+    this.keyboard.listen(['ArrowDown'], this, (e) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(1, true);
