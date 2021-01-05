@@ -53,6 +53,7 @@ class IdsMenu extends IdsElement {
   constructor() {
     super();
     this.state = {};
+    this.lastHovered = undefined;
   }
 
   /**
@@ -190,17 +191,21 @@ class IdsMenu extends IdsElement {
   /**
    * @readonly
    * @returns {IdsMenuItem} the item that is:
-   * - currently/previously selected,
+   * - last hovered by the mouse (if applicable)
+   * - currently/previously selected (if applicable)
    * - the first available menu item closest to the top of the menu that is not disabled or hidden.
    */
   get focusTarget() {
-    let selected = this.getSelectedItems();
-    if (!selected.length) {
-      selected = this.getFirstAvailableItem();
-    } else {
-      selected = selected[0];
+    let target = this.lastHovered;
+    if (!target) {
+      const selected = this.getSelectedItems();
+      if (!selected.length) {
+        target = this.getFirstAvailableItem();
+      } else {
+        target = selected[0];
+      }
     }
-    return selected;
+    return target;
   }
 
   /**
@@ -284,6 +289,10 @@ class IdsMenu extends IdsElement {
   navigate(amt = 0, doFocus = false) {
     const items = this.items;
     let currentItem = this.focused || items[0];
+    if (this.lastHovered) {
+      currentItem = this.lastHovered;
+      this.lastHovered = undefined;
+    }
 
     if (Number.isNaN(amt)) {
       return currentItem;

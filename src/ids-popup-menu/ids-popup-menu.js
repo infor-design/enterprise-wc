@@ -119,7 +119,6 @@ class IdsPopupMenu extends IdsMenu {
   handleKeys() {
     IdsMenu.prototype.handleKeys.apply(this);
 
-    // @TODO work out opening/closing with "RightArrow"/"LeftArrow" respectively.
     // Arrow Right on an item containing a submenu causes that submenu to open
     this.keyboard.listen(['ArrowRight'], this, (e) => {
       e.preventDefault();
@@ -141,6 +140,19 @@ class IdsPopupMenu extends IdsMenu {
       this.hide();
       this.parentMenuItem.focus();
     });
+
+    // Escape closes the menu
+    // (NOTE: This only applies to top-level Popupmenus)
+    if (!this.parentMenu) {
+      this.keyboard.listen(['Escape'], this, (e) => {
+        if (this.hidden) {
+          return;
+        }
+        e.preventDefault();
+        e.stopPropagation();
+        this.hide();
+      });
+    }
   }
 
   /**
@@ -276,6 +288,7 @@ class IdsPopupMenu extends IdsMenu {
    */
   hide() {
     this.hidden = true;
+    this.lastHovered = undefined;
     this.container.classList.remove('is-expanded');
 
     // Hide the Ids Popup and all Submenus
@@ -301,14 +314,23 @@ class IdsPopupMenu extends IdsMenu {
   }
 
   /**
-   * Hides any "open" submenus within this menu structure
+   * Hides any "open" submenus within this menu structure, optionally ingorning a single
+   * menu to "keep open".
+   * @param {IdsMenuItem} focusedMenuItem if provided, will be ignored and considered the
+   * "currently open" menu.
    * @returns {void}
    */
-  hideSubmenus() {
+  hideSubmenus(focusedMenuItem) {
     const submenus = this.submenus;
+    let focusedSubmenu;
+    if (focusedMenuItem?.hasSubmenu) {
+      focusedSubmenu = focusedMenuItem.submenu;
+    }
+
     if (submenus) {
       submenus.forEach((submenu) => {
-        if (!submenu.hidden) {
+        const submenuIsIgnored = focusedSubmenu && focusedSubmenu.isEqualNode(submenu);
+        if (!submenu.hidden && !submenuIsIgnored) {
           submenu.hide();
         }
       });

@@ -22,7 +22,7 @@
   cursor: pointer;
   list-style: none;
   position: static;
-  transition: background-color $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+  transition: background-color $menu-item-transition-length cubic-bezier(0.4, 0, 0.6, 1);
   user-select: none;
 
   ids-icon,
@@ -42,6 +42,12 @@
     position: relative;
     user-select: inherit;
     white-space: nowrap;
+
+    // Disable default browser focus state.
+    // (comment this out to debug the true menu focus state)
+    &:focus {
+      outline: none;
+    }
 
     > * {
       vertical-align: middle;

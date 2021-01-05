@@ -4,7 +4,7 @@
 @import '../ids-base/ids-base';
 
 $menu-item-height: 40px;
-$transition-length: 100ms;
+$menu-item-transition-length: 50ms;
 
 // Resets the User-Agent stylesheet rules for `<ul>` in Chrome
 @mixin reset-menu-style() {

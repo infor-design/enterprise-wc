@@ -160,25 +160,39 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
+   * @private
    * @returns {void}
    */
   handleEvents() {
+    const self = this;
     this.eventHandlers = new IdsEventsMixin();
 
+    // "Hover" timeout deals with `mouseenter`/`mouseleave` events, and causes the
+    // menu to open after a delay.
     let hoverTimeout;
-    const self = this;
-    const clearTimeout = () => {
+    const clearHoverTimeout = () => {
       if (hoverTimeout) {
         hoverTimeout.destroy(true);
         hoverTimeout = null;
       }
     };
 
+    // "Hide Submenu" timeout causes a submenu to close after a delay, if the mouse/touch
+    // does not exist over top of a valid menu/submenu item.
+    let hideSubmenuTimeout;
+    const clearHideSubmenuTimeout = () => {
+      if (hideSubmenuTimeout) {
+        hideSubmenuTimeout.destroy(true);
+        hideSubmenuTimeout = null;
+      }
+    };
+
     // On 'mouseenter', after a specified duration, run some events,
     // including activation of submenus where applicable.
     this.eventHandlers.addEventListener('mouseenter', this, () => {
+      clearHideSubmenuTimeout();
       if (!this.disabled && this.hasSubmenu) {
-        clearTimeout();
+        clearHoverTimeout();
         hoverTimeout = new IdsRenderLoopItem({
           duration: 200,
           timeoutCallback() {
@@ -190,12 +204,37 @@ class IdsMenuItem extends IdsElement {
 
       // Highlight
       this.menu.highlightItem(this);
+      this.menu.hideSubmenus(this);
+
+      // Tell the menu which item to use for converting a hover state to keyboard
+      if (!this.disabled) {
+        this.menu.lastHovered = this;
+      }
     });
 
-    // On 'mouseleave', clear any pending timeouts and unhighlight the item
+    // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
+    // and unhighlight the item
     this.eventHandlers.addEventListener('mouseleave', this, () => {
-      clearTimeout();
-      this.unhighlight();
+      clearHoverTimeout();
+
+      if (this.hasSubmenu && !this.submenu.hidden) {
+        clearHideSubmenuTimeout();
+        hideSubmenuTimeout = new IdsRenderLoopItem({
+          duration: 200,
+          timeoutCallback() {
+            self.hideSubmenu();
+
+            // Only focus again if the parent menu is still visible
+            // (The menu may have closed here)
+            if (!self.menu.hidden) {
+              (self.menu.lastHovered || self).focus();
+            }
+          }
+        });
+        this.rl.register(hideSubmenuTimeout);
+      } else {
+        this.unhighlight();
+      }
     });
   }
 
@@ -274,7 +313,6 @@ class IdsMenuItem extends IdsElement {
     if (this.disabled) {
       return;
     }
-
     const trueVal = val === true || val === 'true';
     this.state.highlighted = trueVal;
     this.container.classList[trueVal ? 'add' : 'remove']('highlighted');
@@ -285,6 +323,28 @@ class IdsMenuItem extends IdsElement {
    */
   get highlighted() {
     return this.state.highlighted;
+  }
+
+  /**
+   * Causes a menu item to become focused (and therefore highlighted).
+   * @returns {void}
+   */
+  highlight() {
+    if (this.disabled) {
+      return;
+    }
+    this.highlighted = true;
+  }
+
+  /**
+   * Causes a menu item to become unhighlighted.
+   * @returns {void}
+   */
+  unhighlight() {
+    if (this.hasSubmenu && !this.submenu.hidden) {
+      return;
+    }
+    this.highlighted = false;
   }
 
   /**
@@ -548,22 +608,6 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
-   * Causes a menu item to become focused (and therefore highlighted).
-   * @returns {void}
-   */
-  highlight() {
-    this.highlighted = true;
-  }
-
-  /**
-   * Causes a menu item to become unhighlighted.
-   * @returns {void}
-   */
-  unhighlight() {
-    this.highlighted = false;
-  }
-
-  /**
    * @param {boolean} val true if icons are present
    */
   setDisplayType(val) {
@@ -576,12 +620,12 @@ class IdsMenuItem extends IdsElement {
    * @returns {void}
    */
   showSubmenu() {
-    if (!this.hasSubmenu) {
+    if (!this.hasSubmenu || (this.hasSubmenu && !this.submenu.hidden)) {
       return;
     }
     this.container.setAttribute('aria-expanded', true);
-    this.menu.hideSubmenus();
-    this.submenu?.show();
+    this.menu.hideSubmenus(this);
+    this.submenu.show();
   }
 
   /**
@@ -589,11 +633,11 @@ class IdsMenuItem extends IdsElement {
    * @returns {void}
    */
   hideSubmenu() {
-    if (!this.hasSubmenu) {
+    if (!this.hasSubmenu || (this.hasSubmenu && this.submenu.hidden)) {
       return;
     }
     this.container.setAttribute('aria-expanded', false);
-    this.submenu?.hide();
+    this.submenu.hide();
   }
 
   /**
