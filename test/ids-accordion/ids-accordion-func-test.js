@@ -9,7 +9,6 @@ describe('IdsAccordion Component', () => {
   let accordion;
   let panel;
   let header;
-  let expander;
 
   beforeEach(async () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
@@ -19,6 +18,8 @@ describe('IdsAccordion Component', () => {
     panel.expander = header;
     document.body.appendChild(wrapper);
     accordion = document.querySelector('ids-accordion');
+    accordion.appendChild(panel);
+    panel.appendChild(header);
   });
 
   afterEach(async () => {
@@ -27,6 +28,10 @@ describe('IdsAccordion Component', () => {
   });
 
   it('renders correctly', () => {
+    expect(accordion.outerHTML).toMatchSnapshot();
+    panel.expanded = true;
+    expect(accordion.outerHTML).toMatchSnapshot();
+    panel.expanded = false;
     expect(accordion.outerHTML).toMatchSnapshot();
   });
 
@@ -109,6 +114,20 @@ describe('IdsAccordion Component', () => {
     panel.state.expanded = false;
     expect(panel.expanded).toBe('false');
     expect(panel.state.expanded).toBe(false);
+  });
+
+  it('can be expanded/collapsed when pressing Enter key', () => {
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+
+    // Expand
+    panel.expander.dispatchEvent(event);
+    expect(panel.state.expanded).toBe(true);
+    expect(panel.expanded).toBe('true');
+
+    // Collapse
+    panel.expander.dispatchEvent(event);
+    expect(panel.state.expanded).toBe(false);
+    expect(panel.expanded).toBe('false');
   });
 
   it('can change the height of the pane', () => {

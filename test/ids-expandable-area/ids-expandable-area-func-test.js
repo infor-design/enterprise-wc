@@ -6,6 +6,9 @@ import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
 
 describe('IdsExpandableArea Component', () => {
   let el;
+  const EXPANDABLE_AREA_TYPES = [
+    'toggle-btn'
+  ];
 
   beforeEach(async () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
@@ -40,18 +43,30 @@ describe('IdsExpandableArea Component', () => {
   });
 
   it('renders with type of toggle-btn', () => {
-    let expander;
-    el.type = 'toggle-btn';
-    el.appendChild(new IdsToggleButton());
-    expander = el.querySelector('ids-toggle-button');
-    expect(expander).toBeTruthy();
+    el.setAttribute('type', EXPANDABLE_AREA_TYPES[0]);
+    expect(el.getAttribute('type')).toEqual(EXPANDABLE_AREA_TYPES[0]);
+    expect(el.type).toEqual(EXPANDABLE_AREA_TYPES[0]);
   });
 
   it('renders with type of null', () => {
-    let expander;
-    el.type = null;
-    expander = el.expander.classList.contains('ids-expandable-area-expander');
-    expect(expander).toBeTruthy();
+    el.setAttribute('type', 'null');
+    expect(el.getAttribute('type')).toEqual('null');
+    expect(el.type).toEqual('null');
+  });
+
+  it('can change its type property', () => {
+    expect(el.getAttribute('type')).toBe('null');
+    expect(el.type).toBe('null');
+
+    el.type = 'toggle-btn';
+
+    expect(el.getAttribute('type')).toBe('toggle-btn');
+    expect(el.type).toBe('toggle-btn');
+
+    el.type = 'bad-name';
+
+    expect(el.getAttribute('type')).toBe('null');
+    expect(el.type).toBe('null');
   });
 
   it('renders with IdsToggleButton as expander', () => {
@@ -81,9 +96,6 @@ describe('IdsExpandableArea Component', () => {
   });
 
   it('can change its expanded property', () => {
-    expect(el.getAttribute('expanded')).toBe('false');
-    expect(el.expanded).toBe('false');
-
     el.expanded = true;
     el.state.expanded = true;
 

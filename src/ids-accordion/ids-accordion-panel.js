@@ -63,10 +63,9 @@ class IdsAccordionPanel extends IdsElement {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
+  /* istanbul ignore next */
   static get properties() {
-    return [
-      props.EXPANDED
-    ]
+    return [props.EXPANDED];
   }
 
   /**
@@ -75,7 +74,7 @@ class IdsAccordionPanel extends IdsElement {
  * @returns {Array}
  */
   static get observedAttributes() {
-    return [props.EXPANDED]
+    return [props.EXPANDED];
   }
 
   /**
@@ -83,9 +82,7 @@ class IdsAccordionPanel extends IdsElement {
    * @param {string} name
    */
   attributeChangedCallback(name) {
-    if (name === props.EXPANDED) {
-      this.switchState();
-    }
+    this.switchState();
   }
 
   /**
@@ -143,6 +140,8 @@ class IdsAccordionPanel extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
+    this.eventHandlers = new IdsEventsMixin();
+
     this.eventHandlers.addEventListener('click', this.expander, () => {
       this.setAttributes();
     });

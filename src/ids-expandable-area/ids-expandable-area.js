@@ -46,11 +46,9 @@ class IdsExpandableArea extends IdsElement {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
+  /* istanbul ignore next */
   static get properties() {
-    return [
-      props.EXPANDED,
-      props.TYPE
-    ];
+    return [props.EXPANDED, props.TYPE];
   }
 
   /**
@@ -92,7 +90,7 @@ class IdsExpandableArea extends IdsElement {
    * @returns {Array}
    */
   static get observedAttributes() {
-    return [props.EXPANDED]
+    return [props.EXPANDED];
   }
 
   /**
@@ -100,9 +98,7 @@ class IdsExpandableArea extends IdsElement {
    * @param {string} name
    */
   attributeChangedCallback(name) {
-    if (name === props.EXPANDED) {
-      this.switchState();
-    }
+    this.switchState();
   }
 
   /**
@@ -165,8 +161,10 @@ class IdsExpandableArea extends IdsElement {
    * @private
    * @returns {void}
    */
+  /* istanbul ignore next */
   handleEvents() {
     let expander;
+    this.eventHandlers = new IdsEventsMixin();
 
     if (this.type === EXPANDABLE_AREA_TYPES[0]) {
       expander = this.querySelector('ids-toggle-button');
@@ -192,6 +190,7 @@ class IdsExpandableArea extends IdsElement {
    * @private
    * @returns {string} The template
    */
+  /* istanbul ignore next */
   template() {
     if (this.type === EXPANDABLE_AREA_TYPES[0]) {
       return `
