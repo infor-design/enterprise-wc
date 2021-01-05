@@ -204,7 +204,11 @@ class IdsMenuItem extends IdsElement {
 
       // Highlight
       this.menu.highlightItem(this);
-      this.menu.hideSubmenus(this);
+
+      // If the parent menu is a Popupmenu, hide its other open submenus.
+      if (this.menu.popup) {
+        this.menu.hideSubmenus(this);
+      }
 
       // Tell the menu which item to use for converting a hover state to keyboard
       if (!this.disabled) {

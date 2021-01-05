@@ -91,7 +91,7 @@ class IdsMenuGroup extends IdsElement {
    * @returns {string|undefined} containing the type of selection this group allows
    */
   get select() {
-    return this.getAttribute('select');
+    return this.getAttribute(props.SELECT);
   }
 
   /**
@@ -106,10 +106,10 @@ class IdsMenuGroup extends IdsElement {
     // Sync the attribute
     switch (trueVal) {
       case 'none':
-        this.removeAttribute('select');
+        this.removeAttribute(props.SELECT);
         break;
       default:
-        this.setAttribute('select', trueVal);
+        this.setAttribute(props.SELECT, trueVal);
     }
   }
 
@@ -118,7 +118,7 @@ class IdsMenuGroup extends IdsElement {
    * cause the parent menu to close
    */
   get keepOpen() {
-    return this.hasAttribute('keep-open');
+    return this.hasAttribute(props.KEEP_OPEN);
   }
 
   /**
@@ -127,9 +127,9 @@ class IdsMenuGroup extends IdsElement {
   set keepOpen(val) {
     const trueVal = val !== null;
     if (trueVal) {
-      this.setAttribute('keep-open', '');
+      this.setAttribute(props.KEEP_OPEN, '');
     } else {
-      this.removeAttribute('keep-open');
+      this.removeAttribute(props.KEEP_OPEN);
     }
   }
 }

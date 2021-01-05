@@ -16,6 +16,7 @@
     <!-- begin menu button -->
     <ids-button id="menu-button" type="secondary">
       <span slot="text">Datagrid Settings</span>
+      <ids-icon icon="dropdown"></ids-icon>
     </ids-button>
     <ids-popup-menu target="#menu-button" trigger="click">
       <ids-menu-group>
@@ -30,7 +31,7 @@
         <ids-menu-item selected>Large</ids-menu-item>
       </ids-menu-group>
       <ids-separator></ids-separator>
-      <ids-menu-group select="single">
+      <ids-menu-group select="multiple" keep-open>
         <ids-menu-item selected>Show Filter Row</ids-menu-item>
       </ids-menu-group>
       <ids-menu-group>
