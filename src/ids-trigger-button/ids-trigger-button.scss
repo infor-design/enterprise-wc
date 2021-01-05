@@ -4,4 +4,10 @@
   @include bg-transparent();
   @include border-0();
   @include cursor-pointer();
+
+  height: 20px;
+
+  &:focus {
+    outline: none;
+  }
 }

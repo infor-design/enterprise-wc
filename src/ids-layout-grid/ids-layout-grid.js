@@ -56,7 +56,7 @@ class IdsLayoutGrid extends IdsElement {
    * Handle The Gap Setting
    * @returns {string} The Gap [none, sm, md, lg, xl]
    */
-  get gap() { return this.getAttribute(props.GAP); }
+  get gap() { return this.getAttribute(props.GAP) || 'md'; }
 
   /**
    * Set the grid gap

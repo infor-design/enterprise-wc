@@ -3,9 +3,9 @@
 
 .ids-tag {
   @include antialiased();
-  @include bg-graphite-20();
+  @include bg-slate-20();
   @include border-1();
-  @include border-graphite-20();
+  @include border-slate-20();
   @include border-solid();
   @include font-sans();
   @include inline-flex();
@@ -19,7 +19,7 @@
 
   // Secondary has a darker border
   &.ids-secondary {
-    @include border-graphite-30();
+    @include border-slate-30();
   }
 
   // Some colors require white text

@@ -40,28 +40,4 @@ import IdsComponent from '../../src/ids-[component]/ids-[component]';
 
 ### Add new information to `webpack.config.js`
 
-*NOTE* This part of the process will be scripted in the future, but needs to be done manually in the interim.
-
-- [ ] Under the `entry` object, add a new entry point for `app/ids-[component]/index.js`:
-
-```js
-entry: {
-  ...
-  'ids-[component]/ids-[component]': ['./app/ids-[component]/index.js'],
-  ...
-},
-```
-
-- [ ] Add a new entry in the `plugins` array that will define the loading of the new example/index pages for the new component:
-
-```js
-new HTMLWebpackPlugin({
-  template: './app/ids-[component]/index.html',
-  inject: 'body',
-  filename: 'ids-[component]/index.html',
-  title: 'New IDS Component',
-  chunks: ['ids-[component]/ids-[component]']
-}),
-```
-
-After these steps, if Webpack Dev Server is still running, make sure to restart. Or if you run the server with `npm run start:watch` it should restart as you save the web pack config file. Check the console to be sure it was restarted.
+The Entry and HTMLWebPack element are now auto added and picked up on script load. You mean need to restart the server or use `npm run start:watch`

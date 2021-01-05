@@ -21,6 +21,16 @@ const IdsStringUtilsMixin = {
    */
   stringToBool(val) {
     return (val + '').toLowerCase() === 'true'; //eslint-disable-line
+  },
+
+  /**
+   * Inject template variables in a string
+   * @param {string} str The string to inject into
+   * @param {string} obj The string to inject into
+   * @returns {obj} The dataset row / item
+   */
+  injectTemplate(str, obj) {
+    return str.replace(/\${(.*?)}/g, (x, g) => obj[g]);
   }
 };
 

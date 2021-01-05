@@ -14,12 +14,12 @@
 - [ ] API method/prop for toggling the `.audible` class on the text span
 - [ ] API method/prop for re-arranging the order of named text/icon slots?
 
-# Icon Button
+## Icon Button
 
 [x] get/set icon def
 [x] get/set audible text/label def
 
-# Toggle Button
+## Toggle Button
 
 [x] get/set pressed() state
 [x] "unpressed" icon def
@@ -27,7 +27,7 @@
 [x] "unpressed" text def
 [x] "pressed" text def
 
-# Menu Button
+## Menu Button
 
 [ ] get/set value() from menu? (store/report menu's current value)
 [ ] "is-open" state?

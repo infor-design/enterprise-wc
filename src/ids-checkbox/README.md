@@ -2,18 +2,18 @@
 
 ## Description
 
-The IDS Checkbox component is a simple wrapper around a standard HTMLInputElement that is styled with Infor branding, and contains some additional API that makes it easy to set checkbox, label, and functionality.
+The IDS Checkbox component is a simple wrapper around a standard HTMLInputElement that is styled with Infor branding, and contains some additional API that makes it easy to set checkbox, label, and functionality. Checkboxes can also be grouped with a label.
 
 ## Use Cases
 
-- Create standalone checkbox
+- Checkboxes are particularly useful in allowing users to make choices on lists of selectable options. In contrast with radio buttons, which are included in lists where options are mutually exclusive, checkboxes allow users to toggle multiple responses to “on” and “off” states.
 - Create checkbox, each with different styling to provide context for actions that are checked, unchecked, indeterminate, value, disabled and colored.
+- Checkboxes allow users to make zero, one, or multiple selections in a list with multiple items.
 
 ## Terminology
 
-_Checkbox:_ A standard basic checkbox element. It can set to checked, unchecked, indeterminate and disabled. IDS checkbox will add `aria-required` for required elements.
-
-_Label:_ HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful relative. IDS Checkbox will add sudo ui `*` for required elements.
+**Checkbox**: A standard basic checkbox element. It can set to checked, unchecked, indeterminate and disabled. IDS checkbox will add `aria-required` for required elements.
+**Label**: HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful relative. IDS Checkbox will add sudo ui `*` for required elements.
 
 ## Features (With Code Samples)
 
@@ -87,6 +87,15 @@ Set as Indeterminate the checkbox. This `indeterminate` attribute will remove on
 - `validation-events` {string} set the validation events, use `space` to add multiple default is set to `change`.
 - `value` {string} set the checkbox value.
 
+## States
+
+- disabled
+- dirty
+- validation/error
+- focused
+- active
+- unchecked/checked/partially selected
+
 ## Keyboard Guidelines
 
 The IDS Checkbox doesn't contain any interactions beyond a standard HTMLInputElement:
@@ -114,11 +123,3 @@ The IDS Checkbox component is now a WebComponent. Instead of using classes to de
 <!-- this is the same checkbox using the WebComponent -->
 <ids-checkbox label="Unchecked"></ids-checkbox>
 ```
-
-## Test Plan
-
-1. Accessibility - Axe
-2. Visual Regression Test
-3. Repeat Tests in All Supported Browsers
-4. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-5. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)

@@ -61,6 +61,15 @@ describe('IdsLayoutGrid Component', () => {
     expect(document.querySelectorAll('.ids-layout-grid-no-margins').length).toEqual(1);
   });
 
+  it('resets no-margins setting', () => {
+    const elem = new IdsLayoutGrid();
+    elem.noMargins = true;
+    document.body.appendChild(elem);
+    elem.noMargins = false;
+    expect(elem.noMargins).toEqual(null);
+    expect(document.querySelectorAll('.ids-layout-grid-no-margins').length).toEqual(0);
+  });
+
   it('renders fill setting', () => {
     const col = new IdsLayoutGridCell();
     col.fill = true;
@@ -112,6 +121,16 @@ describe('IdsLayoutGrid Component', () => {
     expect(document.querySelectorAll('.ids-layout-grid-gap-md').length).toEqual(1);
   });
 
+  it('resets grid gap setting', () => {
+    const elem = new IdsLayoutGrid();
+    elem.gap = 'md';
+    document.body.appendChild(elem);
+    elem.gap = '';
+
+    expect(elem.gap).toEqual('md');
+    expect(document.querySelectorAll('.ids-layout-grid-gap-md').length).toEqual(1);
+  });
+
   it('renders cols setting', () => {
     const elem = new IdsLayoutGrid();
     elem.cols = 16;
@@ -119,6 +138,17 @@ describe('IdsLayoutGrid Component', () => {
     expect(elem.cols).toEqual('16');
     expect(document.querySelectorAll('.ids-layout-grid-cols').length).toEqual(1);
     expect(elem.getAttribute('style')).toEqual(`--grid-cols: 16;`);
+  });
+
+  it('resets grid gap setting', () => {
+    const elem = new IdsLayoutGrid();
+    elem.cols = 16;
+    document.body.appendChild(elem);
+    elem.cols = null;
+
+    expect(elem.cols).toEqual('16');
+    expect(document.querySelectorAll('.ids-layout-grid-cols').length).toEqual(0);
+    expect(elem.getAttribute('style')).toEqual('');
   });
 
   it('renders rows setting', () => {
@@ -130,6 +160,16 @@ describe('IdsLayoutGrid Component', () => {
     expect(elem.getAttribute('style')).toEqual(`--grid-rows: 4;`);
   });
 
+  it('resets grid rows setting', () => {
+    const elem = new IdsLayoutGrid();
+    elem.rows = 4;
+    document.body.appendChild(elem);
+    elem.rows = null;
+
+    expect(document.querySelectorAll('.ids-layout-grid-rows').length).toEqual(0);
+    expect(elem.getAttribute('style')).toEqual('');
+  });
+
   it('renders col-span setting', () => {
     const col = new IdsLayoutGridCell();
     col.colSpan = 4;
@@ -137,6 +177,17 @@ describe('IdsLayoutGrid Component', () => {
     expect(col.colSpan).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-col-span: 4;`);
+  });
+
+  it('resets col-span setting', () => {
+    const col = new IdsLayoutGridCell();
+    col.colSpan = 4;
+    document.body.appendChild(col);
+    col.colSpan = null;
+
+    expect(col.colSpan).toEqual(null);
+    expect(document.querySelectorAll('.ids-layout-grid-col-span').length).toEqual(0);
+    expect(col.getAttribute('style')).toEqual('');
   });
 
   it('renders col-start setting', () => {
@@ -148,6 +199,17 @@ describe('IdsLayoutGrid Component', () => {
     expect(col.getAttribute('style')).toEqual(`--grid-col-start: 4;`);
   });
 
+  it('resets col-start setting', () => {
+    const col = new IdsLayoutGridCell();
+    col.colStart = 4;
+    document.body.appendChild(col);
+    col.colStart = null;
+
+    expect(col.colStart).toEqual(null);
+    expect(document.querySelectorAll('.ids-layout-grid-col-start').length).toEqual(0);
+    expect(col.getAttribute('style')).toEqual('');
+  });
+
   it('renders col-end setting', () => {
     const col = new IdsLayoutGridCell();
     col.colEnd = 4;
@@ -155,6 +217,17 @@ describe('IdsLayoutGrid Component', () => {
     expect(col.colEnd).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-end').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-col-end: 4;`);
+  });
+
+  it('resets col-end setting', () => {
+    const col = new IdsLayoutGridCell();
+    col.colEnd = 4;
+    document.body.appendChild(col);
+    col.colEnd = null;
+
+    expect(col.colEnd).toEqual(null);
+    expect(document.querySelectorAll('.ids-layout-grid-col-end').length).toEqual(0);
+    expect(col.getAttribute('style')).toEqual('');
   });
 
   it('renders row-span setting', () => {
@@ -166,6 +239,17 @@ describe('IdsLayoutGrid Component', () => {
     expect(col.getAttribute('style')).toEqual(`--grid-row-span: 4;`);
   });
 
+  it('resets row-span setting', () => {
+    const col = new IdsLayoutGridCell();
+    col.rowSpan = 4;
+    document.body.appendChild(col);
+    col.rowSpan = null;
+
+    expect(col.rowSpan).toEqual(null);
+    expect(document.querySelectorAll('.ids-layout-grid-row-span').length).toEqual(0);
+    expect(col.getAttribute('style')).toEqual('');
+  });
+
   it('renders row-start setting', () => {
     const col = new IdsLayoutGridCell();
     col.rowStart = 4;
@@ -175,6 +259,17 @@ describe('IdsLayoutGrid Component', () => {
     expect(col.getAttribute('style')).toEqual(`--grid-row-start: 4;`);
   });
 
+  it('resets row-start setting', () => {
+    const col = new IdsLayoutGridCell();
+    col.rowStart = 4;
+    document.body.appendChild(col);
+    col.rowStart = null;
+
+    expect(col.rowStart).toEqual(null);
+    expect(document.querySelectorAll('.ids-layout-grid-row-start').length).toEqual(0);
+    expect(col.getAttribute('style')).toEqual('');
+  });
+
   it('renders row-end setting', () => {
     const col = new IdsLayoutGridCell();
     col.rowEnd = 4;
@@ -182,5 +277,16 @@ describe('IdsLayoutGrid Component', () => {
     expect(col.rowEnd).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-row-end').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-row-end: 4;`);
+  });
+
+  it('resets row-end setting', () => {
+    const col = new IdsLayoutGridCell();
+    col.rowEnd = 4;
+    document.body.appendChild(col);
+    col.rowEnd = null;
+
+    expect(col.rowEnd).toEqual(null);
+    expect(document.querySelectorAll('.ids-layout-grid-row-end').length).toEqual(0);
+    expect(col.getAttribute('style')).toEqual('');
   });
 });

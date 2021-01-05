@@ -1,0 +1,95 @@
+@import '../ids-base/ids-base';
+
+.ids-radio {
+  @include mb-2();
+  @include outline-none();
+
+  label {
+    @include cursor-pointer();
+    @include no-select();
+    @include pl-24();
+    @include relative();
+
+    display: inline-block;
+  }
+
+  &.disabled label {
+    @include cursor-default();
+  }
+
+  &.horizontal {
+    @include mr-12();
+
+    display: inline-block;
+  }
+
+  input[type='radio'] {
+    @include absolute();
+    @include cursor-pointer();
+    @include opacity-0();
+
+    height: 0;
+    width: 0;
+
+    ~ .circle {
+      @include radio-unchecked();
+
+      &::after {
+        @include radio-unchecked-after();
+      }
+    }
+
+    ~ .label-text {
+      @include text-slate-80();
+    }
+
+    &.error ~ .circle {
+      @include radio-unchecked-error-circle();
+    }
+
+    &.error ~ .label-text {
+      @include radio-unchecked-error-label-text();
+    }
+
+    &:checked ~ .circle {
+      @include radio-checked();
+
+      &::after {
+        @include radio-checked-after();
+      }
+    }
+
+    &:disabled {
+      ~ .circle {
+        @include radio-disabled-unchecked();
+      }
+
+      ~ .label-text {
+        @include radio-disabled-text();
+      }
+
+      &.error ~ .circle {
+        @include radio-disabled-unchecked-error-circle();
+      }
+
+      &.error ~ .label-text {
+        @include radio-disabled-unchecked-error-label-text();
+      }
+
+      &:checked ~ .circle {
+        @include radio-disabled-checked();
+      }
+    }
+
+    &:focus:not(.hide-focus) ~ .circle {
+      @include radio-focus();
+    }
+  }
+
+  &:focus:not(.hide-focus) input[type='radio'] ~ .circle {
+    @include radio-focus();
+  }
+
+  // Colored
+  @include radio-colored();
+}

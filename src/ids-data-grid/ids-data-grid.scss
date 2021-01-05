@@ -1,0 +1,210 @@
+@import '../ids-base/ids-base';
+
+$cell-border-color: var(--ids-color-palette-slate-30);
+$header-bg-color: var(--ids-color-palette-slate-80);
+
+:host {
+  --ids-data-grid-column-widths: repeat(1, minmax(110px, 1fr));
+}
+
+.ids-data-grid {
+  // Outside border and Background and sizing
+  @include bg-white();
+  @include border-1();
+  @include border-solid();
+  @include rounded-default();
+  @include w-full();
+
+  border-collapse: collapse;
+  border-color: $cell-border-color;
+  overflow: auto;
+
+  // Font Info
+  @include antialiased();
+  @include font-sans();
+  @include text-16();
+
+  // Row Styles
+  .ids-data-grid-row {
+    @include w-full();
+
+    display: grid;
+    grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
+  }
+
+  // Row Height Feature
+  .ids-data-grid-body .ids-data-grid-row {
+    height: 50px;
+  }
+
+  &[data-row-height='medium'] .ids-data-grid-body .ids-data-grid-row {
+    height: 40px;
+  }
+
+  &[data-row-height='small'] .ids-data-grid-body .ids-data-grid-row {
+    height: 35px;
+  }
+
+  &[data-row-height='extra-small'] .ids-data-grid-body .ids-data-grid-row {
+    height: 30px;
+  }
+
+  // Row Alternate Row Setting Feature
+  &.alt-row-shading .ids-data-grid-body [role='row']:nth-child(odd) {
+    @include bg-slate-10();
+  }
+
+  // Header Styles
+  .ids-data-grid-header {
+    @include z-2();
+    @include sticky();
+
+    top: 0;
+  }
+
+  // Header Cell Area
+  .ids-data-grid-header-cell {
+    @include border-0();
+    @include border-l-1();
+    @include border-solid();
+    @include flex();
+
+    background-color: $header-bg-color;
+    border-color: $cell-border-color;
+    min-height: 35px;
+
+    // Hide first border
+    &:first-child {
+      border-left: 0;
+    }
+  }
+
+  .ids-data-grid-header-text {
+    @include block();
+    @include px-16();
+    @include py-8();
+    @include font-bold();
+    @include text-14();
+    @include text-white();
+
+    overflow: hidden;
+    text-align: left;
+    text-overflow: ellipsis;
+    user-select: none;
+    white-space: nowrap;
+  }
+
+  // Header sort styles
+  .sort-indicator {
+    @include relative();
+
+    height: 16px;
+    left: -6px;
+    width: 18px;
+  }
+
+  // Sort Hover states
+  .is-sortable {
+    ids-icon {
+      color: var(--ids-color-palette-slate-50);
+      opacity: 0;
+      transition: opacity 0.3s cubic-bezier(0.17, 0.04, 0.03, 0.94) 0s;
+    }
+
+    ids-icon:first-child {
+      @include relative();
+
+      top: 4px;
+      transform: rotate(180deg);
+    }
+
+    ids-icon:last-child {
+      @include relative();
+
+      top: -9px;
+    }
+
+    &[aria-sort='descending'] ids-icon {
+      &:first-child {
+        opacity: 1;
+      }
+
+      &:last-child {
+        color: var(--ids-color-palette-white);
+        opacity: 1;
+      }
+    }
+
+    // stylelint-disable
+    &[aria-sort='ascending'] ids-icon {
+      &:first-child {
+        color: var(--ids-color-palette-white);
+        opacity: 1;
+      }
+
+      &:last-child {
+        opacity: 1;
+      }
+    }
+
+    &:hover {
+      cursor: pointer;
+
+      .sort-indicator ids-icon {
+        opacity: 1;
+      }
+    }
+  }
+
+  // Cell Styles
+  .ids-data-grid-cell {
+    // Border and Background
+    @include border-0();
+    @include border-l-1();
+    @include border-t-1();
+    @include border-solid();
+    @include inline-flex();
+
+    align-items: center;
+    border-color: $cell-border-color;
+    overflow: hidden;
+    white-space: nowrap;
+
+    // Hide first border
+    &:first-child {
+      border-left: 0;
+    }
+
+    // Text ellipsis
+    .text-ellipsis {
+      @include block();
+      @include px-16();
+
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    // Focus State
+    &:focus {
+      @include shadow();
+      outline: 1px solid var(--ids-color-palette-azure-60);
+      outline-offset: -1px;
+    }
+  }
+
+  // Standalone Css
+  tr.ids-data-grid-header {
+    position: initial;
+  }
+
+  tr.ids-data-grid-row {
+    @include table-row();
+
+    height: 50px;
+  }
+
+  td.ids-data-grid-cell,
+  th.ids-data-grid-header-cell {
+    @include table-cell();
+  }
+}

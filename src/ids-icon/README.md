@@ -11,8 +11,8 @@ The design system provides a list of standard icons which can be used in your ap
 
 ## Terminology
 
-- Icon: An icon is a symbol. In this design case this is literal, for example  the little trashcan to indicate delete.
-- Svg: Stands for eXtensible Markup Language (XML)-based vector graphic format for the Web and other environments
+- **Icon**: An icon is a symbol. In this design case this is literal, for example  the little trashcan to indicate delete.
+- **Svg**: Stands for eXtensible Markup Language (XML)-based vector graphic format for the Web and other environments
 
 ## Features (With Code Examples)
 
@@ -62,15 +62,6 @@ Icons differ in the two provided theme/icon versions.
 
 - Fix Accessibility issue (1.4.1 Use of Color) by changing some alert colors
 - Fix Accessibility issue (1.4.3 Contrast (Minimum)) by changing some icon colors when its used with text
-
-## Test Plan
-
-1. Works with 4.x version in the same page
-1. Accessibility - Axe
-1. Visual Regression Test
-1. Repeat Tests in All Supported Browsers
-1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
 
 ## Accessibility Guidelines
 

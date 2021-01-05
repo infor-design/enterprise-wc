@@ -1,0 +1,45 @@
+ <link rel="stylesheet" href="../ids-data-grid/ids-data-grid.css"/>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Virtual Scroller</ids-text>
+</ids-layout-grid>
+<ids-layout-grid cols="2" gap="xl">
+  <ids-layout-grid-cell>
+    <ids-card>
+      <div slot="card-header">
+        <ids-text font-size="20" type="h2">List With Virtual Scroll</ids-text>
+      </div>
+      <div slot="card-content">
+        <ids-virtual-scroll id="virtual-scroll-1" height="308" item-height="20" item-count="1000">
+          <div class="ids-list-view">
+            <ul slot="contents">
+            </ul>
+          </div>
+        </ids-virtual-scroll>
+      </div>
+    </ids-card>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-card>
+      <div slot="card-header">
+        <ids-text font-size="20" type="h2">Table With Virtual Scroll</ids-text>
+      </div>
+      <div slot="card-content">
+        <div class="ids-data-grid" role="table" aria-label="Products">
+          <div class="ids-data-grid-header" role="rowgroup">
+            <div role="row" class="ids-data-grid-row">
+              <span class="ids-data-grid-header-cell" role="columnheader"><span class="ids-data-grid-header-text">Id</span></span>
+              <span class="ids-data-grid-header-cell" role="columnheader"><span class="ids-data-grid-header-text">Product</span></span>
+            </div>
+          </div>
+          <ids-virtual-scroll id="virtual-scroll-2" height="273" item-height="50" item-count="1000">
+            <div class="ids-data-grid-container">
+              <div class="ids-data-grid-body" role="rowgroup" slot="contents">
+              </div>
+            </div>
+          </ids-virtual-scroll>
+        </div>
+      </div>
+    </ids-card>
+  </ids-layout-grid-cell>
+</ids-layout-grid>

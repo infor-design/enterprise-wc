@@ -278,17 +278,10 @@ class IdsInput extends IdsElement {
     if (this.value === null) {
       this.value = '';
     }
+    this.eventHandlers = new IdsEventsMixin();
+
     this.handleInputChangeEvent();
     this.handleNativeEvents();
-  }
-
-  /**
-   * Get input field current width
-   * @returns {number} input field curent width
-   */
-  get inputWidth() {
-    const input = this.shadowRoot.querySelector(`#${ID}`);
-    return this.outerWidth(input);
   }
 
   /**

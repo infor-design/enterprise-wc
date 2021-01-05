@@ -1,4 +1,6 @@
+// Please keep constants alphabetized
 export const props = {
+  ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
   APPEARANCE: 'appearance',
   AUDIBLE: 'audible',
@@ -12,6 +14,7 @@ export const props = {
   COLOR: 'color',
   COLS: 'cols',
   CSS_CLASS: 'css-class',
+  DATA: 'data',
   DIRTY_TRACKER: 'dirty-tracker',
   DISABLE_EVENTS: 'disable-native-events',
   DISABLED: 'disabled',
@@ -20,6 +23,8 @@ export const props = {
   FOCUSABLE: 'focusable',
   FONT_SIZE: 'font-size',
   GAP: 'gap',
+  GROUP: 'group',
+  GROUP_DISABLED: 'group-disabled',
   HORIZONTAL: 'horizontal',
   ICON: 'icon',
   INDETERMINATE: 'indeterminate',
@@ -31,6 +36,7 @@ export const props = {
   READONLY: 'readonly',
   REQUIRED: 'required',
   ROW_END: 'row-end',
+  ROW_HEIGHT: 'row-height',
   ROW_SPAN: 'row-span',
   ROW_START: 'row-start',
   ROWS: 'rows',
@@ -42,8 +48,10 @@ export const props = {
   TYPE: 'type',
   VALIDATE: 'validate',
   VALIDATION_EVENTS: 'validation-events',
+  VALIDATION_HAS_ERROR: 'validation-has-error',
   VALUE: 'value',
-  VISIBLE: 'visible'
+  VIRTUAL_SCROLL: 'virtual-scroll',
+  VISIBLE: 'visible',
 };
 
 export const prefix = {
