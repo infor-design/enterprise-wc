@@ -26,8 +26,13 @@
   user-select: none;
 
   ids-icon,
-  .ids-icon {
+  .ids-icon,
+  .ids-menu-item-display-icon {
     @include block();
+
+    align-self: center;
+    justify-content: center;
+    place-self: center;
   }
 
   // ================================================

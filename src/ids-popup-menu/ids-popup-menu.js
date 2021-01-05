@@ -289,7 +289,6 @@ class IdsPopupMenu extends IdsMenu {
   hide() {
     this.hidden = true;
     this.lastHovered = undefined;
-    this.container.classList.remove('is-expanded');
 
     // Hide the Ids Popup and all Submenus
     this.popup.visible = false;
@@ -302,7 +301,6 @@ class IdsPopupMenu extends IdsMenu {
    */
   show() {
     this.hidden = false;
-    this.container.classList.add('is-expanded');
 
     // Hide any "open" submenus (in the event the menu is already open and being positioned)
     this.hideSubmenus();

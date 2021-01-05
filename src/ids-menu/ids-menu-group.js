@@ -40,20 +40,7 @@ class IdsMenuGroup extends IdsElement {
       describedBy = ` aria-labelledby="${this.header.id}"`;
     }
 
-    // Group Selection Method
-    let selectProp = '';
-    const selectVal = this.select;
-    if (selectVal !== MENU_GROUP_SELECT_TYPES[0]) {
-      selectProp = ` ${props.SELECT}="${selectVal}"`;
-    }
-
-    // Keep Open
-    let keepOpenProp = '';
-    if (this.keepOpen) {
-      keepOpenProp = ` ${props.KEEP_OPEN}`;
-    }
-
-    return `<ul class="ids-menu-group" role="group"${keepOpenProp}${selectProp}${describedBy}><slot></slot></ul>`;
+    return `<ul class="ids-menu-group" role="group"${describedBy}><slot></slot></ul>`;
   }
 
   connectedCallBack() {
