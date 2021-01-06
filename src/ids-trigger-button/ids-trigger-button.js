@@ -2,9 +2,11 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
+
+// @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { props } from '../ids-base/ids-constants';
+// @ts-ignore
 import styles from './ids-trigger-button.scss';
 
 /**
@@ -18,14 +20,6 @@ class IdsTriggerButton extends IdsButton {
    */
   constructor() {
     super();
-  }
-
-  /**
-   * CSS Classes that are specific to the Icon Button prototype.
-   * @returns {Array} containing css classes specific to styling this component
-   */
-  get protoClasses() {
-    return [this.name];
   }
 
   /**

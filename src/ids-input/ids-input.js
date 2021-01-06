@@ -10,16 +10,19 @@ import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 
 // Supporting components
+// @ts-ignore
 import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
 
 import { props } from '../ids-base/ids-constants';
+// @ts-ignore
 import styles from './ids-input.scss';
-
+// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
+// @ts-ignore
 import IdsText from '../ids-text/ids-text';
 
 // Input id
@@ -62,7 +65,6 @@ const TEXT_ALIGN = {
 @mixin(IdsDirtyTrackerMixin)
 @mixin(IdsDomUtilsMixin)
 @mixin(IdsEventsMixin)
-@mixin(IdsStringUtilsMixin)
 @mixin(IdsValidationMixin)
 class IdsInput extends IdsElement {
   /**
@@ -96,11 +98,10 @@ class IdsInput extends IdsElement {
   }
 
   /**
-   * Custom Element `connectedCallBack` implementation
-   * @private
+   * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
     this.input = this.shadowRoot.querySelector(`#${ID}`);
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
 
@@ -109,7 +110,6 @@ class IdsInput extends IdsElement {
 
   /**
    * Custom Element `disconnectedCallback` implementation
-   * @private
    * @returns {void}
    */
   disconnectedCallback() {
@@ -128,8 +128,8 @@ class IdsInput extends IdsElement {
     const value = this.value !== null ? ` value="${this.value}"` : '';
     const type = ` type="${this.type || TYPES.default}"`;
     const inputClass = ` class="ids-input-field ${this.size}"`;
-    let inputState = this.stringToBool(this.readonly) ? ' readonly' : '';
-    inputState = this.stringToBool(this.disabled) ? ' disabled' : inputState;
+    let inputState = stringUtils.stringToBool(this.readonly) ? ' readonly' : '';
+    inputState = stringUtils.stringToBool(this.disabled) ? ' disabled' : inputState;
 
     // Label
     const labelFontSize = this.labelFontSize ? ` ${props.FONT_SIZE}="${this.labelFontSize}"` : '';
@@ -155,7 +155,7 @@ class IdsInput extends IdsElement {
       const options = {
         prop1: prop,
         prop2: prop !== props.READONLY ? props.READONLY : props.DISABLED,
-        val: this.stringToBool(this[prop])
+        val: stringUtils.stringToBool(this[prop])
       };
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
@@ -192,7 +192,7 @@ class IdsInput extends IdsElement {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleInputFocusEvent(option) {
+  handleInputFocusEvent(option = '') {
     const input = this.input || this.shadowRoot.querySelector(`#${ID}`);
     if (input) {
       const eventName = 'focus';
@@ -215,7 +215,7 @@ class IdsInput extends IdsElement {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleInputChangeEvent(option) {
+  handleInputChangeEvent(option = '') {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {
@@ -237,7 +237,7 @@ class IdsInput extends IdsElement {
    * @param {string} option If 'remove', will remove attached events
    * @returns {object} The object for chaining.
    */
-  handleNativeEvents(option) {
+  handleNativeEvents(option = '') {
     if (this.input) {
       const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt) => {
@@ -247,7 +247,7 @@ class IdsInput extends IdsElement {
             this.eventHandlers.removeEventListener(evt, this.input);
           }
         } else {
-          this.eventHandlers.addEventListener(evt, this.input, (e) => {
+          this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire `trigger + nativeEvent` as triggerclick, triggerchange etc.
@@ -286,12 +286,12 @@ class IdsInput extends IdsElement {
 
   /**
    * Set `autoselect` attribute
-   * @param {boolean} value If true will set `autoselect` attribute
+   * @param {boolean|string} value If true will set `autoselect` attribute
    */
   set autoselect(value) {
     if (value) {
-      const val = this.stringToBool(value);
-      this.setAttribute(props.AUTOSELECT, val);
+      const val = stringUtils.stringToBool(value);
+      this.setAttribute(props.AUTOSELECT, val.toString());
     } else {
       this.removeAttribute(props.AUTOSELECT);
     }
@@ -302,15 +302,16 @@ class IdsInput extends IdsElement {
 
   /**
    * Set `clearable` attribute
-   * @param {boolean} value If true will set `clearable` attribute
+   * @param {boolean|string} value If true will set `clearable` attribute
    */
   set clearable(value) {
     if (value) {
-      const val = this.stringToBool(value);
-      this.setAttribute(props.CLEARABLE, val);
+      const val = stringUtils.stringToBool(value);
+      this.setAttribute(props.CLEARABLE, val.toString());
     } else {
       this.removeAttribute(props.CLEARABLE);
     }
+    // @ts-ignore
     this.handleClearable();
   }
 
@@ -318,17 +319,19 @@ class IdsInput extends IdsElement {
 
   /**
    * Set `dirty-tracker` attribute
-   * @param {boolean} value If true will set `dirty-tracker` attribute
+   * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.DIRTY_TRACKER, val);
+      this.setAttribute(props.DIRTY_TRACKER, val.toString());
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
+    /** @type {any} */
     this.input = this.shadowRoot.querySelector(`#${ID}`);
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
+    // @ts-ignore
     this.handleDirtyTracker();
   }
 
@@ -336,12 +339,12 @@ class IdsInput extends IdsElement {
 
   /**
    * Set `disabled` attribute
-   * @param {boolean} value If true will set `disabled` attribute
+   * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.DISABLED, val);
+      this.setAttribute(props.DISABLED, val.toString());
     } else {
       this.removeAttribute(props.DISABLED);
     }
@@ -400,12 +403,12 @@ class IdsInput extends IdsElement {
 
   /**
    * Set the `readonly` of input
-   * @param {boolean} value If true will set `readonly` attribute
+   * @param {boolean|string} value If true will set `readonly` attribute
    */
   set readonly(value) {
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.READONLY, val);
+      this.setAttribute(props.READONLY, val.toString());
     } else {
       this.removeAttribute(props.READONLY);
     }
@@ -443,12 +446,12 @@ class IdsInput extends IdsElement {
 
   /**
    * Set the triggerfield of input
-   * @param {boolean} value If true will set `triggerfield` attribute
+   * @param {boolean|string} value If true will set `triggerfield` attribute
    */
   set triggerfield(value) {
     if (value) {
-      const val = this.stringToBool(value);
-      this.setAttribute(props.TRIGGERFIELD, val);
+      const val = stringUtils.stringToBool(value);
+      this.setAttribute(props.TRIGGERFIELD, val.toString());
     } else {
       this.removeAttribute(props.TRIGGERFIELD);
     }
@@ -483,6 +486,7 @@ class IdsInput extends IdsElement {
     }
     this.input = this.shadowRoot.querySelector(`#${ID}`);
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
+    // @ts-ignore
     this.handleValidation();
   }
 
@@ -497,6 +501,7 @@ class IdsInput extends IdsElement {
     const v = val || '';
     this.setAttribute(props.VALUE, v);
     if (input) {
+      // @ts-ignore
       input.value = v;
     }
   }

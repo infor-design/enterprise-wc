@@ -5,9 +5,11 @@ import {
   scss,
   props
 } from '../ids-base/ids-element';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
+// @ts-ignore
 import styles from './ids-trigger-field.scss';
 
 /**
@@ -15,7 +17,6 @@ import styles from './ids-trigger-field.scss';
  */
 @customElement('ids-trigger-field')
 @scss(styles)
-@mixin(IdsStringUtilsMixin)
 @mixin(IdsDomUtilsMixin)
 class IdsTriggerField extends IdsElement {
   /**
@@ -26,11 +27,10 @@ class IdsTriggerField extends IdsElement {
   }
 
   /**
-   * Custom Element `connectedCallBack` implementation
-   * @private
+   * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
     this.handleEvents();
   }
 
@@ -52,12 +52,13 @@ class IdsTriggerField extends IdsElement {
 
   /**
    * Set if the trigger field is tabbable
-   * @param {boolean} value True of false depending if the trigger field is tabbable
+   * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    const isTabbable = this.stringToBool(value);
+    const isTabbable = stringUtils.stringToBool(value);
+    /** @type {any} */
     const button = this.querySelector('ids-trigger-button');
-    this.setAttribute(props.TABBABLE, value);
+    this.setAttribute(props.TABBABLE, value.toString());
     button.tabindex = !isTabbable ? '-1' : '0';
   }
 
@@ -80,12 +81,12 @@ class IdsTriggerField extends IdsElement {
 
   /**
    * Set if the button handles events
-   * @param {boolean} value True of false depending if the button handles events
+   * @param {boolean|string} value True of false depending if the button handles events
    */
   set disableNativeEvents(value) {
-    const isDisabled = this.stringToBool(value);
+    const isDisabled = stringUtils.stringToBool(value);
     if (isDisabled) {
-      this.setAttribute(props.DISABLE_EVENTS, value);
+      this.setAttribute(props.DISABLE_EVENTS, value.toString());
       this.handleEvents();
       return;
     }
@@ -106,6 +107,7 @@ class IdsTriggerField extends IdsElement {
     }
 
     this.eventHandlers = new IdsEventsMixin();
+    /** @type {any} */
     const button = this.querySelector('ids-trigger-button');
     if (button) {
       this.eventHandlers.addEventListener('click', button, () => this.trigger());
@@ -119,7 +121,7 @@ class IdsTriggerField extends IdsElement {
    */
   trigger() {
     let canTrigger = true;
-    const response = (veto) => {
+    const response = (/** @type {any} */ veto) => {
       canTrigger = !!veto;
     };
     this.eventHandlers.dispatchEvent('beforetriggerclicked', this, { detail: { elem: this, response } });

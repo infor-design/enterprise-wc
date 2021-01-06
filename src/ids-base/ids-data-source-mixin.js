@@ -1,7 +1,4 @@
-import {
-  mixin,
-} from './ids-decorators';
-import { IdsDeepCloneMixin } from './ids-deep-clone-mixin';
+import { IdsDeepCloneMixin as cloneUtils } from './ids-deep-clone-mixin';
 
 /**
  * Handle Attaching Array / Object Data to Components
@@ -18,12 +15,13 @@ import { IdsDeepCloneMixin } from './ids-deep-clone-mixin';
  *  - events (requestStart, requestEnd, change, error)
  *  - sync (sync back original array)
  */
-@mixin(IdsDeepCloneMixin)
 class IdsDataSourceMixin {
   // Holds a reference to the original data
+  /** @type {any} */
   originalData = [];
 
   // Holds the data in its current state
+  /** @type {any} */
   currentData = [];
 
   /**
@@ -31,7 +29,7 @@ class IdsDataSourceMixin {
    * @param {Array} value The array to attach
    */
   set data(value) {
-    this.currentData = this.deepClone(value);
+    this.currentData = cloneUtils.deepClone(value);
     this.originalData = value;
   }
 
@@ -68,9 +66,9 @@ class IdsDataSourceMixin {
    * @returns {object} The sorted dataset or it uses
    */
   sortFunction(field, reverse, primer) {
-    const key = (x) => (primer ? primer(x[field]) : x[field]);
+    const key = (/** @type {any} */x) => (primer ? primer(x[field]) : x[field]);
 
-    return (a, b) => {
+    return (/** @type {any} */a, /** @type {any} */b) => {
       const A = key(a);
       const B = key(b);
       return ((A < B) ? -1 : ((A > B) ? 1 : 0)) * [-1, 1][+!!reverse]; // eslint-disable-line

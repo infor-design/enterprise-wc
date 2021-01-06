@@ -13,8 +13,8 @@
     "build": "webpack",
     "start": "webpack serve",
     "start:watch": "nodemon --watch webpack.config.js --exec \"npx webpack serve\"",
-    "lint": "npx eslint *.js src test app && npx stylelint src/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'app/**/*.html'",
-    "mdlint": "remark . -q",
+    "lint": "npx eslint *.js src test app && npx stylelint src/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'app/**/*.html' && npm run typecheck",
+    "mdlint": "remark . -f",
     "publish:dry-run": "npm run build && cp -f package.json dist && cp -f README.md dist && cp -f LICENSE dist && cd dist && npm publish --dry-run",
     "publish:npm": "npm run build && cp -f package.json dist && cp -f README.md dist && cp -f LICENSE dist && cd dist && npm publish",
     "test": "jest --detectOpenHandles --forceExit",
@@ -28,11 +28,6 @@
     "test:vulnerabilities": "snyk test",
     "ncu": "npx ncu",
     "typecheck": "npx tsc --p tsconfig.json"
-  },
-  "remarkConfig": {
-    "plugins": [
-      "remark-preset-lint-markdown-style-guide"
-    ]
   },
   "repository": {
     "type": "git",

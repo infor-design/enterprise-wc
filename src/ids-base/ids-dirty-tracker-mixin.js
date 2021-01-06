@@ -1,3 +1,4 @@
+// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 
 /**
@@ -127,7 +128,7 @@ const IdsDirtyTrackerMixin = {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleRadioGroupHidefocusClass(option) {
+  handleRadioGroupHidefocusClass(option = '') {
     if (this.isRadioGroup) {
       const radio = this.querySelector('ids-radio');
       if (radio) {
@@ -141,7 +142,7 @@ const IdsDirtyTrackerMixin = {
           });
         } else {
           events.forEach((evt) => {
-            this.eventHandlers.addEventListener(evt, radio, (e) => {
+            this.eventHandlers.addEventListener(evt, radio, (/** @type {any} */ e) => {
               setTimeout(() => {
                 const icon = this.shadowRoot.querySelector('.icon-dirty');
                 const shouldRemove = e.type === 'hidefocusadd';
@@ -160,7 +161,7 @@ const IdsDirtyTrackerMixin = {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  dirtyTrackerEvents(option) {
+  dirtyTrackerEvents(option = '') {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {

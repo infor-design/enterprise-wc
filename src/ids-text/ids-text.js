@@ -4,6 +4,7 @@ import {
   scss
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
+// @ts-ignore
 import styles from './ids-text.scss';
 
 /**

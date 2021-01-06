@@ -4,10 +4,14 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
+
 import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
+
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
+// @ts-ignore
 import styles from './ids-popup.scss';
 
 const CENTER = 'center';
@@ -94,15 +98,16 @@ class IdsPopup extends IdsElement {
   }
 
   /**
-   * `IdsElement.prototype.connectedCallBack` implementation
-   * @private
+   * `IdsElement.prototype.connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
     this.animated = this.hasAttribute('animated');
     this.trueType = this.getAttribute('type') || this.trueType;
     this.isVisible = this.hasAttribute('visible');
+    // @ts-ignore
     this.setupDetectMutations();
+    // @ts-ignore
     this.setupResize();
     this.handleEvents();
     this.refresh();
@@ -110,18 +115,22 @@ class IdsPopup extends IdsElement {
 
   /**
    * Custom Element `disconnectedCallback` implementation
-   * @private
    * @returns {void}
    */
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
 
+    // @ts-ignore
     if (this.shouldResize()) {
+      // @ts-ignore
       this.ro.unobserve(this.parentNode);
+      // @ts-ignore
       this.disconnectResize();
     }
 
+    // @ts-ignore
     if (this.shouldDetectMutations()) {
+      // @ts-ignore
       this.disconnectDetectMutations();
     }
   }
@@ -129,7 +138,6 @@ class IdsPopup extends IdsElement {
   /**
    * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
    * check for a true `shouldUpdate` property.
-   * @private
    * @param  {string} name The property name
    * @param  {string} oldValue The property old value
    * @param  {string} newValue The property new value
@@ -159,6 +167,7 @@ class IdsPopup extends IdsElement {
   /**
    * @param {string} val a CSS selector string
    */
+  // @ts-ignore
   set alignTarget(val) {
     if (typeof val !== 'string' || !val.length) {
       this.alignment.target = undefined;
@@ -182,6 +191,7 @@ class IdsPopup extends IdsElement {
    * @returns {HTMLElement} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
+  // @ts-ignore
   get alignTarget() {
     return this.alignment.target;
   }
@@ -189,6 +199,7 @@ class IdsPopup extends IdsElement {
   /**
    * @param {string} val a comma-delimeted set of alignment types (x, y)
    */
+  // @ts-ignore
   set align(val) {
     this.shouldUpdate = false;
 
@@ -364,7 +375,7 @@ class IdsPopup extends IdsElement {
    * @param {boolean} val whether or not the component should animate its movement
    */
   set animated(val) {
-    this.isAnimated = this.stringToBool(val);
+    this.isAnimated = stringUtils.stringToBool(val);
     if (this.isAnimated) {
       this.safeSetAttribute('animated', true);
     } else {
@@ -403,7 +414,7 @@ class IdsPopup extends IdsElement {
    * @param {boolean} val whether or not the component should be displayed
    */
   set visible(val) {
-    this.isVisible = this.stringToBool(val);
+    this.isVisible = stringUtils.stringToBool(val);
     if (this.isVisible) {
       this.safeSetAttribute('visible', true);
     } else {
@@ -424,13 +435,13 @@ class IdsPopup extends IdsElement {
    * @param {number} val the coordinate's value
    */
   set x(val) {
-    let trueVal = parseInt(val, 10);
+    let trueVal = parseInt(val.toString(), 10);
     if (Number.isNaN(trueVal)) {
       trueVal = 0;
     }
 
     this.coords.x = trueVal;
-    this.setAttribute('x', trueVal);
+    this.setAttribute('x', trueVal.toString());
     this.refresh();
   }
 
@@ -446,13 +457,13 @@ class IdsPopup extends IdsElement {
    * @param {number} val the coordinate's value
    */
   set y(val) {
-    let trueVal = parseInt(val, 10);
+    let trueVal = parseInt(val.toString(), 10);
     if (Number.isNaN(trueVal)) {
       trueVal = 0;
     }
 
     this.coords.y = trueVal;
-    this.setAttribute('y', trueVal);
+    this.setAttribute('y', trueVal.toString());
     this.refresh();
   }
 
@@ -474,7 +485,9 @@ class IdsPopup extends IdsElement {
     // Attach to the global ResizeObserver
     // (this doesn't need updating)
     // @TODO possibly replace `this.parentNode` with IdsPopupBoundary (specifically to contain)
+    // @ts-ignore
     if (this.shouldResize()) {
+      // @ts-ignore
       this.ro.observe(this.parentNode);
     }
 
@@ -501,7 +514,9 @@ class IdsPopup extends IdsElement {
     if (!alignTarget) {
       // Remove an established MutationObserver if one exists.
       if (this.hasMutations) {
+        // @ts-ignore
         this.mo.disconnect();
+        // @ts-ignore
         this.disconnectDetectMutations();
         delete this.hasMutations;
       }
@@ -509,7 +524,9 @@ class IdsPopup extends IdsElement {
       this.placeAtCoords();
     } else {
       // connect the alignTarget to the global MutationObserver, if applicable.
+      // @ts-ignore
       if (this.shouldDetectMutations() && !this.hasMutations) {
+        // @ts-ignore
         this.mo.observe(this.alignTarget, {
           attributes: true,
           attributeFilter: ['style', 'height', 'width'],
@@ -526,6 +543,8 @@ class IdsPopup extends IdsElement {
     if (this.openCheck) {
       this.openCheck.destroy(true);
     }
+
+    // @ts-ignore
     this.openCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 70,
       timeoutCallback: () => {
@@ -542,6 +561,7 @@ class IdsPopup extends IdsElement {
     if (this.animatedCheck) {
       this.animatedCheck.destroy(true);
     }
+    // @ts-ignore
     this.animatedCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 200,
       timeoutCallback: () => {
@@ -587,7 +607,9 @@ class IdsPopup extends IdsElement {
         break;
     }
 
+    // @ts-ignore
     this.container.style.left = `${x}px`;
+    // @ts-ignore
     this.container.style.top = `${y}px`;
   }
 
@@ -672,7 +694,9 @@ class IdsPopup extends IdsElement {
       }
     }
 
+    // @ts-ignore
     this.container.style.left = `${x}px`;
+    // @ts-ignore
     this.container.style.top = `${y}px`;
   }
 

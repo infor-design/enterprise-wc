@@ -153,7 +153,7 @@ class IdsRenderLoop {
 
   /**
    * @param {IdsRenderLoopItem} loopItem the pre-constructed loop item.
-   * @returns {void}
+   * @returns {IdsRenderLoopItem} The IdsRenderLoopItem as just rendered
    */
   register(loopItem) {
     this.items.push(loopItem);
@@ -198,4 +198,4 @@ class IdsRenderLoop {
   }
 }
 
-export default IdsRenderLoop;
+export { IdsRenderLoop };

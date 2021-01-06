@@ -6,9 +6,9 @@ class IdsEventsMixin {
 
   /**
    * Add and keep track of an event listener.
-   * @param {string} eventName The event name with optional namespace
+   * @param {string|any} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
-   * @param {Function} callback The callback code to execute
+   * @param {Function|any} callback The callback code to execute
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
   addEventListener(eventName, target, callback, options) {

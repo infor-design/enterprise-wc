@@ -1,6 +1,6 @@
 @import '../ids-base/ids-base';
 
-.ids-trigger-button {
+.ids-icon-button {
   @include bg-transparent();
   @include border-0();
   @include cursor-pointer();

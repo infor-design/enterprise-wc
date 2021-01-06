@@ -37,8 +37,7 @@ const IdsClearableMixin = {
       icon.setAttribute('icon', 'close');
       icon.setAttribute('size', 'small');
       icon.setAttribute('slot', 'icon');
-
-      text.setAttribute('audible', true);
+      text.setAttribute('audible', 'true');
       text.textContent = 'clear';
       xButton.setAttribute('tabindex', 0);
       xButton.className = 'btn-clear';
@@ -100,8 +99,8 @@ const IdsClearableMixin = {
    */
   clearableEvents() {
     this.handleClearBtnKeydown();
-    this.handleClearBtnClick();
-    this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e));
+    this.handleClearBtnClick('');
+    this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e, ''));
 
     // Set initial state
     this.checkContents();
@@ -176,7 +175,7 @@ const IdsClearableMixin = {
   },
 
   /**
-   * Destroy clearable
+   * Destroy clearable actions
    * @returns {void}
    */
   destroyClearable() {

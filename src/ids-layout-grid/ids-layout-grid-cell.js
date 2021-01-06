@@ -1,4 +1,4 @@
-import { customElement, IdsElement, scss } from '../ids-base/ids-element';
+import { customElement, IdsElement } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
 
 /**
@@ -37,8 +37,6 @@ class IdsLayoutGridCell extends IdsElement {
    * @param {string} value The fill color or true for theme default color
    */
   set fill(value) {
-    const hasFill = this.hasAttribute(props.FILL);
-
     if (value) {
       this.setAttribute(props.FILL, value);
       // this.style.setProperty('--grid-fill-color', `var(--body-color-primary-background)`);

@@ -197,7 +197,6 @@ describe('IdsButton Component', () => {
     expect(btn.button.classList.contains('ids-button')).toBeFalsy();
   });
 
-  // @TODO write a better test for this without `rerender` if we start using settings objects
   it('can rerender', () => {
     btn.text = 'New';
     btn.icon = 'check';
@@ -205,8 +204,6 @@ describe('IdsButton Component', () => {
     btn.tabindex = -1;
     btn.type = 'secondary';
     btn.cssClass = ['awesome'];
-
-    btn.rerender();
 
     expect(btn.text).toEqual('New');
   });
@@ -315,7 +312,6 @@ describe('IdsButton ripple effect tests', () => {
 
   it('can get ripple offsets from its physical dimensions', () => {
     const c = btn.button;
-    const originalGetBoundingClientRect = c.getBoundingClientRect;
 
     // 150x40 are roughly the dimensions of a standard IDS Button with some text and an icon
     c.getBoundingClientRect = jest.fn(() => ({

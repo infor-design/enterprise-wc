@@ -98,13 +98,11 @@ describe('Ids RenderLoop', () => {
   });
 
   it('can stop and start the loop', (done) => {
-    let updates = 0;
     const timeoutLength = 100;
     const item = new IdsRenderLoopItem({
       id: 'test-loop-item',
       duration: -1,
       updateCallback: () => {
-        updates++;
       }
     });
     loop.register(item);
@@ -127,7 +125,6 @@ describe('Ids RenderLoop', () => {
   });
 
   it('can remove a RenderLoop Item by using its id', (done) => {
-    let updates = 0;
     let flag = false;
     const testId = 'test-loop-item';
     const item = new IdsRenderLoopItem({
@@ -137,7 +134,6 @@ describe('Ids RenderLoop', () => {
         flag = true;
       },
       updateCallback: () => {
-        updates++;
       }
     });
     loop.register(item);
@@ -169,13 +165,11 @@ describe('Ids RenderLoop', () => {
 
   // @TODO only needed for test coverage?
   it('can remove items by id that will never timeout by themselves', (done) => {
-    let updates = 0;
     const timeoutLength = 100;
     const item = new IdsRenderLoopItem({
       id: 'test-loop-item',
       duration: -1,
       updateCallback: () => {
-        updates++;
       }
     });
     loop.register(item);
@@ -229,12 +223,10 @@ describe('Ids RenderLoop', () => {
     });
 
     it('keeps time records', () => {
-      let updates = 0;
       const item = new IdsRenderLoopItem({
         id: 'test-loop-item',
         duration: -1,
         updateCallback: () => {
-          updates++;
         }
       });
       loop.register(item);
@@ -244,13 +236,11 @@ describe('Ids RenderLoop', () => {
     });
 
     it('can be paused and resumed', (done) => {
-      let updates = 0;
       const timeoutLength = 100;
       const item = new IdsRenderLoopItem({
         id: 'test-loop-item',
         duration: -1,
         updateCallback: () => {
-          updates++;
         }
       });
       loop.register(item);

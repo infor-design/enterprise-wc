@@ -4,12 +4,14 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
-import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
+// @ts-ignore
 import styles from './ids-switch.scss';
-
+// @ts-ignore
 import IdsText from '../ids-text/ids-text';
 
 /**
@@ -19,7 +21,6 @@ import IdsText from '../ids-text/ids-text';
 @scss(styles)
 @mixin(IdsEventsMixin)
 @mixin(IdsHideFocusMixin)
-@mixin(IdsStringUtilsMixin)
 class IdsSwitch extends IdsElement {
   /**
    * Call the constructor and then initialize
@@ -43,26 +44,27 @@ class IdsSwitch extends IdsElement {
   }
 
   /**
-   * Custom Element `connectedCallBack` implementation
-   * @private
+   * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
+    /** @type {object} */
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
     this.eventHandlers = new IdsEventsMixin();
 
+    // @ts-ignore
     this.hideFocus();
     this.handleEvents();
   }
 
   /**
    * Custom Element `disconnectedCallback` implementation
-   * @private
    * @returns {void}
    */
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
+    // @ts-ignore
     this.destroyHideFocus();
     this.handleSwitchChangeEvent('remove');
     this.handleNativeEvents('remove');
@@ -74,8 +76,8 @@ class IdsSwitch extends IdsElement {
    */
   template() {
     // Checkbox
-    const disabled = this.stringToBool(this.disabled) ? ' disabled' : '';
-    const checked = this.stringToBool(this.checked) ? ' checked' : '';
+    const disabled = stringUtils.stringToBool(this.disabled) ? ' disabled' : '';
+    const checked = stringUtils.stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-switch${disabled}"`;
     const checkboxClass = ` class="checkbox"`;
 
@@ -99,7 +101,7 @@ class IdsSwitch extends IdsElement {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleSwitchChangeEvent(option) {
+  handleSwitchChangeEvent(option = '') {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {
@@ -122,7 +124,7 @@ class IdsSwitch extends IdsElement {
    * @param {string} option If 'remove', will remove attached events
    * @returns {object} The object for chaining.
    */
-  handleNativeEvents(option) {
+  handleNativeEvents(option = '') {
     if (this.input) {
       const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt) => {
@@ -132,7 +134,7 @@ class IdsSwitch extends IdsElement {
             this.eventHandlers.removeEventListener(evt, this.input);
           }
         } else {
-          this.eventHandlers.addEventListener(evt, this.input, (e) => {
+          this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire `trigger + nativeEvent` as triggerclick, triggerchange etc.
@@ -167,14 +169,14 @@ class IdsSwitch extends IdsElement {
 
   /**
    * Set `checked` attribute
-   * @param {boolean} value If true will set `checked` attribute
+   * @param {boolean|string} value If true will set `checked` attribute
    */
   set checked(value) {
     const slider = this.shadowRoot.querySelector('.slider');
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.CHECKED, val);
+      this.setAttribute(props.CHECKED, val.toString());
       this.input?.setAttribute(props.CHECKED, val);
       slider?.classList.add(props.CHECKED);
     } else {
@@ -188,14 +190,14 @@ class IdsSwitch extends IdsElement {
 
   /**
    * Set `disabled` attribute
-   * @param {boolean} value If true will set `disabled` attribute
+   * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const rootEl = this.shadowRoot.querySelector('.ids-switch');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.DISABLED, val);
+      this.setAttribute(props.DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
     } else {

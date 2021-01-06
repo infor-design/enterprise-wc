@@ -4,15 +4,17 @@
 
 The IDS Radio component is a web component wrapper around a standard input radio element that is styled to Infor branding, and contains some additional API that makes it easy to set radio, label, and functionality.
 
+The IDS Radio Group component is a simple wrapper around list of IDS radio, and contains some additional API that makes it easy to create a group of radios and add a group label, and other functionality.
+
 ## Use Cases
 
-- Allows for making one selection out of a group of options.
-- Radio buttons are particularly useful in allowing users to make single choices from lists of selectable options. When multiple items are available to choose from, use checkboxes or in some cases, switches.
+- Allows for making one selection out of a group of radio options.
+- Radio buttons are particularly useful in allowing users to make single choices from lists of selectable options. When
 
 ## Terminology
 
 **Radio Button:** A standard basic radio button element. It can set to checked, unchecked and disabled.
-**Label:** HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful content.
+**Label:** HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful content. IDS Radio Group will add sudo ui `*` for required elements.
 
 ## Features (With Code Samples)
 
@@ -45,76 +47,6 @@ Add an colored radio - use this option only in special use cases
 ```html
 <ids-radio checked="true" color="emerald07" value="emerald07" label="Emerald 07"></ids-radio>
 ```
-
-## Attributes and Properties
-
-- `checked` {boolean} set checked state.
-- `color` {string} set the color for radio.
-- `disabled` {boolean} set disabled state.
-- `group-disabled` {boolean} set disabled state, if group disabled.
-- `horizontal` {boolean} set radio layout inline as horizontal.
-- `label` {string} set the label text.
-- `label-font-size` {string|number} set the label font size.
-- `validation-has-error` {boolean} set the validation error state.
-- `value` {string} set the radio value.
-
-## States and Variations
-
-- Unchecked
-- Checked/Selected
-- Hover
-- Disabled
-- Focus
-- Error
-- Dirty
-- Active
-
-## Keyboard Guidelines
-
-The IDS Radio doesn't contain any interactions beyond a standard radio input element:
-
-- <kbd>Tab</kbd> and <kbd>Shift Tab</kbd> moves focus into the edit field to/from the next focusable item in the tab order.
-- <kbd>Space</kbd> toggle the checked/unchecked state.
-
-## Responsive Guidelines
-
-- Default display set vertical but can also use the  `horizontal` attribute as true for some cases.
-
-## Converting from Previous Versions
-
-### Converting from 4.x
-
-The IDS Radio component is now a WebComponent. Instead of using classes to define, it is done directly via the web component.
-
-```html
-<!-- 4.x radio example -->
-<div class="field">
-  <input type="radio" class="radio" name="options" value="opt1" id="option1" />
-  <label for="option1" class="radio-label">Option one</label>
-</div>
-
-<!-- This is the same radio using a WebComponent -->
-<ids-radio value="opt1" label="Option one"></ids-radio>
-```
-
-# Ids Radio Group Component
-
-## Description
-
-The IDS Radio Group component is a simple wrapper around list of IDS radio, and contains some additional API that makes it easy to set list of radio, label, and functionality.
-
-## Use Cases
-
-- Create standalone radio group
-- Create list of radio, each with different styling to provide context for actions that are checked, unchecked, value, disabled and colored.
-
-## Terminology
-
-**List of IdsRadio:** A list of basic IdsRadio components. Each can set to checked, unchecked and disabled.
-
-**Label:** HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful relative. IDS Radio Group will add sudo ui `*` for required elements.
-
-## Features (With Code Samples)
 
 A standard Radio Group unchecked element:
 
@@ -191,7 +123,8 @@ Set validation `required` to Radio Group this way:
 </ids-radio-group>
 <button id="btn-radio-validate">Validate</button>
 ```
-Then can check validation with `JavaScript`
+
+You can also check validation with the JS api.
 
 ```javascript
 document.querySelector('#btn-radio-validate').addEventListener('click', () => {
@@ -218,7 +151,19 @@ Set Radio Group as Horizontal:
 </ids-radio-group>
 ```
 
-## Attributes and Properties
+## Attributes and Properties (for Radios)
+
+- `checked` {boolean} set checked state.
+- `color` {string} set the color for radio.
+- `disabled` {boolean} set disabled state.
+- `group-disabled` {boolean} set disabled state, if group disabled.
+- `horizontal` {boolean} set radio layout inline as horizontal.
+- `label` {string} set the label text.
+- `label-font-size` {string|number} set the label font size.
+- `validation-has-error` {boolean} set the validation error state.
+- `value` {string} set the radio value.
+
+## Attributes and Properties (for Radio Groups)
 
 - `dirty-tracker` {boolean} set dirty tracker.
 - `disabled` {boolean} set disabled state.
@@ -230,23 +175,48 @@ Set Radio Group as Horizontal:
 - `validation-events` {string} set the validation events, use `space` to add multiple default is set to `change`.
 - `value` {string} set the radio group value, will set as checked the matching radio value in list.
 
+## States and Variations
+
+- Unchecked
+- Checked/Selected
+- Hover
+- Disabled
+- Focus
+- Error
+- Dirty
+- Active
+
 ## Keyboard Guidelines
 
-The IDS Radio Group doesn't contain any interactions beyond a standard HTMLInputElement:
+The IDS Radio doesn't contain any interactions beyond a standard radio input element:
 
 - <kbd>Tab</kbd> and <kbd>Shift Tab</kbd> moves focus into the edit field to/from the next focusable item in the tab order.
-- <kbd>Space</kbd> toggle the checked/unchecked state.
-- <kbd>ArrowDown</kbd>, <kbd>ArrowRight</kbd>, <kbd>ArrowUp</kbd>, <kbd>ArrowLeft</kbd>, roving in radio list, each key will move and set checked next in the list.
+- <kbd>Space</kbd> Ttoggle the checked/unchecked state on the active radio button.
+- <kbd>ArrowDown</kbd>, <kbd>ArrowRight</kbd>, <kbd>ArrowUp</kbd>, <kbd>ArrowLeft</kbd>, Moves within a radio group, each key will move and set checked next radio in the list.
 
 ## Responsive Guidelines
 
+- Default display set vertical but can also use the  `horizontal` attribute as true for some cases.
 - Default display set as `block`, but can change to `inline-block` by use of `horizontal` attribute as `true`.
 
 ## Converting from Previous Versions
 
 ### Converting from 4.x
 
-The IDS Radio Group component is a WebComponent. Instead of using classes to define, it is done directly:
+The IDS Radio component is now a WebComponent. Instead of using classes to define a radio, it is now via the web component structure.
+
+```html
+<!-- 4.x radio example -->
+<div class="field">
+  <input type="radio" class="radio" name="options" value="opt1" id="option1" />
+  <label for="option1" class="radio-label">Option one</label>
+</div>
+
+<!-- This is the same radio using a WebComponent -->
+<ids-radio value="opt1" label="Option one"></ids-radio>
+```
+
+The IDS Radio Group component is a WebComponent. Instead of using classes to define a radio, it is now via the web component structure.
 
 ```html
 <!-- 4.x radio group example -->
@@ -264,7 +234,6 @@ The IDS Radio Group component is a WebComponent. Instead of using classes to def
   <input type="radio" class="radio" name="options" value="opt4" disabled="true" id="option4" />
   <label for="option4" class="radio-label">Option four</label>
 </fieldset>
-
 
 <!-- this is the same radio group using the WebComponent -->
 <ids-radio-group label="Select delivery method">

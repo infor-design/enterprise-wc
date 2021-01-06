@@ -2,17 +2,19 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
-  mixin
+  props
 } from '../ids-base/ids-element';
 
 import { IdsDataGridFormatters } from './ids-data-grid-formatters';
 import { IdsDataSourceMixin } from '../ids-base/ids-data-source-mixin';
-import { IdsDeepCloneMixin } from '../ids-base/ids-deep-clone-mixin';
+import { IdsDeepCloneMixin as cloneUtils } from '../ids-base/ids-deep-clone-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 
+// @ts-ignore
+import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+// @ts-ignore
 import styles from './ids-data-grid.scss';
 
 /**
@@ -20,7 +22,6 @@ import styles from './ids-data-grid.scss';
  */
 @customElement('ids-data-grid')
 @scss(styles)
-@mixin(IdsDeepCloneMixin)
 class IdsDataGrid extends IdsElement {
   constructor() {
     super();
@@ -28,16 +29,14 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Handle setup when connected
-   * @private
    */
-  connectedCallBack() {
+  connectedCallback() {
     this.formatters = new IdsDataGridFormatters();
     this.datasource = new IdsDataSourceMixin();
   }
 
   /**
    * Return the properties we handle as getters/setters
-   * @private
    * @returns {Array} The properties in an array
    */
   static get properties() {
@@ -103,11 +102,12 @@ class IdsDataGrid extends IdsElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     // Setup virtual scrolling
-    if (this.virtualScroll === 'true' && this?.data.length > 0) {
+    if (stringUtils.stringToBool(this.virtualScroll) && this?.data.length > 0) {
+      /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.scrollTarget = this.shadowRoot.querySelector('.ids-data-grid');
 
-      this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
+      this.virtualScrollContainer.itemTemplate = (/** @type {any} */ row, /** @type {any} */ index) => this.rowTemplate(row, index); //eslint-disable-line
       this.virtualScrollContainer.itemCount = this.data.length;
       // TODO Dynamic Height setting - header height
       this.virtualScrollContainer.height = 350 - this.headerPixelHeight;
@@ -213,7 +213,8 @@ class IdsDataGrid extends IdsElement {
     this.eventHandlers = new IdsEventsMixin();
 
     // Add a sort Handler
-    this.eventHandlers.addEventListener('click', sortableColumns, (e) => {
+    // @ts-ignore
+    this.eventHandlers.addEventListener('click', sortableColumns, (/** @type {any} */ e) => {
       const header = e.target.closest('.is-sortable');
 
       if (header) {
@@ -222,7 +223,7 @@ class IdsDataGrid extends IdsElement {
     });
 
     // Add a cell click handler
-    this.eventHandlers.addEventListener('click', this.shadowRoot.querySelector('.ids-data-grid-body'), (e) => {
+    this.eventHandlers.addEventListener('click', this.shadowRoot.querySelector('.ids-data-grid-body'), (/** @type {any} */ e) => {
       const cell = e.target.closest('.ids-data-grid-cell');
       const row = cell.parentNode;
       // TODO Handle Hidden Cells
@@ -242,7 +243,7 @@ class IdsDataGrid extends IdsElement {
     this.keyboard = new IdsKeyboardMixin();
 
     // Handle arrow navigation
-    this.keyboard.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e) => {
+    this.keyboard.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (/** @type {any} */ e) => {
       const key = e.key;
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
@@ -266,7 +267,9 @@ class IdsDataGrid extends IdsElement {
 
     let styleSheet = null;
 
+    // @ts-ignore
     if (this.shadowRoot.adoptedStyleSheets) {
+      // @ts-ignore
       styleSheet = this.shadowRoot.adoptedStyleSheets[0];
     } else if (this.shadowRoot.styleSheets) {
       styleSheet = this.shadowRoot.styleSheets[0];
@@ -304,7 +307,7 @@ class IdsDataGrid extends IdsElement {
    */
   setSortColumn(id, ascending = true) {
     this.sortColumn = { id, ascending };
-    this.datasource.sort(id, ascending);
+    this.datasource.sort(id, ascending, null);
     this.rerender();
     this.setSortState(id, ascending);
     this.eventHandlers.dispatchEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
@@ -331,19 +334,18 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Set a style on every alternate row for better readability.
-   * @private
    * @param {boolean|string} value true to use alternate row shading
    */
   set alternateRowShading(value) {
-    if (value === true || value === 'true') {
-      this.setAttribute(props.ALTERNATE_ROW_SHADING, value);
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(props.ALTERNATE_ROW_SHADING, value.toString());
       this.shadowRoot?.querySelector('.ids-data-grid').classList.add('alt-row-shading');
       return;
     }
 
-    if (!value || value === false || value === 'false') {
+    if (!stringUtils.stringToBool(value)) {
       this.shadowRoot?.querySelector('.ids-data-grid').classList.remove('alt-row-shading');
-      this.setAttribute(props.ALTERNATE_ROW_SHADING, value);
+      this.setAttribute(props.ALTERNATE_ROW_SHADING, value.toString());
     }
   }
 
@@ -354,7 +356,7 @@ class IdsDataGrid extends IdsElement {
    * @param {Array} value The array to use
    */
   set columns(value) {
-    this.currentColumns = value ? this.deepClone(value) : [{ id: '', name: '' }];
+    this.currentColumns = value ? cloneUtils.deepClone(value) : [{ id: '', name: '' }];
     this.rerender();
   }
 
@@ -378,11 +380,11 @@ class IdsDataGrid extends IdsElement {
 
   /**
    * Set the list view to use virtual scrolling for a large amount of elements.
-   * @param {boolean} value true to use virtual scrolling
+   * @param {boolean|string} value true to use virtual scrolling
    */
   set virtualScroll(value) {
     if (value === true || value === 'true') {
-      this.setAttribute(props.VIRTUAL_SCROLL, value);
+      this.setAttribute(props.VIRTUAL_SCROLL, value.toString());
       this.rerender();
       return;
     }
@@ -425,7 +427,7 @@ class IdsDataGrid extends IdsElement {
       this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', 'large');
     }
 
-    if (this.stringToBool(this.virtualScroll)) {
+    if (stringUtils.stringToBool(this.virtualScroll)) {
       this.rerender();
     }
   }
@@ -478,6 +480,7 @@ class IdsDataGrid extends IdsElement {
 
     this.activeCell.node = cellNode;
     cellNode.setAttribute('tabindex', '0');
+    // @ts-ignore
     cellNode.focus();
 
     this.eventHandlers.dispatchEvent('activecellchanged', this, { detail: { elem: this, activeCell: this.activeCell } });

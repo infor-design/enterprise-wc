@@ -130,7 +130,6 @@ describe('IdsDataGrid Component', () => {
   });
 
   it('renders row data', () => {
-    const errors = jest.spyOn(global.console, 'error');
     expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(117);
   });
