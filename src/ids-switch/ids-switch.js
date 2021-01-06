@@ -17,7 +17,6 @@ import IdsText from '../ids-text/ids-text';
  */
 @customElement('ids-switch')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsHideFocusMixin)
 @mixin(IdsStringUtilsMixin)
 class IdsSwitch extends IdsElement {

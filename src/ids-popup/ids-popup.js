@@ -71,7 +71,6 @@ function formatAlignAttribute(alignX, alignY, edge) {
  */
 @customElement('ids-popup')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsRenderLoopMixin)
 @mixin(IdsResizeMixin)
 class IdsPopup extends IdsElement {

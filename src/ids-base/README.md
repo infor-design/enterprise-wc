@@ -62,10 +62,24 @@ The Event mixin needs to record its state in a map for each component so it cant
   // Handle Clicking the x for dismissible
   const closeIcon = this.querySelector('ids-icon[icon="close"]');
   this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
+```
 
 - Handles consistency on the data sent (element, event data, id, idx, custom ect)
 - Before events events can be vetoed
-- All events should have past tense for example activated, beforeactivated, afteractived not activate, beforeactivate, afteractivate
+- All events should have past tense for example `activated`, `beforeactivated`, `afteractived` and not `activate`, `beforeactivate`, `afteractivate`
+
+It's also possible to use Namespaces with the Ids Event Handler's methods, similar to the 4.x version's support for jQuery Event Namespacing.  When assigning an event name, usage of a period (.) will cause any text after the period to be considered the "namespace".  When removing assigned event listeners using the namespace, only handlers that match the event type AND namespace will be removed:
+
+```js
+this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
+this.eventHandlers.addEventListener('click.doop', closeIcon, () => this.otherDismissCheck());
+console.log(this.eventHandlers.handledEvents());
+// both `click` and `click.doop` exist.
+
+this.eventHandlers.removeEventListener('click.doop', closeIcon);
+console.log(this.eventHandlers.handledEvents());
+// `click.doop` is not there, but `click` remains.
+```
 
 ## Ids Mixins
 
