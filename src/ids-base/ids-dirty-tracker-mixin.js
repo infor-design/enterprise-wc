@@ -179,9 +179,6 @@ const IdsDirtyTrackerMixin = {
           this.setDirtyTracker(val);
         });
         this.handleRadioGroupHidefocusClass();
-        // setTimeout(() => {
-        //   this.handleRadioGroupHidefocusClass();
-        // }, 0);
       }
     }
   },
