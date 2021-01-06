@@ -1,28 +1,21 @@
 @import '../ids-base/ids-base';
 
-.ids-expandable-area {
-  .ids-expandable-area-header {
-    [name='header'] {
-      display: block;
-
-      span {
-        background-color: green;
-        display: block;
-      }
-
-      ids-text {
-        @include mb-8();
-
-        display: block;
-      }
-    }
-  }
-}
-
 :host([type='toggle-btn']) {
   .ids-expandable-area-header {
     @include mb-16();
   }
+}
+
+.ids-expandable-area-header ::slotted(ids-text) {
+  @include mb-8();
+
+  display: block;
+}
+
+.ids-expandable-area-footer ::slotted(ids-text) {
+  @include mt-8();
+
+  display: block;
 }
 
 [data-expander='link'] {

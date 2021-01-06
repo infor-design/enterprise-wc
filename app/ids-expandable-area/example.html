@@ -54,17 +54,15 @@
     <hr>
 
     <ids-expandable-area>
-      <div slot="header">
-        <ids-text font-size="16">Customer Information</ids-text>
-        <ids-layout-grid cols="2" gap="md" no-margins="true">
-          <ids-layout-grid-cell>
-            <ids-input size="full" type="text" label="Customer Name" name="customer-name" placeholder="Normal text Field"></ids-input>
-          </ids-layout-grid-cell>
-          <ids-layout-grid-cell>
-            <ids-input size="full" type="text" label="Location" name="location" placeholder="Normal text Field"></ids-input>
-          </ids-layout-grid-cell>
-        </ids-layout-grid>
-      </div>
+      <ids-text slot="header" font-size="16">Customer Information</ids-text>
+      <ids-layout-grid slot="header" cols="2" gap="md" no-margins="true">
+        <ids-layout-grid-cell>
+          <ids-input size="full" type="text" label="Customer Name" name="customer-name" placeholder="Normal text Field"></ids-input>
+        </ids-layout-grid-cell>
+        <ids-layout-grid-cell>
+          <ids-input size="full" type="text" label="Location" name="location" placeholder="Normal text Field"></ids-input>
+        </ids-layout-grid-cell>
+      </ids-layout-grid>
       <ids-layout-grid slot="pane" cols="2" gap="md" no-margins="true">
         <ids-input size="full" type="text" label="More Customer Details" name="more-customer-details" placeholder="Normal text Field"></ids-input>
       </ids-layout-grid>
