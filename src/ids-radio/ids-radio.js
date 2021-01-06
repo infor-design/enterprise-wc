@@ -80,6 +80,7 @@ class IdsRadio extends IdsElement {
   template() {
     // Checkbox
     const disabled = this.stringToBool(this.disabled) ? ' disabled' : '';
+    const disabledAria = this.stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
     const horizontal = this.stringToBool(this.horizontal) ? ' horizontal' : '';
     const checked = this.stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-radio${disabled}${horizontal}"`;
@@ -93,7 +94,7 @@ class IdsRadio extends IdsElement {
         <label>
           <input type="radio" tabindex="-1"${radioClass}${disabled}${checked}>
           <span class="circle${checked}"></span>
-          <ids-text class="label-text"${labelFontSize}>${this.label}</ids-text>
+          <ids-text class="label-text"${labelFontSize}${disabledAria}>${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -218,15 +219,18 @@ class IdsRadio extends IdsElement {
   set disabled(value) {
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     const rootEl = this.shadowRoot.querySelector('.ids-radio');
+    const labelText = this.shadowRoot.querySelector('.label-text');
     const val = this.stringToBool(value);
     if (value) {
       this.setAttribute(props.DISABLED, val);
       this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
       rootEl?.setAttribute('tabindex', '-1');
+      labelText?.setAttribute('aria-disabled', 'true');
     } else {
       this.removeAttribute(props.DISABLED);
       this.input?.removeAttribute(props.DISABLED);
+      labelText?.removeAttribute('aria-disabled');
       rootEl?.classList.remove(props.DISABLED);
     }
   }
