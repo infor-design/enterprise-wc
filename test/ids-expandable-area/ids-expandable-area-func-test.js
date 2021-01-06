@@ -11,7 +11,7 @@ describe('IdsExpandableArea Component', () => {
   ];
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
     const elem = new IdsExpandableArea();
     elem.expanded = false;
     elem.state.expanded = false;
@@ -160,7 +160,7 @@ describe('IdsExpandableArea Component', () => {
       requestAnimationFrame(() => {
         el.pane.style.height = `0px`;
       });
-    })
+    });
     expect(el.pane.style.height).toEqual('0px');
   });
 

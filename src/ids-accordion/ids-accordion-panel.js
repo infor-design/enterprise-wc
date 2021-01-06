@@ -21,8 +21,6 @@ class IdsAccordionPanel extends IdsElement {
   constructor() {
     super();
     this.state = {};
-    this.expander = this.querySelector('[slot="header"]');
-    this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
     this.keyboard = new IdsKeyboardMixin();
   }
 
@@ -32,6 +30,8 @@ class IdsAccordionPanel extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
+    this.expander = this.querySelector('[slot="header"]');
+    this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
     this.setTitles();
     this.handleEvents();
     this.switchState();
@@ -48,7 +48,6 @@ class IdsAccordionPanel extends IdsElement {
   set expanded(value) {
     if (value) {
       this.setAttribute(props.EXPANDED, value);
-      return;
     } else {
       this.setAttribute(props.EXPANDED, false);
     }
@@ -56,6 +55,7 @@ class IdsAccordionPanel extends IdsElement {
 
   /**
    * Get the expanded property
+   * @returns {string} the expanded property
    */
   get expanded() { return this.getAttribute(props.EXPANDED); }
 
@@ -69,20 +69,23 @@ class IdsAccordionPanel extends IdsElement {
   }
 
   /**
- * Identify just the `expanded` attribute as an observed attribute
- * @private
- * @returns {Array}
- */
+   * Identify just the `expanded` attribute as an observed attribute
+   * @private
+   * @returns {Array} the observed attributes array
+   */
   static get observedAttributes() {
     return [props.EXPANDED];
   }
 
   /**
    * When `expanded` changes value, execute switchState()
-   * @param {string} name
+   * @param {string} name Name of the attribute that changed
    */
+  /* istanbul ignore next */
   attributeChangedCallback(name) {
-    this.switchState();
+    if (name === props.EXPANDED) {
+      this.switchState();
+    }
   }
 
   /**
@@ -165,7 +168,7 @@ class IdsAccordionPanel extends IdsElement {
           </div>
         </div>
       </div>
-    `
+    `;
   }
 }
 

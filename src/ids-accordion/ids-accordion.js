@@ -38,7 +38,7 @@ class IdsAccordion extends IdsElement {
       <div class="ids-accordion">
         <slot></slot>
       </div>
-    `
+    `;
   }
 }
 

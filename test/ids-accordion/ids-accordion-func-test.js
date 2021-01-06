@@ -11,7 +11,7 @@ describe('IdsAccordion Component', () => {
   let header;
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation(cb => cb());
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
     const wrapper = new IdsAccordion();
     panel = new IdsAccordionPanel();
     header = new IdsAccordionHeader();
@@ -47,9 +47,9 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can set the panel title attribute', () => {
-    panel.pane.title = "Title Text";
+    panel.pane.title = 'Title Text';
     expect(panel.pane.getAttribute('title')).toBe('Title Text');
-  })
+  });
 
   it('can change set its aria-expanded attribute', () => {
     panel.state.expanded = true;
@@ -138,7 +138,7 @@ describe('IdsAccordion Component', () => {
       requestAnimationFrame(() => {
         panel.pane.style.height = `0px`;
       });
-    })
+    });
     expect(panel.pane.style.height).toEqual('0px');
   });
 
