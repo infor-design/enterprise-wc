@@ -15,7 +15,6 @@ import styles from './ids-virtual-scroll.scss';
  */
 @customElement('ids-virtual-scroll')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsRenderLoopMixin)
 class IdsVirtualScroll extends IdsElement {
   constructor() {

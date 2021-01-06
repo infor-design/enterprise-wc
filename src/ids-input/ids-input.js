@@ -61,7 +61,6 @@ const TEXT_ALIGN = {
 @mixin(IdsClearableMixin)
 @mixin(IdsDirtyTrackerMixin)
 @mixin(IdsDomUtilsMixin)
-@mixin(IdsEventsMixin)
 @mixin(IdsStringUtilsMixin)
 @mixin(IdsValidationMixin)
 class IdsInput extends IdsElement {
