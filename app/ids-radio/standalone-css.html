@@ -1,3 +1,4 @@
+{{> ../layouts/head.html }}
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600&amp;display=swap"/>
  <link rel="stylesheet" href="ids-radio.css"/>
  <link rel="stylesheet" href="../ids-radio-group/ids-radio-group.css"/>
@@ -35,19 +36,19 @@
     <br/><br/>
     <h2 class="ids-text ids-text-12">Ids Radio - Disabled Group</h2>
     <fieldset class="ids-radio-group disabled">
-      <legend class="ids-text group-label-text">Select delivery method</legend>
+      <legend class="ids-text group-label-text" aria-disabled="true">Select delivery method</legend>
       <div class="ids-radio">
         <label>
           <input name="g2" type="radio" class="radio-button" value="opt1" checked="true" disabled="true"/>
           <span class="circle"></span>
-          <span class="ids-text label-text">Option one</span>
+          <span class="ids-text label-text" aria-disabled="true">Option one</span>
         </label>
       </div>
       <div class="ids-radio">
         <label>
           <input name="g2" type="radio" class="radio-button" value="opt2" disabled="true"/>
           <span class="circle"></span>
-          <span class="ids-text label-text">Option two</span>
+          <span class="ids-text label-text" aria-disabled="true">Option two</span>
         </label>
       </div>
     </fieldset>
@@ -74,7 +75,7 @@
         <label>
           <input name="g3" type="radio" class="radio-button" value="opt3" disabled="true"/>
           <span class="circle"></span>
-          <span class="ids-text label-text">Option three</span>
+          <span class="ids-text label-text" aria-disabled="true">Option three</span>
         </label>
       </div>
     </fieldset>
@@ -208,3 +209,4 @@
 
   </div>
 </div>
+{{> ../layouts/footer.html }}
