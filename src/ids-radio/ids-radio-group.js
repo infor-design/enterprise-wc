@@ -53,12 +53,11 @@ class IdsRadioGroup extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
-    this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
+    const slot = this.shadowRoot.querySelector('slot');
     this.eventHandlers = new IdsEventsMixin();
-
-    this.setValue();
-    this.handleEvents();
+    this.eventHandlers.addEventListener('slotchange', slot, () => {
+      this.afterChildrenReady();
+    });
   }
 
   /**
@@ -68,14 +67,32 @@ class IdsRadioGroup extends IdsElement {
   template() {
     // Radio
     const disabled = this.stringToBool(this.disabled) ? ' disabled' : '';
+    const disabledAria = this.stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
     const horizontal = this.stringToBool(this.horizontal) ? ' horizontal' : '';
     const rootClass = ` class="ids-radio-group${disabled}${horizontal}"`;
 
     // Label
     const labelFontSize = this.labelFontSize ? ` ${props.FONT_SIZE}="${this.labelFontSize}"` : '';
-    const label = this.label ? `<ids-text type="legend" class="group-label-text"${labelFontSize}>${this.label}</ids-text>` : '';
+    const label = this.label ? `<ids-text type="legend" class="group-label-text"${labelFontSize}${disabledAria}>${this.label}</ids-text>` : '';
 
-    return `<fieldset${rootClass}>${label}<slot></slot></fieldset>`;
+    return `<div role="radiogroup"${rootClass}>${label}<slot></slot></div>`;
+  }
+
+  /**
+   * Set after children ready
+   * @private
+   * @returns {void}
+   */
+  afterChildrenReady() {
+    this.input = this.shadowRoot.querySelector('.ids-radio-group');
+    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
+
+    this.setValue();
+    this.handleDirtyTracker();
+    this.handleDisabled();
+    this.handleHorizontal();
+    this.handleValidation();
+    this.handleEvents();
   }
 
   /**
@@ -91,12 +108,8 @@ class IdsRadioGroup extends IdsElement {
       this.setAttribute(props.VALUE, value);
     } else if (!len) {
       const radio = this.querySelector('ids-radio');
-      if (radio) {
-        setTimeout(() => {
-          const rootEl = radio.shadowRoot?.querySelector('.ids-radio');
-          rootEl?.setAttribute('tabindex', '0');
-        }, 0);
-      }
+      const rootEl = radio?.shadowRoot?.querySelector('.ids-radio');
+      rootEl?.setAttribute('tabindex', '0');
     } else if (len > 1) {
       radioArr.pop();
       radioArr.forEach((r) => r.removeAttribute(props.CHECKED));
@@ -114,6 +127,41 @@ class IdsRadioGroup extends IdsElement {
     const radio = this.querySelector('ids-radio');
     const rootEl = radio.shadowRoot?.querySelector('.ids-radio');
     rootEl?.setAttribute('tabindex', '0');
+  }
+
+  /**
+   * Set disabled for each radio in group.
+   * @returns {void}
+   */
+  handleDisabled() {
+    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
+
+    if (this.stringToBool(this.disabled)) {
+      this.labelEl?.setAttribute('aria-disabled', 'true');
+      rootEl?.classList.add(props.DISABLED);
+      radioArr.forEach((r) => r.setAttribute(props.GROUP_DISABLED, true));
+    } else {
+      this.labelEl?.removeAttribute('aria-disabled');
+      rootEl?.classList.remove(props.DISABLED);
+      radioArr.forEach((r) => r.removeAttribute(props.GROUP_DISABLED));
+    }
+  }
+
+  /**
+   * Set horizontal for each radio in group.
+   * @returns {void}
+   */
+  handleHorizontal() {
+    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
+    if (this.stringToBool(this.horizontal)) {
+      rootEl?.classList.add(props.HORIZONTAL);
+      radioArr.forEach((r) => r.setAttribute(props.HORIZONTAL, true));
+    } else {
+      rootEl?.classList.remove(props.HORIZONTAL);
+      radioArr.forEach((r) => r.removeAttribute(props.HORIZONTAL));
+    }
   }
 
   /**
@@ -203,8 +251,6 @@ class IdsRadioGroup extends IdsElement {
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
-    this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
     this.handleDirtyTracker();
   }
 
@@ -215,18 +261,12 @@ class IdsRadioGroup extends IdsElement {
    * @param {boolean} value If true will set `disabled` attribute
    */
   set disabled(value) {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
-    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
-    const val = this.stringToBool(value);
-    if (value) {
-      this.setAttribute(props.DISABLED, val);
-      rootEl?.classList.add(props.DISABLED);
-      radioArr.forEach((r) => r.setAttribute(props.GROUP_DISABLED, value));
+    if (this.stringToBool(value)) {
+      this.setAttribute(props.DISABLED, value);
     } else {
       this.removeAttribute(props.DISABLED);
-      rootEl?.classList.remove(props.DISABLED);
-      radioArr.forEach((r) => r.removeAttribute(props.GROUP_DISABLED));
     }
+    this.handleDisabled();
   }
 
   get disabled() { return this.getAttribute(props.DISABLED); }
@@ -236,18 +276,12 @@ class IdsRadioGroup extends IdsElement {
    * @param {boolean} value If true will set `horizontal` attribute
    */
   set horizontal(value) {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
-    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
-    const val = this.stringToBool(value);
-    if (value) {
-      this.setAttribute(props.HORIZONTAL, val);
-      rootEl?.classList.add(props.HORIZONTAL);
-      radioArr.forEach((r) => r.setAttribute(props.HORIZONTAL, value));
+    if (this.stringToBool(value)) {
+      this.setAttribute(props.HORIZONTAL, value);
     } else {
       this.removeAttribute(props.HORIZONTAL);
-      rootEl?.classList.remove(props.HORIZONTAL);
-      radioArr.forEach((r) => r.removeAttribute(props.HORIZONTAL));
     }
+    this.handleHorizontal();
   }
 
   get horizontal() { return this.getAttribute(props.HORIZONTAL); }
@@ -322,8 +356,6 @@ class IdsRadioGroup extends IdsElement {
     } else {
       this.removeAttribute(props.VALIDATE);
     }
-    this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
     this.handleValidation();
   }
 
@@ -339,8 +371,6 @@ class IdsRadioGroup extends IdsElement {
     } else {
       this.removeAttribute(props.VALIDATION_EVENTS);
     }
-    this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
     this.handleValidation();
   }
 

@@ -38,6 +38,10 @@ const IdsValidationMixin = {
         if (strRule === 'required') {
           this.labelEl.classList.add('required');
           this.input.setAttribute('aria-required', true);
+          if (isRadioGroup) {
+            const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+            radioArr.forEach((r) => r.input.setAttribute('required', 'required'));
+          }
         }
         const useRules = this.useRules.get(this.input);
         if (useRules) {
