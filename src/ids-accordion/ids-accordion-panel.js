@@ -38,7 +38,7 @@ class IdsAccordionPanel extends IdsElement {
   }
 
   setTitles() {
-    this.pane.setAttribute('title', `${this.expander?.innerText}`);
+    this.pane?.setAttribute('title', `${this.expander?.innerText}`);
   }
 
   /**
@@ -95,8 +95,8 @@ class IdsAccordionPanel extends IdsElement {
    */
   switchState() {
     this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
-    this.expander.setAttribute('aria-expanded', this.state.expanded);
-    this.pane.setAttribute('data-expanded', this.state.expanded);
+    this.expander?.setAttribute('aria-expanded', this.state.expanded);
+    this.pane?.setAttribute('data-expanded', this.state.expanded);
 
     if (!this.state.expanded) {
       this.collapsePane();

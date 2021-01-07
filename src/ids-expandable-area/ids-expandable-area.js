@@ -109,6 +109,11 @@ class IdsExpandableArea extends IdsElement {
    * @returns {void}
    */
   switchState() {
+    this.expander = this.shadowRoot.querySelector('[data-expander]');
+    this.pane = this.shadowRoot.querySelector('.ids-expandable-area-pane');
+    this.expanderDefault = this.shadowRoot.querySelector('[name="expander-default"]');
+    this.expanderExpanded = this.shadowRoot.querySelector('[name="expander-expanded"]');
+
     this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
     this.expander.setAttribute('aria-expanded', this.state.expanded);
     this.pane.setAttribute('data-expanded', this.state.expanded);
