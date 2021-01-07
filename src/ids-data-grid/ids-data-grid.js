@@ -343,10 +343,8 @@ class IdsDataGrid extends IdsElement {
       return;
     }
 
-    if (!stringUtils.stringToBool(value)) {
-      this.shadowRoot?.querySelector('.ids-data-grid').classList.remove('alt-row-shading');
-      this.setAttribute(props.ALTERNATE_ROW_SHADING, 'false');
-    }
+    this.shadowRoot?.querySelector('.ids-data-grid').classList.remove('alt-row-shading');
+    this.setAttribute(props.ALTERNATE_ROW_SHADING, 'false');
   }
 
   get alternateRowShading() { return this.getAttribute(props.ALTERNATE_ROW_SHADING) || 'false'; }

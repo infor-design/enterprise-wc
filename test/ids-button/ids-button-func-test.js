@@ -31,6 +31,18 @@ describe('IdsButton Component', () => {
     expect(btn.shouldUpdate).toBeTruthy();
   });
 
+  it('renders correctly', () => {
+    const elem = new IdsButton();
+    elem.cssClass = 'test-class';
+    elem.disabled = true;
+    elem.icon = 'add';
+    elem.text = 'test';
+    elem.state.type = 'icon';
+    document.body.appendChild(elem);
+    elem.template();
+    expect(elem.outerHTML).toMatchSnapshot();
+  });
+
   it('exposes its inner button component', () => {
     expect(btn.button).toBeDefined();
     expect(btn.button instanceof HTMLElement).toBeTruthy();

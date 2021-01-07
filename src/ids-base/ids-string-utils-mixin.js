@@ -30,7 +30,7 @@ const IdsStringUtilsMixin = {
    * @returns {obj} The dataset row / item
    */
   injectTemplate(str, obj) {
-    return str.replace(/\${(.*?)}/g, (x, g) => obj[g]);
+    return str.replace(/\${(.*?)}/g, (_x, g) => obj[g]);
   }
 };
 

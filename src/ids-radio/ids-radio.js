@@ -4,14 +4,16 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
-import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
-import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
+// @ts-ignore
 import styles from './ids-radio.scss';
-
+// @ts-ignore
 import IdsText from '../ids-text/ids-text';
+// @ts-ignore
 import IdsRadioGroup from './ids-radio-group';
 
 /**
@@ -19,9 +21,7 @@ import IdsRadioGroup from './ids-radio-group';
  */
 @customElement('ids-radio')
 @scss(styles)
-@mixin(IdsDomUtilsMixin)
 @mixin(IdsHideFocusMixin)
-@mixin(IdsStringUtilsMixin)
 class IdsRadio extends IdsElement {
   /**
    * Call the constructor and then initialize
@@ -49,25 +49,27 @@ class IdsRadio extends IdsElement {
   }
 
   /**
-   * Custom Element `connectedCallBack` implementation
-   * @private
+   * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
+    /** @type {any} */
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     this.labelEl = this.shadowRoot.querySelector('label');
+    this.eventHandlers = new IdsEventsMixin();
 
+    // @ts-ignore
     this.hideFocus();
     this.handleEvents();
   }
 
   /**
    * Custom Element `disconnectedCallback` implementation
-   * @private
    * @returns {void}
    */
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
+    // @ts-ignore
     this.destroyHideFocus();
     this.handleRadioChangeEvent('remove');
     this.handleNativeEvents('remove');
@@ -79,10 +81,10 @@ class IdsRadio extends IdsElement {
    */
   template() {
     // Checkbox
-    const disabled = this.stringToBool(this.disabled) ? ' disabled' : '';
-    const disabledAria = this.stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
-    const horizontal = this.stringToBool(this.horizontal) ? ' horizontal' : '';
-    const checked = this.stringToBool(this.checked) ? ' checked' : '';
+    const disabled = stringUtils.stringToBool(this.disabled) ? ' disabled' : '';
+    const disabledAria = stringUtils.stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
+    const horizontal = stringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
+    const checked = stringUtils.stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-radio${disabled}${horizontal}"`;
     const radioClass = ' class="radio-button"';
 
@@ -106,7 +108,7 @@ class IdsRadio extends IdsElement {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleRadioChangeEvent(option) {
+  handleRadioChangeEvent(option = '') {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {
@@ -128,7 +130,7 @@ class IdsRadio extends IdsElement {
    * @param {string} option If 'remove', will remove attached events
    * @returns {object} The object for chaining.
    */
-  handleNativeEvents(option) {
+  handleNativeEvents(option = '') {
     if (this.input) {
       const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt) => {
@@ -138,7 +140,7 @@ class IdsRadio extends IdsElement {
             this.eventHandlers.removeEventListener(evt, this.input);
           }
         } else {
-          this.eventHandlers.addEventListener(evt, this.input, (e) => {
+          this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire `trigger + nativeEvent` as triggerclick, triggerchange etc.
@@ -171,16 +173,17 @@ class IdsRadio extends IdsElement {
 
   /**
    * Set `checked` attribute
-   * @param {boolean} value If true will set `checked` attribute
+   * @param {boolean|string} value If true will set `checked` attribute
    */
   set checked(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-radio');
     const circle = this.shadowRoot.querySelector('.circle');
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.CHECKED, val);
-      if (!(this.stringToBool(this.disabled) || this.stringToBool(this.groupDisabled))) {
+      this.setAttribute(props.CHECKED, val.toString());
+      if (!(stringUtils.stringToBool(this.disabled)
+        || stringUtils.stringToBool(this.groupDisabled))) {
         rootEl.setAttribute('tabindex', '0');
       }
       circle?.classList.add(props.CHECKED);
@@ -197,13 +200,13 @@ class IdsRadio extends IdsElement {
 
   /**
    * Set `color` attribute
-   * @param {boolean} value If true will set `color` attribute
+   * @param {boolean|string} value If true will set `color` attribute
    */
   set color(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-radio');
     if (value) {
-      this.setAttribute(props.COLOR, value);
-      rootEl?.setAttribute(props.COLOR, value);
+      this.setAttribute(props.COLOR, value.toString());
+      rootEl?.setAttribute(props.COLOR, value.toString());
     } else {
       this.removeAttribute(props.COLOR);
       rootEl?.removeAttribute(props.COLOR);
@@ -214,15 +217,15 @@ class IdsRadio extends IdsElement {
 
   /**
    * Set `disabled` attribute
-   * @param {boolean} value If true will set `disabled` attribute
+   * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     const rootEl = this.shadowRoot.querySelector('.ids-radio');
     const labelText = this.shadowRoot.querySelector('.label-text');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.DISABLED, val);
+      this.setAttribute(props.DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
       rootEl?.setAttribute('tabindex', '-1');
@@ -239,14 +242,14 @@ class IdsRadio extends IdsElement {
 
   /**
    * Set `group-disabled` attribute
-   * @param {boolean} value If true will set `group-disabled` attribute
+   * @param {boolean|string} value If true will set `group-disabled` attribute
    */
   set groupDisabled(value) {
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     const rootEl = this.shadowRoot.querySelector('.ids-radio');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.GROUP_DISABLED, val);
+      this.setAttribute(props.GROUP_DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
       rootEl?.setAttribute('tabindex', '-1');
@@ -261,13 +264,13 @@ class IdsRadio extends IdsElement {
 
   /**
    * Set `horizontal` attribute `inline|block`, default as `block`
-   * @param {boolean} value If true will set `horizontal` attribute
+   * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-radio');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.HORIZONTAL, val);
+      this.setAttribute(props.HORIZONTAL, val.toString());
       rootEl?.classList.add(props.HORIZONTAL);
     } else {
       this.removeAttribute(props.HORIZONTAL);
@@ -313,12 +316,12 @@ class IdsRadio extends IdsElement {
 
   /**
    * Set `validation-has-error` attribute
-   * @param {boolean} value If true will set `validation-has-error` attribute
+   * @param {boolean|string} value If true will set `validation-has-error` attribute
    */
   set validationHasError(value) {
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.VALIDATION_HAS_ERROR, val);
+      this.setAttribute(props.VALIDATION_HAS_ERROR, val.toString());
       this.input?.classList.add('error');
     } else {
       this.removeAttribute(props.VALIDATION_HAS_ERROR);

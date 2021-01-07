@@ -4,13 +4,15 @@ import {
   mixin,
   scss
 } from '../ids-base/ids-element';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 import { props } from '../ids-base/ids-constants';
+// @ts-ignore
 import styles from './ids-radio-group.scss';
-
+// @ts-ignore
 import IdsText from '../ids-text/ids-text';
 
 /**
@@ -18,7 +20,6 @@ import IdsText from '../ids-text/ids-text';
  */
 @customElement('ids-radio-group')
 @scss(styles)
-@mixin(IdsStringUtilsMixin)
 @mixin(IdsDirtyTrackerMixin)
 @mixin(IdsValidationMixin)
 class IdsRadioGroup extends IdsElement {
@@ -48,11 +49,10 @@ class IdsRadioGroup extends IdsElement {
   }
 
   /**
-   * Custom Element `connectedCallBack` implementation
-   * @private
+   * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
     const slot = this.shadowRoot.querySelector('slot');
     this.eventHandlers = new IdsEventsMixin();
     this.eventHandlers.addEventListener('slotchange', slot, () => {
@@ -66,9 +66,9 @@ class IdsRadioGroup extends IdsElement {
    */
   template() {
     // Radio
-    const disabled = this.stringToBool(this.disabled) ? ' disabled' : '';
-    const disabledAria = this.stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
-    const horizontal = this.stringToBool(this.horizontal) ? ' horizontal' : '';
+    const disabled = stringUtils.stringToBool(this.disabled) ? ' disabled' : '';
+    const disabledAria = stringUtils.stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
+    const horizontal = stringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
     const rootClass = ` class="ids-radio-group${disabled}${horizontal}"`;
 
     // Label
@@ -88,9 +88,11 @@ class IdsRadioGroup extends IdsElement {
     this.labelEl = this.shadowRoot.querySelector('.group-label-text');
 
     this.setValue();
+    // @ts-ignore
     this.handleDirtyTracker();
     this.handleDisabled();
     this.handleHorizontal();
+    // @ts-ignore
     this.handleValidation();
     this.handleEvents();
   }
@@ -123,6 +125,7 @@ class IdsRadioGroup extends IdsElement {
   clear() {
     this.value = null;
     this.checked = null;
+    // @ts-ignore
     this.removeAllMessages();
     const radio = this.querySelector('ids-radio');
     const rootEl = radio.shadowRoot?.querySelector('.ids-radio');
@@ -137,7 +140,7 @@ class IdsRadioGroup extends IdsElement {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
 
-    if (this.stringToBool(this.disabled)) {
+    if (stringUtils.stringToBool(this.disabled)) {
       this.labelEl?.setAttribute('aria-disabled', 'true');
       rootEl?.classList.add(props.DISABLED);
       radioArr.forEach((r) => r.setAttribute(props.GROUP_DISABLED, true));
@@ -155,7 +158,7 @@ class IdsRadioGroup extends IdsElement {
   handleHorizontal() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
-    if (this.stringToBool(this.horizontal)) {
+    if (stringUtils.stringToBool(this.horizontal)) {
       rootEl?.classList.add(props.HORIZONTAL);
       radioArr.forEach((r) => r.setAttribute(props.HORIZONTAL, true));
     } else {
@@ -184,6 +187,7 @@ class IdsRadioGroup extends IdsElement {
       radio.shadowRoot?.querySelector('input[type="radio"]')?.focus();
     }
     const args = { value: val, checked: radio };
+    /** @type {any} */
     this.input = this.shadowRoot.querySelector('.ids-radio-group');
     this.eventHandlers.dispatchEvent('change', this.input, args);
     this.eventHandlers.dispatchEvent('triggerchange', this, args);
@@ -199,7 +203,7 @@ class IdsRadioGroup extends IdsElement {
 
     radioArr.forEach((r) => {
       this.eventHandlers.addEventListener('triggerchange', r, () => {
-        this.makeChecked(r);
+        this.makeChecked(r, false);
       });
     });
   }
@@ -213,7 +217,7 @@ class IdsRadioGroup extends IdsElement {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
-      this.eventHandlers.addEventListener('keydown', r, (e) => {
+      this.eventHandlers.addEventListener('keydown', r, (/** @type {any} */ e) => {
         const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
         const key = e.code;
         if (allow.indexOf(key) > -1) {
@@ -242,15 +246,16 @@ class IdsRadioGroup extends IdsElement {
 
   /**
    * Set `dirty-tracker` attribute
-   * @param {boolean} value If true will set `dirty-tracker` attribute
+   * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.DIRTY_TRACKER, val);
+      this.setAttribute(props.DIRTY_TRACKER, val.toString());
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
+    // @ts-ignore
     this.handleDirtyTracker();
   }
 
@@ -258,11 +263,11 @@ class IdsRadioGroup extends IdsElement {
 
   /**
    * Set `disabled` attribute
-   * @param {boolean} value If true will set `disabled` attribute
+   * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
-    if (this.stringToBool(value)) {
-      this.setAttribute(props.DISABLED, value);
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(props.DISABLED, value.toString());
     } else {
       this.removeAttribute(props.DISABLED);
     }
@@ -273,11 +278,11 @@ class IdsRadioGroup extends IdsElement {
 
   /**
    * Set `horizontal` attribute `inline|block`, default as `block`
-   * @param {boolean} value If true will set `horizontal` attribute
+   * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value) {
-    if (this.stringToBool(value)) {
-      this.setAttribute(props.HORIZONTAL, value);
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(props.HORIZONTAL, value.toString());
     } else {
       this.removeAttribute(props.HORIZONTAL);
     }
@@ -335,9 +340,9 @@ class IdsRadioGroup extends IdsElement {
    */
   set labelRequired(value) {
     this.labelEl = this.shadowRoot.querySelector('.group-label-text');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.LABEL_REQUIRED, val);
+      this.setAttribute(props.LABEL_REQUIRED, val.toString());
     } else {
       this.removeAttribute(props.LABEL_REQUIRED);
     }
@@ -356,6 +361,7 @@ class IdsRadioGroup extends IdsElement {
     } else {
       this.removeAttribute(props.VALIDATE);
     }
+    // @ts-ignore
     this.handleValidation();
   }
 
@@ -371,6 +377,7 @@ class IdsRadioGroup extends IdsElement {
     } else {
       this.removeAttribute(props.VALIDATION_EVENTS);
     }
+    // @ts-ignore
     this.handleValidation();
   }
 

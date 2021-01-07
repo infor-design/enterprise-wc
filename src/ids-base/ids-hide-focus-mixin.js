@@ -36,6 +36,7 @@ const IdsHideFocusMixin = {
       const action = isRemove ? 'remove' : 'add';
       elem.classList[action]('hide-focus');
 
+      /* istanbul ignore next */
       if (!this.eventHandlers) {
         this.eventHandlers = new IdsEventsMixin();
       }
