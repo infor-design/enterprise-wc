@@ -19,6 +19,8 @@ const MENU_DEFAULTS = {
   disabled: false,
   href: null,
   icon: null,
+  selected: false,
+  submenu: null,
   tabindex: true,
   value: null,
 };
@@ -52,15 +54,14 @@ function safeForAttribute(value) {
 class IdsMenuItem extends IdsElement {
   /**
    * Build the menu item
-   * @param {object} settings incoming settings for the menu item
    */
-  constructor(settings = {}) {
+  constructor() {
     super();
 
-    // Pull in settings
+    // Build state object
     this.state = {};
     Object.keys(MENU_DEFAULTS).forEach((prop) => {
-      this.state[prop] = settings[prop] || MENU_DEFAULTS[prop];
+      this.state[prop] = MENU_DEFAULTS[prop];
     });
     this.shouldUpdate = true;
   }
@@ -487,12 +488,8 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if the item should be selected
    */
   set selected(val) {
-    if (this.disabled) {
-      return;
-    }
-
     // Determine true state and event names
-    const trueVal = val !== null && val !== false;
+    const trueVal = val !== false && val !== 'false';
     const duringEventName = trueVal ? 'selected' : 'deselected';
     const beforeEventName = `before${duringEventName}`;
 
@@ -502,7 +499,7 @@ class IdsMenuItem extends IdsElement {
     const beforeSelectResponse = (veto) => {
       canSelect = !!veto;
     };
-    this.eventHandlers.dispatchEvent(beforeEventName, this, {
+    this.eventHandlers?.dispatchEvent(beforeEventName, this, {
       detail: {
         elem: this,
         response: beforeSelectResponse
@@ -518,19 +515,16 @@ class IdsMenuItem extends IdsElement {
 
     // Sync the attribute
     const shouldUpdate = this.shouldUpdate;
-    const currentAttr = this.hasAttribute('selected');
-    if ((!currentAttr && trueVal) || (currentAttr && !trueVal)) {
-      this.shouldUpdate = false;
-      if (trueVal) {
-        this.setAttribute('selected', '');
-      } else {
-        this.removeAttribute('selected');
-      }
-      this.shouldUpdate = shouldUpdate;
+    this.shouldUpdate = false;
+    if (trueVal) {
+      this.setAttribute('selected', '');
+    } else {
+      this.removeAttribute('selected');
     }
+    this.shouldUpdate = shouldUpdate;
 
     // Build/Fire a `selected` event for performing other actions.
-    this.eventHandlers.dispatchEvent(duringEventName, this, {
+    this.eventHandlers?.dispatchEvent(duringEventName, this, {
       bubbles: true,
       detail: {
         elem: this,

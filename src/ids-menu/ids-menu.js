@@ -13,15 +13,18 @@ import styles from './ids-menu.scss';
 
 /**
  * @private
- * @param {string} groupName the group to search for
+ * @param {string|HTMLElement} menuGroup the group to search for
  * @param {HTMLElement} idsMenu the parent menu element
- * @returns {boolean} true if the provided `groupName` exists on a group within the menu
+ * @returns {HTMLElement|undefined} if valid, a reference to the menu group.
+ * Otherwise, returns undefined.
  */
-function isValidGroup(groupName, idsMenu) {
-  let hasGroup = false;
+function isValidGroup(menuGroup, idsMenu) {
+  let hasGroup;
+  const isElem = menuGroup instanceof HTMLElement;
+
   idsMenu.groups.forEach((group) => {
-    if (group?.id === groupName) {
-      hasGroup = true;
+    if ((isElem && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {
+      hasGroup = group;
     }
   });
   return hasGroup;
@@ -93,6 +96,17 @@ class IdsMenu extends IdsElement {
     // Focus in/out causes highlight to change
     this.eventHandlers.addEventListener('focusin', this, highlightItem);
     this.eventHandlers.addEventListener('focusout', this, unhighlightItem);
+
+    // Listen for when items are selected and perform some actions within the menu
+    this.eventHandlers.addEventListener('selected', this, (e) => {
+      const thisItem = e.target.closest('ids-menu-item');
+      const thisGroup = e.target.closest('ids-menu-group');
+
+      // Single-select groups will force deselection of other items in the group.
+      if (thisGroup.select === 'single') {
+        this.deselectAllExcept(thisItem, thisGroup);
+      }
+    });
   }
 
   /**
@@ -347,25 +361,27 @@ class IdsMenu extends IdsElement {
 
   /**
    * Retrieves a list of selected items in this menu.
-   * @param {string} [groupName] optionally limits results to within the specified group id
+   * @param {string|HTMLElement} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * directly, that optionally limits results to within a specified menu group.
    * @returns {Array<IdsMenuItem>} list of selected menu items
    */
-  getSelectedItems(groupName = '') {
-    const hasGroup = isValidGroup(groupName, this);
+  getSelectedItems(menuGroup) {
+    const group = isValidGroup(menuGroup, this);
     return this.items.filter((item) => {
-      if (groupName.length && hasGroup) {
-        return item.selected && item.group?.id === groupName;
+      if (group) {
+        return item.selected && item.group.isEqualNode(group);
       }
       return item.selected;
     });
   }
 
   /**
-   * @param {string} [groupName] optionally limits results to within the specified group id
+   * @param {string|HTMLElement} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * directly, that optionally limits results to within a specified menu group.
    * @returns {Array<any>} list of the values contained by selected menu items
    */
-  getSelectedValues(groupName = '') {
-    return this.getSelectedItems(groupName).map((item) => (item.value));
+  getSelectedValues(menuGroup) {
+    return this.getSelectedItems(menuGroup).map((item) => (item.value));
   }
 
   /**
@@ -395,34 +411,50 @@ class IdsMenu extends IdsElement {
       }
     });
 
-    // @TODO This logic might need to be different for multiselection/group selection
     switch (group.select) {
       case 'multiple':
         // Multiple-select mode (Toggles selection, ignores others)
         menuItem[menuItem.selected ? 'deselect' : 'select']();
         break;
       default:
-        // Standard single select mode.
-        // Select the new item, and do a deselection if necessary.
+        // "none" and "single" select mode.
+        // In "single" mode, deselection of other items is handled by event
+        // at the menu group level.
         menuItem.select();
-        if (menuItem.selected && targetDeselection) {
-          targetDeselection.deselect();
-        }
         break;
     }
   }
 
   /**
-   * Clears any selected items in the menu, or specified group
-   * @param {string} [groupName] optionally limits results to within the specified group id
+   * Causes all menu items except for those provided to become deselected.
+   * @param {IdsMenuItem|Array<IdsMenuItem>} keptItems a single item or list of items
+   * whose selection will be ignored.
+   * @param {string|HTMLElement} [menuGroup] if provided and valid, causes deselection to be
+   * scoped to a menu group.
    * @returns {void}
    */
-  clearSelectedItems(groupName) {
-    const hasGroup = isValidGroup(groupName, this);
+  deselectAllExcept(keptItems, menuGroup) {
+    const keptItemsArr = Array.isArray(keptItems) ? keptItems : [keptItems];
+    const selectedItems = this.getSelectedItems(menuGroup);
+    selectedItems.forEach((item) => {
+      if (!keptItemsArr.includes(item)) {
+        item.deselect();
+      }
+    });
+  }
+
+  /**
+   * Clears any selected items in the menu, or specified group
+   * @param {string|HTMLElement} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * directly, that optionally limits results to within a specified menu group.
+   * @returns {void}
+   */
+  clearSelectedItems(menuGroup) {
+    const group = isValidGroup(menuGroup, this);
     this.items.forEach((item) => {
-      let doDeselect = false;
-      if (hasGroup) {
-        doDeselect = item.selected && item.group?.id === groupName;
+      let doDeselect;
+      if (group) {
+        doDeselect = item.selected && item.group.isEqualNode(group);
       } else {
         doDeselect = item.selected;
       }

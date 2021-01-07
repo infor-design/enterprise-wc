@@ -43,16 +43,32 @@ class IdsMenuGroup extends IdsElement {
     return `<ul class="ids-menu-group" role="group"${describedBy}><slot></slot></ul>`;
   }
 
+  /**
+   * @private
+   * @returns {void}
+   */
   connectedCallBack() {
     this.refresh();
   }
 
+  /**
+   * Updates some attributes/properties after changes to the component are made.
+   * @returns {void}
+   */
   refresh() {
     if (this.header?.id) {
       this.container.setAttribute('aria-labelledby', `${this.header.id}`);
     } else {
       this.container.removeAttribute('aria-labelledby');
     }
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement} the `IdsMenu` or `IdsPopupMenu` parent node.
+   */
+  get menu() {
+    return this.parentNode;
   }
 
   /**

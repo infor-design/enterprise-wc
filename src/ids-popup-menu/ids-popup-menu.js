@@ -314,7 +314,7 @@ class IdsPopupMenu extends IdsMenu {
   /**
    * Hides any "open" submenus within this menu structure, optionally ingorning a single
    * menu to "keep open".
-   * @param {IdsMenuItem} focusedMenuItem if provided, will be ignored and considered the
+   * @param {HTMLElement} focusedMenuItem if provided, will be ignored and considered the
    * "currently open" menu.
    * @returns {void}
    */

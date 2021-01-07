@@ -42,6 +42,7 @@ export const props = {
   ROW_START: 'row-start',
   ROWS: 'rows',
   SELECT: 'select',
+  SELECTED: 'selected',
   SIZE: 'size',
   SUBMENU: 'submenu',
   TABBABLE: 'tabbable',
