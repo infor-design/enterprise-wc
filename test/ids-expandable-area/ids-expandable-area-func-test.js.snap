@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsExpandableArea Component renders correctly 1`] = `"<ids-expandable-area expanded=\\"false\\" type=\\"null\\"></ids-expandable-area>"`;
+exports[`IdsExpandableArea Component renders correctly 1`] = `"<ids-expandable-area></ids-expandable-area>"`;
 
-exports[`IdsExpandableArea Component renders correctly 2`] = `"<ids-expandable-area expanded=\\"false\\" type=\\"toggle-btn\\"></ids-expandable-area>"`;
+exports[`IdsExpandableArea Component renders correctly 2`] = `"<ids-expandable-area type=\\"toggle-btn\\"></ids-expandable-area>"`;

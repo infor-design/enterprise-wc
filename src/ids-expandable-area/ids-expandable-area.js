@@ -28,12 +28,7 @@ class IdsExpandableArea extends IdsElement {
     this.keyboard = new IdsKeyboardMixin();
   }
 
-  /**
-   * ExpandedArea `connectedCallBack` implementation
-   * @private
-   * @returns {void}
-   */
-  connectedCallBack() {
+  connectedCallback() {
     this.expander = this.shadowRoot.querySelector('[data-expander]');
     this.expanderDefault = this.shadowRoot.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot.querySelector('[name="expander-expanded"]');
@@ -46,7 +41,6 @@ class IdsExpandableArea extends IdsElement {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  /* istanbul ignore next */
   static get properties() {
     return [props.EXPANDED, props.TYPE];
   }
@@ -96,7 +90,6 @@ class IdsExpandableArea extends IdsElement {
    * When `expanded` changes value, execute switchState()
    * @param {string} name Name of the attribute that changed
    */
-  /* istanbul ignore next */
   attributeChangedCallback(name) {
     if (name === props.EXPANDED) {
       this.switchState();
@@ -105,7 +98,6 @@ class IdsExpandableArea extends IdsElement {
 
   /**
    * The main state switching function
-   * @private
    * @returns {void}
    */
   switchState() {
@@ -156,7 +148,6 @@ class IdsExpandableArea extends IdsElement {
 
   /**
    * Sets the expanded state attribute
-   * @private
    * @returns {void}
    */
   setAttributes() {
@@ -168,7 +159,6 @@ class IdsExpandableArea extends IdsElement {
    * @private
    * @returns {void}
    */
-  /* istanbul ignore next */
   handleEvents() {
     let expander;
     this.eventHandlers = new IdsEventsMixin();
@@ -179,25 +169,25 @@ class IdsExpandableArea extends IdsElement {
       expander = this.expander;
     }
 
-    this.eventHandlers.addEventListener('click', expander, () => {
-      this.setAttributes();
-    });
-
-    this.eventHandlers.addEventListener('touchstart', expander, (e) => {
-      if (e.touches && e.touches.length > 0) {
+    if (expander) {
+      this.eventHandlers.addEventListener('click', expander, () => {
         this.setAttributes();
-      }
-    }, {
-      passive: true
-    });
+      });
+
+      this.eventHandlers.addEventListener('touchstart', expander, (e) => {
+        if (e.touches && e.touches.length > 0) {
+          this.setAttributes();
+        }
+      }, {
+        passive: true
+      });
+    }
   }
 
   /**
    * Inner template contents
-   * @private
    * @returns {string} The template
    */
-  /* istanbul ignore next */
   template() {
     let template;
     if (this.type === EXPANDABLE_AREA_TYPES[0]) {

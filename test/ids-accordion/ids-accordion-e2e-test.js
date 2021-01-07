@@ -1,6 +1,6 @@
 const { percySnapshot } = require('@percy/puppeteer');
 
-describe('Ids Expandable Area e2e Tests', () => {
+describe('Ids Accordion e2e Tests', () => {
   const url = 'http://localhost:4444/ids-accordion';
 
   beforeAll(async () => {

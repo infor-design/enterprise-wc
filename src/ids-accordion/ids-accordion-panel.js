@@ -1,11 +1,9 @@
 import {
   IdsElement,
   customElement,
-  mixin,
   scss
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import styles from './ids-accordion-panel.scss';
 import { props } from '../ids-base/ids-constants';
@@ -15,8 +13,6 @@ import { props } from '../ids-base/ids-constants';
  */
 @customElement('ids-accordion-panel')
 @scss(styles)
-@mixin(IdsEventsMixin)
-@mixin(IdsExampleMixin)
 class IdsAccordionPanel extends IdsElement {
   constructor() {
     super();
@@ -24,12 +20,7 @@ class IdsAccordionPanel extends IdsElement {
     this.keyboard = new IdsKeyboardMixin();
   }
 
-  /**
-   * ExpandedArea `connectedCallBack` implementation
-   * @private
-   * @returns {void}
-   */
-  connectedCallBack() {
+  connectedCallback() {
     this.expander = this.querySelector('[slot="header"]');
     this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
     this.setTitles();
@@ -63,7 +54,6 @@ class IdsAccordionPanel extends IdsElement {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  /* istanbul ignore next */
   static get properties() {
     return [props.EXPANDED];
   }
@@ -81,7 +71,6 @@ class IdsAccordionPanel extends IdsElement {
    * When `expanded` changes value, execute switchState()
    * @param {string} name Name of the attribute that changed
    */
-  /* istanbul ignore next */
   attributeChangedCallback(name) {
     if (name === props.EXPANDED) {
       this.switchState();
@@ -90,7 +79,6 @@ class IdsAccordionPanel extends IdsElement {
 
   /**
    * The main state switching function
-   * @private
    * @returns {void}
    */
   switchState() {
@@ -145,17 +133,18 @@ class IdsAccordionPanel extends IdsElement {
   handleEvents() {
     this.eventHandlers = new IdsEventsMixin();
 
-    this.eventHandlers.addEventListener('click', this.expander, () => {
-      this.setAttributes();
-    });
-    this.keyboard.listen('Enter', this.expander, () => {
-      this.setAttributes();
-    });
+    if (this.expander) {
+      this.eventHandlers.addEventListener('click', this.expander, () => {
+        this.setAttributes();
+      });
+      this.keyboard.listen('Enter', this.expander, () => {
+        this.setAttributes();
+      });
+    }
   }
 
   /**
    * Inner template contents
-   * @private
    * @returns {string} The template
    */
   template() {

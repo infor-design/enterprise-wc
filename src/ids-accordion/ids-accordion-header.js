@@ -1,11 +1,8 @@
 import {
   IdsElement,
   customElement,
-  mixin,
   scss
 } from '../ids-base/ids-element';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import styles from './ids-accordion-header.scss';
 
 // Default Icons
@@ -16,8 +13,6 @@ const DEFAULT_ICON_OFF = 'caret-down';
  */
 @customElement('ids-accordion-header')
 @scss(styles)
-@mixin(IdsEventsMixin)
-@mixin(IdsExampleMixin)
 class IdsAccordionHeader extends IdsElement {
   constructor() {
     super();
@@ -33,7 +28,6 @@ class IdsAccordionHeader extends IdsElement {
 
   /**
    * Inner template contents
-   * @private
    * @returns {string} The template
    */
   template() {

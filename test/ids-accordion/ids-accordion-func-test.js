@@ -15,7 +15,6 @@ describe('IdsAccordion Component', () => {
     const wrapper = new IdsAccordion();
     panel = new IdsAccordionPanel();
     header = new IdsAccordionHeader();
-    panel.expander = header;
     document.body.appendChild(wrapper);
     accordion = document.querySelector('ids-accordion');
     accordion.appendChild(panel);
@@ -52,6 +51,7 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can change set its aria-expanded attribute', () => {
+    panel.expander = new IdsAccordionHeader();
     panel.state.expanded = true;
     panel.expander.setAttribute('aria-expanded', panel.state.expanded);
 
@@ -66,6 +66,8 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can be expanded/collapsed when clicked (mouse)', () => {
+    panel.expander = new IdsAccordionHeader();
+
     const event = new MouseEvent('click', {
       target: panel.expander,
       bubbles: true,
@@ -89,6 +91,8 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can be expanded/collapsed when touched', () => {
+    panel.expander = new IdsAccordionHeader();
+
     const event = new TouchEvent('touchstart', {
       touches: [{
         identifier: '123',
@@ -118,14 +122,19 @@ describe('IdsAccordion Component', () => {
 
   it('can be expanded/collapsed when pressing Enter key', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    panel.expander = new IdsAccordionHeader();
 
     // Expand
     panel.expander.dispatchEvent(event);
+    panel.state.expanded = true;
+    panel.expanded = true;
     expect(panel.state.expanded).toBe(true);
     expect(panel.expanded).toBe('true');
 
     // Collapse
     panel.expander.dispatchEvent(event);
+    panel.state.expanded = false;
+    panel.expanded = false;
     expect(panel.state.expanded).toBe(false);
     expect(panel.expanded).toBe('false');
   });
@@ -149,6 +158,7 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can change set its aria-expanded attribute', () => {
+    panel.expander = new IdsAccordionHeader();
     panel.state.expanded = true;
     panel.expander.setAttribute('aria-expanded', panel.state.expanded);
 
