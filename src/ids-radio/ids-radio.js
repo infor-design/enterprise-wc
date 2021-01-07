@@ -6,10 +6,8 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
 import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
-
 import { props } from '../ids-base/ids-constants';
 // @ts-ignore
 import styles from './ids-radio.scss';
@@ -17,6 +15,7 @@ import styles from './ids-radio.scss';
 import IdsText from '../ids-text/ids-text';
 // @ts-ignore
 import IdsRadioGroup from './ids-radio-group';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 /**
  * IDS Radio Component
@@ -24,7 +23,6 @@ import IdsRadioGroup from './ids-radio-group';
 @customElement('ids-radio')
 @scss(styles)
 @mixin(IdsDomUtilsMixin)
-@mixin(IdsEventsMixin)
 @mixin(IdsHideFocusMixin)
 class IdsRadio extends IdsElement {
   /**
@@ -53,10 +51,10 @@ class IdsRadio extends IdsElement {
   }
 
   /**
-   * Custom Element `connectedCallback` implementation
+   * Custom Element `connectedCallBack` implementation
    * @returns {void}
    */
-  connectedCallback() {
+  connectedCallBack() {
     /** @type {object} */
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     this.labelEl = this.shadowRoot.querySelector('label');
@@ -85,6 +83,7 @@ class IdsRadio extends IdsElement {
   template() {
     // Checkbox
     const disabled = stringUtils.stringToBool(this.disabled) ? ' disabled' : '';
+    const disabledAria = stringUtils.stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
     const horizontal = stringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
     const checked = stringUtils.stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-radio${disabled}${horizontal}"`;
@@ -98,7 +97,7 @@ class IdsRadio extends IdsElement {
         <label>
           <input type="radio" tabindex="-1"${radioClass}${disabled}${checked}>
           <span class="circle${checked}"></span>
-          <ids-text class="label-text"${labelFontSize}>${this.label}</ids-text>
+          <ids-text class="label-text"${labelFontSize}${disabledAria}>${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -116,7 +115,6 @@ class IdsRadio extends IdsElement {
       if (option === 'remove') {
         const handler = this.eventHandlers?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          // @ts-ignore
           this.eventHandlers.removeEventListener(eventName, this.input);
         }
       } else {
@@ -140,12 +138,10 @@ class IdsRadio extends IdsElement {
         if (option === 'remove') {
           const handler = this.eventHandlers?.handledEvents?.get(evt);
           if (handler && handler.target === this.input) {
-            // @ts-ignore
             this.eventHandlers.removeEventListener(evt, this.input);
           }
         } else {
-          // @ts-ignore
-          this.eventHandlers.addEventListener(evt, this.input, (/** @type {object} */ e) => {
+          this.eventHandlers.addEventListener(evt, this.input, (e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire `trigger + nativeEvent` as triggerclick, triggerchange etc.
@@ -157,7 +153,6 @@ class IdsRadio extends IdsElement {
               elem: this,
               nativeEvent: e,
               value: this.value,
-              // @ts-ignore
               checked: this.input.checked
             });
           });
@@ -189,7 +184,7 @@ class IdsRadio extends IdsElement {
     if (val) {
       this.setAttribute(props.CHECKED, val.toString());
       if (!(stringUtils.stringToBool(this.disabled)
-         || stringUtils.stringToBool(this.groupDisabled))) {
+        || stringUtils.stringToBool(this.groupDisabled))) {
         rootEl.setAttribute('tabindex', '0');
       }
       circle?.classList.add(props.CHECKED);
@@ -228,15 +223,18 @@ class IdsRadio extends IdsElement {
   set disabled(value) {
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     const rootEl = this.shadowRoot.querySelector('.ids-radio');
+    const labelText = this.shadowRoot.querySelector('.label-text');
     const val = stringUtils.stringToBool(value);
     if (value) {
       this.setAttribute(props.DISABLED, val.toString());
-      this.input?.setAttribute(props.DISABLED, val.toString());
+      this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
       rootEl?.setAttribute('tabindex', '-1');
+      labelText?.setAttribute('aria-disabled', 'true');
     } else {
       this.removeAttribute(props.DISABLED);
       this.input?.removeAttribute(props.DISABLED);
+      labelText?.removeAttribute('aria-disabled');
       rootEl?.classList.remove(props.DISABLED);
     }
   }
@@ -253,7 +251,7 @@ class IdsRadio extends IdsElement {
     const val = stringUtils.stringToBool(value);
     if (value) {
       this.setAttribute(props.GROUP_DISABLED, val.toString());
-      this.input?.setAttribute(props.DISABLED, val.toString());
+      this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
       rootEl?.setAttribute('tabindex', '-1');
     } else {

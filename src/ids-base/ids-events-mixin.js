@@ -12,7 +12,7 @@ class IdsEventsMixin {
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
   addEventListener(eventName, target, callback, options) {
-    target.addEventListener(eventName, callback, options);
+    target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
 
@@ -24,7 +24,7 @@ class IdsEventsMixin {
    */
   removeEventListener(eventName, target, options) {
     const handler = this.handledEvents.get(eventName);
-    target.removeEventListener(eventName, handler.callback, options || handler.options);
+    target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
     this.handledEvents.delete(eventName);
   }
 
@@ -35,7 +35,7 @@ class IdsEventsMixin {
    * @param {object} [options] The custom data to send
    */
   dispatchEvent(eventName, target, options = {}) {
-    const event = new CustomEvent(eventName, options);
+    const event = new CustomEvent(eventName.split('.')[0], options);
     target.dispatchEvent(event);
   }
 

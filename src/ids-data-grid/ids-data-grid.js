@@ -338,14 +338,14 @@ class IdsDataGrid extends IdsElement {
    */
   set alternateRowShading(value) {
     if (stringUtils.stringToBool(value)) {
-      this.setAttribute(props.ALTERNATE_ROW_SHADING, value.toString());
+      this.setAttribute(props.ALTERNATE_ROW_SHADING, 'true');
       this.shadowRoot?.querySelector('.ids-data-grid').classList.add('alt-row-shading');
       return;
     }
 
     if (!stringUtils.stringToBool(value)) {
       this.shadowRoot?.querySelector('.ids-data-grid').classList.remove('alt-row-shading');
-      this.setAttribute(props.ALTERNATE_ROW_SHADING, value.toString());
+      this.setAttribute(props.ALTERNATE_ROW_SHADING, 'false');
     }
   }
 
@@ -384,12 +384,12 @@ class IdsDataGrid extends IdsElement {
    */
   set virtualScroll(value) {
     if (value === true || value === 'true') {
-      this.setAttribute(props.VIRTUAL_SCROLL, value.toString());
+      this.setAttribute(props.VIRTUAL_SCROLL, 'true');
       this.rerender();
       return;
     }
 
-    this.removeAttribute(props.VIRTUAL_SCROLL);
+    this.setAttribute(props.VIRTUAL_SCROLL, 'false');
     this.rerender();
   }
 

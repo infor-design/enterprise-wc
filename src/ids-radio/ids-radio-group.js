@@ -9,7 +9,6 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
-
 import { props } from '../ids-base/ids-constants';
 // @ts-ignore
 import styles from './ids-radio-group.scss';
@@ -21,7 +20,6 @@ import IdsText from '../ids-text/ids-text';
  */
 @customElement('ids-radio-group')
 @scss(styles)
-@mixin(IdsEventsMixin)
 @mixin(IdsDirtyTrackerMixin)
 @mixin(IdsValidationMixin)
 class IdsRadioGroup extends IdsElement {
@@ -51,16 +49,15 @@ class IdsRadioGroup extends IdsElement {
   }
 
   /**
-   * Custom Element `connectedCallback` implementation
+   * Custom Element `connectedCallBack` implementation
    * @returns {void}
    */
-  connectedCallback() {
-    this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
+  connectedCallBack() {
+    const slot = this.shadowRoot.querySelector('slot');
     this.eventHandlers = new IdsEventsMixin();
-
-    this.setValue();
-    this.handleEvents();
+    this.eventHandlers.addEventListener('slotchange', slot, () => {
+      this.afterChildrenReady();
+    });
   }
 
   /**
@@ -70,14 +67,34 @@ class IdsRadioGroup extends IdsElement {
   template() {
     // Radio
     const disabled = stringUtils.stringToBool(this.disabled) ? ' disabled' : '';
+    const disabledAria = stringUtils.stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
     const horizontal = stringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
     const rootClass = ` class="ids-radio-group${disabled}${horizontal}"`;
 
     // Label
     const labelFontSize = this.labelFontSize ? ` ${props.FONT_SIZE}="${this.labelFontSize}"` : '';
-    const label = this.label ? `<ids-text type="legend" class="group-label-text"${labelFontSize}>${this.label}</ids-text>` : '';
+    const label = this.label ? `<ids-text type="legend" class="group-label-text"${labelFontSize}${disabledAria}>${this.label}</ids-text>` : '';
 
-    return `<fieldset${rootClass}>${label}<slot></slot></fieldset>`;
+    return `<div role="radiogroup"${rootClass}>${label}<slot></slot></div>`;
+  }
+
+  /**
+   * Set after children ready
+   * @private
+   * @returns {void}
+   */
+  afterChildrenReady() {
+    this.input = this.shadowRoot.querySelector('.ids-radio-group');
+    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
+
+    this.setValue();
+    // @ts-ignore
+    this.handleDirtyTracker();
+    this.handleDisabled();
+    this.handleHorizontal();
+    // @ts-ignore
+    this.handleValidation();
+    this.handleEvents();
   }
 
   /**
@@ -93,12 +110,8 @@ class IdsRadioGroup extends IdsElement {
       this.setAttribute(props.VALUE, value);
     } else if (!len) {
       const radio = this.querySelector('ids-radio');
-      if (radio) {
-        setTimeout(() => {
-          const rootEl = radio.shadowRoot?.querySelector('.ids-radio');
-          rootEl?.setAttribute('tabindex', '0');
-        }, 0);
-      }
+      const rootEl = radio?.shadowRoot?.querySelector('.ids-radio');
+      rootEl?.setAttribute('tabindex', '0');
     } else if (len > 1) {
       radioArr.pop();
       radioArr.forEach((r) => r.removeAttribute(props.CHECKED));
@@ -120,13 +133,48 @@ class IdsRadioGroup extends IdsElement {
   }
 
   /**
+   * Set disabled for each radio in group.
+   * @returns {void}
+   */
+  handleDisabled() {
+    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
+
+    if (stringUtils.stringToBool(this.disabled)) {
+      this.labelEl?.setAttribute('aria-disabled', 'true');
+      rootEl?.classList.add(props.DISABLED);
+      radioArr.forEach((r) => r.setAttribute(props.GROUP_DISABLED, true));
+    } else {
+      this.labelEl?.removeAttribute('aria-disabled');
+      rootEl?.classList.remove(props.DISABLED);
+      radioArr.forEach((r) => r.removeAttribute(props.GROUP_DISABLED));
+    }
+  }
+
+  /**
+   * Set horizontal for each radio in group.
+   * @returns {void}
+   */
+  handleHorizontal() {
+    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
+    if (stringUtils.stringToBool(this.horizontal)) {
+      rootEl?.classList.add(props.HORIZONTAL);
+      radioArr.forEach((r) => r.setAttribute(props.HORIZONTAL, true));
+    } else {
+      rootEl?.classList.remove(props.HORIZONTAL);
+      radioArr.forEach((r) => r.removeAttribute(props.HORIZONTAL));
+    }
+  }
+
+  /**
    * Make given radio as checked.
    * @private
    * @param {object} radio to make checked
    * @param {boolean} isFocus if true will set focus
    * @returns {void}
    */
-  makeChecked(radio, isFocus) {
+  makeChecked(radio, isFocus = false) {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const targetEl = radioArr.filter((r) => r !== radio);
     targetEl.forEach((r) => r.removeAttribute(props.CHECKED));
@@ -139,8 +187,8 @@ class IdsRadioGroup extends IdsElement {
       radio.shadowRoot?.querySelector('input[type="radio"]')?.focus();
     }
     const args = { value: val, checked: radio };
+    /** @type {object} */
     this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    // @ts-ignore
     this.eventHandlers.dispatchEvent('change', this.input, args);
     this.eventHandlers.dispatchEvent('triggerchange', this, args);
   }
@@ -155,7 +203,7 @@ class IdsRadioGroup extends IdsElement {
 
     radioArr.forEach((r) => {
       this.eventHandlers.addEventListener('triggerchange', r, () => {
-        this.makeChecked(r, false);
+        this.makeChecked(r);
       });
     });
   }
@@ -207,8 +255,6 @@ class IdsRadioGroup extends IdsElement {
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
-    this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
     // @ts-ignore
     this.handleDirtyTracker();
   }
@@ -220,18 +266,12 @@ class IdsRadioGroup extends IdsElement {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
-    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
-    const val = stringUtils.stringToBool(value);
-    if (value) {
-      this.setAttribute(props.DISABLED, val.toString());
-      rootEl?.classList.add(props.DISABLED);
-      radioArr.forEach((r) => r.setAttribute(props.GROUP_DISABLED, value));
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(props.DISABLED, value.toString());
     } else {
       this.removeAttribute(props.DISABLED);
-      rootEl?.classList.remove(props.DISABLED);
-      radioArr.forEach((r) => r.removeAttribute(props.GROUP_DISABLED));
     }
+    this.handleDisabled();
   }
 
   get disabled() { return this.getAttribute(props.DISABLED); }
@@ -241,18 +281,12 @@ class IdsRadioGroup extends IdsElement {
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value) {
-    const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
-    const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
-    const val = stringUtils.stringToBool(value);
-    if (value) {
-      this.setAttribute(props.HORIZONTAL, val.toString());
-      rootEl?.classList.add(props.HORIZONTAL);
-      radioArr.forEach((r) => r.setAttribute(props.HORIZONTAL, value));
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(props.HORIZONTAL, value.toString());
     } else {
       this.removeAttribute(props.HORIZONTAL);
-      rootEl?.classList.remove(props.HORIZONTAL);
-      radioArr.forEach((r) => r.removeAttribute(props.HORIZONTAL));
     }
+    this.handleHorizontal();
   }
 
   get horizontal() { return this.getAttribute(props.HORIZONTAL); }
@@ -302,7 +336,7 @@ class IdsRadioGroup extends IdsElement {
 
   /**
    * Set `label-required` attribute
-   * @param {string|boolean} value The `label-required` attribute
+   * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
     this.labelEl = this.shadowRoot.querySelector('.group-label-text');
@@ -327,8 +361,6 @@ class IdsRadioGroup extends IdsElement {
     } else {
       this.removeAttribute(props.VALIDATE);
     }
-    this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
     // @ts-ignore
     this.handleValidation();
   }
@@ -345,8 +377,6 @@ class IdsRadioGroup extends IdsElement {
     } else {
       this.removeAttribute(props.VALIDATION_EVENTS);
     }
-    this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
     // @ts-ignore
     this.handleValidation();
   }

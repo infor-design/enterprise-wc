@@ -1,6 +1,5 @@
 import {
   customElement,
-  mixin,
   scss
 } from '../ids-base/ids-element';
 
@@ -8,7 +7,6 @@ import {
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
 // @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 // @ts-ignore
 import styles from '../ids-button/ids-button.scss';
 
@@ -21,7 +19,6 @@ const DEFAULT_ICON_ON = 'star-filled';
  */
 @customElement('ids-toggle-button')
 @scss(styles)
-@mixin(IdsEventsMixin)
 class IdsToggleButton extends IdsButton {
   constructor() {
     super();

@@ -71,6 +71,39 @@ describe('IdsRadioGroup Component', () => {
     rg.dirtyTracker = true;
     radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
     expect(radioArr.length).toEqual(0);
+
+    document.body.innerHTML = '';
+    const rb1 = new IdsRadio();
+    const rb2 = new IdsRadio();
+    const elem = new IdsRadioGroup();
+    rb1.value = 'testRb1';
+    rb2.value = 'testRb2';
+    rb1.label = 'test Radio1';
+    rb2.label = 'test Radio2';
+    elem.label = 'testRg';
+    elem.appendChild(rb1);
+    elem.appendChild(rb2);
+    document.body.appendChild(elem);
+    rg = document.querySelector('ids-radio-group');
+    rg.dirtyTracker = true;
+    rg.afterChildrenReady();
+    expect(rg.getAttribute('dirty-tracker')).toEqual('true');
+    expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeFalsy();
+    expect(rg.labelEl.querySelector('.msg-dirty')).toBeFalsy();
+    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    rg.makeChecked(radioArr[0]);
+    val = rg.valMethod(rg.input);
+    rg.setDirtyTracker(val);
+    jest.advanceTimersByTime(1);
+    radioArr[0].hidefocusToggle(radioArr[0].input);
+    expect(rg.getAttribute('dirty-tracker')).toEqual('true');
+    expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+    expect(rg.labelEl.querySelector('.msg-dirty')).toBeTruthy();
+    jest.advanceTimersByTime(1);
+    radioArr[0].hidefocusToggle(radioArr[0].input, true);
+    expect(rg.getAttribute('dirty-tracker')).toEqual('true');
+    expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+    expect(rg.labelEl.querySelector('.msg-dirty')).toBeTruthy();
   });
 
   it('should renders as disabled', () => {
@@ -218,8 +251,6 @@ describe('IdsRadioGroup Component', () => {
   });
 
   it('should set value', () => {
-    jest.advanceTimersByTime(1);
-    expect(setTimeout).toHaveBeenCalledTimes(1);
     document.body.innerHTML = '';
     let elem = document.createElement('ids-radio-group');
     let rb1 = document.createElement('ids-radio');
@@ -232,6 +263,7 @@ describe('IdsRadioGroup Component', () => {
     elem.appendChild(rb2);
     rg = document.body.appendChild(elem);
     rg.template();
+    rg.setValue();
     let radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
     expect(radioArr[0].getAttribute('checked')).toEqual(null);
     expect(radioArr[1].getAttribute('checked')).toEqual('true');
@@ -255,6 +287,21 @@ describe('IdsRadioGroup Component', () => {
 
     document.body.innerHTML = '';
     elem = document.createElement('ids-radio-group');
+    rb1 = document.createElement('ids-radio');
+    rb2 = document.createElement('ids-radio');
+    rb1.setAttribute('checked', 'true');
+    elem.appendChild(rb1);
+    elem.appendChild(rb2);
+    rg = document.body.appendChild(elem);
+    rg.setAttribute('label', 'test');
+    rg.template();
+    rg.setValue();
+    radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
+    expect(radioArr[0].getAttribute('checked')).toEqual('true');
+    expect(radioArr[1].getAttribute('checked')).toEqual(null);
+
+    document.body.innerHTML = '';
+    elem = document.createElement('ids-radio-group');
     rg = document.body.appendChild(elem);
     rg.template();
     radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
@@ -272,6 +319,7 @@ describe('IdsRadioGroup Component', () => {
     elem.appendChild(rb2);
     rg = document.body.appendChild(elem);
     rg.template();
+    rg.setValue();
     let radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
     expect(radioArr[0].getAttribute('checked')).toEqual(null);
     expect(radioArr[1].getAttribute('checked')).toEqual('true');

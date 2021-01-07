@@ -16,8 +16,9 @@
 }
 
 ::slotted(ids-trigger-button) {
-  align-self: flex-start;
+  align-self: center;
+  display: inline-flex;
   margin-left: -36px;
   position: relative;
-  top: 24px;
+  top: 2px;
 }

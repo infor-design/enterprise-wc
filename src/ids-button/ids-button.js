@@ -1,7 +1,6 @@
 import {
   IdsElement,
   customElement,
-  mixin,
   scss
 } from '../ids-base/ids-element';
 
@@ -46,7 +45,6 @@ const BUTTON_PROPS = [
  */
 @customElement('ids-button')
 @scss(styles)
-@mixin(IdsEventsMixin)
 class IdsButton extends IdsElement {
   constructor() {
     super();

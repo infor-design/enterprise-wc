@@ -146,7 +146,11 @@ const IdsDirtyTrackerMixin = {
               setTimeout(() => {
                 const icon = this.shadowRoot.querySelector('.icon-dirty');
                 const shouldRemove = e.type === 'hidefocusadd';
-                icon?.classList[shouldRemove ? 'remove' : 'add']('radio-focused');
+                if (shouldRemove) {
+                  icon?.classList.remove('radio-focused');
+                } else {
+                  icon?.classList.add('radio-focused');
+                }
               }, 0);
             });
           });
@@ -175,9 +179,7 @@ const IdsDirtyTrackerMixin = {
           const val = this.valMethod(this.input);
           this.setDirtyTracker(val);
         });
-        setTimeout(() => {
-          this.handleRadioGroupHidefocusClass();
-        }, 0);
+        this.handleRadioGroupHidefocusClass();
       }
     }
   },
