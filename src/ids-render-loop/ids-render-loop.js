@@ -198,4 +198,4 @@ class IdsRenderLoop {
   }
 }
 
-export { IdsRenderLoop };
+export default IdsRenderLoop;

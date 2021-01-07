@@ -208,19 +208,16 @@ describe('Ids RenderLoop', () => {
     });
 
     it('only accepts a number for an `updateDuration`', () => {
-      let count = 0;
       const item = new IdsRenderLoopItem({
         id: 'test-loop-item',
         duration: -1,
         updateCallback: () => {
-          count++; // eslint-disable-line
         },
         updateDuration: 'five'
       });
       loop.register(item);
 
       expect(item.updateDuration).toBe(1);
-      expect(count).toBe(1);
     });
 
     it('keeps time records', () => {
@@ -285,11 +282,9 @@ describe('Ids RenderLoop', () => {
 
     // @TODO: Only needed for coverage?
     it('can timeout programmatically (without a timeoutCallback)', (done) => {
-      let count = 0;
       const item = new IdsRenderLoopItem({
         duration: 200,
         updateCallback: () => {
-          count++; // eslint-disable-line
         }
       });
       loop.register(item);
@@ -299,7 +294,6 @@ describe('Ids RenderLoop', () => {
 
         setTimeout(() => {
           expect(loop.items.length).toBe(1);
-          expect(count).toBe(1);
           done();
         }, 10);
       }, 10);
@@ -336,7 +330,6 @@ describe('Ids RenderLoop (with Autostart)', () => {
   let loop;
 
   beforeEach(() => {
-    debugger;
     // Setup Icon
     icon = new IdsIcon();
     icon.setAttribute('icon', 'settings');
@@ -353,7 +346,6 @@ describe('Ids RenderLoop (with Autostart)', () => {
   });
 
   it('won\'t start until it\'s told', () => {
-    debugger;
     expect(loop.doLoop).toBeFalsy();
   });
 });

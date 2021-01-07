@@ -186,7 +186,7 @@ describe('IdsDataGrid Component', () => {
     dataGrid.virtualScroll = false;
 
     expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(0);
-    expect(dataGrid.getAttribute('virtual-scroll')).toBeFalsy();
+    expect(dataGrid.getAttribute('virtual-scroll')).toEqual('false');
   });
 
   it('can reset the virtualScroll option', () => {
