@@ -39,13 +39,11 @@ class IdsLayoutGridCell extends IdsElement {
   set fill(value) {
     if (value) {
       this.setAttribute(props.FILL, value);
-      // this.style.setProperty('--grid-fill-color', `var(--body-color-primary-background)`);
       this.classList.add('ids-background-fill');
       return;
     }
 
     this.removeAttribute(props.FILL);
-    // this.style.removeProperty('--grid-fill-color');
     this.classList.remove('ids-background-fill');
   }
 

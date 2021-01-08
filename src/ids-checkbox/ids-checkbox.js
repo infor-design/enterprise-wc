@@ -182,7 +182,7 @@ class IdsCheckbox extends IdsElement {
   }
 
   /**
-   * Set `checked` attribute
+   * Sets the checked state to true or false
    * @param {boolean|string} value If true will set `checked` attribute
    */
   set checked(value) {
@@ -203,7 +203,7 @@ class IdsCheckbox extends IdsElement {
   get checked() { return this.getAttribute(props.CHECKED); }
 
   /**
-   * Set `color` attribute
+   *  Sets the checkbox color to one of the colors in our color palette for example emerald07
    * @param {boolean|string} value If true will set `color` attribute
    */
   set color(value) {
@@ -220,7 +220,7 @@ class IdsCheckbox extends IdsElement {
   get color() { return this.getAttribute(props.COLOR); }
 
   /**
-   * Set `dirty-tracker` attribute
+   * Set the dirty tracking feature on to indicate a changed field
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
@@ -239,7 +239,7 @@ class IdsCheckbox extends IdsElement {
   get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
 
   /**
-   * Set `disabled` attribute
+   * Sets input to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
@@ -260,7 +260,7 @@ class IdsCheckbox extends IdsElement {
   get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
-   * Set `horizontal` attribute `inline|block`, default as `block`
+   * Flips the checkbox orientation to horizontal
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value) {
@@ -278,7 +278,7 @@ class IdsCheckbox extends IdsElement {
   get horizontal() { return this.getAttribute(props.HORIZONTAL); }
 
   /**
-   * Set `indeterminate` attribute
+   * Sets the checkbox to the indeterminate state
    * @param {string|boolean} value The `indeterminate` attribute
    */
   set indeterminate(value) {
@@ -315,7 +315,7 @@ class IdsCheckbox extends IdsElement {
   get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
 
   /**
-   * Set the `label` text
+   * Sets the checkbox label text
    * @param {string} value of the `label` text property
    */
   set label(value) {
@@ -332,7 +332,7 @@ class IdsCheckbox extends IdsElement {
   get label() { return this.getAttribute(props.LABEL) || ''; }
 
   /**
-   * Set `label-required` attribute
+   * Sets the checkbox to required
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
@@ -349,7 +349,7 @@ class IdsCheckbox extends IdsElement {
   get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
 
   /**
-   * Set `validate` attribute
+   * Sets the validation check to use
    * @param {string} value The `validate` attribute
    */
   set validate(value) {
@@ -367,7 +367,7 @@ class IdsCheckbox extends IdsElement {
   get validate() { return this.getAttribute(props.VALIDATE); }
 
   /**
-   * Set `validation-events` attribute
+   * Sets which events to fire validation on
    * @param {string} value The `validation-events` attribute
    */
   set validationEvents(value) {
@@ -385,7 +385,7 @@ class IdsCheckbox extends IdsElement {
   get validationEvents() { return this.getAttribute(props.VALIDATION_EVENTS); }
 
   /**
-   * Set the `value` attribute
+   * Set the checkbox `value` attribute
    * @param {string} val the value property
    */
   set value(val) {

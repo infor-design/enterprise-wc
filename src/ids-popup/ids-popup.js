@@ -164,6 +164,7 @@ class IdsPopup extends IdsElement {
   }
 
   /**
+   * Sets the element to align with via a css selector
    * @param {string} val a CSS selector string
    */
   // @ts-ignore
@@ -196,9 +197,10 @@ class IdsPopup extends IdsElement {
   }
 
   /**
-   * @param {string} val a comma-delimeted set of alignment types (x, y)
+   * Sets the alignment direction between left, right, top, bottom, center and can be a comma
+   * delimited set of multiple alignment types for example `left, top`
+   * @param {string} val a comma-delimited set of alignment types `direction1, direction2`
    */
-  // @ts-ignore
   set align(val) {
     this.shouldUpdate = false;
 
@@ -261,7 +263,8 @@ class IdsPopup extends IdsElement {
   }
 
   /**
-   * @param {string} val strategy for the parent X alignment (see the ALIGNMENTS_X array)
+   * Strategy for the parent X alignment (see the ALIGNMENTS_X array)
+   * @param {string} val the strategy to use
    */
   set alignX(val) {
     if (typeof val !== 'string' || !val.length) {
@@ -288,15 +291,13 @@ class IdsPopup extends IdsElement {
   }
 
   /**
-   * @returns {string} alignment strategy for the current parent X alignment
+   * Strategy for the parent X alignment ((see the ALIGNMENTS_Y array)
+   * @returns {string} the strategy to use
    */
   get alignX() {
     return this.alignment.x;
   }
 
-  /**
-   * @param {string} val alignment strategy for the Y coordinate (see the ALIGNMENTS_Y array)
-   */
   set alignY(val) {
     if (typeof val !== 'string' || !val.length) {
       return;
@@ -329,8 +330,9 @@ class IdsPopup extends IdsElement {
   }
 
   /**
-   * @param {string} val specifies the edge of the parent element to be placed adjacent,
-   * in configurations where a relative placement occurs
+   *  Specifies the edge of the parent element to be placed adjacent,
+   *  in configurations where a relative placement occurs
+   * @param {string} val The edge to align to
    */
   set alignEdge(val) {
     if (typeof val !== 'string' || !val.length) {
@@ -371,7 +373,8 @@ class IdsPopup extends IdsElement {
   }
 
   /**
-   * @param {boolean} val whether or not the component should animate its movement
+   * Whether or not the component should animate its movement
+   * @param {boolean} val The alignment setting
    */
   set animated(val) {
     this.isAnimated = stringUtils.stringToBool(val);
@@ -383,15 +386,13 @@ class IdsPopup extends IdsElement {
     this.refresh();
   }
 
-  /**
-   * @returns {boolean} whether or not the component is currently animating its movement.
-   */
   get animated() {
     return this.isAnimated;
   }
 
   /**
-   * @param {string} val containing a valid Popup type
+   * The style of popup to use between 'none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'
+   * @param {string} val The popup type
    */
   set type(val) {
     if (val && TYPES.includes(val)) {
@@ -402,15 +403,13 @@ class IdsPopup extends IdsElement {
     this.refresh();
   }
 
-  /**
-   * @returns {string} representing the Popup type
-   */
   get type() {
     return this.trueType;
   }
 
   /**
-   * @param {boolean} val whether or not the component should be displayed
+   * Whether or not the component should be displayed
+   * @param {boolean} val a boolean for displaying or hiding the popup
    */
   set visible(val) {
     this.isVisible = stringUtils.stringToBool(val);
@@ -422,9 +421,6 @@ class IdsPopup extends IdsElement {
     this.refresh();
   }
 
-  /**
-   * @returns {boolean} whether or not the component is currently displayed
-   */
   get visible() {
     return this.isVisible;
   }
@@ -444,15 +440,12 @@ class IdsPopup extends IdsElement {
     this.refresh();
   }
 
-  /**
-   * @returns {number} representing the Popup's current CSS `top` value
-   */
   get x() {
     return this.coords.x;
   }
 
   /**
-   * Sets the Y (left) coordinate of the Popup
+   * Sets the Y (top) coordinate of the Popup
    * @param {number} val the coordinate's value
    */
   set y(val) {
@@ -466,9 +459,6 @@ class IdsPopup extends IdsElement {
     this.refresh();
   }
 
-  /**
-   * @returns {number} representing the Popup's current CSS `left` value
-   */
   get y() {
     return this.coords.y;
   }

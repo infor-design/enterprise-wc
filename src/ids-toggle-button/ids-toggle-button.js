@@ -75,20 +75,17 @@ class IdsToggleButton extends IdsButton {
     this.refreshText();
   }
 
-  /**
-   * Get the pressed (on/off) state
-   * @returns {boolean|string} true if the toggle is currently active
-   */
   get pressed() {
     // @ts-ignore
     return this.state.pressed;
   }
 
   /**
-   * Override setting the "type" on Toggle Buttons, since they can only be the default style.
+   * Override setting the "type" on Toggle Buttons, since they can only be the default style
    * @param {string} _val a valid
    * @returns {void}
    */
+  // @ts-ignore
   set type(_val) {
     // @ts-ignore
     this.state.type = BUTTON_TYPES[0];
@@ -205,6 +202,7 @@ class IdsToggleButton extends IdsButton {
 
   /**
    * Sets (or creates) a slotted icon that represents the pressed state
+   * @private
    * @returns {void}
    */
   refreshIcon() {
@@ -213,6 +211,7 @@ class IdsToggleButton extends IdsButton {
 
   /**
    * Sets (or creates) a slotted span that contains text
+   * @private
    * @returns {void}
    */
   refreshText() {

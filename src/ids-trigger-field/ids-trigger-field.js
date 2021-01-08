@@ -65,10 +65,11 @@ class IdsTriggerField extends IdsElement {
   get tabbable() { return this.getAttribute(props.TABBABLE); }
 
   /**
-   * TODO: Set the appearance of the trigger field
+   * Set the appearance of the trigger field
    * @param {string} value Provide different options for appearance 'normal' | 'compact'
    */
   set appearance(value) {
+    // TODO
     if (value) {
       this.setAttribute(props.APPEARANCE, value);
       return;
@@ -117,7 +118,7 @@ class IdsTriggerField extends IdsElement {
   }
 
   /**
-   * Fire trigger event
+   * Fire the trigger event and action.
    */
   trigger() {
     let canTrigger = true;

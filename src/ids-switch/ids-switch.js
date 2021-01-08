@@ -167,7 +167,7 @@ class IdsSwitch extends IdsElement {
   }
 
   /**
-   * Set `checked` attribute
+   * Sets the checked state to true or false
    * @param {boolean|string} value If true will set `checked` attribute
    */
   set checked(value) {
@@ -188,7 +188,7 @@ class IdsSwitch extends IdsElement {
   get checked() { return this.getAttribute(props.CHECKED); }
 
   /**
-   * Set `disabled` attribute
+   * Sets checkbox to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
@@ -209,7 +209,7 @@ class IdsSwitch extends IdsElement {
   get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
-   * Set the `label-font-size` of label
+   * Sets the checkbox label font size (rarely used)
    * @param {string} value of the `label-font-size` property
    */
   set labelFontSize(value) {
@@ -226,7 +226,7 @@ class IdsSwitch extends IdsElement {
   get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
 
   /**
-   * Set the `label` text
+   * Sets the checkbox label text
    * @param {string} value of the `label` text property
    */
   set label(value) {
@@ -243,7 +243,7 @@ class IdsSwitch extends IdsElement {
   get label() { return this.getAttribute(props.LABEL) || ''; }
 
   /**
-   * Set the `value` attribute
+   * Sets the checkbox `value` attribute
    * @param {string} val the value property
    */
   set value(val) {

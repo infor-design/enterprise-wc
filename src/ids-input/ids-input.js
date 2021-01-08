@@ -285,7 +285,7 @@ class IdsInput extends IdsElement {
   }
 
   /**
-   * Set `autoselect` attribute
+   * When set the input will select all text on focus
    * @param {boolean|string} value If true will set `autoselect` attribute
    */
   set autoselect(value) {
@@ -301,7 +301,7 @@ class IdsInput extends IdsElement {
   get autoselect() { return this.getAttribute(props.AUTOSELECT); }
 
   /**
-   * Set `clearable` attribute
+   * When set the input will add a clearable x button
    * @param {boolean|string} value If true will set `clearable` attribute
    */
   set clearable(value) {
@@ -318,7 +318,7 @@ class IdsInput extends IdsElement {
   get clearable() { return this.getAttribute(props.CLEARABLE); }
 
   /**
-   * Set `dirty-tracker` attribute
+   *  Set the dirty tracking feature on to indicate a changed field
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
@@ -338,7 +338,7 @@ class IdsInput extends IdsElement {
   get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
 
   /**
-   * Set `disabled` attribute
+   * Sets checkbox to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
@@ -354,7 +354,7 @@ class IdsInput extends IdsElement {
   get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
-   * Set the `label-font-size` of input label
+   * Set the font size of the label (rarely used)
    * @param {string} value of the `label-font-size` property
    */
   set labelFontSize(value) {
@@ -371,7 +371,7 @@ class IdsInput extends IdsElement {
   get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
 
   /**
-   * Set the `label` text of input label
+   * Sets the input label text
    * @param {string} value of the `label` text property
    */
   set label(value) {
@@ -388,7 +388,7 @@ class IdsInput extends IdsElement {
   get label() { return this.getAttribute(props.LABEL) || ''; }
 
   /**
-   * Set the `placeholder` of input
+   * Sets the input placeholder text
    * @param {string} value of the `placeholder` property
    */
   set placeholder(value) {
@@ -402,7 +402,7 @@ class IdsInput extends IdsElement {
   get placeholder() { return this.getAttribute(props.PLACEHOLDER); }
 
   /**
-   * Set the `readonly` of input
+   * Set the input to readonly state
    * @param {boolean|string} value If true will set `readonly` attribute
    */
   set readonly(value) {
@@ -418,7 +418,7 @@ class IdsInput extends IdsElement {
   get readonly() { return this.getAttribute(props.READONLY); }
 
   /**
-   * Set the size of input
+   * Set the size (width) of input
    * @param {string} value [xs, sm, mm, md, lg, full]
    */
   set size(value) {
@@ -431,7 +431,7 @@ class IdsInput extends IdsElement {
   get size() { return this.getAttribute(props.SIZE) || SIZES.default; }
 
   /**
-   * Set the `text-align` of input
+   * Sets the text alignment
    * @param {string} value [left, center, right]
    */
   set textAlign(value) {
@@ -445,7 +445,7 @@ class IdsInput extends IdsElement {
   get textAlign() { return this.getAttribute(props.TEXT_ALIGN) || TEXT_ALIGN.default; }
 
   /**
-   * Set the triggerfield of input
+   * Set to true if the input is a triggr field
    * @param {boolean|string} value If true will set `triggerfield` attribute
    */
   set triggerfield(value) {
@@ -461,7 +461,7 @@ class IdsInput extends IdsElement {
   get triggerfield() { return this.getAttribute(props.TRIGGERFIELD); }
 
   /**
-   * Set the type of input
+   * Sets the input type
    * @param {string} value [text, password, number, email]
    */
   set type(value) {
@@ -475,7 +475,7 @@ class IdsInput extends IdsElement {
   get type() { return this.getAttribute(props.TYPE); }
 
   /**
-   * Set `validate` attribute
+   * Sets the validation check to use
    * @param {string} value The `validate` attribute
    */
   set validate(value) { // this.handleValidation();
@@ -493,7 +493,7 @@ class IdsInput extends IdsElement {
   get validate() { return this.getAttribute(props.VALIDATE); }
 
   /**
-   * Set the `value` attribute of input
+   * Sets the `value` attribute
    * @param {string} val the value property
    */
   set value(val) {

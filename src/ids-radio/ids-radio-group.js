@@ -245,7 +245,7 @@ class IdsRadioGroup extends IdsElement {
   }
 
   /**
-   * Set `dirty-tracker` attribute
+   * Sets the dirty tracking feature on to indicate a changed field
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
@@ -262,7 +262,7 @@ class IdsRadioGroup extends IdsElement {
   get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
 
   /**
-   * Set `disabled` attribute
+   * Sets checkbox to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
@@ -277,7 +277,7 @@ class IdsRadioGroup extends IdsElement {
   get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
-   * Set `horizontal` attribute `inline|block`, default as `block`
+   * Flips the checkbox orientation to horizontal
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value) {
@@ -292,7 +292,7 @@ class IdsRadioGroup extends IdsElement {
   get horizontal() { return this.getAttribute(props.HORIZONTAL); }
 
   /**
-   * Set the `label-font-size` of label
+   * Sets the checkbox label font size (rarely used)
    * @param {string} value of the `label-font-size` property
    */
   set labelFontSize(value) {
@@ -309,7 +309,7 @@ class IdsRadioGroup extends IdsElement {
   get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
 
   /**
-   * Set the `label` text
+   * Sets the checkbox label text
    * @param {string} value of the `label` text property
    */
   set label(value) {
@@ -335,7 +335,7 @@ class IdsRadioGroup extends IdsElement {
   get label() { return this.getAttribute(props.LABEL); }
 
   /**
-   * Set `label-required` attribute
+   * Sets the checkbox to required
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
@@ -352,7 +352,7 @@ class IdsRadioGroup extends IdsElement {
   get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
 
   /**
-   * Set `validate` attribute
+   * Sets the validation check to use
    * @param {string} value The `validate` attribute
    */
   set validate(value) {
@@ -368,7 +368,7 @@ class IdsRadioGroup extends IdsElement {
   get validate() { return this.getAttribute(props.VALIDATE); }
 
   /**
-   * Set `validation-events` attribute
+   * Sets which events to fire validation on
    * @param {string} value The `validation-events` attribute
    */
   set validationEvents(value) {
@@ -384,7 +384,7 @@ class IdsRadioGroup extends IdsElement {
   get validationEvents() { return this.getAttribute(props.VALIDATION_EVENTS); }
 
   /**
-   * Set the `value` attribute
+   * Sets the checkbox `value` attribute
    * @param {string} val the value property
    */
   set value(val) {
