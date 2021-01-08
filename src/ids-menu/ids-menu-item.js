@@ -609,7 +609,6 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if icons are present
    */
   setDisplayType(val) {
-    // @TODO include checkmarks/selected/other states
     this.container.classList[val === true ? 'add' : 'remove']('has-icon');
   }
 

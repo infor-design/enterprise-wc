@@ -4,6 +4,7 @@ import {
   scss
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import styles from './ids-menu-group.scss';
 
 // Menu Selection Types
@@ -48,7 +49,25 @@ class IdsMenuGroup extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
+    this.handleEvents();
     this.refresh();
+  }
+
+  /**
+   * @private
+   * @returns {void}
+   */
+  handleEvents() {
+    this.eventHandlers = new IdsEventsMixin();
+
+    // Listen for `selected` events from child menu items.
+    // Single-select groups will force deselection of other items in the group.
+    this.eventHandlers.addEventListener('selected', this, (e) => {
+      const item = e.target.closest('ids-menu-item');
+      if (this.select === 'single') {
+        this.deselectAllExcept(item);
+      }
+    });
   }
 
   /**
@@ -134,6 +153,21 @@ class IdsMenuGroup extends IdsElement {
     } else {
       this.removeAttribute(props.KEEP_OPEN);
     }
+  }
+
+  /**
+   * Causes all menu items except for those provided to become deselected.
+   * @param {IdsMenuItem|Array<IdsMenuItem>} keptItems a single item or list of items
+   * whose selection will be ignored.
+   * @returns {void}
+   */
+  deselectAllExcept(keptItems) {
+    const keptItemsArr = Array.isArray(keptItems) ? keptItems : [keptItems];
+    this.items.forEach((item) => {
+      if (!keptItemsArr.includes(item) && item.selected) {
+        item.deselect();
+      }
+    });
   }
 }
 

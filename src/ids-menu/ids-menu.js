@@ -7,7 +7,9 @@ import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import IdsMenuGroup from './ids-menu-group';
+import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
+import IdsSeparator from './ids-separator';
 
 import styles from './ids-menu.scss';
 
@@ -96,17 +98,6 @@ class IdsMenu extends IdsElement {
     // Focus in/out causes highlight to change
     this.eventHandlers.addEventListener('focusin', this, highlightItem);
     this.eventHandlers.addEventListener('focusout', this, unhighlightItem);
-
-    // Listen for when items are selected and perform some actions within the menu
-    this.eventHandlers.addEventListener('selected', this, (e) => {
-      const thisItem = e.target.closest('ids-menu-item');
-      const thisGroup = e.target.closest('ids-menu-group');
-
-      // Single-select groups will force deselection of other items in the group.
-      if (thisGroup.select === 'single') {
-        this.deselectAllExcept(thisItem, thisGroup);
-      }
-    });
   }
 
   /**
@@ -401,7 +392,7 @@ class IdsMenu extends IdsElement {
       return;
     }
 
-    const group = menuItem.parentNode;
+    const group = menuItem.group;
     const items = group.items;
     let targetDeselection;
 
@@ -423,24 +414,6 @@ class IdsMenu extends IdsElement {
         menuItem.select();
         break;
     }
-  }
-
-  /**
-   * Causes all menu items except for those provided to become deselected.
-   * @param {IdsMenuItem|Array<IdsMenuItem>} keptItems a single item or list of items
-   * whose selection will be ignored.
-   * @param {string|HTMLElement} [menuGroup] if provided and valid, causes deselection to be
-   * scoped to a menu group.
-   * @returns {void}
-   */
-  deselectAllExcept(keptItems, menuGroup) {
-    const keptItemsArr = Array.isArray(keptItems) ? keptItems : [keptItems];
-    const selectedItems = this.getSelectedItems(menuGroup);
-    selectedItems.forEach((item) => {
-      if (!keptItemsArr.includes(item)) {
-        item.deselect();
-      }
-    });
   }
 
   /**
