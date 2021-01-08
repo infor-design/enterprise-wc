@@ -21,15 +21,19 @@ class IdsAccordionPanel extends IdsElement {
   }
 
   connectedCallback() {
-    this.expander = this.querySelector('[slot="header"]');
+    this.expander = this.shadowRoot.querySelector('.ids-accordion-panel-expander');
     this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
     this.setTitles();
     this.handleEvents();
     this.switchState();
   }
 
+  /**
+   * Create a unique title for each accordion pane.
+   */
   setTitles() {
-    this.pane?.setAttribute('title', `${this.expander?.innerText}`);
+    const identifier = Math.floor(10000 + Math.random() * 90000);
+    this.pane.setAttribute('title', `ids-accordion-pane-${identifier}`);
   }
 
   /**
@@ -65,8 +69,7 @@ class IdsAccordionPanel extends IdsElement {
    */
   switchState() {
     this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
-    this.expander?.setAttribute('aria-expanded', this.state.expanded);
-    this.pane?.setAttribute('data-expanded', this.state.expanded);
+    this.expander.setAttribute('aria-expanded', this.state.expanded);
 
     if (!this.state.expanded) {
       this.collapsePane();
@@ -115,14 +118,22 @@ class IdsAccordionPanel extends IdsElement {
   handleEvents() {
     this.eventHandlers = new IdsEventsMixin();
 
-    if (this.expander) {
-      this.eventHandlers.addEventListener('click', this.expander, () => {
+    this.eventHandlers.addEventListener('click', this.expander, () => {
+      this.setAttributes();
+    });
+
+    this.keyboard.listen('Enter', this.expander, () => {
+      this.setAttributes();
+    });
+
+    this.eventHandlers.addEventListener('touchstart', this.expander, (e) => {
+      /* istanbul ignore next */
+      if (e.touches && e.touches.length > 0) {
         this.setAttributes();
-      });
-      this.keyboard.listen('Enter', this.expander, () => {
-        this.setAttributes();
-      });
-    }
+      }
+    }, {
+      passive: true
+    });
   }
 
   /**
@@ -131,8 +142,10 @@ class IdsAccordionPanel extends IdsElement {
    */
   template() {
     return `
-      <div class="ids-accordion-panel" data-expanded="false">
-        <slot name="header"></slot>
+      <div class="ids-accordion-panel">
+        <div class="ids-accordion-panel-expander">
+          <slot name="header"></slot>
+        </div>
         <div class="ids-accordion-pane" role="region">
           <div class="ids-accordion-pane-content">
             <slot name="content"></slot>

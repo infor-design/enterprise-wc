@@ -39,18 +39,6 @@ describe('IdsExpandableArea Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders with type of toggle-btn', () => {
-    el.setAttribute('type', EXPANDABLE_AREA_TYPES[0]);
-    expect(el.getAttribute('type')).toEqual(EXPANDABLE_AREA_TYPES[0]);
-    expect(el.type).toEqual(EXPANDABLE_AREA_TYPES[0]);
-  });
-
-  it('renders with type of null', () => {
-    el.setAttribute('type', 'null');
-    expect(el.getAttribute('type')).toEqual('null');
-    expect(el.type).toEqual('null');
-  });
-
   it('can change its type property', () => {
     const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
 
