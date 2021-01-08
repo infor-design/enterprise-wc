@@ -22,6 +22,14 @@
   display: inline-block;
 }
 
+[data-expander='header'] {
+  pointer-events: none;
+}
+
+[data-expander='header'] [name='header'] {
+  pointer-events: initial;
+}
+
 .ids-expandable-area-pane {
   height: 0;
   overflow: hidden;

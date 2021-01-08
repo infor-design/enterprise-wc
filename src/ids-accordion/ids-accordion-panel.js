@@ -42,6 +42,7 @@ class IdsAccordionPanel extends IdsElement {
     } else {
       this.setAttribute(props.EXPANDED, false);
     }
+    this.switchState();
   }
 
   /**
@@ -56,25 +57,6 @@ class IdsAccordionPanel extends IdsElement {
    */
   static get properties() {
     return [props.EXPANDED];
-  }
-
-  /**
-   * Identify just the `expanded` attribute as an observed attribute
-   * @private
-   * @returns {Array} the observed attributes array
-   */
-  static get observedAttributes() {
-    return [props.EXPANDED];
-  }
-
-  /**
-   * When `expanded` changes value, execute switchState()
-   * @param {string} name Name of the attribute that changed
-   */
-  attributeChangedCallback(name) {
-    if (name === props.EXPANDED) {
-      this.switchState();
-    }
   }
 
   /**

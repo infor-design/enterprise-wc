@@ -37,8 +37,6 @@ class IdsElement extends HTMLElement {
    * @param  {string} newValue The property new value
    */
   attributeChangedCallback(name, oldValue, newValue) {
-    console.log(oldValue);
-    console.log(newValue);
     if (oldValue !== newValue) {
       this[this.camelCase(name)] = newValue;
     }
@@ -68,7 +66,6 @@ class IdsElement extends HTMLElement {
    * @type {Array}
    */
   static get observedAttributes() {
-    console.log(this);
     return this.properties;
   }
 

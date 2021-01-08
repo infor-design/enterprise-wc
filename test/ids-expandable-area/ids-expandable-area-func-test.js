@@ -88,15 +88,13 @@ describe('IdsExpandableArea Component', () => {
 
   it('renders with IdsToggleButton as expander', () => {
     let expander;
-    el.setAttribute('type', 'toggle-btn');
-    el.appendChild(new IdsToggleButton());
-    expander = document.querySelector('ids-toggle-button');
-    expect(expander).toBeTruthy();
-  });
+    el.type = 'toggle-btn'
+    expander = new IdsToggleButton();
+    expect(expander.classList).not.toContain('ids-expandable-area-expander');
 
-  it('renders with <a> tag as expander', () => {
     el.type = null;
-    expect(el.expander.classList.contains('ids-expandable-area-expander')).toBeTruthy();
+    expander = el.expander;
+    expect(expander.classList).toContain('ids-expandable-area-expander');
   });
 
   it('can change set its aria-expanded attribute', () => {
@@ -106,14 +104,9 @@ describe('IdsExpandableArea Component', () => {
     expect(el.expander.getAttribute('aria-expanded')).toBe('true');
   });
 
-  it('can set its data-expanded attribute', () => {
-    el.state.expanded = true;
-    el.pane.setAttribute('data-expanded', el.state.expanded);
-
-    expect(el.pane.getAttribute('data-expanded')).toBe('true');
-  });
-
   it('can be expanded/collapsed when clicked (mouse)', () => {
+    el.type = null;
+
     const event = new MouseEvent('click', {
       target: el.expander,
       bubbles: true,
@@ -128,6 +121,28 @@ describe('IdsExpandableArea Component', () => {
 
     // Collapse
     el.expander.dispatchEvent(event);
+    expect(el.state.expanded).toBe(false);
+    expect(el.expanded).toBe('false');
+
+    // Change type to 'toggle-btn'
+    el.type = 'toggle-btn';
+    el.state.expanded = false;
+    el.expanded = false;
+
+    const event2 = new MouseEvent('click', {
+      target: el.expander,
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+
+    // Expand
+    el.expander.dispatchEvent(event2);
+    expect(el.state.expanded).toBe(true);
+    expect(el.expanded).toBe('true');
+
+    // Collapse
+    el.expander.dispatchEvent(event2);
     expect(el.state.expanded).toBe(false);
     expect(el.expanded).toBe('false');
   });
@@ -169,18 +184,17 @@ describe('IdsExpandableArea Component', () => {
   });
 
   it('can render different templates', () => {
-    const template1 = `<div class="ids-expandable-area-1"></div>`;
-    const template2 = `<div class="ids-expandable-area-2"></div>`;
-    const instance = new IdsExpandableArea();
-    const spy = jest.spyOn(instance, 'template');
+    const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
+    const header = rootEl.querySelector('.ids-expandable-area-header')
 
-    spy.mockReturnValue(template1);
-    expect(instance.template(template1)).toBeTruthy();
+    el.type = null;
+    header.removeAttribute('data-expander');
+    el.template();
+    expect(header.getAttribute('data-expander')).toBe(null);
 
     el.type = 'toggle-btn';
-    spy.mockReturnValue(template2);
-    expect(instance.template(template2)).toBeTruthy();
-
-    spy.mockRestore();
+    header.setAttribute('data-expander', 'header');
+    el.template();
+    expect(header.getAttribute('data-expander')).toBe('header');
   });
 });

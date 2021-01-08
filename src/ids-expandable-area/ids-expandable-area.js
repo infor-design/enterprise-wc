@@ -69,6 +69,7 @@ class IdsExpandableArea extends IdsElement {
     } else {
       this.setAttribute(props.EXPANDED, false);
     }
+    this.switchState();
   }
 
   /**
@@ -78,37 +79,14 @@ class IdsExpandableArea extends IdsElement {
   get expanded() { return this.getAttribute(props.EXPANDED); }
 
   /**
-   * Identify just the `expanded` attribute as an observed attribute
-   * @private
-   * @returns {Array} the observed attributes array
-   */
-  static get observedAttributes() {
-    return [props.EXPANDED];
-  }
-
-  /**
-   * When `expanded` changes value, execute switchState()
-   * @param {string} name Name of the attribute that changed
-   */
-  attributeChangedCallback(name) {
-    if (name === props.EXPANDED) {
-      this.switchState();
-    }
-  }
-
-  /**
    * The main state switching function
    * @returns {void}
    */
   switchState() {
-    this.expander = this.shadowRoot.querySelector('[data-expander]');
-    this.pane = this.shadowRoot.querySelector('.ids-expandable-area-pane');
     this.expanderDefault = this.shadowRoot.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot.querySelector('[name="expander-expanded"]');
-
     this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
     this.expander.setAttribute('aria-expanded', this.state.expanded);
-    this.pane.setAttribute('data-expanded', this.state.expanded);
 
     // Hide/show the text link if default
     if (this.type === null) {
@@ -160,28 +138,20 @@ class IdsExpandableArea extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
-    let expander;
     this.eventHandlers = new IdsEventsMixin();
 
-    if (this.type === EXPANDABLE_AREA_TYPES[0]) {
-      expander = this.querySelector('ids-toggle-button');
-    } else {
-      expander = this.expander;
-    }
+    this.eventHandlers.addEventListener('click', this.expander, () => {
+      this.setAttributes();
+    });
 
-    if (expander) {
-      this.eventHandlers.addEventListener('click', expander, () => {
+    this.eventHandlers.addEventListener('touchstart', this.expander, (e) => {
+      /* istanbul ignore next */
+      if (e.touches && e.touches.length > 0) {
         this.setAttributes();
-      });
-
-      this.eventHandlers.addEventListener('touchstart', expander, (e) => {
-        if (e.touches && e.touches.length > 0) {
-          this.setAttributes();
-        }
-      }, {
-        passive: true
-      });
-    }
+      }
+    }, {
+      passive: true
+    });
   }
 
   /**
@@ -196,7 +166,7 @@ class IdsExpandableArea extends IdsElement {
           <div class="ids-expandable-area-header" aria-expanded="false" data-expander="header">
             <slot name="header"></slot>
           </div>
-          <div class="ids-expandable-area-pane" data-expanded="false">
+          <div class="ids-expandable-area-pane">
             <slot name="pane"></slot>
           </div>
         </div>
@@ -207,7 +177,7 @@ class IdsExpandableArea extends IdsElement {
           <div class="ids-expandable-area-header">
             <slot name="header"></slot>
           </div>
-          <div class="ids-expandable-area-pane" data-expanded="false">
+          <div class="ids-expandable-area-pane">
             <slot name="pane"></slot>
           </div>
           <div class="ids-expandable-area-footer">
