@@ -14,9 +14,10 @@ describe('IdsMenu Component', () => {
   let item1;
   let item2;
   let item3;
-  let sep;
+  let sep1;
   let group2;
   let item4;
+  let sep2;
   let item5;
 
   beforeEach(async () => {
@@ -31,11 +32,12 @@ describe('IdsMenu Component', () => {
     item2.value = '2';
     item3 = new IdsMenuItem();
     item3.value = '3';
-    sep = new IdsSeparator();
+    sep1 = new IdsSeparator();
     group2 = new IdsMenuGroup();
     group2.id = 'secondary';
     item4 = new IdsMenuItem();
     item4.value = '4';
+    sep2 = new IdsSeparator();
     item5 = new IdsMenuItem();
     item5.value = '5';
 
@@ -45,9 +47,10 @@ describe('IdsMenu Component', () => {
     group1.appendChild(item2);
     group1.appendChild(item3);
     group2.appendChild(item4);
+    group2.appendChild(sep2);
     group2.appendChild(item5);
     menu.appendChild(group1);
-    menu.appendChild(sep);
+    menu.appendChild(sep1);
     menu.appendChild(group2);
     document.body.appendChild(menu);
   });
@@ -239,6 +242,16 @@ describe('IdsMenu Component', () => {
 
       expect(thisGroup).toEqual(group1);
       expect(thisGroup.id).toEqual('primary');
+    });
+  });
+
+  describe('IdsSeparator', () => {
+    it('container will be a div when invoked within a menu', () => {
+      expect(sep1.container.tagName.toLowerCase()).toEqual('div');
+    });
+
+    it('container will be a list item when invoked within a menu group', () => {
+      expect(sep2.container.tagName.toLowerCase()).toEqual('li');
     });
   });
 });

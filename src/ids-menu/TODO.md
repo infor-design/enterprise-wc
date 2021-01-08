@@ -27,6 +27,7 @@
 
 - [x] Combine Popup and Menu
 - [x] Create hidden / nested fly-out behavior for submenus
+- [] Shift + F10 to open (need to have different targets in Keyboard mixin)
 
 ## ContextMenu Mixin?
 
