@@ -4,8 +4,6 @@ import {
   scss
 } from '../ids-base/ids-element';
 import styles from './ids-accordion.scss';
-import { IdsAccordionPanel } from './ids-accordion-panel';
-import { IdsAccordionHeader } from './ids-accordion-header';
 
 /**
  * IDS Tag Component

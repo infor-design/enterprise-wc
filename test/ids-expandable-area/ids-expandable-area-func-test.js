@@ -6,9 +6,6 @@ import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
 
 describe('IdsExpandableArea Component', () => {
   let el;
-  const EXPANDABLE_AREA_TYPES = [
-    'toggle-btn'
-  ];
 
   beforeEach(async () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
@@ -76,7 +73,7 @@ describe('IdsExpandableArea Component', () => {
 
   it('renders with IdsToggleButton as expander', () => {
     let expander;
-    el.type = 'toggle-btn'
+    el.type = 'toggle-btn';
     expander = new IdsToggleButton();
     expect(expander.classList).not.toContain('ids-expandable-area-expander');
 
@@ -173,7 +170,7 @@ describe('IdsExpandableArea Component', () => {
 
   it('can render different templates', () => {
     const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
-    const header = rootEl.querySelector('.ids-expandable-area-header')
+    const header = rootEl.querySelector('.ids-expandable-area-header');
 
     el.type = null;
     header.removeAttribute('data-expander');

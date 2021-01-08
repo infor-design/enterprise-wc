@@ -72,7 +72,6 @@ describe('IdsAccordion Component', () => {
   });
 
   it('can be expanded/collapsed when clicked (mouse)', () => {
-
     const event = new MouseEvent('click', {
       target: panel.expander,
       bubbles: true,
