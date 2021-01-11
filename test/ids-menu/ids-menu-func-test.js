@@ -1,11 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-import IdsMenu from '../../src/ids-menu/ids-menu';
-import IdsMenuGroup from '../../src/ids-menu/ids-menu-group';
-import IdsMenuHeader from '../../src/ids-menu/ids-menu-header';
-import IdsMenuItem from '../../src/ids-menu/ids-menu-item';
-import IdsSeparator from '../../src/ids-menu/ids-separator';
+import IdsMenu, {
+  IdsMenuGroup,
+  IdsMenuHeader,
+  IdsMenuItem,
+  IdsSeparator
+} from '../../src/ids-menu/ids-menu';
 
 describe('IdsMenu Component', () => {
   let menu;
@@ -242,16 +243,6 @@ describe('IdsMenu Component', () => {
 
       expect(thisGroup).toEqual(group1);
       expect(thisGroup.id).toEqual('primary');
-    });
-  });
-
-  describe('IdsSeparator', () => {
-    it('container will be a div when invoked within a menu', () => {
-      expect(sep1.container.tagName.toLowerCase()).toEqual('div');
-    });
-
-    it('container will be a list item when invoked within a menu group', () => {
-      expect(sep2.container.tagName.toLowerCase()).toEqual('li');
     });
   });
 });

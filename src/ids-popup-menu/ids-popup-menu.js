@@ -314,26 +314,30 @@ class IdsPopupMenu extends IdsMenu {
   /**
    * Hides any "open" submenus within this menu structure, optionally ingorning a single
    * menu to "keep open".
-   * @param {HTMLElement} focusedMenuItem if provided, will be ignored and considered the
+   * @param {HTMLElement} [focusedMenuItem] if provided, will be ignored and considered the
    * "currently open" menu.
    * @returns {void}
    */
-  hideSubmenus(focusedMenuItem) {
+  hideSubmenus(focusedMenuItem = undefined) {
     const submenus = this.submenus;
     let focusedSubmenu;
     if (focusedMenuItem?.hasSubmenu) {
       focusedSubmenu = focusedMenuItem.submenu;
     }
 
-    if (submenus) {
-      submenus.forEach((submenu) => {
-        const submenuIsIgnored = focusedSubmenu && focusedSubmenu.isEqualNode(submenu);
-        if (!submenu.hidden && !submenuIsIgnored) {
-          submenu.hide();
-        }
-      });
-    }
+    submenus.forEach((submenu) => {
+      const submenuIsIgnored = focusedSubmenu && focusedSubmenu.isEqualNode(submenu);
+      if (!submenu.hidden && !submenuIsIgnored) {
+        submenu.hide();
+      }
+    });
   }
 }
 
 export default IdsPopupMenu;
+export {
+  IdsMenuGroup,
+  IdsMenuHeader,
+  IdsMenuItem,
+  IdsSeparator
+} from '../ids-menu/ids-menu';

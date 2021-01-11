@@ -1,11 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-import IdsPopupMenu from '../../src/ids-popup-menu/ids-popup-menu';
-import IdsMenuGroup from '../../src/ids-menu/ids-menu-group';
-import IdsMenuHeader from '../../src/ids-menu/ids-menu-header';
-import IdsMenuItem from '../../src/ids-menu/ids-menu-item';
-import IdsSeparator from '../../src/ids-menu/ids-separator';
+import IdsPopupMenu, {
+  IdsMenuGroup,
+  IdsMenuHeader,
+  IdsMenuItem,
+  IdsSeparator
+} from '../../src/ids-popup-menu/ids-popup-menu';
 
 describe('IdsPopupMenu Component', () => {
   let menu;
@@ -61,5 +62,31 @@ describe('IdsPopupMenu Component', () => {
 
     expect(document.querySelectorAll('ids-popup-menu').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('can programmatically show and hide', () => {
+    menu.show();
+
+    expect(menu.hidden).toBeFalsy();
+    expect(menu.popup.visible).toBeTruthy();
+
+    menu.hide();
+
+    expect(menu.hidden).toBeTruthy();
+    expect(menu.popup.visible).toBeFalsy();
+  });
+
+  it('can explain when document click events are attached', (done) => {
+    menu.show();
+
+    setTimeout(() => {
+      expect(menu.hasOpenEvents).toBeTruthy();
+
+      menu.hide();
+      setTimeout(() => {
+        expect(menu.hasOpenEvents).toBeFalsy();
+        done();
+      }, 10);
+    }, 10);
   });
 });

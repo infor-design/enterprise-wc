@@ -6,6 +6,8 @@ import {
 import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+
+// SubComponents
 import IdsMenuGroup from './ids-menu-group';
 import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
@@ -280,6 +282,7 @@ class IdsMenu extends IdsElement {
     this.classList[hasIcons ? 'add' : 'remove']('has-icons');
 
     this.items.forEach((item) => {
+      debugger;
       item.setDisplayType(hasIcons);
     });
   }
@@ -439,4 +442,10 @@ class IdsMenu extends IdsElement {
   }
 }
 
-export default IdsMenu;
+export {
+  IdsMenu as default,
+  IdsMenuHeader,
+  IdsMenuGroup,
+  IdsMenuItem,
+  IdsSeparator
+};
