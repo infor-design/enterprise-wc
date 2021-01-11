@@ -8,17 +8,32 @@ import IdsAccordionPanel from '../../src/ids-accordion/ids-accordion-panel';
 describe('IdsAccordion Component', () => {
   let accordion;
   let panel;
+  let panel2;
+  let panel3;
   let header;
+  let header2;
+  let header3;
 
   beforeEach(async () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
     const wrapper = new IdsAccordion();
     panel = new IdsAccordionPanel();
+    panel2 = new IdsAccordionPanel();
+    panel3 = new IdsAccordionPanel();
     header = new IdsAccordionHeader();
+    header2 = new IdsAccordionHeader();
+    header3 = new IdsAccordionHeader();
+
     document.body.appendChild(wrapper);
     accordion = document.querySelector('ids-accordion');
+
     accordion.appendChild(panel);
+    accordion.appendChild(panel2);
+    accordion.appendChild(panel3);
+
     panel.appendChild(header);
+    panel2.appendChild(header2);
+    panel3.appendChild(header3);
   });
 
   afterEach(async () => {
@@ -130,6 +145,46 @@ describe('IdsAccordion Component', () => {
     panel.expander.dispatchEvent(event);
     expect(panel.state.expanded).toBe(false);
     expect(panel.expanded).toBe('false');
+  });
+
+  it('can be expanded/collapsed when pressing Space key', () => {
+    const event = new KeyboardEvent('keydown', { key: ' ' });
+
+    // Expand
+    panel.expander.dispatchEvent(event);
+    expect(panel.state.expanded).toBe(true);
+    expect(panel.expanded).toBe('true');
+
+    // Collapse
+    panel.expander.dispatchEvent(event);
+    expect(panel.state.expanded).toBe(false);
+    expect(panel.expanded).toBe('false');
+  });
+
+  it('can select the next panel when pressing the ArrowDown key', () => {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    let nextPanel = panel.nextElementSibling;
+
+    panel.expander.dispatchEvent(event);
+    nextPanel.setAttribute('tabindex', '0');
+    expect(nextPanel.getAttribute('tabindex')).toBe('0');
+
+    nextPanel = panel3.nextElementSibling;
+    panel3.expander.dispatchEvent(event);
+    expect(nextPanel).toBe(null);
+  });
+
+  it('can select the prev panel when pressing the ArrowUp key', () => {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    let prevPanel = panel2.previousElementSibling;
+
+    panel2.expander.dispatchEvent(event);
+    prevPanel.setAttribute('tabindex', '0');
+    expect(prevPanel.getAttribute('tabindex')).toBe('0');
+
+    prevPanel = panel.previousElementSibling;
+    panel.expander.dispatchEvent(event);
+    expect(prevPanel).toBe(null);
   });
 
   it('can change the height of the pane', () => {

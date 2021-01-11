@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsAccordion Component renders correctly 1`] = `"<ids-accordion><ids-accordion-panel><ids-accordion-header></ids-accordion-header></ids-accordion-panel></ids-accordion>"`;
+exports[`IdsAccordion Component renders correctly 1`] = `"<ids-accordion><ids-accordion-panel><ids-accordion-header></ids-accordion-header></ids-accordion-panel><ids-accordion-panel><ids-accordion-header></ids-accordion-header></ids-accordion-panel><ids-accordion-panel><ids-accordion-header></ids-accordion-header></ids-accordion-panel></ids-accordion>"`;
 
-exports[`IdsAccordion Component renders correctly 2`] = `"<ids-accordion><ids-accordion-panel expanded=\\"true\\"><ids-accordion-header></ids-accordion-header></ids-accordion-panel></ids-accordion>"`;
+exports[`IdsAccordion Component renders correctly 2`] = `"<ids-accordion><ids-accordion-panel expanded=\\"true\\"><ids-accordion-header></ids-accordion-header></ids-accordion-panel><ids-accordion-panel><ids-accordion-header></ids-accordion-header></ids-accordion-panel><ids-accordion-panel><ids-accordion-header></ids-accordion-header></ids-accordion-panel></ids-accordion>"`;
 
-exports[`IdsAccordion Component renders correctly 3`] = `"<ids-accordion><ids-accordion-panel expanded=\\"false\\"><ids-accordion-header></ids-accordion-header></ids-accordion-panel></ids-accordion>"`;
+exports[`IdsAccordion Component renders correctly 3`] = `"<ids-accordion><ids-accordion-panel expanded=\\"false\\"><ids-accordion-header></ids-accordion-header></ids-accordion-panel><ids-accordion-panel><ids-accordion-header></ids-accordion-header></ids-accordion-panel><ids-accordion-panel><ids-accordion-header></ids-accordion-header></ids-accordion-panel></ids-accordion>"`;

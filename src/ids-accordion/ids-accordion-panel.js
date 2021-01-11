@@ -22,6 +22,7 @@ class IdsAccordionPanel extends IdsElement {
 
   connectedCallback() {
     this.expander = this.shadowRoot.querySelector('.ids-accordion-panel-expander');
+    this.header = this.querySelector('[slot="header"]');
     this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
     this.setTitles();
     this.handleEvents();
@@ -69,7 +70,7 @@ class IdsAccordionPanel extends IdsElement {
    */
   switchState() {
     this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
-    this.expander.setAttribute('aria-expanded', this.state.expanded);
+    this.header?.setAttribute('aria-expanded', this.state.expanded);
 
     if (!this.state.expanded) {
       this.collapsePane();
@@ -126,6 +127,18 @@ class IdsAccordionPanel extends IdsElement {
       this.setAttributes();
     });
 
+    this.keyboard.listen(' ', this.expander, () => {
+      this.setAttributes();
+    });
+
+    this.keyboard.listen('ArrowDown', this.expander, () => {
+      this.select(this.getNextPanel(this));
+    });
+
+    this.keyboard.listen('ArrowUp', this.expander, () => {
+      this.select(this.getPrevPanel(this));
+    });
+
     this.eventHandlers.addEventListener('touchstart', this.expander, (e) => {
       /* istanbul ignore next */
       if (e.touches && e.touches.length > 0) {
@@ -134,6 +147,56 @@ class IdsAccordionPanel extends IdsElement {
     }, {
       passive: true
     });
+  }
+
+  /**
+   * Get the next panel element
+   * @private
+   * @param {object} panel The current panel element
+   * @returns {object} The next panel element
+   */
+  getNextPanel(panel) {
+    const next = panel.nextElementSibling;
+
+    /* eslint-disable */
+    if (next === null) {
+      return;
+    } else {
+      return next;
+    }
+    /* eslint-enable */
+  }
+
+  /**
+   * Get the next panel element
+   * @private
+   * @param {object} panel The current panel element
+   * @returns {object} The previous panel element
+   */
+  getPrevPanel(panel) {
+    const prev = panel.previousElementSibling;
+
+    /* eslint-disable */
+    if (prev === null) {
+      return;
+    } else {
+      return prev;
+    }
+    /* eslint-enable */
+  }
+
+  /**
+   * Select the prev/next panel
+   * @private
+   * @param {object} panel The panel to be selected
+   */
+  select(panel) {
+    if (panel === undefined) {
+      return;
+    }
+    const header = panel.querySelector('ids-accordion-header').shadowRoot.querySelector('.ids-accordion-header');
+    header.setAttribute('tabindex', '0');
+    header.focus();
   }
 
   /**

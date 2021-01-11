@@ -8,14 +8,28 @@
   @include py-12();
 
   align-items: center;
-  border-left: none;
-  border-right: none;
-  border-top: none;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
   cursor: pointer;
   display: flex;
+
+  &:focus {
+    @include shadow();
+
+    border: 1px solid #0072ed;
+    outline: none;
+  }
 }
 
 :host {
+  &:focus {
+    @include shadow();
+
+    border: 1px solid #0072ed;
+    outline: none;
+  }
+
   ids-icon {
     margin-left: auto;
     transition: transform $transition-length $transition-ease;
