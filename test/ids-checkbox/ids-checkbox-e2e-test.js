@@ -23,6 +23,7 @@ describe('Ids Checkbox e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
+    await page.waitForSelector('.no-required-indicator');
     await percySnapshot(page, 'ids-checkbox');
   });
 });
