@@ -22,7 +22,10 @@ describe('Ids Checkbox e2e Tests', () => {
   it('should not have visual regressions (percy)', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'networkidle2' });
-    await percySnapshot(page, 'ids-checkbox');
+    await page.goto(url, { waitUntil: 'load' });
+    await page.waitForSelector('.no-required-indicator').then(() => {
+      percySnapshot(page, 'ids-checkbox');
+    });
+    // await percySnapshot(page, 'ids-checkbox');
   });
 });
