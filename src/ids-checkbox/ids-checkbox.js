@@ -79,7 +79,7 @@ class IdsCheckbox extends IdsElement {
 
   /**
    * Create the Template for the contents
-   * @returns {string} The template.
+   * @returns {string} The template
    */
   template() {
     // Checkbox
