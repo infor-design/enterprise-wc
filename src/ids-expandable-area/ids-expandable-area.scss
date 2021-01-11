@@ -1,5 +1,11 @@
 @import '../ids-base/ids-base';
 
+.ids-expandable-area {
+  border-bottom: 1px solid var(--ids-color-palette-slate-30);
+  margin-bottom: calc(var(--ids-number-spacing-base) * 4);
+  padding-bottom: calc(var(--ids-number-spacing-base) * 4);
+}
+
 :host([type='toggle-btn']) {
   .ids-expandable-area-header {
     @include mb-16();
