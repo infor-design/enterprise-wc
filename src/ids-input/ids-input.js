@@ -146,7 +146,7 @@ class IdsInput extends IdsElement {
   /**
    * Set input state for disabled or readonly
    * @private
-   * @param {string} prop The property
+   * @param {string} prop The property.
    * @returns {void}
    */
   setInputState(prop) {
