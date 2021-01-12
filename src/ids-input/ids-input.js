@@ -504,6 +504,7 @@ class IdsInput extends IdsElement {
     }
     this.input = this.shadowRoot.querySelector(`#${ID}`);
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
+    // @ts-ignore
     this.handleValidation();
   }
 

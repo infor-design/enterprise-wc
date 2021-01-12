@@ -201,7 +201,7 @@ class IdsRadioGroup extends IdsElement {
 
     radioArr.forEach((r) => {
       this.eventHandlers.addEventListener('change', r, () => {
-        this.makeChecked(r);
+        this.makeChecked(r, false);
       });
     });
   }
