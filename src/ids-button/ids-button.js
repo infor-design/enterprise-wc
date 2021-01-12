@@ -3,9 +3,13 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
+
+// @ts-ignore
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
+// @ts-ignore
 import styles from './ids-button.scss';
 
 // Button Styles
@@ -54,7 +58,6 @@ class IdsButton extends IdsElement {
   /**
    * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
    * check for a true `shouldUpdate` property.
-   * @private
    * @param  {string} name The property name
    * @param  {string} oldValue The property old value
    * @param  {string} newValue The property new value
@@ -66,11 +69,10 @@ class IdsButton extends IdsElement {
   }
 
   /**
-   * Button-level `connectedCallBack` implementation
-   * @private
+   * Button-level `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
     this.handleEvents();
     this.shouldUpdate = true;
   }
@@ -106,6 +108,7 @@ class IdsButton extends IdsElement {
    */
   refreshProtoClasses() {
     const cl = this.button.classList;
+    /** @type {any} */
     const newProtoClass = this.protoClasses;
     const protoClasses = ['ids-button', 'ids-toggle-button', 'ids-icon-button'];
 
@@ -115,7 +118,6 @@ class IdsButton extends IdsElement {
 
   /**
    * Inner template contents
-   * @private
    * @returns {string} The template
    */
   template() {
@@ -127,7 +129,7 @@ class IdsButton extends IdsElement {
     let text = '';
     let type = '';
     if (this.state?.cssClass) {
-      cssClass = ` ${this.cssClass.join(' ')}`;
+      cssClass = ` ${this.state.cssClass.join(' ')}`;
     }
     if (this.state?.disabled) {
       disabled = ` disabled="true"`;
@@ -157,16 +159,6 @@ class IdsButton extends IdsElement {
   }
 
   /**
-   * Rerender the component template
-   * @private
-   */
-  rerender() {
-    const template = document.createElement('template');
-    template.innerHTML = this.template();
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-  }
-
-  /**
    * Sets up event listeners
    * @private
    * @returns {void}
@@ -178,7 +170,7 @@ class IdsButton extends IdsElement {
     let preceededByTouchstart = false;
     this.eventHandlers = new IdsEventsMixin();
 
-    this.eventHandlers.addEventListener('click', this.button, (e) => {
+    this.eventHandlers.addEventListener('click', this.button, (/** @type {any} */ e) => {
       if (preceededByTouchstart) {
         preceededByTouchstart = false;
         return;
@@ -188,7 +180,7 @@ class IdsButton extends IdsElement {
       this.createRipple(x, y);
     });
 
-    this.eventHandlers.addEventListener('touchstart', this.button, (e) => {
+    this.eventHandlers.addEventListener('touchstart', this.button, (/** @type {any} */ e) => {
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
         x = touch.clientX !== 0 ? touch.clientX : undefined;
@@ -228,7 +220,7 @@ class IdsButton extends IdsElement {
 
     this.state.cssClass = newCl;
     if (newCl.length) {
-      this.setAttribute('css-class', attr);
+      this.setAttribute('css-class', attr.toString());
     } else {
       this.removeAttribute('css-class');
     }
@@ -248,23 +240,20 @@ class IdsButton extends IdsElement {
     });
   }
 
-  /**
-   * @returns {Array} containing extra CSS classes that are applied to the button
-   */
   get cssClass() {
     return this.state.cssClass;
   }
 
   /**
    * Passes a disabled attribute from the custom element to the button
-   * @param {boolean} val true if the button will be disabled
+   * @param {boolean|string} val true if the button will be disabled
    */
   set disabled(val) {
     this.shouldUpdate = false;
     this.removeAttribute('disabled');
     this.shouldUpdate = true;
 
-    const trueVal = val === true || val === 'true';
+    const trueVal = stringUtils.stringToBool(val);
     this.state.disabled = trueVal;
 
     /* istanbul ignore next */
@@ -273,10 +262,6 @@ class IdsButton extends IdsElement {
     }
   }
 
-  /**
-   * Retrieve the disabled state of the inner button element
-   * @returns {boolean} the inner button's disabled state
-   */
   get disabled() {
     return this.state.disabled;
   }
@@ -291,14 +276,14 @@ class IdsButton extends IdsElement {
     this.removeAttribute('tabindex');
     this.shouldUpdate = true;
 
-    const trueVal = parseInt(val, 10);
+    const trueVal = parseInt(val.toString(), 10);
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabindex = 0;
       this.button.removeAttribute('tabindex');
       return;
     }
     this.state.tabindex = trueVal;
-    this.button.setAttribute('tabindex', trueVal);
+    this.button.setAttribute('tabindex', trueVal.toString());
   }
 
   /**
@@ -327,6 +312,7 @@ class IdsButton extends IdsElement {
    * @returns {undefined|string} a defined IdsIcon's `icon` attribute, if one is present
    */
   get icon() {
+    // @ts-ignore
     return this.querySelector('ids-icon')?.icon;
   }
 
@@ -337,6 +323,7 @@ class IdsButton extends IdsElement {
    */
   appendIcon(iconName) {
     // First look specifically for an icon slot.
+    /** @type {any} */
     const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
 
     if (icon) {
@@ -465,7 +452,7 @@ class IdsButton extends IdsElement {
    * @private
    * @param {number} x the X coordinate
    * @param {number} y the Y coordinate
-   * @returns {Array} containing x/y coordinates of the ripple
+   * @returns {object} containing x/y coordinates of the ripple
    */
   getRippleOffsets(x, y) {
     const btnRect = this.getBoundingClientRect();
@@ -521,10 +508,11 @@ class IdsButton extends IdsElement {
 
     // Make/Place a new ripple
     const rippleEl = document.createElement('span');
+    /** @type {object} */
     const btnOffsets = this.getRippleOffsets(x, y);
     rippleEl.classList.add('ripple-effect');
-    rippleEl.setAttribute('aria-hidden', true);
-    rippleEl.setAttribute('focusable', false);
+    rippleEl.setAttribute('aria-hidden', 'true');
+    rippleEl.setAttribute('focusable', 'false');
     rippleEl.setAttribute('role', 'presentation');
 
     this.button.prepend(rippleEl);

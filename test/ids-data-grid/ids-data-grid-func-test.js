@@ -130,7 +130,6 @@ describe('IdsDataGrid Component', () => {
   });
 
   it('renders row data', () => {
-    const errors = jest.spyOn(global.console, 'error');
     expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
     expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(117);
   });
@@ -187,7 +186,7 @@ describe('IdsDataGrid Component', () => {
     dataGrid.virtualScroll = false;
 
     expect(dataGrid.shadowRoot.querySelectorAll('ids-virtual-scroll').length).toEqual(0);
-    expect(dataGrid.getAttribute('virtual-scroll')).toBeFalsy();
+    expect(dataGrid.getAttribute('virtual-scroll')).toEqual('false');
   });
 
   it('can reset the virtualScroll option', () => {

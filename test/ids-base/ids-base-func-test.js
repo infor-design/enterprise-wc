@@ -4,7 +4,6 @@
 import IdsTag from '../../src/ids-tag/ids-tag';
 import { IdsElement } from '../../src/ids-base/ids-element';
 import { IdsExampleMixin as exampleMixin } from '../../src/ids-base/ids-example-mixin';
-import { customElement } from '../../src/ids-base/ids-decorators';
 
 describe('IdsBase Tests', () => {
   afterEach(async () => {

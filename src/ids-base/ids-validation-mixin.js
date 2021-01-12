@@ -31,10 +31,10 @@ const IdsValidationMixin = {
       const defaultEvents = (isCheckbox || isRadioGroup) ? 'change' : 'blur';
       const events = this.validationEvents && typeof this.validationEvents === 'string' ? this.validationEvents : defaultEvents;
       this.validationEventsList = [...new Set(events.split(' '))];
-      const getRule = (id) => ({ id, rule: this.rules[id] });
+      const getRule = (/** @type {string} */ id) => ({ id, rule: this.rules[id] });
       let isRulesAdded = false;
 
-      this.validate.split(' ').forEach((strRule) => {
+      this.validate.split(' ').forEach((/** @type {string} */ strRule) => {
         if (strRule === 'required') {
           this.labelEl.classList.add('required');
           this.input.setAttribute('aria-required', true);
@@ -46,7 +46,7 @@ const IdsValidationMixin = {
         const useRules = this.useRules.get(this.input);
         if (useRules) {
           let found = false;
-          useRules.forEach((rule) => {
+          useRules.forEach((/** @type {object} */ rule) => {
             if (rule.id === strRule) {
               found = true;
             }
@@ -78,7 +78,7 @@ const IdsValidationMixin = {
     if (this.input) {
       let isValid = true;
       const useRules = this.useRules.get(this.input);
-      useRules?.forEach((thisRule) => {
+      useRules?.forEach((/** @type {object} */ thisRule) => {
         if (!thisRule.rule.check(this.input)) {
           this.addMessage(thisRule.rule);
           isValid = false;
@@ -174,7 +174,7 @@ const IdsValidationMixin = {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleValidationEvents(option) {
+  handleValidationEvents(option = '') {
     /* istanbul ignore next */
     if (!this.eventHandlers) {
       this.eventHandlers = new IdsEventsMixin();
@@ -224,7 +224,7 @@ const IdsValidationMixin = {
      * @private
      */
     required: {
-      check: (input) => {
+      check: (/** @type {object} */input) => {
         // Checkbox
         if (input.getAttribute('type') === 'checkbox') {
           return input.checked;
@@ -247,7 +247,7 @@ const IdsValidationMixin = {
      * @private
      */
     email: {
-      check: (input) => {
+      check: (/** @type {object} */ input) => {
         const val = input.value;
         const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,16}(?:\.[a-z]{2})?)$/i;
         return (val.length) ? regex.test(val) : true;

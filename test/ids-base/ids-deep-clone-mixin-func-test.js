@@ -62,7 +62,6 @@ describe('IdsDeepCloneMixin Tests', () => {
 
   it('can clone an array of date objects', () => {
     const d1 = new Date();
-    const d2 = new Date();
 
     const original = [{ test1: d1, test2: '1' }, { test1: d1, test2: '2' }];
     const clone = cloneUtils.deepClone(original);
