@@ -31,6 +31,18 @@ describe('IdsButton Component', () => {
     expect(btn.shouldUpdate).toBeTruthy();
   });
 
+  it('renders correctly', () => {
+    const elem = new IdsButton();
+    elem.cssClass = 'test-class';
+    elem.disabled = true;
+    elem.icon = 'add';
+    elem.text = 'test';
+    elem.state.type = 'icon';
+    document.body.appendChild(elem);
+    elem.template();
+    expect(elem.outerHTML).toMatchSnapshot();
+  });
+
   it('exposes its inner button component', () => {
     expect(btn.button).toBeDefined();
     expect(btn.button instanceof HTMLElement).toBeTruthy();
@@ -197,7 +209,6 @@ describe('IdsButton Component', () => {
     expect(btn.button.classList.contains('ids-button')).toBeFalsy();
   });
 
-  // @TODO write a better test for this without `rerender` if we start using settings objects
   it('can rerender', () => {
     btn.text = 'New';
     btn.icon = 'check';
@@ -205,8 +216,6 @@ describe('IdsButton Component', () => {
     btn.tabindex = -1;
     btn.type = 'secondary';
     btn.cssClass = ['awesome'];
-
-    btn.rerender();
 
     expect(btn.text).toEqual('New');
   });
@@ -315,7 +324,6 @@ describe('IdsButton ripple effect tests', () => {
 
   it('can get ripple offsets from its physical dimensions', () => {
     const c = btn.button;
-    const originalGetBoundingClientRect = c.getBoundingClientRect;
 
     // 150x40 are roughly the dimensions of a standard IDS Button with some text and an icon
     c.getBoundingClientRect = jest.fn(() => ({

@@ -1,7 +1,7 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
-interface nativeElement extends HTMLElement {
+export class IdsVirtualScroll extends HTMLElement {
   /** Set the internal element template markup for a single element */
   itemTemplate: Function | string;
   /** Attach a dataset that matches the list template and render */
@@ -18,8 +18,4 @@ interface nativeElement extends HTMLElement {
   itemCount: number;
   /** The number of extra elements to render to improve or tweak the scroll experience */
   bufferSize: number;
-}
-
-export class IdsVirtualScroll extends HTMLElement {
-  nativeElement: nativeElement;
 }

@@ -27,15 +27,16 @@ const IdsHideFocusMixin = {
    * Toggle hidefocus class and trigger event
    * @private
    * @param {object} elem The element node
-   * @param {boolean} isRemove If true, will remove
-   * @param {boolean} noTrigger If true, will not trigger
+   * @param {boolean|any} isRemove If true, will remove
+   * @param {boolean|any} noTrigger If true, will not trigger
    * @returns {void}
    */
-  hidefocusToggle(elem, isRemove, noTrigger) {
+  hidefocusToggle(elem, isRemove = false, noTrigger = false) {
     if (elem) {
       const action = isRemove ? 'remove' : 'add';
       elem.classList[action]('hide-focus');
 
+      /* istanbul ignore next */
       if (!this.eventHandlers) {
         this.eventHandlers = new IdsEventsMixin();
       }
@@ -52,7 +53,7 @@ const IdsHideFocusMixin = {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  hidefocusFocusin(option) {
+  hidefocusFocusin(option = '') {
     if (this.input) {
       const eventName = 'focusin';
       if (option === 'remove') {
@@ -79,7 +80,7 @@ const IdsHideFocusMixin = {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  hidefocusFocusout(option) {
+  hidefocusFocusout(option = '') {
     if (this.input) {
       const eventName = 'focusout';
       if (option === 'remove') {
@@ -126,9 +127,9 @@ const IdsHideFocusMixin = {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  hidefocusMousedown(option) {
+  hidefocusMousedown(option = '') {
     if (this.input) {
-      const setEvent = (el) => {
+      const setEvent = (/** @type {any} */ el) => {
         if (el) {
           const eventName = 'mousedown';
           if (option === 'remove') {

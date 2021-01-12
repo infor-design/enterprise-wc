@@ -12,13 +12,13 @@ class IdsKeyboardMixin {
     this.hotkeys = new Map();
     this.pressedKeys = new Map();
 
-    this.keyDownHandler = (e) => {
+    this.keyDownHandler = (/** @type {any} */ e) => {
       this.press(e.key);
       this.dispatchHotkeys(e);
     };
     this.element.addEventListener('keydown', this.keyDownHandler);
 
-    this.keyUpHandler = (e) => {
+    this.keyUpHandler = (/** @type {any} */ e) => {
       this.unpress(e.key);
     };
     this.element.addEventListener('keyup', this.keyUpHandler);
@@ -36,7 +36,7 @@ class IdsKeyboardMixin {
 
   /**
    * Add a listener for a key or key code combination
-   * @param {Array} keycode An array of all matchinng keycodes
+   * @param {Array|string} keycode An array of all matchinng keycodes
    * @param {HTMLElement} elem The object with the listener attached
    * @param {Function} callback The call back when this combination is met
    */
@@ -74,8 +74,6 @@ class IdsKeyboardMixin {
 
   /**
    * Remove all handlers and clear memory
-   * @private
-   * @returns {void}
    */
   destroy() {
     if (!this.element) {

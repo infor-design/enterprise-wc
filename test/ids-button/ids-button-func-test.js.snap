@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsButton Component renders correctly 1`] = `"<ids-button css-class=\\"test-class\\" icon=\\"add\\"><span>test</span><ids-icon slot=\\"icon\\" icon=\\"add\\" class=\\"ids-icon\\"></ids-icon></ids-button>"`;

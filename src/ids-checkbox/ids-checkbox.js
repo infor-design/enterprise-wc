@@ -6,12 +6,14 @@ import {
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
-import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 import { props } from '../ids-base/ids-constants';
-import styles from './ids-checkbox.scss';
 
+// @ts-ignore
+import styles from './ids-checkbox.scss';
+// @ts-ignore
 import IdsText from '../ids-text/ids-text';
 
 /**
@@ -20,7 +22,6 @@ import IdsText from '../ids-text/ids-text';
 @customElement('ids-checkbox')
 @scss(styles)
 @mixin(IdsHideFocusMixin)
-@mixin(IdsStringUtilsMixin)
 @mixin(IdsDirtyTrackerMixin)
 @mixin(IdsValidationMixin)
 class IdsCheckbox extends IdsElement {
@@ -53,26 +54,28 @@ class IdsCheckbox extends IdsElement {
   }
 
   /**
-   * Custom Element `connectedCallBack` implementation
-   * @private
+   * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
+    /** @type {any} */
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
     this.eventHandlers = new IdsEventsMixin();
 
+    // @ts-ignore
     this.hideFocus();
     this.handleEvents();
   }
 
   /**
    * Custom Element `disconnectedCallback` implementation
-   * @private
    * @returns {void}
    */
   disconnectedCallback() {
+    // @ts-ignore
     IdsElement.prototype.disconnectedCallback.apply(this);
+    // @ts-ignore
     this.destroyHideFocus();
     this.handleCheckboxChangeEvent('remove');
     this.handleNativeEvents('remove');
@@ -84,12 +87,12 @@ class IdsCheckbox extends IdsElement {
    */
   template() {
     // Checkbox
-    const disabled = this.stringToBool(this.disabled) ? ' disabled' : '';
-    const horizontal = this.stringToBool(this.horizontal) ? ' horizontal' : '';
-    const checked = this.stringToBool(this.checked) ? ' checked' : '';
+    const disabled = stringUtils.stringToBool(this.disabled) ? ' disabled' : '';
+    const horizontal = stringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
+    const checked = stringUtils.stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-checkbox${disabled}${horizontal}"`;
     let checkboxClass = 'checkbox';
-    checkboxClass += this.stringToBool(this.indeterminate) ? ' indeterminate' : '';
+    checkboxClass += stringUtils.stringToBool(this.indeterminate) ? ' indeterminate' : '';
     checkboxClass = ` class="${checkboxClass}"`;
 
     // Label
@@ -112,7 +115,7 @@ class IdsCheckbox extends IdsElement {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleCheckboxChangeEvent(option) {
+  handleCheckboxChangeEvent(option = '') {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {
@@ -135,7 +138,7 @@ class IdsCheckbox extends IdsElement {
    * @param {string} option If 'remove', will remove attached events
    * @returns {object} The object for chaining.
    */
-  handleNativeEvents(option) {
+  handleNativeEvents(option = '') {
     if (this.input) {
       const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt) => {
@@ -145,7 +148,7 @@ class IdsCheckbox extends IdsElement {
             this.eventHandlers.removeEventListener(evt, this.input);
           }
         } else {
-          this.eventHandlers.addEventListener(evt, this.input, (e) => {
+          this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire `trigger + nativeEvent` as triggerclick, triggerchange etc.
@@ -179,15 +182,15 @@ class IdsCheckbox extends IdsElement {
   }
 
   /**
-   * Set `checked` attribute
-   * @param {boolean} value If true will set `checked` attribute
+   * Sets the checked state to true or false
+   * @param {boolean|string} value If true will set `checked` attribute
    */
   set checked(value) {
     const checkmark = this.shadowRoot.querySelector('.checkmark');
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.CHECKED, val);
+      this.setAttribute(props.CHECKED, val.toString());
       this.input?.setAttribute(props.CHECKED, val);
       checkmark?.classList.add(props.CHECKED);
     } else {
@@ -200,14 +203,14 @@ class IdsCheckbox extends IdsElement {
   get checked() { return this.getAttribute(props.CHECKED); }
 
   /**
-   * Set `color` attribute
-   * @param {boolean} value If true will set `color` attribute
+   *  Sets the checkbox color to one of the colors in our color palette for example emerald07
+   * @param {boolean|string} value If true will set `color` attribute
    */
   set color(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
     if (value) {
-      this.setAttribute(props.COLOR, value);
-      rootEl?.setAttribute(props.COLOR, value);
+      this.setAttribute(props.COLOR, value.toString());
+      rootEl?.setAttribute(props.COLOR, value.toString());
     } else {
       this.removeAttribute(props.COLOR);
       rootEl?.removeAttribute(props.COLOR);
@@ -217,33 +220,34 @@ class IdsCheckbox extends IdsElement {
   get color() { return this.getAttribute(props.COLOR); }
 
   /**
-   * Set `dirty-tracker` attribute
-   * @param {boolean} value If true will set `dirty-tracker` attribute
+   * Set the dirty tracking feature on to indicate a changed field
+   * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.DIRTY_TRACKER, val);
+      this.setAttribute(props.DIRTY_TRACKER, val.toString());
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
+    // @ts-ignore
     this.handleDirtyTracker();
   }
 
   get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
 
   /**
-   * Set `disabled` attribute
-   * @param {boolean} value If true will set `disabled` attribute
+   * Sets input to disabled
+   * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.DISABLED, val);
+      this.setAttribute(props.DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
     } else {
@@ -256,14 +260,14 @@ class IdsCheckbox extends IdsElement {
   get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
-   * Set `horizontal` attribute `inline|block`, default as `block`
-   * @param {boolean} value If true will set `horizontal` attribute
+   * Flips the checkbox orientation to horizontal
+   * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.HORIZONTAL, val);
+      this.setAttribute(props.HORIZONTAL, val.toString());
       rootEl?.classList.add(props.HORIZONTAL);
     } else {
       this.removeAttribute(props.HORIZONTAL);
@@ -274,14 +278,14 @@ class IdsCheckbox extends IdsElement {
   get horizontal() { return this.getAttribute(props.HORIZONTAL); }
 
   /**
-   * Set `indeterminate` attribute
-   * @param {string} value The `indeterminate` attribute
+   * Sets the checkbox to the indeterminate state
+   * @param {string|boolean} value The `indeterminate` attribute
    */
   set indeterminate(value) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.INDETERMINATE, val);
+      this.setAttribute(props.INDETERMINATE, val.toString());
       this.input.classList.add(props.INDETERMINATE);
       this.input.indeterminate = true;
     } else {
@@ -311,7 +315,7 @@ class IdsCheckbox extends IdsElement {
   get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
 
   /**
-   * Set the `label` text
+   * Sets the checkbox label text
    * @param {string} value of the `label` text property
    */
   set label(value) {
@@ -328,14 +332,14 @@ class IdsCheckbox extends IdsElement {
   get label() { return this.getAttribute(props.LABEL) || ''; }
 
   /**
-   * Set `label-required` attribute
+   * Sets the checkbox to required
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
     this.labelEl = this.shadowRoot.querySelector('label');
-    const val = this.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.LABEL_REQUIRED, val);
+      this.setAttribute(props.LABEL_REQUIRED, val.toString());
     } else {
       this.removeAttribute(props.LABEL_REQUIRED);
     }
@@ -345,7 +349,7 @@ class IdsCheckbox extends IdsElement {
   get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
 
   /**
-   * Set `validate` attribute
+   * Sets the validation check to use
    * @param {string} value The `validate` attribute
    */
   set validate(value) {
@@ -356,13 +360,14 @@ class IdsCheckbox extends IdsElement {
     }
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
+    // @ts-ignore
     this.handleValidation();
   }
 
   get validate() { return this.getAttribute(props.VALIDATE); }
 
   /**
-   * Set `validation-events` attribute
+   * Sets which events to fire validation on
    * @param {string} value The `validation-events` attribute
    */
   set validationEvents(value) {
@@ -373,13 +378,14 @@ class IdsCheckbox extends IdsElement {
     }
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
+    // @ts-ignore
     this.handleValidation();
   }
 
   get validationEvents() { return this.getAttribute(props.VALIDATION_EVENTS); }
 
   /**
-   * Set the `value` attribute
+   * Set the checkbox `value` attribute
    * @param {string} val the value property
    */
   set value(val) {
