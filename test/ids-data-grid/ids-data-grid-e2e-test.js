@@ -37,7 +37,6 @@ describe('Ids Data Grid e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto('http://localhost:4444/ids-data-grid/virtual-scroll', { waitUntil: 'load' });
-    await page.waitForSelector('.ids-data-grid-row');
     await percySnapshot(page, 'ids-data-grid-virtual-scroll');
   });
 });
