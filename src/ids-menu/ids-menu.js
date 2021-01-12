@@ -17,14 +17,14 @@ import styles from './ids-menu.scss';
 
 /**
  * @private
- * @param {string|HTMLElement} menuGroup the group to search for
+ * @param {string|IdsMenuGroup} menuGroup the group to search for
  * @param {HTMLElement} idsMenu the parent menu element
  * @returns {HTMLElement|undefined} if valid, a reference to the menu group.
  * Otherwise, returns undefined.
  */
 function isValidGroup(menuGroup, idsMenu) {
   let hasGroup;
-  const isElem = menuGroup instanceof HTMLElement;
+  const isElem = menuGroup instanceof IdsMenuGroup;
 
   idsMenu.groups.forEach((group) => {
     if ((isElem && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {

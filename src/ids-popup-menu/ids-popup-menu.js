@@ -265,6 +265,7 @@ class IdsPopupMenu extends IdsMenu {
           }
         });
 
+        debugger;
         this.hasOpenEvents = true;
       }
     }));

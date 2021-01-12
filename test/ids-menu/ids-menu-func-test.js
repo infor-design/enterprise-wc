@@ -8,6 +8,22 @@ import IdsMenu, {
   IdsSeparator
 } from '../../src/ids-menu/ids-menu';
 
+const exampleHTML = `
+  <ids-menu-group id="primary">
+    <ids-menu-header>My Items</ids-menu-header>
+    <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
+    <ids-menu-item id="item2" value="2">Item 2</ids-menu-item>
+    <ids-menu-item id="item3" value="3">Item 3</ids-menu-item>
+  </ids-menu-group>
+  <ids-separator id="sep1"></ids-separator>
+  <ids-menu-group id="secondary">
+    <ids-menu-item id="item4" value="4">Item 4</ids-menu-item>
+    <ids-menu-item id="item5" value="5">Item 5</ids-menu-item>
+    <ids-separator id="sep2"></ids-separator>
+    <ids-menu-item id="item6" value="6">Item 6</ids-menu-item>
+  </ids-menu-group>
+`;
+
 describe('IdsMenu Component', () => {
   let menu;
   let group1;
@@ -20,10 +36,27 @@ describe('IdsMenu Component', () => {
   let item4;
   let sep2;
   let item5;
+  let item6;
 
   beforeEach(async () => {
     menu = new IdsMenu();
     menu.id = 'test-menu';
+    document.body.appendChild(menu);
+    menu.insertAdjacentHTML('afterbegin', exampleHTML);
+
+    group1 = document.querySelector('#primary');
+    group2 = document.querySelector('#secondary');
+    header = document.querySelector('#header');
+    item1 = document.querySelector('#item1');
+    item2 = document.querySelector('#item2');
+    item3 = document.querySelector('#item3');
+    item4 = document.querySelector('#item4');
+    item5 = document.querySelector('#item5');
+    item6 = document.querySelector('#item6');
+    sep1 = document.querySelector('#sep1');
+    sep2 = document.querySelector('#sep2');
+
+    /*
     group1 = new IdsMenuGroup();
     group1.id = 'primary';
     header = new IdsMenuHeader();
@@ -54,11 +87,23 @@ describe('IdsMenu Component', () => {
     menu.appendChild(sep1);
     menu.appendChild(group2);
     document.body.appendChild(menu);
+    */
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
     menu = null;
+    group1 = null;
+    group2 = null;
+    header = null;
+    item1 = null;
+    item2 = null;
+    item3 = null;
+    item4 = null;
+    item5 = null;
+    item6 = null;
+    sep1 = null;
+    sep2 = null;
   });
 
   it('should render', () => {
@@ -79,7 +124,7 @@ describe('IdsMenu Component', () => {
     const items = menu.items;
 
     expect(items).toBeDefined();
-    expect(items.length).toBe(5);
+    expect(items.length).toBe(6);
   });
 
   it('can announce what is focused and navigate among its items', () => {
@@ -114,7 +159,7 @@ describe('IdsMenu Component', () => {
     menu.selectItem(item5);
     selected = menu.getSelectedItems();
 
-    expect(selected[0]).toEqual(item5);
+    expect(selected[1]).toEqual(item5);
   });
 
   it('can select items (single)', () => {

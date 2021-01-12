@@ -8,7 +8,8 @@ import IdsMenu, {
   IdsSeparator
 } from '../../src/ids-menu/ids-menu';
 
-const exampleHTML = `<ids-menu id="test-menu">
+// Appended to the menu once it's in the DOM
+const exampleHTML = `
   <ids-menu-group id="group1">
     <ids-menu-item id="item1">Item 1</ids-menu-item>
     <ids-menu-item id="item2">Item 2</ids-menu-item>
@@ -21,20 +22,26 @@ const exampleHTML = `<ids-menu id="test-menu">
     <ids-separator id="sep2"></ids-separator>
     <ids-menu-item id="item6">Item 6</ids-menu-item>
   </ids-menu-group>
-</ids-menu>`;
+`;
 
 describe('IdsSeparator', () => {
+  let menu;
   let sep1;
   let sep2;
 
   beforeEach(() => {
-    document.body.insertAdjacentHTML('afterbegin', exampleHTML);
+    menu = new IdsMenu();
+    menu.id = 'test-menu';
+    document.body.appendChild(menu);
+    menu.insertAdjacentHTML('afterbegin', exampleHTML);
+
     sep1 = document.querySelector('#sep1');
     sep2 = document.querySelector('#sep2');
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
+    menu = null;
     sep1 = null;
     sep2 = null;
   });
