@@ -1,24 +1,23 @@
 /* eslint no-param-reassign: ["error", { "props": false }] */
-const pjson = require('../../package.json');
+const VERSION = '0.0.0-beta.4';
 
 /**
  * Add the version to the component
- * @param {number} value A number for testing;
- * @returns {Function} The decoratored function
+ * @returns {Function} The function that did the decorating
  */
-export function version(value) {
-  return (target, property, descriptor) => { //eslint-disable-line
-    target.prototype.version = value || pjson.version;
+export function version() {
+  return (/** @type {any} */ target) => {
+    target.prototype.version = VERSION;
   };
 }
 
 /**
  * Custom Element Decorator
  * @param  {string} name The custom element name
- * @returns {Function} The decoratored function
+ * @returns {Function} The function that did the decorating
  */
 export function customElement(name) {
-  return (target) => {
+  return (/** @type {CustomElementConstructor} */ target) => {
     /* istanbul ignore next */
     if (!customElements.get(name)) {
       customElements.define(name, target);
@@ -27,23 +26,25 @@ export function customElement(name) {
 }
 
 /**
- * Mixin Decorator
+ * Mixin Decorator just applies the mixin on the component with a loose copy.
+ * Some mixins like keyboardmixin and events mixin must be newed up instead if using complex
+ * objects that cannot be shared.
  * @param  {object} obj The class/object to register
- * @returns {Function} The decoratored function
+ * @returns {Function} The function that did the decorating
  */
 export function mixin(obj) {
-  return (target) => {
+  return (/** @type {any} */ target) => {
     Object.assign(target.prototype, obj);
   };
 }
 
 /**
  * Styles Decorator
- * @param {string} cssStyles The css string'd stylesheet
- * @returns {Function} The decoratored function
+ * @param {string} cssStyles The css stringified stylesheet
+ * @returns {Function} The function that did the decorating
  */
 export function scss(cssStyles) {
-  return (target) => {
+  return (/** @type {any} */ target) => {
     target.prototype.cssStyles = cssStyles;
   };
 }

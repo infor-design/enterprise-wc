@@ -6,7 +6,6 @@ import { timestamp } from './ids-render-loop-common';
 class IdsRenderLoopItem extends Object {
   /**
    * @param {object} settings incoming item options
-   * @returns {IdsRenderLoopItem} component instance
    */
   constructor(settings = {}) {
     super();

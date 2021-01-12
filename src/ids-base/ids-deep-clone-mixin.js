@@ -25,7 +25,9 @@ const IdsDeepCloneMixin = {
     }
 
     const objClone = {};
+    // @ts-ignore
     this.refs.push(obj);
+    // @ts-ignore
     this.refsNew.push(objClone);
 
     for (const k in obj) {
@@ -39,6 +41,7 @@ const IdsDeepCloneMixin = {
       } else if (cur instanceof Date) {
         objClone[k] = new Date(cur);
       } else {
+        // @ts-ignore
         const i = this.refs.indexOf(cur);
         if (i !== -1) {
           objClone[k] = this.refsNew[i];
@@ -71,6 +74,7 @@ const IdsDeepCloneMixin = {
       } else if (cur instanceof Date) {
         arrClone[k] = new Date(cur);
       } else {
+        // @ts-ignore
         const index = this.refs.indexOf(cur);
         if (index !== -1) {
           arrClone[k] = this.refsNew[index];

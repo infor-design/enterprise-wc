@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsResizeMixin as idsResize } from '../../src/ids-base/ids-resize-mixin';
 import IdsPopup from '../../src/ids-popup/ids-popup';
 
 const resizeObserverMock = jest.fn(function ResizeObserver(callback) {

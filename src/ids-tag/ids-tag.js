@@ -5,6 +5,7 @@ import {
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+// @ts-ignore
 import styles from './ids-tag.scss';
 
 /**
@@ -17,7 +18,7 @@ class IdsTag extends IdsElement {
     super();
   }
 
-  connectedCallBack() {
+  connectedCallback() {
     this
       .handleEvents()
       .handleKeys();
@@ -96,13 +97,11 @@ class IdsTag extends IdsElement {
 
   /**
    * If set to true the tag has an x to dismiss
-   * @param {boolean} value true of false depending if the tag is dismissed
+   * @param {boolean|string} value true of false depending if the tag is dismissed
    */
   set dismissible(value) {
-    const hasProp = this.hasAttribute('dismissible');
-
     if (value) {
-      this.setAttribute('dismissible', value);
+      this.setAttribute('dismissible', value.toString());
       this.container.classList.add('ids-focusable');
       this.container.setAttribute('tabindex', '0');
       this.appendIcon('close');
@@ -120,13 +119,11 @@ class IdsTag extends IdsElement {
 
   /**
    * If set to true the tag has focus state and becomes a clickable linnk
-   * @param {boolean} value true of false depending if the tag is clickable
+   * @param {boolean|string} value true of false depending if the tag is clickable
    */
   set clickable(value) {
-    const hasProp = this.hasAttribute('clickable');
-
     if (value) {
-      this.setAttribute('clickable', value);
+      this.setAttribute('clickable', value.toString());
       this.container.classList.add('ids-focusable');
       this.container.setAttribute('tabindex', '0');
       this.handleKeys();
@@ -149,6 +146,7 @@ class IdsTag extends IdsElement {
     this.eventHandlers = new IdsEventsMixin();
 
     // Handle Clicking the x for dismissible
+    /** @type {any} */
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
       this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
@@ -202,7 +200,7 @@ class IdsTag extends IdsElement {
     }
 
     let canDismiss = true;
-    const response = (veto) => {
+    const response = (/** @type {any} */ veto) => {
       canDismiss = !!veto;
     };
     this.eventHandlers.dispatchEvent('beforetagremoved', this, { detail: { elem: this, response } });

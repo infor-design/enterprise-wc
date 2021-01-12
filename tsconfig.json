@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "checkJs": true,
+    "noEmit": true,
+    // We'd like to use noImplicitAny: true, but we often need to access
+    // arbitrary data on elements, and have not yet worked out an easy way to
+    // declare that properly.
+    "noImplicitAny": false,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "strict": true,
+    "target": "ES2019",
+    "types": [],
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "strictNullChecks": false
+  },
+  "include": ["src/**/*.js"],
+  "exclude": ["node_modules", "test" , "app"]
+}

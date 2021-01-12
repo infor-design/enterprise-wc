@@ -6,8 +6,10 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsDataSourceMixin } from '../ids-base/ids-data-source-mixin';
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+// @ts-ignore
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
-
+// @ts-ignore
 import styles from './ids-list-view.scss';
 
 /**
@@ -20,7 +22,7 @@ class IdsListView extends IdsElement {
     super();
   }
 
-  connectedCallBack() {
+  connectedCallback() {
     this.datasource = new IdsDataSourceMixin();
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
   }
@@ -70,7 +72,7 @@ class IdsListView extends IdsElement {
    * @returns {string} The html for this item
    */
   itemTemplate(item) {
-    return this.injectTemplate(this.defaultTemplate, item);
+    return stringUtils.injectTemplate(this.defaultTemplate, item);
   }
 
   /**
@@ -85,13 +87,15 @@ class IdsListView extends IdsElement {
     template.innerHTML = html;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    if (this.virtualScroll === 'true' && this?.data.length > 0) {
+    if (stringUtils.stringToBool(this.virtualScroll) && this?.data.length > 0) {
+      /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      this.virtualScrollContainer.itemTemplate = (item) => `<li>${this.itemTemplate(item)}</li>`;
+      this.virtualScrollContainer.itemTemplate = (/** @type {object} */ item) => `<li>${this.itemTemplate(item)}</li>`;
       this.virtualScrollContainer.itemCount = this.data.length;
       this.virtualScrollContainer.itemHeight = this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
       this.virtualScrollContainer.data = this.data;
 
+      // @ts-ignore
       this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
     }
   }
@@ -103,7 +107,9 @@ class IdsListView extends IdsElement {
    * @returns {number} The item height
    */
   checkTemplateHeight(itemTemplate) {
+    // @ts-ignore
     this.shadowRoot.querySelector('.ids-list-view ul').insertAdjacentHTML('beforeEnd', itemTemplate);
+    /** @type {object} */
     const tester = this.shadowRoot.querySelector('#height-tester');
     const height = tester.offsetHeight;
     tester.remove();
@@ -123,11 +129,11 @@ class IdsListView extends IdsElement {
 
   /**
    * Set the list view to use virtual scrolling for a large amount of elements.
-   * @param {boolean} value true to use virtual scrolling
+   * @param {boolean|string} value true to use virtual scrolling
    */
   set virtualScroll(value) {
     if (value) {
-      this.setAttribute(props.VIRTUAL_SCROLL, value);
+      this.setAttribute(props.VIRTUAL_SCROLL, value.toString());
       this.rerender();
       return;
     }

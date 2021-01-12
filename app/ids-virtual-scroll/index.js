@@ -1,4 +1,6 @@
+// @ts-ignore
 import IdsVirtualScroll from '../../src/ids-virtual-scroll/ids-virtual-scroll';
+// @ts-ignore
 import IdsCard from '../../src/ids-card/ids-card';
 import './index.scss';
 
@@ -19,8 +21,8 @@ xmlhttp.onreadystatechange = function onreadystatechange() {
     // Set up the table
     virtualScrollTable.scrollTarget = document.querySelector('.ids-data-grid');
     virtualScrollTable.itemTemplate = (item) => `<div role="row" class="ids-data-grid-row">
-      <span role="cell" class="ids-data-grid-cell">${item.productId}</span>
-      <span role="cell" class="ids-data-grid-cell">${item.productName}</span>
+      <span role="cell" class="ids-data-grid-cell"><span class="text-ellipsis">${item.productId}</span></span>
+      <span role="cell" class="ids-data-grid-cell"><span class="text-ellipsis">${item.productName}</span></span>
     </div>`;
     virtualScrollTable.data = JSON.parse(this.responseText);
   }

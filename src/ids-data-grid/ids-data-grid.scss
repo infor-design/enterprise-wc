@@ -207,4 +207,8 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   th.ids-data-grid-header-cell {
     @include table-cell();
   }
+
+  td.ids-data-grid-cell {
+    @include px-16();
+  }
 }

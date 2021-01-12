@@ -4,7 +4,9 @@
  * @returns {void}
  */
 function checkForIDS() {
+  // @ts-ignore
   if (!window.Ids) {
+    // @ts-ignore
     window.Ids = {};
   }
 }
@@ -35,8 +37,10 @@ const IdsResizeMixin = {
     // Build the global instance of it doesn't exist.
     // The global resize handler will attempt to run a `refresh` method
     // if it finds one on any registered component.
+    // @ts-ignore
     if (!window.Ids.resizeObserver && typeof ResizeObserver !== 'undefined') {
       /* istanbul ignore next */
+      // @ts-ignore
       window.Ids.resizeObserver = new ResizeObserver(() => {
         resizeTargets.forEach((e) => {
           if (typeof e.refresh === 'function') {
@@ -49,6 +53,7 @@ const IdsResizeMixin = {
     // Connect the `ro` property to the global instance
     /* istanbul ignore next */
     if (!this.ro) {
+      // @ts-ignore
       this.ro = window.Ids.resizeObserver;
     }
 
@@ -79,6 +84,7 @@ const IdsResizeMixin = {
    * for Resize instructions.
    */
   shouldResize() {
+    // @ts-ignore
     return typeof ResizeObserver !== 'undefined' && this.ro instanceof ResizeObserver;
   },
 
@@ -93,7 +99,8 @@ const IdsResizeMixin = {
 
     /* istanbul ignore next */
     if (!this.mo && typeof MutationObserver !== 'undefined') {
-      this.mo = new MutationObserver((mutation) => {
+      /** @type {any} */
+      this.mo = new MutationObserver((/** @type {any} */ mutation) => {
         switch (mutation.type) {
           case 'childList':
             break;

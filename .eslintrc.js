@@ -23,7 +23,9 @@ module.exports = {
     afterEach: true,
     beforeEach: true,
     expect: true,
-    test: true
+    test: true,
+    Ids: true,
+    ResizeObserver: true
   },
   parser: 'babel-eslint',
   plugins: [
@@ -55,7 +57,7 @@ module.exports = {
     // https://eslint.org/docs/rules/class-methods-use-this
     'class-methods-use-this': ['off', { }],
     // Allow Ids Imports to be unsed in index.js files
-    'no-unused-vars': ['error', { varsIgnorePattern: '[Ids]' }],
+    'no-unused-vars': ['error', { varsIgnorePattern: 'Ids' }],
     // Allow Arrow functions to be on the next line or below
     'implicit-arrow-linebreak': ['off', { }],
     // Allow single quotes only or template literals
@@ -72,5 +74,10 @@ module.exports = {
     'prefer-destructuring': ['off', { }],
     // Allow i++
     'no-plusplus': ['off', { }],
+  },
+  settings: {
+    jsdoc: {
+      preferredTypes: ['never', 'CustomElementConstructor']
+    }
   }
 };
