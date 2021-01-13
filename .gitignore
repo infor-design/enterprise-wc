@@ -7,3 +7,6 @@ test/**/diff
 
 # OS Setting Files
 .DS_Store
+
+# Error Reports from the Test Suite
+report.*.json
