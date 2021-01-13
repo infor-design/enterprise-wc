@@ -46,6 +46,7 @@ export const props = {
   SIZE: 'size',
   SUBMENU: 'submenu',
   TABBABLE: 'tabbable',
+  TABINDEX: 'tabindex',
   TARGET: 'target',
   TRIGGER: 'trigger',
   TRIGGERFIELD: 'triggerfield',

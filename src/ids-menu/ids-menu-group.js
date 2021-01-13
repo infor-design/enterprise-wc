@@ -157,7 +157,7 @@ class IdsMenuGroup extends IdsElement {
 
   /**
    * Causes all menu items except for those provided to become deselected.
-   * @param {IdsMenuItem|Array<IdsMenuItem>} keptItems a single item or list of items
+   * @param {HTMLElement|Array<IdsMenuItem>} keptItems a single item or list of items
    * whose selection will be ignored.
    * @returns {void}
    */

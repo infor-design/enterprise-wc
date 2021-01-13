@@ -18,7 +18,7 @@ const exampleHTML = `
   <ids-separator id="sep1"></ids-separator>
   <ids-menu-group id="secondary">
     <ids-menu-item id="item4" value="4">Item 4</ids-menu-item>
-    <ids-menu-item id="item5" value="5">Item 5</ids-menu-item>
+    <ids-menu-item icon="settings" id="item5" value="5">Item 5</ids-menu-item>
     <ids-separator id="sep2"></ids-separator>
     <ids-menu-item id="item6" value="6">Item 6</ids-menu-item>
   </ids-menu-group>
@@ -55,39 +55,6 @@ describe('IdsMenu Component', () => {
     item6 = document.querySelector('#item6');
     sep1 = document.querySelector('#sep1');
     sep2 = document.querySelector('#sep2');
-
-    /*
-    group1 = new IdsMenuGroup();
-    group1.id = 'primary';
-    header = new IdsMenuHeader();
-    item1 = new IdsMenuItem();
-    item1.value = '1';
-    item2 = new IdsMenuItem();
-    item2.value = '2';
-    item3 = new IdsMenuItem();
-    item3.value = '3';
-    sep1 = new IdsSeparator();
-    group2 = new IdsMenuGroup();
-    group2.id = 'secondary';
-    item4 = new IdsMenuItem();
-    item4.value = '4';
-    sep2 = new IdsSeparator();
-    item5 = new IdsMenuItem();
-    item5.value = '5';
-
-    // Add to DOM
-    group1.appendChild(header);
-    group1.appendChild(item1);
-    group1.appendChild(item2);
-    group1.appendChild(item3);
-    group2.appendChild(item4);
-    group2.appendChild(sep2);
-    group2.appendChild(item5);
-    menu.appendChild(group1);
-    menu.appendChild(sep1);
-    menu.appendChild(group2);
-    document.body.appendChild(menu);
-    */
   });
 
   afterEach(async () => {
@@ -223,28 +190,72 @@ describe('IdsMenu Component', () => {
     expect(item4.selected).toBeFalsy();
   });
 
+  it('navigates menu items using the keyboard', () => {
+    const navigateUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    const navigateDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+
+    // Focus the first one
+    item1.focus();
+
+    expect(menu.focused).toEqual(item1);
+
+    // Navigate down one item
+    menu.dispatchEvent(navigateDownEvent);
+
+    expect(menu.focused).toEqual(item2);
+
+    // Navigate up two items (navigation will wrap to the bottom item)
+    menu.dispatchEvent(navigateUpEvent);
+    menu.dispatchEvent(navigateUpEvent);
+
+    expect(menu.focused).toEqual(item6);
+  });
+
   describe('IdsMenuItem', () => {
     it('can be disabled/enabled', () => {
       item1.disabled = true;
 
       expect(item1.disabled).toBeTruthy();
-      expect(item1.tabindex).toEqual(-1);
+      expect(item1.tabIndex).toEqual(-1);
       expect(item1.container.classList.contains('disabled')).toBeTruthy();
 
       item1.disabled = false;
 
       expect(item1.disabled).toBeFalsy();
-      expect(item1.tabindex).toEqual(0);
+      expect(item1.tabIndex).toEqual(0);
+      expect(item1.container.classList.contains('disabled')).toBeFalsy();
+
+      // Set via attribute
+      item1.setAttribute('disabled', true);
+
+      expect(item1.disabled).toBeTruthy();
+      expect(item1.tabIndex).toEqual(-1);
+      expect(item1.container.classList.contains('disabled')).toBeTruthy();
+
+      item1.removeAttribute('disabled');
+
+      expect(item1.disabled).toBeFalsy();
+      expect(item1.tabIndex).toEqual(0);
       expect(item1.container.classList.contains('disabled')).toBeFalsy();
     });
 
     it('can be highlighted/unhighlighted programmatically', () => {
       item1.highlighted = true;
 
+      expect(item1.highlighted).toBeTruthy();
       expect(item1.container.classList.contains('highlighted')).toBeTruthy();
 
       item1.highlighted = false;
 
+      expect(item1.highlighted).toBeFalsy();
+      expect(item1.container.classList.contains('highlighted')).toBeFalsy();
+    });
+
+    it('cannot be highlighted if it\'s disabled', () => {
+      item1.disabled = true;
+      item1.highlighted = true;
+
+      expect(item1.highlighted).toBeFalsy();
       expect(item1.container.classList.contains('highlighted')).toBeFalsy();
     });
 
@@ -261,11 +272,34 @@ describe('IdsMenu Component', () => {
     });
 
     it('can set tabindex', () => {
-      item1.tabindex = '-1';
+      item1.tabIndex = '-1';
 
       expect(item1.a.tabIndex).toEqual(-1);
 
-      item1.tabindex = '0';
+      item1.tabIndex = '0';
+
+      expect(item1.a.tabIndex).toEqual(0);
+
+      // Set via attribute
+      item1.setAttribute('tabindex', '-1');
+
+      expect(item1.a.tabIndex).toEqual(-1);
+
+      item1.setAttribute('tabindex', '0');
+
+      expect(item1.a.tabIndex).toEqual(0);
+
+      // Can't set null/junk values (results in 0 tabindex on the anchor)
+      item1.tabIndex = 'junk';
+
+      expect(item1.a.tabIndex).toEqual(0);
+
+      item1.tabIndex = null;
+
+      expect(item1.a.tabIndex).toEqual(0);
+
+      // Can't set a number less than -1
+      item1.tabIndex = -2;
 
       expect(item1.a.tabIndex).toEqual(0);
     });
@@ -288,6 +322,35 @@ describe('IdsMenu Component', () => {
 
       expect(thisGroup).toEqual(group1);
       expect(thisGroup.id).toEqual('primary');
+    });
+
+    it('can get/set a value (property only)', () => {
+      // Attribute values are strings by default
+      expect(item1.value).toEqual('1');
+
+      // can set number values
+      item1.value = 1;
+
+      expect(item1.value).toEqual(1);
+
+      // can set boolean values
+      item1.value = true;
+
+      expect(item1.value).toBeTruthy();
+
+      // can set function values
+      item1.value = (x) => Number(x) * 2;
+
+      expect(item1.value(2)).toEqual(4);
+    });
+
+    it('can cancel selection with a vetoed `beforeselected` event handler', () => {
+      item1.addEventListener('beforeselected', (e) => {
+        e.detail.response(false);
+      });
+      item1.select();
+
+      expect(item1.selected).toBeFalsy();
     });
   });
 });

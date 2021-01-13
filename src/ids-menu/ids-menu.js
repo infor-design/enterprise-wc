@@ -61,6 +61,7 @@ class IdsMenu extends IdsElement {
     super();
     this.state = {};
     this.lastHovered = undefined;
+    this.lastNavigated = undefined;
   }
 
   /**
@@ -94,6 +95,7 @@ class IdsMenu extends IdsElement {
       const thisItem = e.target.closest('ids-menu-item');
       this.highlightItem(thisItem);
       this.selectItem(thisItem);
+      this.lastNavigated = thisItem;
       e.stopPropagation();
     });
 
@@ -127,6 +129,7 @@ class IdsMenu extends IdsElement {
     this.keyboard.listen(['Enter', 'Spacebar', ' '], this, (e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.selectItem(thisItem);
+      this.lastNavigated = thisItem;
       e.stopPropagation();
     });
   }
@@ -282,7 +285,6 @@ class IdsMenu extends IdsElement {
     this.classList[hasIcons ? 'add' : 'remove']('has-icons');
 
     this.items.forEach((item) => {
-      debugger;
       item.setDisplayType(hasIcons);
     });
   }
@@ -328,6 +330,7 @@ class IdsMenu extends IdsElement {
       }
     }
 
+    this.lastNavigated = currentItem;
     if (!currentItem.disabled && doFocus) {
       currentItem.focus();
     }

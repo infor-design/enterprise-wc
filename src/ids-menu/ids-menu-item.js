@@ -21,7 +21,7 @@ const MENU_DEFAULTS = {
   icon: null,
   selected: false,
   submenu: null,
-  tabindex: true,
+  tabIndex: 0,
   value: null,
 };
 
@@ -43,6 +43,15 @@ const MENU_PROPS = [
  */
 function safeForAttribute(value) {
   return ['string', 'number', 'boolean'].includes(typeof value);
+}
+
+/**
+ * Determines if a string-based attribute value is "true" for a boolean property
+ * @param {any} val the value to be checked
+ * @returns {boolean} true if the value is valid as a boolean property
+ */
+function isTrueAttribute(val) {
+  return val !== null && (val === true || (typeof val === 'string' && val !== 'false'));
 }
 
 /**
@@ -110,8 +119,8 @@ class IdsMenuItem extends IdsElement {
 
     // Tabindex
     let tabindex = 'tabindex="0"';
-    if (this.state?.tabindex && !this.state?.disabled) {
-      tabindex = ` tabindex="${this.state.tabindex}"`;
+    if (this.state?.tabIndex && !this.state?.disabled) {
+      tabindex = ` tabindex="${this.state.tabIndex}"`;
     }
 
     // Text
@@ -144,7 +153,17 @@ class IdsMenuItem extends IdsElement {
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (this.shouldUpdate) {
-      IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+      switch (name) {
+        // Convert "tabindex" to "tabIndex"
+        case 'tabindex':
+          if (oldValue !== newValue) {
+            this.tabIndex = newValue;
+          }
+          break;
+        default:
+          IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+          break;
+      }
     }
   }
 
@@ -157,6 +176,7 @@ class IdsMenuItem extends IdsElement {
     this.detectSubmenu();
     this.detectSelectability();
     this.handleEvents();
+    this.tabIndex = this.state.tabIndex;
     this.shouldUpdate = true;
   }
 
@@ -272,35 +292,36 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if the button will be disabled
    */
   set disabled(val) {
-    const trueVal = val !== false && val !== 'false';
-    const notNull = val !== null;
+    // Handled as boolean attribute
+    const trueVal = isTrueAttribute(val);
     this.state.disabled = trueVal;
 
-    // Update attribute if it doesn't match
     const a = this.a;
     const shouldUpdate = this.shouldUpdate;
-    const currentAttr = this.hasAttribute('disabled');
-    if ((!currentAttr && notNull) || (currentAttr && !notNull)) {
-      this.shouldUpdate = false;
-      if (trueVal) {
-        this.setAttribute('disabled', '');
-        if (a) {
-          a.disabled = true;
-          a.setAttribute('disabled', '');
-        }
-      } else {
-        this.removeAttribute('disabled');
-        if (a) {
-          a.disabled = false;
-          a.removeAttribute('disabled');
-        }
+    const currentAttr = this.hasAttribute(props.DISABLED);
+
+    if (trueVal) {
+      a.disabled = true;
+      a.setAttribute(props.DISABLED, '');
+      this.tabIndex = -1;
+      this.container.classList.add(props.DISABLED);
+      if (!currentAttr) {
+        this.shouldUpdate = false;
+        this.setAttribute(props.DISABLED, '');
+        this.shouldUpdate = shouldUpdate;
       }
-      this.shouldUpdate = shouldUpdate;
+      return;
     }
 
-    // Adjust tabindex/focus
-    this.tabindex = trueVal ? -1 : 0;
-    this.container.classList[trueVal ? 'add' : 'remove']('disabled');
+    a.disabled = false;
+    a.removeAttribute(props.DISABLED);
+    this.tabIndex = 0;
+    this.container.classList.remove(props.DISABLED);
+    if (currentAttr) {
+      this.shouldUpdate = false;
+      this.removeAttribute(props.DISABLED);
+      this.shouldUpdate = shouldUpdate;
+    }
   }
 
   /**
@@ -315,10 +336,17 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if the menu item should appear highlighted
    */
   set highlighted(val) {
-    if (this.disabled) {
+    const trueVal = isTrueAttribute(val);
+
+    // Don't highlight if the item is disabled.
+    if (trueVal && this.disabled) {
       return;
     }
-    const trueVal = val === true || val === 'true';
+    // If the item's submenu is open, don't unhighlight.
+    if (!trueVal && this.hasSubmenu && !this.submenu.hidden) {
+      return;
+    }
+
     this.state.highlighted = trueVal;
     this.container.classList[trueVal ? 'add' : 'remove']('highlighted');
   }
@@ -335,9 +363,6 @@ class IdsMenuItem extends IdsElement {
    * @returns {void}
    */
   highlight() {
-    if (this.disabled) {
-      return;
-    }
     this.highlighted = true;
   }
 
@@ -346,9 +371,6 @@ class IdsMenuItem extends IdsElement {
    * @returns {void}
    */
   unhighlight() {
-    if (this.hasSubmenu && !this.submenu.hidden) {
-      return;
-    }
     this.highlighted = false;
   }
 
@@ -489,7 +511,7 @@ class IdsMenuItem extends IdsElement {
    */
   set selected(val) {
     // Determine true state and event names
-    const trueVal = val !== false && val !== 'false';
+    const trueVal = isTrueAttribute(val);
     const duringEventName = trueVal ? 'selected' : 'deselected';
     const beforeEventName = `before${duringEventName}`;
 
@@ -515,13 +537,16 @@ class IdsMenuItem extends IdsElement {
 
     // Sync the attribute
     const shouldUpdate = this.shouldUpdate;
-    this.shouldUpdate = false;
-    if (trueVal) {
+    const currentAttr = this.hasAttribute('selected');
+    if (trueVal && !currentAttr) {
+      this.shouldUpdate = false;
       this.setAttribute('selected', '');
-    } else {
+      this.shouldUpdate = shouldUpdate;
+    } else if (!trueVal && currentAttr) {
+      this.shouldUpdate = false;
       this.removeAttribute('selected');
+      this.shouldUpdate = shouldUpdate;
     }
-    this.shouldUpdate = shouldUpdate;
 
     // Build/Fire a `selected` event for performing other actions.
     this.eventHandlers?.dispatchEvent(duringEventName, this, {
@@ -552,27 +577,30 @@ class IdsMenuItem extends IdsElement {
    * @param {number} val the tabindex value
    * @returns {void}
    */
-  set tabindex(val) {
-    // Tabindex should exist on the anchor only
+  set tabIndex(val) {
+    // Remove the webcomponent tabindex
     this.shouldUpdate = false;
-    this.removeAttribute('tabindex');
+    this.removeAttribute(props.TABINDEX);
     this.shouldUpdate = true;
 
     const trueVal = parseInt(val, 10);
+
+    // Mirror tabindex on the shadow DOM anchor
     if (Number.isNaN(trueVal) || trueVal < -1) {
-      this.state.tabindex = 0;
-      this.a.removeAttribute('tabindex');
+      this.state.tabIndex = 0;
+      this.a.setAttribute(props.TABINDEX, 0);
       return;
     }
-    this.state.tabindex = trueVal;
-    this.a.setAttribute('tabindex', trueVal);
+
+    this.state.tabIndex = trueVal;
+    this.a.setAttribute(props.TABINDEX, trueVal);
   }
 
   /**
    * @returns {number} the current tabindex number for the button
    */
-  get tabindex() {
-    return this.state.tabindex;
+  get tabIndex() {
+    return this.state.tabIndex;
   }
 
   /**
@@ -589,7 +617,7 @@ class IdsMenuItem extends IdsElement {
   set value(val) {
     this.state.value = val;
 
-    // Don't display the value in the DOM if it doesn't make sense.
+    // Don't display the value in the DOM.
     if (!safeForAttribute(val)) {
       const shouldUpdate = this.shouldUpdate;
       this.shouldUpdate = false;

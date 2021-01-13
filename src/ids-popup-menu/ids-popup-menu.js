@@ -131,15 +131,15 @@ class IdsPopupMenu extends IdsMenu {
 
     // Arrow Left on a submenu item causes the submenu to close, as well as focus
     // on a parent menu item to occur.
-    this.keyboard.listen(['ArrowLeft'], this, (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      if (!this.parentMenu) {
-        return;
-      }
-      this.hide();
-      this.parentMenuItem.focus();
-    });
+    // NOTE: This will never occur on a top-level Popupmenu.
+    if (this.parentMenu) {
+      this.keyboard.listen(['ArrowLeft'], this, (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.hide();
+        this.parentMenuItem.focus();
+      });
+    }
 
     // Escape closes the menu
     // (NOTE: This only applies to top-level Popupmenus)
@@ -264,8 +264,6 @@ class IdsPopupMenu extends IdsMenu {
             this.hide();
           }
         });
-
-        debugger;
         this.hasOpenEvents = true;
       }
     }));

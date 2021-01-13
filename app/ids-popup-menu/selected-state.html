@@ -3,19 +3,19 @@
 <ids-popup-menu id="popupmenu">
   <ids-menu-group id="single-select" select="single">
     <ids-menu-header>Single-selectable Items</ids-menu-header>
-    <ids-menu-item>Single Item One</ids-menu-item>
-    <ids-menu-item>Single Item Two</ids-menu-item>
-    <ids-menu-item>Single Item Three</ids-menu-item>
-    <ids-menu-item selected>Single Item Four</ids-menu-item>
+    <ids-menu-item value="single-1">Single Item One</ids-menu-item>
+    <ids-menu-item value="single-2">Single Item Two</ids-menu-item>
+    <ids-menu-item value="single-3">Single Item Three</ids-menu-item>
+    <ids-menu-item selected value="single-4">Single Item Four</ids-menu-item>
   </ids-menu-group>
   <ids-separator></ids-separator>
   <ids-menu-group id="multi-select" select="multiple" keep-open>
     <ids-menu-header>Multi-selectable Items</ids-menu-header>
-    <ids-menu-item>Multi Item One</ids-menu-item>
-    <ids-menu-item>Multi Item Two</ids-menu-item>
-    <ids-menu-item>Multi Item Three</ids-menu-item>
-    <ids-menu-item>Multi Item Four</ids-menu-item>
-    <ids-menu-item disabled selected>Disabled Multi Item Five</ids-menu-item>
+    <ids-menu-item value="multi-1">Multi Item One</ids-menu-item>
+    <ids-menu-item value="multi-2">Multi Item Two</ids-menu-item>
+    <ids-menu-item value="multi-3">Multi Item Three</ids-menu-item>
+    <ids-menu-item value="multi-4">Multi Item Four</ids-menu-item>
+    <ids-menu-item disabled selected value="multi-5">Disabled Multi Item Five</ids-menu-item>
   </ids-menu-group>
   <ids-separator></ids-separator>
   <ids-menu-group>
@@ -23,18 +23,18 @@
       More Selectable Items...
       <ids-popup-menu>
         <ids-menu-group id="multi-sub-items" select="multiple" keep-open>
-          <ids-menu-item icon="settings">Sub-Item One</ids-menu-item>
-          <ids-menu-item icon="settings">Sub-Item Two</ids-menu-item>
-          <ids-menu-item icon="settings">Sub-Item Three</ids-menu-item>
+          <ids-menu-item icon="settings" value="sub-multi-1">Sub-Item One</ids-menu-item>
+          <ids-menu-item icon="settings" value="sub-multi-2">Sub-Item Two</ids-menu-item>
+          <ids-menu-item icon="settings" value="sub-multi-3">Sub-Item Three</ids-menu-item>
           <ids-menu-item icon="settings">
             Sub-Item Four
             <ids-popup-menu>
               <ids-menu-group id="single-sub-items" select="single" keep-open>
                 <ids-menu-header>Single-selectable Items that keep the menu open</ids-menu-header>
-                <ids-menu-item>Sub-Sub-Item One</ids-menu-item>
-                <ids-menu-item>Sub-Sub-Item Two</ids-menu-item>
-                <ids-menu-item>Sub-Sub-Item Three</ids-menu-item>
-                <ids-menu-item>Sub-Sub-Item Four</ids-menu-item>
+                <ids-menu-item value="sub-sub-single-1">Sub-Sub-Item One</ids-menu-item>
+                <ids-menu-item value="sub-sub-single-2">Sub-Sub-Item Two</ids-menu-item>
+                <ids-menu-item value="sub-sub-single-3">Sub-Sub-Item Three</ids-menu-item>
+                <ids-menu-item value="sub-sub-single-4">Sub-Sub-Item Four</ids-menu-item>
               </ids-menu-group>
             </ids-popup-menu>
           </ids-menu-item>
