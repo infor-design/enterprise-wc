@@ -16,13 +16,17 @@ describe('Ids List View e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
+    page.on('error', (error) => {
+      console.log(`Chrome Handler: ${error}`);
+      global.chromepool.release(browser);
+    });
     await expect(page).toPassAxeTests();
   });
 
   it('should not have visual regressions (percy)', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: 'domcontentloaded' });
     await percySnapshot(page, 'ids-list-view');
   });
 
