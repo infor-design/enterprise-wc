@@ -6,15 +6,9 @@ The IDS Accordion component is a UI pattern that is comprised of a stacked list 
 
 ## Use Cases
 
-
-
 ## Terminology
 
-
-
 ## Features (With Code Examples)
-
-
 
 ## States and Variations
 

@@ -6,22 +6,12 @@ The IDS Expandable Area component is a UI pattern that is comprised of a title, 
 
 ## Use Cases
 
-
-
 ## Terminology
-
-
 
 ## Features (With Code Examples)
 
-
-
 ## States and Variations
 
-
-
 ## Keyboard Guidelines
-
-
 
 ## Accessibility
