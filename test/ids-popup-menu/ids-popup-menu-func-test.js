@@ -210,6 +210,15 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
+  it('will cause `selectItem` to open a submenu if a menu item contains one', (done) => {
+    menu.selectItem(item6);
+
+    setTimeout(() => {
+      expect(item6.submenu.hidden).toBeFalsy();
+      done();
+    }, 20);
+  });
+
   // @TODO Fails because currently a nested Popupmenu's class
   // resolves as HTMLElement instead of IdsPopupMenu. Following these steps
   // in a true browser environment works.
@@ -283,6 +292,41 @@ describe('IdsPopupMenu Component', () => {
   describe('IdsMenuItem', () => {
     it('can have a submenu', () => {
       expect(item6.hasSubmenu).toBeTruthy();
+    });
+
+    it('can dismount the submenu', () => {
+      item6.submenu.remove();
+
+      expect(item6.hasSubmenu).toBeFalsy();
+    });
+
+    it('can add a new submenu', () => {
+      // Add a new submenu to item 5
+      const newSubmenu = new IdsPopupMenu();
+      newSubmenu.id = 'new-submenu';
+      newSubmenu.insertAdjacentHTML('afterbegin', `<ids-menu-group id="new-group">
+        <ids-menu-item id="newitem1" value="new1">First New Item</ids-menu-item>
+        <ids-menu-item id="newitem2" value="new2">Second New Item</ids-menu-item>
+        <ids-menu-item id="newitem3" value="new3">Third New Item</ids-menu-item>
+      </ids-menu-group>`);
+      item5.appendChild(newSubmenu);
+
+      expect(item5.hasSubmenu).toBeTruthy();
+      expect(item5.submenu.items.length).toEqual(3);
+    });
+
+    it.skip('can programmatically show/hide the submenu', (done) => {
+      item6.showSubmenu();
+
+      setTimeout(() => {
+        expect(item6.submenu.hidden).toBeFalsy();
+
+        item6.hideSubmenu();
+        setTimeout(() => {
+          expect(item6.submenu.hidden).toBeTruthy();
+          done();
+        }, 20);
+      }, 20);
     });
 
     it('cannot be unhighlighted if its submenu is open', (done) => {

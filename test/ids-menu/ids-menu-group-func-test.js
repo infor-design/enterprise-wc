@@ -32,6 +32,9 @@ describe('IdsMenuGroup Component', () => {
   let group2;
   let header2;
   let item1;
+  let item4;
+  let item5;
+  let item6;
 
   beforeEach(async () => {
     menu = new IdsMenu();
@@ -45,6 +48,9 @@ describe('IdsMenuGroup Component', () => {
 
     // get reference to an item in each group
     item1 = document.querySelector('#item1');
+    item4 = document.querySelector('#item4');
+    item5 = document.querySelector('#item5');
+    item6 = document.querySelector('#item6');
   });
 
   afterEach(async () => {
@@ -55,6 +61,9 @@ describe('IdsMenuGroup Component', () => {
     header1 = null;
     header2 = null;
     item1 = null;
+    item4 = null;
+    item5 = null;
+    item6 = null;
   });
 
   it('should render', () => {
@@ -86,12 +95,12 @@ describe('IdsMenuGroup Component', () => {
   it('can programmatically change selection type', () => {
     group1.select = 'multiple';
 
-    expect(item1.getAttribute('select')).toBe('multiple');
+    expect(group1.getAttribute('select')).toBe('multiple');
     expect(item1.container.classList.contains('has-multi-checkmark')).toBeTruthy();
 
     group1.select = 'none';
 
-    expect(item1.getAttribute('select')).toBe(null);
+    expect(group1.getAttribute('select')).toBe(null);
     expect(item1.container.classList.contains('has-checkmark')).toBeFalsy();
     expect(item1.container.classList.contains('has-multi-checkmark')).toBeFalsy();
   });
@@ -104,5 +113,16 @@ describe('IdsMenuGroup Component', () => {
     group1.keepOpen = false;
 
     expect(group1.getAttribute('keep-open')).toBeFalsy();
+  });
+
+  it('can deselect all but a single item from a multi-select group', () => {
+    item4.select();
+    item5.select();
+    item6.select();
+    group2.deselectAllExcept(item5);
+    const selected = menu.getSelectedItems(group2);
+
+    expect(selected.length).toEqual(1);
+    expect(selected[0].isEqualNode(item5)).toBeTruthy();
   });
 });

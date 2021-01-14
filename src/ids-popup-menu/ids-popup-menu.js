@@ -50,10 +50,8 @@ class IdsPopupMenu extends IdsMenu {
    * @returns {string} The template
    */
   template() {
-    const hasIconsClass = this.itemIcons.length ? ' has-icons' : '';
-
     return `<ids-popup class="ids-popup-menu" type="menu">
-      <nav class="ids-menu${hasIconsClass}" role="menu" slot="content">
+      <nav class="ids-menu" role="menu" slot="content">
         <slot></slot>
       </nav>
     </ids-popup>`;

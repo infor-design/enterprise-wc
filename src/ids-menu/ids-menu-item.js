@@ -5,6 +5,7 @@ import {
   scss
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
+import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 import IdsIcon from '../ids-icon/ids-icon';
@@ -42,16 +43,7 @@ const MENU_PROPS = [
  * @returns {boolean} true if the value can be "stringified" safely for the DOM attribute
  */
 function safeForAttribute(value) {
-  return ['string', 'number', 'boolean'].includes(typeof value);
-}
-
-/**
- * Determines if a string-based attribute value is "true" for a boolean property
- * @param {any} val the value to be checked
- * @returns {boolean} true if the value is valid as a boolean property
- */
-function isTrueAttribute(val) {
-  return val !== null && (val === true || (typeof val === 'string' && val !== 'false'));
+  return value !== null && ['string', 'number', 'boolean'].includes(typeof value);
 }
 
 /**
@@ -173,11 +165,19 @@ class IdsMenuItem extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
+    this.refresh();
+    this.handleEvents();
+    this.shouldUpdate = true;
+  }
+
+  /**
+   * Updates the visual state of this menu item
+   * @returns {void}
+   */
+  refresh() {
+    this.tabIndex = this.state.tabIndex;
     this.detectSubmenu();
     this.detectSelectability();
-    this.handleEvents();
-    this.tabIndex = this.state.tabIndex;
-    this.shouldUpdate = true;
   }
 
   /**
@@ -190,7 +190,9 @@ class IdsMenuItem extends IdsElement {
 
     // "Hover" timeout deals with `mouseenter`/`mouseleave` events, and causes the
     // menu to open after a delay.
+    /* istanbul ignore next */
     let hoverTimeout;
+    /* istanbul ignore next */
     const clearHoverTimeout = () => {
       if (hoverTimeout) {
         hoverTimeout.destroy(true);
@@ -200,7 +202,9 @@ class IdsMenuItem extends IdsElement {
 
     // "Hide Submenu" timeout causes a submenu to close after a delay, if the mouse/touch
     // does not exist over top of a valid menu/submenu item.
+    /* istanbul ignore next */
     let hideSubmenuTimeout;
+    /* istanbul ignore next */
     const clearHideSubmenuTimeout = () => {
       if (hideSubmenuTimeout) {
         hideSubmenuTimeout.destroy(true);
@@ -210,6 +214,7 @@ class IdsMenuItem extends IdsElement {
 
     // On 'mouseenter', after a specified duration, run some events,
     // including activation of submenus where applicable.
+    /* istanbul ignore next */
     this.eventHandlers.addEventListener('mouseenter', this, () => {
       clearHideSubmenuTimeout();
       if (!this.disabled && this.hasSubmenu) {
@@ -239,6 +244,7 @@ class IdsMenuItem extends IdsElement {
 
     // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
     // and unhighlight the item
+    /* istanbul ignore next */
     this.eventHandlers.addEventListener('mouseleave', this, () => {
       clearHoverTimeout();
 
@@ -260,6 +266,11 @@ class IdsMenuItem extends IdsElement {
       } else {
         this.unhighlight();
       }
+    });
+
+    // When any of this item's slots change, refresh the visual state of the item
+    this.eventHandlers.addEventListener('slotchange', this.container, () => {
+      this.refresh();
     });
   }
 
@@ -293,7 +304,7 @@ class IdsMenuItem extends IdsElement {
    */
   set disabled(val) {
     // Handled as boolean attribute
-    const trueVal = isTrueAttribute(val);
+    const trueVal = domUtils.isTrueBooleanAttribute(val);
     this.state.disabled = trueVal;
 
     const a = this.a;
@@ -336,7 +347,7 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if the menu item should appear highlighted
    */
   set highlighted(val) {
-    const trueVal = isTrueAttribute(val);
+    const trueVal = domUtils.isTrueBooleanAttribute(val);
 
     // Don't highlight if the item is disabled.
     if (trueVal && this.disabled) {
@@ -387,6 +398,7 @@ class IdsMenuItem extends IdsElement {
       this.setAttribute('icon', val);
       this.appendIcon(val);
     }
+    this.group.detectIcons();
   }
 
   /**
@@ -431,6 +443,13 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
+   * @param {boolean} val true if icons are present
+   */
+  decorateForIcon(val) {
+    this.container.classList[val === true ? 'add' : 'remove']('has-icon');
+  }
+
+  /**
    * @readonly
    * @returns {HTMLElement} an IdsMenuGroup, if one is present.
    */
@@ -471,6 +490,7 @@ class IdsMenuItem extends IdsElement {
       if (!icon) {
         this.a.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="dropdown" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`);
       }
+      this.value = null;
     } else {
       this.container.removeAttribute('aria-haspopup');
       this.container.removeAttribute('aria-expanded');
@@ -511,7 +531,7 @@ class IdsMenuItem extends IdsElement {
    */
   set selected(val) {
     // Determine true state and event names
-    const trueVal = isTrueAttribute(val);
+    const trueVal = domUtils.isTrueBooleanAttribute(val);
     const duringEventName = trueVal ? 'selected' : 'deselected';
     const beforeEventName = `before${duringEventName}`;
 
@@ -634,16 +654,10 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
-   * @param {boolean} val true if icons are present
-   */
-  setDisplayType(val) {
-    this.container.classList[val === true ? 'add' : 'remove']('has-icon');
-  }
-
-  /**
    * Displays this menu item's submenu, if one is present.
    * @returns {void}
    */
+  /* istanbul ignore next */
   showSubmenu() {
     if (!this.hasSubmenu || (this.hasSubmenu && !this.submenu.hidden)) {
       return;
@@ -657,6 +671,7 @@ class IdsMenuItem extends IdsElement {
    * Hides this menu item's submenu, if one is present.
    * @returns {void}
    */
+  /* istanbul ignore next */
   hideSubmenu() {
     if (!this.hasSubmenu || (this.hasSubmenu && this.submenu.hidden)) {
       return;

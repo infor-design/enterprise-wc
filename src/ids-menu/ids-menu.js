@@ -75,17 +75,13 @@ class IdsMenu extends IdsElement {
     // Highlight handler -- Menu Items Only, don't change if the target is disabled
     const highlightItem = (e) => {
       const thisItem = e.target.closest('ids-menu-item');
-      if (isUsableItem(thisItem, this, true)) {
-        this.highlightItem(thisItem);
-      }
+      this.highlightItem(thisItem);
     };
 
     // Unhighlight handler - Menu Items Only
     const unhighlightItem = (e) => {
       const thisItem = e.target.closest('ids-menu-item');
-      if (isUsableItem(thisItem, this)) {
-        thisItem.unhighlight();
-      }
+      thisItem.unhighlight();
     };
 
     // Highlight the item on click
@@ -139,7 +135,6 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   connectedCallBack() {
-    this.detectIcons();
     this.handleEvents();
     this.handleKeys();
   }
@@ -149,10 +144,7 @@ class IdsMenu extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const hasIconsClass = this.itemIcons.length ? ' has-icons' : '';
-    return `<nav class="ids-menu${hasIconsClass}" role="menu">
-      <slot></slot>
-    </nav>`;
+    return `<nav class="ids-menu" role="menu"><slot></slot></nav>`;
   }
 
   /**
@@ -173,21 +165,6 @@ class IdsMenu extends IdsElement {
       i = i.concat([...group.children].filter((e) => e.matches('ids-menu-item')));
     });
     return i;
-  }
-
-  /**
-   * References all icons that describe menu item contents (ignores dropdown/check icons)
-   * @readonly
-   * @returns {Array<HTMLElement>} list of items
-   */
-  get itemIcons() {
-    const icons = [];
-    this.items.forEach((item) => {
-      if (item.iconEl) {
-        icons.push(item.iconEl);
-      }
-    });
-    return icons;
   }
 
   /**
@@ -276,20 +253,6 @@ class IdsMenu extends IdsElement {
   }
 
   /**
-   * Sets/Remove an alignment CSS class
-   * @returns {void}
-   */
-  detectIcons() {
-    const icons = this.itemIcons;
-    const hasIcons = icons.length > 0;
-    this.classList[hasIcons ? 'add' : 'remove']('has-icons');
-
-    this.items.forEach((item) => {
-      item.setDisplayType(hasIcons);
-    });
-  }
-
-  /**
    * Uses a currently-highlighted menu item to "navigate" a specified number
    * of steps to another menu item, highlighting it.
    * @param {number} [amt] the amount of items to navigate
@@ -304,7 +267,7 @@ class IdsMenu extends IdsElement {
       this.lastHovered = undefined;
     }
 
-    if (Number.isNaN(amt)) {
+    if (typeof amt !== 'number') {
       return currentItem;
     }
 

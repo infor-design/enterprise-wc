@@ -9,7 +9,7 @@ import IdsMenu, {
 } from '../../src/ids-menu/ids-menu';
 
 const exampleHTML = `
-  <ids-menu-group id="primary">
+  <ids-menu-group id="primary" select="single">
     <ids-menu-header>My Items</ids-menu-header>
     <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
     <ids-menu-item id="item2" value="2">Item 2</ids-menu-item>
@@ -110,6 +110,19 @@ describe('IdsMenu Component', () => {
     menu.navigate(-1, true);
 
     expect(menu.focused).toEqual(items[1]);
+
+    // Won't navigate anywhere if a junk/NaN value is provided
+    menu.navigate('forward', true);
+
+    expect(menu.focused).toEqual(items[1]);
+  });
+
+  it('navigates from the last-hovered menu item, if applicable', () => {
+    item2.focus();
+    menu.lastHovered = item2;
+    menu.navigate(1, true);
+
+    expect(menu.focused).toEqual(item3);
   });
 
   it('can select items (default)', () => {
@@ -190,6 +203,25 @@ describe('IdsMenu Component', () => {
     expect(item4.selected).toBeFalsy();
   });
 
+  it('can get/clear selected items in a specific group', () => {
+    group2.select = 'multiple';
+    menu.selectItem(item1);
+    menu.selectItem(item4);
+    menu.selectItem(item5);
+    let items = menu.getSelectedItems(group2);
+
+    expect(items.length).toEqual(2);
+
+    // Only clear group 2
+    menu.clearSelectedItems(group2);
+
+    // get ALL selected items
+    items = menu.getSelectedItems();
+
+    expect(items.length).toEqual(1);
+    expect(items.includes(item4)).toBeFalsy();
+  });
+
   it('navigates menu items using the keyboard', () => {
     const navigateUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     const navigateDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
@@ -209,6 +241,56 @@ describe('IdsMenu Component', () => {
     menu.dispatchEvent(navigateUpEvent);
 
     expect(menu.focused).toEqual(item6);
+  });
+
+  it('highlights a menu item on click', () => {
+    item2.select();
+    item1.click();
+
+    expect(menu.getSelectedItems().includes(item2)).toBeFalsy();
+    expect(menu.lastNavigated.isEqualNode(item1)).toBeTruthy();
+  });
+
+  it('can get reference to highlighted items at the menu level', () => {
+    item1.highlight();
+    item2.highlight();
+    const highlighted = menu.highlighted;
+
+    expect(highlighted.length).toBe(2);
+    expect(highlighted.includes(item1)).toBeTruthy();
+  });
+
+  it('won\'t highlight items that are disabled', () => {
+    item1.disabled = true;
+    menu.highlightItem(item1);
+
+    expect(item1.highlighted).toBeFalsy();
+  });
+
+  it('listens for Enter key on a menu item and stores information', () => {
+    const enterKeyEvent = new KeyboardEvent('keydown', { key: 'Enter', bubbles: true });
+
+    item2.select();
+    item1.dispatchEvent(enterKeyEvent);
+
+    expect(menu.getSelectedItems().includes(item2)).toBeFalsy();
+    expect(menu.lastNavigated.isEqualNode(item1)).toBeTruthy();
+  });
+
+  it('can get the first available item in the list', () => {
+    expect(menu.getFirstAvailableItem().isEqualNode(item1)).toBeTruthy();
+
+    item1.disabled = true;
+    item2.hidden = true;
+
+    expect(menu.getFirstAvailableItem().isEqualNode(item3)).toBeTruthy();
+  });
+
+  it('won\'t select an item at the menu level that is disabled', () => {
+    item1.disabled = true;
+    menu.selectItem(item1);
+
+    expect(item1.selected).toBeFalsy();
   });
 
   describe('IdsMenuItem', () => {

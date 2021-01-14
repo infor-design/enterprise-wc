@@ -4,6 +4,7 @@ import {
   scss
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
+import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import styles from './ids-menu-group.scss';
 
@@ -80,6 +81,7 @@ class IdsMenuGroup extends IdsElement {
     } else {
       this.container.removeAttribute('aria-labelledby');
     }
+    this.detectIcons();
   }
 
   /**
@@ -95,7 +97,37 @@ class IdsMenuGroup extends IdsElement {
    * @returns {Array<HTMLElement>} all available menu items in this group
    */
   get items() {
-    return Array.from(this.querySelectorAll('ids-menu-item, .ids-menu-item'));
+    return [...this.children].filter((e) => e.matches('ids-menu-item'));
+  }
+
+  /**
+   * References all icons that describe menu item contents (ignores dropdown/check icons)
+   * @readonly
+   * @returns {Array<HTMLElement>} list of items
+   */
+  get itemIcons() {
+    const icons = [];
+    this.items.forEach((item) => {
+      if (item.iconEl) {
+        icons.push(item.iconEl);
+      }
+    });
+    return icons;
+  }
+
+  /**
+   * Sets/Remove an alignment CSS class
+   * @returns {void}
+   */
+  detectIcons() {
+    const icons = this.itemIcons;
+    const hasIcons = icons.length > 0;
+
+    this.items.forEach((item) => {
+      if (typeof item.decorateForIcon === 'function') {
+        item.decorateForIcon(hasIcons);
+      }
+    });
   }
 
   /**
@@ -133,6 +165,8 @@ class IdsMenuGroup extends IdsElement {
       default:
         this.setAttribute(props.SELECT, trueVal);
     }
+
+    this.updateSelectability();
   }
 
   /**
@@ -147,22 +181,37 @@ class IdsMenuGroup extends IdsElement {
    * @param {boolean} val true if the menu should close when an item in this group is selected
    */
   set keepOpen(val) {
-    const trueVal = val !== null;
+    const trueVal = domUtils.isTrueBooleanAttribute(val);
     if (trueVal) {
-      this.setAttribute(props.KEEP_OPEN, '');
+      this.setAttribute(props.KEEP_OPEN, `${val}`);
     } else {
       this.removeAttribute(props.KEEP_OPEN);
     }
   }
 
   /**
+   * Forces items in the group to re-render the checkmark/checkbox to be in-sync with
+   * the group's `select` property.
+   * @returns {void}
+   */
+  updateSelectability() {
+    this.items.forEach((item) => {
+      // NOTE: Sometimes the group invokes before the items, making item methods inaccessible.
+      // Items run this method internally on their first run.
+      if (typeof item.detectSelectability === 'function') {
+        item.detectSelectability();
+      }
+    });
+  }
+
+  /**
    * Causes all menu items except for those provided to become deselected.
-   * @param {HTMLElement|Array<IdsMenuItem>} keptItems a single item or list of items
+   * @param {HTMLElement|Array<HTMLElement>} keptItems a single item or list of items
    * whose selection will be ignored.
    * @returns {void}
    */
   deselectAllExcept(keptItems) {
-    const keptItemsArr = Array.isArray(keptItems) ? keptItems : [keptItems];
+    const keptItemsArr = [].concat(keptItems);
     this.items.forEach((item) => {
       if (!keptItemsArr.includes(item) && item.selected) {
         item.deselect();
