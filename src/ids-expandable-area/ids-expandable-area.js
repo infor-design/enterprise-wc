@@ -1,11 +1,9 @@
 import {
   IdsElement,
   customElement,
-  mixin,
   scss
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 // @ts-ignore
 import styles from './ids-expandable-area.scss';
@@ -20,8 +18,6 @@ const EXPANDABLE_AREA_TYPES = [
  */
 @customElement('ids-expandable-area')
 @scss(styles)
-@mixin(IdsEventsMixin)
-@mixin(IdsExampleMixin)
 class IdsExpandableArea extends IdsElement {
   constructor() {
     super();
