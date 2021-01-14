@@ -5,6 +5,10 @@ import {
 } from '../ids-base/ids-element';
 // @ts-ignore
 import styles from './ids-accordion.scss';
+// @ts-ignore
+import IdsAccordionHeader from './ids-accordion-header';
+// @ts-ignore
+import IdsAccordionPanel from './ids-accordion-panel';
 
 /**
  * IDS Tag Component
@@ -15,8 +19,6 @@ class IdsAccordion extends IdsElement {
   constructor() {
     super();
   }
-
-  connectedCallBack() {}
 
   /**
    * Inner template contents
