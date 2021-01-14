@@ -5,6 +5,7 @@ import {
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+// @ts-ignore
 import styles from './ids-accordion-panel.scss';
 import { props } from '../ids-base/ids-constants';
 
@@ -21,9 +22,9 @@ class IdsAccordionPanel extends IdsElement {
   }
 
   connectedCallback() {
-    this.expander = this.shadowRoot.querySelector('.ids-accordion-panel-expander');
-    this.header = this.querySelector('[slot="header"]');
-    this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
+    /** @type {HTMLElement} */ this.expander = this.shadowRoot.querySelector('.ids-accordion-panel-expander');
+    /** @type {HTMLElement} */ this.header = this.querySelector('[slot="header"]');
+    /** @type {HTMLElement} */ this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
     this.setTitles();
     this.handleEvents();
     this.switchState();
@@ -39,13 +40,13 @@ class IdsAccordionPanel extends IdsElement {
 
   /**
    * Set the expanded property
-   * @param {boolean} value true/false
+   * @param {string} value true/false
    */
   set expanded(value) {
     if (value) {
       this.setAttribute(props.EXPANDED, value);
     } else {
-      this.setAttribute(props.EXPANDED, false);
+      this.setAttribute(props.EXPANDED, 'false');
     }
     this.switchState();
   }

@@ -7,6 +7,7 @@ import {
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+// @ts-ignore
 import styles from './ids-expandable-area.scss';
 import { props } from '../ids-base/ids-constants';
 
@@ -29,10 +30,10 @@ class IdsExpandableArea extends IdsElement {
   }
 
   connectedCallback() {
-    this.expander = this.shadowRoot.querySelector('[data-expander]');
-    this.expanderDefault = this.shadowRoot.querySelector('[name="expander-default"]');
-    this.expanderExpanded = this.shadowRoot.querySelector('[name="expander-expanded"]');
-    this.pane = this.shadowRoot.querySelector('.ids-expandable-area-pane');
+    /** @type {HTMLElement} */ this.expander = this.shadowRoot.querySelector('[data-expander]');
+    /** @type {HTMLElement} */ this.expanderDefault = this.shadowRoot.querySelector('[name="expander-default"]');
+    /** @type {HTMLElement} */ this.expanderExpanded = this.shadowRoot.querySelector('[name="expander-expanded"]');
+    /** @type {HTMLElement} */ this.pane = this.shadowRoot.querySelector('.ids-expandable-area-pane');
     this.handleEvents();
     this.switchState();
   }
@@ -61,13 +62,13 @@ class IdsExpandableArea extends IdsElement {
 
   /**
    * Set the expanded property
-   * @param {boolean} value true/false
+   * @param {string} value true/false
    */
   set expanded(value) {
     if (value) {
       this.setAttribute(props.EXPANDED, value);
     } else {
-      this.setAttribute(props.EXPANDED, false);
+      this.setAttribute(props.EXPANDED, 'false');
     }
     this.switchState();
   }
