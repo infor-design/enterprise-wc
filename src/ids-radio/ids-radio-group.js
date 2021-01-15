@@ -40,7 +40,6 @@ class IdsRadioGroup extends IdsElement {
       props.DISABLED,
       props.HORIZONTAL,
       props.LABEL,
-      props.LABEL_FONT_SIZE,
       props.LABEL_REQUIRED,
       props.VALIDATE,
       props.VALIDATION_EVENTS,
@@ -72,8 +71,7 @@ class IdsRadioGroup extends IdsElement {
     const rootClass = ` class="ids-radio-group${disabled}${horizontal}"`;
 
     // Label
-    const labelFontSize = this.labelFontSize ? ` ${props.FONT_SIZE}="${this.labelFontSize}"` : '';
-    const label = this.label ? `<ids-text type="legend" class="group-label-text"${labelFontSize}${disabledAria}>${this.label}</ids-text>` : '';
+    const label = this.label ? `<ids-text type="legend" class="group-label-text"${disabledAria}>${this.label}</ids-text>` : '';
 
     return `<div role="radiogroup"${rootClass}>${label}<slot></slot></div>`;
   }
@@ -190,7 +188,7 @@ class IdsRadioGroup extends IdsElement {
     /** @type {any} */
     this.input = this.shadowRoot.querySelector('.ids-radio-group');
     this.eventHandlers.dispatchEvent('change', this.input, args);
-    this.eventHandlers.dispatchEvent('triggerchange', this, args);
+    this.eventHandlers.dispatchEvent('change', this, args);
   }
 
   /**
@@ -202,7 +200,7 @@ class IdsRadioGroup extends IdsElement {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
 
     radioArr.forEach((r) => {
-      this.eventHandlers.addEventListener('triggerchange', r, () => {
+      this.eventHandlers.addEventListener('change', r, () => {
         this.makeChecked(r, false);
       });
     });
@@ -250,7 +248,7 @@ class IdsRadioGroup extends IdsElement {
    */
   set dirtyTracker(value) {
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.DIRTY_TRACKER, val.toString());
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
@@ -292,24 +290,7 @@ class IdsRadioGroup extends IdsElement {
   get horizontal() { return this.getAttribute(props.HORIZONTAL); }
 
   /**
-   * Sets the checkbox label font size (rarely used)
-   * @param {string} value of the `label-font-size` property
-   */
-  set labelFontSize(value) {
-    const labelText = this.shadowRoot.querySelector('.group-label-text') || document.createElement('span');
-    if (value) {
-      this.setAttribute(props.LABEL_FONT_SIZE, value);
-      labelText.setAttribute(props.FONT_SIZE, value);
-      return;
-    }
-    this.removeAttribute(props.LABEL_FONT_SIZE);
-    labelText.removeAttribute(props.FONT_SIZE);
-  }
-
-  get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
-
-  /**
-   * Sets the checkbox label text
+   * Set the `label` text
    * @param {string} value of the `label` text property
    */
   set label(value) {
@@ -341,7 +322,7 @@ class IdsRadioGroup extends IdsElement {
   set labelRequired(value) {
     this.labelEl = this.shadowRoot.querySelector('.group-label-text');
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.LABEL_REQUIRED, val.toString());
     } else {
       this.removeAttribute(props.LABEL_REQUIRED);

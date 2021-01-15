@@ -35,6 +35,21 @@ describe('IdsInput Component', () => {
     expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
   });
 
+  it('should set validation events', () => {
+    expect(elem.getAttribute('validate')).toEqual(null);
+    expect(elem.getAttribute('validation-events')).toEqual(null);
+    elem.validate = 'required';
+    elem.validationEvents = 'blur';
+    expect(elem.getAttribute('validate')).toEqual('required');
+    expect(elem.getAttribute('validation-events')).toEqual('blur');
+    elem.validationEvents = null;
+    expect(elem.getAttribute('validate')).toEqual('required');
+    expect(elem.getAttribute('validation-events')).toEqual(null);
+    elem.validate = null;
+    expect(elem.getAttribute('validate')).toEqual(null);
+    expect(elem.getAttribute('validation-events')).toEqual(null);
+  });
+
   it('should add/remove email error', () => {
     elem.validate = 'email';
     elem.template();

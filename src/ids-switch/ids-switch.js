@@ -37,7 +37,6 @@ class IdsSwitch extends IdsElement {
       props.CHECKED,
       props.DISABLED,
       props.LABEL,
-      props.LABEL_FONT_SIZE,
       props.VALUE
     ];
   }
@@ -74,21 +73,17 @@ class IdsSwitch extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    // Checkbox
     const disabled = stringUtils.stringToBool(this.disabled) ? ' disabled' : '';
     const checked = stringUtils.stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-switch${disabled}"`;
     const checkboxClass = ` class="checkbox"`;
-
-    // Label
-    const labelFontSize = this.labelFontSize ? ` ${props.FONT_SIZE}="${this.labelFontSize}"` : '';
 
     return `
       <div${rootClass}>
         <label>
           <input type="checkbox"${checkboxClass}${disabled}${checked}>
           <span class="slider${checked}"></span>
-          <ids-text class="label-text"${labelFontSize}>${this.label}</ids-text>
+          <ids-text class="label-text">${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -136,12 +131,12 @@ class IdsSwitch extends IdsElement {
           this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
-             * will fire `trigger + nativeEvent` as triggerclick, triggerchange etc.
+             * will fire nativeEvents.
              * @private
              * @param  {object} elem Actual event
              * @param  {string} value The updated input element value
              */
-            this.eventHandlers.dispatchEvent(`trigger${e.type}`, this, {
+            this.eventHandlers.dispatchEvent(e.type, this, {
               detail: {
                 elem: this,
                 nativeEvent: e,
@@ -195,7 +190,7 @@ class IdsSwitch extends IdsElement {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const rootEl = this.shadowRoot.querySelector('.ids-switch');
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
@@ -209,24 +204,7 @@ class IdsSwitch extends IdsElement {
   get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
-   * Sets the checkbox label font size (rarely used)
-   * @param {string} value of the `label-font-size` property
-   */
-  set labelFontSize(value) {
-    const labelText = this.shadowRoot.querySelector('.label-text') || document.createElement('span');
-    if (value) {
-      this.setAttribute(props.LABEL_FONT_SIZE, value);
-      labelText.setAttribute(props.FONT_SIZE, value);
-      return;
-    }
-    this.removeAttribute(props.LABEL_FONT_SIZE);
-    labelText.removeAttribute(props.FONT_SIZE);
-  }
-
-  get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
-
-  /**
-   * Sets the checkbox label text
+   * Set the `label` text
    * @param {string} value of the `label` text property
    */
   set label(value) {

@@ -203,25 +203,6 @@ describe('IdsRadioGroup Component', () => {
     expect(rg.shadowRoot.querySelector('.group-label-text')).toBeFalsy();
   });
 
-  it('should set label font size', () => {
-    let label = rg.shadowRoot.querySelector('.group-label-text');
-    label.remove();
-    rg.labelFontSize = 'base';
-    document.body.innerHTML = '';
-    const elem = new IdsRadioGroup();
-    document.body.appendChild(elem);
-    rg = document.querySelector('ids-radio-group');
-    rg.label = 'test';
-    label = rg.shadowRoot.querySelector('.group-label-text');
-    expect(label.getAttribute('font-size')).toBe(null);
-    rg.labelFontSize = 'lg';
-    label = rg.shadowRoot.querySelector('.group-label-text');
-    expect(label.getAttribute('font-size')).toBe('lg');
-    rg.labelFontSize = null;
-    label = rg.shadowRoot.querySelector('.group-label-text');
-    expect(label.getAttribute('font-size')).toBe(null);
-  });
-
   it('should renders value', () => {
     const value = 'testRb1';
     let rb1 = document.querySelector(`ids-radio[value="${value}"]`);
@@ -363,7 +344,7 @@ describe('IdsRadioGroup Component', () => {
     const radio = rg.querySelector('ids-radio');
     const evt = 'change';
     let response = null;
-    rg.addEventListener('triggerchange', () => {
+    rg.addEventListener(evt, () => {
       response = 'triggered';
     });
     const event = new Event(evt);
@@ -376,7 +357,7 @@ describe('IdsRadioGroup Component', () => {
     const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
     const keys = [...allow, 'DummyKey'];
     let response = null;
-    rg.addEventListener('triggerchange', () => {
+    rg.addEventListener('change', () => {
       response = 'triggered';
     });
     radioArr.forEach((radio) => {

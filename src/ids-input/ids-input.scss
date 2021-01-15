@@ -43,6 +43,10 @@ $input-size-default: $input-size-md;
     &.disabled::after {
       @include text-ruby-30();
     }
+
+    &.no-required-indicator::after {
+      content: '';
+    }
   }
 
   &.disabled {
