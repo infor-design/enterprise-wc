@@ -170,7 +170,6 @@ describe('IdsPopup Component', () => {
   // NOTE: Needs to mock `getBoundingClientRect` on both the `container` and the `alignTarget`
   it('can align relative to another element on the page', () => {
     const c = popup.container;
-    const originalCGetBoundingClientRect = c.getBoundingClientRect;
 
     // Create/Set the alignment target
     const alignTargetContainer = document.createElement('div');
@@ -186,7 +185,6 @@ describe('IdsPopup Component', () => {
     document.body.appendChild(alignTargetContainer);
 
     // Mock `getBoundingClientRect` for the alignTarget
-    const originalAGetBoundingClientRect = a.getBoundingClientRect;
     a.getBoundingClientRect = jest.fn(() => ({
       x: 300,
       y: 300,
@@ -429,7 +427,6 @@ describe('IdsPopup Component', () => {
 
   it('should autocorrect some alignment definitions to become their shorthand values', () => {
     const c = popup.container;
-    const originalCGetBoundingClientRect = c.getBoundingClientRect;
 
     // Create/Set the alignment target
     const alignTargetContainer = document.createElement('div');
@@ -445,7 +442,6 @@ describe('IdsPopup Component', () => {
     document.body.appendChild(alignTargetContainer);
 
     // Mock `getBoundingClientRect` for the alignTarget
-    const originalAGetBoundingClientRect = a.getBoundingClientRect;
     a.getBoundingClientRect = jest.fn(() => ({
       x: 300,
       y: 300,

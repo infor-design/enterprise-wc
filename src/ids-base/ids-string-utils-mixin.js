@@ -16,7 +16,7 @@ const IdsStringUtilsMixin = {
 
   /**
    * Convert a string value into a boolean
-   * @param {string} val string value from the component property
+   * @param {string|boolean} val string value from the component property
    * @returns {boolean} The return boolean
    */
   stringToBool(val) {
@@ -30,7 +30,7 @@ const IdsStringUtilsMixin = {
    * @returns {obj} The dataset row / item
    */
   injectTemplate(str, obj) {
-    return str.replace(/\${(.*?)}/g, (x, g) => obj[g]);
+    return str.replace(/\${(.*?)}/g, (_x, g) => obj[g]);
   }
 };
 

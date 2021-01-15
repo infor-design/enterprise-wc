@@ -2,7 +2,7 @@
 @import '../ids-base/ids-switch-mixin';
 
 .ids-switch {
-  @include mb-4();
+  @include mb-8();
 
   label {
     @include cursor-pointer();

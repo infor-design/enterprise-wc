@@ -15,10 +15,7 @@
   }
 
   .ids-icon {
-    @include mb-4();
     @include mr-4();
-
-    margin-bottom: 6px;
   }
 
   &.alert {
@@ -51,11 +48,5 @@
     &.disabled {
       @include text-emerald-30();
     }
-  }
-}
-
-.ids-checkbox {
-  .validation-message {
-    margin-top: -4px;
   }
 }

@@ -4,6 +4,7 @@ import {
   scss
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
+// @ts-ignore
 import styles from './ids-text.scss';
 
 /**
@@ -68,8 +69,8 @@ class IdsText extends IdsElement {
   get fontSize() { return this.getAttribute(props.FONT_SIZE); }
 
   /**
-   * Set the type of object it is (h1-h6, span (default))
-   * @param {string} value The font size in the font scheme i.e. 10, 12, 16 or xs, sm, base, lg, xl
+   * Set the type of element it is (h1-h6, span (default))
+   * @param {string} value  The type of element
    */
   set type(value) {
     if (value) {
@@ -85,7 +86,7 @@ class IdsText extends IdsElement {
   get type() { return this.getAttribute(props.TYPE); }
 
   /**
-   * Set `audible` attribute
+   * Set `audible` string (screen reader only text)
    * @param {string} value The `audible` attribute
    */
   set audible(value) {

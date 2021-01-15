@@ -1,13 +1,13 @@
 import {
   customElement,
-  mixin,
   scss
 } from '../ids-base/ids-element';
+// @ts-ignore
 import { IdsButton, BUTTON_PROPS, BUTTON_TYPES } from '../ids-button/ids-button';
+// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
-import { props } from '../ids-base/ids-constants';
+
+// @ts-ignore
 import styles from '../ids-button/ids-button.scss';
 
 // Default Toggle Button Icons
@@ -19,7 +19,6 @@ const DEFAULT_ICON_ON = 'star-filled';
  */
 @customElement('ids-toggle-button')
 @scss(styles)
-@mixin(IdsEventsMixin)
 class IdsToggleButton extends IdsButton {
   constructor() {
     super();
@@ -47,25 +46,26 @@ class IdsToggleButton extends IdsButton {
   }
 
   /**
-   * Toggle-Button-level `connectedCallBack` implementation (adds an icon refresh)
-   * @private
+   * Toggle-Button-level `connectedCallback` implementation (adds an icon refresh)
    * @returns {void}
    */
-  connectedCallBack() {
-    IdsButton.prototype.connectedCallBack.apply(this);
+  connectedCallback() {
     this.refreshIcon();
     this.refreshText();
   }
 
   /**
-   * @param {boolean} val if true, the "toggle" is activated
+   * Set the pressed (on/off) state
+   * @param {boolean|string} val if true, the "toggle" is activated
    */
   set pressed(val) {
     const trueVal = val === true || val === 'true';
+    // @ts-ignore
     this.state.pressed = trueVal;
     this.shouldUpdate = false;
+
     if (trueVal) {
-      this.setAttribute('pressed', trueVal);
+      this.setAttribute('pressed', trueVal.toString());
     } else {
       this.removeAttribute('pressed');
     }
@@ -75,25 +75,27 @@ class IdsToggleButton extends IdsButton {
     this.refreshText();
   }
 
-  /**
-   * @returns {boolean} true if the toggle is currently active
-   */
   get pressed() {
+    // @ts-ignore
     return this.state.pressed;
   }
 
   /**
-   * Override setting the "type" on Toggle Buttons, since they can only be the default style.
-   * @param {string} val a valid
+   * Override setting the "type" on Toggle Buttons, since they can only be the default style
+   * @param {string} _val a valid
    * @returns {void}
    */
-  set type(val) {
+  // @ts-ignore
+  set type(_val) {
+    // @ts-ignore
     this.state.type = BUTTON_TYPES[0];
+
     if (this.hasAttribute('type')) {
       this.shouldUpdate = false;
       this.removeAttribute('type');
       this.shouldUpdate = true;
     }
+    // @ts-ignore
     this.setTypeClass(this.state.type);
   }
 
@@ -200,6 +202,7 @@ class IdsToggleButton extends IdsButton {
 
   /**
    * Sets (or creates) a slotted icon that represents the pressed state
+   * @private
    * @returns {void}
    */
   refreshIcon() {
@@ -208,6 +211,7 @@ class IdsToggleButton extends IdsButton {
 
   /**
    * Sets (or creates) a slotted span that contains text
+   * @private
    * @returns {void}
    */
   refreshText() {

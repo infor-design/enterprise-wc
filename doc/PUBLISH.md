@@ -2,8 +2,9 @@
 
 ## Making a package in npm
 
-- Run command `npm run publish:dry-run` to test first
 - Bump version in package.json
+- Bump version in src/ids-base/ids-decorators.js
+- Run command `npm run publish:dry-run` to test first
 - Run command `npm run publish:npm`
 
 ## Working with local changes

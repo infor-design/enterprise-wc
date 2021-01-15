@@ -1,13 +1,14 @@
 import {
   IdsElement,
   customElement,
-  version,
   scss
 } from '../ids-base/ids-element';
+
 import { mixin } from '../ids-base/ids-decorators';
-import styles from './ids-layout-grid.scss';
 import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
+// @ts-ignore
+import styles from './ids-layout-grid.scss';
 
 /**
  * IDS Layout Component
@@ -37,11 +38,11 @@ class IdsLayoutGrid extends IdsElement {
 
   /**
    * If true the grid is not responsive and stays equal width as will fit
-   * @param {boolean} value true or false/nothing
+   * @param {boolean|string} value true or false/nothing
    */
   set fixed(value) {
     if (value) {
-      this.setAttribute(props.FIXED, value);
+      this.setAttribute(props.FIXED, value.toString());
       this.classList.add('ids-fixed');
       return;
     }
@@ -74,11 +75,11 @@ class IdsLayoutGrid extends IdsElement {
 
   /**
    * Sets the grid to `auto-fit`
-   * @param {boolean} value true or false/nothing
+   * @param {boolean|string} value true or false/nothing
    */
   set auto(value) {
     if (value) {
-      this.setAttribute(props.AUTO, value);
+      this.setAttribute(props.AUTO, value.toString());
       this.classList.add('ids-layout-grid-auto');
       return;
     }
@@ -133,11 +134,11 @@ class IdsLayoutGrid extends IdsElement {
 
   /**
    * If true the grid will not have any margins
-   * @param {boolean} value true or false/nothing
+   * @param {boolean|string} value true or false/nothing
    */
   set noMargins(value) {
     if (value) {
-      this.setAttribute(props.NO_MARGINS, value);
+      this.setAttribute(props.NO_MARGINS, value.toString());
       this.classList.add('ids-layout-grid-no-margins');
       return;
     }

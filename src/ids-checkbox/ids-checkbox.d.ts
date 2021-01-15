@@ -1,21 +1,27 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
-interface nativeElement extends HTMLElement {
-  checked: boolean;
-  color: string;
-  dirtyTracker: boolean;
-  disabled: boolean;
-  horizontal: boolean;
-  indeterminate: boolean;
-  label: string;
-  labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 | 'xs' | 'sm ' | 'lg' | 'xl' | string | number;
-  labelRequired: boolean;
-  validate: 'required' | string;
-  validationEvents: 'change' | string;
-  value: string;
-}
-
 export class IdsCheckbox extends HTMLElement {
-  nativeElement: nativeElement;
+  /** Sets the checked state to true or false */
+  checked: boolean;
+  /** Sets the checkbox color to one of the colors in our color palette for example emerald07 */
+  color: string;
+  /** Sets the dirty tracking feature on to indicate a changed field */
+  dirtyTracker: boolean;
+  /** Sets checkbox to disabled **/
+  disabled: boolean;
+  /** Flips the checkbox orientation to horizontal **/
+  horizontal: boolean;
+  /** Sets the checkbox to the indeterminate state **/
+  indeterminate: boolean;
+  /** Sets the checkbox label text **/
+  label: string;
+  /** Sets the checkbox to required **/
+  labelRequired: boolean;
+  /** Sets the validation check to use **/
+  validate: 'required' | string;
+  /** Sets which events to fire validation on **/
+  validationEvents: 'change' | string;
+  /** Sets the checkbox `value` attribute **/
+  value: string;
 }

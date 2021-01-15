@@ -103,28 +103,31 @@ describe('IdsInput Component', () => {
     expect(input.labelEl.textContent.trim()).toBe('');
   });
 
+  it('should set label required indicator', () => {
+    const className = 'no-required-indicator';
+    expect(input.getAttribute('validate')).toEqual(null);
+    expect(input.getAttribute('label-required')).toEqual(null);
+    expect(input.labelEl.classList).not.toContain(className);
+    input.validate = 'required';
+    expect(input.getAttribute('validate')).toEqual('required');
+    expect(input.getAttribute('label-required')).toEqual(null);
+    expect(input.labelEl.classList).not.toContain(className);
+    input.labelRequired = false;
+    expect(input.getAttribute('validate')).toEqual('required');
+    expect(input.getAttribute('label-required')).toEqual(null);
+    expect(input.labelEl.classList).toContain(className);
+    expect(input.labelRequired).toEqual(null);
+    input.labelRequired = true;
+    expect(input.getAttribute('validate')).toEqual('required');
+    expect(input.getAttribute('label-required')).toEqual('true');
+    expect(input.labelEl.classList).not.toContain(className);
+    expect(input.labelRequired).toEqual('true');
+  });
+
   it('should get outer width', () => {
     const body = document.querySelector('body');
     expect(input.outerWidth(body)).toBe(16);
     expect(input.outerWidth('test')).toBe(0);
-  });
-
-  it('should set label font size', () => {
-    let label = input.labelEl.querySelector('ids-text');
-    label.remove();
-    input.labelFontSize = 'base';
-    document.body.innerHTML = '';
-    const elem = new IdsInput();
-    document.body.appendChild(elem);
-    input = document.querySelector('ids-input');
-    label = input.labelEl.querySelector('ids-text');
-    expect(label.getAttribute('font-size')).toBe(null);
-    input.labelFontSize = 'lg';
-    label = input.labelEl.querySelector('ids-text');
-    expect(label.getAttribute('font-size')).toBe('lg');
-    input.labelFontSize = null;
-    label = input.labelEl.querySelector('ids-text');
-    expect(label.getAttribute('font-size')).toBe(null);
   });
 
   it('should set value', () => {
@@ -403,7 +406,7 @@ describe('IdsInput Component', () => {
     const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
-      input.addEventListener(`trigger${evt}`, () => {
+      input.addEventListener(evt, () => {
         response = 'triggered';
       });
       const event = new Event(evt);

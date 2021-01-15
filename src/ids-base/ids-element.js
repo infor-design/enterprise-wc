@@ -1,17 +1,17 @@
-import { IdsStringUtilsMixin } from './ids-string-utils-mixin';
 import {
   customElement,
   version,
   mixin,
   scss
 } from './ids-decorators';
+
 import { props } from './ids-constants';
+import { IdsStringUtilsMixin as stringUtils } from './ids-string-utils-mixin';
 
 /**
  * IDS Base Element
  */
 @version()
-@mixin(IdsStringUtilsMixin)
 class IdsElement extends HTMLElement {
   constructor() {
     super();
@@ -31,34 +31,25 @@ class IdsElement extends HTMLElement {
   /**
    * Handle Setting changes of the value has changed by calling the getter
    * in the extending class.
-   * @private
    * @param  {string} name The property name
    * @param  {string} oldValue The property old value
    * @param  {string} newValue The property new value
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
-      this[this.camelCase(name)] = newValue;
+      this[stringUtils.camelCase(name)] = newValue;
     }
   }
 
   /**
    * Release events and cleanup, if implementing disconnectedCallback
    * in a component you can just call super.
-   * @private
    */
   disconnectedCallback() {
+    // @ts-ignore
     this.eventHandlers?.removeAll();
+    // @ts-ignore
     this.keyboard?.destroy();
-  }
-
-  /**
-   * Do stuff as the component is connected.
-   */
-  connectedCallback() {
-    if (this.connectedCallBack) {
-      this.connectedCallBack();
-    }
   }
 
   /**
@@ -66,6 +57,7 @@ class IdsElement extends HTMLElement {
    * @type {Array}
    */
   static get observedAttributes() {
+    // @ts-ignore
     return this.properties;
   }
 
@@ -74,6 +66,7 @@ class IdsElement extends HTMLElement {
    * @returns {object} The object for chaining.
    */
   render() {
+    // @ts-ignore
     if (!this.template || !this.template()) {
       return this;
     }
@@ -85,9 +78,10 @@ class IdsElement extends HTMLElement {
     }
 
     this.appendStyles();
-
+    // @ts-ignore
     template.innerHTML = this.template();
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+    /** @type {any} */
     this.container = this.shadowRoot.querySelector(`.${this.name}`);
 
     return this;
@@ -97,8 +91,10 @@ class IdsElement extends HTMLElement {
    * Append Styles if present
    */
   appendStyles() {
+    // @ts-ignore
     if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
       const style = document.createElement('style');
+      // @ts-ignore
       style.textContent = this.cssStyles;
       if (style.textContent.indexOf(':host') === 0) {
         style.textContent = style.textContent.replace(':host', `.${this.name}`);
@@ -107,9 +103,12 @@ class IdsElement extends HTMLElement {
       this.shadowRoot.appendChild(style);
     }
 
+    // @ts-ignore
     if (this.cssStyles && this.shadowRoot.adoptedStyleSheets) {
       const style = new CSSStyleSheet();
+      // @ts-ignore
       style.replaceSync(this.cssStyles);
+      // @ts-ignore
       this.shadowRoot.adoptedStyleSheets = [style];
     }
   }

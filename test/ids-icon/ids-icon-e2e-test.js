@@ -1,5 +1,3 @@
-const { percySnapshot } = require('@percy/puppeteer');
-
 describe('Ids Icon e2e Tests', () => {
   const url = 'http://localhost:4444/ids-icon';
   let page;

@@ -30,7 +30,6 @@ export const props = {
   INDETERMINATE: 'indeterminate',
   KEEP_OPEN: 'keep-open',
   LABEL: 'label',
-  LABEL_FONT_SIZE: 'label-font-size',
   LABEL_REQUIRED: 'label-required',
   NO_MARGINS: 'no-margins',
   PLACEHOLDER: 'placeholder',

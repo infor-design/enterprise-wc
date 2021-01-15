@@ -2,7 +2,7 @@
 @import '../ids-base/ids-radio-mixin';
 
 .ids-radio {
-  @include mb-2();
+  @include my-8();
   @include outline-none();
 
   label {

@@ -3,6 +3,7 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
+// @ts-ignore
 import styles from './ids-card.scss';
 
 /**
@@ -49,7 +50,7 @@ class IdsCard extends IdsElement {
       return;
     }
 
-    this.container.classList = '';
+    this.container.classList.remove(`ids-card-auto-height`);
     this.removeAttribute('auto-height');
   }
 

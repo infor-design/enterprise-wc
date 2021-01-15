@@ -9,6 +9,10 @@
 - `[Card]` The Card/Widget component has been changed to a web component and renamed to ids-card.
   - Markup has changed to a custom element `<ids-card></ids-card>` and has slots for the header and body content
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Checkbox]` The Checkbox component has been changed to a web component and renamed to ids-checkbox.
+  - Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Datagrid]` The Datagrid component has been changed to a web component `ids-data-grid`.
   - If using events events are now plain JS events for example: sorted, rendered
   - If using properties/settings these are now attributes or as plain properties for example: data, virtual-scroll
@@ -16,6 +20,10 @@
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[Icons]` The icons are now a web component called ids-icon. You no longer need the huge block of svg in the page
   - The icon and size are set via properties/attributes
+  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Input]` The Input component has been changed to a web component and renamed to ids-input.
+  - Markup has changed to a custom element `<ids-input></ids-input>`
+  - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[Loader]` The Busy Indicator component has been changed to a web component and renamed to ids-loader.
   - If using properties/settings these are now attributes: dismissible, color
@@ -37,9 +45,17 @@
   - Events triggered by the Popup Menu are now plain JS (for example `selected`/`deselected`)
   - Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.
   - Many previous settings are now attribute-friendly (for example `closeOnSelect` is now a `keep-open` attribute on menu groups).
+- `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
+  - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[RenderLoop]` The RenderLoop component has been implemented as a mixin.
   - Added `IdsRenderLoopMixin` for access to a global renderLoop instance from within WebComponents.
   - API has been simplified and made more user-friendly.
+- `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.
+  - Markup has changed to a custom element `<ids-switch></ids-switch>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Tags]` The Tag component has been changed to a web component.
   - If using events events are now plain JS events. beforetagremoved, tagremoved, aftertagremoved
   - If using properties/settings these are now attributes: dismissible, color

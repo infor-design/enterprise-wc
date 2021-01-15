@@ -178,7 +178,7 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
   let folderAndFile = filePath.replace('./app/', '');
   let title = `${folderName.split('-').map((word) =>
     `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`)
-    .join(' ')} Component`;
+    .join(' ')} ${folderAndFile.indexOf('standalone-css') > -1 ? 'Standalone Css' : 'Component'}`;
 
   title = title.replace('Ids', 'IDS');
 

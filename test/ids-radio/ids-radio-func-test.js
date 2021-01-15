@@ -100,24 +100,6 @@ describe('IdsRadio Component', () => {
     expect(label.textContent.trim()).toBe('');
   });
 
-  it('should set label font size', () => {
-    let label = rb.labelEl.querySelector('.label-text');
-    label.remove();
-    rb.labelFontSize = 'base';
-    document.body.innerHTML = '';
-    const elem = new IdsRadio();
-    document.body.appendChild(elem);
-    rb = document.querySelector('ids-radio');
-    label = rb.labelEl.querySelector('.label-text');
-    expect(label.getAttribute('font-size')).toBe(null);
-    rb.labelFontSize = 'lg';
-    label = rb.labelEl.querySelector('.label-text');
-    expect(label.getAttribute('font-size')).toBe('lg');
-    rb.labelFontSize = null;
-    label = rb.labelEl.querySelector('.label-text');
-    expect(label.getAttribute('font-size')).toBe(null);
-  });
-
   it('should renders colored', () => {
     const color = 'emerald07';
     let rootEl = rb.shadowRoot.querySelector('.ids-radio');
@@ -163,7 +145,7 @@ describe('IdsRadio Component', () => {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
-      rb.addEventListener(`trigger${evt}`, () => {
+      rb.addEventListener(evt, () => {
         response = 'triggered';
       });
       const event = new Event(evt);
@@ -184,7 +166,7 @@ describe('IdsRadio Component', () => {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
-      rb.addEventListener(`trigger${evt}`, () => {
+      rb.addEventListener(evt, () => {
         response = 'triggered';
       });
       const event = new Event(evt);
