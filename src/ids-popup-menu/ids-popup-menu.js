@@ -51,7 +51,7 @@ class IdsPopupMenu extends IdsMenu {
    */
   template() {
     return `<ids-popup class="ids-popup-menu" type="menu">
-      <nav class="ids-menu" role="menu" slot="content">
+      <nav class="ids-menu" slot="content">
         <slot></slot>
       </nav>
     </ids-popup>`;
@@ -199,6 +199,7 @@ class IdsPopupMenu extends IdsMenu {
    * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
    * @private
    */
+  /* istanbul ignore next */
   refreshTriggerEvents() {
     if (!this.shouldUpdate) {
       return;
@@ -285,6 +286,7 @@ class IdsPopupMenu extends IdsMenu {
    */
   hide() {
     this.hidden = true;
+    this.popup.querySelector('nav').removeAttribute('role');
     this.lastHovered = undefined;
 
     // Hide the Ids Popup and all Submenus
@@ -298,6 +300,7 @@ class IdsPopupMenu extends IdsMenu {
    */
   show() {
     this.hidden = false;
+    this.popup.querySelector('nav').setAttribute('role', 'menu');
 
     // Hide any "open" submenus (in the event the menu is already open and being positioned)
     this.hideSubmenus();

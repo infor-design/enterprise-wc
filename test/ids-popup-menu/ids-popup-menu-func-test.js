@@ -38,6 +38,12 @@ The final markup displayed by this test component should look like the following
 ================================================================================
 */
 
+const newSubmenuHTML = `<ids-menu-group id="new-group">
+  <ids-menu-item id="newitem1" value="new1">First New Item</ids-menu-item>
+  <ids-menu-item id="newitem2" value="new2">Second New Item</ids-menu-item>
+  <ids-menu-item id="newitem3" value="new3">Third New Item</ids-menu-item>
+</ids-menu-group>`;
+
 describe('IdsPopupMenu Component', () => {
   let menu;
   let group1;
@@ -219,19 +225,55 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
-  // @TODO Fails because currently a nested Popupmenu's class
-  // resolves as HTMLElement instead of IdsPopupMenu. Following these steps
-  // in a true browser environment works.
-  it.skip('can explain when document click events are attached', (done) => {
+  it('focuses the menu\'s `focusTarget` when the menu is shown', (done) => {
+    item1.focus();
+    menu.eventHandlers.dispatchEvent('show', menu.popup, { bubbles: true });
+
+    setTimeout(() => {
+      expect(menu.focused.isEqualNode(item1)).toBeTruthy();
+      expect(menu.focused.isEqualNode(menu.focusTarget)).toBeTruthy();
+      done();
+    }, 20);
+  });
+
+  it('can change its trigger type', () => {
+    menu.trigger = 'click';
+
+    expect(menu.trigger).toEqual('click');
+
+    menu.trigger = 'immediate';
+
+    expect(menu.trigger).toEqual('immediate');
+
+    // Junk values get reset to `contextmenu`
+    menu.trigger = 'howdy';
+
+    expect(menu.trigger).toEqual('contextmenu');
+  });
+
+  it('closes the menu if there is a click event outside the open menu', (done) => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+
     menu.show();
 
     setTimeout(() => {
-      expect(menu.hasOpenEvents).toBeTruthy();
+      expect(menu.popup.visible).toBeTruthy();
 
-      menu.hide();
+      // Simulate a click event on a header inside the menu.
+      // This event will NOT cause the menu to close.
+      // @TODO: not sure why this isn't causing the "else" path to take in the tests
+      header.dispatchEvent(clickEvent);
       setTimeout(() => {
-        expect(menu.hasOpenEvents).toBeFalsy();
-        done();
+        expect(menu.popup.visible).toBeTruthy();
+
+        // Simulate a document click (outside the menu).
+        // This should cause the menu to close.
+        document.body.dispatchEvent(clickEvent);
+
+        setTimeout(() => {
+          expect(menu.popup.visible).toBeFalsy();
+          done();
+        }, 20);
       }, 20);
     }, 20);
   });
@@ -289,6 +331,67 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
+  it('can programmatically hide all submenus', (done) => {
+    menu.show();
+
+    setTimeout(() => {
+      item6.submenu.show();
+
+      setTimeout(() => {
+        menu.hideSubmenus();
+
+        setTimeout(() => {
+          expect(item6.submenu.hidden).toBeTruthy();
+          done();
+        }, 20);
+      }, 20);
+    }, 20);
+  });
+
+  it('will not hide submenus that designated `ignored`', (done) => {
+    menu.show();
+
+    setTimeout(() => {
+      item6.submenu.show();
+
+      setTimeout(() => {
+        menu.hideSubmenus(item6);
+
+        setTimeout(() => {
+          expect(item6.submenu.hidden).toBeFalsy();
+          done();
+        }, 20);
+      }, 20);
+    }, 20);
+  });
+
+  // @TODO, how do we test `contextmenu` event being triggered on `window`?
+  it.skip('opens on `contextmenu` event by default', (done) => {
+    const contextMenuEvent = new MouseEvent('contextmenu', {
+      bubbles: true,
+      clientX: 10,
+      clientY: 10,
+      pageX: 10,
+      pageY: 10
+    });
+    document.body.dispatchEvent(contextMenuEvent);
+
+    setTimeout(() => {
+      expect(menu.hidden).toBeFalsy();
+      done();
+    }, 20);
+  });
+
+  // Tests `connectedCallback`'s extra path
+  it('won\'t be set to hidden if it\'s already hidden', () => {
+    const newMenu = new IdsPopupMenu();
+    newMenu.id = 'new-menu';
+    newMenu.hidden = true;
+    document.body.appendChild(newMenu);
+
+    expect(newMenu.hidden).toBeTruthy();
+  });
+
   describe('IdsMenuItem', () => {
     it('can have a submenu', () => {
       expect(item6.hasSubmenu).toBeTruthy();
@@ -304,15 +407,30 @@ describe('IdsPopupMenu Component', () => {
       // Add a new submenu to item 5
       const newSubmenu = new IdsPopupMenu();
       newSubmenu.id = 'new-submenu';
-      newSubmenu.insertAdjacentHTML('afterbegin', `<ids-menu-group id="new-group">
-        <ids-menu-item id="newitem1" value="new1">First New Item</ids-menu-item>
-        <ids-menu-item id="newitem2" value="new2">Second New Item</ids-menu-item>
-        <ids-menu-item id="newitem3" value="new3">Third New Item</ids-menu-item>
-      </ids-menu-group>`);
+      newSubmenu.insertAdjacentHTML('afterbegin', newSubmenuHTML);
       item5.appendChild(newSubmenu);
 
       expect(item5.hasSubmenu).toBeTruthy();
       expect(item5.submenu.items.length).toEqual(3);
+    });
+
+    it('can render a new item correctly', () => {
+      const newItem = new IdsMenuItem();
+      newItem.id = 'newitem';
+      newItem.icon = 'settings';
+      newItem.selected = true;
+      newItem.value = 1;
+      newItem.tabIndex = 1;
+
+      group1.appendChild(newItem);
+      const newSubmenu = new IdsPopupMenu();
+      newSubmenu.id = 'new-submenu';
+      newSubmenu.insertAdjacentHTML('afterbegin', newSubmenuHTML);
+      newItem.appendChild(newSubmenu);
+
+      newItem.template();
+
+      expect(newItem.outerHTML).toMatchSnapshot();
     });
 
     it.skip('can programmatically show/hide the submenu', (done) => {
@@ -324,6 +442,20 @@ describe('IdsPopupMenu Component', () => {
         item6.hideSubmenu();
         setTimeout(() => {
           expect(item6.submenu.hidden).toBeTruthy();
+          done();
+        }, 20);
+      }, 20);
+    });
+
+    it.skip('cannot be closed when an item is selected from a `keep-open` group', (done) => {
+      group1.setAttribute('keep-open', true);
+      menu.show();
+
+      setTimeout(() => {
+        menu.eventHandlers.dispatchEvent('selected', { detail: { elem: item1 } });
+
+        setTimeout(() => {
+          expect(menu.popup.visible).toBeTruthy();
           done();
         }, 20);
       }, 20);

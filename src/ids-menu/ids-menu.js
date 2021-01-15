@@ -38,17 +38,12 @@ function isValidGroup(menuGroup, idsMenu) {
  * @private
  * @param {IdsMenuItem} item the element to be checked
  * @param {HTMLElement} idsMenu the parent menu element
- * @param {boolean} [checkDisabled] true if "usable" should also mean "not disabled" while checking
  * @returns {boolean} true if the provided element is a "currently-usable" IdsMenuItem type.
  */
-function isUsableItem(item, idsMenu, checkDisabled = false) {
+function isUsableItem(item, idsMenu) {
   const isItem = item instanceof IdsMenuItem;
   const menuHasItem = idsMenu.contains(item);
-  let notDisabled = true;
-  if (isItem && checkDisabled) {
-    notDisabled = !item.disabled;
-  }
-  return (isItem && menuHasItem && notDisabled);
+  return (isItem && menuHasItem && !item.disabled);
 }
 
 /**
@@ -240,7 +235,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   highlightItem(menuItem) {
-    if (!isUsableItem(menuItem, this, true)) {
+    if (!isUsableItem(menuItem, this)) {
       return;
     }
 
@@ -350,7 +345,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   selectItem(menuItem) {
-    if (!isUsableItem(menuItem, this, true)) {
+    if (!isUsableItem(menuItem, this)) {
       return;
     }
 
@@ -362,15 +357,6 @@ class IdsMenu extends IdsElement {
     }
 
     const group = menuItem.group;
-    const items = group.items;
-    let targetDeselection;
-
-    items.forEach((item) => {
-      if (!item.isEqualNode(menuItem) && item.selected) {
-        targetDeselection = item;
-      }
-    });
-
     switch (group.select) {
       case 'multiple':
         // Multiple-select mode (Toggles selection, ignores others)

@@ -18,7 +18,6 @@ const MENU_ITEM_SIZE = 'medium';
 // Default Button state values
 const MENU_DEFAULTS = {
   disabled: false,
-  href: null,
   icon: null,
   selected: false,
   submenu: null,
@@ -30,7 +29,6 @@ const MENU_DEFAULTS = {
 const MENU_PROPS = [
   props.DISABLED,
   props.ICON,
-  props.HREF,
   props.SELECTED,
   props.SUBMENU,
   props.TABINDEX,
@@ -79,16 +77,8 @@ class IdsMenuItem extends IdsElement {
       disabledAttr = ' disabled';
     }
 
-    let href = '';
-    if (this.state?.href) {
-      href = ` href="${this.state.href}"`;
-    }
-
     // Check
-    let check = '';
-    if (this.group?.select !== 'none') {
-      check = '<span class="check"></span>';
-    }
+    const check = '<span class="check"></span>';
 
     // Icon
     let icon = '';
@@ -105,7 +95,7 @@ class IdsMenuItem extends IdsElement {
 
     // Submenu
     let submenuClass = '';
-    if (this.state?.submenu) {
+    if (this.submenu) {
       submenuClass = ' has-submenu';
     }
 
@@ -120,7 +110,7 @@ class IdsMenuItem extends IdsElement {
 
     // Main
     return `<li role="presentation" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}">
-      <a ${href} ${tabindex} ${disabledAttr} role="menuitem">
+      <a ${tabindex} ${disabledAttr} role="menuitem">
         ${check}${iconSlot}${textSlot}
       </a>
       <slot name="submenu"></slot>
@@ -398,7 +388,10 @@ class IdsMenuItem extends IdsElement {
       this.setAttribute('icon', val);
       this.appendIcon(val);
     }
-    this.group.detectIcons();
+
+    if (this.group && typeof this.group.detectIcons === 'function') {
+      this.group.detectIcons();
+    }
   }
 
   /**
@@ -485,15 +478,15 @@ class IdsMenuItem extends IdsElement {
     const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
     if (val === true || val === 'true') {
       this.submenu.setAttribute('slot', 'submenu');
-      this.container.setAttribute('aria-haspopup', true);
-      this.container.setAttribute('aria-expanded', false);
+      this.a.setAttribute('aria-haspopup', true);
+      this.a.setAttribute('aria-expanded', false);
       if (!icon) {
         this.a.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="dropdown" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`);
       }
       this.value = null;
     } else {
-      this.container.removeAttribute('aria-haspopup');
-      this.container.removeAttribute('aria-expanded');
+      this.a.removeAttribute('aria-haspopup');
+      this.a.removeAttribute('aria-expanded');
       icon?.remove();
     }
   }
@@ -662,7 +655,7 @@ class IdsMenuItem extends IdsElement {
     if (!this.hasSubmenu || (this.hasSubmenu && !this.submenu.hidden)) {
       return;
     }
-    this.container.setAttribute('aria-expanded', true);
+    this.a.setAttribute('aria-expanded', true);
     this.menu.hideSubmenus(this);
     this.submenu.show();
   }
@@ -676,7 +669,7 @@ class IdsMenuItem extends IdsElement {
     if (!this.hasSubmenu || (this.hasSubmenu && this.submenu.hidden)) {
       return;
     }
-    this.container.setAttribute('aria-expanded', false);
+    this.a.setAttribute('aria-expanded', false);
     this.submenu.hide();
   }
 
