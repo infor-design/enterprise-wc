@@ -12,7 +12,7 @@ const IdsClearableMixin = {
    * @returns {void}
    */
   handleClearable() {
-    if (this.clearable) {
+    if ((this.clearable && !(this.disabled || this.readonly)) || this.clearableForced) {
       const input = this.input || this.shadowRoot.querySelector(`#${this.ID || 'ids-input-id'}`);
       if (input) {
         this.appendClearableButton();
@@ -43,6 +43,7 @@ const IdsClearableMixin = {
       xButton.className = 'btn-clear';
       xButton.appendChild(text);
       xButton.appendChild(icon);
+      xButton.refreshProtoClasses();
       this.shadowRoot.appendChild(xButton);
       this.input?.classList.add('has-clearable');
     }
@@ -181,7 +182,7 @@ const IdsClearableMixin = {
   destroyClearable() {
     this.input?.classList.remove('has-clearable');
     this.handleClearBtnClick('remove');
-    this.keyboard.destroy();
+    this.keyboard?.destroy();
     this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e, 'remove'));
     this.removeClearableButton();
   }

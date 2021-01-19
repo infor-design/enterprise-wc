@@ -149,6 +149,8 @@ describe('IdsInput Component', () => {
     input.readonly = 'true';
     input.disabled = 'true';
     input.labelFontSize = 'lg';
+    input.bgTransparent = 'true';
+    input.textEllipsis = 'true';
     input.template();
     expect(input.input.value).toEqual('test');
   });
@@ -199,6 +201,28 @@ describe('IdsInput Component', () => {
     expect(input.getAttribute('test')).toEqual(null);
     expect(input.input.getAttribute('test')).toBe(null);
     expect(input.labelEl.classList).not.toContain('test');
+  });
+
+  it('renders field as bg-transparent', () => {
+    expect(input.getAttribute('bg-transparent')).toEqual(null);
+    expect(input.input.classList).not.toContain('bg-transparent');
+    input.bgTransparent = true;
+    expect(input.getAttribute('bg-transparent')).toEqual('true');
+    expect(input.input.classList).toContain('bg-transparent');
+    input.bgTransparent = false;
+    expect(input.getAttribute('bg-transparent')).toEqual(null);
+    expect(input.input.classList).not.toContain('bg-transparent');
+  });
+
+  it('renders field as text-ellipsis', () => {
+    expect(input.getAttribute('text-ellipsis')).toEqual(null);
+    expect(input.input.classList).not.toContain('text-ellipsis');
+    input.textEllipsis = true;
+    expect(input.getAttribute('text-ellipsis')).toEqual('true');
+    expect(input.input.classList).toContain('text-ellipsis');
+    input.textEllipsis = false;
+    expect(input.getAttribute('text-ellipsis')).toEqual(null);
+    expect(input.input.classList).not.toContain('text-ellipsis');
   });
 
   it('should setup dirty tracking', () => {
@@ -321,6 +345,31 @@ describe('IdsInput Component', () => {
     expect(input.value).toEqual('');
     input.clearable = false;
     expect(input.getAttribute('clearable')).toEqual(null);
+    expect(input.input.classList).not.toContain('has-clearable');
+  });
+
+  it('should render clearable-forced icon', () => {
+    expect(input.getAttribute('clearable-forced')).toEqual(null);
+    expect(input.input.classList).not.toContain('has-clearable');
+    input.clearableForced = true;
+    expect(input.getAttribute('clearable-forced')).toEqual('true');
+    expect(input.input.classList).toContain('has-clearable');
+    expect(input.shadowRoot.querySelector('.btn-clear').classList).toContain('is-empty');
+    input.input.focus();
+    input.value = 'test';
+    input.checkContents();
+    let xButton = input.shadowRoot.querySelector('.btn-clear');
+    expect(xButton.classList).not.toContain('is-empty');
+    input.input.blur();
+    input.input.focus();
+    input.value = 'test2';
+    input.checkContents();
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    xButton = input.shadowRoot.querySelector('.btn-clear');
+    xButton.dispatchEvent(event);
+    expect(input.value).toEqual('');
+    input.clearableForced = false;
+    expect(input.getAttribute('clearable-forced')).toEqual(null);
     expect(input.input.classList).not.toContain('has-clearable');
   });
 

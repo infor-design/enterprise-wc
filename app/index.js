@@ -15,6 +15,7 @@ import IdsTriggerField from '../src/ids-trigger-field/ids-trigger-field';
 import IdsTriggerButton from '../src/ids-trigger-button/ids-trigger-button';
 import IdsRadio from '../src/ids-radio/ids-radio';
 import IdsRenderLoopMixin from '../src/ids-render-loop/ids-render-loop-mixin';
+import IdsUpload from '../src/ids-upload/ids-upload';
 
 // Import Example Code
 import './ids-button/index';

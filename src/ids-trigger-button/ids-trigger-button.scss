@@ -4,10 +4,20 @@
   @include bg-transparent();
   @include border-0();
   @include cursor-pointer();
+  @include text-slate-60();
 
   height: 20px;
 
   &:focus {
     outline: none;
+  }
+
+  &:hover {
+    @include text-slate-100();
+  }
+
+  &[disabled] {
+    @include cursor-default();
+    @include text-slate-30();
   }
 }

@@ -106,6 +106,18 @@ $input-size-default: $input-size-md;
     padding-top: 9px;
   }
 
+  &.bg-transparent {
+    @include bg-transparent();
+
+    &:focus {
+      @include border-azure-60();
+    }
+  }
+
+  &.text-ellipsis {
+    @include ellipsis();
+  }
+
   &.has-triggerfield {
     @include pr-32();
   }
