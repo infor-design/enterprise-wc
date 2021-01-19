@@ -24,8 +24,10 @@ We are using [HtmlHint lint](https://github.com/htmlhint/HTMLHint) for checking 
 
 ## Typescript Type Checking
 
-We are using [the typescript tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html) command for checking simple rule around typescript to support typescript users. Note that when fixing the errors we DO NOT use typescript. instead use comments or Javascript.  All settings can be set within the `tsconfig.json` file in the root.
+We are using [the typescript tsc](https://www.typescriptlang.org/docs/handbook/compiler-options.html) command for checking simple rules around typescript and typings to support typescript users. Note that in this project we chose to not use typescript but we make the code type safe using comments and/or proper Javascript. All settings regarding typing can be set within the `tsconfig.json` file in the root of this project.
 
-If using Atom the package [atom-typescript](https://atom.io/packages/atom-typescript) should be installed. Within atom-typescript the options check "Enable Atom-Typescript for JavaScript Files" to see errors in Atom.
+If using the Atom editor the package [atom-typescript](https://atom.io/packages/atom-typescript) should be installed to see errors in the editor. Within the atom-typescript plugin make sure to check the "Enable Atom-Typescript for JavaScript Files" to see errors in Atom.
 
-In addition i had to disabled a coupe warnings it complains about on imports in atom only. Under "Ignore Diagnostics" add the following: 6138, 6133
+In addition we had to disabled a couple warnings it complains about regarading our import statements (in atom only). To set this in the atom-typescript plugin go to the setting  "Ignore Diagnostics" add the following: 6138, 6133.
+
+Occasionally due to a bug in Atom not showing errors when a JS file is open. Click `JavaScript` on the bottom footer and set it to `TypesScript` to toggle the visibility of type errors. 
