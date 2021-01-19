@@ -144,24 +144,6 @@ describe('IdsCheckbox Component', () => {
     expect(label.textContent.trim()).toBe('');
   });
 
-  it('should set label font size', () => {
-    let label = cb.labelEl.querySelector('.label-text');
-    label.remove();
-    cb.labelFontSize = 'base';
-    document.body.innerHTML = '';
-    const elem = new IdsCheckbox();
-    document.body.appendChild(elem);
-    cb = document.querySelector('ids-checkbox');
-    label = cb.labelEl.querySelector('.label-text');
-    expect(label.getAttribute('font-size')).toBe(null);
-    cb.labelFontSize = 'lg';
-    label = cb.labelEl.querySelector('.label-text');
-    expect(label.getAttribute('font-size')).toBe('lg');
-    cb.labelFontSize = null;
-    label = cb.labelEl.querySelector('.label-text');
-    expect(label.getAttribute('font-size')).toBe(null);
-  });
-
   it('should renders colored', () => {
     const color = 'emerald07';
     let rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
@@ -224,7 +206,7 @@ describe('IdsCheckbox Component', () => {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
-      cb.addEventListener(`trigger${evt}`, () => {
+      cb.addEventListener(evt, () => {
         response = 'triggered';
       });
       const event = new Event(evt);

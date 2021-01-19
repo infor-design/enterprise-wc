@@ -45,7 +45,6 @@ Add an Disabled Switch as checked:
 - `checked` {boolean} set checked state.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
-- `label-font-size` {string|number} set the label font size.
 - `value` {string} set the switch value.
 
 ## Keyboard Guidelines

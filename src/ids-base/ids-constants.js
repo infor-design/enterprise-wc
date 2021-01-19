@@ -30,7 +30,6 @@ export const props = {
   ICON: 'icon',
   INDETERMINATE: 'indeterminate',
   LABEL: 'label',
-  LABEL_FONT_SIZE: 'label-font-size',
   LABEL_REQUIRED: 'label-required',
   NO_MARGINS: 'no-margins',
   PLACEHOLDER: 'placeholder',

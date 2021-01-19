@@ -45,7 +45,6 @@ class IdsCheckbox extends IdsElement {
       props.HORIZONTAL,
       props.INDETERMINATE,
       props.LABEL,
-      props.LABEL_FONT_SIZE,
       props.LABEL_REQUIRED,
       props.VALIDATE,
       props.VALIDATION_EVENTS,
@@ -82,8 +81,8 @@ class IdsCheckbox extends IdsElement {
   }
 
   /**
-   * Create the Template for the contents
-   * @returns {string} The template
+   * Create the Template for the contents.
+   * @returns {string} The template.
    */
   template() {
     // Checkbox
@@ -95,15 +94,12 @@ class IdsCheckbox extends IdsElement {
     checkboxClass += stringUtils.stringToBool(this.indeterminate) ? ' indeterminate' : '';
     checkboxClass = ` class="${checkboxClass}"`;
 
-    // Label
-    const labelFontSize = this.labelFontSize ? ` ${props.FONT_SIZE}="${this.labelFontSize}"` : '';
-
     return `
       <div${rootClass}>
         <label>
           <input type="checkbox"${checkboxClass}${disabled}${checked}>
           <span class="checkmark${checked}"></span>
-          <ids-text class="label-text"${labelFontSize}>${this.label}</ids-text>
+          <ids-text class="label-text">${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -151,12 +147,12 @@ class IdsCheckbox extends IdsElement {
           this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
-             * will fire `trigger + nativeEvent` as triggerclick, triggerchange etc.
+             * will fire nativeEvents.
              * @private
              * @param  {object} elem Actual event
              * @param  {string} value The updated input element value
              */
-            this.eventHandlers.dispatchEvent(`trigger${e.type}`, this, {
+            this.eventHandlers.dispatchEvent(e.type, this, {
               detail: {
                 elem: this,
                 nativeEvent: e,
@@ -225,7 +221,7 @@ class IdsCheckbox extends IdsElement {
    */
   set dirtyTracker(value) {
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.DIRTY_TRACKER, val.toString());
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
@@ -246,7 +242,7 @@ class IdsCheckbox extends IdsElement {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
@@ -266,7 +262,7 @@ class IdsCheckbox extends IdsElement {
   set horizontal(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.HORIZONTAL, val.toString());
       rootEl?.classList.add(props.HORIZONTAL);
     } else {
@@ -284,7 +280,7 @@ class IdsCheckbox extends IdsElement {
   set indeterminate(value) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.INDETERMINATE, val.toString());
       this.input.classList.add(props.INDETERMINATE);
       this.input.indeterminate = true;
@@ -298,24 +294,7 @@ class IdsCheckbox extends IdsElement {
   get indeterminate() { return this.getAttribute(props.INDETERMINATE); }
 
   /**
-   * Set the `label-font-size` of label
-   * @param {string} value of the `label-font-size` property
-   */
-  set labelFontSize(value) {
-    const labelText = this.shadowRoot.querySelector('.label-text') || document.createElement('span');
-    if (value) {
-      this.setAttribute(props.LABEL_FONT_SIZE, value);
-      labelText.setAttribute(props.FONT_SIZE, value);
-      return;
-    }
-    this.removeAttribute(props.LABEL_FONT_SIZE);
-    labelText.removeAttribute(props.FONT_SIZE);
-  }
-
-  get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
-
-  /**
-   * Sets the checkbox label text
+   * Set the `label` text
    * @param {string} value of the `label` text property
    */
   set label(value) {
@@ -338,7 +317,7 @@ class IdsCheckbox extends IdsElement {
   set labelRequired(value) {
     this.labelEl = this.shadowRoot.querySelector('label');
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.LABEL_REQUIRED, val.toString());
     } else {
       this.removeAttribute(props.LABEL_REQUIRED);

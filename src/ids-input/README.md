@@ -86,7 +86,6 @@ Set the Text Align to Text Input this way:
 - `dirty-tracker` {boolean} set dirty tracker to input.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
-- `label-font-size` {string|number} set the label font size.
 - `name` {string} set the name text to input.
 - `placeholder` {string} set the placeholder text to input.
 - `size` {string} set the input size, it will set `md` as defaults.

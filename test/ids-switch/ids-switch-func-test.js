@@ -67,24 +67,6 @@ describe('IdsSwitch Component', () => {
     expect(label.textContent.trim()).toBe('');
   });
 
-  it('should set label font size', () => {
-    let label = el.labelEl.querySelector('.label-text');
-    label.remove();
-    el.labelFontSize = 'base';
-    document.body.innerHTML = '';
-    const elem = new IdsSwitch();
-    document.body.appendChild(elem);
-    el = document.querySelector('ids-switch');
-    label = el.labelEl.querySelector('.label-text');
-    expect(label.getAttribute('font-size')).toBe(null);
-    el.labelFontSize = 'lg';
-    label = el.labelEl.querySelector('.label-text');
-    expect(label.getAttribute('font-size')).toBe('lg');
-    el.labelFontSize = null;
-    label = el.labelEl.querySelector('.label-text');
-    expect(label.getAttribute('font-size')).toBe(null);
-  });
-
   it('should renders value', () => {
     const value = 'test';
     expect(el.getAttribute('value')).toEqual(null);
@@ -99,7 +81,7 @@ describe('IdsSwitch Component', () => {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
-      el.addEventListener(`trigger${evt}`, () => {
+      el.addEventListener(evt, () => {
         response = 'triggered';
       });
       const event = new Event(evt);
@@ -120,7 +102,7 @@ describe('IdsSwitch Component', () => {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
-      el.addEventListener(`trigger${evt}`, () => {
+      el.addEventListener(evt, () => {
         response = 'triggered';
       });
       const event = new Event(evt);

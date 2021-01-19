@@ -42,7 +42,6 @@ class IdsRadio extends IdsElement {
       props.GROUP_DISABLED,
       props.HORIZONTAL,
       props.LABEL,
-      props.LABEL_FONT_SIZE,
       props.VALIDATION_HAS_ERROR,
       props.VALUE
     ];
@@ -88,15 +87,12 @@ class IdsRadio extends IdsElement {
     const rootClass = ` class="ids-radio${disabled}${horizontal}"`;
     const radioClass = ' class="radio-button"';
 
-    // Label
-    const labelFontSize = this.labelFontSize ? ` ${props.FONT_SIZE}="${this.labelFontSize}"` : '';
-
     return `
       <div${rootClass}>
         <label>
           <input type="radio" tabindex="-1"${radioClass}${disabled}${checked}>
           <span class="circle${checked}"></span>
-          <ids-text class="label-text"${labelFontSize}${disabledAria}>${this.label}</ids-text>
+          <ids-text class="label-text"${disabledAria}>${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -143,12 +139,12 @@ class IdsRadio extends IdsElement {
           this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
-             * will fire `trigger + nativeEvent` as triggerclick, triggerchange etc.
+             * will fire nativeEvents.
              * @private
              * @param  {object} elem Actual event
              * @param  {string} value The updated input element value
              */
-            this.eventHandlers.dispatchEvent(`trigger${e.type}`, this, {
+            this.eventHandlers.dispatchEvent(e.type, this, {
               elem: this,
               nativeEvent: e,
               value: this.value,
@@ -224,7 +220,7 @@ class IdsRadio extends IdsElement {
     const rootEl = this.shadowRoot.querySelector('.ids-radio');
     const labelText = this.shadowRoot.querySelector('.label-text');
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
@@ -248,7 +244,7 @@ class IdsRadio extends IdsElement {
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     const rootEl = this.shadowRoot.querySelector('.ids-radio');
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.GROUP_DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
@@ -269,7 +265,7 @@ class IdsRadio extends IdsElement {
   set horizontal(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-radio');
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.HORIZONTAL, val.toString());
       rootEl?.classList.add(props.HORIZONTAL);
     } else {
@@ -279,23 +275,6 @@ class IdsRadio extends IdsElement {
   }
 
   get horizontal() { return this.getAttribute(props.HORIZONTAL); }
-
-  /**
-   * Set the `label-font-size` of label
-   * @param {string} value of the `label-font-size` property
-   */
-  set labelFontSize(value) {
-    const labelText = this.shadowRoot.querySelector('.label-text') || document.createElement('span');
-    if (value) {
-      this.setAttribute(props.LABEL_FONT_SIZE, value);
-      labelText.setAttribute(props.FONT_SIZE, value);
-      return;
-    }
-    this.removeAttribute(props.LABEL_FONT_SIZE);
-    labelText.removeAttribute(props.FONT_SIZE);
-  }
-
-  get labelFontSize() { return this.getAttribute(props.LABEL_FONT_SIZE); }
 
   /**
    * Set the `label` text
@@ -320,7 +299,7 @@ class IdsRadio extends IdsElement {
    */
   set validationHasError(value) {
     const val = stringUtils.stringToBool(value);
-    if (value) {
+    if (val) {
       this.setAttribute(props.VALIDATION_HAS_ERROR, val.toString());
       this.input?.classList.add('error');
     } else {
