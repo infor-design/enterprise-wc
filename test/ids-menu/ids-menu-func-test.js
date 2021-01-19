@@ -27,14 +27,11 @@ const exampleHTML = `
 describe('IdsMenu Component', () => {
   let menu;
   let group1;
-  let header;
   let item1;
   let item2;
   let item3;
-  let sep1;
   let group2;
   let item4;
-  let sep2;
   let item5;
   let item6;
 
@@ -46,15 +43,12 @@ describe('IdsMenu Component', () => {
 
     group1 = document.querySelector('#primary');
     group2 = document.querySelector('#secondary');
-    header = document.querySelector('#header');
     item1 = document.querySelector('#item1');
     item2 = document.querySelector('#item2');
     item3 = document.querySelector('#item3');
     item4 = document.querySelector('#item4');
     item5 = document.querySelector('#item5');
     item6 = document.querySelector('#item6');
-    sep1 = document.querySelector('#sep1');
-    sep2 = document.querySelector('#sep2');
   });
 
   afterEach(async () => {
@@ -62,15 +56,12 @@ describe('IdsMenu Component', () => {
     menu = null;
     group1 = null;
     group2 = null;
-    header = null;
     item1 = null;
     item2 = null;
     item3 = null;
     item4 = null;
     item5 = null;
     item6 = null;
-    sep1 = null;
-    sep2 = null;
   });
 
   it('should render', () => {
@@ -157,8 +148,6 @@ describe('IdsMenu Component', () => {
   });
 
   it('can select items (default)', () => {
-    const items = menu.items;
-
     // Select Item 2
     menu.selectItem(item2);
     let selected = menu.getSelectedItems();
@@ -175,7 +164,6 @@ describe('IdsMenu Component', () => {
 
   it('can select items (single)', () => {
     group1.select = 'single';
-    const items = menu.items;
 
     // Select Item 2
     menu.selectItem(item2);
@@ -198,7 +186,6 @@ describe('IdsMenu Component', () => {
 
   it('can select items (multiple)', () => {
     group2.select = 'multiple';
-    const items = menu.items;
 
     // Select Item 4
     menu.selectItem(item4);

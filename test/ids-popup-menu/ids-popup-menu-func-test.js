@@ -52,8 +52,6 @@ describe('IdsPopupMenu Component', () => {
   let item1;
   let item2;
   let item3;
-  let sep1;
-  let sep2;
   let item4;
   let item5;
   let item6;
@@ -102,7 +100,6 @@ describe('IdsPopupMenu Component', () => {
     // Insert the separator because `parentNode` needs to be present when `template()` runs.
     // Separator 1 sits between the two groups
     menu.insertAdjacentHTML('beforeend', '<ids-separator id="sep1"></ids-separator>');
-    sep1 = menu.querySelector('#sep1');
 
     group2 = new IdsMenuGroup();
     group2.id = 'secondary';
@@ -122,7 +119,6 @@ describe('IdsPopupMenu Component', () => {
 
     // Separator 2 is inside the group
     group2.insertAdjacentHTML('beforeend', '<ids-separator id="sep2"></ids-separator>');
-    sep2 = group2.querySelector('#sep2');
 
     item6 = new IdsMenuItem();
     item6.id = 'item6';
@@ -170,8 +166,6 @@ describe('IdsPopupMenu Component', () => {
     item4 = null;
     item5 = null;
     item6 = null;
-    sep1 = null;
-    sep2 = null;
     submenu = null;
     subgroup = null;
     subitem1 = null;
