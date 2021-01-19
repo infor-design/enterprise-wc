@@ -620,7 +620,7 @@ Will make a pager type for this.
  - [x] 100% Test Coverage
  - [ ] Feature Parity with 4.x
  - [ ] Upgrade Docs in Changelog
- - [ ] Typings
+ - [x] Typings
  - [ ] NG / Vue / React Example
  - [x] Standalone Css
  - [ ] Works in Page with 4.x

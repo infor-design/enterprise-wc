@@ -1,17 +1,15 @@
 import {
-  IdsElement,
   customElement,
   mixin,
   scss
 } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-render-loop/ids-render-loop-mixin';
 
 import IdsMenu from '../ids-menu/ids-menu';
 import IdsPopup from '../ids-popup/ids-popup';
 
+// @ts-ignore
 import styles from './ids-popup-menu.scss';
 
 const POPUPMENU_PROPERTIES = [
@@ -60,7 +58,7 @@ class IdsPopupMenu extends IdsMenu {
   /**
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
     if (!this.hasAttribute('hidden')) {
       this.setAttribute('hidden', '');
     }
@@ -74,12 +72,11 @@ class IdsPopupMenu extends IdsMenu {
       this.popup.align = 'right, top';
     }
 
-    IdsMenu.prototype.connectedCallBack.apply(this);
+    IdsMenu.prototype.connectedCallback.apply(this);
   }
 
   /**
    * Sets up event handlers used in this menu.
-   * @private
    * @returns {void}
    */
   handleEvents() {
@@ -87,6 +84,7 @@ class IdsPopupMenu extends IdsMenu {
 
     // This handler runs whenever an item contained by the Popupmenu needs to become focused.
     const doFocusHandler = () => {
+      // @ts-ignore
       this.rl.register(new IdsRenderLoopItem({
         duration: 1,
         timeoutCallback: () => {
@@ -96,7 +94,7 @@ class IdsPopupMenu extends IdsMenu {
     };
 
     // In some situations, hide the menu when an item is selected.
-    this.eventHandlers.addEventListener('selected', this, (e) => {
+    this.eventHandlers.addEventListener('selected', this, (/** @type {any} */ e) => {
       const item = e.detail.elem;
       if (!item.group.keepOpen) {
         this.hide();
@@ -118,7 +116,7 @@ class IdsPopupMenu extends IdsMenu {
     IdsMenu.prototype.handleKeys.apply(this);
 
     // Arrow Right on an item containing a submenu causes that submenu to open
-    this.keyboard.listen(['ArrowRight'], this, (e) => {
+    this.keyboard.listen(['ArrowRight'], this, (/** @type {any} */ e) => {
       e.preventDefault();
       e.stopPropagation();
       const thisItem = e.target.closest('ids-menu-item');
@@ -131,7 +129,7 @@ class IdsPopupMenu extends IdsMenu {
     // on a parent menu item to occur.
     // NOTE: This will never occur on a top-level Popupmenu.
     if (this.parentMenu) {
-      this.keyboard.listen(['ArrowLeft'], this, (e) => {
+      this.keyboard.listen(['ArrowLeft'], this, (/** @type {any} */ e) => {
         e.preventDefault();
         e.stopPropagation();
         this.hide();
@@ -142,7 +140,7 @@ class IdsPopupMenu extends IdsMenu {
     // Escape closes the menu
     // (NOTE: This only applies to top-level Popupmenus)
     if (!this.parentMenu) {
-      this.keyboard.listen(['Escape'], this, (e) => {
+      this.keyboard.listen(['Escape'], this, (/** @type {any} */ e) => {
         if (this.hidden) {
           return;
         }
@@ -162,14 +160,14 @@ class IdsPopupMenu extends IdsMenu {
   }
 
   /**
-   * @returns {HTMLElement|undefined} reference to a target element, if applicable
+   * @returns {any} [HTMLElement|undefined] reference to a target element, if applicable
    */
   get target() {
     return this.popup.alignTarget;
   }
 
   /**
-   * @param {HTMLElement|string} val reference to an element, or a string that will be used
+   * @param {any} val [HTMLElement|string] reference to an element, or a string that will be used
    * as a CSS Selector referencing an element, that the Popupmenu will align against.
    */
   set target(val) {
@@ -214,7 +212,7 @@ class IdsPopupMenu extends IdsMenu {
         break;
       case 'click':
         // Open/Close the menu when the trigger element is clicked
-        this.eventHandlers.addEventListener('click', targetElem, (e) => {
+        this.eventHandlers.addEventListener('click', targetElem, (/** @type {any} */e) => {
           e.preventDefault();
           if (this.hidden) {
             this.popup.align = 'bottom, left';
@@ -235,7 +233,7 @@ class IdsPopupMenu extends IdsMenu {
         }
 
         // Attach a contextmenu handler to the target element for opening the popup
-        this.eventHandlers.addEventListener('contextmenu', targetElem, (e) => {
+        this.eventHandlers.addEventListener('contextmenu', targetElem, (/** @type {any} */e) => {
           e.preventDefault();
           e.stopPropagation();
           this.popup.x = e.pageX;
@@ -248,16 +246,19 @@ class IdsPopupMenu extends IdsMenu {
 
   /**
    * Attaches some events when the Popupmenu is opened.
+   * @private
    * @returns {void}
    */
   addOpenEvents() {
     // Attach all these events on a Renderloop-staggered timeout
+    // @ts-ignore
     this.rl.register(new IdsRenderLoopItem({
       duration: 1,
       timeoutCallback: () => {
         // Attach a click handler to the window for detecting clicks outside the popup.
         // If these aren't captured by a popup, the menu will close.
-        this.eventHandlers.addEventListener('click.toplevel', window, (e) => {
+        // @ts-ignore
+        this.eventHandlers.addEventListener('click.toplevel', window, (/** @type {any} */e) => {
           const clickedInMenu = e.target.closest('ids-popup-menu');
           if (!clickedInMenu) {
             this.hide();
@@ -270,12 +271,14 @@ class IdsPopupMenu extends IdsMenu {
 
   /**
    * Detaches some events when the Popupmenu is closed.
+   * @private
    * @returns {void}
    */
   removeOpenEvents() {
     if (!this.hasOpenEvents) {
       return;
     }
+    // @ts-ignore
     this.eventHandlers.removeEventListener('click.toplevel', window);
     this.hasOpenEvents = false;
   }
@@ -314,7 +317,7 @@ class IdsPopupMenu extends IdsMenu {
   /**
    * Hides any "open" submenus within this menu structure, optionally ingorning a single
    * menu to "keep open".
-   * @param {HTMLElement} [focusedMenuItem] if provided, will be ignored and considered the
+   * @param {any} [focusedMenuItem] [IdsMenuItem] if provided, will be ignored and considered the
    * "currently open" menu.
    * @returns {void}
    */
@@ -328,6 +331,7 @@ class IdsPopupMenu extends IdsMenu {
     submenus.forEach((submenu) => {
       const submenuIsIgnored = focusedSubmenu && focusedSubmenu.isEqualNode(submenu);
       if (!submenu.hidden && !submenuIsIgnored) {
+        // @ts-ignore
         submenu.hide();
       }
     });

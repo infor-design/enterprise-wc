@@ -165,7 +165,7 @@ class IdsPopup extends IdsElement {
 
   /**
    * Sets the element to align with via a css selector
-   * @param {string} val a CSS selector string
+   * @param {any} val ['string|HTMLElement'] a CSS selector string
    */
   // @ts-ignore
   set alignTarget(val) {

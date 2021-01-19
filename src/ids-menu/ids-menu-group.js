@@ -6,6 +6,8 @@ import {
 import { props } from '../ids-base/ids-constants';
 import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+
+// @ts-ignore
 import styles from './ids-menu-group.scss';
 
 // Menu Selection Types
@@ -46,16 +48,14 @@ class IdsMenuGroup extends IdsElement {
   }
 
   /**
-   * @private
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
     this.handleEvents();
     this.refresh();
   }
 
   /**
-   * @private
    * @returns {void}
    */
   handleEvents() {
@@ -63,7 +63,7 @@ class IdsMenuGroup extends IdsElement {
 
     // Listen for `selected` events from child menu items.
     // Single-select groups will force deselection of other items in the group.
-    this.eventHandlers.addEventListener('selected', this, (e) => {
+    this.eventHandlers.addEventListener('selected', this, (/** @type {any} */ e) => {
       const item = e.target.closest('ids-menu-item');
       if (this.select === 'single') {
         this.deselectAllExcept(item);
@@ -73,6 +73,7 @@ class IdsMenuGroup extends IdsElement {
 
   /**
    * Updates some attributes/properties after changes to the component are made.
+   * @private
    * @returns {void}
    */
   refresh() {
@@ -89,12 +90,12 @@ class IdsMenuGroup extends IdsElement {
    * @returns {HTMLElement} the `IdsMenu` or `IdsPopupMenu` parent node.
    */
   get menu() {
-    return this.parentNode;
+    return this.parentElement;
   }
 
   /**
    * @readonly
-   * @returns {Array<HTMLElement>} all available menu items in this group
+   * @returns {Array<any>} [Array<IdsMenuItem>] all available menu items in this group
    */
   get items() {
     return [...this.children].filter((e) => e.matches('ids-menu-item'));
@@ -117,6 +118,7 @@ class IdsMenuGroup extends IdsElement {
 
   /**
    * Sets/Remove an alignment CSS class
+   * @private
    * @returns {void}
    */
   detectIcons() {
@@ -133,7 +135,7 @@ class IdsMenuGroup extends IdsElement {
   /**
    * Gets this groups descriptive header, if one is defined.
    * @readonly
-   * @returns {HTMLElement} containing a menu
+   * @returns {any} [IdsMenuHeader] containing a menu
    */
   get header() {
     const inlineHeader = this.querySelector('ids-menu-header');
@@ -192,6 +194,7 @@ class IdsMenuGroup extends IdsElement {
   /**
    * Forces items in the group to re-render the checkmark/checkbox to be in-sync with
    * the group's `select` property.
+   * @private
    * @returns {void}
    */
   updateSelectability() {

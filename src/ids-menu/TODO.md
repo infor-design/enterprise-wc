@@ -14,9 +14,9 @@
 - [x] Keyboard Select
 - [x] Make keyboard navigation not occur twice on nested menu items (prevent bubbling after it occurs once?)
 - [] Ensure current aria labels work properly to describe groups (Voiceover doesn't currently read out group headers)
-- [] `focus()` method that figures out which item in the menu to focus, and does so
-- [] Tests
-- [] Docs
+- [x] `focus()` method that figures out which item in the menu to focus, and does so
+- [x] Tests
+- [x] Docs
 
 ## Ids Popup
 

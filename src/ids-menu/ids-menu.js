@@ -3,7 +3,6 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 
@@ -13,19 +12,19 @@ import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
 import IdsSeparator from './ids-separator';
 
+// @ts-ignore
 import styles from './ids-menu.scss';
 
 /**
  * @private
  * @param {string|IdsMenuGroup} menuGroup the group to search for
- * @param {HTMLElement} idsMenu the parent menu element
- * @returns {HTMLElement|undefined} if valid, a reference to the menu group.
+ * @param {IdsMenu} idsMenu the parent menu element
+ * @returns {IdsMenuGroup|undefined} if valid, a reference to the menu group.
  * Otherwise, returns undefined.
  */
 function isValidGroup(menuGroup, idsMenu) {
   let hasGroup;
   const isElem = menuGroup instanceof IdsMenuGroup;
-
   idsMenu.groups.forEach((group) => {
     if ((isElem && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {
       hasGroup = group;
@@ -68,13 +67,13 @@ class IdsMenu extends IdsElement {
     this.eventHandlers = new IdsEventsMixin();
 
     // Highlight handler -- Menu Items Only, don't change if the target is disabled
-    const highlightItem = (e) => {
+    const highlightItem = (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.highlightItem(thisItem);
     };
 
     // Unhighlight handler - Menu Items Only
-    const unhighlightItem = (e) => {
+    const unhighlightItem = (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
       thisItem.unhighlight();
     };
@@ -82,7 +81,7 @@ class IdsMenu extends IdsElement {
     // Highlight the item on click
     // If the item doesn't contain a submenu, select it.
     // If the item does have a submenu, activate it.
-    this.eventHandlers.addEventListener('click', this, (e) => {
+    this.eventHandlers.addEventListener('click', this, (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.highlightItem(thisItem);
       this.selectItem(thisItem);
@@ -103,21 +102,21 @@ class IdsMenu extends IdsElement {
     this.keyboard = new IdsKeyboardMixin();
 
     // Arrow Up navigates focus backward
-    this.keyboard.listen(['ArrowUp'], this, (e) => {
+    this.keyboard.listen(['ArrowUp'], this, (/** @type {any} */ e) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(-1, true);
     });
 
     // Arrow Right navigates focus forward
-    this.keyboard.listen(['ArrowDown'], this, (e) => {
+    this.keyboard.listen(['ArrowDown'], this, (/** @type {any} */ e) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(1, true);
     });
 
     // Enter/Spacebar select the menu item
-    this.keyboard.listen(['Enter', 'Spacebar', ' '], this, (e) => {
+    this.keyboard.listen(['Enter', 'Spacebar', ' '], this, (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.selectItem(thisItem);
       this.lastNavigated = thisItem;
@@ -129,7 +128,7 @@ class IdsMenu extends IdsElement {
    * Runs when the menu element is connected to the DOM.
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
     this.handleEvents();
     this.handleKeys();
   }
@@ -144,10 +143,10 @@ class IdsMenu extends IdsElement {
 
   /**
    * @readonly
-   * @returns {Array<IdsMenuGroup>} all available groups
+   * @returns {Array<any>} [`IdsMenuGroup`] all available menu groups
    */
   get groups() {
-    return [...this.children].filter((e) => e.matches('ids-menu-group'));
+    return [...this.children].filter((/** @type {any} */ e) => e.matches('ids-menu-group'));
   }
 
   /**
@@ -172,7 +171,7 @@ class IdsMenu extends IdsElement {
 
   /**
    * @readonly
-   * @returns {IdsMenuItem} the item that is:
+   * @returns {IdsMenuItem} the next focusable item that is/was:
    * - last hovered by the mouse (if applicable)
    * - currently/previously selected (if applicable)
    * - the first available menu item closest to the top of the menu that is not disabled or hidden.
@@ -203,7 +202,7 @@ class IdsMenu extends IdsElement {
    * @returns {IdsMenu} parent menu component, if this menu is a submenu
    */
   get parentMenu() {
-    return this.parentNode.closest('ids-menu, ids-popup-menu');
+    return this.parentElement.closest('ids-menu, ids-popup-menu');
   }
 
   /**
@@ -211,12 +210,12 @@ class IdsMenu extends IdsElement {
    * @returns {IdsMenuItem} parent menu item, if this menu is a submenu
    */
   get parentMenuItem() {
-    return this.parentNode.closest('ids-menu-item');
+    return this.parentElement.closest('ids-menu-item');
   }
 
   /**
    * @readonly
-   * @returns {Array<IdsMenu>} list of all available submenus
+   * @returns {Array<IdsMenu>} all available submenus on this menu's direct children
    */
   get submenus() {
     const submenus = [];
@@ -316,7 +315,7 @@ class IdsMenu extends IdsElement {
 
   /**
    * Retrieves a list of selected items in this menu.
-   * @param {string|HTMLElement} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * @param {string|IdsMenuGroup} [menuGroup] a string representing an ID, or an IdsMenuGroup
    * directly, that optionally limits results to within a specified menu group.
    * @returns {Array<IdsMenuItem>} list of selected menu items
    */
@@ -331,7 +330,7 @@ class IdsMenu extends IdsElement {
   }
 
   /**
-   * @param {string|HTMLElement} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * @param {string|IdsMenuGroup} [menuGroup] a string representing an ID, or an IdsMenuGroup
    * directly, that optionally limits results to within a specified menu group.
    * @returns {Array<any>} list of the values contained by selected menu items
    */
@@ -373,7 +372,7 @@ class IdsMenu extends IdsElement {
 
   /**
    * Clears any selected items in the menu, or specified group
-   * @param {string|HTMLElement} [menuGroup] a string representing an ID, or an IdsMenuGroup
+   * @param {string|IdsMenuGroup} [menuGroup] a string representing an ID, or an IdsMenuGroup
    * directly, that optionally limits results to within a specified menu group.
    * @returns {void}
    */

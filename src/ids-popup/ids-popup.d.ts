@@ -1,7 +1,7 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
-export class IdsPopup extends HTMLElement {
+export default class IdsPopup extends HTMLElement {
   /** Sets the element to align with via a css selector */
   alignTarget: string;
   /** Sets the alignment direction between left, right, top, bottom, center and can be a comma

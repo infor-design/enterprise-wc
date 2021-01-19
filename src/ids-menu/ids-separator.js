@@ -4,6 +4,7 @@ import {
   scss
 } from '../ids-base/ids-element';
 
+// @ts-ignore
 import styles from './ids-separator.scss';
 
 /**
@@ -18,7 +19,7 @@ class IdsSeparator extends IdsElement {
 
   template() {
     let tagName = 'div';
-    if (this.parentNode?.tagName === 'IDS-MENU-GROUP') {
+    if (this.parentElement?.tagName === 'IDS-MENU-GROUP') {
       tagName = 'li';
     }
     return `<${tagName} class="ids-separator"></${tagName}>`;

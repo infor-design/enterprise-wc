@@ -8,8 +8,13 @@ import { props } from '../ids-base/ids-constants';
 import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
+
+// @TODO: TypeScript Compiler doesn't like this, but this is needed for the
+// ability to generate icon markup in this component.
+// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 
+// @ts-ignore
 import styles from './ids-menu-item.scss';
 
 // @TODO handle other menu-item sizes
@@ -128,7 +133,6 @@ class IdsMenuItem extends IdsElement {
   /**
    * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
    * check for a true `shouldUpdate` property.
-   * @private
    * @param  {string} name The property name
    * @param  {string} oldValue The property old value
    * @param  {string} newValue The property new value
@@ -139,7 +143,7 @@ class IdsMenuItem extends IdsElement {
         // Convert "tabindex" to "tabIndex"
         case 'tabindex':
           if (oldValue !== newValue) {
-            this.tabIndex = newValue;
+            this.tabIndex = Number(newValue);
           }
           break;
         default:
@@ -150,11 +154,10 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
-   * Menu-level `connectedCallBack` implementation
-   * @private
+   * Menu-level `connectedCallback` implementation
    * @returns {void}
    */
-  connectedCallBack() {
+  connectedCallback() {
     this.refresh();
     this.handleEvents();
     this.shouldUpdate = true;
@@ -162,6 +165,7 @@ class IdsMenuItem extends IdsElement {
 
   /**
    * Updates the visual state of this menu item
+   * @private
    * @returns {void}
    */
   refresh() {
@@ -171,7 +175,6 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
-   * @private
    * @returns {void}
    */
   handleEvents() {
@@ -215,6 +218,7 @@ class IdsMenuItem extends IdsElement {
             self.showSubmenu();
           }
         });
+        // @ts-ignore
         this.rl.register(hoverTimeout);
       }
 
@@ -252,6 +256,7 @@ class IdsMenuItem extends IdsElement {
             }
           }
         });
+        // @ts-ignore
         this.rl.register(hideSubmenuTimeout);
       } else {
         this.unhighlight();
@@ -274,7 +279,7 @@ class IdsMenuItem extends IdsElement {
 
   /**
    * @readonly
-   * @returns {HTMLElement} reference to the parent IdsMenu component, if one exists.
+   * @returns {any} ['IdsMenu'] reference to the parent IdsMenu component, if one exists.
    */
   get menu() {
     return this.closest('ids-menu, ids-popup-menu');
@@ -282,7 +287,7 @@ class IdsMenuItem extends IdsElement {
 
   /**
    * @readonly
-   * @returns {HTMLElement} reference to the parent IdsMenuGroup component, if one exists.
+   * @returns {any} ['IdsMenuGroup'] reference to the parent IdsMenuGroup component, if one exists.
    */
   get group() {
     return this.closest('ids-menu-group');
@@ -302,6 +307,7 @@ class IdsMenuItem extends IdsElement {
     const currentAttr = this.hasAttribute(props.DISABLED);
 
     if (trueVal) {
+      // @ts-ignore
       a.disabled = true;
       a.setAttribute(props.DISABLED, '');
       this.tabIndex = -1;
@@ -314,6 +320,7 @@ class IdsMenuItem extends IdsElement {
       return;
     }
 
+    // @ts-ignore
     a.disabled = false;
     a.removeAttribute(props.DISABLED);
     this.tabIndex = 0;
@@ -402,7 +409,7 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
-   * @returns {undefined|IdsIcon} reference to a defined IDS Icon element, if applicable
+   * @returns {any} [undefined|IdsIcon] reference to a defined IDS Icon element, if applicable
    */
   get iconEl() {
     const icon = [...this.children].find((e) => e.matches('ids-icon'));
@@ -418,6 +425,7 @@ class IdsMenuItem extends IdsElement {
     // First look specifically for an icon slot.
     const icon = this.querySelector(`ids-icon[slot="icon"]`); // @TODO check for submenu icons here
     if (icon) {
+      // @ts-ignore
       icon.icon = iconName;
     } else {
       this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-display-icon"></ids-icon>`);
@@ -436,15 +444,18 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
+   * @private
    * @param {boolean} val true if icons are present
    */
+  // @TODO: Why doesn't TypeScript Compiler like this? (gets used inside the Menu Group)
+  // @ts-ignore
   decorateForIcon(val) {
     this.container.classList[val === true ? 'add' : 'remove']('has-icon');
   }
 
   /**
    * @readonly
-   * @returns {HTMLElement} an IdsMenuGroup, if one is present.
+   * @returns {any} [IdsMenu | IdsPopupMenu] submenu component, if one is present.
    */
   get submenu() {
     return this.querySelector('ids-menu, ids-popup-menu');
@@ -461,6 +472,7 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
+   * @private
    * @returns {boolean} true if this menu item contains a submenu structure.
    */
   detectSubmenu() {
@@ -471,15 +483,16 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
-   * @param {boolean} val true if a submenu is present and should be identified
+   * @private
+   * @param {boolean|string} val true if a submenu is present and should be identified
    * with icons and correct aria properties
    */
   decorateSubmenu(val) {
     const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
     if (val === true || val === 'true') {
       this.submenu.setAttribute('slot', 'submenu');
-      this.a.setAttribute('aria-haspopup', true);
-      this.a.setAttribute('aria-expanded', false);
+      this.a.setAttribute('aria-haspopup', 'true');
+      this.a.setAttribute('aria-expanded', 'false');
       if (!icon) {
         this.a.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="dropdown" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-submenu-icon"></ids-icon>`);
       }
@@ -493,6 +506,7 @@ class IdsMenuItem extends IdsElement {
 
   /**
    * Decorates the menu for selectability, adding/removing a checkmark
+   * @private
    * @returns {void}
    */
   detectSelectability() {
@@ -531,7 +545,7 @@ class IdsMenuItem extends IdsElement {
     // Build/Fire a `beforeselect` event that will allow an external hook to
     // determine if this menu item can be selected, or perform other actions.
     let canSelect = true;
-    const beforeSelectResponse = (veto) => {
+    const beforeSelectResponse = (/** @type {any} */ veto) => {
       canSelect = !!veto;
     };
     this.eventHandlers?.dispatchEvent(beforeEventName, this, {
@@ -587,7 +601,7 @@ class IdsMenuItem extends IdsElement {
 
   /**
    * Passes a tabindex attribute from the custom element to the button
-   * @param {number} val the tabindex value
+   * @param {any} val [number|string] the tabindex value
    * @returns {void}
    */
   set tabIndex(val) {
@@ -596,21 +610,21 @@ class IdsMenuItem extends IdsElement {
     this.removeAttribute(props.TABINDEX);
     this.shouldUpdate = true;
 
-    const trueVal = parseInt(val, 10);
+    const trueVal = Number(val);
 
     // Mirror tabindex on the shadow DOM anchor
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabIndex = 0;
-      this.a.setAttribute(props.TABINDEX, 0);
+      this.a.setAttribute(props.TABINDEX, '0');
       return;
     }
 
     this.state.tabIndex = trueVal;
-    this.a.setAttribute(props.TABINDEX, trueVal);
+    this.a.setAttribute(props.TABINDEX, `${trueVal}`);
   }
 
   /**
-   * @returns {number} the current tabindex number for the button
+   * @returns {any} [number] the current tabindex number for the button
    */
   get tabIndex() {
     return this.state.tabIndex;
@@ -655,7 +669,7 @@ class IdsMenuItem extends IdsElement {
     if (!this.hasSubmenu || (this.hasSubmenu && !this.submenu.hidden)) {
       return;
     }
-    this.a.setAttribute('aria-expanded', true);
+    this.a.setAttribute('aria-expanded', 'true');
     this.menu.hideSubmenus(this);
     this.submenu.show();
   }
@@ -669,7 +683,7 @@ class IdsMenuItem extends IdsElement {
     if (!this.hasSubmenu || (this.hasSubmenu && this.submenu.hidden)) {
       return;
     }
-    this.a.setAttribute('aria-expanded', false);
+    this.a.setAttribute('aria-expanded', 'false');
     this.submenu.hide();
   }
 
