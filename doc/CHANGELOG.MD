@@ -56,7 +56,7 @@
   - If using properties/settings these are now attributes: dismissible, color
   - Markup has changed to a custom element `<ids-tag color="error">Text</ids-tag>`
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Upload]` The Upload component has been changed to a web component and renamed to ids-upload.
+- `[Upload]` The file upload component has been changed to a web component and renamed to ids-upload.
   - Markup has changed to a custom element `<ids-upload></ids-upload>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
