@@ -51,7 +51,7 @@ Upload field with dirty tracker
 <ids-upload label="Dirty Tracker" dirty-tracker="true"></ids-upload>
 ```
 
-Set Upload as Required.
+Upload field with required validation
 
 ```html
 <ids-upload label="Required" validate="required"></ids-upload>
