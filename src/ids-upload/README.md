@@ -45,7 +45,7 @@ Set as Disabled the Upload.
 <ids-upload label="Disabled" disabled="true"></ids-upload>
 ```
 
-Set Upload Dirty Tracker.
+Upload field with dirty tracker
 
 ```html
 <ids-upload label="Dirty Tracker" dirty-tracker="true"></ids-upload>
