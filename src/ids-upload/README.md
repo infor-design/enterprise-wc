@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Upload component is a simple wrapper around a standard HTMLInputElement that is styled with Infor branding, and contains some additional API that makes it easy to set input, label, and functionality.
+A form element that allows users to choose a file they want to upload. A user can prompt a system menu to select one or more file to upload.
 
 ## Use Cases
 
