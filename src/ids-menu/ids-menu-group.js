@@ -39,12 +39,7 @@ class IdsMenuGroup extends IdsElement {
   }
 
   template() {
-    let describedBy = '';
-    if (this.header?.id) {
-      describedBy = ` aria-labelledby="${this.header.id}"`;
-    }
-
-    return `<ul class="ids-menu-group" role="group"${describedBy}><slot></slot></ul>`;
+    return `<ul class="ids-menu-group" role="group"><slot></slot></ul>`;
   }
 
   /**
@@ -78,9 +73,9 @@ class IdsMenuGroup extends IdsElement {
    */
   refresh() {
     if (this.header?.id) {
-      this.container.setAttribute('aria-labelledby', `${this.header.id}`);
+      this.setAttribute('aria-labelledby', `${this.header.id}`);
     } else {
-      this.container.removeAttribute('aria-labelledby');
+      this.removeAttribute('aria-labelledby');
     }
     this.detectIcons();
   }
@@ -138,9 +133,7 @@ class IdsMenuGroup extends IdsElement {
    * @returns {any} [IdsMenuHeader] containing a menu
    */
   get header() {
-    const inlineHeader = this.querySelector('ids-menu-header');
-    const preceedingHeader = this.previousElementSibling?.tagName === 'IDS-MENU-HEADER' && this.previousElementSibling;
-    return inlineHeader || preceedingHeader;
+    return this.previousElementSibling?.tagName === 'IDS-MENU-HEADER' && this.previousElementSibling;
   }
 
   /**

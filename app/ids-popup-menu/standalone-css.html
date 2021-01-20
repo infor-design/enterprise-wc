@@ -1,3 +1,5 @@
+{{> ../layouts/head.html }}
+
 <link rel="stylesheet" href="ids-popup-menu.css"/>
 <link rel="stylesheet" href="../ids-popup/ids-popup.css"/>
 <link rel="stylesheet" href="../ids-menu-group/ids-menu-group.css"/>
@@ -8,7 +10,7 @@
 <link rel="stylesheet" href="../ids-text/ids-text.css"/>
 
 <div class="ids-layout-grid">
-  <h2 class="ids-text ids-text-12">Popup Menu Standalone CSS</h2>
+  <h1 class="ids-text ids-text-12">Popup Menu Standalone CSS</h1>
 </div>
 <div class="ids-layout-grid">
   <div class="ids-layout-grid-cell">
@@ -16,37 +18,36 @@
     <div id="popupmenu" class="ids-popup-menu">
       <div class="ids-popup menu visible open">
         <div class="content-wrapper">
-          <nav class="ids-menu" role="menu">
-            <ul class="ids-menu-group" role="group">
-              <li class="ids-menu-item" role="presentation">
-                <a role="menuitem">
+          <nav class="ids-menu">
+            <ul class="ids-menu-group">
+              <li class="ids-menu-item">
+                <a>
                   <span class="ids-menu-item-text">Item One</span>
                 </a>
               </li>
-              <li class="ids-menu-item highlighted" role="presentation">
-                <a role="menuitem">
+              <li class="ids-menu-item highlighted">
+                <a>
                   <span class="ids-menu-item-text">Item Two</span>
                 </a>
               </li>
-              <li class="ids-menu-item" role="presentation">
-                <a role="menuitem">
+              <li class="ids-menu-item">
+                <a>
                   <span class="ids-menu-item-text">Item Three</span>
                 </a>
               </li>
               <li class="ids-separator"></li>
-              <li class="ids-menu-header" role="heading">This item is still part of the group above</li>
-              <li class="ids-menu-item" role="presentation">
-                <a role="menuitem">
+              <li class="ids-menu-item">
+                <a>
                   <span class="ids-menu-item-text">Item Four</span>
                 </a>
               </li>
             </ul>
             <div class="ids-separator"></div>
+            <div class="ids-menu-header" id="icon-items-header">Icon Items</div>
             <ul class="ids-menu-group">
-              <li class="ids-menu-header" role="heading">Icon Items</li>
               <li class="ids-menu-item has-icon">
-                <a role="menuitem">
-                  <svg class="ids-menu-item-display-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+                <a>
+                  <svg class="ids-menu-item-display-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
                     <path d="M13.25 1.5h-8.5L.5 8.75 4.75 16h8.5l4.25-7.25-4.25-7.25zm-1 7.25a3.25 3.25 0 11-6.499.001 3.25 3.25 0 016.499-.001z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
                   </svg>
                   <span class="ids-menu-item-text">Settings</span>
@@ -54,59 +55,59 @@
               </li>
             </ul>
             <div class="ids-separator"></div>
-            <ul class="ids-menu-group" role="group">
-              <li class="ids-menu-header" role="heading">Single-selectable Items</li>
-              <li class="ids-menu-item has-checkmark" role="presentation">
-                <a tabindex="0" role="menuitem">
+            <div class="ids-menu-header" id="single-select-header">Single-selectable Items</div>
+            <ul class="ids-menu-group">
+              <li class="ids-menu-item has-checkmark">
+                <a>
                   <span class="check"></span>
                   <span class="ids-menu-item-text">Single Item One</span>
                 </a>
               </li>
-              <li class="ids-menu-item has-checkmark selected" role="presentation">
-                <a tabindex="0" role="menuitem">
+              <li class="ids-menu-item has-checkmark selected">
+                <a>
                   <span class="check"></span>
                   <span class="ids-menu-item-text">Single Item Two</span>
                 </a>
               </li>
             </ul>
             <div class="ids-separator"></div>
-            <ul class="ids-menu-group" role="group">
-              <li class="ids-menu-header" role="heading">Multi-selectable Items</li>
-              <li class="ids-menu-item has-multi-checkmark" role="presentation">
-                <a tabindex="0" role="menuitem">
+            <div class="ids-menu-header" id="multi-select-header">Multi-selectable Items</div>
+            <ul class="ids-menu-group">
+              <li class="ids-menu-item has-multi-checkmark">
+                <a>
                   <span class="check"></span>
                   <span class="ids-menu-item-text">Multi Item One</span>
                 </a>
               </li>
-              <li class="ids-menu-item has-multi-checkmark selected" role="presentation">
-                <a tabindex="0" role="menuitem">
+              <li class="ids-menu-item has-multi-checkmark selected">
+                <a>
                   <span class="check"></span>
                   <span class="ids-menu-item-text">Multi Item Two</span>
                 </a>
               </li>
             </ul>
             <div class="ids-separator"></div>
-            <ul class="ids-menu-group" role="group">
-              <li class="ids-menu-header" role="heading">Item with a Submenu</li>
+            <div class="ids-menu-header" id="submenu-header">Item with a Submenu</div>
+            <ul class="ids-menu-group">
               <li class="ids-menu-item has-submenu">
-                <a role="menuitem">
+                <a>
                   <span class="ids-menu-item-text">Settings</span>
-                  <svg class="ids-menu-item-submenu-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+                  <svg class="ids-menu-item-submenu-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
                     <path d="M4 6l5 6 5-6H4" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
                   </svg>
                 </a>
               </li>
             </ul>
             <div class="ids-separator"></div>
-            <ul class="ids-menu-group" role="group">
-              <li class="ids-menu-header" role="heading">Item with Icon and a Submenu</li>
+            <div class="ids-menu-header" id="icon-submenu-header">Item with Icon and a Submenu</div>
+            <ul class="ids-menu-group">
               <li class="ids-menu-item has-submenu has-icon">
-                <a role="menuitem">
-                  <svg class="ids-menu-item-display-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+                <a>
+                  <svg class="ids-menu-item-display-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
                     <path d="M13.25 1.5h-8.5L.5 8.75 4.75 16h8.5l4.25-7.25-4.25-7.25zm-1 7.25a3.25 3.25 0 11-6.499.001 3.25 3.25 0 016.499-.001z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
                   </svg>
                   <span class="ids-menu-item-text">Settings</span>
-                  <svg class="ids-menu-item-submenu-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+                  <svg class="ids-menu-item-submenu-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18" focusable="false" aria-hidden="true">
                     <path d="M4 6l5 6 5-6H4" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
                   </svg>
                 </a>
@@ -119,3 +120,5 @@
 
   </div>
 </div>
+
+{{> ../layouts/footer.html }}

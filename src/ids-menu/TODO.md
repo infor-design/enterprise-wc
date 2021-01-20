@@ -17,6 +17,7 @@
 - [x] `focus()` method that figures out which item in the menu to focus, and does so
 - [x] Tests
 - [x] Docs
+- [ ] Get aXe tests passing
 
 ## Ids Popup
 

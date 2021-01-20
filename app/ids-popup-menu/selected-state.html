@@ -1,16 +1,16 @@
 {{> ../layouts/head.html }}
 
 <ids-popup-menu id="popupmenu">
-  <ids-menu-group id="single-select" select="single">
-    <ids-menu-header>Single-selectable Items</ids-menu-header>
+  <ids-menu-header id="single-select-header">Single-selectable Items</ids-menu-header>
+  <ids-menu-group id="single-select" select="single" aria-labelledby="single-select-header">
     <ids-menu-item value="single-1">Single Item One</ids-menu-item>
     <ids-menu-item value="single-2">Single Item Two</ids-menu-item>
     <ids-menu-item value="single-3">Single Item Three</ids-menu-item>
     <ids-menu-item selected value="single-4">Single Item Four</ids-menu-item>
   </ids-menu-group>
   <ids-separator></ids-separator>
-  <ids-menu-group id="multi-select" select="multiple" keep-open>
-    <ids-menu-header>Multi-selectable Items</ids-menu-header>
+  <ids-menu-header id="multi-select-header">Multi-selectable Items</ids-menu-header>
+  <ids-menu-group id="multi-select" select="multiple" keep-open aria-labelledby="multi-select-header">
     <ids-menu-item value="multi-1">Multi Item One</ids-menu-item>
     <ids-menu-item value="multi-2">Multi Item Two</ids-menu-item>
     <ids-menu-item value="multi-3">Multi Item Three</ids-menu-item>
@@ -29,8 +29,8 @@
           <ids-menu-item icon="settings">
             Sub-Item Four
             <ids-popup-menu>
-              <ids-menu-group id="single-sub-items" select="single" keep-open>
-                <ids-menu-header>Single-selectable Items that keep the menu open</ids-menu-header>
+              <ids-menu-header id="keep-open-header">Single-selectable Items that keep the menu open</ids-menu-header>
+              <ids-menu-group id="single-sub-items" select="single" keep-open aria-labelledby="keep-open-header">
                 <ids-menu-item value="sub-sub-single-1">Sub-Sub-Item One</ids-menu-item>
                 <ids-menu-item value="sub-sub-single-2">Sub-Sub-Item Two</ids-menu-item>
                 <ids-menu-item value="sub-sub-single-3">Sub-Sub-Item Three</ids-menu-item>

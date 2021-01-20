@@ -18,7 +18,7 @@ class IdsMenuHeader extends IdsElement {
   }
 
   template() {
-    return `<li class="ids-menu-header"><slot></slot></li>`;
+    return `<div class="ids-menu-header"><slot></slot></div>`;
   }
 }
 

@@ -114,8 +114,8 @@ class IdsMenuItem extends IdsElement {
     const textSlot = `<span class="ids-menu-item-text"><slot></slot></span>`;
 
     // Main
-    return `<li role="presentation" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}">
-      <a ${tabindex} ${disabledAttr} role="menuitem">
+    return `<li role="none" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}">
+      <a ${tabindex} ${disabledAttr}>
         ${check}${iconSlot}${textSlot}
       </a>
       <slot name="submenu"></slot>
@@ -491,6 +491,7 @@ class IdsMenuItem extends IdsElement {
     const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
     if (val === true || val === 'true') {
       this.submenu.setAttribute('slot', 'submenu');
+      this.a.setAttribute('role', 'button');
       this.a.setAttribute('aria-haspopup', 'true');
       this.a.setAttribute('aria-expanded', 'false');
       if (!icon) {
@@ -498,6 +499,7 @@ class IdsMenuItem extends IdsElement {
       }
       this.value = null;
     } else {
+      this.a.setAttribute('role', 'menuitem');
       this.a.removeAttribute('aria-haspopup');
       this.a.removeAttribute('aria-expanded');
       icon?.remove();
@@ -520,9 +522,11 @@ class IdsMenuItem extends IdsElement {
       if (!check) {
         this.a.insertAdjacentHTML('afterbegin', `<span class="check"></span>`);
       }
+      this.a.setAttribute('aria-checked', this.selected ? 'true' : 'false');
     } else {
       this.container.classList.remove('has-checkmark', 'has-multi-checkmark');
       check?.remove();
+      this.a.removeAttribute('aria-checked');
     }
   }
 
@@ -561,6 +565,7 @@ class IdsMenuItem extends IdsElement {
     // Store true state
     this.state.selected = trueVal;
     this.container.classList[trueVal ? 'add' : 'remove']('selected');
+    this.a.setAttribute('aria-checked', trueVal ? 'true' : 'false');
 
     // Sync the attribute
     const shouldUpdate = this.shouldUpdate;
