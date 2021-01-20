@@ -24,6 +24,8 @@ describe('Ids Popup Menu e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.click('body', { button: 'right' });
+    await page.waitFor(20);
     await percySnapshot(page, 'ids-popup-menu');
   });
 
