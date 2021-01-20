@@ -39,7 +39,7 @@ Readonly upload field
 <ids-upload label="Readonly" readonly="true"></ids-upload>
 ```
 
-Set as Disabled the Upload.
+Disabled upload field
 
 ```html
 <ids-upload label="Disabled" disabled="true"></ids-upload>
