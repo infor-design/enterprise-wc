@@ -136,7 +136,7 @@ class IdsUpload extends IdsElement {
   dispatchChangeEvent(e) {
     /**
      * Trigger event on parent and compose the args
-     * will fire change event.
+     * will fire change event
      * @private
      * @param  {object} elem Actual event
      * @param  {string} value The updated input element value
