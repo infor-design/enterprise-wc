@@ -33,7 +33,7 @@ Option to limit the file types to be uploaded
 <ids-upload label="Upload a File (.cvs,.xls,.xlsx)" accept=".cvs,.xls,.xlsx"></ids-upload>
 ```
 
-Set as Readonly the Upload.
+Readonly upload field
 
 ```html
 <ids-upload label="Readonly" readonly="true"></ids-upload>
