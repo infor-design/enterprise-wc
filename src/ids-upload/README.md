@@ -27,7 +27,7 @@ A field that allows multiple files to be uploaded
 <ids-upload label="Multiple Files" multiple="true"></ids-upload>
 ```
 
-Limit file type to be upload.
+Option to limit the file types to be uploaded
 
 ```html
 <ids-upload label="Upload a File Accept (.cvs,.xls,.xlsx)" accept=".cvs,.xls,.xlsx"></ids-upload>
