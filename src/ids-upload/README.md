@@ -15,7 +15,7 @@ A form element that allows users to choose a file they want to upload. A user ca
 
 ## Features (With Code Samples)
 
-A standard Upload element:
+A standard single upload field:
 
 ```html
 <ids-upload label="Upload a File"></ids-upload>
