@@ -30,7 +30,7 @@ A field that allows multiple files to be uploaded
 Option to limit the file types to be uploaded
 
 ```html
-<ids-upload label="Upload a File Accept (.cvs,.xls,.xlsx)" accept=".cvs,.xls,.xlsx"></ids-upload>
+<ids-upload label="Upload a File (.cvs,.xls,.xlsx)" accept=".cvs,.xls,.xlsx"></ids-upload>
 ```
 
 Set as Readonly the Upload.
