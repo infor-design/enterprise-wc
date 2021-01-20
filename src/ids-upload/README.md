@@ -76,7 +76,6 @@ Upload field with required validation
 
 ## Keyboard Guidelines
 
-The IDS Upload doesn't contain any interactions beyond a standard file upload HTMLInputElement:
 
 - <kbd>Tab</kbd> and <kbd>Shift Tab</kbd> moves focus into the input field to/from the next focusable item in the tab order.
 - <kbd>Enter</kbd>, <kbd>Space</kbd> Open the file upload dialog box.
