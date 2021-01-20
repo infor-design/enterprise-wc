@@ -6,7 +6,7 @@ A form element that allows users to choose a file they want to upload. A user ca
 
 ## Use Cases
 
-- Create standalone file upload.
+- Used for allowing users to select files from a local system to be uploaded to a server or application.
 
 ## Terminology
 
