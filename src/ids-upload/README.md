@@ -21,7 +21,7 @@ A standard single upload field:
 <ids-upload label="Upload a File"></ids-upload>
 ```
 
-Set as Multiple Files, the Upload.
+A field that allows multiple files to be uploaded
 
 ```html
 <ids-upload label="Multiple Files" multiple="true"></ids-upload>
