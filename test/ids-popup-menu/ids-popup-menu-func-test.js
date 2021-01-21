@@ -8,6 +8,8 @@ import IdsPopupMenu, {
   IdsSeparator
 } from '../../src/ids-popup-menu/ids-popup-menu';
 
+import IdsPopup from '../../src/ids-popup/ids-popup';
+
 /*
 The final markup displayed by this test component should look like the following:
 ================================================================================
@@ -179,6 +181,12 @@ describe('IdsPopupMenu Component', () => {
     // Two popupmenus (top level and submenu)
     expect(document.querySelectorAll('ids-popup-menu').length).toEqual(2);
     expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('has an IdsPopup component in the shadow root', () => {
+    // NOTE: Tests `ShadowRoot` detection in the Resize Mixin
+    expect(menu.popup instanceof IdsPopup).toBeTruthy();
+    expect(menu.popup.resizeDetectionTarget().isEqualNode(menu)).toBeTruthy();
   });
 
   it('can programmatically show and hide', () => {

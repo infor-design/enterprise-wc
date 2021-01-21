@@ -554,10 +554,7 @@ class IdsPopup extends IdsElement {
               elem: this
             }
           });
-          // Add the open class if it's not there
-          if (!this.container.classList.contains('open')) {
-            this.container.classList.add('open');
-          }
+          this.container.classList.add('open');
         }
         if (!this.isAnimated && this.container.classList.contains('animated')) {
           this.container.classList.remove('animated');

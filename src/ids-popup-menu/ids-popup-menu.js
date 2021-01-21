@@ -258,11 +258,8 @@ class IdsPopupMenu extends IdsMenu {
         // Attach a click handler to the window for detecting clicks outside the popup.
         // If these aren't captured by a popup, the menu will close.
         // @ts-ignore
-        this.eventHandlers.addEventListener('click.toplevel', window, (/** @type {any} */e) => {
-          const clickedInMenu = e.target.closest('ids-popup-menu');
-          if (!clickedInMenu) {
-            this.hide();
-          }
+        this.eventHandlers.addEventListener('click.toplevel', window, () => {
+          this.hide();
         });
         this.hasOpenEvents = true;
       }
