@@ -114,6 +114,7 @@ TODO
 ## Alternate Designs
 
 - May need to re-visit responsiveness as we begin to test complex layouts.
+- Add a breakpoint setting?
 - Add fixed unit sizing options for cells and rows.
 
 ## Test Plan
