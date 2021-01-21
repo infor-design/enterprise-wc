@@ -12,8 +12,8 @@ import IdsPopupMenu, {
 The final markup displayed by this test component should look like the following:
 ================================================================================
 <ids-popup-menu id="test-menu">
+  <ids-menu-header id="header">My Items</ids-menu-header>
   <ids-menu-group id="primary">
-    <ids-menu-header id="header">My Items</ids-menu-header>
     <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
     <ids-menu-item id="item2" value="2">Item 2</ids-menu-item>
     <ids-menu-item id="item3" value="3">Item 3</ids-menu-item>
@@ -67,16 +67,16 @@ describe('IdsPopupMenu Component', () => {
     menu.id = 'test-menu';
     document.body.appendChild(menu);
 
+    // Insert the header into the menu directly
+    header = new IdsMenuHeader();
+    header.id = 'header';
+    header.textContent = 'My Items';
+    menu.appendChild(header);
+
     // Store refs to all menu groups/headers/separators
     group1 = new IdsMenuGroup();
     group1.id = 'primary';
     menu.appendChild(group1);
-
-    // Insert the header into group 1
-    header = new IdsMenuHeader();
-    header.id = 'header';
-    header.textContent = 'My Items';
-    group1.appendChild(header);
 
     // Build top-level menu items
     item1 = new IdsMenuItem();
@@ -243,6 +243,17 @@ describe('IdsPopupMenu Component', () => {
     menu.trigger = 'howdy';
 
     expect(menu.trigger).toEqual('contextmenu');
+  });
+
+  it('can set a target as an element', () => {
+    const targetElem = document.createElement('button');
+    targetElem.id = 'test-button';
+    targetElem.type = 'button';
+    document.body.appendChild(targetElem);
+
+    menu.target = targetElem;
+
+    expect(menu.popup.alignTarget.isEqualNode(targetElem)).toBeTruthy();
   });
 
   it('closes the menu if there is a click event outside the open menu', (done) => {
@@ -441,16 +452,28 @@ describe('IdsPopupMenu Component', () => {
       }, 20);
     });
 
-    it.skip('cannot be closed when an item is selected from a `keep-open` group', (done) => {
-      group1.setAttribute('keep-open', true);
+    it('will not close the menu if selected from a `keep-open` group', (done) => {
+      const selectedEvent = new CustomEvent('selected', {
+        bubbles: true,
+        detail: { elem: item1 }
+      });
+      group1.keepOpen = true;
       menu.show();
 
       setTimeout(() => {
-        menu.eventHandlers.dispatchEvent('selected', { detail: { elem: item1 } });
+        menu.dispatchEvent(selectedEvent);
 
         setTimeout(() => {
           expect(menu.popup.visible).toBeTruthy();
-          done();
+
+          // Remove keep-open and try selecting the item again
+          group1.keepOpen = false;
+          menu.dispatchEvent(selectedEvent);
+
+          setTimeout(() => {
+            expect(menu.popup.visible).toBeFalsy();
+            done();
+          }, 20);
         }, 20);
       }, 20);
     });

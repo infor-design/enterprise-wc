@@ -9,8 +9,8 @@ import IdsMenu, {
 } from '../../src/ids-menu/ids-menu';
 
 const exampleHTML = `
+  <ids-menu-header>My Items</ids-menu-header>
   <ids-menu-group id="primary" select="single">
-    <ids-menu-header>My Items</ids-menu-header>
     <ids-menu-item id="item1" value="1">Item 1</ids-menu-item>
     <ids-menu-item id="item2" value="2">Item 2</ids-menu-item>
     <ids-menu-item id="item3" value="3">Item 3</ids-menu-item>
