@@ -115,6 +115,9 @@ class IdsMenuGroup extends IdsElement {
    * @private
    * @returns {void}
    */
+  // @TODO: TypeScript Compiler complains about this because the method is actually called from
+  // the menu item.
+  // @ts-ignore
   updateIconAlignment() {
     this.items.forEach((item) => {
       // NOTE: Sometimes the group invokes before the items, making item methods inaccessible.
