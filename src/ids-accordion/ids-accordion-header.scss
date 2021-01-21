@@ -1,0 +1,43 @@
+@import '../ids-base/ids-base';
+
+.ids-accordion-header {
+  @include border-1();
+  @include border-solid();
+  @include border-slate-20();
+  @include px-16();
+  @include py-12();
+
+  align-items: center;
+  border-left-color: transparent;
+  border-right-color: transparent;
+  border-top-color: transparent;
+  cursor: pointer;
+  display: flex;
+
+  &:focus {
+    @include shadow();
+
+    border: 1px solid #0072ed;
+    outline: none;
+  }
+}
+
+:host {
+  &:focus {
+    @include shadow();
+
+    border: 1px solid #0072ed;
+    outline: none;
+  }
+
+  ids-icon {
+    margin-left: auto;
+    transition: transform $transition-length $transition-ease;
+  }
+}
+
+:host([aria-expanded='true']) {
+  ids-icon {
+    transform: rotateX(180deg);
+  }
+}

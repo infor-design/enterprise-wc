@@ -18,6 +18,7 @@ export const props = {
   DIRTY_TRACKER: 'dirty-tracker',
   DISABLE_EVENTS: 'disable-native-events',
   DISABLED: 'disabled',
+  EXPANDED: 'expanded',
   FILL: 'fill',
   FIXED: 'fixed',
   FOCUSABLE: 'focusable',
