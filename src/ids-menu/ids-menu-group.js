@@ -77,7 +77,6 @@ class IdsMenuGroup extends IdsElement {
     } else {
       this.removeAttribute('aria-labelledby');
     }
-    this.detectIcons();
   }
 
   /**
@@ -116,13 +115,12 @@ class IdsMenuGroup extends IdsElement {
    * @private
    * @returns {void}
    */
-  detectIcons() {
-    const icons = this.itemIcons;
-    const hasIcons = icons.length > 0;
-
+  updateIconAlignment() {
     this.items.forEach((item) => {
+      // NOTE: Sometimes the group invokes before the items, making item methods inaccessible.
+      // Items run this method internally on their first run.
       if (typeof item.decorateForIcon === 'function') {
-        item.decorateForIcon(hasIcons);
+        item.decorateForIcon();
       }
     });
   }

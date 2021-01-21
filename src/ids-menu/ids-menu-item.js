@@ -172,6 +172,7 @@ class IdsMenuItem extends IdsElement {
     this.tabIndex = this.state.tabIndex;
     this.detectSubmenu();
     this.detectSelectability();
+    this.decorateForIcon();
   }
 
   /**
@@ -396,8 +397,8 @@ class IdsMenuItem extends IdsElement {
       this.appendIcon(val);
     }
 
-    if (this.group && typeof this.group.detectIcons === 'function') {
-      this.group.detectIcons();
+    if (this.group && typeof this.group.updateIconAlignment === 'function') {
+      this.group.updateIconAlignment();
     }
   }
 
@@ -444,13 +445,13 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
+   * Updates the alignment of text/icon content in the menu item to account for icons
+   * that are present either on this menu item, or another one inside this menu item's group.
    * @private
-   * @param {boolean} val true if icons are present
    */
-  // @TODO: Why doesn't TypeScript Compiler like this? (gets used inside the Menu Group)
-  // @ts-ignore
-  decorateForIcon(val) {
-    this.container.classList[val === true ? 'add' : 'remove']('has-icon');
+  decorateForIcon() {
+    const hasIcons = this.group.itemIcons.length > 0;
+    this.container.classList[hasIcons ? 'add' : 'remove']('has-icon');
   }
 
   /**
