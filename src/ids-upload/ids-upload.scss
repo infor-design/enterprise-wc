@@ -1,7 +1,15 @@
 @import '../ids-base/ids-base';
 
 .ids-upload {
-  .hidden {
-    @include hidden();
+  overflow: hidden;
+  position: relative;
+
+  .ids-upload-filetype {
+    font-size: 24px;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: -1;
   }
 }

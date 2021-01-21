@@ -90,10 +90,10 @@ class IdsUpload extends IdsElement {
 
     return `
       <div class="ids-upload">
-        <label for="${ID}" class="hidden" aria-hidden="true" tabindex="-1">
+        <label for="${ID}" class="ids-upload-filetype-label" aria-hidden="true" tabindex="-1">
           <ids-text audible="true" class="label-filetype">${labelFiletype}</ids-text>
         </label>
-        <input id="${ID}" type="file" class="hidden" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
+        <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
         <ids-trigger-field>
           <ids-input readonly="true" triggerfield="true" ${clearableForced}${bgTransparent}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}></ids-input>
           <ids-trigger-button class="trigger"${disabled}${readonlyBtn}>
@@ -200,11 +200,33 @@ class IdsUpload extends IdsElement {
   }
 
   /**
+   * Handle drag-drop event
+   * @private
+   * @returns {void}
+   */
+  handleTextInputDragDrop() {
+    if (this.hasAccess) {
+      this.eventHandlers.addEventListener('dragenter', this.textInput, () => {
+        this.fileInput.style.zIndex = '1';
+      });
+
+      const events = ['dragleave', 'dragend', 'drop'];
+      events.forEach((eventName) => {
+        this.eventHandlers.addEventListener(eventName, this.textInput, () => {
+          setTimeout(() => {
+            this.fileInput.style.zIndex = '';
+          }, 1);
+        });
+      });
+    }
+  }
+
+  /**
    * Handle keydown event
    * @private
    * @returns {void}
    */
-  handleInputKeydown() {
+  handleTextInputKeydown() {
     this.eventHandlers.addEventListener('keydown', this.textInput, (/** @type {any} */ e) => {
       const allow = ['Backspace', 'Enter', 'Space'];
       const key = e.code;
@@ -254,7 +276,8 @@ class IdsUpload extends IdsElement {
     this.handleWindowFocusEvent();
     this.handleFileInputChangeEvent();
     this.handleFileInputCancelEvent();
-    this.handleInputKeydown();
+    this.handleTextInputDragDrop();
+    this.handleTextInputKeydown();
     this.handleTriggerClickEvent();
     this.handleInputClearedEvent();
   }

@@ -59,20 +59,20 @@ Upload field with required validation
 
 ## Attributes and Properties
 
-- `accept` {string} set the limit to file types;
-- `dirty-tracker` {boolean} set dirty tracker to input.
-- `disabled` {boolean} set disabled state.
-- `label` {string} set the label text.
-- `labelFiletype` {string} set the label text for input file type.
-- `multiple` {boolean} set file to be as multiple uploads.
-- `noTextEllipsis` {boolean} set ellipsis to be not shown.
-- `placeholder` {string} set the placeholder text to input.
-- `size` {string} set the input size, it will set `md` as defaults.
-- `readonly` {boolean} set readonly state.
-- `triggerLabel` {string} set the label text for trigger button.
-- `validate` {string} set the input validation rules, use `space` to add multiple validation rules.
-- `validationEvents` {string} set the input validation events, use `space` to add multiple validation rules, it will set `blur change` as defaults.
-- `value` {string} set the input value.
+- `accept` {string} sets limit the file types to be uploaded.
+- `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field.
+- `disabled` {boolean} sets to disabled state.
+- `label` {string} sets the label text for text input.
+- `labelFiletype` {string} sets the label text for file input.
+- `multiple` {boolean} sets to allows multiple files to be uploaded.
+- `noTextEllipsis` {boolean} sets ellipsis to be not shown on text input.
+- `placeholder` {string} sets the input placeholder text.
+- `size` {string} sets the size (width) of input, it will set `md` as defaults.
+- `readonly` {boolean} sets to readonly state.
+- `triggerLabel` {string} sets the label text for trigger button.
+- `validate` {string} sets text input validation rules, use `space` to add multiple validation rules.
+- `validationEvents` {string} sets text input validation events, use `space` to add multiple validation rules, it will set `blur change` as defaults.
+- `value` {string} sets text input value.
 
 ## Keyboard Guidelines
 
