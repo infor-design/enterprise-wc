@@ -82,11 +82,12 @@ Set the Text Align to Text Input this way:
 ## Attributes and Properties
 
 - `autoselect` {boolean} set auto select text on focus to input.
+- `bgTransparent` {boolean} set the transparent background to readonly input.
 - `clearable` {boolean} set (x) button to clear text on click/key to input.
+- `clearableForced` {boolean} set (x) button to clear text on click/key to input, forced to be on readonly.
 - `dirty-tracker` {boolean} set dirty tracker to input.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
-- `name` {string} set the name text to input.
 - `placeholder` {string} set the placeholder text to input.
 - `size` {string} set the input size, it will set `md` as defaults.
 - `readonly` {boolean} set readonly state.
@@ -94,6 +95,7 @@ Set the Text Align to Text Input this way:
 - `triggerfield` {boolean} if true will add css class/style `has-triggerfield`.
 - `type` {string} set the input type, it will set `text` as defaults.
 - `validate` {string} set the input validation rules, use `space` to add multiple validation rules.
+- `validationEvents` {string} set the input validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
 - `value` {string} set the input value.
 
 ## Keyboard Guidelines

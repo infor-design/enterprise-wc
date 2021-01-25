@@ -17,6 +17,7 @@ import IdsExpandableArea from '../src/ids-expandable-area/ids-expandable-area';
 import IdsAccordion from '../src/ids-accordion/ids-accordion';
 import IdsRadio from '../src/ids-radio/ids-radio';
 import IdsRenderLoopMixin from '../src/ids-render-loop/ids-render-loop-mixin';
+import IdsUpload from '../src/ids-upload/ids-upload';
 
 // Import Example Code
 import './ids-button/index';

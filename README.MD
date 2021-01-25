@@ -23,7 +23,9 @@ In Ids Web Components we chose to use Javascript and not TypeScript, however we 
 - Passes all code security scans and is fully CSP compatible
 - Well documented in .md format
 - Contains an extensive [CHANGELOG with](./doc/CHANGELOG.md) listed any and all breaking changes
-- Fully linted code
+- [Fully linted code](LINTING.md)
 - Follows [Wai Aria practices](https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard-interaction-12) and huge focus on accessibility
-- Fully Namespaced with the `ids-` namespace
+- Fully Namespaced with an `ids-` namespace
 - We Follow the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki)
+- Typesafe for TypeScript users
+- Every component has the Css and Dom Encapsulated (in supported browsers)

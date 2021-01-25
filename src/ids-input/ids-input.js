@@ -81,7 +81,9 @@ class IdsInput extends IdsElement {
   static get properties() {
     return [
       props.AUTOSELECT,
+      props.BG_TRANSPARENT,
       props.CLEARABLE,
+      props.CLEARABLE_FORCED,
       props.DIRTY_TRACKER,
       props.DISABLED,
       props.LABEL,
@@ -90,6 +92,7 @@ class IdsInput extends IdsElement {
       props.SIZE,
       props.READONLY,
       props.TEXT_ALIGN,
+      props.TEXT_ELLIPSIS,
       props.TRIGGERFIELD,
       props.TYPE,
       props.VALIDATE,
@@ -128,7 +131,10 @@ class IdsInput extends IdsElement {
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const value = this.value !== null ? ` value="${this.value}"` : '';
     const type = ` type="${this.type || TYPES.default}"`;
-    const inputClass = ` class="ids-input-field ${this.size}"`;
+    let inputClass = `ids-input-field ${this.size}`;
+    inputClass += stringUtils.stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
+    inputClass += stringUtils.stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
+    inputClass = ` class="${inputClass}"`;
     let inputState = stringUtils.stringToBool(this.readonly) ? ' readonly' : '';
     inputState = stringUtils.stringToBool(this.disabled) ? ' disabled' : inputState;
 
@@ -301,6 +307,42 @@ class IdsInput extends IdsElement {
   get autoselect() { return this.getAttribute(props.AUTOSELECT); }
 
   /**
+   * When set the input will add css class `bg-transparent`
+   * @param {boolean|string} value If true will set `bg-transparent` attribute
+   */
+  set bgTransparent(value) {
+    this.input = this.shadowRoot.querySelector(`#${ID}`);
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(props.BG_TRANSPARENT, val.toString());
+      this.input?.classList.add('bg-transparent');
+    } else {
+      this.removeAttribute(props.BG_TRANSPARENT);
+      this.input?.classList.remove('bg-transparent');
+    }
+  }
+
+  get bgTransparent() { return this.getAttribute(props.BG_TRANSPARENT); }
+
+  /**
+   * When set the input will add css class `text-ellipsis`
+   * @param {boolean|string} value If true will set `text-ellipsis` attribute
+   */
+  set textEllipsis(value) {
+    this.input = this.shadowRoot.querySelector(`#${ID}`);
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(props.TEXT_ELLIPSIS, val.toString());
+      this.input?.classList.add('text-ellipsis');
+    } else {
+      this.removeAttribute(props.TEXT_ELLIPSIS);
+      this.input?.classList.remove('text-ellipsis');
+    }
+  }
+
+  get textEllipsis() { return this.getAttribute(props.TEXT_ELLIPSIS); }
+
+  /**
    * When set the input will add a clearable x button
    * @param {boolean|string} value If true will set `clearable` attribute
    */
@@ -316,6 +358,23 @@ class IdsInput extends IdsElement {
   }
 
   get clearable() { return this.getAttribute(props.CLEARABLE); }
+
+  /**
+   * When set the input will force to add a clearable x button on readonly and disabled
+   * @param {boolean|string} value If true will set `clearable-forced` attribute
+   */
+  set clearableForced(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(props.CLEARABLE_FORCED, val.toString());
+    } else {
+      this.removeAttribute(props.CLEARABLE_FORCED);
+    }
+    // @ts-ignore
+    this.handleClearable();
+  }
+
+  get clearableForced() { return this.getAttribute(props.CLEARABLE_FORCED); }
 
   /**
    *  Set the dirty tracking feature on to indicate a changed field
@@ -515,12 +574,13 @@ class IdsInput extends IdsElement {
    * @param {string} val the value property
    */
   set value(val) {
+    /** @type {any} */
     const input = this.shadowRoot.querySelector(`[id="${ID}"]`);
     const v = val || '';
     this.setAttribute(props.VALUE, v);
-    if (input) {
-      // @ts-ignore
+    if (input && input.value !== v) {
       input.value = v;
+      input.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 
