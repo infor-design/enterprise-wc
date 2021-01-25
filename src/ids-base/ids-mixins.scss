@@ -60,3 +60,15 @@ $animation-prefixes: -webkit-, -moz-, '';
 
   -webkit-touch-callout: none;
 }
+
+// Truncate to Ellipsis....
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Hidden
+@mixin hidden {
+  display: none;
+}

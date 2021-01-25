@@ -4,8 +4,12 @@
 export class IdsInput extends HTMLElement {
   /** When set the input will select all text on focus */
   autoselect: boolean;
+  /** When set the input will render as transparent background */
+  bgTransparent: boolean;
   /** When set the input will add a clearable x button */
   clearable: boolean;
+  /** When set the input will add a clearable x button to forced for readonly */
+  clearableForced: boolean;
   /** Sets the dirty tracking feature on to indicate a changed field */
   dirtyTracker: boolean;
   /** Sets checkbox to disabled **/
@@ -24,6 +28,8 @@ export class IdsInput extends HTMLElement {
   type: 'text' | 'password' | 'email' | 'number' | string;
   /** Sets the validation check to use **/
   validate: 'required' | 'email' | string;
+  /** Sets the validation events to use **/
+  validationEvents: 'blur' | string;
   /** Sets the `value` attribute **/
   value: string | number;
 }
