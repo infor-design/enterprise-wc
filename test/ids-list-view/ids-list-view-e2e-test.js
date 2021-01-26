@@ -16,10 +16,6 @@ describe('Ids List View e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    page.on('error', (error) => {
-      console.log(`Chrome Handler: ${error}`);
-      global.chromepool.release(browser);
-    });
     await expect(page).toPassAxeTests();
   });
 
