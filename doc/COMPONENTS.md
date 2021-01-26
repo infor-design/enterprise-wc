@@ -8,7 +8,7 @@
 - [ ] Add an `ids-[component].js`, which is the WebComponent interaction code.
 - [ ] Add an `ids-[component].d.ts` for this WebComponent's TypeScript defs.
 - [ ] Add an `ids-[component].scss`, which holds all scoped styles for this WebComponent.
-- [ ] Add a `README.md` for documentation, specificiation, etc.
+- [ ] Add a `README.md` for documentation, specification, etc.
 
 Some important steps here include:
 
