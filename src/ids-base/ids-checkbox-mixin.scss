@@ -2,6 +2,7 @@
  * Checkbox Mixins.
  */
 @import './ids-colorpalette-variables';
+@import './ids-mixins';
 
 // Unchecked
 @mixin checkbox-unchecked {
@@ -124,4 +125,38 @@
 
 @mixin checkbox-colored-box-focus($color) {
   border-color: $color;
+}
+
+// Keyframes ===========================================
+@include keyframes(check) {
+  0% {
+    height: 0;
+    left: 0;
+    top: 8px;
+    width: 0;
+  }
+
+  50% {
+    height: 0;
+    left: 0;
+    top: 8px;
+    width: 4px;
+  }
+
+  100% {
+    height: 10px;
+    left: 4px;
+    top: 0;
+    width: 4px;
+  }
+}
+
+@include keyframes(checkindeterminate) {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 10px;
+  }
 }

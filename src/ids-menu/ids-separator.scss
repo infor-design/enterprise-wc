@@ -1,0 +1,6 @@
+/* Ids Separator Component */
+@import './ids-menu-base';
+
+.ids-separator {
+  @include separator-style();
+}

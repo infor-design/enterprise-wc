@@ -1,0 +1,26 @@
+/**
+ * Base Styles/Mixins for Ids Menu Component and all subcomponents.
+ */
+@import '../ids-base/ids-base';
+
+$menu-item-height: 40px;
+$menu-item-transition-length: 50ms;
+
+// Resets the User-Agent stylesheet rules for `<ul>` in Chrome
+@mixin reset-menu-style() {
+  @include block();
+
+  margin-block-end: 0;
+  margin-block-start: 0;
+  padding-inline-start: 0;
+}
+
+// All styles needed to build a separator
+@mixin separator-style() {
+  @include block();
+  @include my-4();
+
+  background-color: var(--ids-color-brand-secondary-lighter);
+  height: 1px;
+  list-style: none;
+}

@@ -32,6 +32,8 @@ A curated list of resources related to this project and web components.
 
 ## Test Tools
 
+- [Jest Documentation](https://jestjs.io/docs/en/getting-started)
+- [Puppeteer Documentation](https://pptr.dev/)
 - [Protractor Might be Dead](https://dev.to/davert/5-reasons-you-should-not-use-protractor-in-2019-3l4b)
 - [Unit Testing with Puppeteer](https://www.sitepoint.com/puppeteer-end-to-end-testing/)
 

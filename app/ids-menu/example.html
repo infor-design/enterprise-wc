@@ -1,0 +1,48 @@
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Menu</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+
+    <ids-menu id="simple-menu">
+      <ids-menu-group>
+        <ids-menu-item>One</ids-menu-item>
+        <ids-menu-item>Two</ids-menu-item>
+        <ids-menu-item>Three</ids-menu-item>
+      </ids-menu-group>
+    </ids-menu>
+
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+
+    <ids-menu id="complex-menu">
+      <ids-menu-group id="main-settings">
+        <ids-menu-item icon="mail" value="mail">Mail</ids-menu-item>
+        <ids-menu-item icon="filter" value="filter">Filter</ids-menu-item>
+        <ids-menu-item icon="settings" value="settings">Settings</ids-menu-item>
+        <ids-separator></ids-separator>
+        <ids-menu-item value="long-no-icons">Very long, indescribable action with no icons</ids-menu-item>
+        <ids-menu-item icon="url" disabled="true" value="big-with-icons">
+          Another big menu item, but with icons!
+        </ids-menu-item>
+      </ids-menu-group>
+      <ids-separator></ids-separator>
+      <ids-menu-header id="additional-actions-header">Additional Actions</ids-menu-header>
+      <ids-menu-group id="more-settings" aria-describedby="additional-actions-header">
+        <ids-menu-item value="more-actions">
+          More Actions
+        </ids-menu-item>
+        <ids-menu-item icon="user" value="even-more-actions">
+          Even More Actions
+        </ids-menu-item>
+        <ids-menu-item id="no-select" value="no-select">This one can't be selected (Check the console)</ids-menu-item>
+      </ids-menu-group>
+      <ids-separator></ids-separator>
+      <ids-menu-group id="other-settings">
+        <ids-menu-item icon="more" value="other-items">Other Items</ids-menu-item>
+      </ids-menu-group>
+    </ids-menu>
+
+  </ids-layout-grid-cell>
+</ids-layout-grid>

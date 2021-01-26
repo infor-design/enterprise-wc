@@ -1,4 +1,5 @@
 @import '../ids-base/ids-base';
+@import '../ids-base/ids-radio-mixin';
 
 .ids-radio {
   @include my-8();
