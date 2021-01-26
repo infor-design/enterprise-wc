@@ -27,7 +27,7 @@ module.exports = {
 
     return acc;
   }, {}),
-  devtool: isProduction ? 'source-map' : 'cheap-source-map', // try source-map for prod
+  devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',
   optimization: {
     minimize: !!isProduction,

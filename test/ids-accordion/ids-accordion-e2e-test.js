@@ -23,6 +23,6 @@ describe('Ids Accordion e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    await percySnapshot(page, 'ids-expandable-area');
+    await percySnapshot(page, 'ids-accordion');
   });
 });

@@ -1,0 +1,59 @@
+{{> ../layouts/head.html }}
+
+<ids-popup-menu id="popupmenu">
+  <ids-menu-header id="single-select-header">Single-selectable Items</ids-menu-header>
+  <ids-menu-group id="single-select" select="single" aria-labelledby="single-select-header">
+    <ids-menu-item value="single-1">Single Item One</ids-menu-item>
+    <ids-menu-item value="single-2">Single Item Two</ids-menu-item>
+    <ids-menu-item value="single-3">Single Item Three</ids-menu-item>
+    <ids-menu-item selected="true" value="single-4">Single Item Four</ids-menu-item>
+  </ids-menu-group>
+  <ids-separator></ids-separator>
+  <ids-menu-header id="multi-select-header">Multi-selectable Items</ids-menu-header>
+  <ids-menu-group id="multi-select" select="multiple" keep-open aria-labelledby="multi-select-header">
+    <ids-menu-item value="multi-1">Multi Item One</ids-menu-item>
+    <ids-menu-item value="multi-2">Multi Item Two</ids-menu-item>
+    <ids-menu-item value="multi-3">Multi Item Three</ids-menu-item>
+    <ids-menu-item value="multi-4">Multi Item Four</ids-menu-item>
+    <ids-menu-item disabled="true" selected="true" value="multi-5">Disabled Multi Item Five</ids-menu-item>
+  </ids-menu-group>
+  <ids-separator></ids-separator>
+  <ids-menu-group>
+    <ids-menu-item>
+      More Selectable Items...
+      <ids-popup-menu>
+        <ids-menu-group id="multi-sub-items" select="multiple" keep-open>
+          <ids-menu-item icon="settings" value="sub-multi-1">Sub-Item One</ids-menu-item>
+          <ids-menu-item icon="settings" value="sub-multi-2">Sub-Item Two</ids-menu-item>
+          <ids-menu-item icon="settings" value="sub-multi-3">Sub-Item Three</ids-menu-item>
+          <ids-menu-item icon="settings">
+            Sub-Item Four
+            <ids-popup-menu>
+              <ids-menu-header id="keep-open-header">Single-selectable Items that keep the menu open</ids-menu-header>
+              <ids-menu-group id="single-sub-items" select="single" keep-open aria-labelledby="keep-open-header">
+                <ids-menu-item value="sub-sub-single-1">Sub-Sub-Item One</ids-menu-item>
+                <ids-menu-item value="sub-sub-single-2">Sub-Sub-Item Two</ids-menu-item>
+                <ids-menu-item value="sub-sub-single-3">Sub-Sub-Item Three</ids-menu-item>
+                <ids-menu-item value="sub-sub-single-4">Sub-Sub-Item Four</ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+          </ids-menu-item>
+        </ids-menu-group>
+      </ids-popup-menu>
+    </ids-menu-item>
+  </ids-menu-group>
+</ids-popup-menu>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Popup Menu (Selected States)</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text>Right-click anywhere in the page to activate a Popupmenu.  Many of the items in the menu are single/multi-selectable.</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}

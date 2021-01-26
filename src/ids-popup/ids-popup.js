@@ -122,7 +122,7 @@ class IdsPopup extends IdsElement {
     // @ts-ignore
     if (this.shouldResize()) {
       // @ts-ignore
-      this.ro.unobserve(this.parentNode);
+      this.ro.unobserve(this.resizeDetectionTarget());
       // @ts-ignore
       this.disconnectResize();
     }
@@ -165,25 +165,33 @@ class IdsPopup extends IdsElement {
 
   /**
    * Sets the element to align with via a css selector
-   * @param {string} val a CSS selector string
+   * @param {any} val ['string|HTMLElement'] a CSS selector string
    */
   // @ts-ignore
   set alignTarget(val) {
-    if (typeof val !== 'string' || !val.length) {
+    const isString = typeof val === 'string' && val.length;
+    const isElem = val instanceof HTMLElement;
+
+    if (!isString && !isElem) {
       this.alignment.target = undefined;
       this.removeAttribute('align-target');
       this.refresh();
       return;
     }
 
-    // @TODO Harden for security (XSS)
-    const elem = document.querySelector(val);
-    if (!(elem instanceof HTMLElement)) {
-      return;
+    let elem;
+    if (isString) {
+      // @TODO Harden for security (XSS)
+      elem = document.querySelector(val);
+      if (!(elem instanceof HTMLElement)) {
+        return;
+      }
+      this.setAttribute('align-target', val);
+    } else {
+      elem = val;
     }
 
     this.alignment.target = elem;
-    this.setAttribute('align-target', val);
     this.refresh();
   }
 
@@ -473,11 +481,12 @@ class IdsPopup extends IdsElement {
 
     // Attach to the global ResizeObserver
     // (this doesn't need updating)
-    // @TODO possibly replace `this.parentNode` with IdsPopupBoundary (specifically to contain)
+    // @TODO possibly replace `this.resizeDetectionTarget()`
+    // with IdsPopupBoundary (specifically to contain)
     // @ts-ignore
     if (this.shouldResize()) {
       // @ts-ignore
-      this.ro.observe(this.parentNode);
+      this.ro.observe(this.resizeDetectionTarget());
     }
 
     // Set the Popup type
@@ -537,7 +546,14 @@ class IdsPopup extends IdsElement {
     this.openCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 70,
       timeoutCallback: () => {
-        if (this.isVisible && !this.container.classList.contains('open')) {
+        if (this.isVisible) {
+          // Always fire the 'show' event
+          this.eventHandlers.dispatchEvent('show', this, {
+            bubbles: true,
+            detail: {
+              elem: this
+            }
+          });
           this.container.classList.add('open');
         }
         if (!this.isAnimated && this.container.classList.contains('animated')) {
@@ -554,8 +570,18 @@ class IdsPopup extends IdsElement {
     this.animatedCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 200,
       timeoutCallback: () => {
-        if (!this.isVisible && this.container.classList.contains('visible')) {
-          this.container.classList.remove('visible');
+        if (!this.isVisible) {
+          // Always fire the 'hide' event
+          this.eventHandlers.dispatchEvent('hide', this, {
+            bubbles: true,
+            detail: {
+              elem: this
+            }
+          });
+          // Remove the `visible` class if its there
+          if (this.container.classList.contains('visible')) {
+            this.container.classList.remove('visible');
+          }
         }
         if (this.isAnimated && !this.container.classList.contains('animated')) {
           this.container.classList.add('animated');
@@ -727,11 +753,11 @@ class IdsPopup extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return `<span class="ids-popup">
+    return `<div class="ids-popup">
       <div class="content-wrapper">
         <slot name="content"></slot>
       </div>
-    </span>`;
+    </div>`;
   }
 
   /**

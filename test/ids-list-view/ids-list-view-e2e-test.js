@@ -22,14 +22,14 @@ describe('Ids List View e2e Tests', () => {
   it('should not have visual regressions (percy)', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'domcontentloaded' });
+    await page.goto(url, { waitUntil: 'load' });
     await percySnapshot(page, 'ids-list-view');
   });
 
   it('should not have visual regressions (percy)', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto('http://localhost:4444/ids-list-view/standalone-css', { waitUntil: 'domcontentloaded' });
+    await page.goto('http://localhost:4444/ids-list-view/standalone-css', { waitUntil: 'load' });
     await percySnapshot(page, 'ids-list-view-css');
   });
 });

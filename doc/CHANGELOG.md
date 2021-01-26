@@ -40,6 +40,11 @@
   - If using properties/settings, these are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.
   - Popup is now driven by its own HTMLElement rather than a being a behavior applied to any element: `<ids-popup x="0" y="0" align="top, left">My Popup</ids-popup>`
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Popup Menu]` The Popup Menu is now a web component called ids-popup-menu.  
+  - Markup has been changed to a custom element `<ids-popup-menu></ids-popup-menu>`.
+  - Events triggered by the Popup Menu are now plain JS (for example `selected`/`deselected`)
+  - Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.
+  - Many previous settings are now attribute-friendly (for example `closeOnSelect` is now a `keep-open` attribute on menu groups).
 - `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
   - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
   - If using events, events are now plain JS events.

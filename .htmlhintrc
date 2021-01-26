@@ -12,7 +12,7 @@
   "head-script-disabled": false,
   "alt-require": true,
   "tag-self-close": true,
-  "attr-value-not-empty": true,
+  "attr-value-not-empty": false,
   "attr-unsafe-chars": true,
   "space-tab-mixed-disabled": "true",
   "id-class-ad-disabled": true,

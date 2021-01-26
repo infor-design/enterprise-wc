@@ -89,6 +89,21 @@ const IdsResizeMixin = {
   },
 
   /**
+   * Detects the target element to be watched by the ResizeObserver.  In most cases, this will
+   * simply be a parent node, but with nested WebComponents, occasionally `parentNode` is a
+   * ShadowRoot, which is incompatible with ResizeObserver.  This method simply finds a
+   * proper "observable" node.
+   * @returns {HTMLElement} which should be watched by the ResizeObserver
+   */
+  resizeDetectionTarget() {
+    let target = this.parentNode;
+    if (target instanceof ShadowRoot) {
+      target = target.host;
+    }
+    return target;
+  },
+
+  /**
    * Sets up a MutationObserver that will fire an IDS Component's `refresh()`
    * method when it needs to update.
    * @private

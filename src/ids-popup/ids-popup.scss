@@ -4,6 +4,7 @@
 $transition-length: 200ms;
 
 :host {
+  // Take the WebComponent out of document flow
   @include absolute();
 
   display: inline-block;
@@ -52,14 +53,14 @@ $transition-length: 200ms;
 
   // style: "menu"
   &.menu {
+    @include antialiased();
     @include bg-white();
     @include border-1();
     @include border-solid();
     @include font-sans();
-    @include p-12();
+    @include py-4();
     @include rounded-default();
     @include shadow();
-    @include text-14();
 
     border-color: var(--ids-color-border-lighter);
   }
