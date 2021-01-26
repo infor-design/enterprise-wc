@@ -24,18 +24,6 @@ describe('Ids Popup Menu e2e Tests', () => {
   it('should not have visual regressions (percy)', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto('http://localhost:4444/ids-popup-menu/selected-state', { waitUntil: 'domcontentloaded' });
-
-    // detect the page body and click
-    await page.mouse.click(100, 100, { button: 'right' });
-
-    await page.waitForSelector('ids-popup-menu', { visible: true, timeout: 2000 });
-    await percySnapshot(page, 'ids-popup-menu');
-  });
-
-  it('should not have visual regressions (percy)', async () => {
-    page = await browser.newPage();
-    await page.setBypassCSP(true);
     await page.goto('http://localhost:4444/ids-popup-menu/standalone-css', { waitUntil: 'domcontentloaded' });
     await percySnapshot(page, 'ids-popup-menu-css');
   });
