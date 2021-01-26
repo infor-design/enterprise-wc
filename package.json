@@ -21,7 +21,7 @@
     "test:watch": "jest --watchAll --coverage --detectOpenHandles --forceExit",
     "test:coverage": "jest --coverage",
     "test:coverage-only-changed": "jest --coverage --onlyChanged",
-    "test:ci": "jest --maxWorkers=2",
+    "test:ci": "jest --maxWorkers=1 --verbose --runInBand --forceExit --detectOpenHandles",
     "test:visuals": "npx percy exec -- npx jest --maxWorkers=2",
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --detectOpenHandles --forceExit",
     "test:updateSnapshot": "jest --updateSnapshot",
