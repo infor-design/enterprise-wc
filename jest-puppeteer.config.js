@@ -5,8 +5,8 @@ module.exports = {
     launchTimeout: 20000
   },
   launch: {
-    headless: false,
-    devtools: true,
+    headless: true,
+    devtools: false,
     ignoreHTTPSErrors: true
   }
 };
