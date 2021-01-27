@@ -1,10 +1,12 @@
 import {
   IdsElement,
   customElement,
+  mixin,
   scss
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
 // @ts-ignore
 import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
@@ -34,16 +36,17 @@ const BUTTON_PROPS = [
   props.CSS_CLASS,
   props.DISABLED,
   props.ICON,
-  'id',
+  props.ID,
   props.TEXT,
-  'type',
-  'tabindex'
+  props.TYPE,
+  props.TABINDEX
 ];
 
 /**
  * IDS Button Component
  */
 @customElement('ids-button')
+@mixin(IdsRenderLoopMixin)
 @scss(styles)
 class IdsButton extends IdsElement {
   constructor() {
@@ -220,9 +223,9 @@ class IdsButton extends IdsElement {
 
     this.state.cssClass = newCl;
     if (newCl.length) {
-      this.setAttribute('css-class', attr.toString());
+      this.setAttribute(props.CSS_CLASS, attr.toString());
     } else {
-      this.removeAttribute('css-class');
+      this.removeAttribute(props.CSS_CLASS);
     }
 
     // Remove/Set CSS classes on the actual inner Button component
@@ -250,7 +253,7 @@ class IdsButton extends IdsElement {
    */
   set disabled(val) {
     this.shouldUpdate = false;
-    this.removeAttribute('disabled');
+    this.removeAttribute(props.DISABLED);
     this.shouldUpdate = true;
 
     const trueVal = stringUtils.stringToBool(val);
@@ -273,17 +276,17 @@ class IdsButton extends IdsElement {
    */
   set tabindex(val) {
     this.shouldUpdate = false;
-    this.removeAttribute('tabindex');
+    this.removeAttribute(props.TABINDEX);
     this.shouldUpdate = true;
 
     const trueVal = parseInt(val.toString(), 10);
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabindex = 0;
-      this.button.removeAttribute('tabindex');
+      this.button.removeAttribute(props.TABINDEX);
       return;
     }
     this.state.tabindex = trueVal;
-    this.button.setAttribute('tabindex', trueVal.toString());
+    this.button.setAttribute(props.TABINDEX, trueVal.toString());
   }
 
   /**
@@ -298,13 +301,13 @@ class IdsButton extends IdsElement {
    */
   set icon(val) {
     if (typeof val !== 'string' || !val.length) {
-      this.removeAttribute('icon');
+      this.removeAttribute(props.ICON);
       this.state.icon = undefined;
       this.removeIcon();
       return;
     }
     this.state.icon = val;
-    this.setAttribute('icon', val);
+    this.setAttribute(props.ICON, val);
     this.appendIcon(val);
   }
 
@@ -352,7 +355,7 @@ class IdsButton extends IdsElement {
    * @returns {void}
    */
   set text(val) {
-    this.removeAttribute('text');
+    this.removeAttribute(props.TEXT);
 
     if (typeof val !== 'string' || !val.length) {
       this.state.text = '';
@@ -409,10 +412,10 @@ class IdsButton extends IdsElement {
    */
   set type(val) {
     if (!val || BUTTON_TYPES.indexOf(val) <= 0) {
-      this.removeAttribute('type');
+      this.removeAttribute(props.TYPE);
       this.state.type = BUTTON_TYPES[0];
     } else {
-      this.setAttribute('type', val);
+      this.setAttribute(props.TYPE, val);
       if (this.state.type !== val) {
         this.state.type = val;
       }
@@ -521,10 +524,16 @@ class IdsButton extends IdsElement {
     rippleEl.classList.add('animating');
 
     // After a short time, remove the ripple effect
-    // @TODO replace this with a renderloop callback
-    setTimeout(() => {
-      rippleEl.remove();
-    }, 1200);
+    if (this.rippleTimeout) {
+      this.rippleTimeout.destroy(true);
+    }
+    // @ts-ignore
+    this.rippleTimeout = this.rl.register(new IdsRenderLoopItem({
+      duration: 1200,
+      timeoutCallback() {
+        rippleEl.remove();
+      }
+    }));
   }
 }
 
