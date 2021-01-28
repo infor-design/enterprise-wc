@@ -5,12 +5,11 @@ import {
   scss
 } from '../ids-base/ids-element';
 
+import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
-
-// @ts-ignore
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
+
 // @ts-ignore
 import styles from './ids-button.scss';
 
@@ -27,7 +26,7 @@ const BUTTON_TYPES = [
 const BUTTON_DEFAULTS = {
   cssClass: [],
   disabled: false,
-  tabindex: true,
+  tabIndex: true,
   type: BUTTON_TYPES[0]
 };
 
@@ -67,7 +66,17 @@ class IdsButton extends IdsElement {
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (this.shouldUpdate) {
-      IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+      switch (name) {
+        // Convert "tabindex" to "tabIndex"
+        case 'tabindex':
+          if (oldValue !== newValue) {
+            this.tabIndex = Number(newValue);
+          }
+          break;
+        default:
+          IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+          break;
+      }
     }
   }
 
@@ -128,7 +137,7 @@ class IdsButton extends IdsElement {
     let protoClasses = '';
     let disabled = '';
     let icon = '';
-    let tabindex = 'tabindex="0"';
+    let tabIndex = 'tabindex="0"';
     let text = '';
     let type = '';
     if (this.state?.cssClass) {
@@ -137,8 +146,8 @@ class IdsButton extends IdsElement {
     if (this.state?.disabled) {
       disabled = ` disabled="true"`;
     }
-    if (this.state?.tabindex) {
-      tabindex = `tabindex="${this.state.tabindex}"`;
+    if (this.state?.tabIndex) {
+      tabIndex = `tabindex="${this.state.tabIndex}"`;
     }
     if (this.state?.icon) {
       icon = `<ids-icon slot="icon" icon="${this.state.icon}"></ids-icon>`;
@@ -154,7 +163,7 @@ class IdsButton extends IdsElement {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }
 
-    return `<button class="${protoClasses}${type}${cssClass}" ${tabindex}${disabled}>
+    return `<button class="${protoClasses}${type}${cssClass}" ${tabIndex}${disabled}>
       <slot name="icon">${icon}</slot>
       <slot name="text">${text}</slot>
       <slot>${icon}${text}</slot>
@@ -256,7 +265,7 @@ class IdsButton extends IdsElement {
     this.removeAttribute(props.DISABLED);
     this.shouldUpdate = true;
 
-    const trueVal = stringUtils.stringToBool(val);
+    const trueVal = domUtils.isTrueBooleanAttribute(val);
     this.state.disabled = trueVal;
 
     /* istanbul ignore next */
@@ -270,30 +279,31 @@ class IdsButton extends IdsElement {
   }
 
   /**
-   * Passes a tabindex attribute from the custom element to the button
-   * @param {number} val the tabindex value
+   * Passes a tabIndex attribute from the custom element to the button
+   * @param {number} val the tabIndex value
    * @returns {void}
    */
-  set tabindex(val) {
+  set tabIndex(val) {
+    // Remove the webcomponent tabIndex
     this.shouldUpdate = false;
     this.removeAttribute(props.TABINDEX);
     this.shouldUpdate = true;
 
-    const trueVal = parseInt(val.toString(), 10);
+    const trueVal = Number(val);
     if (Number.isNaN(trueVal) || trueVal < -1) {
-      this.state.tabindex = 0;
-      this.button.removeAttribute(props.TABINDEX);
+      this.state.tabIndex = 0;
+      this.button.setAttribute(props.TABINDEX, '0');
       return;
     }
-    this.state.tabindex = trueVal;
-    this.button.setAttribute(props.TABINDEX, trueVal.toString());
+    this.state.tabIndex = trueVal;
+    this.button.setAttribute(props.TABINDEX, `${trueVal}`);
   }
 
   /**
-   * @returns {number} the current tabindex number for the button
+   * @returns {number} the current tabIndex number for the button
    */
-  get tabindex() {
-    return this.state.tabindex;
+  get tabIndex() {
+    return this.state.tabIndex;
   }
 
   /**
