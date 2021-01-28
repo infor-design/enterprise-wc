@@ -69,9 +69,7 @@ class IdsButton extends IdsElement {
       switch (name) {
         // Convert "tabindex" to "tabIndex"
         case 'tabindex':
-          if (oldValue !== newValue) {
-            this.tabIndex = Number(newValue);
-          }
+          this.tabIndex = Number(newValue);
           break;
         default:
           IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);

@@ -79,14 +79,14 @@ describe('IdsButton Component', () => {
     expect(btn.button.getAttribute('tabindex')).toEqual('0');
     expect(btn.state.tabIndex).toEqual(0);
 
-    btn.setAttribute('tabIndex', '-1');
+    btn.setAttribute('tabindex', '-1');
 
     expect(btn.hasAttribute('focusable')).toBeFalsy();
     expect(btn.tabIndex).toEqual(-1);
     expect(btn.button.getAttribute('tabindex')).toEqual('-1');
     expect(btn.state.tabIndex).toEqual(-1);
 
-    btn.setAttribute('tabIndex', '0');
+    btn.setAttribute('tabindex', '0');
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
     expect(btn.tabIndex).toEqual(0);
