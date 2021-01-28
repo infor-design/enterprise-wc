@@ -35,10 +35,17 @@ const BUTTON_PROPS = [
   props.CSS_CLASS,
   props.DISABLED,
   props.ICON,
+  props.ICON_ALIGN,
   props.ID,
   props.TEXT,
   props.TYPE,
   props.TABINDEX
+];
+
+// Icon alignments
+const ICON_ALIGN = [
+  'align-icon-start',
+  'align-icon-end'
 ];
 
 /**
@@ -84,6 +91,7 @@ class IdsButton extends IdsElement {
    */
   connectedCallback() {
     this.handleEvents();
+    this.setIconAlignment();
     this.shouldUpdate = true;
   }
 
@@ -161,9 +169,15 @@ class IdsButton extends IdsElement {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }
 
-    return `<button class="${protoClasses}${type}${cssClass}" ${tabIndex}${disabled}>
-      <slot name="icon">${icon}</slot>
-      <slot name="text">${text}</slot>
+    let alignCSS = ' align-icon-start';
+    let namedSlots = `<slot name="icon">${icon}</slot><slot name="text">${text}</slot>`;
+    if (this.state?.iconAlign === 'end') {
+      alignCSS = ' align-icon-end';
+      namedSlots = `<slot name="text">${text}</slot><slot name="icon">${icon}</slot>`;
+    }
+
+    return `<button class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
+      ${namedSlots}
       <slot>${icon}${text}</slot>
     </button>`;
   }
@@ -324,7 +338,27 @@ class IdsButton extends IdsElement {
    */
   get icon() {
     // @ts-ignore
-    return this.querySelector('ids-icon')?.icon;
+    return this.querySelector('ids-icon')?.getAttribute('icon');
+  }
+
+  /**
+   * Sets the alignment of an existing icon to the 'start' or 'end' of the text
+   * @param {string} val the alignment type to set.
+   */
+  set iconAlign(val) {
+    let trueVal = val;
+    if (!ICON_ALIGN.includes(`align-icon-${val}`)) {
+      trueVal = 'start';
+    }
+    this.state.iconAlign = trueVal;
+    this.setIconAlignment();
+  }
+
+  /**
+   * @returns {string} containing 'start' or 'end'
+   */
+  get iconAlign() {
+    return this.state.iconAlign;
   }
 
   /**
@@ -339,9 +373,11 @@ class IdsButton extends IdsElement {
 
     if (icon) {
       icon.icon = iconName;
+      this.setIconAlignment();
     } else {
       this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}" class="ids-icon"></ids-icon>`);
     }
+
     this.refreshProtoClasses();
   }
 
@@ -355,7 +391,31 @@ class IdsButton extends IdsElement {
     if (icon) {
       icon.remove();
     }
+    this.setIconAlignment();
     this.refreshProtoClasses();
+  }
+
+  /**
+   * Adds/Removes Icon Alignment CSS classes to/from the inner button component.
+   * @private
+   */
+  setIconAlignment() {
+    const alignment = this.iconAlign || 'start';
+    const iconStr = this.icon;
+    this.button.classList.remove(...ICON_ALIGN);
+
+    // Append the icon, if needed
+    if (iconStr) {
+      this.button.classList.add(`align-icon-${alignment}`);
+    }
+
+    // Re-arrange the slots
+    const iconSlot = this.button.querySelector('slot[name="icon"]');
+    if (alignment === 'end') {
+      this.button.appendChild(iconSlot);
+    } else {
+      this.button.prepend(iconSlot);
+    }
   }
 
   /**

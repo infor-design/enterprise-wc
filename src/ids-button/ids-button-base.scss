@@ -179,4 +179,13 @@
       @include text-slate-30();
     }
   }
+
+  // ====================================================
+  // Alignment changes
+
+  &.align-icon-end {
+    ids-icon[slot] {
+      align-self: flex-end;
+    }
+  }
 }

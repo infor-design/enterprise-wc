@@ -43,6 +43,17 @@ describe('IdsButton Component', () => {
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
+  it('renders icons on the opposite side correctly', () => {
+    const elem = new IdsButton();
+    elem.id = 'test-button';
+    elem.icon = 'settings';
+    elem.iconAlign = 'end';
+    elem.text = 'Settings';
+    document.body.appendChild(elem);
+    elem.template();
+    expect(elem.outerHTML).toMatchSnapshot();
+  });
+
   it('exposes its inner button component', () => {
     expect(btn.button).toBeDefined();
     expect(btn.button instanceof HTMLElement).toBeTruthy();
@@ -198,6 +209,23 @@ describe('IdsButton Component', () => {
     expect(btn.querySelector('ids-icon')).toBe(null);
   });
 
+  it('can align its icon differently', () => {
+    btn.icon = 'settings';
+    btn.iconAlign = 'end';
+
+    expect(btn.button.classList.contains('align-icon-end')).toBeTruthy();
+
+    btn.iconAlign = 'start';
+
+    expect(btn.button.classList.contains('align-icon-start')).toBeTruthy();
+
+    // Can't set a bad one
+    btn.iconAlign = 'fish';
+
+    expect(btn.button.classList.contains('align-icon-start')).toBeTruthy();
+    expect(btn.button.classList.contains('align-icon-fish')).toBeFalsy();
+  });
+
   it('can be an "icon-only" button', () => {
     btn.icon = 'settings';
     btn.text = '';
@@ -216,6 +244,7 @@ describe('IdsButton Component', () => {
     btn.tabIndex = -1;
     btn.type = 'secondary';
     btn.cssClass = ['awesome'];
+    btn.iconAlign = 'end';
 
     expect(btn.text).toEqual('New');
   });
