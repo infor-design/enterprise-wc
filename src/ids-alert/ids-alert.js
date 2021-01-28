@@ -1,11 +1,11 @@
+import pathData from 'ids-identity/dist/theme-uplift/icons/standard/path-data.json';
 import {
   IdsElement,
   customElement,
   scss
 } from '../ids-base/ids-element';
-import pathData from 'ids-identity/dist/theme-uplift/icons/standard/path-data.json';
 import { props } from '../ids-base/ids-constants';
-//@ts-ignore
+// @ts-ignore
 import styles from './ids-alert.scss';
 
 const sizes = {
@@ -27,7 +27,7 @@ class IdsAlert extends IdsElement {
 
   /**
    * Return the properties we handle as getters/setters
-   * @return {Array} The propertires in an array
+   * @returns {Array} The propertires in an array
    */
   static get properties() {
     return [props.TYPE, props.ICON, props.SIZE];
@@ -45,7 +45,7 @@ class IdsAlert extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const size = sizes[this.sizes];
+    const size = sizes[this.size];
     return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor"
             fill="none" height="${size}" width="${size}" viewBox="0 0 18 18"
             focusable="false" aria-hidden="true" role="presentation">
@@ -105,7 +105,6 @@ class IdsAlert extends IdsElement {
       this.shadowRoot.querySelector('svg')?.remove();
     }
   }
-
 }
 
 export default IdsAlert;

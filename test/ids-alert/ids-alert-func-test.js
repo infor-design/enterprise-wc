@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { idText, isExportDeclaration } from 'typescript';
 import IdsAlert from '../../src/ids-alert/ids-alert';
 
 describe('IdsAlert Component', () => {
