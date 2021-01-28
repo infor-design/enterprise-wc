@@ -42,6 +42,7 @@
   @include border-solid();
   @include font-normal();
   @include font-sans();
+  @include inline-flex();
   @include px-28();
   @include rounded-default();
   @include text-16();
@@ -98,6 +99,20 @@
 
   &:not([disabled]) {
     @include cursor-pointer();
+  }
+
+  // ====================================================
+  // Standard element types inside the button
+  span {
+    vertical-align: bottom;
+
+    &.audible {
+      @include audible();
+    }
+  }
+
+  .ids-icon {
+    vertical-align: middle;
   }
 
   // ====================================================
