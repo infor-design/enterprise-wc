@@ -11,15 +11,16 @@ Typically, these alerts are mostly effective to gain attention of the status of 
 ## Terminology
 
 - **Type**: Type is basically the status of an alert.
+- **Icon**: Icon is the symbol of the alert.
 
 ## Feature (With the Code Examples)
 
 An alert is created by using the `ids-alert`. It has a `type` property to set the desire alert icon.
 
 ```html
-<ids-alert type="info"></ids-alert>
-<ids-alert type="success"></ids-alert>
-<ids-alert type="alert"></ids-alert>
+<ids-alert icon="info"></ids-alert>
+<ids-alert icon="success"></ids-alert>
+<ids-alert icon="alert"></ids-alert>
 ```
 
 ## States and Variations
