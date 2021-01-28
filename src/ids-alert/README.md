@@ -10,18 +10,16 @@ Typically, these alerts are mostly effective to gain attention of the status of 
 
 ## Terminology
 
-- **Icon**: Icon is the symbol to use for a message. It is usually displayed next to the alert message.
 - **Type**: Type is basically the status of an alert.
-- **Svg**: Stands for eXtensible Markup Language (XML)-based vector graphic format for the Web and other environments.
 
 ## Feature (With the Code Examples)
 
-An alert is created by using the `ids-alert`. Alert has two properties to populate `(type, icon)` and one optional `size`. By default, it has `normal` or `18px` size.
+An alert is created by using the `ids-alert`. It has a `type` property to set the desire alert icon.
 
 ```html
-<ids-alert type="info" icon="error"></ids-alert>
-<ids-alert type="success" icon="success-alert" size="normal"></ids-alert>
-<ids-alert type="alert" icon="alert-solid" size="normal"></ids-alert>
+<ids-alert type="info"></ids-alert>
+<ids-alert type="success"></ids-alert>
+<ids-alert type="alert"></ids-alert>
 ```
 
 ## States and Variations

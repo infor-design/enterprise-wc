@@ -3,5 +3,5 @@
 
 export class IdsAlert extends HTMLElement {
   /* Types of alert */
-  type: 'error' | 'warning' | 'success' | 'info';
+  type: 'alert' | 'success' | 'dirty' | 'error' | 'info' | 'pending' | 'new' | 'in-progress' | 'info-field';
 }

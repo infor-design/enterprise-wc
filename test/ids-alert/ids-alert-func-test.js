@@ -10,7 +10,6 @@ describe('IdsAlert Component', () => {
     const alert = new IdsAlert();
 
     alert.type = 'success';
-    alert.icon = 'success';
     document.body.appendChild(alert);
     el = document.querySelector('ids-alert');
   });
