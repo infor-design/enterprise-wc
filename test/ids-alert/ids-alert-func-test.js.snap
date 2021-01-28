@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsAlert Component renders correctly 1`] = `"<ids-alert type=\\"success\\"></ids-alert>"`;
+exports[`IdsAlert Component renders correctly 1`] = `"<ids-alert icon=\\"success\\"></ids-alert>"`;
 
-exports[`IdsAlert Component renders correctly 2`] = `"<ids-alert type=\\"info\\"></ids-alert>"`;
+exports[`IdsAlert Component renders correctly 2`] = `"<ids-alert icon=\\"info\\"></ids-alert>"`;

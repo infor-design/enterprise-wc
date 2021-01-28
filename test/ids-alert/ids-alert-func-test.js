@@ -9,7 +9,7 @@ describe('IdsAlert Component', () => {
   beforeEach(async () => {
     const alert = new IdsAlert();
 
-    alert.type = 'success';
+    alert.icon = 'success';
     document.body.appendChild(alert);
     el = document.querySelector('ids-alert');
   });
@@ -29,14 +29,13 @@ describe('IdsAlert Component', () => {
 
   it('renders correctly', () => {
     expect(el.outerHTML).toMatchSnapshot();
-    el.type = 'info';
     el.icon = 'info';
     expect(el.outerHTML).toMatchSnapshot();
   });
 
-  it('renders type setting', () => {
-    el.type = 'success';
-    expect(el.type).toEqual('success');
-    expect(el.getAttribute('type')).toEqual('success');
+  it('renders icon setting', () => {
+    el.icon = 'success';
+    expect(el.icon).toEqual('success');
+    expect(el.getAttribute('icon')).toEqual('success');
   });
 });

@@ -24,7 +24,7 @@ class IdsAlert extends IdsElement {
    * @returns {Array} The propertires in an array
    */
   static get properties() {
-    return [props.TYPE];
+    return [props.ICON];
   }
 
   /**
@@ -37,24 +37,24 @@ class IdsAlert extends IdsElement {
   }
 
   /**
-   * Return the type of the alert.
+   * Return the icon of the alert.
    * @returns {string} the path data
    */
-  get type() { return this.getAttribute(props.TYPE); }
+  get icon() { return this.getAttribute(props.ICON); }
 
   /**
-   * Set the type
-   * @param {string} value The Type [success, info, error, alert]
+   * Set the icon
+   * @param {string} value The Icon Type [success, info, error, alert]
    */
-  set type(value) {
+  set icon(value) {
     if (value) {
-      this.setAttribute(props.TYPE, value);
+      this.setAttribute(props.ICON, value);
       this.shadowRoot.querySelector('ids-icon').setAttribute(props.ICON, value);
       setTimeout(() => {
         this.shadowRoot.querySelector('ids-icon').shadowRoot.querySelector('svg').classList.add(`icon-${value}`);
       }, 100);
     } else {
-      this.removeAttribute(props.TYPE);
+      this.removeAttribute(props.ICON);
     }
   }
 }
