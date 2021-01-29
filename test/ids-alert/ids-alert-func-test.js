@@ -39,20 +39,20 @@ describe('IdsAlert Component', () => {
     expect(el.getAttribute('icon')).toEqual('success');
   });
 
-  it('renders icon new then removes it', () => {
+  it('renders icon info then removes it', () => {
     el = new IdsAlert();
     document.body.appendChild(el);
-    el.icon = 'new';
-    expect(el.icon).toEqual('new');
+    el.icon = 'info';
+    expect(el.icon).toEqual('info');
     el.icon = null;
     expect(el.icon).toEqual(null);
   });
 
-  it('renders icon in-progress then removes it', () => {
+  it('renders icon success then removes it', () => {
     el = new IdsAlert();
     document.body.appendChild(el);
-    el.icon = 'in-progress';
-    expect(el.icon).toEqual('in-progress');
+    el.icon = 'success';
+    expect(el.icon).toEqual('success');
     el.icon = null;
     expect(el.icon).toEqual(null);
   });
