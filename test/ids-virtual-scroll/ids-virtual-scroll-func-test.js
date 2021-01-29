@@ -120,4 +120,22 @@ describe('IdsVirtualScroll Component', () => {
     virtualScroll.scrollTarget = null;
     expect(errors).not.toHaveBeenCalled();
   });
+
+  it('can scroll to an item', () => {
+    expect(virtualScroll.scrollTop).toEqual(0);
+    virtualScroll.scrollToIndex(900);
+    expect(virtualScroll.scrollTop).toEqual('18000');
+  });
+
+  it('can reset the data', () => {
+    expect(virtualScroll.querySelectorAll('li').length).toEqual(56);
+    virtualScroll.data = virtualScroll.data.slice(1, 10);
+    expect(virtualScroll.querySelectorAll('li').length).toEqual(9);
+  });
+
+  it('can reset the data to zero', () => {
+    expect(virtualScroll.querySelectorAll('li').length).toEqual(56);
+    virtualScroll.data = [];
+    expect(virtualScroll.querySelectorAll('li').length).toEqual(0);
+  });
 });
