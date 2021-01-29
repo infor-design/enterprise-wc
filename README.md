@@ -2,6 +2,7 @@
 
 ![Build Status](https://github.com/infor-design/enterprise-wc/workflows/Build%20Check/badge.svg)
 [![Visual Regression Status](https://percy.io/static/images/percy-badge.svg)](https://percy.io/Infor-Design-System/IDS-Web-Components)
+[![Coverage Status](https://coveralls.io/repos/github/infor-design/enterprise-wc/badge.svg)](https://coveralls.io/github/infor-design/enterprise-wc)
 
 Infor Design System Web Components (IDS WC) is an Infor community sourced, open source project that creates high quality web components that contain the common patterns and styles used in Infor Applications. We built these in such a way that they could be used by any application in a variety of popular frameworks (Angular, React Vue).
 
