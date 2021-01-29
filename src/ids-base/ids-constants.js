@@ -31,6 +31,8 @@ export const props = {
   GROUP_DISABLED: 'group-disabled',
   HORIZONTAL: 'horizontal',
   ICON: 'icon',
+  ICON_ALIGN: 'icon-align',
+  ID: 'id',
   INDETERMINATE: 'indeterminate',
   KEEP_OPEN: 'keep-open',
   LABEL: 'label',

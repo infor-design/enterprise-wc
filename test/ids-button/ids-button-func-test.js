@@ -43,6 +43,17 @@ describe('IdsButton Component', () => {
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
+  it('renders icons on the opposite side correctly', () => {
+    const elem = new IdsButton();
+    elem.id = 'test-button';
+    elem.icon = 'settings';
+    elem.iconAlign = 'end';
+    elem.text = 'Settings';
+    document.body.appendChild(elem);
+    elem.template();
+    expect(elem.outerHTML).toMatchSnapshot();
+  });
+
   it('exposes its inner button component', () => {
     expect(btn.button).toBeDefined();
     expect(btn.button instanceof HTMLElement).toBeTruthy();
@@ -65,48 +76,48 @@ describe('IdsButton Component', () => {
   });
 
   it('can be focusable or not', () => {
-    btn.tabindex = -1;
+    btn.tabIndex = -1;
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
-    expect(btn.tabindex).toEqual(-1);
+    expect(btn.tabIndex).toEqual(-1);
     expect(btn.button.getAttribute('tabindex')).toEqual('-1');
-    expect(btn.state.tabindex).toEqual(-1);
+    expect(btn.state.tabIndex).toEqual(-1);
 
-    btn.tabindex = 0;
+    btn.tabIndex = 0;
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
-    expect(btn.tabindex).toEqual(0);
+    expect(btn.tabIndex).toEqual(0);
     expect(btn.button.getAttribute('tabindex')).toEqual('0');
-    expect(btn.state.tabindex).toEqual(0);
+    expect(btn.state.tabIndex).toEqual(0);
 
     btn.setAttribute('tabindex', '-1');
 
     expect(btn.hasAttribute('focusable')).toBeFalsy();
-    expect(btn.tabindex).toEqual(-1);
+    expect(btn.tabIndex).toEqual(-1);
     expect(btn.button.getAttribute('tabindex')).toEqual('-1');
-    expect(btn.state.tabindex).toEqual(-1);
+    expect(btn.state.tabIndex).toEqual(-1);
 
     btn.setAttribute('tabindex', '0');
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
-    expect(btn.tabindex).toEqual(0);
+    expect(btn.tabIndex).toEqual(0);
     expect(btn.button.getAttribute('tabindex')).toEqual('0');
-    expect(btn.state.tabindex).toEqual(0);
+    expect(btn.state.tabIndex).toEqual(0);
 
     // Handles incorrect values
-    btn.tabindex = 'fish';
+    btn.tabIndex = 'fish';
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
-    expect(btn.tabindex).toEqual(0);
-    expect(btn.button.hasAttribute('tabindex')).toBeFalsy();
-    expect(btn.state.tabindex).toEqual(0);
+    expect(btn.tabIndex).toEqual(0);
+    expect(btn.button.getAttribute('tabindex')).toEqual('0');
+    expect(btn.state.tabIndex).toEqual(0);
 
-    btn.tabindex = -2;
+    btn.tabIndex = -2;
 
     expect(btn.hasAttribute('tabindex')).toBeFalsy();
-    expect(btn.tabindex).toEqual(0);
-    expect(btn.button.hasAttribute('tabindex')).toBeFalsy();
-    expect(btn.state.tabindex).toEqual(0);
+    expect(btn.tabIndex).toEqual(0);
+    expect(btn.button.getAttribute('tabindex')).toEqual('0');
+    expect(btn.state.tabIndex).toEqual(0);
   });
 
   it('can add extra CSS classes to the button', () => {
@@ -198,6 +209,23 @@ describe('IdsButton Component', () => {
     expect(btn.querySelector('ids-icon')).toBe(null);
   });
 
+  it('can align its icon differently', () => {
+    btn.icon = 'settings';
+    btn.iconAlign = 'end';
+
+    expect(btn.button.classList.contains('align-icon-end')).toBeTruthy();
+
+    btn.iconAlign = 'start';
+
+    expect(btn.button.classList.contains('align-icon-start')).toBeTruthy();
+
+    // Can't set a bad one
+    btn.iconAlign = 'fish';
+
+    expect(btn.button.classList.contains('align-icon-start')).toBeTruthy();
+    expect(btn.button.classList.contains('align-icon-fish')).toBeFalsy();
+  });
+
   it('can be an "icon-only" button', () => {
     btn.icon = 'settings';
     btn.text = '';
@@ -213,9 +241,10 @@ describe('IdsButton Component', () => {
     btn.text = 'New';
     btn.icon = 'check';
     btn.disabled = true;
-    btn.tabindex = -1;
+    btn.tabIndex = -1;
     btn.type = 'secondary';
     btn.cssClass = ['awesome'];
+    btn.iconAlign = 'end';
 
     expect(btn.text).toEqual('New');
   });

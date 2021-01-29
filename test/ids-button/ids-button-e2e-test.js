@@ -25,4 +25,11 @@ describe('Ids Button e2e Tests', () => {
     await page.goto(url, { waitUntil: 'load' });
     await percySnapshot(page, 'ids-button');
   });
+
+  it('should not have visual regressions (percy) on standalone CSS', async () => {
+    page = await browser.newPage();
+    await page.setBypassCSP(true);
+    await page.goto('http://localhost:4444/ids-button/standalone-css', { waitUntil: 'load' });
+    await percySnapshot(page, 'ids-button-css');
+  });
 });

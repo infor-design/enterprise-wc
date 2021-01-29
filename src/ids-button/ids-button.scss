@@ -44,6 +44,20 @@
     @include pl-4();
   }
 
+  .ids-icon {
+    @include inline-flex();
+
+    place-self: center;
+    vertical-align: middle;
+  }
+
+  // Padding rules for standalone CSS buttons (match the rules/style above)
+  .ids-icon:last-child,
+  span + span,
+  span:last-child {
+    @include pl-4();
+  }
+
   // Technically not valid
   ::slotted(ids-icon:only-child) {
     @include block();
@@ -63,11 +77,15 @@
   @include py-8();
   @include rounded-round();
 
-  ::slotted(ids-icon) {
+  .ids-icon {
     @include block();
     @include pl-0();
 
     font-size: 0;
+  }
+
+  span.audible {
+    @include audible();
   }
 
   .ripple-effect {
