@@ -18,6 +18,7 @@ import IdsAccordion from '../src/ids-accordion/ids-accordion';
 import IdsRadio from '../src/ids-radio/ids-radio';
 import IdsRenderLoopMixin from '../src/ids-render-loop/ids-render-loop-mixin';
 import IdsUpload from '../src/ids-upload/ids-upload';
+import IdsAlert from '../src/ids-alert/ids-alert';
 
 // Import Example Code
 import './ids-button/index';
@@ -30,3 +31,4 @@ import './ids-render-loop/index';
 import './ids-toggle-button/index';
 import './ids-trigger-field/index';
 import './ids-radio/index';
+import './ids-alert/index';
