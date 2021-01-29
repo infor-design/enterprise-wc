@@ -39,6 +39,9 @@ describe('IdsAlert Component', () => {
     el.icon = 'success';
     expect(el.icon).toEqual('success');
     expect(el.getAttribute('icon')).toEqual('success');
+    el.icon = 'info';
+    expect(el.icon).toEqual('info');
+    expect(el.getAttribute('icon')).toEqual('info');
   });
 
   it('renders icon info then removes it', () => {
