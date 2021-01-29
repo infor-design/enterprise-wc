@@ -60,6 +60,7 @@ Standard button states include:
 - Hover
 - Focus
 - Active (pressed)
+- Disabled
 
 IDS button types include:
 
@@ -67,6 +68,24 @@ IDS button types include:
 - `primary`
 - `secondary`
 - `tertiary`
+
+An IDS Button that contains an icon has the icon aligned left of the button text by default.  To switch the alignment, it's possible to set the `icon-align` attribute.
+
+```html
+<ids-button id="my-button" type="primary" icon-align="end">
+  <ids-icon slot="icon" icon="settings"></ids-icon>
+  <span slot="text">My Button</span>
+</ids-button>
+```
+
+The attribute has the following effects:
+
+| prop value | LTR (default) Icon Location | RTL Icon Location |
+| :--------- | :-------------------------- | :---------------- |
+| 'start'    | icon to the left of text | icon to the right of text |
+| 'end'      | icon to the right of text | icon to the left of text |
+
+In the absence of the property, icons will align to `start` by default.
 
 ## Keyboard Guidelines
 
