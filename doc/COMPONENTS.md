@@ -60,16 +60,8 @@ As with most modern web applications, the WebComponents library is developed aga
 
 Some HTMLElement types support boolean attributes, such as `disabled`.  [The specification](https://html.spec.whatwg.org/multipage/common-microsyntaxes.html#boolean-attributes) describes these attributes functioning in the following way:
 
-- The presence of the attribute will evaluate as `true`.  
+- The presence of the attribute will evaluate as `true`.
 - The absence of the attribute will evaluate as `false`.
 - If the attribute is present, its string value does not matter, and will always mean `true`.
 
 Ids WebComponents take the added step of evaluating the string value, and will cause a string value of `"false"` to actually evaluate as `false`, removing the attribute and property.
-
-### CSS Standards
-
-TBD
-
-### Javascript Standards
-
-TBD

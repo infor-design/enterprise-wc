@@ -40,7 +40,7 @@ class IdsVirtualScroll extends IdsElement {
    */
   init() {
     this.applyHeight();
-    this.renderItems();
+    this.renderItems(false);
     return this;
   }
 
@@ -59,7 +59,12 @@ class IdsVirtualScroll extends IdsElement {
     return this;
   }
 
-  handleScroll(/** @type {object} */ e) {
+  /**
+   * Handle the scrolling event
+   * @private
+   * @param {Event} e The scroll event data
+   */
+  handleScroll(/** @type {Event} */ e) {
     if (this.timeout) {
       cancelAnimationFrame(this.timeout);
     }
@@ -67,16 +72,16 @@ class IdsVirtualScroll extends IdsElement {
     const target = e.target;
     this.timeout = requestAnimationFrame(() => {
       this.scrollTop = target.scrollTop;
-      this.renderItems();
     });
   }
 
   /**
    * Render the visible section plus the cached data
    * @private
+   * @param {boolean} allowZero Allow a zero length dataset (render empty)
    */
-  renderItems() {
-    if (!this.data || this.data.length === 0) {
+  renderItems(allowZero) {
+    if (!this.data || (!allowZero && this.data.length === 0)) {
       return;
     }
     const startIndex = this.startIndex;
@@ -103,6 +108,7 @@ class IdsVirtualScroll extends IdsElement {
 
     this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
     this.itemContainer.innerHTML = html;
+    this.eventHandlers.dispatchEvent('afterrendered', this, { detail: { elem: this, startIndex, endIndex } });
   }
 
   /**
@@ -130,7 +136,7 @@ class IdsVirtualScroll extends IdsElement {
    */
   visibleItemCount() {
     // @ts-ignore
-    let count = Math.ceil(this.height / this.itemHeight) + 2 * this.bufferSize;
+    let count = Math.ceil(this.height / this.itemHeight) + (2 * this.bufferSize);
     count = Math.min(Number(this.itemCount) - this.startIndex, count);
     return count;
   }
@@ -165,7 +171,7 @@ class IdsVirtualScroll extends IdsElement {
     this.removeAttribute('height');
   }
 
-  get height() { return this.getAttribute('height'); }
+  get height() { return this.data.length === 0 ? 0 : this.getAttribute('height'); }
 
   /**
    * The height of each item in the scroller. TODO: support dynamic heights
@@ -175,7 +181,7 @@ class IdsVirtualScroll extends IdsElement {
     if (value) {
       this.setAttribute('item-height', value.toString());
       this.applyHeight();
-      this.renderItems();
+      this.renderItems(false);
       return;
     }
 
@@ -208,6 +214,7 @@ class IdsVirtualScroll extends IdsElement {
     if (value) {
       this.setAttribute('scroll-top', value.toString());
       this.container.scrollTop = value;
+      this.renderItems(false);
       return;
     }
 
@@ -216,6 +223,14 @@ class IdsVirtualScroll extends IdsElement {
 
   // @ts-ignore
   get scrollTop() { return this.getAttribute('scroll-top') || 0; }
+
+  /**
+   * Scroll to a indexed item bring it into center view.
+   * @param {number} value The index to scroll to
+   */
+  scrollTo(value) {
+    this.scrollTop = Number(value) * this.itemHeight;
+  }
 
   /**
    * The height of the inner viewport
@@ -266,7 +281,11 @@ class IdsVirtualScroll extends IdsElement {
     if (value) {
       this.datasource.data = value;
       this.itemCount = value.length;
-      this.renderItems();
+      this.lastStart = null;
+      this.lastEnd = null;
+      this.scrollTop = 0;
+      this.applyHeight();
+      this.renderItems(true);
       return;
     }
 
