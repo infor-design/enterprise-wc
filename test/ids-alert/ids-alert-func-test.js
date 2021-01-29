@@ -38,4 +38,13 @@ describe('IdsAlert Component', () => {
     expect(el.icon).toEqual('success');
     expect(el.getAttribute('icon')).toEqual('success');
   });
+
+  it('renders icon setting then removes it', () => {
+    el = new IdsAlert();
+    document.body.appendChild(el);
+    el.icon = 'new';
+    expect(el.icon).toEqual('new');
+    el.icon = null;
+    expect(el.icon).toEqual(null);
+  });
 });
