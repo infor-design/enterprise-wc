@@ -123,7 +123,7 @@ describe('IdsVirtualScroll Component', () => {
 
   it('can scroll to an item', () => {
     expect(virtualScroll.scrollTop).toEqual(0);
-    virtualScroll.scrollTo(900);
+    virtualScroll.scrollToIndex(900);
     expect(virtualScroll.scrollTop).toEqual('18000');
   });
 

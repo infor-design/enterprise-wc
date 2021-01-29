@@ -69,6 +69,7 @@ class IdsVirtualScroll extends IdsElement {
       cancelAnimationFrame(this.timeout);
     }
 
+    /** @type {any} */
     const target = e.target;
     this.timeout = requestAnimationFrame(() => {
       this.scrollTop = target.scrollTop;
@@ -108,7 +109,9 @@ class IdsVirtualScroll extends IdsElement {
 
     this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
     this.itemContainer.innerHTML = html;
-    this.eventHandlers.dispatchEvent('afterrendered', this, { detail: { elem: this, startIndex, endIndex } });
+    /** @type {any} */
+    const elem = this;
+    this.eventHandlers.dispatchEvent('afterrendered', elem, { detail: { elem: this, startIndex, endIndex } });
   }
 
   /**
@@ -228,8 +231,8 @@ class IdsVirtualScroll extends IdsElement {
    * Scroll to a indexed item bring it into center view.
    * @param {number} value The index to scroll to
    */
-  scrollTo(value) {
-    this.scrollTop = Number(value) * this.itemHeight;
+  scrollToIndex(value) {
+    this.scrollTop = Number(value) * Number(this.itemHeight);
   }
 
   /**
