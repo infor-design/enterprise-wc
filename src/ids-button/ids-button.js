@@ -1,14 +1,15 @@
 import {
   IdsElement,
   customElement,
+  mixin,
   scss
 } from '../ids-base/ids-element';
 
+import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-
-// @ts-ignore
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 import { props } from '../ids-base/ids-constants';
+
 // @ts-ignore
 import styles from './ids-button.scss';
 
@@ -25,7 +26,7 @@ const BUTTON_TYPES = [
 const BUTTON_DEFAULTS = {
   cssClass: [],
   disabled: false,
-  tabindex: true,
+  tabIndex: true,
   type: BUTTON_TYPES[0]
 };
 
@@ -34,16 +35,24 @@ const BUTTON_PROPS = [
   props.CSS_CLASS,
   props.DISABLED,
   props.ICON,
-  'id',
+  props.ICON_ALIGN,
+  props.ID,
   props.TEXT,
-  'type',
-  'tabindex'
+  props.TYPE,
+  props.TABINDEX
+];
+
+// Icon alignments
+const ICON_ALIGN = [
+  'align-icon-start',
+  'align-icon-end'
 ];
 
 /**
  * IDS Button Component
  */
 @customElement('ids-button')
+@mixin(IdsRenderLoopMixin)
 @scss(styles)
 class IdsButton extends IdsElement {
   constructor() {
@@ -64,7 +73,15 @@ class IdsButton extends IdsElement {
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (this.shouldUpdate) {
-      IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+      switch (name) {
+        // Convert "tabindex" to "tabIndex"
+        case 'tabindex':
+          this.tabIndex = Number(newValue);
+          break;
+        default:
+          IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+          break;
+      }
     }
   }
 
@@ -74,6 +91,7 @@ class IdsButton extends IdsElement {
    */
   connectedCallback() {
     this.handleEvents();
+    this.setIconAlignment();
     this.shouldUpdate = true;
   }
 
@@ -125,7 +143,7 @@ class IdsButton extends IdsElement {
     let protoClasses = '';
     let disabled = '';
     let icon = '';
-    let tabindex = 'tabindex="0"';
+    let tabIndex = 'tabindex="0"';
     let text = '';
     let type = '';
     if (this.state?.cssClass) {
@@ -134,8 +152,8 @@ class IdsButton extends IdsElement {
     if (this.state?.disabled) {
       disabled = ` disabled="true"`;
     }
-    if (this.state?.tabindex) {
-      tabindex = `tabindex="${this.state.tabindex}"`;
+    if (this.state?.tabIndex) {
+      tabIndex = `tabindex="${this.state.tabIndex}"`;
     }
     if (this.state?.icon) {
       icon = `<ids-icon slot="icon" icon="${this.state.icon}"></ids-icon>`;
@@ -151,9 +169,15 @@ class IdsButton extends IdsElement {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }
 
-    return `<button class="${protoClasses}${type}${cssClass}" ${tabindex}${disabled}>
-      <slot name="icon">${icon}</slot>
-      <slot name="text">${text}</slot>
+    let alignCSS = ' align-icon-start';
+    let namedSlots = `<slot name="icon">${icon}</slot><slot name="text">${text}</slot>`;
+    if (this.state?.iconAlign === 'end') {
+      alignCSS = ' align-icon-end';
+      namedSlots = `<slot name="text">${text}</slot><slot name="icon">${icon}</slot>`;
+    }
+
+    return `<button class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
+      ${namedSlots}
       <slot>${icon}${text}</slot>
     </button>`;
   }
@@ -220,9 +244,9 @@ class IdsButton extends IdsElement {
 
     this.state.cssClass = newCl;
     if (newCl.length) {
-      this.setAttribute('css-class', attr.toString());
+      this.setAttribute(props.CSS_CLASS, attr.toString());
     } else {
-      this.removeAttribute('css-class');
+      this.removeAttribute(props.CSS_CLASS);
     }
 
     // Remove/Set CSS classes on the actual inner Button component
@@ -250,10 +274,10 @@ class IdsButton extends IdsElement {
    */
   set disabled(val) {
     this.shouldUpdate = false;
-    this.removeAttribute('disabled');
+    this.removeAttribute(props.DISABLED);
     this.shouldUpdate = true;
 
-    const trueVal = stringUtils.stringToBool(val);
+    const trueVal = domUtils.isTrueBooleanAttribute(val);
     this.state.disabled = trueVal;
 
     /* istanbul ignore next */
@@ -267,30 +291,31 @@ class IdsButton extends IdsElement {
   }
 
   /**
-   * Passes a tabindex attribute from the custom element to the button
-   * @param {number} val the tabindex value
+   * Passes a tabIndex attribute from the custom element to the button
+   * @param {number} val the tabIndex value
    * @returns {void}
    */
-  set tabindex(val) {
+  set tabIndex(val) {
+    // Remove the webcomponent tabIndex
     this.shouldUpdate = false;
-    this.removeAttribute('tabindex');
+    this.removeAttribute(props.TABINDEX);
     this.shouldUpdate = true;
 
-    const trueVal = parseInt(val.toString(), 10);
+    const trueVal = Number(val);
     if (Number.isNaN(trueVal) || trueVal < -1) {
-      this.state.tabindex = 0;
-      this.button.removeAttribute('tabindex');
+      this.state.tabIndex = 0;
+      this.button.setAttribute(props.TABINDEX, '0');
       return;
     }
-    this.state.tabindex = trueVal;
-    this.button.setAttribute('tabindex', trueVal.toString());
+    this.state.tabIndex = trueVal;
+    this.button.setAttribute(props.TABINDEX, `${trueVal}`);
   }
 
   /**
-   * @returns {number} the current tabindex number for the button
+   * @returns {number} the current tabIndex number for the button
    */
-  get tabindex() {
-    return this.state.tabindex;
+  get tabIndex() {
+    return this.state.tabIndex;
   }
 
   /**
@@ -298,13 +323,13 @@ class IdsButton extends IdsElement {
    */
   set icon(val) {
     if (typeof val !== 'string' || !val.length) {
-      this.removeAttribute('icon');
+      this.removeAttribute(props.ICON);
       this.state.icon = undefined;
       this.removeIcon();
       return;
     }
     this.state.icon = val;
-    this.setAttribute('icon', val);
+    this.setAttribute(props.ICON, val);
     this.appendIcon(val);
   }
 
@@ -313,7 +338,27 @@ class IdsButton extends IdsElement {
    */
   get icon() {
     // @ts-ignore
-    return this.querySelector('ids-icon')?.icon;
+    return this.querySelector('ids-icon')?.getAttribute('icon');
+  }
+
+  /**
+   * Sets the alignment of an existing icon to the 'start' or 'end' of the text
+   * @param {string} val the alignment type to set.
+   */
+  set iconAlign(val) {
+    let trueVal = val;
+    if (!ICON_ALIGN.includes(`align-icon-${val}`)) {
+      trueVal = 'start';
+    }
+    this.state.iconAlign = trueVal;
+    this.setIconAlignment();
+  }
+
+  /**
+   * @returns {string} containing 'start' or 'end'
+   */
+  get iconAlign() {
+    return this.state.iconAlign;
   }
 
   /**
@@ -328,9 +373,11 @@ class IdsButton extends IdsElement {
 
     if (icon) {
       icon.icon = iconName;
+      this.setIconAlignment();
     } else {
       this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}" class="ids-icon"></ids-icon>`);
     }
+
     this.refreshProtoClasses();
   }
 
@@ -344,7 +391,31 @@ class IdsButton extends IdsElement {
     if (icon) {
       icon.remove();
     }
+    this.setIconAlignment();
     this.refreshProtoClasses();
+  }
+
+  /**
+   * Adds/Removes Icon Alignment CSS classes to/from the inner button component.
+   * @private
+   */
+  setIconAlignment() {
+    const alignment = this.iconAlign || 'start';
+    const iconStr = this.icon;
+    this.button.classList.remove(...ICON_ALIGN);
+
+    // Append the icon, if needed
+    if (iconStr) {
+      this.button.classList.add(`align-icon-${alignment}`);
+    }
+
+    // Re-arrange the slots
+    const iconSlot = this.button.querySelector('slot[name="icon"]');
+    if (alignment === 'end') {
+      this.button.appendChild(iconSlot);
+    } else {
+      this.button.prepend(iconSlot);
+    }
   }
 
   /**
@@ -352,7 +423,7 @@ class IdsButton extends IdsElement {
    * @returns {void}
    */
   set text(val) {
-    this.removeAttribute('text');
+    this.removeAttribute(props.TEXT);
 
     if (typeof val !== 'string' || !val.length) {
       this.state.text = '';
@@ -409,10 +480,10 @@ class IdsButton extends IdsElement {
    */
   set type(val) {
     if (!val || BUTTON_TYPES.indexOf(val) <= 0) {
-      this.removeAttribute('type');
+      this.removeAttribute(props.TYPE);
       this.state.type = BUTTON_TYPES[0];
     } else {
-      this.setAttribute('type', val);
+      this.setAttribute(props.TYPE, val);
       if (this.state.type !== val) {
         this.state.type = val;
       }
@@ -521,10 +592,16 @@ class IdsButton extends IdsElement {
     rippleEl.classList.add('animating');
 
     // After a short time, remove the ripple effect
-    // @TODO replace this with a renderloop callback
-    setTimeout(() => {
-      rippleEl.remove();
-    }, 1200);
+    if (this.rippleTimeout) {
+      this.rippleTimeout.destroy(true);
+    }
+    // @ts-ignore
+    this.rippleTimeout = this.rl.register(new IdsRenderLoopItem({
+      duration: 1200,
+      timeoutCallback() {
+        rippleEl.remove();
+      }
+    }));
   }
 }
 
