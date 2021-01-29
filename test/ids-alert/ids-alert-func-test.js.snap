@@ -3,3 +3,5 @@
 exports[`IdsAlert Component renders correctly 1`] = `"<ids-alert icon=\\"success\\"></ids-alert>"`;
 
 exports[`IdsAlert Component renders correctly 2`] = `"<ids-alert icon=\\"info\\"></ids-alert>"`;
+
+exports[`IdsAlert Component renders correctly 3`] = `"<ids-alert icon=\\"new\\"></ids-alert>"`;

@@ -31,6 +31,8 @@ describe('IdsAlert Component', () => {
     expect(el.outerHTML).toMatchSnapshot();
     el.icon = 'info';
     expect(el.outerHTML).toMatchSnapshot();
+    el.icon = 'new';
+    expect(el.outerHTML).toMatchSnapshot();
   });
 
   it('renders icon setting', () => {
