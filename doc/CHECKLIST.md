@@ -135,12 +135,12 @@ Standalone Css not applicable use SVG files or PNG files. Could also still use a
 
 **Button** (ids-button)
  - [x] Docs
- - [ ] 100% Test Coverage
+ - [x] 100% Test Coverage
  - [x] Feature Parity with 4.x
  - [x] Upgrade Docs in Changelog
- - [ ] Typings
+ - [x] Typings
  - [ ] NG / Vue / React Example
- - [ ] Standalone Css
+ - [x] Standalone Css
  - [ ] Works in Page with 4.x
 
 **Calendar** (ids-calendar)
