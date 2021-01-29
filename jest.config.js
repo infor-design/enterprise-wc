@@ -18,7 +18,7 @@ module.exports = {
   // executing the test
   collectCoverage: false,
 
-  testTimeout: 10000,
+  testTimeout: 20000,
 
   // An array of glob patterns indicating a set of files for which coverage
   // information should be collected
@@ -36,7 +36,7 @@ module.exports = {
   coverageProvider: 'babel',
 
   // A list of reporter names that Jest uses when writing coverage reports
-  coverageReporters: ['html', 'text'],
+  coverageReporters: ['html', 'text', 'lcov'],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
