@@ -128,7 +128,7 @@ class IdsButton extends IdsElement {
     const cl = this.button.classList;
     /** @type {any} */
     const newProtoClass = this.protoClasses;
-    const protoClasses = ['ids-button', 'ids-toggle-button', 'ids-icon-button'];
+    const protoClasses = ['ids-button', 'ids-icon-button', 'ids-menu-button', 'ids-toggle-button'];
 
     cl.remove(...protoClasses);
     cl.add(newProtoClass);
@@ -194,7 +194,7 @@ class IdsButton extends IdsElement {
     let preceededByTouchstart = false;
     this.eventHandlers = new IdsEventsMixin();
 
-    this.eventHandlers.addEventListener('click', this.button, (/** @type {any} */ e) => {
+    this.eventHandlers.addEventListener('click.ripple', this.button, (/** @type {any} */ e) => {
       if (preceededByTouchstart) {
         preceededByTouchstart = false;
         return;
@@ -204,7 +204,7 @@ class IdsButton extends IdsElement {
       this.createRipple(x, y);
     });
 
-    this.eventHandlers.addEventListener('touchstart', this.button, (/** @type {any} */ e) => {
+    this.eventHandlers.addEventListener('touchstart.ripple', this.button, (/** @type {any} */ e) => {
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
         x = touch.clientX !== 0 ? touch.clientX : undefined;

@@ -1,0 +1,18 @@
+<ids-layout-grid>
+    <ids-text font-size="12" type="h1">Menu Buttons</ids-text>
+</ids-layout-grid>
+<ids-layout-grid cols="4" gap="md">
+    <ids-layout-grid-cell>
+        <ids-menu-button id="test-toggle-button" menu="my-menu" type="primary">
+            <ids-icon slot="icon" icon="settings"></ids-icon>
+            <span slot="text">Settings</span>
+        </ids-menu-button>
+        <ids-popup-menu id="my-menu" target="test-toggle-button">
+            <ids-menu-group>
+                <ids-menu-item icon="user">User Settings</ids-menu-item>
+                <ids-menu-item icon="filter">Filters</ids-menu-item>
+                <ids-menu-item icon="save">Saved Items</ids-menu-item>
+            </ids-menu-group>
+        </ids-popup-menu>
+    </ids-layout-grid-cell>
+</ids-layout-grid>

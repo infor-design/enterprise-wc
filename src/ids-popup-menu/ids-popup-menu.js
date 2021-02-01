@@ -203,16 +203,24 @@ class IdsPopupMenu extends IdsMenu {
       return;
     }
 
-    // @TODO unbind pre-existing trigger events so we can switch the trigger type
-    const targetElem = this.target || window;
+    // Remove any pre-existing trigger events
+    const removeEventTargets = ['contextmenu.trigger', 'click.trigger'];
+    removeEventTargets.forEach((eventName) => {
+      const evt = this.eventHandlers.handledEvents.get(eventName);
+      if (evt) {
+        this.eventHandlers.removeAll(eventName);
+      }
+    });
 
+    // Based on the trigger type, bind new events
+    const targetElem = this.target || window;
     switch (this.trigger) {
       case 'immediate':
         // @TODO
         break;
       case 'click':
         // Open/Close the menu when the trigger element is clicked
-        this.eventHandlers.addEventListener('click', targetElem, (/** @type {any} */e) => {
+        this.eventHandlers.addEventListener('click.trigger', targetElem, (/** @type {any} */e) => {
           e.preventDefault();
           if (this.hidden) {
             this.popup.align = 'bottom, left';
@@ -233,7 +241,7 @@ class IdsPopupMenu extends IdsMenu {
         }
 
         // Attach a contextmenu handler to the target element for opening the popup
-        this.eventHandlers.addEventListener('contextmenu', targetElem, (/** @type {any} */e) => {
+        this.eventHandlers.addEventListener('contextmenu.trigger', targetElem, (/** @type {any} */e) => {
           e.preventDefault();
           e.stopPropagation();
           this.popup.x = e.pageX;
