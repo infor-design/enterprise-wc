@@ -5,6 +5,7 @@ import IdsAlert from '../../src/ids-alert/ids-alert';
 
 describe('IdsAlert Component', () => {
   let el;
+  let rootEl;
 
   beforeEach(async () => {
     const alert = new IdsAlert();
@@ -49,6 +50,8 @@ describe('IdsAlert Component', () => {
     document.body.appendChild(el);
     el.icon = 'info';
     expect(el.icon).toEqual('info');
+    rootEl = el.shadowRoot.querySelector('ids-icon');
+    expect(rootEl.icon).toBe('info');
     el.icon = null;
     expect(el.icon).toEqual(null);
   });
@@ -58,6 +61,8 @@ describe('IdsAlert Component', () => {
     document.body.appendChild(el);
     el.icon = 'success';
     expect(el.icon).toEqual('success');
+    rootEl = el.shadowRoot.querySelector('ids-icon');
+    expect(rootEl.icon).toBe('success');
     el.icon = null;
     expect(el.icon).toEqual(null);
   });
@@ -67,6 +72,8 @@ describe('IdsAlert Component', () => {
     document.body.appendChild(el);
     el.icon = 'info-field';
     expect(el.icon).toEqual('info-field');
+    rootEl = el.shadowRoot.querySelector('ids-icon');
+    expect(rootEl.icon).toBe('info-field');
     el.icon = null;
     expect(el.icon).toEqual(null);
   });

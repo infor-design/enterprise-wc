@@ -1,6 +1,5 @@
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
 @import '../ids-base/ids-base';
-@import '../ids-alert/ids-alert.scss';
 
 :host {
   @include inline-flex();

@@ -2,46 +2,46 @@
 @import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift.scss';
 @import '../ids-base/ids-base';
 
-svg {
+:host {
   @include mr-20();
 
-  &.icon-success,
-  &.icon-success-solid {
+  [icon='success'],
+  [icon='success-solid'] {
     @include text-alert-success();
   }
 
-  &.icon-alert,
-  &.icon-alert-solid {
+  [icon='alert'],
+  [icon='alert-solid'] {
     @include text-alert-warning();
   }
 
-  &.icon-info,
-  &.icon-info-solid {
+  [icon='info'],
+  [icon='info-solid'] {
     @include text-alert-info();
   }
 
-  &.icon-error,
-  &.icon-error-solid {
+  [icon='error'],
+  [icon='error-solid'] {
     @include text-alert-danger();
   }
 
-  &.icon-new,
-  &.icon-new-solid {
+  [icon='new'],
+  [icon='new-solid'] {
     color: $ids-color-palette-amber-70;
   }
 
-  &.icon-in-progress,
-  &.icon-in-progress-solid {
+  [icon='in-progress'],
+  [icon='in-progress-solid'] {
     color: $ids-color-palette-amethyst-70;
   }
 
-  &.icon-info-field,
-  &.icon-info-field-solid {
+  [icon='info-field'],
+  [icon='info-field-solid'] {
     color: $ids-color-brand-primary-base;
   }
 
-  &.icon-empty-circle,
-  &.icon-half-empty-cirle {
+  [icon='empty-circle'],
+  [icon='half-empty-circle'] {
     color: $ids-color-palette-slate-80;
   }
 }

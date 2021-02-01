@@ -50,9 +50,6 @@ class IdsAlert extends IdsElement {
     if (value) {
       this.setAttribute(props.ICON, value);
       this.shadowRoot.querySelector('ids-icon').setAttribute(props.ICON, value);
-      setTimeout(() => {
-        this.shadowRoot.querySelector('ids-icon').shadowRoot.querySelector('svg').classList.add(`icon-${value}`);
-      }, 100);
     } else {
       this.removeAttribute(props.ICON);
     }
