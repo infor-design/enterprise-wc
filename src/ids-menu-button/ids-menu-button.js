@@ -79,6 +79,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   configureMenu() {
+    this.menuEl.popup.arrow = 'bottom';
     this.menuEl.trigger = 'click';
     this.menuEl.target = this;
   }

@@ -25,6 +25,9 @@ const ALIGNMENTS_Y = [CENTER, 'top', 'bottom'];
 const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== CENTER);
 const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== CENTER);
 
+// Arrow Directions (defaults to 'none')
+const ARROW_TYPES = ['none', 'bottom', 'top', 'left', 'right'];
+
 // Types of Popups
 const TYPES = ['none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'];
 
@@ -36,6 +39,7 @@ const POPUP_PROPERTIES = [
   'align-y',
   'align-edge',
   'align-target',
+  'arrow',
   props.ANIMATED,
   props.TYPE,
   props.VISIBLE,
@@ -399,6 +403,41 @@ class IdsPopup extends IdsElement {
   }
 
   /**
+   * @param {string} val
+   */
+  set arrow(val) {
+    let trueVal = ARROW_TYPES[0];
+    if (val && ARROW_TYPES.includes(val)) {
+      trueVal = val;
+    }
+    if (trueVal !== ARROW_TYPES[0]) {
+      this.safeSetAttribute('arrow', `${trueVal}`);
+    } else {
+      this.safeRemoveAttribute('arrow');
+    }
+    this.refresh();
+  }
+
+  /**
+   * @returns {string|null} the arrow setting, or null
+   */
+  get arrow() {
+    const attr = this.getAttribute('arrow');
+    if (!attr) {
+      return ARROW_TYPES[0];
+    }
+    return attr;
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement} referencing the internal arrow element
+   */
+  get arrowEl() {
+    return this.container.querySelector('.arrow');
+  }
+
+  /**
    * The style of popup to use between 'none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'
    * @param {string} val The popup type
    */
@@ -502,9 +541,21 @@ class IdsPopup extends IdsElement {
 
     // Make the popup actually render before doing placement calcs
     if (this.isVisible) {
-      this.container.classList.add('visible');
+      thisCl.add('visible');
     } else {
-      this.container.classList.remove('open');
+      thisCl.remove('open');
+    }
+
+    // Show/Hide Arrow class, if applicable
+    const arrowClass = this.arrow;
+    const arrowElCl = this.arrowEl.classList;
+    ARROW_TYPES.forEach((type) => {
+      if (type !== 'none' && type !== arrowClass) {
+        arrowElCl.remove(type);
+      }
+    });
+    if (this.arrow !== 'none' && !arrowElCl.contains(this.arrow)) {
+      arrowElCl.add(this.arrow);
     }
 
     // If no alignment target is present, do a simple x/y coordinate placement.
@@ -754,6 +805,7 @@ class IdsPopup extends IdsElement {
    */
   template() {
     return `<div class="ids-popup">
+      <div class="arrow"></div>
       <div class="content-wrapper">
         <slot name="content"></slot>
       </div>
