@@ -6,7 +6,8 @@ import { props } from '../ids-base/ids-constants';
 
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
-// @ts-ignore
+import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
+
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
@@ -15,6 +16,7 @@ import styles from '../ids-button/ids-button.scss';
 
 // Property names
 const MENU_BUTTON_PROPS = [
+  'dropdown-icon',
   props.ID,
   props.MENU
 ];
@@ -53,6 +55,38 @@ class IdsMenuButton extends IdsButton {
   }
 
   /**
+   * @param {string|boolean} val referencing an icon string name to use
+   */
+  set dropdownIcon(val) {
+    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const iconName = (typeof val === 'string' && val.length) ? `${val}` : 'dropdown';
+    const icon = this.dropdownIconEl;
+    if (trueVal) {
+      if (!icon) {
+        this.container.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconName}" class="ids-icon dropdown-icon"></ids-icon>`);
+      } else {
+        icon.icon = iconName;
+      }
+    } else if (icon) {
+      icon.remove();
+    }
+  }
+
+  /**
+   * @returns {string} containing the type of icon being displayed as the Dropdown Icon
+   */
+  get dropdownIcon() {
+    return this.dropdownIconEl?.icon;
+  }
+
+  /**
+   * @returns {IdsIcon} the decorative dropdown icon element
+   */
+  get dropdownIconEl() {
+    return this.container.querySelector('ids-icon:not([slot])');
+  }
+
+  /**
    * @returns {string} an ID selector string matching a menu
    */
   get menu() {
@@ -79,6 +113,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   configureMenu() {
+    this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
     this.menuEl.popup.arrow = 'bottom';
     this.menuEl.trigger = 'click';
     this.menuEl.target = this;

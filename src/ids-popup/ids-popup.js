@@ -588,6 +588,9 @@ class IdsPopup extends IdsElement {
       this.placeAgainstTarget();
     }
 
+    // If an arrow is displayed, place it correctly.
+    this.placeArrow();
+
     // Adds a RenderLoop-staggered check for whether to show the Popup.
     if (this.openCheck) {
       this.openCheck.destroy(true);
@@ -764,6 +767,18 @@ class IdsPopup extends IdsElement {
     this.container.style.left = `${x}px`;
     // @ts-ignore
     this.container.style.top = `${y}px`;
+  }
+
+  /**
+   * Handles alignment of an optional arrow element.  If an arrow target is specified,
+   * the arrow is placed to align correctly against the target.
+   * @returns {void}
+   */
+  placeArrow() {
+    if (this.arrow !== 'none' || !this.arrowTarget) {
+      return;
+    }
+    console.log('place arrow');
   }
 
   /**
