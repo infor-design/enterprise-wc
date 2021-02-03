@@ -213,6 +213,7 @@ class IdsMenuItem extends IdsElement {
       clearHideSubmenuTimeout();
       if (!this.disabled && this.hasSubmenu) {
         clearHoverTimeout();
+        // @ts-ignore
         hoverTimeout = new IdsRenderLoopItem({
           duration: 200,
           timeoutCallback() {
@@ -245,6 +246,7 @@ class IdsMenuItem extends IdsElement {
 
       if (this.hasSubmenu && !this.submenu.hidden) {
         clearHideSubmenuTimeout();
+        // @ts-ignore
         hideSubmenuTimeout = new IdsRenderLoopItem({
           duration: 200,
           timeoutCallback() {
