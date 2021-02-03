@@ -113,6 +113,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   configureMenu() {
+    this.menuEl.popup.container.style.minWidth = `${this.button.clientWidth}px`;
     this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
     this.menuEl.popup.arrow = 'bottom';
     this.menuEl.trigger = 'click';

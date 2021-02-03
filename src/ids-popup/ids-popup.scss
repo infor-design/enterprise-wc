@@ -47,7 +47,7 @@ $transition-length: 200ms;
     // Bottom Alignment
     &.bottom {
       border-top-width: 0;
-      left: calc(50% - 7px);
+      left: calc(50% - 9px);
       top: -9px;
 
       &::after {
@@ -87,7 +87,7 @@ $transition-length: 200ms;
     &.top {
       border-bottom-width: 0;
       bottom: -9px;
-      left: calc(50% - 7px);
+      left: calc(50% - 9px);
 
       &::after {
         border-bottom-width: 0;

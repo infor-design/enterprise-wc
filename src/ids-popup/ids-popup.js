@@ -40,6 +40,7 @@ const POPUP_PROPERTIES = [
   'align-edge',
   'align-target',
   'arrow',
+  'arrow-target',
   props.ANIMATED,
   props.TYPE,
   props.VISIBLE,
@@ -93,6 +94,10 @@ class IdsPopup extends IdsElement {
     this.coords = {
       x: 0,
       y: 0
+    };
+    this.state = {
+      arrow: ARROW_TYPES[0],
+      arrowTarget: null,
     };
     this.isVisible = false;
     this.isAnimated = false;
@@ -438,6 +443,47 @@ class IdsPopup extends IdsElement {
   }
 
   /**
+   * Sets the element to align with via a css selector
+   * @param {any} val ['string|HTMLElement'] a CSS selector string
+   */
+  // @ts-ignore
+  set arrowTarget(val) {
+    const isString = typeof val === 'string' && val.length;
+    const isElem = val instanceof HTMLElement;
+
+    if (!isString && !isElem) {
+      this.state.arrowTarget = undefined;
+      this.removeAttribute('arrow-target');
+      this.refresh();
+      return;
+    }
+
+    let elem;
+    if (isString) {
+      // @TODO Harden for security (XSS)
+      elem = document.querySelector(val);
+      if (!(elem instanceof HTMLElement)) {
+        return;
+      }
+      this.setAttribute('arrow-target', val);
+    } else {
+      elem = val;
+    }
+
+    this.state.arrowTarget = elem;
+    this.refresh();
+  }
+
+  /**
+   * @returns {HTMLElement} the element in the page that the Popup will take
+   * coordinates from for relative placement
+   */
+  // @ts-ignore
+  get arrowTarget() {
+    return this.state.arrowTarget;
+  }
+
+  /**
    * The style of popup to use between 'none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'
    * @param {string} val The popup type
    */
@@ -588,9 +634,6 @@ class IdsPopup extends IdsElement {
       this.placeAgainstTarget();
     }
 
-    // If an arrow is displayed, place it correctly.
-    this.placeArrow();
-
     // Adds a RenderLoop-staggered check for whether to show the Popup.
     if (this.openCheck) {
       this.openCheck.destroy(true);
@@ -613,6 +656,9 @@ class IdsPopup extends IdsElement {
         if (!this.isAnimated && this.container.classList.contains('animated')) {
           this.container.classList.remove('animated');
         }
+
+        // If an arrow is displayed, place it correctly.
+        this.placeArrow();
       }
     }));
 
@@ -775,9 +821,64 @@ class IdsPopup extends IdsElement {
    * @returns {void}
    */
   placeArrow() {
-    if (this.arrow !== 'none' || !this.arrowTarget) {
+    const arrow = this.arrow;
+    const arrowEl = this.arrowEl;
+    const element = this.alignTarget;
+    const target = this.arrowTarget;
+    if (arrow === 'none' || !element || !target) {
+      arrowEl.setAttribute('hidden', '');
       return;
     }
+
+    // Clear previous styles
+    arrowEl.removeAttribute('hidden');
+    arrowEl.style.marginLeft = '';
+    arrowEl.style.marginTop = '';
+
+    const arrowRect = arrowEl.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+
+    const newArrowRect = {};
+    const targetMargin = (arrow === 'right' || arrow === 'left') ? 'marginTop' : 'marginLeft';
+
+    let arrowHidden = false;
+    let targetCenter = 0;
+    let currentArrowCenter = 0;
+    let d;
+
+    // Figure out the distance needed to move the arrow to match the position of the `target`
+    if (arrow === 'left' || arrow === 'right') {
+      targetCenter = targetRect.top + (targetRect.height / 2);
+      currentArrowCenter = arrowRect.top + (arrowRect.height / 2);
+      d = targetCenter - currentArrowCenter;
+      newArrowRect.top = arrowRect.top + d;
+      newArrowRect.bottom = arrowRect.bottom + d;
+
+      if (newArrowRect.top <= elementRect.top || newArrowRect.bottom >= elementRect.bottom) {
+        arrowHidden = true;
+      }
+    }
+    if (arrow === 'top' || arrow === 'bottom') {
+      targetCenter = targetRect.left + (targetRect.width / 2);
+      currentArrowCenter = arrowRect.left + (arrowRect.width / 2);
+      d = targetCenter - currentArrowCenter;
+      newArrowRect.left = arrowRect.left + d;
+      newArrowRect.right = arrowRect.right + d;
+
+      if (newArrowRect.left <= elementRect.left || newArrowRect.right >= elementRect.right) {
+        arrowHidden = true;
+      }
+    }
+
+    // Round the number up
+    d = Math.ceil(d);
+
+    // Hide the arrow if it goes beyond the element boundaries
+    if (arrowHidden) {
+      arrowEl.setAttribute('hidden', '');
+    }
+    arrowEl.style[targetMargin] = `${d}px`;
     console.log('place arrow');
   }
 
