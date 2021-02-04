@@ -29,6 +29,7 @@ const MENU_BUTTON_PROPS = [
 class IdsMenuButton extends IdsButton {
   constructor() {
     super();
+    debugger;
   }
 
   /**
