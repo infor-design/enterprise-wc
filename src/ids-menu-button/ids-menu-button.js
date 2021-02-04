@@ -7,7 +7,6 @@ import { props } from '../ids-base/ids-constants';
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
 import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
@@ -53,7 +52,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
+    IdsButton.prototype.handleEvents.apply(this);
 
     // On the Popup Menu's `beforeshow` event, set the menu's size to the Menu Button's
     this.eventHandlers.addEventListener('beforeshow', this.menuEl, () => {
