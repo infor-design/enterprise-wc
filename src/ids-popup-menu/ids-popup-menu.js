@@ -307,6 +307,21 @@ class IdsPopupMenu extends IdsMenu {
    * @returns {void}
    */
   show() {
+    // Trigger a veto-able `beforeshow` event.
+    let canShow = true;
+    const beforeShowResponse = (/** @type {any} */ veto) => {
+      canShow = !!veto;
+    };
+    this.eventHandlers?.dispatchEvent('beforeshow', this, {
+      detail: {
+        elem: this,
+        response: beforeShowResponse
+      }
+    });
+    if (!canShow) {
+      return;
+    }
+
     this.hidden = false;
     this.popup.querySelector('nav').setAttribute('role', 'menu');
 
