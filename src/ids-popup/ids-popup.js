@@ -408,7 +408,8 @@ class IdsPopup extends IdsElement {
   }
 
   /**
-   * @param {string} val
+   * Specifies whether to show the Popup Arrow, and in which direction
+   * @param {string} val the arrow direction.  Defaults to `none`
    */
   set arrow(val) {
     let trueVal = ARROW_TYPES[0];

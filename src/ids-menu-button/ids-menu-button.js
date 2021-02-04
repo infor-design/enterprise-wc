@@ -68,7 +68,7 @@ class IdsMenuButton extends IdsButton {
   }
 
   /**
-   * @param {string|boolean} val referencing an icon string name to use
+   * @param {string} val referencing an icon string name to use
    */
   set dropdownIcon(val) {
     const trueVal = domUtils.isTrueBooleanAttribute(val);
@@ -93,7 +93,7 @@ class IdsMenuButton extends IdsButton {
   }
 
   /**
-   * @returns {IdsIcon} the decorative dropdown icon element
+   * @returns {IdsIcon|null} the decorative dropdown icon element
    */
   get dropdownIconEl() {
     return this.container.querySelector('ids-icon:not([slot])');
