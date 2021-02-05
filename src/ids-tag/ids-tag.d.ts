@@ -7,7 +7,7 @@ interface IdsTagEventDetail extends Event {
   }
 }
 
-export class IdsTag extends HTMLElement {
+export default class IdsTag extends HTMLElement {
   /** Set the tag type/color */
   color: 'secondary' | 'error' | 'success' | 'caution' | string;
   /** Add a dismissible x button to the tag */

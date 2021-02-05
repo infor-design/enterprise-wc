@@ -7,7 +7,7 @@ interface IdsTriggerFieldEventDetail extends Event {
   }
 }
 
-export class IdsTriggerField extends HTMLElement {
+export default class IdsTriggerField extends HTMLElement {
   /** Set if the trigger field is tabbable */
   tabbable: boolean;
   /** Set the appearance of the trigger field */

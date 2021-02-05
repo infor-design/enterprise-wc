@@ -13,6 +13,6 @@ interface nativeElement extends HTMLElement {
   value: string;
 }
 
-export class IdsRadio extends HTMLElement {
+export default class IdsRadio extends HTMLElement {
   nativeElement: nativeElement;
 }

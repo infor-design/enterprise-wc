@@ -122,9 +122,19 @@ describe('IdsVirtualScroll Component', () => {
   });
 
   it('can scroll to an item', () => {
-    expect(virtualScroll.scrollTop).toEqual(0);
+    expect(virtualScroll.scrollTop).toEqual('0');
     virtualScroll.scrollToIndex(900);
     expect(virtualScroll.scrollTop).toEqual('18000');
+  });
+
+  it('can reset the scrollTop', () => {
+    expect(virtualScroll.scrollTop).toEqual('0');
+    virtualScroll.scrollTop = null;
+    virtualScroll.scrollTop = 100;
+    virtualScroll.scrollTop = 0;
+    virtualScroll.scrollTop = null;
+    expect(virtualScroll.scrollTop).toEqual(0);
+    expect(virtualScroll.getAttribute('scroll-top')).toEqual(null);
   });
 
   it('can reset the data', () => {

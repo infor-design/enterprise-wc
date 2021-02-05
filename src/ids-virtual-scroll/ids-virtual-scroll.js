@@ -214,7 +214,7 @@ class IdsVirtualScroll extends IdsElement {
    */
   // @ts-ignore
   set scrollTop(value) {
-    if (value) {
+    if (value !== null && value !== undefined) {
       this.setAttribute('scroll-top', value.toString());
       this.container.scrollTop = value;
       this.renderItems(false);
@@ -224,7 +224,7 @@ class IdsVirtualScroll extends IdsElement {
     this.removeAttribute('scroll-top');
   }
 
-  // @ts-ignore
+  // @ts-ignore - because html elements also have this
   get scrollTop() { return this.getAttribute('scroll-top') || 0; }
 
   /**

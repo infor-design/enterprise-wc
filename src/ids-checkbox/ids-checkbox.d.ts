@@ -1,7 +1,7 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
-export class IdsCheckbox extends HTMLElement {
+export default class IdsCheckbox extends HTMLElement {
   /** Sets the checked state to true or false */
   checked: boolean;
   /** Sets the checkbox color to one of the colors in our color palette for example emerald07 */

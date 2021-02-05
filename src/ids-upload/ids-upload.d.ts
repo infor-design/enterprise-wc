@@ -7,7 +7,7 @@ interface IdsUploadEventDetail extends Event {
   }
 }
 
-export class IdsUpload extends HTMLElement {
+export default class IdsUpload extends HTMLElement {
   /** Sets limit the file types to be uploaded */
   accept: string;
   /** Sets the dirty tracking feature on to indicate a changed field */
