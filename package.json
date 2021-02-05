@@ -47,6 +47,8 @@
     "@babel/plugin-transform-runtime": "^7.12.15",
     "@babel/preset-env": "^7.12.13",
     "@percy/puppeteer": "^1.1.0",
+    "@typescript-eslint/eslint-plugin": "^4.14.2",
+    "@typescript-eslint/parser": "^4.14.2",
     "@wordpress/jest-puppeteer-axe": "^3.0.1",
     "autoprefixer": "^10.2.4",
     "babel-eslint": "^10.1.0",

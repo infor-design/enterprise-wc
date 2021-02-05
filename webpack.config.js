@@ -171,9 +171,9 @@ module.exports = {
 
 // Fix build error on prod about favicon
 if (!isProduction) {
-  module.exports.plugins.push(new FaviconsWebpackPlugin('app/assets/favicon.ico', {
-    mode: 'light', // optional can be 'webapp', 'light' or 'auto' - 'auto' by default
-    devMode: 'light'
+  module.exports.plugins.push(new FaviconsWebpackPlugin({
+    logo: 'app/assets/favicon.ico',
+    mode: 'auto'
   }));
 }
 
