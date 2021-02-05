@@ -54,11 +54,6 @@ class IdsMenuButton extends IdsButton {
    */
   handleEvents() {
     IdsButton.prototype.handleEvents.apply(this);
-
-    // On the Popup Menu's `beforeshow` event, set the menu's size to the Menu Button's
-    this.eventHandlers.addEventListener('beforeshow', this.menuEl, () => {
-      this.resizeMenu();
-    });
   }
 
   /**
@@ -127,11 +122,24 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   configureMenu() {
+    if (!this.menuEl) {
+      return;
+    }
     this.resizeMenu();
     this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
     this.menuEl.popup.arrow = 'bottom';
     this.menuEl.trigger = 'click';
     this.menuEl.target = this;
+
+    // ====================================================================
+    // Setup menu-specific event listeners, if they aren't already applied
+
+    if (!this.eventHandlers.handledEvents.get('beforeshow')) {
+      // On the Popup Menu's `beforeshow` event, set the menu's size to the Menu Button's
+      this.eventHandlers.addEventListener('beforeshow', this.menuEl, () => {
+        this.resizeMenu();
+      });
+    }
   }
 
   /**

@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import IdsMenuButton from '../../src/ids-menu-button/ids-menu-button';
 import IdsPopupMenu, {
   IdsMenuGroup,
