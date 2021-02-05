@@ -21,20 +21,24 @@ interface activecellchanged extends Event {
     }
   }
 }
+export default class IdsDataGrid extends HTMLElement {
+  /** Set the data array of the datagrid * */
+  data: Array<unknown>;
 
-export class IdsDataGrid extends HTMLElement {
-  /** Set the data array of the datagrid **/
-  data: Array<object>;
-  /** Set the columns array of the datagrid **/
-  columns: Array<object>;
-  /** The supported cell formatters **/
+  /** Set the columns array of the datagrid * */
+  columns: Array<unknown>;
+
+  /** The supported cell formatters * */
   formatters: {
-    text: Function;
+    text: (rowData: unknown, columnData: unknown) => string;
   };
+
   /** Enables a different color shade on alternate rows for easier scanning */
   alternateRowShading: boolean;
+
   /** Enables the virtual scrolling behavior */
   virtualScroll: boolean;
+
   /** Enables the virtual scrolling behavior */
   rowHeight: 'extra-small' | 'small' | 'medium' | 'large';
 
@@ -43,6 +47,8 @@ export class IdsDataGrid extends HTMLElement {
 
   /** Fires before the tag is removed, you can return false in the response to veto. */
   on(event: 'sorted', listener: (event: sorted) => void): this;
+
   /** Fires while the tag is removed */
+  // eslint-disable-next-line no-use-before-define
   on(event: 'activecellchanged', listener: (event: activecellchanged) => void): this;
 }

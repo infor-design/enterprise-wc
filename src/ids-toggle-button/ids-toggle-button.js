@@ -2,6 +2,7 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
+
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS, BUTTON_TYPES } from '../ids-button/ids-button';
 // @ts-ignore

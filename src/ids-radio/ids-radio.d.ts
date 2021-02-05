@@ -8,11 +8,12 @@ interface nativeElement extends HTMLElement {
   groupDisabled: boolean;
   horizontal: boolean;
   label: string;
-  labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 | 'xs' | 'sm ' | 'lg' | 'xl' | string | number;
+  labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 |
+    'xs' | 'sm ' | 'lg' | 'xl' | string | number;
   validationHasError: boolean;
   value: string;
 }
 
-export class IdsRadio extends HTMLElement {
+export default class IdsRadio extends HTMLElement {
   nativeElement: nativeElement;
 }

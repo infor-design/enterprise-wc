@@ -4,6 +4,7 @@
 export default class IdsIcon extends HTMLElement {
   /* The size of the icon to display */
   type: 'normal' | 'small' | 'medium' | 'large';
+
   /* The name of the icon to display */
   icon: string;
 }
