@@ -99,9 +99,10 @@ module.exports = {
       },
       plugins: ['@typescript-eslint'],
       rules: {
-        indent: ['error', 2, { SwitchCase: 1 }],
         quotes: ['error', 'single'],
-        '@typescript-eslint/no-explicit-any': 0
+        'max-len': ['error', { comments: 200, code: 100 }],
+        'no-shadow': ['off', { }],
+        'no-use-before-define': ['off', { }]
       }
     }
   ]

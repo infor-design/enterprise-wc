@@ -14,7 +14,7 @@
     "build:prod": "webpack --mode production",
     "start": "webpack serve",
     "start:watch": "nodemon --watch webpack.config.js --exec \"npx webpack serve\"",
-    "lint": "npx eslint *.js src test app && npx stylelint src/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'app/**/*.html' && npm run typecheck",
+    "lint": "npx eslint src test app && npx stylelint src/**/*.scss --config .stylelintrc.json && npm run mdlint && npx htmlhint 'app/**/*.html' && npm run typecheck",
     "mdlint": "remark . -f",
     "publish:dry-run": "npm run build:prod && cp -f package.json dist && cp -f README.md dist && cp -f LICENSE dist && cd dist && npm publish --dry-run",
     "publish:npm": "npm run build:prod && cp -f package.json dist && cp -f README.md dist && cp -f LICENSE dist && cd dist && npm publish",
