@@ -2,11 +2,12 @@
 
 ## Description
 
-The IDS Badge Compoment consists of a small circle containing alphanumeric or icon that appears to another object.
+The IDS Badge Compoment consists of a small circle containing alphanumeric or icon that appears to another object. Badges are used to display alphanumeric values. A User can easily skim object-related values.
 
 ## Use Cases
 
-Badges can be use to give a non-critical status update on a piece of information or action to your application.
+- Badges can be use to give a non-critical status update on a piece of information or action to your application.
+- Badges can be used to provide users with information about an object that is worthy of attention.
 
 ## Terminology
 
@@ -22,7 +23,7 @@ A normal/ no properties badge used as a web component.
 <ids-badge>5</ids-badge>
 ```
 
-A colored badge is done by adding `color` attribute and one of the following:
+A colored badge is done by adding a `color` attribute and one of the following:
 alert, error, info, warning, and success.
 
 ```html
@@ -33,7 +34,7 @@ alert, error, info, warning, and success.
 <ids-badge color="success">5</ids-badge>
 ```
 
-A shape badge is done by adding `shape` attribute and one of the following: normal, and round. When you don't set the shape, normal will be the default value.
+A shape badge is done by adding a `shape` attribute and one of the following: normal, and round. When you don't set the shape, normal will be the default value.
 
 ```html
 <ids-badge color="alert" shape="round">10</ids-badge>
@@ -68,4 +69,4 @@ Badges do not have tab stops and have no keyboard interaction on their own, but 
 ## Accessibility Guidelines
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
-- 1.4.3 Contrast (Minimum) - The visual presentation of text and images of text has a contrast ratio of at least 4.5:1.   Ensure the color tags pass contrast.
+- 1.4.3 Contrast (Minimum) - The visual presentation of text and images of text has a contrast ratio of at least 4.5:1 Ensure the color badges pass contrast.

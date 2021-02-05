@@ -80,7 +80,7 @@ class IdsBadge extends IdsElement {
 
       this.container.style.backgroundColor = statusColor;
       this.container.style.borderColor = statusColor;
-      if (value === 'error' || value === 'info' || value === 'success') {
+      if (value === 'error' || value === 'info') {
         this.container.classList.add('ids-white');
       }
     } else {

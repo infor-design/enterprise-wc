@@ -51,6 +51,7 @@ export const props = {
   ROWS: 'rows',
   SELECT: 'select',
   SELECTED: 'selected',
+  SHAPE: 'shape',
   SIZE: 'size',
   SUBMENU: 'submenu',
   TABBABLE: 'tabbable',
