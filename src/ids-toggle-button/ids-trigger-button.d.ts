@@ -1,7 +1,7 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
-export class IdsText extends HTMLElement {
+export default class IdsText extends HTMLElement {
   /** Set the pressed (on/off) state */
   pressed: boolean|string;
   /** Defines the `unpressed/off` toggle state icon. */

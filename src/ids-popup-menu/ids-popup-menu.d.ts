@@ -17,7 +17,7 @@ export {
 }
 
 // Main export
-export class IdsPopupMenu extends IdsMenu {
+export default class IdsPopupMenu extends IdsMenu {
   /* references this menu's parent menu component, if this menu is a submenu */
   readonly parentMenu: IdsPopupMenu | undefined;
   /* references the internal IdsPopup component */

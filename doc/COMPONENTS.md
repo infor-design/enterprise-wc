@@ -20,7 +20,8 @@ Some important steps here include:
 
 - [ ] Add an `example.html`, which contains the basic example template for your component
 - [ ] Add an `index.html`, which is the main layout template
-- [ ] Add an `index.js` for loading components
+- [ ] Add an `index.js` for loading and building the component, this should just contain what is needed for the component to run
+- [ ] Add an `example.js` for any demo code in the example.html
 
 After these files are created, do the following:
 

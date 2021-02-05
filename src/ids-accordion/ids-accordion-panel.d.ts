@@ -5,6 +5,6 @@ interface nativeElement extends HTMLElement {
   expanded: string;
 }
 
-export class IdsAccordionPanel extends HTMLElement {
+export default class IdsAccordionPanel extends HTMLElement {
   nativeElement: nativeElement;
 }

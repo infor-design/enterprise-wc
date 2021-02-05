@@ -22,7 +22,7 @@ interface activecellchanged extends Event {
   }
 }
 
-export class IdsDataGrid extends HTMLElement {
+export default class IdsDataGrid extends HTMLElement {
   /** Set the data array of the datagrid **/
   data: Array<object>;
   /** Set the columns array of the datagrid **/

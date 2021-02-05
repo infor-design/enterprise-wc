@@ -1,7 +1,7 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
-export class IdsGridLayout extends HTMLElement {
+export default class IdsGridLayout extends HTMLElement {
   /** If true the grid is not responsive and stays equal width as will fit */
   fixed: boolean;
   /** Handle The Gap Setting */

@@ -6,6 +6,6 @@ interface nativeElement extends HTMLElement {
   type: null | 'toggle-btn' | string;
 }
 
-export class IdsExpandableArea extends HTMLElement {
+export default class IdsExpandableArea extends HTMLElement {
   nativeElement: nativeElement;
 }

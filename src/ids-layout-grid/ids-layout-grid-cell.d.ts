@@ -1,7 +1,7 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
-export class IdsGridLayoutCell extends HTMLElement {
+export default class IdsGridLayoutCell extends HTMLElement {
   /** Set the background fill color */
   fill: string;
   /** Set the amount of columns to span */

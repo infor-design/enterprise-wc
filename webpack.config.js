@@ -12,7 +12,7 @@ const fs = require('fs');
 const webpack = require('webpack');
 const glob = require('glob');
 
-const isProduction = false;
+const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
 module.exports = {
   entry: glob.sync('./app/**/**.js').reduce((acc, filePath) => {
@@ -24,11 +24,13 @@ module.exports = {
     } else {
       acc[`${entry}/${path.basename(filePath).replace('.js', '')}`] = filePath;
     }
-
     return acc;
   }, {}),
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',
+  performance: {
+    hints: false
+  },
   optimization: {
     minimize: !!isProduction,
     minimizer: [
@@ -183,12 +185,15 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
     `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`)
     .join(' ')} ${folderAndFile.indexOf('standalone-css') > -1 ? 'Standalone Css' : 'Component'}`;
 
+  // Add a title to the component page
   title = title.replace('Ids', 'IDS');
 
+  // Adjust the folder paths for layouts
   if (folderName === 'layouts' || folderAndFile.indexOf('example.html') > -1 || folderAndFile === 'index.html') {
     return folderName;
   }
 
+  // Figure out the chunks to use
   if (folderAndFile.indexOf('index.html') === -1) {
     folderAndFile = folderAndFile.replace('.html', '');
   }
@@ -199,13 +204,24 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
     chunk = `${folderName}/${jsFile.replace('.js', '')}`;
   }
 
+  const folderChunks = [chunk, 'ids-icon/ids-icon', 'ids-text/ids-text', 'ids-layout-grid/ids-layout-grid'];
+
+  // Add example.js to the page as a separate chunk
+  const demoFile = filePath.replace('index.html', 'example.js');
+  if (jsFile === 'index.js' && fs.existsSync(demoFile)) {
+    folderChunks.push(`${folderName}/example`);
+  }
+  // Create the entry
   module.exports.plugins.push(
     new HTMLWebpackPlugin({
       template: filePath,
       inject: 'body',
       filename: folderAndFile,
       title,
-      chunks: jsFile === 'standalone-css.js' ? [] : [chunk, 'ids-icon/ids-icon', 'ids-text/ids-text', 'ids-layout-grid/ids-layout-grid']
+      chunksSortMode: 'manual',
+      chunks: jsFile === 'standalone-css.js'
+        ? []
+        : folderChunks
     }),
   );
   return folderName;
