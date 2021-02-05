@@ -79,5 +79,31 @@ module.exports = {
     jsdoc: {
       preferredTypes: ['never', 'CustomElementConstructor']
     }
-  }
+  },
+  overrides: [
+    {
+      files: ['**/*.ts'],
+      env: { browser: true, es6: true, node: true },
+      extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
+        'plugin:@typescript-eslint/recommended'
+      ],
+      globals: {},
+      parser: '@typescript-eslint/parser',
+      parserOptions: {
+        ecmaFeatures: {},
+        ecmaVersion: 2019,
+        sourceType: 'module',
+        project: './tsconfig.json'
+      },
+      plugins: ['@typescript-eslint'],
+      rules: {
+        quotes: ['error', 'single'],
+        'max-len': ['error', { comments: 200, code: 100 }],
+        'no-shadow': ['off', { }],
+        'no-use-before-define': ['off', { }]
+      }
+    }
+  ]
 };

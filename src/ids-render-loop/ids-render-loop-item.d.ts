@@ -2,7 +2,7 @@
 // confirm our code is type safe, and to support TypeScript users.
 
 export default class IdsRenderLoopItem {
-  /** lifespan of the renderloop item in miliseconds (defaults to -1, which means it has no duration)*/
+  /** lifespan of the renderloop item in miliseconds (defaults to -1, which means it has no duration) */
   duration?: number;
 
   /** a unique identifier for the loop item */
@@ -12,7 +12,7 @@ export default class IdsRenderLoopItem {
   updateDuration?: number;
 
   /** specifies a function to fire when the timer ends */
-  timeoutCallback?: Function;
+  timeoutCallback?: () => void;
 
   /** determines whether or not the item is counting down its lifespan */
   readonly paused: boolean;

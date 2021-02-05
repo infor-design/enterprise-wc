@@ -4,16 +4,22 @@
 export default class IdsGridLayoutCell extends HTMLElement {
   /** Set the background fill color */
   fill: string;
+
   /** Set the amount of columns to span */
   colSpan: string;
+
   /** Set the starting column */
   colStart: boolean;
+
   /** Set the ending column */
   colEnd: string;
+
   /** Set the amount of rows to span */
   rowSpan: string;
+
   /** Set the starting row */
   rowStart: string;
+
   /** Set the ending row */
   rowEnd: string;
 }

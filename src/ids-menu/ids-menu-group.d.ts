@@ -11,24 +11,28 @@ import IdsIcon from '../ids-icon/ids-icon';
 export default class IdsMenuGroup extends IdsElement {
   /* */
   readonly menu: IdsMenu;
+
   /* */
   readonly items: Array<IdsMenuItem>;
+
   /* */
   readonly itemIcons: Array<IdsIcon>;
+
   /* */
   readonly header?: IdsMenuHeader;
+
   /* */
   select: 'none' | 'single' | 'multiple';
+
   /* */
   keepOpen: boolean;
+
   /* */
   deselectAllExcept(keptItems?: Array<IdsMenuItem>): void;
 
-  // @TODO Don't use these -- they are private (need them here for now)
-  /* Internal state object used for some properties */
-  state: any;
   /* */
   connectedCallback(): void;
+
   /* */
   eventHandlers: IdsEventsMixin;
 }
