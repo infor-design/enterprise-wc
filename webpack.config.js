@@ -169,7 +169,10 @@ module.exports = {
 
 // Fix build error on prod about favicon
 if (!isProduction) {
-  module.exports.plugins.push(new FaviconsWebpackPlugin('app/assets/favicon.ico'));
+  module.exports.plugins.push(new FaviconsWebpackPlugin({
+    logo: 'app/assets/favicon.ico',
+    mode: 'auto'
+  }));
 }
 
 // Dynamically add all html examples

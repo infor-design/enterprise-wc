@@ -38,6 +38,7 @@ export const props = {
   LABEL: 'label',
   LABEL_REQUIRED: 'label-required',
   LABEL_FILETYPE: 'label-filetype',
+  MODE: 'mode',
   MULTIPLE: 'multiple',
   NO_MARGINS: 'no-margins',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
@@ -67,6 +68,7 @@ export const props = {
   VALIDATION_EVENTS: 'validation-events',
   VALIDATION_HAS_ERROR: 'validation-has-error',
   VALUE: 'value',
+  VERSION: 'version',
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
 };

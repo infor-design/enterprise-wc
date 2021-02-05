@@ -84,6 +84,8 @@ class IdsElement extends HTMLElement {
     /** @type {any} */
     this.container = this.shadowRoot.querySelector(`.${this.name}`);
 
+    // Remove any close hidden element
+    this.closest('[hidden]')?.removeAttribute('hidden');
     return this;
   }
 

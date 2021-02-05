@@ -74,6 +74,8 @@ module.exports = {
     'prefer-destructuring': ['off', { }],
     // Allow i++
     'no-plusplus': ['off', { }],
+    // Allow console.info
+    'no-console': ['error', { allow: ['error', 'info'] }],
   },
   settings: {
     jsdoc: {
