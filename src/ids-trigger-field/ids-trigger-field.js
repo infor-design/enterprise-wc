@@ -13,8 +13,11 @@ import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
 import styles from './ids-trigger-field.scss';
 
 // Supporting components
-import IdsButton from '../ids-button/ids-button';
+// @ts-ignore
+import { IdsButton } from '../ids-button/ids-button';
+// @ts-ignore
 import IdsInput from '../ids-input/ids-input';
+// @ts-ignore
 import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
 
 /**
