@@ -29,7 +29,6 @@ const MENU_BUTTON_PROPS = [
 class IdsMenuButton extends IdsButton {
   constructor() {
     super();
-    debugger;
   }
 
   /**
@@ -79,6 +78,7 @@ class IdsMenuButton extends IdsButton {
     } else if (icon) {
       icon.remove();
     }
+    this.setPopupArrow();
   }
 
   /**
@@ -115,7 +115,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {IdsPopupMenu} element if one is present
    */
   get menuEl() {
-    return this.parentElement.querySelector(`ids-popup-menu[id="${this.menu}"]`);
+    return document.querySelector(`ids-popup-menu[id="${this.menu}"]`);
   }
 
   /**
@@ -126,15 +126,15 @@ class IdsMenuButton extends IdsButton {
       return;
     }
     this.resizeMenu();
-    this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
-    this.menuEl.popup.arrow = 'bottom';
+    this.setPopupArrow();
     this.menuEl.trigger = 'click';
     this.menuEl.target = this;
 
     // ====================================================================
     // Setup menu-specific event listeners, if they aren't already applied
 
-    if (!this.eventHandlers.handledEvents.get('beforeshow')) {
+    const hasBeforeShow = this.eventHandlers?.handledEvents?.get('beforeshow');
+    if (this.eventHandlers && !hasBeforeShow) {
       // On the Popup Menu's `beforeshow` event, set the menu's size to the Menu Button's
       this.eventHandlers.addEventListener('beforeshow', this.menuEl, () => {
         this.resizeMenu();
@@ -147,6 +147,17 @@ class IdsMenuButton extends IdsButton {
    */
   resizeMenu() {
     this.menuEl.popup.container.style.minWidth = `${this.button.clientWidth}px`;
+  }
+
+  /**
+   * @returns {void}
+   */
+  setPopupArrow() {
+    if (!this.menuEl) {
+      return;
+    }
+    this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
+    this.menuEl.popup.arrow = 'bottom';
   }
 }
 

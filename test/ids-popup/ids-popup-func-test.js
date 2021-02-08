@@ -3,6 +3,16 @@
  */
 import IdsPopup from '../../src/ids-popup/ids-popup';
 
+function createTestDiv() {
+  const testDiv = document.createElement('div');
+  testDiv.textContent = 'hey';
+  testDiv.style.width = '100px';
+  testDiv.style.height = '100px';
+  document.body.appendChild(testDiv);
+
+  return testDiv;
+}
+
 describe('IdsPopup Component', () => {
   let popup;
   let contentElem;
@@ -584,5 +594,115 @@ describe('IdsPopup Component', () => {
     expect(popup.hasAttribute('haha')).toBeFalsy();
 
     popup.safeRemoveAttribute('haha');
+  });
+
+  it('can have an arrow', () => {
+    // Create a target element for the arrow
+    const targetDiv = document.createElement('div');
+    targetDiv.style.width = '100px';
+    targetDiv.style.height = '100px';
+    document.body.appendChild(targetDiv);
+
+    // In order for the arrow to display, both the `arrow` and `arrowTarget`
+    // properties need to be defined.
+    popup.alignTarget = targetDiv;
+    popup.arrowTarget = targetDiv;
+    popup.arrow = 'bottom';
+
+    expect(popup.arrowEl.hidden).toBeFalsy();
+    expect(popup.arrow).toBe('bottom');
+    expect(popup.getAttribute('arrow')).toBe('bottom');
+
+    // Remove the arrow when set to `none`
+    popup.arrow = 'none';
+
+    expect(popup.arrowEl.hidden).toBeTruthy();
+    expect(popup.arrow).toBe('none');
+    expect(popup.hasAttribute('arrow')).toBeFalsy();
+
+    // Can't set the arrow to anything that isn't a real direction or "none"
+    popup.arrow = 'fish';
+
+    expect(popup.arrowEl.hidden).toBeTruthy();
+    expect(popup.arrow).toBe('none');
+    expect(popup.hasAttribute('arrow')).toBeFalsy();
+  });
+
+  // NOTE: In order to complete coverage, these tests need to be async and wait slightly longer
+  // than the Popup's Renderloop Timeouts.
+  // Top/Left/Right are all the same test with different directions.
+  it('can set the arrow in all directions (top)', (done) => {
+    // Create a target element for the arrow
+    const targetDiv = createTestDiv();
+    popup.alignTarget = targetDiv;
+    popup.arrowTarget = targetDiv;
+    popup.visible = true;
+
+    // Set the arrow to "top"
+    popup.arrow = 'top';
+
+    setTimeout(() => {
+      expect(popup.arrow).toBe('top');
+      expect(popup.getAttribute('arrow')).toBe('top');
+      done();
+    }, 80);
+  });
+
+  it('can set the arrow in all directions (right)', (done) => {
+    // Create a target element for the arrow
+    const targetDiv = createTestDiv();
+    popup.alignTarget = targetDiv;
+    popup.arrowTarget = targetDiv;
+    popup.visible = true;
+
+    // Set the arrow to "right"
+    popup.arrow = 'right';
+
+    setTimeout(() => {
+      expect(popup.arrow).toBe('right');
+      expect(popup.getAttribute('arrow')).toBe('right');
+      done();
+    }, 80);
+  });
+
+  it('can set the arrow in all directions (left)', (done) => {
+    // Create a target element for the arrow
+    const targetDiv = createTestDiv();
+    popup.alignTarget = targetDiv;
+    popup.arrowTarget = targetDiv;
+    popup.visible = true;
+
+    // Set the arrow to "left"
+    popup.arrow = 'left';
+
+    setTimeout(() => {
+      expect(popup.arrow).toBe('left');
+      expect(popup.getAttribute('arrow')).toBe('left');
+      done();
+    }, 80);
+  });
+
+  it('can set the arrow target by CSS Selector', () => {
+    // Reference the `arrowTarget` with an id instead of a direct reference
+    const anotherTargetDiv = document.createElement('div');
+    anotherTargetDiv.style.width = '50px';
+    anotherTargetDiv.style.height = '50px';
+    anotherTargetDiv.id = 'another-test-div';
+    document.body.appendChild(anotherTargetDiv);
+
+    popup.arrowTarget = '#another-test-div';
+    popup.arrow = 'bottom';
+
+    expect(popup.arrowTarget.isEqualNode(anotherTargetDiv)).toBeTruthy();
+
+    // Don't change the `arrowTarget` if provided a bad CSS selector
+    popup.arrowTarget = '#fish';
+
+    expect(popup.arrowTarget.isEqualNode(anotherTargetDiv)).toBeTruthy();
+
+    // Remove the arrow target if given null/undefined
+    popup.arrowTarget = undefined;
+
+    expect(popup.arrowTarget).not.toBeDefined();
   });
 });

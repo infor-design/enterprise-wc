@@ -481,7 +481,7 @@ class IdsPopup extends IdsElement {
    */
   // @ts-ignore
   get arrowTarget() {
-    return this.state.arrowTarget;
+    return this.state.arrowTarget || this.alignTarget;
   }
 
   /**
@@ -599,10 +599,12 @@ class IdsPopup extends IdsElement {
     ARROW_TYPES.forEach((type) => {
       if (type !== 'none' && type !== arrowClass) {
         arrowElCl.remove(type);
+        this.arrowEl.hidden = true;
       }
     });
     if (this.arrow !== 'none' && !arrowElCl.contains(this.arrow)) {
       arrowElCl.add(this.arrow);
+      this.arrowEl.hidden = false;
     }
 
     // If no alignment target is present, do a simple x/y coordinate placement.
@@ -645,6 +647,9 @@ class IdsPopup extends IdsElement {
       duration: 70,
       timeoutCallback: () => {
         if (this.isVisible) {
+          // If an arrow is displayed, place it correctly.
+          this.placeArrow();
+
           // Always fire the 'show' event
           this.eventHandlers.dispatchEvent('show', this, {
             bubbles: true,
@@ -657,9 +662,6 @@ class IdsPopup extends IdsElement {
         if (!this.isAnimated && this.container.classList.contains('animated')) {
           this.container.classList.remove('animated');
         }
-
-        // If an arrow is displayed, place it correctly.
-        this.placeArrow();
       }
     }));
 
@@ -826,8 +828,9 @@ class IdsPopup extends IdsElement {
     const arrowEl = this.arrowEl;
     const element = this.alignTarget;
     const target = this.arrowTarget;
+
     if (arrow === 'none' || !element || !target) {
-      arrowEl.setAttribute('hidden', '');
+      arrowEl.hidden = true;
       return;
     }
 
@@ -877,7 +880,7 @@ class IdsPopup extends IdsElement {
 
     // Hide the arrow if it goes beyond the element boundaries
     if (arrowHidden) {
-      arrowEl.setAttribute('hidden', '');
+      arrowEl.hidden = true;
     }
     arrowEl.style[targetMargin] = `${d}px`;
     console.log('place arrow');

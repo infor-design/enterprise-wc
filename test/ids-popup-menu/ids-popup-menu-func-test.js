@@ -201,6 +201,15 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.popup.visible).toBeFalsy();
   });
 
+  it('can be prevented from showing with a vetoed `beforeshow` event', () => {
+    menu.addEventListener('beforeshow', (e) => {
+      e.detail.response(false);
+    });
+    menu.show();
+
+    expect(menu.hidden).toBeTruthy();
+  });
+
   it('listens for `selected` event from menu items', (done) => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();

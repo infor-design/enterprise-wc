@@ -9,7 +9,7 @@ import IdsPopupMenu, {
   IdsSeparator
 } from '../../src/ids-popup-menu/ids-popup-menu';
 
-describe('IdsPopupMenu Component', () => {
+describe('IdsMenuButton Component', () => {
   let buttonEl;
   let menuEl;
 
@@ -18,7 +18,7 @@ describe('IdsPopupMenu Component', () => {
     buttonEl.id = 'test-button';
     buttonEl.type = 'secondary';
     buttonEl.dropdownIcon = '';
-    document.body.append(buttonEl);
+    document.body.appendChild(buttonEl);
 
     menuEl = new IdsPopupMenu();
     menuEl.id = 'test-menu';
@@ -66,5 +66,41 @@ describe('IdsPopupMenu Component', () => {
 
     newButtonElem.template();
     expect(newButtonElem.outerHTML).toMatchSnapshot();
+  });
+
+  it('can change/remove its dropdown icon', () => {
+    buttonEl.dropdownIcon = 'launch';
+    let iconEl = buttonEl.button.querySelector('ids-icon');
+
+    expect(buttonEl.dropdownIcon).toBe('launch');
+    expect(iconEl.icon).toBe('launch');
+
+    // Remove it
+    buttonEl.dropdownIcon = null;
+    iconEl = buttonEl.button.querySelector('ids-icon');
+
+    expect(buttonEl.dropdownIcon).toBe(undefined);
+    expect(iconEl).toBe(null);
+
+    // Try removing it again (runs the else clause in `set dropdownIcon`)
+    buttonEl.dropdownIcon = undefined;
+    iconEl = buttonEl.button.querySelector('ids-icon');
+
+    expect(buttonEl.dropdownIcon).toBe(undefined);
+    expect(iconEl).toBe(null);
+  });
+
+  it('points the menu\'s arrow at the button if there is no icon', () => {
+    buttonEl.dropdownIcon = null;
+  });
+
+  it('shows/hides the menu when the button is clicked', (done) => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+    buttonEl.dispatchEvent(clickEvent);
+
+    setTimeout(() => {
+      expect(menuEl.popup.visible).toBeTruthy();
+      done();
+    }, 20);
   });
 });
