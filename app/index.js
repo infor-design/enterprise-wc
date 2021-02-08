@@ -19,6 +19,7 @@ import IdsRadio from '../src/ids-radio/ids-radio';
 import IdsRenderLoopMixin from '../src/ids-render-loop/ids-render-loop-mixin';
 import IdsUpload from '../src/ids-upload/ids-upload';
 import IdsAlert from '../src/ids-alert/ids-alert';
+import IdsBadge from '../src/ids-badge/ids-badge';
 
 // Import Example Code
 import './ids-button/index';
@@ -32,3 +33,4 @@ import './ids-toggle-button/index';
 import './ids-trigger-field/index';
 import './ids-radio/index';
 import './ids-alert/index';
+import './ids-badge/index';
