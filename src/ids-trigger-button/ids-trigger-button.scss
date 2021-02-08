@@ -2,14 +2,21 @@
 
 .ids-icon-button {
   @include bg-transparent();
-  @include border-0();
+  @include border-1();
+  @include border-transparent();
   @include cursor-pointer();
+  @include rounded-round();
   @include text-slate-60();
 
-  height: 20px;
+  height: 28px;
+  margin-left: -32px;
+  margin-top: 29px;
+  width: 28px;
 
   &:focus {
-    outline: none;
+    @include border-azure-70();
+    @include outline-none();
+    @include shadow();
   }
 
   &:hover {
@@ -19,5 +26,10 @@
   &[disabled] {
     @include cursor-default();
     @include text-slate-30();
+  }
+
+  ::slotted(ids-icon) {
+    margin-left: -2px;
+    margin-top: 3px;
   }
 }
