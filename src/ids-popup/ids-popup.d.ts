@@ -24,7 +24,7 @@ export default class IdsPopup extends IdsElement {
 
   /** Direction of the Popup Arrow, if applicable (defaults to `none`) */
   arrow: 'none' | 'bottom' | 'top' | 'left' | 'right';
-  
+
   /** Reference to the Arrow Element inside the Popup's Shadow DOM */
   readonly arrowEl: HTMLDivElement;
 

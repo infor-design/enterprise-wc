@@ -3,6 +3,10 @@
  */
 import IdsPopup from '../../src/ids-popup/ids-popup';
 
+/**
+ * Creates the test div used as an ArrowTarget in many of the below tests
+ * @returns {HTMLDivElement} the newly created element
+ */
 function createTestDiv() {
   const testDiv = document.createElement('div');
   testDiv.textContent = 'hey';

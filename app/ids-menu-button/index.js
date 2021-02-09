@@ -7,16 +7,16 @@ import IdsSeparator from '../../src/ids-menu/ids-separator';
 import IdsPopup from '../../src/ids-popup/ids-popup';
 
 document.addEventListener('DOMContentLoaded', () => {
-    const menuBtnEl = document.querySelector('ids-menu-button');
+  const menuBtnEl = document.querySelector('ids-menu-button');
 
-    // Log to the console on `toggle`
-    menuBtnEl.addEventListener('show', (e) => {
-        // eslint-disable-next-line
-        console.log(`Item "${e.detail.elem.text}" was displayed`);
-    });
+  // Log to the console on `toggle`
+  menuBtnEl.addEventListener('show', (e) => {
+    // eslint-disable-next-line
+    console.log(`Item "${e.detail.elem.text}" was displayed`);
+  });
 
-    menuBtnEl.addEventListener('hide', (e) => {
-        // eslint-disable-next-line
-        console.log(`Item "${e.detail.elem.text}" was hidden`);
-    });
+  menuBtnEl.addEventListener('hide', (e) => {
+    // eslint-disable-next-line
+    console.log(`Item "${e.detail.elem.text}" was hidden`);
+  });
 });
