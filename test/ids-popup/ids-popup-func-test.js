@@ -682,6 +682,33 @@ describe('IdsPopup Component', () => {
     }, 80);
   });
 
+  // NOTE: This test covers the alternate right/bottom shifting of the arrow in `placeArrow()`
+  it('moves the arrow to the correct place if the menu\'s position changes', (done) => {
+    const targetDiv = createTestDiv();
+    popup.alignTarget = targetDiv;
+    popup.arrowTarget = targetDiv;
+    popup.x = 100;
+    popup.visible = true;
+
+    // Set the arrow to "left"
+    popup.arrow = 'left';
+
+    setTimeout(() => {
+      expect(popup.arrow).toBe('left');
+      expect(popup.getAttribute('arrow')).toBe('left');
+
+      popup.x = 0;
+      popup.y = 100;
+      popup.arrow = 'bottom';
+
+      setTimeout(() => {
+        expect(popup.arrow).toBe('bottom');
+        expect(popup.getAttribute('arrow')).toBe('bottom');
+        done();
+      }, 80);
+    }, 80);
+  });
+
   it('can set the arrow target by CSS Selector', () => {
     // Reference the `arrowTarget` with an id instead of a direct reference
     const anotherTargetDiv = document.createElement('div');

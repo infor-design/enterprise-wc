@@ -859,6 +859,7 @@ class IdsPopup extends IdsElement {
       newArrowRect.top = arrowRect.top + d;
       newArrowRect.bottom = arrowRect.bottom + d;
 
+      /* istanbul ignore next */
       if (newArrowRect.top <= elementRect.top || newArrowRect.bottom >= elementRect.bottom) {
         arrowHidden = true;
       }
@@ -870,6 +871,7 @@ class IdsPopup extends IdsElement {
       newArrowRect.left = arrowRect.left + d;
       newArrowRect.right = arrowRect.right + d;
 
+      /* istanbul ignore next */
       if (newArrowRect.left <= elementRect.left || newArrowRect.right >= elementRect.right) {
         arrowHidden = true;
       }
@@ -879,11 +881,11 @@ class IdsPopup extends IdsElement {
     d = Math.ceil(d);
 
     // Hide the arrow if it goes beyond the element boundaries
+    /* istanbul ignore next */
     if (arrowHidden) {
       arrowEl.hidden = true;
     }
     arrowEl.style[targetMargin] = `${d}px`;
-    console.log('place arrow');
   }
 
   /**
