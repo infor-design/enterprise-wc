@@ -70,7 +70,7 @@ class IdsTriggerField extends IdsElement {
     button.tabbable = isTabbable;
   }
 
-  get tabbable() { return this.getAttribute(props.TABBABLE) || true; }
+  get tabbable() { return this.getAttribute(props.TABBABLE); }
 
   /**
    * Set the appearance of the trigger field
