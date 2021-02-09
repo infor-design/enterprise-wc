@@ -25,7 +25,27 @@ This component is a building-block component for many "placeable" IDS Components
 
 ## Features (with code samples)
 
+Creating a Context-menu style that would open on click might look like the following:
 
+```html
+<ids-popup id="my-popup" x="0" y="10" align="top, left">
+  <div slot="contents">My Popup</div>
+</ids-popup>
+```
+
+To create a Popup that appears to align itself against a button, you could do the following:
+
+```html
+<ids-popup id="my-popup" x="10" y="10" align="top, left" alignTarget="#my-button">
+  <div slot="contents">My Popup</div>
+</ids-popup>
+
+...
+
+<ids-button id="my-button">
+  <span slot="text">My Button</span>
+</ids-button>
+```
 
 ## Usage Tips
 
