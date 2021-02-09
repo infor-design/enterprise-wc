@@ -1,0 +1,47 @@
+@import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
+@import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift.scss';
+@import '../ids-base/ids-base';
+
+:host {
+  text-align: center;
+}
+
+.ids-badge {
+  @include antialiased();
+  @include bg-slate-20();
+  @include border-1();
+  @include border-slate-20();
+  @include border-solid();
+  @include font-sans();
+  @include mb-4();
+  @include mr-4();
+  @include px-8();
+  @include py-1();
+  @include rounded-lg();
+  @include text-14();
+  @include text-slate-100();
+
+  flex-direction: column;
+  justify-content: space-between;
+  line-height: 22px;
+  min-height: 22px;
+  min-width: 22px;
+  padding: 0 10px;
+
+  &.round {
+    display: inline-block;
+    padding: 0;
+    text-align: center;
+    width: 22px;
+  }
+
+  &.ids-white {
+    @include bg-white();
+    @include text-white();
+  }
+
+  ::slotted(ids-icon) {
+    position: relative;
+    top: 3px;
+  }
+}
