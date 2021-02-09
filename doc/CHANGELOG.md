@@ -35,6 +35,10 @@
   - If using events events are now plain JS events for example
   - The template is now a template element that uses simple string substitution
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Menu Button]` Added the Menu Button WebComponent
+  - Now exists as its own component
+  - Markup is `<ids-menu-button></ids-menu-button>`
+  - Implicitly linked to a menu by using `menu="#my-menu"` CSS selector attribute, or direct element reference in JS
 - `[Popup]` Added the Popup WebComponent. ([#4259](https://github.com/infor-design/enterprise/issues/4259))
   - This is the new base component to be used for building Popupmenu, Tooltip, Modal, and any other component that requires placement of a fixed-position element.
   - If using properties/settings, these are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.

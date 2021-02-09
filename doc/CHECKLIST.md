@@ -505,6 +505,16 @@ Will make a pager type for this.
  - [ ] Standalone Css
  - [ ] Works in Page with 4.x
 
+ **MenuButton** (ids-menu-button)
+ - [x] Docs
+ - [x] 100% Test Coverage
+ - [x] Feature Parity with 4.x
+ - [x] Upgrade Docs in Changelog
+ - [x] Typings
+ - [x] NG / Vue / React Example
+ - [x] Standalone Css
+ - [ ] Works in Page with 4.x
+
 **Message** (ids-message)
  - [ ] Docs
  - [ ] 100% Test Coverage
