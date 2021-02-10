@@ -1,0 +1,9 @@
+@import '../ids-base/ids-base.scss';
+
+:host {
+  @include block();
+}
+
+.ids-toolbar {
+  @include flex();
+}
