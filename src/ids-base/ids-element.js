@@ -6,6 +6,7 @@ import {
 } from './ids-decorators';
 
 import { props } from './ids-constants';
+import mix from './ids-mixin';
 import { IdsStringUtilsMixin as stringUtils } from './ids-string-utils-mixin';
 
 /**
@@ -118,6 +119,7 @@ export {
   IdsElement,
   customElement,
   mixin,
+  mix,
   scss,
   version,
   props

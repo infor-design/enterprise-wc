@@ -1,13 +1,17 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
+import { IdsElement } from '../ids-base/ids-element';
+import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
+import { IdsExampleMixin2 } from '../ids-base/ids-example2-mixin';
+
 interface IdsTagEventDetail extends Event {
   detail: {
     elem: IdsTag
   }
 }
 
-export default class IdsTag extends HTMLElement {
+interface IdsTag extends IdsElement, IdsExampleMixin, IdsExampleMixin2 {
   /** Set the tag type/color */
   color: 'secondary' | 'error' | 'success' | 'caution' | string;
 
@@ -23,6 +27,7 @@ export default class IdsTag extends HTMLElement {
   /** Fires while the tag is removed */
   on(event: 'tagremoved', listener: (detail: IdsTagEventDetail) => void): this;
 
-  /** Fires after the tag is fully removed */
-  on(event: 'aftertagremoved', listener: (detail: IdsTagEventDetail) => void): this;
+  example1(): void;
 }
+
+export default IdsTag;

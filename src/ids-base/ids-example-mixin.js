@@ -1,11 +1,15 @@
 /**
- * An example mixin that shows the general format of a mixin that will extend a IDS component.
+ * An example mixin that shows the general format of a mixin that will be used in a IDS component.
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
  */
-const IdsExampleMixin = {
-  prop1: 'test',
+const IdsExampleMixin = (superclass) => class extends superclass {
+  constructor() {
+    super();
+  }
 
-  methodOne() {
-    return 'test';
+  example1() {
+    console.info('example1 from IdsExampleMixin');
   }
 };
 

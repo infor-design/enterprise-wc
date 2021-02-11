@@ -31,3 +31,5 @@ If using the Atom editor the package [atom-typescript](https://atom.io/packages/
 In addition we had to disabled a couple warnings it complains about regarding our import statements (in atom only). To set this in the atom-typescript plugin go to the setting  "Ignore Diagnostics" add the following: 6138, 6133.
 
 Occasionally due to a bug in Atom not showing errors when a JS file is open. Click `JavaScript` on the bottom footer and set it to `TypesScript` to toggle the visibility of type errors.
+
+In addition to the types in the d.ts file which should be the external facing types. You can use tsdoc to guide ts into the types. Have a look at [jsdoc-supported-types](https://www.typescriptlang.org/docs/handbook/jsdoc-supported-types.html).

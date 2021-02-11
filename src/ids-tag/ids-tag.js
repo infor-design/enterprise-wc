@@ -1,24 +1,37 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  mix
 } from '../ids-base/ids-element';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
+import { IdsExampleMixin2 } from '../ids-base/ids-example2-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+
 // @ts-ignore
 import styles from './ids-tag.scss';
 
 /**
  * IDS Tag Component
+ * @type {IdsTag}
+ * @inherits IdsElement
+ * @mixes IdsExampleMixin
+ * @mixes IdsExampleMixin2
+ * @part background-color - the tag background color
+ * @part color - the text color
  */
 @customElement('ids-tag')
 @scss(styles)
-class IdsTag extends IdsElement {
+class IdsTag extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin2) {
   constructor() {
     super();
   }
 
   connectedCallback() {
+    this.example1();
+
     this
       .handleEvents()
       .handleKeys();
@@ -177,13 +190,13 @@ class IdsTag extends IdsElement {
     }
 
     if (this.dismissible) {
-      this.keyboard.listen(['Delete', 'Backspace'], this, () => {
+      this.keyboard.listen(['Delete', 'Backspace'], this.container, () => {
         this.dismiss();
       });
     }
 
     if (this.clickable) {
-      this.keyboard.listen('Enter', this, () => {
+      this.keyboard.listen('Enter', this.container, () => {
         this.click();
       });
     }
@@ -203,15 +216,15 @@ class IdsTag extends IdsElement {
     const response = (/** @type {any} */ veto) => {
       canDismiss = !!veto;
     };
-    this.eventHandlers.dispatchEvent('beforetagremoved', this, { detail: { elem: this, response } });
+    this.eventHandlers.dispatchEvent('beforetagremoved', this.container, { detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
-    this.eventHandlers.dispatchEvent('tagremoved', this, { detail: { elem: this } });
+    this.eventHandlers.dispatchEvent('tagremoved', this.container, { detail: { elem: this } });
     this.remove();
-    this.eventHandlers.dispatchEvent('aftertagremoved', this, { detail: { elem: this } });
+    this.eventHandlers.dispatchEvent('aftertagremoved', this.container, { detail: { elem: this } });
   }
 }
 
