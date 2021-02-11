@@ -6,4 +6,27 @@
 
 .ids-toolbar {
   @include flex();
+
+  align-items: center;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+}
+
+.ids-toolbar-section {
+  white-space: nowrap;
+  width: auto;
+
+  // =========================
+  // Alignments
+  &.align-start {
+    align-items: flex-start;
+  }
+
+  &.align-center {
+    align-items: center;
+  }
+
+  &.align-end {
+    align-items: flex-end;
+  }
 }

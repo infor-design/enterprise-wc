@@ -4,18 +4,9 @@ import { props } from '../ids-base/ids-constants';
 import styles from './ids-toolbar.scss';
 
 // Supporting Components
-import IdsToolbarSection from './ids-toolbar-section';
+import IdsToolbarSection, { TOOLBAR_ITEM_TAGNAMES } from './ids-toolbar-section';
 
 const TOOLBAR_PROPS = [];
-
-// Types of WebComponent Tagnames that are valid toolbar items
-const TOOLBAR_ITEM_TAGNAMES = [
-  'ids-button',
-  'ids-checkbox',
-  'ids-input',
-  'ids-menu-button',
-  'ids-radio'
-];
 
 /**
  * IDS Toolbar Component
@@ -47,20 +38,17 @@ class IdsToolbar extends IdsElement {
 
   /**
    * @readonly
-   * @returns {Array<any>} list of available items contained by the toolbar
+   * @returns {Array<any>} list of available items, separated per section
    */
   get items() {
-    return [...this.children].filter((/** @type {any} */ e) => {
-      const elemTagName = e.tagName.toLowerCase();
-      return TOOLBAR_ITEM_TAGNAMES.includes(elemTagName);
+    let i = [];
+    this.sections.forEach((section) => {
+      i = i.concat([...section.items]);
     });
+    return i;
   }
-
-  /**
-   *
-   */
 
 }
 
 export default IdsToolbar;
-export { IdsToolbarSection };
+export { IdsToolbarSection, TOOLBAR_ITEM_TAGNAMES };
