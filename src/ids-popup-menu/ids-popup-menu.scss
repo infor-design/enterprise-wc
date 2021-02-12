@@ -9,6 +9,8 @@
 .ids-popup-menu {
   &:not([hidden]) {
     @include block();
+
+    z-index: 1000;
   }
 
   .ids-menu {

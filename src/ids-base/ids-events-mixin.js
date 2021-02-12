@@ -41,9 +41,14 @@ class IdsEventsMixin {
 
   /**
    * Detach all event handlers
+   * @param {string} [eventName] an optional event name to filter with
    */
-  removeAll() {
+  removeAll(eventName = undefined) {
+    const doCheck = typeof eventName === 'string' && eventName.length;
     this.handledEvents.forEach((value, key) => {
+      if (doCheck && key !== eventName) {
+        return;
+      }
       this.removeEventListener(key, value.target, value.options);
     });
   }

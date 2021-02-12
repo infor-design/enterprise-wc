@@ -34,7 +34,8 @@
 }
 
 .ids-button,
-.ids-toggle-button {
+.ids-toggle-button,
+.ids-menu-button {
   @include ids-base-button-styles();
 
   // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
