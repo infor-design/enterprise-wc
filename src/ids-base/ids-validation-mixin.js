@@ -12,10 +12,10 @@ const IdsValidationMixin = {
 
   // Icons
   VALIDATION_ICONS: {
-    alert: 'alert-solid',
-    error: 'error-solid',
-    info: 'info-solid',
-    success: 'success-solid',
+    alert: 'alert',
+    error: 'error',
+    info: 'info',
+    success: 'success',
   },
 
   /**

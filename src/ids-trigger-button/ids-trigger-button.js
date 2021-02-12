@@ -5,6 +5,7 @@ import {
 
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
+import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { props } from '../ids-base/ids-constants';
 // @ts-ignore
 import styles from './ids-trigger-button.scss';
@@ -27,8 +28,22 @@ class IdsTriggerButton extends IdsButton {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return BUTTON_PROPS.concat([props.DISABLE_EVENTS]);
+    return BUTTON_PROPS.concat([props.DISABLE_EVENTS, props.tabbable]);
   }
+
+  /**
+   * Set if the trigger field is tabbable
+   * @param {boolean|string} value True of false depending if the trigger field is tabbable
+   */
+  set tabbable(value) {
+    const isTabbable = stringUtils.stringToBool(value);
+    /** @type {any} */
+    const button = this.shadowRoot.querySelector('button');
+    this.setAttribute(props.TABBABLE, value.toString());
+    button.tabIndex = !isTabbable ? '-1' : '0';
+  }
+
+  get tabbable() { return this.getAttribute(props.TABBABLE) || true; }
 }
 
 export default IdsTriggerButton;
