@@ -11,3 +11,4 @@ import IdsPopupMenu, {
   IdsMenuHeader,
   IdsSeparator
 } from '../../src/ids-popup-menu/ids-popup-menu';
+import IdsText from '../../src/ids-text/ids-text';

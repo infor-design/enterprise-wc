@@ -16,7 +16,7 @@
   white-space: nowrap;
   width: auto;
 
-  // =========================
+  // ================================================
   // Alignments
   &.align-start {
     align-items: flex-start;
@@ -29,4 +29,40 @@
   &.align-end {
     align-items: flex-end;
   }
+
+  // ================================================
+  // Built-in Section Type Styles
+
+  // Contains rows of buttons
+  &.buttonset {
+    @include px-4();
+  }
+
+  &.title,
+  &.buttonset {
+    flex-grow: 1;
+
+    &:not(.favor) {
+      overflow-x: hidden;
+      overflow-y: auto;
+    }
+
+    &.static {
+      flex-grow: 0;
+    }
+  }
+
+  // Intended for use by developers that need "custom" sections that stretch to fit.
+  // The default functionality is NOT to stretch.
+  &.fluid {
+    flex-grow: 1;
+  }
+
+  // Contains Searchfields
+  &.search {
+    @include px-12();
+  }
+
+  // ================================================
+  //
 }

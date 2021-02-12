@@ -4,24 +4,60 @@ import { props } from '../ids-base/ids-constants';
 import styles from './ids-toolbar.scss';
 
 const TOOLBAR_SECTION_PROPS = [
-  'align'
+  'align',
+  props.TYPE
 ];
 
-// Types of alignment that can apply to a section
+// Alignment styles that can apply to a section
 const SECTION_ALIGNS = [
-  'start',
-  'center',
-  'end'
+  'align-start',
+  'align-center',
+  'align-end'
 ];
 
-// Types of WebComponent Tagnames that are valid toolbar items
+// Section types
+const SECTION_TYPES = [
+  'static',
+  'buttonset',
+  'fluid',
+  'search',
+  'title',
+];
+
+// WebComponent Tagnames that correspond to valid toolbar items
 const TOOLBAR_ITEM_TAGNAMES = [
   'ids-button',
   'ids-checkbox',
   'ids-input',
   'ids-menu-button',
-  'ids-radio'
+  'ids-radio',
+  'ids-text'
 ];
+
+/**
+ * Checks an element's CSS classlist for an item belonging to a group,
+ * appends that item, and removes all others from the group.
+ * @private
+ * @param {string} targetClass
+ * @param {HTMLElement} targetElem
+ * @param {Array<string>} group
+ * @returns {void}
+ */
+function setCssClassFromGroup(targetClass, targetElem, group) {
+  group.forEach((item) => {
+    const cl = targetElem.classList;
+    const cssClass = `${item}`;
+    const thisClass = `${targetClass}`;
+
+    if (cssClass === thisClass) {
+      if (!cl.contains(cssClass)) {
+        cl.add(cssClass);
+      }
+    } else {
+      cl.remove(cssClass);
+    }
+  });
+}
 
 /**
  * IDS Toolbar Section Component
@@ -63,20 +99,7 @@ class IdsToolbarSection extends IdsElement {
     } else {
       this.setAttribute('align', val);
     }
-
-    SECTION_ALIGNS.forEach((align) => {
-      const cl = this.container.classList;
-      const cssClass = `align-${align}`;
-      const thisClass = `align-${val}`;
-
-      if (cssClass == thisClass) {
-        if (!cl.contains(cssClass)) {
-          cl.add(cssClass);
-        }
-      } else {
-        cl.remove(cssClass);
-      }
-    });
+    setCssClassFromGroup(`align-${val}`, this.container, SECTION_ALIGNS);
   }
 
   /**
@@ -84,6 +107,27 @@ class IdsToolbarSection extends IdsElement {
    */
   get align() {
     return this.getAttribute('align') || SECTION_ALIGNS[0];
+  }
+
+  /**
+   * @param {string} val the type of section
+   */
+  set type(val) {
+    let trueVal;
+    if (typeof val !== 'string' || val === '' || !SECTION_TYPES.includes(val)) {
+      trueVal = SECTION_TYPES[0];
+    } else {
+      trueVal = `${val}`;
+    }
+    this.setAttribute('type', trueVal);
+    setCssClassFromGroup(trueVal, this.container, SECTION_TYPES);
+  }
+
+  /**
+   *
+   */
+  get type() {
+    return this.getAttribute('type')
   }
 }
 
