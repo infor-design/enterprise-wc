@@ -2,15 +2,16 @@ import {
   IdsElement,
   customElement,
   scss,
-  props
+  props,
+  mix
 } from '../ids-base/ids-element';
 
 import { IdsDataGridFormatters } from './ids-data-grid-formatters';
-import { IdsDataSourceMixin } from '../ids-base/ids-data-source-mixin';
-import { IdsDeepCloneMixin as cloneUtils } from '../ids-base/ids-deep-clone-mixin';
+import { IdsDataSource } from '../ids-base/ids-data-source';
+import { IdsDeepCloneUtils as cloneUtils } from '../ids-base/ids-deep-clone-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
@@ -22,18 +23,17 @@ import styles from './ids-data-grid.scss';
  */
 @customElement('ids-data-grid')
 @scss(styles)
-class IdsDataGrid extends IdsElement {
+class IdsDataGrid extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsKeyboardMixin
+  ) {
   constructor() {
     super();
   }
 
-  /**
-   * Handle setup when connected
-   */
-  connectedCallback() {
-    this.formatters = new IdsDataGridFormatters();
-    this.datasource = new IdsDataSourceMixin();
-  }
+  formatters = new IdsDataGridFormatters();
+
+  datasource = new IdsDataSource();
 
   /**
    * Return the properties we handle as getters/setters
@@ -102,7 +102,7 @@ class IdsDataGrid extends IdsElement {
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     // Setup virtual scrolling
-    if (stringUtils.stringToBool(this.virtualScroll) && this?.data.length > 0) {
+    if (stringUtils.stringToBool(this.virtualScroll) && this.data.length > 0) {
       /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.scrollTarget = this.shadowRoot.querySelector('.ids-data-grid');
@@ -207,14 +207,11 @@ class IdsDataGrid extends IdsElement {
    */
   handleEvents() {
     const sortableColumns = this.shadowRoot.querySelector('.ids-data-grid-header');
-    if (this.eventHandlers) {
-      this.eventHandlers.removeAll();
-    }
-    this.eventHandlers = new IdsEventsMixin();
+    this.detachAllEvents();
 
     // Add a sort Handler
     // @ts-ignore
-    this.eventHandlers.addEventListener('click', sortableColumns, (/** @type {any} */ e) => {
+    this.on('click', sortableColumns, (/** @type {any} */ e) => {
       const header = e.target.closest('.is-sortable');
 
       if (header) {
@@ -223,7 +220,7 @@ class IdsDataGrid extends IdsElement {
     });
 
     // Add a cell click handler
-    this.eventHandlers.addEventListener('click', this.shadowRoot.querySelector('.ids-data-grid-body'), (/** @type {any} */ e) => {
+    this.on('click', this.shadowRoot.querySelector('.ids-data-grid-body'), (/** @type {any} */ e) => {
       const cell = e.target.closest('.ids-data-grid-cell');
       const row = cell.parentNode;
       // TODO Handle Hidden Cells
@@ -238,17 +235,15 @@ class IdsDataGrid extends IdsElement {
    */
   handleKeys() {
     if (this.keyboard) {
-      this.keyboard.destroy();
+      this.destroyAllKeyBoard();
     }
-    this.keyboard = new IdsKeyboardMixin();
-
     // Handle arrow navigation
-    this.keyboard.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (/** @type {any} */ e) => {
       const key = e.key;
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
 
-      this.setActiveCell(this.activeCell.cell + cellDiff, this.activeCell.row + rowDiff);
+      this.setActiveCell(this.activeCell?.cell + cellDiff, this.activeCell?.row + rowDiff);
       e.preventDefault();
       e.stopPropagation();
     });
@@ -310,7 +305,7 @@ class IdsDataGrid extends IdsElement {
     this.datasource.sort(id, ascending, null);
     this.rerender();
     this.setSortState(id, ascending);
-    this.eventHandlers.dispatchEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
+    this.trigger('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
   }
 
   /**
@@ -481,7 +476,7 @@ class IdsDataGrid extends IdsElement {
     // @ts-ignore
     cellNode.focus();
 
-    this.eventHandlers.dispatchEvent('activecellchanged', this, { detail: { elem: this, activeCell: this.activeCell } });
+    this.trigger('activecellchanged', this, { detail: { elem: this, activeCell: this.activeCell } });
     return this.activeCell;
   }
 }

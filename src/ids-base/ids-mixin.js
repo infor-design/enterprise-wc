@@ -22,7 +22,7 @@ class MixinBuilder {
 
 /**
  * @param {CustomElementConstructor} superclass the base class to start with
- * @returns {any | Element} a new base class with mixin props/methods included
+ * @returns {any} a new base class with mixin props/methods included
  */
 const mix = (superclass) => new MixinBuilder(superclass);
 export default mix;

@@ -76,6 +76,9 @@ module.exports = {
     'no-plusplus': ['off', { }],
     // Allow console.info
     'no-console': ['error', { allow: ['error', 'info'] }],
+    'template-curly-spacing': ['off'],
+    indent: ['error', 2, { ignoredNodes: ['TemplateLiteral'] }
+    ],
   },
   settings: {
     jsdoc: {

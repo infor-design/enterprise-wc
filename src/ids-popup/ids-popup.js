@@ -1,15 +1,15 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  props,
+  scss,
+  mix
 } from '../ids-base/ids-element';
 
-import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 // @ts-ignore
 import styles from './ids-popup.scss';
@@ -75,9 +75,7 @@ function formatAlignAttribute(alignX, alignY, edge) {
  */
 @customElement('ids-popup')
 @scss(styles)
-@mixin(IdsRenderLoopMixin)
-@mixin(IdsResizeMixin)
-class IdsPopup extends IdsElement {
+class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, IdsEventsMixin) {
   constructor() {
     super();
     this.alignment = {
@@ -165,7 +163,7 @@ class IdsPopup extends IdsElement {
 
   /**
    * Sets the element to align with via a css selector
-   * @param {any} val ['string|HTMLElement'] a CSS selector string
+   * @param {string | HTMLElement | undefined} val ['string|HTMLElement'] a CSS selector string
    */
   // @ts-ignore
   set alignTarget(val) {
@@ -182,6 +180,7 @@ class IdsPopup extends IdsElement {
     let elem;
     if (isString) {
       // @TODO Harden for security (XSS)
+      // @ts-ignore
       elem = document.querySelector(val);
       if (!(elem instanceof HTMLElement)) {
         return;
@@ -191,12 +190,13 @@ class IdsPopup extends IdsElement {
       elem = val;
     }
 
+    // @ts-ignore
     this.alignment.target = elem;
     this.refresh();
   }
 
   /**
-   * @returns {HTMLElement} the element in the page that the Popup will take
+   * @returns {HTMLElement| undefined} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
   // @ts-ignore
@@ -548,7 +548,7 @@ class IdsPopup extends IdsElement {
       timeoutCallback: () => {
         if (this.isVisible) {
           // Always fire the 'show' event
-          this.eventHandlers.dispatchEvent('show', this, {
+          this.trigger('show', this, {
             bubbles: true,
             detail: {
               elem: this
@@ -572,7 +572,7 @@ class IdsPopup extends IdsElement {
       timeoutCallback: () => {
         if (!this.isVisible) {
           // Always fire the 'hide' event
-          this.eventHandlers.dispatchEvent('hide', this, {
+          this.trigger('hide', this, {
             bubbles: true,
             detail: {
               elem: this
@@ -601,25 +601,25 @@ class IdsPopup extends IdsElement {
     let y = this.y;
 
     switch (this.alignX) {
-      case 'right':
-        x -= popupRect.width;
-        break;
-      case 'center':
-        x -= popupRect.width / 2;
-        break;
-      default: // left
-        break;
+    case 'right':
+      x -= popupRect.width;
+      break;
+    case 'center':
+      x -= popupRect.width / 2;
+      break;
+    default: // left
+      break;
     }
 
     switch (this.alignY) {
-      case 'bottom':
-        y -= popupRect.height;
-        break;
-      case 'center':
-        y -= popupRect.height / 2;
-        break;
-      default: // top
-        break;
+    case 'bottom':
+      y -= popupRect.height;
+      break;
+    case 'center':
+      y -= popupRect.height / 2;
+      break;
+    default: // top
+      break;
     }
 
     // @ts-ignore
@@ -639,6 +639,7 @@ class IdsPopup extends IdsElement {
 
     // Detect sizes/locations of the popup and the alignment target Element
     const popupRect = this.container.getBoundingClientRect();
+    // @ts-ignore
     const targetRect = this.alignTarget.getBoundingClientRect();
     const { alignEdge } = this;
     let alignXCentered = false;
@@ -652,27 +653,27 @@ class IdsPopup extends IdsElement {
     // and use the defined X coordinate as a X offset.
     if (ALIGNMENTS_Y.includes(alignEdge)) {
       switch (alignEdge) {
-        case 'top':
-          y = targetRect.top - popupRect.height - y;
-          break;
-        case 'bottom':
-          y = targetRect.bottom + y;
-          break;
-        default: // center
-          y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
-          alignYCentered = true;
+      case 'top':
+        y = targetRect.top - popupRect.height - y;
+        break;
+      case 'bottom':
+        y = targetRect.bottom + y;
+        break;
+      default: // center
+        y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
+        alignYCentered = true;
       }
 
       switch (this.alignX) {
-        case 'left':
-          x = targetRect.left + x;
-          break;
-        case 'right':
-          x = targetRect.right - popupRect.width - x;
-          break;
-        default: // center
-          x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
-          alignXCentered = true;
+      case 'left':
+        x = targetRect.left + x;
+        break;
+      case 'right':
+        x = targetRect.right - popupRect.width - x;
+        break;
+      default: // center
+        x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
+        alignXCentered = true;
       }
     }
 
@@ -681,31 +682,31 @@ class IdsPopup extends IdsElement {
     // and use the defined Y coordinate as a Y offset.
     if (ALIGNMENTS_X.includes(alignEdge)) {
       switch (alignEdge) {
-        case 'left':
-          x = targetRect.left - popupRect.width - x;
+      case 'left':
+        x = targetRect.left - popupRect.width - x;
+        break;
+      case 'right':
+        x = targetRect.right + x;
+        break;
+      default: // center
+        if (alignXCentered) {
           break;
-        case 'right':
-          x = targetRect.right + x;
-          break;
-        default: // center
-          if (alignXCentered) {
-            break;
-          }
-          x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
+        }
+        x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
       }
 
       switch (this.alignY) {
-        case 'top':
-          y = targetRect.top + y;
+      case 'top':
+        y = targetRect.top + y;
+        break;
+      case 'bottom':
+        y = targetRect.bottom - popupRect.height + y;
+        break;
+      default: // center
+        if (alignYCentered) {
           break;
-        case 'bottom':
-          y = targetRect.bottom - popupRect.height + y;
-          break;
-        default: // center
-          if (alignYCentered) {
-            break;
-          }
-          y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
+        }
+        y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
       }
     }
 
@@ -765,10 +766,8 @@ class IdsPopup extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
-
     const slot = this.shadowRoot.querySelector('slot');
-    this.eventHandlers.addEventListener('slotchange', slot, () => {
+    this.on('slotchange', slot, () => {
       this.refresh();
     });
   }

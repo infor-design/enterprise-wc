@@ -1,25 +1,25 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  mix,
+  scss,
+  props
 } from '../ids-base/ids-element';
 
 // Mixins
 import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
-import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
+import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+
+// @ts-ignore
+import styles from './ids-input.scss';
 
 // Supporting components
 // @ts-ignore
 import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
-
-import { props } from '../ids-base/ids-constants';
-// @ts-ignore
-import styles from './ids-input.scss';
 // @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 // @ts-ignore
@@ -61,12 +61,13 @@ const TEXT_ALIGN = {
  */
 @customElement('ids-input')
 @scss(styles)
-@mixin(IdsClearableMixin)
-@mixin(IdsDirtyTrackerMixin)
-@mixin(IdsDomUtilsMixin)
-@mixin(IdsEventsMixin)
-@mixin(IdsValidationMixin)
-class IdsInput extends IdsElement {
+class IdsInput extends mix(IdsElement).with(
+    IdsClearableMixin,
+    IdsKeyboardMixin,
+    IdsDirtyTrackerMixin,
+    IdsEventsMixin,
+    IdsValidationMixin
+  ) {
   /**
    * Call the constructor and then initialize
    */
@@ -203,12 +204,12 @@ class IdsInput extends IdsElement {
     if (input) {
       const eventName = 'focus';
       if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        const handler = this.handledEvents?.get(eventName);
         if (handler && handler.target === input) {
-          this.eventHandlers.removeEventListener(eventName, input);
+          this.off(eventName, input);
         }
       } else {
-        this.eventHandlers.addEventListener(eventName, input, () => {
+        this.on(eventName, input, () => {
           input.select();
         });
       }
@@ -225,12 +226,12 @@ class IdsInput extends IdsElement {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.eventHandlers.removeEventListener(eventName, this.input);
+          this.off(eventName, this.input);
         }
       } else {
-        this.eventHandlers.addEventListener(eventName, this.input, () => {
+        this.on(eventName, this.input, () => {
           this.value = this.input.value;
         });
       }
@@ -248,12 +249,12 @@ class IdsInput extends IdsElement {
       const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt) => {
         if (option === 'remove') {
-          const handler = this.eventHandlers?.handledEvents?.get(evt);
+          const handler = this?.handledEvents?.get(evt);
           if (handler && handler.target === this.input) {
-            this.eventHandlers.removeEventListener(evt, this.input);
+            this.off(evt, this.input);
           }
         } else {
-          this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
+          this.on(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire nativeEvents.
@@ -261,7 +262,7 @@ class IdsInput extends IdsElement {
              * @param  {object} elem Actual event
              * @param  {string} value The updated input element value
              */
-            this.eventHandlers.dispatchEvent(e.type, this, {
+            this.triggr(e.type, this, {
               detail: {
                 elem: this,
                 nativeEvent: e,
@@ -284,7 +285,6 @@ class IdsInput extends IdsElement {
     if (this.value === null) {
       this.value = '';
     }
-    this.eventHandlers = new IdsEventsMixin();
 
     this.handleInputChangeEvent();
     this.handleNativeEvents();

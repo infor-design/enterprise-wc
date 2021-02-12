@@ -1,7 +1,7 @@
 /**
  * Ids String parsing/processing utilities
  */
-const IdsStringUtilsMixin = {
+const IdsStringUtils = {
   /**
    * Convert a string in presumed kebab case to camel case
    * @param  {string} str [description]
@@ -34,4 +34,4 @@ const IdsStringUtilsMixin = {
   }
 };
 
-export { IdsStringUtilsMixin };
+export { IdsStringUtils };

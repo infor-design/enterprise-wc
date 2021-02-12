@@ -1,7 +1,5 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsElement } from '../ids-base/ids-element';
 
 // Subcomponents
@@ -71,19 +69,4 @@ export default class IdsMenu extends IdsElement {
 
   /* Clears any selected items in the menu, or specified menu group */
   clearSelectedItems(menuGroup?: IdsMenuGroup | string): void;
-
-  /* */
-  connectedCallback(): void;
-
-  /* */
-  eventHandlers: IdsEventsMixin;
-
-  /* */
-  handleEvents(): void;
-
-  /* */
-  handleKeys(): void;
-
-  /* */
-  keyboard: IdsKeyboardMixin;
 }

@@ -1,11 +1,12 @@
 import {
   customElement,
-  scss
+  scss,
+  props
 } from '../ids-base/ids-element';
 
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
-import { props } from '../ids-base/ids-constants';
+
 // @ts-ignore
 import styles from './ids-trigger-button.scss';
 

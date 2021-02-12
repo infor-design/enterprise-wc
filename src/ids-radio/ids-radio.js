@@ -1,14 +1,15 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  props,
+  scss,
+  mix
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
-import { props } from '../ids-base/ids-constants';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+
 // @ts-ignore
 import styles from './ids-radio.scss';
 // @ts-ignore
@@ -21,8 +22,7 @@ import IdsRadioGroup from './ids-radio-group';
  */
 @customElement('ids-radio')
 @scss(styles)
-@mixin(IdsHideFocusMixin)
-class IdsRadio extends IdsElement {
+class IdsRadio extends mix(IdsElement).with(IdsHideFocusMixin, IdsEventsMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -55,7 +55,6 @@ class IdsRadio extends IdsElement {
     /** @type {any} */
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     this.labelEl = this.shadowRoot.querySelector('label');
-    this.eventHandlers = new IdsEventsMixin();
 
     // @ts-ignore
     this.hideFocus();
@@ -108,12 +107,12 @@ class IdsRadio extends IdsElement {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        const handler = this.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.eventHandlers.removeEventListener(eventName, this.input);
+          this.on(eventName, this.input);
         }
       } else {
-        this.eventHandlers.addEventListener(eventName, this.input, () => {
+        this.on(eventName, this.input, () => {
           this.checked = this.input.checked;
         });
       }
@@ -131,12 +130,12 @@ class IdsRadio extends IdsElement {
       const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt) => {
         if (option === 'remove') {
-          const handler = this.eventHandlers?.handledEvents?.get(evt);
+          const handler = this.handledEvents?.get(evt);
           if (handler && handler.target === this.input) {
-            this.eventHandlers.removeEventListener(evt, this.input);
+            this.off(evt, this.input);
           }
         } else {
-          this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
+          this.on(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire nativeEvents.
@@ -144,7 +143,7 @@ class IdsRadio extends IdsElement {
              * @param  {object} elem Actual event
              * @param  {string} value The updated input element value
              */
-            this.eventHandlers.dispatchEvent(e.type, this, {
+            this.trigger(e.type, this, {
               elem: this,
               nativeEvent: e,
               value: this.value,

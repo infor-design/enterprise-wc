@@ -1,15 +1,16 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  props,
+  scss,
+  mix
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
-import { props } from '../ids-base/ids-constants';
+
 // @ts-ignore
 import styles from './ids-radio-group.scss';
 // @ts-ignore
@@ -20,9 +21,11 @@ import IdsText from '../ids-text/ids-text';
  */
 @customElement('ids-radio-group')
 @scss(styles)
-@mixin(IdsDirtyTrackerMixin)
-@mixin(IdsValidationMixin)
-class IdsRadioGroup extends IdsElement {
+class IdsRadioGroup extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsDirtyTrackerMixin,
+    IdsValidationMixin
+  ) {
   /**
    * Call the constructor and then initialize
    */
@@ -53,8 +56,7 @@ class IdsRadioGroup extends IdsElement {
    */
   connectedCallback() {
     const slot = this.shadowRoot.querySelector('slot');
-    this.eventHandlers = new IdsEventsMixin();
-    this.eventHandlers.addEventListener('slotchange', slot, () => {
+    this.on('slotchange', slot, () => {
       this.afterChildrenReady();
     });
   }
@@ -187,8 +189,8 @@ class IdsRadioGroup extends IdsElement {
     const args = { value: val, checked: radio };
     /** @type {any} */
     this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.eventHandlers.dispatchEvent('change', this.input, args);
-    this.eventHandlers.dispatchEvent('change', this, args);
+    this.trigger('change', this.input, args);
+    this.trigger('change', this, args);
   }
 
   /**
@@ -200,7 +202,7 @@ class IdsRadioGroup extends IdsElement {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
 
     radioArr.forEach((r) => {
-      this.eventHandlers.addEventListener('change', r, () => {
+      this.on('change', r, () => {
         this.makeChecked(r, false);
       });
     });
@@ -215,7 +217,7 @@ class IdsRadioGroup extends IdsElement {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
-      this.eventHandlers.addEventListener('keydown', r, (/** @type {any} */ e) => {
+      this.on('keydown', r, (/** @type {any} */ e) => {
         const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
         const key = e.code;
         if (allow.indexOf(key) > -1) {
@@ -366,20 +368,22 @@ class IdsRadioGroup extends IdsElement {
 
   /**
    * Sets the checkbox `value` attribute
-   * @param {string} val the value property
+   * @param {string | null} val the value property
    */
   set value(val) {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     if (val) {
       const state = { on: [], off: [] };
-      radioArr.forEach((r) => {
+      radioArr.forEach((/** @type {HTMLElement | never} */ r) => {
         const rVal = r.getAttribute(props.VALUE);
+        // @ts-ignore
         state[rVal === val ? 'on' : 'off'].push(r);
       });
-      state.off.forEach((r) => r.removeAttribute(props.CHECKED));
+      state.off.forEach((/** @type {HTMLElement} */ r) => r.removeAttribute(props.CHECKED));
+      /** @type {HTMLElement} */
       const r = state.on[state.on.length - 1];
       if (r) {
-        r.setAttribute(props.CHECKED, true);
+        r.setAttribute(props.CHECKED, 'true');
         this.setAttribute(props.VALUE, val);
         this.checked = r;
       } else {

@@ -71,6 +71,7 @@ export const props = {
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
 };
+// Please keep constants alphabetized
 
 export const prefix = {
   PREFIX: 'ids'

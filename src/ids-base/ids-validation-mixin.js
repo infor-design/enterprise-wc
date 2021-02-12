@@ -1,22 +1,29 @@
-import { IdsEventsMixin } from './ids-events-mixin';
-
 /**
- * The validation rules.
+ * Adds validation to any input field
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
  */
-const IdsValidationMixin = {
-  useRules: new Map(),
-  validationEventsList: [],
+const IdsValidationMixin = (superclass) => class extends superclass {
+  constructor() {
+    super();
+  }
+
+  // Map of rules to use
+  useRules = new Map();
+
+  // List of events to validate on
+  validationEventsList = [];
 
   // Default icon
-  VALIDATION_DEFAULT_ICON: 'user-profile',
+  VALIDATION_DEFAULT_ICON = 'user-profile';
 
   // Icons
-  VALIDATION_ICONS: {
+  VALIDATION_ICONS = {
     alert: 'alert-solid',
     error: 'error-solid',
     info: 'info-solid',
     success: 'success-solid',
-  },
+  };
 
   /**
    * Handle the validation rules
@@ -67,7 +74,7 @@ const IdsValidationMixin = {
     } else {
       this.destroyValidation();
     }
-  },
+  }
 
   /**
    * Check the validation and add/remove errors as needed
@@ -86,9 +93,9 @@ const IdsValidationMixin = {
           this.removeMessage(thisRule.rule);
         }
       });
-      this.eventHandlers.dispatchEvent('validated', this, { detail: { elem: this, value: this.value, isValid } });
+      this.trigger('validated', this, { detail: { elem: this, value: this.value, isValid } });
     }
-  },
+  }
 
   /**
    * Add a message to an input
@@ -134,7 +141,7 @@ const IdsValidationMixin = {
         }
       }
     }
-  },
+  }
 
   /**
    * Remove the message(s) from an input
@@ -152,7 +159,7 @@ const IdsValidationMixin = {
       const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
       radioArr.forEach((r) => r.removeAttribute('validation-has-error'));
     }
-  },
+  }
 
   /**
    * Remove all the messages from input
@@ -166,7 +173,7 @@ const IdsValidationMixin = {
         type: node.getAttribute('type')
       });
     });
-  },
+  }
 
   /**
    * Handle validation events
@@ -176,26 +183,21 @@ const IdsValidationMixin = {
    */
   handleValidationEvents(option = '') {
     /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      this.eventHandlers = new IdsEventsMixin();
-    }
-
-    /* istanbul ignore next */
     if (this.input) {
       this.validationEventsList.forEach((eventName) => {
         if (option === 'remove') {
-          const handler = this.eventHandlers?.handledEvents?.get(eventName);
+          const handler = this?.handledEvents?.get(eventName);
           if (handler && handler.target === this.input) {
-            this.eventHandlers.removeEventListener(eventName, this.input);
+            this.off(eventName, this.input);
           }
         } else {
-          this.eventHandlers.addEventListener(eventName, this.input, () => {
+          this.on(eventName, this.input, () => {
             this.checkValidation();
           });
         }
       });
     }
-  },
+  }
 
   /**
    * Destroy the validation mixin
@@ -212,13 +214,13 @@ const IdsValidationMixin = {
       this.labelEl?.classList.remove('required');
       this.removeAllMessages();
     }
-  },
+  }
 
   /**
    * Set all validation rules
    * @private
    */
-  rules: {
+  rules = {
     /**
      * Required validation rule
      * @private

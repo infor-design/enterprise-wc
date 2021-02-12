@@ -1,13 +1,16 @@
-import { IdsEventsMixin } from './ids-events-mixin';
-
 /**
  * HideFocus: Only shows the focus state on key entry.
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
  */
-const IdsHideFocusMixin = {
-  isClick: false,
-  isFocused: false,
-  labelClicked: false,
-  radioCheckbox: false,
+const IdsHideFocusMixin = (superclass) => class extends superclass {
+  isClick = false;
+
+  isFocused = false;
+
+  labelClicked = false;
+
+  radioCheckbox = false;
 
   /**
    * Initialize HideFocus
@@ -21,7 +24,7 @@ const IdsHideFocusMixin = {
     this.hidefocusFocusin();
     this.hidefocusFocusout();
     this.hidefocusMousedown();
-  },
+  }
 
   /**
    * Toggle hidefocus class and trigger event
@@ -36,16 +39,11 @@ const IdsHideFocusMixin = {
       const action = isRemove ? 'remove' : 'add';
       elem.classList[action]('hide-focus');
 
-      /* istanbul ignore next */
-      if (!this.eventHandlers) {
-        this.eventHandlers = new IdsEventsMixin();
-      }
-
       if (!noTrigger) {
-        this.eventHandlers.dispatchEvent(`hidefocus${action}`, this, { elem, action });
+        this.trigger(`hidefocus${action}`, this, { elem, action });
       }
     }
-  },
+  }
 
   /**
    * Handle focusin event
@@ -57,12 +55,12 @@ const IdsHideFocusMixin = {
     if (this.input) {
       const eventName = 'focusin';
       if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.eventHandlers.removeEventListener(eventName, this.input);
+          this.off(eventName, this.input);
         }
       } else {
-        this.eventHandlers.addEventListener(eventName, this.input, () => {
+        this.on(eventName, this.input, () => {
           if (!this.isClick && !this.isFocused && !this.labelClicked) {
             this.hidefocusToggle(this.input, true);
           }
@@ -72,7 +70,7 @@ const IdsHideFocusMixin = {
         });
       }
     }
-  },
+  }
 
   /**
    * Handle focusout event
@@ -84,12 +82,12 @@ const IdsHideFocusMixin = {
     if (this.input) {
       const eventName = 'focusout';
       if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.eventHandlers.removeEventListener(eventName, this.input);
+          this.off(eventName, this.input);
         }
       } else {
-        this.eventHandlers.addEventListener(eventName, this.input, () => {
+        this.on(eventName, this.input, () => {
           this.hidefocusToggle(this.input);
           this.isClick = false;
           this.isFocused = false;
@@ -109,7 +107,7 @@ const IdsHideFocusMixin = {
         });
       }
     }
-  },
+  }
 
   /**
    * Handle mousedown
@@ -119,7 +117,7 @@ const IdsHideFocusMixin = {
   hidefocusHandleMousedown() {
     this.hidefocusToggle(this.input);
     this.isClick = true;
-  },
+  }
 
   /**
    * Handle mousedown event
@@ -133,12 +131,12 @@ const IdsHideFocusMixin = {
         if (el) {
           const eventName = 'mousedown';
           if (option === 'remove') {
-            const handler = this.eventHandlers?.handledEvents?.get(eventName);
+            const handler = this?.handledEvents?.get(eventName);
             if (handler && handler.target === el) {
-              this.eventHandlers.removeEventListener(eventName, el);
+              this.off(eventName, el);
             }
           } else {
-            this.eventHandlers.addEventListener(eventName, el, () => {
+            this.on(eventName, el, () => {
               this.hidefocusHandleMousedown();
               if (this.radioCheckbox) {
                 const rootEl = this.shadowRoot.querySelector('.ids-radio');
@@ -160,7 +158,7 @@ const IdsHideFocusMixin = {
         // setEvent(this.input);
       }
     }
-  },
+  }
 
   /**
    * Destroy

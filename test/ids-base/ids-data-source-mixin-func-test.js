@@ -1,13 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsDataSourceMixin } from '../../src/ids-base/ids-data-source-mixin';
+import { IdsDataSource } from '../../src/ids-base/ids-data-source';
 
 describe.only('IdsDataSourceMixin Tests', () => {
   let datasource;
 
   beforeEach(async () => {
-    datasource = new IdsDataSourceMixin();
+    datasource = new IdsDataSource();
   });
 
   it('can set data as source', () => {

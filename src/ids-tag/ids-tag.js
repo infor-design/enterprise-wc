@@ -6,8 +6,6 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
-import { IdsExampleMixin2 } from '../ids-base/ids-example2-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 
 // @ts-ignore
@@ -17,21 +15,19 @@ import styles from './ids-tag.scss';
  * IDS Tag Component
  * @type {IdsTag}
  * @inherits IdsElement
- * @mixes IdsExampleMixin
- * @mixes IdsExampleMixin2
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  * @part background-color - the tag background color
  * @part color - the text color
  */
 @customElement('ids-tag')
 @scss(styles)
-class IdsTag extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin2) {
+class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    this.example1();
-
     this
       .handleEvents()
       .handleKeys();
@@ -156,18 +152,15 @@ class IdsTag extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin2) {
    * @returns {object} The object for chaining.
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
-
     // Handle Clicking the x for dismissible
-    /** @type {any} */
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
-      this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
+      this.on('click', closeIcon, () => this.dismiss());
     }
 
     // Ensure icon is always last
     let isChanging = false;
-    this.eventHandlers.addEventListener('slotchange', this.shadowRoot.querySelector('slot'), () => {
+    this.on('slotchange', this.shadowRoot.querySelector('slot'), () => {
       if (this.dismissible && !isChanging && this.lastElementChild.nodeName !== 'IDS-ICON') {
         isChanging = true;
         this.removeIcon('close');
@@ -185,18 +178,14 @@ class IdsTag extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin2) {
    * @returns {object} This API object for chaining
    */
   handleKeys() {
-    if (this.dismissible || this.clickable) {
-      this.keyboard = new IdsKeyboardMixin();
-    }
-
     if (this.dismissible) {
-      this.keyboard.listen(['Delete', 'Backspace'], this.container, () => {
+      this.listen(['Delete', 'Backspace'], this, () => {
         this.dismiss();
       });
     }
 
     if (this.clickable) {
-      this.keyboard.listen('Enter', this.container, () => {
+      this.listen('Enter', this, () => {
         this.click();
       });
     }
@@ -213,18 +202,17 @@ class IdsTag extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin2) {
     }
 
     let canDismiss = true;
-    const response = (/** @type {any} */ veto) => {
+    const response = (/** @type {boolean} */ veto) => {
       canDismiss = !!veto;
     };
-    this.eventHandlers.dispatchEvent('beforetagremoved', this.container, { detail: { elem: this, response } });
+    this.trigger('beforetagremoved', this, { detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
-    this.eventHandlers.dispatchEvent('tagremoved', this.container, { detail: { elem: this } });
     this.remove();
-    this.eventHandlers.dispatchEvent('aftertagremoved', this.container, { detail: { elem: this } });
+    this.trigger('aftertagremoved', this, { detail: { elem: this } });
   }
 }
 

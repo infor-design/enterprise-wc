@@ -1,16 +1,3 @@
-/**
- * Builds the global IDS object
- * @private
- * @returns {void}
- */
-function checkForIDS() {
-  // @ts-ignore
-  if (!window.Ids) {
-    // @ts-ignore
-    window.Ids = {};
-  }
-}
-
 // This is a global array of resizable target components.
 // Any elements that end up here will have their `refresh()` methods called
 // whenever the resizeObserver is triggered.
@@ -24,15 +11,33 @@ let resizeTargets = [];
  * NOTE: When using this mixin, it's still required for you to implement
  * `ResizeObserver.connect()/disconnect()` and `MutationObserver.connect()/disconnect()`
  * when connecting/disconnecting a component.
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
  */
-const IdsResizeMixin = {
+const IdsResizeMixin = (superclass) => class extends superclass {
+  constructor() {
+    super();
+  }
+
   /**
-   * This method needs to run
+   * Builds the global IDS object
    * @private
    * @returns {void}
    */
+  checkForIDS() {
+    // @ts-ignore
+    if (!window.Ids) {
+      // @ts-ignore
+      window.Ids = {};
+    }
+  }
+
+  /**
+   * This method needs to run
+   * @returns {void}
+   */
   setupResize() {
-    checkForIDS();
+    this.checkForIDS();
 
     // Build the global instance of it doesn't exist.
     // The global resize handler will attempt to run a `refresh` method
@@ -62,11 +67,10 @@ const IdsResizeMixin = {
     if (!resizeTargets.includes(this)) {
       resizeTargets.push(this);
     }
-  },
+  }
 
   /**
    * Disconnects this component from the Global Resize handler
-   * @private
    * @returns {void}
    */
   disconnectResize() {
@@ -75,18 +79,17 @@ const IdsResizeMixin = {
       resizeTargets = resizeTargets.filter((e) => !this.isEqualNode(e));
       delete this.ro;
     }
-  },
+  }
 
   /**
    * Detects whether or not this component should be checking for resize.
-   * @private
    * @returns {boolean} whether or not this component should currently listen
    * for Resize instructions.
    */
   shouldResize() {
     // @ts-ignore
     return typeof ResizeObserver !== 'undefined' && this.ro instanceof ResizeObserver;
-  },
+  }
 
   /**
    * Detects the target element to be watched by the ResizeObserver.  In most cases, this will
@@ -101,28 +104,27 @@ const IdsResizeMixin = {
       target = target.host;
     }
     return target;
-  },
+  }
 
   /**
    * Sets up a MutationObserver that will fire an IDS Component's `refresh()`
    * method when it needs to update.
-   * @private
    * @returns {void}
    */
   setupDetectMutations() {
-    checkForIDS();
+    this.checkForIDS();
 
     /* istanbul ignore next */
     if (!this.mo && typeof MutationObserver !== 'undefined') {
       /** @type {any} */
       this.mo = new MutationObserver((/** @type {any} */ mutation) => {
         switch (mutation.type) {
-          case 'childList':
-            break;
-          default: // 'attributes'
-            if (typeof this.refresh === 'function') {
-              this.refresh();
-            }
+        case 'childList':
+          break;
+        default: // 'attributes'
+          if (typeof this.refresh === 'function') {
+            this.refresh();
+          }
         }
       });
     }
@@ -135,10 +137,9 @@ const IdsResizeMixin = {
     if (!this.mutationTargets.includes(this)) {
       this.mutationTargets.push(this);
     }
-  },
+  }
 
   /**
-   * @private
    * @returns {void}
    */
   disconnectDetectMutations() {
@@ -147,11 +148,10 @@ const IdsResizeMixin = {
       this.mutationTargets = [];
       delete this.mo;
     }
-  },
+  }
 
   /**
    * Detects whether or not this component should be watching for DOM Mutations.
-   * @private
    * @returns {boolean} whether or not this component should currently listen
    * for Resize instructions.
    */

@@ -1,20 +1,27 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  mix,
+  props
 } from '../ids-base/ids-element';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+
 // @ts-ignore
 import styles from './ids-accordion-panel.scss';
-import { props } from '../ids-base/ids-constants';
 
 /**
- * IDS Tag Component
+ * IDS AccordionPanel Component
+ * @type {IdsAccordionPanel}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  */
 @customElement('ids-accordion-panel')
 @scss(styles)
-class IdsAccordionPanel extends IdsElement {
+class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   constructor() {
     super();
     this.state = {};
@@ -22,9 +29,12 @@ class IdsAccordionPanel extends IdsElement {
   }
 
   connectedCallback() {
-    /** @type {HTMLElement} */ this.expander = this.shadowRoot.querySelector('.ids-accordion-panel-expander');
-    /** @type {HTMLElement} */ this.header = this.querySelector('[slot="header"]');
-    /** @type {HTMLElement} */ this.pane = this.shadowRoot.querySelector('.ids-accordion-pane');
+    /** @type {HTMLElement | null } */
+    this.expander = this.shadowRoot?.querySelector('.ids-accordion-panel-expander');
+    /** @type {HTMLElement | null } */
+    this.header = this.querySelector('[slot="header"]');
+    /** @type {HTMLElement | null } */
+    this.pane = this.shadowRoot?.querySelector('.ids-accordion-pane');
     this.setTitles();
     this.handleEvents();
     this.switchState();
@@ -35,7 +45,7 @@ class IdsAccordionPanel extends IdsElement {
    */
   setTitles() {
     const identifier = Math.floor(10000 + Math.random() * 90000);
-    this.pane.setAttribute('title', `ids-accordion-pane-${identifier}`);
+    this.pane?.setAttribute('title', `ids-accordion-pane-${identifier}`);
   }
 
   /**
@@ -87,8 +97,15 @@ class IdsAccordionPanel extends IdsElement {
    */
   collapsePane() {
     requestAnimationFrame(() => {
+      if (!this.pane) {
+        return;
+      }
+
       this.pane.style.height = `${this.pane.scrollHeight}px`;
       requestAnimationFrame(() => {
+        if (!this.pane) {
+          return;
+        }
         this.pane.style.height = `0px`;
       });
     });
@@ -100,6 +117,9 @@ class IdsAccordionPanel extends IdsElement {
    * @returns {void}
    */
   expandPane() {
+    if (!this.pane) {
+      return;
+    }
     this.pane.style.height = `${this.pane.scrollHeight}px`;
   }
 
@@ -118,29 +138,27 @@ class IdsAccordionPanel extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
-
-    this.eventHandlers.addEventListener('click', this.expander, () => {
+    this.on('click', this.expander, () => {
       this.setAttributes();
     });
 
-    this.keyboard.listen('Enter', this.expander, () => {
+    this.listen('Enter', this.expander, () => {
       this.setAttributes();
     });
 
-    this.keyboard.listen(' ', this.expander, () => {
+    this.listen(' ', this.expander, () => {
       this.setAttributes();
     });
 
-    this.keyboard.listen('ArrowDown', this.expander, () => {
+    this.listen('ArrowDown', this.expander, () => {
       this.select(this.getNextPanel(this));
     });
 
-    this.keyboard.listen('ArrowUp', this.expander, () => {
+    this.listen('ArrowUp', this.expander, () => {
       this.select(this.getPrevPanel(this));
     });
 
-    this.eventHandlers.addEventListener('touchstart', this.expander, (e) => {
+    this.on('touchstart', this.expander, (e) => {
       /* istanbul ignore next */
       if (e.touches && e.touches.length > 0) {
         this.setAttributes();

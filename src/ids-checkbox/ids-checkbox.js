@@ -1,15 +1,16 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  mix,
+  scss,
+  props
 } from '../ids-base/ids-element';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
-import { props } from '../ids-base/ids-constants';
 
 // @ts-ignore
 import styles from './ids-checkbox.scss';
@@ -21,10 +22,12 @@ import IdsText from '../ids-text/ids-text';
  */
 @customElement('ids-checkbox')
 @scss(styles)
-@mixin(IdsHideFocusMixin)
-@mixin(IdsDirtyTrackerMixin)
-@mixin(IdsValidationMixin)
-class IdsCheckbox extends IdsElement {
+class IdsCheckbox extends mix(IdsElement).with(
+    IdsHideFocusMixin,
+    IdsDirtyTrackerMixin,
+    IdsValidationMixin,
+    IdsEventsMixin
+  ) {
   /**
    * Call the constructor and then initialize
    */
@@ -60,7 +63,6 @@ class IdsCheckbox extends IdsElement {
     /** @type {any} */
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
-    this.eventHandlers = new IdsEventsMixin();
 
     // @ts-ignore
     this.hideFocus();
@@ -115,12 +117,12 @@ class IdsCheckbox extends IdsElement {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.eventHandlers.removeEventListener(eventName, this.input);
+          this.off(eventName, this.input);
         }
       } else {
-        this.eventHandlers.addEventListener(eventName, this.input, () => {
+        this.on(eventName, this.input, () => {
           this.indeterminate = false;
           this.checked = this.input.checked;
         });
@@ -139,12 +141,12 @@ class IdsCheckbox extends IdsElement {
       const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt) => {
         if (option === 'remove') {
-          const handler = this.eventHandlers?.handledEvents?.get(evt);
+          const handler = this?.handledEvents?.get(evt);
           if (handler && handler.target === this.input) {
-            this.eventHandlers.removeEventListener(evt, this.input);
+            this.off(evt, this.input);
           }
         } else {
-          this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
+          this.on(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire nativeEvents.
@@ -152,7 +154,7 @@ class IdsCheckbox extends IdsElement {
              * @param  {object} elem Actual event
              * @param  {string} value The updated input element value
              */
-            this.eventHandlers.dispatchEvent(e.type, this, {
+            this.trigger(e.type, this, {
               detail: {
                 elem: this,
                 nativeEvent: e,

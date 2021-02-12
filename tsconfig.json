@@ -15,8 +15,7 @@
     "target": "ES2019",
     "types": [],
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "strictNullChecks": false
+    "resolveJsonModule": true
   },
   "include": ["src/**/*.js", "src/**/*.ts"],
   "exclude": ["node_modules", "test" , "app"]

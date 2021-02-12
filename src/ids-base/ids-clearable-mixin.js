@@ -1,11 +1,16 @@
-import { IdsKeyboardMixin } from './ids-keyboard-mixin';
-
 /**
- * Clearable (Shows an x-icon button to clear).
+ *Clearable (Shows an x-icon button to clear).
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
  */
-const IdsClearableMixin = {
+const IdsClearableMixin = (superclass) => class extends superclass {
   // Input clearable events
-  inputClearableEvents: ['blur', 'change', 'keyup'],
+  inputClearableEvents = ['blur', 'change', 'keyup'];
+
+  constructor() {
+    super();
+    this.init(this);
+  }
 
   /**
    * Handle clearable
@@ -21,7 +26,7 @@ const IdsClearableMixin = {
     } else {
       this.destroyClearable();
     }
-  },
+  }
 
   /**
    * Check if clearable x-icon button exists if not add it
@@ -47,7 +52,7 @@ const IdsClearableMixin = {
       this.shadowRoot.appendChild(xButton);
       this.input?.classList.add('has-clearable');
     }
-  },
+  }
 
   /**
    * Remove if clearable x-icon button exists
@@ -59,7 +64,7 @@ const IdsClearableMixin = {
     if (xButton) {
       xButton.remove();
     }
-  },
+  }
 
   /**
    * Clears the contents of the input element
@@ -71,9 +76,9 @@ const IdsClearableMixin = {
       this.input.dispatchEvent(new Event('change'));
       this.input.focus();
       this.checkContents();
-      this.eventHandlers.dispatchEvent('cleared', this, { detail: { elem: this, value: this.value } });
+      this.trigger('cleared', this, { detail: { elem: this, value: this.value } });
     }
-  },
+  }
 
   /**
    * Checks the contents of input element for empty
@@ -89,9 +94,9 @@ const IdsClearableMixin = {
       } else {
         xButton.classList.remove('is-empty');
       }
-      this.eventHandlers.dispatchEvent('contents-checked', this, { detail: { elem: this, value: this.value } });
+      this.trigger('contents-checked', this, { detail: { elem: this, value: this.value } });
     }
-  },
+  }
 
   /**
    * Handle clearable events
@@ -105,7 +110,7 @@ const IdsClearableMixin = {
 
     // Set initial state
     this.checkContents();
-  },
+  }
 
   /**
    * Handle clearable xButton keydown event
@@ -118,13 +123,10 @@ const IdsClearableMixin = {
       return;
     }
 
-    if (!this.keyboard) {
-      this.keyboard = new IdsKeyboardMixin();
-    }
-    this.keyboard.listen(['Enter'], xButton, () => {
+    this.listen(['Enter'], xButton, () => {
       this.clear();
     });
-  },
+  }
 
   /**
    * Handle clearable x-icon button click event
@@ -137,18 +139,18 @@ const IdsClearableMixin = {
     if (xButton) {
       const eventName = 'click';
       if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        const handler = this?.handledEvents?.get(eventName);
         /* istanbul ignore next */
         if (handler && handler.target === xButton) {
-          this.eventHandlers.removeEventListener(eventName, xButton);
+          this.off(eventName, xButton);
         }
       } else {
-        this.eventHandlers.addEventListener(eventName, xButton, () => {
+        this.on(eventName, xButton, () => {
           this.clear();
         });
       }
     }
-  },
+  }
 
   /**
    * Handle clearable events (blur|change|keyup)
@@ -163,17 +165,17 @@ const IdsClearableMixin = {
     if (input && evt && typeof evt === 'string') {
       const eventName = evt;
       if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === input) {
-          this.eventHandlers.removeEventListener(eventName, input);
+          this.off(eventName, input);
         }
       } else {
-        this.eventHandlers.addEventListener(eventName, input, () => {
+        this.on(eventName, input, () => {
           this.checkContents();
         });
       }
     }
-  },
+  }
 
   /**
    * Destroy clearable actions
@@ -182,7 +184,6 @@ const IdsClearableMixin = {
   destroyClearable() {
     this.input?.classList.remove('has-clearable');
     this.handleClearBtnClick('remove');
-    this.keyboard?.destroy();
     this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e, 'remove'));
     this.removeClearableButton();
   }

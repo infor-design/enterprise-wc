@@ -26,19 +26,6 @@ export function customElement(name) {
 }
 
 /**
- * Mixin Decorator just applies the mixin on the component with a loose copy.
- * Some mixins like keyboardmixin and events mixin must be newed up instead if using complex
- * objects that cannot be shared.
- * @param  {object} obj The class/object to register
- * @returns {Function} The function that did the decorating
- */
-export function mixin(obj) {
-  return (/** @type {any} */ target) => {
-    Object.assign(target.prototype, obj);
-  };
-}
-
-/**
  * Styles Decorator
  * @param {string} cssStyles The css stringified stylesheet
  * @returns {Function} The function that did the decorating

@@ -1,27 +1,37 @@
 /**
  * Handle keyboard shortcuts and pressed down keys
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
  */
-class IdsKeyboardMixin {
+const IdsKeyboardMixin = (superclass) => class extends superclass {
+  constructor() {
+    super();
+    this.init(this);
+  }
+
   /**
    * Initializes the keyboard management system with the current object
    * @param {object} elem the element for linkage
    * @private
    */
   init(elem) {
-    this.element = elem;
+    /** @type {Map | any} */
     this.hotkeys = new Map();
+    /** @type {Map | any} */
     this.pressedKeys = new Map();
+
+    this.element = elem;
 
     this.keyDownHandler = (/** @type {any} */ e) => {
       this.press(e.key);
       this.dispatchHotkeys(e);
     };
-    this.element.addEventListener('keydown', this.keyDownHandler);
+    this.element.on('keydown', this.element, this.keyDownHandler);
 
     this.keyUpHandler = (/** @type {any} */ e) => {
       this.unpress(e.key);
     };
-    this.element.addEventListener('keyup', this.keyUpHandler);
+    this.element.on('keyup', this.element, this.keyUpHandler);
   }
 
   /**
@@ -65,7 +75,7 @@ class IdsKeyboardMixin {
    * @returns {void}
    */
   dispatchHotkeys(e) {
-    this.hotkeys.forEach((value, key) => {
+    this.hotkeys.forEach((/** @type {any} */ value, /** @type {any} */key) => {
       if (key.split(',').indexOf(e.key) > -1) {
         value(e);
       }
@@ -75,17 +85,17 @@ class IdsKeyboardMixin {
   /**
    * Remove all handlers and clear memory
    */
-  destroy() {
+  detachAllKeyboard() {
     if (!this.element) {
       return;
     }
 
-    this.element.removeEventListener('keydown', this.keyDownHandler);
-    this.element.removeEventListener('keyup', this.keyUpHandler);
+    this.element.off('keydown', this.element, this.keyDownHandler);
+    this.element.off('keyup', this.element, this.keyUpHandler);
     delete this.keyDownHandler;
     delete this.keyUpHandler;
     delete this.element;
   }
-}
+};
 
 export { IdsKeyboardMixin };

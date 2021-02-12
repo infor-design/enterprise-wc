@@ -3,7 +3,6 @@
 
 import { IdsElement } from '../ids-base/ids-element';
 import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
-import { IdsExampleMixin2 } from '../ids-base/ids-example2-mixin';
 
 interface IdsTagEventDetail extends Event {
   detail: {
@@ -11,7 +10,14 @@ interface IdsTagEventDetail extends Event {
   }
 }
 
-interface IdsTag extends IdsElement, IdsExampleMixin, IdsExampleMixin2 {
+interface IdsTagEventVetoable extends Event {
+  detail: {
+    elem: IdsTag,
+    response: () => boolean
+  }
+}
+
+interface IdsTag extends IdsElement, IdsExampleMixin {
   /** Set the tag type/color */
   color: 'secondary' | 'error' | 'success' | 'caution' | string;
 
@@ -22,7 +28,7 @@ interface IdsTag extends IdsElement, IdsExampleMixin, IdsExampleMixin2 {
   dismiss(): void;
 
   /** Fires before the tag is removed, you can return false in the response to veto. */
-  on(event: 'beforetagremoved', listener: (detail: IdsTagEventDetail) => void): this;
+  on(event: 'beforetagremoved', listener: (detail: IdsTagEventVetoable) => void): this;
 
   /** Fires while the tag is removed */
   on(event: 'tagremoved', listener: (detail: IdsTagEventDetail) => void): this;

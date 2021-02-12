@@ -1,7 +1,6 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 import { IdsElement } from '../ids-base/ids-element';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 import IdsMenu from './ids-menu';
 import IdsMenuHeader from './ids-menu-header';
@@ -32,7 +31,4 @@ export default class IdsMenuGroup extends IdsElement {
 
   /* */
   connectedCallback(): void;
-
-  /* */
-  eventHandlers: IdsEventsMixin;
 }

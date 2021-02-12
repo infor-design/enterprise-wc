@@ -5,7 +5,7 @@ import IdsRenderLoopItem from './ids-render-loop-item';
 // Stores the global RenderLoop instance.
 /** @type {any} */
 let rl = null;
-const IdsRenderLoopMixin = {
+const IdsRenderLoopMixin = (superclass) => class extends superclass {
   /**
    * Provides access to a global `requestAnimationFrame` loop, configured to run a queue of
    * callback methods on each tick.

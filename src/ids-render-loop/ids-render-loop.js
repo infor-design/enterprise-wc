@@ -148,7 +148,7 @@ class IdsRenderLoop {
    * @returns {number} amount of time that has passed since the RenderLoop was started.
    */
   get elapsedTime() {
-    return timestamp() - (this.startTime + this.totalStoppedTime);
+    return timestamp() - ((this.startTime || 0) + this.totalStoppedTime);
   }
 
   /**
@@ -166,7 +166,7 @@ class IdsRenderLoop {
    * the tick, or manually triggered from an external API call.
    * @private
    * @param {IdsRenderLoopItem|string} obj the renderLoopItem, or its ID string
-   * @returns {IdsRenderLoopItem} reference to the removed renderLoopItem
+   * @returns {IdsRenderLoopItem | undefined} reference to the removed renderLoopItem
    */
   remove(obj) {
     let removedItem;

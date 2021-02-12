@@ -1,7 +1,7 @@
 /**
  * Ids String parsing/processing utilities
  */
-const IdsDeepCloneMixin = {
+const IdsDeepCloneUtils = {
   // Store the references to avoid circular reference problems
   refs: [],
   refsNew: [],
@@ -87,4 +87,4 @@ const IdsDeepCloneMixin = {
   }
 };
 
-export { IdsDeepCloneMixin };
+export { IdsDeepCloneUtils };

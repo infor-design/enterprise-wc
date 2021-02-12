@@ -1,7 +1,7 @@
 /**
  * Ids DOM utilities
  */
-const IdsDomUtilsMixin = {
+const IdsDomUtils = {
   /**
    * Determines if a string-based attribute value is "true" for a boolean property
    * @param {any} val the value to be checked
@@ -26,4 +26,4 @@ const IdsDomUtilsMixin = {
   }
 };
 
-export { IdsDomUtilsMixin };
+export { IdsDomUtils };

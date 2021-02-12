@@ -54,13 +54,13 @@ class IdsBadge extends IdsElement {
 
   /**
    * Return the badge color
-   * @returns {string} the path data
+   * @returns {string | null} the path data
    */
   get color() { return this.getAttribute('color'); }
 
   /**
    * Set the color
-   * @param {string} value The Badge Color [base, error, info, success and alert]
+   * @param {string | null} value The Badge Color [base, error, info, success and alert]
    */
   set color(value) {
     if (value) {

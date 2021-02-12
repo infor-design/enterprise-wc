@@ -78,7 +78,7 @@ class IdsRenderLoopItem extends Object {
    */
   resume() {
     this.resumeTime = timestamp();
-    this.totalStoppedTime += this.resumeTime - this.lastPauseTime;
+    this.totalStoppedTime += this.resumeTime - (this.lastPauseTime || 0);
     delete this.lastPauseTime;
     this.paused = false;
   }
@@ -106,12 +106,14 @@ class IdsRenderLoopItem extends Object {
    *  to an `updateCallback()` method.
    * @returns {void}
    */
+  // @ts-ignore
   update(timeInfo, ...callbackArgs) {
     if (typeof this.updateCallback !== 'function' || !this.canUpdate) {
       return;
     }
 
     // NOTE: This runs in this `IdsRenderLoopItem`s context
+    // @ts-ignore
     this.updateCallback(timeInfo, ...callbackArgs);
     this.setNextUpdateTime();
   }

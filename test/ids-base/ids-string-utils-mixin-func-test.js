@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsStringUtilsMixin as stringUtils } from '../../src/ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../../src/ids-base/ids-string-utils';
 
 describe('IdsStringUtils Tests', () => {
   afterEach(async () => {

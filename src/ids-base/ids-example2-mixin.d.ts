@@ -1,5 +1,0 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-export class IdsExampleMixin2 {
-  example2(): void;
-}
