@@ -28,4 +28,21 @@ describe('IdsTriggerButton Component', () => {
   it('renders correctly', () => {
     expect(triggerButton.outerHTML).toMatchSnapshot();
   });
+
+  it('defaults tabbable to true', () => {
+    triggerButton.removeAttribute('tabbable');
+    expect(triggerButton.tabbable).toEqual(true);
+  });
+
+  it('supports tabbable', () => {
+    triggerButton.tabbable = true;
+
+    expect(triggerButton.shadowRoot.querySelector('button').getAttribute('tabindex')).toEqual('0');
+    expect(triggerButton.tabbable).toEqual('true');
+
+    triggerButton.tabbable = false;
+
+    expect(triggerButton.shadowRoot.querySelector('button').getAttribute('tabindex')).toEqual('-1');
+    expect(triggerButton.tabbable).toEqual('false');
+  });
 });

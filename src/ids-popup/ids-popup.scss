@@ -16,6 +16,87 @@ $transition-length: 200ms;
 
   display: none;
 
+  // Arrow definition
+  .arrow {
+    border-width: 8px;
+    display: none;
+    position: absolute;
+
+    &.bottom,
+    &.left,
+    &.right,
+    &.top {
+      @include border-solid();
+
+      border-color: transparent;
+      display: block;
+      height: 0;
+      width: 0;
+    }
+
+    &::after {
+      @include border-solid();
+
+      border-color: transparent;
+      border-width: 8px;
+      content: '';
+      display: block;
+      position: relative;
+    }
+
+    // Bottom Alignment
+    &.bottom {
+      border-top-width: 0;
+      left: calc(50% - 9px);
+      top: -9px;
+
+      &::after {
+        border-top-width: 0;
+        left: -8px;
+        top: 1px;
+      }
+    }
+
+    // Left Alignment
+    &.left {
+      border-right-width: 0;
+      right: -9px;
+      top: calc(50% - 9px);
+
+      &::after {
+        border-right-width: 0;
+        left: -9px;
+        top: -8px;
+      }
+    }
+
+    // Right Alignment
+    &.right {
+      border-left-width: 0;
+      left: -9px;
+      top: calc(50% - 9px);
+
+      &::after {
+        border-left-width: 0;
+        left: 1px;
+        top: -8px;
+      }
+    }
+
+    // Top Alignment
+    &.top {
+      border-bottom-width: 0;
+      bottom: -9px;
+      left: calc(50% - 9px);
+
+      &::after {
+        border-bottom-width: 0;
+        left: -8px;
+        top: -9px;
+      }
+    }
+  }
+
   // Actually renders the popup, but doesn't "unhide" it
   &.visible {
     display: unset;
@@ -63,6 +144,38 @@ $transition-length: 200ms;
     @include shadow();
 
     border-color: var(--ids-color-border-lighter);
+
+    .arrow.bottom {
+      border-bottom-color: var(--ids-color-border-lighter);
+    }
+
+    .arrow.bottom::after {
+      border-bottom-color: var(--ids-color-palette-white);
+    }
+
+    .arrow.left {
+      border-left-color: var(--ids-color-border-lighter);
+    }
+
+    .arrow.left::after {
+      border-left-color: var(--ids-color-palette-white);
+    }
+
+    .arrow.right {
+      border-right-color: var(--ids-color-border-lighter);
+    }
+
+    .arrow.right::after {
+      border-right-color: var(--ids-color-palette-white);
+    }
+
+    .arrow.top {
+      border-top-color: var(--ids-color-border-lighter);
+    }
+
+    .arrow.top::after {
+      border-top-color: var(--ids-color-palette-white);
+    }
   }
 
   // style: "menu-alt"
@@ -78,6 +191,26 @@ $transition-length: 200ms;
     @include text-white();
 
     border-color: var(--ids-color-border-darker);
+
+    .arrow.bottom,
+    .arrow.bottom::after {
+      border-bottom-color: var(--ids-color-border-darker);
+    }
+
+    .arrow.left,
+    .arrow.left::after {
+      border-left-color: var(--ids-color-border-darker);
+    }
+
+    .arrow.right,
+    .arrow.right::after {
+      border-right-color: var(--ids-color-border-darker);
+    }
+
+    .arrow.top,
+    .arrow.top::after {
+      border-top-color: var(--ids-color-border-darker);
+    }
   }
 
   // style: "tooltip"

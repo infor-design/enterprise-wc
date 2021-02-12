@@ -18,11 +18,11 @@ const IdsValidationMixin = (superclass) => class extends superclass {
   VALIDATION_DEFAULT_ICON = 'user-profile';
 
   // Icons
-  VALIDATION_ICONS = {
-    alert: 'alert-solid',
-    error: 'error-solid',
-    info: 'info-solid',
-    success: 'success-solid',
+  VALIDATION_ICONS: {
+    alert: 'alert',
+    error: 'error',
+    info: 'info',
+    success: 'success',
   };
 
   /**

@@ -38,6 +38,7 @@ export const props = {
   LABEL: 'label',
   LABEL_REQUIRED: 'label-required',
   LABEL_FILETYPE: 'label-filetype',
+  MENU: 'menu',
   MULTIPLE: 'multiple',
   NO_MARGINS: 'no-margins',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',

@@ -12,6 +12,14 @@ import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 // @ts-ignore
 import styles from './ids-trigger-field.scss';
 
+// Supporting components
+// @ts-ignore
+import { IdsButton } from '../ids-button/ids-button';
+// @ts-ignore
+import IdsInput from '../ids-input/ids-input';
+// @ts-ignore
+import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
+
 /**
  * IDS Trigger Field Components
  */
@@ -58,7 +66,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin) {
     /** @type {any} */
     const button = this.querySelector('ids-trigger-button');
     this.setAttribute(props.TABBABLE, value.toString());
-    button.tabindex = !isTabbable ? '-1' : '0';
+    button.tabbable = isTabbable;
   }
 
   get tabbable() { return this.getAttribute(props.TABBABLE); }

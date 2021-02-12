@@ -4,6 +4,7 @@ import IdsButton from '../src/ids-button/ids-button';
 import IdsCheckbox from '../src/ids-checkbox/ids-checkbox';
 import IdsSwitch from '../src/ids-switch/ids-switch';
 import IdsToggleButton from '../src/ids-toggle-button/ids-toggle-button';
+import IdsMenuButton from '../src/ids-menu-button/ids-menu-button';
 import IdsText from '../src/ids-text/ids-text';
 import IdsIcon from '../src/ids-icon/ids-icon';
 import IdsPopup from '../src/ids-popup/ids-popup';
@@ -23,6 +24,7 @@ import IdsBadge from '../src/ids-badge/ids-badge';
 
 // Import Example Code
 import './ids-button/index';
+import './ids-menu-button/index';
 import './ids-checkbox/index';
 import './ids-icon/index';
 import './ids-input/index';
