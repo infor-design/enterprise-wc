@@ -25,6 +25,7 @@
   - Markup has changed to a custom element `<ids-input></ids-input>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+  - If using a clearable X on the input the x is now tabbable by default for accessibility
 - `[Loader]` The Busy Indicator component has been changed to a web component and renamed to ids-loader.
   - If using properties/settings these are now attributes: dismissible, color
   - Markup has changed to a custom element `<ids-loader></ids-loader>`
@@ -44,7 +45,7 @@
   - If using properties/settings, these are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.
   - Popup is now driven by its own HTMLElement rather than a being a behavior applied to any element: `<ids-popup x="0" y="0" align="top, left">My Popup</ids-popup>`
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Popup Menu]` The Popup Menu is now a web component called ids-popup-menu.  
+- `[Popup Menu]` The Popup Menu is now a web component called ids-popup-menu.
   - Markup has been changed to a custom element `<ids-popup-menu></ids-popup-menu>`.
   - Events triggered by the Popup Menu are now plain JS (for example `selected`/`deselected`)
   - Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.

@@ -2,8 +2,8 @@
 
 .ids-input-field {
   ~ .btn-clear {
-    margin-left: -28px;
-    margin-top: 10px;
+    margin-left: 1px;
+    margin-top: -24px;
     position: absolute;
 
     &.is-empty {
@@ -12,6 +12,8 @@
 
     [slot='icon'] {
       @include text-slate-60();
+
+      margin-left: -1px;
     }
 
     &:hover [slot='icon'] {
