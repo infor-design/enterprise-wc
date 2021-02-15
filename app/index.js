@@ -21,6 +21,8 @@ import IdsRenderLoopMixin from '../src/ids-render-loop/ids-render-loop-mixin';
 import IdsUpload from '../src/ids-upload/ids-upload';
 import IdsAlert from '../src/ids-alert/ids-alert';
 import IdsBadge from '../src/ids-badge/ids-badge';
+import IdsBlockGrid from '../src/ids-block-grid/ids-block-grid';
+import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
 
 // Import Example Code
 import './ids-button/index';
@@ -36,3 +38,4 @@ import './ids-trigger-field/index';
 import './ids-radio/index';
 import './ids-alert/index';
 import './ids-badge/index';
+import './ids-block-grid/index';

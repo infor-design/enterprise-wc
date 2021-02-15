@@ -1,0 +1,39 @@
+@import '../../node_modules/ids-identity/dist/theme-uplift/tokens/web/theme-uplift-mixins.scss';
+@import '../ids-base/ids-base';
+
+ids-block-grid-item {
+  img {
+    margin-bottom: 10px;
+  }
+}
+
+:host {
+  @include block();
+  @include m-0();
+
+  max-width: 100%;
+  text-align: left;
+}
+
+:host(.ids-align-center) {
+  text-align: center;
+}
+
+:host(.ids-align-left) {
+  text-align: left;
+}
+
+:host(.ids-align-right) {
+  text-align: right;
+}
+
+::slotted(ids-block-grid-item) {
+  @include align-top();
+  @include relative();
+
+  display: inline-block;
+  margin: 20px 0 0 20px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  width: 200px;
+}
