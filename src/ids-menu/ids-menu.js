@@ -49,6 +49,10 @@ function isUsableItem(item, idsMenu) {
 
 /**
  * IDS Menu Component
+ * @type {IdsMenu}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  */
 @customElement('ids-menu')
 @scss(styles)

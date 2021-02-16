@@ -19,6 +19,8 @@ const sizes = {
 
 /**
  * IDS Icon Component
+ * @type {IdsIcon}
+ * @inherits IdsElement
  */
 @customElement('ids-icon')
 @scss(styles)

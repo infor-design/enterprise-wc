@@ -10,6 +10,8 @@ import styles from './ids-text.scss';
 
 /**
  * IDS Text Component
+ * @type {IdsText}
+ * @inherits IdsElement
  */
 @customElement('ids-text')
 @scss(styles)

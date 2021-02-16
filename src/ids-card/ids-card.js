@@ -7,7 +7,9 @@ import {
 import styles from './ids-card.scss';
 
 /**
- * IDS Label Component
+ * IDS Card Component
+ * @type {IdsCard}
+ * @inherits IdsElement
  */
 @customElement('ids-card')
 @scss(styles)

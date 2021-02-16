@@ -19,7 +19,11 @@ import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import styles from './ids-data-grid.scss';
 
 /**
- * IDS DataGrid Component
+ * IDS Data Grid Component
+ * @type {IdsDataGrid}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  */
 @customElement('ids-data-grid')
 @scss(styles)

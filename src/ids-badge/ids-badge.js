@@ -8,6 +8,8 @@ import styles from './ids-badge.scss';
 
 /**
  * IDS Badge Component
+ * @type {IdsBadge}
+ * @inherits IdsElement
  */
 @customElement('ids-badge')
 @scss(styles)

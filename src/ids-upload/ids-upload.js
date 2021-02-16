@@ -20,6 +20,9 @@ const ID = 'ids-upload-id';
 
 /**
  * IDS Upload Component
+ * @type {IdsUpload}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-upload')
 @scss(styles)
@@ -61,6 +64,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
     /** @type {any} */
     this.textInput = this.shadowRoot.querySelector('ids-input');
     /** @type {any} */
+    // @ts-ignore
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
     this.files = this.fileInput.files;
 

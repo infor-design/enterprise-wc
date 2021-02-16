@@ -50,6 +50,10 @@ function safeForAttribute(value) {
 
 /**
  * IDS Menu Item Component
+ * @type {IdsMenuItem}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsRenderLoopMixin
  */
 @customElement('ids-menu-item')
 @scss(styles)

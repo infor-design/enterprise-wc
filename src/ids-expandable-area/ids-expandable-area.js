@@ -17,7 +17,11 @@ const EXPANDABLE_AREA_TYPES = [
 ];
 
 /**
- * IDS Tag Component
+ * IDS Expandable Area Component
+ * @type {IdsExpandableArea}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  */
 @customElement('ids-expandable-area')
 @scss(styles)
@@ -32,8 +36,10 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
     /** @type {HTMLElement | undefined | null} */
     this.expander = this.shadowRoot?.querySelector('[data-expander]');
     /** @type {HTMLElement | undefined | null} */
+    // @ts-ignore
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     /** @type {HTMLElement | undefined | null} */
+    // @ts-ignore
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
     /** @type {HTMLElement | undefined | null} */
     this.pane = this.shadowRoot?.querySelector('.ids-expandable-area-pane');

@@ -1,7 +1,9 @@
 import { customElement, IdsElement, props } from '../ids-base/ids-element';
 
 /**
- * IDS Grid Panel Component
+ * IDS Layout Grid Cell Component
+ * @type {IdsLayoutGridCell}
+ * @inherits IdsElement
  */
 @customElement('ids-layout-grid-cell')
 class IdsLayoutGridCell extends IdsElement {

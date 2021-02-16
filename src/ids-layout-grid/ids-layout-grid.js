@@ -9,7 +9,9 @@ import {
 import styles from './ids-layout-grid.scss';
 
 /**
- * IDS Layout Component
+ * IDS Layout Grid Component
+ * @type {IdsLayoutGrid}
+ * @inherits IdsElement
  */
 @customElement('ids-layout-grid')
 @scss(styles)

@@ -58,6 +58,13 @@ const TEXT_ALIGN = {
 
 /**
  * IDS Input Component
+ * @type {IdsInput}
+ * @inherits IdsElement
+ * @mixes IdsClearableMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsEventsMixin
+ * @mixes IdsValidationMixin
  */
 @customElement('ids-input')
 @scss(styles)

@@ -25,7 +25,10 @@ const POPUPMENU_TRIGGER_TYPES = [
 ];
 
 /**
- * IDS PopupMenu Component
+ * IDS Popup Menu Component
+ * @type {IdsPopupMenu}
+ * @inherits IdsElement
+ * @mixes IdsRenderLoopMixin
  */
 @customElement('ids-popup-menu')
 @scss(styles)

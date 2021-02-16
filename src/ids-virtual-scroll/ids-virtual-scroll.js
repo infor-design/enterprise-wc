@@ -15,6 +15,10 @@ import styles from './ids-virtual-scroll.scss';
 
 /**
  * IDS Virtual Scroll Component
+ * @type {IdsVirtualScroll}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsRenderLoopMixin
  */
 @customElement('ids-virtual-scroll')
 @scss(styles)

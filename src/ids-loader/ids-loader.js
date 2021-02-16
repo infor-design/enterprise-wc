@@ -7,7 +7,9 @@ import {
 import styles from './ids-loader.scss';
 
 /**
- * IDS Trigger Field Components
+ * IDS Loader Component
+ * @type {IdsLoader}
+ * @inherits IdsElement
  */
 @customElement('ids-loader')
 @scss(styles)

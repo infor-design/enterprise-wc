@@ -13,7 +13,7 @@ import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import styles from './ids-accordion-panel.scss';
 
 /**
- * IDS AccordionPanel Component
+ * IDS Accordion Panel Component
  * @type {IdsAccordionPanel}
  * @inherits IdsElement
  * @mixes IdsEventsMixin

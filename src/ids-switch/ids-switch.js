@@ -16,6 +16,9 @@ import IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Switch Component
+ * @type {IdsSwitch}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-switch')
 @scss(styles)
@@ -46,6 +49,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin) {
    */
   connectedCallback() {
     /** @type {object} */
+    // @ts-ignore
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 

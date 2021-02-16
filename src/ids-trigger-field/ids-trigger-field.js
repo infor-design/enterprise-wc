@@ -21,7 +21,10 @@ import IdsInput from '../ids-input/ids-input';
 import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
 
 /**
- * IDS Trigger Field Components
+ * IDS Trigger Field Component
+ * @type {IdsTriggerField}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-trigger-field')
 @scss(styles)

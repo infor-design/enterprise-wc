@@ -77,6 +77,10 @@ function formatAlignAttribute(alignX, alignY, edge) {
 
 /**
  * IDS Popup Component
+ * @type {IdsPopup}
+ * @inherits IdsElement
+ * @mixes IdsRenderLoopMixin
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-popup')
 @scss(styles)
@@ -409,7 +413,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
 
   /**
    * Specifies whether to show the Popup Arrow, and in which direction
-   * @param {string} val the arrow direction.  Defaults to `none`
+   * @param {string|null} val the arrow direction.  Defaults to `none`
    */
   set arrow(val) {
     let trueVal = ARROW_TYPES[0];
@@ -453,6 +457,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     const isElem = val instanceof HTMLElement;
 
     if (!isString && !isElem) {
+      // @ts-ignore
       this.state.arrowTarget = undefined;
       this.removeAttribute('arrow-target');
       this.refresh();
@@ -481,6 +486,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
    */
   // @ts-ignore
   get arrowTarget() {
+    // @ts-ignore
     return this.state.arrowTarget || this.alignTarget;
   }
 
@@ -602,7 +608,9 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
         this.arrowEl.hidden = true;
       }
     });
+    // @ts-ignore
     if (this.arrow !== 'none' && !arrowElCl.contains(this.arrow)) {
+      // @ts-ignore
       arrowElCl.add(this.arrow);
       this.arrowEl.hidden = false;
     }
@@ -879,6 +887,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     }
 
     // Round the number up
+    // @ts-ignore
     d = Math.ceil(d);
 
     // Hide the arrow if it goes beyond the element boundaries

@@ -50,6 +50,10 @@ const ICON_ALIGN = [
 
 /**
  * IDS Button Component
+ * @type {IdsButton}
+ * @inherits IdsElement
+ * @mixes IdsRenderLoopMixin
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-button')
 @scss(styles)

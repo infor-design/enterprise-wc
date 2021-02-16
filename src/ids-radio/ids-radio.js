@@ -19,6 +19,10 @@ import IdsRadioGroup from './ids-radio-group';
 
 /**
  * IDS Radio Component
+ * @type {IdsRadio}
+ * @inherits IdsElement
+ * @mixes IdsHideFocusMixin
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-radio')
 @scss(styles)
@@ -53,6 +57,7 @@ class IdsRadio extends mix(IdsElement).with(IdsHideFocusMixin, IdsEventsMixin) {
    */
   connectedCallback() {
     /** @type {any} */
+    // @ts-ignore
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 

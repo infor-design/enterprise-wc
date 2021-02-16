@@ -18,6 +18,11 @@ import IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Radio Group Component
+ * @type {IdsRadioGroup}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsValidationMixin
  */
 @customElement('ids-radio-group')
 @scss(styles)

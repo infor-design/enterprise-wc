@@ -13,6 +13,8 @@ import IdsAccordionPanel from './ids-accordion-panel';
 
 /**
  * IDS Accordion  Component
+ * @type {IdsAccordion}
+ * @inherits IdsElement
  */
 @customElement('ids-accordion')
 @scss(styles)

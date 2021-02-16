@@ -12,6 +12,8 @@ import styles from './ids-alert.scss';
 
 /**
  * IDS Alert Component
+ * @type {IdsAlert}
+ * @inherits IdsElement
  */
 @customElement('ids-alert')
 @scss(styles)

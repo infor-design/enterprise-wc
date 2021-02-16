@@ -21,6 +21,9 @@ const MENU_GROUP_SELECT_TYPES = [
 
 /**
  * IDS Menu Group Component
+ * @type {IdsMenuGroup}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-menu-group')
 @scss(styles)

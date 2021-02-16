@@ -19,6 +19,12 @@ import IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Checkbox Component
+ * @type {IdsCheckbox}
+ * @inherits IdsElement
+ * @mixes IdsHideFocusMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsValidationMixin
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-checkbox')
 @scss(styles)
@@ -60,7 +66,8 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @returns {void}
    */
   connectedCallback() {
-    /** @type {any} */
+    /** @type {HTMLElement} */
+    // @ts-ignore
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 

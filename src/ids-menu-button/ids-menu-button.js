@@ -6,9 +6,10 @@ import { props } from '../ids-base/ids-constants';
 
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
-import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
+import { IdsDomUtils as domUtils } from '../ids-base/ids-dom-utils';
 
 import IdsIcon from '../ids-icon/ids-icon';
+// @ts-ignore
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
 // @ts-ignore
@@ -22,8 +23,11 @@ const MENU_BUTTON_PROPS = [
 ];
 
 /**
- * IDS Toggle Button Component
+ * IDS Menu Button Component
+ * @type {IdsMenuButton}
+ * @inherits IdsElement
  */
+
 @customElement('ids-menu-button')
 @scss(styles)
 class IdsMenuButton extends IdsButton {
@@ -45,6 +49,7 @@ class IdsMenuButton extends IdsButton {
   connectedCallback() {
     this.configureMenu();
     this.handleEvents();
+    // @ts-ignore
     IdsButton.prototype.connectedCallback.apply(this);
   }
 
@@ -52,6 +57,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   handleEvents() {
+    // @ts-ignore
     IdsButton.prototype.handleEvents.apply(this);
   }
 
@@ -63,7 +69,7 @@ class IdsMenuButton extends IdsButton {
   }
 
   /**
-   * @param {string} val referencing an icon string name to use
+   * @param {string | undefined} val referencing an icon string name to use
    */
   set dropdownIcon(val) {
     const trueVal = domUtils.isTrueBooleanAttribute(val);
@@ -82,7 +88,7 @@ class IdsMenuButton extends IdsButton {
   }
 
   /**
-   * @returns {string} containing the type of icon being displayed as the Dropdown Icon
+   * @returns {string | undefined} containing the type of icon being displayed as the Dropdown Icon
    */
   get dropdownIcon() {
     return this.dropdownIconEl?.icon;
@@ -96,14 +102,14 @@ class IdsMenuButton extends IdsButton {
   }
 
   /**
-   * @returns {string} an ID selector string matching a menu
+   * @returns {string | null} an ID selector string matching a menu
    */
   get menu() {
     return this.getAttribute('menu');
   }
 
   /**
-   * @param {string} val an ID selector string
+   * @param {string | null} val an ID selector string
    */
   set menu(val) {
     this.setAttribute('menu', `${val}`);
@@ -112,7 +118,7 @@ class IdsMenuButton extends IdsButton {
 
   /**
    * @readonly
-   * @returns {IdsPopupMenu} element if one is present
+   * @returns {HTMLElement | null} element if one is present
    */
   get menuEl() {
     return document.querySelector(`ids-popup-menu[id="${this.menu}"]`);
@@ -127,15 +133,20 @@ class IdsMenuButton extends IdsButton {
     }
     this.resizeMenu();
     this.setPopupArrow();
+    // @ts-ignore
     this.menuEl.trigger = 'click';
+    // @ts-ignore
     this.menuEl.target = this;
 
     // ====================================================================
     // Setup menu-specific event listeners, if they aren't already applied
 
+    // @ts-ignore
     const hasBeforeShow = this.eventHandlers?.handledEvents?.get('beforeshow');
+    // @ts-ignore
     if (this.eventHandlers && !hasBeforeShow) {
       // On the Popup Menu's `beforeshow` event, set the menu's size to the Menu Button's
+      // @ts-ignore
       this.eventHandlers.addEventListener('beforeshow', this.menuEl, () => {
         this.resizeMenu();
       });
@@ -146,6 +157,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   resizeMenu() {
+    // @ts-ignore
     this.menuEl.popup.container.style.minWidth = `${this.button.clientWidth}px`;
   }
 
@@ -156,7 +168,9 @@ class IdsMenuButton extends IdsButton {
     if (!this.menuEl) {
       return;
     }
+    // @ts-ignore
     this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
+    // @ts-ignore
     this.menuEl.popup.arrow = 'bottom';
   }
 }

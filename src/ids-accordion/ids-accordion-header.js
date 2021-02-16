@@ -1,8 +1,7 @@
 import {
   IdsElement,
   customElement,
-  scss,
-  mix
+  scss
 } from '../ids-base/ids-element';
 
 // @ts-ignore
@@ -13,10 +12,12 @@ const DEFAULT_ICON_OFF = 'caret-down';
 
 /**
  * IDS Accordion Header Component
+ * @type {IdsAccordionHeader}
+ * @inherits IdsElement
  */
 @customElement('ids-accordion-header')
 @scss(styles)
-class IdsAccordionHeader extends mix(IdsElement) {
+class IdsAccordionHeader extends IdsElement {
   constructor() {
     super();
   }

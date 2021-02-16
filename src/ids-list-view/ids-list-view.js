@@ -14,6 +14,8 @@ import styles from './ids-list-view.scss';
 
 /**
  * IDS List View Component
+ * @type {IdsListView}
+ * @inherits IdsElement
  */
 @customElement('ids-list-view')
 @scss(styles)
