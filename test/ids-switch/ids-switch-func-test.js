@@ -116,7 +116,6 @@ describe('IdsSwitch Component', () => {
     el = document.createElement('ids-switch');
     el.setAttribute('disabled', true);
     el.setAttribute('checked', true);
-    el.setAttribute('label-font-size', 'lg');
     el.template();
     expect(el.getAttribute('disabled')).toEqual('true');
     expect(el.input.hasAttribute('disabled')).toBe(true);

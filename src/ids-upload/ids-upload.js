@@ -6,8 +6,9 @@ import {
 import { props } from '../ids-base/ids-constants';
 // @ts-ignore
 import styles from './ids-upload.scss';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+
 import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 // Supporting components
 import '../ids-input/ids-input';
@@ -50,6 +51,12 @@ class IdsUpload extends IdsElement {
   }
 
   /**
+   * Custom Element `attributeChangedCallback` implementation
+   * @returns {void}
+   */
+  attributeChangedCallback() {}
+
+  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
@@ -60,8 +67,14 @@ class IdsUpload extends IdsElement {
     this.textInput = this.shadowRoot.querySelector('ids-input');
     /** @type {any} */
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
-    this.files = this.fileInput.files;
 
+    /* istanbul ignore next */
+    if (!this.eventHandlers) {
+      /** @type {any} */
+      this.eventHandlers = new IdsEventsMixin();
+    }
+
+    this.files = this.fileInput.files;
     this.handleEvents();
   }
 
@@ -230,7 +243,9 @@ class IdsUpload extends IdsElement {
     this.eventHandlers.addEventListener('keydown', this.textInput, (/** @type {any} */ e) => {
       const allow = ['Backspace', 'Enter', 'Space'];
       const key = e.code;
-      if (allow.indexOf(key) > -1) {
+      /* istanbul ignore next */
+      const isClearBtn = e.path?.filter((p) => p?.classList?.contains('btn-clear')).length > 0;
+      if (allow.indexOf(key) > -1 && !isClearBtn) {
         if (key === 'Backspace') {
           this.clear();
           this.dispatchChangeEvent(e);
@@ -271,8 +286,6 @@ class IdsUpload extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
-
     this.handleWindowFocusEvent();
     this.handleFileInputChangeEvent();
     this.handleFileInputCancelEvent();

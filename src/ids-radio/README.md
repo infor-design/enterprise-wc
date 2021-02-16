@@ -159,7 +159,6 @@ Set Radio Group as Horizontal:
 - `group-disabled` {boolean} set disabled state, if group disabled.
 - `horizontal` {boolean} set radio layout inline as horizontal.
 - `label` {string} set the label text.
-- `label-font-size` {string|number} set the label font size.
 - `validation-has-error` {boolean} set the validation error state.
 - `value` {string} set the radio value.
 
