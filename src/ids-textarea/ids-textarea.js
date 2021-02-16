@@ -289,7 +289,7 @@ class IdsTextarea extends IdsElement {
    * @param {HTMLElement} input The textarea input element
    * @returns {void}
    */
-  adjustHeight(oldHeight, maxHeight, input) {
+  adjustHeight(oldHeight, maxHeight, input = null) {
     const elem = input || this.input;
     const newHeight = elem?.scrollHeight;
     if (elem && (oldHeight !== newHeight)) {
