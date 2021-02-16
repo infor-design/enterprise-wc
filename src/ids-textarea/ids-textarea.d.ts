@@ -29,46 +29,46 @@ export class IdsTextarea extends HTMLElement {
   /** Sets the dirty tracking feature on to indicate a changed field */
   dirtyTracker: boolean;
 
-  /** Sets textarea to disabled **/
+  /** Sets textarea to disabled */
   disabled: boolean;
 
-  /** Sets the label text **/
+  /** Sets the label text */
   label: string;
 
-  /** Sets the validation required indicator on label text, it's default to `true` **/
+  /** Sets the validation required indicator on label text, it's default to `true` */
   labelRequired: boolean;
 
-  /** Maximum characters allowed in textarea **/
+  /** Maximum characters allowed in textarea */
   maxlength: number | string;
 
-  /** Sets the placeholder text **/
+  /** Sets the placeholder text */
   placeholder: string;
 
-  /** Determines whether or not the textarea can be displayed on a printed page **/
+  /** Determines whether or not the textarea can be displayed on a printed page */
   printable: boolean;
 
-  /** Sets the size (width) **/
+  /** Sets the size (width) */
   size: 'sm ' | 'md' | 'lg' | 'full' | string;
 
-  /** Sets to readonly state **/
+  /** Sets to readonly state */
    readonly: boolean;
 
-  /** Can resize the height of the textarea **/
+  /** Can resize the height of the textarea */
    resizable: boolean;
 
-  /** Sets to visible height of a text area in lines **/
+  /** Sets to visible height of a text area in lines */
    rows: number | string;;
 
-  /** Sets the text alignment **/
+  /** Sets the text alignment */
   textAlign: 'left' | 'center ' | 'right' | string;
 
-  /** Sets the validation check to use **/
+  /** Sets the validation check to use */
   validate: 'required' | string;
 
-  /** Sets the validation events to use **/
+  /** Sets the validation events to use */
   validationEvents: 'blur' | string;
 
-  /** Sets the `value` attribute **/
+  /** Sets the `value` attribute */
   value: string | number;
 
   /** Fires when value change. */
