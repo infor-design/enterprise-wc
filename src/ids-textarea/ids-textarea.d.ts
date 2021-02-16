@@ -51,13 +51,13 @@ export class IdsTextarea extends HTMLElement {
   size: 'sm ' | 'md' | 'lg' | 'full' | string;
 
   /** Sets to readonly state */
-   readonly: boolean;
+  readonly: boolean;
 
   /** Can resize the height of the textarea */
-   resizable: boolean;
+  resizable: boolean;
 
   /** Sets to visible height of a text area in lines */
-   rows: number | string;;
+  rows: number | string;
 
   /** Sets the text alignment */
   textAlign: 'left' | 'center ' | 'right' | string;
@@ -73,12 +73,16 @@ export class IdsTextarea extends HTMLElement {
 
   /** Fires when value change. */
   on(event: 'change', listener: (detail: IdsTextareaEventDetail) => void): this;
+
   /** Fires when user type. */
   on(event: 'input', listener: (detail: IdsTextareaEventDetail) => void): this;
+
   /** Fires when copy paste and value change. */
   on(event: 'propertychange', listener: (detail: IdsTextareaEventDetail) => void): this;
+
   /** Fires when textarea get focus. */
   on(event: 'focus', listener: (detail: IdsTextareaEventDetail) => void): this;
+
   /** Fires when textarea text get selected. */
   on(event: 'select', listener: (detail: IdsTextareaEventDetail) => void): this;
 }
