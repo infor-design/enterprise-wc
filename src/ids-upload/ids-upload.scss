@@ -1,7 +1,6 @@
 @import '../ids-base/ids-base';
 
 .ids-upload {
-  overflow: hidden;
   position: relative;
 
   .ids-upload-filetype {
@@ -11,5 +10,9 @@
     top: 50%;
     transform: translateY(-50%);
     z-index: -1;
+  }
+
+  .btn-clear .ids-icon {
+    margin-left: 32px;
   }
 }
