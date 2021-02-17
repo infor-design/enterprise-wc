@@ -52,11 +52,8 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
    * @returns {string} The template
    */
   template() {
-    return `<ids-popup class="ids-popup-menu" type="menu">
-      <nav class="ids-menu" slot="content">
-        <slot></slot>
-      </nav>
-    </ids-popup>`;
+    const menuTemplate = IdsMenu.prototype.template.apply(this);
+    return `<ids-popup class="ids-popup-menu" type="menu">${menuTemplate}</ids-popup>`;
   }
 
   /**

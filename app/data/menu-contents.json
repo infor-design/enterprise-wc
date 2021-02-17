@@ -1,0 +1,148 @@
+{
+    "id": "popup-menu",
+    "contents": [
+        {
+            "id": "edit-actions-group",
+            "select": "none",
+            "items": [
+                {
+                    "id": "edit-cut",
+                    "text": "Cut"
+                },
+                {
+                    "id": "edit-copy",
+                    "text": "Copy"
+                },
+                {
+                    "id": "edit-paste",
+                    "text": "Paste"
+                },
+                {
+                    "id": "edit-paste-special",
+                    "text": "Paste Special",
+                    "submenu": {
+                        "id": "edit-paste-special-submenu",
+                        "contents": [
+                            {
+                                "id": "edit-paste-submenu-group",
+                                "select": "none",
+                                "items": [
+                                    {
+                                        "id": "edit-submenu-item-1",
+                                        "text": "Sub Menu 1"
+                                    },
+                                    {
+                                        "id": "edit-submenu-item-2",
+                                        "text": "Sub Menu 2"
+                                    },
+                                    {
+                                        "id": "edit-submenu-item-3",
+                                        "text": "Sub Menu 4",
+                                        "submenu": {
+                                            "id": "sub-sub-menu",
+                                            "contents": [
+                                                {
+                                                    "id": "super-submenu",
+                                                    "text": "Super Sub Menu",
+                                                    "items": [
+                                                        {
+                                                            "icon": "filter",
+                                                            "id": "sub-submenu-item-1",
+                                                            "text": "Sub Sub Menu 1"
+                                                        },
+                                                        {
+                                                            "icon": "mail",
+                                                            "id": "sub-submenu-item-2",
+                                                            "text": "Sub Sub Menu 2"
+                                                        },
+                                                        {
+                                                            "icon": "heart-outlined",
+                                                            "id": "sub-submenu-item-3",
+                                                            "text": "Sub Sub Menu 3"
+                                                        }
+                                                    ]
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    {
+                                        "type": "separator"
+                                    },
+                                    {
+                                        "id": "edit-submenu-item-settings",
+                                        "icon": "settings",
+                                        "text": "Settings"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ]
+        },
+        {
+            "type": "separator"
+        },
+        {
+            "id": "note-actions-group",
+            "select": "none",
+            "items": [
+                {
+                    "id": "note-project-range",
+                    "text": "Name and project range"
+                },
+                {
+                    "disabled": true,
+                    "id": "note-insert-comment",
+                    "text": "Insert Comment"
+                },
+                {
+                    "disabled": true,
+                    "id": "note-insert",
+                    "text": "Insert Note"
+                },
+                {
+                    "id": "note-clear",
+                    "text": "Clear Notes"
+                }
+            ]
+        },
+        {
+            "type": "separator"
+        },
+        {
+            "type": "header",
+            "text": "Additional Options",
+            "for": "additional-options-groups"
+        },
+        {
+            "id": "additional-options-groups",
+            "select": "multiple",
+            "items": [
+                {
+                    "id": "options-formatting",
+                    "text": "Conditional Formatting",
+                    "selected": true
+                },
+                {
+                    "id": "options-validation",
+                    "text": "Data Validation"
+                }
+            ]
+        },
+        {
+            "type": "separator"
+        },
+        {
+            "id": "settings-group",
+            "select": "none",
+            "items": [
+                {
+                    "id": "settings-option",
+                    "text": "Settings",
+                    "icon": "settings"
+                }
+            ]
+        }
+    ]
+}

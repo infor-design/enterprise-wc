@@ -5,6 +5,7 @@ import {
   mix
 } from '../ids-base/ids-element';
 
+import { IdsDataSource } from '../ids-base/ids-data-source';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 
@@ -133,6 +134,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {void}
    */
   connectedCallback() {
+    this.datasource = new IdsDataSource();
     this.handleEvents();
     this.handleKeys();
   }
@@ -142,7 +144,165 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<nav class="ids-menu" role="menu"><slot></slot></nav>`;
+    let contents = `<slot></slot>`;
+
+    // If using the datasource, render from the content template
+    // instead of simply accepting the slot contents.
+    if (this.data?.contents?.length) {
+      contents = this.menuContentTemplate(this.data.contents);
+    }
+
+    // Setup the attributes on the top-level menu container
+    let id;
+    if (this.data?.id) {
+      id = ` id="${this.data.id}"`;
+    }
+    if (this.id) {
+      id = ` id="${this.id}"`;
+    }
+
+    return `<nav class="ids-menu"${id} role="menu">${contents}</nav>`;
+  }
+
+  /**
+   * @param {any} contentsObj a plain object structure with Popupmenu Contents
+   * @returns {string} list of HTML
+   */
+  menuContentTemplate(contentsObj) {
+    // Renders a separator
+    const renderSeparator = () => {
+      return `<ids-separator></ids-separator>`;
+    };
+
+    // Renders a header
+    const renderHeader = (elem) => {
+      let text = '';
+      if (elem.text) {
+        text = `${elem.text}`;
+      }
+      return `<ids-menu-header>${text}</ids-menu-header>`;
+    };
+
+    // Renders the contents of a submenu
+    const renderContents = (submenuContents) => {
+      let html = '';
+      submenuContents.forEach((elem) => {
+        switch (elem.type) {
+          case 'header':
+            html += renderHeader(elem);
+            break;
+          case 'separator':
+            html += renderSeparator();
+            break;
+          case 'group':
+          default: // Assume "Group"
+            html += renderGroup(elem);
+            break;
+        }
+      });
+      return html;
+    };
+
+    // Renders a submenu wrapper
+    const renderSubmenu = (submenuData) => {
+      let id = '';
+      if (submenuData.id) {
+        id = ` id="${submenuData.id}"`;
+      }
+      let contents = '';
+      if (submenuData.contents) {
+        contents += renderContents(submenuData.contents);
+      }
+      return `<ids-popup-menu slot="submenu"${id}>${contents}</ids-popup-menu>`;
+    };
+
+    // Renders a single item
+    const renderItem = (item) => {
+      let id = '';
+      if (typeof item.id === 'string') {
+        id = ` id="${item.id}"`;
+      }
+      let text = '';
+      if (typeof item.text === 'string') {
+        text = `${item.text}`;
+      }
+      let disabled = '';
+      if (item.disabled) {
+        disabled = ' disabled="true"';
+      }
+      let icon = '';
+      if (typeof item.icon === 'string') {
+        icon = ` icon="${item.icon}"`;
+      }
+      let selected = '';
+      if (item.selected) {
+        selected = ' selected="true"';
+      }
+      let submenu = '';
+      if (item.submenu) {
+        submenu = renderSubmenu(item.submenu);
+      }
+
+      return `<ids-menu-item${id}${disabled}${icon}${selected}>
+        <span slot="text">${text}</span>
+        ${submenu}
+      </ids-menu-item>`;
+    };
+
+    // Renders the contents of a group
+    const renderGroup = (groupData) => {
+      let id = '';
+      if (groupData.id) {
+        id = ` id="${groupData.id}"`;
+      }
+      let itemsHTML = '';
+      groupData.items?.forEach((newItem) => {
+        itemsHTML += renderItem(newItem);
+      });
+      return `<ids-menu-group${id}>${itemsHTML}</ids-menu-group>`;
+    };
+    console.log('check it');
+    return renderContents(contentsObj);
+  }
+
+  /**
+   * Rerender the list by re applying the template
+   * @private
+   */
+  rerender() {
+    if (this.data?.groups?.length === 0) {
+      return;
+    }
+
+    const template = document.createElement('template');
+    const html = this.template();
+
+    // Render and append styles
+    this.shadowRoot.innerHTML = '';
+    template.innerHTML = html;
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+  }
+
+  /**
+   * Set the data array of the datagrid
+   * @param {Array<any>} value The array to use
+   * @returns {void}
+   */
+  set data(value) {
+    if (value) {
+      this.datasource.data = value;
+      this.rerender();
+      return;
+    }
+
+    this.datasource.data = null;
+  }
+
+  /**
+   * @returns {Array<any>} containing the dataset
+   */
+  get data() {
+    return this?.datasource?.data || [];
   }
 
   /**

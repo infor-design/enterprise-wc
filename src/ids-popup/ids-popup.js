@@ -133,8 +133,6 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     // @ts-ignore
     if (this.shouldResize()) {
       // @ts-ignore
-      this.ro.unobserve(this.resizeDetectionTarget());
-      // @ts-ignore
       this.disconnectResize();
     }
 
@@ -578,7 +576,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     // @ts-ignore
     if (this.shouldResize()) {
       // @ts-ignore
-      this.ro.observe(this.resizeDetectionTarget());
+      this.addObservedElement(this.resizeDetectionTarget());
     }
 
     // Set the Popup type
