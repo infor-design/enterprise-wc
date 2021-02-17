@@ -58,7 +58,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
       if (doCheck && key !== eventName) {
         return;
       }
-      this.removeEventListener(key, value.target, value.options);
+      this.offEvent(key, value.target, value.options);
     });
   }
 };
