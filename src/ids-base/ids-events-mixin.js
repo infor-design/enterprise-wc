@@ -50,9 +50,18 @@ const IdsEventsMixin = (superclass) => class extends superclass {
 
   /**
    * Detach all event handlers
+   */
+  detachAllEvents() {
+    this.handledEvents.forEach((value, key) => {
+      this.offEvent(key, value.target, value.options);
+    });
+  }
+
+  /**
+   * Detach a specific handler by name
    * @param {string} [eventName] an optional event name to filter with
    */
-  detachAllEvents(eventName = undefined) {
+  detachEventName(eventName = undefined) {
     const doCheck = typeof eventName === 'string' && eventName.length;
     this.handledEvents.forEach((value, key) => {
       if (doCheck && key !== eventName) {

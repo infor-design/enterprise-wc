@@ -215,7 +215,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     removeEventTargets.forEach((eventName) => {
       const evt = this.handledEvents.get(eventName);
       if (evt) {
-        this.detachAllEvents(eventName);
+        this.detachEventName(eventName);
       }
     });
 
