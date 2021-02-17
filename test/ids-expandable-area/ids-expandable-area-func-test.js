@@ -40,7 +40,7 @@ describe('IdsExpandableArea Component', () => {
     const rootEl = el.shadowRoot.querySelector('.ids-expandable-area');
 
     expect(rootEl.getAttribute('type')).toBe(null);
-    expect(el.getAttribute('type')).toBe('');
+    expect(el.getAttribute('type')).toBe(null);
 
     el.type = 'toggle-btn';
     rootEl.setAttribute('type', 'toggle-btn');

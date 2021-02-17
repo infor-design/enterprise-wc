@@ -35,7 +35,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(mockHandlerNormal.mock.calls.length).toBe(1);
     expect(mockHandlerNS.mock.calls.length).toBe(1);
 
-    elem.removeEventListener('click.doop', elem);
+    elem.offEvent('click.doop', elem);
     elem.triggerEvent('click', elem);
 
     expect(mockHandlerNormal.mock.calls.length).toBe(2);
