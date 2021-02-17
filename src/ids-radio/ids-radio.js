@@ -114,7 +114,7 @@ class IdsRadio extends mix(IdsElement).with(IdsHideFocusMixin, IdsEventsMixin) {
       if (option === 'remove') {
         const handler = this.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.onEvent(eventName, this.input);
+          this.offEvent(eventName, this.input);
         }
       } else {
         this.onEvent(eventName, this.input, () => {

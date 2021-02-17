@@ -82,8 +82,8 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
   /**
    * Remove all handlers and clear memory
    */
-  detachAllKeyboard() {
-    if (!this.off) {
+  detachAllListeners() {
+    if (!this.offEvent) {
       return;
     }
     if (this.keyDownHandler) {

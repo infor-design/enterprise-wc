@@ -53,9 +53,9 @@ class IdsElement extends HTMLElement {
     }
 
     // @ts-ignore
-    if (this.detachAllKeyboard) {
+    if (this.detachAllListeners) {
       // @ts-ignore
-      this.detachAllKeyboard();
+      this.detachAllListeners();
     }
   }
 

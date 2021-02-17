@@ -12,5 +12,5 @@ export class IdsKeyboardMixin {
   listen(keycode: Array<unknown> | string, elem: HTMLElement, callback: () => void): void;
 
   /** Remove all handlers and clear memory */
-  detachAllKeyboard(): void;
+  detachAllListeners(): void;
 }

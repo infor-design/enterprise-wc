@@ -214,6 +214,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       return;
     }
 
+    this.triggerEvent('tagremoved', this, { detail: { elem: this } });
     this.remove();
     this.triggerEvent('aftertagremoved', this, { detail: { elem: this } });
   }

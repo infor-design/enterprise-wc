@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsKeyboardMixin } from '../../src/ids-base/ids-keyboard-mixin';
 import IdsTag from '../../src/ids-tag/ids-tag';
 
 let elem;
@@ -82,17 +81,9 @@ describe('IdsKeyboardMixin Tests', () => {
     expect(elem.keyDownHandler).toBeTruthy();
     expect(elem.keyUpHandler).toBeTruthy();
 
-    elem.destroy();
+    elem.detachAllListeners();
 
     expect(elem.keyDownHandler).toBeFalsy();
     expect(elem.keyUpHandler).toBeFalsy();
-  });
-
-  it('can skip destroy if not setup', () => {
-    expect(elem).toBeFalsy();
-
-    elem.detachA();
-
-    expect(elem).toBeFalsy();
   });
 });

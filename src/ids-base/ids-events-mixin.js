@@ -31,7 +31,9 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    */
   offEvent(eventName, target, options) {
     const handler = this.handledEvents.get(eventName);
-    target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
+    if (handler?.callback) {
+      target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
+    }
     this.handledEvents.delete(eventName);
   }
 

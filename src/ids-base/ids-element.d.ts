@@ -24,12 +24,6 @@ export class IdsElement extends HTMLElement {
 
   /** Append the style sheet internally */
   appendStyles(): void;
-
-  /** Remove all events attached via any event mixin */
-  detachAllEvents(): void;
-
-  /** Remove all keyboard attachments via any keyboard mixin */
-  detachAllKeyboard(): void;
 }
 
 export {
