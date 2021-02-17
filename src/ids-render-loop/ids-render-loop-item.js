@@ -78,6 +78,7 @@ class IdsRenderLoopItem extends Object {
    */
   resume() {
     this.resumeTime = timestamp();
+    /* istanbul ignore next */
     this.totalStoppedTime += this.resumeTime - (this.lastPauseTime || 0);
     delete this.lastPauseTime;
     this.paused = false;

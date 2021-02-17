@@ -182,4 +182,12 @@ describe('IdsExpandableArea Component', () => {
     el.template();
     expect(header.getAttribute('data-expander')).toBe('header');
   });
+
+  it('wont error caling api with no panel', () => {
+    el.pane = null;
+    el.expanded = true;
+    el.expanded = false;
+    el.expanded = true;
+    expect(el.expanded).toEqual('true');
+  });
 });

@@ -110,6 +110,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
     });
 
     /** @type {HTMLElement} */
+    /* istanbul ignore next */
     if (this.itemContainer) {
       this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
       this.itemContainer.innerHTML = html;
@@ -132,6 +133,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
 
     /** @type {HTMLElement} */
     this.itemContainer = this.querySelector('[slot="contents"]');
+    /* istanbul ignore next */
     if (this.itemContainer) {
       this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
     }
@@ -285,7 +287,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
    * @returns {string} The html for this item
    */
   itemTemplate(item) {
-    return stringUtils.injectTemplate(this.stringTemplate || '', item);
+    return stringUtils.injectTemplate(this.stringTemplate, item);
   }
 
   /**

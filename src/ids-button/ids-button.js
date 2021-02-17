@@ -6,7 +6,7 @@ import {
   props
 } from '../ids-base/ids-element';
 
-import { IdsDomUtils as domUtils } from '../ids-base/ids-dom-utils';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
@@ -279,7 +279,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
     this.removeAttribute(props.DISABLED);
     this.shouldUpdate = true;
 
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
     this.state.disabled = trueVal;
 
     /* istanbul ignore next */
@@ -416,6 +416,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
     // Re-arrange the slots
     /** @type {HTMLElement | null} */
     const iconSlot = this.button.querySelector('slot[name="icon"]');
+    /* istanbul ignore next */
     if (!iconSlot) {
       return;
     }

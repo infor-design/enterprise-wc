@@ -95,12 +95,10 @@ describe('IdsRadioGroup Component', () => {
     val = rg.valMethod(rg.input);
     rg.setDirtyTracker(val);
     jest.advanceTimersByTime(1);
-    radioArr[0].hidefocusToggle(radioArr[0].input);
     expect(rg.getAttribute('dirty-tracker')).toEqual('true');
     expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
     expect(rg.labelEl.querySelector('.msg-dirty')).toBeTruthy();
     jest.advanceTimersByTime(1);
-    radioArr[0].hidefocusToggle(radioArr[0].input, true);
     expect(rg.getAttribute('dirty-tracker')).toEqual('true');
     expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
     expect(rg.labelEl.querySelector('.msg-dirty')).toBeTruthy();

@@ -211,9 +211,9 @@ class IdsDataGrid extends mix(IdsElement).with(
    */
   handleEvents() {
     const sortableColumns = this.shadowRoot.querySelector('.ids-data-grid-header');
-    this.detachAllEvents();
 
     // Add a sort Handler
+    this.offEvent('click', sortableColumns);
     this.onEvent('click', sortableColumns, (/** @type {any} */ e) => {
       const header = e.target.closest('.is-sortable');
 
@@ -223,7 +223,9 @@ class IdsDataGrid extends mix(IdsElement).with(
     });
 
     // Add a cell click handler
-    this.onEvent('click', this.shadowRoot.querySelector('.ids-data-grid-body'), (/** @type {any} */ e) => {
+    const body = this.shadowRoot.querySelector('.ids-data-grid-body');
+    this.offEvent('click', body);
+    this.onEvent('click', body, (/** @type {any} */ e) => {
       const cell = e.target.closest('.ids-data-grid-cell');
       const row = cell.parentNode;
       // TODO Handle Hidden Cells

@@ -23,12 +23,12 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
       this.press(e.key);
       this.dispatchHotkeys(e);
     };
-    this.onEvent('keydown', this, this.keyDownHandler);
+    this.onEvent('keydown.keyboard', this, this.keyDownHandler);
 
     this.keyUpHandler = (/** @type {any} */ e) => {
       this.unpress(e.key);
     };
-    this.onEvent('keyup', this, this.keyUpHandler);
+    this.onEvent('keyup.keyboard', this, this.keyUpHandler);
   }
 
   /**
@@ -48,10 +48,6 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * @param {Function} callback The call back when this combination is met
    */
   listen(keycode, elem, callback) {
-    if (!this.hotkeys) {
-      this.init();
-    }
-
     this.hotkeys.set(`${keycode}`, callback);
   }
 
@@ -83,15 +79,12 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * Remove all handlers and clear memory
    */
   detachAllListeners() {
-    if (!this.offEvent) {
-      return;
-    }
-    if (this.keyDownHandler) {
-      this.offEvent('keydown', this, this.keyDownHandler);
+    if (this.keyDownHandler && this.offEvent) {
+      this.offEvent('keydown.keyboard', this, this.keyDownHandler);
       delete this.keyDownHandler;
     }
-    if (this.keyUpHandler) {
-      this.offEvent('keyup', this, this.keyUpHandler);
+    if (this.keyUpHandler && this.offEvent) {
+      this.offEvent('keyup.keyboard', this, this.keyUpHandler);
       delete this.keyUpHandler;
     }
   }

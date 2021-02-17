@@ -1,5 +1,5 @@
 describe('Ids Icon e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-icon';
+  const url = 'http://localhost:4444/ids-icon?count=1';
   let page;
 
   beforeAll(async () => {
@@ -14,7 +14,7 @@ describe('Ids Icon e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto(`${url}?count=1`, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: 'load' });
     await expect(page).toPassAxeTests();
   });
 });

@@ -6,7 +6,7 @@ import {
   mix
 } from '../ids-base/ids-element';
 
-import { IdsDomUtils as domUtils } from '../ids-base/ids-dom-utils';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
@@ -302,7 +302,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
    */
   set disabled(val) {
     // Handled as boolean attribute
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
     this.state.disabled = trueVal;
 
     const a = this.a;
@@ -347,7 +347,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
    * @param {boolean} val true if the menu item should appear highlighted
    */
   set highlighted(val) {
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
 
     // Don't highlight if the item is disabled.
     if (trueVal && this.disabled) {
@@ -545,7 +545,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
    */
   set selected(val) {
     // Determine true state and event names
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
     const duringEventName = trueVal ? 'selected' : 'deselected';
     const beforeEventName = `before${duringEventName}`;
 

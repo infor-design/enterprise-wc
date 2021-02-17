@@ -7,7 +7,6 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
@@ -21,12 +20,11 @@ import IdsRadioGroup from './ids-radio-group';
  * IDS Radio Component
  * @type {IdsRadio}
  * @inherits IdsElement
- * @mixes IdsHideFocusMixin
  * @mixes IdsEventsMixin
  */
 @customElement('ids-radio')
 @scss(styles)
-class IdsRadio extends mix(IdsElement).with(IdsHideFocusMixin, IdsEventsMixin) {
+class IdsRadio extends mix(IdsElement).with(IdsEventsMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -60,9 +58,6 @@ class IdsRadio extends mix(IdsElement).with(IdsHideFocusMixin, IdsEventsMixin) {
     // @ts-ignore
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     this.labelEl = this.shadowRoot.querySelector('label');
-
-    // @ts-ignore
-    this.hideFocus();
     this.handleEvents();
   }
 
@@ -72,8 +67,6 @@ class IdsRadio extends mix(IdsElement).with(IdsHideFocusMixin, IdsEventsMixin) {
    */
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
-    // @ts-ignore
-    this.destroyHideFocus();
     this.handleRadioChangeEvent('remove');
     this.handleNativeEvents('remove');
   }

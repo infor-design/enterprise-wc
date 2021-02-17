@@ -41,7 +41,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * Create and trigger a custom event
    * @param {string} eventName The event id with optional namespace
    * @param {HTMLElement} target The DOM element to register
-   * @param {object} [options] The custom data to send
+   * @param {object} [options = {}] The custom data to send
    */
   triggerEvent(eventName, target, options = {}) {
     const event = new CustomEvent(eventName.split('.')[0], options);
@@ -61,7 +61,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * Detach a specific handler by name
    * @param {string} [eventName] an optional event name to filter with
    */
-  detachEventName(eventName = undefined) {
+  detachEventName(eventName) {
     const doCheck = typeof eventName === 'string' && eventName.length;
     this.handledEvents.forEach((value, key) => {
       if (doCheck && key !== eventName) {

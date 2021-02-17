@@ -44,7 +44,6 @@ const IdsClearableMixin = (superclass) => class extends superclass {
       icon.setAttribute('slot', 'icon');
       text.setAttribute('audible', 'true');
       text.textContent = 'clear';
-      xButton.setAttribute('tabindex', 0);
       xButton.className = 'btn-clear';
       xButton.appendChild(text);
       xButton.appendChild(icon);
@@ -71,6 +70,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   clear() {
+    /* istanbul ignore next */
     if (this.input) {
       this.value = '';
       this.input.dispatchEvent(new Event('change'));
@@ -104,28 +104,11 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   clearableEvents() {
-    this.handleClearBtnKeydown();
     this.handleClearBtnClick('');
     this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e, ''));
 
     // Set initial state
     this.checkContents();
-  }
-
-  /**
-   * Handle clearable xButton keydown event
-   * @private
-   * @returns {void}
-   */
-  handleClearBtnKeydown() {
-    const xButton = this.shadowRoot.querySelector('.btn-clear');
-    if (!xButton) {
-      return;
-    }
-
-    this.listen(['Enter'], xButton, () => {
-      this.clear();
-    });
   }
 
   /**

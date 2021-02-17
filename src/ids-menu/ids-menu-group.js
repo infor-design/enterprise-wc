@@ -6,7 +6,7 @@ import {
   mix
 } from '../ids-base/ids-element';
 
-import { IdsDomUtils as domUtils } from '../ids-base/ids-dom-utils';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 // @ts-ignore
@@ -180,7 +180,7 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean} val true if the menu should close when an item in this group is selected
    */
   set keepOpen(val) {
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
     if (trueVal) {
       this.setAttribute(props.KEEP_OPEN, `${val}`);
     } else {

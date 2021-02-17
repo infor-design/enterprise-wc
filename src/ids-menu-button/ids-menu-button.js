@@ -6,7 +6,7 @@ import {
 
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
-import { IdsDomUtils as domUtils } from '../ids-base/ids-dom-utils';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 import IdsIcon from '../ids-icon/ids-icon';
 // @ts-ignore
@@ -69,7 +69,7 @@ class IdsMenuButton extends IdsButton {
    * @param {string|undefined} val referencing an icon string name to use
    */
   set dropdownIcon(val) {
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
     const iconName = (typeof val === 'string' && val.length) ? `${val}` : 'dropdown';
     const icon = this.dropdownIconEl;
     if (trueVal) {

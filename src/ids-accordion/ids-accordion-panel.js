@@ -103,6 +103,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
 
       this.pane.style.height = `${this.pane.scrollHeight}px`;
       requestAnimationFrame(() => {
+        /* istanbul ignore next */
         if (!this.pane) {
           return;
         }

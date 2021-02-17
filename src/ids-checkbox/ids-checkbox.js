@@ -7,7 +7,6 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
@@ -21,7 +20,6 @@ import IdsText from '../ids-text/ids-text';
  * IDS Checkbox Component
  * @type {IdsCheckbox}
  * @inherits IdsElement
- * @mixes IdsHideFocusMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsValidationMixin
  * @mixes IdsEventsMixin
@@ -29,7 +27,6 @@ import IdsText from '../ids-text/ids-text';
 @customElement('ids-checkbox')
 @scss(styles)
 class IdsCheckbox extends mix(IdsElement).with(
-    IdsHideFocusMixin,
     IdsDirtyTrackerMixin,
     IdsValidationMixin,
     IdsEventsMixin
@@ -70,9 +67,6 @@ class IdsCheckbox extends mix(IdsElement).with(
     // @ts-ignore
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
-
-    // @ts-ignore
-    this.hideFocus();
     this.handleEvents();
   }
 
@@ -83,8 +77,6 @@ class IdsCheckbox extends mix(IdsElement).with(
   disconnectedCallback() {
     // @ts-ignore
     IdsElement.prototype.disconnectedCallback.apply(this);
-    // @ts-ignore
-    this.destroyHideFocus();
     this.handleCheckboxChangeEvent('remove');
     this.handleNativeEvents('remove');
   }

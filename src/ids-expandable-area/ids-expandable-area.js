@@ -118,6 +118,7 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin) {
 
       this.pane.style.height = `${this.pane?.scrollHeight}px`;
       requestAnimationFrame(() => {
+        /* istanbul ignore next */
         if (!this.pane) {
           return;
         }

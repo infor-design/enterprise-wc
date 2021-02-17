@@ -1,6 +1,4 @@
-// @ts-ignore
-import IdsRenderLoop from './ids-render-loop';
-import IdsRenderLoopItem from './ids-render-loop-item';
+import { IdsRenderLoop, IdsRenderLoopItem } from './ids-render-loop';
 
 // Stores the global RenderLoop instance.
 /** @type {any} */

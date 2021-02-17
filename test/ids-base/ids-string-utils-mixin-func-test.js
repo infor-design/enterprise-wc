@@ -14,6 +14,7 @@ describe('IdsStringUtils Tests', () => {
   });
 
   it('can convert a string to boolean', () => {
+    expect(stringUtils.stringToBool('setting-value')).toEqual(true);
     expect(stringUtils.stringToBool('false')).toEqual(false);
     expect(stringUtils.stringToBool('FALSE')).toEqual(false);
     expect(stringUtils.stringToBool('False')).toEqual(false);

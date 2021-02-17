@@ -106,6 +106,19 @@ describe('IdsTag Component', () => {
     expect(document.querySelectorAll('ids-tag').length).toEqual(0);
   });
 
+  it('fires click on enter', () => {
+    tag.clickable = true;
+    const mockCallback = jest.fn((x) => {
+      expect(x).toBeTruthy();
+    });
+    tag.addEventListener('click', mockCallback);
+
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    tag.dispatchEvent(event);
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
   it('fires beforetagremoved on dismiss', () => {
     tag.dismissible = true;
     tag.addEventListener('beforetagremoved', (e) => {

@@ -130,43 +130,6 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Handle hide-focus css class for first radio button in radio group
-   * @private
-   * @param {string} option If 'remove', will remove attached events
-   * @returns {void}
-   */
-  handleRadioGroupHidefocusClass(option = '') {
-    if (this.isRadioGroup) {
-      const radio = this.querySelector('ids-radio');
-      if (radio) {
-        const events = ['hidefocusadd', 'hidefocusremove'];
-        if (option === 'remove') {
-          events.forEach((evt) => {
-            const handler = this?.handledEvents?.get(evt);
-            if (handler && handler.target === radio) {
-              this.offEvent(evt, radio);
-            }
-          });
-        } else {
-          events.forEach((evt) => {
-            this.onEvent(evt, radio, (/** @type {any} */ e) => {
-              setTimeout(() => {
-                const icon = this.shadowRoot.querySelector('.icon-dirty');
-                const shouldRemove = e.type === 'hidefocusadd';
-                if (shouldRemove) {
-                  icon?.classList.remove('radio-focused');
-                } else {
-                  icon?.classList.add('radio-focused');
-                }
-              }, 0);
-            });
-          });
-        }
-      }
-    }
-  }
-
-  /**
    * Handle dirty tracker events
    * @private
    * @param {string} option If 'remove', will remove attached events
@@ -180,13 +143,11 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
         if (handler && handler.target === this.input) {
           this.offEvent(eventName, this.input);
         }
-        this.handleRadioGroupHidefocusClass('remove');
       } else {
         this.onEvent(eventName, this.input, () => {
           const val = this.valMethod(this.input);
           this.setDirtyTracker(val);
         });
-        this.handleRadioGroupHidefocusClass();
       }
     }
   }

@@ -377,7 +377,6 @@ describe('IdsInput Component', () => {
   it('should not error calling with no button', () => {
     input.clearable = true;
     input.clearable = false;
-    input.handleClearBtnKeydown();
     expect(input.shadowRoot.querySelector('.btn-clear')).toBeFalsy();
   });
 
