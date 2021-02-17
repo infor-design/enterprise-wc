@@ -23,16 +23,13 @@ import IdsAlert from '../src/ids-alert/ids-alert';
 import IdsBadge from '../src/ids-badge/ids-badge';
 
 // Import Example Code
-import './ids-button/index';
-import './ids-menu-button/index';
-import './ids-checkbox/index';
-import './ids-icon/index';
-import './ids-input/index';
+import './ids-menu-button/example';
+import './ids-checkbox/example';
+import './ids-icon/example';
+import './ids-input/example';
 import './ids-input/test-validation-message';
-import './ids-popup/index';
-import './ids-render-loop/index';
-import './ids-toggle-button/index';
-import './ids-trigger-field/index';
-import './ids-radio/index';
-import './ids-alert/index';
-import './ids-badge/index';
+import './ids-popup/example';
+import './ids-render-loop/example';
+import './ids-toggle-button/example';
+import './ids-radio/example';
+import './ids-alert/example';

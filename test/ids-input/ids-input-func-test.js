@@ -124,12 +124,6 @@ describe('IdsInput Component', () => {
     expect(input.labelRequired).toEqual('true');
   });
 
-  it('should get outer width', () => {
-    const body = document.querySelector('body');
-    expect(input.outerWidth(body)).toBe(16);
-    expect(input.outerWidth('test')).toBe(0);
-  });
-
   it('should set value', () => {
     input.input.remove();
     input.value = '';
@@ -333,15 +327,9 @@ describe('IdsInput Component', () => {
     input.input.focus();
     input.value = 'test';
     input.checkContents();
-    let xButton = input.shadowRoot.querySelector('.btn-clear');
+    const xButton = input.shadowRoot.querySelector('.btn-clear');
     expect(xButton.classList).not.toContain('is-empty');
-    input.input.blur();
-    input.input.focus();
-    input.value = 'test2';
-    input.checkContents();
-    const event = new KeyboardEvent('keydown', { key: 'Enter' });
-    xButton = input.shadowRoot.querySelector('.btn-clear');
-    xButton.dispatchEvent(event);
+    xButton.click();
     expect(input.value).toEqual('');
     input.clearable = false;
     expect(input.getAttribute('clearable')).toEqual(null);
@@ -364,9 +352,8 @@ describe('IdsInput Component', () => {
     input.input.focus();
     input.value = 'test2';
     input.checkContents();
-    const event = new KeyboardEvent('keydown', { key: 'Enter' });
     xButton = input.shadowRoot.querySelector('.btn-clear');
-    xButton.dispatchEvent(event);
+    xButton.click();
     expect(input.value).toEqual('');
     input.clearableForced = false;
     expect(input.getAttribute('clearable-forced')).toEqual(null);
@@ -379,12 +366,6 @@ describe('IdsInput Component', () => {
     expect(input.value).toEqual('test');
     input.shadowRoot.querySelector('.btn-clear').click();
     expect(input.value).toEqual('');
-  });
-
-  it('handle clearable edge cases', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    IdsClearableMixin.clear();
-    expect(errors).not.toHaveBeenCalled();
   });
 
   it('should clearable edge case', () => {

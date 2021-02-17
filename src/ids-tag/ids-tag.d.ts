@@ -2,7 +2,6 @@
 // confirm our code is type safe, and to support TypeScript users.
 
 import { IdsElement } from '../ids-base/ids-element';
-import { IdsExampleMixin } from '../ids-base/ids-example-mixin';
 
 interface IdsTagEventDetail extends Event {
   detail: {
@@ -17,7 +16,7 @@ interface IdsTagEventVetoable extends Event {
   }
 }
 
-interface IdsTag extends IdsElement, IdsExampleMixin {
+export default class IdsTag extends IdsElement {
   /** Set the tag type/color */
   color: 'secondary' | 'error' | 'success' | 'caution' | string;
 
@@ -32,8 +31,4 @@ interface IdsTag extends IdsElement, IdsExampleMixin {
 
   /** Fires while the tag is removed */
   on(event: 'tagremoved', listener: (detail: IdsTagEventDetail) => void): this;
-
-  example1(): void;
 }
-
-export default IdsTag;

@@ -61,7 +61,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    */
   connectedCallback() {
     const slot = this.shadowRoot.querySelector('slot');
-    this.on('slotchange', slot, () => {
+    this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
     });
   }
@@ -194,8 +194,8 @@ class IdsRadioGroup extends mix(IdsElement).with(
     const args = { value: val, checked: radio };
     /** @type {any} */
     this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.trigger('change', this.input, args);
-    this.trigger('change', this, args);
+    this.triggerEvent('change', this.input, args);
+    this.triggerEvent('change', this, args);
   }
 
   /**
@@ -207,7 +207,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
 
     radioArr.forEach((r) => {
-      this.on('change', r, () => {
+      this.onEvent('change', r, () => {
         this.makeChecked(r, false);
       });
     });
@@ -222,7 +222,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
-      this.on('keydown', r, (/** @type {any} */ e) => {
+      this.onEvent('keydown', r, (/** @type {any} */ e) => {
         const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
         const key = e.code;
         if (allow.indexOf(key) > -1) {

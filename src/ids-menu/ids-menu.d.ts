@@ -20,7 +20,6 @@ type IdsMenuTarget = {
   trigger: string
 }
 
-// Main export
 export default class IdsMenu extends IdsElement {
   /* references all available menu groups */
   readonly groups: Array<IdsMenuGroup>;

@@ -16,7 +16,6 @@ export {
   IdsSeparator
 };
 
-// Main export
 export default class IdsPopupMenu extends IdsMenu {
   /* references this menu's parent menu component, if this menu is a submenu */
   readonly parentMenu: IdsPopupMenu | undefined;
@@ -38,8 +37,4 @@ export default class IdsPopupMenu extends IdsMenu {
 
   /* hides all submenus, ignoring submenus attached to the specified menu item */
   hideSubmenus(focusedMenuItem?: IdsMenuItem): void;
-
-  // @TODO Don't use these -- they are private (need them here for now)
-  /* */
-  connectedCallback(): void;
 }

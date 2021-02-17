@@ -54,7 +54,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
   handleEvents() {
     this.timeout = null;
 
-    this.on('scroll', this.container, (/** @type {any} */ e) => {
+    this.onEvent('scroll', this.container, (/** @type {any} */ e) => {
       this.handleScroll(e);
     }, { passive: true });
 
@@ -116,7 +116,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
     }
     /** @type {any} */
     const elem = this;
-    this.trigger('afterrendered', elem, { detail: { elem: this, startIndex, endIndex } });
+    this.triggerEvent('afterrendered', elem, { detail: { elem: this, startIndex, endIndex } });
   }
 
   /**
@@ -321,7 +321,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
     if (value) {
       this.eventTarget = value;
       /* istanbul ignore next */
-      this.on('scroll', this.eventTarget, (/** @type {any} */ e) => {
+      this.onEvent('scroll', this.eventTarget, (/** @type {any} */ e) => {
         this.handleScroll(e);
       }, { passive: true });
     }

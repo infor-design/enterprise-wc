@@ -214,8 +214,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.detachAllEvents();
 
     // Add a sort Handler
-    // @ts-ignore
-    this.on('click', sortableColumns, (/** @type {any} */ e) => {
+    this.onEvent('click', sortableColumns, (/** @type {any} */ e) => {
       const header = e.target.closest('.is-sortable');
 
       if (header) {
@@ -224,7 +223,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     });
 
     // Add a cell click handler
-    this.on('click', this.shadowRoot.querySelector('.ids-data-grid-body'), (/** @type {any} */ e) => {
+    this.onEvent('click', this.shadowRoot.querySelector('.ids-data-grid-body'), (/** @type {any} */ e) => {
       const cell = e.target.closest('.ids-data-grid-cell');
       const row = cell.parentNode;
       // TODO Handle Hidden Cells
@@ -238,9 +237,6 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @returns {object} This API object for chaining
    */
   handleKeys() {
-    if (this.keyboard) {
-      this.destroyAllKeyBoard();
-    }
     // Handle arrow navigation
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (/** @type {any} */ e) => {
       const key = e.key;
@@ -309,7 +305,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.datasource.sort(id, ascending, null);
     this.rerender();
     this.setSortState(id, ascending);
-    this.trigger('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
+    this.triggerEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
   }
 
   /**
@@ -480,7 +476,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     // @ts-ignore
     cellNode.focus();
 
-    this.trigger('activecellchanged', this, { detail: { elem: this, activeCell: this.activeCell } });
+    this.triggerEvent('activecellchanged', this, { detail: { elem: this, activeCell: this.activeCell } });
     return this.activeCell;
   }
 }

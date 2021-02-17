@@ -120,7 +120,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin) {
     /** @type {any} */
     const button = this.querySelector('ids-trigger-button');
     if (button) {
-      this.on('click', button, () => this.trigger());
+      this.onEvent('click', button, () => this.trigger());
     }
 
     return this;
@@ -134,13 +134,13 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin) {
     const response = (/** @type {any} */ veto) => {
       canTrigger = !!veto;
     };
-    this.off('beforetriggerclicked', this, { detail: { elem: this, response } });
+    this.triggerEvent('beforetriggerclicked', this, { detail: { elem: this, response } });
 
     if (!canTrigger) {
       return;
     }
 
-    this.off('triggerclicked', this, { detail: { elem: this } });
+    this.triggerEvent('triggerclicked', this, { detail: { elem: this } });
   }
 }
 

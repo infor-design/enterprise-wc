@@ -7,7 +7,6 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 
 // @ts-ignore
 import styles from './ids-expandable-area.scss';
@@ -25,11 +24,10 @@ const EXPANDABLE_AREA_TYPES = [
  */
 @customElement('ids-expandable-area')
 @scss(styles)
-class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
     this.state = {};
-    this.keyboard = new IdsKeyboardMixin();
   }
 
   connectedCallback() {
@@ -155,11 +153,11 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    * @returns {void}
    */
   handleEvents() {
-    this.on('click', this.expander, () => {
+    this.onEvent('click', this.expander, () => {
       this.setAttributes();
     });
 
-    this.on('touchstart', this.expander, (e) => {
+    this.onEvent('touchstart', this.expander, (e) => {
       /* istanbul ignore next */
       if (e.touches && e.touches.length > 0) {
         this.setAttributes();

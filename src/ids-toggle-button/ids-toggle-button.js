@@ -18,7 +18,7 @@ const DEFAULT_ICON_ON = 'star-filled';
 /**
  * IDS Toggle Button Component
  * @type {IdsToggleButton}
- * @inherits IdsElement
+ * @inherits IdsButton
  */
 @customElement('ids-toggle-button')
 @scss(styles)

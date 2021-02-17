@@ -6,6 +6,10 @@ import IdsRenderLoopItem from './ids-render-loop-item';
 /** @type {any} */
 let rl = null;
 const IdsRenderLoopMixin = (superclass) => class extends superclass {
+  constructor() {
+    super();
+  }
+
   /**
    * Provides access to a global `requestAnimationFrame` loop, configured to run a queue of
    * callback methods on each tick.

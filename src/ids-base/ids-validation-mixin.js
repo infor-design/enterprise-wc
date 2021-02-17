@@ -93,7 +93,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
           this.removeMessage(thisRule.rule);
         }
       });
-      this.trigger('validated', this, { detail: { elem: this, value: this.value, isValid } });
+      this.triggerEvent('validated', this, { detail: { elem: this, value: this.value, isValid } });
     }
   }
 
@@ -188,10 +188,10 @@ const IdsValidationMixin = (superclass) => class extends superclass {
         if (option === 'remove') {
           const handler = this?.handledEvents?.get(eventName);
           if (handler && handler.target === this.input) {
-            this.off(eventName, this.input);
+            this.offEvent(eventName, this.input);
           }
         } else {
-          this.on(eventName, this.input, () => {
+          this.onEvent(eventName, this.input, () => {
             this.checkValidation();
           });
         }

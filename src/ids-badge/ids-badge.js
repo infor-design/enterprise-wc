@@ -1,7 +1,8 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  props
 } from '../ids-base/ids-element';
 // @ts-ignore
 import styles from './ids-badge.scss';
@@ -23,7 +24,7 @@ class IdsBadge extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['color', 'shape'];
+    return [props.COLOR, props.SHAPE];
   }
 
   /**
@@ -37,7 +38,7 @@ class IdsBadge extends IdsElement {
   }
 
   /**
-   * Return the badge shape
+   * Return the badge shape between normal and round
    * @returns {string} The path data
    */
   get shape() { return this.getAttribute('shape') || 'normal'; }
@@ -52,6 +53,7 @@ class IdsBadge extends IdsElement {
     } else {
       this.removeAttribute('shape');
     }
+    this.container.setAttribute('class', `ids-badge ${this.shape}`);
   }
 
   /**

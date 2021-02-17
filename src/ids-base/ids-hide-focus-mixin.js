@@ -40,7 +40,7 @@ const IdsHideFocusMixin = (superclass) => class extends superclass {
       elem.classList[action]('hide-focus');
 
       if (!noTrigger) {
-        this.trigger(`hidefocus${action}`, this, { elem, action });
+        this.triggerEvent(`hidefocus${action}`, this, { elem, action });
       }
     }
   }
@@ -57,10 +57,10 @@ const IdsHideFocusMixin = (superclass) => class extends superclass {
       if (option === 'remove') {
         const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.off(eventName, this.input);
+          this.offEvent(eventName, this.input);
         }
       } else {
-        this.on(eventName, this.input, () => {
+        this.onEvent(eventName, this.input, () => {
           if (!this.isClick && !this.isFocused && !this.labelClicked) {
             this.hidefocusToggle(this.input, true);
           }
@@ -84,10 +84,10 @@ const IdsHideFocusMixin = (superclass) => class extends superclass {
       if (option === 'remove') {
         const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.off(eventName, this.input);
+          this.offEvent(eventName, this.input);
         }
       } else {
-        this.on(eventName, this.input, () => {
+        this.onEvent(eventName, this.input, () => {
           this.hidefocusToggle(this.input);
           this.isClick = false;
           this.isFocused = false;
@@ -133,10 +133,10 @@ const IdsHideFocusMixin = (superclass) => class extends superclass {
           if (option === 'remove') {
             const handler = this?.handledEvents?.get(eventName);
             if (handler && handler.target === el) {
-              this.off(eventName, el);
+              this.offEvent(eventName, el);
             }
           } else {
-            this.on(eventName, el, () => {
+            this.onEvent(eventName, el, () => {
               this.hidefocusHandleMousedown();
               if (this.radioCheckbox) {
                 const rootEl = this.shadowRoot.querySelector('.ids-radio');

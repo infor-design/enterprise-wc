@@ -25,7 +25,6 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
   constructor() {
     super();
     this.state = {};
-    this.keyboard = new IdsKeyboardMixin();
   }
 
   connectedCallback() {
@@ -41,7 +40,8 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
   }
 
   /**
-   * Create a unique title for each accordion pane.
+   * Create a unique title for each accordion pane
+   * @private
    */
   setTitles() {
     const identifier = Math.floor(10000 + Math.random() * 90000);
@@ -138,7 +138,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    * @returns {void}
    */
   handleEvents() {
-    this.on('click', this.expander, () => {
+    this.onEvent('click', this.expander, () => {
       this.setAttributes();
     });
 
@@ -158,7 +158,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
       this.select(this.getPrevPanel(this));
     });
 
-    this.on('touchstart', this.expander, (e) => {
+    this.onEvent('touchstart', this.expander, (e) => {
       /* istanbul ignore next */
       if (e.touches && e.touches.length > 0) {
         this.setAttributes();

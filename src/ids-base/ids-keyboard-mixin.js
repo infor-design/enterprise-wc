@@ -6,32 +6,29 @@
 const IdsKeyboardMixin = (superclass) => class extends superclass {
   constructor() {
     super();
-    this.init(this);
+    this.init();
   }
 
   /**
    * Initializes the keyboard management system with the current object
-   * @param {object} elem the element for linkage
    * @private
    */
-  init(elem) {
+  init() {
     /** @type {Map | any} */
     this.hotkeys = new Map();
     /** @type {Map | any} */
     this.pressedKeys = new Map();
 
-    this.element = elem;
-
     this.keyDownHandler = (/** @type {any} */ e) => {
       this.press(e.key);
       this.dispatchHotkeys(e);
     };
-    this.element.on('keydown', this.element, this.keyDownHandler);
+    this.onEvent('keydown', this, this.keyDownHandler);
 
     this.keyUpHandler = (/** @type {any} */ e) => {
       this.unpress(e.key);
     };
-    this.element.on('keyup', this.element, this.keyUpHandler);
+    this.onEvent('keyup', this, this.keyUpHandler);
   }
 
   /**
@@ -51,8 +48,8 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * @param {Function} callback The call back when this combination is met
    */
   listen(keycode, elem, callback) {
-    if (!this.element) {
-      this.init(elem);
+    if (!this.hotkeys) {
+      this.init();
     }
 
     this.hotkeys.set(`${keycode}`, callback);
@@ -86,15 +83,17 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * Remove all handlers and clear memory
    */
   detachAllKeyboard() {
-    if (!this.element) {
+    if (!this.off) {
       return;
     }
-
-    this.element.off('keydown', this.element, this.keyDownHandler);
-    this.element.off('keyup', this.element, this.keyUpHandler);
-    delete this.keyDownHandler;
-    delete this.keyUpHandler;
-    delete this.element;
+    if (this.keyDownHandler) {
+      this.offEvent('keydown', this, this.keyDownHandler);
+      delete this.keyDownHandler;
+    }
+    if (this.keyUpHandler) {
+      this.offEvent('keyup', this, this.keyUpHandler);
+      delete this.keyUpHandler;
+    }
   }
 };
 

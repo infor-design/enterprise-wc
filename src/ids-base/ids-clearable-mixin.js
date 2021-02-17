@@ -76,7 +76,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
       this.input.dispatchEvent(new Event('change'));
       this.input.focus();
       this.checkContents();
-      this.trigger('cleared', this, { detail: { elem: this, value: this.value } });
+      this.triggerEvent('cleared', this, { detail: { elem: this, value: this.value } });
     }
   }
 
@@ -94,7 +94,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
       } else {
         xButton.classList.remove('is-empty');
       }
-      this.trigger('contents-checked', this, { detail: { elem: this, value: this.value } });
+      this.triggerEvent('contents-checked', this, { detail: { elem: this, value: this.value } });
     }
   }
 
@@ -142,10 +142,10 @@ const IdsClearableMixin = (superclass) => class extends superclass {
         const handler = this?.handledEvents?.get(eventName);
         /* istanbul ignore next */
         if (handler && handler.target === xButton) {
-          this.off(eventName, xButton);
+          this.offEvent(eventName, xButton);
         }
       } else {
-        this.on(eventName, xButton, () => {
+        this.onEvent(eventName, xButton, () => {
           this.clear();
         });
       }
@@ -167,10 +167,10 @@ const IdsClearableMixin = (superclass) => class extends superclass {
       if (option === 'remove') {
         const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === input) {
-          this.off(eventName, input);
+          this.offEvent(eventName, input);
         }
       } else {
-        this.on(eventName, input, () => {
+        this.onEvent(eventName, input, () => {
           this.checkContents();
         });
       }

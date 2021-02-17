@@ -3,7 +3,6 @@
  */
 import IdsTag from '../../src/ids-tag/ids-tag';
 import { IdsElement } from '../../src/ids-base/ids-element';
-import { IdsExampleMixin as exampleMixin } from '../../src/ids-base/ids-example-mixin';
 
 describe('IdsBase Tests', () => {
   afterEach(async () => {
@@ -32,10 +31,5 @@ describe('IdsBase Tests', () => {
     elem.cssStyles = `::host {}`;
     elem.render();
     expect(elem.shadowRoot.querySelector('style').textContent).toEqual('.ids-tag { background-color: transparent; }');
-  });
-
-  it('can call events in a mixin', () => {
-    expect(exampleMixin.prop1).toEqual('test');
-    expect(exampleMixin.methodOne()).toEqual('test');
   });
 });

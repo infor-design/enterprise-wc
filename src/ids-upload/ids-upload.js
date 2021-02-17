@@ -147,7 +147,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
      * @param  {object} elem Actual event
      * @param  {string} value The updated input element value
      */
-    this.trigger('change', this, {
+    this.triggerEvent('change', this, {
       detail: {
         files: this.fileInput.files,
         textValue: this.value,
@@ -163,7 +163,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   handleWindowFocusEvent() {
-    this.on('focus', window, () => {
+    this.onEvent('focus', window, () => {
       if (this.isFilePickerOpened) {
         this.isFilePickerOpened = false;
         // Need timeout because `focus` get before the `files` on fileInput
@@ -171,7 +171,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
         setTimeout(() => {
           const files = this.fileInput.files;
           const eventName = `files${files.length ? 'select' : 'cancel'}`;
-          this.trigger(eventName, this.fileInput, {
+          this.triggerEvent(eventName, this.fileInput, {
             detail: { files, elem: this }
           });
         }, 20);
@@ -185,7 +185,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   handleFileInputChangeEvent() {
-    this.on('change', this.fileInput, (/** @type {any} */ e) => {
+    this.onEvent('change', this.fileInput, (/** @type {any} */ e) => {
       const files = this.fileInput.files;
       /* istanbul ignore next */
       // @ts-ignore
@@ -200,7 +200,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   handleFileInputCancelEvent() {
-    this.on('filescancel', this.fileInput, () => {
+    this.onEvent('filescancel', this.fileInput, () => {
       this.textInput.input?.dispatchEvent(new Event('blur', { bubbles: true }));
     });
   }
@@ -212,13 +212,13 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
    */
   handleTextInputDragDrop() {
     if (this.hasAccess) {
-      this.on('dragenter', this.textInput, () => {
+      this.onEvent('dragenter', this.textInput, () => {
         this.fileInput.style.zIndex = '1';
       });
 
       const events = ['dragleave', 'dragend', 'drop'];
       events.forEach((eventName) => {
-        this.on(eventName, this.textInput, () => {
+        this.onEvent(eventName, this.textInput, () => {
           setTimeout(() => {
             this.fileInput.style.zIndex = '';
           }, 1);
@@ -233,7 +233,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   handleTextInputKeydown() {
-    this.on('keydown', this.textInput, (/** @type {any} */ e) => {
+    this.onEvent('keydown', this.textInput, (/** @type {any} */ e) => {
       const allow = ['Backspace', 'Enter', 'Space'];
       const key = e.code;
       if (allow.indexOf(key) > -1) {
@@ -254,7 +254,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   handleTriggerClickEvent() {
-    this.on('click', this.trigger, () => {
+    this.onEvent('click', this.trigger, () => {
       this.open();
     });
   }
@@ -265,7 +265,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   handleInputClearedEvent() {
-    this.on('cleared', this.textInput, (/** @type {any} */ e) => {
+    this.onEvent('cleared', this.textInput, (/** @type {any} */ e) => {
       this.clear();
       this.dispatchChangeEvent(e);
     });

@@ -1,5 +1,6 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
+import { IdsElement } from '../ids-base/ids-element';
 
 interface sorted extends Event {
   detail: {
@@ -21,7 +22,8 @@ interface activecellchanged extends Event {
     }
   }
 }
-export default class IdsDataGrid extends HTMLElement {
+
+export default class IdsDataGrid extends IdsElement {
   /** Set the data array of the datagrid * */
   data: Array<unknown>;
 

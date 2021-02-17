@@ -18,7 +18,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {Function|any} callback The callback code to execute
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
-  on(eventName, target, callback, options) {
+  onEvent(eventName, target, callback, options) {
     target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
@@ -29,7 +29,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
-  off(eventName, target, options) {
+  offEvent(eventName, target, options) {
     const handler = this.handledEvents.get(eventName);
     target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
     this.handledEvents.delete(eventName);
@@ -41,7 +41,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {HTMLElement} target The DOM element to register
    * @param {object} [options] The custom data to send
    */
-  trigger(eventName, target, options = {}) {
+  triggerEvent(eventName, target, options = {}) {
     const event = new CustomEvent(eventName.split('.')[0], options);
     target.dispatchEvent(event);
   }

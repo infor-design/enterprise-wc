@@ -196,7 +196,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
     let y;
     let preceededByTouchstart = false;
 
-    this.on('click.ripple', this.button, (/** @type {any} */ e) => {
+    this.onEvent('click.ripple', this.button, (/** @type {any} */ e) => {
       if (preceededByTouchstart) {
         preceededByTouchstart = false;
         return;
@@ -206,7 +206,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
       this.createRipple(x, y);
     });
 
-    this.on('touchstart.ripple', this.button, (/** @type {any} */ e) => {
+    this.onEvent('touchstart.ripple', this.button, (/** @type {any} */ e) => {
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
         x = touch.clientX !== 0 ? touch.clientX : undefined;

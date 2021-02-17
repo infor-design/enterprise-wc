@@ -207,7 +207,7 @@ describe('IdsPopupMenu Component', () => {
     });
     menu.show();
 
-    expect(menu.hidden).toBeTruthy();
+    expect(menu.hidden).toBeFalsy();
   });
 
   it('listens for `selected` event from menu items', (done) => {
@@ -238,7 +238,7 @@ describe('IdsPopupMenu Component', () => {
 
   it('focuses the menu\'s `focusTarget` when the menu is shown', (done) => {
     item1.focus();
-    menu.eventHandlers.dispatchEvent('show', menu.popup, { bubbles: true });
+    menu.triggerEvent('show', menu.popup, { bubbles: true });
 
     setTimeout(() => {
       expect(menu.focused.isEqualNode(item1)).toBeTruthy();

@@ -209,7 +209,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     // On 'mouseenter', after a specified duration, run some events,
     // including activation of submenus where applicable.
     /* istanbul ignore next */
-    this.on('mouseenter', this, () => {
+    this.onEvent('mouseenter', this, () => {
       clearHideSubmenuTimeout();
       if (!this.disabled && this.hasSubmenu) {
         clearHoverTimeout();
@@ -241,7 +241,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
     // and unhighlight the item
     /* istanbul ignore next */
-    this.on('mouseleave', this, () => {
+    this.onEvent('mouseleave', this, () => {
       clearHoverTimeout();
 
       if (this.hasSubmenu && !this.submenu.hidden) {
@@ -267,7 +267,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     });
 
     // When any of this item's slots change, refresh the visual state of the item
-    this.on('slotchange', this.container, () => {
+    this.onEvent('slotchange', this.container, () => {
       this.refresh();
     });
   }
@@ -555,7 +555,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     const beforeSelectResponse = (/** @type {any} */ veto) => {
       canSelect = !!veto;
     };
-    this.trigger(beforeEventName, this, {
+    this.triggerEvent(beforeEventName, this, {
       detail: {
         elem: this,
         response: beforeSelectResponse
@@ -584,7 +584,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     }
 
     // Build/Fire a `selected` event for performing other actions.
-    this.trigger(duringEventName, this, {
+    this.triggerEvent(duringEventName, this, {
       bubbles: true,
       detail: {
         elem: this,

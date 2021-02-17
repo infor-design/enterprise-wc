@@ -26,6 +26,7 @@ import styles from './ids-menu.scss';
  */
 function isValidGroup(menuGroup, idsMenu) {
   let hasGroup;
+  // @ts-ignore
   const isElem = menuGroup instanceof IdsMenuGroup;
   idsMenu.groups.forEach((group) => {
     if ((isElem && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {
@@ -42,6 +43,7 @@ function isValidGroup(menuGroup, idsMenu) {
  * @returns {boolean} true if the provided element is a "currently-usable" IdsMenuItem type.
  */
 function isUsableItem(item, idsMenu) {
+  // @ts-ignore
   const isItem = item instanceof IdsMenuItem;
   const menuHasItem = idsMenu.contains(item);
   return (isItem && menuHasItem && !item.disabled);
@@ -49,7 +51,7 @@ function isUsableItem(item, idsMenu) {
 
 /**
  * IDS Menu Component
- * @type {IdsMenu}
+ * @type {IdsMenu|any}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
@@ -85,7 +87,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     // Highlight the item on click
     // If the item doesn't contain a submenu, select it.
     // If the item does have a submenu, activate it.
-    this.on('click', this, (/** @type {any} */ e) => {
+    this.onEvent('click', this, (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.highlightItem(thisItem);
       this.selectItem(thisItem);
@@ -94,8 +96,8 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     });
 
     // Focus in/out causes highlight to change
-    this.on('focusin', this, highlightItem);
-    this.on('focusout', this, unhighlightItem);
+    this.onEvent('focusin', this, highlightItem);
+    this.onEvent('focusout', this, unhighlightItem);
   }
 
   /**
@@ -118,7 +120,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     });
 
     // Enter/Spacebar select the menu item
-    this.keyboard.listen(['Enter', 'Spacebar', ' '], this, (/** @type {any} */ e) => {
+    this.listen(['Enter', 'Spacebar', ' '], this, (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.selectItem(thisItem);
       this.lastNavigated = thisItem;

@@ -153,7 +153,7 @@ describe('IdsTag Component', () => {
   it('can be clickable', () => {
     tag.clickable = true;
     const mockHandler = jest.fn();
-    tag.keyboard.listen('Enter', tag, mockHandler);
+    tag.listen('Enter', tag, mockHandler);
 
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     tag.dispatchEvent(event);

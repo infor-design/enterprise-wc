@@ -69,10 +69,10 @@ const TEXT_ALIGN = {
 @customElement('ids-input')
 @scss(styles)
 class IdsInput extends mix(IdsElement).with(
+    IdsEventsMixin,
     IdsClearableMixin,
     IdsKeyboardMixin,
     IdsDirtyTrackerMixin,
-    IdsEventsMixin,
     IdsValidationMixin
   ) {
   /**
@@ -213,10 +213,10 @@ class IdsInput extends mix(IdsElement).with(
       if (option === 'remove') {
         const handler = this.handledEvents?.get(eventName);
         if (handler && handler.target === input) {
-          this.off(eventName, input);
+          this.offEvent(eventName, input);
         }
       } else {
-        this.on(eventName, input, () => {
+        this.onEvent(eventName, input, () => {
           input.select();
         });
       }
@@ -235,10 +235,10 @@ class IdsInput extends mix(IdsElement).with(
       if (option === 'remove') {
         const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.off(eventName, this.input);
+          this.offEvent(eventName, this.input);
         }
       } else {
-        this.on(eventName, this.input, () => {
+        this.onEvent(eventName, this.input, () => {
           this.value = this.input.value;
         });
       }
@@ -258,10 +258,10 @@ class IdsInput extends mix(IdsElement).with(
         if (option === 'remove') {
           const handler = this?.handledEvents?.get(evt);
           if (handler && handler.target === this.input) {
-            this.off(evt, this.input);
+            this.offEvent(evt, this.input);
           }
         } else {
-          this.on(evt, this.input, (/** @type {any} */ e) => {
+          this.onEvent(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire nativeEvents.
@@ -269,7 +269,7 @@ class IdsInput extends mix(IdsElement).with(
              * @param  {object} elem Actual event
              * @param  {string} value The updated input element value
              */
-            this.triggr(e.type, this, {
+            this.triggerEvent(e.type, this, {
               detail: {
                 elem: this,
                 nativeEvent: e,

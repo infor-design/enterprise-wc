@@ -19,8 +19,8 @@ describe('IdsEventsMixin Tests', () => {
 
   it('can dispatchEvents', () => {
     const mockHandler = jest.fn();
-    elem.addEventListener('customtest', mockHandler);
-    elem.events.dispatchEvent('customtest', elem);
+    elem.onEvent('customtest', mockHandler);
+    elem.triggerEvent('customtest', elem);
     expect(mockHandler.mock.calls.length).toBe(1);
   });
 
@@ -28,15 +28,15 @@ describe('IdsEventsMixin Tests', () => {
     const mockHandlerNormal = jest.fn();
     const mockHandlerNS = jest.fn();
 
-    elem.events.addEventListener('click', elem, mockHandlerNormal);
-    elem.events.addEventListener('click.doop', elem, mockHandlerNS);
-    elem.events.dispatchEvent('click', elem);
+    elem.onEvent('click', elem, mockHandlerNormal);
+    elem.onEvent('click.doop', elem, mockHandlerNS);
+    elem.triggerEvent('click', elem);
 
     expect(mockHandlerNormal.mock.calls.length).toBe(1);
     expect(mockHandlerNS.mock.calls.length).toBe(1);
 
-    elem.events.removeEventListener('click.doop', elem);
-    elem.events.dispatchEvent('click', elem);
+    elem.removeEventListener('click.doop', elem);
+    elem.triggerEvent('click', elem);
 
     expect(mockHandlerNormal.mock.calls.length).toBe(2);
     expect(mockHandlerNS.mock.calls.length).toBe(1);

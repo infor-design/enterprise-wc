@@ -10,7 +10,6 @@ describe('IdsKeyboardMixin Tests', () => {
   beforeEach(async () => {
     elem = new IdsTag();
     document.body.appendChild(elem);
-    elem.keyboard = new IdsKeyboardMixin();
   });
 
   afterEach(async () => {
@@ -19,7 +18,7 @@ describe('IdsKeyboardMixin Tests', () => {
 
   it('can watch for single hot keys', () => {
     const mockHandler = jest.fn();
-    elem.keyboard.listen('Enter', elem, mockHandler);
+    elem.listen('Enter', elem, mockHandler);
 
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     elem.dispatchEvent(event);
@@ -29,7 +28,7 @@ describe('IdsKeyboardMixin Tests', () => {
 
   it('can will not fire if not watching', () => {
     const mockHandler = jest.fn();
-    elem.keyboard.listen('Enter', elem, mockHandler);
+    elem.listen('Enter', elem, mockHandler);
 
     const event = new KeyboardEvent('keydown', { key: 'Delete' });
     elem.dispatchEvent(event);
@@ -39,7 +38,7 @@ describe('IdsKeyboardMixin Tests', () => {
 
   it('can watch for multiple hot keys in the same event', () => {
     const mockHandler = jest.fn();
-    elem.keyboard.listen(['Delete', 'Backpace'], elem, mockHandler);
+    elem.listen(['Delete', 'Backpace'], elem, mockHandler);
 
     const event1 = new KeyboardEvent('keydown', { key: 'Delete' });
     elem.dispatchEvent(event1);
@@ -51,8 +50,8 @@ describe('IdsKeyboardMixin Tests', () => {
   });
 
   it('can watch for pressed keys', () => {
-    const mockHandler = jest.fn(() => elem.keyboard.pressedKeys);
-    elem.keyboard.listen('Delete', elem, mockHandler);
+    const mockHandler = jest.fn(() => elem.pressedKeys);
+    elem.listen('Delete', elem, mockHandler);
 
     const event1 = new KeyboardEvent('keydown', { key: 'Delete' });
     elem.dispatchEvent(event1);
@@ -63,37 +62,37 @@ describe('IdsKeyboardMixin Tests', () => {
 
   it('can release unpressed keys', () => {
     const mockHandler = jest.fn();
-    elem.keyboard.listen('', elem, mockHandler);
+    elem.listen('', elem, mockHandler);
 
     const event1 = new KeyboardEvent('keydown', { key: 'Delete' });
     elem.dispatchEvent(event1);
-    expect(elem.keyboard.pressedKeys.size).toEqual(1);
-    expect(elem.keyboard.pressedKeys.get('Delete')).toEqual(true);
+    expect(elem.pressedKeys.size).toEqual(1);
+    expect(elem.pressedKeys.get('Delete')).toEqual(true);
 
     const event2 = new KeyboardEvent('keyup', { key: 'Delete' });
     elem.dispatchEvent(event2);
 
-    expect(elem.keyboard.pressedKeys.size).toEqual(0);
-    expect(elem.keyboard.pressedKeys.get('Delete')).toEqual(undefined);
+    expect(elem.pressedKeys.size).toEqual(0);
+    expect(elem.pressedKeys.get('Delete')).toEqual(undefined);
   });
 
   it('can destroy', () => {
     const mockHandler = jest.fn();
-    elem.keyboard.listen(['Delete', 'Backpace'], elem, mockHandler);
-    expect(elem.keyboard.keyDownHandler).toBeTruthy();
-    expect(elem.keyboard.keyUpHandler).toBeTruthy();
+    elem.listen(['Delete', 'Backpace'], elem, mockHandler);
+    expect(elem.keyDownHandler).toBeTruthy();
+    expect(elem.keyUpHandler).toBeTruthy();
 
-    elem.keyboard.destroy();
+    elem.destroy();
 
-    expect(elem.keyboard.keyDownHandler).toBeFalsy();
-    expect(elem.keyboard.keyUpHandler).toBeFalsy();
+    expect(elem.keyDownHandler).toBeFalsy();
+    expect(elem.keyUpHandler).toBeFalsy();
   });
 
   it('can skip destroy if not setup', () => {
-    expect(elem.keyboard.element).toBeFalsy();
+    expect(elem).toBeFalsy();
 
-    elem.keyboard.destroy();
+    elem.detachA();
 
-    expect(elem.keyboard.element).toBeFalsy();
+    expect(elem).toBeFalsy();
   });
 });

@@ -659,7 +659,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
           this.placeArrow();
 
           // Always fire the 'show' event
-          this.trigger('show', this, {
+          this.triggerEvent('show', this, {
             bubbles: true,
             detail: {
               elem: this
@@ -683,7 +683,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
       timeoutCallback: () => {
         if (!this.isVisible) {
           // Always fire the 'hide' event
-          this.trigger('hide', this, {
+          this.triggerEvent('hide', this, {
             bubbles: true,
             detail: {
               elem: this
@@ -950,7 +950,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
    */
   handleEvents() {
     const slot = this.shadowRoot.querySelector('slot');
-    this.on('slotchange', slot, () => {
+    this.onEvent('slotchange', slot, () => {
       this.refresh();
     });
   }

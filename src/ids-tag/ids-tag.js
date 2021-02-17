@@ -2,7 +2,8 @@ import {
   IdsElement,
   customElement,
   scss,
-  mix
+  mix,
+  props
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
@@ -38,7 +39,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['color', 'clickable', 'dismissible'];
+    return [props.COLOR, props.CLICKABLE, props.DISMISSIBLE];
   }
 
   /**
@@ -63,6 +64,8 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
       if (value === 'error' || value === 'danger') {
         this.container.classList.add('ids-white');
+      } else {
+        this.container.classList.remove('ids-white');
       }
 
       if (value === 'secondary') {
@@ -155,12 +158,12 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
-      this.on('click', closeIcon, () => this.dismiss());
+      this.onEvent('click', closeIcon, () => this.dismiss());
     }
 
     // Ensure icon is always last
     let isChanging = false;
-    this.on('slotchange', this.shadowRoot.querySelector('slot'), () => {
+    this.onEvent('slotchange', this.shadowRoot.querySelector('slot'), () => {
       if (this.dismissible && !isChanging && this.lastElementChild.nodeName !== 'IDS-ICON') {
         isChanging = true;
         this.removeIcon('close');
@@ -205,14 +208,14 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     const response = (/** @type {boolean} */ veto) => {
       canDismiss = !!veto;
     };
-    this.trigger('beforetagremoved', this, { detail: { elem: this, response } });
+    this.triggerEvent('beforetagremoved', this, { detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
     this.remove();
-    this.trigger('aftertagremoved', this, { detail: { elem: this } });
+    this.triggerEvent('aftertagremoved', this, { detail: { elem: this } });
   }
 }
 

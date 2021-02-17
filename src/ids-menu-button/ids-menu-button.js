@@ -1,8 +1,8 @@
 import {
   customElement,
-  scss
+  scss,
+  props
 } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
 
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
@@ -23,11 +23,8 @@ const MENU_BUTTON_PROPS = [
 ];
 
 /**
- * IDS Menu Button Component
- * @type {IdsMenuButton}
- * @inherits IdsElement
+ * IDS Toggle Button Component
  */
-
 @customElement('ids-menu-button')
 @scss(styles)
 class IdsMenuButton extends IdsButton {
@@ -69,7 +66,7 @@ class IdsMenuButton extends IdsButton {
   }
 
   /**
-   * @param {string | undefined} val referencing an icon string name to use
+   * @param {string|undefined} val referencing an icon string name to use
    */
   set dropdownIcon(val) {
     const trueVal = domUtils.isTrueBooleanAttribute(val);
@@ -88,7 +85,7 @@ class IdsMenuButton extends IdsButton {
   }
 
   /**
-   * @returns {string | undefined} containing the type of icon being displayed as the Dropdown Icon
+   * @returns {string|undefined} containing the type of icon being displayed as the Dropdown Icon
    */
   get dropdownIcon() {
     return this.dropdownIconEl?.icon;
@@ -102,14 +99,14 @@ class IdsMenuButton extends IdsButton {
   }
 
   /**
-   * @returns {string | null} an ID selector string matching a menu
+   * @returns {string|null} an ID selector string matching a menu
    */
   get menu() {
     return this.getAttribute('menu');
   }
 
   /**
-   * @param {string | null} val an ID selector string
+   * @param {string|null} val an ID selector string
    */
   set menu(val) {
     this.setAttribute('menu', `${val}`);
@@ -142,12 +139,11 @@ class IdsMenuButton extends IdsButton {
     // Setup menu-specific event listeners, if they aren't already applied
 
     // @ts-ignore
-    const hasBeforeShow = this.eventHandlers?.handledEvents?.get('beforeshow');
-    // @ts-ignore
-    if (this.eventHandlers && !hasBeforeShow) {
+    const hasBeforeShow = this?.handledEvents?.get('beforeshow');
+    if (!hasBeforeShow) {
       // On the Popup Menu's `beforeshow` event, set the menu's size to the Menu Button's
       // @ts-ignore
-      this.eventHandlers.addEventListener('beforeshow', this.menuEl, () => {
+      this.onEvent('beforeshow', this.menuEl, () => {
         this.resizeMenu();
       });
     }

@@ -144,12 +144,12 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
           events.forEach((evt) => {
             const handler = this?.handledEvents?.get(evt);
             if (handler && handler.target === radio) {
-              this.off(evt, radio);
+              this.offEvent(evt, radio);
             }
           });
         } else {
           events.forEach((evt) => {
-            this.on(evt, radio, (/** @type {any} */ e) => {
+            this.onEvent(evt, radio, (/** @type {any} */ e) => {
               setTimeout(() => {
                 const icon = this.shadowRoot.querySelector('.icon-dirty');
                 const shouldRemove = e.type === 'hidefocusadd';
@@ -178,11 +178,11 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
       if (option === 'remove') {
         const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.off(eventName, this.input);
+          this.offEvent(eventName, this.input);
         }
         this.handleRadioGroupHidefocusClass('remove');
       } else {
-        this.on(eventName, this.input, () => {
+        this.onEvent(eventName, this.input, () => {
           const val = this.valMethod(this.input);
           this.setDirtyTracker(val);
         });

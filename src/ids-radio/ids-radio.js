@@ -114,10 +114,10 @@ class IdsRadio extends mix(IdsElement).with(IdsHideFocusMixin, IdsEventsMixin) {
       if (option === 'remove') {
         const handler = this.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.on(eventName, this.input);
+          this.onEvent(eventName, this.input);
         }
       } else {
-        this.on(eventName, this.input, () => {
+        this.onEvent(eventName, this.input, () => {
           this.checked = this.input.checked;
         });
       }
@@ -137,10 +137,10 @@ class IdsRadio extends mix(IdsElement).with(IdsHideFocusMixin, IdsEventsMixin) {
         if (option === 'remove') {
           const handler = this.handledEvents?.get(evt);
           if (handler && handler.target === this.input) {
-            this.off(evt, this.input);
+            this.offEvent(evt, this.input);
           }
         } else {
-          this.on(evt, this.input, (/** @type {any} */ e) => {
+          this.onEvent(evt, this.input, (/** @type {any} */ e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire nativeEvents.
@@ -148,7 +148,7 @@ class IdsRadio extends mix(IdsElement).with(IdsHideFocusMixin, IdsEventsMixin) {
              * @param  {object} elem Actual event
              * @param  {string} value The updated input element value
              */
-            this.trigger(e.type, this, {
+            this.triggerEvent(e.type, this, {
               elem: this,
               nativeEvent: e,
               value: this.value,

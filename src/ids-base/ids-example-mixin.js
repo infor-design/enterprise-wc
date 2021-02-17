@@ -8,8 +8,10 @@ const IdsExampleMixin = (superclass) => class extends superclass {
     super();
   }
 
-  example1() {
-    console.info('example1 from IdsExampleMixin');
+  prop1= 'test';
+
+  methodOne() {
+    console.info('methodOne from IdsExampleMixin');
   }
 };
 

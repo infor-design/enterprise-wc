@@ -1,8 +1,8 @@
 import {
   customElement,
-  props,
+  mix,
   scss,
-  mix
+  props
 } from '../ids-base/ids-element';
 
 import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-render-loop/ids-render-loop-mixin';
@@ -12,6 +12,7 @@ import IdsPopup from '../ids-popup/ids-popup';
 
 // @ts-ignore
 import styles from './ids-popup-menu.scss';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 const POPUPMENU_PROPERTIES = [
   props.TARGET,
@@ -32,7 +33,7 @@ const POPUPMENU_TRIGGER_TYPES = [
  */
 @customElement('ids-popup-menu')
 @scss(styles)
-class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin) {
+class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin) {
   constructor() {
     super();
     this.state.trigger = POPUPMENU_TRIGGER_TYPES[0];
@@ -99,7 +100,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin) {
     };
 
     // In some situations, hide the menu when an item is selected.
-    this.on('selected', this, (/** @type {any} */ e) => {
+    this.onEvent('selected', this, (/** @type {any} */ e) => {
       const item = e.detail.elem;
       if (!item.group.keepOpen) {
         this.hide();
@@ -107,7 +108,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin) {
     });
 
     // When the underlying Popup triggers it's "show" event, focus on the derived focusTarget.
-    this.on('show', this.container, doFocusHandler);
+    this.onEvent('show', this.container, doFocusHandler);
 
     // Set up all the events specifically-related to the "trigger" type
     this.refreshTriggerEvents();
@@ -122,7 +123,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin) {
     IdsMenu.prototype.handleKeys.apply(this);
 
     // Arrow Right on an item containing a submenu causes that submenu to open
-    this.keyboard.listen(['ArrowRight'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowRight'], this, (/** @type {any} */ e) => {
       e.preventDefault();
       e.stopPropagation();
       const thisItem = e.target.closest('ids-menu-item');
@@ -135,7 +136,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin) {
     // on a parent menu item to occur.
     // NOTE: This will never occur on a top-level Popupmenu.
     if (this.parentMenu) {
-      this.keyboard.listen(['ArrowLeft'], this, (/** @type {any} */ e) => {
+      this.listen(['ArrowLeft'], this, (/** @type {any} */ e) => {
         e.preventDefault();
         e.stopPropagation();
         this.hide();
@@ -146,7 +147,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin) {
     // Escape closes the menu
     // (NOTE: This only applies to top-level Popupmenus)
     if (!this.parentMenu) {
-      this.keyboard.listen(['Escape'], this, (/** @type {any} */ e) => {
+      this.listen(['Escape'], this, (/** @type {any} */ e) => {
         if (this.hidden) {
           return;
         }
@@ -212,9 +213,9 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin) {
     // Remove any pre-existing trigger events
     const removeEventTargets = ['contextmenu.trigger', 'click.trigger'];
     removeEventTargets.forEach((eventName) => {
-      const evt = this.eventHandlers.handledEvents.get(eventName);
+      const evt = this.handledEvents.get(eventName);
       if (evt) {
-        this.eventHandlers.removeAll(eventName);
+        this.detachAllEvents(eventName);
       }
     });
 
@@ -226,7 +227,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin) {
       break;
     case 'click':
       // Open/Close the menu when the trigger element is clicked
-      this.eventHandlers.addEventListener('click.trigger', targetElem, (/** @type {any} */e) => {
+      this.onEvent('click.trigger', targetElem, (/** @type {any} */e) => {
         e.preventDefault();
         if (this.hidden) {
           this.popup.align = 'bottom, left';
@@ -247,7 +248,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin) {
       }
 
       // Attach a contextmenu handler to the target element for opening the popup
-      this.eventHandlers.addEventListener('contextmenu.trigger', targetElem, (/** @type {any} */e) => {
+      this.onEvent('contextmenu.trigger', targetElem, (/** @type {any} */e) => {
         e.preventDefault();
         e.stopPropagation();
         this.popup.x = e.pageX;
@@ -256,6 +257,88 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin) {
       });
       break;
     }
+  }
+
+  /**
+   * Attaches some events when the Popupmenu is opened.
+   * @private
+   * @returns {void}
+   */
+  addOpenEvents() {
+    // Attach all these events on a Renderloop-staggered timeout
+    // @ts-ignore
+    this.rl.register(new IdsRenderLoopItem({
+      duration: 1,
+      timeoutCallback: () => {
+        // Attach a click handler to the window for detecting clicks outside the popup.
+        // If these aren't captured by a popup, the menu will close.
+        this.onEvent('click.toplevel', window, () => {
+          this.hide();
+        });
+        this.hasOpenEvents = true;
+      }
+    }));
+  }
+
+  /**
+   * Detaches some events when the Popupmenu is closed.
+   * @private
+   * @returns {void}
+   */
+  removeOpenEvents() {
+    if (!this.hasOpenEvents) {
+      return;
+    }
+    // @ts-ignore
+    this.offEvent('click.toplevel', window);
+    this.hasOpenEvents = false;
+  }
+
+  /**
+   * Hides this menu and any of its submenus.
+   * @returns {void}
+   */
+  hide() {
+    this.hidden = true;
+    this.popup.querySelector('nav')?.removeAttribute('role');
+    this.lastHovered = undefined;
+
+    // Hide the Ids Popup and all Submenus
+    this.popup.visible = false;
+    this.hideSubmenus();
+    this.removeOpenEvents();
+  }
+
+  /**
+   * @returns {void}
+   */
+  show() {
+    // Trigger a veto-able `beforeshow` event.
+    let canShow = true;
+    const beforeShowResponse = (/** @type {any} */ veto) => {
+      canShow = !!veto;
+    };
+    // @ts-ignore
+    this.triggerEvent('beforeshow', this, {
+      detail: {
+        elem: this,
+        response: beforeShowResponse
+      }
+    });
+    if (!canShow) {
+      return;
+    }
+
+    this.hidden = false;
+    this.popup.querySelector('nav')?.setAttribute('role', 'menu');
+
+    // Hide any "open" submenus (in the event the menu is already open and being positioned)
+    this.hideSubmenus();
+
+    // Show this popup
+    this.popup.visible = true;
+
+    this.addOpenEvents();
   }
 
   /**
