@@ -39,7 +39,7 @@ class IdsBlockgrid extends IdsElement {
   set align(value) {
     if (value) {
       this.setAttribute(props.ALIGN, value);
-      this.style.textAlign = `${value}`;
+      this.style.textAlign = value === 'centered' ? 'center' : `${value}`;
     } else {
       this.removeAttribute(props.ALIGN);
       this.style.removeProperty('text-align');

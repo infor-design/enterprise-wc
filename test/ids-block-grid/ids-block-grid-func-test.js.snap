@@ -2,6 +2,6 @@
 
 exports[`IdsBlockgrid Component renders correctly 1`] = `"<ids-block-grid align=\\"left\\" style=\\"text-align: left;\\"><ids-block-grid-item></ids-block-grid-item></ids-block-grid>"`;
 
-exports[`IdsBlockgrid Component renders correctly 2`] = `"<ids-block-grid align=\\"center\\" style=\\"text-align: center;\\"><ids-block-grid-item></ids-block-grid-item></ids-block-grid>"`;
+exports[`IdsBlockgrid Component renders correctly 2`] = `"<ids-block-grid align=\\"centered\\" style=\\"text-align: center;\\"><ids-block-grid-item></ids-block-grid-item></ids-block-grid>"`;
 
 exports[`IdsBlockgrid Component renders correctly 3`] = `"<ids-block-grid align=\\"right\\" style=\\"text-align: right;\\"><ids-block-grid-item></ids-block-grid-item></ids-block-grid>"`;

@@ -8,11 +8,13 @@ ids-block-grid-item {
 }
 
 :host {
-  @include block();
   @include m-0();
 
-  max-width: 100%;
-  text-align: left;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
 }
 
 :host(.ids-align-center) {
@@ -31,9 +33,6 @@ ids-block-grid-item {
   @include align-top();
   @include relative();
 
-  display: inline-block;
-  margin: 20px 0 0 20px;
-  padding-bottom: 10px;
-  padding-top: 10px;
+  padding: 10px 15px;
   width: 200px;
 }

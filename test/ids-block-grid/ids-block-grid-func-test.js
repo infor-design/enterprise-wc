@@ -38,25 +38,25 @@ describe('IdsBlockgrid Component', () => {
   it('renders correctly', () => {
     blockgridEl.align = 'left';
     expect(blockgridEl.outerHTML).toMatchSnapshot();
-    blockgridEl.align = 'center';
+    blockgridEl.align = 'centered';
     expect(blockgridEl.outerHTML).toMatchSnapshot();
     blockgridEl.align = 'right';
     expect(blockgridEl.outerHTML).toMatchSnapshot();
   });
 
   it('renders align setting', () => {
-    blockgridEl.align = 'left';
-    expect(blockgridEl.align).toEqual('left');
-    expect(blockgridEl.getAttribute('align')).toEqual('left');
+    blockgridEl.align = 'centered';
+    expect(blockgridEl.align).toEqual('centered');
+    expect(blockgridEl.getAttribute('align')).toEqual('centered');
   });
 
   it('renders blockgrid left correctly then removes it', () => {
     const elem = new IdsBlockgrid();
     document.body.appendChild(elem);
-    elem.align = 'left';
-    expect(elem.align).toEqual('left');
-    expect(elem.getAttribute('align')).toEqual('left');
-    expect(elem.style.textAlign).toEqual('left');
+    elem.align = 'centered';
+    expect(elem.align).toEqual('centered');
+    expect(elem.getAttribute('align')).toEqual('centered');
+    expect(elem.style.textAlign).toEqual('center');
 
     elem.removeAttribute('align');
     expect(elem.getAttribute('align')).toEqual(null);
