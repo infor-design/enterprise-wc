@@ -8,7 +8,7 @@ import IdsButton from '../../src/ids-button/ids-button';
 
 // Access the global RenderLoop instance.
 // When using the mixin on a real component, the `rl` property exists on the component instance.
-const renderLoop = new IdsRenderLoop();
+import renderLoop from '../../src/ids-render-loop/ids-render-loop-global';
 
 // When the DOM Loads, register a loop that counts durations
 // of both the loop and an individual item, as well as sets up play/stop.

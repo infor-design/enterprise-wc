@@ -1,8 +1,6 @@
-import { IdsRenderLoop, IdsRenderLoopItem } from './ids-render-loop';
+import { IdsRenderLoopItem } from './ids-render-loop';
+import renderLoop from './ids-render-loop-global';
 
-// Stores the global RenderLoop instance.
-/** @type {any} */
-let rl = null;
 const IdsRenderLoopMixin = (superclass) => class extends superclass {
   constructor() {
     super();
@@ -14,11 +12,8 @@ const IdsRenderLoopMixin = (superclass) => class extends superclass {
    * @returns {any} link to the global RenderLoop instance
    */
   get rl() {
-    if (!rl) {
-      rl = new IdsRenderLoop();
-    }
-    return rl;
+    return renderLoop;
   }
 };
 
-export { IdsRenderLoopMixin, IdsRenderLoopItem };
+export { IdsRenderLoopMixin, IdsRenderLoopItem, renderLoop as IdsRenderLoopGlobal };
