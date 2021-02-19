@@ -62,6 +62,7 @@ function isUsableItem(item, idsMenu) {
 class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   constructor() {
     super();
+    this.datasource = new IdsDataSource();
     this.state = {};
     this.lastHovered = undefined;
     this.lastNavigated = undefined;
@@ -134,7 +135,6 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {void}
    */
   connectedCallback() {
-    this.datasource = new IdsDataSource();
     this.handleEvents();
     this.handleKeys();
   }
@@ -173,16 +173,19 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     // Renders a header
     const renderHeader = (elem) => {
-      let text = '';
-      if (elem.text) {
-        text = `${elem.text}`;
+      if (typeof elem.text !== 'string') {
+        return '';
       }
-      return `<ids-menu-header>${text}</ids-menu-header>`;
+      return `<ids-menu-header>${elem.text}</ids-menu-header>`;
     };
 
     // Renders the contents of a submenu
     const renderContents = (submenuContents) => {
       let html = '';
+      if (!Array.isArray(submenuContents)) {
+        return html;
+      }
+
       submenuContents.forEach((elem) => {
         switch (elem.type) {
           case 'header':
@@ -202,26 +205,28 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     // Renders a submenu wrapper
     const renderSubmenu = (submenuData) => {
+      if (!Array.isArray(submenuData?.contents) || !submenuData.contents.length) {
+        return '';
+      }
+
       let id = '';
       if (submenuData.id) {
         id = ` id="${submenuData.id}"`;
       }
-      let contents = '';
-      if (submenuData.contents) {
-        contents += renderContents(submenuData.contents);
-      }
+      const contents = renderContents(submenuData.contents);
       return `<ids-popup-menu slot="submenu"${id}>${contents}</ids-popup-menu>`;
     };
 
     // Renders a single item
     const renderItem = (item) => {
+      if (typeof item.text !== 'string') {
+        return '';
+      }
+      const text = `${item.text}`;
+
       let id = '';
       if (typeof item.id === 'string') {
         id = ` id="${item.id}"`;
-      }
-      let text = '';
-      if (typeof item.text === 'string') {
-        text = `${item.text}`;
       }
       let disabled = '';
       if (item.disabled) {
@@ -248,6 +253,10 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     // Renders the contents of a group
     const renderGroup = (groupData) => {
+      if (!Array.isArray(groupData?.items) || !groupData.items.length) {
+        return '';
+      }
+
       let id = '';
       if (groupData.id) {
         id = ` id="${groupData.id}"`;
@@ -262,7 +271,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       });
       return `<ids-menu-group${id}>${itemsHTML}</ids-menu-group>`;
     };
-    console.log('check it');
+
     return renderContents(contentsObj);
   }
 
@@ -274,6 +283,15 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     if (this.data?.contents?.length === 0) {
       return;
     }
+
+    // Re-apply template (picks up top-level properties from menu data)
+    const template = document.createElement('template');
+    const html = this.template();
+
+    // Render and append styles
+    this.shadowRoot.innerHTML = '';
+    template.innerHTML = html;
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     // Re-render all children
     this.innerHTML = '';

@@ -10,7 +10,6 @@
                     "text": "Cut"
                 },
                 {
-                    "id": "edit-copy",
                     "text": "Copy"
                 },
                 {
@@ -39,9 +38,9 @@
                                         "id": "edit-submenu-item-3",
                                         "text": "Sub Menu 3",
                                         "submenu": {
-                                            "id": "sub-sub-menu",
                                             "contents": [
                                                 {
+                                                    "type": "group",
                                                     "id": "super-submenu",
                                                     "text": "Super Sub Menu",
                                                     "items": [
@@ -71,7 +70,11 @@
                                     {
                                         "id": "edit-submenu-item-settings",
                                         "icon": "settings",
-                                        "text": "Settings"
+                                        "text": "Settings",
+                                        "submenu": {
+                                            "id": "junk-submenu",
+                                            "comment": "This submenu will never be displayed when this data is translated to a menu because it has no 'contents' property"
+                                        }
                                     }
                                 ]
                             }
@@ -84,7 +87,6 @@
             "type": "separator"
         },
         {
-            "id": "note-actions-group",
             "select": "none",
             "items": [
                 {
@@ -104,6 +106,10 @@
                 {
                     "id": "note-clear",
                     "text": "Clear Notes"
+                },
+                {
+                    "id": "junk-item",
+                    "comment": "This item will never be displayed when this data is translated to a menu because it has no 'text' property"
                 }
             ]
         },
@@ -132,6 +138,11 @@
         },
         {
             "type": "separator"
+        },
+        {
+            "type": "header",
+            "id": "junk-header",
+            "comment": "This header will never be displayed when this data is translated to a menu because it has no 'text' property"
         },
         {
             "id": "settings-group",

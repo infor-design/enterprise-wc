@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { IdsResizeMixin } from '../../src/ids-base/ids-resize-mixin';
 import IdsPopup from '../../src/ids-popup/ids-popup';
 
 const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
@@ -76,6 +77,48 @@ describe('IdsResizeMixin Tests', () => {
     ]);
 
     expect(elem.refresh).toHaveBeenCalledTimes(1);
+  });
+
+  // NOTE: runs the `disconnectResize` method, which cleans some things up
+  it('should allow implementing components to disconnect safely', (done) => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    elem.remove();
+
+    setTimeout(() => {
+      expect(errors).not.toHaveBeenCalled();
+      expect(elem.ro).toBe(undefined);
+      done();
+    }, 20);
+  });
+
+  // @TODO: re-check this when #47 is merged
+  it.skip('can add/remove elements observed by the ResizeObserver', () => {
+    const newElem = document.createElement('div');
+    newElem.id = 'new-elem';
+    document.body.appendChild(newElem);
+
+    elem.addObservedElements(newElem);
+
+    expect(elem.observed.length).toBe(2);
+
+    elem.removeObservedElements(newElem);
+
+    expect(elem.observed.length).toBe(1);
+  });
+
+  // @TODO: re-check this when #47 is merged
+  it.skip('can\'t add non-elements to the observed elements array', () => {
+    elem.addObservedElements({});
+
+    expect(elem.observed.length).toBe(1);
+  });
+
+  // @TODO: re-check this when #47 is merged
+  it.skip('can\'t remove non-elements to the observed elements array', () => {
+    elem.removeObservedElements({});
+
+    expect(elem.observed.length).toBe(1);
   });
 
   it('sets up a mutation observer', () => {

@@ -91,7 +91,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
       this.rl.register(new IdsRenderLoopItem({
         duration: 1,
         timeoutCallback: () => {
-          this.focusTarget.focus();
+          this.focusTarget?.focus();
         }
       }));
     };

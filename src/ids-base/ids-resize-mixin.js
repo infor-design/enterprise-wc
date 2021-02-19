@@ -67,6 +67,8 @@ const IdsResizeMixin = (superclass) => class extends superclass {
     if (!resizeTargets.includes(this)) {
       resizeTargets.push(this);
     }
+
+    this.observed = [];
   }
 
   /**
@@ -114,9 +116,6 @@ const IdsResizeMixin = (superclass) => class extends superclass {
     if (!(el instanceof HTMLElement)) {
       return;
     }
-    if (!this.observed) {
-      this.observed = [];
-    }
     if (this.observed.includes(el)) {
       return;
     }
@@ -130,9 +129,6 @@ const IdsResizeMixin = (superclass) => class extends superclass {
   removeObservedElement(el) {
     if (!(el instanceof HTMLElement)) {
       return;
-    }
-    if (!this.observed) {
-      this.observed = [];
     }
     const i = this.observed.indexOf(el);
     if (i < -1) {
@@ -148,14 +144,6 @@ const IdsResizeMixin = (superclass) => class extends superclass {
     this.observed.forEach((el) => {
       this.removeObservedElement(el);
     });
-  }
-
-  /**
-   * @returns {Array<HTMLElement>} elements contained in this component,
-   * also observed by the Resize Observer
-   */
-  getObservedElements() {
-    return this.observed;
   }
 
   /**
