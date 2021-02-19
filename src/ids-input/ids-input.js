@@ -6,24 +6,24 @@ import {
   props
 } from '../ids-base/ids-element';
 
-// Mixins
-import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
-import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
-import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-
 // @ts-ignore
 import styles from './ids-input.scss';
 
 // Supporting components
 // @ts-ignore
-import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
-// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
+// @ts-ignore
+import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
+
+// Mixins
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
+import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
+import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 
 // Input id
 const ID = 'ids-input-id';
@@ -110,24 +110,38 @@ class IdsInput extends mix(IdsElement).with(
   }
 
   /**
+   * Custom Element `attributeChangedCallback` implementation
+   * @returns {void}
+   */
+  attributeChangedCallback() {}
+
+  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
   connectedCallback() {
+    /** @type {any} */
     this.input = this.shadowRoot.querySelector(`#${ID}`);
+    /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
 
-    this.handleEvents();
-  }
+    if (!this.eventHandlers) {
+      /** @type {any} */
+      this.eventHandlers = new IdsEventsMixin();
+    }
 
-  /**
-   * Custom Element `disconnectedCallback` implementation
-   * @returns {void}
-   */
-  disconnectedCallback() {
-    this.handleInputChangeEvent('remove');
-    this.handleInputFocusEvent('remove');
-    this.handleNativeEvents('remove');
+    if (this.value === null) {
+      this.value = '';
+    }
+
+    this.handleEvents();
+    this.handleAutoselect();
+    // @ts-ignore
+    this.handleClearable();
+    // @ts-ignore
+    this.handleDirtyTracker();
+    // @ts-ignore
+    this.handleValidation();
   }
 
   /**
@@ -139,21 +153,23 @@ class IdsInput extends mix(IdsElement).with(
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const value = this.value !== null ? ` value="${this.value}"` : '';
     const type = ` type="${this.type || TYPES.default}"`;
-    let inputClass = `ids-input-field ${this.size}`;
+    let inputClass = `ids-input-field ${this.size} ${this.textAlign}`;
+    inputClass += stringUtils.stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
     inputClass += stringUtils.stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
     inputClass += stringUtils.stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
     inputClass = ` class="${inputClass}"`;
     let inputState = stringUtils.stringToBool(this.readonly) ? ' readonly' : '';
     inputState = stringUtils.stringToBool(this.disabled) ? ' disabled' : inputState;
 
-    // Label
-    const labelClass = ` class="ids-input-label${inputState}"`;
-
     return `
-      <label for="${ID}"${labelClass}>
-        <ids-text>${this.label}</ids-text>
-      </label>
-      <input id="${ID}"${type}${inputClass}${value}${placeholder}${inputState} />
+      <div class="ids-input${inputState}">
+        <label for="${ID}" class="label-text">
+          <ids-text>${this.label}</ids-text>
+        </label>
+        <div class="field-container">
+          <input id="${ID}"${type}${inputClass}${value}${placeholder}${inputState} />
+        </div>
+      </div>
     `;
   }
 
@@ -176,7 +192,7 @@ class IdsInput extends mix(IdsElement).with(
         this.labelEl?.classList.remove(options.prop2);
         msgNodes.forEach((x) => x.classList.remove(options.prop2));
 
-        this.input?.setAttribute(options.prop1, true);
+        this.input?.setAttribute(options.prop1, 'true');
         this.labelEl?.classList.add(options.prop1);
         msgNodes.forEach((x) => x.classList.add(options.prop1));
       } else {
@@ -184,6 +200,19 @@ class IdsInput extends mix(IdsElement).with(
         this.labelEl?.classList.remove(options.prop1);
         msgNodes.forEach((x) => x.classList.remove(options.prop1));
       }
+    }
+  }
+
+  /**
+   * Set the label text
+   * @private
+   * @param {string} value of label
+   * @returns {void}
+   */
+  setLabelText(value) {
+    const labelText = this.shadowRoot.querySelector(`[for="${ID}"] ids-text`);
+    if (labelText) {
+      labelText.innerHTML = value || '';
     }
   }
 
@@ -207,79 +236,58 @@ class IdsInput extends mix(IdsElement).with(
    * @returns {void}
    */
   handleInputFocusEvent(option = '') {
-    const input = this.input || this.shadowRoot.querySelector(`#${ID}`);
-    if (input) {
-      const eventName = 'focus';
-      if (option === 'remove') {
-        const handler = this.handledEvents?.get(eventName);
-        if (handler && handler.target === input) {
-          this.offEvent(eventName, input);
-        }
-      } else {
-        this.onEvent(eventName, input, () => {
-          input.select();
-        });
+    const eventName = 'focus';
+    if (option === 'remove') {
+      const handler = this?.handledEvents?.get(eventName);
+      if (handler && handler.target === this.input) {
+        this.offEvent(eventName, this.input);
       }
+    } else {
+      this.onEvent(eventName, this.input, () => {
+        setTimeout(() => { // safari has delay
+          this.input?.select();
+        }, 1);
+      });
     }
   }
 
   /**
    * Handle input change event
    * @private
-   * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleInputChangeEvent(option = '') {
-    if (this.input) {
-      const eventName = 'change';
-      if (option === 'remove') {
-        const handler = this?.handledEvents?.get(eventName);
-        if (handler && handler.target === this.input) {
-          this.offEvent(eventName, this.input);
-        }
-      } else {
-        this.onEvent(eventName, this.input, () => {
-          this.value = this.input.value;
-        });
-      }
-    }
+  handleInputChangeEvent() {
+    const eventName = 'change';
+    this.onEvent(eventName, this.input, () => {
+      this.value = this.input.value;
+    });
   }
 
   /**
    * Establish Internal Event Handlers
    * @private
-   * @param {string} option If 'remove', will remove attached events
    * @returns {object} The object for chaining.
    */
-  handleNativeEvents(option = '') {
-    if (this.input) {
-      const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
-      events.forEach((evt) => {
-        if (option === 'remove') {
-          const handler = this?.handledEvents?.get(evt);
-          if (handler && handler.target === this.input) {
-            this.offEvent(evt, this.input);
+  handleNativeEvents() {
+    const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    events.forEach((evt) => {
+      this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+        /**
+         * Trigger event on parent and compose the args
+         * will fire nativeEvents.
+         * @private
+         * @param  {object} elem Actual event
+         * @param  {string} value The updated input element value
+         */
+        this.triggerEvent(e.type, this, {
+          detail: {
+            elem: this,
+            nativeEvent: e,
+            value: this.value
           }
-        } else {
-          this.onEvent(evt, this.input, (/** @type {any} */ e) => {
-            /**
-             * Trigger event on parent and compose the args
-             * will fire nativeEvents.
-             * @private
-             * @param  {object} elem Actual event
-             * @param  {string} value The updated input element value
-             */
-            this.triggerEvent(e.type, this, {
-              detail: {
-                elem: this,
-                nativeEvent: e,
-                value: this.value
-              }
-            });
-          });
-        }
+        });
       });
-    }
+    });
     return this;
   }
 
@@ -289,12 +297,8 @@ class IdsInput extends mix(IdsElement).with(
    * @returns {void}
    */
   handleEvents() {
-    if (this.value === null) {
-      this.value = '';
-    }
-
-    this.handleInputChangeEvent();
     this.handleNativeEvents();
+    this.handleInputChangeEvent();
   }
 
   /**
@@ -318,14 +322,14 @@ class IdsInput extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `bg-transparent` attribute
    */
   set bgTransparent(value) {
-    this.input = this.shadowRoot.querySelector(`#${ID}`);
     const val = stringUtils.stringToBool(value);
+    const className = 'bg-transparent';
     if (val) {
       this.setAttribute(props.BG_TRANSPARENT, val.toString());
-      this.input?.classList.add('bg-transparent');
+      this.input?.classList.add(className);
     } else {
       this.removeAttribute(props.BG_TRANSPARENT);
-      this.input?.classList.remove('bg-transparent');
+      this.input?.classList.remove(className);
     }
   }
 
@@ -336,14 +340,14 @@ class IdsInput extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `text-ellipsis` attribute
    */
   set textEllipsis(value) {
-    this.input = this.shadowRoot.querySelector(`#${ID}`);
     const val = stringUtils.stringToBool(value);
+    const className = 'text-ellipsis';
     if (val) {
       this.setAttribute(props.TEXT_ELLIPSIS, val.toString());
-      this.input?.classList.add('text-ellipsis');
+      this.input?.classList.add(className);
     } else {
       this.removeAttribute(props.TEXT_ELLIPSIS);
-      this.input?.classList.remove('text-ellipsis');
+      this.input?.classList.remove(className);
     }
   }
 
@@ -394,9 +398,6 @@ class IdsInput extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
-    /** @type {any} */
-    this.input = this.shadowRoot.querySelector(`#${ID}`);
-    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
     // @ts-ignore
     this.handleDirtyTracker();
   }
@@ -404,7 +405,7 @@ class IdsInput extends mix(IdsElement).with(
   get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
 
   /**
-   * Sets checkbox to disabled
+   * Sets input to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
@@ -424,14 +425,12 @@ class IdsInput extends mix(IdsElement).with(
    * @param {string} value of the `label` text property
    */
   set label(value) {
-    const labelText = this.shadowRoot.querySelector(`[for="${ID}"] ids-text`) || document.createElement('div');
     if (value) {
-      this.setAttribute(props.LABEL, value);
-      labelText.innerHTML = value;
-      return;
+      this.setAttribute(props.LABEL, value.toString());
+    } else {
+      this.removeAttribute(props.LABEL);
     }
-    this.removeAttribute(props.LABEL);
-    labelText.innerHTML = '';
+    this.setLabelText(value);
   }
 
   get label() { return this.getAttribute(props.LABEL) || ''; }
@@ -441,14 +440,13 @@ class IdsInput extends mix(IdsElement).with(
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
-    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(props.LABEL_REQUIRED, val.toString());
     } else {
       this.removeAttribute(props.LABEL_REQUIRED);
     }
-    this.labelEl.classList[!val ? 'add' : 'remove']('no-required-indicator');
+    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
   get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
@@ -460,9 +458,11 @@ class IdsInput extends mix(IdsElement).with(
   set placeholder(value) {
     if (value) {
       this.setAttribute(props.PLACEHOLDER, value);
+      this.input?.setAttribute(props.PLACEHOLDER, value);
       return;
     }
     this.removeAttribute(props.PLACEHOLDER);
+    this.input?.removeAttribute(props.PLACEHOLDER);
   }
 
   get placeholder() { return this.getAttribute(props.PLACEHOLDER); }
@@ -501,11 +501,10 @@ class IdsInput extends mix(IdsElement).with(
    * @param {string} value [left, center, right]
    */
   set textAlign(value) {
-    const input = this.input || this.shadowRoot.querySelector(`[id="${ID}"]`);
-    const textAlign = TEXT_ALIGN[value];
-    this.setAttribute(props.TEXT_ALIGN, textAlign || TEXT_ALIGN.default);
-    input?.classList.remove(...Object.values(TEXT_ALIGN));
-    input?.classList.add(textAlign || TEXT_ALIGN.default);
+    const textAlign = TEXT_ALIGN[value] || TEXT_ALIGN.default;
+    this.setAttribute(props.TEXT_ALIGN, textAlign);
+    this.input?.classList.remove(...Object.values(TEXT_ALIGN));
+    this.input?.classList.add(textAlign);
   }
 
   get textAlign() { return this.getAttribute(props.TEXT_ALIGN) || TEXT_ALIGN.default; }
@@ -531,11 +530,14 @@ class IdsInput extends mix(IdsElement).with(
    * @param {string} value [text, password, number, email]
    */
   set type(value) {
-    if (TYPES[value]) {
-      this.setAttribute(props.TYPE, TYPES[value]);
+    const type = TYPES[value];
+    if (type) {
+      this.setAttribute(props.TYPE, type);
+      this.input.setAttribute(props.TYPE, type);
       return;
     }
     this.setAttribute(props.TYPE, TYPES.default);
+    this.input.setAttribute(props.TYPE, TYPES.default);
   }
 
   get type() { return this.getAttribute(props.TYPE); }
@@ -550,8 +552,6 @@ class IdsInput extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.VALIDATE);
     }
-    this.input = this.shadowRoot.querySelector(`#${ID}`);
-    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
     // @ts-ignore
     this.handleValidation();
   }
@@ -568,8 +568,6 @@ class IdsInput extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.VALIDATION_EVENTS);
     }
-    this.input = this.shadowRoot.querySelector(`#${ID}`);
-    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
     // @ts-ignore
     this.handleValidation();
   }
@@ -581,13 +579,12 @@ class IdsInput extends mix(IdsElement).with(
    * @param {string} val the value property
    */
   set value(val) {
-    /** @type {any} */
-    const input = this.shadowRoot.querySelector(`[id="${ID}"]`);
     const v = val || '';
     this.setAttribute(props.VALUE, v);
-    if (input && input.value !== v) {
-      input.value = v;
-      input.dispatchEvent(new Event('change', { bubbles: true }));
+    if (this.input?.value !== v) {
+      this.input.value = v;
+      ['focus', 'blur', 'focus'].forEach((m) => this.input[m]());
+      this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 

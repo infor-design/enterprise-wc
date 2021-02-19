@@ -88,7 +88,7 @@ describe('IdsInput Component', () => {
 
   it('should set label text', () => {
     let label = input.labelEl.querySelector('ids-text');
-    label.remove();
+    label?.remove();
     input.label = 'test';
 
     document.body.innerHTML = '';
@@ -304,19 +304,23 @@ describe('IdsInput Component', () => {
   it('should not error for input', () => {
     input.input.remove();
     input.input = null;
-    input.handleInputFocusEvent();
-    input.handleInputChangeEvent();
     input.clearable = true;
+    expect(input.shadowRoot.querySelector('.btn-clear')).toBeFalsy();
+    document.body.innerHTML = '';
   });
 
-  it('should autoselect', () => {
+  it('should autoselect', (done) => {
     input.autoselect = true;
     input.value = 'test';
     expect(input.getAttribute('autoselect')).toEqual('true');
     input.input.focus();
     input.shadowRoot.querySelector('.ids-input-field').focus();
-    input.autoselect = false;
-    expect(input.getAttribute('autoselect')).toEqual(null);
+    setTimeout(() => {
+      input.autoselect = false;
+      input.handleInputFocusEvent('remove');
+      expect(input.getAttribute('autoselect')).toEqual(null);
+      done();
+    }, 2);
   });
 
   it('should render clearable icon', () => {
@@ -376,6 +380,11 @@ describe('IdsInput Component', () => {
 
   it('should not error calling with no button', () => {
     input.clearable = true;
+    const xButton = document.createElement('ids-trigger-button');
+    xButton.className = 'btn-clear';
+    input.shadowRoot.appendChild(xButton);
+    input.appendClearableButton();
+    input.removeClearableButton();
     input.clearable = false;
     expect(input.shadowRoot.querySelector('.btn-clear')).toBeFalsy();
   });
@@ -432,14 +441,18 @@ describe('IdsInput Component', () => {
   });
 
   it('should dispatch native events', () => {
-    const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
       input.addEventListener(evt, () => {
         response = 'triggered';
       });
-      const event = new Event(evt);
-      input.input.dispatchEvent(event);
+      if (evt === 'focus') {
+        input.input.focus();
+      } else {
+        const event = new Event(evt);
+        input.input.dispatchEvent(event);
+      }
       expect(response).toEqual('triggered');
     });
   });

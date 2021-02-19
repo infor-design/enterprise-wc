@@ -1,36 +1,40 @@
 @import './ids-base';
 
-.ids-input-field {
-  ~ .btn-clear {
-    margin-left: 1px;
-    margin-top: -24px;
-    outline: none;
-    position: absolute;
+.ids-input,
+.ids-textarea {
+  .ids-input-field,
+  .ids-textarea-field {
+    ~ .btn-clear {
+      margin-left: 1px;
+      margin-top: -24px;
+      outline: none;
+      position: absolute;
 
-    &.is-empty {
-      display: none;
+      &.is-empty {
+        display: none;
+      }
+
+      [slot='icon'] {
+        @include text-slate-60();
+
+        margin-left: -1px;
+      }
+
+      &:hover [slot='icon'] {
+        @include text-slate-100();
+      }
     }
 
-    [slot='icon'] {
-      @include text-slate-60();
+    &.has-clearable {
+      @include pr-28();
 
-      margin-left: -1px;
-    }
+      &.has-triggerfield {
+        padding-right: 50px;
+      }
 
-    &:hover [slot='icon'] {
-      @include text-slate-100();
-    }
-  }
-
-  &.has-clearable {
-    @include pr-28();
-
-    &.has-triggerfield {
-      padding-right: 50px;
-    }
-
-    &.has-triggerfield ~ .btn-clear {
-      margin-left: -22px;
+      &.has-triggerfield ~ .btn-clear {
+        margin-left: -23px;
+      }
     }
   }
 }

@@ -55,6 +55,12 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
+   * Custom Element `attributeChangedCallback` implementation
+   * @returns {void}
+   */
+  attributeChangedCallback() {}
+
+  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
@@ -66,8 +72,14 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
     /** @type {any} */
     // @ts-ignore
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
-    this.files = this.fileInput.files;
 
+    /* istanbul ignore next */
+    if (!this.eventHandlers) {
+      /** @type {any} */
+      this.eventHandlers = new IdsEventsMixin();
+    }
+
+    this.files = this.fileInput.files;
     this.handleEvents();
   }
 
@@ -236,7 +248,9 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
     this.onEvent('keydown', this.textInput, (/** @type {any} */ e) => {
       const allow = ['Backspace', 'Enter', 'Space'];
       const key = e.code;
-      if (allow.indexOf(key) > -1) {
+      /* istanbul ignore next */
+      const isClearBtn = e.path?.filter((p) => p?.classList?.contains('btn-clear')).length > 0;
+      if (allow.indexOf(key) > -1 && !isClearBtn) {
         if (key === 'Backspace') {
           this.clear();
           this.dispatchChangeEvent(e);

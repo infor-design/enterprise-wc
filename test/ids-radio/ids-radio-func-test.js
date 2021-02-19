@@ -85,19 +85,18 @@ describe('IdsRadio Component', () => {
     let label = rb.labelEl.querySelector('.label-text');
     label.remove();
     rb.label = 'test';
-
     document.body.innerHTML = '';
-    const elem = new IdsRadio();
-    document.body.appendChild(elem);
+    const html = '<ids-radio label="test"></ids-radio>';
+    document.body.innerHTML = html;
     rb = document.querySelector('ids-radio');
-    label = rb.labelEl.querySelector('.label-text');
-    expect(label.textContent.trim()).toBe('');
-    rb.label = 'test';
     label = rb.labelEl.querySelector('.label-text');
     expect(label.textContent.trim()).toBe('test');
     rb.label = null;
     label = rb.labelEl.querySelector('.label-text');
     expect(label.textContent.trim()).toBe('');
+    rb.label = 'test2';
+    label = rb.labelEl.querySelector('.label-text');
+    expect(label.textContent.trim()).toBe('test2');
   });
 
   it('should renders colored', () => {
@@ -141,6 +140,17 @@ describe('IdsRadio Component', () => {
     expect(rb.horizontal).toEqual(null);
   });
 
+  it('should trigger click', () => {
+    const evt = 'click';
+    let response = null;
+    rb.addEventListener('focus', () => {
+      response = 'triggered';
+    });
+    const event = new Event(evt);
+    rb.labelEl.dispatchEvent(event);
+    expect(response).toEqual('triggered');
+  });
+
   it('should dispatch native events', () => {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
@@ -154,37 +164,13 @@ describe('IdsRadio Component', () => {
     });
   });
 
-  it('should remove events', () => {
-    rb.input = null;
-    document.body.innerHTML = '';
-    const elem = new IdsRadio();
-    document.body.appendChild(elem);
-    rb = document.querySelector('ids-radio');
-
-    rb.handleRadioChangeEvent('remove');
-    rb.handleNativeEvents('remove');
-    const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
-    events.forEach((evt) => {
-      let response = null;
-      rb.addEventListener(evt, () => {
-        response = 'triggered';
-      });
-      const event = new Event(evt);
-      rb.input.dispatchEvent(event);
-      expect(response).not.toEqual('triggered');
-    });
-  });
-
   it('should renders template', () => {
     document.body.innerHTML = '';
-    rb = document.createElement('ids-radio');
-    rb.setAttribute('disabled', true);
-    rb.setAttribute('horizontal', true);
-    rb.setAttribute('checked', true);
-    rb.setAttribute('label-font-size', 'lg');
+    const html = '<ids-radio label="test" value="test-val" disabled="true" horizontal="true" checked="true" color="emerald07"></ids-radio>';
+    document.body.innerHTML = html;
+    rb = document.querySelector('ids-radio');
     rb.template();
     expect(rb.getAttribute('disabled')).toEqual('true');
-    expect(rb.input.hasAttribute('disabled')).toBe(true);
     const rootEl = rb.shadowRoot.querySelector('.ids-radio');
     expect(rootEl.classList).toContain('disabled');
     expect(rootEl.classList).toContain('horizontal');

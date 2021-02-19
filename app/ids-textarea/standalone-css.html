@@ -1,0 +1,82 @@
+{{> ../layouts/head.html }}
+<link rel="stylesheet" href="ids-textarea.css"/>
+<link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css"/>
+<link rel="stylesheet" href="../ids-text/ids-text.css"/>
+
+<div class="ids-layout-grid">
+  <div class="ids-layout-grid-cell">
+    <h1 class="ids-text ids-text-12">IDS Textarea - Standalone CSS</h1>
+  </div>
+</div>
+
+<div class="ids-layout-grid">
+  <div class="ids-layout-grid-cell">
+
+    <div class="ids-textarea">
+      <label for="textarea-basic" class="ids-text label-text">Basic</label>
+      <textarea class="ids-textarea-field" id="textarea-basic" name="textarea-basic">Line One</textarea>
+    </div>
+
+    <div class="ids-textarea disabled">
+      <label for="textarea-disabled" class="ids-text label-text">Disabled</label>
+      <textarea class="ids-textarea-field" disabled id="textarea-disabled" name="textarea-disabled">Line One</textarea>
+    </div>
+
+    <div class="ids-textarea readonly">
+      <label for="textarea-readonly" class="ids-text label-text">Readonly</label>
+      <textarea class="ids-textarea-field" readonly id="textarea-readonly" name="textarea-readonly">Line One</textarea>
+    </div>
+
+    <div class="ids-textarea">
+      <label for="textarea-resizable" class="ids-text label-text">Resizable</label>
+      <textarea class="ids-textarea-field resizable" id="textarea-resizable" name="textarea-resizable" placeholder="Type your notes here..."></textarea>
+    </div>
+
+    <div class="ids-textarea">
+      <label for="textarea-rows" class="ids-text label-text">Rows</label>
+      <textarea class="ids-textarea-field" rows="15" id="textarea-rows" name="textarea-rows">Line One</textarea>
+    </div>
+
+    <div class="ids-textarea">
+      <label for="textarea-default-align" class="ids-text label-text">Default align (left)</label>
+      <textarea class="ids-textarea-field" id="textarea-default-align" name="textarea-default-align">Default align</textarea>
+    </div>
+
+    <div class="ids-textarea">
+      <label for="textarea-left-align" class="ids-text label-text">Left align</label>
+      <textarea class="ids-textarea-field left" id="textarea-left-align" name="textarea-left-align">Left align</textarea>
+    </div>
+
+    <div class="ids-textarea">
+      <label for="textarea-center-align" class="ids-text label-text">Center align</label>
+      <textarea class="ids-textarea-field center" id="textarea-center-align" name="textarea-center-align">Center align</textarea>
+    </div>
+
+    <div class="ids-textarea">
+      <label for="textarea-right-align" class="ids-text label-text">Right align</label>
+      <textarea class="ids-textarea-field right" id="textarea-right-align" name="textarea-right-align">Right align</textarea>
+    </div>
+
+    <div class="ids-textarea">
+      <label for="textarea-small" class="ids-text label-text">Small</label>
+      <textarea class="ids-textarea-field sm" id="textarea-small" name="textarea-small" placeholder="Type your notes here..."></textarea>
+    </div>
+
+    <div class="ids-textarea">
+      <label for="textarea-medium" class="ids-text label-text">Medium</label>
+      <textarea class="ids-textarea-field md" id="textarea-medium" name="textarea-medium" placeholder="Type your notes here..."></textarea>
+    </div>
+
+    <div class="ids-textarea">
+      <label for="textarea-large" class="ids-text label-text">Large</label>
+      <textarea class="ids-textarea-field lg" id="textarea-large" name="textarea-large" placeholder="Type your notes here..."></textarea>
+    </div>
+
+    <div class="ids-textarea">
+      <label for="textarea-full" class="ids-text label-text">Full</label>
+      <textarea class="ids-textarea-field full" id="textarea-full" name="textarea-full" placeholder="Type your notes here..."></textarea>
+    </div>
+
+  </div>
+</div>
+{{> ../layouts/footer.html }}

@@ -1,3 +1,4 @@
+import { IdsEventsMixin } from './ids-events-mixin';
 // @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 
@@ -23,7 +24,13 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     this.isCheckbox = this.input?.getAttribute('type') === 'checkbox';
     this.isRadioGroup = this.input?.classList.contains('ids-radio-group');
 
-    if (this.dirtyTracker) {
+    /* istanbul ignore next */
+    if (!this.eventHandlers) {
+      /** @type {any} */
+      this.eventHandlers = new IdsEventsMixin();
+    }
+
+    if (`${this.dirtyTracker}`.toLowerCase() === 'true') {
       if (this.input) {
         const val = this.valMethod(this.input);
         this.dirty = { original: val };
@@ -98,13 +105,21 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Get the value or checked if checkbox or radio
+   * Get the value or checked attribute if checkbox or radio
    * @private
    * @param {object} el .
-   * @returns {string} element value
+   * @returns {any} element value
    */
   valMethod(el) {
-    return (this.isCheckbox || this.isRadioGroup) ? this.checked : el.value;
+    let r;
+    if (this.isRadioGroup) {
+      r = this.checked;
+    } else if (this.isCheckbox) {
+      r = `${this.checked}`.toLowerCase() === 'true';
+    } else {
+      r = el.value;
+    }
+    return r;
   }
 
   /**
@@ -153,14 +168,28 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
   }
 
   /**
+   * Reset dirty tracker
+   * @returns {void}
+   */
+  resetDirtyTracker() {
+    if (this.dirty) {
+      this.removeDirtyTrackerIcon();
+      this.removeDirtyTrackerMsg();
+      this.dirty = { original: this.valMethod(this.input) };
+    } else {
+      this.handleDirtyTracker();
+    }
+  }
+
+  /**
    * Destroy dirty tracker
-   * @private
    * @returns {void}
    */
   destroyDirtyTracker() {
     this.dirtyTrackerEvents('remove');
     this.removeDirtyTrackerIcon();
     this.removeDirtyTrackerMsg();
+    this.dirty = null;
   }
 };
 

@@ -1,3 +1,6 @@
+import { IdsEventsMixin } from './ids-events-mixin';
+import { IdsKeyboardMixin } from './ids-keyboard-mixin';
+
 /**
  *Clearable (Shows an x-icon button to clear).
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -17,9 +20,21 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   handleClearable() {
-    if ((this.clearable && !(this.disabled || this.readonly)) || this.clearableForced) {
-      const input = this.input || this.shadowRoot.querySelector(`#${this.ID || 'ids-input-id'}`);
-      if (input) {
+    /* istanbul ignore next */
+    if (!this.eventHandlers) {
+      /** @type {any} */
+      this.eventHandlers = new IdsEventsMixin();
+    }
+    if (!this.keyboard) {
+      /** @type {any} */
+      this.keyboard = new IdsKeyboardMixin();
+    }
+
+    let isClearable = this.clearable && !(this.disabled || this.readonly);
+    isClearable = `${isClearable || this.clearableForced}`.toLowerCase() === 'true';
+
+    if (isClearable) {
+      if (this.input) {
         this.appendClearableButton();
         this.clearableEvents();
       }
@@ -44,11 +59,14 @@ const IdsClearableMixin = (superclass) => class extends superclass {
       icon.setAttribute('slot', 'icon');
       text.setAttribute('audible', 'true');
       text.textContent = 'clear';
+      xButton.setAttribute('tabindex', '0');
       xButton.className = 'btn-clear';
       xButton.appendChild(text);
       xButton.appendChild(icon);
       xButton.refreshProtoClasses();
-      this.shadowRoot.appendChild(xButton);
+      let parent = this.shadowRoot.querySelector('.ids-input, .ids-textarea');
+      parent = parent?.querySelector('.field-container');
+      parent?.appendChild(xButton);
       this.input?.classList.add('has-clearable');
     }
   }
@@ -143,17 +161,16 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   handleClearableInputEvents(evt, option) {
-    const input = this.input;
     /* istanbul ignore next */
-    if (input && evt && typeof evt === 'string') {
+    if (this.input && evt && typeof evt === 'string') {
       const eventName = evt;
       if (option === 'remove') {
-        const handler = this?.handledEvents?.get(eventName);
-        if (handler && handler.target === input) {
-          this.offEvent(eventName, input);
+        const handler = this.handledEvents?.get(eventName);
+        if (handler && handler.target === this.input) {
+          this.offEvent(eventName, this.input);
         }
       } else {
-        this.onEvent(eventName, input, () => {
+        this.onEvent(eventName, this.input, () => {
           this.checkContents();
         });
       }

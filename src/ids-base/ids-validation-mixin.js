@@ -81,18 +81,26 @@ const IdsValidationMixin = (superclass) => class extends superclass {
    * @private
    * @returns {void}
    */
+  /**
+   * Check the validation and add/remove errors as needed
+   * @private
+   * @returns {void}
+   */
   checkValidation() {
     if (this.input) {
+      this.isTypeNotValid = {};
       let isValid = true;
       const useRules = this.useRules.get(this.input);
       useRules?.forEach((/** @type {object} */ thisRule) => {
         if (!thisRule.rule.check(this.input)) {
           this.addMessage(thisRule.rule);
           isValid = false;
+          this.isTypeNotValid[thisRule.rule.type] = true;
         } else {
           this.removeMessage(thisRule.rule);
         }
       });
+      this.isTypeNotValid = null;
       this.triggerEvent('validated', this, { detail: { elem: this, value: this.value, isValid } });
     }
   }
@@ -128,11 +136,8 @@ const IdsValidationMixin = (superclass) => class extends superclass {
         elem.className = cssClass;
         elem.innerHTML = `${iconHtml}<ids-text class="message-text">${audible}${message}</ids-text>`;
         this.input?.classList.add(type);
-        const typeAttr = this.input?.getAttribute('type');
-        let parent = this.shadowRoot;
-        if (typeAttr === 'checkbox') {
-          parent = this.shadowRoot.querySelector('.ids-checkbox');
-        }
+        const rootEl = this.shadowRoot.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
+        const parent = rootEl || this.shadowRoot;
         parent.appendChild(elem);
         const isRadioGroup = this.input?.classList.contains('ids-radio-group');
         if (isRadioGroup) {
@@ -153,7 +158,10 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
 
     elem?.remove();
-    this.input?.classList.remove(type);
+    if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
+      this.input?.classList.remove(type);
+    }
+
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
     if (isRadioGroup) {
       const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
@@ -186,12 +194,12 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     if (this.input) {
       this.validationEventsList.forEach((eventName) => {
         if (option === 'remove') {
-          const handler = this?.handledEvents?.get(eventName);
+          const handler = this.handledEvents.get(eventName);
           if (handler && handler.target === this.input) {
             this.offEvent(eventName, this.input);
           }
         } else {
-          this.onEvent(eventName, this.input, () => {
+          this.onEvents(eventName, this.input, () => {
             this.checkValidation();
           });
         }

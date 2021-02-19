@@ -31,7 +31,7 @@ export default class IdsInput extends IdsElement {
   size: 'xs' | 'sm ' | 'mm' | 'md' | 'lg' | 'full' | string;
 
   /** Sets the input to readonly state * */
-   readonly: boolean;
+  readonly: boolean;
 
   /** Sets the text alignment * */
   textAlign: 'left' | 'center ' | 'right' | string;
