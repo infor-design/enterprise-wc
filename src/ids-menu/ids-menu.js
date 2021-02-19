@@ -144,14 +144,6 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {string} The template
    */
   template() {
-    let contents = `<slot></slot>`;
-
-    // If using the datasource, render from the content template
-    // instead of simply accepting the slot contents.
-    if (this.data?.contents?.length) {
-      contents = this.menuContentTemplate(this.data.contents);
-    }
-
     // Setup the attributes on the top-level menu container
     let id;
     if (this.data?.id) {
@@ -161,7 +153,12 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       id = ` id="${this.id}"`;
     }
 
-    return `<nav class="ids-menu"${id} role="menu">${contents}</nav>`;
+    let slot = '';
+    if (this.tagName.toLowerCase() === 'ids-popup-menu') {
+      slot = ` slot="content"`;
+    }
+
+    return `<nav class="ids-menu"${id}${slot} role="menu"><slot></slot></nav>`;
   }
 
   /**
@@ -244,7 +241,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       }
 
       return `<ids-menu-item${id}${disabled}${icon}${selected}>
-        <span slot="text">${text}</span>
+        ${text}
         ${submenu}
       </ids-menu-item>`;
     };
@@ -257,7 +254,11 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       }
       let itemsHTML = '';
       groupData.items?.forEach((newItem) => {
-        itemsHTML += renderItem(newItem);
+        if (newItem?.type === 'separator') {
+          itemsHTML += renderSeparator();
+        } else {
+          itemsHTML += renderItem(newItem);
+        }
       });
       return `<ids-menu-group${id}>${itemsHTML}</ids-menu-group>`;
     };
@@ -269,18 +270,14 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * Rerender the list by re applying the template
    * @private
    */
-  rerender() {
-    if (this.data?.groups?.length === 0) {
+  renderFromData() {
+    if (this.data?.contents?.length === 0) {
       return;
     }
 
-    const template = document.createElement('template');
-    const html = this.template();
-
-    // Render and append styles
-    this.shadowRoot.innerHTML = '';
-    template.innerHTML = html;
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    // Re-render all children
+    this.innerHTML = '';
+    this.insertAdjacentHTML('beforeend', this.menuContentTemplate(this.data.contents));
   }
 
   /**
@@ -291,7 +288,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   set data(value) {
     if (value) {
       this.datasource.data = value;
-      this.rerender();
+      this.renderFromData();
       return;
     }
 

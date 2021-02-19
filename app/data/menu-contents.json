@@ -37,7 +37,7 @@
                                     },
                                     {
                                         "id": "edit-submenu-item-3",
-                                        "text": "Sub Menu 4",
+                                        "text": "Sub Menu 3",
                                         "submenu": {
                                             "id": "sub-sub-menu",
                                             "contents": [
