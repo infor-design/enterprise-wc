@@ -115,7 +115,12 @@ class IdsTriggerField extends IdsElement {
       return false;
     }
 
-    this.eventHandlers = new IdsEventsMixin();
+    /* istanbul ignore next */
+    if (!this.eventHandlers) {
+      /** @type {any} */
+      this.eventHandlers = new IdsEventsMixin();
+    }
+
     /** @type {any} */
     const button = this.querySelector('ids-trigger-button');
     if (button) {

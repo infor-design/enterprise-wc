@@ -1,0 +1,72 @@
+{{> ../layouts/head.html }}
+<link rel="stylesheet" href="ids-input.css"/>
+<link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css"/>
+<link rel="stylesheet" href="../ids-text/ids-text.css"/>
+
+<div class="ids-layout-grid">
+  <div class="ids-layout-grid-cell">
+    <h1 class="ids-text ids-text-12">IDS Input - Standalone CSS</h1>
+  </div>
+</div>
+
+<div class="ids-layout-grid">
+  <div class="ids-layout-grid-cell">
+
+    <div class="ids-input">
+      <label for="input-first-name" class="ids-text label-text">First Name</label>
+      <input class="ids-input-field" id="input-first-name" name="input-first-name" placeholder="Normal text Field"/>
+    </div>
+
+    <div class="ids-input disabled">
+      <label for="input-disabled" class="ids-text label-text">Disabled</label>
+      <input class="ids-input-field" disabled id="input-disabled" name="input-disabled" value="Field not editable"/>
+    </div>
+
+    <div class="ids-input readonly">
+      <label for="input-readonly" class="ids-text label-text">Readonly</label>
+      <input class="ids-input-field" readonly id="input-readonly" name="input-readonly" value="02006"/>
+    </div>
+
+    <div class="ids-input">
+      <label for="input-default-align" class="ids-text label-text">Default align (left)</label>
+      <input class="ids-input-field" id="input-default-align" name="input-default-align" value="Default align"/>
+    </div>
+
+    <div class="ids-input">
+      <label for="input-left-align" class="ids-text label-text">Left align</label>
+      <input class="ids-input-field left" id="input-left-align" name="input-left-align" value="Left align"/>
+    </div>
+
+    <div class="ids-input">
+      <label for="input-center-align" class="ids-text label-text">Center align</label>
+      <input class="ids-input-field center" id="input-center-align" name="input-center-align" value="Center align"/>
+    </div>
+
+    <div class="ids-input">
+      <label for="input-right-align" class="ids-text label-text">Right align</label>
+      <input class="ids-input-field right" id="input-right-align" name="input-right-align" value="Right align"/>
+    </div>
+
+    <div class="ids-input">
+      <label for="input-xtra-small" class="ids-text label-text">Xtra Small</label>
+      <input class="ids-input-field xs" id="input-xtra-small" name="input-xtra-small"/>
+    </div>
+
+    <div class="ids-input">
+      <label for="input-small" class="ids-text label-text">Small</label>
+      <input class="ids-input-field sm" id="input-small" name="input-small"/>
+    </div>
+
+    <div class="ids-input">
+      <label for="input-small-medium" class="ids-text label-text">Small - Medium</label>
+      <input class="ids-input-field mm" id="input-small-medium" name="input-small-medium"/>
+    </div>
+
+    <div class="ids-input">
+      <label for="input-medium" class="ids-text label-text">Medium</label>
+      <input class="ids-input-field md" id="input-medium" name="input-medium"/>
+    </div>
+
+  </div>
+</div>
+{{> ../layouts/footer.html }}

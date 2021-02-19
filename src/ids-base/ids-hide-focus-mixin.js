@@ -17,6 +17,11 @@ const IdsHideFocusMixin = {
     // Checkbox, Radio buttons or Switch
     this.radioCheckbox = /checkbox|radio/.test(this.input?.getAttribute('type'));
 
+    /* istanbul ignore next */
+    if (!this.eventHandlers) {
+      this.eventHandlers = new IdsEventsMixin();
+    }
+
     this.hidefocusToggle(this.input);
     this.hidefocusFocusin();
     this.hidefocusFocusout();
@@ -35,11 +40,6 @@ const IdsHideFocusMixin = {
     if (elem) {
       const action = isRemove ? 'remove' : 'add';
       elem.classList[action]('hide-focus');
-
-      /* istanbul ignore next */
-      if (!this.eventHandlers) {
-        this.eventHandlers = new IdsEventsMixin();
-      }
 
       if (!noTrigger) {
         this.eventHandlers.dispatchEvent(`hidefocus${action}`, this, { elem, action });

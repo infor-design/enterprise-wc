@@ -70,3 +70,8 @@
   - Markup has changed to a custom element `<ids-upload></ids-upload>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Textarea]` The Textarea component has been changed to a web component and renamed to ids-textarea.
+  - Markup has changed to a custom element `<ids-textarea></ids-textarea>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
+  - If using a clearable X on the textarea the x is now tabbable by default for accessibility

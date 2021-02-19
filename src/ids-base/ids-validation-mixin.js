@@ -26,6 +26,12 @@ const IdsValidationMixin = {
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
     const canRadio = ((!isRadioGroup) || (!!(isRadioGroup && this.querySelector('ids-radio'))));
 
+    /* istanbul ignore next */
+    if (!this.eventHandlers) {
+      /** @type {any} */
+      this.eventHandlers = new IdsEventsMixin();
+    }
+
     if (this.labelEl && this.input && typeof this.validate === 'string' && canRadio) {
       const isCheckbox = this.input?.getAttribute('type') === 'checkbox';
       const defaultEvents = (isCheckbox || isRadioGroup) ? 'change' : 'blur';
@@ -76,16 +82,19 @@ const IdsValidationMixin = {
    */
   checkValidation() {
     if (this.input) {
+      this.isTypeNotValid = {};
       let isValid = true;
       const useRules = this.useRules.get(this.input);
       useRules?.forEach((/** @type {object} */ thisRule) => {
         if (!thisRule.rule.check(this.input)) {
           this.addMessage(thisRule.rule);
           isValid = false;
+          this.isTypeNotValid[thisRule.rule.type] = true;
         } else {
           this.removeMessage(thisRule.rule);
         }
       });
+      this.isTypeNotValid = null;
       this.eventHandlers.dispatchEvent('validated', this, { detail: { elem: this, value: this.value, isValid } });
     }
   },
@@ -121,11 +130,8 @@ const IdsValidationMixin = {
         elem.className = cssClass;
         elem.innerHTML = `${iconHtml}<ids-text class="message-text">${audible}${message}</ids-text>`;
         this.input?.classList.add(type);
-        const typeAttr = this.input?.getAttribute('type');
-        let parent = this.shadowRoot;
-        if (typeAttr === 'checkbox') {
-          parent = this.shadowRoot.querySelector('.ids-checkbox');
-        }
+        const rootEl = this.shadowRoot.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
+        const parent = rootEl || this.shadowRoot;
         parent.appendChild(elem);
         const isRadioGroup = this.input?.classList.contains('ids-radio-group');
         if (isRadioGroup) {
@@ -146,7 +152,10 @@ const IdsValidationMixin = {
     const elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
 
     elem?.remove();
-    this.input?.classList.remove(type);
+    if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
+      this.input?.classList.remove(type);
+    }
+
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
     if (isRadioGroup) {
       const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
@@ -176,15 +185,10 @@ const IdsValidationMixin = {
    */
   handleValidationEvents(option = '') {
     /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      this.eventHandlers = new IdsEventsMixin();
-    }
-
-    /* istanbul ignore next */
     if (this.input) {
       this.validationEventsList.forEach((eventName) => {
         if (option === 'remove') {
-          const handler = this.eventHandlers?.handledEvents?.get(eventName);
+          const handler = this.eventHandlers.handledEvents.get(eventName);
           if (handler && handler.target === this.input) {
             this.eventHandlers.removeEventListener(eventName, this.input);
           }

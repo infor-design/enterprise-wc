@@ -4,19 +4,40 @@
 @import '../ids-base/ids-validation-mixin';
 
 // Field Sizes
-$input-size-xs: 75px;
-$input-size-sm: 150px;
-$input-size-mm: 225px;
-$input-size-md: 300px;
-$input-size-lg: 400px;
-$input-size-full: 100%;
+$textarea-size-sm: 150px;
+$textarea-size-md: 362px;
+$textarea-size-lg: 400px;
+$textarea-size-full: 100%;
 
 // Set default size
-$input-size-default: $input-size-md;
+$textarea-size-default: $textarea-size-md;
+$textarea-size-default-height: 120px;
 
-.ids-input {
+.ids-textarea {
   @include block();
+  @include font-sans();
   @include mb-16();
+  @include text-16();
+  @include text-slate-80();
+
+  .hidden {
+    @include hidden();
+  }
+
+  .textarea-print {
+    @include hidden();
+
+    white-space: pre-line;
+  }
+
+  .textarea-character-counter {
+    min-height: auto;
+    width: $textarea-size-default;
+
+    &.almost-empty {
+      @include text-alert-danger();
+    }
+  }
 
   .label-text {
     @include antialiased();
@@ -59,30 +80,32 @@ $input-size-default: $input-size-md;
     @include block();
     @include m-0();
     @include p-0();
+    @include relative();
   }
 
-  .ids-input-field {
+  .ids-textarea-field {
     @include antialiased();
     @include bg-white();
     @include box-border();
     @include border-1();
     @include border-slate-40();
     @include border-solid();
+    @include font-sans();
     @include mb-4();
-    @include p-8();
+    @include p-12();
     @include rounded-default();
-    @include text-14();
+    @include text-16();
     @include text-black();
 
     -webkit-appearance: none;
     border-collapse: separate;
     border-radius: 2px;
     display: inline-block;
-    height: 38px;
     max-width: 100%;
+    min-height: $textarea-size-default-height;
     resize: none;
     text-align: left;
-    width: $input-size-default;
+    width: $textarea-size-default;
 
     &:hover {
       @include border-slate-90();
@@ -108,15 +131,27 @@ $input-size-default: $input-size-md;
       @include border-slate-40();
       @include rounded-default();
       @include text-black();
+    }
 
-      padding-bottom: 9px;
-      padding-top: 9px;
-
-      &.bg-transparent {
-        @include bg-transparent();
+    &[readonly],
+    &[disabled] {
+      ~ .textarea-character-counter {
+        display: none;
       }
+    }
 
-      &.bg-transparent:focus {
+    &.resizable {
+      resize: vertical;
+    }
+
+    &[rows] {
+      height: auto;
+    }
+
+    &.bg-transparent {
+      @include bg-transparent();
+
+      &:focus {
         @include border-azure-60();
       }
     }
@@ -129,7 +164,7 @@ $input-size-default: $input-size-md;
       @include pr-32();
     }
 
-    // input text-align: [left, center, right]
+    // textarea text-align: [left, center, right]
     &.left {
       text-align: left;
     }
@@ -142,32 +177,40 @@ $input-size-default: $input-size-md;
       text-align: right;
     }
 
-    // input sizes: [xs, sm, mm, md, lg, full]
-    &.xs {
-      width: $input-size-xs;
-    }
-
+    // textarea sizes: [sm, md, lg, full]
     &.sm {
-      width: $input-size-sm;
-    }
+      width: $textarea-size-sm;
 
-    &.mm {
-      width: $input-size-mm;
+      ~ .textarea-wordcount {
+        width: $textarea-size-sm;
+      }
     }
 
     &.md {
-      width: $input-size-md;
+      width: $textarea-size-md;
+
+      ~ .textarea-wordcount {
+        width: $textarea-size-md;
+      }
     }
 
     &.lg {
-      width: $input-size-lg;
+      width: $textarea-size-lg;
+
+      ~ .textarea-wordcount {
+        width: $textarea-size-lg;
+      }
     }
 
     &.full {
-      width: $input-size-full;
+      width: $textarea-size-full;
+
+      ~ .textarea-wordcount {
+        width: $textarea-size-full;
+      }
     }
 
-    // input message: [alert, error, info, success]
+    // textarea message: [alert, error, info, success]
     &.alert,
     &.alert:hover {
       @include border-alert-warning();
@@ -234,5 +277,25 @@ $input-size-default: $input-size-md;
         @include text-emerald-30();
       }
     }
+  }
+
+  .validation-message {
+    @include mt-4();
+  }
+}
+
+// Print Style Sheet
+@media print {
+  .ids-textarea {
+    .textarea-character-counter,
+    .ids-textarea-field {
+      @include hidden();
+    }
+  }
+
+  .textarea-print {
+    display: inline-block !important;
+    height: auto;
+    width: auto;
   }
 }
