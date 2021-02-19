@@ -3,6 +3,7 @@ export const props = {
   ACCEPT: 'accept',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
+  ALIGN: 'align',
   APPEARANCE: 'appearance',
   AUDIBLE: 'audible',
   AUTO: 'auto',
