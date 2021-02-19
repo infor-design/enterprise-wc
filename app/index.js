@@ -22,6 +22,8 @@ import IdsTextarea from '../src/ids-textarea/ids-textarea';
 import IdsUpload from '../src/ids-upload/ids-upload';
 import IdsAlert from '../src/ids-alert/ids-alert';
 import IdsBadge from '../src/ids-badge/ids-badge';
+import IdsBlockGrid from '../src/ids-block-grid/ids-block-grid';
+import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
 
 // Import Example Code
 import './ids-button/index';
@@ -38,3 +40,4 @@ import './ids-radio/example';
 import './ids-alert/index';
 import './ids-badge/index';
 import './ids-textarea/example';
+import './ids-block-grid/index';
