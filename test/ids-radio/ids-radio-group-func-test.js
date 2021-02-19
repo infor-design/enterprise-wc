@@ -351,21 +351,6 @@ describe('IdsRadioGroup Component', () => {
     expect(response).toEqual('triggered');
   });
 
-  it('should trigger hidefocusremove', () => {
-    const radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
-    const evt = 'hidefocusremove';
-    let response = null;
-    radioArr[0].addEventListener(evt, () => {
-      response = 'triggered';
-    });
-
-    radioArr[0].input.dispatchEvent(new Event('focusin'));
-    jest.advanceTimersByTime(1);
-    radioArr[0].input.dispatchEvent(new Event('focusout'));
-    jest.advanceTimersByTime(1);
-    expect(response).toEqual('triggered');
-  });
-
   it('should trigger key events', () => {
     const radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
     const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];

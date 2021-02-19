@@ -7,12 +7,13 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
 import styles from './ids-radio.scss';
+// @ts-ignore
 import IdsText from '../ids-text/ids-text';
+// @ts-ignore
 import IdsRadioGroup from './ids-radio-group';
 
 /**
@@ -96,7 +97,6 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     this.handleEvents();
-    this.hideFocus();
   }
 
   /**
@@ -134,6 +134,17 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin) {
   handleRadioChangeEvent() {
     this.onEvent('change', this.input, () => {
       this.checked = this.input.checked;
+    });
+  }
+
+  /**
+   * Handle radio click event
+   * @private
+   * @returns {void}
+   */
+  handleRadioClickEvent() {
+    this.onEvent('click', this.labelEl, () => {
+      this.input?.focus(); // Safari need focus first click
     });
   }
 

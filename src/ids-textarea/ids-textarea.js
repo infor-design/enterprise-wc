@@ -1,11 +1,11 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  mix,
+  scss,
+  props
 } from '../ids-base/ids-element';
 
-import { props } from '../ids-base/ids-constants';
 // @ts-ignore
 import styles from './ids-textarea.scss';
 
@@ -18,7 +18,7 @@ import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
 
 // Mixins
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
@@ -50,14 +50,21 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
 
 /**
  * IDS Textarea Component
+ * @type {IdsTextarea}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @part background-color - the tag background color
+ * @part color - the text color
  */
 @customElement('ids-textarea')
 @scss(styles)
-@mixin(IdsEventsMixin)
-@mixin(IdsClearableMixin)
-@mixin(IdsDirtyTrackerMixin)
-@mixin(IdsValidationMixin)
-class IdsTextarea extends IdsElement {
+class IdsTextarea extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsClearableMixin,
+    IdsDirtyTrackerMixin,
+    IdsValidationMixin
+  ) {
   /**
    * Call the constructor and then initialize
    */
@@ -113,12 +120,6 @@ class IdsTextarea extends IdsElement {
     this.input = this.shadowRoot.querySelector(`#${ID}`);
     /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
-
-    /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      /** @type {any} */
-      this.eventHandlers = new IdsEventsMixin();
-    }
 
     // @ts-ignore
     this.handleClearable();
@@ -286,7 +287,7 @@ class IdsTextarea extends IdsElement {
    * @private
    * @param {number} oldHeight old height
    * @param {number} maxHeight max height
-   * @param {HTMLElement} input The textarea input element
+   * @param {HTMLElement|null} input The textarea input element
    * @returns {void}
    */
   adjustHeight(oldHeight, maxHeight, input = null) {
@@ -351,7 +352,7 @@ class IdsTextarea extends IdsElement {
    */
   handleSlotchangeEvent() {
     const slot = this.shadowRoot.querySelector('slot');
-    this.eventHandlers.addEventListener('slotchange', slot, () => {
+    this.onEvent('slotchange', slot, () => {
       const val = slot.assignedNodes()[0].textContent;
       this.value = this.getMaxValue(val);
     });
@@ -367,12 +368,12 @@ class IdsTextarea extends IdsElement {
     if (this.input) {
       const eventName = 'focus';
       if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        const handler = this.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.eventHandlers.removeEventListener(eventName, this.input);
+          this.offEvent(eventName, this.input);
         }
       } else {
-        this.eventHandlers.addEventListener(eventName, this.input, () => {
+        this.onEvent(eventName, this.input, () => {
           setTimeout(() => { // safari has delay
             this.input?.select();
           }, 1);
@@ -389,7 +390,7 @@ class IdsTextarea extends IdsElement {
   handleTextareaChangeEvent() {
     const events = ['change', 'input', 'propertychange'];
     events.forEach((evt) => {
-      this.eventHandlers.addEventListener(evt, this.input, () => {
+      this.onEvent(evt, this.input, () => {
         this.value = this.input.value;
       });
     });
@@ -404,7 +405,7 @@ class IdsTextarea extends IdsElement {
     if (this.input) {
       const events = ['change', 'input', 'propertychange', 'focus', 'select'];
       events.forEach((evt) => {
-        this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
+        this.onEvent(evt, this.input, (/** @type {any} */ e) => {
           /**
            * Trigger event on parent and compose the args
            * will fire nativeEvents.
@@ -412,7 +413,7 @@ class IdsTextarea extends IdsElement {
            * @param  {object} elem Actual event
            * @param  {string} value The updated element value
            */
-          this.eventHandlers.dispatchEvent(e.type, this, {
+          this.triggerEvent(e.type, this, {
             detail: { elem: this, nativeEvent: e, value: this.value }
           });
         });

@@ -10,7 +10,7 @@ Use when you wanted to create rows of images with paragraphs/links that need to 
 
 ## Terminology
 
-- **Align**: The position of the block grid. You can set it to be centered, left, or right.
+- **Align**: The position of the block grid. You can set it to be center, left, or right.
 
 ## Feature (With the Code Examples)
 

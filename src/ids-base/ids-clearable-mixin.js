@@ -1,6 +1,3 @@
-import { IdsEventsMixin } from './ids-events-mixin';
-import { IdsKeyboardMixin } from './ids-keyboard-mixin';
-
 /**
  *Clearable (Shows an x-icon button to clear).
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -12,7 +9,6 @@ const IdsClearableMixin = (superclass) => class extends superclass {
 
   constructor() {
     super();
-    this.init(this);
   }
 
   /**
@@ -20,16 +16,6 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   handleClearable() {
-    /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      /** @type {any} */
-      this.eventHandlers = new IdsEventsMixin();
-    }
-    if (!this.keyboard) {
-      /** @type {any} */
-      this.keyboard = new IdsKeyboardMixin();
-    }
-
     let isClearable = this.clearable && !(this.disabled || this.readonly);
     isClearable = `${isClearable || this.clearableForced}`.toLowerCase() === 'true';
 

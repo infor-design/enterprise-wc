@@ -60,6 +60,10 @@
       }
     }
 
+    &:focus ~ .circle {
+      @include radio-focus();
+    }
+
     &:disabled {
       ~ .circle {
         @include radio-disabled-unchecked();
@@ -81,14 +85,6 @@
         @include radio-disabled-checked();
       }
     }
-
-    &:focus:not(.hide-focus) ~ .circle {
-      @include radio-focus();
-    }
-  }
-
-  &:focus:not(.hide-focus) input[type='radio'] ~ .circle {
-    @include radio-focus();
   }
 
   // Colored

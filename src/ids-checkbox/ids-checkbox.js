@@ -13,7 +13,6 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
-import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 
 // @ts-ignore
@@ -110,8 +109,6 @@ class IdsCheckbox extends mix(IdsElement).with(
     this.handleDirtyTracker();
     // @ts-ignore
     this.handleValidation();
-    // @ts-ignore
-    this.hideFocus();
   }
 
   /**

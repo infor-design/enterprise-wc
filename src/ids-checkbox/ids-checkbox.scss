@@ -77,6 +77,10 @@
       }
     }
 
+    &:focus ~ .checkmark {
+      @include checkbox-focus();
+    }
+
     &:disabled {
       ~ .checkmark {
         @include checkbox-disabled-unchecked();
@@ -93,10 +97,6 @@
       &:checked ~ .checkmark {
         @include checkbox-disabled-checked();
       }
-    }
-
-    &:focus:not(.hide-focus) ~ .checkmark {
-      @include checkbox-focus();
     }
   }
 

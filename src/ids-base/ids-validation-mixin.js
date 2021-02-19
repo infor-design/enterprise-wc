@@ -92,7 +92,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       let isValid = true;
       const useRules = this.useRules.get(this.input);
       useRules?.forEach((/** @type {object} */ thisRule) => {
-        if (!thisRule.rule.check(this.input)) {
+        if (!thisRule.rule.check(this.input) && this.isTypeNotValid) {
           this.addMessage(thisRule.rule);
           isValid = false;
           this.isTypeNotValid[thisRule.rule.type] = true;
@@ -199,7 +199,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
             this.offEvent(eventName, this.input);
           }
         } else {
-          this.onEvents(eventName, this.input, () => {
+          this.onEvent(eventName, this.input, () => {
             this.checkValidation();
           });
         }

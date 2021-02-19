@@ -130,7 +130,6 @@ describe('IdsCheckbox Component', () => {
     label.remove();
     cb.label = 'test';
     cb.radioCheckbox = false;
-    cb.hidefocusMousedown();
     document.body.innerHTML = '';
     const elem = new IdsCheckbox();
     document.body.appendChild(elem);

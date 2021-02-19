@@ -28,14 +28,10 @@ import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
 // Import Example Code
 
 import './ids-menu-button/example';
-import './ids-checkbox/example';
 import './ids-icon/example';
-import './ids-input/example';
-import './ids-input/test-validation-message';
 import './ids-popup/example';
 import './ids-render-loop/example';
 import './ids-toggle-button/example';
-import './ids-radio/example';
 import './ids-alert/example';
 import './ids-button/index';
 import './ids-menu-button/index';

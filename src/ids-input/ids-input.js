@@ -125,11 +125,6 @@ class IdsInput extends mix(IdsElement).with(
     /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
 
-    if (!this.eventHandlers) {
-      /** @type {any} */
-      this.eventHandlers = new IdsEventsMixin();
-    }
-
     if (this.value === null) {
       this.value = '';
     }

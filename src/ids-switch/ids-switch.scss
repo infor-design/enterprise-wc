@@ -50,6 +50,10 @@
       }
     }
 
+    &:focus ~ .slider::after {
+      @include switch-focus-after();
+    }
+
     &:disabled {
       ~ .slider {
         @include switch-disabled-off();
@@ -66,10 +70,6 @@
       &:checked ~ .slider::after {
         @include switch-disabled-on-after();
       }
-    }
-
-    &:focus:not(.hide-focus) ~ .slider::after {
-      @include switch-focus-after();
     }
   }
 }

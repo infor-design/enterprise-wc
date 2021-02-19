@@ -1,4 +1,3 @@
-import { IdsEventsMixin } from './ids-events-mixin';
 // @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 
@@ -23,12 +22,6 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
   handleDirtyTracker() {
     this.isCheckbox = this.input?.getAttribute('type') === 'checkbox';
     this.isRadioGroup = this.input?.classList.contains('ids-radio-group');
-
-    /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      /** @type {any} */
-      this.eventHandlers = new IdsEventsMixin();
-    }
 
     if (`${this.dirtyTracker}`.toLowerCase() === 'true') {
       if (this.input) {

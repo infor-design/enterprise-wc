@@ -73,12 +73,6 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
     // @ts-ignore
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
 
-    /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      /** @type {any} */
-      this.eventHandlers = new IdsEventsMixin();
-    }
-
     this.files = this.fileInput.files;
     this.handleEvents();
   }
