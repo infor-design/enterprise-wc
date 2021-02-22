@@ -146,9 +146,6 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   template() {
     // Setup the attributes on the top-level menu container
     let id;
-    if (this.data?.id) {
-      id = ` id="${this.data.id}"`;
-    }
     if (this.id) {
       id = ` id="${this.id}"`;
     }
@@ -180,10 +177,6 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     // Renders the contents of a submenu
     const renderContents = (submenuContents) => {
       let html = '';
-      if (!Array.isArray(submenuContents)) {
-        return html;
-      }
-
       submenuContents.forEach((elem) => {
         switch (elem.type) {
         case 'header':
@@ -279,7 +272,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @private
    */
   renderFromData() {
-    if (this.data?.contents?.length === 0) {
+    if (this.data?.length === 0) {
       return;
     }
 
@@ -294,17 +287,30 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     // Re-render all children
     this.innerHTML = '';
-    this.insertAdjacentHTML('beforeend', this.menuContentTemplate(this.data.contents));
+    this.insertAdjacentHTML('beforeend', this.menuContentTemplate(this.data));
   }
 
   /**
    * Set the data array of the datagrid
-   * @param {Array<any>} value The array to use
+   * @param {Array<any>|object} value The array to use
    * @returns {void}
    */
   set data(value) {
     if (value) {
-      this.datasource.data = value;
+      // If provided an object, search for a `contents` property and store that
+      if (typeof value === 'object' && Array.isArray(value.contents)) {
+        this.datasource.data = value.contents;
+        // Set the ID of this component if it's present in the object
+        if (value?.id) {
+          this.id = value.id;
+        }
+      } else if (Array.isArray(value)) {
+        this.datasource.data = value;
+      } else {
+        // accept no other non-empty types
+        return;
+      }
+
       this.renderFromData();
       return;
     }
@@ -313,7 +319,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   }
 
   /**
-   * @returns {Array<any>} containing the dataset
+   * @returns {Array<any>|object} containing the dataset
    */
   get data() {
     return this?.datasource?.data || [];

@@ -55,6 +55,36 @@ describe('IdsPopupMenu Component', () => {
     expect(menus.length).toEqual(2);
   });
 
+  it('accepts an array as a `contents` property', () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    document.body.innerHTML = '';
+    menu = new IdsPopupMenu();
+    menu.id = 'test-menu';
+    menu.data = [
+      {
+        type: 'group',
+        items: [
+          {
+            id: 'item-1',
+            text: 'Item One',
+            value: 1
+          },
+          {
+            id: 'item-2',
+            text: 'Item Two',
+            value: 2
+          }
+        ]
+      }
+    ];
+    document.body.appendChild(menu);
+
+    expect(errors).not.toHaveBeenCalled();
+    expect(menu.groups.length).toEqual(1);
+    expect(menu.items.length).toEqual(2);
+  });
+
   it('renders with no errors when given an empty dataset', () => {
     const errors = jest.spyOn(global.console, 'error');
 
@@ -73,8 +103,36 @@ describe('IdsPopupMenu Component', () => {
     document.body.innerHTML = '';
     menu = new IdsPopupMenu();
     menu.data = {
+      contents: []
+    };
+    document.body.appendChild(menu);
+
+    expect(errors).not.toHaveBeenCalled();
+    expect(menu.groups.length).toEqual(0);
+  });
+
+  it('propagates an `id` property on a data object as the Popupmenu\'s `id` attribute', () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    document.body.innerHTML = '';
+    menu = new IdsPopupMenu();
+    menu.data = {
       id: 'test-menu',
       contents: []
+    };
+    document.body.appendChild(menu);
+
+    expect(errors).not.toHaveBeenCalled();
+    expect(menu.id).toBe('test-menu');
+  });
+
+  it('won\'t render contents if the contents property is not valid', () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    document.body.innerHTML = '';
+    menu = new IdsPopupMenu();
+    menu.data = {
+      contents: 'cake'
     };
     document.body.appendChild(menu);
 
@@ -140,6 +198,39 @@ describe('IdsPopupMenu Component', () => {
               text: 'My Menu Item',
               submenu: {
                 id: 'my-submenu'
+              }
+            }
+          ]
+        }
+      ]
+    };
+    document.body.appendChild(menu);
+
+    const item = document.querySelector('#my-item');
+
+    expect(errors).not.toHaveBeenCalled();
+    expect(item).toBeDefined();
+    expect(item.hasSubmenu).toBeFalsy();
+  });
+
+  it('won\'t render an item\'s submenu if the submenu\'s `contents` property is invalid', () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    document.body.innerHTML = '';
+    menu = new IdsPopupMenu();
+    menu.data = {
+      id: 'test-menu',
+      contents: [
+        {
+          type: 'group',
+          id: 'empty-group',
+          items: [
+            {
+              id: 'my-item',
+              text: 'My Menu Item',
+              submenu: {
+                id: 'my-submenu',
+                contents: 'fish'
               }
             }
           ]

@@ -17,6 +17,7 @@ let resizeTargets = [];
 const IdsResizeMixin = (superclass) => class extends superclass {
   constructor() {
     super();
+    this.observed = [];
   }
 
   /**
@@ -67,8 +68,6 @@ const IdsResizeMixin = (superclass) => class extends superclass {
     if (!resizeTargets.includes(this)) {
       resizeTargets.push(this);
     }
-
-    this.observed = [];
   }
 
   /**
@@ -131,7 +130,7 @@ const IdsResizeMixin = (superclass) => class extends superclass {
       return;
     }
     const i = this.observed.indexOf(el);
-    if (i < -1) {
+    if (i > -1) {
       this.observed.splice(i, 1);
       this.ro.disconnect(el);
     }

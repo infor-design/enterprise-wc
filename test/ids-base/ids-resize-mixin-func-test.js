@@ -52,8 +52,8 @@ describe('IdsResizeMixin Tests', () => {
 
     expect(typeof elem.setupResize).toBe('function');
     expect(typeof elem.disconnectResize).toBe('function');
-    expect(typeof elem.addObservedElements).toBe('function');
-    expect(typeof elem.removeObservedElements).toBe('function');
+    expect(typeof elem.addObservedElement).toBe('function');
+    expect(typeof elem.removeObservedElement).toBe('function');
 
     expect(Array.isArray(elem.observed)).toBeTruthy();
 
@@ -96,35 +96,40 @@ describe('IdsResizeMixin Tests', () => {
     }, 20);
   });
 
-  // @TODO: re-check this when #47 is merged
-  it.skip('can add/remove elements observed by the ResizeObserver', () => {
+  it('can add/remove elements observed by the ResizeObserver', () => {
     const newElem = document.createElement('div');
     newElem.id = 'new-elem';
     document.body.appendChild(newElem);
 
-    expect(typeof elem.addObservedElements).toBe('function');
-    elem.addObservedElements(newElem);
+    elem.addObservedElement(newElem);
 
     expect(elem.observed.length).toBe(2);
 
-    expect(typeof elem.removeObservedElements).toBe('function');
-    elem.removeObservedElements(newElem);
+    // Can't add the same one twice
+    elem.addObservedElement(newElem);
+
+    expect(elem.observed.length).toBe(2);
+
+    elem.removeObservedElement(newElem);
+
+    expect(elem.observed.length).toBe(1);
+
+    // Can't remove it if it's not present in the observed array
+    elem.removeObservedElement(newElem);
 
     expect(elem.observed.length).toBe(1);
   });
 
-  // @TODO: re-check this when #47 is merged
-  it.skip('can\'t add non-elements to the observed elements array', () => {
-    expect(typeof elem.addObservedElements).toBe('function');
-    elem.addObservedElements({});
+  it('can\'t add non-elements to the observed elements array', () => {
+    expect(typeof elem.addObservedElement).toBe('function');
+    elem.addObservedElement({});
 
     expect(elem.observed.length).toBe(1);
   });
 
-  // @TODO: re-check this when #47 is merged
-  it.skip('can\'t remove non-elements to the observed elements array', () => {
-    expect(typeof elem.removeObservedElements).toEqual('function');
-    elem.removeObservedElements({});
+  it('can\'t remove non-elements to the observed elements array', () => {
+    expect(typeof elem.removeObservedElement).toEqual('function');
+    elem.removeObservedElement({});
 
     expect(elem.observed.length).toBe(1);
   });
