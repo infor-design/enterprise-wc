@@ -1,7 +1,8 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
+import { IdsElement } from '../ids-base/ids-element';
 
-export default class IdsCheckbox extends HTMLElement {
+export default class IdsCheckbox extends IdsElement {
   /** Sets the checked state to true or false */
   checked: boolean;
 
@@ -34,4 +35,7 @@ export default class IdsCheckbox extends HTMLElement {
 
   /** Sets the checkbox `value` attribute * */
   value: string;
+
+  /** Fires while the checkbox is changed */
+  on(event: 'change', listener: () => void): this;
 }

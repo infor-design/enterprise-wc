@@ -1,16 +1,15 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  props,
+  scss,
+  mix
 } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
-import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
+
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
-// @TODO: TypeScript Compiler doesn't like this, but this is needed for the
-// ability to generate icon markup in this component.
 // @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 
@@ -51,11 +50,14 @@ function safeForAttribute(value) {
 
 /**
  * IDS Menu Item Component
+ * @type {IdsMenuItem}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsRenderLoopMixin
  */
 @customElement('ids-menu-item')
 @scss(styles)
-@mixin(IdsRenderLoopMixin)
-class IdsMenuItem extends IdsElement {
+class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin) {
   /**
    * Build the menu item
    */
@@ -140,15 +142,15 @@ class IdsMenuItem extends IdsElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (this.shouldUpdate) {
       switch (name) {
-        // Convert "tabindex" to "tabIndex"
-        case 'tabindex':
-          if (oldValue !== newValue) {
-            this.tabIndex = Number(newValue);
-          }
-          break;
-        default:
-          IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
-          break;
+      // Convert "tabindex" to "tabIndex"
+      case 'tabindex':
+        if (oldValue !== newValue) {
+          this.tabIndex = Number(newValue);
+        }
+        break;
+      default:
+        IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+        break;
       }
     }
   }
@@ -180,8 +182,6 @@ class IdsMenuItem extends IdsElement {
    */
   handleEvents() {
     const self = this;
-    this.eventHandlers = new IdsEventsMixin();
-
     // "Hover" timeout deals with `mouseenter`/`mouseleave` events, and causes the
     // menu to open after a delay.
     /* istanbul ignore next */
@@ -209,7 +209,7 @@ class IdsMenuItem extends IdsElement {
     // On 'mouseenter', after a specified duration, run some events,
     // including activation of submenus where applicable.
     /* istanbul ignore next */
-    this.eventHandlers.addEventListener('mouseenter', this, () => {
+    this.onEvent('mouseenter', this, () => {
       clearHideSubmenuTimeout();
       if (!this.disabled && this.hasSubmenu) {
         clearHoverTimeout();
@@ -241,7 +241,7 @@ class IdsMenuItem extends IdsElement {
     // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
     // and unhighlight the item
     /* istanbul ignore next */
-    this.eventHandlers.addEventListener('mouseleave', this, () => {
+    this.onEvent('mouseleave', this, () => {
       clearHoverTimeout();
 
       if (this.hasSubmenu && !this.submenu.hidden) {
@@ -267,7 +267,7 @@ class IdsMenuItem extends IdsElement {
     });
 
     // When any of this item's slots change, refresh the visual state of the item
-    this.eventHandlers.addEventListener('slotchange', this.container, () => {
+    this.onEvent('slotchange', this.container, () => {
       this.refresh();
     });
   }
@@ -302,7 +302,7 @@ class IdsMenuItem extends IdsElement {
    */
   set disabled(val) {
     // Handled as boolean attribute
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
     this.state.disabled = trueVal;
 
     const a = this.a;
@@ -347,7 +347,7 @@ class IdsMenuItem extends IdsElement {
    * @param {boolean} val true if the menu item should appear highlighted
    */
   set highlighted(val) {
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
 
     // Don't highlight if the item is disabled.
     if (trueVal && this.disabled) {
@@ -386,7 +386,7 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
-   * @param {string} val representing the icon to set
+   * @param {string | undefined} val representing the icon to set
    */
   set icon(val) {
     if (typeof val !== 'string' || !val.length) {
@@ -405,14 +405,14 @@ class IdsMenuItem extends IdsElement {
   }
 
   /**
-   * @returns {undefined|string} a defined IdsIcon's `icon` attribute, if one is present
+   * @returns {string | undefined} a defined IdsIcon's `icon` attribute, if one is present
    */
   get icon() {
     return this.iconEl?.icon;
   }
 
   /**
-   * @returns {any} [undefined|IdsIcon] reference to a defined IDS Icon element, if applicable
+   * @returns {any} [IdsIcon | undefined] reference to a defined IDS Icon element, if applicable
    */
   get iconEl() {
     const icon = [...this.children].find((e) => e.matches('ids-icon'));
@@ -545,7 +545,7 @@ class IdsMenuItem extends IdsElement {
    */
   set selected(val) {
     // Determine true state and event names
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
     const duringEventName = trueVal ? 'selected' : 'deselected';
     const beforeEventName = `before${duringEventName}`;
 
@@ -555,7 +555,7 @@ class IdsMenuItem extends IdsElement {
     const beforeSelectResponse = (/** @type {any} */ veto) => {
       canSelect = !!veto;
     };
-    this.eventHandlers?.dispatchEvent(beforeEventName, this, {
+    this.triggerEvent(beforeEventName, this, {
       detail: {
         elem: this,
         response: beforeSelectResponse
@@ -584,7 +584,7 @@ class IdsMenuItem extends IdsElement {
     }
 
     // Build/Fire a `selected` event for performing other actions.
-    this.eventHandlers?.dispatchEvent(duringEventName, this, {
+    this.triggerEvent(duringEventName, this, {
       bubbles: true,
       detail: {
         elem: this,

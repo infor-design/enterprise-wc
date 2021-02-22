@@ -7,7 +7,9 @@ import {
 import styles from './ids-card.scss';
 
 /**
- * IDS Label Component
+ * IDS Card Component
+ * @type {IdsCard}
+ * @inherits IdsElement
  */
 @customElement('ids-card')
 @scss(styles)
@@ -41,7 +43,7 @@ class IdsCard extends IdsElement {
 
   /**
    * Set the height of the card
-   * @param {string} value The height can be single, double, triple or auto
+   * @param {string | null} value The height can be single, double, triple or auto
    */
   set autoHeight(value) {
     if (value) {

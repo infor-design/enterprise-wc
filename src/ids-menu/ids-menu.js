@@ -1,8 +1,10 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  mix
 } from '../ids-base/ids-element';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 
@@ -24,6 +26,7 @@ import styles from './ids-menu.scss';
  */
 function isValidGroup(menuGroup, idsMenu) {
   let hasGroup;
+  // @ts-ignore
   const isElem = menuGroup instanceof IdsMenuGroup;
   idsMenu.groups.forEach((group) => {
     if ((isElem && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {
@@ -40,6 +43,7 @@ function isValidGroup(menuGroup, idsMenu) {
  * @returns {boolean} true if the provided element is a "currently-usable" IdsMenuItem type.
  */
 function isUsableItem(item, idsMenu) {
+  // @ts-ignore
   const isItem = item instanceof IdsMenuItem;
   const menuHasItem = idsMenu.contains(item);
   return (isItem && menuHasItem && !item.disabled);
@@ -47,10 +51,14 @@ function isUsableItem(item, idsMenu) {
 
 /**
  * IDS Menu Component
+ * @type {IdsMenu|any}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  */
 @customElement('ids-menu')
 @scss(styles)
-class IdsMenu extends IdsElement {
+class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   constructor() {
     super();
     this.state = {};
@@ -64,8 +72,6 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
-
     // Highlight handler -- Menu Items Only, don't change if the target is disabled
     const highlightItem = (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
@@ -81,7 +87,7 @@ class IdsMenu extends IdsElement {
     // Highlight the item on click
     // If the item doesn't contain a submenu, select it.
     // If the item does have a submenu, activate it.
-    this.eventHandlers.addEventListener('click', this, (/** @type {any} */ e) => {
+    this.onEvent('click', this, (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.highlightItem(thisItem);
       this.selectItem(thisItem);
@@ -90,8 +96,8 @@ class IdsMenu extends IdsElement {
     });
 
     // Focus in/out causes highlight to change
-    this.eventHandlers.addEventListener('focusin', this, highlightItem);
-    this.eventHandlers.addEventListener('focusout', this, unhighlightItem);
+    this.onEvent('focusin', this, highlightItem);
+    this.onEvent('focusout', this, unhighlightItem);
   }
 
   /**
@@ -99,24 +105,22 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   handleKeys() {
-    this.keyboard = new IdsKeyboardMixin();
-
     // Arrow Up navigates focus backward
-    this.keyboard.listen(['ArrowUp'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowUp'], this, (/** @type {any} */ e) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(-1, true);
     });
 
     // Arrow Right navigates focus forward
-    this.keyboard.listen(['ArrowDown'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowDown'], this, (/** @type {any} */ e) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(1, true);
     });
 
     // Enter/Spacebar select the menu item
-    this.keyboard.listen(['Enter', 'Spacebar', ' '], this, (/** @type {any} */ e) => {
+    this.listen(['Enter', 'Spacebar', ' '], this, (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.selectItem(thisItem);
       this.lastNavigated = thisItem;
@@ -163,9 +167,10 @@ class IdsMenu extends IdsElement {
 
   /**
    * @readonly
-   * @returns {IdsMenuItem} the currently focused menu item, if one exists
+   * @returns {IdsMenuItem|undefined} the currently focused menu item, if one exists
    */
   get focused() {
+    // @ts-ignore
     return this.items.find((item) => document.activeElement.isEqualNode(item));
   }
 
@@ -234,6 +239,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   highlightItem(menuItem) {
+    // @ts-ignore
     if (!isUsableItem(menuItem, this)) {
       return;
     }
@@ -296,7 +302,7 @@ class IdsMenu extends IdsElement {
   }
 
   /**
-   * @returns {IdsMenuItem} the first available item, closest to the top of the menu.
+   * @returns {IdsMenuItem | undefined} the first available item, closest to the top of the menu.
    */
   getFirstAvailableItem() {
     const items = this.items;
@@ -320,6 +326,7 @@ class IdsMenu extends IdsElement {
    * @returns {Array<IdsMenuItem>} list of selected menu items
    */
   getSelectedItems(menuGroup) {
+    // @ts-ignore
     const group = isValidGroup(menuGroup, this);
     return this.items.filter((item) => {
       if (group) {
@@ -344,6 +351,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   selectItem(menuItem) {
+    // @ts-ignore
     if (!isUsableItem(menuItem, this)) {
       return;
     }
@@ -357,16 +365,16 @@ class IdsMenu extends IdsElement {
 
     const group = menuItem.group;
     switch (group.select) {
-      case 'multiple':
-        // Multiple-select mode (Toggles selection, ignores others)
-        menuItem[menuItem.selected ? 'deselect' : 'select']();
-        break;
-      default:
-        // "none" and "single" select mode.
-        // In "single" mode, deselection of other items is handled by event
-        // at the menu group level.
-        menuItem.select();
-        break;
+    case 'multiple':
+      // Multiple-select mode (Toggles selection, ignores others)
+      menuItem[menuItem.selected ? 'deselect' : 'select']();
+      break;
+    default:
+      // "none" and "single" select mode.
+      // In "single" mode, deselection of other items is handled by event
+      // at the menu group level.
+      menuItem.select();
+      break;
     }
   }
 
@@ -377,6 +385,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   clearSelectedItems(menuGroup) {
+    // @ts-ignore
     const group = isValidGroup(menuGroup, this);
     this.items.forEach((item) => {
       let doDeselect;

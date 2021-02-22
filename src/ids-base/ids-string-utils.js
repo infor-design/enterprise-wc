@@ -1,7 +1,7 @@
 /**
  * Ids String parsing/processing utilities
  */
-const IdsStringUtilsMixin = {
+const IdsStringUtils = {
   /**
    * Convert a string in presumed kebab case to camel case
    * @param  {string} str [description]
@@ -16,11 +16,14 @@ const IdsStringUtilsMixin = {
 
   /**
    * Convert a string value into a boolean
-   * @param {string|boolean} val string value from the component property
+   * @param {string|boolean|any} val string value from the component property
    * @returns {boolean} The return boolean
    */
   stringToBool(val) {
-    return (val + '').toLowerCase() === 'true'; //eslint-disable-line
+    if (typeof val === 'string' && val.toLowerCase() === 'false') {
+      return false;
+    }
+    return val !== null && (val === true || (typeof val === 'string' && val !== 'false'));
   },
 
   /**
@@ -34,4 +37,4 @@ const IdsStringUtilsMixin = {
   }
 };
 
-export { IdsStringUtilsMixin };
+export { IdsStringUtils };

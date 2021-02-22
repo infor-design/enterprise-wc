@@ -106,6 +106,19 @@ describe('IdsTag Component', () => {
     expect(document.querySelectorAll('ids-tag').length).toEqual(0);
   });
 
+  it('fires click on enter', () => {
+    tag.clickable = true;
+    const mockCallback = jest.fn((x) => {
+      expect(x).toBeTruthy();
+    });
+    tag.addEventListener('click', mockCallback);
+
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    tag.dispatchEvent(event);
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
   it('fires beforetagremoved on dismiss', () => {
     tag.dismissible = true;
     tag.addEventListener('beforetagremoved', (e) => {
@@ -116,17 +129,29 @@ describe('IdsTag Component', () => {
     expect(document.body.contains(tag)).toEqual(true);
   });
 
-  it('fires aftertagremoved and tagremoved on dismiss', () => {
+  it('fires tagremoved on dismiss', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
     });
 
     tag.dismissible = true;
     tag.addEventListener('tagremoved', mockCallback);
+    tag.dismiss();
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+    expect(document.body.contains(tag)).toEqual(false);
+  });
+
+  it('fires aftertagremoved on dismiss', () => {
+    const mockCallback = jest.fn((x) => {
+      expect(x.detail.elem).toBeTruthy();
+    });
+
+    tag.dismissible = true;
     tag.addEventListener('aftertagremoved', mockCallback);
     tag.dismiss();
 
-    expect(mockCallback.mock.calls.length).toBe(2);
+    expect(mockCallback.mock.calls.length).toBe(1);
     expect(document.body.contains(tag)).toEqual(false);
   });
 
@@ -153,7 +178,7 @@ describe('IdsTag Component', () => {
   it('can be clickable', () => {
     tag.clickable = true;
     const mockHandler = jest.fn();
-    tag.keyboard.listen('Enter', tag, mockHandler);
+    tag.listen('Enter', tag, mockHandler);
 
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
     tag.dispatchEvent(event);

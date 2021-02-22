@@ -95,12 +95,10 @@ describe('IdsRadioGroup Component', () => {
     val = rg.valMethod(rg.input);
     rg.setDirtyTracker(val);
     jest.advanceTimersByTime(1);
-    radioArr[0].hidefocusToggle(radioArr[0].input);
     expect(rg.getAttribute('dirty-tracker')).toEqual('true');
     expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
     expect(rg.labelEl.querySelector('.msg-dirty')).toBeTruthy();
     jest.advanceTimersByTime(1);
-    radioArr[0].hidefocusToggle(radioArr[0].input, true);
     expect(rg.getAttribute('dirty-tracker')).toEqual('true');
     expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
     expect(rg.labelEl.querySelector('.msg-dirty')).toBeTruthy();
@@ -350,21 +348,6 @@ describe('IdsRadioGroup Component', () => {
     });
     const event = new Event(evt);
     radio.input.dispatchEvent(event);
-    expect(response).toEqual('triggered');
-  });
-
-  it('should trigger hidefocusremove', () => {
-    const radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
-    const evt = 'hidefocusremove';
-    let response = null;
-    radioArr[0].addEventListener(evt, () => {
-      response = 'triggered';
-    });
-
-    radioArr[0].input.dispatchEvent(new Event('focusin'));
-    jest.advanceTimersByTime(1);
-    radioArr[0].input.dispatchEvent(new Event('focusout'));
-    jest.advanceTimersByTime(1);
     expect(response).toEqual('triggered');
   });
 

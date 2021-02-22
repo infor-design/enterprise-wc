@@ -40,7 +40,7 @@ module.exports = {
     // Dont force a new line after comments
     'jsdoc/newline-after-description': 0,
     // Allow a few custom jsdoc tags
-    'jsdoc/check-tag-names': ['error', { definedTags: ['jest-environment'] }],
+    'jsdoc/check-tag-names': ['error', { definedTags: ['jest-environment', 'inherits', 'part'] }],
     // require trailing commas in multiline object literals
     'comma-dangle': ['off', {
       arrays: 'never',
@@ -74,6 +74,11 @@ module.exports = {
     'prefer-destructuring': ['off', { }],
     // Allow i++
     'no-plusplus': ['off', { }],
+    // Allow console.info
+    'no-console': ['error', { allow: ['error', 'info'] }],
+    'template-curly-spacing': ['off'],
+    indent: ['error', 2, { ignoredNodes: ['TemplateLiteral'] }
+    ],
   },
   settings: {
     jsdoc: {
@@ -102,7 +107,8 @@ module.exports = {
         quotes: ['error', 'single'],
         'max-len': ['error', { comments: 200, code: 100 }],
         'no-shadow': ['off', { }],
-        'no-use-before-define': ['off', { }]
+        'no-use-before-define': ['off', { }],
+        'max-classes-per-file': ['error', 5]
       }
     }
   ]

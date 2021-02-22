@@ -1,27 +1,34 @@
 /**
  * Handle keyboard shortcuts and pressed down keys
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
  */
-class IdsKeyboardMixin {
+const IdsKeyboardMixin = (superclass) => class extends superclass {
+  constructor() {
+    super();
+    this.init();
+  }
+
   /**
    * Initializes the keyboard management system with the current object
-   * @param {object} elem the element for linkage
    * @private
    */
-  init(elem) {
-    this.element = elem;
+  init() {
+    /** @type {Map | any} */
     this.hotkeys = new Map();
+    /** @type {Map | any} */
     this.pressedKeys = new Map();
 
     this.keyDownHandler = (/** @type {any} */ e) => {
       this.press(e.key);
       this.dispatchHotkeys(e);
     };
-    this.element.addEventListener('keydown', this.keyDownHandler);
+    this.onEvent('keydown.keyboard', this, this.keyDownHandler);
 
     this.keyUpHandler = (/** @type {any} */ e) => {
       this.unpress(e.key);
     };
-    this.element.addEventListener('keyup', this.keyUpHandler);
+    this.onEvent('keyup.keyboard', this, this.keyUpHandler);
   }
 
   /**
@@ -41,10 +48,6 @@ class IdsKeyboardMixin {
    * @param {Function} callback The call back when this combination is met
    */
   listen(keycode, elem, callback) {
-    if (!this.element) {
-      this.init(elem);
-    }
-
     this.hotkeys.set(`${keycode}`, callback);
   }
 
@@ -65,7 +68,7 @@ class IdsKeyboardMixin {
    * @returns {void}
    */
   dispatchHotkeys(e) {
-    this.hotkeys.forEach((value, key) => {
+    this.hotkeys.forEach((/** @type {any} */ value, /** @type {any} */key) => {
       if (key.split(',').indexOf(e.key) > -1) {
         value(e);
       }
@@ -75,17 +78,16 @@ class IdsKeyboardMixin {
   /**
    * Remove all handlers and clear memory
    */
-  destroy() {
-    if (!this.element) {
-      return;
+  detachAllListeners() {
+    if (this.keyDownHandler && this.offEvent) {
+      this.offEvent('keydown.keyboard', this, this.keyDownHandler);
+      delete this.keyDownHandler;
     }
-
-    this.element.removeEventListener('keydown', this.keyDownHandler);
-    this.element.removeEventListener('keyup', this.keyUpHandler);
-    delete this.keyDownHandler;
-    delete this.keyUpHandler;
-    delete this.element;
+    if (this.keyUpHandler && this.offEvent) {
+      this.offEvent('keyup.keyboard', this, this.keyUpHandler);
+      delete this.keyUpHandler;
+    }
   }
-}
+};
 
 export { IdsKeyboardMixin };

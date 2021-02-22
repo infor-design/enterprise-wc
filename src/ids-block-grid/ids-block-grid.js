@@ -28,18 +28,18 @@ class IdsBlockgrid extends IdsElement {
 
   /**
    * Return the alignment of blockgrid
-   * @returns {string} The path data
+   * @returns {string|null} The path data
    */
   get align() { return this.getAttribute(props.ALIGN); }
 
   /**
    * Set the alignment of blockgrid
-   * @param {string} value The Blockgrid Alignment
+   * @param {string|null} value The Blockgrid Alignment
    */
   set align(value) {
     if (value) {
       this.setAttribute(props.ALIGN, value);
-      this.style.textAlign = value === 'centered' ? 'center' : `${value}`;
+      this.style.textAlign = `${value}`;
     } else {
       this.removeAttribute(props.ALIGN);
       this.style.removeProperty('text-align');

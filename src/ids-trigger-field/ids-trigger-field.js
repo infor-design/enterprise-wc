@@ -1,14 +1,14 @@
 import {
   IdsElement,
   customElement,
-  mixin,
+  mix,
   scss,
   props
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
-import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+
 // @ts-ignore
 import styles from './ids-trigger-field.scss';
 
@@ -21,12 +21,14 @@ import IdsInput from '../ids-input/ids-input';
 import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
 
 /**
- * IDS Trigger Field Components
+ * IDS Trigger Field Component
+ * @type {IdsTriggerField}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-trigger-field')
 @scss(styles)
-@mixin(IdsDomUtilsMixin)
-class IdsTriggerField extends IdsElement {
+class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -115,16 +117,10 @@ class IdsTriggerField extends IdsElement {
       return false;
     }
 
-    /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      /** @type {any} */
-      this.eventHandlers = new IdsEventsMixin();
-    }
-
     /** @type {any} */
     const button = this.querySelector('ids-trigger-button');
     if (button) {
-      this.eventHandlers.addEventListener('click', button, () => this.trigger());
+      this.onEvent('click', button, () => this.trigger());
     }
 
     return this;
@@ -138,13 +134,13 @@ class IdsTriggerField extends IdsElement {
     const response = (/** @type {any} */ veto) => {
       canTrigger = !!veto;
     };
-    this.eventHandlers.dispatchEvent('beforetriggerclicked', this, { detail: { elem: this, response } });
+    this.triggerEvent('beforetriggerclicked', this, { detail: { elem: this, response } });
 
     if (!canTrigger) {
       return;
     }
 
-    this.eventHandlers.dispatchEvent('triggerclicked', this, { detail: { elem: this } });
+    this.triggerEvent('triggerclicked', this, { detail: { elem: this } });
   }
 }
 

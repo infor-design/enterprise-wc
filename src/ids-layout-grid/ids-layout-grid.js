@@ -1,21 +1,20 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  props
 } from '../ids-base/ids-element';
 
-import { mixin } from '../ids-base/ids-decorators';
-import { IdsStringUtilsMixin } from '../ids-base/ids-string-utils-mixin';
-import { props } from '../ids-base/ids-constants';
 // @ts-ignore
 import styles from './ids-layout-grid.scss';
 
 /**
- * IDS Layout Component
+ * IDS Layout Grid Component
+ * @type {IdsLayoutGrid}
+ * @inherits IdsElement
  */
 @customElement('ids-layout-grid')
 @scss(styles)
-@mixin(IdsStringUtilsMixin)
 class IdsLayoutGrid extends IdsElement {
   constructor() {
     super();
@@ -38,7 +37,7 @@ class IdsLayoutGrid extends IdsElement {
 
   /**
    * If true the grid is not responsive and stays equal width as will fit
-   * @param {boolean|string} value true or false/nothing
+   * @param {boolean | string | null} value true or false/nothing
    */
   set fixed(value) {
     if (value) {
@@ -75,7 +74,7 @@ class IdsLayoutGrid extends IdsElement {
 
   /**
    * Sets the grid to `auto-fit`
-   * @param {boolean|string} value true or false/nothing
+   * @param {boolean | string | null} value true or false/nothing
    */
   set auto(value) {
     if (value) {
@@ -92,7 +91,7 @@ class IdsLayoutGrid extends IdsElement {
 
   /**
    * Sets the amount of columns in the grid
-   * @param {string} value number of columns of the grid
+   * @param {string | null} value number of columns of the grid
    */
   set cols(value) {
     if (value) {
@@ -113,7 +112,7 @@ class IdsLayoutGrid extends IdsElement {
 
   /**
    * Sets the amount of rows in the grid. Works best with fixed height grids
-   * @param {string} value number of rows in a fixed grid
+   * @param {string | null} value number of rows in a fixed grid
    */
   set rows(value) {
     if (value) {
@@ -134,7 +133,7 @@ class IdsLayoutGrid extends IdsElement {
 
   /**
    * If true the grid will not have any margins
-   * @param {boolean|string} value true or false/nothing
+   * @param {boolean | string | null} value true or false/nothing
    */
   set noMargins(value) {
     if (value) {

@@ -1,18 +1,18 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  mix,
+  scss,
+  props
 } from '../ids-base/ids-element';
 
-import { props } from '../ids-base/ids-constants';
 // @ts-ignore
 import styles from './ids-checkbox.scss';
 
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
-import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 
 // @ts-ignore
@@ -20,13 +20,19 @@ import IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Checkbox Component
+ * @type {IdsCheckbox}
+ * @inherits IdsElement
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsValidationMixin
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-checkbox')
 @scss(styles)
-@mixin(IdsHideFocusMixin)
-@mixin(IdsDirtyTrackerMixin)
-@mixin(IdsValidationMixin)
-class IdsCheckbox extends IdsElement {
+class IdsCheckbox extends mix(IdsElement).with(
+    IdsDirtyTrackerMixin,
+    IdsValidationMixin,
+    IdsEventsMixin
+  ) {
   /**
    * Call the constructor and then initialize
    */
@@ -98,19 +104,11 @@ class IdsCheckbox extends IdsElement {
     /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector('label');
 
-    /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      /** @type {any} */
-      this.eventHandlers = new IdsEventsMixin();
-    }
-
     this.handleEvents();
     // @ts-ignore
     this.handleDirtyTracker();
     // @ts-ignore
     this.handleValidation();
-    // @ts-ignore
-    this.hideFocus();
   }
 
   /**
@@ -147,10 +145,10 @@ class IdsCheckbox extends IdsElement {
    * @returns {void}
    */
   handleCheckboxChangeEvent() {
-    this.eventHandlers.addEventListener('change', this.input, (e) => {
+    this.onEvent('change', this.input, (e) => {
       this.indeterminate = false;
       this.checked = this.input.checked;
-      this.eventHandlers.dispatchEvent(e.type, this, {
+      this.triggerEvent(e.type, this, {
         detail: {
           elem: this,
           nativeEvent: e,
@@ -169,16 +167,8 @@ class IdsCheckbox extends IdsElement {
   handleNativeEvents() {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
-      this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
-        // console.log('t2-native', evt, e.type);
-        /**
-         * Trigger event on parent and compose the args
-         * will fire nativeEvents.
-         * @private
-         * @param  {object} elem Actual event
-         * @param  {string} value The updated input element value
-         */
-        this.eventHandlers.dispatchEvent(e.type, this, {
+      this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+        this.triggerEvent(e.type, this, {
           detail: {
             elem: this,
             nativeEvent: e,

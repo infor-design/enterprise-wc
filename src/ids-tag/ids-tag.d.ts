@@ -1,13 +1,22 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
+import { IdsElement } from '../ids-base/ids-element';
+
 interface IdsTagEventDetail extends Event {
   detail: {
     elem: IdsTag
   }
 }
 
-export default class IdsTag extends HTMLElement {
+interface IdsTagEventVetoable extends Event {
+  detail: {
+    elem: IdsTag,
+    response: () => boolean
+  }
+}
+
+export default class IdsTag extends IdsElement {
   /** Set the tag type/color */
   color: 'secondary' | 'error' | 'success' | 'caution' | string;
 
@@ -18,11 +27,8 @@ export default class IdsTag extends HTMLElement {
   dismiss(): void;
 
   /** Fires before the tag is removed, you can return false in the response to veto. */
-  on(event: 'beforetagremoved', listener: (detail: IdsTagEventDetail) => void): this;
+  on(event: 'beforetagremoved', listener: (detail: IdsTagEventVetoable) => void): this;
 
   /** Fires while the tag is removed */
   on(event: 'tagremoved', listener: (detail: IdsTagEventDetail) => void): this;
-
-  /** Fires after the tag is fully removed */
-  on(event: 'aftertagremoved', listener: (detail: IdsTagEventDetail) => void): this;
 }

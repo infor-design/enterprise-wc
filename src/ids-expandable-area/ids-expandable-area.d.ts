@@ -1,11 +1,12 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
-interface nativeElement extends HTMLElement {
-  expanded: string;
-  type: null | 'toggle-btn' | string;
-}
+import { IdsElement } from '../ids-base/ids-element';
 
-export default class IdsExpandableArea extends HTMLElement {
-  nativeElement: nativeElement;
+export default class extends IdsElement {
+  /** Set the expanded state */
+  expanded: string;
+
+  /** Set the type of expander to toggle-btn or not and future types */
+  type: null | 'toggle-btn' | string;
 }

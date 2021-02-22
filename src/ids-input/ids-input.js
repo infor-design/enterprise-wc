@@ -1,11 +1,11 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  mix,
+  scss,
+  props
 } from '../ids-base/ids-element';
 
-import { props } from '../ids-base/ids-constants';
 // @ts-ignore
 import styles from './ids-input.scss';
 
@@ -18,9 +18,9 @@ import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
 
 // Mixins
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsDomUtilsMixin } from '../ids-base/ids-dom-utils-mixin';
+import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
@@ -58,15 +58,23 @@ const TEXT_ALIGN = {
 
 /**
  * IDS Input Component
+ * @type {IdsInput}
+ * @inherits IdsElement
+ * @mixes IdsClearableMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsEventsMixin
+ * @mixes IdsValidationMixin
  */
 @customElement('ids-input')
 @scss(styles)
-@mixin(IdsEventsMixin)
-@mixin(IdsDomUtilsMixin)
-@mixin(IdsClearableMixin)
-@mixin(IdsDirtyTrackerMixin)
-@mixin(IdsValidationMixin)
-class IdsInput extends IdsElement {
+class IdsInput extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsClearableMixin,
+    IdsKeyboardMixin,
+    IdsDirtyTrackerMixin,
+    IdsValidationMixin
+  ) {
   /**
    * Call the constructor and then initialize
    */
@@ -116,11 +124,6 @@ class IdsInput extends IdsElement {
     this.input = this.shadowRoot.querySelector(`#${ID}`);
     /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
-
-    if (!this.eventHandlers) {
-      /** @type {any} */
-      this.eventHandlers = new IdsEventsMixin();
-    }
 
     if (this.value === null) {
       this.value = '';
@@ -179,17 +182,18 @@ class IdsInput extends IdsElement {
         prop2: prop !== props.READONLY ? props.READONLY : props.DISABLED,
         val: stringUtils.stringToBool(this[prop])
       };
+      const rootEl = this.shadowRoot.querySelector('.ids-input');
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
-        this.labelEl?.classList.remove(options.prop2);
+        rootEl?.classList.remove(options.prop2);
         msgNodes.forEach((x) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
-        this.labelEl?.classList.add(options.prop1);
+        rootEl?.classList.add(options.prop1);
         msgNodes.forEach((x) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
-        this.labelEl?.classList.remove(options.prop1);
+        rootEl?.classList.remove(options.prop1);
         msgNodes.forEach((x) => x.classList.remove(options.prop1));
       }
     }
@@ -230,12 +234,12 @@ class IdsInput extends IdsElement {
   handleInputFocusEvent(option = '') {
     const eventName = 'focus';
     if (option === 'remove') {
-      const handler = this.eventHandlers?.handledEvents?.get(eventName);
+      const handler = this?.handledEvents?.get(eventName);
       if (handler && handler.target === this.input) {
-        this.eventHandlers.removeEventListener(eventName, this.input);
+        this.offEvent(eventName, this.input);
       }
     } else {
-      this.eventHandlers.addEventListener(eventName, this.input, () => {
+      this.onEvent(eventName, this.input, () => {
         setTimeout(() => { // safari has delay
           this.input?.select();
         }, 1);
@@ -250,7 +254,7 @@ class IdsInput extends IdsElement {
    */
   handleInputChangeEvent() {
     const eventName = 'change';
-    this.eventHandlers.addEventListener(eventName, this.input, () => {
+    this.onEvent(eventName, this.input, () => {
       this.value = this.input.value;
     });
   }
@@ -263,7 +267,7 @@ class IdsInput extends IdsElement {
   handleNativeEvents() {
     const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
-      this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
+      this.onEvent(evt, this.input, (/** @type {any} */ e) => {
         /**
          * Trigger event on parent and compose the args
          * will fire nativeEvents.
@@ -271,7 +275,7 @@ class IdsInput extends IdsElement {
          * @param  {object} elem Actual event
          * @param  {string} value The updated input element value
          */
-        this.eventHandlers.dispatchEvent(e.type, this, {
+        this.triggerEvent(e.type, this, {
           detail: {
             elem: this,
             nativeEvent: e,

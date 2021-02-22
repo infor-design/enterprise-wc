@@ -56,7 +56,7 @@ describe('IdsIcon Component', () => {
     expect(elem.icon).toEqual('delete');
     expect(elem.getAttribute('icon')).toEqual('delete');
     elem.icon = null;
-    expect(elem.icon).toEqual(null);
+    expect(elem.icon).toEqual('');
     expect(elem.getAttribute('size')).toEqual(null);
   });
 

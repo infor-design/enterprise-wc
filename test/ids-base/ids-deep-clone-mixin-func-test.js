@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsDeepCloneMixin as cloneUtils } from '../../src/ids-base/ids-deep-clone-mixin';
+import { IdsDeepCloneUtils as cloneUtils } from '../../src/ids-base/ids-deep-clone-utils';
 
 describe('IdsDeepCloneMixin Tests', () => {
   it('can clone a plain array', () => {

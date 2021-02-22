@@ -110,12 +110,12 @@
           @include radio-disabled-checked();
         }
 
-        &:focus:not(.hide-focus) ~ .circle {
+        &:focus ~ .circle {
           @include radio-colored-circle-focus($color);
         }
       }
 
-      &:focus:not(.hide-focus) input[type='radio'] ~ .circle {
+      &:focus input[type='radio'] ~ .circle {
         @include radio-colored-circle-focus($color);
       }
     }

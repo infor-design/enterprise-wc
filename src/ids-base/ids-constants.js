@@ -22,11 +22,13 @@ export const props = {
   COL_START: 'col-start',
   COLOR: 'color',
   COLS: 'cols',
+  CLICKABLE: 'clickable',
   CSS_CLASS: 'css-class',
   DATA: 'data',
   DIRTY_TRACKER: 'dirty-tracker',
   DISABLE_EVENTS: 'disable-native-events',
   DISABLED: 'disabled',
+  DISMISSIBLE: 'dismissible',
   EXPANDED: 'expanded',
   FILL: 'fill',
   FIXED: 'fixed',
@@ -81,6 +83,7 @@ export const props = {
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
 };
+// Please keep constants alphabetized
 
 export const prefix = {
   PREFIX: 'ids'

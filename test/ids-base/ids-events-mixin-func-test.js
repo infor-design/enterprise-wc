@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsEventsMixin } from '../../src/ids-base/ids-events-mixin';
 import IdsTag from '../../src/ids-tag/ids-tag';
 
 let elem;
@@ -10,17 +9,16 @@ describe('IdsEventsMixin Tests', () => {
   beforeEach(async () => {
     elem = new IdsTag();
     document.body.appendChild(elem);
-    elem.events = new IdsEventsMixin();
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
   });
 
-  it('can dispatchEvents', () => {
+  it('can dispatchEvents to addEventListener', () => {
     const mockHandler = jest.fn();
     elem.addEventListener('customtest', mockHandler);
-    elem.events.dispatchEvent('customtest', elem);
+    elem.triggerEvent('customtest', elem);
     expect(mockHandler.mock.calls.length).toBe(1);
   });
 
@@ -28,15 +26,15 @@ describe('IdsEventsMixin Tests', () => {
     const mockHandlerNormal = jest.fn();
     const mockHandlerNS = jest.fn();
 
-    elem.events.addEventListener('click', elem, mockHandlerNormal);
-    elem.events.addEventListener('click.doop', elem, mockHandlerNS);
-    elem.events.dispatchEvent('click', elem);
+    elem.onEvent('click', elem, mockHandlerNormal);
+    elem.onEvent('click.doop', elem, mockHandlerNS);
+    elem.triggerEvent('click', elem);
 
     expect(mockHandlerNormal.mock.calls.length).toBe(1);
     expect(mockHandlerNS.mock.calls.length).toBe(1);
 
-    elem.events.removeEventListener('click.doop', elem);
-    elem.events.dispatchEvent('click', elem);
+    elem.offEvent('click.doop', elem);
+    elem.triggerEvent('click', elem);
 
     expect(mockHandlerNormal.mock.calls.length).toBe(2);
     expect(mockHandlerNS.mock.calls.length).toBe(1);

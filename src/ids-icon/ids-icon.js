@@ -1,6 +1,11 @@
-import pathData from 'ids-identity/dist/theme-uplift/icons/standard/path-data.json';
-import { IdsElement, scss, customElement } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
+import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
+import {
+  IdsElement,
+  scss,
+  customElement,
+  props
+} from '../ids-base/ids-element';
+
 // @ts-ignore
 import styles from './ids-icon.scss';
 
@@ -14,6 +19,8 @@ const sizes = {
 
 /**
  * IDS Icon Component
+ * @type {IdsIcon}
+ * @inherits IdsElement
  */
 @customElement('ids-icon')
 @scss(styles)
@@ -54,15 +61,16 @@ class IdsIcon extends IdsElement {
    * Return the icon name
    * @returns {string} the path data
    */
-  get icon() { return this.getAttribute(props.ICON); }
+  get icon() { return this.getAttribute(props.ICON) || ''; }
 
   set icon(value) {
-    if (value) {
+    const svgElem = this.shadowRoot?.querySelector('svg');
+    if (value && svgElem) {
       this.setAttribute(props.ICON, value);
-      this.shadowRoot.querySelector('svg').innerHTML = this.iconData();
+      svgElem.innerHTML = this.iconData();
     } else {
       this.removeAttribute(props.ICON);
-      this.shadowRoot.querySelector('svg')?.remove();
+      svgElem?.remove();
     }
   }
 
@@ -76,8 +84,8 @@ class IdsIcon extends IdsElement {
     if (value) {
       const size = sizes[this.size];
       this.setAttribute(props.SIZE, value);
-      this.shadowRoot.querySelector('svg').setAttribute('height', size);
-      this.shadowRoot.querySelector('svg').setAttribute('width', size);
+      this.shadowRoot?.querySelector('svg')?.setAttribute('height', size);
+      this.shadowRoot?.querySelector('svg')?.setAttribute('width', size);
     } else {
       this.removeAttribute(props.SIZE);
     }

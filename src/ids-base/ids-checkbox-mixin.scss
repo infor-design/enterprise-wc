@@ -111,7 +111,7 @@
         @include checkbox-disabled-checked();
       }
 
-      &:focus:not(.hide-focus) ~ .checkmark {
+      &:focus ~ .checkmark {
         @include checkbox-colored-box-focus($color);
       }
     }

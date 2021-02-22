@@ -14,18 +14,19 @@ Some important steps here include:
 
 - If this new code is an IDS Component, ensure that it imports `src/ids-base/ids-element.js` extends the `IdsElement` base component.
 - Ensure that your styles are imported in `ids-[component].js` and added to the component via the `@scss` decorator.
-- Review the mixins that are available in the `src/ids-base` folder for any reusable parts.
+- Review the mixins that are available in the `src/ids-base` folder for any reusable parts then include them with a line like:
+
+```js
+class IdsComponent extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin2) {
+```
 
 ### Add a new app example for the new component
 
 - [ ] Add an `example.html`, which contains the basic example template for your component
 - [ ] Add an `index.html`, which is the main layout template
-- [ ] Add an `index.js` for loading and building the component, this should just contain what is needed for the component to run
+- [ ] Add an `index.js` for loading and building the component, this should just contain what is needed for the component itself to run
 - [ ] Add an `example.js` for any demo code in the example.html
-
-After these files are created, do the following:
-
-- [ ] In `index.js`, import the WebComponent's source file that you've created using a relative path.
+- [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path.
 
 ```js
 import IdsComponent from '../../src/ids-[component]/ids-[component]';
@@ -66,3 +67,7 @@ Some HTMLElement types support boolean attributes, such as `disabled`.  [The spe
 - If the attribute is present, its string value does not matter, and will always mean `true`.
 
 Ids WebComponents take the added step of evaluating the string value, and will cause a string value of `"false"` to actually evaluate as `false`, removing the attribute and property.
+
+#### Example Component
+
+Good ones to look at are IdsTag and IdsFavorites and IdsAlerts as examples.

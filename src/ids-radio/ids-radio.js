@@ -1,17 +1,16 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  props,
+  scss,
+  mix
 } from '../ids-base/ids-element';
 
-import { props } from '../ids-base/ids-constants';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+
 // @ts-ignore
 import styles from './ids-radio.scss';
-
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsHideFocusMixin } from '../ids-base/ids-hide-focus-mixin';
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
 // @ts-ignore
@@ -19,11 +18,13 @@ import IdsRadioGroup from './ids-radio-group';
 
 /**
  * IDS Radio Component
+ * @type {IdsRadio}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-radio')
 @scss(styles)
-@mixin(IdsHideFocusMixin)
-class IdsRadio extends IdsElement {
+class IdsRadio extends mix(IdsElement).with(IdsEventsMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -91,18 +92,11 @@ class IdsRadio extends IdsElement {
     /** @type {any} */
     this.rootEl = this.shadowRoot.querySelector('.ids-radio');
 
-    /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      /** @type {any} */
-      this.eventHandlers = new IdsEventsMixin();
-    }
     if (this.checked && !this.input.getAttribute(props.CHECKED)) {
       this.checked = true;
     }
 
     this.handleEvents();
-    // @ts-ignore
-    this.hideFocus();
   }
 
   /**
@@ -138,7 +132,7 @@ class IdsRadio extends IdsElement {
    * @returns {void}
    */
   handleRadioChangeEvent() {
-    this.eventHandlers.addEventListener('change', this.input, () => {
+    this.onEvent('change', this.input, () => {
       this.checked = this.input.checked;
     });
   }
@@ -149,7 +143,7 @@ class IdsRadio extends IdsElement {
    * @returns {void}
    */
   handleRadioClickEvent() {
-    this.eventHandlers.addEventListener('click', this.labelEl, () => {
+    this.onEvent('click', this.labelEl, () => {
       this.input?.focus(); // Safari need focus first click
     });
   }
@@ -162,7 +156,7 @@ class IdsRadio extends IdsElement {
   handleNativeEvents() {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
-      this.eventHandlers.addEventListener(evt, this.input, (/** @type {any} */ e) => {
+      this.onEvent(evt, this.input, (/** @type {any} */ e) => {
         /**
          * Trigger event on parent and compose the args
          * will fire nativeEvents.
@@ -170,7 +164,7 @@ class IdsRadio extends IdsElement {
          * @param  {object} elem Actual event
          * @param  {string} value The updated input element value
          */
-        this.eventHandlers.dispatchEvent(e.type, this, {
+        this.triggerEvent(e.type, this, {
           elem: this,
           nativeEvent: e,
           value: this.value,

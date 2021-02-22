@@ -9,6 +9,8 @@ import styles from './ids-menu-header.scss';
 
 /**
  * IDS Menu Header Component
+ * @type {IdsMenuHeader}
+ * @inherits IdsElement
  */
 @customElement('ids-menu-header')
 @scss(styles)

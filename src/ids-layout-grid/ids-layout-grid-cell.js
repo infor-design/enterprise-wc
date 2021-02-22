@@ -1,8 +1,9 @@
-import { customElement, IdsElement } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
+import { customElement, IdsElement, props } from '../ids-base/ids-element';
 
 /**
- * IDS Grid Panel Component
+ * IDS Layout Grid Cell Component
+ * @type {IdsLayoutGridCell}
+ * @inherits IdsElement
  */
 @customElement('ids-layout-grid-cell')
 class IdsLayoutGridCell extends IdsElement {
@@ -28,13 +29,13 @@ class IdsLayoutGridCell extends IdsElement {
 
   /**
    * Handle The Fill Setting
-   * @returns {string} The fill to true for theme default color
+   * @returns {string | null} The fill to true for theme default color
    */
   get fill() { return this.getAttribute(props.FILL); }
 
   /**
    * Set the background fill
-   * @param {string} value The fill color or true for theme default color
+   * @param {string | null} value The fill color or true for theme default color
    */
   set fill(value) {
     if (value) {
@@ -49,7 +50,7 @@ class IdsLayoutGridCell extends IdsElement {
 
   /**
    * Set the amount of columns to span
-   * @param {string} value The number value for the columns to span in the grid
+   * @param {string | null} value The number value for the columns to span in the grid
    */
   set colSpan(value) {
     if (value) {
@@ -68,7 +69,7 @@ class IdsLayoutGridCell extends IdsElement {
 
   /**
    * Set the starting column
-   * @param {string} value The number value for the column starting point
+   * @param {string | null} value The number value for the column starting point
    */
   set colStart(value) {
     if (value) {
@@ -87,7 +88,7 @@ class IdsLayoutGridCell extends IdsElement {
 
   /**
    * Set the ending column
-   * @param {string} value The number value for the column starting point
+   * @param {string | null} value The number value for the column starting point
    */
   set colEnd(value) {
     if (value) {
@@ -106,7 +107,7 @@ class IdsLayoutGridCell extends IdsElement {
 
   /**
    * Set the amount of rows to span
-   * @param {string} value The number value for the rows to span in the grid
+   * @param {string | null} value The number value for the rows to span in the grid
    */
   set rowSpan(value) {
     if (value) {
@@ -125,7 +126,7 @@ class IdsLayoutGridCell extends IdsElement {
 
   /**
    * Set the starting row
-   * @param {string} value The number value for the row starting point
+   * @param {string | null} value The number value for the row starting point
    */
   set rowStart(value) {
     if (value) {
@@ -144,7 +145,7 @@ class IdsLayoutGridCell extends IdsElement {
 
   /**
    * Set the ending row
-   * @param {string} value The number value for the row ending point
+   * @param {string | null} value The number value for the row ending point
    */
   set rowEnd(value) {
     if (value) {

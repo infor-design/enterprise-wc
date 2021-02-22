@@ -1,30 +1,37 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  props,
+  scss,
+  mix
 } from '../ids-base/ids-element';
 
-import { props } from '../ids-base/ids-constants';
-// @ts-ignore
-import styles from './ids-radio-group.scss';
-
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
+
+// @ts-ignore
+import styles from './ids-radio-group.scss';
 
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Radio Group Component
+ * @type {IdsRadioGroup}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsValidationMixin
  */
 @customElement('ids-radio-group')
 @scss(styles)
-@mixin(IdsDirtyTrackerMixin)
-@mixin(IdsValidationMixin)
-class IdsRadioGroup extends IdsElement {
+class IdsRadioGroup extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsDirtyTrackerMixin,
+    IdsValidationMixin
+  ) {
   /**
    * Call the constructor and then initialize
    */
@@ -86,12 +93,7 @@ class IdsRadioGroup extends IdsElement {
    */
   connectedCallback() {
     const slot = this.shadowRoot.querySelector('slot');
-    /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      /** @type {any} */
-      this.eventHandlers = new IdsEventsMixin();
-    }
-    this.eventHandlers.addEventListener('slotchange', slot, () => {
+    this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
     });
   }
@@ -223,9 +225,18 @@ class IdsRadioGroup extends IdsElement {
     if (isFocus) {
       radio.shadowRoot?.querySelector('input[type="radio"]')?.focus();
     }
+
+    // Mark if first radio checked in group, use for css style
+    const className = 'first-item-checked';
+    if (radio === radioArr[0]) {
+      this.input?.classList.add(className);
+    } else {
+      this.input?.classList.remove(className);
+    }
+
     const args = { value: val, checked: radio };
-    this.eventHandlers.dispatchEvent('change', this.input, args);
-    this.eventHandlers.dispatchEvent('change', this, args);
+    this.triggerEvent('change', this.input, args);
+    this.triggerEvent('change', this, args);
   }
 
   /**
@@ -237,7 +248,7 @@ class IdsRadioGroup extends IdsElement {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
 
     radioArr.forEach((r) => {
-      this.eventHandlers.addEventListener('change', r, () => {
+      this.onEvent('change', r, () => {
         this.makeChecked(r, false);
       });
     });
@@ -252,7 +263,7 @@ class IdsRadioGroup extends IdsElement {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
-      this.eventHandlers.addEventListener('keydown', r, (/** @type {any} */ e) => {
+      this.onEvent('keydown', r, (/** @type {any} */ e) => {
         const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
         const key = e.code;
         if (allow.indexOf(key) > -1) {
@@ -402,20 +413,22 @@ class IdsRadioGroup extends IdsElement {
 
   /**
    * Sets the checkbox `value` attribute
-   * @param {string} val the value property
+   * @param {string | null} val the value property
    */
   set value(val) {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     if (val) {
       const state = { on: [], off: [] };
-      radioArr.forEach((r) => {
+      radioArr.forEach((/** @type {HTMLElement | never} */ r) => {
         const rVal = r.getAttribute(props.VALUE);
+        // @ts-ignore
         state[rVal === val ? 'on' : 'off'].push(r);
       });
-      state.off.forEach((r) => r.removeAttribute(props.CHECKED));
+      state.off.forEach((/** @type {HTMLElement} */ r) => r.removeAttribute(props.CHECKED));
+      /** @type {HTMLElement} */
       const r = state.on[state.on.length - 1];
       if (r) {
-        r.setAttribute(props.CHECKED, true);
+        r.setAttribute(props.CHECKED, 'true');
         this.setAttribute(props.VALUE, val);
         this.checked = r;
       } else {

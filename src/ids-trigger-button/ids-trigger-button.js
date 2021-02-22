@@ -1,17 +1,19 @@
 import {
   customElement,
-  scss
+  scss,
+  props
 } from '../ids-base/ids-element';
 
-// @ts-ignore
-import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
-import { props } from '../ids-base/ids-constants';
+import { IdsButton } from '../ids-button/ids-button';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+
 // @ts-ignore
 import styles from './ids-trigger-button.scss';
 
 /**
- * IDS Trigger Field Components
+ * IDS Trigger Button Component
+ * @type {IdsTriggerButton}
+ * @inherits IdsElement
  */
 @customElement('ids-trigger-button')
 @scss(styles)
@@ -28,7 +30,14 @@ class IdsTriggerButton extends IdsButton {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return BUTTON_PROPS.concat([props.DISABLE_EVENTS, props.tabbable]);
+    return [props.CSS_CLASS,
+      props.DISABLED,
+      props.ICON,
+      props.ICON_ALIGN,
+      props.ID,
+      props.TEXT,
+      props.TYPE,
+      props.TABBABLE];
   }
 
   /**
@@ -38,7 +47,7 @@ class IdsTriggerButton extends IdsButton {
   set tabbable(value) {
     const isTabbable = stringUtils.stringToBool(value);
     /** @type {any} */
-    const button = this.shadowRoot.querySelector('button');
+    const button = this.shadowRoot?.querySelector('button');
     this.setAttribute(props.TABBABLE, value.toString());
     button.tabIndex = !isTabbable ? '-1' : '0';
   }
