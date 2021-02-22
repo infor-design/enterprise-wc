@@ -1,4 +1,4 @@
-import pathData from 'ids-identity/dist/theme-uplift/icons/standard/path-data.json';
+import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
 import {
   IdsElement,
   scss,
