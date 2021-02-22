@@ -194,7 +194,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
           break;
         case 'group':
         default: // Assume "Group"
-          // @ts-ignore
+          // eslint-disable-next-line
           html += renderGroup(elem);
           break;
         }
