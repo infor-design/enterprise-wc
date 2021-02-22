@@ -167,9 +167,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   menuContentTemplate(contentsObj) {
     // Renders a separator
-    const renderSeparator = () => {
-      return `<ids-separator></ids-separator>`;
-    };
+    const renderSeparator = () => `<ids-separator></ids-separator>`;
 
     // Renders a header
     const renderHeader = (elem) => {
@@ -188,16 +186,17 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
       submenuContents.forEach((elem) => {
         switch (elem.type) {
-          case 'header':
-            html += renderHeader(elem);
-            break;
-          case 'separator':
-            html += renderSeparator();
-            break;
-          case 'group':
-          default: // Assume "Group"
-            html += renderGroup(elem);
-            break;
+        case 'header':
+          html += renderHeader(elem);
+          break;
+        case 'separator':
+          html += renderSeparator();
+          break;
+        case 'group':
+        default: // Assume "Group"
+          // @ts-ignore
+          html += renderGroup(elem);
+          break;
         }
       });
       return html;
