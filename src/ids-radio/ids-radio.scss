@@ -87,6 +87,11 @@
     }
   }
 
+  // stylelint-disable-next-line
+  &:focus input[type='radio'] ~ .circle {
+    @include radio-focus();
+  }
+
   // Colored
   @include radio-colored();
 }

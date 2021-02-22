@@ -150,51 +150,61 @@ describe('IdsInput Component', () => {
   });
 
   it('renders field as disabled', () => {
+    let rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('disabled')).toEqual(null);
     expect(input.input.getAttribute('disabled')).toBe(null);
-    expect(input.labelEl.classList).not.toContain('disabled');
+    expect(rootEl.classList).not.toContain('disabled');
     input.disabled = true;
+    rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('disabled')).toEqual('true');
     expect(input.input.getAttribute('disabled')).toBe('true');
-    expect(input.labelEl.classList).toContain('disabled');
+    expect(rootEl.classList).toContain('disabled');
   });
 
   it('should disable and enable', () => {
+    let rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('disabled')).toEqual(null);
     expect(input.input.getAttribute('disabled')).toBe(null);
-    expect(input.labelEl.classList).not.toContain('disabled');
+    expect(rootEl.classList).not.toContain('disabled');
     input.disabled = true;
+    rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('disabled')).toEqual('true');
     expect(input.input.getAttribute('disabled')).toBe('true');
-    expect(input.labelEl.classList).toContain('disabled');
+    expect(rootEl.classList).toContain('disabled');
     input.disabled = false;
+    rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('disabled')).toEqual(null);
     expect(input.input.getAttribute('disabled')).toBe(null);
-    expect(input.labelEl.classList).not.toContain('disabled');
+    expect(rootEl.classList).not.toContain('disabled');
   });
 
   it('renders field as readonly', () => {
+    let rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('readonly')).toEqual(null);
     expect(input.input.getAttribute('readonly')).toBe(null);
-    expect(input.labelEl.classList).not.toContain('readonly');
+    expect(rootEl.classList).not.toContain('readonly');
     input.readonly = true;
+    rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('readonly')).toEqual('true');
     expect(input.input.getAttribute('readonly')).toBe('true');
-    expect(input.labelEl.classList).toContain('readonly');
+    expect(rootEl.classList).toContain('readonly');
     input.readonly = false;
+    rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('readonly')).toEqual(null);
     expect(input.input.getAttribute('readonly')).toBe(null);
-    expect(input.labelEl.classList).not.toContain('readonly');
+    expect(rootEl.classList).not.toContain('readonly');
   });
 
   it('should skip invalid input state', () => {
+    let rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('test')).toEqual(null);
     expect(input.input.getAttribute('test')).toBe(null);
-    expect(input.labelEl.classList).not.toContain('test');
+    expect(rootEl.classList).not.toContain('test');
     input.setInputState('test');
+    rootEl = input.shadowRoot.querySelector('.ids-input');
     expect(input.getAttribute('test')).toEqual(null);
     expect(input.input.getAttribute('test')).toBe(null);
-    expect(input.labelEl.classList).not.toContain('test');
+    expect(rootEl.classList).not.toContain('test');
   });
 
   it('renders field as bg-transparent', () => {

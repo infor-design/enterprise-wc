@@ -225,6 +225,15 @@ class IdsRadioGroup extends mix(IdsElement).with(
     if (isFocus) {
       radio.shadowRoot?.querySelector('input[type="radio"]')?.focus();
     }
+
+    // Mark if first radio checked in group, use for css style
+    const className = 'first-item-checked';
+    if (radio === radioArr[0]) {
+      this.input?.classList.add(className);
+    } else {
+      this.input?.classList.remove(className);
+    }
+
     const args = { value: val, checked: radio };
     this.triggerEvent('change', this.input, args);
     this.triggerEvent('change', this, args);

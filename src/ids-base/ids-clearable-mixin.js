@@ -45,7 +45,6 @@ const IdsClearableMixin = (superclass) => class extends superclass {
       icon.setAttribute('slot', 'icon');
       text.setAttribute('audible', 'true');
       text.textContent = 'clear';
-      xButton.setAttribute('tabindex', '0');
       xButton.className = 'btn-clear';
       xButton.appendChild(text);
       xButton.appendChild(icon);

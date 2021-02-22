@@ -182,17 +182,18 @@ class IdsInput extends mix(IdsElement).with(
         prop2: prop !== props.READONLY ? props.READONLY : props.DISABLED,
         val: stringUtils.stringToBool(this[prop])
       };
+      const rootEl = this.shadowRoot.querySelector('.ids-input');
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
-        this.labelEl?.classList.remove(options.prop2);
+        rootEl?.classList.remove(options.prop2);
         msgNodes.forEach((x) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
-        this.labelEl?.classList.add(options.prop1);
+        rootEl?.classList.add(options.prop1);
         msgNodes.forEach((x) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
-        this.labelEl?.classList.remove(options.prop1);
+        rootEl?.classList.remove(options.prop1);
         msgNodes.forEach((x) => x.classList.remove(options.prop1));
       }
     }
