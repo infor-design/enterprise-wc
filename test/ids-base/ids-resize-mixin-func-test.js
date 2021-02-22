@@ -52,6 +52,10 @@ describe('IdsResizeMixin Tests', () => {
 
     expect(typeof elem.setupResize).toBe('function');
     expect(typeof elem.disconnectResize).toBe('function');
+    expect(typeof elem.addObservedElements).toBe('function');
+    expect(typeof elem.removeObservedElements).toBe('function');
+
+    expect(Array.isArray(elem.observed)).toBeTruthy();
 
     expect(elem.shouldResize()).toBeTruthy();
   });
@@ -98,10 +102,12 @@ describe('IdsResizeMixin Tests', () => {
     newElem.id = 'new-elem';
     document.body.appendChild(newElem);
 
+    expect(typeof elem.addObservedElements).toBe('function');
     elem.addObservedElements(newElem);
 
     expect(elem.observed.length).toBe(2);
 
+    expect(typeof elem.removeObservedElements).toBe('function');
     elem.removeObservedElements(newElem);
 
     expect(elem.observed.length).toBe(1);
@@ -109,6 +115,7 @@ describe('IdsResizeMixin Tests', () => {
 
   // @TODO: re-check this when #47 is merged
   it.skip('can\'t add non-elements to the observed elements array', () => {
+    expect(typeof elem.addObservedElements).toBe('function');
     elem.addObservedElements({});
 
     expect(elem.observed.length).toBe(1);
@@ -116,6 +123,7 @@ describe('IdsResizeMixin Tests', () => {
 
   // @TODO: re-check this when #47 is merged
   it.skip('can\'t remove non-elements to the observed elements array', () => {
+    expect(typeof elem.removeObservedElements).toEqual('function');
     elem.removeObservedElements({});
 
     expect(elem.observed.length).toBe(1);
