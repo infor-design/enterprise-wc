@@ -26,13 +26,56 @@ describe('IdsInput Component', () => {
     expect(elem.labelEl.classList).toContain('required');
     expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
     elem.checkValidation();
+
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
+    expect(elem.input.getAttribute('aria-invalid')).toEqual('true');
+    expect(elem.input.getAttribute('aria-describedby')).toEqual('ids-input-id-error');
     expect(msgEl).toBeTruthy();
     expect(msgEl.getAttribute('validation-id')).toEqual('required');
+    expect(msgEl.getAttribute('id')).toEqual('ids-input-id-error');
 
     elem.input.value = 'test';
     elem.checkValidation();
     expect(elem.shadowRoot.querySelector('.validation-message')).toBeFalsy();
+    expect(elem.getAttribute('aria-invalid')).toEqual(null);
+    expect(elem.getAttribute('aria-describedby')).toEqual(null);
+  });
+
+  it('should add/remove required error on disabled', () => {
+    elem.validate = 'required';
+    elem.disabled = true;
+    elem.template();
+    document.body.appendChild(elem);
+
+    elem.checkValidation();
+
+    const msgEl = elem.shadowRoot.querySelector('.validation-message');
+    expect(msgEl).toBeTruthy();
+  });
+
+  it('should skip if it already has an error', () => {
+    elem.validate = 'required';
+    elem.template();
+    document.body.appendChild(elem);
+
+    expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(0);
+    elem.checkValidation();
+    elem.checkValidation();
+    elem.checkValidation();
+
+    expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(1);
+  });
+
+  it('should not error on invalid types', () => {
+    elem.validate = 'required';
+    elem.template();
+    document.body.appendChild(elem);
+
+    expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(0);
+    elem.addMessage({ type: 'xxx', id: 'xx', icon: '' });
+    elem.addMessage({ type: 'icon', id: 'xx', icon: '' });
+
+    expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(1);
   });
 
   it('should set validation events', () => {
