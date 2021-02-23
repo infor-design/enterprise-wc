@@ -57,7 +57,69 @@ The Ids Popup Menu is a complex component that combines an [`IdsMenu`](../ids-me
 
 ## Features (With Code Examples)
 
-TBD
+It's possible to create a Popupmenu that stands alone and takes the place of the browser's context menu by default:
+
+```html
+<ids-popup-menu id="popupmenu">
+    <ids-menu-group>
+        <ids-menu-item value="1">One</ids-menu-item>
+        <ids-menu-item value="2">Two</ids-menu-item>
+        <ids-menu-item value="3">Three</ids-menu-item>
+    </ids-menu-group>
+</ids-popup-menu>
+```
+
+It's also possible to recreate this structure in raw Javascript:
+
+```js
+const menu = new IdsPopupMenu();
+menu.id = 'popupmenu';
+document.body.appendChild(menu);
+
+const group = new IdsMenuGroup();
+menu.appendChild(group);
+
+const itemOne = new IdsMenuItem();
+itemOne.value = 1;
+group.appendChild(itemOne);
+
+const itemTwo = new IdsMenuItem();
+itemTwo.value = 1;
+group.appendChild(itemTwo);
+
+const itemThree = new IdsMenuItem();
+itemThree.value = 1;
+group.appendChild(itemThree);
+```
+
+Additionally, it's possible to use an [IdsDataSource](./ids-base/README.md) to populate the Popup Menu dynamically.  The component has a standardize JSON format that can be used to create a menu structure quickly:
+
+```js
+const menu = new IdsPopupMenu();
+menu.data = {
+    id: 'popupmenu',
+    contents: [
+        {
+            type: 'group',
+            items: [
+                {
+                    text: 'One',
+                    value: 1
+                },
+                {
+                    text: 'Two',
+                    value: 2
+                },
+                {
+                    text: 'Three',
+                    value: 3
+                },
+            ]
+        }
+    ]
+}
+document.body.appendChild(menu);
+```
 
 ## Keyboard Guidelines
 

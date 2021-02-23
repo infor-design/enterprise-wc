@@ -24,6 +24,9 @@ export class IdsElement extends HTMLElement {
 
   /** Append the style sheet internally */
   appendStyles(): void;
+
+  /** Draw the template that this component uses to render itself */
+  template(): string;
 }
 
 export {

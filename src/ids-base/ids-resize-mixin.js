@@ -17,6 +17,7 @@ let resizeTargets = [];
 const IdsResizeMixin = (superclass) => class extends superclass {
   constructor() {
     super();
+    this.observed = [];
   }
 
   /**
@@ -77,6 +78,7 @@ const IdsResizeMixin = (superclass) => class extends superclass {
     /* istanbul ignore next */
     if (this.ro) {
       resizeTargets = resizeTargets.filter((e) => !this.isEqualNode(e));
+      this.removeAllObservedElements();
       delete this.ro;
     }
   }
@@ -104,6 +106,43 @@ const IdsResizeMixin = (superclass) => class extends superclass {
       target = target.host;
     }
     return target;
+  }
+
+  /**
+   * @param {HTMLElement} el an HTMLElement to be observed by the ResizeObserver
+   */
+  addObservedElement(el) {
+    if (!(el instanceof HTMLElement)) {
+      return;
+    }
+    if (this.observed.includes(el)) {
+      return;
+    }
+    this.observed.push(el);
+    this.ro.observe(el);
+  }
+
+  /**
+   * @param {HTMLElement} el an HTMLElement to remove from observation by the ResizeObserver
+   */
+  removeObservedElement(el) {
+    if (!(el instanceof HTMLElement)) {
+      return;
+    }
+    const i = this.observed.indexOf(el);
+    if (i > -1) {
+      this.observed.splice(i, 1);
+      this.ro.disconnect(el);
+    }
+  }
+
+  /**
+   * @returns {void}
+   */
+  removeAllObservedElements() {
+    this.observed.forEach((el) => {
+      this.removeObservedElement(el);
+    });
   }
 
   /**

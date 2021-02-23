@@ -5,6 +5,7 @@ import {
   mix
 } from '../ids-base/ids-element';
 
+import { IdsDataSource } from '../ids-base/ids-data-source';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 
@@ -61,6 +62,7 @@ function isUsableItem(item, idsMenu) {
 class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   constructor() {
     super();
+    this.datasource = new IdsDataSource();
     this.state = {};
     this.lastHovered = undefined;
     this.lastNavigated = undefined;
@@ -142,7 +144,185 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<nav class="ids-menu" role="menu"><slot></slot></nav>`;
+    // Setup the attributes on the top-level menu container
+    let id;
+    if (this.id) {
+      id = ` id="${this.id}"`;
+    }
+
+    let slot = '';
+    if (this.tagName.toLowerCase() === 'ids-popup-menu') {
+      slot = ` slot="content"`;
+    }
+
+    return `<nav class="ids-menu"${id}${slot} role="menu"><slot></slot></nav>`;
+  }
+
+  /**
+   * @param {any} contentsObj a plain object structure with Popupmenu Contents
+   * @returns {string} list of HTML
+   */
+  menuContentTemplate(contentsObj) {
+    // Renders a separator
+    const renderSeparator = () => `<ids-separator></ids-separator>`;
+
+    // Renders a header
+    const renderHeader = (elem) => {
+      if (typeof elem.text !== 'string') {
+        return '';
+      }
+      return `<ids-menu-header>${elem.text}</ids-menu-header>`;
+    };
+
+    // Renders the contents of a submenu
+    const renderContents = (submenuContents) => {
+      let html = '';
+      submenuContents.forEach((elem) => {
+        switch (elem.type) {
+        case 'header':
+          html += renderHeader(elem);
+          break;
+        case 'separator':
+          html += renderSeparator();
+          break;
+        case 'group':
+        default: // Assume "Group"
+          // eslint-disable-next-line
+          html += renderGroup(elem);
+          break;
+        }
+      });
+      return html;
+    };
+
+    // Renders a submenu wrapper
+    const renderSubmenu = (submenuData) => {
+      if (!Array.isArray(submenuData?.contents) || !submenuData.contents.length) {
+        return '';
+      }
+
+      let id = '';
+      if (submenuData.id) {
+        id = ` id="${submenuData.id}"`;
+      }
+      const contents = renderContents(submenuData.contents);
+      return `<ids-popup-menu slot="submenu"${id}>${contents}</ids-popup-menu>`;
+    };
+
+    // Renders a single item
+    const renderItem = (item) => {
+      if (typeof item.text !== 'string') {
+        return '';
+      }
+      const text = `${item.text}`;
+
+      let id = '';
+      if (typeof item.id === 'string') {
+        id = ` id="${item.id}"`;
+      }
+      let disabled = '';
+      if (item.disabled) {
+        disabled = ' disabled="true"';
+      }
+      let icon = '';
+      if (typeof item.icon === 'string') {
+        icon = ` icon="${item.icon}"`;
+      }
+      let selected = '';
+      if (item.selected) {
+        selected = ' selected="true"';
+      }
+      let submenu = '';
+      if (item.submenu) {
+        submenu = renderSubmenu(item.submenu);
+      }
+
+      return `<ids-menu-item${id}${disabled}${icon}${selected}>
+        ${text}
+        ${submenu}
+      </ids-menu-item>`;
+    };
+
+    // Renders the contents of a group
+    const renderGroup = (groupData) => {
+      if (!Array.isArray(groupData?.items) || !groupData.items.length) {
+        return '';
+      }
+
+      let id = '';
+      if (groupData.id) {
+        id = ` id="${groupData.id}"`;
+      }
+      let itemsHTML = '';
+      groupData.items?.forEach((newItem) => {
+        if (newItem?.type === 'separator') {
+          itemsHTML += renderSeparator();
+        } else {
+          itemsHTML += renderItem(newItem);
+        }
+      });
+      return `<ids-menu-group${id}>${itemsHTML}</ids-menu-group>`;
+    };
+
+    return renderContents(contentsObj);
+  }
+
+  /**
+   * Rerender the list by re applying the template
+   * @private
+   */
+  renderFromData() {
+    if (this.data?.length === 0) {
+      return;
+    }
+
+    // Re-apply template (picks up top-level properties from menu data)
+    const template = document.createElement('template');
+    const html = this.template();
+
+    // Render and append styles
+    this.shadowRoot.innerHTML = '';
+    template.innerHTML = html;
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+    // Re-render all children
+    this.innerHTML = '';
+    this.insertAdjacentHTML('beforeend', this.menuContentTemplate(this.data));
+  }
+
+  /**
+   * Set the data array of the datagrid
+   * @param {Array<any>|object} value The array to use
+   * @returns {void}
+   */
+  set data(value) {
+    if (value) {
+      // If provided an object, search for a `contents` property and store that
+      if (typeof value === 'object' && Array.isArray(value.contents)) {
+        this.datasource.data = value.contents;
+        // Set the ID of this component if it's present in the object
+        if (value?.id) {
+          this.id = value.id;
+        }
+      } else if (Array.isArray(value)) {
+        this.datasource.data = value;
+      } else {
+        // accept no other non-empty types
+        return;
+      }
+
+      this.renderFromData();
+      return;
+    }
+
+    this.datasource.data = null;
+  }
+
+  /**
+   * @returns {Array<any>|object} containing the dataset
+   */
+  get data() {
+    return this?.datasource?.data || [];
   }
 
   /**

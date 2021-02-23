@@ -97,6 +97,13 @@ class IdsElement extends HTMLElement {
   }
 
   /**
+   * @returns {string} containing this component's HTML Template
+   */
+  template() {
+    return '';
+  }
+
+  /**
    * Append Styles if present
    */
   appendStyles() {
