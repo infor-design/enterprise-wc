@@ -1,12 +1,12 @@
 import {
   customElement,
   version,
-  mixin,
   scss
 } from './ids-decorators';
 
 import { props } from './ids-constants';
-import { IdsStringUtilsMixin as stringUtils } from './ids-string-utils-mixin';
+import mix from './ids-mixin';
+import { IdsStringUtils as stringUtils } from './ids-string-utils';
 
 /**
  * IDS Base Element
@@ -47,9 +47,16 @@ class IdsElement extends HTMLElement {
    */
   disconnectedCallback() {
     // @ts-ignore
-    this.eventHandlers?.removeAll();
+    if (this.detachAllEvents) {
+      // @ts-ignore
+      this.detachAllEvents();
+    }
+
     // @ts-ignore
-    this.keyboard?.destroy();
+    if (this.detachAllListeners) {
+      // @ts-ignore
+      this.detachAllListeners();
+    }
   }
 
   /**
@@ -80,13 +87,20 @@ class IdsElement extends HTMLElement {
     this.appendStyles();
     // @ts-ignore
     template.innerHTML = this.template();
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot?.appendChild(template.content.cloneNode(true));
     /** @type {any} */
-    this.container = this.shadowRoot.querySelector(`.${this.name}`);
+    this.container = this.shadowRoot?.querySelector(`.${this.name}`);
 
     // Remove any close hidden element
     this.closest('[hidden]')?.removeAttribute('hidden');
     return this;
+  }
+
+  /**
+   * @returns {string} containing this component's HTML Template
+   */
+  template() {
+    return '';
   }
 
   /**
@@ -98,11 +112,11 @@ class IdsElement extends HTMLElement {
       const style = document.createElement('style');
       // @ts-ignore
       style.textContent = this.cssStyles;
-      if (style.textContent.indexOf(':host') === 0) {
+      if (style.textContent?.indexOf(':host') === 0) {
         style.textContent = style.textContent.replace(':host', `.${this.name}`);
       }
       style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
-      this.shadowRoot.appendChild(style);
+      this.shadowRoot?.appendChild(style);
     }
 
     // @ts-ignore
@@ -119,8 +133,7 @@ class IdsElement extends HTMLElement {
 export {
   IdsElement,
   customElement,
-  mixin,
+  mix,
   scss,
-  version,
   props
 };

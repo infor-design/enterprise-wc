@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { IdsResizeMixin } from '../../src/ids-base/ids-resize-mixin';
 import IdsPopup from '../../src/ids-popup/ids-popup';
 
 const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
@@ -51,6 +52,10 @@ describe('IdsResizeMixin Tests', () => {
 
     expect(typeof elem.setupResize).toBe('function');
     expect(typeof elem.disconnectResize).toBe('function');
+    expect(typeof elem.addObservedElement).toBe('function');
+    expect(typeof elem.removeObservedElement).toBe('function');
+
+    expect(Array.isArray(elem.observed)).toBeTruthy();
 
     expect(elem.shouldResize()).toBeTruthy();
   });
@@ -76,6 +81,57 @@ describe('IdsResizeMixin Tests', () => {
     ]);
 
     expect(elem.refresh).toHaveBeenCalledTimes(1);
+  });
+
+  // NOTE: runs the `disconnectResize` method, which cleans some things up
+  it('should allow implementing components to disconnect safely', (done) => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    elem.remove();
+
+    setTimeout(() => {
+      expect(errors).not.toHaveBeenCalled();
+      expect(elem.ro).toBe(undefined);
+      done();
+    }, 20);
+  });
+
+  it('can add/remove elements observed by the ResizeObserver', () => {
+    const newElem = document.createElement('div');
+    newElem.id = 'new-elem';
+    document.body.appendChild(newElem);
+
+    elem.addObservedElement(newElem);
+
+    expect(elem.observed.length).toBe(2);
+
+    // Can't add the same one twice
+    elem.addObservedElement(newElem);
+
+    expect(elem.observed.length).toBe(2);
+
+    elem.removeObservedElement(newElem);
+
+    expect(elem.observed.length).toBe(1);
+
+    // Can't remove it if it's not present in the observed array
+    elem.removeObservedElement(newElem);
+
+    expect(elem.observed.length).toBe(1);
+  });
+
+  it('can\'t add non-elements to the observed elements array', () => {
+    expect(typeof elem.addObservedElement).toBe('function');
+    elem.addObservedElement({});
+
+    expect(elem.observed.length).toBe(1);
+  });
+
+  it('can\'t remove non-elements to the observed elements array', () => {
+    expect(typeof elem.removeObservedElement).toEqual('function');
+    elem.removeObservedElement({});
+
+    expect(elem.observed.length).toBe(1);
   });
 
   it('sets up a mutation observer', () => {

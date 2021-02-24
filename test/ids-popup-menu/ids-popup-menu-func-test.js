@@ -201,6 +201,15 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.popup.visible).toBeFalsy();
   });
 
+  it('can be prevented from showing with a vetoed `beforeshow` event', () => {
+    menu.addEventListener('beforeshow', (e) => {
+      e.detail.response(false);
+    });
+    menu.show();
+
+    expect(menu.hidden).toBeFalsy();
+  });
+
   it('listens for `selected` event from menu items', (done) => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
@@ -229,7 +238,7 @@ describe('IdsPopupMenu Component', () => {
 
   it('focuses the menu\'s `focusTarget` when the menu is shown', (done) => {
     item1.focus();
-    menu.eventHandlers.dispatchEvent('show', menu.popup, { bubbles: true });
+    menu.triggerEvent('show', menu.popup, { bubbles: true });
 
     setTimeout(() => {
       expect(menu.focused.isEqualNode(item1)).toBeTruthy();

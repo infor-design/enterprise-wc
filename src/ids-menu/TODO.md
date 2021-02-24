@@ -33,7 +33,3 @@
 ## ContextMenu Mixin?
 
 - [] Apply an IdsPopupMenu to an element with API for open/close and menu functions
-
-## Menu button
-
-- [] Add functional menu buttons with different features (standard, more actions, etc)

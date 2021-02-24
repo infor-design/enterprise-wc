@@ -3,10 +3,17 @@ import IdsIcon from '../ids-icon/ids-icon';
 
 /**
  * Track changes on inputs elements and show a dirty indicator.
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
  */
-const IdsDirtyTrackerMixin = {
-  isCheckbox: false,
-  isRadioGroup: false,
+const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
+  constructor() {
+    super();
+  }
+
+  isCheckbox = false;
+
+  isRadioGroup = false;
 
   /**
    * Handle dirty tracker values
@@ -16,7 +23,7 @@ const IdsDirtyTrackerMixin = {
     this.isCheckbox = this.input?.getAttribute('type') === 'checkbox';
     this.isRadioGroup = this.input?.classList.contains('ids-radio-group');
 
-    if (this.dirtyTracker) {
+    if (`${this.dirtyTracker}`.toLowerCase() === 'true') {
       if (this.input) {
         const val = this.valMethod(this.input);
         this.dirty = { original: val };
@@ -25,7 +32,7 @@ const IdsDirtyTrackerMixin = {
     } else {
       this.destroyDirtyTracker();
     }
-  },
+  }
 
   /**
    * Check if dirty tracker icon exists if not add it
@@ -48,7 +55,7 @@ const IdsDirtyTrackerMixin = {
         this.input?.parentNode?.insertBefore(icon, this.input);
       }
     }
-  },
+  }
 
   /**
    * Remove if dirty tracker icon exists
@@ -60,7 +67,7 @@ const IdsDirtyTrackerMixin = {
     if (icon) {
       icon.remove();
     }
-  },
+  }
 
   /**
    * Check if dirty tracker msg exists if not add it
@@ -76,7 +83,7 @@ const IdsDirtyTrackerMixin = {
       msg.innerHTML = ', Modified';
       this.labelEl?.appendChild(msg);
     }
-  },
+  }
 
   /**
    * Remove if dirty tracker msg exists
@@ -88,17 +95,25 @@ const IdsDirtyTrackerMixin = {
     if (msg) {
       msg.remove();
     }
-  },
+  }
 
   /**
-   * Get the value or checked if checkbox or radio
+   * Get the value or checked attribute if checkbox or radio
    * @private
    * @param {object} el .
-   * @returns {string} element value
+   * @returns {any} element value
    */
   valMethod(el) {
-    return (this.isCheckbox || this.isRadioGroup) ? this.checked : el.value;
-  },
+    let r;
+    if (this.isRadioGroup) {
+      r = this.checked;
+    } else if (this.isCheckbox) {
+      r = `${this.checked}`.toLowerCase() === 'true';
+    } else {
+      r = el.value;
+    }
+    return r;
+  }
 
   /**
    * Set dirtyTracker
@@ -120,44 +135,7 @@ const IdsDirtyTrackerMixin = {
       this.removeDirtyTrackerMsg();
       this.removeDirtyTrackerIcon();
     }
-  },
-
-  /**
-   * Handle hide-focus css class for first radio button in radio group
-   * @private
-   * @param {string} option If 'remove', will remove attached events
-   * @returns {void}
-   */
-  handleRadioGroupHidefocusClass(option = '') {
-    if (this.isRadioGroup) {
-      const radio = this.querySelector('ids-radio');
-      if (radio) {
-        const events = ['hidefocusadd', 'hidefocusremove'];
-        if (option === 'remove') {
-          events.forEach((evt) => {
-            const handler = this.eventHandlers?.handledEvents?.get(evt);
-            if (handler && handler.target === radio) {
-              this.eventHandlers.removeEventListener(evt, radio);
-            }
-          });
-        } else {
-          events.forEach((evt) => {
-            this.eventHandlers.addEventListener(evt, radio, (/** @type {any} */ e) => {
-              setTimeout(() => {
-                const icon = this.shadowRoot.querySelector('.icon-dirty');
-                const shouldRemove = e.type === 'hidefocusadd';
-                if (shouldRemove) {
-                  icon?.classList.remove('radio-focused');
-                } else {
-                  icon?.classList.add('radio-focused');
-                }
-              }, 0);
-            });
-          });
-        }
-      }
-    }
-  },
+  }
 
   /**
    * Handle dirty tracker events
@@ -169,30 +147,42 @@ const IdsDirtyTrackerMixin = {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {
-        const handler = this.eventHandlers?.handledEvents?.get(eventName);
+        const handler = this?.handledEvents?.get(eventName);
         if (handler && handler.target === this.input) {
-          this.eventHandlers.removeEventListener(eventName, this.input);
+          this.offEvent(eventName, this.input);
         }
-        this.handleRadioGroupHidefocusClass('remove');
       } else {
-        this.eventHandlers.addEventListener(eventName, this.input, () => {
+        this.onEvent(eventName, this.input, () => {
           const val = this.valMethod(this.input);
           this.setDirtyTracker(val);
         });
-        this.handleRadioGroupHidefocusClass();
       }
     }
-  },
+  }
+
+  /**
+   * Reset dirty tracker
+   * @returns {void}
+   */
+  resetDirtyTracker() {
+    if (this.dirty) {
+      this.removeDirtyTrackerIcon();
+      this.removeDirtyTrackerMsg();
+      this.dirty = { original: this.valMethod(this.input) };
+    } else {
+      this.handleDirtyTracker();
+    }
+  }
 
   /**
    * Destroy dirty tracker
-   * @private
    * @returns {void}
    */
   destroyDirtyTracker() {
     this.dirtyTrackerEvents('remove');
     this.removeDirtyTrackerIcon();
     this.removeDirtyTrackerMsg();
+    this.dirty = null;
   }
 };
 

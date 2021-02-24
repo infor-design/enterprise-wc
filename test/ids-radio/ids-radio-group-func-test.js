@@ -95,12 +95,10 @@ describe('IdsRadioGroup Component', () => {
     val = rg.valMethod(rg.input);
     rg.setDirtyTracker(val);
     jest.advanceTimersByTime(1);
-    radioArr[0].hidefocusToggle(radioArr[0].input);
     expect(rg.getAttribute('dirty-tracker')).toEqual('true');
     expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
     expect(rg.labelEl.querySelector('.msg-dirty')).toBeTruthy();
     jest.advanceTimersByTime(1);
-    radioArr[0].hidefocusToggle(radioArr[0].input, true);
     expect(rg.getAttribute('dirty-tracker')).toEqual('true');
     expect(rg.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
     expect(rg.labelEl.querySelector('.msg-dirty')).toBeTruthy();
@@ -260,6 +258,7 @@ describe('IdsRadioGroup Component', () => {
     elem.appendChild(rb2);
     rg = document.body.appendChild(elem);
     rg.setAttribute('label', 'test');
+    rg.setAttribute('label-required', 'false');
     rg.template();
     rg.setValue();
     radioArr = [].slice.call(rg.querySelectorAll('ids-radio'));
@@ -373,10 +372,9 @@ describe('IdsRadioGroup Component', () => {
 
   it('should renders template', () => {
     document.body.innerHTML = '';
-    rg = document.createElement('ids-radio-group');
-    rg.setAttribute('disabled', true);
-    rg.setAttribute('horizontal', true);
-    rg.setAttribute('label-font-size', 'lg');
+    const html = '<ids-radio-group label="test" value="test-val" disabled="true" horizontal="true"></ids-radio-group>';
+    document.body.innerHTML = html;
+    rg = document.querySelector('ids-radio-group');
     rg.template();
     expect(rg.getAttribute('disabled')).toEqual('true');
     const rootEl = rg.shadowRoot.querySelector('.ids-radio-group');

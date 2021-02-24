@@ -1,15 +1,15 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  props,
+  scss,
+  mix
 } from '../ids-base/ids-element';
 
-import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 // @ts-ignore
 import styles from './ids-popup.scss';
@@ -25,6 +25,9 @@ const ALIGNMENTS_Y = [CENTER, 'top', 'bottom'];
 const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== CENTER);
 const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== CENTER);
 
+// Arrow Directions (defaults to 'none')
+const ARROW_TYPES = ['none', 'bottom', 'top', 'left', 'right'];
+
 // Types of Popups
 const TYPES = ['none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'];
 
@@ -36,6 +39,8 @@ const POPUP_PROPERTIES = [
   'align-y',
   'align-edge',
   'align-target',
+  'arrow',
+  'arrow-target',
   props.ANIMATED,
   props.TYPE,
   props.VISIBLE,
@@ -72,12 +77,14 @@ function formatAlignAttribute(alignX, alignY, edge) {
 
 /**
  * IDS Popup Component
+ * @type {IdsPopup}
+ * @inherits IdsElement
+ * @mixes IdsRenderLoopMixin
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-popup')
 @scss(styles)
-@mixin(IdsRenderLoopMixin)
-@mixin(IdsResizeMixin)
-class IdsPopup extends IdsElement {
+class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, IdsEventsMixin) {
   constructor() {
     super();
     this.alignment = {
@@ -89,6 +96,10 @@ class IdsPopup extends IdsElement {
     this.coords = {
       x: 0,
       y: 0
+    };
+    this.state = {
+      arrow: ARROW_TYPES[0],
+      arrowTarget: null,
     };
     this.isVisible = false;
     this.isAnimated = false;
@@ -121,8 +132,6 @@ class IdsPopup extends IdsElement {
 
     // @ts-ignore
     if (this.shouldResize()) {
-      // @ts-ignore
-      this.ro.unobserve(this.resizeDetectionTarget());
       // @ts-ignore
       this.disconnectResize();
     }
@@ -165,7 +174,7 @@ class IdsPopup extends IdsElement {
 
   /**
    * Sets the element to align with via a css selector
-   * @param {any} val ['string|HTMLElement'] a CSS selector string
+   * @param {string | HTMLElement | undefined} val ['string|HTMLElement'] a CSS selector string
    */
   // @ts-ignore
   set alignTarget(val) {
@@ -182,6 +191,7 @@ class IdsPopup extends IdsElement {
     let elem;
     if (isString) {
       // @TODO Harden for security (XSS)
+      // @ts-ignore
       elem = document.querySelector(val);
       if (!(elem instanceof HTMLElement)) {
         return;
@@ -191,12 +201,13 @@ class IdsPopup extends IdsElement {
       elem = val;
     }
 
+    // @ts-ignore
     this.alignment.target = elem;
     this.refresh();
   }
 
   /**
-   * @returns {HTMLElement} the element in the page that the Popup will take
+   * @returns {HTMLElement| undefined} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
   // @ts-ignore
@@ -399,6 +410,85 @@ class IdsPopup extends IdsElement {
   }
 
   /**
+   * Specifies whether to show the Popup Arrow, and in which direction
+   * @param {string|null} val the arrow direction.  Defaults to `none`
+   */
+  set arrow(val) {
+    let trueVal = ARROW_TYPES[0];
+    if (val && ARROW_TYPES.includes(val)) {
+      trueVal = val;
+    }
+    if (trueVal !== ARROW_TYPES[0]) {
+      this.safeSetAttribute('arrow', `${trueVal}`);
+    } else {
+      this.safeRemoveAttribute('arrow');
+    }
+    this.refresh();
+  }
+
+  /**
+   * @returns {string|null} the arrow setting, or null
+   */
+  get arrow() {
+    const attr = this.getAttribute('arrow');
+    if (!attr) {
+      return ARROW_TYPES[0];
+    }
+    return attr;
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement} referencing the internal arrow element
+   */
+  get arrowEl() {
+    return this.container.querySelector('.arrow');
+  }
+
+  /**
+   * Sets the element to align with via a css selector
+   * @param {any} val ['string|HTMLElement'] a CSS selector string
+   */
+  // @ts-ignore
+  set arrowTarget(val) {
+    const isString = typeof val === 'string' && val.length;
+    const isElem = val instanceof HTMLElement;
+
+    if (!isString && !isElem) {
+      // @ts-ignore
+      this.state.arrowTarget = undefined;
+      this.removeAttribute('arrow-target');
+      this.refresh();
+      return;
+    }
+
+    let elem;
+    if (isString) {
+      // @TODO Harden for security (XSS)
+      elem = document.querySelector(val);
+      if (!(elem instanceof HTMLElement)) {
+        return;
+      }
+      this.setAttribute('arrow-target', val);
+    } else {
+      elem = val;
+    }
+
+    this.state.arrowTarget = elem;
+    this.refresh();
+  }
+
+  /**
+   * @returns {HTMLElement} the element in the page that the Popup will take
+   * coordinates from for relative placement
+   */
+  // @ts-ignore
+  get arrowTarget() {
+    // @ts-ignore
+    return this.state.arrowTarget || this.alignTarget;
+  }
+
+  /**
    * The style of popup to use between 'none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'
    * @param {string} val The popup type
    */
@@ -486,7 +576,7 @@ class IdsPopup extends IdsElement {
     // @ts-ignore
     if (this.shouldResize()) {
       // @ts-ignore
-      this.ro.observe(this.resizeDetectionTarget());
+      this.addObservedElement(this.resizeDetectionTarget());
     }
 
     // Set the Popup type
@@ -502,9 +592,25 @@ class IdsPopup extends IdsElement {
 
     // Make the popup actually render before doing placement calcs
     if (this.isVisible) {
-      this.container.classList.add('visible');
+      thisCl.add('visible');
     } else {
-      this.container.classList.remove('open');
+      thisCl.remove('open');
+    }
+
+    // Show/Hide Arrow class, if applicable
+    const arrowClass = this.arrow;
+    const arrowElCl = this.arrowEl.classList;
+    ARROW_TYPES.forEach((type) => {
+      if (type !== 'none' && type !== arrowClass) {
+        arrowElCl.remove(type);
+        this.arrowEl.hidden = true;
+      }
+    });
+    // @ts-ignore
+    if (this.arrow !== 'none' && !arrowElCl.contains(this.arrow)) {
+      // @ts-ignore
+      arrowElCl.add(this.arrow);
+      this.arrowEl.hidden = false;
     }
 
     // If no alignment target is present, do a simple x/y coordinate placement.
@@ -547,8 +653,11 @@ class IdsPopup extends IdsElement {
       duration: 70,
       timeoutCallback: () => {
         if (this.isVisible) {
+          // If an arrow is displayed, place it correctly.
+          this.placeArrow();
+
           // Always fire the 'show' event
-          this.eventHandlers.dispatchEvent('show', this, {
+          this.triggerEvent('show', this, {
             bubbles: true,
             detail: {
               elem: this
@@ -572,7 +681,7 @@ class IdsPopup extends IdsElement {
       timeoutCallback: () => {
         if (!this.isVisible) {
           // Always fire the 'hide' event
-          this.eventHandlers.dispatchEvent('hide', this, {
+          this.triggerEvent('hide', this, {
             bubbles: true,
             detail: {
               elem: this
@@ -601,25 +710,25 @@ class IdsPopup extends IdsElement {
     let y = this.y;
 
     switch (this.alignX) {
-      case 'right':
-        x -= popupRect.width;
-        break;
-      case 'center':
-        x -= popupRect.width / 2;
-        break;
-      default: // left
-        break;
+    case 'right':
+      x -= popupRect.width;
+      break;
+    case 'center':
+      x -= popupRect.width / 2;
+      break;
+    default: // left
+      break;
     }
 
     switch (this.alignY) {
-      case 'bottom':
-        y -= popupRect.height;
-        break;
-      case 'center':
-        y -= popupRect.height / 2;
-        break;
-      default: // top
-        break;
+    case 'bottom':
+      y -= popupRect.height;
+      break;
+    case 'center':
+      y -= popupRect.height / 2;
+      break;
+    default: // top
+      break;
     }
 
     // @ts-ignore
@@ -639,6 +748,7 @@ class IdsPopup extends IdsElement {
 
     // Detect sizes/locations of the popup and the alignment target Element
     const popupRect = this.container.getBoundingClientRect();
+    // @ts-ignore
     const targetRect = this.alignTarget.getBoundingClientRect();
     const { alignEdge } = this;
     let alignXCentered = false;
@@ -652,27 +762,27 @@ class IdsPopup extends IdsElement {
     // and use the defined X coordinate as a X offset.
     if (ALIGNMENTS_Y.includes(alignEdge)) {
       switch (alignEdge) {
-        case 'top':
-          y = targetRect.top - popupRect.height - y;
-          break;
-        case 'bottom':
-          y = targetRect.bottom + y;
-          break;
-        default: // center
-          y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
-          alignYCentered = true;
+      case 'top':
+        y = targetRect.top - popupRect.height - y;
+        break;
+      case 'bottom':
+        y = targetRect.bottom + y;
+        break;
+      default: // center
+        y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
+        alignYCentered = true;
       }
 
       switch (this.alignX) {
-        case 'left':
-          x = targetRect.left + x;
-          break;
-        case 'right':
-          x = targetRect.right - popupRect.width - x;
-          break;
-        default: // center
-          x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
-          alignXCentered = true;
+      case 'left':
+        x = targetRect.left + x;
+        break;
+      case 'right':
+        x = targetRect.right - popupRect.width - x;
+        break;
+      default: // center
+        x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
+        alignXCentered = true;
       }
     }
 
@@ -681,31 +791,31 @@ class IdsPopup extends IdsElement {
     // and use the defined Y coordinate as a Y offset.
     if (ALIGNMENTS_X.includes(alignEdge)) {
       switch (alignEdge) {
-        case 'left':
-          x = targetRect.left - popupRect.width - x;
+      case 'left':
+        x = targetRect.left - popupRect.width - x;
+        break;
+      case 'right':
+        x = targetRect.right + x;
+        break;
+      default: // center
+        if (alignXCentered) {
           break;
-        case 'right':
-          x = targetRect.right + x;
-          break;
-        default: // center
-          if (alignXCentered) {
-            break;
-          }
-          x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
+        }
+        x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
       }
 
       switch (this.alignY) {
-        case 'top':
-          y = targetRect.top + y;
+      case 'top':
+        y = targetRect.top + y;
+        break;
+      case 'bottom':
+        y = targetRect.bottom - popupRect.height + y;
+        break;
+      default: // center
+        if (alignYCentered) {
           break;
-        case 'bottom':
-          y = targetRect.bottom - popupRect.height + y;
-          break;
-        default: // center
-          if (alignYCentered) {
-            break;
-          }
-          y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
+        }
+        y = (targetRect.top + targetRect.height / 2) - (popupRect.height / 2) + y;
       }
     }
 
@@ -713,6 +823,77 @@ class IdsPopup extends IdsElement {
     this.container.style.left = `${x}px`;
     // @ts-ignore
     this.container.style.top = `${y}px`;
+  }
+
+  /**
+   * Handles alignment of an optional arrow element.  If an arrow target is specified,
+   * the arrow is placed to align correctly against the target.
+   * @returns {void}
+   */
+  placeArrow() {
+    const arrow = this.arrow;
+    const arrowEl = this.arrowEl;
+    const element = this.alignTarget;
+    const target = this.arrowTarget;
+
+    if (arrow === 'none' || !element || !target) {
+      arrowEl.hidden = true;
+      return;
+    }
+
+    // Clear previous styles
+    arrowEl.removeAttribute('hidden');
+    arrowEl.style.marginLeft = '';
+    arrowEl.style.marginTop = '';
+
+    const arrowRect = arrowEl.getBoundingClientRect();
+    const elementRect = element.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+
+    const newArrowRect = {};
+    const targetMargin = (arrow === 'right' || arrow === 'left') ? 'marginTop' : 'marginLeft';
+
+    let arrowHidden = false;
+    let targetCenter = 0;
+    let currentArrowCenter = 0;
+    let d;
+
+    // Figure out the distance needed to move the arrow to match the position of the `target`
+    if (arrow === 'left' || arrow === 'right') {
+      targetCenter = targetRect.top + (targetRect.height / 2);
+      currentArrowCenter = arrowRect.top + (arrowRect.height / 2);
+      d = targetCenter - currentArrowCenter;
+      newArrowRect.top = arrowRect.top + d;
+      newArrowRect.bottom = arrowRect.bottom + d;
+
+      /* istanbul ignore next */
+      if (newArrowRect.top <= elementRect.top || newArrowRect.bottom >= elementRect.bottom) {
+        arrowHidden = true;
+      }
+    }
+    if (arrow === 'top' || arrow === 'bottom') {
+      targetCenter = targetRect.left + (targetRect.width / 2);
+      currentArrowCenter = arrowRect.left + (arrowRect.width / 2);
+      d = targetCenter - currentArrowCenter;
+      newArrowRect.left = arrowRect.left + d;
+      newArrowRect.right = arrowRect.right + d;
+
+      /* istanbul ignore next */
+      if (newArrowRect.left <= elementRect.left || newArrowRect.right >= elementRect.right) {
+        arrowHidden = true;
+      }
+    }
+
+    // Round the number up
+    // @ts-ignore
+    d = Math.ceil(d);
+
+    // Hide the arrow if it goes beyond the element boundaries
+    /* istanbul ignore next */
+    if (arrowHidden) {
+      arrowEl.hidden = true;
+    }
+    arrowEl.style[targetMargin] = `${d}px`;
   }
 
   /**
@@ -754,6 +935,7 @@ class IdsPopup extends IdsElement {
    */
   template() {
     return `<div class="ids-popup">
+      <div class="arrow"></div>
       <div class="content-wrapper">
         <slot name="content"></slot>
       </div>
@@ -765,10 +947,8 @@ class IdsPopup extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
-
     const slot = this.shadowRoot.querySelector('slot');
-    this.eventHandlers.addEventListener('slotchange', slot, () => {
+    this.onEvent('slotchange', slot, () => {
       this.refresh();
     });
   }

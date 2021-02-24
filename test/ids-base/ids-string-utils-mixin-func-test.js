@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsStringUtilsMixin as stringUtils } from '../../src/ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../../src/ids-base/ids-string-utils';
 
 describe('IdsStringUtils Tests', () => {
   afterEach(async () => {
@@ -14,6 +14,7 @@ describe('IdsStringUtils Tests', () => {
   });
 
   it('can convert a string to boolean', () => {
+    expect(stringUtils.stringToBool('setting-value')).toEqual(true);
     expect(stringUtils.stringToBool('false')).toEqual(false);
     expect(stringUtils.stringToBool('FALSE')).toEqual(false);
     expect(stringUtils.stringToBool('False')).toEqual(false);

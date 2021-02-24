@@ -1,14 +1,17 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  props
 } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
+
 // @ts-ignore
 import styles from './ids-text.scss';
 
 /**
  * IDS Text Component
+ * @type {IdsText}
+ * @inherits IdsElement
  */
 @customElement('ids-text')
 @scss(styles)
@@ -45,14 +48,15 @@ class IdsText extends IdsElement {
    */
   rerender() {
     const template = document.createElement('template');
-    this.shadowRoot.querySelector('.ids-text').remove();
+    this.shadowRoot?.querySelector('.ids-text')?.remove();
     template.innerHTML = this.template();
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot?.appendChild(template.content.cloneNode(true));
   }
 
   /**
    * Set the font size/style of the text with a class.
-   * @param {string} value The font size in the font scheme i.e. 10, 12, 16 or xs, sm, base, lg, xl
+   * @param {string | null} value The font size in the font scheme
+   * i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set fontSize(value) {
     if (value) {
@@ -70,7 +74,7 @@ class IdsText extends IdsElement {
 
   /**
    * Set the type of element it is (h1-h6, span (default))
-   * @param {string} value  The type of element
+   * @param {string | null} value  The type of element
    */
   set type(value) {
     if (value) {
@@ -87,7 +91,7 @@ class IdsText extends IdsElement {
 
   /**
    * Set `audible` string (screen reader only text)
-   * @param {string} value The `audible` attribute
+   * @param {string | null} value The `audible` attribute
    */
   set audible(value) {
     if (value) {

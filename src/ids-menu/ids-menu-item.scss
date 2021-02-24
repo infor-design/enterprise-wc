@@ -114,7 +114,7 @@
     a {
       @include pl-4();
 
-      grid-template-columns: 30px calc(100% - 60px);
+      grid-template-columns: 30px calc(100% - 30px);
     }
   }
 

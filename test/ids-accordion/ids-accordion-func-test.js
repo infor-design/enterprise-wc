@@ -137,12 +137,12 @@ describe('IdsAccordion Component', () => {
     const event = new KeyboardEvent('keydown', { key: 'Enter' });
 
     // Expand
-    panel.expander.dispatchEvent(event);
+    panel.dispatchEvent(event);
     expect(panel.state.expanded).toBe(true);
     expect(panel.expanded).toBe('true');
 
     // Collapse
-    panel.expander.dispatchEvent(event);
+    panel.dispatchEvent(event);
     expect(panel.state.expanded).toBe(false);
     expect(panel.expanded).toBe('false');
   });
@@ -151,12 +151,12 @@ describe('IdsAccordion Component', () => {
     const event = new KeyboardEvent('keydown', { key: ' ' });
 
     // Expand
-    panel.expander.dispatchEvent(event);
+    panel.dispatchEvent(event);
     expect(panel.state.expanded).toBe(true);
     expect(panel.expanded).toBe('true');
 
     // Collapse
-    panel.expander.dispatchEvent(event);
+    panel.dispatchEvent(event);
     expect(panel.state.expanded).toBe(false);
     expect(panel.expanded).toBe('false');
   });
@@ -165,12 +165,12 @@ describe('IdsAccordion Component', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     let nextPanel = panel.nextElementSibling;
 
-    panel.expander.dispatchEvent(event);
+    panel.dispatchEvent(event);
     nextPanel.setAttribute('tabindex', '0');
     expect(nextPanel.getAttribute('tabindex')).toBe('0');
 
     nextPanel = panel3.nextElementSibling;
-    panel3.expander.dispatchEvent(event);
+    panel3.dispatchEvent(event);
     expect(nextPanel).toBe(null);
   });
 
@@ -178,12 +178,12 @@ describe('IdsAccordion Component', () => {
     const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     let prevPanel = panel2.previousElementSibling;
 
-    panel2.expander.dispatchEvent(event);
+    panel2.dispatchEvent(event);
     prevPanel.setAttribute('tabindex', '0');
     expect(prevPanel.getAttribute('tabindex')).toBe('0');
 
     prevPanel = panel.previousElementSibling;
-    panel.expander.dispatchEvent(event);
+    panel.dispatchEvent(event);
     expect(prevPanel).toBe(null);
   });
 
@@ -197,5 +197,13 @@ describe('IdsAccordion Component', () => {
       });
     });
     expect(panel.pane.style.height).toEqual('0px');
+  });
+
+  it('wont error caling api with no panel', () => {
+    panel.pane = null;
+    panel.expanded = true;
+    panel.expanded = false;
+    panel.expanded = true;
+    expect(panel.expanded).toEqual('true');
   });
 });

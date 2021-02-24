@@ -1,13 +1,15 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  props,
+  mix
 } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
+
 // @ts-ignore
 import styles from './ids-upload.scss';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // Supporting components
 import '../ids-input/ids-input';
@@ -18,10 +20,13 @@ const ID = 'ids-upload-id';
 
 /**
  * IDS Upload Component
+ * @type {IdsUpload}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-upload')
 @scss(styles)
-class IdsUpload extends IdsElement {
+class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
@@ -50,6 +55,12 @@ class IdsUpload extends IdsElement {
   }
 
   /**
+   * Custom Element `attributeChangedCallback` implementation
+   * @returns {void}
+   */
+  attributeChangedCallback() {}
+
+  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
@@ -59,9 +70,10 @@ class IdsUpload extends IdsElement {
     /** @type {any} */
     this.textInput = this.shadowRoot.querySelector('ids-input');
     /** @type {any} */
+    // @ts-ignore
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
-    this.files = this.fileInput.files;
 
+    this.files = this.fileInput.files;
     this.handleEvents();
   }
 
@@ -111,7 +123,7 @@ class IdsUpload extends IdsElement {
    */
   clear() {
     if (this.hasAccess) {
-      this.value = null;
+      this.value = '';
     }
   }
 
@@ -141,7 +153,7 @@ class IdsUpload extends IdsElement {
      * @param  {object} elem Actual event
      * @param  {string} value The updated input element value
      */
-    this.eventHandlers.dispatchEvent('change', this, {
+    this.triggerEvent('change', this, {
       detail: {
         files: this.fileInput.files,
         textValue: this.value,
@@ -157,8 +169,7 @@ class IdsUpload extends IdsElement {
    * @returns {void}
    */
   handleWindowFocusEvent() {
-    // @ts-ignore
-    this.eventHandlers.addEventListener('focus', window, () => {
+    this.onEvent('focus', window, () => {
       if (this.isFilePickerOpened) {
         this.isFilePickerOpened = false;
         // Need timeout because `focus` get before the `files` on fileInput
@@ -166,7 +177,7 @@ class IdsUpload extends IdsElement {
         setTimeout(() => {
           const files = this.fileInput.files;
           const eventName = `files${files.length ? 'select' : 'cancel'}`;
-          this.eventHandlers.dispatchEvent(eventName, this.fileInput, {
+          this.triggerEvent(eventName, this.fileInput, {
             detail: { files, elem: this }
           });
         }, 20);
@@ -180,9 +191,10 @@ class IdsUpload extends IdsElement {
    * @returns {void}
    */
   handleFileInputChangeEvent() {
-    this.eventHandlers.addEventListener('change', this.fileInput, (/** @type {any} */ e) => {
+    this.onEvent('change', this.fileInput, (/** @type {any} */ e) => {
       const files = this.fileInput.files;
       /* istanbul ignore next */
+      // @ts-ignore
       this.value = [].slice.call(files).map((f) => f.name).join(', ');
       this.dispatchChangeEvent(e);
     });
@@ -194,7 +206,7 @@ class IdsUpload extends IdsElement {
    * @returns {void}
    */
   handleFileInputCancelEvent() {
-    this.eventHandlers.addEventListener('filescancel', this.fileInput, () => {
+    this.onEvent('filescancel', this.fileInput, () => {
       this.textInput.input?.dispatchEvent(new Event('blur', { bubbles: true }));
     });
   }
@@ -206,13 +218,13 @@ class IdsUpload extends IdsElement {
    */
   handleTextInputDragDrop() {
     if (this.hasAccess) {
-      this.eventHandlers.addEventListener('dragenter', this.textInput, () => {
+      this.onEvent('dragenter', this.textInput, () => {
         this.fileInput.style.zIndex = '1';
       });
 
       const events = ['dragleave', 'dragend', 'drop'];
       events.forEach((eventName) => {
-        this.eventHandlers.addEventListener(eventName, this.textInput, () => {
+        this.onEvent(eventName, this.textInput, () => {
           setTimeout(() => {
             this.fileInput.style.zIndex = '';
           }, 1);
@@ -227,10 +239,12 @@ class IdsUpload extends IdsElement {
    * @returns {void}
    */
   handleTextInputKeydown() {
-    this.eventHandlers.addEventListener('keydown', this.textInput, (/** @type {any} */ e) => {
+    this.onEvent('keydown', this.textInput, (/** @type {any} */ e) => {
       const allow = ['Backspace', 'Enter', 'Space'];
       const key = e.code;
-      if (allow.indexOf(key) > -1) {
+      /* istanbul ignore next */
+      const isClearBtn = e.path?.filter((p) => p?.classList?.contains('btn-clear')).length > 0;
+      if (allow.indexOf(key) > -1 && !isClearBtn) {
         if (key === 'Backspace') {
           this.clear();
           this.dispatchChangeEvent(e);
@@ -248,7 +262,7 @@ class IdsUpload extends IdsElement {
    * @returns {void}
    */
   handleTriggerClickEvent() {
-    this.eventHandlers.addEventListener('click', this.trigger, () => {
+    this.onEvent('click', this.trigger, () => {
       this.open();
     });
   }
@@ -259,7 +273,7 @@ class IdsUpload extends IdsElement {
    * @returns {void}
    */
   handleInputClearedEvent() {
-    this.eventHandlers.addEventListener('cleared', this.textInput, (/** @type {any} */ e) => {
+    this.onEvent('cleared', this.textInput, (/** @type {any} */ e) => {
       this.clear();
       this.dispatchChangeEvent(e);
     });
@@ -271,8 +285,6 @@ class IdsUpload extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
-
     this.handleWindowFocusEvent();
     this.handleFileInputChangeEvent();
     this.handleFileInputCancelEvent();

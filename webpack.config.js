@@ -161,6 +161,9 @@ module.exports = {
           from: './src/**/*.d.ts',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
+            if (absoluteFilename.indexOf('ids-base') > -1) {
+              return `${absoluteFilename.replace('/src/', '/dist/')}`;
+            }
             return `${baseName.replace('.d.ts', '')}/${baseName}`;
           },
         }

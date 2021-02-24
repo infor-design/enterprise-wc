@@ -1,7 +1,30 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
+import { IdsElement } from '../ids-base/ids-element';
 
-export default class IdsInput extends HTMLElement {
+type IdsValidationErrorMessageTypes = {
+  /** The unique id in the check messages */
+  id: string;
+
+  /** The Type of message and icon */
+  type: 'error' | 'info' | 'alert' | 'warn';
+
+  /** The localized message text */
+  message: string;
+
+  /** The Type of message icon */
+  icon: string;
+}
+
+type IdsValidationTypes = {
+  /** Add a message to the input */
+  addMessage(settings: IdsValidationErrorMessageTypes);
+
+  /** Remove a message(s) from the input */
+  removeMessage(settings: IdsValidationErrorMessageTypes);
+}
+
+export default class IdsInput extends IdsElement {
   /** When set the input will select all text on focus */
   autoselect: boolean;
 
@@ -30,7 +53,7 @@ export default class IdsInput extends HTMLElement {
   size: 'xs' | 'sm ' | 'mm' | 'md' | 'lg' | 'full' | string;
 
   /** Sets the input to readonly state * */
-   readonly: boolean;
+  readonly: boolean;
 
   /** Sets the text alignment * */
   textAlign: 'left' | 'center ' | 'right' | string;
@@ -46,4 +69,6 @@ export default class IdsInput extends HTMLElement {
 
   /** Sets the `value` attribute * */
   value: string | number;
+
+  IdsValidationTypes;
 }

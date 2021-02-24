@@ -129,7 +129,7 @@ describe('IdsCheckbox Component', () => {
     let label = cb.labelEl.querySelector('.label-text');
     label.remove();
     cb.label = 'test';
-
+    cb.radioCheckbox = false;
     document.body.innerHTML = '';
     const elem = new IdsCheckbox();
     document.body.appendChild(elem);
@@ -239,14 +239,14 @@ describe('IdsCheckbox Component', () => {
   it('should renders template', () => {
     document.body.innerHTML = '';
     cb = document.createElement('ids-checkbox');
-    cb.setAttribute('disabled', true);
-    cb.setAttribute('horizontal', true);
-    cb.setAttribute('checked', true);
-    cb.setAttribute('indeterminate', true);
-    cb.setAttribute('label-font-size', 'lg');
+    cb.setAttribute('color', 'ruby07');
+    cb.setAttribute('disabled', 'true');
+    cb.setAttribute('horizontal', 'true');
+    cb.setAttribute('checked', 'true');
+    cb.setAttribute('label-required', 'false');
+    cb.setAttribute('indeterminate', 'true');
     cb.template();
     expect(cb.getAttribute('disabled')).toEqual('true');
-    expect(cb.input.hasAttribute('disabled')).toBe(true);
     const rootEl = cb.shadowRoot.querySelector('.ids-checkbox');
     expect(rootEl.classList).toContain('disabled');
     expect(rootEl.classList).toContain('horizontal');
@@ -254,6 +254,5 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('checked')).toEqual('true');
     expect(cb.checked).toEqual('true');
     expect(cb.getAttribute('indeterminate')).toEqual('true');
-    expect(cb.input.classList).toContain('indeterminate');
   });
 });

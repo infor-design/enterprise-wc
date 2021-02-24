@@ -1,8 +1,15 @@
 /**
- * Light-weight wrapper around events.
+ * A mixin that adds event handler functionality that is also safely torn down when a component is
+ * removed from the DOM.
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
  */
-class IdsEventsMixin {
+const IdsEventsMixin = (superclass) => class extends superclass {
   handledEvents = new Map();
+
+  constructor() {
+    super();
+  }
 
   /**
    * Add and keep track of an event listener.
@@ -11,7 +18,7 @@ class IdsEventsMixin {
    * @param {Function|any} callback The callback code to execute
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
-  addEventListener(eventName, target, callback, options) {
+  onEvent(eventName, target, callback, options) {
     target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
@@ -22,9 +29,11 @@ class IdsEventsMixin {
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
-  removeEventListener(eventName, target, options) {
+  offEvent(eventName, target, options) {
     const handler = this.handledEvents.get(eventName);
-    target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
+    if (handler?.callback) {
+      target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
+    }
     this.handledEvents.delete(eventName);
   }
 
@@ -32,9 +41,9 @@ class IdsEventsMixin {
    * Create and trigger a custom event
    * @param {string} eventName The event id with optional namespace
    * @param {HTMLElement} target The DOM element to register
-   * @param {object} [options] The custom data to send
+   * @param {object} [options = {}] The custom data to send
    */
-  dispatchEvent(eventName, target, options = {}) {
+  triggerEvent(eventName, target, options = {}) {
     const event = new CustomEvent(eventName.split('.')[0], options);
     target.dispatchEvent(event);
   }
@@ -42,11 +51,25 @@ class IdsEventsMixin {
   /**
    * Detach all event handlers
    */
-  removeAll() {
+  detachAllEvents() {
     this.handledEvents.forEach((value, key) => {
-      this.removeEventListener(key, value.target, value.options);
+      this.offEvent(key, value.target, value.options);
     });
   }
-}
+
+  /**
+   * Detach a specific handler by name
+   * @param {string} [eventName] an optional event name to filter with
+   */
+  detachEventName(eventName) {
+    const doCheck = typeof eventName === 'string' && eventName.length;
+    this.handledEvents.forEach((value, key) => {
+      if (doCheck && key !== eventName) {
+        return;
+      }
+      this.offEvent(key, value.target, value.options);
+    });
+  }
+};
 
 export { IdsEventsMixin };

@@ -1,8 +1,11 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  mix
 } from '../ids-base/ids-element';
+
+import { IdsDataSource } from '../ids-base/ids-data-source';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 
@@ -24,6 +27,7 @@ import styles from './ids-menu.scss';
  */
 function isValidGroup(menuGroup, idsMenu) {
   let hasGroup;
+  // @ts-ignore
   const isElem = menuGroup instanceof IdsMenuGroup;
   idsMenu.groups.forEach((group) => {
     if ((isElem && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {
@@ -40,6 +44,7 @@ function isValidGroup(menuGroup, idsMenu) {
  * @returns {boolean} true if the provided element is a "currently-usable" IdsMenuItem type.
  */
 function isUsableItem(item, idsMenu) {
+  // @ts-ignore
   const isItem = item instanceof IdsMenuItem;
   const menuHasItem = idsMenu.contains(item);
   return (isItem && menuHasItem && !item.disabled);
@@ -47,12 +52,17 @@ function isUsableItem(item, idsMenu) {
 
 /**
  * IDS Menu Component
+ * @type {IdsMenu|any}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  */
 @customElement('ids-menu')
 @scss(styles)
-class IdsMenu extends IdsElement {
+class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   constructor() {
     super();
+    this.datasource = new IdsDataSource();
     this.state = {};
     this.lastHovered = undefined;
     this.lastNavigated = undefined;
@@ -64,8 +74,6 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
-
     // Highlight handler -- Menu Items Only, don't change if the target is disabled
     const highlightItem = (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
@@ -81,7 +89,7 @@ class IdsMenu extends IdsElement {
     // Highlight the item on click
     // If the item doesn't contain a submenu, select it.
     // If the item does have a submenu, activate it.
-    this.eventHandlers.addEventListener('click', this, (/** @type {any} */ e) => {
+    this.onEvent('click', this, (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.highlightItem(thisItem);
       this.selectItem(thisItem);
@@ -90,8 +98,8 @@ class IdsMenu extends IdsElement {
     });
 
     // Focus in/out causes highlight to change
-    this.eventHandlers.addEventListener('focusin', this, highlightItem);
-    this.eventHandlers.addEventListener('focusout', this, unhighlightItem);
+    this.onEvent('focusin', this, highlightItem);
+    this.onEvent('focusout', this, unhighlightItem);
   }
 
   /**
@@ -99,24 +107,22 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   handleKeys() {
-    this.keyboard = new IdsKeyboardMixin();
-
     // Arrow Up navigates focus backward
-    this.keyboard.listen(['ArrowUp'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowUp'], this, (/** @type {any} */ e) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(-1, true);
     });
 
     // Arrow Right navigates focus forward
-    this.keyboard.listen(['ArrowDown'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowDown'], this, (/** @type {any} */ e) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(1, true);
     });
 
     // Enter/Spacebar select the menu item
-    this.keyboard.listen(['Enter', 'Spacebar', ' '], this, (/** @type {any} */ e) => {
+    this.listen(['Enter', 'Spacebar', ' '], this, (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.selectItem(thisItem);
       this.lastNavigated = thisItem;
@@ -138,7 +144,185 @@ class IdsMenu extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return `<nav class="ids-menu" role="menu"><slot></slot></nav>`;
+    // Setup the attributes on the top-level menu container
+    let id;
+    if (this.id) {
+      id = ` id="${this.id}"`;
+    }
+
+    let slot = '';
+    if (this.tagName.toLowerCase() === 'ids-popup-menu') {
+      slot = ` slot="content"`;
+    }
+
+    return `<nav class="ids-menu"${id}${slot} role="menu"><slot></slot></nav>`;
+  }
+
+  /**
+   * @param {any} contentsObj a plain object structure with Popupmenu Contents
+   * @returns {string} list of HTML
+   */
+  menuContentTemplate(contentsObj) {
+    // Renders a separator
+    const renderSeparator = () => `<ids-separator></ids-separator>`;
+
+    // Renders a header
+    const renderHeader = (elem) => {
+      if (typeof elem.text !== 'string') {
+        return '';
+      }
+      return `<ids-menu-header>${elem.text}</ids-menu-header>`;
+    };
+
+    // Renders the contents of a submenu
+    const renderContents = (submenuContents) => {
+      let html = '';
+      submenuContents.forEach((elem) => {
+        switch (elem.type) {
+        case 'header':
+          html += renderHeader(elem);
+          break;
+        case 'separator':
+          html += renderSeparator();
+          break;
+        case 'group':
+        default: // Assume "Group"
+          // eslint-disable-next-line
+          html += renderGroup(elem);
+          break;
+        }
+      });
+      return html;
+    };
+
+    // Renders a submenu wrapper
+    const renderSubmenu = (submenuData) => {
+      if (!Array.isArray(submenuData?.contents) || !submenuData.contents.length) {
+        return '';
+      }
+
+      let id = '';
+      if (submenuData.id) {
+        id = ` id="${submenuData.id}"`;
+      }
+      const contents = renderContents(submenuData.contents);
+      return `<ids-popup-menu slot="submenu"${id}>${contents}</ids-popup-menu>`;
+    };
+
+    // Renders a single item
+    const renderItem = (item) => {
+      if (typeof item.text !== 'string') {
+        return '';
+      }
+      const text = `${item.text}`;
+
+      let id = '';
+      if (typeof item.id === 'string') {
+        id = ` id="${item.id}"`;
+      }
+      let disabled = '';
+      if (item.disabled) {
+        disabled = ' disabled="true"';
+      }
+      let icon = '';
+      if (typeof item.icon === 'string') {
+        icon = ` icon="${item.icon}"`;
+      }
+      let selected = '';
+      if (item.selected) {
+        selected = ' selected="true"';
+      }
+      let submenu = '';
+      if (item.submenu) {
+        submenu = renderSubmenu(item.submenu);
+      }
+
+      return `<ids-menu-item${id}${disabled}${icon}${selected}>
+        ${text}
+        ${submenu}
+      </ids-menu-item>`;
+    };
+
+    // Renders the contents of a group
+    const renderGroup = (groupData) => {
+      if (!Array.isArray(groupData?.items) || !groupData.items.length) {
+        return '';
+      }
+
+      let id = '';
+      if (groupData.id) {
+        id = ` id="${groupData.id}"`;
+      }
+      let itemsHTML = '';
+      groupData.items?.forEach((newItem) => {
+        if (newItem?.type === 'separator') {
+          itemsHTML += renderSeparator();
+        } else {
+          itemsHTML += renderItem(newItem);
+        }
+      });
+      return `<ids-menu-group${id}>${itemsHTML}</ids-menu-group>`;
+    };
+
+    return renderContents(contentsObj);
+  }
+
+  /**
+   * Rerender the list by re applying the template
+   * @private
+   */
+  renderFromData() {
+    if (this.data?.length === 0) {
+      return;
+    }
+
+    // Re-apply template (picks up top-level properties from menu data)
+    const template = document.createElement('template');
+    const html = this.template();
+
+    // Render and append styles
+    this.shadowRoot.innerHTML = '';
+    template.innerHTML = html;
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+
+    // Re-render all children
+    this.innerHTML = '';
+    this.insertAdjacentHTML('beforeend', this.menuContentTemplate(this.data));
+  }
+
+  /**
+   * Set the data array of the datagrid
+   * @param {Array<any>|object} value The array to use
+   * @returns {void}
+   */
+  set data(value) {
+    if (value) {
+      // If provided an object, search for a `contents` property and store that
+      if (typeof value === 'object' && Array.isArray(value.contents)) {
+        this.datasource.data = value.contents;
+        // Set the ID of this component if it's present in the object
+        if (value?.id) {
+          this.id = value.id;
+        }
+      } else if (Array.isArray(value)) {
+        this.datasource.data = value;
+      } else {
+        // accept no other non-empty types
+        return;
+      }
+
+      this.renderFromData();
+      return;
+    }
+
+    this.datasource.data = null;
+  }
+
+  /**
+   * @returns {Array<any>|object} containing the dataset
+   */
+  get data() {
+    return this?.datasource?.data || [];
   }
 
   /**
@@ -163,9 +347,10 @@ class IdsMenu extends IdsElement {
 
   /**
    * @readonly
-   * @returns {IdsMenuItem} the currently focused menu item, if one exists
+   * @returns {IdsMenuItem|undefined} the currently focused menu item, if one exists
    */
   get focused() {
+    // @ts-ignore
     return this.items.find((item) => document.activeElement.isEqualNode(item));
   }
 
@@ -234,6 +419,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   highlightItem(menuItem) {
+    // @ts-ignore
     if (!isUsableItem(menuItem, this)) {
       return;
     }
@@ -296,7 +482,7 @@ class IdsMenu extends IdsElement {
   }
 
   /**
-   * @returns {IdsMenuItem} the first available item, closest to the top of the menu.
+   * @returns {IdsMenuItem | undefined} the first available item, closest to the top of the menu.
    */
   getFirstAvailableItem() {
     const items = this.items;
@@ -320,6 +506,7 @@ class IdsMenu extends IdsElement {
    * @returns {Array<IdsMenuItem>} list of selected menu items
    */
   getSelectedItems(menuGroup) {
+    // @ts-ignore
     const group = isValidGroup(menuGroup, this);
     return this.items.filter((item) => {
       if (group) {
@@ -344,6 +531,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   selectItem(menuItem) {
+    // @ts-ignore
     if (!isUsableItem(menuItem, this)) {
       return;
     }
@@ -357,16 +545,16 @@ class IdsMenu extends IdsElement {
 
     const group = menuItem.group;
     switch (group.select) {
-      case 'multiple':
-        // Multiple-select mode (Toggles selection, ignores others)
-        menuItem[menuItem.selected ? 'deselect' : 'select']();
-        break;
-      default:
-        // "none" and "single" select mode.
-        // In "single" mode, deselection of other items is handled by event
-        // at the menu group level.
-        menuItem.select();
-        break;
+    case 'multiple':
+      // Multiple-select mode (Toggles selection, ignores others)
+      menuItem[menuItem.selected ? 'deselect' : 'select']();
+      break;
+    default:
+      // "none" and "single" select mode.
+      // In "single" mode, deselection of other items is handled by event
+      // at the menu group level.
+      menuItem.select();
+      break;
     }
   }
 
@@ -377,6 +565,7 @@ class IdsMenu extends IdsElement {
    * @returns {void}
    */
   clearSelectedItems(menuGroup) {
+    // @ts-ignore
     const group = isValidGroup(menuGroup, this);
     this.items.forEach((item) => {
       let doDeselect;

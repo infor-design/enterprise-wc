@@ -3,6 +3,7 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
+
 // @ts-ignore
 import styles from './ids-accordion-header.scss';
 
@@ -10,7 +11,9 @@ import styles from './ids-accordion-header.scss';
 const DEFAULT_ICON_OFF = 'caret-down';
 
 /**
- * IDS Tag Component
+ * IDS Accordion Header Component
+ * @type {IdsAccordionHeader}
+ * @inherits IdsElement
  */
 @customElement('ids-accordion-header')
 @scss(styles)

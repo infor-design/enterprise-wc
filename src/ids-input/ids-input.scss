@@ -14,217 +14,225 @@ $input-size-full: 100%;
 // Set default size
 $input-size-default: $input-size-md;
 
-:host {
+.ids-input {
   @include block();
   @include mb-16();
-}
 
-.ids-input-label {
-  @include antialiased();
-  @include text-slate-60();
-  @include mb-4();
+  .label-text {
+    @include antialiased();
+    @include text-slate-60();
+    @include mb-4();
 
-  align-items: baseline;
-  display: flex;
+    align-items: baseline;
+    display: flex;
 
-  &.required {
-    &::after {
-      @include relative();
-      @include font-sans();
-      @include mx-2();
-      @include text-20();
-      @include text-alert-danger();
+    &.required {
+      &::after {
+        @include relative();
+        @include font-sans();
+        @include mx-2();
+        @include text-20();
+        @include text-alert-danger();
 
-      content: '*';
-      margin-top: -10px;
-      top: 1px;
-    }
+        content: '*';
+        margin-top: -10px;
+        top: 1px;
+      }
 
-    &.disabled::after {
-      @include text-ruby-30();
-    }
-
-    &.no-required-indicator::after {
-      content: '';
+      &.no-required-indicator::after {
+        content: '';
+      }
     }
   }
 
   &.disabled {
-    @include text-slate-30();
-  }
-}
+    .label-text {
+      @include text-slate-30();
 
-.ids-input-field {
-  @include antialiased();
-  @include bg-white();
-  @include box-border();
-  @include border-1();
-  @include border-slate-40();
-  @include border-solid();
-  @include mb-4();
-  @include p-8();
-  @include rounded-default();
-  @include text-14();
-  @include text-black();
-
-  -webkit-appearance: none;
-  border-collapse: separate;
-  border-radius: 2px;
-  display: inline-block;
-  height: 38px;
-  max-width: 100%;
-  resize: none;
-  text-align: left;
-  width: $input-size-default;
-
-  &:hover {
-    @include border-slate-90();
+      &.required::after {
+        @include text-ruby-30();
+      }
+    }
   }
 
-  &:focus {
-    @include border-azure-60();
-    @include shadow();
-
-    outline: none;
-    outline-color: transparent;
+  .field-container {
+    @include block();
+    @include m-0();
+    @include p-0();
   }
 
-  &[disabled] {
-    @include border-slate-30();
-    @include text-slate-30();
-  }
-
-  &[readonly] {
-    @include bg-slate-20();
+  .ids-input-field {
+    @include antialiased();
+    @include bg-white();
+    @include box-border();
     @include border-1();
-    @include border-solid();
     @include border-slate-40();
+    @include border-solid();
+    @include mb-4();
+    @include p-8();
     @include rounded-default();
+    @include text-14();
     @include text-black();
 
-    padding-bottom: 9px;
-    padding-top: 9px;
-  }
+    -webkit-appearance: none;
+    border-collapse: separate;
+    border-radius: 2px;
+    display: inline-block;
+    height: 38px;
+    max-width: 100%;
+    resize: none;
+    text-align: left;
+    width: $input-size-default;
 
-  &.bg-transparent {
-    @include bg-transparent();
+    &:hover {
+      @include border-slate-90();
+    }
 
     &:focus {
       @include border-azure-60();
+      @include shadow();
+
+      outline: none;
+      outline-color: transparent;
     }
-  }
 
-  &.text-ellipsis {
-    @include ellipsis();
-  }
+    &[disabled] {
+      @include border-slate-30();
+      @include text-slate-30();
+    }
 
-  &.has-triggerfield {
-    @include pr-32();
-  }
+    &[readonly] {
+      @include bg-slate-20();
+      @include border-1();
+      @include border-solid();
+      @include border-slate-40();
+      @include rounded-default();
+      @include text-black();
 
-  // input text-align: [left, center, right]
-  &.left {
-    text-align: left;
-  }
+      padding-bottom: 9px;
+      padding-top: 9px;
 
-  &.center {
-    text-align: center;
-  }
+      &.bg-transparent {
+        @include bg-transparent();
+      }
 
-  &.right {
-    text-align: right;
-  }
+      &.bg-transparent:focus {
+        @include border-azure-60();
+      }
+    }
 
-  // input sizes: [xs, sm, mm, md, lg, full]
-  &.xs {
-    width: $input-size-xs;
-  }
+    &.text-ellipsis {
+      @include ellipsis();
+    }
 
-  &.sm {
-    width: $input-size-sm;
-  }
+    &.has-triggerfield {
+      @include pr-32();
+    }
 
-  &.mm {
-    width: $input-size-mm;
-  }
+    // input text-align: [left, center, right]
+    &.left {
+      text-align: left;
+    }
 
-  &.md {
-    width: $input-size-md;
-  }
+    &.center {
+      text-align: center;
+    }
 
-  &.lg {
-    width: $input-size-lg;
-  }
+    &.right {
+      text-align: right;
+    }
 
-  &.full {
-    width: $input-size-full;
-  }
+    // input sizes: [xs, sm, mm, md, lg, full]
+    &.xs {
+      width: $input-size-xs;
+    }
 
-  // input message: [alert, error, info, success]
-  &.alert,
-  &.alert:hover {
-    @include border-alert-warning();
-    @include text-alert-warning();
+    &.sm {
+      width: $input-size-sm;
+    }
 
-    &:focus {
+    &.mm {
+      width: $input-size-mm;
+    }
+
+    &.md {
+      width: $input-size-md;
+    }
+
+    &.lg {
+      width: $input-size-lg;
+    }
+
+    &.full {
+      width: $input-size-full;
+    }
+
+    // input message: [alert, error, info, success]
+    &.alert,
+    &.alert:hover {
       @include border-alert-warning();
+      @include text-alert-warning();
 
-      box-shadow: rgba(249, 131, 0, 0.3) 0 0 3px 2px;
+      &:focus {
+        @include border-alert-warning();
+
+        box-shadow: rgba(249, 131, 0, 0.3) 0 0 3px 2px;
+      }
+
+      &[disabled] {
+        @include border-amber-30();
+        @include text-amber-30();
+      }
     }
 
-    &[disabled] {
-      @include border-amber-30();
-      @include text-amber-30();
-    }
-  }
-
-  &.error,
-  &.error:hover {
-    @include border-alert-danger();
-    @include text-alert-danger();
-
-    &:focus {
+    &.error,
+    &.error:hover {
       @include border-alert-danger();
-      @include shadow-error();
+      @include text-alert-danger();
+
+      &:focus {
+        @include border-alert-danger();
+        @include shadow-error();
+      }
+
+      &[disabled] {
+        @include border-ruby-30();
+        @include text-ruby-30();
+      }
     }
 
-    &[disabled] {
-      @include border-ruby-30();
-      @include text-ruby-30();
-    }
-  }
-
-  &.info,
-  &.info:hover {
-    @include border-alert-info();
-    @include text-alert-info();
-
-    &:focus {
+    &.info,
+    &.info:hover {
       @include border-alert-info();
+      @include text-alert-info();
 
-      box-shadow: rgba(0, 102, 212, 0.3) 0 0 3px 2px;
+      &:focus {
+        @include border-alert-info();
+
+        box-shadow: rgba(0, 102, 212, 0.3) 0 0 3px 2px;
+      }
+
+      &[disabled] {
+        @include border-azure-30();
+        @include text-azure-30();
+      }
     }
 
-    &[disabled] {
-      @include border-azure-30();
-      @include text-azure-30();
-    }
-  }
-
-  &.success,
-  &.success:hover {
-    @include border-alert-success();
-    @include text-alert-success();
-
-    &:focus {
+    &.success,
+    &.success:hover {
       @include border-alert-success();
+      @include text-alert-success();
 
-      box-shadow: rgba(42, 195, 113, 0.3) 0 0 3px 2px;
-    }
+      &:focus {
+        @include border-alert-success();
 
-    &[disabled] {
-      @include border-emerald-30();
-      @include text-emerald-30();
+        box-shadow: rgba(42, 195, 113, 0.3) 0 0 3px 2px;
+      }
+
+      &[disabled] {
+        @include border-emerald-30();
+        @include text-emerald-30();
+      }
     }
   }
 }

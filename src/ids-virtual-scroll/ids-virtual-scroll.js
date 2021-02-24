@@ -1,31 +1,34 @@
 import {
   IdsElement,
   customElement,
-  mixin,
+  mix,
   scss
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsDataSourceMixin } from '../ids-base/ids-data-source-mixin';
+import { IdsDataSource } from '../ids-base/ids-data-source';
 import { IdsRenderLoopMixin } from '../ids-render-loop/ids-render-loop-mixin';
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
 import styles from './ids-virtual-scroll.scss';
 
 /**
  * IDS Virtual Scroll Component
+ * @type {IdsVirtualScroll}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsRenderLoopMixin
  */
 @customElement('ids-virtual-scroll')
 @scss(styles)
-@mixin(IdsRenderLoopMixin)
-class IdsVirtualScroll extends IdsElement {
+class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin) {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    this.datasource = new IdsDataSourceMixin();
+    this.datasource = new IdsDataSource();
     this.stringTemplate = '<div class="ids-virtual-scroll-item">${productName}</div>'; //eslint-disable-line
 
     this
@@ -51,8 +54,7 @@ class IdsVirtualScroll extends IdsElement {
   handleEvents() {
     this.timeout = null;
 
-    this.eventHandlers = new IdsEventsMixin();
-    this.eventHandlers.addEventListener('scroll', this.container, (/** @type {any} */ e) => {
+    this.onEvent('scroll', this.container, (/** @type {any} */ e) => {
       this.handleScroll(e);
     }, { passive: true });
 
@@ -107,11 +109,15 @@ class IdsVirtualScroll extends IdsElement {
       return node;
     });
 
-    this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
-    this.itemContainer.innerHTML = html;
+    /** @type {HTMLElement} */
+    /* istanbul ignore next */
+    if (this.itemContainer) {
+      this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
+      this.itemContainer.innerHTML = html;
+    }
     /** @type {any} */
     const elem = this;
-    this.eventHandlers.dispatchEvent('afterrendered', elem, { detail: { elem: this, startIndex, endIndex } });
+    this.triggerEvent('afterrendered', elem, { detail: { elem: this, startIndex, endIndex } });
   }
 
   /**
@@ -119,16 +125,24 @@ class IdsVirtualScroll extends IdsElement {
    * @private
    */
   applyHeight() {
+    /** @type {HTMLElement} */
+    const viewport = this.container.querySelector('.ids-virtual-scroll-viewport');
+
     this.container.style.height = `${this.height}px`;
-    this.container.querySelector('.ids-virtual-scroll-viewport').style.height = `${this.viewPortHeight}px`;
-    /** @type {object} */
+    viewport.style.height = `${this.viewPortHeight}px`;
+
+    /** @type {HTMLElement} */
     this.itemContainer = this.querySelector('[slot="contents"]');
-    this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
+    /* istanbul ignore next */
+    if (this.itemContainer) {
+      this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
+    }
 
     this.isTable = this.querySelectorAll('.ids-data-grid-container').length > 0;
     if (this.isTable) {
-      // @ts-ignore
-      this.shadowRoot.querySelector('.ids-virtual-scroll').style.overflow = 'inherit';
+      /** @type {HTMLElement} */
+      const scroll = this.shadowRoot.querySelector('.ids-virtual-scroll');
+      scroll.style.overflow = 'inherit';
     }
   }
 
@@ -162,7 +176,7 @@ class IdsVirtualScroll extends IdsElement {
 
   /**
    * The height of the virtual scroll container
-   * @param {number|string} value the height in pixels
+   * @param {number|string|undefined} value the height in pixels
    */
   set height(value) {
     if (value) {
@@ -174,7 +188,7 @@ class IdsVirtualScroll extends IdsElement {
     this.removeAttribute('height');
   }
 
-  get height() { return this.data.length === 0 ? 0 : this.getAttribute('height'); }
+  get height() { return this.data?.length === 0 ? 0 : this.getAttribute('height'); }
 
   /**
    * The height of each item in the scroller. TODO: support dynamic heights
@@ -212,11 +226,11 @@ class IdsVirtualScroll extends IdsElement {
    * Set the scroll top position and scroll down to that location
    * @param {number|string} value The number of pixels from the top
    */
-  // @ts-ignore
+  // @ts-ignore - because html elements also have this
   set scrollTop(value) {
     if (value !== null && value !== undefined) {
       this.setAttribute('scroll-top', value.toString());
-      this.container.scrollTop = value;
+      this.container.scrollTop = Number(value);
       this.renderItems(false);
       return;
     }
@@ -281,7 +295,7 @@ class IdsVirtualScroll extends IdsElement {
    * @param {Array|undefined} value The array to use
    */
   set data(value) {
-    if (value) {
+    if (value && this.datasource) {
       this.datasource.data = value;
       this.itemCount = value.length;
       this.lastStart = null;
@@ -292,10 +306,12 @@ class IdsVirtualScroll extends IdsElement {
       return;
     }
 
+    // @ts-ignore
     this.datasource.data = null;
   }
 
   get data() {
+    // @ts-ignore
     return this?.datasource?.data;
   }
 
@@ -307,7 +323,7 @@ class IdsVirtualScroll extends IdsElement {
     if (value) {
       this.eventTarget = value;
       /* istanbul ignore next */
-      this.eventHandlers?.addEventListener('scroll', this.eventTarget, (/** @type {any} */ e) => {
+      this.onEvent('scroll', this.eventTarget, (/** @type {any} */ e) => {
         this.handleScroll(e);
       }, { passive: true });
     }

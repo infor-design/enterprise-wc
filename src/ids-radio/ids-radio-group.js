@@ -1,28 +1,37 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  props,
+  scss,
+  mix
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtilsMixin as stringUtils } from '../ids-base/ids-string-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
-import { props } from '../ids-base/ids-constants';
+
 // @ts-ignore
 import styles from './ids-radio-group.scss';
+
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
 
 /**
  * IDS Radio Group Component
+ * @type {IdsRadioGroup}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsValidationMixin
  */
 @customElement('ids-radio-group')
 @scss(styles)
-@mixin(IdsDirtyTrackerMixin)
-@mixin(IdsValidationMixin)
-class IdsRadioGroup extends IdsElement {
+class IdsRadioGroup extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsDirtyTrackerMixin,
+    IdsValidationMixin
+  ) {
   /**
    * Call the constructor and then initialize
    */
@@ -48,13 +57,43 @@ class IdsRadioGroup extends IdsElement {
   }
 
   /**
+   * Custom Element `attributeChangedCallback` implementation
+   * @param {string} name The name of attribute changed
+   * @param {any} oldValue The old value
+   * @param {any} newValue The new value
+   * @returns {void}
+   */
+  attributeChangedCallback(
+    /** @type {string} */ name,
+    /** @type {any} */ oldValue,
+    /** @type {any} */ newValue
+  ) {
+    if (oldValue !== newValue) {
+      const attributes = [
+        { name: 'dirty-tracker', prop: 'dirtyTracker' },
+        { name: 'disabled', prop: 'disabled' },
+        { name: 'horizontal', prop: 'horizontal' },
+        { name: 'label', prop: 'label' },
+        { name: 'label-required', prop: 'labelRequired' },
+        { name: 'validate', prop: 'validate' },
+        { name: 'validation-events', prop: 'validationEvents' },
+        { name: 'value', prop: 'value' }
+      ];
+      attributes.forEach((attribute) => {
+        if (name === attribute.name) {
+          this[attribute.prop] = newValue;
+        }
+      });
+    }
+  }
+
+  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
   connectedCallback() {
     const slot = this.shadowRoot.querySelector('slot');
-    this.eventHandlers = new IdsEventsMixin();
-    this.eventHandlers.addEventListener('slotchange', slot, () => {
+    this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
     });
   }
@@ -69,9 +108,11 @@ class IdsRadioGroup extends IdsElement {
     const disabledAria = stringUtils.stringToBool(this.disabled) ? ' aria-disabled="true"' : '';
     const horizontal = stringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
     const rootClass = ` class="ids-radio-group${disabled}${horizontal}"`;
+    const rInd = !(stringUtils.stringToBool(this.labelRequired) || this.labelRequired === null);
+    const labelClass = ` class="group-label-text${rInd ? ' no-required-indicator' : ''}"`;
 
     // Label
-    const label = this.label ? `<ids-text type="legend" class="group-label-text"${disabledAria}>${this.label}</ids-text>` : '';
+    const label = this.label ? `<ids-text type="legend"${labelClass}${disabledAria}>${this.label}</ids-text>` : '';
 
     return `<div role="radiogroup"${rootClass}>${label}<slot></slot></div>`;
   }
@@ -86,13 +127,13 @@ class IdsRadioGroup extends IdsElement {
     this.labelEl = this.shadowRoot.querySelector('.group-label-text');
 
     this.setValue();
+    this.handleHorizontal();
+    this.handleDisabled();
+    this.handleEvents();
     // @ts-ignore
     this.handleDirtyTracker();
-    this.handleDisabled();
-    this.handleHorizontal();
     // @ts-ignore
     this.handleValidation();
-    this.handleEvents();
   }
 
   /**
@@ -184,11 +225,18 @@ class IdsRadioGroup extends IdsElement {
     if (isFocus) {
       radio.shadowRoot?.querySelector('input[type="radio"]')?.focus();
     }
+
+    // Mark if first radio checked in group, use for css style
+    const className = 'first-item-checked';
+    if (radio === radioArr[0]) {
+      this.input?.classList.add(className);
+    } else {
+      this.input?.classList.remove(className);
+    }
+
     const args = { value: val, checked: radio };
-    /** @type {any} */
-    this.input = this.shadowRoot.querySelector('.ids-radio-group');
-    this.eventHandlers.dispatchEvent('change', this.input, args);
-    this.eventHandlers.dispatchEvent('change', this, args);
+    this.triggerEvent('change', this.input, args);
+    this.triggerEvent('change', this, args);
   }
 
   /**
@@ -200,7 +248,7 @@ class IdsRadioGroup extends IdsElement {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
 
     radioArr.forEach((r) => {
-      this.eventHandlers.addEventListener('change', r, () => {
+      this.onEvent('change', r, () => {
         this.makeChecked(r, false);
       });
     });
@@ -215,7 +263,7 @@ class IdsRadioGroup extends IdsElement {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
-      this.eventHandlers.addEventListener('keydown', r, (/** @type {any} */ e) => {
+      this.onEvent('keydown', r, (/** @type {any} */ e) => {
         const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
         const key = e.code;
         if (allow.indexOf(key) > -1) {
@@ -320,14 +368,13 @@ class IdsRadioGroup extends IdsElement {
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
-    this.labelEl = this.shadowRoot.querySelector('.group-label-text');
     const val = stringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(props.LABEL_REQUIRED, val.toString());
+    if (value) {
+      this.setAttribute(props.LABEL_REQUIRED, value.toString());
     } else {
       this.removeAttribute(props.LABEL_REQUIRED);
     }
-    this.labelEl.classList[!val ? 'add' : 'remove']('no-required-indicator');
+    this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
   get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
@@ -366,20 +413,22 @@ class IdsRadioGroup extends IdsElement {
 
   /**
    * Sets the checkbox `value` attribute
-   * @param {string} val the value property
+   * @param {string | null} val the value property
    */
   set value(val) {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     if (val) {
       const state = { on: [], off: [] };
-      radioArr.forEach((r) => {
+      radioArr.forEach((/** @type {HTMLElement | never} */ r) => {
         const rVal = r.getAttribute(props.VALUE);
+        // @ts-ignore
         state[rVal === val ? 'on' : 'off'].push(r);
       });
-      state.off.forEach((r) => r.removeAttribute(props.CHECKED));
+      state.off.forEach((/** @type {HTMLElement} */ r) => r.removeAttribute(props.CHECKED));
+      /** @type {HTMLElement} */
       const r = state.on[state.on.length - 1];
       if (r) {
-        r.setAttribute(props.CHECKED, true);
+        r.setAttribute(props.CHECKED, 'true');
         this.setAttribute(props.VALUE, val);
         this.checked = r;
       } else {

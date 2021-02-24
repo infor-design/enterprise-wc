@@ -1,35 +1,46 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  props,
+  mix
 } from '../ids-base/ids-element';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+
 // @ts-ignore
 import styles from './ids-expandable-area.scss';
-import { props } from '../ids-base/ids-constants';
 
 const EXPANDABLE_AREA_TYPES = [
   'toggle-btn'
 ];
 
 /**
- * IDS Tag Component
+ * IDS Expandable Area Component
+ * @type {IdsExpandableArea}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  */
 @customElement('ids-expandable-area')
 @scss(styles)
-class IdsExpandableArea extends IdsElement {
+class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
     this.state = {};
-    this.keyboard = new IdsKeyboardMixin();
   }
 
   connectedCallback() {
-    /** @type {HTMLElement} */ this.expander = this.shadowRoot.querySelector('[data-expander]');
-    /** @type {HTMLElement} */ this.expanderDefault = this.shadowRoot.querySelector('[name="expander-default"]');
-    /** @type {HTMLElement} */ this.expanderExpanded = this.shadowRoot.querySelector('[name="expander-expanded"]');
-    /** @type {HTMLElement} */ this.pane = this.shadowRoot.querySelector('.ids-expandable-area-pane');
+    /** @type {HTMLElement | undefined | null} */
+    this.expander = this.shadowRoot?.querySelector('[data-expander]');
+    /** @type {HTMLElement | undefined | null} */
+    // @ts-ignore
+    this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
+    /** @type {HTMLElement | undefined | null} */
+    // @ts-ignore
+    this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
+    /** @type {HTMLElement | undefined | null} */
+    this.pane = this.shadowRoot?.querySelector('.ids-expandable-area-pane');
     this.handleEvents();
     this.switchState();
   }
@@ -44,13 +55,13 @@ class IdsExpandableArea extends IdsElement {
 
   /**
    * Set the type
-   * @param {string} value The Type [null, toggle-btn]
+   * @param {string | null} value The Type [null, toggle-btn]
    */
   set type(value) {
     if (value === EXPANDABLE_AREA_TYPES[0]) {
       this.setAttribute(props.TYPE, value);
     } else {
-      this.setAttribute(props.TYPE, null);
+      this.setAttribute(props.TYPE, '');
     }
   }
 
@@ -58,7 +69,7 @@ class IdsExpandableArea extends IdsElement {
 
   /**
    * Set the expanded property
-   * @param {string} value true/false
+   * @param {string | null} value true/false
    */
   set expanded(value) {
     if (value) {
@@ -69,10 +80,6 @@ class IdsExpandableArea extends IdsElement {
     this.switchState();
   }
 
-  /**
-   * Get the expanded property
-   * @returns {string} the expanded property
-   */
   get expanded() { return this.getAttribute(props.EXPANDED); }
 
   /**
@@ -80,13 +87,13 @@ class IdsExpandableArea extends IdsElement {
    * @returns {void}
    */
   switchState() {
-    this.expanderDefault = this.shadowRoot.querySelector('[name="expander-default"]');
-    this.expanderExpanded = this.shadowRoot.querySelector('[name="expander-expanded"]');
+    this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
+    this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
     this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
-    this.expander.setAttribute('aria-expanded', this.state.expanded);
+    this.expander?.setAttribute('aria-expanded', this.state.expanded);
 
     // Hide/show the text link if default
-    if (this.type === null) {
+    if (this.type === null && this.expanderDefault && this.expanderExpanded) {
       this.expanderDefault.hidden = this.state.expanded;
       this.expanderExpanded.hidden = !this.state.expanded;
     }
@@ -105,8 +112,16 @@ class IdsExpandableArea extends IdsElement {
    */
   collapsePane() {
     requestAnimationFrame(() => {
-      this.pane.style.height = `${this.pane.scrollHeight}px`;
+      if (!this.pane) {
+        return;
+      }
+
+      this.pane.style.height = `${this.pane?.scrollHeight}px`;
       requestAnimationFrame(() => {
+        /* istanbul ignore next */
+        if (!this.pane) {
+          return;
+        }
         this.pane.style.height = `0px`;
       });
     });
@@ -118,6 +133,10 @@ class IdsExpandableArea extends IdsElement {
    * @returns {void}
    */
   expandPane() {
+    if (!this.pane) {
+      return;
+    }
+
     this.pane.style.height = `${this.pane.scrollHeight}px`;
   }
 
@@ -135,13 +154,11 @@ class IdsExpandableArea extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
-
-    this.eventHandlers.addEventListener('click', this.expander, () => {
+    this.onEvent('click', this.expander, () => {
       this.setAttributes();
     });
 
-    this.eventHandlers.addEventListener('touchstart', this.expander, (e) => {
+    this.onEvent('touchstart', this.expander, (e) => {
       /* istanbul ignore next */
       if (e.touches && e.touches.length > 0) {
         this.setAttributes();

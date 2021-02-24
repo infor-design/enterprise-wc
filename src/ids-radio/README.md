@@ -159,7 +159,6 @@ Set Radio Group as Horizontal:
 - `group-disabled` {boolean} set disabled state, if group disabled.
 - `horizontal` {boolean} set radio layout inline as horizontal.
 - `label` {string} set the label text.
-- `label-font-size` {string|number} set the label font size.
 - `validation-has-error` {boolean} set the validation error state.
 - `value` {string} set the radio value.
 
@@ -190,7 +189,7 @@ Set Radio Group as Horizontal:
 The IDS Radio doesn't contain any interactions beyond a standard radio input element:
 
 - <kbd>Tab</kbd> and <kbd>Shift Tab</kbd> moves focus into the edit field to/from the next focusable item in the tab order.
-- <kbd>Space</kbd> Ttoggle the checked/unchecked state on the active radio button.
+- <kbd>Space</kbd> Toggle the checked/unchecked state on the active radio button.
 - <kbd>ArrowDown</kbd>, <kbd>ArrowRight</kbd>, <kbd>ArrowUp</kbd>, <kbd>ArrowLeft</kbd>, Moves within a radio group, each key will move and set checked next radio in the list.
 
 ## Responsive Guidelines

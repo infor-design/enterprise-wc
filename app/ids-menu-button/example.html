@@ -1,0 +1,31 @@
+<ids-layout-grid>
+    <ids-text font-size="12" type="h1">Menu Buttons</ids-text>
+</ids-layout-grid>
+<ids-layout-grid cols="4" gap="md">
+    <ids-layout-grid-cell>
+        <ids-menu-button id="menu-button" icon="settings" type="tertiary" menu="my-menu" dropdown-icon>
+            <span slot="text">Settings</span>
+        </ids-menu-button>
+        <ids-popup-menu id="my-menu" target="menu-button" trigger="click">
+            <ids-menu-group>
+                <ids-menu-item>Personalize Columns</ids-menu-item>
+            </ids-menu-group>
+            <ids-separator></ids-separator>
+            <ids-menu-group select="single">
+                <ids-menu-header>Row Height</ids-menu-header>
+                <ids-menu-item disabled="true">Extra Small</ids-menu-item>
+                <ids-menu-item>Small</ids-menu-item>
+                <ids-menu-item>Medium</ids-menu-item>
+                <ids-menu-item selected="true">Large</ids-menu-item>
+            </ids-menu-group>
+            <ids-separator></ids-separator>
+            <ids-menu-group select="multiple" keep-open="true">
+                <ids-menu-item selected="true">Show Filter Row</ids-menu-item>
+            </ids-menu-group>
+            <ids-menu-group>
+                <ids-menu-item>Run Filter</ids-menu-item>
+                <ids-menu-item>Clear Filter</ids-menu-item>
+            </ids-menu-group>
+        </ids-popup-menu>
+    </ids-layout-grid-cell>
+</ids-layout-grid>

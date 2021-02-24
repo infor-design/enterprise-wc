@@ -1,4 +1,4 @@
-import { IdsDeepCloneMixin as cloneUtils } from './ids-deep-clone-mixin';
+import { IdsDeepCloneUtils as cloneUtils } from './ids-deep-clone-utils';
 
 /**
  * Handle Attaching Array / Object Data to Components
@@ -15,7 +15,7 @@ import { IdsDeepCloneMixin as cloneUtils } from './ids-deep-clone-mixin';
  *  - events (requestStart, requestEnd, change, error)
  *  - sync (sync back original array)
  */
-class IdsDataSourceMixin {
+class IdsDataSource {
   // Holds a reference to the original data
   /** @type {any} */
   originalData = [];
@@ -26,7 +26,7 @@ class IdsDataSourceMixin {
 
   /**
    * Sets the data array on the data source object
-   * @param {Array} value The array to attach
+   * @param {Array | null} value The array to attach
    */
   set data(value) {
     this.currentData = cloneUtils.deepClone(value);
@@ -35,7 +35,7 @@ class IdsDataSourceMixin {
 
   /**
    * Return the currently used data in its current state
-   * @returns {Array} The attached array of data in its current state
+   * @returns {Array | null} The attached array of data in its current state
    */
   get data() { return this.currentData; }
 
@@ -51,7 +51,7 @@ class IdsDataSourceMixin {
    * Sort the dataset
    * @param  {string} field The dataset field
    * @param  {boolean} reverse Sort ascending or descending
-   * @param  {Function} primer Optional primer function
+   * @param  {Function|null} primer Optional primer function
    */
   sort(field, reverse, primer) {
     // @ts-ignore
@@ -77,4 +77,4 @@ class IdsDataSourceMixin {
   }
 }
 
-export { IdsDataSourceMixin };
+export { IdsDataSource };

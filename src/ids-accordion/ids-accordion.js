@@ -3,6 +3,7 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
+
 // @ts-ignore
 import styles from './ids-accordion.scss';
 // @ts-ignore
@@ -11,7 +12,9 @@ import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
 
 /**
- * IDS Tag Component
+ * IDS Accordion  Component
+ * @type {IdsAccordion}
+ * @inherits IdsElement
  */
 @customElement('ids-accordion')
 @scss(styles)

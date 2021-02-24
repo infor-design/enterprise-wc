@@ -22,7 +22,7 @@ Ids Element is the general base class for most web components in IDS. Its used t
 1. A name property from the element name
 1. Handles setting changes
 1. Removed attached event handlers (if the mixin is used)
-1. Prevents flash of unstyled content
+1. Prevents flash of un styled content
 1. Holds the property (settings) list
 1. Renders a template from the template property
 1. Exports all mixins
@@ -33,57 +33,50 @@ Ids Element is the general base class for most web components in IDS. Its used t
 - Adds a hot key mapper
 - Can list the supported keys for a component
 
-The Keyboard mixin needs to record its state differently so cannot be attached with the `@mixin` decorator. Instead its invoked as with the new keyword. To use it to respond to keys in a component you can use it like this:
+The Keyboard mixin is attached with the `mix ... with` decorator. To use it to respond to keys in a component you can use it like this:
 
 ```js
 handleKeys() {
-    this.keyboard = new IdsKeyboardMixin();
-    this.keyboard.listen(['Delete', 'Backspace'], this, (e) => {
-        // Do something on either Delete or Backspace
-    });
-
-    this.keyboard.listen('Enter', this, (e) => {
+    this.listen('Enter', this, (e) => {
         // Do something on Enter
     });
 }
 ```
 
-Also at any time you can check `this.keyboard.pressedKeys` to see what keys are current down. `this.hotkeys` contains all the currently watched keys.
+Also at any time you can check `this.pressedKeys` to see what keys are current down. `this.hotkeys` contains all the currently watched keys.
 
 ## Ids Event Handler
 
 Adds a small wrapper around component events. This can be used to see what event handlers are attached on a component as well as the fact that the Ids Element Base will call removeAll to remove all used event handlers.
 
-The Event mixin needs to record its state in a map for each component so it cant be used `@mixin` decorator. Instead its invoked as with the new keyword. To use it to respond to keys in a component you can use it like this:
+The Keyboard mixin is attached with the `mix ... with` decorator. To use it to respond to events in a component you can use it like this:
 
 ```js
-  this.eventHandlers = new IdsEventsMixin();
-
   // Handle Clicking the x for dismissible
   const closeIcon = this.querySelector('ids-icon[icon="close"]');
-  this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
+  this.addEventListener('click', closeIcon, () => this.dismiss());
 ```
 
-- Handles consistency on the data sent (element, event data, id, idx, custom ect)
+- Handles consistency on the data sent (element, event data, id, idx, custom ect.)
 - Before events events can be vetoed
 - All events should have past tense for example `activated`, `beforeactivated`, `afteractived` and not `activate`, `beforeactivate`, `afteractivate`
 
-It's also possible to use Namespaces with the Ids Event Handler's methods, similar to the 4.x version's support for jQuery Event Namespacing.  When assigning an event name, usage of a period (.) will cause any text after the period to be considered the "namespace".  When removing assigned event listeners using the namespace, only handlers that match the event type AND namespace will be removed:
+It's also possible to use Namespaces with the Ids Event Handler's methods, similar to the 4.x version's support for jQuery Event Namespaces.  When assigning an event name, usage of a period (.) will cause any text after the period to be considered the "namespace".  When removing assigned event listeners using the namespace, only handlers that match the event type AND namespace will be removed:
 
 ```js
-this.eventHandlers.addEventListener('click', closeIcon, () => this.dismiss());
-this.eventHandlers.addEventListener('click.doop', closeIcon, () => this.otherDismissCheck());
-console.log(this.eventHandlers.handledEvents());
+this.onEvent('click', closeIcon, () => this.dismiss());
+this.onEvent(('click.doop', closeIcon, () => this.otherDismissCheck());
+console.log(this.handledEvents());
 // both `click` and `click.doop` exist.
 
-this.eventHandlers.removeEventListener('click.doop', closeIcon);
-console.log(this.eventHandlers.handledEvents());
+this.offEvent(('click.doop', closeIcon);
+console.log(this.handledEvents());
 // `click.doop` is not there, but `click` remains.
 ```
 
 ## Ids Mixins
 
-Mixins are simply functions with shared functionality that can be injected into a component. For example the IdsEventOmitter. They get around the issue that in JS that you cannot inherit from more than one object. Also they prevent the Base Element from getting bloated with functionality that not every component uses. Ids is using a simple object as a mixin that in "injected" into the component in the contructor and then used according to its documentation. If the mixin has UI elements it should probably be a web component instead.
+Mixins are simply functions with shared functionality that can be injected into a component. For example the IdsEventOmitter. They get around the issue that in JS that you cannot inherit from more than one object. Also they prevent the Base Element from getting bloated with functionality that not every component uses. Ids is using a simple object as a mixin that in "injected" into the component in the constructor and then used according to its documentation. If the mixin has UI elements it should probably be a web component instead.
 
 ## Ids Resize Mixin
 

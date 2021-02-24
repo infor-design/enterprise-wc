@@ -21,9 +21,25 @@ interface deselected extends Event {
   }
 }
 
+interface beforeselected extends Event {
+  bubbles: true,
+  detail: {
+    elem: IdsMenuItem,
+    response: (isVoid: boolean) => void;
+  }
+}
+
+interface beforedeselected extends Event {
+  bubbles: true,
+  detail: {
+    elem: IdsMenuItem,
+    response: (isVoid: boolean) => void;
+  }
+}
+
 export default class IdsMenuItem extends IdsElement {
   /* Internal state object used for some properties */
-  private state: unknown;
+  readonly state: unknown;
 
   /* reference to the Menu Item's anchor */
   readonly a: HTMLAnchorElement;
@@ -93,20 +109,4 @@ export default class IdsMenuItem extends IdsElement {
 
   /** Fires before the tag is removed, you can return false in the response to veto. */
   on(event: 'deselected', listener: (event: deselected) => void): this;
-}
-
-interface beforeselected extends Event {
-  bubbles: true,
-  detail: {
-    elem: IdsMenuItem,
-    response: (isVoid: boolean) => void;
-  }
-}
-
-interface beforedeselected extends Event {
-  bubbles: true,
-  detail: {
-    elem: IdsMenuItem,
-    response: (isVoid: boolean) => void;
-  }
 }

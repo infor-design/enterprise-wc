@@ -1,22 +1,29 @@
-import { IdsEventsMixin } from './ids-events-mixin';
-
 /**
- * The validation rules.
+ * Adds validation to any input field
+ * @param {any} superclass Accepts a superclass and creates a new subclass from it
+ * @returns {any} The extended object
  */
-const IdsValidationMixin = {
-  useRules: new Map(),
-  validationEventsList: [],
+const IdsValidationMixin = (superclass) => class extends superclass {
+  constructor() {
+    super();
+  }
+
+  // Map of rules to use
+  useRules = new Map();
+
+  // List of events to validate on
+  validationEventsList = [];
 
   // Default icon
-  VALIDATION_DEFAULT_ICON: 'user-profile',
+  VALIDATION_DEFAULT_ICON = 'user-profile';
 
   // Icons
-  VALIDATION_ICONS: {
-    alert: 'alert-solid',
-    error: 'error-solid',
-    info: 'info-solid',
-    success: 'success-solid',
-  },
+  VALIDATION_ICONS = {
+    alert: 'alert',
+    error: 'error',
+    info: 'info',
+    success: 'success',
+  };
 
   /**
    * Handle the validation rules
@@ -67,8 +74,13 @@ const IdsValidationMixin = {
     } else {
       this.destroyValidation();
     }
-  },
+  }
 
+  /**
+   * Check the validation and add/remove errors as needed
+   * @private
+   * @returns {void}
+   */
   /**
    * Check the validation and add/remove errors as needed
    * @private
@@ -76,19 +88,22 @@ const IdsValidationMixin = {
    */
   checkValidation() {
     if (this.input) {
+      this.isTypeNotValid = {};
       let isValid = true;
       const useRules = this.useRules.get(this.input);
       useRules?.forEach((/** @type {object} */ thisRule) => {
-        if (!thisRule.rule.check(this.input)) {
+        if (!thisRule.rule.check(this.input) && this.isTypeNotValid) {
           this.addMessage(thisRule.rule);
           isValid = false;
+          this.isTypeNotValid[thisRule.rule.type] = true;
         } else {
           this.removeMessage(thisRule.rule);
         }
       });
-      this.eventHandlers.dispatchEvent('validated', this, { detail: { elem: this, value: this.value, isValid } });
+      this.isTypeNotValid = null;
+      this.triggerEvent('validated', this, { detail: { elem: this, value: this.value, isValid } });
     }
-  },
+  }
 
   /**
    * Add a message to an input
@@ -96,45 +111,63 @@ const IdsValidationMixin = {
    * @returns {void}
    */
   addMessage(settings) {
-    const { id, type, message, icon } = settings; // eslint-disable-line
-    if (id) {
-      let elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
-      /* istanbul ignore next */
-      if (!elem) {
-        const regex = new RegExp(`^\\b(${Object.keys(this.VALIDATION_ICONS).join('|')})\\b$`, 'g');
-        const isValidationIcon = type && (regex.test(type));
-        let audible = isValidationIcon ? type.replace(/^./, type[0].toUpperCase()) : null;
-        audible = audible ? `<ids-text audible="true">${audible} </ids-text>` : '';
-        let cssClass = 'validation-message';
-        let iconName = this.VALIDATION_ICONS[type];
-        if (!iconName && type === 'icon') {
-          iconName = icon || this.VALIDATION_DEFAULT_ICON;
-          cssClass += iconName ? ' has-custom-icon' : '';
-        }
-        cssClass += isValidationIcon ? ` ${type}` : '';
-        cssClass += this.disabled ? ' disabled' : '';
-        const iconHtml = iconName ? `<ids-icon icon="${iconName}" class="ids-icon"></ids-icon>` : '';
+    const {
+      id,
+      type,
+      message,
+      icon
+    } = settings;
 
-        elem = document.createElement('div');
-        elem.setAttribute('validation-id', id);
-        elem.setAttribute('type', type);
-        elem.className = cssClass;
-        elem.innerHTML = `${iconHtml}<ids-text class="message-text">${audible}${message}</ids-text>`;
-        this.input?.classList.add(type);
-        const typeAttr = this.input?.getAttribute('type');
-        let parent = this.shadowRoot;
-        if (typeAttr === 'checkbox') {
-          parent = this.shadowRoot.querySelector('.ids-checkbox');
-        }
-        parent.appendChild(elem);
-        const isRadioGroup = this.input?.classList.contains('ids-radio-group');
-        if (isRadioGroup) {
-          const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
-          radioArr.forEach((r) => r.setAttribute('validation-has-error', true));
-        }
-      }
+    if (!id) {
+      return;
     }
-  },
+
+    let elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+    if (elem) {
+      // Already has this message
+      return;
+    }
+
+    // Add error and related details
+    const regex = new RegExp(`^\\b(${Object.keys(this.VALIDATION_ICONS).join('|')})\\b$`, 'g');
+    const isValidationIcon = type && (regex.test(type));
+    let audible = isValidationIcon ? type.replace(/^./, type[0].toUpperCase()) : null;
+    audible = audible ? `<ids-text audible="true">${audible} </ids-text>` : '';
+    let cssClass = 'validation-message';
+    let iconName = this.VALIDATION_ICONS[type];
+    const messageId = `${this.input.getAttribute('id')}-${settings.type}`;
+
+    if (!iconName && type === 'icon') {
+      iconName = icon || this.VALIDATION_DEFAULT_ICON;
+      /* istanbul ignore next */
+      cssClass += iconName ? ' has-custom-icon' : '';
+    }
+    cssClass += isValidationIcon ? ` ${type}` : '';
+    cssClass += this.disabled ? ' disabled' : '';
+    const iconHtml = iconName ? `<ids-icon icon="${iconName}" class="ids-icon"></ids-icon>` : '';
+
+    // Add error message div and associated aria
+    elem = document.createElement('div');
+    elem.setAttribute('id', messageId);
+    elem.setAttribute('validation-id', id);
+    elem.setAttribute('type', type);
+    elem.className = cssClass;
+    elem.innerHTML = `${iconHtml}<ids-text class="message-text">${audible}${message}</ids-text>`;
+    this.input.classList.add(type);
+    this.input.setAttribute('aria-describedby', messageId);
+    this.input.setAttribute('aria-invalid', 'true');
+
+    const rootEl = this.shadowRoot.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
+    const parent = rootEl || this.shadowRoot;
+    parent.appendChild(elem);
+
+    // Add extra classes for radios
+    const isRadioGroup = this.input?.classList.contains('ids-radio-group');
+    if (isRadioGroup) {
+      const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
+      radioArr.forEach((r) => r.setAttribute('validation-has-error', true));
+    }
+  }
 
   /**
    * Remove the message(s) from an input
@@ -146,13 +179,18 @@ const IdsValidationMixin = {
     const elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
 
     elem?.remove();
-    this.input?.classList.remove(type);
+    if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
+      this.input?.classList.remove(type);
+      this.input.removeAttribute('aria-describedby');
+      this.input.removeAttribute('aria-invalid');
+    }
+
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
     if (isRadioGroup) {
       const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
       radioArr.forEach((r) => r.removeAttribute('validation-has-error'));
     }
-  },
+  }
 
   /**
    * Remove all the messages from input
@@ -166,7 +204,7 @@ const IdsValidationMixin = {
         type: node.getAttribute('type')
       });
     });
-  },
+  }
 
   /**
    * Handle validation events
@@ -176,26 +214,21 @@ const IdsValidationMixin = {
    */
   handleValidationEvents(option = '') {
     /* istanbul ignore next */
-    if (!this.eventHandlers) {
-      this.eventHandlers = new IdsEventsMixin();
-    }
-
-    /* istanbul ignore next */
     if (this.input) {
       this.validationEventsList.forEach((eventName) => {
         if (option === 'remove') {
-          const handler = this.eventHandlers?.handledEvents?.get(eventName);
+          const handler = this.handledEvents.get(eventName);
           if (handler && handler.target === this.input) {
-            this.eventHandlers.removeEventListener(eventName, this.input);
+            this.offEvent(eventName, this.input);
           }
         } else {
-          this.eventHandlers.addEventListener(eventName, this.input, () => {
+          this.onEvent(eventName, this.input, () => {
             this.checkValidation();
           });
         }
       });
     }
-  },
+  }
 
   /**
    * Destroy the validation mixin
@@ -212,13 +245,13 @@ const IdsValidationMixin = {
       this.labelEl?.classList.remove('required');
       this.removeAllMessages();
     }
-  },
+  }
 
   /**
    * Set all validation rules
    * @private
    */
-  rules: {
+  rules = {
     /**
      * Required validation rule
      * @private

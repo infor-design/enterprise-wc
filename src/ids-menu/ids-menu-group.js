@@ -1,10 +1,12 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  props,
+  mix
 } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
-import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
+
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 // @ts-ignore
@@ -19,10 +21,13 @@ const MENU_GROUP_SELECT_TYPES = [
 
 /**
  * IDS Menu Group Component
+ * @type {IdsMenuGroup}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-menu-group')
 @scss(styles)
-class IdsMenuGroup extends IdsElement {
+class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
@@ -54,11 +59,9 @@ class IdsMenuGroup extends IdsElement {
    * @returns {void}
    */
   handleEvents() {
-    this.eventHandlers = new IdsEventsMixin();
-
     // Listen for `selected` events from child menu items.
     // Single-select groups will force deselection of other items in the group.
-    this.eventHandlers.addEventListener('selected', this, (/** @type {any} */ e) => {
+    this.onEvent('selected', this, (/** @type {any} */ e) => {
       const item = e.target.closest('ids-menu-item');
       if (this.select === 'single') {
         this.deselectAllExcept(item);
@@ -145,7 +148,7 @@ class IdsMenuGroup extends IdsElement {
   }
 
   /**
-   * @param {string} val the type of selection to set this group
+   * @param {string|undefined} val the type of selection to set this group
    */
   set select(val) {
     let trueVal = `${val}`;
@@ -155,11 +158,11 @@ class IdsMenuGroup extends IdsElement {
 
     // Sync the attribute
     switch (trueVal) {
-      case 'none':
-        this.removeAttribute(props.SELECT);
-        break;
-      default:
-        this.setAttribute(props.SELECT, trueVal);
+    case 'none':
+      this.removeAttribute(props.SELECT);
+      break;
+    default:
+      this.setAttribute(props.SELECT, trueVal);
     }
 
     this.updateSelectability();
@@ -177,7 +180,7 @@ class IdsMenuGroup extends IdsElement {
    * @param {boolean} val true if the menu should close when an item in this group is selected
    */
   set keepOpen(val) {
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
     if (trueVal) {
       this.setAttribute(props.KEEP_OPEN, `${val}`);
     } else {
@@ -208,6 +211,7 @@ class IdsMenuGroup extends IdsElement {
    * @returns {void}
    */
   deselectAllExcept(keptItems) {
+    // @ts-ignore
     const keptItemsArr = [].concat(keptItems);
     this.items.forEach((item) => {
       if (!keptItemsArr.includes(item) && item.selected) {

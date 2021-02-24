@@ -10,8 +10,7 @@ import './test-flying-popup.scss';
 
 // Access the global RenderLoop instance.
 // When using the mixin on a real component, the `rl` property exists on the component instance.
-const rlMixin = IdsRenderLoopMixin;
-const renderLoop = rlMixin.rl;
+import renderLoop from '../../src/ids-render-loop/ids-render-loop-global';
 
 // Setup functionality on page load
 document.addEventListener('DOMContentLoaded', () => {

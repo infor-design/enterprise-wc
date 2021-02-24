@@ -9,6 +9,8 @@ import styles from './ids-separator.scss';
 
 /**
  * IDS Separator Component
+ * @type {IdsSeparator}
+ * @inherits IdsElement
  */
 @customElement('ids-separator')
 @scss(styles)

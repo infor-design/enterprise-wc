@@ -1,9 +1,10 @@
 import {
   customElement,
-  mixin,
-  scss
+  mix,
+  scss,
+  props
 } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
+
 import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-render-loop/ids-render-loop-mixin';
 
 import IdsMenu from '../ids-menu/ids-menu';
@@ -11,6 +12,7 @@ import IdsPopup from '../ids-popup/ids-popup';
 
 // @ts-ignore
 import styles from './ids-popup-menu.scss';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 const POPUPMENU_PROPERTIES = [
   props.TARGET,
@@ -24,12 +26,14 @@ const POPUPMENU_TRIGGER_TYPES = [
 ];
 
 /**
- * IDS PopupMenu Component
+ * IDS Popup Menu Component
+ * @type {IdsPopupMenu}
+ * @inherits IdsElement
+ * @mixes IdsRenderLoopMixin
  */
 @customElement('ids-popup-menu')
 @scss(styles)
-@mixin(IdsRenderLoopMixin)
-class IdsPopupMenu extends IdsMenu {
+class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin) {
   constructor() {
     super();
     this.state.trigger = POPUPMENU_TRIGGER_TYPES[0];
@@ -48,11 +52,8 @@ class IdsPopupMenu extends IdsMenu {
    * @returns {string} The template
    */
   template() {
-    return `<ids-popup class="ids-popup-menu" type="menu">
-      <nav class="ids-menu" slot="content">
-        <slot></slot>
-      </nav>
-    </ids-popup>`;
+    const menuTemplate = IdsMenu.prototype.template.apply(this);
+    return `<ids-popup class="ids-popup-menu" type="menu">${menuTemplate}</ids-popup>`;
   }
 
   /**
@@ -72,6 +73,7 @@ class IdsPopupMenu extends IdsMenu {
       this.popup.align = 'right, top';
     }
 
+    // @ts-ignore
     IdsMenu.prototype.connectedCallback.apply(this);
   }
 
@@ -80,6 +82,7 @@ class IdsPopupMenu extends IdsMenu {
    * @returns {void}
    */
   handleEvents() {
+    // @ts-ignore
     IdsMenu.prototype.handleEvents.apply(this);
 
     // This handler runs whenever an item contained by the Popupmenu needs to become focused.
@@ -88,13 +91,13 @@ class IdsPopupMenu extends IdsMenu {
       this.rl.register(new IdsRenderLoopItem({
         duration: 1,
         timeoutCallback: () => {
-          this.focusTarget.focus();
+          this.focusTarget?.focus();
         }
       }));
     };
 
     // In some situations, hide the menu when an item is selected.
-    this.eventHandlers.addEventListener('selected', this, (/** @type {any} */ e) => {
+    this.onEvent('selected', this, (/** @type {any} */ e) => {
       const item = e.detail.elem;
       if (!item.group.keepOpen) {
         this.hide();
@@ -102,7 +105,7 @@ class IdsPopupMenu extends IdsMenu {
     });
 
     // When the underlying Popup triggers it's "show" event, focus on the derived focusTarget.
-    this.eventHandlers.addEventListener('show', this.container, doFocusHandler);
+    this.onEvent('show', this.container, doFocusHandler);
 
     // Set up all the events specifically-related to the "trigger" type
     this.refreshTriggerEvents();
@@ -113,10 +116,11 @@ class IdsPopupMenu extends IdsMenu {
    * @returns {void}
    */
   handleKeys() {
+    // @ts-ignore
     IdsMenu.prototype.handleKeys.apply(this);
 
     // Arrow Right on an item containing a submenu causes that submenu to open
-    this.keyboard.listen(['ArrowRight'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowRight'], this, (/** @type {any} */ e) => {
       e.preventDefault();
       e.stopPropagation();
       const thisItem = e.target.closest('ids-menu-item');
@@ -129,7 +133,7 @@ class IdsPopupMenu extends IdsMenu {
     // on a parent menu item to occur.
     // NOTE: This will never occur on a top-level Popupmenu.
     if (this.parentMenu) {
-      this.keyboard.listen(['ArrowLeft'], this, (/** @type {any} */ e) => {
+      this.listen(['ArrowLeft'], this, (/** @type {any} */ e) => {
         e.preventDefault();
         e.stopPropagation();
         this.hide();
@@ -140,7 +144,7 @@ class IdsPopupMenu extends IdsMenu {
     // Escape closes the menu
     // (NOTE: This only applies to top-level Popupmenus)
     if (!this.parentMenu) {
-      this.keyboard.listen(['Escape'], this, (/** @type {any} */ e) => {
+      this.listen(['Escape'], this, (/** @type {any} */ e) => {
         if (this.hidden) {
           return;
         }
@@ -203,44 +207,52 @@ class IdsPopupMenu extends IdsMenu {
       return;
     }
 
-    // @TODO unbind pre-existing trigger events so we can switch the trigger type
+    // Remove any pre-existing trigger events
+    const removeEventTargets = ['contextmenu.trigger', 'click.trigger'];
+    removeEventTargets.forEach((eventName) => {
+      const evt = this.handledEvents.get(eventName);
+      if (evt) {
+        this.detachEventName(eventName);
+      }
+    });
+
+    // Based on the trigger type, bind new events
     const targetElem = this.target || window;
-
     switch (this.trigger) {
-      case 'immediate':
-        // @TODO
-        break;
-      case 'click':
-        // Open/Close the menu when the trigger element is clicked
-        this.eventHandlers.addEventListener('click', targetElem, (/** @type {any} */e) => {
-          e.preventDefault();
-          if (this.hidden) {
-            this.popup.align = 'bottom, left';
-            this.popup.y = 10;
-            this.show();
-          } else {
-            this.hide();
-          }
-        });
-
-        break;
-      default:
-        // Standard `contextmenu` event behavior.
-        // `contextmenu` events should only apply to top-level popupmenus.
-        // (submenus open/close events are handled by their parent items)
-        if (this.parentMenu) {
-          break;
-        }
-
-        // Attach a contextmenu handler to the target element for opening the popup
-        this.eventHandlers.addEventListener('contextmenu', targetElem, (/** @type {any} */e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          this.popup.x = e.pageX;
-          this.popup.y = e.pageY;
+    case 'immediate':
+      // @TODO
+      break;
+    case 'click':
+      // Open/Close the menu when the trigger element is clicked
+      this.onEvent('click.trigger', targetElem, (/** @type {any} */e) => {
+        e.preventDefault();
+        if (this.hidden) {
+          this.popup.align = 'bottom, left';
+          this.popup.y = 10;
           this.show();
-        });
+        } else {
+          this.hide();
+        }
+      });
+
+      break;
+    default:
+      // Standard `contextmenu` event behavior.
+      // `contextmenu` events should only apply to top-level popupmenus.
+      // (submenus open/close events are handled by their parent items)
+      if (this.parentMenu) {
         break;
+      }
+
+      // Attach a contextmenu handler to the target element for opening the popup
+      this.onEvent('contextmenu.trigger', targetElem, (/** @type {any} */e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        this.popup.x = e.pageX;
+        this.popup.y = e.pageY;
+        this.show();
+      });
+      break;
     }
   }
 
@@ -257,8 +269,7 @@ class IdsPopupMenu extends IdsMenu {
       timeoutCallback: () => {
         // Attach a click handler to the window for detecting clicks outside the popup.
         // If these aren't captured by a popup, the menu will close.
-        // @ts-ignore
-        this.eventHandlers.addEventListener('click.toplevel', window, () => {
+        this.onEvent('click.toplevel', window, () => {
           this.hide();
         });
         this.hasOpenEvents = true;
@@ -276,7 +287,7 @@ class IdsPopupMenu extends IdsMenu {
       return;
     }
     // @ts-ignore
-    this.eventHandlers.removeEventListener('click.toplevel', window);
+    this.offEvent('click.toplevel', window);
     this.hasOpenEvents = false;
   }
 
@@ -286,7 +297,7 @@ class IdsPopupMenu extends IdsMenu {
    */
   hide() {
     this.hidden = true;
-    this.popup.querySelector('nav').removeAttribute('role');
+    this.popup.querySelector('nav')?.removeAttribute('role');
     this.lastHovered = undefined;
 
     // Hide the Ids Popup and all Submenus
@@ -299,8 +310,24 @@ class IdsPopupMenu extends IdsMenu {
    * @returns {void}
    */
   show() {
+    // Trigger a veto-able `beforeshow` event.
+    let canShow = true;
+    const beforeShowResponse = (/** @type {any} */ veto) => {
+      canShow = !!veto;
+    };
+    // @ts-ignore
+    this.triggerEvent('beforeshow', this, {
+      detail: {
+        elem: this,
+        response: beforeShowResponse
+      }
+    });
+    if (!canShow) {
+      return;
+    }
+
     this.hidden = false;
-    this.popup.querySelector('nav').setAttribute('role', 'menu');
+    this.popup.querySelector('nav')?.setAttribute('role', 'menu');
 
     // Hide any "open" submenus (in the event the menu is already open and being positioned)
     this.hideSubmenus();

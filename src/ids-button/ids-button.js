@@ -1,14 +1,14 @@
 import {
   IdsElement,
   customElement,
-  mixin,
-  scss
+  mix,
+  scss,
+  props
 } from '../ids-base/ids-element';
 
-import { IdsDomUtilsMixin as domUtils } from '../ids-base/ids-dom-utils-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
-import { props } from '../ids-base/ids-constants';
 
 // @ts-ignore
 import styles from './ids-button.scss';
@@ -50,11 +50,14 @@ const ICON_ALIGN = [
 
 /**
  * IDS Button Component
+ * @type {IdsButton}
+ * @inherits IdsElement
+ * @mixes IdsRenderLoopMixin
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-button')
-@mixin(IdsRenderLoopMixin)
 @scss(styles)
-class IdsButton extends IdsElement {
+class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin) {
   constructor() {
     super();
     this.state = {};
@@ -74,13 +77,13 @@ class IdsButton extends IdsElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (this.shouldUpdate) {
       switch (name) {
-        // Convert "tabindex" to "tabIndex"
-        case 'tabindex':
-          this.tabIndex = Number(newValue);
-          break;
-        default:
-          IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
-          break;
+      // Convert "tabindex" to "tabIndex"
+      case 'tabindex':
+        this.tabIndex = Number(newValue);
+        break;
+      default:
+        IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+        break;
       }
     }
   }
@@ -128,7 +131,7 @@ class IdsButton extends IdsElement {
     const cl = this.button.classList;
     /** @type {any} */
     const newProtoClass = this.protoClasses;
-    const protoClasses = ['ids-button', 'ids-toggle-button', 'ids-icon-button'];
+    const protoClasses = ['ids-button', 'ids-icon-button', 'ids-menu-button', 'ids-toggle-button'];
 
     cl.remove(...protoClasses);
     cl.add(newProtoClass);
@@ -192,9 +195,8 @@ class IdsButton extends IdsElement {
     let x;
     let y;
     let preceededByTouchstart = false;
-    this.eventHandlers = new IdsEventsMixin();
 
-    this.eventHandlers.addEventListener('click', this.button, (/** @type {any} */ e) => {
+    this.onEvent('click.ripple', this.button, (/** @type {any} */ e) => {
       if (preceededByTouchstart) {
         preceededByTouchstart = false;
         return;
@@ -204,7 +206,7 @@ class IdsButton extends IdsElement {
       this.createRipple(x, y);
     });
 
-    this.eventHandlers.addEventListener('touchstart', this.button, (/** @type {any} */ e) => {
+    this.onEvent('touchstart.ripple', this.button, (/** @type {any} */ e) => {
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
         x = touch.clientX !== 0 ? touch.clientX : undefined;
@@ -277,7 +279,7 @@ class IdsButton extends IdsElement {
     this.removeAttribute(props.DISABLED);
     this.shouldUpdate = true;
 
-    const trueVal = domUtils.isTrueBooleanAttribute(val);
+    const trueVal = stringUtils.stringToBool(val);
     this.state.disabled = trueVal;
 
     /* istanbul ignore next */
@@ -319,7 +321,8 @@ class IdsButton extends IdsElement {
   }
 
   /**
-   * @param {string} val representing the icon to set
+   * Sets the icon on the button
+   * @param {undefined|string} val representing the icon to set
    */
   set icon(val) {
     if (typeof val !== 'string' || !val.length) {
@@ -334,6 +337,7 @@ class IdsButton extends IdsElement {
   }
 
   /**
+   * Gets the current icon used on the button
    * @returns {undefined|string} a defined IdsIcon's `icon` attribute, if one is present
    */
   get icon() {
@@ -410,7 +414,13 @@ class IdsButton extends IdsElement {
     }
 
     // Re-arrange the slots
+    /** @type {HTMLElement | null} */
     const iconSlot = this.button.querySelector('slot[name="icon"]');
+    /* istanbul ignore next */
+    if (!iconSlot) {
+      return;
+    }
+
     if (alignment === 'end') {
       this.button.appendChild(iconSlot);
     } else {

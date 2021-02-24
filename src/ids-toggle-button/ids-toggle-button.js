@@ -17,6 +17,8 @@ const DEFAULT_ICON_ON = 'star-filled';
 
 /**
  * IDS Toggle Button Component
+ * @type {IdsToggleButton}
+ * @inherits IdsButton
  */
 @customElement('ids-toggle-button')
 @scss(styles)
@@ -51,6 +53,8 @@ class IdsToggleButton extends IdsButton {
    * @returns {void}
    */
   connectedCallback() {
+    // @ts-ignore
+    IdsButton.prototype.connectedCallback.apply(this);
     this.refreshIcon();
     this.refreshText();
   }
