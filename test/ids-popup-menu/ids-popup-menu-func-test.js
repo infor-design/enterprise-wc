@@ -207,7 +207,7 @@ describe('IdsPopupMenu Component', () => {
     });
     menu.show();
 
-    expect(menu.hidden).toBeFalsy();
+    expect(menu.hidden).toBeTruthy();
   });
 
   it('listens for `selected` event from menu items', (done) => {
