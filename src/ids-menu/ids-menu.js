@@ -387,7 +387,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {IdsMenu} parent menu component, if this menu is a submenu
    */
   get parentMenu() {
-    return this.parentElement.closest('ids-menu, ids-popup-menu');
+    return this.parentElement?.closest('ids-menu, ids-popup-menu');
   }
 
   /**
@@ -395,7 +395,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {IdsMenuItem} parent menu item, if this menu is a submenu
    */
   get parentMenuItem() {
-    return this.parentElement.closest('ids-menu-item');
+    return this.parentElement?.closest('ids-menu-item');
   }
 
   /**

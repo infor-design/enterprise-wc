@@ -45,7 +45,8 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu">
+    return `<div class="ids-theme-switcher">
+        <ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu">
             <ids-icon slot="icon" icon="more"></ids-icon>
             <span class="audible">Theme Switcher</span>
         </ids-menu-button>
@@ -71,7 +72,8 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin) {
               </ids-popup-menu>
             </ids-menu-item>
           </ids-menu-group>
-        </ids-popup-menu>`;
+        </ids-popup-menu>
+      </div>`;
   }
 
   /**
