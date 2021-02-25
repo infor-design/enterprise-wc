@@ -1,8 +1,9 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
+import { IdsElement } from '../ids-base/ids-element';
 
-type IdsThemeVersions = 'light' | 'dark' | 'high-contrast';
-type IdsThemeModes = 'classic' | 'new';
+type IdsThemeVersions = 'new' | 'classic';
+type IdsThemeModes = 'light' | 'dark' | 'high-contrast';
 
 interface IdsThemeChangeEventDetail extends Event {
   detail: {
@@ -12,9 +13,10 @@ interface IdsThemeChangeEventDetail extends Event {
   }
 }
 
-export class IdsThemeSwitcher extends HTMLElement {
+export class IdsThemeSwitcher extends IdsElement {
   /** Get/Set the theme/version mode */
   mode: IdsThemeModes;
+
   /** Get/Set the UI version */
   version: IdsThemeModes;
 

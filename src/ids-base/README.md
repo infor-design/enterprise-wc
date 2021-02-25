@@ -97,3 +97,55 @@ This mixin adds a clear button (x icon) to an input element ands bind click and 
 ## Ids Validation Mixin
 
 This mixin add functionality for validation to the component. This includes a add/remove message function api.  Also triggers the `validated` event when evaluated and passes an `isValid` argument for the current state.
+
+## Ids Theme Mixin
+
+This mixin add functionality to change the theme on a component. To use it you just need to include the mixin in the `mix` list. Also you should add two properties to the properties array.
+
+```js
+  static get properties() {
+    return [... props.MODE, props.VERSION];
+  }
+```
+
+In addition you should add the color changes for each theme. For example:
+
+```css
+.ids-container[mode='light'] {
+  @include bg-white();
+}
+
+.ids-container[mode='dark'] {
+  @include bg-slate-90();
+}
+
+.ids-container[mode='contrast'] {
+  @include bg-slate-10();
+}
+
+.ids-container[version='classic'][mode='light'] {
+  @include bg-graphite-10();
+}
+
+.ids-container[version='classic'][mode='dark'] {
+  @include bg-slate-80();
+}
+
+.ids-container[version='classic'][mode='contrast'] {
+  @include bg-graphite-20();
+}
+```
+
+In addition you should expose some of the component elements as `parts` do this in the comments and in the template. This gives a way to customize the styles outside of the web components, for flexibility and possible style customizations.
+
+```
+ ...
+ /**
+ * @part tag - the tag element
+ * @part icon - the icon element
+ */
+ ...
+ template() {
+   return '<span class="ids-tag" part="tag"><slot></slot></span>';
+ }
+```

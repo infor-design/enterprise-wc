@@ -23,7 +23,7 @@ const MENU_BUTTON_PROPS = [
 ];
 
 /**
- * IDS Toggle Button Component
+ * IDS Menu Button Component
  */
 @customElement('ids-menu-button')
 @scss(styles)
@@ -62,6 +62,12 @@ class IdsMenuButton extends IdsButton {
    * @returns {string[]} containing CSS classes that will be added to the buttons
    */
   get protoClasses() {
+    const textSlot = this.querySelector('span:not(.audible)');
+    const iconSlot = this.querySelector('ids-icon[slot]')
+      || this.querySelector('ids-icon');
+    if (iconSlot && (!textSlot)) {
+      return ['ids-menu-button', 'ids-icon-button'];
+    }
     return ['ids-menu-button'];
   }
 

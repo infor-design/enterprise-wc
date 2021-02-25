@@ -23,10 +23,10 @@
     }],
     "order/properties-alphabetical-order": true,
     "selector-pseudo-class-no-unknown": [true, {
-      "ignorePseudoClasses": ["root", "host", "unresolved"]
+      "ignorePseudoClasses": ["root", "host", "unresolved", "part", "::part"]
     }],
     "selector-pseudo-element-no-unknown": [true, {
-      "ignorePseudoElements": ["root", "host", "unresolved"]
+      "ignorePseudoElements": ["root", "host", "unresolved", "part", "::part"]
     }],
     "selector-type-no-unknown":  [true, {
       "ignore": ["custom-elements"]

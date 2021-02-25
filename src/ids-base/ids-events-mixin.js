@@ -5,10 +5,9 @@
  * @returns {any} The extended object
  */
 const IdsEventsMixin = (superclass) => class extends superclass {
-  handledEvents = new Map();
-
   constructor() {
     super();
+    this.handledEvents = new Map();
   }
 
   /**

@@ -27,5 +27,33 @@
                 <ids-menu-item>Clear Filter</ids-menu-item>
             </ids-menu-group>
         </ids-popup-menu>
+
+        <ids-menu-button id="ids-theme-switcher" menu="ids-theme-menu">
+            <ids-icon slot="icon" icon="more"></ids-icon>
+            <span class="audible">Default Button</span>
+        </ids-menu-button>
+        <ids-popup-menu id="ids-theme-menu" target="ids-theme-switcher" trigger="click">
+          <ids-menu-group>
+            <ids-menu-item>
+              Theme
+              <ids-popup-menu>
+                <ids-menu-group select="single">
+                  <ids-menu-item selected="true">New</ids-menu-item>
+                  <ids-menu-item>Classic</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+            </ids-menu-item>
+            <ids-menu-item>
+              Mode
+              <ids-popup-menu>
+                <ids-menu-group select="single">
+                  <ids-menu-item selected="true">Light</ids-menu-item>
+                  <ids-menu-item>Dark</ids-menu-item>
+                  <ids-menu-item>High Contrast</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
     </ids-layout-grid-cell>
 </ids-layout-grid>

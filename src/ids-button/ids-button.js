@@ -115,7 +115,6 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
     const textSlot = this.querySelector('span:not(.audible)');
     const iconSlot = this.querySelector('ids-icon[slot]')
       || this.querySelector('ids-icon');
-
     if (iconSlot && (!textSlot)) {
       return ['ids-icon-button'];
     }
