@@ -24,7 +24,10 @@ const MENU_BUTTON_PROPS = [
 
 /**
  * IDS Menu Button Component
- * @type {IdsMenuButton | any}
+ */
+/**
+ * IDS Menu Button Component
+ * @type {IdsMenuButton}
  * @inherits IdsButton
  */
 @customElement('ids-menu-button')
@@ -46,7 +49,6 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   connectedCallback() {
-    // Defer this to rendered if in a shadow root
     this.configureMenu();
     this.handleEvents();
     // @ts-ignore
@@ -59,11 +61,6 @@ class IdsMenuButton extends IdsButton {
   handleEvents() {
     // @ts-ignore
     IdsButton.prototype.handleEvents.apply(this);
-    // @ts-ignore
-    this.onEvent('rendered', this.nextElementSibling, () => {
-      this.configureMenu();
-      console.info('rendered');
-    });
   }
 
   /**
@@ -172,9 +169,6 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   resizeMenu() {
-    if (!this.menuEl.popup) {
-      return;
-    }
     this.menuEl.popup.container.style.minWidth = `${this.button.clientWidth}px`;
   }
 
@@ -182,7 +176,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   setPopupArrow() {
-    if (!this.menuEl || !this.menuEl.popup) {
+    if (!this.menuEl) {
       return;
     }
     this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;

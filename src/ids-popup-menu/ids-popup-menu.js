@@ -218,7 +218,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
 
     // Based on the trigger type, bind new events
     const targetElem = this.target || window;
-
     switch (this.trigger) {
     case 'immediate':
       // @TODO
