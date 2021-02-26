@@ -91,8 +91,8 @@ class IdsElement extends HTMLElement {
     /** @type {any} */
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
 
-    // Remove any close hidden element
-    this.closest('div[hidden]')?.removeAttribute('hidden');
+    // Remove any close hidden element to avoid FOUC
+    this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
     return this;
   }
 
