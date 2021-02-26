@@ -25,6 +25,11 @@ const MENU_BUTTON_PROPS = [
 /**
  * IDS Menu Button Component
  */
+/**
+ * IDS Menu Button Component
+ * @type {IdsMenuButton}
+ * @inherits IdsButton
+ */
 @customElement('ids-menu-button')
 @scss(styles)
 class IdsMenuButton extends IdsButton {
@@ -121,10 +126,15 @@ class IdsMenuButton extends IdsButton {
 
   /**
    * @readonly
-   * @returns {HTMLElement | null} element if one is present
+   * @returns {HTMLElement | null | any} element if one is present
    */
   get menuEl() {
-    return document.querySelector(`ids-popup-menu[id="${this.menu}"]`);
+    /** @type {any} */
+    let el = document.querySelector(`ids-popup-menu[id="${this.menu}"]`);
+    if (!el) {
+      el = this.parentElement?.querySelector(`ids-popup-menu[id="${this.menu}"]`);
+    }
+    return el;
   }
 
   /**
@@ -159,7 +169,6 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   resizeMenu() {
-    // @ts-ignore
     this.menuEl.popup.container.style.minWidth = `${this.button.clientWidth}px`;
   }
 
@@ -170,9 +179,7 @@ class IdsMenuButton extends IdsButton {
     if (!this.menuEl) {
       return;
     }
-    // @ts-ignore
     this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
-    // @ts-ignore
     this.menuEl.popup.arrow = 'bottom';
   }
 }
