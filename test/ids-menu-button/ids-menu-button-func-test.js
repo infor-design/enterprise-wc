@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import IdsIcon from '../../src/ids-icon/ids-icon';
 import IdsMenuButton from '../../src/ids-menu-button/ids-menu-button';
 import IdsPopupMenu, {
   IdsMenuGroup,
@@ -102,5 +103,25 @@ describe('IdsMenuButton Component', () => {
       expect(menuEl.popup.visible).toBeTruthy();
       done();
     }, 20);
+  });
+
+  it('should render an icon button', () => {
+    document.body.innerHTML = '';
+    buttonEl = new IdsMenuButton();
+    buttonEl.id = 'icon-button';
+
+    const iconEl = new IdsIcon();
+    iconEl.slot = 'icon';
+    iconEl.icon = 'more';
+    buttonEl.appendChild(iconEl);
+
+    const spanEl = document.createElement('span');
+    spanEl.classList.add('audible');
+    spanEl.text = 'Icon Only Button';
+    buttonEl.appendChild(spanEl);
+    document.body.appendChild(buttonEl);
+    buttonEl.render();
+
+    expect(buttonEl.shadowRoot.querySelector('.ids-icon-button')).toBeTruthy();
   });
 });
