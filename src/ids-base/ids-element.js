@@ -93,6 +93,11 @@ class IdsElement extends HTMLElement {
 
     // Remove any close hidden element
     this.closest('div[hidden]')?.removeAttribute('hidden');
+    // @ts-ignore
+    if (this.triggerEvent) {
+      // @ts-ignore
+      this.triggerEvent('rendered', this, { detail: { elem: this } });
+    }
     return this;
   }
 
