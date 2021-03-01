@@ -1,0 +1,53 @@
+{{> ../layouts/head.html }}
+
+<link rel="stylesheet" href="ids-toolbar.css" />
+<link rel="stylesheet" href="../ids-toolbar-section/ids-toolbar-section.css" />
+<link rel="stylesheet" href="../ids-button/ids-button.css" />
+<link rel="stylesheet" href="../ids-popup-menu/ids-popup-menu.css" />
+<link rel="stylesheet" href="../ids-popup/ids-popup.css" />
+<link rel="stylesheet" href="../ids-menu-group/ids-menu-group.css" />
+<link rel="stylesheet" href="../ids-menu-header/ids-menu-header.css" />
+<link rel="stylesheet" href="../ids-menu-item/ids-menu-item.css" />
+<link rel="stylesheet" href="../ids-separator/ids-separator.css" />
+<link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css" />
+<link rel="stylesheet" href="../ids-text/ids-text.css" />
+<link rel="stylesheet" href="../ids-loader/ids-loader.css" />
+
+<div class="ids-layout-grid">
+  <h1 class="ids-text ids-text-12">Popup Menu Standalone CSS</h1>
+</div>
+
+<div class="ids-toolbar">
+  <div class="ids-toolbar-section">
+    <button class="ids-icon-button">
+      <span class="audible">Application Menu</span>
+      <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18" viewBox="0 0 18 18"
+        focusable="false" aria-hidden="true" role="presentation">
+        <path d="M0 2.5h18m-18 12h18m-18-6h18" stroke="currentColor" fill="none" fill-rule="evenodd"
+          vector-effect="non-scaling-stroke"></path>
+      </svg>
+    </button>
+  </div>
+
+  <div class="ids-toolbar-section fluid">
+    <h3 class="ids-text ids-text-36">My Toolbar</h3>
+  </div>
+
+  <div class="ids-toolbar-section">
+    <button id="button-1" class="ids-button">
+      <span>Button 1</span>
+    </button>
+
+    <button id="button-2" class="ids-button">
+      <span>Button 2</span>
+    </button>
+  </div>
+
+  <div class="ids-toolbar-section align-end">
+    <button id="button-3" class="ids-button">
+      <span>Button 3</span>
+    </button>
+  </div>
+</div>
+
+{{> ../layouts/footer.html }}
