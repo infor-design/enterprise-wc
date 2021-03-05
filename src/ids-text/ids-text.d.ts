@@ -11,4 +11,10 @@ export default class IdsText extends HTMLElement {
   /** Set `audible` string (screen reader only text) */
   fontSize: '10' | '12' | 'x2' | '14' | 'sm' | '16' | '20' | '24' | 'lg' |
     '32' | 'xl' | '40' | '48' | '60' | '72' | string;
+
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the tag type/color */
+  version: 'new' | 'classic' | string;
 }

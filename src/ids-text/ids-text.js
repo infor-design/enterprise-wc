@@ -2,8 +2,14 @@ import {
   IdsElement,
   customElement,
   scss,
-  props
+  props,
+  mix
 } from '../ids-base/ids-element';
+
+// Import Mixins
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
 import styles from './ids-text.scss';
@@ -12,10 +18,13 @@ import styles from './ids-text.scss';
  * IDS Text Component
  * @type {IdsText}
  * @inherits IdsElement
+ * @mixes IdsThemeMixin
+ * @mixes IdsEventsMixin
+ * @part text - the text element
  */
 @customElement('ids-text')
 @scss(styles)
-class IdsText extends IdsElement {
+class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -25,7 +34,7 @@ class IdsText extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TYPE, props.FONT_SIZE, props.AUDIBLE];
+    return [props.TYPE, props.FONT_SIZE, props.AUDIBLE, props.MODE, props.VERSION];
   }
 
   /**
@@ -39,7 +48,7 @@ class IdsText extends IdsElement {
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
     classList = ` class="${classList}"`;
 
-    return `<${tag}${classList}><slot></slot></${tag}>`;
+    return `<${tag}${classList} mode="${this.mode}" version="${this.version}" part="text"><slot></slot></${tag}>`;
   }
 
   /**
@@ -50,7 +59,9 @@ class IdsText extends IdsElement {
     const template = document.createElement('template');
     this.shadowRoot?.querySelector('.ids-text')?.remove();
     template.innerHTML = this.template();
-    this.shadowRoot?.appendChild(template.content.cloneNode(true));
+    const elem = template.content.cloneNode(true);
+    this.shadowRoot?.appendChild(elem);
+    this.container = this.shadowRoot?.querySelector('.ids-text');
   }
 
   /**
@@ -90,17 +101,18 @@ class IdsText extends IdsElement {
   get type() { return this.getAttribute(props.TYPE); }
 
   /**
-   * Set `audible` string (screen reader only text)
-   * @param {string | null} value The `audible` attribute
+   * The text to audible (screen reader only)
+   * @param {boolean} value True if audible
    */
   set audible(value) {
-    if (value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
       this.setAttribute(props.AUDIBLE, value);
-      this.rerender();
+      this.container.classList.add('audible');
       return;
     }
     this.removeAttribute(props.AUDIBLE);
-    this.rerender();
+    this.container.classList.remove('audible');
   }
 
   get audible() { return this.getAttribute(props.AUDIBLE); }

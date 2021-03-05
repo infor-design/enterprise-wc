@@ -3,6 +3,7 @@
 
 .ids-text {
   @include antialiased();
+  @include text-slate-100();
   @include font-sans();
   @include font-normal();
   @include block();
@@ -72,4 +73,25 @@
 .ids-text-72 {
   @include text-72();
   @include mb-0();
+}
+
+// Handle Themes
+.ids-text[mode='dark'] {
+  @include text-slate-10();
+}
+
+.ids-text[mode='contrast'] {
+  @include text-slate-100();
+}
+
+.ids-text[version='classic'][mode='light'] {
+  @include text-graphite-100();
+}
+
+.ids-text[version='classic'][mode='dark'] {
+  @include text-graphite-10();
+}
+
+.ids-text[version='classic'][mode='contrast'] {
+  @include text-slate-100();
 }

@@ -100,7 +100,10 @@ This mixin add functionality for validation to the component. This includes a ad
 
 ## Ids Theme Mixin
 
-This mixin add functionality to change the theme on a component. To use it you just need to include the mixin in the `mix` list. Also you should add two properties to the properties array.
+This mixin add functionality to change the theme on a component. To use it you need to:
+
+1. Include the mixin in the `mix` list.
+1. Also you add two properties to the properties array. For example:
 
 ```js
   static get properties() {
@@ -108,7 +111,9 @@ This mixin add functionality to change the theme on a component. To use it you j
   }
 ```
 
-In addition you should add the color changes for each theme. For example:
+1. Add types to the `d.ts` file for the new properties.
+1. In addition you should add the color changes for each theme. For example:
+1. Add the theme mixin name to the @mixins tag for future docs.
 
 ```css
 .ids-container[mode='light'] {
@@ -136,7 +141,7 @@ In addition you should add the color changes for each theme. For example:
 }
 ```
 
-In addition you should expose some of the component elements as `parts` do this in the comments and in the template. This gives a way to customize the styles outside of the web components, for flexibility and possible style customizations.
+1. In addition you should expose some of the component elements as `parts` do this in the comments and in the template. This gives a way to customize the styles outside of the web components, for flexibility and possible style customizations.
 
 ```
  ...

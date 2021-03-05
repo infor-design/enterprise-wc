@@ -26,6 +26,12 @@ export default class IdsTag extends IdsElement {
   /** Dismiss a dismissible tag */
   dismiss(): void;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the tag type/color */
+  version: 'new' | 'classic' | string;
+
   /** Fires before the tag is removed, you can return false in the response to veto. */
   on(event: 'beforetagremoved', listener: (detail: IdsTagEventVetoable) => void): this;
 

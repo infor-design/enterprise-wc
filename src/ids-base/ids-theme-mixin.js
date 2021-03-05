@@ -6,14 +6,14 @@
 const IdsThemeMixin = (superclass) => class extends superclass {
   constructor() {
     super();
-    this.init();
+    this.initThemeHandlers();
   }
 
   /**
    * Init the mixin events and states
    * @private
    */
-  init() {
+  initThemeHandlers() {
     /** @type {any} */
     this.switcher = document.querySelector('ids-theme-switcher');
     if (!this.switcher) {

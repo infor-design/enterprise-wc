@@ -225,7 +225,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     // Add a cell click handler
     const body = this.shadowRoot.querySelector('.ids-data-grid-body');
     this.offEvent('click', body);
-    this.onEvent('click', body, (/** @type {any} */ e) => {
+    this.onEvent('click', body, (e) => {
       const cell = e.target.closest('.ids-data-grid-cell');
       const row = cell.parentNode;
       // TODO Handle Hidden Cells
@@ -264,9 +264,7 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     let styleSheet = null;
 
-    // @ts-ignore
     if (this.shadowRoot.adoptedStyleSheets) {
-      // @ts-ignore
       styleSheet = this.shadowRoot.adoptedStyleSheets[0];
     } else if (this.shadowRoot.styleSheets) {
       styleSheet = this.shadowRoot.styleSheets[0];

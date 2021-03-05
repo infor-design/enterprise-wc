@@ -603,7 +603,6 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     ARROW_TYPES.forEach((type) => {
       if (type !== 'none' && type !== arrowClass) {
         arrowElCl.remove(type);
-        debugger;
         this.arrowEl.hidden = true;
       }
     });

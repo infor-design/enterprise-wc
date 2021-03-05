@@ -19,7 +19,6 @@ import styles from './ids-container.scss';
  * @inherits IdsElement
  * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
- * @mixes IdsEventsMixin
  * @part container - the entire container element
  */
 @customElement('ids-container')

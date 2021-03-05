@@ -31,20 +31,9 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
     this.datasource = new IdsDataSource();
     this.stringTemplate = '<div class="ids-virtual-scroll-item">${productName}</div>'; //eslint-disable-line
 
-    this
-      .init()
-      .handleEvents();
-  }
-
-  /**
-   * Init the scroll
-   * @private
-   * @returns {object} This API as used for joining
-   */
-  init() {
     this.applyHeight();
     this.renderItems(false);
-    return this;
+    this.handleEvents();
   }
 
   /**

@@ -2,17 +2,22 @@ import {
   IdsElement,
   customElement,
   mix,
-  props
+  props,
+  scss
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 // @ts-ignore
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 
+// @ts-ignore
+import styles from './ids-theme-switcher.scss';
+
 /**
  * IDS Theme Switcher Component
  */
 @customElement('ids-theme-switcher')
+@scss(styles)
 class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
