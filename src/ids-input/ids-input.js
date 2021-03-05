@@ -253,7 +253,7 @@ class IdsInput extends mix(IdsElement).with(
    * @returns {void}
    */
   handleInputChangeEvent() {
-    const eventName = 'change';
+    const eventName = 'change.input';
     this.onEvent(eventName, this.input, () => {
       this.value = this.input.value;
     });
@@ -265,7 +265,7 @@ class IdsInput extends mix(IdsElement).with(
    * @returns {object} The object for chaining.
    */
   handleNativeEvents() {
-    const events = ['change', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
+    const events = ['change.input', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (/** @type {any} */ e) => {
         /**
