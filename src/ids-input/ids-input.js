@@ -253,7 +253,7 @@ class IdsInput extends mix(IdsElement).with(
    * @returns {void}
    */
   handleInputChangeEvent() {
-    const eventName = 'change';
+    const eventName = 'change.input';
     this.onEvent(eventName, this.input, () => {
       this.value = this.input.value;
     });
