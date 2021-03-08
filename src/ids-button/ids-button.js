@@ -134,7 +134,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
     const protoClasses = ['ids-button', 'ids-icon-button', 'ids-menu-button', 'ids-toggle-button'];
 
     cl.remove(...protoClasses);
-    cl.add(newProtoClass);
+    cl.add(...newProtoClass);
   }
 
   /**

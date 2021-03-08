@@ -13,6 +13,7 @@ import IdsPopup from '../ids-popup/ids-popup';
 // @ts-ignore
 import styles from './ids-popup-menu.scss';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 const POPUPMENU_PROPERTIES = [
   props.TARGET,
@@ -223,12 +224,15 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
       // @TODO
       break;
     case 'click':
+      // Configure some settings for opening
+      this.popup.align = 'bottom, left';
+      this.popup.arrow = 'bottom';
+      this.popup.y = 10;
+
       // Open/Close the menu when the trigger element is clicked
       this.onEvent('click.trigger', targetElem, (/** @type {any} */e) => {
         e.preventDefault();
         if (this.hidden) {
-          this.popup.align = 'bottom, left';
-          this.popup.y = 10;
           this.show();
         } else {
           this.hide();

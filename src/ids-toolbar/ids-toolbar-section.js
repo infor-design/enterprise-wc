@@ -94,12 +94,13 @@ class IdsToolbarSection extends IdsElement {
    * @param {string} val the alignment type to set
    */
   set align(val) {
-    if (typeof val !== 'string' || val === '' || !SECTION_ALIGNS.includes(val)) {
+    const trueVal = `align-${val}`;
+    if (typeof val !== 'string' || val === '' || !SECTION_ALIGNS.includes(trueVal)) {
       this.removeAttribute('align');
     } else {
       this.setAttribute('align', val);
     }
-    setCssClassFromGroup(`align-${val}`, this.container, SECTION_ALIGNS);
+    setCssClassFromGroup(trueVal, this.container, SECTION_ALIGNS);
   }
 
   /**
@@ -124,10 +125,10 @@ class IdsToolbarSection extends IdsElement {
   }
 
   /**
-   *
+   * @returns {string} the type of section
    */
   get type() {
-    return this.getAttribute('type')
+    return this.getAttribute('type');
   }
 }
 

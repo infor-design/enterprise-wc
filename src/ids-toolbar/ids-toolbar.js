@@ -5,6 +5,7 @@ import styles from './ids-toolbar.scss';
 
 // Supporting Components
 import IdsToolbarSection, { TOOLBAR_ITEM_TAGNAMES } from './ids-toolbar-section';
+import IdsToolbarMoreActions from './ids-toolbar-more-actions';
 
 const TOOLBAR_PROPS = [];
 
@@ -47,8 +48,7 @@ class IdsToolbar extends IdsElement {
     });
     return i;
   }
-
 }
 
 export default IdsToolbar;
-export { IdsToolbarSection, TOOLBAR_ITEM_TAGNAMES };
+export { IdsToolbarSection, IdsToolbarMoreActions, TOOLBAR_ITEM_TAGNAMES };

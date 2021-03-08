@@ -3,7 +3,9 @@
 :host {
   @include block();
 
-  ::slotted(ids-toolbar-section[type='fluid']) {
+  ::slotted(ids-toolbar-section[type='fluid']),
+  ::slotted(ids-toolbar-section[type='title']),
+  ::slotted(ids-toolbar-section[type='buttonset']) {
     flex-grow: 1;
   }
 }

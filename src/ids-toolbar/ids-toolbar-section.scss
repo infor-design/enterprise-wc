@@ -1,37 +1,42 @@
 @import '../ids-base/ids-base.scss';
 
 :host {
-  @include block();
+  @include flex();
+}
+
+ids-toolbar-section + ids-toolbar-section[type='title'],
+ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
+  padding-left: 10px;
 }
 
 .ids-toolbar-section {
+  @include flex();
+
   white-space: nowrap;
   width: auto;
 
   // ================================================
   // Alignments
   &.align-start {
-    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   &.align-center {
-    align-items: center;
+    justify-content: center;
   }
 
   &.align-end {
-    align-items: flex-end;
+    justify-content: flex-end;
   }
 
   // ================================================
   // Built-in Section Type Styles
 
   // Contains rows of buttons
-  &.buttonset {
-    @include px-4();
-  }
-
   &.title,
   &.buttonset {
+    @include px-8();
+
     flex-grow: 1;
 
     &:not(.favor) {

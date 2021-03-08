@@ -3,6 +3,7 @@ import {
   scss,
   props
 } from '../ids-base/ids-element';
+import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
@@ -124,14 +125,18 @@ class IdsMenuButton extends IdsButton {
    * @returns {HTMLElement | null} element if one is present
    */
   get menuEl() {
-    return document.querySelector(`ids-popup-menu[id="${this.menu}"]`);
+    // Check for a Shadow Root parent.
+    // If none, use `document`
+    /** @type {any} */
+    const target = IdsDOMUtils.getClosestRootNode(this);
+    return target.querySelector(`ids-popup-menu[id="${this.menu}"]`);
   }
 
   /**
    * @returns {void}
    */
   configureMenu() {
-    if (!this.menuEl) {
+    if (!this.menuEl || !this.menuEl.popup) {
       return;
     }
     this.resizeMenu();
