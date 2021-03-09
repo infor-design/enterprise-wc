@@ -47,7 +47,7 @@ class IdsToolbarMoreActionsButton extends IdsElement {
    * @readonly
    * @returns {IdsMenuButton} the inner menu button
    */
-  get buttonEl() {
+  get button() {
     return this.shadowRoot.querySelector('ids-menu-button');
   }
 
@@ -55,7 +55,7 @@ class IdsToolbarMoreActionsButton extends IdsElement {
    * @readonly
    * @returns {IdsPopupMenu} the inner popup menu
    */
-  get menuEl() {
+  get menu() {
     return this.shadowRoot.querySelector('ids-popup-menu');
   }
 
@@ -63,7 +63,7 @@ class IdsToolbarMoreActionsButton extends IdsElement {
    *
    */
   refresh() {
-    const popup = this.menuEl?.popup;
+    const popup = this.menu?.popup;
     if (!popup) {
       return;
     }

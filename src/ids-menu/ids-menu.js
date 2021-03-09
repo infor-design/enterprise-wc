@@ -17,6 +17,7 @@ import IdsSeparator from './ids-separator';
 
 // @ts-ignore
 import styles from './ids-menu.scss';
+import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 /**
  * @private
@@ -351,7 +352,9 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   get focused() {
     // @ts-ignore
-    return this.items.find((item) => document.activeElement.isEqualNode(item));
+    return this.items.find((item) => {
+      return IdsDOMUtils.getClosestContainerNode(this).activeElement.isEqualNode(item);
+    });
   }
 
   /**
