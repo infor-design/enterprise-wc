@@ -2,8 +2,13 @@ import {
   IdsElement,
   customElement,
   scss,
-  props
+  props,
+  mix
 } from '../ids-base/ids-element';
+
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+
 // @ts-ignore
 import styles from './ids-badge.scss';
 
@@ -11,10 +16,13 @@ import styles from './ids-badge.scss';
  * IDS Badge Component
  * @type {IdsBadge}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part badge - the badge element
  */
 @customElement('ids-badge')
 @scss(styles)
-class IdsBadge extends IdsElement {
+class IdsBadge extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -24,7 +32,7 @@ class IdsBadge extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.COLOR, props.SHAPE];
+    return [props.COLOR, props.SHAPE, props.MODE, props.version];
   }
 
   /**
@@ -34,7 +42,7 @@ class IdsBadge extends IdsElement {
   template() {
     const shape = this.shape;
 
-    return `<span class="ids-badge ${shape}"><slot></slot></span>`;
+    return `<span class="ids-badge ${shape}" part="badge"><slot></slot></span>`;
   }
 
   /**
@@ -69,16 +77,10 @@ class IdsBadge extends IdsElement {
   set color(value) {
     if (value) {
       this.setAttribute('color', value);
-
+      this.container.setAttribute('color', value);
       let statusColor;
 
-      if (value === 'error') {
-        statusColor = 'var(--ids-color-status-danger)';
-      } else if (value === 'alert') {
-        statusColor = 'var(--ids-color-status-caution)';
-      } else if (value === 'info') {
-        statusColor = 'var(--ids-color-status-base)';
-      } else {
+      if (value !== 'error' && value !== 'alert' && value !== 'info') {
         statusColor = `var(--ids-color-status-${value})`;
       }
 
@@ -89,6 +91,7 @@ class IdsBadge extends IdsElement {
       }
     } else {
       this.removeAttribute('color');
+      this.container.removeAttribute('color');
       this.container.style.backgroundColor = '';
       this.container.style.borderColor = '';
       this.container.style.color = '';
