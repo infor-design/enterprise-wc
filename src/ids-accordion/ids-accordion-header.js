@@ -1,11 +1,17 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  props,
+  mix
 } from '../ids-base/ids-element';
 
 // @ts-ignore
 import styles from './ids-accordion-header.scss';
+// @ts-ignore
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+// @ts-ignore
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 // Default Icons
 const DEFAULT_ICON_OFF = 'caret-down';
@@ -14,10 +20,14 @@ const DEFAULT_ICON_OFF = 'caret-down';
  * IDS Accordion Header Component
  * @type {IdsAccordionHeader}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part header - the accordion header root element
+ * @part icon - the accordion header icon element
  */
 @customElement('ids-accordion-header')
 @scss(styles)
-class IdsAccordionHeader extends IdsElement {
+class IdsAccordionHeader extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -27,7 +37,7 @@ class IdsAccordionHeader extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [];
+    return [props.MODE, props.VERSION];
   }
 
   /**
@@ -36,9 +46,9 @@ class IdsAccordionHeader extends IdsElement {
    */
   template() {
     return `
-      <div class="ids-accordion-header" tabindex="0">
+      <div class="ids-accordion-header" tabindex="0" part="header">
         <slot></slot>
-        <ids-icon icon=${DEFAULT_ICON_OFF}></ids-icon>
+        <ids-icon icon=${DEFAULT_ICON_OFF} part="icon"></ids-icon>
       </div>
     `;
   }

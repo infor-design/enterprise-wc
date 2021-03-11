@@ -2,7 +2,10 @@
 // confirm our code is type safe, and to support TypeScript users.
 import { IdsElement } from '../ids-base/ids-element';
 
-export default class IdsAccordionPanel extends IdsElement {
-  /** Set to expanded/collapsed */
-  expanded: boolean;
+export default class IdsAccordion extends IdsElement {
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the tag type/color */
+  version: 'new' | 'classic' | string;
 }

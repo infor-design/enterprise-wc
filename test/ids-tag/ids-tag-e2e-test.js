@@ -43,8 +43,8 @@ describe('Ids Tag e2e Tests', () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
     await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+      document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
-    await percySnapshot(page, 'ids-tag-new-dark');
+    await percySnapshot(page, 'ids-tag-new-contrast');
   });
 });

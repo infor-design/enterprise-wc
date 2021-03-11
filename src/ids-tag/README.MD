@@ -47,6 +47,11 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 - `dismissible` {boolean} Turns on the functionality to add an (x) button to clear remove the tag
 - `color` {string} Sets the color to a internal color such as `azure` or may be a hex starting with a `#`
 
+## Themeable Parts
+
+- `icon` allows you to further style the icon element
+- `tag` allows you to further style the tag element
+
 ## States and Variations (With Code Examples)
 
 - Color
@@ -72,7 +77,7 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 ## Designs
 
-[Figma Design Specs](https://www.figma.com/files/project/2768042/Infor-Design-System)
+[Design Specs](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
 
 ## Alternate Designs
 
