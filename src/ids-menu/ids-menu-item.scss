@@ -51,7 +51,7 @@
     // Disable default browser focus state.
     // (comment this out to debug the true menu focus state)
     &:focus {
-      outline: none;
+      @include outline-none();
     }
 
     > * {

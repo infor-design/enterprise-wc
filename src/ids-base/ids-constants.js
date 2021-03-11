@@ -62,6 +62,7 @@ export const props = {
   ROW_SPAN: 'row-span',
   ROW_START: 'row-start',
   ROWS: 'rows',
+  SCROLLABLE: 'scrollable',
   SELECT: 'select',
   SELECTED: 'selected',
   SHAPE: 'shape',

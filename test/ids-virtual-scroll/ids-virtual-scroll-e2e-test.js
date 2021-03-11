@@ -1,4 +1,4 @@
-const { percySnapshot } = require('@percy/puppeteer');
+import percySnapshot from '@percy/puppeteer';
 
 describe('Ids Virtual Scroll e2e Tests', () => {
   const url = 'http://localhost:4444/ids-virtual-scroll';

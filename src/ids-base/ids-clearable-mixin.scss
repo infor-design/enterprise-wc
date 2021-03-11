@@ -5,9 +5,10 @@
   .ids-input-field,
   .ids-textarea-field {
     ~ .btn-clear {
+      @include outline-none();
+
       margin-left: 1px;
       margin-top: -24px;
-      outline: none;
       position: absolute;
 
       &.is-empty {

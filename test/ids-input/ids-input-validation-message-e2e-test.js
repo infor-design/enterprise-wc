@@ -1,4 +1,4 @@
-const { percySnapshot } = require('@percy/puppeteer');
+import percySnapshot from '@percy/puppeteer';
 
 describe('Ids Input Validation Message e2e Tests', () => {
   const url = 'http://localhost:4444/ids-input/test-validation-message';

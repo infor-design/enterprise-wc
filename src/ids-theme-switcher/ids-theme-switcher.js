@@ -98,7 +98,7 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin) {
       return;
     }
 
-    this.removeAttribute('color');
+    this.removeAttribute('mode');
   }
 
   get mode() { return this.getAttribute('mode') || 'light'; }

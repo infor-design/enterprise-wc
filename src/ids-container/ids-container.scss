@@ -2,13 +2,14 @@
 @import '../ids-base/ids-base';
 
 .ids-container {
+  @include absolute();
   @include bg-white();
+  @include outline-none();
+  @include p-8();
 
   height: calc(100% - 16px);
   margin: -8px;
   overflow: auto;
-  padding: 8px;
-  position: absolute;
   width: calc(100% - 16px);
 }
 

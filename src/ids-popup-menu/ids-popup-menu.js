@@ -99,7 +99,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     // In some situations, hide the menu when an item is selected.
     this.onEvent('selected', this, (/** @type {any} */ e) => {
       const item = e.detail.elem;
-      if (!item.group.keepOpen) {
+      if (!item?.group?.keepOpen) {
         this.hide();
       }
     });

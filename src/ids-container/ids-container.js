@@ -33,7 +33,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.MODE, props.VERSION];
+    return [props.SCROLLABLE, props.MODE, props.VERSION];
   }
 
   /**
@@ -41,8 +41,25 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    return '<div class="ids-container" part="container"><slot></slot></div>';
+    return `<div class="ids-container" part="container"${this.scrollable === 'true' ? ' tabindex="0"' : ''}><slot></slot></div>`;
   }
+
+  /**
+   * If set to true the container is scollable
+   * @param {boolean|string} value true of false depending if the tag is scrollable
+   */
+  set scrollable(value) {
+    if (value) {
+      this.setAttribute('scrollable', value.toString());
+      this.container.setAttribute('tabindex', '0');
+      return;
+    }
+
+    this.setAttribute('scrollable', 'false');
+    this.container.removeAttribute('tabindex');
+  }
+
+  get scrollable() { return this.getAttribute('scrollable') || 'true'; }
 }
 
 export default IdsContainer;

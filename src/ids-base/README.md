@@ -143,7 +143,7 @@ This mixin add functionality to change the theme on a component. To use it you n
 
 1. In addition you should expose some of the component elements as `parts` do this in the comments and in the template. This gives a way to customize the styles outside of the web components, for flexibility and possible style customizations.
 
-```
+```js
  ...
  /**
  * @part tag - the tag element

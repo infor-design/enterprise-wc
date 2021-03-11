@@ -16,18 +16,18 @@
 
   &:focus {
     @include shadow();
+    @include outline-none();
 
     border: 1px solid #0072ed;
-    outline: none;
   }
 }
 
 :host {
   &:focus {
     @include shadow();
+    @include outline-none();
 
     border: 1px solid #0072ed;
-    outline: none;
   }
 
   ids-icon {

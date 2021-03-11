@@ -19,34 +19,26 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    
+
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    
+
     - name: Cache multiple paths
       uses: actions/cache@v2
       with:
         path: node_modules
         key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
-    
+
     - name: Install Dependencies
       run: npm i
-    
+
     - name: Run a test build
       run: npm run build
-    
+
     - name: Run Lint Checks
       run: npm run lint
-      
-    - name: Run tests with Test Coverage
-      run: npm run test:coverage
-
-    - name: Coveralls
-      uses: coverallsapp/github-action@master
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Run Percy Tests
       uses: percy/exec-action@v0.3.1
@@ -54,3 +46,9 @@ jobs:
         command: "npm run test:ci"
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+
+    - name: Coveralls
+      uses: coverallsapp/github-action@master
+      with:
+        github-token: ${{ secrets.GITHUB_TOKEN }}
+
