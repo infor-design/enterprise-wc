@@ -35,9 +35,18 @@ class IdsToolbarMoreActionsButton extends IdsElement {
       </ids-menu-button>
       <ids-popup-menu id="icon-menu" target="#icon-button" trigger="click">
         <ids-menu-group>
-          <ids-menu-item>Option One</ids-menu-item>
-          <ids-menu-item>Option Two</ids-menu-item>
-          <ids-menu-item>Option Three</ids-menu-item>
+          <ids-menu-item value="1">Option One</ids-menu-item>
+          <ids-menu-item value="2">Option Two</ids-menu-item>
+          <ids-menu-item value="3">Option Three</ids-menu-item>
+          <ids-menu-item>More Options
+            <ids-popup-menu>
+              <ids-menu-group>
+                <ids-menu-item value="4">Option Four</ids-menu-item>
+                <ids-menu-item value="5">Option Five</ids-menu-item>
+                <ids-menu-item value="6">Option Six</ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+          </ids-menu-item>
         </ids-menu-group>
       </ids-popup-menu>
     </div>`;
@@ -68,6 +77,14 @@ class IdsToolbarMoreActionsButton extends IdsElement {
       return;
     }
     popup.align = 'bottom, right';
+  }
+
+  /**
+   * Passes focus from the main element into the inner Ids Menu Button
+   * @returns {void}
+   */
+  focus() {
+    this.button.focus();
   }
 }
 

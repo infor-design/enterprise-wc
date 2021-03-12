@@ -31,7 +31,7 @@ const TOOLBAR_ITEM_TAGNAMES = [
   'ids-input',
   'ids-menu-button',
   'ids-radio',
-  'ids-text'
+  'ids-toolbar-more-actions'
 ];
 
 /**

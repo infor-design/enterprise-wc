@@ -32,6 +32,11 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   // ================================================
   // Built-in Section Type Styles
 
+  // Buttonsets have top padding (accounts for button focus states)
+  &.buttonset {
+    @include py-4();
+  }
+
   // Contains rows of buttons
   &.title,
   &.buttonset {

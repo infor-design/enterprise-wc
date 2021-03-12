@@ -106,7 +106,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     this.isVisible = false;
     this.isAnimated = false;
     this.trueType = 'none';
-    // this.shouldUpdate = true;
+    this.shouldUpdate = true;
   }
 
   /**

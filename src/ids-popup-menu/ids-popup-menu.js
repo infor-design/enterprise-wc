@@ -123,7 +123,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     // Arrow Right on an item containing a submenu causes that submenu to open
     this.listen(['ArrowRight'], this, (/** @type {any} */ e) => {
       e.preventDefault();
-      e.stopPropagation();
+      // e.stopPropagation();
       const thisItem = e.target.closest('ids-menu-item');
       if (thisItem.hasSubmenu) {
         thisItem.showSubmenu();
@@ -136,7 +136,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     if (this.parentMenu) {
       this.listen(['ArrowLeft'], this, (/** @type {any} */ e) => {
         e.preventDefault();
-        e.stopPropagation();
+        // e.stopPropagation();
         this.hide();
         this.parentMenuItem.focus();
       });
@@ -152,6 +152,11 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
         e.preventDefault();
         e.stopPropagation();
         this.hide();
+
+        // Since Escape cancels without selection, re-focus the button
+        if (this.target) {
+          this.target.focus();
+        }
       });
     }
   }
@@ -293,6 +298,14 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     // @ts-ignore
     this.offEvent('click.toplevel', window);
     this.hasOpenEvents = false;
+  }
+
+  /**
+   * @readonly
+   * @returns {boolean} true if the Popup Menu is currently being displayed
+   */
+  get isOpen() {
+    return this.popup.visible;
   }
 
   /**
