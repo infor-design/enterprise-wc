@@ -102,5 +102,8 @@
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@types/express-fileupload": "^1.1.6",
+    "express-fileupload": "^1.2.1"
+  }
 }

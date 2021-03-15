@@ -11,6 +11,7 @@ const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
 const glob = require('glob');
+const fileUpload = require('express-fileupload');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
@@ -58,6 +59,46 @@ module.exports = {
         const { fileName } = req.params;
         const json = fs.readFileSync(`./app/data/${fileName}.json`, 'utf8');
         res.json(JSON.parse(json));
+      });
+
+      // Post method, upload files to `/tmp` folder
+      // After one minute, all files will get removed
+      app.use(fileUpload({ debug: false }));
+      app.post('/upload', async (req, res) => {
+        if (!req.files || Object.keys(req.files).length === 0) {
+          res.status(400).send('No files were uploaded.');
+          return;
+        }
+        const directoryPath = `${__dirname}/tmp/`;
+        const paramName = `${req.headers['param-name'] || 'myfile'}[]`;
+        const filesUploaded = req.files[paramName];
+        let filesToUpload = [];
+        if (Array.isArray(filesUploaded)) {
+          filesToUpload = filesUploaded;
+        } else {
+          filesToUpload.push(filesUploaded);
+        }
+        for (let i = 0; i < filesToUpload.length; i++) {
+          filesToUpload[i].mv(`${directoryPath}${filesToUpload[i].name}`, (err) => {
+            if (err) res.status(500).send(err);
+          });
+        }
+
+        // Clean directory after
+        const delay = 60 * 1000; // One minute
+        setTimeout(() => {
+          fs.readdir(directoryPath, (err, files) => {
+            if (err) throw err;
+            for (const file of files) {
+              fs.unlink(path.join(directoryPath, file), (error) => {
+                if (error) throw error;
+              });
+            }
+          });
+        }, delay);
+
+        // Complete
+        res.send('Uploaded successfully!');
       });
     },
   },

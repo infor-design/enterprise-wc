@@ -247,7 +247,7 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   getMaxValue(value) {
     const max = parseInt(this.maxlength, 10);
-    return max > 0 ? value.substr(0, max) : value;
+    return value && max > 0 ? value.substr(0, max) : value;
   }
 
   /**
@@ -353,7 +353,7 @@ class IdsTextarea extends mix(IdsElement).with(
   handleSlotchangeEvent() {
     const slot = this.shadowRoot.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
-      const val = slot.assignedNodes()[0].textContent;
+      const val = slot.assignedNodes()[0].innerHTML;
       this.value = this.getMaxValue(val);
     });
   }
