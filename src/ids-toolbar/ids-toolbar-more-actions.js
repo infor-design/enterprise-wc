@@ -34,20 +34,7 @@ class IdsToolbarMoreActionsButton extends IdsElement {
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
       <ids-popup-menu id="icon-menu" target="#icon-button" trigger="click">
-        <ids-menu-group>
-          <ids-menu-item value="1">Option One</ids-menu-item>
-          <ids-menu-item value="2">Option Two</ids-menu-item>
-          <ids-menu-item value="3">Option Three</ids-menu-item>
-          <ids-menu-item>More Options
-            <ids-popup-menu>
-              <ids-menu-group>
-                <ids-menu-item value="4">Option Four</ids-menu-item>
-                <ids-menu-item value="5">Option Five</ids-menu-item>
-                <ids-menu-item value="6">Option Six</ids-menu-item>
-              </ids-menu-group>
-            </ids-popup-menu>
-          </ids-menu-item>
-        </ids-menu-group>
+        <slot></slot>
       </ids-popup-menu>
     </div>`;
   }
