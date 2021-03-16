@@ -43,7 +43,7 @@
 - `errored` List of all the files had error.
 - `completed` List of all completed files.
 
-## Events can be catch
+## Events that may be triggered
 
 ### Triggered on IdsUploadAdvanced
 
