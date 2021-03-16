@@ -408,7 +408,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   get size() { return this.getAttribute(props.SIZE); }
 
   /**
-   * Sets the `value` attribute
+   * Sets the progress bar value
    * @param {string|?|number} val `value` attribute
    */
   set value(val) {
