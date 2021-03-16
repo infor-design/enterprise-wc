@@ -23,7 +23,7 @@ An alert is created by using the `ids-alert`. It has a `type` property to set th
 <ids-alert icon="alert"></ids-alert>
 ```
 
-Add an disabled this way:
+An alert can be in a disabled process context
 
 ```html
 <ids-alert icon="info" disabled="true"></ids-alert>
