@@ -357,7 +357,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
-   * Sets the `error` attribute
+   * Sets the file state to show there was an error during the file operations
    * @param {string} value `error` attribute
    */
   set error(value) {
