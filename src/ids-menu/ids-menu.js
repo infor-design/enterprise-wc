@@ -47,6 +47,11 @@ function isValidGroup(menuGroup, idsMenu) {
 function isUsableItem(item, idsMenu) {
   // @ts-ignore
   const isItem = item instanceof IdsMenuItem;
+  if (!isItem) {
+    return false;
+  }
+
+  // The item is only usable if it's contained by the correct IdsMenu
   const menuHasItem = idsMenu.contains(item);
 
   // In some nested cases, we need to detect the item's Shadow Root containment to accurately
@@ -54,7 +59,7 @@ function isUsableItem(item, idsMenu) {
   const closestItemRoot = IdsDOMUtils.getClosestRootNode(item.assignedSlot);
   const itemInMenuShadow = closestItemRoot?.menu?.isEqualNode(idsMenu);
 
-  return (isItem && (menuHasItem || itemInMenuShadow) && !item.disabled);
+  return (menuHasItem || itemInMenuShadow) && !item.disabled;
 }
 
 /**

@@ -304,7 +304,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
    * @readonly
    * @returns {boolean} true if the Popup Menu is currently being displayed
    */
-  get isOpen() {
+  get visible() {
     return this.popup.visible;
   }
 

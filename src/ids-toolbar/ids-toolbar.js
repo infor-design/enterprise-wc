@@ -1,5 +1,11 @@
-import { IdsElement, mix, scss, customElement } from '../ids-base/ids-element';
+import {
+  IdsElement,
+  mix,
+  scss,
+  customElement
+} from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
+
 // @ts-ignore
 import styles from './ids-toolbar.scss';
 
@@ -44,7 +50,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
       // If the target is a menu item (either menu/actions button),
       // attempt to close the menu.
-      if (e.target.name === 'ids-menu-item' || (e.target.matches('ids-toolbar-more-actions') && e.target.menu.isOpen)) {
+      if (e.target.name === 'ids-menu-item' || (e.target.matches('ids-toolbar-more-actions') && e.target.menu.visible)) {
         return;
       }
       this.navigate(-1, true);
@@ -57,7 +63,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
       // If the target is a menu item (either menu/actions button),
       // attempt to close the menu.
-      if (e.target.name === 'ids-menu-item' || (e.target.matches('ids-toolbar-more-actions') && e.target.menu.isOpen)) {
+      if (e.target.name === 'ids-menu-item' || (e.target.matches('ids-toolbar-more-actions') && e.target.menu.visible)) {
         return;
       }
       this.navigate(1, true);

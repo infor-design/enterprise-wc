@@ -172,7 +172,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   setPopupArrow() {
-    if (!this.menuEl) {
+    if (!this.menuEl || !this.menuEl.popup) {
       return;
     }
     // @ts-ignore
