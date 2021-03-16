@@ -276,7 +276,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Get loaded value
+   * Get the percent of the file is uploaded
    * @private
    * @returns {number} The close button text
    */
