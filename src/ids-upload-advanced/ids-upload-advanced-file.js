@@ -341,7 +341,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Sets to disabled
+   * Sets the whole file element to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
