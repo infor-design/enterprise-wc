@@ -79,30 +79,6 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 [Design Specs](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
 
-## Alternate Designs
-
-N/A
-
-## Proposed Changes
-
-- Fix Accessibility issue (1.4.1 Use of Color) by adding an icon to the color tags.
-- Fix Accessibility issue (1.4.3 Contrast (Minimum)) by changing or not using some tags
-
-## Test Plan
-
-1. Works with 4.x version in the same page
-1. Accessibility - Color Contrast
-1. Accessibility - Web Aim
-1. Accessibility - Keyboard
-1. Visual Regression Tests for all states
-1. Click Events
-1. Clickable
-1. Linkable/Clickable
-1. Resize/Responsive Behavior
-1. Repeat Tests in All Supported Browsers
-1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-1. Can be consumed (pull it in standalone/built see it works standalone)
-
 ## Accessibility Guidelines
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.

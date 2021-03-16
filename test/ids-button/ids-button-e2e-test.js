@@ -19,17 +19,30 @@ describe('Ids Button e2e Tests', () => {
     await expect(page).toPassAxeTests();
   });
 
-  it('should not have visual regressions (percy)', async () => {
+  it('should not have visual regressions in new light theme (percy)', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    await percySnapshot(page, 'ids-button');
+    await percySnapshot(page, 'ids-button-new-light');
   });
 
-  it('should not have visual regressions (percy) on standalone CSS', async () => {
+  it('should not have visual regressions in new dark theme (percy)', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto('http://localhost:4444/ids-button/standalone-css', { waitUntil: 'load' });
-    await percySnapshot(page, 'ids-button-css');
+    await page.goto(url, { waitUntil: 'load' });
+    await page.evaluate(() => {
+      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+    });
+    await percySnapshot(page, 'ids-button-new-dark');
+  });
+
+  it('should not have visual regressions in new contrast theme (percy)', async () => {
+    page = await browser.newPage();
+    await page.setBypassCSP(true);
+    await page.goto(url, { waitUntil: 'load' });
+    await page.evaluate(() => {
+      document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
+    });
+    await percySnapshot(page, 'ids-button-new-contrast');
   });
 });

@@ -20,7 +20,6 @@ describe('Ids Badge e2e Tests', () => {
     await expect(page).toPassAxeTests();
   });
 
-
   it('should not have visual regressions in new light theme (percy)', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);

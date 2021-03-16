@@ -246,7 +246,7 @@
 
     &.selected {
       span.check {
-        @include checkbox-disabled-checked();
+        @include checkbox-disabled-checked(light);
       }
     }
   }

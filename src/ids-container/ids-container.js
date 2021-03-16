@@ -29,6 +29,13 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
+   * Invoked each time the custom element is appended into a document-connected element.
+   */
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
+  /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */

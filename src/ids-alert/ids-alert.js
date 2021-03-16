@@ -2,8 +2,12 @@ import {
   IdsElement,
   customElement,
   scss,
-  props
+  props,
+  mix
 } from '../ids-base/ids-element';
+
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
@@ -14,12 +18,19 @@ import styles from './ids-alert.scss';
  * IDS Alert Component
  * @type {IdsAlert}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part icon - the icon element
  */
 @customElement('ids-alert')
 @scss(styles)
-class IdsAlert extends IdsElement {
+class IdsAlert extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
   }
 
   /**
@@ -27,7 +38,7 @@ class IdsAlert extends IdsElement {
    * @returns {Array} The propertires in an array
    */
   static get properties() {
-    return [props.ICON];
+    return [props.ICON, props.MODE, props.VERSION];
   }
 
   /**
@@ -36,7 +47,7 @@ class IdsAlert extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return `<ids-icon size="normal"></ids-icon>`;
+    return `<ids-icon class="ids-alert" size="normal" part="icon"></ids-icon>`;
   }
 
   /**

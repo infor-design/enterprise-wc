@@ -29,12 +29,23 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TYPE, props.FONT_SIZE, props.AUDIBLE, props.MODE, props.VERSION];
+    return [
+      props.TYPE,
+      props.FONT_SIZE,
+      props.AUDIBLE,
+      props.DISABLED,
+      props.ERROR,
+      props.MODE,
+      props.VERSION];
   }
 
   /**
@@ -116,6 +127,36 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get audible() { return this.getAttribute(props.AUDIBLE); }
+
+  /**
+   * Set the text to disabled color.
+   * @param {boolean} value True if disabled
+   */
+  set disabled(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(props.DISABLED, value);
+      return;
+    }
+    this.removeAttribute(props.DISABLED);
+  }
+
+  get disabled() { return this.getAttribute(props.DISABLED); }
+
+  /**
+   * Set the text to error color.
+   * @param {boolean} value True if error text
+   */
+  set error(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.container.classList.add('error');
+      return;
+    }
+    this.container.classList.add('error');
+  }
+
+  get error() { return this.getAttribute(props.ERROR); }
 }
 
 export default IdsText;

@@ -23,6 +23,10 @@ An alert is created by using the `ids-alert`. It has a `type` property to set th
 <ids-alert icon="alert"></ids-alert>
 ```
 
+## Themeable Parts
+
+- `icon` allows you to further style the icon element
+
 ## States and Variations
 
 - Color

@@ -5,10 +5,9 @@
 @import './ids-mixins';
 
 // Unchecked
-@mixin checkbox-unchecked {
+@mixin checkbox-unchecked($theme: light) {
   @include absolute();
   @include border-1();
-  @include border-slate-80();
   @include border-solid();
   @include rounded-default();
 
@@ -16,6 +15,32 @@
   left: 0;
   top: 2px;
   width: 14px;
+
+  @if $theme == light {
+    @include border-slate-80();
+  }
+
+  @if $theme == dark {
+    @include border-slate-40();
+  }
+
+  @if $theme == contrast {
+    @include bg-white();
+    @include border-slate-90();
+  }
+
+  @if $theme == classicLight {
+    @include border-slate-40();
+  }
+
+  @if $theme == classicDark {
+    @include border-slate-40();
+  }
+
+  @if $theme == classicContrast {
+    @include bg-white();
+    @include border-graphite-90();
+  }
 }
 
 @mixin checkbox-unchecked-error {
@@ -23,9 +48,26 @@
 }
 
 // Checked
-@mixin checkbox-checked {
-  @include bg-azure-60();
-  @include border-azure-60();
+@mixin checkbox-checked($theme: light) {
+  @if $theme == light or $theme == dark {
+    @include bg-azure-60();
+    @include border-azure-60();
+  }
+
+  @if $theme == contrast {
+    @include bg-azure-90();
+    @include border-azure-90();
+  }
+
+  @if $theme == classicLight or $theme == classicDark {
+    @include bg-azure-60();
+    @include border-azure-60();
+  }
+
+  @if $theme == classicContrast {
+    @include bg-azure-80();
+    @include border-azure-80();
+  }
 }
 
 @mixin checkbox-checked-after {
@@ -45,9 +87,26 @@
 }
 
 // Indeterminate
-@mixin checkbox-indeterminate {
-  @include bg-azure-60();
-  @include border-azure-60();
+@mixin checkbox-indeterminate($theme: light) {
+  @if $theme == light or $theme == dark {
+    @include bg-azure-60();
+    @include border-azure-60();
+  }
+
+  @if $theme == contrast {
+    @include bg-azure-90();
+    @include border-azure-90();
+  }
+
+  @if $theme == classicLight or $theme == classicDark {
+    @include bg-azure-60();
+    @include border-azure-60();
+  }
+
+  @if $theme == classicContrast {
+    @include bg-azure-80();
+    @include border-azure-80();
+  }
 }
 
 @mixin checkbox-indeterminate-after {
@@ -77,8 +136,35 @@
   @include border-ruby-30();
 }
 
-@mixin checkbox-disabled-checked {
-  @include bg-slate-30();
+@mixin checkbox-disabled-checked($theme: light) {
+  @if $theme == light {
+    @include bg-slate-30();
+  }
+
+  @if $theme == dark {
+    @include bg-slate-50();
+    @include border-slate-50();
+  }
+
+  @if $theme == contrast {
+    @include bg-slate-60();
+    @include border-slate-60();
+  }
+
+  @if $theme == classicLight {
+    @include bg-slate-20();
+    @include border-slate-30();
+  }
+
+  @if $theme == classicDark {
+    @include bg-slate-50();
+    @include border-slate-50();
+  }
+
+  @if $theme == classicContrast {
+    @include bg-slate-50();
+    @include border-slate-50();
+  }
 }
 
 @mixin checkbox-disabled-text {
@@ -108,11 +194,29 @@
       }
 
       &:disabled:checked ~ .checkmark {
-        @include checkbox-disabled-checked();
+        @include checkbox-disabled-checked(light);
       }
 
       &:focus ~ .checkmark {
         @include checkbox-colored-box-focus($color);
+      }
+    }
+
+    &[mode='dark'][color='#{$name}'] input[type='checkbox'] {
+      &:disabled:checked ~ .checkmark {
+        @include checkbox-disabled-checked(dark);
+      }
+    }
+
+    &[mode='contrast'][color='#{$name}'] input[type='checkbox'] {
+      &:disabled:checked ~ .checkmark {
+        @include checkbox-disabled-checked(contrast);
+      }
+    }
+
+    &[mode='light'][version='classic'][color='#{$name}'] input[type='checkbox'] {
+      &:disabled:checked ~ .checkmark {
+        @include checkbox-disabled-checked(classicLight);
       }
     }
   }

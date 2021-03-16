@@ -1,5 +1,3 @@
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins.scss';
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.scss';
 @import '../ids-base/ids-base';
 
 :host {
@@ -27,21 +25,31 @@
 
   [icon='new'],
   [icon='new-solid'] {
-    color: $ids-color-palette-amber-70;
+    color: var(--ids-color-palette-amber-70);
   }
 
   [icon='in-progress'],
   [icon='in-progress-solid'] {
-    color: $ids-color-palette-amethyst-70;
+    color: var(--ids-color-palette-amethyst-70);
   }
 
   [icon='info-field'],
   [icon='info-field-solid'] {
-    color: $ids-color-brand-primary-base;
+    color: var(--ids-color-status-base);
   }
 
   [icon='empty-circle'],
   [icon='half-empty-circle'] {
-    color: $ids-color-palette-slate-80;
+    color: var(--ids-color-palette-slate-80);
+  }
+
+  [mode='dark'][icon='empty-circle'],
+  [mode='dark'][icon='half-empty-circle'] {
+    color: var(--ids-color-palette-slate-30);
+  }
+
+  [version='classic'][mode='dark'][icon='empty-circle'],
+  [version='classic'][mode='dark'][icon='half-empty-circle'] {
+    color: var(--ids-color-palette-slate-30);
   }
 }

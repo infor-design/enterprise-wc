@@ -9,4 +9,10 @@ export default class IdsAlert extends IdsElement {
 
   /* Set the icon */
   icon: string | null;
+
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the tag type/color */
+  version: 'new' | 'classic' | string;
 }

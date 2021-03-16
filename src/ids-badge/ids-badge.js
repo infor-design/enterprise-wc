@@ -27,6 +27,10 @@ class IdsBadge extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+  }
+
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array

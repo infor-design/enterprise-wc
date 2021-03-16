@@ -77,4 +77,18 @@ describe('IdsAlert Component', () => {
     el.icon = null;
     expect(el.icon).toEqual(null);
   });
+
+  it('supports setting mode', () => {
+    el = new IdsAlert();
+    document.body.appendChild(el);
+    el.mode = 'dark';
+    expect(el.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    el = new IdsAlert();
+    document.body.appendChild(el);
+    el.version = 'classic';
+    expect(el.container.getAttribute('version')).toEqual('classic');
+  });
 });

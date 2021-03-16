@@ -6,6 +6,9 @@
 const IdsThemeMixin = (superclass) => class extends superclass {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
     this.initThemeHandlers();
   }
 

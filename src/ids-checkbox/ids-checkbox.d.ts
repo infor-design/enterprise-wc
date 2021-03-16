@@ -38,4 +38,10 @@ export default class IdsCheckbox extends IdsElement {
 
   /** Fires while the checkbox is changed */
   on(event: 'change', listener: () => void): this;
+
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the tag type/color */
+  version: 'new' | 'classic' | string;
 }

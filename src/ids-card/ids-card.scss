@@ -27,7 +27,58 @@
 // Style the title
 .ids-card-header {
   @include border-b-1();
-  @include border-slate-30();
   @include px-20();
   @include py-12();
+
+  border-color: transparent;
+}
+
+// Handle Themes
+.ids-card[mode='dark'] {
+  @include bg-slate-90();
+  @include border-slate-70();
+
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+}
+
+.ids-card[mode='contrast'] {
+  @include bg-slate-10();
+  @include border-slate-60();
+
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.ids-card[version='classic'][mode='light'] {
+  @include border-graphite-30();
+  @include rounded-default();
+
+  box-shadow: none;
+
+  .ids-card-header {
+    @include border-graphite-30();
+  }
+}
+
+.ids-card[version='classic'][mode='dark'] {
+  @include bg-slate-70();
+  @include border-slate-50();
+  @include rounded-default();
+
+  box-shadow: none;
+
+  .ids-card-header {
+    @include border-slate-50();
+  }
+}
+
+.ids-card[version='classic'][mode='contrast'] {
+  @include bg-slate-10();
+  @include border-slate-60();
+  @include rounded-default();
+
+  box-shadow: none;
+
+  .ids-card-header {
+    @include border-slate-60();
+  }
 }

@@ -31,10 +31,14 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
     super();
   }
 
+  /**
+   * Invoked each time the custom element is appended into a document-connected element.
+   */
   connectedCallback() {
     this
       .handleEvents()
       .handleKeys();
+    super.connectedCallback();
   }
 
   /**
@@ -208,7 +212,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
     }
 
     let canDismiss = true;
-    const response = (/** @type {boolean} */ veto) => {
+    const response = (veto) => {
       canDismiss = !!veto;
     };
     this.triggerEvent('beforetagremoved', this, { detail: { elem: this, response } });

@@ -37,4 +37,7 @@ export default class IdsTag extends IdsElement {
 
   /** Fires while the tag is removed */
   on(event: 'tagremoved', listener: (detail: IdsTagEventDetail) => void): this;
+
+  /** Fires after the tag is removed */
+  on(event: 'aftertagremoved', listener: (detail: IdsTagEventDetail) => void): this;
 }

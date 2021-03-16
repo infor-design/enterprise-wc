@@ -12,6 +12,10 @@
   &.audible {
     @include audible();
   }
+
+  &.error {
+    @include text-alert-danger();
+  }
 }
 
 ::slotted(.audible) {
@@ -75,23 +79,48 @@
   @include mb-0();
 }
 
+// Handle Disabled Text
+:host([disabled]) .ids-text {
+  @include text-slate-30();
+}
+
 // Handle Themes
 .ids-text[mode='dark'] {
   @include text-slate-10();
+}
+
+:host([disabled][mode='dark']) .ids-text {
+  @include text-slate-60();
 }
 
 .ids-text[mode='contrast'] {
   @include text-slate-100();
 }
 
-.ids-text[version='classic'][mode='light'] {
-  @include text-graphite-100();
+:host([disabled][mode='contrast']) .ids-text {
+  @include text-slate-40();
 }
 
-.ids-text[version='classic'][mode='dark'] {
-  @include text-graphite-10();
+.ids-text[mode='light'][version='classic'] {
+  @include text-graphite-60();
 }
 
-.ids-text[version='classic'][mode='contrast'] {
-  @include text-slate-100();
+:host([disabled][mode='light'][version='classic']) .ids-text {
+  @include text-graphite-40();
+}
+
+.ids-text[mode='dark'][version='classic'] {
+  @include text-slate-30();
+}
+
+:host([disabled][mode='dark'][version='classic']) .ids-text {
+  @include text-slate-50();
+}
+
+.ids-text[mode='dark'][version='contrast'] {
+  @include text-graphite-80();
+}
+
+:host([disabled][mode='dark'][version='contrast']) .ids-text {
+  @include text-graphite-40();
 }
