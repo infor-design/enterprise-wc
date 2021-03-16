@@ -65,7 +65,7 @@
 
 ## TODO
 
-- Is there other way to hook the custom user send() method.
+- Is there any other way to hook the custom user send() method.
 - Type file (`ids-upload-advanced.d.ts`)
 - Documentation (`README.md`)
 - Tests (functional and e2e)
