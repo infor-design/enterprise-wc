@@ -48,9 +48,9 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
       e.preventDefault();
       e.stopPropagation();
 
-      // If the target is a menu item (either menu/actions button),
-      // attempt to close the menu.
-      if (e.target.name === 'ids-menu-item' || (e.target.matches('ids-toolbar-more-actions') && e.target.menu.visible)) {
+      // If the target is a menu item, either a menu or actions button is currently open
+      // with its children focused, and navigation shouldn't continue
+      if (e.target.name === 'ids-menu-item') {
         return;
       }
       this.navigate(-1, true);
@@ -61,9 +61,9 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
       e.preventDefault();
       e.stopPropagation();
 
-      // If the target is a menu item (either menu/actions button),
-      // attempt to close the menu.
-      if (e.target.name === 'ids-menu-item' || (e.target.matches('ids-toolbar-more-actions') && e.target.menu.visible)) {
+      // If the target is a menu item, either a menu or actions button is currently open
+      // with its children focused, and navigation shouldn't continue
+      if (e.target.name === 'ids-menu-item') {
         return;
       }
       this.navigate(1, true);

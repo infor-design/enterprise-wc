@@ -22,6 +22,7 @@ const SECTION_TYPES = [
   'fluid',
   'search',
   'title',
+  'more'
 ];
 
 // WebComponent Tagnames that correspond to valid toolbar items
@@ -79,6 +80,11 @@ class IdsToolbarSection extends IdsElement {
     </div>`;
   }
 
+  connectedCallback() {
+    setCssClassFromGroup(`align-${this.align}`, this.container, SECTION_ALIGNS);
+    setCssClassFromGroup(this.type, this.container, SECTION_TYPES);
+  }
+
   /**
    * @readonly
    * @returns {Array<any>} list of available items contained by the toolbar
@@ -94,9 +100,10 @@ class IdsToolbarSection extends IdsElement {
    * @param {string} val the alignment type to set
    */
   set align(val) {
-    const trueVal = `align-${val}`;
+    let trueVal = `align-${val}`;
     if (typeof val !== 'string' || val === '' || !SECTION_ALIGNS.includes(trueVal)) {
       this.removeAttribute('align');
+      trueVal = SECTION_ALIGNS[0];
     } else {
       this.setAttribute('align', val);
     }
@@ -107,7 +114,7 @@ class IdsToolbarSection extends IdsElement {
    * @returns {string} the current alignment value
    */
   get align() {
-    return this.getAttribute('align') || SECTION_ALIGNS[0];
+    return this.getAttribute('align') || 'start';
   }
 
   /**
@@ -128,7 +135,7 @@ class IdsToolbarSection extends IdsElement {
    * @returns {string} the type of section
    */
   get type() {
-    return this.getAttribute('type');
+    return this.getAttribute('type') || 'static';
   }
 }
 

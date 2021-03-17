@@ -154,6 +154,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
         this.hide();
 
         // Since Escape cancels without selection, re-focus the button
+        /* istanbul ignore next */
         if (this.target) {
           this.target.focus();
         }

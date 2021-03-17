@@ -618,9 +618,6 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
    * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLButton element.
    */
   focus() {
-    if (this.tabIndex < 0) {
-      return;
-    }
     this.button.focus();
   }
 }

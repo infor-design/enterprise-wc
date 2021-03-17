@@ -1,7 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import IdsToolbar from '../../src/ids-toolbar/ids-toolbar';
+import IdsToolbar, {
+  IdsToolbarSection,
+  IdsToolbarMoreActions
+} from '../../src/ids-toolbar/ids-toolbar';
 
 const exampleHTML = `
   <ids-toolbar-section id="appmenu-section">
@@ -66,7 +69,7 @@ const exampleHTML = `
   </ids-toolbar-more-actions>
 `;
 
-describe('IdsToolbar Component', () => {
+describe('IdsToolbarMoreActions Component', () => {
   let toolbar;
   let sectionAppMenu;
   let sectionTitle;
@@ -100,115 +103,30 @@ describe('IdsToolbar Component', () => {
     document.body.innerHTML = '';
   });
 
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsToolbar();
-    document.body.appendChild(elem);
-    elem.remove();
-    expect(document.querySelectorAll('ids-toolbar').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
+  it('has a menu button', () => {
+    expect(sectionMore.menu.tagName).toBe('IDS-POPUP-MENU');
+    expect(sectionMore.button.tagName).toBe('IDS-MENU-BUTTON');
   });
 
-  it('can get a list of its sections', () => {
-    const sections = toolbar.sections;
+  it('always returns a "more" type', () => {
+    expect(sectionMore.type).toBe('more');
 
-    expect(sections).toBeDefined();
-    expect(sections.length).toBe(4);
+    // It's not possible to change this to one of the other standard types
+    sectionMore.type = 'fluid';
+
+    expect(sectionMore.type).toBe('more');
   });
 
-  it('can get a list of its items', () => {
-    const items = toolbar.items;
-
-    expect(items).toBeDefined();
-    expect(items.length).toBe(6);
-  });
-
-  it('can announce what is focused and navigate among its items', () => {
-    const items = toolbar.items;
-
-    // Navigate forward (down) 2 items
-    toolbar.navigate(2, true);
-
-    // The component should be able to explain which of its items is focused
-    expect(toolbar.focused).toEqual(items[2]);
-
-    // Navigate backward (up) 1 item
-    toolbar.navigate(-1, true);
-
-    expect(toolbar.focused).toEqual(items[1]);
-
-    // Won't navigate anywhere if a junk/NaN value is provided
-    toolbar.navigate('forward', true);
-
-    expect(toolbar.focused).toEqual(items[1]);
-  });
-
-  it('navigates nowhere if no number of steps is provided', () => {
-    button1.focus();
-    toolbar.navigate();
-
-    expect(toolbar.focused).toEqual(button1);
-  });
-
-  it('loops around if `navigate()` tries to go too far', () => {
+  it('focuses the inner button component when told to focus', () => {
     sectionMore.focus();
-    toolbar.navigate(1, true);
 
-    expect(toolbar.focused).toEqual(buttonAppMenu);
-
-    toolbar.navigate(-1, true);
-
-    expect(toolbar.focused).toEqual(sectionMore.button);
+    expect(sectionMore.shadowRoot.activeElement.isEqualNode(sectionMore.button));
   });
 
-  it('skips disabled items while navigating', () => {
-    button2.focus();
-    toolbar.navigate(1, true);
+  // Tests code path in `ids-menu` that searches a slot for groups instead of using `querySelector`
+  it('gets slotted children when accessing its menu\'s `groups` property', () => {
+    const groups = sectionMore.menu.groups;
 
-    // Button 3 is disabled, Button 4 should become focused
-    expect(toolbar.focused).toEqual(button4);
-  });
-
-  it('navigates menu items using the keyboard', () => {
-    const navigateLeftEvent = new KeyboardEvent('keydown', { key: 'ArrowLeft' });
-    const navigateRightEvent = new KeyboardEvent('keydown', { key: 'ArrowRight' });
-
-    // Focus the first one
-    button1.focus();
-
-    expect(toolbar.focused).toEqual(button1);
-
-    // Navigate right one item
-    toolbar.dispatchEvent(navigateRightEvent);
-
-    expect(toolbar.focused).toEqual(button2);
-
-    // Navigate left two items (navigation will wrap to the bottom item)
-    toolbar.dispatchEvent(navigateLeftEvent);
-    toolbar.dispatchEvent(navigateLeftEvent);
-
-    expect(toolbar.focused).toEqual(buttonAppMenu);
-  });
-
-  it('cannot navigate away from an open menu button', (done) => {
-    const navigateLeftEvent = new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true });
-    const navigateRightEvent = new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true });
-
-    // Button 2 is the Menu Button
-    button2.focus();
-    button2.menuEl.show();
-
-    // Wait for the menu to be open
-    setTimeout(() => {
-      const topMenuItem = button2.menuEl.items[0];
-      topMenuItem.dispatchEvent(navigateRightEvent);
-
-      expect(button2.menuEl.visible).toBeTruthy();
-
-      topMenuItem.dispatchEvent(navigateLeftEvent);
-
-      expect(button2.menuEl.visible).toBeTruthy();
-      done();
-    }, 30);
+    expect(groups.length).toBe(1);
   });
 });

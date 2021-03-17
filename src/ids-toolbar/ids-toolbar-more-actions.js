@@ -24,11 +24,12 @@ class IdsToolbarMoreActionsButton extends IdsElement {
   }
 
   connectedCallback() {
+    IdsToolbarSection.prototype.connectedCallback.apply(this);
     this.refresh();
   }
 
   template() {
-    return `<div class="ids-toolbar-section more">
+    return `<div class="ids-toolbar-section ids-toolbar-more-actions more">
       <ids-menu-button id="icon-button" menu="icon-menu">
         <ids-icon slot="icon" icon="more"></ids-icon>
         <span class="audible">More Actions Button</span>
@@ -56,14 +57,26 @@ class IdsToolbarMoreActionsButton extends IdsElement {
   }
 
   /**
+   * Overrides the standard toolbar section "type" setter, which is always "more" in this case.
+   * @param {string} val the type value
+   */
+  set type(val) {
+    this.removeAttribute('type');
+  }
+
+  /**
+   * Overrides the standard toolbar section "type" getter, which always returns "more" in this case.
+   * @returns {string} representing the Toolbar Section type
+   */
+  get type() {
+    return 'more';
+  }
+
+  /**
    *
    */
   refresh() {
-    const popup = this.menu?.popup;
-    if (!popup) {
-      return;
-    }
-    popup.align = 'bottom, right';
+    this.menu.popup.align = 'bottom, right';
   }
 
   /**

@@ -59,7 +59,7 @@ function isUsableItem(item, idsMenu) {
   const closestItemRoot = IdsDOMUtils.getClosestRootNode(item.assignedSlot);
   const itemInMenuShadow = closestItemRoot?.menu?.isEqualNode(idsMenu);
 
-  return (menuHasItem || itemInMenuShadow) && !item.disabled;
+  return (itemInMenuShadow || menuHasItem) && !item.disabled;
 }
 
 /**

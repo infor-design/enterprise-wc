@@ -3,22 +3,6 @@
  */
 const IdsDOMUtils = {
   /**
-   * Determines if a Node reference is currently contained within a Shadow Root.
-   * @param {Node} node the node to check
-   * @returns {boolean} true if the element is contained by a Shadow Root.
-   */
-  isInShadow(node) {
-    let parent = (node && node.parentNode);
-    while (parent) {
-      if (parent.toString() === '[object ShadowRoot]') {
-        return true;
-      }
-      parent = parent.parentNode;
-    }
-    return false;
-  },
-
-  /**
    * Returns the closest Shadow Root, if the provided node is contained by one.
    * @param {*} node the node to check
    * @returns {*} the node.
