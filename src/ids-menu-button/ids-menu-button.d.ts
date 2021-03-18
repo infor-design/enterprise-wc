@@ -14,7 +14,7 @@ export default class IdsMenuButton extends IdsButton {
   menu: string | null;
 
   /** */
-  readonly menuEl?: IdsPopupMenu;
+  readonly menuEl: IdsPopupMenu;
 
   /** */
   configureMenu(): void;

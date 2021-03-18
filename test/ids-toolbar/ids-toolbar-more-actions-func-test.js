@@ -71,15 +71,7 @@ const exampleHTML = `
 
 describe('IdsToolbarMoreActions Component', () => {
   let toolbar;
-  let sectionAppMenu;
-  let sectionTitle;
-  let sectionButtonset;
   let sectionMore;
-  let buttonAppMenu;
-  let button1;
-  let button2;
-  let button3;
-  let button4;
 
   beforeEach(async () => {
     const elem = new IdsToolbar();
@@ -88,15 +80,7 @@ describe('IdsToolbarMoreActions Component', () => {
     toolbar.insertAdjacentHTML('afterbegin', exampleHTML);
 
     // Reference sections/items
-    sectionAppMenu = document.querySelector('#appmenu-section');
-    sectionTitle = document.querySelector('#title-section');
-    sectionButtonset = document.querySelector('#buttonset-section');
     sectionMore = document.querySelector('ids-toolbar-more-actions');
-    buttonAppMenu = document.querySelector('#button-appmenu');
-    button1 = document.querySelector('#button-1');
-    button2 = document.querySelector('#button-2');
-    button3 = document.querySelector('#button-3');
-    button4 = document.querySelector('#button-4');
   });
 
   afterEach(async () => {

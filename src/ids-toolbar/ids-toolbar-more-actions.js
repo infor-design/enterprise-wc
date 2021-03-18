@@ -1,5 +1,4 @@
 import { IdsElement, scss, customElement } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
 
 // @ts-ignore
 import styles from './ids-toolbar-more-actions.scss';
@@ -73,7 +72,8 @@ class IdsToolbarMoreActionsButton extends IdsElement {
   }
 
   /**
-   *
+   * Refreshes the state of the More Actions button
+   * @returns {void}
    */
   refresh() {
     this.menu.popup.align = 'bottom, right';

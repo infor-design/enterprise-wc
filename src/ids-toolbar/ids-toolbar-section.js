@@ -39,9 +39,9 @@ const TOOLBAR_ITEM_TAGNAMES = [
  * Checks an element's CSS classlist for an item belonging to a group,
  * appends that item, and removes all others from the group.
  * @private
- * @param {string} targetClass
- * @param {HTMLElement} targetElem
- * @param {Array<string>} group
+ * @param {string} targetClass the target CSS class to apply/check
+ * @param {HTMLElement} targetElem the target elem on which to apply the class
+ * @param {Array<string>} group the array of classes to scan for removal
  * @returns {void}
  */
 function setCssClassFromGroup(targetClass, targetElem, group) {

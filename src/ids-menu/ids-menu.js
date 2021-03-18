@@ -56,7 +56,9 @@ function isUsableItem(item, idsMenu) {
 
   // In some nested cases, we need to detect the item's Shadow Root containment to accurately
   // figure out if it's slotted inside the same menu.
+  // @ts-ignore
   const closestItemRoot = IdsDOMUtils.getClosestRootNode(item.assignedSlot);
+  // @ts-ignore
   const itemInMenuShadow = closestItemRoot?.menu?.isEqualNode(idsMenu);
 
   return (itemInMenuShadow || menuHasItem) && !item.disabled;
@@ -371,7 +373,9 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   get focused() {
     // @ts-ignore
     return this.items.find((item) => {
+      // @ts-ignore
       const containerNode = IdsDOMUtils.getClosestContainerNode(this);
+      // @ts-ignore
       return containerNode?.activeElement?.isEqualNode(item);
     });
   }

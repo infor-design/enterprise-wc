@@ -122,7 +122,7 @@ class IdsMenuButton extends IdsButton {
 
   /**
    * @readonly
-   * @returns {HTMLElement | null} element if one is present
+   * @returns {IdsPopupMenu | null} element if one is present
    */
   get menuEl() {
     // Check for a Shadow Root parent.

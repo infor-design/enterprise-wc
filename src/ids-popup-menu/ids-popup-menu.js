@@ -13,7 +13,6 @@ import IdsPopup from '../ids-popup/ids-popup';
 // @ts-ignore
 import styles from './ids-popup-menu.scss';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 const POPUPMENU_PROPERTIES = [
   props.TARGET,
@@ -123,7 +122,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     // Arrow Right on an item containing a submenu causes that submenu to open
     this.listen(['ArrowRight'], this, (/** @type {any} */ e) => {
       e.preventDefault();
-      // e.stopPropagation();
       const thisItem = e.target.closest('ids-menu-item');
       if (thisItem.hasSubmenu) {
         thisItem.showSubmenu();
@@ -136,7 +134,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     if (this.parentMenu) {
       this.listen(['ArrowLeft'], this, (/** @type {any} */ e) => {
         e.preventDefault();
-        // e.stopPropagation();
         this.hide();
         this.parentMenuItem.focus();
       });

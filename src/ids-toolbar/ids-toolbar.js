@@ -4,7 +4,6 @@ import {
   scss,
   customElement
 } from '../ids-base/ids-element';
-import { props } from '../ids-base/ids-constants';
 
 // @ts-ignore
 import styles from './ids-toolbar.scss';
@@ -17,8 +16,6 @@ import IdsDOMUtils from '../ids-base/ids-dom-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 
-const TOOLBAR_PROPS = [];
-
 /**
  * IDS Toolbar Component
  */
@@ -30,7 +27,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   }
 
   static get properties() {
-    return TOOLBAR_PROPS;
+    return [];
   }
 
   connectedCallback() {
@@ -40,6 +37,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
   /**
    * Sets up the connection to the global keyboard handler
+   * @private
    * @returns {void}
    */
   handleKeys() {
@@ -129,6 +127,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
     // @ts-ignore
     return this.items.find((item) => {
       const container = IdsDOMUtils.getClosestContainerNode(item);
+      // @ts-ignore
       const focused = container.activeElement;
       const isEqualNode = focused?.isEqualNode(item);
       return isEqualNode;
