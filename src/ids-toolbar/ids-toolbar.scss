@@ -8,6 +8,12 @@
   ::slotted(ids-toolbar-section[type='buttonset']) {
     flex-grow: 1;
   }
+
+  &[disabled] {
+    ::slotted(.ids-text) {
+      color: text-slate-30();
+    }
+  }
 }
 
 .ids-toolbar {
@@ -16,4 +22,12 @@
   align-items: center;
   flex-flow: row nowrap;
   justify-content: space-between;
+
+  &.disabled {
+    color: text-slate-30();
+
+    .ids-text {
+      color: inherit;
+    }
+  }
 }

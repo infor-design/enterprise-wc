@@ -11,7 +11,9 @@ import styles from './ids-toolbar.scss';
 // Supporting Components
 import IdsToolbarSection, { TOOLBAR_ITEM_TAGNAMES } from './ids-toolbar-section';
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
+import { props } from '../ids-base/ids-constants';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
+import { IdsStringUtils } from '../ids-base/ids-string-utils';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
@@ -27,11 +29,15 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   }
 
   static get properties() {
-    return [];
+    return [
+      props.DISABLED,
+      props.TABBABLE
+    ];
   }
 
   connectedCallback() {
     this.setAttribute('role', 'toolbar');
+    this.makeTabbable(this.detectTabbable());
     this.handleKeys();
   }
 
@@ -106,6 +112,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
     }
 
     if (!currentItem.disabled && doFocus) {
+      this.makeTabbable(currentItem);
       currentItem.focus();
     }
 
@@ -116,6 +123,31 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
     return `<div class="ids-toolbar" role="toolbar">
       <slot></slot>
     </div>`;
+  }
+
+  /**
+   * @param {boolean} val sets the disabled state of the entire toolbar
+   */
+  set disabled(val) {
+    const trueVal = IdsStringUtils.stringToBool(val);
+
+    if (trueVal) {
+      this.setAttribute('disabled', val);
+    } else {
+      this.removeAttribute('disabled');
+    }
+
+    this.container.classList[trueVal ? 'add' : 'remove']('disabled');
+    this.items.forEach((item) => {
+      item.disabled = trueVal;
+    });
+  }
+
+  /**
+   * @returns {boolean} true if the toolbar is currently disabled
+   */
+  get disabled() {
+    return this.container.classList.contains('disabled');
   }
 
   /**
@@ -136,14 +168,6 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
   /**
    * @readonly
-   * @returns {Array<any>} list of available sections within the toolbar
-   */
-  get sections() {
-    return [...this.children].filter((e) => e.matches('ids-toolbar-section, ids-toolbar-more-actions'));
-  }
-
-  /**
-   * @readonly
    * @returns {Array<any>} list of available items, separated per section
    */
   get items() {
@@ -157,6 +181,68 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
       }
     });
     return i;
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<any>} list of available sections within the toolbar
+   */
+  get sections() {
+    return [...this.children].filter((e) => e.matches('ids-toolbar-section, ids-toolbar-more-actions'));
+  }
+
+  /**
+   * If true, sets the Toolbar mode to allow ALL items to have a usable tabIndex.
+   * Default is false, which means one Toolbar element is focusable at a time.
+   * @param {boolean} val sets the tabbable state of the toolbar
+   */
+  set tabbable(val) {
+    const trueVal = IdsStringUtils.stringToBool(val);
+
+    if (trueVal) {
+      this.setAttribute('tabbable', val);
+    } else {
+      this.removeAttribute('tabbable');
+    }
+
+    this.container.classList[trueVal ? 'add' : 'remove']('tabbable');
+
+    // Try to use a currently-focused element
+    this.makeTabbable(this.focused);
+  }
+
+  /**
+   * @returns {boolean} true if the toolbar is fully tabbable
+   */
+  get tabbable() {
+    return this.container.classList.contains('tabbable');
+  }
+
+  /**
+   * Gets the current item that should be used as the "tabbable" item
+   * (item that receives focus when the toolbar overall is "focused").
+   * @returns {HTMLElement | undefined} an element that currently has a usable tabIndex attribute
+   */
+  detectTabbable() {
+    let tabbableItem;
+    for (let i = 0; !tabbableItem && i < this.items.length; i++) {
+      if (this.items[i].tabIndex > -1) {
+        tabbableItem = this.items[i];
+      }
+    }
+    return tabbableItem;
+  }
+
+  /**
+   * @private
+   * @param {HTMLElement} elem an element residing within the toolbar that can accept
+   */
+  makeTabbable(elem = this.items[0]) {
+    const isTabbable = this.tabbable;
+    this.items.forEach((item) => {
+      const nonTabbableTargetIndex = elem.isEqualNode(item) ? 0 : -1;
+      item.tabIndex = isTabbable ? 0 : nonTabbableTargetIndex;
+    });
   }
 }
 

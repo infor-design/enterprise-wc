@@ -65,7 +65,4 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   &.search {
     @include px-12();
   }
-
-  // ================================================
-  //
 }

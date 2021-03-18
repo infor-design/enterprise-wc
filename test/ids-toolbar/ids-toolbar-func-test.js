@@ -46,6 +46,8 @@ const exampleHTML = `
       <span slot="text" class="audible">Trash</span>
       <ids-icon slot="icon" icon="delete"></ids-icon>
     </ids-button>
+
+    <a href="#">Outgoing Link</a>
   </ids-toolbar-section>
 
   <ids-toolbar-more-actions id="section-more">
@@ -72,6 +74,7 @@ describe('IdsToolbar Component', () => {
   let buttonAppMenu;
   let button1;
   let button2;
+  let button3;
   let button4;
 
   beforeEach(async () => {
@@ -85,6 +88,7 @@ describe('IdsToolbar Component', () => {
     buttonAppMenu = document.querySelector('#button-appmenu');
     button1 = document.querySelector('#button-1');
     button2 = document.querySelector('#button-2');
+    button3 = document.querySelector('#button-3');
     button4 = document.querySelector('#button-4');
   });
 
@@ -113,6 +117,51 @@ describe('IdsToolbar Component', () => {
 
     expect(items).toBeDefined();
     expect(items.length).toBe(6);
+  });
+
+  it('can be disabled and enabled', () => {
+    toolbar.disabled = true;
+
+    expect(toolbar.disabled).toBeTruthy();
+    expect(toolbar.container.classList.contains('disabled')).toBeTruthy();
+
+    toolbar.disabled = false;
+
+    expect(toolbar.disabled).toBeFalsy();
+    expect(toolbar.container.classList.contains('disabled')).toBeFalsy();
+
+    toolbar.setAttribute('disabled', true);
+
+    expect(toolbar.disabled).toBeTruthy();
+    expect(toolbar.container.classList.contains('disabled')).toBeTruthy();
+
+    toolbar.removeAttribute('disabled');
+
+    expect(toolbar.disabled).toBeFalsy();
+    expect(toolbar.container.classList.contains('disabled')).toBeFalsy();
+  });
+
+  it('can be configured to be navigated with Tab/Shift+Tab, or not, with the "tabbable" feature', () => {
+    toolbar.tabbable = true;
+
+    expect(toolbar.tabbable).toBeTruthy();
+    expect(button1.tabIndex).toBe(0);
+    expect(button2.tabIndex).toBe(0);
+
+    // Focus a button that isn't the first one, then disable "tabbable".
+    // The previously focused item should retain its zero tabIndex,
+    // while the others are all set to -1.
+    button2.focus();
+    toolbar.tabbable = false;
+
+    expect(toolbar.tabbable).toBeFalsy();
+    expect(button1.tabIndex).toBe(-1);
+    expect(button2.tabIndex).toBe(0);
+    expect(button3.tabIndex).toBe(-1);
+
+    const currentTabbableElem = toolbar.detectTabbable();
+
+    expect(currentTabbableElem).toBe(button2);
   });
 
   it('can announce what is focused and navigate among its items', () => {
