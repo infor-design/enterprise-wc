@@ -49,7 +49,7 @@
 
 - `filesdragenter` Triggered when files enter to drag area.
 - `filesdrop` Triggered when files dropped in to drag area.
-- `beginprocess` Triggered when each file sent to in-process.
+- `beginupload` Triggered when each file sent to in-process.
 - `abort` Triggered when each file get abort.
 - `error` Triggered when each file get error.
 - `complete` Triggered when each file complete uploading.
@@ -57,7 +57,7 @@
 
 ### Triggered on IdsUploadAdvancedFile (ui-element)
 
-- `beginprocess` Triggered when file sent to in-process.
+- `beginupload` Triggered when file sent to in-process.
 - `abort` Triggered when file get abort.
 - `error` Triggered when file get error.
 - `complete` Triggered when file complete uploading.

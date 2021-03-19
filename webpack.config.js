@@ -69,7 +69,11 @@ module.exports = {
           res.status(400).send('No files were uploaded.');
           return;
         }
-        const directoryPath = `${__dirname}/tmp/`;
+        const dir = `${__dirname}/tmp/`;
+        // Create directory if doesn't exist
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir);
+        }
         const paramName = `${req.headers['param-name'] || 'myfile'}[]`;
         const filesUploaded = req.files[paramName];
         let filesToUpload = [];
@@ -79,18 +83,18 @@ module.exports = {
           filesToUpload.push(filesUploaded);
         }
         for (let i = 0; i < filesToUpload.length; i++) {
-          filesToUpload[i].mv(`${directoryPath}${filesToUpload[i].name}`, (err) => {
+          filesToUpload[i].mv(`${dir}${filesToUpload[i].name}`, (err) => {
             if (err) res.status(500).send(err);
           });
         }
 
-        // Clean directory after
-        const delay = 60 * 1000; // One minute
+        // Clean directory after done!, (0) No delay, (60 * 1000) One minute
+        const delay = 0;
         setTimeout(() => {
-          fs.readdir(directoryPath, (err, files) => {
+          fs.readdir(dir, (err, files) => {
             if (err) throw err;
             for (const file of files) {
-              fs.unlink(path.join(directoryPath, file), (error) => {
+              fs.unlink(path.join(dir, file), (error) => {
                 if (error) throw error;
               });
             }

@@ -29,7 +29,7 @@ const IdsUploadAdvancedShared = {
     errorAcceptFileType: '<em>Error</em>: File type is not allowed',
     errorMaxFileSize: '<em>Error</em>: Exceeded file size limit',
     errorUrl: '<em>Error</em>: Url not found!',
-    errorXhrHeaders: '<em>Error</em>: XHR Headers should be a valid JSON string contains array of key/value objects.',
+    errorXhrHeaders: '<em>Error</em>: XHR Headers must be a valid JSON string contains array of name/value objects.',
 
     // Extra headers to use with XMLHttpRequest (JSON)
     xhrHeaders: ''

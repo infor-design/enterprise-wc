@@ -4,6 +4,7 @@ node_modules/
 dist
 coverage
 test/**/diff
+tmp
 
 # OS Setting Files
 .DS_Store

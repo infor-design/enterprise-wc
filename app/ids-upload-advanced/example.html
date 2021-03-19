@@ -1,44 +1,38 @@
 <ids-layout-grid>
   <ids-layout-grid-cell>
     <ids-text font-size="12" type="h1">Ids Upload Advanced</ids-text>
-    <ids-text>
-      <strong>In Chrome dev tools network tab, simulate a slow internet connection for testing.</strong><br />
-      1) Only Images and PDF type files can be uploaded.<br />
-      2) Max (5) Number of files can be uploaded.<br />
-      3) Max (2) files can be uploaded while in process.<br />
-      4) It use components's `sendByXHR()` method to upload.<br />
-      5) It send files to demo app server, files will remove after one minute. <em>URL: "http://localhost:4300/upload"</em><br />
-      <br />
-      NOTE: Making `Disabled` while `In-Process`, will NOT stop uploading files in process.
-    </ids-text>
+    <ids-text><strong>In Chrome dev tools network tab, simulate a slow internet connection for testing.</strong></ids-text>
   </ids-layout-grid-cell>
 </ids-layout-grid>
 
 <ids-layout-grid cols="3" gap="md">
+
   <ids-layout-grid-cell>
-
-    <ids-toggle-button id="btn-upload-advanced-disable" icon-off="unlink" icon-on="unlink" text-off="Disable" text-on="Enable">
-      <span slot="text"></span>
-    </ids-toggle-button>
-
-    <ids-menu-button id="btn-upload-advanced-menu" icon="settings" type="tertiary" menu="upload-advanced-menu" dropdown-icon>
-        <span slot="text">Get Files</span>
-    </ids-menu-button>
-    <ids-popup-menu id="upload-advanced-menu" target="icon-button" trigger="click">
-      <ids-menu-group>
-        <ids-menu-item value="all">All</ids-menu-item>
-        <ids-menu-item value="in-process">In Process</ids-menu-item>
-        <ids-menu-item value="aborted">Aborted</ids-menu-item>
-        <ids-menu-item value="errored">Errored</ids-menu-item>
-        <ids-menu-item value="completed">Completed</ids-menu-item>
-      </ids-menu-group>
-    </ids-popup-menu>
-
+    <ids-text>Basic</ids-text>
+    <ids-upload-advanced id="elem-upload-advanced-basic" url="http://localhost:4300/upload"></ids-upload-advanced>
   </ids-layout-grid-cell>
-</ids-layout-grid>
 
-<ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
-    <ids-upload-advanced id="elem-upload-advanced" accept="image/*, .pdf" max-files="5" max-files-in-process="2" url="http://localhost:4300/upload"></ids-upload-advanced>
+    <ids-text>Disabled</ids-text>
+    <ids-upload-advanced id="elem-upload-advanced-disabled" disabled="true" url="http://localhost:4300/upload"></ids-upload-advanced>
   </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-text>Images &amp; PDF Only, Max (5) files</ids-text>
+    <ids-upload-advanced id="elem-upload-advanced-limit" accept="image/*, .pdf" max-files="5" url="http://localhost:4300/upload"></ids-upload-advanced>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <!-- XHR Headers must be a valid JSON string contains array of name/value objects. -->
+    <ids-text>Extra Headers to send with XHR</ids-text>
+    <ids-upload-advanced id="elem-upload-advanced-extraheaders" url="http://localhost:4300/upload">
+      <span slot="xhr-headers">[{ "name": "header1", "value": "header1-value" }]</span>
+    </ids-upload-advanced>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-text>Custom Send Method</ids-text>
+    <ids-upload-advanced id="elem-upload-advanced-send"></ids-upload-advanced>
+  </ids-layout-grid-cell>
+
 </ids-layout-grid>

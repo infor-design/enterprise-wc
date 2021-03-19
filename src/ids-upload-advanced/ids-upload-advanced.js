@@ -116,7 +116,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Send file to server
+   * Send file to server, by XMLHttpRequest
+   * Must have url value
    * @private
    * @param {object} formData - Contains the form data / file data.
    * @param {object} uiElem The ui element
@@ -131,12 +132,10 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
     xhr.open('POST', this.url);
     xhr.setRequestHeader('param-name', this.paramName);
     if (this.xhrHeaders) {
-      const isString = (/** @type {string} */ s) => (typeof s === 'string');
-      const isValid = (/** @type {object} */ h) => (h
-        && isString(h.value) && isString(h.key) && h.key !== '');
+      const isValid = (/** @type {object} */ h) => (h && h.name !== '');
       this.xhrHeaders.forEach((/** @type {object} */ h) => {
         if (isValid(h)) {
-          xhr.setRequestHeader(h.key, h.value);
+          xhr.setRequestHeader(h.name, h.value);
         }
       });
     }
@@ -283,6 +282,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   setXhrHeaders() {
     const errorarea = this.shadowRoot?.querySelector('.errorarea');
     errorarea.innerHTML = '';
+    /** @type {any} */
     let xhrHeaders = shared.slotVal(this.shadowRoot, 'xhr-headers');
     let isValid = true;
     try {
@@ -294,7 +294,10 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
       const error = shared.slotVal(this.shadowRoot, 'error-xhr-headers');
       this.errorMessage({ error, data: xhrHeaders.toString() });
       this.xhrHeaders = null;
-    } else if (!Array.isArray(xhrHeaders)) {
+    } else if (!Array.isArray(xhrHeaders)
+      && typeof xhrHeaders === 'object'
+      && xhrHeaders.name
+      && xhrHeaders.value) {
       this.xhrHeaders = [xhrHeaders];
     } else {
       this.errorMessage({ remove: true });
@@ -438,8 +441,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
           status: shared.STATUS.inProcess,
           value: '0'
         };
-        this.triggerEvent('beginprocess', uiElem, { detail });
-        this.triggerEvent('beginprocess', this, { detail });
+        this.triggerEvent('beginupload', uiElem, { detail });
+        this.triggerEvent('beginupload', this, { detail });
         const formData = new FormData(); // use FormData API
         const paramName = this.paramName.replace('[]', '');
         formData.append(`${paramName}[]`, file);

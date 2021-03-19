@@ -1,69 +1,27 @@
-// Supporting components
-import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
-import IdsMenuButton from '../../src/ids-menu-button/ids-menu-button';
-
-document.addEventListener('DOMContentLoaded', () => {
-  const btnDisable = document.querySelector('#btn-upload-advanced-disable');
-  const btnMenu = document.querySelector('#btn-upload-advanced-menu');
-  const elem = document.querySelector('#elem-upload-advanced');
-
-  // Toggle disable/enable
-  btnDisable?.addEventListener('click', (e) => {
-    e.target.toggle();
-    if (elem) {
-      elem.disabled = !elem.disabled;
-    }
-  });
-
-  /* eslint-disable */
-  btnMenu?.menuEl.popup.addEventListener('selected', (e) => {
-    const val = e.detail.value;
-    if (elem && val) {
-      let files = null;
-      switch (val) {
-        case 'all': files = elem.all; break;
-        case 'in-process': files = elem.inProcess; break;
-        case 'aborted': files = elem.aborted; break;
-        case 'errored': files = elem.errored; break;
-        case 'completed': files = elem.completed; break;
-        default: console.log('Did not found! any matching');
-      }
-      console.log(val, files);
-    }
-  });
-
-  // Files enter in drag area
-  elem?.addEventListener('filesdragenter', (e) => {
-    // console.log('Files enter in drag area', e);
-  });
-
-  // Files drop in to drag area
-  elem?.addEventListener('filesdrop', (e) => {
-    // console.log('Files drop in to drag area', e);
-  });
-
-  // File begin process
-  elem?.addEventListener('beginprocess', (e) => {
-    // console.log('File begin process', e);
-  });
+/**
+ * Example to show the way to custom send method for uploading files.
+ * Send files to Demo App server, files will remove soon uploaded.
+ * In Chrome network tab, simulate a slow internet connection for testing
+ * @param {object} formData Contains the file data.
+ * @param {object} uiElem The ui element
+ * @returns {void}
+ */
+function customSendMethodXhr(formData, uiElem) {
+  const xhr = new XMLHttpRequest();
+  xhr.upload.addEventListener('progress', uiElem.progressHandler.bind(uiElem), false);
+  xhr.addEventListener('load', uiElem.completeHandler.bind(uiElem), false);
+  xhr.addEventListener('error', uiElem.errorHandler.bind(uiElem), false);
+  xhr.addEventListener('abort', uiElem.abortHandler.bind(uiElem), false);
+  xhr.open('POST', 'http://localhost:4300/upload');
+  xhr.send(formData);
 
   // File abort
-  elem?.addEventListener('abort', (e) => {
-    // console.log('File abort', e);
+  uiElem?.addEventListener('abort', () => {
+    xhr.abort();
   });
+}
 
-  // File error
-  elem?.addEventListener('error', (e) => {
-    // console.log('File error', e);
-  });
-
-  // File complete
-  elem?.addEventListener('complete', (e) => {
-    // console.log('File complete', e);
-  });
-
-  // Click close button
-  elem?.addEventListener('closebuttonclick', (e) => {
-    // console.log('Clicked on close button', e);
-  });
+document.addEventListener('DOMContentLoaded', () => {
+  const uploadEl = document.querySelector('#elem-upload-advanced-send');
+  uploadEl.send = customSendMethodXhr;
 });

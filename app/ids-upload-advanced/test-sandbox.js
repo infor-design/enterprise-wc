@@ -94,15 +94,15 @@ function uploadFile(formData, uiElem) {
 
 /*
  * ========================================================
- * DOM Loaded
+ * After DOM Loaded
  * ========================================================
  */
 document.addEventListener('DOMContentLoaded', () => {
-  const elemUrl = document.querySelectorAll('#upload-advanced-url ids-upload-advanced');
-  const elemCustomSend = document.querySelector('#upload-advanced-send');
+  const elemToBeSetAttrUrl = document.querySelectorAll('#upload-advanced-url ids-upload-advanced');
+  const elemToBeUseCustomSend = document.querySelector('#upload-advanced-send');
 
-  for (let i = 0, l = elemUrl.length; i < l; i++) {
-    elemUrl[i].url = 'http://localhost:4300/upload';
+  for (let i = 0, l = elemToBeSetAttrUrl.length; i < l; i++) {
+    elemToBeSetAttrUrl[i].url = 'http://localhost:4300/upload';
   }
 
   /**
@@ -111,11 +111,56 @@ document.addEventListener('DOMContentLoaded', () => {
    * (2) Or Else, Use dummy logic to loop interval, no files sent anywhere
    * Else use component's `sendByXHR` method, requird url attribute, will remove after one minute
    */
-  if (elemCustomSend) {
+  if (elemToBeUseCustomSend) {
     if (useSend === 1) {
-      elemCustomSend.send = uploadFile;
+      elemToBeUseCustomSend.send = uploadFile;
     } else if (useSend === 2) {
-      elemCustomSend.send = uploadFileDummy;
+      elemToBeUseCustomSend.send = uploadFileDummy;
     }
   }
+
+  /*
+   * ========================================================
+   * Events that may be triggered
+   * ========================================================
+   */
+  /* eslint-disable */
+
+  // Element to target
+  const targetElem = document.querySelector('#elem-upload-advanced-events');
+
+  // Files enter in drag area
+  targetElem?.addEventListener('filesdragenter', (e) => {
+    // console.log('Files enter in drag area', e);
+  });
+
+  // Files drop in to drag area
+  targetElem?.addEventListener('filesdrop', (e) => {
+    // console.log('Files drop in to drag area', e);
+  });
+
+  // File begin upload
+  targetElem?.addEventListener('beginupload', (e) => {
+    // console.log('File begin upload', e);
+  });
+
+  // File abort
+  targetElem?.addEventListener('abort', (e) => {
+    // console.log('File abort', e);
+  });
+
+  // File error
+  targetElem?.addEventListener('error', (e) => {
+    // console.log('File error', e);
+  });
+
+  // File complete
+  targetElem?.addEventListener('complete', (e) => {
+    // console.log('File complete', e);
+  });
+
+  // Click close button
+  targetElem?.addEventListener('closebuttonclick', (e) => {
+    // console.log('Clicked on close button', e);
+  });
 });

@@ -276,7 +276,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Get the percent of the file is uploaded
+   * Get the bytes of the file is uploaded
    * @private
    * @returns {number} The close button text
    */
@@ -287,7 +287,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Get the percent loaded value formatted (for example 10M)
+   * Get the bytes loaded value formatted (for example 10M)
    * @private
    * @returns {string} The close button text
    */
@@ -342,7 +342,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * Sets the whole file element to disabled
-   * @param {boolean|string} value If true will set `disabled` attribute
+   * @param {boolean|string} value If true will set disabled attribute
    */
   set disabled(value) {
     const val = stringUtils.stringToBool(value);
@@ -358,7 +358,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * Sets the file state to show there was an error during the file operations
-   * @param {string} value `error` attribute
+   * @param {string} value error attribute
    */
   set error(value) {
     if (value) {
@@ -374,8 +374,8 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Sets the `file-name` attribute
-   * @param {string} value `file-name` attribute
+   * Sets the file-name attribute
+   * @param {string} value file-name attribute
    */
   set fileName(value) {
     if (value) {
@@ -392,8 +392,8 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Sets the `size` attribute
-   * @param {string|number} value `size` attribute
+   * Sets the size attribute
+   * @param {string|number} value size attribute
    */
   set size(value) {
     if (value) {
@@ -409,7 +409,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * Sets the progress bar value
-   * @param {string|?|number} val `value` attribute
+   * @param {string|?|number} val value attribute
    */
   set value(val) {
     if (val) {

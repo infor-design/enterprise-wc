@@ -28,7 +28,7 @@
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
-    <ids-text font-size="12">Limit the file types</ids-text>
+    <ids-text font-size="12">Limit the file types (.png, .jpg)</ids-text>
     <ids-upload-advanced accept=".png, .jpg"></ids-upload-advanced>
   </ids-layout-grid-cell>
 
@@ -43,13 +43,13 @@
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
-    <ids-text font-size="12">Max files (2) in In Process</ids-text>
+    <ids-text font-size="12">Max files (2) In Process</ids-text>
     <ids-upload-advanced max-files-in-process="2"></ids-upload-advanced>
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
     <ids-text font-size="12">Custom Param Name (default: myfile)</ids-text>
-    <ids-upload-advanced param-name="customParamName"></ids-upload-advanced>
+    <ids-upload-advanced param-name="someCustomParamName"></ids-upload-advanced>
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
@@ -78,9 +78,10 @@
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
-    <ids-text font-size="12">Extra headers</ids-text>
+    <!-- XHR Headers must be a valid JSON string contains array of name/value objects. -->
+    <ids-text font-size="12">Extra Headers to send with XHR</ids-text>
     <ids-upload-advanced>
-      <span slot="xhr-headers">[{ "key": "header1", "value": "header1-value" }]</span>
+      <span slot="xhr-headers">[{ "name": "header1", "value": "header1-value" }]</span>
     </ids-upload-advanced>
   </ids-layout-grid-cell>
 
@@ -96,6 +97,11 @@
     <ids-layout-grid-cell>
       <ids-text font-size="12">Custom Send Method</ids-text>
       <ids-upload-advanced id="upload-advanced-send"></ids-upload-advanced>
+    </ids-layout-grid-cell>
+
+    <ids-layout-grid-cell>
+      <ids-text font-size="12">Images &amp; PDF Only, Max (5) files can be uploaded</ids-text>
+      <ids-upload-advanced id="elem-upload-advanced-events" accept="image/*, .pdf" max-files="5" url="http://localhost:4300/upload"></ids-upload-advanced>
     </ids-layout-grid-cell>
 
 </ids-layout-grid>

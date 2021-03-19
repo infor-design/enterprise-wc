@@ -10,8 +10,6 @@
 .ids-upload-advanced-file {
   @include block();
 
-  min-width: 335px;
-
   .hidden {
     @include hidden();
   }
