@@ -35,6 +35,11 @@ const TOOLBAR_ITEM_TAGNAMES = [
   'ids-toolbar-more-actions'
 ];
 
+// WebComponent Tagnames that correspond to valid text nodes
+const TOOLBAR_TEXTNODE_TAGNAMES = [
+  'ids-text'
+];
+
 /**
  * Checks an element's CSS classlist for an item belonging to a group,
  * appends that item, and removes all others from the group.
@@ -90,10 +95,22 @@ class IdsToolbarSection extends IdsElement {
    * @returns {Array<any>} list of available items contained by the toolbar
    */
   get items() {
-    return [...this.children].filter((/** @type {any} */ e) => {
+    return [...this.children].filter((e) => {
       const elemTagName = e.tagName.toLowerCase();
       return TOOLBAR_ITEM_TAGNAMES.includes(elemTagName);
     });
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<any>} list of text nodes contained by the toolbar
+   */
+  get textElems() {
+    const nodes = [...this.children].filter((e) => {
+      const elemTagName = e.tagName.toLowerCase();
+      return TOOLBAR_TEXTNODE_TAGNAMES.includes(elemTagName);
+    });
+    return nodes;
   }
 
   /**

@@ -1,5 +1,7 @@
+{{> ../layouts/head.html }}
+
 <ids-layout-grid>
-  <ids-text font-size="12" type="h1">Toolbar</ids-text>
+  <ids-text font-size="12" type="h1">Toolbar (with no Title Eyebrow)</ids-text>
 </ids-layout-grid>
 
 <ids-layout-grid>
@@ -13,7 +15,6 @@
       </ids-toolbar-section>
       <ids-toolbar-section type="title">
         <ids-text font-size="20">My Toolbar</ids-text>
-        <ids-text font-size="14">With some extra information below</ids-text>
       </ids-toolbar-section>
       <ids-toolbar-section type="buttonset" align="end">
         <ids-button id="button-1" role="button">
@@ -71,3 +72,5 @@
 
   </ids-layout-grid-column>
 </ids-layout-grid>
+
+{{> ../layouts/footer.html }}

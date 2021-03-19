@@ -1,11 +1,19 @@
+{{> ../layouts/head.html }}
+
 <ids-layout-grid>
-  <ids-text font-size="12" type="h1">Toolbar</ids-text>
+  <ids-text font-size="12" type="h1">Toolbar (Tabbable)</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text>This Toolbar's items can be navigated with the Tab/Shift+Tab keys</ids-text>
+  </ids-layout-grid-cell>
 </ids-layout-grid>
 
 <ids-layout-grid>
   <ids-layout-grid-column auto="true">
 
-    <ids-toolbar>
+    <ids-toolbar tabbable="true">
       <ids-toolbar-section>
         <ids-button icon="menu" role="button">
           <span slot="text" class="audible">Application Menu Trigger</span>
@@ -71,3 +79,5 @@
 
   </ids-layout-grid-column>
 </ids-layout-grid>
+
+{{> ../layouts/footer.html }}

@@ -99,7 +99,8 @@ For compatibility with 4.x components Toolbars, the IDS Toolbar also supports `t
 
 ```html
 <ids-toolbar-section type="title">
-    <ids-text type="h3">My Toolbar</ids-text>
+    <ids-text font-size="20">My Toolbar</ids-text>
+    <ids-text font-size="14">With some extra information below</ids-text>
 </ids-toolbar-section>
 <ids-toolbar-section type="buttonset" align="end">
     <ids-button id="button-1" role="button">
@@ -108,6 +109,41 @@ For compatibility with 4.x components Toolbars, the IDS Toolbar also supports `t
     <ids-button id="button-2">
         <span slot="text" class="audible">Settings</span>
         <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+</ids-toolbar-section>
+```
+
+Toolbar Title sections can have multiple text elements, if needed:
+
+```html
+<ids-toolbar-section type="title">
+    <ids-text font-size="20">My Toolbar</ids-text>
+    <ids-text font-size="14">With some extra information below</ids-text>
+</ids-toolbar-section>
+
+<!-- or... -->
+
+<ids-toolbar-section type="title">
+    <ids-text font-size="20">My Toolbar</ids-text>
+</ids-toolbar-section>
+```
+
+Toolbar Buttonset sections can contain an indeterminate number of components.  Generally these are [Buttons](../ids-button/README.md), but other component types such as Hyperlinks and some Pickers are accepted.  The Buttonset Section is styled with CSS to prevent the wrapping of these elements to multiple lines, instead cutting off actions that don't fit.  If accompanied by a More Actions button, the actions that don't fit will "spill over" into the More Actions menu:
+
+```html
+<ids-toolbar-section type="buttonset" align="end">
+    <ids-button id="button-1" role="button">
+        <span slot="text">Text</span>
+    </ids-button>
+    <ids-button id="button-2">
+        <span slot="text" class="audible">Settings</span>
+        <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+    <ids-button id="button-3" role="button">
+        <span slot="text">Text</span>
+    </ids-button>
+    <ids-button id="button-4" role="button">
+        <span slot="text">Text</span>
     </ids-button>
 </ids-toolbar-section>
 ```

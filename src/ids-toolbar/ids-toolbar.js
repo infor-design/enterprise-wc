@@ -138,9 +138,13 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
     }
 
     this.container.classList[trueVal ? 'add' : 'remove']('disabled');
-    this.items.forEach((item) => {
-      item.disabled = trueVal;
-    });
+
+    // Set disabled state on all relevant subcomponents
+    const setDisabledState = (elem) => {
+      elem.disabled = trueVal;
+    };
+    this.items.forEach(setDisabledState);
+    this.textElems.forEach(setDisabledState);
   }
 
   /**
@@ -168,7 +172,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
   /**
    * @readonly
-   * @returns {Array<any>} list of available items, separated per section
+   * @returns {Array<any>} list of all available toolbar items present in all toolbar sections
    */
   get items() {
     let i = [];
@@ -178,6 +182,20 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
         i.push(section.button);
       } else {
         i = i.concat([...section.items]);
+      }
+    });
+    return i;
+  }
+
+  /**
+   * @readonly
+   * @returns {Array<any>} list of all available text nodes present in all toolbar sections
+   */
+  get textElems() {
+    let i = [];
+    this.sections.forEach((section) => {
+      if (section?.name !== 'ids-toolbar-more-actions') {
+        i = i.concat([...section.textElems]);
       }
     });
     return i;

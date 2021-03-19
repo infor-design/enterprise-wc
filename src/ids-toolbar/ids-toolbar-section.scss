@@ -10,8 +10,6 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
 }
 
 .ids-toolbar-section {
-  @include flex();
-
   white-space: nowrap;
   width: auto;
 
@@ -34,7 +32,13 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
 
   // Buttonsets have top padding (accounts for button focus states)
   &.buttonset {
+    @include flex();
     @include py-4();
+  }
+
+  // Title sections are not Flex containers (so we can stack content)
+  &.title {
+    display: inline-block;
   }
 
   // Contains rows of buttons
@@ -58,11 +62,14 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   // Intended for use by developers that need "custom" sections that stretch to fit.
   // The default functionality is NOT to stretch.
   &.fluid {
+    @include flex();
+
     flex-grow: 1;
   }
 
   // Contains Searchfields
   &.search {
+    @include flex();
     @include px-12();
   }
 }

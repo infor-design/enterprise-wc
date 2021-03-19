@@ -1,11 +1,13 @@
+{{> ../layouts/head.html }}
+
 <ids-layout-grid>
-  <ids-text font-size="12" type="h1">Toolbar</ids-text>
+  <ids-text font-size="12" type="h1">Toolbar (Disabled)</ids-text>
 </ids-layout-grid>
 
 <ids-layout-grid>
   <ids-layout-grid-column auto="true">
 
-    <ids-toolbar>
+    <ids-toolbar disabled="true">
       <ids-toolbar-section>
         <ids-button icon="menu" role="button">
           <span slot="text" class="audible">Application Menu Trigger</span>
@@ -71,3 +73,5 @@
 
   </ids-layout-grid-column>
 </ids-layout-grid>
+
+{{> ../layouts/footer.html }}
