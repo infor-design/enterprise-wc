@@ -13,13 +13,9 @@ import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
  */
 @customElement('ids-toolbar-more-actions')
 @scss(styles)
-class IdsToolbarMoreActionsButton extends IdsElement {
+class IdsToolbarMoreActions extends IdsElement {
   constructor() {
     super();
-  }
-
-  static get properties() {
-    return [];
   }
 
   connectedCallback() {
@@ -88,7 +84,7 @@ class IdsToolbarMoreActionsButton extends IdsElement {
   }
 }
 
-export default IdsToolbarMoreActionsButton;
+export default IdsToolbarMoreActions;
 export {
   IdsMenuButton,
   IdsPopupMenu
