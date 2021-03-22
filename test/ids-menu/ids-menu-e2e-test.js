@@ -1,4 +1,4 @@
-const { percySnapshot } = require('@percy/puppeteer');
+const percySnapshot = require('@percy/puppeteer');
 
 describe('Ids Menu e2e Tests', () => {
   const url = 'http://localhost:4444/ids-menu';

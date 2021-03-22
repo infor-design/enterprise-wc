@@ -1,4 +1,4 @@
-const { percySnapshot } = require('@percy/puppeteer');
+const percySnapshot = require('@percy/puppeteer');
 
 describe('Ids Textarea e2e Tests', () => {
   const url = 'http://localhost:4444/ids-textarea';

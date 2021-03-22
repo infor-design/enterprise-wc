@@ -1,4 +1,4 @@
-const { percySnapshot } = require('@percy/puppeteer');
+const percySnapshot = require('@percy/puppeteer');
 
 describe('Ids Data Grid e2e Tests', () => {
   const url = 'http://localhost:4444/ids-data-grid';
