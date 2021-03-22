@@ -1,10 +1,11 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const StylelintPlugin = require('stylelint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const sass = require('node-sass');
+const sass = require('sass');
 const TerserPlugin = require('terser-webpack-plugin');
 
 const path = require('path');
@@ -89,7 +90,7 @@ module.exports = {
             loader: 'sass-loader',
             options: {
               sassOptions: {
-                outputStyle: 'nested' // 'compressed',
+                outputStyle: 'compressed',
               },
             },
           },

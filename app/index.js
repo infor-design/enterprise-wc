@@ -6,6 +6,7 @@ import IdsSwitch from '../src/ids-switch/ids-switch';
 import IdsToggleButton from '../src/ids-toggle-button/ids-toggle-button';
 import IdsMenuButton from '../src/ids-menu-button/ids-menu-button';
 import IdsText from '../src/ids-text/ids-text';
+import IdsHyperlink from '../src/ids-hyperlink/ids-hyperlink';
 import IdsIcon from '../src/ids-icon/ids-icon';
 import IdsPopup from '../src/ids-popup/ids-popup';
 import IdsTag from '../src/ids-tag/ids-tag';

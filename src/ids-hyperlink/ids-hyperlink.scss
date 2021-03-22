@@ -1,0 +1,89 @@
+/* Ids Text Css */
+@import '../ids-base/ids-base';
+
+.ids-hyperlink {
+  @include antialiased();
+  @include text-azure-60();
+  @include font-sans();
+  @include font-normal();
+  @include block();
+  @include mb-8();
+
+  &[disabled] {
+    @include text-slate-40();
+    @include cursor-default();
+
+    pointer-events: none;
+  }
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    @include text-azure-70();
+  }
+}
+
+// Handle Themes
+.ids-hyperlink[mode='dark'] {
+  @include text-azure-40();
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    @include text-azure-60();
+  }
+
+  &[disabled] {
+    @include text-slate-50();
+  }
+}
+
+.ids-hyperlink[mode='contrast'] {
+  @include text-azure-90();
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    @include text-azure-100();
+  }
+
+  &[disabled] {
+    @include text-slate-50();
+  }
+}
+
+.ids-hyperlink[version='classic'][mode='light'] {
+  @include text-azure-70();
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    @include text-azure-80();
+  }
+
+  &[disabled] {
+    @include text-graphite-40();
+  }
+}
+
+.ids-hyperlink[version='classic'][mode='dark'] {
+  @include text-azure-40();
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    @include text-azure-50();
+  }
+
+  &[disabled] {
+    @include text-slate-50();
+  }
+}
+
+.ids-hyperlink[version='classic'][mode='contrast'] {
+  @include text-azure-90();
+
+  &:hover:not([disabled]),
+  &:active:not([disabled]) {
+    @include text-azure-100();
+  }
+
+  &[disabled] {
+    @include text-slate-50();
+  }
+}

@@ -40,6 +40,7 @@ export const props = {
   GROUP: 'group',
   GROUP_DISABLED: 'group-disabled',
   HORIZONTAL: 'horizontal',
+  HREF: 'href',
   ICON: 'icon',
   ICON_ALIGN: 'icon-align',
   ID: 'id',

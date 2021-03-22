@@ -29,7 +29,7 @@ export default class IdsTag extends IdsElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 
-  /** Set the tag type/color */
+  /** Set the theme version */
   version: 'new' | 'classic' | string;
 
   /** Fires before the tag is removed, you can return false in the response to veto. */

@@ -12,6 +12,7 @@ import { IdsDeepCloneUtils as cloneUtils } from '../ids-base/ids-deep-clone-util
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // @ts-ignore
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
@@ -24,15 +25,28 @@ import styles from './ids-data-grid.scss';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsThemeMixin
+ * @part table - the table main element
+ * @part container - the table container element
+ * @part body - the table body element
+ * @part header - the header element
+ * @part headerCell - the header cells
+ * @part row - the row elements
+ * @part cell - the row cell elements
  */
 @customElement('ids-data-grid')
 @scss(styles)
 class IdsDataGrid extends mix(IdsElement).with(
     IdsEventsMixin,
+    IdsThemeMixin,
     IdsKeyboardMixin
   ) {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
   }
 
   formatters = new IdsDataGridFormatters();
@@ -48,7 +62,9 @@ class IdsDataGrid extends mix(IdsElement).with(
       props.ALTERNATE_ROW_SHADING,
       props.LABEL,
       props.ROW_HEIGHT,
-      props.VIRTUAL_SCROLL
+      props.VIRTUAL_SCROLL,
+      props.MODE,
+      props.VERSION
     ];
   }
 
@@ -66,18 +82,18 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     const additionalClasses = this.alternateRowShading === 'true' ? ' alt-row-shading' : '';
     if (this?.virtualScroll !== 'true') {
-      html = `<div class="ids-data-grid${additionalClasses}" role="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
+      html = `<div class="ids-data-grid${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
       ${this.headerTemplate()}
       ${this.bodyTemplate()}
       </div>`;
       return html;
     }
 
-    html = `<div class="ids-data-grid${additionalClasses}" role="table" aria-label="${this.label}" data-row-height="${this.rowHeight}">
+    html = `<div class="ids-data-grid${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
       ${this.headerTemplate()}
       <ids-virtual-scroll>
-        <div class="ids-data-grid-container">
-          <div class="ids-data-grid-body" role="rowgroup" slot="contents">
+        <div class="ids-data-grid-container" part="container">
+          <div class="ids-data-grid-body" part="body" role="rowgroup" slot="contents">
           </div>
         </div>
       </ids-virtual-scroll>
@@ -104,12 +120,13 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.setColumnWidths();
     template.innerHTML = html;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.container = this.shadowRoot.querySelector('.ids-data-grid');
 
     // Setup virtual scrolling
     if (stringUtils.stringToBool(this.virtualScroll) && this.data.length > 0) {
       /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      this.virtualScrollContainer.scrollTarget = this.shadowRoot.querySelector('.ids-data-grid');
+      this.virtualScrollContainer.scrollTarget = this.container;
 
       this.virtualScrollContainer.itemTemplate = (/** @type {any} */ row, /** @type {any} */ index) => this.rowTemplate(row, index); //eslint-disable-line
       this.virtualScrollContainer.itemCount = this.data.length;
@@ -133,7 +150,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @private
    */
   headerTemplate() {
-    let header = '<div class="ids-data-grid-header" role="rowgroup"><div role="row" class="ids-data-grid-row">';
+    let header = '<div class="ids-data-grid-header" role="rowgroup" part="header"><div role="row" class="ids-data-grid-row">';
 
     this.columns.forEach((columnData) => {
       header += `${this.headerCellTemplate(columnData)}`;
@@ -154,7 +171,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     </div>`;
     const cssClasses = `${column.sortable ? ' is-sortable' : ''}`;
 
-    const headerTemplate = `<span class="ids-data-grid-header-cell${cssClasses}" data-column-id="${column.id}" role="columnheader">
+    const headerTemplate = `<span class="ids-data-grid-header-cell${cssClasses}" part="headerCell" data-column-id="${column.id}" role="columnheader">
       <span class="ids-data-grid-header-text">${column.name || ''}</span>
       ${column.sortable ? sortIndicator : ''}
     </span>`;
@@ -167,7 +184,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @returns {string} The template
    */
   bodyTemplate() {
-    let html = '<div class="ids-data-grid-container"><div class="ids-data-grid-body" role="rowgroup">';
+    let html = '<div class="ids-data-grid-container"><div class="ids-data-grid-body" part="body" role="rowgroup">';
 
     this.data.forEach((row, index) => {
       html += this.rowTemplate(row, index);
@@ -184,10 +201,10 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @returns {string} The html string for the row
    */
   rowTemplate(row, index) {
-    let html = `<div role="row" aria-rowindex="${index}" class="ids-data-grid-row">`;
+    let html = `<div role="row" part="row" aria-rowindex="${index}" class="ids-data-grid-row">`;
 
     this.columns.forEach((column, j) => {
-      html += `<span role="cell" class="ids-data-grid-cell" aria-colindex="${j}">${this.cellTemplate(row, column)}</span>`;
+      html += `<span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="${j}">${this.cellTemplate(row, column)}</span>`;
     });
 
     html += '</div>';
@@ -407,6 +424,7 @@ class IdsDataGrid extends mix(IdsElement).with(
 
   get label() { return this.getAttribute(props.LABEL) || 'Data Grid'; }
 
+  /**
   /**
    * Set the row height between extra-small, small, medium and large (default)
    * @param {string} value The row height

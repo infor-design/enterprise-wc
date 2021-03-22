@@ -260,12 +260,12 @@ class IdsCheckbox extends mix(IdsElement).with(
       this.setAttribute(props.DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val.toString());
       rootEl?.classList.add(props.DISABLED);
-      this.labelEl.querySelector('.label-text')?.setAttribute(props.DISABLED, val.toString());
+      this.labelEl?.querySelector('.label-text')?.setAttribute(props.DISABLED, val.toString());
     } else {
       this.removeAttribute(props.DISABLED);
       this.input?.removeAttribute(props.DISABLED);
       rootEl?.classList.remove(props.DISABLED);
-      this.labelEl.querySelector('.label-text').removeAttribute(props.DISABLED);
+      this.labelEl?.querySelector('.label-text').removeAttribute(props.DISABLED);
     }
   }
 

@@ -41,3 +41,8 @@
   overflow: hidden;
   transition: height $transition-length $transition-ease;
 }
+
+// Handle Themes
+.ids-expandable-area[mode='dark'] {
+  border-bottom: 1px solid var(--ids-color-palette-slate-50);
+}

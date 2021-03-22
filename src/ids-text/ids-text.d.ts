@@ -6,15 +6,18 @@ export default class IdsText extends HTMLElement {
   type: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' | string;
 
   /** Set `audible` string (screen reader only text) */
-  audbible: string;
+  audible: string;
 
-  /** Set `audible` string (screen reader only text) */
+  /** Set the text to disabled */
+  disabled: boolean;
+
+  /** Set the size of font to use */
   fontSize: '10' | '12' | 'x2' | '14' | 'sm' | '16' | '20' | '24' | 'lg' |
     '32' | 'xl' | '40' | '48' | '60' | '72' | string;
 
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 
-  /** Set the tag type/color */
+  /** Set the theme version */
   version: 'new' | 'classic' | string;
 }

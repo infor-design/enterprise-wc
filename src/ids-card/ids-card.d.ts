@@ -9,6 +9,6 @@ export default class IdsCard extends IdsElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 
-  /** Set the tag type/color */
+  /** Set the theme version */
   version: 'new' | 'classic' | string;
 }
