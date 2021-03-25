@@ -29,8 +29,7 @@
   @include border-b-1();
   @include px-20();
   @include py-12();
-
-  border-color: transparent;
+  @include border-slate-30();
 }
 
 // Handle Themes
@@ -39,6 +38,10 @@
   @include border-slate-70();
 
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+
+  .ids-card-header {
+    @include border-slate-70();
+  }
 }
 
 .ids-card[mode='contrast'] {
@@ -60,14 +63,14 @@
 }
 
 .ids-card[version='classic'][mode='dark'] {
-  @include bg-slate-70();
-  @include border-slate-50();
+  @include bg-slate-80();
+  @include border-slate-60();
   @include rounded-default();
 
   box-shadow: none;
 
   .ids-card-header {
-    @include border-slate-50();
+    @include border-slate-60();
   }
 }
 

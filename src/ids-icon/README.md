@@ -2,7 +2,7 @@
 
 ## Description
 
-The design system provides a list of standard icons which can be used in your applications. This listing is a result of a studying common Infor iconography and consolidating that with standardized icons (for example, a floppy disk to represent a "save" function). The icons in the list should be familiar to users.
+The design system provides a list of standard icons which can be used in your applications. The list of icons is a result of a studying common iconography and consolidating that with standardized icons (for example, a floppy disk to represent a "save" function). The icons in the list should be familiar to users.
 
 ## Use Cases
 

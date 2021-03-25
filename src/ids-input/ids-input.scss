@@ -236,3 +236,89 @@ $input-size-default: $input-size-md;
     }
   }
 }
+
+// Handle Themes
+.ids-input[mode='dark'] .ids-input-field {
+  @include bg-transparent();
+  @include border-slate-40();
+  @include text-white();
+
+  &[disabled] {
+    @include border-slate-60();
+    @include text-slate-60();
+  }
+
+  &[readonly] {
+    @include bg-slate-70();
+    @include border-slate-40();
+    @include text-slate-10();
+  }
+}
+
+.ids-input[mode='contrast'] .ids-input-field {
+  @include bg-white();
+  @include border-slate-40();
+  @include text-black();
+
+  &[disabled] {
+    @include border-slate-30();
+    @include text-slate-30();
+  }
+
+  &[readonly] {
+    @include bg-slate-20();
+    @include border-slate-40();
+    @include text-slate-100();
+  }
+}
+
+.ids-input[version='classic'][mode='light'] .ids-input-field {
+  @include bg-transparent();
+  @include border-graphite-40();
+  @include text-graphite-100();
+
+  &[disabled] {
+    @include border-graphite-30();
+    @include text-graphite-40();
+  }
+
+  &[readonly] {
+    @include bg-graphite-20();
+    @include border-graphite-40();
+    @include text-slate-100();
+  }
+}
+
+.ids-input[version='classic'][mode='dark'] .ids-input-field {
+  @include bg-transparent();
+  @include border-slate-40();
+  @include text-white();
+
+  &[disabled] {
+    @include border-slate-40();
+    @include text-slate-50();
+  }
+
+  &[readonly] {
+    @include bg-slate-60();
+    @include border-slate-40();
+    @include text-white();
+  }
+}
+
+.ids-input[version='classic'][mode='contrast'] .ids-input-field {
+  @include bg-white();
+  @include border-graphite-80();
+  @include text-graphite-100();
+
+  &[disabled] {
+    @include border-slate-50();
+    @include text-graphite-80();
+  }
+
+  &[readonly] {
+    @include bg-slate-30();
+    @include border-slate-80();
+    @include text-graphite-100();
+  }
+}

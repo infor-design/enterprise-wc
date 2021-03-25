@@ -96,10 +96,12 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (val) {
       this.setAttribute(props.DISABLED, value);
       this.container.setAttribute(props.DISABLED, value);
+      this.container.setAttribute('tabindex', '-1');
       return;
     }
     this.removeAttribute(props.DISABLED);
     this.container.removeAttribute(props.DISABLED);
+    this.container.removeAttribute('tabindex');
   }
 
   get disabled() { return this.getAttribute(props.DISABLED); }

@@ -2,11 +2,15 @@ import {
   IdsElement,
   customElement,
   scss,
-  props
+  props,
+  mix
 } from '../ids-base/ids-element';
 
 import { IdsDataSource } from '../ids-base/ids-data-source';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+
 // @ts-ignore
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 // @ts-ignore
@@ -16,10 +20,15 @@ import styles from './ids-list-view.scss';
  * IDS List View Component
  * @type {IdsListView}
  * @inherits IdsElement
+ * @mixes IdsThemeMixin
+ * @mixes IdsEventsMixin
+ * @part container - the root container element
+ * @part list - the ul list element
+ * @part list-item - the li list element
  */
 @customElement('ids-list-view')
 @scss(styles)
-class IdsListView extends IdsElement {
+class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -28,6 +37,7 @@ class IdsListView extends IdsElement {
 
   connectedCallback() {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
+    super.connectedCallback();
   }
 
   /**
@@ -35,7 +45,11 @@ class IdsListView extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.VIRTUAL_SCROLL];
+    return [
+      props.VIRTUAL_SCROLL,
+      props.MODE,
+      props.VERSION
+    ];
   }
 
   /**
@@ -47,11 +61,11 @@ class IdsListView extends IdsElement {
 
     // @ts-ignore
     if (this?.data.length > 0 && this.virtualScroll !== 'true') {
-      html = `<div class="ids-list-view"><ul>`;
+      html = `<div class="ids-list-view" part="container"><ul part="list">`;
 
       // @ts-ignore
       this.data.forEach((item) => {
-        html += `<li>${this.itemTemplate(item)}</li>`;
+        html += `<li part="list-item">${this.itemTemplate(item)}</li>`;
       });
 
       html += `</ul></div>`;
@@ -61,8 +75,8 @@ class IdsListView extends IdsElement {
     // @ts-ignore
     if (this?.data.length > 0 && this.virtualScroll === 'true') {
       html = `<ids-virtual-scroll height="310">
-          <div class="ids-list-view">
-            <ul slot="contents">
+          <div class="ids-list-view" part="container">
+            <ul slot="contents" part="list">
             </ul>
           </div>
         </ids-virtual-scroll>`;
@@ -100,7 +114,7 @@ class IdsListView extends IdsElement {
       /** @type {object} */
       // @ts-ignore
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      this.virtualScrollContainer.itemTemplate = (/** @type {object} */ item) => `<li>${this.itemTemplate(item)}</li>`;
+      this.virtualScrollContainer.itemTemplate = (/** @type {object} */ item) => `<li part="listitem">${this.itemTemplate(item)}</li>`;
       // @ts-ignore
       this.virtualScrollContainer.itemCount = this.data.length;
       // @ts-ignore
@@ -110,6 +124,7 @@ class IdsListView extends IdsElement {
       // @ts-ignore
       this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
     }
+    this.container = this.shadowRoot.querySelector('.ids-list-view');
   }
 
   /**

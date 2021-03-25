@@ -54,8 +54,6 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @part background-color - the tag background color
- * @part color - the text color
  */
 @customElement('ids-textarea')
 @scss(styles)

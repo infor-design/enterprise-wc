@@ -30,7 +30,7 @@ import styles from './ids-data-grid.scss';
  * @part container - the table container element
  * @part body - the table body element
  * @part header - the header element
- * @part headerCell - the header cells
+ * @part header-cell - the header cells
  * @part row - the row elements
  * @part cell - the row cell elements
  */
@@ -171,7 +171,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     </div>`;
     const cssClasses = `${column.sortable ? ' is-sortable' : ''}`;
 
-    const headerTemplate = `<span class="ids-data-grid-header-cell${cssClasses}" part="headerCell" data-column-id="${column.id}" role="columnheader">
+    const headerTemplate = `<span class="ids-data-grid-header-cell${cssClasses}" part="header-cell" data-column-id="${column.id}" role="columnheader">
       <span class="ids-data-grid-header-text">${column.name || ''}</span>
       ${column.sortable ? sortIndicator : ''}
     </span>`;

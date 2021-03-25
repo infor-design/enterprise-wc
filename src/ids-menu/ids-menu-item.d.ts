@@ -80,6 +80,12 @@ export default class IdsMenuItem extends IdsElement {
   /* the value of the menu item */
   value?: unknown;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   /* Highlights this menu item */
   highlight(): void;
 

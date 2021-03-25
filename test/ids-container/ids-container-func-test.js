@@ -41,4 +41,14 @@ describe('IdsContainer Component', () => {
     expect(container.getAttribute('scrollable')).toEqual('false');
     expect(container.container.getAttribute('tabindex')).toBeFalsy();
   });
+
+  it('supports setting mode', () => {
+    container.mode = 'dark';
+    expect(container.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    container.version = 'classic';
+    expect(container.container.getAttribute('version')).toEqual('classic');
+  });
 });

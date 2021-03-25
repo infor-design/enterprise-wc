@@ -1,7 +1,7 @@
 import percySnapshot from '@percy/puppeteer';
 
-describe('Ids Card e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-card';
+describe('Ids Hyperlink e2e Tests', () => {
+  const url = 'http://localhost:4444/ids-hyperlink';
 
   beforeAll(async () => {
     page = await browser.newPage();
@@ -9,7 +9,7 @@ describe('Ids Card e2e Tests', () => {
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Card Component');
+    await expect(page.title()).resolves.toMatch('IDS Hyperlink Component');
   });
 
   it('should pass Axe accessibility tests', async () => {
@@ -23,7 +23,7 @@ describe('Ids Card e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    await percySnapshot(page, 'ids-card-new-light');
+    await percySnapshot(page, 'ids-hyperlink-new-light');
   });
 
   it('should not have visual regressions in new dark theme (percy)', async () => {
@@ -33,7 +33,7 @@ describe('Ids Card e2e Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
-    await percySnapshot(page, 'ids-card-new-dark');
+    await percySnapshot(page, 'ids-hyperlink-new-dark');
   });
 
   it('should not have visual regressions in new contrast theme (percy)', async () => {
@@ -43,6 +43,6 @@ describe('Ids Card e2e Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
-    await percySnapshot(page, 'ids-card-new-contrast');
+    await percySnapshot(page, 'ids-hyperlink-new-contrast');
   });
 });

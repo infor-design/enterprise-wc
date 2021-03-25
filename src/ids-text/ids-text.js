@@ -45,7 +45,8 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       props.DISABLED,
       props.ERROR,
       props.MODE,
-      props.VERSION];
+      props.VERSION,
+      props.LABEL];
   }
 
   /**
@@ -151,12 +152,31 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.container.classList.add('error');
+      this.setAttribute(props.ERROR, value);
       return;
     }
-    this.container.classList.add('error');
+    this.removeAttribute(props.ERROR);
+    this.container.classList.remove('error');
   }
 
   get error() { return this.getAttribute(props.ERROR); }
+
+  /**
+   * Set the text to label color.
+   * @param {boolean} value True if error text
+   */
+  set label(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.container.classList.add('label');
+      this.setAttribute(props.LABEL, value);
+      return;
+    }
+    this.removeAttribute(props.LABEL);
+    this.container.classList.remove('label');
+  }
+
+  get label() { return this.getAttribute(props.LABEL); }
 }
 
 export default IdsText;

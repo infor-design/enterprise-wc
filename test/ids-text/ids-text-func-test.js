@@ -55,6 +55,11 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelectorAll('h1').length).toEqual(1);
   });
 
+  it('renders disabled setting', () => {
+    elem.disabled = 'true';
+    expect(elem.disabled).toEqual('true');
+  });
+
   it('renders font-size setting then removes it', () => {
     elem = new IdsText();
     document.body.appendChild(elem);
@@ -66,7 +71,7 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelectorAll('span').length).toEqual(1);
   });
 
-  it('renders audible setting then removes it', () => { // ids-text audible
+  it('renders audible setting then removes it', () => {
     elem = new IdsText();
     document.body.appendChild(elem);
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
@@ -74,5 +79,16 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
     elem.audible = false;
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
+  });
+
+  it('renders error setting then removes it', () => {
+    elem = new IdsText();
+    document.body.appendChild(elem);
+    expect(elem.shadowRoot.querySelector('span').classList.contains('error')).toEqual(false);
+    elem.error = true;
+    expect(elem.shadowRoot.querySelector('span').classList.contains('error')).toEqual(true);
+    expect(elem.error).toEqual('true');
+    elem.error = false;
+    expect(elem.error).toEqual(null);
   });
 });

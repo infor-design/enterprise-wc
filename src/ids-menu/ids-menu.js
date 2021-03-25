@@ -56,6 +56,7 @@ function isUsableItem(item, idsMenu) {
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @part menu - the menu element
  */
 @customElement('ids-menu')
 @scss(styles)
@@ -155,7 +156,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       slot = ` slot="content"`;
     }
 
-    return `<nav class="ids-menu"${id}${slot} role="menu"><slot></slot></nav>`;
+    return `<nav class="ids-menu"${id}${slot} role="menu" part="menu"><slot></slot></nav>`;
   }
 
   /**

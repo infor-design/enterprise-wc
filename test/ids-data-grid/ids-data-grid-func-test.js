@@ -522,4 +522,14 @@ describe('IdsDataGrid Component', () => {
     expect(dataGrid.activeCell.row).toEqual(2);
     expect(dataGrid.activeCell.cell).toEqual(3);
   });
+
+  it('supports setting mode', () => {
+    dataGrid.mode = 'dark';
+    expect(dataGrid.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    dataGrid.version = 'classic';
+    expect(dataGrid.container.getAttribute('version')).toEqual('classic');
+  });
 });

@@ -24,6 +24,7 @@ import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // Input id
 const ID = 'ids-input-id';
@@ -65,6 +66,9 @@ const TEXT_ALIGN = {
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
  * @mixes IdsValidationMixin
+ * @mixes IdsThemeMixin
+ * @part input - the input element
+ * @part label - the label element
  */
 @customElement('ids-input')
 @scss(styles)
@@ -73,7 +77,8 @@ class IdsInput extends mix(IdsElement).with(
     IdsClearableMixin,
     IdsKeyboardMixin,
     IdsDirtyTrackerMixin,
-    IdsValidationMixin
+    IdsValidationMixin,
+    IdsThemeMixin
   ) {
   /**
    * Call the constructor and then initialize
@@ -96,6 +101,7 @@ class IdsInput extends mix(IdsElement).with(
       props.DISABLED,
       props.LABEL,
       props.LABEL_REQUIRED,
+      props.MODE,
       props.PLACEHOLDER,
       props.SIZE,
       props.READONLY,
@@ -105,15 +111,10 @@ class IdsInput extends mix(IdsElement).with(
       props.TYPE,
       props.VALIDATE,
       props.VALIDATION_EVENTS,
-      props.VALUE
+      props.VALUE,
+      props.VERSION
     ];
   }
-
-  /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @returns {void}
-   */
-  attributeChangedCallback() {}
 
   /**
    * Custom Element `connectedCallback` implementation
@@ -131,12 +132,10 @@ class IdsInput extends mix(IdsElement).with(
 
     this.handleEvents();
     this.handleAutoselect();
-    // @ts-ignore
     this.handleClearable();
-    // @ts-ignore
     this.handleDirtyTracker();
-    // @ts-ignore
     this.handleValidation();
+    super.connectedCallback();
   }
 
   /**
@@ -159,7 +158,7 @@ class IdsInput extends mix(IdsElement).with(
     return `
       <div class="ids-input${inputState}">
         <label for="${ID}" class="label-text">
-          <ids-text>${this.label}</ids-text>
+          <ids-text label="true">${this.label}</ids-text>
         </label>
         <div class="field-container">
           <input id="${ID}"${type}${inputClass}${value}${placeholder}${inputState} />
@@ -407,9 +406,11 @@ class IdsInput extends mix(IdsElement).with(
   set disabled(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
+      this.setAttribute(props.DISABLED, 'true');
+      this.container.querySelector('ids-text').setAttribute(props.DISABLED, 'true');
     } else {
       this.removeAttribute(props.DISABLED);
+      this.container.querySelector('ids-text').removeAttribute(props.DISABLED);
     }
     this.setInputState(props.DISABLED);
   }
