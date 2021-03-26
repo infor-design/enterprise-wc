@@ -59,6 +59,12 @@ describe('IdsButton Component', () => {
     expect(btn.button instanceof HTMLElement).toBeTruthy();
   });
 
+  it('focuses the inner button component when told to focus', () => {
+    btn.focus();
+
+    expect(btn.shadowRoot.activeElement.isEqualNode(btn.button));
+  });
+
   it('can be disabled/enabled', () => {
     btn.disabled = true;
 

@@ -67,6 +67,12 @@
   - If using properties/settings these are now attributes: dismissible, color
   - Markup has changed to a custom element `<ids-tag color="error">Text</ids-tag>`
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Toolbar]` The Toolbar component has been changed to a web component.
+  - Markup is now a custom element `<ids-toolbar></ids-toolbar>`
+  - There is no longer a "Toolbar Item" component, instead use standard components directly.
+  - Toolbar Sections are now codified as components `<ids-toolbar-section>`
+  - The More Actions Button is now a codified component `<ids-toolbar-more-actions>`
+  - Toolbar can be tabbable or not
 - `[Upload]` The file upload component has been changed to a web component and renamed to ids-upload.
   - Markup has changed to a custom element `<ids-upload></ids-upload>`
   - If using events, events are now plain JS events.
