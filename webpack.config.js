@@ -138,7 +138,26 @@ module.exports = {
       chunks: ['index']
     }),
     // Show Style Lint Errors in the console and fail
-    new StylelintPlugin({})
+    new StylelintPlugin({}),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: './src/**/*.scss',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            return `${baseName.replace('.scss', '')}/${baseName.replace('scss', 'css')}`;
+          },
+          transform(content, transFormPath) {
+            const result = sass.renderSync({
+              file: transFormPath
+            });
+            let css = result.css.toString();
+            css = css.replace(':host {', ':root {');
+            return css;
+          }
+        }
+      ]
+    })
   ]
 };
 
@@ -154,21 +173,6 @@ if (!isProduction) {
 if (isProduction) {
   module.exports.plugins.push(new CopyWebpackPlugin({
     patterns: [
-      {
-        from: './src/**/*.scss',
-        to({ absoluteFilename }) {
-          const baseName = path.basename(absoluteFilename);
-          return `${baseName.replace('.scss', '')}/${baseName.replace('scss', 'css')}`;
-        },
-        transform(content, transFormPath) {
-          const result = sass.renderSync({
-            file: transFormPath
-          });
-          let css = result.css.toString();
-          css = css.replace(':host {', ':root {');
-          return css;
-        }
-      },
       {
         from: './src/**/*.d.ts',
         to({ absoluteFilename }) {
