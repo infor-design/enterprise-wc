@@ -906,13 +906,13 @@ Will make a pager type for this.
  - [ ] Works in Page with 4.x
 
 **Toolbar** (ids-toolbar)
- - [ ] Docs
- - [ ] 100% Test Coverage
+ - [x] Docs
+ - [x] 100% Test Coverage
  - [ ] Feature Parity with 4.x
- - [ ] Upgrade Docs in Changelog
- - [ ] Typings
+ - [x] Upgrade Docs in Changelog
+ - [x] Typings
  - [ ] NG / Vue / React Example
- - [ ] Standalone Css
+ - [x] Standalone Css
  - [ ] Works in Page with 4.x
 
 **Tooltip** (ids-tooltip)

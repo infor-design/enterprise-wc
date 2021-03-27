@@ -1,0 +1,5 @@
+@import '../ids-base/ids-base.scss';
+
+:host {
+  @include flex();
+}

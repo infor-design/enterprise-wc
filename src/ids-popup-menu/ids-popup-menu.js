@@ -122,7 +122,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     // Arrow Right on an item containing a submenu causes that submenu to open
     this.listen(['ArrowRight'], this, (/** @type {any} */ e) => {
       e.preventDefault();
-      e.stopPropagation();
       const thisItem = e.target.closest('ids-menu-item');
       if (thisItem.hasSubmenu) {
         thisItem.showSubmenu();
@@ -135,7 +134,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     if (this.parentMenu) {
       this.listen(['ArrowLeft'], this, (/** @type {any} */ e) => {
         e.preventDefault();
-        e.stopPropagation();
         this.hide();
         this.parentMenuItem.focus();
       });
@@ -151,6 +149,12 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
         e.preventDefault();
         e.stopPropagation();
         this.hide();
+
+        // Since Escape cancels without selection, re-focus the button
+        /* istanbul ignore next */
+        if (this.target) {
+          this.target.focus();
+        }
       });
     }
   }
@@ -223,12 +227,15 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
       // @TODO
       break;
     case 'click':
+      // Configure some settings for opening
+      this.popup.align = 'bottom, left';
+      this.popup.arrow = 'bottom';
+      this.popup.y = 10;
+
       // Open/Close the menu when the trigger element is clicked
       this.onEvent('click.trigger', targetElem, (/** @type {any} */e) => {
         e.preventDefault();
         if (this.hidden) {
-          this.popup.align = 'bottom, left';
-          this.popup.y = 10;
           this.show();
         } else {
           this.hide();
@@ -289,6 +296,14 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     // @ts-ignore
     this.offEvent('click.toplevel', window);
     this.hasOpenEvents = false;
+  }
+
+  /**
+   * @readonly
+   * @returns {boolean} true if the Popup Menu is currently being displayed
+   */
+  get visible() {
+    return this.popup.visible;
   }
 
   /**
