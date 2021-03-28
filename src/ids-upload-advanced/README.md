@@ -147,7 +147,7 @@ function customSendMethodXhr(formData, uiElem) {
   });
 }
 
-// Attach this custom send method, to upload element
+// Attach this custom send method, to upload element.
 document.addEventListener('DOMContentLoaded', () => {
   const uploadEl = document.querySelector('#some-id');
   uploadEl.send = customSendMethodXhr;
