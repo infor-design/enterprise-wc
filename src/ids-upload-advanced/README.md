@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 - `show-browse-link` {boolean|string} sets a link to browse files to upload.
 - `url` {string} sets the url to use component `XMLHttpRequest` to send files.
 
-### IDS Upload Advanced File (file-component) attributes and properties
+### IDS Upload Advanced File (file-component)
 
 - `disabled` {boolean} set the whole file element to disabled.
 - `error` {string} set the file state to show there was an error during the file operations.
@@ -200,7 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 - `xhr-headers` sets the HTTP headers to be send along if used component's `XMLHttpRequest` method. (*XHR Headers must be a valid JSON string contains array of name/value objects*)
 
-## Get current attached files from API (updated files data for end user)
+## Get current attached files from API (updated files data)
 
 - `all` List of all the files added.
 - `inProcess` List of files in-process.

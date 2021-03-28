@@ -26,16 +26,16 @@ export default class IdsUploadAdvancedFile extends IdsElement {
   value: number|string;
 
   /** Set the abort handler method */
-  abortHandler(e: any): void;
+  abortHandler(e: unknown): void;
 
   /** Set the progress handler method */
-  progressHandler(e: any): void;
+  progressHandler(e: unknown): void;
 
   /** Set the complete handler method */
-  completeHandler(e: any): void;
+  completeHandler(e: unknown): void;
 
   /** Set the error handler method */
-  errorHandler(e: any): void;
+  errorHandler(e: unknown): void;
 
   /** Fires when file sent to in-process for upload */
   on(event: 'beginupload', listener: (detail: IdsUploadAdvancedFileEventDetail) => void): this;

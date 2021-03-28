@@ -41,22 +41,22 @@ export default class IdsUploadAdvanced extends IdsElement {
   url: string;
 
   /** Get list of all added files */
-  all: Array<any>;
+  all: Array<unknown>;
 
   /** Get list of files which are in process to uploading */
-  inProcess: Array<any>;
+  inProcess: Array<unknown>;
 
   /** Get list of aborted files */
-  aborted: Array<any>;
+  aborted: Array<unknown>;
 
   /** Get list of files that had error */
-  errored: Array<any>;
+  errored: Array<unknown>;
 
   /** Get list of files that complete upload */
-  completed: Array<any>;
+  completed: Array<unknown>;
 
   /** Set the custom send method for uploading files */
-  send(formData: object, uiElem: object): void;
+  send(formData: Array<unknown>, uiElem: HTMLElement): void;
 
   /** Fires when files enter to drag area */
   on(event: 'filesdragenter', listener: (detail: IdsUploadAdvancedEventDetail) => void): this;
