@@ -2,7 +2,7 @@
 
 ## Description
 
-Displays feedback about a system process. Best for showing feedback about a system process that is not related to the current view. The IDS Progress component is a simple wrapper around a standard HTMLElement that is styled with Infor branding, and contains some additional API sthat makes it easy to set progress, label, and other functionality.
+Displays feedback about a system process. Best for showing feedback about a system process that is not related to the current view. The IDS Progress component is a simple wrapper around a standard HTMLElement that is styled with Infor branding, and contains some additional API that makes it easy to set progress, label, and other functionality.
 
 ## Use Cases
 

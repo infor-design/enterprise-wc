@@ -3,28 +3,79 @@
 
 import { IdsElement } from '../ids-base/ids-element';
 
-interface IdsProgressEventDetail extends Event {
+interface IdsUploadAdvancedEventDetail extends Event {
   detail: {
-    elem: IdsProgress
+    elem: IdsUploadAdvanced
   }
 }
 
-export default class IdsProgress extends IdsElement {
-  /** Sets to disabled * */
-  disabled: boolean;
+export default class IdsUploadAdvanced extends IdsElement {
+  /** Sets limit the file types to be uploaded */
+  accept: string;
 
-  /** Sets the input label text * */
-  label: string;
+  /** Sets the whole element to disabled state */
+  disabled: boolean|string;
 
-  /** Sets the input label text as audible * */
-  labelAudible: boolean;
+  /** Sets the icon to be use in main drop area */
+  icon: string;
 
-  /** Sets the max attribute * */
-  max: string | number
+  /** Sets the max file size in bytes */
+  maxFileSize: number|string;
 
-  /** Sets the `value` attribute * */
-  value: string | number;
+  /** Sets the max number of files can be uploaded */
+  maxFiles: number|string;
 
-  /** Fires after updated the progress value */
-  on(event: 'updated', listener: (detail: IdsProgressEventDetail) => void): this;
+  /** Sets the max number of files can be uploaded while in process */
+  maxFilesInProcess: number|string;
+
+  /** Sets the method to use component XMLHttpRequest method to send files */
+  method: string;
+
+  /** Sets the variable name to read from server */
+  paramName: string;
+
+  /** Sets a link to browse files to upload */
+  showBrowseLink: boolean|string;
+
+  /** Sets the url to use component XMLHttpRequest method to send files */
+  url: string;
+
+  /** Get list of all added files */
+  all: Array<any>;
+
+  /** Get list of files which are in process to uploading */
+  inProcess: Array<any>;
+
+  /** Get list of aborted files */
+  aborted: Array<any>;
+
+  /** Get list of files that had error */
+  errored: Array<any>;
+
+  /** Get list of files that complete upload */
+  completed: Array<any>;
+
+  /** Set the custom send method for uploading files */
+  send(formData: object, uiElem: object): void;
+
+  /** Fires when files enter to drag area */
+  on(event: 'filesdragenter', listener: (detail: IdsUploadAdvancedEventDetail) => void): this;
+
+  /** Fires when files dropped in to drag area */
+  on(event: 'filesdrop', listener: (detail: IdsUploadAdvancedEventDetail) => void): this;
+
+  /** Fires when each file sent to in-process for upload */
+  on(event: 'beginupload', listener: (detail: IdsUploadAdvancedEventDetail) => void): this;
+
+  /** Fires when each file get abort */
+  on(event: 'abort', listener: (detail: IdsUploadAdvancedEventDetail) => void): this;
+
+  /** Fires when each file get error */
+  on(event: 'error', listener: (detail: IdsUploadAdvancedEventDetail) => void): this;
+
+  /** Fires when each file complete uploading */
+  on(event: 'complete', listener: (detail: IdsUploadAdvancedEventDetail) => void): this;
+
+  /** Fires when clicked on close button in each file ui-element */
+  on(event: 'closebuttonclick', listener: (detail: IdsUploadAdvancedEventDetail) => void): this;
 }

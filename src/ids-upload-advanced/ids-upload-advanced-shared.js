@@ -12,6 +12,7 @@ const IdsUploadAdvancedShared = {
     maxFileSize: -1, // max file size in bytes, -1 for unlimited
     maxFiles: 99999, // max files can be upload
     maxFilesInProcess: 99999, // max files can be upload while in process,
+    method: 'POST', // Sets the method to use component XMLHttpRequest method to send files
     showBrowseLink: true, // Browse files to upload
 
     // Text strings

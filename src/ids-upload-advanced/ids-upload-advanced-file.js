@@ -7,11 +7,13 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-
 // @ts-ignore
 import styles from './ids-upload-advanced-file.scss';
+// @ts-ignore
 import IdsAlert from '../ids-alert/ids-alert';
+// @ts-ignore
 import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
+// @ts-ignore
 import IdsProgress from '../ids-progress/ids-progress';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
@@ -327,7 +329,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
       .replace('{file-name}', this.fileName)
       .replace('{loaded}', this.loadedFormatted.toString())
       .replace('{size}', this.sizeFormatted.toString())
-      .replace('{percent}', this.value);
+      .replace('{percent}', this.value?.toString());
   }
 
   /**
@@ -374,7 +376,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Sets the file-name attribute
+   * Sets the file name
    * @param {string} value file-name attribute
    */
   set fileName(value) {
@@ -392,7 +394,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Sets the size attribute
+   * Sets the file size in bytes
    * @param {string|number} value size attribute
    */
   set size(value) {
@@ -409,7 +411,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * Sets the progress bar value
-   * @param {string|?|number} val value attribute
+   * @param {string|number} val value attribute
    */
   set value(val) {
     if (val) {

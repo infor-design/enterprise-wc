@@ -34,14 +34,14 @@ function uploadFileDummy(formData, uiElem) {
   const total = 100;
   let loaded = 0;
   const e = {
-    completeHandler: () => ({ loaded, total, target: { readystate: 4, status: 200 } }),
+    completeHandler: () => ({ loaded, total, target: { readyState: 4, status: 200 } }),
     progressHandler: () => ({ loaded, total }),
     abortHandler: () => null,
     errorHandler: () => ({
       loaded,
       total,
       target: {
-        readystate: 4,
+        readyState: 4,
         status: 401,
         statusText: '<em>Error</em>: Some server issue!'
       }

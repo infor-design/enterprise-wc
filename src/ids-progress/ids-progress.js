@@ -73,7 +73,7 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
     const bar = this.shadowRoot.querySelector('.progress-bar');
     if (bar) {
       const v = bar.getAttribute(props.VALUE);
-      if (v !== val.toString()) {
+      if (val !== null && v !== val.toString()) {
         bar.setAttribute(props.VALUE, val.toString());
         bar.innerHTML = this.completed;
         this.triggerEvent('updated', this, {

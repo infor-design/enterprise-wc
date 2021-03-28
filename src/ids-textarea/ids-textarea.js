@@ -353,7 +353,7 @@ class IdsTextarea extends mix(IdsElement).with(
   handleSlotchangeEvent() {
     const slot = this.shadowRoot.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
-      const val = slot.assignedNodes()[0].innerHTML;
+      const val = slot.assignedNodes()[0].textContent;
       this.value = this.getMaxValue(val);
     });
   }

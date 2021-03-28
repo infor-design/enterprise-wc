@@ -13,6 +13,7 @@ import styles from './ids-upload-advanced.scss';
 import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+// @ts-ignore
 import IdsUploadAdvancedFile from './ids-upload-advanced-file';
 
 /**
@@ -40,6 +41,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
       props.MAX_FILE_SIZE,
       props.MAX_FILES,
       props.MAX_FILES_IN_PROCESS,
+      props.METHOD,
       props.PARAM_NAME,
       props.SHOW_BROWSE_LINK,
       props.URL
@@ -129,7 +131,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
     xhr.addEventListener('load', uiElem.completeHandler.bind(uiElem), false);
     xhr.addEventListener('error', uiElem.errorHandler.bind(uiElem), false);
     xhr.addEventListener('abort', uiElem.abortHandler.bind(uiElem), false);
-    xhr.open('POST', this.url);
+    xhr.open(this.method, this.url);
     xhr.setRequestHeader('param-name', this.paramName);
     if (this.xhrHeaders) {
       const isValid = (/** @type {object} */ h) => (h && h.name !== '');
@@ -141,10 +143,41 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
     }
     xhr.send(formData);
 
-    // File abort
+    /* istanbul ignore next */
     uiElem?.addEventListener('abort', () => {
-      xhr.abort();
+      xhr.abort(); // File abort
     });
+  }
+
+  /**
+   * Set xhr headers value
+   * @private
+   * @returns {void}
+   */
+  setXhrHeaders() {
+    const errorarea = this.shadowRoot?.querySelector('.errorarea');
+    errorarea.innerHTML = '';
+    /** @type {any} */
+    let xhrHeaders = shared.slotVal(this.shadowRoot, 'xhr-headers');
+    let isValid = true;
+    try {
+      xhrHeaders = JSON.parse(xhrHeaders.trim());
+    } catch (e) {
+      isValid = false;
+    }
+    if (!isValid) {
+      const error = shared.slotVal(this.shadowRoot, 'error-xhr-headers');
+      this.errorMessage({ error, data: xhrHeaders.toString() });
+      this.xhrHeaders = null;
+    } else if (!Array.isArray(xhrHeaders)
+      && typeof xhrHeaders === 'object'
+      && xhrHeaders.name
+      && xhrHeaders.value) {
+      this.xhrHeaders = [xhrHeaders];
+    } else {
+      this.errorMessage({ remove: true });
+      this.xhrHeaders = xhrHeaders;
+    }
   }
 
   /**
@@ -182,17 +215,15 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
    */
   getDropareaLabel(hasBrowse) {
     const toBool = stringUtils.stringToBool;
-    const isValid = (/** @type {string} */ s) => typeof s === 'string' && s !== '';
+    // const isValid = (/** @type {string} */ s) => typeof s === 'string' && s !== '';
     const text = shared.slotVal(this.shadowRoot, 'text-droparea');
     const textHasBrowse = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse');
     const link = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse-link');
 
     let browseLabelHtml = '';
     if (!toBool(hasBrowse)) {
-      if (isValid(text)) {
-        browseLabelHtml = `<ids-text class="inline">${text}</ids-text>`;
-      }
-    } else if (isValid(textHasBrowse) && isValid(link)) {
+      browseLabelHtml = `<ids-text class="inline">${text}</ids-text>`;
+    } else {
       const textArray = textHasBrowse.split('{browseLink}');
       if (textArray.length === 2) {
         browseLabelHtml = `
@@ -209,13 +240,14 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   /**
    * Get droparea label html
    * @private
-   * @param {boolean?} hasBrowse if true, use with browse link
    * @returns {void}
    */
-  setDropareaLabel(hasBrowse) {
+  setDropareaLabel() {
+    /* istanbul ignore next */
     if (!this.shadowRoot) {
       return;
     }
+    const hasBrowse = this.showBrowseLinkVal;
     const className = 'hidden';
     const sel = {
       noBrowse: '.no-browse-link',
@@ -242,12 +274,14 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
    * Show/Hide given error message
    * @private
    * @param {object} [opt] The error message options.
-   * @param {string?} [opt.error=undefined] The error message
-   * @param {string?} [opt.data=undefined] The data to show with message if any
-   * @param {boolean?} [opt.remove=undefined] If set true, will remove error message
    * @returns {void}
    */
-  errorMessage({ error, data, remove }) {
+  errorMessage(opt) {
+    const {
+      /** @type {string} */ error, // The error message
+      /** @type {string} */ data, // The data to show with message if any
+      /** @type {boolean} */ remove // If set true, will remove error message
+    } = opt;
     const errorarea = this.shadowRoot?.querySelector('.errorarea');
     errorarea?.classList.remove('has-error');
     errorarea.innerHTML = '';
@@ -275,37 +309,6 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Set xhr headers value
-   * @private
-   * @returns {void}
-   */
-  setXhrHeaders() {
-    const errorarea = this.shadowRoot?.querySelector('.errorarea');
-    errorarea.innerHTML = '';
-    /** @type {any} */
-    let xhrHeaders = shared.slotVal(this.shadowRoot, 'xhr-headers');
-    let isValid = true;
-    try {
-      xhrHeaders = JSON.parse(xhrHeaders.trim());
-    } catch (e) {
-      isValid = false;
-    }
-    if (!isValid) {
-      const error = shared.slotVal(this.shadowRoot, 'error-xhr-headers');
-      this.errorMessage({ error, data: xhrHeaders.toString() });
-      this.xhrHeaders = null;
-    } else if (!Array.isArray(xhrHeaders)
-      && typeof xhrHeaders === 'object'
-      && xhrHeaders.name
-      && xhrHeaders.value) {
-      this.xhrHeaders = [xhrHeaders];
-    } else {
-      this.errorMessage({ remove: true });
-      this.xhrHeaders = xhrHeaders;
-    }
-  }
-
-  /**
    * Get status filter files
    * @private
    * @param {string} status The status
@@ -317,7 +320,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * Set Disabled
-   * NOTE: Making `Disabled` while `In-Process`, will NOT stop uploading files in process.
+   * NOTE: Making Disabled while In-Process uploading, will NOT stop uploading files.
    * @private
    * @returns {void}
    */
@@ -476,7 +479,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
     dropareaLabelSlotsName.forEach((/** @type {any} */ slotName) => {
       const slot = this.shadowRoot?.querySelector(`slot[name="${slotName}"]`);
       this.onEvent('slotchange', slot, () => {
-        this.setDropareaLabel(this.showBrowseLinkVal);
+        this.setDropareaLabel();
       });
     });
 
@@ -598,6 +601,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
         }
         this.dispatchFileEvent(eventName, e, target.id, target.file);
 
+        /* istanbul ignore next */
         if (/closebuttonclick|abort/g.test(eventName)) {
           uiElem?.remove();
         }
@@ -659,7 +663,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Get template for current file slots
+   * Get template for current slots to use in file element
    * @private
    * @returns {string} The slots template
    */
@@ -683,7 +687,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Get file template
+   * Get template for file element
    * @private
    * @returns {string} The slots template
    */
@@ -702,9 +706,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
    */
   get errorMaxFilesVal() {
     const val = shared.slotVal(this.shadowRoot, 'error-max-files');
-    const maxFiles = this.maxFiles !== null
-      ? this.maxFiles : shared.DEFAULTS.maxFiles;
-    return val.replace('{maxFiles}', maxFiles.toString());
+    return val.replace('{maxFiles}', this.maxFiles.toString());
   }
 
   /**
@@ -719,8 +721,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Set `accept` attribute
-   * @param {string} value `accept` attribute
+   * Sets limit the file types to be uploaded
+   * @param {string} value The accept value
    */
   set accept(value) {
     if (value) {
@@ -735,8 +737,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   get accept() { return this.getAttribute(props.ACCEPT); }
 
   /**
-   * Sets to disabled
-   * @param {boolean|string} value If true will set `disabled` attribute
+   * Sets the whole element to disabled
+   * @param {boolean|string} value The disabled value
    */
   set disabled(value) {
     const val = stringUtils.stringToBool(value);
@@ -751,25 +753,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
-   * Sets the `param-name` attribute
-   * @param {string} value `param-name` attribute
-   */
-  set paramName(value) {
-    if (value) {
-      this.setAttribute(props.PARAM_NAME, value.toString());
-    } else {
-      this.removeAttribute(props.PARAM_NAME);
-    }
-  }
-
-  get paramName() {
-    return this.getAttribute(props.PARAM_NAME)
-      || shared.DEFAULTS.paramName;
-  }
-
-  /**
-   * Sets the `icon` attribute (use for droparea)
-   * @param {string} value `icon` attribute
+   * Sets the icon to be use in main drop area
+   * @param {string} value The icon value
    */
   set icon(value) {
     const icon = this.shadowRoot.querySelector('.icon');
@@ -788,8 +773,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Sets the `max-file-size` attribute
-   * @param {number|string} value `max-file-size` attribute
+   * Sets the max file size in bytes
+   * @param {number|string} value  The max-file-size value
    */
   set maxFileSize(value) {
     if (value) {
@@ -805,8 +790,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Sets the `max-files` attribute
-   * @param {number|string} value `max-files` attribute
+   * Sets the max number of files can be uploaded
+   * @param {number|string} value The max-files value
    */
   set maxFiles(value) {
     if (value) {
@@ -822,8 +807,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Sets the `max-files-in-process` attribute
-   * @param {number|string} value `max-files-in-process` attribute
+   * Sets the max number of files can be uploaded while in process
+   * @param {number|string} value The max-files-in-process value
    */
   set maxFilesInProcess(value) {
     if (value) {
@@ -839,25 +824,57 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Sets to show browse link
-   * @param {boolean|string} value If true will set `show-browse-link` attribute
+   * Sets the method to use component XMLHttpRequest method to send files
+   * @param {string} value The method value
+   */
+  set method(value) {
+    if (value) {
+      this.setAttribute(props.METHOD, value.toString());
+    } else {
+      this.removeAttribute(props.METHOD);
+    }
+  }
+
+  get method() {
+    return this.getAttribute(props.METHOD)
+      || shared.DEFAULTS.method;
+  }
+
+  /**
+   * Sets the variable name to read from server
+   * @param {string} value The param-name value
+   */
+  set paramName(value) {
+    if (value) {
+      this.setAttribute(props.PARAM_NAME, value.toString());
+    } else {
+      this.removeAttribute(props.PARAM_NAME);
+    }
+  }
+
+  get paramName() {
+    return this.getAttribute(props.PARAM_NAME)
+      || shared.DEFAULTS.paramName;
+  }
+
+  /**
+   * Sets a link to browse files to upload
+   * @param {boolean|string} value The show-browse-link value
    */
   set showBrowseLink(value) {
-    const val = stringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(props.SHOW_BROWSE_LINK, val.toString());
+    if (value) {
+      this.setAttribute(props.SHOW_BROWSE_LINK, value.toString());
     } else {
       this.removeAttribute(props.SHOW_BROWSE_LINK);
     }
-    const v = value !== null ? val : shared.DEFAULTS.showBrowseLink;
-    this.setDropareaLabel(v);
+    this.setDropareaLabel();
   }
 
   get showBrowseLink() { return this.getAttribute(props.SHOW_BROWSE_LINK); }
 
   /**
-   * Sets the `url` attribute
-   * @param {string} value `url` attribute
+   * Sets the url to use component XMLHttpRequest method to send files
+   * @param {string} value The url value
    */
   set url(value) {
     if (value) {

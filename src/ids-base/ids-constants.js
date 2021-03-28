@@ -56,6 +56,7 @@ export const props = {
   MAX_FILES_IN_PROCESS: 'max-files-in-process',
   MAXLENGTH: 'maxlength',
   MENU: 'menu',
+  METHOD: 'method',
   MULTIPLE: 'multiple',
   NO_MARGINS: 'no-margins',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
