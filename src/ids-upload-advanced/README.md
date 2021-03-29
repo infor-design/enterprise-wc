@@ -2,20 +2,18 @@
 
 ## Description
 
-The IDS Upload Advanced component is a web component that is styled to Infor branding, and contains some API that makes it easy to set functionality such as limit the file types, max file size, max number of files to be uploaded. It allows uploading files with progress indication.
-
-The IDS Upload Advanced File component is a simple web component that use with IDS Upload Advanced component to display the file status, error, progress indication and other functionality.
+The IDS Upload Advanced component is a web component that contains an API that makes it easy to set functionality such as limit the file types, max file size, max number of files to be uploaded. It shows currently uploading files with a progress indicator. It aso contains functionality to display the file status, error, progress and other functionality.
 
 ## Use Cases
 
-- Upload files with drag and drop or use browse file link.
-- Displays the progress of the file upload.
-- Allows to aborted uploading files.
+- Upload files to a server with drag and drop or use browse file link to select a file
+- Displays the progress of the file upload process
+- Allows to aborted uploading files and manage upload files
 
 ## Terminology
 
-**Drop Area:** A standard html div element to display as drag and drop files area.
-**Browse File Link:** The way to open browse file window to collect files use in upload.
+**Drop Area:** An html element that display as drag and drop files target area.
+**Browse File Link:** A link to open the browse file window in lieu of drag drop
 
 ## Features (With Code Samples)
 
@@ -25,8 +23,7 @@ A standard upload advanced element:
 <ids-upload-advanced></ids-upload-advanced>
 ```
 
-Set the whole upload advanced element to disabled:
-*NOTE: Making `Disabled` while in process of uploading, will not stop uploading.*
+Set the whole upload advanced element to disabled. Note that making the component `disabled` while currently in the process of uploading, will not stop uploading.
 
 ```html
 <ids-upload-advanced disabled="true"></ids-upload-advanced>
@@ -50,31 +47,31 @@ Add limit the file types (.png, .jpg):
 <ids-upload-advanced accept=".png, .jpg"></ids-upload-advanced>
 ```
 
-Set max file size (in bytes), can be uploaded:
+Set max file size (in bytes), can be uploaded. An error will bew shown if the file is over the limit.
 
 ```html
 <ids-upload-advanced max-file-size="2097152"></ids-upload-advanced>
 ```
 
-Set max files in total, can be uploaded:
+Set max number of files in total, that can be uploaded:
 
 ```html
 <ids-upload-advanced max-files="5"></ids-upload-advanced>
 ```
 
-Set max files can be in process, while uploading.
+Set max files can be in process uploading at one time.
 
 ```html
 <ids-upload-advanced max-files-in-process="2"></ids-upload-advanced>
 ```
 
-Set custom param name, the variable name to read from server.
+Set custom param name, that might be used to read data from a server API.
 
 ```html
 <ids-upload-advanced param-name="someCustomParamName"></ids-upload-advanced>
 ```
 
-Set the custom text strings:
+Set the custom text strings using the named slots.
 
 ```html
 <ids-upload-advanced>
@@ -101,8 +98,7 @@ Set the custom error strings this way:
 </ids-upload-advanced>
 ```
 
-Set extra headers to send with XHR, when use component `XMLHttpRequest` to send files:\
-*XHR Headers must be a valid JSON string contains array of name/value objects.*
+Set extra headers to send with XHR, when use component `XMLHttpRequest` to send files. XHR Headers must be a valid JSON string contains array of name/value objects.
 
 ```html
 <ids-upload-advanced>
@@ -116,8 +112,7 @@ Set the url to use component `XMLHttpRequest` to send files:
 <ids-upload-advanced url="http://somedomain.com/upload"></ids-upload-advanced>
 ```
 
-Set the method, when use component `XMLHttpRequest` method to send files:\
-*default is set `POST`, it can be set to `PUT`*
+Set the method, when use component `XMLHttpRequest` method to send files. The default is set `POST`, it can be set to `PUT`.
 
 ```html
 <ids-upload-advanced method="PUT"></ids-upload-advanced>
@@ -128,6 +123,7 @@ You can also set the custom `Send()` method with the JS api.
 ```html
 <ids-upload-advanced id="some-id"></ids-upload-advanced>
 ```
+
 ```javascript
 // Custom send method
 function customSendMethodXhr(formData, uiElem) {
@@ -158,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 ### IDS Upload Advanced attributes and properties
 
-- `accept` {string} sets limit the file types to be uploaded.
+- `accept` {string} sets a limit on the file types that can be uploaded.
 - `disabled` {boolean|string} sets the whole upload advanced element to disabled.
 - `icon` {string} sets the icon to be use in main drop area.
 - `max-file-size` {number|string} sets the max file size in bytes.
