@@ -3,6 +3,7 @@ import {
   scss,
   props
 } from '../ids-base/ids-element';
+import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
@@ -126,22 +127,21 @@ class IdsMenuButton extends IdsButton {
 
   /**
    * @readonly
-   * @returns {HTMLElement | null | any} element if one is present
+   * @returns {IdsPopupMenu | null} element if one is present
    */
   get menuEl() {
+    // Check for a Shadow Root parent.
+    // If none, use `document`
     /** @type {any} */
-    let el = document.querySelector(`ids-popup-menu[id="${this.menu}"]`);
-    if (!el) {
-      el = this.parentElement?.querySelector(`ids-popup-menu[id="${this.menu}"]`);
-    }
-    return el;
+    const target = IdsDOMUtils.getClosestRootNode(this);
+    return target.querySelector(`ids-popup-menu[id="${this.menu}"]`);
   }
 
   /**
    * @returns {void}
    */
   configureMenu() {
-    if (!this.menuEl) {
+    if (!this.menuEl || !this.menuEl.popup) {
       return;
     }
     this.resizeMenu();
@@ -169,6 +169,9 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   resizeMenu() {
+    if (!this.menuEl || !this.menuEl.popup) {
+      return;
+    }
     this.menuEl.popup.container.style.minWidth = `${this.button.clientWidth}px`;
   }
 
@@ -176,7 +179,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   setPopupArrow() {
-    if (!this.menuEl) {
+    if (!this.menuEl || !this.menuEl.popup) {
       return;
     }
     this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;

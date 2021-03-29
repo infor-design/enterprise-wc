@@ -141,7 +141,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin,
     const protoClasses = ['ids-button', 'ids-icon-button', 'ids-menu-button', 'ids-toggle-button'];
 
     cl.remove(...protoClasses);
-    cl.add(newProtoClass);
+    cl.add(...newProtoClass);
   }
 
   /**
@@ -619,6 +619,13 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin,
         rippleEl.remove();
       }
     }));
+  }
+
+  /**
+   * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLButton element.
+   */
+  focus() {
+    this.button.focus();
   }
 }
 

@@ -17,6 +17,7 @@ import IdsSeparator from './ids-separator';
 
 // @ts-ignore
 import styles from './ids-menu.scss';
+import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 /**
  * @private
@@ -46,8 +47,21 @@ function isValidGroup(menuGroup, idsMenu) {
 function isUsableItem(item, idsMenu) {
   // @ts-ignore
   const isItem = item instanceof IdsMenuItem;
+  if (!isItem) {
+    return false;
+  }
+
+  // The item is only usable if it's contained by the correct IdsMenu
   const menuHasItem = idsMenu.contains(item);
-  return (isItem && menuHasItem && !item.disabled);
+
+  // In some nested cases, we need to detect the item's Shadow Root containment to accurately
+  // figure out if it's slotted inside the same menu.
+  // @ts-ignore
+  const closestItemRoot = IdsDOMUtils.getClosestRootNode(item.assignedSlot);
+  // @ts-ignore
+  const itemInMenuShadow = closestItemRoot?.menu?.isEqualNode(idsMenu);
+
+  return (itemInMenuShadow || menuHasItem) && !item.disabled;
 }
 
 /**
@@ -331,7 +345,14 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {Array<any>} [`IdsMenuGroup`] all available menu groups
    */
   get groups() {
-    return [...this.children].filter((/** @type {any} */ e) => e.matches('ids-menu-group'));
+    // Standard Implementation is to simply look at children
+    let target = this.children;
+
+    // If the first child is a slot, look in the slot for assigned items instead
+    if (this.children[0]?.tagName === 'SLOT') {
+      target = this.children[0].assignedElements();
+    }
+    return [...target].filter((/** @type {any} */ e) => e.matches('ids-menu-group'));
   }
 
   /**
@@ -352,7 +373,12 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   get focused() {
     // @ts-ignore
-    return this.items.find((item) => document.activeElement.isEqualNode(item));
+    return this.items.find((item) => {
+      // @ts-ignore
+      const containerNode = IdsDOMUtils.getClosestContainerNode(this);
+      // @ts-ignore
+      return containerNode?.activeElement?.isEqualNode(item);
+    });
   }
 
   /**
@@ -442,7 +468,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   navigate(amt = 0, doFocus = false) {
     const items = this.items;
-    let currentItem = this.focused || items[0];
+    let currentItem = this.focused || this.lastNavigated || items[0];
     if (this.lastHovered) {
       currentItem = this.lastHovered;
       this.lastHovered = undefined;

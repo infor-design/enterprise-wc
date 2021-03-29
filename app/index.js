@@ -9,6 +9,7 @@ import IdsText from '../src/ids-text/ids-text';
 import IdsHyperlink from '../src/ids-hyperlink/ids-hyperlink';
 import IdsIcon from '../src/ids-icon/ids-icon';
 import IdsPopup from '../src/ids-popup/ids-popup';
+import IdsToolbar from '../src/ids-toolbar/ids-toolbar';
 import IdsTag from '../src/ids-tag/ids-tag';
 import IdsLayoutGrid from '../src/ids-layout-grid/ids-layout-grid';
 import IdsLayoutGridCell from '../src/ids-layout-grid/ids-layout-grid-cell';

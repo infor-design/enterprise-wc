@@ -294,6 +294,10 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
    * @returns {any} ['IdsMenu'] reference to the parent IdsMenu component, if one exists.
    */
   get menu() {
+    const toolbarParent = this.closest('ids-toolbar-more-actions');
+    if (toolbarParent) {
+      return toolbarParent.menu;
+    }
     return this.closest('ids-menu, ids-popup-menu');
   }
 

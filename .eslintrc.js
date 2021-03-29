@@ -64,6 +64,8 @@ module.exports = {
     quotes: ['error', 'single', { allowTemplateLiterals: true }],
     // Allow Arrow functions to be on the next line or below
     'no-useless-constructor': ['off', { }],
+    // Allow assignment of properties from items in `forEach` loops
+    'no-param-reassign': ['error', { props: false }],
     // Allow hasOwnProperty
     'no-prototype-builtins': ['off', { }],
     // Allow functions with no this in them

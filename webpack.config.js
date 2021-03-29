@@ -140,7 +140,6 @@ module.exports = {
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),
-    // Make a Copy of the Sass Files only for standalone Css
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -157,16 +156,6 @@ module.exports = {
             css = css.replace(':host {', ':root {');
             return css;
           }
-        },
-        {
-          from: './src/**/*.d.ts',
-          to({ absoluteFilename }) {
-            const baseName = path.basename(absoluteFilename);
-            if (absoluteFilename.indexOf('ids-base') > -1) {
-              return `${absoluteFilename.replace('/src/', '/dist/')}`;
-            }
-            return `${baseName.replace('.d.ts', '')}/${baseName}`;
-          },
         }
       ]
     })
@@ -178,6 +167,24 @@ if (!isProduction) {
   module.exports.plugins.push(new FaviconsWebpackPlugin({
     logo: 'app/assets/favicon.ico',
     mode: 'auto'
+  }));
+}
+
+// Make a Copy of the Sass Files only for standalone Css
+if (isProduction) {
+  module.exports.plugins.push(new CopyWebpackPlugin({
+    patterns: [
+      {
+        from: './src/**/*.d.ts',
+        to({ absoluteFilename }) {
+          const baseName = path.basename(absoluteFilename);
+          if (absoluteFilename.indexOf('ids-base') > -1) {
+            return `${absoluteFilename.replace('/src/', '/dist/')}`;
+          }
+          return `${baseName.replace('.d.ts', '')}/${baseName}`;
+        },
+      }
+    ]
   }));
 }
 
