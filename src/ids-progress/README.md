@@ -2,17 +2,16 @@
 
 ## Description
 
-Displays feedback about a system process. Best for showing feedback about a system process that is not related to the current view. The IDS Progress component is a simple wrapper around a standard HTMLElement that is styled with Infor branding, and contains some additional API that makes it easy to set progress, label, and other functionality.
+Displays feedback about a system process. It is best for showing feedback about a system process to show an unspecified wait time or display the length of a running process. The IDS progress indicator is a simple web component and the value can be set with the `value` setting/attribute.
 
 ## Use Cases
 
-- Create standalone progresss
-- Create progresss, each with different styling to provide context for actions that are disabled, audible label, max and value.
+- Showing feedback about a running system proces
 
 ## Terminology
 
-- Progress: A standard basic progress element. It can set to max and value.
-- Label: HTMLLabelElement to keep matching with HTMLProgressElement. Make sure the progress label has a meaningful relative to progress.
+- Progress: A standard basic progress element. It can set to a max and value.
+- Label: A label web component element to label the process being shown. Make sure the progress label is meaningful relative to progress.
 
 ## Features (With Code Samples)
 
@@ -22,19 +21,19 @@ A standard basic progress element:
 <ids-progress label="Basic" value="30"></ids-progress>
 ```
 
-Add an Disabled Progress this way:
+Represent an Disabled progress in this way:
 
 ```html
 <ids-progress label="Disabled" disabled="true" value="30"></ids-progress>
 ```
 
-Set the Max and value attributes to Progress this way:
+Set the max and value attributes to show progress in this way:
 
 ```html
 <ids-progress label="Max" max="1" value="0.7"></ids-progress>
 ```
 
-Set the audible label to Progress:
+Set the audible (screen reader only) label to Progress:
 
 ```html
 <ids-progress label="Audible label" label-audible="true" value="30"></ids-progress>
@@ -42,21 +41,21 @@ Set the audible label to Progress:
 
 ## Attributes and Properties
 
-- `disabled` {boolean} set disabled state.
-- `label` {string} set the label text.
-- `label-audible` {boolean} set the audible label.
+- `disabled` {boolean} set the disabled state.
+- `label` {string} set the label text
+- `label-audible` {boolean} set the label to audible (screen reader only)
 - `max` {string|number} set the progress max attribute.
 - `value` {string|number} set the progress value attribute.
 
 ## Responsive Guidelines
 
-- Default size is 100% wide and it based on fluid design.
+- Default size is 100% wide and it based on fluid design, stretching to the parent content.
 
 ## Converting from Previous Versions
 
 ### Converting from 4.x
 
-The IDS Progress component is now a WebComponent. Instead of using classes to define, it is done directly with attributes:
+The IDS Progress component is now a WebComponent. Instead of using classes to define it, it is done directly with a custom element and attributes:
 
 ```html
 <!-- 4.x progress example -->
@@ -71,21 +70,3 @@ The IDS Progress component is now a WebComponent. Instead of using classes to de
 <ids-progress label="Percent complete" value="50"></ids-progress>
 
 ```
-
-## Designs
-
-## Alternate Designs
-
-## Proposed Changes
-
-## Test Plan
-
-1. Accessibility - Axe
-1. Visual Regression Test
-1. Repeat Tests in All Supported Browsers
-1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
-
-## Accessibility Guidelines
-
-## Regional Considerations
