@@ -19,6 +19,7 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
+import IdsMaskMixin from '../ids-mask/ids-mask-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
@@ -73,8 +74,13 @@ class IdsInput extends mix(IdsElement).with(
     IdsClearableMixin,
     IdsKeyboardMixin,
     IdsDirtyTrackerMixin,
+<<<<<<< HEAD
     IdsValidationMixin,
     IdsThemeMixin
+=======
+    IdsMaskMixin,
+    IdsValidationMixin
+>>>>>>> Setting up IDS Mask
   ) {
   /**
    * Call the constructor and then initialize
@@ -98,6 +104,7 @@ class IdsInput extends mix(IdsElement).with(
       props.LABEL,
       props.LABEL_REQUIRED,
       props.MODE,
+      props.MASK,
       props.PLACEHOLDER,
       props.SIZE,
       props.READONLY,
@@ -130,6 +137,8 @@ class IdsInput extends mix(IdsElement).with(
     this.handleAutoselect();
     this.handleClearable();
     this.handleDirtyTracker();
+    this.handleMask();
+    // @ts-ignore
     this.handleValidation();
     super.connectedCallback();
   }
