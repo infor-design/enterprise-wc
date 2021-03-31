@@ -9,7 +9,7 @@ import {
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 
 // @ts-ignore
-import styles from './ids.rating.scss';
+import styles from './ids-rating.scss';
 
 /**
  * IDS Tag Component
@@ -25,12 +25,10 @@ import styles from './ids.rating.scss';
  class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin){
     constructor() {
         super();
-        console.log(this)
       }
 
       // TEMP Config
       ratingsConfig = {
-        shadow: this.attachShadow({mode: 'open'}),
         ratingsAttr: {
             star: this.getAttribute('stars'),
             active: this.getAttribute('active'),
@@ -48,18 +46,31 @@ import styles from './ids.rating.scss';
       this.addRemoveClass();
     }
 
+     /**
+   * Create the Template for the contents
+   * @returns {string} The template
+   */
+  template() {
+    return `<div id="rating"></div>`;
+  }
+
     buildDOM() {
-      const ratingsContainer = window.document.createElement('div');
-      ratingsContainer.id = 'rating';
+      const ratingsContainer = this.shadowRoot.querySelector('#rating')
       this.ratingBuilder(ratingsContainer);
       this.shadowRoot.append(ratingsContainer);
     }
 
+    /**
+    * @param {HTMLDivElement} element
+    */
     buildRatingStar(element){
       const section = window.document.createElement('section')
       element.appendChild(section);
     }
 
+    /**
+    * @param {HTMLDivElement} el
+    */
     ratingBuilder(el){
       const amount = this.ratingsConfig.ratingsAttr.star
       for(let i=0; i<amount; i++){
@@ -69,7 +80,7 @@ import styles from './ids.rating.scss';
 
     addRemoveClass(){
       const ratingContainer = this.shadowRoot.querySelector('#rating')
-      ratingContainer.addEventListener('click', e => {
+      ratingContainer.addEventListener('click', (/** @type {{ target: any; }} */ e) => {
           let action = 'add';
           for (const section of ratingContainer.children) {
               section.classList[action]('active');

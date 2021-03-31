@@ -30,3 +30,8 @@
 #rating section:hover {
   cursor: pointer;
 }
+
+#rating section.active::before {
+  color: orange;
+  content: '★';
+}
