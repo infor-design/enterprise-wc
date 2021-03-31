@@ -4,3 +4,24 @@
 .ids-separator {
   @include separator-style();
 }
+
+// Handle Themes
+.ids-separator[mode='dark'] {
+  @include bg-slate-50();
+}
+
+.ids-separator[mode='contrast'] {
+  @include text-slate-100();
+}
+
+.ids-separator[version='classic'][mode='light'] {
+  @include text-slate-30();
+}
+
+.ids-separator[version='classic'][mode='dark'] {
+  @include bg-slate-50();
+}
+
+.ids-separator[version='classic'][mode='contrast'] {
+  @include bg-graphite-60();
+}

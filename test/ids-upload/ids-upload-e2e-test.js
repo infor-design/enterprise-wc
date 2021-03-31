@@ -16,7 +16,7 @@ describe('Ids Upload e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
-    await expect(page).toPassAxeTests();
+    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast'] });
   });
 
   it('should not have visual regressions (percy)', async () => {

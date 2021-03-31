@@ -15,3 +15,24 @@
   color: var(--ids-color-palette-slate-70);
   list-style: none;
 }
+
+// Handle Themes
+.ids-menu-header[mode='dark'] {
+  @include text-white();
+}
+
+.ids-menu-header[mode='contrast'] {
+  @include text-slate-100();
+}
+
+.ids-menu-header[version='classic'][mode='light'] {
+  @include text-slate-100();
+}
+
+.ids-menu-header[version='classic'][mode='dark'] {
+  @include text-white();
+}
+
+.ids-separator[version='classic'][mode='contrast'] {
+  @include bg-graphite-100();
+}

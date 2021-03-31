@@ -7,22 +7,22 @@ exports[`IdsThemeSwitcher Component renders correctly 1`] = `
         </ids-menu-button>
         <ids-popup-menu id=\\"ids-theme-menu\\" target=\\"ids-theme-switcher\\" trigger=\\"click\\" hidden=\\"\\">
           <ids-menu-group>
-            <ids-menu-item>
+            <ids-menu-item mode=\\"light\\" version=\\"new\\">
               Theme
               <ids-popup-menu slot=\\"submenu\\" hidden=\\"\\">
                 <ids-menu-group select=\\"single\\">
-                  <ids-menu-item selected=\\"true\\" value=\\"new\\">New</ids-menu-item>
-                  <ids-menu-item value=\\"classic\\">Classic</ids-menu-item>
+                  <ids-menu-item selected=\\"true\\" value=\\"new\\" mode=\\"light\\" version=\\"new\\">New</ids-menu-item>
+                  <ids-menu-item value=\\"classic\\" mode=\\"light\\" version=\\"new\\">Classic</ids-menu-item>
                 </ids-menu-group>
               </ids-popup-menu>
             </ids-menu-item>
-            <ids-menu-item>
+            <ids-menu-item mode=\\"light\\" version=\\"new\\">
               Mode
               <ids-popup-menu slot=\\"submenu\\" hidden=\\"\\">
                 <ids-menu-group select=\\"single\\">
-                  <ids-menu-item selected=\\"true\\" value=\\"light\\">Light</ids-menu-item>
-                  <ids-menu-item value=\\"dark\\">Dark</ids-menu-item>
-                  <ids-menu-item value=\\"contrast\\">High Contrast</ids-menu-item>
+                  <ids-menu-item selected=\\"true\\" value=\\"light\\" mode=\\"light\\" version=\\"new\\">Light</ids-menu-item>
+                  <ids-menu-item value=\\"dark\\" mode=\\"light\\" version=\\"new\\">Dark</ids-menu-item>
+                  <ids-menu-item value=\\"contrast\\" mode=\\"light\\" version=\\"new\\">High Contrast</ids-menu-item>
                 </ids-menu-group>
               </ids-popup-menu>
             </ids-menu-item>

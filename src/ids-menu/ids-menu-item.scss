@@ -251,3 +251,65 @@
     }
   }
 }
+
+// Handle Themes
+.ids-menu-item[mode='dark'] {
+  @include text-white();
+
+  &.disabled {
+    @include text-slate-50();
+  }
+
+  &.highlighted {
+    background-color: var(--ids-color-palette-slate-80);
+  }
+}
+
+.ids-menu-item[mode='contrast'] {
+  @include text-slate-100();
+
+  &.disabled {
+    @include text-slate-50();
+  }
+
+  &.highlighted {
+    background-color: var(--ids-color-palette-slate-20);
+  }
+}
+
+.ids-menu-item[version='classic'][mode='light'] {
+  @include text-graphite-100();
+
+  &.disabled {
+    @include text-graphite-40();
+  }
+
+  &.highlighted {
+    background-color: var(--ids-color-palette-graphite-20);
+  }
+}
+
+.ids-menu-item[version='classic'][mode='dark'] {
+  @include text-white();
+
+  &.disabled {
+    @include text-slate-50();
+  }
+
+  &.highlighted {
+    background-color: var(--ids-color-palette-slate-50);
+  }
+}
+
+.ids-menu-item[version='classic'][mode='contrast'] {
+  @include text-graphite-100();
+
+  &.disabled {
+    @include text-slate-50();
+  }
+
+  &.highlighted {
+    background-color: var(--ids-color-palette-graphite-30);
+  }
+}
+

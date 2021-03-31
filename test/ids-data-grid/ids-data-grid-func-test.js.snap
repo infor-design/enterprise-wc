@@ -2,49 +2,49 @@
 
 exports[`IdsDataGrid Component renders correctly 1`] = `
 "<style nonce=\\"0a59a005\\">.ids-data-grid { background-color: transparent; }</style><div class=\\"ids-data-grid\\" role=\\"table\\" part=\\"table\\" aria-label=\\"Data Grid\\" data-row-height=\\"large\\" mode=\\"light\\" version=\\"new\\">
-      <div class=\\"ids-data-grid-header\\" role=\\"rowgroup\\" part=\\"header\\"><div role=\\"row\\" class=\\"ids-data-grid-row\\"><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"selectionCheckbox\\" role=\\"columnheader\\">
+      <div class=\\"ids-data-grid-header\\" role=\\"rowgroup\\" part=\\"header\\"><div role=\\"row\\" class=\\"ids-data-grid-row\\"><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"selectionCheckbox\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\"></span>
       
-    </span><span class=\\"ids-data-grid-header-cell is-sortable\\" part=\\"headerCell\\" data-column-id=\\"book\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell is-sortable\\" part=\\"header-cell\\" data-column-id=\\"book\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Book</span>
       <div class=\\"sort-indicator\\">
       <ids-icon icon=\\"dropdown\\"></ids-icon>
       <ids-icon icon=\\"dropdown\\"></ids-icon>
     </div>
-    </span><span class=\\"ids-data-grid-header-cell is-sortable\\" part=\\"headerCell\\" data-column-id=\\"description\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell is-sortable\\" part=\\"header-cell\\" data-column-id=\\"description\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Description</span>
       <div class=\\"sort-indicator\\">
       <ids-icon icon=\\"dropdown\\"></ids-icon>
       <ids-icon icon=\\"dropdown\\"></ids-icon>
     </div>
-    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"ledger\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"ledger\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Ledger</span>
       
-    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"bookCurrency\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"bookCurrency\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Book Currency</span>
       
-    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"transactionCurrency\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"transactionCurrency\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Transaction Currency</span>
       
-    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"postHistory\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"postHistory\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Post History</span>
       
-    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"active\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"active\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Active</span>
       
-    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"convention\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"convention\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Convention</span>
       
-    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"methodSwitch\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"methodSwitch\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Method Switch</span>
       
-    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"trackDeprecationHistory\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"trackDeprecationHistory\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Track Deprecation History</span>
       
-    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"useForEmployee\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"useForEmployee\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Use For Employee</span>
       
-    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"headerCell\\" data-column-id=\\"deprecationHistory\\" role=\\"columnheader\\">
+    </span><span class=\\"ids-data-grid-header-cell\\" part=\\"header-cell\\" data-column-id=\\"deprecationHistory\\" role=\\"columnheader\\">
       <span class=\\"ids-data-grid-header-text\\">Deprecation History</span>
       
     </span></div></div>

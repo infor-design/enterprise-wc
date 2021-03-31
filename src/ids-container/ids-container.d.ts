@@ -3,32 +3,10 @@
 
 import { IdsElement } from '../ids-base/ids-element';
 
-interface IdsTagEventDetail extends Event {
-  detail: {
-    elem: IdsTag
-  }
-}
-
-interface IdsTagEventVetoable extends Event {
-  detail: {
-    elem: IdsTag,
-    response: () => boolean
-  }
-}
-
 export default class IdsTag extends IdsElement {
-  /** Set the tag type/color */
-  color: 'secondary' | 'error' | 'success' | 'caution' | string;
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
 
-  /** Add a dismissible x button to the tag */
-  dismissible: boolean;
-
-  /** Dismiss a dismissible tag */
-  dismiss(): void;
-
-  /** Fires before the tag is removed, you can return false in the response to veto. */
-  on(event: 'beforetagremoved', listener: (detail: IdsTagEventVetoable) => void): this;
-
-  /** Fires while the tag is removed */
-  on(event: 'tagremoved', listener: (detail: IdsTagEventDetail) => void): this;
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
 }
