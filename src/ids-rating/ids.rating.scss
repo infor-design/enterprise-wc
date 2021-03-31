@@ -1,3 +1,32 @@
 #rating {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  font-size: 0;
   width: 100%;
+}
+
+.ids-rating-container {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+#rating section {
+  font-size: 30px;
+}
+
+#rating section::before {
+  color: #000;
+  content: '☆';
+}
+
+#rating section:hover::before {
+  color: orange;
+  content: '★';
+}
+
+#rating section:hover {
+  cursor: pointer;
 }
