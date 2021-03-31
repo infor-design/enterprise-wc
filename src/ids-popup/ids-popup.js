@@ -6,6 +6,8 @@ import {
   mix
 } from '../ids-base/ids-element';
 
+import IdsDOMUtils from '../ids-base/ids-dom-utils';
+
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
@@ -120,6 +122,8 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     // @ts-ignore
     this.setupResize();
     this.handleEvents();
+
+    this.shouldUpdate = true;
     this.refresh();
   }
 
@@ -192,7 +196,9 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     if (isString) {
       // @TODO Harden for security (XSS)
       // @ts-ignore
-      elem = document.querySelector(val);
+      const rootNode = IdsDOMUtils.getClosestRootNode(this);
+      // @ts-ignore
+      elem = rootNode.querySelector(val);
       if (!(elem instanceof HTMLElement)) {
         return;
       }
@@ -465,7 +471,10 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     let elem;
     if (isString) {
       // @TODO Harden for security (XSS)
-      elem = document.querySelector(val);
+      // @ts-ignore
+      const rootNode = IdsDOMUtils.getClosestRootNode(this);
+      // @ts-ignore
+      elem = rootNode.querySelector(val);
       if (!(elem instanceof HTMLElement)) {
         return;
       }
