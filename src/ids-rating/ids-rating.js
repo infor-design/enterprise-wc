@@ -82,43 +82,16 @@ import styles from './ids-rating.scss';
 
     addRemoveClass(){
       const ratingContainer = this.shadowRoot.querySelector('#rating');
-
-
       this.onEvent('click', ratingContainer, (/** @type {{ target: any; }} */ e) => {
-
         let action = 'add';
-
         for (const section of ratingContainer.children) {
-
             section.classList[action]('active');
             this.udpateValue();
             if (section === e.target) {
-
                 action = 'remove';
-
             }
-
         }
-
-    })
-
-      // ratingContainer.addEventListener('click', (/** @type {{ target: any; }} */ e) => {
-
-      //     let action = 'add';
-
-      //     for (const section of ratingContainer.children) {
-
-      //         section.classList[action]('active');
-      //         this.udpateValue();
-      //         if (section === e.target) {
-
-      //             action = 'remove';
-
-      //         }
-
-      //     }
-
-      // })
+      })
     }
 
     udpateValue(){
