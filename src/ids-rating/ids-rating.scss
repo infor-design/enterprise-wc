@@ -17,6 +17,10 @@
   font-size: 30px;
 }
 
+.rating-item {
+  position: relative;
+}
+
 #rating section::before {
   color: #000;
   content: '☆';
@@ -27,11 +31,11 @@
   content: '☆';
 }
 
-#rating section:hover {
-  cursor: pointer;
-}
-
 #rating section.active::before {
   color: orange;
   content: '★';
+}
+
+#rating section:hover {
+  cursor: pointer;
 }

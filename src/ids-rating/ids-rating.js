@@ -12,7 +12,7 @@ import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import styles from './ids-rating.scss';
 
 /**
- * IDS Tag Component
+ * IDS Rating Component
  * @type {IdsRating}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
@@ -61,6 +61,7 @@ import styles from './ids-rating.scss';
 
     /**
     * @param {HTMLDivElement} element
+    * @param {number} index
     */
     buildRatingStar(element, index){
       const section = window.document.createElement('section');
@@ -81,16 +82,43 @@ import styles from './ids-rating.scss';
 
     addRemoveClass(){
       const ratingContainer = this.shadowRoot.querySelector('#rating');
-      ratingContainer.addEventListener('click', (/** @type {{ target: any; }} */ e) => {
-          let action = 'add';
-          for (const section of ratingContainer.children) {
-              section.classList[action]('active');
-              this.udpateValue();
-              if (section === e.target) {
-                  action = 'remove';
-              }
-          }
-      })
+
+
+      this.onEvent('click', ratingContainer, (/** @type {{ target: any; }} */ e) => {
+
+        let action = 'add';
+
+        for (const section of ratingContainer.children) {
+
+            section.classList[action]('active');
+            this.udpateValue();
+            if (section === e.target) {
+
+                action = 'remove';
+
+            }
+
+        }
+
+    })
+
+      // ratingContainer.addEventListener('click', (/** @type {{ target: any; }} */ e) => {
+
+      //     let action = 'add';
+
+      //     for (const section of ratingContainer.children) {
+
+      //         section.classList[action]('active');
+      //         this.udpateValue();
+      //         if (section === e.target) {
+
+      //             action = 'remove';
+
+      //         }
+
+      //     }
+
+      // })
     }
 
     udpateValue(){
