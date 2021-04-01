@@ -75,7 +75,7 @@ import styles from './ids-rating.scss';
     */
     ratingBuilder(el){
       const amount = this.ratingsConfig.ratingsAttr.star;
-      for(let i=0; i<amount; i++){
+      for(let i = 0; i < amount; i++){
           this.buildRatingStar(el, i);
       }
     }
@@ -94,10 +94,27 @@ import styles from './ids-rating.scss';
       })
     }
 
+    /**
+    * @param {Array} arr
+    */
+    updateWholeNum(arr){
+      const activeArr = [...arr].filter( el => el.classList.contains('active'));
+        this.ratingsConfig.ratingsAttr.value = this.setAttribute('value', activeArr.length);
+        console.log('Whole Number')
+    }
+
+    /**
+    * @param {Array} arr
+    */
+    updateDecimalNum(arr){
+      console.log('Decimal Number')
+    }
+
     udpateValue(){
+      const ratingValue = Number(this.getAttribute('value'))
+      const isWhole = Number.isInteger(ratingValue)
       const ratingChildren = this.shadowRoot.querySelector('#rating').childNodes;
-      const activeArr = [...ratingChildren].filter( el => el.classList.contains('active'));
-      this.ratingsConfig.ratingsAttr.value = this.setAttribute('value', activeArr.length);
+      isWhole ? this.updateWholeNum(ratingChildren) : this.updateDecimalNum(ratingChildren);
     }
  }
 
