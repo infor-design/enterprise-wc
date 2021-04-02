@@ -7,6 +7,9 @@ export default class IdsAlert extends IdsElement {
   type: 'alert' | 'success' | 'dirty' | 'error' | 'info' |
     'pending' | 'new' | 'in-progress' | 'info-field';
 
+  /* Set the disabled */
+  disabled: boolean | string | null;
+
   /* Set the icon */
   icon: string | null;
 }
