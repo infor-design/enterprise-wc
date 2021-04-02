@@ -134,11 +134,11 @@
 }
 
 .ids-text[mode='dark'][version='classic'] {
-  @include text-slate-10();
+  @include text-classic-slate-10();
 }
 
 :host([disabled][mode='dark'][version='classic']) .ids-text {
-  @include text-slate-50();
+  @include text-classic-slate-50();
 }
 
 .ids-text[mode='contrast'][version='classic'] {

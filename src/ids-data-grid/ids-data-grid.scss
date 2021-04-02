@@ -299,7 +299,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   .ids-data-grid-header-cell {
     @include bg-graphite-70();
-    @include border-slate-30();
+    @include border-classic-slate-30();
   }
 
   .ids-data-grid-header-text {
@@ -308,7 +308,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   .is-sortable {
     ids-icon {
-      @include text-slate-40();
+      @include text-classic-slate-40();
     }
 
     &[aria-sort='descending'] ids-icon {
@@ -325,44 +325,44 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   .ids-data-grid-cell {
-    @include border-slate-30();
+    @include border-classic-slate-30();
     @include text-graphite-100();
   }
 }
 
 // Handle Classic - Dark Theme
 .ids-data-grid[version='classic'][mode='dark'] {
-  @include bg-slate-80();
+  @include bg-classic-slate-80();
 
   .ids-data-grid-header-cell {
     @include bg-graphite-30();
-    @include border-slate-50();
+    @include border-classic-slate-50();
   }
 
   .ids-data-grid-header-text {
-    @include text-slate-100();
+    @include text-classic-slate-100();
   }
 
   .is-sortable {
     ids-icon {
-      @include text-slate-40();
+      @include text-classic-slate-40();
     }
 
     &[aria-sort='descending'] ids-icon {
       &:last-child {
-        @include text-slate-100();
+        @include text-classic-slate-100();
       }
     }
 
     &[aria-sort='ascending'] ids-icon {
       &:first-child {
-        @include text-slate-100();
+        @include text-classic-slate-100();
       }
     }
   }
 
   .ids-data-grid-cell {
-    @include border-slate-50();
+    @include border-classic-slate-50();
     @include text-white();
   }
 }

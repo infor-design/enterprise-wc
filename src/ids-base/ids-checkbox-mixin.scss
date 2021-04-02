@@ -30,11 +30,11 @@
   }
 
   @if $theme == classicLight {
-    @include border-slate-40();
+    @include border-classic-slate-40();
   }
 
   @if $theme == classicDark {
-    @include border-slate-40();
+    @include border-classic-slate-40();
   }
 
   @if $theme == classicContrast {

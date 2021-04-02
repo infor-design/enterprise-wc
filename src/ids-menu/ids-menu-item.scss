@@ -231,7 +231,7 @@
 
   &.selected {
     span.check {
-      @include checkbox-checked();
+      @include checkbox-checked(light);
 
       &::after { //stylelint-disable
         @include checkbox-checked-after();
@@ -240,10 +240,6 @@
   }
 
   &.disabled {
-    span.check {
-      @include checkbox-disabled-unchecked();
-    }
-
     &.selected {
       span.check {
         @include checkbox-disabled-checked(light);
@@ -263,6 +259,18 @@
   &.highlighted {
     background-color: var(--ids-color-palette-slate-80);
   }
+
+  &.has-multi-checkmark {
+    span.check {
+      @include border-slate-40();
+    }
+
+    &.selected {
+      span.check {
+       @include border-azure-60();
+      }
+    }
+  }
 }
 
 .ids-menu-item[mode='contrast'] {
@@ -274,6 +282,20 @@
 
   &.highlighted {
     background-color: var(--ids-color-palette-slate-20);
+  }
+
+  &.has-multi-checkmark {
+    span.check {
+      @include bg-white();
+      @include border-slate-90();
+    }
+
+    &.selected {
+      span.check {
+        @include bg-azure-80();
+        @include border-azure-80();
+      }
+    }
   }
 }
 
@@ -287,17 +309,43 @@
   &.highlighted {
     background-color: var(--ids-color-palette-graphite-20);
   }
+
+  &.has-multi-checkmark {
+    span.check {
+      @include border-classic-slate-40();
+    }
+
+    &.selected {
+      span.check {
+        @include bg-azure-60();
+        @include border-azure-60();
+      }
+    }
+  }
 }
 
 .ids-menu-item[version='classic'][mode='dark'] {
   @include text-white();
 
   &.disabled {
-    @include text-slate-50();
+    @include text-classic-slate-50();
   }
 
   &.highlighted {
-    background-color: var(--ids-color-palette-slate-50);
+    background-color: var(--ids-color-palette-classic-slate-50);
+  }
+
+  &.has-multi-checkmark {
+    span.check {
+      @include border-classic-slate-40();
+    }
+
+    &.selected {
+      span.check {
+        @include bg-azure-60();
+        @include border-azure-60();
+      }
+    }
   }
 }
 
@@ -305,11 +353,25 @@
   @include text-graphite-100();
 
   &.disabled {
-    @include text-slate-50();
+    @include text-classic-slate-50();
   }
 
   &.highlighted {
     background-color: var(--ids-color-palette-graphite-30);
+  }
+
+  &.has-multi-checkmark {
+    span.check {
+      @include bg-white();
+      @include border-graphite-90();
+    }
+
+    &.selected {
+      span.check {
+        @include bg-azure-80();
+        @include border-azure-80();
+      }
+    }
   }
 }
 

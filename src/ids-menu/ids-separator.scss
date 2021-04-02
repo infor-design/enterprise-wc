@@ -15,11 +15,11 @@
 }
 
 .ids-separator[version='classic'][mode='light'] {
-  @include text-slate-30();
+  @include text-classic-slate-30();
 }
 
 .ids-separator[version='classic'][mode='dark'] {
-  @include bg-slate-50();
+  @include bg-classic-slate-50();
 }
 
 .ids-separator[version='classic'][mode='contrast'] {

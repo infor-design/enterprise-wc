@@ -115,8 +115,8 @@
 
 .ids-badge[version='classic'][mode='dark'] {
   &:not([color]) {
-    @include bg-slate-60();
-    @include border-slate-60();
+    @include bg-classic-slate-60();
+    @include border-classic-slate-60();
     @include text-white();
   }
 
@@ -141,7 +141,7 @@
 
 .ids-badge[version='classic'][mode='contrast'] {
   &.ids-white {
-    @include text-slate-100();
+    @include text-classic-slate-100();
   }
 
   &[color='error'] {

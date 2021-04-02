@@ -73,12 +73,12 @@
 }
 
 .ids-accordion-header[version='classic'][mode='light'] {
-  @include text-slate-60();
+  @include text-graphite-100();
 
-  border-bottom-color: var(--ids-color-palette-slate-30);
+  border-bottom-color: var(--ids-color-palette-graphite-20);
 
   ids-icon {
-    @include text-slate-60();
+    @include text-graphite-100();
   }
 
   &:focus {
@@ -89,7 +89,7 @@
 .ids-accordion-header[version='classic'][mode='dark'] {
   @include text-white();
 
-  border-bottom-color: var(--ids-color-palette-slate-100);
+  border-bottom-color: var(--ids-color-palette-classic-slate-100);
 
   ids-icon {
     @include text-slate-10();
@@ -103,7 +103,7 @@
 .ids-accordion-header[version='classic'][mode='contrast'] {
   @include text-black();
 
-  border-bottom-color: var(--ids-color-palette-slate-40);
+  border-bottom-color: var(--ids-color-palette-classic-slate-40);
 
   ids-icon {
     @include text-slate-100();

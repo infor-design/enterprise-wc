@@ -15,6 +15,7 @@ import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 // @ts-ignore
 import styles from './ids-popup.scss';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 const CENTER = 'center';
 
@@ -83,10 +84,18 @@ function formatAlignAttribute(alignX, alignY, edge) {
  * @inherits IdsElement
  * @mixes IdsRenderLoopMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part popup - the popup outer element
+ * @part arrow - the arrow element
  */
 @customElement('ids-popup')
 @scss(styles)
-class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, IdsEventsMixin) {
+class IdsPopup extends mix(IdsElement).with(
+    IdsRenderLoopMixin,
+    IdsResizeMixin,
+    IdsEventsMixin,
+    IdsThemeMixin
+  ) {
   constructor() {
     super();
     this.alignment = {
@@ -122,6 +131,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     // @ts-ignore
     this.setupResize();
     this.handleEvents();
+    super.connectedCallback();
 
     this.shouldUpdate = true;
     this.refresh();
@@ -943,8 +953,8 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-popup">
-      <div class="arrow"></div>
+    return `<div class="ids-popup" part="popup">
+      <div class="arrow" part="arrow"></div>
       <div class="content-wrapper">
         <slot name="content"></slot>
       </div>

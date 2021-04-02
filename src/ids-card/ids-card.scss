@@ -63,25 +63,25 @@
 }
 
 .ids-card[version='classic'][mode='dark'] {
-  @include bg-slate-80();
-  @include border-slate-60();
+  @include bg-classic-slate-80();
+  @include border-classic-slate-60();
   @include rounded-default();
 
   box-shadow: none;
 
   .ids-card-header {
-    @include border-slate-60();
+    @include border-classic-slate-60();
   }
 }
 
 .ids-card[version='classic'][mode='contrast'] {
-  @include bg-slate-10();
-  @include border-slate-60();
+  @include bg-classic-slate-10();
+  @include border-classic-slate-60();
   @include rounded-default();
 
   box-shadow: none;
 
   .ids-card-header {
-    @include border-slate-60();
+    @include border-classic-slate-60();
   }
 }

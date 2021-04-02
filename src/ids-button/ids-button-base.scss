@@ -207,7 +207,10 @@
 
 // Handle Dark Theme
 .ids-button[mode='dark'],
-.ids-icon-button[mode='dark'] {
+.ids-icon-button[mode='dark'],
+.ids-menu-button[mode='dark'],
+.ids-button.btn-tertiary[mode='dark'],
+.ids-menu-button.btn-tertiary[mode='dark'] {
   @include text-slate-20();
 
   &[disabled] {
@@ -248,7 +251,9 @@
 
 // Handle contrast Theme
 .ids-button[mode='contrast'],
-.ids-icon-button[mode='contrast'] {
+.ids-icon-button[mode='contrast'],
+.ids-menu-button[mode='contrast'],
+.ids-button.btn-tertiary[mode='contrast'] {
   @include text-slate-100();
 
   &[disabled] {
@@ -291,7 +296,9 @@
 
 // Handle Classic Light Theme
 .ids-button[mode='light'][version='classic'],
-.ids-icon-button[mode='light'][version='classic'] {
+.ids-icon-button[mode='light'][version='classic'],
+.ids-menu-button[mode='light'][version='classic'],
+.ids-button.btn-tertiary[mode='light'][version='classic'] {
   @include text-graphite-100();
 
   &[disabled] {
@@ -335,14 +342,16 @@
 
 // Handle Dark Classic Theme
 .ids-button[mode='dark'][version='classic'],
-.ids-icon-button[mode='dark'][version='classic'] {
-  @include text-slate-10();
+.ids-icon-button[mode='dark'][version='classic'],
+.ids-menu-button[mode='dark'][version='classic'],
+.ids-button.btn-tertiary[mode='dark'][version='classic'] {
+  @include text-classic-slate-10();
 
   &[disabled] {
-    @include text-slate-50();
+    @include text-classic-slate-50();
 
     &:hover {
-      @include text-slate-50();
+      @include text-classic-slate-50();
     }
   }
 
@@ -357,36 +366,38 @@
   @include border-azure-50();
 
   &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+    box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
   }
 
   &[disabled] {
     @include bg-azure-80();
     @include border-azure-80();
-    @include text-slate-40();
+    @include text-classic-slate-40();
   }
 }
 
 .ids-button.btn-secondary[mode='dark'][version='classic'],
 .ids-icon-button.btn-secondary[mode='dark'][version='classic'] {
-  @include bg-slate-30();
-  @include border-slate-30();
-  @include text-slate-100();
+  @include bg-classic-slate-30();
+  @include border-classic-slate-30();
+  @include text-classic-slate-100();
 
   &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+    box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
   }
 
   &[disabled] {
-    @include bg-slate-50();
-    @include border-slate-50();
-    @include text-slate-80();
+    @include bg-classic-slate-50();
+    @include border-classic-slate-50();
+    @include text-classic-slate-80();
   }
 }
 
 // Handle contrast light Theme
 .ids-button[mode='contrast'][version='classic'],
-.ids-icon-button[mode='contrast'][version='classic'] {
+.ids-icon-button[mode='contrast'][version='classic'],
+.ids-menu-button[mode='contrast'][version='classic'],
+.ids-button.btn-tertiary[mode='contrast'][version='classic'] {
   @include text-graphite-70();
 
   &:focus {

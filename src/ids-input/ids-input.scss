@@ -285,7 +285,7 @@ $input-size-default: $input-size-md;
   &[readonly] {
     @include bg-graphite-20();
     @include border-graphite-40();
-    @include text-slate-100();
+    @include text-classic-slate-100();
   }
 }
 
@@ -295,13 +295,13 @@ $input-size-default: $input-size-md;
   @include text-white();
 
   &[disabled] {
-    @include border-slate-40();
-    @include text-slate-50();
+    @include border-classic-slate-40();
+    @include text-classic-slate-50();
   }
 
   &[readonly] {
-    @include bg-slate-60();
-    @include border-slate-40();
+    @include bg-classic-slate-60();
+    @include border-classic-slate-40();
     @include text-white();
   }
 }

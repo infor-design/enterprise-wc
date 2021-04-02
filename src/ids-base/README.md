@@ -102,8 +102,8 @@ This mixin add functionality for validation to the component. This includes a ad
 
 This mixin add functionality to change the theme on a component. To use it you need to:
 
-1. Include the mixin in the `mix` list.
-1. Also you add two properties to the properties array. For example:
+1. Include the IdsThemeMixin in the `mix` list.
+1. Add two properties to the properties array. For example:
 
 ```js
   static get properties() {
@@ -111,9 +111,9 @@ This mixin add functionality to change the theme on a component. To use it you n
   }
 ```
 
-1. Add types to the `d.ts` file for the new properties.
-1. In addition you should add the color changes for each theme. For example:
+1. Add types for MODE and VERSION to the `d.ts` file for the new properties.
 1. Add the theme mixin name to the @mixins tag for future docs.
+1. Add the color changes for each theme scss file. For example:
 
 ```css
 .ids-container[mode='light'] {
@@ -133,7 +133,7 @@ This mixin add functionality to change the theme on a component. To use it you n
 }
 
 .ids-container[version='classic'][mode='dark'] {
-  @include bg-slate-80();
+  @include bg-classic-slate-80();
 }
 
 .ids-container[version='classic'][mode='contrast'] {
@@ -154,3 +154,4 @@ This mixin add functionality to change the theme on a component. To use it you n
    return '<span class="ids-tag" part="tag"><slot></slot></span>';
  }
 ```
+1. Add a themeable parts section to the .MD file

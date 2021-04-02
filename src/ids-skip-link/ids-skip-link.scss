@@ -44,8 +44,8 @@
 }
 
 .ids-hyperlink[version='classic'][mode='dark'] {
-  @include bg-slate-70();
-  @include border-slate-50();
+  @include bg-classic-slate-70();
+  @include border-classic-slate-50();
 }
 
 .ids-hyperlink[version='classic'][mode='contrast'] {

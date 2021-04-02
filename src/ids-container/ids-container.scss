@@ -31,7 +31,7 @@
 }
 
 .ids-container[version='classic'][mode='dark'] {
-  @include bg-slate-90();
+  @include bg-classic-slate-90();
 }
 
 .ids-container[version='classic'][mode='contrast'] {

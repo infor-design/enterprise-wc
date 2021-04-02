@@ -93,7 +93,7 @@
   }
 
   &[disabled] {
-    @include text-slate-50();
+    @include text-classic-slate-50();
   }
 }
 
@@ -110,6 +110,6 @@
   }
 
   &[disabled] {
-    @include text-slate-50();
+    @include text-classic-slate-50();
   }
 }

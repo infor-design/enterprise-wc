@@ -22,11 +22,11 @@
 }
 
 .ids-menu-header[mode='contrast'] {
-  @include text-slate-100();
+  @include text-classic-slate-100();
 }
 
 .ids-menu-header[version='classic'][mode='light'] {
-  @include text-slate-100();
+  @include text-classic-slate-100();
 }
 
 .ids-menu-header[version='classic'][mode='dark'] {
