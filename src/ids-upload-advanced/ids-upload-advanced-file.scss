@@ -1,0 +1,149 @@
+/* Ids Upload Advanced File */
+@import '../ids-base/ids-base';
+
+// Flex item will not grow or shrink
+@mixin flex-item-stable() {
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+.ids-upload-advanced-file {
+  @include block();
+
+  .hidden {
+    @include hidden();
+  }
+
+  .container {
+    @include border-1();
+    @include border-slate-50();
+    @include mt-8();
+    @include p-2();
+    @include rounded-default();
+
+    border-style: dashed;
+
+    .file-row {
+      @include flex();
+
+      align-items: center;
+
+      .status {
+        @include flex-item-stable();
+      }
+
+      .file-name {
+        @include min-w-0();
+
+        flex-grow: 1;
+      }
+
+      .file-name span {
+        @include antialiased();
+        @include ellipsis();
+        @include font-sans();
+        @include font-normal();
+        @include block();
+        @include m-0();
+      }
+
+      .size {
+        @include block();
+        @include ml-12();
+        @include flex-item-stable();
+      }
+
+      .btn-close {
+        @include mx-2();
+        @include flex-item-stable();
+      }
+    }
+
+    .status ids-alert {
+      @include block();
+      @include p-8();
+      @include pb-4();
+      @include m-0();
+    }
+
+    .error-row,
+    .status .completed,
+    .status .errored {
+      @include hidden();
+    }
+
+    .error-row,
+    .progress-row {
+      @include px-12();
+      @include pb-4();
+    }
+
+    .progress-row {
+      @include px-28();
+    }
+  }
+
+  &.completed {
+    .container {
+      @include border-emerald-80();
+
+      .status .completed {
+        @include block();
+      }
+
+      .file-name {
+        @include text-emerald-80();
+      }
+
+      .error-row,
+      .progress-row,
+      .status .in-process,
+      .status .errored {
+        @include hidden();
+      }
+    }
+  }
+
+  &.errored {
+    .container {
+      @include border-ruby-60();
+
+      .error-row,
+      .status .errored {
+        @include block();
+      }
+
+      .progress-row,
+      .status .in-process,
+      .status .completed {
+        @include hidden();
+      }
+    }
+  }
+
+  &.disabled {
+    @include text-slate-30();
+    @include no-select();
+
+    .container {
+      @include border-slate-30();
+      @include no-select();
+    }
+
+    &.completed {
+      .container {
+        @include border-emerald-30();
+      }
+
+      .container .file-name {
+        @include text-emerald-30();
+      }
+    }
+
+    &.errored {
+      .container {
+        @include border-ruby-30();
+      }
+    }
+  }
+}

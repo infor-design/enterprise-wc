@@ -13,6 +13,12 @@
   }
 }
 
+:host(.inline) {
+  .ids-text {
+    display: inline;
+  }
+}
+
 ::slotted(.audible) {
   @include audible();
 }

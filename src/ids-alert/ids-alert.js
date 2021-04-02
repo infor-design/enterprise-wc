@@ -7,6 +7,8 @@ import {
 
 // @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+
 // @ts-ignore
 import styles from './ids-alert.scss';
 
@@ -27,7 +29,7 @@ class IdsAlert extends IdsElement {
    * @returns {Array} The propertires in an array
    */
   static get properties() {
-    return [props.ICON];
+    return [props.ICON, props.DISABLED];
   }
 
   /**
@@ -36,8 +38,27 @@ class IdsAlert extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return `<ids-icon size="normal"></ids-icon>`;
+    const cssClass = stringUtils.stringToBool(this.disabled) ? ' class="disabled"' : '';
+    return `<ids-icon size="normal"${cssClass}></ids-icon>`;
   }
+
+  /**
+   * Sets to disabled
+   * @param {boolean|string?} value If true will set `disabled` attribute
+   */
+  set disabled(value) {
+    const icon = this.shadowRoot?.querySelector('ids-icon');
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(props.DISABLED, val.toString());
+      icon?.classList.add(props.DISABLED);
+    } else {
+      this.removeAttribute(props.DISABLED);
+      icon?.classList.remove(props.DISABLED);
+    }
+  }
+
+  get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
    * Return the icon of the alert.

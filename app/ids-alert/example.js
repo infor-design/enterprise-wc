@@ -16,5 +16,4 @@ const iconAlertHtml = `<ids-alert icon="alert"></ids-alert>
   <ids-alert icon="new-solid"></ids-alert>
   <ids-alert icon="in-progress-solid"></ids-alert>
   <ids-alert icon="info-field-solid"></ids-alert>`;
-
 document.getElementById('ids-alert-list').innerHTML = iconAlertHtml;

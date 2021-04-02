@@ -1,5 +1,3 @@
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins.scss';
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.scss';
 @import '../ids-base/ids-base';
 
 :host {
@@ -8,40 +6,72 @@
   [icon='success'],
   [icon='success-solid'] {
     @include text-alert-success();
+
+    &.disabled {
+      color: var(--ids-color-palette-emerald-30);
+    }
   }
 
   [icon='alert'],
   [icon='alert-solid'] {
     @include text-alert-warning();
+
+    &.disabled {
+      color: var(--ids-color-palette-amber-30);
+    }
   }
 
   [icon='info'],
   [icon='info-solid'] {
     @include text-alert-info();
+
+    &.disabled {
+      color: var(--ids-color-palette-azure-30);
+    }
   }
 
   [icon='error'],
   [icon='error-solid'] {
     @include text-alert-danger();
+
+    &.disabled {
+      color: var(--ids-color-palette-ruby-30);
+    }
   }
 
   [icon='new'],
   [icon='new-solid'] {
-    color: $ids-color-palette-amber-70;
+    color: var(--ids-color-palette-amber-70);
+
+    &.disabled {
+      color: var(--ids-color-palette-amber-30);
+    }
   }
 
   [icon='in-progress'],
   [icon='in-progress-solid'] {
-    color: $ids-color-palette-amethyst-70;
+    color: var(--ids-color-palette-amethyst-70);
+
+    &.disabled {
+      color: var(--ids-color-palette-amethyst-30);
+    }
   }
 
   [icon='info-field'],
   [icon='info-field-solid'] {
-    color: $ids-color-brand-primary-base;
+    color: var(--ids-color-palette-azure-60);
+
+    &.disabled {
+      color: var(--ids-color-palette-azure-30);
+    }
   }
 
   [icon='empty-circle'],
   [icon='half-empty-circle'] {
-    color: $ids-color-palette-slate-80;
+    color: var(--ids-color-palette-slate-80);
+
+    &.disabled {
+      color: var(--ids-color-palette-slate-30);
+    }
   }
 }
