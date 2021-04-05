@@ -8,13 +8,13 @@ import {
 import styles from './ids-wizard.scss';
 
 /**
- * IDS Switch Component
- * @type {IdsSwitch}
+ * IDS Wizard Component
+ * @type {IdsWizard}
  * @inherits IdsElement
  */
 @customElement('ids-wizard')
 @scss(styles)
-class IdsSwitch extends IdsElement {
+class IdsWizard extends IdsElement {
   constructor() {
     super();
   }
@@ -80,4 +80,4 @@ class IdsSwitch extends IdsElement {
   }
 }
 
-export default IdsSwitch;
+export default IdsWizard;
