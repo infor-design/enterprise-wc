@@ -95,3 +95,18 @@
   // Colored
   @include radio-colored();
 }
+
+// Handle Themes
+.ids-radio[mode='dark'] {
+  input[type='radio'] ~ .circle {
+    @include border-slate-20();
+  }
+
+  input[type='radio']:checked ~ .circle {
+    @include border-azure-60();
+  }
+
+  input[type='radio']:focus ~ .circle {
+    box-shadow: 0 0 0 1px var(--ids-color-palette-slate-10), 0 0 0 2px var(--ids-color-palette-azure-60), 0 0 4px 5px rgba(54, 138, 192, 0.3);
+  }
+}

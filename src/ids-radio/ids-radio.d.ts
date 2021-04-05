@@ -24,6 +24,12 @@ export default class IdsRadio extends HTMLElement {
   labelFontSize: 10 | 12 | 14 | 16 | 20 | 24 | 28 | 32 | 40 | 48 | 60 | 72 |
     'xs' | 'sm ' | 'lg' | 'xl' | string | number;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   /** Sets the validation error state */
   validationHasError: boolean;
 
