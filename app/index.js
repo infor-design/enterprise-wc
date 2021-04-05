@@ -27,6 +27,7 @@ import IdsAlert from '../src/ids-alert/ids-alert';
 import IdsBadge from '../src/ids-badge/ids-badge';
 import IdsBlockGrid from '../src/ids-block-grid/ids-block-grid';
 import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
+import IdsWizard from '../src/ids-wizard/ids-wizard';
 
 // Import Example Code
 
