@@ -1,0 +1,1 @@
+import IdsWizard from '../../src/ids-switch/ids-wizard';
