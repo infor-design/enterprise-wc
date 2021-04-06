@@ -25,7 +25,12 @@ class IdsText extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TYPE, props.FONT_SIZE, props.AUDIBLE];
+    return [
+      props.TYPE,
+      props.FONT_SIZE,
+      props.AUDIBLE,
+      'overflow'
+    ];
   }
 
   /**
@@ -35,8 +40,27 @@ class IdsText extends IdsElement {
   template() {
     const tag = this.type || 'span';
     let classList = 'ids-text';
+    classList += (
+      this.overflow == 'ellipsis' || !this.overflow
+    ) ? ' ellipsis' : '';
     classList += this.audible ? ' audible' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
+
+    // @ts-ignore
+    switch (this.fontWeight) {
+    case 'bold': {
+      classList += 'ids-text-bold';
+      break;
+    }
+    case 'bolder': {
+      classList += 'ids-text-bolder';
+      break;
+    }
+    default: {
+      break;
+    }
+    }
+
     classList = ` class="${classList}"`;
 
     return `<${tag}${classList}><slot></slot></${tag}>`;
@@ -104,6 +128,15 @@ class IdsText extends IdsElement {
   }
 
   get audible() { return this.getAttribute(props.AUDIBLE); }
+
+  get overflow() {
+    return this.getAttribute('overflow') || 'ellipsis';
+  }
+
+  set overflow(value) {
+    this.setAttribute('overflow', value || 'ellipsis');
+    this.rerender();
+  }
 }
 
 export default IdsText;

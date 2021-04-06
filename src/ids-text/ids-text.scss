@@ -11,6 +11,10 @@
   &.audible {
     @include audible();
   }
+
+  &.ellipsis {
+    @include ellipsis;
+  }
 }
 
 :host(.inline) {
