@@ -71,6 +71,12 @@ export class IdsTextarea extends HTMLElement {
   /** Sets the `value` attribute */
   value: string | number;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   /** Fires when value change. */
   on(event: 'change', listener: (detail: IdsTextareaEventDetail) => void): this;
 

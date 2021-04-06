@@ -49,8 +49,9 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 ## Themeable Parts
 
-- `icon` allows you to further style the icon element
-- `tag` allows you to further style the tag element
+- `checkbox` allows you to further style the checkbox input element
+- `slider` allows you to further style the the sliding part of the switch
+- `label` allows you to further style the the label text
 
 ## States and Variations (With Code Examples)
 

@@ -14,6 +14,12 @@ export default class IdsTriggerField extends HTMLElement {
   /** Set the appearance of the trigger field */
   appearance: 'normal' | 'compact' | string;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   /** Fire the trigger event and action */
   trigger(): void;
 

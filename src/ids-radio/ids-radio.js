@@ -255,10 +255,12 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       this.rootEl?.classList.add(props.DISABLED);
       this.rootEl?.setAttribute('tabindex', '-1');
       labelText?.setAttribute('aria-disabled', 'true');
+      labelText?.setAttribute(props.DISABLED, 'true');
     } else {
       this.removeAttribute(props.DISABLED);
       this.input?.removeAttribute(props.DISABLED);
       labelText?.removeAttribute('aria-disabled');
+      labelText?.removeAttribute(props.DISABLED);
       this.rootEl?.classList.remove(props.DISABLED);
     }
   }
@@ -270,16 +272,19 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean|string} value If true will set `group-disabled` attribute
    */
   set groupDisabled(value) {
+    const labelText = this.shadowRoot.querySelector('.label-text');
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(props.GROUP_DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       this.rootEl?.classList.add(props.DISABLED);
       this.rootEl?.setAttribute('tabindex', '-1');
+      labelText?.setAttribute(props.DISABLED, 'true');
     } else {
       this.removeAttribute(props.GROUP_DISABLED);
       this.input?.removeAttribute(props.DISABLED);
       this.rootEl?.classList.remove(props.DISABLED);
+      labelText?.removeAttribute(props.DISABLED);
     }
   }
 

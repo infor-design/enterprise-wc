@@ -7,6 +7,7 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
@@ -19,10 +20,14 @@ import IdsText from '../ids-text/ids-text';
  * @type {IdsSwitch}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part checkbox - the checkbox input element
+ * @part slider - the sliding part of the switch
+ * @part label - the label text
  */
 @customElement('ids-switch')
 @scss(styles)
-class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -54,6 +59,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin) {
     this.labelEl = this.shadowRoot.querySelector('label');
 
     this.handleEvents();
+    super.connectedCallback();
   }
 
   /**
@@ -62,7 +68,6 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin) {
    */
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
-    this.handleSwitchChangeEvent('remove');
     this.handleNativeEvents('remove');
   }
 
@@ -79,9 +84,9 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin) {
     return `
       <div${rootClass}>
         <label>
-          <input type="checkbox"${checkboxClass}${disabled}${checked}>
-          <span class="slider${checked}"></span>
-          <ids-text class="label-text">${this.label}</ids-text>
+          <input type="checkbox"${checkboxClass}${disabled}${checked} part="checkbox">
+          <span class="slider${checked}" part="slider"></span>
+          <ids-text class="label-text" part="label">${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -90,24 +95,17 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin) {
   /**
    * Handle switch change event
    * @private
-   * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleSwitchChangeEvent(option = '') {
-    if (this.input) {
-      const eventName = 'change';
-      if (option === 'remove') {
-        const handler = this.handledEvents?.get(eventName);
-        if (handler && handler.target === this.input) {
-          this.offEvent(eventName, this.input);
-        }
-      } else {
-        this.onEvent(eventName, this.input, () => {
-          this.indeterminate = false;
-          this.checked = this.input.checked;
-        });
+  handleSwitchClickEvent() {
+    this.onEvent('click', this.labelEl, () => {
+      if (this.disabled) {
+        return;
       }
-    }
+      this.input.checked = !this.input.checked;
+      this.triggerEvent('change', this.input, {});
+      this.input?.focus(); // Safari need focus first click
+    });
   }
 
   /**
@@ -155,7 +153,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   handleEvents() {
-    this.handleSwitchChangeEvent();
+    this.handleSwitchClickEvent();
     this.handleNativeEvents();
   }
 
@@ -188,14 +186,18 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const rootEl = this.shadowRoot.querySelector('.ids-switch');
     const val = stringUtils.stringToBool(value);
+    const labelText = this.shadowRoot.querySelector('.label-text');
+
     if (val) {
       this.setAttribute(props.DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       rootEl?.classList.add(props.DISABLED);
+      labelText?.setAttribute(props.DISABLED, 'true');
     } else {
       this.removeAttribute(props.DISABLED);
       this.input?.removeAttribute(props.DISABLED);
       rootEl?.classList.remove(props.DISABLED);
+      labelText?.removeAttribute(props.DISABLED);
     }
   }
 

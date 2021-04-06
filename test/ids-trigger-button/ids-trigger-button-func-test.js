@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsTriggerButton from '../../src/ids-trigger-button/ids-trigger-button';
+import IdsTriggerButton from '../../src/ids-trigger-field/ids-trigger-button';
 
 describe('IdsTriggerButton Component', () => {
   let triggerButton;

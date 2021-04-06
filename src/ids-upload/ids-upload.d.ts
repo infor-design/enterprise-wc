@@ -50,6 +50,12 @@ export default class IdsUpload extends HTMLElement {
   /** Sets the `value` attribute * */
   value: string;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   /** Fires when file input files change. */
   on(event: 'change', listener: (detail: IdsUploadEventDetail) => void): this;
 }

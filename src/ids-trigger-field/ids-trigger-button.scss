@@ -1,0 +1,76 @@
+@import '../ids-base/ids-base';
+
+.ids-icon-button {
+  @include bg-transparent();
+  @include border-1();
+  @include border-transparent();
+  @include cursor-pointer();
+  @include rounded-round();
+  @include text-slate-60();
+
+  height: 28px;
+  margin-left: -32px;
+  margin-top: 29px;
+  width: 28px;
+
+  &:focus {
+    @include border-azure-70();
+    @include outline-none();
+    @include shadow();
+  }
+
+  &:hover {
+    @include text-slate-100();
+  }
+
+  &[disabled] {
+    @include cursor-default();
+    @include text-slate-30();
+  }
+
+  ::slotted(ids-icon) {
+    margin-left: -2px;
+    margin-top: 3px;
+  }
+}
+
+// Handle Themes
+.ids-icon-button[mode='dark'] {
+  @include text-slate-20();
+
+  &:hover {
+    @include text-white();
+  }
+}
+
+.ids-icon-button[mode='contrast'] {
+  @include text-slate-90();
+
+  &:hover {
+    @include text-slate-60();
+  }
+}
+
+.ids-icon-button[version='classic'][mode='light'] {
+  @include text-graphite-60();
+
+  &:hover {
+    @include text-slate-100();
+  }
+}
+
+.ids-icon-button[version='classic'][mode='dark'] {
+  @include text-classic-slate-30();
+
+  &:hover {
+    @include text-white();
+  }
+}
+
+.ids-icon-button[version='classic'][mode='contrast'] {
+  @include text-graphite-90();
+
+  &:hover {
+    @include text-graphite-60();
+  }
+}

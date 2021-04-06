@@ -253,6 +253,10 @@ $input-size-default: $input-size-md;
     @include border-slate-40();
     @include text-slate-10();
   }
+
+  &:focus {
+    @include border-azure-60();
+  }
 }
 
 .ids-input[mode='contrast'] .ids-input-field {
@@ -269,6 +273,10 @@ $input-size-default: $input-size-md;
     @include bg-slate-20();
     @include border-slate-40();
     @include text-slate-100();
+  }
+
+  &:focus {
+    @include border-azure-90();
   }
 }
 
@@ -287,6 +295,10 @@ $input-size-default: $input-size-md;
     @include border-graphite-40();
     @include text-classic-slate-100();
   }
+
+  &:focus {
+    @include border-azure-60();
+  }
 }
 
 .ids-input[version='classic'][mode='dark'] .ids-input-field {
@@ -304,6 +316,10 @@ $input-size-default: $input-size-md;
     @include border-classic-slate-40();
     @include text-white();
   }
+
+  &:focus {
+    @include border-azure-60();
+  }
 }
 
 .ids-input[version='classic'][mode='contrast'] .ids-input-field {
@@ -320,5 +336,9 @@ $input-size-default: $input-size-md;
     @include bg-slate-30();
     @include border-slate-80();
     @include text-graphite-100();
+  }
+
+  &:focus {
+    @include border-azure-60();
   }
 }

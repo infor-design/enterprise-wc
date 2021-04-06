@@ -15,7 +15,7 @@ import IdsIcon from '../ids-icon/ids-icon';
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
 // @ts-ignore
-import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Mixins
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
@@ -158,10 +158,10 @@ class IdsInput extends mix(IdsElement).with(
     return `
       <div class="ids-input${inputState}">
         <label for="${ID}" class="label-text">
-          <ids-text label="true">${this.label}</ids-text>
+          <ids-text part="label" label="true">${this.label}</ids-text>
         </label>
         <div class="field-container">
-          <input id="${ID}"${type}${inputClass}${value}${placeholder}${inputState} />
+          <input part="input" id="${ID}"${type}${inputClass}${value}${placeholder}${inputState} />
         </div>
       </div>
     `;

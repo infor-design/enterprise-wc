@@ -2,12 +2,11 @@
 
 ## Description
 
-Tags are UI embellishments that are used to label, categorize and organize keywords surrounding
-some contextual element such as a form.
+We include a theme switcher component that can be visual or non visual. If visual it comes with a menu button to allow you to pick theme. If non visible you can set its properties and all other components in the page will change theme to the set theme.
 
 ## Use Cases
 
-- When you want to use a common look across applications with the new theme
+- When you want to use a common look across applications with a theme
 - When you prefer a dark vs light mode or need a high contrast mode for low light situations or Accessibility.
 
 ## Terminology
@@ -35,6 +34,7 @@ Add an ids-theme-switcher to the page near the top and set the version and mode 
 
 - 3.x: This version did not have any themes
 - 4.x: You no longer change the style sheet out like in previous versions
+- 5.x: You no longer need to change the style sheet out like in previous versions because the css in encapsulated within each component now
 
 ## Proposed Changes
 
