@@ -78,6 +78,27 @@ describe('IdsAlert Component', () => {
     expect(el.icon).toEqual(null);
   });
 
+  it('should disable and enable', () => {
+    el.disabled = 'true';
+    el.template();
+    document.body.innerHTML = '';
+    const alert = new IdsAlert();
+    alert.icon = 'success';
+    document.body.appendChild(alert);
+    el = document.querySelector('ids-alert');
+    let icon = el.shadowRoot.querySelector('ids-icon');
+    expect(el.getAttribute('disabled')).toEqual(null);
+    expect(icon.classList).not.toContain('disabled');
+    el.disabled = 'true';
+    icon = el.shadowRoot.querySelector('ids-icon');
+    expect(el.getAttribute('disabled')).toEqual('true');
+    expect(icon.classList).toContain('disabled');
+    el.disabled = 'false';
+    icon = el.shadowRoot.querySelector('ids-icon');
+    expect(el.getAttribute('disabled')).toEqual(null);
+    expect(icon.classList).not.toContain('disabled');
+  });
+
   it('supports setting mode', () => {
     el = new IdsAlert();
     document.body.appendChild(el);
