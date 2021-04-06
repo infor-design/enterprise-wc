@@ -110,7 +110,7 @@ class IdsWizard extends IdsElement {
       throw new Error('ids-wizard: step number should be below step-count');
     }
 
-    this.rerenderTemplate();
+    this.render();
   }
 }
 

@@ -79,6 +79,9 @@ class IdsElement extends HTMLElement {
     }
 
     // Make template and shadow objects
+    if (this.shadowRoot?.innerHTML) {
+      this.shadowRoot.innerHTML = '';
+    }
     const template = document.createElement('template');
 
     if (this.shadowRoot?.innerHTML) {
