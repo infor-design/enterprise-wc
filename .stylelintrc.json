@@ -21,7 +21,6 @@
     "no-descending-specificity": [true, {
       "ignore": [ "selectors-within-list" ]
     }],
-    "order/properties-alphabetical-order": null,
     "selector-pseudo-class-no-unknown": [true, {
       "ignorePseudoClasses": ["root", "host", "unresolved"]
     }],

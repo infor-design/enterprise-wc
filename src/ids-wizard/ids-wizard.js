@@ -91,17 +91,18 @@ class IdsWizard extends IdsElement {
 
   /**
    * Get the step number
-   * @returns {number} step number (1-based)
+   * @returns {number|string} step number (1-based)
    */
   get stepNumber() {
+    // @ts-ignore
     return parseInt(this.getAttribute('step-number'), 10);
   }
 
   /**
    * Set the step number
-   * @param {number} value step number (1-based)
+   * @param {number|string} value step number (1-based)
    */
-  set stepNumber(value = 1) {
+  set stepNumber(value) {
     if (Number.isNaN(Number(value))) {
       throw new Error('ids-wizard: Invalid step number provided');
     }

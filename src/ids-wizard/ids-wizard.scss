@@ -17,14 +17,6 @@
   align-items: center;
   justify-content: center;
 
-  .ids-wizard-step:not(.visited-step) {
-    .path-layer .path-node circle:nth-child(1) {
-      fill: #FFF;
-      stroke: $unvisited-step-color;
-      stroke-width: 2px;
-    }
-  }
-
   .ids-wizard-step {
     flex-grow: 1;
     position: relative;
@@ -32,10 +24,9 @@
 
     .step-label {
       @include px-8;
-      white-space: nowrap;
-      overflow: hidden;
-      color: $visited-step-color;
+      @include ellipsis;
     }
+
     .path-layer {
       position: relative;
       display: flex;
@@ -74,6 +65,35 @@
         stroke: $visited-step-color;
         stroke-width: 1px;
       }
+    }
+  }
+
+  .ids-wizard-step.current-step {
+    .step-label {
+      font-weight: 600;
+    }
+  }
+
+  .ids-wizard-step.visited-step {
+    .path-layer .path-node circle:nth-child(1) {
+      fill: $visited-step-color;
+      stroke: none;
+    }
+
+    .step-label {
+      color: $visited-step-color;
+    }
+  }
+
+  .ids-wizard-step:not(.visited-step) {
+    .path-layer .path-node circle:nth-child(1) {
+      fill: #fff;
+      stroke: $unvisited-step-color;
+      stroke-width: 2px;
+    }
+
+    .step-label {
+      color: $unvisited-step-color;
     }
   }
 }
