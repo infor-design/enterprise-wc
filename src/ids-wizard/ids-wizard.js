@@ -36,6 +36,7 @@ class IdsWizard extends IdsElement {
 
     for (const [i, stepEl] of [...this.children].entries()) {
       const isCurrentStep = (this.stepNumber - 1) === i;
+
       const clickable = stepEl.getAttribute('clickable');
       const label = stepEl.innerText;
 
@@ -46,10 +47,7 @@ class IdsWizard extends IdsElement {
       );
       const classNameStr = className ? ` class="${className}"` : '';
 
-      /* left to center */
       const pathFromPrev = (i > 0) ? '<div class="path-segment from-prev"></div>' : '';
-
-      /* center to right */
       const pathToNext = (i < this.children.length - 1) ? '<div class="to-next path-segment"></div>' : '';
 
       wizardStepHtml += (
@@ -64,13 +62,19 @@ class IdsWizard extends IdsElement {
               />
             </svg>
           </div>
-          ${label} ${isCurrentStep ? '&lt;' : ''}
+          <div class="step-label">
+            <ids-text font-size="18">${label}</ids-text>
+          </div>
         </div>`
       );
     }
 
     return (
-      `<div class="ids-wizard">${wizardStepHtml}</div>`
+      `<div class="ids-wizard">
+        <div class="ids-wizard-content">
+          ${wizardStepHtml}
+        </div>
+      </div>`
     );
   }
 

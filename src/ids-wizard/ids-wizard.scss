@@ -3,16 +3,40 @@
 .ids-wizard {
   @include my-8;
 
+  $path-node-width: 14px;
+  $visited-step-color: var(--ids-color-palette-azure-60);
+
+  box-sizing: border-box;
   position: relative;
+  width: 100%;
+  max-width: 100%;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  height: 2rem;
-  width: 100%;
+  justify-content: center;
+
+  // content div used here to span the
+  // equidistant step divs towards edges
+  // without having to create a complex markup
+  & .ids-wizard-content {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    min-width: 110%;
+    max-width: 110%;
+  }
 
   & .ids-wizard-step {
-    position: relative;
     flex-grow: 1;
+    position: relative;
+    text-align: center;
 
+    & .step-label {
+      @include px-8;
+      white-space: nowrap;
+      overflow: hidden;
+      color: $visited-step-color;
+    }
     & .path-layer {
       position: relative;
       display: flex;
@@ -22,8 +46,8 @@
       & .path-segment {
         position: absolute;
         width: 50%;
-        height: 0.1rem;
-        background-color: var(--ids-color-palette-azure-60);
+        height: 2px;
+        background-color: $visited-step-color;
         transform: translateY(-50%);
       }
 
@@ -36,12 +60,12 @@
       }
 
       & .path-node {
-        width: 0.75rem;
-        height: 0.75rem;
+        width: $path-node-width;
+        height: $path-node-width;
       }
 
       & .path-node circle {
-        fill: var(--ids-color-palette-azure-60);
+        fill: $visited-step-color;
       }
     }
   }
