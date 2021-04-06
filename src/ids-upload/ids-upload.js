@@ -27,7 +27,6 @@ const ID = 'ids-upload-id';
  * @mixes IdsThemeMixin
  * @part container - the main container element
  * @part label - the label element
- * @part file-input - the file input element
  * @part input - the visible input element
  * @part button - the trigger input element
  */
@@ -68,6 +67,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
     /** @type {any} */
     this.trigger = this.shadowRoot.querySelector('.trigger');
     /** @type {any} */
@@ -78,7 +78,6 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
     this.files = this.fileInput.files;
     this.handleEvents();
-    super.connectedCallback();
   }
 
   /**
@@ -109,7 +108,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         <label for="${ID}" class="ids-upload-filetype-label" aria-hidden="true" tabindex="-1">
           <ids-text audible="true" class="label-filetype" part="label">${labelFiletype}</ids-text>
         </label>
-        <input part="file-input" id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
+        <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
         <ids-trigger-field>
           <ids-input part="input" readonly="true" triggerfield="true" ${clearableForced}${bgTransparent}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}></ids-input>
           <ids-trigger-button part="button" class="trigger"${disabled}${readonlyBtn}>

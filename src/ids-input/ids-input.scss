@@ -254,6 +254,10 @@ $input-size-default: $input-size-md;
     @include text-slate-10();
   }
 
+  &.bg-transparent[readonly] {
+    @include bg-transparent();
+  }
+
   &:focus {
     @include border-azure-60();
   }
@@ -315,6 +319,10 @@ $input-size-default: $input-size-md;
     @include bg-classic-slate-60();
     @include border-classic-slate-40();
     @include text-white();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-transparent();
   }
 
   &:focus {

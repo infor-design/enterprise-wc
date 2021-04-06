@@ -146,13 +146,13 @@
 
   input[type='radio']:disabled {
     ~ .circle {
-      @include border-slate-30();
+      @include border-slate-40();
     }
   }
 
   input[type='radio']:disabled:checked ~ .circle {
-    @include border-slate-30();
-    @include bg-slate-30();
+    @include border-slate-40();
+    @include bg-slate-40();
 
     &::after {
       @include border-white();
