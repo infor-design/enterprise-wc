@@ -3,47 +3,46 @@
 .ids-wizard {
   @include my-8;
 
-  $path-node-width: 14px;
+  $path-node-width: 22px;
   $visited-step-color: var(--ids-color-palette-azure-60);
+  $unvisited-step-color: var(--ids-color-palette-graphite-100);
 
   box-sizing: border-box;
   position: relative;
   width: 100%;
   max-width: 100%;
+  height: 48px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
 
-  // content div used here to span the
-  // equidistant step divs towards edges
-  // without having to create a complex markup
-  & .ids-wizard-content {
-    display: flex;
-    align-items: center;
-    height: 48px;
-    min-width: 110%;
-    max-width: 110%;
+  .ids-wizard-step:not(.visited-step) {
+    .path-layer .path-node circle:nth-child(1) {
+      fill: #FFF;
+      stroke: $unvisited-step-color;
+      stroke-width: 2px;
+    }
   }
 
-  & .ids-wizard-step {
+  .ids-wizard-step {
     flex-grow: 1;
     position: relative;
     text-align: center;
 
-    & .step-label {
+    .step-label {
       @include px-8;
       white-space: nowrap;
       overflow: hidden;
       color: $visited-step-color;
     }
-    & .path-layer {
+    .path-layer {
       position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
 
-      & .path-segment {
+      .path-segment {
         position: absolute;
         width: 50%;
         height: 2px;
@@ -51,21 +50,29 @@
         transform: translateY(-50%);
       }
 
-      & .path-segment.from-prev {
+      .path-segment.from-prev {
         left: 0;
       }
 
-      & .path-segment.to-next {
+      .path-segment.to-next {
         right: 0;
       }
 
-      & .path-node {
+      .path-node {
         width: $path-node-width;
         height: $path-node-width;
+        z-index: 1;
       }
 
-      & .path-node circle {
+      .path-node circle:nth-child(1) {
         fill: $visited-step-color;
+        stroke: none;
+      }
+
+      .path-node circle:nth-child(2) {
+        fill: none;
+        stroke: $visited-step-color;
+        stroke-width: 1px;
       }
     }
   }

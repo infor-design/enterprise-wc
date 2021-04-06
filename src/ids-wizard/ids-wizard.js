@@ -31,19 +31,21 @@ class IdsWizard extends IdsElement {
   template() {
     let wizardStepHtml = '';
 
-    // iterate through lightDOM children
-    // to compose step markup
+    // iterate through ids-wizard-step
+    // lightDOM to create shadowDOM markup
 
     for (const [i, stepEl] of [...this.children].entries()) {
       const isCurrentStep = (this.stepNumber - 1) === i;
+      const isVisitedStep = (i + 1) <= this.stepNumber;
 
-      const clickable = stepEl.getAttribute('clickable');
+      const isClickable = stepEl.getAttribute('clickable');
       const label = stepEl.innerText;
 
       const className = clsx(
         'ids-wizard-step',
         isCurrentStep && 'current-step',
-        clickable && 'clickable'
+        isVisitedStep && 'visited-step',
+        isClickable && 'clickable'
       );
       const classNameStr = className ? ` class="${className}"` : '';
 
@@ -57,9 +59,12 @@ class IdsWizard extends IdsElement {
             ${pathToNext}
             <svg class="path-node" viewBox="0 0 24 24">
               <circle
-                cx="12" cy="12" r="12"
-                stroke="transparent"
+                cx="12" cy="12" r="8"
               />
+              ${ !isCurrentStep ? '' : (
+                `<circle
+                  cx="12" cy="12" r="11"
+                />`) }
             </svg>
           </div>
           <div class="step-label">
@@ -71,9 +76,7 @@ class IdsWizard extends IdsElement {
 
     return (
       `<div class="ids-wizard">
-        <div class="ids-wizard-content">
-          ${wizardStepHtml}
-        </div>
+        ${wizardStepHtml}
       </div>`
     );
   }
