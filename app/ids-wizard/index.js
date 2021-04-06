@@ -1,1 +1,3 @@
-import IdsWizard from '../../src/ids-switch/ids-wizard';
+import IdsWizard, {
+  IdsWizardStep
+} from '../../src/ids-wizard/ids-wizard';

@@ -1,11 +1,12 @@
 import {
   IdsElement,
   customElement,
-  scss,
-  props
+  scss
 } from '../ids-base/ids-element';
+import clsx from 'clsx';
+import IdsWizardStep from './ids-wizard-step';
 // @ts-ignore
-import styles from './ids-wizard.scss';
+import cssStyles from './ids-wizard.scss';
 
 /**
  * IDS Wizard Component
@@ -13,10 +14,9 @@ import styles from './ids-wizard.scss';
  * @inherits IdsElement
  */
 @customElement('ids-wizard')
-@scss(styles)
 class IdsWizard extends IdsElement {
   constructor() {
-    super();
+    super({ cssStyles });
   }
 
   /**
@@ -24,7 +24,7 @@ class IdsWizard extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.COLOR];
+    return ['step-number'];
   }
 
   /**
@@ -32,52 +32,67 @@ class IdsWizard extends IdsElement {
    * @returns {string} The Template
    */
   template() {
+    let wizardStepHtml = '';
+
+    // iterate through lightDOM children
+    // to compose step markup
+    for (const [i, c] of [...this.children].entries()) {
+      const isCurrentStep = (this.stepNumber - 1) === i;
+      const clickable = c.getAttribute('clickable');
+      const label = c.innerText;
+      const className = clsx(
+        isCurrentStep && 'current-step',
+        clickable && 'clickable'
+      );
+      const classNameStr = className ? ` className=${className}` : '';
+
+      wizardStepHtml += (
+        `<div${classNameStr}>
+        ${label} ${isCurrentStep ? '&lt;' : ''}
+        </div>`
+      );
+    }
+
     return (
-      `<div class="ids-wizard">
-        Howdyhou!
-      </div>`
+      `<div class="ids-wizard">${wizardStepHtml}</div>`
     );
   }
 
-  /**
-   * Return the badge color
-   * @returns {string | null} the path data
-   */
-  get color() { return this.getAttribute('color'); }
+  rerenderTemplate() {
+    const template = document.createElement('template');
+    const html = this.template();
+    template.innerHTML = html;
+    this.shadowRoot.innerHTML = '';
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+  }
 
   /**
-   * Set the color
-   * @param {string | null} value The Badge Color [base, error, info, success and alert]
+   * Get the step number
+   * @returns {number} step number (1-based)
    */
-  set color(value) {
-    if (value) {
-      this.setAttribute('color', value);
+  get stepNumber() {
+    return parseInt(this.getAttribute('step-number'), 10);
+  }
 
-      let statusColor;
-
-      if (value === 'error') {
-        statusColor = 'var(--ids-color-status-danger)';
-      } else if (value === 'alert') {
-        statusColor = 'var(--ids-color-status-caution)';
-      } else if (value === 'info') {
-        statusColor = 'var(--ids-color-status-base)';
-      } else {
-        statusColor = `var(--ids-color-status-${value})`;
-      }
-
-      this.container.style.backgroundColor = statusColor;
-      this.container.style.borderColor = statusColor;
-      if (value === 'error' || value === 'info') {
-        this.container.classList.add('ids-white');
-      }
-    } else {
-      this.removeAttribute('color');
-      this.container.style.backgroundColor = '';
-      this.container.style.borderColor = '';
-      this.container.style.color = '';
-      this.container.style.position = '';
+  /**
+   * Set the step number
+   * @param {number} value step number (1-based)
+   */
+  set stepNumber(value = 1) {
+    if (Number.isNaN(Number(value))) {
+      throw new Error('ids-wizard: Invalid step number provided');
     }
+
+    const v = parseInt(value, 10);
+    if (v < 0) {
+      throw new Error('ids-wizard: step number should be > 0');
+    } else if (v > this.children.length) {
+      throw new Error('ids-wizard: step number should be below step-count');
+    }
+
+    this.rerenderTemplate();
   }
 }
 
+export { IdsWizardStep };
 export default IdsWizard;
