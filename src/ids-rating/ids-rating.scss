@@ -6,36 +6,33 @@
   width: 100%;
 }
 
-.ids-rating-container {
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-}
-
-#rating section {
-  font-size: 30px;
-}
-
-.rating-item {
+.rating-outer {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 35px;
   position: relative;
 }
 
-#rating section::before {
-  color: #000;
+.rating-outer::before {
   content: '☆';
 }
 
-#rating section:hover::before {
-  color: orange;
-  content: '☆';
+.rating-inner {
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  width: 0%;
 }
 
-#rating section.active::before {
-  color: orange;
+.rating-inner::before {
+  color: #f8ce0b;
   content: '★';
 }
 
-#rating section:hover {
-  cursor: pointer;
+.active {
+  .rating-inner {
+    width: 100%;
+  }
 }

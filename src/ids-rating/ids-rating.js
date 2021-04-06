@@ -43,7 +43,6 @@ import styles from './ids-rating.scss';
 
     connectedCallback() {
       this.buildDOM();
-      this.addRemoveClass();
     }
 
     /**
@@ -57,6 +56,7 @@ import styles from './ids-rating.scss';
     buildDOM() {
       const ratingsContainer = this.shadowRoot.querySelector('#rating')
       this.ratingBuilder(ratingsContainer);
+      this.addRemoveClass();
     }
 
     /**
@@ -65,8 +65,11 @@ import styles from './ids-rating.scss';
     */
     buildRatingStar(element, index){
       const section = window.document.createElement('section');
-      section.classList.add('rating-item');
+      section.classList.add('rating-outer');
       section.setAttribute('item-index', `item-${index}`);
+      const div = window.document.createElement('div');
+      div.classList.add('rating-inner');
+      section.appendChild(div);
       element.appendChild(section);
     }
 
@@ -87,7 +90,7 @@ import styles from './ids-rating.scss';
         for (const section of ratingContainer.children) {
             section.classList[action]('active');
             this.udpateValue();
-            if (section === e.target) {
+            if (section === e.target || section.children[0] === e.target) {
                 action = 'remove';
             }
         }
