@@ -1,12 +1,12 @@
+import clsx from 'clsx';
 import {
   IdsElement,
   customElement,
   scss
 } from '../ids-base/ids-element';
-import clsx from 'clsx';
 import IdsWizardStep from './ids-wizard-step';
 // @ts-ignore
-import cssStyles from './ids-wizard.scss';
+import styles from './ids-wizard.scss';
 
 /**
  * IDS Wizard Component
@@ -14,11 +14,8 @@ import cssStyles from './ids-wizard.scss';
  * @inherits IdsElement
  */
 @customElement('ids-wizard')
+@scss(styles)
 class IdsWizard extends IdsElement {
-  constructor() {
-    super({ cssStyles });
-  }
-
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
@@ -36,19 +33,38 @@ class IdsWizard extends IdsElement {
 
     // iterate through lightDOM children
     // to compose step markup
-    for (const [i, c] of [...this.children].entries()) {
+
+    for (const [i, stepEl] of [...this.children].entries()) {
       const isCurrentStep = (this.stepNumber - 1) === i;
-      const clickable = c.getAttribute('clickable');
-      const label = c.innerText;
+      const clickable = stepEl.getAttribute('clickable');
+      const label = stepEl.innerText;
+
       const className = clsx(
+        'ids-wizard-step',
         isCurrentStep && 'current-step',
         clickable && 'clickable'
       );
-      const classNameStr = className ? ` className=${className}` : '';
+      const classNameStr = className ? ` class="${className}"` : '';
+
+      /* left to center */
+      const pathFromPrev = (i > 0) ? '<div class="path-segment from-prev"></div>' : '';
+
+      /* center to right */
+      const pathToNext = (i < this.children.length - 1) ? '<div class="to-next path-segment"></div>' : '';
 
       wizardStepHtml += (
         `<div${classNameStr}>
-        ${label} ${isCurrentStep ? '&lt;' : ''}
+          <div class="path-layer">
+            ${pathFromPrev}
+            ${pathToNext}
+            <svg class="path-node" viewBox="0 0 24 24">
+              <circle
+                cx="12" cy="12" r="12"
+                stroke="transparent"
+              />
+            </svg>
+          </div>
+          ${label} ${isCurrentStep ? '&lt;' : ''}
         </div>`
       );
     }

@@ -1,10 +1,48 @@
 @import '../ids-base/ids-base';
-@import '../ids-base/ids-switch-mixin';
 
-.ids-switch {
-  @include mb-8();
+.ids-wizard {
+  @include my-8;
 
-  display: flex;
   position: relative;
+  display: flex;
+  align-items: center;
+  height: 2rem;
   width: 100%;
+
+  & .ids-wizard-step {
+    position: relative;
+    flex-grow: 1;
+
+    & .path-layer {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      & .path-segment {
+        position: absolute;
+        width: 50%;
+        height: 0.1rem;
+        background-color: var(--ids-color-palette-azure-60);
+        transform: translateY(-50%);
+      }
+
+      & .path-segment.from-prev {
+        left: 0;
+      }
+
+      & .path-segment.to-next {
+        right: 0;
+      }
+
+      & .path-node {
+        width: 0.75rem;
+        height: 0.75rem;
+      }
+
+      & .path-node circle {
+        fill: var(--ids-color-palette-azure-60);
+      }
+    }
+  }
 }
