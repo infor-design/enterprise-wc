@@ -21,6 +21,7 @@
     flex-grow: 1;
     position: relative;
     text-align: center;
+    overflow: hidden;
 
     .step-label {
       @include px-8;
@@ -37,8 +38,12 @@
         position: absolute;
         width: 50%;
         height: 2px;
-        background-color: $visited-step-color;
+        background-color: $unvisited-step-color;
         transform: translateY(-50%);
+      }
+
+      .path-segment.visited {
+        background-color: $visited-step-color;
       }
 
       .path-segment.from-prev {

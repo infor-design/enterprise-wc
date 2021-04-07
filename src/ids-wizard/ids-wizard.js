@@ -35,10 +35,13 @@ class IdsWizard extends IdsElement {
     // lightDOM to create shadowDOM markup
 
     for (const [i, stepEl] of [...this.children].entries()) {
-      const isCurrentStep = (this.stepNumber - 1) === i;
-      const isVisitedStep = (i + 1) <= this.stepNumber;
+      // @ts-ignore
+      const stepIndex = parseInt(this.stepNumber) - 1;
+      const isCurrentStep = stepIndex === i;
+      const isVisitedStep = i <= stepIndex;
 
       const isClickable = stepEl.getAttribute('clickable');
+      // @ts-ignore
       const label = stepEl.innerText;
 
       const className = clsx(
@@ -47,10 +50,19 @@ class IdsWizard extends IdsElement {
         isVisitedStep && 'visited-step',
         isClickable && 'clickable'
       );
+
       const classNameStr = className ? ` class="${className}"` : '';
 
-      const pathFromPrev = (i > 0) ? '<div class="path-segment from-prev"></div>' : '';
-      const pathToNext = (i < this.children.length - 1) ? '<div class="to-next path-segment"></div>' : '';
+      const pathFromPrev = ((i > 0)
+        ? `<div
+            class="path-segment from-prev${(i - 1) < stepIndex ? ' visited' : ''}"
+          ></div>` : ''
+      );
+      const pathToNext = ((i < this.children.length - 1)
+        ? `<div
+            class="to-next path-segment ${ i < stepIndex ? ' visited' : ''}"
+          ></div>` : ''
+      );
 
       wizardStepHtml += (
         `<div${classNameStr}>
@@ -68,7 +80,7 @@ class IdsWizard extends IdsElement {
             </svg>
           </div>
           <div class="step-label">
-            <ids-text font-size="18">${label}</ids-text>
+            <ids-text font-size="18" font-weight=${isCurrentStep ? 'bold' : 'normal'}>${label}</ids-text>
           </div>
         </div>`
       );
@@ -95,7 +107,7 @@ class IdsWizard extends IdsElement {
    */
   get stepNumber() {
     // @ts-ignore
-    return parseInt(this.getAttribute('step-number'), 10);
+    return parseInt(this.getAttribute('step-number'));
   }
 
   /**
@@ -107,7 +119,8 @@ class IdsWizard extends IdsElement {
       throw new Error('ids-wizard: Invalid step number provided');
     }
 
-    const v = parseInt(value, 10);
+    // @ts-ignore
+    const v = parseInt(value);
     if (v < 0) {
       throw new Error('ids-wizard: step number should be > 0');
     } else if (v > this.children.length) {
