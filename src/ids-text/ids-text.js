@@ -48,34 +48,12 @@ class IdsText extends IdsElement {
 
     let classList = 'ids-text';
     classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
-<<<<<<< HEAD
     classList += ((this.audible) || (this.audible === '')) ? ' audible' : '';
-=======
-    classList += this.audible ? ' audible' : '';
->>>>>>> 5a908be... ids-text: add "font-weight" attrib & examples, remove rerender() as this is handled by render() now
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
     classList += (this.fontWeight === 'bold' || this.fontWeight === 'bolder')
       ? ` ${this.fontWeight}` : '';
 
-<<<<<<< HEAD
     return `<${tag} class="${classList}"><slot></slot></${tag}>`;
-=======
-    // @ts-ignore
-    switch (this.fontWeight) {
-    case 'bold':
-    case 'bolder': {
-      classList += ` ${this.fontWeight}`;
-      break;
-    }
-    default: {
-      break;
-    }
-    }
-
-    classList = ` class="${classList}"`;
-
-    return `<${tag}${classList}><slot></slot></${tag}>`;
->>>>>>> 5a908be... ids-text: add "font-weight" attrib & examples, remove rerender() as this is handled by render() now
   }
 
   /**
@@ -94,20 +72,11 @@ class IdsText extends IdsElement {
 
     if (value) {
       this.setAttribute(props.FONT_SIZE, value);
-<<<<<<< HEAD
       elem?.classList.add(`ids-text-${value}`);
-=======
-      this.container.classList.add(`ids-text-${value}`);
-      this.render();
->>>>>>> 5a908be... ids-text: add "font-weight" attrib & examples, remove rerender() as this is handled by render() now
       return;
     }
 
     this.removeAttribute(props.FONT_SIZE);
-<<<<<<< HEAD
-=======
-    this.render();
->>>>>>> 5a908be... ids-text: add "font-weight" attrib & examples, remove rerender() as this is handled by render() now
   }
 
   get fontSize() { return this.getAttribute(props.FONT_SIZE); }
