@@ -28,6 +28,7 @@ class IdsText extends IdsElement {
     return [
       props.TYPE,
       props.FONT_SIZE,
+      props.FONT_WEIGHT,
       props.AUDIBLE,
       'overflow'
     ];
@@ -40,20 +41,15 @@ class IdsText extends IdsElement {
   template() {
     const tag = this.type || 'span';
     let classList = 'ids-text';
-    classList += (
-      this.overflow == 'ellipsis' || !this.overflow
-    ) ? ' ellipsis' : '';
+    classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
     classList += this.audible ? ' audible' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
 
     // @ts-ignore
     switch (this.fontWeight) {
-    case 'bold': {
-      classList += 'ids-text-bold';
-      break;
-    }
+    case 'bold':
     case 'bolder': {
-      classList += 'ids-text-bolder';
+      classList += ` ${this.fontWeight}`;
       break;
     }
     default: {
@@ -67,17 +63,6 @@ class IdsText extends IdsElement {
   }
 
   /**
-   * Rerender the component template
-   * @private
-   */
-  rerender() {
-    const template = document.createElement('template');
-    this.shadowRoot?.querySelector('.ids-text')?.remove();
-    template.innerHTML = this.template();
-    this.shadowRoot?.appendChild(template.content.cloneNode(true));
-  }
-
-  /**
    * Set the font size/style of the text with a class.
    * @param {string | null} value The font size in the font scheme
    * i.e. 10, 12, 16 or xs, sm, base, lg, xl
@@ -86,15 +71,28 @@ class IdsText extends IdsElement {
     if (value) {
       this.setAttribute(props.FONT_SIZE, value);
       this.container.classList.add(`ids-text-${value}`);
+      this.render();
       return;
     }
 
     this.removeAttribute(props.FONT_SIZE);
-    this.container.className = '';
-    this.container.classList.add('ids-text');
+    this.render();
   }
 
   get fontSize() { return this.getAttribute(props.FONT_SIZE); }
+
+  /**
+   * Adjust font weight; can be either "normal", "bold" or "bolder"
+   * @param {string} [value='normal'] font weight
+   */
+  set fontWeight(value) {
+    this.setAttribute(props.FONT_WEIGHT, value || 'normal');
+    this.render();
+  }
+
+  get fontWeight() {
+    return this.getAttribute(props.FONT_WEIGHT) || 'normal';
+  }
 
   /**
    * Set the type of element it is (h1-h6, span (default))
@@ -103,12 +101,12 @@ class IdsText extends IdsElement {
   set type(value) {
     if (value) {
       this.setAttribute(props.TYPE, value);
-      this.rerender();
+      this.render();
       return;
     }
 
     this.removeAttribute(props.TYPE);
-    this.rerender();
+    this.render();
   }
 
   get type() { return this.getAttribute(props.TYPE); }
@@ -120,11 +118,11 @@ class IdsText extends IdsElement {
   set audible(value) {
     if (value) {
       this.setAttribute(props.AUDIBLE, value);
-      this.rerender();
+      this.render();
       return;
     }
     this.removeAttribute(props.AUDIBLE);
-    this.rerender();
+    this.render();
   }
 
   get audible() { return this.getAttribute(props.AUDIBLE); }
@@ -133,9 +131,13 @@ class IdsText extends IdsElement {
     return this.getAttribute('overflow') || 'ellipsis';
   }
 
+  /**
+   * Set how content overflows; can specify 'ellipsis' or 'clip'
+   * @param {string} [value='ellipsis'] how content is overflow
+   */
   set overflow(value) {
     this.setAttribute('overflow', value || 'ellipsis');
-    this.rerender();
+    this.render();
   }
 }
 
