@@ -26,6 +26,31 @@ import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 // Input id
 const ID = 'ids-input-id';
 
+// Properties observed by the Input
+const INPUT_PROPS = [
+  props.AUTOSELECT,
+  props.BG_TRANSPARENT,
+  props.CLEARABLE,
+  props.CLEARABLE_FORCED,
+  props.DIRTY_TRACKER,
+  props.DISABLED,
+  props.LABEL,
+  props.LABEL_REQUIRED,
+  props.MODE,
+  props.MASK,
+  props.PLACEHOLDER,
+  props.SIZE,
+  props.READONLY,
+  props.TEXT_ALIGN,
+  props.TEXT_ELLIPSIS,
+  props.TRIGGERFIELD,
+  props.TYPE,
+  props.VALIDATE,
+  props.VALIDATION_EVENTS,
+  props.VALUE,
+  props.VERSION
+];
+
 // Types
 const TYPES = {
   default: 'text',
@@ -74,13 +99,9 @@ class IdsInput extends mix(IdsElement).with(
     IdsClearableMixin,
     IdsKeyboardMixin,
     IdsDirtyTrackerMixin,
-<<<<<<< HEAD
-    IdsValidationMixin,
-    IdsThemeMixin
-=======
     IdsMaskMixin,
+    IdsThemeMixin,
     IdsValidationMixin
->>>>>>> Setting up IDS Mask
   ) {
   /**
    * Call the constructor and then initialize
@@ -90,34 +111,10 @@ class IdsInput extends mix(IdsElement).with(
   }
 
   static get properties() {
-    const theseProps = [
-      props.AUTOSELECT,
-      props.BG_TRANSPARENT,
-      props.CLEARABLE,
-      props.CLEARABLE_FORCED,
-      props.DIRTY_TRACKER,
-      props.DISABLED,
-      props.LABEL,
-      props.LABEL_REQUIRED,
-      props.MODE,
-      props.MASK,
-      props.PLACEHOLDER,
-      props.SIZE,
-      props.READONLY,
-      props.TEXT_ALIGN,
-      props.TEXT_ELLIPSIS,
-      props.TRIGGERFIELD,
-      props.TYPE,
-      props.VALIDATE,
-      props.VALIDATION_EVENTS,
-      props.VALUE,
-      props.VERSION
-    ];
-
     if (Array.isArray(super.properties)) {
-      return super.properties.concat(theseProps);
+      return super.properties.concat(INPUT_PROPS);
     }
-    return theseProps;
+    return INPUT_PROPS;
   }
 
   /**

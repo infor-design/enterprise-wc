@@ -1,4 +1,10 @@
 import maskAPI from './ids-mask-global';
+import { props } from '../ids-base/ids-constants';
+
+const MASK_PROPS = [
+  props.MASK,
+  props.MASK_OPTIONS
+];
 
 /**
  * Adds validation to any input field
@@ -12,15 +18,10 @@ const IdsMaskMixin = (superclass) => class extends superclass {
   }
 
   static get properties() {
-    const theseProps = [
-      'mask-pattern',
-      'mask-pattern-options'
-    ];
-
     if (Array.isArray(super.properties)) {
-      return super.properties.concat(theseProps);
+      return super.properties.concat(MASK_PROPS);
     }
-    return theseProps;
+    return MASK_PROPS;
   }
 
   /**
@@ -43,7 +44,7 @@ const IdsMaskMixin = (superclass) => class extends superclass {
    */
   set maskOptions(val) {
     if (typeof val === 'object') {
-      this.maskState.pattern = val;
+      this.maskState.options = val;
     }
   }
 
@@ -51,7 +52,7 @@ const IdsMaskMixin = (superclass) => class extends superclass {
    * Retrieves the currently-stored mask pattern.
    * @returns {Function|Array<string|RegExp>} representing the stored mask pattern
    */
-  get maskPattern() {
+  get mask() {
     return this.maskState.pattern;
   }
 
@@ -59,7 +60,7 @@ const IdsMaskMixin = (superclass) => class extends superclass {
    * Sets the Mask pattern to be used.
    * @param {string|Function|Array<string|RegExp>} val the mask pattern on which to conform input
    */
-  set maskPattern(val) {
+  set mask(val) {
     let trueVal;
 
     // In cases where the mask is a string (Legacy Soho Mask), the string is automatically converted
@@ -69,7 +70,7 @@ const IdsMaskMixin = (superclass) => class extends superclass {
     if (Array.isArray(val) || typeof val === 'function') {
       trueVal = val;
     } else if (typeof val === 'string') {
-      trueVal = maskAPI._convertPatternFromString(val);
+      trueVal = maskAPI.convertPatternFromString(val);
     }
 
     this.maskState.pattern = trueVal;

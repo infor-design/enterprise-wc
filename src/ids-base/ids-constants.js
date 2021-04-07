@@ -58,6 +58,7 @@ export const props = {
   MAX_FILES: 'max-files',
   MAX_FILES_IN_PROCESS: 'max-files-in-process',
   MASK: 'mask',
+  MASK_OPTIONS: 'mask-options',
   MAXLENGTH: 'maxlength',
   MENU: 'menu',
   METHOD: 'method',

@@ -727,6 +727,28 @@ class MaskAPI {
   }
 
   /**
+   * @param {string} pattern a string containing a pattern that needs parsing
+   * @returns {Array<string|RegExp>|undefined} a valid mask or nothing
+   */
+  convertPatternFromString(pattern) {
+    if (typeof pattern !== 'string' || !pattern.length) {
+      return undefined;
+    }
+
+    const firstChar = pattern.charAt(0);
+    const lastChar = pattern.charAt(pattern.length - 1);
+
+    // Detect inlined arrays (JSON-like)
+    if (firstChar === '[' && lastChar === ']') {
+      return pattern.substring(1, pattern.length - 1).split(/, ?/g);
+    }
+
+    // @TODO: Try to detect other types of string input
+    // for now, return an empty mask
+    return undefined;
+  }
+
+  /**
    * Converts the legacy Soho Mask pattern format from a string into an array.
    * If character is a defined pattern matcher, the corresponding item at the
    * array index is converted to its regex form.
