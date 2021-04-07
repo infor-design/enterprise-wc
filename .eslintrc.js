@@ -41,6 +41,9 @@ module.exports = {
     'jsdoc/newline-after-description': 0,
     // Allow a few custom jsdoc tags
     'jsdoc/check-tag-names': ['error', { definedTags: ['jest-environment', 'inherits', 'part'] }],
+    // We don't do special math, so we could figure
+    // parseInt uses 10-based radix
+    radix: 0,
     // require trailing commas in multiline object literals
     'comma-dangle': ['off', {
       arrays: 'never',
