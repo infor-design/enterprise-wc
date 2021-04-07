@@ -15,13 +15,24 @@
 </ids-layout-grid>
 
 <ids-layout-grid cols=3>
-  <ids-layout-grid-cell fill="true" col-span="2" class="ids-layout-grid-row-span ids-layout-grid-col-span ids-background-fill">
+  <ids-layout-grid-cell fill="true" col-span="2">
     <ids-wizard step-number="1">
+      <ids-wizard-step>Step One (1)</ids-wizard-step>
+      <ids-wizard-step>Step Two (2)</ids-wizard-step>
+      <ids-wizard-step>Step Three (3)</ids-wizard-step>
+      <ids-wizard-step clickable="false">Step Four (4)</ids-wizard-step>
+      <ids-wizard-step>Step Five (5)</ids-wizard-step>
+    </ids-wizard>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid cols=3>
+  <ids-layout-grid-cell fill="true" col-span="2">
+    <ids-wizard step-number="3">
       <ids-wizard-step>Step One</ids-wizard-step>
       <ids-wizard-step>Step Two</ids-wizard-step>
       <ids-wizard-step>Step Three</ids-wizard-step>
       <ids-wizard-step clickable="false">Step Four</ids-wizard-step>
-      <ids-wizard-step>Step Five</ids-wizard-step>
     </ids-wizard>
   </ids-layout-grid-cell>
 </ids-layout-grid>
