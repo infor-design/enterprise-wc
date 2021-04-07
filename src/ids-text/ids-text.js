@@ -70,7 +70,6 @@ class IdsText extends IdsElement {
   set fontSize(value) {
     if (value) {
       this.setAttribute(props.FONT_SIZE, value);
-      this.container.classList.add(`ids-text-${value}`);
       this.render();
       return;
     }
