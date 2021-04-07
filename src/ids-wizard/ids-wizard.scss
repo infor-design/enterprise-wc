@@ -3,7 +3,7 @@
 .ids-wizard {
   @include my-8;
 
-  $path-node-width: 22px;
+  $step-marker-width: 18px;
   $visited-step-color: var(--ids-color-palette-azure-60);
   $unvisited-step-color: var(--ids-color-palette-graphite-100);
 
@@ -17,70 +17,88 @@
   align-items: center;
   justify-content: center;
 
+  .bar {
+    @include px-8;
+
+    display: flex;
+    width: 100%;
+    align-items: center;
+  }
+
   .ids-wizard-step {
-    flex-grow: 1;
     position: relative;
     text-align: center;
-    overflow: hidden;
+
+    .step-node {
+      position: relative;
+      width: $step-marker-width;
+      height: $step-marker-width;
+    }
+
+    .step-node > svg {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      overflow: visible;
+    }
+
+    .step-node > svg:nth-child(1) {
+      width: $step-marker-width;
+      height: $step-marker-width;
+      fill: $visited-step-color;
+      stroke: none;
+    }
+
+    .step-node > svg:nth-child(2) {
+      width: #{$step-marker-width + 7px};
+      height: #{$step-marker-width + 7px};
+      fill: none;
+      stroke: $visited-step-color;
+      stroke-width: 1px;
+    }
 
     .step-label {
       @include px-8;
       @include ellipsis;
     }
-
-    .path-layer {
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .path-segment {
-        position: absolute;
-        width: 50%;
-        height: 2px;
-        background-color: $unvisited-step-color;
-        transform: translateY(-50%);
-      }
-
-      .path-segment.visited {
-        background-color: $visited-step-color;
-      }
-
-      .path-segment.from-prev {
-        left: 0;
-      }
-
-      .path-segment.to-next {
-        right: 0;
-      }
-
-      .path-node {
-        width: $path-node-width;
-        height: $path-node-width;
-        z-index: 1;
-      }
-
-      .path-node circle:nth-child(1) {
-        fill: $visited-step-color;
-        stroke: none;
-      }
-
-      .path-node circle:nth-child(2) {
-        fill: none;
-        stroke: $visited-step-color;
-        stroke-width: 1px;
-      }
-    }
   }
 
-  .ids-wizard-step.current-step {
-    .step-label {
-      font-weight: 600;
-    }
+  .path-segment {
+    position: relative;
+    height: 100%;
+    flex-grow: 1;
+  }
+
+  .path-segment::before {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    height: 2px;
+    background-color: $unvisited-step-color;
+    content: '';
+  }
+
+  .path-segment.visited::before {
+    background-color: $visited-step-color;
+  }
+
+  .path-segment.from-prev {
+    left: 0;
+  }
+
+  .path-segment.to-next {
+    right: 0;
+  }
+
+  .ids-wizard-step.current-step .step-label {
+    font-weight: 600;
   }
 
   .ids-wizard-step.visited-step {
-    .path-layer .path-node circle:nth-child(1) {
+    .path-layer .step-marker circle {
       fill: $visited-step-color;
       stroke: none;
     }
@@ -91,7 +109,7 @@
   }
 
   .ids-wizard-step:not(.visited-step) {
-    .path-layer .path-node circle:nth-child(1) {
+    .path-layer .step-marker circle {
       fill: #fff;
       stroke: $unvisited-step-color;
       stroke-width: 2px;

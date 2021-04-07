@@ -34,61 +34,42 @@ class IdsWizard extends IdsElement {
     // iterate through ids-wizard-step
     // lightDOM to create shadowDOM markup
 
+    // @ts-ignore
+    const stepIndex = parseInt(this.stepNumber) - 1;
+
     for (const [i, stepEl] of [...this.children].entries()) {
-      // @ts-ignore
-      const stepIndex = parseInt(this.stepNumber) - 1;
       const isCurrentStep = stepIndex === i;
       const isVisitedStep = i <= stepIndex;
 
-      const isClickable = stepEl.getAttribute('clickable');
-      // @ts-ignore
-      const label = stepEl.innerText;
-
-      const className = clsx(
-        'ids-wizard-step',
-        isCurrentStep && 'current-step',
-        isVisitedStep && 'visited-step',
-        isClickable && 'clickable'
-      );
-
-      const classNameStr = className ? ` class="${className}"` : '';
-
-      const pathFromPrev = ((i > 0)
-        ? `<div
-            class="path-segment from-prev${(i - 1) < stepIndex ? ' visited' : ''}"
-          ></div>` : ''
-      );
-      const pathToNext = ((i < this.children.length - 1)
-        ? `<div
-            class="to-next path-segment ${ i < stepIndex ? ' visited' : ''}"
-          ></div>` : ''
-      );
-
       wizardStepHtml += (
-        `<div${classNameStr}>
-          <div class="path-layer">
-            ${pathFromPrev}
-            ${pathToNext}
-            <svg class="path-node" viewBox="0 0 24 24">
-              <circle
-                cx="12" cy="12" r="8"
-              />
-              ${ !isCurrentStep ? '' : (
-                `<circle
-                  cx="12" cy="12" r="11"
-                />`) }
+        `<div class="ids-wizard-step">
+          <div class="step-node">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="12" r="12" />
             </svg>
-          </div>
-          <div class="step-label">
-            <ids-text font-size="18" font-weight=${isCurrentStep ? 'bold' : 'normal'}>${label}</ids-text>
+            ${ !isCurrentStep ? '' : (
+              `<svg viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="12" />
+              </svg>`) }
           </div>
         </div>`
       );
+
+      if (i < this.children.length - 1) {
+        wizardStepHtml += (
+          `<div class="path-segment${
+            stepIndex <= i ? '' : ' visited'
+          }">
+          </div>`
+        );
+      }
     }
 
     return (
       `<div class="ids-wizard">
-        ${wizardStepHtml}
+        <div class="bar">
+          ${wizardStepHtml}
+        </div>
       </div>`
     );
   }
