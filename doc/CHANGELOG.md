@@ -71,6 +71,8 @@
   - If using properties/settings these are now attributes: dismissible, color
   - Markup has changed to a custom element `<ids-tag color="error">Text</ids-tag>`
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Text]` Add `overflow` attribute (default: `'ellipse'`, anything else will clip).
+- `[Text]` Add `font-weight` attribute (default: `'normal'`). Can specify `'bold'`/`'bolder'` now.
 - `[Textarea]` The Textarea component has been changed to a web component and renamed to ids-textarea.
   - Markup has changed to a custom element `<ids-textarea></ids-textarea>`
   - If using events, events are now plain JS events.
