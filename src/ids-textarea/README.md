@@ -138,7 +138,7 @@ Set the sizes, available sizes are `'sm'|'md'|'lg'|'full'` and default type is `
 ## Themeable Parts
 
 - `textarea` allows you to further style the textarea input element
-- `label` allows you to further style the the label text
+- `label` allows you to further style the label text
 
 ## Keyboard Guidelines
 

@@ -233,8 +233,12 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
       this.popup.y = 10;
 
       // Open/Close the menu when the trigger element is clicked
+      this.detachAllEvents();
       this.onEvent('click.trigger', targetElem, (/** @type {any} */e) => {
-        e.preventDefault();
+        if (e.currentTarget !== window) {
+          e.preventDefault();
+        }
+
         if (this.hidden) {
           this.show();
         } else {

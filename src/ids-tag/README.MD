@@ -50,8 +50,8 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 ## Themeable Parts
 
 - `checkbox` allows you to further style the checkbox input element
-- `slider` allows you to further style the the sliding part of the switch
-- `label` allows you to further style the the label text
+- `slider` allows you to further style the sliding part of the switch
+- `label` allows you to further style the label text
 
 ## States and Variations (With Code Examples)
 

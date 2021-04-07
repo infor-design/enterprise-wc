@@ -132,3 +132,114 @@
     }
   }
 }
+
+// Handle Themes
+.ids-upload-advanced[mode='dark'] {
+  .droparea {
+    @include bg-slate-70();
+    @include border-slate-50();
+    @include text-slate-20();
+
+    &:hover,
+    &.hover {
+      @include bg-slate-80();
+      @include border-slate-50();
+    }
+  }
+
+  &.disabled .droparea {
+    &:hover,
+    &.hover {
+      @include bg-slate-70();
+      @include border-slate-50();
+    }
+  }
+}
+
+.ids-upload-advanced[mode='contrast'] {
+  .droparea {
+    @include bg-white();
+    @include border-slate-50();
+    @include text-slate-70();
+
+    &:hover,
+    &.hover {
+      @include bg-slate-10();
+      @include border-slate-50();
+    }
+  }
+
+  &.disabled .droparea {
+    &:hover,
+    &.hover {
+      @include bg-white();
+      @include border-slate-50();
+    }
+  }
+}
+
+.ids-upload-advanced[version='classic'][mode='light'] {
+  .droparea {
+    @include bg-graphite-10();
+    @include border-graphite-50();
+    @include text-graphite-80();
+
+    &:hover,
+    &.hover {
+      @include bg-graphite-20();
+      @include border-graphite-50();
+    }
+  }
+
+  &.disabled .droparea {
+    &:hover,
+    &.hover {
+      @include bg-graphite-20();
+      @include border-graphite-50();
+    }
+  }
+}
+
+.ids-upload-advanced[version='classic'][mode='dark'] {
+  .droparea {
+    @include bg-classic-slate-80();
+    @include border-classic-slate-50();
+    @include text-classic-slate-30();
+
+    &:hover,
+    &.hover {
+      @include bg-classic-slate-70();
+      @include border-classic-slate-50();
+    }
+  }
+
+  &.disabled .droparea {
+    &:hover,
+    &.hover {
+      @include bg-classic-slate-80();
+      @include border-classic-slate-50();
+    }
+  }
+}
+
+.ids-upload-advanced[version='classic'][mode='contrast'] {
+  .droparea {
+    @include bg-white();
+    @include border-graphite-50();
+    @include text-graphite-100();
+
+    &:hover,
+    &.hover {
+      @include bg-graphite-10();
+      @include border-graphite-50();
+    }
+  }
+
+  &.disabled .droparea {
+    &:hover,
+    &.hover {
+      @include bg-white();
+      @include border-graphite-50();
+    }
+  }
+}

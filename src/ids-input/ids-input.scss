@@ -269,6 +269,7 @@ $input-size-default: $input-size-md;
   @include text-black();
 
   &[disabled] {
+    @include bg-transparent();
     @include border-slate-30();
     @include text-slate-30();
   }
@@ -277,6 +278,10 @@ $input-size-default: $input-size-md;
     @include bg-slate-20();
     @include border-slate-40();
     @include text-slate-100();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-white();
   }
 
   &:focus {
@@ -298,6 +303,10 @@ $input-size-default: $input-size-md;
     @include bg-graphite-20();
     @include border-graphite-40();
     @include text-classic-slate-100();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-transparent();
   }
 
   &:focus {
@@ -336,6 +345,7 @@ $input-size-default: $input-size-md;
   @include text-graphite-100();
 
   &[disabled] {
+    @include bg-transparent();
     @include border-slate-50();
     @include text-graphite-80();
   }
@@ -344,6 +354,10 @@ $input-size-default: $input-size-md;
     @include bg-slate-30();
     @include border-slate-80();
     @include text-graphite-100();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-white();
   }
 
   &:focus {

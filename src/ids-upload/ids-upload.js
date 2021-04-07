@@ -478,11 +478,13 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (val) {
       this.setAttribute(props.READONLY, val.toString());
       this.textInput.bgTransparent = false;
-      this.trigger.disabled = true;
+      this.trigger.container.disabled = false;
+      this.trigger.container.classList.add('readonly');
     } else {
       this.removeAttribute(props.READONLY);
       this.textInput.bgTransparent = true;
-      this.trigger.disabled = false;
+      this.trigger.container.disabled = false;
+      this.trigger.container.classList.remove('readonly');
     }
   }
 
