@@ -89,12 +89,8 @@ class IdsInput extends mix(IdsElement).with(
     super();
   }
 
-  /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
-   */
   static get properties() {
-    return [
+    const theseProps = [
       props.AUTOSELECT,
       props.BG_TRANSPARENT,
       props.CLEARABLE,
@@ -117,6 +113,11 @@ class IdsInput extends mix(IdsElement).with(
       props.VALUE,
       props.VERSION
     ];
+
+    if (Array.isArray(super.properties)) {
+      return super.properties.concat(theseProps);
+    }
+    return theseProps;
   }
 
   /**
@@ -137,7 +138,6 @@ class IdsInput extends mix(IdsElement).with(
     this.handleAutoselect();
     this.handleClearable();
     this.handleDirtyTracker();
-    this.handleMask();
     // @ts-ignore
     this.handleValidation();
     super.connectedCallback();

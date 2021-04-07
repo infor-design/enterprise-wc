@@ -17,6 +17,8 @@ class IdsElement extends HTMLElement {
     super();
     this.addBaseName();
     this.render();
+
+    this.mixedProps = [];
   }
 
   /**
@@ -61,6 +63,10 @@ class IdsElement extends HTMLElement {
    */
   static get observedAttributes() {
     return this.properties;
+  }
+
+  static get properties() {
+    return [];
   }
 
   /**
