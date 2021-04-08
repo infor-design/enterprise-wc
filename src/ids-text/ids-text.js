@@ -8,6 +8,11 @@ import {
 // @ts-ignore
 import styles from './ids-text.scss';
 
+const CSSClassRegexps = {
+  FONT_SIZE: /\^ids-text-[0-9]+$/,
+  FONT_WEIGHT: /^(?:normal|bold|bolder)$/
+};
+
 /**
  * IDS Text Component
  * @type {IdsText}
@@ -25,7 +30,12 @@ class IdsText extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TYPE, props.FONT_SIZE, props.AUDIBLE];
+    return [
+      props.TYPE,
+      props.FONT_SIZE,
+      props.FONT_WEIGHT,
+      props.AUDIBLE,
+    ];
   }
 
   /**
@@ -35,8 +45,22 @@ class IdsText extends IdsElement {
   template() {
     const tag = this.type || 'span';
     let classList = 'ids-text';
+    classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
     classList += this.audible ? ' audible' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
+
+    // @ts-ignore
+    switch (this.fontWeight) {
+    case 'bold':
+    case 'bolder': {
+      classList += ` ${this.fontWeight}`;
+      break;
+    }
+    default: {
+      break;
+    }
+    }
+
     classList = ` class="${classList}"`;
 
     return `<${tag}${classList}><slot></slot></${tag}>`;
@@ -61,7 +85,7 @@ class IdsText extends IdsElement {
   set fontSize(value) {
     const elem = this.shadowRoot?.querySelector('span');
     const existingClass = elem?.classList && [...elem.classList].find(
-      (c) => /\s?ids-text-[0-9]+(\s|$)/.test(c)
+      (c) => CSSClassRegexps.FONT_SIZE.test(c)
     );
 
     // @ts-ignore
@@ -77,6 +101,44 @@ class IdsText extends IdsElement {
   }
 
   get fontSize() { return this.getAttribute(props.FONT_SIZE); }
+
+  /**
+   * Adjust font weight; can be either "normal", "bold" or "bolder"
+   * @param {string} [value='normal'] font weight
+   */
+  set fontWeight(value) {
+    let hasValue = false;
+
+    switch (value) {
+    case 'bold':
+    case 'bolder':
+      hasValue = true;
+      break;
+    default:
+      break;
+    }
+    const elem = this.shadowRoot?.querySelector('span');
+
+    const existingClass = elem?.classList && [...elem.classList].find(
+      (c) => CSSClassRegexps.FONT_WEIGHT.test(c)
+    );
+
+    // @ts-ignore
+    elem?.classList.remove(existingClass);
+
+    if (hasValue) {
+      this.setAttribute(props.FONT_WEIGHT, value || 'normal');
+      // @ts-ignore
+      elem?.classList.add(value);
+      return;
+    }
+
+    this.removeAttribute(props.FONT_WEIGHT);
+  }
+
+  get fontWeight() {
+    return this.getAttribute(props.FONT_WEIGHT) || 'normal';
+  }
 
   /**
    * Set the type of element it is (h1-h6, span (default))
