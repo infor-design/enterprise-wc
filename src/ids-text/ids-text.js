@@ -68,17 +68,6 @@ class IdsText extends IdsElement {
   }
 
   /**
-   * Rerender the component template
-   * @private
-   */
-  rerender() {
-    const template = document.createElement('template');
-    this.shadowRoot?.querySelector('.ids-text')?.remove();
-    template.innerHTML = this.template();
-    this.shadowRoot?.appendChild(template.content.cloneNode(true));
-  }
-
-  /**
    * Set the font size/style of the text with a class.
    * @param {string | null} value The font size in the font scheme
    * i.e. 10, 12, 16 or xs, sm, base, lg, xl
@@ -148,12 +137,12 @@ class IdsText extends IdsElement {
   set type(value) {
     if (value) {
       this.setAttribute(props.TYPE, value);
-      this.rerender();
+      this.render();
       return;
     }
 
     this.removeAttribute(props.TYPE);
-    this.rerender();
+    this.render();
   }
 
   get type() { return this.getAttribute(props.TYPE); }
