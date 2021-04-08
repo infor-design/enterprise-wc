@@ -152,11 +152,23 @@ class IdsText extends IdsElement {
    * @param {string | null} value The `audible` attribute
    */
   set audible(value) {
+    const isValueTruthy = (value && value !== 'false');
+    const elem = this.shadowRoot?.querySelector('span');
+
+    if (isValueTruthy && elem && !elem?.classList.contains('audible')) {
+      elem.classList.add('audible');
+    }
+
+    if (!isValueTruthy && elem?.classList.contains('audible')) {
+      elem.classList.remove('audible');
+    }
+
     if (value) {
       this.setAttribute(props.AUDIBLE, value);
       return;
+    } else {
+      this.removeAttribute(props.AUDIBLE);
     }
-    this.removeAttribute(props.AUDIBLE);
   }
 
   get audible() { return this.getAttribute(props.AUDIBLE); }
