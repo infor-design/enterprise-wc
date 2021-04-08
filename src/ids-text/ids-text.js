@@ -9,7 +9,7 @@ import {
 import styles from './ids-text.scss';
 
 const CSSClassRegexps = {
-  FONT_SIZE: /\^ids-text-[0-9]+$/,
+  FONT_SIZE: /^ids-text-[0-9]+$/,
   FONT_WEIGHT: /^(?:normal|bold|bolder)$/
 };
 
