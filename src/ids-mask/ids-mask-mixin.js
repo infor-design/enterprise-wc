@@ -24,6 +24,18 @@ const IdsMaskMixin = (superclass) => class extends superclass {
     return MASK_PROPS;
   }
 
+  connectedCallback() {
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
+
+    // If combined with the events mixin, handle events
+    if (super.handledEvents) {
+      this.handleMaskEvents();
+    }
+    this.processMaskWithCurrentValue();
+  }
+
   /**
    * @readonly
    * @returns {IdsMask} reference to a global IDS Mask instance
@@ -76,13 +88,41 @@ const IdsMaskMixin = (superclass) => class extends superclass {
     this.maskState.pattern = trueVal;
   }
 
+  handleMaskEvents() {
+    // If combined with the events mixin, handle events
+    if (!super.handledEvents) {
+      return;
+    }
+
+    this.onEvent('input', this.input, () => {
+      this.processMaskWithCurrentValue();
+    });
+  }
+
   /**
+   * Uses an input value and pattern options to process a masked string.
    * @param {string} rawValue the value to be checked for masking.
    * @param {IdsMaskOptions} opts various options that can be passed to the masking process.
-   * @returns {IdsProcessedMaskValue} the result of the mask
+   * @returns {object} the result of the mask
    */
   processMask(rawValue, opts) {
     return maskAPI.process(rawValue, opts);
+  }
+
+  /**
+   * Uses currently defined attributes to process a masked string
+   * @returns {object} the result of the mask
+   */
+  processMaskWithCurrentValue() {
+    if (!this.value) {
+      return {
+        originalValue: this.value,
+        maskResult: false
+      };
+    }
+
+    console.log(this.value);
+    return this.processMask(this.value, this.maskOptions);
   }
 };
 

@@ -79,6 +79,16 @@ const TEXT_ALIGN = {
   right: 'right'
 };
 
+const appliedMixins = [
+  IdsEventsMixin,
+  IdsClearableMixin,
+  IdsKeyboardMixin,
+  IdsDirtyTrackerMixin,
+  IdsMaskMixin,
+  IdsThemeMixin,
+  IdsValidationMixin
+];
+
 /**
  * IDS Input Component
  * @type {IdsInput}
@@ -94,15 +104,7 @@ const TEXT_ALIGN = {
  */
 @customElement('ids-input')
 @scss(styles)
-class IdsInput extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsClearableMixin,
-    IdsKeyboardMixin,
-    IdsDirtyTrackerMixin,
-    IdsMaskMixin,
-    IdsThemeMixin,
-    IdsValidationMixin
-  ) {
+class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   /**
    * Call the constructor and then initialize
    */
@@ -122,6 +124,10 @@ class IdsInput extends mix(IdsElement).with(
    * @returns {void}
    */
   connectedCallback() {
+    if (super.connectedCallback) {
+      super.connectedCallback();
+    }
+
     /** @type {any} */
     this.input = this.shadowRoot.querySelector(`#${ID}`);
     /** @type {any} */
@@ -582,7 +588,9 @@ class IdsInput extends mix(IdsElement).with(
     }
   }
 
-  get value() { return this.getAttribute(props.VALUE); }
+  get value() {
+    return this.input?.value || null;
+  }
 }
 
 export default IdsInput;
