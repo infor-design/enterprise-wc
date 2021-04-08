@@ -165,11 +165,9 @@ class IdsText extends IdsElement {
   set audible(value) {
     if (value) {
       this.setAttribute(props.AUDIBLE, value);
-      this.rerender();
       return;
     }
     this.removeAttribute(props.AUDIBLE);
-    this.rerender();
   }
 
   get audible() { return this.getAttribute(props.AUDIBLE); }
