@@ -35,6 +35,7 @@ class IdsText extends IdsElement {
       props.FONT_SIZE,
       props.FONT_WEIGHT,
       props.AUDIBLE,
+      'overflow'
     ];
   }
 
@@ -172,6 +173,25 @@ class IdsText extends IdsElement {
   }
 
   get audible() { return this.getAttribute(props.AUDIBLE); }
+
+  get overflow() {
+    return this.getAttribute('overflow') || 'ellipsis';
+  }
+
+  /**
+   * Set how content overflows; can specify 'ellipsis' or 'clip'
+   * @param {string} [value='ellipsis'] how content is overflow
+   */
+  set overflow(value) {
+    const elem = this.shadowRoot?.querySelector('span');
+    this.setAttribute('overflow', value || 'ellipsis');
+
+    if (value === 'none' || value === 'clip') {
+      elem?.classList.remove('ellipsis');
+    } else if (!elem?.classList.contains('ellipsis')) {
+      elem?.classList.add('ellipsis');
+    }
+  }
 }
 
 export default IdsText;
