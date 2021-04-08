@@ -56,11 +56,23 @@ describe('IdsText Component', () => {
 
     elem.fontWeight = 'bolder';
     expect(elem.getAttribute('font-weight')).toEqual('bolder');
-    elem.fontWeight = undefined;
+
+    elem.fontWeight = 'normal';
     expect(elem.fontWeight).toEqual('normal');
+
+    elem.fontWeight = '';
+    expect(elem.fontWeight).toEqual('normal');
+
+    document.body.innerHTML = '';
+    const templateElem = document.createElement('template');
+    templateElem.innerHTML = '<ids-text font-weight="bold">I am bold</ids-text>';
+    elem = templateElem.content.childNodes[0];
+    document.body.appendChild(elem);
+    expect(elem.fontWeight).toEqual('bold');
   });
 
   it('renders overflow setting', () => {
+    elem = new IdsText();
     expect(elem.overflow).toEqual('ellipsis');
     elem.overflow = 'none';
     expect(elem.getAttribute('overflow')).toEqual('none');
@@ -69,6 +81,13 @@ describe('IdsText Component', () => {
     expect(elem.getAttribute('overflow')).toEqual('ellipsis');
     elem.overflow = undefined;
     expect(elem.overflow).toEqual('ellipsis');
+
+    document.body.innerHTML = '';
+    const templateElem = document.createElement('template');
+    templateElem.innerHTML = '<ids-text overflow="none">Cut off before the end--</ids-text>';
+    elem = templateElem.content.childNodes[0];
+    document.body.appendChild(elem);
+    expect(elem.overflow).toEqual('none');
   });
 
   it('renders type setting', () => {
@@ -94,6 +113,17 @@ describe('IdsText Component', () => {
     document.body.appendChild(elem);
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
     elem.audible = true;
+    expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
+    elem.audible = false;
+    expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
+  });
+
+  it('renders with audible setting enabled, then removes it', () => { // ids-text audible
+    document.body.innerHTML = '';
+    const templateElem = document.createElement('template');
+    templateElem.innerHTML = '<ids-text audible>Hello World, Can you hear me?</ids-text>';
+    elem = templateElem.content.childNodes[0];
+    document.body.appendChild(elem);
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
     elem.audible = false;
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);

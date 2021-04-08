@@ -107,7 +107,8 @@ class IdsText extends IdsElement {
     elem?.classList.remove(existingClass);
 
     if (hasValue) {
-      this.setAttribute(props.FONT_WEIGHT, value || 'normal');
+      // @ts-ignore
+      this.setAttribute(props.FONT_WEIGHT, value);
       // @ts-ignore
       elem?.classList.add(value);
       return;
