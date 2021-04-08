@@ -68,7 +68,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       section.setAttribute('item-index', `item-${index}`);
       const div = window.document.createElement('div');
       div.classList.add('rating-inner');
-      div.classList.add(`inner-${index}`)
+      div.classList.add(`inner-${index}`);
       section.appendChild(div);
       element.appendChild(section);
     }
@@ -96,8 +96,9 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
             action = 'remove';
           }
         }
-        if (activeElements.length == 1 && e.target.classList.contains('inner-0')) {
+        if (activeElements.length === 1 && e.target.classList.contains('inner-0')) {
           activeElements[0].classList.remove('active');
+          this.setAttribute('value', 0);
         }
       });
     }
