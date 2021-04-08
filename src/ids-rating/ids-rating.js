@@ -68,6 +68,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       section.setAttribute('item-index', `item-${index}`);
       const div = window.document.createElement('div');
       div.classList.add('rating-inner');
+      div.classList.add(`inner-${index}`)
       section.appendChild(div);
       element.appendChild(section);
     }
@@ -84,14 +85,19 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     addRemoveClass() {
       const ratingContainer = this.shadowRoot.querySelector('#rating');
+      const ratingArr = [...ratingContainer.children];
       this.onEvent('click', ratingContainer, (/** @type {{ target: any; }} */ e) => {
+        const activeElements = ratingArr.filter((e) => e.classList.contains('active'));
         let action = 'add';
-        for (const section of ratingContainer.children) {
+        for (const section of ratingArr) {
           section.classList[action]('active');
           this.udpateValue();
           if (section === e.target || section.children[0] === e.target) {
             action = 'remove';
           }
+        }
+        if (activeElements.length == 1 && e.target.classList.contains('inner-0')) {
+          activeElements[0].classList.remove('active');
         }
       });
     }

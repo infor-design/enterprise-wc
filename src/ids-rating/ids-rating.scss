@@ -1,15 +1,14 @@
 #rating {
   align-items: center;
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   font-size: 0;
-  width: 100%;
 }
 
 .rating-outer {
   cursor: pointer;
   display: inline-block;
-  font-size: 35px;
+  font-size: 25px;
   position: relative;
 }
 
@@ -34,5 +33,9 @@
 .active {
   .rating-inner {
     width: 100%;
+  }
+
+  .active-half {
+    width: 50%;
   }
 }
