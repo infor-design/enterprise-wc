@@ -59,15 +59,21 @@ class IdsText extends IdsElement {
    * i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set fontSize(value) {
+    const elem = this.shadowRoot?.querySelector('span');
+    const existingClass = elem?.classList && [...elem.classList].find(
+      (c) => /\s?ids-text-[0-9]+(\s|$)/.test(c)
+    );
+
+    // @ts-ignore
+    elem?.classList.remove(existingClass);
+
     if (value) {
       this.setAttribute(props.FONT_SIZE, value);
-      this.container.classList.add(`ids-text-${value}`);
+      elem?.classList.add(`ids-text-${value}`);
       return;
     }
 
     this.removeAttribute(props.FONT_SIZE);
-    this.container.className = '';
-    this.container.classList.add('ids-text');
   }
 
   get fontSize() { return this.getAttribute(props.FONT_SIZE); }
