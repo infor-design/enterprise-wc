@@ -49,7 +49,30 @@ describe('IdsText Component', () => {
     expect(elem.getAttribute('font-size')).toEqual(null);
   });
 
+  it('renders font weight setting', () => {
+    expect(elem.fontWeight).toEqual('normal');
+    elem.fontWeight = 'bold';
+    expect(elem.getAttribute('font-weight')).toEqual('bold');
+
+    elem.fontWeight = 'bolder';
+    expect(elem.getAttribute('font-weight')).toEqual('bolder');
+    elem.fontWeight = undefined;
+    expect(elem.fontWeight).toEqual('normal');
+  });
+
+  it('renders overflow setting', () => {
+    expect(elem.overflow).toEqual('ellipsis');
+    elem.overflow = 'none';
+    expect(elem.getAttribute('overflow')).toEqual('none');
+
+    elem.overflow = 'ellipsis';
+    expect(elem.getAttribute('overflow')).toEqual('ellipsis');
+    elem.overflow = undefined;
+    expect(elem.overflow).toEqual('ellipsis');
+  });
+
   it('renders type setting', () => {
+    elem = new IdsText();
     elem.type = 'h1';
     expect(elem.type).toEqual('h1');
     expect(elem.shadowRoot.querySelectorAll('h1').length).toEqual(1);
