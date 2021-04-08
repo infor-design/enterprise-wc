@@ -45,26 +45,8 @@ class IdsText extends IdsElement {
    */
   template() {
     const tag = this.type || 'span';
-    let classList = 'ids-text';
-    classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
-    classList += this.audible ? ' audible' : '';
-    classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
 
-    // @ts-ignore
-    switch (this.fontWeight) {
-    case 'bold':
-    case 'bolder': {
-      classList += ` ${this.fontWeight}`;
-      break;
-    }
-    default: {
-      break;
-    }
-    }
-
-    classList = ` class="${classList}"`;
-
-    return `<${tag}${classList}><slot></slot></${tag}>`;
+    return `<${tag} class="ids-text"><slot></slot></${tag}>`;
   }
 
   /**
@@ -152,7 +134,7 @@ class IdsText extends IdsElement {
    * @param {string | null} value The `audible` attribute
    */
   set audible(value) {
-    const isValueTruthy = (value && value !== 'false');
+    const isValueTruthy = (value && value !== 'false') || (value === '');
     const elem = this.shadowRoot?.querySelector('span');
 
     if (isValueTruthy && elem && !elem?.classList.contains('audible')) {
@@ -163,9 +145,9 @@ class IdsText extends IdsElement {
       elem.classList.remove('audible');
     }
 
-    if (value) {
+    if (isValueTruthy) {
+      // @ts-ignore
       this.setAttribute(props.AUDIBLE, value);
-      return;
     } else {
       this.removeAttribute(props.AUDIBLE);
     }
