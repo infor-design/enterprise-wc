@@ -46,7 +46,25 @@ class IdsText extends IdsElement {
   template() {
     const tag = this.type || 'span';
 
-    return `<${tag} class="ids-text"><slot></slot></${tag}>`;
+    let classList = 'ids-text';
+    classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
+    classList += this.audible ? ' audible' : '';
+    classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
+
+    // @ts-ignore
+    switch (this.fontWeight) {
+    case 'bold':
+    case 'bolder': {
+      classList += ` ${this.fontWeight}`;
+      break;
+    }
+    default: {
+      break;
+    }
+    }
+
+    classList = ` class="${classList}"`;
+    return `<${tag}${classList}><slot></slot></${tag}>`;
   }
 
   /**
@@ -89,7 +107,7 @@ class IdsText extends IdsElement {
     default:
       break;
     }
-    const elem = this.shadowRoot?.querySelector('span');
+    const elem = this.shadowRoot?.querySelector(this.type || 'span');
 
     const existingClass = elem?.classList && [...elem.classList].find(
       (c) => CSSClassRegexps.FONT_WEIGHT.test(c)
@@ -119,11 +137,10 @@ class IdsText extends IdsElement {
   set type(value) {
     if (value) {
       this.setAttribute(props.TYPE, value);
-      this.render();
-      return;
+    } else {
+      this.removeAttribute(props.TYPE);
     }
 
-    this.removeAttribute(props.TYPE);
     this.render();
   }
 
@@ -135,7 +152,7 @@ class IdsText extends IdsElement {
    */
   set audible(value) {
     const isValueTruthy = (value && value !== 'false') || (value === '');
-    const elem = this.shadowRoot?.querySelector('span');
+    const elem = this.shadowRoot?.querySelector(this.type || 'span');
 
     if (isValueTruthy && elem && !elem?.classList.contains('audible')) {
       elem.classList.add('audible');
@@ -164,7 +181,7 @@ class IdsText extends IdsElement {
    * @param {string} [value='ellipsis'] how content is overflow
    */
   set overflow(value) {
-    const elem = this.shadowRoot?.querySelector('span');
+    const elem = this.shadowRoot?.querySelector(this.type || 'span');
     this.setAttribute('overflow', value || 'ellipsis');
 
     if (value === 'none' || value === 'clip') {
