@@ -48,20 +48,10 @@ class IdsText extends IdsElement {
 
     let classList = 'ids-text';
     classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
-    classList += this.audible ? ' audible' : '';
+    classList += ((this.audible) || (this.audible === '')) ? ' audible' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
-
-    // @ts-ignore
-    switch (this.fontWeight) {
-    case 'bold':
-    case 'bolder': {
-      classList += ` ${this.fontWeight}`;
-      break;
-    }
-    default: {
-      break;
-    }
-    }
+    classList += (this.fontWeight === 'bold' || this.fontWeight === 'bolder')
+      ? ` ${this.fontWeight}` : '';
 
     classList = ` class="${classList}"`;
     return `<${tag}${classList}><slot></slot></${tag}>`;
