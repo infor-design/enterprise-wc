@@ -29,17 +29,12 @@ jobs:
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: 0009
+        key: 0010
 
     - name: Install Dependencies
       run: npm i
 
-    - name: Initialize CodeQL
-      uses: github/codeql-action/init@v1
-      with:
-       languages: javascript
-
-    - name: Run a test build
+    - name: Build and Compile
       run: npm run build
 
     - name: Run Lint Checks
@@ -52,10 +47,7 @@ jobs:
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
 
-    - name: Coveralls
+    - name: Report Coverage
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v1
