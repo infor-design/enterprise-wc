@@ -360,7 +360,8 @@ $input-size-default: $input-size-md;
     @include bg-white();
   }
 
-  &:focus {
+  &:focus,
+  &:focus[readonly] {
     @include border-azure-60();
   }
 }

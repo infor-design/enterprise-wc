@@ -1,5 +1,3 @@
-import percySnapshot from '@percy/puppeteer';
-
 describe('Ids Radio e2e Tests', () => {
   const url = 'http://localhost:4444/ids-radio';
 
@@ -17,12 +15,5 @@ describe('Ids Radio e2e Tests', () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
     await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-allowed-attr'] });
-  });
-
-  it('should not have visual regressions (percy)', async () => {
-    page = await browser.newPage();
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
-    await percySnapshot(page, 'ids-radio');
   });
 });

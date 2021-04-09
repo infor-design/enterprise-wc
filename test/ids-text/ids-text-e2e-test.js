@@ -1,5 +1,3 @@
-import percySnapshot from '@percy/puppeteer';
-
 describe('Ids Text e2e Tests', () => {
   const url = 'http://localhost:4444/ids-text';
 
@@ -17,12 +15,5 @@ describe('Ids Text e2e Tests', () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
     await expect(page).toPassAxeTests();
-  });
-
-  it('should not have visual regressions (percy)', async () => {
-    page = await browser.newPage();
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
-    await percySnapshot(page, 'ids-text');
   });
 });

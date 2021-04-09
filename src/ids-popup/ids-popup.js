@@ -547,7 +547,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {number} val the coordinate's value
    */
   set x(val) {
-    let trueVal = parseInt(val.toString(), 10);
+    let trueVal = parseInt(val?.toString(), 10);
     if (Number.isNaN(trueVal)) {
       trueVal = 0;
     }
@@ -566,7 +566,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {number} val the coordinate's value
    */
   set y(val) {
-    let trueVal = parseInt(val.toString(), 10);
+    let trueVal = parseInt(val?.toString(), 10);
     if (Number.isNaN(trueVal)) {
       trueVal = 0;
     }

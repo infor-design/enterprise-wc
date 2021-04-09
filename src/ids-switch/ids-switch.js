@@ -68,6 +68,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
+    this.handleSwitchChangeEvent('remove');
     this.handleNativeEvents('remove');
   }
 
@@ -95,17 +96,25 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   /**
    * Handle switch change event
    * @private
+   * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleSwitchClickEvent() {
-    this.onEvent('click', this.labelEl, () => {
-      if (this.disabled) {
-        return;
+  handleSwitchChangeEvent(option = '') {
+    if (this.input) {
+      const eventName = 'change';
+      if (option === 'remove') {
+        const handler = this.handledEvents?.get(eventName);
+        /* istanbul ignore next */
+        if (handler && handler.target === this.input) {
+          this.offEvent(eventName, this.input);
+        }
+      } else {
+        this.onEvent(eventName, this.input, () => {
+          this.indeterminate = false;
+          this.checked = this.input.checked;
+        });
       }
-      this.input.checked = !this.input.checked;
-      this.triggerEvent('change', this.input, {});
-      this.input?.focus(); // Safari need focus first click
-    });
+    }
   }
 
   /**
@@ -153,7 +162,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {void}
    */
   handleEvents() {
-    this.handleSwitchClickEvent();
+    this.handleSwitchChangeEvent();
     this.handleNativeEvents();
   }
 

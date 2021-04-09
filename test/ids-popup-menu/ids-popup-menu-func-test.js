@@ -542,7 +542,7 @@ describe('IdsPopupMenu Component', () => {
             done();
           }, 210);
         }, 210);
-      }, 20);
+      }, 210);
     });
   });
 });

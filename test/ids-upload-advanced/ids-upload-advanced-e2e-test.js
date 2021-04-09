@@ -1,5 +1,3 @@
-const { percySnapshot } = require('@percy/puppeteer');
-
 describe('Ids Upload Advanced e2e Tests', () => {
   const url = 'http://localhost:4444/ids-upload-advanced';
 
@@ -17,12 +15,5 @@ describe('Ids Upload Advanced e2e Tests', () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
     await expect(page).toPassAxeTests({ disabledRules: ['color-contrast'] });
-  });
-
-  it('should not have visual regressions (percy)', async () => {
-    page = await browser.newPage();
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
-    await percySnapshot(page, 'ids-upload-advanced');
   });
 });

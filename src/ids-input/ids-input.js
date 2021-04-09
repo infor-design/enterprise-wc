@@ -586,13 +586,6 @@ class IdsInput extends mix(IdsElement).with(
   }
 
   get value() { return this.getAttribute(props.VALUE); }
-
-  /**
-   * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLButton element.
-   */
-  focus() {
-    this.input.focus();
-  }
 }
 
 export default IdsInput;

@@ -139,7 +139,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {void}
    */
   handleRadioChangeEvent() {
-    this.onEvent('input', this.input, () => {
+    this.onEvent('change', this.input, () => {
       this.checked = this.input.checked;
     });
   }
@@ -151,10 +151,6 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   handleRadioClickEvent() {
     this.onEvent('click', this.labelEl, () => {
-      if (!this.input.checked) {
-        this.input.checked = true;
-        this.triggerEvent('change', this.input, {});
-      }
       this.input?.focus(); // Safari need focus first click
     });
   }

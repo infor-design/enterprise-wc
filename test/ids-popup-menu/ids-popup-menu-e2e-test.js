@@ -1,5 +1,3 @@
-import percySnapshot from '@percy/puppeteer';
-
 describe('Ids Popup Menu e2e Tests', () => {
   const url = 'http://localhost:4444/ids-popup-menu';
 
@@ -8,7 +6,7 @@ describe('Ids Popup Menu e2e Tests', () => {
     await page.goto(url, { waitUntil: 'load' });
   });
 
-  it.skip('should not have errors', async () => {
+  it('should not have errors', async () => {
     await expect(page.title()).resolves.toMatch('IDS Popup Menu Component');
   });
 
@@ -18,12 +16,5 @@ describe('Ids Popup Menu e2e Tests', () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
     await expect(page).toPassAxeTests();
-  });
-
-  it('should not have visual regressions (percy)', async () => {
-    page = await browser.newPage();
-    await page.setBypassCSP(true);
-    await page.goto('http://localhost:4444/ids-popup-menu/standalone-css', { waitUntil: 'domcontentloaded' });
-    await percySnapshot(page, 'ids-popup-menu-css');
   });
 });

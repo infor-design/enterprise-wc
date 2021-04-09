@@ -169,6 +169,7 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   resizeMenu() {
+    /* istanbul ignore next */
     if (!this.menuEl || !this.menuEl.popup) {
       return;
     }

@@ -91,4 +91,15 @@ describe('IdsText Component', () => {
     elem.error = false;
     expect(elem.error).toEqual(null);
   });
+
+  it('renders label setting then removes it', () => {
+    elem = new IdsText();
+    document.body.appendChild(elem);
+    expect(elem.shadowRoot.querySelector('span').classList.contains('label')).toEqual(false);
+    elem.label = true;
+    expect(elem.shadowRoot.querySelector('span').classList.contains('label')).toEqual(true);
+    expect(elem.label).toEqual('true');
+    elem.label = false;
+    expect(elem.label).toEqual(null);
+  });
 });

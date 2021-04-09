@@ -1,5 +1,3 @@
-import percySnapshot from '@percy/puppeteer';
-
 describe('Ids Virtual Scroll e2e Tests', () => {
   const url = 'http://localhost:4444/ids-virtual-scroll';
 
@@ -17,13 +15,5 @@ describe('Ids Virtual Scroll e2e Tests', () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: 'load' });
     await expect(page).toPassAxeTests();
-  });
-
-  it('should not have visual regressions (percy)', async () => {
-    page = await browser.newPage();
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
-    await page.waitForSelector('.ids-data-grid-row');
-    await percySnapshot(page, 'ids-virtual-scroll');
   });
 });
