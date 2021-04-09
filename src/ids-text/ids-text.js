@@ -163,18 +163,20 @@ class IdsText extends IdsElement {
   get audible() { return this.getAttribute(props.AUDIBLE); }
 
   get overflow() {
-    return this.getAttribute('overflow') || 'none';
+    return this.getAttribute('overflow') || '';
   }
 
   /**
-   * Set how content overflows; can specify 'ellipsis' or 'none'
-   * @param {string} [value='none'] how content is overflow
+   * Set how content overflows; can specify 'ellipsis', or undefined/'none'
+   * @param {string} [value=''] how content is overflow
    */
   set overflow(value) {
     const elem = this.shadowRoot?.querySelector('*:not(style)');
-    this.setAttribute('overflow', value || 'none');
 
-    if (value === 'none' || value === 'none') {
+    const isEllipsis = value === 'ellipsis';
+    this.setAttribute('overflow', isEllipsis ? 'ellipsis' : '');
+
+    if (!isEllipsis) {
       elem?.classList.remove('ellipsis');
     } else if (!elem?.classList.contains('ellipsis')) {
       elem?.classList.add('ellipsis');
