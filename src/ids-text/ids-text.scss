@@ -13,15 +13,15 @@
   }
 
   &.ellipsis {
-    @include ellipsis;
+    @include ellipsis();
   }
 
   &.bold {
-    @include font-bold;
+    @include font-bold();
   }
 
   &.bolder {
-    @include font-extrabold;
+    @include font-extrabold();
   }
 }
 
