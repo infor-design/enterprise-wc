@@ -53,8 +53,7 @@ class IdsText extends IdsElement {
     classList += (this.fontWeight === 'bold' || this.fontWeight === 'bolder')
       ? ` ${this.fontWeight}` : '';
 
-    classList = ` class="${classList}"`;
-    return `<${tag}${classList}><slot></slot></${tag}>`;
+    return `<${tag} class="${classList}"><slot></slot></${tag}>`;
   }
 
   /**
@@ -63,7 +62,7 @@ class IdsText extends IdsElement {
    * i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set fontSize(value) {
-    const elem = this.shadowRoot?.querySelector('span');
+    const elem = this.shadowRoot?.querySelector('*:not(style)');
     const existingClass = elem?.classList && [...elem.classList].find(
       (c) => CSSClassRegexps.FONT_SIZE.test(c)
     );
@@ -97,7 +96,7 @@ class IdsText extends IdsElement {
     default:
       break;
     }
-    const elem = this.shadowRoot?.querySelector(this.type || 'span');
+    const elem = this.shadowRoot?.querySelector('*:not(style)');
 
     const existingClass = elem?.classList && [...elem.classList].find(
       (c) => CSSClassRegexps.FONT_WEIGHT.test(c)
@@ -143,7 +142,7 @@ class IdsText extends IdsElement {
    */
   set audible(value) {
     const isValueTruthy = (value && value !== 'false') || (value === '');
-    const elem = this.shadowRoot?.querySelector(this.type || 'span');
+    const elem = this.shadowRoot?.querySelector('*:not(style)');
 
     if (isValueTruthy && elem && !elem?.classList.contains('audible')) {
       elem.classList.add('audible');
@@ -164,18 +163,18 @@ class IdsText extends IdsElement {
   get audible() { return this.getAttribute(props.AUDIBLE); }
 
   get overflow() {
-    return this.getAttribute('overflow') || 'ellipsis';
+    return this.getAttribute('overflow') || 'none';
   }
 
   /**
-   * Set how content overflows; can specify 'ellipsis' or 'clip'
-   * @param {string} [value='ellipsis'] how content is overflow
+   * Set how content overflows; can specify 'ellipsis' or 'none'
+   * @param {string} [value='none'] how content is overflow
    */
   set overflow(value) {
-    const elem = this.shadowRoot?.querySelector(this.type || 'span');
-    this.setAttribute('overflow', value || 'ellipsis');
+    const elem = this.shadowRoot?.querySelector('*:not(style)');
+    this.setAttribute('overflow', value || 'none');
 
-    if (value === 'none' || value === 'clip') {
+    if (value === 'none' || value === 'none') {
       elem?.classList.remove('ellipsis');
     } else if (!elem?.classList.contains('ellipsis')) {
       elem?.classList.add('ellipsis');
