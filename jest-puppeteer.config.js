@@ -4,9 +4,17 @@ module.exports = {
     port: 4444,
     launchTimeout: 20000
   },
+  // https://github.com/puppeteer/puppeteer/blob/main/docs/api.md#puppeteerlaunchoptions
   launch: {
     headless: true,
     devtools: false,
-    ignoreHTTPSErrors: true
+    ignoreHTTPSErrors: true,
+    dumpio: true,
+    args: [
+      '--no-sandbox',
+      '--headless',
+      '--disable-gpu',
+      '--disable-dev-shm-usage'
+    ]
   }
 };
