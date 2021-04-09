@@ -9,4 +9,7 @@ export default class IdsTag extends IdsElement {
 
   /** Set the theme version */
   version: 'new' | 'classic' | string;
+
+  /** Sets the container to scrollable */
+  scrollable: boolean | string;
 }
