@@ -73,21 +73,29 @@ describe('IdsText Component', () => {
 
   it('renders overflow setting', () => {
     elem = new IdsText();
-    expect(elem.overflow).toEqual('none');
-    elem.overflow = 'none';
-    expect(elem.getAttribute('overflow')).toEqual('none');
+    expect(elem.overflow).toEqual('');
+    elem.overflow = '';
+    expect(elem.getAttribute('overflow')).toEqual('');
 
     elem.overflow = 'ellipsis';
     expect(elem.getAttribute('overflow')).toEqual('ellipsis');
     elem.overflow = undefined;
-    expect(elem.overflow).toEqual('none');
+    expect(elem.overflow).toEqual('');
 
     document.body.innerHTML = '';
-    const templateElem = document.createElement('template');
-    templateElem.innerHTML = '<ids-text overflow="none">Cut off before the end--</ids-text>';
+
+    let templateElem = document.createElement('template');
+    templateElem.innerHTML = '<ids-text>Do not cut off</ids-text>';
     elem = templateElem.content.childNodes[0];
     document.body.appendChild(elem);
-    expect(elem.overflow).toEqual('none');
+    expect(elem.overflow).toEqual('');
+
+    document.body.innerHTML = '';
+    templateElem = document.createElement('template');
+    templateElem.innerHTML = '<ids-text overflow="ellipsis">Cuts off at some point</ids-text>';
+    elem = templateElem.content.childNodes[0];
+    document.body.appendChild(elem);
+    expect(elem.overflow).toEqual('ellipsis');
   });
 
   it('renders type setting', () => {
