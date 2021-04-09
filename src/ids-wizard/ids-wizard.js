@@ -83,6 +83,7 @@ class IdsWizard extends IdsElement {
       stepLabelsInnerHtml += (
         `<a class="step-label${isVisitedStep ? ' visited' : ''}">
           <ids-text
+            overflow="ellipsis"
             size=18
             font-weight="${isCurrentStep ? 'bold' : 'normal'}"
           >${label}
@@ -107,8 +108,9 @@ class IdsWizard extends IdsElement {
     const template = document.createElement('template');
     const html = this.template();
     template.innerHTML = html;
+    // @ts-ignore
     this.shadowRoot.innerHTML = '';
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot?.appendChild(template.content.cloneNode(true));
   }
 
   /**
