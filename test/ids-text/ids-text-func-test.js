@@ -73,14 +73,14 @@ describe('IdsText Component', () => {
 
   it('renders overflow setting', () => {
     elem = new IdsText();
-    expect(elem.overflow).toEqual('ellipsis');
+    expect(elem.overflow).toEqual('none');
     elem.overflow = 'none';
     expect(elem.getAttribute('overflow')).toEqual('none');
 
     elem.overflow = 'ellipsis';
     expect(elem.getAttribute('overflow')).toEqual('ellipsis');
     elem.overflow = undefined;
-    expect(elem.overflow).toEqual('ellipsis');
+    expect(elem.overflow).toEqual('none');
 
     document.body.innerHTML = '';
     const templateElem = document.createElement('template');
