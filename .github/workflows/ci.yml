@@ -52,3 +52,5 @@ jobs:
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
 
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
