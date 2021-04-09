@@ -33,13 +33,17 @@ describe('IdsContainer Component', () => {
     expect(container.template()).toEqual('<div class="ids-container" part="container"><slot></slot></div>');
   });
 
-  it('can set scrollable', () => {
+  it('can set and reset scrollable', () => {
     expect(container.scrollable).toEqual('true');
     expect(container.container.getAttribute('tabindex')).toEqual('0');
     container.scrollable = false;
     expect(container.scrollable).toEqual('false');
     expect(container.getAttribute('scrollable')).toEqual('false');
     expect(container.container.getAttribute('tabindex')).toBeFalsy();
+    container.scrollable = true;
+    expect(container.scrollable).toEqual('true');
+    expect(container.getAttribute('scrollable')).toEqual('true');
+    expect(container.container.getAttribute('tabindex')).toEqual('0');
   });
 
   it('supports setting mode', () => {

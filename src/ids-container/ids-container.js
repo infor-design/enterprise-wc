@@ -9,6 +9,7 @@ import {
 // Import Mixins
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore Import inline styles
 import styles from './ids-container.scss';
@@ -56,7 +57,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean|string} value true of false depending if the tag is scrollable
    */
   set scrollable(value) {
-    if (value) {
+    if (stringUtils.stringToBool(value)) {
       this.setAttribute('scrollable', value.toString());
       this.container.setAttribute('tabindex', '0');
       return;
