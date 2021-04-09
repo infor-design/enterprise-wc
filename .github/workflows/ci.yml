@@ -54,3 +54,6 @@ jobs:
         command: "npm run test:ci"
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+        
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
