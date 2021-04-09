@@ -33,7 +33,12 @@ jobs:
     
     - name: Install Dependencies
       run: npm i
-    
+      
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+       languages: javascript
+
     - name: Run a test build
       run: npm run build
     
