@@ -1,0 +1,34 @@
+/* Ids Counts Component */
+@import '../ids-base/ids-base';
+
+::slotted(*) {
+  @include font-sans();
+
+  color: inherit;
+}
+
+.ids-counts {
+  @include text-azure-60();
+
+  text-align: center;
+}
+
+.not-actionable {
+  @include text-slate-80();
+}
+
+::slotted(div[slot='xl-text']) {
+  @include text-40();
+}
+
+.short {
+  @include text-32();
+}
+
+::slotted(div[slot='addl-text']) {
+  @include text-16();
+}
+
+.hyperlink {
+  text-decoration: none;
+}

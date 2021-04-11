@@ -1,4 +1,5 @@
 // Import All Components Used in the Page
+import IdsCounts from '../src/ids-counts/ids-counts';
 import IdsLoader from '../src/ids-loader/ids-loader';
 import IdsButton from '../src/ids-button/ids-button';
 import IdsCheckbox from '../src/ids-checkbox/ids-checkbox';
@@ -27,6 +28,7 @@ import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
 
 // Import Example Code
 
+import './ids-counts/index';
 import './ids-menu-button/example';
 import './ids-icon/example';
 import './ids-popup/example';
