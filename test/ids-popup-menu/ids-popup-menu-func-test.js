@@ -194,11 +194,13 @@ describe('IdsPopupMenu Component', () => {
 
     expect(menu.hidden).toBeFalsy();
     expect(menu.popup.visible).toBeTruthy();
+    expect(menu.visible).toBeTruthy();
 
     menu.hide();
 
     expect(menu.hidden).toBeTruthy();
     expect(menu.popup.visible).toBeFalsy();
+    expect(menu.visible).toBeFalsy();
   });
 
   it('can be prevented from showing with a vetoed `beforeshow` event', () => {

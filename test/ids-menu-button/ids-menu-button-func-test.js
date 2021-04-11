@@ -124,4 +124,18 @@ describe('IdsMenuButton Component', () => {
 
     expect(buttonEl.shadowRoot.querySelector('.ids-icon-button')).toBeTruthy();
   });
+
+  it('focuses the button when the menu is closed with the `Escape` key', () => {
+    const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
+    menuEl.show();
+
+    setTimeout(() => {
+      expect(menuEl.popup.visible).toBeTruthy();
+      menuEl.dispatchEvent(closeEvent);
+
+      setTimeout(() => {
+        expect(document.activeElement.isEqualNode(buttonEl)).toBeTruthy();
+      }, 20);
+    }, 20);
+  });
 });

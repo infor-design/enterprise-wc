@@ -11,6 +11,7 @@ const path = require('path');
 const fs = require('fs');
 const webpack = require('webpack');
 const glob = require('glob');
+const fileUpload = require('express-fileupload');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
@@ -58,6 +59,50 @@ module.exports = {
         const { fileName } = req.params;
         const json = fs.readFileSync(`./app/data/${fileName}.json`, 'utf8');
         res.json(JSON.parse(json));
+      });
+
+      // Post method, upload files to `/tmp` folder
+      // After one minute, all files will get removed
+      app.use(fileUpload({ debug: false }));
+      app.post('/upload', async (req, res) => {
+        if (!req.files || Object.keys(req.files).length === 0) {
+          res.status(400).send('No files were uploaded.');
+          return;
+        }
+        const dir = `${__dirname}/tmp/`;
+        // Create directory if doesn't exist
+        if (!fs.existsSync(dir)) {
+          fs.mkdirSync(dir);
+        }
+        const paramName = `${req.headers['param-name'] || 'myfile'}[]`;
+        const filesUploaded = req.files[paramName];
+        let filesToUpload = [];
+        if (Array.isArray(filesUploaded)) {
+          filesToUpload = filesUploaded;
+        } else {
+          filesToUpload.push(filesUploaded);
+        }
+        for (let i = 0; i < filesToUpload.length; i++) {
+          filesToUpload[i].mv(`${dir}${filesToUpload[i].name}`, (err) => {
+            if (err) res.status(500).send(err);
+          });
+        }
+
+        // Clean directory after done!, (0) No delay, (60 * 1000) One minute
+        const delay = 0;
+        setTimeout(() => {
+          fs.readdir(dir, (err, files) => {
+            if (err) throw err;
+            for (const file of files) {
+              fs.unlink(path.join(dir, file), (error) => {
+                if (error) throw error;
+              });
+            }
+          });
+        }, delay);
+
+        // Complete
+        res.send('Uploaded successfully!');
       });
     },
   },
@@ -139,7 +184,6 @@ module.exports = {
     }),
     // Show Style Lint Errors in the console and fail
     new StylelintPlugin({}),
-    // Make a Copy of the Sass Files only for standalone Css
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -156,16 +200,6 @@ module.exports = {
             css = css.replace(':host {', ':root {');
             return css;
           }
-        },
-        {
-          from: './src/**/*.d.ts',
-          to({ absoluteFilename }) {
-            const baseName = path.basename(absoluteFilename);
-            if (absoluteFilename.indexOf('ids-base') > -1) {
-              return `${absoluteFilename.replace('/src/', '/dist/')}`;
-            }
-            return `${baseName.replace('.d.ts', '')}/${baseName}`;
-          },
         }
       ]
     })
@@ -177,6 +211,24 @@ if (!isProduction) {
   module.exports.plugins.push(new FaviconsWebpackPlugin({
     logo: 'app/assets/favicon.ico',
     mode: 'auto'
+  }));
+}
+
+// Make a Copy of the Sass Files only for standalone Css
+if (isProduction) {
+  module.exports.plugins.push(new CopyWebpackPlugin({
+    patterns: [
+      {
+        from: './src/**/*.d.ts',
+        to({ absoluteFilename }) {
+          const baseName = path.basename(absoluteFilename);
+          if (absoluteFilename.indexOf('ids-base') > -1) {
+            return `${absoluteFilename.replace('/src/', '/dist/')}`;
+          }
+          return `${baseName.replace('.d.ts', '')}/${baseName}`;
+        },
+      }
+    ]
   }));
 }
 

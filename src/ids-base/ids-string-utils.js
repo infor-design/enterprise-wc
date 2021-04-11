@@ -27,6 +27,16 @@ const IdsStringUtils = {
   },
 
   /**
+   * Convert a string value into a number
+   * @param {string|number|any} val string value from the component property
+   * @returns {number} The return boolean
+   */
+  stringToNumber(val) {
+    const v = val?.toString() * 1; // Converting String to Number
+    return !isNaN(v) ? v : 0; // eslint-disable-line
+  },
+
+  /**
    * Inject template variables in a string
    * @param {string} str The string to inject into
    * @param {string} obj The string to inject into

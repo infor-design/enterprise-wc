@@ -247,7 +247,7 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   getMaxValue(value) {
     const max = parseInt(this.maxlength, 10);
-    return max > 0 ? value.substr(0, max) : value;
+    return value && max > 0 ? value.substr(0, max) : value;
   }
 
   /**

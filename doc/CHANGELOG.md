@@ -26,15 +26,15 @@
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
   - If using a clearable X on the input the x is now tabbable by default for accessibility
-- `[Loader]` The Busy Indicator component has been changed to a web component and renamed to ids-loader.
-  - If using properties/settings these are now attributes: dismissible, color
-  - Markup has changed to a custom element `<ids-loader></ids-loader>`
-  - Can now be imported as a single JS file and used with encapsulated styles
 - `[ListView]` The List View component has been changed to a web component and renamed to ids-list-view.
   - If using properties/settings these are now attributes.
   - Markup has changed to a custom element `<ids-list-view></ids-list-view>`
   - If using events events are now plain JS events for example
   - The template is now a template element that uses simple string substitution
+  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Loader]` The Busy Indicator component has been changed to a web component and renamed to ids-loader.
+  - If using properties/settings these are now attributes: dismissible, color
+  - Markup has changed to a custom element `<ids-loader></ids-loader>`
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[Menu Button]` Added the Menu Button WebComponent
   - Now exists as its own component
@@ -51,6 +51,10 @@
   - Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.
   - Many previous settings are now attribute-friendly (for example `closeOnSelect` is now a `keep-open` attribute on menu groups).
   - Made dynamic menus possible by using IdsDataSource
+- `[Progress]` The progress component has been changed to a web component and renamed to ids-progress.
+  - Markup has changed to a custom element `<ids-progress></ids-progress>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
   - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
   - If using events, events are now plain JS events.
@@ -67,12 +71,24 @@
   - If using properties/settings these are now attributes: dismissible, color
   - Markup has changed to a custom element `<ids-tag color="error">Text</ids-tag>`
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Upload]` The file upload component has been changed to a web component and renamed to ids-upload.
-  - Markup has changed to a custom element `<ids-upload></ids-upload>`
-  - If using events, events are now plain JS events.
-  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Textarea]` The Textarea component has been changed to a web component and renamed to ids-textarea.
   - Markup has changed to a custom element `<ids-textarea></ids-textarea>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
   - If using a clearable X on the textarea the x is now tabbable by default for accessibility
+- `[Toolbar]` The Toolbar component has been changed to a web component.
+  - Markup is now a custom element `<ids-toolbar></ids-toolbar>`
+  - There is no longer a "Toolbar Item" component, instead use standard components directly.
+  - Toolbar Sections are now codified as components `<ids-toolbar-section>`
+  - The More Actions Button is now a codified component `<ids-toolbar-more-actions>`
+  - Toolbar can be tabbable or not
+- `[Upload]` The file upload component has been changed to a web component and renamed to ids-upload.
+  - Markup has changed to a custom element `<ids-upload></ids-upload>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Upload Advanced]` The file upload advanced component has been changed to a web component and renamed to ids-upload-advanced.
+  - Markup has changed to a custom element `<ids-upload-advanced></ids-upload-advanced>`
+  - Each file ui sections now use as components `<ids-upload-advanced-file></ids-upload-advanced-file>`
+  - Can get each file status, can get by simple component properties
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles

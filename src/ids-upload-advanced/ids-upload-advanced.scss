@@ -1,0 +1,134 @@
+/* Ids Upload Advanced */
+@import '../ids-base/ids-base';
+
+.ids-upload-advanced {
+  @include block();
+  @include mb-16();
+
+  .hidden {
+    @include hidden();
+  }
+
+  .droparea {
+    @include bg-slate-10();
+    @include border-1();
+    @include border-slate-50();
+    @include flex();
+    @include relative();
+    @include rounded-default();
+    @include text-slate-50();
+
+    align-items: center;
+    border-style: dashed;
+    flex-direction: column;
+    justify-content: center;
+    min-height: 80px;
+    padding: 0 20px;
+
+    .droparea-label {
+      @include antialiased();
+      @include block();
+      @include no-select();
+      @include text-slate-100();
+
+      text-align: center;
+    }
+
+    .hyperlink {
+      @include border-1();
+      @include border-solid();
+      @include border-transparent();
+      @include cursor-pointer();
+      @include text-azure-60();
+
+      pointer-events: auto;
+      text-decoration: underline;
+    }
+
+    .file-input {
+      @include absolute();
+
+      height: 0.1px;
+      opacity: 0;
+      overflow: hidden;
+      width: 0.1px;
+      z-index: -1;
+
+      &:focus ~ .droparea-label .hyperlink {
+        @include border-azure-60();
+
+        box-shadow: 0 0 4px 3px var(--ids-color-palette-azure-20);
+      }
+    }
+
+    &:hover {
+      @include bg-slate-20();
+      @include border-slate-60();
+      @include text-slate-100();
+    }
+
+    &.hover {
+      @include bg-azure-10();
+      @include border-azure-60();
+    }
+  }
+
+  .errorarea {
+    @include border-1();
+    @include border-transparent();
+    @include hidden();
+    @include mt-8();
+    @include p-2();
+    @include rounded-default();
+
+    border-style: dashed;
+
+    &.has-error {
+      @include border-ruby-60();
+      @include flex();
+    }
+
+    .status ids-alert {
+      @include block();
+      @include p-8();
+      @include m-0();
+
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+
+    .error-row {
+      @include antialiased();
+      @include font-sans();
+      @include font-normal();
+      @include p-8();
+      @include pl-0();
+    }
+
+    .error-data-container {
+      max-height: 90px;
+      overflow-y: auto;
+    }
+  }
+
+  &.disabled {
+    .droparea,
+    .droparea.hover,
+    .droparea:hover {
+      @include bg-slate-10();
+      @include border-slate-30();
+      @include text-slate-30();
+
+      .droparea-label,
+      .hyperlink {
+        @include cursor-default();
+        @include text-slate-30();
+      }
+    }
+
+    .errorarea.has-error {
+      @include border-ruby-30();
+      @include text-slate-30();
+    }
+  }
+}
