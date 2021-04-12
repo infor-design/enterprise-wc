@@ -4,16 +4,14 @@ describe('Ids List View Percy Tests', () => {
   const url = 'http://localhost:4444/ids-list-view';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
-    const page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await percySnapshot(page, 'ids-listview-new-light');
   });
 
   it.skip('should not have visual regressions in new dark theme (percy)', async () => {
-    const page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
@@ -21,9 +19,8 @@ describe('Ids List View Percy Tests', () => {
   });
 
   it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
-    const page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });

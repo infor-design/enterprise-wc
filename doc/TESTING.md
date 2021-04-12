@@ -57,7 +57,7 @@ We should have one visual regression image per component. When you PR a test an 
 ```js
   it('should not have visual regressions (percy)', async () => {
     await page.setBypassCSP(true);
-    await page.goto('http://localhost:4444/ids-tag', { waitUntil: 'load' });
+    await page.goto('http://localhost:4444/ids-tag', { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await percySnapshot(page, 'ids-tag');
   });
 ```

@@ -9,12 +9,6 @@ module.exports = {
     headless: true,
     devtools: false,
     ignoreHTTPSErrors: true,
-    dumpio: true,
-    args: [
-      '--no-sandbox',
-      '--headless',
-      '--disable-gpu',
-      '--disable-dev-shm-usage'
-    ]
+    dumpio: false
   }
 };
