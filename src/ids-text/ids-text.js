@@ -4,13 +4,14 @@ import {
   scss,
   props
 } from '../ids-base/ids-element';
+import { IdsStringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
 import styles from './ids-text.scss';
 
 const CSSClassRegexps = {
   FONT_SIZE: /^ids-text-[0-9]+$/,
-  FONT_WEIGHT: /^(?:normal|bold|bolder)$/
+  FONT_WEIGHT: /^(?:bold|bolder)$/
 };
 
 /**
@@ -62,7 +63,7 @@ class IdsText extends IdsElement {
    * i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set fontSize(value) {
-    const elem = this.shadowRoot?.querySelector('*:not(style)');
+    const elem = this.shadowRoot?.querySelector('.ids-text');
     const existingClass = elem?.classList && [...elem.classList].find(
       (c) => CSSClassRegexps.FONT_SIZE.test(c)
     );
@@ -82,8 +83,8 @@ class IdsText extends IdsElement {
   get fontSize() { return this.getAttribute(props.FONT_SIZE); }
 
   /**
-   * Adjust font weight; can be either "normal", "bold" or "bolder"
-   * @param {string} [value='normal'] font weight
+   * Adjust font weight; can be either "bold" or "bolder"
+   * @param {string | null} fontWeight (if bold)
    */
   set fontWeight(value) {
     let hasValue = false;
@@ -96,7 +97,7 @@ class IdsText extends IdsElement {
     default:
       break;
     }
-    const elem = this.shadowRoot?.querySelector('*:not(style)');
+    const elem = this.shadowRoot?.querySelector('.ids-text');
 
     const existingClass = elem?.classList && [...elem.classList].find(
       (c) => CSSClassRegexps.FONT_WEIGHT.test(c)
@@ -117,7 +118,7 @@ class IdsText extends IdsElement {
   }
 
   get fontWeight() {
-    return this.getAttribute(props.FONT_WEIGHT) || 'normal';
+    return this.getAttribute(props.FONT_WEIGHT);
   }
 
   /**
@@ -141,21 +142,17 @@ class IdsText extends IdsElement {
    * @param {string | null} value The `audible` attribute
    */
   set audible(value) {
-    const isValueTruthy = (value && value !== 'false') || (value === '');
-    const elem = this.shadowRoot?.querySelector('*:not(style)');
+    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    const elem = this.shadowRoot?.querySelector('.ids-text');
 
     if (isValueTruthy && elem && !elem?.classList.contains('audible')) {
       elem.classList.add('audible');
+      // @ts-ignore
+      this.setAttribute(props.AUDIBLE, value);
     }
 
     if (!isValueTruthy && elem?.classList.contains('audible')) {
       elem.classList.remove('audible');
-    }
-
-    if (isValueTruthy) {
-      // @ts-ignore
-      this.setAttribute(props.AUDIBLE, value);
-    } else {
       this.removeAttribute(props.AUDIBLE);
     }
   }
@@ -163,23 +160,23 @@ class IdsText extends IdsElement {
   get audible() { return this.getAttribute(props.AUDIBLE); }
 
   get overflow() {
-    return this.getAttribute('overflow') || '';
+    return this.getAttribute('overflow');
   }
 
   /**
    * Set how content overflows; can specify 'ellipsis', or undefined/'none'
-   * @param {string} [value=''] how content is overflow
+   * @param {string | null} [value=null] how content is overflow
    */
   set overflow(value) {
-    const elem = this.shadowRoot?.querySelector('*:not(style)');
-
+    const elem = this.shadowRoot?.querySelector('.ids-text');
     const isEllipsis = value === 'ellipsis';
-    this.setAttribute('overflow', isEllipsis ? 'ellipsis' : '');
 
-    if (!isEllipsis) {
-      elem?.classList.remove('ellipsis');
-    } else if (!elem?.classList.contains('ellipsis')) {
+    if (isEllipsis) {
       elem?.classList.add('ellipsis');
+      this.setAttribute('overflow', 'ellipsis');
+    } else {
+      elem?.classList.remove('ellipsis');
+      this.removeAttribute('overflow');
     }
   }
 }

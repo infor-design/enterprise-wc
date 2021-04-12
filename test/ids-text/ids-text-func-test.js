@@ -50,18 +50,18 @@ describe('IdsText Component', () => {
   });
 
   it('renders font weight setting', () => {
-    expect(elem.fontWeight).toEqual('normal');
+    expect(elem.fontWeight).toEqual(null);
     elem.fontWeight = 'bold';
     expect(elem.getAttribute('font-weight')).toEqual('bold');
 
     elem.fontWeight = 'bolder';
     expect(elem.getAttribute('font-weight')).toEqual('bolder');
 
-    elem.fontWeight = 'normal';
-    expect(elem.fontWeight).toEqual('normal');
+    elem.fontWeight = undefined;
+    expect(elem.fontWeight).toEqual(null);
 
     elem.fontWeight = '';
-    expect(elem.fontWeight).toEqual('normal');
+    expect(elem.fontWeight).toEqual(null);
 
     document.body.innerHTML = '';
     const templateElem = document.createElement('template');
@@ -73,14 +73,14 @@ describe('IdsText Component', () => {
 
   it('renders overflow setting', () => {
     elem = new IdsText();
-    expect(elem.overflow).toEqual('');
-    elem.overflow = '';
-    expect(elem.getAttribute('overflow')).toEqual('');
+    expect(elem.overflow).toEqual(null);
+    elem.overflow = 'bad-value';
+    expect(elem.getAttribute('overflow')).toEqual(null);
 
     elem.overflow = 'ellipsis';
     expect(elem.getAttribute('overflow')).toEqual('ellipsis');
     elem.overflow = undefined;
-    expect(elem.overflow).toEqual('');
+    expect(elem.overflow).toEqual(null);
 
     document.body.innerHTML = '';
 
@@ -88,7 +88,7 @@ describe('IdsText Component', () => {
     templateElem.innerHTML = '<ids-text>Do not cut off</ids-text>';
     elem = templateElem.content.childNodes[0];
     document.body.appendChild(elem);
-    expect(elem.overflow).toEqual('');
+    expect(elem.overflow).toEqual(null);
 
     document.body.innerHTML = '';
     templateElem = document.createElement('template');
