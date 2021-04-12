@@ -203,7 +203,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.visible).toBeFalsy();
   });
 
-  it.skip('can be prevented from showing with a vetoed `beforeshow` event', () => {
+  it('can be prevented from showing with a vetoed `beforeshow` event', () => {
     menu.addEventListener('beforeshow', (e) => {
       e.detail.response(false);
     });
