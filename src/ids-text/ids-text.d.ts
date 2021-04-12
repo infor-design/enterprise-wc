@@ -6,7 +6,7 @@ export default class IdsText extends HTMLElement {
   type: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' | string | null;
 
   /** Set `audible` string (screen reader only text) */
-  audbible: string | null;
+  audible: string | null;
 
   /** Set `audible` string (screen reader only text) */
   fontSize: '10' | '12' | 'x2' | '14' | 'sm' | '16' | '20' | '24' | 'lg' |

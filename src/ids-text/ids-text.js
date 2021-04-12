@@ -9,10 +9,8 @@ import { IdsStringUtils } from '../ids-base/ids-string-utils';
 // @ts-ignore
 import styles from './ids-text.scss';
 
-const CSSClassRegexps = {
-  FONT_SIZE: /^ids-text-[0-9]+$/,
-  FONT_WEIGHT: /^(?:bold|bolder)$/
-};
+const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
+const fontWeightClasses = ['bold', 'bolder'];
 
 /**
  * IDS Text Component
@@ -64,12 +62,8 @@ class IdsText extends IdsElement {
    */
   set fontSize(value) {
     const elem = this.shadowRoot?.querySelector('.ids-text');
-    const existingClass = elem?.classList && [...elem.classList].find(
-      (c) => CSSClassRegexps.FONT_SIZE.test(c)
-    );
 
-    // @ts-ignore
-    elem?.classList.remove(existingClass);
+    fontSizes.forEach((size) => elem?.classList.remove(`ids-text-${size}`));
 
     if (value) {
       this.setAttribute(props.FONT_SIZE, value);
@@ -98,13 +92,7 @@ class IdsText extends IdsElement {
       break;
     }
     const elem = this.shadowRoot?.querySelector('.ids-text');
-
-    const existingClass = elem?.classList && [...elem.classList].find(
-      (c) => CSSClassRegexps.FONT_WEIGHT.test(c)
-    );
-
-    // @ts-ignore
-    elem?.classList.remove(existingClass);
+    elem?.classList.remove(...fontWeightClasses);
 
     if (hasValue) {
       // @ts-ignore
