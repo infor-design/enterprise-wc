@@ -23,6 +23,15 @@ describe('IdsStringUtils Tests', () => {
     expect(stringUtils.stringToBool('True')).toEqual(true);
   });
 
+  it('can convert a string to number', () => {
+    expect(stringUtils.stringToNumber('100')).toEqual(100);
+    expect(stringUtils.stringToNumber('test-100')).toEqual(0);
+    expect(stringUtils.stringToNumber('test')).toEqual(0);
+    expect(stringUtils.stringToNumber()).toEqual(0);
+    expect(stringUtils.stringToNumber('')).toEqual(0);
+    expect(stringUtils.stringToNumber(null)).toEqual(0);
+  });
+
   it('can inject a template variable', () => {
     const obj = { field: 'test-value' };
     const template = 'Test String <b>${field}</b>'; //eslint-disable-line

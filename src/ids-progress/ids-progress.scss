@@ -1,0 +1,61 @@
+/* Ids Progress */
+@import '../ids-base/ids-base';
+
+// Mixin progress bar fill area
+@mixin progress-bar-fill {
+  @include transition(width 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
+  @include bg-azure-60();
+  @include rounded-md();
+}
+
+.ids-progress {
+  .progress-label {
+    @include antialiased();
+    @include text-slate-60();
+  }
+
+  .progress-bar {
+    @include bg-transparent();
+    @include rounded-md();
+    @include border-1();
+    @include border-solid();
+    @include border-slate-70();
+    @include my-20();
+    @include w-full();
+
+    height: 8px;
+
+    &::-webkit-progress-bar {
+      @include bg-transparent();
+      @include rounded-md();
+    }
+
+    &::-webkit-progress-value {
+      @include progress-bar-fill();
+    }
+
+    &::-moz-progress-bar {
+      @include progress-bar-fill();
+    }
+  }
+
+  &.label-audible {
+    .progress-bar {
+      @include my-2();
+    }
+  }
+
+  &.disabled {
+    .progress-label {
+      @include text-slate-30();
+    }
+
+    .progress-bar {
+      @include border-slate-30();
+
+      &::-webkit-progress-value {
+        @include bg-slate-20();
+      }
+    }
+  }
+}

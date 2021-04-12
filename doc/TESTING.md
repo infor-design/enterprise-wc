@@ -4,12 +4,12 @@ The IDS components are backed by both functional and end-to-end (e2e) test suite
 
 ## Test Stack
 
-- [Jest](https://https://webdriver.io/) test runner for all tests.
+- [Jest](https://webdriver.io/) test runner for all tests.
 - [Jest Puppeteer](https://github.com/smooth-code/jest-puppeteer) test runner for e2e tests.
 
-## Setting up the test environment
+## Puppeteer Troubleshooting
 
-If you have never run the tests before, prior to running `npm run test` it may be necessary to install Puppeteer to allow a browser connection:
+If you are having an issue with puppeteer when running tests, and have already installed project dependencies (e.g. `npm i`), then you can try running:
 
 ```sh
 node node_modules/puppeteer/install.js
@@ -72,5 +72,5 @@ We should have one visual regression image per component. When you PR a test an 
 ## Coverage
 
 - To run in coverage mode (since it takes longer) use the command `npm run test:coverage`
-- Open the [coverage report](../coverage/index.html) in any browser
+- Open the [newly generated coverage report @ ../coverage/index.html](../coverage/index.html) in any browser
 - Drill in to the component in question and try and improve coverage to 100%

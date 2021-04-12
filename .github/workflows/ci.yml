@@ -4,9 +4,9 @@ name: Build Check
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   build:
@@ -15,7 +15,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: [14.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -29,11 +29,16 @@ jobs:
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: ${{ runner.os }}-${{ hashFiles('**/lockfiles') }}
+        key: 0009
     
     - name: Install Dependencies
       run: npm i
-    
+      
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+       languages: javascript
+
     - name: Run a test build
       run: npm run build
     
