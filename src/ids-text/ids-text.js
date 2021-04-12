@@ -84,7 +84,7 @@ class IdsText extends IdsElement {
 
   /**
    * Adjust font weight; can be either "bold" or "bolder"
-   * @param {string | null} fontWeight (if bold)
+   * @param {string | null} value (if bold)
    */
   set fontWeight(value) {
     let hasValue = false;
