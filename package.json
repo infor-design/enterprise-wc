@@ -24,6 +24,7 @@
     "test:coverage-only-changed": "PERCY_LOGLEVEL=silent jest --coverage --onlyChanged -- func",
     "test:ci": "npm run test && npm run test:percy",
     "test:percy": "npx jest --verbose --runInBand --detectOpenHandles --forceExit -- percy",
+    "test:percy:local": "npx percy exec -- npm run test:percy",
     "test:debug": "PERCY_LOGLEVEL=silent node --inspect-brk node_modules/.bin/jest --runInBand --detectOpenHandles --forceExit -- func",
     "test:vulnerabilities": "snyk test",
     "ncu": "npx ncu",

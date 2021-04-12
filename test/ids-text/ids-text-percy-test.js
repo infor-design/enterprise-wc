@@ -9,7 +9,7 @@ describe('Ids Text e2e Tests', () => {
     await percySnapshot(page, 'ids-text-new-light');
   });
 
-  it.skip('should not have visual regressions in new dark theme (percy)', async () => {
+  it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await page.evaluate(() => {
@@ -18,7 +18,7 @@ describe('Ids Text e2e Tests', () => {
     await percySnapshot(page, 'ids-text-new-dark');
   });
 
-  it.skip('should not have visual regressions in new contrast theme (percy)', async () => {
+  it('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await page.evaluate(() => {

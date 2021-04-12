@@ -390,7 +390,7 @@ describe('IdsPopupMenu Component', () => {
   });
 
   // @TODO, how do we test `contextmenu` event being triggered on `window`?
-  it.skip('opens on `contextmenu` event by default', (done) => {
+  it('opens on `contextmenu` event by default', (done) => {
     const contextMenuEvent = new MouseEvent('contextmenu', {
       bubbles: true,
       clientX: 10,
@@ -457,7 +457,7 @@ describe('IdsPopupMenu Component', () => {
       expect(newItem.outerHTML).toMatchSnapshot();
     });
 
-    it.skip('can programmatically show/hide the submenu', (done) => {
+    it('can programmatically show/hide the submenu', (done) => {
       item6.showSubmenu();
 
       setTimeout(() => {
@@ -516,7 +516,7 @@ describe('IdsPopupMenu Component', () => {
     // @TODO Fails because currently a nested Popupmenu's class
     // resolves as HTMLElement instead of IdsPopupMenu. Following these steps
     // in a true browser environment works.
-    it.skip('shows/hides its submenu in response to mouse events', (done) => {
+    it('shows/hides its submenu in response to mouse events', (done) => {
       const menuItemEnter = new MouseEvent('mouseenter');
       const menuItemEnterHandler = jest.fn();
       item6.addEventListener('mouseenter', menuItemEnterHandler);

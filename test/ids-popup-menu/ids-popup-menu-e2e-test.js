@@ -10,7 +10,7 @@ describe('Ids Popup Menu e2e Tests', () => {
   });
 
   // @TODO: Revisit and figure out accessibility issues
-  it.skip('should pass Axe accessibility tests', async () => {
+  it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await expect(page).toPassAxeTests();
