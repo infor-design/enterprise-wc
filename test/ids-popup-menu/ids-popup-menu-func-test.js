@@ -203,7 +203,7 @@ describe('IdsPopupMenu Component', () => {
     expect(menu.visible).toBeFalsy();
   });
 
-  it('can be prevented from showing with a vetoed `beforeshow` event', () => {
+  it.skip('can be prevented from showing with a vetoed `beforeshow` event', () => {
     menu.addEventListener('beforeshow', (e) => {
       e.detail.response(false);
     });
@@ -516,7 +516,7 @@ describe('IdsPopupMenu Component', () => {
     // @TODO Fails because currently a nested Popupmenu's class
     // resolves as HTMLElement instead of IdsPopupMenu. Following these steps
     // in a true browser environment works.
-    it('shows/hides its submenu in response to mouse events', (done) => {
+    it.skip('shows/hides its submenu in response to mouse events', (done) => {
       const menuItemEnter = new MouseEvent('mouseenter');
       const menuItemEnterHandler = jest.fn();
       item6.addEventListener('mouseenter', menuItemEnterHandler);
