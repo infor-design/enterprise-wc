@@ -19,12 +19,16 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
   onEvent(eventName, target, callback, options) {
+    // since our map only supports one-value-at-once,
+    // clear out the existing listener if possible
+    this.detachEventsByName(eventName);
+
     target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
 
   /**
-   * Add and keep track of an event listener.
+   * Remove event listener
    * @param {string} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, passive ect)
@@ -58,17 +62,18 @@ const IdsEventsMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Detach a specific handler by name
+   * Detach a specific handlers associated with a name
    * @param {string} [eventName] an optional event name to filter with
    */
-  detachEventName(eventName) {
-    const doCheck = typeof eventName === 'string' && eventName.length;
-    this.handledEvents.forEach((value, key) => {
-      if (doCheck && key !== eventName) {
-        return;
-      }
-      this.offEvent(key, value.target, value.options);
-    });
+  detachEventsByName(eventName) {
+    const isValidName = (typeof eventName === 'string') && eventName.length;
+
+    if (isValidName && this.handledEvents.has(eventName)) {
+      const event = this.handledEvents.get(eventName);
+
+      // @ts-ignore
+      this.offEvent(eventName, event.target, event.options);
+    }
   }
 };
 
