@@ -63,14 +63,22 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     * @param {number} index
     */
     buildRatingStar(element, index) {
-      const section = window.document.createElement('section');
-      section.classList.add('rating-outer');
-      section.setAttribute('item-index', `item-${index}`);
+      const ratingItem = window.document.createElement('div');
+      ratingItem.classList.add('rating-item');
+      ratingItem.setAttribute('item-index', `item-${index}`);
+      const ratingOuter = window.document.createElement('div');
+      ratingOuter.classList.add('rating-outer');
+      const starOutlined = `<ids-icon icon="star-outlined" size="large"></ids-icon>`;
+      ratingOuter.innerHTML = starOutlined;
+      ratingItem.appendChild(ratingOuter);
       const div = window.document.createElement('div');
       div.classList.add('rating-inner');
-      div.classList.add(`inner-${index}`);
-      section.appendChild(div);
-      element.appendChild(section);
+      const starFilled = `<ids-icon class="inner-${index}" icon="star-filled" size="large"></ids-icon>`;
+      const starHalf = `<ids-icon class="inner-${index}" icon="star-half" size="large"></ids-icon>`;
+      div.innerHTML = starFilled;
+      div.innerHTML += starHalf;
+      ratingItem.appendChild(div);
+      element.appendChild(ratingItem);
     }
 
     /**
@@ -87,12 +95,15 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       const ratingContainer = this.shadowRoot.querySelector('#rating');
       const ratingArr = [...ratingContainer.children];
       this.onEvent('click', ratingContainer, (/** @type {{ target: any; }} */ e) => {
-        const activeElements = ratingArr.filter((e) => e.classList.contains('active'));
+        const activeElements = ratingArr.filter((item) => item.classList.contains('active'));
         let action = 'add';
         for (const section of ratingArr) {
+          const outerCondition = section.children[0].children[0] === e.target;
+          const innerCondition = section.children[1].children[0] === e.target;
+          const clickCondition = (outerCondition || innerCondition);
           section.classList[action]('active');
           this.udpateValue();
-          if (section === e.target || section.children[0] === e.target) {
+          if (clickCondition) {
             action = 'remove';
           }
         }
