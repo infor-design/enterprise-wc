@@ -9,6 +9,14 @@ const IdsEventsMixin = (superclass) => class extends superclass {
 
   constructor() {
     super();
+
+    // for event-subscription related logic, bind "this" of the
+    // functions to the class instance to avoid this calls from
+    // delegated functions or other external scoping issues
+    this.detachAllEvents = this.detachAllEvents.bind(this);
+    this.detachEventsByName = this.detachEventsByName.bind(this);
+    this.offEvent = this.offEvent.bind(this);
+    this.onEvent = this.onEvent.bind(this);
   }
 
   /**
@@ -18,7 +26,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {Function|any} callback The callback code to execute
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
-  onEvent = (eventName, target, callback, options) => {
+  onEvent(eventName, target, callback, options) {
     target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
@@ -29,13 +37,13 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
-  offEvent = (eventName, target, options) => {
+  offEvent(eventName, target, options) {
     const handler = this.handledEvents.get(eventName);
     this.handledEvents.delete(eventName);
     if (handler?.callback) {
       target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
     }
-  };
+  }
 
   /**
    * Create and trigger a custom event
@@ -43,19 +51,19 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {HTMLElement} target The DOM element to register
    * @param {object} [options = {}] The custom data to send
    */
-  triggerEvent = (eventName, target, options = {}) => {
+  triggerEvent(eventName, target, options = {}) {
     const event = new CustomEvent(eventName.split('.')[0], options);
     target.dispatchEvent(event);
-  };
+  }
 
   /**
    * Detach all event handlers
    */
-  detachAllEvents = () => {
+  detachAllEvents() {
     this.handledEvents.forEach((value, key) => {
       this.offEvent(key, value.target, value.options);
     });
-  };
+  }
 
   /**
    * Detach a specific handlers associated with a name
