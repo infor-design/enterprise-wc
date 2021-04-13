@@ -18,11 +18,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {Function|any} callback The callback code to execute
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
-  onEvent(eventName, target, callback, options) {
-    // since our map only supports one-value-at-once,
-    // clear out the existing listener if possible
-    this.detachEventsByName(eventName);
-
+  onEvent = (eventName, target, callback, options) => {
     target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
@@ -33,13 +29,13 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
-  offEvent(eventName, target, options) {
+  offEvent = (eventName, target, options) => {
     const handler = this.handledEvents.get(eventName);
+    this.handledEvents.delete(eventName);
     if (handler?.callback) {
       target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
     }
-    this.handledEvents.delete(eventName);
-  }
+  };
 
   /**
    * Create and trigger a custom event
@@ -47,34 +43,37 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {HTMLElement} target The DOM element to register
    * @param {object} [options = {}] The custom data to send
    */
-  triggerEvent(eventName, target, options = {}) {
+  triggerEvent = (eventName, target, options = {}) => {
     const event = new CustomEvent(eventName.split('.')[0], options);
     target.dispatchEvent(event);
-  }
+  };
 
   /**
    * Detach all event handlers
    */
-  detachAllEvents() {
+  detachAllEvents = () => {
     this.handledEvents.forEach((value, key) => {
       this.offEvent(key, value.target, value.options);
     });
-  }
+  };
 
   /**
    * Detach a specific handlers associated with a name
    * @param {string} [eventName] an optional event name to filter with
    */
-  detachEventsByName(eventName) {
+  detachEventsByName = (eventName) => {
     const isValidName = (typeof eventName === 'string') && eventName.length;
 
     if (isValidName && this.handledEvents.has(eventName)) {
       const event = this.handledEvents.get(eventName);
 
-      // @ts-ignore
-      this.offEvent(eventName, event.target, event.options);
+      // needed to run outside of function scope
+      (() => {
+        // @ts-ignore
+        this.offEvent(eventName, event.target, event.options);
+      })();
     }
-  }
+  };
 };
 
 export { IdsEventsMixin };
