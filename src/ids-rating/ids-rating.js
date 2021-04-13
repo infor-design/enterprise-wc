@@ -55,7 +55,11 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     buildDOM() {
       const ratingsContainer = this.shadowRoot.querySelector('#rating');
       this.ratingBuilder(ratingsContainer);
-      this.addRemoveClass();
+      if (this.ratingsConfig.ratingsAttr.readonly) {
+        this.updateDecimalNum(ratingsContainer.children);
+      } else {
+        this.addRemoveClass();
+      }
     }
 
     /**
@@ -68,13 +72,13 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       ratingItem.setAttribute('item-index', `item-${index}`);
       const ratingOuter = window.document.createElement('div');
       ratingOuter.classList.add('rating-outer');
-      const starOutlined = `<ids-icon icon="star-outlined" size="large"></ids-icon>`;
+      const starOutlined = `<ids-icon class="star-outlined" icon="star-outlined" size="large"></ids-icon>`;
       ratingOuter.innerHTML = starOutlined;
       ratingItem.appendChild(ratingOuter);
       const div = window.document.createElement('div');
       div.classList.add('rating-inner');
-      const starFilled = `<ids-icon class="inner-${index}" icon="star-filled" size="large"></ids-icon>`;
-      const starHalf = `<ids-icon class="inner-${index}" icon="star-half" size="large"></ids-icon>`;
+      const starFilled = `<ids-icon class="star-filled inner-${index}" icon="star-filled" size="large"></ids-icon>`;
+      const starHalf = `<ids-icon class="star-half inner-${index}" icon="star-half" size="large"></ids-icon>`;
       div.innerHTML = starFilled;
       div.innerHTML += starHalf;
       ratingItem.appendChild(div);
@@ -97,12 +101,11 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       this.onEvent('click', ratingContainer, (/** @type {{ target: any; }} */ e) => {
         const activeElements = ratingArr.filter((item) => item.classList.contains('active'));
         let action = 'add';
-        for (const section of ratingArr) {
-          const outerCondition = section.children[0].children[0] === e.target;
-          const innerCondition = section.children[1].children[0] === e.target;
+        for (const ratingOption of ratingArr) {
+          const outerCondition = ratingOption.children[0].children[0] === e.target;
+          const innerCondition = ratingOption.children[1].children[0] === e.target;
           const clickCondition = (outerCondition || innerCondition);
-          section.classList[action]('active');
-          this.udpateValue();
+          ratingOption.classList[action]('active');
           if (clickCondition) {
             action = 'remove';
           }
@@ -111,6 +114,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
           activeElements[0].classList.remove('active');
           this.setAttribute('value', 0);
         }
+        this.udpateValue();
       });
     }
 
@@ -126,7 +130,17 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     * @param {Array} arr
     */
     updateDecimalNum(arr) {
-      return arr;
+      const ratingChildren = [...arr];
+      const value = this.ratingsConfig.ratingsAttr.value;
+      const roundValue = Math.round(value);
+      for (let i = 0; i < roundValue; i++) {
+        ratingChildren[i].classList.add('active');
+      }
+      if (value < roundValue) {
+        const activeArr = ratingChildren.filter((act) => act.classList.contains('active'));
+        const lastItem = activeArr[activeArr.length - 1];
+        lastItem.classList.add('is-half');
+      }
     }
 
     udpateValue() {
@@ -135,8 +149,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       const ratingChildren = this.shadowRoot.querySelector('#rating').childNodes;
       if (isWhole) {
         this.updateWholeNum(ratingChildren);
-      } else {
-        this.updateDecimalNum(ratingChildren);
       }
     }
  }

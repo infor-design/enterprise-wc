@@ -2,22 +2,26 @@
   align-items: center;
   display: inline-flex;
   flex-direction: row;
-  font-size: 0;
 }
 
 .rating-item {
   cursor: pointer;
-  display: inline-block;
   font-size: 25px;
   position: relative;
 }
 
 .rating-outer {
+  color: #333;
   cursor: pointer;
   display: block;
 }
 
+.rating-outer:hover {
+  color: orange;
+}
+
 .rating-inner {
+  color: orange;
   cursor: pointer;
   display: none;
 }
@@ -31,6 +35,15 @@
   display: block;
 }
 
-ids-icon[icon='star-half'] {
+.star-half {
+  cursor: pointer;
   display: none;
+}
+
+.is-half .star-filled {
+  display: none;
+}
+
+.is-half .star-half {
+  display: block;
 }
