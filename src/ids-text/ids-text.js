@@ -61,13 +61,11 @@ class IdsText extends IdsElement {
    * i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set fontSize(value) {
-    const elem = this.shadowRoot?.querySelector('.ids-text');
-
-    fontSizes.forEach((size) => elem?.classList.remove(`ids-text-${size}`));
+    fontSizes.forEach((size) => this.container?.classList.remove(`ids-text-${size}`));
 
     if (value) {
       this.setAttribute(props.FONT_SIZE, value);
-      elem?.classList.add(`ids-text-${value}`);
+      this.container?.classList.add(`ids-text-${value}`);
       return;
     }
 
@@ -91,14 +89,14 @@ class IdsText extends IdsElement {
     default:
       break;
     }
-    const elem = this.shadowRoot?.querySelector('.ids-text');
-    elem?.classList.remove(...fontWeightClasses);
+
+    this.container?.classList.remove(...fontWeightClasses);
 
     if (hasValue) {
       // @ts-ignore
       this.setAttribute(props.FONT_WEIGHT, value);
       // @ts-ignore
-      elem?.classList.add(value);
+      this.container?.classList.add(value);
       return;
     }
 
@@ -131,16 +129,15 @@ class IdsText extends IdsElement {
    */
   set audible(value) {
     const isValueTruthy = IdsStringUtils.stringToBool(value);
-    const elem = this.shadowRoot?.querySelector('.ids-text');
 
-    if (isValueTruthy && elem && !elem?.classList.contains('audible')) {
-      elem.classList.add('audible');
+    if (isValueTruthy && this.container && !this.container?.classList.contains('audible')) {
+      this.container.classList.add('audible');
       // @ts-ignore
       this.setAttribute(props.AUDIBLE, value);
     }
 
-    if (!isValueTruthy && elem?.classList.contains('audible')) {
-      elem.classList.remove('audible');
+    if (!isValueTruthy && this.container?.classList.contains('audible')) {
+      this.container.classList.remove('audible');
       this.removeAttribute(props.AUDIBLE);
     }
   }
@@ -156,14 +153,13 @@ class IdsText extends IdsElement {
    * @param {string | null} [value=null] how content is overflow
    */
   set overflow(value) {
-    const elem = this.shadowRoot?.querySelector('.ids-text');
     const isEllipsis = value === 'ellipsis';
 
     if (isEllipsis) {
-      elem?.classList.add('ellipsis');
+      this.container?.classList.add('ellipsis');
       this.setAttribute('overflow', 'ellipsis');
     } else {
-      elem?.classList.remove('ellipsis');
+      this.container?.classList.remove('ellipsis');
       this.removeAttribute('overflow');
     }
   }
