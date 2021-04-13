@@ -3,6 +3,7 @@
  */
 import IdsTag from '../../src/ids-tag/ids-tag';
 import { IdsElement } from '../../src/ids-base/ids-element';
+import styleMock from '../helpers/style-mock';
 
 describe('IdsBase Tests', () => {
   afterEach(async () => {
@@ -24,12 +25,20 @@ describe('IdsBase Tests', () => {
 
   it('replace host with name of the component when adoptedStyleSheets are not supported (mocked)', () => {
     const elem = new IdsTag();
-    elem.cssStyles = `:host {}`;
+    const expectedStyleContent = styleMock.replace(':host', `.${elem.tagName.toLowerCase()}`);
+    elem.cssStyles = styleMock;
     elem.render();
-    expect(elem.shadowRoot.querySelector('style').textContent).toEqual('.ids-tag { background-color: transparent; }');
+    expect(elem.shadowRoot.querySelector('style').textContent).toEqual(expectedStyleContent);
 
-    elem.cssStyles = `::host {}`;
+    // also test with '::host' for good measure
+    elem.cssStyles = styleMock.replace(`:host`, '::host');
     elem.render();
-    expect(elem.shadowRoot.querySelector('style').textContent).toEqual('.ids-tag { background-color: transparent; }');
+
+    expect(elem.shadowRoot.querySelector('style').textContent).toEqual(expectedStyleContent);
+
+    // add coverage where there is pre-formatted styles
+    elem.cssStyles = expectedStyleContent;
+    elem.render();
+    expect(elem.shadowRoot.querySelector('style').textContent).toEqual(expectedStyleContent);
   });
 });
