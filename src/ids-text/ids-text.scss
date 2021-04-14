@@ -40,6 +40,17 @@
   }
 }
 
+// Alert Colored Text
+:host(.message-text) {
+  .ids-text {
+    color: unset;
+
+    &.error {
+      color: unset;
+    }
+  }
+}
+
 ::slotted(.audible) {
   @include audible();
 }
