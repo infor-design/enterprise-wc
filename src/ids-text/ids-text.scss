@@ -11,6 +11,18 @@
   &.audible {
     @include audible();
   }
+
+  &.ellipsis {
+    @include ellipsis();
+  }
+
+  &.bold {
+    @include font-bold();
+  }
+
+  &.bolder {
+    @include font-extrabold();
+  }
 }
 
 :host(.inline) {
