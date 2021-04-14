@@ -14,6 +14,9 @@ import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 // @ts-ignore
 import styles from './ids-text.scss';
 
+const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
+const fontWeightClasses = ['bold', 'bolder'];
+
 /**
  * IDS Text Component
  * @type {IdsText}
@@ -46,34 +49,29 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       props.ERROR,
       props.MODE,
       props.VERSION,
-      props.LABEL];
+      props.LABEL,
+      props.FONT_WEIGHT,
+      props.AUDIBLE,
+      props.OVERFLOW
+    ];
   }
 
   /**
    * Inner template contents
    * @returns {string} The template
    */
+
   template() {
     const tag = this.type || 'span';
+
     let classList = 'ids-text';
-    classList += this.audible ? ' audible' : '';
+    classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
+    classList += ((this.audible)) ? ' audible' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
-    classList = ` class="${classList}"`;
+    classList += (this.fontWeight === 'bold' || this.fontWeight === 'bolder')
+      ? ` ${this.fontWeight}` : '';
 
-    return `<${tag}${classList} mode="${this.mode}" version="${this.version}" part="text"><slot></slot></${tag}>`;
-  }
-
-  /**
-   * Rerender the component template
-   * @private
-   */
-  rerender() {
-    const template = document.createElement('template');
-    this.shadowRoot?.querySelector('.ids-text')?.remove();
-    template.innerHTML = this.template();
-    const elem = template.content.cloneNode(true);
-    this.shadowRoot?.appendChild(elem);
-    this.container = this.shadowRoot?.querySelector('.ids-text');
+    return `<${tag} class="${classList}" mode="${this.mode}" version="${this.version}"><slot></slot></${tag}>`;
   }
 
   /**
@@ -82,18 +80,51 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * i.e. 10, 12, 16 or xs, sm, base, lg, xl
    */
   set fontSize(value) {
+    fontSizes.forEach((size) => this.container?.classList.remove(`ids-text-${size}`));
+
     if (value) {
       this.setAttribute(props.FONT_SIZE, value);
-      this.container.classList.add(`ids-text-${value}`);
+      this.container?.classList.add(`ids-text-${value}`);
       return;
     }
 
     this.removeAttribute(props.FONT_SIZE);
-    this.container.className = '';
-    this.container.classList.add('ids-text');
   }
 
   get fontSize() { return this.getAttribute(props.FONT_SIZE); }
+
+  /**
+   * Adjust font weight; can be either "bold" or "bolder"
+   * @param {string | null} value (if bold)
+   */
+  set fontWeight(value) {
+    let hasValue = false;
+
+    switch (value) {
+    case 'bold':
+    case 'bolder':
+      hasValue = true;
+      break;
+    default:
+      break;
+    }
+
+    this.container?.classList.remove(...fontWeightClasses);
+
+    if (hasValue) {
+      // @ts-ignore
+      this.setAttribute(props.FONT_WEIGHT, value);
+      // @ts-ignore
+      this.container?.classList.add(value);
+      return;
+    }
+
+    this.removeAttribute(props.FONT_WEIGHT);
+  }
+
+  get fontWeight() {
+    return this.getAttribute(props.FONT_WEIGHT);
+  }
 
   /**
    * Set the type of element it is (h1-h6, span (default))
@@ -102,29 +133,32 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set type(value) {
     if (value) {
       this.setAttribute(props.TYPE, value);
-      this.rerender();
-      return;
+    } else {
+      this.removeAttribute(props.TYPE);
     }
 
-    this.removeAttribute(props.TYPE);
-    this.rerender();
+    this.render();
   }
 
   get type() { return this.getAttribute(props.TYPE); }
 
   /**
-   * The text to audible (screen reader only)
-   * @param {boolean} value True if audible
+   * Set `audible` string (screen reader only text)
+   * @param {string | null} value The `audible` attribute
    */
   set audible(value) {
-    const val = stringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(props.AUDIBLE, value);
+    const isValueTruthy = stringUtils.stringToBool(value);
+
+    if (isValueTruthy && this.container && !this.container?.classList.contains('audible')) {
       this.container.classList.add('audible');
-      return;
+      // @ts-ignore
+      this.setAttribute(props.AUDIBLE, value);
     }
-    this.removeAttribute(props.AUDIBLE);
-    this.container.classList.remove('audible');
+
+    if (!isValueTruthy && this.container?.classList.contains('audible')) {
+      this.container.classList.remove('audible');
+      this.removeAttribute(props.AUDIBLE);
+    }
   }
 
   get audible() { return this.getAttribute(props.AUDIBLE); }
@@ -177,6 +211,26 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get label() { return this.getAttribute(props.LABEL); }
+
+  /**
+   * Set how content overflows; can specify 'ellipsis', or undefined or 'none'
+   * @param {string | null} [value=null] how content is overflow
+   */
+  set overflow(value) {
+    const isEllipsis = value === 'ellipsis';
+
+    if (isEllipsis) {
+      this.container?.classList.add('ellipsis');
+      this.setAttribute('overflow', 'ellipsis');
+    } else {
+      this.container?.classList.remove('ellipsis');
+      this.removeAttribute('overflow');
+    }
+  }
+
+  get overflow() {
+    return this.getAttribute('overflow');
+  }
 }
 
 export default IdsText;

@@ -80,6 +80,11 @@ class IdsElement extends HTMLElement {
 
     // Make template and shadow objects
     const template = document.createElement('template');
+
+    if (this.shadowRoot?.innerHTML) {
+      this.shadowRoot.innerHTML = '';
+    }
+
     if (!this.shadowRoot) {
       this.attachShadow({ mode: 'open' });
     }

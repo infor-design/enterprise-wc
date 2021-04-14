@@ -20,6 +20,18 @@
   &.label {
     @include text-slate-60();
   }
+
+  &.ellipsis {
+    @include ellipsis();
+  }
+
+  &.bold {
+    @include font-bold();
+  }
+
+  &.bolder {
+    @include font-extrabold();
+  }
 }
 
 :host(.inline) {
