@@ -28,4 +28,10 @@ describe('IdsCounts Component', () => {
   it('renders correctly', () => {
     expect(count.outerHTML).toMatchSnapshot();
   });
+
+  it('renders specific hex color', () => {
+    count.color = '#800000';
+    expect(count.getAttribute('color')).toEqual('#800000');
+    expect(count.color).toEqual('#800000');
+  });
 });

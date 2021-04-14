@@ -7,6 +7,7 @@ import {
 
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
 import styles from './ids-counts.scss';
@@ -35,21 +36,25 @@ class IdsCounts extends IdsElement {
    * @returns {number} the font size
    */
   get numSize() {
-    return this.getAttribute('short') ? 32 : 40;
+    return this.getAttribute('short') !== 'false' ? 32 : 40;
   }
 
+  /**
+   * Return the properties we handle as getters/setters
+   * @returns {Array} The properties in an array
+   */
   static get properties() {
-    return [props.COLOR];
+    return [props.COLOR, props.DISABLED];
   }
 
   /**
    * Template helper function for creating ShadowDOM tags
-   * @param {string | boolean} disabled the disabled attribute or false
    * @returns {object} Object containing the outer HTML to be rendered
    */
-  generateTags(disabled) {
+  generateTags() {
+    const disabled = this.getAttribute('disabled') ? ' disabled' : '';
     return {
-      openingTag: disabled ? '<span>' : `<a href=${this.getAttribute('href') || '#'}>`,
+      openingTag: disabled ? `<span class="ids-counts${disabled}>` : `<a class="ids-counts${disabled}" href=${this.getAttribute('href') || '#'}>`,
       closingTag: disabled ? '</span>' : '</a>',
       innerTags: disabled
         ? `${textTags.text}${textTags.value1}${this.numSize}${textTags.value2}`
@@ -62,13 +67,36 @@ class IdsCounts extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const { openingTag, closingTag, innerTags } = this.generateTags(this.getAttribute('disabled') || false);
+    const { openingTag, closingTag, innerTags } = this.generateTags();
 
     return `
       ${openingTag}
       ${innerTags}
       ${closingTag}
     `;
+  }
+
+  /**
+   * Set the color of the tag
+   * @param {string} value The color value, this can be not provided,
+   * secondary (white), error, success, danger, caution or a hex code with the #
+   */
+  set color(value) {
+    const prop = value[0] === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
+    this.container.style.color = prop || '';
+  }
+
+  /**
+   * Sets to disabled
+   * @param {boolean|string?} value If true will set `disabled` attribute
+   */
+  set disabled(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(props.DISABLED, val.toString());
+    } else {
+      this.removeAttribute(props.DISABLED);
+    }
   }
 }
 
