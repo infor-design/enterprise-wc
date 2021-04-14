@@ -37,6 +37,7 @@ export const props = {
   FIXED: 'fixed',
   FOCUSABLE: 'focusable',
   FONT_SIZE: 'font-size',
+  FONT_WEIGHT: 'font-weight',
   GAP: 'gap',
   GROUP: 'group',
   GROUP_DISABLED: 'group-disabled',
