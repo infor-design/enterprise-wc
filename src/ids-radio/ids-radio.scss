@@ -97,7 +97,7 @@
 }
 
 // Handle Themes
-.ids-radio[mode='dark'] {
+.ids-radio[mode='dark']:not([color]) {
   input[type='radio'] ~ .circle {
     @include border-slate-20();
   }
@@ -125,6 +125,13 @@
       @include border-slate-90();
       @include bg-slate-90();
     }
+  }
+}
+
+.ids-radio[mode='dark'][color] {
+  &:focus input[type='radio'] ~ .circle,
+  input[type='radio']:focus ~ .circle {
+    box-shadow: 0 0 0 1px var(--ids-color-palette-slate-10), 0 0 0 2px var(--ids-color-palette-azure-60), 0 0 4px 5px rgba(54, 138, 192, 0.3);
   }
 }
 
