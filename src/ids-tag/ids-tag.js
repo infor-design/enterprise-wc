@@ -69,6 +69,10 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
       this.container.style.backgroundColor = prop;
       this.container.style.borderColor = value === 'secondary' ? '' : prop;
 
+      if (value === 'caution' || value.substr(0, 1) === '#') {
+        this.container.style.color = 'var(--ids-color-palette-slate-100)';
+      }
+
       if (value === 'error' || value === 'danger') {
         this.container.classList.add('ids-white');
       } else {

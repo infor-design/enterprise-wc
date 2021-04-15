@@ -56,8 +56,6 @@
 
       &:focus ~ .droparea-label .hyperlink {
         @include border-azure-60();
-
-        box-shadow: 0 0 4px 3px var(--ids-color-palette-azure-20);
       }
     }
 

@@ -210,6 +210,7 @@
 .ids-icon-button[mode='dark'],
 .ids-menu-button[mode='dark'],
 .ids-button.btn-tertiary[mode='dark'],
+.ids-icon-button.btn-tertiary[mode='dark'],
 .ids-menu-button.btn-tertiary[mode='dark'] {
   @include text-slate-20();
 
@@ -253,7 +254,8 @@
 .ids-button[mode='contrast'],
 .ids-icon-button[mode='contrast'],
 .ids-menu-button[mode='contrast'],
-.ids-button.btn-tertiary[mode='contrast'] {
+.ids-button.btn-tertiary[mode='contrast'],
+.ids-icon-button.btn-tertiary[mode='contrast'] {
   @include text-slate-100();
 
   &[disabled] {
@@ -298,7 +300,8 @@
 .ids-button[mode='light'][version='classic'],
 .ids-icon-button[mode='light'][version='classic'],
 .ids-menu-button[mode='light'][version='classic'],
-.ids-button.btn-tertiary[mode='light'][version='classic'] {
+.ids-button.btn-tertiary[mode='light'][version='classic'],
+.ids-icon-button.btn-tertiary[mode='light'][version='classic'] {
   @include text-graphite-100();
 
   &[disabled] {
@@ -344,7 +347,8 @@
 .ids-button[mode='dark'][version='classic'],
 .ids-icon-button[mode='dark'][version='classic'],
 .ids-menu-button[mode='dark'][version='classic'],
-.ids-button.btn-tertiary[mode='dark'][version='classic'] {
+.ids-button.btn-tertiary[mode='dark'][version='classic'],
+.ids-icon-button.btn-tertiary[mode='dark'][version='classic'] {
   @include text-classic-slate-10();
 
   &[disabled] {
@@ -397,7 +401,8 @@
 .ids-button[mode='contrast'][version='classic'],
 .ids-icon-button[mode='contrast'][version='classic'],
 .ids-menu-button[mode='contrast'][version='classic'],
-.ids-button.btn-tertiary[mode='contrast'][version='classic'] {
+.ids-button.btn-tertiary[mode='contrast'][version='classic'],
+.ids-icon-button.btn-tertiary[mode='contrast'][version='classic'] {
   @include text-graphite-70();
 
   &:focus {

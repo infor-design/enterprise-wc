@@ -89,6 +89,10 @@
       @include border-slate-60();
     }
   }
+
+  input[type='checkbox']:focus ~ .slider::after {
+    box-shadow: 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 0 4px var(--ids-color-palette-azure-60);
+  }
 }
 
 .ids-switch[mode='contrast'] {
@@ -163,6 +167,10 @@
     &::after {
       @include bg-classic-slate-50();
       @include border-classic-slate-60();
+    }
+
+    input[type='checkbox']:focus ~ .slider::after {
+      box-shadow: 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 0 4px var(--ids-color-palette-azure-60);
     }
   }
 
