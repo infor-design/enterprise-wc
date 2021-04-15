@@ -38,7 +38,19 @@ import styles from './ids-colorpicker.scss';
      * @returns {string} The template
      */
     template() {
-        return '<div>Hello Colorpicker...</div>';
+        return `
+            <div id="ids-colorpicker">
+                <div class="colorpicker">
+                    <div class="colorpicker-container">
+                        <span class="color-preview"></span>
+                        <input type="text" value="#000000">
+                        <span class="colorpicker-icon">
+                            <ids-icon icon="dropdown" size="large"></ids-icon>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        `;
     }
  }
 

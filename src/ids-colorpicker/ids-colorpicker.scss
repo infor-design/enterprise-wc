@@ -1,3 +1,24 @@
-ids-colorpicker {
+#ids-colorpicker {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.colorpicker-container {
   display: flex;
+  flex-direction: row;
+}
+
+.color-preview {
+  background-color: #000;
+  display: block;
+  height: 50px;
+  width: 50px;
+}
+
+.colorpicker-icon {
+  align-items: center;
+  display: flex;
+  justify-content: center;
 }
