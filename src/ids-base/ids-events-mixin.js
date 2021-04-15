@@ -19,6 +19,9 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
   onEvent(eventName, target, callback, options) {
+    if (!target) {
+      return;
+    }
     target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }

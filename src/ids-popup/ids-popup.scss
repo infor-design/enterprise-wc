@@ -215,12 +215,38 @@ $transition-length: 200ms;
 
   // style: "tooltip"
   &.tooltip {
-    @include bg-slate-100();
+    @include bg-slate-80();
+    @include antialiased();
     @include font-sans();
-    @include p-12();
-    @include rounded-md();
-    @include text-12();
+    @include py-4();
+    @include px-8();
+    @include rounded-default();
+    @include text-16();
     @include text-white();
+
+    .arrow.bottom,
+    .arrow.bottom::after {
+      border-bottom-color: var(--ids-color-palette-slate-80);
+    }
+
+    .arrow.left,
+    .arrow.left::after {
+      border-left-color: var(--ids-color-palette-slate-80);
+    }
+
+    .arrow.right,
+    .arrow.right::after {
+      border-right-color: var(--ids-color-palette-slate-80);
+    }
+
+    .arrow.top,
+    .arrow.top::after {
+      border-top-color: var(--ids-color-palette-slate-80);
+    }
+
+    .arrow.top {
+      bottom: -8px;
+    }
   }
 
   // style: "tooltip-alt"

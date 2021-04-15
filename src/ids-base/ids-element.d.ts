@@ -2,6 +2,7 @@
 // confirm our code is type safe, and to support TypeScript users.
 import mix from './ids-mixin';
 import { props } from './ids-constants';
+import { IdsStringUtils as stringUtils } from './ids-string-utils';
 
 export class IdsElement extends HTMLElement {
   /** The main container in the shadowRoot */
@@ -37,5 +38,6 @@ export {
 
 export {
   props,
-  mix
+  mix,
+  stringUtils
 };

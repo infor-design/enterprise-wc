@@ -39,4 +39,11 @@ describe('IdsEventsMixin Tests', () => {
     expect(mockHandlerNormal.mock.calls.length).toBe(2);
     expect(mockHandlerNS.mock.calls.length).toBe(1);
   });
+
+  it('should not error on null target', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    elem.onEvent('click', null, null);
+    elem.onEvent('click.foo', undefined, undefined);
+    expect(errors).not.toHaveBeenCalled();
+  });
 });

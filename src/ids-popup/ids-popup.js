@@ -117,9 +117,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     this.animated = this.hasAttribute('animated');
     this.trueType = this.getAttribute('type') || this.trueType;
     this.isVisible = this.hasAttribute('visible');
-    // @ts-ignore
     this.setupDetectMutations();
-    // @ts-ignore
     this.setupResize();
     this.handleEvents();
 
@@ -134,15 +132,11 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
 
-    // @ts-ignore
     if (this.shouldResize()) {
-      // @ts-ignore
       this.disconnectResize();
     }
 
-    // @ts-ignore
     if (this.shouldDetectMutations()) {
-      // @ts-ignore
       this.disconnectDetectMutations();
     }
   }
@@ -633,8 +627,9 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
         this.disconnectDetectMutations();
         delete this.hasMutations;
       }
-
-      this.placeAtCoords();
+      if (this.visible) {
+        this.placeAtCoords();
+      }
     } else {
       // connect the alignTarget to the global MutationObserver, if applicable.
       // @ts-ignore

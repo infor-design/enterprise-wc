@@ -2,6 +2,8 @@ import { timestamp } from './ids-render-loop-common';
 
 /**
  * An IDS RenderLoop Queue Item
+ * @type {IdsRenderLoopItem}
+ * @param {object} settings incoming item options
  */
 class IdsRenderLoopItem extends Object {
   /**

@@ -2,12 +2,12 @@ import {
   IdsElement,
   customElement,
   scss,
-  props
+  props,
+  stringUtils
 } from '../ids-base/ids-element';
 
 // @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
 import styles from './ids-alert.scss';

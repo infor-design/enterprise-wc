@@ -230,7 +230,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
       // Configure some settings for opening
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'bottom';
-      this.popup.y = 10;
+      this.popup.y = 8;
 
       // Open/Close the menu when the trigger element is clicked
       this.onEvent('click.trigger', targetElem, (/** @type {any} */e) => {
@@ -330,13 +330,14 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     const beforeShowResponse = (/** @type {any} */ veto) => {
       canShow = !!veto;
     };
-    // @ts-ignore
+
     this.triggerEvent('beforeshow', this, {
       detail: {
         elem: this,
         response: beforeShowResponse
       }
     });
+
     if (!canShow) {
       return;
     }

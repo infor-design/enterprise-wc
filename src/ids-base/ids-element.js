@@ -142,5 +142,6 @@ export {
   customElement,
   mix,
   scss,
-  props
+  props,
+  stringUtils
 };
