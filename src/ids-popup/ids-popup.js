@@ -15,6 +15,7 @@ import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 // @ts-ignore
 import styles from './ids-popup.scss';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 const CENTER = 'center';
 
@@ -83,10 +84,18 @@ function formatAlignAttribute(alignX, alignY, edge) {
  * @inherits IdsElement
  * @mixes IdsRenderLoopMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part popup - the popup outer element
+ * @part arrow - the arrow element
  */
 @customElement('ids-popup')
 @scss(styles)
-class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, IdsEventsMixin) {
+class IdsPopup extends mix(IdsElement).with(
+    IdsRenderLoopMixin,
+    IdsResizeMixin,
+    IdsEventsMixin,
+    IdsThemeMixin
+  ) {
   constructor() {
     super();
     this.alignment = {
@@ -120,6 +129,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
     this.setupDetectMutations();
     this.setupResize();
     this.handleEvents();
+    super.connectedCallback();
 
     this.shouldUpdate = true;
     this.refresh();
@@ -531,7 +541,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
    * @param {number} val the coordinate's value
    */
   set x(val) {
-    let trueVal = parseInt(val.toString(), 10);
+    let trueVal = parseInt(val?.toString(), 10);
     if (Number.isNaN(trueVal)) {
       trueVal = 0;
     }
@@ -550,7 +560,7 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
    * @param {number} val the coordinate's value
    */
   set y(val) {
-    let trueVal = parseInt(val.toString(), 10);
+    let trueVal = parseInt(val?.toString(), 10);
     if (Number.isNaN(trueVal)) {
       trueVal = 0;
     }
@@ -938,8 +948,8 @@ class IdsPopup extends mix(IdsElement).with(IdsRenderLoopMixin, IdsResizeMixin, 
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-popup">
-      <div class="arrow"></div>
+    return `<div class="ids-popup" part="popup">
+      <div class="arrow" part="arrow"></div>
       <div class="content-wrapper">
         <slot name="content"></slot>
       </div>

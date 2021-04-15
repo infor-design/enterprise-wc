@@ -3,7 +3,7 @@
  */
 import IdsTriggerField from '../../src/ids-trigger-field/ids-trigger-field';
 import IdsInput from '../../src/ids-input/ids-input';
-import IdsTriggerButton from '../../src/ids-trigger-button/ids-trigger-button';
+import IdsTriggerButton from '../../src/ids-trigger-field/ids-trigger-button';
 import { props } from '../../src/ids-base/ids-constants';
 
 const resizeObserverMock = jest.fn(function ResizeObserver(callback) {

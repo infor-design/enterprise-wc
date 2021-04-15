@@ -192,6 +192,12 @@ document.addEventListener('DOMContentLoaded', () => {
 - `error-url` Error text to show when url attribute not set.
 - `error-xhr-headers` Error text to show when given value not a valid JSON array of key/value objects.
 
+## Themeable Parts
+
+- `container` allows you to further style the main container element
+- `label` allows you to further style the label element
+- `link` allows you to further style the hyperlink element
+
 ## Extra headers JSON array of key/value (use slot)
 
 - `xhr-headers` sets the HTTP headers to be send along if used component's `XMLHttpRequest` method. (*XHR Headers must be a valid JSON string contains array of name/value objects*)

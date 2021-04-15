@@ -6,14 +6,14 @@
 const IdsKeyboardMixin = (superclass) => class extends superclass {
   constructor() {
     super();
-    this.init();
+    this.initKeyboardHandlers();
   }
 
   /**
    * Initializes the keyboard management system with the current object
    * @private
    */
-  init() {
+  initKeyboardHandlers() {
     /** @type {Map | any} */
     this.hotkeys = new Map();
     /** @type {Map | any} */

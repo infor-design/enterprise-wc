@@ -2,4 +2,10 @@
 // confirm our code is type safe, and to support TypeScript users.
 import { IdsElement } from '../ids-base/ids-element';
 
-export default class IdsMenuHeader extends IdsElement {}
+export default class IdsMenuHeader extends IdsElement {
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+}

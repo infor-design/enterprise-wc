@@ -44,6 +44,12 @@ export default class IdsDataGrid extends IdsElement {
   /** Enables the virtual scrolling behavior */
   rowHeight: 'extra-small' | 'small' | 'medium' | 'large';
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   /** Set the sort column and sort direction */
   setSortColumn(id: string, ascending?: boolean): void;
 

@@ -43,6 +43,12 @@ export default class IdsPopup extends IdsElement {
   /** Sets the Y (top) coordinate of the Popup */
   y: number;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   /** Calculates the current placement of the Popup */
   refresh(): void;
 

@@ -53,3 +53,4 @@ A curated list of resources related to this project and web components.
 - [Material Web Components](https://dannymoerkerke.github.io/material-webcomponents/material-dialog)
 - [Author Elements](https://github.com/author-elements)
 - [How To google](https://github.com/GoogleChromeLabs/howto-components/tree/master/elements)
+- [FicusJS](https://docs.ficusjs.org/docs/composition/)

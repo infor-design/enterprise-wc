@@ -108,4 +108,14 @@ describe('IdsListView Component', () => {
     listView.data = null;
     expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(0);
   });
+
+  it('supports setting mode', () => {
+    listView.mode = 'dark';
+    expect(listView.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    listView.version = 'classic';
+    expect(listView.container.getAttribute('version')).toEqual('classic');
+  });
 });

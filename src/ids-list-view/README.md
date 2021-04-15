@@ -7,7 +7,7 @@ Displays a set of related data objects and their attributes in list format.
 ## Use Cases
 
 - Best for limited attribute data that may or may not include clear differentiators like status.
-- Used to display relevant objects. The listview container can feature checkboxes, search bar, hyperlinks, and other elements.
+- Used to display relevant objects. The list view container can feature checkboxes, search bar, hyperlinks, and other elements.
 - Allows users to assign/remove objects. Displays when one or more rows are selected.
 - Can alert users of updates on objects.
 - Lists may be single or multiple selected
@@ -48,6 +48,12 @@ The template shows the use of a string substitution to access the data element. 
   listView.data = products;
 ```
 
+## Themeable Parts
+
+- `container` allows you to further style the root container element
+- `list` allows you to further style the `<ul>` elements text element
+- `listitem` allows you to further style the `<li>` elements text element
+
 ## States and Variations (With Code Examples)
 
 - Hover
@@ -72,7 +78,7 @@ The template shows the use of a string substitution to access the data element. 
 
 ** From 3.x to 4.x**
 - Single select roughly replaces the inforListBox component.
-- Multiselect is a new construct, however it replaces the listbox with checkboxes construct.
+- Multi select is a new feature, however it replaces the listbox with checkboxes construct.
 
 ** From 4.x to 5.x**
 

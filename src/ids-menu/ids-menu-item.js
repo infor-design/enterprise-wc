@@ -9,6 +9,7 @@ import {
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
@@ -36,7 +37,9 @@ const MENU_PROPS = [
   props.SELECTED,
   props.SUBMENU,
   props.TABINDEX,
-  props.VALUE
+  props.VALUE,
+  props.MODE,
+  props.VERSION
 ];
 
 /**
@@ -54,10 +57,15 @@ function safeForAttribute(value) {
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsRenderLoopMixin
+ * @mixes IdsThemeMixin
+ * @part menu-item - the menu item element
+ * @part text - the text element
+ * @part icon - the icon element
+ * @part check - the selected check element
  */
 @customElement('ids-menu-item')
 @scss(styles)
-class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin) {
+class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin, IdsThemeMixin) {
   /**
    * Build the menu item
    */
@@ -85,12 +93,12 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     }
 
     // Check
-    const check = '<span class="check"></span>';
+    const check = '<span class="check" part="check"></span>';
 
     // Icon
     let icon = '';
     if (this.state?.icon) {
-      icon = `<ids-icon slot="icon" icon="${this.state.icon}" size="${MENU_ITEM_SIZE}"></ids-icon>`;
+      icon = `<ids-icon slot="icon" icon="${this.state.icon}" size="${MENU_ITEM_SIZE}" part="icon"></ids-icon>`;
     }
     const iconSlot = `<slot name="icon">${icon}</slot>`;
 
@@ -113,10 +121,10 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     }
 
     // Text
-    const textSlot = `<span class="ids-menu-item-text"><slot></slot></span>`;
+    const textSlot = `<span class="ids-menu-item-text" part="text"><slot></slot></span>`;
 
     // Main
-    return `<li role="none" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}">
+    return `<li role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}">
       <a ${tabindex} ${disabledAttr}>
         ${check}${iconSlot}${textSlot}
       </a>
@@ -163,6 +171,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     this.refresh();
     this.handleEvents();
     this.shouldUpdate = true;
+    super.connectedCallback();
   }
 
   /**
