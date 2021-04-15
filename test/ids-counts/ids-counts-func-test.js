@@ -29,9 +29,14 @@ describe('IdsCounts Component', () => {
     expect(count.outerHTML).toMatchSnapshot();
   });
 
-  it('renders specific hex color', () => {
+  it('renders a specific hex color', () => {
     count.color = '#800000';
     expect(count.getAttribute('color')).toEqual('#800000');
     expect(count.color).toEqual('#800000');
+  });
+
+  it('it defaults to right color', () => {
+    count.color = 'invalidInput';
+    expect(count.getAttribute('color')).toEqual('text-azure-60()');
   });
 });

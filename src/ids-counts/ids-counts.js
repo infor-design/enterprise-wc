@@ -7,7 +7,6 @@ import {
 
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
 import styles from './ids-counts.scss';
@@ -32,34 +31,11 @@ class IdsCounts extends IdsElement {
   }
 
   /**
-   * Template helper function for creating ShadowDOM tags
-   * @returns {number} the font size
-   */
-  get numSize() {
-    return this.getAttribute('short') !== 'false' ? 32 : 40;
-  }
-
-  /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.COLOR, props.DISABLED];
-  }
-
-  /**
-   * Template helper function for creating ShadowDOM tags
-   * @returns {object} Object containing the outer HTML to be rendered
-   */
-  generateTags() {
-    const disabled = this.getAttribute('disabled') ? ' disabled' : '';
-    return {
-      openingTag: disabled ? `<span class="ids-counts${disabled}>` : `<a class="ids-counts${disabled}" href=${this.getAttribute('href') || '#'}>`,
-      closingTag: disabled ? '</span>' : '</a>',
-      innerTags: disabled
-        ? `${textTags.text}${textTags.value1}${this.numSize}${textTags.value2}`
-        : `${textTags.value1}${this.numSize}${textTags.value2}${textTags.text}`
-    };
+    return [props.COLOR];
   }
 
   /**
@@ -67,12 +43,15 @@ class IdsCounts extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const { openingTag, closingTag, innerTags } = this.generateTags();
+    const numSize = () => (this.getAttribute('compact') !== 'false' ? 32 : 40);
+    const href = this.getAttribute('href');
 
     return `
-      ${openingTag}
-      ${innerTags}
-      ${closingTag}
+      ${href ? `<a class="ids-counts" href=${this.getAttribute('href') || '#'}>` : `<span class="ids-counts">`}
+      ${href
+      ? `${textTags.value1}${numSize()}${textTags.value2}${textTags.text}`
+      : `${textTags.text}${textTags.value1}${numSize()}${textTags.value2}`}
+      ${href ? '</a>' : '</span>'}
     `;
   }
 
@@ -82,21 +61,12 @@ class IdsCounts extends IdsElement {
    * secondary (white), error, success, danger, caution or a hex code with the #
    */
   set color(value) {
-    const prop = value[0] === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
-    this.container.style.color = prop || '';
-  }
-
-  /**
-   * Sets to disabled
-   * @param {boolean|string?} value If true will set `disabled` attribute
-   */
-  set disabled(value) {
-    const val = stringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
-    } else {
-      this.removeAttribute(props.DISABLED);
+    const colors = new Set(['base', 'caution', 'danger', 'success', 'warning']);
+    if (value[0] === '#') {
+      this.container.style.color = value || '';
+      return;
     }
+    this.container.style.color = colors.has(value) ? `var(--ids-color-status-${value})` : 'text-azure-60()';
   }
 }
 

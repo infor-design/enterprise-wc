@@ -1,5 +1,4 @@
 // Import All Components Used in the Page
-import IdsCounts from '../src/ids-counts/ids-counts';
 import IdsLoader from '../src/ids-loader/ids-loader';
 import IdsButton from '../src/ids-button/ids-button';
 import IdsCheckbox from '../src/ids-checkbox/ids-checkbox';
@@ -28,10 +27,10 @@ import IdsAlert from '../src/ids-alert/ids-alert';
 import IdsBadge from '../src/ids-badge/ids-badge';
 import IdsBlockGrid from '../src/ids-block-grid/ids-block-grid';
 import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
+import IdsCounts from '../src/ids-counts/ids-counts';
 
 // Import Example Code
 
-import './ids-counts/index';
 import './ids-menu-button/example';
 import './ids-icon/example';
 import './ids-popup/example';
@@ -55,3 +54,4 @@ import './ids-alert/index';
 import './ids-badge/index';
 import './ids-textarea/example';
 import './ids-block-grid/index';
+import './ids-counts/index';
