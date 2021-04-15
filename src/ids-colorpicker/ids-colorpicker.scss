@@ -6,8 +6,13 @@
 }
 
 .colorpicker-container {
+  border: solid 1px;
   display: flex;
   flex-direction: row;
+}
+
+.colorpicker {
+  position: relative;
 }
 
 .color-preview {
@@ -17,8 +22,34 @@
   width: 50px;
 }
 
+.color-container {
+  background-color: turquoise;
+  height: 400px;
+  left: 70px;
+  position: absolute;
+  top: 50px;
+  width: 500px;
+}
+
 .colorpicker-icon {
   align-items: center;
   display: flex;
   justify-content: center;
+}
+
+input {
+  background-color: transparent;
+  border: 0;
+
+  &:focus {
+    border: 0;
+  }
+}
+
+.hide-color-container {
+  display: none;
+}
+
+.show-color-container {
+  display: block;
 }

@@ -12,13 +12,11 @@ import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import styles from './ids-colorpicker.scss';
 
 /**
- * IDS Tag Component
+ * IDS Colorpick
  * @type {IdsColorpicker}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @part background-color - the tag background color
- * @part color - the text color
  */
 
  @customElement('ids-colorpicker')
@@ -30,7 +28,7 @@ import styles from './ids-colorpicker.scss';
      }
 
      connectedCallback() {
-         console.log('Colorpicker is working.')
+         this.showHideColorPanel()
      }
 
      /**
@@ -48,9 +46,28 @@ import styles from './ids-colorpicker.scss';
                             <ids-icon icon="dropdown" size="large"></ids-icon>
                         </span>
                     </div>
+                    <div class="color-container hide-color-container">
+                        Color Panel
+                    </div>
                 </div>
             </div>
         `;
+    }
+
+    /**
+     * Retuns IdsColorpicker shadowRoot
+     * @returns {HTMLCollection} shadowRoot
+     */
+    idsColorPicker = this.shadowRoot
+
+    showHideColorPanel() {
+        const colorpickerIcon = this.idsColorPicker.querySelector('.colorpicker-icon')
+        const colorContainer = this.idsColorPicker.querySelector('.color-container')
+        this.onEvent('click', colorpickerIcon, (/** @type {any} */ event) => {
+            colorContainer.classList.remove('hide-color-container')
+            colorContainer.classList.add('show-color-container')
+            console.log(colorContainer)
+        })
     }
  }
 
