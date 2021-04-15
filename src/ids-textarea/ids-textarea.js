@@ -3,7 +3,8 @@ import {
   customElement,
   mix,
   scss,
-  props
+  props,
+  stringUtils
 } from '../ids-base/ids-element';
 
 // @ts-ignore
@@ -18,7 +19,6 @@ import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Mixins
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';

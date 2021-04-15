@@ -3,14 +3,14 @@ import {
   customElement,
   scss,
   mix,
-  props
+  props,
+  stringUtils
 } from '../ids-base/ids-element';
 
 // @ts-ignore
 import styles from './ids-progress.scss';
 
 // Mixins
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 // Defaults

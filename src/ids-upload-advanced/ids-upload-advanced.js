@@ -3,7 +3,8 @@ import {
   customElement,
   scss,
   mix,
-  props
+  props,
+  stringUtils
 } from '../ids-base/ids-element';
 
 // @ts-ignore
@@ -11,7 +12,6 @@ import styles from './ids-upload-advanced.scss';
 
 // Mixins
 import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 

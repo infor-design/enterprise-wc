@@ -2,13 +2,13 @@ import {
   IdsElement,
   customElement,
   mix,
-  scss
+  scss,
+  stringUtils
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsDataSource } from '../ids-base/ids-data-source';
 import { IdsRenderLoopMixin } from '../ids-render-loop/ids-render-loop-mixin';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
 import styles from './ids-virtual-scroll.scss';

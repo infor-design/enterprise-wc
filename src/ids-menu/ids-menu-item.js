@@ -3,10 +3,10 @@ import {
   customElement,
   props,
   scss,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
 
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';

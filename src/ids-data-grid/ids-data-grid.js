@@ -3,7 +3,8 @@ import {
   customElement,
   scss,
   props,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
 
 import { IdsDataGridFormatters } from './ids-data-grid-formatters';
@@ -11,7 +12,6 @@ import { IdsDataSource } from '../ids-base/ids-data-source';
 import { IdsDeepCloneUtils as cloneUtils } from '../ids-base/ids-deep-clone-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // @ts-ignore

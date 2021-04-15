@@ -3,11 +3,11 @@ import {
   customElement,
   props,
   scss,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 

@@ -3,13 +3,13 @@ import {
   customElement,
   scss,
   props,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
 
 // @ts-ignore
 import styles from './ids-upload.scss';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // Supporting components

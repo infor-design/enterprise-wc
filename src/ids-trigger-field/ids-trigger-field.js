@@ -3,11 +3,11 @@ import {
   customElement,
   mix,
   scss,
-  props
+  props,
+  stringUtils
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // @ts-ignore

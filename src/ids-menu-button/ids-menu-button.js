@@ -1,13 +1,13 @@
 import {
   customElement,
   scss,
-  props
+  props,
+  stringUtils
 } from '../ids-base/ids-element';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 // @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 import IdsIcon from '../ids-icon/ids-icon';
 // @ts-ignore

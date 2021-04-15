@@ -3,7 +3,8 @@ import {
   customElement,
   props,
   scss,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
 
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
@@ -11,7 +12,6 @@ import IdsDOMUtils from '../ids-base/ids-dom-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 // @ts-ignore
 import styles from './ids-popup.scss';
