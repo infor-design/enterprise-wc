@@ -1,0 +1,42 @@
+/* Ids Tag Component */
+@import '../ids-base/ids-base';
+
+.ids-container {
+  @include absolute();
+  @include bg-white();
+  @include outline-none();
+  @include p-8();
+
+  height: calc(100% - 16px);
+  margin: -8px;
+  width: calc(100% - 16px);
+
+  &[tabindex] {
+    overflow: auto;
+  }
+}
+
+// Handle Themes
+.ids-container[mode='light'] {
+  @include bg-white();
+}
+
+.ids-container[mode='dark'] {
+  @include bg-slate-90();
+}
+
+.ids-container[mode='contrast'] {
+  @include bg-slate-10();
+}
+
+.ids-container[version='classic'][mode='light'] {
+  @include bg-graphite-10();
+}
+
+.ids-container[version='classic'][mode='dark'] {
+  @include bg-classic-slate-90();
+}
+
+.ids-container[version='classic'][mode='contrast'] {
+  @include bg-graphite-20();
+}

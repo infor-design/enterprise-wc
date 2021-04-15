@@ -164,6 +164,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include border-t-1();
     @include border-solid();
     @include inline-flex();
+    @include text-slate-100();
 
     align-items: center;
     border-color: $cell-border-color;
@@ -212,3 +213,199 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include px-16();
   }
 }
+
+// Handle Dark Theme
+.ids-data-grid[mode='dark'] {
+  @include bg-slate-90();
+
+  .ids-data-grid-header-cell {
+    @include bg-slate-20();
+    @include border-slate-80();
+  }
+
+  .ids-data-grid-header-text {
+    @include text-slate-100();
+  }
+
+  .is-sortable {
+    ids-icon {
+      @include text-slate-40();
+    }
+
+    &[aria-sort='descending'] ids-icon {
+      &:last-child {
+        @include text-slate-100();
+      }
+    }
+
+    &[aria-sort='ascending'] ids-icon {
+      &:first-child {
+        @include text-slate-100();
+      }
+    }
+  }
+
+  .ids-data-grid-cell {
+    @include border-slate-60();
+    @include text-white();
+  }
+}
+
+// Handle Contrast Theme
+.ids-data-grid[mode='contrast'] {
+  @include bg-white();
+
+  .ids-data-grid-header-cell {
+    @include bg-slate-70();
+    @include border-slate-50();
+  }
+
+  .ids-data-grid-header-text {
+    @include text-white();
+  }
+
+  .is-sortable {
+    ids-icon {
+      @include text-slate-40();
+    }
+
+    &[aria-sort='descending'] ids-icon {
+      &:last-child {
+        @include text-white();
+      }
+    }
+
+    &[aria-sort='ascending'] ids-icon {
+      &:first-child {
+        @include text-white();
+      }
+    }
+  }
+
+  .ids-data-grid-cell {
+    @include border-slate-60();
+    @include text-slate-100();
+
+    &:focus {
+      box-shadow: 0 0 0 1px rgba(0, 84, 177, 1);
+      outline: 1px solid var(--ids-color-palette-azure-80);
+    }
+  }
+}
+
+// Handle Classic - Light Theme
+.ids-data-grid[version='classic'][mode='light'] {
+  @include bg-white();
+
+  .ids-data-grid-header-cell {
+    @include bg-graphite-70();
+    @include border-classic-slate-30();
+  }
+
+  .ids-data-grid-header-text {
+    @include text-white();
+  }
+
+  .is-sortable {
+    ids-icon {
+      @include text-classic-slate-40();
+    }
+
+    &[aria-sort='descending'] ids-icon {
+      &:last-child {
+        @include text-white();
+      }
+    }
+
+    &[aria-sort='ascending'] ids-icon {
+      &:first-child {
+        @include text-white();
+      }
+    }
+  }
+
+  .ids-data-grid-cell {
+    @include border-classic-slate-30();
+    @include text-graphite-100();
+  }
+}
+
+// Handle Classic - Dark Theme
+.ids-data-grid[version='classic'][mode='dark'] {
+  @include bg-classic-slate-80();
+
+  .ids-data-grid-header-cell {
+    @include bg-graphite-30();
+    @include border-classic-slate-50();
+  }
+
+  .ids-data-grid-header-text {
+    @include text-classic-slate-100();
+  }
+
+  .is-sortable {
+    ids-icon {
+      @include text-classic-slate-40();
+    }
+
+    &[aria-sort='descending'] ids-icon {
+      &:last-child {
+        @include text-classic-slate-100();
+      }
+    }
+
+    &[aria-sort='ascending'] ids-icon {
+      &:first-child {
+        @include text-classic-slate-100();
+      }
+    }
+  }
+
+  .ids-data-grid-cell {
+    @include border-classic-slate-50();
+    @include text-white();
+  }
+}
+
+// Handle Classic - Contrast Theme
+.ids-data-grid[mode='contrast'] {
+  @include bg-graphite-10();
+
+  .ids-data-grid-header-cell {
+    @include bg-graphite-70();
+    @include border-graphite-60();
+  }
+
+  .ids-data-grid-header-text {
+    @include text-white();
+  }
+
+  .is-sortable {
+    ids-icon {
+      @include text-graphite-40();
+    }
+
+    &[aria-sort='descending'] ids-icon {
+      &:last-child {
+        @include text-white();
+      }
+    }
+
+    &[aria-sort='ascending'] ids-icon {
+      &:first-child {
+        @include text-white();
+      }
+    }
+  }
+
+  .ids-data-grid-cell {
+    @include border-graphite-60();
+    @include text-graphite-100();
+
+    &:focus {
+      box-shadow: 0 0 0 1px rgba(0, 84, 177, 1);
+      outline: 1px solid var(--ids-color-palette-azure-80);
+    }
+  }
+}
+

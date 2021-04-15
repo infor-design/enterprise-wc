@@ -61,3 +61,74 @@
 .ids-white ::slotted(ids-icon:hover) {
   @include text-white();
 }
+
+// Handle Themes
+.ids-tag[mode='dark'] {
+  @include bg-slate-60();
+  @include border-slate-60();
+  @include text-white();
+}
+
+.ids-tag[mode='dark'] ::slotted(ids-icon) {
+  @include text-slate-10();
+}
+
+.ids-tag[mode='dark'] ::slotted(ids-icon:hover) {
+  @include text-white();
+}
+
+.ids-tag[mode='contrast'] {
+  @include bg-slate-20();
+  @include border-slate-20();
+  @include text-slate-100();
+}
+
+.ids-tag[mode='contrast'] ::slotted(ids-icon) {
+  @include text-slate-100();
+}
+
+.ids-tag[mode='contrast'] ::slotted(ids-icon:hover) {
+  @include text-black();
+}
+
+.ids-tag[version='classic'][mode='light'] {
+  @include bg-graphite-20();
+  @include border-graphite-20();
+  @include text-black();
+}
+
+.ids-tag[version='classic'][mode='light'] ::slotted(ids-icon) {
+  @include text-graphite-100();
+}
+
+.ids-tag[version='classic'][mode='light'] ::slotted(ids-icon:hover) {
+  @include text-black();
+}
+
+.ids-tag[version='classic'][mode='dark'] {
+  @include bg-graphite-60();
+  @include border-graphite-60();
+  @include text-white();
+}
+
+.ids-tag[version='classic'][mode='dark'] ::slotted(ids-icon) {
+  @include text-graphite-10();
+}
+
+.ids-tag[version='classic'][mode='dark'] ::slotted(ids-icon:hover) {
+  @include text-white();
+}
+
+.ids-tag[version='classic'][mode='contrast'] {
+  @include bg-graphite-40();
+  @include border-graphite-40();
+  @include text-black();
+}
+
+.ids-tag[version='classic'][mode='contrast'] ::slotted(ids-icon) {
+  @include text-graphite-100();
+}
+
+.ids-tag[version='classic'][mode='contrast'] ::slotted(ids-icon:hover) {
+  @include text-black();
+}

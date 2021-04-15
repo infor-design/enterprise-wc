@@ -12,7 +12,7 @@ import styles from './ids-upload-advanced-file.scss';
 // @ts-ignore
 import IdsAlert from '../ids-alert/ids-alert';
 // @ts-ignore
-import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 // @ts-ignore
 import IdsProgress from '../ids-progress/ids-progress';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';

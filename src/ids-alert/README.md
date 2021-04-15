@@ -29,6 +29,10 @@ An alert can be used in a disabled situation so comes with a disabled style
 <ids-alert icon="info" disabled="true"></ids-alert>
 ```
 
+## Themeable Parts
+
+- `icon` allows you to further style the icon element
+
 ## States and Variations
 
 - Color

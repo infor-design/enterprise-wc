@@ -6,6 +6,12 @@ export default class IdsListView extends IdsElement {
   /** Enabled virtual scrolling */
   virtualScroll: boolean;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   /** Set the internal list template */
   itemTemplate: (item: unknown) => string | string;
 

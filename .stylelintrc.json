@@ -3,6 +3,7 @@
     "stylelint-order"
   ],
   "extends": "stylelint-config-standard",
+  "ignoreFiles": ["**/*.js"],
   "rules": {
     "at-rule-no-unknown": [true, {
       "ignoreAtRules": [
@@ -18,15 +19,13 @@
       "declarations"
     ],
     "max-nesting-depth": 3,
-    "no-descending-specificity": [true, {
-      "ignore": [ "selectors-within-list" ]
-    }],
+    "no-descending-specificity": null,
     "order/properties-alphabetical-order": true,
     "selector-pseudo-class-no-unknown": [true, {
-      "ignorePseudoClasses": ["root", "host", "unresolved"]
+      "ignorePseudoClasses": ["root", "host", "unresolved", "part", "::part"]
     }],
     "selector-pseudo-element-no-unknown": [true, {
-      "ignorePseudoElements": ["root", "host", "unresolved"]
+      "ignorePseudoElements": ["root", "host", "unresolved", "part", "::part"]
     }],
     "selector-type-no-unknown":  [true, {
       "ignore": ["custom-elements"]

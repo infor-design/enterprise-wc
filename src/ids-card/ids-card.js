@@ -1,8 +1,14 @@
 import {
   IdsElement,
   customElement,
-  scss
+  scss,
+  mix,
+  props
 } from '../ids-base/ids-element';
+
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+
 // @ts-ignore
 import styles from './ids-card.scss';
 
@@ -10,12 +16,21 @@ import styles from './ids-card.scss';
  * IDS Card Component
  * @type {IdsCard}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part card - the card element
+ * @part header - the header element
+ * @part content - the card content element
  */
 @customElement('ids-card')
 @scss(styles)
-class IdsCard extends IdsElement {
+class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
   }
 
   /**
@@ -23,7 +38,7 @@ class IdsCard extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['auto-height'];
+    return [props.AUTO_HEIGHT, props.MODE, props.VERSION];
   }
 
   /**
@@ -31,11 +46,11 @@ class IdsCard extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-card">
-      <div class="ids-card-header">
+    return `<div class="ids-card" part="card">
+      <div class="ids-card-header" part="header">
         <slot name="card-header"></slot>
       </div>
-      <div class="ids-card-content">
+      <div class="ids-card-content" part="content">
         <slot name="card-content"></slot>
       </div>
     </div>`;
