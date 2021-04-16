@@ -128,11 +128,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       super.connectedCallback();
     }
 
-    /** @type {any} */
-    this.input = this.shadowRoot.querySelector(`#${ID}`);
-    /** @type {any} */
-    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
-
     if (this.value === null) {
       this.value = '';
     }
@@ -173,6 +168,22 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
         </div>
       </div>
     `;
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLInputElement|undefined} the inner `input` element
+   */
+  get input() {
+    return this.shadowRoot?.querySelector(`#${ID}`);
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLLabelElement|undefined} the inner `label` element
+   */
+  get labelEl() {
+    return this.shadowRoot?.querySelector(`[for="${ID}"]`);
   }
 
   /**

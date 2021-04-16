@@ -1,5 +1,10 @@
 /* eslint-disable no-continue, no-underscore-dangle, no-restricted-syntax, no-labels */
 // import { masks } from './ids-masks';
+import {
+  CARET_TRAP,
+  EMPTY_STRING,
+  PLACEHOLDER_CHAR
+} from './ids-mask-common';
 import { IdsDeepCloneUtils } from '../ids-base/ids-deep-clone-utils';
 
 /**
@@ -29,7 +34,7 @@ class MaskAPI {
     let maskObj = {};
     let processResult = {
       originalValue: rawValue,
-      caretPos: opts.selection.start,
+      caretPos: opts?.selection?.start || 0,
       maskResult: false
     };
 
@@ -49,6 +54,7 @@ class MaskAPI {
       maskObj = opts.pattern(rawValue, maskOpts);
       if (Array.isArray(maskObj)) {
         maskObj = {
+          caretTrapIndexes: [],
           mask: maskObj
         };
       }
@@ -56,7 +62,7 @@ class MaskAPI {
       // mask functions can setup caret traps to have some control over how the caret
       // moves. We need to process the mask for any caret traps. `processCaretTraps`
       // will remove the caret traps from the mask and return the indexes of the caret traps.
-      const caretTrapInfo = this._processCaretTraps(maskObj.mask);
+      const caretTrapInfo = this.processCaretTraps(maskObj.mask);
 
       // The processed mask is what we're interested in
       maskObj.mask = caretTrapInfo.maskWithoutCaretTraps;
@@ -67,6 +73,7 @@ class MaskAPI {
     } else {
       // Use a provided array
       maskObj = {
+        caretTrapIndexes: [],
         mask: opts.pattern
       };
     }
@@ -77,9 +84,9 @@ class MaskAPI {
     }
 
     try {
-      processResult = this._conformToMask(rawValue, maskObj, opts);
+      processResult = this.conformToMask(rawValue, maskObj, opts);
     } catch (e) {
-      // console.error('Couldn\'t complete masking process: "'+ e.message +'"');
+      console.error(`Couldn't complete masking process: "${e.message}"`);
       return processResult;
     }
 
@@ -135,20 +142,20 @@ class MaskAPI {
    * @param {object} [settings] incoming settings for mask parsing.
    * @returns {object} containing the conformation result and some meta-data
    */
-  _conformToMask(rawValue, maskObj, settings) {
+  conformToMask(rawValue, maskObj, settings) {
     // Setup the placeholder version of the mask
-    settings.placeholder = this._convertMaskToPlaceholder(maskObj.mask, settings.placeholderChar);
+    settings.placeholder = this.convertMaskToPlaceholder(maskObj.mask, settings.placeholderChar);
 
     // Setup booleans and numbers for various settings (speed)
     let charactersRejected = false;
     const suppressGuide = settings.guide === false && settings.previousMaskResult !== undefined;
     const rawValueLength = rawValue.length;
     const prevMaskResultLength = settings.previousMaskResult.length;
-    const maskLength = this.pattern.length;
+    const maskLength = maskObj.mask.length;
     const placeholderLength = settings.placeholder.length || 0;
     const placeholderChar = settings.placeholderChar;
     let caretPos = settings.selection.start;
-    let resultStr = masks.EMPTY_STRING;
+    let resultStr = EMPTY_STRING;
 
     const editDistance = rawValueLength - prevMaskResultLength;
     const isAddition = editDistance > 0;
@@ -167,7 +174,7 @@ class MaskAPI {
     // To do this, we want to compensate for all characters that were deleted
     if (settings.keepCharacterPositions === true && !isAddition) {
       // We will be storing the new placeholder characters in this variable.
-      let compensatingPlaceholderChars = masks.EMPTY_STRING;
+      let compensatingPlaceholderChars = EMPTY_STRING;
 
       // For every character that was deleted from a placeholder position, we add a placeholder char
       for (let i = indexOfFirstChange; i < indexOfLastChange; i++) {
@@ -197,7 +204,7 @@ class MaskAPI {
         isNew: j >= indexOfFirstChange && j < indexOfLastChange
       };
     }
-    const rawValueArr = rawValue.split(masks.EMPTY_STRING).map(markAddedChars);
+    const rawValueArr = rawValue.split(EMPTY_STRING).map(markAddedChars);
 
     // The loop below removes masking characters from user input. For example, for mask
     // `00 (111)`, the placeholder would be `00 (___)`. If user input is `00 (234)`, the loop below
@@ -280,7 +287,7 @@ class MaskAPI {
               if (
                 settings.keepCharacterPositions !== true ||
                 rawValueChar.isNew === false ||
-                settings.previousMaskResult === masks.EMPTY_STRING ||
+                settings.previousMaskResult === EMPTY_STRING ||
                 settings.guide === false ||
                 !isAddition
               ) {
@@ -382,7 +389,7 @@ class MaskAPI {
       } else {
         // If we couldn't find `indexOfLastFilledPlaceholderChar` that means the user deleted
         // the first character in the mask. So we return an empty string.
-        resultStr = masks.EMPTY_STRING;
+        resultStr = EMPTY_STRING;
       }
     }
 
@@ -404,14 +411,14 @@ class MaskAPI {
    * @returns {object} containing a modified Mask array without caret traps, and an array of
    *  indices with locations of the caret traps.
    */
-  _processCaretTraps(mask) {
+  processCaretTraps(mask) {
     const indexes = [];
-    let indexOfCaretTrap = mask.indexOf(masks.CARET_TRAP);
+    let indexOfCaretTrap = mask.indexOf(CARET_TRAP);
 
     while (indexOfCaretTrap !== -1) {
       indexes.push(indexOfCaretTrap);
       mask.splice(indexOfCaretTrap, 1);
-      indexOfCaretTrap = mask.indexOf(masks.CARET_TRAP);
+      indexOfCaretTrap = mask.indexOf(CARET_TRAP);
     }
 
     return {
@@ -427,30 +434,25 @@ class MaskAPI {
    * @param {string} placeholderChar - a character that will be used as the placeholder.
    * @returns {string} representing the placeholder
    */
-  _convertMaskToPlaceholder(mask, placeholderChar) {
+  convertMaskToPlaceholder(mask = [], placeholderChar = PLACEHOLDER_CHAR) {
     if (!Array.isArray(mask)) {
       mask = [];
     }
-    if (!placeholderChar) {
-      placeholderChar = masks.PLACEHOLDER_CHAR;
-    }
 
     if (mask.indexOf(placeholderChar) !== -1) {
-      throw new Error(`${'Placeholder character must not be used as part of the mask. Please specify a character ' +
-        'that is not present in your mask as your placeholder character.\n\n' +
-        'The placeholder character that was received is:'}${JSON.stringify(placeholderChar)}\n\n` +
-        `The mask that was received is: ${JSON.stringify(mask)}`);
+      throw new Error(`Placeholder character must not be used as part of the mask. Please specify a character that is not present in your mask as your placeholder character.\n\n
+        The placeholder character that was received is: ${JSON.stringify(placeholderChar)}\n\n
+        The mask that was received is: ${JSON.stringify(mask)}`);
     }
 
-    const ret = mask.map(char => ((char instanceof RegExp) ?
-      placeholderChar : char)).join(masks.EMPTY_STRING);
+    const ret = mask.map((char) => ((char instanceof RegExp)
+      ? placeholderChar : char)).join(EMPTY_STRING);
 
     return ret;
   }
 
   /**
    * Takes an index representing a caret and changes it based on mask modifications
-   * @private
    * @param {object} opts information about the caret placement.
    * @returns {number} the index of the text caret.
    */
@@ -525,7 +527,7 @@ class MaskAPI {
       const normalizedRawValue = opts.rawValue.toLowerCase();
 
       // Then we take all characters that come before where the caret currently is.
-      const leftHalfChars = normalizedRawValue.substr(0, opts.caretPos).split(masks.EMPTY_STRING);
+      const leftHalfChars = normalizedRawValue.substr(0, opts.caretPos).split(EMPTY_STRING);
 
       // Now we find all the characters in the left half that exist in the conformed
       // input. This step ensures that we don't look for a character that was filtered
@@ -540,7 +542,7 @@ class MaskAPI {
       // from the start of the string up to the place where the caret is
       const previousLeftMaskChars = opts.previousPlaceholder
         .substr(0, intersection.length)
-        .split(masks.EMPTY_STRING)
+        .split(EMPTY_STRING)
         .filter(nonPlaceholderFilter)
         .length;
 
@@ -548,7 +550,7 @@ class MaskAPI {
       // from the start of the string up to the place where the caret is
       const leftMaskChars = opts.placeholder
         .substr(0, intersection.length)
-        .split(masks.EMPTY_STRING)
+        .split(EMPTY_STRING)
         .filter(nonPlaceholderFilter)
         .length;
 
@@ -601,7 +603,7 @@ class MaskAPI {
       // our `targetChar`, so we don't select one of those by mistake.
       const countTargetCharInPlaceholder = opts.placeholder
         .substr(0, opts.placeholder.indexOf(opts.placeholderChar))
-        .split(masks.EMPTY_STRING)
+        .split(EMPTY_STRING)
         // Check if `char` is the same as our `targetChar`, so we account for it
         // but also make sure that both the `rawValue` and placeholder don't have the same
         // character at the same index because if they are equal, that means we are already
@@ -740,7 +742,18 @@ class MaskAPI {
 
     // Detect inlined arrays (JSON-like)
     if (firstChar === '[' && lastChar === ']') {
-      return pattern.substring(1, pattern.length - 1).split(/, ?/g);
+      const patternArray = pattern.substring(1, pattern.length - 1).split(/, ?/g);
+      return patternArray.map((item) => {
+        // Remove quotes
+        if (item.charAt(0) === '\'') {
+          return item.substring(1, item.length - 1);
+        }
+        // Convert string-based regex into RegExp objects
+        if (item.charAt(0) === '/') {
+          return new RegExp(item.substring(1, item.length - 1));
+        }
+        return item;
+      });
     }
 
     // @TODO: Try to detect other types of string input
@@ -749,34 +762,23 @@ class MaskAPI {
   }
 
   /**
-   * Converts the legacy Soho Mask pattern format from a string into an array.
-   * If character is a defined pattern matcher, the corresponding item at the
-   * array index is converted to its regex form.
-   * @param {string} pattern a legacy Soho Mask Pattern
-   * @param {object} [defs] mask conversion definitions
-   * @returns {array} contains string "literal" characters and Regex matchers
+   * Gets the safe raw value of an input field
+   * @private
+   * @param {?} inputValue the original value that came from an input field or other source
+   * @returns {string} the string-ified version of the original value
    */
-  _convertPatternFromString(pattern, defs) {
-    const arr = [];
-    const legacyKeys = Object.keys(defs);
-
-    function getRegex(char) {
-      const idx = legacyKeys.indexOf(char);
-
-      if (idx > -1) {
-        char = defs[legacyKeys[idx]];
-      }
-      return char;
+  getSafeRawValue(inputValue) {
+    if (typeof inputValue === 'string') {
+      return inputValue;
     }
-
-    for (let i = 0; i < pattern.length; i++) {
-      arr.push(getRegex(pattern[i]));
+    if (typeof inputValue === 'number') {
+      return String(inputValue);
     }
-
-    // TODO: Attach an object here that contains an analysis of the original mask
-    // that can be used to configure the new API accordingly.
-
-    return arr;
+    if (inputValue === undefined || inputValue === null) {
+      return '';
+    }
+    throw new Error(`${'The "value" provided to the Masked Input needs to be a string or a number. The value ' +
+      'received was:\n\n'}${JSON.stringify(inputValue)}`);
   }
 }
 

@@ -1,5 +1,6 @@
 import maskAPI from './ids-mask-global';
 import { props } from '../ids-base/ids-constants';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 const MASK_PROPS = [
   props.MASK,
@@ -11,10 +12,14 @@ const MASK_PROPS = [
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsMaskMixin = (superclass) => class extends superclass {
+const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   constructor() {
     super();
-    this.maskState = {};
+    this.maskState = {
+      options: {},
+      previousMaskResult: '',
+      previousPlaceholder: ''
+    };
   }
 
   static get properties() {
@@ -29,10 +34,7 @@ const IdsMaskMixin = (superclass) => class extends superclass {
       super.connectedCallback();
     }
 
-    // If combined with the events mixin, handle events
-    if (super.handledEvents) {
-      this.handleMaskEvents();
-    }
+    this.handleMaskEvents();
     this.processMaskWithCurrentValue();
   }
 
@@ -57,6 +59,22 @@ const IdsMaskMixin = (superclass) => class extends superclass {
   set maskOptions(val) {
     if (typeof val === 'object') {
       this.maskState.options = val;
+    }
+  }
+
+  /**
+   * @returns {Function} a Pipe Function for modifying Mask output
+   */
+  get maskPipe() {
+    return this.maskState.pipe;
+  }
+
+  /**
+   * @param {Function} val a Pipe Function for modifying Mask output
+   */
+  set maskPipe(val) {
+    if (typeof val === 'function') {
+      this.maskState.pipe = val;
     }
   }
 
@@ -89,14 +107,7 @@ const IdsMaskMixin = (superclass) => class extends superclass {
   }
 
   handleMaskEvents() {
-    // If combined with the events mixin, handle events
-    if (!super.handledEvents) {
-      return;
-    }
-
-    this.onEvent('input', this.input, () => {
-      this.processMaskWithCurrentValue();
-    });
+    this.onEvent('input', this, () => this.processMaskWithCurrentValue());
   }
 
   /**
@@ -105,24 +116,129 @@ const IdsMaskMixin = (superclass) => class extends superclass {
    * @param {IdsMaskOptions} opts various options that can be passed to the masking process.
    * @returns {object} the result of the mask
    */
-  processMask(rawValue, opts) {
-    return maskAPI.process(rawValue, opts);
+  processMask = (rawValue = '', opts) => {
+    // If no mask function/pattern is defined, do not process anything.
+    if (!this.mask) {
+      return true;
+    }
+
+    // If the passed rawValue is the same as the last result, do no masking
+    const previousValue = this.maskState.previousMaskResult;
+    if (rawValue === previousValue) {
+      return false;
+    }
+
+    let posBegin = this.input.selectionStart || 0;
+    let posEnd = this.input.selectionEnd || 0;
+
+    // @TODO: Check the old source code here for Android-specific modifications to the cursor position
+
+    // Get a string-safe version of the rawValue
+    rawValue = maskAPI.getSafeRawValue(rawValue);
+
+    // Convert `maskOptions` from the WebComponent to IDS 4.x `patternOptions`
+    const processOptions = {
+      caretTrapIndexes: [],
+      guide: false,
+      keepCharacterPositions: false,
+      pattern: this.mask,
+      patternOptions: opts,
+      placeholderChar: '_',
+      previousMaskResult: previousValue,
+      selection: {
+        start: posBegin,
+        end: posEnd
+      }
+    };
+
+    // Modify process options in some specific cases
+    if (posBegin !== posEnd) {
+      processOptions.selection.contents = rawValue.substring(posBegin, posEnd);
+    }
+    if (typeof this.maskPipe === 'function') {
+      processOptions.pipe = this.maskPipe;
+    }
+
+    // Process the mask
+    const processed = maskAPI.process(rawValue, processOptions);
+    if (!processed.maskResult) {
+      return false;
+    }
+
+    // Get a conformed, final value from the completed masking process.
+    // Use a "piped" value if one is available.
+    let finalValue = processed.conformedValue;
+    if (processed.pipedValue) {
+      finalValue = processed.pipedValue;
+    }
+
+    // Append a suffix from the mask options, if one is defined by settings, but doesn't exist
+    // in the final value yet (may not have been added to the string by the mask,
+    // depending on caret position)
+    if (finalValue !== '' && opts.suffix && finalValue.includes(opts.suffix)) {
+      finalValue += `${opts.suffix}`;
+    }
+
+    // Generate options for the Caret adjustment process based on the conformed value
+    // and its matching mask placeholder.
+    const adjustCaretOpts = {
+      conformedValue: finalValue,
+      rawValue,
+      caretPos: processed.caretPos,
+      placeholder: processed.placeholder,
+      placeholderChar: processOptions.placeholderChar,
+      previousMaskResult: previousValue,
+      previousPlaceholder: this.maskState.previousPlaceholder,
+    };
+    if (processed.pipedCharacterIndexes) {
+      adjustCaretOpts.indexesOfPipedChars = processed.pipedCharIndexes;
+    }
+    if (processed.caretTrapIndexes) {
+      adjustCaretOpts.caretTrapIndexes = processed.caretTrapIndexes;
+    }
+
+    // Get a corrected caret position
+    processed.caretPos = maskAPI.adjustCaretPosition(adjustCaretOpts);
+
+    // Set component state
+    this.maskState.previousMaskResult = finalValue;
+    this.maskState.previousPlaceholder = processed.placeholder;
+    this.value = finalValue;
+    this.safelySetSelection(this.shadowRoot, processed.caretPos, processed.caretPos);
+
+    // Return out if there was no visible change in the conformed result
+    // (causes state not to change, events not to fire)
+    if (previousValue === finalValue) {
+      return false;
+    }
+
+    // @TODO Trigger a `write` event if necessary?
+
+    return true;
   }
 
   /**
-   * Uses currently defined attributes to process a masked string
+   * Uses this current input value and pattern options defined to process a masked string.
    * @returns {object} the result of the mask
    */
   processMaskWithCurrentValue() {
-    if (!this.value) {
-      return {
-        originalValue: this.value,
-        maskResult: false
-      };
-    }
-
-    console.log(this.value);
     return this.processMask(this.value, this.maskOptions);
+  }
+
+  /**
+   * @param {ShadowRoot|Document} host either the Document, or a relevant Shadow Root
+   * @param {number} startPos starting position
+   * @param {number} endPos end position
+   * @returns {void}
+   */
+  safelySetSelection(host = document, startPos = 0, endPos = 0) {
+    const validInputElementTypes = ['text', 'password', 'search', 'url', 'week', 'month'];
+    if (!validInputElementTypes.includes(this.input.type)) {
+      return;
+    }
+    if (host.activeElement === this.input) {
+      this.input.setSelectionRange(startPos, endPos, 'none');
+    }
   }
 };
 
