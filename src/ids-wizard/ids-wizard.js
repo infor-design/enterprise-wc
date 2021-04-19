@@ -261,6 +261,8 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
         this.stepNumber = `${stepNumber}`;
       };
 
+      this.offEvent(`click.step-marker.${stepNumber}`);
+      this.offEvent(`click.step-label.${stepNumber}`);
       this.onEvent(`click.step-marker.${stepNumber}`, stepMarker, onClickStep);
       this.onEvent(`click.step-label.${stepNumber}`, stepLabel, onClickStep);
     }
