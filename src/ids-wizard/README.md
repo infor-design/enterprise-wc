@@ -42,7 +42,8 @@ The current step number a wizard is showing has been traversed is denoted now on
 
 ## Responsive Guidelines
 
-- Depending on the container in the responsive grid, the width of the card follows the layout of the grid. However, when using in a home page a special algorithm is used to both keep the tab order and fill in the gaps most efficiently depending on the card dimensions.
+- The wizard component's width should not exceed the width of the page.s
+- The labels chosen and number of steps should fit within the page; or at least be obvious enough that a user can discern what labels achieve what function.
 
 ## Converting from Previous Versions
 
@@ -53,11 +54,6 @@ The current step number a wizard is showing has been traversed is denoted now on
 ## Designs
 
 [Figma Design Specs](https://www.figma.com/files/project/2768042/Infor-Design-System)
-
-## Responsive Guidelines
-
-- The wizard component's width should not exceed the width of the page.s
-- The labels chosen and number of steps should fit within the page; or at least be obvious enough that a user can discern what labels achieve what function.
 
 ## Accessibility Guidelines
 
