@@ -7,6 +7,7 @@ import {
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtils } from '../ids-base/ids-string-utils';
+// @ts-ignore
 import IdsText from '../ids-text/ids-text';
 // @ts-ignore
 import styles from './ids-wizard.scss';
