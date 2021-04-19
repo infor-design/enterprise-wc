@@ -1,4 +1,7 @@
 import maskAPI from './ids-mask-global';
+import { convertPatternFromString } from './ids-mask-common';
+import { dateMask, numberMask } from './ids-masks';
+
 import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
@@ -80,7 +83,7 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
 
   /**
    * Retrieves the currently-stored mask pattern.
-   * @returns {Function|Array<string|RegExp>} representing the stored mask pattern
+   * @returns {string|Function|Array<string|RegExp>} representing the stored mask pattern
    */
   get mask() {
     return this.maskState.pattern;
@@ -100,7 +103,19 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
     if (Array.isArray(val) || typeof val === 'function') {
       trueVal = val;
     } else if (typeof val === 'string') {
-      trueVal = maskAPI.convertPatternFromString(val);
+      switch (val) {
+      // Using 'date' as a string automatically connects the standard date mask function
+      case 'date':
+        trueVal = dateMask;
+        break;
+      // Using 'number' as a string automatically connects the standard number mask function
+      case 'number':
+        trueVal = numberMask;
+        break;
+      default:
+        trueVal = convertPatternFromString(val);
+        break;
+      }
     }
 
     this.maskState.pattern = trueVal;

@@ -69,3 +69,36 @@ export const DEFAULT_CONFORM_OPTIONS = {
   },
   keepCharacterPositions: true
 };
+
+/**
+ * @param {string} pattern a string containing a pattern that needs parsing
+ * @returns {Array<string|RegExp>|Function|undefined} a valid mask or nothing
+ */
+export function convertPatternFromString(pattern) {
+  if (typeof pattern !== 'string' || !pattern.length) {
+    return undefined;
+  }
+
+  const firstChar = pattern.charAt(0);
+  const lastChar = pattern.charAt(pattern.length - 1);
+
+  // Detect inlined arrays (JSON-like)
+  if (firstChar === '[' && lastChar === ']') {
+    const patternArray = pattern.substring(1, pattern.length - 1).split(/, ?/g);
+    return patternArray.map((item) => {
+      // Remove quotes
+      if (item.charAt(0) === '\'') {
+        return item.substring(1, item.length - 1);
+      }
+      // Convert string-based regex into RegExp objects
+      if (item.charAt(0) === '/') {
+        return new RegExp(item.substring(1, item.length - 1));
+      }
+      return item;
+    });
+  }
+
+  // @TODO: Try to detect other types of string input
+  // for now, return an empty mask
+  return undefined;
+}

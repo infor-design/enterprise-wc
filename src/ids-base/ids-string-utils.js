@@ -15,6 +15,20 @@ const IdsStringUtils = {
   },
 
   /**
+   * Removes all duplicate characters from a string and returns another string
+   * containing ALL unique characters.  Useful for construction of REGEX objects
+   * with characters from an input field, etc.
+   * @param {string} str The string to process
+   * @returns {string} The processed string
+   */
+  removeDuplicates(str) {
+    return str
+      .split('')
+      .filter((item, pos, self) => self.indexOf(item) === pos)
+      .join('');
+  },
+
+  /**
    * Convert a string value into a boolean
    * @param {string|boolean|any} val string value from the component property
    * @returns {boolean} The return boolean
