@@ -101,6 +101,13 @@ class IdsElement extends HTMLElement {
     // Remove any close hidden element to avoid FOUC
     this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
     this.closest('ids-container')?.removeAttribute('hidden');
+
+    // Give implementing-component an opportunity to react to
+    // new render and replacement of container node
+
+    // @ts-ignore
+    this.rendered?.();
+
     return this;
   }
 
