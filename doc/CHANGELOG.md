@@ -2,7 +2,7 @@
 
 ## 5.0.0 Breaking Changes
 
-- `[Button]` The button component has been changed to a web component. ([#4390](https://github.com/infor-design/enterprise/issues/4390))
+- `[Button]` The button component has been changed to a web component. ([#5026](https://github.com/infor-design/enterprise/issues/5026))
   - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
   - Can now be imported as a single JS file and used with encapsulated styles.
   - Some button properties are now attributes - "type", "text", "icon", "disabled", "focusable", etc.
