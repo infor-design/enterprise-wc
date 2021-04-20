@@ -17,6 +17,15 @@ const IdsThemeMixin = (superclass) => class extends superclass {
     ]);
   }
 
+  /*
+  static get properties() {
+    return [...super.properties,
+      props.MODE,
+      props.VERSION
+    ];
+  }
+  */
+
   connectedCallback() {
     this.initThemeHandlers();
   }
