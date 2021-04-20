@@ -14,6 +14,12 @@ Displays feedback about a current process. A user can view a depiction of their 
 - **Wizard**: the overall flow/process
 - **Step**: an individual step in the IdsWizard component; represented here by `IdsWizardStep`/`<ids-wizard-step>`
 
+## Themeable Parts
+
+- `step-marker` allows you to style the circular step markers
+- `step-label` allows you to style the step labels
+- `path-segment` allows you to further style the line segments between markers.
+
 ## Features (With Code Examples)
 
 A card is created by using the custom `ids-wizard` element. It's sub-components/steps are represented by `<ids-wizard-step>`.

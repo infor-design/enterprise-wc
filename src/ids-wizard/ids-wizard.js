@@ -5,7 +5,6 @@ import {
   mix
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtils } from '../ids-base/ids-string-utils';
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
 // @ts-ignore
@@ -22,6 +21,10 @@ const hrefsAssignedSet = new Set();
  * IDS Wizard Component
  * @type {IdsWizard}
  * @inherits IdsElement
+ *
+ * @part step-label the label element of a step
+ * @part step-marker the marker element of a step
+ * @part path-segment the line segment between markers
  */
 @customElement('ids-wizard')
 @scss(styles)
@@ -118,7 +121,8 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       stepsBarInnerHtml += (
         `<a
           class="${markerClassName}"
-          step-number=${i + 1}
+          step-number="${i + 1}"
+          part="step-marker"
           ${anchorAttribsHtml}
         >
           <div class="step-marker-node">
@@ -208,7 +212,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   set clickable(value) {
-    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    const isValueTruthy = value !== 'false';
     this.setAttribute('clickable', isValueTruthy);
   }
 
