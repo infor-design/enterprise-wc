@@ -1,4 +1,3 @@
-import clsx from 'clsx';
 import {
   IdsElement,
   customElement,
@@ -58,14 +57,19 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     return ['step-number', 'clickable'];
   }
 
+  /**
+   * whether or not a step is clickable
+   * @param {number} stepNumber the step number to check
+   * @returns {boolean} whether or not the step is clickable
+   */
   isStepClickable(stepNumber) {
     const stepEl = this.children[stepNumber - 1];
 
     return (
       (this.stepNumber !== stepNumber)
       && (
-        (this.clickable && (stepEl.getAttribute('clickable') !== 'false'))
-        || IdsStringUtils.stringToBool(stepEl.getAttribute('clickable'))
+        (!this.clickable && (stepEl.getAttribute('clickable') !== 'false'))
+        || stepEl.getAttribute('clickable') !== 'false'
       )
     );
   }
@@ -95,15 +99,16 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       // construct bar steps   //
       // ===================== //
 
-      const markerClassName = clsx(
-        'step-marker',
-        isCurrentStep && 'current',
-        isVisitedStep && 'visited',
-        isClickable && 'clickable'
-      );
+      let markerClassName = 'step-marker';
+      markerClassName += isCurrentStep ? ' current' : '';
+      markerClassName += isVisitedStep ? ' visited' : '';
+      markerClassName += isClickable ? ' clickable' : '';
 
       const pathSegmentHtml = (i >= this.children.length - 1) ? '' : (
-        `<div class="path-segment${stepIndex <= i ? '' : ' visited'}"></div>`
+        `<div
+          class="path-segment${stepIndex <= i ? '' : ' visited'}
+          part="path-segment""
+        ></div>`
       );
 
       const hrefUrl = this.hrefUrls?.[i];
@@ -135,15 +140,15 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
       // @ts-ignore
 
-      const labelClassName = clsx(
-        'step-label',
-        isVisitedStep && 'visited',
-        isClickable && 'clickable'
-      );
+      let labelClassName = 'step-label';
+      labelClassName += isVisitedStep ? ' visited' : '';
+      labelClassName += isClickable ? ' clickable' : '';
+
       stepLabelsInnerHtml += (
         `<a
           class="${labelClassName}"
           step-number=${i + 1}
+          part="step-label"
           ${anchorAttribsHtml}>
           <ids-text
             overflow="ellipsis"
