@@ -158,6 +158,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
             overflow="ellipsis"
             size=18
             font-weight="${isCurrentStep ? 'bold' : 'normal'}"
+            color="unset"
           >${label}
           </ids-text>
         </a>`
