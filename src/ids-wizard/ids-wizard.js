@@ -211,8 +211,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     return this.getAttribute('clickable');
   }
 
-  // @ts-ignore
-
   /**
    * Handle Setting changes of observed properties
    * @param  {string} name The property name
@@ -285,6 +283,8 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
    * again; also allows us to easily run
    * calculations to use unique-but-meaningful
    * links
+   *
+   * @private
    */
   updateHrefUrls() {
     this.hrefUrls = [...this.children].map((el, i) => {

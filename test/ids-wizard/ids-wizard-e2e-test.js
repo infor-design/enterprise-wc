@@ -1,11 +1,9 @@
-const percySnapshot = require('@percy/puppeteer');
-
 describe('Ids Wizard e2e Tests', () => {
   const url = 'http://localhost:4444/ids-wizard';
 
   beforeAll(async () => {
     page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
   });
 
   it('should not have errors', async () => {
@@ -15,13 +13,7 @@ describe('Ids Wizard e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
     await expect(page).toPassAxeTests();
-  });
-
-  it('should not have visual regressions (percy)', async () => {
-    await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle2'] });
-    await percySnapshot(page, 'ids-wizard');
   });
 });
