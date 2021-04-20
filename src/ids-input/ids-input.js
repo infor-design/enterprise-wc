@@ -97,6 +97,7 @@ const appliedMixins = [
  * @mixes IdsKeyboardMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsMaskMixin
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
  * @part input - the input element
@@ -112,11 +113,12 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     super();
   }
 
+  /**
+   * Combine super/local properties for observation
+   * @returns {Array<string>} property names
+   */
   static get properties() {
-    if (Array.isArray(super.properties)) {
-      return super.properties.concat(INPUT_PROPS);
-    }
-    return INPUT_PROPS;
+    return super.properties.concat(INPUT_PROPS);
   }
 
   /**

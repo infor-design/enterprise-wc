@@ -17,8 +17,6 @@ class IdsElement extends HTMLElement {
     super();
     this.addBaseName();
     this.render();
-
-    this.mixedProps = [];
   }
 
   /**
