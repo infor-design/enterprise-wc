@@ -40,9 +40,7 @@ const BUTTON_PROPS = [
   props.ID,
   props.TEXT,
   props.TYPE,
-  props.TABINDEX,
-  props.MODE,
-  props.VERSION
+  props.TABINDEX
 ];
 
 // Icon alignments
@@ -111,7 +109,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin,
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return BUTTON_PROPS;
+    return super.properties.concat(BUTTON_PROPS);
   }
 
   /**
