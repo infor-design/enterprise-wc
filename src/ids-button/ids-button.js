@@ -109,7 +109,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin,
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return super.properties.concat(BUTTON_PROPS);
+    return [...super.properties, ...BUTTON_PROPS];
   }
 
   /**

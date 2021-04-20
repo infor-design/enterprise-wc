@@ -10,21 +10,21 @@ const IdsThemeMixin = (superclass) => class extends superclass {
     super();
   }
 
+  /*
   static get properties() {
     return super.properties.concat([
       props.MODE,
       props.VERSION
     ]);
   }
+  */
 
-  /*
   static get properties() {
     return [...super.properties,
       props.MODE,
       props.VERSION
     ];
   }
-  */
 
   connectedCallback() {
     this.initThemeHandlers();
