@@ -26,9 +26,7 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   }
 
   connectedCallback() {
-    if (super.connectedCallback) {
-      super.connectedCallback();
-    }
+    super.connectedCallback?.();
 
     this.handleMaskEvents();
     this.processMaskWithCurrentValue();

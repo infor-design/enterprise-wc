@@ -126,9 +126,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   connectedCallback() {
-    if (super.connectedCallback) {
-      super.connectedCallback();
-    }
+    super.connectedCallback?.();
 
     if (this.value === null) {
       this.value = '';
@@ -140,7 +138,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     this.handleDirtyTracker();
     // @ts-ignore
     this.handleValidation();
-    super.connectedCallback();
   }
 
   /**
