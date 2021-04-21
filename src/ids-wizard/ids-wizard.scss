@@ -1,7 +1,7 @@
 @import '../ids-base/ids-base';
 
 .ids-wizard {
-  @include px-8;
+  @include px-32;
   @include my-8;
 
   $step-marker-width: 14px;
@@ -13,28 +13,22 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
   width: 100%;
   max-width: 100%;
-  height: 50px;
+  height: 64px;
   overflow: hidden;
 
   .step-labels {
-    @include mt-4;
-
     box-sizing: border-box;
-    display: flex;
-    flex-direction: row;
+    position: relative;
     width: 100%;
   }
 
   .step-label {
+    position: absolute;
     box-sizing: border-box;
-    flex-grow: 1;
-    text-align: center;
-    overflow: hidden;
-    margin-left: 16px;
-    margin-right: 16px;
+    text-align: left;
     text-decoration: none;
 
     &.clickable {
@@ -43,13 +37,17 @@
 
     &:first-child {
       text-align: left;
-      margin-left: 0;
     }
+  }
 
-    &:last-child {
-      text-align: right;
-      margin-right: 0;
-    }
+  .step-marker:first-child .step-label {
+    text-align: left;
+    margin-left: 0;
+  }
+
+  .step-marker:last-child .step-label {
+    text-align: right;
+    margin-right: 0;
   }
 
   .step-label:not(.visited) {
@@ -60,9 +58,23 @@
     color: $visited-step-color;
   }
 
-  .marker-bar {
-    @include px-32;
+  /* generate rules to position step-labels */
 
+  @for $i from 2 through 14 {
+    $slice-percentage: #{100/$i}#{'%'};
+
+    @for $j from 1 through $i {
+      &[step-count="#{$i}"] .step-label:nth-child(#{$j}) {
+        $percentage: ($j - 1) * 100 / ($i - 1);
+
+        transform: translateX(#{-50 / $i * $j}#{'%'});
+        left: calc(#{$percentage}#{'%'} - #{$percentage / 8}#{'px'} - 12px);
+        max-width: calc(#{$slice-percentage} - #{9}#{'%'} + #{($j - 1) / ($i - 1) / 8}#{'%'});
+      }
+    }
+  }
+
+  .marker-bar {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -73,7 +85,7 @@
 
   .step-marker {
     position: relative;
-    text-align: center;
+    text-align: left;
     text-decoration: none;
 
     &.clickable {
@@ -84,6 +96,7 @@
       position: relative;
       width: $step-marker-width;
       height: $step-marker-width;
+      overflow: visible;
     }
 
     .step-marker-node > svg {
