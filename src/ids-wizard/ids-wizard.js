@@ -1,6 +1,7 @@
 import {
   IdsElement,
   customElement,
+  props,
   scss,
   mix
 } from '../ids-base/ids-element';
@@ -57,11 +58,12 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return ['step-number', 'clickable'];
+    return [props.STEP_NUMBER, props.CLICKABLE];
   }
 
   /**
    * whether or not a step is clickable
+   * @private
    * @param {number} stepNumber the step number to check
    * @returns {boolean} whether or not the step is clickable
    */
@@ -71,15 +73,15 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     return (
       (this.stepNumber !== stepNumber)
       && (
-        (!this.clickable && (stepEl.getAttribute('clickable') !== 'false'))
-        || stepEl.getAttribute('clickable') !== 'false'
+        (!this.clickable && (stepEl.getAttribute(props.CLICKABLE) !== 'false'))
+        || stepEl.getAttribute(props.CLICKABLE) !== 'false'
       )
     );
   }
 
   /**
    * Create the Template for the contents
-   * @returns {string} The Template
+   * @returns {string} the template to render
    */
   template() {
     let stepsBarInnerHtml = '';
@@ -183,7 +185,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
    */
   get stepNumber() {
     // @ts-ignore
-    const stepNumber = parseInt(this.getAttribute('step-number'));
+    const stepNumber = parseInt(this.getAttribute(props.STEP_NUMBER));
 
     if (Number.isNaN(stepNumber)) {
       return -1;
@@ -213,12 +215,11 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   set clickable(value) {
-    const isValueTruthy = value !== 'false';
-    this.setAttribute('clickable', isValueTruthy);
+    this.setAttribute(props.CLICKABLE, value !== 'false');
   }
 
   get clickable() {
-    return this.getAttribute('clickable');
+    return this.getAttribute(props.CLICKABLE);
   }
 
   /**
@@ -244,6 +245,10 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
+  /**
+   * Binds associated callbacks and cleans
+   * old handlers when template refreshes
+   */
   rendered = () => {
     /* istanbul ignore next */
     if (!this.shouldUpdateCallbacks) {
