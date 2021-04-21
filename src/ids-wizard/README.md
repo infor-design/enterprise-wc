@@ -22,7 +22,7 @@ Displays feedback about a current process. A user can view a depiction of their 
 
 ## Features (With Code Examples)
 
-A card is created by using the custom `ids-wizard` element. It's sub-components/steps are represented by `<ids-wizard-step>`.
+A wizard is created by using the custom `ids-wizard` element. It's sub-components/steps are represented by `<ids-wizard-step>`.
 
 Content within the `<ids-wizard-step>` instances will be the text displayed in the label at each of these steps.
 
@@ -53,13 +53,7 @@ The current step number a wizard is showing has been traversed is denoted now on
 
 ## Converting from Previous Versions
 
-- 3.x: Cards have all new markup and classes.
-- 4.x: Cards have all new markup and classes from 3.x.
-- 5.x: Cards have all new markup and classes custom elements for web components.
-
 ## Designs
-
-[Figma Design Specs](https://www.figma.com/files/project/2768042/Infor-Design-System)
 
 ## Accessibility Guidelines
 
