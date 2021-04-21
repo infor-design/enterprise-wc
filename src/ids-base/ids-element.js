@@ -63,10 +63,6 @@ class IdsElement extends HTMLElement {
     return this.properties;
   }
 
-  static get properties() {
-    return [];
-  }
-
   /**
    * @returns {Array<string>} this component's observable properties
    */

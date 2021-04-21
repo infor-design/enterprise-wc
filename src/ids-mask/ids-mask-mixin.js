@@ -25,10 +25,6 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
     };
   }
 
-  static get properties() {
-    return super.properties.concat(MASK_PROPS);
-  }
-
   connectedCallback() {
     if (super.connectedCallback) {
       super.connectedCallback();
