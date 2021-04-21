@@ -35,7 +35,7 @@ class IdsCounts extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.COLOR];
+    return [props.COLOR, props.COMPACT, props.HREF];
   }
 
   /**
@@ -43,7 +43,7 @@ class IdsCounts extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const numSize = () => (this.getAttribute('compact') !== 'false' ? 32 : 40);
+    const numSize = () => (this.getAttribute('compact') === 'true' ? 32 : 40);
     const href = this.getAttribute('href');
 
     return `
@@ -58,7 +58,7 @@ class IdsCounts extends IdsElement {
   /**
    * Set the color of the tag
    * @param {string} value The color value, this can be not provided,
-   * secondary (white), error, success, danger, caution or a hex code with the #
+   * base (blue), caution, danger, success, warning, or a hex code with the "#"
    */
   set color(value) {
     const colors = new Set(['base', 'caution', 'danger', 'success', 'warning']);
@@ -67,6 +67,23 @@ class IdsCounts extends IdsElement {
       return;
     }
     this.container.style.color = colors.has(value) ? `var(--ids-color-status-${value})` : 'text-azure-60()';
+  }
+
+  /**
+   * Set the compact attribute
+   * @param {string} value true or false. Component will
+   * default to regular size if this property is ommitted.
+   */
+  set compact(value) {
+    this.setAttribute('compact', value === 'true' ? 'true' : 'false');
+  }
+
+  /**
+   * Set the href attribute
+   * @param {string} value The href link
+   */
+  set href(value) {
+    this.setAttribute('href', value || '#');
   }
 }
 

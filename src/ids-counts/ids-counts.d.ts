@@ -9,4 +9,10 @@ export default class IdsCounts extends IdsElement {
 
   /** List the settable component properties */
   properties: string[];
+
+  /** Sets the value size at 32 when true (instead of 40) */
+  compact?: 'true' | 'false';
+  
+  /** Sets the href/link */
+  href?: string;
 }

@@ -4,6 +4,7 @@
 a,
 span {
   @include font-sans();
+  @include antialiased();
 
   text-align: center;
 }
@@ -16,4 +17,12 @@ a {
 
 span {
   @include text-slate-80();
+}
+
+.text {
+  @include text-40();
+}
+
+.value {
+  @include text-16();
 }

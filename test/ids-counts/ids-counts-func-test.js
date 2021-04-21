@@ -35,8 +35,18 @@ describe('IdsCounts Component', () => {
     expect(count.color).toEqual('#800000');
   });
 
-  it('it defaults to right color', () => {
+  it('defaults to right color', () => {
     count.color = 'invalidInput';
     expect(count.getAttribute('color')).toEqual('text-azure-60()');
+  });
+
+  it('is able to change sizes via compact attribute', () => {
+    count.compact = 'true';
+    expect(count.getAttribute('compact')).toEqual('true');
+  });
+
+  it('is able to change link via href attribute', () => {
+    count.href = 'http://www.google.com';
+    expect(count.getAttribute('href')).toEqual('http://www.google.com');
   });
 });
