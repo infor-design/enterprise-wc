@@ -7,7 +7,8 @@ import {
 import {
   CARET_TRAP,
   EMPTY_STRING,
-  PLACEHOLDER_CHAR
+  PLACEHOLDER_CHAR,
+  DEFAULT_CONFORM_OPTIONS
 } from './ids-mask-common';
 import { IdsDeepCloneUtils } from '../ids-base/ids-deep-clone-utils';
 
@@ -78,7 +79,7 @@ class MaskAPI {
       // Use a provided array
       maskObj = {
         caretTrapIndexes: [],
-        mask: opts.pattern
+        mask: opts.pattern,
       };
     }
 
@@ -88,6 +89,7 @@ class MaskAPI {
     }
 
     try {
+      debugger;
       processResult = this.conformToMask(rawValue, maskObj, opts);
     } catch (e) {
       console.error(`Couldn't complete masking process: "${e.message}"`);
@@ -147,18 +149,25 @@ class MaskAPI {
    * @returns {object} containing the conformation result and some meta-data
    */
   conformToMask(rawValue, maskObj, settings) {
+    // Use default settings, appended by user settings
+    const conformSettings = IdsDeepCloneUtils.deepClone(DEFAULT_CONFORM_OPTIONS);
+    Object.assign(conformSettings, settings);
+
     // Setup the placeholder version of the mask
-    settings.placeholder = this.convertMaskToPlaceholder(maskObj.mask, settings.placeholderChar);
+    conformSettings.placeholder = this.convertMaskToPlaceholder(
+      maskObj.mask,
+      conformSettings.placeholderChar
+    );
 
     // Setup booleans and numbers for various settings (speed)
     let charactersRejected = false;
-    const suppressGuide = settings.guide === false && settings.previousMaskResult !== undefined;
+    const suppressGuide = conformSettings.guide === false && conformSettings.previousMaskResult !== undefined;
     const rawValueLength = rawValue.length;
-    const prevMaskResultLength = settings.previousMaskResult.length;
+    const prevMaskResultLength = conformSettings.previousMaskResult.length;
     const maskLength = maskObj.mask.length;
-    const placeholderLength = settings.placeholder.length || 0;
-    const placeholderChar = settings.placeholderChar;
-    let caretPos = settings.selection.start;
+    const placeholderLength = conformSettings.placeholder.length || 0;
+    const placeholderChar = conformSettings.placeholderChar;
+    let caretPos = conformSettings.selection.start;
     let resultStr = EMPTY_STRING;
 
     const editDistance = rawValueLength - prevMaskResultLength;
@@ -176,13 +185,13 @@ class MaskAPI {
     // of deletion. (Keeping character positions for the case of addition is further
     // down since it is handled differently.)
     // To do this, we want to compensate for all characters that were deleted
-    if (settings.keepCharacterPositions === true && !isAddition) {
+    if (conformSettings.keepCharacterPositions === true && !isAddition) {
       // We will be storing the new placeholder characters in this variable.
       let compensatingPlaceholderChars = EMPTY_STRING;
 
       // For every character that was deleted from a placeholder position, we add a placeholder char
       for (let i = indexOfFirstChange; i < indexOfLastChange; i++) {
-        if (settings.placeholder[i] === placeholderChar) {
+        if (conformSettings.placeholder[i] === placeholderChar) {
           compensatingPlaceholderChars += placeholderChar;
         }
       }
@@ -217,10 +226,10 @@ class MaskAPI {
     for (let k = rawValueLength - 1; k >= 0; k--) {
       const char = rawValueArr[k];
 
-      if (char !== settings.placeholderChar) {
+      if (char !== conformSettings.placeholderChar) {
         const shouldOffset = k >= indexOfFirstChange && prevMaskResultLength === maskLength;
 
-        if (char === settings.placeholder[(shouldOffset) ? k - editDistance : k]) {
+        if (char === conformSettings.placeholder[(shouldOffset) ? k - editDistance : k]) {
           rawValueArr.splice(k, 1);
         }
       }
@@ -229,7 +238,7 @@ class MaskAPI {
     // Loop through the placeholder string to find characters that need to be filled.
     placeholderLoop:
     for (let l = 0; l < placeholderLength; l++) {
-      const charInPlaceholder = settings.placeholder[l];
+      const charInPlaceholder = conformSettings.placeholder[l];
 
       // We see one. Let's find out what we can put in it.
       if (charInPlaceholder === placeholderChar) {
@@ -268,14 +277,14 @@ class MaskAPI {
               // Analyze the number of this particular literal in the value,
               // and only add it if we haven't passed the maximum
               const thisLiteralRegex = new RegExp(`(${rawValueChar.char})`, 'g');
-              const numberLiteralsPlaceholder = settings.placeholder.match(thisLiteralRegex).length;
+              const numberLiteralsPlaceholder = conformSettings.placeholder.match(thisLiteralRegex).length;
               const numberLiteralsRawValue = rawValue.match(thisLiteralRegex).length;
               if (numberLiteralsRawValue <= numberLiteralsPlaceholder) {
                 resultStr += rawValueChar.char;
               }
 
               // Fast forward the loop to the after the next instance of this literal.
-              let literalIndex = settings.placeholder.slice(l).indexOf(rawValueChar.char);
+              let literalIndex = conformSettings.placeholder.slice(l).indexOf(rawValueChar.char);
               while (literalIndex > 0) {
                 l++;
                 literalIndex--;
@@ -289,10 +298,10 @@ class MaskAPI {
               // positions or not. If any of the conditions below are met, we simply map the
               // raw value character to the placeholder position.
               if (
-                settings.keepCharacterPositions !== true ||
+                conformSettings.keepCharacterPositions !== true ||
                 rawValueChar.isNew === false ||
-                settings.previousMaskResult === EMPTY_STRING ||
-                settings.guide === false ||
+                conformSettings.previousMaskResult === EMPTY_STRING ||
+                conformSettings.guide === false ||
                 !isAddition
               ) {
                 resultStr += rawValueChar.char;
@@ -356,7 +365,7 @@ class MaskAPI {
         //
         // That is, for mask `(111)` and user input `2`, we want to return `(2`, not `(2__)`.
         if (suppressGuide === false) {
-          resultStr += settings.placeholder.substr(l, placeholderLength);
+          resultStr += conformSettings.placeholder.substr(l, placeholderLength);
         }
 
         // And we break
@@ -381,7 +390,7 @@ class MaskAPI {
 
       // Find the last filled placeholder position and substring from there
       for (let m = 0; m < resultStr.length; m++) {
-        if (settings.placeholder[m] === placeholderChar) {
+        if (conformSettings.placeholder[m] === placeholderChar) {
           indexOfLastFilledPlaceholderChar = m;
         }
       }
@@ -399,10 +408,10 @@ class MaskAPI {
 
     return {
       caretPos,
-      caretTrapIndexes: settings.caretTrapIndexes,
+      caretTrapIndexes: conformSettings.caretTrapIndexes,
       conformedValue: resultStr,
       charactersRejected,
-      placeholder: settings.placeholder,
+      placeholder: conformSettings.placeholder,
       placeholderChar,
       maskResult: true
     };

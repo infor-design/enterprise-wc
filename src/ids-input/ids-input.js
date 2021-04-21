@@ -591,7 +591,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {string} val the value property
    */
   set value(val) {
-    const v = val || '';
+    let v = val || '';
+
+    // If a mask is enabled, use the conformed value.
+    // If no masking occurs, simply use the provided value.
+    if (this.mask) {
+      v = this.processMaskFromProperty(val) || v;
+    }
+
     this.setAttribute(props.VALUE, v);
     if (this.input?.value !== v) {
       this.input.value = v;

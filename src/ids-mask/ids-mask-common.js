@@ -60,14 +60,14 @@ export const LEGACY_DEFS = {
  */
 export const DEFAULT_CONFORM_OPTIONS = {
   caretTrapIndexes: [],
-  guide: true,
+  guide: false,
   previousMaskResult: EMPTY_STRING,
   placeholderChar: PLACEHOLDER_CHAR,
   placeholder: EMPTY_STRING,
   selection: {
     start: 0
   },
-  keepCharacterPositions: true
+  keepCharacterPositions: false
 };
 
 /**

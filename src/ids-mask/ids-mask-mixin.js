@@ -1,14 +1,8 @@
 import maskAPI from './ids-mask-global';
-import { convertPatternFromString } from './ids-mask-common';
+import { convertPatternFromString, PLACEHOLDER_CHAR } from './ids-mask-common';
 import { dateMask, numberMask } from './ids-masks';
 
-import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-
-const MASK_PROPS = [
-  props.MASK,
-  props.MASK_OPTIONS
-];
 
 /**
  * Adds validation to any input field
@@ -113,19 +107,22 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   }
 
   handleMaskEvents() {
-    this.onEvent('input', this, () => this.processMaskWithCurrentValue());
+    this.onEvent('input', this, (e) => {
+      return this.processMaskWithCurrentValue(e);
+    });
   }
 
   /**
    * Uses an input value and pattern options to process a masked string.
    * @param {string} rawValue the value to be checked for masking.
    * @param {IdsMaskOptions} opts various options that can be passed to the masking process.
-   * @returns {object} the result of the mask
+   * @param {boolean} [doSetValue=false] if true, attempts to set component state when masking completes.
+   * @returns {string|boolean} the result of the mask.  If no masking was performed, return `false`
    */
-  processMask = (rawValue = '', opts) => {
+  processMask = (rawValue = '', opts, doSetValue = false) => {
     // If no mask function/pattern is defined, do not process anything.
     if (!this.mask) {
-      return true;
+      return false;
     }
 
     // If the passed rawValue is the same as the last result, do no masking
@@ -149,7 +146,7 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
       keepCharacterPositions: false,
       pattern: this.mask,
       patternOptions: opts,
-      placeholderChar: '_',
+      placeholderChar: PLACEHOLDER_CHAR,
       previousMaskResult: previousValue,
       selection: {
         start: posBegin,
@@ -206,11 +203,15 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
     // Get a corrected caret position
     processed.caretPos = maskAPI.adjustCaretPosition(adjustCaretOpts);
 
-    // Set component state
+    // Set mask state
     this.maskState.previousMaskResult = finalValue;
     this.maskState.previousPlaceholder = processed.placeholder;
-    this.value = finalValue;
-    this.safelySetSelection(this.shadowRoot, processed.caretPos, processed.caretPos);
+
+    // Set Input Component state (only occurs when triggered via event)
+    if (doSetValue) {
+      this.value = finalValue;
+      this.safelySetSelection(this.shadowRoot, processed.caretPos, processed.caretPos);
+    }
 
     // Return out if there was no visible change in the conformed result
     // (causes state not to change, events not to fire)
@@ -220,15 +221,25 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
 
     // @TODO Trigger a `write` event if necessary?
 
-    return true;
+    return finalValue;
   }
 
   /**
-   * Uses this current input value and pattern options defined to process a masked string.
+   * Uses this current input value and pattern options defined to process a
+   * masked string, also setting input state.
    * @returns {object} the result of the mask
    */
   processMaskWithCurrentValue() {
-    return this.processMask(this.value, this.maskOptions);
+    return this.processMask(this.value, this.maskOptions, true);
+  }
+
+  /**
+   * Uses a provided value with stored mask options to process a masked string,
+   * without setting input state.
+   * @returns {object} the result of the mask
+   */
+  processMaskFromProperty(rawValue = '') {
+    return this.processMask(rawValue, this.maskOptions, false);
   }
 
   /**
