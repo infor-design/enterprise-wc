@@ -14,6 +14,7 @@ import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
@@ -25,13 +26,18 @@ import IdsText from '../ids-text/ids-text';
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsValidationMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part label - the label element
+ * @part input - the checkbox input element
+ * @part label-text - the label text element
  */
 @customElement('ids-checkbox')
 @scss(styles)
 class IdsCheckbox extends mix(IdsElement).with(
     IdsDirtyTrackerMixin,
     IdsValidationMixin,
-    IdsEventsMixin
+    IdsEventsMixin,
+    IdsThemeMixin
   ) {
   /**
    * Call the constructor and then initialize
@@ -56,7 +62,9 @@ class IdsCheckbox extends mix(IdsElement).with(
       props.LABEL_REQUIRED,
       props.VALIDATE,
       props.VALIDATION_EVENTS,
-      props.VALUE
+      props.VALUE,
+      props.MODE,
+      props.VERSION
     ];
   }
 
@@ -99,16 +107,13 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @returns {void}
    */
   connectedCallback() {
-    /** @type {any} */
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
-    /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector('label');
 
     this.handleEvents();
-    // @ts-ignore
     this.handleDirtyTracker();
-    // @ts-ignore
     this.handleValidation();
+    super.connectedCallback();
   }
 
   /**
@@ -129,11 +134,11 @@ class IdsCheckbox extends mix(IdsElement).with(
     const labelClass = rInd ? ' class="no-required-indicator"' : '';
 
     return `
-      <div${rootClass}${color}>
-        <label${labelClass}>
-          <input type="checkbox"${checkboxClass}${disabled}${checked}>
+      <div${rootClass}${color} part="root">
+        <label${labelClass} part="label">
+          <input part="input" type="checkbox"${checkboxClass}${disabled}${checked}>
           <span class="checkmark${checked}"></span>
-          <ids-text class="label-text">${this.label}</ids-text>
+          <ids-text class="label-text" part="label-text">${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -255,10 +260,12 @@ class IdsCheckbox extends mix(IdsElement).with(
       this.setAttribute(props.DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val.toString());
       rootEl?.classList.add(props.DISABLED);
+      this.labelEl?.querySelector('.label-text')?.setAttribute(props.DISABLED, val.toString());
     } else {
       this.removeAttribute(props.DISABLED);
       this.input?.removeAttribute(props.DISABLED);
       rootEl?.classList.remove(props.DISABLED);
+      this.labelEl?.querySelector('.label-text').removeAttribute(props.DISABLED);
     }
   }
 

@@ -72,7 +72,7 @@
   @include text-ruby-30();
 }
 
-@mixin radio-disabled-checked {
+@mixin radio-disabled-checked() {
   @include bg-slate-30();
 }
 

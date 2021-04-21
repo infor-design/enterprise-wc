@@ -18,14 +18,20 @@
   display: block;
 }
 
+.ids-expandable-area-footer ::slotted(ids-hyperlink),
 .ids-expandable-area-footer ::slotted(ids-text) {
-  @include mt-8();
+  @include mt-0();
 
   display: block;
+  margin-bottom: -8px;
 }
 
 [data-expander='link'] {
   display: inline-block;
+
+  &[aria-expanded='true'] {
+    @include mt-8();
+  }
 }
 
 [data-expander='header'] {
@@ -40,4 +46,25 @@
   height: 0;
   overflow: hidden;
   transition: height $transition-length $transition-ease;
+}
+
+// Handle Themes
+.ids-expandable-area[mode='dark'] {
+  border-bottom: 1px solid var(--ids-color-palette-slate-50);
+}
+
+.ids-expandable-area[mode='contrast'] {
+  border-bottom: 1px solid var(--ids-color-palette-slate-60);
+}
+
+.ids-expandable-area[version='classic'][mode='light'] {
+  border-bottom: 1px solid var(--ids-color-palette-graphite-30);
+}
+
+.ids-expandable-area[version='classic'][mode='dark'] {
+  border-bottom: 1px solid var(--ids-color-palette-classic-slate-50);
+}
+
+.ids-expandable-area[version='classic'][mode='contrast'] {
+  border-bottom: 1px solid var(--ids-color-palette-graphite-60);
 }

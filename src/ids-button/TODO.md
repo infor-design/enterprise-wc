@@ -5,7 +5,6 @@
 - [x] Extra CSS classes (user defined)
 - [x] Focusable prop
 - [x] Disabled prop (figure out why it broke?)
-- [ ] "Hide Focus" behavior (mixin?)
 - [x] Ripple effect (take coords instead of mouse directly)
 - [ ] Dispatch events?
 - [x] Why doesn't the linter like `get protoClasses()` if it works?

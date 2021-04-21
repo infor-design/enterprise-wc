@@ -24,7 +24,12 @@ const MENU_BUTTON_PROPS = [
 ];
 
 /**
- * IDS Toggle Button Component
+ * IDS Menu Button Component
+ */
+/**
+ * IDS Menu Button Component
+ * @type {IdsMenuButton}
+ * @inherits IdsButton
  */
 @customElement('ids-menu-button')
 @scss(styles)
@@ -164,7 +169,10 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   resizeMenu() {
-    // @ts-ignore
+    /* istanbul ignore next */
+    if (!this.menuEl || !this.menuEl.popup) {
+      return;
+    }
     this.menuEl.popup.container.style.minWidth = `${this.button.clientWidth}px`;
   }
 
@@ -175,9 +183,7 @@ class IdsMenuButton extends IdsButton {
     if (!this.menuEl || !this.menuEl.popup) {
       return;
     }
-    // @ts-ignore
     this.menuEl.popup.arrowTarget = this.dropdownIconEl || this;
-    // @ts-ignore
     this.menuEl.popup.arrow = 'bottom';
   }
 }

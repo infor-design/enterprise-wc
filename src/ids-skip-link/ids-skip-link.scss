@@ -1,0 +1,54 @@
+/* Ids Skip Link Css */
+@import '../ids-base/ids-base';
+@import '../ids-hyperlink/ids-hyperlink';
+
+.ids-skip-link {
+  @include absolute();
+  @include bg-white();
+  @include border-1();
+  @include border-slate-30();
+  @include border-solid();
+  @include mx-16();
+  @include z-10020();
+
+  border-radius: 0 0 2px 2px;
+  box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
+  left: 0;
+  line-height: 30px;
+  padding: 0 8px 3px 8px;
+  top: -45px;
+  transition: top 0.6s ease-out 0s, background 0.6s linear 0s;
+
+  &:focus {
+    @include outline-none();
+
+    top: -1px;
+    transition: top 0.3s ease-in 0s, background 0.3s linear 0s;
+  }
+}
+
+// Handle Themes
+.ids-hyperlink[mode='dark'] {
+  @include bg-slate-70();
+  @include border-slate-60();
+}
+
+.ids-hyperlink[mode='contrast'] {
+  @include bg-slate-10();
+  @include border-slate-60();
+}
+
+.ids-hyperlink[version='classic'][mode='light'] {
+  @include bg-white();
+  @include border-graphite-30();
+}
+
+.ids-hyperlink[version='classic'][mode='dark'] {
+  @include bg-classic-slate-70();
+  @include border-classic-slate-50();
+}
+
+.ids-hyperlink[version='classic'][mode='contrast'] {
+  @include bg-graphite-10();
+  @include border-graphite-60();
+}

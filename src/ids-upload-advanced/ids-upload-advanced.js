@@ -13,18 +13,26 @@ import styles from './ids-upload-advanced.scss';
 import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+
 // @ts-ignore
 import IdsUploadAdvancedFile from './ids-upload-advanced-file';
+// @ts-ignore
+import IdsHyperLink from '../ids-hyperlink/ids-hyperlink';
 
 /**
  * IDS UploadAdvanced Component
  * @type {IdsUploadAdvanced}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part container - the main container element
+ * @part label - the label element
+ * @part link - the hyperlink element
  */
 @customElement('ids-upload-advanced')
 @scss(styles)
-class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -44,7 +52,9 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
       props.METHOD,
       props.PARAM_NAME,
       props.SHOW_BROWSE_LINK,
-      props.URL
+      props.URL,
+      props.VERSION,
+      props.MODE
     ];
   }
 
@@ -61,6 +71,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
     this.files = [];
 
     this.handleEvents();
+    super.connectedCallback();
   }
 
   /**
@@ -100,7 +111,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
         <div class="has-browse-link${hiddenClass(!this.showBrowseLinkVal)}">
           <label>
             <input type="file" class="file-input"${accept}"${multiple}${disabled} />
-            <span class="droparea-label">${this.getDropareaLabel(true)}</span>
+            <span class="droparea-label" part="label">${this.getDropareaLabel(true)}</span>
           </label>
         </div>
       </div>`;
@@ -108,7 +119,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
     return `
       <div class="ids-upload-advanced${disabled}">
         ${hiddenArea}
-        <div class="droparea">
+        <div class="droparea" part="container">
           <ids-icon icon="${this.icon}" class="icon"></ids-icon>
           ${content}
         </div>
@@ -228,7 +239,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
       if (textArray.length === 2) {
         browseLabelHtml = `
           <ids-text class="inline">${textArray[0]}</ids-text>
-          <ids-text class="inline hyperlink">${link}</ids-text>
+          <ids-hyperlink part="link" class="inline hyperlink">${link}</ids-hyperlink>
           <ids-text class="inline">${textArray[1]}</ids-text>`;
       } else {
         browseLabelHtml = textArray[0];
@@ -327,6 +338,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
   setDisabled() {
     const rootEl = this.shadowRoot.querySelector('.ids-upload-advanced');
     const alertError = this.shadowRoot.querySelector('.errorarea .status ids-alert');
+    const link = this.shadowRoot.querySelector('ids-hyperlink');
+
     /** @type {any} */
     const uiElemArr = [].slice.call(this.shadowRoot.querySelectorAll('ids-upload-advanced-file'));
     const attr = (/** @type {any} */ el, /** @type {any} */ val) => {
@@ -342,11 +355,13 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin) {
       attr(alertError, val);
       uiElemArr.forEach((/** @type {any} */ uiElem) => attr(uiElem, val));
       rootEl?.classList.add(props.DISABLED);
+      link?.setAttribute(props.DISABLED, 'true');
     } else {
       attr(this.fileInput, null);
       attr(alertError, null);
       uiElemArr.forEach((/** @type {any} */ uiElem) => attr(uiElem, null));
       rootEl?.classList.remove(props.DISABLED);
+      link?.removeAttribute(props.DISABLED);
     }
   }
 

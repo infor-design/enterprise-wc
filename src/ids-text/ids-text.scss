@@ -3,6 +3,7 @@
 
 .ids-text {
   @include antialiased();
+  @include text-slate-100();
   @include font-sans();
   @include font-normal();
   @include block();
@@ -10,6 +11,14 @@
 
   &.audible {
     @include audible();
+  }
+
+  &.error {
+    @include text-alert-danger();
+  }
+
+  &.label {
+    @include text-slate-60();
   }
 
   &.ellipsis {
@@ -28,6 +37,17 @@
 :host(.inline) {
   .ids-text {
     display: inline;
+  }
+}
+
+// Alert Colored Text
+:host(.message-text) {
+  .ids-text {
+    color: unset;
+
+    &.error {
+      color: unset;
+    }
   }
 }
 
@@ -90,4 +110,70 @@
 .ids-text-72 {
   @include text-72();
   @include mb-0();
+}
+
+// Handle Disabled Text
+:host([disabled]) .ids-text {
+  @include text-slate-30();
+
+  &.label {
+    @include text-slate-30();
+  }
+}
+
+// Handle Themes
+.ids-text[mode='dark'] {
+  @include text-slate-10();
+
+  &.label {
+    @include text-slate-30();
+  }
+}
+
+:host([disabled][mode='dark']) .ids-text {
+  @include text-slate-60();
+
+  &.label {
+    @include text-slate-60();
+  }
+}
+
+.ids-text[mode='contrast'] {
+  @include text-slate-100();
+
+  &.label {
+    @include text-slate-90();
+  }
+}
+
+:host([disabled][mode='contrast']) .ids-text {
+  @include text-slate-40();
+
+  &.label {
+    @include text-slate-40();
+  }
+}
+
+.ids-text[mode='light'][version='classic'] {
+  @include text-graphite-60();
+}
+
+:host([disabled][mode='light'][version='classic']) .ids-text {
+  @include text-graphite-40();
+}
+
+.ids-text[mode='dark'][version='classic'] {
+  @include text-classic-slate-10();
+}
+
+:host([disabled][mode='dark'][version='classic']) .ids-text {
+  @include text-classic-slate-50();
+}
+
+.ids-text[mode='contrast'][version='classic'] {
+  @include text-graphite-80();
+}
+
+:host([disabled][mode='contrast'][version='classic']) .ids-text {
+  @include text-graphite-40();
 }

@@ -2,7 +2,7 @@
 
 ## Description
 
-The datagrid component (ids-data-grid) is used to arrange tabular data in rows and columns for easier scanning and comparison. Datagrids are very configurable in both design and functionality and they can be found within almost every product/app.
+The datagrid component (ids-data-grid) is used to arrange tabular data in rows and columns for easier scanning and comparison. Data grids are very configurable in both design and functionality and they can be found within almost every product/app.
 
 You should pass an array of objects in to the grid on the `dataset` object. Also pass the `columns` array for the column information. There are a number of events described in the events and API section, as well as the column settings.
 
@@ -15,11 +15,21 @@ A Read-Only Datagrid uses "Formatters" to render cell content. A number of these
 ## Terminology
 
 - **Datagrid Title**: The name of the datagrid optionally appearing above the grid and describing the contents.
-- **Options**: An optionaly actions menu button with datagrid functionality that operates on the entire datagrid contents.
+- **Options**: An optionally actions menu button with datagrid functionality that operates on the entire datagrid contents.
 - **Cell**: Body elements of the datagrid that contain an object's value or attribute. Cells should only contain one type of content or it can be confusing and hurt accessibility.
 - **Header Cell**: These cells contain the names of the columns in the grid and related functions like filtering and sorting. All cells below the header cell will hold values related to the attribute in the header cell.
 - **Column**: Cells stacked vertically that contain values relate to the attribute found on the top header cell.
 - **Row**: Each row contains one cell per column in the DataGrid, and each cell displays a single value in the bound data item.
+
+## Themeable Parts
+
+- `table` allows you to further style the table main element
+- `container` allows you to further style the container element
+- `body` allows you to further style the body element
+- `header` allows you to further style the header element
+- `headerCell` allows you to further style the header cells
+- `row` allows you to further style the rows
+- `cell` allows you to further style the row cells
 
 ## Features (With Code Examples)
 
@@ -52,7 +62,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |`resizable` | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.|
 |`formatter` | Controls how the data is rendered in the cell.|
 |`align` | Can be `left` or `right` or `center`. Note that `center` has limited column type support.|
-|`width` | The column width, this can be an integer for pixel width or a percent fx `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the internal algorithm.|
+|`width` | The column width, this can be an integer for pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the internal algorithm.|
 
 ## Formatters
 
@@ -92,9 +102,9 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 - <kbd>Page Up</kbd> moves focus to the first cell in the current column
 - <kbd>Page Down</kbd> moves focus to the last cell in the current column
 - <kbd>Enter</kbd> toggles edit mode on the cell if it is editable. There is also an "auto edit detection". If the user starts typing then edit mode will happen automatically without enter.
-- <kbd>F2</kbd> toggles actionable mode. Pressing the <kbd>Tab</kbd> key while in actionable mode moves focus to the next actionable cell. While in actionable mode you can do things like type + enter. This will move you down a row when you hit enter. If the cell has a control that uses down arrow (like the dropdowns or lookups that are editable). Then the user needs to hit enter to enable the edit mode on that cell.
+- <kbd>F2</kbd> toggles actionable mode. Pressing the <kbd>Tab</kbd> key while in actionable mode moves focus to the next actionable cell. While in actionable mode you can do things like type + enter. This will move you down a row when you hit enter. If the cell has a control that uses down arrow (like the drop downs or lookups that are editable). Then the user needs to hit enter to enable the edit mode on that cell.
 - <kbd>Triple Click</kbd> Not a keyboard shortcut, but if you have text in a cell that is overflowed a triple click will select all the text even the part that is invisible.
-- <kbd>Ctrl+A (PC) / Cmd+A (Mac)</kbd> If the grid is mixed or multiselect this will select all rows.
+- <kbd>Ctrl+A (PC) / Cmd+A (Mac)</kbd> If the grid is mixed or multi select this will select all rows.
 
 ## Responsive Guidelines
 

@@ -29,4 +29,10 @@ export class IdsButton extends IdsElement {
 
   /* Provides a direct reference to the Shadow Root's HTMLButtonElement. */
   readonly button: HTMLElement;
+
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
 }

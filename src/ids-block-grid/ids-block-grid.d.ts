@@ -6,4 +6,10 @@ import { IdsElement } from '../ids-base/ids-element';
 export default class IdsBlockGrid extends IdsElement {
   /** Set the block alignment */
   align: 'center' | 'left' | 'right';
+
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
 }

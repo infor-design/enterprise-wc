@@ -1,0 +1,8 @@
+/* Ids Theme Switcher Css */
+@import '../ids-base/ids-base';
+
+:host {
+  display: none;
+  float: right;
+  margin-right: 150px;
+}

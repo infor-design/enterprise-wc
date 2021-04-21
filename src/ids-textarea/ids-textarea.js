@@ -15,7 +15,7 @@ import IdsIcon from '../ids-icon/ids-icon';
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
 // @ts-ignore
-import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Mixins
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
@@ -23,6 +23,7 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // Textarea id
 const ID = 'ids-textarea-id';
@@ -54,8 +55,9 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @part background-color - the tag background color
- * @part color - the text color
+ * @mixes IdsThemeMixin
+ * @part textarea - the textarea element
+ * @part label - the label element
  */
 @customElement('ids-textarea')
 @scss(styles)
@@ -63,7 +65,8 @@ class IdsTextarea extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsClearableMixin,
     IdsDirtyTrackerMixin,
-    IdsValidationMixin
+    IdsValidationMixin,
+    IdsThemeMixin
   ) {
   /**
    * Call the constructor and then initialize
@@ -104,12 +107,6 @@ class IdsTextarea extends mix(IdsElement).with(
   }
 
   /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @returns {void}
-   */
-  attributeChangedCallback() {}
-
-  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
@@ -124,6 +121,7 @@ class IdsTextarea extends mix(IdsElement).with(
     // @ts-ignore
     this.handleClearable();
     this.handleEvents();
+    super.connectedCallback();
   }
 
   /**
@@ -152,10 +150,10 @@ class IdsTextarea extends mix(IdsElement).with(
         ${printable}
         <slot class="hidden"></slot>
         <label for="${ID}" class="label-text">
-          <ids-text>${this.label}</ids-text>
+          <ids-text part="label">${this.label}</ids-text>
         </label>
         <div class="field-container">
-          <textarea id="${ID}"${textareaClass}${placeholder}${textareaState}${maxlength}${rows} value="${value}"></textarea>
+          <textarea part="textarea" id="${ID}"${textareaClass}${placeholder}${textareaState}${maxlength}${rows} value="${value}"></textarea>
         </div>
         ${counter}
       </div>
@@ -629,8 +627,10 @@ class IdsTextarea extends mix(IdsElement).with(
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(props.DISABLED, val.toString());
+      this.container.querySelector('ids-text').setAttribute(props.DISABLED, 'true');
     } else {
       this.removeAttribute(props.DISABLED);
+      this.container.querySelector('ids-text').removeAttribute(props.DISABLED);
     }
     this.setTextareaState(props.DISABLED);
   }

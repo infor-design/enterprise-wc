@@ -390,7 +390,7 @@ describe('IdsPopupMenu Component', () => {
   });
 
   // @TODO, how do we test `contextmenu` event being triggered on `window`?
-  it.skip('opens on `contextmenu` event by default', (done) => {
+  it('opens on `contextmenu` event by default', (done) => {
     const contextMenuEvent = new MouseEvent('contextmenu', {
       bubbles: true,
       clientX: 10,
@@ -457,7 +457,7 @@ describe('IdsPopupMenu Component', () => {
       expect(newItem.outerHTML).toMatchSnapshot();
     });
 
-    it.skip('can programmatically show/hide the submenu', (done) => {
+    it('can programmatically show/hide the submenu', (done) => {
       item6.showSubmenu();
 
       setTimeout(() => {
@@ -542,7 +542,7 @@ describe('IdsPopupMenu Component', () => {
             done();
           }, 210);
         }, 210);
-      }, 20);
+      }, 210);
     });
   });
 });

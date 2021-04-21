@@ -16,6 +16,12 @@ export default class IdsToggleButton extends IdsButton {
   /* The type/purpose of the button to display */
   type: 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive'
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   /* Provides a direct reference to the Shadow Root's HTMLButtonElement. */
   readonly button: HTMLElement;
 

@@ -55,6 +55,12 @@ export default class IdsUploadAdvanced extends IdsElement {
   /** Get list of files that complete upload */
   completed: Array<unknown>;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   /** Set the custom send method for uploading files */
   send(formData: Array<unknown>, uiElem: HTMLElement): void;
 

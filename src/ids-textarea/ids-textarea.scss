@@ -299,3 +299,124 @@ $textarea-size-default-height: 120px;
     width: auto;
   }
 }
+
+// Handle Themes
+.ids-textarea[mode='dark'] {
+  .ids-textarea-field {
+    @include bg-transparent();
+    @include border-slate-40();
+    @include text-white();
+
+    &[disabled] {
+      @include bg-transparent();
+      @include border-slate-60();
+      @include text-slate-60();
+    }
+
+    &[readonly] {
+      @include bg-slate-70();
+      @include border-slate-40();
+      @include text-slate-10();
+    }
+
+    &:focus {
+      @include border-azure-60();
+    }
+  }
+}
+
+.ids-textarea[mode='contrast'] {
+  .ids-textarea-field {
+    @include bg-white();
+    @include border-slate-40();
+    @include text-black();
+
+    &[disabled] {
+      @include bg-white();
+      @include border-slate-30();
+      @include text-slate-30();
+    }
+
+    &[readonly] {
+      @include bg-slate-20();
+      @include border-slate-40();
+      @include text-slate-100();
+    }
+
+    &:focus {
+      @include border-azure-90();
+    }
+  }
+}
+
+.ids-textarea[version='classic'][mode='light'] {
+  .ids-textarea-field {
+    @include bg-transparent();
+    @include border-graphite-40();
+    @include text-graphite-100();
+
+    &[disabled] {
+      @include bg-transparent();
+      @include border-graphite-30();
+      @include text-graphite-40();
+    }
+
+    &[readonly] {
+      @include bg-graphite-20();
+      @include border-graphite-40();
+      @include text-graphite-100();
+    }
+
+    &:focus {
+      @include border-azure-60();
+    }
+  }
+}
+
+.ids-textarea[version='classic'][mode='dark'] {
+  .ids-textarea-field {
+    @include bg-transparent();
+    @include border-classic-slate-40();
+    @include text-white();
+
+    &[disabled] {
+      @include bg-transparent();
+      @include border-classic-slate-50();
+      @include text-classic-slate-50();
+    }
+
+    &[readonly] {
+      @include bg-classic-slate-60();
+      @include border-classic-slate-40();
+      @include text-white();
+    }
+
+    &:focus {
+      @include border-azure-60();
+    }
+  }
+}
+
+.ids-textarea[version='classic'][mode='contrast'] {
+  .ids-textarea-field {
+    @include bg-white();
+    @include border-graphite-80();
+    @include text-black();
+
+    &[disabled] {
+      @include bg-transparent();
+      @include border-graphite-50();
+      @include text-graphite-80();
+    }
+
+    &[readonly] {
+      @include bg-graphite-30();
+      @include border-graphite-80();
+      @include text-graphite-100();
+    }
+
+    &:focus {
+      @include border-azure-90();
+    }
+  }
+}
