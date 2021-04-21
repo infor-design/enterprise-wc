@@ -18,22 +18,22 @@ export const PLACEHOLDER_CHAR = '_';
 export const CARET_TRAP = '[]';
 
 /**
- * @property {regexp} NON_DIGITS_REGEX regular expression matching non-digit characters
+ * @property {RegExp} NON_DIGITS_REGEX regular expression matching non-digit characters
  */
 export const NON_DIGITS_REGEX = /[^\u0660-\u06690-9\u0966-\u096F\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]/g;
 
 /**
- * @property {regexp} DIGITS_REGEX regular expression matching digit characters
+ * @property {RegExp} DIGITS_REGEX regular expression matching digit characters
  */
 export const DIGITS_REGEX = /[\u0660-\u06690-9\u0966-\u096F\u2E80-\u2FD5\u3190-\u319f\u3400-\u4DBF\u4E00-\u9FCC\uF900-\uFAAD]/;
 
 /**
- * @property {regexp} ALPHAS_REGEX regular expression matching alphabetic, non-special characters
+ * @property {RegExp} ALPHAS_REGEX regular expression matching alphabetic, non-special characters
  */
 export const ALPHAS_REGEX = /[\u00C0-\u017Fa-zA-Z]/;
 
 /**
- * @property {regexp} ANY_REGEX regular expression matching any non-special characters
+ * @property {RegExp} ANY_REGEX regular expression matching any non-special characters
  */
 export const ANY_REGEX = /[\u00C0-\u017Fa-zA-Z0-9]/;
 

@@ -125,17 +125,19 @@ describe('IdsInput Component', () => {
   });
 
   it('should set value', () => {
+    /*
     input.input.remove();
     input.value = '';
     document.body.innerHTML = '';
     const elem = new IdsInput();
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
-    expect(input.input.value).toEqual('');
+    */
+    expect(input.value).toEqual('');
     input.value = 'test';
-    expect(input.input.value).toEqual('test');
+    expect(input.value).toEqual('test');
     input.value = null;
-    expect(input.input.value).toEqual('');
+    expect(input.value).toEqual('');
   });
 
   it('should call template', () => {
@@ -232,7 +234,6 @@ describe('IdsInput Component', () => {
   it('should setup dirty tracking', () => {
     input.dirtyTracker = true;
     input.input.remove();
-    input.input = null;
     input.dirtyTrackerEvents();
     expect(input.dirty).toEqual({ original: '' });
     document.body.innerHTML = '';
@@ -241,7 +242,6 @@ describe('IdsInput Component', () => {
     input = document.querySelector('ids-input');
     input.dirtyTracker = true;
     input.input.remove();
-    input.input = null;
     input.handleDirtyTracker();
     expect(input.dirty).toEqual({ original: '' });
     document.body.innerHTML = '';
@@ -312,11 +312,8 @@ describe('IdsInput Component', () => {
   });
 
   it('should not error for input', () => {
-    input.input.remove();
-    input.input = null;
-    input.clearable = true;
+    input.clearable = false;
     expect(input.shadowRoot.querySelector('.btn-clear')).toBeFalsy();
-    document.body.innerHTML = '';
   });
 
   it('should autoselect', (done) => {
@@ -420,7 +417,6 @@ describe('IdsInput Component', () => {
 
   it('should not set wrong text-align', () => {
     input.input.remove();
-    input.input = null;
     input.textAlign = 'test';
     document.body.innerHTML = '';
     const elem = new IdsInput();
