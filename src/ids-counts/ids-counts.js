@@ -6,16 +6,13 @@ import {
 } from '../ids-base/ids-element';
 
 // @ts-ignore
-import IdsText from '../ids-text/ids-text';
-
-// @ts-ignore
 import styles from './ids-counts.scss';
 
 // Boilerplate text for ShadowDOM tags
 const textTags = {
-  text: '<ids-text font-size="16"><slot name="text"></slot></ids-text>',
-  value1: '<ids-text font-size=',
-  value2: '><slot name="value"></slot></ids-text>'
+  text: '<div text><slot name="text"></slot></div>',
+  value1: '<div compact=',
+  value2: '><slot name="value"></slot></div>'
 };
 
 /**
@@ -43,7 +40,7 @@ class IdsCounts extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const numSize = () => (this.getAttribute('compact') === 'true' ? 32 : 40);
+    const numSize = () => String(this.getAttribute('compact') === 'true');
     const href = this.getAttribute('href');
 
     return `

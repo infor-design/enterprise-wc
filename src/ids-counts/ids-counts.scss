@@ -15,8 +15,16 @@ a {
   text-decoration: none;
 }
 
-span {
-  @include text-slate-80();
+div[compact='false'] {
+  @include text-40();
+}
+
+div[compact='true'] {
+  @include text-32();
+}
+
+div[text] {
+  @include text-16();
 }
 
 .text {
