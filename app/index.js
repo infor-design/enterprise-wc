@@ -30,6 +30,7 @@ import IdsBlockGrid from '../src/ids-block-grid/ids-block-grid';
 import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
 import IdsContainer from '../src/ids-container/ids-container';
 import IdsThemeSwitcher from '../src/ids-theme-switcher/ids-theme-switcher';
+import IdsRating from '../src/ids-rating/ids-rating';
 
 // Import Example Code
 
