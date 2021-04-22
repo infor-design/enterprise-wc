@@ -1,10 +1,8 @@
 import {
   IdsElement,
-  customElement,
-  scss
+  customElement
 } from '../ids-base/ids-element';
 // @ts-ignore
-import styles from './ids-wizard.scss';
 
 // Note: this component is only used
 // to count steps and retrieve attributes
@@ -18,7 +16,6 @@ import styles from './ids-wizard.scss';
  * @inherits IdsElement
  */
 @customElement('ids-wizard-step')
-@scss(styles)
 class IdsWizardStep extends IdsElement {}
 
 export default IdsWizardStep;
