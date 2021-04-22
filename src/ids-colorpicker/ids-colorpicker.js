@@ -40,14 +40,17 @@ import styles from './ids-colorpicker.scss';
             <div id="ids-colorpicker">
                 <div class="colorpicker">
                     <div class="colorpicker-container">
-                        <span class="color-preview"></span>
-                        <input type="text" value="#000000">
+                        <span class="color-preview">
+                            <input class="color-input" type="color">
+                        </span>
+                        <input type="text" class="color-input-value" value="#000000">
                         <span class="colorpicker-icon">
                             <ids-icon icon="dropdown" size="large"></ids-icon>
                         </span>
                     </div>
                     <div class="color-container hide-color-container">
-                        Color Panel
+                        <slot></slot>
+                        <div class="sample"></div>
                     </div>
                 </div>
             </div>
@@ -63,10 +66,20 @@ import styles from './ids-colorpicker.scss';
     showHideColorPanel() {
         const colorpickerIcon = this.idsColorPicker.querySelector('.colorpicker-icon')
         const colorContainer = this.idsColorPicker.querySelector('.color-container')
+        const colorpickerInput = this.idsColorPicker.querySelector('.color-input')
+        const colorInputValue = this.idsColorPicker.querySelector('.color-input-value')
+        const colorPreview = this.idsColorPicker.querySelector('.color-preview')
         this.onEvent('click', colorpickerIcon, (/** @type {any} */ event) => {
             colorContainer.classList.remove('hide-color-container')
             colorContainer.classList.add('show-color-container')
-            console.log(colorContainer)
+            console.log(colorpickerInput.value)
+        })
+
+        this.onEvent('change', colorpickerInput, (change) => {
+            console.log(change)
+            console.log(colorpickerInput.value)
+            colorInputValue.value = colorpickerInput.value
+            colorPreview.style.backgroundColor = colorpickerInput.value
         })
     }
  }

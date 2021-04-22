@@ -17,18 +17,35 @@
 
 .color-preview {
   background-color: #000;
+  border: 0 transparent;
   display: block;
   height: 50px;
+  overflow: hidden;
   width: 50px;
+}
+
+.color-input {
+  display: block;
+  height: 100%;
+  opacity: 0;
+  width: 100%;
 }
 
 .color-container {
   background-color: turquoise;
+  border: 1px solid;
   height: 150px;
-  left: 50px;
+  overflow: scroll;
   position: absolute;
   top: 50px;
-  width: 175px;
+  width: 99%;
+}
+
+.sample {
+  background-color: pink;
+  height: 1000px;
+  margin: 0 auto;
+  width: 50%;
 }
 
 .colorpicker-icon {
