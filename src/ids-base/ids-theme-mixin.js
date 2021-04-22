@@ -1,3 +1,5 @@
+import { props } from './ids-constants';
+
 /**
  * A mixin that adds theming functionality to components
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -8,7 +10,17 @@ const IdsThemeMixin = (superclass) => class extends superclass {
     super();
   }
 
+  static get properties() {
+    return [
+      ...super.properties,
+      props.MODE,
+      props.VERSION
+    ];
+  }
+
   connectedCallback() {
+    super.connectedCallback?.();
+
     this.initThemeHandlers();
   }
 
