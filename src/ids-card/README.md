@@ -16,6 +16,12 @@ A card is a UI design pattern that groups related information in a flexible-size
 - **Widget**: Card and widget are sometimes used interchangeably.
 - **Group Action**: A special toolbar inside the card content area that can be used to act on the content.
 
+## Themeable Parts
+
+- `card` allows you to further style the main card element
+- `header` allows you to further style the card header element
+- `content` allows you to further style the card content element
+
 ## Features (With Code Examples)
 
 A card is created by using the custom `ids-card` element. A card has two content slots, one for the header area which usually contains title and a small number of action buttons. The card content area can contain whatever content you like. This content should be responsive.

@@ -8,4 +8,10 @@ export default class IdsBadge extends IdsElement {
 
   /* Set the color of the badge */
   color: string | null;
+
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
 }

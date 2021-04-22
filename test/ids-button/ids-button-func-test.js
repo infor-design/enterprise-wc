@@ -404,4 +404,14 @@ describe('IdsButton ripple effect tests', () => {
       done();
     }, 2000);
   });
+
+  it('supports setting mode', () => {
+    btn.mode = 'dark';
+    expect(btn.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    btn.version = 'classic';
+    expect(btn.container.getAttribute('version')).toEqual('classic');
+  });
 });

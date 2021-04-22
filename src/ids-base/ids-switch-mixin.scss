@@ -60,7 +60,13 @@
 }
 
 @mixin switch-disabled-on-after {
-  @include border-slate-30();
+  @include border-azure-30();
+  @include bg-azure-30();
+}
+
+@mixin switch-disabled-on {
+  @include border-azure-20();
+  @include bg-azure-20();
 }
 
 @mixin switch-disabled-text {

@@ -1,3 +1,5 @@
+// This config is only used when using puppetter
+// Otherwise the options are in the web pack config
 // Required Libraries
 const WebpackDevServer = require('webpack-dev-server');
 const fs = require('fs');
@@ -14,8 +16,8 @@ const options = {
   port: PORT,
   writeToDisk: true,
   contentBase: path.resolve(__dirname, 'dist'),
-  liveReload: true,
-  hot: false, // not sure why this doesnt work as reliably as liveReload
+  liveReload: false,
+  hot: false,
   before: (app) => {
     app.get('/api/:fileName', (req, res) => {
       const { fileName } = req.params;

@@ -8,6 +8,7 @@ import {
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // @ts-ignore
 import styles from './ids-trigger-field.scss';
@@ -18,17 +19,19 @@ import { IdsButton } from '../ids-button/ids-button';
 // @ts-ignore
 import IdsInput from '../ids-input/ids-input';
 // @ts-ignore
-import IdsTriggerButton from '../ids-trigger-button/ids-trigger-button';
+import IdsTriggerButton from './ids-trigger-button';
 
 /**
  * IDS Trigger Field Component
  * @type {IdsTriggerField}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part field - the field container
  */
 @customElement('ids-trigger-field')
 @scss(styles)
-class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -42,6 +45,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin) {
    */
   connectedCallback() {
     this.handleEvents();
+    super.connectedCallback();
   }
 
   /**
@@ -57,7 +61,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-trigger-field"><slot></slot></div>`;
+    return `<div class="ids-trigger-field" part="field"><slot></slot></div>`;
   }
 
   /**
@@ -79,7 +83,6 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {string} value Provide different options for appearance 'normal' | 'compact'
    */
   set appearance(value) {
-    // TODO
     if (value) {
       this.setAttribute(props.APPEARANCE, value);
       return;

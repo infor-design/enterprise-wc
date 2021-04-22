@@ -70,5 +70,11 @@ export default class IdsInput extends IdsElement {
   /** Sets the `value` attribute * */
   value: string | number;
 
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
+
   IdsValidationTypes;
 }

@@ -99,7 +99,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     // In some situations, hide the menu when an item is selected.
     this.onEvent('selected', this, (/** @type {any} */ e) => {
       const item = e.detail.elem;
-      if (!item.group.keepOpen) {
+      if (!item?.group?.keepOpen) {
         this.hide();
       }
     });
@@ -216,7 +216,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     removeEventTargets.forEach((eventName) => {
       const evt = this.handledEvents.get(eventName);
       if (evt) {
-        this.detachEventName(eventName);
+        this.detachEventsByName(eventName);
       }
     });
 
@@ -233,8 +233,12 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
       this.popup.y = 10;
 
       // Open/Close the menu when the trigger element is clicked
+      this.detachAllEvents();
       this.onEvent('click.trigger', targetElem, (/** @type {any} */e) => {
-        e.preventDefault();
+        if (e.currentTarget !== window) {
+          e.preventDefault();
+        }
+
         if (this.hidden) {
           this.show();
         } else {

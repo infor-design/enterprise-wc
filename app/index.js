@@ -6,6 +6,7 @@ import IdsSwitch from '../src/ids-switch/ids-switch';
 import IdsToggleButton from '../src/ids-toggle-button/ids-toggle-button';
 import IdsMenuButton from '../src/ids-menu-button/ids-menu-button';
 import IdsText from '../src/ids-text/ids-text';
+import IdsHyperlink from '../src/ids-hyperlink/ids-hyperlink';
 import IdsIcon from '../src/ids-icon/ids-icon';
 import IdsPopup from '../src/ids-popup/ids-popup';
 import IdsToolbar from '../src/ids-toolbar/ids-toolbar';
@@ -16,7 +17,7 @@ import IdsLayoutGrid from '../src/ids-layout-grid/ids-layout-grid';
 import IdsLayoutGridCell from '../src/ids-layout-grid/ids-layout-grid-cell';
 import IdsInput from '../src/ids-input/ids-input';
 import IdsTriggerField from '../src/ids-trigger-field/ids-trigger-field';
-import IdsTriggerButton from '../src/ids-trigger-button/ids-trigger-button';
+import IdsTriggerButton from '../src/ids-trigger-field/ids-trigger-button';
 import IdsExpandableArea from '../src/ids-expandable-area/ids-expandable-area';
 import IdsAccordion from '../src/ids-accordion/ids-accordion';
 import IdsRadio from '../src/ids-radio/ids-radio';
@@ -27,7 +28,8 @@ import IdsAlert from '../src/ids-alert/ids-alert';
 import IdsBadge from '../src/ids-badge/ids-badge';
 import IdsBlockGrid from '../src/ids-block-grid/ids-block-grid';
 import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
-import IdsRating from '../src/ids-rating/ids-rating';
+import IdsContainer from '../src/ids-container/ids-container';
+import IdsThemeSwitcher from '../src/ids-theme-switcher/ids-theme-switcher';
 
 // Import Example Code
 

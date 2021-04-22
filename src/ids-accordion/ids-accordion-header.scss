@@ -1,6 +1,7 @@
 @import '../ids-base/ids-base';
 
 .ids-accordion-header {
+  @include antialiased();
   @include border-1();
   @include border-solid();
   @include border-slate-20();
@@ -16,18 +17,18 @@
 
   &:focus {
     @include shadow();
+    @include outline-none();
 
-    border: 1px solid #0072ed;
-    outline: none;
+    border: 1px solid var(--ids-color-palette-azure-70);
   }
 }
 
 :host {
   &:focus {
     @include shadow();
+    @include outline-none();
 
-    border: 1px solid #0072ed;
-    outline: none;
+    border: 1px solid var(--ids-color-palette-azure-70);
   }
 
   ids-icon {
@@ -39,5 +40,76 @@
 :host([aria-expanded='true']) {
   ids-icon {
     transform: rotateX(180deg);
+  }
+}
+
+// Handle Themes
+.ids-accordion-header[mode='dark'] {
+  @include text-white();
+
+  border-bottom-color: var(--ids-color-palette-slate-70);
+
+  ids-icon {
+    @include text-slate-10();
+  }
+
+  &:focus {
+    border-bottom-color: var(--ids-color-palette-azure-70);
+  }
+}
+
+.ids-accordion-header[mode='contrast'] {
+  @include text-black();
+
+  border-bottom-color: var(--ids-color-palette-slate-30);
+
+  ids-icon {
+    @include text-slate-100();
+  }
+
+  &:focus {
+    border-bottom-color: var(--ids-color-palette-azure-80);
+  }
+}
+
+.ids-accordion-header[version='classic'][mode='light'] {
+  @include text-graphite-100();
+
+  border-bottom-color: var(--ids-color-palette-graphite-20);
+
+  ids-icon {
+    @include text-graphite-100();
+  }
+
+  &:focus {
+    border-bottom-color: var(--ids-color-palette-azure-70);
+  }
+}
+
+.ids-accordion-header[version='classic'][mode='dark'] {
+  @include text-white();
+
+  border-bottom-color: var(--ids-color-palette-classic-slate-100);
+
+  ids-icon {
+    @include text-slate-10();
+  }
+
+  &:focus {
+    border-bottom-color: var(--ids-color-palette-azure-70);
+  }
+}
+
+.ids-accordion-header[version='classic'][mode='contrast'] {
+  @include text-black();
+
+  border-bottom-color: var(--ids-color-palette-classic-slate-40);
+
+  ids-icon {
+    @include text-slate-100();
+  }
+
+  &:focus {
+    border-bottom-color: var(--ids-color-palette-azure-80);
   }
 }

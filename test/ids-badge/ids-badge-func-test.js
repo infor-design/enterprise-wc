@@ -96,4 +96,14 @@ describe('IdsBadge Component', () => {
     expect(badge.getAttribute('shape')).toEqual(null);
     expect(badge.shape).toEqual('normal');
   });
+
+  it('supports setting mode', () => {
+    badge.mode = 'dark';
+    expect(badge.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    badge.version = 'classic';
+    expect(badge.container.getAttribute('version')).toEqual('classic');
+  });
 });

@@ -135,6 +135,11 @@ Set the sizes, available sizes are `'sm'|'md'|'lg'|'full'` and default type is `
 - `validationEvents` {string} set the textarea validation events, use `space` to add multiple validation rules, it will set `blur` as defaults.
 - `value` {string} set the textarea value.
 
+## Themeable Parts
+
+- `textarea` allows you to further style the textarea input element
+- `label` allows you to further style the label text
+
 ## Keyboard Guidelines
 
 The IDS Textarea doesn't contain any interactions beyond a standard HTMLTextareaElement:

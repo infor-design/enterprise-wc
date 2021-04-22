@@ -98,4 +98,18 @@ describe('IdsAlert Component', () => {
     expect(el.getAttribute('disabled')).toEqual(null);
     expect(icon.classList).not.toContain('disabled');
   });
+
+  it('supports setting mode', () => {
+    el = new IdsAlert();
+    document.body.appendChild(el);
+    el.mode = 'dark';
+    expect(el.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    el = new IdsAlert();
+    document.body.appendChild(el);
+    el.version = 'classic';
+    expect(el.container.getAttribute('version')).toEqual('classic');
+  });
 });

@@ -15,7 +15,7 @@ describe('IdsDeepCloneMixin Tests', () => {
 
   it('can clone a date', () => {
     const d1 = new Date();
-    const d2 = new Date();
+    const d2 = new Date(d1.getTime());
     expect(cloneUtils.deepClone(d1).getTime()).toEqual(d2.getTime());
   });
 

@@ -15,6 +15,12 @@ The IDS Checkbox component is a simple wrapper around a standard HTMLInputElemen
 **Checkbox**: A standard basic checkbox element. It can set to checked, unchecked, indeterminate and disabled. IDS checkbox will add `aria-required` for required elements.
 **Label**: HTMLLabelElement to keep matching with HTMLInputElement. Make sure the label has a meaningful relative. IDS Checkbox will add sudo ui `*` for required elements.
 
+## Themeable Parts
+
+- `label` allows you to further style the label element
+- `input` allows you to further style the checkbox input element
+- `label-text` allows you to further style the text element in the label
+
 ## Features (With Code Samples)
 
 A standard Checkbox unchecked element:

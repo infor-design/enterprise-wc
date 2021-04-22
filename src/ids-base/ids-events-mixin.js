@@ -5,10 +5,17 @@
  * @returns {any} The extended object
  */
 const IdsEventsMixin = (superclass) => class extends superclass {
-  handledEvents = new Map();
-
   constructor() {
     super();
+    this.handledEvents = new Map();
+
+    // for event-subscription related logic, bind "this" of the
+    // functions to the class instance to avoid this calls from
+    // delegated functions or other external scoping issues
+    this.detachAllEvents = this.detachAllEvents.bind(this);
+    this.detachEventsByName = this.detachEventsByName.bind(this);
+    this.offEvent = this.offEvent.bind(this);
+    this.onEvent = this.onEvent.bind(this);
   }
 
   /**
@@ -24,17 +31,17 @@ const IdsEventsMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Add and keep track of an event listener.
+   * Remove event listener
    * @param {string} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
   offEvent(eventName, target, options) {
     const handler = this.handledEvents.get(eventName);
+    this.handledEvents.delete(eventName);
     if (handler?.callback) {
       target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
     }
-    this.handledEvents.delete(eventName);
   }
 
   /**
@@ -58,18 +65,19 @@ const IdsEventsMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Detach a specific handler by name
+   * Detach a specific handlers associated with a name
    * @param {string} [eventName] an optional event name to filter with
    */
-  detachEventName(eventName) {
-    const doCheck = typeof eventName === 'string' && eventName.length;
-    this.handledEvents.forEach((value, key) => {
-      if (doCheck && key !== eventName) {
-        return;
-      }
-      this.offEvent(key, value.target, value.options);
-    });
-  }
+  detachEventsByName = (eventName) => {
+    const isValidName = (typeof eventName === 'string') && eventName.length;
+
+    if (isValidName && this.handledEvents.has(eventName)) {
+      const event = this.handledEvents.get(eventName);
+
+      // @ts-ignore
+      this.offEvent(eventName, event.target, event.options);
+    }
+  };
 };
 
 export { IdsEventsMixin };

@@ -7,6 +7,7 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // @ts-ignore
 import styles from './ids-expandable-area.scss';
@@ -21,10 +22,15 @@ const EXPANDABLE_AREA_TYPES = [
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsThemeMixin
+ * @part container - the main container element
+ * @part header - the header element
+ * @part pane - the expandable pane element
+ * @part footer - the footer element
  */
 @customElement('ids-expandable-area')
 @scss(styles)
-class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
     this.state = {};
@@ -43,6 +49,7 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin) {
     this.pane = this.shadowRoot?.querySelector('.ids-expandable-area-pane');
     this.handleEvents();
     this.switchState();
+    super.connectedCallback();
   }
 
   /**
@@ -50,7 +57,7 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.EXPANDED, props.TYPE];
+    return [props.EXPANDED, props.TYPE, props.MODE, props.VERSION];
   }
 
   /**
@@ -176,25 +183,25 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin) {
     let template;
     if (this.type === EXPANDABLE_AREA_TYPES[0]) {
       template = `
-        <div class="ids-expandable-area">
-          <div class="ids-expandable-area-header" aria-expanded="false" data-expander="header">
+        <div class="ids-expandable-area" part="container">
+          <div class="ids-expandable-area-header" part="header" aria-expanded="false" data-expander="header">
             <slot name="header"></slot>
           </div>
-          <div class="ids-expandable-area-pane">
+          <div class="ids-expandable-area-pane" part="pane">
             <slot name="pane"></slot>
           </div>
         </div>
       `;
     } else {
       template = `
-        <div class="ids-expandable-area">
-          <div class="ids-expandable-area-header">
+        <div class="ids-expandable-area" part="container">
+          <div class="ids-expandable-area-header" part="header">
             <slot name="header"></slot>
           </div>
-          <div class="ids-expandable-area-pane">
+          <div class="ids-expandable-area-pane" part="pane">
             <slot name="pane"></slot>
           </div>
-          <div class="ids-expandable-area-footer">
+          <div class="ids-expandable-area-footer" part="footer">
             <a class="ids-expandable-area-expander" href="#0" role="button" aria-expanded="false" data-expander="link">
               <slot name="expander-default"></slot>
               <slot name="expander-expanded" hidden></slot>
