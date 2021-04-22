@@ -29,6 +29,7 @@ import IdsBadge from '../src/ids-badge/ids-badge';
 import IdsBlockGrid from '../src/ids-block-grid/ids-block-grid';
 import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
 import IdsColorpicker from '../src/ids-colorpicker/ids-colorpicker';
+import IdsColor from '../src/ids-color/ids-color';
 import IdsContainer from '../src/ids-container/ids-container';
 import IdsThemeSwitcher from '../src/ids-theme-switcher/ids-theme-switcher';
 
