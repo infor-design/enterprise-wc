@@ -59,6 +59,7 @@
 
   [icon='info-field'],
   [icon='info-field-solid'] {
+    color: var(--ids-color-status-base);
     color: var(--ids-color-palette-azure-60);
 
     &.disabled {
@@ -69,6 +70,16 @@
   [icon='empty-circle'],
   [icon='half-empty-circle'] {
     color: var(--ids-color-palette-slate-80);
+  }
+
+  [mode='dark'][icon='empty-circle'],
+  [mode='dark'][icon='half-empty-circle'] {
+    color: var(--ids-color-palette-classic-slate-30);
+  }
+
+  [version='classic'][mode='dark'][icon='empty-circle'],
+  [version='classic'][mode='dark'][icon='half-empty-circle'] {
+    color: var(--ids-color-palette-classic-slate-30);
 
     &.disabled {
       color: var(--ids-color-palette-slate-30);

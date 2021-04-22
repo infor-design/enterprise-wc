@@ -2,7 +2,7 @@
 @import '../ids-base/ids-base';
 
 .ids-loader {
-  @include bg-azure-10();
+  @include bg-transparent();
   @include fixed();
   @include h-full();
   @include z-1();
@@ -72,4 +72,25 @@
     top: 0;
     will-change: left, right;
   }
+}
+
+// Handle Themes
+.ids-loader[mode='dark'] .ids-loader-indeterminate {
+  background-color: var(--ids-color-palette-azure-50);
+}
+
+.ids-tag[mode='contrast'] .ids-loader-indeterminate {
+  background-color: var(--ids-color-palette-azure-90);
+}
+
+.ids-tag[version='classic'][mode='light'] .ids-loader-indeterminate {
+  background-color: var(--ids-color-palette-azure-70);
+}
+
+.ids-tag[version='classic'][mode='dark'] .ids-loader-indeterminate {
+  background-color: var(--ids-color-palette-azure-50);
+}
+
+.ids-tag[version='classic'][mode='contrast'] .ids-loader-indeterminate {
+  background-color: var(--ids-color-palette-azure-90);
 }

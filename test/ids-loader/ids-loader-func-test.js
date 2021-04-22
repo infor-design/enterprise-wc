@@ -28,4 +28,14 @@ describe('IdsLoader Component', () => {
   it('renders correctly', () => {
     expect(loader.shadowRoot.innerHTML).toMatchSnapshot();
   });
+
+  it('supports setting mode', () => {
+    loader.mode = 'dark';
+    expect(loader.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    loader.version = 'classic';
+    expect(loader.container.getAttribute('version')).toEqual('classic');
+  });
 });

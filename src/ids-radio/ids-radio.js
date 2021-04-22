@@ -7,6 +7,7 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
@@ -20,11 +21,15 @@ import IdsRadioGroup from './ids-radio-group';
  * IDS Radio Component
  * @type {IdsRadio}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsThemeMixin
+ * @part radio - the actual radio input element
+ * @part circle - the visible circle element
+ * @part label - the label text element
  */
 @customElement('ids-radio')
 @scss(styles)
-class IdsRadio extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -85,6 +90,8 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
+
     /** @type {any} */
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     /** @type {any} */
@@ -118,9 +125,9 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin) {
     return `
       <div${rootClass}${color}>
         <label>
-          <input type="radio" tabindex="-1"${radioClass}${disabled}${checked}>
-          <span class="circle${checked}"></span>
-          <ids-text class="label-text"${disabledAria}>${this.label}</ids-text>
+          <input type="radio" part="radio" tabindex="-1"${radioClass}${disabled}${checked}>
+          <span class="circle${checked}" part="circle"></span>
+          <ids-text class="label-text"${disabledAria} part="label">${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -244,10 +251,12 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin) {
       this.rootEl?.classList.add(props.DISABLED);
       this.rootEl?.setAttribute('tabindex', '-1');
       labelText?.setAttribute('aria-disabled', 'true');
+      labelText?.setAttribute(props.DISABLED, 'true');
     } else {
       this.removeAttribute(props.DISABLED);
       this.input?.removeAttribute(props.DISABLED);
       labelText?.removeAttribute('aria-disabled');
+      labelText?.removeAttribute(props.DISABLED);
       this.rootEl?.classList.remove(props.DISABLED);
     }
   }
@@ -259,16 +268,19 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean|string} value If true will set `group-disabled` attribute
    */
   set groupDisabled(value) {
+    const labelText = this.shadowRoot.querySelector('.label-text');
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(props.GROUP_DISABLED, val.toString());
       this.input?.setAttribute(props.DISABLED, val);
       this.rootEl?.classList.add(props.DISABLED);
       this.rootEl?.setAttribute('tabindex', '-1');
+      labelText?.setAttribute(props.DISABLED, 'true');
     } else {
       this.removeAttribute(props.GROUP_DISABLED);
       this.input?.removeAttribute(props.DISABLED);
       this.rootEl?.classList.remove(props.DISABLED);
+      labelText?.removeAttribute(props.DISABLED);
     }
   }
 

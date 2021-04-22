@@ -15,6 +15,10 @@ The IDS Badge Compoment consists of a small circle containing alphanumeric or ic
 **Color**: This is the color of the badge.
 **Shape**: This is the shape of the badge. It can be round or rounded rectangle.
 
+## Themeable Parts
+
+- `badge` allows you to further style the badge element
+
 ## Features (With Code Examples)
 
 A normal/ no properties badge used as a web component.

@@ -10,6 +10,7 @@ import {
 import styles from './ids-upload.scss';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // Supporting components
 import '../ids-input/ids-input';
@@ -23,10 +24,15 @@ const ID = 'ids-upload-id';
  * @type {IdsUpload}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part container - the main container element
+ * @part label - the label element
+ * @part input - the visible input element
+ * @part button - the trigger input element
  */
 @customElement('ids-upload')
 @scss(styles)
-class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -50,21 +56,18 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
       props.TRIGGER_LABEL,
       props.VALIDATE,
       props.VALIDATION_EVENTS,
-      props.VALUE
+      props.VALUE,
+      props.MODE,
+      props.VERSION
     ];
   }
-
-  /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @returns {void}
-   */
-  attributeChangedCallback() {}
 
   /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback();
     /** @type {any} */
     this.trigger = this.shadowRoot.querySelector('.trigger');
     /** @type {any} */
@@ -101,14 +104,14 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
     const value = this.value ? ` value="${this.value}"` : '';
 
     return `
-      <div class="ids-upload">
+      <div class="ids-upload" part="container">
         <label for="${ID}" class="ids-upload-filetype-label" aria-hidden="true" tabindex="-1">
-          <ids-text audible="true" class="label-filetype">${labelFiletype}</ids-text>
+          <ids-text audible="true" class="label-filetype" part="label">${labelFiletype}</ids-text>
         </label>
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
         <ids-trigger-field>
-          <ids-input readonly="true" triggerfield="true" ${clearableForced}${bgTransparent}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}></ids-input>
-          <ids-trigger-button class="trigger"${disabled}${readonlyBtn}>
+          <ids-input part="input" readonly="true" triggerfield="true" ${clearableForced}${bgTransparent}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}></ids-input>
+          <ids-trigger-button part="button" class="trigger"${disabled}${readonlyBtn}>
             <ids-text slot="text" audible="true" class="trigger-label">${triggerLabel}</ids-text>
             <ids-icon slot="icon" icon="folder"></ids-icon>
           </ids-trigger-button>
@@ -475,11 +478,13 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin) {
     if (val) {
       this.setAttribute(props.READONLY, val.toString());
       this.textInput.bgTransparent = false;
-      this.trigger.disabled = true;
+      this.trigger.container.disabled = false;
+      this.trigger.container.classList.add('readonly');
     } else {
       this.removeAttribute(props.READONLY);
       this.textInput.bgTransparent = true;
-      this.trigger.disabled = false;
+      this.trigger.container.disabled = false;
+      this.trigger.container.classList.remove('readonly');
     }
   }
 

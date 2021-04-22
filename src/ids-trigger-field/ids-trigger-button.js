@@ -37,7 +37,9 @@ class IdsTriggerButton extends IdsButton {
       props.ID,
       props.TEXT,
       props.TYPE,
-      props.TABBABLE];
+      props.TABBABLE,
+      props.MODE,
+      props.THEME];
   }
 
   /**

@@ -95,11 +95,138 @@
       }
 
       &:checked ~ .checkmark {
-        @include checkbox-disabled-checked();
+        @include checkbox-disabled-checked(light);
       }
     }
   }
 
   // Colored Checkboxes
   @include checkbox-colored();
+
+  .validation-message {
+    @include mt-4();
+
+    margin-left: -1px;
+  }
+}
+
+// Handle Themes
+.ids-checkbox[mode='dark'] {
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(dark);
+  }
+}
+
+.ids-checkbox[mode='dark']:not([color]) {
+  input[type='checkbox'] ~ .checkmark {
+    @include checkbox-unchecked(dark);
+  }
+
+  input[type='checkbox']:checked ~ .checkmark {
+    @include checkbox-checked(dark);
+  }
+
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(dark);
+  }
+
+  input[type='checkbox'].indeterminate ~ .checkmark {
+    @include checkbox-indeterminate(dark);
+  }
+}
+
+.ids-checkbox[mode='contrast'] {
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(contrast);
+  }
+}
+
+.ids-checkbox[mode='contrast']:not([color]) {
+  input[type='checkbox'] ~ .checkmark {
+    @include checkbox-unchecked(contrast);
+  }
+
+  input[type='checkbox']:checked ~ .checkmark {
+    @include checkbox-checked(contrast);
+  }
+
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(contrast);
+  }
+
+  input[type='checkbox'].indeterminate ~ .checkmark {
+    @include checkbox-indeterminate(contrast);
+  }
+}
+
+.ids-checkbox[mode='light'][version='classic'] {
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicLight);
+  }
+}
+
+.ids-checkbox[mode='light'][version='classic']:not([color]) {
+  input[type='checkbox'] ~ .checkmark {
+    @include checkbox-unchecked(classicLight);
+  }
+
+  input[type='checkbox']:checked ~ .checkmark {
+    @include checkbox-checked(classicLight);
+  }
+
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicLight);
+  }
+
+  input[type='checkbox'].indeterminate ~ .checkmark {
+    @include checkbox-indeterminate(classicLight);
+  }
+}
+
+.ids-checkbox[mode='dark'][version='classic'] {
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicDark);
+  }
+}
+
+.ids-checkbox[mode='dark'][version='classic']:not([color]) {
+  input[type='checkbox'] ~ .checkmark {
+    @include checkbox-unchecked(classicDark);
+  }
+
+  input[type='checkbox']:checked ~ .checkmark {
+    @include checkbox-checked(classicDark);
+  }
+
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicDark);
+  }
+
+  input[type='checkbox'].indeterminate ~ .checkmark {
+    @include checkbox-indeterminate(classicDark);
+  }
+}
+
+.ids-checkbox[mode='dark'][version='contrast'] {
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicContrast);
+  }
+}
+
+.ids-checkbox[mode='dark'][version='contrast']:not([color]) {
+  input[type='checkbox'] ~ .checkmark {
+    @include checkbox-unchecked(classicContrast);
+  }
+
+  input[type='checkbox']:checked ~ .checkmark {
+    @include checkbox-checked(classicContrast);
+  }
+
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicContrast);
+  }
+
+  input[type='checkbox'].indeterminate ~ .checkmark {
+    @include checkbox-indeterminate(classicContrast);
+  }
 }

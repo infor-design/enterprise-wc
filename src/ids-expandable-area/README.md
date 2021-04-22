@@ -16,6 +16,13 @@ Expandable areas are crucial to displaying only important information to the use
 - **expander-default**: Acts as the control for expanding. Contains the text for the collapsed state.
 - **expander-expanded**: Acts as the control for collapsing. Contains the text for the expanded state.
 
+## Themeable Parts
+
+- `container` allows you to further style the main container element
+- `header` allows you to further style the header element
+- `pane` allows you to further style the pane element
+- `footer` allows you to further style the footer element
+
 ## Features (With Code Examples)
 
 Ids Expandable Area - Default

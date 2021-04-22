@@ -197,4 +197,14 @@ describe('IdsTag Component', () => {
     expect(tag.clickable).toEqual(null);
     expect(tag.container.classList.contains('ids-focusable')).toEqual(false);
   });
+
+  it('supports setting mode', () => {
+    tag.mode = 'dark';
+    expect(tag.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    tag.version = 'classic';
+    expect(tag.container.getAttribute('version')).toEqual('classic');
+  });
 });

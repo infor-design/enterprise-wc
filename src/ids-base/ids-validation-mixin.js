@@ -152,7 +152,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     elem.setAttribute('validation-id', id);
     elem.setAttribute('type', type);
     elem.className = cssClass;
-    elem.innerHTML = `${iconHtml}<ids-text class="message-text">${audible}${message}</ids-text>`;
+    elem.innerHTML = `${iconHtml}<ids-text error="true" class="message-text">${audible}${message}</ids-text>`;
     this.input.classList.add(type);
     this.input.setAttribute('aria-describedby', messageId);
     this.input.setAttribute('aria-invalid', 'true');

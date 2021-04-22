@@ -2,9 +2,14 @@ import {
   IdsElement,
   customElement,
   scss,
-  props
+  props,
+  mix
 } from '../ids-base/ids-element';
-import { IdsStringUtils } from '../ids-base/ids-string-utils';
+
+// Import Mixins
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 // @ts-ignore
 import styles from './ids-text.scss';
@@ -16,12 +21,19 @@ const fontWeightClasses = ['bold', 'bolder'];
  * IDS Text Component
  * @type {IdsText}
  * @inherits IdsElement
+ * @mixes IdsThemeMixin
+ * @mixes IdsEventsMixin
+ * @part text - the text element
  */
 @customElement('ids-text')
 @scss(styles)
-class IdsText extends IdsElement {
+class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
   }
 
   /**
@@ -32,9 +44,15 @@ class IdsText extends IdsElement {
     return [
       props.TYPE,
       props.FONT_SIZE,
+      props.AUDIBLE,
+      props.DISABLED,
+      props.ERROR,
+      props.MODE,
+      props.VERSION,
+      props.LABEL,
       props.FONT_WEIGHT,
       props.AUDIBLE,
-      'overflow'
+      props.OVERFLOW
     ];
   }
 
@@ -42,17 +60,18 @@ class IdsText extends IdsElement {
    * Inner template contents
    * @returns {string} The template
    */
+
   template() {
     const tag = this.type || 'span';
 
     let classList = 'ids-text';
     classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
-    classList += ((this.audible) || (this.audible === '')) ? ' audible' : '';
+    classList += ((this.audible)) ? ' audible' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
     classList += (this.fontWeight === 'bold' || this.fontWeight === 'bolder')
       ? ` ${this.fontWeight}` : '';
 
-    return `<${tag} class="${classList}"><slot></slot></${tag}>`;
+    return `<${tag} class="${classList}" mode="${this.mode}" version="${this.version}"><slot></slot></${tag}>`;
   }
 
   /**
@@ -128,7 +147,7 @@ class IdsText extends IdsElement {
    * @param {string | null} value The `audible` attribute
    */
   set audible(value) {
-    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    const isValueTruthy = stringUtils.stringToBool(value);
 
     if (isValueTruthy && this.container && !this.container?.classList.contains('audible')) {
       this.container.classList.add('audible');
@@ -144,12 +163,57 @@ class IdsText extends IdsElement {
 
   get audible() { return this.getAttribute(props.AUDIBLE); }
 
-  get overflow() {
-    return this.getAttribute('overflow');
+  /**
+   * Set the text to disabled color.
+   * @param {boolean} value True if disabled
+   */
+  set disabled(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(props.DISABLED, value);
+      return;
+    }
+    this.removeAttribute(props.DISABLED);
   }
 
+  get disabled() { return this.getAttribute(props.DISABLED); }
+
   /**
-   * Set how content overflows; can specify 'ellipsis', or undefined/'none'
+   * Set the text to error color.
+   * @param {boolean} value True if error text
+   */
+  set error(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.container.classList.add('error');
+      this.setAttribute(props.ERROR, value);
+      return;
+    }
+    this.removeAttribute(props.ERROR);
+    this.container.classList.remove('error');
+  }
+
+  get error() { return this.getAttribute(props.ERROR); }
+
+  /**
+   * Set the text to label color.
+   * @param {boolean} value True if error text
+   */
+  set label(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.container.classList.add('label');
+      this.setAttribute(props.LABEL, value);
+      return;
+    }
+    this.removeAttribute(props.LABEL);
+    this.container.classList.remove('label');
+  }
+
+  get label() { return this.getAttribute(props.LABEL); }
+
+  /**
+   * Set how content overflows; can specify 'ellipsis', or undefined or 'none'
    * @param {string | null} [value=null] how content is overflow
    */
   set overflow(value) {
@@ -162,6 +226,10 @@ class IdsText extends IdsElement {
       this.container?.classList.remove('ellipsis');
       this.removeAttribute('overflow');
     }
+  }
+
+  get overflow() {
+    return this.getAttribute('overflow');
   }
 }
 

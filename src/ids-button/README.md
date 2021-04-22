@@ -15,6 +15,12 @@ The IDS Button component is a simple wrapper around a standard HTMLButtonElement
 **Secondary**: A secondary action is one that might be related to the primary action, but alternative in nature.  For example, a secondary action that might sit next to our above primary action could be "reset", which would remove the user-entered contents of the form and start from scratch.
 **Tertiary**: Sometimes also called "destructive" in IDS, a tertiary action is one that might "undo" or be completely separate from the primary/secondary actions, but labelled with enough importance to be displayed aside them. Building on the above examples, a tertiary action might be "cancel" or "close", which would cause the form to close, and return the user to the previous workflow.
 
+## Themeable Parts
+
+- `button` allows you to further style the internal button element
+- `icon` allows you to further style the internal icon element (used in some types of buttons)
+- `text` allows you to further style the internal icon element (used in some types of buttons)
+
 ## Features (With Code Samples)
 
 Standalone primary buttons could be built this way:
