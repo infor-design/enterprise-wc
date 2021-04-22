@@ -6,7 +6,6 @@ import {
   props
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-checkbox.scss';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
@@ -15,8 +14,6 @@ import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-
-// @ts-ignore
 import IdsText from '../ids-text/ids-text';
 
 /**
@@ -243,7 +240,7 @@ class IdsCheckbox extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
-    // @ts-ignore
+
     this.handleDirtyTracker();
   }
 
@@ -357,7 +354,7 @@ class IdsCheckbox extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.VALIDATE);
     }
-    // @ts-ignore
+
     this.handleValidation();
   }
 
@@ -373,7 +370,6 @@ class IdsCheckbox extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.VALIDATION_EVENTS);
     }
-    // @ts-ignore
     this.handleValidation();
   }
 

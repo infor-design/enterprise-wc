@@ -74,7 +74,6 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     if (isValidName && this.handledEvents.has(eventName)) {
       const event = this.handledEvents.get(eventName);
 
-      // @ts-ignore
       this.offEvent(eventName, event.target, event.options);
     }
   };

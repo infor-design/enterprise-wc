@@ -7,10 +7,8 @@ import {
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-// @ts-ignore
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 
-// @ts-ignore
 import styles from './ids-theme-switcher.scss';
 
 /**

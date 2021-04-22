@@ -46,15 +46,11 @@ class IdsElement extends HTMLElement {
    * in a component you can just call super.
    */
   disconnectedCallback() {
-    // @ts-ignore
     if (this.detachAllEvents) {
-      // @ts-ignore
       this.detachAllEvents();
     }
 
-    // @ts-ignore
     if (this.detachAllListeners) {
-      // @ts-ignore
       this.detachAllListeners();
     }
   }
@@ -64,7 +60,6 @@ class IdsElement extends HTMLElement {
    * @type {Array}
    */
   static get observedAttributes() {
-    // @ts-ignore
     return this.properties;
   }
 
@@ -80,7 +75,6 @@ class IdsElement extends HTMLElement {
    * @returns {object} The object for chaining.
    */
   render() {
-    // @ts-ignore
     if (!this.template || !this.template()) {
       return this;
     }
@@ -97,7 +91,6 @@ class IdsElement extends HTMLElement {
     }
 
     this.appendStyles();
-    // @ts-ignore
     template.innerHTML = this.template();
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
     /** @type {any} */
@@ -122,26 +115,19 @@ class IdsElement extends HTMLElement {
    * Append Styles if present
    */
   appendStyles() {
-    // @ts-ignore
     if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
       const style = document.createElement('style');
-      // @ts-ignore
       style.textContent = this.cssStyles;
-      // @ts-ignore
       if (/^:(:)?host/.test(style.textContent)) {
-        // @ts-ignore
         style.textContent = style.textContent.replace(/^:(:)?host/, `.${this.name}`);
       }
       style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
       this.shadowRoot?.appendChild(style);
     }
 
-    // @ts-ignore
     if (this.cssStyles && this.shadowRoot.adoptedStyleSheets) {
       const style = new CSSStyleSheet();
-      // @ts-ignore
       style.replaceSync(this.cssStyles);
-      // @ts-ignore
       this.shadowRoot.adoptedStyleSheets = [style];
     }
   }

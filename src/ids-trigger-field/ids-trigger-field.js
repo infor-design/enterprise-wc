@@ -10,15 +10,11 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore
 import styles from './ids-trigger-field.scss';
 
 // Supporting components
-// @ts-ignore
 import { IdsButton } from '../ids-button/ids-button';
-// @ts-ignore
 import IdsInput from '../ids-input/ids-input';
-// @ts-ignore
 import IdsTriggerButton from './ids-trigger-button';
 
 /**

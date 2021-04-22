@@ -11,7 +11,6 @@ import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
-// @ts-ignore
 import styles from './ids-hyperlink.scss';
 
 /**

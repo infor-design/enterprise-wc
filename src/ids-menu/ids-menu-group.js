@@ -9,7 +9,6 @@ import {
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
-// @ts-ignore
 import styles from './ids-menu-group.scss';
 
 // Menu Selection Types
@@ -120,7 +119,6 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
    */
   // @TODO: TypeScript Compiler complains about this because the method is actually called from
   // the menu item.
-  // @ts-ignore
   updateIconAlignment() {
     this.items.forEach((item) => {
       // NOTE: Sometimes the group invokes before the items, making item methods inaccessible.
@@ -211,7 +209,6 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   deselectAllExcept(keptItems) {
-    // @ts-ignore
     const keptItemsArr = [].concat(keptItems);
     this.items.forEach((item) => {
       if (!keptItemsArr.includes(item) && item.selected) {
