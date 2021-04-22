@@ -32,7 +32,7 @@ jobs:
         key: ids-enterprise-wc-010
 
     - name: Install Dependencies
-      run: npm i
+      run: npm ci
 
     - name: Build and Compile
       run: npm run build
