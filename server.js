@@ -4,7 +4,7 @@ const fs = require('fs');
 const log = require('loglevel');
 
 const app = express();
-const port = 4444;
+const port = process.env.PORT || 4444;
 
 // Handle no extension files as html
 app.use((req, res, next) => {
