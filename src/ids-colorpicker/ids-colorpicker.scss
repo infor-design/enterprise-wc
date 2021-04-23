@@ -41,13 +41,6 @@
   width: 99%;
 }
 
-.sample {
-  background-color: pink;
-  height: 1000px;
-  margin: 0 auto;
-  width: 50%;
-}
-
 .colorpicker-icon {
   align-items: center;
   display: flex;
@@ -65,8 +58,10 @@ input {
 
 .hide-color-container {
   display: none;
+  transition: 1s;
 }
 
 .show-color-container {
   display: block;
+  transition: 1s;
 }

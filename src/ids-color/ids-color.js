@@ -35,7 +35,7 @@ import styles from './ids-color.scss';
      * @returns {string} The template
      */
     template() {
-        return `<div>ids color</div>`;
+        return `<div class="ids-color"></div>`;
     }
  }
 
