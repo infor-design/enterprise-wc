@@ -7,7 +7,7 @@ import {
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import '../ids-color/ids-color'
+import '../ids-color/ids-color';
 
 // @ts-ignore
 import styles from './ids-colorpicker.scss';
@@ -62,33 +62,43 @@ import styles from './ids-colorpicker.scss';
      * @returns {HTMLCollection} shadowRoot
      */
     idsColorPicker = this.shadowRoot
+    colorpickerContainer = this.idsColorPicker.querySelector('#ids-colorpicker')
+    colorContainer = this.idsColorPicker.querySelector('.color-container')
+    colorpickerInput = this.idsColorPicker.querySelector('.color-input')
+    colorInputValue = this.idsColorPicker.querySelector('.color-input-value')
+    colorPreview = this.idsColorPicker.querySelector('.color-preview')
+    idsColorsArr = document.querySelectorAll('ids-color')
 
     colorPicker() {
-        const colorpickerContainer = this.idsColorPicker.querySelector('#ids-colorpicker')
-        const colorContainer = this.idsColorPicker.querySelector('.color-container')
-        const colorpickerInput = this.idsColorPicker.querySelector('.color-input')
-        const colorInputValue = this.idsColorPicker.querySelector('.color-input-value')
-        const colorPreview = this.idsColorPicker.querySelector('.color-preview')
-        const idsColorsArr = document.querySelectorAll('ids-color')
         // @ts-ignore
-        idsColorsArr.forEach((element) => element.style.backgroundColor = element.getAttribute('hex'))
-        this.onEvent('click', colorpickerContainer, (/** @type {{ target: any; }} */ event) => {
+        this.idsColorsArr.forEach((element) => element.style.backgroundColor = element.getAttribute('hex'))
+        this.onEvent('click', this.colorpickerContainer, (/** @type {{ target: any; }} */ event) => {
             const target = event.target
             const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'))
             if(openColorCondition){
-                let openClose = colorContainer.classList.contains('hide-color-container')
-                colorContainer.classList.remove(openClose ? 'hide-color-container' : 'show-color-container')
-                colorContainer.classList.add(openClose ? 'show-color-container' : 'hide-color-container')
+                this.openCloseColorpicker();
+            }
+
+            if(target.hasAttribute('hex')){
+                this.colorInputValue.value = target.getAttribute('hex')
+                this.colorPreview.style.backgroundColor = target.getAttribute('hex')
+                this.openCloseColorpicker();
             }
         })
-        this.onEvent('change', colorpickerInput, (/** @type {any} */ change) => {
-            colorInputValue.value = colorpickerInput.value
-            colorPreview.style.backgroundColor = colorpickerInput.value
+        this.onEvent('change', this.colorpickerInput, (/** @type {any} */ change) => {
+            this.colorInputValue.value = this.colorpickerInput.value
+            this.colorPreview.style.backgroundColor = this.colorpickerInput.value
         })
-        this.onEvent('change', colorInputValue, (/** @type {any} */ change) => {
-            colorpickerInput.value = colorInputValue.value
-            colorPreview.style.backgroundColor = colorpickerInput.value
+        this.onEvent('change', this.colorInputValue, (/** @type {any} */ change) => {
+            this.colorpickerInput.value = this.colorInputValue.value;
+            this.colorPreview.style.backgroundColor = this.colorpickerInput.value;
         })
+    }
+
+    openCloseColorpicker(){
+        let openClose = this.colorContainer.classList.contains('hide-color-container');
+        this.colorContainer.classList.remove(openClose ? 'hide-color-container' : 'show-color-container');
+        this.colorContainer.classList.add(openClose ? 'show-color-container' : 'hide-color-container');
     }
  }
 
