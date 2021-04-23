@@ -69,6 +69,13 @@ class IdsElement extends HTMLElement {
   }
 
   /**
+   * @returns {Array<string>} this component's observable properties
+   */
+  static get properties() {
+    return [];
+  }
+
+  /**
    * Render the component using the defined template.
    * @returns {object} The object for chaining.
    */
