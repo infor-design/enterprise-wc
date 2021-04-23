@@ -2,6 +2,8 @@
  * @jest-environment jsdom
  */
 import IdsWizard, { IdsWizardStep } from '../../src/ids-wizard';
+// eslint-disable-next-line
+import ResizeObserver from '../__mocks__/ResizeObserver';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -101,7 +103,6 @@ describe('IdsWizard Tests', () => {
 
   it('renders labels properly based on wizard step labels', () => {
     const { lightDOMLabels, shadowDOMLabels } = getLabels(elem);
-
     expect(lightDOMLabels.join('_')).toEqual(shadowDOMLabels.join('_'));
   });
 
@@ -128,7 +129,8 @@ describe('IdsWizard Tests', () => {
     });
   });
 
-  it('sets the step number to invalid values and sees associated errors', async () => {
+  it('sets the step number to invalid values and sees '
+  + 'associated errors', async () => {
     expect(() => { elem.stepNumber = 'z'; })
       .toThrowErrorMatchingSnapshot();
 
@@ -139,10 +141,13 @@ describe('IdsWizard Tests', () => {
       .toThrowErrorMatchingSnapshot();
   });
 
-  it('on clickable wizard: clicks non-selected step, and the step number changes', async () => {
+  it('on clickable wizard: clicks non-selected step, and the step number '
+  + ' changes', async () => {
     const stepNumber = 2;
     elem.clickable = true;
-    const marker = elem.shadowRoot.querySelector(`.step-marker[step-number="${stepNumber}"]`);
+    const marker = elem.shadowRoot.querySelector(
+      `.step[step-number="${stepNumber}"] .step-marker`
+    );
     marker.click();
 
     expect(elem.stepNumber).toEqual(2);

@@ -19,62 +19,8 @@
   height: 64px;
   overflow: hidden;
 
-  .step-labels {
-    box-sizing: border-box;
+  .steps {
     position: relative;
-    width: 100%;
-  }
-
-  .step-label {
-    position: absolute;
-    box-sizing: border-box;
-    text-align: left;
-    text-decoration: none;
-
-    &.clickable {
-      cursor: pointer;
-    }
-
-    &:first-child {
-      text-align: left;
-    }
-  }
-
-  .step-marker:first-child .step-label {
-    text-align: left;
-    margin-left: 0;
-  }
-
-  .step-marker:last-child .step-label {
-    text-align: right;
-    margin-right: 0;
-  }
-
-  .step-label:not(.visited) {
-    color: $unvisited-step-color;
-  }
-
-  .step-label.visited {
-    color: $visited-step-color;
-  }
-
-  /* generate rules to position step-labels */
-
-  @for $i from 2 through 14 {
-    $slice-percentage: #{100/$i}#{'%'};
-
-    @for $j from 1 through $i {
-      &[step-count="#{$i}"] .step-label:nth-child(#{$j}) {
-        $percentage: ($j - 1) * 100 / ($i - 1);
-
-        transform: translateX(#{-50 / $i * $j}#{'%'});
-        left: calc(#{$percentage}#{'%'} - #{$percentage / 8}#{'px'} - 12px);
-        max-width: calc(#{$slice-percentage} - #{9}#{'%'} + #{($j - 1) / ($i - 1) / 8}#{'%'});
-      }
-    }
-  }
-
-  .marker-bar {
     box-sizing: border-box;
     display: flex;
     flex-direction: row;
@@ -83,7 +29,41 @@
     height: 28px;
   }
 
-  .step-marker {
+  .step-label {
+    position: absolute;
+    top: 24px;
+    box-sizing: border-box;
+    text-align: left;
+    text-decoration: none;
+  }
+
+  .step:not(:first-child):not(:last-child) .step-label {
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .step:first-child .step-label {
+    left: -16px;
+  }
+
+  .step:last-child .step-label {
+    right: -16px;
+    text-align: right;
+  }
+
+  .step:not(.visited) .step-label {
+    color: $unvisited-step-color;
+  }
+
+  .step.visited .step-label {
+    color: $visited-step-color;
+  }
+
+  .step:hover:not(.clickable) .step-label {
+    text-decoration: underline;
+  }
+
+  .step {
     position: relative;
     text-align: left;
     text-decoration: none;
@@ -92,14 +72,14 @@
       cursor: pointer;
     }
 
-    .step-marker-node {
+    .step-marker {
       position: relative;
       width: $step-marker-width;
       height: $step-marker-width;
       overflow: visible;
     }
 
-    .step-marker-node > svg {
+    .step-marker > svg {
       position: absolute;
       top: 50%;
       left: 50%;
@@ -107,14 +87,14 @@
       overflow: visible;
     }
 
-    .step-marker-node > svg:nth-child(1) {
+    .step-marker > svg:nth-child(1) {
       width: $step-marker-width;
       height: $step-marker-width;
       fill: $visited-step-color;
       stroke: none;
     }
 
-    .step-marker-node > svg:nth-child(2) {
+    .step-marker > svg:nth-child(2) {
       width: #{$step-marker-width + 5px};
       height: #{$step-marker-width + 5px};
       fill: none;
@@ -152,12 +132,12 @@
     right: 0;
   }
 
-  .step-marker.current .step-label {
+  .step.current .step-label {
     font-weight: 600;
   }
 
-  .step-marker:not(.visited) {
-    svg:nth-child(1) circle {
+  .step:not(.visited) {
+    svg:first-child circle {
       fill: var(--ids-color-palette-graphite-10);
       stroke: $unvisited-step-color;
       stroke-width: 3px;

@@ -1,9 +1,6 @@
 import {
-  IdsElement,
-  customElement,
-  props,
-  scss,
-  mix
+  IdsElement, customElement,
+  props, scss, mix
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 // @ts-ignore
@@ -22,10 +19,9 @@ const hrefsAssignedSet = new Set();
  * IDS Wizard Component
  * @type {IdsWizard}
  * @inherits IdsElement
- *
- * @part step-label the label element of a step
- * @part step-marker the marker element of a step
- * @part path-segment the line segment between markers
+ * @part wizard - the overall wizard container
+ * @part step - a step on the wizard
+ * @part path-segment - the line between a step and another
  */
 @customElement('ids-wizard')
 @scss(styles)
@@ -52,6 +48,26 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       }
     }
   });
+
+  resizeObserver = new ResizeObserver((entries) => {
+    const [entry] = entries;
+    const { width } = Array.isArray(entry.contentRect)
+      ? [entry.contentRect]
+      : entry.contentRect;
+  });
+
+  /**
+   * fits and resizes all labels to fit
+   * within the space available
+   */
+  fitAndSizeElements() {
+    // Approach: check that each label is not overlapping
+    // each other. If they are, then recursively resize
+    // them to be width - 8px; they will self-align via
+    // CSS in between reflows
+
+    }
+  };
 
   /**
    * Return the properties we handle as getters/setters
@@ -84,8 +100,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} the template to render
    */
   template() {
-    let stepsBarInnerHtml = '';
-    let stepLabelsInnerHtml = '';
+    let stepsHtml = '';
 
     // iterate through ids-wizard-step
     // lightDOM to create shadowDOM markup
@@ -100,34 +115,49 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       const isClickable = this.isStepClickable(i + 1);
       const label = stepEl.textContent;
 
-      // --------------------- //
-      // construct bar steps   //
-      // ===================== //
-
-      let markerClassName = 'step-marker';
-      markerClassName += isCurrentStep ? ' current' : '';
-      markerClassName += isVisitedStep ? ' visited' : '';
-      markerClassName += isClickable ? ' clickable' : '';
+      let stepClassName = 'step';
+      stepClassName += isCurrentStep ? ' current' : '';
+      stepClassName += isVisitedStep ? ' visited' : '';
+      stepClassName += isClickable ? ' clickable' : '';
 
       const pathSegmentHtml = (i >= this.children.length - 1) ? '' : (
         `<div
           class="path-segment${stepIndex <= i ? '' : ' visited'}
-          part="path-segment""
+          part="path-segment"
         ></div>`
+      );
+
+      const stepLabelHtml = (
+        `<div
+          class="step-label"
+          step-number=${i + 1}
+        >
+          <ids-text
+            overflow="ellipsis"
+            size=18
+            font-weight="${isCurrentStep ? 'bold' : 'normal'}"
+            color="unset"
+          >${label}
+          </ids-text>
+        </div>`
       );
 
       const hrefUrl = this.hrefUrls?.[i];
       let anchorAttribsHtml = `name="#${label}" aria-label="${label}"`;
       anchorAttribsHtml += !isClickable ? '' : ` href="#${hrefUrl}"`;
 
-      stepsBarInnerHtml += (
+      stepsHtml += (
         `<a
-          class="${markerClassName}"
+          class="${stepClassName}"
+          part="step"
           step-number="${i + 1}"
-          part="step-marker"
+          tab-index="0"
           ${anchorAttribsHtml}
         >
-          <div class="step-marker-node">
+          <div
+            class="step-marker"
+            tab-index="-1"
+          >
             <svg viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="12" />
             </svg>
@@ -136,44 +166,16 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
                 <circle cx="12" cy="12" r="12" />
               </svg>`) }
           </div>
+          ${stepLabelHtml}
         </a>
         ${pathSegmentHtml}`
-      );
-
-      // --------------------- //
-      // construct labels      //
-      // ===================== //
-
-      // @ts-ignore
-
-      let labelClassName = 'step-label';
-      labelClassName += isVisitedStep ? ' visited' : '';
-      labelClassName += isClickable ? ' clickable' : '';
-
-      stepLabelsInnerHtml += (
-        `<a
-          class="${labelClassName}"
-          step-number=${i + 1}
-          part="step-label"
-          ${anchorAttribsHtml}>
-          <ids-text
-            overflow="ellipsis"
-            size=18
-            font-weight="${isCurrentStep ? 'bold' : 'normal'}"
-            color="unset"
-          >${label}
-          </ids-text>
-        </a>`
       );
     }
 
     return (
       `<div class="ids-wizard" step-count="${this.children.length}">
-        <div class="marker-bar">
-          ${stepsBarInnerHtml}
-        </div>
-        <div class="step-labels">
-          ${stepLabelsInnerHtml}
+        <div class="steps">
+          ${stepsHtml}
         </div>
       </div>`
     );
@@ -257,27 +259,23 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
     // stop observing changes before updating DOM
     this.stepObserver.disconnect();
+    this.resizeObserver.disconnect();
 
     // query through all steps and add click callbacks
     for (let stepNumber = 1; stepNumber <= this.children.length; stepNumber++) {
       if (!this.isStepClickable(stepNumber)) {
         continue;
       }
-      const stepMarker = this.shadowRoot.querySelector(
-        `.step-marker[step-number="${stepNumber}"]`
-      );
-      const stepLabel = this.shadowRoot.querySelector(
-        `.step-label[step-number="${stepNumber}"]`
+      const stepEl = this.shadowRoot.querySelector(
+        `.step[step-number="${stepNumber}"]`
       );
 
       const onClickStep = () => {
         this.stepNumber = `${stepNumber}`;
       };
 
-      this.offEvent(`click.step-marker.${stepNumber}`);
-      this.offEvent(`click.step-label.${stepNumber}`);
-      this.onEvent(`click.step-marker.${stepNumber}`, stepMarker, onClickStep);
-      this.onEvent(`click.step-label.${stepNumber}`, stepLabel, onClickStep);
+      this.offEvent(`click.step.${stepNumber}`);
+      this.onEvent(`click.step.${stepNumber}`, stepEl, onClickStep);
     }
 
     // set up observer for monitoring if a child element changed
@@ -287,6 +285,8 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       attributes: true,
       subtree: true
     });
+
+    this.resizeObserver.observe(this.container);
 
     this.shouldUpdateCallbacks = false;
   };
