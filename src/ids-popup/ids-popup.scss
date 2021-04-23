@@ -224,10 +224,15 @@ $transition-length: 200ms;
     @include rounded-default();
     @include text-16();
     @include text-white();
+    @include z-6000();
 
     .arrow.bottom,
     .arrow.bottom::after {
       border-bottom-color: var(--ids-color-palette-slate-80);
+    }
+
+    .arrow.bottom {
+      top: -8px;
     }
 
     .arrow.left,
@@ -235,9 +240,17 @@ $transition-length: 200ms;
       border-left-color: var(--ids-color-palette-slate-80);
     }
 
+    .arrow.left {
+      right: -8px;
+    }
+
     .arrow.right,
     .arrow.right::after {
       border-right-color: var(--ids-color-palette-slate-80);
+    }
+
+    .arrow.right {
+      left: -8px;
     }
 
     .arrow.top,
@@ -281,6 +294,45 @@ $transition-length: 200ms;
   }
 }
 
+.ids-popup.tooltip[mode='dark'] {
+  @include bg-white();
+  @include text-slate-100();
+
+  box-shadow: 0 2px 5px rgb(239, 239, 240, 0.4);
+
+  .arrow.top {
+    border-top-color: var(--ids-color-palette-white);
+
+    &::after {
+      border-top-color: var(--ids-color-palette-white);
+    }
+  }
+
+  .arrow.bottom {
+    border-bottom-color: var(--ids-color-palette-white);
+
+    &::after {
+      border-bottom-color: var(--ids-color-palette-white);
+    }
+  }
+
+  .arrow.left {
+    border-left-color: var(--ids-color-palette-white);
+
+    &::after {
+      border-left-color: var(--ids-color-palette-white);
+    }
+  }
+
+  .arrow.right {
+    border-right-color: var(--ids-color-palette-white);
+
+    &::after {
+      border-right-color: var(--ids-color-palette-white);
+    }
+  }
+}
+
 .ids-popup.menu[mode='contrast'] {
   @include bg-white();
   @include border-slate-60();
@@ -311,6 +363,44 @@ $transition-length: 200ms;
   }
 }
 
+.ids-popup.tooltip[version='classic'][mode='light'] {
+  @include text-classic-slate-80();
+
+  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+
+  .arrow.top {
+    border-top-color: var(--ids-color-palette-classic-slate-80);
+
+    &::after {
+      border-top-color: var(--ids-color-palette-classic-slate-80);
+    }
+  }
+
+  .arrow.bottom {
+    border-bottom-color: var(--ids-color-palette-classic-slate-80);
+
+    &::after {
+      border-bottom-color: var(--ids-color-palette-classic-slate-80);
+    }
+  }
+
+  .arrow.left {
+    border-left-color: var(--ids-color-palette-classic-slate-80);
+
+    &::after {
+      border-left-color: var(--ids-color-palette-classic-slate-80);
+    }
+  }
+
+  .arrow.right {
+    border-right-color: var(--ids-color-palette-classic-slate-80);
+
+    &::after {
+      border-right-color: var(--ids-color-palette-classic-slate-80);
+    }
+  }
+}
+
 .ids-popup.menu[version='classic'][mode='dark'] {
   @include border-graphite-50();
   @include bg-classic-slate-70();
@@ -326,6 +416,45 @@ $transition-length: 200ms;
   }
 }
 
+.ids-popup.tooltip[version='classic'][mode='dark'] {
+  @include bg-white();
+  @include text-classic-slate-100();
+
+  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+
+  .arrow.top {
+    border-top-color: var(--ids-color-palette-white);
+
+    &::after {
+      border-top-color: var(--ids-color-palette-white);
+    }
+  }
+
+  .arrow.bottom {
+    border-bottom-color: var(--ids-color-palette-white);
+
+    &::after {
+      border-bottom-color: var(--ids-color-palette-white);
+    }
+  }
+
+  .arrow.left {
+    border-left-color: var(--ids-color-palette-white);
+
+    &::after {
+      border-left-color: var(--ids-color-palette-white);
+    }
+  }
+
+  .arrow.right {
+    border-right-color: var(--ids-color-palette-white);
+
+    &::after {
+      border-right-color: var(--ids-color-palette-white);
+    }
+  }
+}
+
 .ids-popup.menu[version='classic'][mode='contrast'] {
   @include bg-white();
   @include border-classic-slate-30();
@@ -337,6 +466,45 @@ $transition-length: 200ms;
 
     &::after {
       border-bottom-color: var(--ids-color-palette-white);
+    }
+  }
+}
+
+.ids-popup.tooltip[version='classic'][mode='contrast'] {
+  @include bg-graphite-80();
+  @include text-white();
+
+  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+
+  .arrow.top {
+    border-top-color: var(--ids-color-palette-graphite-80);
+
+    &::after {
+      border-top-color: var(--ids-color-palette-graphite-80);
+    }
+  }
+
+  .arrow.bottom {
+    border-bottom-color: var(--ids-color-palette-graphite-80);
+
+    &::after {
+      border-bottom-color: var(--ids-color-palette-graphite-80);
+    }
+  }
+
+  .arrow.left {
+    border-left-color: var(--ids-color-palette-graphite-80);
+
+    &::after {
+      border-left-color: var(--ids-color-palette-graphite-80);
+    }
+  }
+
+  .arrow.right {
+    border-right-color: var(--ids-color-palette-graphite-80);
+
+    &::after {
+      border-right-color: var(--ids-color-palette-graphite-80);
     }
   }
 }

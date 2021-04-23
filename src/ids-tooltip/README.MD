@@ -30,11 +30,15 @@ A normal tooltip used as a web component attached to a button.
 
 ## Settings and Attributes
 
-- `target` {string} ....
-- `placement` {string} ....
-- `cssClass` {string} ....
-- `keepOpen` {boolean} ....
-- `trigger` {string} ....
+- `delay` {string | number} Set how long after hover you should delay before showing
+- `placement` {string} Sets the tooltip placement between left, right, top, bottom
+- `target` {string | HTMLElement} Set the target element via a css selector or HTMLElement
+- `trigger` {string} Set trigger agains the target between hover, click and focus
+- `visible` {string | boolean} Set tooltip immediately to visible/invisible
+
+## Themeable Parts
+
+- `tooltip` allows you to further style the tooltip container element
 
 ## States and Variations (With Code Examples)
 

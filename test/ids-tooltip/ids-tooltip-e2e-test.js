@@ -1,12 +1,12 @@
 describe('Ids Tooltip e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-tag';
+  const url = 'http://localhost:4444/ids-tooltip';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: 'load' });
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Tag Component');
+    await expect(page.title()).resolves.toMatch('IDS Tooltip Component');
   });
 
   it('should pass Axe accessibility tests', async () => {

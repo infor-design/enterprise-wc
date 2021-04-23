@@ -113,6 +113,7 @@ class IdsElement extends HTMLElement {
 
   /**
    * Append Styles if present
+   * @private
    */
   appendStyles() {
     // @ts-ignore

@@ -1,7 +1,6 @@
 import {
   IdsElement,
   customElement,
-  scss,
   mix,
   props,
   stringUtils
@@ -10,11 +9,10 @@ import {
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // @ts-ignore
 import IdsPopup from '../ids-popup/ids-popup';
-// @ts-ignore
-import styles from './ids-tooltip.scss';
 
 /**
  * IDS Tooltip Component
@@ -23,20 +21,29 @@ import styles from './ids-tooltip.scss';
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsRenderLoopMixin
+ * @mixes IdsThemeMixin
  * @part tooltip - the tooltip container
  */
 @customElement('ids-tooltip')
-@scss(styles)
 class IdsTooltip extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
-    IdsRenderLoopMixin
+    IdsRenderLoopMixin,
+    IdsThemeMixin
   ) {
   constructor() {
     super();
+
+    // Setup initial internal states
+    this.state = {
+      target: null,
+      trigger: 'hover',
+      visible: false,
+    };
   }
 
   connectedCallback() {
+    // Setup reasir reference to the popup element in the shadow root
     this.popup = this.shadowRoot.firstElementChild;
   }
 
@@ -45,7 +52,16 @@ class IdsTooltip extends mix(IdsElement).with(
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.TARGET];
+    return [
+      props.DELAY,
+      props.KEEP_OPEN,
+      props.PLACEMENT,
+      props.MODE,
+      props.TARGET,
+      props.TRIGGER,
+      props.VERSION,
+      props.VISIBLE
+    ];
   }
 
   /**
@@ -53,8 +69,8 @@ class IdsTooltip extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
-    return `<ids-popup class="ids-popup-menu">
-        <div class="ids-tooltip" slot="content">
+    return `<ids-popup class="ids-popup-menu" part="popup">
+        <div class="ids-tooltip" slot="content" part="tooltip">
           <slot></slot>
         </div>
         </ids-popup>
@@ -68,18 +84,70 @@ class IdsTooltip extends mix(IdsElement).with(
    */
   handleEvents() {
     this.detachAllEvents();
-    this.targetElem = (typeof this.target === 'string') ? document.querySelector(this.target) : this.target;
+    if (!(typeof this.target === 'string')) {
+      this.attachEvents(this.target);
+      return this;
+    }
 
-    this.onEvent('mouseenter.tooltip', this.targetElem, () => {
-      this.showOnTimer();
-    });
-    this.onEvent('mouseleave.tooltip', this.targetElem, () => {
-      this.hide();
-    });
-    this.onEvent('click.tooltip', this.targetElem, () => {
-      this.hide();
-    });
+    /** @type {any} */
+    const list = document.querySelectorAll(this.target);
+    for (let i = 0, len = list.length; i < len; i++) {
+      this.attachEvents(list[i]);
+    }
     return this;
+  }
+
+  /**
+   * Attach the events to a node.
+   * @param {HTMLElement} targetElem The element to attach events to
+   * @private
+   */
+  attachEvents(targetElem) {
+    // Events to show on hover
+    if (this.trigger === 'hover') {
+      this.onEvent('mouseenter.tooltip', targetElem, (e) => {
+        this.popup.alignTarget = e.currentTarget;
+        this.showOnTimer();
+      });
+      this.onEvent('mouseleave.tooltip', targetElem, () => {
+        this.visible = false;
+      });
+      this.onEvent('click.tooltip', targetElem, () => {
+        this.visible = false;
+      });
+      // Long Press
+      this.onEvent('contextmenu.tooltip', targetElem, (e) => {
+        alert();
+        this.visible = false;
+        e.preventDefault();
+      });
+    }
+
+    // Events to show on click
+    if (this.trigger === 'click') {
+      this.onEvent('click.tooltip', targetElem, (e) => {
+        this.popup.alignTarget = e.currentTarget;
+        if (this.visible) {
+          this.visible = false;
+          return;
+        }
+        if (!this.visible) {
+          this.visible = true;
+        }
+      });
+    }
+
+    // Events to show on focus
+    if (this.trigger === 'focus') {
+      this.onEvent('focusin.tooltip', targetElem, (e) => {
+        this.popup.alignTarget = e.currentTarget;
+        this.visible = true;
+      });
+
+      this.onEvent('focusout.tooltip', targetElem, () => {
+        this.visible = false;
+      });
+    }
   }
 
   /**
@@ -90,8 +158,9 @@ class IdsTooltip extends mix(IdsElement).with(
     this.clearTimer();
     // @ts-ignore
     this.timer = this.rl.register(new IdsRenderLoopItem({
-      duration: 500,
+      duration: this.delay,
       timeoutCallback: () => {
+        this.state.visible = true;
         this.show();
       }
     }));
@@ -109,8 +178,28 @@ class IdsTooltip extends mix(IdsElement).with(
 
   /**
    * Show the tooltip
+   * @private
    */
-  show() {
+  configurePopup() {
+    this.popup.type = 'tooltip';
+    this.popup.align = `${this.placement}, center`;
+    this.popup.arrow = this.placement;
+
+    if (this.placement === 'top' || this.placement === 'bottom') {
+      this.popup.x = 0;
+      this.popup.y = 12;
+    }
+    if (this.placement === 'left' || this.placement === 'right') {
+      this.popup.x = 12;
+      this.popup.y = 0;
+    }
+  }
+
+  /**
+   * Show the tooltip (use visible for public API)
+   * @private
+   */
+  async show() {
     this.clearTimer();
 
     // Trigger a veto-able `beforeshow` event.
@@ -118,6 +207,12 @@ class IdsTooltip extends mix(IdsElement).with(
     const beforeShowResponse = (/** @type {any} */ veto) => {
       canShow = !!veto;
     };
+
+    // Trigger an async callback for contents
+    if (this.state.beforeShow) {
+      const stuff = await this.state.beforeShow();
+      this.textContent = stuff;
+    }
 
     this.triggerEvent('beforeshow', this, {
       detail: {
@@ -133,61 +228,128 @@ class IdsTooltip extends mix(IdsElement).with(
     // Show the popup
     this.configurePopup();
     this.popup.visible = true;
+    this.state.visible = true;
   }
 
   /**
-   * Show the tooltip
-   * @private
-   */
-  configurePopup() {
-    this.popup.type = 'tooltip';
-    this.popup.align = 'top, center';
-    this.popup.arrow = 'top';
-    this.popup.y = 12;
-    this.popup.alignTarget = this.targetElem;
-  }
-
-  /**
-   * Show the tooltip
+   * Show the tooltip  (use visible for public API)
    */
   hide() {
     this.clearTimer();
     this.popup.visible = false;
+    this.state.visible = false;
   }
 
   /**
-   * Set tooltip to visible/invisible
-   * @param {string|boolean} value The target element selector
+   * An async function that fires as the tooltip is showing allowing you to set contents.
+   * @param {Function} func The async function
    */
-  set visible(value) {
-    const isVisible = stringUtils.stringToBool(value);
+  set beforeShow(func) {
+    this.state.beforeShow = func;
+  }
 
-    if (isVisible) {
-      this.setAttribute('visible', 'true');
+  get beforeShow() { return this.state.beforeShow; }
+
+  /**
+   * Set how long after hover you should delay before showing
+   * @param {number} value The amount in ms to delay
+   */
+  set delay(value) {
+    if (value) {
+      this.setAttribute('delay', value);
+      return;
+    }
+
+    this.removeAttribute('delay');
+  }
+
+  get delay() { return Number(this.getAttribute('delay')) || 500; }
+
+  /**
+   * Sets the tooltip placement between left, right, top, bottom
+   * @param {string} value The placement of the tooltip
+   */
+  set placement(value) {
+    this.state.placement = value;
+
+    if (value) {
+      this.setAttribute('placement', value);
+      return;
+    }
+
+    this.removeAttribute('placement');
+  }
+
+  get placement() { return this.getAttribute('placement') || 'top'; }
+
+  /**
+   * Set trigger agains the target between hover, click and focus
+   * @param {string} value The trigger mode to use
+   */
+  set trigger(value) {
+    this.state.trigger = value;
+
+    if (this.state.trigger) {
+      this.setAttribute('trigger', this.state.trigger);
       this.handleEvents();
       return;
     }
 
-    this.removeAttribute('visible', 'false');
+    this.removeAttribute('trigger');
+    this.handleEvents();
   }
 
-  get visible() { return this.getAttribute('visible'); }
+  get trigger() { return this.state.trigger || 'hover'; }
 
   /**
    * Set the target element for the tooltip
-   * @param {string} value The target element selector
+   * @param {string | HTMLElement} value The target element selector
    */
   set target(value) {
-    if (value) {
+    this.state.target = value;
+
+    if (value && typeof value !== 'string') {
+      this.removeAttribute('target');
+      this.handleEvents();
+      return;
+    }
+
+    if (value && typeof value === 'string') {
       this.setAttribute('target', value);
       this.handleEvents();
       return;
     }
 
     this.removeAttribute('target');
+    this.handleEvents();
   }
 
-  get target() { return this.getAttribute('target'); }
+  get target() { return this.state.target; }
+
+  /**
+   * Set tooltip immediately to visible/invisible
+   * @param {string|boolean} value The target element selector
+   */
+  set visible(value) {
+    this.state.visible = stringUtils.stringToBool(value);
+
+    if (!this.popup.alignTarget) {
+      // @ts-ignore
+      this.popup.alignTarget = document.querySelectorAll(this.target)[0];
+    }
+
+    if (this.state.visible) {
+      this.setAttribute('visible', 'true');
+      this.show();
+      return;
+    }
+
+    this.popup.alignTarget = null;
+    this.removeAttribute('visible');
+    this.hide();
+  }
+
+  get visible() { return this.state.visible; }
 }
 
 export default IdsTooltip;

@@ -420,7 +420,9 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Specifies whether to show the Popup Arrow, and in which direction
+   * Specifies whether to show the Popup Arrow, and in which direction.
+   * The direction is in relation to the alignment setting. So for example of you align: top
+   * you want arrow: top as well.
    * @param {string|null} val the arrow direction.  Defaults to `none`
    */
   set arrow(val) {

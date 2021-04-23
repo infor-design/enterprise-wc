@@ -1,20 +1,29 @@
 # TODO on the IDS Tooltip
 
-- [x] Performance - needs https://github.com/infor-design/enterprise/issues/5038 and maybe use links in the future but good for now
-- [ ] Add all options/settings
-  - [ ] Visible / true/false
-  - [ ] Positions
-  - [ ] Trigger Option
-  - [ ] Keep Open
-  - [ ] Ajax / Promises
-  - [ ] Css Class (use parts)
+- [x] Performance - needs [5038](https://github.com/infor-design/enterprise/issues/5038) and maybe use links in the future but good for now
+- [x] Add options/settings
+  - [x] Visible / true/false
+  - [x] Positions
+  - [x] Trigger Option
+  - [x] Keep Open (wont do)
+  - [x] Css Class (use parts)
+- [x] Themes
+- [x] Call backs/promises
+- [ ] Custom Events
+    - [ ] Long Press https://www.codegrepper.com/code-examples/javascript/long+press+function+js
+    - [ ] Keyboard Focus Event
 - [ ] Accessibility
   - [ ] Use `aria-describedby` or `aria-labelledby`
   - [ ] Make keyboard focus show the tooltip
-- [ ] Call backs/promises
 - [ ] Mixin version
-- [ ] Long Press
-- [ ] As Ellipsis
-- [ ] Add/Check Current API methods
-
-
+- [ ] As Ellipsis [4096](https://github.com/infor-design/enterprise/issues/4096)
+- [ ] Works on a thing with a popup [3621](https://github.com/infor-design/enterprise/issues/3621)
+- [ ] Events including [3618](https://github.com/infor-design/enterprise/issues/3618)
+- [ ] Add/Check Current API methods and props
+- [ ] Tests
+  - [x] Works on disabled
+  - [x] Two can share a tooltip
+  - [x] Trigger Test
+  - [x] Can change target
+  - [x] Focus Test
+  - [ ] e2e tests
