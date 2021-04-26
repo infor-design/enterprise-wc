@@ -1,4 +1,3 @@
-// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 
 /**

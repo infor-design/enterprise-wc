@@ -6,15 +6,10 @@ import {
   props
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-accordion.scss';
-// @ts-ignore
 import IdsAccordionHeader from './ids-accordion-header';
-// @ts-ignore
 import IdsAccordionPanel from './ids-accordion-panel';
-// @ts-ignore
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-// @ts-ignore
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 /**

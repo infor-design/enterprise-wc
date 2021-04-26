@@ -54,7 +54,6 @@ class IdsDataSource {
    * @param  {Function|null} primer Optional primer function
    */
   sort(field, reverse, primer) {
-    // @ts-ignore
     const sort = this.sortFunction(field, reverse, primer);
     this.currentData.sort(sort);
   }

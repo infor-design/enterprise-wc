@@ -7,7 +7,6 @@ import {
 import { IdsButton } from '../ids-button/ids-button';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
-// @ts-ignore
 import styles from './ids-trigger-button.scss';
 
 /**

@@ -15,7 +15,6 @@ import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
 import IdsSeparator from './ids-separator';
 
-// @ts-ignore
 import styles from './ids-menu.scss';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
@@ -28,7 +27,7 @@ import IdsDOMUtils from '../ids-base/ids-dom-utils';
  */
 function isValidGroup(menuGroup, idsMenu) {
   let hasGroup;
-  // @ts-ignore
+
   const isElem = menuGroup instanceof IdsMenuGroup;
   idsMenu.groups.forEach((group) => {
     if ((isElem && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {
@@ -45,7 +44,6 @@ function isValidGroup(menuGroup, idsMenu) {
  * @returns {boolean} true if the provided element is a "currently-usable" IdsMenuItem type.
  */
 function isUsableItem(item, idsMenu) {
-  // @ts-ignore
   const isItem = item instanceof IdsMenuItem;
   if (!isItem) {
     return false;
@@ -56,9 +54,7 @@ function isUsableItem(item, idsMenu) {
 
   // In some nested cases, we need to detect the item's Shadow Root containment to accurately
   // figure out if it's slotted inside the same menu.
-  // @ts-ignore
   const closestItemRoot = IdsDOMUtils.getClosestRootNode(item.assignedSlot);
-  // @ts-ignore
   const itemInMenuShadow = closestItemRoot?.menu?.isEqualNode(idsMenu);
 
   return (itemInMenuShadow || menuHasItem) && !item.disabled;
@@ -372,11 +368,8 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {IdsMenuItem|undefined} the currently focused menu item, if one exists
    */
   get focused() {
-    // @ts-ignore
     return this.items.find((item) => {
-      // @ts-ignore
       const containerNode = IdsDOMUtils.getClosestContainerNode(this);
-      // @ts-ignore
       return containerNode?.activeElement?.isEqualNode(item);
     });
   }
@@ -446,7 +439,6 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {void}
    */
   highlightItem(menuItem) {
-    // @ts-ignore
     if (!isUsableItem(menuItem, this)) {
       return;
     }
@@ -533,7 +525,6 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {Array<IdsMenuItem>} list of selected menu items
    */
   getSelectedItems(menuGroup) {
-    // @ts-ignore
     const group = isValidGroup(menuGroup, this);
     return this.items.filter((item) => {
       if (group) {
@@ -558,7 +549,6 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {void}
    */
   selectItem(menuItem) {
-    // @ts-ignore
     if (!isUsableItem(menuItem, this)) {
       return;
     }
@@ -592,7 +582,6 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {void}
    */
   clearSelectedItems(menuGroup) {
-    // @ts-ignore
     const group = isValidGroup(menuGroup, this);
     this.items.forEach((item) => {
       let doDeselect;

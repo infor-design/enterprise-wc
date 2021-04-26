@@ -1,6 +1,5 @@
 import { IdsElement, scss, customElement } from '../ids-base/ids-element';
 import { props } from '../ids-base/ids-constants';
-// @ts-ignore
 import styles from './ids-toolbar-section.scss';
 
 const TOOLBAR_SECTION_PROPS = [
