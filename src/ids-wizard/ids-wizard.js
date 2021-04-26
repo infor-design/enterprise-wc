@@ -6,9 +6,7 @@ import {
   mix
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-// @ts-ignore
 import IdsText from '../ids-text/ids-text';
-// @ts-ignore
 import styles from './ids-wizard.scss';
 
 /* istanbul ignore next */
@@ -185,7 +183,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
   stepObserver = new MutationObserver((mutations) => {
     for (const { type } of mutations) {
-      // @ts-ignore
       if (type === 'childList') {
         this.shouldUpdateCallbacks = true;
         this.updateHrefUrls();
@@ -209,7 +206,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
     for (let i = 0; i < this.children.length; i++) {
       const labelEl = getStepEl(this, i + 1).children[1];
-      // @ts-ignore
       labelEl.style.maxWidth = 'unset';
       labelEls.push(labelEl);
     }
@@ -260,7 +256,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     // iterate through ids-wizard-step
     // lightDOM to create shadowDOM markup
 
-    // @ts-ignore
     const stepIndex = this.stepNumber - 1;
 
     for (const [i, stepEl] of [...this.children].entries()) {
@@ -341,7 +336,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {number|string} step number (1-based)
    */
   get stepNumber() {
-    // @ts-ignore
     const stepNumber = parseInt(this.getAttribute(props.STEP_NUMBER));
 
     if (Number.isNaN(stepNumber)) {
@@ -360,7 +354,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       throw new Error('ids-wizard: Invalid step number provided');
     }
 
-    // @ts-ignore
     const v = parseInt(value);
     if (v <= 0) {
       throw new Error('ids-wizard: step number should be > 0');
@@ -437,7 +430,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     this.resizeObserver.observe(this.container);
 
     // set up observer for monitoring if a child element changed
-    // @ts-ignore
     this.stepObserver.observe(this, {
       childList: true,
       attributes: true,

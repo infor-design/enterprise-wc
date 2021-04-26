@@ -105,7 +105,6 @@ class IdsElement extends HTMLElement {
     // Give implementing-component an opportunity to react to
     // new render and replacement of container node
 
-    // @ts-ignore
     this.rendered?.();
 
     return this;
