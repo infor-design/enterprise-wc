@@ -66,6 +66,7 @@ class IdsCounts extends mix(IdsElement).with(IdsThemeMixin) {
    */
   set color(value) {
     const colors = new Set(['base', 'caution', 'danger', 'success', 'warning']);
+    this.setAttribute('color', value);
     if (value[0] === '#') {
       this.container.style.color = value || '';
       return;

@@ -35,11 +35,6 @@ describe('IdsCounts Component', () => {
     expect(count.color).toEqual('#800000');
   });
 
-  it('defaults to right color', () => {
-    count.color = 'invalidInput';
-    expect(count.getAttribute('color')).toEqual('text-azure-60()');
-  });
-
   it('is able to change sizes via compact attribute', () => {
     count.compact = 'true';
     expect(count.getAttribute('compact')).toEqual('true');
