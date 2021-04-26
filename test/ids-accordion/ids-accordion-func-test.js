@@ -206,4 +206,14 @@ describe('IdsAccordion Component', () => {
     panel.expanded = true;
     expect(panel.expanded).toEqual('true');
   });
+
+  it('supports setting mode', () => {
+    accordion.mode = 'dark';
+    expect(accordion.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    accordion.version = 'classic';
+    expect(accordion.container.getAttribute('version')).toEqual('classic');
+  });
 });

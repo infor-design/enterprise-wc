@@ -491,4 +491,14 @@ describe('IdsInput Component', () => {
     expect(input.input.classList).toContain('md');
     sizes.forEach((s) => checkSize(s));
   });
+
+  it('supports setting mode', () => {
+    input.mode = 'dark';
+    expect(input.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    input.version = 'classic';
+    expect(input.container.getAttribute('version')).toEqual('classic');
+  });
 });

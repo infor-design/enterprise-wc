@@ -25,6 +25,10 @@ A page loader can be added to a page by adding an ids-loader to the page and run
 
 TBD
 
+## Themeable Parts
+
+- `loader` allows you to further style the loader element
+
 ## States and Variations (With Code Examples)
 
 - Loading

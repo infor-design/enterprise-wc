@@ -2,8 +2,7 @@ describe('Ids Tag e2e Tests', () => {
   const url = 'http://localhost:4444/ids-loader';
 
   beforeAll(async () => {
-    page = await browser.newPage();
-    await page.goto(url, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
   it('should not have errors', async () => {
@@ -11,9 +10,8 @@ describe('Ids Tag e2e Tests', () => {
   });
 
   it('should pass Axe accessibility tests', async () => {
-    page = await browser.newPage();
     await page.setBypassCSP(true);
-    await page.goto(url, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
     await expect(page).toPassAxeTests();
   });
 });

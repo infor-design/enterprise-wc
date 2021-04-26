@@ -173,6 +173,12 @@ Set Radio Group as Horizontal:
 - `validation-events` {string} set the validation events, use `space` to add multiple default is set to `change`.
 - `value` {string} set the radio group value, will set as checked the matching radio value in list.
 
+## Themeable Parts
+
+- `radio` allows you to further style the actual radio input element
+- `circle` allows you to further style the visible circle element
+- `label` allows you to further style the label text element
+
 ## States and Variations
 
 - Unchecked

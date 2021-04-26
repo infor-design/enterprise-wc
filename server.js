@@ -1,36 +1,29 @@
-// Required Libraries
-const WebpackDevServer = require('webpack-dev-server');
+// Setup a simple express server used only for running tests
+const express = require('express');
 const fs = require('fs');
-const webpack = require('webpack');
-const path = require('path');
 const log = require('loglevel');
-const config = require('./webpack.config.js');
 
-// Setup the port to run on
-const PORT = process.env.PORT || 4300;
+const app = express();
+const port = process.env.PORT || 4444;
 
-// Configure options for hot reload / web pack dev server
-const options = {
-  port: PORT,
-  writeToDisk: true,
-  contentBase: path.resolve(__dirname, 'dist'),
-  liveReload: true,
-  hot: false, // not sure why this doesnt work as reliably as liveReload
-  before: (app) => {
-    app.get('/api/:fileName', (req, res) => {
-      const { fileName } = req.params;
-      const json = fs.readFileSync(`./app/data/${fileName}.json`, 'utf8');
-      res.json(JSON.parse(json));
-    });
-  },
-};
+// Handle no extension files as html
+app.use((req, res, next) => {
+  if (req.path.indexOf('.') === -1) {
+    res.setHeader('Content-Type', 'text/html');
+  }
+  next();
+});
 
-// Start Express / webpack dev server
-WebpackDevServer.addDevServerEntrypoints(config, options);
-const compiler = webpack(config);
-const server = new WebpackDevServer(compiler, options);
+app.use('/', express.static(`${__dirname}/dist`));
 
-// Listen for requests
-server.listen(PORT, 'localhost', () => {
-  log.warn(`Dev server listening on port ${PORT}`);
+// Server the static data in app data
+app.get('/api/:fileName', (req, res) => {
+  const { fileName } = req.params;
+  const json = fs.readFileSync(`./app/data/${fileName}.json`, 'utf8');
+  res.json(JSON.parse(json));
+});
+
+// Listen on port 4444
+app.listen(port, () => {
+  log.warn(`Dev server listening on port ${port}`);
 });

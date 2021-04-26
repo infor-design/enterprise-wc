@@ -6,10 +6,12 @@ import {
   props
 } from '../ids-base/ids-element';
 
+// Import Mixins
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore
+// @ts-ignore Import inline styles
 import styles from './ids-tag.scss';
 
 /**
@@ -18,20 +20,25 @@ import styles from './ids-tag.scss';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @part background-color - the tag background color
- * @part color - the text color
+ * @mixes IdsThemeMixin
+ * @part tag - the tag element
+ * @part icon - the icon element
  */
 @customElement('ids-tag')
 @scss(styles)
-class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
 
+  /**
+   * Invoked each time the custom element is appended into a document-connected element.
+   */
   connectedCallback() {
     this
       .handleEvents()
       .handleKeys();
+    super.connectedCallback();
   }
 
   /**
@@ -39,7 +46,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.COLOR, props.CLICKABLE, props.DISMISSIBLE];
+    return [props.COLOR, props.CLICKABLE, props.DISMISSIBLE, props.MODE, props.VERSION];
   }
 
   /**
@@ -47,7 +54,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {string} The template
    */
   template() {
-    return '<span class="ids-tag"><slot></slot></span>';
+    return '<span class="ids-tag" part="tag"><slot></slot></span>';
   }
 
   /**
@@ -61,6 +68,10 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       const prop = value.substr(0, 1) === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
       this.container.style.backgroundColor = prop;
       this.container.style.borderColor = value === 'secondary' ? '' : prop;
+
+      if (value === 'caution' || value.substr(0, 1) === '#') {
+        this.container.style.color = 'var(--ids-color-palette-slate-100)';
+      }
 
       if (value === 'error' || value === 'danger') {
         this.container.classList.add('ids-white');
@@ -90,7 +101,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   appendIcon(iconName) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (!icon) {
-      this.insertAdjacentHTML('beforeend', `<ids-icon icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
+      this.insertAdjacentHTML('beforeend', `<ids-icon part="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
       this.handleEvents();
     }
   }
@@ -205,7 +216,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     }
 
     let canDismiss = true;
-    const response = (/** @type {boolean} */ veto) => {
+    const response = (veto) => {
       canDismiss = !!veto;
     };
     this.triggerEvent('beforetagremoved', this, { detail: { elem: this, response } });

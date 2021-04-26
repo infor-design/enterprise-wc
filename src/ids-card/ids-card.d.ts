@@ -5,4 +5,10 @@ import { IdsElement } from '../ids-base/ids-element';
 export default class IdsCard extends IdsElement {
   /** Set the card height */
   autoHeight: boolean;
+
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
 }

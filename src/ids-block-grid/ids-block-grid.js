@@ -7,6 +7,11 @@ import { props } from '../ids-base/ids-constants';
 // @ts-ignore
 import styles from './ids-block-grid.scss';
 
+/**
+ * IDS Block Grid Component
+ * @type {IdsBlockgrid}
+ * @inherits IdsElement
+ */
 @customElement('ids-block-grid')
 @scss(styles)
 class IdsBlockgrid extends IdsElement {

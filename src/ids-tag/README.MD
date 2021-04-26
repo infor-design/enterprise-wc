@@ -47,6 +47,12 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 - `dismissible` {boolean} Turns on the functionality to add an (x) button to clear remove the tag
 - `color` {string} Sets the color to a internal color such as `azure` or may be a hex starting with a `#`
 
+## Themeable Parts
+
+- `checkbox` allows you to further style the checkbox input element
+- `slider` allows you to further style the sliding part of the switch
+- `label` allows you to further style the label text
+
 ## States and Variations (With Code Examples)
 
 - Color
@@ -72,31 +78,7 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 ## Designs
 
-[Figma Design Specs](https://www.figma.com/files/project/2768042/Infor-Design-System)
-
-## Alternate Designs
-
-N/A
-
-## Proposed Changes
-
-- Fix Accessibility issue (1.4.1 Use of Color) by adding an icon to the color tags.
-- Fix Accessibility issue (1.4.3 Contrast (Minimum)) by changing or not using some tags
-
-## Test Plan
-
-1. Works with 4.x version in the same page
-1. Accessibility - Color Contrast
-1. Accessibility - Web Aim
-1. Accessibility - Keyboard
-1. Visual Regression Tests for all states
-1. Click Events
-1. Clickable
-1. Linkable/Clickable
-1. Resize/Responsive Behavior
-1. Repeat Tests in All Supported Browsers
-1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-1. Can be consumed (pull it in standalone/built see it works standalone)
+[Design Specs](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
 
 ## Accessibility Guidelines
 

@@ -23,6 +23,11 @@ This component is a building-block component for many "placeable" IDS Components
 **Arrow** Popups can optionally display arrows that can point to content when used with an Align Target.
 **Type** Defines the style of Popup that can be used.  There are several different display types, the most common one being `menu`.
 
+## Themeable Parts
+
+- `popup` allows you to further style or adjust the outer popup element
+- `arrow` allows you to adjust the arrow element
+
 ## Features (with code samples)
 
 Creating a Context-menu style that would open on click might look like the following:

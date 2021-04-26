@@ -69,6 +69,13 @@ class IdsElement extends HTMLElement {
   }
 
   /**
+   * @returns {Array<string>} this component's observable properties
+   */
+  static get properties() {
+    return [];
+  }
+
+  /**
    * Render the component using the defined template.
    * @returns {object} The object for chaining.
    */
@@ -80,6 +87,11 @@ class IdsElement extends HTMLElement {
 
     // Make template and shadow objects
     const template = document.createElement('template');
+
+    if (this.shadowRoot?.innerHTML) {
+      this.shadowRoot.innerHTML = '';
+    }
+
     if (!this.shadowRoot) {
       this.attachShadow({ mode: 'open' });
     }
@@ -90,9 +102,12 @@ class IdsElement extends HTMLElement {
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
     /** @type {any} */
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
-
+    if (!this.container) {
+      this.container = this.shadowRoot?.firstElementChild;
+    }
     // Remove any close hidden element to avoid FOUC
     this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
+    this.closest('ids-container')?.removeAttribute('hidden');
     return this;
   }
 

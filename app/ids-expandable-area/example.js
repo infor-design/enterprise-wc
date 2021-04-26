@@ -5,6 +5,7 @@ import IdsText from '../../src/ids-text/ids-text';
 import IdsInput from '../../src/ids-input/ids-input';
 import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
 import IdsIcon from '../../src/ids-icon/ids-icon';
+import IdsHyperlink from '../../src/ids-hyperlink/ids-hyperlink';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Add an event listener to test clickable links

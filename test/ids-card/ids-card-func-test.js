@@ -54,4 +54,14 @@ describe('IdsCard Component', () => {
     expect(card.getAttribute('auto-height')).toEqual(null);
     expect(card.autoHeight).toEqual(null);
   });
+
+  it('supports setting mode', () => {
+    card.mode = 'dark';
+    expect(card.container.getAttribute('mode')).toEqual('dark');
+  });
+
+  it('supports setting version', () => {
+    card.version = 'classic';
+    expect(card.container.getAttribute('version')).toEqual('classic');
+  });
 });

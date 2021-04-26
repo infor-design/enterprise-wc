@@ -8,6 +8,7 @@ import {
 
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
 // @ts-ignore
@@ -53,11 +54,15 @@ const ICON_ALIGN = [
  * @type {IdsButton}
  * @inherits IdsElement
  * @mixes IdsRenderLoopMixin
+ * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
+ * @part button - the button element
+ * @part icon - the icon element
+ * @part text - the text element
  */
 @customElement('ids-button')
 @scss(styles)
-class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin) {
+class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
     this.state = {};
@@ -96,6 +101,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
     this.handleEvents();
     this.setIconAlignment();
     this.shouldUpdate = true;
+    super.connectedCallback();
   }
 
   /**
@@ -103,7 +109,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return BUTTON_PROPS;
+    return [...super.properties, ...BUTTON_PROPS];
   }
 
   /**
@@ -115,7 +121,6 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
     const textSlot = this.querySelector('span:not(.audible)');
     const iconSlot = this.querySelector('ids-icon[slot]')
       || this.querySelector('ids-icon');
-
     if (iconSlot && (!textSlot)) {
       return ['ids-icon-button'];
     }
@@ -159,10 +164,10 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
       tabIndex = `tabindex="${this.state.tabIndex}"`;
     }
     if (this.state?.icon) {
-      icon = `<ids-icon slot="icon" icon="${this.state.icon}"></ids-icon>`;
+      icon = `<ids-icon slot="icon" part="icon" icon="${this.state.icon}"></ids-icon>`;
     }
     if (this.state?.text) {
-      text = `<span slot="text">${this.state.text}</span>`;
+      text = `<span slot="text" part="text">${this.state.text}</span>`;
     }
     if (this.state && this.state?.type !== 'default') {
       type = ` btn-${this.state.type}`;
@@ -173,13 +178,13 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin)
     }
 
     let alignCSS = ' align-icon-start';
-    let namedSlots = `<slot name="icon">${icon}</slot><slot name="text">${text}</slot>`;
+    let namedSlots = `<slot name="icon" part="icon">${icon}</slot><slot name="text">${text}</slot>`;
     if (this.state?.iconAlign === 'end') {
       alignCSS = ' align-icon-end';
-      namedSlots = `<slot name="text">${text}</slot><slot name="icon">${icon}</slot>`;
+      namedSlots = `<slot name="text" part="text">${text}</slot><slot name="icon">${icon}</slot>`;
     }
 
-    return `<button class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
+    return `<button part="button" class="${protoClasses}${type}${alignCSS}${cssClass}" ${tabIndex}${disabled}>
       ${namedSlots}
       <slot>${icon}${text}</slot>
     </button>`;
