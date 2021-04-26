@@ -2,17 +2,24 @@ import {
   IdsElement,
   customElement,
   scss,
-  props
+  props,
+  mix
 } from '../ids-base/ids-element';
+
+// Import Theme Mixin
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+
+// @ts-ignore
+import IdsText from '../ids-text/ids-text';
 
 // @ts-ignore
 import styles from './ids-counts.scss';
 
 // Boilerplate text for ShadowDOM tags
 const textTags = {
-  text: '<div text><slot name="text"></slot></div>',
-  value1: '<div compact=',
-  value2: '><slot name="value"></slot></div>'
+  text: '<ids-text class="message-text"><slot name="text"></slot></ids-text>',
+  value1: '<ids-text class="message-text" font-size=',
+  value2: '><slot name="value"></slot></ids-text>'
 };
 
 /**
@@ -22,7 +29,7 @@ const textTags = {
  */
 @customElement('ids-counts')
 @scss(styles)
-class IdsCounts extends IdsElement {
+class IdsCounts extends mix(IdsElement).with(IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -32,7 +39,7 @@ class IdsCounts extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.COLOR, props.COMPACT, props.HREF];
+    return [props.COLOR, props.COMPACT, props.HREF, props.MODE, props.VERSION];
   }
 
   /**
@@ -40,11 +47,11 @@ class IdsCounts extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    const numSize = () => String(this.getAttribute('compact') === 'true');
+    const numSize = () => String(this.getAttribute('compact') === 'true' ? 32 : 40);
     const href = this.getAttribute('href');
 
     return `
-      ${href ? `<a class="ids-counts" href=${this.getAttribute('href') || '#'}>` : `<span class="ids-counts">`}
+      ${href ? `<a class="ids-counts" mode="${this.mode}" href=${this.getAttribute('href') || '#'}>` : `<span class="ids-counts" mode="${this.mode}">`}
       ${href
       ? `${textTags.value1}${numSize()}${textTags.value2}${textTags.text}`
       : `${textTags.text}${textTags.value1}${numSize()}${textTags.value2}`}
@@ -54,7 +61,7 @@ class IdsCounts extends IdsElement {
 
   /**
    * Set the color of the tag
-   * @param {string} value The color value, this can be not provided,
+   * @param {string} value The color value. This can be omitted.
    * base (blue), caution, danger, success, warning, or a hex code with the "#"
    */
   set color(value) {

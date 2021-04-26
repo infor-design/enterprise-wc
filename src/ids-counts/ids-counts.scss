@@ -15,22 +15,27 @@ a {
   text-decoration: none;
 }
 
-div[compact='false'] {
-  @include text-40();
+span {
+  @include text-slate-80();
 }
 
-div[compact='true'] {
-  @include text-32();
+// Handle Themes
+.ids-counts[mode='dark'] {
+  @include text-slate-10();
 }
 
-div[text] {
-  @include text-16();
+.ids-counts[mode='contrast'] {
+  @include text-slate-100();
 }
 
-.text {
-  @include text-40();
+.ids-counts[mode='light'][version='classic'] {
+  @include text-graphite-60();
 }
 
-.value {
-  @include text-16();
+.ids-counts[mode='dark'][version='classic'] {
+  @include text-classic-slate-10();
+}
+
+.ids-counts[mode='contrast'][version='classic'] {
+  @include text-graphite-80();
 }
