@@ -76,22 +76,15 @@ describe('IdsWizard Tests', () => {
     expect(elem.stepNumber).toEqual(3);
   });
 
-  it('has all markers besides selected become clickable via parent', () => {
+  it('has all steps besides selected become clickable via parent', () => {
     elem.clickable = true;
     expect(elem.clickable).toEqual('true');
 
     const expectedClickableCount = elem.children.length - 1;
 
-    const clickableMarkerCount = elem.shadowRoot.querySelectorAll(
-      '.step-marker.clickable'
-    ).length;
+    const clickableCount = elem.shadowRoot.querySelectorAll('.step.clickable').length;
 
-    const clickableLabelCount = elem.shadowRoot.querySelectorAll(
-      '.step-label.clickable'
-    ).length;
-
-    expect(expectedClickableCount).toEqual(clickableMarkerCount);
-    expect(expectedClickableCount).toEqual(clickableLabelCount);
+    expect(expectedClickableCount).toEqual(clickableCount);
   });
 
   it('sets a random attribute with no visual differences', () => {

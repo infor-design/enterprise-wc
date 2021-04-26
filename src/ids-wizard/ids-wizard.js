@@ -11,6 +11,7 @@ import IdsText from '../ids-text/ids-text';
 // @ts-ignore
 import styles from './ids-wizard.scss';
 
+/* istanbul ignore next */
 /**
  * retrieves a step marker element within
  * a wizard's shadow DOM
@@ -25,6 +26,7 @@ function getStepEl(wizardEl, stepNumber) {
   );
 }
 
+/* istanbul ignore next */
 /**
  * Checks whether bounding box/rects retrieved
  * from elem's bounding box are colliding horizontally
@@ -41,6 +43,7 @@ function areRectsHColliding(r1, r2) {
   );
 }
 
+/* istanbul ignore next */
 /**
  * Recursively resize steps for an element so they don't collide;
  *
@@ -191,10 +194,12 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     }
   });
 
+  /* istanbul ignore next */
   resizeObserver = new ResizeObserver(() => {
     this.fitAndSizeElements();
   });
 
+  /* istanbul ignore next */
   /**
    * fits and resizes all labels to fit
    * within the space available
