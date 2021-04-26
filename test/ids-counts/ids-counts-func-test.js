@@ -32,7 +32,6 @@ describe('IdsCounts Component', () => {
   it('renders a specific hex color', () => {
     count.color = '#800000';
     expect(count.getAttribute('color')).toEqual('#800000');
-    expect(count.color).toEqual('#800000');
   });
 
   it('is able to change sizes via compact attribute', () => {

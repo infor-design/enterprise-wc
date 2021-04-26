@@ -71,7 +71,7 @@ class IdsCounts extends mix(IdsElement).with(IdsThemeMixin) {
       this.setAttribute('color', value);
       return;
     }
-    const color = colors.has(value) ? `var(--ids-color-status-${value})` : 'text-azure-60()';
+    const color = colors.has(value) ? `var(--ids-color-status-${value})` : '';
     this.container.style.color = color;
     this.setAttribute('color', color);
   }

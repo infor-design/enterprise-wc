@@ -5,18 +5,10 @@ a,
 span {
   @include font-sans();
   @include antialiased();
+  @include text-slate-80();
 
   text-align: center;
-}
-
-a {
-  @include text-azure-60();
-
   text-decoration: none;
-}
-
-span {
-  @include text-slate-80();
 }
 
 // Handle Themes
