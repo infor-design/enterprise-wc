@@ -64,12 +64,15 @@ function convertToMask(strNumber) {
  * @returns {string} the incoming string formatted with a thousands separator.
  */
 function addThousandsSeparator(n, thousands, options = {}, localeStringOpts = {}) {
+  return n;
+
+  /*
+  // @TODO: Re-enable this when Locale is ported to WebComponents
   if (n === '' || isNaN(n)) {
     return n;
   }
 
-  // let formatted = Locale.toLocaleString(Number(n), options.locale, localeStringOpts, thousands);
-  let formatted = n;
+  let formatted = Locale.toLocaleString(Number(n), options.locale, localeStringOpts, thousands);
 
   // `Number.toLocaleString` does not account for leading zeroes, so we have to put them
   // back if we've configured this Mask to use them.
@@ -85,6 +88,7 @@ function addThousandsSeparator(n, thousands, options = {}, localeStringOpts = {}
   }
 
   return formatted;
+  */
 }
 
 /**

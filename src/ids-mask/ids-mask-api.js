@@ -129,7 +129,7 @@ class MaskAPI {
         processResult.pipedValue = pipeResult;
         processResult.pipedCharIndexes = [];
       } else {
-        processResult = IdsDeepCloneUtils.deepCopy(processResult);
+        processResult = IdsDeepCloneUtils.deepClone(processResult);
         processResult.pipeResult = pipeResult.result;
         processResult.pipedValue = pipeResult.value;
         processResult.pipedCharIndexes = pipeResult.characterIndexes;

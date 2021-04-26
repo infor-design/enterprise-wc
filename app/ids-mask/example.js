@@ -15,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
   numberInput.mask = 'number';
   numberInput.maskOptions = {
     allowDecimal: true,
+    allowNegative: true,
     allowThousandsSeparator: true,
     decimalLimit: 2,
     integerLimit: 7

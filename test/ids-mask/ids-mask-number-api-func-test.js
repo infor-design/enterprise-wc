@@ -48,7 +48,7 @@ describe('IdsMaskAPI (Number)', () => {
       pattern: numberMask,
       patternOptions: {
         locale: 'en-US',
-        allowThousands: true,
+        allowThousandsSeparator: true,
         integerLimit: 10
       }
     };
@@ -119,7 +119,7 @@ describe('IdsMaskAPI (Number)', () => {
       },
       pattern: numberMask,
       patternOptions: {
-        allowThousands: false,
+        allowThousandsSeparator: false,
         integerLimit: 10
       }
     };
@@ -162,7 +162,7 @@ describe('IdsMaskAPI (Number)', () => {
       pattern: numberMask,
       patternOptions: {
         locale: 'hi-ID',
-        allowThousands: false,
+        allowThousandsSeparator: false,
         integerLimit: 10
       }
     };
@@ -196,7 +196,7 @@ describe('IdsMaskAPI (Number)', () => {
       pattern: numberMask,
       patternOptions: {
         locale: 'hi-ID',
-        allowThousands: false,
+        allowThousandsSeparator: false,
         integerLimit: 10
       }
     };
@@ -229,7 +229,7 @@ describe('IdsMaskAPI (Number)', () => {
       },
       pattern: numberMask,
       patternOptions: {
-        allowThousands: false,
+        allowThousandsSeparator: false,
         integerLimit: 10
       }
     };
@@ -247,7 +247,7 @@ describe('IdsMaskAPI (Number)', () => {
       },
       pattern: numberMask,
       patternOptions: {
-        allowThousands: false,
+        allowThousandsSeparator: false,
         integerLimit: 10
       }
     };
@@ -267,7 +267,7 @@ describe('IdsMaskAPI (Number)', () => {
       pattern: numberMask,
       patternOptions: {
         allowLeadingZeros: true,
-        allowThousands: true,
+        allowThousandsSeparator: true,
         allowDecimal: true,
         allowNegative: true,
         integerLimit: 10,
