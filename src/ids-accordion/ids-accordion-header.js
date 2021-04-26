@@ -6,11 +6,8 @@ import {
   mix
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-accordion-header.scss';
-// @ts-ignore
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-// @ts-ignore
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 // Default Icons

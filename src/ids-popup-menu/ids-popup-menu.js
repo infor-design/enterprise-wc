@@ -10,7 +10,6 @@ import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-render-loop/ids-re
 import IdsMenu from '../ids-menu/ids-menu';
 import IdsPopup from '../ids-popup/ids-popup';
 
-// @ts-ignore
 import styles from './ids-popup-menu.scss';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
@@ -73,7 +72,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
       this.popup.align = 'right, top';
     }
 
-    // @ts-ignore
     IdsMenu.prototype.connectedCallback.apply(this);
   }
 
@@ -82,12 +80,10 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
    * @returns {void}
    */
   handleEvents() {
-    // @ts-ignore
     IdsMenu.prototype.handleEvents.apply(this);
 
     // This handler runs whenever an item contained by the Popupmenu needs to become focused.
     const doFocusHandler = () => {
-      // @ts-ignore
       this.rl.register(new IdsRenderLoopItem({
         duration: 1,
         timeoutCallback: () => {
@@ -116,7 +112,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
    * @returns {void}
    */
   handleKeys() {
-    // @ts-ignore
     IdsMenu.prototype.handleKeys.apply(this);
 
     // Arrow Right on an item containing a submenu causes that submenu to open
@@ -274,7 +269,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
    */
   addOpenEvents() {
     // Attach all these events on a Renderloop-staggered timeout
-    // @ts-ignore
     this.rl.register(new IdsRenderLoopItem({
       duration: 1,
       timeoutCallback: () => {
@@ -297,7 +291,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     if (!this.hasOpenEvents) {
       return;
     }
-    // @ts-ignore
     this.offEvent('click.toplevel', window);
     this.hasOpenEvents = false;
   }
@@ -334,7 +327,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     const beforeShowResponse = (/** @type {any} */ veto) => {
       canShow = !!veto;
     };
-    // @ts-ignore
     this.triggerEvent('beforeshow', this, {
       detail: {
         elem: this,
@@ -374,7 +366,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     submenus.forEach((submenu) => {
       const submenuIsIgnored = focusedSubmenu && focusedSubmenu.isEqualNode(submenu);
       if (!submenu.hidden && !submenuIsIgnored) {
-        // @ts-ignore
         submenu.hide();
       }
     });

@@ -6,7 +6,6 @@ import {
   props
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-icon.scss';
 
 // Setting Defaults

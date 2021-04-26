@@ -26,9 +26,7 @@ const IdsResizeMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   checkForIDS() {
-    // @ts-ignore
     if (!window.Ids) {
-      // @ts-ignore
       window.Ids = {};
     }
   }
@@ -43,10 +41,8 @@ const IdsResizeMixin = (superclass) => class extends superclass {
     // Build the global instance of it doesn't exist.
     // The global resize handler will attempt to run a `refresh` method
     // if it finds one on any registered component.
-    // @ts-ignore
     if (!window.Ids.resizeObserver && typeof ResizeObserver !== 'undefined') {
       /* istanbul ignore next */
-      // @ts-ignore
       window.Ids.resizeObserver = new ResizeObserver(() => {
         resizeTargets.forEach((e) => {
           if (typeof e.refresh === 'function') {
@@ -59,7 +55,6 @@ const IdsResizeMixin = (superclass) => class extends superclass {
     // Connect the `ro` property to the global instance
     /* istanbul ignore next */
     if (!this.ro) {
-      // @ts-ignore
       this.ro = window.Ids.resizeObserver;
     }
 
@@ -89,7 +84,6 @@ const IdsResizeMixin = (superclass) => class extends superclass {
    * for Resize instructions.
    */
   shouldResize() {
-    // @ts-ignore
     return typeof ResizeObserver !== 'undefined' && this.ro instanceof ResizeObserver;
   }
 

@@ -9,7 +9,6 @@ import {
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore
 import styles from './ids-badge.scss';
 
 /**

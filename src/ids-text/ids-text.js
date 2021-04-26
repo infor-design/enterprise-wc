@@ -11,7 +11,6 @@ import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
-// @ts-ignore
 import styles from './ids-text.scss';
 
 const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
@@ -112,9 +111,7 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.container?.classList.remove(...fontWeightClasses);
 
     if (hasValue) {
-      // @ts-ignore
       this.setAttribute(props.FONT_WEIGHT, value);
-      // @ts-ignore
       this.container?.classList.add(value);
       return;
     }
@@ -151,7 +148,6 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
     if (isValueTruthy && this.container && !this.container?.classList.contains('audible')) {
       this.container.classList.add('audible');
-      // @ts-ignore
       this.setAttribute(props.AUDIBLE, value);
     }
 
