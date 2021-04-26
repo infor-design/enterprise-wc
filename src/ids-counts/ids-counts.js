@@ -66,12 +66,14 @@ class IdsCounts extends mix(IdsElement).with(IdsThemeMixin) {
    */
   set color(value) {
     const colors = new Set(['base', 'caution', 'danger', 'success', 'warning']);
-    this.setAttribute('color', value);
     if (value[0] === '#') {
-      this.container.style.color = value || '';
+      this.container.style.color = value;
+      this.setAttribute('color', value);
       return;
     }
-    this.container.style.color = colors.has(value) ? `var(--ids-color-status-${value})` : 'text-azure-60()';
+    const color = colors.has(value) ? `var(--ids-color-status-${value})` : 'text-azure-60()';
+    this.container.style.color = color;
+    this.setAttribute('color', color);
   }
 
   /**
