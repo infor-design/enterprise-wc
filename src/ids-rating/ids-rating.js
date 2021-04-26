@@ -52,9 +52,67 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       return `<div id="rating"></div>`;
     }
 
+    /**
+    * @returns {Array<string>} this component's observable properties
+    */
+    static get properties() {
+      return [
+        'value',
+        'stars',
+        'readonly'
+      ];
+    }
+
+    /**
+    * @param {any} v
+    */
+    set value(v) {
+      if(v) {
+        //console.log(v)
+        this.setAttribute('value', v.toString())
+      }
+    }
+
+    get value() {
+      //console.log(this.getAttribute('value'))
+      return this.getAttribute('value')
+    }
+
+    /**
+    * @param {any} v
+    */
+    set stars(v) {
+      if(v) {
+        console.log(v)
+        const ratingsContainer = this.shadowRoot.querySelector('#rating');
+        this.ratingBuilder(ratingsContainer, v);
+        this.setAttribute('stars', v.toString());
+      }
+    }
+
+    get stars() {
+      //console.log(this.getAttribute('stars'))
+      return this.getAttribute('stars')
+    }
+
+    /**
+    * @param {any} v
+    */
+    set readonly(v) {
+      if(v) {
+        //console.log(v)
+        this.setAttribute('readonly', v.toString());
+      }
+    }
+
+    get readonly() {
+      //console.log(this.getAttribute('readonly'))
+      return this.getAttribute('readonly')
+    }
+
     buildDOM() {
       const ratingsContainer = this.shadowRoot.querySelector('#rating');
-      this.ratingBuilder(ratingsContainer);
+      this.ratingBuilder(ratingsContainer, 5);
       if (this.ratingsConfig.ratingsAttr.readonly) {
         this.updateDecimalNum(ratingsContainer.children);
       } else {
@@ -88,8 +146,8 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     /**
     * @param {HTMLDivElement} el
     */
-    ratingBuilder(el) {
-      const amount = this.ratingsConfig.ratingsAttr.star;
+    ratingBuilder(el, stars) {
+      const amount = stars; //this.getAttribute('stars'); //this.ratingsConfig.ratingsAttr.star;
       for (let i = 0; i < amount; i++) {
         this.buildRatingStar(el, i);
       }
