@@ -5,7 +5,6 @@ import {
   customElement
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-toolbar.scss';
 
 // Supporting Components
@@ -160,10 +159,8 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    */
   get focused() {
     // @TODO clean this up / document why/how it works
-    // @ts-ignore
     return this.items.find((item) => {
       const container = IdsDOMUtils.getClosestContainerNode(item);
-      // @ts-ignore
       const focused = container.activeElement;
       const isEqualNode = focused?.isEqualNode(item);
       return isEqualNode;

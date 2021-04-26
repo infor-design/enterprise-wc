@@ -9,7 +9,6 @@ import {
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore
 import styles from './ids-expandable-area.scss';
 
 const EXPANDABLE_AREA_TYPES = [
@@ -40,10 +39,8 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     /** @type {HTMLElement | undefined | null} */
     this.expander = this.shadowRoot?.querySelector('[data-expander]');
     /** @type {HTMLElement | undefined | null} */
-    // @ts-ignore
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     /** @type {HTMLElement | undefined | null} */
-    // @ts-ignore
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
     /** @type {HTMLElement | undefined | null} */
     this.pane = this.shadowRoot?.querySelector('.ids-expandable-area-pane');

@@ -10,9 +10,7 @@ import {
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
-// @ts-ignore
 import styles from './ids-skip-link.scss';
-// @ts-ignore
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
 /**
