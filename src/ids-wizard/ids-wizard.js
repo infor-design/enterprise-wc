@@ -1,12 +1,154 @@
 import {
-  IdsElement, customElement,
-  props, scss, mix
+  IdsElement,
+  customElement,
+  props,
+  scss,
+  mix
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
 // @ts-ignore
 import styles from './ids-wizard.scss';
+
+/**
+ * retrieves a step marker element within
+ * a wizard's shadow DOM
+ *
+ * @param {*} wizardEl source Wizard
+ * @param {*} stepNumber step number
+ * @returns {HTMLElement} the step element
+ */
+function getStepEl(wizardEl, stepNumber) {
+  return wizardEl?.shadowRoot?.querySelector(
+    `.step[step-number="${stepNumber}"]`
+  );
+}
+
+/**
+ * Checks whether bounding box/rects retrieved
+ * from elem's bounding box are colliding horizontally
+ *
+ * @param {DOMRect} r1 elem1's bounding box
+ * @param {DOMRect} r2 elem2's bounding box
+ *
+ * @returns {boolean} whether there is collision on x-axis
+ */
+function areRectsHColliding(r1, r2) {
+  return (
+    ((r1.left + r1.width) > r2.left)
+    && ((r1.right - r1.width) < r2.right)
+  );
+}
+
+/**
+ * Recursively resize steps for an element so they don't collide;
+ *
+ * only pass the wizard element, defaults set so that they can be
+ * inferred/computed properly
+ *
+ * @param {Array} args the arguments; should be IdsWizard element as only
+ * user-defined element
+ *
+ * @returns {Array<DOMRect>} array of rects for step positioning/sizing
+ */
+function resizeStepLabelRects(...args) {
+  const w = args[0];
+  const n = args[1] || 1;
+  let rects = args[2] || [];
+  let totalWidth = args[3] || -1;
+
+  // if this is the initial run, populate the
+  // rects array and grab total width
+
+  if (totalWidth === -1) {
+    const wizardRect = w.getBoundingClientRect();
+    totalWidth = wizardRect.width;
+
+    for (let i = 0; i < w.children.length; i++) {
+      // eslint-disable-next-line no-unused-vars
+      const [stepEl, labelEl] = getStepEl(w, i + 1).children;
+
+      const labelRect = labelEl.getBoundingClientRect();
+      const offsetRect = {
+        width: labelRect.width,
+        left: labelRect.left,
+        right: labelRect.right
+      };
+
+      rects.push(offsetRect);
+    }
+  }
+
+  if (rects.length <= 1) {
+    return rects;
+  }
+
+  const r1 = rects[n - 1];
+  const r2 = rects[n];
+
+  while (areRectsHColliding(r1, r2)) {
+    const isR1LeftAligned = n === 1;
+    const isR2RightAligned = n === rects.length - 1;
+
+    let r1Mult = Math.round((r1.width / r2.width) * 0.5);
+    let r2Mult = Math.round((r2.width / r1.width) * 0.5);
+
+    if (r1.width <= 24) { r1Mult = 0; }
+    if (r2.width <= 24) { r2Mult = 0; }
+
+    if (isR1LeftAligned) {
+      r1Mult *= 0.5;
+    }
+
+    if (isR2RightAligned) {
+      r2Mult *= 0.5;
+    }
+
+    // gradually subtract width
+
+    r1.width -= 8 * r1Mult;
+    r2.width -= 8 * r2Mult;
+
+    // if r1 content is left-aligned
+    if (isR1LeftAligned) {
+      r1.right -= 8 * r1Mult;
+      r2.right -= 4 * r2Mult;
+      r2.left += 4 * r2Mult;
+    }
+
+    // if r2 content is right-aligned
+
+    if (isR2RightAligned) {
+      r2.left += 8 * r2Mult;
+      r1.right -= 4 * r1Mult;
+      r1.left += 4 * r1Mult;
+    }
+
+    // both are centered in neither case
+
+    if (!isR1LeftAligned) {
+      r1.left += 4 * r1Mult;
+      r1.right -= 4 * r1Mult;
+    }
+
+    if (!isR2RightAligned) {
+      r2.left += 4 * r2Mult;
+      r2.right -= 4 * r2Mult;
+    }
+  }
+
+  // update rects after morphing them above
+
+  rects[n - 1] = r1;
+  rects[n] = r2;
+
+  if (n < rects.length - 1) {
+    rects = resizeStepLabelRects(w, n + 1, rects, totalWidth);
+  }
+
+  return rects;
+}
 
 /**
  * maps objects to href sets;
@@ -49,11 +191,8 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     }
   });
 
-  resizeObserver = new ResizeObserver((entries) => {
-    const [entry] = entries;
-    const { width } = Array.isArray(entry.contentRect)
-      ? [entry.contentRect]
-      : entry.contentRect;
+  resizeObserver = new ResizeObserver(() => {
+    this.fitAndSizeElements();
   });
 
   /**
@@ -61,13 +200,24 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
    * within the space available
    */
   fitAndSizeElements() {
-    // Approach: check that each label is not overlapping
-    // each other. If they are, then recursively resize
-    // them to be width - 8px; they will self-align via
-    // CSS in between reflows
+    const labelEls = [];
 
+    for (let i = 0; i < this.children.length; i++) {
+      const labelEl = getStepEl(this, i + 1).children[1];
+      // @ts-ignore
+      labelEl.style.maxWidth = 'unset';
+      labelEls.push(labelEl);
     }
-  };
+
+    window.requestAnimationFrame(() => {
+      const stepRects = resizeStepLabelRects(this);
+      for (let i = 0; i < stepRects.length; i++) {
+        const { width } = stepRects[i];
+
+        labelEls[i].style.maxWidth = `${width}px`;
+      }
+    });
+  }
 
   /**
    * Return the properties we handle as getters/setters
@@ -266,7 +416,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       if (!this.isStepClickable(stepNumber)) {
         continue;
       }
-      const stepEl = this.shadowRoot.querySelector(
+      const stepEl = this.shadowRoot?.querySelector(
         `.step[step-number="${stepNumber}"]`
       );
 
@@ -278,6 +428,9 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       this.onEvent(`click.step.${stepNumber}`, stepEl, onClickStep);
     }
 
+    // set up observer for resize which prevents overlapping labels
+    this.resizeObserver.observe(this.container);
+
     // set up observer for monitoring if a child element changed
     // @ts-ignore
     this.stepObserver.observe(this, {
@@ -285,8 +438,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       attributes: true,
       subtree: true
     });
-
-    this.resizeObserver.observe(this.container);
 
     this.shouldUpdateCallbacks = false;
   };
