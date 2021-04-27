@@ -95,8 +95,8 @@ function resizeStepLabelRects(...args) {
     let r1Mult = Math.round((r1.width / r2.width) * 0.5);
     let r2Mult = Math.round((r2.width / r1.width) * 0.5);
 
-    if (r1.width <= 24) { r1Mult = 0; }
-    if (r2.width <= 24) { r2Mult = 0; }
+    if (r1.width <= 16) { r1Mult = 0.01; }
+    if (r2.width <= 16) { r2Mult = 0.01; }
 
     if (isR1LeftAligned) {
       r1Mult *= 0.5;
