@@ -68,7 +68,7 @@ function resizeStepLabelRects(...args) {
 
     for (let i = 0; i < w.children.length; i++) {
       // eslint-disable-next-line no-unused-vars
-      const [stepEl, labelEl] = getStepEl(w, i + 1).children;
+      const [_stepEl, labelEl] = getStepEl(w, i + 1).children;
 
       const labelRect = labelEl.getBoundingClientRect();
       const offsetRect = {
@@ -111,22 +111,17 @@ function resizeStepLabelRects(...args) {
     r1.width -= 8 * r1Mult;
     r2.width -= 8 * r2Mult;
 
-    // if r1 content is left-aligned
     if (isR1LeftAligned) {
       r1.right -= 8 * r1Mult;
       r2.right -= 4 * r2Mult;
       r2.left += 4 * r2Mult;
     }
 
-    // if r2 content is right-aligned
-
     if (isR2RightAligned) {
       r2.left += 8 * r2Mult;
       r1.right -= 4 * r1Mult;
       r1.left += 4 * r1Mult;
     }
-
-    // both are centered in neither case
 
     if (!isR1LeftAligned) {
       r1.left += 4 * r1Mult;
@@ -139,14 +134,18 @@ function resizeStepLabelRects(...args) {
     }
   }
 
-  // update rects after morphing them above
+  // update rect refs after morphing them above
 
   rects[n - 1] = r1;
   rects[n] = r2;
 
+  // recursive case
+
   if (n < rects.length - 1) {
     rects = resizeStepLabelRects(w, n + 1, rects, totalWidth);
   }
+
+  // pass back rect changes
 
   return rects;
 }
