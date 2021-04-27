@@ -180,12 +180,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   shouldUpdateCallbacks = true;
 
   /**
-   * store hash of last resize coordinates
-   * to prevent resize observer when unsub/subbing
-   */
-  resizeHash = undefined;
-
-  /**
    * stored to prevent re-calling encodeUri(label)
    */
   hrefUrls = [];
@@ -419,6 +413,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
         this.shouldUpdateCallbacks = true;
         this.render();
 
+        /** istanbul ignore next */
         if ((typeof activeStepNumber === 'string') && parseInt(activeStepNumber)) {
           const currentStep = this.shadowRoot.querySelector(
             `[step-number="${activeStepNumber}"]`
