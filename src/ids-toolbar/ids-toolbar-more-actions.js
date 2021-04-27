@@ -1,6 +1,5 @@
 import { IdsElement, scss, customElement } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-toolbar-more-actions.scss';
 
 // Subcomponents

@@ -15,7 +15,6 @@ class MixinBuilder {
    * @returns {HTMLElement} the new "mixed" Class
    */
   with(...mixins) {
-    // @ts-ignore
     return mixins.reduce((c, mixin) => mixin(c), this.superclass);
   }
 }

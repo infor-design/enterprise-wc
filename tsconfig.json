@@ -3,7 +3,7 @@
     "allowJs": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "checkJs": true,
+    "checkJs": false,
     "noEmit": true,
     // We'd like to use noImplicitAny: true, but we often need to access
     // arbitrary data on elements, and have not yet worked out an easy way to

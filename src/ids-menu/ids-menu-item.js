@@ -11,10 +11,8 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 
-// @ts-ignore
 import styles from './ids-menu-item.scss';
 
 // @TODO handle other menu-item sizes
@@ -222,14 +220,12 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
       clearHideSubmenuTimeout();
       if (!this.disabled && this.hasSubmenu) {
         clearHoverTimeout();
-        // @ts-ignore
         hoverTimeout = new IdsRenderLoopItem({
           duration: 200,
           timeoutCallback() {
             self.showSubmenu();
           }
         });
-        // @ts-ignore
         this.rl.register(hoverTimeout);
       }
 
@@ -255,7 +251,6 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
 
       if (this.hasSubmenu && !this.submenu.hidden) {
         clearHideSubmenuTimeout();
-        // @ts-ignore
         hideSubmenuTimeout = new IdsRenderLoopItem({
           duration: 200,
           timeoutCallback() {
@@ -268,7 +263,6 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
             }
           }
         });
-        // @ts-ignore
         this.rl.register(hideSubmenuTimeout);
       } else {
         this.unhighlight();
@@ -323,7 +317,6 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     const currentAttr = this.hasAttribute(props.DISABLED);
 
     if (trueVal) {
-      // @ts-ignore
       a.disabled = true;
       a.setAttribute(props.DISABLED, '');
       this.tabIndex = -1;
@@ -336,7 +329,6 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
       return;
     }
 
-    // @ts-ignore
     a.disabled = false;
     a.removeAttribute(props.DISABLED);
     this.tabIndex = 0;
@@ -441,7 +433,6 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     // First look specifically for an icon slot.
     const icon = this.querySelector(`ids-icon[slot="icon"]`); // @TODO check for submenu icons here
     if (icon) {
-      // @ts-ignore
       icon.icon = iconName;
     } else {
       this.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${iconName}" size="${MENU_ITEM_SIZE}" class="ids-icon ids-menu-item-display-icon"></ids-icon>`);

@@ -6,7 +6,6 @@ import {
   props
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-upload-advanced.scss';
 
 // Mixins
@@ -15,9 +14,7 @@ import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore
 import IdsUploadAdvancedFile from './ids-upload-advanced-file';
-// @ts-ignore
 import IdsHyperLink from '../ids-hyperlink/ids-hyperlink';
 
 /**

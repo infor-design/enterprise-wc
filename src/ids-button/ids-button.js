@@ -11,7 +11,6 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
-// @ts-ignore
 import styles from './ids-button.scss';
 
 // Button Styles
@@ -346,7 +345,6 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin,
    * @returns {undefined|string} a defined IdsIcon's `icon` attribute, if one is present
    */
   get icon() {
-    // @ts-ignore
     return this.querySelector('ids-icon')?.getAttribute('icon');
   }
 
@@ -610,7 +608,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin,
     if (this.rippleTimeout) {
       this.rippleTimeout.destroy(true);
     }
-    // @ts-ignore
+
     this.rippleTimeout = this.rl.register(new IdsRenderLoopItem({
       duration: 1200,
       timeoutCallback() {
