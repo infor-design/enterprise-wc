@@ -8,6 +8,7 @@ import {
 
 // Import Theme Mixin
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
@@ -26,10 +27,13 @@ const textTags = {
  * IDS Counts Component
  * @type {IdsCounts}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part link - the link element
  */
 @customElement('ids-counts')
 @scss(styles)
-class IdsCounts extends mix(IdsElement).with(IdsThemeMixin) {
+class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -51,7 +55,7 @@ class IdsCounts extends mix(IdsElement).with(IdsThemeMixin) {
     const href = this.getAttribute('href');
 
     return `
-      ${href ? `<a class="ids-counts" mode="${this.mode}" href=${this.getAttribute('href') || '#'}>` : `<span class="ids-counts" mode="${this.mode}">`}
+      ${href ? `<a class="ids-counts" part="link" mode="${this.mode}" href=${this.getAttribute('href') || '#'}>` : `<span class="ids-counts" mode="${this.mode}">`}
       ${href
       ? `${textTags.value1}${numSize()}${textTags.value2}${textTags.text}`
       : `${textTags.text}${textTags.value1}${numSize()}${textTags.value2}`}
@@ -68,13 +72,15 @@ class IdsCounts extends mix(IdsElement).with(IdsThemeMixin) {
     const colors = new Set(['base', 'caution', 'danger', 'success', 'warning']);
     if (value[0] === '#') {
       this.container.style.color = value;
-      this.setAttribute('color', value);
+      this.setAttribute(props.COLOR, value);
       return;
     }
     const color = colors.has(value) ? `var(--ids-color-status-${value})` : '';
     this.container.style.color = color;
-    this.setAttribute('color', color);
+    this.setAttribute(props.COLOR, color);
   }
+
+  get color() { return this.getAttribute(props.COLOR); }
 
   /**
    * Set the compact attribute
@@ -82,16 +88,20 @@ class IdsCounts extends mix(IdsElement).with(IdsThemeMixin) {
    * default to regular size if this property is ommitted.
    */
   set compact(value) {
-    this.setAttribute('compact', value === 'true' ? 'true' : 'false');
+    this.setAttribute(props.COMPACT, value === 'true' ? 'true' : 'false');
   }
+
+  get compact() { return this.getAttribute(props.COMPACT); }
 
   /**
    * Set the href attribute
    * @param {string} value The href link
    */
   set href(value) {
-    this.setAttribute('href', value || '#');
+    this.setAttribute(props.HREF, value || '#');
   }
+
+  get href() { return this.getAttribute(props.HREF); }
 }
 
 export { IdsCounts };

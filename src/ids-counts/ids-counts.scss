@@ -1,33 +1,40 @@
 /* Ids Counts Component */
 @import '../ids-base/ids-base';
 
-a,
-span {
+.ids-counts {
   @include font-sans();
   @include antialiased();
   @include text-slate-80();
 
   text-align: center;
   text-decoration: none;
+
+  &[href] {
+    @include text-azure-60();
+  }
+
+  &[color] {
+    color: unset;
+  }
 }
 
 // Handle Themes
-.ids-counts[mode='dark'] {
+.ids-counts[mode='dark']:not([color]) {
   @include text-slate-10();
 }
 
-.ids-counts[mode='contrast'] {
+.ids-counts[mode='contrast']:not([color]) {
   @include text-slate-100();
 }
 
-.ids-counts[mode='light'][version='classic'] {
+.ids-counts[mode='light'][version='classic']:not([color]) {
   @include text-graphite-60();
 }
 
-.ids-counts[mode='dark'][version='classic'] {
+.ids-counts[mode='dark'][version='classic']:not([color]) {
   @include text-classic-slate-10();
 }
 
-.ids-counts[mode='contrast'][version='classic'] {
+.ids-counts[mode='contrast'][version='classic']:not([color]) {
   @include text-graphite-80();
 }
