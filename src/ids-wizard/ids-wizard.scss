@@ -92,6 +92,7 @@
       height: $step-marker-width;
       fill: $visited-step-color;
       stroke: none;
+      z-index: 2;
     }
 
     .step-marker > svg:nth-child(2) {
@@ -99,7 +100,9 @@
       height: #{$step-marker-width + 5px};
       fill: none;
       stroke: $visited-step-color;
+      background-color: var(--ids-color-palette-graphite-10);
       stroke-width: 1px;
+      z-index: 1;
     }
   }
 
