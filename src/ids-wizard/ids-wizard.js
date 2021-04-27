@@ -173,7 +173,17 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     this.updateHrefUrls();
   }
 
+  /**
+   * whether to update callbacks after
+   * a render() event
+   */
   shouldUpdateCallbacks = true;
+
+  /**
+   * store hash of last resize coordinates
+   * to prevent resize observer when unsub/subbing
+   */
+  resizeHash = undefined;
 
   /**
    * stored to prevent re-calling encodeUri(label)
@@ -300,12 +310,12 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
           class="${stepClassName}"
           part="step"
           step-number="${i + 1}"
-          tab-index="0"
+          tabindex="0"
           ${anchorAttribsHtml}
         >
           <div
             class="step-marker"
-            tab-index="-1"
+            tabindex="-1"
           >
             <svg viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="12" />
@@ -380,12 +390,49 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   attributeChangedCallback(name, oldValue, newValue) {
     super.attributeChangedCallback(name, oldValue, newValue);
 
+    // when we change the step number, we want to track any
+    // size changes we defined for maxWidth, so that we
+    // don't see any kind of flicker via remeasure (ResizeObserver
+    // does not have an option not to dispatch initially).
+
+    // We also want to render the changes quickly,
+    // and focus trap the selected step if needed
+    // so that focus isn't lost suddenly
+
     if (oldValue !== newValue) {
       switch (name) {
       case 'clickable':
       case 'step-number': {
+        const activeStepNumber = document.activeElement.getAttribute('step-number');
+
+        // track any label widths
+
+        const resizedWidthsMap = new Map();
+
+        for (let i = 0; i < this.children?.length; i++) {
+          const labelEl = getStepEl(this, i + 1).children?.[1];
+          if (labelEl.style.maxWidth !== 'unset') {
+            resizedWidthsMap.set(i + 1, labelEl.style.maxWidth);
+          }
+        }
+
         this.shouldUpdateCallbacks = true;
         this.render();
+
+        if ((typeof activeStepNumber === 'string') && parseInt(activeStepNumber)) {
+          const currentStep = this.shadowRoot.querySelector(
+            `[step-number="${activeStepNumber}"]`
+          );
+          currentStep?.focus();
+
+          // restore label widths after render
+          for (const [stepNumber, width] of resizedWidthsMap) {
+            const labelEl = getStepEl(this, stepNumber)?.children?.[1];
+            if (labelEl?.style) {
+              labelEl.style.maxWidth = width;
+            }
+          }
+        }
         break;
       }
       /* istanbul ignore next */
