@@ -142,8 +142,8 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get type() { return this.getAttribute(props.TYPE); }
 
   /**
-   * Set the type of element it is (h1-h6, span (default))
-   * @param {string | null} value  The type of element
+   * If set to "unset", color can be controlled by parent container
+   * @param {string | null} value  "unset" or undefined/null
    */
   set color(value) {
     if (value === 'unset') {
