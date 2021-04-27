@@ -42,6 +42,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     connectedCallback() {
       this.buildDOM();
+      console.log(this.ratingsConfig)
     }
 
     /**
@@ -68,13 +69,11 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     */
     set value(v) {
       if(v) {
-        //console.log(v)
         this.setAttribute('value', v.toString())
       }
     }
 
     get value() {
-      //console.log(this.getAttribute('value'))
       return this.getAttribute('value')
     }
 
@@ -83,15 +82,11 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     */
     set stars(v) {
       if(v) {
-        console.log(v)
-        const ratingsContainer = this.shadowRoot.querySelector('#rating');
-        this.ratingBuilder(ratingsContainer, v);
         this.setAttribute('stars', v.toString());
       }
     }
 
     get stars() {
-      //console.log(this.getAttribute('stars'))
       return this.getAttribute('stars')
     }
 
@@ -100,24 +95,24 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     */
     set readonly(v) {
       if(v) {
-        //console.log(v)
         this.setAttribute('readonly', v.toString());
       }
     }
 
     get readonly() {
-      //console.log(this.getAttribute('readonly'))
       return this.getAttribute('readonly')
     }
 
     buildDOM() {
       const ratingsContainer = this.shadowRoot.querySelector('#rating');
-      this.ratingBuilder(ratingsContainer, 5);
-      if (this.ratingsConfig.ratingsAttr.readonly) {
+      const numStars = this.getAttribute('stars') === null ? 5 : this.getAttribute('stars');
+      this.ratingBuilder(ratingsContainer, numStars);
+      if (this.getAttribute('readonly') === 'true') {
         this.updateDecimalNum(ratingsContainer.children);
       } else {
         this.addRemoveClass();
       }
+      this.udpateValue()
     }
 
     /**
@@ -147,7 +142,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     * @param {HTMLDivElement} el
     */
     ratingBuilder(el, stars) {
-      const amount = stars; //this.getAttribute('stars'); //this.ratingsConfig.ratingsAttr.star;
+      const amount = stars;
       for (let i = 0; i < amount; i++) {
         this.buildRatingStar(el, i);
       }
