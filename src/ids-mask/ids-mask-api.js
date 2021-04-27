@@ -36,6 +36,15 @@ class MaskAPI {
       throw new Error('No string provided');
     }
 
+    debugger;
+
+    // If no text selection information exists, set defaults
+    if (!opts.selection) {
+      opts.selection = {
+        start: 0
+      };
+    }
+
     let maskObj = {};
     let processResult = {
       originalValue: rawValue,
@@ -64,17 +73,19 @@ class MaskAPI {
         };
       }
 
-      // mask functions can setup caret traps to have some control over how the caret
-      // moves. We need to process the mask for any caret traps. `processCaretTraps`
-      // will remove the caret traps from the mask and return the indexes of the caret traps.
-      const caretTrapInfo = this.processCaretTraps(maskObj.mask);
+      if (Array.isArray(maskObj.mask)) {
+        // mask functions can setup caret traps to have some control over how the caret
+        // moves. We need to process the mask for any caret traps. `processCaretTraps`
+        // will remove the caret traps from the mask and return the indexes of the caret traps.
+        const caretTrapInfo = this.processCaretTraps(maskObj.mask);
 
-      // The processed mask is what we're interested in
-      maskObj.mask = caretTrapInfo.maskWithoutCaretTraps;
-      maskObj.caretTrapIndexes = caretTrapInfo.indexes;
+        // The processed mask is what we're interested in
+        maskObj.mask = caretTrapInfo.maskWithoutCaretTraps;
+        maskObj.caretTrapIndexes = caretTrapInfo.indexes;
 
-      // And we need to store these indexes because they're needed by `adjustCaretPosition`
-      opts.caretTrapIndexes = caretTrapInfo.indexes;
+        // And we need to store these indexes because they're needed by `adjustCaretPosition`
+        opts.caretTrapIndexes = caretTrapInfo.indexes;
+      }
     } else {
       // Use a provided array
       maskObj = {
@@ -83,23 +94,19 @@ class MaskAPI {
       };
     }
 
-    // As a convenience, setting the mask to false will cause it to return without processing.
-    if (maskObj.mask === false) {
-      return processResult;
-    }
-
     try {
-      debugger;
       processResult = this.conformToMask(rawValue, maskObj, opts);
     } catch (e) {
-      console.error(`Couldn't complete masking process: "${e.message}"`);
       return processResult;
     }
 
-    if (opts.patternOptions && opts.patternOptions.delimeter &&
-      processResult.conformedValue && processResult.conformedValue !== rawValue) {
+    // Adjusts the caret position to the end of the value in some cases (range number/date masks).
+    // @TODO Re-enable this code when we re-implement range date/time/number masks
+    /*
+    if (opts.patternOptions?.delimeter && processResult?.conformedValue !== rawValue) {
       processResult.caretPos = processResult.conformedValue.length;
     }
+    */
 
     // Handle the optional "pipe" cleanup method, if applicable.
     if (typeof opts.pipe === 'function') {
@@ -110,7 +117,6 @@ class MaskAPI {
       try {
         pipeResult = opts.pipe(processResult, opts);
       } catch (e) {
-        // console.error('Couldn\'t complete mask\'s pipe function: "'+ e.message +'"');
         pipeResult = false;
       }
 
@@ -161,11 +167,11 @@ class MaskAPI {
 
     // Setup booleans and numbers for various settings (speed)
     let charactersRejected = false;
-    const suppressGuide = conformSettings.guide === false && conformSettings.previousMaskResult !== undefined;
+    const suppressGuide = conformSettings.guide === false;
     const rawValueLength = rawValue.length;
     const prevMaskResultLength = conformSettings.previousMaskResult.length;
     const maskLength = maskObj.mask.length;
-    const placeholderLength = conformSettings.placeholder.length || 0;
+    const placeholderLength = conformSettings.placeholder.length;
     const placeholderChar = conformSettings.placeholderChar;
     let caretPos = conformSettings.selection.start;
     let resultStr = EMPTY_STRING;
@@ -301,7 +307,7 @@ class MaskAPI {
                 conformSettings.keepCharacterPositions !== true ||
                 rawValueChar.isNew === false ||
                 conformSettings.previousMaskResult === EMPTY_STRING ||
-                conformSettings.guide === false ||
+                suppressGuide ||
                 !isAddition
               ) {
                 resultStr += rawValueChar.char;
@@ -743,8 +749,7 @@ class MaskAPI {
 
   /**
    * Gets the safe raw value of an input field
-   * @private
-   * @param {?} inputValue the original value that came from an input field or other source
+   * @param {any} inputValue the original value that came from an input field or other source
    * @returns {string} the string-ified version of the original value
    */
   getSafeRawValue(inputValue) {

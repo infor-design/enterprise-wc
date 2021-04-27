@@ -38,23 +38,6 @@ export const ALPHAS_REGEX = /[\u00C0-\u017Fa-zA-Z]/;
 export const ANY_REGEX = /[\u00C0-\u017Fa-zA-Z0-9]/;
 
 /**
- * Legacy Mask pattern definitions.
- * The New Mask works based on an array of RegExps and Strings.
- * Will be translated to RegExp when a string-based pattern is convered to an array in the new Mask.
- * @property {object} LEGACY_DEFS mask definitions used by the old Soho Mask component.
- */
-export const LEGACY_DEFS = {
-  '#': DIGITS_REGEX,
-  0: DIGITS_REGEX,
-  x: ALPHAS_REGEX,
-  '*': ANY_REGEX,
-  '?': /./,
-  '~': /[-0-9]/,
-  a: /[APap]/,
-  m: /[Mm]/
-};
-
-/**
  * Default options that get passed for the `maskAPI.conformToMask()` method.
  * @property {object} DEFAULT_CONFORM_OPTIONS default options
  */
@@ -87,7 +70,9 @@ export function convertPatternFromString(pattern) {
     const patternArray = pattern.substring(1, pattern.length - 1).split(/, ?/g);
     return patternArray.map((item) => {
       // Remove quotes
-      if (item.charAt(0) === '\'') {
+      // NOTE: need to detect single and double quotes here
+      // eslint-disable-next-line
+      if (["'", '"'].includes(item.charAt(0))) {
         return item.substring(1, item.length - 1);
       }
       // Convert string-based regex into RegExp objects

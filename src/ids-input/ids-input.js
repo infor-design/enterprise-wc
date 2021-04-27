@@ -38,6 +38,8 @@ const INPUT_PROPS = [
   props.LABEL_REQUIRED,
   props.MODE,
   props.MASK,
+  props.MASK_GUIDE,
+  props.MASK_RETAIN_POSITIONS,
   props.MASK_OPTIONS,
   props.PLACEHOLDER,
   props.SIZE,

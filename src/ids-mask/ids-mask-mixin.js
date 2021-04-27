@@ -3,6 +3,7 @@ import { convertPatternFromString, PLACEHOLDER_CHAR } from './ids-mask-common';
 import { dateMask, numberMask } from './ids-masks';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsStringUtils } from '../ids-base/ids-string-utils';
 
 /**
  * Adds validation to any input field
@@ -13,6 +14,8 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   constructor() {
     super();
     this.maskState = {
+      guide: false,
+      keepCharacterPositions: false,
       options: {},
       previousMaskResult: '',
       previousPlaceholder: ''
@@ -28,10 +31,20 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
 
   /**
    * @readonly
-   * @returns {IdsMask} reference to a global IDS Mask instance
+   * @returns {maskAPI} reference to a global IDS Mask instance
    */
   get maskAPI() {
     return maskAPI;
+  }
+
+  set maskGuide(val) {
+    const trueVal = IdsStringUtils.stringToBool(val);
+    this.maskState.guide = trueVal;
+    this.processMaskWithCurrentValue();
+  }
+
+  get maskGuide() {
+    return this.maskState.guide;
   }
 
   /**
@@ -66,6 +79,15 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
     }
   }
 
+  set maskRetainPositions(val) {
+    const trueVal = IdsStringUtils.stringToBool(val);
+    this.maskState.keepCharacterPositions = trueVal;
+  }
+
+  get maskRetainPositions() {
+    return this.maskState.keepCharacterPositions;
+  }
+
   /**
    * Retrieves the currently-stored mask pattern.
    * @returns {string|Function|Array<string|RegExp>} representing the stored mask pattern
@@ -87,7 +109,8 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
     // needs to be processed.
     if (Array.isArray(val) || typeof val === 'function') {
       trueVal = val;
-    } else if (typeof val === 'string') {
+    } else {
+      // Assume string in all other cases
       switch (val) {
       // Using 'date' as a string automatically connects the standard date mask function
       case 'date':
@@ -107,8 +130,8 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   }
 
   handleMaskEvents() {
-    this.onEvent('input', this, (e) => {
-      return this.processMaskWithCurrentValue(e);
+    this.onEvent('input', this, () => {
+      return this.processMaskWithCurrentValue()
     });
   }
 
@@ -142,8 +165,8 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
     // Convert `maskOptions` from the WebComponent to IDS 4.x `patternOptions`
     const processOptions = {
       caretTrapIndexes: [],
-      guide: false,
-      keepCharacterPositions: false,
+      guide: this.maskState.guide,
+      keepCharacterPositions: this.maskState.keepCharacterPositions,
       pattern: this.mask,
       patternOptions: opts,
       placeholderChar: PLACEHOLDER_CHAR,

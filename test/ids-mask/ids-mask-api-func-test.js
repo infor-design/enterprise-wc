@@ -21,9 +21,6 @@ describe('IdsMaskAPI', () => {
     const text = 'x0x1x2x3x4x5x6x7x8x9x0x1x2x3x4x5x6x';
     const opts = {
       pattern: [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
-      selection: {
-        start: 0
-      }
     };
     const result = api.process(text, opts);
 
@@ -108,5 +105,68 @@ describe('IdsMaskAPI', () => {
     expect(api.getSafeRawValue(`${300}4545`)).toEqual('3004545');
     expect(api.getSafeRawValue(null)).toEqual('');
     expect(api.getSafeRawValue(undefined)).toEqual('');
+  });
+
+  // ===============
+  // Pass Coverage
+  // ===============
+
+  it('cannot process non-strings', () => {
+    const opts = {
+      pattern: [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/],
+    };
+
+    try {
+      api.process(1234, opts);
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
+
+  it('wraps a mask array returned by a mask function in an object with meta-data', () => {
+    // This is a mask function that simply returns the raw value split up
+    const testMask = (rawValue) => rawValue.split('');
+    const opts = {
+      pattern: testMask
+    };
+    const result = api.process('12345', opts);
+
+    expect(result.maskResult).toBeTruthy();
+  });
+
+  it('doesn\'t process against mask functions that return `false`', () => {
+    const testMask = () => false;
+    const opts = {
+      pattern: testMask
+    };
+    const result = api.process('12345', opts);
+
+    expect(result.maskResult).toBeFalsy();
+  });
+
+  it('ignores modified values from a failed pipe function', () => {
+    const testMask = (rawValue) => rawValue.split('');
+    const testPipe = () => { throw new Error(); };
+    const opts = {
+      pattern: testMask,
+      pipe: testPipe
+    };
+    const result = api.process('12345', opts);
+
+    expect(result.pipeResult).toBeFalsy();
+  });
+
+  it('handles string results from pipe functions', () => {
+    const testMask = (rawValue) => rawValue.split('');
+    const testPipe = (maskResult) => maskResult.conformedValue;
+    const opts = {
+      pattern: testMask,
+      pipe: testPipe
+    };
+    const result = api.process('12345', opts);
+
+    expect(result.pipeResult).toBeTruthy();
+    expect(result.pipedValue).toBe('12345');
+    expect(Array.isArray(result.pipedCharIndexes)).toBeTruthy();
   });
 });
