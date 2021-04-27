@@ -9,11 +9,9 @@ import {
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
-// @ts-ignore
 import styles from './ids-alert.scss';
 
 /**

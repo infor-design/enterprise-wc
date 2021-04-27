@@ -6,15 +6,11 @@ import {
   props
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-input.scss';
 
 // Supporting components
-// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
-// @ts-ignore
 import IdsText from '../ids-text/ids-text';
-// @ts-ignore
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Mixins
@@ -359,7 +355,6 @@ class IdsInput extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.CLEARABLE);
     }
-    // @ts-ignore
     this.handleClearable();
   }
 
@@ -376,7 +371,6 @@ class IdsInput extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.CLEARABLE_FORCED);
     }
-    // @ts-ignore
     this.handleClearable();
   }
 
@@ -393,7 +387,6 @@ class IdsInput extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
-    // @ts-ignore
     this.handleDirtyTracker();
   }
 
@@ -549,7 +542,6 @@ class IdsInput extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.VALIDATE);
     }
-    // @ts-ignore
     this.handleValidation();
   }
 
@@ -565,7 +557,6 @@ class IdsInput extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.VALIDATION_EVENTS);
     }
-    // @ts-ignore
     this.handleValidation();
   }
 

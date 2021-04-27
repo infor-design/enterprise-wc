@@ -10,11 +10,8 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
-// @ts-ignore
 import styles from './ids-radio.scss';
-// @ts-ignore
 import IdsText from '../ids-text/ids-text';
-// @ts-ignore
 import IdsRadioGroup from './ids-radio-group';
 
 /**

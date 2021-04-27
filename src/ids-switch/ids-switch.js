@@ -10,9 +10,7 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
-// @ts-ignore
 import styles from './ids-switch.scss';
-// @ts-ignore
 import IdsText from '../ids-text/ids-text';
 
 /**
@@ -54,7 +52,6 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   connectedCallback() {
     /** @type {object} */
-    // @ts-ignore
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
