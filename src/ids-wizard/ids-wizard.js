@@ -326,7 +326,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     return (
-      `<div class="ids-wizard" step-count="${this.children.length}">
+      `<div class="ids-wizard">
         <div class="steps">
           ${stepsHtml}
         </div>
