@@ -415,8 +415,10 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
         const resizedWidthsMap = new Map();
 
+        /* istanbul ignore next */
         for (let i = 0; i < this.children?.length; i++) {
           const labelEl = getStepEl(this, i + 1).children?.[1];
+
           if (labelEl.style.maxWidth !== 'unset') {
             resizedWidthsMap.set(i + 1, labelEl.style.maxWidth);
           }
@@ -425,11 +427,12 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
         this.shouldUpdateCallbacks = true;
         this.render();
 
-        /** istanbul ignore next */
+        /* istanbul ignore next */
         if ((typeof activeStepNumber === 'string') && parseInt(activeStepNumber)) {
           const currentStep = this.shadowRoot.querySelector(
             `[step-number="${activeStepNumber}"]`
           );
+
           currentStep?.focus();
 
           // restore label widths after render
