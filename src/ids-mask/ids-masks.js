@@ -122,7 +122,7 @@ function getRegexForPart(part, type) {
  * Number Mask Function
  * @param {string} rawValue the un-formatted value that will eventually be masked.
  * @param {object} options masking options
- * @returns {array} representing a mask that will match a formatted number.
+ * @returns {object} containing a mask that will match a formatted number.
  */
 export function numberMask(rawValue, options) {
   let thisOptions = IdsDeepCloneUtils.deepClone(DEFAULT_NUMBER_MASK_OPTIONS);
@@ -136,124 +136,120 @@ export function numberMask(rawValue, options) {
   const suffixLength = SUFFIX?.length || 0;
   const thousandsSeparatorSymbolLength = THOUSANDS?.length || 0;
 
-  function thisNumberMask(thisRawValue) {
-    if (typeof thisRawValue !== 'string') {
-      thisRawValue = EMPTY_STRING;
-    }
+  let thisRawValue = rawValue;
+  let mask;
 
-    const rawValueLength = thisRawValue.length;
-
-    if (
-      thisRawValue === EMPTY_STRING
-      || (thisRawValue[0] === PREFIX[0] && rawValueLength === 1)
-    ) {
-      return PREFIX.split(EMPTY_STRING).concat([DIGITS_REGEX])
-        .concat(SUFFIX.split(EMPTY_STRING));
-    }
-    if (
-      thisRawValue === DECIMAL && thisOptions.allowDecimal
-    ) {
-      return PREFIX.split(EMPTY_STRING).concat(['0', DECIMAL, DIGITS_REGEX])
-        .concat(SUFFIX.split(EMPTY_STRING));
-    }
-
-    const indexOfLastDecimal = thisRawValue.lastIndexOf(DECIMAL);
-    const hasDecimal = indexOfLastDecimal !== -1;
-    const isNegative = (thisRawValue[0] === thisOptions.symbols.negative)
-      && thisOptions.allowNegative;
-    let integer;
-    let fraction;
-    let mask;
-
-    // remove the suffix
-    if (thisRawValue.slice(suffixLength * -1) === SUFFIX) {
-      thisRawValue = thisRawValue.slice(0, suffixLength * -1);
-    }
-
-    if (hasDecimal) {
-      integer = thisRawValue.slice(thisRawValue.slice(0, prefixLength) === PREFIX
-        ? prefixLength : 0, indexOfLastDecimal);
-
-      fraction = thisRawValue.slice(indexOfLastDecimal + 1, rawValueLength);
-      fraction = convertToMask(fraction.replace(NON_DIGITS_REGEX, EMPTY_STRING));
-    } else if (thisRawValue.slice(0, prefixLength) === PREFIX) {
-      integer = thisRawValue.slice(prefixLength);
-    } else {
-      integer = thisRawValue;
-    }
-
-    if (options.integerLimit && typeof options.integerLimit === 'number') {
-      const thousandsSeparatorRegex = THOUSANDS === '.' ? '[.]' : `${THOUSANDS}`;
-      const numberOfThousandSeparators = (integer.match(new RegExp(thousandsSeparatorRegex, 'g')) || []).length;
-
-      integer = integer.slice(0, options.integerLimit + (isNegative ? 1 : 0)
-        + (numberOfThousandSeparators * thousandsSeparatorSymbolLength));
-    }
-
-    integer = integer.replace(NON_DIGITS_REGEX, EMPTY_STRING);
-
-    if (!options.allowLeadingZeros) {
-      integer = integer.replace(/^0+(0$|[^0])/, '$1');
-    }
-
-    const localeOptions = {
-      maximumFractionDigits: options.decimalLimit,
-      style: 'decimal',
-      useGrouping: true
-    };
-
-    integer = (options.allowThousandsSeparator)
-      ? addThousandsSeparator(integer, THOUSANDS, options, localeOptions) : integer;
-
-    mask = convertToMask(integer);
-
-    if ((hasDecimal && options.allowDecimal) || options.requireDecimal === true) {
-      if (thisRawValue[indexOfLastDecimal - 1] !== DECIMAL) {
-        mask.push(CARET_TRAP);
-      }
-
-      mask.push(DECIMAL, CARET_TRAP);
-
-      if (fraction) {
-        if (typeof options.decimalLimit === 'number') {
-          fraction = fraction.slice(0, options.decimalLimit);
-        }
-
-        mask = mask.concat(fraction);
-      }
-
-      if (options.requireDecimal === true && thisRawValue[indexOfLastDecimal - 1] === DECIMAL) {
-        mask.push(DIGITS_REGEX);
-      }
-    }
-
-    if (prefixLength > 0) {
-      mask = PREFIX.split(EMPTY_STRING).concat(mask);
-    }
-
-    if (isNegative) {
-      // If user is entering a negative number, add a mask placeholder spot to
-      // attract the caret to it.
-      // TODO: Allow the negative symbol as the suffix as well (SOHO-3259)
-      if (mask.length === prefixLength) {
-        mask.push(DIGITS_REGEX);
-      }
-
-      mask = [/-/].concat(mask);
-    }
-
-    if (SUFFIX.length > 0) {
-      mask = mask.concat(SUFFIX.split(EMPTY_STRING));
-    }
-
-    return {
-      mask
-    };
+  if (typeof thisRawValue !== 'string') {
+    thisRawValue = EMPTY_STRING;
   }
 
-  thisNumberMask.instanceOf = 'createNumberMask';
+  const rawValueLength = thisRawValue.length;
 
-  return thisNumberMask(rawValue);
+  //
+  if (thisRawValue === EMPTY_STRING || (thisRawValue[0] === PREFIX[0] && rawValueLength === 1)) {
+    mask = PREFIX.split(EMPTY_STRING).concat([DIGITS_REGEX]).concat(SUFFIX.split(EMPTY_STRING));
+  }
+  // If the only item in the rawValue is a decimal, build out a simple 0 mask
+  if (thisRawValue === DECIMAL && thisOptions.allowDecimal) {
+    mask = PREFIX.split(EMPTY_STRING).concat(['0', DECIMAL, DIGITS_REGEX]).concat(SUFFIX.split(EMPTY_STRING));
+  }
+
+  // If the mask is populated at this point, return it
+  if (Array.isArray(mask)) {
+    return { mask };
+  }
+
+  const indexOfLastDecimal = thisRawValue.lastIndexOf(DECIMAL);
+  const hasDecimal = indexOfLastDecimal !== -1;
+  const isNegative = (thisRawValue[0] === thisOptions.symbols.negative)
+    && thisOptions.allowNegative;
+  let integer;
+  let fraction;
+
+  // remove the suffix
+  if (thisRawValue.slice(suffixLength * -1) === SUFFIX) {
+    thisRawValue = thisRawValue.slice(0, suffixLength * -1);
+  }
+
+  if (hasDecimal) {
+    integer = thisRawValue.slice(thisRawValue.slice(0, prefixLength) === PREFIX
+      ? prefixLength : 0, indexOfLastDecimal);
+
+    fraction = thisRawValue.slice(indexOfLastDecimal + 1, rawValueLength);
+    fraction = convertToMask(fraction.replace(NON_DIGITS_REGEX, EMPTY_STRING));
+  } else if (thisRawValue.slice(0, prefixLength) === PREFIX) {
+    integer = thisRawValue.slice(prefixLength);
+  } else {
+    integer = thisRawValue;
+  }
+
+  if (options.integerLimit && typeof options.integerLimit === 'number') {
+    const thousandsSeparatorRegex = THOUSANDS === '.' ? '[.]' : `${THOUSANDS}`;
+    const numberOfThousandSeparators = (integer.match(new RegExp(thousandsSeparatorRegex, 'g')) || []).length;
+
+    integer = integer.slice(0, options.integerLimit + (isNegative ? 1 : 0)
+      + (numberOfThousandSeparators * thousandsSeparatorSymbolLength));
+  }
+
+  integer = integer.replace(NON_DIGITS_REGEX, EMPTY_STRING);
+
+  if (!options.allowLeadingZeros) {
+    integer = integer.replace(/^0+(0$|[^0])/, '$1');
+  }
+
+  const localeOptions = {
+    maximumFractionDigits: options.decimalLimit,
+    style: 'decimal',
+    useGrouping: true
+  };
+
+  integer = (options.allowThousandsSeparator)
+    ? addThousandsSeparator(integer, THOUSANDS, options, localeOptions) : integer;
+
+  mask = convertToMask(integer);
+
+  if ((hasDecimal && options.allowDecimal) || options.requireDecimal === true) {
+    if (thisRawValue[indexOfLastDecimal - 1] !== DECIMAL) {
+      mask.push(CARET_TRAP);
+    }
+
+    mask.push(DECIMAL, CARET_TRAP);
+
+    if (fraction) {
+      if (typeof options.decimalLimit === 'number') {
+        fraction = fraction.slice(0, options.decimalLimit);
+      }
+
+      mask = mask.concat(fraction);
+    }
+
+    if (options.requireDecimal === true && thisRawValue[indexOfLastDecimal - 1] === DECIMAL) {
+      mask.push(DIGITS_REGEX);
+    }
+  }
+
+  if (prefixLength > 0) {
+    mask = PREFIX.split(EMPTY_STRING).concat(mask);
+  }
+
+  if (isNegative) {
+    // If user is entering a negative number, add a mask placeholder spot to
+    // attract the caret to it.
+    // TODO: Allow the negative symbol as the suffix as well (SOHO-3259)
+    if (mask.length === prefixLength) {
+      mask.push(DIGITS_REGEX);
+    }
+
+    mask = [/-/].concat(mask);
+  }
+
+  if (SUFFIX.length > 0) {
+    mask = mask.concat(SUFFIX.split(EMPTY_STRING));
+  }
+
+  return {
+    mask
+  };
 }
 
 // Default Date Mask Options
@@ -312,17 +308,22 @@ function getSplitterRegex(splitterStr) {
  * @returns {object} containing a mask that will match a formatted date,
  * along with extra meta-data about the characters contained.
  */
-export function dateMask(rawValue, options) {
+export function dateMask(rawValue = '', options = {}) {
   let thisOptions = IdsDeepCloneUtils.deepClone(DEFAULT_DATETIME_MASK_OPTIONS);
   thisOptions = Object.assign(thisOptions, options);
 
   let mask = [];
+  let thisRawValue = rawValue;
+  if (typeof rawValue !== 'string') {
+    thisRawValue = '';
+  }
+
   const digitRegex = DIGITS_REGEX;
   const format = thisOptions.format;
   const splitterStr = IdsStringUtils.removeDuplicates(format.replace(/[dMyHhmsa]+/g, ''));
   const splitterRegex = getSplitterRegex(splitterStr);
   const formatArray = format.match(/(d{1,2}|M{1,4}|y{1,4}|H{1,2}|h{1,2}|m{1,2}|s{1,2}|a{1}|z{1, 4}|E{1, 4})/g);
-  const rawValueArray = rawValue.split(splitterRegex);
+  const rawValueArray = thisRawValue.split(splitterRegex);
   const maxValue = DATE_MAX_VALUES;
 
   formatArray.forEach((part, i) => {
@@ -421,10 +422,7 @@ export function dateMask(rawValue, options) {
  * @returns {object} the result of the piping function's changes
  */
 export function autoCorrectedDatePipe(processResult, options) {
-  if (!options.dateFormat) {
-    options.dateFormat = 'M/d/yyyy'; // Locale.calendar().dateFormat.short;
-  }
-
+  options.dateFormat = 'M/d/yyyy'; // Locale.calendar().dateFormat.short;
   const conformedValueArr = processResult.conformedValue.split('');
   const indexesOfPipedChars = [];
   const dateFormatArray = options.dateFormat.split(/[^dMy]+/);

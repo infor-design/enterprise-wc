@@ -309,3 +309,118 @@ describe('IdsMaskAPI (Number)', () => {
     */
   });
 });
+
+describe('Number Mask function', () => {
+  it('should always provide masking space for at least one number', () => {
+    const result = numberMask(null, {});
+
+    // Resulting mask will be [/\d/]
+    expect(result.mask.length).toBe(1);
+  });
+
+  it('should handle prefixes', () => {
+    const result = numberMask('$', {
+      prefix: '$'
+    });
+
+    // Resulting mask will be ['$', /\d/]
+    expect(result.mask.length).toBe(2);
+  });
+
+  it('should handle suffixes', () => {
+    const opts = { suffix: '%' };
+    let result = numberMask('100%', opts);
+
+    // Resulting mask will be [/\d/, /\d/, /\d/, '%']
+    expect(result.mask.length).toBe(4);
+
+    result = numberMask('0%', opts);
+
+    // Resulting mask will be [/\d/, '%']
+    expect(result.mask.length).toBe(2);
+  });
+
+  it('should account for decimal placement', () => {
+    const result = numberMask('.', {
+      symbols: {
+        decimal: '.'
+      }
+    });
+
+    // Resulting mask will be [/\d/, '.', /\d/]
+    expect(result.mask.length).toBe(3);
+  });
+
+  it('should handle multiple decimals in the value', () => {
+    const opts = {
+      allowDecimal: true,
+      decimalLimit: 3,
+      integerLimit: 5,
+      requireDecimal: true
+    };
+    const result = numberMask('4444..333', opts);
+
+    // Resulting mask will be [/\d/, /\d/, /\d/, /\d/, '[]', '.', '[]',  /\d/,  /\d/,  /\d/]
+    expect(result.mask.length).toBe(10);
+  });
+
+  it('should handle leading zeros', () => {
+    let opts = { allowLeadingZeros: true };
+    let result = numberMask('00001', opts);
+
+    // Resulting mask will be [/\d/, /\d/, /\d/, /\d/, /\d/]
+    expect(result.mask.length).toBe(5);
+
+    opts = {
+      allowDecimal: true,
+      allowLeadingZeros: true,
+      requireDecimal: true,
+      symbols: {
+        decimal: '.'
+      }
+    };
+    result = numberMask('00001', opts);
+
+    // Resulting mask will be [/\d/, /\d/, /\d/, /\d/, /\d/, '[]', '.', '[]']
+    expect(result.mask.length).toBe(8);
+  });
+
+  it('should handle a negative symbol with no other value', () => {
+    const result = numberMask('-', { allowNegative: true });
+
+    // Resulting mask will be ['-', /\d/]
+    expect(result.mask.length).toBe(2);
+  });
+
+  it('should handle a complex combination of settings', () => {
+    const opts = {
+      allowDecimal: true,
+      allowLeadingZeros: true,
+      allowNegative: true,
+      allowThousandsSeparator: true,
+      prefix: 'X',
+      suffix: 'W',
+    };
+    const result = numberMask('-123.45', opts);
+
+    // Resulting mask will be ['-', 'X', /\d/, /\d/, /\d/, '[]', '.', '[]', /\d/, /\d/, 'W']
+    expect(result.mask.length).toBe(11);
+
+    // @TODO: add more tests here when we can use thousands separator
+  });
+
+  it('should account for caret placement after the decimal, if the decimal exists in the value', () => {
+    const opts = {
+      allowDecimal: true,
+      requireDecimal: true,
+      integerLimit: 4,
+      decimalLimit: 2
+    };
+    const result = numberMask('1234.5', opts);
+
+    // Resulting mask will be [/\d/, /\d/, /\d/, /\d/, '[]', '.', '[]', /\d/]
+    expect(result.mask.length).toBe(8);
+  });
+
+
+});

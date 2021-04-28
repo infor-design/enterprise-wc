@@ -115,4 +115,56 @@ describe('IdsMaskAPI (Date)', () => {
     expect(result.maskResult).toBeTruthy();
     expect(result.conformedValue).toEqual('1/1/2020');
   });
+
+  it('can partially autocorrect incorrect dates', () => {
+    const textValue = '15/32/2020';
+    const opts = {
+      selection: {
+        start: 0
+      },
+      pattern: dateMask,
+      patternOptions: {
+        format: 'M/d/yyyy',
+        symbols: {
+          separator: '/'
+        }
+      },
+      pipe: autoCorrectedDatePipe
+    };
+    const result = api.process(textValue, opts);
+
+    expect(result.maskResult).toBeTruthy();
+    expect(result.conformedValue).toEqual('12/31/2020');
+  });
+});
+
+describe('Date Mask function', () => {
+  it('should always provide masking space for at least one number', () => {
+    const result = dateMask(null, {});
+
+    // Resulting mask will match default 'en-us' date format:
+    // [/\d/, /\d/, '[]', '/', '[]', /\d/, /\d/, '[]', '/', '[]', /\d/, /\d/, /\d/, /\d/]
+    expect(result.mask.length).toBe(14);
+  });
+
+  it('can handle time periods', () => {
+    const result = dateMask('1212am', {
+      format: 'HH:mm a'
+    });
+
+    // Resulting mask will be:
+    // [/\d/, /\d/, '[]', ':', '[]', /\d/, /\d/, '[]', ' ', '[]', /[aApP]/, /[mM]/]
+    expect(result.mask.length).toBe(12);
+  });
+
+  // @TODO: Re-enable after Locale exists
+  it.skip('can handle `ah`', () => {
+    const result = dateMask('202006', {
+      format: 'ah:mm'
+    });
+
+    // Resulting mask will be:
+    // [/[aApP]/, /[Mm]/, '[]', '[]', /\d/, /\d/, '[]', ':', '[]', /\d/, /\d/]
+    expect(result.mask.length).toBe(11);
+  });
 });
