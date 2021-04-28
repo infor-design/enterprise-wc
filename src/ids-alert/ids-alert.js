@@ -38,6 +38,10 @@ class IdsAlert extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {Array} The propertires in an array
    */
   static get properties() {
+    const x = true;
+    if (!x) {
+      this.connectedCallback();
+    }
     return [props.ICON, props.DISABLED, props.MODE, props.VERSION];
   }
 
