@@ -37,6 +37,11 @@
     outline-width: 1px;
   }
 
+  .step:focus-visible {
+    outline-offset: none;
+    outline: none;
+  }
+
   .step-label {
     position: absolute;
     top: 24px;
@@ -67,7 +72,11 @@
     color: $visited-step-color;
   }
 
-  .step:hover:not(.clickable) .step-label {
+  .step:not(.clickable) .step-label {
+    cursor: default;
+  }
+
+  .step.clickable:not(.current):hover .step-label {
     text-decoration: underline;
   }
 
@@ -106,9 +115,8 @@
     .step-marker > svg:nth-child(2) {
       width: #{$step-marker-width + 5px};
       height: #{$step-marker-width + 5px};
-      fill: none;
+      fill: var(--ids-color-palette-graphite-10);
       stroke: $visited-step-color;
-      background-color: var(--ids-color-palette-graphite-10);
       stroke-width: 1px;
       z-index: 1;
     }
