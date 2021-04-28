@@ -10,6 +10,7 @@ import { IdsStringUtils } from '../ids-base/ids-string-utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
+// @ts-ignore
 const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   constructor() {
     super();
@@ -130,16 +131,15 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   }
 
   handleMaskEvents() {
-    this.onEvent('input', this, () => {
-      return this.processMaskWithCurrentValue()
-    });
+    // @ts-ignore
+    this.onEvent('input', this, () => this.processMaskWithCurrentValue());
   }
 
   /**
    * Uses an input value and pattern options to process a masked string.
    * @param {string} rawValue the value to be checked for masking.
-   * @param {IdsMaskOptions} opts various options that can be passed to the masking process.
-   * @param {boolean} [doSetValue=false] if true, attempts to set component state when masking completes.
+   * @param {object} opts various options that can be passed to the masking process.
+   * @param {boolean} [doSetValue=false] if true, attempts to set input state when masking completes
    * @returns {string|boolean} the result of the mask.  If no masking was performed, return `false`
    */
   processMask = (rawValue = '', opts, doSetValue = false) => {
@@ -154,12 +154,14 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
       return false;
     }
 
-    let posBegin = this.input.selectionStart || 0;
-    let posEnd = this.input.selectionEnd || 0;
+    // @ts-ignore
+    const posBegin = this.input.selectionStart || 0; // @ts-ignore
+    const posEnd = this.input.selectionEnd || 0;
 
-    // @TODO: Check the old source code here for Android-specific modifications to the cursor position
+    // @TODO: Check the old source code here for Android-specific changes to the cursor position
 
     // Get a string-safe version of the rawValue
+    // eslint-disable-next-line
     rawValue = maskAPI.getSafeRawValue(rawValue);
 
     // Convert `maskOptions` from the WebComponent to IDS 4.x `patternOptions`
@@ -178,6 +180,7 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
     };
 
     // Modify process options in some specific cases
+    /* istanbul ignore next */
     if (posBegin !== posEnd) {
       processOptions.selection.contents = rawValue.substring(posBegin, posEnd);
     }
@@ -201,7 +204,7 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
     // Append a suffix from the mask options, if one is defined by settings, but doesn't exist
     // in the final value yet (may not have been added to the string by the mask,
     // depending on caret position)
-    if (finalValue !== '' && opts.suffix && finalValue.includes(opts.suffix)) {
+    if (finalValue !== '' && opts.suffix && !finalValue.includes(opts.suffix)) {
       finalValue += `${opts.suffix}`;
     }
 
@@ -216,9 +219,11 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
       previousMaskResult: previousValue,
       previousPlaceholder: this.maskState.previousPlaceholder,
     };
+    /* istanbul ignore next */
     if (processed.pipedCharacterIndexes) {
       adjustCaretOpts.indexesOfPipedChars = processed.pipedCharIndexes;
     }
+    /* istanbul ignore next */
     if (processed.caretTrapIndexes) {
       adjustCaretOpts.caretTrapIndexes = processed.caretTrapIndexes;
     }
@@ -233,16 +238,9 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
     // Set Input Component state (only occurs when triggered via event)
     if (doSetValue) {
       this.value = finalValue;
+      // @ts-ignore
       this.safelySetSelection(this.shadowRoot, processed.caretPos, processed.caretPos);
     }
-
-    // Return out if there was no visible change in the conformed result
-    // (causes state not to change, events not to fire)
-    if (previousValue === finalValue) {
-      return false;
-    }
-
-    // @TODO Trigger a `write` event if necessary?
 
     return finalValue;
   }
@@ -259,6 +257,7 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   /**
    * Uses a provided value with stored mask options to process a masked string,
    * without setting input state.
+   * @param {string} rawValue a text value to process against the mask
    * @returns {object} the result of the mask
    */
   processMaskFromProperty(rawValue = '') {
@@ -266,17 +265,17 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   }
 
   /**
+   * @private
    * @param {ShadowRoot|Document} host either the Document, or a relevant Shadow Root
    * @param {number} startPos starting position
    * @param {number} endPos end position
    * @returns {void}
    */
+  /* istanbul ignore next */
   safelySetSelection(host = document, startPos = 0, endPos = 0) {
-    const validInputElementTypes = ['text', 'password', 'search', 'url', 'week', 'month'];
-    if (!validInputElementTypes.includes(this.input.type)) {
-      return;
-    }
-    if (host.activeElement === this.input) {
+    // @ts-ignore
+    if (host?.activeElement === this.input) {
+      // @ts-ignore
       this.input.setSelectionRange(startPos, endPos, 'none');
     }
   }

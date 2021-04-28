@@ -1,10 +1,5 @@
 /* eslint-disable no-continue, no-underscore-dangle, no-restricted-syntax, no-labels */
 import {
-  numberMask,
-  dateMask
-} from './ids-masks';
-
-import {
   CARET_TRAP,
   EMPTY_STRING,
   PLACEHOLDER_CHAR,
@@ -22,7 +17,6 @@ function isString(value) {
 
 /**
  * @class MaskAPI
- * @constructor
  */
 class MaskAPI {
   /**
@@ -35,8 +29,6 @@ class MaskAPI {
     if (typeof rawValue !== 'string') {
       throw new Error('No string provided');
     }
-
-    debugger;
 
     // If no text selection information exists, set defaults
     if (!opts.selection) {
@@ -196,6 +188,7 @@ class MaskAPI {
       let compensatingPlaceholderChars = EMPTY_STRING;
 
       // For every character that was deleted from a placeholder position, we add a placeholder char
+      /* istanbul ignore next */
       for (let i = indexOfFirstChange; i < indexOfLastChange; i++) {
         if (conformSettings.placeholder[i] === placeholderChar) {
           compensatingPlaceholderChars += placeholderChar;
@@ -206,17 +199,22 @@ class MaskAPI {
       // additional placeholder characters. That way when the we start laying the
       // characters again on the mask, it will keep the non-deleted characters
       // in their positions.
-      rawValue = (
-        rawValue.slice(0, indexOfFirstChange) +
-        compensatingPlaceholderChars +
-        rawValue.slice(indexOfFirstChange, rawValueLength)
-      );
+      // eslint-disable-next-line
+      rawValue =
+        rawValue.slice(0, indexOfFirstChange)
+        + compensatingPlaceholderChars
+        + rawValue.slice(indexOfFirstChange, rawValueLength);
     }
 
-    // Convert `rawValue` string to an array, and mark characters based on whether
-    // they are newly added or have existed in the previous conformed value. Identifying new
-    // and old characters is needed for `_conformToMask()` to work if it is configured
-    // to keep character positions.
+    /**
+     * Convert `rawValue` string to an array, and mark characters based on whether
+     * they are newly added or have existed in the previous conformed value. Identifying new
+     * and old characters is needed for `_conformToMask()` to work if it is configured
+     * to keep character positions.
+     * @param {*} char the added character
+     * @param {*} j the index the character was added
+     * @returns {object} containing meta-data about the character that was added.
+     */
     function markAddedChars(char, j) {
       return {
         char,
@@ -229,6 +227,7 @@ class MaskAPI {
     // `00 (111)`, the placeholder would be `00 (___)`. If user input is `00 (234)`, the loop below
     // would remove all characters but `234` from the `rawValueArr`. The rest of the algorithm
     // then would lay `234` on top of the available placeholder positions in the mask.
+    /* istanbul ignore next */
     for (let k = rawValueLength - 1; k >= 0; k--) {
       const char = rawValueArr[k];
 
@@ -242,6 +241,7 @@ class MaskAPI {
     }
 
     // Loop through the placeholder string to find characters that need to be filled.
+    /* istanbul ignore next */
     placeholderLoop:
     for (let l = 0; l < placeholderLength; l++) {
       const charInPlaceholder = conformSettings.placeholder[l];
@@ -261,6 +261,7 @@ class MaskAPI {
             // regularly because user input could be something like (540) 90_-____, which includes
             // a bunch of `_` which are placeholder characters) and we are not in *no guide* mode,
             // then we map this placeholder character to the current spot in the placeholder
+            // @ts-ignore
             if (rawValueChar.char === placeholderChar && suppressGuide !== true) {
               resultStr += placeholderChar;
 
@@ -271,9 +272,9 @@ class MaskAPI {
               // mask (not necessarily user-input, and forms part of the formatting), add that and
               // speed the mask up to the next section.
             } else if (
-              maskObj.literalRegex &&
-              maskObj.literalRegex.test(rawValueChar.char) &&
-              nextChar && ((nextChar === rawValueChar.char) || (nextChar === placeholderChar))
+              maskObj.literalRegex // @ts-ignore
+              && maskObj.literalRegex.test(rawValueChar.char) // @ts-ignore
+              && nextChar && ((nextChar === rawValueChar.char) || (nextChar === placeholderChar))
             ) {
               if (isAddition && maskObj.literals.indexOf(rawValue[l - 1]) > -1) {
                 caretPos++;
@@ -283,7 +284,9 @@ class MaskAPI {
               // Analyze the number of this particular literal in the value,
               // and only add it if we haven't passed the maximum
               const thisLiteralRegex = new RegExp(`(${rawValueChar.char})`, 'g');
-              const numberLiteralsPlaceholder = conformSettings.placeholder.match(thisLiteralRegex).length;
+              const numberLiteralsPlaceholder = conformSettings.placeholder.match(thisLiteralRegex).length; // eslint-disable-line
+
+              // @ts-ignore
               const numberLiteralsRawValue = rawValue.match(thisLiteralRegex).length;
               if (numberLiteralsRawValue <= numberLiteralsPlaceholder) {
                 resultStr += rawValueChar.char;
@@ -304,11 +307,11 @@ class MaskAPI {
               // positions or not. If any of the conditions below are met, we simply map the
               // raw value character to the placeholder position.
               if (
-                conformSettings.keepCharacterPositions !== true ||
-                rawValueChar.isNew === false ||
-                conformSettings.previousMaskResult === EMPTY_STRING ||
-                suppressGuide ||
-                !isAddition
+                conformSettings.keepCharacterPositions !== true
+                || rawValueChar.isNew === false
+                || conformSettings.previousMaskResult === EMPTY_STRING
+                || suppressGuide
+                || !isAddition
               ) {
                 resultStr += rawValueChar.char;
               } else {
@@ -426,7 +429,7 @@ class MaskAPI {
   /**
    * Detects Caret Traps inside of a Mask Array and identifies them with a rich object
    * @private
-   * @param {array} mask the mask being checked
+   * @param {Array<string|RegExp>} mask the mask being checked
    * @returns {object} containing a modified Mask array without caret traps, and an array of
    *  indices with locations of the caret traps.
    */
@@ -449,25 +452,14 @@ class MaskAPI {
   /**
    * Converts an array-based mask into a placeholder string.
    * @private
-   * @param {array} mask - contains string "literal" characters and Regex matchers.
+   * @param {Array<string|RegExp>} mask - contains string "literal" characters and Regex matchers.
    * @param {string} placeholderChar - a character that will be used as the placeholder.
    * @returns {string} representing the placeholder
    */
+  /* istanbul ignore next */
   convertMaskToPlaceholder(mask = [], placeholderChar = PLACEHOLDER_CHAR) {
-    if (!Array.isArray(mask)) {
-      mask = [];
-    }
-
-    if (mask.indexOf(placeholderChar) !== -1) {
-      throw new Error(`Placeholder character must not be used as part of the mask. Please specify a character that is not present in your mask as your placeholder character.\n\n
-        The placeholder character that was received is: ${JSON.stringify(placeholderChar)}\n\n
-        The mask that was received is: ${JSON.stringify(mask)}`);
-    }
-
-    const ret = mask.map((char) => ((char instanceof RegExp)
+    return mask.map((char) => ((char instanceof RegExp)
       ? placeholderChar : char)).join(EMPTY_STRING);
-
-    return ret;
   }
 
   /**
@@ -475,11 +467,16 @@ class MaskAPI {
    * @param {object} opts information about the caret placement.
    * @returns {number} the index of the text caret.
    */
-  adjustCaretPosition(opts) { //eslint-disable-line
+  adjustCaretPosition(opts) {
     if (opts.caretPos === 0) {
       return 0;
     }
 
+    /**
+     * @private
+     * @param {*} char the character to check
+     * @returns {boolean} true if the chracter is not a placeholder character
+     */
     function nonPlaceholderFilter(char) {
       return char !== nonPlaceholderFilter;
     }
@@ -487,6 +484,7 @@ class MaskAPI {
     // Store lengths for faster performance?
     const rawValueLength = opts.rawValue.length;
     const previousConformedValueLength = opts.previousMaskResult.length;
+    /* istanbul ignore next */
     const placeholderLength = opts.placeholder ? opts.placeholder.length : 0;
     const conformedValueLength = opts.conformedValue ? opts.conformedValue.length : 0;
 
@@ -506,12 +504,14 @@ class MaskAPI {
     //
     // Such cases can also happen when the user presses the backspace while holding down the ALT
     // key.
+    /* istanbul ignore next */
     const isPartialMultiCharEdit = editLength > 1 && !isAddition && !isFirstRawValue;
 
     // This algorithm doesn't support all cases of multi-character edits, so we just return
     // the current caret position.
     //
     // This works fine for most cases.
+    /* istanbul ignore next */
     if (isPartialMultiCharEdit) {
       return opts.caretPos;
     }
@@ -521,14 +521,15 @@ class MaskAPI {
     // same as the original `previousConformedValue`. We handle this case differently for caret
     // positioning.
     const possiblyHasRejectedChar = isAddition && (
-      opts.previousMaskResult === opts.conformedValue ||
-      opts.conformedValue === opts.placeholder
+      opts.previousMaskResult === opts.conformedValue
+      || opts.conformedValue === opts.placeholder
     );
 
     let startingSearchIndex = 0;
     let trackRightCharacter;
     let targetChar;
 
+    /* istanbul ignore next */
     if (possiblyHasRejectedChar) {
       startingSearchIndex = opts.caretPos - editLength;
     } else {
@@ -578,11 +579,11 @@ class MaskAPI {
 
       // Detect if `targetChar` is a mask character and has moved to the left
       const targetIsMaskMovingLeft = (
-        opts.previousPlaceholder[intersection.length - 1] !== undefined &&
-        opts.placeholder[intersection.length - 2] !== undefined &&
-        opts.previousPlaceholder[intersection.length - 1] !== opts.placeholderChar &&
-        opts.previousPlaceholder[intersection.length - 1] !== opts.placeholder[intersection.length - 1] && //eslint-disable-line
-        opts.previousPlaceholder[intersection.length - 1] === opts.placeholder[intersection.length - 2] //eslint-disable-line
+        opts.previousPlaceholder[intersection.length - 1] !== undefined
+        && opts.placeholder[intersection.length - 2] !== undefined
+        && opts.previousPlaceholder[intersection.length - 1] !== opts.placeholderChar
+        && opts.previousPlaceholder[intersection.length - 1] !== opts.placeholder[intersection.length - 1] // eslint-disable-line
+        && opts.previousPlaceholder[intersection.length - 1] === opts.placeholder[intersection.length - 2] // eslint-disable-line
       );
 
       // If deleting and the `targetChar` `is a mask character and `masklengthChanged` is true
@@ -590,11 +591,11 @@ class MaskAPI {
       // if we are not at the end of the string.
       // In this case, change tracking strategy and track the character to the right of the caret.
       if (
-        !isAddition &&
-        (masklengthChanged || targetIsMaskMovingLeft) &&
-        previousLeftMaskChars > 0 &&
-        opts.placeholder.indexOf(targetChar) > -1 &&
-        opts.rawValue[opts.caretPos] !== undefined
+        !isAddition
+        && (masklengthChanged || targetIsMaskMovingLeft)
+        && previousLeftMaskChars > 0
+        && opts.placeholder.indexOf(targetChar) > -1
+        && opts.rawValue[opts.caretPos] !== undefined
       ) {
         trackRightCharacter = true;
         targetChar = opts.rawValue[opts.caretPos];
@@ -609,14 +610,14 @@ class MaskAPI {
       // that when we look for our `targetChar`, we don't select a piped char by mistake.
       let pipedChars = [];
       if (opts.indexesOfPipedChars) {
-        pipedChars = opts.indexesOfPipedChars.map(index => normalizedConformedValue[index]);
+        pipedChars = opts.indexesOfPipedChars.map((index) => normalizedConformedValue[index]);
       }
 
       // We need to know how many times the `targetChar` occurs in the piped characters.
-      const countTargetCharInPipedChars = pipedChars.filter(char => char === targetChar).length;
+      const countTargetCharInPipedChars = pipedChars.filter((char) => char === targetChar).length;
 
       // We need to know how many times it occurs in the intersection
-      const countTargetCharInIntersection = intersection.filter(char => char === targetChar).length;
+      const countTargetCharInIntersection = intersection.filter((char) => char === targetChar).length; // eslint-disable-line
 
       // We need to know if the placeholder contains characters that look like
       // our `targetChar`, so we don't select one of those by mistake.
@@ -632,12 +633,12 @@ class MaskAPI {
       // The number of times we need to see occurrences of the `targetChar` before we
       // know it is the one we're looking for is:
       const requiredNumberOfMatches = (
-        countTargetCharInPlaceholder +
-        countTargetCharInIntersection +
-        countTargetCharInPipedChars +
+        countTargetCharInPlaceholder
+        + countTargetCharInIntersection
+        + countTargetCharInPipedChars
         // The character to the right of the caret isn't included in `intersection`
         // so add one if we are tracking the character to the right
-        (trackRightCharacter ? 1 : 0)
+        + (trackRightCharacter ? 1 : 0)
       );
 
       // Now we start looking for the location of the `targetChar`.
@@ -666,6 +667,7 @@ class MaskAPI {
     // That's what the next logic is for.
     //
     // In case of addition, we fast forward.
+    /* istanbul ignore next */
     if (isAddition) {
       // We want to remember the last placeholder character encountered so that if the mask
       // contains more characters after the last placeholder character, we don't forward the caret
@@ -683,14 +685,14 @@ class MaskAPI {
 
         if (
           // If we're adding, we can position the caret at the next placeholder character.
-          opts.placeholder[j] === opts.placeholderChar ||
+          opts.placeholder[j] === opts.placeholderChar
 
           // If a caret trap was set by a mask function, we need to stop at the trap.
-          opts.caretTrapIndexes.indexOf(j) !== -1 ||
+          || opts.caretTrapIndexes.indexOf(j) !== -1
 
           // This is the end of the placeholder. We cannot move any further.
           // Let's put the caret there.
-          j === placeholderLength
+          || j === placeholderLength
         ) {
           return lastPlaceholderChar;
         }
@@ -708,14 +710,14 @@ class MaskAPI {
           if (
             // `targetChar` should be in `conformedValue`, since it was in `rawValue`, just
             // to the right of the caret
-            opts.conformedValue[k] === targetChar ||
+            opts.conformedValue[k] === targetChar
 
             // If a caret trap was set by a mask function, we need to stop at the trap.
-            opts.caretTrapIndexes.indexOf(k) !== -1 ||
+            || opts.caretTrapIndexes.indexOf(k) !== -1
 
             // This is the beginning of the placeholder. We cannot move any further.
             // Let's put the caret there.
-            k === 0
+            || k === 0
           ) {
             return k;
           }
@@ -731,20 +733,23 @@ class MaskAPI {
 
           if (
             // If we're deleting, we can position the caret right before the placeholder character
-            opts.placeholder[l - 1] === opts.placeholderChar ||
+            opts.placeholder[l - 1] === opts.placeholderChar
 
             // If a caret trap was set by a mask function, we need to stop at the trap.
-            opts.caretTrapIndexes.indexOf(l) !== -1 ||
+            || opts.caretTrapIndexes.indexOf(l) !== -1
 
             // This is the beginning of the placeholder. We cannot move any further.
             // Let's put the caret there.
-            l === 0
+            || l === 0
           ) {
             return l;
           }
         }
       }
     }
+
+    /* istanbul ignore next */
+    return 0;
   }
 
   /**
@@ -759,11 +764,7 @@ class MaskAPI {
     if (typeof inputValue === 'number') {
       return String(inputValue);
     }
-    if (inputValue === undefined || inputValue === null) {
-      return '';
-    }
-    throw new Error(`${'The "value" provided to the Masked Input needs to be a string or a number. The value ' +
-      'received was:\n\n'}${JSON.stringify(inputValue)}`);
+    return '';
   }
 }
 

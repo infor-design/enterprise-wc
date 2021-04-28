@@ -76,10 +76,7 @@ export function convertPatternFromString(pattern) {
         return item.substring(1, item.length - 1);
       }
       // Convert string-based regex into RegExp objects
-      if (item.charAt(0) === '/') {
-        return new RegExp(item.substring(1, item.length - 1));
-      }
-      return item;
+      return new RegExp(item.substring(1, item.length - 1));
     });
   }
 

@@ -130,9 +130,11 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   connectedCallback() {
     super.connectedCallback?.();
 
+    /*
     if (this.value === null) {
       this.value = '';
     }
+    */
 
     this.handleEvents();
     this.handleAutoselect();

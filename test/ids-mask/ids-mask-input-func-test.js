@@ -35,6 +35,13 @@ describe('IdsInput (Masked)', () => {
     expect(typeof api.process).toBe('function');
   });
 
+  it('doesn\'t render any changes if masking fails', () => {
+    input.mask = () => false;
+    input.value = '12345';
+
+    expect(input.value).toEqual('12345');
+  });
+
   it('can mask an input field by changing its `value` property', () => {
     input.mask = CREDIT_CARD_MASK;
     input.value = 'x0x1x2x3x4x5x6x7x8x9x0x1x2x3x4x5x6x';
@@ -130,6 +137,10 @@ describe('IdsInput (Masked)', () => {
     input.maskOptions = [1, 2, 3];
 
     expect(typeof input.maskOptions).toBe('object');
+
+    input.maskOptions = 1;
+
+    expect(typeof input.maskOptions).toBe('object');
   });
 
   it('cannot set `maskPipe` to an invalid type', () => {
@@ -143,11 +154,13 @@ describe('IdsInput (Masked)', () => {
     input.mask = PHONE_NUMBER_MASK;
     input.value = '123';
 
+    expect(input.maskGuide).toBeTruthy();
     expect(input.value).toEqual('(123) ___-____');
 
     input.maskGuide = false;
     input.value = '123';
 
+    expect(input.maskGuide).toBeFalsy();
     expect(input.value).toEqual('(123');
   });
 
@@ -157,6 +170,7 @@ describe('IdsInput (Masked)', () => {
     input.mask = PHONE_NUMBER_MASK;
     input.value = '(123) 456-7890';
 
+    expect(input.maskRetainPositions).toBeTruthy();
     expect(input.value).toEqual('(123) 456-7890');
 
     // Simulates an input event after selecting the "456" with the text caret
@@ -166,5 +180,33 @@ describe('IdsInput (Masked)', () => {
     input.dispatchEvent(inputEvent);
 
     expect(input.value).toEqual('(123) ___-7890');
+  });
+
+  it('adds a suffix to values that don\'t yet contain the suffix', () => {
+    input.maskOptions = { suffix: '%' };
+    input.mask = [/\d/, /\d/, /\d/];
+    input.value = '10';
+
+    expect(input.value).toBe('10%');
+
+    input.value = '100';
+
+    expect(input.value).toBe('100%');
+  });
+
+  // @TODO revisit, maybe better ways to get coverage here
+  it('can process with a blank value', () => {
+    input.mask = [/[*]/];
+    input.processMaskWithCurrentValue();
+
+    expect(input.value).toBe('');
+
+    input.processMaskFromProperty();
+
+    expect(input.value).toBe('');
+
+    input.processMask(undefined, {}, undefined);
+
+    expect(input.value).toBe('');
   });
 });

@@ -39,9 +39,9 @@ export const DEFAULT_NUMBER_MASK_OPTIONS = {
  * @param {string} formattedStr the string to be checked
  * @returns {number} containing the number of leading zeros.
  */
-function getLeadingZeros(formattedStr = '') {
-  return `${formattedStr}`.match(/^0*/)[0].length;
-}
+// function getLeadingZeros(formattedStr = '') {
+//   return `${formattedStr}`.match(/^0*/)[0].length;
+// }
 
 /**
  * Converts a string representing a formatted number into a Number Mask.
@@ -49,6 +49,7 @@ function getLeadingZeros(formattedStr = '') {
  * @returns {Array<string|RegExp>} with strings representing character literals and regex patterns
  */
 function convertToMask(strNumber) {
+  /* istanbul ignore next */
   return strNumber
     .split(EMPTY_STRING)
     .map((char) => (DIGITS_REGEX.test(char) ? DIGITS_REGEX : char));
@@ -63,7 +64,9 @@ function convertToMask(strNumber) {
  * @param {object} [localeStringOpts] - settings for `toLocaleString`.
  * @returns {string} the incoming string formatted with a thousands separator.
  */
-function addThousandsSeparator(n, thousands, options = {}, localeStringOpts = {}) {
+// @ts-ignore
+/* istanbul ignore next */
+function addThousandsSeparator(n, thousands, options = {}, localeStringOpts = {}) { // eslint-disable-line
   return n;
 
   /*
@@ -104,7 +107,9 @@ function getRegexForPart(part, type) {
     alphas: ALPHAS_REGEX
   };
 
+  /* istanbul ignore next */
   if (!types[type]) {
+    // eslint-disable-next-line
     type = 'any';
   }
 
@@ -184,6 +189,7 @@ export function numberMask(rawValue, options) {
   }
 
   if (options.integerLimit && typeof options.integerLimit === 'number') {
+    /* istanbul ignore next */
     const thousandsSeparatorRegex = THOUSANDS === '.' ? '[.]' : `${THOUSANDS}`;
     const numberOfThousandSeparators = (integer.match(new RegExp(thousandsSeparatorRegex, 'g')) || []).length;
 
@@ -284,8 +290,8 @@ const DATE_MAX_VALUES = {
  * Converts a string containing character literals acting as separators for date sections
  * into a regular expression that can be used to detect those characters.
  * (used later in the masking process)
- * @param {string} splitterStr
- * @returns {RegExp}
+ * @param {string} splitterStr string representing all character literals present in a mask
+ * @returns {RegExp} that will match all literal characters
  */
 function getSplitterRegex(splitterStr) {
   const arr = splitterStr.split('');
@@ -293,6 +299,7 @@ function getSplitterRegex(splitterStr) {
     if (c === ' ') { // convert space characters into white space matcher
       return '\\s';
     }
+    /* istanbul ignore next */
     if (c === '-') { // escape dashes that might be part of date formats
       return '\\-';
     }
@@ -321,11 +328,14 @@ export function dateMask(rawValue = '', options = {}) {
   const digitRegex = DIGITS_REGEX;
   const format = thisOptions.format;
   const splitterStr = IdsStringUtils.removeDuplicates(format.replace(/[dMyHhmsa]+/g, ''));
+
+  /* istanbul ignore next */
   const splitterRegex = getSplitterRegex(splitterStr);
   const formatArray = format.match(/(d{1,2}|M{1,4}|y{1,4}|H{1,2}|h{1,2}|m{1,2}|s{1,2}|a{1}|z{1, 4}|E{1, 4})/g);
   const rawValueArray = thisRawValue.split(splitterRegex);
   const maxValue = DATE_MAX_VALUES;
 
+  /* istanbul ignore next */
   formatArray.forEach((part, i) => {
     const value = maxValue[part];
     let size;
@@ -440,6 +450,7 @@ export function autoCorrectedDatePipe(processResult, options) {
   };
 
   // Check first digit
+  /* istanbul ignore next */
   dateFormatArray.forEach((format) => {
     const position = options.dateFormat.indexOf(format);
     const maxFirstDigit = parseInt(maxValue[format].toString().substr(0, 1), 10);
@@ -464,6 +475,7 @@ export function autoCorrectedDatePipe(processResult, options) {
     return value > maxValue[format] || (textValue.length === length && value < minValue[format]);
   });
 
+  /* istanbul ignore next */
   if (isInvalid) {
     return false;
   }
