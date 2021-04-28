@@ -170,7 +170,7 @@ const hrefsAssignedSet = new Set();
 class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
-    this.updateHrefUrls();
+    this.updateHrefURIs();
   }
 
   /**
@@ -180,15 +180,15 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   shouldUpdateCallbacks = true;
 
   /**
-   * stored to prevent re-calling encodeUri(label)
+   * stored to prevent re-calling encodeURI(label)
    */
-  hrefUrls = [];
+  hrefURIs = [];
 
   stepObserver = new MutationObserver((mutations) => {
     for (const { type } of mutations) {
       if (type === 'childList') {
         this.shouldUpdateCallbacks = true;
-        this.updateHrefUrls();
+        this.updateHrefURIs();
         this.render();
       }
     }
@@ -295,7 +295,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
         </div>`
       );
 
-      const hrefUrl = this.hrefUrls?.[i];
+      const hrefUrl = this.hrefURIs?.[i];
       let anchorAttribsHtml = `name="#${label}" aria-label="${label}"`;
       anchorAttribsHtml += !isClickable ? '' : ` href="#${hrefUrl}"`;
 
@@ -481,7 +481,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   };
 
   /**
-   * updates hrefUrls at select points
+   * updates hrefURIs at select points
    * so we don't need to recalculate
    * when setting clickable or step number
    * again; also allows us to easily run
@@ -490,9 +490,9 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
    *
    * @private
    */
-  updateHrefUrls() {
-    this.hrefUrls = [...this.children].map((el, i) => {
-      let urlHash = encodeURI(el.textContent);
+  updateHrefURIs() {
+    this.hrefURIs = [...this.children].map((el, i) => {
+      let uriHash = encodeURI(el.textContent);
       let collisionCount;
 
       // if an href was already used, and it isn't
@@ -500,16 +500,16 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       // then increase the number in href hash
 
       while (
-        (this.hrefUrls?.[i] !== urlHash)
-        && hrefsAssignedSet.has?.(urlHash)
+        (this.hrefURIs?.[i] !== uriHash)
+        && hrefsAssignedSet.has?.(uriHash)
       ) {
         collisionCount = collisionCount ? (collisionCount + 1) : 1;
-        urlHash = `${encodeURI(el.textContent)}-${collisionCount}`;
+        uriHash = `${encodeURI(el.textContent)}-${collisionCount}`;
       }
 
-      hrefsAssignedSet.add(urlHash);
+      hrefsAssignedSet.add(uriHash);
 
-      return urlHash;
+      return uriHash;
     });
   }
 }
