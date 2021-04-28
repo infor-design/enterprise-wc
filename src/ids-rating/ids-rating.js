@@ -77,7 +77,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
             }
             if(activeElements.length === 1) {
               activeElements[0].classList.remove('active');
-              activeElements[0].setAttribute('icon', attrName)
+              activeElements[0].setAttribute('icon', 'star-outlined')
             }
           }
         });
