@@ -1,3 +1,5 @@
+import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
+
 /**
  * A mixin that adds event handler functionality that is also safely torn down when a component is
  * removed from the DOM.
@@ -29,6 +31,14 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     if (!target) {
       return;
     }
+
+    if (eventName.indexOf('longpress') === 0) {
+      this.addLongPressListener(eventName, target, options);
+    }
+    if (eventName.indexOf('keyboardfocus') === 0) {
+      this.addKeyboardFocusListener(eventName, target, options);
+    }
+
     target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
@@ -42,6 +52,18 @@ const IdsEventsMixin = (superclass) => class extends superclass {
   offEvent(eventName, target, options) {
     const handler = this.handledEvents.get(eventName);
     this.handledEvents.delete(eventName);
+
+    // Handle Special events
+    if (eventName.indexOf('longpress') === 0 && handler?.callback) {
+      this.removeLongPressListener();
+      return;
+    }
+
+    if (eventName.indexOf('keyboardfocus') === 0 && handler?.callback) {
+      this.removeKeyboardFocusListener();
+      return;
+    }
+
     if (handler?.callback) {
       target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
     }
@@ -65,6 +87,8 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     this.handledEvents.forEach((value, key) => {
       this.offEvent(key, value.target, value.options);
     });
+    this.removeLongPressListener();
+    this.removeKeyboardFocusListener();
   }
 
   /**
@@ -76,11 +100,110 @@ const IdsEventsMixin = (superclass) => class extends superclass {
 
     if (isValidName && this.handledEvents.has(eventName)) {
       const event = this.handledEvents.get(eventName);
-
-      // @ts-ignore
       this.offEvent(eventName, event.target, event.options);
     }
   };
+
+  /**
+   * Setup a custom long press event (just one)
+   * @private
+   * @param {string|any} eventName The event name with optional namespace
+   * @param {HTMLElement} target The DOM element to register
+   * @param {object} options Additional event settings (passive, once, passive ect)
+   */
+  addLongPressListener(eventName, target, options) {
+    if (this.longPressOn) {
+      return;
+    }
+
+    // Add render loop
+    Object.assign(this, IdsRenderLoopMixin);
+
+    // Setup events
+    this.onEvent('touchstart.longpress', target, (e) => {
+      e.preventDefault();
+
+      /* istanbul ignore next */
+      if (!this.timer) {
+        this.timer = this.rl?.register(new IdsRenderLoopItem({
+          duration: options.delay || 500,
+          timeoutCallback: () => {
+            const event = new CustomEvent('longpress', e);
+            target.dispatchEvent(event);
+          }
+        }));
+      }
+    }, { passive: true });
+
+    /* istanbul ignore next */
+    this.onEvent('touchend.longpress', target, (e) => {
+      e.preventDefault();
+      this.timer.destroy(true);
+      this.timer = null;
+    }, { passive: true });
+
+    this.longPressOn = true;
+  }
+
+  /**
+   * Detatch all long press events
+   * @private
+   */
+  removeLongPressListener() {
+    if (!this.longPressOn) {
+      return;
+    }
+    this.longPressOn = false;
+    this.timer = null;
+    this.detachEventsByName('touchstart.longpress');
+    this.detachEventsByName('touchend.longpress');
+  }
+
+  /**
+   * Setup a custom keypress focus event
+   * @private
+   * @param {string|any} eventName The event name with optional namespace
+   * @param {HTMLElement} target The DOM element to register
+   */
+  addKeyboardFocusListener(eventName, target) {
+    if (this.keyboardFocusOn) {
+      return;
+    }
+
+    // Get namespace
+    this.isClick = false;
+
+    // Setup events
+    this.onEvent('click.keyboardfocus', target, () => {
+      this.isClick = true;
+    });
+
+    /* istanbul ignore next */
+    this.onEvent('keypress.keyboardfocus', target, () => {
+      this.isClick = false;
+    });
+
+    /* istanbul ignore next */
+    this.onEvent('focus.keyboardfocus', target, (e) => {
+      const event = new CustomEvent('keyboardfocus', e);
+      target.dispatchEvent(event);
+    }, false);
+
+    this.keyboardFocusOn = true;
+  }
+
+  /**
+   * Detatch all keyboard focus events
+   * @private
+   */
+  removeKeyboardFocusListener() {
+    if (!this.keyboardFocusOn) {
+      return;
+    }
+    this.keyboardFocusOn = false;
+    this.detachEventsByName(`click.keyboardfocus`);
+    this.detachEventsByName(`keypress.keyboardfocus`);
+  }
 };
 
 export { IdsEventsMixin };

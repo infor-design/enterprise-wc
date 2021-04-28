@@ -218,6 +218,7 @@ $transition-length: 200ms;
   &.tooltip {
     @include bg-slate-80();
     @include antialiased();
+    @include cursor-pointer();
     @include font-sans();
     @include py-4();
     @include px-8();

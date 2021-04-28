@@ -144,14 +144,58 @@ describe('IdsTooltip Component', () => {
     }, 50);
   });
 
-  it('shows on focusin and then hides on focusout', (done) => {
-    tooltip.trigger = 'focus';
-    button.dispatchEvent(new MouseEvent('focusin'));
+  it('shows on click and then hides on tooltip click', (done) => {
+    tooltip.trigger = 'click';
+    button.click();
 
     setTimeout(() => {
       expect(tooltip.visible).toEqual(true);
-      button.dispatchEvent(new MouseEvent('focusout'));
+      tooltip.popup.click();
       expect(tooltip.visible).toEqual(false);
+      done();
+    }, 50);
+  });
+
+  it('hides on click when set to visible', (done) => {
+    tooltip.trigger = 'click';
+    tooltip.visible = true;
+    button.click();
+
+    setTimeout(() => {
+      expect(tooltip.visible).toEqual(false);
+      button.click();
+      expect(tooltip.visible).toEqual(true);
+      done();
+    }, 50);
+  });
+
+  it('shows on keyboard focusin', (done) => {
+    tooltip.trigger = 'click';
+    button.dispatchEvent(new CustomEvent('keyboardfocus'));
+
+    setTimeout(() => {
+      expect(tooltip.visible).toEqual(true);
+      done();
+    }, 50);
+  });
+
+  it('shows on focusin and then hides on focusout', (done) => {
+    tooltip.trigger = 'focus';
+    button.dispatchEvent(new Event('focusin'));
+
+    setTimeout(() => {
+      expect(tooltip.visible).toEqual(true);
+      button.dispatchEvent(new Event('focusout'));
+      expect(tooltip.visible).toEqual(false);
+      done();
+    }, 50);
+  });
+
+  it('shows on longpress', (done) => {
+    button.triggerEvent('longpress', button, { delay: 1 });
+
+    setTimeout(() => {
+      expect(tooltip.visible).toEqual(true);
       done();
     }, 50);
   });
@@ -247,14 +291,25 @@ describe('IdsTooltip Component', () => {
       }, 1);
     });
 
+    expect(tooltip.beforeShow).toBeFalsy();
     tooltip.beforeShow = async function beforeShow() {
       return getContents();
     };
+    expect(tooltip.beforeShow).toBeTruthy();
     tooltip.show();
 
     setTimeout(() => {
       expect(tooltip.innerHTML).toEqual('test content');
       done();
     }, 2);
+  });
+
+  it('fires beforeshow and can veto', () => {
+    tooltip.addEventListener('beforeshow', (e) => {
+      e.detail.response(false);
+    });
+    tooltip.visible = true;
+
+    expect(tooltip.visible).toEqual(false);
   });
 });

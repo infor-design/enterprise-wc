@@ -43,8 +43,9 @@ class IdsTooltip extends mix(IdsElement).with(
   }
 
   connectedCallback() {
-    // Setup reasir reference to the popup element in the shadow root
+    // Setup a reference to the popup element in the shadow root
     this.popup = this.shadowRoot.firstElementChild;
+    this.updateAria();
   }
 
   /**
@@ -69,7 +70,7 @@ class IdsTooltip extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
-    return `<ids-popup class="ids-popup-menu" part="popup">
+    return `<ids-popup class="ids-popup-menu" part="popup" id="${this.id || 'ids'}-tooltip">
         <div class="ids-tooltip" slot="content" part="tooltip">
           <slot></slot>
         </div>
@@ -115,11 +116,25 @@ class IdsTooltip extends mix(IdsElement).with(
       this.onEvent('click.tooltip', targetElem, () => {
         this.visible = false;
       });
+
       // Long Press
-      this.onEvent('contextmenu.tooltip', targetElem, (e) => {
-        alert();
+      this.onEvent('longpress.tooltip', targetElem, () => {
+        this.visible = true;
+      }, { delay: 1000 });
+
+      // Keyboard Focus event
+      this.onEvent('keyboardfocus.tooltip', targetElem, () => {
+        this.visible = true;
+      });
+
+      /* istanbul ignore next */
+      this.onEvent('focusout.tooltip', targetElem, () => {
         this.visible = false;
-        e.preventDefault();
+      });
+
+      /* istanbul ignore next */
+      this.onEvent('click.popup', this.popup, () => {
+        this.visible = false;
       });
     }
 
@@ -131,9 +146,11 @@ class IdsTooltip extends mix(IdsElement).with(
           this.visible = false;
           return;
         }
-        if (!this.visible) {
-          this.visible = true;
-        }
+        this.visible = true;
+      });
+
+      this.onEvent('click.popup', this.popup, () => {
+        this.visible = false;
       });
     }
 
@@ -181,6 +198,7 @@ class IdsTooltip extends mix(IdsElement).with(
    * @private
    */
   configurePopup() {
+    // Popup settings / config
     this.popup.type = 'tooltip';
     this.popup.align = `${this.placement}, center`;
     this.popup.arrow = this.placement;
@@ -192,6 +210,26 @@ class IdsTooltip extends mix(IdsElement).with(
     if (this.placement === 'left' || this.placement === 'right') {
       this.popup.x = 12;
       this.popup.y = 0;
+    }
+  }
+
+  /**
+   * Update the aria label with the contents
+   * @private
+   */
+  updateAria() {
+    this.popup.alignTarget = document.querySelectorAll(this.target)[0];
+
+    const id = `${this.id || 'ids'}-tooltip`;
+    if (this.popup.alignTarget && this.popup.alignTarget.querySelector(`#${id}`)) {
+      this.popup.alignTarget.querySelector(`#${id}`).textContent = this.textContent;
+      return;
+    }
+
+    if (this.popup.alignTarget) {
+      const ariaSpan = `<ids-text id="${id}" audible="true" aria-presentation="true">${this.textContent}</ids-text>`;
+      this.popup.alignTarget.insertAdjacentHTML('beforeend', ariaSpan);
+      this.popup.alignTarget.setAttribute('aria-describedby', `#${id}`);
     }
   }
 
@@ -212,6 +250,7 @@ class IdsTooltip extends mix(IdsElement).with(
     if (this.state.beforeShow) {
       const stuff = await this.state.beforeShow();
       this.textContent = stuff;
+      this.updateAria();
     }
 
     this.triggerEvent('beforeshow', this, {
@@ -222,6 +261,7 @@ class IdsTooltip extends mix(IdsElement).with(
     });
 
     if (!canShow) {
+      this.visible = false;
       return;
     }
 
@@ -334,7 +374,6 @@ class IdsTooltip extends mix(IdsElement).with(
     this.state.visible = stringUtils.stringToBool(value);
 
     if (!this.popup.alignTarget) {
-      // @ts-ignore
       this.popup.alignTarget = document.querySelectorAll(this.target)[0];
     }
 

@@ -46,4 +46,41 @@ describe('IdsEventsMixin Tests', () => {
     elem.onEvent('click.foo', undefined, undefined);
     expect(errors).not.toHaveBeenCalled();
   });
+
+  it('can attach longpress events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('longpress', elem, mockHandler);
+    elem.triggerEvent('touchstart', elem);
+    expect(mockHandler.mock.calls.length).toBe(0);
+    expect(elem.longPressOn).toBe(true);
+  });
+
+  it('can detatch longpress events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('longpress', elem, mockHandler);
+    expect(elem.longPressOn).toBe(true);
+    elem.offEvent('longpress', elem);
+    elem.triggerEvent('touchstart', elem);
+    expect(mockHandler.mock.calls.length).toBe(0);
+    expect(elem.longPressOn).toBe(false);
+  });
+
+  it('can attach keyboardfocus events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('keyboardfocus', elem, mockHandler);
+    elem.triggerEvent('click', elem);
+    elem.triggerEvent('keypress', elem);
+    expect(elem.keyboardFocusOn).toBe(true);
+  });
+
+  it('can detatch keyboardfocus events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('keyboardfocus', elem, mockHandler);
+    expect(elem.keyboardFocusOn).toBe(true);
+    elem.offEvent('keyboardfocus', elem);
+    elem.triggerEvent('keypress', elem);
+    elem.triggerEvent('click', elem);
+    expect(mockHandler.mock.calls.length).toBe(0);
+    expect(elem.keyboardFocusOn).toBe(false);
+  });
 });

@@ -102,6 +102,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin,
     this.setIconAlignment();
     this.shouldUpdate = true;
     super.connectedCallback();
+    this.setAttribute('role', 'button');
   }
 
   /**
