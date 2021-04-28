@@ -14,9 +14,7 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
-// @ts-ignore
 import styles from './ids-data-grid.scss';
 
 /**
@@ -491,7 +489,6 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     this.activeCell.node = cellNode;
     cellNode.setAttribute('tabindex', '0');
-    // @ts-ignore
     cellNode.focus();
 
     this.triggerEvent('activecellchanged', this, { detail: { elem: this, activeCell: this.activeCell } });

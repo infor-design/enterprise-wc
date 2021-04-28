@@ -7,7 +7,6 @@ import {
   stringUtils
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-upload.scss';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
@@ -73,7 +72,6 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     /** @type {any} */
     this.textInput = this.shadowRoot.querySelector('ids-input');
     /** @type {any} */
-    // @ts-ignore
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
 
     this.files = this.fileInput.files;
@@ -197,7 +195,6 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.onEvent('change', this.fileInput, (/** @type {any} */ e) => {
       const files = this.fileInput.files;
       /* istanbul ignore next */
-      // @ts-ignore
       this.value = [].slice.call(files).map((f) => f.name).join(', ');
       this.dispatchChangeEvent(e);
     });

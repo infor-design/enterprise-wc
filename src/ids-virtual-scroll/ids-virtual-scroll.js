@@ -10,7 +10,6 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsDataSource } from '../ids-base/ids-data-source';
 import { IdsRenderLoopMixin } from '../ids-render-loop/ids-render-loop-mixin';
 
-// @ts-ignore
 import styles from './ids-virtual-scroll.scss';
 
 /**
@@ -141,7 +140,6 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
    * @returns {number} The array of visible data
    */
   visibleItemCount() {
-    // @ts-ignore
     let count = Math.ceil(this.height / this.itemHeight) + (2 * this.bufferSize);
     count = Math.min(Number(this.itemCount) - this.startIndex, count);
     return count;
@@ -215,7 +213,6 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
    * Set the scroll top position and scroll down to that location
    * @param {number|string} value The number of pixels from the top
    */
-  // @ts-ignore - because html elements also have this
   set scrollTop(value) {
     if (value !== null && value !== undefined) {
       this.setAttribute('scroll-top', value.toString());
@@ -227,7 +224,6 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
     this.removeAttribute('scroll-top');
   }
 
-  // @ts-ignore - because html elements also have this
   get scrollTop() { return this.getAttribute('scroll-top') || 0; }
 
   /**
@@ -295,12 +291,10 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
       return;
     }
 
-    // @ts-ignore
     this.datasource.data = null;
   }
 
   get data() {
-    // @ts-ignore
     return this?.datasource?.data;
   }
 

@@ -9,7 +9,6 @@ import {
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 
-// @ts-ignore
 import styles from './ids-accordion-panel.scss';
 
 /**

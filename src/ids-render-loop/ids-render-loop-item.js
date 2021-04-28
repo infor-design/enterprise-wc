@@ -109,14 +109,12 @@ class IdsRenderLoopItem extends Object {
    *  to an `updateCallback()` method.
    * @returns {void}
    */
-  // @ts-ignore
   update(timeInfo, ...callbackArgs) {
     if (typeof this.updateCallback !== 'function' || !this.canUpdate) {
       return;
     }
 
     // NOTE: This runs in this `IdsRenderLoopItem`s context
-    // @ts-ignore
     this.updateCallback(timeInfo, ...callbackArgs);
     this.setNextUpdateTime();
   }

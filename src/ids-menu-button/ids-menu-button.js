@@ -6,14 +6,10 @@ import {
 } from '../ids-base/ids-element';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
-// @ts-ignore
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
-
 import IdsIcon from '../ids-icon/ids-icon';
-// @ts-ignore
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
-// @ts-ignore
 import styles from '../ids-button/ids-button.scss';
 
 // Property names
@@ -52,7 +48,6 @@ class IdsMenuButton extends IdsButton {
   connectedCallback() {
     this.configureMenu();
     this.handleEvents();
-    // @ts-ignore
     IdsButton.prototype.connectedCallback.apply(this);
   }
 
@@ -60,7 +55,6 @@ class IdsMenuButton extends IdsButton {
    * @returns {void}
    */
   handleEvents() {
-    // @ts-ignore
     IdsButton.prototype.handleEvents.apply(this);
   }
 
@@ -146,19 +140,15 @@ class IdsMenuButton extends IdsButton {
     }
     this.resizeMenu();
     this.setPopupArrow();
-    // @ts-ignore
     this.menuEl.trigger = 'click';
-    // @ts-ignore
     this.menuEl.target = this;
 
     // ====================================================================
     // Setup menu-specific event listeners, if they aren't already applied
 
-    // @ts-ignore
     const hasBeforeShow = this?.handledEvents?.get('beforeshow');
     if (!hasBeforeShow) {
       // On the Popup Menu's `beforeshow` event, set the menu's size to the Menu Button's
-      // @ts-ignore
       this.onEvent('beforeshow', this.menuEl, () => {
         this.resizeMenu();
       });

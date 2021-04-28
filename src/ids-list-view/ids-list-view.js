@@ -11,9 +11,7 @@ import { IdsDataSource } from '../ids-base/ids-data-source';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
-// @ts-ignore
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
-// @ts-ignore
 import styles from './ids-list-view.scss';
 
 /**
@@ -59,11 +57,9 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   template() {
     let html = '';
 
-    // @ts-ignore
     if (this?.data.length > 0 && this.virtualScroll !== 'true') {
       html = `<div class="ids-list-view" part="container"><ul part="list">`;
 
-      // @ts-ignore
       this.data.forEach((item) => {
         html += `<li part="list-item">${this.itemTemplate(item)}</li>`;
       });
@@ -72,7 +68,6 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       return html;
     }
 
-    // @ts-ignore
     if (this?.data.length > 0 && this.virtualScroll === 'true') {
       html = `<ids-virtual-scroll height="310">
           <div class="ids-list-view" part="container">
@@ -91,7 +86,6 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The html for this item
    */
   itemTemplate(item) {
-    // @ts-ignore
     return stringUtils.injectTemplate(this.defaultTemplate, item);
   }
 
@@ -103,25 +97,18 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const template = document.createElement('template');
     const html = this.template();
 
-    // @ts-ignore
     this.shadowRoot.innerHTML = '';
     template.innerHTML = html;
-    // @ts-ignore
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    // @ts-ignore
     if (stringUtils.stringToBool(this.virtualScroll) && this?.data.length > 0) {
       /** @type {object} */
-      // @ts-ignore
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.itemTemplate = (/** @type {object} */ item) => `<li part="listitem">${this.itemTemplate(item)}</li>`;
-      // @ts-ignore
       this.virtualScrollContainer.itemCount = this.data.length;
-      // @ts-ignore
       this.virtualScrollContainer.itemHeight = this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
       this.virtualScrollContainer.data = this.data;
 
-      // @ts-ignore
       this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
     }
     this.container = this.shadowRoot.querySelector('.ids-list-view');
@@ -134,10 +121,8 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {number} The item height
    */
   checkTemplateHeight(itemTemplate) {
-    // @ts-ignore
     this.shadowRoot.querySelector('.ids-list-view ul').insertAdjacentHTML('beforeEnd', itemTemplate);
     /** @type {object} */
-    // @ts-ignore
     const tester = this.shadowRoot.querySelector('#height-tester');
     const height = tester.offsetHeight;
     tester.remove();

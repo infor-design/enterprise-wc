@@ -7,15 +7,11 @@ import {
   stringUtils
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-textarea.scss';
 
 // Supporting components
-// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
-// @ts-ignore
 import IdsText from '../ids-text/ids-text';
-// @ts-ignore
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Mixins
@@ -118,7 +114,6 @@ class IdsTextarea extends mix(IdsElement).with(
     /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
 
-    // @ts-ignore
     this.handleClearable();
     this.handleEvents();
     super.connectedCallback();
@@ -231,7 +226,6 @@ class IdsTextarea extends mix(IdsElement).with(
    * @returns {void}
    */
   setBrowser() {
-    // @ts-ignore
     const ua = navigator.userAgent || navigator.vendor || window.opera;
     const browser = (/** @type {any} */ s) => ua.toLowerCase().indexOf(s) > -1;
     this.isSafari = browser('safari') && !browser('chrome') && !browser('android');
@@ -432,9 +426,7 @@ class IdsTextarea extends mix(IdsElement).with(
     this.handleSlotchangeEvent();
     this.handleNativeEvents();
     this.handleTextareaChangeEvent();
-    // @ts-ignore
     this.handleDirtyTracker();
-    // @ts-ignore
     this.handleValidation();
   }
 
@@ -596,7 +588,6 @@ class IdsTextarea extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.CLEARABLE);
     }
-    // @ts-ignore
     this.handleClearable();
   }
 
@@ -613,7 +604,6 @@ class IdsTextarea extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
-    // @ts-ignore
     this.handleDirtyTracker();
   }
 
@@ -801,7 +791,6 @@ class IdsTextarea extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.VALIDATE);
     }
-    // @ts-ignore
     this.handleValidation();
   }
 
@@ -817,7 +806,6 @@ class IdsTextarea extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.VALIDATION_EVENTS);
     }
-    // @ts-ignore
     this.handleValidation();
   }
 
@@ -833,7 +821,6 @@ class IdsTextarea extends mix(IdsElement).with(
     if (this.input && this.input.value !== v) {
       this.input.value = this.getMaxValue(v);
       this.input.dispatchEvent(new Event('change', { bubbles: true }));
-      // @ts-ignore
       this.resetDirtyTracker();
     }
     this.updateCounter();

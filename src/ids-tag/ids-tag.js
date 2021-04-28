@@ -11,7 +11,6 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore Import inline styles
 import styles from './ids-tag.scss';
 
 /**

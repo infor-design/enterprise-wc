@@ -3,12 +3,9 @@ import {
   scss
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import { IdsButton, BUTTON_PROPS, BUTTON_TYPES } from '../ids-button/ids-button';
-// @ts-ignore
 import IdsIcon from '../ids-icon/ids-icon';
 
-// @ts-ignore
 import styles from '../ids-button/ids-button.scss';
 
 // Default Toggle Button Icons
@@ -53,7 +50,6 @@ class IdsToggleButton extends IdsButton {
    * @returns {void}
    */
   connectedCallback() {
-    // @ts-ignore
     IdsButton.prototype.connectedCallback.apply(this);
     this.refreshIcon();
     this.refreshText();
@@ -65,7 +61,6 @@ class IdsToggleButton extends IdsButton {
    */
   set pressed(val) {
     const trueVal = val === true || val === 'true';
-    // @ts-ignore
     this.state.pressed = trueVal;
     this.shouldUpdate = false;
 
@@ -81,7 +76,6 @@ class IdsToggleButton extends IdsButton {
   }
 
   get pressed() {
-    // @ts-ignore
     return this.state.pressed;
   }
 
@@ -90,9 +84,7 @@ class IdsToggleButton extends IdsButton {
    * @param {string} _val a valid
    * @returns {void}
    */
-  // @ts-ignore
   set type(_val) {
-    // @ts-ignore
     this.state.type = BUTTON_TYPES[0];
 
     if (this.hasAttribute('type')) {
@@ -100,7 +92,6 @@ class IdsToggleButton extends IdsButton {
       this.removeAttribute('type');
       this.shouldUpdate = true;
     }
-    // @ts-ignore
     this.setTypeClass(this.state.type);
   }
 

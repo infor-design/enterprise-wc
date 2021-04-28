@@ -11,10 +11,7 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 
-// @ts-ignore
 import styles from './ids-radio-group.scss';
-
-// @ts-ignore
 import IdsText from '../ids-text/ids-text';
 
 /**
@@ -130,9 +127,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     this.handleHorizontal();
     this.handleDisabled();
     this.handleEvents();
-    // @ts-ignore
     this.handleDirtyTracker();
-    // @ts-ignore
     this.handleValidation();
   }
 
@@ -164,7 +159,6 @@ class IdsRadioGroup extends mix(IdsElement).with(
   clear() {
     this.value = null;
     this.checked = null;
-    // @ts-ignore
     this.removeAllMessages();
     const radio = this.querySelector('ids-radio');
     const rootEl = radio.shadowRoot?.querySelector('.ids-radio');
@@ -301,7 +295,6 @@ class IdsRadioGroup extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
     }
-    // @ts-ignore
     this.handleDirtyTracker();
   }
 
@@ -389,7 +382,6 @@ class IdsRadioGroup extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.VALIDATE);
     }
-    // @ts-ignore
     this.handleValidation();
   }
 
@@ -405,7 +397,6 @@ class IdsRadioGroup extends mix(IdsElement).with(
     } else {
       this.removeAttribute(props.VALIDATION_EVENTS);
     }
-    // @ts-ignore
     this.handleValidation();
   }
 
@@ -421,7 +412,6 @@ class IdsRadioGroup extends mix(IdsElement).with(
       const state = { on: [], off: [] };
       radioArr.forEach((/** @type {HTMLElement | never} */ r) => {
         const rVal = r.getAttribute(props.VALUE);
-        // @ts-ignore
         state[rVal === val ? 'on' : 'off'].push(r);
       });
       state.off.forEach((/** @type {HTMLElement} */ r) => r.removeAttribute(props.CHECKED));

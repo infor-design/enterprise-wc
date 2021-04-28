@@ -7,7 +7,6 @@ import {
   stringUtils
 } from '../ids-base/ids-element';
 
-// @ts-ignore
 import styles from './ids-progress.scss';
 
 // Mixins

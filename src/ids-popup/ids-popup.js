@@ -13,7 +13,6 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
-// @ts-ignore
 import styles from './ids-popup.scss';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
@@ -184,7 +183,6 @@ class IdsPopup extends mix(IdsElement).with(
    * Sets the element to align with via a css selector
    * @param {string | HTMLElement | undefined} val ['string|HTMLElement'] a CSS selector string
    */
-  // @ts-ignore
   set alignTarget(val) {
     const isString = typeof val === 'string' && val.length;
     const isElem = val instanceof HTMLElement;
@@ -199,9 +197,7 @@ class IdsPopup extends mix(IdsElement).with(
     let elem;
     if (isString) {
       // @TODO Harden for security (XSS)
-      // @ts-ignore
       const rootNode = IdsDOMUtils.getClosestRootNode(this);
-      // @ts-ignore
       elem = rootNode.querySelector(val);
       if (!(elem instanceof HTMLElement)) {
         return;
@@ -211,7 +207,6 @@ class IdsPopup extends mix(IdsElement).with(
       elem = val;
     }
 
-    // @ts-ignore
     this.alignment.target = elem;
     this.refresh();
   }
@@ -220,7 +215,6 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {HTMLElement| undefined} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
-  // @ts-ignore
   get alignTarget() {
     return this.alignment.target;
   }
@@ -461,13 +455,11 @@ class IdsPopup extends mix(IdsElement).with(
    * Sets the element to align with via a css selector
    * @param {any} val ['string|HTMLElement'] a CSS selector string
    */
-  // @ts-ignore
   set arrowTarget(val) {
     const isString = typeof val === 'string' && val.length;
     const isElem = val instanceof HTMLElement;
 
     if (!isString && !isElem) {
-      // @ts-ignore
       this.state.arrowTarget = undefined;
       this.removeAttribute('arrow-target');
       this.refresh();
@@ -477,9 +469,7 @@ class IdsPopup extends mix(IdsElement).with(
     let elem;
     if (isString) {
       // @TODO Harden for security (XSS)
-      // @ts-ignore
       const rootNode = IdsDOMUtils.getClosestRootNode(this);
-      // @ts-ignore
       elem = rootNode.querySelector(val);
       if (!(elem instanceof HTMLElement)) {
         return;
@@ -497,9 +487,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {HTMLElement} the element in the page that the Popup will take
    * coordinates from for relative placement
    */
-  // @ts-ignore
   get arrowTarget() {
-    // @ts-ignore
     return this.state.arrowTarget || this.alignTarget;
   }
 
@@ -588,9 +576,7 @@ class IdsPopup extends mix(IdsElement).with(
     // (this doesn't need updating)
     // @TODO possibly replace `this.resizeDetectionTarget()`
     // with IdsPopupBoundary (specifically to contain)
-    // @ts-ignore
     if (this.shouldResize()) {
-      // @ts-ignore
       this.addObservedElement(this.resizeDetectionTarget());
     }
 
@@ -621,9 +607,7 @@ class IdsPopup extends mix(IdsElement).with(
         this.arrowEl.hidden = true;
       }
     });
-    // @ts-ignore
     if (this.arrow !== 'none' && !arrowElCl.contains(this.arrow)) {
-      // @ts-ignore
       arrowElCl.add(this.arrow);
       this.arrowEl.hidden = false;
     }
@@ -633,9 +617,7 @@ class IdsPopup extends mix(IdsElement).with(
     if (!alignTarget) {
       // Remove an established MutationObserver if one exists.
       if (this.hasMutations) {
-        // @ts-ignore
         this.mo.disconnect();
-        // @ts-ignore
         this.disconnectDetectMutations();
         delete this.hasMutations;
       }
@@ -644,9 +626,7 @@ class IdsPopup extends mix(IdsElement).with(
       }
     } else {
       // connect the alignTarget to the global MutationObserver, if applicable.
-      // @ts-ignore
       if (this.shouldDetectMutations() && !this.hasMutations) {
-        // @ts-ignore
         this.mo.observe(this.alignTarget, {
           attributes: true,
           attributeFilter: ['style', 'height', 'width'],
@@ -664,7 +644,6 @@ class IdsPopup extends mix(IdsElement).with(
       this.openCheck.destroy(true);
     }
 
-    // @ts-ignore
     this.openCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 70,
       timeoutCallback: () => {
@@ -691,7 +670,6 @@ class IdsPopup extends mix(IdsElement).with(
     if (this.animatedCheck) {
       this.animatedCheck.destroy(true);
     }
-    // @ts-ignore
     this.animatedCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 200,
       timeoutCallback: () => {
@@ -747,9 +725,7 @@ class IdsPopup extends mix(IdsElement).with(
       break;
     }
 
-    // @ts-ignore
     this.container.style.left = `${x}px`;
-    // @ts-ignore
     this.container.style.top = `${y}px`;
   }
 
@@ -764,7 +740,6 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Detect sizes/locations of the popup and the alignment target Element
     const popupRect = this.container.getBoundingClientRect();
-    // @ts-ignore
     const targetRect = this.alignTarget.getBoundingClientRect();
     const { alignEdge } = this;
     let alignXCentered = false;
@@ -835,9 +810,7 @@ class IdsPopup extends mix(IdsElement).with(
       }
     }
 
-    // @ts-ignore
     this.container.style.left = `${x}px`;
-    // @ts-ignore
     this.container.style.top = `${y}px`;
   }
 
@@ -901,7 +874,6 @@ class IdsPopup extends mix(IdsElement).with(
     }
 
     // Round the number up
-    // @ts-ignore
     d = Math.ceil(d);
 
     // Hide the arrow if it goes beyond the element boundaries
