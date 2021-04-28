@@ -1,6 +1,5 @@
 # TODO for Ids-Wizard
 
-- [] Focus State
 - [] Explicit external callback on step changes by user and focus events
 - [] Update Jest in `package.json`when v27 is out of beta.
 - [] Test screen reader/accessibility (should be similar to tabs)

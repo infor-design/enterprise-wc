@@ -296,7 +296,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       );
 
       const hrefUrl = this.hrefURIs?.[i];
-      let anchorAttribsHtml = `name="#${label}" aria-label="${label}"`;
+      let anchorAttribsHtml = `name="#${label}" title="${label}"`;
       anchorAttribsHtml += !isClickable ? '' : ` href="#${hrefUrl}"`;
 
       stepsHtml += (
@@ -373,6 +373,18 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
   get clickable() {
     return this.getAttribute(props.CLICKABLE);
+  }
+
+  connectedCallback() {
+    /* istanbul ignore next */
+    if (window.location.hash.length) {
+      const uriHash = window.location.hash.substr(1);
+      const stepNumber = this.hrefURIs.indexOf(uriHash) + 1;
+
+      if (stepNumber) {
+        this.stepNumber = stepNumber;
+      }
+    }
   }
 
   /**
