@@ -2,7 +2,8 @@ import {
   IdsElement,
   customElement,
   scss,
-  mix
+  mix,
+  prop
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
@@ -176,7 +177,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     */
     updateWholeNum(arr) {
       const activeArr = [...arr].filter((el) => el.classList.contains('active'));
-      this.ratingsConfig.ratingsAttr.value = this.setAttribute('value', activeArr.length);
+      this.setAttribute('value', activeArr.length);
     }
 
     /**

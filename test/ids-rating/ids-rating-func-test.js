@@ -35,7 +35,7 @@
         window.document.body.appendChild(elem);
         elem.template();
         const ratingItem = window.document.querySelectorAll('.rating-item');
-        console.log(elem)
-        //expect(ratingItem).toEqual(5)
+        elem.appendChild(ratingItem)
+        expect(elem.children).toBe(5)
     });
  })
