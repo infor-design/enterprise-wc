@@ -64,12 +64,20 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
         const ratingContainer = this.shadowRoot.querySelector('#rating');
         const ratingArr = [...ratingContainer.children];
         this.onEvent('click', ratingContainer, (/** @type {{ target: any; }} */ e) => {
+          const activeElements = ratingArr.filter((item) => item.classList.contains('active'));
+          console.log(activeElements)
           let attrName = 'star-filled';
+          let action = 'add';
           for (const ratingOption of ratingArr) {
-            console.log(ratingOption)
+            ratingOption.classList[action]('active');
             ratingOption.setAttribute('icon', attrName);
             if(ratingOption === e.target) {
+              action = 'remove';
               attrName = 'star-outlined';
+            }
+            if(activeElements.length === 1) {
+              activeElements[0].classList.remove('active');
+              activeElements[0].setAttribute('icon', attrName)
             }
           }
         });
