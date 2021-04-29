@@ -76,6 +76,8 @@ Basically any fields or methods should add the # in front to make it private. Th
 
 Decided not to make either the `connectedCallback` nor `template` events private as the former is a lifecycle event in web components and the template may need to be overridable in some cases for flexibility.
 
+For an example see IdsTag, IdsAccordion.
+
 #### Example Component
 
 Good ones to look at are IdsTag, IdsFavorites, IdsAlerts and IdsHyperlink as examples.
