@@ -68,6 +68,14 @@ Some HTMLElement types support boolean attributes, such as `disabled`.  [The spe
 
 Ids WebComponents take the added step of evaluating the string value, and will cause a string value of `"false"` to actually evaluate as `false`, removing the attribute and property.
 
+#### Private Class Fields and Methods
+
+We added Stage 3 [Private class fields](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields) this will help clean up the internal API and prevent developers from using the wrong or private methods.
+
+Basically any fields or methods should add the # in front to make it private. This will make it so it cant be called externally.
+
+Decided not to make either the `connectedCallback` nor `template` events private as the former is a lifecycle event in web components and the template may need to be overridable in some cases for flexibility.
+
 #### Example Component
 
-Good ones to look at are IdsTag and IdsFavorites and IdsAlerts as examples.
+Good ones to look at are IdsTag, IdsFavorites, IdsAlerts and IdsHyperlink as examples.
