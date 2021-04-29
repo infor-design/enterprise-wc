@@ -29,11 +29,13 @@ module.exports = {
   },
   parser: 'babel-eslint',
   plugins: [
-    'import'
+    'import',
+    'classPrivateMethods',
+    'babel'
   ],
-  // Add `ecmaVersion: 9` for Object spread syntax
+  // Add `ecmaVersion: 9` for Object spread syntax, 12 for private methods
   parserOptions: {
-    ecmaVersion: 9,
+    ecmaVersion: 12,
     sourceType: 'module'
   },
   rules: {
