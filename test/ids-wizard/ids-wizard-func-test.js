@@ -87,6 +87,22 @@ describe('IdsWizard Tests', () => {
     expect(expectedClickableCount).toEqual(clickableCount);
   });
 
+  it('initializes with a non-clickable step and finds that step does not have a clickable link', () => {
+    elem = createElemViaTemplate(
+      `<ids-wizard step-number="1">
+        <ids-wizard-step>Step One</ids-wizard-step>
+        <ids-wizard-step>Step Two</ids-wizard-step>
+        <ids-wizard-step clickable="false">Step Three</ids-wizard-step>
+      </ids-wizard>`
+    );
+
+    /** step 1 and step 3 step should not have href attribs */
+    const expectedClickableCount = elem.children.length - 2;
+    const clickableCount = elem.shadowRoot.querySelectorAll('.step[href]').length;
+
+    expect(expectedClickableCount).toEqual(clickableCount);
+  });
+
   it('sets a random attribute with no visual differences', () => {
     const prevHTML = elem.innerHTML;
     elem.setAttribute('random-attribute', 'random-value');
