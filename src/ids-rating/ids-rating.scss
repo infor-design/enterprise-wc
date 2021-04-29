@@ -10,6 +10,10 @@
 
 .star[icon='star-outlined'] {
   color: black;
+
+  &:hover {
+    color: orange;
+  }
 }
 
 .star[icon='star-filled'] {
