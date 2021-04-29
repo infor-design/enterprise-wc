@@ -2,8 +2,16 @@ import maskAPI from './ids-mask-global';
 import { convertPatternFromString, PLACEHOLDER_CHAR } from './ids-mask-common';
 import { dateMask, numberMask } from './ids-masks';
 
+import { props } from '../ids-base/ids-constants';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsStringUtils } from '../ids-base/ids-string-utils';
+
+const MASK_PROPS = [
+  props.MASK,
+  props.MASK_GUIDE,
+  props.MASK_RETAIN_POSITIONS,
+  props.MASK_OPTIONS,
+];
 
 /**
  * Adds validation to any input field
@@ -21,6 +29,13 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
       previousMaskResult: '',
       previousPlaceholder: ''
     };
+  }
+
+  /**
+   * @returns {Array<string>} IdsInput component observable properties
+   */
+  static get properties() {
+    return [...super.properties, ...MASK_PROPS];
   }
 
   connectedCallback() {

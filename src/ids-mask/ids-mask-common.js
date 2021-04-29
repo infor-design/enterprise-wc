@@ -55,7 +55,7 @@ export const DEFAULT_CONFORM_OPTIONS = {
 
 /**
  * @param {string} pattern a string containing a pattern that needs parsing
- * @returns {Array<string|RegExp>|Function|undefined} a valid mask or nothing
+ * @returns {Array<string|RegExp>|undefined} a valid mask or nothing
  */
 export function convertPatternFromString(pattern) {
   if (typeof pattern !== 'string' || !pattern.length) {

@@ -37,10 +37,6 @@ const INPUT_PROPS = [
   props.LABEL,
   props.LABEL_REQUIRED,
   props.MODE,
-  props.MASK,
-  props.MASK_GUIDE,
-  props.MASK_RETAIN_POSITIONS,
-  props.MASK_OPTIONS,
   props.PLACEHOLDER,
   props.SIZE,
   props.READONLY,
@@ -120,7 +116,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {Array<string>} IdsInput component observable properties
    */
   static get properties() {
-    return INPUT_PROPS;
+    return [...super.properties, ...INPUT_PROPS];
   }
 
   /**
