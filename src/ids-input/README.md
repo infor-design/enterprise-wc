@@ -88,6 +88,7 @@ Set the Text Align to Text Input this way:
 - `dirty-tracker` {boolean} set dirty tracker to input.
 - `disabled` {boolean} set disabled state.
 - `label` {string} set the label text.
+- `mask` {array|function} defines how to mask the input.  See [Ids Mask Mixin](../ids-mask/README.md) for more information.
 - `placeholder` {string} set the placeholder text to input.
 - `size` {string} set the input size, it will set `md` as defaults.
 - `readonly` {boolean} set readonly state.

@@ -421,6 +421,4 @@ describe('Number Mask function', () => {
     // Resulting mask will be [/\d/, /\d/, /\d/, /\d/, '[]', '.', '[]', /\d/]
     expect(result.mask.length).toBe(8);
   });
-
-
 });

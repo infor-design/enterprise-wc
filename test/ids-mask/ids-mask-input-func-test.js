@@ -194,6 +194,46 @@ describe('IdsInput (Masked)', () => {
     expect(input.value).toBe('100%');
   });
 
+  it('can handle custom mask functions', () => {
+    // Custom Mask Function - you can only repeat "Ed" sequentially (EdEdEd) up to 100
+    input.maskOptions = {
+      limit: 100
+    };
+    input.mask = (val, opts) => {
+      const valid = [/[Ee]/, /[Dd]/];
+      const isEven = (n) => n % 2 === 0;
+      let count = opts.limit;
+      const mask = [];
+
+      let prevChar = '';
+      val.split('').forEach((char) => {
+        if (count < 1) {
+          return;
+        }
+
+        let pushed;
+        if (count === opts.limit || (isEven(count) && prevChar.match(valid[1]))) {
+          // Can be "E"
+          pushed = valid[0];
+        } else if (!isEven(count) && prevChar.match(valid[0])) {
+          // Can be "d"
+          pushed = valid[1];
+        } else {
+          count = 0;
+        }
+
+        prevChar = char;
+        count -= 1;
+        mask.push(pushed);
+      });
+
+      return { mask };
+    };
+    input.value = 'EdEdEdeDeDeDEdEdEdeDeDeDEdEdEdeDeDeD';
+
+    expect(input.value).toBe('EdEdEdeDeDeDEdEdEdeDeDeDEdEdEdeDeDeD');
+  });
+
   // @TODO revisit, maybe better ways to get coverage here
   it('can process with a blank value', () => {
     input.mask = [/[*]/];
