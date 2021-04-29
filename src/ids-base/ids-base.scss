@@ -1,9 +1,9 @@
-/**
- * Sass scss styles. Keep Base very small
- */
-
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.host.variables.scss';
+/* Sass scss styles. Keep Base very small */
 @import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins.scss';
+@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.host.variables.scss';
+
+/* Global SCSS Mixins (might need to become tokens) */
+@import './ids-mixins';
 
 /* Global SCSS Mixins (might need to become tokens) */
 @import './ids-mixins';
