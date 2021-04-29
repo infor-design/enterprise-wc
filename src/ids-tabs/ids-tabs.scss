@@ -1,0 +1,11 @@
+@import '../ids-base/ids-base';
+
+.ids-tabs {
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+
+.ids-tab {
+  @include px-16;
+}
