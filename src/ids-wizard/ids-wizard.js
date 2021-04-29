@@ -45,8 +45,7 @@ function areRectsHColliding(r1, r2) {
 /**
  * Recursively resize steps for an element so they don't collide;
  *
- * only pass the wizard element, defaults set so that they can be
- * inferred/computed properly
+ * (only pass the wizard element to args)
  *
  * @param {Array} args the arguments; should be IdsWizard element as only
  * user-defined element
@@ -241,11 +240,8 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     const stepEl = this.children[stepNumber - 1];
 
     return (
-      (this.stepNumber !== stepNumber)
-      && (
-        (!this.clickable && (stepEl.getAttribute(props.CLICKABLE) !== 'false'))
-        || stepEl.getAttribute(props.CLICKABLE) !== 'false'
-      )
+      (!this.clickable && (stepEl.getAttribute(props.CLICKABLE) !== 'false'))
+      || stepEl.getAttribute(props.CLICKABLE) !== 'false'
     );
   }
 
@@ -264,9 +260,9 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     for (const [i, stepEl] of [...this.children].entries()) {
       const isCurrentStep = stepIndex === i;
       const isVisitedStep = i <= stepIndex;
-
       const isClickable = this.isStepClickable(i + 1);
       const label = stepEl.textContent;
+      const hrefUrl = this.hrefURIs?.[i];
 
       let stepClassName = 'step';
       stepClassName += isCurrentStep ? ' current' : '';
@@ -295,22 +291,18 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
         </div>`
       );
 
-      const hrefUrl = this.hrefURIs?.[i];
       let anchorAttribsHtml = `name="#${label}" title="${label}"`;
-      anchorAttribsHtml += !isClickable ? '' : ` href="#${hrefUrl}"`;
+      anchorAttribsHtml += (!isClickable || isCurrentStep) ? '' : ` href="#${hrefUrl}"`;
 
       stepsHtml += (
         `<a
           class="${stepClassName}"
           part="step"
           step-number="${i + 1}"
-          tabindex="0"
+          tabindex="${isClickable ? '0' : '-1'}"'
           ${anchorAttribsHtml}
         >
-          <div
-            class="step-marker"
-            tabindex="-1"
-          >
+          <div class="step-marker">
             <svg viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="12" />
             </svg>
@@ -419,7 +411,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
         for (let i = 0; i < this.children?.length; i++) {
           const labelEl = getStepEl(this, i + 1).children?.[1];
 
-          if (labelEl.style.maxWidth !== 'unset') {
+          if (labelEl.style.maxWidth && labelEl.style.maxWidth !== 'unset') {
             resizedWidthsMap.set(i + 1, labelEl.style.maxWidth);
           }
         }

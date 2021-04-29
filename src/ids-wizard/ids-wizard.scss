@@ -29,17 +29,14 @@
     height: 28px;
   }
 
-  .step:focus .step-label {
-    outline-offset: 1px;
-    outline: -webkit-focus-ring-color auto 1px;
-    outline-color: -webkit-focus-ring-color;
-    outline-style: auto;
-    outline-width: 1px;
+  .step.clickable:focus .step-label {
+    outline-style: none;
+    border-radius: 4px;
+    box-shadow: 0 0 0 1px $visited-step-color, 0 0 4px 3px rgb(54 138 192 / 30%);
   }
 
   .step:focus-visible {
-    outline-offset: none;
-    outline: none;
+    outline-style: none;
   }
 
   .step-label {
@@ -48,6 +45,7 @@
     box-sizing: border-box;
     text-align: left;
     text-decoration: none;
+    padding: 2px 6px;
   }
 
   .step:not(:first-child):not(:last-child) .step-label {

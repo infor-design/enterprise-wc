@@ -76,13 +76,13 @@ describe('IdsWizard Tests', () => {
     expect(elem.stepNumber).toEqual(3);
   });
 
-  it('has all steps besides selected become clickable via parent', () => {
+  it('has all steps besides selected become visitable links via parent', () => {
     elem.clickable = true;
     expect(elem.clickable).toEqual('true');
 
     const expectedClickableCount = elem.children.length - 1;
 
-    const clickableCount = elem.shadowRoot.querySelectorAll('.step.clickable').length;
+    const clickableCount = elem.shadowRoot.querySelectorAll('.step[href]').length;
 
     expect(expectedClickableCount).toEqual(clickableCount);
   });
@@ -138,6 +138,7 @@ describe('IdsWizard Tests', () => {
   + ' changes', async () => {
     const stepNumber = 2;
     elem.clickable = true;
+
     const marker = elem.shadowRoot.querySelector(
       `.step[step-number="${stepNumber}"] .step-marker`
     );
