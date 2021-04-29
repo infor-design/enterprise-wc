@@ -9,4 +9,3 @@
 - [] Async events to grab tooltip content
 - [] ids-wizard Option for disabling URI-hashes
 - [] ids-wizard-step URI attrib
-- [] add focus box shadow rules to `ids-base` repo and consume there (+try to cross ref other elements to use same)
