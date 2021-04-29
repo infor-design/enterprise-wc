@@ -33,16 +33,16 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
     this.header = this.querySelector('[slot="header"]');
     /** @type {HTMLElement | null } */
     this.pane = this.shadowRoot?.querySelector('.ids-accordion-pane');
-    this.setTitles();
+    this.#setTitles();
     this.handleEvents();
-    this.switchState();
+    this.#switchState();
   }
 
   /**
    * Create a unique title for each accordion pane
    * @private
    */
-  setTitles() {
+  #setTitles() {
     const identifier = Math.floor(10000 + Math.random() * 90000);
     this.pane?.setAttribute('title', `ids-accordion-pane-${identifier}`);
   }
@@ -57,7 +57,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
     } else {
       this.setAttribute(props.EXPANDED, 'false');
     }
-    this.switchState();
+    this.#switchState();
   }
 
   /**
@@ -77,8 +77,9 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
   /**
    * The main state switching function
    * @returns {void}
+   * @private
    */
-  switchState() {
+  #switchState() {
     this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
     this.header?.setAttribute('aria-expanded', this.state.expanded);
 
