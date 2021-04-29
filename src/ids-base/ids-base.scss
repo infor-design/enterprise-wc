@@ -1,9 +1,9 @@
-/**
- * Sass scss styles. Keep Base very small
- */
-
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.host.variables.scss';
+/* Sass scss styles. Keep Base very small */
 @import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins.scss';
+@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.host.variables.scss';
+
+/* Global SCSS Mixins (might need to become tokens) */
+@import './ids-mixins';
 
 /* Global variables (might want these to become tokens) */
 $breakpoint-lg: 1280px;
@@ -14,6 +14,3 @@ $breakpoint-xs: 360px;
 
 $transition-length: 200ms;
 $transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
-
-/* Global SCSS Mixins (might need to become tokens) */
-@import './ids-mixins';
