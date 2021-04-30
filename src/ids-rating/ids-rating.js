@@ -29,8 +29,15 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    }
 
     connectedCallback() {
-      this.addRemoveAttrName();
+      if(this.getAttribute('readonly') === 'false') {
+        this.addRemoveAttrName();
+      } else {
+        this.updateHalfStar();
+      }
     }
+
+    ratingContainer = this.shadowRoot.querySelector('#rating');
+    ratingArr = [...this.ratingContainer.children];
 
     /**
      * Create the Template for the contents
@@ -39,9 +46,10 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     template() {
       const stars = this.hasAttribute('stars') ? this.getAttribute('stars') : this.setAttribute('stars', '5');
       const size = this.hasAttribute('size') ? this.getAttribute('size') : this.setAttribute('size', 'large');
+      const readonly = this.hasAttribute('readonly') ? this.getAttribute('readonly') : this.setAttribute('readonly', 'false');
       let html = '<div id="rating">';
       for(let i = 0; i < stars; i++) {
-       html += `<ids-icon class="star" aria-label="${i} Star" role-"button" icon="star-outlined" tabindex="0" size="${size}"></ids-icon>`;
+       html += `<ids-icon class="star star-${i}" aria-label="${i} Star" role-"button" icon="star-outlined" tabindex="0" size="${size}"></ids-icon>`;
       }
       html += '</div>';
       return html;
@@ -51,7 +59,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     * @returns {Array<string>} this component's observable properties
     */
     static get properties() {
-      return ['value', 'stars', 'readonly', 'clickable', 'compact', 'color', 'size'];
+      return ['value', 'stars', 'readonly', 'clickable', 'compact', 'size'];
     }
 
     set value(val) {
@@ -105,16 +113,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       return this.getAttribute('compact');
     }
 
-    set color(col) {
-      if(col) {
-        this.setAttribute('color', col.toString());
-      }
-    }
-
-    get color() {
-      return this.getAttribute('color');
-    }
-
     set size(s) {
       if(s) {
         this.setAttribute('size', s.toString());
@@ -126,14 +124,11 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     }
 
     addRemoveAttrName() {
-      const ratingContainer = this.shadowRoot.querySelector('#rating');
-      const ratingArr = [...ratingContainer.children];
-      ratingArr.forEach((e, index) => e.classList.add(`star-${index}`));
-      this.onEvent('click', ratingContainer, (/** @type {{ target: any; }} */ e) => {
-        const activeElements = ratingArr.filter((item) => item.classList.contains('active'));
+      this.onEvent('click', this.ratingContainer, (/** @type {{ target: any; }} */ e) => {
+        const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
         let attrName = 'star-filled';
         let action = 'add';
-        for (const ratingOption of ratingArr) {
+        for (const ratingOption of this.ratingArr) {
           ratingOption.classList[action]('active');
           ratingOption.setAttribute('icon', attrName);
           if(ratingOption === e.target) {
@@ -145,7 +140,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
             activeElements[0].setAttribute('icon', 'star-outlined');
           }
         }
-        this.updateValue(ratingArr);
+        this.updateValue(this.ratingArr);
       });
     }
 
@@ -153,6 +148,10 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       const val = [...arr];
       const value = val.filter((el) => el.classList.contains('active'));
       this.setAttribute('value', value.length);
+    }
+
+    updateHalfStar() {
+      console.log('Half Star...')
     }
  }
 
