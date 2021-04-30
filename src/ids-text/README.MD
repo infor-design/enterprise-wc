@@ -38,6 +38,7 @@ A Disabled appearing text element.
 - `fontSize` {string} Set the size of font to use (in pixels)
 - `mode` {string} Set the theme mode
 - `version` {string} Set the theme version
+- `color` {string} If set to `unset`, the CSS color will be `'unset'` allowing you to color with surrounding content.
 
 ## Themeable Parts
 

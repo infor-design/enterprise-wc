@@ -49,6 +49,16 @@ describe('IdsText Component', () => {
     expect(elem.getAttribute('font-size')).toEqual(null);
   });
 
+  it('renders color setting as "unset", then removes it', () => {
+    elem = new IdsText();
+    document.body.appendChild(elem);
+    elem.color = 'unset';
+    expect(elem.color).toEqual('unset');
+    elem.color = null;
+    expect(elem.fontSize).toEqual(null);
+    expect(elem.getAttribute('color')).toEqual(null);
+  });
+
   it('renders font weight setting', () => {
     expect(elem.fontWeight).toEqual(null);
     elem.fontWeight = 'bold';
