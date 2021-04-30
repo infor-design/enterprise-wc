@@ -9,10 +9,11 @@
 
   height: calc(100% - 16px);
   margin: -8px;
+  overflow: auto;
   width: calc(100% - 16px);
 
-  &[tabindex] {
-    overflow: auto;
+  &[scrollable='false'] {
+    overflow: hidden;
   }
 }
 

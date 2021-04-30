@@ -11,7 +11,6 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore
 import IdsPopup from '../ids-popup/ids-popup';
 
 /**
@@ -106,10 +105,10 @@ class IdsTooltip extends mix(IdsElement).with(
   attachEvents(targetElem) {
     // Events to show on hover
     if (this.trigger === 'hover') {
-      this.onEvent('mouseenter.tooltip', targetElem, (e) => {
+      this.onEvent('hoverend.tooltip', targetElem, (e) => {
         this.popup.alignTarget = e.currentTarget;
-        this.showOnTimer();
-      });
+        this.visible = true;
+      }, { delay: this.delay });
       this.onEvent('mouseleave.tooltip', targetElem, () => {
         this.visible = false;
       });
@@ -168,32 +167,6 @@ class IdsTooltip extends mix(IdsElement).with(
   }
 
   /**
-   * Show the tooltip on a timeout
-   * @private
-   */
-  showOnTimer() {
-    this.clearTimer();
-    // @ts-ignore
-    this.timer = this.rl.register(new IdsRenderLoopItem({
-      duration: this.delay,
-      timeoutCallback: () => {
-        this.state.visible = true;
-        this.show();
-      }
-    }));
-  }
-
-  /**
-   * Clear the timeout
-   * @private
-   */
-  clearTimer() {
-    if (this.timer && this.timer.destroy) {
-      this.timer.destroy(true);
-    }
-  }
-
-  /**
    * Show the tooltip
    * @private
    */
@@ -218,7 +191,13 @@ class IdsTooltip extends mix(IdsElement).with(
    * @private
    */
   updateAria() {
-    this.popup.alignTarget = document.querySelectorAll(this.target)[0];
+    // For ellipsis based tooltips we dont do this
+    if (this.state.noAria) {
+      return;
+    }
+    this.popup.alignTarget = typeof this.target === 'object'
+      ? this.target
+      : document.querySelectorAll(this.target)[0];
 
     const id = `${this.id || 'ids'}-tooltip`;
     if (this.popup.alignTarget && this.popup.alignTarget.querySelector(`#${id}`)) {
@@ -227,7 +206,7 @@ class IdsTooltip extends mix(IdsElement).with(
     }
 
     if (this.popup.alignTarget) {
-      const ariaSpan = `<ids-text id="${id}" audible="true" aria-presentation="true">${this.textContent}</ids-text>`;
+      const ariaSpan = `<ids-text id="${id}" audible="true">${this.textContent}</ids-text>`;
       this.popup.alignTarget.insertAdjacentHTML('beforeend', ariaSpan);
       this.popup.alignTarget.setAttribute('aria-describedby', `#${id}`);
     }
@@ -238,8 +217,6 @@ class IdsTooltip extends mix(IdsElement).with(
    * @private
    */
   async show() {
-    this.clearTimer();
-
     // Trigger a veto-able `beforeshow` event.
     let canShow = true;
     const beforeShowResponse = (/** @type {any} */ veto) => {
@@ -269,15 +246,16 @@ class IdsTooltip extends mix(IdsElement).with(
     this.configurePopup();
     this.popup.visible = true;
     this.state.visible = true;
+    this.triggerEvent('show', this, { detail: { elem: this } });
   }
 
   /**
    * Show the tooltip  (use visible for public API)
    */
   hide() {
-    this.clearTimer();
     this.popup.visible = false;
     this.state.visible = false;
+    this.triggerEvent('hide', this, { detail: { elem: this } });
   }
 
   /**
@@ -374,7 +352,9 @@ class IdsTooltip extends mix(IdsElement).with(
     this.state.visible = stringUtils.stringToBool(value);
 
     if (!this.popup.alignTarget) {
-      this.popup.alignTarget = document.querySelectorAll(this.target)[0];
+      this.popup.alignTarget = typeof this.target === 'object'
+        ? this.target
+        : document.querySelectorAll(this.target)[0];
     }
 
     if (this.state.visible) {

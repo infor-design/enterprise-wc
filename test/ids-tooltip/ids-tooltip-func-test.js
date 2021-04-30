@@ -3,6 +3,8 @@
  */
 import IdsTooltip from '../../src/ids-tooltip/ids-tooltip';
 import { IdsButton } from '../../src/ids-button/ids-button';
+import IdsText from '../../src/ids-text/ids-text';
+import IdsContainer from '../../src/ids-container/ids-container';
 
 describe('IdsTooltip Component', () => {
   let tooltip;
@@ -311,5 +313,64 @@ describe('IdsTooltip Component', () => {
     tooltip.visible = true;
 
     expect(tooltip.visible).toEqual(false);
+  });
+
+  it('shows works as a mixin on buttons', (done) => {
+    tooltip.remove();
+    const button2 = new IdsButton();
+    button2.id = 'button-1';
+    button2.text = 'Test Button';
+    button2.tooltip = 'Additional Info';
+    document.body.appendChild(button2);
+
+    const mouseenter = new MouseEvent('mouseenter');
+    const mouseleave = new MouseEvent('mouseleave');
+    button2.dispatchEvent(mouseenter);
+    setTimeout(() => {
+      const tooltipFromMixin = document.querySelector('ids-tooltip');
+      expect(tooltipFromMixin.visible).toEqual(true);
+      button2.dispatchEvent(mouseleave);
+      expect(tooltipFromMixin.visible).toEqual(false);
+      expect(tooltipFromMixin.textContent).toEqual('Additional Info');
+      done();
+    }, 550);
+  });
+
+  it('should not show when not overflown', () => {
+    tooltip.remove();
+    const text = new IdsText();
+    text.overflow = 'ellipsis';
+    text.textContent = 'Some long text that is overflowing and long';
+    text.tooltip = 'true';
+    document.body.appendChild(text);
+
+    const mouseenter = new MouseEvent('mouseenter');
+    text.dispatchEvent(mouseenter);
+    const tooltipFromMixin = document.querySelector('ids-tooltip');
+    expect(tooltipFromMixin).toBeFalsy();
+  });
+
+  it('should work in a container', (done) => {
+    const container = new IdsContainer();
+
+    tooltip.remove();
+    const button2 = new IdsButton();
+    button2.id = 'button-1';
+    button2.text = 'Test Button';
+    button2.tooltip = 'Additional Info2';
+    container.appendChild(button2);
+    document.body.appendChild(container);
+
+    const mouseenter = new MouseEvent('mouseenter');
+    const mouseleave = new MouseEvent('mouseleave');
+    button2.dispatchEvent(mouseenter);
+    setTimeout(() => {
+      const tooltipFromMixin = document.querySelector('ids-tooltip');
+      expect(tooltipFromMixin.visible).toEqual(true);
+      button2.dispatchEvent(mouseleave);
+      expect(tooltipFromMixin.visible).toEqual(false);
+      expect(tooltipFromMixin.textContent).toEqual('Additional Info2');
+      done();
+    }, 550);
   });
 });

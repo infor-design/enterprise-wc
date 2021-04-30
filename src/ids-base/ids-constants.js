@@ -88,6 +88,7 @@ export const props = {
   TABBABLE: 'tabbable',
   TABINDEX: 'tabindex',
   TARGET: 'target',
+  TOOLTIP: 'tooltip',
   TRIGGER: 'trigger',
   TRIGGERFIELD: 'triggerfield',
   TRIGGER_LABEL: 'trigger-label',

@@ -82,6 +82,10 @@
   - Toolbar Sections are now codified as components `<ids-toolbar-section>`
   - The More Actions Button is now a codified component `<ids-toolbar-more-actions>`
   - Toolbar can be tabbable or not
+- `[Tooltip]` The Tooltip component has been changed to a web component.
+  - Markup is now a custom element `<ids-tooltip></ids-tooltip>`
+  - There is no longer a "KeepOpen" setting, instead add a component to the page and use `visible=true`
+  - Tooltip can be used as a mixin or standalone component
 - `[Upload]` The file upload component has been changed to a web component and renamed to ids-upload.
   - Markup has changed to a custom element `<ids-upload></ids-upload>`
   - If using events, events are now plain JS events.

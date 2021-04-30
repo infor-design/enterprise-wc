@@ -9,22 +9,26 @@
   - [x] Css Class (use parts)
 - [x] Themes
 - [x] Call backs/promises
-- [ ] Custom Events
+- [x] Custom Events
     - [x] Long Press
     - [x] Keyboard Focus Event
+    - [x] Hoverend
 - [ ] Accessibility
-  - [ ] Use `aria-describedby` - This is not working see [179](https://github.com/elix/elix/issues/179)
+  - [ ] Use `aria-describedby` - This is not working yet see [179](https://github.com/elix/elix/issues/179)
   - [x] Make keyboard focus show the tooltip
-- [ ] Mixin version
-- [ ] As Ellipsis [4096](https://github.com/infor-design/enterprise/issues/4096)
-- [ ] Works on a thing with a popup [3621](https://github.com/infor-design/enterprise/issues/3621)
-- [ ] Events including [3618](https://github.com/infor-design/enterprise/issues/3618)
+- [x] Mixin version
+- [x] As Ellipsis [4096](https://github.com/infor-design/enterprise/issues/4096)
+- [ ] On an input
 - [ ] Add/Check Current API methods and props
-- [ ] Id's
+- [ ] Id's / Automation Id's
+- [ ] More Docs
+  - [ ] For mixin in README.md
 - [ ] Tests
   - [x] Works on disabled
   - [x] Two can share a tooltip
   - [x] Trigger Test
   - [x] Can change target
   - [x] Focus Test
+  - [ ] Coverage
   - [ ] e2e tests
+- [ ] PR

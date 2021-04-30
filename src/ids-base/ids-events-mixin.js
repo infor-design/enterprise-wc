@@ -6,7 +6,7 @@ import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-re
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsEventsMixin = (superclass) => class extends superclass {
+const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(superclass) {
   constructor() {
     super();
     this.handledEvents = new Map();
@@ -25,7 +25,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @param {string|any} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
    * @param {Function|any} callback The callback code to execute
-   * @param {object} options Additional event settings (passive, once, passive ect)
+   * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
   onEvent(eventName, target, callback, options) {
     if (!target) {
@@ -38,7 +38,9 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     if (eventName.indexOf('keyboardfocus') === 0) {
       this.addKeyboardFocusListener(eventName, target, options);
     }
-
+    if (eventName.indexOf('hoverend') === 0) {
+      this.addHoverEndListener(eventName, target, options);
+    }
     target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
@@ -47,7 +49,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * Remove event listener
    * @param {string} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
-   * @param {object} options Additional event settings (passive, once, passive ect)
+   * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
   offEvent(eventName, target, options) {
     const handler = this.handledEvents.get(eventName);
@@ -61,6 +63,11 @@ const IdsEventsMixin = (superclass) => class extends superclass {
 
     if (eventName.indexOf('keyboardfocus') === 0 && handler?.callback) {
       this.removeKeyboardFocusListener();
+      return;
+    }
+
+    if (eventName.indexOf('hoverend') === 0 && handler?.callback) {
+      this.removeHoverEndListener();
       return;
     }
 
@@ -89,6 +96,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     });
     this.removeLongPressListener();
     this.removeKeyboardFocusListener();
+    this.removeHoverEndListener();
   }
 
   /**
@@ -109,27 +117,24 @@ const IdsEventsMixin = (superclass) => class extends superclass {
    * @private
    * @param {string|any} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
-   * @param {object} options Additional event settings (passive, once, passive ect)
+   * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
   addLongPressListener(eventName, target, options) {
     if (this.longPressOn) {
       return;
     }
 
-    // Add render loop
-    Object.assign(this, IdsRenderLoopMixin);
-
     // Setup events
     this.onEvent('touchstart.longpress', target, (e) => {
       e.preventDefault();
-
       /* istanbul ignore next */
       if (!this.timer) {
         this.timer = this.rl?.register(new IdsRenderLoopItem({
-          duration: options.delay || 500,
+          duration: options?.delay || 500,
           timeoutCallback: () => {
             const event = new CustomEvent('longpress', e);
             target.dispatchEvent(event);
+            this.clearTimer();
           }
         }));
       }
@@ -138,15 +143,14 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     /* istanbul ignore next */
     this.onEvent('touchend.longpress', target, (e) => {
       e.preventDefault();
-      this.timer.destroy(true);
-      this.timer = null;
+      this.clearTimer();
     }, { passive: true });
 
     this.longPressOn = true;
   }
 
   /**
-   * Detatch all long press events
+   * Detach all long press events
    * @private
    */
   removeLongPressListener() {
@@ -193,7 +197,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Detatch all keyboard focus events
+   * Detach all keyboard focus events
    * @private
    */
   removeKeyboardFocusListener() {
@@ -203,6 +207,63 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     this.keyboardFocusOn = false;
     this.detachEventsByName(`click.keyboardfocus`);
     this.detachEventsByName(`keypress.keyboardfocus`);
+  }
+
+  /**
+   * Setup a custom hoverend event that fires after a delay of the hover persists
+   * @private
+   * @param {string|any} eventName The event name with optional namespace
+   * @param {HTMLElement} target The DOM element to register
+   * @param {object} options Additional event settings (passive, once, bubbles ect)
+   */
+  addHoverEndListener(eventName, target, options) {
+    // Setup events
+    this.onEvent('mouseenter.eventsmixin', target, (e) => {
+      /* istanbul ignore next */
+      if (!this.timer) {
+        this.timer = this.rl?.register(new IdsRenderLoopItem({
+          duration: options?.delay || 500,
+          timeoutCallback: () => {
+            const event = new CustomEvent('hoverend', e);
+            target.dispatchEvent(event);
+            this.clearTimer();
+          }
+        }));
+      }
+    });
+
+    this.onEvent('mouseleave.eventsmixin', target, () => {
+      this.clearTimer();
+    });
+
+    this.onEvent('click.eventsmixin', target, () => {
+      this.clearTimer();
+    });
+    this.hoverEndOn = true;
+  }
+
+  /**
+   * Clear the timer
+   * @private
+   */
+  clearTimer() {
+    this.timer?.destroy(true);
+    this.timer = null;
+  }
+
+  /**
+   * Detach all hoverend events
+   * @private
+   */
+  removeHoverEndListener() {
+    if (!this.hoverEndOn) {
+      return;
+    }
+    this.hoverEndOn = false;
+    this.timer = null;
+    this.detachEventsByName('click.eventsmixin');
+    this.detachEventsByName('mouseleave.eventsmixin');
+    this.detachEventsByName('mouseenter.eventsmixin');
   }
 };
 

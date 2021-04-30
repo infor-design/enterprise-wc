@@ -55,7 +55,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.longPressOn).toBe(true);
   });
 
-  it('can detatch longpress events', () => {
+  it('can Detach longpress events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('longpress', elem, mockHandler);
     expect(elem.longPressOn).toBe(true);
@@ -73,7 +73,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.keyboardFocusOn).toBe(true);
   });
 
-  it('can detatch keyboardfocus events', () => {
+  it('can Detach keyboardfocus events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('keyboardfocus', elem, mockHandler);
     expect(elem.keyboardFocusOn).toBe(true);
@@ -82,5 +82,32 @@ describe('IdsEventsMixin Tests', () => {
     elem.triggerEvent('click', elem);
     expect(mockHandler.mock.calls.length).toBe(0);
     expect(elem.keyboardFocusOn).toBe(false);
+  });
+
+  it('can attach hoverend events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('hoverend', elem, mockHandler);
+    elem.triggerEvent('mouseenter', elem);
+    expect(elem.hoverEndOn).toBe(true);
+  });
+
+  it('can cancel on hoverend events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('hoverend', elem, mockHandler);
+    elem.triggerEvent('mouseenter', elem);
+    elem.triggerEvent('mouseleave', elem);
+    elem.triggerEvent('click', elem);
+    expect(elem.hoverEndOn).toBe(true);
+    expect(mockHandler.mock.calls.length).toBe(0);
+  });
+
+  it('can Detach hoverend events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('hoverend', elem, mockHandler);
+    expect(elem.hoverEndOn).toBe(true);
+    elem.offEvent('hoverend', elem);
+    elem.triggerEvent('mouseenter', elem);
+    expect(mockHandler.mock.calls.length).toBe(0);
+    expect(elem.hoverEndOn).toBe(false);
   });
 });

@@ -22,6 +22,9 @@ export default class IdsText extends HTMLElement {
   /** Set the overflow style */
   overflow: 'ellipsis' | null;
 
+  /* Sets up a string based tooltip , if true the text will show when the text is ellipsis */
+  tooltip?: string | boolean;
+
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 
