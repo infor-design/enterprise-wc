@@ -49,6 +49,9 @@ module.exports = {
       exports: 'never',
       functions: 'never'
     }],
+    // we aren't doing special math with binary/hex radix numbers often,
+    // so this removes need for parseInt(number, 10);
+    radix: 0,
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'import/prefer-default-export': ['off', { }],
     // Allow clases to be set on the web components

@@ -40,6 +40,10 @@
   }
 }
 
+.ids-text-color-unset {
+  color: unset !important;
+}
+
 // Alert Colored Text
 :host(.message-text) {
   .ids-text {
