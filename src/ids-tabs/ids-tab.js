@@ -28,7 +28,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.VALUE, props.SELECTED];
+    return [props.VALUE];
   }
 
   /**
@@ -37,11 +37,12 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   template() {
     return (
-      `<div class="ids-tab" role="tab" tabindex="0">
+      `<div class="ids-tab${this.selected ? ' selected ' : ''}" role="tab">
         <ids-text
           overflow="ellipsis"
           size="22"
           color="unset"
+          ${this.selected ? 'font-weight="bold"' : ''}
         >
           <slot></slot>
         </ids-text>
@@ -53,18 +54,19 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {string} value value which becomes selected by tabs component
    */
   set selected(value) {
-    console.log('selected ->', value);
-    this.setAttribute(props.SELECTED, stringToBool(value));
+    const isValueTruthy = stringToBool(value);
 
-    if (!value) {
-      this.container.classList.remove('selected');
+    if (!isValueTruthy) {
+      this.container.classList.remove(props.SELECTED);
+      this.removeAttribute('selected');
+      this.container?.children?.[0]?.removeAttribute?.('font-weight');
     }
 
-    if (value && !this.container.classList.contains('selected')) {
-      this.container.classList.add('selected');
+    if (isValueTruthy) {
+      this.container.classList.add(props.SELECTED);
+      this.setAttribute('selected', true);
+      this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
     }
-
-    this.render();
   }
 
   get selected() {
@@ -80,6 +82,12 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
   get value() {
     return this.getAttribute(props.VALUE);
+  }
+
+  connectedCallback() {
+    if (!this.hasAttribute('tabindex')) {
+      this.setAttribute('tabindex', '0');
+    }
   }
 }
 

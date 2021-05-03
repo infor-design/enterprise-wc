@@ -5,7 +5,8 @@ import {
   scss,
   mix
 } from '../ids-base/ids-element';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsKeyboardMixin, IdsEventsMixin } from '../ids-base';
+import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
 
 /**
@@ -33,7 +34,14 @@ const buildClassAttrib = (...classes) => {
  */
 @customElement('ids-tabs')
 @scss(styles)
-class IdsTabs extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+  /**
+   * lets us quickly reference the active element
+   * for current index selected with arrow left/right
+   * mapping
+   */
+  childrenIndexMap = new Map();
+
   constructor() {
     super();
   }
@@ -56,6 +64,48 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin) {
         <slot></slot>
       </ul>`
     );
+  }
+
+  getFocusedTabIndex() {
+    if (this.childrenIndexMap.has(document.activeElement)) {
+      return this.childrenIndexMap.get(document.activeElement);
+    } else {
+      return -1;
+    }
+  }
+
+  connectedCallback() {
+    for (let i = 0; i < this.children.length; i++) {
+      const tabElem = this.children[i];
+      this.childrenIndexMap.set(tabElem, i);
+    }
+
+    // TODO: (1) only ArrowLeft/Right on horizontal orientation
+    // TODO: (2) ArrowUp/Down for vertical orientation
+
+    this.listen('ArrowLeft', this, () => {
+      const focusedTabIndex = this.getFocusedTabIndex();
+
+      if (focusedTabIndex > 0) {
+        this.children[focusedTabIndex - 1].focus();
+      }
+    });
+
+    this.listen('ArrowRight', this.expander, () => {
+      const focusedTabIndex = this.getFocusedTabIndex();
+
+      if (focusedTabIndex + 1 < this.children.length) {
+        this.children[focusedTabIndex + 1].focus();
+      }
+    });
+
+    this.listen('Enter', this.expander, () => {
+      const focusedTabIndex = this.getFocusedTabIndex();
+
+      if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
+        this.setAttribute(props.VALUE, this.getTabIndexValue(focusedTabIndex));
+      }
+    });
   }
 
   /**
@@ -118,18 +168,24 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin) {
     // then highlight the item
 
     for (let i = 0; i < this.children.length; i++) {
-      const tabValue = this.children[i].getAttribute('value');
-
-      if (tabValue === value) {
-        this.children[i].selected = 'true';
-      } else {
-        this.children[i].selected = 'false';
-      }
+      const tabValue = this.children[i].getAttribute(props.VALUE);
+      this.children[i].selected = tabValue === value;
     }
   }
 
   get value() {
     return this.getAttribute(props.VALUE);
+  }
+
+  /**
+   * Returns the value provided for a tab at a specified
+   * index; if it does not exist, then return zero-based index
+   *
+   * @param {number} index 0-based tab index
+   * @returns {string | number} value or index
+   */
+  getTabIndexValue(index) {
+    return this.children?.[index]?.getAttribute(props.VALUE) || index;
   }
 }
 
