@@ -32,7 +32,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       if(this.getAttribute('readonly') === 'false') {
         this.addRemoveAttrName();
       } else {
-        this.updateHalfStar();
+        this.updateHalfStar(this.ratingArr);
       }
     }
 
@@ -150,8 +150,20 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       this.setAttribute('value', value.length);
     }
 
-    updateHalfStar() {
-      console.log('Half Star...')
+    updateHalfStar(arr) {
+      const value = this.hasAttribute('value') ? this.getAttribute('value') : this.setAttribute('value', '0');
+      const roundValue = Math.round(value)
+      for(let i = 0; i < roundValue; i++) {
+        console.log(i)
+        arr[i].classList.add('active');
+        arr[i].setAttribute('icon', 'star-filled')
+      }
+      if(value < roundValue) {
+        const activeArr = arr.filter((act) => act.classList.contains('active'));
+        const lastItem = activeArr[activeArr.length - 1];
+        lastItem.classList.add('is-half');
+        lastItem.setAttribute('icon', 'star-half')
+      }
     }
  }
 
