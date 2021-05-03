@@ -27,14 +27,15 @@ module.exports = {
     Ids: true,
     ResizeObserver: true
   },
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   plugins: [
     'import'
   ],
-  // Add `ecmaVersion: 9` for Object spread syntax
+  // Add `ecmaVersion: 9` for Object spread syntax, 12 for private methods
   parserOptions: {
-    ecmaVersion: 9,
-    sourceType: 'module'
+    ecmaVersion: 12,
+    sourceType: 'module',
+    babelOptions: { plugins: ['@babel/plugin-syntax-class-properties'] }
   },
   rules: {
     // Dont force a new line after comments
