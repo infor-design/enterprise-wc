@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsWizard Tests initializes without step number and it is set to -1 1`] = `
+"<ids-wizard>
+        <ids-wizard-step>Step One</ids-wizard-step>
+        <ids-wizard-step>Step Two</ids-wizard-step>
+        <ids-wizard-step>Step Three</ids-wizard-step>
+      </ids-wizard>"
+`;
+
+exports[`IdsWizard Tests renders correctly 1`] = `
+"<ids-wizard step-number=\\"1\\">
+        <ids-wizard-step>Step One</ids-wizard-step>
+        <ids-wizard-step>Step Two</ids-wizard-step>
+        <ids-wizard-step>Step Three</ids-wizard-step>
+      </ids-wizard>"
+`;
+
+exports[`IdsWizard Tests renders correctly 2`] = `
+"<ids-wizard step-number=\\"2\\">
+        <ids-wizard-step>Step One</ids-wizard-step>
+        <ids-wizard-step>Step Two</ids-wizard-step>
+        <ids-wizard-step>Step Three</ids-wizard-step>
+      </ids-wizard>"
+`;
+
+exports[`IdsWizard Tests sets the step number to invalid values and sees associated errors 1`] = `"ids-wizard: Invalid step number provided"`;
+
+exports[`IdsWizard Tests sets the step number to invalid values and sees associated errors 2`] = `"ids-wizard: step number should be > 0"`;
+
+exports[`IdsWizard Tests sets the step number to invalid values and sees associated errors 3`] = `"ids-wizard: step number should be below step-count"`;

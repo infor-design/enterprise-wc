@@ -18,7 +18,7 @@ The Ids Popup Menu is a complex component that combines an [`IdsMenu`](../ids-me
 
 ### Component Types
 
-**Menu** The base container element, `IdsMenu`, usually represented in the Shadow DOM with a standard HTML `<nav>` tag.
+**Menu** The base container element, `IdsMenu`, usually represented in the Shadow DOM with a standard HTML `<div>` tag.
 **Popup Menu** This specific component `IdsPopupMenu`, which wraps a standard menu in a "Popup" that can be hidden and shown on command.
 **Menu Item** A sub-component of the `IdsPopupMenu`, which is the actionable item within the menu.  These can have values, be selected or deselected, disabled, and icons.  They are also able to contain Submenus.
 **Menu Group** All menu items exist inside of an `IdsMenuGroup` sub-component type, which contains information about how selection can occur on its contained items. Selection be "none" (standard click behavior), "single" which allows only a single item in the group to be checked, or "multi" which allows any/all items in the group to be selected simultaneously. A menu can be comprised of one or multiple groups of items, and each group's selection within the parent menu is independent of the others.

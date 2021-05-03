@@ -30,4 +30,7 @@ export default class IdsText extends HTMLElement {
 
   /** Set the theme version */
   version: 'new' | 'classic' | string;
+
+  /** If set to "unset", allows parent to color text */
+  color: 'unset' | null;
 }

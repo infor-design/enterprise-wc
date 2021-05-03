@@ -53,7 +53,8 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
       props.LABEL,
       props.FONT_WEIGHT,
       props.AUDIBLE,
-      props.OVERFLOW
+      props.OVERFLOW,
+      props.COLOR
     ];
   }
 
@@ -66,6 +67,7 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
     const tag = this.type || 'span';
 
     let classList = 'ids-text';
+    classList += this.color === 'unset' ? ' ids-text-color-unset' : '';
     classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
     classList += ((this.audible)) ? ' audible' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
@@ -140,6 +142,26 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
   }
 
   get type() { return this.getAttribute(props.TYPE); }
+
+  /**
+   * If set to "unset", color can be controlled by parent container
+   * @param {string | null} value  "unset" or undefined/null
+   */
+  set color(value) {
+    if (value === 'unset') {
+      this.setAttribute(props.COLOR, value);
+      this.container.classList.add('ids-text-color-unset');
+    } else {
+      this.removeAttribute(props.COLOR);
+      this.container.classList.remove('ids-text-color-unset');
+    }
+
+    this.render();
+  }
+
+  get color() {
+    return this.getAttribute(props.COLOR);
+  }
 
   /**
    * Set `audible` string (screen reader only text)

@@ -134,7 +134,13 @@ class IdsElement extends HTMLElement {
     // Remove any close hidden element to avoid FOUC
     this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
     this.closest('ids-container')?.removeAttribute('hidden');
+
+    // Append automation ids ad ids
     this.appendIds();
+
+    // Add a rendered callback
+    this.rendered?.();
+
     return this;
   }
 

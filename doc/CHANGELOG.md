@@ -92,6 +92,11 @@
   - Content can now be set with `tooltipElem.textContent`
   - Instead of open and close use `tooltipElem.visible=true`
   - After show event was not needed as its the same as show so this is removed
+- `[Wizard]` The Wizard component has been changed to a web component. ([#5026](https://github.com/infor-design/enterprise/issues/5026))
+  - Wizard is now a custom element `<ids-wizard></ids-wizard>`
+  - Steps are now codified as custom elements `<ids-wizard-step>MY-LABEL</ids-wizard-step>`
+  - Setting the step number is done via `ids-wizard`'s `step-number` attribute.
+  - `clickable` property is available on both any `ids-wizard-step` and `ids-wizard` overall.
 - `[Upload]` The file upload component has been changed to a web component and renamed to ids-upload.
   - Markup has changed to a custom element `<ids-upload></ids-upload>`
   - If using events, events are now plain JS events.
