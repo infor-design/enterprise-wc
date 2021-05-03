@@ -86,6 +86,12 @@
   - Markup is now a custom element `<ids-tooltip></ids-tooltip>`
   - There is no longer a "KeepOpen" setting, instead add a component to the page and use `visible=true`
   - Tooltip can be used as a mixin or standalone component
+  - Tooltip is no longer shared with popups so all options related to that are removed
+  - Error Tooltips are removed/not needed at this time
+  - attachToBody option is removed/not needed at this time
+  - Content can now be set with `tooltipElem.textContent`
+  - Instead of open and close use `tooltipElem.visible=true`
+  - After show event was not needed as its the same as show so this is removed
 - `[Upload]` The file upload component has been changed to a web component and renamed to ids-upload.
   - Markup has changed to a custom element `<ids-upload></ids-upload>`
   - If using events, events are now plain JS events.

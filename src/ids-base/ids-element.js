@@ -29,6 +29,39 @@ class IdsElement extends HTMLElement {
   }
 
   /**
+   * Copy down the id's and data-**-id to the different parts in the component
+   * @private
+   */
+  appendIds() {
+    const parts = this.shadowRoot.querySelectorAll('[part]');
+    if (parts.length === 0) {
+      return;
+    }
+
+    if (this.id) {
+      this.appendId(parts, 'id', this.id);
+    }
+    for (let i = 0; i < this.attributes.length; i++) {
+      if (this.attributes[i].name.includes('data-') && this.attributes[i].name.includes('id')) {
+        this.appendId(parts, this.attributes[i].name, this.getAttribute(this.attributes[i].name));
+      }
+    }
+  }
+
+  /**
+   * Copy down the id's and data-**-id to the different parts in the component
+   * @param  {Array} parts The array of parts
+   * @param  {string} name The id name
+   * @param  {string} value The id value
+   * @private
+   */
+  appendId(parts, name, value) {
+    for (let i = 0; i < parts.length; i++) {
+      parts[i].setAttribute(name, `${value}-${parts[i].getAttribute('part')}`);
+    }
+  }
+
+  /**
    * Handle Setting changes of the value has changed by calling the getter
    * in the extending class.
    * @param  {string} name The property name
@@ -101,6 +134,7 @@ class IdsElement extends HTMLElement {
     // Remove any close hidden element to avoid FOUC
     this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
     this.closest('ids-container')?.removeAttribute('hidden');
+    this.appendIds();
     return this;
   }
 

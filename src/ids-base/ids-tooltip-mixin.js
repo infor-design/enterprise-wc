@@ -41,6 +41,18 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
   }
 
   /**
+   * Return the correct target element
+   * @private
+   * @returns {HTMLElement} The correct target element
+   */
+  get toolTipTarget() {
+    if (this.nodeName === 'IDS-INPUT') {
+      return this.container.querySelector('input');
+    }
+    return this;
+  }
+
+  /**
    * Show the tooltip if available
    */
   showTooltip() {
@@ -52,8 +64,9 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
     // Append an IDS Tooltip and show it
     const tooltip = document.createElement('ids-tooltip');
     tooltip.state.noAria = true;
-    tooltip.target = this;
-    tooltip.alignTarget = this;
+    tooltip.target = this.toolTipTarget;
+    tooltip.alignTarget = this.toolTipTarget;
+
     // Handle Ellipsis Text if tooltip="true"
     /* istanbul ignore next */
     tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;

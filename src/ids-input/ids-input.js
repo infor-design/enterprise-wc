@@ -21,6 +21,7 @@ import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import { IdsTooltipMixin } from '../ids-base/ids-tooltip-mixin';
 
 // Input id
 const ID = 'ids-input-id';
@@ -63,6 +64,7 @@ const TEXT_ALIGN = {
  * @mixes IdsEventsMixin
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsTooltipMixin
  * @part input - the input element
  * @part label - the label element
  */
@@ -74,7 +76,8 @@ class IdsInput extends mix(IdsElement).with(
     IdsKeyboardMixin,
     IdsDirtyTrackerMixin,
     IdsValidationMixin,
-    IdsThemeMixin
+    IdsThemeMixin,
+    IdsTooltipMixin
   ) {
   /**
    * Call the constructor and then initialize

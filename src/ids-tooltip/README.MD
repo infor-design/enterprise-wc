@@ -10,6 +10,7 @@ Tooltips are a component thats used in conjunction with other components to show
 
 ## Terminology
 
+- **Popup**: Any thing that popups up and positions use the ids-popup component
 - **Tooltip**: A message which appears when a cursor is positioned over an icon, image, hyperlink, or other element in a graphical user interface.
 
 ## Features (With Code Examples)
@@ -18,7 +19,46 @@ A normal tooltip used as a web component attached to a button.
 
 ```html
 <ids-button id="button-1">Example Button</ids-button>
-<ids-tooltip target="button-1" placement="top">Tooltips Provide Additional Information</ids-tooltip>
+<ids-tooltip target="button-1" placement="top">Additional Information</ids-tooltip>
+```
+
+A tooltip can also be used more conveniently for text only tooltips on inputs and buttons as a mixin.
+
+```html
+<ids-button id="button-1" tooltip="Additional Information">Example Button</ids-button>
+```
+
+A tooltips content can be set in a synchronous way with the textContent attribute.
+
+```js
+document.querySelector('#button-1').textContent = 'New Content';
+```
+
+A tooltips content can be set in an synchronous way with the beforeShow property.
+
+```js
+const getContents = () => new Promise((resolve) => {
+  const xhr = new XMLHttpRequest();
+  xhr.open('get', '/api/bikes', true);
+  xhr.onload = () => {
+    const status = xhr.status;
+    if (status === 200) {
+      resolve(JSON.parse(xhr.responseText)[1].manufacturerName);
+    }
+  };
+  xhr.send();
+});
+
+const tooltipAsync = document.querySelector('[target="#tooltip-async"]');
+tooltipAsync.beforeShow = async function beforeShow() {
+  return getContents();
+};
+```
+
+A tooltips can be manually set to visible, but it still needs an alignment target to do so.
+
+```js
+document.querySelector('#button-1').visible = true;
 ```
 
 ## Usage Guidance
@@ -38,7 +78,8 @@ A normal tooltip used as a web component attached to a button.
 
 ## Themeable Parts
 
-- `tooltip` allows you to further style the tooltip container element
+- `popup` allows you to further style the popup container element
+- `tooltip` allows you to further style the tooltip element
 
 ## States and Variations (With Code Examples)
 

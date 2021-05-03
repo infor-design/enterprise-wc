@@ -2,9 +2,16 @@ import percySnapshot from '@percy/puppeteer';
 
 describe('Ids Tooltip Percy Tests', () => {
   const url = 'http://localhost:4444/ids-tooltip';
+  const showTooltip = async () => {
+    await page.focus('#button-1');
+    await page.waitForSelector('#tooltip-example', {
+      visible: true,
+    });
+  };
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await showTooltip();
     await percySnapshot(page, 'ids-tooltip-new-light');
   });
 
@@ -13,6 +20,7 @@ describe('Ids Tooltip Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
+    await showTooltip();
     await percySnapshot(page, 'ids-tooltip-new-dark');
   });
 
@@ -21,6 +29,7 @@ describe('Ids Tooltip Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
+    await showTooltip();
     await percySnapshot(page, 'ids-tooltip-new-contrast');
   });
 });

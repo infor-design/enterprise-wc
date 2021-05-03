@@ -4,6 +4,7 @@
 import IdsTooltip from '../../src/ids-tooltip/ids-tooltip';
 import { IdsButton } from '../../src/ids-button/ids-button';
 import IdsText from '../../src/ids-text/ids-text';
+import IdsInput from '../../src/ids-input/ids-input';
 import IdsContainer from '../../src/ids-container/ids-container';
 
 describe('IdsTooltip Component', () => {
@@ -21,6 +22,8 @@ describe('IdsTooltip Component', () => {
     tooltipElem.delay = 1;
     tooltipElem.target = '#button-1';
     tooltipElem.innerHTML = 'Additional Information';
+    tooltipElem.id = 'test-id';
+    tooltipElem.setAttribute('data-automation-id', 'test-id');
     document.body.appendChild(tooltipElem);
     tooltip = document.querySelector('ids-tooltip');
   });
@@ -336,6 +339,22 @@ describe('IdsTooltip Component', () => {
     }, 550);
   });
 
+  it('shows works as a mixin on inputs', (done) => {
+    tooltip.remove();
+    const input = new IdsInput();
+    input.tooltip = 'Additional Info';
+    document.body.appendChild(input);
+
+    const mouseenter = new MouseEvent('mouseenter');
+    input.dispatchEvent(mouseenter);
+    setTimeout(() => {
+      const tooltipFromMixin = document.querySelector('ids-tooltip');
+      expect(tooltipFromMixin.visible).toEqual(true);
+      expect(tooltipFromMixin.textContent).toEqual('Additional Info');
+      done();
+    }, 550);
+  });
+
   it('should not show when not overflown', () => {
     tooltip.remove();
     const text = new IdsText();
@@ -372,5 +391,13 @@ describe('IdsTooltip Component', () => {
       expect(tooltipFromMixin.textContent).toEqual('Additional Info2');
       done();
     }, 550);
+  });
+
+  it('should append ids', () => {
+    tooltip.appendIds();
+    expect(tooltip.shadowRoot.querySelector('[part="popup"]').getAttribute('data-automation-id')).toEqual('test-id-popup');
+    expect(tooltip.shadowRoot.querySelector('[part="popup"]').getAttribute('id')).toEqual('test-id-popup');
+    expect(tooltip.shadowRoot.querySelector('[part="tooltip"]').getAttribute('id')).toEqual('test-id-tooltip');
+    expect(tooltip.shadowRoot.querySelector('[part="tooltip"]').getAttribute('data-automation-id')).toEqual('test-id-tooltip');
   });
 });
