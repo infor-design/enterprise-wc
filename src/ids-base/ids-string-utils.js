@@ -56,6 +56,9 @@ export function injectTemplate(str, obj) {
   return str.replace(/\${(.*?)}/g, (_x, g) => obj[g]);
 }
 
+/**
+ * Ids String parsing/processing utilities
+ */
 export const IdsStringUtils = {
   camelCase,
   injectTemplate,

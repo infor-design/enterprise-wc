@@ -6,6 +6,7 @@ import {
   mix
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { stringToBool } from '../ids-base/ids-string-utils';
 import IdsText from '../ids-text/ids-text';
 import styles from './ids-tabs.scss';
 
@@ -27,7 +28,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.VALUE];
+    return [props.VALUE, props.SELECTED];
   }
 
   /**
@@ -36,10 +37,10 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   template() {
     return (
-      `<div class="ids-tab">
+      `<div class="ids-tab" role="tab" tabindex="0">
         <ids-text
           overflow="ellipsis"
-          size=18
+          size="22"
           color="unset"
         >
           <slot></slot>
@@ -49,48 +50,36 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Binds associated callbacks and cleans
-   * old handlers when template refreshes
+   * @param {string} value value which becomes selected by tabs component
    */
-  rendered = () => {
-    /* istanbul ignore next */
-    if (!this.shouldUpdateCallbacks) {
-      return;
+  set selected(value) {
+    console.log('selected ->', value);
+    this.setAttribute(props.SELECTED, stringToBool(value));
+
+    if (!value) {
+      this.container.classList.remove('selected');
     }
 
-    // stop observing changes before updating DOM
-    this.stepObserver.disconnect();
-    this.resizeObserver.disconnect();
+    if (value && !this.container.classList.contains('selected')) {
+      this.container.classList.add('selected');
+    }
 
-    // set up observer for resize which prevents overlapping labels
-    this.resizeObserver.observe(this.container);
+    this.render();
+  }
 
-    // set up observer for monitoring if a child element changed
-    this.stepObserver.observe(this, {
-      childList: true,
-      attributes: true,
-      subtree: true
-    });
-
-    this.shouldUpdateCallbacks = false;
-  };
+  get selected() {
+    return this.getAttribute(props.SELECTED);
+  }
 
   /**
-   * Set the orientation of how tabs will be laid out
-   * @param {'horizontal' | 'vertical'} value orientation
+   * @param {string} value value which becomes selected by tabs component
    */
-  set orientation(value) {
-    switch (value) {
-    case 'vertical': {
-      this.setAttribute('orientation', 'vertical');
-      break;
-    }
-    case 'horizontal':
-    default: {
-      this.setAttribute('orientation', 'horizontal');
-      break;
-    }
-    }
+  set value(value) {
+    this.setAttribute(props.VALUE, value);
+  }
+
+  get value() {
+    return this.getAttribute(props.VALUE);
   }
 }
 

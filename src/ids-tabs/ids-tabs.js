@@ -52,9 +52,9 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin) {
    */
   template() {
     return (
-      `<div ${buildClassAttrib('ids-tabs', this.orientation)}>
+      `<ul ${buildClassAttrib('ids-tabs', this.orientation)} role="tabpanel">
         <slot></slot>
-      </div>`
+      </ul>`
     );
   }
 
@@ -105,6 +105,31 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin) {
 
   get orientation() {
     return this.getAttribute(props.ORIENTATION);
+  }
+
+  /**
+   * the value representing a currently selected tab
+   * @type {string}
+   */
+  set value(value) {
+    this.setAttribute(props.VALUE, value);
+
+    // determine which child tab value was set,
+    // then highlight the item
+
+    for (let i = 0; i < this.children.length; i++) {
+      const tabValue = this.children[i].getAttribute('value');
+
+      if (tabValue === value) {
+        this.children[i].selected = 'true';
+      } else {
+        this.children[i].selected = 'false';
+      }
+    }
+  }
+
+  get value() {
+    return this.getAttribute(props.VALUE);
   }
 }
 
