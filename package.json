@@ -89,7 +89,7 @@
     "nodemon": "^2.0.7",
     "pino": "^6.11.3",
     "postcss-loader": "^5.2.0",
-    "puppeteer": "^9.1.0",
+    "puppeteer": "^9.0.0",
     "remark-cli": "^9.0.0",
     "remark-preset-lint-markdown-style-guide": "^4.0.0",
     "sass": "^1.32.12",
