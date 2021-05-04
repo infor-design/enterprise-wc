@@ -1,8 +1,19 @@
 @import '../ids-base/ids-base';
 
+:host(ids-tabs) {
+  contain: content;
+}
+
+:host(ids-tab:focus-visible) {
+  @include shadow();
+
+  outline: none;
+}
+
 .ids-tabs {
   @include border-b-1;
   @include border-graphite-50;
+  @include pt-8;
 
   position: relative;
   display: flex;
@@ -12,13 +23,49 @@
   margin-inline-start: 0;
 }
 
+:host(ids-tab:first-child) {
+  @include ml-4;
+}
+
+:host(ids-tab:last-child) {
+  @include mr-4;
+}
+
 .ids-tab {
   @include px-16;
   @include pt-12;
   @include pb-8;
 
+  position: relative;
   display: inline-block;
   list-style: none outside none;
+
+  /* a little bit hacky, but needed to allow the
+   * text to be bolded without shuddering the widths;
+   * text-content is set in ids-tab => rendered()
+   *  */
+
+  & ids-text::part(text) {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  & ids-text::part(text)::after {
+    @include font-bold();
+
+    content: var(--text-content);
+    content: var(--text-content) / '';
+    visibility: hidden;
+    height: 0;
+    user-select: none;
+    pointer-events: none;
+
+    @media speech {
+      display: none;
+    }
+  }
 }
 
 .ids-tab:not(.selected) {
@@ -26,5 +73,17 @@
 }
 
 .ids-tab.selected {
-  color: var(--ids-color-palette-azure-60);
+  @include text-azure-60;
+
+  .highlighter {
+    @include bg-azure-60();
+
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+    pointer-events: none;
+  }
 }

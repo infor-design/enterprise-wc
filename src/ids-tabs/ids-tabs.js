@@ -42,6 +42,13 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   childrenIndexMap = new Map();
 
+  /**
+   * handles on click events for children;
+   * easier to delegate from parent here
+   * as they are focusable
+   */
+  tabClickHandlerMap = new Map();
+
   constructor() {
     super();
   }
@@ -69,9 +76,9 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   getFocusedTabIndex() {
     if (this.childrenIndexMap.has(document.activeElement)) {
       return this.childrenIndexMap.get(document.activeElement);
-    } else {
-      return -1;
     }
+
+    return -1;
   }
 
   connectedCallback() {
@@ -112,7 +119,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * Binds associated callbacks and cleans
    * old handlers when template refreshes
    */
-  rendered = () => {
+  rendered() {
     /* istanbul ignore next */
     if (!this.shouldUpdateCallbacks) {
       return;
@@ -187,6 +194,14 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   getTabIndexValue(index) {
     return this.children?.[index]?.getAttribute(props.VALUE) || index;
   }
+
+  rendered = () => {
+    // TODO: clear each existing click handler
+
+    this.tabClickHandlerMap.clear();
+
+    // TODO: scan through children and add click handlers
+  };
 }
 
 export default IdsTabs;
