@@ -19,11 +19,36 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
+import IdsMaskMixin from '../ids-mask/ids-mask-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // Input id
 const ID = 'ids-input-id';
+
+// Properties observed by the Input
+const INPUT_PROPS = [
+  props.AUTOSELECT,
+  props.BG_TRANSPARENT,
+  props.CLEARABLE,
+  props.CLEARABLE_FORCED,
+  props.DIRTY_TRACKER,
+  props.DISABLED,
+  props.LABEL,
+  props.LABEL_REQUIRED,
+  props.MODE,
+  props.PLACEHOLDER,
+  props.SIZE,
+  props.READONLY,
+  props.TEXT_ALIGN,
+  props.TEXT_ELLIPSIS,
+  props.TRIGGERFIELD,
+  props.TYPE,
+  props.VALIDATE,
+  props.VALIDATION_EVENTS,
+  props.VALUE,
+  props.VERSION
+];
 
 // Types
 const TYPES = {
@@ -53,6 +78,16 @@ const TEXT_ALIGN = {
   right: 'right'
 };
 
+const appliedMixins = [
+  IdsEventsMixin,
+  IdsClearableMixin,
+  IdsKeyboardMixin,
+  IdsDirtyTrackerMixin,
+  IdsMaskMixin,
+  IdsThemeMixin,
+  IdsValidationMixin
+];
+
 /**
  * IDS Input Component
  * @type {IdsInput}
@@ -61,6 +96,7 @@ const TEXT_ALIGN = {
  * @mixes IdsKeyboardMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsMaskMixin
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
  * @part input - the input element
@@ -68,14 +104,7 @@ const TEXT_ALIGN = {
  */
 @customElement('ids-input')
 @scss(styles)
-class IdsInput extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsClearableMixin,
-    IdsKeyboardMixin,
-    IdsDirtyTrackerMixin,
-    IdsValidationMixin,
-    IdsThemeMixin
-  ) {
+class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   /**
    * Call the constructor and then initialize
    */
@@ -84,32 +113,10 @@ class IdsInput extends mix(IdsElement).with(
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * @returns {Array<string>} IdsInput component observable properties
    */
   static get properties() {
-    return [
-      props.AUTOSELECT,
-      props.BG_TRANSPARENT,
-      props.CLEARABLE,
-      props.CLEARABLE_FORCED,
-      props.DIRTY_TRACKER,
-      props.DISABLED,
-      props.LABEL,
-      props.LABEL_REQUIRED,
-      props.MODE,
-      props.PLACEHOLDER,
-      props.SIZE,
-      props.READONLY,
-      props.TEXT_ALIGN,
-      props.TEXT_ELLIPSIS,
-      props.TRIGGERFIELD,
-      props.TYPE,
-      props.VALIDATE,
-      props.VALIDATION_EVENTS,
-      props.VALUE,
-      props.VERSION
-    ];
+    return [...super.properties, ...INPUT_PROPS];
   }
 
   /**
@@ -117,21 +124,13 @@ class IdsInput extends mix(IdsElement).with(
    * @returns {void}
    */
   connectedCallback() {
-    /** @type {any} */
-    this.input = this.shadowRoot.querySelector(`#${ID}`);
-    /** @type {any} */
-    this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
-
-    if (this.value === null) {
-      this.value = '';
-    }
-
+    super.connectedCallback?.();
     this.handleEvents();
     this.handleAutoselect();
     this.handleClearable();
     this.handleDirtyTracker();
+    // @ts-ignore
     this.handleValidation();
-    super.connectedCallback();
   }
 
   /**
@@ -141,7 +140,7 @@ class IdsInput extends mix(IdsElement).with(
   template() {
     // Input
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
-    const value = this.value !== null ? ` value="${this.value}"` : '';
+    // const value = this.value !== null ? ` value="${this.value}"` : '';
     const type = ` type="${this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.size} ${this.textAlign}`;
     inputClass += stringUtils.stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
@@ -151,16 +150,34 @@ class IdsInput extends mix(IdsElement).with(
     let inputState = stringUtils.stringToBool(this.readonly) ? ' readonly' : '';
     inputState = stringUtils.stringToBool(this.disabled) ? ' disabled' : inputState;
 
+    /* ${value} */
+
     return `
       <div class="ids-input${inputState}">
         <label for="${ID}" class="label-text">
           <ids-text part="label" label="true">${this.label}</ids-text>
         </label>
         <div class="field-container">
-          <input part="input" id="${ID}"${type}${inputClass}${value}${placeholder}${inputState} />
+          <input part="input" id="${ID}"${type}${inputClass}${placeholder}${inputState} />
         </div>
       </div>
     `;
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLInputElement} the inner `input` element
+   */
+  get input() {
+    return this.shadowRoot?.querySelector(`#${ID}`);
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLLabelElement} the inner `label` element
+   */
+  get labelEl() {
+    return this.shadowRoot?.querySelector(`[for="${ID}"]`);
   }
 
   /**
@@ -567,7 +584,14 @@ class IdsInput extends mix(IdsElement).with(
    * @param {string} val the value property
    */
   set value(val) {
-    const v = val || '';
+    let v = val || '';
+
+    // If a mask is enabled, use the conformed value.
+    // If no masking occurs, simply use the provided value.
+    if (this.mask) {
+      v = this.processMaskFromProperty(val) || v;
+    }
+
     this.setAttribute(props.VALUE, v);
     if (this.input?.value !== v) {
       this.input.value = v;
@@ -576,7 +600,9 @@ class IdsInput extends mix(IdsElement).with(
     }
   }
 
-  get value() { return this.getAttribute(props.VALUE); }
+  get value() {
+    return this.input?.value || '';
+  }
 }
 
 export default IdsInput;

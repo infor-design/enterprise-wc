@@ -241,7 +241,6 @@ describe('IdsInput Component', () => {
 
   it('should not error for input', () => {
     elem.input.remove();
-    elem.input = null;
     elem.checkValidation();
   });
 });

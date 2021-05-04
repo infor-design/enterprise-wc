@@ -20,10 +20,8 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     isClearable = `${isClearable || this.clearableForced}`.toLowerCase() === 'true';
 
     if (isClearable) {
-      if (this.input) {
-        this.appendClearableButton();
-        this.clearableEvents();
-      }
+      this.appendClearableButton();
+      this.clearableEvents();
     } else {
       this.destroyClearable();
     }

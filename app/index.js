@@ -46,6 +46,7 @@ import './ids-checkbox/example';
 import './ids-icon/index';
 import './ids-input/example';
 import './ids-input/test-validation-message';
+import './ids-mask/example';
 import './ids-progress/example';
 import './ids-upload-advanced/example';
 import './ids-popup/index';
