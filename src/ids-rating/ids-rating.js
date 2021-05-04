@@ -115,12 +115,13 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     set size(s) {
       if(s) {
+        this.ratingArr.forEach((element) => element.setAttribute('size', s.toString()));
         this.setAttribute('size', s.toString());
       }
     }
 
     get size() {
-      return this.getAttribute('size');
+      return this.getAttribute('size')
     }
 
     addRemoveAttrName() {
@@ -143,7 +144,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
         this.updateValue(this.ratingArr);
       });
     }
-
     updateValue(arr) {
       const val = [...arr];
       const value = val.filter((el) => el.classList.contains('active'));
