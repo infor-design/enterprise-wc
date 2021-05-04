@@ -1,18 +1,16 @@
 # TODO on the IDS Tooltip
 
 - [x] Performance - needs [5038](https://github.com/infor-design/enterprise/issues/5038) and maybe use links in the future but good for now
-- [x] Add options/settings
-  - [x] Visible / true/false
-  - [x] Positions
-  - [x] Trigger Option
-  - [x] Keep Open (wont do)
-  - [x] Css Class (use parts)
+- [x] Visible / true/false
+- [x] Positions
+- [x] Trigger Option
+- [x] Keep Open (wont do)
+- [x] Css Class (use parts)
 - [x] Themes
 - [x] Call backs/promises
-- [x] Custom Events
-    - [x] Long Press
-    - [x] Keyboard Focus Event
-    - [x] Hover end
+- [x] Custom Event: Long Press
+- [x] Custom Event: Keyboard Focus Event
+- [x] Custom Event:  Hover end
 - [ ] Accessibility
   - [ ] Use `aria-describedby` - This is not 100% working yet see [179](https://github.com/elix/elix/issues/179)
   - [x] Make keyboard focus show the tooltip
@@ -24,12 +22,5 @@
 - [x] Standalone Css
 - [x] Side by Side Css
 - [x] More Docs
-  - [x] For mixin in README.md
-- [ ] Tests
-  - [x] Works on disabled
-  - [x] Two can share a tooltip
-  - [x] Trigger Test
-  - [x] Can change target
-  - [x] Focus Test
-  - [x] Coverage
-  - [x] e2e tests
+- [x] Tests
+- [ ] Private Methods
