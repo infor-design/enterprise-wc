@@ -46,6 +46,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     template() {
       const stars = this.hasAttribute('stars') ? this.getAttribute('stars') : this.setAttribute('stars', '5');
       const size = this.hasAttribute('size') ? this.getAttribute('size') : this.setAttribute('size', 'large');
+      const value = this.hasAttribute('value') ? this.getAttribute('value') : this.setAttribute('value', '0');
       const readonly = this.hasAttribute('readonly') ? this.getAttribute('readonly') : this.setAttribute('readonly', 'false');
       let html = '<div id="rating">';
       for(let i = 0; i < stars; i++) {
@@ -64,7 +65,10 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     set value(val) {
       if(val && this.getAttribute('readonly') === 'false') {
-        this.ratingArr.forEach((element) => element.setAttribute('icon', 'star-outlined'));
+        this.ratingArr.forEach((element) => {
+          element.setAttribute('icon', 'star-outlined');
+          element.classList.remove('active');
+        });
         let valueArray = this.ratingArr
         let starArray = valueArray.slice(0, parseInt(val))
         starArray.forEach((element) => {
@@ -178,7 +182,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     }
 
     updateHalfStar(arr) {
-      const value = this.hasAttribute('value') ? this.getAttribute('value') : this.setAttribute('value', '0');
+      const value = this.getAttribute('value');
       const roundValue = Math.round(value)
       for(let i = 0; i < roundValue; i++) {
         console.log(i)
