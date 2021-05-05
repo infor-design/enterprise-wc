@@ -30,7 +30,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     connectedCallback() {
       if(this.getAttribute('readonly') === 'false') {
-        this.addRemoveAttrName();
+        this.toggleStars();
       } else {
         this.updateHalfStar(this.ratingArr);
       }
@@ -49,7 +49,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       const readonly = this.hasAttribute('readonly') ? this.getAttribute('readonly') : this.setAttribute('readonly', 'false');
       let html = '<div id="rating">';
       for(let i = 0; i < stars; i++) {
-       html += `<ids-icon class="star star-${i}" aria-label="${i} Star" role-"button" icon="star-outlined" tabindex="0" size="${size}"></ids-icon>`;
+       html += `<ids-icon class="star star-${i}" aria-label="Star-${i}" role-"button" icon="star-outlined" tabindex="0" size="${size}"></ids-icon>`;
       }
       html += '</div>';
       return html;
@@ -63,14 +63,25 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     }
 
     set value(val) {
-      if(val) {
+      if(val && this.getAttribute('readonly') === 'false') {
+        this.ratingArr.forEach((element) => element.setAttribute('icon', 'star-outlined'));
+        let valueArray = this.ratingArr
+        let starArray = valueArray.slice(0, parseInt(val))
+        starArray.forEach((element) => {
+          element.setAttribute('icon', 'star-filled')
+          element.classList.add('active');
+        });
         this.setAttribute('value', val.toString());
+      }
+
+      if(val && this.getAttribute('readonly') === 'true') {
+        this.ratingArr.forEach((element) => element.setAttribute('icon', 'star-outlined'));
+        this.updateHalfStar(this.ratingArr);
       }
     }
 
     get value() {
       return this.getAttribute('value');
-      
     }
 
     set stars(num) {
@@ -124,26 +135,29 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       return this.getAttribute('size')
     }
 
-    addRemoveAttrName() {
-      this.onEvent('click', this.ratingContainer, (/** @type {{ target: any; }} */ e) => {
-        const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
-        let attrName = 'star-filled';
-        let action = 'add';
-        for (const ratingOption of this.ratingArr) {
-          ratingOption.classList[action]('active');
-          ratingOption.setAttribute('icon', attrName);
-          if(ratingOption === e.target) {
-            action = 'remove';
-            attrName = 'star-outlined';
-          }
-          if(activeElements.length === 1 && e.target.classList.contains('star-0')) {
-            activeElements[0].classList.remove('active');
-            activeElements[0].setAttribute('icon', 'star-outlined');
-          }
-        }
-        this.updateValue(this.ratingArr);
-      });
+    toggleStars() {
+      this.onEvent('click', this.ratingContainer, (/** @type {{ target: any; }} */ e) => this.updateStars(e));
     }
+
+    updateStars(event) {
+      const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
+      let attrName = 'star-filled';
+      let action = 'add';
+      for (const ratingOption of this.ratingArr) {
+        ratingOption.classList[action]('active');
+        ratingOption.setAttribute('icon', attrName);
+        if(ratingOption === event.target) {
+          action = 'remove';
+          attrName = 'star-outlined';
+        }
+        if(activeElements.length === 1 && event.target.classList.contains('star-0')) {
+          activeElements[0].classList.remove('active');
+          activeElements[0].setAttribute('icon', 'star-outlined');
+        }
+      }
+      this.updateValue(this.ratingArr);
+    }
+    
     updateValue(arr) {
       const val = [...arr];
       const value = val.filter((el) => el.classList.contains('active'));
