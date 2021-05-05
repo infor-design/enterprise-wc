@@ -125,29 +125,11 @@ class IdsPopup extends mix(IdsElement).with(
     this.animated = this.hasAttribute('animated');
     this.trueType = this.getAttribute('type') || this.trueType;
     this.isVisible = this.hasAttribute('visible');
-    this.setupDetectMutations();
-    this.setupResize();
     this.handleEvents();
     super.connectedCallback();
 
     this.shouldUpdate = true;
     this.refresh();
-  }
-
-  /**
-   * Custom Element `disconnectedCallback` implementation
-   * @returns {void}
-   */
-  disconnectedCallback() {
-    IdsElement.prototype.disconnectedCallback.apply(this);
-
-    if (this.shouldResize()) {
-      this.disconnectResize();
-    }
-
-    if (this.shouldDetectMutations()) {
-      this.disconnectDetectMutations();
-    }
   }
 
   /**

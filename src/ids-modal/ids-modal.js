@@ -1,10 +1,11 @@
 import {
   IdsElement,
   customElement,
-  props,
   scss,
   mix
 } from '../ids-base/ids-element';
+
+import debounce from '../ids-base/ids-debouncer';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
@@ -52,9 +53,15 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
 
   connectedCallback() {
     super.connectedCallback();
+
     this.popup.type = 'menu';
     this.popup.animated = true;
     this.refresh();
+
+    // Listen for changes to the window size
+    window.addEventListener('resize', debounce(() => {
+      this.refresh();
+    }));
   }
 
   /**
@@ -113,10 +120,17 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   refresh() {
-    this.popup.alignTarget = null;
-    this.popup.align = 'center, center';
-    this.popup.x = window.outerWidth / 2;
-    this.popup.y = window.outerHeight / 2;
+    this.animated = false;
+    if (this.popup.alignTarget !== null) {
+      this.popup.alignTarget = null;
+    }
+    if (this.popup.align !== 'center') {
+      this.popup.align = 'center, center';
+    }
+
+    this.popup.x = window.innerWidth / 2;
+    this.popup.y = window.innerHeight / 2;
+    this.animated = true;
   }
 }
 

@@ -5,9 +5,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#modal-trigger-btn';
   const triggerBtn = document.querySelector(triggerId);
   const modal = document.querySelector('ids-modal');
+  const modalCloseBtn = modal.querySelector('ids-button');
 
-  // Toggle the Modal
+  // Open the Modal when the trigger is clicked
   triggerBtn.addEventListener('click', () => {
-    modal.visible = !modal.visible;
+    modal.show();
+    triggerBtn.disabled = true;
+  });
+
+  // Close the modal when its inner button is clicked
+  modalCloseBtn.addEventListener('click', () => {
+    modal.hide();
+    triggerBtn.disabled = false;
   });
 });
