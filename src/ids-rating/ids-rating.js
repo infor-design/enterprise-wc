@@ -75,7 +75,10 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       }
 
       if(val && this.getAttribute('readonly') === 'true') {
-        this.ratingArr.forEach((element) => element.setAttribute('icon', 'star-outlined'));
+        this.ratingArr.forEach((element) => {
+          element.setAttribute('icon', 'star-outlined');
+          element.classList.remove('active');
+        });
         this.updateHalfStar(this.ratingArr);
       }
     }
@@ -95,7 +98,13 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     }
 
     set readonly(ro) {
-      if(ro){
+      if(ro && this.getAttribute('readonly') === 'true'){
+        this.updateHalfStar(this.ratingArr);
+        this.setAttribute('readonly', ro.toString());
+      }
+
+      if(ro && this.getAttribute('readonly') === 'false') {
+        this.toggleStars();
         this.setAttribute('readonly', ro.toString());
       }
     }
