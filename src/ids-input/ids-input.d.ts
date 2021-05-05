@@ -2,6 +2,20 @@
 // confirm our code is type safe, and to support TypeScript users.
 import { IdsElement } from '../ids-base/ids-element';
 
+type IdsMaskTypes = {
+  /** Adds a mask to the input */
+  mask: Array<RegExp|string> | CallableFunction | string
+
+  /** Adds options that are considered by a mask function when generating a mask */
+  maskOptions?: Record<string, unknown>
+
+  /** If true, displays the literals and fillable space of the mask as a placeholder inside the field */
+  maskGuide?: boolean;
+
+  /** If true, combined with `maskGuide`, attempts to keep previously-entered input from shifting within the field */
+  maskRetainPositions?: boolean;
+}
+
 type IdsValidationErrorMessageTypes = {
   /** The unique id in the check messages */
   id: string;
@@ -77,4 +91,6 @@ export default class IdsInput extends IdsElement {
   version: 'new' | 'classic' | string;
 
   IdsValidationTypes;
+
+  IdsMaskTypes;
 }

@@ -27,14 +27,15 @@ module.exports = {
     Ids: true,
     ResizeObserver: true
   },
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
   plugins: [
     'import'
   ],
-  // Add `ecmaVersion: 9` for Object spread syntax
+  // Add `ecmaVersion: 9` for Object spread syntax, 12 for private methods
   parserOptions: {
-    ecmaVersion: 9,
-    sourceType: 'module'
+    ecmaVersion: 12,
+    sourceType: 'module',
+    babelOptions: { plugins: ['@babel/plugin-syntax-class-properties'] }
   },
   rules: {
     // Dont force a new line after comments
@@ -49,6 +50,9 @@ module.exports = {
       exports: 'never',
       functions: 'never'
     }],
+    // we aren't doing special math with binary/hex radix numbers often,
+    // so this removes need for parseInt(number, 10);
+    radix: 0,
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'import/prefer-default-export': ['off', { }],
     // Allow clases to be set on the web components

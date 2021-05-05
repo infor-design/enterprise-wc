@@ -33,14 +33,17 @@ const IdsEventsMixin = (superclass) => class extends superclass {
   /**
    * Remove event listener
    * @param {string} eventName The event name with optional namespace
-   * @param {HTMLElement} target The DOM element to register
+   * @param {HTMLElement} target The DOM element to deregister
+   *                        (defaults to what was already registered)
    * @param {object} options Additional event settings (passive, once, passive ect)
    */
   offEvent(eventName, target, options) {
     const handler = this.handledEvents.get(eventName);
     this.handledEvents.delete(eventName);
-    if (handler?.callback) {
-      target.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
+
+    const targetApplied = target || handler?.target;
+    if (handler?.callback && targetApplied?.removeEventListener) {
+      targetApplied.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
     }
   }
 

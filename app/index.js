@@ -31,6 +31,7 @@ import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
 import IdsCounts from '../src/ids-counts/ids-counts';
 import IdsContainer from '../src/ids-container/ids-container';
 import IdsThemeSwitcher from '../src/ids-theme-switcher/ids-theme-switcher';
+import IdsWizard, { IdsWizardStep } from '../src/ids-wizard';
 
 // Import Example Code
 
@@ -46,6 +47,7 @@ import './ids-checkbox/example';
 import './ids-icon/index';
 import './ids-input/example';
 import './ids-input/test-validation-message';
+import './ids-mask/example';
 import './ids-progress/example';
 import './ids-upload-advanced/example';
 import './ids-popup/index';
@@ -58,3 +60,4 @@ import './ids-badge/index';
 import './ids-textarea/example';
 import './ids-block-grid/index';
 import './ids-counts/index';
+import './ids-wizard/index';

@@ -987,10 +987,10 @@ Will make a pager type for this.
 
 **Wizard** (ids-wizard)
  - [ ] Docs
- - [ ] 100% Test Coverage
+ - [*] 100% Test Coverage
  - [ ] Feature Parity with 4.x
  - [ ] Upgrade Docs in Changelog
- - [ ] Typings
+ - [*] Typings
  - [ ] NG / Vue / React Example
  - [ ] Standalone Css
  - [ ] Works in Page with 4.x

@@ -35,8 +35,8 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
    */
   connectedCallback() {
     this
-      .handleEvents()
-      .handleKeys();
+      .#handleEvents()
+      .#handleKeys();
     super.connectedCallback();
   }
 
@@ -97,11 +97,11 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
    * @param {string} iconName The icon name to check
    * @private
    */
-  appendIcon(iconName) {
+  #appendIcon(iconName) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (!icon) {
       this.insertAdjacentHTML('beforeend', `<ids-icon part="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
-      this.handleEvents();
+      this.#handleEvents();
     }
   }
 
@@ -110,7 +110,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
    * @param {string} iconName The icon name to check
    * @private
    */
-  removeIcon(iconName) {
+  #removeIcon(iconName) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (icon) {
       icon.remove();
@@ -126,13 +126,13 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
       this.setAttribute('dismissible', value.toString());
       this.container.classList.add('ids-focusable');
       this.container.setAttribute('tabindex', '0');
-      this.appendIcon('close');
-      this.handleKeys();
+      this.#appendIcon('close');
+      this.#handleKeys();
       return;
     }
 
     this.removeAttribute('dismissible');
-    this.removeIcon('close');
+    this.#removeIcon('close');
     this.container.removeAttribute('tabindex');
     this.container.classList.remove('ids-focusable');
   }
@@ -148,7 +148,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
       this.setAttribute('clickable', value.toString());
       this.container.classList.add('ids-focusable');
       this.container.setAttribute('tabindex', '0');
-      this.handleKeys();
+      this.#handleKeys();
       return;
     }
 
@@ -164,7 +164,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
    * @private
    * @returns {object} The object for chaining.
    */
-  handleEvents() {
+  #handleEvents() {
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
@@ -176,8 +176,8 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
     this.onEvent('slotchange', this.shadowRoot.querySelector('slot'), () => {
       if (this.dismissible && !isChanging && this.lastElementChild.nodeName !== 'IDS-ICON') {
         isChanging = true;
-        this.removeIcon('close');
-        this.appendIcon('close');
+        this.#removeIcon('close');
+        this.#appendIcon('close');
         isChanging = false;
       }
     });
@@ -190,7 +190,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
    * @private
    * @returns {object} This API object for chaining
    */
-  handleKeys() {
+  #handleKeys() {
     if (this.dismissible) {
       this.listen(['Delete', 'Backspace'], this, () => {
         this.dismiss();
