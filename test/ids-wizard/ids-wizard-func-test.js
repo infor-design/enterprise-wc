@@ -3,7 +3,7 @@
  */
 import IdsWizard, { IdsWizardStep } from '../../src/ids-wizard';
 // eslint-disable-next-line
-import ResizeObserver from '../__mocks__/ResizeObserver';
+import ResizeObserver from '../helpers/resize-observer-mock';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 

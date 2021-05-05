@@ -3,10 +3,7 @@ import percySnapshot from '@percy/puppeteer';
 describe('Ids Tooltip Percy Tests', () => {
   const url = 'http://localhost:4444/ids-tooltip';
   const showTooltip = async () => {
-    await page.focus('#button-1');
-    await page.waitForSelector('#tooltip-example', {
-      visible: true,
-    });
+    await page.$eval('#tooltip-example', (e) => e.setAttribute('visible', 'true'));
   };
 
   it('should not have visual regressions in new light theme (percy)', async () => {
