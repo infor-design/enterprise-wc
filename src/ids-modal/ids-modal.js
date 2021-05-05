@@ -18,6 +18,13 @@ import styles from './ids-modal.scss';
 
 const MODAL_PROPS = [];
 
+const appliedMixins = [
+  IdsEventsMixin,
+  IdsRenderLoopMixin,
+  IdsResizeMixin,
+  IdsThemeMixin,
+];
+
 /**
  * IDS Modal Component
  * @type {IdsModal}
@@ -29,9 +36,14 @@ const MODAL_PROPS = [];
  */
 @customElement('ids-modal')
 @scss(styles)
-class IdsModal extends IdsPopup {
+class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   constructor() {
     super();
+
+    this.state = {
+      open: false,
+      triggerElement: null
+    };
   }
 
   static get properties() {
@@ -40,6 +52,9 @@ class IdsModal extends IdsPopup {
 
   connectedCallback() {
     super.connectedCallback();
+    this.popup.type = 'menu';
+    this.popup.animated = true;
+    this.refresh();
   }
 
   /**
@@ -47,12 +62,61 @@ class IdsModal extends IdsPopup {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-popup ids-modal" part="popup">
-      <div class="arrow" part="arrow"></div>
-      <div class="content-wrapper">
-        <slot name="content"></slot>
-      </div>
-    </div>`;
+    return `<ids-popup part="popup" type="menu">
+      <slot slot="content"></slot>
+    </ids-popup>`;
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsPopup} the inner Popup
+   */
+  get popup() {
+    return this.shadowRoot.querySelector('ids-popup');
+  }
+
+  /**
+   * @returns {boolean} true if the Modal is visible.
+   */
+  get visible() {
+    return this.popup.visible;
+  }
+
+  /**
+   * @param {boolean} val true if the Modal is visible.
+   */
+  set visible(val) {
+    this.popup.visible = val;
+    if (val) {
+      this.refresh();
+    }
+  }
+
+  /**
+   * Shows the modal
+   * @returns {void}
+   */
+  show() {
+    this.popup.visible = true;
+  }
+
+  /**
+   * Hides the modal
+   * @returns {void}
+   */
+  hide() {
+    this.popup.visible = false;
+  }
+
+  /**
+   * // @TODO: Temporary - replace this with IdsPopup's proper centering within a container
+   * @returns {void}
+   */
+  refresh() {
+    this.popup.alignTarget = null;
+    this.popup.align = 'center, center';
+    this.popup.x = window.outerWidth / 2;
+    this.popup.y = window.outerHeight / 2;
   }
 }
 
