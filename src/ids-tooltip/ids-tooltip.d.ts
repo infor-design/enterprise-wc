@@ -9,6 +9,13 @@ interface IdsTooltipEventDetail extends Event {
   }
 }
 
+interface IdsTooltipEventVetoable extends Event {
+  detail: {
+    elem: IdsTooltip,
+    response: () => boolean
+  }
+}
+
 export default class IdsTooltip extends IdsElement {
   /** An async function that fires as the tooltip is showing allowing you to set contents. */
   beforeShow(): Promise<string>;
@@ -33,4 +40,13 @@ export default class IdsTooltip extends IdsElement {
 
   /** Set the theme version */
   version: 'new' | 'classic' | string;
+
+  /** Fires before the tag is removed, you can return false in the response to veto. */
+  on(event: 'beforeshow', listener: (detail: IdsTooltipEventVetoable) => void): this;
+
+  /** Fires while the tag is removed */
+  on(event: 'show', listener: (detail: IdsTooltipEventDetail) => void): this;
+
+  /** Fires after the tag is removed */
+  on(event: 'hide', listener: (detail: IdsTooltipEventDetail) => void): this;
 }

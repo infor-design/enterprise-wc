@@ -497,4 +497,10 @@ describe('IdsInput Component', () => {
     input.version = 'classic';
     expect(input.container.getAttribute('version')).toEqual('classic');
   });
+
+  it('should append ids', () => {
+    input.id = 'test-id';
+    input.appendIds();
+    expect(input.shadowRoot.querySelector('[part="input"]').getAttribute('id')).toEqual('test-id-input');
+  });
 });

@@ -23,4 +23,5 @@
 - [x] Side by Side Css
 - [x] More Docs
 - [x] Tests
-- [ ] Private Methods
+- [x] Private Methods
+- [x] Test delegate focus

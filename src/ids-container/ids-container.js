@@ -48,7 +48,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-container" part="container"><slot></slot></div>`;
+    return `<div class="ids-container" part="container"${this.scrollable === 'true' ? ' tabindex="0"' : ''}><slot></slot></div>`;
   }
 
   /**
@@ -59,11 +59,13 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (stringUtils.stringToBool(value)) {
       this.setAttribute('scrollable', 'true');
       this.container.setAttribute('scrollable', 'true');
+      this.container.setAttribute('tabindex', '0');
       return;
     }
 
     this.setAttribute('scrollable', 'false');
     this.container.setAttribute('scrollable', 'false');
+    this.container.removeAttribute('tabindex');
   }
 
   get scrollable() { return this.getAttribute('scrollable') || 'true'; }

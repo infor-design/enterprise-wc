@@ -41,15 +41,18 @@ class IdsTooltip extends mix(IdsElement).with(
     };
   }
 
+  /**
+   * Invoked each time the custom element is appended into a document-connected element,
+   */
   connectedCallback() {
     // Setup a reference to the popup element in the shadow root
     this.popup = this.shadowRoot.firstElementChild;
-    this.updateAria();
+    this.#updateAria();
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Returns the properties/settings we handle as getters/setters
+   * @returns {Array} The supported settings in an array
    */
   static get properties() {
     return [
@@ -65,7 +68,7 @@ class IdsTooltip extends mix(IdsElement).with(
   }
 
   /**
-   * Create the Template for the contents
+   * Create the Template for the component contents
    * @returns {string} The template
    */
   template() {
@@ -78,31 +81,31 @@ class IdsTooltip extends mix(IdsElement).with(
   }
 
   /**
-   * Establish Internal Event Handlers
+   * Bind Internal Event Handlers
    * @private
    * @returns {object} The object for chaining.
    */
-  handleEvents() {
+  #handleEvents() {
     this.detachAllEvents();
     if (!(typeof this.target === 'string')) {
-      this.attachEvents(this.target);
+      this.#bindEvents(this.target);
       return this;
     }
 
     /** @type {any} */
     const list = document.querySelectorAll(this.target);
     for (let i = 0, len = list.length; i < len; i++) {
-      this.attachEvents(list[i]);
+      this.#bindEvents(list[i]);
     }
     return this;
   }
 
   /**
-   * Attach the events to a node.
+   * Bind the events to a tooltip target.
    * @param {HTMLElement} targetElem The element to attach events to
    * @private
    */
-  attachEvents(targetElem) {
+  #bindEvents(targetElem) {
     // Events to show on hover
     if (this.trigger === 'hover') {
       this.onEvent('hoverend.tooltip', targetElem, (e) => {
@@ -167,10 +170,10 @@ class IdsTooltip extends mix(IdsElement).with(
   }
 
   /**
-   * Show the tooltip
+   * Setup the popup
    * @private
    */
-  configurePopup() {
+  #configurePopup() {
     // Popup settings / config
     this.popup.type = 'tooltip';
     this.popup.align = `${this.placement}, center`;
@@ -187,10 +190,10 @@ class IdsTooltip extends mix(IdsElement).with(
   }
 
   /**
-   * Update the aria label with the contents
+   * Update the aria attributes with the correct contents
    * @private
    */
-  updateAria() {
+  #updateAria() {
     // For ellipsis based tooltips we dont do this
     if (this.state.noAria) {
       return;
@@ -216,7 +219,7 @@ class IdsTooltip extends mix(IdsElement).with(
    * Show the tooltip (use visible for public API)
    * @private
    */
-  async show() {
+  async #show() {
     // Trigger a veto-able `beforeshow` event.
     let canShow = true;
     const beforeShowResponse = (/** @type {any} */ veto) => {
@@ -227,7 +230,7 @@ class IdsTooltip extends mix(IdsElement).with(
     if (this.state.beforeShow) {
       const stuff = await this.state.beforeShow();
       this.textContent = stuff;
-      this.updateAria();
+      this.#updateAria();
     }
 
     this.triggerEvent('beforeshow', this, {
@@ -243,7 +246,7 @@ class IdsTooltip extends mix(IdsElement).with(
     }
 
     // Show the popup
-    this.configurePopup();
+    this.#configurePopup();
     this.popup.visible = true;
     this.state.visible = true;
     this.triggerEvent('show', this, { detail: { elem: this } });
@@ -252,7 +255,7 @@ class IdsTooltip extends mix(IdsElement).with(
   /**
    * Show the tooltip  (use visible for public API)
    */
-  hide() {
+  #hide() {
     this.popup.visible = false;
     this.state.visible = false;
     this.triggerEvent('hide', this, { detail: { elem: this } });
@@ -270,7 +273,7 @@ class IdsTooltip extends mix(IdsElement).with(
 
   /**
    * Set how long after hover you should delay before showing
-   * @param {number} value The amount in ms to delay
+   * @param {string | number} value The amount in ms to delay
    */
   set delay(value) {
     if (value) {
@@ -301,25 +304,6 @@ class IdsTooltip extends mix(IdsElement).with(
   get placement() { return this.getAttribute('placement') || 'top'; }
 
   /**
-   * Set trigger agains the target between hover, click and focus
-   * @param {string} value The trigger mode to use
-   */
-  set trigger(value) {
-    this.state.trigger = value;
-
-    if (this.state.trigger) {
-      this.setAttribute('trigger', this.state.trigger);
-      this.handleEvents();
-      return;
-    }
-
-    this.removeAttribute('trigger');
-    this.handleEvents();
-  }
-
-  get trigger() { return this.state.trigger || 'hover'; }
-
-  /**
    * Set the target element for the tooltip
    * @param {string | HTMLElement} value The target element selector
    */
@@ -328,21 +312,40 @@ class IdsTooltip extends mix(IdsElement).with(
 
     if (value && typeof value !== 'string') {
       this.removeAttribute('target');
-      this.handleEvents();
+      this.#handleEvents();
       return;
     }
 
     if (value && typeof value === 'string') {
       this.setAttribute('target', value);
-      this.handleEvents();
+      this.#handleEvents();
       return;
     }
 
     this.removeAttribute('target');
-    this.handleEvents();
+    this.#handleEvents();
   }
 
   get target() { return this.state.target; }
+
+  /**
+   * Set trigger agains the target between hover, click and focus
+   * @param {string} value The trigger mode to use
+   */
+  set trigger(value) {
+    this.state.trigger = value;
+
+    if (this.state.trigger) {
+      this.setAttribute('trigger', this.state.trigger);
+      this.#handleEvents();
+      return;
+    }
+
+    this.removeAttribute('trigger');
+    this.#handleEvents();
+  }
+
+  get trigger() { return this.state.trigger || 'hover'; }
 
   /**
    * Set tooltip immediately to visible/invisible
@@ -359,13 +362,13 @@ class IdsTooltip extends mix(IdsElement).with(
 
     if (this.state.visible) {
       this.setAttribute('visible', 'true');
-      this.show();
+      this.#show();
       return;
     }
 
     this.popup.alignTarget = null;
     this.removeAttribute('visible');
-    this.hide();
+    this.#hide();
   }
 
   get visible() { return this.state.visible; }

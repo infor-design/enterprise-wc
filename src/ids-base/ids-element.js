@@ -41,6 +41,7 @@ class IdsElement extends HTMLElement {
     if (this.id) {
       this.appendId(parts, 'id', this.id);
     }
+
     for (let i = 0; i < this.attributes.length; i++) {
       if (this.attributes[i].name.includes('data-') && this.attributes[i].name.includes('id')) {
         this.appendId(parts, this.attributes[i].name, this.getAttribute(this.attributes[i].name));
@@ -57,7 +58,19 @@ class IdsElement extends HTMLElement {
    */
   appendId(parts, name, value) {
     for (let i = 0; i < parts.length; i++) {
-      parts[i].setAttribute(name, `${value}-${parts[i].getAttribute('part')}`);
+      let label;
+      const newId = `${value}-${parts[i].getAttribute('part')}`;
+
+      if (name === 'id' && parts[i].id) {
+        label = this.shadowRoot.querySelector(`[for="${parts[i].id}"]`);
+      }
+      parts[i].setAttribute(name, newId);
+      if (label) {
+        label.setAttribute('for', newId);
+      }
+      if (name === 'id' && this.state?.id) {
+        this.state.id = newId;
+      }
     }
   }
 

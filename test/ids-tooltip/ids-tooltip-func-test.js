@@ -301,7 +301,7 @@ describe('IdsTooltip Component', () => {
       return getContents();
     };
     expect(tooltip.beforeShow).toBeTruthy();
-    tooltip.show();
+    tooltip.visible = true;
 
     setTimeout(() => {
       expect(tooltip.innerHTML).toEqual('test content');
