@@ -9,8 +9,6 @@ import { IdsKeyboardMixin, IdsEventsMixin } from '../ids-base';
 import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
 
-let idCounter = 0;
-
 /**
  * combines classes and considers truthy/falsy +
  * doesn't pollute the attribs/DOM without
@@ -37,11 +35,6 @@ const buildClassAttrib = (...classes) => {
 @customElement('ids-tabs')
 @scss(styles)
 class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
-  /**
-   * needed for persistent tab id in app
-   */
-  id;
-
   /**
    * lets us quickly reference the active element
    * for current index selected with arrow left/right
@@ -75,10 +68,8 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     return (
       `<ul
         ${buildClassAttrib('ids-tabs', this.orientation)}
-        id="${this.id}"
         role="tablist"
         tabindex="0"
-        aria-label="testing"
       >
         <slot></slot>
       </ul>`
@@ -101,22 +92,10 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
   // TODO: run child-attrib setters in another re-usable fn
   connectedCallback() {
-    if (!this.id) {
-      this.setAttribute(props.ID, `ids-tabs-${++idCounter}`);
-    }
-
-    let ariaOwnsAttrib = '';
-
     for (let i = 0; i < this.children.length; i++) {
       const tabElem = this.children[i].shadowRoot.querySelector('.ids-tab');
       this.childrenIndexMap.set(tabElem, i);
-
-      const tabId = `${this.id}-${i}`;
-      ariaOwnsAttrib += `${ariaOwnsAttrib ? ' ' : ''}${tabId}`;
-      this.children[i].setAttribute(props.TAB_ID, tabId);
     }
-
-    this.container.setAttribute('aria-owns', ariaOwnsAttrib);
 
     // TODO: (1) only ArrowLeft/Right on horizontal orientation
     // TODO: (2) ArrowUp/Down for vertical orientation
@@ -170,10 +149,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
         this.setAttribute(props.VALUE, this.getTabIndexValue(focusedTabIndex));
       }
     });
-  }
-
-  disconnectedCallback() {
-    this.detachAllListeners();
   }
 
   /**
@@ -243,14 +218,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
   get value() {
     return this.getAttribute(props.VALUE);
-  }
-
-  set id(value) {
-    this.setAttribute(props.ID, value);
-  }
-
-  get id() {
-    return this.getAttribute(props.ID);
   }
 
   /**

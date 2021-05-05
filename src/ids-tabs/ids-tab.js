@@ -33,7 +33,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.VALUE, props.SELECTED, props.TAB_ID];
+    return [props.VALUE, props.SELECTED];
   }
 
   /**
@@ -47,7 +47,6 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
         role="tab"
         aria-selected="${Boolean(this.selected)}"
         tabindex="${this.selected ? '0' : '-1'}"
-        id=${this.getAttribute(props.TAB_ID)}
       >
         <ids-text
           overflow="ellipsis"
@@ -133,15 +132,6 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
   focus() {
     this.container.focus();
-  }
-
-  set tabId(value) {
-    this.setAttribute(props.TAB_ID, value);
-    this.container.id = this.getAttribute(props.TAB_ID);
-  }
-
-  get tabId() {
-    return this.getAttribute(props.TAB_ID);
   }
 }
 
