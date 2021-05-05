@@ -10,10 +10,6 @@ import { stringToBool } from '../ids-base/ids-string-utils';
 import IdsText from '../ids-text/ids-text';
 import styles from './ids-tabs.scss';
 
-const highlighterHtml = `<div class="highlighter"></div>`;
-const highlighterTemplate = document.createElement('template');
-highlighterTemplate.innerHTML = highlighterHtml;
-
 /**
  * IDS Tab Component
  *
@@ -46,7 +42,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   template() {
     return (
-      `<button
+      `<a
         class="ids-tab${this.selected ? ' selected ' : ''}"
         role="tab"
         aria-selected="${Boolean(this.selected)}"
@@ -61,8 +57,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
         >
           <slot></slot>
         </ids-text>
-        ${this.selected ? highlighterHtml : ''}
-      </button>`
+      </a>`
     );
   }
 
@@ -95,22 +90,12 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       this.container.classList.remove(props.SELECTED);
       this.removeAttribute('selected');
       this.container?.children?.[0]?.removeAttribute?.('font-weight');
-
-      // remove highlighter
-      if (this.container?.children?.[1]) {
-        this.container.removeChild(this.container.children[1]);
-      }
     }
 
     if (isValueTruthy) {
       this.container.classList.add(props.SELECTED);
       this.setAttribute('selected', true);
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
-
-      // append highlighter
-      if (!this.container?.children?.[1]) {
-        this.container.appendChild(highlighterTemplate.content.cloneNode(true));
-      }
     }
 
     this.container.setAttribute?.('tabindex', isValueTruthy ? '0' : '-1');

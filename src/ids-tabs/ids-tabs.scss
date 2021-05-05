@@ -4,12 +4,6 @@
   contain: content;
 }
 
-.ids-tab:focus-visible {
-  @include shadow();
-
-  outline: none;
-}
-
 .ids-tabs {
   @include border-b-1;
   @include border-graphite-50;
@@ -35,17 +29,31 @@
   @include px-16;
   @include pt-12;
   @include pb-8;
+  @include border-1();
+  @include border-solid();
+  @include rounded-default();
 
   position: relative;
   display: inline-block;
   list-style: none outside none;
+  border-color: transparent;
+  border-bottom-width: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+
+  &:focus-visible {
+    @include shadow();
+    @include border-azure-60();
+    @include border-solid();
+
+    outline: none;
+  }
 
   /*
    * undo button styles set
    * in user-agent sheet on app
    */
   background: none;
-  border: none;
   letter-spacing: unset;
   word-spacing: unset;
   text-transform: none;
@@ -92,15 +100,16 @@
 
   cursor: default;
 
-  .highlighter {
+  &::after {
     @include bg-azure-60();
 
     position: absolute;
     bottom: 0;
     height: 3px;
-    left: 0;
-    width: 100%;
+    left: -1px;
+    width: calc(100% + 2px);
     z-index: 1;
     pointer-events: none;
+    content: '';
   }
 }
