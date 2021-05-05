@@ -137,14 +137,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       }
     });
 
-    this.listen('Enter', this.container, () => {
-      const focusedTabIndex = this.getFocusedTabIndex();
-
-      if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
-        this.setAttribute(props.VALUE, this.getTabIndexValue(focusedTabIndex));
-      }
-    });
-
     this.listen('Tab', this.container, (e) => {
       e.preventDefault?.();
       if (e.shiftKey) {
@@ -160,6 +152,22 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
       if (focusedTabIndex + 1 < this.children.length) {
         this.children[focusedTabIndex + 1].container.focus();
+      }
+    });
+
+    this.listen('Home', this.container, () => {
+      this.children[0].container.focus();
+    });
+
+    this.listen('End', this.container, () => {
+      this.children[this.children.length - 1].container.focus();
+    });
+
+    this.listen('Enter', this.container, () => {
+      const focusedTabIndex = this.getFocusedTabIndex();
+
+      if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
+        this.setAttribute(props.VALUE, this.getTabIndexValue(focusedTabIndex));
       }
     });
   }
