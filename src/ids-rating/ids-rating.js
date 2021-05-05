@@ -89,6 +89,9 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     set stars(num) {
       if(num) {
+        console.log(num)
+        this.render();
+        this.toggleStars();
         this.setAttribute('stars', num.toString());
       }
     }
@@ -99,6 +102,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     set readonly(ro) {
       if(ro && this.getAttribute('readonly') === 'true'){
+        this.offEvent('click', this.ratingContainer);
         this.updateHalfStar(this.ratingArr);
         this.setAttribute('readonly', ro.toString());
       }
