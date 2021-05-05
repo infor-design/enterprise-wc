@@ -22,10 +22,11 @@
   }
 
   &:focus {
-    outline-color: var(--ids-color-palette-azure-60);
-    outline-offset: 3px;
-    outline-style: solid;
-    outline-width: 1px;
+    border: 1px solid var(--ids-color-palette-azure-60);
+    // outline-color: var(--ids-color-palette-azure-60);
+    // outline-offset: 3px;
+    // outline-style: solid;
+    // outline-width: 1px;
   }
 }
 

@@ -12,6 +12,7 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 
 // @ts-ignore
 import IdsText from '../ids-text/ids-text';
+import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
 // @ts-ignore
 import styles from './ids-counts.scss';
@@ -55,11 +56,9 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const href = this.getAttribute('href');
 
     return `
-      ${href ? `<a class="ids-counts" part="link" mode="${this.mode}" href=${this.getAttribute('href') || '#'}>` : `<span class="ids-counts" mode="${this.mode}">`}
-      ${href
-      ? `${textTags.value1}${numSize()}${textTags.value2}${textTags.text}`
-      : `${textTags.text}${textTags.value1}${numSize()}${textTags.value2}`}
-      ${href ? '</a>' : '</span>'}
+      ${href ? `<ids-hyperlink part="link" class="ids-counts message-text" href=${href || '#'} mode=${this.mode}>` : `<a class="ids-counts" mode=${this.mode}>`}
+      ${textTags.value1}${numSize()}${textTags.value2}${textTags.text}
+      ${href ? `</ids-hyperlink>` : `</a>`}
     `;
   }
 

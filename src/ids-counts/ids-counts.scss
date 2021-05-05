@@ -7,7 +7,10 @@
   @include text-slate-80();
 
   text-align: center;
-  text-decoration: none;
+
+  &::part(link) {
+    text-decoration: none;
+  }
 
   &[href] {
     @include text-azure-60();
@@ -16,6 +19,11 @@
   &[color] {
     color: unset;
   }
+
+  // &:focus {
+  //   border: 1px solid var(--ids-color-palette-azure-70);
+  //   border-style: solid;
+  // }
 }
 
 // Handle Themes

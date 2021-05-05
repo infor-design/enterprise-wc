@@ -5,8 +5,8 @@ describe('Ids Counts e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Counts Component');
+  it('should not have errors', () => {
+    expect(page.title()).resolves.toMatch('IDS Counts Component');
   });
 
   it('should pass Axe accessibility tests', async () => {
