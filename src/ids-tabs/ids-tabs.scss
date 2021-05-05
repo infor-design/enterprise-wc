@@ -4,7 +4,7 @@
   contain: content;
 }
 
-:host(ids-tab:focus-visible) {
+.ids-tab:focus-visible {
   @include shadow();
 
   outline: none;
@@ -40,6 +40,19 @@
   display: inline-block;
   list-style: none outside none;
 
+  /*
+   * undo button styles set
+   * in user-agent sheet on app
+   */
+  background: none;
+  border: none;
+  letter-spacing: unset;
+  word-spacing: unset;
+  text-transform: none;
+  font: unset;
+  text-align: unset;
+  text-shadow: unset;
+
   /* a little bit hacky, but needed to allow the
    * text to be bolded without shuddering the widths;
    * text-content is set in ids-tab => rendered()
@@ -69,11 +82,15 @@
 }
 
 .ids-tab:not(.selected) {
-  color: var(--ids-color-palette-graphite-50);
+  @include text-graphite-50;
+
+  cursor: pointer;
 }
 
 .ids-tab.selected {
   @include text-azure-60;
+
+  cursor: default;
 
   .highlighter {
     @include bg-azure-60();

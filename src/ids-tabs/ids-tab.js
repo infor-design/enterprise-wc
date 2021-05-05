@@ -23,6 +23,8 @@ highlighterTemplate.innerHTML = highlighterHtml;
 @customElement('ids-tab')
 @scss(styles)
 class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
+  id;
+
   constructor() {
     super();
 
@@ -35,7 +37,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.VALUE];
+    return [props.VALUE, props.SELECTED, props.TAB_ID];
   }
 
   /**
@@ -44,7 +46,13 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   template() {
     return (
-      `<div class="ids-tab${this.selected ? ' selected ' : ''}" role="tab">
+      `<button
+        class="ids-tab${this.selected ? ' selected ' : ''}"
+        role="tab"
+        aria-selected="${Boolean(this.selected)}"
+        tabindex="${this.selected ? '0' : '-1'}"
+        id=${this.getAttribute(props.TAB_ID)}
+      >
         <ids-text
           overflow="ellipsis"
           size="22"
@@ -54,7 +62,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
           <slot></slot>
         </ids-text>
         ${this.selected ? highlighterHtml : ''}
-      </div>`
+      </button>`
     );
   }
 
@@ -104,6 +112,9 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
         this.container.appendChild(highlighterTemplate.content.cloneNode(true));
       }
     }
+
+    this.container.setAttribute?.('tabindex', isValueTruthy ? '0' : '-1');
+    this.container.setAttribute?.('aria-selected', isValueTruthy);
   }
 
   get selected() {
@@ -121,16 +132,6 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     return this.getAttribute(props.VALUE);
   }
 
-  connectedCallback() {
-    // add tabindex as focusable/selection logic is a bit
-    // more straightforward on ids-tabs pointing
-    // to children for selection indexes
-
-    if (!this.hasAttribute('tabindex')) {
-      this.setAttribute('tabindex', '0');
-    }
-  }
-
   /**
    * sets the CSS var "text-content" to track text
    * for fixing the shudder when content is selected/
@@ -141,9 +142,22 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
     if (slot?.assignedNodes?.()?.[0]) {
       const textContent = slot?.assignedNodes?.()?.[0].textContent;
-      this.style.setProperty('--text-content', `"${textContent}"`);
+      this.container.style.setProperty('--text-content', `"${textContent}"`);
     }
   };
+
+  focus() {
+    this.container.focus();
+  }
+
+  set tabId(value) {
+    this.setAttribute(props.TAB_ID, value);
+    this.container.id = this.getAttribute(props.TAB_ID);
+  }
+
+  get tabId() {
+    return this.getAttribute(props.TAB_ID);
+  }
 }
 
 export default IdsTab;

@@ -9,6 +9,8 @@ import { IdsKeyboardMixin, IdsEventsMixin } from '../ids-base';
 import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
 
+let idCounter = 0;
+
 /**
  * combines classes and considers truthy/falsy +
  * doesn't pollute the attribs/DOM without
@@ -36,6 +38,11 @@ const buildClassAttrib = (...classes) => {
 @scss(styles)
 class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   /**
+   * needed for persistent tab id in app
+   */
+  id;
+
+  /**
    * lets us quickly reference the active element
    * for current index selected with arrow left/right
    * mapping
@@ -43,11 +50,10 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   childrenIndexMap = new Map();
 
   /**
-   * handles on click events for children;
-   * easier to delegate from parent here
-   * as they are focusable
+   * needed to keep track of event listeners
+   * added
    */
-  tabClickHandlerMap = new Map();
+  tabValueSet = new Set();
 
   constructor() {
     super();
@@ -58,7 +64,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.ORIENTATION, props.VALUE];
+    return [props.ORIENTATION, props.VALUE, props.ID];
   }
 
   /**
@@ -67,52 +73,99 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   template() {
     return (
-      `<ul ${buildClassAttrib('ids-tabs', this.orientation)} role="tabpanel">
+      `<ul
+        ${buildClassAttrib('ids-tabs', this.orientation)}
+        id="${this.id}"
+        role="tablist"
+        tabindex="0"
+        aria-label="testing"
+      >
         <slot></slot>
       </ul>`
     );
   }
 
   getFocusedTabIndex() {
-    if (this.childrenIndexMap.has(document.activeElement)) {
-      return this.childrenIndexMap.get(document.activeElement);
+    if (!(document.activeElement instanceof IdsTab)) {
+      return -1;
+    }
+
+    const shadowElement = document.activeElement.shadowRoot.activeElement;
+
+    if (this.childrenIndexMap.has(shadowElement)) {
+      return this.childrenIndexMap.get(shadowElement);
     }
 
     return -1;
   }
 
+  // TODO: run child-attrib setters in another re-usable fn
   connectedCallback() {
-    for (let i = 0; i < this.children.length; i++) {
-      const tabElem = this.children[i];
-      this.childrenIndexMap.set(tabElem, i);
+    if (!this.id) {
+      this.setAttribute(props.ID, `ids-tabs-${++idCounter}`);
     }
+
+    let ariaOwnsAttrib = '';
+
+    for (let i = 0; i < this.children.length; i++) {
+      const tabElem = this.children[i].shadowRoot.querySelector('.ids-tab');
+      this.childrenIndexMap.set(tabElem, i);
+
+      const tabId = `${this.id}-${i}`;
+      ariaOwnsAttrib += `${ariaOwnsAttrib ? ' ' : ''}${tabId}`;
+      this.children[i].setAttribute(props.TAB_ID, tabId);
+    }
+
+    this.container.setAttribute('aria-owns', ariaOwnsAttrib);
 
     // TODO: (1) only ArrowLeft/Right on horizontal orientation
     // TODO: (2) ArrowUp/Down for vertical orientation
 
-    this.listen('ArrowLeft', this, () => {
+    this.listen('ArrowLeft', this.container, () => {
       const focusedTabIndex = this.getFocusedTabIndex();
 
       if (focusedTabIndex > 0) {
-        this.children[focusedTabIndex - 1].focus();
+        this.children[focusedTabIndex - 1].container.focus();
       }
     });
 
-    this.listen('ArrowRight', this.expander, () => {
+    this.listen('ArrowRight', this.container, () => {
       const focusedTabIndex = this.getFocusedTabIndex();
 
       if (focusedTabIndex + 1 < this.children.length) {
-        this.children[focusedTabIndex + 1].focus();
+        this.children[focusedTabIndex + 1].container.focus();
       }
     });
 
-    this.listen('Enter', this.expander, () => {
+    this.listen('Enter', this.container, () => {
       const focusedTabIndex = this.getFocusedTabIndex();
 
       if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
         this.setAttribute(props.VALUE, this.getTabIndexValue(focusedTabIndex));
       }
     });
+
+    this.listen('Tab', this.container, (e) => {
+      e.preventDefault?.();
+      if (e.shiftKey) {
+        const focusedTabIndex = this.getFocusedTabIndex();
+
+        if (focusedTabIndex > 0) {
+          this.children[focusedTabIndex - 1].container.focus();
+        }
+        return;
+      }
+
+      const focusedTabIndex = this.getFocusedTabIndex();
+
+      if (focusedTabIndex + 1 < this.children.length) {
+        this.children[focusedTabIndex + 1].container.focus();
+      }
+    });
+  }
+
+  disconnectedCallback() {
+    this.detachAllListeners();
   }
 
   /**
@@ -184,6 +237,14 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     return this.getAttribute(props.VALUE);
   }
 
+  set id(value) {
+    this.setAttribute(props.ID, value);
+  }
+
+  get id() {
+    return this.getAttribute(props.ID);
+  }
+
   /**
    * Returns the value provided for a tab at a specified
    * index; if it does not exist, then return zero-based index
@@ -196,11 +257,24 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   }
 
   rendered = () => {
-    // TODO: clear each existing click handler
+    // clear each existing click handler
 
-    this.tabClickHandlerMap.clear();
+    for (const tabValue of this.tabValueSet) {
+      this.offEvent(`click.${tabValue}`);
+      this.tabValueSet.delete(tabValue);
+    }
 
-    // TODO: scan through children and add click handlers
+    // scan through children and add click handlers
+    for (let i = 0; i < this.children.length; i++) {
+      const tabValue = this.getTabIndexValue(i);
+      const eventNs = `click.${tabValue}`;
+      this.tabValueSet.add(eventNs);
+      this.onEvent(
+        eventNs,
+        this.children[i],
+        () => { this.value = tabValue; }
+      );
+    }
   };
 }
 
