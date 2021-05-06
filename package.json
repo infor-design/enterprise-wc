@@ -18,7 +18,7 @@
     "mdlint": "remark . -f",
     "publish:dry-run": "npm run build:prod && cp -f package.json dist && cp -f README.md dist && cp -f LICENSE dist && cd dist && npm publish --dry-run",
     "publish:npm": "npm run build:prod && cp -f package.json dist && cp -f README.md dist && cp -f LICENSE dist && cd dist && npm publish",
-    "test": "npx jest --coverage --runInBand --detectOpenHandles --forceExit",
+    "test": "PERCY_LOGLEVEL=silent npx jest --coverage --runInBand --detectOpenHandles --forceExit",
     "test:watch": "PERCY_LOGLEVEL=silent jest --watchAll --coverage --detectOpenHandles --forceExit -- func",
     "test:coverage": "PERCY_LOGLEVEL=silent jest --coverage -- func",
     "test:coverage-only-changed": "PERCY_LOGLEVEL=silent jest --coverage --onlyChanged -- func",

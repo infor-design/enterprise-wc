@@ -1,6 +1,7 @@
 import {
   IdsElement,
   customElement,
+  appendIds,
   mix,
   props,
   stringUtils
@@ -24,6 +25,7 @@ import IdsPopup from '../ids-popup/ids-popup';
  * @part tooltip - the tooltip container
  */
 @customElement('ids-tooltip')
+@appendIds()
 class IdsTooltip extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
@@ -72,7 +74,7 @@ class IdsTooltip extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
-    return `<ids-popup class="ids-popup-menu" part="popup" id="${this.id || 'ids'}-tooltip">
+    return `<ids-popup part="popup" id="${this.id || 'ids'}-tooltip">
         <div class="ids-tooltip" slot="content" part="tooltip">
           <slot></slot>
         </div>
@@ -92,7 +94,6 @@ class IdsTooltip extends mix(IdsElement).with(
       return this;
     }
 
-    /** @type {any} */
     const list = document.querySelectorAll(this.target);
     for (let i = 0, len = list.length; i < len; i++) {
       this.#bindEvents(list[i]);
@@ -222,7 +223,7 @@ class IdsTooltip extends mix(IdsElement).with(
   async #show() {
     // Trigger a veto-able `beforeshow` event.
     let canShow = true;
-    const beforeShowResponse = (/** @type {any} */ veto) => {
+    const beforeShowResponse = (veto) => {
       canShow = !!veto;
     };
 

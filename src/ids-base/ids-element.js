@@ -1,5 +1,6 @@
 import {
   customElement,
+  appendIds,
   version,
   scss
 } from './ids-decorators';
@@ -29,22 +30,26 @@ class IdsElement extends HTMLElement {
   }
 
   /**
-   * Copy down the id's and data-**-id to the different parts in the component
+   * Insert the id's and data-**-id to the various parts in the component
    * @private
    */
-  appendIds() {
+  addInternalIds() {
     const parts = this.shadowRoot.querySelectorAll('[part]');
+    /* istanbul ignore next */
     if (parts.length === 0) {
       return;
     }
 
     if (this.id) {
-      this.appendId(parts, 'id', this.id);
+      this.appendIdtoPart(parts, 'id', this.id);
     }
 
     for (let i = 0; i < this.attributes.length; i++) {
       if (this.attributes[i].name.includes('data-') && this.attributes[i].name.includes('id')) {
-        this.appendId(parts, this.attributes[i].name, this.getAttribute(this.attributes[i].name));
+        this.appendIdtoPart(
+          parts, this.attributes[i].name,
+          this.getAttribute(this.attributes[i].name)
+        );
       }
     }
   }
@@ -56,7 +61,7 @@ class IdsElement extends HTMLElement {
    * @param  {string} value The id value
    * @private
    */
-  appendId(parts, name, value) {
+  appendIdtoPart(parts, name, value) {
     for (let i = 0; i < parts.length; i++) {
       let label;
       const newId = `${value}-${parts[i].getAttribute('part')}`;
@@ -65,9 +70,11 @@ class IdsElement extends HTMLElement {
         label = this.shadowRoot.querySelector(`[for="${parts[i].id}"]`);
       }
       parts[i].setAttribute(name, newId);
+      /* istanbul ignore next */
       if (label) {
         label.setAttribute('for', newId);
       }
+      /* istanbul ignore next */
       if (name === 'id' && this.state?.id) {
         this.state.id = newId;
       }
@@ -148,12 +155,13 @@ class IdsElement extends HTMLElement {
     this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
     this.closest('ids-container')?.removeAttribute('hidden');
 
-    // Append automation ids and ids
-    this.appendIds();
-
     // Add a rendered callback
     this.rendered?.();
 
+    // Add automation Ids
+    if (this.appendIds) {
+      this.addInternalIds();
+    }
     return this;
   }
 
@@ -190,6 +198,7 @@ class IdsElement extends HTMLElement {
 export {
   IdsElement,
   customElement,
+  appendIds,
   mix,
   scss,
   props,

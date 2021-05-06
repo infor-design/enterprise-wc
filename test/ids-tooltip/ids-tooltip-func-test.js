@@ -394,7 +394,7 @@ describe('IdsTooltip Component', () => {
   });
 
   it('should append ids', () => {
-    tooltip.appendIds();
+    tooltip.addInternalIds();
     expect(tooltip.shadowRoot.querySelector('[part="popup"]').getAttribute('data-automation-id')).toEqual('test-id-popup');
     expect(tooltip.shadowRoot.querySelector('[part="popup"]').getAttribute('id')).toEqual('test-id-popup');
     expect(tooltip.shadowRoot.querySelector('[part="tooltip"]').getAttribute('id')).toEqual('test-id-tooltip');

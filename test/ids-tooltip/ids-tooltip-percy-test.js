@@ -4,6 +4,7 @@ describe('Ids Tooltip Percy Tests', () => {
   const url = 'http://localhost:4444/ids-tooltip';
   const showTooltip = async () => {
     await page.$eval('#tooltip-example', (e) => e.setAttribute('visible', 'true'));
+    await page.waitForSelector('#tooltip-example[visible]');
   };
 
   it('should not have visual regressions in new light theme (percy)', async () => {
