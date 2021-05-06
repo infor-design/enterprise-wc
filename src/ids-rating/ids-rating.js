@@ -67,6 +67,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       if(val && this.getAttribute('readonly') === 'false') {
         this.ratingArr.forEach((element) => {
           element.setAttribute('icon', 'star-outlined');
+          element.classList.remove('is-half');
           element.classList.remove('active');
         });
         let valueArray = this.ratingArr
@@ -82,6 +83,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
         this.ratingArr.forEach((element) => {
           element.setAttribute('icon', 'star-outlined');
           element.classList.remove('active');
+          element.classList.remove('is-half');
         });
         this.updateHalfStar(this.ratingArr);
       }
