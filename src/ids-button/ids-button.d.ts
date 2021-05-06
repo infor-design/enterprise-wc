@@ -27,6 +27,9 @@ export class IdsButton extends IdsElement {
   /* The type/purpose of the button to display */
   type: 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive'
 
+  /* Sets up a string based tooltip */
+  tooltip?: string;
+
   /* Provides a direct reference to the Shadow Root's HTMLButtonElement. */
   readonly button: HTMLElement;
 

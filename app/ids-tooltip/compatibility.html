@@ -1,0 +1,32 @@
+{{> ../layouts/head-no-csp.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">WC Tooltip</h1>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-button id="new-button" type="secondary">New Button</ids-button>
+    <ids-tooltip target="#new-button" id="new-tooltip">Additional Information</ids-tooltip>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<!--Import Old IDS -->
+<link href="https://unpkg.com/ids-enterprise@4.50.2/dist/css/theme-new-light.css" rel="stylesheet"/>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/ids-enterprise@4.50.2/dist/js/sohoxi.js"></script>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.5 Tooltip</h1>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <button id="old-button" class="btn-secondary" type="button" title=" Additional Information" data-options="{ 'attributes': [ { 'name': 'id', 'value': 'old-tooltip' } ]}">
+      Old Button
+    </button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<script>
+    $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}

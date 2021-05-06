@@ -69,6 +69,9 @@ export default class IdsInput extends IdsElement {
   /** Sets the input to readonly state * */
   readonly: boolean;
 
+  /* Sets up a string based tooltip */
+  tooltip?: string;
+
   /** Sets the text alignment * */
   textAlign: 'left' | 'center ' | 'right' | string;
 

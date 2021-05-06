@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsTooltip Component renders correctly 1`] = `
+"<ids-popup part=\\"popup\\" id=\\"ids-tooltip\\">
+        <div class=\\"ids-tooltip\\" slot=\\"content\\" part=\\"tooltip\\">
+          <slot></slot>
+        </div>
+        </ids-popup>
+      "
+`;

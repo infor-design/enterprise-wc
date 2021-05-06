@@ -6,8 +6,8 @@ This component is a building-block component for many "placeable" IDS Components
 
 ## Use Cases
 
-- Place HTML content using X/Y coordinates
-- Place HTML content using a parent element, and X/Y offsets
+- Placing HTML content using X/Y coordinates
+- Placing HTML content against a target element and using X/Y offsets
 
 ## Terminology
 
@@ -34,7 +34,7 @@ Creating a Context-menu style that would open on click might look like the follo
 
 ```html
 <ids-popup id="my-popup" x="0" y="10" align="top, left">
-  <div slot="contents">My Popup</div>
+  <div slot="content">My Popup</div>
 </ids-popup>
 ```
 
@@ -42,7 +42,7 @@ To create a Popup that appears to align itself against a button, you could do th
 
 ```html
 <ids-popup id="my-popup" x="10" y="10" align="top, left" alignTarget="#my-button">
-  <div slot="contents">My Popup</div>
+  <div slot="content">My Popup</div>
 </ids-popup>
 
 ...

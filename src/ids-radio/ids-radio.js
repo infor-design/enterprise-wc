@@ -3,12 +3,12 @@ import {
   customElement,
   props,
   scss,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 import styles from './ids-radio.scss';
 import IdsText from '../ids-text/ids-text';

@@ -100,7 +100,7 @@ This mixin add functionality for validation to the component. This includes a ad
 
 ## Ids Theme Mixin
 
-This mixin add functionality to change the theme on a component. To use it you need to:
+This mixin adds functionality to change the theme on a component. To use it you need to:
 
 1. Include the IdsThemeMixin in the `mix` list.
 1. Add two properties to the properties array. For example:
@@ -155,3 +155,17 @@ This mixin add functionality to change the theme on a component. To use it you n
  }
 ```
 1. Add a themeable parts section to the .MD file
+
+## Ids Tooltip Mixin
+
+This mixin adds functionality to display a tooltip on an item.
+
+1. Include the import and then IdsTooltipMixin in the `mix` list.
+1. Add types for MODE and VERSION to the `d.ts` file for the new properties.
+1. Add IdsTooltipMixin to the @mixes list
+
+When using it...
+
+1. Test it by adding for example `tooltip="Additional Information"` on the component.
+1. Consider adding a test to tooltip tests.
+1. If `tooltip="true"` is set then

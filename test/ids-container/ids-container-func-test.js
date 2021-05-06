@@ -35,15 +35,16 @@ describe('IdsContainer Component', () => {
 
   it('can set and reset scrollable', () => {
     expect(container.scrollable).toEqual('true');
-    expect(container.container.getAttribute('tabindex')).toEqual('0');
+    container.scrollable = true;
+    expect(container.scrollable).toEqual('true');
+    expect(container.container.getAttribute('scrollable')).toEqual('true');
     container.scrollable = false;
     expect(container.scrollable).toEqual('false');
     expect(container.getAttribute('scrollable')).toEqual('false');
-    expect(container.container.getAttribute('tabindex')).toBeFalsy();
-    container.scrollable = true;
+    expect(container.container.getAttribute('scrollable')).toEqual('false');
+    container.scrollable = 'true';
     expect(container.scrollable).toEqual('true');
     expect(container.getAttribute('scrollable')).toEqual('true');
-    expect(container.container.getAttribute('tabindex')).toEqual('0');
   });
 
   it('supports setting mode', () => {

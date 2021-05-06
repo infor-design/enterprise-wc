@@ -9,6 +9,7 @@ import {
 // Import Mixins
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsTooltipMixin } from '../ids-base/ids-tooltip-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 import styles from './ids-text.scss';
@@ -22,11 +23,12 @@ const fontWeightClasses = ['bold', 'bolder'];
  * @inherits IdsElement
  * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsTooltipMixin
  * @part text - the text element
  */
 @customElement('ids-text')
 @scss(styles)
-class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsTooltipMixin) {
   constructor() {
     super();
   }
