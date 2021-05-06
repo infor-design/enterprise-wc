@@ -7,10 +7,12 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+    types: [ opened, reopened, synchronize, unlabeled ]
 
 jobs:
   build:
 
+    if: "!contains(github.event.pull_request.labels.*.name, 'skip ci tests')"
     runs-on: ubuntu-latest
 
     strategy:
