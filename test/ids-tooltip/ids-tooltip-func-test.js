@@ -240,7 +240,7 @@ describe('IdsTooltip Component', () => {
     tooltip.visible = true;
 
     expect(tooltip.popup.visible).toEqual(true);
-    expect(tooltip.popup.y).toEqual(12);
+    expect(tooltip.popup.y).toEqual(10);
     expect(tooltip.popup.align).toEqual('top');
   });
 
@@ -249,7 +249,7 @@ describe('IdsTooltip Component', () => {
     tooltip.visible = true;
 
     expect(tooltip.popup.visible).toEqual(true);
-    expect(tooltip.popup.y).toEqual(12);
+    expect(tooltip.popup.y).toEqual(10);
     expect(tooltip.popup.align).toEqual('bottom');
   });
 
@@ -258,7 +258,7 @@ describe('IdsTooltip Component', () => {
     tooltip.visible = true;
 
     expect(tooltip.popup.visible).toEqual(true);
-    expect(tooltip.popup.x).toEqual(12);
+    expect(tooltip.popup.x).toEqual(10);
     expect(tooltip.popup.y).toEqual(0);
     expect(tooltip.popup.align).toEqual('right');
   });
@@ -268,7 +268,7 @@ describe('IdsTooltip Component', () => {
     tooltip.visible = true;
 
     expect(tooltip.popup.visible).toEqual(true);
-    expect(tooltip.popup.x).toEqual(12);
+    expect(tooltip.popup.x).toEqual(10);
     expect(tooltip.popup.y).toEqual(0);
     expect(tooltip.popup.align).toEqual('left');
   });
