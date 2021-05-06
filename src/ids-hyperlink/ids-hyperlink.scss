@@ -6,7 +6,13 @@
   @include text-azure-60();
   @include font-sans();
   @include font-normal();
+  @include p-4();
+  @include rounded-default();
   @include mb-8();
+
+  border: 1px solid transparent;
+  display: inline-block;
+  margin: -4px;
 
   &[disabled] {
     @include text-slate-40();
@@ -22,10 +28,9 @@
   }
 
   &:focus {
-    outline-color: var(--ids-color-palette-azure-60);
-    outline-offset: 3px;
-    outline-style: solid;
-    outline-width: 1px;
+    border: 1px solid var(--ids-color-palette-azure-60);
+    box-shadow: 0 0 4px 3px rgb(54, 138, 192, 0.3);
+    outline: none;
   }
 }
 

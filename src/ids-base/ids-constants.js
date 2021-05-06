@@ -96,6 +96,7 @@ export const props = {
   TRIGGER_LABEL: 'trigger-label',
   TEXT: 'text',
   TEXT_ALIGN: 'text-align',
+  TEXT_DECORATION: 'text-decoration',
   TEXT_ELLIPSIS: 'text-ellipsis',
   TYPE: 'type',
   URL: 'url',

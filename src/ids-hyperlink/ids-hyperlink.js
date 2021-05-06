@@ -26,6 +26,7 @@ import styles from './ids-hyperlink.scss';
 class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
+    this.setAttribute('role', 'link');
   }
 
   connectedCallback() {
@@ -38,10 +39,11 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   static get properties() {
     return [
-      props.HREF,
-      props.TARGET,
       props.DISABLED,
+      props.HREF,
       props.MODE,
+      props.TARGET,
+      props.TEXT_DECORATION,
       props.VERSION
     ];
   }
@@ -85,6 +87,22 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get target() { return this.getAttribute(props.TARGET); }
+
+   /**
+   * Set the link text decoration styling
+   * @param {string} value Set the link's text-decoration css property to any valid css value
+   */
+  set textDecoration(value) {
+    if (value) {
+      this.setAttribute(props.TEXT_DECORATION, value);
+      this.container.style.textDecoration = value;
+      return;
+    }
+    this.removeAttribute(props.TEXT_DECORATION);
+    delete this.container.style.textDecoration;
+  }
+
+  get textDecoration() { return this.getAttribute(props.TEXT_DECORATION) || 'underline' }
 
   /**
    * Set the text to disabled color.
