@@ -38,6 +38,7 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   static get properties() {
     return [
+      props.COLOR,
       props.HREF,
       props.TARGET,
       props.DISABLED,
@@ -104,6 +105,24 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get disabled() { return this.getAttribute(props.DISABLED); }
+
+  /**
+   * If set to "unset", color can be controlled by parent container
+   * @param {string | null} value  "unset" or undefined/null
+   */
+  set color(value) {
+    if (value === 'unset') {
+      this.setAttribute(props.COLOR, value);
+      this.container.classList.add('ids-hyperlink-color-unset');
+    } else {
+      this.removeAttribute(props.COLOR);
+      this.container.classList.remove('ids-hyperlink-color-unset');
+    }
+  }
+
+  get color() {
+    return this.getAttribute(props.COLOR);
+  }
 }
 
 export default IdsHyperlink;

@@ -19,8 +19,8 @@ import styles from './ids-counts.scss';
 
 // Boilerplate text for ShadowDOM tags
 const textTags = {
-  text: '<ids-text class="message-text"><slot name="text"></slot></ids-text>',
-  value1: '<ids-text class="message-text" font-size=',
+  text: '<ids-text color="unset"><slot name="text"></slot></ids-text>',
+  value1: '<ids-text color="unset" font-size=',
   value2: '><slot name="value"></slot></ids-text>'
 };
 
@@ -63,20 +63,22 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Set the color of the tag
+   * Set the color of the counts
    * @param {string} value The color value. This can be omitted.
    * base (blue), caution, danger, success, warning, or a hex code with the "#"
    */
   set color(value) {
     const colors = new Set(['base', 'caution', 'danger', 'success', 'warning']);
+    if(this.href) this.container.setAttribute('color', 'unset');
     if (value[0] === '#') {
-      this.container.style.color = value;
+      this.container.querySelector('ids-text').shadowRoot.querySelector('span').style.color = value;
       this.setAttribute(props.COLOR, value);
       return;
     }
     const color = colors.has(value) ? `var(--ids-color-status-${value})` : '';
     this.container.style.color = color;
-    this.setAttribute(props.COLOR, color);
+    this.container.querySelector('ids-text').shadowRoot.querySelector('span').style.color = value;
+    this.setAttribute(props.COLOR, value);
   }
 
   get color() { return this.getAttribute(props.COLOR); }
