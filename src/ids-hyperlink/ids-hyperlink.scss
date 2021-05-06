@@ -39,7 +39,8 @@
   @include text-azure-40();
 
   &:focus {
-    outline-color: var(--ids-color-palette-azure-40);
+    border: 1px solid var(--ids-color-palette-azure-60);
+    box-shadow: 0 0 4px 2px rgb(141, 201, 230, 0.3);
   }
 
   &:hover:not([disabled]),
@@ -56,7 +57,8 @@
   @include text-azure-90();
 
   &:focus {
-    outline-color: var(--ids-color-palette-azure-90);
+    border: 1px solid var(--ids-color-palette-azure-90);
+    box-shadow: 0 0 4px 2px rgb(41, 41, 41, 0.3);
   }
 
   &:hover:not([disabled]),
@@ -73,7 +75,7 @@
   @include text-azure-70();
 
   &:focus {
-    outline-color: var(--ids-color-palette-azure-70);
+    box-shadow: 0 0 4px 3px rgb(54, 138, 192, 0.3);
   }
 
   &:hover:not([disabled]),
@@ -90,7 +92,7 @@
   @include text-azure-40();
 
   &:focus {
-    outline-color: var(--ids-color-palette-azure-40);
+    box-shadow: 0 0 4px 3px rgb(141, 201, 230, 0.3);
   }
 
   &:hover:not([disabled]),
@@ -107,7 +109,8 @@
   @include text-azure-90();
 
   &:focus {
-    outline-color: var(--ids-color-palette-azure-90);
+    border: 1px solid var(--ids-color-palette-azure-90);
+    box-shadow: 0 0 4px 2px rgb(41, 41, 41, 0.3);
   }
 
   &:hover:not([disabled]),
