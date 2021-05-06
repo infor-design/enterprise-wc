@@ -182,10 +182,10 @@ class IdsTooltip extends mix(IdsElement).with(
 
     if (this.placement === 'top' || this.placement === 'bottom') {
       this.popup.x = 0;
-      this.popup.y = 12;
+      this.popup.y = 10;
     }
     if (this.placement === 'left' || this.placement === 'right') {
-      this.popup.x = 12;
+      this.popup.x = 10;
       this.popup.y = 0;
     }
   }
