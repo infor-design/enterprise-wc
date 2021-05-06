@@ -7,10 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
   const modal = document.querySelector('ids-modal');
   const modalCloseBtn = modal.querySelector('ids-button');
 
-  // Open the Modal when the trigger is clicked
-  triggerBtn.addEventListener('click', () => {
-    modal.show();
+  // Links the Modal to its trigger button
+  modal.target = triggerBtn;
+
+  // Disable the trigger button when showing the Modal.
+  modal.addEventListener('beforeshow', () => {
     triggerBtn.disabled = true;
+    return true;
   });
 
   // Close the modal when its inner button is clicked

@@ -4,7 +4,7 @@ import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 /**
  * Debounces a function, preventing running the function too frequently while looping.
  * This is ideal for functions that run on intervals.
- * @param {function} func the callback function to be run on a stagger.
+ * @param {Function} func the callback function to be run on a stagger.
  * @param {number} [duration] the amount of time in CPU ticks to delay.
  * @param {boolean} [execAsap] if true, executes the callback immediately
  *  instead of waiting for the threshold to complete.

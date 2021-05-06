@@ -6,6 +6,7 @@ import {
 } from '../ids-base/ids-element';
 
 import debounce from '../ids-base/ids-debouncer';
+import { props } from '../ids-base/ids-constants';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
@@ -17,7 +18,10 @@ import IdsPopup from '../ids-popup/ids-popup';
 // @ts-ignore
 import styles from './ids-modal.scss';
 
-const MODAL_PROPS = [];
+const MODAL_PROPS = [
+  props.TARGET,
+  props.VISIBLE
+];
 
 const appliedMixins = [
   IdsEventsMixin,
@@ -42,8 +46,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     super();
 
     this.state = {
-      open: false,
-      triggerElement: null
+      target: null
     };
   }
 
@@ -56,12 +59,22 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
 
     this.popup.type = 'menu';
     this.popup.animated = true;
-    this.refresh();
 
     // Listen for changes to the window size
     window.addEventListener('resize', debounce(() => {
       this.refresh();
     }));
+
+    if (this.target) {
+      this.attachTargetEvents();
+    }
+
+    // Run refresh once on connect
+    this.refresh();
+  }
+
+  disconnectedCallback() {
+
   }
 
   /**
@@ -80,6 +93,23 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    */
   get popup() {
     return this.shadowRoot.querySelector('ids-popup');
+  }
+
+  /**
+   * @returns {HTMLElement} the defined target element
+   */
+  get target() {
+    return this.state.target;
+  }
+
+  /**
+   * @param {HTMLElement} val a specified target element
+   */
+  set target(val) {
+    this.state.target = val;
+    if (val) {
+      this.refreshTargetEvents();
+    }
   }
 
   /**
@@ -104,6 +134,11 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   show() {
+    // Trigger a veto-able `beforeshow` event.
+    if (!this.triggerVetoableEvent('beforeshow')) {
+      return;
+    }
+
     this.popup.visible = true;
   }
 
@@ -131,6 +166,48 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     this.popup.x = window.innerWidth / 2;
     this.popup.y = window.innerHeight / 2;
     this.animated = true;
+  }
+
+  /**
+   * Connects a click event to the defined target element, which will allow the modal to open
+   * by click, or by a keyboard press with the Enter/Return key.
+   * @returns {void}
+   */
+  refreshTargetEvents() {
+    this.detachEventsByName('click.target');
+
+    if (!this.target) {
+      return;
+    }
+
+    this.onEvent('click.target', this.target, () => {
+      if (!this.visible) {
+        this.show();
+      }
+    });
+  }
+
+  /**
+   * @param {string} eventType the name of the event to trigger
+   * @returns {boolean} true if the event works
+   */
+  triggerVetoableEvent(eventType) {
+    const eventTypes = ['beforeshow', 'beforehide'];
+    if (!eventTypes.includes(eventType)) {
+      return false;
+    }
+
+    let canShow = true;
+    const eventResponse = (veto) => {
+      canShow = !!veto;
+    };
+    this.triggerEvent(eventType, this, {
+      detail: {
+        elem: this,
+        response: eventResponse
+      }
+    });
+    return canShow;
   }
 }
 
