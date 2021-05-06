@@ -3,7 +3,8 @@ import {
   customElement,
   scss,
   mix,
-  props
+  props,
+  stringUtils
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
@@ -11,7 +12,6 @@ import styles from './ids-upload-advanced-file.scss';
 import IdsAlert from '../ids-alert/ids-alert';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsProgress from '../ids-progress/ids-progress';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
 
 /**

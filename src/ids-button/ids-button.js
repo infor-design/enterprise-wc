@@ -3,12 +3,13 @@ import {
   customElement,
   mix,
   scss,
-  props
+  props,
+  stringUtils
 } from '../ids-base/ids-element';
 
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import { IdsTooltipMixin } from '../ids-base/ids-tooltip-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
 import styles from './ids-button.scss';
@@ -55,13 +56,19 @@ const ICON_ALIGN = [
  * @mixes IdsRenderLoopMixin
  * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsTooltipMixin
  * @part button - the button element
  * @part icon - the icon element
  * @part text - the text element
  */
 @customElement('ids-button')
 @scss(styles)
-class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin, IdsThemeMixin) {
+class IdsButton extends mix(IdsElement).with(
+    IdsRenderLoopMixin,
+    IdsEventsMixin,
+    IdsThemeMixin,
+    IdsTooltipMixin
+  ) {
   constructor() {
     super();
     this.state = {};
@@ -101,6 +108,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin,
     this.setIconAlignment();
     this.shouldUpdate = true;
     super.connectedCallback();
+    this.setAttribute('role', 'button');
   }
 
   /**
@@ -112,6 +120,7 @@ class IdsButton extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin,
   }
 
   /**
+   * Figure out the classes
    * @private
    * @readonly
    * @returns {Array} containing classes used to identify this button prototype

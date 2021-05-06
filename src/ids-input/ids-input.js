@@ -3,7 +3,8 @@ import {
   customElement,
   mix,
   scss,
-  props
+  props,
+  stringUtils
 } from '../ids-base/ids-element';
 
 import styles from './ids-input.scss';
@@ -14,7 +15,6 @@ import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Mixins
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
@@ -22,9 +22,7 @@ import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import IdsMaskMixin from '../ids-mask/ids-mask-mixin';
 import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-
-// Input id
-const ID = 'ids-input-id';
+import { IdsTooltipMixin } from '../ids-base/ids-tooltip-mixin';
 
 // Properties observed by the Input
 const INPUT_PROPS = [
@@ -85,7 +83,8 @@ const appliedMixins = [
   IdsDirtyTrackerMixin,
   IdsMaskMixin,
   IdsThemeMixin,
-  IdsValidationMixin
+  IdsValidationMixin,
+  IdsTooltipMixin
 ];
 
 /**
@@ -99,6 +98,7 @@ const appliedMixins = [
  * @mixes IdsMaskMixin
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsTooltipMixin
  * @part input - the input element
  * @part label - the label element
  */
@@ -138,9 +138,12 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {string} The template
    */
   template() {
+    if (!this.state || !this.state?.id) {
+      this.state = { id: 'ids-input-id' };
+    }
+
     // Input
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
-    // const value = this.value !== null ? ` value="${this.value}"` : '';
     const type = ` type="${this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.size} ${this.textAlign}`;
     inputClass += stringUtils.stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
@@ -150,15 +153,13 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     let inputState = stringUtils.stringToBool(this.readonly) ? ' readonly' : '';
     inputState = stringUtils.stringToBool(this.disabled) ? ' disabled' : inputState;
 
-    /* ${value} */
-
     return `
       <div class="ids-input${inputState}">
-        <label for="${ID}" class="label-text">
+        <label for="${this.state.id}" class="label-text">
           <ids-text part="label" label="true">${this.label}</ids-text>
         </label>
         <div class="field-container">
-          <input part="input" id="${ID}"${type}${inputClass}${placeholder}${inputState} />
+          <input part="input" id="${this.state.id}"${type}${inputClass}${placeholder}${inputState} />
         </div>
       </div>
     `;
@@ -169,7 +170,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {HTMLInputElement} the inner `input` element
    */
   get input() {
-    return this.shadowRoot?.querySelector(`#${ID}`);
+    return this.shadowRoot?.querySelector(`#${this.state.id}`);
   }
 
   /**
@@ -177,7 +178,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {HTMLLabelElement} the inner `label` element
    */
   get labelEl() {
-    return this.shadowRoot?.querySelector(`[for="${ID}"]`);
+    return this.shadowRoot?.querySelector(`[for="${this.state.id}"]`);
   }
 
   /**
@@ -218,7 +219,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   setLabelText(value) {
-    const labelText = this.shadowRoot.querySelector(`[for="${ID}"] ids-text`);
+    const labelText = this.shadowRoot.querySelector(`[for="${this.state.id}"] ids-text`);
     if (labelText) {
       labelText.innerHTML = value || '';
     }
