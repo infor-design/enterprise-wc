@@ -1,7 +1,7 @@
 import percySnapshot from '@percy/puppeteer';
 
 describe('Ids Tooltip Percy Tests', () => {
-  const url = 'http://localhost:4300/ids-tooltip/standalone-css';
+  const url = 'http://localhost:4444/ids-tooltip/standalone-css';
   const showTooltip = async () => {
     await page.$eval('#tooltip-example', (e) => e.setAttribute('visible', 'true'));
     await page.waitForSelector('#tooltip-example[visible]');
