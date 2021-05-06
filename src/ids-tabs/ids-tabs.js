@@ -40,7 +40,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * for current index selected with arrow left/right
    * mapping
    */
-  childrenIndexMap = new Map();
+  tabElIndexMap = new Map();
 
   /**
    * needed to keep track of event listeners
@@ -68,8 +68,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     return (
       `<ul
         ${buildClassAttrib('ids-tabs', this.orientation)}
-        role="tablist"
-        tabindex="0"
       >
         <slot></slot>
       </ul>`
@@ -77,14 +75,14 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   }
 
   getFocusedTabIndex() {
+    console.log('getFocusedTabIndex ->', document.activeElement);
     if (!(document.activeElement instanceof IdsTab)) {
       return -1;
     }
 
-    const shadowElement = document.activeElement.shadowRoot.activeElement;
-
-    if (this.childrenIndexMap.has(shadowElement)) {
-      return this.childrenIndexMap.get(shadowElement);
+    if (this.tabElIndexMap.has(document.activeElement)) {
+      console.log('it existed?');
+      return this.tabElIndexMap.get(document.activeElement);
     }
 
     return -1;
@@ -92,9 +90,11 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
   // TODO: run child-attrib setters in another re-usable fn
   connectedCallback() {
+    this.setAttribute('role', 'tabs');
+
+    this.tabElIndexMap.clear();
     for (let i = 0; i < this.children.length; i++) {
-      const tabElem = this.children[i].shadowRoot.querySelector('.ids-tab');
-      this.childrenIndexMap.set(tabElem, i);
+      this.tabElIndexMap.set(this.children[i], i);
     }
 
     // TODO: (1) only ArrowLeft/Right on horizontal orientation
@@ -104,7 +104,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       const focusedTabIndex = this.getFocusedTabIndex();
 
       if (focusedTabIndex > 0) {
-        this.children[focusedTabIndex - 1].container.focus();
+        this.children[focusedTabIndex - 1].focus();
       }
     });
 
@@ -112,17 +112,17 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       const focusedTabIndex = this.getFocusedTabIndex();
 
       if (focusedTabIndex + 1 < this.children.length) {
-        this.children[focusedTabIndex + 1].container.focus();
+        this.children[focusedTabIndex + 1].focus();
       }
     });
 
-    this.listen('Tab', this.container, (e) => {
+    this.listen('Tab', this, (e) => {
       e.preventDefault?.();
       if (e.shiftKey) {
         const focusedTabIndex = this.getFocusedTabIndex();
 
         if (focusedTabIndex > 0) {
-          this.children[focusedTabIndex - 1].container.focus();
+          this.children[focusedTabIndex - 1].focus();
         }
         return;
       }
@@ -130,16 +130,16 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       const focusedTabIndex = this.getFocusedTabIndex();
 
       if (focusedTabIndex + 1 < this.children.length) {
-        this.children[focusedTabIndex + 1].container.focus();
+        this.children[focusedTabIndex + 1].focus();
       }
     });
 
     this.listen('Home', this.container, () => {
-      this.children[0].container.focus();
+      this.children[0].focus();
     });
 
     this.listen('End', this.container, () => {
-      this.children[this.children.length - 1].container.focus();
+      this.children[this.children.length - 1].focus();
     });
 
     this.listen('Enter', this.container, () => {
@@ -176,7 +176,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     });
 
     this.shouldUpdateCallbacks = false;
-  };
+  }
 
   /**
    * Set the orientation of how tabs will be laid out

@@ -1,2 +1,2 @@
-export { default as IdsEventsMixin } from './ids-events-mixin';
-export { default as IdsKeyboardMixin } from './ids-keyboard-mixin';
+import IdsEventsMixin from './ids-events-mixin';
+import IdsKeyboardMixin from './ids-keyboard-mixin';

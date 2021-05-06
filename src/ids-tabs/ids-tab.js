@@ -44,9 +44,6 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     return (
       `<a
         class="ids-tab${this.selected ? ' selected ' : ''}"
-        role="tab"
-        aria-selected="${Boolean(this.selected)}"
-        tabindex="${this.selected ? '0' : '-1'}"
       >
         <ids-text
           overflow="ellipsis"
@@ -79,6 +76,12 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     this.setTextContentForBoldFix();
   }
 
+  connectedCallback() {
+    this.setAttribute('role', 'tab');
+    this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
+    this.setAttribute('tab-index', stringToBool(this.selected) ? '0' : '-1');
+  }
+
   /**
    * @param {string} value value which becomes selected by tabs component
    */
@@ -97,8 +100,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
     }
 
-    this.container.setAttribute?.('tabindex', isValueTruthy ? '0' : '-1');
-    this.container.setAttribute?.('aria-selected', isValueTruthy);
+    this.setAttribute?.('tabindex', '0');
   }
 
   get selected() {
