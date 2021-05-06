@@ -44,6 +44,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     return (
       `<a
         class="ids-tab${this.selected ? ' selected ' : ''}"
+        tabindex="0"
       >
         <ids-text
           overflow="ellipsis"
@@ -79,7 +80,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   connectedCallback() {
     this.setAttribute('role', 'tab');
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
-    this.setAttribute('tab-index', stringToBool(this.selected) ? '0' : '-1');
+    this.setAttribute('tabindex', stringToBool(this.selected) ? '0' : '-1');
   }
 
   /**
@@ -92,15 +93,17 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       this.container.classList.remove(props.SELECTED);
       this.removeAttribute('selected');
       this.container?.children?.[0]?.removeAttribute?.('font-weight');
+      this.setAttribute('tabindex', '-1');
     }
 
     if (isValueTruthy) {
       this.container.classList.add(props.SELECTED);
       this.setAttribute('selected', true);
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
+      this.setAttribute('tabindex', '0');
     }
 
-    this.setAttribute?.('tabindex', '0');
+    this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
   }
 
   get selected() {

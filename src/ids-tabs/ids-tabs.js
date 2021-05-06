@@ -66,22 +66,18 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   template() {
     return (
-      `<ul
-        ${buildClassAttrib('ids-tabs', this.orientation)}
-      >
+      `<ul${buildClassAttrib('ids-tabs', this.orientation)}>
         <slot></slot>
       </ul>`
     );
   }
 
   getFocusedTabIndex() {
-    console.log('getFocusedTabIndex ->', document.activeElement);
     if (!(document.activeElement instanceof IdsTab)) {
       return -1;
     }
 
     if (this.tabElIndexMap.has(document.activeElement)) {
-      console.log('it existed?');
       return this.tabElIndexMap.get(document.activeElement);
     }
 
@@ -90,7 +86,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
   // TODO: run child-attrib setters in another re-usable fn
   connectedCallback() {
-    this.setAttribute('role', 'tabs');
+    this.setAttribute('role', 'tablist');
 
     this.tabElIndexMap.clear();
     for (let i = 0; i < this.children.length; i++) {
