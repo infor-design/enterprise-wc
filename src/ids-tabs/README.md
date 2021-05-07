@@ -8,8 +8,7 @@ focused on.
 
 ## Use Cases
 
-- When you need to add a series of navigatable headers and vertical
-space is a priority.
+- When you need to add a series of navigable headers and vertical space is a priority.
 
 ## Features (With Code Examples)
 
