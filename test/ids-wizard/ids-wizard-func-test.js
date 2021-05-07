@@ -118,6 +118,7 @@ describe('IdsWizard Tests', () => {
   it('refreshes ShadowDOM properly after changing the step markup', async () => {
     elem.remove(elem.children[1]);
 
+    await wait(100);
     let labels = getLabels(elem);
     await wait(100).then(() => {
       expect(labels.lightDOMLabels.join('_'))
@@ -158,6 +159,7 @@ describe('IdsWizard Tests', () => {
     const marker = elem.shadowRoot.querySelector(
     `.step[step-number="${stepNumber}"] .step-marker`
     );
+
     marker.click();
     await wait(100);
     expect(elem.stepNumber).toEqual(2);
