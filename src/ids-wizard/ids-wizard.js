@@ -300,7 +300,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
           part="step"
           step-number="${i + 1}"
           tabindex="${isClickable ? '0' : '-1'}"'
-          role="list-item"
+          role="listitem"
           ${anchorAttribsHtml}
         >
           <div class="step-marker">
