@@ -102,7 +102,7 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.container.style.removeProperty('text-decoration');
   }
 
-  get textDecoration() { return this.getAttribute(props.TEXT_DECORATION) || 'underline'; }
+  get textDecoration() { return this.getAttribute(props.TEXT_DECORATION); }
 
   /**
    * Set the text to disabled color.

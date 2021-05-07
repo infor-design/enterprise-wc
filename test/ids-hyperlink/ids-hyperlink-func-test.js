@@ -70,10 +70,10 @@ describe('IdsHyperlink Component', () => {
   it('renders target setting then removes it', () => {
     elem = new IdsHyperlink();
     document.body.appendChild(elem);
-    expect(elem.textDecoration).toEqual('underline');
+    expect(elem.textDecoration).toEqual(null);
     elem.textDecoration = 'none';
     elem.textDecoration = null;
-    expect(elem.textDecoration).toEqual('underline');
+    expect(elem.textDecoration).toEqual(null);
     expect(elem.getAttribute('text-decoration')).toEqual(null);
   });
 
