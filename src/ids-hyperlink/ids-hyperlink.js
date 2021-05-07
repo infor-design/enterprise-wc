@@ -99,7 +99,7 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       return;
     }
     this.removeAttribute(props.TEXT_DECORATION);
-    delete this.container.style.textDecoration;
+    this.container.style.removeProperty('text-decoration');
   }
 
   get textDecoration() { return this.getAttribute(props.TEXT_DECORATION) || 'underline'; }
