@@ -118,6 +118,7 @@ describe('IdsWizard Tests', () => {
   it('refreshes ShadowDOM properly after changing the step markup', async () => {
     elem.remove(elem.children[1]);
 
+    await wait(100);
     let labels = getLabels(elem);
 
     expect(labels.lightDOMLabels.join('_'))
@@ -131,7 +132,7 @@ describe('IdsWizard Tests', () => {
     // MutationObserver must listen/register,
     // so change occurs on next tick
 
-    await wait(0).then(() => {
+    await wait(100).then(() => {
       labels = getLabels(elem);
       expect(labels.lightDOMLabels.join('_'))
         .toEqual(labels.shadowDOMLabels.join('_'));
@@ -158,8 +159,9 @@ describe('IdsWizard Tests', () => {
     const marker = elem.shadowRoot.querySelector(
       `.step[step-number="${stepNumber}"] .step-marker`
     );
+
     marker.click();
 
-    expect(elem.stepNumber).toEqual(2);
+    wait(100).then(() => expect(elem.stepNumber).toEqual(2));
   });
 });
