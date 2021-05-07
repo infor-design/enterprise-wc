@@ -3,6 +3,7 @@ import {
   customElement,
   scss,
   props,
+  stringUtils,
   mix
 } from '../ids-base/ids-element';
 
@@ -10,7 +11,6 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 import IdsIcon from '../ids-icon/ids-icon';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 import styles from './ids-alert.scss';
 

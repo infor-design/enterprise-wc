@@ -57,12 +57,14 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set scrollable(value) {
     if (stringUtils.stringToBool(value)) {
-      this.setAttribute('scrollable', value.toString());
+      this.setAttribute('scrollable', 'true');
+      this.container.setAttribute('scrollable', 'true');
       this.container.setAttribute('tabindex', '0');
       return;
     }
 
     this.setAttribute('scrollable', 'false');
+    this.container.setAttribute('scrollable', 'false');
     this.container.removeAttribute('tabindex');
   }
 

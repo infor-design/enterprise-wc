@@ -248,6 +248,11 @@
     @include bg-slate-40();
     @include border-slate-40();
   }
+
+  &:hover {
+    @include border-slate-40();
+    @include bg-slate-40();
+  }
 }
 
 // Handle contrast Theme

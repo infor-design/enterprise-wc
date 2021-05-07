@@ -90,6 +90,7 @@ describe('IdsPopup Component', () => {
   it('can align based on coordinates', () => {
     const c = popup.container;
     const originalGetBoundingClientRect = c.getBoundingClientRect;
+    popup.visible = true;
 
     // Basic coord alignment (center/center against the point, for modals)
     c.getBoundingClientRect = jest.fn(() => ({

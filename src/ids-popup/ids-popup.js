@@ -3,7 +3,8 @@ import {
   customElement,
   props,
   scss,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
 
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
@@ -11,7 +12,6 @@ import IdsDOMUtils from '../ids-base/ids-dom-utils';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import styles from './ids-popup.scss';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
@@ -414,7 +414,9 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Specifies whether to show the Popup Arrow, and in which direction
+   * Specifies whether to show the Popup Arrow, and in which direction.
+   * The direction is in relation to the alignment setting. So for example of you align: top
+   * you want arrow: top as well.
    * @param {string|null} val the arrow direction.  Defaults to `none`
    */
   set arrow(val) {
@@ -619,8 +621,9 @@ class IdsPopup extends mix(IdsElement).with(
         this.disconnectDetectMutations();
         delete this.hasMutations;
       }
-
-      this.placeAtCoords();
+      if (this.visible) {
+        this.placeAtCoords();
+      }
     } else {
       // connect the alignTarget to the global MutationObserver, if applicable.
       if (this.shouldDetectMutations() && !this.hasMutations) {

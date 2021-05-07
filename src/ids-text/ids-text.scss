@@ -9,6 +9,8 @@
   @include block();
   @include m-0();
 
+  text-decoration: unset;
+
   &.audible {
     @include audible();
   }

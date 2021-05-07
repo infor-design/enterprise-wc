@@ -60,6 +60,23 @@ describe('IdsHyperlink Component', () => {
     expect(elem.getAttribute('target')).toEqual(null);
   });
 
+  it('renders text-decoration setting', () => {
+    elem.textDecoration = 'none';
+    expect(elem.container.style.textDecoration).toEqual('none');
+    expect(elem.getAttribute('text-decoration')).toEqual('none');
+    expect(elem.textDecoration).toEqual('none');
+  });
+
+  it('renders target setting then removes it', () => {
+    elem = new IdsHyperlink();
+    document.body.appendChild(elem);
+    expect(elem.textDecoration).toEqual('underline');
+    elem.textDecoration = 'none';
+    elem.textDecoration = null;
+    expect(elem.textDecoration).toEqual('underline');
+    expect(elem.getAttribute('text-decoration')).toEqual(null);
+  });
+
   it('renders disabled setting then removes it', () => { // ids-text audible
     elem = new IdsHyperlink();
     document.body.appendChild(elem);
