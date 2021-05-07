@@ -31,7 +31,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: ids-enterprise-wc-011
+        key: ids-enterprise-wc-012
 
     - name: Install Dependencies
       run: npm ci
@@ -49,7 +49,8 @@ jobs:
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
 
-    - name: Report Coverage
+    - name: Coveralls
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
+        
