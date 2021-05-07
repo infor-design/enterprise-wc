@@ -29,6 +29,7 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   connectedCallback() {
+    this.setAttribute('role', 'link');
     super.connectedCallback();
   }
 
@@ -38,11 +39,11 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   static get properties() {
     return [
-      props.COLOR,
-      props.HREF,
-      props.TARGET,
       props.DISABLED,
+      props.HREF,
       props.MODE,
+      props.TARGET,
+      props.TEXT_DECORATION,
       props.VERSION
     ];
   }
@@ -88,6 +89,22 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get target() { return this.getAttribute(props.TARGET); }
 
   /**
+   * Set the link text decoration styling
+   * @param {string} value Set the link's text-decoration css property to any valid css value
+   */
+  set textDecoration(value) {
+    if (value) {
+      this.setAttribute(props.TEXT_DECORATION, value);
+      this.container.style.textDecoration = value;
+      return;
+    }
+    this.removeAttribute(props.TEXT_DECORATION);
+    delete this.container.style.textDecoration;
+  }
+
+  get textDecoration() { return this.getAttribute(props.TEXT_DECORATION) || 'underline'; }
+
+  /**
    * Set the text to disabled color.
    * @param {boolean} value True if disabled
    */
@@ -105,24 +122,6 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get disabled() { return this.getAttribute(props.DISABLED); }
-
-  /**
-   * If set to "unset", color can be controlled by parent container
-   * @param {string | null} value  "unset" or undefined/null
-   */
-  set color(value) {
-    if (value === 'unset') {
-      this.setAttribute(props.COLOR, value);
-      this.container.classList.add('ids-hyperlink-color-unset');
-    } else {
-      this.removeAttribute(props.COLOR);
-      this.container.classList.remove('ids-hyperlink-color-unset');
-    }
-  }
-
-  get color() {
-    return this.getAttribute(props.COLOR);
-  }
 }
 
 export default IdsHyperlink;
