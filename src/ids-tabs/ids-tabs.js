@@ -66,9 +66,9 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   template() {
     return (
-      `<ul${buildClassAttrib('ids-tabs', this.orientation)}>
+      `<div${buildClassAttrib('ids-tabs', this.orientation)}>
         <slot></slot>
-      </ul>`
+      </div>`
     );
   }
 
@@ -84,7 +84,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     return -1;
   }
 
-  // TODO: run child-attrib setters in another re-usable fn
   connectedCallback() {
     this.setAttribute('role', 'tablist');
 

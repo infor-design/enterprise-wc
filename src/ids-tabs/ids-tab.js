@@ -42,7 +42,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   template() {
     return (
-      `<a
+      `<li
         class="ids-tab${this.selected ? ' selected ' : ''}"
         tabindex="0"
       >
@@ -54,7 +54,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
         >
           <slot></slot>
         </ids-text>
-      </a>`
+      </li>`
     );
   }
 
