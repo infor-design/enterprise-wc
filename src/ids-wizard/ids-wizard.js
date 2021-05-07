@@ -300,7 +300,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
           part="step"
           step-number="${i + 1}"
           tabindex="${isClickable ? '0' : '-1'}"'
-          role="listitem"
           ${anchorAttribsHtml}
         >
           <div class="step-marker">
@@ -319,8 +318,8 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     return (
-      `<div class="ids-wizard" role="container">
-        <nav class="steps" role="list">
+      `<div class="ids-wizard">
+        <nav class="steps">
           ${stepsHtml}
         </nav>
       </div>`
