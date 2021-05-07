@@ -94,12 +94,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @private
    */
   rerender() {
-    const template = document.createElement('template');
-    const html = this.template();
-
-    this.shadowRoot.innerHTML = '';
-    template.innerHTML = html;
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    super.rerender();
 
     if (stringUtils.stringToBool(this.virtualScroll) && this?.data.length > 0) {
       /** @type {object} */

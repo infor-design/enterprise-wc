@@ -166,6 +166,20 @@ class IdsElement extends HTMLElement {
   }
 
   /**
+   * Re-Render the component using the defined template again.
+   * @returns {object} The object for chaining.
+   */
+  rerender() {
+    const template = document.createElement('template');
+    const html = this.template();
+
+    this.shadowRoot.innerHTML = '';
+    template.innerHTML = html;
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    return this;
+  }
+
+  /**
    * @returns {string} containing this component's HTML Template
    */
   template() {
