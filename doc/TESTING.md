@@ -38,15 +38,17 @@ If your doing a lot of testing and changing you can save a lot of time running j
 
 We could improve this...
 
-- Add a puppeteer debug stop with `await jestPuppeteer.debug();`
+- Add a puppeteer debug stop with `debugger` and use `await jestPuppeteer.debug();` to pause the browser
 ```js
   test('adds 1 + 2 to equal 3', () => {
-    await jestPuppeteer.debug();
+    debugger;
     expect(1 + 2).toBe(3);
+    await jestPuppeteer.debug();
   });
 ```
+- Also check out `await jestPuppeteer.debug();`
 - edit the jest-puppeteer.config.js and set `devtools: true` and `headless: false`
-- run `npm run test -- ids-virtual-scroll-e2e-test`
+- run `npm run test:debug -- tooltip`
 
 ## Visual Regression tests
 

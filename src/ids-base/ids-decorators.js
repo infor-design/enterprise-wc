@@ -35,3 +35,13 @@ export function scss(cssStyles) {
     target.prototype.cssStyles = cssStyles;
   };
 }
+
+/**
+ * Call appendIds in base if needed to add automation ids and ids
+ * @returns {Function} The function that did the decorating
+ */
+export function appendIds() {
+  return (/** @type {any} */ target) => {
+    target.prototype.appendIds = true;
+  };
+}

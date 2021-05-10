@@ -82,6 +82,16 @@
   - Toolbar Sections are now codified as components `<ids-toolbar-section>`
   - The More Actions Button is now a codified component `<ids-toolbar-more-actions>`
   - Toolbar can be tabbable or not
+- `[Tooltip]` The Tooltip component has been changed to a web component.
+  - Markup is now a custom element `<ids-tooltip></ids-tooltip>`
+  - There is no longer a "KeepOpen" setting, instead add a component to the page and use `visible=true`
+  - Tooltip can be used as a mixin or standalone component
+  - Tooltip is no longer shared with popups so all options related to that are removed
+  - Error Tooltips are removed/not needed at this time
+  - attachToBody option is removed/not needed at this time
+  - Content can now be set with `tooltipElem.textContent`
+  - Instead of open and close use `tooltipElem.visible=true`
+  - After show event was not needed as its the same as show so this is removed
 - `[Wizard]` The Wizard component has been changed to a web component. ([#5026](https://github.com/infor-design/enterprise/issues/5026))
   - Wizard is now a custom element `<ids-wizard></ids-wizard>`
   - Steps are now codified as custom elements `<ids-wizard-step>MY-LABEL</ids-wizard-step>`

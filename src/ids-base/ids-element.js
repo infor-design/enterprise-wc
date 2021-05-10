@@ -1,5 +1,6 @@
 import {
   customElement,
+  appendIds,
   version,
   scss
 } from './ids-decorators';
@@ -26,6 +27,58 @@ class IdsElement extends HTMLElement {
   addBaseName() {
     // Add the base class
     this.name = this.nodeName?.toLowerCase();
+  }
+
+  /**
+   * Insert the id's and data-**-id to the various parts in the component
+   * @private
+   */
+  addInternalIds() {
+    const parts = this.shadowRoot.querySelectorAll('[part]');
+    /* istanbul ignore next */
+    if (parts.length === 0) {
+      return;
+    }
+
+    if (this.id) {
+      this.appendIdtoPart(parts, 'id', this.id);
+    }
+
+    for (let i = 0; i < this.attributes.length; i++) {
+      if (this.attributes[i].name.includes('data-') && this.attributes[i].name.includes('id')) {
+        this.appendIdtoPart(
+          parts, this.attributes[i].name,
+          this.getAttribute(this.attributes[i].name)
+        );
+      }
+    }
+  }
+
+  /**
+   * Copy down the id's and data-**-id to the different parts in the component
+   * @param  {Array} parts The array of parts
+   * @param  {string} name The id name
+   * @param  {string} value The id value
+   * @private
+   */
+  appendIdtoPart(parts, name, value) {
+    for (let i = 0; i < parts.length; i++) {
+      let label;
+      const newId = `${value}-${parts[i].getAttribute('part')}`;
+
+      if (name === 'id' && parts[i].id) {
+        label = this.shadowRoot.querySelector(`[for="${parts[i].id}"]`);
+      }
+      parts[i].setAttribute(name, newId);
+      /* istanbul ignore next */
+      if (label) {
+        label.setAttribute('for', newId);
+      }
+      /* istanbul ignore next */
+      if (name === 'id' && this.state?.id) {
+        this.state.id = newId;
+      }
+    }
   }
 
   /**
@@ -102,11 +155,13 @@ class IdsElement extends HTMLElement {
     this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
     this.closest('ids-container')?.removeAttribute('hidden');
 
-    // Give implementing-component an opportunity to react to
-    // new render and replacement of container node
-
+    // Add a rendered callback
     this.rendered?.();
 
+    // Add automation Ids
+    if (this.appendIds) {
+      this.addInternalIds();
+    }
     return this;
   }
 
@@ -119,6 +174,7 @@ class IdsElement extends HTMLElement {
 
   /**
    * Append Styles if present
+   * @private
    */
   appendStyles() {
     if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
@@ -142,7 +198,9 @@ class IdsElement extends HTMLElement {
 export {
   IdsElement,
   customElement,
+  appendIds,
   mix,
   scss,
-  props
+  props,
+  stringUtils
 };
