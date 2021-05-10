@@ -8,13 +8,14 @@ import {
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { stringToBool } from '../ids-base/ids-string-utils';
 import IdsText from '../ids-text/ids-text';
-import styles from './ids-tabs.scss';
+import styles from './ids-tab.scss';
 
 /**
  * IDS Tab Component
  *
  * @type {IdsTab}
  * @inherits IdsElement
+ * @part container - the tab container itself
  */
 @customElement('ids-tab')
 @scss(styles)
@@ -33,7 +34,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.VALUE, props.SELECTED];
+    return [props.VALUE, props.SELECTED, props.ORIENTATION];
   }
 
   /**
@@ -43,8 +44,9 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   template() {
     return (
       `<div
-        class="ids-tab${this.selected ? ' selected ' : ''}"
+        class="ids-tab${this.selected ? ' selected' : ''} ${this.orientation}"
         tabindex="0"
+        part="container"
       >
         <ids-text
           overflow="ellipsis"
@@ -119,6 +121,30 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
   get value() {
     return this.getAttribute(props.VALUE);
+  }
+
+  /**
+   * Set the orientation of how tabs will be laid out
+   * @param {'horizontal' | 'vertical'} value orientation
+   */
+  set orientation(value) {
+    switch (value) {
+    case 'vertical': {
+      this.setAttribute(props.ORIENTATION, 'vertical');
+      this.container.classList.add('vertical');
+      break;
+    }
+    case 'horizontal':
+    default: {
+      this.setAttribute(props.ORIENTATION, 'horizontal');
+      this.container.classList.remove('vertical');
+      break;
+    }
+    }
+  }
+
+  get orientation() {
+    return this.getAttribute(props.ORIENTATION);
   }
 
   /**

@@ -68,3 +68,4 @@ const IdsThemeMixin = (superclass) => class extends superclass {
 };
 
 export { IdsThemeMixin };
+export default IdsThemeMixin;
