@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import IdsWizard, { IdsWizardStep } from '../../src/ids-wizard';
 // eslint-disable-next-line
 import ResizeObserver from '../__mocks__/ResizeObserver';
+import IdsWizard, { IdsWizardStep } from '../../src/ids-wizard';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -17,7 +17,7 @@ const getLabels = (elem) => ({
   shadowDOMLabels: getShadowDOMLabels(elem)
 });
 
-describe('IdsWizard Tests', () => {
+fdescribe('IdsWizard Tests', () => {
   let elem;
 
   const createElemViaTemplate = (innerHTML) => {
@@ -162,6 +162,8 @@ describe('IdsWizard Tests', () => {
 
     marker.click();
 
-    wait(100).then(() => expect(elem.stepNumber).toEqual(2));
+    await wait(200);
+
+    expect(elem.stepNumber).toEqual(2);
   });
 });

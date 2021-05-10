@@ -169,7 +169,6 @@ const hrefsAssignedSet = new Set();
 class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
-    this.updateHrefURIs();
   }
 
   /**
@@ -368,6 +367,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   connectedCallback() {
+    this.updateHrefURIs();
     /* istanbul ignore next */
     if (window.location.hash.length) {
       const uriHash = window.location.hash.substr(1);
