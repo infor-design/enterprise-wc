@@ -14,9 +14,11 @@ import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 import IdsPopup from '../ids-popup/ids-popup';
+import IdsOverlay from './ids-overlay';
 
 // @ts-ignore
 import styles from './ids-modal.scss';
+import { IdsStringUtils } from '../ids-base/ids-string-utils';
 
 const MODAL_PROPS = [
   props.TARGET,
@@ -59,22 +61,21 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
 
     this.popup.type = 'menu';
     this.popup.animated = true;
+    this.popup.animationStyle = 'scale-in';
 
     // Listen for changes to the window size
     window.addEventListener('resize', debounce(() => {
       this.refresh();
     }));
 
+    this.refreshOverlay(this.overlay);
+
     if (this.target) {
-      this.attachTargetEvents();
+      this.refreshTargetEvents();
     }
 
     // Run refresh once on connect
     this.refresh();
-  }
-
-  disconnectedCallback() {
-
   }
 
   /**
@@ -85,6 +86,23 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     return `<ids-popup part="popup" type="menu">
       <slot slot="content"></slot>
     </ids-popup>`;
+  }
+
+  /**
+   * @returns {IdsOverlay|undefined} either an external overlay element, or none
+   */
+  get overlay() {
+    return this.state.overlay || this.shadowRoot.querySelector('ids-overlay');
+  }
+
+  /**
+   * @param {IdsOverlay|undefined} val an overlay element
+   */
+  set overlay(val) {
+    if (val instanceof IdsOverlay) {
+      this.state.overlay = val;
+      this.refreshOverlay(val);
+    }
   }
 
   /**
@@ -123,8 +141,11 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean} val true if the Modal is visible.
    */
   set visible(val) {
-    this.popup.visible = val;
-    if (val) {
+    const trueVal = IdsStringUtils.stringToBool(val);
+    this.popup.visible = trueVal;
+    this.overlay.visible = trueVal;
+
+    if (trueVal) {
       this.refresh();
     }
   }
@@ -139,7 +160,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       return;
     }
 
-    this.popup.visible = true;
+    this.visible = true;
   }
 
   /**
@@ -147,7 +168,40 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   hide() {
-    this.popup.visible = false;
+    this.visible = false;
+  }
+
+  /**
+   * @returns {void}
+   */
+  appendInternalOverlay() {
+    console.info('Append overlay');
+
+    const overlay = new IdsOverlay();
+    overlay.part = 'overlay';
+
+    this.shadowRoot.prepend(overlay);
+  }
+
+  /**
+   * @returns {void}
+   */
+  removeInternalOverlay() {
+    console.info('Remove overlay');
+    const overlay = this.shadowRoot.querySelector('ids-overlay');
+    overlay.remove();
+  }
+
+  /**
+   * @param {boolean} val if true, uses an external overlay
+   * @returns {void}
+   */
+  refreshOverlay(val) {
+    if (!val) {
+      this.appendInternalOverlay();
+    } else if (this.state.overlay) {
+      this.removeInternalOverlay();
+    }
   }
 
   /**

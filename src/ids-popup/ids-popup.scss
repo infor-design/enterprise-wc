@@ -1,17 +1,14 @@
 /* Ids Popup Component */
-@import '../ids-base/ids-base';
-
-$transition-length: 200ms;
+@import './ids-popup-base';
 
 :host {
   // Take the WebComponent out of document flow
   @include absolute();
 
-  display: inline-block;
+  display: block;
 }
 
 .ids-popup {
-  @include opacity-0();
   @include fixed();
 
   display: none;
@@ -103,21 +100,45 @@ $transition-length: 200ms;
   }
 
   // Added to ".visible" to animate the opening.
-  &.open {
-    @include opacity-100();
-  }
+  // Add an "open" state to any CSS class that drives animation.
+  // &.open {}
 
   // Animates X/Y movement, fade in/out of the popup.
   &.animated {
-    transition: opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+    transition:
+      opacity $popup-transition-length $popup-transition-ease,
+      transform $popup-transition-length $popup-transition-ease;
 
     &.open {
       transition:
-        opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-        height $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-        width $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-        left $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-        top $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+        opacity $popup-transition-length $popup-transition-ease,
+        height $popup-transition-length $popup-transition-ease,
+        width $popup-transition-length $popup-transition-ease,
+        left $popup-transition-length $popup-transition-ease,
+        top $popup-transition-length $popup-transition-ease,
+        transform $popup-transition-length $popup-transition-ease;
+    }
+  }
+
+  // Animation Style: default | 'fade'
+  &.animation-fade {
+    @include opacity-0();
+
+    &.open {
+      @include opacity-100();
+    }
+  }
+
+  // Animation Style: 'scale-in'
+  &.animation-scale-in {
+    @include opacity-0();
+
+    transform: perspective(1000px) translate3d(0, 0, -500px);
+
+    &.open {
+      @include opacity-100();
+
+      transform: perspective(1000px) translate3d(0, 0, 0);
     }
   }
 

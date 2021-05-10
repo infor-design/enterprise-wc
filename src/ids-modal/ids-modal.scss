@@ -1,7 +1,7 @@
 /* Ids Modal Component */
-@import '../ids-base/ids-base';
+@import './ids-modal-base';
+@import '../ids-popup/ids-popup-base';
 
 :host {
-  display: block;
-  position: absolute;
+  @include internal-position-reset();
 }
