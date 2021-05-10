@@ -5,7 +5,7 @@ import {
   scss,
   mix
 } from '../ids-base/ids-element';
-import { IdsKeyboardMixin, IdsEventsMixin } from '../ids-base';
+import { IdsKeyboardMixin, IdsEventsMixin, IdsThemeMixin } from '../ids-base';
 import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
 
@@ -31,10 +31,15 @@ const buildClassAttrib = (...classes) => {
  * IDS Tabs Component
  * @type {IdsTabs}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @mixes IdsKeyboardMixin
+ *
+ * @part container - the container of all tabs
  */
 @customElement('ids-tabs')
 @scss(styles)
-class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
   /**
    * lets us quickly reference the active element
    * for current index selected with arrow left/right
@@ -50,6 +55,8 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
   constructor() {
     super();
+
+    this.rendered = this.rendered.bind(this);
   }
 
   /**
@@ -66,7 +73,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   template() {
     return (
-      `<div${buildClassAttrib('ids-tabs', this.orientation)}>
+      `<div${buildClassAttrib('ids-tabs', this.orientation)} part="container">
         <slot></slot>
       </div>`
     );
@@ -92,24 +99,43 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       this.tabElIndexMap.set(this.children[i], i);
     }
 
-    // TODO: (1) only ArrowLeft/Right on horizontal orientation
-    // TODO: (2) ArrowUp/Down for vertical orientation
+    // TODO: add this to attributeChangedCallback
+    // for more granularity and to unlisten
+    // when necessary
 
-    this.listen('ArrowLeft', this.container, () => {
-      const focusedTabIndex = this.getFocusedTabIndex();
+    if (this.orientation !== 'vertical') {
+      this.listen('ArrowLeft', this.container, () => {
+        const focusedTabIndex = this.getFocusedTabIndex();
 
-      if (focusedTabIndex > 0) {
-        this.children[focusedTabIndex - 1].focus();
-      }
-    });
+        if (focusedTabIndex > 0) {
+          this.children[focusedTabIndex - 1].focus();
+        }
+      });
 
-    this.listen('ArrowRight', this.container, () => {
-      const focusedTabIndex = this.getFocusedTabIndex();
+      this.listen('ArrowRight', this.container, () => {
+        const focusedTabIndex = this.getFocusedTabIndex();
 
-      if (focusedTabIndex + 1 < this.children.length) {
-        this.children[focusedTabIndex + 1].focus();
-      }
-    });
+        if (focusedTabIndex + 1 < this.children.length) {
+          this.children[focusedTabIndex + 1].focus();
+        }
+      });
+    } else {
+      this.listen('ArrowUp', this.container, () => {
+        const focusedTabIndex = this.getFocusedTabIndex();
+
+        if (focusedTabIndex > 0) {
+          this.children[focusedTabIndex - 1].focus();
+        }
+      });
+
+      this.listen('ArrowDown', this.container, () => {
+        const focusedTabIndex = this.getFocusedTabIndex();
+
+        if (focusedTabIndex + 1 < this.children.length) {
+          this.children[focusedTabIndex + 1].focus();
+        }
+      });
+    }
 
     this.listen('Tab', this, (e) => {
       e.preventDefault?.();
@@ -151,24 +177,22 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * old handlers when template refreshes
    */
   rendered() {
-    /* istanbul ignore next */
-    if (!this.shouldUpdateCallbacks) {
-      return;
+    for (const tabValue of this.tabValueSet) {
+      this.offEvent(`click.${tabValue}`);
+      this.tabValueSet.delete(tabValue);
     }
 
-    // stop observing changes before updating DOM
-    this.stepObserver.disconnect();
-    this.resizeObserver.disconnect();
-
-    // set up observer for resize which prevents overlapping labels
-    this.resizeObserver.observe(this.container);
-
-    // set up observer for monitoring if a child element changed
-    this.stepObserver.observe(this, {
-      childList: true,
-      attributes: true,
-      subtree: true
-    });
+    // scan through children and add click handlers
+    for (let i = 0; i < this.children.length; i++) {
+      const tabValue = this.getTabIndexValue(i);
+      const eventNs = `click.${tabValue}`;
+      this.tabValueSet.add(eventNs);
+      this.onEvent(
+        eventNs,
+        this.children[i],
+        () => { this.value = tabValue; }
+      );
+    }
 
     this.shouldUpdateCallbacks = false;
   }
@@ -181,11 +205,21 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     switch (value) {
     case 'vertical': {
       this.setAttribute(props.ORIENTATION, 'vertical');
+      this.container.classList.add('vertical');
+
+      for (let i = 0; i < this.children.length; i++) {
+        this.children[i].setAttribute('orientation', 'vertical');
+      }
       break;
     }
     case 'horizontal':
     default: {
       this.setAttribute(props.ORIENTATION, 'horizontal');
+      this.container.classList.remove('vertical');
+
+      for (let i = 0; i < this.children.length; i++) {
+        this.children[i].setAttribute('orientation', 'horizontal');
+      }
       break;
     }
     }
@@ -225,27 +259,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   getTabIndexValue(index) {
     return this.children?.[index]?.getAttribute(props.VALUE) || index;
   }
-
-  rendered = () => {
-    // clear each existing click handler
-
-    for (const tabValue of this.tabValueSet) {
-      this.offEvent(`click.${tabValue}`);
-      this.tabValueSet.delete(tabValue);
-    }
-
-    // scan through children and add click handlers
-    for (let i = 0; i < this.children.length; i++) {
-      const tabValue = this.getTabIndexValue(i);
-      const eventNs = `click.${tabValue}`;
-      this.tabValueSet.add(eventNs);
-      this.onEvent(
-        eventNs,
-        this.children[i],
-        () => { this.value = tabValue; }
-      );
-    }
-  };
 }
 
 export default IdsTabs;

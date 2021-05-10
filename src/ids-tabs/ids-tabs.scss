@@ -1,13 +1,21 @@
 @import '../ids-base/ids-base';
 
 :host(ids-tabs) {
+  --tab-width: 100%;
+
   contain: content;
 }
 
 .ids-tabs {
-  @include border-b-1;
-  @include border-graphite-50;
-  @include pt-8;
+  &.vertical {
+    flex-direction: column;
+  }
+
+  &:not(.vertical) {
+    @include border-b-1;
+    @include pt-8;
+    @include border-graphite-50;
+  }
 
   position: relative;
   display: flex;
@@ -15,101 +23,4 @@
   padding-inline-start: 0;
   margin-block-start: 0;
   margin-inline-start: 0;
-}
-
-:host(ids-tab:first-child) {
-  @include ml-4;
-}
-
-:host(ids-tab:last-child) {
-  @include mr-4;
-}
-
-.ids-tab {
-  @include px-16;
-  @include pt-12;
-  @include pb-8;
-  @include border-1();
-  @include border-solid();
-  @include rounded-default();
-
-  position: relative;
-  display: inline-block;
-  list-style: none outside none;
-  border-color: transparent;
-  border-bottom-width: 0;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-
-  &:focus-visible {
-    @include shadow();
-    @include border-azure-60();
-    @include border-solid();
-
-    outline: none;
-  }
-
-  /*
-   * undo button styles set
-   * in user-agent sheet on app
-   */
-  background: none;
-  letter-spacing: unset;
-  word-spacing: unset;
-  text-transform: none;
-  font: unset;
-  text-align: unset;
-  text-shadow: unset;
-
-  /* a little bit hacky, but needed to allow the
-   * text to be bolded without shuddering the widths;
-   * text-content is set in ids-tab => rendered()
-   *  */
-
-  & ids-text::part(text) {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  & ids-text::part(text)::after {
-    @include font-bold();
-
-    content: var(--text-content);
-    content: var(--text-content) / '';
-    visibility: hidden;
-    height: 0;
-    user-select: none;
-    pointer-events: none;
-
-    @media speech {
-      display: none;
-    }
-  }
-}
-
-.ids-tab:not(.selected) {
-  @include text-graphite-50;
-
-  cursor: pointer;
-}
-
-.ids-tab.selected {
-  @include text-azure-60;
-
-  cursor: default;
-
-  &::after {
-    @include bg-azure-60();
-
-    position: absolute;
-    bottom: 0;
-    height: 3px;
-    left: -1px;
-    width: calc(100% + 2px);
-    z-index: 1;
-    pointer-events: none;
-    content: '';
-  }
 }

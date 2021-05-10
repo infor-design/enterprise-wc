@@ -1,0 +1,117 @@
+@import '../ids-base/ids-base';
+
+:host(ids-tab[orientation='horizontal']:first-child) {
+  @include ml-4;
+}
+
+:host(ids-tab[orientation='horizontal']:last-child) {
+  @include mr-4;
+}
+
+.ids-tab {
+  @include border-1();
+  @include border-solid();
+
+  box-sizing: border-box;
+  position: relative;
+  display: inline-block;
+  list-style: none outside none;
+  border-color: transparent;
+
+  &:focus-visible {
+    @include shadow();
+    @include border-azure-60();
+    @include border-solid();
+
+    outline: none;
+  }
+
+  &.selected.vertical::before {
+    position: absolute;
+    top: 1px;
+    left: 1px;
+    width: calc(100% - 4px);
+    height: calc(100% - 4px);
+    border: 1px solid #fff;
+    content: '';
+    pointer-events: none;
+  }
+
+  /* a little bit hacky, but needed to allow the
+   * text to be bolded without shuddering the widths;
+   * text-content is set in ids-tab => rendered()
+   *  */
+
+  ids-text::part(text) {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  & ids-text::part(text)::after {
+    @include font-bold();
+
+    content: var(--text-content);
+    content: var(--text-content) / '';
+    visibility: hidden;
+    height: 0;
+    user-select: none;
+    pointer-events: none;
+
+    @media speech {
+      display: none;
+    }
+  }
+
+  &:not(.vertical) {
+    @include rounded-default();
+    @include px-16();
+    @include pt-12();
+    @include pb-8();
+
+    border-bottom-width: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+
+  &.vertical {
+    @include pl-24();
+
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 42px;
+
+    &.selected {
+      @include border-none();
+      @include bg-azure-60();
+      @include text-white();
+    }
+  }
+}
+
+.ids-tab:not(.selected) {
+  @include text-graphite-50;
+
+  cursor: pointer;
+}
+
+.ids-tab.selected {
+  @include text-azure-60;
+
+  cursor: default;
+
+  &:not(.vertical)::after {
+    @include bg-azure-60();
+
+    position: absolute;
+    bottom: 0;
+    height: 3px;
+    left: -1px;
+    width: calc(100% + 2px);
+    z-index: 1;
+    pointer-events: none;
+    content: '';
+  }
+}

@@ -72,6 +72,7 @@ export const props = {
   NO_MARGINS: 'no-margins',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
   OVERFLOW: 'overflow',
+  ORIENTATION: 'orientation',
   PLACEHOLDER: 'placeholder',
   PLACEMENT: 'placement',
   PARAM_NAME: 'param-name',
