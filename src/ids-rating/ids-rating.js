@@ -36,8 +36,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       }
     }
 
-    ratingContainer = this.shadowRoot.querySelector('#rating');
-    ratingArr = [...this.ratingContainer.children];
+    ratingArr = [...this.container.children];
 
     /**
      * Create the Template for the contents
@@ -95,7 +94,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     set stars(num) {
       if(num) {
-        console.log(num)
+        // console.log(num)
         //this.rerender();
         this.setAttribute('stars', num.toString());
       }
@@ -107,7 +106,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     set readonly(ro) {
       if(ro && this.getAttribute('readonly') === 'true'){
-        this.offEvent('click', this.ratingContainer);
+        this.offEvent('click', this.container);
         this.updateHalfStar(this.ratingArr);
         this.setAttribute('readonly', ro.toString());
       }
@@ -154,7 +153,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     }
 
     toggleStars() {
-      this.onEvent('click', this.ratingContainer, (/** @type {{ target: any; }} */ e) => this.updateStars(e));
+      this.onEvent('click', this.container, (/** @type {{ target: any; }} */ e) => this.updateStars(e));
     }
 
     // rerender() {
@@ -183,9 +182,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     // }
 
     updateStars(event) {
-      console.log(event)
-      const sample = this.shadowRoot.getElementById('rating')
-      console.log(sample)
       const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
       let attrName = 'star-filled';
       let action = 'add';
@@ -214,7 +210,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       const value = this.getAttribute('value');
       const roundValue = Math.round(value)
       for(let i = 0; i < roundValue; i++) {
-        console.log(i)
         arr[i].classList.add('active');
         arr[i].setAttribute('icon', 'star-filled')
       }
