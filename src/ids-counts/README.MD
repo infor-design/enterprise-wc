@@ -18,14 +18,14 @@ Counts are distinctive elements used to highlight high level numbers or metrics.
 
 ## Features (With Code Examples)
 
-A card is created using the custom `ids-counts` element. It has two slots -- "value" for the number, and "text" for the value description.
+A card is created using the custom `ids-counts` element. A user can place elements inside of the component to represent text. It is recommended to use ids-text components as ids-counts has functionality to manage that input specifically.
 
 A normal Counts component
 
 ```html
 <ids-counts href="#">
-  <span slot="value">7</span>
-  <span slot="text">Active <br /> Opportunities</span>
+  <ids-text count-value>7</ids-text>
+  <ids-text count-text>Active <br /> Opportunities</ids-text>
 </ids-counts>
 ```
 
@@ -33,8 +33,8 @@ The same component could be made "Not Actionable" by removing the href attribute
 
 ```html
 <ids-counts>
-  <span slot="value">7</span>
-  <span slot="text">Active <br /> Opportunities</span>
+  <ids-text count-value>7</ids-text>
+  <ids-text count-text>Active <br /> Opportunities</ids-text>
 </ids-counts>
 ```
 
@@ -42,17 +42,17 @@ Setting the optional "Compact" attribute to "true" decreases the font size of th
 
 ```html
 <ids-counts compact="true" href="#">
-  <div slot="value">7</div>
-  <div slot="text">Active <br /> Opportunities</div>
+  <ids-text count-value>7</ids-text>
+  <ids-text count-text>Active <br /> Opportunities</ids-text>
 </ids-counts>
 ```
 
 The counts component also supports an optional "Color" attribute. The options for color are base (blue), caution, danger, success, warning, or a hex code with the "#"
 
 ```html
-<ids-counts color="base" href="#">
-  <div slot="value">7</div>
-  <div slot="text">Active <br /> Opportunities</div>
+<ids-counts href="#" color="base">
+  <ids-text count-value>7</ids-text>
+  <ids-text count-text>Active <br /> Opportunities</ids-text>
 </ids-counts>
 ```
 
@@ -72,7 +72,7 @@ Counts using just the css. Use the anchor tag for normal counts and span for non
 ## Settings and Attributes
 
 - `color` {string} Sets the color to an internal color such as `azure`. Can also a hexidecimal color code beginning with `#`.
-- `compact` {string} Use "true" to set the value font-size to 32. Omitting this attribute or using any will result in the default value of 40.
+- `compact` {string} Use "true" to set the value font-size to 40. Omitting this attribute or using any will result in the default value of 48.
 - `href` {string} The url that the count component links to.
 
 ## States and Variations (With Code Examples)

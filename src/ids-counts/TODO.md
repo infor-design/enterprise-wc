@@ -2,5 +2,5 @@
 
 ## Features
 
-- [] Focus State for links
+- [x] Focus State for links
 - [] Test accessibility with screen reader

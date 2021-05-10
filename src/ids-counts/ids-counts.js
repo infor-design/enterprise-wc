@@ -3,7 +3,8 @@ import {
   customElement,
   scss,
   props,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
 
 // Import Theme Mixin
@@ -16,13 +17,6 @@ import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
 // @ts-ignore
 import styles from './ids-counts.scss';
-
-// Boilerplate text for ShadowDOM tags
-const textTags = {
-  text: '<ids-text color="unset"><slot name="text"></slot></ids-text>',
-  value1: '<ids-text color="unset" font-size=',
-  value2: '><slot name="value"></slot></ids-text>'
-};
 
 /**
  * IDS Counts Component
@@ -39,6 +33,16 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback();
+    this.#textProperties();
+  }
+
+  #textProperties() {
+    this.querySelectorAll('[count-value]').forEach(value => value.fontSize = this.compact ? 40 : 48);
+    this.querySelectorAll('[count-text]').forEach(text => text.fontSize = 16);
+  }
+
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
@@ -52,13 +56,10 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    const numSize = () => String(this.getAttribute('compact') === 'true' ? 32 : 40);
-    const href = this.getAttribute('href');
-
     return `
-      ${href ? `<ids-hyperlink part="link" class="ids-counts message-text" href=${href || '#'} mode=${this.mode}>` : `<a class="ids-counts" mode=${this.mode}>`}
-      ${textTags.value1}${numSize()}${textTags.value2}${textTags.text}
-      ${href ? `</ids-hyperlink>` : `</a>`}
+      ${this.href ? `<ids-hyperlink part="link" text-decoration="none" class="ids-counts message-text" href=${this.href || '#'} mode=${this.mode}>` : `<a class="ids-counts" mode=${this.mode}>`}
+      <slot></slot>
+      ${this.href ? `</ids-hyperlink>` : `</a>`}
     `;
   }
 
@@ -71,13 +72,19 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const colors = new Set(['base', 'caution', 'danger', 'success', 'warning']);
     if(this.href) this.container.setAttribute('color', 'unset');
     if (value[0] === '#') {
-      this.container.querySelector('ids-text').shadowRoot.querySelector('span').style.color = value;
+      this.querySelectorAll('ids-text').forEach(node => {
+        node.color = 'unset';
+        node.shadowRoot.querySelector('span').style.color = value;
+      });
       this.setAttribute(props.COLOR, value);
       return;
     }
     const color = colors.has(value) ? `var(--ids-color-status-${value})` : '';
     this.container.style.color = color;
-    this.container.querySelector('ids-text').shadowRoot.querySelector('span').style.color = value;
+    this.querySelectorAll('ids-text').forEach(node => {
+      node.color = 'unset';
+      node.shadowRoot.querySelector('span').style.color = value;
+    });
     this.setAttribute(props.COLOR, value);
   }
 
@@ -85,14 +92,14 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   /**
    * Set the compact attribute
-   * @param {string} value true or false. Component will
+   * @param {string | boolean} value true or false. Component will
    * default to regular size if this property is ommitted.
    */
   set compact(value) {
     this.setAttribute(props.COMPACT, value === 'true' ? 'true' : 'false');
   }
 
-  get compact() { return this.getAttribute(props.COMPACT); }
+  get compact() { return stringUtils.stringToBool(this.getAttribute(props.COMPACT)); }
 
   /**
    * Set the href attribute

@@ -11,7 +11,7 @@ export default class IdsCounts extends IdsElement {
   properties: string[];
 
   /** Sets the value size at 32 when true (instead of 40) */
-  compact?: 'true' | 'false';
+  compact?: 'true' | 'false' | boolean;
 
   /** Sets the href/link */
   href?: string;

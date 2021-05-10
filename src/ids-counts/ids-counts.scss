@@ -9,7 +9,6 @@
   text-align: center;
 
   &::part(link) {
-    text-decoration: none;
     width: 100%;
   }
 
@@ -20,11 +19,20 @@
   &[color] {
     color: unset;
   }
+}
 
-  // &:focus {
-  //   border: 1px solid var(--ids-color-palette-azure-70);
-  //   border-style: solid;
-  // }
+.ids-counts div[count-value] {
+  @include text-16();
+}
+
+.ids-counts div[count-text] {
+  @include text-48();
+}
+
+a:focus {
+  border: 1px solid var(--ids-color-palette-azure-60);
+  box-shadow: 0 0 4px 3px rgb(54, 138, 192, 0.3);
+  outline: none;
 }
 
 // Handle Themes

@@ -34,6 +34,10 @@
   }
 }
 
+.ids-hyperlink-color-unset {
+  color: unset !important;
+}
+
 // Handle Themes
 .ids-hyperlink[mode='dark'] {
   @include text-azure-40();
