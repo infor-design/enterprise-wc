@@ -96,8 +96,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     set stars(num) {
       if(num) {
         console.log(num)
-        this.render();
-        this.toggleStars();
+        //this.rerender();
         this.setAttribute('stars', num.toString());
       }
     }
@@ -158,7 +157,35 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       this.onEvent('click', this.ratingContainer, (/** @type {{ target: any; }} */ e) => this.updateStars(e));
     }
 
+    // rerender() {
+    //   const template = this.shadowRoot;
+    //   template.innerHTML = this.template();
+    //   this.toggleStars();
+    //   //this.shadowRoot.innerHTML = '';
+
+    //   let starValue = this.getAttribute('value')
+
+    //   console.log(starValue)
+
+    //   let valueArray = this.ratingArr
+    //   let starArray = valueArray.slice(0, parseInt(starValue))
+    //   starArray.forEach((element) => {
+    //     element.setAttribute('icon', 'star-filled')
+    //     element.classList.add('active');
+    //     console.log(element)
+    //   });
+
+    //   const sample = this.shadowRoot.getElementById('rating')
+    //   sample.addEventListener('click', (e) => {
+    //     this.updateStars(e)
+    //   })
+
+    // }
+
     updateStars(event) {
+      console.log(event)
+      const sample = this.shadowRoot.getElementById('rating')
+      console.log(sample)
       const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
       let attrName = 'star-filled';
       let action = 'add';

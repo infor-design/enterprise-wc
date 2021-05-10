@@ -1,3 +1,5 @@
+@import '../ids-base/ids-base';
+
 #rating {
   align-items: center;
   display: inline-flex;
@@ -9,17 +11,25 @@
 }
 
 .star[icon='star-outlined'] {
-  color: black;
+  color: var(--ids-color-palette-graphite-50);
 
   &:hover {
-    color: orange;
+    color: var(--ids-color-palette-azure-60);
   }
 }
 
 .star[icon='star-filled'] {
-  color: orange;
+  color: var(--ids-color-palette-amber-60);
+
+  &:hover {
+    color: var(--ids-color-palette-azure-60);
+  }
 }
 
 .star[icon='star-half'] {
-  color: orange;
+  color: var(--ids-color-palette-amber-60);
+
+  &:hover {
+    color: var(--ids-color-palette-azure-60);
+  }
 }
