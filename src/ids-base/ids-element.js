@@ -166,20 +166,6 @@ class IdsElement extends HTMLElement {
   }
 
   /**
-   * Re-Render the component using the defined template again.
-   * @returns {object} The object for chaining.
-   */
-  rerender() {
-    const template = document.createElement('template');
-    const html = this.template();
-
-    this.shadowRoot.innerHTML = '';
-    template.innerHTML = html;
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
-    return this;
-  }
-
-  /**
    * @returns {string} containing this component's HTML Template
    */
   template() {
@@ -191,6 +177,10 @@ class IdsElement extends HTMLElement {
    * @private
    */
   appendStyles() {
+    if (this.hasStyles) {
+      return;
+    }
+
     if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
       const style = document.createElement('style');
       style.textContent = this.cssStyles;
@@ -206,6 +196,7 @@ class IdsElement extends HTMLElement {
       style.replaceSync(this.cssStyles);
       this.shadowRoot.adoptedStyleSheets = [style];
     }
+    this.hasStyles = true;
   }
 }
 

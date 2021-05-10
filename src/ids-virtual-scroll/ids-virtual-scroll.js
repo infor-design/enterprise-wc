@@ -215,11 +215,9 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set scrollTop(value) {
     if (value !== null && value !== undefined) {
-      Promise.resolve().then(() => {
-        this.container.scrollTop = Number(value);
-        this.setAttribute('scroll-top', value.toString());
-        this.renderItems(false);
-      });
+      this.setAttribute('scroll-top', value.toString());
+      this.container.scrollTop = Number(value);
+      this.renderItems(false);
       return;
     }
 
