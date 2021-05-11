@@ -5,27 +5,16 @@ import {
   scss,
   mix
 } from '../ids-base/ids-element';
-import { IdsKeyboardMixin, IdsEventsMixin, IdsThemeMixin } from '../ids-base';
+import {
+  IdsKeyboardMixin,
+  IdsEventsMixin,
+  IdsThemeMixin,
+  IdsStringUtils
+} from '../ids-base';
 import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
 
-/**
- * combines classes and considers truthy/falsy +
- * doesn't pollute the attribs/DOM without
- * any fuss
- *
- * @param  {...any} classes classes/expressions
- * @returns {string} ` class="c1 c2..."` || ""
- */
-const buildClassAttrib = (...classes) => {
-  const classAttrib = classes.reduce((attribStr = '', c) => {
-    if (attribStr && c) { return `${attribStr} ${c}`; }
-    if (!attribStr && c) { return c; }
-    return attribStr;
-  }, '');
-
-  return !classAttrib ? '' : ` class=${classAttrib}`;
-};
+const { buildClassAttrib } = IdsStringUtils;
 
 /**
  * IDS Tabs Component
