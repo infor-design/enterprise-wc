@@ -30,11 +30,6 @@ const { buildClassAttrib } = IdsStringUtils;
 @scss(styles)
 class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
   /**
-   * whether or not to re-bind callbacks on next render
-   */
-  shouldUpdateCallbacks = true;
-
-  /**
    * lets us quickly reference the active element
    * for current index selected with arrow left/right
    * mapping
@@ -48,8 +43,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   tabObserver = new MutationObserver((mutations) => {
     for (const { type } of mutations) {
       if (type === 'childList') {
-        this.shouldUpdateCallbacks = true;
-        this.render();
+        this.updateCallbacks();
       }
     }
   });
@@ -74,7 +68,10 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    */
   template() {
     return (
-      `<div${buildClassAttrib('ids-tabs', this.orientation)} part="container">
+      `<div
+        ${ buildClassAttrib('ids-tabs', this.orientation) }
+        part="container"
+      >
         <slot></slot>
       </div>`
     );
@@ -96,15 +93,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     this.setAttribute('role', 'tablist');
   }
 
-  /**
-   * Binds associated callbacks and cleans
-   * old handlers when template refreshes
-   */
-  rendered() {
-    if (!this.shouldUpdateCallbacks) {
-      return;
-    }
-
+  updateCallbacks() {
     // set up observer for monitoring if a child
     // element changed
 
@@ -231,8 +220,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         }
       }
     }
-
-    this.shouldUpdateCallbacks = false;
   }
 
   /**
@@ -261,6 +248,14 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       break;
     }
     }
+  }
+
+  /**
+   * Binds associated callbacks and cleans
+   * old handlers when template refreshes
+   */
+  rendered() {
+    this.updateCallbacks();
   }
 
   get orientation() {
