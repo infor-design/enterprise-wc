@@ -17,7 +17,7 @@ const getLabels = (elem) => ({
   shadowDOMLabels: getShadowDOMLabels(elem)
 });
 
-fdescribe('IdsWizard Tests', () => {
+describe('IdsWizard Tests', () => {
   let elem;
 
   const createElemViaTemplate = (innerHTML) => {
@@ -133,11 +133,11 @@ fdescribe('IdsWizard Tests', () => {
     // MutationObserver must listen/register,
     // so change occurs on next tick
 
-    await wait(100).then(() => {
-      labels = getLabels(elem);
-      expect(labels.lightDOMLabels.join('_'))
-        .toEqual(labels.shadowDOMLabels.join('_'));
-    });
+    await wait(100);
+
+    labels = getLabels(elem);
+    expect(labels.lightDOMLabels.join('_'))
+      .toEqual(labels.shadowDOMLabels.join('_'));
   });
 
   it('sets the step number to invalid values and sees '
@@ -155,13 +155,17 @@ fdescribe('IdsWizard Tests', () => {
   it('on clickable wizard: clicks non-selected step, and the step number changes', async () => {
     const stepNumber = 2;
     elem.clickable = true;
+
     await wait(100);
+
     const marker = elem.shadowRoot.querySelector(
     `.step[step-number="${stepNumber}"] .step-marker`
     );
 
     marker.click();
+
     await wait(100);
+
     expect(elem.stepNumber).toEqual(2);
   });
 });
