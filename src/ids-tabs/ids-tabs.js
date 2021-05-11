@@ -41,17 +41,28 @@ const buildClassAttrib = (...classes) => {
 @scss(styles)
 class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
   /**
+   * whether or not to re-bind callbacks on next render
+   */
+  shouldUpdateCallbacks = true;
+
+  /**
    * lets us quickly reference the active element
    * for current index selected with arrow left/right
    * mapping
    */
   tabElIndexMap = new Map();
 
-  /**
-   * needed to keep track of event listeners
-   * added
-   */
+  /** used to detach event listeners properly */
   tabValueSet = new Set();
+
+  /** observes changes in tabs */
+  tabObserver = new MutationObserver((mutations) => {
+    for (const { type } of mutations) {
+      if (type === 'childList') {
+        this.shouldUpdateCallbacks = true;
+      }
+    }
+  });
 
   constructor() {
     super();
@@ -93,15 +104,45 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
 
   connectedCallback() {
     this.setAttribute('role', 'tablist');
+  }
+
+  /**
+   * Binds associated callbacks and cleans
+   * old handlers when template refreshes
+   */
+  rendered() {
+    if (!this.shouldUpdateCallbacks) {
+      return;
+    }
+
+    this.tabObserver.disconnect();
+
+    // reset tab index map
 
     this.tabElIndexMap.clear();
+
     for (let i = 0; i < this.children.length; i++) {
       this.tabElIndexMap.set(this.children[i], i);
     }
 
-    // TODO: add this to attributeChangedCallback
-    // for more granularity and to unlisten
-    // when necessary
+    // clear tab values tracked
+
+    for (const tabValue of this.tabValueSet) {
+      this.offEvent(`click.${tabValue}`);
+      this.tabValueSet.delete(tabValue);
+    }
+
+    // scan through children and add click handlers
+    for (let i = 0; i < this.children.length; i++) {
+      const tabValue = this.getTabIndexValue(i);
+      const eventNs = `click.${tabValue}`;
+      this.tabValueSet.add(eventNs);
+      this.onEvent(
+        eventNs,
+        this.children[i],
+        () => { this.value = tabValue; }
+      );
+    }
 
     if (this.orientation !== 'vertical') {
       this.listen('ArrowLeft', this.container, () => {
@@ -170,29 +211,13 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         this.setAttribute(props.VALUE, this.getTabIndexValue(focusedTabIndex));
       }
     });
-  }
 
-  /**
-   * Binds associated callbacks and cleans
-   * old handlers when template refreshes
-   */
-  rendered() {
-    for (const tabValue of this.tabValueSet) {
-      this.offEvent(`click.${tabValue}`);
-      this.tabValueSet.delete(tabValue);
-    }
-
-    // scan through children and add click handlers
-    for (let i = 0; i < this.children.length; i++) {
-      const tabValue = this.getTabIndexValue(i);
-      const eventNs = `click.${tabValue}`;
-      this.tabValueSet.add(eventNs);
-      this.onEvent(
-        eventNs,
-        this.children[i],
-        () => { this.value = tabValue; }
-      );
-    }
+    // set up observer for monitoring if a child element changed
+    this.tabObserver.observe(this, {
+      childList: true,
+      attributes: true,
+      subtree: true
+    });
 
     this.shouldUpdateCallbacks = false;
   }
