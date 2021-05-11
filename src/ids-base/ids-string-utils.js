@@ -57,6 +57,24 @@ export function injectTemplate(str, obj) {
 }
 
 /**
+ * combines classes and considers truthy/falsy +
+ * doesn't pollute the attribs/DOM without
+ * any fuss
+ *
+ * @param  {...any} classes classes/expressions
+ * @returns {string} ` class="c1 c2..."` || ""
+ */
+export function buildClassAttrib(...classes) {
+  const classAttrib = classes.reduce((attribStr = '', c) => {
+    if (attribStr && c) { return `${attribStr} ${c}`; }
+    if (!attribStr && c) { return c; }
+    return attribStr;
+  }, '');
+
+  return !classAttrib ? '' : ` class=${classAttrib}`;
+}
+
+/**
  * Ids String parsing/processing utilities
  */
 export const IdsStringUtils = {
@@ -64,7 +82,8 @@ export const IdsStringUtils = {
   injectTemplate,
   stringToBool,
   stringToNumber,
-  removeDuplicates
+  removeDuplicates,
+  buildClassAttrib
 };
 
 export default IdsStringUtils;
