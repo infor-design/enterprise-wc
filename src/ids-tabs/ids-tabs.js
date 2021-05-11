@@ -33,17 +33,24 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    * lets us quickly reference the active element
    * for current index selected with arrow left/right
    * mapping
+   *
+   * @type {Map<HTMLElement, number>}
+   * @private
    */
-  tabElIndexMap = new Map();
+  #tabElIndexMap = new Map();
 
-  /** used to detach event listeners properly */
-  tabValueSet = new Set();
+  /**
+   * used to detach event listeners properly
+   * @type {Set<string>}
+   * @private
+   */
+  #tabValueSet = new Set();
 
   /** observes changes in tabs */
   #tabObserver = new MutationObserver((mutations) => {
     for (const { type } of mutations) {
       if (type === 'childList') {
-        this.updateCallbacks();
+        this.#updateCallbacks();
       }
     }
   });
@@ -62,7 +69,8 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   }
 
   /**
-   * Create the Template for the contents
+   * Create the Template to render
+   *
    * @returns {string} the template to render
    */
   template() {
@@ -76,13 +84,16 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     );
   }
 
+  /**
+   * @returns {number} currently focused tab index, or -1
+   */
   getFocusedTabIndex() {
     if (!(document.activeElement instanceof IdsTab)) {
       return -1;
     }
 
-    if (this.tabElIndexMap.has(document.activeElement)) {
-      return this.tabElIndexMap.get(document.activeElement);
+    if (this.#tabElIndexMap.has(document.activeElement)) {
+      return this.#tabElIndexMap.get(document.activeElement);
     }
 
     return -1;
@@ -91,9 +102,13 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   connectedCallback() {
     this.setAttribute('role', 'tablist');
 
+    // in case there was a previous observer
+
     this.#tabObserver.disconnect();
+
     // set up observer for monitoring if a child
     // element changed
+
     this.#tabObserver.observe(this, {
       childList: true,
       attributes: true,
@@ -101,20 +116,20 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     });
   }
 
-  updateCallbacks() {
+  #updateCallbacks() {
     // map tab el refs to their indexes
 
-    this.tabElIndexMap.clear();
+    this.#tabElIndexMap.clear();
 
     for (let i = 0; i < this.children.length; i++) {
-      this.tabElIndexMap.set(this.children[i], i);
+      this.#tabElIndexMap.set(this.children[i], i);
     }
 
     // clear tab values tracked
 
-    for (const tabValue of this.tabValueSet) {
+    for (const tabValue of this.#tabValueSet) {
       this.offEvent(`click.${tabValue}`);
-      this.tabValueSet.delete(tabValue);
+      this.#tabValueSet.delete(tabValue);
     }
 
     // scan through children and add
@@ -123,7 +138,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     for (let i = 0; i < this.children.length; i++) {
       const tabValue = this.getTabIndexValue(i);
       const eventNs = `click.${tabValue}`;
-      this.tabValueSet.add(eventNs);
+      this.#tabValueSet.add(eventNs);
       this.onEvent(
         eventNs,
         this.children[i],
@@ -221,6 +236,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
 
   /**
    * Set the orientation of how tabs will be laid out
+   *
    * @param {'horizontal' | 'vertical'} value orientation
    */
   set orientation(value) {
@@ -252,7 +268,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    * old handlers when template refreshes
    */
   rendered() {
-    this.updateCallbacks();
+    this.#updateCallbacks();
   }
 
   get orientation() {

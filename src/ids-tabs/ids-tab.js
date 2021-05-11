@@ -26,7 +26,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     super();
 
     this.rendered = this.rendered.bind(this);
-    this.setTextContentForBoldFix = this.setTextContentForBoldFix.bind(this);
+    this.#setDataTextForBoldFix = this.#setDataTextForBoldFix.bind(this);
   }
 
   /**
@@ -98,10 +98,10 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     // this for bold sizing fix
 
     this.onEvent('slotchange', this.container, () => {
-      this.setTextContentForBoldFix();
+      this.#setDataTextForBoldFix();
     });
 
-    this.setTextContentForBoldFix();
+    this.#setDataTextForBoldFix();
   }
 
   connectedCallback() {
@@ -191,17 +191,15 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * sets the CSS var "text-content" to track text
-   * for fixing the shudder when content is selected/
-   * bold text is set. Used by ids-text::part(text):after
+   * Sets the data-text of nested ids-text to it's slot
+   * text content. Fixes issue with bold moving around
+   * when we edit content.
    */
-  setTextContentForBoldFix = () => {
-    const slot = this.shadowRoot.querySelector('slot');
+  #setDataTextForBoldFix = () => {
+    const idsText = this.container?.querySelector('ids-text');
+    const [slotNode] = idsText.querySelector('slot')?.assignedNodes?.();
 
-    if (slot?.assignedNodes?.()?.[0]) {
-      const textContent = slot?.assignedNodes?.()?.[0].textContent;
-      this.container.style.setProperty('--text-content', `"${textContent}"`);
-    }
+    idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
   };
 
   focus() {
