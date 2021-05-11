@@ -39,7 +39,7 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   #textProperties() {
-    this.querySelectorAll('[count-value]').forEach(value => value.fontSize = this.compact ? 40 : 48);
+    this.querySelectorAll('[count-value]').forEach(value => value.fontSize = stringUtils.stringToBool(this.compact) ? 40 : 48);
     this.querySelectorAll('[count-text]').forEach(text => text.fontSize = 16);
   }
 
@@ -57,7 +57,7 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   template() {
     return `
-      ${this.href ? `<ids-hyperlink part="link" text-decoration="none" class="ids-counts message-text" href=${this.href || '#'} mode=${this.mode}>` : `<a class="ids-counts" mode=${this.mode}>`}
+      ${this.href ? `<ids-hyperlink part="link" text-decoration="none" class="ids-counts message-text" href=${this.href} mode=${this.mode}>` : `<a class="ids-counts" mode=${this.mode}>`}
       <slot></slot>
       ${this.href ? `</ids-hyperlink>` : `</a>`}
     `;
@@ -69,17 +69,8 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * base (blue), caution, danger, success, warning, or a hex code with the "#"
    */
   set color(value) {
-    const colors = new Set(['base', 'caution', 'danger', 'success', 'warning']);
-    if(this.href) this.container.setAttribute('color', 'unset');
-    if (value[0] === '#') {
-      this.querySelectorAll('ids-text').forEach(node => {
-        node.color = 'unset';
-        node.shadowRoot.querySelector('span').style.color = value;
-      });
-      this.setAttribute(props.COLOR, value);
-      return;
-    }
-    const color = colors.has(value) ? `var(--ids-color-status-${value})` : '';
+    if (this.href) this.container.setAttribute('color', 'unset');
+    const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
     this.container.style.color = color;
     this.querySelectorAll('ids-text').forEach(node => {
       node.color = 'unset';
@@ -99,14 +90,14 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.setAttribute(props.COMPACT, value === 'true' ? 'true' : 'false');
   }
 
-  get compact() { return stringUtils.stringToBool(this.getAttribute(props.COMPACT)); }
+  get compact() { return this.getAttribute(props.COMPACT); }
 
   /**
    * Set the href attribute
    * @param {string} value The href link
    */
   set href(value) {
-    this.setAttribute(props.HREF, value || '#');
+    this.setAttribute(props.HREF, value);
   }
 
   get href() { return this.getAttribute(props.HREF); }
