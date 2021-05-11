@@ -60,6 +60,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     for (const { type } of mutations) {
       if (type === 'childList') {
         this.shouldUpdateCallbacks = true;
+        this.render();
       }
     }
   });
@@ -115,9 +116,18 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       return;
     }
 
+    // set up observer for monitoring if a child
+    // element changed
+
     this.tabObserver.disconnect();
 
-    // reset tab index map
+    this.tabObserver.observe(this, {
+      childList: true,
+      attributes: true,
+      subtree: true
+    });
+
+    // map tab el refs to their indexes
 
     this.tabElIndexMap.clear();
 
@@ -132,7 +142,9 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       this.tabValueSet.delete(tabValue);
     }
 
-    // scan through children and add click handlers
+    // scan through children and add
+    // click handlers
+
     for (let i = 0; i < this.children.length; i++) {
       const tabValue = this.getTabIndexValue(i);
       const eventNs = `click.${tabValue}`;
@@ -143,6 +155,9 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         () => { this.value = tabValue; }
       );
     }
+
+    // add key listeners and consider
+    // orientation for assignments
 
     if (this.orientation !== 'vertical') {
       this.listen('ArrowLeft', this.container, () => {
@@ -212,12 +227,21 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       }
     });
 
-    // set up observer for monitoring if a child element changed
-    this.tabObserver.observe(this, {
-      childList: true,
-      attributes: true,
-      subtree: true
-    });
+    // scan through children to detect if we have
+    // all or not-all 'count'-assigned content
+
+    if (this.children.length) {
+      const hasTabCounts = Boolean(this?.children[0].hasAttribute('count'));
+
+      for (let i = 1; i < this.children.length; i++) {
+        if (Boolean(this.children[i].hasAttribute('count')) !== hasTabCounts) {
+          throw new Error(
+            'ids-tabs: '
+            + 'either all or no ids-tab elements should have "count" attrib set'
+          );
+        }
+      }
+    }
 
     this.shouldUpdateCallbacks = false;
   }
