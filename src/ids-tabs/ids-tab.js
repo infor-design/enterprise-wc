@@ -6,7 +6,7 @@ import {
   mix
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { stringToBool } from '../ids-base/ids-string-utils';
+import { stringToBool, buildClassAttrib } from '../ids-base/ids-string-utils';
 import IdsText from '../ids-text/ids-text';
 import styles from './ids-tab.scss';
 
@@ -34,7 +34,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.VALUE, props.SELECTED, props.ORIENTATION];
+    return [props.VALUE, props.SELECTED, props.ORIENTATION, props.COUNT];
   }
 
   /**
@@ -42,20 +42,45 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} the template to render
    */
   template() {
+    const innerContent = this.hasAttribute('count') ? /* TODO */(
+      `
+      <ids-text
+        overflow="ellipsis"
+        size="22"
+        color="unset"
+        ${this.selected ? 'font-weight="bold"' : ''}
+      >
+      </ids-text>
+      <ids-text
+        overflow="ellipsis"
+        size="22"
+        color="unset"
+        ${this.selected ? 'font-weight="bold"' : ''}
+      >
+        <slot></slot>
+      </ids-text>`
+    ) : (
+      `<ids-text
+      overflow="ellipsis"
+      size="22"
+      color="unset"
+      ${this.selected ? 'font-weight="bold"' : ''}
+    >
+      <slot></slot>
+    </ids-text>`
+    );
+
     return (
-      `<div
-        class="ids-tab${this.selected ? ' selected' : ''} ${this.orientation}"
+      `<div ${
+        buildClassAttrib(
+          'ids-tab',
+          this.selected,
+          this.orientation,
+          this.count
+        ) }
         tabindex="0"
         part="container"
-      >
-        <ids-text
-          overflow="ellipsis"
-          size="22"
-          color="unset"
-          ${this.selected ? 'font-weight="bold"' : ''}
-        >
-          <slot></slot>
-        </ids-text>
+      >${innerContent}
       </div>`
     );
   }
@@ -121,6 +146,24 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
   get value() {
     return this.getAttribute(props.VALUE);
+  }
+
+  /**
+   * @param {string} value the count
+   */
+  set count(value) {
+    if (value === '') {
+      this.removeAttribute(props.COUNT);
+      this.container.classList.remove('count');
+      return;
+    }
+
+    if (Number.isNaN(Number(value))) {
+      this.removeAttribute(props.COUNT);
+      throw new Error('ids-tab: invalid number supplied to "count" property');
+    }
+
+    this.setAttribute(props.COUNT, value);
   }
 
   /**
