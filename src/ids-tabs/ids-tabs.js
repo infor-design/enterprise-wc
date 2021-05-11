@@ -40,7 +40,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   tabValueSet = new Set();
 
   /** observes changes in tabs */
-  tabObserver = new MutationObserver((mutations) => {
+  #tabObserver = new MutationObserver((mutations) => {
     for (const { type } of mutations) {
       if (type === 'childList') {
         this.updateCallbacks();
@@ -50,7 +50,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
 
   constructor() {
     super();
-
     this.rendered = this.rendered.bind(this);
   }
 
@@ -91,20 +90,18 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
 
   connectedCallback() {
     this.setAttribute('role', 'tablist');
-  }
 
-  updateCallbacks() {
+    this.#tabObserver.disconnect();
     // set up observer for monitoring if a child
     // element changed
-
-    this.tabObserver.disconnect();
-
-    this.tabObserver.observe(this, {
+    this.#tabObserver.observe(this, {
       childList: true,
       attributes: true,
       subtree: true
     });
+  }
 
+  updateCallbacks() {
     // map tab el refs to their indexes
 
     this.tabElIndexMap.clear();
