@@ -52,8 +52,8 @@
   & ids-text::part(text)::after {
     @include font-bold();
 
-    content: var(--text-content);
-    content: var(--text-content) / '';
+    content: attr(data-text);
+    content: attr(data-text) / '';
     visibility: hidden;
     height: 0;
     user-select: none;
