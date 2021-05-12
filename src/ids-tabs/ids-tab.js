@@ -20,8 +20,6 @@ import styles from './ids-tab.scss';
 @customElement('ids-tab')
 @scss(styles)
 class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
-  id;
-
   constructor() {
     super();
 

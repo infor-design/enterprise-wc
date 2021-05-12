@@ -1,1 +1,1 @@
-import IdsTabs, { IdsTab } from '../../src/ids-tabs';
+import IdsTabs, { IdsTab, IdsTabsDivider } from '../../src/ids-tabs';

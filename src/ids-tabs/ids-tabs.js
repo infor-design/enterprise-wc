@@ -12,6 +12,7 @@ import {
   IdsStringUtils
 } from '../ids-base';
 import IdsTab from './ids-tab';
+import IdsTabsDivider from './ids-tabs-divider';
 import styles from './ids-tabs.scss';
 
 const { buildClassAttrib } = IdsStringUtils;
