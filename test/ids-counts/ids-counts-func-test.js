@@ -66,7 +66,7 @@ describe('IdsCounts Component', () => {
     count.href = '#';
     count.color = 'success';
     expect(count.container.getAttribute('color')).toEqual('unset');
-    
+
     count.href = '#';
     count.color = 'danger';
     expect(count.container.getAttribute('color')).toEqual('unset');

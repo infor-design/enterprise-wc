@@ -125,7 +125,7 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get disabled() { return this.getAttribute(props.DISABLED); }
 
   /**
-   * 
+   *
    * If set to "unset", color can be controlled by parent container
    * @param {string | null} value  "unset" or undefined/null
    */

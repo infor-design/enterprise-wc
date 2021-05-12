@@ -95,25 +95,6 @@ Counts using just the css. Use the anchor tag for normal counts and span for non
 - 3.x: Counts have all new markup and classes.
 - 4.x: Counts have all new markup and classes for web components.
 
-## Designs
-
-[Figma Design Specs](https://www.figma.com/files/project/2768042/Infor-Design-System)
-
-## Alternate Designs
-
-N/A
-
-## Proposed Changes
-
-
-## Test Plan
-
-- [ ] Accessibility - Axe
-- [ ] Accessibility - Keyboard
-- [ ] Visual Regression Tests
-- [ ] Colors
-- [ ] Links
-- [ ] Size - compact
 
 ## Accessibility Guidelines
 

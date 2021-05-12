@@ -15,4 +15,10 @@ export default class IdsCounts extends IdsElement {
 
   /** Sets the href/link */
   href?: string;
+
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
 }

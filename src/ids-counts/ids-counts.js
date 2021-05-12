@@ -39,8 +39,8 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   #textProperties() {
-    this.querySelectorAll('[count-value]').forEach(value => value.fontSize = stringUtils.stringToBool(this.compact) ? 40 : 48);
-    this.querySelectorAll('[count-text]').forEach(text => text.fontSize = 16);
+    this.querySelectorAll('[count-value]').forEach((value) => { value.fontSize = stringUtils.stringToBool(this.compact) ? 40 : 48; });
+    this.querySelectorAll('[count-text]').forEach((text) => { text.fontSize = 16; });
   }
 
   /**
@@ -72,7 +72,7 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (this.href) this.container.setAttribute('color', 'unset');
     const color = value[0] === '#' ? value : `var(--ids-color-status-${value})`;
     this.container.style.color = color;
-    this.querySelectorAll('ids-text').forEach(node => {
+    this.querySelectorAll('ids-text').forEach((node) => {
       node.color = 'unset';
       node.shadowRoot.querySelector('span').style.color = value;
     });

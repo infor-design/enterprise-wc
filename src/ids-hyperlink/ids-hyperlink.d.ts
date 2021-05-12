@@ -15,7 +15,7 @@ export default class IdsHyperlink extends HTMLElement {
   mode: 'light' | 'dark' | 'contrast' | string;
 
   /** Set the decoration style */
-  text_decoration: string;
+  textDecoration: string;
 
   /** Set the theme version */
   version: 'new' | 'classic' | string;
