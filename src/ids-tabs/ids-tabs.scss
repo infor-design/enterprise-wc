@@ -13,8 +13,8 @@
 
   &:not(.vertical) {
     @include border-b-1;
-    @include pt-8;
-    @include border-graphite-50;
+    @include mt-8;
+    @include border-graphite-60;
   }
 
   position: relative;
