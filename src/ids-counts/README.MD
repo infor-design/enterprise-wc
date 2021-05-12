@@ -95,7 +95,6 @@ Counts using just the css. Use the anchor tag for normal counts and span for non
 - 3.x: Counts have all new markup and classes.
 - 4.x: Counts have all new markup and classes for web components.
 
-
 ## Accessibility Guidelines
 
 - 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color tags that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
