@@ -9,16 +9,22 @@
 }
 
 .ids-tab {
+  @include px-4();
   @include border-1();
   @include border-solid();
 
   box-sizing: border-box;
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-end;
   list-style: none outside none;
   border-color: transparent;
+  height: 100%;
 
-  &:focus-visible {
+  &:focus-visible,
+  &:focus {
     @include shadow();
     @include border-azure-60();
     @include border-solid();
@@ -66,7 +72,6 @@
 
   &:not(.vertical) {
     @include rounded-default();
-    @include px-16();
     @include pt-12();
     @include pb-8();
 
@@ -78,8 +83,8 @@
   &.vertical {
     @include pl-24();
 
-    display: flex;
-    align-items: center;
+    align-items: flex-start;
+    justify-content: center;
     width: 100%;
     height: 42px;
 
@@ -114,4 +119,8 @@
     pointer-events: none;
     content: '';
   }
+}
+
+.ids-tab.count {
+  @include px-8();
 }

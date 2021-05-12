@@ -142,7 +142,10 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       this.onEvent(
         eventNs,
         this.children[i],
-        () => { this.value = tabValue; }
+        () => {
+          this.value = tabValue;
+          this.focus();
+        }
       );
     }
 
