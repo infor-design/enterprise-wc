@@ -97,29 +97,40 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
       trueVal = 1;
     }
     this.state.opacity = trueVal;
-    this.changeOpacity(trueVal);
+    this.#changeOpacity(trueVal);
   }
 
-  changeOpacity(val) {
-    this.container.style.opacity = val;
+  /**
+   * Changes the amount of opacity on the overlay
+   * @param {number} val the opacity value to set on the overlay
+   */
+  #changeOpacity(val) {
+    this.container.style.opacity = `${val}`;
   }
 
+  /**
+   * Animates in/out the visibility of the overlay
+   * @param {*} val if true, shows the overlay.  If false, hides the overlay.
+   */
   #smoothlyAnimateVisibility(val) {
     const cl = this.container.classList;
 
     if (val) {
       // Make visible
+      this.detachEventsByName('transitionend');
       cl.add('visible');
       this.rl.register(new IdsRenderLoopItem({
         duration: 1,
         timeoutCallback: () => {
-          this.changeOpacity(this.opacity);
+          this.#changeOpacity(this.opacity);
         }
       }));
     } else {
       // Make hidden
-      this.onEvent('transitionend', this.container, () => { cl.remove('visible'); }, { once: true });
-      this.changeOpacity(0);
+      this.onEvent('transitionend', this.container, () => {
+        cl.remove('visible');
+      }, { once: true });
+      this.#changeOpacity(0);
     }
   }
 }

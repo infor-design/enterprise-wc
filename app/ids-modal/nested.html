@@ -1,0 +1,50 @@
+{{> ../layouts/head.html }}
+
+<ids-modal id="parent-modal">
+  <ids-layout-grid>
+    <ids-text font-size="12" type="h2">Parent Modal</ids-text>
+  </ids-layout-grid>
+  <ids-layout-grid>
+    <p>This is the Parent IDS Modal</p>
+  </ids-layout-grid>
+  <ids-layout-grid auto="true">
+    <ids-layout-grid-cell>
+      <ids-button id="parent-modal-close-btn" type="secondary">
+        <span slot="text">Close</span>
+      </ids-button>
+      <ids-button id="nested-modal-trigger-btn" type="primary">
+        <span slot="text">Open Another</span>
+      </ids-button>
+    </ids-layout-grid-cell>
+  </ids-layout-grid>
+</ids-modal>
+
+<ids-modal id="nested-modal">
+  <ids-layout-grid>
+    <ids-text font-size="12" type="h2">Nested Modal</ids-text>
+  </ids-layout-grid>
+  <ids-layout-grid>
+    <p>This is the Nested IDS Modal</p>
+  </ids-layout-grid>
+  <ids-layout-grid auto="true">
+    <ids-layout-grid-cell>
+      <ids-button id="nested-modal-close-btn" type="secondary">
+        <span slot="text">Close</span>
+      </ids-button>
+    </ids-layout-grid-cell>
+  </ids-layout-grid>
+</ids-modal>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Modal</ids-text>
+</ids-layout-grid>
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-button id="parent-modal-trigger-btn" type="secondary">
+      <span slot="text">Trigger a Modal</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+
+{{> ../layouts/footer.html }}

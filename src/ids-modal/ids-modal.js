@@ -13,6 +13,7 @@ import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-re
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
+import zCounter from './ids-modal-z-counter';
 import IdsPopup from '../ids-popup/ids-popup';
 import IdsOverlay from './ids-overlay';
 
@@ -65,17 +66,19 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
 
     // Listen for changes to the window size
     window.addEventListener('resize', debounce(() => {
-      this.refresh();
+      this.setModalPosition();
     }));
 
-    this.refreshOverlay(this.overlay);
+    this.#refreshOverlay(this.overlay);
+    this.#refreshVisibility(this.visible);
 
+    // Add events to the target element
     if (this.target) {
       this.refreshTargetEvents();
     }
 
     // Run refresh once on connect
-    this.refresh();
+    this.setModalPosition();
   }
 
   /**
@@ -83,7 +86,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {string} The template
    */
   template() {
-    return `<ids-popup part="popup" type="menu">
+    return `<ids-popup part="modal" class="ids-modal" type="menu">
       <slot slot="content"></slot>
     </ids-popup>`;
   }
@@ -101,7 +104,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   set overlay(val) {
     if (val instanceof IdsOverlay) {
       this.state.overlay = val;
-      this.refreshOverlay(val);
+      this.#refreshOverlay(val);
     }
   }
 
@@ -142,12 +145,13 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    */
   set visible(val) {
     const trueVal = IdsStringUtils.stringToBool(val);
-    this.popup.visible = trueVal;
-    this.overlay.visible = trueVal;
-
     if (trueVal) {
-      this.refresh();
+      this.setAttribute(props.VISIBLE, '');
+    } else {
+      this.removeAttribute(props.VISIBLE);
     }
+
+    this.#refreshVisibility(trueVal);
   }
 
   /**
@@ -168,47 +172,52 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   hide() {
+    // Trigger a veto-able `beforehide` event.
+    if (!this.triggerVetoableEvent('beforehide')) {
+      return;
+    }
+
     this.visible = false;
-  }
-
-  /**
-   * @returns {void}
-   */
-  appendInternalOverlay() {
-    console.info('Append overlay');
-
-    const overlay = new IdsOverlay();
-    overlay.part = 'overlay';
-
-    this.shadowRoot.prepend(overlay);
-  }
-
-  /**
-   * @returns {void}
-   */
-  removeInternalOverlay() {
-    console.info('Remove overlay');
-    const overlay = this.shadowRoot.querySelector('ids-overlay');
-    overlay.remove();
   }
 
   /**
    * @param {boolean} val if true, uses an external overlay
    * @returns {void}
    */
-  refreshOverlay(val) {
+  #refreshOverlay(val) {
+    let overlay;
+
     if (!val) {
-      this.appendInternalOverlay();
+      overlay = new IdsOverlay();
+      this.shadowRoot.prepend(overlay);
+      this.overlay.container.style.zIndex = zCounter.increment();
+      this.popup.container.style.zIndex = zCounter.increment();
     } else if (this.state.overlay) {
-      this.removeInternalOverlay();
+      overlay = this.shadowRoot.querySelector('ids-overlay');
+      overlay.remove();
+      zCounter.decrement();
+      zCounter.decrement();
     }
   }
 
   /**
-   * // @TODO: Temporary - replace this with IdsPopup's proper centering within a container
+   * @param {boolean} val if true, makes the Modal visible to the user
    * @returns {void}
    */
-  refresh() {
+  #refreshVisibility(val) {
+    this.overlay.visible = val;
+    this.popup.visible = val;
+
+    if (val) {
+      this.setModalPosition();
+    }
+  }
+
+  /**
+   * Centers the Popup's position within the viewport
+   * @returns {void}
+   */
+  setModalPosition() {
     this.animated = false;
     if (this.popup.alignTarget !== null) {
       this.popup.alignTarget = null;
@@ -242,6 +251,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   }
 
   /**
+   * Triggers an event that occurs before the show/hide operations of the Modal that can "cancel"
    * @param {string} eventType the name of the event to trigger
    * @returns {boolean} true if the event works
    */

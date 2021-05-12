@@ -460,7 +460,7 @@ class IdsPopup extends mix(IdsElement).with(
 
   /**
    * Show/Hide Arrow pointing in a direction, if applicable
-   * @param {string} arrowClass a CSS class representing a Popup Arrow direction
+   * @param {string} direction a CSS class representing a Popup Arrow direction
    */
   #setArrowDirection(direction) {
     const arrowElCl = this.arrowEl.classList;
