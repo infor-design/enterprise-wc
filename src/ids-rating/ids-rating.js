@@ -9,6 +9,7 @@ import {
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 // @ts-ignore
 import styles from './ids-rating.scss';
@@ -19,10 +20,11 @@ import styles from './ids-rating.scss';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsThemeMixin
  */
 @customElement('ids-rating')
 @scss(styles)
-class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -33,6 +35,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     } else {
       this.updateHalfStar(this.ratingArr);
     }
+    super.connectedCallback();
   }
 
     ratingArr = [...this.container.children];
@@ -54,7 +57,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
      * @returns {Array<string>} this component's observable properties
      */
     static get properties() {
-      return ['value', 'stars', 'readonly', 'clickable', 'compact', 'size'];
+      return [props.VALUE, 'stars', 'readonly', 'clickable', 'compact', 'size'];
     }
 
     set value(val) {
