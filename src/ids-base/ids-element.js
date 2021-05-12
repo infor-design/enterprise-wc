@@ -7,6 +7,9 @@ import {
 
 import { props } from './ids-constants';
 import mix from './ids-mixin';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
+
 import { IdsStringUtils as stringUtils } from './ids-string-utils';
 
 /**
@@ -157,7 +160,10 @@ class IdsElement extends HTMLElement {
 
     // Runs on next next paint to be sure rendered() fully
     if (this.rendered) {
-      window.requestAnimationFrame(() => { this.rendered(); });
+      renderLoop.register(new IdsRenderLoopItem({
+        duration: 1,
+        timeoutCallback: () => { this.rendered(); }
+      }));
     }
 
     // Add automation Ids

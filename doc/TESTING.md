@@ -2,6 +2,8 @@
 
 The IDS components are backed by both functional and end-to-end (e2e) test suites.  When contributing to the IDS enterprise project, before we can accept pull requests we expect that new tests will be provided to prove that new functionality works, and that all existing tests pass.
 
+The testing strategy is to aim for 100% coverage with the functional tests. Because the tests use JSDOM this means that some things may not be testable with it so in that case you should use `/* istanbul ignore next */` to skip coverage rather than make it drop. For these situations consider adding an e2e puppeteer test to cover this functionality in addition to skipping.
+
 ## Test Stack
 
 - [Jest](https://webdriver.io/) test runner for all tests.
