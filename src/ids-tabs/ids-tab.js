@@ -46,10 +46,10 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       `
       <ids-text
         overflow="ellipsis"
-        size="22"
+        font-size="28"
         color="unset"
         ${this.selected ? 'font-weight="bold"' : ''}
-      >
+      >${this.getAttribute('count')}
       </ids-text>
       <ids-text
         overflow="ellipsis"
@@ -163,6 +163,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       throw new Error('ids-tab: invalid number supplied to "count" property');
     }
 
+    this.container.classList.add('count');
     this.setAttribute(props.COUNT, value);
   }
 
