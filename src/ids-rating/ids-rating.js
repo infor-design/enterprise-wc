@@ -3,7 +3,8 @@ import {
   customElement,
   scss,
   mix,
-  prop
+  stringUtils,
+  props
 } from '../ids-base/ids-element';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
@@ -19,66 +20,62 @@ import styles from './ids-rating.scss';
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  */
-
- @customElement('ids-rating')
- @scss(styles)
-
+@customElement('ids-rating')
+@scss(styles)
 class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
-   constructor() {
-     super();
-   }
+  constructor() {
+    super();
+  }
 
-    connectedCallback() {
-      if(this.getAttribute('readonly') === 'false') {
-        this.toggleStars();
-      } else {
-        this.updateHalfStar(this.ratingArr);
-      }
+  connectedCallback() {
+    if (!this.readonly) {
+      this.handleEvents();
+    } else {
+      this.updateHalfStar(this.ratingArr);
     }
+  }
 
     ratingArr = [...this.container.children];
 
     /**
-     * Create the Template for the contents
+     * Create the remplate for the rating contents
      * @returns {string} The template
      */
     template() {
-      const stars = this.hasAttribute('stars') ? this.getAttribute('stars') : this.setAttribute('stars', '5');
-      const size = this.hasAttribute('size') ? this.getAttribute('size') : this.setAttribute('size', 'large');
-      const value = this.hasAttribute('value') ? this.getAttribute('value') : this.setAttribute('value', '0');
-      const readonly = this.hasAttribute('readonly') ? this.getAttribute('readonly') : this.setAttribute('readonly', 'false');
       let html = '<div id="rating">';
-      for(let i = 0; i < stars; i++) {
-       html += `<ids-icon class="star star-${i}" aria-label="Star-${i}" role-"button" icon="star-outlined" tabindex="0" size="${size}"></ids-icon>`;
+      for (let i = 0; i < this.stars; i++) {
+        html += `<ids-icon class="star star-${i}" aria-label="Star-${i}" role-"button" icon="star-outlined" tabindex="0" size="${this.size}"></ids-icon>`;
       }
       html += '</div>';
       return html;
     }
 
     /**
-    * @returns {Array<string>} this component's observable properties
-    */
+     * @returns {Array<string>} this component's observable properties
+     */
     static get properties() {
       return ['value', 'stars', 'readonly', 'clickable', 'compact', 'size'];
     }
 
     set value(val) {
-      if(val && this.getAttribute('readonly') === 'false') {
+      const isReadonly = stringUtils.stringToBool(this.readonly);
+
+      if (val && !isReadonly) {
         this.ratingArr.forEach((element) => {
           element.setAttribute('icon', 'star-outlined');
           element.classList.remove('is-half');
           element.classList.remove('active');
         });
-        let valueArray = this.ratingArr
-        let starArray = valueArray.slice(0, parseInt(val))
+        const valueArray = this.ratingArr;
+        const starArray = valueArray.slice(0, parseInt(val));
         starArray.forEach((element) => {
-          element.setAttribute('icon', 'star-filled')
+          element.setAttribute('icon', 'star-filled');
           element.classList.add('active');
         });
         this.setAttribute('value', val.toString());
       }
 
-      if(val && this.getAttribute('readonly') === 'true') {
+      if (val && isReadonly) {
         this.ratingArr.forEach((element) => {
           element.setAttribute('icon', 'star-outlined');
           element.classList.remove('active');
@@ -89,51 +86,51 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     }
 
     get value() {
-      return this.getAttribute('value');
+      return this.getAttribute('value') || '0';
     }
 
     set stars(num) {
-      if(num) {
+      if (num) {
         // console.log(num)
-        //this.rerender();
+        // this.rerender();
         this.setAttribute('stars', num.toString());
       }
     }
 
     get stars() {
-      return this.getAttribute('stars');
+      return this.getAttribute('stars') || 5;
     }
 
     set readonly(ro) {
-      if(ro && this.getAttribute('readonly') === 'true'){
+      if (ro && this.readonly) {
         this.offEvent('click', this.container);
         this.updateHalfStar(this.ratingArr);
         this.setAttribute('readonly', ro.toString());
       }
 
-      if(ro && this.getAttribute('readonly') === 'false') {
-        this.toggleStars();
+      if (ro && !this.readonly) {
+        this.handleEvents();
         this.setAttribute('readonly', ro.toString());
       }
     }
 
     get readonly() {
-      return this.getAttribute('readonly');
+      return this.getAttribute('readonly') || false;
     }
 
     set size(s) {
-      if(s) {
+      if (s) {
         this.ratingArr.forEach((element) => element.setAttribute('size', s.toString()));
         this.setAttribute('size', s.toString());
       }
     }
 
     get size() {
-      return this.getAttribute('size')
+      return this.getAttribute('size') || 'large';
     }
 
-    toggleStars() {
-      this.onEvent('click', this.container, (/** @type {{ target: any; }} */ e) => this.updateStars(e));
+    handleEvents() {
+      this.onEvent('click', this.container, (e) => this.updateStars(e));
     }
 
     updateStars(event) {
@@ -143,18 +140,18 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       for (const ratingOption of this.ratingArr) {
         ratingOption.classList[action]('active');
         ratingOption.setAttribute('icon', attrName);
-        if(ratingOption === event.target) {
+        if (ratingOption === event.target) {
           action = 'remove';
           attrName = 'star-outlined';
         }
-        if(activeElements.length === 1 && event.target.classList.contains('star-0')) {
+        if (activeElements.length === 1 && event.target.classList.contains('star-0')) {
           activeElements[0].classList.remove('active');
           activeElements[0].setAttribute('icon', 'star-outlined');
         }
       }
       this.updateValue(this.ratingArr);
     }
-    
+
     updateValue(arr) {
       const val = [...arr];
       const value = val.filter((el) => el.classList.contains('active'));
@@ -163,18 +160,18 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
 
     updateHalfStar(arr) {
       const value = this.getAttribute('value');
-      const roundValue = Math.round(value)
-      for(let i = 0; i < roundValue; i++) {
+      const roundValue = Math.round(value);
+      for (let i = 0; i < roundValue; i++) {
         arr[i].classList.add('active');
-        arr[i].setAttribute('icon', 'star-filled')
+        arr[i].setAttribute('icon', 'star-filled');
       }
-      if(value < roundValue) {
+      if (value < roundValue) {
         const activeArr = arr.filter((act) => act.classList.contains('active'));
         const lastItem = activeArr[activeArr.length - 1];
         lastItem.classList.add('is-half');
-        lastItem.setAttribute('icon', 'star-half')
+        lastItem.setAttribute('icon', 'star-half');
       }
     }
- }
+}
 
 export default IdsRating;
