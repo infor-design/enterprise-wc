@@ -34,7 +34,7 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
     super();
 
     this.state = {
-      opacity: 0.3,
+      opacity: 0.5,
       visible: false,
     };
   }
