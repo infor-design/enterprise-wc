@@ -121,26 +121,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       return this.getAttribute('readonly');
     }
 
-    set clickable(cl) {
-      if(c) {
-        this.setAttribute('clickable', cl.toString());
-      }
-    }
-
-    get clickable() {
-      return this.getAttribute('clickable');
-    }
-
-    set compact(com) {
-      if(com) {
-        this.setAttribute('compact', com.toString());
-      }
-    }
-
-    get compact() {
-      return this.getAttribute('compact');
-    }
-
     set size(s) {
       if(s) {
         this.ratingArr.forEach((element) => element.setAttribute('size', s.toString()));
@@ -155,31 +135,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     toggleStars() {
       this.onEvent('click', this.container, (/** @type {{ target: any; }} */ e) => this.updateStars(e));
     }
-
-    // rerender() {
-    //   const template = this.shadowRoot;
-    //   template.innerHTML = this.template();
-    //   this.toggleStars();
-    //   //this.shadowRoot.innerHTML = '';
-
-    //   let starValue = this.getAttribute('value')
-
-    //   console.log(starValue)
-
-    //   let valueArray = this.ratingArr
-    //   let starArray = valueArray.slice(0, parseInt(starValue))
-    //   starArray.forEach((element) => {
-    //     element.setAttribute('icon', 'star-filled')
-    //     element.classList.add('active');
-    //     console.log(element)
-    //   });
-
-    //   const sample = this.shadowRoot.getElementById('rating')
-    //   sample.addEventListener('click', (e) => {
-    //     this.updateStars(e)
-    //   })
-
-    // }
 
     updateStars(event) {
       const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
