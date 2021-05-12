@@ -4,12 +4,15 @@
   @include absolute();
   @include m-4();
   @include text-alert-caution();
+
+  top: 0;
 }
 
 // Radio
 .ids-radio-group {
   .icon-dirty {
     margin: 8px 0 0 -2px;
+    top: auto;
   }
 
   &.first-item-checked .icon-dirty {

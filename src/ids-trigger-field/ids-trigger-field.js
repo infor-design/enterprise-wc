@@ -40,6 +40,8 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {void}
    */
   connectedCallback() {
+    this.input = this.querySelector('ids-input');
+    this.input?.setAttribute(props.TRIGGERFIELD, 'true');
     this.handleEvents();
     super.connectedCallback();
   }
@@ -112,6 +114,17 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {object} The object for chaining.
    */
   handleEvents() {
+    if (this.input) {
+      const className = 'has-validation-message';
+      this.onEvent('validated', this.input, (e) => {
+        if (e.detail?.isValid) {
+          this.container?.classList?.remove(className);
+        } else {
+          this.container?.classList?.add(className);
+        }
+      });
+    }
+
     if (this.disableNativeEvents) {
       return false;
     }

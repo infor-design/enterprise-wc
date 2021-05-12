@@ -18,6 +18,7 @@ export const props = {
   CHECKED: 'checked',
   CLEARABLE: 'clearable',
   CLEARABLE_FORCED: 'clearable-forced',
+  COMPACT: 'compact',
   COL_END: 'col-end',
   COL_SPAN: 'col-span',
   COL_START: 'col-start',
