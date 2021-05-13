@@ -12,7 +12,6 @@ import {
   IdsStringUtils
 } from '../ids-base';
 import IdsTab from './ids-tab';
-import IdsTabsDivider from './ids-tabs-divider';
 import styles from './ids-tabs.scss';
 
 const { buildClassAttrib } = IdsStringUtils;
@@ -30,6 +29,121 @@ const { buildClassAttrib } = IdsStringUtils;
 @customElement('ids-tabs')
 @scss(styles)
 class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+  constructor() {
+    super();
+  }
+
+  /**
+   * Return the properties we handle as getters/setters
+   * @returns {Array} The properties in an array
+   */
+  static get properties() {
+    return [props.ORIENTATION, props.VALUE, props.ID];
+  }
+
+  /**
+   * Create the Template to render
+   *
+   * @returns {string} the template to render
+   */
+  template() {
+    return (
+      `<div
+        ${ buildClassAttrib('ids-tabs', this.orientation) }
+        part="container"
+      >
+        <slot></slot>
+      </div>`
+    );
+  }
+
+  connectedCallback() {
+    super.connectedCallback?.();
+    this.setAttribute('role', 'tablist');
+
+    // set up observer for monitoring if a child
+    // element changed
+
+    this.#tabObserver.observe(this, {
+      childList: true,
+      attributes: true,
+      attributeOldValue: true,
+      attributeFilter: ['selected', 'value'],
+      subtree: true
+    });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.#tabObserver.disconnect();
+  }
+
+  /**
+   * Binds associated callbacks and cleans
+   * old handlers when template refreshes
+   */
+  rendered() {
+    this.#updateCallbacks();
+  }
+
+  /**
+   * Returns the value provided for a tab at a specified
+   * index; if it does not exist, then return zero-based index
+   *
+   * @param {number} index 0-based tab index
+   * @returns {string | number} value or index
+   */
+  getTabIndexValue(index) {
+    return this.children?.[index]?.getAttribute(props.VALUE) || index;
+  }
+
+  /**
+   * Set the orientation of how tabs will be laid out
+   *
+   * @param {'horizontal' | 'vertical'} value orientation
+   */
+  set orientation(value) {
+    switch (value) {
+    case 'vertical': {
+      this.setAttribute(props.ORIENTATION, 'vertical');
+      this.container.classList.add('vertical');
+
+      for (let i = 0; i < this.children.length; i++) {
+        this.children[i].setAttribute('orientation', 'vertical');
+      }
+      break;
+    }
+    case 'horizontal':
+    default: {
+      this.setAttribute(props.ORIENTATION, 'horizontal');
+      this.container.classList.remove('vertical');
+
+      for (let i = 0; i < this.children.length; i++) {
+        this.children[i].setAttribute('orientation', 'horizontal');
+      }
+      break;
+    }
+    }
+  }
+
+  get orientation() {
+    return this.getAttribute(props.ORIENTATION);
+  }
+
+  /**
+   * the value representing a currently selected tab
+   * @type {string}
+   */
+  set value(value) {
+    this.setAttribute(props.VALUE, value);
+
+    this.#updateSelectionState();
+  }
+
+  get value() {
+    return this.getAttribute(props.VALUE);
+  }
+
   /**
    * lets us quickly reference the active element
    * for current index selected with arrow left/right
@@ -110,35 +224,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     }
   });
 
-  constructor() {
-    super();
-    this.rendered = this.rendered.bind(this);
-  }
-
-  /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
-   */
-  static get properties() {
-    return [props.ORIENTATION, props.VALUE, props.ID];
-  }
-
-  /**
-   * Create the Template to render
-   *
-   * @returns {string} the template to render
-   */
-  template() {
-    return (
-      `<div
-        ${ buildClassAttrib('ids-tabs', this.orientation) }
-        part="container"
-      >
-        <slot></slot>
-      </div>`
-    );
-  }
-
   /**
    * @returns {number} currently focused tab index, or -1
    */
@@ -154,23 +239,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     return -1;
   }
 
-  connectedCallback() {
-    super.connectedCallback?.();
-    this.setAttribute('role', 'tablist');
-
-    // set up observer for monitoring if a child
-    // element changed
-
-    this.#tabObserver.observe(this, {
-      childList: true,
-      attributes: true,
-      attributeOldValue: true,
-      attributeFilter: ['selected', 'value'],
-      subtree: true
-    });
-  }
-
-  #updateCallbacks = () => {
+  #updateCallbacks() {
     // map tab el refs to their indexes
 
     this.#tabElIndexMap.clear();
@@ -293,73 +362,13 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         }
       }
     }
-  };
-
-  disconnectedCallback() {
-    super.disconnectedCallback?.();
-    this.#tabObserver.disconnect();
-  }
-
-  /**
-   * Set the orientation of how tabs will be laid out
-   *
-   * @param {'horizontal' | 'vertical'} value orientation
-   */
-  set orientation(value) {
-    switch (value) {
-    case 'vertical': {
-      this.setAttribute(props.ORIENTATION, 'vertical');
-      this.container.classList.add('vertical');
-
-      for (let i = 0; i < this.children.length; i++) {
-        this.children[i].setAttribute('orientation', 'vertical');
-      }
-      break;
-    }
-    case 'horizontal':
-    default: {
-      this.setAttribute(props.ORIENTATION, 'horizontal');
-      this.container.classList.remove('vertical');
-
-      for (let i = 0; i < this.children.length; i++) {
-        this.children[i].setAttribute('orientation', 'horizontal');
-      }
-      break;
-    }
-    }
-  }
-
-  /**
-   * Binds associated callbacks and cleans
-   * old handlers when template refreshes
-   */
-  rendered() {
-    this.#updateCallbacks();
-  }
-
-  get orientation() {
-    return this.getAttribute(props.ORIENTATION);
-  }
-
-  /**
-   * the value representing a currently selected tab
-   * @type {string}
-   */
-  set value(value) {
-    this.setAttribute(props.VALUE, value);
-
-    this.#updateSelectionState();
-  }
-
-  get value() {
-    return this.getAttribute(props.VALUE);
   }
 
   /**
    * sets the ids-tab selection states
    * based on the current value
    */
-  #updateSelectionState = () => {
+  #updateSelectionState() {
     // determine which child tab value was set,
     // then highlight the item
 
@@ -371,17 +380,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         this.children[i].selected = isTabSelected;
       }
     }
-  }
-
-  /**
-   * Returns the value provided for a tab at a specified
-   * index; if it does not exist, then return zero-based index
-   *
-   * @param {number} index 0-based tab index
-   * @returns {string | number} value or index
-   */
-  getTabIndexValue(index) {
-    return this.children?.[index]?.getAttribute(props.VALUE) || index;
   }
 }
 
