@@ -74,7 +74,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
 
     // Add events to the target element
     if (this.target) {
-      this.refreshTargetEvents();
+      this.#refreshTargetEvents();
     }
 
     // Run refresh once on connect
@@ -129,7 +129,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   set target(val) {
     this.state.target = val;
     if (val) {
-      this.refreshTargetEvents();
+      this.#refreshTargetEvents();
     }
   }
 
@@ -209,7 +209,12 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     this.popup.visible = val;
 
     if (val) {
-      this.setModalPosition();
+      this.rl.register(new IdsRenderLoopItem({
+        duration: 1,
+        timeoutCallback: () => {
+          this.setModalPosition();
+        }
+      }));
     }
   }
 
@@ -218,17 +223,18 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   setModalPosition() {
-    this.animated = false;
+    // this.animated = false;
     if (this.popup.alignTarget !== null) {
       this.popup.alignTarget = null;
     }
     if (this.popup.align !== 'center') {
-      this.popup.align = 'center, center';
+      this.popup.align = 'center';
     }
 
     this.popup.x = window.innerWidth / 2;
     this.popup.y = window.innerHeight / 2;
-    this.animated = true;
+    // this.animated = true;
+    console.log('positioned');
   }
 
   /**
@@ -236,7 +242,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * by click, or by a keyboard press with the Enter/Return key.
    * @returns {void}
    */
-  refreshTargetEvents() {
+  #refreshTargetEvents() {
     this.detachEventsByName('click.target');
 
     if (!this.target) {
