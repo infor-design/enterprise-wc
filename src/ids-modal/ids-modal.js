@@ -190,8 +190,10 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     if (!val) {
       overlay = new IdsOverlay();
       this.shadowRoot.prepend(overlay);
-      this.overlay.container.style.zIndex = zCounter.increment();
-      this.popup.container.style.zIndex = zCounter.increment();
+      this.rl.onNextTick(() => {
+        this.overlay.container.style.zIndex = zCounter.increment();
+        this.popup.container.style.zIndex = zCounter.increment();
+      });
     } else if (this.state.overlay) {
       overlay = this.shadowRoot.querySelector('ids-overlay');
       overlay.remove();
@@ -209,12 +211,9 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     this.popup.visible = val;
 
     if (val) {
-      this.rl.register(new IdsRenderLoopItem({
-        duration: 1,
-        timeoutCallback: () => {
-          this.setModalPosition();
-        }
-      }));
+      this.rl.onNextTick(() => {
+        this.setModalPosition();
+      });
     }
   }
 
@@ -223,7 +222,6 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   setModalPosition() {
-    // this.animated = false;
     if (this.popup.alignTarget !== null) {
       this.popup.alignTarget = null;
     }
@@ -231,10 +229,14 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       this.popup.align = 'center';
     }
 
-    this.popup.x = window.innerWidth / 2;
-    this.popup.y = window.innerHeight / 2;
-    // this.animated = true;
-    console.log('positioned');
+    // If the modal isn't visible, subtract its width/height from the equation
+    // @TODO: some of this logic belongs in IdsPopup, after we enable support for centering.
+    const isOpen = this.popup.animatedOpen;
+    const width = !isOpen ? this.popup.container.clientWidth : 0;
+    const height = !isOpen ? this.popup.container.clientHeight : 0;
+
+    this.popup.x = (window.innerWidth - width) / 2;
+    this.popup.y = (window.innerHeight - height) / 2;
   }
 
   /**

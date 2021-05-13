@@ -7,6 +7,7 @@ describe('IdsModal Component', () => {
   let modal;
 
   beforeEach(async () => {
+    debugger;
     const elem = new IdsModal();
     document.body.appendChild(elem);
     modal = document.querySelector('ids-modal');

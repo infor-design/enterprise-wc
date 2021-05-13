@@ -27,12 +27,8 @@ const IdsResizeMixin = (superclass) => class extends superclass {
   connectedCallback() {
     super.connectedCallback?.();
 
-    if (this.shouldResize()) {
-      this.setupResize();
-    }
-    if (this.shouldDetectMutations()) {
-      this.setupDetectMutations();
-    }
+    this.setupResize();
+    this.setupDetectMutations();
   }
 
   /**

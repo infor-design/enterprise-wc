@@ -405,6 +405,14 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * @readonly
+   * @returns {boolean} true if the Popup is opened and has fully animated into place
+   */
+  get animatedOpen() {
+    return this.container.classList.contains('open');
+  }
+
+  /**
    * @param {string} val the style of animation this popup uses to show/hide
    */
   set animationStyle(val) {

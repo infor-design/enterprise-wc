@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsModal Component renders correctly 1`] = `"<ids-modal></ids-modal>"`;
+
+exports[`IdsModal Component renders correctly 2`] = `"<ids-modal visible=\\"\\"></ids-modal>"`;
+
+exports[`IdsModal Component renders correctly 3`] = `"<ids-modal></ids-modal>"`;

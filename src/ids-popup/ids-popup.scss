@@ -133,12 +133,16 @@
   &.animation-scale-in {
     @include opacity-0();
 
-    transform: perspective(1000px) translate3d(0, 0, -500px);
+    // @TODO: re-enable this after better popup container support exists
+    // transform: perspective(1000px) translate3d(0, 0, -500px);
+    transform: scale(0);
 
     &.open {
       @include opacity-100();
 
-      transform: perspective(1000px) translate3d(0, 0, 0);
+      // @TODO: re-enable this after better popup container support exists
+      // transform: perspective(1000px) translate3d(0, 0, 0);
+      transform: scale(1);
     }
   }
 
