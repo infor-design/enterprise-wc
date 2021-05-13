@@ -22,7 +22,7 @@ export function removeDuplicates(str) {
     .split('')
     .filter((item, pos, self) => self.indexOf(item) === pos)
     .join('');
-};
+}
 
 /**
  * Convert a string value into a boolean

@@ -169,7 +169,8 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       case 'childList': {
         // be sure to only this component's
         // children in case IdsTab / IdsTab => IdsText
-        // implementation is changed
+        // implementation is changed; also to ignore
+        // presentational components
 
         if (m.target instanceof IdsTabs) {
           this.#updateCallbacks();
