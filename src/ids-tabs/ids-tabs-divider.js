@@ -6,6 +6,7 @@ import {
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import styles from './ids-tabs-divider.scss';
 
+/* istanbul ignore next */
 /**
  * IDS TabGroupDivider Component
  *
