@@ -1,6 +1,6 @@
 {
   "name": "ids-enterprise-wc",
-  "version": "0.0.0-beta.8",
+  "version": "0.0.0-beta.9",
   "description": "The Web Component version of the IDS Enterprise component library",
   "main": "app/index.js",
   "directories": {
