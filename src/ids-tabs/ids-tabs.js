@@ -47,6 +47,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    */
   #tabValueSet = new Set();
 
+  // istanbul ignore next
   /** observes changes in tabs */
   #tabObserver = new MutationObserver((mutations) => {
     for (const { type } of mutations) {
@@ -101,11 +102,8 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.setAttribute('role', 'tablist');
-
-    // in case there was a previous observer
-
-    this.#tabObserver.disconnect();
 
     // set up observer for monitoring if a child
     // element changed
@@ -117,7 +115,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     });
   }
 
-  #updateCallbacks() {
+  #updateCallbacks = () => {
     // map tab el refs to their indexes
 
     this.#tabElIndexMap.clear();
@@ -228,7 +226,9 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       const hasTabCounts = Boolean(this?.children[0].hasAttribute('count'));
 
       for (let i = 1; i < this.children.length; i++) {
-        if (Boolean(this.children[i].hasAttribute('count')) !== hasTabCounts) {
+        const isCountVariant = Boolean(this.children[i].hasAttribute('count'));
+
+        if (isCountVariant !== hasTabCounts) {
           throw new Error(
             'ids-tabs: '
             + 'either all or no ids-tab elements should have "count" attrib set'
@@ -236,6 +236,11 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         }
       }
     }
+  };
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.#tabObserver.disconnect();
   }
 
   /**

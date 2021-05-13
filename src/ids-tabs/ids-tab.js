@@ -196,9 +196,11 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   #setDataTextForBoldFix = () => {
     const idsText = this.container?.querySelector('ids-text');
-    const [slotNode] = idsText.querySelector('slot')?.assignedNodes?.();
+    const slotNode = idsText.querySelector('slot')?.assignedNodes?.()?.[0];
 
-    idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
+    if (slotNode) {
+      idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
+    }
   };
 
   focus() {
