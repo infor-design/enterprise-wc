@@ -50,9 +50,62 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   // istanbul ignore next
   /** observes changes in tabs */
   #tabObserver = new MutationObserver((mutations) => {
-    for (const { type } of mutations) {
-      if (type === 'childList') {
+    for (const m of mutations) {
+      switch (m.type) {
+      case 'childList': {
+        // be sure to only this component's
+        // children in case IdsTab / IdsTab => IdsText
+        // implementation is changed
+
+        if (m.target instanceof IdsTabs) {
+          this.#updateCallbacks();
+          this.#updateSelectionState();
+        }
+        break;
+      }
+      case 'attributes': {
+        const value = m.target.getAttribute(m.attributeName);
+
+        if (m.target instanceof IdsTab) {
+          if (value === m.oldValue) {
+            return;
+          }
+
+          // for sub-tab value changes, we need
+          // to rebind callbacks as the click events
+          // are indexed by tab values (in case of value
+          // swaps/etc)
+
+          if (m.attributeName === 'value') {
+            if (m.target.selected && this.value !== value) {
+              this.value = value;
+            } else {
+              this.#updateCallbacks();
+            }
+          }
+
+          if (m.attributeName === 'selected') {
+            if (Boolean(m.target.selected) && this.value !== m.target.value) {
+              this.value = m.target.value;
+            }
+          }
+        }
+
+        if (m.target instanceof IdsTab || m.target instanceof IdsTabs) {
+          if (value !== m.oldValue && m.attributeName === 'value') {
+            this.#updateSelectionState();
+          }
+        }
+        break;
+      }
+      default: {
+        break;
+      }
+      }
+
+      if (m.type === 'childList') {
         this.#updateCallbacks();
+        this.#updateSelectionState();
       }
     }
   });
@@ -111,6 +164,8 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     this.#tabObserver.observe(this, {
       childList: true,
       attributes: true,
+      attributeOldValue: true,
+      attributeFilter: ['selected', 'value'],
       subtree: true
     });
   }
@@ -142,7 +197,9 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         eventNs,
         this.children[i],
         () => {
-          this.value = tabValue;
+          if (this.value !== tabValue) {
+            this.value = tabValue;
+          }
           this.focus();
         }
       );
@@ -291,17 +348,29 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   set value(value) {
     this.setAttribute(props.VALUE, value);
 
+    this.#updateSelectionState();
+  }
+
+  get value() {
+    return this.getAttribute(props.VALUE);
+  }
+
+  /**
+   * sets the ids-tab selection states
+   * based on the current value
+   */
+  #updateSelectionState = () => {
     // determine which child tab value was set,
     // then highlight the item
 
     for (let i = 0; i < this.children.length; i++) {
       const tabValue = this.children[i].getAttribute(props.VALUE);
-      this.children[i].selected = tabValue === value;
-    }
-  }
+      const isTabSelected = Boolean(this.value === tabValue);
 
-  get value() {
-    return this.getAttribute(props.VALUE);
+      if (Boolean(this.children[i].selected) !== isTabSelected) {
+        this.children[i].selected = isTabSelected;
+      }
+    }
   }
 
   /**

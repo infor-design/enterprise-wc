@@ -40,9 +40,8 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} the template to render
    */
   template() {
-    const innerContent = this.hasAttribute('count') ? /* TODO */(
-      `
-      <ids-text
+    const innerContent = this.hasAttribute('count') ? (
+      `<ids-text
         overflow="ellipsis"
         font-size="28"
         color="unset"
@@ -126,10 +125,6 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       this.setAttribute('selected', true);
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
       this.setAttribute('tabindex', '0');
-
-      if (this.parentElement.getAttribute('value') !== this.value) {
-        this.parentElement.setAttribute('value', this.value);
-      }
     }
 
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
