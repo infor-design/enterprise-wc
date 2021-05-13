@@ -109,10 +109,10 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * @param {string} value value which becomes selected by tabs component
+   * @param {string} isSelected value which becomes selected by tabs component
    */
-  set selected(value) {
-    const isValueTruthy = stringToBool(value);
+  set selected(isSelected) {
+    const isValueTruthy = stringToBool(isSelected);
 
     if (!isValueTruthy) {
       this.container.classList.remove(props.SELECTED);
@@ -126,6 +126,10 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       this.setAttribute('selected', true);
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
       this.setAttribute('tabindex', '0');
+
+      if (this.parentElement.getAttribute('value') !== this.value) {
+        this.parentElement.setAttribute('value', this.value);
+      }
     }
 
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
