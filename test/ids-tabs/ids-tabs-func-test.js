@@ -8,7 +8,7 @@ import IdsText from '../../src/ids-text/ids-text';
 
 const processAnimFrame = () => new Promise((resolve) => {
   window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(() => { resolve(); });
+    window.requestAnimationFrame(resolve);
   });
 });
 
@@ -80,6 +80,21 @@ describe('IdsTabs Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('renders a vertical set of tabs with no errors', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-tabs value="hello" orientation="vertical">
+        <ids-tab value="hello">Hello</ids-tab>
+        <ids-tab value="world">World</ids-tab>
+        <ids-tab value="can">Can</ids-tab>
+        <ids-tab value="uhearme">You Hear Me?</ids-tab>
+      </ids-tabs>`
+    );
+
+    const errors = jest.spyOn(global.console, 'error');
+    expect(document.querySelectorAll('ids-tabs').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('renders correctly', async () => {
     elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
 
@@ -126,16 +141,25 @@ describe('IdsTabs Tests', () => {
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
-  it('sets "selected" state of a tab directly, and does not '
-  + 'trigger an error', async () => {
+  it('sets "selected" state of a new tab directly, and does not '
+  + 'become in an invalid tabs state', async () => {
     elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
 
     elem.children[1].selected = true;
-
     await processAnimFrame();
     const hasValidTabs = areTabSelectionAttribsValid(elem);
 
     expect(hasValidTabs).toEqual(true);
+  });
+
+  it('unsets "selected" state of a selected tab false, and triggers '
+  + 'an error with an invalid tabs state', async () => {
+    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem.children[0].selected = false;
+    await processAnimFrame();
+    const hasValidTabs = areTabSelectionAttribsValid(elem);
+
+    expect(hasValidTabs).toEqual(false);
   });
 
   it('sets tabs to an invalid value and triggers an error', async () => {
@@ -191,7 +215,20 @@ describe('IdsTabs Tests', () => {
       </ids-tabs>`
     ));
 
-    await processAnimFrame();
+    expect(errors).toHaveBeenCalled();
+  });
+
+  it('sets a count to an empty value, then triggers an error', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    await expect(createElemViaTemplate(
+      `<ids-tabs value="eggs">
+        <ids-tab count="20" value="eggs">Eggs In a Basket</ids-tab>
+        <ids-tab count="5" value="peas">Peas in a Pod</ids-tab>
+      </ids-tabs>`
+    ));
+
+    elem.children[0].count = '';
 
     expect(errors).toHaveBeenCalled();
   });
