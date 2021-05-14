@@ -161,7 +161,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    */
   #tabValueSet = new Set();
 
-  // istanbul ignore next
   /** observes changes in tabs */
   #tabObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
@@ -338,7 +337,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         const isCountVariant = Boolean(this.children[i].hasAttribute('count'));
 
         if (isCountVariant !== hasTabCounts) {
-          throw new Error(
+          console.error(
             'ids-tabs: '
             + 'either all or no ids-tab elements should have "count" attrib set'
           );
@@ -355,6 +354,8 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     // determine which child tab value was set,
     // then highlight the item
 
+    let hadTabSelection = false;
+
     for (let i = 0; i < this.children.length; i++) {
       const tabValue = this.children[i].getAttribute(props.VALUE);
       const isTabSelected = Boolean(this.value === tabValue);
@@ -362,6 +363,14 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       if (Boolean(this.children[i].selected) !== isTabSelected) {
         this.children[i].selected = isTabSelected;
       }
+
+      if (!hadTabSelection && Boolean(this.children[i].selected)) {
+        hadTabSelection = true;
+      }
+    }
+
+    if (!hadTabSelection) {
+      console.error('tab value given was invalid');
     }
   }
 }

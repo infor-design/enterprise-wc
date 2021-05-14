@@ -155,13 +155,12 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       return;
     }
 
-    if (Number.isNaN(Number(value))) {
-      this.removeAttribute(props.COUNT);
-      throw new Error('ids-tab: invalid number supplied to "count" property');
-    }
-
     this.container.classList.add('count');
     this.setAttribute(props.COUNT, value);
+
+    if (value !== '' && Number.isNaN(Number(value))) {
+      console.error('ids-tab: invalid number supplied to "count" property');
+    }
   }
 
   /**
