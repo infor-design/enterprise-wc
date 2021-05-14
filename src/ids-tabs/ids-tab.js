@@ -22,9 +22,6 @@ import styles from './ids-tab.scss';
 class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
-
-    this.rendered = this.rendered.bind(this);
-    this.#setDataTextForBoldFix = this.#setDataTextForBoldFix.bind(this);
   }
 
   /**
@@ -46,7 +43,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
         font-size="28"
         color="unset"
         ${this.selected ? 'font-weight="bold"' : ''}
-      >${this.getAttribute('count')}
+      >${this.getAttribute(props.COUNT)}
       </ids-text>
       <ids-text
         overflow="ellipsis"
@@ -96,6 +93,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
     this.onEvent('slotchange', this.container, () => {
       this.#setDataTextForBoldFix();
+      this.setAttribute('aria-label', this.#getReadableAriaLabel());
     });
 
     this.#setDataTextForBoldFix();
@@ -105,6 +103,8 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     this.setAttribute('role', 'tab');
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
     this.setAttribute('tabindex', stringToBool(this.selected) ? '0' : '-1');
+
+    this.setAttribute('aria-label', this.#getReadableAriaLabel());
   }
 
   /**
@@ -186,6 +186,22 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
   get orientation() {
     return this.getAttribute(props.ORIENTATION);
+  }
+
+  /**
+   * sets aria readable label by
+   * grabbing all ids-text nodes in order
+   * they appear in the DOM
+   *
+   * @returns {string} aria-label content
+   */
+  #getReadableAriaLabel() {
+    const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
+
+    return idsTextEls.map((textEl) => {
+      const slotNode = textEl.querySelector('slot')?.assignedNodes?.()?.[0];
+      return slotNode?.textContent || textEl.textContent;
+    }).join(' ');
   }
 
   /**

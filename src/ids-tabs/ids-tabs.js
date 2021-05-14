@@ -87,17 +87,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   }
 
   /**
-   * Returns the value provided for a tab at a specified
-   * index; if it does not exist, then return zero-based index
-   *
-   * @param {number} index 0-based tab index
-   * @returns {string | number} value or index
-   */
-  getTabIndexValue(index) {
-    return this.children?.[index]?.getAttribute(props.VALUE) || index;
-  }
-
-  /**
    * Set the orientation of how tabs will be laid out
    *
    * @param {'horizontal' | 'vertical'} value orientation
@@ -142,6 +131,17 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
 
   get value() {
     return this.getAttribute(props.VALUE);
+  }
+
+  /**
+   * Returns the value provided for a tab at a specified
+   * index; if it does not exist, then return zero-based index
+   *
+   * @param {number} index 0-based tab index
+   * @returns {string | number} value or index
+   */
+  getTabIndexValue(index) {
+    return this.children?.[index]?.getAttribute(props.VALUE) || index;
   }
 
   /**
