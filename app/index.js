@@ -31,6 +31,7 @@ import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
 import IdsContainer from '../src/ids-container/ids-container';
 import IdsThemeSwitcher from '../src/ids-theme-switcher/ids-theme-switcher';
 import IdsWizard, { IdsWizardStep } from '../src/ids-wizard';
+import IdsTabs, { IdsTab } from '../src/ids-tabs';
 
 // Import Example Code
 
@@ -59,3 +60,4 @@ import './ids-badge/index';
 import './ids-textarea/example';
 import './ids-block-grid/index';
 import './ids-wizard/index';
+import './ids-tabs/index';
