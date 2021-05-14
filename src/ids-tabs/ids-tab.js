@@ -72,7 +72,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
           this.orientation,
           this.count
         ) }
-        tabindex="0"
+        tabindex="-1"
         part="container"
       >${innerContent}
       </div>`
