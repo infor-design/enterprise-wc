@@ -312,24 +312,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       });
     }
 
-    this.listen('Tab', this, (e) => {
-      e.preventDefault?.();
-      if (e.shiftKey) {
-        const focusedTabIndex = this.getFocusedTabIndex();
-
-        if (focusedTabIndex > 0) {
-          this.children[focusedTabIndex - 1].focus();
-        }
-        return;
-      }
-
-      const focusedTabIndex = this.getFocusedTabIndex();
-
-      if (focusedTabIndex + 1 < this.children.length) {
-        this.children[focusedTabIndex + 1].focus();
-      }
-    });
-
     this.listen('Home', this.container, () => {
       this.children[0].focus();
     });
