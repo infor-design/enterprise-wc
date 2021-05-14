@@ -4,12 +4,8 @@
 import IdsTabs, { IdsTab } from '../../src/ids-tabs';
 import IdsText from '../../src/ids-text/ids-text';
 
-const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
-
 const processAnimFrame = () => new Promise((resolve) => {
-  wait(100).then(() => {
-    resolve();
-  });
+  window.requestAnimationFrame(() => resolve());
 });
 
 describe('IdsTabs Tests', () => {
@@ -20,18 +16,29 @@ describe('IdsTabs Tests', () => {
    * ids-tabs instance and verifies all "selected"
    * attribs make sense based on value of tabs/values
    *
-   * @returns {Boolean} whether or not there were issues
+   * @returns {boolean} whether or not there were issues
    */
   function areTabSelectionAttribsValid() {
     let isValidState = true;
 
+    let selectionCount = 0;
+
     for (const tabEl of [...elem.children]) {
       const isTabSelected = tabEl.value === elem.value;
       const isTabMarkedSelected = Boolean(tabEl.selected);
+
+      if (isTabMarkedSelected) {
+        selectionCount++;
+      }
+
       expect(isTabMarkedSelected).toEqual(isTabSelected);
       if (isTabMarkedSelected !== isTabSelected) {
         isValidState = false;
       }
+    }
+
+    if (selectionCount > 1) {
+      isValidState = false;
     }
 
     return isValidState;
@@ -91,6 +98,7 @@ describe('IdsTabs Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  /*
   it('renders with partial counts set, and triggers an error', async () => {
     await expect(Promise.all([
       await createElemViaTemplate(
@@ -100,9 +108,9 @@ describe('IdsTabs Tests', () => {
           <ids-tab>Ginger Ales?</ids-tab>
         </ids-tabs>`
       ),
-      wait(100).then(wait(100)).then(wait(100))
     ])).rejects.toThrow();
   });
+  */
 
   it('removes a tab after rendering and does not break', async () => {
     const errors = jest.spyOn(global.console, 'error');
@@ -111,6 +119,16 @@ describe('IdsTabs Tests', () => {
 
     expect(errors).not.toHaveBeenCalled();
     expect(elem.outerHTML).toMatchSnapshot();
+  });
+
+  it('sets "selected" state of a tab directly, and does not '
+  + 'trigger an error', async () => {
+    elem.children[1].selected = true;
+
+    await processAnimFrame();
+    const hasValidTabs = await areTabSelectionAttribsValid(elem);
+
+    expect(hasValidTabs).toEqual(true);
   });
 
   it('changes content within a text node to fire a slotchange with no errors', async () => {
