@@ -9,4 +9,4 @@ Tentative for Phase 1 but certain things e.g. overflows may need to  get done in
 - [] tab divider test coverage
 - [] detect overflows
 - [] accessibility: let user tab off of ids-tabs
-- [] edge case: when user removes an option (either via through React/Angualur template or JS) that was selected, provide warning + select a nearby tab
+- [] edge case: when user removes an option (either via through React/Angualur template or JS) that was selected, provide warning
