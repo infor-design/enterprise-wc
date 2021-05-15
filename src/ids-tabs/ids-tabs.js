@@ -171,8 +171,11 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         // implementation is changed; also to ignore
         // presentational components
 
+        /* istanbul ignore next */
         if (m.target instanceof IdsTabs) {
+          /* istanbul ignore next */
           this.#updateCallbacks();
+          /* istanbul ignore next */
           this.#updateSelectionState();
         }
         break;
@@ -190,6 +193,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
           // are indexed by tab values (in case of value
           // swaps/etc)
 
+          /* istanbul ignore next */
           if (m.attributeName === 'value') {
             if (m.target.selected && this.value !== value) {
               this.value = value;
@@ -198,13 +202,16 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
             }
           }
 
+          /* istanbul ignore next */
           if (m.attributeName === 'selected') {
+            /* istanbul ignore next */
             if (Boolean(m.target.selected) && this.value !== m.target.value) {
               this.value = m.target.value;
             }
           }
         }
 
+        /* istanbul ignore else */
         if (m.target instanceof IdsTab || m.target instanceof IdsTabs) {
           if (value !== m.oldValue && m.attributeName === 'value') {
             this.#updateSelectionState();
@@ -212,11 +219,13 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         }
         break;
       }
+      /* istanbul ignore next */
       default: {
         break;
       }
       }
 
+      /* istanbul ignore next */
       if (m.type === 'childList') {
         this.#updateCallbacks();
         this.#updateSelectionState();
@@ -224,6 +233,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     }
   });
 
+  /* istanbul ignore next */
   /**
    * @returns {number} currently focused tab index, or -1
    */
@@ -239,6 +249,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     return -1;
   }
 
+  /* istanbul ignore next */
   #updateCallbacks() {
     // map tab el refs to their indexes
 
@@ -265,6 +276,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       this.onEvent(
         eventNs,
         this.children[i],
+        /* istanbul ignore next */
         () => {
           if (this.value !== tabValue) {
             this.value = tabValue;
@@ -278,6 +290,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     // orientation for assignments
 
     if (this.orientation !== 'vertical') {
+      /* istanbul ignore next */
       this.listen('ArrowLeft', this.container, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
@@ -286,6 +299,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         }
       });
 
+      /* istanbul ignore next */
       this.listen('ArrowRight', this.container, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
@@ -294,6 +308,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         }
       });
     } else {
+      /* istanbul ignore next */
       this.listen('ArrowUp', this.container, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
@@ -302,6 +317,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         }
       });
 
+      /* istanbul ignore next */
       this.listen('ArrowDown', this.container, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
@@ -311,14 +327,17 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       });
     }
 
+    /* istanbul ignore next */
     this.listen('Home', this.container, () => {
       this.children[0].focus();
     });
 
+    /* istanbul ignore next */
     this.listen('End', this.container, () => {
       this.children[this.children.length - 1].focus();
     });
 
+    /* istanbul ignore next */
     this.listen('Enter', this.container, () => {
       const focusedTabIndex = this.getFocusedTabIndex();
 

@@ -80,6 +80,16 @@ describe('IdsTabs Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('Does not show errors when created with no tabs', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+    elem = await createElemViaTemplate(
+      '<ids-tabs></ids-tabs>'
+    );
+
+    expect(document.querySelectorAll('ids-tabs').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('renders a vertical set of tabs with no errors', async () => {
     elem = await createElemViaTemplate(
       `<ids-tabs value="hello" orientation="vertical">
@@ -92,6 +102,24 @@ describe('IdsTabs Tests', () => {
 
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-tabs').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('creates tabs with vertical orientation, then sets them horizontal', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+    elem = await createElemViaTemplate(
+      `<ids-tabs value="hello" orientation="vertical">
+        <ids-tab value="hello">Hello</ids-tab>
+        <ids-tab value="world">World</ids-tab>
+        <ids-tab value="can">Can</ids-tab>
+        <ids-tab value="uhearme">You Hear Me?</ids-tab>
+      </ids-tabs>`
+    );
+
+    elem.orientation = 'horizontal';
+    await processAnimFrame();
+
+    expect(elem.getAttribute('orientation')).toEqual('horizontal');
     expect(errors).not.toHaveBeenCalled();
   });
 
