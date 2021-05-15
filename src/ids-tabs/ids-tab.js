@@ -113,14 +113,13 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   set selected(isSelected) {
     const isValueTruthy = stringToBool(isSelected);
 
+    /* istanbul ignore if */
     if (!isValueTruthy) {
       this.container.classList.remove(props.SELECTED);
       this.removeAttribute('selected');
       this.container?.children?.[0]?.removeAttribute?.('font-weight');
       this.setAttribute('tabindex', '-1');
-    }
-
-    if (isValueTruthy) {
+    } else {
       this.container.classList.add(props.SELECTED);
       this.setAttribute('selected', true);
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
@@ -217,6 +216,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     }
   };
 
+  /* istanbul ignore next */
   focus() {
     this.container.focus();
   }

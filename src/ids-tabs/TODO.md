@@ -10,3 +10,7 @@ Tentative for Phase 1 but certain things e.g. overflows may need to  get done in
 - [] detect overflows
 - [] accessibility: let user tab off of ids-tabs
 - [] edge case: when user removes an option (either via through React/Angualur template or JS) that was selected, provide warning
+- [] tests for keyboard events
+- [] figure out how to get coveralls + Jest to detect certain parts of code
+- [] test: click handler callbacks
+- [] test: figure out why ids-tab.selected = false doesn't trigger in Jest
