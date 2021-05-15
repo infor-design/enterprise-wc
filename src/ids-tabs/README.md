@@ -1,4 +1,4 @@
-# Ids Text Component
+# Ids Tabs Component
 
 ## Description
 
