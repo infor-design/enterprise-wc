@@ -42,6 +42,7 @@ $textarea-size-default-height: 120px;
 
   .label-text {
     @include antialiased();
+    @include font-sans();
     @include text-slate-60();
     @include mb-4();
 

@@ -11,16 +11,37 @@ $input-size-md: 300px;
 $input-size-lg: 400px;
 $input-size-full: 100%;
 
-// Field Row Height
-$input-row-height-xs: 28px;
-$input-row-height-sm: 30px;
-$input-row-height-md: 38px;
-$input-row-height-lg: 48px;
+// Field Field Height
+$input-field-height-xs: 28px;
+$input-field-height-sm: 30px;
+$input-field-height-md: 38px;
+$input-field-height-lg: 48px;
 
 // Set default
 $input-size-default: $input-size-md;
-$input-row-height-default: $input-row-height-md;
-$input-compact-height: $input-row-height-xs;
+$input-field-height-default: $input-field-height-md;
+$input-compact-height: $input-field-height-xs;
+
+@mixin input-extra-small-height($h: $input-field-height-xs) {
+  @include mb-12();
+
+  .label-text {
+    @include text-14();
+  }
+
+  .field-container {
+    @include mb-1();
+  }
+
+  .ids-input-field {
+    @include mb-2();
+    @include px-4();
+    @include py-0();
+    @include text-14();
+
+    height: $h;
+  }
+}
 
 .ids-input {
   @include block();
@@ -28,6 +49,7 @@ $input-compact-height: $input-row-height-xs;
 
   .label-text {
     @include antialiased();
+    @include font-sans();
     @include text-slate-60();
     @include mb-4();
 
@@ -71,53 +93,6 @@ $input-compact-height: $input-row-height-xs;
     align-items: center;
     display: flex;
     max-width: $input-size-default;
-
-    // input sizes: [xs, sm, mm, md, lg, full]
-    &.xs {
-      max-width: $input-size-xs;
-    }
-
-    &.sm {
-      max-width: $input-size-sm;
-    }
-
-    &.mm {
-      max-width: $input-size-mm;
-    }
-
-    &.md {
-      max-width: $input-size-md;
-    }
-
-    &.lg {
-      max-width: $input-size-lg;
-    }
-
-    &.full {
-      max-width: $input-size-full;
-    }
-
-    // input row-heights: [xs, sm, md, lg]
-    &.row-height-xs .ids-input-field {
-      height: $input-row-height-xs;
-    }
-
-    &.row-height-sm .ids-input-field {
-      height: $input-row-height-sm;
-    }
-
-    &.row-height-md .ids-input-field {
-      height: $input-row-height-md;
-    }
-
-    &.row-height-lg .ids-input-field {
-      height: $input-row-height-lg;
-    }
-
-    // input compact
-    &.compact .ids-input-field {
-      height: $input-compact-height;
-    }
   }
 
   .ids-input-field {
@@ -127,10 +102,11 @@ $input-compact-height: $input-row-height-xs;
     @include border-1();
     @include border-slate-40();
     @include border-solid();
+    @include font-sans();
     @include mb-4();
     @include p-8();
     @include rounded-default();
-    @include text-14();
+    @include text-16();
     @include text-black();
     @include w-full();
 
@@ -138,7 +114,7 @@ $input-compact-height: $input-row-height-xs;
     border-collapse: separate;
     border-radius: 2px;
     display: inline-block;
-    height: $input-row-height-default;
+    height: $input-field-height-default;
     resize: none;
     text-align: left;
 
@@ -267,6 +243,53 @@ $input-compact-height: $input-row-height-xs;
         @include text-emerald-30();
       }
     }
+  }
+
+  // input sizes: [xs, sm, mm, md, lg, full]
+  &.xs .field-container {
+    max-width: $input-size-xs;
+  }
+
+  &.sm .field-container {
+    max-width: $input-size-sm;
+  }
+
+  &.mm .field-container {
+    max-width: $input-size-mm;
+  }
+
+  &.md .field-container {
+    max-width: $input-size-md;
+  }
+
+  &.lg .field-container {
+    max-width: $input-size-lg;
+  }
+
+  &.full .field-container {
+    max-width: $input-size-full;
+  }
+
+  // input field-heights: [xs, sm, md, lg]
+  &.field-height-xs {
+    @include input-extra-small-height();
+  }
+
+  &.field-height-sm .ids-input-field {
+    height: $input-field-height-sm;
+  }
+
+  &.field-height-md .ids-input-field {
+    height: $input-field-height-md;
+  }
+
+  &.field-height-lg .ids-input-field {
+    height: $input-field-height-lg;
+  }
+
+  // input compact
+  &.compact {
+    @include input-extra-small-height($input-compact-height);
   }
 }
 

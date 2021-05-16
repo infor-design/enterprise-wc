@@ -34,6 +34,7 @@ export const props = {
   DISMISSIBLE: 'dismissible',
   ERROR: 'error',
   EXPANDED: 'expanded',
+  FIELD_HEIGHT: 'field-height',
   FILE: 'file',
   FILE_NAME: 'file-name',
   FILL: 'fill',
