@@ -118,6 +118,30 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.disableNativeEvents).toEqual(null);
   });
 
+  it('Should not set field-height null', () => {
+    triggerField.containerSetHeightClass({ name: 'compact', val: 'true' });
+    expect(triggerField.container.classList).toContain('compact');
+    triggerField.containerSetHeightClass({ name: 'compact', val: 'false' });
+    expect(triggerField.container.classList).not.toContain('compact');
+    triggerField.containerSetHeightClass({ name: 'field-height', val: 'sm' });
+    expect(triggerField.container.classList).toContain('field-height-sm');
+    triggerField.containerSetHeightClass({ name: 'field-height', val: null });
+    expect(triggerField.container.getAttribute('class')).not.toContain('field-height-');
+  });
+
+  it('Should set validation message class', () => {
+    const className = 'has-validation-message';
+    expect(triggerField.container.classList).not.toContain(className);
+    let input = triggerField.querySelector('ids-input');
+    let event = new CustomEvent('validated', { detail: { isValid: false } });
+    input.dispatchEvent(event);
+    expect(triggerField.container.classList).toContain(className);
+    input = triggerField.querySelector('ids-input');
+    event = new CustomEvent('validated', { detail: { isValid: true } });
+    input.dispatchEvent(event);
+    expect(triggerField.container.classList).not.toContain(className);
+  });
+
   it('renders icon clock', () => {
     document.body.innerHTML = '';
     const trigger = new IdsTriggerField();
@@ -137,10 +161,10 @@ describe('IdsTriggerField Component', () => {
     triggerField.shouldUpdate = false;
     input.size = 'lg';
     expect(input.getAttribute('size')).toEqual('lg');
-    expect(input.input.classList).toContain('lg');
+    expect(input.container.classList).toContain('lg');
     triggerField.shouldUpdate = true;
     input.size = 'sm';
     expect(input.getAttribute('size')).toEqual('sm');
-    expect(input.input.classList).toContain('sm');
+    expect(input.container.classList).toContain('sm');
   });
 });

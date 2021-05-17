@@ -7,18 +7,15 @@
     ~ .btn-clear {
       @include outline-none();
 
-      margin-left: 1px;
-      margin-top: -24px;
-      position: absolute;
+      margin-top: -4px;
 
       &.is-empty {
         display: none;
       }
 
       [slot='icon'] {
+        @include ml-0();
         @include text-slate-60();
-
-        margin-left: -1px;
       }
 
       &:hover [slot='icon'] {
@@ -27,14 +24,14 @@
     }
 
     &.has-clearable {
-      @include pr-28();
+      @include pr-32();
 
       &.has-triggerfield {
-        padding-right: 50px;
+        padding-right: 55px;
       }
 
       &.has-triggerfield ~ .btn-clear {
-        margin-left: -23px;
+        margin-left: -25px;
       }
     }
   }
