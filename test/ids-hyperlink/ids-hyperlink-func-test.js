@@ -99,4 +99,16 @@ describe('IdsHyperlink Component', () => {
     elem.version = 'classic';
     expect(elem.container.getAttribute('version')).toEqual('classic');
   });
+
+  it('unsets the color', () => {
+    elem.color = 'unset';
+    expect(elem.getAttribute('color')).toEqual('unset');
+    expect(elem.color).toEqual('unset');
+  });
+
+  it('does not render a color for inputs other than unset', () => {
+    elem.color = 'blue';
+    expect(elem.getAttribute('color')).toEqual(null);
+    expect(elem.color).toEqual(null);
+  });
 });

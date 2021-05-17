@@ -52,7 +52,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * If set to true the container is scollable
+   * If set to true the container is scrollable
    * @param {boolean|string} value true of false depending if the tag is scrollable
    */
   set scrollable(value) {
