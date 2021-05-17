@@ -13,6 +13,9 @@
   - Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Counts]` The counts component has been changed to a web component and renamed to ids-counts.
+  - Text is now contained in an ids-text element `<ids-text></ids-text>`
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Datagrid]` The Datagrid component has been changed to a web component `ids-data-grid`.
   - If using events events are now plain JS events for example: sorted, rendered
   - If using properties/settings these are now attributes or as plain properties for example: data, virtual-scroll

@@ -23,6 +23,7 @@ export const props = {
   COL_START: 'col-start',
   COLOR: 'color',
   COLS: 'cols',
+  COMPACT: 'compact',
   CLICKABLE: 'clickable',
   CSS_CLASS: 'css-class',
   DATA: 'data',
