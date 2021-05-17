@@ -16,7 +16,7 @@ $textarea-size-default-height: 120px;
 .ids-textarea {
   @include block();
   @include font-sans();
-  @include mb-16();
+  @include mb-20();
   @include text-16();
   @include text-slate-80();
 
@@ -31,6 +31,7 @@ $textarea-size-default-height: 120px;
   }
 
   .textarea-character-counter {
+    display: inline-block;
     min-height: auto;
     width: $textarea-size-default;
 
@@ -41,8 +42,9 @@ $textarea-size-default-height: 120px;
 
   .label-text {
     @include antialiased();
+    @include font-sans();
     @include text-slate-60();
-    @include mb-4();
+    @include mb-8();
 
     align-items: baseline;
     display: flex;
@@ -77,10 +79,45 @@ $textarea-size-default-height: 120px;
   }
 
   .field-container {
-    @include block();
     @include m-0();
     @include p-0();
     @include relative();
+
+    display: flex;
+    max-width: $textarea-size-default;
+
+    // textarea sizes: [sm, md, lg, full]
+    &.sm {
+      max-width: $textarea-size-sm;
+
+      ~ .textarea-character-counter {
+        width: $textarea-size-sm;
+      }
+    }
+
+    &.md {
+      max-width: $textarea-size-md;
+
+      ~ .textarea-character-counter {
+        width: $textarea-size-md;
+      }
+    }
+
+    &.lg {
+      max-width: $textarea-size-lg;
+
+      ~ .textarea-character-counter {
+        width: $textarea-size-lg;
+      }
+    }
+
+    &.full {
+      max-width: $textarea-size-full;
+
+      ~ .textarea-character-counter {
+        width: $textarea-size-full;
+      }
+    }
   }
 
   .ids-textarea-field {
@@ -96,16 +133,15 @@ $textarea-size-default-height: 120px;
     @include rounded-default();
     @include text-16();
     @include text-black();
+    @include w-full();
 
     -webkit-appearance: none;
     border-collapse: separate;
     border-radius: 2px;
     display: inline-block;
-    max-width: 100%;
     min-height: $textarea-size-default-height;
     resize: none;
     text-align: left;
-    width: $textarea-size-default;
 
     &:hover {
       @include border-slate-90();
@@ -177,39 +213,6 @@ $textarea-size-default-height: 120px;
       text-align: right;
     }
 
-    // textarea sizes: [sm, md, lg, full]
-    &.sm {
-      width: $textarea-size-sm;
-
-      ~ .textarea-wordcount {
-        width: $textarea-size-sm;
-      }
-    }
-
-    &.md {
-      width: $textarea-size-md;
-
-      ~ .textarea-wordcount {
-        width: $textarea-size-md;
-      }
-    }
-
-    &.lg {
-      width: $textarea-size-lg;
-
-      ~ .textarea-wordcount {
-        width: $textarea-size-lg;
-      }
-    }
-
-    &.full {
-      width: $textarea-size-full;
-
-      ~ .textarea-wordcount {
-        width: $textarea-size-full;
-      }
-    }
-
     // textarea message: [alert, error, info, success]
     &.alert,
     &.alert:hover {
@@ -276,6 +279,13 @@ $textarea-size-default-height: 120px;
         @include border-emerald-30();
         @include text-emerald-30();
       }
+    }
+
+    ~ .btn-clear {
+      @include absolute();
+      @include mt-4();
+
+      right: 0;
     }
   }
 

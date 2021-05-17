@@ -125,43 +125,43 @@ describe('IdsTextarea Component', () => {
   it('renders field as disabled', () => {
     expect(textarea.getAttribute('disabled')).toEqual(null);
     expect(textarea.input.getAttribute('disabled')).toBe(null);
-    expect(textarea.rootEl.classList).not.toContain('disabled');
+    expect(textarea.container.classList).not.toContain('disabled');
     textarea.validate = 'required';
     textarea.checkValidation();
     textarea.disabled = true;
     expect(textarea.getAttribute('disabled')).toEqual('true');
     expect(textarea.input.getAttribute('disabled')).toBe('true');
-    expect(textarea.rootEl.classList).toContain('disabled');
+    expect(textarea.container.classList).toContain('disabled');
   });
 
   it('should disable and enable', () => {
     expect(textarea.getAttribute('disabled')).toEqual(null);
     expect(textarea.input.getAttribute('disabled')).toBe(null);
-    expect(textarea.rootEl.classList).not.toContain('disabled');
+    expect(textarea.container.classList).not.toContain('disabled');
     textarea.disabled = true;
     expect(textarea.getAttribute('disabled')).toEqual('true');
     expect(textarea.input.getAttribute('disabled')).toBe('true');
-    expect(textarea.rootEl.classList).toContain('disabled');
+    expect(textarea.container.classList).toContain('disabled');
     textarea.disabled = false;
     expect(textarea.getAttribute('disabled')).toEqual(null);
     expect(textarea.input.getAttribute('disabled')).toBe(null);
-    expect(textarea.rootEl.classList).not.toContain('disabled');
+    expect(textarea.container.classList).not.toContain('disabled');
   });
 
   it('renders field as readonly', () => {
     expect(textarea.getAttribute('readonly')).toEqual(null);
     expect(textarea.input.getAttribute('readonly')).toBe(null);
-    expect(textarea.rootEl.classList).not.toContain('readonly');
+    expect(textarea.container.classList).not.toContain('readonly');
     textarea.validate = 'required';
     textarea.checkValidation();
     textarea.readonly = true;
     expect(textarea.getAttribute('readonly')).toEqual('true');
     expect(textarea.input.getAttribute('readonly')).toBe('true');
-    expect(textarea.rootEl.classList).toContain('readonly');
+    expect(textarea.container.classList).toContain('readonly');
     textarea.readonly = false;
     expect(textarea.getAttribute('readonly')).toEqual(null);
     expect(textarea.input.getAttribute('readonly')).toBe(null);
-    expect(textarea.rootEl.classList).not.toContain('readonly');
+    expect(textarea.container.classList).not.toContain('readonly');
   });
 
   it('renders rows to field', () => {
@@ -378,11 +378,11 @@ describe('IdsTextarea Component', () => {
   it('should skip invalid textarea state', () => {
     expect(textarea.getAttribute('test')).toEqual(null);
     expect(textarea.input.getAttribute('test')).toBe(null);
-    expect(textarea.rootEl.classList).not.toContain('test');
+    expect(textarea.container.classList).not.toContain('test');
     textarea.setTextareaState('test');
     expect(textarea.getAttribute('test')).toEqual(null);
     expect(textarea.input.getAttribute('test')).toBe(null);
-    expect(textarea.rootEl.classList).not.toContain('test');
+    expect(textarea.container.classList).not.toContain('test');
   });
 
   it('should count line breaks', () => {
@@ -595,7 +595,7 @@ describe('IdsTextarea Component', () => {
     const size = 'sm';
     textarea.size = size;
     expect(textarea.getAttribute('size')).toEqual(size);
-    expect(textarea.input.classList).toContain(size);
+    expect(textarea.shadowRoot.querySelector('.field-container').classList).toContain(size);
   });
 
   it('should rendr textarea sizes', () => {
@@ -603,13 +603,13 @@ describe('IdsTextarea Component', () => {
     const checkSize = (size) => {
       textarea.size = size;
       expect(textarea.getAttribute('size')).toEqual(size);
-      expect(textarea.input.classList).toContain(size);
+      expect(textarea.shadowRoot.querySelector('.field-container').classList).toContain(size);
       sizes.filter((s) => s !== size).forEach((s) => {
-        expect(textarea.input.classList).not.toContain(s);
+        expect(textarea.shadowRoot.querySelector('.field-container').classList).not.toContain(s);
       });
     };
     expect(textarea.getAttribute('size')).toEqual(null);
-    expect(textarea.input.classList).toContain('md');
+    expect(textarea.shadowRoot.querySelector('.field-container').classList).toContain('md');
     sizes.forEach((s) => checkSize(s));
   });
 });
