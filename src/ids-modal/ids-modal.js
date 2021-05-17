@@ -20,6 +20,7 @@ import IdsOverlay from './ids-overlay';
 // @ts-ignore
 import styles from './ids-modal.scss';
 import { IdsStringUtils } from '../ids-base/ids-string-utils';
+import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 const MODAL_PROPS = [
   props.TARGET,
@@ -49,12 +50,26 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     super();
 
     this.state = {
+      overlay: null,
       target: null
     };
   }
 
   static get properties() {
     return [...super.properties, ...MODAL_PROPS];
+  }
+
+  /**
+   * Handle Setting changes of the value has changed by calling the getter
+   * in the extending class.
+   * @param {string} name The property name
+   * @param {string} oldValue The property old value
+   * @param {string} newValue The property new value
+   */
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (this.shouldUpdate) {
+      super.attributeChangedCallback(name, oldValue, newValue);
+    }
   }
 
   connectedCallback() {
@@ -76,9 +91,12 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     if (this.target) {
       this.#refreshTargetEvents();
     }
+    this.shouldUpdate = true;
 
     // Run refresh once on connect
-    this.setModalPosition();
+    this.rl.onNextTick(() => {
+      this.setModalPosition();
+    });
   }
 
   /**
@@ -127,10 +145,12 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @param {HTMLElement} val a specified target element
    */
   set target(val) {
-    this.state.target = val;
-    if (val) {
-      this.#refreshTargetEvents();
+    if (val && val instanceof HTMLElement) {
+      this.state.target = val;
+    } else {
+      this.state.target = null;
     }
+    this.#refreshTargetEvents();
   }
 
   /**
@@ -145,10 +165,14 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    */
   set visible(val) {
     const trueVal = IdsStringUtils.stringToBool(val);
-    if (trueVal) {
+    if (trueVal && !this.getAttribute(props.VISIBLE)) {
+      this.shouldUpdate = false;
       this.setAttribute(props.VISIBLE, '');
-    } else {
+      this.shouldUpdate = true;
+    } else if (!trueVal && this.getAttribute(props.VISIBLE)) {
+      this.shouldUpdate = false;
       this.removeAttribute(props.VISIBLE);
+      this.shouldUpdate = true;
     }
 
     this.#refreshVisibility(trueVal);
@@ -181,6 +205,8 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   }
 
   /**
+   * Refreshes the state of the overlay used behind the modal.  If a shared overlay isn't applied,
+   * an internal one is generated and applied to the ShadowRoot.
    * @param {boolean} val if true, uses an external overlay
    * @returns {void}
    */
@@ -190,15 +216,9 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     if (!val) {
       overlay = new IdsOverlay();
       this.shadowRoot.prepend(overlay);
-      this.rl.onNextTick(() => {
-        this.overlay.container.style.zIndex = zCounter.increment();
-        this.popup.container.style.zIndex = zCounter.increment();
-      });
     } else if (this.state.overlay) {
       overlay = this.shadowRoot.querySelector('ids-overlay');
       overlay.remove();
-      zCounter.decrement();
-      zCounter.decrement();
     }
   }
 
@@ -206,14 +226,30 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean} val if true, makes the Modal visible to the user
    * @returns {void}
    */
-  #refreshVisibility(val) {
-    this.overlay.visible = val;
-    this.popup.visible = val;
+  async #refreshVisibility(val) {
+    // Insulate from the popup potentially not being rendered on the very first run:
+    const popupCl = this.popup.container?.classList;
 
-    if (val) {
+    if (val && !popupCl?.contains('visible')) {
+      this.overlay.visible = true;
+      this.popup.visible = true;
+
+      // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
       this.rl.onNextTick(() => {
+        this.overlay.container.style.zIndex = zCounter.increment();
+        this.popup.container.style.zIndex = zCounter.increment();
         this.setModalPosition();
       });
+    } else if (!val && popupCl?.contains('visible')) {
+      this.overlay.visible = false;
+      this.popup.visible = false;
+
+      // Animation-out can wait for the opacity transition to end before changing z-index.
+      await IdsDOMUtils.waitForTransitionEnd(this.overlay.container, 'opacity');
+      this.overlay.container.style.zIndex = '';
+      this.popup.container.style.zIndex = '';
+      zCounter.decrement();
+      zCounter.decrement();
     }
   }
 
@@ -232,8 +268,8 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     // If the modal isn't visible, subtract its width/height from the equation
     // @TODO: some of this logic belongs in IdsPopup, after we enable support for centering.
     const isOpen = this.popup.animatedOpen;
-    const width = !isOpen ? this.popup.container.clientWidth : 0;
-    const height = !isOpen ? this.popup.container.clientHeight : 0;
+    const width = !isOpen ? this.popup.container?.clientWidth || 0 : 0;
+    const height = !isOpen ? this.popup.container?.clientHeight || 0 : 0;
 
     this.popup.x = (window.innerWidth - width) / 2;
     this.popup.y = (window.innerHeight - height) / 2;

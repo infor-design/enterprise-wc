@@ -10,6 +10,8 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
+import IdsDOMUtils from '../ids-base/ids-dom-utils';
+
 // @ts-ignore
 import styles from './ids-overlay.scss';
 
@@ -103,34 +105,29 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
   /**
    * Changes the amount of opacity on the overlay
    * @param {number} val the opacity value to set on the overlay
+   * @returns {Promise} fulfilled after a CSS transition completes.
    */
-  #changeOpacity(val) {
-    this.container.style.opacity = `${val}`;
+  async #changeOpacity(val) {
+    return IdsDOMUtils.transitionToPromise(this.container, 'opacity', `${val}`);
   }
 
   /**
    * Animates in/out the visibility of the overlay
    * @param {*} val if true, shows the overlay.  If false, hides the overlay.
    */
-  #smoothlyAnimateVisibility(val) {
+  async #smoothlyAnimateVisibility(val) {
     const cl = this.container.classList;
 
-    if (val) {
+    if (val && !cl.contains('visible')) {
       // Make visible
-      this.detachEventsByName('transitionend');
       cl.add('visible');
-      this.rl.register(new IdsRenderLoopItem({
-        duration: 1,
-        timeoutCallback: () => {
-          this.#changeOpacity(this.opacity);
-        }
-      }));
-    } else {
+      this.rl.onNextTick(() => {
+        this.#changeOpacity(this.opacity);
+      });
+    } else if (!val && cl.contains('visible')) {
       // Make hidden
-      this.onEvent('transitionend', this.container, () => {
-        cl.remove('visible');
-      }, { once: true });
-      this.#changeOpacity(0);
+      await this.#changeOpacity(0);
+      cl.remove('visible');
     }
   }
 }

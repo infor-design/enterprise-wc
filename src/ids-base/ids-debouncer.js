@@ -10,6 +10,7 @@ import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
  *  instead of waiting for the threshold to complete.
  * @returns {void}
  */
+/* istanbul ignore next */
 export default function debounce(func, duration = 60, execAsap) {
   let timeout;
 

@@ -37,6 +37,36 @@ const IdsDOMUtils = {
    */
   getClosestRootNode(node) {
     return IdsDOMUtils.getClosestShadow(node)?.host?.parentNode || document;
+  },
+
+  /**
+   * Changes a CSS property with a transition,
+   * @param {HTMLElement} el the element to act on
+   * @param {string} property the CSS property with an attached transition to manipulate
+   * @param {any} value the target CSS value
+   * @returns {Promise} fulfulled when the CSS transition completes
+   */
+  transitionToPromise(el, property, value) {
+    return new Promise((resolve) => {
+      el.style[property] = value;
+      const transitionEnded = (e) => {
+        if (e.propertyName !== property) return;
+        el.removeEventListener('transitionend', transitionEnded);
+        resolve();
+      };
+      el.addEventListener('transitionend', transitionEnded);
+    });
+  },
+
+  waitForTransitionEnd(el, property) {
+    return new Promise((resolve) => {
+      const transitionEnded = (e) => {
+        if (e.propertyName !== property) return;
+        el.removeEventListener('transitionend', transitionEnded);
+        resolve();
+      };
+      el.addEventListener('transitionend', transitionEnded);
+    });
   }
 };
 
