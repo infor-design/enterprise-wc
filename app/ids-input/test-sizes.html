@@ -1,0 +1,50 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Ids Input - Defaults</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-input label="Basic"></ids-input>
+    <ids-input label="Compact" compact="true"></ids-input>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h2">Ids Input - Field Heights (Height)</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<!-- Field Heights: [xs, sm, md, lg] -->
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-input field-height="xs" label="Extra Small (compact)"></ids-input>
+    <ids-input field-height="sm" label="Small"></ids-input>
+    <ids-input field-height="md" label="Medium (default)"></ids-input>
+    <ids-input field-height="lg" label="Large"></ids-input>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h2">Ids Input - Sizes (Width)</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<!-- Sizes: [xs, sm, mm, md, lg, full] -->
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-input size="xs" label="Extra Small"></ids-input>
+    <ids-input size="sm" label="Small"></ids-input>
+    <ids-input size="mm" label="Small - Medium"></ids-input>
+    <ids-input size="md" label="Medium (default)"></ids-input>
+    <ids-input size="lg" label="Large"></ids-input>
+    <ids-input size="full" label="Full"></ids-input>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}

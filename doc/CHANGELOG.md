@@ -28,6 +28,7 @@
   - Markup has changed to a custom element `<ids-input></ids-input>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+  - Can now be use variation of sizes (width/height)
   - If using a clearable X on the input the x is now tabbable by default for accessibility
 - `[ListView]` The List View component has been changed to a web component and renamed to ids-list-view.
   - If using properties/settings these are now attributes.
