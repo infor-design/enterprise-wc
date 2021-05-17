@@ -28,10 +28,8 @@ function getStepEl(wizardEl, stepNumber) {
 /**
  * Checks whether bounding box/rects retrieved
  * from elem's bounding box are colliding horizontally
- *
  * @param {DOMRect} r1 elem1's bounding box
  * @param {DOMRect} r2 elem2's bounding box
- *
  * @returns {boolean} whether there is collision on x-axis
  */
 function areRectsHColliding(r1, r2) {
@@ -44,12 +42,9 @@ function areRectsHColliding(r1, r2) {
 /* istanbul ignore next */
 /**
  * Recursively resize steps for an element so they don't collide;
- *
  * (only pass the wizard element to args)
- *
  * @param {Array} args the arguments; should be IdsWizard element as only
  * user-defined element
- *
  * @returns {Array<DOMRect>} array of rects for step positioning/sizing
  */
 function resizeStepLabelRects(...args) {
