@@ -80,6 +80,7 @@ $textarea-size-default-height: 120px;
 
   .field-container {
     @include m-0();
+    @include mb-20();
     @include p-0();
     @include relative();
 
