@@ -3,11 +3,9 @@
  */
 
 import IdsRating from '../../src/ids-rating/ids-rating';
-import IdsIcon from '../../src/ids-icon/ids-icon';
 
 describe('IdsRating Component', () => {
   let rating;
-  let icons;
 
   beforeEach(async () => {
     rating = new IdsRating();
@@ -16,7 +14,6 @@ describe('IdsRating Component', () => {
     rating.size = 'large';
 
     document.body.appendChild(rating);
-    icons = rating.shadowRoot.querySelectorAll('ids-icon');
   });
 
   afterEach(async () => {
