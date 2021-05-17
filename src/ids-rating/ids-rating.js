@@ -47,7 +47,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     template() {
       let html = '<div id="rating">';
       for (let i = 0; i < this.stars; i++) {
-        html += `<ids-icon class="star star-${i}" aria-label="Star-${i}" role-"button" icon="star-outlined" tabindex="0" size="${this.size}"></ids-icon>`;
+        html += `<ids-icon class="star star-${i}" role-"button" icon="star-outlined" tabindex="0" size="${this.size}"></ids-icon>`;
       }
       html += '</div>';
       return html;
@@ -57,7 +57,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
      * @returns {Array<string>} this component's observable properties
      */
     static get properties() {
-      return [props.VALUE, 'stars', 'readonly', 'clickable', 'compact', 'size'];
+      return [...props.MODE, props.VERSION, props.VALUE, 'stars', props.READONLY, props.CLICKABLE, props.COMPACT, props.SIZE];
     }
 
     set value(val) {
@@ -94,8 +94,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
 
     set stars(num) {
       if (num) {
-        // console.log(num)
-        // this.rerender();
         this.setAttribute('stars', num.toString());
       }
     }
@@ -134,6 +132,11 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
 
     handleEvents() {
       this.onEvent('click', this.container, (e) => this.updateStars(e));
+      this.onEvent('keyup', this.container, (e) =>  {
+        if(e.key === 'Enter') {
+          this.updateStars(e)
+        }
+      })
     }
 
     updateStars(event) {
