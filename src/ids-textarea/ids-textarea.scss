@@ -16,7 +16,7 @@ $textarea-size-default-height: 120px;
 .ids-textarea {
   @include block();
   @include font-sans();
-  @include mb-16();
+  @include mb-20();
   @include text-16();
   @include text-slate-80();
 
@@ -44,7 +44,7 @@ $textarea-size-default-height: 120px;
     @include antialiased();
     @include font-sans();
     @include text-slate-60();
-    @include mb-4();
+    @include mb-8();
 
     align-items: baseline;
     display: flex;
@@ -80,7 +80,6 @@ $textarea-size-default-height: 120px;
 
   .field-container {
     @include m-0();
-    @include mb-20();
     @include p-0();
     @include relative();
 
