@@ -78,8 +78,10 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     this.popup.type = 'menu';
     this.popup.animated = true;
     this.popup.animationStyle = 'scale-in';
+    this.setAttribute('role', 'dialog');
 
     // Listen for changes to the window size
+    /* istanbul ignore next */
     window.addEventListener('resize', debounce(() => {
       this.setModalPosition();
     }));
@@ -88,6 +90,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     this.#refreshVisibility(this.visible);
 
     // Add events to the target element
+    /* istanbul ignore next */
     if (this.target) {
       this.#refreshTargetEvents();
     }
@@ -122,8 +125,10 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   set overlay(val) {
     if (val instanceof IdsOverlay) {
       this.state.overlay = val;
-      this.#refreshOverlay(val);
+    } else {
+      this.state.overlay = null;
     }
+    this.#refreshOverlay(this.state.overlay);
   }
 
   /**
@@ -165,6 +170,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    */
   set visible(val) {
     const trueVal = IdsStringUtils.stringToBool(val);
+    /* istanbul ignore else */
     if (trueVal && !this.getAttribute(props.VISIBLE)) {
       this.shouldUpdate = false;
       this.setAttribute(props.VISIBLE, '');
@@ -216,7 +222,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     if (!val) {
       overlay = new IdsOverlay();
       this.shadowRoot.prepend(overlay);
-    } else if (this.state.overlay) {
+    } else {
       overlay = this.shadowRoot.querySelector('ids-overlay');
       overlay.remove();
     }
@@ -230,6 +236,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     // Insulate from the popup potentially not being rendered on the very first run:
     const popupCl = this.popup.container?.classList;
 
+    /* istanbul ignore else */
     if (val && !popupCl?.contains('visible')) {
       this.overlay.visible = true;
       this.popup.visible = true;
@@ -239,6 +246,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
         this.overlay.container.style.zIndex = zCounter.increment();
         this.popup.container.style.zIndex = zCounter.increment();
         this.setModalPosition();
+        this.#setModalFocus();
       });
     } else if (!val && popupCl?.contains('visible')) {
       this.overlay.visible = false;
@@ -250,6 +258,10 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       this.popup.container.style.zIndex = '';
       zCounter.decrement();
       zCounter.decrement();
+
+      if (this.target) {
+        this.target.focus();
+      }
     }
   }
 
@@ -258,21 +270,33 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   setModalPosition() {
+    /* istanbul ignore next */
     if (this.popup.alignTarget !== null) {
       this.popup.alignTarget = null;
     }
+
+    /* istanbul ignore next */
     if (this.popup.align !== 'center') {
       this.popup.align = 'center';
     }
 
     // If the modal isn't visible, subtract its width/height from the equation
-    // @TODO: some of this logic belongs in IdsPopup, after we enable support for centering.
-    const isOpen = this.popup.animatedOpen;
-    const width = !isOpen ? this.popup.container?.clientWidth || 0 : 0;
-    const height = !isOpen ? this.popup.container?.clientHeight || 0 : 0;
+    const width = this.popup.container?.clientWidth || 0;
+    const height = this.popup.container?.clientHeight || 0;
 
     this.popup.x = (window.innerWidth - width) / 2;
     this.popup.y = (window.innerHeight - height) / 2;
+  }
+
+  /**
+   * Focuses the first-possible element within the Modal
+   * @returns {void}
+   */
+  #setModalFocus() {
+    const focusable = [...this.querySelectorAll('button, ids-button, [href], input, ids-input, select, textarea, ids-textarea, [tabindex]:not([tabindex="-1"])')];
+    if (focusable.length) {
+      focusable[0].focus();
+    }
   }
 
   /**
@@ -287,6 +311,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       return;
     }
 
+    this.target.setAttribute('aria-controls', `${this.id}`);
     this.onEvent('click.target', this.target, () => {
       if (!this.visible) {
         this.show();

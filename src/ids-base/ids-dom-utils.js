@@ -49,7 +49,8 @@ const IdsDOMUtils = {
   transitionToPromise(el, property, value) {
     return new Promise((resolve) => {
       el.style[property] = value;
-      const transitionEnded = (e) => {
+
+      const transitionEnded = /* istanbul ignore next */ (e) => {
         if (e.propertyName !== property) return;
         el.removeEventListener('transitionend', transitionEnded);
         resolve();
@@ -58,9 +59,16 @@ const IdsDOMUtils = {
     });
   },
 
+  /**
+   * Similar to `transitionToPromise`, but simply waits for the specified property's `transitionend`
+   * event to complete (allows the user to change the property outside the promise)
+   * @param {HTMLElement} el the element to act on
+   * @param {string} property the CSS property used to qualify the correct transitionend event
+   * @returns {Promise} fulfulled when the CSS transition completes
+   */
   waitForTransitionEnd(el, property) {
     return new Promise((resolve) => {
-      const transitionEnded = (e) => {
+      const transitionEnded = /* istanbul ignore next */ (e) => {
         if (e.propertyName !== property) return;
         el.removeEventListener('transitionend', transitionEnded);
         resolve();

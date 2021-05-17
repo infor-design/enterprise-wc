@@ -206,6 +206,7 @@ class IdsRenderLoop {
    * @returns {void}
    */
   onNextTick(timeoutCallback) {
+    /* istanbul ignore next */
     if (typeof timeoutCallback === 'function') {
       this.register(new IdsRenderLoopItem({
         duration: 1,

@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsModal from '../../src/ids-modal';
+import IdsModal, { IdsOverlay } from '../../src/ids-modal';
+import { IdsButton } from '../../src/ids-button/ids-button';
 
 describe('IdsModal Component', () => {
   let modal;
@@ -87,5 +88,60 @@ describe('IdsModal Component', () => {
         done();
       }, 70);
     }, 70);
+  });
+
+  it('can have a target element', () => {
+    const btn = new IdsButton();
+    btn.type = 'secondary';
+    btn.text = 'I am the target';
+    document.body.appendChild(btn);
+
+    modal.target = btn;
+
+    expect(modal.state.target.isEqualNode(btn)).toBeTruthy();
+
+    // Clicking on the trigger should make the Modal show
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+    btn.dispatchEvent(clickEvent);
+
+    // Dispatch twice to cover the 'else'
+    btn.dispatchEvent(clickEvent);
+
+    modal.target = null;
+
+    expect(modal.state.target).toBeNull();
+  });
+
+  it('can use an external overlay, if applicable', () => {
+    const overlay = new IdsOverlay();
+    modal.overlay = overlay;
+
+    expect(modal.state.overlay.isEqualNode(overlay)).toBeTruthy();
+
+    modal.overlay = null;
+
+    // Internal overlay state should be empty,
+    // but the Modal will use its own overlay instance internally
+    expect(modal.state.overlay).toBeNull();
+    expect(modal.container.querySelector('ids-overlay')).toBeDefined();
+  });
+
+  it('will not trigger a vetoable event of any type not supported', () => {
+    modal.triggerVetoableEvent('fish');
+
+    expect(modal.state.visible).toBeFalsy();
+  });
+
+  it('will focus the first available item in the modal when it opens', (done) => {
+    const extraBtn = new IdsButton();
+    extraBtn.id = 'focusable';
+    extraBtn.type = 'secondary';
+    modal.appendChild(extraBtn);
+    modal.show();
+
+    setTimeout(() => {
+      expect(document.activeElement.isEqualNode(extraBtn)).toBeTruthy();
+      done();
+    }, 300);
   });
 });

@@ -86,7 +86,7 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
    */
   set opacity(val) {
     let trueVal = Number(val);
-    if (typeof trueVal !== 'number') {
+    if (Number.isNaN(trueVal)) {
       return;
     }
 
@@ -113,11 +113,12 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
 
   /**
    * Animates in/out the visibility of the overlay
-   * @param {*} val if true, shows the overlay.  If false, hides the overlay.
+   * @param {boolean} val if true, shows the overlay.  If false, hides the overlay.
    */
   async #smoothlyAnimateVisibility(val) {
     const cl = this.container.classList;
 
+    /* istanbul ignore else */
     if (val && !cl.contains('visible')) {
       // Make visible
       cl.add('visible');
@@ -127,6 +128,7 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
     } else if (!val && cl.contains('visible')) {
       // Make hidden
       await this.#changeOpacity(0);
+      /* istanbul ignore next */
       cl.remove('visible');
     }
   }

@@ -420,13 +420,17 @@ class IdsPopup extends mix(IdsElement).with(
     if (val && ANIMATION_STYLES.includes(val)) {
       trueVal = val;
     }
+
     if (trueVal !== ANIMATION_STYLES[0]) {
       this.safeSetAttribute(props.ANIMATION_STYLE, `${trueVal}`);
     } else {
       this.safeRemoveAttribute(props.ANIMATION_STYLE);
     }
 
-    this.#setAnimationStyle(trueVal);
+    if (trueVal !== this.state.animationStyle) {
+      this.state.animationStyle = trueVal;
+      this.#setAnimationStyle(trueVal);
+    }
   }
 
   /**
@@ -960,19 +964,17 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {void}
    */
   #setAnimationStyle(newStyle) {
-    if (ANIMATION_STYLES.includes(newStyle)) {
-      const thisCl = this.container.classList;
+    const thisCl = this.container.classList;
 
-      ANIMATION_STYLES.forEach((style) => {
-        const targetClassName = `animation-${style}`;
+    ANIMATION_STYLES.forEach((style) => {
+      const targetClassName = `animation-${style}`;
 
-        if (style !== newStyle && thisCl.contains(targetClassName)) {
-          thisCl.remove(targetClassName);
-        } else if (style === newStyle && !thisCl.contains(targetClassName)) {
-          thisCl.add(targetClassName);
-        }
-      });
-    }
+      if (style !== newStyle && thisCl.contains(targetClassName)) {
+        thisCl.remove(targetClassName);
+      } else if (style === newStyle && !thisCl.contains(targetClassName)) {
+        thisCl.add(targetClassName);
+      }
+    });
   }
 
   /**
