@@ -2,7 +2,7 @@
 
 ## Description
 
-This component styles tabs which serve as navigation points and
+Tabs are a navigation element used to allow users to easily access different areas of a site or different parts of an individual page. A user can navigate between page sections with a tab. Best for communicating different views of the data, or offering navigation between related data.
 way to highlight which section/content in a page you are currently
 focused on.
 
