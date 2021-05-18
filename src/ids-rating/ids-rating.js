@@ -130,6 +130,11 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
       return this.getAttribute('size') || 'large';
     }
 
+    /**
+   * Handle events
+   * @private
+   * @returns {void}
+   */
     handleEvents() {
       this.onEvent('click', this.container, (e) => this.updateStars(e));
       this.onEvent('keyup', this.container, (e) => {
@@ -139,6 +144,11 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
       });
     }
 
+    /**
+     * Sets star state, active class and icon attribute
+     * @param {any} event
+     * @returns
+     */
     updateStars(event) {
       const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
       let attrName = 'star-filled';
@@ -158,14 +168,24 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
       this.updateValue(this.ratingArr);
     }
 
+    /**
+     * Sets and updates value attribute
+     * @param {any} arr 
+     * @returns {string}
+     */
     updateValue(arr) {
       const val = [...arr];
       const value = val.filter((el) => el.classList.contains('active'));
       this.setAttribute('value', value.length);
     }
 
+    /**
+     * Sets and updates value attribute for halfstar
+     * @param {any} arr 
+     * @returns {string}
+     */
     updateHalfStar(arr) {
-      const value = this.getAttribute('value');
+      const value = this.value;
       const roundValue = Math.round(value);
       for (let i = 0; i < roundValue; i++) {
         arr[i].classList.add('active');

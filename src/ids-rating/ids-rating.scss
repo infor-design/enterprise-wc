@@ -17,6 +17,11 @@
   &:hover {
     color: var(--ids-color-palette-azure-60);
   }
+
+  &:focus-visible {
+    outline: none;
+    color: var(--ids-color-palette-azure-60);
+  }
 }
 
 .star[icon='star-filled'] {
@@ -25,12 +30,22 @@
   &:hover {
     color: var(--ids-color-palette-azure-60);
   }
+
+  &:focus-visible {
+    outline: none;
+    color: var(--ids-color-palette-azure-60);
+  }
 }
 
 .star[icon='star-half'] {
   color: var(--ids-color-palette-amber-60);
 
   &:hover {
+    color: var(--ids-color-palette-azure-60);
+  }
+
+  &:focus-visible {
+    outline: none;
     color: var(--ids-color-palette-azure-60);
   }
 }
