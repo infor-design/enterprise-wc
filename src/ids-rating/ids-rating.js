@@ -133,7 +133,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     handleEvents() {
       this.onEvent('click', this.container, (e) => this.updateStars(e));
       this.onEvent('keyup', this.container, (e) => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' && this.readonly === false) {
           this.updateStars(e);
         }
       });
