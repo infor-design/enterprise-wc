@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 // eslint-disable-next-line
-import MutationObserver from '../__mocks__/MutationObserver';
+import MutationObserver from '../helpers/mutation-observer-mock';
 import IdsTabs, { IdsTab } from '../../src/ids-tabs';
 import IdsText from '../../src/ids-text/ids-text';
 
