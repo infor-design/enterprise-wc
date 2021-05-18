@@ -6,7 +6,7 @@
 - [] Trigger an event on the "target" containing a value of some sort (useful for Lookup/etc)
 - [] Disable/Enable all elements within the modal
 
-# Modal Manager (Stack?)
+## Modal Manager (Stack?)
 
 This might be optional depending on how far we can get without it
 
