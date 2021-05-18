@@ -12,7 +12,7 @@ focused on.
 
 ## Features (With Code Examples)
 
-A normal text element used as a web component in size 16px.
+A normal default horizontal tab component
 
 ```html
 <ids-tabs>
