@@ -13,20 +13,23 @@ focused on.
 
 ## Features (With Code Examples)
 
-A normal default horizontal tab component
+A normal default horizontal tab component.
 
 ```html
-<ids-tabs>
-    <ids-tabs>
-        <ids-tab>Example One</ids-tab>
-    </ids-tab>
+<ids-tabs value="one">
+    <ids-tab value="one">Example One</ids-tab>
+    <ids-tab value="two">Example Two</ids-tab>
+    <ids-tab value="three">Example Three</ids-tab>
 </ids-tabs>
 ```
 
-URI-Hashing-Enabled tab
-
+A vertical tab component.
 ```html
-<ids-tabs uri-hashing="true">Disabled Text</ids-text>
+<ids-tabs value="one" orientation="vertical">
+    <ids-tab value="one">Example One</ids-tab>
+    <ids-tab value="two">Example Two</ids-tab>
+    <ids-tab value="three">Example Three</ids-tab>
+</ids-tabs>
 ```
 
 TODO: phase i examples
