@@ -4,4 +4,4 @@ exports[`IdsModal Component renders correctly 1`] = `"<ids-modal role=\\"dialog\
 
 exports[`IdsModal Component renders correctly 2`] = `"<ids-modal role=\\"dialog\\" visible=\\"\\"></ids-modal>"`;
 
-exports[`IdsModal Component renders correctly 3`] = `"<ids-modal role=\\"dialog\\" visible=\\"\\"></ids-modal>"`;
+exports[`IdsModal Component renders correctly 3`] = `"<ids-modal role=\\"dialog\\"></ids-modal>"`;

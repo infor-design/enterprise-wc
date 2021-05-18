@@ -49,7 +49,6 @@ const IdsDOMUtils = {
   transitionToPromise(el, property, value) {
     return new Promise((resolve) => {
       el.style[property] = value;
-
       const transitionEnded = /* istanbul ignore next */ (e) => {
         if (e.propertyName !== property) return;
         el.removeEventListener('transitionend', transitionEnded);

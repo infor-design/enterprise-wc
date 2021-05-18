@@ -11,6 +11,9 @@ export class IdsKeyboardMixin {
   /** Add a listener for a key or key code combination */
   listen(keycode: Array<unknown> | string, elem: HTMLElement, callback: () => void): void;
 
+  /** Remove a listener for a key */
+  unlisten(key: string): Map<unknown, unknown>
+
   /** Remove all handlers and clear memory */
   detachAllListeners(): void;
 }

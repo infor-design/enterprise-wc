@@ -9,6 +9,7 @@ import debounce from '../ids-base/ids-debouncer';
 import { props } from '../ids-base/ids-constants';
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
@@ -23,12 +24,12 @@ import { IdsStringUtils } from '../ids-base/ids-string-utils';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 const MODAL_PROPS = [
-  props.TARGET,
   props.VISIBLE
 ];
 
 const appliedMixins = [
   IdsEventsMixin,
+  IdsKeyboardMixin,
   IdsRenderLoopMixin,
   IdsResizeMixin,
   IdsThemeMixin,
@@ -40,8 +41,11 @@ const appliedMixins = [
  * @inherits IdsElement
  * @mixes IdsRenderLoopMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsResizeMixin
  * @mixes IdsThemeMixin
  * @part popup - the popup outer element
+ * @part overlay - the inner overlay element
  */
 @customElement('ids-modal')
 @scss(styles)
@@ -51,7 +55,8 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
 
     this.state = {
       overlay: null,
-      target: null
+      target: null,
+      visible: false,
     };
   }
 
@@ -86,6 +91,8 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       this.setModalPosition();
     }));
 
+    this.shouldUpdate = true;
+
     this.#refreshOverlay(this.overlay);
     this.#refreshVisibility(this.visible);
 
@@ -94,7 +101,6 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     if (this.target) {
       this.#refreshTargetEvents();
     }
-    this.shouldUpdate = true;
 
     // Run refresh once on connect
     this.rl.onNextTick(() => {
@@ -162,7 +168,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {boolean} true if the Modal is visible.
    */
   get visible() {
-    return this.popup.visible;
+    return IdsStringUtils.stringToBool(this.getAttribute('visible'));
   }
 
   /**
@@ -170,12 +176,14 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    */
   set visible(val) {
     const trueVal = IdsStringUtils.stringToBool(val);
+    this.state.visible = trueVal;
+
     /* istanbul ignore else */
-    if (trueVal && !this.getAttribute(props.VISIBLE)) {
+    if (trueVal) {
       this.shouldUpdate = false;
       this.setAttribute(props.VISIBLE, '');
       this.shouldUpdate = true;
-    } else if (!trueVal && this.getAttribute(props.VISIBLE)) {
+    } else {
       this.shouldUpdate = false;
       this.removeAttribute(props.VISIBLE);
       this.shouldUpdate = true;
@@ -195,6 +203,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     }
 
     this.visible = true;
+    this.#applyOpenEvents();
   }
 
   /**
@@ -208,6 +217,18 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     }
 
     this.visible = false;
+    this.#removeOpenEvents();
+  }
+
+  #applyOpenEvents() {
+    /* istanbul ignore next */
+    this.listen('Escape', this.container, () => {
+      this.hide();
+    });
+  }
+
+  #removeOpenEvents() {
+    this.unlisten('Escape');
   }
 
   /**
@@ -221,6 +242,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
 
     if (!val) {
       overlay = new IdsOverlay();
+      overlay.part = 'overlay';
       this.shadowRoot.prepend(overlay);
     } else {
       overlay = this.shadowRoot.querySelector('ids-overlay');
@@ -247,6 +269,13 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
         this.popup.container.style.zIndex = zCounter.increment();
         this.setModalPosition();
         this.#setModalFocus();
+        this.triggerEvent('show', this, {
+          bubbles: true,
+          detail: {
+            elem: this,
+            value: undefined
+          }
+        });
       });
     } else if (!val && popupCl?.contains('visible')) {
       this.overlay.visible = false;
@@ -259,9 +288,14 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       zCounter.decrement();
       zCounter.decrement();
 
-      if (this.target) {
-        this.target.focus();
-      }
+      this.triggerEvent('hide', this, {
+        bubbles: true,
+        detail: {
+          elem: this,
+          value: undefined
+        }
+      });
+      this.#setTargetFocus();
     }
   }
 
@@ -281,8 +315,12 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     }
 
     // If the modal isn't visible, subtract its width/height from the equation
-    const width = this.popup.container?.clientWidth || 0;
-    const height = this.popup.container?.clientHeight || 0;
+    const isOpen = this.popup.animatedOpen;
+
+    /* istanbul ignore next */
+    const width = !isOpen ? this.popup.container?.clientWidth || 0 : 0;
+    /* istanbul ignore next */
+    const height = !isOpen ? this.popup.container?.clientHeight || 0 : 0;
 
     this.popup.x = (window.innerWidth - width) / 2;
     this.popup.y = (window.innerHeight - height) / 2;
@@ -296,6 +334,17 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     const focusable = [...this.querySelectorAll('button, ids-button, [href], input, ids-input, select, textarea, ids-textarea, [tabindex]:not([tabindex="-1"])')];
     if (focusable.length) {
       focusable[0].focus();
+    }
+  }
+
+  /**
+   * Focuses the defined target element, if applicable
+   * @returns {void}
+   */
+  #setTargetFocus() {
+    /* istanbul ignore next */
+    if (this.target) {
+      this.target.focus();
     }
   }
 

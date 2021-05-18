@@ -52,10 +52,19 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
   }
 
   /**
+   * Removes a single applied listener for a hotkey combination
+   * @param {string} key An array of all matching keycodes
+   * @returns {Map} the current set of hotkeys
+   */
+  unlisten(key) {
+    return this.hotkeys.delete(`${key}`);
+  }
+
+  /**
    * Remove a key from the pressedKeys map.
    * @private
    * @param {string} key a string representing a {KeyboardEvent.key} that is no longer active
-   * @returns {boolean}  whether or not the key had been previously logged as "pressed"
+   * @returns {boolean} whether or not the key had been previously logged as "pressed"
    */
   unpress(key) {
     return this.pressedKeys.delete(`${key}`);

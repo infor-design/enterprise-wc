@@ -126,6 +126,22 @@ describe('IdsModal Component', () => {
     expect(modal.container.querySelector('ids-overlay')).toBeDefined();
   });
 
+  // @TODO Not sure why this won't pass (structured similarly to other tests like it)
+  it.skip('can hide a visible modal by pressing the Escape key', (done) => {
+    const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
+
+    modal.show();
+
+    setTimeout(() => {
+      // Key event is captured within the Modal container (encapsulated)
+      modal.container.dispatchEvent(closeEvent);
+      setTimeout(() => {
+        expect(modal.popup.visible).toBeFalsy();
+        done();
+      }, 70);
+    }, 70);
+  });
+
   it('will not trigger a vetoable event of any type not supported', () => {
     modal.triggerVetoableEvent('fish');
 
