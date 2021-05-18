@@ -1,7 +1,7 @@
 import IdsTabs, { IdsTab, IdsTabsDivider } from '../../src/ids-tabs';
 
-const booth = document.querySelector('#test-ids-tabs');
-const tabContainers = [...booth.children];
+const overallContainer = document.querySelector('#test-ids-tabs');
+const tabContainers = [...overallContainer.children];
 
 for (const c of tabContainers) {
   if (!c.matches(':first-child')) {
