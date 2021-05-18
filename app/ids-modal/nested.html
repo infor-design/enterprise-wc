@@ -1,8 +1,8 @@
 {{> ../layouts/head.html }}
 
-<ids-modal id="parent-modal">
+<ids-modal id="parent-modal" aria-labelledby="parent-modal-title">
   <ids-layout-grid>
-    <ids-text font-size="24" type="h2">Parent Modal</ids-text>
+    <ids-text font-size="24" type="h2" id="parent-modal-title">Parent Modal</ids-text>
   </ids-layout-grid>
   <ids-layout-grid>
     <p>This is the Parent IDS Modal</p>
@@ -19,9 +19,9 @@
   </ids-layout-grid>
 </ids-modal>
 
-<ids-modal id="nested-modal">
+<ids-modal id="nested-modal" aria-labelledby="nested-modal-title">
   <ids-layout-grid>
-    <ids-text font-size="24" type="h2">Nested Modal</ids-text>
+    <ids-text font-size="24" type="h2" id="nested-modal-title">Nested Modal</ids-text>
   </ids-layout-grid>
   <ids-layout-grid>
     <p>This is the Nested IDS Modal</p>
