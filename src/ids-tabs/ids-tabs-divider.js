@@ -26,7 +26,7 @@ class IdsTabsDivider extends IdsElement {
    * @returns {string} the template to render
    */
   template() {
-    return (`<div class="ids-tabs-divider"></div>`);
+    return `<div class="ids-tabs-divider"></div>`;
   }
 
   connectedCallback() {

@@ -23,7 +23,6 @@ const { buildClassAttrib } = IdsStringUtils;
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
- *
  * @part container - the container of all tabs
  */
 @customElement('ids-tabs')
@@ -38,7 +37,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.ORIENTATION, props.VALUE, props.ID];
+    return [props.ORIENTATION, props.VALUE];
   }
 
   /**

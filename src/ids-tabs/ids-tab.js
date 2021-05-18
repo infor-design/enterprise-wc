@@ -3,19 +3,23 @@ import {
   customElement,
   props,
   scss,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { stringToBool, buildClassAttrib } from '../ids-base/ids-string-utils';
 import IdsText from '../ids-text/ids-text';
 import styles from './ids-tab.scss';
 
+const { stringToBool, buildClassAttrib } = stringUtils;
+
 /**
  * IDS Tab Component
- *
  * @type {IdsTab}
  * @inherits IdsElement
  * @part container - the tab container itself
+ * @mixes IdsEventsMixin
+ *
+ * @private
  */
 @customElement('ids-tab')
 @scss(styles)
@@ -29,7 +33,12 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.VALUE, props.SELECTED, props.ORIENTATION, props.COUNT];
+    return [
+      props.COUNT,
+      props.ORIENTATION,
+      props.SELECTED,
+      props.VALUE
+    ];
   }
 
   /**
