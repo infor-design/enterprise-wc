@@ -33,7 +33,7 @@ TODO: phase i examples
 
 ## Settings and Attributes
 
-`IdsTabs`
+### Tab Container Settings (`ids-tabs`)
 - `disabled` {boolean} disables all tabs.
 - `value` {string} set which tab is currently selected. If tab children
 do not have a value, will fall back to being a 0-based index. Otherwise, it can
@@ -41,7 +41,7 @@ also be any string as long as there are relevant matches for the values.
 - `orientation` {'horizontal' | 'vertical'} defaults to horizontal; controls
 the direction/axis tabs are flowed on.
 
-`IdsTab`
+### Individual Tabs Settings (`ids-tab`)
 - `disabled` {boolean} allows you to disable a tab among a set of tabs.
 - `value` {string | number} the value which when the parent `ids-tabs` also
 has an equivalent for, selects this tab.
