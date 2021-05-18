@@ -23,7 +23,7 @@ A normal default horizontal tab component.
 </ids-tabs>
 ```
 
-A vertical tab component.
+A vertical tabs component.
 ```html
 <ids-tabs value="one" orientation="vertical">
     <ids-tab value="one">Example One</ids-tab>

@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 // eslint-disable-next-line
-import ResizeObserver from '../__mocks__/ResizeObserver';
+import ResizeObserver from '../helpers/resize-observer-mock';
 import IdsWizard, { IdsWizardStep } from '../../src/ids-wizard';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
