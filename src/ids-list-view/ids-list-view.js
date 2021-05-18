@@ -90,16 +90,11 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Rerender the list by re applying the template
+   * Render the list by applying the template
    * @private
    */
-  rerender() {
-    const template = document.createElement('template');
-    const html = this.template();
-
-    this.shadowRoot.innerHTML = '';
-    template.innerHTML = html;
-    this.shadowRoot.appendChild(template.content.cloneNode(true));
+  render() {
+    super.render();
 
     if (stringUtils.stringToBool(this.virtualScroll) && this?.data.length > 0) {
       /** @type {object} */
@@ -111,7 +106,6 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
       this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
     }
-    this.container = this.shadowRoot.querySelector('.ids-list-view');
   }
 
   /**
@@ -135,7 +129,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set data(value) {
     this.datasource.data = value || [];
-    this.rerender();
+    this.render(true);
   }
 
   get data() { return this?.datasource?.data || []; }
@@ -147,12 +141,14 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set virtualScroll(value) {
     if (value) {
       this.setAttribute(props.VIRTUAL_SCROLL, value.toString());
-      this.rerender();
+      if (this?.data.length > 0) {
+        this.render();
+      }
       return;
     }
 
     this.removeAttribute(props.VIRTUAL_SCROLL);
-    this.rerender();
+    this.render();
   }
 
   get virtualScroll() { return this.getAttribute(props.VIRTUAL_SCROLL) || 'false'; }
