@@ -131,10 +131,10 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     }
 
     /**
-   * Handle events
-   * @private
-   * @returns {void}
-   */
+     * Handle events
+     * @private
+     * @returns {void}
+     */
     handleEvents() {
       this.onEvent('click', this.container, (e) => this.updateStars(e));
       this.onEvent('keyup', this.container, (e) => {
@@ -146,8 +146,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
 
     /**
      * Sets star state, active class and icon attribute
-     * @param {any} event
-     * @returns
+     * @param {any} event event target
      */
     updateStars(event) {
       const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
@@ -170,8 +169,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
 
     /**
      * Sets and updates value attribute
-     * @param {any} arr 
-     * @returns {string}
+     * @param {any} arr NodeList
      */
     updateValue(arr) {
       const val = [...arr];
@@ -181,8 +179,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
 
     /**
      * Sets and updates value attribute for halfstar
-     * @param {any} arr 
-     * @returns {string}
+     * @param {any} arr NodeList
      */
     updateHalfStar(arr) {
       const value = this.value;
