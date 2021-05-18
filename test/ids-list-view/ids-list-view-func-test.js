@@ -75,7 +75,6 @@ describe('IdsListView Component', () => {
     listView = new IdsListView();
     document.body.appendChild(listView);
     listView.data = dataset;
-    listView.rerender();
 
     expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(1000);
     expect(errors).not.toHaveBeenCalled();
@@ -88,7 +87,6 @@ describe('IdsListView Component', () => {
     listView = new IdsListView();
     document.body.appendChild(listView);
     listView.data = dataset;
-    listView.rerender();
 
     expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(1000);
     expect(errors).not.toHaveBeenCalled();

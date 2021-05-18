@@ -114,6 +114,7 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     // Render and append styles
     this.shadowRoot.innerHTML = '';
+    this.hasStyles = false;
     this.appendStyles();
     this.setColumnWidths();
     template.innerHTML = html;
