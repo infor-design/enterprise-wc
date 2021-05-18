@@ -14,3 +14,6 @@ Tentative for Phase 1 but certain things e.g. overflows may need to  get done in
 - [] figure out how to get coveralls + Jest to detect certain parts of code
 - [] test: click handler callbacks
 - [] test: figure out why ids-tab.selected = false doesn't trigger in Jest
+- [] bold on counts should be bold on label
+- [] focus style on tab that's selected border
+- [] callback handler for selection changes e.g. onchange

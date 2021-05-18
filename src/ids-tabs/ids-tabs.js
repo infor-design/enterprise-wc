@@ -17,6 +17,35 @@ import styles from './ids-tabs.scss';
 const { buildClassAttrib } = IdsStringUtils;
 
 /**
+ * canvas context; used to scan a
+ * pixel to determine tabs background
+ * container color for edges
+ */
+const bgColorCanvas = document
+  .createElement('canvas')
+  .getContext('2d');
+bgColorCanvas.width = 1;
+bgColorCanvas.height = 1;
+
+/**
+ * grabs the color of the background of the tabs
+ * element by checking a drawn pixel on it's
+ * top-right corner, to determine the overflow
+ * color if necessary
+ *
+ * @param {HTMLElement} tabsEl ids-tabs container element
+ * @returns {string} the color in rgba() format
+ */
+const getBackgroundColor = (tabsEl) => {
+  bgColorCanvas.getContext('2d')
+    .drawImage(tabsEl, 2, 2, tabsEl.width, tabsEl.height);
+  const [r, g, b, a] = bgColorCanvas
+    .getContext('2d').getImageData(1, 1);
+
+  return `rgba(${r},${g},${b},${a})`;
+};
+
+/**
  * IDS Tabs Component
  * @type {IdsTabs}
  * @inherits IdsElement
@@ -52,7 +81,11 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         ${ buildClassAttrib('ids-tabs', this.orientation) }
         part="container"
       >
-        <slot></slot>
+        <div class="left edge"></div>
+        <div class="ids-tabs-content">
+          <slot></slot>
+        </div>
+        <div class="right edge"></div>
       </div>`
     );
   }
@@ -71,11 +104,15 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       attributeFilter: ['selected', 'value'],
       subtree: true
     });
+
+    const container = this.container.children[0];
+    this.#overflowObserver.observe(container);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
     this.#tabObserver.disconnect();
+    this.#overflowObserver.disconnect();
   }
 
   /**
@@ -160,6 +197,14 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    * @private
    */
   #tabValueSet = new Set();
+
+  #overflowObserver = new IntersectionObserver((entries) => {
+    for (const entry of entries) {
+      const { target, ...other } = entry;
+
+      console.log('entry ->', entry);
+    }
+  });
 
   /** observes changes in tabs */
   #tabObserver = new MutationObserver((mutations) => {

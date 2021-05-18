@@ -6,7 +6,7 @@
   contain: content;
 }
 
-.ids-tabs {
+.ids-tabs-content {
   &.vertical {
     flex-direction: column;
   }
@@ -15,12 +15,32 @@
     @include border-b-1;
     @include mt-8;
     @include border-graphite-60;
+
+    scrollbar-width: none;
+    overflow-x: scroll;
   }
 
   position: relative;
-  display: flex;
   width: 100%;
-  padding-inline-start: 0;
-  margin-block-start: 0;
-  margin-inline-start: 0;
+  display: flex;
+
+  .ids-tabs-content {
+    position: relative;
+    min-width: 100%;
+  }
+
+  .edge {
+    position: absolute;
+    height: 100%;
+    width: 2px;
+    background-color: #f00;
+  }
+
+  .left {
+    left: 0;
+  }
+
+  .right {
+    right: 0;
+  }
 }
