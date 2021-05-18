@@ -8,7 +8,8 @@ focused on.
 
 ## Use Cases
 
-- When you need to add a series of navigable headers and vertical space is a priority.
+- Used when need information to be highly scannable and to simplify navigation.
+- Used when a page needs a more organized structure.
 
 ## Features (With Code Examples)
 
