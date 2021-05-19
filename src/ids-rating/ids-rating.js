@@ -41,13 +41,13 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     ratingArr = [...this.container.children];
 
     /**
-     * Create the remplate for the rating contents
+     * Create the template for the rating contents
      * @returns {string} The template
      */
     template() {
       let html = '<div id="rating">';
       for (let i = 0; i < this.stars; i++) {
-        html += `<ids-icon class="star star-${i}" role-"button" icon="star-outlined" tabindex="0" size="${this.size}"></ids-icon>`;
+        html += `<ids-icon class="star star-${i}" role-"button" icon="star-outlined" tabindex="0" size="${this.size}"></ids-icon><span class="audible">${i+1} out of 5 Stars</span>`;
       }
       html += '</div>';
       return html;

@@ -28,10 +28,15 @@ The rating component can be used as an interactive or read only element. Users m
 ## States
 ![Variants Image](https://ids-com.s3.amazonaws.com/documents/rating_states.svg)
 
+## Code Example
+
 ## Keyboard Guidelines
 
 - <kbd>Tab/Shift+Tab</kbd>: If the rating item is enabled this will focus or unfocus the star.
 - <kbd>Enter</kbd>: If this will follow the link url or action.
+
+## Accessibility Guidelines
+`aubible` span are added for screen readers to hear the star information.
 
 ## Settings and Attributes
 - `stars` {number} Set the stars attribute to displayed the amount of items`stars="5"`
@@ -40,3 +45,58 @@ The rating component can be used as an interactive or read only element. Users m
 - `size` {number} Set the rating size attribute. `size="large"` Valid values are 'small' | 'medium' | 'large'
 - `mode` {string} Set the theme mode
 - `version` {string} Set the theme version
+
+## Designs
+
+[Design Specs](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
+
+## Converting from Previous Versions
+
+##### Version - 4.x:
+```html
+  <div class="rating">
+  <input type="radio" class="is-filled" name="rating-name" id="one-star-id1"/>
+  <label for="one-star-id1">
+    <svg class="icon" focusable="false" aria-hidden="true">
+      <use href="#icon-star-filled"/>
+    </svg>
+    <span class="audible">1 out of 5 Stars</span>
+  </label>
+
+  <input type="radio" class="is-filled" name="rating-name" id="two-star-id1"/>
+  <label for="two-star-id1">
+    <svg class="icon" focusable="false" aria-hidden="true">
+      <use href="#icon-star-filled"/>
+    </svg>
+    <span class="audible">2 out of 5 Stars</span>
+  </label>
+
+  <input type="radio" class="is-filled" name="rating-name" id="three-star-id1"/>
+  <label for="three-star-id1">
+    <svg class="icon" focusable="false" aria-hidden="true">
+      <use href="#icon-star-filled"/>
+    </svg>
+    <span class="audible">3 out of 5 Stars</span>
+  </label>
+
+  <input type="radio" class="is-half" checked name="rating-name" id="four-star-id1"/>
+  <label for="four-star-id1">
+    <svg class="icon" focusable="false" aria-hidden="true">
+      <use href="#icon-star-half"/>
+    </svg>
+    <span class="audible">4 out of 5 Stars</span>
+  </label>
+
+  <input type="radio" name="rating-name" id="five-star-id1"/>
+  <label for="five-star-id1">
+    <svg class="icon" focusable="false" aria-hidden="true">
+      <use href="#icon-star-filled"/>
+    </svg>
+    <span class="audible">5 out of 5 Stars</span>
+  </label>
+  </div>
+```
+##### Version - 5.x:
+```html
+  <ids-rating></ids-rating>
+```

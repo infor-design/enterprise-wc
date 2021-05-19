@@ -4,6 +4,10 @@
   align-items: center;
   display: inline-flex;
   flex-direction: row;
+
+  span {
+    display: none;
+  }
 }
 
 .star {
