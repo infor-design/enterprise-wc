@@ -24,3 +24,19 @@ The rating component can be used as an interactive or read only element. Users m
 ```
 
 ![Variants Image](https://ids-com.s3.amazonaws.com/documents/rating_variant.svg)
+
+## States
+![Variants Image](https://ids-com.s3.amazonaws.com/documents/rating_states.svg)
+
+## Keyboard Guidelines
+
+- <kbd>Tab/Shift+Tab</kbd>: If the rating item is enabled this will focus or unfocus the star.
+- <kbd>Enter</kbd>: If this will follow the link url or action.
+
+## Settings and Attributes
+- `stars` {number} Set the stars attribute to displayed the amount of items`stars="5"`
+- `value` {number} Set the rating value attribute. `value="0"`
+- `readyonly` {boolean} Set the readonly attribute. Valid values are 'true' | 'false'
+- `size` {number} Set the rating size attribute. `size="large"` Valid values are 'small' | 'medium' | 'large'
+- `mode` {string} Set the theme mode
+- `version` {string} Set the theme version
