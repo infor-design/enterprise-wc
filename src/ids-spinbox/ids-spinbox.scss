@@ -1,14 +1,32 @@
 @import '../ids-base/ids-base';
 
-.ids-spinbox {
+:host(ids-spinbox) {
   @include border-1();
   @include border-solid();
   @include border-graphite-70();
 
+  contain: content;
+  width: fit-content;
+}
+
+:host(ids-spinbox:focus-within) {
+  @include border-azure-60();
+  @include border-1();
+  @include border-solid();
+  @include shadow();
+
+  outline: none;
+}
+
+.ids-spinbox {
   display: flex;
   flex-direction: row;
   width: fit-content;
   max-height: 38px;
+
+  &:focus-visible ids-button::part(button) {
+    outline: none;
+  }
 
   & ids-button::part(button) {
     @include border-graphite-70();
@@ -35,5 +53,6 @@
   & ids-input::part(input) {
     border: none;
     max-width: 84px;
+    margin-bottom: 0;
   }
 }
