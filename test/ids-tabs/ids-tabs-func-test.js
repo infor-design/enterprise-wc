@@ -232,6 +232,13 @@ describe('IdsTabs Tests', () => {
     }));
   });
 
+  it('changes calls value setter of ids-tab to it\'s current value without side effects', async () => {
+    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    await processAnimFrame();
+
+    elem.value = 'world';
+  });
+
   it('assigns an invalid count to a tab with counts, and triggers '
   + 'an error', async () => {
     const errors = jest.spyOn(global.console, 'error');

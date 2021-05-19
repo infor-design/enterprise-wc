@@ -146,7 +146,10 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {string} value value which becomes selected by tabs component
    */
   set value(value) {
-    this.setAttribute(props.VALUE, value);
+    if (value !== this.getAttribute(props.VALUE)) {
+      /* istanbul ignore next */
+      this.setAttribute(props.VALUE, value);
+    }
   }
 
   get value() {

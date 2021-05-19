@@ -29,11 +29,11 @@ exports[`IdsTabs Tests renders correctly 1`] = `
 
 exports[`IdsTabs Tests renders with counts, and has no errors 1`] = `
 "<ids-tabs role=\\"tablist\\">
-        <ids-tab count=\\"20\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"20
+        <ids-tab count=\\"20\\" role=\\"tab\\" aria-selected=\\"true\\" tabindex=\\"0\\" aria-label=\\"20
        Pizzas\\">Pizzas</ids-tab>
-        <ids-tab count=\\"18\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"18
+        <ids-tab count=\\"18\\" role=\\"tab\\" aria-selected=\\"true\\" tabindex=\\"0\\" aria-label=\\"18
        Diet Cokes\\">Diet Cokes</ids-tab>
-        <ids-tab count=\\"12\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"12
+        <ids-tab count=\\"12\\" role=\\"tab\\" aria-selected=\\"true\\" tabindex=\\"0\\" aria-label=\\"12
        Ginger Ales\\">Ginger Ales</ids-tab>
       </ids-tabs>"
 `;

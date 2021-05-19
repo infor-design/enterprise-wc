@@ -70,6 +70,9 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       attributeFilter: ['selected', 'value'],
       subtree: true
     });
+
+    // set initial selection state
+    this.#updateSelectionState();
   }
 
   disconnectedCallback() {
@@ -123,9 +126,22 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    * @type {string}
    */
   set value(value) {
-    this.setAttribute(props.VALUE, value);
+    if (this.getAttribute(props.VALUE) === value) {
+      return;
+    }
 
+    this.setAttribute(props.VALUE, value);
     this.#updateSelectionState();
+
+    // make sure we send them the click
+    // on the next paint and any overall
+    // selection updates in siblings are
+    // made properly
+
+    this.triggerEvent('change', this, {
+      bubbles: false,
+      detail: { elem: this, value }
+    });
   }
 
   get value() {
@@ -369,6 +385,10 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    * based on the current value
    */
   #updateSelectionState() {
+    if (!this.children.length) {
+      return;
+    }
+
     // determine which child tab value was set,
     // then highlight the item
 
@@ -388,7 +408,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     }
 
     if (!hadTabSelection) {
-      console.error('tab value given was invalid');
+      console.error(`ids-tabs: tab value (${this.value}) provided was invalid`);
     }
   }
 }
