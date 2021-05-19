@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { IdsRenderLoop, IdsRenderLoopItem } from '../../src/ids-render-loop/ids-render-loop';
-import { IdsRenderLoopMixin } from '../../src/ids-render-loop/ids-render-loop-mixin';
+import { IdsRenderLoopMixin } from '../../src/ids-mixins/ids-render-loop-mixin';
 
 // Supporting Components
 import IdsIcon from '../../src/ids-icon/ids-icon';

@@ -172,4 +172,4 @@ const IdsClearableMixin = (superclass) => class extends superclass {
   }
 };
 
-export { IdsClearableMixin };
+export default IdsClearableMixin;

@@ -5,14 +5,20 @@ import {
   mix,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+// Supporting Components
 import styles from './ids-upload-advanced-file.scss';
 import IdsAlert from '../ids-alert/ids-alert';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsProgress from '../ids-progress/ids-progress';
 import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
+
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 /**
  * IDS UploadAdvancedFile Component

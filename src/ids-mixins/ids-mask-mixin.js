@@ -1,10 +1,10 @@
-import maskAPI from './ids-mask-global';
-import { convertPatternFromString, PLACEHOLDER_CHAR } from './ids-mask-common';
-import { dateMask, numberMask } from './ids-masks';
+import maskAPI from '../ids-mask/ids-mask-global';
+import { convertPatternFromString, PLACEHOLDER_CHAR } from '../ids-mask/ids-mask-common';
+import { dateMask, numberMask } from '../ids-mask/ids-masks';
 
 import { props } from '../ids-base/ids-constants';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtils } from '../ids-base/ids-string-utils';
+import IdsEventsMixin from './ids-events-mixin';
+import { IdsStringUtils } from '../ids-base';
 
 const MASK_PROPS = [
   props.MASK,
@@ -18,7 +18,6 @@ const MASK_PROPS = [
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-// @ts-ignore
 const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   constructor() {
     super();

@@ -5,11 +5,15 @@ import {
   scss,
   mix,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin,
+  IdsRenderLoopMixin,
+  IdsRenderLoopItem
+} from '../ids-mixins';
 
 import IdsIcon from '../ids-icon/ids-icon';
 

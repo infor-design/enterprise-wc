@@ -5,10 +5,13 @@ import {
   scss,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import styles from './ids-trigger-field.scss';
 

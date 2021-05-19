@@ -292,4 +292,4 @@ const IdsValidationMixin = (superclass) => class extends superclass {
   }
 };
 
-export { IdsValidationMixin };
+export default IdsValidationMixin;

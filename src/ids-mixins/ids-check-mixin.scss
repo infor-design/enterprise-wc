@@ -1,7 +1,7 @@
 /**
  * Single Checkmark Mixin
  */
-@import './ids-base';
+@import '../ids-base/ids-base';
 
 // Use this on an element that serves as a checkmark container
 @mixin check-base() {

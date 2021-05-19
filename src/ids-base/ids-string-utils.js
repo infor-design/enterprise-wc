@@ -61,4 +61,5 @@ const IdsStringUtils = {
   }
 };
 
-export { IdsStringUtils };
+export default IdsStringUtils;
+export { IdsStringUtils as stringUtils };

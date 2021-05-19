@@ -21,7 +21,7 @@ import IdsTriggerButton from '../src/ids-trigger-field/ids-trigger-button';
 import IdsExpandableArea from '../src/ids-expandable-area/ids-expandable-area';
 import IdsAccordion from '../src/ids-accordion/ids-accordion';
 import IdsRadio from '../src/ids-radio/ids-radio';
-import IdsRenderLoopMixin from '../src/ids-render-loop/ids-render-loop-mixin';
+import IdsRenderLoopMixin from '../src/ids-mixins/ids-render-loop-mixin';
 import IdsTextarea from '../src/ids-textarea/ids-textarea';
 import IdsUpload from '../src/ids-upload/ids-upload';
 import IdsAlert from '../src/ids-alert/ids-alert';

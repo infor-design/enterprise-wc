@@ -193,4 +193,4 @@ const IdsResizeMixin = (superclass) => class extends superclass {
   }
 };
 
-export { IdsResizeMixin };
+export default IdsResizeMixin;

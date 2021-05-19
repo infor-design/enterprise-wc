@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsDataSource } from '../../src/ids-base/ids-data-source';
+import IdsDataSource from '../../src/ids-base/ids-data-source';
 
 describe.only('IdsDataSourceMixin Tests', () => {
   let datasource;

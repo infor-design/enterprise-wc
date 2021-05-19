@@ -5,16 +5,20 @@ import {
   scss,
   mix,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsRenderLoopMixin,
+  IdsRenderLoopItem,
+  IdsResizeMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
-import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
 import styles from './ids-popup.scss';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
 const CENTER = 'center';
 

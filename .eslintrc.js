@@ -55,6 +55,10 @@ module.exports = {
     // we aren't doing special math with binary/hex radix numbers often,
     // so this removes need for parseInt(number, 10);
     radix: 0,
+    // Allow being able to import from the root (index.js)
+    'import/no-named-as-default': 0,
+    // Allow using using defaults + es module pattern in ES7
+    'import/named': 0,
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
     'import/prefer-default-export': ['off', { }],
     // Allow clases to be set on the web components

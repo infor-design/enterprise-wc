@@ -5,17 +5,19 @@ import {
   mix,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import styles from './ids-upload-advanced.scss';
-
-// Mixins
-import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import IdsUploadAdvancedFile from './ids-upload-advanced-file';
 import IdsHyperLink from '../ids-hyperlink/ids-hyperlink';
+import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
+
+import styles from './ids-upload-advanced.scss';
 
 /**
  * IDS UploadAdvanced Component

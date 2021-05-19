@@ -1,4 +1,4 @@
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
+import { IdsRenderLoopMixin, IdsRenderLoopItem } from './ids-render-loop-mixin';
 
 /**
  * A mixin that adds event handler functionality that is also safely torn down when a component is
@@ -268,4 +268,4 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
   }
 };
 
-export { IdsEventsMixin };
+export default IdsEventsMixin;

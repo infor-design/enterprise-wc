@@ -2,8 +2,9 @@ import {
   IdsElement,
   mix,
   scss,
-  customElement
-} from '../ids-base/ids-element';
+  customElement,
+  stringUtils
+} from '../ids-base';
 
 import styles from './ids-toolbar.scss';
 
@@ -12,10 +13,9 @@ import IdsToolbarSection, { TOOLBAR_ITEM_TAGNAMES } from './ids-toolbar-section'
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
 import { props } from '../ids-base/ids-constants';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
-import { IdsStringUtils } from '../ids-base/ids-string-utils';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+// Import Mixins
+import { IdsEventsMixin, IdsKeyboardMixin } from '../ids-mixins';
 
 /**
  * IDS Toolbar Component
@@ -128,7 +128,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @param {boolean} val sets the disabled state of the entire toolbar
    */
   set disabled(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringUtils.stringToBool(val);
 
     if (trueVal) {
       this.setAttribute('disabled', val);
@@ -212,7 +212,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @param {boolean} val sets the tabbable state of the toolbar
    */
   set tabbable(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringUtils.stringToBool(val);
 
     if (trueVal) {
       this.setAttribute('tabbable', val);

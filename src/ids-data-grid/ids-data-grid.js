@@ -5,14 +5,18 @@ import {
   props,
   mix,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import { IdsDataGridFormatters } from './ids-data-grid-formatters';
-import { IdsDataSource } from '../ids-base/ids-data-source';
-import { IdsDeepCloneUtils as cloneUtils } from '../ids-base/ids-deep-clone-utils';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import IdsDataSource from '../ids-base/ids-data-source';
+import IdsDeepCloneUtils from '../ids-base/ids-deep-clone-utils';
+
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsKeyboardMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import styles from './ids-data-grid.scss';
@@ -365,7 +369,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {Array} value The array to use
    */
   set columns(value) {
-    this.currentColumns = value ? cloneUtils.deepClone(value) : [{ id: '', name: '' }];
+    this.currentColumns = value ? IdsDeepCloneUtils.deepClone(value) : [{ id: '', name: '' }];
     this.rerender();
   }
 

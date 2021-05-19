@@ -1,8 +1,8 @@
 /**
  * Checkbox Mixins.
  */
-@import './ids-colorpalette-variables';
-@import './ids-mixins';
+@import '../ids-base/ids-colorpalette-variables';
+@import '../ids-mixins/ids-mixins';
 
 // Unchecked
 @mixin checkbox-unchecked($theme: light) {

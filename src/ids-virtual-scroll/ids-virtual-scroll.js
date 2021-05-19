@@ -4,10 +4,10 @@ import {
   mix,
   scss,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsDataSource } from '../ids-base/ids-data-source';
+import { IdsEventsMixin } from '../ids-mixins';
+import IdsDataSource from '../ids-base/ids-data-source';
 
 import styles from './ids-virtual-scroll.scss';
 

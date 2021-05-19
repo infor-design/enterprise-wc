@@ -9,3 +9,4 @@
 - [] Async events to grab tooltip content
 - [] ids-wizard Option for disabling URI-hashes
 - [] ids-wizard-step URI attrib
+- [] Add theme support

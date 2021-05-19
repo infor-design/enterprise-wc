@@ -185,4 +185,4 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
   }
 };
 
-export { IdsDirtyTrackerMixin };
+export default IdsDirtyTrackerMixin;

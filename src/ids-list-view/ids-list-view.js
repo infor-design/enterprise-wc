@@ -5,11 +5,10 @@ import {
   props,
   mix,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsDataSource } from '../ids-base/ids-data-source';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import IdsDataSource from '../ids-base/ids-data-source';
+import { IdsThemeMixin, IdsEventsMixin } from '../ids-mixins';
 
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import styles from './ids-list-view.scss';

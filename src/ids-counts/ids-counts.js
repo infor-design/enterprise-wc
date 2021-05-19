@@ -5,17 +5,17 @@ import {
   props,
   mix,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-// Import Theme Mixin
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
-// @ts-ignore
 import IdsText from '../ids-text/ids-text';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
-// @ts-ignore
 import styles from './ids-counts.scss';
 
 /**

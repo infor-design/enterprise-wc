@@ -5,7 +5,7 @@ import {
   scss,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-input.scss';
 
@@ -14,15 +14,17 @@ import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
-// Mixins
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
-import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
-import IdsMaskMixin from '../ids-mask/ids-mask-mixin';
-import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsTooltipMixin } from '../ids-base/ids-tooltip-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsKeyboardMixin,
+  IdsClearableMixin,
+  IdsDirtyTrackerMixin,
+  IdsMaskMixin,
+  IdsValidationMixin,
+  IdsThemeMixin,
+  IdsTooltipMixin
+} from '../ids-mixins';
 
 // Properties observed by the Input
 const INPUT_PROPS = [

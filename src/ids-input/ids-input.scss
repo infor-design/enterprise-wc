@@ -1,7 +1,7 @@
 @import '../ids-base/ids-base';
-@import '../ids-base/ids-clearable-mixin';
-@import '../ids-base/ids-dirty-tracker-mixin';
-@import '../ids-base/ids-validation-mixin';
+@import '../ids-mixins/ids-clearable-mixin';
+@import '../ids-mixins/ids-dirty-tracker-mixin';
+@import '../ids-mixins/ids-validation-mixin';
 
 // Field Sizes
 $input-size-xs: 75px;

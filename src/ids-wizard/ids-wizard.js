@@ -4,9 +4,15 @@ import {
   props,
   scss,
   mix
-} from '../ids-base/ids-element';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+} from '../ids-base';
+
+// Supporting Components
 import IdsText from '../ids-text/ids-text';
+
+// Import Mixins
+import { IdsEventsMixin } from '../ids-mixins';
+
+// Import Styles
 import styles from './ids-wizard.scss';
 
 /* istanbul ignore next */

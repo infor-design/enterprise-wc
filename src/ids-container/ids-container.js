@@ -3,13 +3,15 @@ import {
   customElement,
   scss,
   mix,
-  props
-} from '../ids-base/ids-element';
+  props,
+  stringUtils
+} from '../ids-base';
 
 // Import Mixins
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import styles from './ids-container.scss';
 

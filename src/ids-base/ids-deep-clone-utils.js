@@ -83,4 +83,5 @@ const IdsDeepCloneUtils = {
   }
 };
 
-export { IdsDeepCloneUtils };
+export default IdsDeepCloneUtils;
+export { IdsDeepCloneUtils as cloneUtils };

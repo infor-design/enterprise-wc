@@ -1,5 +1,5 @@
-import { IdsRenderLoopItem } from './ids-render-loop';
-import renderLoop from './ids-render-loop-global';
+import { IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
 
 const IdsRenderLoopMixin = (superclass) => class extends superclass {
   constructor() {

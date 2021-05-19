@@ -1,4 +1,4 @@
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+import { stringUtils } from '../ids-base';
 
 /**
  * Shared in between upload advanced.
