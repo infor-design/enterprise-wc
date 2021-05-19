@@ -168,11 +168,15 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
     containerClass += stringUtils.stringToBool(this.compact) ? ' compact' : '';
 
+    const labelHtml = !this.state.label ? '' : (
+      `<label for="${this.state.id}" class="label-text">
+        <ids-text part="label" label="true">${this.label}</ids-text>
+      </label>`
+    );
+
     return `
       <div class="${containerClass}">
-        <label for="${this.state.id}" class="label-text">
-          <ids-text part="label" label="true">${this.label}</ids-text>
-        </label>
+        ${labelHtml}
         <div class="field-container">
           <input part="input" id="${this.state.id}"${type}${inputClass}${placeholder}${inputState} />
         </div>
