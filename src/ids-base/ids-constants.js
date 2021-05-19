@@ -70,6 +70,7 @@ export const props = {
   MAXLENGTH: 'maxlength',
   MENU: 'menu',
   METHOD: 'method',
+  MIN: 'min',
   MODE: 'mode',
   MULTIPLE: 'multiple',
   NO_MARGINS: 'no-margins',

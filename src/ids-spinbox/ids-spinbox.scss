@@ -1,5 +1,39 @@
 @import '../ids-base/ids-base';
 
 .ids-spinbox {
-  display: block;
+  @include border-1();
+  @include border-solid();
+  @include border-graphite-70();
+
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  max-height: 38px;
+
+  & ids-button::part(button) {
+    @include border-graphite-70();
+    @include border-1();
+
+    width: 38px;
+    max-width: 38px;
+    justify-content: center;
+    align-items: center;
+    padding: 0 0;
+    border: none;
+  }
+
+  & ids-button:first-child {
+    border-right-style: solid;
+    border-right-width: 1px;
+  }
+
+  & ids-button:last-child {
+    border-left-style: solid;
+    border-left-width: 1px;
+  }
+
+  & ids-input::part(input) {
+    border: none;
+    max-width: 84px;
+  }
 }

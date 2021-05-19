@@ -2,12 +2,12 @@ import {
   IdsElement,
   customElement,
   scss,
+  props,
   mix
 } from '../ids-base/ids-element';
-import IdsButton from '../ids-ππbutton/ids-button';
+import IdsButton from '../ids-button/ids-button';
 import IdsInput from '../ids-input/ids-input';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-
 import styles from './ids-spinbox.scss';
 
 /**
@@ -37,15 +37,9 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
   template() {
     return (
       `<div class="ids-spinbox">
-          <button part="button" class="ids-button btn-tertiary" tabindex="0" mode="light" version="new">
-            <slot name="icon" part="icon"></slot>
-            <slot name="text">-</slot>
-          </button>
-          <ids-input label="First Name"></ids-input>
-          <button part="button" class="ids-button btn-tertiary" tabindex="0" mode="light" version="new">
-            <slot name="icon" part="icon"></slot>
-            <slot name="text">+</slot>
-          </button>
+          <ids-button type="tertiary">-</ids-button>
+          <ids-input text-align="center"></ids-input>
+          <ids-button type="tertiary">+</ids-button>
       </div>`
     );
   }
@@ -58,8 +52,24 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
     this.input.maskOptions = { allowDecimal: false };
   }
 
-  set maximum(value) {
+  set max(value) {
+    if (this.getAttribute(props.MAX !== value)) {
+      this.setAttribute(props.MAX, value);
+    }
+  }
 
+  get max() {
+    return this.max;
+  }
+
+  set min(value) {
+    if (this.getAttribute(props.MIN !== value)) {
+      this.setAttribute(props.MIN, value);
+    }
+  }
+
+  get min() {
+    return this.min;
   }
 }
 
