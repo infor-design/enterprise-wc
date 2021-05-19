@@ -19,6 +19,7 @@ describe('IdsBase Tests', () => {
 
     elem.shadowRoot.adoptedStyleSheets = () => {};
 
+    elem.hasStyles = false;
     elem.render();
     expect(elem.shadowRoot.adoptedStyleSheets[0].cssRules).toBeTruthy();
   });
@@ -27,17 +28,20 @@ describe('IdsBase Tests', () => {
     const elem = new IdsTag();
     const expectedStyleContent = styleMock.replace(':host', `.${elem.tagName.toLowerCase()}`);
     elem.cssStyles = styleMock;
+    elem.hasStyles = false;
     elem.render();
     expect(elem.shadowRoot.querySelector('style').textContent).toEqual(expectedStyleContent);
 
     // also test with '::host' for good measure
     elem.cssStyles = styleMock.replace(`:host`, '::host');
+    elem.hasStyles = false;
     elem.render();
 
     expect(elem.shadowRoot.querySelector('style').textContent).toEqual(expectedStyleContent);
 
     // add coverage where there is pre-formatted styles
     elem.cssStyles = expectedStyleContent;
+    elem.hasStyles = false;
     elem.render();
     expect(elem.shadowRoot.querySelector('style').textContent).toEqual(expectedStyleContent);
   });

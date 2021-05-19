@@ -8,7 +8,6 @@ import {
 
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsDataSource } from '../ids-base/ids-data-source';
-import { IdsRenderLoopMixin } from '../ids-render-loop/ids-render-loop-mixin';
 
 import styles from './ids-virtual-scroll.scss';
 
@@ -21,9 +20,10 @@ import styles from './ids-virtual-scroll.scss';
  */
 @customElement('ids-virtual-scroll')
 @scss(styles)
-class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin) {
+class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
+    this.state = { itemCount: 0 };
   }
 
   connectedCallback() {
@@ -241,19 +241,19 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEvent
   get viewPortHeight() { return Number(this.itemCount) * Number(this.itemHeight); }
 
   /**
-   * The (dynamic sometimes) total number of data being rendered
-   * @param {number|string} value The number of pixels from the top
+   * The number of data items being rendered
+   * @param {number} value The number of pixels from the top
    */
   set itemCount(value) {
     if (value) {
-      this.setAttribute('item-count', value.toString());
+      this.state.itemCount = value;
       return;
     }
 
-    this.removeAttribute('item-count');
+    this.state.itemCount = 0;
   }
 
-  get itemCount() { return parseInt(this.getAttribute('item-count'), 10); }
+  get itemCount() { return this.state.itemCount; }
 
   get offsetY() {
     return Number(this.startIndex) * Number(this.itemHeight);

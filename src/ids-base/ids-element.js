@@ -7,6 +7,9 @@ import {
 
 import { props } from './ids-constants';
 import mix from './ids-mixin';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
+
 import { IdsStringUtils as stringUtils } from './ids-string-utils';
 
 /**
@@ -155,8 +158,13 @@ class IdsElement extends HTMLElement {
     this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
     this.closest('ids-container')?.removeAttribute('hidden');
 
-    // Add a rendered callback
-    this.rendered?.();
+    // Runs on next next paint to be sure rendered() fully
+    if (this.rendered) {
+      renderLoop.register(new IdsRenderLoopItem({
+        duration: 1,
+        timeoutCallback: () => { this.rendered(); }
+      }));
+    }
 
     // Add automation Ids
     if (this.appendIds) {
@@ -177,6 +185,10 @@ class IdsElement extends HTMLElement {
    * @private
    */
   appendStyles() {
+    if (this.hasStyles) {
+      return;
+    }
+
     if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
       const style = document.createElement('style');
       style.textContent = this.cssStyles;
@@ -192,6 +204,7 @@ class IdsElement extends HTMLElement {
       style.replaceSync(this.cssStyles);
       this.shadowRoot.adoptedStyleSheets = [style];
     }
+    this.hasStyles = true;
   }
 }
 

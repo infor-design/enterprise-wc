@@ -119,9 +119,10 @@ describe('IdsWizard Tests', () => {
     elem.remove(elem.children[1]);
 
     let labels = getLabels(elem);
-
-    expect(labels.lightDOMLabels.join('_'))
-      .toEqual(labels.shadowDOMLabels.join('_'));
+    await wait(100).then(() => {
+      expect(labels.lightDOMLabels.join('_'))
+        .toEqual(labels.shadowDOMLabels.join('_'));
+    });
 
     const addedStep = new IdsWizardStep();
     addedStep.textContent = 'Another Step';
@@ -131,7 +132,7 @@ describe('IdsWizard Tests', () => {
     // MutationObserver must listen/register,
     // so change occurs on next tick
 
-    await wait(0).then(() => {
+    await wait(100).then(() => {
       labels = getLabels(elem);
       expect(labels.lightDOMLabels.join('_'))
         .toEqual(labels.shadowDOMLabels.join('_'));
@@ -150,16 +151,15 @@ describe('IdsWizard Tests', () => {
       .toThrowErrorMatchingSnapshot();
   });
 
-  it('on clickable wizard: clicks non-selected step, and the step number '
-  + ' changes', async () => {
+  it('on clickable wizard: clicks non-selected step, and the step number changes', async () => {
     const stepNumber = 2;
     elem.clickable = true;
-
+    await wait(100);
     const marker = elem.shadowRoot.querySelector(
-      `.step[step-number="${stepNumber}"] .step-marker`
+    `.step[step-number="${stepNumber}"] .step-marker`
     );
     marker.click();
-
+    await wait(100);
     expect(elem.stepNumber).toEqual(2);
   });
 });
