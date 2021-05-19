@@ -1,11 +1,13 @@
 import {
   IdsElement,
   customElement,
-  props,
   scss,
   mix
 } from '../ids-base/ids-element';
+import IdsButton from '../ids-ππbutton/ids-button';
+import IdsInput from '../ids-input/ids-input';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+
 import styles from './ids-spinbox.scss';
 
 /**
@@ -35,8 +37,29 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
   template() {
     return (
       `<div class="ids-spinbox">
+          <button part="button" class="ids-button btn-tertiary" tabindex="0" mode="light" version="new">
+            <slot name="icon" part="icon"></slot>
+            <slot name="text">-</slot>
+          </button>
+          <ids-input label="First Name"></ids-input>
+          <button part="button" class="ids-button btn-tertiary" tabindex="0" mode="light" version="new">
+            <slot name="icon" part="icon"></slot>
+            <slot name="text">+</slot>
+          </button>
       </div>`
     );
+  }
+
+  connectedCallback() {
+    // attach a number mask to the input
+
+    this.input = this.shadowRoot.querySelector('ids-input');
+    this.input.mask = 'number';
+    this.input.maskOptions = { allowDecimal: false };
+  }
+
+  set maximum(value) {
+
   }
 }
 
