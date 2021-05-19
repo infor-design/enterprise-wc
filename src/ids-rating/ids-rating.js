@@ -47,7 +47,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     template() {
       let html = '<div id="rating">';
       for (let i = 0; i < this.stars; i++) {
-        html += `<ids-icon class="star star-${i}" role-"button" icon="star-outlined" tabindex="0" size="${this.size}"></ids-icon><span class="audible">${i+1} out of 5 Stars</span>`;
+        html += `<ids-icon class="star star-${i}" role-"button" icon="star-outlined" tabindex="0" size="${this.size}"></ids-icon><span class="audible">${i + 1} out of 5 Stars</span>`;
       }
       html += '</div>';
       return html;

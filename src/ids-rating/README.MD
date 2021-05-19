@@ -5,6 +5,8 @@
 ## Usage
 The rating component displays a scale of selectable values in ascending order. A user can select a rating by clicking the star with the position that corresponds to the users rating out of the total. Best for showing a user's current selection relative to the lower and upper limits of a scale.
 
+## Code Example
+
 ```html
 <ids-rating></ids-rating>
 ```
@@ -27,8 +29,6 @@ The rating component can be used as an interactive or read only element. Users m
 
 ## States
 ![Variants Image](https://ids-com.s3.amazonaws.com/documents/rating_states.svg)
-
-## Code Example
 
 ## Keyboard Guidelines
 
