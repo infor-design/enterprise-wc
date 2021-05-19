@@ -40,6 +40,8 @@ module.exports = {
   rules: {
     // Dont force a new line after comments
     'jsdoc/newline-after-description': 0,
+    // Allow single line JSDoc comments
+    'jsdoc/no-multi-asterisks': 0,
     // Allow a few custom jsdoc tags
     'jsdoc/check-tag-names': ['error', { definedTags: ['jest-environment', 'inherits', 'part'] }],
     // require trailing commas in multiline object literals
