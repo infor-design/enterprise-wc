@@ -27,7 +27,7 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [];
+    return [props.MAX, props.MIN, props.VALUE];
   }
 
   /**
@@ -36,9 +36,10 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
    */
   template() {
     return (
-      `<div class="ids-spinbox">
-          <ids-button type="tertiary">-</ids-button>
-          <ids-input text-align="center"></ids-input>
+      `<div class="ids-spinbox" tabindex="-1">
+          <ids-button type="tertiary" disabled>-</ids-button>
+          <ids-input text-align="center" value=${this.value}>
+          </ids-input>
           <ids-button type="tertiary">+</ids-button>
       </div>`
     );
@@ -50,6 +51,15 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
     this.input = this.shadowRoot.querySelector('ids-input');
     this.input.mask = 'number';
     this.input.maskOptions = { allowDecimal: false };
+
+    this.setAttribute('tabindex', 0);
+    this.onEvent('click.decrement', this.children[0], () => {
+      this.value = parseInt(this.value) - 1;
+    });
+
+    this.onEvent('click.increment', this.children[2], () => {
+      this.value = parseInt(this.value) + 1;
+    });
   }
 
   set max(value) {
@@ -70,6 +80,17 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
 
   get min() {
     return this.min;
+  }
+
+  set value(value) {
+    if (parseInt(this.getAttribute(props.VALUE) !== parseInt(value))) {
+      this.setAttribute(props.VALUE, parseInt(value));
+      this.children[1].value = value;
+    }
+  }
+
+  get value() {
+    return this.getAttribute(props.VALUE);
   }
 }
 
