@@ -80,7 +80,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   connectedCallback() {
     super.connectedCallback();
 
-    this.popup.type = 'menu';
+    this.popup.type = 'modal';
     this.popup.animated = true;
     this.popup.animationStyle = 'scale-in';
     this.setAttribute('role', 'dialog');

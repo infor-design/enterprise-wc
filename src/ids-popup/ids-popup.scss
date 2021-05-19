@@ -298,6 +298,21 @@
     @include text-12();
     @include text-black();
   }
+
+  // style: "modal"
+  &.modal {
+    @include antialiased();
+    @include bg-white();
+    @include border-1();
+    @include border-solid();
+    @include font-sans();
+    @include p-8();
+    @include rounded-default();
+    @include shadow();
+
+    border-color: var(--ids-color-palette-slate-30);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  }
 }
 
 .content-wrapper {

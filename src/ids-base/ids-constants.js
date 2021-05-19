@@ -72,7 +72,7 @@ export const props = {
   MULTIPLE: 'multiple',
   NO_MARGINS: 'no-margins',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
-  OPACTIY: 'opacity',
+  OPACITY: 'opacity',
   OVERFLOW: 'overflow',
   PLACEHOLDER: 'placeholder',
   PLACEMENT: 'placement',

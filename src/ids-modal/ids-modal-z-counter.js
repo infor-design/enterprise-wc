@@ -3,7 +3,7 @@
  */
 class IdsModalZCounter {
   constructor() {
-    this.zCounter = 1000;
+    this.zCounter = 1020;
   }
 
   increment() {

@@ -37,7 +37,7 @@ const ANIMATION_STYLES = [
 const ARROW_TYPES = ['none', 'bottom', 'top', 'left', 'right'];
 
 // Types of Popups
-const TYPES = ['none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'];
+const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt'];
 
 // Properties exposed with getters/setters
 // safeSet/RemoveAttribute also use these so we pull them out
