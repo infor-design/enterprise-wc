@@ -12,6 +12,8 @@ import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-mixins/ids-render-
 
 import styles from './ids-button.scss';
 
+const { stringToBool } = stringUtils;
+
 // Button Styles
 const BUTTON_TYPES = [
   'default',
@@ -286,16 +288,20 @@ class IdsButton extends mix(IdsElement).with(
    * @param {boolean|string} val true if the button will be disabled
    */
   set disabled(val) {
-    this.shouldUpdate = false;
-    this.removeAttribute(props.DISABLED);
+    const isValueTruthy = stringToBool(val);
     this.shouldUpdate = true;
 
-    const trueVal = stringUtils.stringToBool(val);
-    this.state.disabled = trueVal;
+    if (isValueTruthy) {
+      this.setAttribute(props.DISABLED, '');
+    } else {
+      this.removeAttribute(props.DISABLED);
+    }
+
+    this.state.disabled = isValueTruthy;
 
     /* istanbul ignore next */
     if (this.button) {
-      this.button.disabled = trueVal;
+      this.button.disabled = isValueTruthy;
     }
   }
 
