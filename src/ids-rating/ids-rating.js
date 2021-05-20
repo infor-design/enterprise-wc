@@ -11,7 +11,6 @@ import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 
-// @ts-ignore
 import styles from './ids-rating.scss';
 
 /**
@@ -58,7 +57,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
      * @returns {Array<string>} this component's observable properties
      */
     static get properties() {
-      return [...props.MODE, props.VERSION, props.VALUE, 'stars', props.READONLY, props.CLICKABLE, props.COMPACT, props.SIZE];
+      return [props.CLICKABLE, props.COMPACT, ...props.MODE, props.READONLY, props.VALUE, props.VERSION, 'stars', props.SIZE];
     }
 
     /** Sets the value attribute
