@@ -33,6 +33,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     if (!this.readonly) {
       this.handleEvents();
     } else {
+      /* istanbul ignore next */
       this.updateHalfStar(this.ratingArr);
     }
     super.connectedCallback();
@@ -64,26 +65,37 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
       const isReadonly = stringUtils.stringToBool(this.readonly);
 
       if (val && !isReadonly) {
-        this.ratingArr.forEach((element) => {
+        this.ratingArr.forEach(/* istanbul ignore next */(element) => {
+          /* istanbul ignore next */
           element.setAttribute('icon', 'star-outlined');
+          /* istanbul ignore next */
           element.classList.remove('is-half');
+          /* istanbul ignore next */
           element.classList.remove('active');
         });
         const valueArray = this.ratingArr;
         const starArray = valueArray.slice(0, parseInt(val));
-        starArray.forEach((element) => {
+        starArray.forEach(/* istanbul ignore next */ (element) => {
+          /* istanbul ignore next */
           element.setAttribute('icon', 'star-filled');
+          /* istanbul ignore next */
           element.classList.add('active');
         });
+        /* istanbul ignore next */
         this.setAttribute('value', val.toString());
       }
 
       if (val && isReadonly) {
+        /* istanbul ignore next */
         this.ratingArr.forEach((element) => {
+          /* istanbul ignore next */
           element.setAttribute('icon', 'star-outlined');
+          /* istanbul ignore next */
           element.classList.remove('active');
+          /* istanbul ignore next */
           element.classList.remove('is-half');
         });
+        /* istanbul ignore next */
         this.updateHalfStar(this.ratingArr);
       }
     }
@@ -121,6 +133,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
 
     set size(s) {
       if (s) {
+        /* istanbul ignore next */
         this.ratingArr.forEach((element) => element.setAttribute('size', s.toString()));
         this.setAttribute('size', s.toString());
       }
@@ -136,9 +149,13 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
      * @returns {void}
      */
     handleEvents() {
+      /* istanbul ignore next */
       this.onEvent('click', this.container, (e) => this.updateStars(e));
+      /* istanbul ignore next */
       this.onEvent('keyup', this.container, (e) => {
+        /* istanbul ignore next */
         if (e.key === 'Enter' && this.readonly === false) {
+          /* istanbul ignore next */
           this.updateStars(e);
         }
       });
@@ -148,10 +165,15 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
      * Sets star state, active class and icon attribute
      * @param {any} event event target
      */
+    /* istanbul ignore next */
     updateStars(event) {
+      /* istanbul ignore next */
       const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
+      /* istanbul ignore next */
       let attrName = 'star-filled';
+      /* istanbul ignore next */
       let action = 'add';
+      /* istanbul ignore next */
       for (const ratingOption of this.ratingArr) {
         ratingOption.classList[action]('active');
         ratingOption.setAttribute('icon', attrName);
@@ -171,9 +193,13 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
      * Sets and updates value attribute
      * @param {any} arr NodeList
      */
+    /* istanbul ignore next */
     updateValue(arr) {
+      /* istanbul ignore next */
       const val = [...arr];
+      /* istanbul ignore next */
       const value = val.filter((el) => el.classList.contains('active'));
+      /* istanbul ignore next */
       this.setAttribute('value', value.length);
     }
 
@@ -185,13 +211,19 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
       const value = this.value;
       const roundValue = Math.round(value);
       for (let i = 0; i < roundValue; i++) {
+        /* istanbul ignore next */
         arr[i].classList.add('active');
+        /* istanbul ignore next */
         arr[i].setAttribute('icon', 'star-filled');
       }
       if (value < roundValue) {
+        /* istanbul ignore next */
         const activeArr = arr.filter((act) => act.classList.contains('active'));
+        /* istanbul ignore next */
         const lastItem = activeArr[activeArr.length - 1];
+        /* istanbul ignore next */
         lastItem.classList.add('is-half');
+        /* istanbul ignore next */
         lastItem.setAttribute('icon', 'star-half');
       }
     }
