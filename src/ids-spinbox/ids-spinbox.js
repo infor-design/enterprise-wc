@@ -49,6 +49,9 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   connectedCallback() {
     // attach a number mask to the input
 
+    this.#decrementButton = this.container.children[0];
+    this.#incrementButton = this.container.children[2];
+
     this.input = this.shadowRoot.querySelector('ids-input');
     this.input.mask = 'number';
     this.input.maskOptions = {
@@ -86,11 +89,16 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
   set max(value) {
     if (value === '') {
+      this.#updateIncrementDisabled();
+      this.#updateDecrementDisabled();
       return;
     }
 
-    if (this.getAttribute(props.MAX !== value)) {
+    if (this.getAttribute(props.MAX) !== value) {
       this.setAttribute(props.MAX, value);
+
+      this.#updateIncrementDisabled();
+      this.#updateDecrementDisabled();
     }
   }
 
@@ -99,8 +107,17 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   }
 
   set min(value) {
-    if (this.getAttribute(props.MIN !== value)) {
+    if (value === '') {
+      this.#updateIncrementDisabled();
+      this.#updateDecrementDisabled();
+      return;
+    }
+
+    if (this.getAttribute(props.MIN) !== value) {
       this.setAttribute(props.MIN, value);
+
+      this.#updateIncrementDisabled();
+      this.#updateDecrementDisabled();
     }
   }
 
@@ -110,17 +127,26 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
   set value(value) {
     if (parseInt(this.getAttribute(props.VALUE)) !== parseInt(value)) {
+      const hasMinValue = !Number.isNaN(parseInt(this.min));
+      const hasMaxValue = !Number.isNaN(parseInt(this.max));
+
       let nextValue = parseInt(value);
-      if (!Number.isNaN(parseInt(this.min))) {
+
+      if (hasMinValue) {
         nextValue = Math.max(nextValue, parseInt(this.min));
       }
 
-      if (!Number.isNaN(parseInt(this.max))) {
+      if (hasMaxValue) {
         nextValue = Math.min(nextValue, parseInt(this.max));
       }
 
       this.setAttribute(props.VALUE, nextValue);
       this.input.value = nextValue;
+
+      console.log('updating disabled states');
+
+      this.#updateDecrementDisabled();
+      this.#updateIncrementDisabled();
     }
   }
 
@@ -128,12 +154,46 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
     return this.getAttribute(props.VALUE);
   }
 
+  #incrementButton;
+
+  #decrementButton;
+
   #onIncrement() {
     this.value = parseInt(this.value) + (this.step || 1);
   }
 
   #onDecrement() {
     this.value = parseInt(this.value) - (this.step || 1);
+  }
+
+  #updateDecrementDisabled() {
+    const hasMinValue = !Number.isNaN(parseInt(this.min));
+
+    if (!hasMinValue) {
+      this.#decrementButton.removeAttribute('disabled');
+      return;
+    }
+
+    if (parseInt(this.value) <= parseInt(this.min)) {
+      this.#decrementButton.setAttribute('disabled', '');
+    } else {
+      this.#decrementButton.removeAttribute('disabled');
+    }
+  }
+
+  #updateIncrementDisabled() {
+    const hasMaxValue = !Number.isNaN(parseInt(this.max));
+
+    if (!hasMaxValue) {
+      this.#incrementButton.removeAttribute('disabled');
+      return;
+    }
+
+    if (parseInt(this.value) >= parseInt(this.max)) {
+      this.#incrementButton.setAttribute('disabled', '');
+    } else {
+      this.#incrementButton.removeAttribute('disabled');
+    }
   }
 }
 
