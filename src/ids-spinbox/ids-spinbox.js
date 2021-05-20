@@ -57,6 +57,13 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
     };
 
     this.setAttribute('tabindex', 0);
+    this.onEvent('click.decrement', this.container.children[0], () => {
+      this.#onDecrement();
+    });
+
+    this.onEvent('click.increment', this.container.children[2], () => {
+      this.#onIncrement();
+    });
 
     this.listen(['ArrowUp', 'ArrowDown'], this.input, (e) => {
       const key = e.key;
