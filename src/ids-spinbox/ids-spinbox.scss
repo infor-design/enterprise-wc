@@ -1,11 +1,16 @@
 @import '../ids-base/ids-base';
 
 :host(ids-spinbox) {
-  contain: content;
   width: fit-content;
 }
 
 :host(ids-spinbox:focus-within) {
+  border-width: 0;
+  border: none;
+  outline: none;
+}
+
+:host(ids-spinbox:focus-within .ids-spinbox-content) {
   @include border-azure-60();
   @include shadow();
 
@@ -16,52 +21,66 @@
 
 .ids-spinbox {
   display: flex;
-  flex-direction: row;
-  width: fit-content;
-  max-height: 38px;
+  flex-direction: column;
 
-  &:focus-visible ids-button::part(button) {
-    outline: none;
+  .hidden {
+    display: none;
   }
 
-  & ids-button::part(button) {
-    @include border-graphite-70();
-    @include border-1();
-
-    width: 38px;
-    max-width: 38px;
-    justify-content: center;
-    align-items: center;
-    padding: 0 0;
-    border: none;
+  .label {
+    @include my-8();
   }
 
-  & ids-button:first-child::part(button) {
-    border-radius: 2px 0 0 2px;
-    border-width: 1px;
-    border-style: solid;
-    border-right-style: none;
-  }
+  .ids-spinbox-content {
+    contain: content;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    max-height: 38px;
 
-  & ids-button:last-child::part(button) {
-    border-radius: 0 2px 2px 0;
-    border-width: 1px;
-    border-style: solid;
-    border-left-style: none;
-  }
+    &:focus-visible ids-button::part(button) {
+      outline: none;
+    }
 
-  &:focus-within ids-input::part(input),
-  &:focus-within ids-button:first-child::part(button),
-  &:focus-within ids-button:last-child::part(button) {
-    @include border-azure-60();
-  }
+    ids-button::part(button) {
+      @include border-graphite-70();
+      @include border-1();
 
-  & ids-input::part(input) {
-    @include border-graphite-70();
-    @include border-1();
+      width: 38px;
+      max-width: 38px;
+      justify-content: center;
+      align-items: center;
+      padding: 0 0;
+      border: none;
+    }
 
-    border-radius: 0;
-    max-width: 84px;
-    margin-bottom: 0;
+    ids-button:first-child::part(button) {
+      border-radius: 2px 0 0 2px;
+      border-width: 1px;
+      border-style: solid;
+      border-right-style: none;
+    }
+
+    ids-button:last-child::part(button) {
+      border-radius: 0 2px 2px 0;
+      border-width: 1px;
+      border-style: solid;
+      border-left-style: none;
+    }
+
+    &:focus-within ids-input::part(input),
+    &:focus-within ids-button:first-child::part(button),
+    &:focus-within ids-button:last-child::part(button) {
+      @include border-azure-60();
+    }
+
+    & ids-input::part(input) {
+      @include border-graphite-70();
+      @include border-1();
+
+      border-radius: 0;
+      max-width: 84px;
+      margin-bottom: 0;
+    }
   }
 }

@@ -36,12 +36,28 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @returns {string} the template to render
    */
   template() {
+    const labelHtml = (
+      `<div class="label${!this.label ? ' hidden' : ''}">
+        <ids-text>${this.label}</ids-text>
+      </div>`
+    );
+
+    const placeholderHtml = (
+      this.placeholder ? ` placeholder="${this.placeholder}"` : ''
+    );
+
     return (
       `<div class="ids-spinbox">
-          <ids-button type="tertiary" tabindex="-1">-</ids-button>
-          <ids-input text-align="center" value=${this.value}>
-          </ids-input>
-          <ids-button type="tertiary" tabindex="-1">+</ids-button>
+          ${labelHtml}
+          <div class="ids-spinbox-content">
+            <ids-button type="tertiary" tabindex="-1">-</ids-button>
+            <ids-input
+              text-align="center"
+              value=${this.value}
+              ${placeholderHtml}
+            ></ids-input>
+            <ids-button type="tertiary" tabindex="-1">+</ids-button>
+          </div>
       </div>`
     );
   }
@@ -49,8 +65,9 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   connectedCallback() {
     // attach a number mask to the input
 
-    this.#decrementButton = this.container.children[0];
-    this.#incrementButton = this.container.children[2];
+    this.#contentDiv = this.container.children[1];
+    this.#decrementButton = this.#contentDiv.children[0];
+    this.#incrementButton = this.#contentDiv.children[2];
 
     this.input = this.shadowRoot.querySelector('ids-input');
     this.input.mask = 'number';
@@ -60,11 +77,11 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
     };
 
     this.setAttribute('tabindex', 0);
-    this.onEvent('click.decrement', this.container.children[0], () => {
+    this.onEvent('click.decrement', this.#decrementButton, () => {
       this.#onDecrement();
     });
 
-    this.onEvent('click.increment', this.container.children[2], () => {
+    this.onEvent('click.increment', this.#incrementButton, () => {
       this.#onIncrement();
     });
 
@@ -143,8 +160,6 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
       this.setAttribute(props.VALUE, nextValue);
       this.input.value = nextValue;
 
-      console.log('updating disabled states');
-
       this.#updateDecrementDisabled();
       this.#updateIncrementDisabled();
     }
@@ -154,16 +169,39 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
     return this.getAttribute(props.VALUE);
   }
 
+  set placeholder(value) {
+    this.setAttribute(props.PLACEHOLDER, value);
+  }
+
+  get placeholder() {
+    return this.getAttribute(props.PLACEHOLDER);
+  }
+
+  set label(value) {
+    this.setAttribute(props.LABEL, value);
+  }
+
+  get label() {
+    return this.getAttribute(props.LABEL);
+  }
+
+  #contentDiv;
+
   #incrementButton;
 
   #decrementButton;
 
   #onIncrement() {
-    this.value = parseInt(this.value) + (this.step || 1);
+    const hasValidStep = !Number.isNaN(parseInt(this.step));
+    const step = hasValidStep ? parseInt(this.step) : 1;
+    this.value = parseInt(this.value) + step;
   }
 
   #onDecrement() {
-    this.value = parseInt(this.value) - (this.step || 1);
+    const hasValidStep = !Number.isNaN(parseInt(this.step));
+    const step = hasValidStep ? parseInt(this.step) : 1;
+
+    this.value = parseInt(this.value) - step;
   }
 
   #updateDecrementDisabled() {
