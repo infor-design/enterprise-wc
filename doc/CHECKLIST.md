@@ -78,7 +78,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Masthead (ids-masthead)
  - [x] MenuButton (ids-menu-button)
  - [ ] Message (ids-message)
- - [ ] Modal (ids-modal)
+ - [x] Modal (ids-modal)
  - [ ] Monthview (ids-month-view)
  - [ ] Multiselect (ids-multi-select)
  - [ ] Notification (ids-notification)

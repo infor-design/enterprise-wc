@@ -44,6 +44,11 @@
   - Now exists as its own component
   - Markup is `<ids-menu-button></ids-menu-button>`
   - Implicitly linked to a menu by using `menu="my-menu"` CSS selector attribute, or direct element reference in JS
+- `[Modal]` The Modal is now a web component called ids-modal ([WC#118](https://github.com/infor-design/enterprise-wc/issues/118))
+  - All content inside the modal boundary is now user-defined by slot
+  - Triggering element for the modal is now configurable with the `target` prop
+  - Events are now just plain JS events
+  - Markup has been changed to custom element `<ids-modal></ids-modal>`
 - `[Popup]` Added the Popup WebComponent. ([#4259](https://github.com/infor-design/enterprise/issues/4259))
   - This is the new base component to be used for building Popupmenu, Tooltip, Modal, and any other component that requires placement of a fixed-position element.
   - If using properties/settings, these are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.
