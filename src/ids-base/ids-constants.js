@@ -95,6 +95,7 @@ export const props = {
   SHAPE: 'shape',
   SHOW_BROWSE_LINK: 'show-browse-link',
   SIZE: 'size',
+  STEP: 'step',
   STEP_NUMBER: 'step-number',
   SUBMENU: 'submenu',
   TABBABLE: 'tabbable',
