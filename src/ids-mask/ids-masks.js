@@ -152,11 +152,15 @@ export function numberMask(rawValue, options) {
 
   //
   if (thisRawValue === EMPTY_STRING || (thisRawValue[0] === PREFIX[0] && rawValueLength === 1)) {
-    mask = PREFIX.split(EMPTY_STRING).concat([DIGITS_REGEX]).concat(SUFFIX.split(EMPTY_STRING));
+    mask = PREFIX.split(EMPTY_STRING)
+      .concat([DIGITS_REGEX])
+      .concat(SUFFIX.split(EMPTY_STRING));
   }
   // If the only item in the rawValue is a decimal, build out a simple 0 mask
   if (thisRawValue === DECIMAL && thisOptions.allowDecimal) {
-    mask = PREFIX.split(EMPTY_STRING).concat(['0', DECIMAL, DIGITS_REGEX]).concat(SUFFIX.split(EMPTY_STRING));
+    mask = PREFIX.split(EMPTY_STRING)
+      .concat(['0', CARET_TRAP, DECIMAL, CARET_TRAP, DIGITS_REGEX])
+      .concat(SUFFIX.split(EMPTY_STRING));
   }
 
   // If the mask is populated at this point, return it

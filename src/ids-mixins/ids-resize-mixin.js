@@ -21,6 +21,32 @@ const IdsResizeMixin = (superclass) => class extends superclass {
   }
 
   /**
+   * Hook into any WebComponent's `connectedCallback()` to hook in lifecycle methods
+   * @returns {void}
+   */
+  connectedCallback() {
+    super.connectedCallback?.();
+
+    this.setupResize();
+    this.setupDetectMutations();
+  }
+
+  /**
+   * Hook into any WebComponent's `diconnectedCallback()` to remove lifecycle methods
+   * @returns {void}
+   */
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+
+    if (this.shouldResize()) {
+      this.disconnectResize();
+    }
+    if (this.shouldDetectMutations()) {
+      this.disconnectDetectMutations();
+    }
+  }
+
+  /**
    * Builds the global IDS object
    * @private
    * @returns {void}

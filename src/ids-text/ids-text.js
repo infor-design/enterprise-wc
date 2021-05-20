@@ -76,7 +76,13 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
     classList += (this.fontWeight === 'bold' || this.fontWeight === 'bolder')
       ? ` ${this.fontWeight}` : '';
 
-    return `<${tag} class="${classList}" mode="${this.mode}" version="${this.version}"><slot></slot></${tag}>`;
+    return `<${tag}
+      class="${classList}"
+      mode="${this.mode}"
+      version="${this.version}"
+      part="text"
+    ><slot></slot>
+    </${tag}>`;
   }
 
   /**

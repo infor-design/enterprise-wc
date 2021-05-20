@@ -87,6 +87,25 @@ describe('IdsInput (Masked)', () => {
     expect(input.value).toEqual('1234.56');
   });
 
+  it('pre-fills a value with a zero if a decimal is typed and allowed', () => {
+    input.mask = numberMask;
+    input.maskOptions = {
+      locale: 'en-US',
+      allowDecimal: true,
+      allowNegative: true,
+      decimalLimit: 3,
+      integerLimit: 4,
+    };
+    input.value = '123.123';
+
+    expect(input.value).toEqual('123.123');
+
+    input.value = '.';
+
+    // Zero is filled in ahead of the typed decimal
+    expect(input.value).toEqual('0.');
+  });
+
   it('can use the shorthand "number" to actviate the built-in number mask', () => {
     input.mask = 'number';
 

@@ -148,11 +148,13 @@ class IdsElement extends HTMLElement {
     this.appendStyles();
     template.innerHTML = this.template();
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
+
     /** @type {any} */
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
     if (!this.container) {
       this.container = this.shadowRoot?.firstElementChild;
     }
+
     // Remove any close hidden element to avoid FOUC
     this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
     this.closest('ids-container')?.removeAttribute('hidden');

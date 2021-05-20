@@ -170,7 +170,6 @@ const hrefsAssignedSet = new Set();
 class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
-    this.updateHrefURIs();
   }
 
   /**
@@ -320,9 +319,9 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
     return (
       `<div class="ids-wizard">
-        <div class="steps">
+        <nav class="steps">
           ${stepsHtml}
-        </div>
+        </nav>
       </div>`
     );
   }
@@ -369,6 +368,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   connectedCallback() {
+    this.updateHrefURIs();
     /* istanbul ignore next */
     if (window.location.hash.length) {
       const uriHash = window.location.hash.substr(1);
@@ -378,6 +378,15 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
         this.stepNumber = stepNumber;
       }
     }
+
+    this.stepObserver.disconnect();
+
+    // set up observer for monitoring if a child element changed
+    this.stepObserver.observe(this, {
+      childList: true,
+      attributes: true,
+      subtree: true
+    });
   }
 
   /**
@@ -455,7 +464,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     // stop observing changes before updating DOM
-    this.stepObserver.disconnect();
     this.resizeObserver.disconnect();
 
     // query through all steps and add click callbacks
@@ -477,13 +485,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
     // set up observer for resize which prevents overlapping labels
     this.resizeObserver.observe(this.container);
-
-    // set up observer for monitoring if a child element changed
-    this.stepObserver.observe(this, {
-      childList: true,
-      attributes: true,
-      subtree: true
-    });
 
     this.shouldUpdateCallbacks = false;
   };

@@ -59,7 +59,9 @@ module.exports = {
     'import/no-named-as-default': 0,
     // Allow using using defaults + es module pattern in ES7
     'import/named': 0,
+    // Forbid the import of external modules that are not declared
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    // We have a mix of default and normal imports
     'import/prefer-default-export': ['off', { }],
     // Allow clases to be set on the web components
     'wc/no-self-class': 0,

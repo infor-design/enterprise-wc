@@ -31,11 +31,17 @@ const ALIGNMENTS_Y = [CENTER, 'top', 'bottom'];
 const ALIGNMENTS_EDGES_X = ALIGNMENTS_X.filter((x) => x !== CENTER);
 const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== CENTER);
 
+// Possible animation styles for the Popup
+const ANIMATION_STYLES = [
+  'fade',
+  'scale-in'
+];
+
 // Arrow Directions (defaults to 'none')
 const ARROW_TYPES = ['none', 'bottom', 'top', 'left', 'right'];
 
 // Types of Popups
-const TYPES = ['none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'];
+const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt'];
 
 // Properties exposed with getters/setters
 // safeSet/RemoveAttribute also use these so we pull them out
@@ -48,6 +54,7 @@ const POPUP_PROPERTIES = [
   'arrow',
   'arrow-target',
   props.ANIMATED,
+  props.ANIMATION_STYLE,
   props.TYPE,
   props.VISIBLE,
   'x',
@@ -114,6 +121,7 @@ class IdsPopup extends mix(IdsElement).with(
     this.state = {
       arrow: ARROW_TYPES[0],
       arrowTarget: null,
+      animationStyle: ANIMATION_STYLES[0],
     };
     this.isVisible = false;
     this.isAnimated = false;
@@ -127,31 +135,14 @@ class IdsPopup extends mix(IdsElement).with(
    */
   connectedCallback() {
     this.animated = this.hasAttribute('animated');
+    this.animationStyle = this.getAttribute(props.ANIMATION_STYLE) || this.animationStyle;
     this.trueType = this.getAttribute('type') || this.trueType;
     this.isVisible = this.hasAttribute('visible');
-    this.setupDetectMutations();
-    this.setupResize();
     this.handleEvents();
     super.connectedCallback();
 
     this.shouldUpdate = true;
     this.refresh();
-  }
-
-  /**
-   * Custom Element `disconnectedCallback` implementation
-   * @returns {void}
-   */
-  disconnectedCallback() {
-    IdsElement.prototype.disconnectedCallback.apply(this);
-
-    if (this.shouldResize()) {
-      this.disconnectResize();
-    }
-
-    if (this.shouldDetectMutations()) {
-      this.disconnectDetectMutations();
-    }
   }
 
   /**
@@ -418,6 +409,42 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * @readonly
+   * @returns {boolean} true if the Popup is opened and has fully animated into place
+   */
+  get animatedOpen() {
+    return this.container.classList.contains('open');
+  }
+
+  /**
+   * @param {string} val the style of animation this popup uses to show/hide
+   */
+  set animationStyle(val) {
+    let trueVal = ANIMATION_STYLES[0];
+    if (val && ANIMATION_STYLES.includes(val)) {
+      trueVal = val;
+    }
+
+    if (trueVal !== ANIMATION_STYLES[0]) {
+      this.safeSetAttribute(props.ANIMATION_STYLE, `${trueVal}`);
+    } else {
+      this.safeRemoveAttribute(props.ANIMATION_STYLE);
+    }
+
+    if (trueVal !== this.state.animationStyle) {
+      this.state.animationStyle = trueVal;
+      this.#setAnimationStyle(trueVal);
+    }
+  }
+
+  /**
+   * @returns {string} the style of animation this popup uses to show/hide
+   */
+  get animationStyle() {
+    return this.state.animationStyle;
+  }
+
+  /**
    * Specifies whether to show the Popup Arrow, and in which direction.
    * The direction is in relation to the alignment setting. So for example of you align: top
    * you want arrow: top as well.
@@ -445,6 +472,24 @@ class IdsPopup extends mix(IdsElement).with(
       return ARROW_TYPES[0];
     }
     return attr;
+  }
+
+  /**
+   * Show/Hide Arrow pointing in a direction, if applicable
+   * @param {string} direction a CSS class representing a Popup Arrow direction
+   */
+  #setArrowDirection(direction) {
+    const arrowElCl = this.arrowEl.classList;
+    ARROW_TYPES.forEach((type) => {
+      if (type !== 'none' && type !== direction) {
+        arrowElCl.remove(type);
+        this.arrowEl.hidden = true;
+      }
+    });
+    if (this.arrow !== 'none' && !arrowElCl.contains(this.arrow)) {
+      arrowElCl.add(this.arrow);
+      this.arrowEl.hidden = false;
+    }
   }
 
   /**
@@ -510,6 +555,21 @@ class IdsPopup extends mix(IdsElement).with(
 
   get type() {
     return this.trueType;
+  }
+
+  /**
+   * @param {string} newType the new type CSS class to apply
+   * @returns {void}
+   */
+  #setPopupTypeClass(newType) {
+    const thisCl = this.container.classList;
+    TYPES.forEach((type) => {
+      if (type !== newType && thisCl.contains(type)) {
+        thisCl.remove(type);
+      } else if (type === newType && !thisCl.contains(type)) {
+        thisCl.add(type);
+      }
+    });
   }
 
   /**
@@ -585,36 +645,17 @@ class IdsPopup extends mix(IdsElement).with(
     }
 
     // Set the Popup type
-    const thisType = this.trueType;
-    const thisCl = this.container.classList;
-    TYPES.forEach((type) => {
-      if (type !== thisType && thisCl.contains(type)) {
-        thisCl.remove(type);
-      } else if (type === thisType && !thisCl.contains(type)) {
-        thisCl.add(type);
-      }
-    });
+    this.#setPopupTypeClass(this.trueType);
 
     // Make the popup actually render before doing placement calcs
     if (this.isVisible) {
-      thisCl.add('visible');
+      this.container.classList.add('visible');
     } else {
-      thisCl.remove('open');
+      this.container.classList.remove('open');
     }
 
     // Show/Hide Arrow class, if applicable
-    const arrowClass = this.arrow;
-    const arrowElCl = this.arrowEl.classList;
-    ARROW_TYPES.forEach((type) => {
-      if (type !== 'none' && type !== arrowClass) {
-        arrowElCl.remove(type);
-        this.arrowEl.hidden = true;
-      }
-    });
-    if (this.arrow !== 'none' && !arrowElCl.contains(this.arrow)) {
-      arrowElCl.add(this.arrow);
-      this.arrowEl.hidden = false;
-    }
+    this.#setArrowDirection(this.arrow);
 
     // If no alignment target is present, do a simple x/y coordinate placement.
     const { alignTarget } = this;
@@ -919,6 +960,25 @@ class IdsPopup extends mix(IdsElement).with(
     this.shouldUpdate = false;
     this.removeAttribute(attr);
     this.shouldUpdate = prev;
+  }
+
+  /**
+   * Changes the CSS class controlling the animation style of the Popup
+   * @param {string} newStyle the type of animation
+   * @returns {void}
+   */
+  #setAnimationStyle(newStyle) {
+    const thisCl = this.container.classList;
+
+    ANIMATION_STYLES.forEach((style) => {
+      const targetClassName = `animation-${style}`;
+
+      if (style !== newStyle && thisCl.contains(targetClassName)) {
+        thisCl.remove(targetClassName);
+      } else if (style === newStyle && !thisCl.contains(targetClassName)) {
+        thisCl.add(targetClassName);
+      }
+    });
   }
 
   /**
