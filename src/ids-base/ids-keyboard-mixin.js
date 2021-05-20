@@ -91,3 +91,4 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
 };
 
 export { IdsKeyboardMixin };
+export default IdsKeyboardMixin;

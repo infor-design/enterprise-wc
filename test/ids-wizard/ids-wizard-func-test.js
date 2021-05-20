@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import IdsWizard, { IdsWizardStep } from '../../src/ids-wizard';
 // eslint-disable-next-line
 import ResizeObserver from '../helpers/resize-observer-mock';
+import IdsWizard, { IdsWizardStep } from '../../src/ids-wizard';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -118,6 +118,7 @@ describe('IdsWizard Tests', () => {
   it('refreshes ShadowDOM properly after changing the step markup', async () => {
     elem.remove(elem.children[1]);
 
+    await wait(100);
     let labels = getLabels(elem);
     await wait(100).then(() => {
       expect(labels.lightDOMLabels.join('_'))
@@ -132,11 +133,11 @@ describe('IdsWizard Tests', () => {
     // MutationObserver must listen/register,
     // so change occurs on next tick
 
-    await wait(100).then(() => {
-      labels = getLabels(elem);
-      expect(labels.lightDOMLabels.join('_'))
-        .toEqual(labels.shadowDOMLabels.join('_'));
-    });
+    await wait(100);
+
+    labels = getLabels(elem);
+    expect(labels.lightDOMLabels.join('_'))
+      .toEqual(labels.shadowDOMLabels.join('_'));
   });
 
   it('sets the step number to invalid values and sees '
@@ -154,12 +155,17 @@ describe('IdsWizard Tests', () => {
   it('on clickable wizard: clicks non-selected step, and the step number changes', async () => {
     const stepNumber = 2;
     elem.clickable = true;
+
     await wait(100);
+
     const marker = elem.shadowRoot.querySelector(
     `.step[step-number="${stepNumber}"] .step-marker`
     );
+
     marker.click();
+
     await wait(100);
+
     expect(elem.stepNumber).toEqual(2);
   });
 });
