@@ -347,8 +347,8 @@ describe('Number Mask function', () => {
       }
     });
 
-    // Resulting mask will be [/\d/, '.', /\d/]
-    expect(result.mask.length).toBe(3);
+    // Resulting mask will be [/\d/, '[]', '.', '[]', /\d/]
+    expect(result.mask.length).toBe(5);
   });
 
   it('should handle multiple decimals in the value', () => {
