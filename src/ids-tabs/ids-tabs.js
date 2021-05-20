@@ -3,18 +3,18 @@ import {
   customElement,
   props,
   scss,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
+
 import {
   IdsKeyboardMixin,
   IdsEventsMixin,
-  IdsThemeMixin,
-  IdsStringUtils
-} from '../ids-base';
+  IdsThemeMixin
+} from '../ids-mixins';
+
 import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
-
-const { buildClassAttrib } = IdsStringUtils;
 
 /**
  * IDS Tabs Component
@@ -48,7 +48,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   template() {
     return (
       `<div
-        ${ buildClassAttrib('ids-tabs', this.orientation) }
+        ${ stringUtils.buildClassAttrib('ids-tabs', this.orientation) }
         part="container"
       >
         <slot></slot>
