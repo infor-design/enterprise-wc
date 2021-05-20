@@ -11,24 +11,12 @@ The rating component displays a scale of selectable values in ascending order. A
 <ids-rating></ids-rating>
 ```
 
-## Default settings
-```html
-<ids-rating stars="5" readonly="false" value="0" size="large"></ids-rating>
-```
-
-![Variants Image](https://ids-com.s3.amazonaws.com/documents/rating_index.svg)
-
 ## Variants
 The rating component can be used as an interactive or read only element. Users may select any whole value out of the total as a rating. When functioning as a read-only element, ratings may use .5 decimals to more accurately display the average rating of an object.
 
 ```html
 <ids-rating stars="5" readonly="true" value="4.5" size="large"></ids-rating>
 ```
-
-![Variants Image](https://ids-com.s3.amazonaws.com/documents/rating_variant.svg)
-
-## States
-![Variants Image](https://ids-com.s3.amazonaws.com/documents/rating_states.svg)
 
 ## Keyboard Guidelines
 
@@ -39,16 +27,12 @@ The rating component can be used as an interactive or read only element. Users m
 `aubible` span are added for screen readers to hear the star information.
 
 ## Settings and Attributes
-- `stars` {number} Set the stars attribute to displayed the amount of items`stars="5"`
-- `value` {number} Set the rating value attribute. `value="0"`
-- `readyonly` {boolean} Set the readonly attribute. Valid values are 'true' | 'false'
-- `size` {number} Set the rating size attribute. `size="large"` Valid values are 'small' | 'medium' | 'large'
-- `mode` {string} Set the theme mode
-- `version` {string} Set the theme version
-
-## Designs
-
-[Design Specs](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
+- `stars` {number} Sets the stars attribute to displayed the amount of items`stars="5"`
+- `value` {number} Sets the rating value attribute. `value="0"`
+- `readyonly` {boolean} Sets the readonly attribute. Valid values are 'true' | 'false'
+- `size` {number} Sets the rating size attribute. `size="large"` Valid values are 'small' | 'medium' | 'large'
+- `mode` {string} Sets the theme mode
+- `version` {string} Sets the theme version
 
 ## Converting from Previous Versions
 
