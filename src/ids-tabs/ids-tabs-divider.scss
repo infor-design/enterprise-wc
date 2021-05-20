@@ -1,0 +1,12 @@
+@import '../ids-base/ids-base';
+
+.ids-tabs-divider {
+  @include ml-20();
+  @include mr-12();
+  @include bg-graphite-30();
+
+  display: block;
+  height: calc(100% - 8px);
+  top: 4px;
+  width: 1px;
+}

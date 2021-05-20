@@ -75,6 +75,9 @@
   - Markup has changed to a custom element `<ids-switch></ids-switch>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Tabs]` The Tabs component has been changed to a web component and renamed to ids-tabs.
+  - Markup has changed to a custom element `<ids-tabs value=${selection}></ids-tabs>`
+  - content within the tabs are specified as `<ids-tab value=${selection-value}>`Tab Label/Content`</ids-tab>`
 - `[Tags]` The Tag component has been changed to a web component.
   - If using events events are now plain JS events. beforetagremoved, tagremoved, aftertagremoved
   - If using properties/settings these are now attributes: dismissible, color

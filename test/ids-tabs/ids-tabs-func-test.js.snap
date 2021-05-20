@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsTabs Tests changes content within a text node to fire a slotchange with no errors 1`] = `
+"<ids-tabs value=\\"hello\\" role=\\"tablist\\">
+    <ids-tab value=\\"hello\\" role=\\"tab\\" aria-selected=\\"true\\" tabindex=\\"0\\" aria-label=\\"Its Over 9000\\">Its Over 9000</ids-tab>
+    <ids-tab value=\\"world\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"World\\">World</ids-tab>
+    <ids-tab value=\\"can\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"Can\\">Can</ids-tab>
+    <ids-tab value=\\"uhearme\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"You Hear Me?\\">You Hear Me?</ids-tab>
+  </ids-tabs>"
+`;
+
+exports[`IdsTabs Tests removes a tab after rendering and does not break 1`] = `
+"<ids-tabs value=\\"hello\\" role=\\"tablist\\">
+    <ids-tab value=\\"hello\\" role=\\"tab\\" aria-selected=\\"true\\" tabindex=\\"0\\" aria-label=\\"Hello\\">Hello</ids-tab>
+    <ids-tab value=\\"world\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"World\\">World</ids-tab>
+    <ids-tab value=\\"can\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"Can\\">Can</ids-tab>
+    <ids-tab value=\\"uhearme\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"You Hear Me?\\">You Hear Me?</ids-tab>
+  </ids-tabs>"
+`;
+
+exports[`IdsTabs Tests renders correctly 1`] = `
+"<ids-tabs value=\\"hello\\" role=\\"tablist\\">
+    <ids-tab value=\\"hello\\" role=\\"tab\\" aria-selected=\\"true\\" tabindex=\\"0\\" aria-label=\\"Hello\\">Hello</ids-tab>
+    <ids-tab value=\\"world\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"World\\">World</ids-tab>
+    <ids-tab value=\\"can\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"Can\\">Can</ids-tab>
+    <ids-tab value=\\"uhearme\\" role=\\"tab\\" aria-selected=\\"false\\" tabindex=\\"-1\\" aria-label=\\"You Hear Me?\\">You Hear Me?</ids-tab>
+  </ids-tabs>"
+`;
+
+exports[`IdsTabs Tests renders with counts, and has no errors 1`] = `
+"<ids-tabs role=\\"tablist\\">
+        <ids-tab count=\\"20\\" role=\\"tab\\" aria-selected=\\"true\\" tabindex=\\"0\\" aria-label=\\"20
+       Pizzas\\">Pizzas</ids-tab>
+        <ids-tab count=\\"18\\" role=\\"tab\\" aria-selected=\\"true\\" tabindex=\\"0\\" aria-label=\\"18
+       Diet Cokes\\">Diet Cokes</ids-tab>
+        <ids-tab count=\\"12\\" role=\\"tab\\" aria-selected=\\"true\\" tabindex=\\"0\\" aria-label=\\"12
+       Ginger Ales\\">Ginger Ales</ids-tab>
+      </ids-tabs>"
+`;
