@@ -1,20 +1,16 @@
 @import '../ids-base/ids-base';
 
 :host(ids-spinbox) {
-  @include border-1();
-  @include border-solid();
-  @include border-graphite-70();
-
   contain: content;
   width: fit-content;
 }
 
 :host(ids-spinbox:focus-within) {
   @include border-azure-60();
-  @include border-1();
-  @include border-solid();
   @include shadow();
 
+  border-width: 0;
+  border: none;
   outline: none;
 }
 
@@ -40,18 +36,31 @@
     border: none;
   }
 
-  & ids-button:first-child {
-    border-right-style: solid;
-    border-right-width: 1px;
+  & ids-button:first-child::part(button) {
+    border-radius: 2px 0 0 2px;
+    border-width: 1px;
+    border-style: solid;
+    border-right-style: none;
   }
 
-  & ids-button:last-child {
-    border-left-style: solid;
-    border-left-width: 1px;
+  & ids-button:last-child::part(button) {
+    border-radius: 0 2px 2px 0;
+    border-width: 1px;
+    border-style: solid;
+    border-left-style: none;
+  }
+
+  &:focus-within ids-input::part(input),
+  &:focus-within ids-button:first-child::part(button),
+  &:focus-within ids-button:last-child::part(button) {
+    @include border-azure-60();
   }
 
   & ids-input::part(input) {
-    border: none;
+    @include border-graphite-70();
+    @include border-1();
+
+    border-radius: 0;
     max-width: 84px;
     margin-bottom: 0;
   }
