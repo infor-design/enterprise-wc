@@ -8,6 +8,7 @@ import {
 import IdsButton from '../ids-button/ids-button';
 import IdsInput from '../ids-input/ids-input';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import styles from './ids-spinbox.scss';
 
 /**
@@ -17,7 +18,7 @@ import styles from './ids-spinbox.scss';
  */
 @customElement('ids-spinbox')
 @scss(styles)
-class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   constructor() {
     super();
   }
@@ -56,13 +57,24 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
     };
 
     this.setAttribute('tabindex', 0);
-    this.onEvent('click.decrement', this.container.children[0], () => {
-      this.value = parseInt(this.value) - (this.step || 1);
+
+    this.listen(['ArrowUp', 'ArrowDown'], this.input, (e) => {
+      const key = e.key;
+
+      switch (key) {
+      case 'ArrowUp':
+        this.#onIncrement();
+        break;
+      default:
+      case 'ArrowDown':
+        this.#onDecrement();
+        break;
+      }
+
+      e.preventDefault();
     });
 
-    this.onEvent('click.increment', this.container.children[2], () => {
-      this.value = parseInt(this.value) + (this.step || 1);
-    });
+    return this;
   }
 
   set max(value) {
@@ -107,6 +119,14 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
 
   get value() {
     return this.getAttribute(props.VALUE);
+  }
+
+  #onIncrement() {
+    this.value = parseInt(this.value) + (this.step || 1);
+  }
+
+  #onDecrement() {
+    this.value = parseInt(this.value) - (this.step || 1);
   }
 }
 
