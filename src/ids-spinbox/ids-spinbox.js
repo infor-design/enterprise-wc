@@ -36,11 +36,11 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
    */
   template() {
     return (
-      `<div class="ids-spinbox" tabindex="-1">
-          <ids-button type="tertiary" disabled>-</ids-button>
+      `<div class="ids-spinbox">
+          <ids-button type="tertiary" tabindex="-1">-</ids-button>
           <ids-input text-align="center" value=${this.value}>
           </ids-input>
-          <ids-button type="tertiary">+</ids-button>
+          <ids-button type="tertiary" tabindex="-1">+</ids-button>
       </div>`
     );
   }
