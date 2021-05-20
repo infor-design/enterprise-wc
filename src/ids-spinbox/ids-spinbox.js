@@ -27,7 +27,7 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.MAX, props.MIN, props.VALUE];
+    return [props.MAX, props.MIN, props.STEP, props.VALUE];
   }
 
   /**
@@ -50,26 +50,33 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
 
     this.input = this.shadowRoot.querySelector('ids-input');
     this.input.mask = 'number';
-    this.input.maskOptions = { allowDecimal: false };
+    this.input.maskOptions = {
+      allowDecimal: false,
+      allowNegative: true
+    };
 
     this.setAttribute('tabindex', 0);
-    this.onEvent('click.decrement', this.children[0], () => {
-      this.value = parseInt(this.value) - 1;
+    this.onEvent('click.decrement', this.container.children[0], () => {
+      this.value = parseInt(this.value) - (this.step || 1);
     });
 
-    this.onEvent('click.increment', this.children[2], () => {
-      this.value = parseInt(this.value) + 1;
+    this.onEvent('click.increment', this.container.children[2], () => {
+      this.value = parseInt(this.value) + (this.step || 1);
     });
   }
 
   set max(value) {
+    if (value === '') {
+      return;
+    }
+
     if (this.getAttribute(props.MAX !== value)) {
       this.setAttribute(props.MAX, value);
     }
   }
 
   get max() {
-    return this.max;
+    return this.getAttribute(props.MAX);
   }
 
   set min(value) {
@@ -79,13 +86,22 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   get min() {
-    return this.min;
+    return this.getAttribute(props.MIN);
   }
 
   set value(value) {
-    if (parseInt(this.getAttribute(props.VALUE) !== parseInt(value))) {
-      this.setAttribute(props.VALUE, parseInt(value));
-      this.children[1].value = value;
+    if (parseInt(this.getAttribute(props.VALUE)) !== parseInt(value)) {
+      let nextValue = parseInt(value);
+      if (!Number.isNaN(parseInt(this.min))) {
+        nextValue = Math.max(nextValue, parseInt(this.min));
+      }
+
+      if (!Number.isNaN(parseInt(this.max))) {
+        nextValue = Math.min(nextValue, parseInt(this.max));
+      }
+
+      this.setAttribute(props.VALUE, nextValue);
+      this.input.value = nextValue;
     }
   }
 
