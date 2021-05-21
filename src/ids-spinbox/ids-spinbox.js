@@ -289,7 +289,6 @@ class IdsSpinbox extends mix(IdsElement).with(
 
   focus() {
     this.input?.input?.focus?.();
-    console.log('on focus called');
   }
 }
 
