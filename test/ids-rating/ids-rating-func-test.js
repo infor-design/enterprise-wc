@@ -55,4 +55,18 @@ describe('IdsRating Component', () => {
     rating.stars = 4;
     expect(rating.getAttribute('stars')).toEqual('4');
   });
+
+  it('does not set stars if empty', () => {
+    rating.stars = null;
+    expect(rating.getAttribute('stars')).toEqual(null);
+  });
+
+  it('supports half stars', () => {
+    const elem = new IdsRating();
+    elem.readonly = true;
+    elem.stars = 5;
+    elem.value = 3.5;
+    document.body.appendChild(elem);
+    expect(document.querySelector('ids-rating').shadowRoot.querySelectorAll('.star').length).toEqual(5);
+  });
 });

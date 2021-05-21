@@ -1,18 +1,25 @@
 # Ids Rating
 
-## Allows for the display or selection of an objects rating.
+## Description
+
+Allows for the display or selection of an objects rating.
 
 ## Usage
+
 The rating component displays a scale of selectable values in ascending order. A user can select a rating by clicking the star with the position that corresponds to the users rating out of the total. Best for showing a user's current selection relative to the lower and upper limits of a scale.
 
-## Code Example
+## Code Examples
+
+
+The rating component can be used as an interactive or read only element. Users may select any whole value out of the total as a rating. When functioning as a read-only element, ratings may use .5 decimals to more accurately display the average rating of an object.
+
+A basic rating with 5 stars by default and none checked.
 
 ```html
 <ids-rating></ids-rating>
 ```
 
-## Variants
-The rating component can be used as an interactive or read only element. Users may select any whole value out of the total as a rating. When functioning as a read-only element, ratings may use .5 decimals to more accurately display the average rating of an object.
+A rating rating with 4.5/5 which is also readonly. If using half stars the rating component should be readonly as you cannot click half stars in any way with the UI.
 
 ```html
 <ids-rating stars="5" readonly="true" value="4.5" size="large"></ids-rating>
@@ -24,9 +31,11 @@ The rating component can be used as an interactive or read only element. Users m
 - <kbd>Enter</kbd>: If this will follow the link url or action.
 
 ## Accessibility Guidelines
-`aubible` span are added for screen readers to hear the star information.
+
+- `aubible` span are added for screen readers to hear the star information.
 
 ## Settings and Attributes
+
 - `stars` {number} Sets the stars attribute to displayed the amount of items`stars="5"`
 - `value` {number} Sets the rating value attribute. `value="0"`
 - `readyonly` {boolean} Sets the readonly attribute. Valid values are 'true' | 'false'
@@ -36,7 +45,8 @@ The rating component can be used as an interactive or read only element. Users m
 
 ## Converting from Previous Versions
 
-##### Version - 4.x:
+### Version - 4.x:
+
 ```html
   <div class="rating">
   <input type="radio" class="is-filled" name="rating-name" id="one-star-id1"/>
@@ -80,7 +90,9 @@ The rating component can be used as an interactive or read only element. Users m
   </label>
   </div>
 ```
-##### Version - 5.x:
+
+### Version - 5.x:
+
 ```html
   <ids-rating></ids-rating>
 ```

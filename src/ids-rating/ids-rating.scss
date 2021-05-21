@@ -12,7 +12,7 @@
 
 .star {
   cursor: pointer;
-  margin: 0 2px;
+  margin: 0 4px;
 }
 
 .star[icon='star-outlined'] {
@@ -51,5 +51,29 @@
   &:focus-visible {
     outline: none;
     color: var(--ids-color-palette-azure-60);
+  }
+}
+
+:host([readonly]) {
+  .star {
+    cursor: default;
+  }
+
+  .star[icon='star-outlined'] {
+    &:hover {
+      color: var(--ids-color-palette-graphite-50);
+    }
+  }
+
+  .star[icon='star-filled'] {
+    &:hover {
+      color: var(--ids-color-palette-amber-60);
+    }
+  }
+
+  .star[icon='star-half'] {
+    &:hover {
+      color: var(--ids-color-palette-amber-60);
+    }
   }
 }

@@ -32,7 +32,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     if (!this.readonly) {
       this.handleEvents();
     } else {
-      /* istanbul ignore next */
       this.updateHalfStar(this.ratingArr);
     }
     super.connectedCallback();
@@ -47,7 +46,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     template() {
       let html = '<div class="rating">';
       for (let i = 0; i < this.stars; i++) {
-        html += `<ids-icon class="star star-${i}" role-"button" icon="star-outlined" tabindex="0" size="${this.size}"><span class="audible">${i + 1} out of 5 Stars</span></ids-icon>`;
+        html += `<ids-icon class="star star-${i}" role="button" aria-label="${i + 1} out of 5 Stars" icon="star-outlined" tabindex="0" size="${this.size}"></ids-icon>`;
       }
       html += '</div>';
       return html;
