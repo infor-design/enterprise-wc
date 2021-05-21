@@ -38,6 +38,7 @@ class IdsSpinbox extends mix(IdsElement).with(
   static get properties() {
     return [
       props.DIRTY_TRACKER,
+      props.DISABLED,
       props.MAX,
       props.MIN,
       props.STEP,
@@ -60,18 +61,28 @@ class IdsSpinbox extends mix(IdsElement).with(
       this.placeholder ? ` placeholder="${this.placeholder}"` : ''
     );
 
+    const disabledAttribHtml = this.disabled ? '' : '';
+
     return (
       `<div class="ids-spinbox">
           ${labelHtml}
           <div class="ids-spinbox-content">
-            <ids-button type="tertiary" tabindex="-1">-</ids-button>
+            <ids-button
+              type="tertiary"
+              tabindex="-1"
+              ${disabledAttribHtml}
+            >-</ids-button>
             <ids-input
-              tabindex="0"
               text-align="center"
               value=${this.value}
               ${placeholderHtml}
+              ${disabledAttribHtml}
             ></ids-input>
-            <ids-button type="tertiary" tabindex="-1">+</ids-button>
+            <ids-button
+              type="tertiary"
+              tabindex="-1"
+              ${disabledAttribHtml}
+            >+</ids-button>
           </div>
       </div>`
     );
@@ -79,12 +90,18 @@ class IdsSpinbox extends mix(IdsElement).with(
 
   connectedCallback() {
     this.setAttribute('tabindex', 0);
-
     this.#contentDiv = this.container.children[1];
-    this.#decrementButton = this.#contentDiv.children[0];
-    this.#incrementButton = this.#contentDiv.children[2];
 
-    this.input = this.shadowRoot.querySelector('ids-input');
+    const [
+      decrementButton,
+      input,
+      incrementButton
+    ] = [...this.#contentDiv.children];
+
+    this.input = input;
+    this.#decrementButton = decrementButton;
+    this.#incrementButton = incrementButton;
+
     this.input.mask = 'number';
     this.input.maskOptions = {
       allowDecimal: false,
@@ -207,6 +224,22 @@ class IdsSpinbox extends mix(IdsElement).with(
 
   get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
 
+  set disabled(value) {
+    const isValueTruthy = stringToBool(value);
+
+    if (isValueTruthy) {
+      this.setAttribute?.(props.DISABLED, '');
+      this.input.setAttribute?.(props.DISABLED, 'true');
+      this.#incrementButton?.setAttribute?.(props.DISABLED, 'true');
+      this.#decrementButton?.setAttribute?.(props.DISABLED, 'true');
+    } else {
+      this.removeAttribute?.(props.DISABLED);
+      this.input?.removeAttribute?.(props.DISABLED);
+      this.#incrementButton?.removeAttribute?.(props.DISABLED);
+      this.#decrementButton?.removeAttribute?.(props.DISABLED);
+    }
+  }
+
   #contentDiv;
 
   #incrementButton;
@@ -250,10 +283,14 @@ class IdsSpinbox extends mix(IdsElement).with(
     }
 
     if (parseInt(this.value) >= parseInt(this.max)) {
-      this.#incrementButton.setAttribute('disabled', '');
+      this.#incrementButton?.setAttribute('disabled', '');
     } else {
-      this.#incrementButton.removeAttribute('disabled');
+      this.#incrementButton?.removeAttribute('disabled');
     }
+  }
+
+  focus() {
+    this.input?.input?.focus?.();
   }
 }
 
