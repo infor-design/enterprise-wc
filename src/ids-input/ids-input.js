@@ -170,7 +170,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
 
     const labelHtml = !this.state.label ? '' : (
       `<label for="${this.state.id}" class="label-text">
-        <ids-text part="label" label="true">${this.label}</ids-text>
+        <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
       </label>`
     );
 

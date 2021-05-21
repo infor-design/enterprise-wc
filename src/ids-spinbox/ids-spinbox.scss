@@ -9,12 +9,6 @@
   outline: none;
 }
 
-:host(ids-spinbox[disabled] .ids-spinbox-content) {
-  pointer-events: none;
-  border-width: 0;
-  border: none;
-}
-
 .ids-spinbox:focus-within > .ids-spinbox-content {
   @include border-azure-60();
   @include shadow();
@@ -29,6 +23,17 @@
   pointer-events: none;
 }
 
+.ids-spinbox.disabled {
+  @include text-slate-30();
+
+  ids-input::part(input) {
+    @include border-slate-30();
+    @include text-slate-30();
+
+    pointer-events: none;
+  }
+}
+
 .ids-spinbox {
   position: relative;
   display: flex;
@@ -36,12 +41,16 @@
 
   ids-icon[icon='dirty'] {
     position: absolute;
-    top: 2px;
-    left: 2px;
+    top: 3px;
+    left: 3px;
   }
 
   .hidden {
     display: none;
+  }
+
+  &:not(.disabled) ids-input::part(input) {
+    @include border-graphite-70();
   }
 
   .label {
@@ -100,15 +109,6 @@
       border-radius: 0;
       max-width: 84px;
       margin-bottom: 0;
-    }
-
-    & ids-input:not([disabled]) ::part(input) {
-      @include border-graphite-70();
-    }
-
-    & ids-input[disabled]::part(input) {
-      @include border-slate-30();
-      @include text-slate-30();
     }
   }
 }
