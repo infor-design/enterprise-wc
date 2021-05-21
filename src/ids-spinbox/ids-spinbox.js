@@ -51,7 +51,7 @@ class IdsSpinbox extends mix(IdsElement).with(
    */
   template() {
     const labelHtml = (
-      `<div class="label${!this.label ? ' hidden' : ''}">
+      `<div class="label${!this.label ? ' hidden' : ''}" tabindex="-1">
         <ids-text>${this.label}</ids-text>
       </div>`
     );
@@ -66,6 +66,7 @@ class IdsSpinbox extends mix(IdsElement).with(
           <div class="ids-spinbox-content">
             <ids-button type="tertiary" tabindex="-1">-</ids-button>
             <ids-input
+              tabindex="0"
               text-align="center"
               value=${this.value}
               ${placeholderHtml}
@@ -77,7 +78,7 @@ class IdsSpinbox extends mix(IdsElement).with(
   }
 
   connectedCallback() {
-    // attach a number mask to the input
+    this.setAttribute('tabindex', 0);
 
     this.#contentDiv = this.container.children[1];
     this.#decrementButton = this.#contentDiv.children[0];

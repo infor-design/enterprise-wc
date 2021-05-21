@@ -170,22 +170,27 @@ describe('IdsSpinbox Component', () => {
       .toEqual(parseInt(elem.min) + parseInt(elem.step));
   });
 
-  /*
   it('presses the ArrowUp key to increment after clicking the input', async () => {
     elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
 
     const initialValue = parseInt(elem.value);
     const step = parseInt(elem.step);
-
-    elem.input.focus();
-    await processAnimFrame();
-
-    const arrowUpEvent = new KeyboardEvent('keydown', { key: ['ArrowUp'] });
-
-    elem.input.dispatchEvent(arrowUpEvent);
+    elem.focus();
+    elem.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
     await processAnimFrame();
 
     expect(parseInt(elem.value)).toEqual(initialValue + step);
   });
-  */
+
+  it('presses the ArrowDown key to decrement after clicking the input', async () => {
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+
+    const initialValue = parseInt(elem.value);
+    const step = parseInt(elem.step);
+    elem.focus();
+    elem.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    await processAnimFrame();
+
+    expect(parseInt(elem.value)).toEqual(initialValue - step);
+  });
 });
