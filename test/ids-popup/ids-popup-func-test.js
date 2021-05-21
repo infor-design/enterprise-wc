@@ -558,10 +558,28 @@ describe('IdsPopup Component', () => {
     }, 300);
   });
 
+  it('can set an animation style', () => {
+    popup.animationStyle = 'scale-in';
+
+    expect(popup.container.classList.contains('animation-scale-in')).toBeTruthy();
+
+    popup.animationStyle = 'fade';
+
+    expect(popup.container.classList.contains('animation-scale-in')).toBeFalsy();
+    expect(popup.container.classList.contains('animation-fade')).toBeTruthy();
+
+    // This one isn't real. The `fade` animation should remain.
+    popup.animationStyle = 'fish';
+
+    expect(popup.container.classList.contains('animation-fish')).toBeFalsy();
+    expect(popup.container.classList.contains('animation-fade')).toBeTruthy();
+  });
+
   it('can enable/disable visibility', (done) => {
     popup.visible = true;
 
     setTimeout(() => {
+      expect(popup.animatedOpen).toBeTruthy();
       expect(popup.container.classList.contains('visible')).toBeTruthy();
       popup.visible = false;
 

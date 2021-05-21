@@ -269,3 +269,4 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
 };
 
 export { IdsEventsMixin };
+export default IdsEventsMixin;

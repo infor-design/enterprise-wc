@@ -33,6 +33,8 @@ import IdsContainer from '../src/ids-container/ids-container';
 import IdsThemeSwitcher from '../src/ids-theme-switcher/ids-theme-switcher';
 import IdsRating from '../src/ids-rating/ids-rating';
 import IdsWizard, { IdsWizardStep } from '../src/ids-wizard';
+import IdsModal, { IdsOverlay } from '../src/ids-modal';
+import IdsTabs, { IdsTab } from '../src/ids-tabs';
 
 // Import Example Code
 
@@ -49,6 +51,7 @@ import './ids-icon/index';
 import './ids-input/example';
 import './ids-input/test-validation-message';
 import './ids-mask/example';
+import './ids-modal/example';
 import './ids-progress/example';
 import './ids-upload-advanced/example';
 import './ids-popup/index';
@@ -62,3 +65,4 @@ import './ids-textarea/example';
 import './ids-block-grid/index';
 import './ids-counts/index';
 import './ids-wizard/index';
+import './ids-tabs/index';
