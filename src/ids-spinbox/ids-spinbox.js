@@ -105,12 +105,6 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   }
 
   set max(value) {
-    if (value === '') {
-      this.#updateIncrementDisabled();
-      this.#updateDecrementDisabled();
-      return;
-    }
-
     if (this.getAttribute(props.MAX) !== value) {
       this.setAttribute(props.MAX, value);
 
@@ -124,12 +118,6 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   }
 
   set min(value) {
-    if (value === '') {
-      this.#updateIncrementDisabled();
-      this.#updateDecrementDisabled();
-      return;
-    }
-
     if (this.getAttribute(props.MIN) !== value) {
       this.setAttribute(props.MIN, value);
 
