@@ -20,8 +20,15 @@
 }
 
 .ids-spinbox {
+  position: relative;
   display: flex;
   flex-direction: column;
+
+  ids-icon[icon='dirty'] {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+  }
 
   .hidden {
     display: none;
