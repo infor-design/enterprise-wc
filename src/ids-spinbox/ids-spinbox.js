@@ -52,19 +52,23 @@ class IdsSpinbox extends mix(IdsElement).with(
    */
   template() {
     const labelHtml = (
-      `<div class="label${!this.label ? ' hidden' : ''}">
-        <ids-text>${this.label}</ids-text>
-      </div>`
+      `<div
+          class="label
+          ${!this.label ? ' hidden' : ''}
+          ${this.disabled ? ' disabled' : ''}"
+        >
+          <ids-text color="unset">${this.label}</ids-text>
+        </div>`
     );
 
     const placeholderHtml = (
       this.placeholder ? ` placeholder="${this.placeholder}"` : ''
     );
 
-    const disabledAttribHtml = this.disabled ? '' : '';
+    const disabledAttribHtml = this.disabled ? ' disabled' : '';
 
     return (
-      `<div class="ids-spinbox">
+      `<div class="ids-spinbox${this.disabled ? ' disabled' : ''}">
           ${labelHtml}
           <div class="ids-spinbox-content">
             <ids-button
@@ -115,7 +119,17 @@ class IdsSpinbox extends mix(IdsElement).with(
       this.#onIncrement();
     });
 
-    this.listen(['ArrowUp', 'ArrowDown'], this.input, (e) => {
+    this.onEvent('focus', this, (e) => {
+      const isDisabled = stringToBool(this.getAttribute(props.DISABLED));
+
+      if (!isDisabled) {
+        e.preventDefault();
+      }
+    });
+
+    this.listen(['ArrowUp', 'ArrowDown'], this, (e) => {
+      if (stringToBool(this.getAttribute(props.DISABLED))) { return; }
+
       const key = e.key;
 
       switch (key) {
@@ -227,14 +241,16 @@ class IdsSpinbox extends mix(IdsElement).with(
 
     if (isValueTruthy) {
       this.setAttribute?.(props.DISABLED, '');
-      this.input.setAttribute?.(props.DISABLED, 'true');
       this.#incrementButton?.setAttribute?.(props.DISABLED, 'true');
       this.#decrementButton?.setAttribute?.(props.DISABLED, 'true');
+      this.container.classList.add('disabled');
+      this.setAttribute('tabindex', -1);
     } else {
       this.removeAttribute?.(props.DISABLED);
-      this.input?.removeAttribute?.(props.DISABLED);
       this.#incrementButton?.removeAttribute?.(props.DISABLED);
       this.#decrementButton?.removeAttribute?.(props.DISABLED);
+      this.removeAttribute('tabindex');
+      this.container.classList.remove('disabled');
     }
   }
 
@@ -285,10 +301,6 @@ class IdsSpinbox extends mix(IdsElement).with(
     } else {
       this.#incrementButton?.removeAttribute('disabled');
     }
-  }
-
-  focus() {
-    this.input?.input?.focus?.();
   }
 }
 
