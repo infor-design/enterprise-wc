@@ -52,7 +52,7 @@ class IdsSpinbox extends mix(IdsElement).with(
    */
   template() {
     const labelHtml = (
-      `<div class="label${!this.label ? ' hidden' : ''}" tabindex="-1">
+      `<div class="label${!this.label ? ' hidden' : ''}">
         <ids-text>${this.label}</ids-text>
       </div>`
     );
@@ -89,7 +89,6 @@ class IdsSpinbox extends mix(IdsElement).with(
   }
 
   connectedCallback() {
-    this.setAttribute('tabindex', 0);
     this.#contentDiv = this.container.children[1];
 
     const [
@@ -108,7 +107,6 @@ class IdsSpinbox extends mix(IdsElement).with(
       allowNegative: true
     };
 
-    this.setAttribute('tabindex', 0);
     this.onEvent('click.decrement', this.#decrementButton, () => {
       this.#onDecrement();
     });
@@ -291,6 +289,7 @@ class IdsSpinbox extends mix(IdsElement).with(
 
   focus() {
     this.input?.input?.focus?.();
+    console.log('on focus called');
   }
 }
 
