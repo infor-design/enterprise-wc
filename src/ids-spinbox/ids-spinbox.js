@@ -3,13 +3,17 @@ import {
   customElement,
   scss,
   props,
+  stringUtils,
   mix
 } from '../ids-base/ids-element';
 import IdsButton from '../ids-button/ids-button';
 import IdsInput from '../ids-input/ids-input';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import styles from './ids-spinbox.scss';
+
+const { stringToBool } = stringUtils;
 
 /**
  * IDS Spinbox Component
@@ -18,7 +22,11 @@ import styles from './ids-spinbox.scss';
  */
 @customElement('ids-spinbox')
 @scss(styles)
-class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+class IdsSpinbox extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsKeyboardMixin,
+    IdsDirtyTrackerMixin
+  ) {
   constructor() {
     super();
   }
@@ -28,7 +36,13 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return [props.MAX, props.MIN, props.STEP, props.VALUE];
+    return [
+      props.DIRTY_TRACKER,
+      props.MAX,
+      props.MIN,
+      props.STEP,
+      props.VALUE
+    ];
   }
 
   /**
@@ -150,6 +164,8 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
       this.#updateDecrementDisabled();
       this.#updateIncrementDisabled();
+
+      this.handleDirtyTracker();
     }
   }
 
@@ -172,6 +188,23 @@ class IdsSpinbox extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   get label() {
     return this.getAttribute(props.LABEL);
   }
+
+  /**
+   * Set the dirty tracking feature on to indicate a changed field
+   * @param {boolean|string} value If true will set `dirty-tracker` attribute
+   */
+  set dirtyTracker(value) {
+    const val = stringToBool(value);
+    if (val) {
+      this.setAttribute(props.DIRTY_TRACKER, val.toString());
+    } else {
+      this.removeAttribute(props.DIRTY_TRACKER);
+    }
+
+    this.handleDirtyTracker();
+  }
+
+  get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
 
   #contentDiv;
 
