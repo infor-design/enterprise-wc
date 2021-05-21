@@ -11,6 +11,7 @@ class MixinBuilder {
   }
 
   /**
+   * Mix a base object with a set of mixins
    * @param {...Function} mixins indeterminate list of function Classes to mix into the superclass
    * @returns {HTMLElement} the new "mixed" Class
    */

@@ -1,8 +1,6 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
-import mix from '../ids-mixins/ids-mixin-builder';
 import { props } from './ids-constants';
-import { stringUtils } from './ids-string-utils';
 
 export class IdsElement extends HTMLElement {
   /** The main container in the shadowRoot */
@@ -37,7 +35,5 @@ export {
 } from './ids-decorators';
 
 export {
-  props,
-  mix,
-  stringUtils
+  props
 };
