@@ -5,14 +5,17 @@ import {
   scss,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-checkbox.scss';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
-import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import {
+  IdsEventsMixin,
+  IdsDirtyTrackerMixin,
+  IdsValidationMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
+
 import IdsText from '../ids-text/ids-text';
 
 /**

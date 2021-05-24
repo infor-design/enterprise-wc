@@ -1,4 +1,4 @@
-import { IdsElement, scss, customElement } from '../ids-base/ids-element';
+import { IdsElement, scss, customElement } from '../ids-base';
 
 import styles from './ids-toolbar-more-actions.scss';
 

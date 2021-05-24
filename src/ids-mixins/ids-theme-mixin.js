@@ -1,4 +1,4 @@
-import { props } from './ids-constants';
+import { props } from '../ids-base/ids-constants';
 
 /**
  * A mixin that adds theming functionality to components
@@ -67,5 +67,4 @@ const IdsThemeMixin = (superclass) => class extends superclass {
   get version() { return this.getAttribute('version') || 'new'; }
 };
 
-export { IdsThemeMixin };
 export default IdsThemeMixin;

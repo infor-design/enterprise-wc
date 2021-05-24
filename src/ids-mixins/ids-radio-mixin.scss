@@ -1,7 +1,7 @@
 /**
  * Radio Mixins.
  */
-@import './ids-colorpalette-variables';
+@import '../ids-base/ids-colorpalette-variables';
 
 // Unchecked
 @mixin radio-unchecked {

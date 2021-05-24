@@ -5,7 +5,7 @@ import {
   PLACEHOLDER_CHAR,
   DEFAULT_CONFORM_OPTIONS
 } from './ids-mask-common';
-import { IdsDeepCloneUtils } from '../ids-base/ids-deep-clone-utils';
+import { cloneUtils } from '../ids-base/ids-deep-clone-utils';
 
 /**
  * @param {any} value the item to check for string
@@ -51,7 +51,7 @@ class MaskAPI {
       }
 
       // Merge incoming settings
-      const maskOpts = IdsDeepCloneUtils.deepClone(opts.patternOptions);
+      const maskOpts = cloneUtils.deepClone(opts.patternOptions);
       maskOpts.caretPos = opts.selection.start;
       maskOpts.previousMaskResult = opts.previousMaskResult;
 
@@ -127,7 +127,7 @@ class MaskAPI {
         processResult.pipedValue = pipeResult;
         processResult.pipedCharIndexes = [];
       } else {
-        processResult = IdsDeepCloneUtils.deepClone(processResult);
+        processResult = cloneUtils.deepClone(processResult);
         processResult.pipeResult = pipeResult.result;
         processResult.pipedValue = pipeResult.value;
         processResult.pipedCharIndexes = pipeResult.characterIndexes;
@@ -148,7 +148,7 @@ class MaskAPI {
    */
   conformToMask(rawValue, maskObj, settings) {
     // Use default settings, appended by user settings
-    const conformSettings = IdsDeepCloneUtils.deepClone(DEFAULT_CONFORM_OPTIONS);
+    const conformSettings = cloneUtils.deepClone(DEFAULT_CONFORM_OPTIONS);
     Object.assign(conformSettings, settings);
 
     // Setup the placeholder version of the mask

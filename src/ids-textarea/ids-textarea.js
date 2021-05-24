@@ -5,7 +5,7 @@ import {
   scss,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-textarea.scss';
 
@@ -14,12 +14,14 @@ import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
-// Mixins
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
-import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
-import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsClearableMixin,
+  IdsDirtyTrackerMixin,
+  IdsValidationMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 // Textarea id
 const ID = 'ids-textarea-id';

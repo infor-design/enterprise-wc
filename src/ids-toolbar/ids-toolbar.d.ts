@@ -1,4 +1,4 @@
-import { IdsElement } from '../ids-base/ids-element';
+import { IdsElement } from '../ids-base';
 import IdsToolbarSection from './ids-toolbar-section';
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
 

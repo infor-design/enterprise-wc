@@ -6,11 +6,10 @@ import {
 } from './ids-decorators';
 
 import { props } from './ids-constants';
-import mix from './ids-mixin';
+import mix from '../ids-mixins/ids-mixin-builder';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
-
-import { IdsStringUtils as stringUtils } from './ids-string-utils';
+import { stringUtils } from './ids-string-utils';
 
 /**
  * IDS Base Element

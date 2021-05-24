@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsInput from '../../src/ids-input/ids-input';
-import { IdsClearableMixin } from '../../src/ids-base/ids-clearable-mixin';
+import IdsClearableMixin from '../../src/ids-mixins/ids-clearable-mixin';
 
 describe('IdsInput Component', () => {
   let input;

@@ -92,3 +92,4 @@ export const IdsStringUtils = {
 };
 
 export default IdsStringUtils;
+export { IdsStringUtils as stringUtils };

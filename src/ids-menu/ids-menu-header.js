@@ -4,11 +4,15 @@ import {
   scss,
   mix,
   props
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-menu-header.scss';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 /**
  * IDS Menu Header Component

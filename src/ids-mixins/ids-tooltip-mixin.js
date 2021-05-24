@@ -1,6 +1,5 @@
-import { props } from './ids-constants';
-import IdsTooltip from '../ids-tooltip/ids-tooltip';
-import { IdsEventsMixin } from './ids-events-mixin';
+import { props } from '../ids-base/ids-constants';
+import IdsEventsMixin from './ids-events-mixin';
 
 /**
 /**
@@ -98,4 +97,4 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
   get tooltip() { return this.getAttribute('tooltip'); }
 };
 
-export { IdsTooltipMixin };
+export default IdsTooltipMixin;

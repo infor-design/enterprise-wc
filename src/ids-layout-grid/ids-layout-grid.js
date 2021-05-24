@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   props
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-layout-grid.scss';
 

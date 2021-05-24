@@ -5,11 +5,14 @@ import {
   scss,
   mix,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
-import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsDirtyTrackerMixin,
+  IdsValidationMixin
+} from '../ids-mixins';
 
 import styles from './ids-radio-group.scss';
 import IdsText from '../ids-text/ids-text';

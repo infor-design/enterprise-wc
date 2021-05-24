@@ -5,11 +5,15 @@ import {
   props,
   mix,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-upload.scss';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 // Supporting components
 import '../ids-input/ids-input';

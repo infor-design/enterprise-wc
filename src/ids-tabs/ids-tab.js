@@ -6,7 +6,8 @@ import {
   mix,
   stringUtils
 } from '../ids-base/ids-element';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+
+import { IdsEventsMixin } from '../ids-mixins';
 import IdsText from '../ids-text/ids-text';
 import styles from './ids-tab.scss';
 

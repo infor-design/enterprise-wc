@@ -1,4 +1,7 @@
-@import './ids-base';
+/**
+ * Css for validation mixin
+ */
+@import '../ids-base/ids-base';
 
 .validation-message {
   @include antialiased();

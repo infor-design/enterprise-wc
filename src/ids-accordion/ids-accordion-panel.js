@@ -4,11 +4,9 @@ import {
   scss,
   mix,
   props
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-
+import { IdsEventsMixin, IdsKeyboardMixin } from '../ids-mixins';
 import styles from './ids-accordion-panel.scss';
 
 /**

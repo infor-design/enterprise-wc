@@ -6,13 +6,19 @@ import {
   stringUtils,
   scss
 } from '../ids-base/ids-element';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
 
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin,
+  IdsRenderLoopMixin,
+  IdsRenderLoopItem
+} from '../ids-mixins';
+
+// Supporting Components
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
-// @ts-ignore
+// Import Styles
 import styles from './ids-overlay.scss';
 
 const appliedMixins = [

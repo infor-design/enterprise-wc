@@ -1,6 +1,7 @@
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
+/* istanbul ignore next */
 /**
  * Debounces a function, preventing running the function too frequently while looping.
  * This is ideal for functions that run on intervals.
@@ -10,7 +11,6 @@ import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
  *  instead of waiting for the threshold to complete.
  * @returns {void}
  */
-/* istanbul ignore next */
 export default function debounce(func, duration = 60, execAsap) {
   let timeout;
 
