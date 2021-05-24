@@ -31,6 +31,7 @@ import IdsBlockGridItem from '../src/ids-block-grid/ids-block-grid-item';
 import IdsCounts from '../src/ids-counts/ids-counts';
 import IdsContainer from '../src/ids-container/ids-container';
 import IdsThemeSwitcher from '../src/ids-theme-switcher/ids-theme-switcher';
+import IdsRating from '../src/ids-rating/ids-rating';
 import IdsWizard, { IdsWizardStep } from '../src/ids-wizard';
 import IdsModal, { IdsOverlay } from '../src/ids-modal';
 import IdsTabs, { IdsTab } from '../src/ids-tabs';
