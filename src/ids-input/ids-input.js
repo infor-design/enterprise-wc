@@ -41,6 +41,7 @@ const INPUT_PROPS = [
   props.LABEL,
   props.LABEL_HIDDEN,
   props.LABEL_REQUIRED,
+  props.LABEL_HIDDEN,
   props.ID,
   props.MODE,
   props.PLACEHOLDER,
@@ -562,6 +563,18 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get label() { return this.getAttribute(props.LABEL) || ''; }
+
+  set labelHidden(value) {
+    if (stringToBool(value)) {
+      this?.setAttribute(props.LABEL_HIDDEN, '');
+    } else {
+      this?.removeAttribute(props.LABEL_HIDDEN);
+    }
+  }
+
+  get labelHidden() {
+    return this.getAttribute(props.LABEL_HIDDEN);
+  }
 
   /**
    * Set `label-required` attribute
