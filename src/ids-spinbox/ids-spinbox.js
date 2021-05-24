@@ -57,10 +57,14 @@ class IdsSpinbox extends mix(IdsElement).with(
    * @returns {string} the template to render
    */
   template() {
+    if (!this.id) {
+      this.setAttribute(props.ID, `ids-spinbox-${++instanceCounter}`);
+    }
+
     const labelHtml = (
       `<label ${
         buildClassAttrib('label', !this.label && 'hidden', this.disabled && 'disabled')
-      } for="${this.id}-input"
+      } for="${this.id}-input-input"
         >
           <ids-text color="unset">${this.label}</ids-text>
         </label>`
@@ -154,10 +158,6 @@ class IdsSpinbox extends mix(IdsElement).with(
 
       e.preventDefault();
     });
-
-    if (!this.id) {
-      this.setAttribute(props.ID, `ids-spinbox-${++instanceCounter}`);
-    }
 
     return this;
   }
