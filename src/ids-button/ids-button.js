@@ -315,9 +315,6 @@ class IdsButton extends mix(IdsElement).with(
    * @returns {void}
    */
   set tabIndex(val) {
-    // Remove the webcomponent tabIndex
-    this.shouldUpdate = false;
-    this.removeAttribute(props.TABINDEX);
     this.shouldUpdate = true;
 
     const trueVal = Number(val);
