@@ -52,7 +52,6 @@ module.exports = {
       exports: 'never',
       functions: 'never'
     }],
-    'no-await-in-loop': ['off', { }],
     // we aren't doing special math with binary/hex radix numbers often,
     // so this removes need for parseInt(number, 10);
     radix: 0,
