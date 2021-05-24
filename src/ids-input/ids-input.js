@@ -104,6 +104,8 @@ const appliedMixins = [
   IdsTooltipMixin
 ];
 
+let instanceCounter = 0;
+
 /**
  * IDS Input Component
  * @type {IdsInput}
@@ -142,6 +144,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   connectedCallback() {
     super.connectedCallback?.();
+
     this.handleEvents();
     this.handleAutoselect();
     this.handleClearable();
