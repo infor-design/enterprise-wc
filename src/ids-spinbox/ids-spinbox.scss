@@ -33,6 +33,10 @@
 
     pointer-events: none;
   }
+
+  ids-button::part(button) {
+    @include text-slate-20();
+  }
 }
 
 .ids-spinbox {
@@ -42,10 +46,6 @@
 
   .hidden {
     display: none;
-  }
-
-  &:not(.disabled) ids-input::part(input) {
-    @include border-graphite-70();
   }
 
   .label {
@@ -64,35 +64,30 @@
     }
 
     ids-button::part(button) {
-      @include border-graphite-70();
-      @include border-1();
+      @include border-slate-30();
 
+      border-style: solid;
       width: 38px;
       max-width: 38px;
       justify-content: center;
       align-items: center;
       padding: 0 0;
-      border: none;
       box-shadow: none;
+      border-width: 1px;
     }
 
     ids-button:first-child::part(button) {
       border-radius: 2px 0 0 2px;
-      border-width: 1px;
-      border-style: solid;
       border-right-style: none;
     }
 
     ids-button:last-child::part(button) {
       border-radius: 0 2px 2px 0;
-      border-width: 1px;
-      border-style: solid;
       border-left-style: none;
     }
 
     &:focus-within ids-input::part(input),
-    &:focus-within ids-button:first-child::part(button),
-    &:focus-within ids-button:last-child::part(button) {
+    &:focus-within ids-button:not([disabled])::part(button) {
       @include border-azure-60();
 
       box-shadow: none;
