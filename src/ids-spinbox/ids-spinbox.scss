@@ -1,4 +1,5 @@
 @import '../ids-base/ids-base';
+@import '../ids-base/ids-dirty-tracker-mixin';
 
 :host(ids-spinbox) {
   width: fit-content;
@@ -38,12 +39,6 @@
   position: relative;
   display: flex;
   flex-direction: column;
-
-  ids-icon[icon='dirty'] {
-    position: absolute;
-    top: 3px;
-    left: 3px;
-  }
 
   .hidden {
     display: none;

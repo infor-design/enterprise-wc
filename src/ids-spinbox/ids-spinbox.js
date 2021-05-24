@@ -194,8 +194,6 @@ class IdsSpinbox extends mix(IdsElement).with(
 
       this.#updateDecrementDisabled();
       this.#updateIncrementDisabled();
-
-      this.handleDirtyTracker();
     }
   }
 
@@ -227,11 +225,11 @@ class IdsSpinbox extends mix(IdsElement).with(
     const val = stringToBool(value);
     if (val) {
       this.setAttribute(props.DIRTY_TRACKER, val.toString());
+      this.input.setAttribute(props.DIRTY_TRACKER, val.toString());
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
+      this.input.removeAttribute(props.DIRTY_TRACKER);
     }
-
-    this.handleDirtyTracker();
   }
 
   get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
