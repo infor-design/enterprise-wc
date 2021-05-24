@@ -61,20 +61,20 @@ class IdsSpinbox extends mix(IdsElement).with(
       this.setAttribute(props.ID, `ids-spinbox-${++instanceCounter}`);
     }
 
+    const disabledAttribHtml = this.disabled ? ' disabled' : '';
+
     const labelHtml = (
-      `<label ${
-        buildClassAttrib('label', !this.label && 'hidden', this.disabled && 'disabled')
-      } for="${this.id}-input-input"
+      `<div
+        ${ buildClassAttrib('label', this.disabled && 'disabled') }
+        role="presentation"
         >
-          <ids-text color="unset">${this.label}</ids-text>
-        </label>`
+          <ids-text color="unset" font-size="14" ${disabledAttribHtml}>${this.label}</ids-text>
+        </div>`
     );
 
     const placeholderHtml = (
       this.placeholder ? ` placeholder="${this.placeholder}"` : ''
     );
-
-    const disabledAttribHtml = this.disabled ? ' disabled' : '';
 
     return (
       `<div class="ids-spinbox${this.disabled ? ' disabled' : ''}">
@@ -82,20 +82,22 @@ class IdsSpinbox extends mix(IdsElement).with(
           <div class="ids-spinbox-content">
             <ids-button
               type="tertiary"
-              tabindex="-1"
               ${disabledAttribHtml}
+              role="presentation"
             >-</ids-button>
             <ids-input
               text-align="center"
               value=${this.value}
               id="${this.id}-input"
+              label="${this.label}"
               ${placeholderHtml}
               ${disabledAttribHtml}
+              label-hidden="true"
             ></ids-input>
             <ids-button
               type="tertiary"
-              tabindex="-1"
               ${disabledAttribHtml}
+              role="presentation"
             >+</ids-button>
           </div>
       </div>`
@@ -108,6 +110,15 @@ class IdsSpinbox extends mix(IdsElement).with(
   }
 
   connectedCallback() {
+    this.setAttribute('aria-valuenow', this.value);
+    if (stringToBool(this.getAttribute(props.MAX))) {
+      this.setAttribute('aria-valuemax', this.max);
+    }
+    if (stringToBool(this.getAttribute(props.MIN))) {
+      this.setAttribute('aria-valuemin', this.min);
+    }
+    this.setAttribute('aria-label', this.label);
+
     this.#contentDiv = this.container.children[1];
     const [
       decrementButton,
@@ -159,12 +170,19 @@ class IdsSpinbox extends mix(IdsElement).with(
       e.preventDefault();
     });
 
+    this.setAttribute('role', 'spinbutton');
     return this;
   }
 
   set max(value) {
     if (this.getAttribute(props.MAX) !== value) {
       this.setAttribute(props.MAX, value);
+
+      if (stringToBool(value)) {
+        this.setAttribute('aria-valuemax', value);
+      } else {
+        this.removeAttribute('aria-valuemax');
+      }
 
       this.#updateIncrementDisabled();
       this.#updateDecrementDisabled();
@@ -178,6 +196,12 @@ class IdsSpinbox extends mix(IdsElement).with(
   set min(value) {
     if (this.getAttribute(props.MIN) !== value) {
       this.setAttribute(props.MIN, value);
+
+      if (stringToBool(value)) {
+        this.setAttribute('aria-valuemax', value);
+      } else {
+        this.removeAttribute('aria-valuemax');
+      }
 
       this.#updateIncrementDisabled();
       this.#updateDecrementDisabled();
@@ -204,6 +228,8 @@ class IdsSpinbox extends mix(IdsElement).with(
       }
 
       this.setAttribute(props.VALUE, nextValue);
+      this.setAttribute('aria-valuenow', nextValue);
+      this.setAttribute(props.TYPE, 'number');
       this.input.value = nextValue;
 
       this.#updateDecrementDisabled();
@@ -227,16 +253,26 @@ class IdsSpinbox extends mix(IdsElement).with(
     return this.getAttribute(props.ID);
   }
 
+  /**
+   * @param {string} value placeholder text when a user has cleared
+   * the spinbox input
+   */
   set placeholder(value) {
     this.setAttribute(props.PLACEHOLDER, value);
   }
 
+  /**
+   * @returns {string} placeholder text when a
+   * user has cleared the spinbox input
+   */
   get placeholder() {
     return this.getAttribute(props.PLACEHOLDER);
   }
 
   set label(value) {
     this.setAttribute(props.LABEL, value);
+    this.setAttribute('aria-label', value);
+    this.input?.setAttribute('label', value);
   }
 
   get label() {
@@ -269,13 +305,11 @@ class IdsSpinbox extends mix(IdsElement).with(
       this.#incrementButton?.setAttribute?.(props.DISABLED, 'true');
       this.#decrementButton?.setAttribute?.(props.DISABLED, 'true');
       this.container.classList.add('disabled');
-      this.setAttribute('tabindex', -1);
     } else {
       this.removeAttribute?.(props.DISABLED);
       this.input?.removeAttribute?.(props.DISABLED);
       this.#incrementButton?.removeAttribute?.(props.DISABLED);
       this.#decrementButton?.removeAttribute?.(props.DISABLED);
-      this.removeAttribute('tabindex');
       this.container.classList.remove('disabled');
     }
   }
