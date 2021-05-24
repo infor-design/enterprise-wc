@@ -13,7 +13,12 @@ import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
 import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
 import styles from './ids-spinbox.scss';
 
-const { stringToBool } = stringUtils;
+const { stringToBool, buildClassAttrib } = stringUtils;
+
+/**
+ * used for assigning ids
+ */
+let instanceCounter = 0;
 
 /**
  * IDS Spinbox Component
@@ -42,7 +47,8 @@ class IdsSpinbox extends mix(IdsElement).with(
       props.MAX,
       props.MIN,
       props.STEP,
-      props.VALUE
+      props.VALUE,
+      props.ID
     ];
   }
 
@@ -52,13 +58,12 @@ class IdsSpinbox extends mix(IdsElement).with(
    */
   template() {
     const labelHtml = (
-      `<div
-          class="label
-          ${!this.label ? ' hidden' : ''}
-          ${this.disabled ? ' disabled' : ''}"
+      `<label ${
+        buildClassAttrib('label', !this.label && 'hidden', this.disabled && 'disabled')
+      } for="${this.id}-input"
         >
           <ids-text color="unset">${this.label}</ids-text>
-        </div>`
+        </label>`
     );
 
     const placeholderHtml = (
@@ -79,6 +84,7 @@ class IdsSpinbox extends mix(IdsElement).with(
             <ids-input
               text-align="center"
               value=${this.value}
+              id="${this.id}-input"
               ${placeholderHtml}
               ${disabledAttribHtml}
             ></ids-input>
@@ -99,7 +105,6 @@ class IdsSpinbox extends mix(IdsElement).with(
 
   connectedCallback() {
     this.#contentDiv = this.container.children[1];
-
     const [
       decrementButton,
       input,
@@ -149,6 +154,10 @@ class IdsSpinbox extends mix(IdsElement).with(
 
       e.preventDefault();
     });
+
+    if (!this.id) {
+      this.setAttribute(props.ID, `ids-spinbox-${++instanceCounter}`);
+    }
 
     return this;
   }
@@ -204,6 +213,18 @@ class IdsSpinbox extends mix(IdsElement).with(
 
   get value() {
     return this.getAttribute(props.VALUE);
+  }
+
+  set id(value) {
+    this.setAttribute(props.ID, value);
+    const labelEl = this.shadowRoot.querySelector('label');
+    const inputId = `${value}-input`;
+    labelEl?.setAttribute?.('for', inputId);
+    this.#contentDiv?.setAttribute(props.ID, inputId);
+  }
+
+  get id() {
+    return this.getAttribute(props.ID);
   }
 
   set placeholder(value) {
