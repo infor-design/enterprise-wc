@@ -168,7 +168,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
     containerClass += stringUtils.stringToBool(this.compact) ? ' compact' : '';
 
-    const labelHtml = !this.state.label ? '' : (
+    const labelHtml = !this.label ? '' : (
       `<label for="${this.state.id}" class="label-text">
         <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
       </label>`
@@ -216,18 +216,18 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       };
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
-        this.container.classList.remove(options.prop2);
-        this.container.querySelector('ids-text').removeAttribute(options.prop2);
+        this.container?.classList?.remove?.(options.prop2);
+        this.container?.querySelector?.('ids-text')?.removeAttribute(options.prop2);
         msgNodes.forEach((x) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
         this.container.classList.add(options.prop1);
-        this.container.querySelector('ids-text').setAttribute(options.prop1, 'true');
+        this.container?.querySelector?.('ids-text')?.setAttribute?.(options.prop1, 'true');
         msgNodes.forEach((x) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
         this.container.classList.remove(options.prop1);
-        this.container.querySelector('ids-text').removeAttribute(options.prop1);
+        this.container.querySelector('ids-text')?.removeAttribute(options.prop1);
         msgNodes.forEach((x) => x.classList.remove(options.prop1));
       }
     }
