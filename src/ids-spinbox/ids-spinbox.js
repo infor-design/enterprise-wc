@@ -92,6 +92,11 @@ class IdsSpinbox extends mix(IdsElement).with(
     );
   }
 
+  rendered() {
+    this.#updateDecrementDisabled();
+    this.#updateIncrementDisabled();
+  }
+
   connectedCallback() {
     this.#contentDiv = this.container.children[1];
 
@@ -239,12 +244,14 @@ class IdsSpinbox extends mix(IdsElement).with(
 
     if (isValueTruthy) {
       this.setAttribute?.(props.DISABLED, '');
+      this.input?.setAttribute?.(props.DISABLED, true);
       this.#incrementButton?.setAttribute?.(props.DISABLED, 'true');
       this.#decrementButton?.setAttribute?.(props.DISABLED, 'true');
       this.container.classList.add('disabled');
       this.setAttribute('tabindex', -1);
     } else {
       this.removeAttribute?.(props.DISABLED);
+      this.input?.removeAttribute?.(props.DISABLED);
       this.#incrementButton?.removeAttribute?.(props.DISABLED);
       this.#decrementButton?.removeAttribute?.(props.DISABLED);
       this.removeAttribute('tabindex');
