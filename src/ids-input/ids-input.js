@@ -38,6 +38,7 @@ const INPUT_PROPS = [
   props.FIELD_HEIGHT,
   props.LABEL,
   props.LABEL_REQUIRED,
+  props.LABEL_HIDDEN,
   props.ID,
   props.MODE,
   props.PLACEHOLDER,
@@ -156,7 +157,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   template() {
     if (!this.id) {
-      this.setAttribute(props.ID, `ids-input-${++instanceCounter}`);
+      this.setAttribute?.(props.ID, `ids-input-${++instanceCounter}`);
     }
 
     // Input
@@ -172,20 +173,25 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
     containerClass += stringUtils.stringToBool(this.compact) ? ' compact' : '';
 
-    const labelHtml = !this.label ? '' : (
+    const labelHtml = !this.label || this.getAttribute(props.LABEL_HIDDEN) ? '' : (
       `<label for="${this.id}-input" class="label-text">
         <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
       </label>`
     );
 
-    return `
-      <div class="${containerClass}">
+    return (
+      `<div class="${containerClass}">
         ${labelHtml}
         <div class="field-container">
-          <input part="input" id="${this.id}-input"${type}${inputClass}${placeholder}${inputState} />
+          <input
+            part="input"
+            id="${this.id}-input"
+            ${type}${inputClass}${placeholder}${inputState}
+            ${this.getAttribute(props.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
+            ></input>
         </div>
-      </div>
-    `;
+      </div>`
+    );
   }
 
   /**
@@ -492,6 +498,18 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get label() { return this.getAttribute(props.LABEL) || ''; }
+
+  set labelHidden(value) {
+    if (stringToBool(value)) {
+      this?.setAttribute(props.LABEL_HIDDEN, '');
+    } else {
+      this?.removeAttribute(props.LABEL_HIDDEN);
+    }
+  }
+
+  get labelHidden() {
+    return this.getAttribute(props.LABEL_HIDDEN);
+  }
 
   /**
    * Set `label-required` attribute
