@@ -20,6 +20,12 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     this.onEvent = this.onEvent.bind(this);
   }
 
+  static get properties() {
+    return [
+      ...super.properties
+    ];
+  }
+
   /**
    * Add and keep track of an event listener.
    * @param {string|any} eventName The event name with optional namespace

@@ -55,6 +55,11 @@
   - Markup has changed to a custom element `<ids-progress></ids-progress>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Locale]` The progress component has been changed to a mixin and added to many but not all components. You can now change the locale on the `ids-container` element to have it propagate down.
+  - We did not include the culturesPath as its not needed since the locales are contained with the locale code
+  - ShowAsUndefined option is deprecated, now undefined locales will all be shown in square brackets
+  - Round option on formatNumber is deprecated
+  - Options on formatNumber now use toLocaleString options (which are similar)
 - `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
   - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
   - If using events, events are now plain JS events.

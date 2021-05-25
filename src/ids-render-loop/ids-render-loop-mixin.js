@@ -6,6 +6,12 @@ const IdsRenderLoopMixin = (superclass) => class extends superclass {
     super();
   }
 
+  static get properties() {
+    return [
+      ...super.properties
+    ];
+  }
+
   /**
    * Provides access to a global `requestAnimationFrame` loop, configured to run a queue of
    * callback methods on each tick.

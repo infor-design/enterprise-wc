@@ -10,6 +10,7 @@ import {
 import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
 import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
 import { IdsTooltipMixin } from '../ids-base/ids-tooltip-mixin';
+import IdsLocaleMixin from '../ids-mixins/ids-locale-mixin';
 import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 import styles from './ids-text.scss';
@@ -24,17 +25,24 @@ const fontWeightClasses = ['bold', 'bolder'];
  * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsTooltipMixin
+ * @mixes IdsLocaleMixin
  * @part text - the text element
  */
 @customElement('ids-text')
 @scss(styles)
-class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsTooltipMixin) {
+class IdsText extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsThemeMixin,
+    IdsTooltipMixin,
+    IdsLocaleMixin
+  ) {
   constructor() {
     super();
   }
 
   connectedCallback() {
     super.connectedCallback();
+    this.handleEvents();
   }
 
   /**
@@ -43,18 +51,19 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
    */
   static get properties() {
     return [
-      props.TYPE,
-      props.FONT_SIZE,
+      ...super.properties,
+      props.COLOR,
       props.AUDIBLE,
       props.DISABLED,
       props.ERROR,
-      props.MODE,
-      props.VERSION,
-      props.LABEL,
+      props.FONT_SIZE,
       props.FONT_WEIGHT,
-      props.AUDIBLE,
+      props.LABEL,
+      props.MODE,
       props.OVERFLOW,
-      props.COLOR
+      props.TYPE,
+      props.TRANSLATE_TEXT,
+      props.VERSION
     ];
   }
 
@@ -62,7 +71,6 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
    * Inner template contents
    * @returns {string} The template
    */
-
   template() {
     const tag = this.type || 'span';
 
@@ -75,6 +83,26 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
       ? ` ${this.fontWeight}` : '';
 
     return `<${tag} class="${classList}" mode="${this.mode}" version="${this.version}"><slot></slot></${tag}>`;
+  }
+
+  /**
+   * Handle internal events
+   * @private
+   */
+  handleEvents() {
+    if (this.translateText) {
+      this.offEvent('languagechanged.container');
+      this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
+        await this.locale.setLanguage(e.detail.language.name);
+        this.#translateAsync();
+      });
+
+      this.offEvent('languagechanged.this');
+      this.onEvent('languagechanged.this', this, async (e) => {
+        await this.locale.setLanguage(e.detail.language.name);
+        this.#translateAsync();
+      });
+    }
   }
 
   /**
@@ -250,6 +278,35 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
 
   get overflow() {
     return this.getAttribute('overflow');
+  }
+
+  /**
+   * If set to true the value in the text will be considered a key and
+   * sent to the translation function
+   * @param {boolean} value If true translate this value
+   */
+  set translateText(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val && !this.getAttribute('translation-key')) {
+      this.setAttribute(props.TRANSLATE_TEXT, value);
+      this.setAttribute('translation-key', this.textContent);
+      this.#translateAsync();
+      return;
+    }
+    this.removeAttribute(props.TRANSLATE_TEXT);
+  }
+
+  /**
+   * Translate the contents asyncronously
+   * @private
+   */
+  async #translateAsync() {
+    await this.locale.setLanguage(this.language.name);
+    this.textContent = this.locale.translate(this.getAttribute('translation-key') || this.textContent);
+  }
+
+  get translateText() {
+    return this.getAttribute(props.TRANSLATE_TEXT);
   }
 }
 
