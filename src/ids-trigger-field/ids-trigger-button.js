@@ -1,11 +1,12 @@
 import {
   customElement,
   scss,
-  props
-} from '../ids-base/ids-element';
+  props,
+  stringUtils
+} from '../ids-base';
 
+// Supporting Components
 import { IdsButton } from '../ids-button/ids-button';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
 
 import styles from './ids-trigger-button.scss';
 

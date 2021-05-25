@@ -3,15 +3,15 @@ import {
   mix,
   scss,
   props
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-render-loop/ids-render-loop-mixin';
+import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-mixins/ids-render-loop-mixin';
 
 import IdsMenu from '../ids-menu/ids-menu';
 import IdsPopup from '../ids-popup/ids-popup';
 
 import styles from './ids-popup-menu.scss';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsEventsMixin } from '../ids-mixins';
 
 const POPUPMENU_PROPERTIES = [
   props.TARGET,

@@ -1,4 +1,4 @@
-import { customElement, IdsElement, props } from '../ids-base/ids-element';
+import { customElement, IdsElement, props } from '../ids-base';
 
 /**
  * IDS Layout Grid Cell Component

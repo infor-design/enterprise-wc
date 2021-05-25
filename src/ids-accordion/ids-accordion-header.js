@@ -4,11 +4,10 @@ import {
   scss,
   props,
   mix
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-accordion-header.scss';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsThemeMixin, IdsEventsMixin } from '../ids-mixins';
 
 // Default Icons
 const DEFAULT_ICON_OFF = 'caret-down';

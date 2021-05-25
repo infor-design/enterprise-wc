@@ -40,6 +40,8 @@ module.exports = {
   rules: {
     // Dont force a new line after comments
     'jsdoc/newline-after-description': 0,
+    // Allow single line JSDoc comments
+    'jsdoc/no-multi-asterisks': 0,
     // Allow a few custom jsdoc tags
     'jsdoc/check-tag-names': ['error', { definedTags: ['jest-environment', 'inherits', 'part'] }],
     // require trailing commas in multiline object literals
@@ -53,7 +55,13 @@ module.exports = {
     // we aren't doing special math with binary/hex radix numbers often,
     // so this removes need for parseInt(number, 10);
     radix: 0,
+    // Allow being able to import from the root (index.js)
+    'import/no-named-as-default': 0,
+    // Allow using using defaults + es module pattern in ES7
+    'import/named': 0,
+    // Forbid the import of external modules that are not declared
     'import/no-extraneous-dependencies': ['error', { devDependencies: true }],
+    // We have a mix of default and normal imports
     'import/prefer-default-export': ['off', { }],
     // Allow clases to be set on the web components
     'wc/no-self-class': 0,

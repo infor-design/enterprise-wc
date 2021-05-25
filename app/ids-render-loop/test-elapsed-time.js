@@ -1,4 +1,4 @@
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../../src/ids-render-loop/ids-render-loop-mixin';
+import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../../src/ids-mixins/ids-render-loop-mixin';
 
 // Supporting Components
 import IdsText from '../../src/ids-text/ids-text';

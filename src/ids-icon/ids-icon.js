@@ -4,7 +4,7 @@ import {
   scss,
   customElement,
   props
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-icon.scss';
 

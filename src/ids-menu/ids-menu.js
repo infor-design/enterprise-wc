@@ -3,11 +3,15 @@ import {
   customElement,
   scss,
   mix
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsDataSource } from '../ids-base/ids-data-source';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
+import IdsDataSource from '../ids-base/ids-data-source';
+
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsKeyboardMixin
+} from '../ids-mixins';
 
 // SubComponents
 import IdsMenuGroup from './ids-menu-group';

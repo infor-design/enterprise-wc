@@ -4,9 +4,15 @@ import {
   props,
   scss,
   mix
-} from '../ids-base/ids-element';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+} from '../ids-base';
+
+// Supporting Components
 import IdsText from '../ids-text/ids-text';
+
+// Import Mixins
+import { IdsEventsMixin } from '../ids-mixins';
+
+// Import Styles
 import styles from './ids-wizard.scss';
 
 /* istanbul ignore next */
@@ -28,10 +34,8 @@ function getStepEl(wizardEl, stepNumber) {
 /**
  * Checks whether bounding box/rects retrieved
  * from elem's bounding box are colliding horizontally
- *
  * @param {DOMRect} r1 elem1's bounding box
  * @param {DOMRect} r2 elem2's bounding box
- *
  * @returns {boolean} whether there is collision on x-axis
  */
 function areRectsHColliding(r1, r2) {
@@ -44,12 +48,9 @@ function areRectsHColliding(r1, r2) {
 /* istanbul ignore next */
 /**
  * Recursively resize steps for an element so they don't collide;
- *
  * (only pass the wizard element to args)
- *
  * @param {Array} args the arguments; should be IdsWizard element as only
  * user-defined element
- *
  * @returns {Array<DOMRect>} array of rects for step positioning/sizing
  */
 function resizeStepLabelRects(...args) {
@@ -169,7 +170,6 @@ const hrefsAssignedSet = new Set();
 class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
-    this.updateHrefURIs();
   }
 
   /**
@@ -319,9 +319,9 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
     return (
       `<div class="ids-wizard">
-        <div class="steps">
+        <nav class="steps">
           ${stepsHtml}
-        </div>
+        </nav>
       </div>`
     );
   }
@@ -368,6 +368,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   connectedCallback() {
+    this.updateHrefURIs();
     /* istanbul ignore next */
     if (window.location.hash.length) {
       const uriHash = window.location.hash.substr(1);
@@ -377,6 +378,15 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
         this.stepNumber = stepNumber;
       }
     }
+
+    this.stepObserver.disconnect();
+
+    // set up observer for monitoring if a child element changed
+    this.stepObserver.observe(this, {
+      childList: true,
+      attributes: true,
+      subtree: true
+    });
   }
 
   /**
@@ -454,7 +464,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     // stop observing changes before updating DOM
-    this.stepObserver.disconnect();
     this.resizeObserver.disconnect();
 
     // query through all steps and add click callbacks
@@ -476,13 +485,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
     // set up observer for resize which prevents overlapping labels
     this.resizeObserver.observe(this.container);
-
-    // set up observer for monitoring if a child element changed
-    this.stepObserver.observe(this, {
-      childList: true,
-      attributes: true,
-      subtree: true
-    });
 
     this.shouldUpdateCallbacks = false;
   };

@@ -4,13 +4,12 @@ import {
   scss,
   mix,
   props
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-accordion.scss';
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsEventsMixin, IdsThemeMixin } from '../ids-mixins';
 
 /**
  * IDS Accordion  Component

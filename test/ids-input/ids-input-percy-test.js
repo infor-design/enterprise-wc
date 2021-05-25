@@ -23,4 +23,11 @@ describe('Ids Input Percy Tests', () => {
     });
     await percySnapshot(page, 'ids-input-new-contrast');
   });
+
+  it('should not have visual regressions in sizes', async () => {
+    const urlSizes = 'http://localhost:4444/ids-input/test-sizes';
+
+    await page.goto(urlSizes, { waitUntil: ['networkidle2', 'load'] });
+    await percySnapshot(page, 'ids-input-sizes');
+  });
 });

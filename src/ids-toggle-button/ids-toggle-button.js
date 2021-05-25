@@ -1,7 +1,7 @@
 import {
   customElement,
   scss
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import { IdsButton, BUTTON_PROPS, BUTTON_TYPES } from '../ids-button/ids-button';
 import IdsIcon from '../ids-icon/ids-icon';

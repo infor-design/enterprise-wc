@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 // Note: this component is only used
 // to count steps and retrieve attributes

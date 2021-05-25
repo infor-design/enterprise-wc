@@ -1,0 +1,266 @@
+/**
+ * Checkbox Mixins.
+ */
+@import '../ids-base/ids-colorpalette-variables';
+@import '../ids-mixins/ids-mixins';
+
+// Unchecked
+@mixin checkbox-unchecked($theme: light) {
+  @include absolute();
+  @include border-1();
+  @include border-solid();
+  @include rounded-default();
+
+  height: 14px;
+  left: 0;
+  top: 2px;
+  width: 14px;
+
+  @if $theme == light {
+    @include border-slate-80();
+  }
+
+  @if $theme == dark {
+    @include border-slate-40();
+  }
+
+  @if $theme == contrast {
+    @include bg-white();
+    @include border-slate-90();
+  }
+
+  @if $theme == classicLight {
+    @include border-classic-slate-40();
+  }
+
+  @if $theme == classicDark {
+    @include border-classic-slate-40();
+  }
+
+  @if $theme == classicContrast {
+    @include bg-white();
+    @include border-graphite-90();
+  }
+}
+
+@mixin checkbox-unchecked-error {
+  @include border-alert-danger();
+}
+
+// Checked
+@mixin checkbox-checked($theme: light) {
+  @if $theme == light or $theme == dark {
+    @include bg-azure-60();
+    @include border-azure-60();
+  }
+
+  @if $theme == contrast {
+    @include bg-azure-90();
+    @include border-azure-90();
+  }
+
+  @if $theme == classicLight or $theme == classicDark {
+    @include bg-azure-60();
+    @include border-azure-60();
+  }
+
+  @if $theme == classicContrast {
+    @include bg-azure-80();
+    @include border-azure-80();
+  }
+}
+
+@mixin checkbox-checked-after {
+  @include absolute();
+  @include animation(check 0.15s);
+  @include block();
+  @include border-solid();
+  @include border-white();
+  @include css3(transform, rotate(45deg));
+
+  border-width: 0 2px 2px 0;
+  content: '';
+  height: 10px;
+  left: 4px;
+  top: 0;
+  width: 4px;
+}
+
+// Indeterminate
+@mixin checkbox-indeterminate($theme: light) {
+  @if $theme == light or $theme == dark {
+    @include bg-azure-60();
+    @include border-azure-60();
+  }
+
+  @if $theme == contrast {
+    @include bg-azure-90();
+    @include border-azure-90();
+  }
+
+  @if $theme == classicLight or $theme == classicDark {
+    @include bg-azure-60();
+    @include border-azure-60();
+  }
+
+  @if $theme == classicContrast {
+    @include bg-azure-80();
+    @include border-azure-80();
+  }
+}
+
+@mixin checkbox-indeterminate-after {
+  @include absolute();
+  @include animation(checkindeterminate 0.15s);
+  @include block();
+  @include border-solid();
+  @include border-white();
+
+  border-width: 0 0 2px;
+  content: '';
+  height: 6px;
+  left: 2px;
+  top: 0;
+  transform: none;
+  width: 10px;
+}
+
+// Disabled
+@mixin checkbox-disabled-unchecked {
+  @include bg-slate-20();
+  @include border-slate-30();
+  @include cursor-default();
+}
+
+@mixin checkbox-disabled-unchecked-error {
+  @include border-ruby-30();
+}
+
+@mixin checkbox-disabled-checked($theme: light) {
+  @if $theme == light {
+    @include bg-slate-30();
+  }
+
+  @if $theme == dark {
+    @include bg-slate-50();
+    @include border-slate-50();
+  }
+
+  @if $theme == contrast {
+    @include bg-slate-60();
+    @include border-slate-60();
+  }
+
+  @if $theme == classicLight {
+    @include bg-slate-20();
+    @include border-slate-30();
+  }
+
+  @if $theme == classicDark {
+    @include bg-slate-50();
+    @include border-slate-50();
+  }
+
+  @if $theme == classicContrast {
+    @include bg-slate-50();
+    @include border-slate-50();
+  }
+}
+
+@mixin checkbox-disabled-text {
+  @include cursor-default();
+  @include text-slate-30();
+}
+
+// Focus
+@mixin checkbox-focus {
+  @include border-azure-60();
+  @include shadow();
+}
+
+// Colored
+@mixin checkbox-colored() {
+  @each $name in $color-names {
+    $i: index($color-names, $name);
+    $color: var(#{nth($color-vars, $i)});
+
+    &[color='#{$name}'] input[type='checkbox'] {
+      ~ .checkmark {
+        @include checkbox-colored-box($color);
+      }
+
+      &:disabled ~ .checkmark {
+        @include checkbox-disabled-unchecked();
+      }
+
+      &:disabled:checked ~ .checkmark {
+        @include checkbox-disabled-checked(light);
+      }
+
+      &:focus ~ .checkmark {
+        @include checkbox-colored-box-focus($color);
+      }
+    }
+
+    &[mode='dark'][color='#{$name}'] input[type='checkbox'] {
+      &:disabled:checked ~ .checkmark {
+        @include checkbox-disabled-checked(dark);
+      }
+    }
+
+    &[mode='contrast'][color='#{$name}'] input[type='checkbox'] {
+      &:disabled:checked ~ .checkmark {
+        @include checkbox-disabled-checked(contrast);
+      }
+    }
+
+    &[mode='light'][version='classic'][color='#{$name}'] input[type='checkbox'] {
+      &:disabled:checked ~ .checkmark {
+        @include checkbox-disabled-checked(classicLight);
+      }
+    }
+  }
+}
+
+@mixin checkbox-colored-box($color) {
+  background-color: $color;
+  border-color: $color;
+}
+
+@mixin checkbox-colored-box-focus($color) {
+  border-color: $color;
+}
+
+// Keyframes ===========================================
+@include keyframes(check) {
+  0% {
+    height: 0;
+    left: 0;
+    top: 8px;
+    width: 0;
+  }
+
+  50% {
+    height: 0;
+    left: 0;
+    top: 8px;
+    width: 4px;
+  }
+
+  100% {
+    height: 10px;
+    left: 4px;
+    top: 0;
+    width: 4px;
+  }
+}
+
+@include keyframes(checkindeterminate) {
+  0% {
+    width: 0;
+  }
+
+  100% {
+    width: 10px;
+  }
+}

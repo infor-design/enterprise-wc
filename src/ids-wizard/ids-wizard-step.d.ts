@@ -1,4 +1,4 @@
-import { IdsElement } from '../ids-base/ids-element';
+import { IdsElement } from '../ids-base';
 
 export default class IdsWizardStep extends IdsElement {
   /**

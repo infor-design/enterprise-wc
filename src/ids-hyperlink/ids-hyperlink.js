@@ -3,13 +3,15 @@ import {
   customElement,
   scss,
   props,
-  mix
-} from '../ids-base/ids-element';
+  mix,
+  stringUtils
+} from '../ids-base';
 
 // Import Mixins
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import styles from './ids-hyperlink.scss';
 
@@ -39,6 +41,7 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   static get properties() {
     return [
+      props.COLOR,
       props.DISABLED,
       props.HREF,
       props.MODE,
@@ -122,6 +125,25 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get disabled() { return this.getAttribute(props.DISABLED); }
+
+  /**
+   *
+   * If set to "unset", color can be controlled by parent container
+   * @param {string | null} value  "unset" or undefined/null
+   */
+  set color(value) {
+    if (value === 'unset') {
+      this.setAttribute(props.COLOR, value);
+      this.container.classList.add('ids-hyperlink-color-unset');
+    } else {
+      this.removeAttribute(props.COLOR);
+      this.container.classList.remove('ids-hyperlink-color-unset');
+    }
+  }
+
+  get color() {
+    return this.getAttribute(props.COLOR);
+  }
 }
 
 export default IdsHyperlink;

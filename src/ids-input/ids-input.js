@@ -5,7 +5,7 @@ import {
   scss,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-input.scss';
 
@@ -14,15 +14,17 @@ import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
-// Mixins
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
-import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
-import IdsMaskMixin from '../ids-mask/ids-mask-mixin';
-import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsTooltipMixin } from '../ids-base/ids-tooltip-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsKeyboardMixin,
+  IdsClearableMixin,
+  IdsDirtyTrackerMixin,
+  IdsMaskMixin,
+  IdsValidationMixin,
+  IdsThemeMixin,
+  IdsTooltipMixin
+} from '../ids-mixins';
 
 // Properties observed by the Input
 const INPUT_PROPS = [
@@ -30,8 +32,10 @@ const INPUT_PROPS = [
   props.BG_TRANSPARENT,
   props.CLEARABLE,
   props.CLEARABLE_FORCED,
+  props.COMPACT,
   props.DIRTY_TRACKER,
   props.DISABLED,
+  props.FIELD_HEIGHT,
   props.LABEL,
   props.LABEL_REQUIRED,
   props.MODE,
@@ -66,6 +70,15 @@ const SIZES = {
   md: 'md',
   lg: 'lg',
   full: 'full'
+};
+
+// Setting defaults field-heights
+const FIELD_HEIGHTS = {
+  default: 'md',
+  xs: 'xs',
+  sm: 'sm',
+  md: 'md',
+  lg: 'lg'
 };
 
 // Setting defaults text-align
@@ -145,16 +158,18 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     // Input
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const type = ` type="${this.type || TYPES.default}"`;
-    let inputClass = `ids-input-field ${this.size} ${this.textAlign}`;
+    let inputClass = `ids-input-field ${this.textAlign}`;
     inputClass += stringUtils.stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
     inputClass += stringUtils.stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
     inputClass += stringUtils.stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
     inputClass = ` class="${inputClass}"`;
     let inputState = stringUtils.stringToBool(this.readonly) ? ' readonly' : '';
     inputState = stringUtils.stringToBool(this.disabled) ? ' disabled' : inputState;
+    let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
+    containerClass += stringUtils.stringToBool(this.compact) ? ' compact' : '';
 
     return `
-      <div class="ids-input${inputState}">
+      <div class="${containerClass}">
         <label for="${this.state.id}" class="label-text">
           <ids-text part="label" label="true">${this.label}</ids-text>
         </label>
@@ -195,18 +210,20 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
         prop2: prop !== props.READONLY ? props.READONLY : props.DISABLED,
         val: stringUtils.stringToBool(this[prop])
       };
-      const rootEl = this.shadowRoot.querySelector('.ids-input');
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
-        rootEl?.classList.remove(options.prop2);
+        this.container.classList.remove(options.prop2);
+        this.container.querySelector('ids-text').removeAttribute(options.prop2);
         msgNodes.forEach((x) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
-        rootEl?.classList.add(options.prop1);
+        this.container.classList.add(options.prop1);
+        this.container.querySelector('ids-text').setAttribute(options.prop1, 'true');
         msgNodes.forEach((x) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
-        rootEl?.classList.remove(options.prop1);
+        this.container.classList.remove(options.prop1);
+        this.container.querySelector('ids-text').removeAttribute(options.prop1);
         msgNodes.forEach((x) => x.classList.remove(options.prop1));
       }
     }
@@ -223,6 +240,16 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     if (labelText) {
       labelText.innerHTML = value || '';
     }
+  }
+
+  /**
+   * Get field height css class name with prefix
+   * @private
+   * @param {string} val The given value
+   * @returns {string} css class name with prefix
+   */
+  fieldHeightClass(val) {
+    return `field-height-${val || FIELD_HEIGHTS.default}`;
   }
 
   /**
@@ -395,6 +422,23 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   get clearableForced() { return this.getAttribute(props.CLEARABLE_FORCED); }
 
   /**
+   *  Set the compact height
+   * @param {boolean|string} value If true will set `compact` attribute
+   */
+  set compact(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(props.COMPACT, val.toString());
+      this.container?.classList.add(props.COMPACT);
+    } else {
+      this.removeAttribute(props.COMPACT);
+      this.container?.classList.remove(props.COMPACT);
+    }
+  }
+
+  get compact() { return this.getAttribute(props.COMPACT); }
+
+  /**
    *  Set the dirty tracking feature on to indicate a changed field
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
@@ -418,10 +462,8 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(props.DISABLED, 'true');
-      this.container.querySelector('ids-text').setAttribute(props.DISABLED, 'true');
     } else {
       this.removeAttribute(props.DISABLED);
-      this.container.querySelector('ids-text').removeAttribute(props.DISABLED);
     }
     this.setInputState(props.DISABLED);
   }
@@ -492,14 +534,32 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   get readonly() { return this.getAttribute(props.READONLY); }
 
   /**
+   * Set the fieldHeight (height) of input
+   * @param {string} value [xs, sm, mm, md, lg]
+   */
+  set fieldHeight(value) {
+    const fieldHeight = FIELD_HEIGHTS[value];
+    const heightClasses = Object.values(FIELD_HEIGHTS).map((h) => this.fieldHeightClass(h));
+    this.container?.classList.remove(...heightClasses);
+    if (fieldHeight) {
+      this.setAttribute(props.FIELD_HEIGHT, fieldHeight);
+      this.container?.classList.add(this.fieldHeightClass(fieldHeight));
+    } else {
+      this.removeAttribute(props.FIELD_HEIGHT);
+    }
+  }
+
+  get fieldHeight() { return this.fieldHeightClass(this.getAttribute(props.FIELD_HEIGHT)); }
+
+  /**
    * Set the size (width) of input
    * @param {string} value [xs, sm, mm, md, lg, full]
    */
   set size(value) {
     const size = SIZES[value];
     this.setAttribute(props.SIZE, size || SIZES.default);
-    this.input?.classList.remove(...Object.values(SIZES));
-    this.input?.classList.add(size || SIZES.default);
+    this.container?.classList.remove(...Object.values(SIZES));
+    this.container?.classList.add(size || SIZES.default);
   }
 
   get size() { return this.getAttribute(props.SIZE) || SIZES.default; }

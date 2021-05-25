@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss
-} from '../ids-base/ids-element';
+} from '../ids-base';
 import { props } from '../ids-base/ids-constants';
 import styles from './ids-block-grid.scss';
 

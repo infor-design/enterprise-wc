@@ -3,7 +3,7 @@ import {
   scss,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';

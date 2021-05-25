@@ -1,17 +1,14 @@
 /* Ids Popup Component */
-@import '../ids-base/ids-base';
-
-$transition-length: 200ms;
+@import './ids-popup-base';
 
 :host {
   // Take the WebComponent out of document flow
   @include absolute();
 
-  display: inline-block;
+  display: block;
 }
 
 .ids-popup {
-  @include opacity-0();
   @include fixed();
 
   display: none;
@@ -103,21 +100,49 @@ $transition-length: 200ms;
   }
 
   // Added to ".visible" to animate the opening.
-  &.open {
-    @include opacity-100();
-  }
+  // Add an "open" state to any CSS class that drives animation.
+  // &.open {}
 
   // Animates X/Y movement, fade in/out of the popup.
   &.animated {
-    transition: opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+    transition:
+      opacity $popup-transition-length $popup-transition-ease,
+      transform $popup-transition-length $popup-transition-ease;
 
     &.open {
       transition:
-        opacity $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-        height $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-        width $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-        left $transition-length cubic-bezier(0.4, 0, 0.6, 1),
-        top $transition-length cubic-bezier(0.4, 0, 0.6, 1);
+        opacity $popup-transition-length $popup-transition-ease,
+        height $popup-transition-length $popup-transition-ease,
+        width $popup-transition-length $popup-transition-ease,
+        left $popup-transition-length $popup-transition-ease,
+        top $popup-transition-length $popup-transition-ease,
+        transform $popup-transition-length $popup-transition-ease;
+    }
+  }
+
+  // Animation Style: default | 'fade'
+  &.animation-fade {
+    @include opacity-0();
+
+    &.open {
+      @include opacity-100();
+    }
+  }
+
+  // Animation Style: 'scale-in'
+  &.animation-scale-in {
+    @include opacity-0();
+
+    // @TODO: re-enable this after better popup container support exists
+    // transform: perspective(1000px) translate3d(0, 0, -500px);
+    transform: scale(0);
+
+    &.open {
+      @include opacity-100();
+
+      // @TODO: re-enable this after better popup container support exists
+      // transform: perspective(1000px) translate3d(0, 0, 0);
+      transform: scale(1);
     }
   }
 
@@ -272,6 +297,21 @@ $transition-length: 200ms;
     @include rounded-md();
     @include text-12();
     @include text-black();
+  }
+
+  // style: "modal"
+  &.modal {
+    @include antialiased();
+    @include bg-white();
+    @include border-1();
+    @include border-solid();
+    @include font-sans();
+    @include p-8();
+    @include rounded-default();
+    @include shadow();
+
+    border-color: var(--ids-color-palette-slate-30);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
 }
 

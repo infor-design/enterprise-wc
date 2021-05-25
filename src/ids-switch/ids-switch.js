@@ -5,10 +5,13 @@ import {
   scss,
   mix,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import styles from './ids-switch.scss';
 import IdsText from '../ids-text/ids-text';

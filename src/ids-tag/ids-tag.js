@@ -4,12 +4,14 @@ import {
   scss,
   mix,
   props
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 // Import Mixins
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import {
+  IdsEventsMixin,
+  IdsKeyboardMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import styles from './ids-tag.scss';
 
