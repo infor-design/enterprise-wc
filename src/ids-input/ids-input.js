@@ -26,6 +26,8 @@ import {
   IdsTooltipMixin
 } from '../ids-mixins';
 
+let instanceCounter = 0;
+
 // Properties observed by the Input
 const INPUT_PROPS = [
   props.AUTOSELECT,
@@ -37,7 +39,9 @@ const INPUT_PROPS = [
   props.DISABLED,
   props.FIELD_HEIGHT,
   props.LABEL,
+  props.LABEL_HIDDEN,
   props.LABEL_REQUIRED,
+  props.ID,
   props.MODE,
   props.PLACEHOLDER,
   props.SIZE,
@@ -151,8 +155,8 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {string} The template
    */
   template() {
-    if (!this.state || !this.state?.id) {
-      this.state = { id: 'ids-input-id' };
+    if (!this.id) {
+      this.setAttribute?.(props.ID, `ids-input-${++instanceCounter}`);
     }
 
     // Input
@@ -168,16 +172,25 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
     containerClass += stringUtils.stringToBool(this.compact) ? ' compact' : '';
 
-    return `
-      <div class="${containerClass}">
-        <label for="${this.state.id}" class="label-text">
-          <ids-text part="label" label="true">${this.label}</ids-text>
-        </label>
+    const labelHtml = !this.label || this.getAttribute(props.LABEL_HIDDEN) ? '' : (
+      `<label for="${this.id}-input" class="label-text">
+        <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
+      </label>`
+    );
+
+    return (
+      `<div class="${containerClass}">
+        ${labelHtml}
         <div class="field-container">
-          <input part="input" id="${this.state.id}"${type}${inputClass}${placeholder}${inputState} />
+          <input
+            part="input"
+            id="${this.id}-input"
+            ${type}${inputClass}${placeholder}${inputState}
+            ${this.getAttribute(props.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
+            ></input>
         </div>
-      </div>
-    `;
+      </div>`
+    );
   }
 
   /**
@@ -185,7 +198,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {HTMLInputElement} the inner `input` element
    */
   get input() {
-    return this.shadowRoot?.querySelector(`#${this.state.id}`);
+    return this.shadowRoot?.querySelector(`#${this.id}-input`);
   }
 
   /**
@@ -193,7 +206,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {HTMLLabelElement} the inner `label` element
    */
   get labelEl() {
-    return this.shadowRoot?.querySelector(`[for="${this.state.id}"]`);
+    return this.shadowRoot?.querySelector(`label`);
   }
 
   /**
@@ -210,20 +223,21 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
         prop2: prop !== props.READONLY ? props.READONLY : props.DISABLED,
         val: stringUtils.stringToBool(this[prop])
       };
+
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
-        this.container.classList.remove(options.prop2);
-        this.container.querySelector('ids-text').removeAttribute(options.prop2);
+        this.container?.classList?.remove?.(options.prop2);
+        this.container?.querySelector?.('ids-text')?.removeAttribute(options.prop2);
         msgNodes.forEach((x) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
         this.container.classList.add(options.prop1);
-        this.container.querySelector('ids-text').setAttribute(options.prop1, 'true');
+        this.container?.querySelector?.('ids-text')?.setAttribute?.(options.prop1, 'true');
         msgNodes.forEach((x) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
         this.container.classList.remove(options.prop1);
-        this.container.querySelector('ids-text').removeAttribute(options.prop1);
+        this.container.querySelector('ids-text')?.removeAttribute(options.prop1);
         msgNodes.forEach((x) => x.classList.remove(options.prop1));
       }
     }
@@ -236,10 +250,25 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   setLabelText(value) {
-    const labelText = this.shadowRoot.querySelector(`[for="${this.state.id}"] ids-text`);
+    const labelText = this.shadowRoot.querySelector(`[for="${this.id}-input"] ids-text`);
     if (labelText) {
       labelText.innerHTML = value || '';
     }
+  }
+
+  /**
+   * Sets a label's text as not displayed in explicit label element
+   */
+  set labelHidden(value) {
+    if (stringUtils.stringToBool(value)) {
+      this?.setAttribute(props.LABEL_HIDDEN, '');
+    } else {
+      this?.removeAttribute(props.LABEL_HIDDEN);
+    }
+  }
+
+  get labelHidden() {
+    return this.getAttribute(props.LABEL_HIDDEN);
   }
 
   /**
@@ -444,6 +473,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set dirtyTracker(value) {
     const val = stringUtils.stringToBool(value);
+
     if (val) {
       this.setAttribute(props.DIRTY_TRACKER, val.toString());
     } else {
@@ -663,6 +693,21 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
 
   get value() {
     return this.input?.value || '';
+  }
+
+  /**
+   * set the id of the input, which will also determine the
+   * input id for labels at #${id}-input
+   *
+   * @param {string} value id
+   */
+  set id(value) {
+    this.setAttribute(props.ID, value);
+    this.input?.setAttribute(props.ID, `${value}-input`);
+  }
+
+  get id() {
+    return this.getAttribute(props.ID);
   }
 }
 
