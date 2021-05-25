@@ -40,9 +40,8 @@ import styles from './ids-header.scss';
   * @returns {string} The template
   */
   template() {
-    return `<div>Ids Header</div>`;
+    return `<div><slot></slot></div>`;
   }
-
  }
 
  export default IdsHeader;
