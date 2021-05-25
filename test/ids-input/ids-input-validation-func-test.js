@@ -5,10 +5,19 @@ import IdsInput from '../../src/ids-input/ids-input';
 
 let elem = null;
 
+const processAnimFrame = () => new Promise((resolve) => {
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(resolve);
+  });
+});
+
 describe('IdsInput Component', () => {
   beforeEach(async () => {
-    elem = new IdsInput();
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input"></ids-input>';
+    elem = template.content.childNodes[0];
     document.body.appendChild(elem);
+    await processAnimFrame();
   });
 
   afterEach(async () => {
@@ -16,10 +25,10 @@ describe('IdsInput Component', () => {
     elem = null;
   });
 
-  it('should add/remove required error', () => {
+  it('should add/remove required error', async () => {
     elem.validate = 'required';
     elem.template();
-    document.body.appendChild(elem);
+    await processAnimFrame();
 
     expect(elem.getAttribute('validate')).toEqual('required');
     expect(elem.validate).toEqual('required');
@@ -29,10 +38,10 @@ describe('IdsInput Component', () => {
 
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(elem.input.getAttribute('aria-invalid')).toEqual('true');
-    expect(elem.input.getAttribute('aria-describedby')).toEqual('ids-input-id-error');
+    expect(elem.input.getAttribute('aria-describedby')).toEqual('ids-input-1-input-error');
     expect(msgEl).toBeTruthy();
     expect(msgEl.getAttribute('validation-id')).toEqual('required');
-    expect(msgEl.getAttribute('id')).toEqual('ids-input-id-error');
+    expect(msgEl.getAttribute('id')).toEqual('ids-input-1-input-error');
 
     elem.input.value = 'test';
     elem.checkValidation();
@@ -224,7 +233,6 @@ describe('IdsInput Component', () => {
   it('should remove all the messages from input', () => {
     elem.validate = 'required';
     elem.template();
-    document.body.appendChild(elem);
 
     expect(elem.getAttribute('validate')).toEqual('required');
     expect(elem.validate).toEqual('required');

@@ -4,13 +4,21 @@
 import IdsInput from '../../src/ids-input/ids-input';
 import IdsClearableMixin from '../../src/ids-mixins/ids-clearable-mixin';
 
+const processAnimFrame = () => new Promise((resolve) => {
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(resolve);
+  });
+});
+
 describe('IdsInput Component', () => {
   let input;
 
   beforeEach(async () => {
-    const elem = new IdsInput();
-    document.body.appendChild(elem);
-    input = document.querySelector('ids-input');
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input"></ids-input>';
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
   });
 
   afterEach(async () => {
@@ -19,9 +27,6 @@ describe('IdsInput Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsInput();
-    document.body.appendChild(elem);
-    elem.remove();
     expect(document.querySelectorAll('ids-input').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
@@ -99,18 +104,20 @@ describe('IdsInput Component', () => {
   });
 
   it('should set label text', () => {
-    let label = input.labelEl.querySelector('ids-text');
-    label?.remove();
     input.label = 'test';
 
     document.body.innerHTML = '';
-    const elem = new IdsInput();
+
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="Hello World"></ids-input>';
+    const elem = template.content.childNodes[0];
+    document.body.appendChild(elem);
+
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
-    label = input.labelEl.querySelector('ids-text');
-    expect(input.labelEl.textContent.trim()).toBe('');
-    input.label = 'test';
-    expect(input.labelEl.textContent.trim()).toBe('test');
+    expect(input.labelEl.textContent.trim()).toBe('Hello World');
+    input.label = 'test2';
+    expect(input.labelEl.textContent.trim()).toBe('test2');
     input.label = null;
     expect(input.labelEl.textContent.trim()).toBe('');
   });
