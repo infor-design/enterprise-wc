@@ -47,8 +47,7 @@ class IdsSpinbox extends mix(IdsElement).with(
       props.MAX,
       props.MIN,
       props.STEP,
-      props.VALUE,
-      props.ID
+      props.VALUE
     ];
   }
 
@@ -137,11 +136,11 @@ class IdsSpinbox extends mix(IdsElement).with(
     };
 
     this.onEvent('click.decrement', this.#decrementButton, () => {
-      this.#onDecrement();
+      this.#onDecrementStep();
     });
 
     this.onEvent('click.increment', this.#incrementButton, () => {
-      this.#onIncrement();
+      this.#onIncrementStep();
     });
 
     this.onEvent('focus', this, (e) => {
@@ -149,6 +148,7 @@ class IdsSpinbox extends mix(IdsElement).with(
 
       if (!isDisabled) {
         e.preventDefault();
+        this.input.focus();
       }
     });
 
@@ -159,11 +159,11 @@ class IdsSpinbox extends mix(IdsElement).with(
 
       switch (key) {
       case 'ArrowUp':
-        this.#onIncrement();
+        this.#onIncrementStep();
         break;
       default:
       case 'ArrowDown':
-        this.#onDecrement();
+        this.#onDecrementStep();
         break;
       }
 
@@ -174,8 +174,12 @@ class IdsSpinbox extends mix(IdsElement).with(
     return this;
   }
 
+  /**
+   * @param {number | string} value maximum value a spinbox can
+   * be set to
+   */
   set max(value) {
-    if (this.getAttribute(props.MAX) !== value) {
+    if (parseInt(this.getAttribute(props.MAX)) !== parseInt(value)) {
       this.setAttribute(props.MAX, value);
 
       if (stringToBool(value)) {
@@ -189,12 +193,20 @@ class IdsSpinbox extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @returns {number | string} the current max value the spinbox' input
+   * can be set to
+   */
   get max() {
     return this.getAttribute(props.MAX);
   }
 
+  /**
+   * @param {number | string} value minimum value a spinbox can
+   * be set to
+   */
   set min(value) {
-    if (this.getAttribute(props.MIN) !== value) {
+    if (parseInt(this.getAttribute(props.MIN)) !== parseInt(value)) {
       this.setAttribute(props.MIN, value);
 
       if (stringToBool(value)) {
@@ -208,10 +220,17 @@ class IdsSpinbox extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @returns {number | string} the current min value the spinbox' input
+   * can be set to
+   */
   get min() {
     return this.getAttribute(props.MIN);
   }
 
+  /**
+   * @param {number | string} value spinbox' input value
+   */
   set value(value) {
     if (parseInt(this.getAttribute(props.VALUE)) !== parseInt(value)) {
       const hasMinValue = !Number.isNaN(parseInt(this.min));
@@ -237,20 +256,11 @@ class IdsSpinbox extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @param {number | string} value spinbox' current input value
+   */
   get value() {
     return this.getAttribute(props.VALUE);
-  }
-
-  set id(value) {
-    this.setAttribute(props.ID, value);
-    const labelEl = this.shadowRoot.querySelector('label');
-    const inputId = `${value}-input`;
-    labelEl?.setAttribute?.('for', inputId);
-    this.#contentDiv?.setAttribute(props.ID, inputId);
-  }
-
-  get id() {
-    return this.getAttribute(props.ID);
   }
 
   /**
@@ -305,12 +315,14 @@ class IdsSpinbox extends mix(IdsElement).with(
       this.#incrementButton?.setAttribute?.(props.DISABLED, 'true');
       this.#decrementButton?.setAttribute?.(props.DISABLED, 'true');
       this.container.classList.add('disabled');
+      this.setAttribute('tabindex', '-1');
     } else {
       this.removeAttribute?.(props.DISABLED);
       this.input?.removeAttribute?.(props.DISABLED);
       this.#incrementButton?.removeAttribute?.(props.DISABLED);
       this.#decrementButton?.removeAttribute?.(props.DISABLED);
       this.container.classList.remove('disabled');
+      this.removeAttribute('tabindex');
     }
   }
 
@@ -320,13 +332,13 @@ class IdsSpinbox extends mix(IdsElement).with(
 
   #decrementButton;
 
-  #onIncrement() {
+  #onIncrementStep() {
     const hasValidStep = !Number.isNaN(parseInt(this.step));
     const step = hasValidStep ? parseInt(this.step) : 1;
     this.value = parseInt(this.value) + step;
   }
 
-  #onDecrement() {
+  #onDecrementStep() {
     const hasValidStep = !Number.isNaN(parseInt(this.step));
     const step = hasValidStep ? parseInt(this.step) : 1;
 
