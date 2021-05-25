@@ -323,8 +323,10 @@ class IdsButton extends mix(IdsElement).with(
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabIndex = 0;
       this.button.setAttribute(props.TABINDEX, '0');
+      this.removeAttribute(props.TABINDEX);
       return;
     }
+
     this.state.tabIndex = trueVal;
     this.button.setAttribute(props.TABINDEX, `${trueVal}`);
   }
