@@ -243,7 +243,7 @@ describe('IdsInput Component', () => {
     expect(input.input.classList).not.toContain('text-ellipsis');
   });
 
-  it('should setup dirty tracking', () => {
+  it('should setup dirty tracking', async () => {
     input.dirtyTracker = true;
     input.input.remove();
     input.dirtyTrackerEvents();
@@ -257,6 +257,12 @@ describe('IdsInput Component', () => {
     input.handleDirtyTracker();
     expect(input.dirty).toEqual({ original: '' });
     document.body.innerHTML = '';
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input"></ids-input>';
+    elem = template.content.childNodes[0];
+    document.body.appendChild(elem);
+    await processAnimFrame();
+
     elem = new IdsInput();
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
