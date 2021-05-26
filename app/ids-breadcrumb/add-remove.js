@@ -1,5 +1,4 @@
 import '../../src/ids-breadcrumb/ids-breadcrumb';
-import '../../src/ids-breadcrumb/ids-breadcrumb-item';
 import '../../src/ids-layout-grid/ids-layout-grid';
 import '../../src/ids-layout-grid/ids-layout-grid-cell';
 import '../../src/ids-button/ids-button';
