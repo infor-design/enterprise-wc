@@ -97,9 +97,9 @@ class IdsSpinbox extends mix(IdsElement).with(
               value=${this.value}
               id="${this.id}-input"
               label="${this.label}"
+              label-hidden="true"
               ${placeholderHtml}
               ${disabledAttribHtml}
-              label-hidden="true"
               part="input"
             ></ids-input>
             <ids-button
