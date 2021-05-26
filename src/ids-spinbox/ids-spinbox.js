@@ -8,9 +8,11 @@ import {
 } from '../ids-base/ids-element';
 import IdsButton from '../ids-button/ids-button';
 import IdsInput from '../ids-input/ids-input';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
+import {
+  IdsEventsMixin,
+  IdsKeyboardMixin,
+  IdsDirtyTrackerMixin
+} from '../ids-mixins';
 import styles from './ids-spinbox.scss';
 
 const { stringToBool, buildClassAttrib } = stringUtils;
@@ -67,13 +69,13 @@ class IdsSpinbox extends mix(IdsElement).with(
     const disabledAttribHtml = this.disabled ? ' disabled' : '';
 
     const labelHtml = (
-      `<div
+      `<label
         ${ buildClassAttrib('label', this.disabled && 'disabled') }
-        role="presentation"
         part="container"
-        >
-          <ids-text color="unset" font-size="14" ${disabledAttribHtml}>${this.label}</ids-text>
-        </div>`
+        for="${this.id}-input-input"
+      >
+        <ids-text color="unset" font-size="14" ${disabledAttribHtml}>${this.label}</ids-text>
+      </label>`
     );
 
     const placeholderHtml = (
@@ -87,8 +89,8 @@ class IdsSpinbox extends mix(IdsElement).with(
             <ids-button
               type="tertiary"
               ${disabledAttribHtml}
-              role="presentation"
               part="button"
+              tabindex="-1"
             >-</ids-button>
             <ids-input
               text-align="center"
@@ -103,8 +105,8 @@ class IdsSpinbox extends mix(IdsElement).with(
             <ids-button
               type="tertiary"
               ${disabledAttribHtml}
-              role="presentation"
               part="button"
+              tabindex="-1"
             >+</ids-button>
           </div>
       </div>`

@@ -1,5 +1,5 @@
 @import '../ids-base/ids-base';
-@import '../ids-base/ids-dirty-tracker-mixin';
+@import '../ids-mixins/ids-dirty-tracker-mixin';
 
 :host(ids-spinbox) {
   width: fit-content;

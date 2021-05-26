@@ -26,6 +26,8 @@ import {
   IdsTooltipMixin
 } from '../ids-mixins';
 
+const { stringToBool } = stringUtils;
+
 // Properties observed by the Input
 const INPUT_PROPS = [
   props.AUTOSELECT,
