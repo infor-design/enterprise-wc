@@ -279,19 +279,24 @@ class IdsSpinbox extends mix(IdsElement).with(
     return this.getAttribute(props.PLACEHOLDER);
   }
 
+  /**
+   * @param {string} value label of the spinbox
+   */
   set label(value) {
     this.setAttribute(props.LABEL, value);
     this.setAttribute('aria-label', value);
     this.input?.setAttribute('label', value);
   }
 
+  /**
+   * @returns {string} value label of the spinbox
+   */
   get label() {
     return this.getAttribute(props.LABEL);
   }
 
   /**
-   * Set the dirty tracking feature on to indicate a changed field
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
+   * @param {boolean|string} whether to enable the dirty-tracker functionality
    */
   set dirtyTracker(value) {
     const val = stringToBool(value);
@@ -304,6 +309,9 @@ class IdsSpinbox extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @returns {boolean|string} whether the dirty tracker has been enabled
+   */
   get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
 
   set disabled(value) {
@@ -326,18 +334,35 @@ class IdsSpinbox extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * div holding spinbox buttons/input
+   * @type {HTMLElement}
+   */
   #contentDiv;
 
+  /**
+   * @type {IdsButton}
+   */
   #incrementButton;
 
+  /**
+   * @type {IdsButton}
+   */
   #decrementButton;
-
+  /**
+   * callback to increment value by step
+   * @type {Function}
+   */
   #onIncrementStep() {
     const hasValidStep = !Number.isNaN(parseInt(this.step));
     const step = hasValidStep ? parseInt(this.step) : 1;
     this.value = parseInt(this.value) + step;
   }
 
+  /**
+   * callback to decrement value by step
+   * @type {Function}
+   */
   #onDecrementStep() {
     const hasValidStep = !Number.isNaN(parseInt(this.step));
     const step = hasValidStep ? parseInt(this.step) : 1;
@@ -345,6 +370,10 @@ class IdsSpinbox extends mix(IdsElement).with(
     this.value = parseInt(this.value) - step;
   }
 
+  /**
+   * updates state of whether decrement button is disabled
+   * @type {Function}
+   */
   #updateDecrementDisabled() {
     const hasMinValue = !Number.isNaN(parseInt(this.min));
 
@@ -360,6 +389,10 @@ class IdsSpinbox extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * updates state of whether increment button is disabled
+   * @type {Function}
+   */
   #updateIncrementDisabled() {
     const hasMaxValue = !Number.isNaN(parseInt(this.max));
 
