@@ -24,6 +24,10 @@ let instanceCounter = 0;
  * IDS Spinbox Component
  * @type {IdsSpinbox}
  * @inherits IdsElement
+ *
+ * @part container the overall container of the spinbox
+ * @part button increment/decrement button
+ * @part input input containing value/placeholder
  */
 @customElement('ids-spinbox')
 @scss(styles)
@@ -66,6 +70,7 @@ class IdsSpinbox extends mix(IdsElement).with(
       `<div
         ${ buildClassAttrib('label', this.disabled && 'disabled') }
         role="presentation"
+        part="container"
         >
           <ids-text color="unset" font-size="14" ${disabledAttribHtml}>${this.label}</ids-text>
         </div>`
@@ -83,6 +88,7 @@ class IdsSpinbox extends mix(IdsElement).with(
               type="tertiary"
               ${disabledAttribHtml}
               role="presentation"
+              part="button"
             >-</ids-button>
             <ids-input
               text-align="center"
@@ -92,11 +98,13 @@ class IdsSpinbox extends mix(IdsElement).with(
               ${placeholderHtml}
               ${disabledAttribHtml}
               label-hidden="true"
+              part="input"
             ></ids-input>
             <ids-button
               type="tertiary"
               ${disabledAttribHtml}
               role="presentation"
+              part="button"
             >+</ids-button>
           </div>
       </div>`
