@@ -108,10 +108,6 @@ class IdsButton extends mix(IdsElement).with(
     this.setIconAlignment();
     this.shouldUpdate = true;
     super.connectedCallback();
-
-    if (!this.hasAttribute('role')) {
-      this.setAttribute('role', 'button');
-    }
   }
 
   /**
