@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsInput from '../../src/ids-input/ids-input';
-import { IdsClearableMixin } from '../../src/ids-base/ids-clearable-mixin';
+import IdsClearableMixin from '../../src/ids-mixins/ids-clearable-mixin';
 
 describe('IdsInput Component', () => {
   let input;
@@ -86,6 +86,18 @@ describe('IdsInput Component', () => {
     expect(input.type).toEqual('number');
   });
 
+  it('should set compact mode', () => {
+    const className = 'compact';
+    expect(input.compact).toEqual(null);
+    expect(input.container.classList).not.toContain(className);
+    input.compact = true;
+    expect(input.compact).toEqual('true');
+    expect(input.container.classList).toContain(className);
+    input.compact = false;
+    expect(input.compact).toEqual(null);
+    expect(input.container.classList).not.toContain(className);
+  });
+
   it('should set label text', () => {
     let label = input.labelEl.querySelector('ids-text');
     label?.remove();
@@ -125,14 +137,6 @@ describe('IdsInput Component', () => {
   });
 
   it('should set value', () => {
-    /*
-    input.input.remove();
-    input.value = '';
-    document.body.innerHTML = '';
-    const elem = new IdsInput();
-    document.body.appendChild(elem);
-    input = document.querySelector('ids-input');
-    */
     expect(input.value).toEqual('');
     input.value = 'test';
     expect(input.value).toEqual('test');
@@ -147,6 +151,7 @@ describe('IdsInput Component', () => {
     input.labelFontSize = 'lg';
     input.bgTransparent = 'true';
     input.textEllipsis = 'true';
+    input.compact = 'true';
     input.template();
     expect(input.input.value).toEqual('test');
   });
@@ -466,11 +471,11 @@ describe('IdsInput Component', () => {
   it('should not set wrong size', () => {
     input.size = 'test';
     expect(input.getAttribute('size')).toEqual('md');
-    expect(input.input.classList).not.toContain('test');
+    expect(input.container.classList).not.toContain('test');
     const size = 'sm';
     input.size = size;
     expect(input.getAttribute('size')).toEqual(size);
-    expect(input.input.classList).toContain(size);
+    expect(input.container.classList).toContain(size);
   });
 
   it('should rendr input sizes', () => {
@@ -478,14 +483,46 @@ describe('IdsInput Component', () => {
     const checkSize = (size) => {
       input.size = size;
       expect(input.getAttribute('size')).toEqual(size);
-      expect(input.input.classList).toContain(size);
+      expect(input.container.classList).toContain(size);
       sizes.filter((s) => s !== size).forEach((s) => {
-        expect(input.input.classList).not.toContain(s);
+        expect(input.container.classList).not.toContain(s);
       });
     };
     expect(input.getAttribute('size')).toEqual(null);
-    expect(input.input.classList).toContain('md');
+    expect(input.container.classList).toContain('md');
     sizes.forEach((s) => checkSize(s));
+  });
+
+  it('should not set wrong field height', () => {
+    const className = (h) => `field-height-${h}`;
+    input.fieldHeight = 'test';
+    expect(input.getAttribute('field-height')).toEqual(null);
+    expect(input.container.classList).not.toContain('test');
+    expect(input.container.classList).not.toContain(className('test'));
+    const fieldHeight = 'sm';
+    input.fieldHeight = fieldHeight;
+    expect(input.getAttribute('field-height')).toEqual(fieldHeight);
+    expect(input.container.classList).toContain(className(fieldHeight));
+  });
+
+  it('should rendr input field height', () => {
+    const heights = ['xs', 'sm', 'md', 'lg'];
+    const defaultHeight = 'md';
+    const className = (h) => `field-height-${h}`;
+    const checkHeight = (height) => {
+      input.fieldHeight = height;
+      expect(input.getAttribute('field-height')).toEqual(height);
+      expect(input.container.classList).toContain(className(height));
+      heights.filter((h) => h !== height).forEach((h) => {
+        expect(input.container.classList).not.toContain(className(h));
+      });
+    };
+    expect(input.getAttribute('field-height')).toEqual(null);
+    heights.filter((h) => h !== defaultHeight).forEach((h) => {
+      expect(input.container.classList).not.toContain(className(h));
+    });
+    expect(input.container.classList).toContain(className(defaultHeight));
+    heights.forEach((h) => checkHeight(h));
   });
 
   it('supports setting mode', () => {

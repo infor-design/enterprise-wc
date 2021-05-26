@@ -5,10 +5,9 @@ import {
   props,
   stringUtils,
   mix
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import { IdsEventsMixin, IdsThemeMixin } from '../ids-mixins';
 
 import IdsIcon from '../ids-icon/ids-icon';
 

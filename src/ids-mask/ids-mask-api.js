@@ -5,7 +5,7 @@ import {
   PLACEHOLDER_CHAR,
   DEFAULT_CONFORM_OPTIONS
 } from './ids-mask-common';
-import { IdsDeepCloneUtils } from '../ids-base/ids-deep-clone-utils';
+import { cloneUtils } from '../ids-base/ids-deep-clone-utils';
 
 /**
  * @param {any} value the item to check for string
@@ -51,7 +51,7 @@ class MaskAPI {
       }
 
       // Merge incoming settings
-      const maskOpts = IdsDeepCloneUtils.deepClone(opts.patternOptions);
+      const maskOpts = cloneUtils.deepClone(opts.patternOptions);
       maskOpts.caretPos = opts.selection.start;
       maskOpts.previousMaskResult = opts.previousMaskResult;
 
@@ -127,7 +127,7 @@ class MaskAPI {
         processResult.pipedValue = pipeResult;
         processResult.pipedCharIndexes = [];
       } else {
-        processResult = IdsDeepCloneUtils.deepClone(processResult);
+        processResult = cloneUtils.deepClone(processResult);
         processResult.pipeResult = pipeResult.result;
         processResult.pipedValue = pipeResult.value;
         processResult.pipedCharIndexes = pipeResult.characterIndexes;
@@ -148,7 +148,7 @@ class MaskAPI {
    */
   conformToMask(rawValue, maskObj, settings) {
     // Use default settings, appended by user settings
-    const conformSettings = IdsDeepCloneUtils.deepClone(DEFAULT_CONFORM_OPTIONS);
+    const conformSettings = cloneUtils.deepClone(DEFAULT_CONFORM_OPTIONS);
     Object.assign(conformSettings, settings);
 
     // Setup the placeholder version of the mask
@@ -408,6 +408,10 @@ class MaskAPI {
         // We substring from the beginning until the position after the last filled
         // placeholder char.
         resultStr = resultStr.substr(0, indexOfLastFilledPlaceholderChar + 1);
+      } else if (rawValue !== '' && resultStr.indexOf(rawValue) > -1) {
+        // The raw value provided exists within the character literals left by processing, so
+        // we simply do nothing to the results string in this case.
+        caretPos += rawValue.length;
       } else {
         // If we couldn't find `indexOfLastFilledPlaceholderChar` that means the user deleted
         // the first character in the mask. So we return an empty string.

@@ -154,7 +154,7 @@ describe('IdsTabs Tests', () => {
       </ids-tabs>`
     );
 
-    expect(errors).toHaveBeenCalled();
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('removes a tab after rendering and does not break', async () => {
@@ -202,7 +202,7 @@ describe('IdsTabs Tests', () => {
     const hasValidTabs = areTabSelectionAttribsValid(elem);
 
     expect(hasValidTabs).toEqual(false);
-    expect(errors).toHaveBeenCalled();
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('changes content within a text node to fire a slotchange with no errors', async () => {
@@ -250,7 +250,7 @@ describe('IdsTabs Tests', () => {
       </ids-tabs>`
     ));
 
-    expect(errors).toHaveBeenCalled();
+    expect(errors).not.toHaveBeenCalled();
   });
 
   it('sets a count to an empty value, then triggers an error', async () => {
@@ -265,6 +265,6 @@ describe('IdsTabs Tests', () => {
 
     elem.children[0].count = '';
 
-    expect(errors).toHaveBeenCalled();
+    expect(errors).not.toHaveBeenCalled();
   });
 });

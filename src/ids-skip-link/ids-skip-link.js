@@ -4,11 +4,13 @@ import {
   scss,
   props,
   mix
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 // Import Mixins
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import styles from './ids-skip-link.scss';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';

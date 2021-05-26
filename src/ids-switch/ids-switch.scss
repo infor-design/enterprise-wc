@@ -1,5 +1,5 @@
 @import '../ids-base/ids-base';
-@import '../ids-base/ids-switch-mixin';
+@import '../ids-mixins/ids-switch-mixin';
 
 .ids-switch {
   @include mb-8();

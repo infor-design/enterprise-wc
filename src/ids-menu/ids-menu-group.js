@@ -5,9 +5,9 @@ import {
   props,
   mix,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsEventsMixin } from '../ids-mixins';
 
 import styles from './ids-menu-group.scss';
 

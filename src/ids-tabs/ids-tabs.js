@@ -3,18 +3,18 @@ import {
   customElement,
   props,
   scss,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base/ids-element';
+
 import {
   IdsKeyboardMixin,
   IdsEventsMixin,
-  IdsThemeMixin,
-  IdsStringUtils
-} from '../ids-base';
+  IdsThemeMixin
+} from '../ids-mixins';
+
 import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
-
-const { buildClassAttrib } = IdsStringUtils;
 
 /**
  * IDS Tabs Component
@@ -48,7 +48,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   template() {
     return (
       `<div
-        ${ buildClassAttrib('ids-tabs', this.orientation) }
+        ${ stringUtils.buildClassAttrib('ids-tabs', this.orientation) }
         part="container"
       >
         <slot></slot>
@@ -360,24 +360,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
         this.setAttribute(props.VALUE, this.getTabIndexValue(focusedTabIndex));
       }
     });
-
-    // scan through children to detect if we have
-    // all or not-all 'count'-assigned content
-
-    if (this.children.length) {
-      const hasTabCounts = Boolean(this?.children[0].hasAttribute('count'));
-
-      for (let i = 1; i < this.children.length; i++) {
-        const isCountVariant = Boolean(this.children[i].hasAttribute('count'));
-
-        if (isCountVariant !== hasTabCounts) {
-          console.error(
-            'ids-tabs: '
-            + 'either all or no ids-tab elements should have "count" attrib set'
-          );
-        }
-      }
-    }
   }
 
   /**
@@ -405,10 +387,6 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       if (!hadTabSelection && Boolean(this.children[i].selected)) {
         hadTabSelection = true;
       }
-    }
-
-    if (!hadTabSelection) {
-      console.error(`ids-tabs: tab value (${this.value}) provided was invalid`);
     }
   }
 }

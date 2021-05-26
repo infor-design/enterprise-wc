@@ -5,10 +5,13 @@ import {
   scss,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import styles from './ids-trigger-field.scss';
 
@@ -40,6 +43,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {void}
    */
   connectedCallback() {
+    this.setInputProps();
     this.handleEvents();
     super.connectedCallback();
   }
@@ -58,6 +62,67 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    */
   template() {
     return `<div class="ids-trigger-field" part="field"><slot></slot></div>`;
+  }
+
+  /**
+   * Set input observer
+   * @private
+   * @returns {void}
+   */
+  setInputObserver() {
+    /* istanbul ignore next */
+    const callback = (mutationList) => {
+      mutationList.forEach((m) => {
+        if (m.type === 'attributes') {
+          const attr = { name: m.attributeName, val: m.target[m.attributeName] };
+          this.containerSetHeightClass(attr);
+        }
+      });
+    };
+    /* istanbul ignore next */
+    if (this.inputObserver) {
+      this.inputObserver.disconnect();
+    }
+    this.inputObserver = new MutationObserver(callback);
+    this.inputObserver.observe(this.input, { attributes: true });
+  }
+
+  /**
+   * Set the class for compact or field height
+   * @private
+   * @param {object} attr The input attribute
+   * @returns {void}
+   */
+  containerSetHeightClass(attr) {
+    const heightClassName = (h) => `field-height-${h}`;
+    const heights = ['xs', 'sm', 'md', 'lg'];
+
+    if (attr.name === 'compact') {
+      this.container?.classList[stringUtils.stringToBool(attr.val) ? 'add' : 'remove']('compact');
+    } else if (attr.name === 'field-height') {
+      this.container?.classList.remove(...heights.map((h) => heightClassName(h)));
+      if (attr.val !== null) {
+        this.container?.classList.add(heightClassName(attr.val));
+      }
+    }
+  }
+
+  /**
+   * Set the input props
+   * @private
+   * @returns {void}
+   */
+  setInputProps() {
+    this.input = this.querySelector('ids-input');
+    if (this.input) {
+      this.input.setAttribute(props.TRIGGERFIELD, 'true');
+
+      // Set class for compact or field height
+      const attributes = ['compact', 'field-height'];
+      const attr = (a) => ({ name: a, val: this.input.getAttribute(a) });
+      attributes.forEach((a) => this.containerSetHeightClass(attr(a)));
+      this.setInputObserver();
+    }
   }
 
   /**
@@ -112,6 +177,17 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {object} The object for chaining.
    */
   handleEvents() {
+    if (this.input) {
+      const className = 'has-validation-message';
+      this.onEvent('validated', this.input, (e) => {
+        if (e.detail?.isValid) {
+          this.container?.classList?.remove(className);
+        } else {
+          this.container?.classList?.add(className);
+        }
+      });
+    }
+
     if (this.disableNativeEvents) {
       return false;
     }

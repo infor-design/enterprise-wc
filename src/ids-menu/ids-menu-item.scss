@@ -1,7 +1,7 @@
 /* Ids Menu Item Component */
 @import './ids-menu-base';
-@import '../ids-base/ids-check-mixin';
-@import '../ids-base/ids-checkbox-mixin';
+@import '../ids-mixins/ids-check-mixin';
+@import '../ids-mixins/ids-checkbox-mixin';
 
 :host {
   @include block();

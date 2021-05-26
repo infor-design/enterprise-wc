@@ -6,7 +6,8 @@ import {
   mix,
   stringUtils
 } from '../ids-base/ids-element';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+
+import { IdsEventsMixin } from '../ids-mixins';
 import IdsText from '../ids-text/ids-text';
 import styles from './ids-tab.scss';
 
@@ -18,7 +19,6 @@ const { stringToBool, buildClassAttrib } = stringUtils;
  * @inherits IdsElement
  * @part container - the tab container itself
  * @mixes IdsEventsMixin
- *
  * @private
  */
 @customElement('ids-tab')
@@ -167,12 +167,12 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       return;
     }
 
+    if (value !== '' && Number.isNaN(Number(value))) {
+      return;
+    }
+
     this.container.classList.add('count');
     this.setAttribute(props.COUNT, value);
-
-    if (value !== '' && Number.isNaN(Number(value))) {
-      console.error('ids-tab: invalid number supplied to "count" property');
-    }
   }
 
   /**

@@ -5,12 +5,16 @@ import {
   mix,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsKeyboardMixin,
+  IdsThemeMixin,
+  IdsRenderLoopMixin,
+  IdsRenderLoopItem
+} from '../ids-mixins';
 
 import IdsPopup from '../ids-popup/ids-popup';
 

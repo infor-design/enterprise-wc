@@ -3,7 +3,8 @@ import {
   customElement,
   scss
 } from '../ids-base/ids-element';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+
+import { IdsEventsMixin } from '../ids-mixins';
 import styles from './ids-tabs-divider.scss';
 
 /* istanbul ignore next */

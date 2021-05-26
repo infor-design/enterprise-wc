@@ -5,7 +5,7 @@ import {
   scss,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-textarea.scss';
 
@@ -14,12 +14,14 @@ import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
-// Mixins
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsClearableMixin } from '../ids-base/ids-clearable-mixin';
-import { IdsDirtyTrackerMixin } from '../ids-base/ids-dirty-tracker-mixin';
-import { IdsValidationMixin } from '../ids-base/ids-validation-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsClearableMixin,
+  IdsDirtyTrackerMixin,
+  IdsValidationMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 // Textarea id
 const ID = 'ids-textarea-id';
@@ -108,8 +110,6 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   connectedCallback() {
     /** @type {any} */
-    this.rootEl = this.shadowRoot.querySelector('.ids-textarea');
-    /** @type {any} */
     this.input = this.shadowRoot.querySelector(`#${ID}`);
     /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
@@ -136,7 +136,7 @@ class IdsTextarea extends mix(IdsElement).with(
     const counter = isCounter ? '<span class="textarea-character-counter"></span>' : '';
     let textareaState = stringUtils.stringToBool(this.readonly) ? ' readonly' : '';
     textareaState = stringUtils.stringToBool(this.disabled) ? ' disabled' : textareaState;
-    let textareaClass = `ids-textarea-field ${this.size} ${this.textAlign}`;
+    let textareaClass = `ids-textarea-field ${this.textAlign}`;
     textareaClass += stringUtils.stringToBool(this.resizable) ? ' resizable' : '';
     textareaClass = ` class="${textareaClass}"`;
 
@@ -147,7 +147,7 @@ class IdsTextarea extends mix(IdsElement).with(
         <label for="${ID}" class="label-text">
           <ids-text part="label">${this.label}</ids-text>
         </label>
-        <div class="field-container">
+        <div class="field-container ${this.size}">
           <textarea part="textarea" id="${ID}"${textareaClass}${placeholder}${textareaState}${maxlength}${rows} value="${value}"></textarea>
         </div>
         ${counter}
@@ -171,15 +171,18 @@ class IdsTextarea extends mix(IdsElement).with(
       };
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
-        this.rootEl?.classList.remove(options.prop2);
+        this.container.classList.remove(options.prop2);
+        this.container.querySelector('ids-text').removeAttribute(options.prop2);
         msgNodes.forEach((x) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
-        this.rootEl?.classList.add(options.prop1);
+        this.container.classList.add(options.prop1);
+        this.container.querySelector('ids-text').setAttribute(options.prop1, 'true');
         msgNodes.forEach((x) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
-        this.rootEl?.classList.remove(options.prop1);
+        this.container.classList.remove(options.prop1);
+        this.container.querySelector('ids-text').removeAttribute(options.prop1);
         msgNodes.forEach((x) => x.classList.remove(options.prop1));
       }
     }
@@ -309,7 +312,7 @@ class IdsTextarea extends mix(IdsElement).with(
       if (!elem) {
         elem = document.createElement('span');
         elem.className = 'textarea-character-counter';
-        this.rootEl?.appendChild(elem);
+        this.container.appendChild(elem);
       }
       this.updateCounter();
     } else {
@@ -330,7 +333,7 @@ class IdsTextarea extends mix(IdsElement).with(
         elem = document.createElement('span');
         elem.className = 'textarea-print';
         elem.textContent = this.value;
-        this.rootEl?.prepend(elem);
+        this.container.prepend(elem);
       }
     } else {
       elem?.remove();
@@ -617,10 +620,8 @@ class IdsTextarea extends mix(IdsElement).with(
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(props.DISABLED, val.toString());
-      this.container.querySelector('ids-text').setAttribute(props.DISABLED, 'true');
     } else {
       this.removeAttribute(props.DISABLED);
-      this.container.querySelector('ids-text').removeAttribute(props.DISABLED);
     }
     this.setTextareaState(props.DISABLED);
   }
@@ -760,10 +761,11 @@ class IdsTextarea extends mix(IdsElement).with(
    * @param {string} value [sm, md, lg, full]
    */
   set size(value) {
+    const fieldContainer = this.shadowRoot.querySelector('.field-container');
     const size = SIZES[value];
     this.setAttribute(props.SIZE, size || SIZES.default);
-    this.input?.classList.remove(...Object.values(SIZES));
-    this.input?.classList.add(size || SIZES.default);
+    fieldContainer?.classList.remove(...Object.values(SIZES));
+    fieldContainer?.classList.add(size || SIZES.default);
   }
 
   get size() { return this.getAttribute(props.SIZE) || SIZES.default; }

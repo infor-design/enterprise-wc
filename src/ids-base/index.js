@@ -1,4 +1,13 @@
-export { default as IdsThemeMixin } from './ids-theme-mixin';
-export { default as IdsEventsMixin } from './ids-events-mixin';
-export { default as IdsKeyboardMixin } from './ids-keyboard-mixin';
+export { props, prefix } from './ids-constants';
+export { default as IdsDataSource } from './ids-data-source';
+export { default as IdsDeepCloneUtils } from './ids-deep-clone-utils';
+export { default as IdsDOMUtils } from './ids-dom-utils';
+export {
+  IdsElement,
+  customElement,
+  appendIds,
+  mix,
+  scss,
+  stringUtils
+} from './ids-element';
 export { default as IdsStringUtils } from './ids-string-utils';

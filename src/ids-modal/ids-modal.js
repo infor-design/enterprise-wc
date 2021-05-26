@@ -8,11 +8,14 @@ import {
 import debounce from '../ids-base/ids-debouncer';
 import { props } from '../ids-base/ids-constants';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsKeyboardMixin } from '../ids-base/ids-keyboard-mixin';
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
-import { IdsResizeMixin } from '../ids-base/ids-resize-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import {
+  IdsEventsMixin,
+  IdsKeyboardMixin,
+  IdsRenderLoopMixin,
+  IdsRenderLoopItem,
+  IdsResizeMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import zCounter from './ids-modal-z-counter';
 import IdsPopup from '../ids-popup/ids-popup';

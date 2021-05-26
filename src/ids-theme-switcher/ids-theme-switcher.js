@@ -4,10 +4,13 @@ import {
   mix,
   props,
   scss
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+// Supporting Components
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+
+// Import Mixins
+import { IdsEventsMixin } from '../ids-mixins';
 
 import styles from './ids-theme-switcher.scss';
 

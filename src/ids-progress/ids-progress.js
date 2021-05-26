@@ -5,12 +5,12 @@ import {
   mix,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 import styles from './ids-progress.scss';
 
-// Mixins
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+// Import Mixins
+import { IdsEventsMixin } from '../ids-mixins';
 
 // Defaults
 const ID = 'ids-progress-id';

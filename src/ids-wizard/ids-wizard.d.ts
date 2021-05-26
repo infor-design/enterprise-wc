@@ -1,4 +1,4 @@
-import { IdsElement } from '../ids-base/ids-element';
+import { IdsElement } from '../ids-base';
 import IdsWizardStep from './ids-wizard-step';
 
 export { IdsWizardStep };

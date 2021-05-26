@@ -198,6 +198,22 @@ class IdsRenderLoop {
     // If this is undefined, an item was NOT removed from the queue successfully.
     return removedItem;
   }
+
+  /**
+   * Equivalent to wrapping any function with `requestAnimationFrame` to have it run on the
+   * next possible repaint.
+   * @param {Function} timeoutCallback runs on the next available `requestAnimationFrame` tick
+   * @returns {void}
+   */
+  onNextTick(timeoutCallback) {
+    /* istanbul ignore next */
+    if (typeof timeoutCallback === 'function') {
+      this.register(new IdsRenderLoopItem({
+        duration: 1,
+        timeoutCallback
+      }));
+    }
+  }
 }
 
 export { IdsRenderLoop, IdsRenderLoopItem };

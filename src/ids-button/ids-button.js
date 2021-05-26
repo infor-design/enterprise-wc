@@ -5,12 +5,10 @@ import {
   scss,
   props,
   stringUtils
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsTooltipMixin } from '../ids-base/ids-tooltip-mixin';
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop/ids-render-loop-mixin';
+import { IdsEventsMixin, IdsThemeMixin, IdsTooltipMixin } from '../ids-mixins';
+import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-mixins/ids-render-loop-mixin';
 
 import styles from './ids-button.scss';
 

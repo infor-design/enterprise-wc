@@ -11,8 +11,8 @@ import {
   NON_DIGITS_REGEX
 } from './ids-mask-common';
 
-import { IdsDeepCloneUtils } from '../ids-base/ids-deep-clone-utils';
-import { IdsStringUtils } from '../ids-base/ids-string-utils';
+import { cloneUtils } from '../ids-base/ids-deep-clone-utils';
+import { stringUtils } from '../ids-base/ids-string-utils';
 
 // Default Number Mask Options
 export const DEFAULT_NUMBER_MASK_OPTIONS = {
@@ -130,7 +130,7 @@ function getRegexForPart(part, type) {
  * @returns {object} containing a mask that will match a formatted number.
  */
 export function numberMask(rawValue, options) {
-  let thisOptions = IdsDeepCloneUtils.deepClone(DEFAULT_NUMBER_MASK_OPTIONS);
+  let thisOptions = cloneUtils.deepClone(DEFAULT_NUMBER_MASK_OPTIONS);
   thisOptions = Object.assign(thisOptions, options);
 
   const PREFIX = thisOptions.prefix;
@@ -152,11 +152,15 @@ export function numberMask(rawValue, options) {
 
   //
   if (thisRawValue === EMPTY_STRING || (thisRawValue[0] === PREFIX[0] && rawValueLength === 1)) {
-    mask = PREFIX.split(EMPTY_STRING).concat([DIGITS_REGEX]).concat(SUFFIX.split(EMPTY_STRING));
+    mask = PREFIX.split(EMPTY_STRING)
+      .concat([DIGITS_REGEX])
+      .concat(SUFFIX.split(EMPTY_STRING));
   }
   // If the only item in the rawValue is a decimal, build out a simple 0 mask
   if (thisRawValue === DECIMAL && thisOptions.allowDecimal) {
-    mask = PREFIX.split(EMPTY_STRING).concat(['0', DECIMAL, DIGITS_REGEX]).concat(SUFFIX.split(EMPTY_STRING));
+    mask = PREFIX.split(EMPTY_STRING)
+      .concat(['0', CARET_TRAP, DECIMAL, CARET_TRAP, DIGITS_REGEX])
+      .concat(SUFFIX.split(EMPTY_STRING));
   }
 
   // If the mask is populated at this point, return it
@@ -316,7 +320,7 @@ function getSplitterRegex(splitterStr) {
  * along with extra meta-data about the characters contained.
  */
 export function dateMask(rawValue = '', options = {}) {
-  let thisOptions = IdsDeepCloneUtils.deepClone(DEFAULT_DATETIME_MASK_OPTIONS);
+  let thisOptions = cloneUtils.deepClone(DEFAULT_DATETIME_MASK_OPTIONS);
   thisOptions = Object.assign(thisOptions, options);
 
   let mask = [];
@@ -327,7 +331,7 @@ export function dateMask(rawValue = '', options = {}) {
 
   const digitRegex = DIGITS_REGEX;
   const format = thisOptions.format;
-  const splitterStr = IdsStringUtils.removeDuplicates(format.replace(/[dMyHhmsa]+/g, ''));
+  const splitterStr = stringUtils.removeDuplicates(format.replace(/[dMyHhmsa]+/g, ''));
 
   /* istanbul ignore next */
   const splitterRegex = getSplitterRegex(splitterStr);
