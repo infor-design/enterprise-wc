@@ -4,11 +4,10 @@ import {
   scss,
   mix,
   props
-} from '../ids-base/ids-element';
+} from '../ids-base';
 
 // Import Mixins
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
+import { IdsEventsMixin, IdsThemeMixin } from '../ids-mixins';
 
 import styles from './ids-breadcrumb.scss';
 
@@ -31,12 +30,17 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
    * @returns {string} The template
    */
   template() {
+    const markup = Array.from(this.children).reduce((a, c, i) => {
+      c.setAttribute('slot', "item-"+i);
+      a += `<li><slot name="item-${i}"></slot></li>`;
+      return a;
+    }, '');
 
     return `
       <div class="ids-breadcrumb">
         <nav>
           <ul>
-            <slot></slot>
+            ${markup}
           </ul>
         </nav>   
       </div>`;
