@@ -173,7 +173,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     containerClass += stringUtils.stringToBool(this.compact) ? ' compact' : '';
 
     const labelHtml = !this.label || this.getAttribute(props.LABEL_HIDDEN) ? '' : (
-      `<label for="${this.id}-input" class="label-text">
+      `<label for="${this.id}-input" class="ids-label-text">
         <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
       </label>`
     );
@@ -203,10 +203,25 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
 
   /**
    * @readonly
-   * @returns {HTMLLabelElement} the inner `label` element
+   * @returns {HTMLLabelElement} the inner `label` element or
+   * reference to what was last provided by setLabelElement
    */
   get labelEl() {
-    return this.shadowRoot?.querySelector(`label`);
+    if(!this.#labelEl) {
+      return (
+        this.#labelEl ||
+        this.shadowRoot?.querySelector(`[for="${this.id}input"]`)
+      );
+    }
+  }
+
+  /**
+   * setter for label element; since reflected attributes
+   * cannot be non serializable refs
+   * @param {HTMLElement} el element representing the label
+   */
+  setLabelElement(el) {
+    this.#labelEl = el;
   }
 
   /**
@@ -250,9 +265,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   setLabelText(value) {
-    const labelText = this.shadowRoot.querySelector(`[for="${this.id}-input"] ids-text`);
-    if (labelText) {
-      labelText.innerHTML = value || '';
+    if (this.#labelEl) {
+      this.#labelEl.innerHTML = value || '';
+      return;
+    }
+
+    const labelEl = this.shadowRoot.querySelector(`[for="${this.id}-input"] ids-text`);
+    if (labelEl) {
+      labelEl.innerHTML = value || '';
     }
   }
 
@@ -499,6 +519,11 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get disabled() { return this.getAttribute(props.DISABLED); }
+
+  /**
+   * internal reference to a label element a user provides
+   */
+  #labelEl;
 
   /**
    * Set the `label` text of input label
