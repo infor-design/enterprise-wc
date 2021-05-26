@@ -1,0 +1,21 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">BREADCRUMBS</ids-text>
+</ids-layout-grid>
+<ids-breadcrumb name="is" nickname="this" lastname="working?">
+  <ids-breadcrumb-item crumb-type="link" font-size="14" href="#">Home</ids-breadcrumb-item>
+  <ids-breadcrumb-item crumb-type="link" font-size="14" href="#">Second Item</ids-breadcrumb-item>
+  <ids-breadcrumb-item crumb-type="link" font-size="14" href="#">Third Item</ids-breadcrumb-item>
+  <ids-breadcrumb-item crumb-type="link" disabled href="#">Fourth Item</ids-breadcrumb-item>
+  <ids-breadcrumb-item crumb-type="text" font-size="14" display="inline">Fourth Item</ids-breadcrumb-item>
+  <ids-breadcrumb-item crumb-type="text" font-size="14" display="inline" disabled>Fourth Item</ids-breadcrumb-item>
+  <!-- <ids-hyperlink href="#">Fifth Item</ids-hyperlink> -->
+</ids-breadcrumb>
+<div>
+  <ids-button type="primary">Add Link</ids-button>
+  <ids-button type="primary">Add Text</ids-button>
+  <ids-button type="secondary">Remove</ids-button>
+</div>
+
+{{> ../layouts/footer.html }}
