@@ -50,6 +50,7 @@ class IdsSpinbox extends mix(IdsElement).with(
     return [
       props.DIRTY_TRACKER,
       props.DISABLED,
+      props.LABEL_REQUIRED,
       props.MAX,
       props.MIN,
       props.STEP,
@@ -70,11 +71,11 @@ class IdsSpinbox extends mix(IdsElement).with(
 
     const labelHtml = (
       `<label
-        ${ buildClassAttrib('label', this.disabled && 'disabled') }
+        ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
         part="container"
         for="${this.id}-input-input"
       >
-        <ids-text color="unset" font-size="14" ${disabledAttribHtml}>${this.label}</ids-text>
+        <ids-text color="unset" ${disabledAttribHtml}>${this.label}</ids-text>
       </label>`
     );
 
@@ -144,6 +145,16 @@ class IdsSpinbox extends mix(IdsElement).with(
       allowDecimal: false,
       allowNegative: true
     };
+
+    const labelEl = this.container.children[0];
+    this.onEvent('click.label', labelEl, () => {
+      const isDisabled = stringToBool(this.getAttribute(props.DISABLED));
+      if(isDisabled) {
+        this.input.input?.focus();
+      }
+    });
+    this.input.setLabelElement(labelEl);
+
 
     this.onEvent('click.decrement', this.#decrementButton, () => {
       this.#onDecrementStep();
@@ -417,6 +428,28 @@ class IdsSpinbox extends mix(IdsElement).with(
       this.#incrementButton?.removeAttribute('disabled');
     }
   }
+
+  /**
+   * @param {string|boolean} value whether the spinbox should have a
+   * required form input
+   */
+   set labelRequired(value) {
+    const isValueTruthy = stringUtils.stringToBool(value);
+
+    if (isValueTruthy) {
+      this.setAttribute(props.LABEL_REQUIRED, true);
+      this.input.setAttribute(props.LABEL_REQUIRED, true);
+    } else {
+      this.removeAttribute(props.LABEL_REQUIRED);
+      this.input.removeAttribute(props.LABEL_REQUIRED);
+    }
+  }
+
+  /**
+   * @returns {string|boolean} value whether the spinbox has a
+   * required form input
+   */
+  get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
 }
 
 export default IdsSpinbox;
