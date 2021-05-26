@@ -39,8 +39,8 @@ const INPUT_PROPS = [
   props.DISABLED,
   props.FIELD_HEIGHT,
   props.LABEL,
-  props.LABEL_REQUIRED,
   props.LABEL_HIDDEN,
+  props.LABEL_REQUIRED,
   props.ID,
   props.MODE,
   props.PLACEHOLDER,
@@ -206,10 +206,25 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
 
   /**
    * @readonly
-   * @returns {HTMLLabelElement} the inner `label` element
+   * @returns {HTMLLabelElement} the inner `label` element or
+   * reference to what was last provided by setLabelElement
    */
   get labelEl() {
-    return this.shadowRoot?.querySelector(`[for="${this.id}input"]`);
+    if(!this.#labelEl) {
+      return (
+        this.#labelEl ||
+        this.shadowRoot?.querySelector(`[for="${this.id}input"]`)
+      );
+    }
+  }
+
+  /**
+   * setter for label element; since reflected attributes
+   * cannot be non serializable refs
+   * @param {HTMLElement} el element representing the label
+   */
+  setLabelElement(el) {
+    this.#labelEl = el;
   }
 
   /**
@@ -252,9 +267,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   setLabelText(value) {
-    const labelText = this.shadowRoot.querySelector(`[for="${this.id}-input"] ids-text`);
-    if (labelText) {
-      labelText.innerHTML = value || '';
+    if (this.#labelEl) {
+      this.#labelEl.innerHTML = value || '';
+      return;
+    }
+
+    const labelEl = this.shadowRoot.querySelector(`[for="${this.id}-input"] ids-text`);
+    if (labelEl) {
+      labelEl.innerHTML = value || '';
     }
   }
 
@@ -485,6 +505,11 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get disabled() { return this.getAttribute(props.DISABLED); }
+
+  /**
+   * internal reference to a label element a user provides
+   */
+  #labelEl;
 
   /**
    * Set the `label` text of input label
