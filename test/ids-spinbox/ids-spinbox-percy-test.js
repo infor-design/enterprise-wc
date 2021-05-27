@@ -1,11 +1,5 @@
 import percySnapshot from '@percy/puppeteer';
 
-const processAnimFrame = () => new Promise((resolve) => {
-  window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(resolve);
-  });
-});
-
 describe('Ids Spinbox Percy Tests', () => {
   const url = 'http://localhost:4444/ids-spinbox';
 
