@@ -12,12 +12,14 @@ import {
   IdsThemeMixin
 } from '../ids-mixins';
 
+import '../ids-color/ids-color';
+
 // @ts-ignore
 import styles from './ids-color-picker.scss';
 
 /**
  * IDS ColorPicker
- * @type {ColorPicker}
+ * @type {IdsColorPicker}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
@@ -35,38 +37,36 @@ import styles from './ids-color-picker.scss';
   }
 
   /**
-   * @returns {Array<string>} this component's observable properties
-   */
+  * @returns {Array<string>} this component's observable properties
+  */
    static get properties() {
     return [...props.MODE, 'swatch', props.VALUE, props.VERSION];
   }
 
   /**
-   * Create the Template for the contents
-   * @returns {string} The template
-   */
-   template() {
-     return `<div class="ids-color-picker">Color Picker</div>`;
-   }
+  * Create the Template for the contents
+  * @returns {string} The template
+  */
+  template() {
+   return `<div class="ids-color-picker"><slot></slot></div>`;
+  }
 
    set value(v) {
-     console.log('value!')
-     this.setAttribute('value', v.toString());
+    this.setAttribute('value', v.toString());
    }
 
    get value() {
-     return this.getAttribute('value') || 0;
+    return this.getAttribute('value') || 0;
    }
 
    set swatch(s) {
-     console.log('swatch!')
-     this.setAttribute('swatch', s.toString());
+    his.setAttribute('swatch', s.toString());
    }
 
    get swatch() {
-     return this.getAttribute('swatch') || 'true';
+    return this.getAttribute('swatch') || 'true';
    }
   
  }
 
- export default IdsColorPicker;
+export default IdsColorPicker;
