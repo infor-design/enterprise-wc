@@ -90,10 +90,13 @@ class IdsButton extends mix(IdsElement).with(
       switch (name) {
       // Convert "tabindex" to "tabIndex"
       case 'tabindex':
+        if (Number.isNaN(Number.parseInt(newValue))) {
+          this.tabIndex = null;
+        }
         this.tabIndex = Number(newValue);
         break;
       default:
-        IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+        super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
         break;
       }
     }
@@ -295,6 +298,7 @@ class IdsButton extends mix(IdsElement).with(
       this.removeAttribute(props.DISABLED);
     }
 
+    this.shouldUpdate = true;
     this.state.disabled = isValueTruthy;
 
     /* istanbul ignore next */
@@ -316,6 +320,7 @@ class IdsButton extends mix(IdsElement).with(
     this.shouldUpdate = true;
 
     const trueVal = Number(val);
+
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabIndex = 0;
       this.button.setAttribute(props.TABINDEX, '0');
