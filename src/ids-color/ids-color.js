@@ -61,6 +61,8 @@ import styles from './ids-color.scss';
   handleEvents() {
 
   }
+
+  colorPicker
 }
 
 export default IdsColor;
