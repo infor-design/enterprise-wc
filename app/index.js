@@ -35,6 +35,7 @@ import IdsRating from '../src/ids-rating/ids-rating';
 import IdsWizard, { IdsWizardStep } from '../src/ids-wizard';
 import IdsModal, { IdsOverlay } from '../src/ids-modal';
 import IdsTabs, { IdsTab } from '../src/ids-tabs';
+import IdsColorPicker from '../src/ids-color-picker/ids-color-picker';
 
 // Import Example Code
 
