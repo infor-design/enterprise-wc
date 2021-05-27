@@ -26,8 +26,6 @@ import {
   IdsTooltipMixin
 } from '../ids-mixins';
 
-let instanceCounter = 0;
-
 // Properties observed by the Input
 const INPUT_PROPS = [
   props.AUTOSELECT,
@@ -565,24 +563,13 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
 
   get label() { return this.getAttribute(props.LABEL) || ''; }
 
-  set labelHidden(value) {
-    if (stringToBool(value)) {
-      this?.setAttribute(props.LABEL_HIDDEN, '');
-    } else {
-      this?.removeAttribute(props.LABEL_HIDDEN);
-    }
-  }
-
-  get labelHidden() {
-    return this.getAttribute(props.LABEL_HIDDEN);
-  }
-
   /**
    * Set `label-required` attribute
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
     const val = stringUtils.stringToBool(value);
+
     if (val) {
       this.setAttribute(props.LABEL_REQUIRED, val.toString());
     } else {

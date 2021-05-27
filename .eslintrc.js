@@ -88,6 +88,8 @@ module.exports = {
     'prefer-destructuring': ['off', { }],
     // Allow i++
     'no-plusplus': ['off', { }],
+    // valid for readability in async tests
+    'no-await-in-loop': ['off', { }],
     // Allow console.info
     'no-console': ['error', { allow: ['error', 'info'] }],
     'template-curly-spacing': ['off'],

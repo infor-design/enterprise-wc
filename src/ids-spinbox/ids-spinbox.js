@@ -26,14 +26,13 @@ let instanceCounter = 0;
  * IDS Spinbox Component
  * @type {IdsSpinbox}
  * @inherits IdsElement
- *
  * @part container the overall container of the spinbox
  * @part button increment/decrement button
  * @part input input containing value/placeholder
  */
 @customElement('ids-spinbox')
 @scss(styles)
-class IdsSpinbox extends mix(IdsElement).with(
+export default class IdsSpinbox extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsDirtyTrackerMixin
@@ -149,12 +148,11 @@ class IdsSpinbox extends mix(IdsElement).with(
     const labelEl = this.container.children[0];
     this.onEvent('click.label', labelEl, () => {
       const isDisabled = stringToBool(this.getAttribute(props.DISABLED));
-      if(isDisabled) {
+      if (isDisabled) {
         this.input.input?.focus();
       }
     });
     this.input.setLabelElement(labelEl);
-
 
     this.onEvent('click.decrement', this.#decrementButton, () => {
       this.#onDecrementStep();
@@ -278,7 +276,7 @@ class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * @param {number | string} value spinbox' current input value
+   * @returns {number | string} spinbox' current input value
    */
   get value() {
     return this.getAttribute(props.VALUE);
@@ -317,7 +315,7 @@ class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * @param {boolean|string} whether to enable the dirty-tracker functionality
+   * @param {boolean|string} value whether to enable the dirty-tracker functionality
    */
   set dirtyTracker(value) {
     const val = stringToBool(value);
@@ -370,6 +368,7 @@ class IdsSpinbox extends mix(IdsElement).with(
    * @type {IdsButton}
    */
   #decrementButton;
+
   /**
    * callback to increment value by step
    * @type {Function}
@@ -433,7 +432,7 @@ class IdsSpinbox extends mix(IdsElement).with(
    * @param {string|boolean} value whether the spinbox should have a
    * required form input
    */
-   set labelRequired(value) {
+  set labelRequired(value) {
     const isValueTruthy = stringUtils.stringToBool(value);
 
     if (isValueTruthy) {
@@ -451,5 +450,3 @@ class IdsSpinbox extends mix(IdsElement).with(
    */
   get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
 }
-
-export default IdsSpinbox;
