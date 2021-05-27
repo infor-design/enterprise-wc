@@ -207,12 +207,11 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * reference to what was last provided by setLabelElement
    */
   get labelEl() {
-    if(!this.#labelEl) {
-      return (
-        this.#labelEl ||
-        this.shadowRoot?.querySelector(`[for="${this.id}input"]`)
-      );
-    }
+
+    return (
+      this.#labelEl ||
+      this.shadowRoot?.querySelector(`[for="${this.id}-input"]`)
+    );
   }
 
   /**
@@ -281,9 +280,31 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set labelHidden(value) {
     if (stringUtils.stringToBool(value)) {
-      this?.setAttribute(props.LABEL_HIDDEN, '');
+      this?.setAttribute(props.LABEL_HIDDEN, true);
+      const existingLabel = this.shadowRoot.querySelector('label');
+      if (existingLabel) {
+        existingLabel.remove();
+      }
+
+      this.input?.setAttribute?.('aria-label', this.label);
     } else {
       this?.removeAttribute(props.LABEL_HIDDEN);
+
+      /* istanbul ignore else */
+      if (this.input) {
+        this.input?.removeAttribute('aria-label');
+
+        const labelTemplate = document.createElement('template');;
+        labelTemplate.innerHTML = (
+          `<label for="${this.id}-input" class="ids-label-text">
+            <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
+          </label>`
+        );
+        this.container.insertBefore(
+          labelTemplate.content.childNodes[0],
+          this.container.querySelector('field-container')
+        );
+      }
     }
   }
 

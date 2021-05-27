@@ -143,6 +143,68 @@ describe('IdsInput Component', () => {
     expect(input.labelRequired).toEqual('true');
   });
 
+  it('should have an input with "aria-label" set when label-hidden ' +
+  'is flagged and a label exists, then toggles this by unsetting it', async () => {
+    input.labelHidden = true;
+    expect(input.labelHidden).toBeTruthy();
+    await processAnimFrame();
+
+    expect(input.shadowRoot.querySelector('label')).toBeFalsy();
+    expect(input.input.getAttribute('aria-label')?.length).toBeGreaterThan(0);
+
+    input.labelHidden = false;
+    expect(input.labelHidden).toBeFalsy();
+    await processAnimFrame();
+
+    expect(input.shadowRoot.querySelector('label')).toBeTruthy();
+    expect(input.input.hasAttribute('aria-label')).toBeFalsy();
+  });
+
+  it('renders label-hidden from a template with no issues', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input" label-hidden></ids-input>';
+
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('should be able to assign an external label element via setLabelElement ' +
+  'setter', async () => {
+    input.label = undefined;
+    input.render();
+    await processAnimFrame();
+
+    const newLabelTemplate = document.createElement('template');
+    newLabelTemplate.innerHTML = '<label>random external label</label>';
+    const newLabel = newLabelTemplate.content.childNodes[0];
+    input.setLabelElement(newLabel);
+    await processAnimFrame();
+
+    expect(input.shadowRoot.querySelector('label')).toBeFalsy();
+  });
+
+  it('sets the label text of an external label element', async () => {
+    input.label = undefined;
+    input.render();
+    await processAnimFrame();
+
+    const newLabelTemplate = document.createElement('template');
+    newLabelTemplate.innerHTML = '<label>random external label</label>';
+    const newLabel = newLabelTemplate.content.childNodes[0];
+    input.setLabelElement(newLabel);
+    input.setLabelText('a new label');
+    await processAnimFrame();
+    expect(newLabel.innerHTML).toEqual('a new label');
+    input.setLabelText(undefined);
+    await processAnimFrame();
+    expect(newLabel.innerHTML).toEqual('');
+  });
+
   it('should set value', () => {
     expect(input.value).toEqual('');
     input.value = 'test';
