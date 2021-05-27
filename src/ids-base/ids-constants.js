@@ -5,7 +5,13 @@ export const props = {
   ANIMATED: 'animated',
   ANIMATION_STYLE: 'animation-style',
   ALIGN: 'align',
+  ALIGN_EDGE: 'align-edge',
+  ALIGN_TARGET: 'align-target',
+  ALIGN_X: 'align-x',
+  ALIGN_Y: 'align-y',
   APPEARANCE: 'appearance',
+  ARROW: 'arrow',
+  ARROW_TARGET: 'arrow-target',
   AUDIBLE: 'audible',
   AUTO: 'auto',
   AUTOGROW: 'autogrow',
@@ -120,6 +126,8 @@ export const props = {
   VERSION: 'version',
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
+  X: 'x',
+  Y: 'y'
 };
 // Please keep constants alphabetized
 

@@ -46,19 +46,19 @@ const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt'];
 // Properties exposed with getters/setters
 // safeSet/RemoveAttribute also use these so we pull them out
 const POPUP_PROPERTIES = [
-  'align',
-  'align-x',
-  'align-y',
-  'align-edge',
-  'align-target',
-  'arrow',
-  'arrow-target',
+  props.ALIGN,
+  props.ALIGN_X,
+  props.ALIGN_Y,
+  props.ALIGN_EDGE,
+  props.ALIGN_TARGET,
+  props.ARROW,
+  props.ARROW_TARGET,
   props.ANIMATED,
   props.ANIMATION_STYLE,
   props.TYPE,
   props.VISIBLE,
-  'x',
-  'y'
+  props.X,
+  props.Y
 ];
 
 /**
@@ -93,6 +93,7 @@ function formatAlignAttribute(alignX, alignY, edge) {
  * @type {IdsPopup}
  * @inherits IdsElement
  * @mixes IdsRenderLoopMixin
+ * @mixes IdsResizeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part popup - the popup outer element
@@ -108,24 +109,20 @@ class IdsPopup extends mix(IdsElement).with(
   ) {
   constructor() {
     super();
-    this.alignment = {
-      edge: ALIGNMENT_EDGES[0],
-      target: undefined,
-      x: ALIGNMENTS_X[0],
-      y: ALIGNMENTS_Y[0]
-    };
-    this.coords = {
+    this.state = {
+      alignEdge: ALIGNMENT_EDGES[0],
+      alignTarget: undefined,
+      alignX: ALIGNMENTS_X[0],
+      alignY: ALIGNMENTS_Y[0],
+      arrow: ARROW_TYPES[0],
+      arrowTarget: null,
+      animated: false,
+      animationStyle: ANIMATION_STYLES[0],
+      visible: false,
+      type: 'none',
       x: 0,
       y: 0
     };
-    this.state = {
-      arrow: ARROW_TYPES[0],
-      arrowTarget: null,
-      animationStyle: ANIMATION_STYLES[0],
-    };
-    this.isVisible = false;
-    this.isAnimated = false;
-    this.trueType = 'none';
     this.shouldUpdate = true;
   }
 
@@ -134,10 +131,15 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {void}
    */
   connectedCallback() {
-    this.animated = this.hasAttribute('animated');
+    this.animated = this.hasAttribute(props.ANIMATED);
     this.animationStyle = this.getAttribute(props.ANIMATION_STYLE) || this.animationStyle;
-    this.trueType = this.getAttribute('type') || this.trueType;
-    this.isVisible = this.hasAttribute('visible');
+    this.#setAnimationStyle(this.animationStyle);
+
+    this.state.type = this.getAttribute(props.TYPE) || this.state.type;
+    this.#setPopupTypeClass(this.state.type);
+
+    this.state.visible = this.hasAttribute(props.VISIBLE);
+
     this.handleEvents();
     super.connectedCallback();
 
@@ -154,7 +156,7 @@ class IdsPopup extends mix(IdsElement).with(
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (this.shouldUpdate) {
-      IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+      super.attributeChangedCallback(name, oldValue, newValue);
     }
   }
 
@@ -163,7 +165,31 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {Array} The properties in an array
    */
   static get properties() {
-    return POPUP_PROPERTIES;
+    return [...super.properties, ...POPUP_PROPERTIES];
+  }
+
+  /**
+   * Inner template contents
+   * @returns {string} The template
+   */
+  template() {
+    return `<div class="ids-popup" part="popup">
+      <div class="arrow" part="arrow"></div>
+      <div class="content-wrapper">
+        <slot name="content"></slot>
+      </div>
+    </div>`;
+  }
+
+  /**
+   * @private
+   * @returns {void}
+   */
+  handleEvents() {
+    const slot = this.shadowRoot.querySelector('slot');
+    this.onEvent('slotchange', slot, () => {
+      this.refresh();
+    });
   }
 
   /**
@@ -183,8 +209,8 @@ class IdsPopup extends mix(IdsElement).with(
     const isElem = val instanceof HTMLElement;
 
     if (!isString && !isElem) {
-      this.alignment.target = undefined;
-      this.removeAttribute('align-target');
+      this.state.alignTarget = undefined;
+      this.removeAttribute(props.ALIGN_TARGET);
       this.refresh();
       return;
     }
@@ -197,12 +223,12 @@ class IdsPopup extends mix(IdsElement).with(
       if (!(elem instanceof HTMLElement)) {
         return;
       }
-      this.setAttribute('align-target', val);
+      this.setAttribute(props.ALIGN_TARGET, val);
     } else {
       elem = val;
     }
 
-    this.alignment.target = elem;
+    this.state.alignTarget = elem;
     this.refresh();
   }
 
@@ -211,7 +237,7 @@ class IdsPopup extends mix(IdsElement).with(
    * coordinates from for relative placement
    */
   get alignTarget() {
-    return this.alignment.target;
+    return this.state.alignTarget;
   }
 
   /**
@@ -265,7 +291,7 @@ class IdsPopup extends mix(IdsElement).with(
     } else {
       attrY = this.alignY;
     }
-    this.setAttribute('align', formatAlignAttribute(attrX, attrY, this.alignment.edge));
+    this.setAttribute(props.ALIGN, formatAlignAttribute(attrX, attrY, this.state.alignEdge));
 
     this.shouldUpdate = true;
     this.refresh();
@@ -294,12 +320,12 @@ class IdsPopup extends mix(IdsElement).with(
       alignX = ALIGNMENTS_X[0];
     }
 
-    this.alignment.x = alignX;
-    const alignY = this.alignment.y;
+    this.state.alignX = alignX;
+    const alignY = this.state.alignY;
 
     // If `align-x` was used directy, standardize against the `align` attribute
-    if (this.hasAttribute('align-x')) {
-      this.safeRemoveAttribute('align-x');
+    if (this.hasAttribute(props.ALIGN_X)) {
+      this.safeRemoveAttribute(props.ALIGN_X);
       this.align = formatAlignAttribute(alignX, alignY, alignX);
     } else if (this.shouldUpdate) {
       this.align = formatAlignAttribute(alignX, alignY, alignX);
@@ -313,7 +339,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} the strategy to use
    */
   get alignX() {
-    return this.alignment.x;
+    return this.state.alignX;
   }
 
   set alignY(val) {
@@ -326,12 +352,12 @@ class IdsPopup extends mix(IdsElement).with(
       alignY = val;
     }
 
-    this.alignment.y = alignY;
-    const alignX = this.alignment.x;
+    this.state.alignY = alignY;
+    const alignX = this.state.alignX;
 
     // If `align-y` was used directy, standardize against the `align` attribute
-    if (this.hasAttribute('align-y')) {
-      this.safeRemoveAttribute('align-y');
+    if (this.hasAttribute(props.ALIGN_Y)) {
+      this.safeRemoveAttribute(props.ALIGN_Y);
       this.align = formatAlignAttribute(alignX, alignY, alignY);
     } else if (this.shouldUpdate) {
       this.align = formatAlignAttribute(alignX, alignY, alignY);
@@ -344,7 +370,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} alignment strategy for the current parent Y alignment
    */
   get alignY() {
-    return this.alignment.y;
+    return this.state.alignY;
   }
 
   /**
@@ -359,8 +385,8 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Sanitize the alignment edge
     let edge;
-    let alignX = this.alignment.x;
-    let alignY = this.alignment.y;
+    let alignX = this.state.alignX;
+    let alignY = this.state.alignY;
     if (ALIGNMENT_EDGES.includes(val)) {
       edge = val;
       if (val === CENTER) {
@@ -371,10 +397,10 @@ class IdsPopup extends mix(IdsElement).with(
       edge = ALIGNMENT_EDGES[0];
     }
 
-    this.alignment.edge = edge;
-    if (this.hasAttribute('align-edge')) {
+    this.state.alignEdge = edge;
+    if (this.hasAttribute(props.ALIGN_EDGE)) {
       this.shouldUpdate = false;
-      this.removeAttribute('align-edge');
+      this.removeAttribute(props.ALIGN_EDGE);
       this.align = formatAlignAttribute(alignX, alignY, edge);
       this.shouldUpdate = true;
     } else if (this.shouldUpdate) {
@@ -387,7 +413,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} representing the current adjacent edge of the parent element
    */
   get alignEdge() {
-    return this.alignment.edge;
+    return this.state.alignEdge;
   }
 
   /**
@@ -395,17 +421,17 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {boolean} val The alignment setting
    */
   set animated(val) {
-    this.isAnimated = stringUtils.stringToBool(val);
-    if (this.isAnimated) {
-      this.safeSetAttribute('animated', true);
+    this.state.animated = stringUtils.stringToBool(val);
+    if (this.state.animated) {
+      this.safeSetAttribute(props.ANIMATED, true);
     } else {
-      this.safeRemoveAttribute('animated');
+      this.safeRemoveAttribute(props.ANIMATED);
     }
     this.refresh();
   }
 
   get animated() {
-    return this.isAnimated;
+    return this.state.animated;
   }
 
   /**
@@ -456,18 +482,18 @@ class IdsPopup extends mix(IdsElement).with(
       trueVal = val;
     }
     if (trueVal !== ARROW_TYPES[0]) {
-      this.safeSetAttribute('arrow', `${trueVal}`);
+      this.safeSetAttribute(props.ARROW, `${trueVal}`);
     } else {
-      this.safeRemoveAttribute('arrow');
+      this.safeRemoveAttribute(props.ARROW);
     }
-    this.refresh();
+    this.#setArrowDirection(this.arrow);
   }
 
   /**
    * @returns {string|null} the arrow setting, or null
    */
   get arrow() {
-    const attr = this.getAttribute('arrow');
+    const attr = this.getAttribute(props.ARROW);
     if (!attr) {
       return ARROW_TYPES[0];
     }
@@ -510,8 +536,7 @@ class IdsPopup extends mix(IdsElement).with(
 
     if (!isString && !isElem) {
       this.state.arrowTarget = undefined;
-      this.removeAttribute('arrow-target');
-      this.refresh();
+      this.removeAttribute(props.ARROW_TARGET);
       return;
     }
 
@@ -523,13 +548,13 @@ class IdsPopup extends mix(IdsElement).with(
       if (!(elem instanceof HTMLElement)) {
         return;
       }
-      this.setAttribute('arrow-target', val);
+      this.setAttribute(props.ARROW_TARGET, val);
     } else {
       elem = val;
     }
 
     this.state.arrowTarget = elem;
-    this.refresh();
+    this.#setArrowDirection(this.arrow);
   }
 
   /**
@@ -546,15 +571,15 @@ class IdsPopup extends mix(IdsElement).with(
    */
   set type(val) {
     if (val && TYPES.includes(val)) {
-      this.trueType = val;
+      this.state.type = val;
     }
 
-    this.safeSetAttribute('type', this.trueType);
-    this.refresh();
+    this.safeSetAttribute(props.TYPE, this.state.type);
+    this.#setPopupTypeClass(this.state.type);
   }
 
   get type() {
-    return this.trueType;
+    return this.state.type;
   }
 
   /**
@@ -577,17 +602,17 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {boolean} val a boolean for displaying or hiding the popup
    */
   set visible(val) {
-    this.isVisible = stringUtils.stringToBool(val);
-    if (this.isVisible) {
-      this.safeSetAttribute('visible', true);
+    this.state.visible = stringUtils.stringToBool(val);
+    if (this.state.visible) {
+      this.safeSetAttribute(props.VISIBLE, true);
     } else {
-      this.safeRemoveAttribute('visible');
+      this.safeRemoveAttribute(props.VISIBLE);
     }
     this.refresh();
   }
 
   get visible() {
-    return this.isVisible;
+    return this.state.visible;
   }
 
   /**
@@ -600,13 +625,13 @@ class IdsPopup extends mix(IdsElement).with(
       trueVal = 0;
     }
 
-    this.coords.x = trueVal;
-    this.setAttribute('x', trueVal.toString());
+    this.state.x = trueVal;
+    this.setAttribute(props.X, trueVal.toString());
     this.refresh();
   }
 
   get x() {
-    return this.coords.x;
+    return this.state.x;
   }
 
   /**
@@ -619,13 +644,13 @@ class IdsPopup extends mix(IdsElement).with(
       trueVal = 0;
     }
 
-    this.coords.y = trueVal;
-    this.setAttribute('y', trueVal.toString());
+    this.state.y = trueVal;
+    this.setAttribute(props.Y, trueVal.toString());
     this.refresh();
   }
 
   get y() {
-    return this.coords.y;
+    return this.state.y;
   }
 
   /**
@@ -644,11 +669,8 @@ class IdsPopup extends mix(IdsElement).with(
       this.addObservedElement(this.resizeDetectionTarget());
     }
 
-    // Set the Popup type
-    this.#setPopupTypeClass(this.trueType);
-
     // Make the popup actually render before doing placement calcs
-    if (this.isVisible) {
+    if (this.state.visible) {
       this.container.classList.add('visible');
     } else {
       this.container.classList.remove('open');
@@ -692,7 +714,7 @@ class IdsPopup extends mix(IdsElement).with(
     this.openCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 70,
       timeoutCallback: () => {
-        if (this.isVisible) {
+        if (this.state.visible) {
           // If an arrow is displayed, place it correctly.
           this.placeArrow();
 
@@ -705,7 +727,7 @@ class IdsPopup extends mix(IdsElement).with(
           });
           this.container.classList.add('open');
         }
-        if (!this.isAnimated && this.container.classList.contains('animated')) {
+        if (!this.state.animated && this.container.classList.contains('animated')) {
           this.container.classList.remove('animated');
         }
       }
@@ -718,7 +740,7 @@ class IdsPopup extends mix(IdsElement).with(
     this.animatedCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 200,
       timeoutCallback: () => {
-        if (!this.isVisible) {
+        if (!this.state.visible) {
           // Always fire the 'hide' event
           this.triggerEvent('hide', this, {
             bubbles: true,
@@ -731,7 +753,7 @@ class IdsPopup extends mix(IdsElement).with(
             this.container.classList.remove('visible');
           }
         }
-        if (this.isAnimated && !this.container.classList.contains('animated')) {
+        if (this.state.animated && !this.container.classList.contains('animated')) {
           this.container.classList.add('animated');
         }
       }
@@ -978,30 +1000,6 @@ class IdsPopup extends mix(IdsElement).with(
       } else if (style === newStyle && !thisCl.contains(targetClassName)) {
         thisCl.add(targetClassName);
       }
-    });
-  }
-
-  /**
-   * Inner template contents
-   * @returns {string} The template
-   */
-  template() {
-    return `<div class="ids-popup" part="popup">
-      <div class="arrow" part="arrow"></div>
-      <div class="content-wrapper">
-        <slot name="content"></slot>
-      </div>
-    </div>`;
-  }
-
-  /**
-   * @private
-   * @returns {void}
-   */
-  handleEvents() {
-    const slot = this.shadowRoot.querySelector('slot');
-    this.onEvent('slotchange', slot, () => {
-      this.refresh();
     });
   }
 }
