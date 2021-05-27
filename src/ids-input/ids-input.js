@@ -207,10 +207,9 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * reference to what was last provided by setLabelElement
    */
   get labelEl() {
-
     return (
-      this.#labelEl ||
-      this.shadowRoot?.querySelector(`[for="${this.id}-input"]`)
+      this.#labelEl
+      || this.shadowRoot?.querySelector(`[for="${this.id}-input"]`)
     );
   }
 
@@ -294,7 +293,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       if (this.input) {
         this.input?.removeAttribute('aria-label');
 
-        const labelTemplate = document.createElement('template');;
+        const labelTemplate = document.createElement('template');
         labelTemplate.innerHTML = (
           `<label for="${this.id}-input" class="ids-label-text">
             <ids-text part="label" label="true" color-unset>${this.label}</ids-text>

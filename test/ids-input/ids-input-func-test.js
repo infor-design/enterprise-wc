@@ -143,8 +143,8 @@ describe('IdsInput Component', () => {
     expect(input.labelRequired).toEqual('true');
   });
 
-  it('should have an input with "aria-label" set when label-hidden ' +
-  'is flagged and a label exists, then toggles this by unsetting it', async () => {
+  it('should have an input with "aria-label" set when label-hidden '
+  + 'is flagged and a label exists, then toggles this by unsetting it', async () => {
     input.labelHidden = true;
     expect(input.labelHidden).toBeTruthy();
     await processAnimFrame();
@@ -164,7 +164,15 @@ describe('IdsInput Component', () => {
     const errors = jest.spyOn(global.console, 'error');
 
     const template = document.createElement('template');
-    template.innerHTML = '<ids-input label="testing input" label-hidden></ids-input>';
+    template.innerHTML = '<ids-input label="testing input" label-hidden="true"></ids-input>';
+
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    expect(errors).not.toHaveBeenCalled();
+
+    template.innerHTML = '<ids-input label-hidden="true"></ids-input>';
 
     input = template.content.childNodes[0];
     document.body.appendChild(input);
@@ -173,8 +181,8 @@ describe('IdsInput Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should be able to assign an external label element via setLabelElement ' +
-  'setter', async () => {
+  it('should be able to assign an external label element via setLabelElement '
+  + 'setter', async () => {
     input.label = undefined;
     input.render();
     await processAnimFrame();
