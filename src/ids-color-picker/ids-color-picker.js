@@ -13,6 +13,8 @@ import {
 } from '../ids-mixins';
 
 import '../ids-color/ids-color';
+import '../ids-trigger-field/ids-trigger-field';
+import '../ids-trigger-field/ids-trigger-button';
 
 // @ts-ignore
 import styles from './ids-color-picker.scss';
@@ -48,7 +50,22 @@ import styles from './ids-color-picker.scss';
   * @returns {string} The template
   */
   template() {
-   return `<div class="ids-color-picker"><slot></slot></div>`;
+    const template = `
+      <div class="ids-color-picker">
+        <span class="color-preview">
+          <input class="color-input" type="color">
+        </span>
+        <ids-trigger-field tabbable="false">
+          <ids-input label="Color Picker""></ids-input>
+          <ids-trigger-button>
+            <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+        <div class="color-container">
+          <slot></slot>
+        </div>
+      </div>`;
+   return template;
   }
 
    set value(v) {

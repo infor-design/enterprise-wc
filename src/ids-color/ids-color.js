@@ -32,6 +32,7 @@ import styles from './ids-color.scss';
   }
 
   connectedCallback() {
+    this.handleEvents();
   }
 
   /**
@@ -47,6 +48,18 @@ import styles from './ids-color.scss';
   */
   template() {
     return `<div class="ids-color">Ids Color!</div>`;
+  }
+
+  set hex(h) {
+    this.setAttribute('hex', h.toString());
+  }
+
+  get hex() {
+    return getAttribute('hex') || '#000000';
+  }
+
+  handleEvents() {
+
   }
 }
 
