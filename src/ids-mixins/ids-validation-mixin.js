@@ -129,10 +129,6 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       return;
     }
 
-    if (this.#externalValidationEl) {
-      console.log('external validation el existed ->', this.#externalValidationEl);
-    }
-
     // Add error and related details
     const regex = new RegExp(`^\\b(${Object.keys(this.VALIDATION_ICONS).join('|')})\\b$`, 'g');
     const isValidationIcon = type && (regex.test(type));
