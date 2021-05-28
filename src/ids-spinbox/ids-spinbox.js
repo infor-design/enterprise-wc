@@ -66,8 +66,11 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.setAttribute(props.ID, `ids-spinbox-${++instanceCounter}`);
     }
 
-    const disabledAttribHtml = this.disabled ? ' disabled' : '';
+    const disabledAttribHtml = this.disabled
+      ? /* istanbul ignore next */' disabled'
+      : '';
 
+    /* istanbul ignore next */
     const labelHtml = (
       `<label
         ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
@@ -82,6 +85,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.placeholder ? ` placeholder="${this.placeholder}"` : ''
     );
 
+    /* istanbul ignore next */
     return (
       `<div class="ids-spinbox${this.disabled ? ' disabled' : ''}">
           ${labelHtml}
@@ -172,6 +176,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     this.onEvent('focus', this, (e) => {
       const isDisabled = this.hasAttribute(props.DISABLED);
+      /* istanbul ignore next */
       if (!isDisabled) {
         e.preventDefault();
         this.input.focus();
@@ -179,10 +184,12 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     });
 
     this.listen(['ArrowUp', 'ArrowDown'], this, (e) => {
+      /* istanbul ignore next */
       if (stringToBool(this.getAttribute(props.DISABLED))) { return; }
-
+      /* istanbul ignore next */
       const key = e.key;
 
+      /* istanbul ignore next */
       switch (key) {
       case 'ArrowUp':
         this.#onIncrementStep();
@@ -422,7 +429,10 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   #onIncrementStep() {
     const hasValidStep = !Number.isNaN(parseInt(this.step));
-    const step = hasValidStep ? parseInt(this.step) : 1;
+    const step = hasValidStep
+      ? parseInt(this.step)
+      /* istanbul ignore next */
+      : 1;
     this.value = parseInt(this.value) + step;
   }
 
@@ -432,7 +442,10 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   #onDecrementStep() {
     const hasValidStep = !Number.isNaN(parseInt(this.step));
-    const step = hasValidStep ? parseInt(this.step) : 1;
+    const step = hasValidStep
+      ? parseInt(this.step) :
+      /* istanbul ignore next */
+      1;
 
     this.value = parseInt(this.value) - step;
   }
