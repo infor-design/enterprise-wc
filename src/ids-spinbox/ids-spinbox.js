@@ -392,6 +392,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
         validateElTemplate.innerHTML = `<div class="validation-message"></div>`;
         const [validateEl] = [...validateElTemplate.content.childNodes];
         this.container.appendChild(validateEl);
+        this.input?.setValidationElement(validateEl);
       }
     } else {
       this.removeAttribute(props.VALIDATE);
@@ -443,9 +444,9 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   #onDecrementStep() {
     const hasValidStep = !Number.isNaN(parseInt(this.step));
     const step = hasValidStep
-      ? parseInt(this.step) :
+      ? parseInt(this.step)
       /* istanbul ignore next */
-      1;
+      : 1;
 
     this.value = parseInt(this.value) - step;
   }
