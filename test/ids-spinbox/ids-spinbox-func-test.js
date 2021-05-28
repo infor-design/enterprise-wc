@@ -235,6 +235,9 @@ describe('IdsSpinbox Component', () => {
     elem.validate = undefined;
     expect(elem.shadowRoot.querySelector('.validation-message')).toBeNull();
 
+    elem.validate = true;
+    expect(elem.shadowRoot.querySelector('.validation-message')).not.toBeNull();
+
     expect(errors).not.toHaveBeenCalled();
   });
 
