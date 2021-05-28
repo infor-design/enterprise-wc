@@ -191,7 +191,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const { id, type } = settings;
 
     if (!this.#externalValidationEl) {
-      this.shadowRoot.querySelector(`[validation-id="${id}"]`).remove();
+      this.shadowRoot.querySelector(`[validation-id="${id}"]`)?.remove?.();
     } else {
       this.#externalValidationEl.innerHTML = '';
     }
