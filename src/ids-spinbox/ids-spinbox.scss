@@ -29,6 +29,8 @@
 .ids-spinbox.disabled {
   @include text-slate-30();
 
+  pointer-events: none;
+
   ids-input::part(input) {
     @include border-slate-30();
     @include text-slate-30();

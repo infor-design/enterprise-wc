@@ -23,6 +23,10 @@ const DEFAULT_SPINBOX_HTML = (
 describe('IdsSpinbox Component', () => {
   let elem;
 
+  afterEach(async () => {
+    elem?.remove();
+  });
+
   const createElemViaTemplate = async (innerHTML) => {
     elem?.remove?.();
 
@@ -192,5 +196,15 @@ describe('IdsSpinbox Component', () => {
     await processAnimFrame();
 
     expect(parseInt(elem.value)).toEqual(initialValue - step);
+  });
+
+  // Note: JSDOM doesn't accept pointer events so
+  // cannot test the inverse here
+  it('clicks the label and input receives focus', async () => {
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+    const labelEl = elem.shadowRoot.querySelector('.ids-spinbox').children[0];
+    labelEl.click();
+
+    expect(elem.shadowRoot.activeElement).toEqual(elem.input);
   });
 });
