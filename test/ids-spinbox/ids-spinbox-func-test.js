@@ -207,4 +207,47 @@ describe('IdsSpinbox Component', () => {
 
     expect(elem.shadowRoot.activeElement).toEqual(elem.input);
   });
+
+  it('renders a spinbox with a dirty tracker, then removes it with no issues', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+    elem = await createElemViaTemplate(
+      `<ids-spinbox
+        value="0"
+        dirty-tracker
+      ></ids-spinbox>`
+    );
+    expect(document.querySelectorAll('ids-spinbox').length).toEqual(1);
+    expect(elem.dirtyTracker).toEqual('true');
+
+    elem.dirtyTracker = false;
+    expect(elem.dirtyTracker).toEqual(null);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('renders with the validation required attribute without errors', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    elem = await createElemViaTemplate(
+      `<ids-spinbox validate="required"></ids-spinbox>`
+    );
+    expect(elem.shadowRoot.querySelector('.validation-message')).not.toBeNull();
+
+    elem.validate = undefined;
+    expect(elem.shadowRoot.querySelector('.validation-message')).toBeNull();
+
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('toggles the disabled state with no issues', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+
+    elem.disabled = true;
+    expect(elem.disabled).toEqual('true');
+
+    elem.disabled = false;
+    expect(elem.disabled).toEqual(null);
+
+    expect(errors).not.toHaveBeenCalled();
+  });
 });

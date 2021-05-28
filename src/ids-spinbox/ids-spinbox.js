@@ -325,10 +325,10 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * @param {boolean|string} value whether to enable the dirty-tracker functionality
    */
   set dirtyTracker(value) {
-    const val = stringToBool(value);
-    if (val) {
-      this.setAttribute(props.DIRTY_TRACKER, val.toString());
-      this.input.setAttribute(props.DIRTY_TRACKER, val.toString());
+    const isValueTruthy = stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute(props.DIRTY_TRACKER, true);
+      this.input.setAttribute(props.DIRTY_TRACKER, true);
     } else {
       this.removeAttribute(props.DIRTY_TRACKER);
       this.input.removeAttribute(props.DIRTY_TRACKER);
@@ -340,11 +340,15 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
 
+  /**
+   * @param {boolean|string} value whether or not spinbox
+   * interaction is disabled
+   */
   set disabled(value) {
     const isValueTruthy = stringToBool(value);
 
     if (isValueTruthy) {
-      this.setAttribute?.(props.DISABLED, '');
+      this.setAttribute(props.DISABLED, true);
       this.input?.setAttribute?.(props.DISABLED, true);
       this.#incrementButton?.setAttribute?.(props.DISABLED, 'true');
       this.#decrementButton?.setAttribute?.(props.DISABLED, 'true');
@@ -361,6 +365,13 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
+   * @returns {'true'|null} whether or not element is disabled
+   */
+  get disabled() {
+    return this.getAttribute(props.DISABLED);
+  }
+
+  /**
    * Sets the validation check to use
    * @param {string} value The `validate` attribute
    */
@@ -368,12 +379,25 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     if (value) {
       this.setAttribute(props.VALIDATE, value);
       this.input.setAttribute(props.VALIDATE, value);
+
+      if (this.container.children.length === 2) {
+        const validateElTemplate = document.createElement('template');
+        validateElTemplate.innerHTML = `<div class="validation-message"></div>`;
+        const [validateEl] = [...validateElTemplate.content.childNodes];
+        this.container.appendChild(validateEl);
+      }
     } else {
       this.removeAttribute(props.VALIDATE);
       this.input.removeAttribute(props.VALIDATE);
+
+      const validateEl = this.shadowRoot.querySelector('.validation-message');
+      validateEl?.remove?.();
     }
   }
 
+  /**
+   * @returns {string} validation mode to use on input
+   */
   get validate() { return this.getAttribute(props.VALIDATE); }
 
   /**
