@@ -36,7 +36,8 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     if (this.labelEl && this.input && typeof this.validate === 'string' && canRadio) {
       const isCheckbox = this.input?.getAttribute('type') === 'checkbox';
       const defaultEvents = (isCheckbox || isRadioGroup) ? 'change' : 'blur';
-      const events = this.validationEvents && typeof this.validationEvents === 'string' ? this.validationEvents : defaultEvents;
+      const events = (this.validationEvents && typeof this.validationEvents === 'string')
+        ? this.validationEvents : defaultEvents;
       this.validationEventsList = [...new Set(events.split(' '))];
       const getRule = (/** @type {string} */ id) => ({ id, rule: this.rules[id] });
       let isRulesAdded = false;
@@ -118,14 +119,18 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       icon
     } = settings;
 
-    if (!id) {
+    if (!id && !this.#externalValidationEl) {
       return;
     }
 
-    let elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
-    if (elem) {
+    let elem = this.#externalValidationEl || this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+    if (elem && !this.#externalValidationEl) {
       // Already has this message
       return;
+    }
+
+    if (this.#externalValidationEl) {
+      console.log('external validation el existed ->', this.#externalValidationEl);
     }
 
     // Add error and related details
@@ -147,7 +152,12 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const iconHtml = iconName ? `<ids-icon icon="${iconName}" class="ids-icon"></ids-icon>` : '';
 
     // Add error message div and associated aria
-    elem = document.createElement('div');
+    if (!this.#externalValidationEl) {
+      elem = document.createElement('div');
+    } else {
+      elem = this.#externalValidationEl;
+    }
+
     elem.setAttribute('id', messageId);
     elem.setAttribute('validation-id', id);
     elem.setAttribute('type', type);
@@ -159,7 +169,10 @@ const IdsValidationMixin = (superclass) => class extends superclass {
 
     const rootEl = this.shadowRoot.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
     const parent = rootEl || this.shadowRoot;
-    parent.appendChild(elem);
+
+    if (!this.#externalValidationEl) {
+      parent.appendChild(elem);
+    }
 
     // Add extra classes for radios
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
@@ -176,9 +189,13 @@ const IdsValidationMixin = (superclass) => class extends superclass {
    */
   removeMessage(settings) {
     const { id, type } = settings;
-    const elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
 
-    elem?.remove();
+    if (!this.#externalValidationEl) {
+      this.shadowRoot.querySelector(`[validation-id="${id}"]`).remove();
+    } else {
+      this.#externalValidationEl.innerHTML = '';
+    }
+
     if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
       this.input?.classList.remove(type);
       this.input.removeAttribute('aria-describedby');
@@ -290,6 +307,12 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       id: 'email'
     }
   }
+
+  setValidationElement(el) {
+    this.#externalValidationEl = el;
+  }
+
+  #externalValidationEl;
 };
 
 export default IdsValidationMixin;

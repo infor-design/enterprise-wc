@@ -39,8 +39,6 @@ const INPUT_PROPS = [
   props.LABEL,
   props.LABEL_HIDDEN,
   props.LABEL_REQUIRED,
-  props.LABEL_HIDDEN,
-  props.LABEL_REQUIRED,
   props.ID,
   props.MODE,
   props.PLACEHOLDER,
