@@ -60,6 +60,7 @@
     flex-direction: row;
     width: fit-content;
     max-height: 38px;
+    margin-bottom: 4px;
 
     &:focus-visible ids-button::part(button) {
       outline: none;
@@ -88,7 +89,7 @@
       border-left-style: none;
     }
 
-    &:focus-within ids-input::part(input),
+    &:focus-within ids-input::part(input):not(.error),
     &:focus-within ids-button:not([disabled])::part(button) {
       @include border-azure-60();
 

@@ -49,10 +49,10 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     return [
       props.DIRTY_TRACKER,
       props.DISABLED,
-      props.LABEL_REQUIRED,
       props.MAX,
       props.MIN,
       props.STEP,
+      props.VALIDATE,
       props.VALUE
     ];
   }
@@ -109,6 +109,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
               tabindex="-1"
             >+</ids-button>
           </div>
+          ${this.validate ? '<div class="validation-message"></div>' : ''}
       </div>`
     );
   }
@@ -152,6 +153,12 @@ export default class IdsSpinbox extends mix(IdsElement).with(
         this.input.input?.focus();
       }
     });
+
+    if (this.container.children[2]) {
+      const validationEl = this.container.children[2];
+      this.input.setValidationElement(validationEl);
+    }
+
     this.input.setLabelElement(labelEl);
 
     this.onEvent('click.decrement', this.#decrementButton, () => {
@@ -354,6 +361,22 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
+   * Sets the validation check to use
+   * @param {string} value The `validate` attribute
+   */
+  set validate(value) {
+    if (value) {
+      this.setAttribute(props.VALIDATE, value);
+      this.input.setAttribute(props.VALIDATE, value);
+    } else {
+      this.removeAttribute(props.VALIDATE);
+      this.input.removeAttribute(props.VALIDATE);
+    }
+  }
+
+  get validate() { return this.getAttribute(props.VALIDATE); }
+
+  /**
    * div holding spinbox buttons/input
    * @type {HTMLElement}
    */
@@ -427,26 +450,4 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.#incrementButton?.removeAttribute('disabled');
     }
   }
-
-  /**
-   * @param {string|boolean} value whether the spinbox should have a
-   * required form input
-   */
-  set labelRequired(value) {
-    const isValueTruthy = stringUtils.stringToBool(value);
-
-    if (isValueTruthy) {
-      this.setAttribute(props.LABEL_REQUIRED, true);
-      this.input.setAttribute(props.LABEL_REQUIRED, true);
-    } else {
-      this.removeAttribute(props.LABEL_REQUIRED);
-      this.input.removeAttribute(props.LABEL_REQUIRED);
-    }
-  }
-
-  /**
-   * @returns {string|boolean} value whether the spinbox has a
-   * required form input
-   */
-  get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
 }

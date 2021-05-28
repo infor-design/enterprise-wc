@@ -1,3 +1,13 @@
+#ids-spinbox-demo {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin-left: 16px;
+
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
 ids-spinbox {
   margin-bottom: 8px;
 }
