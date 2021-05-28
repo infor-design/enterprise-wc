@@ -148,8 +148,9 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     const labelEl = this.container.children[0];
     this.onEvent('click.label', labelEl, () => {
-      const isDisabled = stringToBool(this.getAttribute(props.DISABLED));
-      if (isDisabled) {
+      const isDisabled = this.hasAttribute(props.DISABLED);
+      /* istanbul ignore else */
+      if (!isDisabled) {
         this.input.input?.focus();
       }
     });
@@ -170,8 +171,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     });
 
     this.onEvent('focus', this, (e) => {
-      const isDisabled = stringToBool(this.getAttribute(props.DISABLED));
-
+      const isDisabled = this.hasAttribute(props.DISABLED);
       if (!isDisabled) {
         e.preventDefault();
         this.input.focus();
