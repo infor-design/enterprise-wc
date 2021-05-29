@@ -148,6 +148,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const iconHtml = iconName ? `<ids-icon icon="${iconName}" class="ids-icon"></ids-icon>` : '';
 
     // Add error message div and associated aria
+    /* istanbul ignore else */
     if (!this.#externalValidationEl) {
       elem = document.createElement('div');
     } else {
@@ -189,6 +190,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     if (!this.#externalValidationEl) {
       this.shadowRoot.querySelector(`[validation-id="${id}"]`)?.remove?.();
     } else {
+      /* istanbul ignore next */
       this.#externalValidationEl.innerHTML = '';
     }
 
