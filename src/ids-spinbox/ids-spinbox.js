@@ -29,6 +29,8 @@ let instanceCounter = 0;
  * @part container the overall container of the spinbox
  * @part button increment/decrement button
  * @part input input containing value/placeholder
+ * @part label label text above the input
+ * @part validation validation message when there is an error
  */
 @customElement('ids-spinbox')
 @scss(styles)
@@ -74,7 +76,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     const labelHtml = (
       `<label
         ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
-        part="container"
+        part="label"
         for="${this.id}-input-input"
       >
         <ids-text color="unset" ${disabledAttribHtml}>${this.label}</ids-text>
@@ -87,7 +89,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     /* istanbul ignore next */
     return (
-      `<div class="ids-spinbox${this.disabled ? ' disabled' : ''}">
+      `<div class="ids-spinbox${this.disabled ? ' disabled' : ''}" part="container">
           ${labelHtml}
           <div class="ids-spinbox-content">
             <ids-button
@@ -113,7 +115,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
               tabindex="-1"
             >+</ids-button>
           </div>
-          ${this.validate ? '<div class="validation-message"></div>' : ''}
+          ${this.validate ? '<div class="validation-message" part="validation"></div>' : ''}
       </div>`
     );
   }
@@ -297,15 +299,15 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * @param {string} value placeholder text when a user has cleared
-   * the spinbox input
+   * @param {string} value hint shown when a
+   * user has cleared the spinbox input
    */
   set placeholder(value) {
     this.setAttribute(props.PLACEHOLDER, value);
   }
 
   /**
-   * @returns {string} placeholder text when a
+   * @returns {string} hint shown when a
    * user has cleared the spinbox input
    */
   get placeholder() {
@@ -313,7 +315,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * @param {string} value label of the spinbox
+   * @param {string} value label text describing the spinbox value
    */
   set label(value) {
     this.setAttribute(props.LABEL, value);
@@ -322,7 +324,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * @returns {string} value label of the spinbox
+   * @returns {string} value label text describing the spinbox value
    */
   get label() {
     return this.getAttribute(props.LABEL);
@@ -379,8 +381,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * Sets the validation check to use
-   * @param {string} value The `validate` attribute
+   * @param {string} handles `validate` functionality; if set as "required", has a required value
    */
   set validate(value) {
     if (value) {
@@ -404,7 +405,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * @returns {string} validation mode to use on input
+   * @returns {string} validation mode to use on input; if "required" then
+   * displays a notice when no value was set.
    */
   get validate() { return this.getAttribute(props.VALIDATE); }
 

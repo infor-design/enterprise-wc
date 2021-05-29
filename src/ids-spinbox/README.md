@@ -10,6 +10,8 @@ Allows a user to input a value that goes up/down in specific intervals, and also
 - `container` the overall spinbox container
 - `input` the spinbox center input
 - `button` increment/decrement buttons
+- `label` the label above the input
+- `validation` the validation message that pops up if any errors exist
 
 ## Features (With Code Examples)
 
@@ -46,6 +48,16 @@ Spinbox which shows a marker with changes, and no range limits
 ></ids-spinbox>
 ```
 
+Spinbox which is required to have a value set when tabbed off of or `this.handleValidation()` called.
+
+```html
+<ids-spinbox
+  value=""
+  label="Value Is Required"
+  validation="required"
+></ids-spinbox>
+```
+
 ## Settings and Attributes
 
 `value` `{number}` the current number assigned to the step box
@@ -57,6 +69,8 @@ Spinbox which shows a marker with changes, and no range limits
 `label` `{string}` label shown above the spinbox
 
 `placeholder` `{string}` text shown as a hint when user clears text on the input
+
+`validate` `{string}` validation message text; set to `required` to require validation.
 
 ## Keyboard Guidelines
 - TAB should move off of the component to the next focusable element on page.
