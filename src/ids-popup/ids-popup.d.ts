@@ -6,8 +6,10 @@ export default class IdsPopup extends IdsElement {
   /** Sets the element to align with via a css selector */
   alignTarget: string | HTMLElement;
 
-  /** Sets the alignment direction between left, right, top, bottom, center and can be a comma
-    delimited set of multiple alignment types for example `left, top` */
+  /**
+   * Sets the alignment direction between left, right, top, bottom, center and
+   * can be a comma delimited set of multiple alignment types for example `left, top`
+   */
   align: string;
 
   /** Strategy for the parent X alignment (see the ALIGNMENTS_X array) */
