@@ -27,7 +27,7 @@ import styles from './ids-tabs.scss';
  */
 @customElement('ids-tabs')
 @scss(styles)
-class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+export default class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -390,5 +390,3 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     }
   }
 }
-
-export default IdsTabs;

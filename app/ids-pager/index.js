@@ -1,1 +1,1 @@
-import IdsPager from '../../src/ids-pager';
+import IdsPager, { IdsPagerSection } from '../../src/ids-pager';
