@@ -15,12 +15,24 @@ import styles from './ids-pager.scss';
  */
 @customElement('ids-pager')
 @scss(styles)
-class IdsPager extends mix(IdsElement) {
+export default class IdsPager extends IdsElement {
   constructor() {
     super();
   }
 
   template() {
-    return '<div><slot></slot></div>';
+    return (
+      `<div class="ids-pager">
+        <div class="left-content">
+          <slot name="left"></slot>
+        </div>
+        <div class="main-content">
+          <slot></slot>
+        </div>
+        <div class="right-content">
+          <slot name="right"></slot>
+        </div>
+      </div>`
+    );
   }
 }

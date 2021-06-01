@@ -1,3 +1,32 @@
 .ids-pager {
   display: flex;
+  height: 38px;
+  margin: 6px 0;
+}
+
+.main-content {
+  flex-shrink: 0;
+}
+
+.main-content,
+.left-content,
+.right-content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.left-content,
+.right-content {
+  flex-grow: 1;
+}
+
+.left-content {
+  text-align: left;
+  justify-content: flex-start;
+}
+
+.right-content {
+  text-align: right;
+  justify-content: flex-end;
 }
