@@ -187,10 +187,10 @@ const IdsValidationMixin = (superclass) => class extends superclass {
   removeMessage(settings) {
     const { id, type } = settings;
 
+    /* istanbul ignore else */
     if (!this.#externalValidationEl) {
       this.shadowRoot.querySelector(`[validation-id="${id}"]`)?.remove?.();
     } else {
-      /* istanbul ignore next */
       this.#externalValidationEl.innerHTML = '';
     }
 
