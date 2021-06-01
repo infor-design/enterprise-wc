@@ -381,7 +381,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * @param {string} handles `validate` functionality; if set as "required", has a required value
+   * @param {string} value handles `validate` functionality; if set as "required", has a required value
    */
   set validate(value) {
     if (value) {
