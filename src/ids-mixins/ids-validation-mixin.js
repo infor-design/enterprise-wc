@@ -167,6 +167,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const rootEl = this.shadowRoot.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
     const parent = rootEl || this.shadowRoot;
 
+    /* istanbul ignore else */
     if (!this.#externalValidationEl) {
       parent.appendChild(elem);
     }
