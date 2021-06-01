@@ -16,7 +16,6 @@ import '../ids-color/ids-color';
 
 // @ts-ignore
 import styles from './ids-color-picker.scss';
-import labelStyles from '../ids-input/ids-input.scss'
 
 /**
  * IDS ColorPicker
@@ -28,7 +27,6 @@ import labelStyles from '../ids-input/ids-input.scss'
 
  @customElement('ids-color-picker')
  @scss(styles)
- @scss(labelStyles)
 
  class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   constructor() {
@@ -57,11 +55,12 @@ import labelStyles from '../ids-input/ids-input.scss'
         <div class="colorpicker">
             <div class="colorpicker-container">
                 <span class="color-preview">
-                    <ids-input type="color" class="color-input" value="${this.getAttribute('value')}"></ids-input>
+                  <input tabindex="0" type="color" class="color-input" value="${this.getAttribute('value')}" ${this.getAttribute('disabled') === 'true' ? 'disabled' : ''}>
+                  <!--<ids-input type="color" class="color-input"></ids-input>-->
                 </span>
                 <input type="text" class="color-input-value" value="${this.getAttribute('value')}">
-                <!--<ids-input type="text" class="color-input-value" value="#000000"></ids-input>-->
-                <span class="colorpicker-icon">
+                <!--<ids-input type="text" class="color-input-value" value="${this.getAttribute('value')}"></ids-input>-->
+                <span class="colorpicker-icon" tabindex="0">
                     <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
                 </span>
             </div>
@@ -82,6 +81,14 @@ import labelStyles from '../ids-input/ids-input.scss'
    get value() {
     return this.getAttribute('value') || '#000000';
    }
+
+  set disabled(d) {
+    this.setAttribute('disabled', d.toString());
+  }
+
+  get disabled() {
+    return this.getAttribute('disabled') || 'false';
+  }
 
    set swatch(s) {
     this.setAttribute('swatch', s.toString());

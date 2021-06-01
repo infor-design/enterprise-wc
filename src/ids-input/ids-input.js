@@ -58,25 +58,7 @@ const TYPES = {
   text: 'text',
   password: 'password',
   number: 'number',
-  email: 'email',
-  checkbox: 'checkbox',
-  radio: 'radio',
-  color: 'color',
-  date: 'date',
-  datetime: 'datetime-local',
-  file: 'file',
-  hidden: 'hidden',
-  image: 'image',
-  month: 'month',
-  range: 'range',
-  search: 'search',
-  tel: 'tel',
-  time: 'time',
-  url: 'url',
-  week: 'week',
-  button: 'button',
-  reset: 'reset',
-  submit: 'submit'
+  email: 'email'
 };
 
 // Setting defaults sizes
