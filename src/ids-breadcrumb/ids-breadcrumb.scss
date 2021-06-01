@@ -14,16 +14,7 @@
   display: inline;
 }
 
-ids-text {
-  @include text-14();
-
-  float: left;
-}
-
-::slotted(*:last-child) {
-  font-weight: bold;
-}
-
+// Create the / between breadcrumbs
 ::slotted(*:not(:first-child))::before,
 .ids-breadcrumb > *:not(:first-child)::before {
   @include antialiased();
@@ -35,61 +26,53 @@ ids-text {
   padding-right: 8px;
   text-decoration: none;
   display: inline-block;
+}
 
-  // Handle Themes
-  &[mode='dark'] {
-    @include text-slate-10();
+// Handle font colors for different themes
+::slotted(ids-hyperlink[version='new'][mode='light']) {
+  @include text-slate-60();
+}
 
-    &.label {
-      @include text-slate-30();
-    }
-  }
+::slotted(ids-hyperlink[version='new'][mode='light'][disabled]) {
+  @include text-slate-30();
+}
 
-  &[disabled][mode='dark'] {
-    @include text-slate-60();
+::slotted(ids-hyperlink[version='new'][mode='dark']) {
+  @include text-slate-40();
+}
 
-    &.label {
-      @include text-slate-60();
-    }
-  }
+::slotted(ids-hyperlink[version='new'][mode='dark'][disabled]) {
+  @include text-slate-60();
+}
 
-  &[mode='contrast'] {
-    @include text-slate-100();
+::slotted(ids-hyperlink[version='new'][mode='contrast']) {
+  @include text-slate-80();
+}
 
-    &.label {
-      @include text-slate-90();
-    }
-  }
+::slotted(ids-hyperlink[version='new'][mode='contrast'][disabled]) {
+  @include text-slate-30();
+}
 
-  &[disabled][mode='contrast'] {
-    @include text-slate-40();
+::slotted(ids-hyperlink[version='classic'][mode='light']) {
+  @include text-graphite-60();
+}
 
-    &.label {
-      @include text-slate-40();
-    }
-  }
+::slotted(ids-hyperlink[version='classic'][mode='light'][disabled]) {
+  @include text-graphite-30();
+}
 
-  &[mode='light'][version='classic'] {
-    @include text-graphite-60();
-  }
+::slotted(ids-hyperlink[version='classic'][mode='dark']) {
+  @include text-slate-40();
+}
 
-  &[disabled][mode='light'][version='classic'] {
-    @include text-graphite-40();
-  }
+::slotted(ids-hyperlink[version='classic'][mode='dark'][disabled]) {
+  @include text-classic-slate-50();
+}
 
-  &[mode='dark'][version='classic'] {
-    @include text-classic-slate-10();
-  }
+::slotted(ids-hyperlink[version='classic'][mode='contrast']) {
+  @include text-slate-80();
+}
 
-  &[disabled][mode='dark'][version='classic'] {
-    @include text-classic-slate-50();
-  }
-
-  &[mode='contrast'][version='classic'] {
-    @include text-graphite-80();
-  }
-
-  &[disabled][mode='contrast'][version='classic'] {
-    @include text-graphite-40();
-  }
+::slotted(ids-hyperlink[version='classic'][mode='contrast'][disabled]) {
+  @include text-slate-50();
 }

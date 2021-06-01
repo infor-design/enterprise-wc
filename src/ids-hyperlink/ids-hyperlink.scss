@@ -32,10 +32,75 @@
     box-shadow: 0 0 4px 3px rgb(54, 138, 192, 0.3);
     outline: none;
   }
+
+  &.bold {
+    @include font-bold();
+  }
+
+  &.bolder {
+    @include font-extrabold();
+  }
 }
 
 .ids-hyperlink-color-unset {
   color: unset !important;
+}
+
+/* Ids Typography System */
+.ids-text-10 {
+  @include text-10();
+  @include text-uppercase();
+}
+
+.ids-text-12,
+.ids-text-xs {
+  @include text-12();
+  @include text-uppercase();
+}
+
+.ids-text-14,
+.ids-text-sm {
+  @include text-14();
+}
+
+.ids-text-16,
+.ids-text-base {
+  @include text-16();
+}
+
+.ids-text-20 {
+  @include text-20();
+}
+
+.ids-text-24,
+.ids-text-lg {
+  @include text-24();
+}
+
+.ids-text-28 {
+  @include text-28();
+}
+
+.ids-text-32,
+.ids-text-xl {
+  @include text-32();
+}
+
+.ids-text-40 {
+  @include text-40();
+}
+
+.ids-text-48 {
+  @include text-48();
+}
+
+.ids-text-60 {
+  @include text-60();
+}
+
+.ids-text-72 {
+  @include text-72();
+  @include mb-0();
 }
 
 // Handle Themes

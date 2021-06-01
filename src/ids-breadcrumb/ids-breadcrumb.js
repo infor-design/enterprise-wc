@@ -3,7 +3,6 @@ import {
   customElement,
   scss,
   mix,
-  props
 } from '../ids-base';
 
 // Import Mixins
@@ -26,23 +25,29 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
   }
 
   /**
+   * Sets the role of the children to 'listitem' for accessiblity reasons.
+   * Also bolds the last crumb.
+   */
+  connectedCallback() {
+    this.setAttribute('role', 'list');
+    for (const child of this.children) {
+      child.setAttribute('role', 'listitem');
+      if (!(child.getAttribute('font-size'))) child.setAttribute('font-size', 14);
+      child.textDecoration = 'none';
+    }
+    if (this.lastElementChild) this.lastElementChild.fontWeight = 'bolder';
+  }
+
+  /**
    * Inner template contents
    * @returns {string} The template
    */
   template() {
-    const markup = Array.from(this.children).reduce((a, c, i) => {
-      c.setAttribute('slot', "item-"+i);
-      a += `<li><slot name="item-${i}"></slot></li>`;
-      return a;
-    }, '');
-
     return `
       <div class="ids-breadcrumb">
         <nav>
-          <ul>
-            ${markup}
-          </ul>
-        </nav>   
+          <slot></slot>
+        </nav>
       </div>`;
   }
 
@@ -51,14 +56,21 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
    * @param {Element} breadcrumb The HTML element with which to add
    */
   push(breadcrumb) {
-    if (this.lastElementChild) this.lastElementChild.fontWeight = '';
+    if (this.lastElementChild) {
+      this.lastElementChild.fontWeight = '';
+    }
     breadcrumb.fontWeight = 'bolder';
+    breadcrumb.color = 'unset';
+    breadcrumb.setAttribute('role', 'listitem');
+    if (!(breadcrumb.getAttribute('font-size'))) {
+      breadcrumb.setAttribute('font-size', 14);
+    }
     this.appendChild(breadcrumb);
   }
 
   /**
-   * Removes the last breadcrumb from the stack
-   * @return {Element | null} The removed element
+   * Removes the last breadcrumb from the stack.
+   * @returns {Element | null} The removed element
    */
   pop() {
     if (this.lastElementChild) {

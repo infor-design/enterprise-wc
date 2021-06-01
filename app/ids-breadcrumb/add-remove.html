@@ -3,19 +3,20 @@
 <ids-layout-grid>
   <ids-text font-size="12" type="h1">BREADCRUMBS</ids-text>
 </ids-layout-grid>
-<ids-breadcrumb name="is" nickname="this" lastname="working?">
-  <ids-hyperlink crumb-type="link" font-size="14" href="#" slot="item1">Home</ids-hyperlink>
-  <ids-hyperlink crumb-type="link" font-size="14" href="#">Second Item</ids-hyperlink>
-  <ids-hyperlink crumb-type="link" font-size="14" href="#">Third Item</ids-hyperlink>
-  <ids-hyperlink crumb-type="link" disabled href="#">Fourth Item</ids-hyperlink>
-  <ids-text crumb-type="text" font-size="14" display="inline">Fourth Item</ids-text>
-  <ids-text crumb-type="text" font-size="14" display="inline" disabled>Fourth Item</ids-text>
-  <!-- <ids-hyperlink href="#">Fifth Item</ids-hyperlink> -->
-</ids-breadcrumb>
-<div>
+<ids-layout-grid>
+  <ids-breadcrumb>
+    <ids-hyperlink color="unset">Breadcrumb 1</ids-hyperlink>
+    <ids-hyperlink color="unset" font-size="20" href="#">Large Breadcrumb</ids-hyperlink>
+    <ids-hyperlink color="unset" disabled href="#">Disabled Breadcrumb</ids-hyperlink>
+  </ids-breadcrumb>
+</ids-layout-grid>
+<br /><br />
+<ids-layout-grid>
+  <ids-checkbox label="Disabled"></ids-checkbox>
+</ids-layout-grid>
+<ids-layout-grid cols="10" gap="md">
   <ids-button type="primary">Add Link</ids-button>
-  <ids-button type="primary">Add Text</ids-button>
   <ids-button type="secondary">Remove</ids-button>
-</div>
+</ids-layout-grid>
 
 {{> ../layouts/footer.html }}

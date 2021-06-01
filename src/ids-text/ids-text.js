@@ -3,14 +3,16 @@ import {
   customElement,
   scss,
   props,
-  mix
-} from '../ids-base/ids-element';
+  mix,
+  stringUtils
+} from '../ids-base';
 
 // Import Mixins
-import { IdsThemeMixin } from '../ids-base/ids-theme-mixin';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-import { IdsTooltipMixin } from '../ids-base/ids-tooltip-mixin';
-import { IdsStringUtils as stringUtils } from '../ids-base/ids-string-utils';
+import {
+  IdsEventsMixin,
+  IdsTooltipMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
 
 import styles from './ids-text.scss';
 
@@ -47,6 +49,7 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
       props.FONT_SIZE,
       props.AUDIBLE,
       props.DISABLED,
+      props.DISPLAY,
       props.ERROR,
       props.MODE,
       props.VERSION,
@@ -74,7 +77,13 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
     classList += (this.fontWeight === 'bold' || this.fontWeight === 'bolder')
       ? ` ${this.fontWeight}` : '';
 
-    return `<${tag} class="${classList}" mode="${this.mode}" version="${this.version}"><slot></slot></${tag}>`;
+    return `<${tag}
+      class="${classList}"
+      mode="${this.mode}"
+      version="${this.version}"
+      part="text"
+    ><slot></slot>
+    </${tag}>`;
   }
 
   /**

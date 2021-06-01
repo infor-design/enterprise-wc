@@ -15,6 +15,8 @@ import {
 
 import styles from './ids-hyperlink.scss';
 
+const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
+
 /**
  * IDS Hyperlink Component
  * @type {IdsHyperlink}
@@ -31,7 +33,7 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   connectedCallback() {
-    this.setAttribute('role', 'link');
+    if (!(this.getAttribute('role'))) this.setAttribute('role', 'link');
     super.connectedCallback();
   }
 
@@ -44,6 +46,8 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       props.COLOR,
       props.DISABLED,
       props.HREF,
+      props.FONT_SIZE,
+      props.FONT_WEIGHT,
       props.MODE,
       props.TARGET,
       props.TEXT_DECORATION,
@@ -143,6 +147,45 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   get color() {
     return this.getAttribute(props.COLOR);
+  }
+
+  /**
+   * Set the font size/style of the text with a class.
+   * @param {string | null} value The font size in the font scheme
+   * i.e. 10, 12, 16 or xs, sm, base, lg, xl
+   */
+  set fontSize(value) {
+    fontSizes.forEach((size) => this.container?.classList.remove(`ids-text-${size}`));
+
+    if (value) {
+      this.setAttribute(props.FONT_SIZE, value);
+      this.container?.classList.add(`ids-text-${value}`);
+      return;
+    }
+
+    this.removeAttribute(props.FONT_SIZE);
+  }
+
+  get fontSize() { return this.getAttribute(props.FONT_SIZE); }
+
+  /**
+   * Adjust font weight; can be either "bold" or "bolder"
+   * @param {string | null} value (if bold)
+   */
+  set fontWeight(value) {
+    this.container?.classList.remove(...['bold', 'bolder']);
+
+    if (value === 'bold' || value === 'bolder') {
+      this.setAttribute(props.FONT_WEIGHT, value);
+      this.container?.classList.add(value);
+      return;
+    }
+
+    this.removeAttribute(props.FONT_WEIGHT);
+  }
+
+  get fontWeight() {
+    return this.getAttribute(props.FONT_WEIGHT);
   }
 }
 
