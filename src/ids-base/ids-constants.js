@@ -57,6 +57,7 @@ export const props = {
   KEEP_OPEN: 'keep-open',
   LABEL: 'label',
   LABEL_AUDIBLE: 'label-audible',
+  LABEL_HIDDEN: 'label-hidden',
   LABEL_REQUIRED: 'label-required',
   LABEL_FILETYPE: 'label-filetype',
   MAX: 'max',

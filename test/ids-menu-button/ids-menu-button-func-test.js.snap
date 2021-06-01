@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsMenuButton Component renders correctly 1`] = `"<ids-menu-button id=\\"new-button\\" role=\\"button\\" menu=\\"new-menu\\"></ids-menu-button>"`;
+exports[`IdsMenuButton Component renders correctly 1`] = `"<ids-menu-button id=\\"new-button\\" menu=\\"new-menu\\"></ids-menu-button>"`;
