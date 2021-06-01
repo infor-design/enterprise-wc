@@ -317,8 +317,6 @@ class IdsButton extends mix(IdsElement).with(
    * @returns {void}
    */
   set tabIndex(val) {
-    this.shouldUpdate = true;
-
     const trueVal = Number(val);
 
     if (Number.isNaN(trueVal) || trueVal < -1) {
