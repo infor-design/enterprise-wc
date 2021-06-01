@@ -116,6 +116,7 @@ let instanceCounter = 0;
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
+ * @part container - the overall container
  * @part input - the input element
  * @part label - the label element
  */
@@ -184,7 +185,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     );
 
     return (
-      `<div class="${containerClass}">
+      `<div class="${containerClass}" part="container">
         ${labelHtml}
         <div class="field-container">
           <input
@@ -192,6 +193,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
             id="${this.id}-input"
             ${type}${inputClass}${placeholder}${inputState}
             ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
+            ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
             ></input>
         </div>
       </div>`
