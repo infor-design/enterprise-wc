@@ -13,11 +13,10 @@ import {
 } from '../ids-mixins';
 
 import '../ids-color/ids-color';
-import '../ids-trigger-field/ids-trigger-field';
-import '../ids-trigger-field/ids-trigger-button';
 
 // @ts-ignore
 import styles from './ids-color-picker.scss';
+import labelStyles from '../ids-input/ids-input.scss'
 
 /**
  * IDS ColorPicker
@@ -29,6 +28,7 @@ import styles from './ids-color-picker.scss';
 
  @customElement('ids-color-picker')
  @scss(styles)
+ @scss(labelStyles)
 
  class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
   constructor() {
@@ -36,13 +36,14 @@ import styles from './ids-color-picker.scss';
   }
 
   connectedCallback() {
+    this.handleEvents();
   }
 
   /**
   * @returns {Array<string>} this component's observable properties
   */
    static get properties() {
-    return [...props.MODE, 'swatch', props.VALUE, props.VERSION];
+    return [props.DISABLED, props.LABEL, ...props.MODE, 'swatch', props.VALUE, props.VERSION];
   }
 
   /**
@@ -52,38 +53,94 @@ import styles from './ids-color-picker.scss';
   template() {
     const template = `
       <div class="ids-color-picker">
-        <span class="color-preview">
-          <input class="color-input" type="color">
-        </span>
-        <ids-trigger-field tabbable="false">
-          <ids-input label="Color Picker""></ids-input>
-          <ids-trigger-button>
-            <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
-          </ids-trigger-button>
-        </ids-trigger-field>
-        <div class="color-container">
-          <slot></slot>
+        <ids-text font-size="12" type="h1">${this.getAttribute('label')}</ids-text>
+        <div class="colorpicker">
+            <div class="colorpicker-container">
+                <span class="color-preview">
+                    <ids-input type="color" class="color-input" value="${this.getAttribute('value')}"></ids-input>
+                </span>
+                <input type="text" class="color-input-value" value="${this.getAttribute('value')}">
+                <!--<ids-input type="text" class="color-input-value" value="#000000"></ids-input>-->
+                <span class="colorpicker-icon">
+                    <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
+                </span>
+            </div>
+            <div class="color-container hide-color-container">
+                <slot></slot>
+            </div>
         </div>
-      </div>`;
+      </div>
+  `;
    return template;
   }
 
    set value(v) {
+    this.updateColorPickerValues(v) 
     this.setAttribute('value', v.toString());
    }
 
    get value() {
-    return this.getAttribute('value') || 0;
+    return this.getAttribute('value') || '#000000';
    }
 
    set swatch(s) {
-    his.setAttribute('swatch', s.toString());
+    this.setAttribute('swatch', s.toString());
    }
 
    get swatch() {
     return this.getAttribute('swatch') || 'true';
    }
-  
+
+   set label(l) {
+     this.setAttribute('label', l.toString());
+   }
+
+   get label() {
+     return this.getAttribute('label') || '';
+   }
+
+   /**
+     * Retuns IdsColorpicker shadowRoot
+     * @returns {HTMLCollection} shadowRoot
+     */
+    idsColorPicker = this.shadowRoot
+    colorpickerContainer = this.container;
+    colorContainer = this.idsColorPicker.querySelector('.color-container')
+    colorpickerInput = this.idsColorPicker.querySelector('.color-input')
+    colorInputValue = this.idsColorPicker.querySelector('.color-input-value')
+    colorPreview = this.idsColorPicker.querySelector('.color-preview')
+    idsColorsArr = document.querySelectorAll('ids-color')
+
+    handleEvents() {
+        // @ts-ignore
+        this.idsColorsArr.forEach((element) => element.style.backgroundColor = element.getAttribute('hex'))
+        this.onEvent('click', this.colorpickerContainer, (/** @type {{ target: any; }} */ event) => {
+            const target = event.target
+            const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'))
+            if(openColorCondition){
+                this.openCloseColorpicker();
+            }
+
+            if(target.hasAttribute('hex')){
+                this.updateColorPickerValues(target.getAttribute('hex'));
+                this.openCloseColorpicker();
+            }
+        });
+        this.onEvent('change', this.colorpickerInput, (/** @type {any} */ change) => this.setAttribute('value', this.colorpickerInput.value));
+        this.onEvent('change', this.colorInputValue, (/** @type {any} */ change) => this.setAttribute('value', this.colorInputValue.value));
+    }
+
+    openCloseColorpicker(){
+      let openClose = this.colorContainer.classList.contains('hide-color-container');
+      this.colorContainer.classList.remove(openClose ? 'hide-color-container' : 'show-color-container');
+      this.colorContainer.classList.add(openClose ? 'show-color-container' : 'hide-color-container');
+  }
+
+  updateColorPickerValues(colorValue) {
+    this.colorpickerInput.value = colorValue;
+    this.colorPreview.style.backgroundColor = colorValue;
+    this.colorInputValue.value = colorValue;
+  }
  }
 
 export default IdsColorPicker;

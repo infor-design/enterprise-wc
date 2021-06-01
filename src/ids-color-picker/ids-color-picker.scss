@@ -1,3 +1,69 @@
 .ids-color-picker {
+  align-items: center;
+  display: inline-flex;
+  flex-direction: column;
+}
+
+.colorpicker-container {
+  border: solid 1px;
   display: flex;
+  flex-direction: row;
+}
+
+.colorpicker {
+  position: relative;
+}
+
+.color-preview {
+  background-color: #000;
+  border: 0 transparent;
+  display: block;
+  height: 50px;
+  overflow: hidden;
+  width: 50px;
+}
+
+.color-input {
+  display: block;
+  height: 100%;
+  opacity: 0;
+  width: 100%;
+}
+
+.color-input-value {
+  padding: 10px;
+}
+
+.color-container {
+  border: 1px solid;
+  height: 150px;
+  overflow: scroll;
+  position: absolute;
+  top: 50px;
+  width: 99%;
+}
+
+.colorpicker-icon {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+input {
+  background-color: transparent;
+  border: 0;
+
+  &:focus {
+    border: 0;
+  }
+}
+
+.hide-color-container {
+  display: none;
+  transition: 1s;
+}
+
+.show-color-container {
+  display: block;
+  transition: 1s;
 }

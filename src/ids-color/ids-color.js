@@ -32,7 +32,6 @@ import styles from './ids-color.scss';
   }
 
   connectedCallback() {
-    this.handleEvents();
   }
 
   /**
@@ -47,7 +46,7 @@ import styles from './ids-color.scss';
   * @returns {string} The template
   */
   template() {
-    return `<div class="ids-color">Ids Color!</div>`;
+    return `<div class="ids-color"></div>`;
   }
 
   set hex(h) {
@@ -57,12 +56,6 @@ import styles from './ids-color.scss';
   get hex() {
     return getAttribute('hex') || '#000000';
   }
-
-  handleEvents() {
-
-  }
-
-  colorPicker
 }
 
 export default IdsColor;
