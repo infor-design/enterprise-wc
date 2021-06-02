@@ -5,6 +5,7 @@ import {
   scss
 } from '../ids-base';
 import { IdsInput } from '../ids-input/ids-input';
+import { IdsText } from '../ids-text/ids-text';
 import IdsPagerSection from './ids-pager-section';
 import styles from './ids-pager-input.scss';
 
@@ -22,11 +23,19 @@ export default class IdsPagerInput extends IdsElement {
   }
 
   template() {
-    return `<ids-input value="${this.getAttribute(props.VALUE)}"></ids-input>`;
+    const pageCountShown = this.getAttribute(props.PAGE_COUNT) !== null
+      ? this.getAttribute(this.props.PAGE_COUNT)
+      : 'N/A';
+
+    return (
+     `<ids-text font-size="16">Page</ids-text>&nbsp;
+      <ids-input value="${this.getAttribute(props.VALUE)}"></ids-input>
+      <ids-text font-size="16">&nbsp;of ${pageCountShown}</ids-text>`
+    );
   }
 
   get properties() {
-    return [props.VALUE];
+    return [props.VALUE, props.PAGE_COUNT];
   }
 
   connectedCallback() {

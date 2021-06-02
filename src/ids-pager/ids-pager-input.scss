@@ -1,14 +1,18 @@
+@import '../ids-base/ids-base';
+
 :host(ids-pager-input) {
   display: inline-flex;
-  width: 40px;
+  align-items: center;
 }
 
 ids-input::part(container) {
-  margin-bottom: 0;
+  @include mx-4();
+  @include mb-0();
 }
 
 ids-input::part(input) {
-  padding-top: 0;
-  padding-bottom: 0;
-  margin-bottom: 0;
+  @include py-0();
+  @include mb-0();
+
+  width: 40px;
 }
