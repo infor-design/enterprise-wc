@@ -152,6 +152,12 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       allowNegative: true
     };
 
+    this.input.addEventListener('change', () => {
+      if (this.input.value !== this.value) {
+        this.value = this.input.value;
+      }
+    });
+
     const labelEl = this.container.children[0];
     this.onEvent('click.label', labelEl, () => {
       const isDisabled = this.hasAttribute(props.DISABLED);
