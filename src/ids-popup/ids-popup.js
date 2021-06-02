@@ -58,6 +58,7 @@ const POPUP_PROPERTIES = [
   props.ARROW_TARGET,
   props.ANIMATED,
   props.ANIMATION_STYLE,
+  props.BLEED,
   props.POSITION_STYLE,
   props.TYPE,
   props.VISIBLE,
@@ -122,6 +123,8 @@ class IdsPopup extends mix(IdsElement).with(
       arrowTarget: null,
       animated: false,
       animationStyle: ANIMATION_STYLES[0],
+      bleed: false,
+      containingElem: document.body,
       positionStyle: POSITION_STYLES[0],
       visible: false,
       type: 'none',
@@ -434,6 +437,23 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * @readonly
+   * @returns {string} representing the opposite edge of the currently-defined `alignEdge` property
+   */
+  get oppositeAlignEdge() {
+    switch (this.alignEdge) {
+    case 'left':
+      return 'right';
+    case 'right':
+      return 'left';
+    case 'top':
+      return 'bottom';
+    default: // bottom
+      return 'top';
+    }
+  }
+
+  /**
    * Whether or not the component should animate its movement
    * @param {boolean} val The alignment setting
    */
@@ -504,6 +524,37 @@ class IdsPopup extends mix(IdsElement).with(
         thisCl.add(targetClassName);
       }
     });
+  }
+
+  set bleed(val) {
+    const trueVal = IdsStringUtils.stringToBool(val);
+    if (this.state.bleed !== trueVal) {
+      this.state.bleed = val;
+      if (trueVal) {
+        this.safeSetAttribute(props.BLEED, '');
+      } else {
+        this.safeRemoveAttribute(props.BLEED);
+      }
+      this.refresh();
+    }
+  }
+
+  get bleed() {
+    return this.state.bleed;
+  }
+
+  set containingElem(val) {
+    if (!(val instanceof HTMLElement)) {
+      return;
+    }
+    if (this.state.containingElem !== val) {
+      this.state.containingElem = val;
+      this.refresh();
+    }
+  }
+
+  get containingElem() {
+    return this.state.containingElem;
   }
 
   /**
@@ -872,7 +923,9 @@ class IdsPopup extends mix(IdsElement).with(
     popupRect.y = y;
 
     // If the Popup bleeds off the viewport, nudge it back into full view
-    popupRect = this.#nudge(popupRect);
+    if (!this.bleed) {
+      popupRect = this.#nudge(popupRect);
+    }
 
     this.#renderPlacement(popupRect);
   }
@@ -880,16 +933,18 @@ class IdsPopup extends mix(IdsElement).with(
   /**
    * Places the Popup using an external element as a starting point.
    * @private
+   * @param {string} [targetAlignEdge] if defined, runs placement logic against a different
+   *  alignment edge than the one defined on the component
    * @returns {void}
    */
-  placeAgainstTarget() {
+  placeAgainstTarget(targetAlignEdge) {
     let x = this.x;
     let y = this.y;
 
     // Detect sizes/locations of the popup and the alignment target Element
-    let popupRect = this.container.getBoundingClientRect();
+    const popupRect = this.container.getBoundingClientRect();
     const targetRect = this.alignTarget.getBoundingClientRect();
-    const { alignEdge } = this;
+    const alignEdge = targetAlignEdge || this.alignEdge;
     let alignXCentered = false;
     let alignYCentered = false;
 
@@ -962,9 +1017,12 @@ class IdsPopup extends mix(IdsElement).with(
     popupRect.x = x;
     popupRect.y = y;
 
-    // Check boundaries and attempt to flip the component in the opposite direction, if applicable.
+    // Check boundaries and attempt to flip the component in the opposite direction, if needed.
     // If neither side will properly fit the popup, the popup will shrink to fit
-    popupRect = this.#flip(popupRect);
+    if (this.#shouldFlip(popupRect) && !targetAlignEdge) {
+      this.placeAgainstTarget(this.oppositeAlignEdge);
+      return;
+    }
 
     this.#renderPlacement(popupRect);
   }
@@ -1001,9 +1059,48 @@ class IdsPopup extends mix(IdsElement).with(
     return popupRect;
   }
 
-  #flip(popupRect) {
-    console.info('flip');
-    return popupRect;
+  #shouldFlip(popupRect) {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const scrollX = this.containingElem.scrollLeft || 0;
+    const scrollY = this.containingElem.scrollTop || 0;
+    const bleed = this.bleed;
+    const containerRect = this.containingElem.getBoundingClientRect();
+    const targetRect = this.alignTarget.getBoundingClientRect();
+
+    // Gets the distance between an edge on the target element, and its opposing viewport border
+    const getDistance = (dir) => {
+      let d = 0;
+
+      switch (dir) {
+      case 'left':
+        d = (bleed ? 0 : containerRect.left) - scrollX - targetRect.left + this.x;
+        break;
+      case 'right':
+        d = (bleed ? viewportWidth : containerRect.right) - scrollX - targetRect.right - this.x;
+        break;
+      case 'top':
+        d = (bleed ? 0 : containerRect.top) - scrollY - targetRect.top + this.y;
+        break;
+      default: // bottom
+        d = (bleed ? viewportHeight : containerRect.bottom) - scrollY - targetRect.bottom - this.y;
+        break;
+      }
+
+      return Math.abs(d);
+    };
+
+    const currentDir = this.alignEdge;
+    const newDir = this.oppositeAlignEdge;
+    const currentDistance = getDistance(currentDir);
+    const newDistance = getDistance(newDir);
+
+    const measuredPopupDimension = ['top', 'bottom'].includes(currentDir) ? 'height' : 'width';
+    const popupFits = popupRect[measuredPopupDimension] <= currentDistance;
+
+    // If the popup does not fit, and there's more space between the opposite edge
+    // and viewport boundary, compared to the current edge and its viewport boundary, return true.
+    return !popupFits && newDistance > currentDistance;
   }
 
   #shrink(popupRect) {

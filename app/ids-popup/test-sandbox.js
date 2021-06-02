@@ -61,6 +61,13 @@ function visibleChangeHandler(e) {
   popupEl.visible = e.target.checked;
 }
 
+/**
+ * @param {Event} e the change event object
+ */
+function bleedsChangeHandler(e) {
+  popupEl.bleed = e.target.checked;
+}
+
 // When the Popup page loads, we need to use the CSSOM to append some styles
 // that can be modified by changing the attribute (tests the MutationObserver/ResizeObserver)
 document.addEventListener('DOMContentLoaded', () => {
@@ -120,6 +127,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const visibleControlEl = document.querySelector('#visible-option');
   visibleControlEl.addEventListener('change', visibleChangeHandler);
+
+  const bleedsControlEl = document.querySelector('#bleeds-option');
+  bleedsControlEl.addEventListener('change', bleedsChangeHandler);
 
   // Have a MutationObserver watch the popup for attribute changes,
   // causing an update to some control displays.
