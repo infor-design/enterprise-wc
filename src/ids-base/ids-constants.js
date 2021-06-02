@@ -87,6 +87,7 @@ export const props = {
   ORIENTATION: 'orientation',
   PLACEHOLDER: 'placeholder',
   PLACEMENT: 'placement',
+  POSITION_STYLE: 'position-style',
   PARAM_NAME: 'param-name',
   PRINTABLE: 'printable',
   READONLY: 'readonly',

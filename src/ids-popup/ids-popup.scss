@@ -9,8 +9,6 @@
 }
 
 .ids-popup {
-  @include fixed();
-
   display: none;
 
   // Arrow definition
@@ -144,6 +142,16 @@
       // transform: perspective(1000px) translate3d(0, 0, 0);
       transform: scale(1);
     }
+  }
+
+  // Position style: fixed
+  &.position-fixed {
+    @include fixed();
+  }
+
+  // Position style: absolute
+  &.position-absolute {
+    @include absolute();
   }
 
   // style: "none" (temporary)

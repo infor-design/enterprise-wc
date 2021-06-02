@@ -64,16 +64,16 @@ function visibleChangeHandler(e) {
 // When the Popup page loads, we need to use the CSSOM to append some styles
 // that can be modified by changing the attribute (tests the MutationObserver/ResizeObserver)
 document.addEventListener('DOMContentLoaded', () => {
-  popupEl = document.querySelector('ids-popup');
+  popupEl = document.querySelector('#test-popup');
   xyControlFieldsetLabelEl = document.querySelector('#xy-controls legend');
   alignmentDisplayEl = document.querySelector('#alignment-display');
 
-  const centerTargetEl = document.querySelector('#center-point');
+  // const centerTargetEl = document.querySelector('#center-point');
   const secondTargetEl = document.querySelector('#second-target');
   const thirdTargetEl = document.querySelector('#third-target');
 
   // This one is centered on the page, but needs a 100px top margin to shift it around
-  centerTargetEl.style.marginTop = '100px';
+  // centerTargetEl.style.marginTop = '';
 
   // This one is aligned 150px from the top and right viewport edges
   secondTargetEl.style.top = '150px';
