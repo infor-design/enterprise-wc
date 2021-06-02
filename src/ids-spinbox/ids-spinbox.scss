@@ -43,6 +43,12 @@
   }
 }
 
+.ids-spinbox:focus-within .ids-spinbox-content ids-button:not([disabled])::part(button) {
+  border-color: var(--ids-color-palette-azure-60);
+  border-width: 1px;
+  box-shadow: none;
+}
+
 .ids-spinbox {
   position: relative;
   display: flex;
@@ -64,6 +70,13 @@
     max-height: 38px;
     margin-bottom: 4px;
 
+    &:focus-visible ids-input::part(input):not(.error),
+    &:focus-visible ids-button::part(button) {
+      border-color: var(--ids-color-palette-azure-60) !important;
+      border-width: 1px;
+      box-shadow: none;
+    }
+
     &:focus-visible ids-button::part(button) {
       outline: none;
     }
@@ -72,8 +85,8 @@
       @include border-slate-30();
 
       border-style: solid;
-      width: 38px;
-      max-width: 38px;
+      width: 33px;
+      max-width: 33px;
       justify-content: center;
       align-items: center;
       padding: 0 0;
@@ -89,13 +102,6 @@
     ids-button:last-child::part(button) {
       border-radius: 0 2px 2px 0;
       border-left-style: none;
-    }
-
-    &:focus-within ids-input::part(input):not(.error),
-    &:focus-within ids-button:not([disabled])::part(button) {
-      @include border-azure-60();
-
-      box-shadow: none;
     }
 
     & ids-input::part(input) {
