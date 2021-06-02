@@ -1,0 +1,14 @@
+:host(ids-pager-input) {
+  display: inline-flex;
+  width: 40px;
+}
+
+ids-input::part(container) {
+  margin-bottom: 0;
+}
+
+ids-input::part(input) {
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}

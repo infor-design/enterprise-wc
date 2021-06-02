@@ -22,15 +22,7 @@ export default class IdsPagerSection extends IdsElement {
   }
 
   template() {
-    return (
-      `<div ${buildClassAttrib(
-        'ids-pager-section',
-        this.hasAttribute(props.START) && 'start',
-        this.hasAttribute(props.END) && 'end'
-      )}>
-        <slot></slot>
-      </div>`
-    );
+    return `<slot></slot>`;
   }
 
   get properties() {
