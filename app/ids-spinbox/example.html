@@ -1,36 +1,53 @@
 <ids-layout-grid>
   <ids-text font-size="12" type="h1">Spinbox</ids-text>
 </ids-layout-grid>
-<div id="ids-spinbox-demo">
-  <ids-spinbox value="0" label="Basic Spinbox"></ids-spinbox>
-  <ids-spinbox value="0" min="0" max="5" label="Enter an int from 0 to 5" placeholder="0=>5"></ids-spinbox>
-  <ids-spinbox value="0" min="-25" max="25" step="5" label="Jumps 5 from -25 to 25" placeholder="-25=>25"></ids-spinbox>
-  <ids-spinbox
-    dirty-tracker value="0"
-    min="-25"
-    max="25"
-    step="5"
-    label="w/ Dirty Tracking"
-    placeholder="Dirty"
+<ids-layout-grid cols="4">
+  <ids-layout-grid-cell>
+    <ids-spinbox value="0" label="Basic Spinbox"></ids-spinbox>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-spinbox
+      value="0" min="0" max="5"
+      label="Enter an int from 0 to 5"
+      placeholder="0=>5"
+    ></ids-spinbox>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-spinbox
+      value="0" min="-25" max="25"
+      step="5"
+      label="Jumps 5 from -25 to 25"
+      placeholder="-25=>25"
+    ></ids-spinbox>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-spinbox
+      value="0" min="-25" max="25"
+      step="5"
+      label="Disabled"
+      placeholder="N/A"
+      disabled
   ></ids-spinbox>
-  <ids-spinbox
-    value="0"
-    min="-25"
-    max="25"
-    step="5"
-    label="Disabled"
-    placeholder="N/A"
-    disabled
-  ></ids-spinbox>
-  <ids-spinbox
-    value="0"
-    min="-25"
-    max="25"
-    step="5"
-    label="Required"
-    placeholder="N/A"
-    validate="required"
-    label-required
-  ></ids-spinbox>
-</div>
-
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-spinbox
+      value="0" min="-25" max="25"
+      step="5"
+      label="w/ Dirty Tracking"
+      placeholder="Dirty"
+      dirty-tracker
+    ></ids-spinbox>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-spinbox
+      value="0"
+      min="-25"
+      max="25"
+      step="5"
+      label="Required"
+      placeholder="N/A"
+      validate="required"
+      label-required
+    ></ids-spinbox>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
