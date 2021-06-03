@@ -115,7 +115,8 @@ TODO
 
 - May need to re-visit responsiveness as we begin to test complex layouts.
 - Add a breakpoint properties?
-    - Ex: `<ids-layout-grid cols="2" md-cols="4" lg-cols="8">`
+    - `<ids-layout-grid cols="2" md-cols="4" lg-cols="8">` or
+    - `<ids-layout-grid cols="{sm: 2, md: 4, lg: 8}">`
 - Add fixed unit sizing options for cells and rows.
 
 ## Test Plan
