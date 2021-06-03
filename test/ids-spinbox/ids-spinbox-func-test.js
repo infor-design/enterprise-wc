@@ -322,8 +322,8 @@ describe('IdsSpinbox Component', () => {
     expect(elem.disabled).toBeNull();
   });
 
-  it('changes the value in input to empty, then presses increment button ' +
-  'and value is += increment step', async () => {
+  it('changes the value in input to empty, then presses increment button '
+  + 'and value is += increment step', async () => {
     const value = 10;
     elem = await createElemViaTemplate(
       `<ids-spinbox readonly value="${value}"></ids-spinbox>`
