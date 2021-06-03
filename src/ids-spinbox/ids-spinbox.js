@@ -52,7 +52,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       props.DIRTY_TRACKER,
       props.DISABLED,
       props.LABEL,
-      props.LABEL_REQUIRED,
       props.MAX,
       props.MIN,
       props.READONLY,
@@ -429,24 +428,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * displays a notice when no value was set.
    */
   get validate() { return this.getAttribute(props.VALIDATE); }
-
-  /**
-   * Sets the checkbox to required
-   * @param {string} value The `label-required` attribute
-   */
-  set labelRequired(value) {
-    const isValueTruthy = stringUtils.stringToBool(value);
-    if (value) {
-      this.setAttribute(props.LABEL_REQUIRED, value.toString());
-    } else {
-      this.removeAttribute(props.LABEL_REQUIRED);
-    }
-
-    this.container.children[0]?.classList
-      ?.[!isValueTruthy ? 'add' : 'remove']?.('no-required-indicator');
-  }
-
-  get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
 
   /**
    * div holding spinbox buttons/input
