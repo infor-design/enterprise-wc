@@ -22,20 +22,9 @@ import styles from './ids-breadcrumb.scss';
 class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
-  }
-
-  /**
-   * Sets the role of the children to 'listitem' for accessiblity reasons.
-   * Also bolds the last crumb.
-   */
-  connectedCallback() {
-    this.setAttribute('role', 'list');
-    for (const child of this.children) {
-      child.setAttribute('role', 'listitem');
-      if (!(child.getAttribute('font-size'))) child.setAttribute('font-size', 14);
-      child.textDecoration = 'none';
-    }
-    if (this.lastElementChild) this.lastElementChild.fontWeight = 'bolder';
+    const stack = [];
+    while(this.lastElementChild) { stack.push(this.pop()); }
+    while(stack.length) { this.push(stack.pop()); }
   }
 
   /**
@@ -56,18 +45,19 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
    * @param {Element} breadcrumb The HTML element with which to add
    */
   push(breadcrumb) {
+    console.log(breadcrumb);
     if (this.lastElementChild) {
-      this.lastElementChild.fontWeight = '';
+      this.lastElementChild.setAttribute('font-weight', '');
     }
-    breadcrumb.fontWeight = 'bolder';
-    breadcrumb.color = 'unset';
+    breadcrumb.setAttribute('font-weight', 'bolder');
+    breadcrumb.setAttribute('color', 'unset');
     breadcrumb.setAttribute('role', 'listitem');
     if (!(breadcrumb.getAttribute('font-size'))) {
       breadcrumb.setAttribute('font-size', 14);
     }
     this.appendChild(breadcrumb);
   }
-
+  
   /**
    * Removes the last breadcrumb from the stack.
    * @returns {Element | null} The removed element
@@ -76,7 +66,7 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
     if (this.lastElementChild) {
       const breadcrumb = this.removeChild(this.lastElementChild);
       if (this.lastElementChild) {
-        this.lastElementChild.fontWeight = 'bolder';
+        this.lastElementChild.setAttribute('font-weight', '');
       }
       return breadcrumb;
     }
