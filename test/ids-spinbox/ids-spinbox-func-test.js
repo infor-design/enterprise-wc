@@ -253,4 +253,16 @@ describe('IdsSpinbox Component', () => {
 
     expect(errors).not.toHaveBeenCalled();
   });
+
+  it('gets input text changed manually and overall value updates', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+    elem.input.focus();
+    elem.input.value = 10;
+
+    await processAnimFrame();
+    expect(elem.value).toEqual('10');
+
+    expect(errors).not.toHaveBeenCalled();
+  });
 });
