@@ -25,4 +25,25 @@ describe('Ids Color Picker Component', () => {
     expect(errors).not.toHaveBeenCalled();
     elem.remove();
   });
+
+  it('has a value attribute', () => {
+    colorpicker.value = '#000000';
+    expect(colorpicker.getAttribute('value')).toEqual('#000000');
+  });
+
+  it('has a disabled attribute', () => {
+    colorpicker.disabled = 'false';
+    expect(colorpicker.getAttribute('disabled')).toEqual('false');
+  });
+
+  it('has a swatch attribute', () => {
+    colorpicker.swatch = 'true';
+    expect(colorpicker.getAttribute('swatch')).toEqual('true');
+  });
+
+  it('has a label attribute', () => {
+    colorpicker.label = 'Ids Color Picker';
+    expect(colorpicker.getAttribute('label')).toEqual('Ids Color Picker');
+  });
+
 });

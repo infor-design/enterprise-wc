@@ -5,14 +5,16 @@ import {
   mix,
   props
 } from '../ids-base/ids-element';
-
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin
 } from '../ids-mixins';
-
 import '../ids-color/ids-color';
+import '../ids-trigger-field/ids-trigger-field';
+import '../ids-trigger-field/ids-trigger-button';
+import '../ids-popup/ids-popup';
+import '../ids-button/ids-button';
 
 // @ts-ignore
 import styles from './ids-color-picker.scss';
@@ -28,74 +30,72 @@ import styles from './ids-color-picker.scss';
  @customElement('ids-color-picker')
  @scss(styles)
 
- class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
-  constructor() {
-    super();
-  }
+class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+   constructor() {
+     super();
+   }
 
-  connectedCallback() {
-    this.handleEvents();
-  }
+   idsColorPicker = this.shadowRoot
 
-  /**
-  * @returns {Array<string>} this component's observable properties
-  */
+   colorpickerContainer = this.container;
+
+   colorContainer = this.idsColorPicker.querySelector('.color-container')
+
+   colorpickerInput = this.idsColorPicker.querySelector('.color-input')
+
+   colorInputValue = this.idsColorPicker.querySelector('.color-input-value')
+
+   colorPreview = this.idsColorPicker.querySelector('.color-preview')
+
+   idsColorsArr = document.querySelectorAll('ids-color')
+
+   connectedCallback() {
+     this.handleEvents();
+   }
+
    static get properties() {
-    return [props.DISABLED, props.LABEL, ...props.MODE, 'swatch', props.VALUE, props.VERSION];
-  }
+     return [props.DISABLED, props.LABEL, props.MODE, 'swatch', props.VALUE, props.VERSION];
+   }
 
-  /**
-  * Create the Template for the contents
-  * @returns {string} The template
-  */
-  template() {
-    const template = `
+   template() {
+     const template = `
       <div class="ids-color-picker">
-        <ids-text font-size="12" type="h1">${this.getAttribute('label')}</ids-text>
-        <div class="colorpicker">
-            <div class="colorpicker-container">
-                <span class="color-preview">
-                  <input tabindex="0" type="color" class="color-input" value="${this.getAttribute('value')}" ${this.getAttribute('disabled') === 'true' ? 'disabled' : ''}>
-                  <!--<ids-input type="color" class="color-input"></ids-input>-->
-                </span>
-                <input type="text" class="color-input-value" value="${this.getAttribute('value')}">
-                <!--<ids-input type="text" class="color-input-value" value="${this.getAttribute('value')}"></ids-input>-->
-                <span class="colorpicker-icon" tabindex="0">
-                    <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
-                </span>
-            </div>
-            <div class="color-container hide-color-container">
-                <slot></slot>
-            </div>
-        </div>
-      </div>
-  `;
-   return template;
-  }
+        <ids-trigger-field tabbable="false">
+          <span class="color-preview">
+            <input class="color-input" type="color">
+          </span>
+          <ids-input class="color-input-value" label="Color Picker"></ids-input>
+          <ids-trigger-button>
+            <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
+          </ids-trigger-button>
+        </ids-trigger-field>
+      </div>`;
+     return template;
+   }
 
    set value(v) {
-    this.updateColorPickerValues(v) 
-    this.setAttribute('value', v.toString());
+     this.updateColorPickerValues(v);
+     this.setAttribute('value', v.toString());
    }
 
    get value() {
-    return this.getAttribute('value') || '#000000';
+     return this.getAttribute('value') || '#000000';
    }
 
-  set disabled(d) {
-    this.setAttribute('disabled', d.toString());
-  }
+   set disabled(d) {
+     this.setAttribute('disabled', d.toString());
+   }
 
-  get disabled() {
-    return this.getAttribute('disabled') || 'false';
-  }
+   get disabled() {
+     return this.getAttribute('disabled') || 'false';
+   }
 
    set swatch(s) {
-    this.setAttribute('swatch', s.toString());
+     this.setAttribute('swatch', s.toString());
    }
 
    get swatch() {
-    return this.getAttribute('swatch') || 'true';
+     return this.getAttribute('swatch') || 'true';
    }
 
    set label(l) {
@@ -106,48 +106,21 @@ import styles from './ids-color-picker.scss';
      return this.getAttribute('label') || '';
    }
 
-   /**
-     * Retuns IdsColorpicker shadowRoot
-     * @returns {HTMLCollection} shadowRoot
-     */
-    idsColorPicker = this.shadowRoot
-    colorpickerContainer = this.container;
-    colorContainer = this.idsColorPicker.querySelector('.color-container')
-    colorpickerInput = this.idsColorPicker.querySelector('.color-input')
-    colorInputValue = this.idsColorPicker.querySelector('.color-input-value')
-    colorPreview = this.idsColorPicker.querySelector('.color-preview')
-    idsColorsArr = document.querySelectorAll('ids-color')
+   handleEvents() {
+     this.idsColorsArr.forEach((element) => {
+       element.style.backgroundColor = element.getAttribute('hex');
+     });
 
-    handleEvents() {
-        // @ts-ignore
-        this.idsColorsArr.forEach((element) => element.style.backgroundColor = element.getAttribute('hex'))
-        this.onEvent('click', this.colorpickerContainer, (/** @type {{ target: any; }} */ event) => {
-            const target = event.target
-            const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'))
-            if(openColorCondition){
-                this.openCloseColorpicker();
-            }
+     this.onEvent('change', this.colorpickerInput, () => this.setAttribute('value', this.colorpickerInput.value));
 
-            if(target.hasAttribute('hex')){
-                this.updateColorPickerValues(target.getAttribute('hex'));
-                this.openCloseColorpicker();
-            }
-        });
-        this.onEvent('change', this.colorpickerInput, (/** @type {any} */ change) => this.setAttribute('value', this.colorpickerInput.value));
-        this.onEvent('change', this.colorInputValue, (/** @type {any} */ change) => this.setAttribute('value', this.colorInputValue.value));
-    }
+     this.onEvent('change', this.colorInputValue, () => this.setAttribute('value', this.colorInputValue.value));
+   }
 
-    openCloseColorpicker(){
-      let openClose = this.colorContainer.classList.contains('hide-color-container');
-      this.colorContainer.classList.remove(openClose ? 'hide-color-container' : 'show-color-container');
-      this.colorContainer.classList.add(openClose ? 'show-color-container' : 'hide-color-container');
-  }
-
-  updateColorPickerValues(colorValue) {
-    this.colorpickerInput.value = colorValue;
-    this.colorPreview.style.backgroundColor = colorValue;
-    this.colorInputValue.value = colorValue;
-  }
+   updateColorPickerValues(colorValue) {
+     this.colorpickerInput.value = colorValue;
+     this.colorPreview.style.backgroundColor = colorValue;
+     this.colorInputValue.value = colorValue;
+   }
  }
 
 export default IdsColorPicker;
