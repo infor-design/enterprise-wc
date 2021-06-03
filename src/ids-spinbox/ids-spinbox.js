@@ -51,8 +51,11 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     return [
       props.DIRTY_TRACKER,
       props.DISABLED,
+      props.LABEL,
+      props.LABEL_REQUIRED,
       props.MAX,
       props.MIN,
+      props.READONLY,
       props.STEP,
       props.VALIDATE,
       props.VALUE
@@ -68,14 +71,20 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.setAttribute(props.ID, `ids-spinbox-${++instanceCounter}`);
     }
 
-    const disabledAttribHtml = this.disabled
+    const disabledAttribHtml = this.hasAttribute(props.DISABLED)
       ? /* istanbul ignore next */' disabled'
       : '';
+
+    const buttonDisabledAttribHtml = (
+      this.hasAttribute(props.DISABLED) || this.hasAttribute(props.READONLY)
+    ) ? ' disabled' : '';
 
     /* istanbul ignore next */
     const labelHtml = (
       `<label
-        ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
+        ${ buildClassAttrib(
+        'ids-label-text', this.hasAttribute(props.DISABLED) && 'disabled'
+      ) }
         part="label"
         for="${this.id}-input-input"
       >
@@ -83,20 +92,20 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       </label>`
     );
 
-    const placeholderHtml = (
-      this.placeholder ? ` placeholder="${this.placeholder}"` : ''
-    );
-
     /* istanbul ignore next */
     return (
-      `<div class="ids-spinbox${this.disabled ? ' disabled' : ''}" part="container">
+      `<div
+        class="ids-spinbox${
+          this.hasAttribute(props.DISABLED) ? ' disabled' : ''
+        }${this.hasAttribute(props.READONLY) ? ' readonly' : ''}"
+        part="container">
           ${labelHtml}
           <div class="ids-spinbox-content">
             <ids-button
               type="tertiary"
-              ${disabledAttribHtml}
               part="button"
               tabindex="-1"
+              ${buttonDisabledAttribHtml}
             >-</ids-button>
             <ids-input
               text-align="center"
@@ -104,15 +113,15 @@ export default class IdsSpinbox extends mix(IdsElement).with(
               id="${this.id}-input"
               label="${this.label}"
               label-hidden="true"
-              ${placeholderHtml}
+              ${this.placeholder ? ` placeholder="${this.placeholder}"` : ''}
               ${disabledAttribHtml}
               part="input"
             ></ids-input>
             <ids-button
               type="tertiary"
-              ${disabledAttribHtml}
               part="button"
               tabindex="-1"
+              ${buttonDisabledAttribHtml}
             >+</ids-button>
           </div>
           ${this.validate ? '<div class="validation-message" part="validation"></div>' : ''}
@@ -365,17 +374,21 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     if (isValueTruthy) {
       this.setAttribute(props.DISABLED, true);
       this.input?.setAttribute?.(props.DISABLED, true);
-      this.#incrementButton?.setAttribute?.(props.DISABLED, 'true');
-      this.#decrementButton?.setAttribute?.(props.DISABLED, 'true');
       this.container.classList.add('disabled');
       this.setAttribute('tabindex', '-1');
+
+      this.#incrementButton?.setAttribute?.(props.DISABLED, '');
+      this.#decrementButton?.setAttribute?.(props.DISABLED, '');
     } else {
       this.removeAttribute?.(props.DISABLED);
       this.input?.removeAttribute?.(props.DISABLED);
-      this.#incrementButton?.removeAttribute?.(props.DISABLED);
-      this.#decrementButton?.removeAttribute?.(props.DISABLED);
       this.container.classList.remove('disabled');
       this.removeAttribute('tabindex');
+
+      if (!this.hasAttribute(props.READONLY)) {
+        this.#incrementButton?.removeAttribute?.(props.DISABLED);
+        this.#decrementButton?.removeAttribute?.(props.DISABLED);
+      }
     }
   }
 
@@ -418,6 +431,24 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   get validate() { return this.getAttribute(props.VALIDATE); }
 
   /**
+   * Sets the checkbox to required
+   * @param {string} value The `label-required` attribute
+   */
+  set labelRequired(value) {
+    const isValueTruthy = stringUtils.stringToBool(value);
+    if (value) {
+      this.setAttribute(props.LABEL_REQUIRED, value.toString());
+    } else {
+      this.removeAttribute(props.LABEL_REQUIRED);
+    }
+
+    this.container.children[0]?.classList
+      ?.[!isValueTruthy ? 'add' : 'remove']?.('no-required-indicator');
+  }
+
+  get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
+
+  /**
    * div holding spinbox buttons/input
    * @type {HTMLElement}
    */
@@ -443,7 +474,9 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       ? parseInt(this.step)
       /* istanbul ignore next */
       : 1;
-    this.value = parseInt(this.value) + step;
+
+    const hasValidValue = !Number.isNaN(parseInt(this.value));
+    this.value = (hasValidValue ? parseInt(this.value) : 0) + step;
   }
 
   /**
@@ -457,7 +490,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       /* istanbul ignore next */
       : 1;
 
-    this.value = parseInt(this.value) - step;
+    const hasValidValue = !Number.isNaN(parseInt(this.value));
+    this.value = (hasValidValue ? parseInt(this.value) : 0) - step;
   }
 
   /**
@@ -468,14 +502,14 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     const hasMinValue = !Number.isNaN(parseInt(this.min));
 
     if (!hasMinValue) {
-      this.#decrementButton.removeAttribute('disabled');
+      this.#decrementButton.removeAttribute(props.DISABLED);
       return;
     }
 
     if (parseInt(this.value) <= parseInt(this.min)) {
-      this.#decrementButton.setAttribute('disabled', '');
-    } else {
-      this.#decrementButton.removeAttribute('disabled');
+      this.#decrementButton.setAttribute(props.DISABLED, '');
+    } else if (!this.hasAttribute(props.READONLY)) {
+      this.#decrementButton.removeAttribute(props.DISABLED);
     }
   }
 
@@ -487,14 +521,44 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     const hasMaxValue = !Number.isNaN(parseInt(this.max));
 
     if (!hasMaxValue) {
-      this.#incrementButton.removeAttribute('disabled');
+      this.#incrementButton.removeAttribute(props.DISABLED);
       return;
     }
 
     if (parseInt(this.value) >= parseInt(this.max)) {
-      this.#incrementButton?.setAttribute('disabled', '');
-    } else {
-      this.#incrementButton?.removeAttribute('disabled');
+      this.#incrementButton?.setAttribute(props.DISABLED, '');
+    } else if (!this.hasAttribute(props.READONLY)) {
+      this.#incrementButton?.removeAttribute(props.DISABLED);
     }
+  }
+
+  /**
+   * @param {boolean} value whether or not spinbox is readonly
+   */
+  set readonly(value) {
+    if (stringToBool(value)) {
+      this.container.classList.add('readonly');
+      this.setAttribute(props.READONLY, true);
+      this.input.setAttribute(props.READONLY, true);
+      this.#incrementButton.setAttribute(props.DISABLED, '');
+      this.#decrementButton.setAttribute(props.DISABLED, '');
+    } else {
+      this.container.classList.remove('readonly');
+
+      this.removeAttribute(props.READONLY);
+      this.input.removeAttribute(props.READONLY);
+
+      if (!this.hasAttribute(props.DISABLED)) {
+        this.#incrementButton.removeAttribute(props.DISABLED);
+        this.#decrementButton.removeAttribute(props.DISABLED);
+      }
+    }
+  }
+
+  /**
+   * @returns {boolean} value whether or not spinbox is readonly
+   */
+  get readonly() {
+    return this.getAttribute(props.READONLY);
   }
 }

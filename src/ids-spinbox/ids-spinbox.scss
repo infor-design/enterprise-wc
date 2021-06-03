@@ -26,6 +26,12 @@
   pointer-events: none;
 }
 
+.ids-spinbox.readonly {
+  ids-button::part(button) {
+    @include bg-slate-20();
+  }
+}
+
 .ids-spinbox.disabled {
   @include text-slate-30();
 
