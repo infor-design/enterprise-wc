@@ -89,22 +89,22 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     /* istanbul ignore next */
     const labelHtml = (
       `<label
-        ${ buildClassAttrib(
-        'ids-label-text', this.hasAttribute(props.DISABLED) && 'disabled'
-      ) }
+        ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
         part="label"
         for="${this.id}-input-input"
       >
-        <ids-text color="unset" ${disabledAttribHtml}>${this.label}</ids-text>
+        <ids-text ${disabledAttribHtml}>${this.label}</ids-text>
       </label>`
     );
 
     /* istanbul ignore next */
     return (
       `<div
-        class="ids-spinbox${
-          this.hasAttribute(props.DISABLED) ? ' disabled' : ''
-        }${this.hasAttribute(props.READONLY) ? ' readonly' : ''}"
+        ${buildClassAttrib(
+        'ids-spinbox',
+        this.hasAttribute(props.DISABLED) && 'disabled',
+        this.hasAttribute(props.READONLY) && 'readonly'
+      ) }
         part="container">
           ${labelHtml}
           <div class="ids-spinbox-content">
@@ -438,6 +438,36 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   get validate() { return this.getAttribute(props.VALIDATE); }
 
+    /**
+   * @param {boolean} value whether or not spinbox is readonly
+   */
+     set readonly(value) {
+      if (stringToBool(value)) {
+        this.container.classList.add('readonly');
+        this.setAttribute(props.READONLY, true);
+        this.input.setAttribute(props.READONLY, true);
+        this.#incrementButton.setAttribute(props.DISABLED, '');
+        this.#decrementButton.setAttribute(props.DISABLED, '');
+      } else {
+        this.container.classList.remove('readonly');
+
+        this.removeAttribute(props.READONLY);
+        this.input.removeAttribute(props.READONLY);
+
+        if (!this.hasAttribute(props.DISABLED)) {
+          this.#incrementButton.removeAttribute(props.DISABLED);
+          this.#decrementButton.removeAttribute(props.DISABLED);
+        }
+      }
+    }
+
+    /**
+     * @returns {boolean} value whether or not spinbox is readonly
+     */
+    get readonly() {
+      return this.getAttribute(props.READONLY);
+    }
+
   /**
    * div holding spinbox buttons/input
    * @type {HTMLElement}
@@ -522,35 +552,5 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
       this.#incrementButton?.removeAttribute(props.DISABLED);
     }
-  }
-
-  /**
-   * @param {boolean} value whether or not spinbox is readonly
-   */
-  set readonly(value) {
-    if (stringToBool(value)) {
-      this.container.classList.add('readonly');
-      this.setAttribute(props.READONLY, true);
-      this.input.setAttribute(props.READONLY, true);
-      this.#incrementButton.setAttribute(props.DISABLED, '');
-      this.#decrementButton.setAttribute(props.DISABLED, '');
-    } else {
-      this.container.classList.remove('readonly');
-
-      this.removeAttribute(props.READONLY);
-      this.input.removeAttribute(props.READONLY);
-
-      if (!this.hasAttribute(props.DISABLED)) {
-        this.#incrementButton.removeAttribute(props.DISABLED);
-        this.#decrementButton.removeAttribute(props.DISABLED);
-      }
-    }
-  }
-
-  /**
-   * @returns {boolean} value whether or not spinbox is readonly
-   */
-  get readonly() {
-    return this.getAttribute(props.READONLY);
   }
 }

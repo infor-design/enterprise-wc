@@ -5,16 +5,18 @@
 
 :host(ids-spinbox) {
   --readonly-background: var(--ids-color-palette-slate-20);
+  --readonly-color: var(--ids-color-palette-black);
 
   width: fit-content;
 }
 
 :host(ids-spinbox[mode='dark']) {
-  --readonly-background: var(--ids-color-palette-slate-40);
+  --readonly-background: var(--ids-color-palette-slate-70);
+  --readonly-color: var(--ids-color-palette-slate-10);
 }
 
 :host(ids-spinbox[mode='contrast']) {
-  --readonly-background: var(--ids-color-palette-slate-40);
+  --readonly-background: var(--ids-color-palette-slate-20);
 }
 
 :host(ids-spinbox:focus-within) {
@@ -39,6 +41,7 @@
 .ids-spinbox.readonly {
   ids-button::part(button) {
     background-color: var(--readonly-background);
+    color: var(--readonly-color);
   }
 }
 
@@ -59,7 +62,7 @@
   }
 }
 
-.ids-spinbox:focus-within .ids-spinbox-content ids-button:not([disabled])::part(button) {
+.ids-spinbox:focus-within .ids-spinbox-content ids-button:not([disabled]):not([readonly])::part(button) {
   border-color: var(--ids-color-palette-azure-60);
   border-width: 1px;
   box-shadow: none;
