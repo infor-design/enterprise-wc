@@ -4,7 +4,17 @@
 @import '../ids-mixins/ids-validation-mixin';
 
 :host(ids-spinbox) {
+  --readonly-background: var(--ids-color-palette-slate-20);
+
   width: fit-content;
+}
+
+:host(ids-spinbox[mode='dark']) {
+  --readonly-background: var(--ids-color-palette-slate-40);
+}
+
+:host(ids-spinbox[mode='contrast']) {
+  --readonly-background: var(--ids-color-palette-slate-40);
 }
 
 :host(ids-spinbox:focus-within) {
@@ -28,7 +38,7 @@
 
 .ids-spinbox.readonly {
   ids-button::part(button) {
-    @include bg-slate-20();
+    background-color: var(--readonly-background);
   }
 }
 

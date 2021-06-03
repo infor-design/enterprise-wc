@@ -11,7 +11,8 @@ import IdsInput from '../ids-input/ids-input';
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
-  IdsDirtyTrackerMixin
+  IdsDirtyTrackerMixin,
+  IdsThemeMixin
 } from '../ids-mixins';
 import styles from './ids-spinbox.scss';
 
@@ -31,10 +32,15 @@ let instanceCounter = 0;
  * @part input input containing value/placeholder
  * @part label label text above the input
  * @part validation validation message when there is an error
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsThemeMixin
  */
 @customElement('ids-spinbox')
 @scss(styles)
 export default class IdsSpinbox extends mix(IdsElement).with(
+    IdsThemeMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsDirtyTrackerMixin
@@ -54,10 +60,12 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       props.LABEL,
       props.MAX,
       props.MIN,
+      props.MODE,
       props.READONLY,
       props.STEP,
       props.VALIDATE,
-      props.VALUE
+      props.VALUE,
+      props.VERSION
     ];
   }
 
