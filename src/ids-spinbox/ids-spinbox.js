@@ -27,23 +27,23 @@ let instanceCounter = 0;
  * IDS Spinbox Component
  * @type {IdsSpinbox}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsThemeMixin
  * @part container the overall container of the spinbox
  * @part button increment/decrement button
  * @part input input containing value/placeholder
  * @part label label text above the input
  * @part validation validation message when there is an error
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsDirtyTrackerMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-spinbox')
 @scss(styles)
 export default class IdsSpinbox extends mix(IdsElement).with(
-    IdsThemeMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
-    IdsDirtyTrackerMixin
+    IdsDirtyTrackerMixin,
+    IdsThemeMixin
   ) {
   constructor() {
     super();
@@ -228,6 +228,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     });
 
     this.setAttribute('role', 'spinbutton');
+    super.connectedCallback();
     return this;
   }
 
