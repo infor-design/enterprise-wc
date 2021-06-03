@@ -265,4 +265,81 @@ describe('IdsSpinbox Component', () => {
 
     expect(errors).not.toHaveBeenCalled();
   });
+
+  it('renders with readonly set, then toggles it off with no issues', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    elem = await createElemViaTemplate(
+      `<ids-spinbox readonly value="10"></ids-spinbox>`
+    );
+    expect(elem.readonly).not.toBeNull();
+
+    elem.setAttribute('readonly', false);
+    expect(elem.readonly).toBeNull();
+
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('toggling disabled and renderonly states preserves provides proper'
+  + ' disabled states', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-spinbox readonly value="10"></ids-spinbox>`
+    );
+
+    elem.setAttribute('disabled', true);
+    await processAnimFrame();
+
+    const idsButtons = [...elem.shadowRoot.querySelectorAll('ids-button')];
+
+    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+
+    elem.removeAttribute('readonly');
+    await processAnimFrame();
+
+    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(elem.readonly).toBeNull();
+
+    elem.removeAttribute('disabled');
+    await processAnimFrame();
+
+    expect(idsButtons.find((el) => el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(elem.disabled).toBeNull();
+
+    elem.readonly = true;
+    await processAnimFrame();
+
+    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(elem.readonly).not.toBeNull();
+
+    elem.setAttribute('disabled', true);
+    await processAnimFrame();
+
+    elem.removeAttribute('disabled');
+    await processAnimFrame();
+
+    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(elem.readonly).not.toBeNull();
+    expect(elem.disabled).toBeNull();
+  });
+
+  it('changes the value in input to empty, then presses increment button ' +
+  'and value is += increment step', async () => {
+    const value = 10;
+    elem = await createElemViaTemplate(
+      `<ids-spinbox readonly value="${value}"></ids-spinbox>`
+    );
+
+    elem.input.input.value = '';
+    await processAnimFrame();
+
+    const [
+      decrementButton,
+      incrementButton
+    ] = [...elem.shadowRoot.querySelectorAll('ids-button')];
+
+    incrementButton.click();
+    await processAnimFrame();
+
+    expect(elem.value).toEqual(`${value + 1}`);
+  });
 });

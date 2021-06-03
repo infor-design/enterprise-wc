@@ -457,6 +457,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       : 1;
 
     const hasValidValue = !Number.isNaN(parseInt(this.value));
+    /* istanbul ignore next */
     this.value = (hasValidValue ? parseInt(this.value) : 0) + step;
   }
 
@@ -472,6 +473,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       : 1;
 
     const hasValidValue = !Number.isNaN(parseInt(this.value));
+    /* istanbul ignore next */
     this.value = (hasValidValue ? parseInt(this.value) : 0) - step;
   }
 
@@ -489,7 +491,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     if (parseInt(this.value) <= parseInt(this.min)) {
       this.#decrementButton.setAttribute(props.DISABLED, '');
-    } else if (!this.hasAttribute(props.READONLY)) {
+    } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
       this.#decrementButton.removeAttribute(props.DISABLED);
     }
   }
@@ -508,7 +510,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     if (parseInt(this.value) >= parseInt(this.max)) {
       this.#incrementButton?.setAttribute(props.DISABLED, '');
-    } else if (!this.hasAttribute(props.READONLY)) {
+    } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
       this.#incrementButton?.removeAttribute(props.DISABLED);
     }
   }
