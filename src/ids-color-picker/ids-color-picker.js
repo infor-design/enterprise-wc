@@ -43,13 +43,19 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
 
    colorpickerInput = this.idsColorPicker.querySelector('.color-input')
 
-   colorInputValue = this.idsColorPicker.querySelector('.color-input-value')
+   colorInputValueClass = this.label === '' ? 'color-input-value-no-label' : 'color-input-value';
+
+   colorInputValue = this.idsColorPicker.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value')
 
    colorPreview = this.idsColorPicker.querySelector('.color-preview')
 
    idsColorsArr = document.querySelectorAll('ids-color')
 
    connectedCallback() {
+     this.value = this.value;
+     this.disabled = this.disabled;
+     this.swatch = this.swatch;
+     this.label = this.label;
      this.handleEvents();
    }
 
@@ -62,9 +68,9 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
       <div class="ids-color-picker">
         <ids-trigger-field tabbable="false">
           <span class="color-preview">
-            <input class="color-input" type="color">
+            <ids-input class="color-input" type="color"></ids-input>
           </span>
-          <ids-input class="color-input-value" label="Color Picker"></ids-input>
+          <ids-input class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
           <ids-trigger-button>
             <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
           </ids-trigger-button>

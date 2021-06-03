@@ -23,6 +23,14 @@
   width: 100%;
 }
 
+.color-input-value {
+  display: flex;
+}
+
+.color-input-value-no-label {
+  padding-top: 20px;
+}
+
 .color-container {
   border: 1px solid;
   height: 150px;
