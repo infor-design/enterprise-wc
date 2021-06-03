@@ -74,7 +74,7 @@ This mixin add functionality for validation to the component. This includes a ad
 This mixin adds functionality to change the theme on a component. To use it you need to:
 
 1. Include the IdsThemeMixin in the `mix` list.
-1. Add two properties to the properties array. For example:
+2. Add two properties to the properties array. For example:
 
 ```js
   static get properties() {
@@ -82,10 +82,10 @@ This mixin adds functionality to change the theme on a component. To use it you 
   }
 ```
 
-1. Make sure if you use connectedCallback that you have a `super.connectedCallback()` in the method
-1. Add types for MODE and VERSION to the `d.ts` file for the new properties.
-1. Add the theme mixin name to the @mixins tag for future docs.
-1. Add the color changes for each theme scss file. For example:
+3. Make sure if you use connectedCallback that you have a `super.connectedCallback()` in the method
+4. Add types for MODE and VERSION to the `d.ts` file for the new properties.
+5. Add the theme mixin name to the @mixins tag for future docs.
+6. Add the color changes for each theme scss file. For example:
 
 ```css
 .ids-container[mode='light'] {
@@ -113,7 +113,7 @@ This mixin adds functionality to change the theme on a component. To use it you 
 }
 ```
 
-1. In addition you should expose some of the component elements as `parts` do this in the comments and in the template. This gives a way to customize the styles outside of the web components, for flexibility and possible style customizations.
+7. In addition you should expose some of the component elements as `parts` do this in the comments and in the template. This gives a way to customize the styles outside of the web components, for flexibility and possible style customizations.
 
 ```js
  ...
@@ -126,7 +126,7 @@ This mixin adds functionality to change the theme on a component. To use it you 
    return '<span class="ids-tag" part="tag"><slot></slot></span>';
  }
 ```
-1. Add a themeable parts section to the .MD file
+8. Add a themeable parts section to the .MD file
 
 ## Ids Tooltip Mixin
 
