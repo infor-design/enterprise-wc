@@ -14,6 +14,6 @@ describe('Ids Tabs e2e Tests', () => {
     page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await expect(page).toPassAxeTests();
+    await expect(page).toPassAxeTests({ disabledRules: ['nested-interactive'] });
   });
 });
