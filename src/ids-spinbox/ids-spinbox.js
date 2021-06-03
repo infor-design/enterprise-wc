@@ -18,6 +18,11 @@ import styles from './ids-spinbox.scss';
 
 const { stringToBool, buildClassAttrib } = stringUtils;
 
+/** whether or not touchstart is available */
+const isTouch = (('ontouchstart' in window) || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+
+const TOUCH_DURATION = 250;
+
 /**
  * used for assigning ids
  */
@@ -40,10 +45,10 @@ let instanceCounter = 0;
 @customElement('ids-spinbox')
 @scss(styles)
 export default class IdsSpinbox extends mix(IdsElement).with(
+    IdsThemeMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
-    IdsDirtyTrackerMixin,
-    IdsThemeMixin
+    IdsDirtyTrackerMixin
   ) {
   constructor() {
     super();
@@ -137,8 +142,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   rendered() {
-    this.#updateDecrementDisabled();
-    this.#updateIncrementDisabled();
+    this.#updateDisabledButtonStates();
   }
 
   connectedCallback() {
@@ -190,13 +194,29 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     this.input.setLabelElement(labelEl);
 
-    this.onEvent('click.decrement', this.#decrementButton, () => {
-      this.#onDecrementStep();
-    });
+    this.onEvent(
+      'mousedown.increment',
+      this.#incrementButton,
+      this.#getStepButtonCycler('up')
+    );
 
-    this.onEvent('click.increment', this.#incrementButton, () => {
-      this.#onIncrementStep();
-    });
+    this.onEvent(
+      'mousedown.decrement',
+      this.#decrementButton,
+      this.#getStepButtonCycler('down')
+    );
+
+    this.onEvent(
+      'mouseup.increment',
+      this.#incrementButton,
+      (e) => this.#onStepButtonUnpressed(e)
+    );
+
+    this.onEvent(
+      'mouseup.decrement',
+      this.#decrementButton,
+      (e) => this.#onStepButtonUnpressed(e)
+    );
 
     this.onEvent('focus', this, (e) => {
       const isDisabled = this.hasAttribute(props.DISABLED);
@@ -216,11 +236,11 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       /* istanbul ignore next */
       switch (key) {
       case 'ArrowUp':
-        this.#onIncrementStep();
+        this.#onStep('up');
         break;
       default:
       case 'ArrowDown':
-        this.#onDecrementStep();
+        this.#onStep('down');
         break;
       }
 
@@ -228,8 +248,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     });
 
     this.setAttribute('role', 'spinbutton');
+
     super.connectedCallback();
-    return this;
   }
 
   /**
@@ -246,8 +266,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
         this.removeAttribute('aria-valuemax');
       }
 
-      this.#updateIncrementDisabled();
-      this.#updateDecrementDisabled();
+      this.#updateDisabledButtonStates();
     }
   }
 
@@ -273,8 +292,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
         this.removeAttribute('aria-valuemax');
       }
 
-      this.#updateIncrementDisabled();
-      this.#updateDecrementDisabled();
+      this.#updateDisabledButtonStates();
     }
   }
 
@@ -309,8 +327,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.setAttribute(props.TYPE, 'number');
       this.input.value = nextValue;
 
-      this.#updateDecrementDisabled();
-      this.#updateIncrementDisabled();
+      this.#updateDisabledButtonStates();
     }
   }
 
@@ -485,15 +502,20 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   #decrementButton;
 
   /**
-   * callback to increment value by step
+   * callback to increment/decrement value by step
    * @type {Function}
+   * @param {'up'|'down'} direction direction of step
    */
-  #onIncrementStep() {
+  #onStep(direction) {
     const hasValidStep = !Number.isNaN(parseInt(this.step));
-    const step = hasValidStep
+    let step = hasValidStep
       ? parseInt(this.step)
       /* istanbul ignore next */
       : 1;
+
+    if (direction === 'down') {
+      step *= -1;
+    }
 
     const hasValidValue = !Number.isNaN(parseInt(this.value));
     /* istanbul ignore next */
@@ -501,26 +523,27 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * callback to decrement value by step
+   * updates state of whether increment button is disabled
    * @type {Function}
    */
-  #onDecrementStep() {
-    const hasValidStep = !Number.isNaN(parseInt(this.step));
-    const step = hasValidStep
-      ? parseInt(this.step)
-      /* istanbul ignore next */
-      : 1;
+  #updateDisabledButtonStates() {
+    // increment button
 
-    const hasValidValue = !Number.isNaN(parseInt(this.value));
-    /* istanbul ignore next */
-    this.value = (hasValidValue ? parseInt(this.value) : 0) - step;
-  }
+    const hasMaxValue = !Number.isNaN(parseInt(this.max));
 
-  /**
-   * updates state of whether decrement button is disabled
-   * @type {Function}
-   */
-  #updateDecrementDisabled() {
+    if (!hasMaxValue) {
+      this.#incrementButton.removeAttribute(props.DISABLED);
+      return;
+    }
+
+    if (parseInt(this.value) >= parseInt(this.max)) {
+      this.#incrementButton?.setAttribute(props.DISABLED, '');
+    } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
+      this.#incrementButton?.removeAttribute(props.DISABLED);
+    }
+
+    // decrement button
+
     const hasMinValue = !Number.isNaN(parseInt(this.min));
 
     if (!hasMinValue) {
@@ -536,21 +559,40 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * updates state of whether increment button is disabled
-   * @type {Function}
+   * represents the direction a user is holding for
+   * the spinbox; works to enable long press intervals
+   *
+   * @type {'up'|'down'|undefined}
    */
-  #updateIncrementDisabled() {
-    const hasMaxValue = !Number.isNaN(parseInt(this.max));
+  #touchDirection;
 
-    if (!hasMaxValue) {
-      this.#incrementButton.removeAttribute(props.DISABLED);
-      return;
+  #touchCallbackTimer;
+
+  #getStepButtonCycler(direction) {
+    return (e) => {
+      this.#onStep(direction);
+
+      /* istanbul ignore else */
+      if (e.which === 1) {
+        this.#touchDirection = direction;
+        this.#touchCallbackTimer = setInterval(() => {
+          if (this.#touchDirection === direction) {
+            this.#onStep(direction);
+          }
+        }, 250);
+      }
+    };
+  }
+
+  #onStepButtonUnpressed(e) {
+    /* istanbul ignore else */
+    if (this.#touchCallbackTimer && e.which === 1) {
+      clearInterval(this.#touchCallbackTimer);
     }
 
-    if (parseInt(this.value) >= parseInt(this.max)) {
-      this.#incrementButton?.setAttribute(props.DISABLED, '');
-    } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
-      this.#incrementButton?.removeAttribute(props.DISABLED);
+    /* istanbul ignore else */
+    if (this.#touchDirection) {
+      this.#touchDirection = undefined;
     }
   }
 }
