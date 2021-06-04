@@ -111,4 +111,33 @@ describe('IdsHyperlink Component', () => {
     expect(elem.getAttribute('color')).toEqual(null);
     expect(elem.color).toEqual(null);
   });
+
+  it('sets a given font size', () => {
+    elem.fontSize = 14;
+    expect(elem.getAttribute('font-size')).toEqual('14');
+  });
+
+  it('sets font weight to bold or bolder', () => {
+    elem.fontWeight = 'bold';
+    expect(elem.getAttribute('font-weight')).toEqual('bold');
+    elem.fontWeight = 'bolder';
+    expect(elem.getAttribute('font-weight')).toEqual('bolder');
+  });
+
+  it('removes font size if attribute is empty', () => {
+    elem.fontSize = '';
+    expect(elem.getAttribute('font-size')).toEqual(null);
+    expect(elem.fontSize).toEqual(null);
+  });
+
+  it('does not set font weight to anything other than bold or bolder', () => {
+    elem.fontWeight = 'extra bold';
+    expect(elem.getAttribute('font-weight')).toEqual(null);
+    expect(elem.fontWeight).toEqual(null);
+  });
+
+  /* To do */
+  // it('doesn\'t set the role attribute if one already exists', () => {
+
+  // })
 });
