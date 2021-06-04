@@ -22,6 +22,14 @@ import styles from './ids-breadcrumb.scss';
 class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
+    this.#init();
+  }
+
+  /**
+   * Set the 'role' attribute to 'list'.
+   * Also set the font weight, color and role of each child by removing each and re-adding.
+   */
+  #init() {
     this.setAttribute('role', 'list');
     const stack = [];
     while (this.lastElementChild) { stack.push(this.pop()); }
