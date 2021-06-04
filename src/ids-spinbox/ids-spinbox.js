@@ -18,11 +18,6 @@ import styles from './ids-spinbox.scss';
 
 const { stringToBool, buildClassAttrib } = stringUtils;
 
-/** whether or not touchstart is available */
-const isTouch = (('ontouchstart' in window) || (navigator.MaxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
-
-const TOUCH_DURATION = 250;
-
 /**
  * used for assigning ids
  */
@@ -232,6 +227,9 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       if (stringToBool(this.getAttribute(props.DISABLED))) { return; }
       /* istanbul ignore next */
       const key = e.key;
+
+      this.#onStepButtonUnpressed('up');
+      this.#onStepButtonUnpressed('down');
 
       /* istanbul ignore next */
       switch (key) {
@@ -570,28 +568,36 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
   #getStepButtonCycler(direction) {
     return (e) => {
-      this.#onStep(direction);
-
       /* istanbul ignore else */
       if (e.which === 1) {
+        let tickCounter = 0;
         this.#touchDirection = direction;
-        this.#touchCallbackTimer = setInterval(() => {
+
+        const timedLogic = () => {
           if (this.#touchDirection === direction) {
             this.#onStep(direction);
+            tickCounter++;
+            this.#touchCallbackTimer = setTimeout(
+              timedLogic,
+              Math.max(350 - Math.round(tickCounter * 50), 100)
+            );
+          } else {
+            clearTimeout(timedLogic);
+            this.#touchCallbackTimer = undefined;
           }
-        }, 250);
+        };
+
+        this.#touchCallbackTimer = timedLogic;
+        this.#touchCallbackTimer();
       }
     };
   }
 
   #onStepButtonUnpressed(e) {
     /* istanbul ignore else */
-    if (this.#touchCallbackTimer && e.which === 1) {
+    if (e.which === 1 && this.#touchCallbackTimer) {
       clearInterval(this.#touchCallbackTimer);
-    }
-
-    /* istanbul ignore else */
-    if (this.#touchDirection) {
+      this.#touchCallbackTimer = undefined;
       this.#touchDirection = undefined;
     }
   }
