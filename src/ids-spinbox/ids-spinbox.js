@@ -345,6 +345,11 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.input.value = nextValue;
 
       this.#updateDisabledButtonStates();
+
+      this.triggerEvent('change', this, {
+        bubbles: false,
+        detail: { elem: this, value: nextValue }
+      });
     }
   }
 
