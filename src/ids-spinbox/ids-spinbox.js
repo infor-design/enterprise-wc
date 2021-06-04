@@ -582,43 +582,55 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    *
    * @type {'up'|'down'|undefined}
    */
-  #touchDirection;
+  #stepDirection;
 
-  #touchCallbackTimer;
+  /**
+   * stores a timeout related to value cycling
+   */
+  #stepCycleTimeout;
 
+  /**
+   * return a handler which begins incrementing/decrementing value in steps
+   * @param {'up'|'down'} direction which direction to step towards
+   * @returns {Function} callback which accepts mouse/touch event
+   */
   #getStepButtonCycler(direction) {
     return (e) => {
       /* istanbul ignore else */
       if (e.which === 1) {
         let tickCounter = 0;
-        this.#touchDirection = direction;
+        this.#stepDirection = direction;
 
         const timedLogic = () => {
-          if (this.#touchDirection === direction) {
+          if (this.#stepDirection === direction) {
             this.#onStep(direction);
             tickCounter++;
-            this.#touchCallbackTimer = setTimeout(
+            this.#stepCycleTimeout = setTimeout(
               timedLogic,
               Math.max(350 - Math.round(tickCounter * 50), 100)
             );
           } else {
             clearTimeout(timedLogic);
-            this.#touchCallbackTimer = undefined;
+            this.#stepCycleTimeout = undefined;
           }
         };
 
-        this.#touchCallbackTimer = timedLogic;
-        this.#touchCallbackTimer();
+        this.#stepCycleTimeout = timedLogic;
+        this.#stepCycleTimeout();
       }
     };
   }
 
+  /**
+   * unbinds timers associated with value cycling
+   * @param {*} e optional mouse event
+   */
   #onStepButtonUnpressed(e) {
     /* istanbul ignore else */
-    if (!e || (e.which === 1 && this.#touchCallbackTimer)) {
-      clearInterval(this.#touchCallbackTimer);
-      this.#touchCallbackTimer = undefined;
-      this.#touchDirection = undefined;
+    if (!e || (e.which === 1 && this.#stepCycleTimeout)) {
+      clearInterval(this.#stepCycleTimeout);
+      this.#stepCycleTimeout = undefined;
+      this.#stepDirection = undefined;
     }
   }
 }
