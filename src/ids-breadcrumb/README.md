@@ -4,10 +4,6 @@
 
 Displays the current view and all parent views. A user can navigate between views. Best for presenting hierarchical paths in a system.
 
-## Use Cases
-
-- Use breadcrumb in a tree-like page navigation to show the path to the current page.
-
 ## Terminology
 /*
 - **Counts**: UI embellishments for summarizing high level numeric information.
