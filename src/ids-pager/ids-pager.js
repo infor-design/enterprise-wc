@@ -38,7 +38,7 @@ export default class IdsPager extends IdsElement {
     return [
       props.PAGE_INDEX,
       props.PAGE_ITEM_COUNT,
-      props.PAGE_SIZE
+      props.COUNT
     ];
   }
 
@@ -50,11 +50,9 @@ export default class IdsPager extends IdsElement {
       subtree: true
     });
 
-    this.#updateChildrenProps();
+    this.#normalizeSectionContainers();
 
-    if (!this.hasAttribute(props.PAGE_INDEX)) {
-      this.setAttribute(props.PAGE_INDEX, 1);
-    }
+    super.connectedCallback?.();
   }
 
   /**
@@ -72,13 +70,87 @@ export default class IdsPager extends IdsElement {
   }
 
   /**
-   * updates children start/end properties
-   * as needed for alignment
+   * @param {string|number} value number of items shown per-page
    */
-  #updateChildrenProps() {
-    if (!this.hasSectionContainers()) {
+  set pageItemCount(value) {
+    if (Number.isNaN(Number.parseInt(value))) {
+      console.error('ids-pager: non-numeric value sent to page-item-count');
+      this.setAttribute(props.PAGE_ITEM_COUNT, 0);
       return;
     }
+
+    this.setAttribute(props.PAGE_ITEM_COUNT, Number.parseInt(value));
+  }
+
+  /**
+   * @returns {string|number} number of items shown per-page
+   */
+  get pageItemCount() {
+    return this.getAttribute(props.PAGE_ITEM_COUNT);
+  }
+
+  /**
+   * @param {string|number} value 0-based page index
+   */
+  set pageIndex(value) {
+    if (Number.isNaN(Number.parseInt(value))) {
+      this.setAttribute(props.PAGE_INDEX, 0);
+      console.error('ids-pager: non-numeric value sent to pageIndex');
+      return;
+    }
+
+    if (Number.isNaN(Number.parseInt(value)) <= 0) {
+      this.setAttribute(props.PAGE_INDEX, 10);
+      console.error('ids-pager: pageIndex cannot be <= 0');
+      return;
+    }
+
+    this.setAttribute(props.PAGE_INDEX, Number.parseInt(value));
+  }
+
+  /**
+   * @returns {string|number} value 0-based page index
+   */
+  get pageIndex() {
+    return this.getAttribute(props.PAGE_INDEX);
+  }
+
+  /**
+   * @param {string|number} value number of items to track
+   */
+  set count(value) {
+    if (Number.isNaN(Number.parseInt(value))) {
+      console.error('ids-pager: non-numeric value sent to count');
+      this.setAttribute(props.COUNT, 0);
+      return;
+    }
+
+    if (Number.isNaN(Number.parseInt(value)) <= 0) {
+      console.error('ids-pager: count cannot be <= 0');
+      this.setAttribute(props.COUNT, 0);
+      return;
+    }
+
+    this.setAttribute(props.COUNT, Number.parseInt(value));
+  }
+
+  /**
+   * @returns {string|number} number of items for pager is tracking
+   */
+  get count() {
+    return this.getAttribute(props.COUNT, 0);
+  }
+
+  /**
+   * update the state of the section containers so
+   * user doesn't have to manually input all of this
+   * e.g. adds start/end attributes as needed for
+   * their styling, and adds an extra left section
+   * if only 2 sections exist for alignment sake to
+   * keep things simple
+   */
+  #normalizeSectionContainers() {
+    if (!this.hasSectionContainers()) { return; }
 
     switch (this.children.length) {
     case 3:
@@ -109,52 +181,11 @@ export default class IdsPager extends IdsElement {
     }
   }
 
-  /**
-   * @param {string|number} value 0-based index for page that is currently viewed
-   */
-  set pageIndex(value) {
-    if (Number.isNaN(Number.parseInt(value))) {
-      this.setAttribute(props.PAGE_INDEX, 1);
-      return;
-    }
-
-    this.setAttribute(props.PAGE_INDEX, Number.parseInt(value));
-  }
-
-  /**
-   * @param {string|number} value number of items shown per-page
-   */
-  set pageItemCount(value) {
-    if (Number.isNaN(Number.parseInt(value))) {
-      this.removeAttribute(props.PAGE_ITEM_COUNT);
-      console.error('ids-pager: non-numeric value sent to page-item-count');
-      return;
-    }
-
-    this.setAttribute(props.PAGE_ITEM_COUNT, Number.parseInt(value));
-  }
-
-  set pageSize(value) {
-    if (Number.isNaN(Number.parseInt(value))) {
-      this.setAttribute(props.PAGE_SIZE, 10);
-      console.error('ids-pager: non-numeric value sent to page-size');
-      return;
-    }
-
-    if (Number.isNaN(Number.parseInt(value)) <= 0) {
-      this.setAttribute(props.PAGE_SIZE, 10);
-      console.error('ids-pager: page-size cannot be <= 0');
-      return;
-    }
-
-    this.setAttribute(props.PAGE_SIZE, Number.parseInt(value));
-  }
-
   /** observes changes in content/layout */
   #contentObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'childList') {
-        this.#updateChildrenProps();
+        this.#normalizeSectionContainers();
       }
     }
   });

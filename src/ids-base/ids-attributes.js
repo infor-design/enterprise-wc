@@ -93,7 +93,6 @@ export const attributes = {
   ORIENTATION: 'orientation',
   PAGE_INDEX: 'page-index',
   PAGE_ITEM_COUNT: 'page-item-count',
-  PAGE_SIZE: 'page-size',
   PLACEHOLDER: 'placeholder',
   PLACEMENT: 'placement',
   POSITION_STYLE: 'position-style',

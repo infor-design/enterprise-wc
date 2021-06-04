@@ -38,6 +38,21 @@ export default class IdsPagerInput extends IdsElement {
     return [props.VALUE, props.PAGE_COUNT];
   }
 
+  /**
+   * @param {string|number} value 1-based value of the page number (1-based)
+   */
+  set value(value) {
+    this.setAttribute(props.VALUE, value);
+    this.input.setAttribute(props.VALUE, value);
+  }
+
+  /**
+   * @returns {string|number} 1-based value of the page number (1-based pageIndex)
+   */
+  get value() {
+    return this.getAttribute(props.VALUE);
+  }
+
   connectedCallback() {
   }
 }
