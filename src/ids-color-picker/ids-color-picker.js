@@ -37,6 +37,8 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
 
    idsColorPicker = this.shadowRoot
 
+   body = document.getElementsByTagName('body')[0]
+
    colorpickerContainer = this.container;
 
    colorContainer = this.idsColorPicker.querySelector('.color-container')
@@ -68,13 +70,16 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
       <div class="ids-color-picker">
         <ids-trigger-field tabbable="false">
           <span class="color-preview">
-            <ids-input class="color-input" type="color"></ids-input>
+            <ids-input class="color-input" type="color" disabled="${this.disabled}"></ids-input>
           </span>
-          <ids-input class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
+          <ids-input dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
           <ids-trigger-button>
             <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
+        <div class="color-container hide-color-container">
+          <slot></slot>
+        </div>
       </div>`;
      return template;
    }
@@ -85,7 +90,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
    }
 
    get value() {
-     return this.getAttribute('value') || '#000000';
+     return this.getAttribute('value') || '#B94E4E';
    }
 
    set disabled(d) {
@@ -117,6 +122,19 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
        element.style.backgroundColor = element.getAttribute('hex');
      });
 
+     this.onEvent('click', this.container, (event) => {
+       const target = event.target;
+       const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
+       if (openColorCondition) {
+         this.openCloseColorpicker();
+       }
+
+       if (target.hasAttribute('hex')) {
+         this.setAttribute('value', target.getAttribute('hex'));
+         this.openCloseColorpicker();
+       }
+     });
+
      this.onEvent('change', this.colorpickerInput, () => this.setAttribute('value', this.colorpickerInput.value));
 
      this.onEvent('change', this.colorInputValue, () => this.setAttribute('value', this.colorInputValue.value));
@@ -126,6 +144,12 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      this.colorpickerInput.value = colorValue;
      this.colorPreview.style.backgroundColor = colorValue;
      this.colorInputValue.value = colorValue;
+   }
+
+   openCloseColorpicker() {
+     let openClose = this.colorContainer.classList.contains('hide-color-container');
+     this.colorContainer.classList.remove(openClose ? 'hide-color-container' : 'show-color-container');
+     this.colorContainer.classList.add(openClose ? 'show-color-container' : 'hide-color-container');
    }
  }
 
