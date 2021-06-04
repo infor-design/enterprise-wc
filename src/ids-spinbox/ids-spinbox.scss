@@ -89,8 +89,8 @@
     max-height: 38px;
     margin-bottom: 4px;
 
-    &:focus-visible ids-input::part(input):not(.error),
-    &:focus-visible ids-button::part(button) {
+    &:focus-within ids-input:not(.error)::part(input),
+    &:focus-within ids-button:not(.error)::part(button) {
       border-color: var(--ids-color-palette-azure-60) !important;
       border-width: 1px;
       box-shadow: none;
