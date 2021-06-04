@@ -100,7 +100,7 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} value If 'none', removes text decoration
    */
   set textDecoration(value) {
-    if (value.toLowerCase() === 'none') {
+    if (value?.toLowerCase() === 'none') {
       this.setAttribute(props.TEXT_DECORATION, value);
       this.container.style.textDecoration = value;
       return;
