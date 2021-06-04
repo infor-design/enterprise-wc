@@ -9,6 +9,10 @@ import { IdsText } from '../ids-text/ids-text';
 import IdsPagerSection from './ids-pager-section';
 import styles from './ids-pager-input.scss';
 
+// TODO: should take PAGE_INDEX vs VALUE; possibly could use
+// value internally, just not as simple if all page elements
+// don't receive common props
+
 /**
  * IDS PagerInput Component
  * @type {IdsPagerInput}

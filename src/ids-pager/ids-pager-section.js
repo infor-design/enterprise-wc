@@ -25,8 +25,14 @@ export default class IdsPagerSection extends IdsElement {
     return `<slot></slot>`;
   }
 
-  get properties() {
-    return [props.START, props.END];
+  static get properties() {
+    return [
+      props.START,
+      props.END,
+      props.COUNT,
+      props.PAGE_INDEX,
+      props.PAGE_ITEM_COUNT
+    ];
   }
 
   /**
