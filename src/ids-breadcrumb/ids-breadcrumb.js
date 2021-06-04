@@ -22,9 +22,10 @@ import styles from './ids-breadcrumb.scss';
 class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
+    this.setAttribute('role', 'list');
     const stack = [];
-    while(this.lastElementChild) { stack.push(this.pop()); }
-    while(stack.length) { this.push(stack.pop()); }
+    while (this.lastElementChild) { stack.push(this.pop()); }
+    while (stack.length) { this.push(stack.pop()); }
   }
 
   /**
@@ -45,7 +46,6 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
    * @param {Element} breadcrumb The HTML element with which to add
    */
   push(breadcrumb) {
-    console.log(breadcrumb);
     if (this.lastElementChild) {
       this.lastElementChild.setAttribute('font-weight', '');
     }
@@ -57,7 +57,7 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
     }
     this.appendChild(breadcrumb);
   }
-  
+
   /**
    * Removes the last breadcrumb from the stack.
    * @returns {Element | null} The removed element
@@ -66,7 +66,7 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
     if (this.lastElementChild) {
       const breadcrumb = this.removeChild(this.lastElementChild);
       if (this.lastElementChild) {
-        this.lastElementChild.setAttribute('font-weight', '');
+        this.lastElementChild.setAttribute('font-weight', 'bolder');
       }
       return breadcrumb;
     }

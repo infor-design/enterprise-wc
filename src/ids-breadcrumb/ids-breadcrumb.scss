@@ -9,9 +9,20 @@
   }
 }
 
+a.ids-hyperlink {
+  @include text-14();
+  @include text-slate-60();
+}
+
 ::slotted(*),
 .ids-breadcrumb > * {
   display: inline;
+
+  // &:focus {
+  //   border: 1px solid var(--ids-color-palette-azure-60);
+  //   box-shadow: 0 0 4px 3px rgb(54, 138, 192, 0.3);
+  //   outline: none;
+  // }
 }
 
 // Create the / between breadcrumbs
