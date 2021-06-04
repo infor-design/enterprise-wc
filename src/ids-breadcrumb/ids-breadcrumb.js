@@ -11,6 +11,7 @@ import { IdsEventsMixin, IdsThemeMixin } from '../ids-mixins';
 import styles from './ids-breadcrumb.scss';
 
 /**
+ *  IDS Breadcrumb Component
  * @type {IdsBreadcrumb}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
