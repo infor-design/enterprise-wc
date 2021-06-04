@@ -1026,21 +1026,28 @@ class IdsPopup extends mix(IdsElement).with(
   #nudge(popupRect) {
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
+    const containerRect = this.containingElem.getBoundingClientRect();
+    const bleed = this.bleed;
 
     let fixedX = popupRect.x;
     let fixedY = popupRect.y;
 
-    if (popupRect.right > viewportWidth) {
-      fixedX -= popupRect.right - viewportWidth;
+    const rightEdge = bleed ? viewportWidth : containerRect.right;
+    const leftEdge = bleed ? 0 : containerRect.left;
+    const topEdge = bleed ? 0 : containerRect.top;
+    const bottomEdge = bleed ? viewportHeight : containerRect.bottom;
+
+    if (popupRect.right > rightEdge) {
+      fixedX -= (popupRect.right - rightEdge);
     }
-    if (popupRect.left < 0) {
-      fixedX += Math.abs(popupRect.left);
+    if (popupRect.left < leftEdge) {
+      fixedX += (Math.abs(popupRect.left) + leftEdge);
     }
-    if (popupRect.bottom > viewportHeight) {
-      fixedY -= popupRect.bottom - viewportHeight;
+    if (popupRect.bottom > bottomEdge) {
+      fixedY -= (popupRect.bottom - bottomEdge);
     }
-    if (popupRect.top < 0) {
-      fixedY += Math.abs(popupRect.top);
+    if (popupRect.top < topEdge) {
+      fixedY += (Math.abs(popupRect.top) + topEdge);
     }
 
     popupRect.x = fixedX;

@@ -19,6 +19,7 @@ export const props = {
   AUTO_HEIGHT: 'auto-height',
   AUTOSELECT: 'autoselect',
   BG_TRANSPARENT: 'bg-transparent',
+  BLEED: 'bleed',
   CHAR_MAX_TEXT: 'char-max-text',
   CHAR_REMAINING_TEXT: 'char-remaining-text',
   CHARACTER_COUNTER: 'character-counter',

@@ -1,10 +1,14 @@
 import IdsPopup from '../../src/ids-popup/ids-popup';
+import IdsButton from '../../src/ids-button/ids-button';
 import IdsInput from '../../src/ids-input/ids-input';
 
 import './test-sandbox.scss';
 
 let popupEl;
+let xControlEl;
+let yControlEl;
 let xyControlFieldsetLabelEl;
+let xyClickToSetEl;
 let alignmentDisplayEl;
 
 /**
@@ -14,9 +18,30 @@ function targetChangeHandler(e) {
   popupEl.alignTarget = e.target.value;
   if (!e.target.value) {
     xyControlFieldsetLabelEl.textContent = 'Coordinates';
+    xyClickToSetEl.disabled = false;
   } else {
     xyControlFieldsetLabelEl.textContent = 'Offsets';
+    xyClickToSetEl.disabled = true;
   }
+}
+
+/**
+ * @param {Event} e the change event object
+ */
+function containmentChangeHandler(e) {
+  let val;
+  switch (e.target.value) {
+  case 'ids-container':
+    val = document.querySelector('ids-container');
+    break;
+  case 'test-container':
+    val = document.querySelector('#test-container');
+    break;
+  default:
+    val = document.body;
+    break;
+  }
+  popupEl.containingElem = val;
 }
 
 /**
@@ -50,6 +75,16 @@ function yPosChangeHandler(e) {
 /**
  * @param {Event} e the change event object
  */
+function xyResetHandler(e) {
+  xControlEl.value = 0;
+  yControlEl.value = 0;
+  popupEl.x = 0;
+  popupEl.y = 0;
+}
+
+/**
+ * @param {Event} e the change event object
+ */
 function animatedChangeHandler(e) {
   popupEl.animated = e.target.checked;
 }
@@ -73,6 +108,7 @@ function bleedsChangeHandler(e) {
 document.addEventListener('DOMContentLoaded', () => {
   popupEl = document.querySelector('#test-popup');
   xyControlFieldsetLabelEl = document.querySelector('#xy-controls legend');
+  xyClickToSetEl = document.querySelector('#xy-click-to-set-option');
   alignmentDisplayEl = document.querySelector('#alignment-display');
 
   // const centerTargetEl = document.querySelector('#center-point');
@@ -100,6 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
     radioEl.addEventListener('change', targetChangeHandler);
   });
 
+  // Setup containment controls
+  const containmentGroupEl = document.querySelector('#containment');
+  const containmentRadioEls = containmentGroupEl.querySelectorAll('input[type="radio"]');
+  containmentRadioEls.forEach((radioEl) => {
+    radioEl.addEventListener('change', containmentChangeHandler);
+  });
+
   // Setup x-alignment controls
   const xAlignGroupEl = document.querySelector('#x-alignments');
   const xAlignRadioEls = xAlignGroupEl.querySelectorAll('input[type="radio"]');
@@ -115,11 +158,14 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Setup X/Y coordinates/offsets controls
-  const xControlEl = document.querySelector('#x-control');
+  xControlEl = document.querySelector('#x-control');
   xControlEl.addEventListener('change', xPosChangeHandler);
 
-  const yControlEl = document.querySelector('#y-control');
+  yControlEl = document.querySelector('#y-control');
   yControlEl.addEventListener('change', yPosChangeHandler);
+
+  const xyResetEl = document.querySelector('#xy-controls-reset');
+  xyResetEl.addEventListener('click', xyResetHandler);
 
   // Setup toggles
   const animatedControlEl = document.querySelector('#animated-option');
@@ -148,5 +194,23 @@ document.addEventListener('DOMContentLoaded', () => {
     attributeFilter: ['align'],
     attributeOldValue: true,
     subtree: true
+  });
+
+  // When in coordinates mode, listen for clicks on the document to set the
+  // coordinates automatically. If clicking within control boxes, the clicks are ignored.
+  document.addEventListener('click', (e) => {
+    if (xyClickToSetEl.disabled || !xyClickToSetEl.checked) {
+      return;
+    }
+
+    const withinFieldset = e.target.closest('fieldset');
+    if (withinFieldset) {
+      return;
+    }
+
+    xControlEl.value = e.clientX;
+    yControlEl.value = e.clientY;
+    popupEl.x = e.clientX;
+    popupEl.y = e.clientY;
   });
 });

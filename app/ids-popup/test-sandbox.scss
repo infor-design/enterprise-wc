@@ -1,3 +1,11 @@
+// Temporary reset
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+
 div[role='main'] {
   position: relative;
 }
@@ -31,6 +39,16 @@ div[role='main'] {
 #second-target,
 #third-target {
   position: absolute;
+}
+
+#test-container {
+  background-color: #ccc;
+  position: absolute;
+  top: 10%;
+  bottom: 40%;
+  left: 10%;
+  right: 60%;
+  padding: 10px;
 }
 
 .demo-popup {
