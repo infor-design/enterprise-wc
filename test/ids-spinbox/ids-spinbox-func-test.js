@@ -318,14 +318,23 @@ describe('IdsSpinbox Component', () => {
     expect(elem.disabled).toBeNull();
   });
 
+  // note this behavior should be more intelligent on iteration;
+  // e.g. clearing input field shouldn't fall back to '' but
+  // instead it should be previous input;
+
+  // spinbox needs to track a previous "good" value input and seems
+  // not most easy to streamline quickly so this is just current
+  // behavior on an edge case
+
   it('changes the value in input to empty, then presses increment button '
-  + 'and value is += increment step', async () => {
+  + 'and value is cleared then one added', async () => {
     const value = 10;
     elem = await createElemViaTemplate(
       `<ids-spinbox readonly value="${value}"></ids-spinbox>`
     );
 
-    elem.input.input.value = '';
+    elem.input.value = '';
+    await processAnimFrame();
     await processAnimFrame();
 
     const [
@@ -335,7 +344,27 @@ describe('IdsSpinbox Component', () => {
 
     await simulateMouseDownEvents({ element: incrementButton });
     await processAnimFrame();
+    await processAnimFrame();
 
-    expect(elem.value).toEqual(`${value + 1}`);
+    expect(elem.value).toEqual('1');
+  });
+
+  it('sets the value to one not divisible by steps and has it auto-rounded to nearest-step in both '
+  + 'directions', async () => {
+    const value = 0;
+    const step = 5;
+    elem = await createElemViaTemplate(
+      `<ids-spinbox readonly value="${value}" step="${step}"></ids-spinbox>`
+    );
+
+    elem.input.value = value + Math.floor(step / 2) + 1;
+
+    await processAnimFrame();
+
+    expect(elem.value).toEqual(`${value + step}`);
+
+    elem.input.value = (value + (step / 2)) - 1;
+
+    expect(elem.value).toEqual(`${value}`);
   });
 });

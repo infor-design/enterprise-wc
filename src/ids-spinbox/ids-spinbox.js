@@ -626,8 +626,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * @param {*} e optional mouse event
    */
   #onStepButtonUnpressed(e) {
-    /* istanbul ignore else */
-    if (!e || (e.which === 1 && this.#stepCycleTimeout)) {
+    /* istanbul ignore next */
+    if (!e || /* istanbul ignore next */ (e.which === 1 && this.#stepCycleTimeout)) {
       clearInterval(this.#stepCycleTimeout);
       this.#stepCycleTimeout = undefined;
       this.#stepDirection = undefined;
