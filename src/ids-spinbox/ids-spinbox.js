@@ -331,6 +331,12 @@ export default class IdsSpinbox extends mix(IdsElement).with(
         nextValue = Math.min(nextValue, parseInt(this.max));
       }
 
+      if ((hasMaxValue && nextValue === parseInt(this.max))
+        || (hasMinValue && nextValue === parseInt(this.min))
+      ) {
+        this.#onStepButtonUnpressed();
+      }
+
       // set properties/updaters
 
       this.setAttribute(props.VALUE, nextValue);
@@ -550,7 +556,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     if (parseInt(this.value) >= parseInt(this.max)) {
       this.#incrementButton?.setAttribute(props.DISABLED, '');
-      this.onStepButtonUnpressed();
     } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
       this.#incrementButton?.removeAttribute(props.DISABLED);
     }
@@ -566,7 +571,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     if (parseInt(this.value) <= parseInt(this.min)) {
       this.#decrementButton.setAttribute(props.DISABLED, '');
-      this.#onStepButtonUnpressed();
     } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
       this.#decrementButton.removeAttribute(props.DISABLED);
     }
