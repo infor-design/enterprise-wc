@@ -406,7 +406,15 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Only update if the value has changed
     if (this.state.alignEdge !== edge) {
+      // const align = this.align;
       this.state.alignEdge = edge;
+
+      // If the primary edge doesn't match, re-format the align attribute
+      /*
+      if (align.split(',')[0] !== 'edge') {
+        this.align = formatAlignAttribute(this.alignX, this.alignY, edge);
+      }
+      */
     }
   }
 
@@ -1053,7 +1061,6 @@ class IdsPopup extends mix(IdsElement).with(
     popupRect.x = fixedX;
     popupRect.y = fixedY;
 
-    console.info('nudge');
     return popupRect;
   }
 
