@@ -119,6 +119,7 @@ class IdsPopup extends mix(IdsElement).with(
       alignTarget: undefined,
       alignX: ALIGNMENTS_X[0],
       alignY: ALIGNMENTS_Y[0],
+      align: 'center',
       arrow: ARROW_TYPES[0],
       arrowTarget: null,
       animated: false,
@@ -250,7 +251,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {string} val a comma-delimited set of alignment types `direction1, direction2`
    */
   set align(val) {
-    const currentAlign = this.align;
+    const currentAlign = this.state.align;
     let trueVal = val;
     if (typeof trueVal !== 'string' || !trueVal.length) {
       trueVal = CENTER;
@@ -297,6 +298,7 @@ class IdsPopup extends mix(IdsElement).with(
 
     const newAlign = formatAlignAttribute(attrX, attrY, this.state.alignEdge);
     if (currentAlign !== newAlign) {
+      this.state.align = newAlign;
       this.setAttribute(props.ALIGN, newAlign);
       this.refresh();
     }
@@ -306,9 +308,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} a DOM-friendly string reprentation of alignment types
    */
   get align() {
-    const { alignX, alignY } = this;
-    const edge = this.alignEdge;
-    return formatAlignAttribute(alignX, alignY, edge);
+    return this.state.align;
   }
 
   /**
@@ -392,14 +392,8 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Sanitize the alignment edge
     let edge;
-    let alignX = this.state.alignX;
-    let alignY = this.state.alignY;
     if (ALIGNMENT_EDGES.includes(val)) {
       edge = val;
-      if (val === CENTER) {
-        alignX = val;
-        alignY = val;
-      }
     } else {
       edge = ALIGNMENT_EDGES[0];
     }
@@ -413,7 +407,6 @@ class IdsPopup extends mix(IdsElement).with(
     // Only update if the value has changed
     if (this.state.alignEdge !== edge) {
       this.state.alignEdge = edge;
-      this.align = formatAlignAttribute(alignX, alignY, edge);
     }
   }
 
