@@ -170,6 +170,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     this.input.addEventListener('change', () => {
       if (this.input.value !== this.value) {
         this.value = this.input.value;
+        this.#onStepButtonUnpressed();
       }
     });
 
@@ -228,8 +229,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       /* istanbul ignore next */
       const key = e.key;
 
-      this.#onStepButtonUnpressed('up');
-      this.#onStepButtonUnpressed('down');
+      this.#onStepButtonUnpressed();
 
       /* istanbul ignore next */
       switch (key) {
@@ -307,10 +307,21 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   set value(value) {
     if (parseInt(this.getAttribute(props.VALUE)) !== parseInt(value)) {
+      let nextValue = parseInt(value);
+
+      // corrections on value if not in-step
+
+      const step = parseInt(this.step);
+      const hasValidStep = !Number.isNaN(step);
+
+      if (hasValidStep && (nextValue % step !== 0)) {
+        nextValue = Math.round(nextValue / step) * step;
+      }
+
+      // corrections on value if not in-range
+
       const hasMinValue = !Number.isNaN(parseInt(this.min));
       const hasMaxValue = !Number.isNaN(parseInt(this.max));
-
-      let nextValue = parseInt(value);
 
       if (hasMinValue) {
         nextValue = Math.max(nextValue, parseInt(this.min));
@@ -319,6 +330,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       if (hasMaxValue) {
         nextValue = Math.min(nextValue, parseInt(this.max));
       }
+
+      // set properties/updaters
 
       this.setAttribute(props.VALUE, nextValue);
       this.setAttribute('aria-valuenow', nextValue);
@@ -461,6 +474,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.container.classList.add('readonly');
       this.setAttribute(props.READONLY, true);
       this.input.setAttribute(props.READONLY, true);
+      this.#onStepButtonUnpressed();
       this.#incrementButton.setAttribute(props.DISABLED, '');
       this.#decrementButton.setAttribute(props.DISABLED, '');
     } else {
@@ -536,6 +550,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     if (parseInt(this.value) >= parseInt(this.max)) {
       this.#incrementButton?.setAttribute(props.DISABLED, '');
+      this.onStepButtonUnpressed();
     } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
       this.#incrementButton?.removeAttribute(props.DISABLED);
     }
@@ -551,6 +566,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     if (parseInt(this.value) <= parseInt(this.min)) {
       this.#decrementButton.setAttribute(props.DISABLED, '');
+      this.#onStepButtonUnpressed();
     } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
       this.#decrementButton.removeAttribute(props.DISABLED);
     }
@@ -595,7 +611,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
   #onStepButtonUnpressed(e) {
     /* istanbul ignore else */
-    if (e.which === 1 && this.#touchCallbackTimer) {
+    if (!e || (e.which === 1 && this.#touchCallbackTimer)) {
       clearInterval(this.#touchCallbackTimer);
       this.#touchCallbackTimer = undefined;
       this.#touchDirection = undefined;
