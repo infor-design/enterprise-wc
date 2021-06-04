@@ -597,7 +597,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   #getStepButtonCycler(direction) {
     return (e) => {
       /* istanbul ignore else */
-      if (e.which === 1) {
+      if (0x001 && e.buttons) {
         let tickCounter = 0;
         this.#stepDirection = direction;
 

@@ -1,42 +1,9 @@
 /**
  * @jest-environment jsdom
  */
+import processAnimFrame from '../helpers/process-anim-frame';
+import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
 import IdsSpinbox from '../../src/ids-spinbox';
-
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
-
-const processAnimFrame = () => new Promise((resolve) => {
-  window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(resolve);
-  });
-});
-
-/**
- * simulate a 'mousedown' followed by 'mouseup'
- * @param {HTMLElement} buttonEl increment or decrement button
- */
-async function simulateButtonClick(buttonEl) {
-  const prevTabIndex = buttonEl.getAttribute('tabindex');
-  const downEvent = new MouseEvent('mousedown', {
-    bubbles: true,
-    cancelable: true,
-    view: window
-  });
-
-  const upEvent = new MouseEvent('mouseup', {
-    bubbles: true,
-    cancelable: true,
-    view: window
-  });
-
-  buttonEl.setAttribute('tabindex', 0);
-  buttonEl.dispatchEvent(downEvent);
-  await processAnimFrame();
-  await wait(2500);
-  buttonEl.dispatchEvent(upEvent);
-  await processAnimFrame();
-  buttonEl.setAttribute('tabindex', prevTabIndex);
-}
 
 const DEFAULT_SPINBOX_HTML = (
   `<ids-spinbox
@@ -71,7 +38,6 @@ describe('IdsSpinbox Component', () => {
   };
 
   it('renders from HTML Template with no errors', async () => {
-    console.log('THE CALM BEFEORE THE STORM');
     elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
 
     const errors = jest.spyOn(global.console, 'error');
@@ -95,7 +61,6 @@ describe('IdsSpinbox Component', () => {
 
     elem.label = 'Heading 1';
     expect(elem.label).toEqual('Heading 1');
-    console.log('RUNNING 3');
   });
 
   it('removes min value and then can set value with no floor', async () => {
@@ -104,7 +69,6 @@ describe('IdsSpinbox Component', () => {
     elem.min = '';
     elem.value = -10000;
     expect(parseInt(elem.value)).toEqual(-10000);
-    console.log('RUNNING 4');
   });
 
   it('updates min value but can only set a value to min floor', async () => {
@@ -144,234 +108,234 @@ describe('IdsSpinbox Component', () => {
     const initialValue = parseInt(elem.value);
     const step = parseInt(elem.step);
 
-    await simulateButtonClick(incrementButton);
+    await simulateMouseDownEvents({ element: incrementButton });
 
     expect(parseInt(elem.value)).toEqual(initialValue + step);
 
-    await simulateButtonClick(decrementButton);
+    await simulateMouseDownEvents({ element: decrementButton });
     await processAnimFrame();
 
     expect(parseInt(elem.value)).toEqual(initialValue);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  // it('increments the value until max, and then cannot increment anymore', async () => {
-  //   elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+  it('increments the value until max, and then cannot increment anymore', async () => {
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
 
-  //   const [
-  //     /* eslint-disable no-unused-vars */
-  //     decrementButton,
-  //     incrementButton
-  //   ] = [...elem.shadowRoot.querySelectorAll('ids-button')];
+    const [
+      /* eslint-disable no-unused-vars */
+      decrementButton,
+      incrementButton
+    ] = [...elem.shadowRoot.querySelectorAll('ids-button')];
 
-  //   do {
-  //     incrementButton.click();
-  //   } while (parseInt(elem.value) < elem.max);
+    do {
+      await simulateMouseDownEvents({ element: incrementButton });
+    } while (parseInt(elem.value) < elem.max);
 
-  //   expect(parseInt(elem.value)).toEqual(parseInt(elem.max));
+    expect(parseInt(elem.value)).toEqual(parseInt(elem.max));
 
-  //   incrementButton.click();
-  //   expect(parseInt(elem.value)).toEqual(parseInt(elem.max));
+    await simulateMouseDownEvents({ element: incrementButton });
+    expect(parseInt(elem.value)).toEqual(parseInt(elem.max));
+    await simulateMouseDownEvents({ element: decrementButton });
+    await processAnimFrame();
 
-  //   decrementButton.click();
-  //   await processAnimFrame();
+    expect(parseInt(elem.value))
+      .toEqual(parseInt(elem.max) - parseInt(elem.step));
+  });
 
-  //   expect(parseInt(elem.value))
-  //     .toEqual(parseInt(elem.max) - parseInt(elem.step));
-  // });
+  it('decrements the value until min, and then cannot decrement anymore', async () => {
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
 
-  // it('decrements the value until min, and then cannot decrement anymore', async () => {
-  //   elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+    const [
+      decrementButton,
+      incrementButton
+    ] = [...elem.shadowRoot.querySelectorAll('ids-button')];
 
-  //   const [
-  //     decrementButton,
-  //     incrementButton
-  //   ] = [...elem.shadowRoot.querySelectorAll('ids-button')];
+    do {
+      await simulateMouseDownEvents({ element: decrementButton });
+      await processAnimFrame();
+    } while (parseInt(elem.value) > elem.min);
 
-  //   do {
-  //     decrementButton.click();
-  //     await processAnimFrame();
-  //   } while (parseInt(elem.value) > elem.min);
+    expect(parseInt(elem.value)).toEqual(parseInt(elem.min));
 
-  //   expect(parseInt(elem.value)).toEqual(parseInt(elem.min));
+    await simulateMouseDownEvents({ element: decrementButton });
+    await processAnimFrame();
+    expect(parseInt(elem.value)).toEqual(parseInt(elem.min));
 
-  //   decrementButton.click();
-  //   await processAnimFrame();
-  //   expect(parseInt(elem.value)).toEqual(parseInt(elem.min));
+    await simulateMouseDownEvents({ element: incrementButton });
+    await processAnimFrame();
 
-  //   incrementButton.click();
-  //   await processAnimFrame();
+    expect(parseInt(elem.value))
+      .toEqual(parseInt(elem.min) + parseInt(elem.step));
+  });
 
-  //   expect(parseInt(elem.value))
-  //     .toEqual(parseInt(elem.min) + parseInt(elem.step));
-  // });
+  it('presses the ArrowUp key to increment after clicking the input', async () => {
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
 
-  // it('presses the ArrowUp key to increment after clicking the input', async () => {
-  //   elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+    const initialValue = parseInt(elem.value);
+    const step = parseInt(elem.step);
+    elem.focus();
+    elem.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
+    await processAnimFrame();
 
-  //   const initialValue = parseInt(elem.value);
-  //   const step = parseInt(elem.step);
-  //   elem.focus();
-  //   elem.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp' }));
-  //   await processAnimFrame();
+    expect(parseInt(elem.value)).toEqual(initialValue + step);
+  });
 
-  //   expect(parseInt(elem.value)).toEqual(initialValue + step);
-  // });
+  it('presses the ArrowDown key to decrement after clicking the input', async () => {
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
 
-  // it('presses the ArrowDown key to decrement after clicking the input', async () => {
-  //   elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+    const initialValue = parseInt(elem.value);
+    const step = parseInt(elem.step);
+    elem.focus();
+    elem.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
+    await processAnimFrame();
 
-  //   const initialValue = parseInt(elem.value);
-  //   const step = parseInt(elem.step);
-  //   elem.focus();
-  //   elem.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown' }));
-  //   await processAnimFrame();
+    expect(parseInt(elem.value)).toEqual(initialValue - step);
+  });
 
-  //   expect(parseInt(elem.value)).toEqual(initialValue - step);
-  // });
+  // Note: JSDOM doesn't accept pointer events so
+  // cannot test the inverse here
 
-  // // Note: JSDOM doesn't accept pointer events so
-  // // cannot test the inverse here
-  // it('clicks the label and input receives focus', async () => {
-  //   elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
-  //   const labelEl = elem.shadowRoot.querySelector('.ids-spinbox').children[0];
-  //   labelEl.click();
+  it('clicks the label and input receives focus', async () => {
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+    const labelEl = elem.shadowRoot.querySelector('.ids-spinbox').children[0];
+    labelEl.click();
 
-  //   expect(elem.shadowRoot.activeElement).toEqual(elem.input);
-  // });
+    expect(elem.shadowRoot.activeElement).toEqual(elem.input);
+  });
 
-  // it('renders a spinbox with a dirty tracker, then removes it with no issues', async () => {
-  //   const errors = jest.spyOn(global.console, 'error');
-  //   elem = await createElemViaTemplate(
-  //     `<ids-spinbox
-  //       value="0"
-  //       dirty-tracker
-  //     ></ids-spinbox>`
-  //   );
-  //   expect(document.querySelectorAll('ids-spinbox').length).toEqual(1);
-  //   expect(elem.dirtyTracker).toEqual('true');
+  it('renders a spinbox with a dirty tracker, then removes it with no issues', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+    elem = await createElemViaTemplate(
+      `<ids-spinbox
+        value="0"
+        dirty-tracker
+      ></ids-spinbox>`
+    );
+    expect(document.querySelectorAll('ids-spinbox').length).toEqual(1);
+    expect(elem.dirtyTracker).toEqual('true');
 
-  //   elem.dirtyTracker = false;
-  //   expect(elem.dirtyTracker).toEqual(null);
-  //   expect(errors).not.toHaveBeenCalled();
-  // });
+    elem.dirtyTracker = false;
+    expect(elem.dirtyTracker).toEqual(null);
+    expect(errors).not.toHaveBeenCalled();
+  });
 
-  // it('renders with the validation required attribute without errors', async () => {
-  //   const errors = jest.spyOn(global.console, 'error');
+  it('renders with the validation required attribute without errors', async () => {
+    const errors = jest.spyOn(global.console, 'error');
 
-  //   elem = await createElemViaTemplate(
-  //     `<ids-spinbox validate="required"></ids-spinbox>`
-  //   );
-  //   expect(elem.shadowRoot.querySelector('.validation-message')).not.toBeNull();
+    elem = await createElemViaTemplate(
+      `<ids-spinbox validate="required"></ids-spinbox>`
+    );
+    expect(elem.shadowRoot.querySelector('.validation-message')).not.toBeNull();
 
-  //   elem.validate = undefined;
-  //   expect(elem.shadowRoot.querySelector('.validation-message')).toBeNull();
+    elem.validate = undefined;
+    expect(elem.shadowRoot.querySelector('.validation-message')).toBeNull();
 
-  //   elem.validate = true;
-  //   expect(elem.shadowRoot.querySelector('.validation-message')).not.toBeNull();
+    elem.validate = true;
+    expect(elem.shadowRoot.querySelector('.validation-message')).not.toBeNull();
 
-  //   expect(errors).not.toHaveBeenCalled();
-  // });
+    expect(errors).not.toHaveBeenCalled();
+  });
 
-  // it('toggles the disabled state with no issues', async () => {
-  //   const errors = jest.spyOn(global.console, 'error');
-  //   elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+  it('toggles the disabled state with no issues', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
 
-  //   elem.disabled = true;
-  //   expect(elem.disabled).toEqual('true');
+    elem.disabled = true;
+    expect(elem.disabled).toEqual('true');
 
-  //   elem.disabled = false;
-  //   expect(elem.disabled).toEqual(null);
+    elem.disabled = false;
+    expect(elem.disabled).toEqual(null);
 
-  //   expect(errors).not.toHaveBeenCalled();
-  // });
+    expect(errors).not.toHaveBeenCalled();
+  });
 
-  // it('gets input text changed manually and overall value updates', async () => {
-  //   const errors = jest.spyOn(global.console, 'error');
-  //   elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
-  //   elem.input.focus();
-  //   elem.input.value = 10;
+  it('gets input text changed manually and overall value updates', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+    elem = await createElemViaTemplate(DEFAULT_SPINBOX_HTML);
+    elem.input.focus();
+    elem.input.value = 10;
 
-  //   await processAnimFrame();
-  //   expect(elem.value).toEqual('10');
+    await processAnimFrame();
+    expect(elem.value).toEqual('10');
 
-  //   expect(errors).not.toHaveBeenCalled();
-  // });
+    expect(errors).not.toHaveBeenCalled();
+  });
 
-  // it('renders with readonly set, then toggles it off with no issues', async () => {
-  //   const errors = jest.spyOn(global.console, 'error');
+  it('renders with readonly set, then toggles it off with no issues', async () => {
+    const errors = jest.spyOn(global.console, 'error');
 
-  //   elem = await createElemViaTemplate(
-  //     `<ids-spinbox readonly value="10"></ids-spinbox>`
-  //   );
-  //   expect(elem.readonly).not.toBeNull();
+    elem = await createElemViaTemplate(
+      `<ids-spinbox readonly value="10"></ids-spinbox>`
+    );
+    expect(elem.readonly).not.toBeNull();
 
-  //   elem.setAttribute('readonly', false);
-  //   expect(elem.readonly).toBeNull();
+    elem.setAttribute('readonly', false);
+    expect(elem.readonly).toBeNull();
 
-  //   expect(errors).not.toHaveBeenCalled();
-  // });
+    expect(errors).not.toHaveBeenCalled();
+  });
 
-  // it('toggling disabled and renderonly states preserves provides proper'
-  // + ' disabled states', async () => {
-  //   elem = await createElemViaTemplate(
-  //     `<ids-spinbox readonly value="10"></ids-spinbox>`
-  //   );
+  it('toggling disabled and renderonly states preserves provides proper'
+  + ' disabled states', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-spinbox readonly value="10"></ids-spinbox>`
+    );
 
-  //   elem.setAttribute('disabled', true);
-  //   await processAnimFrame();
+    elem.setAttribute('disabled', true);
+    await processAnimFrame();
 
-  //   const idsButtons = [...elem.shadowRoot.querySelectorAll('ids-button')];
+    const idsButtons = [...elem.shadowRoot.querySelectorAll('ids-button')];
 
-  //   expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
 
-  //   elem.removeAttribute('readonly');
-  //   await processAnimFrame();
+    elem.removeAttribute('readonly');
+    await processAnimFrame();
 
-  //   expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
-  //   expect(elem.readonly).toBeNull();
+    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(elem.readonly).toBeNull();
 
-  //   elem.removeAttribute('disabled');
-  //   await processAnimFrame();
+    elem.removeAttribute('disabled');
+    await processAnimFrame();
 
-  //   expect(idsButtons.find((el) => el.hasAttribute('disabled'))).toEqual(undefined);
-  //   expect(elem.disabled).toBeNull();
+    expect(idsButtons.find((el) => el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(elem.disabled).toBeNull();
 
-  //   elem.readonly = true;
-  //   await processAnimFrame();
+    elem.readonly = true;
+    await processAnimFrame();
 
-  //   expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
-  //   expect(elem.readonly).not.toBeNull();
+    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(elem.readonly).not.toBeNull();
 
-  //   elem.setAttribute('disabled', true);
-  //   await processAnimFrame();
+    elem.setAttribute('disabled', true);
+    await processAnimFrame();
 
-  //   elem.removeAttribute('disabled');
-  //   await processAnimFrame();
+    elem.removeAttribute('disabled');
+    await processAnimFrame();
 
-  //   expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
-  //   expect(elem.readonly).not.toBeNull();
-  //   expect(elem.disabled).toBeNull();
-  // });
+    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(elem.readonly).not.toBeNull();
+    expect(elem.disabled).toBeNull();
+  });
 
-  // it('changes the value in input to empty, then presses increment button '
-  // + 'and value is += increment step', async () => {
-  //   const value = 10;
-  //   elem = await createElemViaTemplate(
-  //     `<ids-spinbox readonly value="${value}"></ids-spinbox>`
-  //   );
+  it('changes the value in input to empty, then presses increment button '
+  + 'and value is += increment step', async () => {
+    const value = 10;
+    elem = await createElemViaTemplate(
+      `<ids-spinbox readonly value="${value}"></ids-spinbox>`
+    );
 
-  //   elem.input.input.value = '';
-  //   await processAnimFrame();
+    elem.input.input.value = '';
+    await processAnimFrame();
 
-  //   const [
-  //     decrementButton,
-  //     incrementButton
-  //   ] = [...elem.shadowRoot.querySelectorAll('ids-button')];
+    const [
+      decrementButton,
+      incrementButton
+    ] = [...elem.shadowRoot.querySelectorAll('ids-button')];
 
-  //   incrementButton.click();
-  //   await processAnimFrame();
+    await simulateMouseDownEvents({ element: incrementButton });
+    await processAnimFrame();
 
-  //   expect(elem.value).toEqual(`${value + 1}`);
-  // });
+    expect(elem.value).toEqual(`${value + 1}`);
+  });
 });
