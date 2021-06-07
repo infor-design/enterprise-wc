@@ -6,6 +6,9 @@
   - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
   - Can now be imported as a single JS file and used with encapsulated styles.
   - Some button properties are now attributes - "type", "text", "icon", "disabled", "focusable", etc.
+- `[Breadcrumb]` The button component has been changed to a web component. ([#137](https://github.com/infor-design/enterprise-wc/issues/137))
+  - Markup has changed to a custom element `<ids-breadcrumb></ids-breadcrumb>`
+  - Can now be imported as a single JS file and used with encapsulated styles.
 - `[Card]` The Card/Widget component has been changed to a web component and renamed to ids-card.
   - Markup has changed to a custom element `<ids-card></ids-card>` and has slots for the header and body content
   - Can now be imported as a single JS file and used with encapsulated styles
