@@ -74,12 +74,12 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
           </span>
           <ids-input dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
           <ids-trigger-button>
-            <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
+            <ids-icon id="my-button" class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-        <div class="color-container hide-color-container">
-          <slot></slot>
-        </div>
+        <ids-popup id="my-popup" x="100" y="100" align="left" alignTarget="#my-button">
+          <slot slot="content"></slot>
+        </ids-popup>
       </div>`;
      return template;
    }
@@ -147,9 +147,14 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
    }
 
    openCloseColorpicker() {
+     console.info('open/close');
+     const popup = this.container.querySelector('ids-popup');
+     popup.visible = !popup.visible;
+     /*
      let openClose = this.colorContainer.classList.contains('hide-color-container');
      this.colorContainer.classList.remove(openClose ? 'hide-color-container' : 'show-color-container');
      this.colorContainer.classList.add(openClose ? 'show-color-container' : 'hide-color-container');
+     */
    }
  }
 
