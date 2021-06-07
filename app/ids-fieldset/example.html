@@ -4,10 +4,16 @@
 <ids-layout-grid>
   <form>
     <ids-fieldset>
+      <legend><ids-text font-size="24">User Information</ids-text></legend>
+      <ids-input type="text" label="User Name" id="user-name"></ids-input>
+      <ids-input type="text" label="User Address" id="user-address"></ids-input>
+    </ids-fieldset>
+    <ids-fieldset>
       <legend><ids-text font-size="24">Company Information</ids-text></legend>
-      <ids-input type="text" label="Company Name" id="name"></ids-input>
+      <ids-input type="text" label="Company Name" id="company-name"></ids-input>
       <ids-input type="text" label="Company Type" id="type"></ids-input>
-      <ids-input type="text" label="Company Address" id="address"></ids-input>
+      <ids-input type="text" label="Company Address" id="company-address"></ids-input>
+      <ids-checkbox label="Checked" checked="true"></ids-checkbox>
       <ids-button type="primary">Submit</ids-button>
     </ids-fieldset>
   </form>

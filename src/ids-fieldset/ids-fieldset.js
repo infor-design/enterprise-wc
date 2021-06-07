@@ -2,9 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
-  mix,
-  stringUtils
+  mix
 } from '../ids-base';
 
 // Import Mixins
@@ -15,7 +13,7 @@ import {
 
 import styles from './ids-fieldset.scss';
 
-/** 
+/**
  * IDS Fieldset Component
  * @type {IdsFieldset}
  * @inherits IdsElement
@@ -39,4 +37,4 @@ class IdsFieldset extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 }
 
-export default IdsFieldset
+export default IdsFieldset;
