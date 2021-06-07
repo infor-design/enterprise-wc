@@ -52,6 +52,8 @@ module.exports = {
       exports: 'never',
       functions: 'never'
     }],
+    // bit masks used for idiomatic MouseEvents.buttons detection w/ mousewheel down
+    'no-bitwise': 0,
     // we aren't doing special math with binary/hex radix numbers often,
     // so this removes need for parseInt(number, 10);
     radix: 0,

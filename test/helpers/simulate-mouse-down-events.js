@@ -1,7 +1,7 @@
 import wait from './wait';
 import processAnimFrame from './process-anim-frame';
 
-const MOUSE_LEFT = 0x001;
+const MOUSE_LEFT = 0b001;
 
 /**
  * simulate a 'mousedown' followed by 'mouseup' with optional time delay
