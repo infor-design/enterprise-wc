@@ -1,0 +1,41 @@
+{{> ../layouts/head-visible.html }}
+
+<link rel="stylesheet" href="ids-fieldset.css"/>
+<link rel="stylesheet" href="../ids-layout-grid/ids-layout-grid.css"/>
+<link rel="stylesheet" href="../ids-text/ids-text.css"/>
+<link rel="stylesheet" href="../ids-input/ids-input.css"/>
+<link rel="stylesheet" href="../ids-button/ids-button.css"/>
+
+<div class="ids-layout-grid">
+  <div class="ids-text ids-text-12" type="h1">Fieldset</div>
+</div>
+<div class="ids-layout-grid">
+  <form>
+    <fieldset>
+      <legend><div class="ids-text ids-text-lg">Company Information</div></legend>
+      <div class="ids-input">
+        <label for="input-company-name" class="ids-text ids-label-text">Company Name</label>
+        <div class="field-container">
+          <input class="ids-input-field" id="input-company-name" name="input-company-name"/>
+        </div>
+      </div>
+      <div class="ids-input">
+        <label for="input-company-type" class="ids-text ids-label-text">Company Type</label>
+        <div class="field-container">
+          <input class=ids-input-field id="input-company-type" name="input-company-type">
+        </div>
+      </div>
+      <div class="ids-input">
+        <label for="input-company-address" class="ids-text ids-label-text">Company Address</label>
+        <div class="field-container">
+          <input class=ids-input-field id="input-company-address" name="input-company-address">
+        </div>
+      </div>
+      <button id="test-button-primary" class="ids-button btn-primary">
+        <span>Submit</span>
+      </button>
+    </fieldset>
+  </form>
+</div>
+
+{{> ../layouts/footer.html }}
