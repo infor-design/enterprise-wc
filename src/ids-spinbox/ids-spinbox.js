@@ -90,7 +90,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
         part="label"
         for="${this.id}-input-input"
       >
-        <ids-text ${disabledAttribHtml}>${this.label}</ids-text>
+        <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
       </label>`
     );
 
@@ -110,7 +110,13 @@ export default class IdsSpinbox extends mix(IdsElement).with(
               part="button"
               tabindex="-1"
               ${buttonDisabledAttribHtml}
-            >-</ids-button>
+            ><ids-text
+              label
+              font-size="16"
+              font-weight="bold"
+              ${buttonDisabledAttribHtml}
+            >-</ids-text>
+            </ids-button>
             <ids-input
               text-align="center"
               value=${this.value}
@@ -126,7 +132,13 @@ export default class IdsSpinbox extends mix(IdsElement).with(
               part="button"
               tabindex="-1"
               ${buttonDisabledAttribHtml}
-            >+</ids-button>
+            ><ids-text
+              label
+              font-size="16"
+              font-weight="bold"
+              ${buttonDisabledAttribHtml}
+            >+</ids-text>
+            </ids-button>
           </div>
           ${this.validate ? '<div class="validation-message" part="validation"></div>' : ''}
       </div>`
