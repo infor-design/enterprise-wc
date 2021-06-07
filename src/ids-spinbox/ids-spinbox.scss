@@ -44,6 +44,10 @@
   }
 }
 
+[mode='contrast'] ids-button::part(button) {
+  @include bg-white();
+}
+
 .ids-spinbox.disabled {
   @include text-slate-30();
 
