@@ -11,7 +11,6 @@ import IdsInput from '../ids-input/ids-input';
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
-  IdsDirtyTrackerMixin,
   IdsThemeMixin
 } from '../ids-mixins';
 import styles from './ids-spinbox.scss';
@@ -29,7 +28,6 @@ let instanceCounter = 0;
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsDirtyTrackerMixin
  * @mixes IdsThemeMixin
  * @part container the overall container of the spinbox
  * @part button increment/decrement button
@@ -42,8 +40,7 @@ let instanceCounter = 0;
 export default class IdsSpinbox extends mix(IdsElement).with(
     IdsThemeMixin,
     IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsDirtyTrackerMixin
+    IdsKeyboardMixin
   ) {
   constructor() {
     super();
