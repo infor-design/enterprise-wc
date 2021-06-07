@@ -11,8 +11,8 @@ Page Section: `IdsPageSection`/`<ids-page-section>`; represents a panel on the p
 
 ## Settings
 
-- `page-item-count` {number} number of items to paginate.
-- `page-index` {number} 0-based page index. Represents what page is currently being viewed.
+- `page-size` {number} number of items to paginate.
+- `page-number` {number} 0-based page index. Represents what page is currently being viewed.
 - `page-size` {number} how many pages to display per-page.
 
 ## Themeable Parts

@@ -7,7 +7,7 @@ import {
 } from '../ids-base';
 import styles from './ids-pager-section.scss';
 
-const { stringToBool, buildClassAttrib } = stringUtils;
+const { stringToBool } = stringUtils;
 
 /**
  * IDS PagerSection Component
@@ -29,9 +29,9 @@ export default class IdsPagerSection extends IdsElement {
     return [
       props.START,
       props.END,
-      props.COUNT,
-      props.PAGE_INDEX,
-      props.PAGE_ITEM_COUNT
+      props.TOTAL,
+      props.PAGE_NUMBER,
+      props.PAGE_SIZE
     ];
   }
 

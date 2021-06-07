@@ -8,9 +8,9 @@ import IdsPagerSection from './ids-pager-section';
 import styles from './ids-pager.scss';
 
 const mirroredProps = [
-  props.COUNT,
-  props.PAGE_INDEX,
-  props.PAGE_ITEM_COUNT
+  props.TOTAL,
+  props.PAGE_NUMBER,
+  props.PAGE_SIZE
 ];
 
 /**
@@ -42,9 +42,9 @@ export default class IdsPager extends IdsElement {
 
   static get properties() {
     return [
-      props.PAGE_INDEX,
-      props.PAGE_ITEM_COUNT,
-      props.COUNT
+      props.PAGE_NUMBER,
+      props.PAGE_SIZE,
+      props.TOTAL
     ];
   }
 
@@ -78,78 +78,78 @@ export default class IdsPager extends IdsElement {
   /**
    * @param {string|number} value number of items shown per-page
    */
-  set pageItemCount(value) {
+  set pageSize(value) {
     let nextValue;
 
     if (Number.isNaN(Number.parseInt(value))) {
-      console.error('ids-pager: non-numeric value sent to page-item-count');
+      console.error('ids-pager: non-numeric value sent to page-size');
       nextValue = 0;
     } else {
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(props.PAGE_ITEM_COUNT, nextValue);
-    this.#mirrorPropertiesOnSections(props.PAGE_ITEM_COUNT);
+    this.setAttribute(props.PAGE_SIZE, nextValue);
+    this.#mirrorPropertiesOnSections(props.PAGE_SIZE);
   }
 
   /**
    * @returns {string|number} number of items shown per-page
    */
-  get pageItemCount() {
-    return this.getAttribute(props.PAGE_ITEM_COUNT);
+  get pageSize() {
+    return this.getAttribute(props.PAGE_SIZE);
   }
 
   /**
-   * @param {string|number} value 0-based page index
+   * @param {string|number} value 1-based page number shown
    */
-  set pageIndex(value) {
+  set pageNumber(value) {
     let nextValue;
 
     if (Number.isNaN(Number.parseInt(value))) {
-      this.setAttribute(props.PAGE_INDEX, 0);
+      this.setAttribute(props.PAGE_NUMBER, 0);
       nextValue = 0;
-      console.error('ids-pager: non-numeric value sent to pageIndex');
+      console.error('ids-pager: non-numeric value sent to pageNumber');
     } else if (Number.parseInt(value) <= 0) {
       nextValue = 0;
     } else {
       nextValue = Number.parseInt(value);
     }
 
-    this.#mirrorPropertiesOnSections(props.PAGE_INDEX);
-    this.setAttribute(props.PAGE_INDEX, nextValue);
+    this.#mirrorPropertiesOnSections(props.PAGE_NUMBER);
+    this.setAttribute(props.PAGE_NUMBER, nextValue);
   }
 
   /**
-   * @returns {string|number} value 0-based page index
+   * @returns {string|number} value 1-based page number displayed
    */
-  get pageIndex() {
-    return this.getAttribute(props.PAGE_INDEX);
+  get pageNumber() {
+    return this.getAttribute(props.PAGE_NUMBER);
   }
 
   /**
    * @param {string|number} value number of items to track
    */
-  set count(value) {
+  set total(value) {
     let nextValue;
     if (Number.isNaN(Number.parseInt(value))) {
-      console.error('ids-pager: non-numeric value sent to count');
+      console.error('ids-pager: non-numeric value sent to total');
       nextValue = 0;
     } else if (Number.parseInt(value) <= 0) {
-      console.error('ids-pager: count cannot be <= 0');
+      console.error('ids-pager: total cannot be <= 0');
       nextValue = 0;
     } else {
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(props.COUNT, nextValue);
-    this.#mirrorPropertiesOnSections(props.COUNT);
+    this.setAttribute(props.TOTAL, nextValue);
+    this.#mirrorPropertiesOnSections(props.TOTAL);
   }
 
   /**
    * @returns {string|number} number of items for pager is tracking
    */
-  get count() {
-    return this.getAttribute(props.COUNT, 0);
+  get total() {
+    return this.getAttribute(props.TOTAL, 0);
   }
 
   /**
