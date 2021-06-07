@@ -199,17 +199,9 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.#getStepButtonCycler('down')
     );
 
-    this.onEvent(
-      'mouseup.increment',
-      this.#incrementButton,
-      (e) => this.#onStepButtonUnpressed(e)
-    );
-
-    this.onEvent(
-      'mouseup.decrement',
-      this.#decrementButton,
-      (e) => this.#onStepButtonUnpressed(e)
-    );
+    this.onEvent('mouseup', window, (e) => {
+      this.#onStepButtonUnpressed(e);
+    });
 
     this.onEvent('focus', this, (e) => {
       const isDisabled = this.hasAttribute(props.DISABLED);
@@ -629,7 +621,9 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   #onStepButtonUnpressed(e) {
     /* istanbul ignore next */
-    if (!e || /* istanbul ignore next */ (e.which === 1 && this.#stepCycleTimeout)) {
+    if (/* istanbul ignore next */ !e
+    || (e.which === 1 && (this.#stepCycleTimeout || this.#stepDirection))
+    ) {
       clearInterval(this.#stepCycleTimeout);
       this.#stepCycleTimeout = undefined;
       this.#stepDirection = undefined;
