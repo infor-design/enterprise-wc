@@ -2,16 +2,12 @@ import {
   IdsElement,
   customElement,
   props,
-  scss
+  scss,
+  mix
 } from '../ids-base';
+import { IdsPropCasterMixin } from '../ids-mixins';
 import IdsPagerSection from './ids-pager-section';
 import styles from './ids-pager.scss';
-
-const mirroredProps = [
-  props.TOTAL,
-  props.PAGE_NUMBER,
-  props.PAGE_SIZE
-];
 
 /**
  * IDS Pager Component
@@ -21,7 +17,7 @@ const mirroredProps = [
  */
 @customElement('ids-pager')
 @scss(styles)
-export default class IdsPager extends IdsElement {
+export default class IdsPager extends mix(IdsElement).with(IdsPropCasterMixin) {
   constructor() {
     super();
   }
@@ -48,6 +44,14 @@ export default class IdsPager extends IdsElement {
     ];
   }
 
+  get castedProperties() {
+    return {
+      [props.PAGE_NUMBER]: [IdsPagerSection],
+      [props.PAGE_SIZE]: [IdsPagerSection],
+      [props.TOTAL]: [IdsPagerSection]
+    };
+  }
+
   connectedCallback() {
     this.#contentObserver.observe(this, {
       childList: true,
@@ -57,7 +61,6 @@ export default class IdsPager extends IdsElement {
     });
 
     this.#normalizeSectionContainers();
-
     super.connectedCallback?.();
   }
 
@@ -89,7 +92,6 @@ export default class IdsPager extends IdsElement {
     }
 
     this.setAttribute(props.PAGE_SIZE, nextValue);
-    this.#mirrorPropertiesOnSections(props.PAGE_SIZE);
   }
 
   /**
@@ -115,7 +117,6 @@ export default class IdsPager extends IdsElement {
       nextValue = Number.parseInt(value);
     }
 
-    this.#mirrorPropertiesOnSections(props.PAGE_NUMBER);
     this.setAttribute(props.PAGE_NUMBER, nextValue);
   }
 
@@ -142,7 +143,6 @@ export default class IdsPager extends IdsElement {
     }
 
     this.setAttribute(props.TOTAL, nextValue);
-    this.#mirrorPropertiesOnSections(props.TOTAL);
   }
 
   /**
@@ -162,7 +162,7 @@ export default class IdsPager extends IdsElement {
    */
   #normalizeSectionContainers() {
     if (!this.hasSectionContainers()) {
-      this.#mirrorPropertiesOnSections();
+      this.castProperties();
       return;
     }
 
@@ -194,34 +194,7 @@ export default class IdsPager extends IdsElement {
     }
     }
 
-    this.#mirrorPropertiesOnSections();
-  }
-
-  /**
-   * update each section to pass properties so
-   * it's children can read what it also needs e.g.
-   * page input value, page index, etc;
-   *
-   * note that because section may be in the shadowRoot
-   * (and to simplify logic), we check both the Light
-   * and Shadow DOM
-   *
-   * @param {Array|string} properties property or list-of-properties to mirror
-   */
-  #mirrorPropertiesOnSections(properties = mirroredProps) {
-    const propsUsed = Array.isArray(properties)
-      ? properties
-      : [properties];
-
-    for (const containerEl of [...this.children, ...this.shadowRoot.children]) {
-      if (!(containerEl instanceof IdsPagerSection)) {
-        continue;
-      }
-
-      for (const p of propsUsed) {
-        containerEl.setAttribute(p, this.getAttribute(p));
-      }
-    }
+    this.castProperties();
   }
 
   /** observes changes in content/layout */
