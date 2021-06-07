@@ -211,6 +211,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.#getStepButtonCycler('down')
     );
 
+    /* istanbul ignore next */
     this.onEvent('mouseup', window, (e) => {
       this.#onStepButtonUnpressed(e);
     });
