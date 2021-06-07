@@ -20,15 +20,16 @@ describe('IdsBreadcrumb Component', () => {
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     const elem = new IdsBreadcrumb();
+    expect(document.querySelectorAll('ids-breadcrumb').length).toEqual(1);
     document.body.appendChild(elem);
     elem.remove();
     expect(document.querySelectorAll('ids-breadcrumb').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('pushes new crumbs onto the stack', () => {
-    breadcrumb.push(new IdsHyperlink());
-    breadcrumb.push(new IdsHyperlink());
+  it('adds new crumbs onto the stack', () => {
+    breadcrumb.add(new IdsHyperlink());
+    breadcrumb.add(new IdsHyperlink());
     expect(breadcrumb.children.length).toEqual(2);
     for (const child of breadcrumb.children) {
       expect(child.getAttribute('color')).toEqual('unset');
@@ -38,15 +39,15 @@ describe('IdsBreadcrumb Component', () => {
     expect(breadcrumb.lastElementChild.getAttribute('font-weight')).toEqual('bolder');
   });
 
-  it('pops breadcrumb off the stack and returns it', () => {
-    breadcrumb.push(new IdsHyperlink());
-    breadcrumb.push(new IdsHyperlink());
-    expect(breadcrumb.pop() instanceof IdsHyperlink).toEqual(true);
+  it('removes breadcrumb off the stack and returns it', () => {
+    breadcrumb.add(new IdsHyperlink());
+    breadcrumb.add(new IdsHyperlink());
+    expect(breadcrumb.delete() instanceof IdsHyperlink).toEqual(true);
     expect(breadcrumb.children.length).toEqual(1);
     expect(breadcrumb.lastElementChild.fontWeight).toEqual('bolder');
-    breadcrumb.pop();
+    breadcrumb.delete();
     expect(breadcrumb.children.length).toEqual(0);
-    expect(breadcrumb.pop()).toEqual(null);
+    expect(breadcrumb.delete()).toEqual(null);
   });
 
   it('renders correctly', () => {

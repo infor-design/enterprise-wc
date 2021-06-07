@@ -13,7 +13,7 @@ button1.onclick = () => {
   link.innerText = `Breadcrumb ${breadcrumb.children.length + 1}`;
   link.href = '#';
   if (checkbox.checked) link.disabled = '';
-  breadcrumb.push(link);
+  breadcrumb.add(link);
 };
 
-button2.onclick = () => breadcrumb.pop();
+button2.onclick = () => breadcrumb.delete();

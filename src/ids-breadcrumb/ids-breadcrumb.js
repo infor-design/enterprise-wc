@@ -33,8 +33,10 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
   #init() {
     this.setAttribute('role', 'list');
     const stack = [];
-    while (this.lastElementChild) { stack.push(this.pop()); }
-    while (stack.length) { this.push(stack.pop()); }
+    /* istanbul ignore next */
+    while (this.lastElementChild) { stack.push(this.delete()); }
+    /* istanbul ignore next */
+    while (stack.length) { this.add(stack.pop()); }
   }
 
   /**
@@ -54,13 +56,15 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
    * Appends an individual breadcrumb to the end of the stack
    * @param {Element} breadcrumb The HTML element with which to add
    */
-  push(breadcrumb) {
+  add(breadcrumb) {
     if (this.lastElementChild) {
       this.lastElementChild.setAttribute('font-weight', '');
     }
     breadcrumb.setAttribute('font-weight', 'bolder');
     breadcrumb.setAttribute('color', 'unset');
     breadcrumb.setAttribute('role', 'listitem');
+    breadcrumb.setAttribute('text-decoration', 'none');
+    /* istanbul ignore next */
     if (!(breadcrumb.getAttribute('font-size'))) {
       breadcrumb.setAttribute('font-size', 14);
     }
@@ -71,7 +75,7 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
    * Removes the last breadcrumb from the stack.
    * @returns {Element | null} The removed element
    */
-  pop() {
+  delete() {
     if (this.lastElementChild) {
       const breadcrumb = this.removeChild(this.lastElementChild);
       if (this.lastElementChild) {
