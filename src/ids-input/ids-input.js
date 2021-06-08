@@ -26,8 +26,6 @@ import {
   IdsTooltipMixin
 } from '../ids-mixins';
 
-let instanceCounter = 0;
-
 // Properties observed by the Input
 const INPUT_PROPS = [
   props.AUTOSELECT,
@@ -104,6 +102,8 @@ const appliedMixins = [
   IdsTooltipMixin
 ];
 
+let instanceCounter = 0;
+
 /**
  * IDS Input Component
  * @type {IdsInput}
@@ -142,6 +142,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   connectedCallback() {
     super.connectedCallback?.();
+
     this.handleEvents();
     this.handleAutoselect();
     this.handleClearable();
@@ -566,6 +567,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set labelRequired(value) {
     const val = stringUtils.stringToBool(value);
+
     if (val) {
       this.setAttribute(props.LABEL_REQUIRED, val.toString());
     } else {
