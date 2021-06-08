@@ -11,7 +11,6 @@ import IdsPagerSection from './ids-pager-section';
 import styles from './ids-pager-button.scss';
 
 const { stringToBool } = stringUtils;
-
 const buttonTypes = ['first', 'last', 'next', 'previous'];
 
 /**

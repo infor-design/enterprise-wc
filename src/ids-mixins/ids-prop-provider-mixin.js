@@ -16,14 +16,14 @@ export default (superclass) => class extends superclass {
    * property lookups that will match with types in iterable it's linked with
    * @param {boolean} recursive optional; specifies whether to recursively
    * check simple search of IdsElement on container/perimeter level
-   * @param {HTMLElement} scannedEl if recursive, this is set to current
-   * scanned IdsElement in tree
+   * @param {HTMLElement} scannedEl Base case: element provider.
+   * Recursive case: scanned IdsElement in tree
    */
-  castProperties(properties = this.castedProperties, recursive = false, scannedEl = this) {
+  provideProperties(properties = this.providedProperties, recursive = true, scannedEl = this) {
     for (const el of [...scannedEl.children, ...scannedEl.shadowRoot.children]) {
-      for (const [p, instanceTypes] of Object.entries(properties || this.castedProperties)) {
+      for (const [p, instanceTypes] of Object.entries(properties || this.providedProperties)) {
         if (recursive && el instanceof IdsElement) {
-          this.castProperties(properties || this.castedProperties, true, el);
+          this.provideProperties(properties || this.providedProperties, true, el);
         }
 
         for (const instanceType of instanceTypes) {
@@ -31,6 +31,8 @@ export default (superclass) => class extends superclass {
 
           if (this.hasAttribute(p)) {
             el.setAttribute(p, this.getAttribute(p));
+            console.log('el ->', el);
+            console.log('p ->', p);
           } else {
             el.removeAttribute(p);
           }
@@ -43,27 +45,29 @@ export default (superclass) => class extends superclass {
    * observes when any of instance's props change in order
    * to mirror them to child
    *
-   * TODO: diff attribute before firing castProperties(...)
+   * TODO: diff attribute before firing provideProperties(...)
    */
-  castedPropObserver = new MutationObserver((mutations) => {
+  propertyObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'attributes') {
-        this.castProperties({
-          [m.attributeName]: this.castedProperties[m.attributeName]
-        });
+        if (this.providedProperties?.[m.attributeName]) {
+          this.provideProperties({
+            [m.attributeName]: this.providedProperties[m.attributeName]
+          });
+        }
       }
     }
   });
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.castedPropObserver.observe(this, {
+    this.propertyObserver.observe(this, {
       attributes: true,
       attributeOldValue: true,
-      attributeFilter: Object.keys(this.castedProperties),
+      attributeFilter: Object.keys(this.providedProperties),
       subtree: false
     });
 
-    this.castProperties();
+    this.provideProperties();
   }
 };

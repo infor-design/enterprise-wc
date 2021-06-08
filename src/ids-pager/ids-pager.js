@@ -5,7 +5,7 @@ import {
   scss,
   mix
 } from '../ids-base';
-import { IdsPropCasterMixin } from '../ids-mixins';
+import { IdsPropProviderMixin } from '../ids-mixins';
 import IdsPagerSection from './ids-pager-section';
 import IdsPagerButton from './ids-pager-button';
 import IdsPagerInput from './ids-pager-input';
@@ -16,10 +16,11 @@ import styles from './ids-pager.scss';
  * @type {IdsPager}
  * @inherits IdsElement
  * @part container the overall ids-pager container
+ * @mixes IdsPropProviderMixin
  */
 @customElement('ids-pager')
 @scss(styles)
-export default class IdsPager extends mix(IdsElement).with(IdsPropCasterMixin) {
+export default class IdsPager extends mix(IdsElement).with(IdsPropProviderMixin) {
   constructor() {
     super();
   }
@@ -46,11 +47,11 @@ export default class IdsPager extends mix(IdsElement).with(IdsPropCasterMixin) {
     ];
   }
 
-  get castedProperties() {
+  get providedProperties() {
     return {
-      [props.PAGE_NUMBER]: [IdsPagerSection, IdsPagerButton, IdsPagerInput],
-      [props.PAGE_SIZE]: [IdsPagerSection, IdsPagerButton, IdsPagerInput],
-      [props.TOTAL]: [IdsPagerSection, IdsPagerButton, IdsPagerInput]
+      [props.PAGE_NUMBER]: [IdsPagerInput],
+      [props.TOTAL]: [IdsPagerInput],
+      [props.PAGE_SIZE]: [IdsPagerInput]
     };
   }
 
@@ -59,7 +60,7 @@ export default class IdsPager extends mix(IdsElement).with(IdsPropCasterMixin) {
       childList: true,
       attributes: true,
       attributeFilter: [props.START, props.END],
-      subtree: true
+      subtree: false
     });
 
     this.#normalizeSectionContainers();
@@ -110,7 +111,6 @@ export default class IdsPager extends mix(IdsElement).with(IdsPropCasterMixin) {
     let nextValue;
 
     if (Number.isNaN(Number.parseInt(value))) {
-      this.setAttribute(props.PAGE_NUMBER, 0);
       nextValue = 0;
       console.error('ids-pager: non-numeric value sent to pageNumber');
     } else if (Number.parseInt(value) <= 0) {
@@ -151,7 +151,7 @@ export default class IdsPager extends mix(IdsElement).with(IdsPropCasterMixin) {
    * @returns {string|number} number of items for pager is tracking
    */
   get total() {
-    return this.getAttribute(props.TOTAL, 0);
+    return this.getAttribute(props.TOTAL);
   }
 
   /**
@@ -164,7 +164,7 @@ export default class IdsPager extends mix(IdsElement).with(IdsPropCasterMixin) {
    */
   #normalizeSectionContainers() {
     if (!this.hasSectionContainers()) {
-      this.castProperties();
+      this.provideProperties();
       return;
     }
 
@@ -196,7 +196,7 @@ export default class IdsPager extends mix(IdsElement).with(IdsPropCasterMixin) {
     }
     }
 
-    this.castProperties();
+    this.provideProperties();
   }
 
   /** observes changes in content/layout */

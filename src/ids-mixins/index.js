@@ -4,7 +4,7 @@ export { default as IdsEventsMixin } from './ids-events-mixin';
 export { default as IdsKeyboardMixin } from './ids-keyboard-mixin';
 export { default as IdsResizeMixin } from './ids-resize-mixin';
 export { default as IdsMaskMixin } from './ids-mask-mixin';
-export { default as IdsPropCasterMixin } from './ids-prop-caster-mixin';
+export { default as IdsPropProviderMixin } from './ids-prop-provider-mixin';
 export { IdsRenderLoopMixin, IdsRenderLoopItem } from './ids-render-loop-mixin';
 export { default as IdsThemeMixin } from './ids-theme-mixin';
 export { default as IdsTooltipMixin } from './ids-tooltip-mixin';
