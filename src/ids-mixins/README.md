@@ -82,6 +82,7 @@ This mixin adds functionality to change the theme on a component. To use it you 
   }
 ```
 
+1. Make sure if you use connectedCallback that you have a `super.connectedCallback()` in the method
 1. Add types for MODE and VERSION to the `d.ts` file for the new properties.
 1. Add the theme mixin name to the @mixins tag for future docs.
 1. Add the color changes for each theme scss file. For example:

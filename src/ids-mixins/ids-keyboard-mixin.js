@@ -42,13 +42,17 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Add a listener for a key or key code combination
+   * Add a listener for a key or set of keys
    * @param {Array|string} keycode An array of all matchinng keycodes
    * @param {HTMLElement} elem The object with the listener attached
    * @param {Function} callback The call back when this combination is met
    */
   listen(keycode, elem, callback) {
-    this.hotkeys.set(`${keycode}`, callback);
+    const keycodes = Array.isArray(keycode) ? keycode : [keycode];
+
+    for (const c of keycodes) {
+      this.hotkeys.set(`${c}`, callback);
+    }
   }
 
   /**

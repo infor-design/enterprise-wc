@@ -47,7 +47,7 @@ The current step number a wizard is showing has been traversed is denoted now on
 
 ## Responsive Guidelines
 
-- The wizard component's width should not exceed the width of the page.s
+- The wizard component's width should not exceed the width of the page.
 - The labels chosen and number of steps should fit within the page; or at least be obvious enough that a user can discern what labels achieve what function.
 
 ## Converting from Previous Versions
