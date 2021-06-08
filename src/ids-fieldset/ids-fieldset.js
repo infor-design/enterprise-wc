@@ -33,7 +33,7 @@ class IdsFieldset extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<fieldset class="ids-fieldset" part="fieldset" role="region"><slot></slot></fieldset>`;
+    return `<fieldset class="ids-fieldset" part="fieldset"><slot></slot></fieldset>`;
   }
 }
 

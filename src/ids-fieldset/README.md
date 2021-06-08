@@ -46,8 +46,3 @@ Field sets have a default responsive behavior to move from two columns to one at
 ## Regional Considerations
 
 The fieldset will flip in in Right To Left languages.
-
-## Accessibility
-
-- `role="region"` Should be added to the fieldset region to convey it to non-sighted users.
-- `aria-labelledby` Should be added to the dynamic expandable region, where aria-labelledby points back to the fieldset title.
