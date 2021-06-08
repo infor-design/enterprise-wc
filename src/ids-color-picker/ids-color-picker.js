@@ -73,11 +73,11 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
             <ids-input class="color-input" type="color" disabled="${this.disabled}"></ids-input>
           </span>
           <ids-input dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
-          <ids-trigger-button>
-            <ids-icon id="my-button" class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
+          <ids-trigger-button id="color-picker-button">
+            <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-        <ids-popup id="my-popup" x="100" y="100" align="left" alignTarget="#my-button">
+        <ids-popup id="color-picker-popup" x="100" y="210" align="left" alignTarget="#color-picker-button">
           <slot slot="content"></slot>
         </ids-popup>
       </div>`;

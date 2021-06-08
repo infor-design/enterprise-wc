@@ -52,27 +52,3 @@
   display: flex;
   justify-content: center;
 }
-
-input {
-  background-color: transparent;
-  border: 0;
-
-  &:focus {
-    border: 0;
-  }
-}
-
-.hide-color-container {
-  display: none;
-  transition: 1s;
-}
-
-.show-color-container {
-  display: block;
-  transition: 1s;
-}
-
-.color-picker-label {
-  width: 100%;
-  text-align: left;
-}
