@@ -610,7 +610,6 @@ class IdsButton extends mix(IdsElement).with(
     rippleEl.classList.add('ripple-effect');
     rippleEl.setAttribute('aria-hidden', 'true');
     rippleEl.setAttribute('focusable', 'false');
-    rippleEl.setAttribute('role', 'presentation');
 
     this.button.prepend(rippleEl);
     rippleEl.style.left = `${btnOffsets.x}px`;

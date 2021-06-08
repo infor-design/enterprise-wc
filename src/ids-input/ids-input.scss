@@ -326,7 +326,6 @@ $input-compact-height: $input-field-height-xs;
   @include text-black();
 
   &[disabled] {
-    @include bg-transparent();
     @include border-slate-30();
     @include text-slate-30();
   }
