@@ -27,8 +27,9 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
   }
 
   /**
-   * Set the 'role' attribute to 'list'.
+   * Sets the 'role' attribute to 'list'.
    * Also set the font weight, color and role of each child by removing each and re-adding.
+   * @private
    */
   #init() {
     this.setAttribute('role', 'list');
@@ -40,21 +41,21 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
   }
 
   /**
-   * Inner template contents
+   * Returns the Inner template contents
    * @returns {string} The template
    */
   template() {
     return `
       <div class="ids-breadcrumb">
-        <nav>
+        <nav part="breadcrumb">
           <slot></slot>
         </nav>
       </div>`;
   }
 
   /**
-   * Appends an individual breadcrumb to the end of the stack
-   * @param {Element} breadcrumb The HTML element with which to add
+   * Adds an individual breadcrumb to the end of the bread crumb list
+   * @param {Element} breadcrumb The HTML element to add
    */
   add(breadcrumb) {
     if (this.lastElementChild) {
@@ -72,7 +73,7 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
   }
 
   /**
-   * Removes the last breadcrumb from the stack.
+   * Removes the last breadcrumb from the bread crumb list
    * @returns {Element | null} The removed element
    */
   delete() {
