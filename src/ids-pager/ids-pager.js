@@ -7,6 +7,8 @@ import {
 } from '../ids-base';
 import { IdsPropCasterMixin } from '../ids-mixins';
 import IdsPagerSection from './ids-pager-section';
+import IdsPagerButton from './ids-pager-button';
+import IdsPagerInput from './ids-pager-input';
 import styles from './ids-pager.scss';
 
 /**
@@ -46,9 +48,9 @@ export default class IdsPager extends mix(IdsElement).with(IdsPropCasterMixin) {
 
   get castedProperties() {
     return {
-      [props.PAGE_NUMBER]: [IdsPagerSection],
-      [props.PAGE_SIZE]: [IdsPagerSection],
-      [props.TOTAL]: [IdsPagerSection]
+      [props.PAGE_NUMBER]: [IdsPagerSection, IdsPagerButton, IdsPagerInput],
+      [props.PAGE_SIZE]: [IdsPagerSection, IdsPagerButton, IdsPagerInput],
+      [props.TOTAL]: [IdsPagerSection, IdsPagerButton, IdsPagerInput]
     };
   }
 
