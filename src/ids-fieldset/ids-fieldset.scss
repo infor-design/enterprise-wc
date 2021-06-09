@@ -1,0 +1,11 @@
+/* Ids Fieldset CSS */
+@import '../ids-base/ids-base';
+
+fieldset {
+  border: 0;
+}
+
+fieldset > ::slotted(legend),
+fieldset > legend {
+  @include pb-20();
+}
