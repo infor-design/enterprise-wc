@@ -21,6 +21,9 @@
   - If using properties/settings these are now attributes or as plain properties for example: data, virtual-scroll
   - Markup has changed to a custom element `<ids-data-grid></ids-data-grid>`
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Fieldset]` The fieldset component has been changed to a web component `ids-fieldset` ([#138](https://github.com/infor-design/enterprise-wc/issues/138))
+  - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
+  - Can now be imported as a single JS file and used with encapsulated styles.
 - `[Icons]` The icons are now a web component called ids-icon. You no longer need the huge block of svg in the page
   - The icon and size are set via properties/attributes
   - Can now be imported as a single JS file and used with encapsulated styles
@@ -71,6 +74,10 @@
 - `[RenderLoop]` The RenderLoop component has been implemented as a mixin.
   - Added `IdsRenderLoopMixin` for access to a global renderLoop instance from within WebComponents.
   - API has been simplified and made more user-friendly.
+- `[Spinbox]` The spinbox component has been changed to a web component and renamed to ids-spinbox.
+  - Markup has changed to a custom element `<ids-spinbox></ids-spinbox>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.
   - Markup has changed to a custom element `<ids-switch></ids-switch>`
   - If using events, events are now plain JS events.

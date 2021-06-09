@@ -12,10 +12,10 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 
 ## Terminology
 
-Grid: In our case a grid is the container that holds a grid and has the `display: grid` property set on it. We refer to this as `ids-layout-grid`.
-GridCell: Any direct child of a grid container, we refer to this as `ids-layout-grid-cell`.
-Cols: These are the vertical columns of the grid, also referred to as tracks.
-Rows: The horizontal tracks of the grid.
+- **Grid**: In our case a grid is the container that holds a grid and has the `display: grid` property set on it. We refer to this as `ids-layout-grid`.
+- **GridCell** Any direct child of a grid container, we refer to this as `ids-layout-grid-cell`.
+- **Cols** These are the vertical columns of the grid, also referred to as tracks.
+- **Rows** The horizontal tracks of the grid.
 
 ## Features (With Code Examples)
 
@@ -74,7 +74,7 @@ Standalone CSS Example
 
 ```html
 <div class="ids-layout-grid ids-layout-cols ids-layout-grid-gap-md" style="--grid-cols: 3;">
-  <div class="ids-layout-grid-cell ids-layout-col-span ids-background-fill" style="--grid-col-span: 2"><ids-text font-size="12">A</ids-text></div>
+  <div class="ids-layout-grid-cell ids-layout-col-span ids-background-fill" style="--grid-col-span: 2;"><ids-text font-size="12">A</ids-text></div>
   <div class="ids-layout-grid-cell ids-background-fill"><ids-text font-size="12">B</ids-text></div>
 </div>
 ```
@@ -107,15 +107,19 @@ A layout grid is not on its own keyboard focusable and has no keyboard interacti
 
 ## Converting from Previous Versions
 
-TODO
+The Layout grid replaces the former grid entirely. Apply the new markup.
 
 ## Designs
 
 ## Alternate Designs
 
-- May need to re-visit responsiveness as we begin to test complex layouts.
-- Add a breakpoint setting?
+- Need to re-visit responsiveness as we begin to test complex layouts.
+- Add a breakpoint properties for example:
+  - `<ids-layout-grid cols="2" md-cols="4" lg-cols="8">` or
+  - `<ids-layout-grid cols="{sm: 2, md: 4, lg: 8}">`
 - Add fixed unit sizing options for cells and rows.
+- Add `minColWidth` property. For auto-responsive grids that use `auto-fit` and `minmax` there could be a setting to control where the reflow happens
+  - `<ids-layout-grid minColWidth="120px">`
 
 ## Test Plan
 
@@ -125,8 +129,6 @@ TODO
 1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
 1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
 
-## Accessibility Guidelines
-
 ## Regional Considerations
 
-It's possible that some use cases cells will be flipped when in Right-To-Left languages. This is a TODO still.
+The entire grid will flip direction in Right-To-Left languages.
