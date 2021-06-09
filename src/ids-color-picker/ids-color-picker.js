@@ -58,7 +58,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      this.disabled = this.disabled;
      this.swatch = this.swatch;
      this.label = this.label;
-     this.handleEvents();
+     this.#handleEvents();
    }
 
    static get properties() {
@@ -85,7 +85,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
    }
 
    set value(v) {
-     this.updateColorPickerValues(v);
+     this.#updateColorPickerValues(v);
      this.setAttribute('value', v.toString());
    }
 
@@ -117,44 +117,40 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      return this.getAttribute('label') || '';
    }
 
-   handleEvents() {
+   #handleEvents() {
      this.idsColorsArr.forEach((element) => {
        element.style.backgroundColor = element.getAttribute('hex');
      });
 
-     this.onEvent('click', this.container, (event) => {
-       const target = event.target;
-       const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
-       if (openColorCondition) {
-         this.openCloseColorpicker();
-       }
-
-       if (target.hasAttribute('hex')) {
-         this.setAttribute('value', target.getAttribute('hex'));
-         this.openCloseColorpicker();
-       }
-     });
+     if (this.disabled === 'false') {
+      this.onEvent('click', this.container, (event) => {
+        const target = event.target;
+        const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
+        if (openColorCondition) {
+          this.#openCloseColorpicker();
+        }
+ 
+        if (target.hasAttribute('hex')) {
+          this.setAttribute('value', target.getAttribute('hex'));
+          this.#openCloseColorpicker();
+        }
+      });
+     }
 
      this.onEvent('change', this.colorpickerInput, () => this.setAttribute('value', this.colorpickerInput.value));
 
      this.onEvent('change', this.colorInputValue, () => this.setAttribute('value', this.colorInputValue.value));
    }
 
-   updateColorPickerValues(colorValue) {
+   #updateColorPickerValues(colorValue) {
      this.colorpickerInput.value = colorValue;
      this.colorPreview.style.backgroundColor = colorValue;
      this.colorInputValue.value = colorValue;
    }
 
-   openCloseColorpicker() {
-     console.info('open/close');
+   #openCloseColorpicker() {
      const popup = this.container.querySelector('ids-popup');
      popup.visible = !popup.visible;
-     /*
-     let openClose = this.colorContainer.classList.contains('hide-color-container');
-     this.colorContainer.classList.remove(openClose ? 'hide-color-container' : 'show-color-container');
-     this.colorContainer.classList.add(openClose ? 'show-color-container' : 'hide-color-container');
-     */
    }
  }
 
