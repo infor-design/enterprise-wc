@@ -46,7 +46,7 @@ import styles from './ids-color.scss';
   * @returns {string} The template
   */
   template() {
-    return `<div class="ids-color"></div>`;
+    return `<div class="ids-color" tabindex="0"></div>`;
   }
 
   set hex(h) {

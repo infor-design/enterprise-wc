@@ -69,8 +69,8 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      const template = `
       <div class="ids-color-picker">
         <ids-trigger-field tabbable="false">
-          <span class="color-preview">
-            <ids-input class="color-input" type="color" disabled="${this.disabled}"></ids-input>
+          <span class="color-preview" tabindex="-1">
+            <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
           </span>
           <ids-input dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
           <ids-trigger-button id="color-picker-button">
@@ -133,6 +133,14 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
         if (target.hasAttribute('hex')) {
           this.setAttribute('value', target.getAttribute('hex'));
           this.#openCloseColorpicker();
+        }
+      });
+
+      this.onEvent('keyup', this.container, (keyup) => {
+        if (keyup.key === 'Enter') {
+          console.log(keyup.target);
+          if (keyup.target === this.colorPreview) {
+          }
         }
       });
      }
