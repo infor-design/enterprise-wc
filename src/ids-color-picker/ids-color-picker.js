@@ -14,7 +14,6 @@ import '../ids-color/ids-color';
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-popup/ids-popup';
-import '../ids-button/ids-button';
 
 // @ts-ignore
 import styles from './ids-color-picker.scss';
@@ -42,6 +41,8 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
    colorpickerContainer = this.container;
 
    colorContainer = this.idsColorPicker.querySelector('.color-container')
+
+   triggerButton = this.idsColorPicker.querySelector('#color-picker-button')
 
    colorpickerInput = this.idsColorPicker.querySelector('.color-input')
 
@@ -138,8 +139,12 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
 
       this.onEvent('keyup', this.container, (keyup) => {
         if (keyup.key === 'Enter') {
-          console.log(keyup.target);
-          if (keyup.target === this.colorPreview) {
+          if (keyup.target === this.triggerButton) {
+            this.#openCloseColorpicker();
+          }
+          if (keyup.target.hasAttribute('hex')) {
+            this.setAttribute('value', keyup.target.getAttribute('hex'));
+            this.#openCloseColorpicker();
           }
         }
       });
