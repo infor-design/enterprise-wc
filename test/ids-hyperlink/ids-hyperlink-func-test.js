@@ -62,9 +62,14 @@ describe('IdsHyperlink Component', () => {
 
   it('renders text-decoration setting', () => {
     elem.textDecoration = 'none';
-    expect(elem.container.style.textDecoration).toEqual('none');
+    expect(elem.container.classList.contains('ids-text-decoration-none')).toBeTruthy();
     expect(elem.getAttribute('text-decoration')).toEqual('none');
     expect(elem.textDecoration).toEqual('none');
+
+    elem.textDecoration = 'hover';
+    expect(elem.container.classList.contains('ids-text-decoration-hover')).toBeTruthy();
+    expect(elem.getAttribute('text-decoration')).toEqual('hover');
+    expect(elem.textDecoration).toEqual('hover');
   });
 
   it('renders target setting then removes it', () => {

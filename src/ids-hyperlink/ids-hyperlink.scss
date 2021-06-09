@@ -22,8 +22,8 @@
     user-select: none;
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
     @include text-azure-70();
   }
 
@@ -42,8 +42,20 @@
   }
 }
 
-[text-decoration='none'] {
+.ids-text-decoration-none {
   text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.ids-text-decoration-hover {
+  text-decoration: none;
+
+  &[href]:hover {
+    text-decoration: underline;
+  }
 }
 
 .ids-hyperlink-color-unset {
@@ -116,8 +128,8 @@
     box-shadow: 0 0 4px 2px rgb(141, 201, 230, 0.3);
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
     @include text-azure-60();
   }
 
@@ -134,8 +146,8 @@
     box-shadow: 0 0 4px 2px rgb(41, 41, 41, 0.3);
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
     @include text-azure-100();
   }
 
@@ -151,8 +163,8 @@
     box-shadow: 0 0 4px 3px rgb(54, 138, 192, 0.3);
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
     @include text-azure-80();
   }
 
@@ -168,8 +180,8 @@
     box-shadow: 0 0 4px 3px rgb(141, 201, 230, 0.3);
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
     @include text-azure-50();
   }
 
@@ -186,8 +198,8 @@
     box-shadow: 0 0 4px 2px rgb(41, 41, 41, 0.3);
   }
 
-  &:hover:not([disabled]),
-  &:active:not([disabled]) {
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
     @include text-azure-100();
   }
 

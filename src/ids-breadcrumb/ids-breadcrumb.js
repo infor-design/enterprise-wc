@@ -64,7 +64,7 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
     breadcrumb.setAttribute('font-weight', 'bolder');
     breadcrumb.setAttribute('color', 'unset');
     breadcrumb.setAttribute('role', 'listitem');
-    breadcrumb.setAttribute('text-decoration', 'none');
+    breadcrumb.setAttribute('text-decoration', 'hover');
     /* istanbul ignore next */
     if (!(breadcrumb.getAttribute('font-size'))) {
       breadcrumb.setAttribute('font-size', 14);

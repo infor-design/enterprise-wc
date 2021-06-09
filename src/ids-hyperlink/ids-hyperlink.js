@@ -97,16 +97,23 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   /**
    * Set the link text decoration styling
-   * @param {string} value If 'none', removes text decoration
+   * @param {string} value If 'none', removes text decoration, If hover then just on hover it
+   * is shown.
    */
   set textDecoration(value) {
     if (value?.toLowerCase() === 'none') {
       this.setAttribute(props.TEXT_DECORATION, value);
-      this.container.style.textDecoration = value;
+      this.container.classList.add('ids-text-decoration-none');
+      return;
+    }
+    if (value?.toLowerCase() === 'hover') {
+      this.setAttribute(props.TEXT_DECORATION, value);
+      this.container.classList.add('ids-text-decoration-hover');
       return;
     }
     this.removeAttribute(props.TEXT_DECORATION);
-    this.container.style.removeProperty('text-decoration');
+    this.container.classList.remove('ids-text-decoration-none');
+    this.container.classList.remove('ids-text-decoration-hover');
   }
 
   get textDecoration() { return this.getAttribute(props.TEXT_DECORATION); }
