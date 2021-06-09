@@ -1,8 +1,40 @@
 <ids-header>
   <ids-layout-grid>
-    <ids-text font-size="12" type="h1">Ids Rating</ids-text>
+    <ids-text font-size="12" type="h1">Ids Header</ids-text>
   </ids-layout-grid>
   <ids-layout-grid>
     <ids-input></ids-input>
+  </ids-layout-grid>
+  <ids-layout-grid>
+    <ids-toolbar>
+      <ids-toolbar-section type="title">
+          <ids-text type="h3">My Toolbar</ids-text>
+      </ids-toolbar-section>
+      <ids-toolbar-section type="buttonset" align="end">
+          <ids-button id="button-1" role="button">
+              <span slot="text">Text</span>
+          </ids-button>
+          <ids-button id="button-2">
+              <span slot="text" class="audible">Settings</span>
+              <ids-icon slot="icon" icon="settings"></ids-icon>
+          </ids-button>
+      </ids-toolbar-section>
+      <ids-toolbar-more-actions>
+          <ids-menu-group>
+              <ids-menu-item value="1">Option One</ids-menu-item>
+              <ids-menu-item value="2">Option Two</ids-menu-item>
+              <ids-menu-item value="3">Option Three</ids-menu-item>
+              <ids-menu-item>More Options
+              <ids-popup-menu>
+                  <ids-menu-group>
+                  <ids-menu-item value="4">Option Four</ids-menu-item>
+                  <ids-menu-item value="5">Option Five</ids-menu-item>
+                  <ids-menu-item value="6">Option Six</ids-menu-item>
+                  </ids-menu-group>
+              </ids-popup-menu>
+              </ids-menu-item>
+          </ids-menu-group>
+      </ids-toolbar-more-actions>
+  </ids-toolbar>
   </ids-layout-grid>
 </ids-header>

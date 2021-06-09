@@ -14,6 +14,9 @@ import {
 } from '../ids-mixins';
 
 import styles from './ids-header.scss';
+import '../ids-input/ids-input';
+import '../ids-toolbar/ids-toolbar';
+import '../ids-button/ids-button';
 
 /**
  * IDS Rating Component
@@ -35,12 +38,27 @@ import styles from './ids-header.scss';
     console.log('Ids Header')
   }
 
+  static get properties() {
+    return [props.MODE, props.VERSION, props.COLOR];
+  }
+
   /**
   * Create the template for the rating contents
   * @returns {string} The template
   */
   template() {
-    return `<div><slot></slot></div>`;
+    return `
+    <div class="ids-header">
+      <slot></slot>
+    </div>`;
+  }
+
+  set color(c) {
+    this.setAttribute('color', c.toString());
+  }
+
+  get color() {
+    return this.getAttribute('color') || '#333333';
   }
  }
 
