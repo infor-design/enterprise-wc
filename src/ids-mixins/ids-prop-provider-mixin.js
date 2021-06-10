@@ -21,9 +21,9 @@ export default (superclass) => class extends superclass {
    */
   provideProperties(properties = this.providedProperties, recursive = true, scannedEl = this) {
     for (const el of [...scannedEl.children, ...scannedEl.shadowRoot.children]) {
-      for (const [p, instanceTypes] of Object.entries(properties || this.providedProperties)) {
+      for (const [p, instanceTypes] of Object.entries(properties)) {
         if (recursive && el instanceof IdsElement) {
-          this.provideProperties(properties || this.providedProperties, true, el);
+          this.provideProperties(properties, true, el);
         }
 
         for (const instanceType of instanceTypes) {
@@ -31,8 +31,6 @@ export default (superclass) => class extends superclass {
 
           if (this.hasAttribute(p)) {
             el.setAttribute(p, this.getAttribute(p));
-            console.log('el ->', el);
-            console.log('p ->', p);
           } else {
             el.removeAttribute(p);
           }

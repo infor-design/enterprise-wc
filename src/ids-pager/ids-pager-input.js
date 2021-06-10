@@ -25,17 +25,17 @@ export default class IdsPagerInput extends IdsElement {
   }
 
   template() {
-    const pageCountShown = this.getAttribute(props.TOTAL) !== null
-      ? this.getAttribute(props.TOTAL)
-      : 'N/A';
+    const pageCountShown = this.pageCount !== null ? this.pageCount : 'N/A';
 
     return (
      `<ids-text font-size="16">Page</ids-text>&nbsp;
       <ids-input
-        value="${parseInt(this.getAttribute(props.PAGE_NUMBER))}"
+        value="${parseInt(this.pageNumber)}"
         ${this.disabled ? 'disabled' : ''}
       ></ids-input>
-      <ids-text font-size="16">&nbsp;of <span class="total">${pageCountShown}</span></ids-text>`
+      <ids-text font-size="16">&nbsp;of&nbsp;
+        <span class="page-count">${pageCountShown}</span>
+      </ids-text>`
     );
   }
 
@@ -47,6 +47,7 @@ export default class IdsPagerInput extends IdsElement {
     }
 
     this.input = this.shadowRoot.querySelector('ids-input');
+    this.#updatePageCountShown();
   }
 
   static get properties() {
@@ -93,7 +94,9 @@ export default class IdsPagerInput extends IdsElement {
 
     if (parseInt(nextValue) !== parseInt(this.input?.value)) {
       this.setAttribute(props.PAGE_NUMBER, nextValue);
-      this.input.value = nextValue;
+      if (this.input) { this.input.value = nextValue; }
+
+      this.#updatePageCountShown();
     }
   }
 
@@ -119,8 +122,21 @@ export default class IdsPagerInput extends IdsElement {
       nextValue = Number.parseInt(value);
     }
 
-    this.shadowRoot.querySelector('span.total').textContent = `${nextValue}`;
     this.setAttribute(props.TOTAL, nextValue);
+    this.#updatePageCountShown();
+  }
+
+  get pageCount() {
+    console.log('this.total ->', this.total);
+    console.log('this.pageSize ->', this.pageSize);
+    return this.total !== null
+      ? Math.floor(parseInt(this.total) / parseInt(this.pageSize))
+      : null;
+  }
+
+  #updatePageCountShown() {
+    const pageCountShown = (this.pageCount === null) ? 'N/A' : this.pageCount;
+    this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
   }
 
   /**

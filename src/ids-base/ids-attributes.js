@@ -90,6 +90,7 @@ export const attributes = {
   OPACITY: 'opacity',
   OVERFLOW: 'overflow',
   ORIENTATION: 'orientation',
+  PAGE_COUNT: 'page-count',
   PAGE_NUMBER: 'page-number',
   PAGE_SIZE: 'page-size',
   PLACEHOLDER: 'placeholder',

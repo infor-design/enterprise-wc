@@ -5,7 +5,7 @@ import {
   scss,
   mix
 } from '../ids-base';
-import { IdsPropProviderMixin } from '../ids-mixins';
+import { IdsPropProviderMixin, IdsEventsMixin } from '../ids-mixins';
 import IdsPagerSection from './ids-pager-section';
 import IdsPagerButton from './ids-pager-button';
 import IdsPagerInput from './ids-pager-input';
@@ -20,7 +20,10 @@ import styles from './ids-pager.scss';
  */
 @customElement('ids-pager')
 @scss(styles)
-export default class IdsPager extends mix(IdsElement).with(IdsPropProviderMixin) {
+export default class IdsPager extends mix(IdsElement).with(
+    IdsPropProviderMixin,
+    IdsEventsMixin
+  ) {
   constructor() {
     super();
   }
@@ -49,9 +52,9 @@ export default class IdsPager extends mix(IdsElement).with(IdsPropProviderMixin)
 
   get providedProperties() {
     return {
-      [props.PAGE_NUMBER]: [IdsPagerInput],
-      [props.TOTAL]: [IdsPagerInput],
-      [props.PAGE_SIZE]: [IdsPagerInput]
+      [props.PAGE_NUMBER]: [IdsPagerInput, IdsPagerButton],
+      [props.TOTAL]: [IdsPagerInput, IdsPagerButton],
+      [props.PAGE_SIZE]: [IdsPagerInput, IdsPagerButton]
     };
   }
 
@@ -60,10 +63,15 @@ export default class IdsPager extends mix(IdsElement).with(IdsPropProviderMixin)
       childList: true,
       attributes: true,
       attributeFilter: [props.START, props.END],
-      subtree: false
+      subtree: true
     });
 
     this.#normalizeSectionContainers();
+
+    this.onEvent('pagenumberchanged', this.shadowRoot, (e) => {
+      this.setAttribute(props.PAGE_NUMBER, `${e.detail.value}`);
+    });
+
     super.connectedCallback?.();
   }
 

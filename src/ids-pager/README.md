@@ -43,3 +43,4 @@ Page Section: `IdsPageSection`/`<ids-page-section>`; represents a panel on the p
 </ids-pager>
 
 ## Usage Tips
+-
