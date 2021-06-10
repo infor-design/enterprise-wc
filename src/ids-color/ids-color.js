@@ -26,36 +26,36 @@ import styles from './ids-color.scss';
  @customElement('ids-color')
  @scss(styles)
 
- class IdsColor extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
-  constructor() {
-    super();
-  }
+class IdsColor extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+   constructor() {
+     super();
+   }
 
-  connectedCallback() {
-  }
+   connectedCallback() {
+   }
 
-  /**
-  * @returns {Array<string>} this component's observable properties
-  */
+   /**
+   * @returns {Array<string>} this component's observable properties
+   */
    static get properties() {
-    return [...props.MODE, 'hex', props.VERSION];
-  }
+     return [...props.MODE, 'hex', props.VERSION];
+   }
 
-  /**
-  * Create the Template for the contents
-  * @returns {string} The template
-  */
-  template() {
-    return `<div class="ids-color" tabindex="0"></div>`;
-  }
+   /**
+   * Create the Template for the contents
+   * @returns {string} The template
+   */
+   template() {
+     return `<div class="ids-color" tabindex="0"></div>`;
+   }
 
-  set hex(h) {
-    this.setAttribute('hex', h.toString());
-  }
+   set hex(h) {
+     this.setAttribute('hex', h.toString());
+   }
 
-  get hex() {
-    return getAttribute('hex') || '#000000';
-  }
-}
+   get hex() {
+     return this.getAttribute('hex') || '#000000';
+   }
+ }
 
 export default IdsColor;

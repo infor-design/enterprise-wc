@@ -45,5 +45,4 @@ describe('Ids Color Picker Component', () => {
     colorpicker.label = 'Ids Color Picker';
     expect(colorpicker.getAttribute('label')).toEqual('Ids Color Picker');
   });
-
 });

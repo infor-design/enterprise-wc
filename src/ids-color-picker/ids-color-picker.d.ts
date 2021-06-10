@@ -10,5 +10,4 @@ export default class IdsColorPicker extends HTMLElement {
 
   /** Set the label */
   label: 'Ids Color Picker' | string;
-  
 }

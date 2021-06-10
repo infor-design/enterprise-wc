@@ -124,30 +124,30 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      });
 
      if (this.disabled === 'false') {
-      this.onEvent('click', this.container, (event) => {
-        const target = event.target;
-        const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
-        if (openColorCondition) {
-          this.#openCloseColorpicker();
-        }
- 
-        if (target.hasAttribute('hex')) {
-          this.setAttribute('value', target.getAttribute('hex'));
-          this.#openCloseColorpicker();
-        }
-      });
+       this.onEvent('click', this.container, (event) => {
+         const target = event.target;
+         const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
+         if (openColorCondition) {
+           this.#openCloseColorpicker();
+         }
 
-      this.onEvent('keyup', this.container, (keyup) => {
-        if (keyup.key === 'Enter') {
-          if (keyup.target === this.triggerButton) {
-            this.#openCloseColorpicker();
-          }
-          if (keyup.target.hasAttribute('hex')) {
-            this.setAttribute('value', keyup.target.getAttribute('hex'));
-            this.#openCloseColorpicker();
-          }
-        }
-      });
+         if (target.hasAttribute('hex')) {
+           this.setAttribute('value', target.getAttribute('hex'));
+           this.#openCloseColorpicker();
+         }
+       });
+
+       this.onEvent('keyup', this.container, (keyup) => {
+         if (keyup.key === 'Enter') {
+           if (keyup.target === this.triggerButton) {
+             this.#openCloseColorpicker();
+           }
+           if (keyup.target.hasAttribute('hex')) {
+             this.setAttribute('value', keyup.target.getAttribute('hex'));
+             this.#openCloseColorpicker();
+           }
+         }
+       });
      }
 
      this.onEvent('change', this.colorpickerInput, () => this.setAttribute('value', this.colorpickerInput.value));
