@@ -34,6 +34,7 @@ export const props = {
   DISABLE_EVENTS: 'disable-native-events',
   DISABLED: 'disabled',
   DISMISSIBLE: 'dismissible',
+  DISPLAY: 'display',
   ERROR: 'error',
   EXPANDED: 'expanded',
   FIELD_HEIGHT: 'field-height',

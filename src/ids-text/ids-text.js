@@ -49,6 +49,7 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
       props.FONT_SIZE,
       props.AUDIBLE,
       props.DISABLED,
+      props.DISPLAY,
       props.ERROR,
       props.MODE,
       props.VERSION,
