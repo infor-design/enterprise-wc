@@ -25,4 +25,12 @@ describe('IdsHeader Component', () => {
     expect(document.querySelectorAll('ids-header').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
+
+  it('has a color attribute', () => {
+    elem.remove();
+    elem = new IdsHeader();
+    document.body.appendChild(elem);
+    elem.color = '#0072ed';
+    expect(elem.getAttribute('color')).toEqual('#0072ed');
+  });
 })

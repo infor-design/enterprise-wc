@@ -17,6 +17,7 @@ import styles from './ids-header.scss';
 import '../ids-input/ids-input';
 import '../ids-toolbar/ids-toolbar';
 import '../ids-button/ids-button';
+import '../ids-text/ids-text';
 
 /**
  * IDS Rating Component
@@ -35,7 +36,6 @@ import '../ids-button/ids-button';
   }
 
   connectedCallback() {
-    console.log('Ids Header')
   }
 
   static get properties() {
@@ -54,11 +54,12 @@ import '../ids-button/ids-button';
   }
 
   set color(c) {
+    this.container.style.backgroundColor = c.toString();
     this.setAttribute('color', c.toString());
   }
 
   get color() {
-    return this.getAttribute('color') || '#333333';
+    return this.getAttribute('color') || '#0072ed';
   }
  }
 
