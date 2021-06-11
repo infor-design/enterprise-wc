@@ -68,8 +68,8 @@ export default class IdsPager extends mix(IdsElement).with(
 
     this.#normalizeSectionContainers();
 
-    this.onEvent('pagenumberchanged', this.shadowRoot, (e) => {
-      this.setAttribute(props.PAGE_NUMBER, `${e.detail.value}`);
+    this.onEvent('pagenumberchange', this.shadowRoot, (e) => {
+      this.pageNumber = e.detail.value;
     });
 
     super.connectedCallback?.();
@@ -109,22 +109,23 @@ export default class IdsPager extends mix(IdsElement).with(
    * @returns {string|number} number of items shown per-page
    */
   get pageSize() {
-    return this.getAttribute(props.PAGE_SIZE);
+    return parseInt(this.getAttribute(props.PAGE_SIZE));
   }
 
   /**
    * @param {string|number} value 1-based page number shown
    */
   set pageNumber(value) {
-    let nextValue;
+    let nextValue = Number.parseInt(value);
 
-    if (Number.isNaN(Number.parseInt(value))) {
-      nextValue = 0;
+    if (Number.isNaN(nextValue)) {
+      nextValue = 1;
       console.error('ids-pager: non-numeric value sent to pageNumber');
-    } else if (Number.parseInt(value) <= 0) {
-      nextValue = 0;
+    } else if (nextValue <= 1) {
+      nextValue = 1;
     } else {
-      nextValue = Number.parseInt(value);
+      const pageCount = Math.floor(this.total / this.pageSize);
+      nextValue = Math.min(nextValue, pageCount);
     }
 
     this.setAttribute(props.PAGE_NUMBER, nextValue);
@@ -134,7 +135,7 @@ export default class IdsPager extends mix(IdsElement).with(
    * @returns {string|number} value 1-based page number displayed
    */
   get pageNumber() {
-    return this.getAttribute(props.PAGE_NUMBER);
+    return parseInt(this.getAttribute(props.PAGE_NUMBER));
   }
 
   /**
@@ -159,7 +160,7 @@ export default class IdsPager extends mix(IdsElement).with(
    * @returns {string|number} number of items for pager is tracking
    */
   get total() {
-    return this.getAttribute(props.TOTAL);
+    return parseInt(this.getAttribute(props.TOTAL));
   }
 
   /**

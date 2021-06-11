@@ -48,7 +48,7 @@ export default (superclass) => class extends superclass {
   propertyObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'attributes') {
-        if (this.providedProperties?.[m.attributeName]) {
+        if (typeof this.providedProperties?.[m.attributeName] !== 'undefined') {
           this.provideProperties({
             [m.attributeName]: this.providedProperties[m.attributeName]
           });

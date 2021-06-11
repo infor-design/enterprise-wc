@@ -2,10 +2,12 @@ import {
   IdsElement,
   customElement,
   props,
-  scss
+  scss,
+  mix
 } from '../ids-base';
 import { IdsInput } from '../ids-input/ids-input';
 import { IdsText } from '../ids-text/ids-text';
+import { IdsEventsMixin, IdsKeyboardMixin } from '../ids-mixins';
 import IdsPagerSection from './ids-pager-section';
 import styles from './ids-pager-input.scss';
 import { stringToBool } from '../ids-base/ids-string-utils';
@@ -19,7 +21,10 @@ import { stringToBool } from '../ids-base/ids-string-utils';
  */
 @customElement('ids-pager-input')
 @scss(styles)
-export default class IdsPagerInput extends IdsElement {
+export default class IdsPagerInput extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsKeyboardMixin
+  ) {
   constructor() {
     super();
   }
@@ -40,18 +45,44 @@ export default class IdsPagerInput extends IdsElement {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
+    this.input = this.shadowRoot.querySelector('ids-input');
+
+    this.onEvent('change', this.input, (e) => {
+      this.onRegisterInputValue(e.target.input.value);
+    });
+
+    // when leaving user focus, input should adjust itself
+    // to the page number provided by the pager
+
+    this.onEvent('blur', this.input, () => {
+      if (this.input.value !== `${this.pageNumber}`) {
+        this.input.value = this.pageNumber;
+      }
+    });
+
+    this.listen('Enter', this.input, (e) => {
+      this.onRegisterInputValue(e.target.input.value);
+    });
 
     if (!this.hasAttribute(props.PAGE_NUMBER)) {
-      this.setAttribute(props.PAGE_NUMBER, 0);
+      this.setAttribute(props.PAGE_NUMBER, 1);
     }
 
-    this.input = this.shadowRoot.querySelector('ids-input');
-    this.#updatePageCountShown();
+    // give parent a chance to reflect properties
+
+    window.requestAnimationFrame(() => {
+      this.#updatePageCountShown();
+    });
+
+    super.connectedCallback?.();
   }
 
   static get properties() {
-    return [props.PAGE_NUMBER, props.TOTAL, props.PAGE_SIZE];
+    return [
+      props.PAGE_NUMBER,
+      props.TOTAL,
+      props.PAGE_SIZE
+    ];
   }
 
   /**
@@ -74,7 +105,7 @@ export default class IdsPagerInput extends IdsElement {
    * @returns {string|number} number of items shown per-page
    */
   get pageSize() {
-    return this.getAttribute(props.PAGE_SIZE);
+    return parseInt(this.getAttribute(props.PAGE_SIZE));
   }
 
   /**
@@ -84,17 +115,18 @@ export default class IdsPagerInput extends IdsElement {
     let nextValue;
 
     if (Number.isNaN(Number.parseInt(value))) {
-      nextValue = 0;
-      console.error('ids-pager: non-numeric value sent to pageNumber');
-    } else if (Number.parseInt(value) <= 0) {
-      nextValue = 0;
+      nextValue = 1;
+      console.error('ids-pager: non-valid-numeric value sent to pageNumber');
+    } else if (Number.parseInt(value) <= 1) {
+      nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
     }
 
-    if (parseInt(nextValue) !== parseInt(this.input?.value)) {
+    if (parseInt(nextValue) !== parseInt(this.input?.input.value)) {
+      this.input.value = nextValue;
+
       this.setAttribute(props.PAGE_NUMBER, nextValue);
-      if (this.input) { this.input.value = nextValue; }
 
       this.#updatePageCountShown();
     }
@@ -104,7 +136,7 @@ export default class IdsPagerInput extends IdsElement {
    * @returns {string|number} value 1-based page number displayed
    */
   get pageNumber() {
-    return this.getAttribute(props.PAGE_NUMBER);
+    return parseInt(this.getAttribute(props.PAGE_NUMBER));
   }
 
   /**
@@ -127,16 +159,9 @@ export default class IdsPagerInput extends IdsElement {
   }
 
   get pageCount() {
-    console.log('this.total ->', this.total);
-    console.log('this.pageSize ->', this.pageSize);
     return this.total !== null
       ? Math.floor(parseInt(this.total) / parseInt(this.pageSize))
       : null;
-  }
-
-  #updatePageCountShown() {
-    const pageCountShown = (this.pageCount === null) ? 'N/A' : this.pageCount;
-    this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
   }
 
   /**
@@ -158,5 +183,25 @@ export default class IdsPagerInput extends IdsElement {
 
   get disabled() {
     return stringToBool(this.getAttribute(props.DISABLED));
+  }
+
+  onRegisterInputValue(value) {
+    const inputPageNumber = parseInt(value);
+
+    if (inputPageNumber !== this.pageNumber) {
+      if (!Number.isNaN(inputPageNumber)) {
+        this.triggerEvent('pagenumberchange', this, {
+          bubbles: true,
+          detail: { elem: this, value: inputPageNumber }
+        });
+      } else {
+        this.input.value = this.pageNumber;
+      }
+    }
+  }
+
+  #updatePageCountShown() {
+    const pageCountShown = (this.pageCount === null) ? 'N/A' : this.pageCount;
+    this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
   }
 }

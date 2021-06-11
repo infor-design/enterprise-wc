@@ -60,8 +60,8 @@ export default class IdsPagerButton extends mix(IdsElement).with(
    * inferred from pageSize and total
    */
   get pageCount() {
-    return this.total !== null
-      ? Math.floor(parseInt(this.total) / parseInt(this.pageSize))
+    return (this.total !== null && !Number.isNaN(this.total))
+      ? Math.floor(this.total / this.pageSize)
       : null;
   }
 
@@ -123,42 +123,61 @@ export default class IdsPagerButton extends mix(IdsElement).with(
    * @param {string|number} value number of items to track
    */
   set total(value) {
-    let nextValue;
-    if (Number.isNaN(Number.parseInt(value))) {
-      console.error('ids-pager: non-numeric value sent to total');
-      nextValue = 0;
-    } else if (Number.parseInt(value) <= 0) {
-      console.error('ids-pager: total cannot be <= 0');
-      nextValue = 0;
-    } else {
-      nextValue = Number.parseInt(value);
-    }
-
-    this.setAttribute(props.TOTAL, nextValue);
+    this.setAttribute(props.TOTAL, value);
   }
 
   /**
    * @returns {string|number} number of items for pager is tracking
    */
   get total() {
-    return this.getAttribute(props.TOTAL);
+    return parseInt(this.getAttribute(props.TOTAL));
+  }
+
+  /**
+   * @returns {string|number} value 1-based page number displayed
+   */
+  get pageNumber() {
+    return parseInt(this.getAttribute(props.PAGE_NUMBER));
+  }
+
+  /**
+   * @param {string|number} value number of items shown per-page
+   */
+  set pageSize(value) {
+    let nextValue;
+
+    if (Number.isNaN(Number.parseInt(value))) {
+      console.error('ids-pager: non-numeric value sent to page-size');
+      nextValue = 0;
+    } else {
+      nextValue = Number.parseInt(value);
+    }
+
+    this.setAttribute(props.PAGE_SIZE, nextValue);
+  }
+
+  /**
+   * @returns {string|number} number of items shown per-page
+   */
+  get pageSize() {
+    return parseInt(this.getAttribute(props.PAGE_SIZE));
   }
 
   /**
    * handles click functionality dependent on whether this
-   * button is disabled and the type of button it is set to
+   * button is disabled and the type of button it is set to;
+   * will bubble up an appropriate event to parent ids-pager
+   * in order to update the page-number value via
+   * 'pagenumberchange' if applicable
    */
   #onClick() {
     if (!this.disabled) {
-      const pageSize = parseInt(this.getAttribute(props.PAGE_SIZE));
-      const pageNumber = parseInt(this.getAttribute(props.PAGE_NUMBER));
-      const total = parseInt(this.getAttribute(props.TOTAL));
-      const lastPageNumber = Math.floor(total / pageSize);
+      const lastPageNumber = Math.floor(this.total / this.pageSize);
 
       switch (this.type) {
       case props.FIRST: {
-        if (pageNumber > 1) {
-          this.triggerEvent('pagenumberchanged', this, {
+        if (this.pageNumber > 1) {
+          this.triggerEvent('pagenumberchange', this, {
             bubbles: true,
             detail: { elem: this, value: 1 }
           });
@@ -166,28 +185,28 @@ export default class IdsPagerButton extends mix(IdsElement).with(
         break;
       }
       case props.LAST: {
-        if (pageNumber < lastPageNumber) {
-          this.triggerEvent('pagenumberchanged', this, {
+        if (this.pageNumber < lastPageNumber) {
+          this.triggerEvent('pagenumberchange', this, {
             bubbles: true,
             detail: { elem: this, value: this.pageCount }
           });
         }
         break;
       }
-      case props.PREV: {
-        if (pageNumber > 1) {
-          this.triggerEvent('pagenumberchanged', this, {
+      case props.PREVIOUS: {
+        if (this.pageNumber > 1) {
+          this.triggerEvent('pagenumberchange', this, {
             bubbles: true,
-            detail: { elem: this, value: pageNumber - 1 }
+            detail: { elem: this, value: this.pageNumber - 1 }
           });
         }
         break;
       }
       case props.NEXT: {
-        if (pageNumber < lastPageNumber) {
-          this.triggerEvent('pagenumberchanged', this, {
+        if (this.pageNumber < lastPageNumber) {
+          this.triggerEvent('pagenumberchange', this, {
             bubbles: true,
-            detail: { elem: this, value: pageNumber + 1 }
+            detail: { elem: this, value: this.pageNumber + 1 }
           });
         }
         break;
