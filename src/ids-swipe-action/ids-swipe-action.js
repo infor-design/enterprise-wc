@@ -34,14 +34,20 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   /**
    * Invoked each time the custom element is appended into a
    * document-connected element
+   * @private
    */
   connectedCallback() {
     super.connectedCallback();
     this.#handleEvents();
   }
 
+  /**
+   * Scroll to the center container on render
+   * @private
+   */
   rendered() {
-    if (this.swipeType === 'reveal') {
+    const buttons = this.querySelector('[slot="action-left"]');
+    if (buttons && this.swipeType === 'reveal') {
       this.container.scrollLeft = 85;
     }
   }
