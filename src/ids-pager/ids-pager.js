@@ -55,7 +55,10 @@ export default class IdsPager extends mix(IdsElement).with(
       [props.PAGE_NUMBER]: [IdsPagerInput, IdsPagerButton],
       [props.TOTAL]: [IdsPagerInput, IdsPagerButton],
       [props.PAGE_SIZE]: [IdsPagerInput, IdsPagerButton],
-      [props.DISABLED]: [[IdsPagerInput, props.PARENT_DISABLED]]
+      [props.DISABLED]: [
+        [IdsPagerInput, props.PARENT_DISABLED],
+        [IdsPagerButton, props.PARENT_DISABLED]
+      ]
     };
   }
 

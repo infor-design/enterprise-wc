@@ -99,18 +99,24 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * @param {boolean|string} value whether to disable the input or not
+   * @returns {string|boolean} flag indicating whether button is disabled
+   * for nav reasons
+   */
+  get disabled() {
+    return this.hasAttribute(props.DISABLED);
+  }
+
+  /**
+   * @param {boolean|string} value whether to disable input at app-specified-level
    */
   set disabled(value) {
-    const idsButton = this.shadowRoot.children[0];
-
     if (stringToBool(value)) {
       this.setAttribute(props.DISABLED, true);
-      idsButton.setAttribute(props.DISABLED, true);
     } else {
       this.removeAttribute(props.DISABLED);
-      idsButton.removeAttribute(props.DISABLED);
     }
+
+    this.#updateDisabledState();
   }
 
   /**
@@ -157,6 +163,28 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    * for nav reasons
    */
   get navDisabled() {
+    return this.hasAttribute(props.NAV_DISABLED);
+  }
+
+  /**
+   * @param {string|boolean} value flag indicating if button is disabled
+   * through parent pager's disabled attribute
+   */
+  set parentDisabled(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(props.NAV_DISABLED, '');
+    } else {
+      this.removeAttribute(props.NAV_DISABLED);
+    }
+
+    this.#updateDisabledState();
+  }
+
+  /**
+   * @returns {string|boolean} flag indicating whether button is disabled
+   * via parent pager's disabled attribute
+   */
+  get parentDisabled() {
     return this.hasAttribute(props.NAV_DISABLED);
   }
 
