@@ -32,7 +32,10 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     const type = this.type;
 
     return (
-      `<ids-button ${type} ${this.hasAttribute(props.DISABLED) ? ' disabled' : ''}>
+      `<ids-button
+        ${type}
+        ${this.hasAttribute(props.DISABLED) ? ' disabled' : ''}
+      >
         <ids-icon icon="${type}-page" size="medium"></ids-icon>
       </ids-button>`
     );
@@ -305,6 +308,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
           this.removeAttribute(type);
         }
       }
+      this.button.button.setAttribute('aria-label', attribute);
     } else {
       this.removeAttribute(attribute);
     }

@@ -57,6 +57,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
 
   connectedCallback() {
     this.input = this.shadowRoot.querySelector('ids-input');
+    this.input.input.setAttribute('aria-label', 'Input for page number');
 
     this.onEvent('change', this.input, (e) => {
       this.onRegisterInputValue(e.target.input.value);

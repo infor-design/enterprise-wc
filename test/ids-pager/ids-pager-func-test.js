@@ -4,8 +4,14 @@
 import IdsPager from '../../src/ids-pager/ids-pager';
 
 const DEFAULT_PAGER_HTML = (
-  `<ids-pager>
-    test content
+  `<ids-pager page-size="20" page-number="10" total="200">
+    <ids-pager-section>
+      <ids-pager-button first></ids-pager-button>
+      <ids-pager-button previous></ids-pager-button>
+      <ids-pager-input></ids-pager-input>
+      <ids-pager-button next></ids-pager-button>
+      <ids-pager-button last></ids-pager-button>
+    </ids-pager-section>
   </ids-pager>`
 );
 
@@ -35,13 +41,11 @@ describe('IdsPager Component', () => {
     elem?.remove();
   });
 
-  it('renders with no errors', () => {
-    it('renders from HTML Template with no errors', async () => {
-      elem = await createElemViaTemplate(DEFAULT_PAGER_HTML);
+  it('renders from HTML Template with no errors', async () => {
+    elem = await createElemViaTemplate(DEFAULT_PAGER_HTML);
 
-      const errors = jest.spyOn(global.console, 'error');
-      expect(document.querySelectorAll('ids-tabs').length).toEqual(1);
-      expect(errors).not.toHaveBeenCalled();
-    });
+    const errors = jest.spyOn(global.console, 'error');
+    expect(document.querySelectorAll('ids-tabs').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
   });
 });

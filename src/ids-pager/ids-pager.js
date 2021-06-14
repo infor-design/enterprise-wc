@@ -177,6 +177,7 @@ export default class IdsPager extends mix(IdsElement).with(
    */
   #normalizeSectionContainers() {
     if (!this.hasSectionContainers()) {
+      this.shadowRoot.querySelector('ids-pager-section').setAttribute('role', 'navigation');
       this.provideProperties();
       return;
     }
@@ -184,9 +185,11 @@ export default class IdsPager extends mix(IdsElement).with(
     switch (this.children.length) {
     case 3:
       this.children[0].setAttribute(props.START, '');
+      this.children[1].setAttribute('role', 'navigation');
       this.children[2].setAttribute(props.END, '');
       break;
     case 2: {
+      this.children[0].setAttribute('role', 'navigation');
       this.children[1].setAttribute(props.END, '');
 
       // insert an empty pager-section to the left
@@ -202,6 +205,7 @@ export default class IdsPager extends mix(IdsElement).with(
       break;
     }
     case 1:
+      this.children[0].setAttribute('role', 'navigation');
       break;
     default: {
       console.error('ids-pager: invalid number of children passed');
