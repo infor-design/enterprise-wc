@@ -68,7 +68,7 @@ describe('IdsButton Component', () => {
   it('can be disabled/enabled', () => {
     btn.disabled = true;
 
-    expect(btn.hasAttribute('disabled')).toBeFalsy();
+    expect(btn.hasAttribute('disabled')).toBeTruthy();
     expect(btn.disabled).toBeTruthy();
     expect(btn.button.hasAttribute('disabled')).toBeTruthy();
     expect(btn.state.disabled).toBeTruthy();
@@ -105,7 +105,7 @@ describe('IdsButton Component', () => {
 
     btn.setAttribute('tabindex', '0');
 
-    expect(btn.hasAttribute('tabindex')).toBeFalsy();
+    expect(btn.hasAttribute('tabindex')).toBeTruthy();
     expect(btn.tabIndex).toEqual(0);
     expect(btn.button.getAttribute('tabindex')).toEqual('0');
     expect(btn.state.tabIndex).toEqual(0);

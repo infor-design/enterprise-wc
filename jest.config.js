@@ -18,7 +18,7 @@ module.exports = {
   // executing the test
   collectCoverage: false,
 
-  testTimeout: 50000,
+  testTimeout: 6000,
 
   // An array of glob patterns indicating a set of files for which coverage
   // information should be collected

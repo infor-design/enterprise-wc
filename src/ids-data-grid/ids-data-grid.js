@@ -204,10 +204,10 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @returns {string} The html string for the row
    */
   rowTemplate(row, index) {
-    let html = `<div role="row" part="row" aria-rowindex="${index}" class="ids-data-grid-row">`;
+    let html = `<div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row">`;
 
     this.columns.forEach((column, j) => {
-      html += `<span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="${j}">${this.cellTemplate(row, column)}</span>`;
+      html += `<span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="${j + 1}">${this.cellTemplate(row, column)}</span>`;
     });
 
     html += '</div>';
@@ -249,7 +249,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       const cell = e.target.closest('.ids-data-grid-cell');
       const row = cell.parentNode;
       // TODO Handle Hidden Cells
-      this.setActiveCell(parseInt(cell.getAttribute('aria-colindex'), 10), parseInt(row.getAttribute('aria-rowindex'), 10));
+      this.setActiveCell(parseInt(cell.getAttribute('aria-colindex') - 1, 10), parseInt(row.getAttribute('aria-rowindex') - 1, 10));
     });
   }
 

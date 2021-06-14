@@ -1,0 +1,83 @@
+/* Ids Breadcrumb Component */
+@import '../ids-base/ids-base';
+
+.ids-breadcrumb {
+  @include antialiased();
+
+  [text-decoration] {
+    text-decoration: attr(text-decoration);
+  }
+}
+
+a.ids-hyperlink {
+  @include text-14();
+  @include text-slate-60();
+}
+
+::slotted(*),
+.ids-breadcrumb > * {
+  display: inline;
+}
+
+// Create the / between breadcrumbs
+::slotted(*:not(:first-child))::before,
+.ids-breadcrumb > *:not(:first-child)::before {
+  @include antialiased();
+  @include text-slate-60();
+
+  content: '\002F';
+  font-weight: normal;
+  padding-left: 4px;
+  padding-right: 8px;
+  text-decoration: none;
+  display: inline-block;
+}
+
+// Handle font colors for different themes
+::slotted(ids-hyperlink[version='new'][mode='light']) {
+  @include text-slate-60();
+}
+
+::slotted(ids-hyperlink[version='new'][mode='light'][disabled]) {
+  @include text-slate-30();
+}
+
+::slotted(ids-hyperlink[version='new'][mode='dark']) {
+  @include text-slate-40();
+}
+
+::slotted(ids-hyperlink[version='new'][mode='dark'][disabled]) {
+  @include text-slate-60();
+}
+
+::slotted(ids-hyperlink[version='new'][mode='contrast']) {
+  @include text-slate-80();
+}
+
+::slotted(ids-hyperlink[version='new'][mode='contrast'][disabled]) {
+  @include text-slate-30();
+}
+
+::slotted(ids-hyperlink[version='classic'][mode='light']) {
+  @include text-graphite-60();
+}
+
+::slotted(ids-hyperlink[version='classic'][mode='light'][disabled]) {
+  @include text-graphite-30();
+}
+
+::slotted(ids-hyperlink[version='classic'][mode='dark']) {
+  @include text-slate-40();
+}
+
+::slotted(ids-hyperlink[version='classic'][mode='dark'][disabled]) {
+  @include text-classic-slate-50();
+}
+
+::slotted(ids-hyperlink[version='classic'][mode='contrast']) {
+  @include text-slate-80();
+}
+
+::slotted(ids-hyperlink[version='classic'][mode='contrast'][disabled]) {
+  @include text-slate-50();
+}

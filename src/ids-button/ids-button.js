@@ -12,6 +12,8 @@ import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-mixins/ids-render-
 
 import styles from './ids-button.scss';
 
+const { stringToBool } = stringUtils;
+
 // Button Styles
 const BUTTON_TYPES = [
   'default',
@@ -91,10 +93,13 @@ class IdsButton extends mix(IdsElement).with(
       switch (name) {
       // Convert "tabindex" to "tabIndex"
       case 'tabindex':
+        if (Number.isNaN(Number.parseInt(newValue))) {
+          this.tabIndex = null;
+        }
         this.tabIndex = Number(newValue);
         break;
       default:
-        IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+        super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
         break;
       }
     }
@@ -109,7 +114,6 @@ class IdsButton extends mix(IdsElement).with(
     this.setIconAlignment();
     this.shouldUpdate = true;
     super.connectedCallback();
-    this.setAttribute('role', 'button');
   }
 
   /**
@@ -292,16 +296,20 @@ class IdsButton extends mix(IdsElement).with(
    * @param {boolean|string} val true if the button will be disabled
    */
   set disabled(val) {
+    const isValueTruthy = stringToBool(val);
     this.shouldUpdate = false;
-    this.removeAttribute(props.DISABLED);
-    this.shouldUpdate = true;
+    if (isValueTruthy) {
+      this.setAttribute(props.DISABLED, '');
+    } else {
+      this.removeAttribute(props.DISABLED);
+    }
 
-    const trueVal = stringUtils.stringToBool(val);
-    this.state.disabled = trueVal;
+    this.shouldUpdate = true;
+    this.state.disabled = isValueTruthy;
 
     /* istanbul ignore next */
     if (this.button) {
-      this.button.disabled = trueVal;
+      this.button.disabled = isValueTruthy;
     }
   }
 
@@ -315,17 +323,15 @@ class IdsButton extends mix(IdsElement).with(
    * @returns {void}
    */
   set tabIndex(val) {
-    // Remove the webcomponent tabIndex
-    this.shouldUpdate = false;
-    this.removeAttribute(props.TABINDEX);
-    this.shouldUpdate = true;
-
     const trueVal = Number(val);
+
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabIndex = 0;
       this.button.setAttribute(props.TABINDEX, '0');
+      this.removeAttribute(props.TABINDEX);
       return;
     }
+
     this.state.tabIndex = trueVal;
     this.button.setAttribute(props.TABINDEX, `${trueVal}`);
   }
@@ -631,7 +637,6 @@ class IdsButton extends mix(IdsElement).with(
     rippleEl.classList.add('ripple-effect');
     rippleEl.setAttribute('aria-hidden', 'true');
     rippleEl.setAttribute('focusable', 'false');
-    rippleEl.setAttribute('role', 'presentation');
 
     this.button.prepend(rippleEl);
     rippleEl.style.left = `${btnOffsets.x}px`;
