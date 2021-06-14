@@ -46,9 +46,20 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    * @private
    */
   rendered() {
-    const buttons = this.querySelector('[slot="action-left"]');
-    if (buttons && this.swipeType === 'reveal') {
+    const leftButton = this.querySelector('[slot="action-left"]');
+    const rightButton = this.querySelector('[slot="action-right"]');
+    if (leftButton && this.swipeType === 'reveal') {
       this.container.scrollLeft = 85;
+    }
+    if (leftButton && this.swipeType === 'reveal') {
+      leftButton.setAttribute('tabindex', '-1');
+      leftButton.setAttribute('aria-hidden', 'true');
+      leftButton.setAttribute('no-ripple', 'true');
+    }
+    if (rightButton && this.swipeType === 'reveal') {
+      rightButton.setAttribute('tabindex', '-1');
+      rightButton.setAttribute('aria-hidden', 'true');
+      rightButton.setAttribute('no-ripple', 'true');
     }
   }
 

@@ -20,7 +20,7 @@ A normal swipe action with two actions. In continuous mode the action will be ex
 <ids-card auto-height="true">
   <div slot="card-content">
     <ids-swipe-action swipe-type="continuous">
-      <ids-button slot="action-left" id="action-left-continuous" type="swipe-action-left" tabindex="-1" role="presentation=" no-ripple="true">
+      <ids-button slot="action-left" id="action-left-continuous" type="swipe-action-left">
         <ids-icon slot="icon" icon="reply" size="small"></ids-icon>
         <span slot="text">Left Action</span>
       </ids-button>
@@ -45,7 +45,7 @@ A normal swipe action with two actions. In continuous mode the action will be ex
           </ids-layout-grid-cell>
         </ids-layout-grid>
       </div>
-      <ids-button slot="action-right" id="action-right-continuous" type="swipe-action-right" tabindex="-1" role="presentation=" no-ripple="true">
+      <ids-button slot="action-right" id="action-right-continuous" type="swipe-action-right">
         <ids-icon slot="icon" icon="tack" size="small"></ids-icon>
         <span slot="text">Right Action</span>
       </ids-button>
