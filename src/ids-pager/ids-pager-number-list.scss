@@ -1,3 +1,5 @@
+@import '../ids-base/ids-base';
+
 :host(ids-pager-number-list) {
   box-sizing: border-box;
   flex-basis: 0;
@@ -13,4 +15,18 @@
 ids-button::part(button) {
   max-width: 40px;
   padding: 6px 8px;
+}
+
+ids-button:not([selected])::part(button) {
+  @include text-azure-60();
+}
+
+ids-button[selected]::part(button) {
+  @include font-bold();
+}
+
+ids-button:hover {
+  @include border-none();
+  @include border-b-1();
+  @include border-azure-60();
 }

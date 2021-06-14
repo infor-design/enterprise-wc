@@ -101,6 +101,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
 
     if (parseInt(nextValue) !== parseInt(this.input?.input.value)) {
       this.setAttribute(props.PAGE_NUMBER, nextValue);
+      this.#populatePageNumberButtons();
     }
   }
 
@@ -213,6 +214,10 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
     for (let n = 1; n <= pageCount; n++) {
       const numberButton = this.container.children[n - 1];
       numberButton.button.setAttribute('aria-label', `Go to page ${n}`);
+      if (n === this.pageNumber) {
+        numberButton.setAttribute(props.SELECTED, '');
+      }
+
       numberButton.addEventListener('click', () => {
         this.triggerEvent('pagenumberchange', this, {
           bubbles: true,
