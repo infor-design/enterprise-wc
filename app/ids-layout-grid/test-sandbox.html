@@ -1,7 +1,7 @@
 {{> ../layouts/head.html }}
 
 <ids-layout-grid>
-  <ids-text font-size="12" type="h1">Additional Examples</ids-text>
+  <ids-text font-size="12" type="h1">Header/Footer</ids-text>
 </ids-layout-grid>
 
 <ids-layout-grid auto="true" no-margins="true">
@@ -34,6 +34,34 @@
 <ids-layout-grid auto="true" no-margins="true">
   <ids-layout-grid-cell fill="true">
     <ids-text>Footer</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Justify/Float Left</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid cols="2" gap="none" no-margins="true">
+  <ids-layout-grid-cell>
+    <ids-layout-grid cols="2">
+      <ids-layout-grid-cell>
+        <ids-text font-size="16">Tuesday, 22nd September</ids-text>
+        <ids-text font-size="14">8:40AM-2:00PM</ids-text>
+      </ids-layout-grid-cell>
+      <ids-layout-grid-cell justify="end">
+        <ids-menu-button id="ids-actions"" menu="ids-actions-menu">
+          <ids-icon slot="icon" icon="more"></ids-icon>
+          <span class="audible">Actions</span>
+        </ids-menu-button>
+        <ids-popup-menu id="ids-actions-menu"" target="ids-actions-menu"" trigger="click">
+          <ids-menu-group>
+            <ids-menu-item>Action 1</ids-menu-item>
+            <ids-menu-item>Action 2</ids-menu-item>
+            <ids-menu-item>Action 3</ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+      </ids-layout-grid-cell>
+    </ids-layout-grid>
   </ids-layout-grid-cell>
 </ids-layout-grid>
 

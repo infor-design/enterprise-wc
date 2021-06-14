@@ -414,4 +414,14 @@ describe('IdsButton ripple effect tests', () => {
     btn.version = 'classic';
     expect(btn.container.getAttribute('version')).toEqual('classic');
   });
+
+  it('removes the color attribute when reset', () => {
+    btn.noRipple = true;
+    expect(btn.getAttribute('no-ripple')).toEqual('true');
+    expect(btn.noRipple).toEqual(true);
+
+    btn.noRipple = false;
+    expect(btn.getAttribute('no-ripple')).toEqual(null);
+    expect(btn.noRipple).toEqual(false);
+  });
 });

@@ -36,6 +36,10 @@ A card is created by using the custom `ids-card` element. A card has two content
 </ids-card>
 ```
 
+## Settings and Attributes
+
+- `autoHeight` {boolean} Makes the card the same height as its inner content
+
 ## States and Variations (With Code Examples)
 
 - Group Action

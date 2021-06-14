@@ -1,3 +1,7 @@
+## Ids Mixins
+
+Mixins are simply functions with shared functionality that can be injected into a component. For example the IdsEventOmitter. They get around the issue that in JS that you cannot inherit from more than one object. Also they prevent the Base Element from getting bloated with functionality that not every component uses. Ids is using a simple object as a mixin that in "injected" into the component in the constructor and then used according to its documentation. If the mixin has UI elements it should probably be a web component instead.
+
 ## Ids Keyboard Mixin
 
 - Handles detaching if a key is pressed down currently
@@ -45,9 +49,11 @@ console.log(this.handledEvents());
 // `click.doop` is not there, but `click` remains.
 ```
 
-## Ids Mixins
+The events mixin also lets you use a few convenient "custom events" for common interactions. We currently have the following events.
 
-Mixins are simply functions with shared functionality that can be injected into a component. For example the IdsEventOmitter. They get around the issue that in JS that you cannot inherit from more than one object. Also they prevent the Base Element from getting bloated with functionality that not every component uses. Ids is using a simple object as a mixin that in "injected" into the component in the constructor and then used according to its documentation. If the mixin has UI elements it should probably be a web component instead.
+- `hoverend` Fires when the user hovers the target and stops. This is to ensure they actually hovered the element and didn't just accidentally pass the mouse over it.
+- `swipe` Fires when a user swipes left or right on a scrollable element. The direction can be seen in `event.detail`
+- `longpress` Fires when the user presses and olds on a touch device.
 
 ## Ids Resize Mixin
 
@@ -83,7 +89,7 @@ This mixin adds functionality to change the theme on a component. To use it you 
 ```
 
 1. Add types for MODE and VERSION to the `d.ts` file for the new properties.
-1. Add the theme mixin name to the @mixins tag for future docs.
+1. Add the theme mixin name to the @mixes tag for future docs.
 1. Add the color changes for each theme scss file. For example:
 
 ```css
@@ -115,12 +121,12 @@ This mixin adds functionality to change the theme on a component. To use it you 
 1. In addition you should expose some of the component elements as `parts` do this in the comments and in the template. This gives a way to customize the styles outside of the web components, for flexibility and possible style customizations.
 
 ```js
- ...
  /**
  * @part tag - the tag element
  * @part icon - the icon element
  */
- ...
+
+ // Later...
  template() {
    return '<span class="ids-tag" part="tag"><slot></slot></span>';
  }

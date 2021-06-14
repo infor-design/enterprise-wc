@@ -18,7 +18,9 @@ const BUTTON_TYPES = [
   'primary',
   'secondary',
   'tertiary',
-  'destructive'
+  'destructive',
+  'swipe-action-left',
+  'swipe-action-right'
 ];
 
 // Default Button state values
@@ -35,6 +37,7 @@ const BUTTON_PROPS = [
   props.DISABLED,
   props.ICON,
   props.ICON_ALIGN,
+  props.NO_RIPPLE,
   props.ID,
   props.TEXT,
   props.TYPE,
@@ -206,6 +209,9 @@ class IdsButton extends mix(IdsElement).with(
     let x;
     let y;
     let preceededByTouchstart = false;
+    if (this.noRipple) {
+      return;
+    }
 
     this.onEvent('click.ripple', this.button, (/** @type {any} */ e) => {
       if (preceededByTouchstart) {
@@ -516,6 +522,27 @@ class IdsButton extends mix(IdsElement).with(
    */
   get type() {
     return this.state.type;
+  }
+
+  /**
+   * If set to true the ripple effect will be disabled.
+   * @param {boolean} val The ripple value
+   */
+  set noRipple(val) {
+    if (stringUtils.stringToBool(val)) {
+      this.setAttribute(props.NO_RIPPLE, true);
+      this.state.noRipple = true;
+      return;
+    }
+    this.removeAttribute(props.NO_RIPPLE);
+    this.state.noRipple = false;
+  }
+
+  /**
+   * @returns {string} the currently set type
+   */
+  get noRipple() {
+    return this.state.noRipple || false;
   }
 
   /**
