@@ -40,6 +40,31 @@ const IdsDOMUtils = {
   },
 
   /**
+   * Traverses Shadow DOM (into Light DOM, if necessary) to find the closest reference to a
+   * parent node matching the provided selector.
+   * @param {HTMLElement} node the node to check
+   * @param {string} selector containing a CSS selector to be used for matching
+   * @returns {Node|undefined} the node if found, otherwise undefined
+   */
+  getClosest(node, selector) {
+    /** @type {any} */
+    let parent = (node && node.parentNode);
+    while (parent) {
+      if (parent.toString() === '[object ShadowRoot]') {
+        parent = parent.host;
+      }
+      if (parent.toString() === '[object HTMLDocument]') {
+        return undefined;
+      }
+      if (parent.matches(selector)) {
+        return parent;
+      }
+      parent = parent.parentNode;
+    }
+    return undefined;
+  },
+
+  /**
    * Changes a CSS property with a transition,
    * @param {HTMLElement} el the element to act on
    * @param {string} property the CSS property with an attached transition to manipulate

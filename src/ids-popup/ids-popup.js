@@ -142,6 +142,9 @@ class IdsPopup extends mix(IdsElement).with(
   connectedCallback() {
     super.connectedCallback();
 
+    // Always setup link to containing element first
+    this.containingElem = IdsDOMUtils.getClosest(this, 'ids-container') || document.body;
+
     this.animated = this.hasAttribute(props.ANIMATED);
     this.animationStyle = this.getAttribute(props.ANIMATION_STYLE) || this.animationStyle;
     this.#setAnimationStyle(this.animationStyle);
@@ -588,8 +591,8 @@ class IdsPopup extends mix(IdsElement).with(
         this.arrowEl.hidden = true;
       }
     });
-    if (this.arrow !== 'none' && !arrowElCl.contains(this.arrow)) {
-      arrowElCl.add(this.arrow);
+    if (direction !== 'none' && !arrowElCl.contains(direction)) {
+      arrowElCl.add(direction);
       this.arrowEl.hidden = false;
     }
   }
@@ -1021,6 +1024,11 @@ class IdsPopup extends mix(IdsElement).with(
     if (this.#shouldFlip(popupRect) && !targetAlignEdge) {
       this.placeAgainstTarget(this.oppositeAlignEdge);
       return;
+    }
+
+    // If the popup was previously flipped, also flip the arrow alignment
+    if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
+      this.#setArrowDirection(this.oppositeAlignEdge);
     }
 
     this.#renderPlacement(popupRect);

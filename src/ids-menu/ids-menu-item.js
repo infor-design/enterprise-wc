@@ -221,6 +221,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     // including activation of submenus where applicable.
     /* istanbul ignore next */
     this.onEvent('mouseenter', this, () => {
+      console.dir(this);
       clearHideSubmenuTimeout();
       if (!this.disabled && this.hasSubmenu) {
         clearHoverTimeout();
