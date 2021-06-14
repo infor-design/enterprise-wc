@@ -1,0 +1,16 @@
+:host(ids-pager-number-list) {
+  box-sizing: border-box;
+  flex-basis: 0;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  text-align: center;
+}
+
+ids-button::part(button) {
+  max-width: 40px;
+  padding: 6px 8px;
+}

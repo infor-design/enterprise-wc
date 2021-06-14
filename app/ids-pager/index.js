@@ -1,6 +1,7 @@
 import IdsPager, {
   IdsPagerSection,
   IdsPagerButton,
-  IdsPagerInput
+  IdsPagerInput,
+  IdsPagerNumberList
 } from '../../src/ids-pager';
 import { IdsText } from '../../src/ids-text/ids-text';

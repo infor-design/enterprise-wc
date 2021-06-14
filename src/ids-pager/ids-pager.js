@@ -9,6 +9,7 @@ import { IdsPropProviderMixin, IdsEventsMixin } from '../ids-mixins';
 import IdsPagerSection from './ids-pager-section';
 import IdsPagerButton from './ids-pager-button';
 import IdsPagerInput from './ids-pager-input';
+import IdsPagerNumberList from './ids-pager-number-list';
 import styles from './ids-pager.scss';
 
 /**
@@ -52,12 +53,13 @@ export default class IdsPager extends mix(IdsElement).with(
 
   get providedProperties() {
     return {
-      [props.PAGE_NUMBER]: [IdsPagerInput, IdsPagerButton],
-      [props.TOTAL]: [IdsPagerInput, IdsPagerButton],
-      [props.PAGE_SIZE]: [IdsPagerInput, IdsPagerButton],
+      [props.PAGE_NUMBER]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
+      [props.TOTAL]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
+      [props.PAGE_SIZE]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
       [props.DISABLED]: [
         [IdsPagerInput, props.PARENT_DISABLED],
-        [IdsPagerButton, props.PARENT_DISABLED]
+        [IdsPagerButton, props.PARENT_DISABLED],
+        [IdsPagerNumberList, props.PARENT_DISABLED]
       ]
     };
   }
