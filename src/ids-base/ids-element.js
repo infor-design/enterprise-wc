@@ -12,6 +12,15 @@ import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import { stringUtils } from './ids-string-utils';
 
 /**
+ * simple dictionary used to memoize attribute names
+ * to the corresponding property name which saves on
+ * lookup time for common setters used > 1x
+ *
+ * @type {object.<string, string>}
+ */
+const attribPropNameDict = {};
+
+/**
  * IDS Base Element
  */
 @version()
@@ -92,7 +101,11 @@ class IdsElement extends HTMLElement {
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
-      this[stringUtils.camelCase(name)] = newValue;
+      if (!attribPropNameDict[name]) {
+        attribPropNameDict[name] = stringUtils.camelCase(name);
+      }
+
+      this[attribPropNameDict[name]] = newValue;
     }
   }
 
