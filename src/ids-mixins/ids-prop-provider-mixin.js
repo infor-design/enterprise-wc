@@ -1,4 +1,6 @@
-import { IdsElement } from '../ids-base';
+import {
+  IdsElement
+} from '../ids-base';
 
 /**
  * Casts/Mirrors specific properties in one-way-bindings to
@@ -9,6 +11,10 @@ import { IdsElement } from '../ids-base';
  * @returns {any} the extended object
  */
 export default (superclass) => class extends superclass {
+  constructor() {
+    super();
+  }
+
   /**
    * update props on casted children
    *
@@ -21,18 +27,21 @@ export default (superclass) => class extends superclass {
    */
   provideProperties(properties = this.providedProperties, recursive = true, scannedEl = this) {
     for (const el of [...scannedEl.children, ...scannedEl.shadowRoot.children]) {
-      for (const [p, instanceTypes] of Object.entries(properties)) {
+      for (const [sourceAttribName, componentEntries] of Object.entries(properties)) {
         if (recursive && el instanceof IdsElement) {
           this.provideProperties(properties, true, el);
         }
 
-        for (const instanceType of instanceTypes) {
-          if (!(el instanceof instanceType)) { continue; }
+        for (const entry of componentEntries) {
+          const IdsComponent = Array.isArray(entry) ? entry[0] : entry;
+          if (!(el instanceof IdsComponent)) { continue; }
 
-          if (this.hasAttribute(p)) {
-            el.setAttribute(p, this.getAttribute(p));
+          const attribName = Array.isArray(entry) ? entry[1] : sourceAttribName;
+
+          if (this.hasAttribute(attribName)) {
+            el.setAttribute(attribName, this.getAttribute(attribName));
           } else {
-            el.removeAttribute(p);
+            el.removeAttribute(attribName);
           }
         }
       }
@@ -58,7 +67,6 @@ export default (superclass) => class extends superclass {
   });
 
   connectedCallback() {
-    super.connectedCallback?.();
     this.propertyObserver.observe(this, {
       attributes: true,
       attributeOldValue: true,
@@ -67,5 +75,6 @@ export default (superclass) => class extends superclass {
     });
 
     this.provideProperties();
+    super.connectedCallback?.();
   }
 };

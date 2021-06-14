@@ -44,6 +44,15 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     );
   }
 
+  static get properties() {
+    return [
+      props.PAGE_NUMBER,
+      props.TOTAL,
+      props.PAGE_SIZE
+    ];
+  }
+
+
   connectedCallback() {
     this.input = this.shadowRoot.querySelector('ids-input');
 
@@ -77,14 +86,6 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     super.connectedCallback?.();
   }
 
-  static get properties() {
-    return [
-      props.PAGE_NUMBER,
-      props.TOTAL,
-      props.PAGE_SIZE
-    ];
-  }
-
   /**
    * @param {string|number} value number of items shown per-page
    */
@@ -93,7 +94,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
 
     if (Number.isNaN(Number.parseInt(value))) {
       console.error('ids-pager: non-numeric value sent to page-size');
-      nextValue = 0;
+      nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
     }
@@ -146,10 +147,10 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     let nextValue;
     if (Number.isNaN(Number.parseInt(value))) {
       console.error('ids-pager: non-numeric value sent to total');
-      nextValue = 0;
+      nextValue = 1;
     } else if (Number.parseInt(value) <= 0) {
       console.error('ids-pager: total cannot be <= 0');
-      nextValue = 0;
+      nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
     }

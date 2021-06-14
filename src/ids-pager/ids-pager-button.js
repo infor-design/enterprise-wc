@@ -23,9 +23,7 @@ const buttonTypes = ['first', 'last', 'next', 'previous'];
  */
 @customElement('ids-pager-button')
 @scss(styles)
-export default class IdsPagerButton extends mix(IdsElement).with(
-    IdsEventsMixin
-  ) {
+export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
@@ -40,19 +38,26 @@ export default class IdsPagerButton extends mix(IdsElement).with(
     );
   }
 
-  get properties() {
+  static get properties() {
     return [
-      props.TOTAL,
       props.DISABLED,
       props.FIRST,
       props.LAST,
+      props.NAV_DISABLED,
       props.NEXT,
-      props.PREVIOUS
+      props.PAGE_NUMBER,
+      props.PARENT_DISABLED,
+      props.PREVIOUS,
+      props.TOTAL
     ];
   }
 
   connectedCallback() {
-    this.onEvent('click', this.shadowRoot.querySelector('ids-button'), (e) => this.#onClick(e));
+    this.button = this.shadowRoot.querySelector('ids-button');
+    this.onEvent('click', this.button, (e) => this.#onClick(e));
+
+    this.#updateDisabledState();
+    super.connectedCallback?.();
   }
 
   /**
@@ -134,6 +139,47 @@ export default class IdsPagerButton extends mix(IdsElement).with(
   }
 
   /**
+   * @param {string|boolean} value flag indicating whether button is disabled
+   * for nav reasons
+   */
+  set navDisabled(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(props.NAV_DISABLED, '');
+    } else {
+      this.removeAttribute(props.NAV_DISABLED);
+    }
+
+    this.#updateDisabledState();
+  }
+
+  /**
+   * @returns {string|boolean} flag indicating whether button is disabled
+   * for nav reasons
+   */
+  get navDisabled() {
+    return this.hasAttribute(props.NAV_DISABLED);
+  }
+
+  /**
+   * @param {string|number} value 1-based page number shown
+   */
+  set pageNumber(value) {
+    let nextValue = Number.parseInt(value);
+
+    if (Number.isNaN(nextValue)) {
+      nextValue = 1;
+    } else if (nextValue <= 1) {
+      nextValue = 1;
+    } else {
+      const pageCount = Math.floor(this.total / this.pageSize);
+      nextValue = Math.min(nextValue, pageCount);
+    }
+
+    this.#updateNavDisabled();
+    this.setAttribute(props.PAGE_NUMBER, nextValue);
+  }
+
+  /**
    * @returns {string|number} value 1-based page number displayed
    */
   get pageNumber() {
@@ -147,8 +193,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(
     let nextValue;
 
     if (Number.isNaN(Number.parseInt(value))) {
-      console.error('ids-pager: non-numeric value sent to page-size');
-      nextValue = 0;
+      nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
     }
@@ -221,7 +266,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(
 
   #setTypeAttribute(attribute, value) {
     if (stringToBool(value)) {
-      this.setAttribute(value, '');
+      this.setAttribute(attribute, '');
 
       for (const type of buttonTypes) {
         if (attribute === type) {
@@ -234,6 +279,51 @@ export default class IdsPagerButton extends mix(IdsElement).with(
       }
     } else {
       this.removeAttribute(attribute);
+    }
+  }
+
+  #updateNavDisabled() {
+    let isNavDisabled = false;
+
+    switch (this.type) {
+    case props.FIRST:
+    case props.PREVIOUS: {
+      isNavDisabled = this.pageNumber <= 1;
+      break;
+    }
+    case props.NEXT:
+    case props.LAST: {
+      isNavDisabled = this.pageNumber >= this.pageCount;
+      break;
+    }
+    default: {
+      break;
+    }
+    }
+
+    if (isNavDisabled) {
+      this.navDisabled = true;
+    } else {
+      this.navDisabled = false;
+    }
+  }
+
+  /**
+   * update visible button disabled state
+   * dependent on current page nav and
+   * user-provided disabled state
+   */
+  #updateDisabledState() {
+    const isDisabled = (
+      this.hasAttribute(props.DISABLED)
+      || this.hasAttribute(props.NAV_DISABLED)
+      || this.hasAttribute(props.PARENT_DISABLED)
+    );
+
+    if (isDisabled) {
+      this.button.setAttribute(props.DISABLED, '');
+    } else {
+      this.button.removeAttribute(props.DISABLED);
     }
   }
 }
