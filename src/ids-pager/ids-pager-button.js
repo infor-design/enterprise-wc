@@ -310,6 +310,12 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     }
   }
 
+  /**
+   * updates nav-disabled attribute based
+   * on page number, size and total to
+   * prevent nav actions/disable the component
+   * based on these factors
+   */
   #updateNavDisabled() {
     let isNavDisabled = false;
 

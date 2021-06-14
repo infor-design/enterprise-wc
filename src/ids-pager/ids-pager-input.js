@@ -31,14 +31,15 @@ export default class IdsPagerInput extends mix(IdsElement).with(
 
   template() {
     const pageCountShown = this.pageCount !== null ? this.pageCount : 'N/A';
+    const idsTextAttribs = `label ${this.disabledOverall ? ' disabled' : ''}`;
 
     return (
-     `<ids-text font-size="16">Page</ids-text>&nbsp;
+     `<ids-text ${idsTextAttribs}>Page</ids-text>&nbsp;
       <ids-input
         value="${parseInt(this.pageNumber)}"
         ${this.disabled ? 'disabled' : ''}
       ></ids-input>
-      <ids-text font-size="16">&nbsp;of&nbsp;
+      <ids-text ${idsTextAttribs}>&nbsp;of&nbsp;
         <span class="page-count">${pageCountShown}</span>
       </ids-text>`
     );
@@ -46,12 +47,13 @@ export default class IdsPagerInput extends mix(IdsElement).with(
 
   static get properties() {
     return [
+      props.DISABLED,
       props.PAGE_NUMBER,
+      props.PARENT_DISABLED,
       props.TOTAL,
       props.PAGE_SIZE
     ];
   }
-
 
   connectedCallback() {
     this.input = this.shadowRoot.querySelector('ids-input');
@@ -159,6 +161,9 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     this.#updatePageCountShown();
   }
 
+  /**
+   * @returns {number|null} the calculated pageCount using total and pageSize
+   */
   get pageCount() {
     return this.total !== null
       ? Math.floor(parseInt(this.total) / parseInt(this.pageSize))
@@ -172,20 +177,59 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     return this.getAttribute(props.TOTAL);
   }
 
+  /**
+   * @param {boolean|string} value whether to disable input at app-specified-level
+   */
   set disabled(value) {
     if (stringToBool(value)) {
       this.setAttribute(props.DISABLED, '');
-      this.input.setAttribute(props.DISABLED, '');
     } else {
       this.removeAttribute(props.DISABLED);
-      this.input.removeAttribute(props.DISABLED);
     }
+
+    this.#updateDisabledState();
   }
 
+  /**
+   * @returns {string|boolean} flag indicating whether button is disabled
+   * for nav reasons
+   */
   get disabled() {
-    return stringToBool(this.getAttribute(props.DISABLED));
+    return this.hasAttribute(props.DISABLED);
   }
 
+  /**
+   * @param {string|boolean} value flag indicating if button is disabled
+   * through parent pager's disabled attribute
+   */
+  set parentDisabled(value) {
+    if (stringToBool(value)) {
+      this.setAttribute(props.PARENT_DISABLED, '');
+    } else {
+      this.removeAttribute(props.PARENT_DISABLED);
+    }
+
+    this.#updateDisabledState();
+  }
+
+  /**
+   * @returns {string|boolean} flag indicating whether button is disabled
+   * via parent pager's disabled attribute
+   */
+  get parentDisabled() {
+    return this.hasAttribute(props.DISABLED);
+  }
+
+  get disabledOverall() {
+    return (this.hasAttribute(props.DISABLED)
+      || this.hasAttribute(props.PARENT_DISABLED)
+    );
+  }
+
+  /**
+   * callback to run when input value changes
+   * @param {*} value input value being registered
+   */
   onRegisterInputValue(value) {
     const inputPageNumber = parseInt(value);
 
@@ -201,8 +245,23 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * updates text found in page-count within ids-text span
+   */
   #updatePageCountShown() {
     const pageCountShown = (this.pageCount === null) ? 'N/A' : this.pageCount;
     this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
+  }
+
+  /**
+   * update visible button disabled state
+   * based on parentDisabled and disabled attribs
+   */
+  #updateDisabledState() {
+    if (this.disabledOverall) {
+      this.input.setAttribute(props.DISABLED, '');
+    } else {
+      this.input.removeAttribute(props.DISABLED);
+    }
   }
 }
