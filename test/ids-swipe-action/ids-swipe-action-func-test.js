@@ -80,14 +80,24 @@ describe('IdsSwipeAction Component', () => {
     expect(swipeAction.container.scrollLeft).toEqual(0);
   });
 
-  it('clicks the actions buttons on swipe', () => {
+  it('clicks the actions buttons on swipe left', () => {
     swipeAction.swipeType = 'continuous';
     const mockCallback = jest.fn((e) => {
       expect(e.detail.direction).toEqual('left');
     });
-
     swipeAction.addEventListener('swipe', mockCallback);
     const event = new CustomEvent('swipe', { detail: { direction: 'left' } });
+    swipeAction.dispatchEvent(event);
+    expect(mockCallback.mock.calls.length).toBe(1);
+  });
+
+  it('clicks the actions buttons on swipe right', () => {
+    swipeAction.swipeType = 'continuous';
+    const mockCallback = jest.fn((e) => {
+      expect(e.detail.direction).toEqual('right');
+    });
+    swipeAction.addEventListener('swipe', mockCallback);
+    const event = new CustomEvent('swipe', { detail: { direction: 'right' } });
     swipeAction.dispatchEvent(event);
     expect(mockCallback.mock.calls.length).toBe(1);
   });
