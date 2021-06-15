@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix,
   stringUtils
@@ -34,7 +34,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     return (
       `<ids-button
         ${type}
-        ${this.hasAttribute(props.DISABLED) ? ' disabled' : ''}
+        ${this.hasAttribute(attributes.DISABLED) ? ' disabled' : ''}
       >
         <ids-icon icon="${type}-page" size="medium"></ids-icon>
       </ids-button>`
@@ -43,15 +43,15 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
 
   static get properties() {
     return [
-      props.DISABLED,
-      props.FIRST,
-      props.LAST,
-      props.NAV_DISABLED,
-      props.NEXT,
-      props.PAGE_NUMBER,
-      props.PARENT_DISABLED,
-      props.PREVIOUS,
-      props.TOTAL
+      attributes.DISABLED,
+      attributes.FIRST,
+      attributes.LAST,
+      attributes.NAV_DISABLED,
+      attributes.NEXT,
+      attributes.PAGE_NUMBER,
+      attributes.PARENT_DISABLED,
+      attributes.PREVIOUS,
+      attributes.TOTAL
     ];
   }
 
@@ -77,28 +77,28 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    * @param {boolean|string} value designates this as a nav to first page button
    */
   set first(value) {
-    this.#setTypeAttribute(props.FIRST, value);
+    this.#setTypeAttribute(attributes.FIRST, value);
   }
 
   /**
    * @param {boolean|string} value designates this as a nav to last page button
    */
   set last(value) {
-    this.#setTypeAttribute(props.LAST, value);
+    this.#setTypeAttribute(attributes.LAST, value);
   }
 
   /**
    * @param {boolean|string} value designates this as a nav to next page button
    */
   set next(value) {
-    this.#setTypeAttribute(props.NEXT, value);
+    this.#setTypeAttribute(attributes.NEXT, value);
   }
 
   /**
    * @param {boolean|string} value designates this as a nav to previous page button
    */
   set previous(value) {
-    this.#setTypeAttribute(props.PREVIOUS, value);
+    this.#setTypeAttribute(attributes.PREVIOUS, value);
   }
 
   /**
@@ -106,7 +106,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    * for nav reasons
    */
   get disabled() {
-    return this.hasAttribute(props.DISABLED);
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   /**
@@ -114,9 +114,9 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    */
   set disabled(value) {
     if (stringToBool(value)) {
-      this.setAttribute(props.DISABLED, true);
+      this.setAttribute(attributes.DISABLED, true);
     } else {
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
     }
 
     this.#updateDisabledState();
@@ -137,14 +137,14 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    * @param {string|number} value number of items to track
    */
   set total(value) {
-    this.setAttribute(props.TOTAL, value);
+    this.setAttribute(attributes.TOTAL, value);
   }
 
   /**
    * @returns {string|number} number of items for pager is tracking
    */
   get total() {
-    return parseInt(this.getAttribute(props.TOTAL));
+    return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
   /**
@@ -153,9 +153,9 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    */
   set navDisabled(value) {
     if (stringToBool(value)) {
-      this.setAttribute(props.NAV_DISABLED, '');
+      this.setAttribute(attributes.NAV_DISABLED, '');
     } else {
-      this.removeAttribute(props.NAV_DISABLED);
+      this.removeAttribute(attributes.NAV_DISABLED);
     }
 
     this.#updateDisabledState();
@@ -166,7 +166,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    * for nav reasons
    */
   get navDisabled() {
-    return this.hasAttribute(props.NAV_DISABLED);
+    return this.hasAttribute(attributes.NAV_DISABLED);
   }
 
   /**
@@ -175,9 +175,9 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    */
   set parentDisabled(value) {
     if (stringToBool(value)) {
-      this.setAttribute(props.NAV_DISABLED, '');
+      this.setAttribute(attributes.NAV_DISABLED, '');
     } else {
-      this.removeAttribute(props.NAV_DISABLED);
+      this.removeAttribute(attributes.NAV_DISABLED);
     }
 
     this.#updateDisabledState();
@@ -188,7 +188,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    * via parent pager's disabled attribute
    */
   get parentDisabled() {
-    return this.hasAttribute(props.NAV_DISABLED);
+    return this.hasAttribute(attributes.NAV_DISABLED);
   }
 
   /**
@@ -207,14 +207,14 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     }
 
     this.#updateNavDisabled();
-    this.setAttribute(props.PAGE_NUMBER, nextValue);
+    this.setAttribute(attributes.PAGE_NUMBER, nextValue);
   }
 
   /**
    * @returns {string|number} value 1-based page number displayed
    */
   get pageNumber() {
-    return parseInt(this.getAttribute(props.PAGE_NUMBER));
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
   }
 
   /**
@@ -229,14 +229,14 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(props.PAGE_SIZE, nextValue);
+    this.setAttribute(attributes.PAGE_SIZE, nextValue);
   }
 
   /**
    * @returns {string|number} number of items shown per-page
    */
   get pageSize() {
-    return parseInt(this.getAttribute(props.PAGE_SIZE));
+    return parseInt(this.getAttribute(attributes.PAGE_SIZE));
   }
 
   /**
@@ -251,7 +251,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
       const lastPageNumber = Math.floor(this.total / this.pageSize);
 
       switch (this.type) {
-      case props.FIRST: {
+      case attributes.FIRST: {
         if (this.pageNumber > 1) {
           this.triggerEvent('pagenumberchange', this, {
             bubbles: true,
@@ -260,7 +260,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
         }
         break;
       }
-      case props.LAST: {
+      case attributes.LAST: {
         if (this.pageNumber < lastPageNumber) {
           this.triggerEvent('pagenumberchange', this, {
             bubbles: true,
@@ -269,7 +269,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
         }
         break;
       }
-      case props.PREVIOUS: {
+      case attributes.PREVIOUS: {
         if (this.pageNumber > 1) {
           this.triggerEvent('pagenumberchange', this, {
             bubbles: true,
@@ -278,7 +278,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
         }
         break;
       }
-      case props.NEXT: {
+      case attributes.NEXT: {
         if (this.pageNumber < lastPageNumber) {
           this.triggerEvent('pagenumberchange', this, {
             bubbles: true,
@@ -287,7 +287,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
         }
         break;
       }
-      case props.DISABLED:
+      case attributes.DISABLED:
       default: {
         break;
       }
@@ -324,13 +324,13 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     let isNavDisabled = false;
 
     switch (this.type) {
-    case props.FIRST:
-    case props.PREVIOUS: {
+    case attributes.FIRST:
+    case attributes.PREVIOUS: {
       isNavDisabled = this.pageNumber <= 1;
       break;
     }
-    case props.NEXT:
-    case props.LAST: {
+    case attributes.NEXT:
+    case attributes.LAST: {
       isNavDisabled = this.pageNumber >= this.pageCount;
       break;
     }
@@ -353,15 +353,15 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    */
   #updateDisabledState() {
     const isDisabled = (
-      this.hasAttribute(props.DISABLED)
-      || this.hasAttribute(props.NAV_DISABLED)
-      || this.hasAttribute(props.PARENT_DISABLED)
+      this.hasAttribute(attributes.DISABLED)
+      || this.hasAttribute(attributes.NAV_DISABLED)
+      || this.hasAttribute(attributes.PARENT_DISABLED)
     );
 
     if (isDisabled) {
-      this.button.setAttribute(props.DISABLED, '');
+      this.button.setAttribute(attributes.DISABLED, '');
     } else {
-      this.button.removeAttribute(props.DISABLED);
+      this.button.removeAttribute(attributes.DISABLED);
     }
   }
 }

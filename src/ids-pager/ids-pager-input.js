@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix
 } from '../ids-base';
@@ -47,11 +47,11 @@ export default class IdsPagerInput extends mix(IdsElement).with(
 
   static get properties() {
     return [
-      props.DISABLED,
-      props.PAGE_NUMBER,
-      props.PARENT_DISABLED,
-      props.TOTAL,
-      props.PAGE_SIZE
+      attributes.DISABLED,
+      attributes.PAGE_NUMBER,
+      attributes.PARENT_DISABLED,
+      attributes.TOTAL,
+      attributes.PAGE_SIZE
     ];
   }
 
@@ -76,8 +76,8 @@ export default class IdsPagerInput extends mix(IdsElement).with(
       this.onRegisterInputValue(e.target.input.value);
     });
 
-    if (!this.hasAttribute(props.PAGE_NUMBER)) {
-      this.setAttribute(props.PAGE_NUMBER, 1);
+    if (!this.hasAttribute(attributes.PAGE_NUMBER)) {
+      this.setAttribute(attributes.PAGE_NUMBER, 1);
     }
 
     // give parent a chance to reflect properties
@@ -102,14 +102,14 @@ export default class IdsPagerInput extends mix(IdsElement).with(
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(props.PAGE_SIZE, nextValue);
+    this.setAttribute(attributes.PAGE_SIZE, nextValue);
   }
 
   /**
    * @returns {string|number} number of items shown per-page
    */
   get pageSize() {
-    return parseInt(this.getAttribute(props.PAGE_SIZE));
+    return parseInt(this.getAttribute(attributes.PAGE_SIZE));
   }
 
   /**
@@ -130,7 +130,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     if (parseInt(nextValue) !== parseInt(this.input?.input.value)) {
       this.input.value = nextValue;
 
-      this.setAttribute(props.PAGE_NUMBER, nextValue);
+      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
 
       this.#updatePageCountShown();
     }
@@ -140,7 +140,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    * @returns {string|number} value 1-based page number displayed
    */
   get pageNumber() {
-    return parseInt(this.getAttribute(props.PAGE_NUMBER));
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
   }
 
   /**
@@ -158,7 +158,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(props.TOTAL, nextValue);
+    this.setAttribute(attributes.TOTAL, nextValue);
     this.#updatePageCountShown();
   }
 
@@ -175,7 +175,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    * @returns {string|number} number of items for pager is tracking
    */
   get total() {
-    return this.getAttribute(props.TOTAL);
+    return this.getAttribute(attributes.TOTAL);
   }
 
   /**
@@ -183,9 +183,9 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    */
   set disabled(value) {
     if (stringToBool(value)) {
-      this.setAttribute(props.DISABLED, '');
+      this.setAttribute(attributes.DISABLED, '');
     } else {
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
     }
 
     this.#updateDisabledState();
@@ -196,7 +196,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    * for nav reasons
    */
   get disabled() {
-    return this.hasAttribute(props.DISABLED);
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   /**
@@ -205,9 +205,9 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    */
   set parentDisabled(value) {
     if (stringToBool(value)) {
-      this.setAttribute(props.PARENT_DISABLED, '');
+      this.setAttribute(attributes.PARENT_DISABLED, '');
     } else {
-      this.removeAttribute(props.PARENT_DISABLED);
+      this.removeAttribute(attributes.PARENT_DISABLED);
     }
 
     this.#updateDisabledState();
@@ -218,12 +218,12 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    * via parent pager's disabled attribute
    */
   get parentDisabled() {
-    return this.hasAttribute(props.DISABLED);
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   get disabledOverall() {
-    return (this.hasAttribute(props.DISABLED)
-      || this.hasAttribute(props.PARENT_DISABLED)
+    return (this.hasAttribute(attributes.DISABLED)
+      || this.hasAttribute(attributes.PARENT_DISABLED)
     );
   }
 
@@ -260,9 +260,9 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    */
   #updateDisabledState() {
     if (this.disabledOverall) {
-      this.input.setAttribute(props.DISABLED, '');
+      this.input.setAttribute(attributes.DISABLED, '');
     } else {
-      this.input.removeAttribute(props.DISABLED);
+      this.input.removeAttribute(attributes.DISABLED);
     }
   }
 }

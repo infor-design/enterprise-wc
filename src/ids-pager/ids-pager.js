@@ -5,7 +5,7 @@ import {
   scss,
   mix
 } from '../ids-base';
-import { IdsPropProviderMixin, IdsEventsMixin } from '../ids-mixins';
+import { IdsAttributeProviderMixin, IdsEventsMixin } from '../ids-mixins';
 import IdsPagerSection from './ids-pager-section';
 import IdsPagerButton from './ids-pager-button';
 import IdsPagerInput from './ids-pager-input';
@@ -17,12 +17,12 @@ import styles from './ids-pager.scss';
  * @type {IdsPager}
  * @inherits IdsElement
  * @part container the overall ids-pager container
- * @mixes IdsPropProviderMixin
+ * @mixes IdsAttributeProviderMixin
  */
 @customElement('ids-pager')
 @scss(styles)
 export default class IdsPager extends mix(IdsElement).with(
-    IdsPropProviderMixin,
+    IdsAttributeProviderMixin,
     IdsEventsMixin
   ) {
   constructor() {
@@ -51,7 +51,7 @@ export default class IdsPager extends mix(IdsElement).with(
     ];
   }
 
-  get providedProperties() {
+  get providedAttributes() {
     return {
       [props.PAGE_NUMBER]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
       [props.TOTAL]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
@@ -180,7 +180,7 @@ export default class IdsPager extends mix(IdsElement).with(
   #normalizeSectionContainers() {
     if (!this.hasSectionContainers()) {
       this.shadowRoot.querySelector('ids-pager-section').setAttribute('role', 'navigation');
-      this.provideProperties();
+      this.provideAttributes();
       return;
     }
 
@@ -215,7 +215,7 @@ export default class IdsPager extends mix(IdsElement).with(
     }
     }
 
-    this.provideProperties();
+    this.provideAttributes();
   }
 
   /** observes changes in content/layout */

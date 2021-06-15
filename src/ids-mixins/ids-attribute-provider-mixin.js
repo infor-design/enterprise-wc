@@ -1,6 +1,4 @@
-import {
-  IdsElement
-} from '../ids-base';
+import { IdsElement } from '../ids-base';
 
 /**
  * Casts/Mirrors specific properties in one-way-bindings to
@@ -25,11 +23,11 @@ export default (superclass) => class extends superclass {
    * @param {HTMLElement} scannedEl Base case: element provider.
    * Recursive case: scanned IdsElement in tree
    */
-  provideProperties(properties = this.providedProperties, recursive = true, scannedEl = this) {
+  provideAttributes(properties = this.providedAttributes, recursive = true, scannedEl = this) {
     for (const el of [...scannedEl.children, ...scannedEl.shadowRoot.children]) {
       for (const [sourceAttribName, componentEntries] of Object.entries(properties)) {
         if (recursive && el instanceof IdsElement) {
-          this.provideProperties(properties, true, el);
+          this.provideAttributes(properties, true, el);
         }
 
         for (const entry of componentEntries) {
@@ -52,14 +50,14 @@ export default (superclass) => class extends superclass {
    * observes when any of instance's props change in order
    * to mirror them to child
    *
-   * TODO: diff attribute before firing provideProperties(...)
+   * TODO: diff attribute before firing provideAttributes(...)
    */
   propertyObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'attributes') {
-        if (typeof this.providedProperties?.[m.attributeName] !== 'undefined') {
-          this.provideProperties({
-            [m.attributeName]: this.providedProperties[m.attributeName]
+        if (typeof this.providedAttributes?.[m.attributeName] !== 'undefined') {
+          this.provideAttributes({
+            [m.attributeName]: this.providedAttributes[m.attributeName]
           });
         }
       }
@@ -70,11 +68,11 @@ export default (superclass) => class extends superclass {
     this.propertyObserver.observe(this, {
       attributes: true,
       attributeOldValue: true,
-      attributeFilter: Object.keys(this.providedProperties),
+      attributeFilter: Object.keys(this.providedAttributes),
       subtree: false
     });
 
-    this.provideProperties();
+    this.provideAttributes();
     super.connectedCallback?.();
   }
 };
