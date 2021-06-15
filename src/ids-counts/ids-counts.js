@@ -48,7 +48,13 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [attributes.COLOR, attributes.COMPACT, attributes.HREF, attributes.MODE, attributes.VERSION];
+    return [
+      attributes.COLOR,
+      attributes.COMPACT,
+      attributes.HREF,
+      attributes.MODE,
+      attributes.VERSION
+    ];
   }
 
   /**

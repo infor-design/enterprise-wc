@@ -18,6 +18,20 @@ import {
 
 import IdsText from '../ids-text/ids-text';
 
+const attribs = [
+  { name: 'checked', prop: 'checked' },
+  { name: 'color', prop: 'color' },
+  { name: 'dirty-tracker', prop: 'dirtyTracker' },
+  { name: 'disabled', prop: 'disabled' },
+  { name: 'horizontal', prop: 'horizontal' },
+  { name: 'indeterminate', prop: 'indeterminate' },
+  { name: 'label', prop: 'label' },
+  { name: 'label-required', prop: 'labelRequired' },
+  { name: 'validate', prop: 'validate' },
+  { name: 'validation-events', prop: 'validationEvents' },
+  { name: 'value', prop: 'value' }
+];
+
 /**
  * IDS Checkbox Component
  * @type {IdsCheckbox}
@@ -80,20 +94,7 @@ class IdsCheckbox extends mix(IdsElement).with(
     /** @type {any} */ newValue
   ) {
     if (oldValue !== newValue) {
-      const attributes = [
-        { name: 'checked', prop: 'checked' },
-        { name: 'color', prop: 'color' },
-        { name: 'dirty-tracker', prop: 'dirtyTracker' },
-        { name: 'disabled', prop: 'disabled' },
-        { name: 'horizontal', prop: 'horizontal' },
-        { name: 'indeterminate', prop: 'indeterminate' },
-        { name: 'label', prop: 'label' },
-        { name: 'label-required', prop: 'labelRequired' },
-        { name: 'validate', prop: 'validate' },
-        { name: 'validation-events', prop: 'validationEvents' },
-        { name: 'value', prop: 'value' }
-      ];
-      attributes.forEach((attribute) => {
+      attribs.forEach((attribute) => {
         if (name === attribute.name) {
           this[attribute.prop] = newValue;
         }

@@ -17,6 +17,17 @@ import {
 import styles from './ids-radio-group.scss';
 import IdsText from '../ids-text/ids-text';
 
+const attribs = [
+  { name: 'dirty-tracker', prop: 'dirtyTracker' },
+  { name: 'disabled', prop: 'disabled' },
+  { name: 'horizontal', prop: 'horizontal' },
+  { name: 'label', prop: 'label' },
+  { name: 'label-required', prop: 'labelRequired' },
+  { name: 'validate', prop: 'validate' },
+  { name: 'validation-events', prop: 'validationEvents' },
+  { name: 'value', prop: 'value' }
+];
+
 /**
  * IDS Radio Group Component
  * @type {IdsRadioGroup}
@@ -69,17 +80,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     /** @type {any} */ newValue
   ) {
     if (oldValue !== newValue) {
-      const attributes = [
-        { name: 'dirty-tracker', prop: 'dirtyTracker' },
-        { name: 'disabled', prop: 'disabled' },
-        { name: 'horizontal', prop: 'horizontal' },
-        { name: 'label', prop: 'label' },
-        { name: 'label-required', prop: 'labelRequired' },
-        { name: 'validate', prop: 'validate' },
-        { name: 'validation-events', prop: 'validationEvents' },
-        { name: 'value', prop: 'value' }
-      ];
-      attributes.forEach((attribute) => {
+      attribs.forEach((attribute) => {
         if (name === attribute.name) {
           this[attribute.prop] = newValue;
         }

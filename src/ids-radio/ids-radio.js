@@ -17,6 +17,17 @@ import styles from './ids-radio.scss';
 import IdsText from '../ids-text/ids-text';
 import IdsRadioGroup from './ids-radio-group';
 
+const attribs = [
+  { name: 'checked', prop: 'checked' },
+  { name: 'color', prop: 'color' },
+  { name: 'disabled', prop: 'disabled' },
+  { name: 'group-disabled', prop: 'groupDisabled' },
+  { name: 'horizontal', prop: 'horizontal' },
+  { name: 'label', prop: 'label' },
+  { name: 'validation-has-error', prop: 'validationHasError' },
+  { name: 'value', prop: 'value' }
+];
+
 /**
  * IDS Radio Component
  * @type {IdsRadio}
@@ -67,17 +78,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     /** @type {any} */ newValue
   ) {
     if (oldValue !== newValue) {
-      const attributes = [
-        { name: 'checked', prop: 'checked' },
-        { name: 'color', prop: 'color' },
-        { name: 'disabled', prop: 'disabled' },
-        { name: 'group-disabled', prop: 'groupDisabled' },
-        { name: 'horizontal', prop: 'horizontal' },
-        { name: 'label', prop: 'label' },
-        { name: 'validation-has-error', prop: 'validationHasError' },
-        { name: 'value', prop: 'value' }
-      ];
-      attributes.forEach((attribute) => {
+      attribs.forEach((attribute) => {
         if (name === attribute.name) {
           this[attribute.prop] = newValue;
         }
