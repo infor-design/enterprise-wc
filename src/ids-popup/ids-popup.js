@@ -830,8 +830,9 @@ class IdsPopup extends mix(IdsElement).with(
         });
         this.hasMutations = true;
       }
-
-      this.placeAgainstTarget();
+      if (this.visible) {
+        this.placeAgainstTarget();
+      }
     }
 
     // Adds a RenderLoop-staggered check for whether to show the Popup.
@@ -925,9 +926,7 @@ class IdsPopup extends mix(IdsElement).with(
     popupRect.y = y;
 
     // If the Popup bleeds off the viewport, nudge it back into full view
-    if (!this.bleed) {
-      popupRect = this.#nudge(popupRect);
-    }
+    popupRect = this.#nudge(popupRect);
 
     this.#renderPlacement(popupRect);
   }
@@ -944,7 +943,7 @@ class IdsPopup extends mix(IdsElement).with(
     let y = this.y;
 
     // Detect sizes/locations of the popup and the alignment target Element
-    const popupRect = this.container.getBoundingClientRect();
+    let popupRect = this.container.getBoundingClientRect();
     const targetRect = this.alignTarget.getBoundingClientRect();
     const alignEdge = targetAlignEdge || this.alignEdge;
     let alignXCentered = false;
@@ -1026,6 +1025,9 @@ class IdsPopup extends mix(IdsElement).with(
       return;
     }
 
+    // If the Popup bleeds off the viewport, nudge it back into full view
+    popupRect = this.#nudge(popupRect);
+
     // If the popup was previously flipped, also flip the arrow alignment
     if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
       this.#setArrowDirection(this.oppositeAlignEdge);
@@ -1040,6 +1042,11 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {object} an adjusted Rect object with "nudged" coordinates.
    */
   #nudge(popupRect) {
+    // Don't adjust if bleeding is allowed
+    if (this.bleed) {
+      return popupRect;
+    }
+
     const viewportWidth = window.innerWidth;
     const viewportHeight = window.innerHeight;
     const containerRect = this.containingElem.getBoundingClientRect();
