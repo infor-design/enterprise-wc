@@ -6,8 +6,6 @@ import IdsInput from '../../src/ids-input/ids-input';
 import IdsTriggerButton from '../../src/ids-trigger-field/ids-trigger-button';
 import { attributes } from '../../src/ids-base';
 
-console.log('attributes ->', attributes);
-
 const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
   this.observe = jest.fn();
   this.disconnect = jest.fn();
