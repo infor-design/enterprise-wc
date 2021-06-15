@@ -9,7 +9,7 @@ import IdsText from '../src/ids-text/ids-text';
 import IdsHyperlink from '../src/ids-hyperlink/ids-hyperlink';
 import IdsIcon from '../src/ids-icon/ids-icon';
 import IdsPopup from '../src/ids-popup/ids-popup';
-import IdsToolbar from '../src/ids-toolbar/ids-toolbar';
+import IdsToolbar, { IdsToolbarSection, IdsToolbarMoreActions } from '../src/ids-toolbar/ids-toolbar';
 import IdsProgress from '../src/ids-progress/ids-progress';
 import IdsUploadAdvanced from '../src/ids-upload-advanced/ids-upload-advanced';
 import IdsTag from '../src/ids-tag/ids-tag';
