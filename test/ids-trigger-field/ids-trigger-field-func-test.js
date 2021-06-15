@@ -4,7 +4,7 @@
 import IdsTriggerField from '../../src/ids-trigger-field/ids-trigger-field';
 import IdsInput from '../../src/ids-input/ids-input';
 import IdsTriggerButton from '../../src/ids-trigger-field/ids-trigger-button';
-import { props } from '../../src/ids-base/ids-constants';
+import { props } from '../../src/ids-base/ids-attributes';
 
 const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
   this.observe = jest.fn();
@@ -60,33 +60,33 @@ describe('IdsTriggerField Component', () => {
 
   it('renders tabbable setting', () => {
     triggerField.tabbable = true;
-    expect(triggerField.getAttribute(props.TABBABLE)).toEqual('true');
+    expect(triggerField.getAttribute(attributes.TABBABLE)).toEqual('true');
     expect(triggerField.tabbable).toEqual('true');
   });
 
   it('removes tabbable setting if reset', () => {
     triggerField.tabbable = true;
     triggerField.tabbable = false;
-    expect(triggerField.getAttribute(props.TABBABLE)).toEqual('false');
+    expect(triggerField.getAttribute(attributes.TABBABLE)).toEqual('false');
     expect(triggerField.tabbable).toEqual('false');
   });
 
   it('renders appearance setting', () => {
     triggerField.appearance = 'compact';
-    expect(triggerField.getAttribute(props.APPEARANCE)).toEqual('compact');
+    expect(triggerField.getAttribute(attributes.APPEARANCE)).toEqual('compact');
     expect(triggerField.appearance).toEqual('compact');
   });
 
   it('removes appearance setting if reset', () => {
     triggerField.appearance = 'compact';
     triggerField.appearance = null;
-    expect(triggerField.getAttribute(props.APPEARANCE)).toEqual('normal');
+    expect(triggerField.getAttribute(attributes.APPEARANCE)).toEqual('normal');
     expect(triggerField.appearance).toEqual('normal');
   });
 
   it('renders disableNativeEvents setting', () => {
     triggerField.disableNativeEvents = true;
-    expect(triggerField.getAttribute(props.DISABLE_EVENTS)).toEqual('true');
+    expect(triggerField.getAttribute(attributes.DISABLE_EVENTS)).toEqual('true');
     expect(triggerField.disableNativeEvents).toEqual('true');
   });
 
@@ -114,7 +114,7 @@ describe('IdsTriggerField Component', () => {
   it('removes disableNativeEvents setting if reset', () => {
     triggerField.disableNativeEvents = true;
     triggerField.disableNativeEvents = false;
-    expect(triggerField.getAttribute(props.DISABLE_EVENTS)).toEqual(null);
+    expect(triggerField.getAttribute(attributes.DISABLE_EVENTS)).toEqual(null);
     expect(triggerField.disableNativeEvents).toEqual(null);
   });
 

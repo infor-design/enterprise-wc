@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix,
   stringUtils
 } from '../ids-base';
@@ -35,10 +35,10 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} properties
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.KEEP_OPEN,
-      props.SELECT
+      attributes.KEEP_OPEN,
+      attributes.SELECT
     ];
   }
 
@@ -142,7 +142,7 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string|undefined} containing the type of selection this group allows
    */
   get select() {
-    return this.getAttribute(props.SELECT);
+    return this.getAttribute(attributes.SELECT);
   }
 
   /**
@@ -157,10 +157,10 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
     // Sync the attribute
     switch (trueVal) {
     case 'none':
-      this.removeAttribute(props.SELECT);
+      this.removeAttribute(attributes.SELECT);
       break;
     default:
-      this.setAttribute(props.SELECT, trueVal);
+      this.setAttribute(attributes.SELECT, trueVal);
     }
 
     this.updateSelectability();
@@ -171,7 +171,7 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
    * cause the parent menu to close
    */
   get keepOpen() {
-    return this.hasAttribute(props.KEEP_OPEN);
+    return this.hasAttribute(attributes.KEEP_OPEN);
   }
 
   /**
@@ -180,9 +180,9 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
   set keepOpen(val) {
     const trueVal = stringUtils.stringToBool(val);
     if (trueVal) {
-      this.setAttribute(props.KEEP_OPEN, `${val}`);
+      this.setAttribute(attributes.KEEP_OPEN, `${val}`);
     } else {
-      this.removeAttribute(props.KEEP_OPEN);
+      this.removeAttribute(attributes.KEEP_OPEN);
     }
   }
 

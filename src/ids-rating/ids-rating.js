@@ -4,7 +4,7 @@ import {
   scss,
   mix,
   stringUtils,
-  props
+  attributes,
 } from '../ids-base/ids-element';
 
 import {
@@ -57,8 +57,8 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     /**
      * @returns {Array<string>} this component's observable properties
      */
-    static get properties() {
-      return [props.CLICKABLE, props.COMPACT, ...props.MODE, props.READONLY, props.SIZE, 'stars', props.VALUE, props.VERSION];
+    static get attributes() {
+      return [attributes.CLICKABLE, attributes.COMPACT, ...attributes.MODE, attributes.READONLY, attributes.SIZE, 'stars', attributes.VALUE, attributes.VERSION];
     }
 
     /**

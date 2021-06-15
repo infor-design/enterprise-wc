@@ -11,7 +11,7 @@ import styles from './ids-toolbar.scss';
 // Supporting Components
 import IdsToolbarSection, { TOOLBAR_ITEM_TAGNAMES } from './ids-toolbar-section';
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
-import { props } from '../ids-base/ids-constants';
+import { attributes } from '../ids-base/ids-attributes';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 // Import Mixins
@@ -27,10 +27,10 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
     super();
   }
 
-  static get properties() {
+  static get attributes() {
     return [
-      props.DISABLED,
-      props.TABBABLE
+      attributes.DISABLED,
+      attributes.TABBABLE
     ];
   }
 

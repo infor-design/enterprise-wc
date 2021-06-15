@@ -1,5 +1,5 @@
 // Please keep constants alphabetized
-export const props = {
+export const attributes = {
   ACCEPT: 'accept',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',

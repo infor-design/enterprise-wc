@@ -35,7 +35,7 @@ class IdsToggleButton extends IdsButton {
   /**
    * @returns {Array} containing configurable properties on this component
    */
-  static get properties() {
+  static get attributes() {
     return BUTTON_PROPS.concat([
       'icon-off',
       'icon-on',

@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -41,8 +41,8 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.SCROLLABLE, props.MODE, props.VERSION];
+  static get attributes() {
+    return [attributes.SCROLLABLE, attributes.MODE, attributes.VERSION];
   }
 
   /**

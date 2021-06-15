@@ -3,7 +3,7 @@ import {
   customElement,
   mix,
   scss,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -49,21 +49,21 @@ class IdsCheckbox extends mix(IdsElement).with(
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.CHECKED,
-      props.COLOR,
-      props.DIRTY_TRACKER,
-      props.DISABLED,
-      props.HORIZONTAL,
-      props.INDETERMINATE,
-      props.LABEL,
-      props.LABEL_REQUIRED,
-      props.VALIDATE,
-      props.VALIDATION_EVENTS,
-      props.VALUE,
-      props.MODE,
-      props.VERSION
+      attributes.CHECKED,
+      attributes.COLOR,
+      attributes.DIRTY_TRACKER,
+      attributes.DISABLED,
+      attributes.HORIZONTAL,
+      attributes.INDETERMINATE,
+      attributes.LABEL,
+      attributes.LABEL_REQUIRED,
+      attributes.VALIDATE,
+      attributes.VALIDATION_EVENTS,
+      attributes.VALUE,
+      attributes.MODE,
+      attributes.VERSION
     ];
   }
 
@@ -202,17 +202,17 @@ class IdsCheckbox extends mix(IdsElement).with(
     const checkmark = this.shadowRoot.querySelector('.checkmark');
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.CHECKED, val.toString());
-      this.input?.setAttribute(props.CHECKED, val.toString());
-      checkmark?.classList.add(props.CHECKED);
+      this.setAttribute(attributes.CHECKED, val.toString());
+      this.input?.setAttribute(attributes.CHECKED, val.toString());
+      checkmark?.classList.add(attributes.CHECKED);
     } else {
-      this.removeAttribute(props.CHECKED);
-      this.input?.removeAttribute(props.CHECKED);
-      checkmark?.classList.remove(props.CHECKED);
+      this.removeAttribute(attributes.CHECKED);
+      this.input?.removeAttribute(attributes.CHECKED);
+      checkmark?.classList.remove(attributes.CHECKED);
     }
   }
 
-  get checked() { return this.getAttribute(props.CHECKED); }
+  get checked() { return this.getAttribute(attributes.CHECKED); }
 
   /**
    *  Sets the checkbox color to one of the colors in our color palette for example emerald07
@@ -221,15 +221,15 @@ class IdsCheckbox extends mix(IdsElement).with(
   set color(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
     if (value) {
-      this.setAttribute(props.COLOR, value.toString());
-      rootEl?.setAttribute(props.COLOR, value.toString());
+      this.setAttribute(attributes.COLOR, value.toString());
+      rootEl?.setAttribute(attributes.COLOR, value.toString());
     } else {
-      this.removeAttribute(props.COLOR);
-      rootEl?.removeAttribute(props.COLOR);
+      this.removeAttribute(attributes.COLOR);
+      rootEl?.removeAttribute(attributes.COLOR);
     }
   }
 
-  get color() { return this.getAttribute(props.COLOR); }
+  get color() { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Set the dirty tracking feature on to indicate a changed field
@@ -238,15 +238,15 @@ class IdsCheckbox extends mix(IdsElement).with(
   set dirtyTracker(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DIRTY_TRACKER, val.toString());
+      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
     } else {
-      this.removeAttribute(props.DIRTY_TRACKER);
+      this.removeAttribute(attributes.DIRTY_TRACKER);
     }
 
     this.handleDirtyTracker();
   }
 
-  get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
+  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Sets input to disabled
@@ -256,19 +256,19 @@ class IdsCheckbox extends mix(IdsElement).with(
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
-      this.input?.setAttribute(props.DISABLED, val.toString());
-      rootEl?.classList.add(props.DISABLED);
-      this.labelEl?.querySelector('.label-text')?.setAttribute(props.DISABLED, val.toString());
+      this.setAttribute(attributes.DISABLED, val.toString());
+      this.input?.setAttribute(attributes.DISABLED, val.toString());
+      rootEl?.classList.add(attributes.DISABLED);
+      this.labelEl?.querySelector('.label-text')?.setAttribute(attributes.DISABLED, val.toString());
     } else {
-      this.removeAttribute(props.DISABLED);
-      this.input?.removeAttribute(props.DISABLED);
-      rootEl?.classList.remove(props.DISABLED);
-      this.labelEl?.querySelector('.label-text').removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
+      this.input?.removeAttribute(attributes.DISABLED);
+      rootEl?.classList.remove(attributes.DISABLED);
+      this.labelEl?.querySelector('.label-text').removeAttribute(attributes.DISABLED);
     }
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Flips the checkbox orientation to horizontal
@@ -278,15 +278,15 @@ class IdsCheckbox extends mix(IdsElement).with(
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.HORIZONTAL, val.toString());
-      rootEl?.classList.add(props.HORIZONTAL);
+      this.setAttribute(attributes.HORIZONTAL, val.toString());
+      rootEl?.classList.add(attributes.HORIZONTAL);
     } else {
-      this.removeAttribute(props.HORIZONTAL);
-      rootEl?.classList.remove(props.HORIZONTAL);
+      this.removeAttribute(attributes.HORIZONTAL);
+      rootEl?.classList.remove(attributes.HORIZONTAL);
     }
   }
 
-  get horizontal() { return this.getAttribute(props.HORIZONTAL); }
+  get horizontal() { return this.getAttribute(attributes.HORIZONTAL); }
 
   /**
    * Sets the checkbox to the indeterminate state
@@ -295,22 +295,22 @@ class IdsCheckbox extends mix(IdsElement).with(
   set indeterminate(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.INDETERMINATE, val.toString());
+      this.setAttribute(attributes.INDETERMINATE, val.toString());
     } else {
-      this.removeAttribute(props.INDETERMINATE);
+      this.removeAttribute(attributes.INDETERMINATE);
     }
     if (this.input) {
       if (val) {
-        this.input.classList.add(props.INDETERMINATE);
+        this.input.classList.add(attributes.INDETERMINATE);
         this.input.indeterminate = true;
       } else {
-        this.input.classList.remove(props.INDETERMINATE);
+        this.input.classList.remove(attributes.INDETERMINATE);
         this.input.indeterminate = false;
       }
     }
   }
 
-  get indeterminate() { return this.getAttribute(props.INDETERMINATE); }
+  get indeterminate() { return this.getAttribute(attributes.INDETERMINATE); }
 
   /**
    * Set the `label` text
@@ -319,16 +319,16 @@ class IdsCheckbox extends mix(IdsElement).with(
   set label(value) {
     const labelText = this.labelEl?.querySelector('.label-text');
     if (value) {
-      this.setAttribute(props.LABEL, value);
+      this.setAttribute(attributes.LABEL, value);
     } else {
-      this.removeAttribute(props.LABEL);
+      this.removeAttribute(attributes.LABEL);
     }
     if (labelText) {
       labelText.innerHTML = value || '';
     }
   }
 
-  get label() { return this.getAttribute(props.LABEL) || ''; }
+  get label() { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Sets the checkbox to required
@@ -337,14 +337,14 @@ class IdsCheckbox extends mix(IdsElement).with(
   set labelRequired(value) {
     const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.LABEL_REQUIRED, value.toString());
+      this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
     } else {
-      this.removeAttribute(props.LABEL_REQUIRED);
+      this.removeAttribute(attributes.LABEL_REQUIRED);
     }
     this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
-  get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
+  get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Sets the validation check to use
@@ -352,15 +352,15 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   set validate(value) {
     if (value) {
-      this.setAttribute(props.VALIDATE, value);
+      this.setAttribute(attributes.VALIDATE, value);
     } else {
-      this.removeAttribute(props.VALIDATE);
+      this.removeAttribute(attributes.VALIDATE);
     }
 
     this.handleValidation();
   }
 
-  get validate() { return this.getAttribute(props.VALIDATE); }
+  get validate() { return this.getAttribute(attributes.VALIDATE); }
 
   /**
    * Sets which events to fire validation on
@@ -368,14 +368,14 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   set validationEvents(value) {
     if (value) {
-      this.setAttribute(props.VALIDATION_EVENTS, value);
+      this.setAttribute(attributes.VALIDATION_EVENTS, value);
     } else {
-      this.removeAttribute(props.VALIDATION_EVENTS);
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
     }
     this.handleValidation();
   }
 
-  get validationEvents() { return this.getAttribute(props.VALIDATION_EVENTS); }
+  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Set the checkbox `value` attribute
@@ -383,14 +383,14 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   set value(val) {
     if (val) {
-      this.setAttribute(props.VALUE, val);
+      this.setAttribute(attributes.VALUE, val);
     } else {
-      this.removeAttribute(props.VALUE);
+      this.removeAttribute(attributes.VALUE);
     }
-    this.input?.setAttribute(props.VALUE, (val || ''));
+    this.input?.setAttribute(attributes.VALUE, (val || ''));
   }
 
-  get value() { return this.getAttribute(props.VALUE); }
+  get value() { return this.getAttribute(attributes.VALUE); }
 }
 
 export default IdsCheckbox;

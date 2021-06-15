@@ -77,8 +77,8 @@ This mixin adds functionality to change the theme on a component. To use it you 
 1. Add two properties to the properties array. For example:
 
 ```js
-  static get properties() {
-    return [... props.MODE, props.VERSION];
+  static get attributes() {
+    return [... attributes.MODE, attributes.VERSION];
   }
 ```
 
