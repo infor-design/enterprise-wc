@@ -13,9 +13,7 @@ import { stringUtils } from './ids-string-utils';
 
 /**
  * simple dictionary used to memoize attribute names
- * to their corresponding property names e.g.
- * "col-start" => "colStart", which saves on
- * lookup time for common setters.
+ * to their corresponding property names.
  *
  * Prepopulates with attribs stored in ids-constants,
  * but may have other non-standard attrib names added
