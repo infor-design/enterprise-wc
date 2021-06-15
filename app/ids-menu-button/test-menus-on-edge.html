@@ -1,0 +1,87 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Menu Buttons aligned to the right edge</ids-text>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+
+    <!-- begin toolbar with standard menu button -->
+    <ids-toolbar>
+      <ids-toolbar-section type="buttonset" align="end">
+        <ids-menu-button role="button" id="standard-menu-button" menu="standard-menu" dropdown-icon>
+          <span slot="text">Menu</span>
+        </ids-menu-button>
+        <ids-popup-menu id="standard-menu" target="#standard-menu-button">
+          <ids-menu-group>
+            <ids-menu-item value="1">Item One</ids-menu-item>
+            <ids-menu-item value="2">Item Two</ids-menu-item>
+            <ids-menu-item value="3">Item Three</ids-menu-item>
+            <ids-menu-item>More Items
+              <ids-popup-menu>
+                <ids-menu-group>
+                  <ids-menu-item value="4">Item Four</ids-menu-item>
+                  <ids-menu-item value="4">Item Five</ids-menu-item>
+                  <ids-menu-item value="4">Item Six</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+      </ids-toolbar-section>
+    </ids-toolbar>
+    <!-- end toolbar with standard menu button -->
+
+    <!-- begin toolbar with icon menu button -->
+    <ids-toolbar>
+      <ids-toolbar-section type="buttonset" align="end">
+        <ids-menu-button role="button" id="icon-menu-button" menu="icon-menu">
+          <ids-icon slot="icon" icon="more"></ids-icon>
+          <span class="audible">Icon Only Button</span>
+        </ids-menu-button>
+        <ids-popup-menu id="icon-menu" target="#icon-menu-button">
+          <ids-menu-group>
+            <ids-menu-item value="1">Item One</ids-menu-item>
+            <ids-menu-item value="2">Item Two</ids-menu-item>
+            <ids-menu-item value="3">Item Three</ids-menu-item>
+            <ids-menu-item>More Items
+              <ids-popup-menu>
+                <ids-menu-group>
+                  <ids-menu-item value="4">Item Four</ids-menu-item>
+                  <ids-menu-item value="4">Item Five</ids-menu-item>
+                  <ids-menu-item value="4">Item Six</ids-menu-item>
+                </ids-menu-group>
+              </ids-popup-menu>
+            </ids-menu-item>
+          </ids-menu-group>
+        </ids-popup-menu>
+      </ids-toolbar-section>
+    </ids-toolbar>
+    <!-- end toolbar with icon menu button -->
+
+    <!-- begin toolbar with More Actions button -->
+    <ids-toolbar>
+      <ids-toolbar-section type="buttonset"></ids-toolbar-section>
+      <ids-toolbar-more-actions align="end">
+        <ids-menu-group>
+          <ids-menu-item value="1">Option One</ids-menu-item>
+          <ids-menu-item value="2">Option Two</ids-menu-item>
+          <ids-menu-item value="3">Option Three</ids-menu-item>
+          <ids-menu-item>More Options
+            <ids-popup-menu>
+              <ids-menu-group>
+                <ids-menu-item value="4">Option Four</ids-menu-item>
+                <ids-menu-item value="5">Option Five</ids-menu-item>
+                <ids-menu-item value="6">Option Six</ids-menu-item>
+              </ids-menu-group>
+            </ids-popup-menu>
+          </ids-menu-item>
+        </ids-menu-group>
+      </ids-toolbar-more-actions>
+    </ids-toolbar>
+    <!-- end toolbar with More Actions button -->
+
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}
