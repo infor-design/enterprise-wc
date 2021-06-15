@@ -47,7 +47,13 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [attributes.COLOR, attributes.CLICKABLE, attributes.DISMISSIBLE, attributes.MODE, attributes.VERSION];
+    return [
+      attributes.COLOR,
+      attributes.CLICKABLE,
+      attributes.DISMISSIBLE,
+      attributes.MODE,
+      attributes.VERSION
+    ];
   }
 
   /**
