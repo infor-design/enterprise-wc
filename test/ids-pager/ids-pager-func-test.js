@@ -1,10 +1,11 @@
 /**
  * @jest-environment jsdom
  */
+import processAnimFrame from '../helpers/process-anim-frame';
 import IdsPager from '../../src/ids-pager/ids-pager';
 
 const HTMLSnippets = {
-  NAV_BUTTONS: (
+  NAV_BUTTONS_AND_INPUT: (
     `<ids-pager page-size="20" page-number="10" total="200">
       <ids-pager-section>
         <ids-pager-button first></ids-pager-button>
@@ -53,11 +54,27 @@ const HTMLSnippets = {
   )
 };
 
-const processAnimFrame = () => new Promise((resolve) => {
-  window.requestAnimationFrame(() => {
-    window.requestAnimationFrame(resolve);
-  });
-});
+/**
+ * simulates typing text into a keyboard;
+ * waiting for two renders for possible callbacks/
+ * updates in between
+ *
+ * @param {*} str string to input
+ * @param {*} input input component to focus on
+ */
+const typeIntoInput = async (str, input) => {
+  input.focus();
+  await processAnimFrame();
+
+  do {
+    if (str.length > input.value.length) {
+      const key = str.charAt(input.value.length - 1).toLowerCase();
+      input.dispatchEvent(new KeyboardEvent('keydown', { key }));
+      await processAnimFrame();
+      await processAnimFrame();
+    }
+  } while (input.value.length < str);
+};
 
 describe('IdsPager Component', () => {
   let elem;
@@ -80,7 +97,7 @@ describe('IdsPager Component', () => {
   });
 
   it('renders from HTML Template with nav buttons with no errors', async () => {
-    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS);
+    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
 
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-pager').length).toEqual(1);
@@ -88,7 +105,7 @@ describe('IdsPager Component', () => {
   });
 
   it('renders from HTML Template with number list navigation with no errors', async () => {
-    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS);
+    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
 
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-pager').length).toEqual(1);
@@ -109,5 +126,10 @@ describe('IdsPager Component', () => {
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-pager').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('updates the input on ids-pager-input and page-number updates on relevant components', async () => {
+    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
+    // TODO: type into input after focus
   });
 });
