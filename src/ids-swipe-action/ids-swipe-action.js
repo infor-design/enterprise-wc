@@ -94,7 +94,7 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   #handleEvents() {
     if (this.swipeType === 'continuous') {
       this.onEvent('swipe', this, (e) => {
-        this.querySelector(`[slot="action-${e.detail.direction}"`).click();
+        this.querySelector(`[slot="action-${e.detail.direction === 'left' ? 'right' : 'left'}"`).click();
       }, { scrollContainer: this.container });
     }
   }
