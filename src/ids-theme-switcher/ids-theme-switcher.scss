@@ -1,2 +1,8 @@
 /* Ids Theme Switcher Css */
 @import '../ids-base/ids-base';
+
+// @TODO: Temporary until we get page layouts/IdsHeader implemented,
+// and we decide on final demoapp design.
+:host {
+  float: right;
+}
