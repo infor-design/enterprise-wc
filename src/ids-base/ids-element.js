@@ -13,12 +13,22 @@ import { stringUtils } from './ids-string-utils';
 
 /**
  * simple dictionary used to memoize attribute names
- * to the corresponding property name which saves on
- * lookup time for common setters used > 1x
+ * to their corresponding property names e.g.
+ * "col-start" => "colStart", which saves on
+ * lookup time for common setters.
+ *
+ * Prepopulates with attribs stored in ids-constants,
+ * but may have other non-standard attrib names added
+ * that are not specified.
  *
  * @type {object.<string, string>}
  */
-const attribPropNameDict = {};
+const attribPropNameDict = Object.fromEntries(
+  // eslint-disable-next-line
+  Object.entries(props).map(([_k, attrib]) => (
+    [attrib, stringUtils.camelCase(attrib)]
+  ))
+);
 
 /**
  * IDS Base Element
