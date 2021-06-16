@@ -87,9 +87,8 @@ function yPosChangeHandler(e) {
 }
 
 /**
- * @param {Event} e the change event object
  */
-function xyResetHandler(e) {
+function xyResetHandler() {
   xControlEl.value = 0;
   yControlEl.value = 0;
   popupEl.x = 0;

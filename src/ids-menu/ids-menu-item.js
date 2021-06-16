@@ -250,7 +250,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
     // and unhighlight the item
     /* istanbul ignore next */
-    this.onEvent('mouseleave', this, (e) => {
+    this.onEvent('mouseleave', this, () => {
       clearHoverTimeout();
 
       if (this.hasSubmenu && !this.submenu.hidden) {
@@ -258,12 +258,6 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
         hideSubmenuTimeout = new IdsRenderLoopItem({
           duration: 200,
           timeoutCallback() {
-            console.dir(e.relatedTarget);
-            const text = e.relatedTarget?.textContent?.trim();
-            if (text) {
-              console.info(text);
-            }
-
             // Only focus again if the parent menu is still visible
             // (The menu may have closed here)
             if (!self.menu.hidden) {
