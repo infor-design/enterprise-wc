@@ -90,6 +90,7 @@ describe('IdsPopup Component', () => {
   it('can align based on coordinates', () => {
     const c = popup.container;
     const originalGetBoundingClientRect = c.getBoundingClientRect;
+    popup.bleed = true;
     popup.visible = true;
 
     // Basic coord alignment (center/center against the point, for modals)
@@ -103,6 +104,11 @@ describe('IdsPopup Component', () => {
       width: 100,
       height: 100
     }));
+
+    // Set values first, then put them back to zero
+    // (setting 0 initially would not cause a refresh -- 0 is the value by default)
+    popup.x = 1;
+    popup.y = 1;
     popup.x = 0;
     popup.y = 0;
 
@@ -185,6 +191,8 @@ describe('IdsPopup Component', () => {
   // NOTE: Needs to mock `getBoundingClientRect` on both the `container` and the `alignTarget`
   it('can align relative to another element on the page', () => {
     const c = popup.container;
+    popup.visible = true;
+    popup.bleed = true;
 
     // Create/Set the alignment target
     const alignTargetContainer = document.createElement('div');
@@ -217,7 +225,12 @@ describe('IdsPopup Component', () => {
       width: 100,
       height: 100
     }));
+
+    // Set values first, then put them back to zero
+    // (setting 0 initially would not cause a refresh -- 0 is the value by default)
     popup.alignTarget = '#test-align-target';
+    popup.x = 1;
+    popup.y = 1;
     popup.x = 0;
     popup.y = 0;
 
@@ -241,6 +254,7 @@ describe('IdsPopup Component', () => {
     popup.y = 0;
     popup.align = 'bottom, right';
 
+    debugger;
     expect(popup.container.style.left).toEqual('250px');
     expect(popup.container.style.top).toEqual('350px');
 
@@ -433,11 +447,11 @@ describe('IdsPopup Component', () => {
   it('will not set non-numeric values as x/y numbers', () => {
     popup.x = 'tree';
 
-    expect(popup.coords.x).toEqual(0);
+    expect(popup.state.x).toEqual(0);
 
     popup.y = 'tree';
 
-    expect(popup.coords.y).toEqual(0);
+    expect(popup.state.y).toEqual(0);
   });
 
   it('should autocorrect some alignment definitions to become their shorthand values', () => {
@@ -588,35 +602,6 @@ describe('IdsPopup Component', () => {
         done();
       }, 300);
     }, 300);
-  });
-
-  it('can set/remove attributes without causing UI updates', () => {
-    popup.safeSetAttribute('type', 'tooltip');
-
-    expect(popup.getAttribute('type')).toEqual('tooltip');
-    expect(popup.type).toEqual('none');
-    expect(popup.container.classList.contains('tooltip')).toBeFalsy();
-
-    popup.type = 'tooltip';
-
-    // Using the property causes the update to occur normally.
-    expect(popup.getAttribute('type')).toEqual('tooltip');
-    expect(popup.type).toEqual('tooltip');
-    expect(popup.container.classList.contains('tooltip')).toBeTruthy();
-
-    popup.safeRemoveAttribute('type');
-
-    // Type is changed but the rerender won't occur.
-    expect(popup.hasAttribute('type')).toBeFalsy();
-    expect(popup.type).toEqual('tooltip');
-    expect(popup.container.classList.contains('tooltip')).toBeTruthy();
-
-    // Don't accept junk attributes
-    popup.safeSetAttribute('haha', 'true');
-
-    expect(popup.hasAttribute('haha')).toBeFalsy();
-
-    popup.safeRemoveAttribute('haha');
   });
 
   it('can have an arrow', () => {

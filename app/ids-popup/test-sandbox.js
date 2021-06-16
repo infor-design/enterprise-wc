@@ -48,14 +48,28 @@ function containmentChangeHandler(e) {
  * @param {Event} e the change event object
  */
 function xAlignChangeHandler(e) {
-  popupEl.alignX = e.target.value;
+  const currentVal = popupEl.alignX;
+  const newVal = e.target.value;
+
+  if (currentVal !== newVal) {
+    popupEl.alignX = newVal;
+  } else {
+    popupEl.alignEdge = newVal;
+  }
 }
 
 /**
  * @param {Event} e the change event object
  */
 function yAlignChangeHandler(e) {
-  popupEl.alignY = e.target.value;
+  const currentVal = popupEl.alignY;
+  const newVal = e.target.value;
+
+  if (currentVal !== newVal) {
+    popupEl.alignY = newVal;
+  } else {
+    popupEl.alignEdge = newVal;
+  }
 }
 
 /**

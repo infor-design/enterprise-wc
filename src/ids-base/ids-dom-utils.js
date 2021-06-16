@@ -56,7 +56,7 @@ const IdsDOMUtils = {
       if (parent.toString() === '[object HTMLDocument]') {
         return undefined;
       }
-      if (parent.matches(selector)) {
+      if (typeof parent.matches === 'function' && parent.matches(selector)) {
         return parent;
       }
       parent = parent.parentNode;

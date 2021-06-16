@@ -103,35 +103,35 @@ describe('IdsResizeMixin Tests', () => {
 
     elem.addObservedElement(newElem);
 
-    expect(elem.observed.length).toBe(2);
+    expect(elem.observed.length).toBe(1);
 
     // Can't add the same one twice
     elem.addObservedElement(newElem);
 
-    expect(elem.observed.length).toBe(2);
+    expect(elem.observed.length).toBe(1);
 
     elem.removeObservedElement(newElem);
 
-    expect(elem.observed.length).toBe(1);
+    expect(elem.observed.length).toBe(0);
 
     // Can't remove it if it's not present in the observed array
     elem.removeObservedElement(newElem);
 
-    expect(elem.observed.length).toBe(1);
+    expect(elem.observed.length).toBe(0);
   });
 
   it('can\'t add non-elements to the observed elements array', () => {
     expect(typeof elem.addObservedElement).toBe('function');
     elem.addObservedElement({});
 
-    expect(elem.observed.length).toBe(1);
+    expect(elem.observed.length).toBe(0);
   });
 
   it('can\'t remove non-elements to the observed elements array', () => {
     expect(typeof elem.removeObservedElement).toEqual('function');
     elem.removeObservedElement({});
 
-    expect(elem.observed.length).toBe(1);
+    expect(elem.observed.length).toBe(0);
   });
 
   it('sets up a mutation observer', () => {

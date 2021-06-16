@@ -319,7 +319,7 @@ describe('IdsTooltip Component', () => {
   });
 
   it('shows works as a mixin on buttons', (done) => {
-    tooltip.remove();
+    tooltip?.remove();
     const button2 = new IdsButton();
     button2.id = 'button-1';
     button2.text = 'Test Button';
@@ -340,7 +340,7 @@ describe('IdsTooltip Component', () => {
   });
 
   it('shows works as a mixin on inputs', (done) => {
-    tooltip.remove();
+    tooltip?.remove();
     const input = new IdsInput();
     input.tooltip = 'Additional Info';
     document.body.appendChild(input);

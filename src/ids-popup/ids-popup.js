@@ -267,8 +267,8 @@ class IdsPopup extends mix(IdsElement).with(
     // Adust the first value and set it as the "edge"
     const edge = vals[0];
     if (ALIGNMENT_EDGES.includes(edge)) {
-      this.alignEdge = edge;
-      vals[0] = this.alignEdge;
+      this.state.alignEdge = edge;
+      vals[0] = this.state.alignEdge;
     }
 
     // If there's no second value, assumxae it's 'center'
@@ -288,22 +288,25 @@ class IdsPopup extends mix(IdsElement).with(
     let attrY;
     if (ALIGNMENTS_X.includes(vals[0])) {
       attrX = vals[0];
-      this.alignX = vals[0];
+      this.state.alignX = vals[0];
     } else {
       attrX = this.alignX;
     }
     if (ALIGNMENTS_Y.includes(vals[1])) {
       attrY = vals[1];
-      this.alignY = vals[1];
+      this.state.alignY = vals[1];
     } else {
       attrY = this.alignY;
     }
 
     const newAlign = formatAlignAttribute(attrX, attrY, this.state.alignEdge);
-    if (currentAlign !== newAlign) {
+    const needsUpdatedAlign = currentAlign !== newAlign;
+    if (needsUpdatedAlign) {
       this.state.align = newAlign;
       this.setAttribute(props.ALIGN, newAlign);
       this.refresh();
+    } else if (!this.hasAttribute('align')) {
+      this.setAttribute(props.ALIGN, currentAlign);
     }
   }
 
@@ -409,15 +412,30 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Only update if the value has changed
     if (this.state.alignEdge !== edge) {
-      // const align = this.align;
+      const align = this.align;
+      const currentEdge = align.split(',')[0];
+      let alignX = this.alignX;
+      let alignY = this.alignY;
+
       this.state.alignEdge = edge;
 
-      // If the primary edge doesn't match, re-format the align attribute
-      /*
-      if (align.split(',')[0] !== 'edge') {
+      // If the edge isn't included in the current alignment, (completely new direction)
+      // Figure out which direction to set
+      if (!align.includes(edge)) {
+        if (edge === 'center') {
+          // Using `alignEdge === 'center'` is shorthand for automatically centering the component
+          alignX = edge;
+          alignY = edge;
+        } else if (ALIGNMENTS_EDGES_Y.includes(edge)) {
+          alignY = edge;
+        } else {
+          alignX = edge;
+        }
+        this.align = formatAlignAttribute(alignX, alignY, edge);
+      } else if (currentEdge !== edge) {
+        // If the primary edge doesn't match, re-format the align attribute
         this.align = formatAlignAttribute(this.alignX, this.alignY, edge);
       }
-      */
     }
   }
 
@@ -518,8 +536,11 @@ class IdsPopup extends mix(IdsElement).with(
     });
   }
 
+  /**
+   * @param {boolean|string} val true if bleeds should be respected by the Popup
+   */
   set bleed(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringUtils.stringToBool(val);
     if (this.state.bleed !== trueVal) {
       this.state.bleed = val;
       if (trueVal) {
@@ -531,10 +552,16 @@ class IdsPopup extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @returns {boolean} true if bleeds are currently being respected by the Popup
+   */
   get bleed() {
     return this.state.bleed;
   }
 
+  /**
+   * @param {HTMLElement} val an element that will appear to "contain" the Popup
+   */
   set containingElem(val) {
     if (!(val instanceof HTMLElement)) {
       return;
@@ -545,6 +572,9 @@ class IdsPopup extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @returns {HTMLElement} the element currently appearing to "contain" the Popup
+   */
   get containingElem() {
     return this.state.containingElem;
   }
@@ -588,12 +618,12 @@ class IdsPopup extends mix(IdsElement).with(
     ARROW_TYPES.forEach((type) => {
       if (type !== 'none' && type !== direction) {
         arrowElCl.remove(type);
-        this.arrowEl.hidden = true;
       }
     });
+
+    this.arrowEl.hidden = direction === 'none';
     if (direction !== 'none' && !arrowElCl.contains(direction)) {
       arrowElCl.add(direction);
-      this.arrowEl.hidden = false;
     }
   }
 
@@ -649,7 +679,7 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   *
+   * @param {string} val the position style string
    */
   set positionStyle(val) {
     const currentStyle = this.state.positionStyle;
@@ -662,7 +692,7 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   *
+   * @returns {string} the current position style
    */
   get positionStyle() {
     return this.state.positionStyle;
@@ -699,6 +729,9 @@ class IdsPopup extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @returns {string} the type assigned to the Popup
+   */
   get type() {
     return this.state.type;
   }
@@ -812,7 +845,7 @@ class IdsPopup extends mix(IdsElement).with(
     if (!alignTarget) {
       // Remove an established MutationObserver if one exists.
       if (this.hasMutations) {
-        this.mo.disconnect();
+        this.mo?.disconnect();
         this.disconnectDetectMutations();
         delete this.hasMutations;
       }

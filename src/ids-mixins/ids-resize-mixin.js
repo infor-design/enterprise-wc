@@ -135,6 +135,7 @@ const IdsResizeMixin = (superclass) => class extends superclass {
     if (!(el instanceof HTMLElement)) {
       return;
     }
+    /* istanbul ignore next */
     if (this.observed.includes(el)) {
       return;
     }
