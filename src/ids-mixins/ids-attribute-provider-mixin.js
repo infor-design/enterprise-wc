@@ -36,7 +36,7 @@ export default (superclass) => class extends superclass {
 
           const attribName = Array.isArray(entry) ? entry[1] : sourceAttribName;
 
-          if (this.hasAttribute(sourceAttribName)) {
+          if (this.hasAttribute(sourceAttribName) && this.getAttribute(sourceAttribName) !== null) {
             el.setAttribute(attribName, this.getAttribute(attribName));
           } else {
             el.removeAttribute(attribName);
