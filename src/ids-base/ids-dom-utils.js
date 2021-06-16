@@ -53,6 +53,7 @@ const IdsDOMUtils = {
       if (parent.toString() === '[object ShadowRoot]') {
         parent = parent.host;
       }
+      /* istanbul ignore next */
       if (parent.toString() === '[object HTMLDocument]') {
         return undefined;
       }

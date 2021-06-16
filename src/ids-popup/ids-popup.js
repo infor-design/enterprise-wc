@@ -412,30 +412,22 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Only update if the value has changed
     if (this.state.alignEdge !== edge) {
-      const align = this.align;
-      const currentEdge = align.split(',')[0];
       let alignX = this.alignX;
       let alignY = this.alignY;
 
       this.state.alignEdge = edge;
 
-      // If the edge isn't included in the current alignment, (completely new direction)
-      // Figure out which direction to set
-      if (!align.includes(edge)) {
-        if (edge === 'center') {
-          // Using `alignEdge === 'center'` is shorthand for automatically centering the component
-          alignX = edge;
-          alignY = edge;
-        } else if (ALIGNMENTS_EDGES_Y.includes(edge)) {
-          alignY = edge;
-        } else {
-          alignX = edge;
-        }
-        this.align = formatAlignAttribute(alignX, alignY, edge);
-      } else if (currentEdge !== edge) {
-        // If the primary edge doesn't match, re-format the align attribute
-        this.align = formatAlignAttribute(this.alignX, this.alignY, edge);
+      // Determine how to format the `align` property.
+      // Using `alignEdge === 'center'` is shorthand for automatically centering the component.
+      if (edge === 'center') {
+        alignX = edge;
+        alignY = edge;
+      } else if (ALIGNMENTS_EDGES_Y.includes(edge)) {
+        alignY = edge;
+      } else {
+        alignX = edge;
       }
+      this.align = formatAlignAttribute(alignX, alignY, edge);
     }
   }
 
@@ -824,8 +816,7 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Attach to the global ResizeObserver
     // (this doesn't need updating)
-    // @TODO possibly replace `this.resizeDetectionTarget()`
-    // with IdsPopupBoundary (specifically to contain)
+    /* istanbul ignore next */
     if (this.shouldResize()) {
       this.addObservedElement(this.resizeDetectionTarget());
     }
@@ -1026,9 +1017,11 @@ class IdsPopup extends mix(IdsElement).with(
         x = targetRect.right + x;
         break;
       default: // center
+        /* istanbul ignore next */
         if (alignXCentered) {
           break;
         }
+        /* istanbul ignore next */
         x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
       }
 
@@ -1053,6 +1046,7 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Check boundaries and attempt to flip the component in the opposite direction, if needed.
     // If neither side will properly fit the popup, the popup will shrink to fit
+    /* istanbul ignore next */
     if (this.#shouldFlip(popupRect) && !targetAlignEdge) {
       this.placeAgainstTarget(this.oppositeAlignEdge);
       return;
@@ -1062,6 +1056,7 @@ class IdsPopup extends mix(IdsElement).with(
     popupRect = this.#nudge(popupRect);
 
     // If the popup was previously flipped, also flip the arrow alignment
+    /* istanbul ignore if */
     if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
       this.#setArrowDirection(this.oppositeAlignEdge);
     }
@@ -1088,20 +1083,29 @@ class IdsPopup extends mix(IdsElement).with(
     let fixedX = popupRect.x;
     let fixedY = popupRect.y;
 
+    /* istanbul ignore next */
     const rightEdge = bleed ? viewportWidth : containerRect.right;
+
+    /* istanbul ignore next */
     const leftEdge = bleed ? 0 : containerRect.left;
+
+    /* istanbul ignore next */
     const topEdge = bleed ? 0 : containerRect.top;
+
+    /* istanbul ignore next */
     const bottomEdge = bleed ? viewportHeight : containerRect.bottom;
 
     if (popupRect.right > rightEdge) {
       fixedX -= (popupRect.right - rightEdge);
     }
+    /* istanbul ignore next */
     if (popupRect.left < leftEdge) {
       fixedX += (Math.abs(popupRect.left) + leftEdge);
     }
     if (popupRect.bottom > bottomEdge) {
       fixedY -= (popupRect.bottom - bottomEdge);
     }
+    /* istanbul ignore next */
     if (popupRect.top < topEdge) {
       fixedY += (Math.abs(popupRect.top) + topEdge);
     }
@@ -1153,12 +1157,8 @@ class IdsPopup extends mix(IdsElement).with(
 
     // If the popup does not fit, and there's more space between the opposite edge
     // and viewport boundary, compared to the current edge and its viewport boundary, return true.
+    /* istanbul ignore next */
     return !popupFits && newDistance > currentDistance;
-  }
-
-  #shrink(popupRect) {
-    console.info('shrink');
-    return popupRect;
   }
 
   /**

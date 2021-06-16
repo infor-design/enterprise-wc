@@ -122,9 +122,11 @@ const IdsResizeMixin = (superclass) => class extends superclass {
    */
   resizeDetectionTarget() {
     let target = this.parentNode;
+    /* istanbul ignore else */
     if (target instanceof ShadowRoot) {
       target = target.host;
     }
+    /* istanbul ignore next */
     return target;
   }
 
@@ -161,6 +163,7 @@ const IdsResizeMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   removeAllObservedElements() {
+    /* istanbul ignore next */
     this.observed.forEach((el) => {
       this.removeObservedElement(el);
     });
