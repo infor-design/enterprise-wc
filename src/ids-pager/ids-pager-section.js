@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   stringUtils
 } from '../ids-base';
@@ -25,13 +25,13 @@ export default class IdsPagerSection extends IdsElement {
     return `<slot></slot>`;
   }
 
-  static get properties() {
+  static get attributes() {
     return [
-      props.START,
-      props.END,
-      props.TOTAL,
-      props.PAGE_NUMBER,
-      props.PAGE_SIZE
+      attributes.START,
+      attributes.END,
+      attributes.TOTAL,
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE
     ];
   }
 
@@ -42,16 +42,16 @@ export default class IdsPagerSection extends IdsElement {
    */
   set start(value) {
     if (stringToBool(value)) {
-      this.setAttribute(props.START, '');
+      this.setAttribute(attributes.START, '');
       this.classList.add('start');
 
       // setting START implicitly toggles END
-      if (this.hasAttribute(props.END)) {
-        this.removeAttribute(props.END);
+      if (this.hasAttribute(attributes.END)) {
+        this.removeAttribute(attributes.END);
         this.classList.remove('end');
       }
     } else {
-      this.removeAttribute(props.START);
+      this.removeAttribute(attributes.START);
       this.classList.remove('start');
     }
   }
@@ -63,16 +63,16 @@ export default class IdsPagerSection extends IdsElement {
    */
   set end(value) {
     if (stringToBool(value)) {
-      this.setAttribute(props.END, '');
+      this.setAttribute(attributes.END, '');
       this.classList.add('end');
 
       // setting END implicitly toggles START
-      if (this.hasAttribute(props.START)) {
-        this.removeAttribute(props.START);
+      if (this.hasAttribute(attributes.START)) {
+        this.removeAttribute(attributes.START);
         this.classList.remove('start');
       }
     } else {
-      this.removeAttribute(props.END);
+      this.removeAttribute(attributes.END);
       this.classList.remove('end');
     }
   }

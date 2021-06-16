@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix
 } from '../ids-base';
@@ -43,23 +43,23 @@ export default class IdsPager extends mix(IdsElement).with(
     );
   }
 
-  static get properties() {
+  static get attributes() {
     return [
-      props.PAGE_NUMBER,
-      props.PAGE_SIZE,
-      props.TOTAL
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.TOTAL
     ];
   }
 
   get providedAttributes() {
     return {
-      [props.PAGE_NUMBER]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
-      [props.TOTAL]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
-      [props.PAGE_SIZE]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
-      [props.DISABLED]: [
-        [IdsPagerInput, props.PARENT_DISABLED],
-        [IdsPagerButton, props.PARENT_DISABLED],
-        [IdsPagerNumberList, props.PARENT_DISABLED]
+      [attributes.PAGE_NUMBER]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
+      [attributes.TOTAL]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
+      [attributes.PAGE_SIZE]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
+      [attributes.DISABLED]: [
+        [IdsPagerInput, attributes.PARENT_DISABLED],
+        [IdsPagerButton, attributes.PARENT_DISABLED],
+        [IdsPagerNumberList, attributes.PARENT_DISABLED]
       ]
     };
   }
@@ -68,7 +68,7 @@ export default class IdsPager extends mix(IdsElement).with(
     this.#contentObserver.observe(this, {
       childList: true,
       attributes: true,
-      attributeFilter: [props.START, props.END],
+      attributeFilter: [attributes.START, attributes.END],
       subtree: true
     });
 
@@ -108,14 +108,14 @@ export default class IdsPager extends mix(IdsElement).with(
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(props.PAGE_SIZE, nextValue);
+    this.setAttribute(attributes.PAGE_SIZE, nextValue);
   }
 
   /**
    * @returns {string|number} number of items shown per-page
    */
   get pageSize() {
-    return parseInt(this.getAttribute(props.PAGE_SIZE));
+    return parseInt(this.getAttribute(attributes.PAGE_SIZE));
   }
 
   /**
@@ -134,14 +134,14 @@ export default class IdsPager extends mix(IdsElement).with(
       nextValue = Math.min(nextValue, pageCount);
     }
 
-    this.setAttribute(props.PAGE_NUMBER, nextValue);
+    this.setAttribute(attributes.PAGE_NUMBER, nextValue);
   }
 
   /**
    * @returns {string|number} value 1-based page number displayed
    */
   get pageNumber() {
-    return parseInt(this.getAttribute(props.PAGE_NUMBER));
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
   }
 
   /**
@@ -159,14 +159,14 @@ export default class IdsPager extends mix(IdsElement).with(
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(props.TOTAL, nextValue);
+    this.setAttribute(attributes.TOTAL, nextValue);
   }
 
   /**
    * @returns {string|number} number of items for pager is tracking
    */
   get total() {
-    return parseInt(this.getAttribute(props.TOTAL));
+    return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
   /**
@@ -186,13 +186,13 @@ export default class IdsPager extends mix(IdsElement).with(
 
     switch (this.children.length) {
     case 3:
-      this.children[0].setAttribute(props.START, '');
+      this.children[0].setAttribute(attributes.START, '');
       this.children[1].setAttribute('role', 'navigation');
-      this.children[2].setAttribute(props.END, '');
+      this.children[2].setAttribute(attributes.END, '');
       break;
     case 2: {
       this.children[0].setAttribute('role', 'navigation');
-      this.children[1].setAttribute(props.END, '');
+      this.children[1].setAttribute(attributes.END, '');
 
       // insert an empty pager-section to the left
       // of the 2nd element for alignment purposes

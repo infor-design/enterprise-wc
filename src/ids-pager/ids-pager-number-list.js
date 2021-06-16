@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix,
   stringUtils
@@ -37,20 +37,20 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
     );
   }
 
-  static get properties() {
+  static get attributes() {
     return [
-      props.DISABLED,
-      props.PAGE_NUMBER,
-      props.PARENT_DISABLED,
-      props.TOTAL,
-      props.PAGE_SIZE,
-      props.VALUE
+      attributes.DISABLED,
+      attributes.PAGE_NUMBER,
+      attributes.PARENT_DISABLED,
+      attributes.TOTAL,
+      attributes.PAGE_SIZE,
+      attributes.VALUE
     ];
   }
 
   connectedCallback() {
-    if (!this.hasAttribute(props.PAGE_NUMBER)) {
-      this.setAttribute(props.PAGE_NUMBER, 1);
+    if (!this.hasAttribute(attributes.PAGE_NUMBER)) {
+      this.setAttribute(attributes.PAGE_NUMBER, 1);
     }
 
     // give parent a chance to reflect properties
@@ -75,14 +75,14 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(props.PAGE_SIZE, nextValue);
+    this.setAttribute(attributes.PAGE_SIZE, nextValue);
   }
 
   /**
    * @returns {string|number} number of items shown per-page
    */
   get pageSize() {
-    return parseInt(this.getAttribute(props.PAGE_SIZE));
+    return parseInt(this.getAttribute(attributes.PAGE_SIZE));
   }
 
   /**
@@ -100,7 +100,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
     }
 
     if (parseInt(nextValue) !== parseInt(this.input?.input.value)) {
-      this.setAttribute(props.PAGE_NUMBER, nextValue);
+      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
       this.#populatePageNumberButtons();
     }
   }
@@ -109,7 +109,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
    * @returns {string|number} value 1-based page number displayed
    */
   get pageNumber() {
-    return parseInt(this.getAttribute(props.PAGE_NUMBER));
+    return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
   }
 
   /**
@@ -125,14 +125,14 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(props.TOTAL, nextValue);
+    this.setAttribute(attributes.TOTAL, nextValue);
   }
 
   /**
    * @returns {number|null} the calculated pageCount using total and pageSize
    */
   get pageCount() {
-    return this.hasAttribute(props.TOTAL)
+    return this.hasAttribute(attributes.TOTAL)
       ? Math.floor(this.total / this.pageSize)
       : null;
   }
@@ -141,7 +141,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
    * @returns {string|number} number of items for pager is tracking
    */
   get total() {
-    return parseInt(this.getAttribute(props.TOTAL));
+    return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
   /**
@@ -149,9 +149,9 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
    */
   set disabled(value) {
     if (stringToBool(value)) {
-      this.setAttribute(props.DISABLED, '');
+      this.setAttribute(attributes.DISABLED, '');
     } else {
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
     }
 
     this.#updateDisabledState();
@@ -162,7 +162,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
    * for nav reasons
    */
   get disabled() {
-    return this.hasAttribute(props.DISABLED);
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   /**
@@ -171,9 +171,9 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
    */
   set parentDisabled(value) {
     if (stringToBool(value)) {
-      this.setAttribute(props.PARENT_DISABLED, '');
+      this.setAttribute(attributes.PARENT_DISABLED, '');
     } else {
-      this.removeAttribute(props.PARENT_DISABLED);
+      this.removeAttribute(attributes.PARENT_DISABLED);
     }
 
     this.#updateDisabledState();
@@ -184,12 +184,12 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
    * via parent pager's disabled attribute
    */
   get parentDisabled() {
-    return this.hasAttribute(props.DISABLED);
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   get disabledOverall() {
-    return (this.hasAttribute(props.DISABLED)
-      || this.hasAttribute(props.PARENT_DISABLED)
+    return (this.hasAttribute(attributes.DISABLED)
+      || this.hasAttribute(attributes.PARENT_DISABLED)
     );
   }
 
@@ -215,7 +215,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
       const numberButton = this.container.children[n - 1];
       numberButton.button.setAttribute('aria-label', `Go to page ${n}`);
       if (n === this.pageNumber) {
-        numberButton.setAttribute(props.SELECTED, '');
+        numberButton.setAttribute(attributes.SELECTED, '');
       }
 
       numberButton.addEventListener('click', () => {

@@ -45,7 +45,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     );
   }
 
-  static get properties() {
+  static get attributes() {
     return [
       attributes.DISABLED,
       attributes.PAGE_NUMBER,

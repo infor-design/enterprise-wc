@@ -41,7 +41,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     );
   }
 
-  static get properties() {
+  static get attributes() {
     return [
       attributes.DISABLED,
       attributes.FIRST,

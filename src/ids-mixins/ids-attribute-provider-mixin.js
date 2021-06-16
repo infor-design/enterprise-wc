@@ -1,7 +1,7 @@
 import { IdsElement } from '../ids-base';
 
 /**
- * Casts/Mirrors specific properties in one-way-bindings to
+ * Casts/Mirrors specific attributes in one-way-bindings to
  * children to avoid boilerplate/errors manually managing
  * this in child components
  *
@@ -16,18 +16,18 @@ export default (superclass) => class extends superclass {
   /**
    * update props on casted children
    *
-   * @param {Array|string} properties object containing
+   * @param {Array|string} attributes object containing
    * property lookups that will match with types in iterable it's linked with
    * @param {boolean} recursive optional; specifies whether to recursively
    * check simple search of IdsElement on container/perimeter level
    * @param {HTMLElement} scannedEl Base case: element provider.
    * Recursive case: scanned IdsElement in tree
    */
-  provideAttributes(properties = this.providedAttributes, recursive = true, scannedEl = this) {
+  provideAttributes(attributes = this.providedAttributes, recursive = true, scannedEl = this) {
     for (const el of [...scannedEl.children, ...scannedEl.shadowRoot.children]) {
-      for (const [sourceAttribName, componentEntries] of Object.entries(properties)) {
+      for (const [sourceAttribName, componentEntries] of Object.entries(attributes)) {
         if (recursive && el instanceof IdsElement) {
-          this.provideAttributes(properties, true, el);
+          this.provideAttributes(attributes, true, el);
         }
 
         for (const entry of componentEntries) {
@@ -52,7 +52,7 @@ export default (superclass) => class extends superclass {
    *
    * TODO: diff attribute before firing provideAttributes(...)
    */
-  propertyObserver = new MutationObserver((mutations) => {
+  attributeObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'attributes') {
         if (typeof this.providedAttributes?.[m.attributeName] !== 'undefined') {
@@ -65,7 +65,7 @@ export default (superclass) => class extends superclass {
   });
 
   connectedCallback() {
-    this.propertyObserver.observe(this, {
+    this.attributeObserver.observe(this, {
       attributes: true,
       attributeOldValue: true,
       attributeFilter: Object.keys(this.providedAttributes),
