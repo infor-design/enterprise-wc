@@ -111,7 +111,7 @@ Running this immediately after our example above will cause the Popup to actuall
 If we decide to remove containment by the element, we can simply set it back to it's default:
 
 ```js
-popup.containingElem = document.body;
+popup.containingElem = document.querySelector('ids-container');
 ```
 
 ## Usage Tips
