@@ -1,6 +1,5 @@
 import { props } from '../ids-base/ids-constants';
 import IdsEventsMixin from './ids-events-mixin';
-import IdsResizeMixin from './ids-resize-mixin';
 
 /**
 /**
@@ -8,7 +7,7 @@ import IdsResizeMixin from './ids-resize-mixin';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsTooltipMixin = (superclass) => class extends IdsResizeMixin(IdsEventsMixin(superclass)) {
+const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   constructor() {
     super();
   }
