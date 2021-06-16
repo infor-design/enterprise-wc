@@ -4,4 +4,4 @@ import IdsPager, {
   IdsPagerInput,
   IdsPagerNumberList
 } from '../../src/ids-pager';
-import { IdsText } from '../../src/ids-text/ids-text';
+import IdsText from '../../src/ids-text/ids-text';

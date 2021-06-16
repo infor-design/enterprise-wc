@@ -5,8 +5,8 @@ import {
   scss,
   mix
 } from '../ids-base';
-import { IdsInput } from '../ids-input/ids-input';
-import { IdsText } from '../ids-text/ids-text';
+import IdsInput from '../ids-input/ids-input';
+import IdsText from '../ids-text/ids-text';
 import { IdsEventsMixin, IdsKeyboardMixin } from '../ids-mixins';
 import IdsPagerSection from './ids-pager-section';
 import styles from './ids-pager-input.scss';

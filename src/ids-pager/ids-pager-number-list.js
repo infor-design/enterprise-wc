@@ -6,7 +6,7 @@ import {
   mix,
   stringUtils
 } from '../ids-base';
-import { IdsText } from '../ids-text/ids-text';
+import IdsText from '../ids-text/ids-text';
 import { IdsEventsMixin, IdsKeyboardMixin } from '../ids-mixins';
 import IdsButton from '../ids-button/ids-button';
 import styles from './ids-pager-number-list.scss';
