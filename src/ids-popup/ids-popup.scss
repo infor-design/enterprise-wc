@@ -94,7 +94,7 @@
 
   // Actually renders the popup, but doesn't "unhide" it
   &.visible {
-    display: unset;
+    display: block;
   }
 
   // Added to ".visible" to animate the opening.
