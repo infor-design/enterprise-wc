@@ -120,7 +120,6 @@ export default class IdsPagerInput extends mix(IdsElement).with(
 
     if (Number.isNaN(Number.parseInt(value))) {
       nextValue = 1;
-      console.error('ids-pager: non-valid-numeric value sent to pageNumber');
     } else if (Number.parseInt(value) <= 1) {
       nextValue = 1;
     } else {

@@ -14,7 +14,7 @@ export default (superclass) => class extends superclass {
   }
 
   /**
-   * update props on casted children
+   * update registered props on registered child component types
    *
    * @param {Array|string} attributes object containing
    * property lookups that will match with types in iterable it's linked with
@@ -37,8 +37,11 @@ export default (superclass) => class extends superclass {
           const attribName = Array.isArray(entry) ? entry[1] : sourceAttribName;
 
           if (this.hasAttribute(sourceAttribName) && this.getAttribute(sourceAttribName) !== null) {
-            el.setAttribute(attribName, this.getAttribute(attribName));
-          } else {
+            const attribValue = this.getAttribute(sourceAttribName);
+            if (el.getAttribute(attribName) !== attribValue) {
+              el.setAttribute(attribName, attribValue);
+            }
+          } else if (el.hasAttribute(attribName)) {
             el.removeAttribute(attribName);
           }
         }
@@ -50,15 +53,13 @@ export default (superclass) => class extends superclass {
    * observes when any of instance's props change in order
    * to mirror them to child
    *
-   * TODO: diff attribute before firing provideAttributes(...)
    */
   attributeObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'attributes') {
-        if (typeof this.providedAttributes?.[m.attributeName] !== 'undefined') {
-          this.provideAttributes({
-            [m.attributeName]: this.providedAttributes[m.attributeName]
-          });
+        const value = this.getAttribute(m.attributeName);
+        if ((typeof this.providedAttributes?.[m.attributeName] !== 'undefined') && (value !== m.oldValue)) {
+          this.provideAttributes({ [m.attributeName]: this.providedAttributes[m.attributeName] });
         }
       }
     }
@@ -71,8 +72,6 @@ export default (superclass) => class extends superclass {
       attributeFilter: Object.keys(this.providedAttributes),
       subtree: false
     });
-
-    this.provideAttributes();
     super.connectedCallback?.();
   }
 };

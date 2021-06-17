@@ -28,10 +28,7 @@ export default class IdsPagerSection extends IdsElement {
   static get attributes() {
     return [
       attributes.START,
-      attributes.END,
-      attributes.TOTAL,
-      attributes.PAGE_NUMBER,
-      attributes.PAGE_SIZE
+      attributes.END
     ];
   }
 

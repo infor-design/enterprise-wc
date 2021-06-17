@@ -89,20 +89,24 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
    * @param {string|number} value 1-based page number shown
    */
   set pageNumber(value) {
-    let nextValue;
+    let nextValue = Number.parseInt(value);
 
-    if (Number.isNaN(Number.parseInt(value))) {
+    if (Number.isNaN(nextValue)) {
       nextValue = 1;
-    } else if (Number.parseInt(value) <= 1) {
+    } else if (nextValue <= 1) {
       nextValue = 1;
     } else {
-      nextValue = Number.parseInt(value);
+      const pageCount = Math.floor(this.total / this.pageSize);
+      nextValue = Math.min(nextValue, pageCount);
     }
 
-    if (parseInt(nextValue) !== parseInt(this.input?.input.value)) {
+    if (!Number.isNaN(nextValue)
+    && Number.parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue
+    ) {
       this.setAttribute(attributes.PAGE_NUMBER, nextValue);
-      this.#populatePageNumberButtons();
     }
+
+    this.#populatePageNumberButtons();
   }
 
   /**

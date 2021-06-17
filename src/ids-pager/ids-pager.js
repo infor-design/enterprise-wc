@@ -78,6 +78,7 @@ export default class IdsPager extends mix(IdsElement).with(
       this.pageNumber = e.detail.value;
     });
 
+    this.provideAttributes();
     super.connectedCallback?.();
   }
 
@@ -180,7 +181,6 @@ export default class IdsPager extends mix(IdsElement).with(
   #normalizeSectionContainers() {
     if (!this.hasSectionContainers()) {
       this.shadowRoot.querySelector('ids-pager-section').setAttribute('role', 'navigation');
-      this.provideAttributes();
       return;
     }
 
@@ -214,8 +214,6 @@ export default class IdsPager extends mix(IdsElement).with(
       break;
     }
     }
-
-    this.provideAttributes();
   }
 
   /** observes changes in content/layout */
@@ -223,6 +221,7 @@ export default class IdsPager extends mix(IdsElement).with(
     for (const m of mutations) {
       if (m.type === 'childList') {
         this.#normalizeSectionContainers();
+        this.provideAttributes();
       }
     }
   });
