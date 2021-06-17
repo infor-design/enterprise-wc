@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 // eslint-disable-next-line
-import MutationObserver from '../helpers/mutation-observer-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
 import IdsInput from '../../src/ids-input/ids-input';
 import IdsPager, {
@@ -164,12 +163,40 @@ describe('IdsPager Component', () => {
     );
     await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
+    expect(elem.navDisabled).toEqual(true);
     elem.setAttribute('page-number', 5);
     await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeFalsy();
+    expect(elem.navDisabled).toEqual(false);
     elem.setAttribute('page-number', 1);
     await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
+  });
+
+  it('can set parent-disabled on ids-pager-button predictably', async () => {
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="1" page-size="10" total="100" parent-disabled></ids-pager-button>'
+    );
+    await processAnimFrame();
+    expect(elem.parentDisabled).toEqual(true);
+    await processAnimFrame();
+    elem.setAttribute('parent-disabled', false);
+    expect(elem.parentDisabled).toEqual(false);
+
+    elem.setAttribute('parent-disabled', true);
+    expect(elem.parentDisabled).toEqual(true);
+  });
+
+  it('can set the pageSize on ids-pager-button predictably', async () => {
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="1" page-size="10" total="100" parent-disabled></ids-pager-button>'
+    );
+
+    elem.setAttribute('page-size', '11');
+    expect(elem.pageSize).toEqual(11);
+
+    elem.setAttribute('page-size', 'z100');
+    expect(elem.pageSize).toEqual(1);
   });
 
   it('creates a an ids-pager-button with "previous" flag set and nav-disabled works reliably', async () => {
@@ -212,5 +239,49 @@ describe('IdsPager Component', () => {
     elem.setAttribute('page-number', 10);
     await processAnimFrame();
     expect(elem.hasAttribute('nav-disabled')).toBeTruthy();
+  });
+
+  it('creates ids-pager-buttons and clicking causes no issues reliably', async () => {
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="1" page-size="10" total="100" first></ids-pager-button>'
+    );
+    elem.button.click();
+
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="1" page-size="10" total="100" previous></ids-pager-button>'
+    );
+    elem.button.click();
+
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="1" page-size="10" total="100" next></ids-pager-button>'
+    );
+    elem.button.click();
+
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="1" page-size="10" total="100" last></ids-pager-button>'
+    );
+    elem.button.click();
+  });
+
+  it('creates a "first" ids-pager-button, then changes the type to "previous" with no issues', async () => {
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="1" page-size="10" total="100" next></ids-pager-button>'
+    );
+    elem.setAttribute('previous', '');
+    expect(elem.hasAttribute('previous')).toBeTruthy();
+  });
+
+  it('creates a number-list and has the correct number of entries based on page size and total', async () => {
+    const pageSize = 10;
+    const total = 100;
+
+    elem = await createElemViaTemplate(
+      `<ids-pager-number-list page-number="10" page-size="${pageSize}" total="${total}" last></ids-pager-number-list>`
+    );
+
+    const pageCount = Math.floor(total / pageSize);
+    const pageNumberButtons = elem.shadowRoot.querySelectorAll('ids-button');
+
+    expect(pageNumberButtons.length).toEqual(pageCount);
   });
 });

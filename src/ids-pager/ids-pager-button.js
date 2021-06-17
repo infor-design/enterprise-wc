@@ -49,6 +49,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
       attributes.NAV_DISABLED,
       attributes.NEXT,
       attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
       attributes.PARENT_DISABLED,
       attributes.PREVIOUS,
       attributes.TOTAL
@@ -175,10 +176,10 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    * through parent pager's disabled attribute
    */
   set parentDisabled(value) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.NAV_DISABLED, '');
-    } else {
-      this.removeAttribute(attributes.NAV_DISABLED);
+    if (stringToBool(value) && !this.hasAttribute(attributes.PARENT_DISABLED)) {
+      this.setAttribute(attributes.PARENT_DISABLED, '');
+    } else if (!stringToBool(value) && this.hasAttribute(attributes.PARENT_DISABLED)) {
+      this.removeAttribute(attributes.PARENT_DISABLED);
     }
 
     this.#updateDisabledState();
@@ -189,7 +190,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
    * via parent pager's disabled attribute
    */
   get parentDisabled() {
-    return this.hasAttribute(attributes.NAV_DISABLED);
+    return this.hasAttribute(attributes.PARENT_DISABLED);
   }
 
   /**
@@ -284,6 +285,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
         }
         break;
       }
+      default:
       case attributes.NEXT: {
         if (this.pageNumber < lastPageNumber) {
           this.triggerEvent('pagenumberchange', this, {
@@ -291,10 +293,6 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
             detail: { elem: this, value: this.pageNumber + 1 }
           });
         }
-        break;
-      }
-      case attributes.DISABLED:
-      default: {
         break;
       }
       }
@@ -314,7 +312,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
           this.removeAttribute(type);
         }
       }
-      this.button.button.setAttribute('aria-label', attribute);
+      this.button?.button?.setAttribute?.('aria-label', attribute);
     } else {
       this.removeAttribute(attribute);
     }
@@ -365,9 +363,9 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     );
 
     if (isDisabled) {
-      this.button.setAttribute(attributes.DISABLED, '');
+      this.button?.setAttribute(attributes.DISABLED, '');
     } else {
-      this.button.removeAttribute(attributes.DISABLED);
+      this.button?.removeAttribute(attributes.DISABLED);
     }
   }
 }
