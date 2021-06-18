@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix,
   stringUtils
 } from '../ids-base';
@@ -59,14 +59,14 @@ class IdsDataGrid extends mix(IdsElement).with(
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.ALTERNATE_ROW_SHADING,
-      props.LABEL,
-      props.ROW_HEIGHT,
-      props.VIRTUAL_SCROLL,
-      props.MODE,
-      props.VERSION
+      attributes.ALTERNATE_ROW_SHADING,
+      attributes.LABEL,
+      attributes.ROW_HEIGHT,
+      attributes.VIRTUAL_SCROLL,
+      attributes.MODE,
+      attributes.VERSION
     ];
   }
 
@@ -353,16 +353,16 @@ class IdsDataGrid extends mix(IdsElement).with(
    */
   set alternateRowShading(value) {
     if (stringUtils.stringToBool(value)) {
-      this.setAttribute(props.ALTERNATE_ROW_SHADING, 'true');
+      this.setAttribute(attributes.ALTERNATE_ROW_SHADING, 'true');
       this.shadowRoot?.querySelector('.ids-data-grid').classList.add('alt-row-shading');
       return;
     }
 
     this.shadowRoot?.querySelector('.ids-data-grid').classList.remove('alt-row-shading');
-    this.setAttribute(props.ALTERNATE_ROW_SHADING, 'false');
+    this.setAttribute(attributes.ALTERNATE_ROW_SHADING, 'false');
   }
 
-  get alternateRowShading() { return this.getAttribute(props.ALTERNATE_ROW_SHADING) || 'false'; }
+  get alternateRowShading() { return this.getAttribute(attributes.ALTERNATE_ROW_SHADING) || 'false'; }
 
   /**
    * Set the columns array of the datagrid
@@ -397,16 +397,16 @@ class IdsDataGrid extends mix(IdsElement).with(
    */
   set virtualScroll(value) {
     if (value === true || value === 'true') {
-      this.setAttribute(props.VIRTUAL_SCROLL, 'true');
+      this.setAttribute(attributes.VIRTUAL_SCROLL, 'true');
       this.rerender();
       return;
     }
 
-    this.setAttribute(props.VIRTUAL_SCROLL, 'false');
+    this.setAttribute(attributes.VIRTUAL_SCROLL, 'false');
     this.rerender();
   }
 
-  get virtualScroll() { return this.getAttribute(props.VIRTUAL_SCROLL) || 'false'; }
+  get virtualScroll() { return this.getAttribute(attributes.VIRTUAL_SCROLL) || 'false'; }
 
   /**
    * Set the aria-label element in the DOM. This should be translated.
@@ -414,18 +414,18 @@ class IdsDataGrid extends mix(IdsElement).with(
    */
   set label(value) {
     if (value) {
-      this.setAttribute(props.LABEL, value);
+      this.setAttribute(attributes.LABEL, value);
       this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', value);
       this.rerender();
       return;
     }
 
-    this.removeAttribute(props.LABEL);
+    this.removeAttribute(attributes.LABEL);
     this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', 'Data Grid');
     this.rerender();
   }
 
-  get label() { return this.getAttribute(props.LABEL) || 'Data Grid'; }
+  get label() { return this.getAttribute(attributes.LABEL) || 'Data Grid'; }
 
   /**
   /**
@@ -434,10 +434,10 @@ class IdsDataGrid extends mix(IdsElement).with(
    */
   set rowHeight(value) {
     if (value) {
-      this.setAttribute(props.ROW_HEIGHT, value);
+      this.setAttribute(attributes.ROW_HEIGHT, value);
       this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', value);
     } else {
-      this.removeAttribute(props.ROW_HEIGHT);
+      this.removeAttribute(attributes.ROW_HEIGHT);
       this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', 'large');
     }
 
@@ -446,7 +446,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
   }
 
-  get rowHeight() { return this.getAttribute(props.ROW_HEIGHT) || 'large'; }
+  get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'large'; }
 
   /**
    * Get the row height in pixels

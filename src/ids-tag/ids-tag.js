@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props
+  attributes
 } from '../ids-base';
 
 // Import Mixins
@@ -46,8 +46,14 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.COLOR, props.CLICKABLE, props.DISMISSIBLE, props.MODE, props.VERSION];
+  static get attributes() {
+    return [
+      attributes.COLOR,
+      attributes.CLICKABLE,
+      attributes.DISMISSIBLE,
+      attributes.MODE,
+      attributes.VERSION
+    ];
   }
 
   /**

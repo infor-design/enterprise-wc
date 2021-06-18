@@ -5,7 +5,7 @@ import {
   scss
 } from './ids-decorators';
 
-import { props } from './ids-constants';
+import { attributes } from './ids-attributes';
 import mix from '../ids-mixins/ids-mixin-builder';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
@@ -22,8 +22,7 @@ import { stringUtils } from './ids-string-utils';
  * @type {object.<string, string>}
  */
 const attribPropNameDict = Object.fromEntries(
-  // eslint-disable-next-line
-  Object.entries(props).map(([_k, attrib]) => (
+  Object.entries(attributes).map(([_, attrib]) => (
     [attrib, stringUtils.camelCase(attrib)]
   ))
 );
@@ -136,13 +135,13 @@ class IdsElement extends HTMLElement {
    * @type {Array}
    */
   static get observedAttributes() {
-    return this.properties;
+    return this.attributes;
   }
 
   /**
    * @returns {Array<string>} this component's observable properties
    */
-  static get properties() {
+  static get attributes() {
     return [];
   }
 
@@ -245,6 +244,6 @@ export {
   appendIds,
   mix,
   scss,
-  props,
+  attributes,
   stringUtils
 };

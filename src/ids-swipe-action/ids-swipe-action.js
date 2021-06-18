@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix
 } from '../ids-base';
 
@@ -67,11 +67,11 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.MODE,
-      props.SWIPE_TYPE,
-      props.VERSION
+      attributes.MODE,
+      attributes.SWIPE_TYPE,
+      attributes.VERSION
     ];
   }
 
@@ -105,16 +105,16 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    */
   set swipeType(value) {
     if (value === 'continuous') {
-      this.setAttribute('swipe-type', value);
+      this.setAttribute(attributes.SWIPE_TYPE, value);
       this.container.classList.add('continuous');
       return;
     }
 
-    this.removeAttribute('swipe-type');
+    this.removeAttribute(attributes.SWIPE_TYPE);
     this.container.classList.remove('continuous');
   }
 
-  get swipeType() { return this.getAttribute('swipe-type') || 'reveal'; }
+  get swipeType() { return this.getAttribute(attributes.SWIPE_TYPE) || 'reveal'; }
 }
 
 export default IdsSwipeAction;

@@ -3,7 +3,7 @@ import {
   IdsElement,
   scss,
   customElement,
-  props
+  attributes
 } from '../ids-base';
 
 import styles from './ids-icon.scss';
@@ -32,8 +32,8 @@ class IdsIcon extends IdsElement {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.ICON, props.SIZE];
+  static get attributes() {
+    return [attributes.ICON, attributes.SIZE];
   }
 
   /**
@@ -60,15 +60,15 @@ class IdsIcon extends IdsElement {
    * Return the icon name
    * @returns {string} the path data
    */
-  get icon() { return this.getAttribute(props.ICON) || ''; }
+  get icon() { return this.getAttribute(attributes.ICON) || ''; }
 
   set icon(value) {
     const svgElem = this.shadowRoot?.querySelector('svg');
     if (value && svgElem) {
-      this.setAttribute(props.ICON, value);
+      this.setAttribute(attributes.ICON, value);
       svgElem.innerHTML = this.iconData();
     } else {
-      this.removeAttribute(props.ICON);
+      this.removeAttribute(attributes.ICON);
       svgElem?.remove();
     }
   }
@@ -77,16 +77,16 @@ class IdsIcon extends IdsElement {
    * Return the size. May be large, normal/medium or small
    * @returns {string} the path data
    */
-  get size() { return this.getAttribute(props.SIZE) || 'normal'; }
+  get size() { return this.getAttribute(attributes.SIZE) || 'normal'; }
 
   set size(value) {
     if (value) {
       const size = sizes[this.size];
-      this.setAttribute(props.SIZE, value);
+      this.setAttribute(attributes.SIZE, value);
       this.shadowRoot?.querySelector('svg')?.setAttribute('height', size);
       this.shadowRoot?.querySelector('svg')?.setAttribute('width', size);
     } else {
-      this.removeAttribute(props.SIZE);
+      this.removeAttribute(attributes.SIZE);
     }
   }
 }

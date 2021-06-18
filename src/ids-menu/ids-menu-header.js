@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props
+  attributes
 } from '../ids-base';
 
 import styles from './ids-menu-header.scss';
@@ -33,8 +33,8 @@ class IdsMenuHeader extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
     super.connectedCallback();
   }
 
-  static get properties() {
-    return [props.MODE, props.VERSION];
+  static get attributes() {
+    return [attributes.MODE, attributes.VERSION];
   }
 
   template() {

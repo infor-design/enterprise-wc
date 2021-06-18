@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props
+  attributes
 } from '../ids-base';
 
 import { IdsEventsMixin, IdsKeyboardMixin } from '../ids-mixins';
@@ -51,9 +51,9 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    */
   set expanded(value) {
     if (value) {
-      this.setAttribute(props.EXPANDED, value);
+      this.setAttribute(attributes.EXPANDED, value);
     } else {
-      this.setAttribute(props.EXPANDED, 'false');
+      this.setAttribute(attributes.EXPANDED, 'false');
     }
     this.#switchState();
   }
@@ -62,14 +62,14 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    * Get the expanded property
    * @returns {string} the expanded property
    */
-  get expanded() { return this.getAttribute(props.EXPANDED); }
+  get expanded() { return this.getAttribute(attributes.EXPANDED); }
 
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.EXPANDED];
+  static get attributes() {
+    return [attributes.EXPANDED];
   }
 
   /**
@@ -78,7 +78,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    * @private
    */
   #switchState() {
-    this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
+    this.state.expanded = this.getAttribute(attributes.EXPANDED) === 'true' || false;
     this.header?.setAttribute('aria-expanded', this.state.expanded);
 
     if (!this.state.expanded) {
@@ -128,7 +128,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    * @returns {void}
    */
   setAttributes() {
-    this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true');
+    this.setAttribute(attributes.EXPANDED, this.getAttribute(attributes.EXPANDED) === 'true' ? 'false' : 'true');
   }
 
   /**

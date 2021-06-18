@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props
+  attributes
 } from '../ids-base';
 
 import { IdsEventsMixin, IdsThemeMixin } from '../ids-mixins';
@@ -35,8 +35,8 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.AUTO_HEIGHT, props.MODE, props.VERSION];
+  static get attributes() {
+    return [attributes.AUTO_HEIGHT, attributes.MODE, attributes.VERSION];
   }
 
   /**

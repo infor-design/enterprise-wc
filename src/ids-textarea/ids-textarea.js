@@ -3,7 +3,7 @@ import {
   customElement,
   mix,
   scss,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -77,30 +77,30 @@ class IdsTextarea extends mix(IdsElement).with(
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.AUTOGROW,
-      props.AUTOGROW_MAX_HEIGHT,
-      props.AUTOSELECT,
-      props.CHAR_MAX_TEXT,
-      props.CHAR_REMAINING_TEXT,
-      props.CHARACTER_COUNTER,
-      props.CLEARABLE,
-      props.DIRTY_TRACKER,
-      props.DISABLED,
-      props.LABEL,
-      props.LABEL_REQUIRED,
-      props.MAXLENGTH,
-      props.PLACEHOLDER,
-      props.PRINTABLE,
-      props.SIZE,
-      props.READONLY,
-      props.RESIZABLE,
-      props.ROWS,
-      props.TEXT_ALIGN,
-      props.VALIDATE,
-      props.VALIDATION_EVENTS,
-      props.VALUE
+      attributes.AUTOGROW,
+      attributes.AUTOGROW_MAX_HEIGHT,
+      attributes.AUTOSELECT,
+      attributes.CHAR_MAX_TEXT,
+      attributes.CHAR_REMAINING_TEXT,
+      attributes.CHARACTER_COUNTER,
+      attributes.CLEARABLE,
+      attributes.DIRTY_TRACKER,
+      attributes.DISABLED,
+      attributes.LABEL,
+      attributes.LABEL_REQUIRED,
+      attributes.MAXLENGTH,
+      attributes.PLACEHOLDER,
+      attributes.PRINTABLE,
+      attributes.SIZE,
+      attributes.READONLY,
+      attributes.RESIZABLE,
+      attributes.ROWS,
+      attributes.TEXT_ALIGN,
+      attributes.VALIDATE,
+      attributes.VALIDATION_EVENTS,
+      attributes.VALUE
     ];
   }
 
@@ -162,11 +162,11 @@ class IdsTextarea extends mix(IdsElement).with(
    * @returns {void}
    */
   setTextareaState(prop) {
-    if (prop === props.READONLY || prop === props.DISABLED) {
+    if (prop === attributes.READONLY || prop === attributes.DISABLED) {
       const msgNodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
       const options = {
         prop1: prop,
-        prop2: prop !== props.READONLY ? props.READONLY : props.DISABLED,
+        prop2: prop !== attributes.READONLY ? attributes.READONLY : attributes.DISABLED,
         val: stringUtils.stringToBool(this[prop])
       };
       if (options.val) {
@@ -494,14 +494,14 @@ class IdsTextarea extends mix(IdsElement).with(
   set autogrow(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.AUTOGROW, val.toString());
+      this.setAttribute(attributes.AUTOGROW, val.toString());
     } else {
-      this.removeAttribute(props.AUTOGROW);
+      this.removeAttribute(attributes.AUTOGROW);
     }
     this.handleAutogrow();
   }
 
-  get autogrow() { return this.getAttribute(props.AUTOGROW); }
+  get autogrow() { return this.getAttribute(attributes.AUTOGROW); }
 
   /**
    * Set textarea height to be autogrow-max-height
@@ -509,14 +509,14 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set autogrowMaxHeight(value) {
     if (value) {
-      this.setAttribute(props.AUTOGROW_MAX_HEIGHT, value.toString());
+      this.setAttribute(attributes.AUTOGROW_MAX_HEIGHT, value.toString());
     } else {
-      this.removeAttribute(props.AUTOGROW_MAX_HEIGHT);
+      this.removeAttribute(attributes.AUTOGROW_MAX_HEIGHT);
     }
     this.handleAutogrow();
   }
 
-  get autogrowMaxHeight() { return this.getAttribute(props.AUTOGROW_MAX_HEIGHT); }
+  get autogrowMaxHeight() { return this.getAttribute(attributes.AUTOGROW_MAX_HEIGHT); }
 
   /**
    * When set the textarea will select all text on focus
@@ -525,14 +525,14 @@ class IdsTextarea extends mix(IdsElement).with(
   set autoselect(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.AUTOSELECT, val.toString());
+      this.setAttribute(attributes.AUTOSELECT, val.toString());
     } else {
-      this.removeAttribute(props.AUTOSELECT);
+      this.removeAttribute(attributes.AUTOSELECT);
     }
     this.handleAutoselect();
   }
 
-  get autoselect() { return this.getAttribute(props.AUTOSELECT); }
+  get autoselect() { return this.getAttribute(attributes.AUTOSELECT); }
 
   /**
    * Set `char-max-text` text for character counter
@@ -540,13 +540,13 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set charMaxText(value) {
     if (value) {
-      this.setAttribute(props.CHAR_MAX_TEXT, value.toString());
+      this.setAttribute(attributes.CHAR_MAX_TEXT, value.toString());
       return;
     }
-    this.removeAttribute(props.CHAR_MAX_TEXT);
+    this.removeAttribute(attributes.CHAR_MAX_TEXT);
   }
 
-  get charMaxText() { return this.getAttribute(props.CHAR_MAX_TEXT) || CHAR_MAX_TEXT; }
+  get charMaxText() { return this.getAttribute(attributes.CHAR_MAX_TEXT) || CHAR_MAX_TEXT; }
 
   /**
    * Set `char-remaining-text` text for character counter
@@ -554,14 +554,14 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set charRemainingText(value) {
     if (value) {
-      this.setAttribute(props.CHAR_REMAINING_TEXT, value.toString());
+      this.setAttribute(attributes.CHAR_REMAINING_TEXT, value.toString());
       return;
     }
-    this.removeAttribute(props.CHAR_REMAINING_TEXT);
+    this.removeAttribute(attributes.CHAR_REMAINING_TEXT);
   }
 
   get charRemainingText() {
-    return this.getAttribute(props.CHAR_REMAINING_TEXT) || CHAR_REMAINING_TEXT;
+    return this.getAttribute(attributes.CHAR_REMAINING_TEXT) || CHAR_REMAINING_TEXT;
   }
 
   /**
@@ -571,14 +571,14 @@ class IdsTextarea extends mix(IdsElement).with(
   set characterCounter(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.CHARACTER_COUNTER, val.toString());
+      this.setAttribute(attributes.CHARACTER_COUNTER, val.toString());
     } else {
-      this.removeAttribute(props.CHARACTER_COUNTER);
+      this.removeAttribute(attributes.CHARACTER_COUNTER);
     }
     this.handleCharacterCounter(value);
   }
 
-  get characterCounter() { return this.getAttribute(props.CHARACTER_COUNTER); }
+  get characterCounter() { return this.getAttribute(attributes.CHARACTER_COUNTER); }
 
   /**
    * When set the it will add a clearable x button
@@ -587,14 +587,14 @@ class IdsTextarea extends mix(IdsElement).with(
   set clearable(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.CLEARABLE, val.toString());
+      this.setAttribute(attributes.CLEARABLE, val.toString());
     } else {
-      this.removeAttribute(props.CLEARABLE);
+      this.removeAttribute(attributes.CLEARABLE);
     }
     this.handleClearable();
   }
 
-  get clearable() { return this.getAttribute(props.CLEARABLE); }
+  get clearable() { return this.getAttribute(attributes.CLEARABLE); }
 
   /**
    *  Set the dirty tracking feature on to indicate a changed field
@@ -603,14 +603,14 @@ class IdsTextarea extends mix(IdsElement).with(
   set dirtyTracker(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DIRTY_TRACKER, val.toString());
+      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
     } else {
-      this.removeAttribute(props.DIRTY_TRACKER);
+      this.removeAttribute(attributes.DIRTY_TRACKER);
     }
     this.handleDirtyTracker();
   }
 
-  get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
+  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Sets textarea to disabled
@@ -619,14 +619,14 @@ class IdsTextarea extends mix(IdsElement).with(
   set disabled(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
+      this.setAttribute(attributes.DISABLED, val.toString());
     } else {
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
     }
-    this.setTextareaState(props.DISABLED);
+    this.setTextareaState(attributes.DISABLED);
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Set the `label` text of textarea label
@@ -634,14 +634,14 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set label(value) {
     if (value) {
-      this.setAttribute(props.LABEL, value.toString());
+      this.setAttribute(attributes.LABEL, value.toString());
     } else {
-      this.removeAttribute(props.LABEL);
+      this.removeAttribute(attributes.LABEL);
     }
     this.setLabelText(value);
   }
 
-  get label() { return this.getAttribute(props.LABEL) || ''; }
+  get label() { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Set `label-required` attribute
@@ -650,14 +650,14 @@ class IdsTextarea extends mix(IdsElement).with(
   set labelRequired(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.LABEL_REQUIRED, val.toString());
+      this.setAttribute(attributes.LABEL_REQUIRED, val.toString());
     } else {
-      this.removeAttribute(props.LABEL_REQUIRED);
+      this.removeAttribute(attributes.LABEL_REQUIRED);
     }
     this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
-  get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
+  get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Set the `maxlength` of textarea
@@ -665,16 +665,16 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set maxlength(value) {
     if (value) {
-      this.setAttribute(props.MAXLENGTH, value.toString());
-      this.input?.setAttribute(props.MAXLENGTH, value.toString());
+      this.setAttribute(attributes.MAXLENGTH, value.toString());
+      this.input?.setAttribute(attributes.MAXLENGTH, value.toString());
     } else {
-      this.removeAttribute(props.MAXLENGTH);
-      this.input?.removeAttribute(props.MAXLENGTH);
+      this.removeAttribute(attributes.MAXLENGTH);
+      this.input?.removeAttribute(attributes.MAXLENGTH);
     }
     this.handleCharacterCounter(this.characterCounter);
   }
 
-  get maxlength() { return this.getAttribute(props.MAXLENGTH); }
+  get maxlength() { return this.getAttribute(attributes.MAXLENGTH); }
 
   /**
    * Set the `placeholder` of textarea
@@ -682,15 +682,15 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set placeholder(value) {
     if (value) {
-      this.setAttribute(props.PLACEHOLDER, value.toString());
-      this.input?.setAttribute(props.PLACEHOLDER, value.toString());
+      this.setAttribute(attributes.PLACEHOLDER, value.toString());
+      this.input?.setAttribute(attributes.PLACEHOLDER, value.toString());
       return;
     }
-    this.removeAttribute(props.PLACEHOLDER);
-    this.input?.removeAttribute(props.PLACEHOLDER);
+    this.removeAttribute(attributes.PLACEHOLDER);
+    this.input?.removeAttribute(attributes.PLACEHOLDER);
   }
 
-  get placeholder() { return this.getAttribute(props.PLACEHOLDER); }
+  get placeholder() { return this.getAttribute(attributes.PLACEHOLDER); }
 
   /**
    * Set the `printable` of textarea
@@ -698,14 +698,14 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set printable(value) {
     if (value) {
-      this.setAttribute(props.PRINTABLE, value.toString());
+      this.setAttribute(attributes.PRINTABLE, value.toString());
     } else {
-      this.removeAttribute(props.PRINTABLE);
+      this.removeAttribute(attributes.PRINTABLE);
     }
     this.handlePrintable(value);
   }
 
-  get printable() { return this.getAttribute(props.PRINTABLE); }
+  get printable() { return this.getAttribute(attributes.PRINTABLE); }
 
   /**
    * Set the textarea to readonly state
@@ -714,14 +714,14 @@ class IdsTextarea extends mix(IdsElement).with(
   set readonly(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.READONLY, val.toString());
+      this.setAttribute(attributes.READONLY, val.toString());
     } else {
-      this.removeAttribute(props.READONLY);
+      this.removeAttribute(attributes.READONLY);
     }
-    this.setTextareaState(props.READONLY);
+    this.setTextareaState(attributes.READONLY);
   }
 
-  get readonly() { return this.getAttribute(props.READONLY); }
+  get readonly() { return this.getAttribute(attributes.READONLY); }
 
   /**
    * Set the textarea to resizable state
@@ -730,15 +730,15 @@ class IdsTextarea extends mix(IdsElement).with(
   set resizable(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.RESIZABLE, val.toString());
-      this.input?.classList.add(props.RESIZABLE);
+      this.setAttribute(attributes.RESIZABLE, val.toString());
+      this.input?.classList.add(attributes.RESIZABLE);
     } else {
-      this.removeAttribute(props.RESIZABLE);
-      this.input?.classList.remove(props.RESIZABLE);
+      this.removeAttribute(attributes.RESIZABLE);
+      this.input?.classList.remove(attributes.RESIZABLE);
     }
   }
 
-  get resizable() { return this.getAttribute(props.RESIZABLE); }
+  get resizable() { return this.getAttribute(attributes.RESIZABLE); }
 
   /**
    * Set the rows for textarea
@@ -746,15 +746,15 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set rows(value) {
     if (value) {
-      this.setAttribute(props.ROWS, value.toString());
-      this.input?.setAttribute(props.ROWS, value.toString());
+      this.setAttribute(attributes.ROWS, value.toString());
+      this.input?.setAttribute(attributes.ROWS, value.toString());
     } else {
-      this.removeAttribute(props.ROWS);
-      this.input?.removeAttribute(props.ROWS);
+      this.removeAttribute(attributes.ROWS);
+      this.input?.removeAttribute(attributes.ROWS);
     }
   }
 
-  get rows() { return this.getAttribute(props.ROWS); }
+  get rows() { return this.getAttribute(attributes.ROWS); }
 
   /**
    * Set the size (width) of textarea
@@ -763,12 +763,12 @@ class IdsTextarea extends mix(IdsElement).with(
   set size(value) {
     const fieldContainer = this.shadowRoot.querySelector('.field-container');
     const size = SIZES[value];
-    this.setAttribute(props.SIZE, size || SIZES.default);
+    this.setAttribute(attributes.SIZE, size || SIZES.default);
     fieldContainer?.classList.remove(...Object.values(SIZES));
     fieldContainer?.classList.add(size || SIZES.default);
   }
 
-  get size() { return this.getAttribute(props.SIZE) || SIZES.default; }
+  get size() { return this.getAttribute(attributes.SIZE) || SIZES.default; }
 
   /**
    * Sets the text alignment
@@ -776,12 +776,12 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set textAlign(value) {
     const textAlign = TEXT_ALIGN[value];
-    this.setAttribute(props.TEXT_ALIGN, textAlign || TEXT_ALIGN.default);
+    this.setAttribute(attributes.TEXT_ALIGN, textAlign || TEXT_ALIGN.default);
     this.input?.classList.remove(...Object.values(TEXT_ALIGN));
     this.input?.classList.add(textAlign || TEXT_ALIGN.default);
   }
 
-  get textAlign() { return this.getAttribute(props.TEXT_ALIGN) || TEXT_ALIGN.default; }
+  get textAlign() { return this.getAttribute(attributes.TEXT_ALIGN) || TEXT_ALIGN.default; }
 
   /**
    * Sets the validation check to use
@@ -789,14 +789,14 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set validate(value) {
     if (value) {
-      this.setAttribute(props.VALIDATE, value.toString());
+      this.setAttribute(attributes.VALIDATE, value.toString());
     } else {
-      this.removeAttribute(props.VALIDATE);
+      this.removeAttribute(attributes.VALIDATE);
     }
     this.handleValidation();
   }
 
-  get validate() { return this.getAttribute(props.VALIDATE); }
+  get validate() { return this.getAttribute(attributes.VALIDATE); }
 
   /**
    * Set `validation-events` attribute
@@ -804,14 +804,14 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set validationEvents(value) {
     if (value) {
-      this.setAttribute(props.VALIDATION_EVENTS, value.toString());
+      this.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
     } else {
-      this.removeAttribute(props.VALIDATION_EVENTS);
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
     }
     this.handleValidation();
   }
 
-  get validationEvents() { return this.getAttribute(props.VALIDATION_EVENTS); }
+  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Set the `value` of textarea
@@ -819,7 +819,7 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   set value(val) {
     const v = val || '';
-    this.setAttribute(props.VALUE, v);
+    this.setAttribute(attributes.VALUE, v);
     if (this.input && this.input.value !== v) {
       this.input.value = this.getMaxValue(v);
       this.input.dispatchEvent(new Event('change', { bubbles: true }));
@@ -830,7 +830,7 @@ class IdsTextarea extends mix(IdsElement).with(
     this.setAutogrow();
   }
 
-  get value() { return this.getAttribute(props.VALUE); }
+  get value() { return this.getAttribute(attributes.VALUE); }
 }
 
 export default IdsTextarea;

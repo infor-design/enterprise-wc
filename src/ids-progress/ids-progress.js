@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -34,13 +34,13 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.DISABLED,
-      props.LABEL,
-      props.LABEL_AUDIBLE,
-      props.MAX,
-      props.VALUE
+      attributes.DISABLED,
+      attributes.LABEL,
+      attributes.LABEL_AUDIBLE,
+      attributes.MAX,
+      attributes.VALUE
     ];
   }
 
@@ -71,9 +71,9 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
   updateValue(val = VALUE) {
     const bar = this.shadowRoot.querySelector('.progress-bar');
     if (bar) {
-      const v = bar.getAttribute(props.VALUE);
+      const v = bar.getAttribute(attributes.VALUE);
       if (val !== null && v !== val.toString()) {
-        bar.setAttribute(props.VALUE, val.toString());
+        bar.setAttribute(attributes.VALUE, val.toString());
         bar.innerHTML = this.completed;
         this.triggerEvent('updated', this, {
           detail: {
@@ -105,15 +105,15 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
     const rootEl = this.shadowRoot.querySelector('.ids-progress');
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
-      rootEl?.classList.add(props.DISABLED);
+      this.setAttribute(attributes.DISABLED, val.toString());
+      rootEl?.classList.add(attributes.DISABLED);
     } else {
-      this.removeAttribute(props.DISABLED);
-      rootEl?.classList.remove(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
+      rootEl?.classList.remove(attributes.DISABLED);
     }
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Set the `label` text
@@ -121,9 +121,9 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set label(value) {
     if (value) {
-      this.setAttribute(props.LABEL, value.toString());
+      this.setAttribute(attributes.LABEL, value.toString());
     } else {
-      this.removeAttribute(props.LABEL);
+      this.removeAttribute(attributes.LABEL);
     }
     const labelText = this.shadowRoot.querySelector('.progress-label ids-text');
     if (labelText) {
@@ -131,7 +131,7 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
-  get label() { return this.getAttribute(props.LABEL) || ''; }
+  get label() { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Sets to label text as audible
@@ -142,17 +142,17 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
     const labelText = this.shadowRoot.querySelector('.progress-label ids-text');
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.LABEL_AUDIBLE, val.toString());
-      rootEl?.classList.add(props.LABEL_AUDIBLE);
-      labelText?.setAttribute(props.AUDIBLE, val.toString());
+      this.setAttribute(attributes.LABEL_AUDIBLE, val.toString());
+      rootEl?.classList.add(attributes.LABEL_AUDIBLE);
+      labelText?.setAttribute(attributes.AUDIBLE, val.toString());
     } else {
-      this.removeAttribute(props.LABEL_AUDIBLE);
-      rootEl?.classList.remove(props.LABEL_AUDIBLE);
-      labelText?.removeAttribute(props.AUDIBLE);
+      this.removeAttribute(attributes.LABEL_AUDIBLE);
+      rootEl?.classList.remove(attributes.LABEL_AUDIBLE);
+      labelText?.removeAttribute(attributes.AUDIBLE);
     }
   }
 
-  get labelAudible() { return this.getAttribute(props.LABEL_AUDIBLE); }
+  get labelAudible() { return this.getAttribute(attributes.LABEL_AUDIBLE); }
 
   /**
    * Set the `max` attribute of progress
@@ -161,22 +161,22 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
   set max(value) {
     const bar = this.shadowRoot.querySelector('.progress-bar');
     const v = (value || MAX).toString();
-    this.setAttribute(props.MAX, v);
-    bar?.setAttribute(props.MAX, v);
+    this.setAttribute(attributes.MAX, v);
+    bar?.setAttribute(attributes.MAX, v);
   }
 
-  get max() { return this.getAttribute(props.MAX) || MAX; }
+  get max() { return this.getAttribute(attributes.MAX) || MAX; }
 
   /**
    * Set the `value` attribute of progress
    * @param {string} val the value property
    */
   set value(val) {
-    this.setAttribute(props.VALUE, (val || VALUE).toString());
+    this.setAttribute(attributes.VALUE, (val || VALUE).toString());
     this.updateValue(val);
   }
 
-  get value() { return this.getAttribute(props.VALUE) || VALUE; }
+  get value() { return this.getAttribute(attributes.VALUE) || VALUE; }
 }
 
 export default IdsProgress;
