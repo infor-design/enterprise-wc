@@ -127,10 +127,10 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     }
 
     if (parseInt(nextValue) !== parseInt(this.input?.input.value)) {
-      this.input.value = nextValue;
-
+      if (this.input) {
+        this.input.value = nextValue;
+      }
       this.setAttribute(attributes.PAGE_NUMBER, nextValue);
-
       this.#updatePageCountShown();
     }
   }
@@ -217,7 +217,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    * via parent pager's disabled attribute
    */
   get parentDisabled() {
-    return this.hasAttribute(attributes.DISABLED);
+    return this.hasAttribute(attributes.PARENT_DISABLED);
   }
 
   get disabledOverall() {

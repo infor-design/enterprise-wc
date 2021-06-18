@@ -177,14 +177,26 @@ describe('IdsPager Component', () => {
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" parent-disabled></ids-pager-button>'
     );
-    await processAnimFrame();
     expect(elem.parentDisabled).toEqual(true);
-    await processAnimFrame();
+
     elem.setAttribute('parent-disabled', false);
     expect(elem.parentDisabled).toEqual(false);
 
     elem.setAttribute('parent-disabled', true);
     expect(elem.parentDisabled).toEqual(true);
+
+    elem.parentDisabled = false;
+    expect(elem.parentDisabled).toEqual(false);
+
+    elem.parentDisabled = true;
+    expect(elem.parentDisabled).toEqual(true);
+  });
+
+  it('sets pageNumber to NaN on ids-pager-button and pageNumber resets to 1', async () => {
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="z" page-size="10" total="100" parent-disabled></ids-pager-button>'
+    );
+    expect(elem.pageNumber).toEqual(1);
   });
 
   it('can set the pageSize on ids-pager-button predictably', async () => {
@@ -242,25 +254,85 @@ describe('IdsPager Component', () => {
   });
 
   it('creates ids-pager-buttons and clicking causes no issues reliably', async () => {
+    let pageNumberChangeHandler = jest.fn();
     elem = await createElemViaTemplate(
-      '<ids-pager-button page-number="1" page-size="10" total="100" first></ids-pager-button>'
+      '<ids-pager-button page-number="3" page-size="10" total="100" first></ids-pager-button>'
     );
-    elem.button.click();
+    elem.addEventListener('pagenumberchange', pageNumberChangeHandler);
+    elem.button.dispatchEvent(new Event('click'));
+    expect(pageNumberChangeHandler).toBeCalledTimes(1);
 
+    pageNumberChangeHandler = jest.fn();
     elem = await createElemViaTemplate(
-      '<ids-pager-button page-number="1" page-size="10" total="100" previous></ids-pager-button>'
+      '<ids-pager-button page-number="2" page-size="10" total="100" previous></ids-pager-button>'
     );
-    elem.button.click();
+    elem.addEventListener('pagenumberchange', pageNumberChangeHandler);
+    elem.button.dispatchEvent(new Event('click'));
+    expect(pageNumberChangeHandler).toBeCalledTimes(1);
 
+    pageNumberChangeHandler = jest.fn();
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" next></ids-pager-button>'
     );
-    elem.button.click();
+    elem.addEventListener('pagenumberchange', pageNumberChangeHandler);
+    elem.button.dispatchEvent(new Event('click'));
+    expect(pageNumberChangeHandler).toBeCalledTimes(1);
 
+    pageNumberChangeHandler = jest.fn();
     elem = await createElemViaTemplate(
       '<ids-pager-button page-number="1" page-size="10" total="100" last></ids-pager-button>'
     );
-    elem.button.click();
+    elem.addEventListener('pagenumberchange', pageNumberChangeHandler);
+    elem.button.dispatchEvent(new Event('click'));
+    expect(pageNumberChangeHandler).toBeCalledTimes(1);
+
+    // clicking first or previous with page-number==1
+    // should not dispatch
+
+    pageNumberChangeHandler = jest.fn();
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="1" page-size="10" total="100" first></ids-pager-button>'
+    );
+    elem.addEventListener('pagenumberchange', pageNumberChangeHandler);
+    elem.button.dispatchEvent(new Event('click'));
+    expect(pageNumberChangeHandler).toBeCalledTimes(0);
+
+    pageNumberChangeHandler = jest.fn();
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="1" page-size="10" total="100" previous></ids-pager-button>'
+    );
+    elem.addEventListener('pagenumberchange', pageNumberChangeHandler);
+    elem.button.dispatchEvent(new Event('click'));
+    expect(pageNumberChangeHandler).toBeCalledTimes(0);
+
+    // clicking next or last with page-number=={{last_page}}
+    // should not dispatch
+
+    pageNumberChangeHandler = jest.fn();
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="10" page-size="10" total="100" next></ids-pager-button>'
+    );
+    elem.addEventListener('pagenumberchange', pageNumberChangeHandler);
+    elem.button.dispatchEvent(new Event('click'));
+    expect(pageNumberChangeHandler).toBeCalledTimes(0);
+
+    pageNumberChangeHandler = jest.fn();
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="10" page-size="10" total="100" last></ids-pager-button>'
+    );
+    elem.addEventListener('pagenumberchange', pageNumberChangeHandler);
+    elem.button.dispatchEvent(new Event('click'));
+    expect(pageNumberChangeHandler).toBeCalledTimes(0);
+
+    // clicking a disabled button should not
+    // dispatch events
+
+    elem = await createElemViaTemplate(
+      '<ids-pager-button page-number="3" page-size="10" total="100" first disabled></ids-pager-button>'
+    );
+    elem.addEventListener('pagenumberchange', pageNumberChangeHandler);
+    elem.button.dispatchEvent(new Event('click'));
+    expect(pageNumberChangeHandler).toBeCalledTimes(0);
   });
 
   it('creates a "first" ids-pager-button, then changes the type to "previous" with no issues', async () => {
@@ -283,5 +355,74 @@ describe('IdsPager Component', () => {
     const pageNumberButtons = elem.shadowRoot.querySelectorAll('ids-button');
 
     expect(pageNumberButtons.length).toEqual(pageCount);
+  });
+
+  it('creates a pager input and pageSize can be set and read predictably', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-pager-input page-number="10" page-size="2" total="100" last></ids-pager-input>`
+    );
+
+    expect(elem.pageSize).toEqual(2);
+
+    elem.pageSize = '20';
+    expect(elem.pageSize).toEqual(20);
+  });
+
+  it('creates a pager input and disabled can be set and read predictably', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-pager-input page-number="10" page-size="2" total="100" first></ids-pager-input>`
+    );
+
+    expect(elem.disabled).toEqual(false);
+    expect(elem.hasAttribute('disabled')).toEqual(false);
+
+    elem.disabled = true;
+    expect(elem.disabled).toEqual(true);
+    expect(elem.hasAttribute('disabled')).toEqual(true);
+
+    elem.disabled = false;
+    expect(elem.disabled).toEqual(false);
+    expect(elem.hasAttribute('disabled')).toEqual(false);
+  });
+
+  it('creates a pager input and parent-disabled can be set and read predictably', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-pager-input page-number="10" page-size="2" total="100" first></ids-pager-input>`
+    );
+
+    expect(elem.parentDisabled).toEqual(false);
+    expect(elem.hasAttribute('parent-disabled')).toEqual(false);
+
+    elem.parentDisabled = true;
+    expect(elem.parentDisabled).toEqual(true);
+    expect(elem.hasAttribute('parent-disabled')).toEqual(true);
+
+    elem.parentDisabled = false;
+    expect(elem.parentDisabled).toEqual(false);
+    expect(elem.hasAttribute('parent-disabled')).toEqual(false);
+  });
+
+  it('creates a disabled ids-pager-button and parent-disabled can be set and read predictably', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-pager-button page-number="10" page-size="2" total="100" disabled></ids-pager-button>`
+    );
+
+    expect(elem.disabled).toEqual(true);
+  });
+
+  it('registers an input change event predictably on ids-pager-input', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-pager-input page-number="10" page-size="2" total="100" first></ids-pager-input>`
+    );
+
+    const pageNumberChangeHandler = jest.fn();
+
+    elem.addEventListener('pagenumberchange', pageNumberChangeHandler);
+
+    elem.input.input.value = 20;
+    elem.input.dispatchEvent(new Event('change'));
+    await processAnimFrame();
+
+    expect(pageNumberChangeHandler).toBeCalledTimes(1);
   });
 });

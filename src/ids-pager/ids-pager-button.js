@@ -257,6 +257,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     if (!this.disabled) {
       const lastPageNumber = Math.floor(this.total / this.pageSize);
 
+      /* eslint-disable default-case */
       switch (this.type) {
       case attributes.FIRST: {
         if (this.pageNumber > 1) {
@@ -285,7 +286,6 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
         }
         break;
       }
-      default:
       case attributes.NEXT: {
         if (this.pageNumber < lastPageNumber) {
           this.triggerEvent('pagenumberchange', this, {
