@@ -10,17 +10,17 @@
   text-align: center;
 }
 
-:host(ids-pager-section[start]),
-:host(ids-pager-section[end]) {
+:host(ids-pager-section.start),
+:host(ids-pager-section.end) {
   flex-grow: 1;
 }
 
-:host(ids-pager-section[start]) {
+:host(ids-pager-section.start) {
   justify-content: flex-start;
   text-align: left;
 }
 
-:host(ids-pager-section[end]) {
+:host(ids-pager-section.end) {
   justify-content: flex-end;
   text-align: right;
 }

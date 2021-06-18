@@ -2,12 +2,9 @@ import {
   IdsElement,
   customElement,
   attributes,
-  scss,
-  stringUtils
+  scss
 } from '../ids-base';
 import styles from './ids-pager-section.scss';
-
-const { stringToBool } = stringUtils;
 
 /**
  * IDS PagerSection Component
@@ -26,10 +23,7 @@ export default class IdsPagerSection extends IdsElement {
   }
 
   static get attributes() {
-    return [
-      attributes.START,
-      attributes.END
-    ];
+    return [attributes.ALIGN];
   }
 
   /**
@@ -37,40 +31,30 @@ export default class IdsPagerSection extends IdsElement {
    * at the start/left of the pager (e.g. 1/3 or 1/2 sections);
    * position is flipped in RTL mode
    */
-  set start(value) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.START, '');
-      this.classList.add('start');
-
-      // setting START implicitly toggles END
-      if (this.hasAttribute(attributes.END)) {
-        this.removeAttribute(attributes.END);
+  set align(value) {
+    if (value !== null) {
+      if (value === 'start') {
+        this.classList.add('start');
         this.classList.remove('end');
       }
-    } else {
-      this.removeAttribute(attributes.START);
-      this.classList.remove('start');
-    }
-  }
 
-  /**
-   * @type {boolean|string} value whether this section is
-   * at the end/right of the pager (e.g. 1/3 or 1/2 sections);
-   * position is flipped in RTL mode
-   */
-  set end(value) {
-    if (stringToBool(value)) {
-      this.setAttribute(attributes.END, '');
-      this.classList.add('end');
-
-      // setting END implicitly toggles START
-      if (this.hasAttribute(attributes.START)) {
-        this.removeAttribute(attributes.START);
+      if (value === 'end') {
+        this.classList.add('end');
         this.classList.remove('start');
       }
-    } else {
-      this.removeAttribute(attributes.END);
+
+      if (this.getAttribute(attributes.ALIGN) !== value) {
+        this.setAttribute(attributes.ALIGN, value);
+      }
+    }
+
+    if (value === null) {
+      this.classList.remove('start');
       this.classList.remove('end');
+
+      if (this.hasAttribute(attributes.ALIGN)) {
+        this.removeAttribute(attributes.ALIGN);
+      }
     }
   }
 }

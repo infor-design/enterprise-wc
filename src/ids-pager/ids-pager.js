@@ -68,7 +68,7 @@ export default class IdsPager extends mix(IdsElement).with(
     this.#contentObserver.observe(this, {
       childList: true,
       attributes: true,
-      attributeFilter: [attributes.START, attributes.END],
+      attributeFilter: [attributes.ALIGN],
       subtree: true
     });
 
@@ -78,7 +78,6 @@ export default class IdsPager extends mix(IdsElement).with(
       this.pageNumber = e.detail.value;
     });
 
-    this.provideAttributes();
     super.connectedCallback?.();
   }
 
@@ -186,9 +185,9 @@ export default class IdsPager extends mix(IdsElement).with(
 
     switch (this.children.length) {
     case 3:
-      this.children[0].setAttribute(attributes.START, '');
+      this.children[0].setAttribute(attributes.ALIGN, 'start');
       this.children[1].setAttribute('role', 'navigation');
-      this.children[2].setAttribute(attributes.END, '');
+      this.children[2].setAttribute(attributes.ALIGN, 'end');
       break;
     case 2: {
       this.children[0].setAttribute('role', 'navigation');
@@ -199,7 +198,7 @@ export default class IdsPager extends mix(IdsElement).with(
 
       const sectionTemplate = document.createElement('template');
       sectionTemplate.innerHTML = (
-        '<ids-pager-section start></ids-pager-section>'
+        '<ids-pager-section align="start"></ids-pager-section>'
       );
       const emptySection = sectionTemplate.content.childNodes[0];
       document.body.appendChild(emptySection);
