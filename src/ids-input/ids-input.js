@@ -144,11 +144,15 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     super.connectedCallback?.();
 
     this.handleEvents();
-    this.handleAutoselect();
     this.handleClearable();
     this.handleDirtyTracker();
     // @ts-ignore
     this.handleValidation();
+
+    /* istanbul ignore next */
+    if (this.hasAttribute(props.AUTOSELECT)) {
+      this.handleAutoselect();
+    }
   }
 
   /**
@@ -733,7 +737,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     this.setAttribute(attributes.VALUE, v);
     if (this.input?.value !== v) {
       this.input.value = v;
-      ['focus', 'blur', 'focus'].forEach((m) => this.input[m]());
       this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }

@@ -78,6 +78,10 @@
   @include py-8();
   @include rounded-round();
 
+  // Fixes an issue that the ripple is not "round" on safari
+  -webkit-mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
+  mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
+
   .ids-icon {
     @include block();
     @include pl-0();
@@ -107,4 +111,97 @@
 
     transform: scale(2);
   }
+}
+
+// ====================================================
+// Swipe Action Buttons (Swipe action component)
+.btn-swipe-action-left,
+.btn-swipe-action-right {
+  @include bg-slate-30();
+
+  border-radius: 0;
+  display: block;
+  padding: 0 8px 8px;
+  height: 100%;
+  margin: 0;
+  white-space: inherit;
+  width: 85px;
+
+  ::slotted(ids-icon) {
+    display: block;
+  }
+
+  &:focus {
+    box-shadow: none;
+    border-color: transparent;
+  }
+
+  &:active {
+    @include bg-slate-40();
+  }
+
+  &:hover {
+    @include bg-slate-40();
+
+    box-shadow: none;
+    border-color: transparent;
+  }
+}
+
+.btn-swipe-action-right {
+  @include bg-azure-70();
+  @include text-white();
+
+  &:hover {
+    @include bg-azure-80();
+    @include text-white();
+  }
+
+  &:active {
+    @include bg-azure-80();
+  }
+}
+
+.btn-swipe-action-left[mode='dark'] {
+  @include bg-slate-60();
+}
+
+.btn-swipe-action-right[mode='dark'] {
+  @include bg-azure-50();
+}
+
+.btn-swipe-action-left[mode='contrast'] {
+  @include bg-graphite-30();
+}
+
+.btn-swipe-action-right[mode='contrast'] {
+  @include bg-azure-50();
+  @include text-white();
+}
+
+.btn-swipe-action-left[mode='light'][version='classic'] {
+  @include bg-graphite-60();
+}
+
+.btn-swipe-action-right[mode='light'][version='classic'] {
+  @include bg-azure-70();
+  @include text-white();
+}
+
+.btn-swipe-action-left[mode='dark'][version='classic'] {
+  @include bg-graphite-60();
+}
+
+.btn-swipe-action-right[mode='dark'][version='classic'] {
+  @include bg-azure-60();
+  @include text-white();
+}
+
+.btn-swipe-action-left[mode='contrast'][version='classic'] {
+  @include bg-graphite-30();
+}
+
+.btn-swipe-action-right[mode='contrast'][version='classic'] {
+  @include bg-azure-50();
+  @include text-white();
 }

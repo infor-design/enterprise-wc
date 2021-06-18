@@ -95,6 +95,7 @@ IdsLayoutGridCell
 - RowSpan
 - RowStart
 - RowEnd
+- Justify - Float the element to the right using justify-self
 
 ## Keyboard Guidelines
 

@@ -55,7 +55,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.longPressOn).toBe(true);
   });
 
-  it('can Detach longpress events', () => {
+  it('can detach longpress events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('longpress', elem, mockHandler);
     expect(elem.longPressOn).toBe(true);
@@ -73,7 +73,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.keyboardFocusOn).toBe(true);
   });
 
-  it('can Detach keyboardfocus events', () => {
+  it('can detach keyboardfocus events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('keyboardfocus', elem, mockHandler);
     expect(elem.keyboardFocusOn).toBe(true);
@@ -82,6 +82,25 @@ describe('IdsEventsMixin Tests', () => {
     elem.triggerEvent('click', elem);
     expect(mockHandler.mock.calls.length).toBe(0);
     expect(elem.keyboardFocusOn).toBe(false);
+  });
+
+  it('can attach swipe events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('swipe', elem, mockHandler, { scrollContainer: elem });
+    elem.triggerEvent('swipe', elem);
+    expect(mockHandler.mock.calls.length).toBe(1);
+    expect(elem.swipeOn).toBe(true);
+  });
+
+  it('can detach swipe events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('swipe', elem, mockHandler, { scrollContainer: elem });
+    expect(elem.swipeOn).toBe(true);
+    elem.offEvent('swipe', elem);
+    elem.triggerEvent('touchstart', elem);
+    elem.triggerEvent('touchend', elem);
+    expect(mockHandler.mock.calls.length).toBe(0);
+    expect(elem.swipeOn).toBe(false);
   });
 
   it('can attach hoverend events', () => {
@@ -101,7 +120,7 @@ describe('IdsEventsMixin Tests', () => {
     expect(mockHandler.mock.calls.length).toBe(0);
   });
 
-  it('can Detach hoverend events', () => {
+  it('can detach hoverend events', () => {
     const mockHandler = jest.fn();
     elem.onEvent('hoverend', elem, mockHandler);
     expect(elem.hoverEndOn).toBe(true);

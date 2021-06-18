@@ -12,6 +12,23 @@ import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import { stringUtils } from './ids-string-utils';
 
 /**
+ * simple dictionary used to memoize attribute names
+ * to their corresponding property names.
+ *
+ * Prepopulates with attribs stored in ids-constants,
+ * but may have other non-standard attrib names added
+ * that are not specified.
+ *
+ * @type {object.<string, string>}
+ */
+const attribPropNameDict = Object.fromEntries(
+  // eslint-disable-next-line
+  Object.entries(props).map(([_k, attrib]) => (
+    [attrib, stringUtils.camelCase(attrib)]
+  ))
+);
+
+/**
  * IDS Base Element
  */
 @version()
@@ -92,7 +109,11 @@ class IdsElement extends HTMLElement {
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
-      this[stringUtils.camelCase(name)] = newValue;
+      if (!attribPropNameDict[name]) {
+        attribPropNameDict[name] = stringUtils.camelCase(name);
+      }
+
+      this[attribPropNameDict[name]] = newValue;
     }
   }
 
@@ -139,6 +160,11 @@ class IdsElement extends HTMLElement {
 
     if (this.shadowRoot?.innerHTML) {
       this.shadowRoot.innerHTML = '';
+      // Append the style sheet for safari
+      if (!this.shadowRoot.adoptedStyleSheets) {
+        this.hasStyles = false;
+        this.appendStyles();
+      }
     }
 
     if (!this.shadowRoot) {
@@ -151,6 +177,10 @@ class IdsElement extends HTMLElement {
 
     /** @type {any} */
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
+    if (!this.shadowRoot.adoptedStyleSheets && !this.container) {
+      this.container = this.shadowRoot?.firstElementChild.nextSibling;
+    }
+    /* istanbul ignore next */
     if (!this.container) {
       this.container = this.shadowRoot?.firstElementChild;
     }

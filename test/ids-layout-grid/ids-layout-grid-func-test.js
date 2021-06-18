@@ -289,4 +289,24 @@ describe('IdsLayoutGrid Component', () => {
     expect(document.querySelectorAll('.ids-layout-grid-row-end').length).toEqual(0);
     expect(col.getAttribute('style')).toEqual('');
   });
+
+  it('renders justify setting', () => {
+    const col = new IdsLayoutGridCell();
+    col.justify = 'end';
+    document.body.appendChild(col);
+    expect(col.justify).toEqual('end');
+    col.justify = 'start';
+    expect(col.justify).toEqual('start');
+    expect(col.getAttribute('style')).toEqual(`justify-self: start; margin-right: 32px;`);
+  });
+
+  it('resets row-end setting', () => {
+    const col = new IdsLayoutGridCell();
+    col.justify = 'end';
+    document.body.appendChild(col);
+    col.justify = null;
+
+    expect(col.justify).toEqual(null);
+    expect(col.getAttribute('style')).toEqual('margin-right: 0px;');
+  });
 });
