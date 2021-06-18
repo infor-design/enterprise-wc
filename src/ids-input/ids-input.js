@@ -150,7 +150,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     this.handleValidation();
 
     /* istanbul ignore next */
-    if (this.hasAttribute(props.AUTOSELECT)) {
+    if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
   }

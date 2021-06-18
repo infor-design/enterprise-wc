@@ -536,11 +536,11 @@ class IdsButton extends mix(IdsElement).with(
    */
   set noRipple(val) {
     if (stringUtils.stringToBool(val)) {
-      this.setAttribute(props.NO_RIPPLE, true);
+      this.setAttribute(attributes.NO_RIPPLE, true);
       this.state.noRipple = true;
       return;
     }
-    this.removeAttribute(props.NO_RIPPLE);
+    this.removeAttribute(attributes.NO_RIPPLE);
     this.state.noRipple = false;
   }
 
