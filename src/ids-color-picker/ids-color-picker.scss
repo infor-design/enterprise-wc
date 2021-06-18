@@ -7,15 +7,14 @@
 }
 
 .color-popup {
-  width: 230px;
-  height: 250px;
+  width: 160px;
+  height: 160px;
   padding: 5px;
   display: block;
   overflow-y: scroll;
 }
 
 .color-preview {
-  background-color: #000;
   border-left: solid 1px var(--ids-color-palette-slate-40);
   border-top: solid 1px var(--ids-color-palette-slate-40);
   border-bottom: solid 1px var(--ids-color-palette-slate-40);
