@@ -43,7 +43,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {void}
    */
   connectedCallback() {
-    this.setInputProps();
+    this.setInputAttributes();
     this.handleEvents();
     super.connectedCallback();
   }
@@ -108,11 +108,11 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   }
 
   /**
-   * Set the input props
+   * Set the input attributes
    * @private
    * @returns {void}
    */
-  setInputProps() {
+  setInputAttributes() {
     this.input = this.querySelector('ids-input');
     if (this.input) {
       this.input.setAttribute(attributes.TRIGGERFIELD, 'true');

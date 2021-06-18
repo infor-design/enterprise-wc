@@ -33,7 +33,7 @@ const MENU_DEFAULTS = {
 };
 
 // Definable attributes
-const MENU_PROPS = [
+const MENU_ATTRIBUTES = [
   attributes.DISABLED,
   attributes.ICON,
   attributes.SELECTED,
@@ -139,7 +139,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
    * @returns {Array} properties
    */
   static get attributes() {
-    return MENU_PROPS;
+    return MENU_ATTRIBUTES;
   }
 
   /**

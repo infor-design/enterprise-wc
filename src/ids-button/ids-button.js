@@ -34,7 +34,7 @@ const BUTTON_DEFAULTS = {
 };
 
 // Definable attributes
-const BUTTON_PROPS = [
+const BUTTON_ATTRIBUTES = [
   attributes.CSS_CLASS,
   attributes.DISABLED,
   attributes.ICON,
@@ -121,7 +121,7 @@ class IdsButton extends mix(IdsElement).with(
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [...super.attributes, ...BUTTON_PROPS];
+    return [...super.attributes, ...BUTTON_ATTRIBUTES];
   }
 
   /**
@@ -664,4 +664,4 @@ class IdsButton extends mix(IdsElement).with(
   }
 }
 
-export { IdsButton, BUTTON_PROPS, BUTTON_TYPES };
+export { IdsButton, BUTTON_ATTRIBUTES, BUTTON_TYPES };

@@ -6,7 +6,7 @@ import { attributes } from '../ids-base/ids-attributes';
 import IdsEventsMixin from './ids-events-mixin';
 import { IdsStringUtils } from '../ids-base';
 
-const MASK_PROPS = [
+const MASK_ATTRIBUTES = [
   attributes.MASK,
   attributes.MASK_GUIDE,
   attributes.MASK_RETAIN_POSITIONS,
@@ -34,7 +34,7 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
    * @returns {Array<string>} IdsInput component observable properties
    */
   static get attributes() {
-    return [...super.attributes, ...MASK_PROPS];
+    return [...super.attributes, ...MASK_ATTRIBUTES];
   }
 
   connectedCallback() {

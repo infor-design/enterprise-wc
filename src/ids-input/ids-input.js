@@ -27,7 +27,7 @@ import {
 } from '../ids-mixins';
 
 // Properties observed by the Input
-const INPUT_PROPS = [
+const INPUT_ATTRIBUTES = [
   attributes.AUTOSELECT,
   attributes.BG_TRANSPARENT,
   attributes.CLEARABLE,
@@ -133,7 +133,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {Array<string>} IdsInput component observable properties
    */
   static get attributes() {
-    return [...super.attributes, ...INPUT_PROPS];
+    return [...super.attributes, ...INPUT_ATTRIBUTES];
   }
 
   /**

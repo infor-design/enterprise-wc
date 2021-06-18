@@ -22,8 +22,7 @@ import { stringUtils } from './ids-string-utils';
  * @type {object.<string, string>}
  */
 const attribPropNameDict = Object.fromEntries(
-  // eslint-disable-next-line
-  Object.entries(props).map(([_k, attrib]) => (
+  Object.entries(attributes).map(([_, attrib]) => (
     [attrib, stringUtils.camelCase(attrib)]
   ))
 );

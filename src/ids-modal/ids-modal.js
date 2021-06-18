@@ -26,7 +26,7 @@ import styles from './ids-modal.scss';
 import { IdsStringUtils } from '../ids-base/ids-string-utils';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
-const MODAL_PROPS = [
+const MODAL_ATTRIBUTES = [
   attributes.VISIBLE
 ];
 
@@ -64,7 +64,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   }
 
   static get attributes() {
-    return [...super.attributes, ...MODAL_PROPS];
+    return [...super.attributes, ...MODAL_ATTRIBUTES];
   }
 
   /**

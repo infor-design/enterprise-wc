@@ -2,7 +2,7 @@ import { IdsElement, scss, customElement } from '../ids-base';
 import { attributes } from '../ids-base/ids-attributes';
 import styles from './ids-toolbar-section.scss';
 
-const TOOLBAR_SECTION_PROPS = [
+const TOOLBAR_SECTION_ATTRIBUTES = [
   'align',
   attributes.TYPE
 ];
@@ -75,7 +75,7 @@ class IdsToolbarSection extends IdsElement {
   }
 
   static get attributes() {
-    return TOOLBAR_SECTION_PROPS;
+    return TOOLBAR_SECTION_ATTRIBUTES;
   }
 
   template() {
