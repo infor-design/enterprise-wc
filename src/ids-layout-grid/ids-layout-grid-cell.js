@@ -17,24 +17,14 @@ class IdsLayoutGridCell extends IdsElement {
    */
   static get attributes() {
     return [
-<<<<<<< HEAD
       attributes.FILL,
       attributes.COL_SPAN,
       attributes.COL_START,
+      attributes.JUSTIFY,
       attributes.COL_END,
       attributes.ROW_SPAN,
       attributes.ROW_START,
       attributes.ROW_END
-=======
-      props.FILL,
-      props.COL_SPAN,
-      props.COL_START,
-      props.COL_END,
-      props.JUSTIFY,
-      props.ROW_SPAN,
-      props.ROW_START,
-      props.ROW_END
->>>>>>> 00fce7472a8cf4e773610cd369164c947c147482
     ];
   }
 
