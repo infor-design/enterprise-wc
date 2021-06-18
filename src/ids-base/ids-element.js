@@ -160,6 +160,11 @@ class IdsElement extends HTMLElement {
 
     if (this.shadowRoot?.innerHTML) {
       this.shadowRoot.innerHTML = '';
+      // Append the style sheet for safari
+      if (!this.shadowRoot.adoptedStyleSheets) {
+        this.hasStyles = false;
+        this.appendStyles();
+      }
     }
 
     if (!this.shadowRoot) {
@@ -172,6 +177,10 @@ class IdsElement extends HTMLElement {
 
     /** @type {any} */
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
+    if (!this.shadowRoot.adoptedStyleSheets && !this.container) {
+      this.container = this.shadowRoot?.firstElementChild.nextSibling;
+    }
+    /* istanbul ignore next */
     if (!this.container) {
       this.container = this.shadowRoot?.firstElementChild;
     }

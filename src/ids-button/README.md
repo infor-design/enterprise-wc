@@ -93,6 +93,18 @@ The attribute has the following effects:
 
 In the absence of the property, icons will align to `start` by default.
 
+## Settings and Attributes
+
+- `cssClass` {Array<string> | string | null} Contains space-delimited CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button
+- `disabled` {boolean} Sets the internal Button element's `disabled` property to enable/disable the button
+- `icon` {string | null} A string representing an icon to display inside the button.  This icon will become the content of the Shadow Root button's `icon` slot when set
+- `iconAlign` {string} Defines which side to align the Button's icon against, can be 'start' or 'end'
+- `tabIndex` {string | number} Sets the internal Button element's `tabIndex` property for controlling focus
+- `text` {string} API-level method of setting a button's text content. This will become the content of the Shadow Root button's `text` slot when set
+- `text` {string} The type/purpose of the button to display
+- `tooltip` {string} Sets up a string based tooltip
+- `noRipple` {boolean} Disable the ripple animation effect
+
 ## Keyboard Guidelines
 
 The IDS Button doesn't contain any interactions beyond a standard HTMLButtonElement:

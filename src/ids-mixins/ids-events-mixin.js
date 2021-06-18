@@ -41,6 +41,9 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     if (eventName.indexOf('hoverend') === 0) {
       this.addHoverEndListener(eventName, target, options);
     }
+    if (eventName.indexOf('swipe') === 0) {
+      this.addSwipeListener(eventName, target, options);
+    }
     target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
   }
@@ -71,6 +74,11 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
       return;
     }
 
+    if (eventName.indexOf('swipe') === 0 && handler?.callback) {
+      this.removeSwipeListener();
+      return;
+    }
+
     const targetApplied = target || handler?.target;
     if (handler?.callback && targetApplied?.removeEventListener) {
       targetApplied.removeEventListener(eventName.split('.')[0], handler.callback, options || handler.options);
@@ -98,6 +106,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     this.removeLongPressListener();
     this.removeKeyboardFocusListener();
     this.removeHoverEndListener();
+    this.removeSwipeListener();
   }
 
   /**
@@ -162,6 +171,106 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     this.timer = null;
     this.detachEventsByName('touchstart.longpress');
     this.detachEventsByName('touchend.longpress');
+  }
+
+  /**
+   * Setup a custom swipe event (just one)
+   * @private
+   * @param {string|any} eventName The event name with optional namespace
+   * @param {HTMLElement} target The DOM element to register
+   * @param {object} options Additional event settings (passive, once, bubbles ect)
+   */
+  /* istanbul ignore next */
+  addSwipeListener(eventName, target, options) {
+    if (this.swipeOn) {
+      return;
+    }
+
+    let touchstartX = 0;
+    let touchendX = 0;
+
+    if (options) {
+      options.passive = true;
+    }
+
+    // Setup events
+    /* istanbul ignore next */
+    this.onEvent('touchstart.swipe', target, (e) => {
+      touchstartX = e.changedTouches[0].screenX;
+    }, options);
+
+    /* istanbul ignore next */
+    this.onEvent('touchend.swipe', target, (e) => {
+      touchendX = e.changedTouches[0].screenX;
+      let direction = '';
+
+      if (touchendX < touchstartX) {
+        direction = 'left';
+      }
+      if (touchendX > touchstartX) {
+        direction = 'right';
+      }
+      if (!direction) {
+        return;
+      }
+
+      const event = new CustomEvent('swipe', {
+        detail: {
+          direction,
+          trigger: 'touch'
+        }
+      });
+      target.dispatchEvent(event);
+    }, options);
+
+    if (options?.scrollContainer) {
+      let lastPercentage = 0;
+      this.onEvent('scroll', options.scrollContainer, (e) => {
+        const eventTarget = e.target;
+        const scrollPercentage = 100
+         * (eventTarget.scrollLeft / (eventTarget.scrollWidth - eventTarget.clientWidth));
+
+        if (Math.abs(lastPercentage - scrollPercentage) < 1) {
+          return;
+        }
+        lastPercentage = scrollPercentage;
+
+        let direction = '';
+        if (scrollPercentage === 0) {
+          direction = 'right';
+        }
+
+        if (scrollPercentage > 98) {
+          direction = 'left';
+        }
+        if (!direction) {
+          return;
+        }
+
+        const event = new CustomEvent('swipe', {
+          detail: {
+            direction,
+            trigger: 'scroll'
+          }
+        });
+        target.dispatchEvent(event);
+      }, { passive: true });
+    }
+
+    this.swipeOn = true;
+  }
+
+  /**
+   * Detach all swipe events
+   * @private
+   */
+  removeSwipeListener() {
+    if (!this.swipeOn) {
+      return;
+    }
+    this.swipeOn = false;
+    this.detachEventsByName('touchstart.swipe');
+    this.detachEventsByName('touchend.swipe');
   }
 
   /**

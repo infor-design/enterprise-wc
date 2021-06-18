@@ -85,6 +85,7 @@
   - Markup has changed to a custom element `<ids-switch></ids-switch>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Swipe Action]` A new component that lets you swipe left or right and select an action.
 - `[Tabs]` The Tabs component has been changed to a web component and renamed to ids-tabs.
   - Markup has changed to a custom element `<ids-tabs value=${selection}></ids-tabs>`
   - content within the tabs are specified as `<ids-tab value=${selection-value}>`Tab Label/Content`</ids-tab>`

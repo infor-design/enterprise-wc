@@ -55,8 +55,8 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Set the height of the card
-   * @param {string | null} value The height can be single, double, triple or auto
+   * Set the card to auto height
+   * @param {boolean | null} value The height can be auto to contents
    */
   set autoHeight(value) {
     if (value) {

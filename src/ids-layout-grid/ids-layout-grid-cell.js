@@ -21,6 +21,7 @@ class IdsLayoutGridCell extends IdsElement {
       props.COL_SPAN,
       props.COL_START,
       props.COL_END,
+      props.JUSTIFY,
       props.ROW_SPAN,
       props.ROW_START,
       props.ROW_END
@@ -161,6 +162,27 @@ class IdsLayoutGridCell extends IdsElement {
   }
 
   get rowEnd() { return this.getAttribute(props.ROW_END); }
+
+  /**
+   * Float the element to the right using justify-self
+   * @param {string | null} value The number value for the row ending point
+   */
+  set justify(value) {
+    if (value) {
+      this.setAttribute(props.JUSTIFY, value);
+      this.style.justifySelf = value;
+      if (value === 'end') {
+        this.style.marginRight = '32px';
+      }
+      return;
+    }
+
+    this.style.justifySelf = null;
+    this.style.marginRight = '0px';
+    this.removeAttribute(props.JUSTIFY);
+  }
+
+  get justify() { return this.getAttribute(props.JUSTIFY); }
 }
 
 export default IdsLayoutGridCell;

@@ -54,3 +54,4 @@ A curated list of resources related to this project and web components.
 - [Author Elements](https://github.com/author-elements)
 - [How To google](https://github.com/GoogleChromeLabs/howto-components/tree/master/elements)
 - [FicusJS](https://docs.ficusjs.org/docs/composition/)
+- [KorUI](https://kor-ui.com/introduction/welcome)
