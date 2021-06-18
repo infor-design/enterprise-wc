@@ -6,6 +6,14 @@
   flex-direction: column;
 }
 
+.color-popup {
+  width: 230px;
+  height: 250px;
+  padding: 5px;
+  display: block;
+  overflow-y: scroll;
+}
+
 .color-preview {
   background-color: #000;
   border-left: solid 1px var(--ids-color-palette-slate-40);
