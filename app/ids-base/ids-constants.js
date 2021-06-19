@@ -1,1 +1,1 @@
-import { props } from '../../src/ids-base/ids-constants'; //eslint-disable-line
+import { attributes } from '../../src/ids-base/ids-attributes'; //eslint-disable-line

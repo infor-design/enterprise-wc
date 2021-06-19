@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix
 } from '../ids-base';
 
@@ -32,8 +32,8 @@ class IdsBadge extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.COLOR, props.SHAPE, props.MODE, props.version];
+  static get attributes() {
+    return [attributes.COLOR, attributes.SHAPE, attributes.MODE, attributes.version];
   }
 
   /**

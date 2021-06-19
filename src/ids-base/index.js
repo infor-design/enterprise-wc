@@ -1,4 +1,4 @@
-export { props, prefix } from './ids-constants';
+export { attributes, prefix } from './ids-attributes';
 export { default as IdsDataSource } from './ids-data-source';
 export { default as IdsDeepCloneUtils } from './ids-deep-clone-utils';
 export { default as IdsDOMUtils } from './ids-dom-utils';

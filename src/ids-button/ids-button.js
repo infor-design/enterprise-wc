@@ -3,7 +3,7 @@ import {
   customElement,
   mix,
   scss,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -20,7 +20,9 @@ const BUTTON_TYPES = [
   'primary',
   'secondary',
   'tertiary',
-  'destructive'
+  'destructive',
+  'swipe-action-left',
+  'swipe-action-right'
 ];
 
 // Default Button state values
@@ -32,15 +34,16 @@ const BUTTON_DEFAULTS = {
 };
 
 // Definable attributes
-const BUTTON_PROPS = [
-  props.CSS_CLASS,
-  props.DISABLED,
-  props.ICON,
-  props.ICON_ALIGN,
-  props.ID,
-  props.TEXT,
-  props.TYPE,
-  props.TABINDEX
+const BUTTON_ATTRIBUTES = [
+  attributes.CSS_CLASS,
+  attributes.DISABLED,
+  attributes.ICON,
+  attributes.ICON_ALIGN,
+  attributes.NO_RIPPLE,
+  attributes.ID,
+  attributes.TEXT,
+  attributes.TYPE,
+  attributes.TABINDEX
 ];
 
 // Icon alignments
@@ -117,8 +120,8 @@ class IdsButton extends mix(IdsElement).with(
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [...super.properties, ...BUTTON_PROPS];
+  static get attributes() {
+    return [...super.attributes, ...BUTTON_ATTRIBUTES];
   }
 
   /**
@@ -210,6 +213,9 @@ class IdsButton extends mix(IdsElement).with(
     let x;
     let y;
     let preceededByTouchstart = false;
+    if (this.noRipple) {
+      return;
+    }
 
     this.onEvent('click.ripple', this.button, (/** @type {any} */ e) => {
       if (preceededByTouchstart) {
@@ -261,9 +267,9 @@ class IdsButton extends mix(IdsElement).with(
 
     this.state.cssClass = newCl;
     if (newCl.length) {
-      this.setAttribute(props.CSS_CLASS, attr.toString());
+      this.setAttribute(attributes.CSS_CLASS, attr.toString());
     } else {
-      this.removeAttribute(props.CSS_CLASS);
+      this.removeAttribute(attributes.CSS_CLASS);
     }
 
     // Remove/Set CSS classes on the actual inner Button component
@@ -293,9 +299,9 @@ class IdsButton extends mix(IdsElement).with(
     const isValueTruthy = stringToBool(val);
     this.shouldUpdate = false;
     if (isValueTruthy) {
-      this.setAttribute(props.DISABLED, '');
+      this.setAttribute(attributes.DISABLED, '');
     } else {
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
     }
 
     this.shouldUpdate = true;
@@ -321,13 +327,13 @@ class IdsButton extends mix(IdsElement).with(
 
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabIndex = 0;
-      this.button.setAttribute(props.TABINDEX, '0');
-      this.removeAttribute(props.TABINDEX);
+      this.button.setAttribute(attributes.TABINDEX, '0');
+      this.removeAttribute(attributes.TABINDEX);
       return;
     }
 
     this.state.tabIndex = trueVal;
-    this.button.setAttribute(props.TABINDEX, `${trueVal}`);
+    this.button.setAttribute(attributes.TABINDEX, `${trueVal}`);
   }
 
   /**
@@ -343,13 +349,13 @@ class IdsButton extends mix(IdsElement).with(
    */
   set icon(val) {
     if (typeof val !== 'string' || !val.length) {
-      this.removeAttribute(props.ICON);
+      this.removeAttribute(attributes.ICON);
       this.state.icon = undefined;
       this.removeIcon();
       return;
     }
     this.state.icon = val;
-    this.setAttribute(props.ICON, val);
+    this.setAttribute(attributes.ICON, val);
     this.appendIcon(val);
   }
 
@@ -449,7 +455,7 @@ class IdsButton extends mix(IdsElement).with(
    * @returns {void}
    */
   set text(val) {
-    this.removeAttribute(props.TEXT);
+    this.removeAttribute(attributes.TEXT);
 
     if (typeof val !== 'string' || !val.length) {
       this.state.text = '';
@@ -506,10 +512,10 @@ class IdsButton extends mix(IdsElement).with(
    */
   set type(val) {
     if (!val || BUTTON_TYPES.indexOf(val) <= 0) {
-      this.removeAttribute(props.TYPE);
+      this.removeAttribute(attributes.TYPE);
       this.state.type = BUTTON_TYPES[0];
     } else {
-      this.setAttribute(props.TYPE, val);
+      this.setAttribute(attributes.TYPE, val);
       if (this.state.type !== val) {
         this.state.type = val;
       }
@@ -522,6 +528,27 @@ class IdsButton extends mix(IdsElement).with(
    */
   get type() {
     return this.state.type;
+  }
+
+  /**
+   * If set to true the ripple effect will be disabled.
+   * @param {boolean} val The ripple value
+   */
+  set noRipple(val) {
+    if (stringUtils.stringToBool(val)) {
+      this.setAttribute(attributes.NO_RIPPLE, true);
+      this.state.noRipple = true;
+      return;
+    }
+    this.removeAttribute(attributes.NO_RIPPLE);
+    this.state.noRipple = false;
+  }
+
+  /**
+   * @returns {string} the currently set type
+   */
+  get noRipple() {
+    return this.state.noRipple || false;
   }
 
   /**
@@ -637,4 +664,4 @@ class IdsButton extends mix(IdsElement).with(
   }
 }
 
-export { IdsButton, BUTTON_PROPS, BUTTON_TYPES };
+export { IdsButton, BUTTON_ATTRIBUTES, BUTTON_TYPES };

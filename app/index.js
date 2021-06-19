@@ -38,6 +38,7 @@ import IdsModal, { IdsOverlay } from '../src/ids-modal';
 import IdsTabs, { IdsTab } from '../src/ids-tabs';
 import IdsColorPicker from '../src/ids-color-picker/ids-color-picker';
 import IdsColor from '../src/ids-color/ids-color';
+import IdsSwipeAction from '../src/ids-swipe-action/ids-swipe-action';
 
 // Import Example Code
 

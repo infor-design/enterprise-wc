@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix,
   stringUtils
@@ -53,10 +53,10 @@ const POPUP_PROPERTIES = [
   'align-target',
   'arrow',
   'arrow-target',
-  props.ANIMATED,
-  props.ANIMATION_STYLE,
-  props.TYPE,
-  props.VISIBLE,
+  attributes.ANIMATED,
+  attributes.ANIMATION_STYLE,
+  attributes.TYPE,
+  attributes.VISIBLE,
   'x',
   'y'
 ];
@@ -135,7 +135,7 @@ class IdsPopup extends mix(IdsElement).with(
    */
   connectedCallback() {
     this.animated = this.hasAttribute('animated');
-    this.animationStyle = this.getAttribute(props.ANIMATION_STYLE) || this.animationStyle;
+    this.animationStyle = this.getAttribute(attributes.ANIMATION_STYLE) || this.animationStyle;
     this.trueType = this.getAttribute('type') || this.trueType;
     this.isVisible = this.hasAttribute('visible');
     this.handleEvents();
@@ -162,7 +162,7 @@ class IdsPopup extends mix(IdsElement).with(
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return POPUP_PROPERTIES;
   }
 
@@ -426,9 +426,9 @@ class IdsPopup extends mix(IdsElement).with(
     }
 
     if (trueVal !== ANIMATION_STYLES[0]) {
-      this.safeSetAttribute(props.ANIMATION_STYLE, `${trueVal}`);
+      this.safeSetAttribute(attributes.ANIMATION_STYLE, `${trueVal}`);
     } else {
-      this.safeRemoveAttribute(props.ANIMATION_STYLE);
+      this.safeRemoveAttribute(attributes.ANIMATION_STYLE);
     }
 
     if (trueVal !== this.state.animationStyle) {

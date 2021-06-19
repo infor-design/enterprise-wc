@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix,
   stringUtils
@@ -32,12 +32,12 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.COUNT,
-      props.ORIENTATION,
-      props.SELECTED,
-      props.VALUE
+      attributes.COUNT,
+      attributes.ORIENTATION,
+      attributes.SELECTED,
+      attributes.VALUE
     ];
   }
 
@@ -52,7 +52,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
         font-size="28"
         color="unset"
         ${this.selected ? 'font-weight="bold"' : ''}
-      >${this.getAttribute(props.COUNT)}
+      >${this.getAttribute(attributes.COUNT)}
       </ids-text>
       <ids-text
         overflow="ellipsis"
@@ -124,12 +124,12 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
     /* istanbul ignore if */
     if (!isValueTruthy) {
-      this.container.classList.remove(props.SELECTED);
+      this.container.classList.remove(attributes.SELECTED);
       this.removeAttribute('selected');
       this.container?.children?.[0]?.removeAttribute?.('font-weight');
       this.setAttribute('tabindex', '-1');
     } else {
-      this.container.classList.add(props.SELECTED);
+      this.container.classList.add(attributes.SELECTED);
       this.setAttribute('selected', true);
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
       this.setAttribute('tabindex', '0');
@@ -139,7 +139,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   get selected() {
-    return this.getAttribute(props.SELECTED);
+    return this.getAttribute(attributes.SELECTED);
   }
 
   /**
@@ -147,14 +147,14 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set value(value) {
     /* istanbul ignore next */
-    if (value !== this.getAttribute(props.VALUE)) {
+    if (value !== this.getAttribute(attributes.VALUE)) {
       /* istanbul ignore next */
-      this.setAttribute(props.VALUE, value);
+      this.setAttribute(attributes.VALUE, value);
     }
   }
 
   get value() {
-    return this.getAttribute(props.VALUE);
+    return this.getAttribute(attributes.VALUE);
   }
 
   /**
@@ -162,7 +162,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set count(value) {
     if (value === '') {
-      this.removeAttribute(props.COUNT);
+      this.removeAttribute(attributes.COUNT);
       this.container.classList.remove('count');
       return;
     }
@@ -172,7 +172,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     this.container.classList.add('count');
-    this.setAttribute(props.COUNT, value);
+    this.setAttribute(attributes.COUNT, value);
   }
 
   /**
@@ -182,13 +182,13 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   set orientation(value) {
     switch (value) {
     case 'vertical': {
-      this.setAttribute(props.ORIENTATION, 'vertical');
+      this.setAttribute(attributes.ORIENTATION, 'vertical');
       this.container.classList.add('vertical');
       break;
     }
     case 'horizontal':
     default: {
-      this.setAttribute(props.ORIENTATION, 'horizontal');
+      this.setAttribute(attributes.ORIENTATION, 'horizontal');
       this.container.classList.remove('vertical');
       break;
     }
@@ -196,7 +196,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   get orientation() {
-    return this.getAttribute(props.ORIENTATION);
+    return this.getAttribute(attributes.ORIENTATION);
   }
 
   /**

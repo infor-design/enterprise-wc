@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   stringUtils,
   mix
 } from '../ids-base/ids-element';
@@ -50,19 +50,19 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.DIRTY_TRACKER,
-      props.DISABLED,
-      props.LABEL,
-      props.MAX,
-      props.MIN,
-      props.MODE,
-      props.READONLY,
-      props.STEP,
-      props.VALIDATE,
-      props.VALUE,
-      props.VERSION
+      attributes.DIRTY_TRACKER,
+      attributes.DISABLED,
+      attributes.LABEL,
+      attributes.MAX,
+      attributes.MIN,
+      attributes.MODE,
+      attributes.READONLY,
+      attributes.STEP,
+      attributes.VALIDATE,
+      attributes.VALUE,
+      attributes.VERSION
     ];
   }
 
@@ -72,15 +72,15 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   template() {
     if (!this.id) {
-      this.setAttribute(props.ID, `ids-spinbox-${++instanceCounter}`);
+      this.setAttribute(attributes.ID, `ids-spinbox-${++instanceCounter}`);
     }
 
-    const disabledAttribHtml = this.hasAttribute(props.DISABLED)
+    const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
       ? /* istanbul ignore next */' disabled'
       : '';
 
     const buttonDisabledAttribHtml = (
-      this.hasAttribute(props.DISABLED) || this.hasAttribute(props.READONLY)
+      this.hasAttribute(attributes.DISABLED) || this.hasAttribute(attributes.READONLY)
     ) ? ' disabled' : '';
 
     /* istanbul ignore next */
@@ -99,8 +99,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       `<div
         ${buildClassAttrib(
         'ids-spinbox',
-        this.hasAttribute(props.DISABLED) && 'disabled',
-        this.hasAttribute(props.READONLY) && 'readonly'
+        this.hasAttribute(attributes.DISABLED) && 'disabled',
+        this.hasAttribute(attributes.READONLY) && 'readonly'
       ) }
         part="container">
           ${labelHtml}
@@ -151,10 +151,10 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
   connectedCallback() {
     this.setAttribute('aria-valuenow', this.value);
-    if (stringToBool(this.getAttribute(props.MAX))) {
+    if (stringToBool(this.getAttribute(attributes.MAX))) {
       this.setAttribute('aria-valuemax', this.max);
     }
-    if (stringToBool(this.getAttribute(props.MIN))) {
+    if (stringToBool(this.getAttribute(attributes.MIN))) {
       this.setAttribute('aria-valuemin', this.min);
     }
     this.setAttribute('aria-label', this.label);
@@ -185,7 +185,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     const labelEl = this.container.children[0];
     this.onEvent('click.label', labelEl, () => {
-      const isDisabled = this.hasAttribute(props.DISABLED);
+      const isDisabled = this.hasAttribute(attributes.DISABLED);
       /* istanbul ignore else */
       if (!isDisabled) {
         this.input.input?.focus();
@@ -217,7 +217,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     });
 
     this.onEvent('focus', this, (e) => {
-      const isDisabled = this.hasAttribute(props.DISABLED);
+      const isDisabled = this.hasAttribute(attributes.DISABLED);
       /* istanbul ignore next */
       if (!isDisabled) {
         e.preventDefault();
@@ -227,7 +227,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     this.listen(['ArrowUp', 'ArrowDown'], this, (e) => {
       /* istanbul ignore next */
-      if (stringToBool(this.getAttribute(props.DISABLED))) { return; }
+      if (stringToBool(this.getAttribute(attributes.DISABLED))) { return; }
       /* istanbul ignore next */
       const key = e.key;
 
@@ -257,8 +257,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * be set to
    */
   set max(value) {
-    if (parseInt(this.getAttribute(props.MAX)) !== parseInt(value)) {
-      this.setAttribute(props.MAX, value);
+    if (parseInt(this.getAttribute(attributes.MAX)) !== parseInt(value)) {
+      this.setAttribute(attributes.MAX, value);
 
       if (stringToBool(value)) {
         this.setAttribute('aria-valuemax', value);
@@ -275,7 +275,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * can be set to
    */
   get max() {
-    return this.getAttribute(props.MAX);
+    return this.getAttribute(attributes.MAX);
   }
 
   /**
@@ -283,8 +283,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * be set to
    */
   set min(value) {
-    if (parseInt(this.getAttribute(props.MIN)) !== parseInt(value)) {
-      this.setAttribute(props.MIN, value);
+    if (parseInt(this.getAttribute(attributes.MIN)) !== parseInt(value)) {
+      this.setAttribute(attributes.MIN, value);
 
       if (stringToBool(value)) {
         this.setAttribute('aria-valuemax', value);
@@ -301,14 +301,14 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * can be set to
    */
   get min() {
-    return this.getAttribute(props.MIN);
+    return this.getAttribute(attributes.MIN);
   }
 
   /**
    * @param {number | string} value spinbox' input value
    */
   set value(value) {
-    if (parseInt(this.getAttribute(props.VALUE)) !== parseInt(value)) {
+    if (parseInt(this.getAttribute(attributes.VALUE)) !== parseInt(value)) {
       let nextValue = parseInt(value);
 
       // corrections on value if not in-step
@@ -341,9 +341,9 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
       // set properties/updaters
 
-      this.setAttribute(props.VALUE, nextValue);
+      this.setAttribute(attributes.VALUE, nextValue);
       this.setAttribute('aria-valuenow', nextValue);
-      this.setAttribute(props.TYPE, 'number');
+      this.setAttribute(attributes.TYPE, 'number');
       this.input.value = nextValue;
 
       this.#updateDisabledButtonStates();
@@ -359,7 +359,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * @returns {number | string} spinbox' current input value
    */
   get value() {
-    return this.getAttribute(props.VALUE);
+    return this.getAttribute(attributes.VALUE);
   }
 
   /**
@@ -367,7 +367,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * user has cleared the spinbox input
    */
   set placeholder(value) {
-    this.setAttribute(props.PLACEHOLDER, value);
+    this.setAttribute(attributes.PLACEHOLDER, value);
   }
 
   /**
@@ -375,14 +375,14 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * user has cleared the spinbox input
    */
   get placeholder() {
-    return this.getAttribute(props.PLACEHOLDER);
+    return this.getAttribute(attributes.PLACEHOLDER);
   }
 
   /**
    * @param {string} value label text describing the spinbox value
    */
   set label(value) {
-    this.setAttribute(props.LABEL, value);
+    this.setAttribute(attributes.LABEL, value);
     this.setAttribute('aria-label', value);
     this.input?.setAttribute('label', value);
   }
@@ -391,7 +391,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * @returns {string} value label text describing the spinbox value
    */
   get label() {
-    return this.getAttribute(props.LABEL);
+    return this.getAttribute(attributes.LABEL);
   }
 
   /**
@@ -400,18 +400,18 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   set dirtyTracker(value) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
-      this.setAttribute(props.DIRTY_TRACKER, true);
-      this.input.setAttribute(props.DIRTY_TRACKER, true);
+      this.setAttribute(attributes.DIRTY_TRACKER, true);
+      this.input.setAttribute(attributes.DIRTY_TRACKER, true);
     } else {
-      this.removeAttribute(props.DIRTY_TRACKER);
-      this.input.removeAttribute(props.DIRTY_TRACKER);
+      this.removeAttribute(attributes.DIRTY_TRACKER);
+      this.input.removeAttribute(attributes.DIRTY_TRACKER);
     }
   }
 
   /**
    * @returns {boolean|string} whether the dirty tracker has been enabled
    */
-  get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
+  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * @param {boolean|string} value whether or not spinbox
@@ -421,22 +421,22 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     const isValueTruthy = stringToBool(value);
 
     if (isValueTruthy) {
-      this.setAttribute(props.DISABLED, true);
-      this.input?.setAttribute?.(props.DISABLED, true);
+      this.setAttribute(attributes.DISABLED, true);
+      this.input?.setAttribute?.(attributes.DISABLED, true);
       this.container.classList.add('disabled');
       this.setAttribute('tabindex', '-1');
 
-      this.#incrementButton?.setAttribute?.(props.DISABLED, '');
-      this.#decrementButton?.setAttribute?.(props.DISABLED, '');
+      this.#incrementButton?.setAttribute?.(attributes.DISABLED, '');
+      this.#decrementButton?.setAttribute?.(attributes.DISABLED, '');
     } else {
-      this.removeAttribute?.(props.DISABLED);
-      this.input?.removeAttribute?.(props.DISABLED);
+      this.removeAttribute?.(attributes.DISABLED);
+      this.input?.removeAttribute?.(attributes.DISABLED);
       this.container.classList.remove('disabled');
       this.removeAttribute('tabindex');
 
-      if (!this.hasAttribute(props.READONLY)) {
-        this.#incrementButton?.removeAttribute?.(props.DISABLED);
-        this.#decrementButton?.removeAttribute?.(props.DISABLED);
+      if (!this.hasAttribute(attributes.READONLY)) {
+        this.#incrementButton?.removeAttribute?.(attributes.DISABLED);
+        this.#decrementButton?.removeAttribute?.(attributes.DISABLED);
       }
     }
   }
@@ -445,7 +445,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * @returns {'true'|null} whether or not element is disabled
    */
   get disabled() {
-    return this.getAttribute(props.DISABLED);
+    return this.getAttribute(attributes.DISABLED);
   }
 
   /**
@@ -454,8 +454,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   set validate(value) {
     if (value) {
-      this.setAttribute(props.VALIDATE, value);
-      this.input.setAttribute(props.VALIDATE, value);
+      this.setAttribute(attributes.VALIDATE, value);
+      this.input.setAttribute(attributes.VALIDATE, value);
 
       if (this.container.children.length === 2) {
         const validateElTemplate = document.createElement('template');
@@ -465,8 +465,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
         this.input?.setValidationElement(validateEl);
       }
     } else {
-      this.removeAttribute(props.VALIDATE);
-      this.input.removeAttribute(props.VALIDATE);
+      this.removeAttribute(attributes.VALIDATE);
+      this.input.removeAttribute(attributes.VALIDATE);
 
       const validateEl = this.shadowRoot.querySelector('.validation-message');
       validateEl?.remove?.();
@@ -477,7 +477,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * @returns {string} validation mode to use on input; if "required" then
    * displays a notice when no value was set.
    */
-  get validate() { return this.getAttribute(props.VALIDATE); }
+  get validate() { return this.getAttribute(attributes.VALIDATE); }
 
   /**
    * @param {boolean} value whether or not spinbox is readonly
@@ -485,20 +485,20 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   set readonly(value) {
     if (stringToBool(value)) {
       this.container.classList.add('readonly');
-      this.setAttribute(props.READONLY, true);
-      this.input.setAttribute(props.READONLY, true);
+      this.setAttribute(attributes.READONLY, true);
+      this.input.setAttribute(attributes.READONLY, true);
       this.#onStepButtonUnpressed();
-      this.#incrementButton.setAttribute(props.DISABLED, '');
-      this.#decrementButton.setAttribute(props.DISABLED, '');
+      this.#incrementButton.setAttribute(attributes.DISABLED, '');
+      this.#decrementButton.setAttribute(attributes.DISABLED, '');
     } else {
       this.container.classList.remove('readonly');
 
-      this.removeAttribute(props.READONLY);
-      this.input.removeAttribute(props.READONLY);
+      this.removeAttribute(attributes.READONLY);
+      this.input.removeAttribute(attributes.READONLY);
 
-      if (!this.hasAttribute(props.DISABLED)) {
-        this.#incrementButton.removeAttribute(props.DISABLED);
-        this.#decrementButton.removeAttribute(props.DISABLED);
+      if (!this.hasAttribute(attributes.DISABLED)) {
+        this.#incrementButton.removeAttribute(attributes.DISABLED);
+        this.#decrementButton.removeAttribute(attributes.DISABLED);
       }
     }
   }
@@ -507,7 +507,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * @returns {boolean} value whether or not spinbox is readonly
    */
   get readonly() {
-    return this.getAttribute(props.READONLY);
+    return this.getAttribute(attributes.READONLY);
   }
 
   /**
@@ -557,14 +557,14 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     const hasMaxValue = !Number.isNaN(parseInt(this.max));
 
     if (!hasMaxValue) {
-      this.#incrementButton.removeAttribute(props.DISABLED);
+      this.#incrementButton.removeAttribute(attributes.DISABLED);
       return;
     }
 
     if (parseInt(this.value) >= parseInt(this.max)) {
-      this.#incrementButton?.setAttribute(props.DISABLED, '');
-    } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
-      this.#incrementButton?.removeAttribute(props.DISABLED);
+      this.#incrementButton?.setAttribute(attributes.DISABLED, '');
+    } /* istanbul ignore else */ else if (!this.hasAttribute(attributes.READONLY)) {
+      this.#incrementButton?.removeAttribute(attributes.DISABLED);
     }
 
     // decrement button
@@ -572,14 +572,14 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     const hasMinValue = !Number.isNaN(parseInt(this.min));
 
     if (!hasMinValue) {
-      this.#decrementButton.removeAttribute(props.DISABLED);
+      this.#decrementButton.removeAttribute(attributes.DISABLED);
       return;
     }
 
     if (parseInt(this.value) <= parseInt(this.min)) {
-      this.#decrementButton.setAttribute(props.DISABLED, '');
-    } /* istanbul ignore else */ else if (!this.hasAttribute(props.READONLY)) {
-      this.#decrementButton.removeAttribute(props.DISABLED);
+      this.#decrementButton.setAttribute(attributes.DISABLED, '');
+    } /* istanbul ignore else */ else if (!this.hasAttribute(attributes.READONLY)) {
+      this.#decrementButton.removeAttribute(attributes.DISABLED);
     }
   }
 

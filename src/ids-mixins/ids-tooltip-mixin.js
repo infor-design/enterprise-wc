@@ -1,4 +1,4 @@
-import { props } from '../ids-base/ids-constants';
+import { attributes } from '../ids-base/ids-attributes';
 import IdsEventsMixin from './ids-events-mixin';
 
 /**
@@ -12,10 +12,10 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
     super();
   }
 
-  static get properties() {
+  static get attributes() {
     return [
-      ...super.properties,
-      props.TOOLTIP
+      ...super.attributes,
+      attributes.TOOLTIP
     ];
   }
 

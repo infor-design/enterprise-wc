@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   stringUtils,
   mix
 } from '../ids-base';
@@ -36,8 +36,8 @@ class IdsAlert extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The propertires in an array
    */
-  static get properties() {
-    return [props.ICON, props.DISABLED, props.MODE, props.VERSION];
+  static get attributes() {
+    return [attributes.ICON, attributes.DISABLED, attributes.MODE, attributes.VERSION];
   }
 
   /**
@@ -58,21 +58,21 @@ class IdsAlert extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const icon = this.shadowRoot?.querySelector('ids-icon');
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
-      icon?.classList.add(props.DISABLED);
+      this.setAttribute(attributes.DISABLED, val.toString());
+      icon?.classList.add(attributes.DISABLED);
     } else {
-      this.removeAttribute(props.DISABLED);
-      icon?.classList.remove(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
+      icon?.classList.remove(attributes.DISABLED);
     }
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Return the icon of the alert.
    * @returns {string | null} the path data
    */
-  get icon() { return this.getAttribute(props.ICON); }
+  get icon() { return this.getAttribute(attributes.ICON); }
 
   /**
    * Set the icon
@@ -80,10 +80,10 @@ class IdsAlert extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set icon(value) {
     if (value) {
-      this.setAttribute(props.ICON, value);
-      this.shadowRoot?.querySelector('ids-icon')?.setAttribute(props.ICON, value);
+      this.setAttribute(attributes.ICON, value);
+      this.shadowRoot?.querySelector('ids-icon')?.setAttribute(attributes.ICON, value);
     } else {
-      this.removeAttribute(props.ICON);
+      this.removeAttribute(attributes.ICON);
     }
   }
 }
