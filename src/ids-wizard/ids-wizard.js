@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix
 } from '../ids-base';
@@ -226,8 +226,8 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.STEP_NUMBER, props.CLICKABLE];
+  static get attributes() {
+    return [attributes.STEP_NUMBER, attributes.CLICKABLE];
   }
 
   /**
@@ -240,8 +240,8 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     const stepEl = this.children[stepNumber - 1];
 
     return (
-      (!this.clickable && (stepEl.getAttribute(props.CLICKABLE) !== 'false'))
-      || stepEl.getAttribute(props.CLICKABLE) !== 'false'
+      (!this.clickable && (stepEl.getAttribute(attributes.CLICKABLE) !== 'false'))
+      || stepEl.getAttribute(attributes.CLICKABLE) !== 'false'
     );
   }
 
@@ -331,7 +331,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {number|string} step number (1-based)
    */
   get stepNumber() {
-    const stepNumber = parseInt(this.getAttribute(props.STEP_NUMBER));
+    const stepNumber = parseInt(this.getAttribute(attributes.STEP_NUMBER));
 
     if (Number.isNaN(stepNumber)) {
       return -1;
@@ -360,11 +360,11 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   set clickable(value) {
-    this.setAttribute(props.CLICKABLE, value !== 'false');
+    this.setAttribute(attributes.CLICKABLE, value !== 'false');
   }
 
   get clickable() {
-    return this.getAttribute(props.CLICKABLE);
+    return this.getAttribute(attributes.CLICKABLE);
   }
 
   connectedCallback() {

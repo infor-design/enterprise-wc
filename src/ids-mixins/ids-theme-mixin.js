@@ -1,4 +1,4 @@
-import { props } from '../ids-base/ids-constants';
+import { attributes } from '../ids-base/ids-attributes';
 
 /**
  * A mixin that adds theming functionality to components
@@ -10,11 +10,11 @@ const IdsThemeMixin = (superclass) => class extends superclass {
     super();
   }
 
-  static get properties() {
+  static get attributes() {
     return [
-      ...super.properties,
-      props.MODE,
-      props.VERSION
+      ...super.attributes,
+      attributes.MODE,
+      attributes.VERSION
     ];
   }
 

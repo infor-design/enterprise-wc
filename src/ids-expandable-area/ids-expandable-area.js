@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix
 } from '../ids-base';
 
@@ -56,8 +56,8 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.EXPANDED, props.TYPE, props.MODE, props.VERSION];
+  static get attributes() {
+    return [attributes.EXPANDED, attributes.TYPE, attributes.MODE, attributes.VERSION];
   }
 
   /**
@@ -66,13 +66,13 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   set type(value) {
     if (value === EXPANDABLE_AREA_TYPES[0]) {
-      this.setAttribute(props.TYPE, value);
+      this.setAttribute(attributes.TYPE, value);
     } else {
-      this.setAttribute(props.TYPE, '');
+      this.setAttribute(attributes.TYPE, '');
     }
   }
 
-  get type() { return this.getAttribute(props.TYPE); }
+  get type() { return this.getAttribute(attributes.TYPE); }
 
   /**
    * Set the expanded property
@@ -80,14 +80,14 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   set expanded(value) {
     if (value) {
-      this.setAttribute(props.EXPANDED, value);
+      this.setAttribute(attributes.EXPANDED, value);
     } else {
-      this.setAttribute(props.EXPANDED, 'false');
+      this.setAttribute(attributes.EXPANDED, 'false');
     }
     this.switchState();
   }
 
-  get expanded() { return this.getAttribute(props.EXPANDED); }
+  get expanded() { return this.getAttribute(attributes.EXPANDED); }
 
   /**
    * The main state switching function
@@ -96,7 +96,7 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   switchState() {
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
-    this.state.expanded = this.getAttribute(props.EXPANDED) === 'true' || false;
+    this.state.expanded = this.getAttribute(attributes.EXPANDED) === 'true' || false;
     this.expander?.setAttribute('aria-expanded', this.state.expanded);
 
     // Hide/show the text link if default
@@ -152,7 +152,7 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {void}
    */
   setAttributes() {
-    this.setAttribute(props.EXPANDED, this.getAttribute(props.EXPANDED) === 'true' ? 'false' : 'true');
+    this.setAttribute(attributes.EXPANDED, this.getAttribute(attributes.EXPANDED) === 'true' ? 'false' : 'true');
   }
 
   /**

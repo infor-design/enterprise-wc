@@ -45,7 +45,7 @@ describe('IdsModal Component', () => {
     expect(modal.visible).toBeFalsy();
   });
 
-  it('can show/hide by using props', () => {
+  it('can show/hide by using attributes', () => {
     modal.visible = true;
 
     expect(modal.visible).toBeTruthy();

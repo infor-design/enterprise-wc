@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix,
   stringUtils
@@ -16,6 +16,17 @@ import {
 import styles from './ids-radio.scss';
 import IdsText from '../ids-text/ids-text';
 import IdsRadioGroup from './ids-radio-group';
+
+const attribs = [
+  { name: 'checked', prop: 'checked' },
+  { name: 'color', prop: 'color' },
+  { name: 'disabled', prop: 'disabled' },
+  { name: 'group-disabled', prop: 'groupDisabled' },
+  { name: 'horizontal', prop: 'horizontal' },
+  { name: 'label', prop: 'label' },
+  { name: 'validation-has-error', prop: 'validationHasError' },
+  { name: 'value', prop: 'value' }
+];
 
 /**
  * IDS Radio Component
@@ -41,16 +52,16 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.CHECKED,
-      props.COLOR,
-      props.DISABLED,
-      props.GROUP_DISABLED,
-      props.HORIZONTAL,
-      props.LABEL,
-      props.VALIDATION_HAS_ERROR,
-      props.VALUE
+      attributes.CHECKED,
+      attributes.COLOR,
+      attributes.DISABLED,
+      attributes.GROUP_DISABLED,
+      attributes.HORIZONTAL,
+      attributes.LABEL,
+      attributes.VALIDATION_HAS_ERROR,
+      attributes.VALUE
     ];
   }
 
@@ -67,17 +78,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     /** @type {any} */ newValue
   ) {
     if (oldValue !== newValue) {
-      const attributes = [
-        { name: 'checked', prop: 'checked' },
-        { name: 'color', prop: 'color' },
-        { name: 'disabled', prop: 'disabled' },
-        { name: 'group-disabled', prop: 'groupDisabled' },
-        { name: 'horizontal', prop: 'horizontal' },
-        { name: 'label', prop: 'label' },
-        { name: 'validation-has-error', prop: 'validationHasError' },
-        { name: 'value', prop: 'value' }
-      ];
-      attributes.forEach((attribute) => {
+      attribs.forEach((attribute) => {
         if (name === attribute.name) {
           this[attribute.prop] = newValue;
         }
@@ -99,7 +100,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     /** @type {any} */
     this.rootEl = this.shadowRoot.querySelector('.ids-radio');
 
-    if (this.checked && !this.input.getAttribute(props.CHECKED)) {
+    if (this.checked && !this.input.getAttribute(attributes.CHECKED)) {
       this.checked = true;
     }
 
@@ -200,9 +201,9 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const circle = this.shadowRoot.querySelector('.circle');
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.CHECKED, val.toString());
+      this.setAttribute(attributes.CHECKED, val.toString());
     } else {
-      this.removeAttribute(props.CHECKED);
+      this.removeAttribute(attributes.CHECKED);
     }
     if (this.input && this.rootEl && circle) {
       if (val) {
@@ -210,17 +211,17 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           || stringUtils.stringToBool(this.groupDisabled))) {
           this.rootEl.setAttribute('tabindex', '0');
         }
-        circle.classList.add(props.CHECKED);
+        circle.classList.add(attributes.CHECKED);
         this.input.checked = true;
       } else {
         this.rootEl.setAttribute('tabindex', '-1');
         this.input.checked = false;
-        circle.classList.remove(props.CHECKED);
+        circle.classList.remove(attributes.CHECKED);
       }
     }
   }
 
-  get checked() { return this.getAttribute(props.CHECKED); }
+  get checked() { return this.getAttribute(attributes.CHECKED); }
 
   /**
    * Set `color` attribute
@@ -228,15 +229,15 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set color(value) {
     if (value) {
-      this.setAttribute(props.COLOR, value.toString());
-      this.rootEl?.setAttribute(props.COLOR, value.toString());
+      this.setAttribute(attributes.COLOR, value.toString());
+      this.rootEl?.setAttribute(attributes.COLOR, value.toString());
     } else {
-      this.removeAttribute(props.COLOR);
-      this.rootEl?.removeAttribute(props.COLOR);
+      this.removeAttribute(attributes.COLOR);
+      this.rootEl?.removeAttribute(attributes.COLOR);
     }
   }
 
-  get color() { return this.getAttribute(props.COLOR); }
+  get color() { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Set `disabled` attribute
@@ -246,22 +247,22 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const labelText = this.shadowRoot.querySelector('.label-text');
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
-      this.input?.setAttribute(props.DISABLED, val);
-      this.rootEl?.classList.add(props.DISABLED);
+      this.setAttribute(attributes.DISABLED, val.toString());
+      this.input?.setAttribute(attributes.DISABLED, val);
+      this.rootEl?.classList.add(attributes.DISABLED);
       this.rootEl?.setAttribute('tabindex', '-1');
       labelText?.setAttribute('aria-disabled', 'true');
-      labelText?.setAttribute(props.DISABLED, 'true');
+      labelText?.setAttribute(attributes.DISABLED, 'true');
     } else {
-      this.removeAttribute(props.DISABLED);
-      this.input?.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
+      this.input?.removeAttribute(attributes.DISABLED);
       labelText?.removeAttribute('aria-disabled');
-      labelText?.removeAttribute(props.DISABLED);
-      this.rootEl?.classList.remove(props.DISABLED);
+      labelText?.removeAttribute(attributes.DISABLED);
+      this.rootEl?.classList.remove(attributes.DISABLED);
     }
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Set `group-disabled` attribute
@@ -271,20 +272,20 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const labelText = this.shadowRoot.querySelector('.label-text');
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.GROUP_DISABLED, val.toString());
-      this.input?.setAttribute(props.DISABLED, val);
-      this.rootEl?.classList.add(props.DISABLED);
+      this.setAttribute(attributes.GROUP_DISABLED, val.toString());
+      this.input?.setAttribute(attributes.DISABLED, val);
+      this.rootEl?.classList.add(attributes.DISABLED);
       this.rootEl?.setAttribute('tabindex', '-1');
-      labelText?.setAttribute(props.DISABLED, 'true');
+      labelText?.setAttribute(attributes.DISABLED, 'true');
     } else {
-      this.removeAttribute(props.GROUP_DISABLED);
-      this.input?.removeAttribute(props.DISABLED);
-      this.rootEl?.classList.remove(props.DISABLED);
-      labelText?.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.GROUP_DISABLED);
+      this.input?.removeAttribute(attributes.DISABLED);
+      this.rootEl?.classList.remove(attributes.DISABLED);
+      labelText?.removeAttribute(attributes.DISABLED);
     }
   }
 
-  get groupDisabled() { return this.getAttribute(props.GROUP_DISABLED); }
+  get groupDisabled() { return this.getAttribute(attributes.GROUP_DISABLED); }
 
   /**
    * Set `horizontal` attribute `inline|block`, default as `block`
@@ -293,15 +294,15 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set horizontal(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.HORIZONTAL, val.toString());
-      this.rootEl?.classList.add(props.HORIZONTAL);
+      this.setAttribute(attributes.HORIZONTAL, val.toString());
+      this.rootEl?.classList.add(attributes.HORIZONTAL);
     } else {
-      this.removeAttribute(props.HORIZONTAL);
-      this.rootEl?.classList.remove(props.HORIZONTAL);
+      this.removeAttribute(attributes.HORIZONTAL);
+      this.rootEl?.classList.remove(attributes.HORIZONTAL);
     }
   }
 
-  get horizontal() { return this.getAttribute(props.HORIZONTAL); }
+  get horizontal() { return this.getAttribute(attributes.HORIZONTAL); }
 
   /**
    * Set the `label` text
@@ -310,16 +311,16 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set label(value) {
     const labelText = this.labelEl?.querySelector('.label-text');
     if (value) {
-      this.setAttribute(props.LABEL, value);
+      this.setAttribute(attributes.LABEL, value);
     } else {
-      this.removeAttribute(props.LABEL);
+      this.removeAttribute(attributes.LABEL);
     }
     if (labelText) {
       labelText.innerHTML = value || '';
     }
   }
 
-  get label() { return this.getAttribute(props.LABEL) || ''; }
+  get label() { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Set `validation-has-error` attribute
@@ -328,15 +329,15 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set validationHasError(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.VALIDATION_HAS_ERROR, val.toString());
+      this.setAttribute(attributes.VALIDATION_HAS_ERROR, val.toString());
       this.input?.classList.add('error');
     } else {
-      this.removeAttribute(props.VALIDATION_HAS_ERROR);
+      this.removeAttribute(attributes.VALIDATION_HAS_ERROR);
       this.input?.classList.remove('error');
     }
   }
 
-  get validationHasError() { return this.getAttribute(props.VALIDATION_HAS_ERROR); }
+  get validationHasError() { return this.getAttribute(attributes.VALIDATION_HAS_ERROR); }
 
   /**
    * Set the `value` attribute
@@ -344,14 +345,14 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set value(val) {
     if (val) {
-      this.setAttribute(props.VALUE, val);
+      this.setAttribute(attributes.VALUE, val);
     } else {
-      this.removeAttribute(props.VALUE);
+      this.removeAttribute(attributes.VALUE);
     }
-    this.input?.setAttribute(props.VALUE, (val || ''));
+    this.input?.setAttribute(attributes.VALUE, (val || ''));
   }
 
-  get value() { return this.getAttribute(props.VALUE); }
+  get value() { return this.getAttribute(attributes.VALUE); }
 }
 
 export default IdsRadio;

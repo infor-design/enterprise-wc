@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix,
   stringUtils
@@ -33,15 +33,15 @@ const MENU_DEFAULTS = {
 };
 
 // Definable attributes
-const MENU_PROPS = [
-  props.DISABLED,
-  props.ICON,
-  props.SELECTED,
-  props.SUBMENU,
-  props.TABINDEX,
-  props.VALUE,
-  props.MODE,
-  props.VERSION
+const MENU_ATTRIBUTES = [
+  attributes.DISABLED,
+  attributes.ICON,
+  attributes.SELECTED,
+  attributes.SUBMENU,
+  attributes.TABINDEX,
+  attributes.VALUE,
+  attributes.MODE,
+  attributes.VERSION
 ];
 
 /**
@@ -138,8 +138,8 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
    * Return the properties we handle as getters/setters
    * @returns {Array} properties
    */
-  static get properties() {
-    return MENU_PROPS;
+  static get attributes() {
+    return MENU_ATTRIBUTES;
   }
 
   /**
@@ -316,28 +316,28 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
 
     const a = this.a;
     const shouldUpdate = this.shouldUpdate;
-    const currentAttr = this.hasAttribute(props.DISABLED);
+    const currentAttr = this.hasAttribute(attributes.DISABLED);
 
     if (trueVal) {
       a.disabled = true;
-      a.setAttribute(props.DISABLED, '');
+      a.setAttribute(attributes.DISABLED, '');
       this.tabIndex = -1;
-      this.container.classList.add(props.DISABLED);
+      this.container.classList.add(attributes.DISABLED);
       if (!currentAttr) {
         this.shouldUpdate = false;
-        this.setAttribute(props.DISABLED, '');
+        this.setAttribute(attributes.DISABLED, '');
         this.shouldUpdate = shouldUpdate;
       }
       return;
     }
 
     a.disabled = false;
-    a.removeAttribute(props.DISABLED);
+    a.removeAttribute(attributes.DISABLED);
     this.tabIndex = 0;
-    this.container.classList.remove(props.DISABLED);
+    this.container.classList.remove(attributes.DISABLED);
     if (currentAttr) {
       this.shouldUpdate = false;
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
       this.shouldUpdate = shouldUpdate;
     }
   }
@@ -621,7 +621,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
   set tabIndex(val) {
     // Remove the webcomponent tabindex
     this.shouldUpdate = false;
-    this.removeAttribute(props.TABINDEX);
+    this.removeAttribute(attributes.TABINDEX);
     this.shouldUpdate = true;
 
     const trueVal = Number(val);
@@ -629,12 +629,12 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     // Mirror tabindex on the shadow DOM anchor
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabIndex = 0;
-      this.a.setAttribute(props.TABINDEX, '0');
+      this.a.setAttribute(attributes.TABINDEX, '0');
       return;
     }
 
     this.state.tabIndex = trueVal;
-    this.a.setAttribute(props.TABINDEX, `${trueVal}`);
+    this.a.setAttribute(attributes.TABINDEX, `${trueVal}`);
   }
 
   /**

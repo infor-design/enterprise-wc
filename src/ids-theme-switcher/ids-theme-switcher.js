@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   mix,
-  props,
+  attributes,
   scss
 } from '../ids-base';
 
@@ -85,8 +85,8 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [...super.properties, props.MODE, props.VERSION];
+  static get attributes() {
+    return [...super.attributes, attributes.MODE, attributes.VERSION];
   }
 
   /**

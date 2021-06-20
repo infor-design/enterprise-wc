@@ -20,4 +20,7 @@ export default class IdsLayoutGrid extends IdsElement {
 
   /** If true the grid will not have any margins */
   noMargins: boolean;
+
+  /** Float the element to the right using justify-self */
+  justify: boolean;
 }

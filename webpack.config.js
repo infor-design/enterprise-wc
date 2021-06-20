@@ -33,6 +33,10 @@ module.exports = {
   performance: {
     hints: false
   },
+  cache: {
+    type: 'filesystem',
+    version: '0.0.0'
+  },
   optimization: {
     minimize: !!isProduction,
     minimizer: [

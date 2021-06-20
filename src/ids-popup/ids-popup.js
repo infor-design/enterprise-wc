@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix,
   stringUtils
@@ -49,21 +49,21 @@ const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt'];
 // Properties exposed with getters/setters
 // safeSet/RemoveAttribute also use these so we pull them out
 const POPUP_PROPERTIES = [
-  props.ALIGN,
-  props.ALIGN_X,
-  props.ALIGN_Y,
-  props.ALIGN_EDGE,
-  props.ALIGN_TARGET,
-  props.ARROW,
-  props.ARROW_TARGET,
-  props.ANIMATED,
-  props.ANIMATION_STYLE,
-  props.BLEED,
-  props.POSITION_STYLE,
-  props.TYPE,
-  props.VISIBLE,
-  props.X,
-  props.Y
+  attributes.ALIGN,
+  attributes.ALIGN_X,
+  attributes.ALIGN_Y,
+  attributes.ALIGN_EDGE,
+  attributes.ALIGN_TARGET,
+  attributes.ARROW,
+  attributes.ARROW_TARGET,
+  attributes.ANIMATED,
+  attributes.ANIMATION_STYLE,
+  attributes.BLEED,
+  attributes.POSITION_STYLE,
+  attributes.TYPE,
+  attributes.VISIBLE,
+  attributes.X,
+  attributes.Y
 ];
 
 /**
@@ -145,16 +145,16 @@ class IdsPopup extends mix(IdsElement).with(
     // Always setup link to containing element first
     this.containingElem = IdsDOMUtils.getClosest(this, 'ids-container') || document.body;
 
-    this.animated = this.hasAttribute(props.ANIMATED);
-    this.animationStyle = this.getAttribute(props.ANIMATION_STYLE) || this.animationStyle;
+    this.animated = this.hasAttribute(attributes.ANIMATED);
+    this.animationStyle = this.getAttribute(attributes.ANIMATION_STYLE) || this.animationStyle;
     this.#setAnimationStyle(this.animationStyle);
 
-    this.state.type = this.getAttribute(props.TYPE) || this.state.type;
+    this.state.type = this.getAttribute(attributes.TYPE) || this.state.type;
     this.#setPopupTypeClass(this.state.type);
 
     this.#setPositionStyle(this.state.positionStyle);
 
-    this.state.visible = this.hasAttribute(props.VISIBLE);
+    this.state.visible = this.hasAttribute(attributes.VISIBLE);
 
     this.handleEvents();
 
@@ -168,8 +168,8 @@ class IdsPopup extends mix(IdsElement).with(
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [...super.properties, ...POPUP_PROPERTIES];
+  static get attributes() {
+    return [...super.attributes, ...POPUP_PROPERTIES];
   }
 
   /**
@@ -215,7 +215,7 @@ class IdsPopup extends mix(IdsElement).with(
     if (!isString && !isElem) {
       if (this.state.alignTarget !== undefined) {
         this.state.alignTarget = undefined;
-        this.removeAttribute(props.ALIGN_TARGET);
+        this.removeAttribute(attributes.ALIGN_TARGET);
         this.refresh();
       }
       return;
@@ -229,7 +229,7 @@ class IdsPopup extends mix(IdsElement).with(
       if (!(elem instanceof HTMLElement)) {
         return;
       }
-      this.setAttribute(props.ALIGN_TARGET, val);
+      this.setAttribute(attributes.ALIGN_TARGET, val);
     } else {
       elem = val;
     }
@@ -303,10 +303,10 @@ class IdsPopup extends mix(IdsElement).with(
     const needsUpdatedAlign = currentAlign !== newAlign;
     if (needsUpdatedAlign) {
       this.state.align = newAlign;
-      this.setAttribute(props.ALIGN, newAlign);
+      this.setAttribute(attributes.ALIGN, newAlign);
       this.refresh();
     } else if (!this.hasAttribute('align')) {
-      this.setAttribute(props.ALIGN, currentAlign);
+      this.setAttribute(attributes.ALIGN, currentAlign);
     }
   }
 
@@ -332,8 +332,8 @@ class IdsPopup extends mix(IdsElement).with(
     }
 
     // If `align-x` was used directy, standardize against the `align` attribute.
-    if (this.hasAttribute(props.ALIGN_X)) {
-      this.removeAttribute(props.ALIGN_X);
+    if (this.hasAttribute(attributes.ALIGN_X)) {
+      this.removeAttribute(attributes.ALIGN_X);
     }
 
     if (this.state.alignX !== alignX) {
@@ -365,8 +365,8 @@ class IdsPopup extends mix(IdsElement).with(
     }
 
     // If `align-y` was used directy, standardize against the `align` attribute.
-    if (this.hasAttribute(props.ALIGN_Y)) {
-      this.removeAttribute(props.ALIGN_Y);
+    if (this.hasAttribute(attributes.ALIGN_Y)) {
+      this.removeAttribute(attributes.ALIGN_Y);
     }
 
     if (this.state.alignY !== alignY) {
@@ -406,8 +406,8 @@ class IdsPopup extends mix(IdsElement).with(
 
     // `alignEdge` is standardized against `align` by way of being the "first" item
     // in the comma-delimited setting.
-    if (this.hasAttribute(props.ALIGN_EDGE)) {
-      this.removeAttribute(props.ALIGN_EDGE);
+    if (this.hasAttribute(attributes.ALIGN_EDGE)) {
+      this.removeAttribute(attributes.ALIGN_EDGE);
     }
 
     // Only update if the value has changed
@@ -462,9 +462,9 @@ class IdsPopup extends mix(IdsElement).with(
   set animated(val) {
     this.state.animated = stringUtils.stringToBool(val);
     if (this.state.animated) {
-      this.setAttribute(props.ANIMATED, true);
+      this.setAttribute(attributes.ANIMATED, true);
     } else {
-      this.removeAttribute(props.ANIMATED);
+      this.removeAttribute(attributes.ANIMATED);
     }
     this.refresh();
   }
@@ -491,9 +491,9 @@ class IdsPopup extends mix(IdsElement).with(
     }
 
     if (trueVal !== ANIMATION_STYLES[0]) {
-      this.setAttribute(props.ANIMATION_STYLE, `${trueVal}`);
+      this.setAttribute(attributes.ANIMATION_STYLE, `${trueVal}`);
     } else {
-      this.removeAttribute(props.ANIMATION_STYLE);
+      this.removeAttribute(attributes.ANIMATION_STYLE);
     }
 
     if (trueVal !== this.state.animationStyle) {
@@ -536,9 +536,9 @@ class IdsPopup extends mix(IdsElement).with(
     if (this.state.bleed !== trueVal) {
       this.state.bleed = val;
       if (trueVal) {
-        this.setAttribute(props.BLEED, '');
+        this.setAttribute(attributes.BLEED, '');
       } else {
-        this.removeAttribute(props.BLEED);
+        this.removeAttribute(attributes.BLEED);
       }
       this.refresh();
     }
@@ -583,9 +583,9 @@ class IdsPopup extends mix(IdsElement).with(
       trueVal = val;
     }
     if (trueVal !== ARROW_TYPES[0]) {
-      this.setAttribute(props.ARROW, `${trueVal}`);
+      this.setAttribute(attributes.ARROW, `${trueVal}`);
     } else {
-      this.removeAttribute(props.ARROW);
+      this.removeAttribute(attributes.ARROW);
     }
     this.#setArrowDirection(this.arrow);
   }
@@ -594,7 +594,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string|null} the arrow setting, or null
    */
   get arrow() {
-    const attr = this.getAttribute(props.ARROW);
+    const attr = this.getAttribute(attributes.ARROW);
     if (!attr) {
       return ARROW_TYPES[0];
     }
@@ -638,7 +638,7 @@ class IdsPopup extends mix(IdsElement).with(
     if (!isString && !isElem) {
       if (this.state.arrowTarget !== undefined) {
         this.state.arrowTarget = undefined;
-        this.removeAttribute(props.ARROW_TARGET);
+        this.removeAttribute(attributes.ARROW_TARGET);
       }
       return;
     }
@@ -651,7 +651,7 @@ class IdsPopup extends mix(IdsElement).with(
       if (!(elem instanceof HTMLElement)) {
         return;
       }
-      this.setAttribute(props.ARROW_TARGET, val);
+      this.setAttribute(attributes.ARROW_TARGET, val);
     } else {
       elem = val;
     }
@@ -678,7 +678,7 @@ class IdsPopup extends mix(IdsElement).with(
     if (val !== currentStyle && POSITION_STYLES.includes(val)) {
       this.state.positionStyle = val;
 
-      this.setAttribute(props.POSITION_STYLE, val);
+      this.setAttribute(attributes.POSITION_STYLE, val);
       this.#setPositionStyle(val);
     }
   }
@@ -716,7 +716,7 @@ class IdsPopup extends mix(IdsElement).with(
   set type(val) {
     if (val && this.state.type !== val && TYPES.includes(val)) {
       this.state.type = val;
-      this.setAttribute(props.TYPE, this.state.type);
+      this.setAttribute(attributes.TYPE, this.state.type);
       this.#setPopupTypeClass(this.state.type);
     }
   }
@@ -752,9 +752,9 @@ class IdsPopup extends mix(IdsElement).with(
     if (this.state.visible !== trueVal) {
       this.state.visible = trueVal;
       if (trueVal) {
-        this.setAttribute(props.VISIBLE, true);
+        this.setAttribute(attributes.VISIBLE, true);
       } else {
-        this.removeAttribute(props.VISIBLE);
+        this.removeAttribute(attributes.VISIBLE);
       }
       this.refresh();
     }
@@ -776,7 +776,7 @@ class IdsPopup extends mix(IdsElement).with(
 
     if (trueVal !== this.state.x) {
       this.state.x = trueVal;
-      this.setAttribute(props.X, trueVal.toString());
+      this.setAttribute(attributes.X, trueVal.toString());
       this.refresh();
     }
   }
@@ -797,7 +797,7 @@ class IdsPopup extends mix(IdsElement).with(
 
     if (trueVal !== this.state.y) {
       this.state.y = trueVal;
-      this.setAttribute(props.Y, trueVal.toString());
+      this.setAttribute(attributes.Y, trueVal.toString());
       this.refresh();
     }
   }

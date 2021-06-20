@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props
+  attributes
 } from '../ids-base';
 
 // Import Mixins
@@ -43,8 +43,8 @@ class IdsLoader extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.MODE, props.VERSION];
+  static get attributes() {
+    return [attributes.MODE, attributes.VERSION];
   }
 
   /**

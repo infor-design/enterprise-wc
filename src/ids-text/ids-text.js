@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix,
   stringUtils
 } from '../ids-base';
@@ -43,21 +43,21 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.TYPE,
-      props.FONT_SIZE,
-      props.AUDIBLE,
-      props.DISABLED,
-      props.DISPLAY,
-      props.ERROR,
-      props.MODE,
-      props.VERSION,
-      props.LABEL,
-      props.FONT_WEIGHT,
-      props.AUDIBLE,
-      props.OVERFLOW,
-      props.COLOR
+      attributes.TYPE,
+      attributes.FONT_SIZE,
+      attributes.AUDIBLE,
+      attributes.DISABLED,
+      attributes.DISPLAY,
+      attributes.ERROR,
+      attributes.MODE,
+      attributes.VERSION,
+      attributes.LABEL,
+      attributes.FONT_WEIGHT,
+      attributes.AUDIBLE,
+      attributes.OVERFLOW,
+      attributes.COLOR
     ];
   }
 
@@ -95,15 +95,15 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
     fontSizes.forEach((size) => this.container?.classList.remove(`ids-text-${size}`));
 
     if (value) {
-      this.setAttribute(props.FONT_SIZE, value);
+      this.setAttribute(attributes.FONT_SIZE, value);
       this.container?.classList.add(`ids-text-${value}`);
       return;
     }
 
-    this.removeAttribute(props.FONT_SIZE);
+    this.removeAttribute(attributes.FONT_SIZE);
   }
 
-  get fontSize() { return this.getAttribute(props.FONT_SIZE); }
+  get fontSize() { return this.getAttribute(attributes.FONT_SIZE); }
 
   /**
    * Adjust font weight; can be either "bold" or "bolder"
@@ -124,16 +124,16 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
     this.container?.classList.remove(...fontWeightClasses);
 
     if (hasValue) {
-      this.setAttribute(props.FONT_WEIGHT, value);
+      this.setAttribute(attributes.FONT_WEIGHT, value);
       this.container?.classList.add(value);
       return;
     }
 
-    this.removeAttribute(props.FONT_WEIGHT);
+    this.removeAttribute(attributes.FONT_WEIGHT);
   }
 
   get fontWeight() {
-    return this.getAttribute(props.FONT_WEIGHT);
+    return this.getAttribute(attributes.FONT_WEIGHT);
   }
 
   /**
@@ -142,15 +142,15 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
    */
   set type(value) {
     if (value) {
-      this.setAttribute(props.TYPE, value);
+      this.setAttribute(attributes.TYPE, value);
     } else {
-      this.removeAttribute(props.TYPE);
+      this.removeAttribute(attributes.TYPE);
     }
 
     this.render();
   }
 
-  get type() { return this.getAttribute(props.TYPE); }
+  get type() { return this.getAttribute(attributes.TYPE); }
 
   /**
    * If set to "unset", color can be controlled by parent container
@@ -158,10 +158,10 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
    */
   set color(value) {
     if (value === 'unset') {
-      this.setAttribute(props.COLOR, value);
+      this.setAttribute(attributes.COLOR, value);
       this.container.classList.add('ids-text-color-unset');
     } else {
-      this.removeAttribute(props.COLOR);
+      this.removeAttribute(attributes.COLOR);
       this.container.classList.remove('ids-text-color-unset');
     }
 
@@ -169,7 +169,7 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
   }
 
   get color() {
-    return this.getAttribute(props.COLOR);
+    return this.getAttribute(attributes.COLOR);
   }
 
   /**
@@ -181,16 +181,16 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
 
     if (isValueTruthy && this.container && !this.container?.classList.contains('audible')) {
       this.container.classList.add('audible');
-      this.setAttribute(props.AUDIBLE, value);
+      this.setAttribute(attributes.AUDIBLE, value);
     }
 
     if (!isValueTruthy && this.container?.classList.contains('audible')) {
       this.container.classList.remove('audible');
-      this.removeAttribute(props.AUDIBLE);
+      this.removeAttribute(attributes.AUDIBLE);
     }
   }
 
-  get audible() { return this.getAttribute(props.AUDIBLE); }
+  get audible() { return this.getAttribute(attributes.AUDIBLE); }
 
   /**
    * Set the text to disabled color.
@@ -199,13 +199,13 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
   set disabled(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, value);
+      this.setAttribute(attributes.DISABLED, value);
       return;
     }
-    this.removeAttribute(props.DISABLED);
+    this.removeAttribute(attributes.DISABLED);
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Set the text to error color.
@@ -215,14 +215,14 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.container.classList.add('error');
-      this.setAttribute(props.ERROR, value);
+      this.setAttribute(attributes.ERROR, value);
       return;
     }
-    this.removeAttribute(props.ERROR);
+    this.removeAttribute(attributes.ERROR);
     this.container.classList.remove('error');
   }
 
-  get error() { return this.getAttribute(props.ERROR); }
+  get error() { return this.getAttribute(attributes.ERROR); }
 
   /**
    * Set the text to label color.
@@ -232,14 +232,14 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.container.classList.add('label');
-      this.setAttribute(props.LABEL, value);
+      this.setAttribute(attributes.LABEL, value);
       return;
     }
-    this.removeAttribute(props.LABEL);
+    this.removeAttribute(attributes.LABEL);
     this.container.classList.remove('label');
   }
 
-  get label() { return this.getAttribute(props.LABEL); }
+  get label() { return this.getAttribute(attributes.LABEL); }
 
   /**
    * Set how content overflows; can specify 'ellipsis', or undefined or 'none'
