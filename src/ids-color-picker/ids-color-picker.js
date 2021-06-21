@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props
+  attributes
 } from '../ids-base/ids-element';
 import {
   IdsEventsMixin,
@@ -62,8 +62,8 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      this.#handleEvents();
    }
 
-   static get properties() {
-     return [props.DISABLED, props.LABEL, props.MODE, 'swatch', props.VALUE, props.VERSION];
+   static get attributes() {
+     return [attributes.DISABLED, attributes.LABEL, attributes.MODE, 'swatch', attributes.VALUE, attributes.VERSION];
    }
 
    template() {

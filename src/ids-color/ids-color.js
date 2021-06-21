@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props
+  attributes
 } from '../ids-base/ids-element';
 
 import {
@@ -35,10 +35,10 @@ class IdsColor extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    }
 
    /**
-   * @returns {Array<string>} this component's observable properties
+   * @returns {Array<string>} this component's observable attributes
    */
-   static get properties() {
-     return [...props.MODE, 'hex', props.VERSION];
+   static get attributes() {
+     return [...attributes.MODE, 'hex', attributes.VERSION];
    }
 
    /**
