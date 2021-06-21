@@ -34,8 +34,11 @@ export default (superclass) => class extends superclass {
           const IdsComponent = Array.isArray(entry) ? entry[0] : entry;
           if (!(el instanceof IdsComponent)) { continue; }
 
-          const attribName = Array.isArray(entry) ? entry[1] : sourceAttribName;
+          const attribName = Array.isArray(entry)
+            ? /* istanbul ignore next */ entry[1]
+            : sourceAttribName;
 
+          /* istanbul ignore else */
           if (this.hasAttribute(sourceAttribName) && this.getAttribute(sourceAttribName) !== null) {
             const attribValue = this.getAttribute(sourceAttribName);
             if (el.getAttribute(attribName) !== attribValue) {
@@ -56,6 +59,7 @@ export default (superclass) => class extends superclass {
    */
   attributeObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
+      /* istanbul ignore else */
       if (m.type === 'attributes') {
         const value = this.getAttribute(m.attributeName);
         if ((typeof this.providedAttributes?.[m.attributeName] !== 'undefined') && (value !== m.oldValue)) {
