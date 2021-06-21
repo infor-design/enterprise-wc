@@ -261,6 +261,8 @@
     @include text-white();
     @include z-6000();
 
+    display: inline-block;
+
     .arrow.bottom,
     .arrow.bottom::after {
       border-bottom-color: var(--ids-color-palette-slate-80);
