@@ -18,7 +18,7 @@
 - [x] As Ellipsis [4096](https://github.com/infor-design/enterprise/issues/4096)
 - [x] On an input
 - [x] Id's / Automation Id's
-- [x] Add/Check Current API methods and props and events
+- [x] Add/Check Current API methods and attributes and events
 - [x] Standalone Css
 - [x] Side by Side Css
 - [x] More Docs

@@ -1,22 +1,22 @@
 import {
   customElement,
   scss,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
-import { IdsButton, BUTTON_PROPS } from '../ids-button/ids-button';
+import { IdsButton, BUTTON_ATTRIBUTES } from '../ids-button/ids-button';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
 import styles from '../ids-button/ids-button.scss';
 
 // Property names
-const MENU_BUTTON_PROPS = [
+const MENU_BUTTON_ATTRIBUTES = [
   'dropdown-icon',
-  props.ID,
-  props.MENU
+  attributes.ID,
+  attributes.MENU
 ];
 
 /**
@@ -37,8 +37,8 @@ class IdsMenuButton extends IdsButton {
   /**
    * @returns {Array} containing configurable properties on this component
    */
-  static get properties() {
-    return BUTTON_PROPS.concat(MENU_BUTTON_PROPS);
+  static get attributes() {
+    return BUTTON_ATTRIBUTES.concat(MENU_BUTTON_ATTRIBUTES);
   }
 
   /**

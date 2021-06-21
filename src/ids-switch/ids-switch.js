@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix,
   stringUtils
@@ -40,12 +40,12 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.CHECKED,
-      props.DISABLED,
-      props.LABEL,
-      props.VALUE
+      attributes.CHECKED,
+      attributes.DISABLED,
+      attributes.LABEL,
+      attributes.VALUE
     ];
   }
 
@@ -175,17 +175,17 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.CHECKED, val.toString());
-      this.input?.setAttribute(props.CHECKED, val);
-      slider?.classList.add(props.CHECKED);
+      this.setAttribute(attributes.CHECKED, val.toString());
+      this.input?.setAttribute(attributes.CHECKED, val);
+      slider?.classList.add(attributes.CHECKED);
     } else {
-      this.removeAttribute(props.CHECKED);
-      this.input?.removeAttribute(props.CHECKED);
-      slider?.classList.remove(props.CHECKED);
+      this.removeAttribute(attributes.CHECKED);
+      this.input?.removeAttribute(attributes.CHECKED);
+      slider?.classList.remove(attributes.CHECKED);
     }
   }
 
-  get checked() { return this.getAttribute(props.CHECKED); }
+  get checked() { return this.getAttribute(attributes.CHECKED); }
 
   /**
    * Sets checkbox to disabled
@@ -198,19 +198,19 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const labelText = this.shadowRoot.querySelector('.label-text');
 
     if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
-      this.input?.setAttribute(props.DISABLED, val);
-      rootEl?.classList.add(props.DISABLED);
-      labelText?.setAttribute(props.DISABLED, 'true');
+      this.setAttribute(attributes.DISABLED, val.toString());
+      this.input?.setAttribute(attributes.DISABLED, val);
+      rootEl?.classList.add(attributes.DISABLED);
+      labelText?.setAttribute(attributes.DISABLED, 'true');
     } else {
-      this.removeAttribute(props.DISABLED);
-      this.input?.removeAttribute(props.DISABLED);
-      rootEl?.classList.remove(props.DISABLED);
-      labelText?.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
+      this.input?.removeAttribute(attributes.DISABLED);
+      rootEl?.classList.remove(attributes.DISABLED);
+      labelText?.removeAttribute(attributes.DISABLED);
     }
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Set the `label` text
@@ -219,15 +219,15 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set label(value) {
     const labelText = this.shadowRoot.querySelector('.label-text') || document.createElement('span');
     if (value) {
-      this.setAttribute(props.LABEL, value);
+      this.setAttribute(attributes.LABEL, value);
       labelText.innerHTML = value;
       return;
     }
-    this.removeAttribute(props.LABEL);
+    this.removeAttribute(attributes.LABEL);
     labelText.innerHTML = '';
   }
 
-  get label() { return this.getAttribute(props.LABEL) || ''; }
+  get label() { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Sets the checkbox `value` attribute
@@ -237,14 +237,14 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
 
     if (val) {
-      this.setAttribute(props.VALUE, val);
+      this.setAttribute(attributes.VALUE, val);
     } else {
-      this.removeAttribute(props.VALUE);
+      this.removeAttribute(attributes.VALUE);
     }
-    this.input.setAttribute(props.VALUE, (val || ''));
+    this.input.setAttribute(attributes.VALUE, (val || ''));
   }
 
-  get value() { return this.getAttribute(props.VALUE); }
+  get value() { return this.getAttribute(attributes.VALUE); }
 }
 
 export default IdsSwitch;

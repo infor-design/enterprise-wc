@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix
 } from '../ids-base';
 
@@ -38,11 +38,11 @@ class IdsSkiplink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.HREF,
-      props.MODE,
-      props.VERSION
+      attributes.HREF,
+      attributes.MODE,
+      attributes.VERSION
     ];
   }
 
@@ -60,15 +60,15 @@ class IdsSkiplink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set href(value) {
     if (value) {
-      this.setAttribute(props.HREF, value);
-      this.container.setAttribute(props.HREF, value);
+      this.setAttribute(attributes.HREF, value);
+      this.container.setAttribute(attributes.HREF, value);
       return;
     }
-    this.removeAttribute(props.HREF);
-    this.container.removeAttribute(props.HREF);
+    this.removeAttribute(attributes.HREF);
+    this.container.removeAttribute(attributes.HREF);
   }
 
-  get href() { return this.getAttribute(props.HREF); }
+  get href() { return this.getAttribute(attributes.HREF); }
 }
 
 export default IdsSkiplink;

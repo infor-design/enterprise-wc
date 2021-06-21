@@ -301,9 +301,9 @@ describe('IdsUploadAdvanced Component', () => {
 
   it('should drag drop', () => {
     const files = [{ size: 1000, type: 'image/jpg', name: 'myfile1.jpg' }];
-    const createBubbledEvent = (type, props = {}) => {
+    const createBubbledEvent = (type, attributes = {}) => {
       const event = new Event(type, { bubbles: true });
-      Object.assign(event, props);
+      Object.assign(event, attributes);
       return event;
     };
     el.disabled = true;

@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -40,20 +40,20 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.ACCEPT,
-      props.DISABLED,
-      props.ICON,
-      props.MAX_FILE_SIZE,
-      props.MAX_FILES,
-      props.MAX_FILES_IN_PROCESS,
-      props.METHOD,
-      props.PARAM_NAME,
-      props.SHOW_BROWSE_LINK,
-      props.URL,
-      props.VERSION,
-      props.MODE
+      attributes.ACCEPT,
+      attributes.DISABLED,
+      attributes.ICON,
+      attributes.MAX_FILE_SIZE,
+      attributes.MAX_FILES,
+      attributes.MAX_FILES_IN_PROCESS,
+      attributes.METHOD,
+      attributes.PARAM_NAME,
+      attributes.SHOW_BROWSE_LINK,
+      attributes.URL,
+      attributes.VERSION,
+      attributes.MODE
     ];
   }
 
@@ -343,9 +343,9 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     const uiElemArr = [].slice.call(this.shadowRoot.querySelectorAll('ids-upload-advanced-file'));
     const attr = (/** @type {any} */ el, /** @type {any} */ val) => {
       if (val) {
-        el?.setAttribute(props.DISABLED, val.toString());
+        el?.setAttribute(attributes.DISABLED, val.toString());
       } else {
-        el?.removeAttribute(props.DISABLED);
+        el?.removeAttribute(attributes.DISABLED);
       }
     };
     const val = stringUtils.stringToBool(this.disabled);
@@ -353,14 +353,14 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
       attr(this.fileInput, val);
       attr(alertError, val);
       uiElemArr.forEach((/** @type {any} */ uiElem) => attr(uiElem, val));
-      rootEl?.classList.add(props.DISABLED);
-      link?.setAttribute(props.DISABLED, 'true');
+      rootEl?.classList.add(attributes.DISABLED);
+      link?.setAttribute(attributes.DISABLED, 'true');
     } else {
       attr(this.fileInput, null);
       attr(alertError, null);
       uiElemArr.forEach((/** @type {any} */ uiElem) => attr(uiElem, null));
-      rootEl?.classList.remove(props.DISABLED);
-      link?.removeAttribute(props.DISABLED);
+      rootEl?.classList.remove(attributes.DISABLED);
+      link?.removeAttribute(attributes.DISABLED);
     }
   }
 
@@ -740,15 +740,15 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   set accept(value) {
     if (value) {
-      this.setAttribute(props.ACCEPT, value.toString());
-      this.fileInput?.setAttribute(props.ACCEPT, value.toString());
+      this.setAttribute(attributes.ACCEPT, value.toString());
+      this.fileInput?.setAttribute(attributes.ACCEPT, value.toString());
     } else {
-      this.removeAttribute(props.ACCEPT);
-      this.fileInput?.removeAttribute(props.ACCEPT);
+      this.removeAttribute(attributes.ACCEPT);
+      this.fileInput?.removeAttribute(attributes.ACCEPT);
     }
   }
 
-  get accept() { return this.getAttribute(props.ACCEPT); }
+  get accept() { return this.getAttribute(attributes.ACCEPT); }
 
   /**
    * Sets the whole element to disabled
@@ -757,14 +757,14 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   set disabled(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
+      this.setAttribute(attributes.DISABLED, val.toString());
     } else {
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
     }
     this.setDisabled();
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Sets the icon to be use in main drop area
@@ -773,16 +773,16 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   set icon(value) {
     const icon = this.shadowRoot.querySelector('.icon');
     if (value) {
-      this.setAttribute(props.ICON, value.toString());
-      icon?.setAttribute(props.ICON, value.toString());
+      this.setAttribute(attributes.ICON, value.toString());
+      icon?.setAttribute(attributes.ICON, value.toString());
     } else {
-      this.removeAttribute(props.ICON);
-      icon?.setAttribute(props.ICON, shared.DEFAULTS.icon);
+      this.removeAttribute(attributes.ICON);
+      icon?.setAttribute(attributes.ICON, shared.DEFAULTS.icon);
     }
   }
 
   get icon() {
-    return this.getAttribute(props.ICON)
+    return this.getAttribute(attributes.ICON)
       || shared.DEFAULTS.icon;
   }
 
@@ -792,14 +792,14 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   set maxFileSize(value) {
     if (value) {
-      this.setAttribute(props.MAX_FILE_SIZE, value.toString());
+      this.setAttribute(attributes.MAX_FILE_SIZE, value.toString());
     } else {
-      this.removeAttribute(props.MAX_FILE_SIZE);
+      this.removeAttribute(attributes.MAX_FILE_SIZE);
     }
   }
 
   get maxFileSize() {
-    return this.getAttribute(props.MAX_FILE_SIZE)
+    return this.getAttribute(attributes.MAX_FILE_SIZE)
       || shared.DEFAULTS.maxFileSize;
   }
 
@@ -809,14 +809,14 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   set maxFiles(value) {
     if (value) {
-      this.setAttribute(props.MAX_FILES, value.toString());
+      this.setAttribute(attributes.MAX_FILES, value.toString());
     } else {
-      this.removeAttribute(props.MAX_FILES);
+      this.removeAttribute(attributes.MAX_FILES);
     }
   }
 
   get maxFiles() {
-    return this.getAttribute(props.MAX_FILES)
+    return this.getAttribute(attributes.MAX_FILES)
       || shared.DEFAULTS.maxFiles;
   }
 
@@ -826,14 +826,14 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   set maxFilesInProcess(value) {
     if (value) {
-      this.setAttribute(props.MAX_FILES_IN_PROCESS, value.toString());
+      this.setAttribute(attributes.MAX_FILES_IN_PROCESS, value.toString());
     } else {
-      this.removeAttribute(props.MAX_FILES_IN_PROCESS);
+      this.removeAttribute(attributes.MAX_FILES_IN_PROCESS);
     }
   }
 
   get maxFilesInProcess() {
-    return this.getAttribute(props.MAX_FILES_IN_PROCESS)
+    return this.getAttribute(attributes.MAX_FILES_IN_PROCESS)
       || shared.DEFAULTS.maxFilesInProcess;
   }
 
@@ -843,14 +843,14 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   set method(value) {
     if (value) {
-      this.setAttribute(props.METHOD, value.toString());
+      this.setAttribute(attributes.METHOD, value.toString());
     } else {
-      this.removeAttribute(props.METHOD);
+      this.removeAttribute(attributes.METHOD);
     }
   }
 
   get method() {
-    return this.getAttribute(props.METHOD)
+    return this.getAttribute(attributes.METHOD)
       || shared.DEFAULTS.method;
   }
 
@@ -860,14 +860,14 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   set paramName(value) {
     if (value) {
-      this.setAttribute(props.PARAM_NAME, value.toString());
+      this.setAttribute(attributes.PARAM_NAME, value.toString());
     } else {
-      this.removeAttribute(props.PARAM_NAME);
+      this.removeAttribute(attributes.PARAM_NAME);
     }
   }
 
   get paramName() {
-    return this.getAttribute(props.PARAM_NAME)
+    return this.getAttribute(attributes.PARAM_NAME)
       || shared.DEFAULTS.paramName;
   }
 
@@ -877,14 +877,14 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   set showBrowseLink(value) {
     if (value) {
-      this.setAttribute(props.SHOW_BROWSE_LINK, value.toString());
+      this.setAttribute(attributes.SHOW_BROWSE_LINK, value.toString());
     } else {
-      this.removeAttribute(props.SHOW_BROWSE_LINK);
+      this.removeAttribute(attributes.SHOW_BROWSE_LINK);
     }
     this.setDropareaLabel();
   }
 
-  get showBrowseLink() { return this.getAttribute(props.SHOW_BROWSE_LINK); }
+  get showBrowseLink() { return this.getAttribute(attributes.SHOW_BROWSE_LINK); }
 
   /**
    * Sets the url to use component XMLHttpRequest method to send files
@@ -892,13 +892,13 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   set url(value) {
     if (value) {
-      this.setAttribute(props.URL, value.toString());
+      this.setAttribute(attributes.URL, value.toString());
     } else {
-      this.removeAttribute(props.URL);
+      this.removeAttribute(attributes.URL);
     }
   }
 
-  get url() { return this.getAttribute(props.URL); }
+  get url() { return this.getAttribute(attributes.URL); }
 }
 
 export default IdsUploadAdvanced;

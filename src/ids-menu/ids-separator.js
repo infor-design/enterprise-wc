@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props
+  attributes
 } from '../ids-base';
 
 import IdsDataSource from '../ids-base/ids-data-source';
@@ -35,8 +35,8 @@ class IdsSeparator extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     super.connectedCallback();
   }
 
-  static get properties() {
-    return [props.MODE, props.VERSION];
+  static get attributes() {
+    return [attributes.MODE, attributes.VERSION];
   }
 
   template() {

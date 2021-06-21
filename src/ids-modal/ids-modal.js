@@ -6,7 +6,7 @@ import {
 } from '../ids-base/ids-element';
 
 import debounce from '../ids-base/ids-debouncer';
-import { props } from '../ids-base/ids-constants';
+import { attributes } from '../ids-base/ids-attributes';
 
 import {
   IdsEventsMixin,
@@ -26,8 +26,8 @@ import styles from './ids-modal.scss';
 import { IdsStringUtils } from '../ids-base/ids-string-utils';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
-const MODAL_PROPS = [
-  props.VISIBLE
+const MODAL_ATTRIBUTES = [
+  attributes.VISIBLE
 ];
 
 const appliedMixins = [
@@ -63,8 +63,8 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     };
   }
 
-  static get properties() {
-    return [...super.properties, ...MODAL_PROPS];
+  static get attributes() {
+    return [...super.attributes, ...MODAL_ATTRIBUTES];
   }
 
   /**
@@ -184,11 +184,11 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     /* istanbul ignore else */
     if (trueVal) {
       this.shouldUpdate = false;
-      this.setAttribute(props.VISIBLE, '');
+      this.setAttribute(attributes.VISIBLE, '');
       this.shouldUpdate = true;
     } else {
       this.shouldUpdate = false;
-      this.removeAttribute(props.VISIBLE);
+      this.removeAttribute(attributes.VISIBLE);
       this.shouldUpdate = true;
     }
 

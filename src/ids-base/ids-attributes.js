@@ -1,5 +1,5 @@
 // Please keep constants alphabetized
-export const props = {
+export const attributes = {
   ACCEPT: 'accept',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
@@ -54,6 +54,7 @@ export const props = {
   ICON_ALIGN: 'icon-align',
   ID: 'id',
   INDETERMINATE: 'indeterminate',
+  JUSTIFY: 'justify',
   KEEP_OPEN: 'keep-open',
   LABEL: 'label',
   LABEL_AUDIBLE: 'label-audible',
@@ -75,6 +76,7 @@ export const props = {
   MODE: 'mode',
   MULTIPLE: 'multiple',
   NO_MARGINS: 'no-margins',
+  NO_RIPPLE: 'no-ripple',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
   OPACITY: 'opacity',
   OVERFLOW: 'overflow',
@@ -100,6 +102,7 @@ export const props = {
   STEP: 'step',
   STEP_NUMBER: 'step-number',
   SUBMENU: 'submenu',
+  SWIPE_TYPE: 'swipe-type',
   TABBABLE: 'tabbable',
   TABINDEX: 'tabindex',
   TARGET: 'target',
