@@ -29,6 +29,14 @@ export default class IdsPager extends mix(IdsElement).with(
     super();
   }
 
+  static get attributes() {
+    return [
+      attributes.PAGE_NUMBER,
+      attributes.PAGE_SIZE,
+      attributes.TOTAL
+    ];
+  }
+
   template() {
     if (!this.hasSectionContainers()) {
       return (
@@ -41,14 +49,6 @@ export default class IdsPager extends mix(IdsElement).with(
         <slot></slot>
       </div>`
     );
-  }
-
-  static get attributes() {
-    return [
-      attributes.PAGE_NUMBER,
-      attributes.PAGE_SIZE,
-      attributes.TOTAL
-    ];
   }
 
   get providedAttributes() {
