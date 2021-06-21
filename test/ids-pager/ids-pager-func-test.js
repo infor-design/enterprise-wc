@@ -7,6 +7,7 @@ import IdsInput from '../../src/ids-input/ids-input';
 import IdsPager, {
   IdsPagerInput,
   IdsPagerButton,
+  IdsPagerSection,
   IdsPagerNumberList
 } from '../../src/ids-pager';
 
@@ -131,19 +132,37 @@ describe('IdsPager Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('sets the pager page-number to non numeric and pagerNumber gets reset to 1', async () => {
+  it('sets the ids-pager page-number to invalid values and it gets reset to 1', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     elem.setAttribute('page-number', 'z35');
-    await processAnimFrame();
-    await processAnimFrame();
+    expect(elem.pageNumber).toEqual(1);
 
+    elem.setAttribute('page-number', '-1');
     expect(elem.pageNumber).toEqual(1);
   });
 
-  it('sets the pager page-number above max and pagerNumber gets set to pageCount', async () => {
+  it('sets the ids-pager page-size to invalid values and it gets reset to 1', async () => {
+    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
+    elem.setAttribute('page-size', 'z35');
+    expect(elem.pageSize).toEqual(1);
+
+    elem.setAttribute('page-size', '-1');
+    expect(elem.pageSize).toEqual(1);
+  });
+
+  it('sets the ids-pager page-number above max value and it is limited', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     elem.setAttribute('page-number', '100');
     expect(elem.pageNumber).toEqual(10);
+  });
+
+  it('sets the ids-pager total to invalid values and it gets reset to 1', async () => {
+    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
+    elem.setAttribute('total', 'z35');
+    expect(elem.total).toEqual(1);
+
+    elem.setAttribute('total', '-1');
+    expect(elem.total).toEqual(1);
   });
 
   it('creates a pager and toggles the last button attribute predictably', async () => {
@@ -154,6 +173,16 @@ describe('IdsPager Component', () => {
 
     lastNavButton.disabled = false;
     expect(lastNavButton.hasAttribute('disabled')).toEqual(false);
+  });
+
+  it('dispatches a pagenumberchange event and has page number changed', async () => {
+    elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
+    elem.dispatchEvent(new CustomEvent('pagenumberchange', {
+      bubbles: true,
+      detail: { elem: this, value: 2 }
+    }));
+
+    expect(elem.pageNumber).toEqual(2);
   });
 
   // ---------------- //
@@ -395,26 +424,6 @@ describe('IdsPager Component', () => {
     expect(elem.pageSize).toEqual(20);
   });
 
-  /*
-  TODO: figure out why Enter key isn't firing; will take another crack while PR is initially
-  reviewed
-  or see if there's an easy/obvious answer on Monday
-  it('fires a change event on ids-pager-input when user presses Enter while focusing on it',
-  async () => {
-    elem = await createElemViaTemplate(
-      `<ids-pager-input page-number="10" page-size="2" total="100" first></ids-pager-input>`
-    );
-
-    const inputChangeListener = jest.fn();
-    elem.addEventListener('change', inputChangeListener);
-
-    elem.input.input.value = '20';
-    elem.input.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
-    await processAnimFrame();
-    expect(inputChangeListener).toBeCalledTimes(1);
-  });
-  */
-
   it('creates a disabled ids-pager-button and parent-disabled can be set and read predictably', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-button page-number="10" page-size="2" total="100" disabled></ids-pager-button>`
@@ -479,6 +488,44 @@ describe('IdsPager Component', () => {
 
     elem.total = 0;
     expect(elem.total).toEqual(1);
+  });
+
+  it('predictably handles the disabled attribute on ids-pager-input', async () => {
+    elem = await createElemViaTemplate(
+      '<ids-pager-input page-number="1" page-size="10" total="100" disabled></ids-pager-input>'
+    );
+    expect(elem.disabled).toEqual(true);
+
+    elem.setAttribute('disabled', false);
+    expect(elem.disabled).toEqual(false);
+
+    elem.setAttribute('disabled', true);
+    expect(elem.disabled).toEqual(true);
+
+    elem.disabled = false;
+    expect(elem.disabled).toEqual(false);
+
+    elem.disabled = true;
+    expect(elem.disabled).toEqual(true);
+  });
+
+  it('predictably handles the parent-disabled attribute on ids-pager-input', async () => {
+    elem = await createElemViaTemplate(
+      '<ids-pager-input page-number="1" page-size="10" total="100" parent-disabled></ids-pager-input>'
+    );
+    expect(elem.parentDisabled).toEqual(true);
+
+    elem.setAttribute('parent-disabled', false);
+    expect(elem.parentDisabled).toEqual(false);
+
+    elem.setAttribute('parent-disabled', true);
+    expect(elem.parentDisabled).toEqual(true);
+
+    elem.parentDisabled = false;
+    expect(elem.parentDisabled).toEqual(false);
+
+    elem.parentDisabled = true;
+    expect(elem.parentDisabled).toEqual(true);
   });
 
   it('it sets the pageSize on ids-pager-number-list to non numeric and it is reset to 1', async () => {

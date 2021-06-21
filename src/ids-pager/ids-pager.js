@@ -38,12 +38,14 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   template() {
+    /* istanbul ignore next */
     if (!this.hasSectionContainers()) {
       return (
         `<ids-pager-section><slot></slot></ids-pager-section>`
       );
     }
 
+    /* istanbul ignore next */
     return (
       `<div class="ids-pager">
         <slot></slot>
@@ -74,7 +76,7 @@ export default class IdsPager extends mix(IdsElement).with(
 
     this.#normalizeSectionContainers();
 
-    this.onEvent('pagenumberchange', this.shadowRoot, (e) => {
+    this.onEvent('pagenumberchange', this, (e) => {
       this.pageNumber = e.detail.value;
     });
 
@@ -86,6 +88,7 @@ export default class IdsPager extends mix(IdsElement).with(
    * @returns {boolean} whether or not IdsPageSection containers were
    * provided to content
    */
+  /* istanbul ignore next */
   hasSectionContainers() {
     for (const el of this.children) {
       if (el instanceof IdsPagerSection) {
@@ -100,16 +103,21 @@ export default class IdsPager extends mix(IdsElement).with(
    * @param {string|number} value number of items shown per-page
    */
   set pageSize(value) {
-    let nextValue;
+    let nextValue = parseInt(value);
 
-    if (Number.isNaN(Number.parseInt(value))) {
+    if (Number.isNaN(nextValue)) {
       console.error('ids-pager: non-numeric value sent to page-size');
+      nextValue = 1;
+    } else if (nextValue < 1) {
+      console.error('ids-pager: page-size cannot be < 1');
       nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    if (this.getAttribute(attributes.PAGE_SIZE) !== `${nextValue}`) {
+      this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    }
   }
 
   /**
@@ -178,12 +186,15 @@ export default class IdsPager extends mix(IdsElement).with(
    * if only 2 sections exist for alignment sake to
    * keep things simple
    */
+  /* istanbul ignore next */
   #normalizeSectionContainers() {
+    /* istanbul ignore next */
     if (!this.hasSectionContainers()) {
       this.shadowRoot.querySelector('ids-pager-section').setAttribute('role', 'navigation');
       return;
     }
 
+    /* istanbul ignore next */
     switch (this.children.length) {
     case 3:
       this.children[0].setAttribute(attributes.ALIGN, 'start');
@@ -217,6 +228,7 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   /** observes changes in content/layout */
+  /* istanbul ignore next */
   #contentObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'childList') {

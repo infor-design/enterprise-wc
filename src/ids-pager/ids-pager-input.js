@@ -212,6 +212,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    * through parent pager's disabled attribute
    */
   set parentDisabled(value) {
+    /* istanbul ignore next */
     if (stringToBool(value)) {
       this.setAttribute(attributes.PARENT_DISABLED, '');
     } else {
