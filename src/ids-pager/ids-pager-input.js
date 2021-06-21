@@ -59,12 +59,23 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     this.input = this.shadowRoot.querySelector('ids-input');
     this.input.input.setAttribute('aria-label', 'Input for page number');
 
-    this.onEvent('change', this.input, (e) => {
-      this.onRegisterInputValue(e.target.input.value);
+    this.onEvent('change', this.input, () => {
+      const inputPageNumber = parseInt(this.input.input.value);
+
+      if (inputPageNumber !== this.pageNumber) {
+        if (!Number.isNaN(inputPageNumber)) {
+          this.triggerEvent('pagenumberchange', this, {
+            bubbles: true,
+            detail: { elem: this, value: inputPageNumber }
+          });
+        } else {
+          this.input.value = this.pageNumber;
+        }
+      }
     });
 
     // when leaving user focus, input should adjust itself
-    // to the page number provided by the pager
+    // to the page number already provided by the pager
 
     this.onEvent('blur', this.input, () => {
       if (this.input.value !== `${this.pageNumber}`) {
@@ -72,8 +83,9 @@ export default class IdsPagerInput extends mix(IdsElement).with(
       }
     });
 
-    this.listen('Enter', this.input, (e) => {
-      this.onRegisterInputValue(e.target.input.value);
+    // istanbul ignore next
+    this.listen('Enter', this.input, () => {
+      this.input.dispatchEvent(new Event('change', { bubbles: true }));
     });
 
     if (!this.hasAttribute(attributes.PAGE_NUMBER)) {
@@ -96,7 +108,6 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     let nextValue;
 
     if (Number.isNaN(Number.parseInt(value))) {
-      console.error('ids-pager: non-numeric value sent to page-size');
       nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
@@ -148,10 +159,8 @@ export default class IdsPagerInput extends mix(IdsElement).with(
   set total(value) {
     let nextValue;
     if (Number.isNaN(Number.parseInt(value))) {
-      console.error('ids-pager: non-numeric value sent to total');
       nextValue = 1;
     } else if (Number.parseInt(value) <= 0) {
-      console.error('ids-pager: total cannot be <= 0');
       nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
@@ -165,8 +174,8 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    * @returns {number|null} the calculated pageCount using total and pageSize
    */
   get pageCount() {
-    return this.total !== null
-      ? Math.floor(parseInt(this.total) / parseInt(this.pageSize))
+    return (this.total !== null && !Number.isNaN(this.total))
+      ? Math.floor(this.total / this.pageSize)
       : null;
   }
 
@@ -174,7 +183,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    * @returns {string|number} number of items for pager is tracking
    */
   get total() {
-    return this.getAttribute(attributes.TOTAL);
+    return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
   /**
@@ -224,25 +233,6 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     return (this.hasAttribute(attributes.DISABLED)
       || this.hasAttribute(attributes.PARENT_DISABLED)
     );
-  }
-
-  /**
-   * callback to run when input value changes
-   * @param {*} value input value being registered
-   */
-  onRegisterInputValue(value) {
-    const inputPageNumber = parseInt(value);
-
-    if (inputPageNumber !== this.pageNumber) {
-      if (!Number.isNaN(inputPageNumber)) {
-        this.triggerEvent('pagenumberchange', this, {
-          bubbles: true,
-          detail: { elem: this, value: inputPageNumber }
-        });
-      } else {
-        this.input.value = this.pageNumber;
-      }
-    }
   }
 
   /**
