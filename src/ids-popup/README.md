@@ -21,6 +21,12 @@ This component is a building-block component for many "placeable" IDS Components
 ### Other
 
 **Arrow** Popups can optionally display arrows that can point to content when used with an Align Target.
+**Arrow Target** The element that a Popup's Arrow will point toward.  This defaults to an Align Target, but can also be defined separately.
+**Bleeds** Determines when Popups are allowed to exist outside their defined Containing Element.  A Popup that does not bleed will remain contained, no matter what coordinates/offsets are provided.
+**Containing Element** Popups are confined to a contained area inside of a page.  This area may be the entire document body,
+an [IDS Container](../ids-container/README.md), or a custom-defined element.  If bleeding is disabled, the Popup will never cross the boundaries of the container.
+**Coordinates** When placed directly in a page (not aligned against an element), a Popup uses its provided x/y values as coordinates as if plotted on a graph.
+**Offsets** When placed against a parent element, a Popup uses its provided x/y values as offsets from the base position detected.
 **Type** Defines the style of Popup that can be used.  There are several different display types, the most common one being `menu`.
 
 ## Themeable Parts
@@ -50,6 +56,62 @@ To create a Popup that appears to align itself against a button, you could do th
 <ids-button id="my-button">
   <span slot="text">My Button</span>
 </ids-button>
+```
+
+### Using Arrows
+
+Some Popup styles need to "point" at their triggering element for context, such as [Tooltips](../ids-tooltip/README.md).  To create a Popup that uses an arrow, simply tell it which way to point:
+
+```html
+<ids-popup id="my-popup" x="10" y="10" align="top, left" alignTarget="#my-button" arrow="top">
+  <div slot="content">My Popup</div>
+</ids-popup>
+<ids-button id="my-button">
+  <span slot="text">My Button</span>
+</ids-button>
+```
+
+In this configuration, if a Popup is given offset value that corresponds to the `alignEdge` is not greater than the size of the Popup, the arrow's placement will be autocorrect to try and stay in alignment with the `arrowTarget`. If the offset value is greater, the arrow will hide automatically.
+
+### Using Bleeds and Containment
+
+Popups can be configured to remain inside of a set boundary element, referred to as a Containing Element.  If defined, the Popup will not cross the boundaries the containing element.  An example of this functionality is the prevention of an [IdsPopupMenu](../ids-popup-menu/README.md) from appearing to be cut off by the browser's edges.
+
+Use of a containing element could be configured in this manner:
+
+```html
+<ids-popup id="my-popup" x="0" y="0" align="top, left">
+  <div slot="content" style="width: 100px; height: 100px;">My Popup</div>
+</ids-popup>
+
+<div id="my-container" style="width: 500px; height: 500px;"></div>
+```
+```js
+const popup = document.querySelector('#my-popup');
+const container = document.querySelector('#my-container');
+popup.containingElem = container;
+```
+
+After setting the `containingElem` property, setting coordinates will place the Popup in a position that accounts for not crossing the container's edges.  For example:
+
+```js
+popup.x = 500;
+```
+
+Given this value, the Popup will attempt to set the X coordinate at 500px using the default alignment of `top, left`, which places the left-most edge of the Popup at 500px.  Placing in this position would cross the boundary of the container, so instead the Popup will be nudged back into the containing element entirely, ending up with an X placement around 400px.
+
+It's also possible to disable the check for bleeding, if necessary:
+
+```js
+popup.bleed = false;
+```
+
+Running this immediately after our example above will cause the Popup to actually be placed at 500px.
+
+If we decide to remove containment by the element, we can simply set it back to it's default:
+
+```js
+popup.containingElem = document.querySelector('ids-container');
 ```
 
 ## Usage Tips

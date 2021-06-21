@@ -70,6 +70,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     if (this.parentMenuItem && !this.target) {
       this.target = this.parentMenuItem;
       this.popup.align = 'right, top';
+      this.popup.alignEdge = 'right';
     }
 
     IdsMenu.prototype.connectedCallback.apply(this);

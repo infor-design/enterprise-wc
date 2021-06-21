@@ -5,7 +5,7 @@ exports[`IdsThemeSwitcher Component renders correctly 1`] = `
             <ids-icon slot=\\"icon\\" icon=\\"more\\"></ids-icon>
             <span class=\\"audible\\">Theme Switcher</span>
         </ids-menu-button>
-        <ids-popup-menu id=\\"ids-theme-menu\\" target=\\"ids-theme-switcher\\" trigger=\\"click\\" hidden=\\"\\">
+        <ids-popup-menu id=\\"ids-theme-menu\\" target=\\"#ids-theme-switcher\\" trigger=\\"click\\" hidden=\\"\\">
           <ids-menu-group>
             <ids-menu-item mode=\\"light\\" version=\\"new\\">
               Theme

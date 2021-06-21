@@ -261,7 +261,17 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
     chunk = `${folderName}/${jsFile.replace('.js', '')}`;
   }
 
-  const folderChunks = [chunk, 'ids-icon/ids-icon', 'ids-text/ids-text', 'ids-layout-grid/ids-layout-grid'];
+  // The specified chunk is added to a list of components that will be pre-loaded,
+  // no matter which page is displayed.
+  const folderChunks = [
+    chunk,
+    'ids-container/ids-container',
+    'ids-icon/ids-icon',
+    'ids-layout-grid/ids-layout-grid',
+    'ids-text/ids-text',
+    'ids-theme-switcher/ids-theme-switcher',
+    'ids-toolbar/ids-toolbar'
+  ];
 
   // Add example.js to the page as a separate chunk
   const demoFile = filePath.replace('index.html', 'example.js');

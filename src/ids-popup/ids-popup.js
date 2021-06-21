@@ -40,25 +40,30 @@ const ANIMATION_STYLES = [
 // Arrow Directions (defaults to 'none')
 const ARROW_TYPES = ['none', 'bottom', 'top', 'left', 'right'];
 
+// Position types
+const POSITION_STYLES = ['fixed', 'absolute'];
+
 // Types of Popups
 const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt'];
 
 // Properties exposed with getters/setters
 // safeSet/RemoveAttribute also use these so we pull them out
 const POPUP_PROPERTIES = [
-  'align',
-  'align-x',
-  'align-y',
-  'align-edge',
-  'align-target',
-  'arrow',
-  'arrow-target',
+  attributes.ALIGN,
+  attributes.ALIGN_X,
+  attributes.ALIGN_Y,
+  attributes.ALIGN_EDGE,
+  attributes.ALIGN_TARGET,
+  attributes.ARROW,
+  attributes.ARROW_TARGET,
   attributes.ANIMATED,
   attributes.ANIMATION_STYLE,
+  attributes.BLEED,
+  attributes.POSITION_STYLE,
   attributes.TYPE,
   attributes.VISIBLE,
-  'x',
-  'y'
+  attributes.X,
+  attributes.Y
 ];
 
 /**
@@ -93,6 +98,7 @@ function formatAlignAttribute(alignX, alignY, edge) {
  * @type {IdsPopup}
  * @inherits IdsElement
  * @mixes IdsRenderLoopMixin
+ * @mixes IdsResizeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part popup - the popup outer element
@@ -108,25 +114,25 @@ class IdsPopup extends mix(IdsElement).with(
   ) {
   constructor() {
     super();
-    this.alignment = {
-      edge: ALIGNMENT_EDGES[0],
-      target: undefined,
-      x: ALIGNMENTS_X[0],
-      y: ALIGNMENTS_Y[0]
-    };
-    this.coords = {
+    this.state = {
+      alignEdge: ALIGNMENT_EDGES[0],
+      alignTarget: undefined,
+      alignX: ALIGNMENTS_X[0],
+      alignY: ALIGNMENTS_Y[0],
+      align: 'center',
+      arrow: ARROW_TYPES[0],
+      arrowTarget: null,
+      animated: false,
+      animationStyle: ANIMATION_STYLES[0],
+      bleed: false,
+      containingElem: document.body,
+      positionStyle: POSITION_STYLES[0],
+      visible: false,
+      type: 'none',
       x: 0,
       y: 0
     };
-    this.state = {
-      arrow: ARROW_TYPES[0],
-      arrowTarget: null,
-      animationStyle: ANIMATION_STYLES[0],
-    };
-    this.isVisible = false;
-    this.isAnimated = false;
-    this.trueType = 'none';
-    this.shouldUpdate = true;
+    this.shouldUpdate = false;
   }
 
   /**
@@ -134,28 +140,28 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {void}
    */
   connectedCallback() {
-    this.animated = this.hasAttribute('animated');
-    this.animationStyle = this.getAttribute(attributes.ANIMATION_STYLE) || this.animationStyle;
-    this.trueType = this.getAttribute('type') || this.trueType;
-    this.isVisible = this.hasAttribute('visible');
-    this.handleEvents();
     super.connectedCallback();
 
-    this.shouldUpdate = true;
-    this.refresh();
-  }
+    // Always setup link to containing element first
+    this.containingElem = IdsDOMUtils.getClosest(this, 'ids-container') || document.body;
 
-  /**
-   * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
-   * check for a true `shouldUpdate` property.
-   * @param  {string} name The property name
-   * @param  {string} oldValue The property old value
-   * @param  {string} newValue The property new value
-   */
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (this.shouldUpdate) {
-      IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
-    }
+    this.animated = this.hasAttribute(attributes.ANIMATED);
+    this.animationStyle = this.getAttribute(attributes.ANIMATION_STYLE) || this.animationStyle;
+    this.#setAnimationStyle(this.animationStyle);
+
+    this.state.type = this.getAttribute(attributes.TYPE) || this.state.type;
+    this.#setPopupTypeClass(this.state.type);
+
+    this.#setPositionStyle(this.state.positionStyle);
+
+    this.state.visible = this.hasAttribute(attributes.VISIBLE);
+
+    this.handleEvents();
+
+    this.shouldUpdate = true;
+    window.requestAnimationFrame(() => {
+      this.refresh();
+    });
   }
 
   /**
@@ -163,7 +169,31 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return POPUP_PROPERTIES;
+    return [...super.attributes, ...POPUP_PROPERTIES];
+  }
+
+  /**
+   * Inner template contents
+   * @returns {string} The template
+   */
+  template() {
+    return `<div class="ids-popup" part="popup">
+      <div class="arrow" part="arrow"></div>
+      <div class="content-wrapper">
+        <slot name="content"></slot>
+      </div>
+    </div>`;
+  }
+
+  /**
+   * @private
+   * @returns {void}
+   */
+  handleEvents() {
+    const slot = this.shadowRoot.querySelector('slot');
+    this.onEvent('slotchange', slot, () => {
+      this.refresh();
+    });
   }
 
   /**
@@ -183,9 +213,11 @@ class IdsPopup extends mix(IdsElement).with(
     const isElem = val instanceof HTMLElement;
 
     if (!isString && !isElem) {
-      this.alignment.target = undefined;
-      this.removeAttribute('align-target');
-      this.refresh();
+      if (this.state.alignTarget !== undefined) {
+        this.state.alignTarget = undefined;
+        this.removeAttribute(attributes.ALIGN_TARGET);
+        this.refresh();
+      }
       return;
     }
 
@@ -197,13 +229,15 @@ class IdsPopup extends mix(IdsElement).with(
       if (!(elem instanceof HTMLElement)) {
         return;
       }
-      this.setAttribute('align-target', val);
+      this.setAttribute(attributes.ALIGN_TARGET, val);
     } else {
       elem = val;
     }
 
-    this.alignment.target = elem;
-    this.refresh();
+    if (!this.state.alignTarget || !this.state.alignTarget.isEqualNode(elem)) {
+      this.state.alignTarget = elem;
+      this.refresh();
+    }
   }
 
   /**
@@ -211,7 +245,7 @@ class IdsPopup extends mix(IdsElement).with(
    * coordinates from for relative placement
    */
   get alignTarget() {
-    return this.alignment.target;
+    return this.state.alignTarget;
   }
 
   /**
@@ -220,8 +254,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {string} val a comma-delimited set of alignment types `direction1, direction2`
    */
   set align(val) {
-    this.shouldUpdate = false;
-
+    const currentAlign = this.state.align;
     let trueVal = val;
     if (typeof trueVal !== 'string' || !trueVal.length) {
       trueVal = CENTER;
@@ -234,8 +267,8 @@ class IdsPopup extends mix(IdsElement).with(
     // Adust the first value and set it as the "edge"
     const edge = vals[0];
     if (ALIGNMENT_EDGES.includes(edge)) {
-      this.alignEdge = edge;
-      vals[0] = this.alignEdge;
+      this.state.alignEdge = edge;
+      vals[0] = this.state.alignEdge;
     }
 
     // If there's no second value, assumxae it's 'center'
@@ -255,29 +288,33 @@ class IdsPopup extends mix(IdsElement).with(
     let attrY;
     if (ALIGNMENTS_X.includes(vals[0])) {
       attrX = vals[0];
-      this.alignX = vals[0];
+      this.state.alignX = vals[0];
     } else {
       attrX = this.alignX;
     }
     if (ALIGNMENTS_Y.includes(vals[1])) {
       attrY = vals[1];
-      this.alignY = vals[1];
+      this.state.alignY = vals[1];
     } else {
       attrY = this.alignY;
     }
-    this.setAttribute('align', formatAlignAttribute(attrX, attrY, this.alignment.edge));
 
-    this.shouldUpdate = true;
-    this.refresh();
+    const newAlign = formatAlignAttribute(attrX, attrY, this.state.alignEdge);
+    const needsUpdatedAlign = currentAlign !== newAlign;
+    if (needsUpdatedAlign) {
+      this.state.align = newAlign;
+      this.setAttribute(attributes.ALIGN, newAlign);
+      this.refresh();
+    } else if (!this.hasAttribute('align')) {
+      this.setAttribute(attributes.ALIGN, currentAlign);
+    }
   }
 
   /**
    * @returns {string} a DOM-friendly string reprentation of alignment types
    */
   get align() {
-    const { alignX, alignY } = this;
-    const edge = this.alignEdge;
-    return formatAlignAttribute(alignX, alignY, edge);
+    return this.state.align;
   }
 
   /**
@@ -294,18 +331,19 @@ class IdsPopup extends mix(IdsElement).with(
       alignX = ALIGNMENTS_X[0];
     }
 
-    this.alignment.x = alignX;
-    const alignY = this.alignment.y;
-
-    // If `align-x` was used directy, standardize against the `align` attribute
-    if (this.hasAttribute('align-x')) {
-      this.safeRemoveAttribute('align-x');
-      this.align = formatAlignAttribute(alignX, alignY, alignX);
-    } else if (this.shouldUpdate) {
-      this.align = formatAlignAttribute(alignX, alignY, alignX);
+    // If `align-x` was used directy, standardize against the `align` attribute.
+    if (this.hasAttribute(attributes.ALIGN_X)) {
+      this.removeAttribute(attributes.ALIGN_X);
     }
 
-    this.refresh();
+    if (this.state.alignX !== alignX) {
+      this.state.alignX = alignX;
+      const alignY = this.state.alignY;
+
+      // Setting the `align` attribute causes a refresh to occur,
+      // so no need to call `refresh()` here.
+      this.align = formatAlignAttribute(alignX, alignY, alignX);
+    }
   }
 
   /**
@@ -313,7 +351,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} the strategy to use
    */
   get alignX() {
-    return this.alignment.x;
+    return this.state.alignX;
   }
 
   set alignY(val) {
@@ -326,25 +364,26 @@ class IdsPopup extends mix(IdsElement).with(
       alignY = val;
     }
 
-    this.alignment.y = alignY;
-    const alignX = this.alignment.x;
-
-    // If `align-y` was used directy, standardize against the `align` attribute
-    if (this.hasAttribute('align-y')) {
-      this.safeRemoveAttribute('align-y');
-      this.align = formatAlignAttribute(alignX, alignY, alignY);
-    } else if (this.shouldUpdate) {
-      this.align = formatAlignAttribute(alignX, alignY, alignY);
+    // If `align-y` was used directy, standardize against the `align` attribute.
+    if (this.hasAttribute(attributes.ALIGN_Y)) {
+      this.removeAttribute(attributes.ALIGN_Y);
     }
 
-    this.refresh();
+    if (this.state.alignY !== alignY) {
+      this.state.alignY = alignY;
+      const alignX = this.state.alignX;
+
+      // Setting the `align` attribute causes a refresh to occur,
+      // so no need to call `refresh()` here.
+      this.align = formatAlignAttribute(alignX, alignY, alignY);
+    }
   }
 
   /**
    * @returns {string} alignment strategy for the current parent Y alignment
    */
   get alignY() {
-    return this.alignment.y;
+    return this.state.alignY;
   }
 
   /**
@@ -359,35 +398,61 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Sanitize the alignment edge
     let edge;
-    let alignX = this.alignment.x;
-    let alignY = this.alignment.y;
     if (ALIGNMENT_EDGES.includes(val)) {
       edge = val;
-      if (val === CENTER) {
-        alignX = val;
-        alignY = val;
-      }
     } else {
       edge = ALIGNMENT_EDGES[0];
     }
 
-    this.alignment.edge = edge;
-    if (this.hasAttribute('align-edge')) {
-      this.shouldUpdate = false;
-      this.removeAttribute('align-edge');
-      this.align = formatAlignAttribute(alignX, alignY, edge);
-      this.shouldUpdate = true;
-    } else if (this.shouldUpdate) {
+    // `alignEdge` is standardized against `align` by way of being the "first" item
+    // in the comma-delimited setting.
+    if (this.hasAttribute(attributes.ALIGN_EDGE)) {
+      this.removeAttribute(attributes.ALIGN_EDGE);
+    }
+
+    // Only update if the value has changed
+    if (this.state.alignEdge !== edge) {
+      let alignX = this.alignX;
+      let alignY = this.alignY;
+
+      this.state.alignEdge = edge;
+
+      // Determine how to format the `align` property.
+      // Using `alignEdge === 'center'` is shorthand for automatically centering the component.
+      if (edge === 'center') {
+        alignX = edge;
+        alignY = edge;
+      } else if (ALIGNMENTS_EDGES_Y.includes(edge)) {
+        alignY = edge;
+      } else {
+        alignX = edge;
+      }
       this.align = formatAlignAttribute(alignX, alignY, edge);
     }
-    this.refresh();
   }
 
   /**
    * @returns {string} representing the current adjacent edge of the parent element
    */
   get alignEdge() {
-    return this.alignment.edge;
+    return this.state.alignEdge;
+  }
+
+  /**
+   * @readonly
+   * @returns {string} representing the opposite edge of the currently-defined `alignEdge` property
+   */
+  get oppositeAlignEdge() {
+    switch (this.alignEdge) {
+    case 'left':
+      return 'right';
+    case 'right':
+      return 'left';
+    case 'top':
+      return 'bottom';
+    default: // bottom
+      return 'top';
+    }
   }
 
   /**
@@ -395,17 +460,17 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {boolean} val The alignment setting
    */
   set animated(val) {
-    this.isAnimated = stringUtils.stringToBool(val);
-    if (this.isAnimated) {
-      this.safeSetAttribute('animated', true);
+    this.state.animated = stringUtils.stringToBool(val);
+    if (this.state.animated) {
+      this.setAttribute(attributes.ANIMATED, true);
     } else {
-      this.safeRemoveAttribute('animated');
+      this.removeAttribute(attributes.ANIMATED);
     }
     this.refresh();
   }
 
   get animated() {
-    return this.isAnimated;
+    return this.state.animated;
   }
 
   /**
@@ -426,9 +491,9 @@ class IdsPopup extends mix(IdsElement).with(
     }
 
     if (trueVal !== ANIMATION_STYLES[0]) {
-      this.safeSetAttribute(attributes.ANIMATION_STYLE, `${trueVal}`);
+      this.setAttribute(attributes.ANIMATION_STYLE, `${trueVal}`);
     } else {
-      this.safeRemoveAttribute(attributes.ANIMATION_STYLE);
+      this.removeAttribute(attributes.ANIMATION_STYLE);
     }
 
     if (trueVal !== this.state.animationStyle) {
@@ -445,6 +510,68 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * Changes the CSS class controlling the animation style of the Popup
+   * @param {string} newStyle the type of animation
+   * @returns {void}
+   */
+  #setAnimationStyle(newStyle) {
+    const thisCl = this.container.classList;
+
+    ANIMATION_STYLES.forEach((style) => {
+      const targetClassName = `animation-${style}`;
+
+      if (style !== newStyle && thisCl.contains(targetClassName)) {
+        thisCl.remove(targetClassName);
+      } else if (style === newStyle && !thisCl.contains(targetClassName)) {
+        thisCl.add(targetClassName);
+      }
+    });
+  }
+
+  /**
+   * @param {boolean|string} val true if bleeds should be respected by the Popup
+   */
+  set bleed(val) {
+    const trueVal = stringUtils.stringToBool(val);
+    if (this.state.bleed !== trueVal) {
+      this.state.bleed = val;
+      if (trueVal) {
+        this.setAttribute(attributes.BLEED, '');
+      } else {
+        this.removeAttribute(attributes.BLEED);
+      }
+      this.refresh();
+    }
+  }
+
+  /**
+   * @returns {boolean} true if bleeds are currently being respected by the Popup
+   */
+  get bleed() {
+    return this.state.bleed;
+  }
+
+  /**
+   * @param {HTMLElement} val an element that will appear to "contain" the Popup
+   */
+  set containingElem(val) {
+    if (!(val instanceof HTMLElement)) {
+      return;
+    }
+    if (this.state.containingElem !== val) {
+      this.state.containingElem = val;
+      this.refresh();
+    }
+  }
+
+  /**
+   * @returns {HTMLElement} the element currently appearing to "contain" the Popup
+   */
+  get containingElem() {
+    return this.state.containingElem;
+  }
+
+  /**
    * Specifies whether to show the Popup Arrow, and in which direction.
    * The direction is in relation to the alignment setting. So for example of you align: top
    * you want arrow: top as well.
@@ -456,18 +583,18 @@ class IdsPopup extends mix(IdsElement).with(
       trueVal = val;
     }
     if (trueVal !== ARROW_TYPES[0]) {
-      this.safeSetAttribute('arrow', `${trueVal}`);
+      this.setAttribute(attributes.ARROW, `${trueVal}`);
     } else {
-      this.safeRemoveAttribute('arrow');
+      this.removeAttribute(attributes.ARROW);
     }
-    this.refresh();
+    this.#setArrowDirection(this.arrow);
   }
 
   /**
    * @returns {string|null} the arrow setting, or null
    */
   get arrow() {
-    const attr = this.getAttribute('arrow');
+    const attr = this.getAttribute(attributes.ARROW);
     if (!attr) {
       return ARROW_TYPES[0];
     }
@@ -483,12 +610,12 @@ class IdsPopup extends mix(IdsElement).with(
     ARROW_TYPES.forEach((type) => {
       if (type !== 'none' && type !== direction) {
         arrowElCl.remove(type);
-        this.arrowEl.hidden = true;
       }
     });
-    if (this.arrow !== 'none' && !arrowElCl.contains(this.arrow)) {
-      arrowElCl.add(this.arrow);
-      this.arrowEl.hidden = false;
+
+    this.arrowEl.hidden = direction === 'none';
+    if (direction !== 'none' && !arrowElCl.contains(direction)) {
+      arrowElCl.add(direction);
     }
   }
 
@@ -509,9 +636,10 @@ class IdsPopup extends mix(IdsElement).with(
     const isElem = val instanceof HTMLElement;
 
     if (!isString && !isElem) {
-      this.state.arrowTarget = undefined;
-      this.removeAttribute('arrow-target');
-      this.refresh();
+      if (this.state.arrowTarget !== undefined) {
+        this.state.arrowTarget = undefined;
+        this.removeAttribute(attributes.ARROW_TARGET);
+      }
       return;
     }
 
@@ -523,13 +651,15 @@ class IdsPopup extends mix(IdsElement).with(
       if (!(elem instanceof HTMLElement)) {
         return;
       }
-      this.setAttribute('arrow-target', val);
+      this.setAttribute(attributes.ARROW_TARGET, val);
     } else {
       elem = val;
     }
 
-    this.state.arrowTarget = elem;
-    this.refresh();
+    if (!this.state.arrowTarget || !this.state.arrowTarget.isEqualNode(elem)) {
+      this.state.arrowTarget = elem;
+      this.#setArrowDirection(this.arrow);
+    }
   }
 
   /**
@@ -541,20 +671,61 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * @param {string} val the position style string
+   */
+  set positionStyle(val) {
+    const currentStyle = this.state.positionStyle;
+    if (val !== currentStyle && POSITION_STYLES.includes(val)) {
+      this.state.positionStyle = val;
+
+      this.setAttribute(attributes.POSITION_STYLE, val);
+      this.#setPositionStyle(val);
+    }
+  }
+
+  /**
+   * @returns {string} the current position style
+   */
+  get positionStyle() {
+    return this.state.positionStyle;
+  }
+
+  /**
+   * Changes the CSS class controlling the position style of the Popup
+   * @param {string} newStyle the type of position
+   * @returns {void}
+   */
+  #setPositionStyle(newStyle) {
+    const thisCl = this.container.classList;
+
+    POSITION_STYLES.forEach((style) => {
+      const targetClassName = `position-${style}`;
+
+      if (style !== newStyle && thisCl.contains(targetClassName)) {
+        thisCl.remove(targetClassName);
+      } else if (style === newStyle && !thisCl.contains(targetClassName)) {
+        thisCl.add(targetClassName);
+      }
+    });
+  }
+
+  /**
    * The style of popup to use between 'none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'
    * @param {string} val The popup type
    */
   set type(val) {
-    if (val && TYPES.includes(val)) {
-      this.trueType = val;
+    if (val && this.state.type !== val && TYPES.includes(val)) {
+      this.state.type = val;
+      this.setAttribute(attributes.TYPE, this.state.type);
+      this.#setPopupTypeClass(this.state.type);
     }
-
-    this.safeSetAttribute('type', this.trueType);
-    this.refresh();
   }
 
+  /**
+   * @returns {string} the type assigned to the Popup
+   */
   get type() {
-    return this.trueType;
+    return this.state.type;
   }
 
   /**
@@ -577,17 +748,20 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {boolean} val a boolean for displaying or hiding the popup
    */
   set visible(val) {
-    this.isVisible = stringUtils.stringToBool(val);
-    if (this.isVisible) {
-      this.safeSetAttribute('visible', true);
-    } else {
-      this.safeRemoveAttribute('visible');
+    const trueVal = stringUtils.stringToBool(val);
+    if (this.state.visible !== trueVal) {
+      this.state.visible = trueVal;
+      if (trueVal) {
+        this.setAttribute(attributes.VISIBLE, true);
+      } else {
+        this.removeAttribute(attributes.VISIBLE);
+      }
+      this.refresh();
     }
-    this.refresh();
   }
 
   get visible() {
-    return this.isVisible;
+    return this.state.visible;
   }
 
   /**
@@ -600,13 +774,15 @@ class IdsPopup extends mix(IdsElement).with(
       trueVal = 0;
     }
 
-    this.coords.x = trueVal;
-    this.setAttribute('x', trueVal.toString());
-    this.refresh();
+    if (trueVal !== this.state.x) {
+      this.state.x = trueVal;
+      this.setAttribute(attributes.X, trueVal.toString());
+      this.refresh();
+    }
   }
 
   get x() {
-    return this.coords.x;
+    return this.state.x;
   }
 
   /**
@@ -619,13 +795,15 @@ class IdsPopup extends mix(IdsElement).with(
       trueVal = 0;
     }
 
-    this.coords.y = trueVal;
-    this.setAttribute('y', trueVal.toString());
-    this.refresh();
+    if (trueVal !== this.state.y) {
+      this.state.y = trueVal;
+      this.setAttribute(attributes.Y, trueVal.toString());
+      this.refresh();
+    }
   }
 
   get y() {
-    return this.coords.y;
+    return this.state.y;
   }
 
   /**
@@ -638,17 +816,13 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Attach to the global ResizeObserver
     // (this doesn't need updating)
-    // @TODO possibly replace `this.resizeDetectionTarget()`
-    // with IdsPopupBoundary (specifically to contain)
+    /* istanbul ignore next */
     if (this.shouldResize()) {
       this.addObservedElement(this.resizeDetectionTarget());
     }
 
-    // Set the Popup type
-    this.#setPopupTypeClass(this.trueType);
-
     // Make the popup actually render before doing placement calcs
-    if (this.isVisible) {
+    if (this.state.visible) {
       this.container.classList.add('visible');
     } else {
       this.container.classList.remove('open');
@@ -662,7 +836,7 @@ class IdsPopup extends mix(IdsElement).with(
     if (!alignTarget) {
       // Remove an established MutationObserver if one exists.
       if (this.hasMutations) {
-        this.mo.disconnect();
+        this.mo?.disconnect();
         this.disconnectDetectMutations();
         delete this.hasMutations;
       }
@@ -680,8 +854,9 @@ class IdsPopup extends mix(IdsElement).with(
         });
         this.hasMutations = true;
       }
-
-      this.placeAgainstTarget();
+      if (this.visible) {
+        this.placeAgainstTarget();
+      }
     }
 
     // Adds a RenderLoop-staggered check for whether to show the Popup.
@@ -692,7 +867,7 @@ class IdsPopup extends mix(IdsElement).with(
     this.openCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 70,
       timeoutCallback: () => {
-        if (this.isVisible) {
+        if (this.state.visible) {
           // If an arrow is displayed, place it correctly.
           this.placeArrow();
 
@@ -705,7 +880,7 @@ class IdsPopup extends mix(IdsElement).with(
           });
           this.container.classList.add('open');
         }
-        if (!this.isAnimated && this.container.classList.contains('animated')) {
+        if (!this.state.animated && this.container.classList.contains('animated')) {
           this.container.classList.remove('animated');
         }
       }
@@ -718,7 +893,7 @@ class IdsPopup extends mix(IdsElement).with(
     this.animatedCheck = this.rl.register(new IdsRenderLoopItem({
       duration: 200,
       timeoutCallback: () => {
-        if (!this.isVisible) {
+        if (!this.state.visible) {
           // Always fire the 'hide' event
           this.triggerEvent('hide', this, {
             bubbles: true,
@@ -731,7 +906,7 @@ class IdsPopup extends mix(IdsElement).with(
             this.container.classList.remove('visible');
           }
         }
-        if (this.isAnimated && !this.container.classList.contains('animated')) {
+        if (this.state.animated && !this.container.classList.contains('animated')) {
           this.container.classList.add('animated');
         }
       }
@@ -744,7 +919,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {void}
    */
   placeAtCoords() {
-    const popupRect = this.container.getBoundingClientRect();
+    let popupRect = this.container.getBoundingClientRect();
     let x = this.x;
     let y = this.y;
 
@@ -770,23 +945,31 @@ class IdsPopup extends mix(IdsElement).with(
       break;
     }
 
-    this.container.style.left = `${x}px`;
-    this.container.style.top = `${y}px`;
+    // Update the DOMRect to reflect new x/y values
+    popupRect.x = x;
+    popupRect.y = y;
+
+    // If the Popup bleeds off the viewport, nudge it back into full view
+    popupRect = this.#nudge(popupRect);
+
+    this.#renderPlacement(popupRect);
   }
 
   /**
    * Places the Popup using an external element as a starting point.
    * @private
+   * @param {string} [targetAlignEdge] if defined, runs placement logic against a different
+   *  alignment edge than the one defined on the component
    * @returns {void}
    */
-  placeAgainstTarget() {
+  placeAgainstTarget(targetAlignEdge) {
     let x = this.x;
     let y = this.y;
 
     // Detect sizes/locations of the popup and the alignment target Element
-    const popupRect = this.container.getBoundingClientRect();
+    let popupRect = this.container.getBoundingClientRect();
     const targetRect = this.alignTarget.getBoundingClientRect();
-    const { alignEdge } = this;
+    const alignEdge = targetAlignEdge || this.alignEdge;
     let alignXCentered = false;
     let alignYCentered = false;
 
@@ -834,9 +1017,11 @@ class IdsPopup extends mix(IdsElement).with(
         x = targetRect.right + x;
         break;
       default: // center
+        /* istanbul ignore next */
         if (alignXCentered) {
           break;
         }
+        /* istanbul ignore next */
         x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
       }
 
@@ -855,8 +1040,135 @@ class IdsPopup extends mix(IdsElement).with(
       }
     }
 
-    this.container.style.left = `${x}px`;
-    this.container.style.top = `${y}px`;
+    // Set adjusted values
+    popupRect.x = x;
+    popupRect.y = y;
+
+    // Check boundaries and attempt to flip the component in the opposite direction, if needed.
+    // If neither side will properly fit the popup, the popup will shrink to fit
+    /* istanbul ignore next */
+    if (this.#shouldFlip(popupRect) && !targetAlignEdge) {
+      this.placeAgainstTarget(this.oppositeAlignEdge);
+      return;
+    }
+
+    // If the Popup bleeds off the viewport, nudge it back into full view
+    popupRect = this.#nudge(popupRect);
+
+    // If the popup was previously flipped, also flip the arrow alignment
+    /* istanbul ignore if */
+    if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
+      this.#setArrowDirection(this.oppositeAlignEdge);
+    }
+
+    this.#renderPlacement(popupRect);
+  }
+
+  /**
+   * Further adjusts placement of a popup based on defined strategies.
+   * @param {DOMRect} popupRect a Rect object representing the current state of the popup.
+   * @returns {object} an adjusted Rect object with "nudged" coordinates.
+   */
+  #nudge(popupRect) {
+    // Don't adjust if bleeding is allowed
+    if (this.bleed) {
+      return popupRect;
+    }
+
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const containerRect = this.containingElem.getBoundingClientRect();
+    const bleed = this.bleed;
+
+    let fixedX = popupRect.x;
+    let fixedY = popupRect.y;
+
+    /* istanbul ignore next */
+    const rightEdge = bleed ? viewportWidth : containerRect.right;
+
+    /* istanbul ignore next */
+    const leftEdge = bleed ? 0 : containerRect.left;
+
+    /* istanbul ignore next */
+    const topEdge = bleed ? 0 : containerRect.top;
+
+    /* istanbul ignore next */
+    const bottomEdge = bleed ? viewportHeight : containerRect.bottom;
+
+    if (popupRect.right > rightEdge) {
+      fixedX -= (popupRect.right - rightEdge);
+    }
+    /* istanbul ignore next */
+    if (popupRect.left < leftEdge) {
+      fixedX += (Math.abs(popupRect.left) + leftEdge);
+    }
+    if (popupRect.bottom > bottomEdge) {
+      fixedY -= (popupRect.bottom - bottomEdge);
+    }
+    /* istanbul ignore next */
+    if (popupRect.top < topEdge) {
+      fixedY += (Math.abs(popupRect.top) + topEdge);
+    }
+
+    popupRect.x = fixedX;
+    popupRect.y = fixedY;
+
+    return popupRect;
+  }
+
+  #shouldFlip(popupRect) {
+    const viewportWidth = window.innerWidth;
+    const viewportHeight = window.innerHeight;
+    const scrollX = this.containingElem.scrollLeft || 0;
+    const scrollY = this.containingElem.scrollTop || 0;
+    const bleed = this.bleed;
+    const containerRect = this.containingElem.getBoundingClientRect();
+    const targetRect = this.alignTarget.getBoundingClientRect();
+
+    // Gets the distance between an edge on the target element, and its opposing viewport border
+    const getDistance = (dir) => {
+      let d = 0;
+
+      switch (dir) {
+      case 'left':
+        d = (bleed ? 0 : containerRect.left) - scrollX - targetRect.left + this.x;
+        break;
+      case 'right':
+        d = (bleed ? viewportWidth : containerRect.right) - scrollX - targetRect.right - this.x;
+        break;
+      case 'top':
+        d = (bleed ? 0 : containerRect.top) - scrollY - targetRect.top + this.y;
+        break;
+      default: // bottom
+        d = (bleed ? viewportHeight : containerRect.bottom) - scrollY - targetRect.bottom - this.y;
+        break;
+      }
+
+      return Math.abs(d);
+    };
+
+    const currentDir = this.alignEdge;
+    const newDir = this.oppositeAlignEdge;
+    const currentDistance = getDistance(currentDir);
+    const newDistance = getDistance(newDir);
+
+    const measuredPopupDimension = ['top', 'bottom'].includes(currentDir) ? 'height' : 'width';
+    const popupFits = popupRect[measuredPopupDimension] <= currentDistance;
+
+    // If the popup does not fit, and there's more space between the opposite edge
+    // and viewport boundary, compared to the current edge and its viewport boundary, return true.
+    /* istanbul ignore next */
+    return !popupFits && newDistance > currentDistance;
+  }
+
+  /**
+   * Renders the position of the Popup.
+   * @param {DOMRect} popupRect representing approximated new placement values
+   * @returns {void}
+   */
+  #renderPlacement(popupRect) {
+    this.container.style.left = `${popupRect.x}px`;
+    this.container.style.top = `${popupRect.y}px`;
   }
 
   /**
@@ -927,82 +1239,6 @@ class IdsPopup extends mix(IdsElement).with(
       arrowEl.hidden = true;
     }
     arrowEl.style[targetMargin] = `${d}px`;
-  }
-
-  /**
-   * Turns off the ability of the popup to respond to attribute changes, in order to
-   * set an attribute that may incorrectly change the popup's display/state otherwise.
-   * @param {string} attr the attribute of the popup that will change, passed to `setAttribute`
-   * @param {any} value the value to pass to `setAttribute`
-   */
-  safeSetAttribute(attr, value) {
-    if (!POPUP_PROPERTIES.includes(attr)) {
-      return;
-    }
-
-    const prev = this.shouldUpdate;
-    this.shouldUpdate = false;
-    this.setAttribute(attr, value);
-    this.shouldUpdate = prev;
-  }
-
-  /**
-   * Turns off the ability of the popup to respond to attribute changes, in order to
-   * remove an attribute that may incorrectly change the popup's display/state otherwise.
-   * @param {string} attr the attribute of the popup that will be removed
-   */
-  safeRemoveAttribute(attr) {
-    if (!POPUP_PROPERTIES.includes(attr)) {
-      return;
-    }
-
-    const prev = this.shouldUpdate;
-    this.shouldUpdate = false;
-    this.removeAttribute(attr);
-    this.shouldUpdate = prev;
-  }
-
-  /**
-   * Changes the CSS class controlling the animation style of the Popup
-   * @param {string} newStyle the type of animation
-   * @returns {void}
-   */
-  #setAnimationStyle(newStyle) {
-    const thisCl = this.container.classList;
-
-    ANIMATION_STYLES.forEach((style) => {
-      const targetClassName = `animation-${style}`;
-
-      if (style !== newStyle && thisCl.contains(targetClassName)) {
-        thisCl.remove(targetClassName);
-      } else if (style === newStyle && !thisCl.contains(targetClassName)) {
-        thisCl.add(targetClassName);
-      }
-    });
-  }
-
-  /**
-   * Inner template contents
-   * @returns {string} The template
-   */
-  template() {
-    return `<div class="ids-popup" part="popup">
-      <div class="arrow" part="arrow"></div>
-      <div class="content-wrapper">
-        <slot name="content"></slot>
-      </div>
-    </div>`;
-  }
-
-  /**
-   * @private
-   * @returns {void}
-   */
-  handleEvents() {
-    const slot = this.shadowRoot.querySelector('slot');
-    this.onEvent('slotchange', slot, () => {
-      this.refresh();
-    });
   }
 }
 
