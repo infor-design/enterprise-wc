@@ -1,7 +1,6 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const StylelintPlugin = require('stylelint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -187,8 +186,6 @@ module.exports = {
       title: 'IDS Enterprise Web Components',
       chunks: ['index']
     }),
-    // Show Style Lint Errors in the console and fail
-    new StylelintPlugin({}),
     new CopyWebpackPlugin({
       patterns: [
         {
