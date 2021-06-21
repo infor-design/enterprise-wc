@@ -391,7 +391,7 @@ describe('IdsPager Component', () => {
     expect(elem.disabled).toEqual(true);
   });
 
-  it('creates a pager input and parent-disabled can be set and read predictably', async () => {
+  it('creates ids-pager-input and parent-disabled can be set and read predictably', async () => {
     elem = await createElemViaTemplate(
       `<ids-pager-input page-number="10" page-size="2" total="100" first></ids-pager-input>`
     );
@@ -492,5 +492,75 @@ describe('IdsPager Component', () => {
 
     elem.total = 0;
     expect(elem.total).toEqual(1);
+  });
+
+  it('it sets the pageSize on ids-pager-number-list to non numeric and it is reset to 1', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-pager-number-list page-number="1" page-size="z2z" total="100" first></ids-pager-input>`
+    );
+
+    expect(elem.pageSize).toEqual(1);
+  });
+
+  it('it sets the pageNumber on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-pager-number-list page-number="zz" page-size="2" total="100" first></ids-pager-input>`
+    );
+
+    expect(elem.pageNumber).toEqual(1);
+
+    elem.pageNumber = -1;
+    expect(elem.pageNumber).toEqual(1);
+  });
+
+  it('it sets the total on ids-pager-number-list to invalid sizes and it is reset to 1', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-pager-number-list page-number="1" page-size="2" total="z2z" first></ids-pager-input>`
+    );
+
+    expect(elem.total).toEqual(1);
+
+    elem.total = -1;
+    expect(elem.total).toEqual(1);
+  });
+
+  it('sets disabled predictably on ids-pager-number-list', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-pager-number-list page-number="10" page-size="2" total="100"></ids-pager-number-list>`
+    );
+
+    expect(elem.disabled).toEqual(false);
+    expect(elem.hasAttribute('disabled')).toEqual(false);
+
+    elem.disabled = true;
+    expect(elem.disabled).toEqual(true);
+    expect(elem.hasAttribute('disabled')).toEqual(true);
+
+    elem.disabled = false;
+    expect(elem.disabled).toEqual(false);
+    expect(elem.hasAttribute('disabled')).toEqual(false);
+
+    elem = await createElemViaTemplate(
+      `<ids-pager-number-list page-number="10" page-size="2" total="100" disabled></ids-pager-number-list>`
+    );
+
+    elem.disabled = true;
+  });
+
+  it('sets parent-disabled predictably on ids-pager-number-list', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-pager-number-list page-number="10" page-size="2" total="100"></ids-pager-number-list>`
+    );
+
+    expect(elem.parentDisabled).toEqual(false);
+    expect(elem.hasAttribute('parent-disabled')).toEqual(false);
+
+    elem.parentDisabled = true;
+    expect(elem.parentDisabled).toEqual(true);
+    expect(elem.hasAttribute('parent-disabled')).toEqual(true);
+
+    elem.parentDisabled = false;
+    expect(elem.parentDisabled).toEqual(false);
+    expect(elem.hasAttribute('parent-disabled')).toEqual(false);
   });
 });

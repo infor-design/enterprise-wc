@@ -49,10 +49,6 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
   }
 
   connectedCallback() {
-    if (!this.hasAttribute(attributes.PAGE_NUMBER)) {
-      this.setAttribute(attributes.PAGE_NUMBER, 1);
-    }
-
     // give parent a chance to reflect properties
 
     window.requestAnimationFrame(() => {
@@ -69,7 +65,6 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
     let nextValue;
 
     if (Number.isNaN(Number.parseInt(value))) {
-      console.error('ids-pager: non-numeric value sent to page-size');
       nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
@@ -188,7 +183,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
    * via parent pager's disabled attribute
    */
   get parentDisabled() {
-    return this.hasAttribute(attributes.DISABLED);
+    return this.hasAttribute(attributes.PARENT_DISABLED);
   }
 
   get disabledOverall() {
@@ -210,7 +205,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
     const pageCount = this.pageCount;
 
     for (let n = 1; n <= pageCount; n++) {
-      pageNumberHtml += `<ids-button>${n}</ids-button>`;
+      pageNumberHtml += `<ids-button ${this.disabledOverall ? 'disabled' : ''}>${n}</ids-button>`;
     }
 
     this.container.innerHTML = pageNumberHtml;
@@ -222,7 +217,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
         numberButton.setAttribute(attributes.SELECTED, '');
       }
 
-      numberButton.addEventListener('click', () => {
+      numberButton.addEventListener('click', /* istanbul ignore next */ () => {
         this.triggerEvent('pagenumberchange', this, {
           bubbles: true,
           detail: { elem: this, value: n }
