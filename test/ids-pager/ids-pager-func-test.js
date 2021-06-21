@@ -563,4 +563,23 @@ describe('IdsPager Component', () => {
     expect(elem.parentDisabled).toEqual(false);
     expect(elem.hasAttribute('parent-disabled')).toEqual(false);
   });
+
+  it('can trigger align setters on ids-pager-section predictably', async () => {
+    elem = await createElemViaTemplate(`<ids-pager-section></ids-pager-section>`);
+
+    expect(elem.align).toEqual(undefined);
+    expect(elem.getAttribute('align')).toEqual(null);
+
+    elem.align = 'end';
+    expect(elem.getAttribute('align')).toEqual('end');
+
+    elem.align = 'start';
+    expect(elem.getAttribute('align')).toEqual('start');
+
+    elem.setAttribute('align', 'end');
+    expect(elem.getAttribute('align')).toEqual('end');
+
+    elem.align = null;
+    expect(elem.attribute).toEqual(undefined);
+  });
 });

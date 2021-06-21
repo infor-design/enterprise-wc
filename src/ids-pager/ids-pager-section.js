@@ -32,29 +32,27 @@ export default class IdsPagerSection extends IdsElement {
    * position is flipped in RTL mode
    */
   set align(value) {
-    if (value !== null) {
-      if (value === 'start') {
-        this.classList.add('start');
-        this.classList.remove('end');
-      }
-
-      if (value === 'end') {
-        this.classList.add('end');
-        this.classList.remove('start');
-      }
+    switch (value) {
+    case 'start':
+    case 'end': {
+      this.classList[value === 'start' ? 'add' : 'remove']('start');
+      this.classList[value === 'start' ? 'remove' : 'add']('end');
 
       if (this.getAttribute(attributes.ALIGN) !== value) {
         this.setAttribute(attributes.ALIGN, value);
       }
+      break;
     }
 
-    if (value === null) {
-      this.classList.remove('start');
+    default: {
       this.classList.remove('end');
+      this.classList.remove('start');
 
       if (this.hasAttribute(attributes.ALIGN)) {
         this.removeAttribute(attributes.ALIGN);
       }
+      break;
+    }
     }
   }
 }
