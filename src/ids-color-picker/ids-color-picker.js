@@ -63,7 +63,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
    }
 
    static get attributes() {
-     return [attributes.DISABLED, attributes.LABEL, attributes.MODE, 'swatch', attributes.VALUE, attributes.VERSION];
+     return [attributes.DISABLED, attributes.LABEL, attributes.MODE, attributes.NAME, 'swatch', attributes.VALUE, attributes.VERSION];
    }
 
    template() {
@@ -78,7 +78,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
             <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-        <ids-popup id="color-picker-popup" x="198" y="175" type="menu" arrow="bottom" align="top, left" alignTarget="#color-picker-button">
+        <ids-popup id="color-picker-popup" x="200" y="210" type="menu" arrow="bottom" align="top, left" alignTarget="#color-picker-button">
           <slot slot="content" class="color-popup"></slot>
         </ids-popup>
       </div>`;

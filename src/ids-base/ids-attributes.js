@@ -75,6 +75,7 @@ export const attributes = {
   MIN: 'min',
   MODE: 'mode',
   MULTIPLE: 'multiple',
+  NAME: 'name',
   NO_MARGINS: 'no-margins',
   NO_RIPPLE: 'no-ripple',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
