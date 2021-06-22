@@ -77,7 +77,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     // when leaving user focus, input should adjust itself
     // to the page number already provided by the pager
 
-    this.onEvent('blur', this.input, () => {
+    this.onEvent('blur', this.input, /* istanbul ignore next */ () => {
       if (this.input.value !== `${this.pageNumber}`) {
         this.input.value = this.pageNumber;
       }
