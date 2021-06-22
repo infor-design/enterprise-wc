@@ -128,7 +128,7 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   /**
-   * @param {string|number} value 1-based page number shown
+   * @param {string|number} value 1-based index for the page number displayed
    */
   set pageNumber(value) {
     let nextValue = Number.parseInt(value);
@@ -147,7 +147,7 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   /**
-   * @returns {string|number} value 1-based page number displayed
+   * @returns {string|number} value 1-based-index for the page number displayed
    */
   get pageNumber() {
     return parseInt(this.getAttribute(attributes.PAGE_NUMBER));

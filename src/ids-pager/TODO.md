@@ -7,7 +7,6 @@
 - handle values set incorrectly a bit better -- also need to figure out
 how we will handle errors more easily for devs since we didn't agree on console
 logging yet
-- CHANGELOG
 - right-hand menu component for selecting page ranges
 - ids-attribute-provider-mixin README
 (no TODO for mixins and created for this component so listing here)

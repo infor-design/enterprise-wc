@@ -1,21 +1,34 @@
 # Ids Pager Component
 
-TODO
+The IDS Pager Component is used to provide an interface for browsing paginated data, providing methods of navigating and calculating the pages when provided a baseline of attributes.
 
 ## Use Cases
 
-## Terminology
-Page Section: `IdsPageSection`/`<ids-page-section>`; represents a panel on the pager (e.g. left, middle, right/up to three are embedded in the component, otherwise just one main section).
+- There is a table, grid, document or other listing of data, which is displayed via pagination.
+- Controlling the pagination or keeping track of what is browsed in a data set.
 
-### Alignment
+## Sub-Components
+**`<ids-pager-section>`**: divides the different sections on a pager panel. It will automatically align itself to the left, middle, or right side of the component depending on how many sections are provided.
 
-### Other
+**`<ids-pager-button>`**: represents a navigation button within the pager that is flagged with an attribute flag specifying what clicking it accomplishes e.g. `first`, `last`, `previous`, or `next`.
 
 ## Settings
 
-- `page-size` {number} number of items to paginate.
-- `page-number` {number} 0-based page index. Represents what page is currently being viewed.
-- `page-size` {number} how many pages to display per-page.
+### &lt;ids-pager&gt;
+
+- `page-size` {number} number of items to paginate
+- `page-number` {number} 1-based page index. Should reflect what page number is currently being displayed.
+- `total` {number} number of items the pager tracks
+- `disabled` {boolean} whether or not to disable this pager and all navigation buttons nested inside of it
+
+### &lt;ids-pager-section&gt;
+- no applicable attributes that are user-controlled.
+
+### &lt;ids-pager-numberlist&gt;
+- `disabled` whether to override the natural or parent-disabled functionality to specifically disable the number buttons in this component.
+
+### &lt;ids-pager-button&gt;
+- `disabled` whether to override natural or parent-disabled functionality to specifically disable this button.
 
 ## Themeable Parts
 
@@ -27,23 +40,9 @@ Page Section: `IdsPageSection`/`<ids-page-section>`; represents a panel on the p
 
 ## Features (with code samples)
 
-```html
-<ids-pager>
-  Test Content
-</ids-pager>
-```
-
-<ids-pager>
-  <ids-pager-section>Test Content</ids-pager-section>
-  <ids-pager-section>Right-Menu Content</ids-pager-section>
-</ids-pager>
-
-<ids-pager>
-  <ids-pager-section>Left Content</ids-pager-section>
-  <ids-pager-section>Test Content</ids-pager-section>
-  <ids-pager-section>Right-Menu Content</ids-pager-section>
-</ids-pager>
+TODO
 
 ## Usage Tips
 
-TODO
+- the `page-size`, `page-number` and `total` are only useful in the context of the `ids-pager`. They should not be controlled at the level of the interactive buttons or the number list.
+- Content can be laid out for additional buttons/interactions/etc other than the `ids-pager-button`, but the standard navigation and user input components should be used wherever possible.
