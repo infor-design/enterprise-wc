@@ -12,6 +12,10 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 
 **`<ids-pager-button>`**: represents a navigation button within the pager that is flagged with an attribute flag specifying what clicking it accomplishes e.g. `first`, `last`, `previous`, or `next`.
 
+**`<ids-pager-number-list>`**: provides a list of page numbered buttons which a user can click.
+
+**`<ids-pager-input>`**: provides a way for user to input numbers directly for the parent `ids-pager`.
+
 ## Settings
 
 ### &lt;ids-pager&gt;
@@ -24,11 +28,15 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 ### &lt;ids-pager-section&gt;
 - no applicable attributes that are user-controlled.
 
-### &lt;ids-pager-numberlist&gt;
-- `disabled` whether to override the natural or parent-disabled functionality to specifically disable the number buttons in this component.
+### &lt;ids-pager-number-list&gt;
+- `disabled` {boolean} whether to override the natural or parent-disabled functionality to specifically disable the number buttons in this component.
 
 ### &lt;ids-pager-button&gt;
-- `disabled` whether to override natural or parent-disabled functionality to specifically disable this button.
+- `disabled` {boolean} whether to override natural or parent-disabled functionality to specifically disable this button.
+
+### &lt;ids-pager-input&gt;
+- `disabled` {boolean} whether to override natural or parent-disabled functionality to specifically disable this button.
+
 
 ## Themeable Parts
 
@@ -48,6 +56,15 @@ A pager with a data set that represents 10 entries per-page, with 100 items over
   <ids-pager-input></ids-pager-input>
   <ids-pager-button next></ids-pager-button>
   <ids-pager-button last></ids-pager-button>
+</ids-pager>
+```
+
+A pager with a data set that represents 20 entries per-page, with 63 items overall, with basic navigation buttons to go to the next or previous page, and a user input to enter a page number directly:
+```html
+<ids-pager page-size="20" total="63" page-number="2">
+  <ids-pager-button previous></ids-pager-button>
+  <ids-pager-input></ids-pager-input>
+  <ids-pager-button next></ids-pager-button>
 </ids-pager>
 ```
 
