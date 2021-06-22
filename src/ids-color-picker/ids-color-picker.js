@@ -26,13 +26,12 @@ import styles from './ids-color-picker.scss';
  * @mixes IdsKeyboardMixin
  */
 
- @customElement('ids-color-picker')
- @scss(styles)
-
+@customElement('ids-color-picker')
+@scss(styles)
 class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
-   constructor() {
-     super();
-   }
+  constructor() {
+    super();
+  }
 
    idsColorPicker = this.shadowRoot
 
@@ -67,6 +66,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
    }
 
    template() {
+     const id = this.id || 'random';
      const template = `
       <div class="ids-color-picker">
         <ids-trigger-field tabbable="false">
@@ -74,11 +74,11 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
             <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
           </span>
           <ids-input dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
-          <ids-trigger-button id="color-picker-button">
+          <ids-trigger-button id="${id}-button">
             <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-        <ids-popup id="color-picker-popup" x="200" y="210" type="menu" arrow="bottom" align="top, left" alignTarget="#color-picker-button">
+        <ids-popup id="${id}-popup" x="200" y="210" type="menu" arrow="bottom" align="top, left" alignTarget="#${id}-button">
           <slot slot="content" class="color-popup"></slot>
         </ids-popup>
       </div>`;
@@ -165,6 +165,6 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      const popup = this.container.querySelector('ids-popup');
      popup.visible = !popup.visible;
    }
- }
+}
 
 export default IdsColorPicker;

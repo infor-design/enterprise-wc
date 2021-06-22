@@ -10,6 +10,7 @@
 
 .ids-popup {
   @include fixed();
+  @include z-3000();
 
   display: none;
 
