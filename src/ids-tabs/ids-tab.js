@@ -157,22 +157,32 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     return this.getAttribute(attributes.VALUE);
   }
 
+  get count() {
+    return this.getAttribute(attributes.COUNT);
+  }
+
   /**
    * @param {string} value the count
    */
   set count(value) {
     if (value === '') {
-      this.removeAttribute(attributes.COUNT);
+      /* istanbul ignore else */
+      if (this.hasAttribute(attributes.COUNT)) {
+        this.removeAttribute(attributes.COUNT);
+      }
       this.container.classList.remove('count');
       return;
     }
 
-    if (value !== '' && Number.isNaN(Number(value))) {
+    if (Number.isNaN(Number(value))) {
       return;
     }
 
     this.container.classList.add('count');
-    this.setAttribute(attributes.COUNT, value);
+
+    if (this.getAttribute(attributes.COUNT) !== value) {
+      this.setAttribute(attributes.COUNT, value);
+    }
   }
 
   /**

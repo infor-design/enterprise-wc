@@ -32,6 +32,7 @@ export const attributes = {
   COLOR: 'color',
   COLS: 'cols',
   COMPACT: 'compact',
+  COUNT: 'count',
   CLICKABLE: 'clickable',
   CSS_CLASS: 'css-class',
   DATA: 'data',
