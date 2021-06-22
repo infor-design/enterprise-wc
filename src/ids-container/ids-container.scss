@@ -1,6 +1,14 @@
 /* Ids Tag Component */
 @import '../ids-base/ids-base';
 
+// Host styles are needed here for "placed" components like Popup.
+// (acts as a CSS "reset" without needing a real one)
+:host {
+  @include block();
+
+  min-height: calc(100vh - 16px);
+}
+
 .ids-container {
   @include absolute();
   @include bg-white();

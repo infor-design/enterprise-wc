@@ -9,10 +9,10 @@
 }
 
 .ids-popup {
-  @include fixed();
   @include z-3000();
 
   display: none;
+  position: relative;
 
   // Arrow definition
   .arrow {
@@ -97,7 +97,7 @@
 
   // Actually renders the popup, but doesn't "unhide" it
   &.visible {
-    display: unset;
+    display: block;
   }
 
   // Added to ".visible" to animate the opening.
@@ -145,6 +145,16 @@
       // transform: perspective(1000px) translate3d(0, 0, 0);
       transform: scale(1);
     }
+  }
+
+  // Position style: fixed
+  &.position-fixed {
+    @include fixed();
+  }
+
+  // Position style: absolute
+  &.position-absolute {
+    @include absolute();
   }
 
   // style: "none" (temporary)
@@ -252,6 +262,8 @@
     @include text-16();
     @include text-white();
     @include z-6000();
+
+    display: inline-block;
 
     .arrow.bottom,
     .arrow.bottom::after {

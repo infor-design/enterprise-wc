@@ -3,6 +3,7 @@ describe('Ids Button e2e Tests', () => {
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForTimeout(2000);
   });
 
   it('should not have errors', async () => {

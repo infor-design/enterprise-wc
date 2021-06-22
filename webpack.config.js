@@ -1,7 +1,6 @@
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const StylelintPlugin = require('stylelint-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -187,8 +186,6 @@ module.exports = {
       title: 'IDS Enterprise Web Components',
       chunks: ['index']
     }),
-    // Show Style Lint Errors in the console and fail
-    new StylelintPlugin({}),
     new CopyWebpackPlugin({
       patterns: [
         {
@@ -264,7 +261,17 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
     chunk = `${folderName}/${jsFile.replace('.js', '')}`;
   }
 
-  const folderChunks = [chunk, 'ids-icon/ids-icon', 'ids-text/ids-text', 'ids-layout-grid/ids-layout-grid'];
+  // The specified chunk is added to a list of components that will be pre-loaded,
+  // no matter which page is displayed.
+  const folderChunks = [
+    chunk,
+    'ids-container/ids-container',
+    'ids-icon/ids-icon',
+    'ids-layout-grid/ids-layout-grid',
+    'ids-text/ids-text',
+    'ids-theme-switcher/ids-theme-switcher',
+    'ids-toolbar/ids-toolbar'
+  ];
 
   // Add example.js to the page as a separate chunk
   const demoFile = filePath.replace('index.html', 'example.js');

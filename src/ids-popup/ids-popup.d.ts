@@ -30,8 +30,14 @@ export default class IdsPopup extends IdsElement {
   /** Reference to the Arrow Element inside the Popup's Shadow DOM */
   readonly arrowEl: HTMLDivElement;
 
-  /** */
+  /** The element in which an Arrow will point toward */
   arrowTarget: string | HTMLElement;
+
+  /** If true, allows placement to occur outside of the containing element's boundaries */
+  bleed: boolean;
+
+  /** The element currently containing the Popup */
+  containingElem: HTMLElement;
 
   /** The style of popup to use between 'none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt' */
   type: string;

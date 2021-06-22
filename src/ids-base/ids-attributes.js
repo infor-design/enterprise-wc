@@ -5,7 +5,13 @@ export const attributes = {
   ANIMATED: 'animated',
   ANIMATION_STYLE: 'animation-style',
   ALIGN: 'align',
+  ALIGN_EDGE: 'align-edge',
+  ALIGN_TARGET: 'align-target',
+  ALIGN_X: 'align-x',
+  ALIGN_Y: 'align-y',
   APPEARANCE: 'appearance',
+  ARROW: 'arrow',
+  ARROW_TARGET: 'arrow-target',
   AUDIBLE: 'audible',
   AUTO: 'auto',
   AUTOGROW: 'autogrow',
@@ -13,6 +19,7 @@ export const attributes = {
   AUTO_HEIGHT: 'auto-height',
   AUTOSELECT: 'autoselect',
   BG_TRANSPARENT: 'bg-transparent',
+  BLEED: 'bleed',
   CHAR_MAX_TEXT: 'char-max-text',
   CHAR_REMAINING_TEXT: 'char-remaining-text',
   CHARACTER_COUNTER: 'character-counter',
@@ -84,6 +91,7 @@ export const attributes = {
   ORIENTATION: 'orientation',
   PLACEHOLDER: 'placeholder',
   PLACEMENT: 'placement',
+  POSITION_STYLE: 'position-style',
   PARAM_NAME: 'param-name',
   PRINTABLE: 'printable',
   READONLY: 'readonly',
@@ -124,6 +132,8 @@ export const attributes = {
   VERSION: 'version',
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
+  X: 'x',
+  Y: 'y'
 };
 // Please keep constants alphabetized
 

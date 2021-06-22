@@ -1,7 +1,7 @@
-{{> ../layouts/head-no-csp.html }}
+{{> ../layouts/head-side-by-side.html }}
 
 <ids-layout-grid>
-  <h2 class="ids-text ids-text-px-12">WC Tags</h1>
+  <h2 class="ids-text ids-text-px-12">Web Component Tags</h1>
 </ids-layout-grid>
 <ids-layout-grid>
   <ids-layout-grid-cell>
@@ -22,13 +22,8 @@
 </ids-layout-grid>
 
 <ids-layout-grid>
-  <h2 class="ids-text ids-text-px-12">4.5 Tags</h2>
+  <h2 class="ids-text ids-text-px-12">4.x Tags</h2>
 </ids-layout-grid>
-
-<!--Import Old IDS -->
-<link href="https://unpkg.com/ids-enterprise@4.50.2/dist/css/theme-new-light.css" rel="stylesheet"/>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://unpkg.com/ids-enterprise@4.50.2/dist/js/sohoxi.js"></script>
 
 <div class="svg hidden">
   <div class="svg-icons">
@@ -59,6 +54,6 @@
 </div>
 
 <script>
-    $('body').initialize();
+  $('body').initialize();
 </script>
 {{> ../layouts/footer.html }}

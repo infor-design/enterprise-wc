@@ -258,8 +258,6 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
         hideSubmenuTimeout = new IdsRenderLoopItem({
           duration: 200,
           timeoutCallback() {
-            self.hideSubmenu();
-
             // Only focus again if the parent menu is still visible
             // (The menu may have closed here)
             if (!self.menu.hidden) {

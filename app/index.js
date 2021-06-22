@@ -9,7 +9,7 @@ import IdsText from '../src/ids-text/ids-text';
 import IdsHyperlink from '../src/ids-hyperlink/ids-hyperlink';
 import IdsIcon from '../src/ids-icon/ids-icon';
 import IdsPopup from '../src/ids-popup/ids-popup';
-import IdsToolbar from '../src/ids-toolbar/ids-toolbar';
+import IdsToolbar, { IdsToolbarSection, IdsToolbarMoreActions } from '../src/ids-toolbar/ids-toolbar';
 import IdsProgress from '../src/ids-progress/ids-progress';
 import IdsUploadAdvanced from '../src/ids-upload-advanced/ids-upload-advanced';
 import IdsTag from '../src/ids-tag/ids-tag';
@@ -38,6 +38,7 @@ import IdsModal, { IdsOverlay } from '../src/ids-modal';
 import IdsTabs, { IdsTab } from '../src/ids-tabs';
 import IdsColorPicker from '../src/ids-color-picker/ids-color-picker';
 import IdsColor from '../src/ids-color/ids-color';
+import IdsTooltip from '../src/ids-tooltip/ids-tooltip';
 import IdsSwipeAction from '../src/ids-swipe-action/ids-swipe-action';
 
 // Import Example Code

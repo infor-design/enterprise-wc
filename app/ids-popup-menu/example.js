@@ -1,5 +1,3 @@
-import './index.scss';
-
 document.addEventListener('DOMContentLoaded', () => {
   const popupmenuEl = document.querySelector('ids-popup-menu');
   const popupEl = popupmenuEl.popup;

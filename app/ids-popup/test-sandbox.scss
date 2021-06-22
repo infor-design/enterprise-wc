@@ -1,14 +1,3 @@
-html,
-body,
-div[role='main'] {
-  border: 0;
-  box-sizing: border-box;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-  width: 100%;
-}
-
 div[role='main'] {
   position: relative;
 }
@@ -28,11 +17,10 @@ div[role='main'] {
 
 #test-section {
   align-items: center;
+  align-self: center;
   display: flex;
-  height: 100%;
   justify-content: center;
-  position: absolute;
-  width: 100%;
+  height: 100%;
 }
 
 #other-test-section,
@@ -45,12 +33,17 @@ div[role='main'] {
   position: absolute;
 }
 
+#test-container {
+  background-color: #ccc;
+  position: absolute;
+  top: 10%;
+  bottom: 40%;
+  left: 10%;
+  right: 60%;
+  padding: 10px;
+}
+
 .demo-popup {
   padding: 20px;
   white-space: nowrap;
-}
-
-ids-popup {
-  display: inline-block;
-  position: fixed;
 }
