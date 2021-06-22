@@ -54,9 +54,14 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
    idsColorsArr = document.querySelectorAll('ids-color')
 
    connectedCallback() {
+     // TODO: Need to do this and not sure why or the setters dont work
+     // eslint-disable-next-line no-self-assign
      this.value = this.value;
+     // eslint-disable-next-line no-self-assign
      this.disabled = this.disabled;
+     // eslint-disable-next-line no-self-assign
      this.swatch = this.swatch;
+     // eslint-disable-next-line no-self-assign
      this.label = this.label;
      this.#handleEvents();
    }
@@ -75,10 +80,10 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
           </span>
           <ids-input dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
           <ids-trigger-button id="${id}-button">
-            <ids-icon class="ids-dropdown" icon="dropdown" size="large"></ids-icon>
+            <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
-        <ids-popup id="${id}-popup" x="200" y="210" type="menu" arrow="bottom" align="top, left" alignTarget="#${id}-button">
+        <ids-popup type="menu">
           <slot slot="content" class="color-popup"></slot>
         </ids-popup>
       </div>`;
@@ -163,6 +168,10 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
 
    #openCloseColorpicker() {
      const popup = this.container.querySelector('ids-popup');
+     popup.alignTarget = this.container.querySelector('ids-icon');
+     popup.align = 'bottom, center';
+     popup.arrow = 'bottom';
+     popup.y = 12;
      popup.visible = !popup.visible;
    }
 }
