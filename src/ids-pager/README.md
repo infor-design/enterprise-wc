@@ -40,9 +40,104 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 
 ## Features (with code samples)
 
-TODO
+A pager with a data set that represents 10 entries per-page, with 100 items overall, with basic navigation buttons, and a user input:
+```html
+<ids-pager page-size="10" total="100" page-number="1">
+  <ids-pager-button first></ids-pager-button>
+  <ids-pager-button previous></ids-pager-button>
+  <ids-pager-input></ids-pager-input>
+  <ids-pager-button next></ids-pager-button>
+  <ids-pager-button last></ids-pager-button>
+</ids-pager>
+```
+
+A pager with numbered-page-buttons for navigation, surrounded by navigation buttons:
+```html
+<ids-pager page-size="20" page-number="10" total="150">
+  <ids-pager-section>
+    <ids-pager-button previous></ids-pager-button>
+    <ids-pager-number-list></ids-pager-number-list>
+    <ids-pager-button next></ids-pager-button>
+  </ids-pager-section>
+  <ids-pager-section>Right-Aligned Content</ids-pager-section>
+</ids-pager>
+```
+
+### Disabling Functionality
+
+A pager with all navigation buttons explicitly disabled:
+```html
+<ids-pager page-size="10" total="100" page-number="2" disabled>
+  <ids-pager-button first></ids-pager-button>
+  <ids-pager-button previous></ids-pager-button>
+  <ids-pager-input></ids-pager-input>
+  <ids-pager-button next></ids-pager-button>
+  <ids-pager-button last></ids-pager-button>
+</ids-pager>
+```
+
+A pager with only the `first` button disabled:
+```html
+<ids-pager page-size="10" total="100" page-number="2">
+  <ids-pager-button first disabled></ids-pager-button>
+  <ids-pager-button previous></ids-pager-button>
+  <ids-pager-input></ids-pager-input>
+  <ids-pager-button next></ids-pager-button>
+  <ids-pager-button last></ids-pager-button>
+</ids-pager>
+```
+
+### With Aligned Sections on the Margins
+
+User-defined right aligned content:
+```html
+<ids-pager page-size="10" total="100" page-number="2">
+  <ids-pager-section>
+    <ids-pager-button first></ids-pager-button>
+    <ids-pager-button previous></ids-pager-button>
+    <ids-pager-input></ids-pager-input>
+    <ids-pager-button next></ids-pager-button>
+    <ids-pager-button last></ids-pager-button>
+  </ids-pager-section>
+  <ids-pager-section>
+    user defined right-aligned content
+  </ids-pager-section>
+</ids-pager>
+```
+
+A pager with user-defined content aligned to the left and to the right of the central navigation buttons:
+```html
+<ids-pager page-size="10" total="100" page-number="2">
+  <ids-pager-section>
+    user defined right-aligned content
+  </ids-pager-section>
+  <ids-pager-section>
+    <ids-pager-button first></ids-pager-button>
+    <ids-pager-button previous></ids-pager-button>
+    <ids-pager-input></ids-pager-input>
+    <ids-pager-button next></ids-pager-button>
+    <ids-pager-button last></ids-pager-button>
+  </ids-pager-section>
+  <ids-pager-section>
+    user defined right-aligned content
+  </ids-pager-section>
+</ids-pager>
+```
 
 ## Usage Tips
 
 - the `page-size`, `page-number` and `total` are only useful in the context of the `ids-pager`. They should not be controlled at the level of the interactive buttons or the number list.
 - Content can be laid out for additional buttons/interactions/etc other than the `ids-pager-button`, but the standard navigation and user input components should be used wherever possible.
+- the page count on the pager can be accessed on the `ids-pager` element at any time via the `pageCount` property via JS for example:
+```js
+  const idsElement = document.querySelector('ids-pager');
+  const pageCount = idsElement.pageCount;
+```
+
+## Accessiblity
+
+TODO
+
+## Regional Considerations
+
+All elements will flip to the alternate side in Right To Left mode, including user defined content. Alignment on left and right aligned `ids-pager-section` will also flip. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai). For some of these cases text-ellipsis is supported.
