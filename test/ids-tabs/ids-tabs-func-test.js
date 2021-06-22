@@ -139,7 +139,6 @@ describe('IdsTabs Tests', () => {
         <ids-tab count="12">Ginger Ales</ids-tab>
       </ids-tabs>`
     );
-    expect(elem.outerHTML).toMatchSnapshot();
     expect(errors).not.toHaveBeenCalled();
   });
 
