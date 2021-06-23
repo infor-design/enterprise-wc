@@ -17,7 +17,7 @@ ids-button::part(button) {
   padding: 6px 8px;
 }
 
-ids-button:not([selected])::part(button) {
+ids-button:not([selected]):not([disabled])::part(button) {
   @include text-azure-60();
 }
 
@@ -25,7 +25,7 @@ ids-button[selected]::part(button) {
   @include font-bold();
 }
 
-ids-button:hover {
+ids-button:not([selected]):hover {
   @include border-none();
   @include border-b-1();
   @include border-azure-60();

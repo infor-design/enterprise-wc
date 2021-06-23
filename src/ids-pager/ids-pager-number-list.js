@@ -197,7 +197,13 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
    * based on parentDisabled and disabled attribs
    */
   #updateDisabledState() {
-    // TODO
+    for (const el of this.container.children) {
+      if (this.disabledOverall) {
+        el.setAttribute(attributes.DISABLED, '');
+      } else {
+        el.removeAttribute(attributes.DISABLED);
+      }
+    }
   }
 
   #populatePageNumberButtons() {
