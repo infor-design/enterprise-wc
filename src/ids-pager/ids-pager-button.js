@@ -35,6 +35,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
       `<ids-button
         ${type}
         ${this.hasAttribute(attributes.DISABLED) ? ' disabled' : ''}
+        square
       >
         <ids-icon icon="${type}-page" size="medium"></ids-icon>
       </ids-button>`

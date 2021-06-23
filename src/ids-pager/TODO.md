@@ -1,9 +1,6 @@
-- ids-pager: buttons should be non-rounded to match previous or keep consistent in new version? (need feedback on this aspect particularly)
 - separate example pages.
 - more practical examples with data grid or list of content to paginate for clarity.
-- handle values set incorrectly a bit better -- also need to figure out
-how we will handle errors more easily for devs since we didn't agree on console
-logging yet
+- handle values set incorrectly better for end users (developers) -- this would need discussion and info on error logging/handling
 - right-hand menu component for selecting page sizes
 - ids-attribute-provider-mixin README
 (no TODO for mixins and created for this component so listing here)

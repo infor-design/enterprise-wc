@@ -116,6 +116,7 @@ export const attributes = {
   SELECTED: 'selected',
   SHAPE: 'shape',
   SHOW_BROWSE_LINK: 'show-browse-link',
+  SQUARE: 'square',
   SIZE: 'size',
   START: 'start',
   STEP: 'step',
