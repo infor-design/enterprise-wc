@@ -6,7 +6,7 @@ import {
   mix,
   stringUtils
 } from '../ids-base';
-import { IdsAttributeProviderMixin, IdsEventsMixin } from '../ids-mixins';
+import { IdsAttributeProviderMixin, IdsEventsMixin, IdsThemeMixin } from '../ids-mixins';
 import IdsPagerSection from './ids-pager-section';
 import IdsPagerButton from './ids-pager-button';
 import IdsPagerInput from './ids-pager-input';
@@ -24,7 +24,8 @@ import styles from './ids-pager.scss';
 @scss(styles)
 export default class IdsPager extends mix(IdsElement).with(
     IdsAttributeProviderMixin,
-    IdsEventsMixin
+    IdsEventsMixin,
+    IdsThemeMixin
   ) {
   constructor() {
     super();

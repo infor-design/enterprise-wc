@@ -249,10 +249,20 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    * based on parentDisabled and disabled attribs
    */
   #updateDisabledState() {
+    const idsTextEls = this.shadowRoot.querySelectorAll('ids-text');
+
     if (this.disabledOverall) {
       this.input.setAttribute(attributes.DISABLED, '');
+
+      for (const el of idsTextEls) {
+        el.setAttribute(attributes.DISABLED, '');
+      }
     } else {
       this.input.removeAttribute(attributes.DISABLED);
+
+      for (const el of idsTextEls) {
+        el.removeAttribute(attributes.DISABLED);
+      }
     }
   }
 }
