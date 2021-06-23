@@ -18,35 +18,37 @@ const TemplateHTML = {
   )
 };
 
-// Add an event listener to test clickable links
-const pager = document.querySelector('#ids-pager-example');
-pager?.addEventListener('pagenumberchange', (e) => {
-  console.info('pagenumberchange event fired ', e.detail.value);
-});
+document.addEventListener('DOMContentLoaded', () => {
+  // Add an event listener to test clickable links
+  const pager = document.querySelector('#ids-pager-example');
+  pager?.addEventListener('pagenumberchange', (e) => {
+    console.info('pagenumberchange event fired ', e.detail.value);
+  });
 
-const toggleDisableButton = document.querySelector('#ids-pager-toggle-disable-button');
-toggleDisableButton.addEventListener('click', () => {
-  pager.disabled = !pager.disabled;
+  const toggleDisableButton = document.querySelector('#ids-pager-toggle-disable-button');
+  toggleDisableButton.addEventListener('click', () => {
+    pager.disabled = !pager.disabled;
 
-  toggleDisableButton.querySelector('[slot="text"]').textContent = pager.disabled
-    ? 'Enable'
-    : 'Disabled';
-});
+    toggleDisableButton.querySelector('[slot="text"]').textContent = pager.disabled
+      ? 'Enable'
+      : 'Disabled';
+  });
 
-let mode = 'input-buttons';
+  let mode = 'input-buttons';
 
-const toggleTypeButton = document.querySelector('#ids-pager-type-toggle-button');
-toggleTypeButton.addEventListener('click', () => {
-  mode = (mode === 'input-buttons') ? 'number-list' : 'input-buttons';
+  const toggleTypeButton = document.querySelector('#ids-pager-type-toggle-button');
+  toggleTypeButton.addEventListener('click', () => {
+    mode = (mode === 'input-buttons') ? 'number-list' : 'input-buttons';
 
-  toggleTypeButton.querySelector('[slot="text"]').textContent = (mode === 'input-buttons')
-    ? 'IdsPagerNumberList'
-    : 'IdsPagerInput + IdsPagerButtons';
+    toggleTypeButton.querySelector('[slot="text"]').textContent = (mode === 'input-buttons')
+      ? 'IdsPagerNumberList'
+      : 'IdsPagerInput + IdsPagerButtons';
 
-  pager.innerHTML = '';
+    pager.innerHTML = '';
 
-  const template = document.createElement('template');
-  template.innerHTML = TemplateHTML[mode === 'input-buttons' ? 'INPUT_AND_BUTTONS' : 'NUMBER_LIST'];
-  const pagerContent = template.content.cloneNode(true);
-  pager.appendChild(pagerContent);
+    const template = document.createElement('template');
+    template.innerHTML = TemplateHTML[mode === 'input-buttons' ? 'INPUT_AND_BUTTONS' : 'NUMBER_LIST'];
+    const pagerContent = template.content.cloneNode(true);
+    pager.appendChild(pagerContent);
+  });
 });
