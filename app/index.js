@@ -76,4 +76,4 @@ import './ids-counts/index';
 import './ids-wizard/index';
 import './ids-spinbox/index';
 import './ids-tabs/index';
-import './ids-pager/index';
+import './ids-pager/example';

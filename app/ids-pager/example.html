@@ -4,12 +4,17 @@
 
 <ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
-    <ids-pager page-size="20" page-number="10" total="200">
+    <ids-pager page-size="20" page-number="10" total="200" id="ids-pager-example">
       <ids-pager-button first></ids-pager-button>
       <ids-pager-button previous></ids-pager-button>
       <ids-pager-input></ids-pager-input>
       <ids-pager-button next></ids-pager-button>
       <ids-pager-button last></ids-pager-button>
     </ids-pager>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="ids-pager-toggle-disable-button">
+      <span slot="text">Disable</slot>
+    </ids-button>
   </ids-layout-grid-cell>
 </ids-layout-grid>

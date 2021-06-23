@@ -150,6 +150,31 @@ describe('IdsPager Component', () => {
     expect(elem.pageSize).toEqual(1);
   });
 
+  it('can set disabled on ids-pager predictably', async () => {
+    elem = await createElemViaTemplate(
+      '<ids-pager page-number="1" page-size="10" total="100" disabled></ids-pager>'
+    );
+    expect(elem.disabled).toEqual(true);
+
+    elem.setAttribute('disabled', false);
+    expect(elem.disabled).toEqual(false);
+
+    elem.disabled = true;
+    expect(elem.disabled).toEqual(true);
+
+    elem.disabled = false;
+    elem.setAttribute('disabled', false);
+
+    elem.setAttribute('disabled', true);
+    expect(elem.disabled).toEqual(true);
+
+    elem.disabled = false;
+    expect(elem.disabled).toEqual(false);
+
+    elem.disabled = true;
+    expect(elem.disabled).toEqual(true);
+  });
+
   it('sets the ids-pager page-number above max value and it is limited', async () => {
     elem = await createElemViaTemplate(HTMLSnippets.NAV_BUTTONS_AND_INPUT);
     elem.setAttribute('page-number', '100');

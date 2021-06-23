@@ -3,7 +3,8 @@ import {
   customElement,
   attributes,
   scss,
-  mix
+  mix,
+  stringUtils
 } from '../ids-base';
 import { IdsAttributeProviderMixin, IdsEventsMixin } from '../ids-mixins';
 import IdsPagerSection from './ids-pager-section';
@@ -31,6 +32,7 @@ export default class IdsPager extends mix(IdsElement).with(
 
   static get attributes() {
     return [
+      attributes.DISABLED,
       attributes.PAGE_NUMBER,
       attributes.PAGE_SIZE,
       attributes.TOTAL
@@ -97,6 +99,26 @@ export default class IdsPager extends mix(IdsElement).with(
     }
 
     return false;
+  }
+
+  /**
+   * @param {boolean} value whether or not to disable the pager overall
+   */
+  set disabled(value) {
+    const isTruthy = stringUtils.stringToBool(value);
+
+    if (isTruthy && !this.hasAttribute(attributes.DISABLED)) {
+      this.setAttribute(attributes.DISABLED, '');
+    } else if (!isTruthy && this.hasAttribute(attributes.DISABLED)) {
+      this.removeAttribute(attributes.DISABLED);
+    }
+  }
+
+  /**
+   * @returns {boolean} whether or not the pager overall is disabled
+   */
+  get disabled() {
+    return this.hasAttribute(attributes.DISABLED);
   }
 
   /**
