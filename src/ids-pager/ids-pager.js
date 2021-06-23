@@ -34,9 +34,11 @@ export default class IdsPager extends mix(IdsElement).with(
   static get attributes() {
     return [
       attributes.DISABLED,
+      attributes.MODE,
       attributes.PAGE_NUMBER,
       attributes.PAGE_SIZE,
-      attributes.TOTAL
+      attributes.TOTAL,
+      attributes.VERSION
     ];
   }
 
