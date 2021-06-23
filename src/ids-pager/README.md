@@ -46,6 +46,10 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 ### IdsPagerSection
 **container** - the `ids-pager-section` container
 
+### IdsPagerButton
+**button** - the `ids-button` component
+**icon** - the `ids-icon` component
+
 ## Features (with code samples)
 
 A pager with a data set that represents 10 entries per-page, with 100 items overall, with basic navigation buttons, and a user input:

@@ -38,6 +38,12 @@ import IdsModal, { IdsOverlay } from '../src/ids-modal';
 import IdsTabs, { IdsTab } from '../src/ids-tabs';
 import IdsTooltip from '../src/ids-tooltip/ids-tooltip';
 import IdsSwipeAction from '../src/ids-swipe-action/ids-swipe-action';
+import IdsPager, {
+  IdsPagerSection,
+  IdsPagerInput,
+  IdsPagerButton,
+  IdsPagerNumberList
+} from '../src/ids-pager';
 
 // Import Example Code
 
@@ -70,3 +76,4 @@ import './ids-counts/index';
 import './ids-wizard/index';
 import './ids-spinbox/index';
 import './ids-tabs/index';
+import './ids-pager/index';

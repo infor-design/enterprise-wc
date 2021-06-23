@@ -19,7 +19,8 @@ const buttonTypes = ['first', 'last', 'next', 'previous'];
  * IDS PagerButton Component
  * @type {IdsPagerButton}
  * @inherits IdsElement
- * @part container ids-pager-button container
+ * @part button - the `ids-button` component
+ * @part icon - the `ids-icon` component
  */
 @customElement('ids-pager-button')
 @scss(styles)
@@ -35,9 +36,10 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
       `<ids-button
         ${type}
         ${this.hasAttribute(attributes.DISABLED) ? ' disabled' : ''}
+        part="button"
         square
       >
-        <ids-icon icon="${type}-page" size="medium"></ids-icon>
+        <ids-icon icon="${type}-page" size="medium" part="icon"></ids-icon>
       </ids-button>`
     );
   }
