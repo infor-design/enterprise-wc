@@ -4,7 +4,7 @@ import IdsText from '../../src/ids-text/ids-text';
 import IdsButton from '../../src/ids-button/ids-button';
 
 const TemplateHTML = {
-  INPUT_AND_BUTTONS: (
+  INPUT: (
     `<ids-pager-button first></ids-pager-button>
       <ids-pager-button previous></ids-pager-button>
       <ids-pager-input></ids-pager-input>
@@ -41,13 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
     mode = (mode === 'input-buttons') ? 'number-list' : 'input-buttons';
 
     toggleTypeButton.querySelector('[slot="text"]').textContent = (mode === 'input-buttons')
-      ? 'IdsPagerNumberList'
-      : 'IdsPagerInput + IdsPagerButtons';
+      ? 'NumberList'
+      : 'Input';
 
     pager.innerHTML = '';
 
     const template = document.createElement('template');
-    template.innerHTML = TemplateHTML[mode === 'input-buttons' ? 'INPUT_AND_BUTTONS' : 'NUMBER_LIST'];
+    template.innerHTML = TemplateHTML[mode === 'input-buttons' ? 'INPUT' : 'NUMBER_LIST'];
     const pagerContent = template.content.cloneNode(true);
     pager.appendChild(pagerContent);
   });

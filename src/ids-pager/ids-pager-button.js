@@ -63,8 +63,8 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     this.button = this.shadowRoot.querySelector('ids-button');
     this.onEvent('click', this.button, (e) => this.#onClick(e));
 
-    this.#updateDisabledState();
     this.#updateNavDisabled();
+    this.#updateDisabledState();
     super.connectedCallback?.();
   }
 
@@ -218,6 +218,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     }
 
     this.#updateNavDisabled();
+    this.#updateDisabledState();
   }
 
   /**
@@ -239,7 +240,12 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    if (this.getAttribute(attributes.PAGE_SIZE) !== `${nextValue}`) {
+      this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    }
+
+    this.#updateNavDisabled();
+    this.#updateDisabledState();
   }
 
   /**
