@@ -12,6 +12,6 @@ export default class IdsPager extends IdsElement {
   /** number of items to track */
   total: number;
 
-  /** whether or not the pager overall is disabled */
+  /** whether or not the pager and subcomponents are disabled */
   disabled: boolean;
 }
