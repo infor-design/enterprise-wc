@@ -146,6 +146,12 @@ A pager with user-defined content aligned to the left and to the right of the ce
 </ids-pager>
 ```
 
+## Keyboard Guidelines
+
+- TAB should between `ids-pager-buttons`, as well as inputs and `ids-pager-number-list` buttons, and also goes to the next element if at the end of the pager.
+- SHIFT + TAB should work similar to TAB but in reverse, and also to the previous element if at the beginning of the pager.
+- ENTER while focusing on the `ids-pager-input` enters the value ou are currently editing.
+
 ## Usage Tips
 
 - the `page-size`, `page-number` and `total` are only useful in the context of the `ids-pager`. They should not be controlled at the level of the interactive buttons or the number list.
@@ -156,9 +162,9 @@ A pager with user-defined content aligned to the left and to the right of the ce
   const pageCount = idsElement.pageCount;
 ```
 
-## Accessiblity
+## Accessibility
 
-TODO
+- 1.4.3 Contrast (Minimum) - there should be enough contrast on the background which the wizard resides on in the page.
 
 ## Regional Considerations
 

@@ -12,7 +12,6 @@ ids-input::part(container) {
 
 ids-input::part(input) {
   @include py-0();
-  @include px-4();
   @include mb-0();
 
   width: 40px;

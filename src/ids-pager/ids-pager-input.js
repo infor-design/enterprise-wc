@@ -37,6 +37,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
      `<ids-text ${idsTextAttribs}>Page</ids-text>&nbsp;
       <ids-input
         value="${parseInt(this.pageNumber)}"
+        text-align="center"
         ${this.disabled ? 'disabled' : ''}
       ></ids-input>
       <ids-text ${idsTextAttribs}>&nbsp;of&nbsp;
@@ -83,7 +84,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
       }
     });
 
-    // istanbul ignore next
+    /* istanbul ignore next */
     this.listen('Enter', this.input, () => {
       this.input.dispatchEvent(new Event('change', { bubbles: true }));
     });
