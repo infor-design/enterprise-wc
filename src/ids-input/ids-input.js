@@ -312,8 +312,10 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     }
   }
 
-  /** @returns {boolean} Flag indicating whether a label's text is not displayed
-   * explicitly in the component */
+  /**
+   * @returns {boolean} Flag indicating whether a label's text is not displayed
+   * explicitly in the component
+   */
   get labelHidden() {
     return this.getAttribute(attributes.LABEL_HIDDEN);
   }
