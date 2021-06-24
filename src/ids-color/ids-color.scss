@@ -1,8 +1,21 @@
 .ids-color {
   cursor: pointer;
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   height: 20px;
   margin: 0 auto;
   padding: 0;
   width: 20px;
+}
+
+.color-check {
+  color: #ffffff;
+  opacity: 0;
+}
+
+:host([checked]) {
+  .color-check {
+    opacity: 1;
+  }
 }

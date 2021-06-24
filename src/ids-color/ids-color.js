@@ -46,7 +46,10 @@ class IdsColor extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {string} The template
    */
    template() {
-     return `<div class="ids-color" tabindex="0"></div>`;
+     return `
+      <div class="ids-color" tabindex="0">
+        <ids-icon class="color-check" icon="check" size="small"></ids-icon>
+      </div>`;
    }
 
    set hex(h) {

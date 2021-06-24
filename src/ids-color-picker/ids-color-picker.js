@@ -92,7 +92,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
 
    set value(v) {
      this.#updateColorPickerValues(v);
-     this.setAttribute('value', v.toString());
+     this.setAttribute('value', v.toString().toLowerCase());
    }
 
    get value() {
@@ -137,6 +137,17 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
          }
 
          if (target.hasAttribute('hex')) {
+
+           const checkedColor = this.shadowRoot.children[0].children[1].shadowRoot
+
+           const sampleQuery = checkedColor.querySelector('[checked="true"]')
+
+           //console.log(this.shadowRoot.children[0].children[1].shadowRoot.children[0].children[1].children)
+
+           console.log(checkedColor)
+           
+           target.setAttribute('checked', 'true');
+
            this.setAttribute('value', target.getAttribute('hex'));
            this.#openCloseColorpicker();
          }
@@ -144,7 +155,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
 
        this.onEvent('keyup', this.container, (keyup) => {
          if (keyup.key === 'Enter') {
-           if (keyup.target === this.triggerButton) {
+           if (keyup.target.id === `${this.id}-button`) {
              this.#openCloseColorpicker();
            }
            if (keyup.target.hasAttribute('hex')) {
@@ -155,9 +166,9 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
        });
      }
 
-     this.onEvent('change', this.colorpickerInput, () => this.setAttribute('value', this.colorpickerInput.value));
+     this.onEvent('change', this.colorpickerInput, () => this.setAttribute('value', this.colorpickerInput.value.toLowerCase()));
 
-     this.onEvent('change', this.colorInputValue, () => this.setAttribute('value', this.colorInputValue.value));
+     this.onEvent('change', this.colorInputValue, () => this.setAttribute('value', this.colorInputValue.value.toLowerCase()));
    }
 
    #updateColorPickerValues(colorValue) {
