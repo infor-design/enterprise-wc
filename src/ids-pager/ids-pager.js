@@ -90,7 +90,7 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   /**
-   * @returns {boolean} whether or not IdsPageSection containers were
+   * @returns {boolean} Whether or not IdsPageSection containers were
    * provided to content
    */
   /* istanbul ignore next */
@@ -105,7 +105,7 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   /**
-   * @param {boolean} value whether or not to disable the pager overall
+   * @param {boolean} value Whether or not to disable the pager overall
    */
   set disabled(value) {
     const isTruthy = stringUtils.stringToBool(value);
@@ -118,15 +118,13 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   /**
-   * @returns {boolean} whether or not the pager overall is disabled
+   * @returns {boolean} Whether or not the pager overall is disabled
    */
   get disabled() {
     return this.hasAttribute(attributes.DISABLED);
   }
 
-  /**
-   * @param {string|number} value number of items shown per-page
-   */
+  /** @param {string|number} value The number of items shown per page */
   set pageSize(value) {
     let nextValue = parseInt(value);
 
@@ -145,16 +143,12 @@ export default class IdsPager extends mix(IdsElement).with(
     }
   }
 
-  /**
-   * @returns {string|number} number of items shown per-page
-   */
+  /** @returns {string|number} The number of items shown per page */
   get pageSize() {
     return parseInt(this.getAttribute(attributes.PAGE_SIZE));
   }
 
-  /**
-   * @param {string|number} value 1-based index for the page number displayed
-   */
+  /** @param {string|number} value A 1-based index for the page number displayed */
   set pageNumber(value) {
     let nextValue = Number.parseInt(value);
 
@@ -171,16 +165,12 @@ export default class IdsPager extends mix(IdsElement).with(
     this.setAttribute(attributes.PAGE_NUMBER, nextValue);
   }
 
-  /**
-   * @returns {string|number} value 1-based-index for the page number displayed
-   */
+  /** @returns {string|number} value A 1-based-index for the page number displayed */
   get pageNumber() {
     return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
   }
 
-  /**
-   * @param {string|number} value number of items to track
-   */
+  /** @param {string|number} value The number of items to track */
   set total(value) {
     let nextValue;
     if (Number.isNaN(Number.parseInt(value))) {
@@ -197,16 +187,17 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   /**
-   * @returns {string|number} number of items for pager is tracking
+   * @returns {string|number} The number of items for pager is tracking
    */
   get total() {
     return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
   /**
-   * update the state of the section containers so
-   * user doesn't have to manually input all of this
-   * e.g. adds start/end attributes as needed for
+   * Updates the state of the section containers so
+   * a user doesn't have to manually input the
+   * ids-section-container boilerplate as well as
+   * alignment e.g. adds start/end attributes as needed for
    * their styling, and adds an extra left section
    * if only 2 sections exist for alignment sake to
    * keep things simple
@@ -215,7 +206,8 @@ export default class IdsPager extends mix(IdsElement).with(
   #normalizeSectionContainers() {
     /* istanbul ignore next */
     if (!this.hasSectionContainers()) {
-      this.shadowRoot.querySelector('ids-pager-section').setAttribute('role', 'navigation');
+      this.shadowRoot.querySelector('ids-pager-section')
+        .setAttribute('role', 'navigation');
       return;
     }
 
@@ -249,7 +241,7 @@ export default class IdsPager extends mix(IdsElement).with(
     }
   }
 
-  /** observes changes in content/layout */
+  /** Observes changes in content/layout */
   /* istanbul ignore next */
   #contentObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {

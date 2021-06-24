@@ -93,21 +93,22 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * @param {boolean|string} value designates this as a nav to next page button
+   * @param {boolean|string} value A flag which designates this as a nav to next page button
    */
   set next(value) {
     this.#setTypeAttribute(attributes.NEXT, value);
   }
 
   /**
-   * @param {boolean|string} value designates this as a nav to previous page button
+   * @param {boolean|string} value A flag which designates this as a nav to previous
+   * page button
    */
   set previous(value) {
     this.#setTypeAttribute(attributes.PREVIOUS, value);
   }
 
   /**
-   * @returns {string|boolean} flag indicating whether button is disabled
+   * @returns {boolean|string} A flag indicating whether button is disabled
    * for nav reasons
    */
   get disabled() {
@@ -115,7 +116,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * @param {boolean|string} value whether to disable input at app-specified-level
+   * @param {boolean|string} value A whether to disable input at app-specified-level
    */
   set disabled(value) {
     if (stringToBool(value)) {
@@ -128,7 +129,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * @returns {string|undefined} type of button based on which attrib was set
+   * @returns {string|undefined} type The type of button -- based on which attrib was set
    */
   get type() {
     for (const a of buttonTypes) {
@@ -139,21 +140,21 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * @param {string|number} value number of items to track
+   * @param {string|number} value The number of items to track
    */
   set total(value) {
     this.setAttribute(attributes.TOTAL, value);
   }
 
   /**
-   * @returns {string|number} number of items for pager is tracking
+   * @returns {string|number} The number of items for pager is tracking
    */
   get total() {
     return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
   /**
-   * @param {string|boolean} value flag indicating whether button is disabled
+   * @param {string|boolean} value A flag indicating whether button is disabled
    * for nav reasons
    */
   set navDisabled(value) {
@@ -167,7 +168,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * @returns {string|boolean} flag indicating whether button is disabled
+   * @returns {string|boolean} A flag indicating whether button is disabled
    * for nav reasons
    */
   get navDisabled() {
@@ -175,7 +176,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * @param {string|boolean} value flag indicating if button is disabled
+   * @param {string|boolean} value A flag indicating if button is disabled
    * through parent pager's disabled attribute
    */
   set parentDisabled(value) {
@@ -189,7 +190,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * @returns {string|boolean} flag indicating whether button is disabled
+   * @returns {string|boolean} A flag indicating whether button is disabled
    * via parent pager's disabled attribute
    */
   get parentDisabled() {
@@ -197,7 +198,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * @param {string|number} value 1-based page number shown
+   * @param {string|number} value A 1-based page number shown
    */
   set pageNumber(value) {
     let nextValue = Number.parseInt(value);
@@ -221,16 +222,12 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     this.#updateDisabledState();
   }
 
-  /**
-   * @returns {string|number} value 1-based page number displayed
-   */
+  /** @returns {string|number} value A 1-based page number displayed */
   get pageNumber() {
     return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
   }
 
-  /**
-   * @param {string|number} value number of items shown per-page
-   */
+  /** @param {string|number} value The number of items shown per page */
   set pageSize(value) {
     let nextValue;
 
@@ -248,15 +245,13 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
     this.#updateDisabledState();
   }
 
-  /**
-   * @returns {string|number} number of items shown per-page
-   */
+  /** @returns {string|number} The number of items shown per page */
   get pageSize() {
     return parseInt(this.getAttribute(attributes.PAGE_SIZE));
   }
 
   /**
-   * handles click functionality dependent on whether this
+   * Handles click functionality dependent on whether this
    * button is disabled and the type of button it is set to;
    * will bubble up an appropriate event to parent ids-pager
    * in order to update the page-number value via
@@ -328,7 +323,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * updates nav-disabled attribute based
+   * Updates nav-disabled attribute based
    * on page number, size and total to
    * prevent nav actions/disable the component
    * based on these factors
@@ -360,7 +355,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
   }
 
   /**
-   * update visible button disabled state
+   * Update visible button disabled state
    * dependent on current page nav and
    * user-provided disabled state
    */

@@ -53,7 +53,7 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 
 ## Features (with code samples)
 
-A pager with a data set that represents 10 entries per-page, with 100 items overall, with basic navigation buttons, and a user input:
+A pager with a data set that represents 10 entries per page, with 100 items overall, with basic navigation buttons, and a user input:
 ```html
 <ids-pager page-size="10" total="100" page-number="1">
   <ids-pager-button first></ids-pager-button>
@@ -64,7 +64,7 @@ A pager with a data set that represents 10 entries per-page, with 100 items over
 </ids-pager>
 ```
 
-A pager with a data set that represents 20 entries per-page, with 63 items overall, with basic navigation buttons to go to the next or previous page, and a user input to enter a page number directly:
+A pager with a data set that represents 20 entries per page, with 63 items overall, with basic navigation buttons to go to the next or previous page, and a user input to enter a page number directly:
 ```html
 <ids-pager page-size="20" total="63" page-number="2">
   <ids-pager-button previous></ids-pager-button>
@@ -162,4 +162,4 @@ TODO
 
 ## Regional Considerations
 
-All elements will flip to the alternate side in Right To Left mode, including user defined content. Alignment on left and right aligned `ids-pager-section` will also flip. 
+All elements will flip to the alternate side in Right To Left mode, including user defined content. Alignment on left and right aligned `ids-pager-section` will also flip.

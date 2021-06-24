@@ -27,9 +27,11 @@ export default class IdsPagerSection extends IdsElement {
   }
 
   /**
-   * @type {boolean|string} value whether this section is
+   * Indicates whether this section is
    * at the start/left of the pager (e.g. 1/3 or 1/2 sections);
    * position is flipped in RTL mode
+   *
+   * @type {boolean|string}
    */
   set align(value) {
     switch (value) {

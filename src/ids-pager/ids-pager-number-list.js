@@ -59,7 +59,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
   }
 
   /**
-   * @param {string|number} value number of items shown per-page
+   * @param {string|number} value The number of items shown per page
    */
   set pageSize(value) {
     let nextValue;
@@ -73,16 +73,12 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
     this.setAttribute(attributes.PAGE_SIZE, nextValue);
   }
 
-  /**
-   * @returns {string|number} number of items shown per-page
-   */
+  /** @returns {string|number} The number of items shown per page */
   get pageSize() {
     return parseInt(this.getAttribute(attributes.PAGE_SIZE));
   }
 
-  /**
-   * @param {string|number} value 1-based page number shown
-   */
+  /** @param {string|number} value A value 1-based page number shown */
   set pageNumber(value) {
     let nextValue = Number.parseInt(value);
 
@@ -104,16 +100,12 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
     this.#populatePageNumberButtons();
   }
 
-  /**
-   * @returns {string|number} value 1-based page number displayed
-   */
+  /** @returns {string|number} A value 1-based page number displayed */
   get pageNumber() {
     return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
   }
 
-  /**
-   * @param {string|number} value number of items to track
-   */
+  /** @param {string|number} value The number of items to track */
   set total(value) {
     let nextValue;
     if (Number.isNaN(Number.parseInt(value))) {
@@ -127,25 +119,19 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
     this.setAttribute(attributes.TOTAL, nextValue);
   }
 
-  /**
-   * @returns {number|null} the calculated pageCount using total and pageSize
-   */
+  /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount() {
     return this.hasAttribute(attributes.TOTAL)
       ? Math.floor(this.total / this.pageSize)
       : null;
   }
 
-  /**
-   * @returns {string|number} number of items for pager is tracking
-   */
+  /** @returns {string|number} The number of items for pager is tracking */
   get total() {
     return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
-  /**
-   * @param {boolean|string} value whether to disable input at app-specified-level
-   */
+  /** @param {boolean|string} value Whether to disable input at app-specified-level */
   set disabled(value) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.DISABLED, '');
@@ -156,18 +142,14 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
     this.#updateDisabledState();
   }
 
-  /**
-   * @returns {string|boolean} flag indicating whether button is disabled
-   * for nav reasons
-   */
+  /** @returns {string|boolean} A flag indicating whether button is disabled for nav reasons */
   get disabled() {
     return this.hasAttribute(attributes.DISABLED);
   }
 
   /**
-   * @param {string|boolean} value flag indicating if button is disabled
-   * through parent pager's disabled attribute
-   */
+   * @param {string|boolean} value A flag indicating if button is disabled through parent pager's
+   * disabled attribute */
   set parentDisabled(value) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.PARENT_DISABLED, '');
@@ -179,13 +161,17 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
   }
 
   /**
-   * @returns {string|boolean} flag indicating whether button is disabled
-   * via parent pager's disabled attribute
+   * @returns {string|boolean} A flag indicating whether button is
+   * disabled via parent pager's disabled attribute
    */
   get parentDisabled() {
     return this.hasAttribute(attributes.PARENT_DISABLED);
   }
 
+  /**
+   * @returns {string|boolean} Whether the functionality overall is disabled based on
+   * a combination of other available disabled fields
+   */
   get disabledOverall() {
     return (this.hasAttribute(attributes.DISABLED)
       || this.hasAttribute(attributes.PARENT_DISABLED)
