@@ -160,6 +160,8 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      this.onEvent('change', this.colorpickerInput, () => this.setAttribute('value', this.colorpickerInput.value.toLowerCase()));
 
      this.onEvent('change', this.colorInputValue, () => this.setAttribute('value', this.colorInputValue.value.toLowerCase()));
+
+     this.onEvent('click', this.colorPreview, () => this.idsColorsArr.forEach((element) => element.removeAttribute('checked')));
    }
 
    #updateColorPickerValues(colorValue) {
