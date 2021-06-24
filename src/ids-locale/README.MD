@@ -13,6 +13,11 @@ The Locale API handles the following functionality
 - right to left support
 - translations
 
+## Whats new in this version
+
+- Solved the problems making some functions async so that you don't need to wait for the locale to load.
+- Used Intl.DateTimeFormat and this adds many features like additional calendars.
+
 ## Use Cases
 
 - Use you need to translate text
@@ -28,7 +33,7 @@ The Locale API handles the following functionality
 
 ## Initialization
 
-You can set the locale or language on the root container. If you do this then all elements in the container will get that locale or language. You can optionally set the language to something else so that the locale and language can be separate.
+You can set the locale or language on the root container. If you do this then all elements in the container will get that locale or language. It is possible to use the translation strings in another language, independently of the locale settings for date and numbers ect. to do this just call the `setLanguage` api function.
 
 ```js
 await document.querySelector('ids-container').setLocale('de-DE');
@@ -43,9 +48,13 @@ await document.querySelector('ids-container').setLanguage('da');
 document.querySelector('ids-container').locale.translate('Actions'); // Returns 'Handlinger'
 ```
 
+## Currently Supported Locales
+
+For a list of all the supported locales and languages see the <a href="https://github.com/infor-design/enterprise-wc/tree/main/src/ids-locale/cultures" target="_blank">component source locale folder.</a>.
+
 ## Features (Translation)
 
-You can use a feature on ids-text to translate text. This example will take the text and use it as a key to lookup the translation and present it. If the language is changed on the container or component the text will be updated on the fly.
+You can use a feature on ids-text to translate text. This example will take the text and use it as a key to lookup the translation and present it. If the language is changed on the container or component the text will be updated on the fly. If coming from 4.x note that the translate API and in general no longer require a cultures folder as the data is contained in the npm package.
 
 ```html
 <ids-text font-size="16" translate-text="true" language="de">BrowserLanguage</ids-text>
@@ -66,13 +75,11 @@ container.locale.translate('Thanks');      // Returns Grazie
 container.locale.translate('YourWelcome'); // Returns Prego
 ```
 
-TODO: https://raw.githubusercontent.com/infor-design/enterprise/main/src/components/locale/readme.md
+## Translation API
 
-## API Methods
+- `translate` {string} returns {string} Takes a string as a key and returns the translated value in the strings if found. If not found it returns the value in either the english locale or in [SquareBrackets] if not found.
 
-- `translate` {string} returns {string} Takes a string as a key and returns the translated value in the strings if found. If not found it returns the value in either the english locale or in [SquareBrackets] if not found
-
-## Number Format Patterns
+## Number Formatting
 
 The formatNumber function accepts a numberFormat object with formatting information. For example:
 
@@ -95,22 +102,86 @@ The following options are supported:
 - `decimal` - You can specify a specific character to use for the decimal point, otherwise it uses the default one for the current locale.
 - `useGrouping` - If true the grouping character can be used
 - `currencyFormat` - You can specify a currencyFormat to use, otherwise it uses the current one for the locale. The ¤ is where the currencySign will go. ### is used for the number replacement.
-- `groupSize` - You can specify where the thousands group separators will be placed. For example `[3, 0]` means that only the first group will have a separator: 1234,567. `[3, 2]` means the first group will have 3 digits and the other groups will all have 2, for example 12,34,567. The default for many locales is `[3, 3]
-- `localeMatcher` - Can be `best-fit` or `lookup`
+- `groupSize` - You can specify where the thousands group separators will be placed. For example `[3, 0]` means that only the first group will have a separator: 1234,567. `[3, 2]` means the first group will have 3 digits and the other groups will all have 2, for example 12,34,567. The default for many locales is `[3, 3]`
 
 Deprecated options from 4.x
 
 - `round` - Considered no longer needed as toLocaleString will round all the time depending on FractionDigits
 - `group` - Will map to true/false on `useGrouping` now and use the passed in locale
 
-## Converting from Previous Versions
+## Date Formatting
+
+It is possible to use `formatDate` display dates in the current or a specified locale. To do this just call the `getLocale` api function to ensure the data is loaded. When it is you can call `parseDate` or `formatDate` with a different locale tag without changing the current locale.
+
+```javascript
+locale.formatDate(new Date(2019, 5, 8), { dateStyle: 'short', locale: 'nl-NL' }));
+// 08-06-2019
+
+locale.formatDate(new Date(2019, 5, 8), { dateStyle: 'long', locale: 'es-ES' });
+// 8 de junio de 2019
+```
+
+### Date Formatting API
+
+The formatDate function accepts a date object and formatting options including an optional locale. Underneath we use [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat#parameters) so all these options can be used. Use the online docs as reference but some of the more common options are listed here.
+
+- `calendar` - Can use this to get islamic dates and other calendars.
+- `dateStyle` - The date formatting style to use. Possible values are: `full`, `long`, `medium` and `short`
+- `year` - The representation of the year. Possible values are:
+   `numeric` (e.g., 2012)
+   `2-digit` (e.g., 12)
+- `month` - The representation of the month. Possible values are:
+  `numeric` (e.g., 2)
+  `2-digit` (e.g., 02)
+  `long` (e.g., March)
+  `short` (e.g., Mar)
+  `narrow` (e.g., M). Two months may have the same narrow style for some locales (e.g. May's narrow style is also M).
+- `day` - The representation of the day. Possible values are:
+  `numeric` (e.g., 2)
+  `2-digit` (e.g., 02)
+
+#### Converting from Previous Versions (formatDate)
+
+If coming from 4.x versions we mapped some rules out for converting to the new version
+
+- `pattern` - You must now use the [Intl.DateTimeFormat Options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat#parameters)
+- `fromGregorian` - `Intl.DateTimeFormat` directly supports islamic
+- `date` - This is now `dateStyle` as per the Intl Api and not that short is two digits year and no padding and medium is four digit year.
+- If passing the `style: 'integer'` option, this should now be `{ minimumFractionDigits: 0, maximumFractionDigits: 0 }`
+- For `{ pattern: month }` format you would now use `{ month: 'long', day: 'numeric' }`
+- For arabic digits now show in Arabic/Persian as is the browser default
+- For `{ date: 'datetime' }` you would now use `{ dateStyle: 'short', timeStyle: 'short' }`
+- For `{ date: 'year' }` you would now use `{ month: 'long', year: 'numeric' }`
+- For `{ date: 'month' }` you would now use `{ month: 'long', day: 'numeric' }`
+- For `{ date: 'short' }` you might want to just take this off and use the default or you will get two digit years
+- For `{ date: 'timestamp' }` you would now use `{ timeStyle: 'medium' } `
+- For `{ date: 'hour' }` you would now use `{ timeStyle: 'short' } `
+- For `{ date: 'timezone' }` you would now use `{ year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' }`
+- For `{ date: 'timezoneLong' }` you would now use `{ year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'long' }`
+- For a specific pattern such as `d MMM yyyy HH:mm` you would now use you would now use `{ day: 'numeric', month: 'medium', year: 'numeric', hour: 'numeric', minute: 'numeric' }`
+
+### Date Parsing
+
+We support a limited date parser that requires information about what the string format is. It can currently only handle short dates. [The reasons for this are many](https://blog.sffc.xyz/post/190943794505/why-you-should-not-parse-localized-strings). A better approach might be to keep the date a reference and only format it.
+
+#### Converting from Previous Versions (parseDate)
+
+-  Parsing strings with long dates such as `Noviembre de 2018` is not supported
+
+## Other API Utilities
+
+- `isIslamic(locale)` - Returns true if the current or provided locale uses the islamic calendar as the primary calendar
+- `isTRL(locale)` - Returns true if the current or provided locale is a right-to-left language
+
+## Converting from Previous Versions (Overview)
 
 - 3.x: Used the older Globalize open source utilities
 - 4.x: Has an entire new Locale API
-- 5.x: Is mostly compatible with 4.x except for:
-  - The `set` api is now called `setLocale`
-  - The `formatNumber` method now use `toLocaleString` internally which has some minor differences
-  - The rounding and truncation behavior has slightly changed
+- 5.x: Has numerous breaking changes
+  - The `set` api is now called `setLocale`. The `setLanguage` is still called `setLanguage`
+  - The translate API and in general no longer require a cultures folder as this is contained in the npm package.
+  - The `formatNumber` function now uses `toLocaleString` internally which has some minor differences. As a result the the rounding and truncation behavior has slightly changed and some other details are listed in the formatDate section.
+  - The `formatDate` function now uses [Intl.DateTimeFormat](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat) internally which has some minor differences. This was done to reduce the number of locale bugs and code.
 
 ## Regional Considerations
 

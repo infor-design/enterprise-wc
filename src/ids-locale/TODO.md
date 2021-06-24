@@ -1,12 +1,14 @@
 # TODO For Locales
 
 - [x] Promises/Await
-- [] Translations
+- [X] Translations
 - [] Convert all code
 - [] Numbers
 - [] Dates
 - [] Timezone
 - [] RTL
-- [] translate string mixin setting
 
+# TODO For Phase 2
+
+- [] Change fonts for some locales (how would we do this?)
 

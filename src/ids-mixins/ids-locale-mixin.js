@@ -38,6 +38,7 @@ const IdsLocaleMixin = (superclass) => class extends IdsEventsMixin(superclass) 
   set language(value) {
     if (value) {
       this.locale.setLanguage(value);
+      this.locale.updateLangTag(this, value);
       this.setAttribute('language', value);
       this.triggerEvent('languagechanged', this, { detail: { elem: this, language: this.language, locale: this.locale } });
     }
@@ -58,6 +59,7 @@ const IdsLocaleMixin = (superclass) => class extends IdsEventsMixin(superclass) 
   async setLocale(value) {
     await this.locale.setLocale(value);
     this.locale = value;
+    this.locale.updateLangTag(this, value.substr(0, 2));
   }
 
   /**

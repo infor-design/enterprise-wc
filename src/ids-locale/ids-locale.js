@@ -72,6 +72,19 @@ class IdsLocale {
   }
 
   /**
+   * Sets the dir (direction) tag on an element
+   * @param {HTMLElement} elem The element to set it on.
+   * @param {string} value The value to check
+   */
+  updateLangTag(elem, value) {
+    if (this.isRTL(value)) {
+      elem.setAttribute('dir', 'rtl');
+      return;
+    }
+    elem.removeAttribute('dir');
+  }
+
+  /**
    * Set the language for a component
    * @param {string} value The language string value
    */
@@ -296,6 +309,150 @@ class IdsLocale {
 
     return numString.length >= 19 ? numString : parseFloat(numString);
   }
+
+  /**
+   * Formats a date object using the current locale or specified settings
+   * to a string for Internationalization
+   * @param {Date} value The date to show in the current locale.
+   * @param {object} options Additional date formatting settings.
+   * @returns {string} the formatted date.
+   */
+  formatDate(value, options) {
+    // const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
+    const usedOptions = options;
+    let sourceDate = value;
+
+    if (!usedOptions?.cache || (usedOptions?.cache && !this.intlDateTimeFormatter)) {
+      this.dateFormatter = new Intl.DateTimeFormat(
+        usedOptions?.locale || this.locale.name,
+        usedOptions
+      );
+    }
+
+    if (typeof value === 'string') {
+      sourceDate = this.parseDate(sourceDate, options);
+    }
+    return this.dateFormatter.format(sourceDate);
+  }
+
+  /**
+   * Returns whether or not the default calendar is islamic
+   * @param {string} locale The locale to check if not the current
+   * @returns {boolean} True if this locale uses islamic as the primary calendar
+   */
+  isIslamic(locale) {
+    const testLocale = locale || this.locale.name;
+    return testLocale === 'ar-SA';
+  }
+
+  /**
+   * Describes whether or not this locale is one that is read in "right-to-left" fashion
+   * @param {string} language The language to check if not the current
+   * @returns {boolean} Whether or not this locale is "right-to-left"
+   */
+  isRTL(language) {
+    const lang = this.#correctLanguage(language || this.language.name);
+    return lang === 'ar' || lang === 'hi';
+  }
+
+  /**
+   * Takes a formatted date string and parses back it into a date object
+   * @param {string} dateString  The string to parse in the current format
+   * @param {string|object} options  Additional options like locale and dateFormat
+   * @returns {Date | Array | undefined} The date object it could calculate from the string
+   */
+  parseDate(dateString, options) {
+    const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
+    const sourceFormat = options?.dateFormat || localeData.calendars[0].dateFormat.datetime;
+    const separator = this.#determineSeparator(sourceFormat);
+
+    const dateComponents = dateString.indexOf('T') > -1 ? dateString.split('T') : dateString.split(' ');
+    const datePieces = dateComponents[0].split(separator || '-');
+    const timePieces = dateComponents[1].split(':');
+
+    const formatComponents = sourceFormat.indexOf('T') > -1 ? sourceFormat.split('T') : sourceFormat.split(' ');
+    const formatPieces = formatComponents[0].split(separator || '-');
+
+    const month = this.#determineDatePart(formatPieces, datePieces, 'M', 'MM', 'MMM', 'MMMM');
+    const year = this.#determineDatePart(formatPieces, datePieces, 'y', 'yy', 'yyyy');
+    const day = this.#determineDatePart(formatPieces, datePieces, 'd', 'dd', 'dddd');
+
+    return (new Date(
+      year,
+      (month - 1),
+      day,
+      (timePieces && timePieces[0] ? timePieces[0] : 0),
+      (timePieces && timePieces[1] ? timePieces[1] : 0),
+      (timePieces && timePieces[1] ? timePieces[1] : 0)
+    ));
+  }
+
+  /**
+   * Figure out what seperator is used.
+   * @param {string} dateFormat The source format to check
+   * @returns {string} The format used.
+   */
+  #determineSeparator(dateFormat) {
+    if (dateFormat.indexOf('/')) {
+      return '/';
+    }
+    if (dateFormat.indexOf('-')) {
+      return '-';
+    }
+    if (dateFormat.indexOf('.')) {
+      return '.';
+    }
+    if (dateFormat.indexOf('. ')) {
+      return '. ';
+    }
+    return '';
+  }
+
+  /**
+   * Format out the date into parts.
+   * @private
+   * @param  {Array} formatParts An array of the format bits.
+   * @param  {Array} dateStringParts An array of the date parts.
+   * @param  {string} filter1 The first option to filter.
+   * @param  {string} filter2 The second option to filter.
+   * @param  {string} filter3 The third option to filter.
+   * @param  {string} filter4 The fourth option to filter.
+   * @param  {string} filter5 The fifth option to filter.
+   * @returns {string} The filtered out date part.
+   */
+   #determineDatePart(formatParts, dateStringParts, filter1, filter2, filter3, filter4, filter5) {
+    let ret = 0;
+    for (let i = 0; i < dateStringParts.length; i++) {
+      if (filter1 === formatParts[i]
+          || filter2 === formatParts[i]
+          || filter3 === formatParts[i]
+          || filter4 === formatParts[i]
+          || filter5 === formatParts[i]) {
+        ret = dateStringParts[i];
+      }
+    }
+    return ret;
+  }
+
+   /**
+    * Shortcut function to get the default or any calendar
+    * @param {string} locale The locale to use
+    * @param {string} name the name of the calendar (fx: "gregorian", "islamic-umalqura")
+    * @returns {object} containing calendar data
+    */
+   calendar(locale, name) {
+     const localeData = this.loadedLocales.get(locale || this.locale.name);
+     const calendars = localeData.calendars;
+     if (name && calendars) {
+       for (let i = 0; i < calendars.length; i++) {
+         const cal = calendars[i];
+         if (cal.name === name) {
+           return cal;
+         }
+       }
+     }
+     return calendars[0];
+   }
 }
 
 export default IdsLocale;

@@ -75,6 +75,7 @@
   - ShowAsUndefined option is deprecated, now undefined locales will all be shown in square brackets
   - Round option on formatNumber is deprecated
   - Options on formatNumber now use toLocaleString options (which are similar)
+  - parseDate is now much more limited
 - `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
   - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
   - If using events, events are now plain JS events.

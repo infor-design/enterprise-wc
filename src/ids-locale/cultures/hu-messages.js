@@ -410,6 +410,6 @@ const messages = {
   Week: { id: 'Week', value: 'Hét', comment: 'Shows a view of the current weeks events' },
   Year: { id: 'Year', value: 'Év', comment: 'As in a date year' },
   Yes: { id: 'Yes', value: 'Igen', comment: 'On a dialog button' }
-}};
+};
 
 export { messages };
