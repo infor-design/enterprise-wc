@@ -53,7 +53,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
    idsColorsArr = document.querySelectorAll('ids-color')
 
    connectedCallback() {
-     // TODO: Need to do this and not sure why or the setters dont work
+     // TODO: Need to do this and not sure why or the setters/getters do not work
      // eslint-disable-next-line no-self-assign
      this.value = this.value;
      // eslint-disable-next-line no-self-assign
@@ -151,6 +151,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
            if (keyup.target.hasAttribute('hex')) {
              this.setAttribute('value', keyup.target.getAttribute('hex'));
              this.#openCloseColorpicker();
+             this.#updateColorCheck(keyup.target);
            }
          }
        });
