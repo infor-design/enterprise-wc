@@ -6,6 +6,7 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 
 - There is a table, grid, document or other listing of data, which is displayed via pagination.
 - Controlling the pagination or keeping track of what is browsed in a data set.
+- Presenting digestible portions of large data sets.
 
 ## Sub-Components
 **`<ids-pager-section>`**: divides the different sections on a pager panel. It will automatically align itself to the left, middle, or right side of the component depending on how many sections are provided.
