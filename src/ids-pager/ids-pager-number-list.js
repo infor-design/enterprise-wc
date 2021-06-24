@@ -149,7 +149,8 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
 
   /**
    * @param {string|boolean} value A flag indicating if button is disabled through parent pager's
-   * disabled attribute */
+   * disabled attribute
+   */
   set parentDisabled(value) {
     if (stringToBool(value)) {
       this.setAttribute(attributes.PARENT_DISABLED, '');
