@@ -162,4 +162,4 @@ TODO
 
 ## Regional Considerations
 
-All elements will flip to the alternate side in Right To Left mode, including user defined content. Alignment on left and right aligned `ids-pager-section` will also flip. Consider that in some languages text may be a lot longer (German). And in some cases it cant be wrapped (Thai). For some of these cases text-ellipsis is supported.
+All elements will flip to the alternate side in Right To Left mode, including user defined content. Alignment on left and right aligned `ids-pager-section` will also flip. 
