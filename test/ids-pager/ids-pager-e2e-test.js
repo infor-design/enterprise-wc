@@ -10,9 +10,9 @@ describe('Ids Pager e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await expect(page).toPassAxeTests();
+    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'region'] });
 
     await page.goto(sandboxUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
-    await expect(page).toPassAxeTests();
+    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'region'] });
   });
 });
