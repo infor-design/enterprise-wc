@@ -44,7 +44,13 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, I
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [attributes.SCROLLABLE, attributes.MODE, attributes.VERSION];
+    return [
+      attributes.LANGUAGE,
+      attributes.LOCALE,
+      attributes.MODE,
+      attributes.SCROLLABLE,
+      attributes.VERSION
+    ];
   }
 
   /**

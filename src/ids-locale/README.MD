@@ -26,7 +26,7 @@ The Locale API handles the following functionality
 - **Format**: Formatting numbers or dates into a locale format
 - **Parse**: Parsing a formatted number bug into either a JS date or number
 
-## Features (Initialization)
+## Initialization
 
 You can set the locale or language on the root container. If you do this then all elements in the container will get that locale or language. You can optionally set the language to something else so that the locale and language can be separate.
 

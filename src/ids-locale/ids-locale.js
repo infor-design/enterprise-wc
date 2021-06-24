@@ -1,5 +1,3 @@
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
-
 /**
  * A mixin that adds locale functionality to components
  * @param {any} superclass Accepts a superclass and creates a new subclass from it

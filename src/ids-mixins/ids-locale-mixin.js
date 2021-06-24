@@ -1,8 +1,8 @@
-import { props } from '../ids-base/ids-attributes';
+import { attributes } from '../ids-base/ids-attributes';
 import locale from '../ids-locale/ids-locale-global';
-import { IdsEventsMixin } from './ids-events-mixin';
+import { IdsEventsMixin } from '.';
 
-const IdsLocaleMixin = (superclass) => class extends IdsRenderLoopMixin(superclass) {
+const IdsLocaleMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   constructor() {
     super();
   }
@@ -17,8 +17,8 @@ const IdsLocaleMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
   static get properties() {
     return [
       ...super.properties,
-      props.LANGUAGE,
-      props.LOCALE
+      attributes.LANGUAGE,
+      attributes.LOCALE
     ];
   }
 
