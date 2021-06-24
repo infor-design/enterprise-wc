@@ -1,8 +1,8 @@
-import { props } from '../ids-base/ids-constants';
+import { props } from '../ids-base/ids-attributes';
 import locale from '../ids-locale/ids-locale-global';
-import { IdsEventsMixin } from '../ids-base/ids-events-mixin';
+import { IdsEventsMixin } from './ids-events-mixin';
 
-const IdsLocaleMixin = (superclass) => class extends IdsEventsMixin(superclass) {
+const IdsLocaleMixin = (superclass) => class extends IdsRenderLoopMixin(superclass) {
   constructor() {
     super();
   }
