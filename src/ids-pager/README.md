@@ -38,7 +38,6 @@ The IDS Pager Component is used to provide an interface for browsing paginated d
 ### &lt;ids-pager-input&gt;
 - `disabled` {boolean} whether to override natural or parent-disabled functionality to specifically disable this button.
 
-
 ## Themeable Parts
 
 ### IdsPager

@@ -148,7 +148,6 @@ When using it...
 1. Consider adding a test to tooltip tests.
 1. If `tooltip="true"` is set then
 
-
 ## Ids Attribute Provider Mixin
 
 This mixin allows a parent component to automatically copy/provide attributes down in its tree (either light or shadowDom) to any custom sub elements
