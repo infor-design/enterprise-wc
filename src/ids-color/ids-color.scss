@@ -1,3 +1,5 @@
+@import '../ids-base/ids-base';
+
 .ids-color {
   cursor: pointer;
   display: inline-flex;
@@ -10,7 +12,7 @@
 }
 
 .color-check {
-  color: #ffffff;
+  color: var(--ids-color-palette-white);
   opacity: 0;
 }
 

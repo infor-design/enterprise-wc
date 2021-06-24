@@ -12,7 +12,6 @@ import {
   IdsThemeMixin
 } from '../ids-mixins';
 
-// @ts-ignore
 import styles from './ids-color.scss';
 
 /**

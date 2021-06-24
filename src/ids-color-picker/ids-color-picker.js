@@ -10,12 +10,11 @@ import {
   IdsKeyboardMixin,
   IdsThemeMixin
 } from '../ids-mixins';
+
 import '../ids-color/ids-color';
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-popup/ids-popup';
-
-// @ts-ignore
 import styles from './ids-color-picker.scss';
 
 /**
@@ -71,7 +70,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
    }
 
    template() {
-     const id = this.id || 'random';
+     const id = this.id || 'ids-color';
      const template = `
       <div class="ids-color-picker">
         <ids-trigger-field tabbable="false">
@@ -132,22 +131,13 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
        this.onEvent('click', this.container, (event) => {
          const target = event.target;
          const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
+         
          if (openColorCondition) {
            this.#openCloseColorpicker();
          }
 
          if (target.hasAttribute('hex')) {
-
-           const checkedColor = this.shadowRoot.children[0].children[1].shadowRoot
-
-           const sampleQuery = checkedColor.querySelector('[checked="true"]')
-
-           //console.log(this.shadowRoot.children[0].children[1].shadowRoot.children[0].children[1].children)
-
-           console.log(checkedColor)
-           
-           target.setAttribute('checked', 'true');
-
+           this.#updateColorCheck(target);
            this.setAttribute('value', target.getAttribute('hex'));
            this.#openCloseColorpicker();
          }
@@ -184,6 +174,14 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      popup.arrow = 'bottom';
      popup.y = 12;
      popup.visible = !popup.visible;
+   }
+
+   #updateColorCheck(target) {
+    const checkedColor = target.parentElement.querySelector('[checked="true"]');
+    if (checkedColor) {
+      checkedColor.removeAttribute('checked');
+    }
+    target.setAttribute('checked', 'true');
    }
 }
 
