@@ -110,6 +110,11 @@
   }
 }
 
+:host-context(form) {
+  @include mb-8();
+  @include flex();
+}
+
 // Handle Themes
 .ids-checkbox[mode='dark'] {
   input[type='checkbox']:disabled ~ .checkmark {

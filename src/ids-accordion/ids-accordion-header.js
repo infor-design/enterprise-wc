@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix
 } from '../ids-base';
 
@@ -32,8 +32,8 @@ class IdsAccordionHeader extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMi
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.MODE, props.VERSION];
+  static get attributes() {
+    return [attributes.MODE, attributes.VERSION];
   }
 
   /**

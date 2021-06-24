@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsThemeSwitcher Component renders correctly 1`] = `
-"<style nonce=\\"0a59a005\\">.ids-theme-switcher { background-color: transparent; }</style><ids-menu-button id=\\"ids-theme-switcher\\" menu=\\"ids-theme-menu\\" mode=\\"light\\" version=\\"new\\" role=\\"button\\">
+"<style nonce=\\"0a59a005\\">.ids-theme-switcher { background-color: transparent; }</style><ids-menu-button id=\\"ids-theme-switcher\\" menu=\\"ids-theme-menu\\" mode=\\"light\\" version=\\"new\\">
             <ids-icon slot=\\"icon\\" icon=\\"more\\"></ids-icon>
             <span class=\\"audible\\">Theme Switcher</span>
         </ids-menu-button>
-        <ids-popup-menu id=\\"ids-theme-menu\\" target=\\"ids-theme-switcher\\" trigger=\\"click\\" hidden=\\"\\">
+        <ids-popup-menu id=\\"ids-theme-menu\\" target=\\"#ids-theme-switcher\\" trigger=\\"click\\" hidden=\\"\\">
           <ids-menu-group>
             <ids-menu-item mode=\\"light\\" version=\\"new\\">
               Theme

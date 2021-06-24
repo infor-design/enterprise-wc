@@ -21,6 +21,7 @@
   align-items: center;
   cursor: pointer;
   list-style: none;
+  min-width: 80px; // needed to provide base sizing for menus
   position: static;
   transition: background-color $menu-item-transition-length cubic-bezier(0.4, 0, 0.6, 1);
   user-select: none;

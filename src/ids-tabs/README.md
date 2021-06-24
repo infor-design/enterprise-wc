@@ -59,7 +59,10 @@ TODO
 
 ## Keyboard Guidelines
 
-TODO
+- TAB should move off of the component to the next focusable element on page.
+- SHIFT + TAB should move to previous focusable element on the page.
+- Direction keys (UP/DOWN for vertical, LEFT/RIGHT for horizontal) should move between tabs
+- ENTER should select a tab.
 
 ## Responsive Guidelines
 

@@ -3,7 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -37,13 +37,13 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.DISABLED,
-      props.ERROR,
-      props.FILE_NAME,
-      props.SIZE,
-      props.VALUE
+      attributes.DISABLED,
+      attributes.ERROR,
+      attributes.FILE_NAME,
+      attributes.SIZE,
+      attributes.VALUE
     ];
   }
 
@@ -144,18 +144,18 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
     };
     const val = stringUtils.stringToBool(value);
     if (val) {
-      el.root?.classList.add(props.DISABLED);
-      el.progress.setAttribute(props.DISABLED, val.toString());
-      el.btnClose.setAttribute(props.DISABLED, val.toString());
+      el.root?.classList.add(attributes.DISABLED);
+      el.progress.setAttribute(attributes.DISABLED, val.toString());
+      el.btnClose.setAttribute(attributes.DISABLED, val.toString());
       el.alerts.forEach((/** @type {any} */ alert) => {
-        alert?.setAttribute(props.DISABLED, val.toString());
+        alert?.setAttribute(attributes.DISABLED, val.toString());
       });
     } else {
-      el.root?.classList.remove(props.DISABLED);
-      el.progress.removeAttribute(props.DISABLED);
-      el.btnClose.removeAttribute(props.DISABLED);
+      el.root?.classList.remove(attributes.DISABLED);
+      el.progress.removeAttribute(attributes.DISABLED);
+      el.btnClose.removeAttribute(attributes.DISABLED);
       el.alerts.forEach((/** @type {any} */ alert) => {
-        alert?.removeAttribute(props.DISABLED);
+        alert?.removeAttribute(attributes.DISABLED);
       });
     }
   }
@@ -191,8 +191,8 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     closeButtonTextEl.innerHTML = this.closeButtonText;
-    progress?.setAttribute(props.VALUE, value.toString());
-    progress?.setAttribute(props.LABEL, this.progressLabelText);
+    progress?.setAttribute(attributes.VALUE, value.toString());
+    progress?.setAttribute(attributes.LABEL, this.progressLabelText);
     rootEl?.classList.remove(...Object.values(shared.STATUS));
     rootEl?.classList.add(this.status);
 
@@ -351,14 +351,14 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   set disabled(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
+      this.setAttribute(attributes.DISABLED, val.toString());
     } else {
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
     }
     this.toggleDisabled(value);
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Sets the file state to show there was an error during the file operations
@@ -366,15 +366,15 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set error(value) {
     if (value) {
-      this.setAttribute(props.ERROR, value.toString());
+      this.setAttribute(attributes.ERROR, value.toString());
     } else {
-      this.removeAttribute(props.ERROR);
+      this.removeAttribute(attributes.ERROR);
     }
     this.setStatus();
   }
 
   get error() {
-    return this.getAttribute(props.ERROR);
+    return this.getAttribute(attributes.ERROR);
   }
 
   /**
@@ -383,16 +383,16 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set fileName(value) {
     if (value) {
-      this.setAttribute(props.FILE_NAME, value.toString());
+      this.setAttribute(attributes.FILE_NAME, value.toString());
       const el = this.shadowRoot.querySelector('.file-name span');
       el.innerHTML = this.fileName;
     } else {
-      this.removeAttribute(props.FILE_NAME);
+      this.removeAttribute(attributes.FILE_NAME);
     }
   }
 
   get fileName() {
-    return this.getAttribute(props.FILE_NAME) || '';
+    return this.getAttribute(attributes.FILE_NAME) || '';
   }
 
   /**
@@ -401,15 +401,15 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set size(value) {
     if (value) {
-      this.setAttribute(props.SIZE, value.toString());
+      this.setAttribute(attributes.SIZE, value.toString());
       const el = this.shadowRoot.querySelector('.size');
       el.innerHTML = this.sizeFormatted;
     } else {
-      this.removeAttribute(props.SIZE);
+      this.removeAttribute(attributes.SIZE);
     }
   }
 
-  get size() { return this.getAttribute(props.SIZE); }
+  get size() { return this.getAttribute(attributes.SIZE); }
 
   /**
    * Sets the progress bar value
@@ -418,16 +418,16 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   set value(val) {
     if (val) {
       if (!this.status || this.status === shared.STATUS.inProcess) {
-        this.setAttribute(props.VALUE, val.toString());
+        this.setAttribute(attributes.VALUE, val.toString());
       }
     } else {
-      this.removeAttribute(props.VALUE);
+      this.removeAttribute(attributes.VALUE);
     }
     this.setStatus();
   }
 
   get value() {
-    return this.getAttribute(props.VALUE);
+    return this.getAttribute(attributes.VALUE);
   }
 }
 

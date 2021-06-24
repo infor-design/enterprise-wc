@@ -3,7 +3,7 @@ import {
   customElement,
   mix,
   scss,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -27,29 +27,31 @@ import {
 } from '../ids-mixins';
 
 // Properties observed by the Input
-const INPUT_PROPS = [
-  props.AUTOSELECT,
-  props.BG_TRANSPARENT,
-  props.CLEARABLE,
-  props.CLEARABLE_FORCED,
-  props.COMPACT,
-  props.DIRTY_TRACKER,
-  props.DISABLED,
-  props.FIELD_HEIGHT,
-  props.LABEL,
-  props.LABEL_REQUIRED,
-  props.MODE,
-  props.PLACEHOLDER,
-  props.SIZE,
-  props.READONLY,
-  props.TEXT_ALIGN,
-  props.TEXT_ELLIPSIS,
-  props.TRIGGERFIELD,
-  props.TYPE,
-  props.VALIDATE,
-  props.VALIDATION_EVENTS,
-  props.VALUE,
-  props.VERSION
+const INPUT_ATTRIBUTES = [
+  attributes.AUTOSELECT,
+  attributes.BG_TRANSPARENT,
+  attributes.CLEARABLE,
+  attributes.CLEARABLE_FORCED,
+  attributes.COMPACT,
+  attributes.DIRTY_TRACKER,
+  attributes.DISABLED,
+  attributes.FIELD_HEIGHT,
+  attributes.LABEL,
+  attributes.LABEL_HIDDEN,
+  attributes.LABEL_REQUIRED,
+  attributes.ID,
+  attributes.MODE,
+  attributes.PLACEHOLDER,
+  attributes.SIZE,
+  attributes.READONLY,
+  attributes.TEXT_ALIGN,
+  attributes.TEXT_ELLIPSIS,
+  attributes.TRIGGERFIELD,
+  attributes.TYPE,
+  attributes.VALIDATE,
+  attributes.VALIDATION_EVENTS,
+  attributes.VALUE,
+  attributes.VERSION
 ];
 
 // Types
@@ -100,6 +102,8 @@ const appliedMixins = [
   IdsTooltipMixin
 ];
 
+let instanceCounter = 0;
+
 /**
  * IDS Input Component
  * @type {IdsInput}
@@ -128,8 +132,8 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   /**
    * @returns {Array<string>} IdsInput component observable properties
    */
-  static get properties() {
-    return [...super.properties, ...INPUT_PROPS];
+  static get attributes() {
+    return [...super.attributes, ...INPUT_ATTRIBUTES];
   }
 
   /**
@@ -138,12 +142,17 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   connectedCallback() {
     super.connectedCallback?.();
+
     this.handleEvents();
-    this.handleAutoselect();
     this.handleClearable();
     this.handleDirtyTracker();
     // @ts-ignore
     this.handleValidation();
+
+    /* istanbul ignore next */
+    if (this.hasAttribute(attributes.AUTOSELECT)) {
+      this.handleAutoselect();
+    }
   }
 
   /**
@@ -151,8 +160,8 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {string} The template
    */
   template() {
-    if (!this.state || !this.state?.id) {
-      this.state = { id: 'ids-input-id' };
+    if (!this.id) {
+      this.setAttribute?.(attributes.ID, `ids-input-${++instanceCounter}`);
     }
 
     // Input
@@ -168,16 +177,25 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
     containerClass += stringUtils.stringToBool(this.compact) ? ' compact' : '';
 
-    return `
-      <div class="${containerClass}">
-        <label for="${this.state.id}" class="label-text">
-          <ids-text part="label" label="true">${this.label}</ids-text>
-        </label>
+    const labelHtml = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? '' : (
+      `<label for="${this.id}-input" class="ids-label-text">
+        <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
+      </label>`
+    );
+
+    return (
+      `<div class="${containerClass}">
+        ${labelHtml}
         <div class="field-container">
-          <input part="input" id="${this.state.id}"${type}${inputClass}${placeholder}${inputState} />
+          <input
+            part="input"
+            id="${this.id}-input"
+            ${type}${inputClass}${placeholder}${inputState}
+            ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
+            ></input>
         </div>
-      </div>
-    `;
+      </div>`
+    );
   }
 
   /**
@@ -185,15 +203,28 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {HTMLInputElement} the inner `input` element
    */
   get input() {
-    return this.shadowRoot?.querySelector(`#${this.state.id}`);
+    return this.shadowRoot?.querySelector(`#${this.id}-input`);
   }
 
   /**
    * @readonly
-   * @returns {HTMLLabelElement} the inner `label` element
+   * @returns {HTMLLabelElement} the inner `label` element or
+   * reference to what was last provided by setLabelElement
    */
   get labelEl() {
-    return this.shadowRoot?.querySelector(`[for="${this.state.id}"]`);
+    return (
+      this.#labelEl
+      || this.shadowRoot?.querySelector(`[for="${this.id}-input"]`)
+    );
+  }
+
+  /**
+   * setter for label element; since reflected attributes
+   * cannot be non serializable refs
+   * @param {HTMLElement} el element representing the label
+   */
+  setLabelElement(el) {
+    this.#labelEl = el;
   }
 
   /**
@@ -203,27 +234,28 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   setInputState(prop) {
-    if (prop === props.READONLY || prop === props.DISABLED) {
+    if (prop === attributes.READONLY || prop === attributes.DISABLED) {
       const msgNodes = [].slice.call(this.shadowRoot.querySelectorAll('.validation-message'));
       const options = {
         prop1: prop,
-        prop2: prop !== props.READONLY ? props.READONLY : props.DISABLED,
+        prop2: prop !== attributes.READONLY ? attributes.READONLY : attributes.DISABLED,
         val: stringUtils.stringToBool(this[prop])
       };
+
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
-        this.container.classList.remove(options.prop2);
-        this.container.querySelector('ids-text').removeAttribute(options.prop2);
+        this.container?.classList?.remove?.(options.prop2);
+        this.container?.querySelector?.('ids-text')?.removeAttribute(options.prop2);
         msgNodes.forEach((x) => x.classList.remove(options.prop2));
 
         this.input?.setAttribute(options.prop1, 'true');
         this.container.classList.add(options.prop1);
-        this.container.querySelector('ids-text').setAttribute(options.prop1, 'true');
+        this.container?.querySelector?.('ids-text')?.setAttribute?.(options.prop1, 'true');
         msgNodes.forEach((x) => x.classList.add(options.prop1));
       } else {
         this.input?.removeAttribute(options.prop1);
         this.container.classList.remove(options.prop1);
-        this.container.querySelector('ids-text').removeAttribute(options.prop1);
+        this.container.querySelector('ids-text')?.removeAttribute(options.prop1);
         msgNodes.forEach((x) => x.classList.remove(options.prop1));
       }
     }
@@ -236,10 +268,52 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   setLabelText(value) {
-    const labelText = this.shadowRoot.querySelector(`[for="${this.state.id}"] ids-text`);
-    if (labelText) {
-      labelText.innerHTML = value || '';
+    if (this.#labelEl) {
+      this.#labelEl.innerHTML = value || '';
+      return;
     }
+
+    const labelEl = this.shadowRoot.querySelector(`[for="${this.id}-input"] ids-text`);
+    if (labelEl) {
+      labelEl.innerHTML = value || '';
+    }
+  }
+
+  /**
+   * Sets a label's text as not displayed in explicit label element
+   */
+  set labelHidden(value) {
+    if (stringUtils.stringToBool(value)) {
+      this?.setAttribute(attributes.LABEL_HIDDEN, true);
+      const existingLabel = this.shadowRoot.querySelector('label');
+      if (existingLabel) {
+        existingLabel.remove();
+      }
+
+      this.input?.setAttribute?.('aria-label', this.label);
+    } else {
+      this?.removeAttribute(attributes.LABEL_HIDDEN);
+
+      /* istanbul ignore else */
+      if (this.input) {
+        this.input?.removeAttribute('aria-label');
+
+        const labelTemplate = document.createElement('template');
+        labelTemplate.innerHTML = (
+          `<label for="${this.id}-input" class="ids-label-text">
+            <ids-text part="label" label="true" color-unset>${this.label}</ids-text>
+          </label>`
+        );
+        this.container.insertBefore(
+          labelTemplate.content.childNodes[0],
+          this.container.querySelector('field-container')
+        );
+      }
+    }
+  }
+
+  get labelHidden() {
+    return this.getAttribute(attributes.LABEL_HIDDEN);
   }
 
   /**
@@ -344,14 +418,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   set autoselect(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.AUTOSELECT, val.toString());
+      this.setAttribute(attributes.AUTOSELECT, val.toString());
     } else {
-      this.removeAttribute(props.AUTOSELECT);
+      this.removeAttribute(attributes.AUTOSELECT);
     }
     this.handleAutoselect();
   }
 
-  get autoselect() { return this.getAttribute(props.AUTOSELECT); }
+  get autoselect() { return this.getAttribute(attributes.AUTOSELECT); }
 
   /**
    * When set the input will add css class `bg-transparent`
@@ -361,15 +435,15 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     const val = stringUtils.stringToBool(value);
     const className = 'bg-transparent';
     if (val) {
-      this.setAttribute(props.BG_TRANSPARENT, val.toString());
+      this.setAttribute(attributes.BG_TRANSPARENT, val.toString());
       this.input?.classList.add(className);
     } else {
-      this.removeAttribute(props.BG_TRANSPARENT);
+      this.removeAttribute(attributes.BG_TRANSPARENT);
       this.input?.classList.remove(className);
     }
   }
 
-  get bgTransparent() { return this.getAttribute(props.BG_TRANSPARENT); }
+  get bgTransparent() { return this.getAttribute(attributes.BG_TRANSPARENT); }
 
   /**
    * When set the input will add css class `text-ellipsis`
@@ -379,15 +453,15 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     const val = stringUtils.stringToBool(value);
     const className = 'text-ellipsis';
     if (val) {
-      this.setAttribute(props.TEXT_ELLIPSIS, val.toString());
+      this.setAttribute(attributes.TEXT_ELLIPSIS, val.toString());
       this.input?.classList.add(className);
     } else {
-      this.removeAttribute(props.TEXT_ELLIPSIS);
+      this.removeAttribute(attributes.TEXT_ELLIPSIS);
       this.input?.classList.remove(className);
     }
   }
 
-  get textEllipsis() { return this.getAttribute(props.TEXT_ELLIPSIS); }
+  get textEllipsis() { return this.getAttribute(attributes.TEXT_ELLIPSIS); }
 
   /**
    * When set the input will add a clearable x button
@@ -396,14 +470,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   set clearable(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.CLEARABLE, val.toString());
+      this.setAttribute(attributes.CLEARABLE, val.toString());
     } else {
-      this.removeAttribute(props.CLEARABLE);
+      this.removeAttribute(attributes.CLEARABLE);
     }
     this.handleClearable();
   }
 
-  get clearable() { return this.getAttribute(props.CLEARABLE); }
+  get clearable() { return this.getAttribute(attributes.CLEARABLE); }
 
   /**
    * When set the input will force to add a clearable x button on readonly and disabled
@@ -412,14 +486,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   set clearableForced(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.CLEARABLE_FORCED, val.toString());
+      this.setAttribute(attributes.CLEARABLE_FORCED, val.toString());
     } else {
-      this.removeAttribute(props.CLEARABLE_FORCED);
+      this.removeAttribute(attributes.CLEARABLE_FORCED);
     }
     this.handleClearable();
   }
 
-  get clearableForced() { return this.getAttribute(props.CLEARABLE_FORCED); }
+  get clearableForced() { return this.getAttribute(attributes.CLEARABLE_FORCED); }
 
   /**
    *  Set the compact height
@@ -428,15 +502,15 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   set compact(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.COMPACT, val.toString());
-      this.container?.classList.add(props.COMPACT);
+      this.setAttribute(attributes.COMPACT, val.toString());
+      this.container?.classList.add(attributes.COMPACT);
     } else {
-      this.removeAttribute(props.COMPACT);
-      this.container?.classList.remove(props.COMPACT);
+      this.removeAttribute(attributes.COMPACT);
+      this.container?.classList.remove(attributes.COMPACT);
     }
   }
 
-  get compact() { return this.getAttribute(props.COMPACT); }
+  get compact() { return this.getAttribute(attributes.COMPACT); }
 
   /**
    *  Set the dirty tracking feature on to indicate a changed field
@@ -444,15 +518,16 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set dirtyTracker(value) {
     const val = stringUtils.stringToBool(value);
+
     if (val) {
-      this.setAttribute(props.DIRTY_TRACKER, val.toString());
+      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
     } else {
-      this.removeAttribute(props.DIRTY_TRACKER);
+      this.removeAttribute(attributes.DIRTY_TRACKER);
     }
     this.handleDirtyTracker();
   }
 
-  get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
+  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Sets input to disabled
@@ -461,14 +536,19 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   set disabled(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, 'true');
+      this.setAttribute(attributes.DISABLED, 'true');
     } else {
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
     }
-    this.setInputState(props.DISABLED);
+    this.setInputState(attributes.DISABLED);
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
+
+  /**
+   * internal reference to a label element a user provides
+   */
+  #labelEl;
 
   /**
    * Set the `label` text of input label
@@ -476,14 +556,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set label(value) {
     if (value) {
-      this.setAttribute(props.LABEL, value.toString());
+      this.setAttribute(attributes.LABEL, value.toString());
     } else {
-      this.removeAttribute(props.LABEL);
+      this.removeAttribute(attributes.LABEL);
     }
     this.setLabelText(value);
   }
 
-  get label() { return this.getAttribute(props.LABEL) || ''; }
+  get label() { return this.getAttribute(attributes.LABEL) || ''; }
 
   /**
    * Set `label-required` attribute
@@ -491,15 +571,16 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set labelRequired(value) {
     const val = stringUtils.stringToBool(value);
+
     if (val) {
-      this.setAttribute(props.LABEL_REQUIRED, val.toString());
+      this.setAttribute(attributes.LABEL_REQUIRED, val.toString());
     } else {
-      this.removeAttribute(props.LABEL_REQUIRED);
+      this.removeAttribute(attributes.LABEL_REQUIRED);
     }
     this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
-  get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
+  get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Set the `placeholder` of input
@@ -507,15 +588,15 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set placeholder(value) {
     if (value) {
-      this.setAttribute(props.PLACEHOLDER, value);
-      this.input?.setAttribute(props.PLACEHOLDER, value);
+      this.setAttribute(attributes.PLACEHOLDER, value);
+      this.input?.setAttribute(attributes.PLACEHOLDER, value);
       return;
     }
-    this.removeAttribute(props.PLACEHOLDER);
-    this.input?.removeAttribute(props.PLACEHOLDER);
+    this.removeAttribute(attributes.PLACEHOLDER);
+    this.input?.removeAttribute(attributes.PLACEHOLDER);
   }
 
-  get placeholder() { return this.getAttribute(props.PLACEHOLDER); }
+  get placeholder() { return this.getAttribute(attributes.PLACEHOLDER); }
 
   /**
    * Set the input to readonly state
@@ -524,14 +605,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   set readonly(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.READONLY, val.toString());
+      this.setAttribute(attributes.READONLY, val.toString());
     } else {
-      this.removeAttribute(props.READONLY);
+      this.removeAttribute(attributes.READONLY);
     }
-    this.setInputState(props.READONLY);
+    this.setInputState(attributes.READONLY);
   }
 
-  get readonly() { return this.getAttribute(props.READONLY); }
+  get readonly() { return this.getAttribute(attributes.READONLY); }
 
   /**
    * Set the fieldHeight (height) of input
@@ -542,14 +623,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     const heightClasses = Object.values(FIELD_HEIGHTS).map((h) => this.fieldHeightClass(h));
     this.container?.classList.remove(...heightClasses);
     if (fieldHeight) {
-      this.setAttribute(props.FIELD_HEIGHT, fieldHeight);
+      this.setAttribute(attributes.FIELD_HEIGHT, fieldHeight);
       this.container?.classList.add(this.fieldHeightClass(fieldHeight));
     } else {
-      this.removeAttribute(props.FIELD_HEIGHT);
+      this.removeAttribute(attributes.FIELD_HEIGHT);
     }
   }
 
-  get fieldHeight() { return this.fieldHeightClass(this.getAttribute(props.FIELD_HEIGHT)); }
+  get fieldHeight() { return this.fieldHeightClass(this.getAttribute(attributes.FIELD_HEIGHT)); }
 
   /**
    * Set the size (width) of input
@@ -557,12 +638,12 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set size(value) {
     const size = SIZES[value];
-    this.setAttribute(props.SIZE, size || SIZES.default);
+    this.setAttribute(attributes.SIZE, size || SIZES.default);
     this.container?.classList.remove(...Object.values(SIZES));
     this.container?.classList.add(size || SIZES.default);
   }
 
-  get size() { return this.getAttribute(props.SIZE) || SIZES.default; }
+  get size() { return this.getAttribute(attributes.SIZE) || SIZES.default; }
 
   /**
    * Sets the text alignment
@@ -570,12 +651,12 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set textAlign(value) {
     const textAlign = TEXT_ALIGN[value] || TEXT_ALIGN.default;
-    this.setAttribute(props.TEXT_ALIGN, textAlign);
+    this.setAttribute(attributes.TEXT_ALIGN, textAlign);
     this.input?.classList.remove(...Object.values(TEXT_ALIGN));
     this.input?.classList.add(textAlign);
   }
 
-  get textAlign() { return this.getAttribute(props.TEXT_ALIGN) || TEXT_ALIGN.default; }
+  get textAlign() { return this.getAttribute(attributes.TEXT_ALIGN) || TEXT_ALIGN.default; }
 
   /**
    * Set to true if the input is a triggr field
@@ -584,14 +665,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   set triggerfield(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.TRIGGERFIELD, val.toString());
+      this.setAttribute(attributes.TRIGGERFIELD, val.toString());
     } else {
-      this.removeAttribute(props.TRIGGERFIELD);
+      this.removeAttribute(attributes.TRIGGERFIELD);
     }
     this.input?.classList[this.triggerfield ? 'add' : 'remove']('has-triggerfield');
   }
 
-  get triggerfield() { return this.getAttribute(props.TRIGGERFIELD); }
+  get triggerfield() { return this.getAttribute(attributes.TRIGGERFIELD); }
 
   /**
    * Sets the input type
@@ -600,15 +681,15 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   set type(value) {
     const type = TYPES[value];
     if (type) {
-      this.setAttribute(props.TYPE, type);
-      this.input.setAttribute(props.TYPE, type);
+      this.setAttribute(attributes.TYPE, type);
+      this.input.setAttribute(attributes.TYPE, type);
       return;
     }
-    this.setAttribute(props.TYPE, TYPES.default);
-    this.input.setAttribute(props.TYPE, TYPES.default);
+    this.setAttribute(attributes.TYPE, TYPES.default);
+    this.input.setAttribute(attributes.TYPE, TYPES.default);
   }
 
-  get type() { return this.getAttribute(props.TYPE); }
+  get type() { return this.getAttribute(attributes.TYPE); }
 
   /**
    * Sets the validation check to use
@@ -616,14 +697,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set validate(value) {
     if (value) {
-      this.setAttribute(props.VALIDATE, value);
+      this.setAttribute(attributes.VALIDATE, value);
     } else {
-      this.removeAttribute(props.VALIDATE);
+      this.removeAttribute(attributes.VALIDATE);
     }
     this.handleValidation();
   }
 
-  get validate() { return this.getAttribute(props.VALIDATE); }
+  get validate() { return this.getAttribute(attributes.VALIDATE); }
 
   /**
    * Set `validation-events` attribute
@@ -631,14 +712,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   set validationEvents(value) {
     if (value) {
-      this.setAttribute(props.VALIDATION_EVENTS, value);
+      this.setAttribute(attributes.VALIDATION_EVENTS, value);
     } else {
-      this.removeAttribute(props.VALIDATION_EVENTS);
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
     }
     this.handleValidation();
   }
 
-  get validationEvents() { return this.getAttribute(props.VALIDATION_EVENTS); }
+  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Set the `value` attribute of input
@@ -653,16 +734,30 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       v = this.processMaskFromProperty(val) || v;
     }
 
-    this.setAttribute(props.VALUE, v);
+    this.setAttribute(attributes.VALUE, v);
     if (this.input?.value !== v) {
       this.input.value = v;
-      ['focus', 'blur', 'focus'].forEach((m) => this.input[m]());
       this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 
   get value() {
     return this.input?.value || '';
+  }
+
+  /**
+   * set the id of the input, which will also determine the
+   * input id for labels at #${id}-input
+   *
+   * @param {string} value id
+   */
+  set id(value) {
+    this.setAttribute(attributes.ID, value);
+    this.input?.setAttribute(attributes.ID, `${value}-input`);
+  }
+
+  get id() {
+    return this.getAttribute(attributes.ID);
   }
 }
 

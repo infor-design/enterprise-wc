@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix,
   stringUtils
 } from '../ids-base';
@@ -41,11 +41,11 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.VIRTUAL_SCROLL,
-      props.MODE,
-      props.VERSION
+      attributes.VIRTUAL_SCROLL,
+      attributes.MODE,
+      attributes.VERSION
     ];
   }
 
@@ -139,18 +139,18 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set virtualScroll(value) {
     if (value) {
-      this.setAttribute(props.VIRTUAL_SCROLL, value.toString());
+      this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
       if (this?.data.length > 0) {
         this.render();
       }
       return;
     }
 
-    this.removeAttribute(props.VIRTUAL_SCROLL);
+    this.removeAttribute(attributes.VIRTUAL_SCROLL);
     this.render();
   }
 
-  get virtualScroll() { return this.getAttribute(props.VIRTUAL_SCROLL) || 'false'; }
+  get virtualScroll() { return this.getAttribute(attributes.VIRTUAL_SCROLL) || 'false'; }
 }
 
 export default IdsListView;

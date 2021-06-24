@@ -3,7 +3,7 @@ import {
   customElement,
   mix,
   scss,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -12,13 +12,17 @@ import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-mixins/ids-render-
 
 import styles from './ids-button.scss';
 
+const { stringToBool } = stringUtils;
+
 // Button Styles
 const BUTTON_TYPES = [
   'default',
   'primary',
   'secondary',
   'tertiary',
-  'destructive'
+  'destructive',
+  'swipe-action-left',
+  'swipe-action-right'
 ];
 
 // Default Button state values
@@ -30,15 +34,16 @@ const BUTTON_DEFAULTS = {
 };
 
 // Definable attributes
-const BUTTON_PROPS = [
-  props.CSS_CLASS,
-  props.DISABLED,
-  props.ICON,
-  props.ICON_ALIGN,
-  props.ID,
-  props.TEXT,
-  props.TYPE,
-  props.TABINDEX
+const BUTTON_ATTRIBUTES = [
+  attributes.CSS_CLASS,
+  attributes.DISABLED,
+  attributes.ICON,
+  attributes.ICON_ALIGN,
+  attributes.NO_RIPPLE,
+  attributes.ID,
+  attributes.TEXT,
+  attributes.TYPE,
+  attributes.TABINDEX
 ];
 
 // Icon alignments
@@ -88,10 +93,13 @@ class IdsButton extends mix(IdsElement).with(
       switch (name) {
       // Convert "tabindex" to "tabIndex"
       case 'tabindex':
+        if (Number.isNaN(Number.parseInt(newValue))) {
+          this.tabIndex = null;
+        }
         this.tabIndex = Number(newValue);
         break;
       default:
-        IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+        super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
         break;
       }
     }
@@ -106,15 +114,14 @@ class IdsButton extends mix(IdsElement).with(
     this.setIconAlignment();
     this.shouldUpdate = true;
     super.connectedCallback();
-    this.setAttribute('role', 'button');
   }
 
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [...super.properties, ...BUTTON_PROPS];
+  static get attributes() {
+    return [...super.attributes, ...BUTTON_ATTRIBUTES];
   }
 
   /**
@@ -206,6 +213,9 @@ class IdsButton extends mix(IdsElement).with(
     let x;
     let y;
     let preceededByTouchstart = false;
+    if (this.noRipple) {
+      return;
+    }
 
     this.onEvent('click.ripple', this.button, (/** @type {any} */ e) => {
       if (preceededByTouchstart) {
@@ -257,9 +267,9 @@ class IdsButton extends mix(IdsElement).with(
 
     this.state.cssClass = newCl;
     if (newCl.length) {
-      this.setAttribute(props.CSS_CLASS, attr.toString());
+      this.setAttribute(attributes.CSS_CLASS, attr.toString());
     } else {
-      this.removeAttribute(props.CSS_CLASS);
+      this.removeAttribute(attributes.CSS_CLASS);
     }
 
     // Remove/Set CSS classes on the actual inner Button component
@@ -286,16 +296,20 @@ class IdsButton extends mix(IdsElement).with(
    * @param {boolean|string} val true if the button will be disabled
    */
   set disabled(val) {
+    const isValueTruthy = stringToBool(val);
     this.shouldUpdate = false;
-    this.removeAttribute(props.DISABLED);
-    this.shouldUpdate = true;
+    if (isValueTruthy) {
+      this.setAttribute(attributes.DISABLED, '');
+    } else {
+      this.removeAttribute(attributes.DISABLED);
+    }
 
-    const trueVal = stringUtils.stringToBool(val);
-    this.state.disabled = trueVal;
+    this.shouldUpdate = true;
+    this.state.disabled = isValueTruthy;
 
     /* istanbul ignore next */
     if (this.button) {
-      this.button.disabled = trueVal;
+      this.button.disabled = isValueTruthy;
     }
   }
 
@@ -309,19 +323,17 @@ class IdsButton extends mix(IdsElement).with(
    * @returns {void}
    */
   set tabIndex(val) {
-    // Remove the webcomponent tabIndex
-    this.shouldUpdate = false;
-    this.removeAttribute(props.TABINDEX);
-    this.shouldUpdate = true;
-
     const trueVal = Number(val);
+
     if (Number.isNaN(trueVal) || trueVal < -1) {
       this.state.tabIndex = 0;
-      this.button.setAttribute(props.TABINDEX, '0');
+      this.button.setAttribute(attributes.TABINDEX, '0');
+      this.removeAttribute(attributes.TABINDEX);
       return;
     }
+
     this.state.tabIndex = trueVal;
-    this.button.setAttribute(props.TABINDEX, `${trueVal}`);
+    this.button.setAttribute(attributes.TABINDEX, `${trueVal}`);
   }
 
   /**
@@ -337,13 +349,13 @@ class IdsButton extends mix(IdsElement).with(
    */
   set icon(val) {
     if (typeof val !== 'string' || !val.length) {
-      this.removeAttribute(props.ICON);
+      this.removeAttribute(attributes.ICON);
       this.state.icon = undefined;
       this.removeIcon();
       return;
     }
     this.state.icon = val;
-    this.setAttribute(props.ICON, val);
+    this.setAttribute(attributes.ICON, val);
     this.appendIcon(val);
   }
 
@@ -443,7 +455,7 @@ class IdsButton extends mix(IdsElement).with(
    * @returns {void}
    */
   set text(val) {
-    this.removeAttribute(props.TEXT);
+    this.removeAttribute(attributes.TEXT);
 
     if (typeof val !== 'string' || !val.length) {
       this.state.text = '';
@@ -500,10 +512,10 @@ class IdsButton extends mix(IdsElement).with(
    */
   set type(val) {
     if (!val || BUTTON_TYPES.indexOf(val) <= 0) {
-      this.removeAttribute(props.TYPE);
+      this.removeAttribute(attributes.TYPE);
       this.state.type = BUTTON_TYPES[0];
     } else {
-      this.setAttribute(props.TYPE, val);
+      this.setAttribute(attributes.TYPE, val);
       if (this.state.type !== val) {
         this.state.type = val;
       }
@@ -516,6 +528,27 @@ class IdsButton extends mix(IdsElement).with(
    */
   get type() {
     return this.state.type;
+  }
+
+  /**
+   * If set to true the ripple effect will be disabled.
+   * @param {boolean} val The ripple value
+   */
+  set noRipple(val) {
+    if (stringUtils.stringToBool(val)) {
+      this.setAttribute(attributes.NO_RIPPLE, true);
+      this.state.noRipple = true;
+      return;
+    }
+    this.removeAttribute(attributes.NO_RIPPLE);
+    this.state.noRipple = false;
+  }
+
+  /**
+   * @returns {string} the currently set type
+   */
+  get noRipple() {
+    return this.state.noRipple || false;
   }
 
   /**
@@ -604,7 +637,6 @@ class IdsButton extends mix(IdsElement).with(
     rippleEl.classList.add('ripple-effect');
     rippleEl.setAttribute('aria-hidden', 'true');
     rippleEl.setAttribute('focusable', 'false');
-    rippleEl.setAttribute('role', 'presentation');
 
     this.button.prepend(rippleEl);
     rippleEl.style.left = `${btnOffsets.x}px`;
@@ -632,4 +664,4 @@ class IdsButton extends mix(IdsElement).with(
   }
 }
 
-export { IdsButton, BUTTON_PROPS, BUTTON_TYPES };
+export { IdsButton, BUTTON_ATTRIBUTES, BUTTON_TYPES };

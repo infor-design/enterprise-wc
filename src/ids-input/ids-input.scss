@@ -22,10 +22,49 @@ $input-size-default: $input-size-md;
 $input-field-height-default: $input-field-height-md;
 $input-compact-height: $input-field-height-xs;
 
+/* in case of external label in compound component */
+.ids-label-text {
+  @include antialiased();
+  @include font-sans();
+  @include text-slate-60();
+  @include mb-4();
+
+  align-items: baseline;
+  display: flex;
+
+  &.required {
+    &::after {
+      @include relative();
+      @include font-sans();
+      @include mx-2();
+      @include text-20();
+      @include text-alert-danger();
+
+      content: '*';
+      margin-top: -10px;
+      top: 1px;
+    }
+
+    &.no-required-indicator::after {
+      content: '';
+    }
+  }
+}
+
+.disabled {
+  .ids-label-text {
+    @include text-slate-30();
+
+    &.required::after {
+      @include text-ruby-30();
+    }
+  }
+}
+
 @mixin input-extra-small-height($h: $input-field-height-xs) {
   @include mb-12();
 
-  .label-text {
+  .ids-label-text {
     @include text-14();
   }
 
@@ -46,44 +85,6 @@ $input-compact-height: $input-field-height-xs;
 .ids-input {
   @include block();
   @include mb-16();
-
-  .label-text {
-    @include antialiased();
-    @include font-sans();
-    @include text-slate-60();
-    @include mb-4();
-
-    align-items: baseline;
-    display: flex;
-
-    &.required {
-      &::after {
-        @include relative();
-        @include font-sans();
-        @include mx-2();
-        @include text-20();
-        @include text-alert-danger();
-
-        content: '*';
-        margin-top: -10px;
-        top: 1px;
-      }
-
-      &.no-required-indicator::after {
-        content: '';
-      }
-    }
-  }
-
-  &.disabled {
-    .label-text {
-      @include text-slate-30();
-
-      &.required::after {
-        @include text-ruby-30();
-      }
-    }
-  }
 
   .field-container {
     @include m-0();
@@ -325,7 +326,6 @@ $input-compact-height: $input-field-height-xs;
   @include text-black();
 
   &[disabled] {
-    @include bg-transparent();
     @include border-slate-30();
     @include text-slate-30();
   }

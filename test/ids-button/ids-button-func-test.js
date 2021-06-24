@@ -68,7 +68,7 @@ describe('IdsButton Component', () => {
   it('can be disabled/enabled', () => {
     btn.disabled = true;
 
-    expect(btn.hasAttribute('disabled')).toBeFalsy();
+    expect(btn.hasAttribute('disabled')).toBeTruthy();
     expect(btn.disabled).toBeTruthy();
     expect(btn.button.hasAttribute('disabled')).toBeTruthy();
     expect(btn.state.disabled).toBeTruthy();
@@ -105,7 +105,7 @@ describe('IdsButton Component', () => {
 
     btn.setAttribute('tabindex', '0');
 
-    expect(btn.hasAttribute('tabindex')).toBeFalsy();
+    expect(btn.hasAttribute('tabindex')).toBeTruthy();
     expect(btn.tabIndex).toEqual(0);
     expect(btn.button.getAttribute('tabindex')).toEqual('0');
     expect(btn.state.tabIndex).toEqual(0);
@@ -413,5 +413,15 @@ describe('IdsButton ripple effect tests', () => {
   it('supports setting version', () => {
     btn.version = 'classic';
     expect(btn.container.getAttribute('version')).toEqual('classic');
+  });
+
+  it('removes the color attribute when reset', () => {
+    btn.noRipple = true;
+    expect(btn.getAttribute('no-ripple')).toEqual('true');
+    expect(btn.noRipple).toEqual(true);
+
+    btn.noRipple = false;
+    expect(btn.getAttribute('no-ripple')).toEqual(null);
+    expect(btn.noRipple).toEqual(false);
   });
 });

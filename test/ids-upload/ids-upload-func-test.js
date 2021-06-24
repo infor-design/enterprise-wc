@@ -69,9 +69,9 @@ describe('IdsUpload Component', () => {
 
   it('should drag drop', () => {
     const zIndex = () => window.getComputedStyle(upload.fileInput).getPropertyValue('z-index');
-    const createBubbledEvent = (type, props = {}) => {
+    const createBubbledEvent = (type, attributes = {}) => {
       const event = new Event(type, { bubbles: true });
-      Object.assign(event, props);
+      Object.assign(event, attributes);
       return event;
     };
     upload.disabled = true;

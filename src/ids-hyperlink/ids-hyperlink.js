@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix,
   stringUtils
 } from '../ids-base';
@@ -14,6 +14,8 @@ import {
 } from '../ids-mixins';
 
 import styles from './ids-hyperlink.scss';
+
+const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
 
 /**
  * IDS Hyperlink Component
@@ -31,7 +33,7 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   connectedCallback() {
-    this.setAttribute('role', 'link');
+    if (!(this.getAttribute('role'))) this.setAttribute('role', 'link');
     super.connectedCallback();
   }
 
@@ -39,15 +41,17 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.COLOR,
-      props.DISABLED,
-      props.HREF,
-      props.MODE,
-      props.TARGET,
-      props.TEXT_DECORATION,
-      props.VERSION
+      attributes.COLOR,
+      attributes.DISABLED,
+      attributes.HREF,
+      attributes.FONT_SIZE,
+      attributes.FONT_WEIGHT,
+      attributes.MODE,
+      attributes.TARGET,
+      attributes.TEXT_DECORATION,
+      attributes.VERSION
     ];
   }
 
@@ -65,15 +69,15 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set href(value) {
     if (value) {
-      this.setAttribute(props.HREF, value);
-      this.container.setAttribute(props.HREF, value);
+      this.setAttribute(attributes.HREF, value);
+      this.container.setAttribute(attributes.HREF, value);
       return;
     }
-    this.removeAttribute(props.HREF);
-    this.container.removeAttribute(props.HREF);
+    this.removeAttribute(attributes.HREF);
+    this.container.removeAttribute(attributes.HREF);
   }
 
-  get href() { return this.getAttribute(props.HREF); }
+  get href() { return this.getAttribute(attributes.HREF); }
 
   /**
    * Set the link target attribute
@@ -81,31 +85,38 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set target(value) {
     if (value) {
-      this.setAttribute(props.TARGET, value);
-      this.container.setAttribute(props.TARGET, value);
+      this.setAttribute(attributes.TARGET, value);
+      this.container.setAttribute(attributes.TARGET, value);
       return;
     }
-    this.removeAttribute(props.TARGET);
-    this.container.removeAttribute(props.TARGET);
+    this.removeAttribute(attributes.TARGET);
+    this.container.removeAttribute(attributes.TARGET);
   }
 
-  get target() { return this.getAttribute(props.TARGET); }
+  get target() { return this.getAttribute(attributes.TARGET); }
 
   /**
    * Set the link text decoration styling
-   * @param {string} value Set the link's text-decoration css property to any valid css value
+   * @param {string} value If 'none', removes text decoration, If hover then just on hover it
+   * is shown.
    */
   set textDecoration(value) {
-    if (value) {
-      this.setAttribute(props.TEXT_DECORATION, value);
-      this.container.style.textDecoration = value;
+    if (value?.toLowerCase() === 'none') {
+      this.setAttribute(attributes.TEXT_DECORATION, value);
+      this.container.classList.add('ids-text-decoration-none');
       return;
     }
-    this.removeAttribute(props.TEXT_DECORATION);
-    this.container.style.removeProperty('text-decoration');
+    if (value?.toLowerCase() === 'hover') {
+      this.setAttribute(attributes.TEXT_DECORATION, value);
+      this.container.classList.add('ids-text-decoration-hover');
+      return;
+    }
+    this.removeAttribute(attributes.TEXT_DECORATION);
+    this.container.classList.remove('ids-text-decoration-none');
+    this.container.classList.remove('ids-text-decoration-hover');
   }
 
-  get textDecoration() { return this.getAttribute(props.TEXT_DECORATION); }
+  get textDecoration() { return this.getAttribute(attributes.TEXT_DECORATION); }
 
   /**
    * Set the text to disabled color.
@@ -114,17 +125,17 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set disabled(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, value);
-      this.container.setAttribute(props.DISABLED, value);
+      this.setAttribute(attributes.DISABLED, value);
+      this.container.setAttribute(attributes.DISABLED, value);
       this.container.setAttribute('tabindex', '-1');
       return;
     }
-    this.removeAttribute(props.DISABLED);
-    this.container.removeAttribute(props.DISABLED);
+    this.removeAttribute(attributes.DISABLED);
+    this.container.removeAttribute(attributes.DISABLED);
     this.container.removeAttribute('tabindex');
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    *
@@ -133,16 +144,55 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set color(value) {
     if (value === 'unset') {
-      this.setAttribute(props.COLOR, value);
+      this.setAttribute(attributes.COLOR, value);
       this.container.classList.add('ids-hyperlink-color-unset');
     } else {
-      this.removeAttribute(props.COLOR);
+      this.removeAttribute(attributes.COLOR);
       this.container.classList.remove('ids-hyperlink-color-unset');
     }
   }
 
   get color() {
-    return this.getAttribute(props.COLOR);
+    return this.getAttribute(attributes.COLOR);
+  }
+
+  /**
+   * Set the font size/style of the text with a class.
+   * @param {string | null} value The font size in the font scheme
+   * i.e. 10, 12, 16 or xs, sm, base, lg, xl
+   */
+  set fontSize(value) {
+    fontSizes.forEach((size) => this.container?.classList.remove(`ids-text-${size}`));
+
+    if (value) {
+      this.setAttribute(attributes.FONT_SIZE, value);
+      this.container?.classList.add(`ids-text-${value}`);
+      return;
+    }
+
+    this.removeAttribute(attributes.FONT_SIZE);
+  }
+
+  get fontSize() { return this.getAttribute(attributes.FONT_SIZE); }
+
+  /**
+   * Adjust font weight; can be either "bold" or "bolder"
+   * @param {string | null} value (if bold)
+   */
+  set fontWeight(value) {
+    this.container?.classList.remove('bold', 'bolder');
+
+    if (value === 'bold' || value === 'bolder') {
+      this.setAttribute(attributes.FONT_WEIGHT, value);
+      this.container?.classList.add(value);
+      return;
+    }
+
+    this.removeAttribute(attributes.FONT_WEIGHT);
+  }
+
+  get fontWeight() {
+    return this.getAttribute(attributes.FONT_WEIGHT);
   }
 }
 

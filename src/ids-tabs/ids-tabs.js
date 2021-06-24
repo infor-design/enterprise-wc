@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix,
   stringUtils
@@ -36,8 +36,8 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.ORIENTATION, props.VALUE];
+  static get attributes() {
+    return [attributes.ORIENTATION, attributes.VALUE];
   }
 
   /**
@@ -96,7 +96,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   set orientation(value) {
     switch (value) {
     case 'vertical': {
-      this.setAttribute(props.ORIENTATION, 'vertical');
+      this.setAttribute(attributes.ORIENTATION, 'vertical');
       this.container.classList.add('vertical');
 
       for (let i = 0; i < this.children.length; i++) {
@@ -106,7 +106,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     }
     case 'horizontal':
     default: {
-      this.setAttribute(props.ORIENTATION, 'horizontal');
+      this.setAttribute(attributes.ORIENTATION, 'horizontal');
       this.container.classList.remove('vertical');
 
       for (let i = 0; i < this.children.length; i++) {
@@ -118,7 +118,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   }
 
   get orientation() {
-    return this.getAttribute(props.ORIENTATION);
+    return this.getAttribute(attributes.ORIENTATION);
   }
 
   /**
@@ -126,11 +126,11 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    * @type {string}
    */
   set value(value) {
-    if (this.getAttribute(props.VALUE) === value) {
+    if (this.getAttribute(attributes.VALUE) === value) {
       return;
     }
 
-    this.setAttribute(props.VALUE, value);
+    this.setAttribute(attributes.VALUE, value);
     this.#updateSelectionState();
 
     // make sure we send them the click
@@ -145,7 +145,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
   }
 
   get value() {
-    return this.getAttribute(props.VALUE);
+    return this.getAttribute(attributes.VALUE);
   }
 
   /**
@@ -156,7 +156,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
    * @returns {string | number} value or index
    */
   getTabIndexValue(index) {
-    return this.children?.[index]?.getAttribute(props.VALUE) || index;
+    return this.children?.[index]?.getAttribute(attributes.VALUE) || index;
   }
 
   /**
@@ -357,7 +357,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
       const focusedTabIndex = this.getFocusedTabIndex();
 
       if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
-        this.setAttribute(props.VALUE, this.getTabIndexValue(focusedTabIndex));
+        this.setAttribute(attributes.VALUE, this.getTabIndexValue(focusedTabIndex));
       }
     });
   }
@@ -377,7 +377,7 @@ class IdsTabs extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, Ids
     let hadTabSelection = false;
 
     for (let i = 0; i < this.children.length; i++) {
-      const tabValue = this.children[i].getAttribute(props.VALUE);
+      const tabValue = this.children[i].getAttribute(attributes.VALUE);
       const isTabSelected = Boolean(this.value === tabValue);
 
       if (Boolean(this.children[i].selected) !== isTabSelected) {

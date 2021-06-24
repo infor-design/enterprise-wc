@@ -1,7 +1,7 @@
 import {
   IdsElement,
   customElement,
-  props,
+  attributes,
   scss,
   mix,
   stringUtils
@@ -16,6 +16,17 @@ import {
 
 import styles from './ids-radio-group.scss';
 import IdsText from '../ids-text/ids-text';
+
+const attribs = [
+  { name: 'dirty-tracker', prop: 'dirtyTracker' },
+  { name: 'disabled', prop: 'disabled' },
+  { name: 'horizontal', prop: 'horizontal' },
+  { name: 'label', prop: 'label' },
+  { name: 'label-required', prop: 'labelRequired' },
+  { name: 'validate', prop: 'validate' },
+  { name: 'validation-events', prop: 'validationEvents' },
+  { name: 'value', prop: 'value' }
+];
 
 /**
  * IDS Radio Group Component
@@ -43,16 +54,16 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.DIRTY_TRACKER,
-      props.DISABLED,
-      props.HORIZONTAL,
-      props.LABEL,
-      props.LABEL_REQUIRED,
-      props.VALIDATE,
-      props.VALIDATION_EVENTS,
-      props.VALUE
+      attributes.DIRTY_TRACKER,
+      attributes.DISABLED,
+      attributes.HORIZONTAL,
+      attributes.LABEL,
+      attributes.LABEL_REQUIRED,
+      attributes.VALIDATE,
+      attributes.VALIDATION_EVENTS,
+      attributes.VALUE
     ];
   }
 
@@ -69,17 +80,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     /** @type {any} */ newValue
   ) {
     if (oldValue !== newValue) {
-      const attributes = [
-        { name: 'dirty-tracker', prop: 'dirtyTracker' },
-        { name: 'disabled', prop: 'disabled' },
-        { name: 'horizontal', prop: 'horizontal' },
-        { name: 'label', prop: 'label' },
-        { name: 'label-required', prop: 'labelRequired' },
-        { name: 'validate', prop: 'validate' },
-        { name: 'validation-events', prop: 'validationEvents' },
-        { name: 'value', prop: 'value' }
-      ];
-      attributes.forEach((attribute) => {
+      attribs.forEach((attribute) => {
         if (name === attribute.name) {
           this[attribute.prop] = newValue;
         }
@@ -142,16 +143,16 @@ class IdsRadioGroup extends mix(IdsElement).with(
   setValue() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio[checked="true"]'));
     const len = radioArr.length;
-    const value = radioArr[len - 1]?.getAttribute(props.VALUE);
+    const value = radioArr[len - 1]?.getAttribute(attributes.VALUE);
     if (value) {
-      this.setAttribute(props.VALUE, value);
+      this.setAttribute(attributes.VALUE, value);
     } else if (!len) {
       const radio = this.querySelector('ids-radio');
       const rootEl = radio?.shadowRoot?.querySelector('.ids-radio');
       rootEl?.setAttribute('tabindex', '0');
     } else if (len > 1) {
       radioArr.pop();
-      radioArr.forEach((r) => r.removeAttribute(props.CHECKED));
+      radioArr.forEach((r) => r.removeAttribute(attributes.CHECKED));
     }
   }
 
@@ -178,12 +179,12 @@ class IdsRadioGroup extends mix(IdsElement).with(
 
     if (stringUtils.stringToBool(this.disabled)) {
       this.labelEl?.setAttribute('aria-disabled', 'true');
-      rootEl?.classList.add(props.DISABLED);
-      radioArr.forEach((r) => r.setAttribute(props.GROUP_DISABLED, true));
+      rootEl?.classList.add(attributes.DISABLED);
+      radioArr.forEach((r) => r.setAttribute(attributes.GROUP_DISABLED, true));
     } else {
       this.labelEl?.removeAttribute('aria-disabled');
-      rootEl?.classList.remove(props.DISABLED);
-      radioArr.forEach((r) => r.removeAttribute(props.GROUP_DISABLED));
+      rootEl?.classList.remove(attributes.DISABLED);
+      radioArr.forEach((r) => r.removeAttribute(attributes.GROUP_DISABLED));
     }
   }
 
@@ -195,11 +196,11 @@ class IdsRadioGroup extends mix(IdsElement).with(
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
     if (stringUtils.stringToBool(this.horizontal)) {
-      rootEl?.classList.add(props.HORIZONTAL);
-      radioArr.forEach((r) => r.setAttribute(props.HORIZONTAL, true));
+      rootEl?.classList.add(attributes.HORIZONTAL);
+      radioArr.forEach((r) => r.setAttribute(attributes.HORIZONTAL, true));
     } else {
-      rootEl?.classList.remove(props.HORIZONTAL);
-      radioArr.forEach((r) => r.removeAttribute(props.HORIZONTAL));
+      rootEl?.classList.remove(attributes.HORIZONTAL);
+      radioArr.forEach((r) => r.removeAttribute(attributes.HORIZONTAL));
     }
   }
 
@@ -213,7 +214,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
   makeChecked(radio, isFocus) {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const targetEl = radioArr.filter((r) => r !== radio);
-    targetEl.forEach((r) => r.removeAttribute(props.CHECKED));
+    targetEl.forEach((r) => r.removeAttribute(attributes.CHECKED));
     this.checked = radio;
     const val = radio.value;
     if (val) {
@@ -294,14 +295,14 @@ class IdsRadioGroup extends mix(IdsElement).with(
   set dirtyTracker(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DIRTY_TRACKER, val.toString());
+      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
     } else {
-      this.removeAttribute(props.DIRTY_TRACKER);
+      this.removeAttribute(attributes.DIRTY_TRACKER);
     }
     this.handleDirtyTracker();
   }
 
-  get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
+  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Sets checkbox to disabled
@@ -309,14 +310,14 @@ class IdsRadioGroup extends mix(IdsElement).with(
    */
   set disabled(value) {
     if (stringUtils.stringToBool(value)) {
-      this.setAttribute(props.DISABLED, value.toString());
+      this.setAttribute(attributes.DISABLED, value.toString());
     } else {
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
     }
     this.handleDisabled();
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Flips the checkbox orientation to horizontal
@@ -324,14 +325,14 @@ class IdsRadioGroup extends mix(IdsElement).with(
    */
   set horizontal(value) {
     if (stringUtils.stringToBool(value)) {
-      this.setAttribute(props.HORIZONTAL, value.toString());
+      this.setAttribute(attributes.HORIZONTAL, value.toString());
     } else {
-      this.removeAttribute(props.HORIZONTAL);
+      this.removeAttribute(attributes.HORIZONTAL);
     }
     this.handleHorizontal();
   }
 
-  get horizontal() { return this.getAttribute(props.HORIZONTAL); }
+  get horizontal() { return this.getAttribute(attributes.HORIZONTAL); }
 
   /**
    * Set the `label` text
@@ -341,7 +342,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
     let labelText = this.shadowRoot.querySelector('.group-label-text');
     if (value) {
-      this.setAttribute(props.LABEL, value);
+      this.setAttribute(attributes.LABEL, value);
       if (!labelText) {
         labelText = document.createElement('ids-text');
         labelText.className = 'group-label-text';
@@ -352,12 +353,12 @@ class IdsRadioGroup extends mix(IdsElement).with(
       labelText.innerHTML = value;
       return;
     }
-    this.removeAttribute(props.LABEL);
+    this.removeAttribute(attributes.LABEL);
     labelText = this.shadowRoot.querySelector('.group-label-text');
     labelText?.remove();
   }
 
-  get label() { return this.getAttribute(props.LABEL); }
+  get label() { return this.getAttribute(attributes.LABEL); }
 
   /**
    * Sets the checkbox to required
@@ -366,14 +367,14 @@ class IdsRadioGroup extends mix(IdsElement).with(
   set labelRequired(value) {
     const val = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(props.LABEL_REQUIRED, value.toString());
+      this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
     } else {
-      this.removeAttribute(props.LABEL_REQUIRED);
+      this.removeAttribute(attributes.LABEL_REQUIRED);
     }
     this.labelEl?.classList[!val ? 'add' : 'remove']('no-required-indicator');
   }
 
-  get labelRequired() { return this.getAttribute(props.LABEL_REQUIRED); }
+  get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
 
   /**
    * Sets the validation check to use
@@ -381,14 +382,14 @@ class IdsRadioGroup extends mix(IdsElement).with(
    */
   set validate(value) {
     if (value) {
-      this.setAttribute(props.VALIDATE, value);
+      this.setAttribute(attributes.VALIDATE, value);
     } else {
-      this.removeAttribute(props.VALIDATE);
+      this.removeAttribute(attributes.VALIDATE);
     }
     this.handleValidation();
   }
 
-  get validate() { return this.getAttribute(props.VALIDATE); }
+  get validate() { return this.getAttribute(attributes.VALIDATE); }
 
   /**
    * Sets which events to fire validation on
@@ -396,14 +397,14 @@ class IdsRadioGroup extends mix(IdsElement).with(
    */
   set validationEvents(value) {
     if (value) {
-      this.setAttribute(props.VALIDATION_EVENTS, value);
+      this.setAttribute(attributes.VALIDATION_EVENTS, value);
     } else {
-      this.removeAttribute(props.VALIDATION_EVENTS);
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
     }
     this.handleValidation();
   }
 
-  get validationEvents() { return this.getAttribute(props.VALIDATION_EVENTS); }
+  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Sets the checkbox `value` attribute
@@ -414,26 +415,26 @@ class IdsRadioGroup extends mix(IdsElement).with(
     if (val) {
       const state = { on: [], off: [] };
       radioArr.forEach((/** @type {HTMLElement | never} */ r) => {
-        const rVal = r.getAttribute(props.VALUE);
+        const rVal = r.getAttribute(attributes.VALUE);
         state[rVal === val ? 'on' : 'off'].push(r);
       });
-      state.off.forEach((/** @type {HTMLElement} */ r) => r.removeAttribute(props.CHECKED));
+      state.off.forEach((/** @type {HTMLElement} */ r) => r.removeAttribute(attributes.CHECKED));
       /** @type {HTMLElement} */
       const r = state.on[state.on.length - 1];
       if (r) {
-        r.setAttribute(props.CHECKED, 'true');
-        this.setAttribute(props.VALUE, val);
+        r.setAttribute(attributes.CHECKED, 'true');
+        this.setAttribute(attributes.VALUE, val);
         this.checked = r;
       } else {
-        this.removeAttribute(props.VALUE);
+        this.removeAttribute(attributes.VALUE);
       }
     } else {
-      this.removeAttribute(props.VALUE);
-      radioArr.forEach((r) => r.removeAttribute(props.CHECKED));
+      this.removeAttribute(attributes.VALUE);
+      radioArr.forEach((r) => r.removeAttribute(attributes.CHECKED));
     }
   }
 
-  get value() { return this.getAttribute(props.VALUE); }
+  get value() { return this.getAttribute(attributes.VALUE); }
 }
 
 export default IdsRadioGroup;

@@ -4,7 +4,7 @@ import {
   scss,
   mix,
   stringUtils,
-  props
+  attributes,
 } from '../ids-base/ids-element';
 
 import {
@@ -57,11 +57,12 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     /**
      * @returns {Array<string>} this component's observable properties
      */
-    static get properties() {
-      return [props.CLICKABLE, props.COMPACT, ...props.MODE, props.READONLY, props.SIZE, 'stars', props.VALUE, props.VERSION];
+    static get attributes() {
+      return [attributes.CLICKABLE, attributes.COMPACT, ...attributes.MODE, attributes.READONLY, attributes.SIZE, 'stars', attributes.VALUE, attributes.VERSION];
     }
 
-    /** Sets the value attribute
+    /**
+     * Sets the value attribute
      * @param {string} val string value from the value attribute
      */
     /* istanbul ignore next */
@@ -97,7 +98,8 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
       return this.getAttribute('value') || '0';
     }
 
-    /** Sets the stars attribute
+    /**
+     * Sets the stars attribute
      * @param {string} num string value from the stars attribute
      */
     set stars(num) {
@@ -110,7 +112,8 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
       return this.getAttribute('stars') || 5;
     }
 
-    /** Sets the readonly attribute
+    /**
+     * Sets the readonly attribute
      * @param {string} ro string value from the readonly attribute
      */
     set readonly(ro) {
@@ -130,7 +133,8 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
       return this.getAttribute('readonly') || false;
     }
 
-    /** Sets the size attribute
+    /**
+     * Sets the size attribute
      * @param {string} s string value from the size attribute
      */
     /* istanbul ignore next */

@@ -1,10 +1,10 @@
 import { IdsElement, scss, customElement } from '../ids-base';
-import { props } from '../ids-base/ids-constants';
+import { attributes } from '../ids-base/ids-attributes';
 import styles from './ids-toolbar-section.scss';
 
-const TOOLBAR_SECTION_PROPS = [
+const TOOLBAR_SECTION_ATTRIBUTES = [
   'align',
-  props.TYPE
+  attributes.TYPE
 ];
 
 // Alignment styles that can apply to a section
@@ -74,8 +74,8 @@ class IdsToolbarSection extends IdsElement {
     super();
   }
 
-  static get properties() {
-    return TOOLBAR_SECTION_PROPS;
+  static get attributes() {
+    return TOOLBAR_SECTION_ATTRIBUTES;
   }
 
   template() {

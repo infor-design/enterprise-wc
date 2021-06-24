@@ -142,5 +142,6 @@ The IDS Input component is now a WebComponent. Instead of using classes to defin
 1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
 
 ## Accessibility Guidelines
+There should be a label on all inputs to give an indication what the value means.
 
 ## Regional Considerations

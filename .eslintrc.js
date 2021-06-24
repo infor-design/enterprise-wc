@@ -52,6 +52,8 @@ module.exports = {
       exports: 'never',
       functions: 'never'
     }],
+    // bit masks used for idiomatic MouseEvents.buttons detection w/ mousewheel down
+    'no-bitwise': 0,
     // we aren't doing special math with binary/hex radix numbers often,
     // so this removes need for parseInt(number, 10);
     radix: 0,
@@ -69,7 +71,7 @@ module.exports = {
     // https://eslint.org/docs/rules/class-methods-use-this
     'class-methods-use-this': ['off', { }],
     // Allow Ids Imports to be unsed in index.js files
-    'no-unused-vars': ['error', { varsIgnorePattern: 'Ids' }],
+    'no-unused-vars': ['error', { varsIgnorePattern: 'Ids', argsIgnorePattern: '^_' }],
     // Allow Arrow functions to be on the next line or below
     'implicit-arrow-linebreak': ['off', { }],
     // Allow single quotes only or template literals
@@ -88,6 +90,8 @@ module.exports = {
     'prefer-destructuring': ['off', { }],
     // Allow i++
     'no-plusplus': ['off', { }],
+    // valid for readability in async tests
+    'no-await-in-loop': ['off', { }],
     // Allow console.info
     'no-console': ['error', { allow: ['error', 'info'] }],
     'template-curly-spacing': ['off'],

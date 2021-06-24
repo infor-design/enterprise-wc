@@ -6,7 +6,7 @@ import { IdsElement } from '../ids-base';
  * @type {any}
  */
 export class IdsButton extends IdsElement {
-  /* Contains space-delimeted CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button */
+  /* Contains space-delimited CSS classes (or an array of CSS classes) that will be passed to the Shadow Root button */
   cssClass?: Array<string> | string | null;
 
   /* Sets the internal Button element's `disabled` property to enable/disable the button */
@@ -29,6 +29,9 @@ export class IdsButton extends IdsElement {
 
   /* Sets up a string based tooltip */
   tooltip?: string;
+
+  /* Disable the ripple animation effect */
+  noRipple?: boolean;
 
   /* Provides a direct reference to the Shadow Root's HTMLButtonElement. */
   readonly button: HTMLElement;

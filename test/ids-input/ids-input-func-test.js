@@ -4,13 +4,21 @@
 import IdsInput from '../../src/ids-input/ids-input';
 import IdsClearableMixin from '../../src/ids-mixins/ids-clearable-mixin';
 
+const processAnimFrame = () => new Promise((resolve) => {
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(resolve);
+  });
+});
+
 describe('IdsInput Component', () => {
   let input;
 
   beforeEach(async () => {
-    const elem = new IdsInput();
-    document.body.appendChild(elem);
-    input = document.querySelector('ids-input');
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input"></ids-input>';
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
   });
 
   afterEach(async () => {
@@ -19,9 +27,6 @@ describe('IdsInput Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsInput();
-    document.body.appendChild(elem);
-    elem.remove();
     expect(document.querySelectorAll('ids-input').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
@@ -99,18 +104,20 @@ describe('IdsInput Component', () => {
   });
 
   it('should set label text', () => {
-    let label = input.labelEl.querySelector('ids-text');
-    label?.remove();
     input.label = 'test';
 
     document.body.innerHTML = '';
-    const elem = new IdsInput();
+
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="Hello World"></ids-input>';
+    const elem = template.content.childNodes[0];
+    document.body.appendChild(elem);
+
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
-    label = input.labelEl.querySelector('ids-text');
-    expect(input.labelEl.textContent.trim()).toBe('');
-    input.label = 'test';
-    expect(input.labelEl.textContent.trim()).toBe('test');
+    expect(input.labelEl.textContent.trim()).toBe('Hello World');
+    input.label = 'test2';
+    expect(input.labelEl.textContent.trim()).toBe('test2');
     input.label = null;
     expect(input.labelEl.textContent.trim()).toBe('');
   });
@@ -134,6 +141,76 @@ describe('IdsInput Component', () => {
     expect(input.getAttribute('label-required')).toEqual('true');
     expect(input.labelEl.classList).not.toContain(className);
     expect(input.labelRequired).toEqual('true');
+  });
+
+  it('should have an input with "aria-label" set when label-hidden '
+  + 'is flagged and a label exists, then toggles this by unsetting it', async () => {
+    input.labelHidden = true;
+    expect(input.labelHidden).toBeTruthy();
+    await processAnimFrame();
+
+    expect(input.shadowRoot.querySelector('label')).toBeFalsy();
+    expect(input.input.getAttribute('aria-label')?.length).toBeGreaterThan(0);
+
+    input.labelHidden = false;
+    expect(input.labelHidden).toBeFalsy();
+    await processAnimFrame();
+
+    expect(input.shadowRoot.querySelector('label')).toBeTruthy();
+    expect(input.input.hasAttribute('aria-label')).toBeFalsy();
+  });
+
+  it('renders label-hidden from a template with no issues', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input" label-hidden="true"></ids-input>';
+
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    expect(errors).not.toHaveBeenCalled();
+
+    template.innerHTML = '<ids-input label-hidden="true"></ids-input>';
+
+    input = template.content.childNodes[0];
+    document.body.appendChild(input);
+    await processAnimFrame();
+
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('should be able to assign an external label element via setLabelElement '
+  + 'setter', async () => {
+    input.label = undefined;
+    input.render();
+    await processAnimFrame();
+
+    const newLabelTemplate = document.createElement('template');
+    newLabelTemplate.innerHTML = '<label>random external label</label>';
+    const newLabel = newLabelTemplate.content.childNodes[0];
+    input.setLabelElement(newLabel);
+    await processAnimFrame();
+
+    expect(input.shadowRoot.querySelector('label')).toBeFalsy();
+  });
+
+  it('sets the label text of an external label element', async () => {
+    input.label = undefined;
+    input.render();
+    await processAnimFrame();
+
+    const newLabelTemplate = document.createElement('template');
+    newLabelTemplate.innerHTML = '<label>random external label</label>';
+    const newLabel = newLabelTemplate.content.childNodes[0];
+    input.setLabelElement(newLabel);
+    input.setLabelText('a new label');
+    await processAnimFrame();
+    expect(newLabel.innerHTML).toEqual('a new label');
+    input.setLabelText(undefined);
+    await processAnimFrame();
+    expect(newLabel.innerHTML).toEqual('');
   });
 
   it('should set value', () => {
@@ -236,7 +313,7 @@ describe('IdsInput Component', () => {
     expect(input.input.classList).not.toContain('text-ellipsis');
   });
 
-  it('should setup dirty tracking', () => {
+  it('should setup dirty tracking', async () => {
     input.dirtyTracker = true;
     input.input.remove();
     input.dirtyTrackerEvents();
@@ -250,6 +327,12 @@ describe('IdsInput Component', () => {
     input.handleDirtyTracker();
     expect(input.dirty).toEqual({ original: '' });
     document.body.innerHTML = '';
+    const template = document.createElement('template');
+    template.innerHTML = '<ids-input label="testing input"></ids-input>';
+    elem = template.content.childNodes[0];
+    document.body.appendChild(elem);
+    await processAnimFrame();
+
     elem = new IdsInput();
     document.body.appendChild(elem);
     input = document.querySelector('ids-input');
