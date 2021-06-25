@@ -1,4 +1,4 @@
-# Ids Progress Component
+# Ids Progress Bar Component
 
 ## Description
 
@@ -10,7 +10,7 @@ Displays feedback about a system process. It is best for showing feedback about 
 
 ## Terminology
 
-- Progress: A standard basic progress element. It can set to a max and value.
+- Progress Bar: A standard basic progress element. It can set to a max and value.
 - Label: A label web component element to label the process being shown. Make sure the progress label is meaningful relative to progress.
 
 ## Features (With Code Samples)
@@ -18,25 +18,25 @@ Displays feedback about a system process. It is best for showing feedback about 
 A standard basic progress element:
 
 ```html
-<ids-progress label="Basic" value="30"></ids-progress>
+<ids-progress-bar label="Basic" value="30"></ids-progress-bar>
 ```
 
 Represent an Disabled progress in this way:
 
 ```html
-<ids-progress label="Disabled" disabled="true" value="30"></ids-progress>
+<ids-progress-bar label="Disabled" disabled="true" value="30"></ids-progress-bar>
 ```
 
 Set the max and value attributes to show progress in this way:
 
 ```html
-<ids-progress label="Max" max="1" value="0.7"></ids-progress>
+<ids-progress-bar label="Max" max="1" value="0.7"></ids-progress-bar>
 ```
 
 Set the audible (screen reader only) label to Progress:
 
 ```html
-<ids-progress label="Audible label" label-audible="true" value="30"></ids-progress>
+<ids-progress-bar label="Audible label" label-audible="true" value="30"></ids-progress-bar>
 ```
 
 ## Attributes and Properties
@@ -55,7 +55,7 @@ Set the audible (screen reader only) label to Progress:
 
 ### Converting from 4.x
 
-The IDS Progress component is now a WebComponent. Instead of using classes to define it, it is done directly with a custom element and attributes:
+The IDS Progress Bar component is now a WebComponent. Instead of using classes to define it, it is done directly with a custom element and attributes:
 
 ```html
 <!-- 4.x progress example -->
@@ -67,6 +67,6 @@ The IDS Progress component is now a WebComponent. Instead of using classes to de
 </div>
 
 <!-- this is the same progress using the WebComponent -->
-<ids-progress label="Percent complete" value="50"></ids-progress>
+<ids-progress-bar label="Percent complete" value="50"></ids-progress-bar>
 
 ```

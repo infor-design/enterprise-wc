@@ -66,8 +66,8 @@
   - Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.
   - Many previous settings are now attribute-friendly (for example `closeOnSelect` is now a `keep-open` attribute on menu groups).
   - Made dynamic menus possible by using IdsDataSource
-- `[Progress]` The progress component has been changed to a web component and renamed to ids-progress.
-  - Markup has changed to a custom element `<ids-progress></ids-progress>`
+- `[Progress]` The progress component has been changed to a web component and renamed to ids-progress-bar.
+  - Markup has changed to a custom element `<ids-progress-bar></ids-progress-bar>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.

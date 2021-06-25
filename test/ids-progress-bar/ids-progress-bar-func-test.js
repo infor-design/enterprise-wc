@@ -1,15 +1,15 @@
 /**
  * @jest-environment jsdom
  */
-import IdsProgress from '../../src/ids-progress/ids-progress';
+import IdsProgressBar from '../../src/ids-progress-bar/ids-progress-bar';
 
-describe('IdsProgress Component', () => {
+describe('IdsProgressBar Component', () => {
   let el;
 
   beforeEach(async () => {
-    const elem = new IdsProgress();
+    const elem = new IdsProgressBar();
     document.body.appendChild(elem);
-    el = document.querySelector('ids-progress');
+    el = document.querySelector('ids-progress-bar');
   });
 
   afterEach(async () => {
@@ -18,10 +18,10 @@ describe('IdsProgress Component', () => {
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
-    const elem = new IdsProgress();
+    const elem = new IdsProgressBar();
     document.body.appendChild(elem);
     elem.remove();
-    expect(document.querySelectorAll('ids-progress').length).toEqual(1);
+    expect(document.querySelectorAll('ids-progress-bar').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -38,15 +38,15 @@ describe('IdsProgress Component', () => {
 
   it('should renders as disabled', () => {
     expect(el.getAttribute('disabled')).toEqual(null);
-    let rootEl = el.shadowRoot.querySelector('.ids-progress');
+    let rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(rootEl.classList).not.toContain('disabled');
     el.disabled = true;
     expect(el.getAttribute('disabled')).toEqual('true');
-    rootEl = el.shadowRoot.querySelector('.ids-progress');
+    rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(rootEl.classList).toContain('disabled');
     el.disabled = false;
     expect(el.getAttribute('disabled')).toEqual(null);
-    rootEl = el.shadowRoot.querySelector('.ids-progress');
+    rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(rootEl.classList).not.toContain('disabled');
   });
 
@@ -66,19 +66,19 @@ describe('IdsProgress Component', () => {
 
   it('should set label text as audible', () => {
     let labelText = el.shadowRoot.querySelector('.progress-label ids-text');
-    let rootEl = el.shadowRoot.querySelector('.ids-progress');
+    let rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(el.getAttribute('label-audible')).toEqual(null);
     expect(labelText.getAttribute('audible')).toEqual(null);
     expect(rootEl.classList).not.toContain('label-audible');
     el.labelAudible = true;
     labelText = el.shadowRoot.querySelector('.progress-label ids-text');
-    rootEl = el.shadowRoot.querySelector('.ids-progress');
+    rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(el.getAttribute('label-audible')).toEqual('true');
     expect(labelText.getAttribute('audible')).toEqual('true');
     expect(rootEl.classList).toContain('label-audible');
     el.labelAudible = false;
     labelText = el.shadowRoot.querySelector('.progress-label ids-text');
-    rootEl = el.shadowRoot.querySelector('.ids-progress');
+    rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(el.getAttribute('label-audible')).toEqual(null);
     expect(labelText.getAttribute('audible')).toEqual(null);
     expect(rootEl.classList).not.toContain('label-audible');
@@ -97,7 +97,7 @@ describe('IdsProgress Component', () => {
 
   it('should renders template', () => {
     document.body.innerHTML = '';
-    el = document.createElement('ids-progress');
+    el = document.createElement('ids-progress-bar');
     el.setAttribute('disabled', 'true');
     el.setAttribute('label-audible', 'true');
     el.setAttribute('label', 'test');
@@ -105,7 +105,7 @@ describe('IdsProgress Component', () => {
     el.setAttribute('value', '10');
     el.template();
     const labelText = el.shadowRoot.querySelector('.progress-label ids-text');
-    const rootEl = el.shadowRoot.querySelector('.ids-progress');
+    const rootEl = el.shadowRoot.querySelector('.ids-progress-bar');
     expect(el.disabled).toEqual('true');
     expect(rootEl.classList).toContain('disabled');
     expect(el.labelAudible).toEqual('true');

@@ -11,7 +11,7 @@ import {
 import styles from './ids-upload-advanced-file.scss';
 import IdsAlert from '../ids-alert/ids-alert';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-import IdsProgress from '../ids-progress/ids-progress';
+import IdsProgressBar from '../ids-progress-bar/ids-progress-bar';
 import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
 
 // Import Mixins
@@ -97,7 +97,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
             </ids-button>
           </div>
           <div class="progress-row">
-            <ids-progress label="${this.progressLabelText}" label-audible="true" value="${this.value || 0}"></ids-progress>
+            <ids-progress-bar label="${this.progressLabelText}" label-audible="true" value="${this.value || 0}"></ids-progress-bar>
           </div>
           <div class="error-row">
             <ids-text class="error-msg"></ids-text>
@@ -138,7 +138,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   toggleDisabled(value) {
     const el = {
       root: this.shadowRoot.querySelector('.ids-upload-advanced-file'),
-      progress: this.shadowRoot.querySelector('ids-progress'),
+      progress: this.shadowRoot.querySelector('ids-progress-bar'),
       btnClose: this.shadowRoot.querySelector('.btn-close'),
       alerts: [].slice.call(this.shadowRoot.querySelectorAll('.status ids-alert')),
     };
@@ -170,7 +170,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
       return;
     }
     const rootEl = this.shadowRoot.querySelector('.ids-upload-advanced-file');
-    const progress = this.shadowRoot.querySelector('ids-progress');
+    const progress = this.shadowRoot.querySelector('ids-progress-bar');
     const closeButtonTextEl = this.shadowRoot.querySelector('.btn-close .audible');
     let value = stringUtils.stringToNumber(this.value);
     value = value > -1 ? value : 0;
