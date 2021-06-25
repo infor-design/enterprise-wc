@@ -1,8 +1,8 @@
-# Ids Loader Component
+# Ids Loading Indicator Component
 
 ## Description
 
-The ids-loader component is used to notify the user that the system is processing a request, and that they must wait for that request to be processed before continuing with the current task. There are different indicators and UI styles for different scenarios. In previous versions this has been called Loading Indicator or Busy Indicator.
+The ids-loading-indicator component is used to notify the user that the system is processing a request, and that they must wait for that request to be processed before continuing with the current task. There are different indicators and UI styles for different scenarios. In previous versions this has been called Loading Indicator or Busy Indicator.
 
 ## Use Cases
 
@@ -15,10 +15,10 @@ The ids-loader component is used to notify the user that the system is processin
 
 ## Features (With Code Examples)
 
-A page loader can be added to a page by adding an ids-loader to the page and running the scripts. It will not appear until the web component is in a `connnected` state.
+A page loader can be added to a page by adding an ids-loading-indicator to the page and running the scripts. It will not appear until the web component is in a `connnected` state.
 
 ```html
-<ids-loader></ids-loader>
+<ids-loading-indicator></ids-loading-indicator>
 ```
 
 ## Settings and Attributes
@@ -46,7 +46,7 @@ No keyboard shortcuts available.
 ## Converting from Previous Versions
 
 - 3.x:  have all new markup and classes.
-- 4.x: Busy Indicator has been changed to ids-loader. It has all new markup and classes for web components.
+- 4.x: Busy Indicator has been changed to ids-loading-indicator. It has all new markup and classes for web components.
 
 ## Proposed Changes
 

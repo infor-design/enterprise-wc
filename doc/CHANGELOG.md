@@ -42,9 +42,9 @@
   - If using events events are now plain JS events for example
   - The template is now a template element that uses simple string substitution
   - Can now be imported as a single JS file and used with encapsulated styles
-- `[Loader]` The Busy Indicator component has been changed to a web component and renamed to ids-loader.
+- `[Loader]` The Busy Indicator component has been changed to a web component and renamed to ids-loading-indicator.
   - If using properties/settings these are now attributes: dismissible, color
-  - Markup has changed to a custom element `<ids-loader></ids-loader>`
+  - Markup has changed to a custom element `<ids-loading-indicator></ids-loading-indicator>`
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[Menu Button]` Added the Menu Button WebComponent
   - Now exists as its own component

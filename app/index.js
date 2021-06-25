@@ -1,5 +1,5 @@
 // Import All Components Used in the Page
-import IdsLoader from '../src/ids-loader/ids-loader';
+import IdsLoadingIndicator from '../src/ids-loading-indicator/ids-loading-indicator';
 import IdsButton from '../src/ids-button/ids-button';
 import IdsCheckbox from '../src/ids-checkbox/ids-checkbox';
 import IdsSwitch from '../src/ids-switch/ids-switch';

@@ -12,19 +12,19 @@ import {
   IdsThemeMixin
 } from '../ids-mixins';
 
-import styles from './ids-loader.scss';
+import styles from './ids-loading-indicator.scss';
 
 /**
  * IDS Loader Component
- * @type {IdsLoader}
+ * @type {IdsLoadingIndicator}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part loader - the loader container element
  */
-@customElement('ids-loader')
+@customElement('ids-loading-indicator')
 @scss(styles)
-class IdsLoader extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsLoadingIndicator extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -52,10 +52,10 @@ class IdsLoader extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-loader" part="loader">
-      <div class="ids-loader-indeterminate"></div>
+    return `<div class="ids-loading-indicator" part="loader">
+      <div class="ids-loading-indicator-indeterminate"></div>
     </div>`;
   }
 }
 
-export default IdsLoader;
+export default IdsLoadingIndicator;

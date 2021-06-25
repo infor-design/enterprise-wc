@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsLoadingIndicator Component renders correctly 1`] = `
+"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><div class=\\"ids-loading-indicator\\" part=\\"loader\\">
+      <div class=\\"ids-loading-indicator-indeterminate\\"></div>
+    </div>"
+`;

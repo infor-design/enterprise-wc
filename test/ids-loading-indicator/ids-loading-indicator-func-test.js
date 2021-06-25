@@ -1,15 +1,15 @@
 /**
  * @jest-environment jsdom
  */
-import IdsLoader from '../../src/ids-loader/ids-loader';
+import IdsLoadingIndicator from '../../src/ids-loading-indicator/ids-loading-indicator';
 
-describe('IdsLoader Component', () => {
+describe('IdsLoadingIndicator Component', () => {
   let loader;
 
   beforeEach(async () => {
-    const elem = new IdsLoader();
+    const elem = new IdsLoadingIndicator();
     document.body.appendChild(elem);
-    loader = document.querySelector('ids-loader');
+    loader = document.querySelector('ids-loading-indicator');
   });
 
   afterEach(async () => {
@@ -19,9 +19,9 @@ describe('IdsLoader Component', () => {
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     document.body.innerHTML = '';
-    loader = new IdsLoader();
+    loader = new IdsLoadingIndicator();
     document.body.appendChild(loader);
-    expect(document.querySelectorAll('ids-loader').length).toEqual(1);
+    expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 

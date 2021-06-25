@@ -1,7 +1,7 @@
 /* Ids Loader */
 @import '../ids-base/ids-base';
 
-.ids-loader {
+.ids-loading-indicator {
   @include bg-transparent();
   @include fixed();
   @include h-full();
@@ -47,7 +47,7 @@
   }
 }
 
-.ids-loader-indeterminate {
+.ids-loading-indicator-indeterminate {
   @include bg-azure-70();
 
   &::before {
@@ -75,22 +75,22 @@
 }
 
 // Handle Themes
-.ids-loader[mode='dark'] .ids-loader-indeterminate {
+.ids-loading-indicator[mode='dark'] .ids-loading-indicator-indeterminate {
   background-color: var(--ids-color-palette-azure-50);
 }
 
-.ids-tag[mode='contrast'] .ids-loader-indeterminate {
+.ids-tag[mode='contrast'] .ids-loading-indicator-indeterminate {
   background-color: var(--ids-color-palette-azure-90);
 }
 
-.ids-tag[version='classic'][mode='light'] .ids-loader-indeterminate {
+.ids-tag[version='classic'][mode='light'] .ids-loading-indicator-indeterminate {
   background-color: var(--ids-color-palette-azure-70);
 }
 
-.ids-tag[version='classic'][mode='dark'] .ids-loader-indeterminate {
+.ids-tag[version='classic'][mode='dark'] .ids-loading-indicator-indeterminate {
   background-color: var(--ids-color-palette-azure-50);
 }
 
-.ids-tag[version='classic'][mode='contrast'] .ids-loader-indeterminate {
+.ids-tag[version='classic'][mode='contrast'] .ids-loading-indicator-indeterminate {
   background-color: var(--ids-color-palette-azure-90);
 }

@@ -3,7 +3,7 @@
 
 import { IdsElement } from '../ids-base';
 
-export default class IdsLoader extends IdsElement {
+export default class IdsLoadingIndicator extends IdsElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 

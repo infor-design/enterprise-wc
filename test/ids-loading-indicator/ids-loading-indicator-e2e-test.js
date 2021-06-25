@@ -1,5 +1,5 @@
 describe('Ids Tag e2e Tests', () => {
-  const url = 'http://localhost:4444/ids-loader';
+  const url = 'http://localhost:4444/ids-loading-indicator';
 
   beforeAll(async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
