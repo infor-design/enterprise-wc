@@ -325,7 +325,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.datasource.sort(id, ascending, null);
     this.rerender();
     this.setSortState(id, ascending);
-    this.triggerEvent('sorted', this, { detail: { elem: this, sortColumn: this.sortColumn } });
+    this.triggerEvent('sort', this, { detail: { elem: this, sortColumn: this.sortColumn } });
   }
 
   /**
@@ -496,7 +496,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     cellNode.setAttribute('tabindex', '0');
     cellNode.focus();
 
-    this.triggerEvent('activecellchanged', this, { detail: { elem: this, activeCell: this.activeCell } });
+    this.triggerEvent('activecellchange', this, { detail: { elem: this, activeCell: this.activeCell } });
     return this.activeCell;
   }
 }

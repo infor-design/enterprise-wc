@@ -90,7 +90,7 @@
   - Markup has changed to a custom element `<ids-tabs value=${selection}></ids-tabs>`
   - content within the tabs are specified as `<ids-tab value=${selection-value}>`Tab Label/Content`</ids-tab>`
 - `[Tags]` The Tag component has been changed to a web component.
-  - If using events events are now plain JS events. beforetagremoved, tagremoved, aftertagremoved
+  - If using events events are now plain JS events. beforetagremove, tagremove, aftertagremove
   - If using properties/settings these are now attributes: dismissible, color
   - Markup has changed to a custom element `<ids-tag color="error">Text</ids-tag>`
   - Can now be imported as a single JS file and used with encapsulated styles

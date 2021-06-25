@@ -2,7 +2,7 @@
 // confirm our code is type safe, and to support TypeScript users.
 import { IdsElement } from '../ids-base';
 
-interface sorted extends Event {
+interface sort extends Event {
   detail: {
     elem: IdsDataGrid,
     sortColumn: {
@@ -12,7 +12,7 @@ interface sorted extends Event {
   }
 }
 
-interface activecellchanged extends Event {
+interface activecellchange extends Event {
   detail: {
     elem: IdsDataGrid,
     activeCell: {
@@ -54,9 +54,9 @@ export default class IdsDataGrid extends IdsElement {
   setSortColumn(id: string, ascending?: boolean): void;
 
   /** Fires before the tag is removed, you can return false in the response to veto. */
-  on(event: 'sorted', listener: (event: sorted) => void): this;
+  on(event: 'sort', listener: (event: sort) => void): this;
 
   /** Fires while the tag is removed */
   // eslint-disable-next-line no-use-before-define
-  on(event: 'activecellchanged', listener: (event: activecellchanged) => void): this;
+  on(event: 'activecellchange', listener: (event: activecellchange) => void): this;
 }
