@@ -15,6 +15,28 @@ import {
 
 import styles from './ids-loading-indicator.scss';
 
+const getIndicatorHtml = ({ progress, type }) => {
+  const isDeterminate = !Number.isNaN(parseInt(progress));
+
+  switch (type) {
+  case attributes.LINEAR: {
+    return '<div />';
+  }
+  case attributes.AFFIXED: {
+    return '<div />';
+  }
+  // circular
+  default: {
+    return (
+      `<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="circular-indicator">
+        <circle cx="50" cy="50" r="45" stroke-width="3" class="overall" />
+        <circle cx="50" cy="50" r="45" stroke-width="6" class="progress" />
+      </svg>`
+    );
+  }
+  }
+};
+
 /**
  * IDS Loading Indicator Component
  * @type {IdsLoadingIndicator}
@@ -59,15 +81,21 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
   }
 
   /**
-   * Create the Template for the contents
+   * Return the Template for the contents
    * @returns {string} The template
    */
   template() {
-    return (
-      `<div class="ids-loading-indicator" part="container">
-          <div class="ids-loading-indicator-indeterminate"></div>
-      </div>`
-    );
+    let type = 'circular';
+
+    if (this.hasAttribute(attributes.AFFIXED)) {
+      type = 'affixed';
+    }
+
+    if (this.hasAttribute(attributes.LINEAR)) {
+      type = 'linear';
+    }
+
+    return getIndicatorHtml({ progress: this.progress, type });
   }
 
   /**

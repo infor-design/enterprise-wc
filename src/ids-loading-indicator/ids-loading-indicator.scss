@@ -13,6 +13,37 @@
   top: 0;
 }
 
+:host(ids-loading-indicator:not([linear]):not([affixed])) {
+  width: 156px;
+  height: 156px;
+}
+
+svg.circular-indicator {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  fill: transparent;
+
+  circle {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .progress {
+    stroke: var(--ids-color-palette-azure-70);
+    stroke-dasharray: 283;
+    stroke-dashoffset: 80;
+    z-index: 1;
+  }
+
+  .overall {
+    stroke: var(--ids-color-palette-azure-10);
+  }
+}
+
 @keyframes indeterminate {
   0% {
     left: -35%;
