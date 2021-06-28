@@ -52,17 +52,6 @@ A basic use case of the color picker with a few color options.
   <ids-color hex="#737373"></ids-color>
   <ids-color hex="#999999"></ids-color>
   <ids-color hex="#BDBDBD"></ids-color>
-  <ids-color hex="#D8D8D8"></ids-color>
-  <ids-color hex="#F0F0F0"></ids-color>
-  <ids-color hex="#D66221"></ids-color>
-  <ids-color hex="#DE7223"></ids-color>
-  <ids-color hex="#E68425"></ids-color>
-  <ids-color hex="#EB9728"></ids-color>
-  <ids-color hex="#EFAA30"></ids-color>
-  <ids-color hex="#F2BC41"></ids-color>
-  <ids-color hex="#F4C951"></ids-color>
-  <ids-color hex="#F7D475"></ids-color>
-  <ids-color hex="#F8E09C"></ids-color>
 </ids-color-picker>
 ```
 
