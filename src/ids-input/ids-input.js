@@ -282,8 +282,8 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   /**
-   * Sets a label's text as not displayed in explicit label element
-   */
+   * @param {boolean} value Flags a label's text as not displayed explicitly in the label element
+   * */
   set labelHidden(value) {
     if (stringUtils.stringToBool(value)) {
       this?.setAttribute(attributes.LABEL_HIDDEN, true);
@@ -314,6 +314,10 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     }
   }
 
+  /**
+   * @returns {boolean} Flag indicating whether a label's text is not displayed
+   * explicitly in the component
+   */
   get labelHidden() {
     return this.getAttribute(attributes.LABEL_HIDDEN);
   }
