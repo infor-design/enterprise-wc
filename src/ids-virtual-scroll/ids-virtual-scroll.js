@@ -105,7 +105,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     }
     /** @type {any} */
     const elem = this;
-    this.triggerEvent('afterrendered', elem, { detail: { elem: this, startIndex, endIndex } });
+    this.triggerEvent('afterrender', elem, { detail: { elem: this, startIndex, endIndex } });
   }
 
   /**
