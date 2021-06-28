@@ -39,6 +39,9 @@ export class IdsButton extends IdsElement {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 
+  /** whether the corners of the button as an icon-button are angled/90° */
+  square?: boolean;
+
   /** Set the theme version */
   version: 'new' | 'classic' | string;
 }

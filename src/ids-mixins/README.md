@@ -119,7 +119,7 @@ This mixin adds functionality to change the theme on a component. To use it you 
 }
 ```
 
-1. In addition you should expose some of the component elements as `parts` do this in the comments and in the template. This gives a way to customize the styles outside of the web components, for flexibility and possible style customizations.
+5. In addition you should expose some of the component elements as `parts` do this in the comments and in the template. This gives a way to customize the styles outside of the web components, for flexibility and possible style customizations.
 
 ```js
  /**
@@ -132,7 +132,7 @@ This mixin adds functionality to change the theme on a component. To use it you 
    return '<span class="ids-tag" part="tag"><slot></slot></span>';
  }
 ```
-1. Add a themeable parts section to the .MD file
+6. Add a themeable parts section to the .MD file
 
 ## Ids Tooltip Mixin
 
@@ -147,3 +147,25 @@ When using it...
 1. Test it by adding for example `tooltip="Additional Information"` on the component.
 1. Consider adding a test to tooltip tests.
 1. If `tooltip="true"` is set then
+
+## Ids Attribute Provider Mixin
+
+This mixin allows a parent component to automatically copy/provide attributes down in its tree (either light or shadowDom) to any custom sub elements
+using single directional data flow. When an attribute observed in the parent changes that is listed in the `providedAttributes` array,
+any changes become mirrored in the children types specified for those specific attributes.
+
+1. Include the import and then IdsAttributeProviderMixin in the `mix` list.
+1. In the `providedAttributes` of the parent which will provide attributes to children in it's tree, add a `providedAttributes` getter which an object mapping with the key being the attribute to map, and the value being an array where each entry is a list of components or a mapping of components and their property names e.g.
+```js
+get providedAttributes() {
+  return {
+    [attributes.PAGE_SIZE]: [IdsPagerInput, IdsPagerNumberList],
+      [attributes.DISABLED]: [
+        [IdsPagerInput, attributes.PARENT_DISABLED],
+        [IdsPagerButton, attributes.PARENT_DISABLED]
+      ]
+  };
+}
+```
+3. be sure that in the child components, setters/getters exist for the target attributes. So in the above example, `IdsPagerInput` and `IdsPagerNumberList` should have `set`/`get` `pageSize`, `parentDisabled`.
+1. similar to above, be sure to include the target attributes in children components that receive the property updates from the parent in the `static attributes` variable of the child components.
