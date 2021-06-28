@@ -39,8 +39,9 @@ const BUTTON_ATTRIBUTES = [
   attributes.DISABLED,
   attributes.ICON,
   attributes.ICON_ALIGN,
-  attributes.NO_RIPPLE,
   attributes.ID,
+  attributes.NO_RIPPLE,
+  attributes.SQUARE,
   attributes.TEXT,
   attributes.TYPE,
   attributes.TABINDEX
@@ -50,6 +51,13 @@ const BUTTON_ATTRIBUTES = [
 const ICON_ALIGN = [
   'align-icon-start',
   'align-icon-end'
+];
+
+const baseProtoClasses = [
+  'ids-button',
+  'ids-icon-button',
+  'ids-menu-button',
+  'ids-toggle-button'
 ];
 
 /**
@@ -149,9 +157,8 @@ class IdsButton extends mix(IdsElement).with(
     const cl = this.button.classList;
     /** @type {any} */
     const newProtoClass = this.protoClasses;
-    const protoClasses = ['ids-button', 'ids-icon-button', 'ids-menu-button', 'ids-toggle-button'];
 
-    cl.remove(...protoClasses);
+    cl.remove(...baseProtoClasses);
     cl.add(...newProtoClass);
   }
 
@@ -185,6 +192,12 @@ class IdsButton extends mix(IdsElement).with(
     if (this.state && this.state?.type !== 'default') {
       type = ` btn-${this.state.type}`;
     }
+
+    /* istanbul ignore next */
+    if (this.hasAttribute(attributes.SQUARE)) {
+      cssClass += ' square';
+    }
+
     /* istanbul ignore next */
     if (this.protoClasses.length) {
       protoClasses = `${this.protoClasses.join(' ')}`;
@@ -549,6 +562,32 @@ class IdsButton extends mix(IdsElement).with(
    */
   get noRipple() {
     return this.state.noRipple || false;
+  }
+
+  /**
+   * @param {boolean} value whether the corners of the button as an icon-button should be angled/90°
+   */
+  set square(value) {
+    const isTruthy = stringToBool(value);
+
+    if (isTruthy && !this.button.classList.contains('square')) {
+      this.button.classList.add('square');
+    } else if (!isTruthy && this.button.classList.contains('square')) {
+      this.button.classList.remove('square');
+    }
+
+    if (isTruthy && !this.hasAttribute(attributes.SQUARE)) {
+      this.setAttribute(attributes.SQUARE, '');
+    } else if (!isTruthy && this.hasAttribute(attributes.SQUARE)) {
+      this.removeAttribute(attributes.SQUARE);
+    }
+  }
+
+  /**
+   * @returns {boolean} whether the corners of the button as an icon-button are angled/90°
+   */
+  get square() {
+    return this.hasAttribute(attributes.SQUARE);
   }
 
   /**

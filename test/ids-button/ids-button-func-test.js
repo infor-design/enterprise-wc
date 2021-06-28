@@ -243,6 +243,18 @@ describe('IdsButton Component', () => {
     expect(btn.button.classList.contains('ids-button')).toBeFalsy();
   });
 
+  it('can reliably set the "square" attribute', () => {
+    btn.icon = 'settings';
+    btn.square = true;
+
+    expect(btn.hasAttribute('square')).toEqual(true);
+    expect(btn.square).toEqual(true);
+
+    btn.square = false;
+    expect(btn.hasAttribute('square')).toEqual(false);
+    expect(btn.square).toEqual(false);
+  });
+
   it('can rerender', () => {
     btn.text = 'New';
     btn.icon = 'check';

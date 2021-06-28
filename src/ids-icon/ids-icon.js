@@ -80,7 +80,7 @@ class IdsIcon extends IdsElement {
   get size() { return this.getAttribute(attributes.SIZE) || 'normal'; }
 
   set size(value) {
-    if (value) {
+    if (value && sizes[value]) {
       const size = sizes[this.size];
       this.setAttribute(attributes.SIZE, value);
       this.shadowRoot?.querySelector('svg')?.setAttribute('height', size);

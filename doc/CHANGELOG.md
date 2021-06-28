@@ -55,6 +55,12 @@
   - Triggering element for the modal is now configurable with the `target` prop
   - Events are now just plain JS events
   - Markup has been changed to custom element `<ids-modal></ids-modal>`
+- `[Pager]` Pager is now a web component called ids-pager ([WC#148](https://github.com/infor-design/enterprise-wc/issues/148))
+  - there is a new base-component: `<ids-pager>`, and several sub-components to provide specific controls.
+  - content is automatically managed/aligned via nesting controls inside of `<ids-pager-section>`
+  - pagination is controlled via attributes on the `<ids-pager>` (`page-number`, `total`, `page-size`), and manages buttons and controls automatically.
+  - buttons are managed by `<ids-pager-button>` with given functionality flags e.g. `<ids-pager-button start>`.
+  - input box can be inserted `<ids-pager-input>`, and a number list with `<ids-pager-number-list>`
 - `[Popup]` Added the Popup WebComponent. ([#4259](https://github.com/infor-design/enterprise/issues/4259))
   - This is the new base component to be used for building Popupmenu, Tooltip, Modal, and any other component that requires placement of a fixed-position element.
   - If using properties/settings, these are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.
