@@ -8,7 +8,6 @@ The color picker consists of a custom element `<ids-color-picker></ids-color-pic
 
 The Color Picker by default supports colors within a pre-configured palette of IDS colors. You can optionally add your own list of colors by nesting a `<ids-color></ids-color>` custom element indside `<ids-color-picker></ids-color-picker>`.
 
-
 ## Settings and Attributes
 - `value` {string} Sets the value attribute to displayed the color of selected `value="#b94e4e"`
 - `label` {string} Sets the label attribute which will be displayed above the color picker web component `label="Color Picker"`
@@ -33,7 +32,7 @@ A basic use case of the color picker with a few color options.
 
 ## Converting from Previous Versions
 
-### Version - 4.x:
+### Version - 4.x
 ```html
 <div class="field">
   <label for="background-color">Background Color</label>
@@ -41,7 +40,7 @@ A basic use case of the color picker with a few color options.
 </div>
 ```
 
-### Version - 5.x:
+### Version - 5.x
 ```html
 <ids-color-picker id="color-picker-1" disabled="false" label="Ids Color Picker">
   <ids-color hex="#1A1A1A"></ids-color>
