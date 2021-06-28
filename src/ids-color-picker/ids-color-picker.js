@@ -67,7 +67,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
   }
 
   static get attributes() {
-    return [attributes.DISABLED, attributes.LABEL, attributes.MODE, attributes.NAME, 'swatch', attributes.VALUE, attributes.VERSION];
+    return [attributes.DISABLED, attributes.LABEL, attributes.MODE, 'swatch', attributes.READONLY, attributes.VALUE, attributes.VERSION];
   }
 
   template() {
@@ -78,7 +78,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
           <span class="color-preview" tabindex="-1">
             <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
           </span>
-          <ids-input dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
+          <ids-input size="sm" dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
           <ids-trigger-button id="${id}-button">
             <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
           </ids-trigger-button>
@@ -97,6 +97,14 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
 
   get value() {
     return this.getAttribute('value') || '#B94E4E';
+  }
+
+  set readonly(value) {
+    this.setAttribute('readonly', value.toString());
+  }
+
+  get readonly() {
+    return this.getAttribute('readonly') || 'false';
   }
 
   set disabled(d) {
