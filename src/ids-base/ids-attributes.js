@@ -1,6 +1,7 @@
 // Please keep constants alphabetized
 export const attributes = {
   ACCEPT: 'accept',
+  AFFIXED: 'affixed',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
   ANIMATION_STYLE: 'animation-style',
@@ -70,6 +71,7 @@ export const attributes = {
   LABEL_HIDDEN: 'label-hidden',
   LABEL_REQUIRED: 'label-required',
   LABEL_FILETYPE: 'label-filetype',
+  LINEAR: 'linear',
   MAX: 'max',
   MAX_FILE_SIZE: 'max-file-size',
   MAX_FILES: 'max-files',
@@ -103,6 +105,7 @@ export const attributes = {
   PREVIOUS: 'previous',
   PRINTABLE: 'printable',
   LAST: 'last',
+  PROGRESS: 'progress',
   READONLY: 'readonly',
   RESIZABLE: 'resizable',
   REQUIRED: 'required',

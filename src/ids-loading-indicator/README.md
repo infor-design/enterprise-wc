@@ -17,13 +17,30 @@ The ids-loading-indicator component is used to notify the user that the system i
 
 A page loader can be added to a page by adding an ids-loading-indicator to the page and running the scripts. It will not appear until the web component is in a `connnected` state.
 
+Circular and indeterminate:
 ```html
 <ids-loading-indicator></ids-loading-indicator>
 ```
+Determinate, with 10% completion and affixed to the top of view it is currently in:
+```html
+<ids-loading-indicator progress="10" affixed></ids-loading-indicator>
+```
+
+Indeterminate and linear:
+```html
+<ids-loading-indicator linear></ids-loading-indicator>
+```
+
 
 ## Settings and Attributes
 
-TBD
+- `progress` *{number | undefined}* Represents the percentage completed for the indicator; if not specified, the indicator is set into indeterminate mode (e.g. no specific progress with an animation)
+- `affixed` *{boolean}* Flags the indicator as an affixed indicator type; causes
+the indicator to stick to the top of the innermost parent IdsElement and span it horizontally. If set, will unflag this indicator as a linear or circular indicator.
+- `linear` *{boolean}* value Flags the indicator as a linear indicator type;
+   * causes the indicator to span its parent component horizontally and
+   * be represented as a horizontal/linear bar. If set, removes current
+   * flag types that may be set.
 
 ## Themeable Parts
 
