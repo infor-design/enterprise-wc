@@ -79,7 +79,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
             <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
           </span>
           <ids-input size="sm" dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
-          <ids-trigger-button id="${id}-button">
+          <ids-trigger-button id="${id}-button" title="${id}">
             <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>

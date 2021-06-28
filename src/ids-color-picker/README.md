@@ -54,4 +54,7 @@ A basic use case of the color picker with a few color options.
   <ids-color hex="#BDBDBD"></ids-color>
 </ids-color-picker>
 ```
+## Keyboard Guidelines
 
+- <kbd>Tab/Shift+Tab</kbd>
+- <kbd>Enter</kbd>
