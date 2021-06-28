@@ -1,6 +1,9 @@
 /* Ids Loader */
 @import '../ids-base/ids-base';
 
+$pi: 3.14159265358979;
+$circle-radius: 45;
+
 .ids-loading-indicator {
   @include bg-transparent();
   @include fixed();
@@ -18,24 +21,27 @@
   height: 156px;
 }
 
-svg.circular-indicator {
+svg.circular-indicator.determinate {
   position: relative;
+  overflow: visible;
   width: 100%;
   height: 100%;
   fill: transparent;
+  transform-origin: 50% 50%;
+  transform: rotateZ(-90deg);
 
   circle {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    transform-origin: 50% 50%;
   }
 
   .progress {
     stroke: var(--ids-color-palette-azure-70);
+
+    /*
+     * circumference is 2πr(45) => 282.74, or 283
+     */
     stroke-dasharray: 283;
-    stroke-dashoffset: 80;
+    stroke-dashoffset: #{'calc(283 - (var(--progress) * 2.83))'};
     z-index: 1;
   }
 

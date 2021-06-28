@@ -27,8 +27,14 @@ const getIndicatorHtml = ({ progress, type }) => {
   }
   // circular
   default: {
+    const determinateClass = isDeterminate ? ' determinate' : '';
+
     return (
-      `<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="circular-indicator">
+      `<svg
+        viewbox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+        class="circular-indicator${determinateClass}"
+      >
         <circle cx="50" cy="50" r="45" stroke-width="3" class="overall" />
         <circle cx="50" cy="50" r="45" stroke-width="6" class="progress" />
       </svg>`
@@ -115,11 +121,13 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    * progress with an animation)
    */
   set progress(value) {
-    const isTruthy = stringUtils.stringToBool(value);
-    if (isTruthy) {
-      this.setAttribute(attributes.LINEAR, '');
+    const hasValue = !Number.isNaN(Number.parseFloat(value));
+    if (hasValue) {
+      this.setAttribute(attributes.PROGRESS, parseFloat(value));
+      this.shadowRoot.querySelector('svg')?.style?.setProperty?.('--progress', value);
     } else {
-      this.removeAttribute(attributes.LINEAR);
+      this.removeAttribute(attributes.PROGRESS);
+      this.shadowRoot.querySelector('svg')?.style?.removeProperty?.('--progress');
     }
   }
 
