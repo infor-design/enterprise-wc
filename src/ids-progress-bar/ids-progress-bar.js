@@ -7,25 +7,25 @@ import {
   stringUtils
 } from '../ids-base';
 
-import styles from './ids-progress.scss';
+import styles from './ids-progress-bar.scss';
 
 // Import Mixins
 import { IdsEventsMixin } from '../ids-mixins';
 
 // Defaults
-const ID = 'ids-progress-id';
+const ID = 'ids-progress-bar-id';
 const MAX = '100';
 const VALUE = '0';
 
 /**
- * IDS Progress Component
- * @type {IdsProgress}
+ * IDS Progress Bar Component
+ * @type {IdsProgressBar}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  */
-@customElement('ids-progress')
+@customElement('ids-progress-bar')
 @scss(styles)
-class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsProgressBar extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
@@ -54,7 +54,7 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
     let rootClass = toBool(this.disabled) ? ' disabled' : '';
     rootClass += toBool(this.labelAudible) ? ' label-audible' : '';
     return `
-      <div class="ids-progress${rootClass}">
+      <div class="ids-progress-bar${rootClass}">
         <label for="${ID}" class="progress-label">
           <ids-text${audible}>${this.label}</ids-text>
         </label>
@@ -102,7 +102,7 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
-    const rootEl = this.shadowRoot.querySelector('.ids-progress');
+    const rootEl = this.shadowRoot.querySelector('.ids-progress-bar');
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
@@ -138,7 +138,7 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean|string} value If true will set `label-audible` attribute
    */
   set labelAudible(value) {
-    const rootEl = this.shadowRoot.querySelector('.ids-progress');
+    const rootEl = this.shadowRoot.querySelector('.ids-progress-bar');
     const labelText = this.shadowRoot.querySelector('.progress-label ids-text');
     const val = stringUtils.stringToBool(value);
     if (val) {
@@ -179,4 +179,4 @@ class IdsProgress extends mix(IdsElement).with(IdsEventsMixin) {
   get value() { return this.getAttribute(attributes.VALUE) || VALUE; }
 }
 
-export default IdsProgress;
+export default IdsProgressBar;

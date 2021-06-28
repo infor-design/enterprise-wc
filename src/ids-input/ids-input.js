@@ -117,6 +117,7 @@ let instanceCounter = 0;
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
+ * @part container - the overall container
  * @part input - the input element
  * @part label - the label element
  */
@@ -185,7 +186,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     );
 
     return (
-      `<div class="${containerClass}">
+      `<div class="${containerClass}" part="container">
         ${labelHtml}
         <div class="field-container">
           <input
@@ -193,6 +194,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
             id="${this.id}-input"
             ${type}${inputClass}${placeholder}${inputState}
             ${this.getAttribute(attributes.LABEL_HIDDEN) && this.label ? `aria-label="${this.label}"` : ''}
+            ${this.hasAttribute(attributes.VALUE) ? ` value="${this.getAttribute(attributes.VALUE)}" ` : ''}
             ></input>
         </div>
       </div>`
@@ -281,8 +283,8 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   /**
-   * Sets a label's text as not displayed in explicit label element
-   */
+   * @param {boolean} value Flags a label's text as not displayed explicitly in the label element
+   * */
   set labelHidden(value) {
     if (stringUtils.stringToBool(value)) {
       this?.setAttribute(attributes.LABEL_HIDDEN, true);
@@ -313,6 +315,10 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     }
   }
 
+  /**
+   * @returns {boolean} Flag indicating whether a label's text is not displayed
+   * explicitly in the component
+   */
   get labelHidden() {
     return this.getAttribute(attributes.LABEL_HIDDEN);
   }

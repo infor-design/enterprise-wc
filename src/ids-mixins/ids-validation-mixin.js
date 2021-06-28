@@ -102,7 +102,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
         }
       });
       this.isTypeNotValid = null;
-      this.triggerEvent('validated', this, { detail: { elem: this, value: this.value, isValid } });
+      this.triggerEvent('validate', this, { detail: { elem: this, value: this.value, isValid } });
     }
   }
 

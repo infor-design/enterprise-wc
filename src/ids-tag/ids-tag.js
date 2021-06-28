@@ -226,15 +226,15 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
     const response = (veto) => {
       canDismiss = !!veto;
     };
-    this.triggerEvent('beforetagremoved', this, { detail: { elem: this, response } });
+    this.triggerEvent('beforetagremove', this, { detail: { elem: this, response } });
 
     if (!canDismiss) {
       return;
     }
 
-    this.triggerEvent('tagremoved', this, { detail: { elem: this } });
+    this.triggerEvent('tagremove', this, { detail: { elem: this } });
     this.remove();
-    this.triggerEvent('aftertagremoved', this, { detail: { elem: this } });
+    this.triggerEvent('aftertagremove', this, { detail: { elem: this } });
   }
 }
 

@@ -60,6 +60,9 @@ export default class IdsInput extends IdsElement {
   /** Sets the input label text * */
   label: string;
 
+  /** specifies that the label should not be shown (either for presentational purposes or for an external label) * */
+  labelHidden: boolean;
+
   /** Sets the input placeholder text * */
   placeholder: string
 
