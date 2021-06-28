@@ -24,7 +24,6 @@ import styles from './ids-color-picker.scss';
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  */
-
 @customElement('ids-color-picker')
 @scss(styles)
 class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
@@ -60,7 +59,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     this.#handleEvents();
 
     // TODO: Do this a cleaner way to lay the label out
-    this.inputLabel = this.colorPickerInput.shadowRoot.querySelector('label');
+    this.inputLabel = this.colorPickerInput?.shadowRoot?.querySelector('label');
     if (this.inputLabel) {
       this.inputLabel.style.marginLeft = '-38px';
     }
