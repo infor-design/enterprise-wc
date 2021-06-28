@@ -74,11 +74,13 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     const template = `
       <div class="ids-color-picker">
         <ids-trigger-field tabbable="false">
-          <span class="color-preview" tabindex="-1">
+          <label class="color-preview">
             <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
-          </span>
+            <ids-text audible="true">Pick Custom Color</ids-text>
+          </label>
           <ids-input size="sm" dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
           <ids-trigger-button id="${id}-button" title="${id}">
+            <ids-text audible="true">color picker trigger</ids-text>
             <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
           </ids-trigger-button>
         </ids-trigger-field>
