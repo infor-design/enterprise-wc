@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   mix,
-  props,
+  attributes,
   stringUtils,
   scss
 } from '../ids-base/ids-element';
@@ -47,11 +47,11 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
     };
   }
 
-  static get properties() {
+  static get attributes() {
     return [
-      ...super.properties,
-      props.VISIBLE,
-      props.OPACITY
+      ...super.attributes,
+      attributes.VISIBLE,
+      attributes.OPACITY
     ];
   }
 

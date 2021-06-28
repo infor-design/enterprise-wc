@@ -3,7 +3,7 @@ import {
   scss
 } from '../ids-base';
 
-import { IdsButton, BUTTON_PROPS, BUTTON_TYPES } from '../ids-button/ids-button';
+import { IdsButton, BUTTON_ATTRIBUTES, BUTTON_TYPES } from '../ids-button/ids-button';
 import IdsIcon from '../ids-icon/ids-icon';
 
 import styles from '../ids-button/ids-button.scss';
@@ -35,8 +35,8 @@ class IdsToggleButton extends IdsButton {
   /**
    * @returns {Array} containing configurable properties on this component
    */
-  static get properties() {
-    return BUTTON_PROPS.concat([
+  static get attributes() {
+    return BUTTON_ATTRIBUTES.concat([
       'icon-off',
       'icon-on',
       'text-off',

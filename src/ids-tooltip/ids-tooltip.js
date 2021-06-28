@@ -3,7 +3,7 @@ import {
   customElement,
   appendIds,
   mix,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -60,16 +60,16 @@ class IdsTooltip extends mix(IdsElement).with(
    * Returns the properties/settings we handle as getters/setters
    * @returns {Array} The supported settings in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.DELAY,
-      props.KEEP_OPEN,
-      props.PLACEMENT,
-      props.MODE,
-      props.TARGET,
-      props.TRIGGER,
-      props.VERSION,
-      props.VISIBLE
+      attributes.DELAY,
+      attributes.KEEP_OPEN,
+      attributes.PLACEMENT,
+      attributes.MODE,
+      attributes.TARGET,
+      attributes.TRIGGER,
+      attributes.VERSION,
+      attributes.VISIBLE
     ];
   }
 

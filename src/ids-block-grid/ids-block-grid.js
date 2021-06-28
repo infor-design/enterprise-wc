@@ -3,7 +3,7 @@ import {
   customElement,
   scss
 } from '../ids-base';
-import { props } from '../ids-base/ids-constants';
+import { attributes } from '../ids-base/ids-attributes';
 import styles from './ids-block-grid.scss';
 
 /**
@@ -18,8 +18,8 @@ class IdsBlockgrid extends IdsElement {
     super();
   }
 
-  static get properties() {
-    return [props.ALIGN];
+  static get attributes() {
+    return [attributes.ALIGN];
   }
 
   /**
@@ -34,7 +34,7 @@ class IdsBlockgrid extends IdsElement {
    * Return the alignment of blockgrid
    * @returns {string|null} The path data
    */
-  get align() { return this.getAttribute(props.ALIGN); }
+  get align() { return this.getAttribute(attributes.ALIGN); }
 
   /**
    * Set the alignment of blockgrid
@@ -42,10 +42,10 @@ class IdsBlockgrid extends IdsElement {
    */
   set align(value) {
     if (value) {
-      this.setAttribute(props.ALIGN, value);
+      this.setAttribute(attributes.ALIGN, value);
       this.style.textAlign = `${value}`;
     } else {
-      this.removeAttribute(props.ALIGN);
+      this.removeAttribute(attributes.ALIGN);
       this.style.removeProperty('text-align');
     }
   }

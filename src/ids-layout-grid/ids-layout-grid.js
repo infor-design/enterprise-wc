@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props
+  attributes
 } from '../ids-base';
 
 import styles from './ids-layout-grid.scss';
@@ -19,14 +19,14 @@ class IdsLayoutGrid extends IdsElement {
     super();
   }
 
-  static get properties() {
+  static get attributes() {
     return [
-      props.FIXED,
-      props.GAP,
-      props.AUTO,
-      props.COLS,
-      props.ROWS,
-      props.NO_MARGINS
+      attributes.FIXED,
+      attributes.GAP,
+      attributes.AUTO,
+      attributes.COLS,
+      attributes.ROWS,
+      attributes.NO_MARGINS
     ];
   }
 
@@ -40,22 +40,22 @@ class IdsLayoutGrid extends IdsElement {
    */
   set fixed(value) {
     if (value) {
-      this.setAttribute(props.FIXED, value.toString());
+      this.setAttribute(attributes.FIXED, value.toString());
       this.classList.add('ids-fixed');
       return;
     }
 
-    this.removeAttribute(props.FIXED);
+    this.removeAttribute(attributes.FIXED);
     this.classList.remove('ids-fixed');
   }
 
-  get fixed() { return this.getAttribute(props.FIXED); }
+  get fixed() { return this.getAttribute(attributes.FIXED); }
 
   /**
    * Handle The Gap Setting
    * @returns {string} The Gap [none, sm, md, lg, xl]
    */
-  get gap() { return this.getAttribute(props.GAP) || 'md'; }
+  get gap() { return this.getAttribute(attributes.GAP) || 'md'; }
 
   /**
    * Set the grid gap
@@ -63,11 +63,11 @@ class IdsLayoutGrid extends IdsElement {
    */
   set gap(value) {
     if (value) {
-      this.setAttribute(props.GAP, value);
+      this.setAttribute(attributes.GAP, value);
       this.classList.add(`ids-layout-grid-gap-${value}`);
       return;
     }
-    this.removeAttribute(props.GAP);
+    this.removeAttribute(attributes.GAP);
     this.classList.remove(`ids-layout-grid-gap-${value}`);
   }
 
@@ -77,16 +77,16 @@ class IdsLayoutGrid extends IdsElement {
    */
   set auto(value) {
     if (value) {
-      this.setAttribute(props.AUTO, value.toString());
+      this.setAttribute(attributes.AUTO, value.toString());
       this.classList.add('ids-layout-grid-auto');
       return;
     }
 
-    this.removeAttribute(props.AUTO);
+    this.removeAttribute(attributes.AUTO);
     this.classList.remove('ids-layout-grid-auto');
   }
 
-  get auto() { return this.getAttribute(props.AUTO); }
+  get auto() { return this.getAttribute(attributes.AUTO); }
 
   /**
    * Sets the amount of columns in the grid
@@ -95,7 +95,7 @@ class IdsLayoutGrid extends IdsElement {
   set cols(value) {
     if (value) {
       this.auto = false;
-      this.setAttribute(props.COLS, value);
+      this.setAttribute(attributes.COLS, value);
       this.style.setProperty('--grid-cols', value);
       this.classList.add(`ids-layout-grid-cols`);
       this.classList.remove('ids-layout-grid-auto');
@@ -103,11 +103,11 @@ class IdsLayoutGrid extends IdsElement {
     }
 
     this.style.removeProperty('--grid-cols');
-    this.removeAttribute(props.AUTO);
+    this.removeAttribute(attributes.AUTO);
     this.classList.remove(`ids-layout-grid-cols`);
   }
 
-  get cols() { return this.getAttribute(props.COLS); }
+  get cols() { return this.getAttribute(attributes.COLS); }
 
   /**
    * Sets the amount of rows in the grid. Works best with fixed height grids
@@ -116,7 +116,7 @@ class IdsLayoutGrid extends IdsElement {
   set rows(value) {
     if (value) {
       this.auto = false;
-      this.setAttribute(props.ROWS, value);
+      this.setAttribute(attributes.ROWS, value);
       this.style.setProperty('--grid-rows', value);
       this.classList.add(`ids-layout-grid-rows`);
       this.classList.remove('ids-layout-grid-auto');
@@ -124,11 +124,11 @@ class IdsLayoutGrid extends IdsElement {
     }
 
     this.style.removeProperty('--grid-rows');
-    this.removeAttribute(props.AUTO);
+    this.removeAttribute(attributes.AUTO);
     this.classList.remove(`ids-layout-grid-rows`);
   }
 
-  get rows() { return this.getAttribute(props.ROWS); }
+  get rows() { return this.getAttribute(attributes.ROWS); }
 
   /**
    * If true the grid will not have any margins
@@ -136,16 +136,16 @@ class IdsLayoutGrid extends IdsElement {
    */
   set noMargins(value) {
     if (value) {
-      this.setAttribute(props.NO_MARGINS, value.toString());
+      this.setAttribute(attributes.NO_MARGINS, value.toString());
       this.classList.add('ids-layout-grid-no-margins');
       return;
     }
 
-    this.removeAttribute(props.NO_MARGINS);
+    this.removeAttribute(attributes.NO_MARGINS);
     this.classList.remove('ids-layout-grid-no-margins');
   }
 
-  get noMargins() { return this.getAttribute(props.NO_MARGINS); }
+  get noMargins() { return this.getAttribute(attributes.NO_MARGINS); }
 }
 
 export default IdsLayoutGrid;

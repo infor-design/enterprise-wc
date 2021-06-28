@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix,
   stringUtils
 } from '../ids-base';
@@ -47,8 +47,14 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.COLOR, props.COMPACT, props.HREF, props.MODE, props.VERSION];
+  static get attributes() {
+    return [
+      attributes.COLOR,
+      attributes.COMPACT,
+      attributes.HREF,
+      attributes.MODE,
+      attributes.VERSION
+    ];
   }
 
   /**
@@ -76,10 +82,10 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       node.color = 'unset';
       node.shadowRoot.querySelector('span').style.color = value;
     });
-    this.setAttribute(props.COLOR, value);
+    this.setAttribute(attributes.COLOR, value);
   }
 
-  get color() { return this.getAttribute(props.COLOR); }
+  get color() { return this.getAttribute(attributes.COLOR); }
 
   /**
    * Set the compact attribute
@@ -87,20 +93,20 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * default to regular size if this property is ommitted.
    */
   set compact(value) {
-    this.setAttribute(props.COMPACT, value === 'true' ? 'true' : 'false');
+    this.setAttribute(attributes.COMPACT, value === 'true' ? 'true' : 'false');
   }
 
-  get compact() { return this.getAttribute(props.COMPACT); }
+  get compact() { return this.getAttribute(attributes.COMPACT); }
 
   /**
    * Set the href attribute
    * @param {string} value The href link
    */
   set href(value) {
-    this.setAttribute(props.HREF, value);
+    this.setAttribute(attributes.HREF, value);
   }
 
-  get href() { return this.getAttribute(props.HREF); }
+  get href() { return this.getAttribute(attributes.HREF); }
 }
 
 export { IdsCounts };

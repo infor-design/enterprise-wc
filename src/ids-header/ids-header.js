@@ -4,7 +4,7 @@ import {
   scss,
   mix,
   stringUtils,
-  props
+  attributes
 } from '../ids-base/ids-element';
 
 import {
@@ -38,8 +38,8 @@ import '../ids-text/ids-text';
   connectedCallback() {
   }
 
-  static get properties() {
-    return [props.MODE, props.VERSION, props.COLOR];
+  static get attributes() {
+    return [attributes.MODE, attributes.VERSION, attributes.COLOR];
   }
 
   /**

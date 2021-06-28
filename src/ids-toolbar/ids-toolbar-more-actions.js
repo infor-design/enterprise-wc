@@ -18,7 +18,7 @@ class IdsToolbarMoreActions extends IdsElement {
   }
 
   connectedCallback() {
-    IdsToolbarSection.prototype.connectedCallback.apply(this);
+    super.connectedCallback?.();
     this.refresh();
   }
 
@@ -72,6 +72,7 @@ class IdsToolbarMoreActions extends IdsElement {
    */
   refresh() {
     this.menu.popup.align = 'bottom, right';
+    this.menu.popup.alignEdge = 'bottom';
   }
 
   /**

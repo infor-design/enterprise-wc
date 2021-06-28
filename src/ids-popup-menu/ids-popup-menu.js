@@ -2,7 +2,7 @@ import {
   customElement,
   mix,
   scss,
-  props
+  attributes
 } from '../ids-base';
 
 import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-mixins/ids-render-loop-mixin';
@@ -14,8 +14,8 @@ import styles from './ids-popup-menu.scss';
 import { IdsEventsMixin } from '../ids-mixins';
 
 const POPUPMENU_PROPERTIES = [
-  props.TARGET,
-  props.TRIGGER
+  attributes.TARGET,
+  attributes.TRIGGER
 ];
 
 const POPUPMENU_TRIGGER_TYPES = [
@@ -42,7 +42,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return POPUPMENU_PROPERTIES;
   }
 
@@ -70,6 +70,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
     if (this.parentMenuItem && !this.target) {
       this.target = this.parentMenuItem;
       this.popup.align = 'right, top';
+      this.popup.alignEdge = 'right';
     }
 
     IdsMenu.prototype.connectedCallback.apply(this);

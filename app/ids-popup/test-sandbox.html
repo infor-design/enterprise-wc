@@ -1,4 +1,8 @@
-{{> ../layouts/head.html }}
+{{> ../layouts/head-themeless.html }}
+
+<div id="test-container">
+  <p>Test Container</p>
+</div>
 
 <section id="other-test-section">
   <span class="align-target" id="second-target">Secondary Target</span>
@@ -12,7 +16,7 @@
   <span class="align-target" id="center-point">Center Point</span>
 </section>
 
-<ids-popup x="0" y="0" align-target="#center-point" align="bottom" animated="true" visible="true" type="menu">
+<ids-popup id="test-popup" x="0" y="0" align-target="#center-point" align="bottom" animated="true" visible="true" type="menu">
   <div slot="content">
     <div class="demo-popup">
       My Popup Contents<br />
@@ -37,6 +41,18 @@
         <br/>
         <input type="radio" class="radio" name="align-targets" id="align-targets-option4" value="#third-target" />
         <label for="align-targets-option4" class="radio-label">`#third-target`</label>
+      </fieldset>
+      <fieldset id="containment" class="radio-group">
+        <legend>Containment:</legend>
+        <input type="radio" class="radio" name="containment" id="containment-option1" value="" checked="true" />
+        <label for="containment-option1" class="radio-label">Body (default)</label>
+        <br />
+        <input type="radio" class="radio" name="containment" id="containment-option2" value="ids-container"/>
+        <label for="containment-option2" class="radio-label">Ids Container</label>
+        <br />
+        <input type="radio" class="radio" name="containment" id="containment-option3" value="test-container" />
+        <label for="containment-option3" class="radio-label">Test Container</label>
+        <br />
       </fieldset>
     </ids-layout-grid-cell>
     <ids-layout-grid-cell>
@@ -82,16 +98,23 @@
         <br />
         <label for="y-control">Y: </label>
         <input class="ids-input" id="y-control" value="0" />
+        <br />
+        <input type="checkbox" class="checkbox" name="xy-click-to-set" id="xy-click-to-set-option" checked="true" disabled/>
+        <label for="xy-click-to-set-option" class="radio-label">Click page to set coords</label>
+        <ids-button type="secondary" id="xy-controls-reset">Reset</ids-button>
       </fieldset>
     </ids-layout-grid-cell>
     <ids-layout-grid-cell>
       <fieldset id="other-controls" class="radio-group">
         <legend>Other</legend>
-        <input type="checkbox" class="checkbox" name="animated" id="animated-option" checked="true"/>
+        <input type="checkbox" class="checkbox" name="animated" id="animated-option" checked="true" />
         <label for="animated-option" class="checkbox-label">Animated</label>
         <br />
         <input type="checkbox" class="checkbox" name="visible" id="visible-option" checked="true"/>
         <label for="visible-option" class="checkbox-label">Visible</label>
+        <br />
+        <input type="checkbox" class="checkbox" name="bleeds" id="bleeds-option" />
+        <label for="bleeds-option" class="checkbox-label">Allow Bleeds</label>
       </fieldset>
     </ids-layout-grid-cell>
   </ids-layout-grid>

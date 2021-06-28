@@ -1,11 +1,17 @@
 // Please keep constants alphabetized
-export const props = {
+export const attributes = {
   ACCEPT: 'accept',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
   ANIMATION_STYLE: 'animation-style',
   ALIGN: 'align',
+  ALIGN_EDGE: 'align-edge',
+  ALIGN_TARGET: 'align-target',
+  ALIGN_X: 'align-x',
+  ALIGN_Y: 'align-y',
   APPEARANCE: 'appearance',
+  ARROW: 'arrow',
+  ARROW_TARGET: 'arrow-target',
   AUDIBLE: 'audible',
   AUTO: 'auto',
   AUTOGROW: 'autogrow',
@@ -13,6 +19,7 @@ export const props = {
   AUTO_HEIGHT: 'auto-height',
   AUTOSELECT: 'autoselect',
   BG_TRANSPARENT: 'bg-transparent',
+  BLEED: 'bleed',
   CHAR_MAX_TEXT: 'char-max-text',
   CHAR_REMAINING_TEXT: 'char-remaining-text',
   CHARACTER_COUNTER: 'character-counter',
@@ -54,6 +61,7 @@ export const props = {
   ICON_ALIGN: 'icon-align',
   ID: 'id',
   INDETERMINATE: 'indeterminate',
+  JUSTIFY: 'justify',
   KEEP_OPEN: 'keep-open',
   LABEL: 'label',
   LABEL_AUDIBLE: 'label-audible',
@@ -75,12 +83,14 @@ export const props = {
   MODE: 'mode',
   MULTIPLE: 'multiple',
   NO_MARGINS: 'no-margins',
+  NO_RIPPLE: 'no-ripple',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
   OPACITY: 'opacity',
   OVERFLOW: 'overflow',
   ORIENTATION: 'orientation',
   PLACEHOLDER: 'placeholder',
   PLACEMENT: 'placement',
+  POSITION_STYLE: 'position-style',
   PARAM_NAME: 'param-name',
   PRINTABLE: 'printable',
   READONLY: 'readonly',
@@ -100,6 +110,7 @@ export const props = {
   STEP: 'step',
   STEP_NUMBER: 'step-number',
   SUBMENU: 'submenu',
+  SWIPE_TYPE: 'swipe-type',
   TABBABLE: 'tabbable',
   TABINDEX: 'tabindex',
   TARGET: 'target',
@@ -120,6 +131,8 @@ export const props = {
   VERSION: 'version',
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
+  X: 'x',
+  Y: 'y'
 };
 // Please keep constants alphabetized
 

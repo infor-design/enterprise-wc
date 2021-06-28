@@ -2,7 +2,7 @@ import {
   IdsElement,
   customElement,
   scss,
-  props,
+  attributes,
   mix,
   stringUtils
 } from '../ids-base';
@@ -44,24 +44,24 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
+  static get attributes() {
     return [
-      props.ACCEPT,
-      props.DIRTY_TRACKER,
-      props.DISABLED,
-      props.LABEL,
-      props.LABEL_FILETYPE,
-      props.MULTIPLE,
-      props.NO_TEXT_ELLIPSIS,
-      props.PLACEHOLDER,
-      props.SIZE,
-      props.READONLY,
-      props.TRIGGER_LABEL,
-      props.VALIDATE,
-      props.VALIDATION_EVENTS,
-      props.VALUE,
-      props.MODE,
-      props.VERSION
+      attributes.ACCEPT,
+      attributes.DIRTY_TRACKER,
+      attributes.DISABLED,
+      attributes.LABEL,
+      attributes.LABEL_FILETYPE,
+      attributes.MULTIPLE,
+      attributes.NO_TEXT_ELLIPSIS,
+      attributes.PLACEHOLDER,
+      attributes.SIZE,
+      attributes.READONLY,
+      attributes.TRIGGER_LABEL,
+      attributes.VALIDATE,
+      attributes.VALIDATION_EVENTS,
+      attributes.VALUE,
+      attributes.MODE,
+      attributes.VERSION
     ];
   }
 
@@ -338,15 +338,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set accept(value) {
     if (value) {
-      this.setAttribute(props.ACCEPT, value);
-      this.fileInput.setAttribute(props.ACCEPT, value);
+      this.setAttribute(attributes.ACCEPT, value);
+      this.fileInput.setAttribute(attributes.ACCEPT, value);
     } else {
-      this.removeAttribute(props.ACCEPT);
-      this.fileInput.removeAttribute(props.ACCEPT);
+      this.removeAttribute(attributes.ACCEPT);
+      this.fileInput.removeAttribute(attributes.ACCEPT);
     }
   }
 
-  get accept() { return this.getAttribute(props.ACCEPT); }
+  get accept() { return this.getAttribute(attributes.ACCEPT); }
 
   /**
    * Set `dirty-tracker` attribute
@@ -355,15 +355,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set dirtyTracker(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DIRTY_TRACKER, val.toString());
+      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
       this.textInput.dirtyTracker = true;
     } else {
-      this.removeAttribute(props.DIRTY_TRACKER);
+      this.removeAttribute(attributes.DIRTY_TRACKER);
       this.textInput.dirtyTracker = false;
     }
   }
 
-  get dirtyTracker() { return this.getAttribute(props.DIRTY_TRACKER); }
+  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Set `disabled` attribute
@@ -372,19 +372,19 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set disabled(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.DISABLED, val.toString());
+      this.setAttribute(attributes.DISABLED, val.toString());
       this.textInput.readonly = false;
       this.textInput.disabled = true;
       this.trigger.disabled = true;
     } else {
-      this.removeAttribute(props.DISABLED);
+      this.removeAttribute(attributes.DISABLED);
       this.textInput.readonly = true;
       this.textInput.disabled = false;
       this.trigger.disabled = false;
     }
   }
 
-  get disabled() { return this.getAttribute(props.DISABLED); }
+  get disabled() { return this.getAttribute(attributes.DISABLED); }
 
   /**
    * Set the `label` text of input label
@@ -392,15 +392,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set label(value) {
     if (value) {
-      this.setAttribute(props.LABEL, value);
+      this.setAttribute(attributes.LABEL, value);
       this.textInput.label = value;
     } else {
-      this.removeAttribute(props.LABEL);
+      this.removeAttribute(attributes.LABEL);
       this.textInput.label = null;
     }
   }
 
-  get label() { return this.getAttribute(props.LABEL); }
+  get label() { return this.getAttribute(attributes.LABEL); }
 
   /**
    * Set the label for filetype
@@ -409,15 +409,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set labelFiletype(value) {
     const labelEL = this.shadowRoot.querySelector('.label-filetype');
     if (value) {
-      this.setAttribute(props.LABEL_FILETYPE, value);
+      this.setAttribute(attributes.LABEL_FILETYPE, value);
       labelEL.textContent = value;
     } else {
-      this.removeAttribute(props.LABEL_FILETYPE);
+      this.removeAttribute(attributes.LABEL_FILETYPE);
       labelEL.textContent = this.labelFiletypeDefault;
     }
   }
 
-  get labelFiletype() { return this.getAttribute(props.LABEL_FILETYPE); }
+  get labelFiletype() { return this.getAttribute(attributes.LABEL_FILETYPE); }
 
   /**
    * Set the `multiple` attribute for filetype
@@ -427,15 +427,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.MULTIPLE, val.toString());
-      this.fileInput?.setAttribute(props.MULTIPLE, 'multiple');
+      this.setAttribute(attributes.MULTIPLE, val.toString());
+      this.fileInput?.setAttribute(attributes.MULTIPLE, 'multiple');
       return;
     }
-    this.removeAttribute(props.MULTIPLE);
-    this.fileInput?.removeAttribute(props.MULTIPLE);
+    this.removeAttribute(attributes.MULTIPLE);
+    this.fileInput?.removeAttribute(attributes.MULTIPLE);
   }
 
-  get multiple() { return this.getAttribute(props.MULTIPLE); }
+  get multiple() { return this.getAttribute(attributes.MULTIPLE); }
 
   /**
    * Set the `no-text-ellipsis` attribute for text input
@@ -444,15 +444,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set noTextEllipsis(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.NO_TEXT_ELLIPSIS, val.toString());
+      this.setAttribute(attributes.NO_TEXT_ELLIPSIS, val.toString());
       this.textInput.textEllipsis = false;
       return;
     }
-    this.removeAttribute(props.NO_TEXT_ELLIPSIS);
+    this.removeAttribute(attributes.NO_TEXT_ELLIPSIS);
     this.textInput.textEllipsis = true;
   }
 
-  get noTextEllipsis() { return this.getAttribute(props.NO_TEXT_ELLIPSIS); }
+  get noTextEllipsis() { return this.getAttribute(attributes.NO_TEXT_ELLIPSIS); }
 
   /**
    * Set the `placeholder` of input
@@ -460,15 +460,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set placeholder(value) {
     if (value) {
-      this.setAttribute(props.PLACEHOLDER, value);
+      this.setAttribute(attributes.PLACEHOLDER, value);
       this.textInput.placeholder = value;
       return;
     }
-    this.removeAttribute(props.PLACEHOLDER);
+    this.removeAttribute(attributes.PLACEHOLDER);
     this.textInput.placeholder = null;
   }
 
-  get placeholder() { return this.getAttribute(props.PLACEHOLDER); }
+  get placeholder() { return this.getAttribute(attributes.PLACEHOLDER); }
 
   /**
    * Set the `readonly` of input
@@ -477,19 +477,19 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set readonly(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {
-      this.setAttribute(props.READONLY, val.toString());
+      this.setAttribute(attributes.READONLY, val.toString());
       this.textInput.bgTransparent = false;
       this.trigger.container.disabled = false;
       this.trigger.container.classList.add('readonly');
     } else {
-      this.removeAttribute(props.READONLY);
+      this.removeAttribute(attributes.READONLY);
       this.textInput.bgTransparent = true;
       this.trigger.container.disabled = false;
       this.trigger.container.classList.remove('readonly');
     }
   }
 
-  get readonly() { return this.getAttribute(props.READONLY); }
+  get readonly() { return this.getAttribute(attributes.READONLY); }
 
   /**
    * Set the size of input
@@ -497,15 +497,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set size(value) {
     if (value) {
-      this.setAttribute(props.SIZE, value);
+      this.setAttribute(attributes.SIZE, value);
       this.textInput.size = value;
     } else {
-      this.removeAttribute(props.SIZE);
+      this.removeAttribute(attributes.SIZE);
       this.textInput.size = null;
     }
   }
 
-  get size() { return this.getAttribute(props.SIZE); }
+  get size() { return this.getAttribute(attributes.SIZE); }
 
   /**
    * Set the label for trigger button
@@ -514,15 +514,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set triggerLabel(value) {
     const labelEL = this.shadowRoot.querySelector('.trigger-label');
     if (value) {
-      this.setAttribute(props.TRIGGER_LABEL, value);
+      this.setAttribute(attributes.TRIGGER_LABEL, value);
       labelEL.textContent = value;
     } else {
-      this.removeAttribute(props.TRIGGER_LABEL);
+      this.removeAttribute(attributes.TRIGGER_LABEL);
       labelEL.textContent = this.triggerLabelDefault;
     }
   }
 
-  get triggerLabel() { return this.getAttribute(props.TRIGGER_LABEL); }
+  get triggerLabel() { return this.getAttribute(attributes.TRIGGER_LABEL); }
 
   /**
    * Set `validate` attribute
@@ -530,15 +530,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set validate(value) {
     if (value) {
-      this.setAttribute(props.VALIDATE, value);
+      this.setAttribute(attributes.VALIDATE, value);
       this.textInput.validate = value;
     } else {
-      this.removeAttribute(props.VALIDATE);
+      this.removeAttribute(attributes.VALIDATE);
       this.textInput.validate = null;
     }
   }
 
-  get validate() { return this.getAttribute(props.VALIDATE); }
+  get validate() { return this.getAttribute(attributes.VALIDATE); }
 
   /**
    * Sets which events to fire validation on
@@ -546,15 +546,15 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set validationEvents(value) {
     if (value) {
-      this.setAttribute(props.VALIDATION_EVENTS, value);
+      this.setAttribute(attributes.VALIDATION_EVENTS, value);
       this.textInput.validationEvents = value;
     } else {
-      this.removeAttribute(props.VALIDATION_EVENTS);
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
       this.textInput.validationEvents = this.validationEventsDefault;
     }
   }
 
-  get validationEvents() { return this.getAttribute(props.VALIDATION_EVENTS); }
+  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Set the `value` for text input and file input
@@ -562,17 +562,17 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set value(val) {
     if (val) {
-      this.setAttribute(props.VALUE, val);
+      this.setAttribute(attributes.VALUE, val);
       this.textInput.value = val;
     } else {
-      this.removeAttribute(props.VALUE);
+      this.removeAttribute(attributes.VALUE);
       this.fileInput.value = null;
       this.textInput.value = '';
     }
     this.files = this.fileInput.files;
   }
 
-  get value() { return this.getAttribute(props.VALUE); }
+  get value() { return this.getAttribute(attributes.VALUE); }
 }
 
 export default IdsUpload;

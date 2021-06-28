@@ -3,7 +3,7 @@ import {
   customElement,
   mix,
   scss,
-  props,
+  attributes,
   stringUtils
 } from '../ids-base';
 
@@ -43,7 +43,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {void}
    */
   connectedCallback() {
-    this.setInputProps();
+    this.setInputAttributes();
     this.handleEvents();
     super.connectedCallback();
   }
@@ -52,8 +52,8 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
-  static get properties() {
-    return [props.TABBABLE, props.APPEARANCE, props.DISABLE_EVENTS];
+  static get attributes() {
+    return [attributes.TABBABLE, attributes.APPEARANCE, attributes.DISABLE_EVENTS];
   }
 
   /**
@@ -108,19 +108,19 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   }
 
   /**
-   * Set the input props
+   * Set the input attributes
    * @private
    * @returns {void}
    */
-  setInputProps() {
+  setInputAttributes() {
     this.input = this.querySelector('ids-input');
     if (this.input) {
-      this.input.setAttribute(props.TRIGGERFIELD, 'true');
+      this.input.setAttribute(attributes.TRIGGERFIELD, 'true');
 
       // Set class for compact or field height
-      const attributes = ['compact', 'field-height'];
+      const attribs = ['compact', 'field-height'];
       const attr = (a) => ({ name: a, val: this.input.getAttribute(a) });
-      attributes.forEach((a) => this.containerSetHeightClass(attr(a)));
+      attribs.forEach((a) => this.containerSetHeightClass(attr(a)));
       this.setInputObserver();
     }
   }
@@ -133,11 +133,11 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     const isTabbable = stringUtils.stringToBool(value);
     /** @type {any} */
     const button = this.querySelector('ids-trigger-button');
-    this.setAttribute(props.TABBABLE, value.toString());
+    this.setAttribute(attributes.TABBABLE, value.toString());
     button.tabbable = isTabbable;
   }
 
-  get tabbable() { return this.getAttribute(props.TABBABLE); }
+  get tabbable() { return this.getAttribute(attributes.TABBABLE); }
 
   /**
    * Set the appearance of the trigger field
@@ -145,14 +145,14 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    */
   set appearance(value) {
     if (value) {
-      this.setAttribute(props.APPEARANCE, value);
+      this.setAttribute(attributes.APPEARANCE, value);
       return;
     }
 
-    this.setAttribute(props.APPEARANCE, 'normal');
+    this.setAttribute(attributes.APPEARANCE, 'normal');
   }
 
-  get appearance() { return this.getAttribute(props.APPEARANCE); }
+  get appearance() { return this.getAttribute(attributes.APPEARANCE); }
 
   /**
    * Set if the button handles events
@@ -161,15 +161,15 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   set disableNativeEvents(value) {
     const isDisabled = stringUtils.stringToBool(value);
     if (isDisabled) {
-      this.setAttribute(props.DISABLE_EVENTS, value.toString());
+      this.setAttribute(attributes.DISABLE_EVENTS, value.toString());
       this.handleEvents();
       return;
     }
 
-    this.removeAttribute(props.DISABLE_EVENTS);
+    this.removeAttribute(attributes.DISABLE_EVENTS);
   }
 
-  get disableNativeEvents() { return this.getAttribute(props.DISABLE_EVENTS); }
+  get disableNativeEvents() { return this.getAttribute(attributes.DISABLE_EVENTS); }
 
   /**
    * Establish Internal Event Handlers

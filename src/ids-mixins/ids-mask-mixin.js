@@ -2,15 +2,15 @@ import maskAPI from '../ids-mask/ids-mask-global';
 import { convertPatternFromString, PLACEHOLDER_CHAR } from '../ids-mask/ids-mask-common';
 import { dateMask, numberMask } from '../ids-mask/ids-masks';
 
-import { props } from '../ids-base/ids-constants';
+import { attributes } from '../ids-base/ids-attributes';
 import IdsEventsMixin from './ids-events-mixin';
 import { IdsStringUtils } from '../ids-base';
 
-const MASK_PROPS = [
-  props.MASK,
-  props.MASK_GUIDE,
-  props.MASK_RETAIN_POSITIONS,
-  props.MASK_OPTIONS,
+const MASK_ATTRIBUTES = [
+  attributes.MASK,
+  attributes.MASK_GUIDE,
+  attributes.MASK_RETAIN_POSITIONS,
+  attributes.MASK_OPTIONS,
 ];
 
 /**
@@ -33,8 +33,8 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   /**
    * @returns {Array<string>} IdsInput component observable properties
    */
-  static get properties() {
-    return [...super.properties, ...MASK_PROPS];
+  static get attributes() {
+    return [...super.attributes, ...MASK_ATTRIBUTES];
   }
 
   connectedCallback() {
