@@ -26,9 +26,14 @@ Indeterminate and linear:
 <ids-loading-indicator linear></ids-loading-indicator>
 ```
 
+Determinate, linear, with 75% completion and the percentage text shown:
+```html
+<ids-loading-indicator progress="10" sticky percentage-visible></ids-loading-indicator>
+```
+
 Determinate, with 10% completion and affixed to the top of view it is currently in:
 ```html
-<ids-loading-indicator progress="10" sticky></ids-loading-indicator>
+<ids-loading-indicator progress="10" sticky percentage-visible></ids-loading-indicator>
 ```
 
 
@@ -41,6 +46,7 @@ the indicator to stick to the top of the innermost parent IdsElement and span it
    * causes the indicator to span its parent component horizontally and
    * be represented as a horizontal/linear bar. If set, removes current
    * flag types that may be set.
+- `percentage-visible` *{boolean}* Denotes that the percentage text should be visible (not applicable to `sticky` loading indicators).
 
 ## Themeable Parts
 

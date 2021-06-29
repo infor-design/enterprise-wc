@@ -34,7 +34,7 @@ const getInnerIndicatorHtml = ({ progress, type, percentageVisible }) => {
         <rect width="100%" height="100%" class="progress" />
       </svg>
       ${(percentageVisible && type !== 'sticky') ? (
-        `<div class="progress-percentage">
+        `<div class="progress-percentage ${type}">
           <ids-text font-size="14" font-weight="bold" color="unset">
             ${progress}<span class="percentage">%</span></ids-text>
         </div>`

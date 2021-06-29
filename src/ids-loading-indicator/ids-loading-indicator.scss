@@ -29,7 +29,19 @@ $overall-color: var(--ids-color-palette-azure-10);
 
 :host(ids-loading-indicator[linear]),
 :host(ids-loading-indicator[sticky]) {
+  position: relative;
+  display: flex;
+  justify-content: center;
   width: 100%;
+}
+
+:host(ids-loading-indicator[sticky]) {
+  align-items: center;
+}
+
+:host(ids-loading-indicator[linear]) {
+  align-items: flex-end;
+  height: 48px;
 }
 
 :host(ids-loading-indicator[sticky]) {
@@ -51,6 +63,10 @@ $overall-color: var(--ids-color-palette-azure-10);
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.progress-percentage.linear {
+  top: calc(50%);
 }
 
 .percentage {
