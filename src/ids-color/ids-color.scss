@@ -1,6 +1,7 @@
 @import '../ids-base/ids-base';
 
 .ids-color {
+  background-color: var(--ids-color-palette-black);
   cursor: pointer;
   display: inline-flex;
   align-items: center;

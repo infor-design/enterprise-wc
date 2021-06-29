@@ -38,7 +38,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
   swatchInput = this.root.querySelector('.color-input')
 
   // Reference to the color picker input
-  colorPickerInput = this.root.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value')
+  colorPickerInput = this.root.querySelector(/* istanbul ignore next */ this.label === '' ? '.color-input-value-no-label' : '.color-input-value')
 
   // Reference to the color preview
   colorPreview = this.root.querySelector('.color-preview')
