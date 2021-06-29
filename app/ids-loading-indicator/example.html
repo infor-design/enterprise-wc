@@ -1,9 +1,26 @@
 <ids-layout-grid>
-  <ids-text font-size="12" type="h1">Loading Indicator</ids-text>
-  <ids-text>Circular/Determinate (default)</ids-text>
-  <ids-loading-indicator progress="30"></ids-loading-indicator>
-  <ids-text>Linear/Determinate</ids-text>
-  <ids-loading-indicator linear progress="20"></ids-loading-indicator>
-  <ids-text>Affixed/Determinate</ids-text>
-  <ids-loading-indicator affixed progress="10"></ids-loading-indicator>
+  <ids-text font-size="12" type="h1">Circular Loading Indicator</ids-text>
+</ids-layout-grid>
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-loading-indicator progress="30"></ids-loading-indicator>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Linear Loading Indicator</ids-text>
+</ids-layout-grid>
+<ids-layout-grid auto="true" cols="4">
+  <ids-layout-grid-cell col-span="1">
+    <ids-loading-indicator linear progress="20"></ids-loading-indicator>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell></ids-layout-grid-cell>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Affixed Loading Indicator</ids-text>
+</ids-layout-grid>
+<ids-layout-grid auto="true" cols="4">
+  <div class="affixed-indicator-container">
+    <ids-text>Relative-Positioned Content Within the Dashed Lines</ids-text>
+    <ids-loading-indicator affixed progress="10"></ids-loading-indicator>
+  </div>
 </ids-layout-grid>
