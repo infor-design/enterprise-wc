@@ -23,13 +23,14 @@ const getIndicatorHtml = ({ progress, type }) => {
   case attributes.AFFIXED:
   case attributes.LINEAR: {
     const affixedClass = type === 'affixed' ? ' affixed' : '';
+    const overallYOffset = `y="${type === 'affixed' ? '0' : '12.5'}%"`;
 
     return (
       `<svg
         xmlns="http://www.w3.org/2000/svg"
         class="linear-indicator${affixedClass}${determinateClass}"
       >
-        <rect width="100%" height="75%" y="12.5%" class="overall" />
+        <rect width="100%" height="75%" ${overallYOffset} class="overall" />
         <rect width="100%" height="100%" class="progress" />
       </svg>`
     );
