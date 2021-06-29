@@ -142,6 +142,7 @@ export const attributes = {
   VALIDATION_HAS_ERROR: 'validation-has-error',
   VALUE: 'value',
   VERSION: 'version',
+  VERTICAL: 'vertical',
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
   X: 'x',

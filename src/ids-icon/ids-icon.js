@@ -33,7 +33,7 @@ class IdsIcon extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [attributes.ICON, attributes.SIZE];
+    return [attributes.ICON, attributes.SIZE, attributes.VERTICAL];
   }
 
   /**
@@ -43,7 +43,7 @@ class IdsIcon extends IdsElement {
    */
   template() {
     const size = sizes[this.size];
-    return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+    return `<svg xmlns="http://www.w3.org/2000/svg" stroke="currentColor" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
       ${this.iconData()}
     </svg>`;
   }
@@ -88,6 +88,20 @@ class IdsIcon extends IdsElement {
     } else {
       this.removeAttribute(attributes.SIZE);
     }
+  }
+
+  /** @returns {string|boolean} Whether or not the icon is vertical */
+  get vertical() { return this.getAttribute(attributes.VERTICAL) || false; }
+
+  /** @param {string|boolean} value Rotate the icon to vertical */
+  set vertical(value) {
+    if (value) {
+      this.setAttribute(attributes.VERTICAL, value);
+      this.container.classList.add('vertical');
+      return;
+    }
+    this.removeAttribute(attributes.VERTICAL);
+    this.container.classList.remove('vertical');
   }
 }
 
