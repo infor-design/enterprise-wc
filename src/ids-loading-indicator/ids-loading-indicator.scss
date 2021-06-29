@@ -4,11 +4,13 @@
 $pi: 3.14159265358979;
 $circle-radius: 45;
 
+$progress-color: var(--ids-color-palette-azure-70);
+$overall-color: var(--ids-color-palette-azure-10);
+
 .ids-loading-indicator {
   @include bg-transparent();
   @include fixed();
   @include h-full();
-  @include z-1();
   @include w-full();
 
   height: 2px;
@@ -19,6 +21,29 @@ $circle-radius: 45;
 :host(ids-loading-indicator:not([linear]):not([affixed])) {
   width: 156px;
   height: 156px;
+}
+
+:host(ids-loading-indicator[linear]),:host(ids-loading-indicator[affixed]) {
+  width: 100%;
+}
+
+.progress {
+  @include z-1();
+}
+
+svg.linear-indicator {
+  display: flex;
+  align-items: center;
+  height: 8px;
+
+  .progress {
+    fill: $progress-color;
+    transform: #{'scaleX(calc(var(--progress) * 1%))'};
+  }
+
+  .overall {
+    fill: $overall-color;
+  }
 }
 
 svg.circular-indicator.determinate {
@@ -35,18 +60,17 @@ svg.circular-indicator.determinate {
   }
 
   .progress {
-    stroke: var(--ids-color-palette-azure-70);
+    stroke: $progress-color;
 
     /*
      * circumference is 2πr(45) => 282.74, or 283
      */
     stroke-dasharray: 283;
     stroke-dashoffset: #{'calc(283 - (var(--progress) * 2.83))'};
-    z-index: 1;
   }
 
   .overall {
-    stroke: var(--ids-color-palette-azure-10);
+    stroke: $overall-color;
   }
 }
 

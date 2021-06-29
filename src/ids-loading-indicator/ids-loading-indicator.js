@@ -17,18 +17,25 @@ import styles from './ids-loading-indicator.scss';
 
 const getIndicatorHtml = ({ progress, type }) => {
   const isDeterminate = !Number.isNaN(parseInt(progress));
+  const determinateClass = isDeterminate ? ' determinate' : '';
 
   switch (type) {
+  case attributes.AFFIXED:
   case attributes.LINEAR: {
-    return '<div />';
-  }
-  case attributes.AFFIXED: {
-    return '<div />';
+    const affixedClass = type === 'affixed' ? ' affixed' : '';
+
+    return (
+      `<svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="linear-indicator${affixedClass}${determinateClass}"
+      >
+        <rect width="100%" height="75%" y="12.5%" class="overall" />
+        <rect width="100%" height="100%" class="progress" />
+      </svg>`
+    );
   }
   // circular
   default: {
-    const determinateClass = isDeterminate ? ' determinate' : '';
-
     return (
       `<svg
         viewbox="0 0 100 100"
