@@ -56,6 +56,7 @@ class IdsColor extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    }
 
    get hex() {
+     /* istanbul ignore next */
      return this.getAttribute('hex') || '#000000';
    }
  }

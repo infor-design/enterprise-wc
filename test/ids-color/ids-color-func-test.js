@@ -25,4 +25,9 @@ describe('Ids Color Component', () => {
     expect(errors).not.toHaveBeenCalled();
     elem.remove();
   });
+
+  it('has a hex attribute', () => {
+    color.hex = '#000000';
+    expect(color.getAttribute('hex')).toEqual('#000000');
+  });
 });
