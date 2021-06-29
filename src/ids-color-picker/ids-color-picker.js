@@ -61,6 +61,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     // TODO: Do this a cleaner way to lay the label out
     this.inputLabel = this.colorPickerInput?.shadowRoot?.querySelector('label');
     if (this.inputLabel) {
+      /* istanbul ignore next */
       this.inputLabel.style.marginLeft = '-38px';
     }
   }
@@ -100,10 +101,12 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     return this.getAttribute('value') || '#B94E4E';
   }
 
+  /* istanbul ignore next */
   set readonly(value) {
     this.setAttribute('readonly', value.toString());
   }
 
+  /* istanbul ignore next */
   get readonly() {
     return this.getAttribute('readonly') || 'false';
   }
@@ -133,10 +136,12 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
   }
 
    #handleEvents() {
+     /* istanbul ignore next */
     this.idsColorsArr.forEach((element) => {
       element.style.backgroundColor = element.getAttribute('hex');
     });
 
+    /* istanbul ignore next */
     if (this.disabled === 'false') {
       this.onEvent('click', this.container, (event) => {
         const target = event.target;
@@ -167,11 +172,12 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
       });
     }
 
-    this.onEvent('change', this.swatchInput, () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
-    this.onEvent('change', this.colorPickerInput, () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
-    this.onEvent('click', this.colorPreview, () => this.idsColorsArr.forEach((element) => element.removeAttribute('checked')));
+    this.onEvent('change', this.swatchInput, /* istanbul ignore next */ () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
+    this.onEvent('change', this.colorPickerInput, /* istanbul ignore next */ () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
+    this.onEvent('click', this.colorPreview, /* istanbul ignore next */ () => this.idsColorsArr.forEach((element) => element.removeAttribute('checked')));
   }
 
+   /* istanbul ignore next */
    #updateColorPickerValues(colorValue) {
      this.swatchInput.value = colorValue;
      this.colorPreview.style.backgroundColor = colorValue;
@@ -179,19 +185,29 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
    }
 
    #openCloseColorpicker() {
+     /* istanbul ignore next */
      const popup = this.container.querySelector('ids-popup');
+     /* istanbul ignore next */
      popup.alignTarget = this.container.querySelector('ids-icon');
+     /* istanbul ignore next */
      popup.align = 'bottom, center';
+     /* istanbul ignore next */
      popup.arrow = 'bottom';
+     /* istanbul ignore next */
      popup.y = 12;
+     /* istanbul ignore next */
      popup.visible = !popup.visible;
    }
 
+   
    #updateColorCheck(target) {
+     /* istanbul ignore next */
      const checkedColor = target.parentElement.querySelector('[checked="true"]');
+     /* istanbul ignore next */
      if (checkedColor) {
        checkedColor.removeAttribute('checked');
      }
+     /* istanbul ignore next */
      target.setAttribute('checked', 'true');
    }
 }
