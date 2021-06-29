@@ -18,11 +18,11 @@ export default class IdsLoadingIndicator extends IdsElement {
   progress: number | undefined;
 
   /**
-   * Flags the indicator as an affixed indicator;
+   * Flags the indicator as an sticky indicator;
    * causes the indicator to stick to the top of the innermost parent IdsElement
    * and span it horizontally
    */
-  affixed: boolean | string;
+  sticky: boolean | string;
 
   /**
    * Flags the indicator as a linear indicator;

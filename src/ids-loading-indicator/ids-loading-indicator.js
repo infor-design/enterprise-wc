@@ -22,8 +22,8 @@ const getIndicatorHtml = ({ progress, type }) => {
   switch (type) {
   case attributes.AFFIXED:
   case attributes.LINEAR: {
-    const affixedClass = type === 'affixed' ? ' affixed' : '';
-    const overallYOffset = `y="${type === 'affixed' ? '0' : '12.5'}%"`;
+    const affixedClass = type === 'sticky' ? ' sticky' : '';
+    const overallYOffset = `y="${type === 'sticky' ? '0' : '12.5'}%"`;
 
     return (
       `<svg
@@ -102,7 +102,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
     let type = 'circular';
 
     if (this.hasAttribute(attributes.AFFIXED)) {
-      type = 'affixed';
+      type = 'sticky';
     }
 
     if (this.hasAttribute(attributes.LINEAR)) {
@@ -140,22 +140,22 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
   }
 
   /**
-   * @param {boolean|string} value Flags the indicator as being an affixed indicator
+   * @param {boolean|string} value Flags the indicator as being an sticky indicator
    * type; causes the indicator to stick to the top of the innermost IdsElement parent
    * and span it horizontally. If set, will unflag this indicator with any other
    * flag types set.
    */
-  set affixed(value) {
+  set sticky(value) {
     this.#onUpdateTypeFlag(attributes.AFFIXED, stringUtils.stringToBool(value));
   }
 
   /**
-   * @returns {boolean|string} value Flags the indicator as being an affixed indicator
+   * @returns {boolean|string} value Flags the indicator as being an sticky indicator
    * type; causes the indicator to stick to the top of the innermost IdsElement parent
    * and span it horizontally. If set, will unflag this indicator with any other
    * flag types set.
    */
-  get affixed() {
+  get sticky() {
     return this.hasAttribute(attributes.AFFIXED);
   }
 
@@ -180,7 +180,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
   }
 
   /**
-   * @returns {'circular'|'linear'|'affixed'} type The type of loading indicator
+   * @returns {'circular'|'linear'|'sticky'} type The type of loading indicator
    */
   get type() {
     return this.#type || 'circular';
@@ -188,7 +188,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
 
   /**
    * type-flag set based on attributes
-   * @type {'circular'|'linear'|'affixed'}
+   * @type {'circular'|'linear'|'sticky'}
    */
   #type;
 
