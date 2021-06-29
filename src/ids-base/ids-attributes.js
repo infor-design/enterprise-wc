@@ -1,7 +1,7 @@
 // Please keep constants alphabetized
 export const attributes = {
   ACCEPT: 'accept',
-  AFFIXED: 'sticky',
+  STICKY: 'sticky',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
   ANIMATION_STYLE: 'animation-style',
@@ -98,6 +98,7 @@ export const attributes = {
   PAGE_NUMBER: 'page-number',
   PAGE_SIZE: 'page-size',
   PARENT_DISABLED: 'parent-disabled',
+  PERCENTAGE_VISIBLE: 'percentage-visible',
   PLACEHOLDER: 'placeholder',
   PLACEMENT: 'placement',
   POSITION_STYLE: 'position-style',

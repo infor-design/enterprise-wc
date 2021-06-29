@@ -19,6 +19,10 @@ $overall-color: var(--ids-color-palette-azure-10);
 }
 
 :host(ids-loading-indicator:not([linear]):not([sticky])) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   width: 50px;
   height: 50px;
 }
@@ -36,6 +40,23 @@ $overall-color: var(--ids-color-palette-azure-10);
 
 .progress {
   @include z-1();
+}
+
+.progress-percentage {
+  @include text-graphite-30();
+
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.percentage {
+  position: relative;
+  top: -4px;
+  right: -2px;
 }
 
 svg.linear-indicator {
@@ -66,6 +87,9 @@ svg.circular-indicator.determinate {
   fill: transparent;
   transform-origin: 50% 50%;
   transform: rotateZ(-90deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   circle {
     transform-origin: 50% 50%;

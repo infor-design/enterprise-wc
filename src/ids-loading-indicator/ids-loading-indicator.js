@@ -15,24 +15,31 @@ import {
 
 import styles from './ids-loading-indicator.scss';
 
-const getIndicatorHtml = ({ progress, type }) => {
+const getInnerIndicatorHtml = ({ progress, type, percentageVisible }) => {
   const isDeterminate = !Number.isNaN(parseInt(progress));
   const determinateClass = isDeterminate ? ' determinate' : '';
 
   switch (type) {
-  case attributes.AFFIXED:
+  case attributes.STICKY:
   case attributes.LINEAR: {
-    const affixedClass = type === 'sticky' ? ' sticky' : '';
+    const stickyClass = type === 'sticky' ? ' sticky' : '';
     const overallYOffset = `y="${type === 'sticky' ? '0' : '12.5'}%"`;
 
     return (
       `<svg
         xmlns="http://www.w3.org/2000/svg"
-        class="linear-indicator${affixedClass}${determinateClass}"
+        class="linear-indicator${stickyClass}${determinateClass}"
       >
         <rect width="100%" height="75%" ${overallYOffset} class="overall" />
         <rect width="100%" height="100%" class="progress" />
-      </svg>`
+      </svg>
+      ${(percentageVisible && type !== 'sticky') ? (
+        `<div class="progress-percentage">
+          <ids-text font-size="14" font-weight="bold" color="unset">
+            ${progress}<span class="percentage">%</span></ids-text>
+        </div>`
+      ) : ''
+      }`
     );
   }
   // circular
@@ -45,7 +52,17 @@ const getIndicatorHtml = ({ progress, type }) => {
       >
         <circle cx="50" cy="50" r="45" stroke-width="3" class="overall" />
         <circle cx="50" cy="50" r="45" stroke-width="6" class="progress" />
-      </svg>`
+      </svg>
+      ${percentageVisible ? (
+        `<div class="progress-percentage">
+          <ids-text font-size="14" font-weight="bold" color="unset">
+            ${progress}
+          </ids-text>
+          <ids-text font-size="10" font-weight="bold" color="unset">
+            <span class="percentage">%</span>
+          </ids-text>
+        </div>`
+      ) : ''}`
     );
   }
   }
@@ -85,7 +102,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.AFFIXED,
+      attributes.STICKY,
       attributes.LINEAR,
       attributes.MODE,
       attributes.PROGRESS,
@@ -101,7 +118,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
   template() {
     let type = 'circular';
 
-    if (this.hasAttribute(attributes.AFFIXED)) {
+    if (this.hasAttribute(attributes.STICKY)) {
       type = 'sticky';
     }
 
@@ -109,7 +126,11 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
       type = 'linear';
     }
 
-    return getIndicatorHtml({ progress: this.progress, type });
+    return getInnerIndicatorHtml({
+      progress: this.progress,
+      percentageVisible: this.percentageVisible,
+      type
+    });
   }
 
   /**
@@ -146,7 +167,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    * flag types set.
    */
   set sticky(value) {
-    this.#onUpdateTypeFlag(attributes.AFFIXED, stringUtils.stringToBool(value));
+    this.#onUpdateTypeFlag(attributes.STICKY, stringUtils.stringToBool(value));
   }
 
   /**
@@ -156,7 +177,28 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    * flag types set.
    */
   get sticky() {
-    return this.hasAttribute(attributes.AFFIXED);
+    return this.hasAttribute(attributes.STICKY);
+  }
+
+  /**
+   * @param {boolean} value Whether the percentage text should be visible
+   * (not applicable to `sticky` loading indicators).
+   */
+  set percentageVisible(value) {
+    const isTruthy = stringUtils.stringToBool(value);
+    if (isTruthy && !this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {
+      this.setAttribute(attributes.PERCENTAGE_VISIBLE, '');
+    } else if (!isTruthy && this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {
+      this.removeAttribute(attributes.PERCENTAGE_VISIBLE);
+    }
+  }
+
+  /**
+   * @returns {boolean} Whether the percentage text should be visible
+   * (not applicable to `sticky` loading indicators).
+   */
+  get percentageVisible() {
+    return this.hasAttribute(attributes.PERCENTAGE_VISIBLE);
   }
 
   /**

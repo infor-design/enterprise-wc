@@ -11,6 +11,12 @@ export default class IdsLoadingIndicator extends IdsElement {
   version: 'new' | 'classic' | string;
 
   /**
+   * Whether the percentage text should be visible
+   * (not applicable to `sticky` loading indicators).
+   */
+  percentageVisible: boolean;
+
+  /**
    * Represents the percentage completed for the indicator;
    * if not specified, the indicator is set into indeterminate mode (e.g. no specific
    * progress with an animation)

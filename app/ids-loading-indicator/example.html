@@ -1,9 +1,12 @@
 <ids-layout-grid>
   <ids-text font-size="12" type="h1">Circular Loading Indicator</ids-text>
 </ids-layout-grid>
-<ids-layout-grid auto="true">
+<ids-layout-grid auto="true" cols="4">
   <ids-layout-grid-cell>
     <ids-loading-indicator progress="30"></ids-loading-indicator>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-loading-indicator progress="78" percentage-visible></ids-loading-indicator>
   </ids-layout-grid-cell>
 </ids-layout-grid>
 <ids-layout-grid>
@@ -12,6 +15,9 @@
 <ids-layout-grid auto="true" cols="4">
   <ids-layout-grid-cell col-span="1">
     <ids-loading-indicator linear progress="20"></ids-loading-indicator>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="1">
+    <ids-loading-indicator linear progress="20" percentage-visible></ids-loading-indicator>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell></ids-layout-grid-cell>
 </ids-layout-grid>
