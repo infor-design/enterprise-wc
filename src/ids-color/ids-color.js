@@ -13,51 +13,50 @@ import {
 } from '../ids-mixins';
 
 import styles from './ids-color.scss';
+
 /**
-* IDS Color
-* @type {IdsColor}
-* @inherits IdsElement
-* @mixes IdsEventsMixin
-* @mixes IdsKeyboardMixin
-*/
+ * IDS Color
+ * @type {IdsColor}
+ * @inherits IdsElement
+ * @part color - the color swatch element
+ * @part check - the checkbox element
+ */
+@customElement('ids-color')
+@scss(styles)
+class IdsColor extends IdsElement {
+  constructor() {
+    super();
+  }
 
- @customElement('ids-color')
- @scss(styles)
-
-class IdsColor extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
-   constructor() {
-     super();
-   }
-
-   connectedCallback() {
-   }
-
-   /**
+  /**
    * @returns {Array<string>} this component's observable attributes
    */
-   static get attributes() {
-     return [...attributes.MODE, 'hex', attributes.VERSION];
-   }
+  static get attributes() {
+    return [...attributes.MODE, attributes.HEX, attributes.VERSION];
+  }
 
-   /**
+  /**
    * Create the Template for the contents
    * @returns {string} The template
    */
-   template() {
-     return `
-      <div class="ids-color" tabindex="0">
-        <ids-icon class="color-check" icon="check" size="small"></ids-icon>
+  template() {
+    return `
+      <div class="ids-color" tabindex="0" part="color">
+        <ids-icon class="color-check" icon="check" size="small" part="hex"></ids-icon>
       </div>`;
-   }
+  }
 
-   set hex(h) {
-     this.setAttribute('hex', h.toString());
-   }
+  /** @param {string} h The hex code color to use */
+  set hex(h) {
+    this.setAttribute('hex', h.toString());
+    this.container.style.backgroundColor = h.toString();
+  }
 
-   get hex() {
-     /* istanbul ignore next */
-     return this.getAttribute('hex') || '#000000';
-   }
- }
+  /** @returns {string} The hex code being used */
+  get hex() {
+    /* istanbul ignore next */
+    return this.getAttribute('hex') || '#000000';
+  }
+}
 
 export default IdsColor;

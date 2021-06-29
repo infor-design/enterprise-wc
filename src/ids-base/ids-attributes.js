@@ -59,6 +59,7 @@ export const attributes = {
   GROUP_DISABLED: 'group-disabled',
   HORIZONTAL: 'horizontal',
   HREF: 'href',
+  HEX: 'hex',
   ICON: 'icon',
   ICON_ALIGN: 'icon-align',
   ID: 'id',
