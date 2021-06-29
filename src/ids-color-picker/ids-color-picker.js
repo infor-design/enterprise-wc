@@ -136,7 +136,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
   }
 
    #handleEvents() {
-     /* istanbul ignore next */
+    /* istanbul ignore next */
     this.idsColorsArr.forEach((element) => {
       element.style.backgroundColor = element.getAttribute('hex');
     });
@@ -199,7 +199,6 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      popup.visible = !popup.visible;
    }
 
-   
    #updateColorCheck(target) {
      /* istanbul ignore next */
      const checkedColor = target.parentElement.querySelector('[checked="true"]');

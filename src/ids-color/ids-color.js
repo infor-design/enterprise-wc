@@ -13,14 +13,13 @@ import {
 } from '../ids-mixins';
 
 import styles from './ids-color.scss';
-
 /**
- * IDS Color
- * @type {IdsColor}
- * @inherits IdsElement
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
- */
+* IDS Color
+* @type {IdsColor}
+* @inherits IdsElement
+* @mixes IdsEventsMixin
+* @mixes IdsKeyboardMixin
+*/
 
  @customElement('ids-color')
  @scss(styles)
