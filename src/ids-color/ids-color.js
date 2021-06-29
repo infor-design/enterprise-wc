@@ -2,7 +2,6 @@ import {
   IdsElement,
   customElement,
   scss,
-  mix,
   attributes
 } from '../ids-base/ids-element';
 
