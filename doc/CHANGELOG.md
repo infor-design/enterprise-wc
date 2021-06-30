@@ -55,6 +55,12 @@
   - Triggering element for the modal is now configurable with the `target` prop
   - Events are now just plain JS events
   - Markup has been changed to custom element `<ids-modal></ids-modal>`
+- `[Pager]` Pager is now a web component called ids-pager ([WC#148](https://github.com/infor-design/enterprise-wc/issues/148))
+  - there is a new base-component: `<ids-pager>`, and several sub-components to provide specific controls.
+  - content is automatically managed/aligned via nesting controls inside of `<ids-pager-section>`
+  - pagination is controlled via attributes on the `<ids-pager>` (`page-number`, `total`, `page-size`), and manages buttons and controls automatically.
+  - buttons are managed by `<ids-pager-button>` with given functionality flags e.g. `<ids-pager-button start>`.
+  - input box can be inserted `<ids-pager-input>`, and a number list with `<ids-pager-number-list>`
 - `[Popup]` Added the Popup WebComponent. ([#4259](https://github.com/infor-design/enterprise/issues/4259))
   - This is the new base component to be used for building Popupmenu, Tooltip, Modal, and any other component that requires placement of a fixed-position element.
   - If using properties/settings, these are now attributes: x, y, align, alignX, alignY, alignEdge, alignTarget, animated, visible.
@@ -66,8 +72,8 @@
   - Selection of items is now divided up by Menu Groups `<ids-menu-group></ids-menu-group>`.  Multiple menu groups in each Popup Menu are supported, and selection in one group will not affect selection in other groups.
   - Many previous settings are now attribute-friendly (for example `closeOnSelect` is now a `keep-open` attribute on menu groups).
   - Made dynamic menus possible by using IdsDataSource
-- `[Progress]` The progress component has been changed to a web component and renamed to ids-progress.
-  - Markup has changed to a custom element `<ids-progress></ids-progress>`
+- `[Progress]` The progress component has been changed to a web component and renamed to ids-progress-bar.
+  - Markup has changed to a custom element `<ids-progress-bar></ids-progress-bar>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
@@ -90,7 +96,7 @@
   - Markup has changed to a custom element `<ids-tabs value=${selection}></ids-tabs>`
   - content within the tabs are specified as `<ids-tab value=${selection-value}>`Tab Label/Content`</ids-tab>`
 - `[Tags]` The Tag component has been changed to a web component.
-  - If using events events are now plain JS events. beforetagremoved, tagremoved, aftertagremoved
+  - If using events events are now plain JS events. beforetagremove, tagremove, aftertagremove
   - If using properties/settings these are now attributes: dismissible, color
   - Markup has changed to a custom element `<ids-tag color="error">Text</ids-tag>`
   - Can now be imported as a single JS file and used with encapsulated styles

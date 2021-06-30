@@ -10,7 +10,7 @@ import IdsHyperlink from '../src/ids-hyperlink/ids-hyperlink';
 import IdsIcon from '../src/ids-icon/ids-icon';
 import IdsPopup from '../src/ids-popup/ids-popup';
 import IdsToolbar, { IdsToolbarSection, IdsToolbarMoreActions } from '../src/ids-toolbar/ids-toolbar';
-import IdsProgress from '../src/ids-progress/ids-progress';
+import IdsProgressBar from '../src/ids-progress-bar/ids-progress-bar';
 import IdsUploadAdvanced from '../src/ids-upload-advanced/ids-upload-advanced';
 import IdsTag from '../src/ids-tag/ids-tag';
 import IdsLayoutGrid from '../src/ids-layout-grid/ids-layout-grid';
@@ -39,6 +39,12 @@ import IdsTabs, { IdsTab } from '../src/ids-tabs';
 import IdsHeader from '../src/ids-header/ids-header';
 import IdsTooltip from '../src/ids-tooltip/ids-tooltip';
 import IdsSwipeAction from '../src/ids-swipe-action/ids-swipe-action';
+import IdsPager, {
+  IdsPagerSection,
+  IdsPagerInput,
+  IdsPagerButton,
+  IdsPagerNumberList
+} from '../src/ids-pager';
 
 // Import Example Code
 
@@ -56,7 +62,7 @@ import './ids-input/example';
 import './ids-input/test-validation-message';
 import './ids-mask/example';
 import './ids-modal/example';
-import './ids-progress/example';
+import './ids-progress-bar/example';
 import './ids-upload-advanced/example';
 import './ids-popup/index';
 import './ids-render-loop/index';
@@ -71,3 +77,4 @@ import './ids-counts/index';
 import './ids-wizard/index';
 import './ids-spinbox/index';
 import './ids-tabs/index';
+import './ids-pager/example';

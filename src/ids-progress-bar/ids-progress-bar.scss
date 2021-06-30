@@ -1,4 +1,4 @@
-/* Ids Progress */
+/* Ids Progress Bar */
 @import '../ids-base/ids-base';
 
 // Mixin progress bar fill area
@@ -8,7 +8,7 @@
   @include rounded-md();
 }
 
-.ids-progress {
+.ids-progress-bar {
   .progress-label {
     @include antialiased();
     @include text-slate-60();
