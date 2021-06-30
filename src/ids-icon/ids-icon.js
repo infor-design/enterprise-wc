@@ -3,7 +3,8 @@ import {
   IdsElement,
   scss,
   customElement,
-  attributes
+  attributes,
+  stringUtils
 } from '../ids-base';
 
 import styles from './ids-icon.scss';
@@ -95,7 +96,8 @@ class IdsIcon extends IdsElement {
 
   /** @param {string|boolean} value Rotate the icon to vertical */
   set vertical(value) {
-    if (value) {
+    const isVertical = stringUtils.stringToBool(value);
+    if (isVertical) {
       this.setAttribute(attributes.VERTICAL, value);
       this.container.classList.add('vertical');
       return;
