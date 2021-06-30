@@ -53,6 +53,10 @@ import '../ids-text/ids-text';
     </div>`;
   }
 
+  /**
+   * Sets the color attribute
+   * @param c 
+   */
   set color(c) {
     this.container.style.backgroundColor = c.toString();
     this.setAttribute('color', c.toString());
