@@ -42,6 +42,18 @@ We support the latest release and the release previous to the latest (R-1) for b
 
 ## Installation
 
+For developers contributing you would run something like:
+
+```sh
+mkdir enterprise-wc
+cd enterprise-wc
+git clone git@github.com:infor-design/enterprise-wc.git .
+npm i
+npm run start
+```
+
+For those consuming the components you would run
+
 ```sh
 npm install --save ids-enterprise-wc@latest
 ```
