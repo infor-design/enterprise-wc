@@ -174,7 +174,7 @@
 }
 
 .btn-swipe-action-left[mode='contrast'] {
-  @include bg-graphite-30();
+  @include bg-slate-30();
 }
 
 .btn-swipe-action-right[mode='contrast'] {
@@ -183,11 +183,11 @@
 }
 
 .btn-swipe-action-left[mode='light'][version='classic'] {
-  @include bg-graphite-60();
+  @include bg-graphite-30();
 }
 
 .btn-swipe-action-right[mode='light'][version='classic'] {
-  @include bg-azure-70();
+  @include bg-azure-50();
   @include text-white();
 }
 
