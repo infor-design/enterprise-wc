@@ -42,7 +42,7 @@ We support the latest release and the release previous to the latest (R-1) for b
 
 ## Installation
 
-For developers contributing (assuming using ssh) you would run:
+To Clone and Run this Repo:
 
 ```sh
 mkdir enterprise-wc
@@ -52,7 +52,7 @@ npm i
 npm run start
 ```
 
-For those consuming and testing the components you would run:
+The components are also available in npm:
 
 ```sh
 npm install --save ids-enterprise-wc@latest
