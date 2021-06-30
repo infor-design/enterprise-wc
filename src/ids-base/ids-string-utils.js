@@ -76,7 +76,7 @@ export function buildClassAttrib(...classes) {
   }, '');
 
   /* istanbul ignore next */
-  return !classAttrib ? '' : ` class=${classAttrib}`;
+  return !classAttrib ? '' : ` class="${classAttrib}"`;
 }
 
 /**
