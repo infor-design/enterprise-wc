@@ -60,17 +60,17 @@ npm install --save ids-enterprise-wc@latest
 
 ## Documentation
 
-- [Change Log](docs/CHANGELOG.md) (Includes latest release changes)
+- [Change Log](doc/CHANGELOG.md) (Includes latest release changes)
 - [How to build the documentation from source](docs/DEVELOPER.md#basic-commands)
 In Ids Web Components we chose to use Javascript and not TypeScript, however we want to support developers that use typescript. For each component we also include TypeScript declaration files for all methods, settings and events. And we ensure our code if included directly is type safe via. We also created a small [example TypeScript project](https://github.com/infor-design/enterprise-wc-examples/tree/master/typescript-ids-wc) to show one way to use Ids Web Components in a plain typescript project.
 
 ## Contributing
 
-- [Articles about Web Components](docs/ARTICLES.md)
-- [Things to consider for each component](docs/CHECKLIST.md)
-- [How to Make a new Component](docs/COMPONENTS.md)
-- [Info on which linters we use](docs/LINTING.md)
-- [Info on Running and Debugging Tests](docs/TESTING.md)
+- [Articles about Web Components](doc/ARTICLES.md)
+- [Things to consider for each component](doc/CHECKLIST.md)
+- [How to Make a new Component](doc/COMPONENTS.md)
+- [Info on which linters we use](doc/LINTING.md)
+- [Info on Running and Debugging Tests](doc/TESTING.md)
 - Use [Github Issues](https://github.com/infor-design/enterprise-wc/issues) to report all requests, bugs, questions, and feature requests
 - [Review source code changes](https://github.com/infor-design/enterprise-wc/pulls)
 - [Roadmap and Sprint Board](https://github.com/orgs/infor-design/projects)
