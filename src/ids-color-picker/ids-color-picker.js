@@ -92,6 +92,10 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     return template;
   }
 
+  /**
+  * Sets the value attribute
+  * @param {string} v string value from the value attribute
+  */
   set value(v) {
     this.#updateColorPickerValues(v);
     this.setAttribute('value', v.toString().toLowerCase());
@@ -101,6 +105,10 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     return this.getAttribute('value') || '#B94E4E';
   }
 
+  /**
+  * Sets the readonly attribute
+  * @param {string} value string value from the readonly attribute
+  */
   /* istanbul ignore next */
   set readonly(value) {
     this.setAttribute('readonly', value.toString());
@@ -111,6 +119,10 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     return this.getAttribute('readonly') || 'false';
   }
 
+  /**
+  * Sets the disabled attribute
+  * @param {string} d string value from the disabled attribute
+  */
   set disabled(d) {
     this.setAttribute('disabled', d.toString());
   }
@@ -119,6 +131,10 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     return this.getAttribute('disabled') || 'false';
   }
 
+  /**
+  * Sets the swatch attribute
+  * @param {string} s string value from the swatch attribute
+  */
   set swatch(s) {
     this.setAttribute('swatch', s.toString());
   }
@@ -127,6 +143,10 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     return this.getAttribute('swatch') || 'true';
   }
 
+  /**
+  * Sets the label attribute
+  * @param {string} value string value from the label attribute
+  */
   set label(value) {
     this.setAttribute('label', value.toString());
   }
@@ -135,6 +155,12 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     return this.getAttribute('label') || '';
   }
 
+  /**
+     * Handle events
+     * @private
+     * @returns {void}
+     */
+  /* istanbul ignore next */
    #handleEvents() {
     /* istanbul ignore next */
     this.idsColorsArr.forEach((element) => {
@@ -177,6 +203,10 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     this.onEvent('click', this.colorPreview, /* istanbul ignore next */ () => this.idsColorsArr.forEach((element) => element.removeAttribute('checked')));
   }
 
+   /**
+     * Update color picker value to match setected color hex value
+     * @param {string} colorValue
+   */
    /* istanbul ignore next */
    #updateColorPickerValues(colorValue) {
      this.swatchInput.value = colorValue;
@@ -184,6 +214,11 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      this.colorPickerInput.value = colorValue;
    }
 
+   /**
+    * Open/Close popup to show and hide color panel
+    * @private
+    * @param {void}
+   */
    #openCloseColorpicker() {
      /* istanbul ignore next */
      const popup = this.container.querySelector('ids-popup');
@@ -199,6 +234,10 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
      popup.visible = !popup.visible;
    }
 
+   /**
+     * Update color check to match setected color
+     * @param {any} target event target
+   */
    #updateColorCheck(target) {
      /* istanbul ignore next */
      const checkedColor = target.parentElement.querySelector('[checked="true"]');
