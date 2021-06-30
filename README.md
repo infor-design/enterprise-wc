@@ -42,7 +42,7 @@ We support the latest release and the release previous to the latest (R-1) for b
 
 ## Installation
 
-For developers contributing you would run something like:
+For developers contributing (assuming using ssh) you would run:
 
 ```sh
 mkdir enterprise-wc
@@ -52,13 +52,11 @@ npm i
 npm run start
 ```
 
-For those consuming the components you would run
+For those consuming and testing the components you would run:
 
 ```sh
 npm install --save ids-enterprise-wc@latest
 ```
-
-For additional usage methods, see [Installing IDS](docs/DEVELOPER.md#installing-ids-into-your-project)
 
 ## Documentation
 
@@ -68,10 +66,11 @@ In Ids Web Components we chose to use Javascript and not TypeScript, however we 
 
 ## Contributing
 
-- [Contribution Guidelines](docs/CONTRIBUTING.md)
-- [Developer Information](docs/DEVELOPER.md)
+- [Articles about Web Components](docs/ARTICLES.md)
+- [Things to consider for each component](docs/CHECKLIST.md)
+- [How to Make a new Component](docs/COMPONENTS.md)
+- [Info on which linters we use](docs/LINTING.md)
+- [Info on Running and Debugging Tests](docs/TESTING.md)
 - Use [Github Issues](https://github.com/infor-design/enterprise-wc/issues) to report all requests, bugs, questions, and feature requests
 - [Review source code changes](https://github.com/infor-design/enterprise-wc/pulls)
-- [Releases, previous and upcoming](https://github.com/infor-design/enterprise-wc/releases)
-- [Microsoft Teams Group](https://teams.microsoft.com/l/team/19%3a2b0c9ce520b0481a9ce115f0ca4a326f%40thread.skype/conversations?groupId=4f50ef7d-e88d-4ccb-98ca-65f26e57fe35&tenantId=457d5685-0467-4d05-b23b-8f817adda47c) (Infor Employees only)
 - [Roadmap and Sprint Board](https://github.com/orgs/infor-design/projects)
