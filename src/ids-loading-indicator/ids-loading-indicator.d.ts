@@ -11,6 +11,13 @@ export default class IdsLoadingIndicator extends IdsElement {
   version: 'new' | 'classic' | string;
 
   /**
+   * Flag indicating whether or not this component
+   * will be nested as a sub-part of another component (e.g. input);
+   * renders a smaller variant.
+   */
+  inline: boolean;
+
+  /**
    * Whether the percentage text should be visible
    * (not applicable to `sticky` loading indicators).
    */

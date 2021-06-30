@@ -15,21 +15,30 @@ import {
 
 import styles from './ids-loading-indicator.scss';
 
-const getInnerIndicatorHtml = ({ progress, type, percentageVisible }) => {
+const { buildClassAttrib, stringToBool } = stringUtils;
+
+const getInnerIndicatorHtml = ({
+  progress,
+  type,
+  percentageVisible,
+  inline
+}) => {
   const isDeterminate = !Number.isNaN(parseInt(progress));
-  const determinateClass = isDeterminate ? ' determinate' : '';
 
   switch (type) {
   case attributes.STICKY:
   case attributes.LINEAR: {
-    const stickyClass = type === 'sticky' ? ' sticky' : '';
     const overallYOffset = `y="${type === 'sticky' ? '0' : '12.5'}%"`;
 
+    const classStr = buildClassAttrib(
+      'linear-indicator',
+      type === 'sticky' && 'sticky',
+      `${!isDeterminate ? 'in' : ''}determinate`,
+      inline && 'inline'
+    );
+
     return (
-      `<svg
-        xmlns="http://www.w3.org/2000/svg"
-        class="linear-indicator${stickyClass}${determinateClass}"
-      >
+      `<svg xmlns="http://www.w3.org/2000/svg" ${classStr}>
         <rect width="100%" height="75%" ${overallYOffset} class="overall" />
         <rect width="100%" height="100%" class="progress" />
       </svg>
@@ -44,14 +53,16 @@ const getInnerIndicatorHtml = ({ progress, type, percentageVisible }) => {
   }
   // circular
   default: {
+    const classStr = buildClassAttrib(
+      'circular-indicator',
+      `${!isDeterminate ? 'in' : ''}determinate`,
+      inline && 'inline'
+    );
+
     return (
-      `<svg
-        viewbox="0 0 100 100"
-        xmlns="http://www.w3.org/2000/svg"
-        class="circular-indicator${determinateClass}"
-      >
-        <circle cx="50" cy="50" r="45" stroke-width="3" class="overall" />
-        <circle cx="50" cy="50" r="45" stroke-width="6" class="progress" />
+      `<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" ${classStr}>
+        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 3}" class="overall" />
+        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 6}" class="progress" />
       </svg>
       ${percentageVisible ? (
         `<div class="progress-percentage">
@@ -129,6 +140,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
     return getInnerIndicatorHtml({
       progress: this.progress,
       percentageVisible: this.percentageVisible,
+      inline: this.inline,
       type
     });
   }
@@ -167,7 +179,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    * flag types set.
    */
   set sticky(value) {
-    this.#onUpdateTypeFlag(attributes.STICKY, stringUtils.stringToBool(value));
+    this.#onUpdateTypeFlag(attributes.STICKY, stringToBool(value));
   }
 
   /**
@@ -185,7 +197,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    * (not applicable to `sticky` loading indicators).
    */
   set percentageVisible(value) {
-    const isTruthy = stringUtils.stringToBool(value);
+    const isTruthy = stringToBool(value);
     if (isTruthy && !this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {
       this.setAttribute(attributes.PERCENTAGE_VISIBLE, '');
     } else if (!isTruthy && this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {
@@ -208,7 +220,33 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    * flag types that may be set.
    */
   set linear(value) {
-    this.#onUpdateTypeFlag(attributes.LINEAR, stringUtils.stringToBool(value));
+    this.#onUpdateTypeFlag(attributes.LINEAR, stringToBool(value));
+  }
+
+  /**
+   * @returns {boolean} value Flag indicating whether or not this component
+   * will be nested as a sub-part of another component (e.g. input);
+   * renders a smaller variant.
+   */
+  get inline() {
+    return this.hasAttribute(attributes.INLINE);
+  }
+
+  /**
+   * @param {boolean} value Flag indicating whether or not this component
+   * will be nested as a sub-part of another component (e.g. input);
+   * renders a smaller variant.
+   */
+  set inline(value) {
+    const isTruthy = stringToBool(value);
+
+    if (isTruthy && !this.hasAttribute(attributes.INLINE)) {
+      this.setAttribute(attributes.INLINE, '');
+    }
+
+    if (!isTruthy && this.hasAttribute(attributes.INLINE)) {
+      this.removeAttribute(attributes.INLINE);
+    }
   }
 
   /**
@@ -240,7 +278,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    * @param {*} value value of attribute passed to flag
    */
   #onUpdateTypeFlag(attribute, value) {
-    const isTruthy = stringUtils.stringToBool(value);
+    const isTruthy = stringToBool(value);
 
     if (isTruthy) {
       if (this.#type !== attribute) {

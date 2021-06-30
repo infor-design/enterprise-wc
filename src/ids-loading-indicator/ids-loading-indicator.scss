@@ -23,8 +23,16 @@ $overall-color: var(--ids-color-palette-azure-10);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+:host(ids-loading-indicator:not([linear]):not([sticky]):not([inline])) {
   width: 50px;
   height: 50px;
+}
+
+:host(ids-loading-indicator[inline]:not([linear]):not([sticky])) {
+  width: 11px;
+  height: 11px;
 }
 
 :host(ids-loading-indicator[linear]),
@@ -95,8 +103,6 @@ svg.linear-indicator {
 svg.circular-indicator {
   position: relative;
   overflow: visible;
-  width: 50px;
-  height: 50px;
   fill: transparent;
   transform-origin: 50% 50%;
   transform: rotateZ(-90deg);
@@ -116,6 +122,16 @@ svg.circular-indicator {
     stroke-dasharray: 283;
     stroke: $progress-color;
   }
+}
+
+svg.circular-indicator:not(.inline) {
+  width: 50px;
+  height: 50px;
+}
+
+svg.circular-indicator.inline {
+  width: 11px;
+  height: 11px;
 }
 
 .circular-indicator.determinate .progress {

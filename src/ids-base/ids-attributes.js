@@ -64,6 +64,7 @@ export const attributes = {
   ICON_ALIGN: 'icon-align',
   ID: 'id',
   INDETERMINATE: 'indeterminate',
+  INLINE: 'inline',
   JUSTIFY: 'justify',
   KEEP_OPEN: 'keep-open',
   LABEL: 'label',
