@@ -85,6 +85,7 @@ svg.linear-indicator {
   align-items: center;
   width: 100%;
   height: 6px;
+  overflow: hidden;
 
   &.sticky {
     height: 8px;
@@ -180,6 +181,42 @@ svg.circular-indicator.indeterminate .progress {
 
 svg.circular-indicator.indeterminate {
   animation: 2.4s linear infinite indeterminate-spinner-anim;
+}
+
+svg.linear-indicator.indeterminate .progress {
+  animation: 2.8s linear infinite both indeterminate-linear-progress-anim;
+}
+
+@keyframes indeterminate-linear-progress-anim {
+  0% {
+    transform: scaleX(0%) translateX(0%);
+  }
+
+  3.125%,
+  53.125% {
+    transform: scaleX(20%) translateX(0%);
+  }
+
+  6.25% {
+    transform: scaleX(30%) translateX(20%);
+  }
+
+  12.5%,
+  62.5% {
+    transform: scaleX(45%) translateX(60%);
+  }
+
+  25%,
+  75% {
+    transform: scaleX(100%) translateX(100%);
+  }
+
+  25.0000001%,
+  50%,
+  75.0000001%,
+  100% {
+    transform: scaleX(0%) translateX(0);
+  }
 }
 
 @keyframes indeterminate {

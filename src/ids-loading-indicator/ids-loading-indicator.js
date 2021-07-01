@@ -17,6 +17,17 @@ import styles from './ids-loading-indicator.scss';
 
 const { buildClassAttrib, stringToBool } = stringUtils;
 
+const getProgressPercentageHtml = ({ progress }) => (
+  `<div class="progress-percentage">
+    <ids-text font-size="14" font-weight="bold" color="unset">
+      ${progress}
+    </ids-text>
+    <ids-text font-size="10" font-weight="bold" color="unset">
+      <span class="percentage">%</span>
+    </ids-text>
+  </div>`
+);
+
 const getInnerIndicatorHtml = ({
   progress,
   type,
@@ -43,10 +54,7 @@ const getInnerIndicatorHtml = ({
         <rect width="100%" height="100%" class="progress" />
       </svg>
       ${(percentageVisible && type !== 'sticky') ? (
-        `<div class="progress-percentage ${type}">
-          <ids-text font-size="14" font-weight="bold" color="unset">
-            ${progress}<span class="percentage">%</span></ids-text>
-        </div>`
+        getProgressPercentageHtml({ progress })
       ) : ''
       }`
     );
@@ -64,16 +72,7 @@ const getInnerIndicatorHtml = ({
         <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 3}" class="overall" />
         <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 6}" class="progress" />
       </svg>
-      ${percentageVisible ? (
-        `<div class="progress-percentage">
-          <ids-text font-size="14" font-weight="bold" color="unset">
-            ${progress}
-          </ids-text>
-          <ids-text font-size="10" font-weight="bold" color="unset">
-            <span class="percentage">%</span>
-          </ids-text>
-        </div>`
-      ) : ''}`
+      ${percentageVisible ? getProgressPercentageHtml({ progress }) : ''}`
     );
   }
   }
@@ -163,11 +162,16 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    */
   set progress(value) {
     const hasValue = !Number.isNaN(Number.parseFloat(value));
+
     if (hasValue) {
-      this.setAttribute(attributes.PROGRESS, parseFloat(value));
+      if (this.getAttribute(attributes.PROGRESS) !== `${parseFloat(value)}`) {
+        this.setAttribute(attributes.PROGRESS, parseFloat(value));
+      }
       this.shadowRoot.querySelector('svg')?.style?.setProperty?.('--progress', value);
     } else {
-      this.removeAttribute(attributes.PROGRESS);
+      if (this.hasAttribute(attributes.PROGRESS)) {
+        this.removeAttribute(attributes.PROGRESS);
+      }
       this.shadowRoot.querySelector('svg')?.style?.removeProperty?.('--progress');
     }
   }
