@@ -33,10 +33,17 @@
   }
 }
 
+// Reset all internal button styles
+button {
+  display: block;
+  width: 100%;
+}
+
 .ids-button,
 .ids-toggle-button,
 .ids-menu-button {
   @include ids-base-button-styles();
+  @include ids-standard-button-colors();
 
   // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
   ::slotted(ids-icon:nth-child(2):last-child), // shadowroot + text + icon
@@ -72,6 +79,7 @@
 
 .ids-icon-button {
   @include ids-base-button-styles();
+  @include ids-standard-button-colors();
 
   // Everything below is only for icon buttons
   @include px-8();
@@ -99,6 +107,24 @@
   .ripple-effect {
     height: 70px;
     width: 70px;
+  }
+}
+
+// Mix-in special rules for contextual buttons
+.ids-button,
+.ids-icon-button {
+  @include ids-standard-contextual-button-colors();
+}
+
+// Specific Modifications for Modal Buttons
+.ids-modal-button {
+  @include ids-base-button-styles();
+  @include ids-alternate-button-colors();
+
+  display: block;
+
+  &:focus {
+    z-index: 1;
   }
 }
 

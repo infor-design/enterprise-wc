@@ -206,7 +206,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     }
 
     this.visible = true;
-    this.#applyOpenEvents();
+    this.applyOpenEvents();
   }
 
   /**
@@ -220,17 +220,17 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     }
 
     this.visible = false;
-    this.#removeOpenEvents();
+    this.removeOpenEvents();
   }
 
-  #applyOpenEvents() {
+  applyOpenEvents() {
     /* istanbul ignore next */
-    this.listen('Escape', this.container, () => {
+    this.listen('Escape', this, () => {
       this.hide();
     });
   }
 
-  #removeOpenEvents() {
+  removeOpenEvents() {
     this.unlisten('Escape');
   }
 
@@ -334,7 +334,24 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   #setModalFocus() {
-    const focusable = [...this.querySelectorAll('button, ids-button, [href], input, ids-input, select, textarea, ids-textarea, [tabindex]:not([tabindex="-1"])')];
+    const focusableSelectors = [
+      'button',
+      'ids-button',
+      'ids-menu-button',
+      'ids-modal-button',
+      'ids-toggle-button',
+      '[href]',
+      'input',
+      'ids-input',
+      'select',
+      'textarea',
+      'ids-textarea',
+      '[tabindex]',
+      ':not([tabindex="-1"]'
+    ];
+    const selectorStr = focusableSelectors.join(', ');
+
+    const focusable = [...this.querySelectorAll(selectorStr)];
     if (focusable.length) {
       focusable[0].focus();
     }

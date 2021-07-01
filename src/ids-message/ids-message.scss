@@ -1,0 +1,18 @@
+@import '../ids-modal/ids-modal-base';
+
+:host {
+  display: block;
+}
+
+.ids-message-header,
+.ids-message-content {
+  @include p-12();
+}
+
+.ids-message-footer {
+  display: flex;
+}
+
+::slotted([slot='buttons']) {
+  flex-grow: 1;
+}
