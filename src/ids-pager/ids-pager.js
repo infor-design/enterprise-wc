@@ -129,10 +129,10 @@ export default class IdsPager extends mix(IdsElement).with(
     let nextValue = parseInt(value);
 
     if (Number.isNaN(nextValue)) {
-      console.error('ids-pager: non-numeric value sent to page-size');
+      // console.error('ids-pager: non-numeric value sent to page-size');
       nextValue = 1;
     } else if (nextValue < 1) {
-      console.error('ids-pager: page-size cannot be < 1');
+      // console.error('ids-pager: page-size cannot be < 1');
       nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
@@ -154,7 +154,7 @@ export default class IdsPager extends mix(IdsElement).with(
 
     if (Number.isNaN(nextValue)) {
       nextValue = 1;
-      console.error('ids-pager: non-numeric value sent to pageNumber');
+      // console.error('ids-pager: non-numeric value sent to pageNumber');
     } else if (nextValue <= 1) {
       nextValue = 1;
     } else {
@@ -174,10 +174,10 @@ export default class IdsPager extends mix(IdsElement).with(
   set total(value) {
     let nextValue;
     if (Number.isNaN(Number.parseInt(value))) {
-      console.error('ids-pager: non-numeric value sent to total');
+      // console.error('ids-pager: non-numeric value sent to total');
       nextValue = 1;
     } else if (Number.parseInt(value) <= 0) {
-      console.error('ids-pager: total cannot be <= 0');
+      // console.error('ids-pager: total cannot be <= 0');
       nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
@@ -235,7 +235,7 @@ export default class IdsPager extends mix(IdsElement).with(
     case 1:
       break;
     default: {
-      console.error('ids-pager: invalid number of children passed');
+      // console.error('ids-pager: invalid number of children passed');
       break;
     }
     }
