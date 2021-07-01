@@ -8,7 +8,12 @@ import IdsLoadingIndicator from '../../src/ids-loading-indicator';
 const expectElemFlagBehavior = (elem, attribute, initialValue = false) => {
   const camelCasedAttrib = stringUtils.camelCase(attribute);
 
-  expect(elem[camelCasedAttrib]).toEqual(initialValue);
+  if (initialValue) {
+    elem[camelCasedAttrib] = false;
+    expect(elem[camelCasedAttrib]).toEqual(false);
+  }
+
+  expect(elem[camelCasedAttrib]).toEqual(false);
 
   elem[camelCasedAttrib] = true;
   expect(elem[camelCasedAttrib]).toEqual(true);
@@ -16,7 +21,7 @@ const expectElemFlagBehavior = (elem, attribute, initialValue = false) => {
   elem.removeAttribute(attribute);
   expect(elem[camelCasedAttrib]).toEqual(false);
 
-  elem.setAttribute(attribute, 'true');
+  elem.setAttribute(attribute, true);
   expect(elem.hasAttribute(attribute)).toEqual(true);
 
   elem.removeAttribute(attribute);
@@ -52,9 +57,18 @@ describe('IdsLoadingIndicator Component', () => {
   it('renders circular/indeterminate (default) with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
-    elem = await createElemViaTemplate(
-      '<ids-loading-indicator />'
-    );
+    elem = await createElemViaTemplate('<ids-loading-indicator></ids-loading-indicator>');
+
+    expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+
+    expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
+  });
+
+  it('renders circular/determinate with no errors', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    elem = await createElemViaTemplate('<ids-loading-indicator progress="45" percentage-visible></ids-loading-indicator>');
 
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
@@ -65,9 +79,7 @@ describe('IdsLoadingIndicator Component', () => {
   it('renders linear/indeterminate indicator without error', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
-    elem = await createElemViaTemplate(
-      '<ids-loading-indicator linaer />'
-    );
+    elem = await createElemViaTemplate('<ids-loading-indicator linear></ids-loading-indicator>');
 
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
@@ -78,9 +90,7 @@ describe('IdsLoadingIndicator Component', () => {
   it('renders linear/determinate indicator without error', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
-    elem = await createElemViaTemplate(
-      '<ids-loading-indicator linear />'
-    );
+    elem = await createElemViaTemplate('<ids-loading-indicator linear progress="45" percentage-visible></ids-loading-indicator>');
 
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
@@ -91,9 +101,7 @@ describe('IdsLoadingIndicator Component', () => {
   it('renders sticky/indeterminate indicator without error', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
-    elem = await createElemViaTemplate(
-      '<ids-loading-indicator sticky />'
-    );
+    elem = await createElemViaTemplate('<ids-loading-indicator sticky></ids-loading-indicator>');
 
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
@@ -102,9 +110,7 @@ describe('IdsLoadingIndicator Component', () => {
   });
 
   it('sets and gets the progress attribute reliably', async () => {
-    elem = await createElemViaTemplate(
-      '<ids-loading-indicator progress="30" />'
-    );
+    elem = await createElemViaTemplate('<ids-loading-indicator progress="30"></ids-loading-indicator>');
 
     expect(elem.progress).toEqual(30);
 
@@ -116,16 +122,14 @@ describe('IdsLoadingIndicator Component', () => {
   });
 
   it('sets and gets the sticky attribute reliably', async () => {
-    elem = await createElemViaTemplate(
-      '<ids-loading-indicator />'
-    );
+    elem = await createElemViaTemplate('<ids-loading-indicator></ids-loading-indicator>');
 
     expectElemFlagBehavior(elem, 'sticky');
   });
 
   it('sets and gets the linear attribute reliably', async () => {
     elem = await createElemViaTemplate(
-      '<ids-loading-indicator />'
+      '<ids-loading-indicator></ids-loading-indicator>'
     );
 
     expectElemFlagBehavior(elem, 'linear');
@@ -133,22 +137,16 @@ describe('IdsLoadingIndicator Component', () => {
 
   it('sets and gets the inline attribute reliably', async () => {
     elem = await createElemViaTemplate(
-      '<ids-loading-indicator />'
+      '<ids-loading-indicator inline></ids-loading-indicator>'
     );
 
-    expectElemFlagBehavior(elem, 'inline');
-  });
-
-  it('sets the sticky attribute after setting the linear but becomes only sticky', async () => {
-    elem = await createElemViaTemplate('<ids-loading-indicator linear />');
-
-    elem.sticky = true;
-
-    expect(elem.hasAttribute('linear')).toEqual(false);
+    expectElemFlagBehavior(elem, 'inline', true);
   });
 
   it('calls type getter reliably based on flags set', async () => {
-    elem = await createElemViaTemplate('<ids-loading-indicator linear />');
+    elem = await createElemViaTemplate(
+      '<ids-loading-indicator linear></ids-loading-indicator>'
+    );
     expect(elem.type).toEqual('linear');
 
     elem.setAttribute('sticky', true);
@@ -160,16 +158,14 @@ describe('IdsLoadingIndicator Component', () => {
 
   it('sets and gets the percentage-visible attribute reliably', async () => {
     elem = await createElemViaTemplate(
-      '<ids-loading-indicator />'
+      '<ids-loading-indicator sticky percentage-visible></ids-loading-indicator>'
     );
 
-    expectElemFlagBehavior(elem, 'percentage-visible');
+    expectElemFlagBehavior(elem, 'percentage-visible', true);
   });
 
   it('supports setting mode', async () => {
-    elem = await createElemViaTemplate(
-      '<ids-loading-indicator />'
-    );
+    elem = await createElemViaTemplate('<ids-loading-indicator></ids-loading-indicator>');
     elem.mode = 'dark';
     expect(elem.getAttribute('mode')).toEqual('dark');
   });

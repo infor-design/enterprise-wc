@@ -17,21 +17,23 @@ import styles from './ids-loading-indicator.scss';
 
 const { stringToBool, buildClassAttrib } = stringUtils;
 
-const getInnerIndicatorHtml = ({ progress, type, percentageVisible, inline }) => {
+const getInnerIndicatorHtml = ({
+  progress,
+  type,
+  percentageVisible,
+  inline
+}) => {
   const isDeterminate = !Number.isNaN(parseInt(progress));
-  const determinateClass = `${!isDeterminate ? 'in' : ''}determinate`;
 
   switch (type) {
   case attributes.STICKY:
   case attributes.LINEAR: {
-    const stickyClass = type === 'sticky' ? ' sticky' : '';
     const overallYOffset = `y="${type === 'sticky' ? '0' : '12.5'}%"`;
 
     const classStr = buildClassAttrib(
       'linear-indicator',
       type === 'sticky' && 'sticky',
-      `${!isDeterminate ? 'in' : ''}determinate`,
-      inline && 'inline'
+      `${!isDeterminate ? 'in' : ''}determinate`
     );
 
     return (
@@ -222,6 +224,8 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    */
   set percentageVisible(value) {
     const isTruthy = stringToBool(value);
+
+    /* istanbul ignore else */
     if (isTruthy && !this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {
       this.setAttribute(attributes.PERCENTAGE_VISIBLE, '');
     } else if (!isTruthy && this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {
