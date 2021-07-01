@@ -551,6 +551,8 @@ class IdsButton extends mix(IdsElement).with(
     if (stringUtils.stringToBool(val)) {
       this.setAttribute(attributes.NO_RIPPLE, true);
       this.state.noRipple = true;
+      this.offEvent('click.ripple');
+      this.offEvent('touchstart.ripple');
       return;
     }
     this.removeAttribute(attributes.NO_RIPPLE);

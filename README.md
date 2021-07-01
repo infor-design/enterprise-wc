@@ -17,7 +17,17 @@ For guidelines on when and where to use the components see the [design.infor.com
 - SVG-based iconography compatible with high DPI screens
 - Built-in, extendible localization system
 - Built-in mitigation of XSS exploits
-- 140+ Components
+- 100% Test Coverage (TDD where possible)
+- Passes all code security scans and is fully CSP compliant
+- Well documented in `.md` format
+- Contains an extensive [Change log](./doc/CHANGELOG.md) which lists any and all breaking changes
+- [Fully linted code](./doc/LINTING.md)
+- Follows [WAI-ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard-interaction-12) with a focus on accessibility
+- Fully Namespaced with an `ids-` namespace
+- We Follow the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki)
+- Type safe for TypeScript users with d.ts files
+- Every component has the Css and Dom Encapsulated (in supported browsers)
+- 140+ Components to convert
 
 ## Browser Support
 
@@ -32,35 +42,34 @@ We support the latest release and the release previous to the latest (R-1) for b
 
 ## Installation
 
+To Clone and Run this Repo:
+
 ```sh
-npm install --save ids-enterprise@latest
+mkdir enterprise-wc
+cd enterprise-wc
+git clone git@github.com:infor-design/enterprise-wc.git .
+npm i
+npm run start
 ```
 
-For additional usage methods, see [Installing IDS](docs/DEVELOPER.md#installing-ids-into-your-project)
+The components are also available in npm:
+
+```sh
+npm install --save ids-enterprise-wc@latest
+```
 
 ## Documentation
 
-- [Latest Release Docs](https://design.infor.com/code/ids-enterprise/latest)
-- [Change Log](docs/CHANGELOG.md) (Includes latest release changes)
-- [How to build the documentation from source](docs/DEVELOPER.md#basic-commands)
-In Ids Web Components we chose to use Javascript and not TypeScript, however we want to support developers that use typescript. For each component we also include TypeScript declaration files for all methods, settings and events. And we ensure our code if included directly is type safe via. We also created a small [example TypeScript project](https://github.com/infor-design/enterprise-wc-examples/tree/master/typescript-ids-wc) to show one way to use Ids Web Components in a plain typescript project.
+- For each component see the .md file in the relevant [component folder](https://github.com/infor-design/enterprise-wc/tree/main/src)
+- See the [Change Log](doc/CHANGELOG.md) for info on breaking changes as well more info in each individual component
 
 ## Contributing
 
-- [Contribution Guidelines](docs/CONTRIBUTING.md)
-- [Developer Information](docs/DEVELOPER.md)
-- Use [Github Issues](https://github.com/infor-design/enterprise/issues) to report all requests, bugs, questions, and feature requests
-- [Review source code changes](https://github.com/infor-design/enterprise/pulls)
-- [Releases, previous and upcoming](https://github.com/infor-design/enterprise/releases)
-- [Microsoft Teams Group](https://teams.microsoft.com/l/team/19%3a2b0c9ce520b0481a9ce115f0ca4a326f%40thread.skype/conversations?groupId=4f50ef7d-e88d-4ccb-98ca-65f26e57fe35&tenantId=457d5685-0467-4d05-b23b-8f817adda47c) (Infor Employees only)
+- [Articles about Web Components](doc/ARTICLES.md)
+- [Things to consider for each component](doc/CHECKLIST.md)
+- [How to Make a new Component](doc/COMPONENTS.md)
+- [Info on which linters we use](doc/LINTING.md)
+- [Info on Running and Debugging Tests](doc/TESTING.md)
+- Use [Github Issues](https://github.com/infor-design/enterprise-wc/issues) to report all requests, bugs, questions, and feature requests
+- [Review source code changes](https://github.com/infor-design/enterprise-wc/pulls)
 - [Roadmap and Sprint Board](https://github.com/orgs/infor-design/projects)
-- Test first - 100% Test Coverage
-- Passes all code security scans and is fully CSP compatible
-- Well documented in `.md` format
-- Contains an extensive [Change log](./doc/CHANGELOG.md) which lists any and all breaking changes
-- [Fully linted code](./doc/LINTING.md)
-- Follows [WAI-ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard-interaction-12) with a huge focus on accessibility
-- Fully Namespaced with an `ids-` namespace
-- We Follow the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki)
-- Type safe for TypeScript users
-- Every component has the Css and Dom Encapsulated (in supported browsers)

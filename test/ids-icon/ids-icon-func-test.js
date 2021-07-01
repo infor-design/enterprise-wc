@@ -64,4 +64,15 @@ describe('IdsIcon Component', () => {
     expect(elem.template()).toContain('height="18"');
     expect(elem.template()).toContain('width="18"');
   });
+
+  it('renders vertical setting then removes it', () => {
+    elem = new IdsIcon();
+    document.body.appendChild(elem);
+    elem.vertical = true;
+    expect(elem.vertical).toEqual('true');
+    expect(elem.getAttribute('vertical')).toEqual('true');
+    elem.vertical = null;
+    expect(elem.vertical).toEqual(false);
+    expect(elem.getAttribute('vertical')).toEqual(null);
+  });
 });

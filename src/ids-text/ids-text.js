@@ -164,8 +164,6 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
       this.removeAttribute(attributes.COLOR);
       this.container.classList.remove('ids-text-color-unset');
     }
-
-    this.render();
   }
 
   get color() {
