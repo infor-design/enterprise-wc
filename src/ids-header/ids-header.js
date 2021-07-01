@@ -3,7 +3,6 @@ import {
   customElement,
   scss,
   mix,
-  stringUtils,
   attributes
 } from '../ids-base/ids-element';
 
@@ -27,15 +26,18 @@ import '../ids-text/ids-text';
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
  */
- @customElement('ids-header')
- @scss(styles)
+@customElement('ids-header')
+@scss(styles)
 
- class IdsHeader extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+class IdsHeader extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
 
   connectedCallback() {
+    // TODO: Need to do this and not sure why or the setters/getters do not work
+    // eslint-disable-next-line no-self-assign
+    this.color = this.color;
   }
 
   static get attributes() {
@@ -43,19 +45,19 @@ import '../ids-text/ids-text';
   }
 
   /**
-  * Create the template for the rating contents
-  * @returns {string} The template
-  */
+   * Create the template for the rating contents
+   * @returns {string} The template
+   */
   template() {
     return `
-    <div class="ids-header">
+    <header class="ids-header">
       <slot></slot>
-    </div>`;
+    </header>`;
   }
 
   /**
    * Sets the color attribute
-   * @param c 
+   * @param c
    */
   set color(c) {
     this.container.style.backgroundColor = c.toString();
@@ -65,6 +67,6 @@ import '../ids-text/ids-text';
   get color() {
     return this.getAttribute('color') || '#0072ed';
   }
- }
+}
 
- export default IdsHeader;
+export default IdsHeader;

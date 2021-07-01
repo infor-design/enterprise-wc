@@ -8,13 +8,13 @@ describe('IdsHeader Component', () => {
   let elem;
 
   beforeEach(async () => {
-     const header = new IdsHeader();
-     document.body.appendChild(header);
-     elem = document.querySelector('ids-header');
+    const header = new IdsHeader();
+    document.body.appendChild(header);
+    elem = document.querySelector('ids-header');
   });
 
   afterEach(async () => {
-     document.body.innerHTML = '';
+    document.body.innerHTML = '';
   });
 
   it('renders with no errors', () => {
@@ -33,4 +33,4 @@ describe('IdsHeader Component', () => {
     elem.color = '#0072ed';
     expect(elem.getAttribute('color')).toEqual('#0072ed');
   });
-})
+});
