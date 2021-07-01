@@ -43,7 +43,7 @@ const getInnerIndicatorHtml = ({
       </svg>
       ${(percentageVisible && type !== 'sticky') ? (
         `<div class="progress-percentage ${type}">
-          <ids-text font-size="14" font-weight="bold" color="unset">
+          <ids-text font-size="14" font-weight="bold" color="unset" label>
             ${progress}<span class="percentage">%</span></ids-text>
         </div>`
       ) : ''
@@ -61,15 +61,15 @@ const getInnerIndicatorHtml = ({
     return (
       `<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" ${classStr}
       >
-        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 3}" class="overall" />
-        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 6}" class="progress" />
+        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 4}" class="overall" />
+        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 7}" class="progress" />
       </svg>
       ${percentageVisible ? (
         `<div class="progress-percentage">
-          <ids-text font-size="14" font-weight="bold" color="unset">
+          <ids-text font-size="14" font-weight="bold" color="unset" label>
             ${progress}
           </ids-text>
-          <ids-text font-size="10" font-weight="bold" color="unset">
+          <ids-text font-size="10" font-weight="bold" color="unset" label>
             <span class="percentage">%</span>
           </ids-text>
         </div>`
