@@ -35,28 +35,6 @@ class IdsLocale {
   }
 
   /**
-   * Takes a translation key and returns the translation in the current locale
-   * @param {string} key  The key to search for on the string
-   * @param {object} [options] Supports showBrackets and maybe more in the future
-   * @returns {string|undefined} a translated string, or nothing, depending on configuration
-   */
-  translate(key, options = { showAsUndefined: false, showBrackets: true }) {
-    if (key === '&nsbp;') {
-      return '';
-    }
-
-    // Substitue The English Expression if missing
-    if (!this.language.messages[key]) {
-      if (!this.state.defaultLocale.messages[key]) {
-        return `${options.showBrackets ? '[' : ''}${key}${options.showBrackets ? ']' : ''}`;
-      }
-      return this.state.defaultLocale.messages[key].value;
-    }
-
-    return this.language.messages[key].value;
-  }
-
-  /**
    * Load a locale or message file
    * @private
    * @param {string} value The script file name
@@ -152,6 +130,40 @@ class IdsLocale {
   }
 
   /**
+   * Takes a translation key and returns the translation in the current locale
+   * @param {string} key  The key to search for on the string
+   * @param {object} [options] Supports showBrackets and maybe more in the future
+   * @returns {string|undefined} a translated string, or nothing, depending on configuration
+   */
+  translate(key, options = { showAsUndefined: false, showBrackets: true }) {
+    if (key === '&nsbp;') {
+      return '';
+    }
+
+    if (!options?.showAsUndefined && options?.showBrackets === undefined) {
+      options.showBrackets = true;
+    }
+
+    let messages = this.language.messages;
+    if (options?.language) {
+      messages = this.loadedLanguages.get(options?.language) || messages;
+    }
+
+    // Substitue The English Expression if missing
+    if (!messages[key]) {
+      if (options.showAsUndefined) {
+        return undefined;
+      }
+      if (!this.state.defaultLocale.messages[key]) {
+        return `${options.showBrackets ? '[' : ''}${key}${options.showBrackets ? ']' : ''}`;
+      }
+      return this.state.defaultLocale.messages[key].value;
+    }
+
+    return messages[key].value;
+  }
+
+  /**
    * Add an object full of translations to the given locale.
    * @param {string} lang The language to add them to.
    * @param  {object} messages Strings in the form of
@@ -195,7 +207,7 @@ class IdsLocale {
   }
 
   /**
-   * Get the language data
+   * Get the locale data
    * @returns {object} The language data
    */
   get locale() {
@@ -311,6 +323,34 @@ class IdsLocale {
   }
 
   /**
+   * Convert a number in arabic/chinese or hindi numerals to an "english" number.
+   * @param  {string} string The string number in arabic/chinese or hindi
+   * @returns {number} The english number.
+   */
+  convertNumberToEnglish(string) {
+    const arabic = ['٠', '١', '٢', '٣', '٤', '٥', '٦', '٧', '٨', '٩'];
+    const devanagari = ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९']; // Hindi
+    const chineseFinancialTraditional = ['零', '壹', '貳', '叄', '肆', '伍', '陸', '柒', '捌', '玖'];
+    const chineseFinancialSimplified = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
+    const chinese = ['〇', '一', '二', '三', '四', '五', '六', '七', '八', '九'];
+
+    for (let i = 0; i <= 9; i++) {
+      string = string.replace(arabic[i], i);
+      string = string.replace('٬', '');
+      string = string.replace(',', '');
+      string = string.replace(devanagari[i], i);
+      string = string.replace(chineseFinancialTraditional[i], i);
+      string = string.replace(chineseFinancialSimplified[i], i);
+      string = string.replace(chinese[i], i);
+
+      if (i === 0) { // Second option for zero in chinese
+        string = string.replace('零', i);
+      }
+    }
+    return parseFloat(string);
+  }
+
+  /**
    * Formats a date object using the current locale or specified settings
    * to a string for Internationalization
    * @param {Date} value The date to show in the current locale.
@@ -318,7 +358,6 @@ class IdsLocale {
    * @returns {string} the formatted date.
    */
   formatDate(value, options) {
-    // const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
     const usedOptions = options;
     let sourceDate = value;
 
@@ -333,6 +372,62 @@ class IdsLocale {
       sourceDate = this.parseDate(sourceDate, options);
     }
     return this.dateFormatter.format(sourceDate);
+  }
+
+  /**
+   * Formats a number into the locale hour format
+   * @param {number} hour The hours to show in the current locale
+   * @param {object} options Additional date formatting settings
+   * @returns {string} the hours in either 24 h or 12 h format
+   */
+  formatHour(hour, options) {
+    let timeSeparator = this.calendar(options?.locale || this.locale.name).dateFormat.timeSeparator;
+    if (typeof hour === 'string' && hour.indexOf(timeSeparator) === -1) {
+      timeSeparator = ':';
+    }
+
+    const date = new Date();
+    if (typeof hour === 'number') {
+      const split = hour.toString().split('.');
+      date.setHours(split[0]);
+      date.setMinutes(split[1] ? (parseFloat(`0.${split[1]}`) * 60) : 0);
+    } else {
+      const parts = hour.split(timeSeparator);
+      date.setHours(parts[0]);
+      date.setMinutes(parts[1] || 0);
+    }
+    return this.formatDate(date, { hour: 'numeric', minute: 'numeric' });
+  }
+
+  /**
+   * Formats a number into the locales hour format.
+   * @param {number} startHour The hours to show in the current locale.
+   * @param {number} endHour The hours to show in the current locale.
+   * @param {object} options Additional date formatting settings.
+   * @returns {string} the hours in either 24 h or 12 h format
+   */
+  formatHourRange(startHour, endHour, options) {
+    const dayPeriods = this.calendar(options?.locale || this.locale.name).dayPeriods;
+    let removePeriod = false;
+    let range = `${this.formatHour(startHour, options)} - ${this.formatHour(endHour, options)}`;
+
+    if (range.indexOf(':00 AM -') > -1 || range.indexOf(':00 PM -') > -1) {
+      removePeriod = true;
+    }
+
+    if (range.split(dayPeriods[0]).length - 1 > 1) {
+      range = range.replace(dayPeriods[0], '');
+    }
+
+    if (range.split(dayPeriods[1]).length - 1 > 1) {
+      range = range.replace(` ${dayPeriods[1]}`, '');
+    }
+
+    range = range.replace('  ', ' ');
+    if (removePeriod) {
+      range = range.replace(':00 -', ' -');
+    }
+    return range;
   }
 
   /**
@@ -363,12 +458,26 @@ class IdsLocale {
    */
   parseDate(dateString, options) {
     const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
-    const sourceFormat = options?.dateFormat || localeData.calendars[0].dateFormat.datetime;
+    let sourceFormat = options?.dateFormat || localeData.calendars[0].dateFormat.datetime;
+    sourceFormat = sourceFormat.replace('. ', '.').replace('. ', '.');
+    dateString = dateString.replace('. ', '.').replace('. ', '.');
     const separator = this.#determineSeparator(sourceFormat);
 
+    // Remove AM/PM
+    const dayPeriods = localeData.calendars[0].dayPeriods;
+    const is12Hr = dateString.indexOf(dayPeriods[0]) > -1 || dateString.indexOf(dayPeriods[1]) > -1;
+    const isAM = dateString.indexOf(dayPeriods[0]) > -1;
+    if (is12Hr) {
+      dateString = dateString.replace(`${dayPeriods[0]} `, '');
+      dateString = dateString.replace(`${dayPeriods[1]} `, '');
+      dateString = dateString.replace(`${dayPeriods[0]}`, '');
+      dateString = dateString.replace(`${dayPeriods[1]}`, '');
+    }
+
+    // Parse the date
     const dateComponents = dateString.indexOf('T') > -1 ? dateString.split('T') : dateString.split(' ');
     const datePieces = dateComponents[0].split(separator || '-');
-    const timePieces = dateComponents[1].split(':');
+    const timePieces = dateComponents[1] ? dateComponents[1].split(':') : [0, 0, 0, 0];
 
     const formatComponents = sourceFormat.indexOf('T') > -1 ? sourceFormat.split('T') : sourceFormat.split(' ');
     const formatPieces = formatComponents[0].split(separator || '-');
@@ -377,13 +486,36 @@ class IdsLocale {
     const year = this.#determineDatePart(formatPieces, datePieces, 'y', 'yy', 'yyyy');
     const day = this.#determineDatePart(formatPieces, datePieces, 'd', 'dd', 'dddd');
 
+    // Adjust for AM / PM
+    if (is12Hr && !isAM && Number(timePieces[0]) !== 12) {
+      timePieces[0] = Number(timePieces[0]) + 12;
+    }
+    if (is12Hr && isAM && Number(timePieces[0]) === 12) {
+      timePieces[0] = 0;
+    }
+    if (is12Hr && !isAM && Number(timePieces[0]) === 12) {
+      timePieces[0] = 12;
+    }
+
+    // Return arrays for arabic dates
+    if (this.isIslamic()) {
+      return [
+        Number(year),
+        (month - 1),
+        Number(day),
+        Number(timePieces && timePieces[0] ? timePieces[0] : 0),
+        Number(timePieces && timePieces[1] ? timePieces[1] : 0),
+        Number(timePieces && timePieces[2] ? timePieces[2] : 0)
+      ];
+    }
+
     return (new Date(
       year,
       (month - 1),
       day,
       (timePieces && timePieces[0] ? timePieces[0] : 0),
       (timePieces && timePieces[1] ? timePieces[1] : 0),
-      (timePieces && timePieces[1] ? timePieces[1] : 0)
+      (timePieces && timePieces[2] ? timePieces[2] : 0),
     ));
   }
 
@@ -393,17 +525,17 @@ class IdsLocale {
    * @returns {string} The format used.
    */
   #determineSeparator(dateFormat) {
-    if (dateFormat.indexOf('/')) {
+    if (dateFormat.indexOf('/') > -1) {
       return '/';
     }
-    if (dateFormat.indexOf('-')) {
+    if (dateFormat.indexOf('-') > -1) {
       return '-';
     }
-    if (dateFormat.indexOf('.')) {
+    if (dateFormat.indexOf('. ') > -1) {
       return '.';
     }
-    if (dateFormat.indexOf('. ')) {
-      return '. ';
+    if (dateFormat.indexOf('.') > -1) {
+      return '.';
     }
     return '';
   }
