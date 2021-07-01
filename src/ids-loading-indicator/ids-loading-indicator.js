@@ -17,7 +17,7 @@ import styles from './ids-loading-indicator.scss';
 
 const getInnerIndicatorHtml = ({ progress, type, percentageVisible }) => {
   const isDeterminate = !Number.isNaN(parseInt(progress));
-  const determinateClass = isDeterminate ? ' determinate' : '';
+  const determinateClass = `${!isDeterminate ? 'in' : ''}determinate`;
 
   switch (type) {
   case attributes.STICKY:
@@ -28,7 +28,7 @@ const getInnerIndicatorHtml = ({ progress, type, percentageVisible }) => {
     return (
       `<svg
         xmlns="http://www.w3.org/2000/svg"
-        class="linear-indicator${stickyClass}${determinateClass}"
+        class="linear-indicator${stickyClass} ${determinateClass}"
       >
         <rect width="100%" height="75%" ${overallYOffset} class="overall" />
         <rect width="100%" height="100%" class="progress" />
@@ -48,7 +48,7 @@ const getInnerIndicatorHtml = ({ progress, type, percentageVisible }) => {
       `<svg
         viewbox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
-        class="circular-indicator${determinateClass}"
+        class="circular-indicator ${determinateClass}"
       >
         <circle cx="50" cy="50" r="45" stroke-width="3" class="overall" />
         <circle cx="50" cy="50" r="45" stroke-width="6" class="progress" />
