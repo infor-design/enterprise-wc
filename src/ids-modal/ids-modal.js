@@ -346,8 +346,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       'select',
       'textarea',
       'ids-textarea',
-      '[tabindex]',
-      ':not([tabindex="-1"]'
+      '[tabindex]:not([tabindex="-1"]'
     ];
     const selectorStr = focusableSelectors.join(', ');
 
