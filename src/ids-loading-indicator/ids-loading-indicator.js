@@ -37,12 +37,12 @@ const getInnerIndicatorHtml = ({
     );
 
     return (
-      `<svg xmlns="http://www.w3.org/2000/svg" ${classStr}>
-        <rect width="100%" height="75%" ${overallYOffset} class="overall" />
-        <rect width="100%" height="100%" class="progress" />
+      `<svg xmlns="http://www.w3.org/2000/svg" ${classStr} part="container">
+        <rect width="100%" height="75%" ${overallYOffset} class="overall" part="overall" />
+        <rect width="100%" height="100%" class="progress" part="progress" />
       </svg>
       ${(percentageVisible && type !== 'sticky') ? (
-        `<div class="progress-percentage ${type}">
+        `<div class="progress-percentage ${type}" part="percentage-text">
           <ids-text font-size="14" font-weight="bold" color="unset" label>
             ${progress}<span class="percentage">%</span></ids-text>
         </div>`
@@ -59,13 +59,12 @@ const getInnerIndicatorHtml = ({
     );
 
     return (
-      `<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" ${classStr}
-      >
-        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 4}" class="overall" />
-        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 7}" class="progress" />
+      `<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" ${classStr} part="container">
+        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 4}" class="overall" part="overall" />
+        <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 7}" class="progress" part="progress" />
       </svg>
       ${percentageVisible ? (
-        `<div class="progress-percentage">
+        `<div class="progress-percentage" part="percentage-text">
           <ids-text font-size="14" font-weight="bold" color="unset" label>
             ${progress}
           </ids-text>
@@ -85,7 +84,11 @@ const getInnerIndicatorHtml = ({
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
- * @part container - the loader container element
+ * @part container - the loader svg container element
+ * @part progress - the percentage complete or active part of indeterminate section
+ * @part overall - the "overall" area, which includes percentage and what 100% would cover on
+ * indeterminate
+ * @part percentage-text - the percentage text shown (when flag is set)
  */
 @customElement('ids-loading-indicator')
 @scss(styles)
