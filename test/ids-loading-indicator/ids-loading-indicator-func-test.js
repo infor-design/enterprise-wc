@@ -131,6 +131,14 @@ describe('IdsLoadingIndicator Component', () => {
     expectElemFlagBehavior(elem, 'linear');
   });
 
+  it('sets and gets the inline attribute reliably', async () => {
+    elem = await createElemViaTemplate(
+      '<ids-loading-indicator />'
+    );
+
+    expectElemFlagBehavior(elem, 'inline');
+  });
+
   it('sets the sticky attribute after setting the linear but becomes only sticky', async () => {
     elem = await createElemViaTemplate('<ids-loading-indicator linear />');
 
