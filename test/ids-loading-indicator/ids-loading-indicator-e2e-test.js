@@ -6,12 +6,12 @@ describe('Ids Tag e2e Tests', () => {
   });
 
   it('should not have errors', async () => {
-    await expect(page.title()).resolves.toMatch('IDS Loader Component');
+    await expect(page.title()).resolves.toMatch('IDS Loading Indicator');
   });
 
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests();
+    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast'] });
   });
 });
