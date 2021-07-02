@@ -4,7 +4,8 @@ import {
   scss
 } from '../ids-base/ids-element';
 
-import IdsModal, { IdsModalButton } from '../ids-modal';
+import IdsModal from '../ids-modal';
+import IdsIcon from '../ids-icon';
 
 import { attributes } from '../ids-base/ids-attributes';
 import { IdsStringUtils } from '../ids-base/ids-string-utils';
@@ -15,7 +16,7 @@ import styles from './ids-message.scss';
 
 // Types of status that can be applied to message components
 const MESSAGE_STATUSES = [
-  'none', 'error', 'alert', 'success', 'info'
+  'none', 'default', 'error', 'alert', 'success', 'info'
 ];
 
 // Attributes that apply to message components
@@ -28,7 +29,6 @@ const MESSAGE_ATTRIBUTES = [
 const MESSAGE_DEFAULTS = {
   message: '',
   status: MESSAGE_STATUSES[0],
-  title: ''
 };
 
 /**
@@ -49,6 +49,9 @@ class IdsMessage extends IdsModal {
     return [...super.attributes, ...MESSAGE_ATTRIBUTES];
   }
 
+  /**
+   * @returns {void}
+   */
   connectedCallback() {
     super.connectedCallback();
 
@@ -57,28 +60,7 @@ class IdsMessage extends IdsModal {
       this.state[prop] = this.getAttribute(prop) || MESSAGE_DEFAULTS[prop];
     });
 
-    this.popup.type = 'custom';
     this.status = this.getAttribute(attributes.STATUS);
-  }
-
-  /**
-   * Inner template contents
-   * @returns {string} The template
-   */
-  template() {
-    return `<ids-popup part="modal" class="ids-modal ids-message" type="menu">
-      <div class="ids-message-container" slot="content">
-        <div class="ids-message-header">
-          <slot name="title"></slot>
-        </div>
-        <div class="ids-message-content">
-          <slot></slot>
-        </div>
-        <div class="ids-message-footer">
-          <slot name="buttons"></slot>
-        </div>
-      </div>
-    </ids-popup>`;
   }
 
   /**
@@ -138,32 +120,43 @@ class IdsMessage extends IdsModal {
    * @returns {void}
    */
   #refreshStatus(val) {
-    const header = this.container.querySelector('.ids-message-header');
-    const icon = header.querySelector('ids-icon');
+    const header = this.container.querySelector('.ids-modal-header');
+    if (!header) {
+      return;
+    }
 
+    let icon = header.querySelector('ids-icon');
     if (val) {
       if (!icon) {
         header.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${this.status}" class="ids-icon ids-message-status"></ids-icon>`);
+        icon = header.querySelector('ids-icon');
       }
+      this.#setIconColor(icon, val);
     } else {
-      if (icon) {
-        icon.remove();
-      }
+      icon?.remove();
     }
   }
 
   /**
-   * @returns {string} the content of the message's title
+   * Changes the color of the Status Icon
+   * @param {IdsIcon} iconEl
+   * @param {string} [status='none']
+   * @returns {void}
    */
-  get title() {
-    return this.state.title;
-  }
+  #setIconColor(iconEl, status = 'none') {
+    if (!iconEl instanceof IdsIcon) {
+      return;
+    }
 
-  /**
-   * @param {string} val the new content to be used as the message's title
-   */
-  set title(val) {
-
+    const colorMap = {
+      'none': 'black',
+      'default': 'gray',
+      'error': 'red',
+      'alert': 'yellow',
+      'success': 'green',
+      'info': 'blue'
+    };
+    iconEl.style.color = colorMap[status];
   }
 
   /**
