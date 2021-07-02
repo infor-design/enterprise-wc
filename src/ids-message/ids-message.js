@@ -128,9 +128,10 @@ class IdsMessage extends IdsModal {
     let icon = header.querySelector('ids-icon');
     if (val) {
       if (!icon) {
-        header.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${this.status}" class="ids-icon ids-message-status"></ids-icon>`);
+        header.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${val}" class="ids-icon ids-message-status"></ids-icon>`);
         icon = header.querySelector('ids-icon');
       }
+      icon.icon = val;
       this.#setIconColor(icon, val);
     } else {
       icon?.remove();
@@ -140,23 +141,22 @@ class IdsMessage extends IdsModal {
   /**
    * Changes the color of the Status Icon
    * @param {IdsIcon} iconEl
-   * @param {string} [status='none']
+   * @param {string} [thisStatus='none']
    * @returns {void}
    */
-  #setIconColor(iconEl, status = 'none') {
+  #setIconColor(iconEl, thisStatus = 'none') {
     if (!iconEl instanceof IdsIcon) {
       return;
     }
 
-    const colorMap = {
-      'none': 'black',
-      'default': 'gray',
-      'error': 'red',
-      'alert': 'yellow',
-      'success': 'green',
-      'info': 'blue'
-    };
-    iconEl.style.color = colorMap[status];
+    const iconElClassList = iconEl.classList;
+    MESSAGE_STATUSES.forEach((status) => {
+      if (thisStatus !== 'none' && thisStatus === status) {
+        iconElClassList.add(status);
+      } else {
+        iconElClassList.remove(status);
+      }
+    });
   }
 
   /**
