@@ -13,11 +13,23 @@ import IdsDOMUtils from '../ids-base/ids-dom-utils';
 // @ts-ignore
 import styles from './ids-message.scss';
 
+// Types of status that can be applied to message components
+const MESSAGE_STATUSES = [
+  'none', 'error', 'alert', 'success', 'info'
+];
+
+// Attributes that apply to message components
 const MESSAGE_ATTRIBUTES = [
   attributes.MESSAGE,
   attributes.STATUS,
   attributes.TITLE
 ];
+
+const MESSAGE_DEFAULTS = {
+  message: '',
+  status: MESSAGE_STATUSES[0],
+  title: ''
+};
 
 /**
  * IDS Message Component
@@ -39,6 +51,14 @@ class IdsMessage extends IdsModal {
 
   connectedCallback() {
     super.connectedCallback();
+
+    // Set initial state
+    Object.keys(MESSAGE_ATTRIBUTES).forEach((prop) => {
+      this.state[prop] = this.getAttribute(prop) || MESSAGE_DEFAULTS[prop];
+    });
+
+    this.popup.type = 'custom';
+    this.status = this.getAttribute(attributes.STATUS);
   }
 
   /**
@@ -62,6 +82,20 @@ class IdsMessage extends IdsModal {
   }
 
   /**
+   * @returns {string|HTMLElement}
+   */
+  get message() {
+
+  }
+
+  /**
+   * @param {string|HTMLElement}
+   */
+  set message(val) {
+
+  }
+
+  /**
    * @readonly
    * @returns {IdsModal} internal Modal instance
    */
@@ -70,7 +104,71 @@ class IdsMessage extends IdsModal {
   }
 
   /**
+   * @returns {string} the message's current status type
+   */
+  get status() {
+    return this.state.status;
+  }
+
+  /**
+   * @param {string} val the message's new status type
+   */
+  set status(val) {
+    let realStatusValue = MESSAGE_STATUSES[0];
+    if (MESSAGE_STATUSES.includes(val)) {
+      realStatusValue = val;
+    }
+
+    const currentValue = this.state.status;
+    if (realStatusValue !== currentValue) {
+      this.state.status = realStatusValue;
+
+      if (typeof val === 'string' && val.length) {
+        this.setAttribute(attributes.STATUS, realStatusValue)
+      } else {
+        this.removeAttribute(attributes.STATUS);
+      }
+
+      this.#refreshStatus(realStatusValue);
+    }
+  }
+
+  /**
+   * @param {string} val the value of the status icon
+   * @returns {void}
+   */
+  #refreshStatus(val) {
+    const header = this.container.querySelector('.ids-message-header');
+    const icon = header.querySelector('ids-icon');
+
+    if (val) {
+      if (!icon) {
+        header.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${this.status}" class="ids-icon ids-message-status"></ids-icon>`);
+      }
+    } else {
+      if (icon) {
+        icon.remove();
+      }
+    }
+  }
+
+  /**
+   * @returns {string} the content of the message's title
+   */
+  get title() {
+    return this.state.title;
+  }
+
+  /**
+   * @param {string} val the new content to be used as the message's title
+   */
+  set title(val) {
+
+  }
+
+  /**
    * Add additional open events
+   * @returns {void}
    */
   applyOpenEvents() {
     super.applyOpenEvents();
@@ -78,7 +176,7 @@ class IdsMessage extends IdsModal {
     // When a cancel button is clicked, hide the Message
     this.onEvent('click.cancel', this.container, (e) => {
       const modalBtn = e.target.closest('ids-modal-button');
-      if (modalBtn.cancel) {
+      if (modalBtn?.cancel) {
         this.hide();
       }
     });
@@ -86,6 +184,7 @@ class IdsMessage extends IdsModal {
 
   /**
    * Remove additional Open Events
+   * @returns {void}
    */
   removeOpenEvents() {
     super.removeOpenEvents();

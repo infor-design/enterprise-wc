@@ -9,10 +9,29 @@
   @include p-12();
 }
 
+.ids-message-header,
 .ids-message-footer {
   display: flex;
 }
 
+.ids-message-footer {
+  @include mt-20();
+}
+
 ::slotted([slot='buttons']) {
   flex-grow: 1;
+
+  + [slot="buttons"] {
+    &::after {
+      content: ' ';
+      background-color: red;
+      display: inline-block;
+      width: 25px;
+      height: 25px;
+    }
+  }
+}
+
+.ids-message-status {
+  @include pr-8();
 }
