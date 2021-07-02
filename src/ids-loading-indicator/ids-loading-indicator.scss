@@ -58,6 +58,8 @@ $circle-radius: 45;
 
 .progress {
   @include z-1();
+
+  transition: stroke-dashoffset 0.275s ease-in, transform 0.275s ease-in;
 }
 
 .progress-percentage {

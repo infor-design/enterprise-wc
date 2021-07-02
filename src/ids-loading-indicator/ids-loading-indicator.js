@@ -17,6 +17,13 @@ import styles from './ids-loading-indicator.scss';
 
 const { stringToBool, buildClassAttrib } = stringUtils;
 
+const getPercentageTextHtml = ({ progress, type = 'circular' }) => (
+  `<div class="progress-percentage ${type}" part="percentage-text">
+    <ids-text font-size="14" font-weight="bold" color="unset" label>
+      ${progress}<span class="percentage">%</span></ids-text>
+  </div>`
+);
+
 const getInnerIndicatorHtml = ({
   progress,
   type,
@@ -41,13 +48,8 @@ const getInnerIndicatorHtml = ({
         <rect width="100%" height="75%" ${overallYOffset} class="overall" part="overall" />
         <rect width="100%" height="100%" class="progress" part="progress" />
       </svg>
-      ${(percentageVisible && type !== 'sticky') ? (
-        `<div class="progress-percentage ${type}" part="percentage-text">
-          <ids-text font-size="14" font-weight="bold" color="unset" label>
-            ${progress}<span class="percentage">%</span></ids-text>
-        </div>`
-      ) : ''
-      }`
+      ${!(percentageVisible && type !== 'sticky') ? ''
+        : getPercentageTextHtml({ progress, type }) }`
     );
   }
   // circular
@@ -63,16 +65,7 @@ const getInnerIndicatorHtml = ({
         <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 4}" class="overall" part="overall" />
         <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 7}" class="progress" part="progress" />
       </svg>
-      ${percentageVisible ? (
-        `<div class="progress-percentage" part="percentage-text">
-          <ids-text font-size="14" font-weight="bold" color="unset" label>
-            ${progress}
-          </ids-text>
-          <ids-text font-size="10" font-weight="bold" color="unset" label>
-            <span class="percentage">%</span>
-          </ids-text>
-        </div>`
-      ) : ''}`
+      ${!percentageVisible ? '' : getPercentageTextHtml({ progress }) }`
     );
   }
   }
@@ -119,6 +112,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
       attributes.STICKY,
       attributes.LINEAR,
       attributes.MODE,
+      attributes.PERCENTAGE_VISIBLE,
       attributes.PROGRESS,
       attributes.TYPE,
       attributes.VERSION
@@ -199,6 +193,8 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
       this.removeAttribute(attributes.PROGRESS);
       this.shadowRoot.querySelector('svg')?.style?.removeProperty?.('--progress');
     }
+
+    this.updatePercentageVisible();
   }
 
   /**
@@ -234,6 +230,8 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
     } else if (!isTruthy && this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {
       this.removeAttribute(attributes.PERCENTAGE_VISIBLE);
     }
+
+    this.updatePercentageVisible();
   }
 
   /**
@@ -242,6 +240,20 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    */
   get percentageVisible() {
     return this.hasAttribute(attributes.PERCENTAGE_VISIBLE);
+  }
+
+  updatePercentageVisible() {
+    const percentageEl = this.shadowRoot.querySelector('[part="percentage-text"]');
+
+    if (percentageEl) {
+      percentageEl.remove();
+    }
+
+    if (this.percentageVisible && (this.type !== 'sticky')) {
+      const template = document.createElement('template');
+      template.innerHTML = getPercentageTextHtml({ type: this.type, progress: this.progress });
+      this.shadowRoot.appendChild(template.content.cloneNode(true));
+    }
   }
 
   /**
@@ -292,6 +304,7 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
         }
 
         this.#type = attribute;
+        this.render();
       }
 
       if (!this.hasAttribute(attribute)) {
