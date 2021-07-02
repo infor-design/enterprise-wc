@@ -1,51 +1,47 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsLoadingIndicator Component renders circular/determinate with no errors 1`] = `
-"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><svg viewBox=\\"0 0 100 100\\" xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"circular-indicator determinate\\" style=\\"--progress: 45;\\">
-        <circle cx=\\"50\\" cy=\\"50\\" r=\\"45\\" stroke-width=\\"3\\" class=\\"overall\\"></circle>
-        <circle cx=\\"50\\" cy=\\"50\\" r=\\"45\\" stroke-width=\\"6\\" class=\\"progress\\"></circle>
+"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><svg viewBox=\\"0 0 100 100\\" xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"circular-indicator determinate\\" part=\\"container\\" style=\\"--progress: 45;\\">
+        <circle cx=\\"50\\" cy=\\"50\\" r=\\"45\\" stroke-width=\\"4\\" class=\\"overall\\" part=\\"overall\\"></circle>
+        <circle cx=\\"50\\" cy=\\"50\\" r=\\"45\\" stroke-width=\\"7\\" class=\\"progress\\" part=\\"progress\\"></circle>
       </svg>
-      <div class=\\"progress-percentage\\">
-          <ids-text font-size=\\"14\\" font-weight=\\"bold\\" color=\\"unset\\">
-            45
-          </ids-text>
-          <ids-text font-size=\\"10\\" font-weight=\\"bold\\" color=\\"unset\\">
-            <span class=\\"percentage\\">%</span>
-          </ids-text>
-        </div>"
+      <div class=\\"progress-percentage circular\\" part=\\"percentage-text\\">
+    <ids-text font-size=\\"14\\" font-weight=\\"bold\\" color=\\"unset\\" label=\\"\\">
+      45<span class=\\"percentage\\">%</span></ids-text>
+  </div>"
 `;
 
 exports[`IdsLoadingIndicator Component renders circular/indeterminate (default) with no errors 1`] = `
-"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><svg viewBox=\\"0 0 100 100\\" xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"circular-indicator indeterminate\\">
-        <circle cx=\\"50\\" cy=\\"50\\" r=\\"45\\" stroke-width=\\"3\\" class=\\"overall\\"></circle>
-        <circle cx=\\"50\\" cy=\\"50\\" r=\\"45\\" stroke-width=\\"6\\" class=\\"progress\\"></circle>
+"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><svg viewBox=\\"0 0 100 100\\" xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"circular-indicator indeterminate\\" part=\\"container\\">
+        <circle cx=\\"50\\" cy=\\"50\\" r=\\"45\\" stroke-width=\\"4\\" class=\\"overall\\" part=\\"overall\\"></circle>
+        <circle cx=\\"50\\" cy=\\"50\\" r=\\"45\\" stroke-width=\\"7\\" class=\\"progress\\" part=\\"progress\\"></circle>
       </svg>
       "
 `;
 
 exports[`IdsLoadingIndicator Component renders linear/determinate indicator without error 1`] = `
-"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator determinate\\" style=\\"--progress: 45;\\">
-        <rect width=\\"100%\\" height=\\"75%\\" y=\\"12.5%\\" class=\\"overall\\"></rect>
-        <rect width=\\"100%\\" height=\\"100%\\" class=\\"progress\\"></rect>
+"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator determinate\\" part=\\"container\\" style=\\"--progress: 45;\\">
+        <rect width=\\"100%\\" height=\\"75%\\" y=\\"12.5%\\" class=\\"overall\\" part=\\"overall\\"></rect>
+        <rect width=\\"100%\\" height=\\"100%\\" class=\\"progress\\" part=\\"progress\\"></rect>
       </svg>
-      <div class=\\"progress-percentage linear\\">
-          <ids-text font-size=\\"14\\" font-weight=\\"bold\\" color=\\"unset\\">
-            45<span class=\\"percentage\\">%</span></ids-text>
-        </div>"
+      <div class=\\"progress-percentage linear\\" part=\\"percentage-text\\">
+    <ids-text font-size=\\"14\\" font-weight=\\"bold\\" color=\\"unset\\" label=\\"\\">
+      45<span class=\\"percentage\\">%</span></ids-text>
+  </div>"
 `;
 
 exports[`IdsLoadingIndicator Component renders linear/indeterminate indicator without error 1`] = `
-"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator indeterminate\\">
-        <rect width=\\"100%\\" height=\\"75%\\" y=\\"12.5%\\" class=\\"overall\\"></rect>
-        <rect width=\\"100%\\" height=\\"100%\\" class=\\"progress\\"></rect>
+"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator indeterminate\\" part=\\"container\\">
+        <rect width=\\"100%\\" height=\\"75%\\" y=\\"12.5%\\" class=\\"overall\\" part=\\"overall\\"></rect>
+        <rect width=\\"100%\\" height=\\"100%\\" class=\\"progress\\" part=\\"progress\\"></rect>
       </svg>
       "
 `;
 
 exports[`IdsLoadingIndicator Component renders sticky/indeterminate indicator without error 1`] = `
-"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator sticky indeterminate\\">
-        <rect width=\\"100%\\" height=\\"75%\\" y=\\"0%\\" class=\\"overall\\"></rect>
-        <rect width=\\"100%\\" height=\\"100%\\" class=\\"progress\\"></rect>
+"<style nonce=\\"0a59a005\\">.ids-loading-indicator { background-color: transparent; }</style><svg xmlns=\\"http://www.w3.org/2000/svg\\" class=\\"linear-indicator sticky indeterminate\\" part=\\"container\\">
+        <rect width=\\"100%\\" height=\\"75%\\" y=\\"0%\\" class=\\"overall\\" part=\\"overall\\"></rect>
+        <rect width=\\"100%\\" height=\\"100%\\" class=\\"progress\\" part=\\"progress\\"></rect>
       </svg>
       "
 `;

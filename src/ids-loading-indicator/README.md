@@ -2,7 +2,7 @@
 
 ## Description
 
-The ids-loading-indicator component is used to notify the user that the system is processing a request, and that they must wait for that request to be processed before continuing with the current task. There are different indicators and UI styles for different scenarios. In previous versions this has been called Loading Indicator or Busy Indicator.
+The `<ids-loading-indicator>` component is used to notify the user that the system is processing a request, and that they must wait for that request to be processed before continuing with the current task. There are different indicators and UI styles for different scenarios. In previous versions this has been called Loading Indicator or Busy Indicator.
 
 ## Use Cases
 
@@ -11,27 +11,45 @@ The ids-loading-indicator component is used to notify the user that the system i
 ## Terminology
 
 - *Determinate*: Used when there is a defined loading time. These indicators display percentages that help approximate the wait time.
-- *Indeterminate*: Used when there is an undefined loading time. These indicators are for unspecified wait times, and do not include a percentage.
+- *Indeterminate*: Used when there is an undefined loading time. These indicatorsInf are for unspecified wait times, and do not include a percentage.
 
 ## Features (With Code Examples)
 
 A page loader can be added to a page by adding an ids-loading-indicator to the page and running the scripts. It will not appear until the web component is in a `connnected` state.
 
-Circular and indeterminate:
+A circular and indeterminate indicator:
 ```html
 <ids-loading-indicator></ids-loading-indicator>
 ```
-Indeterminate and linear:
+Adding a `linear` flag sets the indicator to be a linear indicator:
 ```html
 <ids-loading-indicator linear></ids-loading-indicator>
 ```
 
-Determinate, linear, with 75% completion and the percentage text shown:
+Setting any type of indicator's `progress` attribute will cause the indicator to become
+determinate and then represent the percentage given by the the attribute. In this example,
+the progress is at 20% which would mean 20% of the linear indicator will be filled in/marked as
+complete.
+
 ```html
-<ids-loading-indicator progress="10" sticky percentage-visible></ids-loading-indicator>
+<ids-loading-indicator linear progress="20"></ids-loading-indicator>
 ```
 
-Determinate, with 10% completion and affixed to the top of view it is currently in:
+Adding the `percentage-visible` flag attribute will cause text to show up on an indicator:
+
+```html
+<ids-loading-indicator linear progress="20"></ids-loading-indicator>
+```
+
+Adding a `sticky` attribute will set the indicator to a sticky indicator, which will affix
+the indicator to the top of the current component.
+
+```html
+<ids-loading-indicator sticky></ids-loading-indicator>
+```
+
+In the following example, the indicator is determinate, with 10% completion and
+affixed to the top of view it is currently in:
 ```html
 <ids-loading-indicator progress="10" sticky percentage-visible></ids-loading-indicator>
 ```
@@ -49,27 +67,23 @@ the indicator to stick to the top of the innermost parent IdsElement and span it
 - `percentage-visible` *{boolean}* Denotes that the percentage text should be visible (not applicable to `sticky` loading indicators).
 
 ## Themeable Parts
-
-- `loader` allows you to further style the loader element
-
-## States and Variations (With Code Examples)
-
-- Loading
-- Determinate
-- Indeterminate
+- `container` - the loader (svg) container element
+- `progress` - the percentage complete or active part of the indeterminate area
+- `overall` - the overall area which would span what the indicator would at 100% and always on the indicator.
+- `percentage-text` the percentage text shown (when `percentage-visible` flag is set)
 
 ## Keyboard Guidelines
 
-No keyboard shortcuts available.
+No keyboard shortcuts available -- the loading indicator is only meant to be a visual indicator to the user and not interactive.
 
 ## Responsive Guidelines
 
-- The Page Loader will fill 100% off the top of the page
+- if using a `sticky` indicator, the indicator will span 100% of the nearest `relative` positioned div.
 
 ## Converting from Previous Versions
 
 - 3.x:  have all new markup and classes.
-- 4.x: Busy Indicator has been changed to ids-loading-indicator. It has all new markup and classes for web components.
+- 4.x: Busy Indicator has been changed to `ids-loading-indicator`. It has all new markup and classes for web components.
 
 ## Proposed Changes
 

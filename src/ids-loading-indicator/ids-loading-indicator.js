@@ -44,9 +44,25 @@ const getInnerIndicatorHtml = ({
     );
 
     return (
-      `<svg xmlns="http://www.w3.org/2000/svg" ${classStr} part="container">
-        <rect width="100%" height="75%" ${overallYOffset} class="overall" part="overall" />
-        <rect width="100%" height="100%" class="progress" part="progress" />
+      `<svg
+        xmlns="http://www.w3.org/2000/svg"
+        ${classStr}
+        part="container"
+        class="ids-loading-indicator"
+      >
+        <rect
+          width="100%"
+          height="75%"
+          ${overallYOffset}
+          class="overall"
+          part="overall"
+        />
+        <rect
+          width="100%"
+          height="100%"
+          class="progress"
+          part="progress"
+        />
       </svg>
       ${!(percentageVisible && type !== 'sticky') ? ''
         : getPercentageTextHtml({ progress, type }) }`
@@ -61,7 +77,13 @@ const getInnerIndicatorHtml = ({
     );
 
     return (
-      `<svg viewbox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" ${classStr} part="container">
+      `<svg
+        viewbox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+        ${classStr}
+        part="container"
+        class="ids-loading-indicator"
+      >
         <circle cx="50" cy="50" r="45" stroke-width="${inline ? 8 : 4}" class="overall" part="overall" />
         <circle cx="50" cy="50" r="45" stroke-width="${inline ? 18 : 7}" class="progress" part="progress" />
       </svg>
