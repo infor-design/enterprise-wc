@@ -10,8 +10,8 @@ The `<ids-loading-indicator>` component is used to notify the user that the syst
 
 ## Terminology
 
-- *Determinate*: Used when there is a defined loading time. These indicators display percentages that help approximate the wait time.
-- *Indeterminate*: Used when there is an undefined loading time. These indicatorsInf are for unspecified wait times, and do not include a percentage.
+- **Determinate**: Used when there is a defined loading time. These indicators display percentages that help approximate the wait time.
+- **Indeterminate**: Used when there is an undefined loading time. These indicators are for unspecified wait times, and do not include a percentage.
 
 ## Features (With Code Examples)
 
@@ -54,16 +54,12 @@ affixed to the top of view it is currently in:
 <ids-loading-indicator progress="10" sticky percentage-visible></ids-loading-indicator>
 ```
 
-
 ## Settings and Attributes
 
 - `progress` *{number | undefined}* Represents the percentage completed for the indicator; if not specified, the indicator is set into indeterminate mode (e.g. no specific progress with an animation)
 - `sticky` *{boolean}* Flags the indicator as an sticky indicator type; causes
 the indicator to stick to the top of the innermost parent IdsElement and span it horizontally. If set, will unflag this indicator as a linear or circular indicator.
-- `linear` *{boolean}* value Flags the indicator as a linear indicator type;
-   * causes the indicator to span its parent component horizontally and
-   * be represented as a horizontal/linear bar. If set, removes current
-   * flag types that may be set.
+- `linear` *{boolean}* value Flags the indicator as a linear indicator type; causes the indicator to span its parent component horizontally and become a horizontal/linear bar. If set, removes other current flag types that may be set.
 - `percentage-visible` *{boolean}* Denotes that the percentage text should be visible (not applicable to `sticky` loading indicators).
 
 ## Themeable Parts
