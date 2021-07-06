@@ -2,11 +2,16 @@
 
 - [x] Promises/Await
 - [X] Translations
-- [] Convert all code
-- [] Numbers
-- [] Dates
-- [] Timezone
-- [] RTL
+- [X] Convert all code
+- [X] Numbers
+- [X] Dates
+- [X] Timezone
+- [] RTL all components
+- [] Flip Icons
+- [] Number Inputs
+- [] Date Inputs
+- [] Number Formatter
+- [] Date Formatter
 
 # TODO For Phase 2
 
