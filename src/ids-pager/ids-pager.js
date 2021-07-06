@@ -176,6 +176,7 @@ export default class IdsPager extends mix(IdsElement).with(
 
   /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount() {
+    /* istanbul ignore next */
     return (this.total !== null && !Number.isNaN(this.total))
       ? Math.floor(this.total / this.pageSize)
       : null;
@@ -258,6 +259,8 @@ export default class IdsPager extends mix(IdsElement).with(
 
   #keepPageNumberInBounds() {
     let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+
+    /* istanbul ignore next */
     if (Number.isNaN(nextValue)) {
       nextValue = 1;
     } else if (nextValue <= 1) {
