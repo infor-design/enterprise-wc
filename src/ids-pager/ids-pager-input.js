@@ -117,6 +117,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     }
 
     this.#updatePageCountShown();
+    this.#updatePageNumberBounds();
   }
 
   /** @returns {string|number} The number of items shown per page */
@@ -163,6 +164,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
 
     this.setAttribute(attributes.TOTAL, nextValue);
     this.#updatePageCountShown();
+    this.#updatePageNumberBounds();
   }
 
   /** @returns {number|null} The calculated pageCount using total and pageSize */
@@ -233,6 +235,22 @@ export default class IdsPagerInput extends mix(IdsElement).with(
   #updatePageCountShown() {
     const pageCountShown = (this.pageCount === null) ? 'N/A' : this.pageCount;
     this.shadowRoot.querySelector('span.page-count').textContent = pageCountShown;
+  }
+
+  #updatePageNumberBounds() {
+    let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+
+    if (Number.isNaN(nextValue)) {
+      nextValue = 1;
+    } else if (nextValue <= 1) {
+      nextValue = 1;
+    } else if (nextValue > this.pageCount) {
+      nextValue = this.pageCount;
+    }
+
+    if (parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue) {
+      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
+    }
   }
 
   /**
