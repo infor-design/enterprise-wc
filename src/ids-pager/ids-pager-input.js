@@ -112,7 +112,11 @@ export default class IdsPagerInput extends mix(IdsElement).with(
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    if (parseInt(this.getAttribute(attributes.PAGE_SIZE)) !== nextValue) {
+      this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    }
+
+    this.#updatePageCountShown();
   }
 
   /** @returns {string|number} The number of items shown per page */
