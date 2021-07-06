@@ -218,7 +218,7 @@ export default class IdsPager extends mix(IdsElement).with(
       this.children[2].setAttribute(attributes.ALIGN, 'end');
       break;
     case 2: {
-      this.children[1].setAttribute(attributes.END, '');
+      this.children[1].setAttribute(attributes.ALIGN, 'end');
 
       // insert an empty pager-section to the left
       // of the 2nd element for alignment purposes
