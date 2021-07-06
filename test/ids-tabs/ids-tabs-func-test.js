@@ -253,18 +253,21 @@ describe('IdsTabs Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('sets a count to an empty value, then triggers an error', async () => {
-    const errors = jest.spyOn(global.console, 'error');
+  it('sets count attribute on the ids-tab component predictably', async () => {
+    elem = await createElemViaTemplate(
+      `<ids-tab count="20" value="eggs">Eggs In a Basket</ids-tab>`
+    );
 
-    await expect(createElemViaTemplate(
-      `<ids-tabs value="eggs">
-        <ids-tab count="20" value="eggs">Eggs In a Basket</ids-tab>
-        <ids-tab count="5" value="peas">Peas in a Pod</ids-tab>
-      </ids-tabs>`
-    ));
+    expect(elem.getAttribute('count')).toEqual('20');
 
-    elem.children[0].count = '';
+    elem.count = '';
+    await processAnimFrame();
+    expect(elem.hasAttribute('count')).toEqual(false);
 
-    expect(errors).not.toHaveBeenCalled();
+    elem.count = '20';
+    expect(elem.getAttribute('count')).toEqual('20');
+
+    elem.count = 'z20z';
+    expect(elem.getAttribute('count')).toEqual('20');
   });
 });

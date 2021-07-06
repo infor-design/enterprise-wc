@@ -133,11 +133,11 @@ describe('IdsTriggerField Component', () => {
     const className = 'has-validation-message';
     expect(triggerField.container.classList).not.toContain(className);
     let input = triggerField.querySelector('ids-input');
-    let event = new CustomEvent('validated', { detail: { isValid: false } });
+    let event = new CustomEvent('validate', { detail: { isValid: false } });
     input.dispatchEvent(event);
     expect(triggerField.container.classList).toContain(className);
     input = triggerField.querySelector('ids-input');
-    event = new CustomEvent('validated', { detail: { isValid: true } });
+    event = new CustomEvent('validate', { detail: { isValid: true } });
     input.dispatchEvent(event);
     expect(triggerField.container.classList).not.toContain(className);
   });

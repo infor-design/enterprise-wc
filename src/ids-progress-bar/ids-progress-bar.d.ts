@@ -5,11 +5,11 @@ import { IdsElement } from '../ids-base';
 
 interface IdsProgressEventDetail extends Event {
   detail: {
-    elem: IdsProgress
+    elem: IdsProgressBar
   }
 }
 
-export default class IdsProgress extends IdsElement {
+export default class IdsProgressBar extends IdsElement {
   /** Sets to disabled * */
   disabled: boolean;
 

@@ -119,9 +119,9 @@ describe('IdsTag Component', () => {
     expect(mockCallback.mock.calls.length).toBe(1);
   });
 
-  it('fires beforetagremoved on dismiss', () => {
+  it('fires beforetagremove on dismiss', () => {
     tag.dismissible = true;
-    tag.addEventListener('beforetagremoved', (e) => {
+    tag.addEventListener('beforetagremove', (e) => {
       e.detail.response(false);
     });
     tag.dismiss();
@@ -129,26 +129,26 @@ describe('IdsTag Component', () => {
     expect(document.body.contains(tag)).toEqual(true);
   });
 
-  it('fires tagremoved on dismiss', () => {
+  it('fires tagremove on dismiss', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
     });
 
     tag.dismissible = true;
-    tag.addEventListener('tagremoved', mockCallback);
+    tag.addEventListener('tagremove', mockCallback);
     tag.dismiss();
 
     expect(mockCallback.mock.calls.length).toBe(1);
     expect(document.body.contains(tag)).toEqual(false);
   });
 
-  it('fires aftertagremoved on dismiss', () => {
+  it('fires aftertagremove on dismiss', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
     });
 
     tag.dismissible = true;
-    tag.addEventListener('aftertagremoved', mockCallback);
+    tag.addEventListener('aftertagremove', mockCallback);
     tag.dismiss();
 
     expect(mockCallback.mock.calls.length).toBe(1);

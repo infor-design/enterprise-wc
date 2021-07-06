@@ -33,11 +33,11 @@ export default class IdsTag extends IdsElement {
   version: 'new' | 'classic' | string;
 
   /** Fires before the tag is removed, you can return false in the response to veto. */
-  on(event: 'beforetagremoved', listener: (detail: IdsTagEventVetoable) => void): this;
+  on(event: 'beforetagremove', listener: (detail: IdsTagEventVetoable) => void): this;
 
   /** Fires while the tag is removed */
-  on(event: 'tagremoved', listener: (detail: IdsTagEventDetail) => void): this;
+  on(event: 'tagremove', listener: (detail: IdsTagEventDetail) => void): this;
 
   /** Fires after the tag is removed */
-  on(event: 'aftertagremoved', listener: (detail: IdsTagEventDetail) => void): this;
+  on(event: 'aftertagremove', listener: (detail: IdsTagEventDetail) => void): this;
 }

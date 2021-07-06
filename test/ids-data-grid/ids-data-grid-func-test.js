@@ -261,7 +261,7 @@ describe('IdsDataGrid Component', () => {
       expect(x.detail.sortColumn.ascending).toEqual(true);
     });
 
-    dataGrid.addEventListener('sorted', mockCallback);
+    dataGrid.addEventListener('sort', mockCallback);
     dataGrid.setSortColumn('description', true);
 
     expect(mockCallback.mock.calls.length).toBe(1);
@@ -274,7 +274,7 @@ describe('IdsDataGrid Component', () => {
       expect(x.detail.sortColumn.ascending).toEqual(false);
     });
 
-    dataGrid.addEventListener('sorted', mockCallback);
+    dataGrid.addEventListener('sort', mockCallback);
     dataGrid.setSortColumn('description', false);
 
     expect(mockCallback.mock.calls.length).toBe(1);
@@ -287,7 +287,7 @@ describe('IdsDataGrid Component', () => {
       expect(x.detail.sortColumn.ascending).toEqual(true);
     });
 
-    dataGrid.addEventListener('sorted', mockCallback);
+    dataGrid.addEventListener('sort', mockCallback);
     dataGrid.setSortColumn('description');
 
     expect(mockCallback.mock.calls.length).toBe(1);
@@ -312,7 +312,7 @@ describe('IdsDataGrid Component', () => {
       expect(x.detail.sortColumn.ascending).toEqual(true);
     });
 
-    dataGrid.addEventListener('sorted', mockCallback);
+    dataGrid.addEventListener('sort', mockCallback);
     dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[1].click();
 
     expect(mockCallback.mock.calls.length).toBe(1);
@@ -323,7 +323,7 @@ describe('IdsDataGrid Component', () => {
     const mockCallback = jest.fn();
 
     dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[5].click();
-    dataGrid.addEventListener('sorted', mockCallback);
+    dataGrid.addEventListener('sort', mockCallback);
 
     expect(mockCallback.mock.calls.length).toBe(0);
     expect(errors).not.toHaveBeenCalled();
@@ -496,7 +496,7 @@ describe('IdsDataGrid Component', () => {
     expect(dataGrid.activeCell.row).toEqual(0);
   });
 
-  it('fires activecellchanged event', () => {
+  it('fires activecellchange event', () => {
     const mockCallback = jest.fn((x) => {
       expect(x.detail.elem).toBeTruthy();
       expect(x.detail.activeCell.row).toEqual(1);
@@ -504,17 +504,17 @@ describe('IdsDataGrid Component', () => {
       expect(x.detail.activeCell.node).toBeTruthy();
     });
 
-    dataGrid.addEventListener('activecellchanged', mockCallback);
+    dataGrid.addEventListener('activecellchange', mockCallback);
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     dataGrid.dispatchEvent(event);
 
     expect(mockCallback.mock.calls.length).toBe(1);
   });
 
-  it('fires activecellchanged event on click', () => {
+  it('fires activecellchange event on click', () => {
     const mockCallback = jest.fn();
 
-    dataGrid.addEventListener('activecellchanged', mockCallback);
+    dataGrid.addEventListener('activecellchange', mockCallback);
     dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[3]
       .querySelectorAll('.ids-data-grid-cell')[3].click();
 

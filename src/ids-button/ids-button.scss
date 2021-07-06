@@ -76,7 +76,10 @@
   // Everything below is only for icon buttons
   @include px-8();
   @include py-8();
-  @include rounded-round();
+
+  &:not(.square) {
+    @include rounded-round();
+  }
 
   // Fixes an issue that the ripple is not "round" on safari
   -webkit-mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
@@ -171,7 +174,7 @@
 }
 
 .btn-swipe-action-left[mode='contrast'] {
-  @include bg-graphite-30();
+  @include bg-slate-30();
 }
 
 .btn-swipe-action-right[mode='contrast'] {
@@ -180,11 +183,11 @@
 }
 
 .btn-swipe-action-left[mode='light'][version='classic'] {
-  @include bg-graphite-60();
+  @include bg-graphite-30();
 }
 
 .btn-swipe-action-right[mode='light'][version='classic'] {
-  @include bg-azure-70();
+  @include bg-azure-50();
   @include text-white();
 }
 
