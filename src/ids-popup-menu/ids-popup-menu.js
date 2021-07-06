@@ -5,6 +5,7 @@ import {
   attributes
 } from '../ids-base';
 
+import IdsPopupEventsMixin from '../ids-mixins/ids-popup-events-mixin';
 import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-mixins/ids-render-loop-mixin';
 
 import IdsMenu from '../ids-menu/ids-menu';
@@ -32,7 +33,7 @@ const POPUPMENU_TRIGGER_TYPES = [
  */
 @customElement('ids-popup-menu')
 @scss(styles)
-class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin) {
+class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupEventsMixin) {
   constructor() {
     super();
     this.state.trigger = POPUPMENU_TRIGGER_TYPES[0];
@@ -73,7 +74,18 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
       this.popup.alignEdge = 'right';
     }
 
-    IdsMenu.prototype.connectedCallback.apply(this);
+    super.connectedCallback?.();
+  }
+
+  /**
+   * @returns {void}
+   */
+  disconnectedCallback() {
+    if (this.hasOpenEvents) {
+      this.hide();
+    }
+
+    super.disconnectedCallback?.();
   }
 
   /**
@@ -261,39 +273,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsEventsMixin)
       });
       break;
     }
-  }
-
-  /**
-   * Attaches some events when the Popupmenu is opened.
-   * @private
-   * @returns {void}
-   */
-  addOpenEvents() {
-    // Attach all these events on a Renderloop-staggered timeout
-    this.rl.register(new IdsRenderLoopItem({
-      duration: 1,
-      timeoutCallback: () => {
-        // Attach a click handler to the window for detecting clicks outside the popup.
-        // If these aren't captured by a popup, the menu will close.
-        this.onEvent('click.toplevel', window, () => {
-          this.hide();
-        });
-        this.hasOpenEvents = true;
-      }
-    }));
-  }
-
-  /**
-   * Detaches some events when the Popupmenu is closed.
-   * @private
-   * @returns {void}
-   */
-  removeOpenEvents() {
-    if (!this.hasOpenEvents) {
-      return;
-    }
-    this.offEvent('click.toplevel', window);
-    this.hasOpenEvents = false;
   }
 
   /**
