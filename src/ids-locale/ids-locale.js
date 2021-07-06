@@ -262,6 +262,7 @@ class IdsLocale {
     // Set some options to map it closer to our old defaults
     let opts = options;
     let val = value;
+    const usedLocale = opts?.locale || this.state.localeName;
     if (!opts) {
       opts = {};
     }
@@ -283,7 +284,26 @@ class IdsLocale {
     if (typeof value === 'string') {
       val = this.parseNumber(value);
     }
-    return Number(val).toLocaleString(opts?.locale || this.state.localeName, opts);
+
+    // Handle Big Int
+    if (typeof value === 'string'
+      && value.length >= 18
+      && value.indexOf('.') === -1
+      && value.indexOf(',') === -1) {
+      return BigInt(value).toLocaleString(usedLocale, opts);
+    }
+
+    if (typeof value === 'string'
+    && value.length >= 18
+    && (value.indexOf('.') > -1
+    || value.indexOf(',') > -1)) {
+      const index = value.indexOf('.') > -1 ? value.indexOf('.') : value.indexOf(',');
+      const decimalPart = value.substr(index);
+      const intPart = value.substr(0, index);
+      const bigInt = BigInt(intPart).toLocaleString(usedLocale);
+      return bigInt + decimalPart;
+    }
+    return Number(val).toLocaleString(usedLocale, opts);
   }
 
   /**
@@ -319,6 +339,9 @@ class IdsLocale {
     numString = numString.replace('$', '');
     numString = numString.replace(' ', '');
 
+    if (numString.indexOf('.') === -1 && numString.length >= 18) {
+      return numString;
+    }
     return numString.length >= 19 ? numString : parseFloat(numString);
   }
 
@@ -359,19 +382,52 @@ class IdsLocale {
    */
   formatDate(value, options) {
     const usedOptions = options;
+    const usedLocale = usedOptions?.locale || this.locale.name;
     let sourceDate = value;
 
     if (!usedOptions?.cache || (usedOptions?.cache && !this.intlDateTimeFormatter)) {
       this.dateFormatter = new Intl.DateTimeFormat(
-        usedOptions?.locale || this.locale.name,
+        usedLocale,
         usedOptions
       );
     }
 
+    // Validation
+    if (/^0*$/.test(value)) {
+      return '';
+    }
     if (typeof value === 'string') {
       sourceDate = this.parseDate(sourceDate, options);
     }
-    return this.dateFormatter.format(sourceDate);
+
+    // Use 4 digit year
+    // eslint-disable-next-line no-shadow
+    let formattedDate = this.dateFormatter.formatToParts(sourceDate).map(({ type, value }) => {
+      switch (type) {
+      case 'year': return `${this.twoToFourDigitYear(value)}`;
+      default: return value;
+      }
+    }).join('');
+
+    if (!options || options?.dateStyle === 'short' || options?.year === 'numeric') {
+      formattedDate = formattedDate.replace(', ', ' ');
+    }
+    return formattedDate;
+  }
+
+  /**
+   * Convert the two digit year year to the correct four digit year.
+   * @param  {number} twoDigitYear The two digit year.
+   * @returns {number} Converted 3 digit year.
+   */
+  twoToFourDigitYear(twoDigitYear) {
+    if (twoDigitYear.length === 2) {
+      return parseInt((twoDigitYear > 39 ? '19' : '20') + twoDigitYear, 10);
+    }
+    if (twoDigitYear.length === 3) {
+      return parseInt((twoDigitYear.substr(1, 3) > 39 ? '19' : '20') + twoDigitYear.substr(1, 3), 10);
+    }
+    return twoDigitYear;
   }
 
   /**
@@ -461,9 +517,14 @@ class IdsLocale {
     let sourceFormat = options?.dateFormat || localeData.calendars[0].dateFormat.datetime;
     sourceFormat = sourceFormat.replace('. ', '.').replace('. ', '.');
     dateString = dateString.replace('. ', '.').replace('. ', '.');
-    const separator = this.#determineSeparator(sourceFormat);
+
+    // Validation
+    if (/^0*$/.test(dateString)) {
+      return undefined;
+    }
 
     // Remove AM/PM
+    const separator = this.#determineSeparator(sourceFormat);
     const dayPeriods = localeData.calendars[0].dayPeriods;
     const is12Hr = dateString.indexOf(dayPeriods[0]) > -1 || dateString.indexOf(dayPeriods[1]) > -1;
     const isAM = dateString.indexOf(dayPeriods[0]) > -1;
@@ -477,8 +538,12 @@ class IdsLocale {
     // Parse the date
     const dateComponents = dateString.indexOf('T') > -1 ? dateString.split('T') : dateString.split(' ');
     const datePieces = dateComponents[0].split(separator || '-');
-    const timePieces = dateComponents[1] ? dateComponents[1].split(':') : [0, 0, 0, 0];
 
+    // Parse the time part
+    let timePieces = dateComponents[1] ? dateComponents[1].split(':') : [0, 0, 0, 0];
+    if (dateComponents[1] && dateComponents[1].indexOf('.') > -1) {
+      timePieces = dateComponents[1].split('.');
+    }
     const formatComponents = sourceFormat.indexOf('T') > -1 ? sourceFormat.split('T') : sourceFormat.split(' ');
     const formatPieces = formatComponents[0].split(separator || '-');
 
@@ -500,7 +565,7 @@ class IdsLocale {
     // Return arrays for arabic dates
     if (this.isIslamic()) {
       return [
-        Number(year),
+        Number(this.twoToFourDigitYear(year)),
         (month - 1),
         Number(day),
         Number(timePieces && timePieces[0] ? timePieces[0] : 0),
@@ -510,7 +575,7 @@ class IdsLocale {
     }
 
     return (new Date(
-      year,
+      this.twoToFourDigitYear(year),
       (month - 1),
       day,
       (timePieces && timePieces[0] ? timePieces[0] : 0),

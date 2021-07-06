@@ -25,6 +25,7 @@ The Locale API handles the following functionality
 - When you need to format numbers and dates for a particular locale
 - When you need to calculate umalqura calendar dates
 - When you need to format hours
+- Displaying Timezones on Dates
 
 ## Terminology
 
@@ -157,6 +158,9 @@ The following options are deprecated options from 4.x
 - `decimal` - Is deprecated as an option  but this is handled by `Number.toLocaleString` directly
 - `currencyFormat` - Is deprecated as an option use `currency` and `currencyCode`
 - `groupSize` - Is deprecated as an option but this is handled by `Number.toLocaleString` directly
+- `style: 'integer'` and now be done with `minimumFractionDigits: 0`
+- `style: 'currency'` now requires a currency code for example `style: 'currency', currency: 'EUR'`
+- `currencySign` now uses the currency codes instead i.e. `currency: 'USD'`
 
 ## Date Formatting Features
 
@@ -200,15 +204,22 @@ If coming from 4.x versions we mapped some rules out for converting to the new v
 - For `{ pattern: month }` format you would now use `{ month: 'long', day: 'numeric' }`
 - For arabic digits now show in Arabic/Persian as is the browser default
 - For `{ date: 'datetime' }` you would now use `{ dateStyle: 'short', timeStyle: 'short' }`
+- For `{ date: 'timezone' }` you would now use `{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' }`
 - For `{ date: 'year' }` you would now use `{ month: 'long', year: 'numeric' }`
 - For `{ date: 'month' }` you would now use `{ month: 'long', day: 'numeric' }`
-- For `{ date: 'medium' }` you would now use `{ month: 'long', day: 'numeric', year: 'numeric' }`
 - For `{ date: 'short' }` you might want to just take this off and use the default or you will get two digit years
+- For `{ date: 'medium' }` you would now use `{ month: 'long', day: 'numeric', year: 'numeric' }`
+- For `{ date: 'full' }` you would now use `{ month: 'long', weekday: 'long', day: 'numeric', year: 'numeric' }`
 - For `{ date: 'timestamp' }` you would now use `{ timeStyle: 'medium' }`
 - For `{ date: 'hour' }` you would now use `{ timeStyle: 'short' }`
+- For `{ date: 'long' }` you would now use `{ dateStyle: 'long' }`
+- For `{ date: 'full' }` you would now use `{ dateStyle: 'full' }`
 - For `{ date: 'timezone' }` you would now use `{ year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short' }`
 - For `{ date: 'timezoneLong' }` you would now use `{ year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'long' }`
 - For a specific pattern such as `d MMM yyyy HH:mm` you would now use you would now use `{ day: 'numeric', month: 'medium', year: 'numeric', hour: 'numeric', minute: 'numeric' }`
+- `dateToTimeZone` is deprecated instead use formatDate with `{ timeZone: 'Name', timeZoneName: 'Name' }`
+- For `{ date: 'datetimeMillis' }` you would now use `{ year: 'numeric', month: 'numeric', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 3}`
+- For `{ date: 'timestampMillis' }` you would now use `{ hour: 'numeric', minute: 'numeric', second: 'numeric', fractionalSecondDigits: 3}`
 
 ### Date Parsing
 
@@ -262,6 +273,9 @@ locale.parseDate('2020-02-26 下午12:00', { dateFormat: 'yyyy/M/d ah:mm', local
   - Options on formatNumber now use toLocaleString options (which are similar)
   - `parseDate` is now much more limited and cannot parse long formats
   - Its technically not possible to provide a new translation file as the files are in the npm folder. So if you want to add a new translation or locale lets us know and we will add it. You might have to sync the translations.
+  - `toUpperCase` can now be done with `toLocaleUpperCase` so is deprecated
+  - `toLowerCase` can now be done with `toLocaleLowerCase` so is deprecated
+  - `dateToUTC` is deprecated as its use case is limited
 
 ## Regional Considerations
 

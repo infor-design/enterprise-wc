@@ -1,7 +1,7 @@
 module.exports = {
   env: {
-    browser: true,
-    es6: true // All source code is at least ES6 friendly
+    es2020: true,
+    browser: true
   },
   extends: [
     // Import some AirBNB rules and some web component and jsdoc rules
