@@ -11,3 +11,11 @@
 - [ ] Input should be smaller size
 - [ ] Fix all the states [See example](https://main-enterprise.demo.design.infor.com/components/colorpicker/test-states.html)
 - [ ] Click out close (popup issue)
+- [ ] Some text hard coded in component, should give setting/slots to user change those text strings ids-text audible="true"
+- [ ] Styles not match with 4.x (popup container) - swatch/hover/spacing
+- [ ] Markup should be simpler, default color list should load from our theme palette
+- [ ] Custom color list can pass separately as json style dataset (can set dynamically or through a DataSource)
+- [ ] Checked color for default value on app start up.
+- [ ] Check mark color should change based on swatch background (check mark color can get from colorlist -arrowClass)
+- [ ] Should be able to show color-name azure06 or color-hax #ffffff inside the input
+- [ ] Complete the remaining examples
