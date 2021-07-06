@@ -352,6 +352,14 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupEventsM
       }
     });
   }
+
+  /**
+   * Inherited from the Popup Interactions Mixin
+   * @returns {void}
+   */
+  onOutsideClick() {
+    this.hide();
+  }
 }
 
 export default IdsPopupMenu;
