@@ -24,7 +24,7 @@
 </ids-layout-grid>
 
 
-<ids-layout-grid cols="4" gap="md">
+<ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
     <ids-card>
       <div slot="card-header">
@@ -46,6 +46,14 @@
         <ids-notification-banner type="error">
           <ids-text slot="message" overflow="ellipsis">DTO rejected by your manager for Sept 30, 2018.</ids-text>
         </ids-notification-banner>
+
+        <ids-list-view id="list-view-1" virtual-scroll="true">
+          <template>
+            <ids-text font-size="16" type="h2">${productName}</ids-text>
+            <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+            <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+          </template>
+        </ids-list-view>
       </div>
     </ids-card>
   </ids-layout-grid-cell>
