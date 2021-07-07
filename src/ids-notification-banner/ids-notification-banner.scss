@@ -7,10 +7,6 @@
   align-items: center;
 }
 
-.ids-notification-banner-button {
-  margin-left: auto;
-}
-
 ids-alert {
   @include flex();
 }
@@ -19,4 +15,17 @@ ids-hyperlink::part(link) {
   @include ml-8();
 
   color: var(--ids-color-palette-slate-80);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ids-notification-banner-button {
+  margin-left: auto;
+}
+
+.ids-notification-banner-message {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
