@@ -17,6 +17,7 @@ import '../ids-input/ids-input';
 import '../ids-toolbar/ids-toolbar';
 import '../ids-button/ids-button';
 import '../ids-text/ids-text';
+import '../ids-breadcrumb/ids-breadcrumb';
 
 /**
  * IDS Rating Component
