@@ -60,8 +60,9 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
 
     // TODO: Do this a cleaner way to lay the label out
     this.inputLabel = this.colorPickerInput?.shadowRoot?.querySelector('label');
+
+    /* istanbul ignore next */
     if (this.inputLabel) {
-      /* istanbul ignore next */
       this.inputLabel.style.marginLeft = '-38px';
     }
   }
@@ -72,6 +73,7 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
 
   template() {
     const id = this.id || 'ids-color';
+    /* istanbul ignore next */
     const template = `
       <div class="ids-color-picker">
         <ids-trigger-field tabbable="false">
