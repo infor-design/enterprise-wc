@@ -10,7 +10,7 @@ const POPUP_INTERACTION_ATTRIBUTES = [];
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(superclass) {
+const IdsPopupOpenEventsMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   constructor() {
     super();
   }
@@ -63,4 +63,4 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
   }
 };
 
-export default IdsPopupInteractionsMixin;
+export default IdsPopupOpenEventsMixin;

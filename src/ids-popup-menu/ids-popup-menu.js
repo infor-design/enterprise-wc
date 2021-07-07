@@ -5,7 +5,7 @@ import {
   attributes
 } from '../ids-base';
 
-import IdsPopupEventsMixin from '../ids-mixins/ids-popup-events-mixin';
+import IdsPopupOpenEventsMixin from '../ids-mixins/ids-popup-open-events-mixin';
 import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-mixins/ids-render-loop-mixin';
 
 import IdsMenu from '../ids-menu/ids-menu';
@@ -33,7 +33,7 @@ const POPUPMENU_TRIGGER_TYPES = [
  */
 @customElement('ids-popup-menu')
 @scss(styles)
-class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupEventsMixin) {
+class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEventsMixin) {
   constructor() {
     super();
     this.state.trigger = POPUPMENU_TRIGGER_TYPES[0];
