@@ -20,6 +20,26 @@ import IdsIcon from '../ids-icon/ids-icon';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import IdsButton from '../ids-button/ids-button';
 
+// Notification Types
+const TYPES = {
+  success: {
+    type: 'success',
+    color: 'emerald',
+  },
+  alert: {
+    type: 'alert',
+    color: 'amber'
+  },
+  info: {
+    type: 'info',
+    color: 'azure'
+  },
+  error: {
+    type: 'error',
+    color: 'ruby'
+  }
+};
+
 /**
  * IDS Notification Banner
  * @type {IdsNotificationBanner}
@@ -73,22 +93,10 @@ class IdsNotificationBanner extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
+    // Set the alert icon based on the notification type
     let alertIcon;
-
-    if (this.type === 'success') {
-      alertIcon = 'success';
-    }
-
-    if (this.type === 'alert') {
-      alertIcon = 'alert';
-    }
-
-    if (this.type === 'info') {
-      alertIcon = 'info';
-    }
-
-    if (this.type === 'error') {
-      alertIcon = 'error';
+    if (this.type === TYPES[this.type].type) {
+      alertIcon = this.type;
     }
 
     return `
@@ -122,20 +130,8 @@ class IdsNotificationBanner extends mix(IdsElement).with(
       this.setAttribute('type', value);
       let bgColor;
 
-      if (value === 'success') {
-        bgColor = `var(--ids-color-palette-emerald-10)`;
-      }
-
-      if (value === 'alert') {
-        bgColor = `var(--ids-color-palette-amber-10)`;
-      }
-
-      if (value === 'info') {
-        bgColor = `var(--ids-color-palette-azure-10)`;
-      }
-
-      if (value === 'error') {
-        bgColor = `var(--ids-color-palette-ruby-10)`;
+      if (value === TYPES[value].type) {
+        bgColor = `var(--ids-color-palette-${TYPES[value].color}-10)`;
       }
 
       this.container.style.backgroundColor = bgColor;
@@ -146,7 +142,7 @@ class IdsNotificationBanner extends mix(IdsElement).with(
 
   /**
    * Set the link inside the Notification Banner
-   * @param {string | null} value the type value
+   * @param {string | null} value the link value
    */
   set link(value) {
     if (value) {
@@ -158,7 +154,7 @@ class IdsNotificationBanner extends mix(IdsElement).with(
 
   /**
    * Set the custom link text of the Notification Banner
-   * @param {string | null} value the type value
+   * @param {string | null} value the link-text value
    */
   set linkText(value) {
     if (value) {
