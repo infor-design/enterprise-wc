@@ -103,6 +103,8 @@ export const attributes = {
   PREVIOUS: 'previous',
   PRINTABLE: 'printable',
   LAST: 'last',
+  LINK: 'link',
+  LINK_TEXT: 'link-text',
   READONLY: 'readonly',
   RESIZABLE: 'resizable',
   REQUIRED: 'required',
