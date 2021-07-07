@@ -17,7 +17,7 @@ The `<ids-loading-indicator>` component is used to notify the user that the syst
 
 A page loader can be added to a page by adding an ids-loading-indicator to the page and running the scripts. It will not appear until the web component is in a `connnected` state.
 
-A circular and indeterminate indicator:
+A circular and indeterminate indicator will be the default behavior of an `ids-loading-indicator` without attributes passed:
 ```html
 <ids-loading-indicator></ids-loading-indicator>
 ```
@@ -38,7 +38,7 @@ complete.
 Adding the `percentage-visible` flag attribute will cause text to show up on an indicator:
 
 ```html
-<ids-loading-indicator linear progress="20"></ids-loading-indicator>
+<ids-loading-indicator linear progress="20" percentage-visible></ids-loading-indicator>
 ```
 
 Adding a `sticky` attribute will set the indicator to a sticky indicator, which will affix
@@ -51,7 +51,7 @@ the indicator to the top of the current component.
 In the following example, the indicator is determinate, with 10% completion and
 affixed to the top of view it is currently in:
 ```html
-<ids-loading-indicator progress="10" sticky percentage-visible></ids-loading-indicator>
+<ids-loading-indicator progress="10" sticky></ids-loading-indicator>
 ```
 
 ## Settings and Attributes
