@@ -5,6 +5,8 @@
 - [ ] Fix the keyboard (arrow down , keys around the colors ect)
 - [ ] Click the swatch to select / option for the "advanced" picker
 - [ ] Fix arrow position
+- [ ] Enable/Disable standard HTML colorpicker independently of other Colorpicker parts using a boolean attribute
+- [ ] Standardize/Abstract out Popup/Picker/"return value" interface (to be used in this and other pickers)
 - [ ] Dirty tracker
 - [ ] Empty State
 - [ ] Clear Swatch
