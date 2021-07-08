@@ -35,6 +35,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   connectedCallback() {
     super.connectedCallback();
+    this.padding = this.padding;
   }
 
   /**
@@ -54,11 +55,11 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   set padding(value) {
-    console.log(value)
+    this.container.style.padding = value;
   }
 
   get padding() {
-    return console.log(this.getAttribute('padding'));
+    return this.getAttribute('padding') || '0'; //console.log(this.getAttribute('padding'));
   }
 
   /**
