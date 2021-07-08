@@ -42,7 +42,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [attributes.SCROLLABLE, attributes.MODE, attributes.VERSION];
+    return [attributes.SCROLLABLE, attributes.MODE, attributes.PADDING, attributes.VERSION];
   }
 
   /**
@@ -51,6 +51,14 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   template() {
     return `<div class="ids-container" part="container"${this.scrollable === 'true' ? ' tabindex="0"' : ''}><slot></slot></div>`;
+  }
+
+  set padding(value) {
+    console.log(value)
+  }
+
+  get padding() {
+    return console.log(this.getAttribute('padding'));
   }
 
   /**
