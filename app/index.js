@@ -36,6 +36,8 @@ import IdsWizard, { IdsWizardStep } from '../src/ids-wizard';
 import IdsSpinbox from '../src/ids-spinbox';
 import IdsModal, { IdsOverlay } from '../src/ids-modal';
 import IdsTabs, { IdsTab } from '../src/ids-tabs';
+import IdsColorPicker from '../src/ids-color-picker/ids-color-picker';
+import IdsColor from '../src/ids-color/ids-color';
 import IdsTooltip from '../src/ids-tooltip/ids-tooltip';
 import IdsSwipeAction from '../src/ids-swipe-action/ids-swipe-action';
 import IdsPager, {
