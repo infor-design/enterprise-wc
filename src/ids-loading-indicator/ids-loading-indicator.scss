@@ -1,9 +1,6 @@
 /* Ids Loader */
 @import '../ids-base/ids-base';
 
-$pi: 3.14159265358979;
-$circle-radius: 45;
-
 :host(ids-loading-indicator) {
   --progress-color: var(--ids-color-palette-azure-80);
   --overall-color: var(--ids-color-palette-azure-10);
@@ -219,66 +216,5 @@ svg.linear-indicator.indeterminate .progress {
   75.0000001%,
   100% {
     transform: scaleX(0%) translateX(0);
-  }
-}
-
-@keyframes indeterminate {
-  0% {
-    left: -35%;
-    right: 100%;
-  }
-
-  60% {
-    left: 100%;
-    right: -90%;
-  }
-
-  100% {
-    left: 100%;
-    right: -90%;
-  }
-}
-
-@keyframes indeterminate-short {
-  0% {
-    left: -200%;
-    right: 100%;
-  }
-
-  60% {
-    left: 107%;
-    right: -8%;
-  }
-
-  100% {
-    left: 107%;
-    right: -8%;
-  }
-}
-
-.ids-loading-indicator-indeterminate {
-  @include bg-azure-80();
-
-  &::before {
-    animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
-    background-color: inherit;
-    bottom: 0;
-    content: '';
-    left: 0;
-    position: absolute;
-    top: 0;
-    will-change: left, right;
-  }
-
-  &::after {
-    animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
-    animation-delay: 1.15s;
-    background-color: inherit;
-    bottom: 0;
-    content: '';
-    left: 0;
-    position: absolute;
-    top: 0;
-    will-change: left, right;
   }
 }
