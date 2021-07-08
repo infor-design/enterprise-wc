@@ -1,0 +1,36 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Accordion</h1>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text font-size="72">Size 72</ids-text>
+    <ids-text font-size="32">Size 32 (xl)</ids-text>
+    <ids-text font-size="24">Size 24 (lg)</ids-text>
+    <ids-text font-size="16">Size 16 (base)</ids-text>
+    <ids-text font-size="14">Size 14 (sm)</ids-text>
+    <ids-text font-size="12">Size 12 (xs)</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Accordion</h1>
+</ids-layout-grid>
+<div class="row">
+  <div class="twelve columns">
+    <div class="fieldset">
+      <span class="label font-size-px-72">Size 72</span>
+      <span class="label font-size-px-32">Size 32</span>
+      <span class="label font-size-px-24">Size 24</span>
+      <span class="label font-size-px-16">Size 16</span>
+      <span class="label font-size-px-14">Size 14</span>
+      <span class="label font-size-px-12">Size 12</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}

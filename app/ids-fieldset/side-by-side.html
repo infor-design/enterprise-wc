@@ -1,0 +1,91 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Fieldset</h1>
+</ids-layout-grid>
+<ids-layout-grid>
+  <form>
+    <ids-fieldset>
+      <legend><ids-text font-size="24" type="h2" id="company-info">Company Information</ids-text></legend>
+      <ids-input type="text" label="Company Name" id="company-name"></ids-input>
+      <ids-input type="text" label="Company Type" id="type"></ids-input>
+      <ids-input type="text" label="Company Address" id="company-address"></ids-input>
+      <ids-checkbox label="Checked" checked="true"></ids-checkbox>
+      <ids-button type="primary">Submit</ids-button>
+    </ids-fieldset>
+  </form>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Fieldset</h1>
+</ids-layout-grid>
+<div class="row">
+    <div class="six columns">
+
+      <!-- Variation One -->
+      <fieldset id="fieldset" data-automation-id="fieldset-automation-id">
+        <legend>Company Information</legend>
+        <div class="summary-form">
+
+          <div class="row">
+            <div class="one-half column">
+
+              <div class="field">
+                <span class="label">Company Name</span>
+                <span class="data">Building Suppliers</span>
+              </div>
+
+              <div class="field">
+                <span class="label">Company Type</span>
+                <span class="data">Contractor</span>
+              </div>
+
+              <div class="field">
+                <span class="label">Company Address</span>
+                <span class="data">4209 Industrial Avenue <br>Los Angeles, California 90001 USA</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <script>
+    $('body').on('initialized', function () {
+      var container = [{
+        data: [{
+          name: {
+            text: 'Available Credit'
+          },
+          completed: {
+            text: 'Spent',
+            value: 50000,
+            format: '$,.0f'
+          },
+          remaining: {
+            text: 'Pending',
+            value: 10000,
+            format: '$,.0f'
+          },
+          total: {
+            value: 95000,
+            format: '$,.0f'
+          },
+        }]
+      }];
+
+      $('#container-1').chart({
+        dataset: container,
+        type: 'completion-target',
+      }).data('chart');
+    });
+
+  </script>
+</div>
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}

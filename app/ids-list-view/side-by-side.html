@@ -1,0 +1,32 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component List View</h1>
+</ids-layout-grid>
+<ids-layout-grid cols="2">
+  <ids-layout-grid-cell col-span="1">
+    <ids-card>
+      <div slot="card-header">
+        <ids-text font-size="20" type="h2">Card Title One</ids-text>
+      </div>
+      <div slot="card-content">
+        <ids-list-view id="list-view-1" virtual-scroll="true">
+          <template>
+            <ids-text font-size="16" type="h2">${productName}</ids-text>
+            <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+            <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+          </template>
+        </ids-list-view>
+      </div>
+    </ids-card>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x List View</h1>
+</ids-layout-grid>
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}

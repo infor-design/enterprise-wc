@@ -1,0 +1,43 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Spinbox</h1>
+</ids-layout-grid>
+<ids-layout-grid cols="4">
+  <ids-layout-grid-cell>
+    <ids-spinbox value="0" label="Basic Spinbox"></ids-spinbox>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-spinbox
+      value="0" min="0" max="5"
+      label="Enter an int from 0 to 5"
+      placeholder="0=>5"
+    ></ids-spinbox>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Spinbox</h1>
+</ids-layout-grid>
+<div class="row">
+  <div class="one-half column">
+    <div class="field">
+      <label for="regular-spinbox">Select a number from 1 to 10</label>
+      <input id="regular-spinbox" name="regular-spinbox" type="text" class="spinbox" data-options="{min: 0, max: 10}"/>
+    </div>
+  </div>
+
+  <script>
+    $('#regular-spinbox').spinbox({
+      attributes: [
+        { name: 'id', value: 'spinbox-id-1' },
+        { name: 'data-automation-id', value: 'spinbox-automation-id-1' }
+      ]
+    });
+  </script>
+</div>
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}

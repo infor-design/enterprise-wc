@@ -1,0 +1,62 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Pager</h1>
+</ids-layout-grid>
+<ids-layout-grid cols="3" gap="md">
+  <ids-layout-grid-cell>
+    <ids-pager page-size="20" page-number="10" total="200" id="ids-pager-example">
+      <ids-pager-button first></ids-pager-button>
+      <ids-pager-button previous></ids-pager-button>
+      <ids-pager-input></ids-pager-input>
+      <ids-pager-button next></ids-pager-button>
+      <ids-pager-button last></ids-pager-button>
+    </ids-pager>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="ids-pager-toggle-disable-button">
+      <span slot="text">Disable</slot>
+    </ids-button>
+    <ids-button type="secondary" id="ids-pager-type-toggle-button">
+      <span slot="text">NumberList</slot>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Pager</h1>
+</ids-layout-grid>
+<div class="row">
+  <div class="six columns">
+    <ul class="paginated listview" data-pagesize="8">
+      <li>Item One</li>
+      <li>Item Two</li>
+      <li>Item Three</li>
+      <li>Item Four</li>
+      <li>Item Five</li>
+      <li>Item Six</li>
+      <li>Item Seven</li>
+      <li>Item Eight</li>
+      <li>Item Nine</li>
+      <li>Item Ten</li>
+      <li>Item Eleven</li>
+      <li>Item Twelve</li>
+      <li>Item Thirteen</li>
+      <li>Item Fourteen</li>
+      <li>Item Fifteen</li>
+      <li>Item Sixteen</li>
+      <li>Item Seventeen</li>
+      <li>Item Eighteen</li>
+      <li>Item Nineteen</li>
+      <li>Item Twenty</li>
+      <li>Item Twenty One</li>
+      <li>Item Twenty Two</li>
+      <li>Item Twenty Three</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}

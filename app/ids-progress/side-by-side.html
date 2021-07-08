@@ -1,0 +1,55 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Progress</h1>
+</ids-layout-grid>
+<ids-layout-grid cols="3" gap="md">
+  <ids-layout-grid-cell>
+
+    <ids-progress id="elem-progress" label="Percent complete" value="10"></ids-progress>
+
+    <ids-toggle-button id="btn-progress-value" icon-off="rocket" icon-on="rocket" text-off="Update Value" text-on="Reset Value">
+      <span slot="text"></span>
+    </ids-toggle-button>
+
+    <ids-toggle-button id="btn-progress-disable" icon-off="unlink" icon-on="unlink" text-off="Disable" text-on="Enable">
+      <span slot="text"></span>
+    </ids-toggle-button>
+
+    <ids-toggle-button id="btn-progress-set-label" icon-off="settings" icon-on="settings" text-off="Audible label" text-on="Inaudible label">
+      <span slot="text"></span>
+    </ids-toggle-button>
+
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-progress label="Progress (max:1, value: 0.7)" max="1" value="0.7"></ids-progress>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Progress</h1>
+</ids-layout-grid>
+<div class="row">
+  <div class="one-third column">
+
+    <label id="pr-label1">Percent complete</label>
+    <div class="progress">
+      <div class="progress-bar" data-options="{'value': '50'}" id="progress-bar1" data-automation-id="progress-bar1-automation" aria-labelledby="pr-label1"></div>
+    </div>
+
+    <button type="button" class="btn-secondary" id="upd-progressbar">Update</button>
+  </div>
+
+  <script>
+    $('#upd-progressbar').on('click', function () {
+      $('#progress-bar1').data('progress').update('100');
+    });
+  </script>
+</div>
+
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}

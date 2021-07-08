@@ -1,0 +1,57 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Datagrid</h1>
+</ids-layout-grid>
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-data-grid id="data-grid-1" virtual-scroll="false" label="Books" row-height="medium">
+    </ids-data-grid>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+<script src="example.js"></script>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Datagrid</h1>
+</ids-layout-grid>
+<div class="row">
+  <div class="twelve columns">
+    <div id="datagrid" data-automation-id="datagrid-automation-id" class="datagrid">
+    </div>
+  </div>
+</div>
+
+<script id="datagrid-script">
+  $('body').one('initialized', function () {
+
+      var columns = [];
+
+      $.getJSON('{{basepath}}api/datagrid-sample-data', function(res) {
+
+        // Define Columns for the Grid.
+        columns.push({ id: 'productId', hideable: false, name: 'Id', field: 'productId', formatter: Formatters.Text });
+        columns.push({ id: 'productName', name: 'Product Name', field: 'productName', formatter: Formatters.Hyperlink, click: function(e) { console.log('Click Fired') } });
+        columns.push({ id: 'activity', name: 'Activity', field: 'activity'});
+        columns.push({ id: 'hidden', hidden: true, name: 'Hidden', field: 'hidden'});
+        columns.push({ id: 'price', align: 'right', name: 'Actual Price', field: 'price', formatter: Formatters.Decimal, numberFormat: {minimumFractionDigits: 0, maximumFractionDigits: 0, style: 'currency', currencySign: '$'}});
+        columns.push({ id: 'percent', align: 'right', name: 'Actual %', field: 'percent', formatter: Formatters.Decimal, numberFormat: {minimumFractionDigits: 0, maximumFractionDigits: 0, style: 'percent'}});
+        columns.push({ id: 'orderDate', name: 'Order Date', field: 'orderDate', formatter: Formatters.Date, dateFormat: 'M/d/yyyy'});
+        columns.push({ id: 'phone', name: 'Phone', field: 'phone', formatter: Formatters.Text});
+
+        // Init and get the api for the grid
+        $('#datagrid').datagrid({
+          columns: columns,
+          dataset: res,
+          saveColumns: false,
+          attributes: [{ name: 'id', value: 'custom-id' }, { name: 'data-automation-id', value: 'custom-automation-id' } ],
+          toolbar: {title: 'Compressors', results: true, actions: true, rowHeight: true, personalize: true}
+        });
+      });
+ });
+</script>
+
+<script>
+  $('body').initialize();
+</script>
+
+{{> ../layouts/footer.html }}

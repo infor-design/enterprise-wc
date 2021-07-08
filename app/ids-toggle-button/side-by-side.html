@@ -1,0 +1,61 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Toggle Button</h1>
+</ids-layout-grid>
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+    <ids-toggle-button id="test-toggle-button" icon-on="star-filled" icon-off="star-outlined" text-off="Toggle Button (Off)" text-on="Toggle Button (On)">
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+      <span slot="text"></span>
+    </ids-toggle-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<script src="example.js"></script>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Toggle Button</h1>
+</ids-layout-grid>
+<div class="svg hidden">
+  <div class="svg-icons">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+      <symbol id="icon-filter" viewBox="0 0 18 18"><path d="M0 3.5h18m-12 12h6m-9-6h12" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+      <symbol id="icon-heart-filled" viewBox="0 0 18 18"><path d="M10.093 2.427L9 3.575 7.908 2.427C6.099.524 3.165.524 1.355 2.427c-1.807 1.904-1.807 4.991 0 6.894L9 17l7.644-7.679c1.808-1.903 1.808-4.99 0-6.894-1.809-1.903-4.743-1.903-6.551 0z" fill="currentColor" fill-rule="evenodd" stroke="none"></path></symbol>
+      <symbol id="icon-heart-outlined" viewBox="0 0 18 18"><path d="M10.032 3.338L9 4.414 7.968 3.338a4.246 4.246 0 00-6.188 0C.073 5.123.073 8.017 1.78 9.801L9 17l7.219-7.199c1.708-1.784 1.708-4.678 0-6.463a4.245 4.245 0 00-6.187 0z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+      <symbol id="icon-star-filled" viewBox="0 0 18 18"><path d="M9 .5l2.782 5.596L18 6.994l-4.5 4.355 1.062 6.151L9 14.596 3.438 17.5 4.5 11.349 0 6.994l6.218-.898z" fill="currentColor" fill-rule="evenodd" stroke="none"></path></symbol>
+      <symbol id="icon-star-outlined" viewBox="0 0 18 18"><path d="M9 1.5l2.471 4.938 5.529.79-4 3.845.944 5.427L9 13.937 4.056 16.5l.945-5.428L1 7.23l5.529-.792z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+    </svg>
+  </div>
+</div>
+<div class="row">
+  <div class="four columns">
+
+    <button type="button" id="favorite-1" class="btn-icon icon-favorite btn-toggle" title="Favorite" aria-pressed="true" data-options="{toggleOnIcon: 'icon-star-filled', toggleOffIcon: 'icon-star-outlined'}">
+       <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
+        <use href="#icon-star-filled"></use>
+       </svg>
+       <span class="audible">Favorite</span>
+    </button>
+
+    <button type="button" id="love-it" class="btn-icon btn-toggle" title="Love It" aria-pressed="false" data-options="{toggleOnIcon: 'icon-heart-filled', toggleOffIcon: 'icon-heart-outlined'}">
+       <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
+        <use href="#icon-heart-outlined"></use>
+       </svg>
+       <span class="audible">Love It</span>
+    </button>
+
+    <button type="button" id="filter" class="btn-icon btn-toggle" title="Show Filter Row" aria-pressed="false">
+       <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
+           <use href="#icon-filter"></use>
+       </svg>
+       <span class="audible">Filter</span>
+    </button>
+
+  </div>
+</div>
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}
