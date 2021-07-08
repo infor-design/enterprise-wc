@@ -6,6 +6,7 @@ import {
 } from '../ids-base';
 
 import IdsPopupOpenEventsMixin from '../ids-mixins/ids-popup-open-events-mixin';
+import IdsPopupInteractionsMixin from '../ids-mixins/ids-popup-interactions-mixin';
 import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-mixins/ids-render-loop-mixin';
 
 import IdsMenu from '../ids-menu/ids-menu';
@@ -15,14 +16,13 @@ import styles from './ids-popup-menu.scss';
 import { IdsEventsMixin } from '../ids-mixins';
 
 const POPUPMENU_PROPERTIES = [
-  attributes.TARGET,
-  attributes.TRIGGER
+  attributes.TARGET
 ];
 
-const POPUPMENU_TRIGGER_TYPES = [
-  'contextmenu',
-  'click',
-  'immediate'
+const appliedMixins = [
+  IdsRenderLoopMixin,
+  IdsPopupOpenEventsMixin,
+  IdsPopupInteractionsMixin
 ];
 
 /**
@@ -33,10 +33,9 @@ const POPUPMENU_TRIGGER_TYPES = [
  */
 @customElement('ids-popup-menu')
 @scss(styles)
-class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEventsMixin) {
+class IdsPopupMenu extends mix(IdsMenu).with(...appliedMixins) {
   constructor() {
     super();
-    this.state.trigger = POPUPMENU_TRIGGER_TYPES[0];
   }
 
   /**
@@ -44,7 +43,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEve
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return POPUPMENU_PROPERTIES;
+    return [...super.attributes, ...POPUPMENU_PROPERTIES];
   }
 
   /**
@@ -63,7 +62,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEve
     if (!this.hasAttribute('hidden')) {
       this.setAttribute('hidden', '');
     }
-    this.shouldUpdate = true;
 
     // If this Popupmenu is a submenu, and no target is pre-defined,
     // align the menu against the parent menu item.
@@ -93,28 +91,24 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEve
    * @returns {void}
    */
   handleEvents() {
-    IdsMenu.prototype.handleEvents.apply(this);
+    super.handleEvents();
 
-    // This handler runs whenever an item contained by the Popupmenu needs to become focused.
-    const doFocusHandler = () => {
-      this.rl.register(new IdsRenderLoopItem({
-        duration: 1,
-        timeoutCallback: () => {
-          this.focusTarget?.focus();
-        }
-      }));
-    };
-
-    // In some situations, hide the menu when an item is selected.
-    this.onEvent('selected', this, (/** @type {any} */ e) => {
+    // Hide the menu when an item is selected
+    // (only if `keep-open` attribute is not present)
+    this.onEvent('selected', this, (e) => {
       const item = e.detail.elem;
       if (!item?.group?.keepOpen) {
         this.hide();
       }
     });
 
-    // When the underlying Popup triggers it's "show" event, focus on the derived focusTarget.
-    this.onEvent('show', this.container, doFocusHandler);
+    // When the underlying Popup triggers it's "show" event,
+    // focus on the derived focusTarget.
+    this.onEvent('show', this.container, () => {
+      window.requestAnimationFrame(() => {
+        this.focusTarget?.focus();
+      });
+    });
 
     // Set up all the events specifically-related to the "trigger" type
     this.refreshTriggerEvents();
@@ -125,10 +119,10 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEve
    * @returns {void}
    */
   handleKeys() {
-    IdsMenu.prototype.handleKeys.apply(this);
+    super.handleKeys();
 
     // Arrow Right on an item containing a submenu causes that submenu to open
-    this.listen(['ArrowRight'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowRight'], this, (e) => {
       e.preventDefault();
       const thisItem = e.target.closest('ids-menu-item');
       if (thisItem.hasSubmenu) {
@@ -140,7 +134,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEve
     // on a parent menu item to occur.
     // NOTE: This will never occur on a top-level Popupmenu.
     if (this.parentMenu) {
-      this.listen(['ArrowLeft'], this, (/** @type {any} */ e) => {
+      this.listen(['ArrowLeft'], this, (e) => {
         e.preventDefault();
         this.hide();
         this.parentMenuItem.focus();
@@ -150,7 +144,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEve
     // Escape closes the menu
     // (NOTE: This only applies to top-level Popupmenus)
     if (!this.parentMenu) {
-      this.listen(['Escape'], this, (/** @type {any} */ e) => {
+      this.listen(['Escape'], this, (e) => {
         if (this.hidden) {
           return;
         }
@@ -168,14 +162,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEve
   }
 
   /**
-   * @readonly
-   * @returns {IdsPopup} reference to the inner Popup component
-   */
-  get popup() {
-    return this.shadowRoot.querySelector('ids-popup');
-  }
-
-  /**
    * @returns {any} [HTMLElement|undefined] reference to a target element, if applicable
    */
   get target() {
@@ -188,91 +174,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEve
    */
   set target(val) {
     this.popup.alignTarget = val;
-  }
-
-  /**
-   * @returns {string} the type of action that will trigger this Popupmenu
-   */
-  get trigger() {
-    return this.state.trigger;
-  }
-
-  /**
-   * @param {string} val a valid trigger type
-   */
-  set trigger(val) {
-    let trueTriggerType = val;
-    if (!POPUPMENU_TRIGGER_TYPES.includes(val)) {
-      trueTriggerType = POPUPMENU_TRIGGER_TYPES[0];
-    }
-    this.state.trigger = trueTriggerType;
-    this.refreshTriggerEvents();
-  }
-
-  /**
-   * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
-   * @private
-   */
-  /* istanbul ignore next */
-  refreshTriggerEvents() {
-    if (!this.shouldUpdate) {
-      return;
-    }
-
-    // Remove any pre-existing trigger events
-    const removeEventTargets = ['contextmenu.trigger', 'click.trigger'];
-    removeEventTargets.forEach((eventName) => {
-      const evt = this.handledEvents.get(eventName);
-      if (evt) {
-        this.detachEventsByName(eventName);
-      }
-    });
-
-    // Based on the trigger type, bind new events
-    const targetElem = this.target || window;
-    switch (this.trigger) {
-    case 'immediate':
-      // @TODO
-      break;
-    case 'click':
-      // Configure some settings for opening
-      this.popup.align = 'bottom, left';
-      this.popup.arrow = 'bottom';
-      this.popup.y = 8;
-
-      // Open/Close the menu when the trigger element is clicked
-      this.detachAllEvents();
-      this.onEvent('click.trigger', targetElem, (/** @type {any} */e) => {
-        if (e.currentTarget !== window) {
-          e.preventDefault();
-        }
-
-        if (this.hidden) {
-          this.show();
-        } else {
-          this.hide();
-        }
-      });
-
-      break;
-    default:
-      // Standard `contextmenu` event behavior.
-      // `contextmenu` events should only apply to top-level popupmenus.
-      // (submenus open/close events are handled by their parent items)
-      if (this.parentMenu) {
-        break;
-      }
-
-      // Attach a contextmenu handler to the target element for opening the popup
-      this.onEvent('contextmenu.trigger', targetElem, (/** @type {any} */e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        this.popup.x = e.pageX;
-        this.popup.y = e.pageY;
-        this.show();
-      });
-      break;
-    }
   }
 
   /**
@@ -304,7 +205,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEve
   show() {
     // Trigger a veto-able `beforeshow` event.
     let canShow = true;
-    const beforeShowResponse = (/** @type {any} */ veto) => {
+    const beforeShowResponse = (veto) => {
       canShow = !!veto;
     };
 
@@ -354,11 +255,44 @@ class IdsPopupMenu extends mix(IdsMenu).with(IdsRenderLoopMixin, IdsPopupOpenEve
   }
 
   /**
-   * Inherited from the Popup Interactions Mixin
+   * Inherited from the Popup Open Events Mixin.
+   * Runs when a click event is propagated to the window.
    * @returns {void}
    */
   onOutsideClick() {
     this.hide();
+  }
+
+  /**
+   * Inherited from the Popup Interactions Mixin.
+   * Runs when a Popup Menu has a triggering element, and that element is clicked.
+   * @param {MouseEvent} e the original mouse event
+   * @returns {void}
+   */
+  onTriggerClick(e) {
+    if (e.currentTarget !== window) {
+      e.preventDefault();
+    }
+
+    if (this.hidden) {
+      this.show();
+    } else {
+      this.hide();
+    }
+  }
+
+  /**
+   * Inherited from the Popup Interactions Mixin.
+   * Runs when a `contextmenu` event is triggered from the page.
+   * @param {MouseEvent} e the original `contextmenu` event
+   * @returns {void}
+   */
+  onContextMenu(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.popup.x = e.pageX;
+    this.popup.y = e.pageY;
+    this.show();
   }
 }
 
