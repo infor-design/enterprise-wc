@@ -70,7 +70,11 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    if (parseInt(this.getAttribute(attributes.PAGE_SIZE)) !== nextValue) {
+      this.setAttribute(attributes.PAGE_SIZE, nextValue);
+    }
+
+    this.#populatePageNumberButtons();
   }
 
   /** @returns {string|number} The number of items shown per page */
@@ -116,7 +120,9 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(attributes.TOTAL, nextValue);
+    if (Number.parseInt(this.getAttribute(attributes.TOTAL)) !== nextValue) {
+      this.setAttribute(attributes.TOTAL, nextValue);
+    }
   }
 
   /** @returns {number|null} The calculated pageCount using total and pageSize */
