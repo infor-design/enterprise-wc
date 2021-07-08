@@ -19,3 +19,8 @@
 - [ ] Check mark color should change based on swatch background (check mark color can get from colorlist -arrowClass)
 - [ ] Should be able to show color-name azure06 or color-hax #ffffff inside the input
 - [ ] Complete the remaining examples
+- [ ] Enable/Disable standard HTML colorpicker independently of other Colorpicker parts using a boolean attribute
+- [ ] Standardize/Abstract out Popup/Picker/"return value" interface (to be used in this and other pickers)
+- [ ] Need to add JSDoc comments for everything that's missing
+- [ ] Add/ Test Themes
+- [ ] Add test for change event
