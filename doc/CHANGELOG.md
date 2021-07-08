@@ -16,6 +16,7 @@
   - Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Colorpicker]` The color picker has been ported from 4.x and converted to a custom element `<ids-color-picker></ids-color-picker>`
 - `[Counts]` The counts component has been changed to a web component and renamed to ids-counts.
   - Text is now contained in an ids-text element `<ids-text></ids-text>`
   - Can now be imported as a single JS file and used with encapsulated styles
