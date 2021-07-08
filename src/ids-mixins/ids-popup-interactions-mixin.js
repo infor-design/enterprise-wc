@@ -81,7 +81,6 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
 
   /**
    * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
-   * @private
    */
   /* istanbul ignore next */
   refreshTriggerEvents() {

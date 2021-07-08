@@ -20,7 +20,6 @@ const IdsPopupOpenEventsMixin = (superclass) => class extends IdsEventsMixin(sup
   /**
    * Attaches some events when the Popupmenu is opened.
    * Call this method from inside your extended component whenever "open" events should be applied.
-   * @private
    * @returns {void}
    */
   addOpenEvents() {
@@ -42,7 +41,6 @@ const IdsPopupOpenEventsMixin = (superclass) => class extends IdsEventsMixin(sup
   /**
    * Detaches some events when the Popupmenu is closed.
    * Call this method from inside your extended component whenever "open" events should be removed.
-   * @private
    * @returns {void}
    */
   removeOpenEvents() {

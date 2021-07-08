@@ -7,7 +7,6 @@ import {
 
 import IdsPopupOpenEventsMixin from '../ids-mixins/ids-popup-open-events-mixin';
 import IdsPopupInteractionsMixin from '../ids-mixins/ids-popup-interactions-mixin';
-import { IdsRenderLoopItem, IdsRenderLoopMixin } from '../ids-mixins/ids-render-loop-mixin';
 
 import IdsMenu from '../ids-menu/ids-menu';
 import IdsPopup from '../ids-popup/ids-popup';
@@ -20,7 +19,6 @@ const POPUPMENU_PROPERTIES = [
 ];
 
 const appliedMixins = [
-  IdsRenderLoopMixin,
   IdsPopupOpenEventsMixin,
   IdsPopupInteractionsMixin
 ];
@@ -29,7 +27,8 @@ const appliedMixins = [
  * IDS Popup Menu Component
  * @type {IdsPopupMenu}
  * @inherits IdsElement
- * @mixes IdsRenderLoopMixin
+ * @mixes IdsPopupOpenEventsMixin
+ * @mixes IdsPopupInteractionsMixin
  */
 @customElement('ids-popup-menu')
 @scss(styles)
