@@ -35,6 +35,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   connectedCallback() {
     super.connectedCallback();
+    // eslint-disable-next-line no-self-assign
     this.padding = this.padding;
   }
 
