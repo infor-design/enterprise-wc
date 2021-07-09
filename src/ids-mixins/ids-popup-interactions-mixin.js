@@ -121,7 +121,9 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
       });
       break;
     case 'immediate':
-      // @TODO
+      if (typeof this.onTriggerImmediate === 'function') {
+        this.onTriggerImmediate();
+      }
       break;
     default:
       break;

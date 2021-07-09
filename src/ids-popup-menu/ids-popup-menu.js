@@ -293,6 +293,17 @@ class IdsPopupMenu extends mix(IdsMenu).with(...appliedMixins) {
     this.popup.y = e.pageY;
     this.show();
   }
+
+  /**
+   * Inherited from the Popup Interactions Mixin.
+   * Runs as soon as the Popup is connected to the DOM.
+   * @returns {void}
+   */
+  onTriggerImmediate() {
+    window.requestAnimationFrame(() => {
+      this.show();
+    });
+  }
 }
 
 export default IdsPopupMenu;
