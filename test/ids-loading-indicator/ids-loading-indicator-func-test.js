@@ -1,38 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import { stringUtils } from '../../src/ids-base/ids-string-utils';
+import expectElemFlagBehavior from '../helpers/expect-elem-flag-behavior';
 import processAnimFrame from '../helpers/process-anim-frame';
 import IdsLoadingIndicator from '../../src/ids-loading-indicator';
-
-const expectElemFlagBehavior = (elem, attribute, initialValue = false) => {
-  const camelCasedAttrib = stringUtils.camelCase(attribute);
-
-  if (initialValue) {
-    elem[camelCasedAttrib] = false;
-    expect(elem[camelCasedAttrib]).toEqual(false);
-  }
-
-  expect(elem[camelCasedAttrib]).toEqual(false);
-
-  elem[camelCasedAttrib] = true;
-  expect(elem[camelCasedAttrib]).toEqual(true);
-
-  elem.removeAttribute(attribute);
-  expect(elem[camelCasedAttrib]).toEqual(false);
-
-  elem.setAttribute(attribute, true);
-  expect(elem.hasAttribute(attribute)).toEqual(true);
-
-  elem.removeAttribute(attribute);
-  expect(elem[camelCasedAttrib]).toEqual(false);
-
-  elem.setAttribute(attribute, '');
-  expect(elem[camelCasedAttrib]).toEqual(true);
-
-  elem[camelCasedAttrib] = false;
-  expect(elem.hasAttribute(attribute)).toEqual(false);
-};
 
 describe('IdsLoadingIndicator Component', () => {
   let elem;
@@ -140,7 +111,7 @@ describe('IdsLoadingIndicator Component', () => {
       '<ids-loading-indicator inline></ids-loading-indicator>'
     );
 
-    expectElemFlagBehavior(elem, 'inline', true);
+    expectElemFlagBehavior(elem, 'inline');
   });
 
   it('calls type getter reliably based on flags set', async () => {
@@ -161,7 +132,7 @@ describe('IdsLoadingIndicator Component', () => {
       '<ids-loading-indicator sticky percentage-visible></ids-loading-indicator>'
     );
 
-    expectElemFlagBehavior(elem, 'percentage-visible', true);
+    expectElemFlagBehavior(elem, 'percentage-visible');
   });
 
   it('supports setting mode', async () => {
