@@ -424,6 +424,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
         this.input?.removeAttribute('aria-label');
 
         const labelTemplate = document.createElement('template');
+        /* istanbul ignore next */
         labelTemplate.innerHTML = (
           `<label
               ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
