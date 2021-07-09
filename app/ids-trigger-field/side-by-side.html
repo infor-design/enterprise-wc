@@ -34,21 +34,4 @@
   </div>
 </div>
 
-<script>
-  $('body').on('initialized', function() {
-    $('#date-field-normal')
-      .datepicker({
-        attributes: [
-          { name: 'id', value: 'custom-id' },
-          { name: 'data-automation-id', value: 'custom-automation-id' }
-      ]})
-      .on('change', function () {
-        console.log('Change Event Fired')
-      });
-  });
-</script>
-
-<script>
-  $('body').initialize();
-</script>
 {{> ../layouts/footer.html }}
