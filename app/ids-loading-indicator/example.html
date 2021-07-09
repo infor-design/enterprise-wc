@@ -3,13 +3,19 @@
 </ids-layout-grid>
 <ids-layout-grid gap="md" cols="4">
   <ids-layout-grid-cell>
-    <ids-loading-indicator></ids-loading-indicator>
+    <div class="circular-progress-container" data-step="10">
+      <ids-loading-indicator></ids-loading-indicator>
+    </div>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
-    <ids-loading-indicator progress="30"></ids-loading-indicator>
+    <div class="circular-progress-container" data-step="6">
+      <ids-loading-indicator progress="30"></ids-loading-indicator>
+    </div>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
-    <ids-loading-indicator progress="78" percentage-visible></ids-loading-indicator>
+    <div class="circular-progress-container" data-step="8">
+      <ids-loading-indicator progress="72" percentage-visible></ids-loading-indicator>
+    </div>
   </ids-layout-grid-cell>
 </ids-layout-grid>
 <ids-layout-grid>
@@ -19,10 +25,10 @@
   <ids-layout-grid-cell col-span="1">
     <ids-loading-indicator linear></ids-loading-indicator>
   </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="1">
+  <ids-layout-grid-cell col-span="1" data-step="5">
     <ids-loading-indicator linear progress="20"></ids-loading-indicator>
   </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="1">
+  <ids-layout-grid-cell col-span="1" data-step="7">
     <ids-loading-indicator linear progress="35" percentage-visible></ids-loading-indicator>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell></ids-layout-grid-cell>
@@ -38,7 +44,7 @@
     </div>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell col-span="1">
-    <div class="sticky-indicator-container">
+    <div class="sticky-indicator-container" data-step="10">
       <ids-text>Relative-Positioned Content Within the Dashed Border</ids-text>
       <ids-loading-indicator sticky progress="10"></ids-loading-indicator>
     </div>

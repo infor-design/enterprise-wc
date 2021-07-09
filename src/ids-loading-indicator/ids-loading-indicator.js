@@ -131,11 +131,11 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.STICKY,
       attributes.LINEAR,
       attributes.MODE,
       attributes.PERCENTAGE_VISIBLE,
       attributes.PROGRESS,
+      attributes.STICKY,
       attributes.TYPE,
       attributes.VERSION
     ];
