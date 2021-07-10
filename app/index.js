@@ -46,6 +46,7 @@ import IdsPager, {
   IdsPagerButton,
   IdsPagerNumberList
 } from '../src/ids-pager';
+import IdsSplitter from '../src/ids-splitter';
 
 // Import Example Code
 
