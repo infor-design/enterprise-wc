@@ -74,7 +74,7 @@ Ids WebComponents take the added step of evaluating the string value, and will c
 
 We added Stage 3 [Private class fields](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields) this will help clean up the internal API and prevent developers from using the wrong or private methods.
 
-Basically any fields or methods should add the # in front to make it private. This will make it so it cant be called externally.
+Basically any fields or methods should add the # in front to make it private. This will make it so it can't be called externally.
 
 Decided not to make either the `connectedCallback` nor `template` events private as the former is a lifecycle event in web components and the template may need to be overridable in some cases for flexibility.
 
