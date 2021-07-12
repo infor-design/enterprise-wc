@@ -1021,14 +1021,16 @@ describe('IdsLocale API', () => {
   });
 
   describe('Date Formatting', () => {
+    it('should be able to parse ISO (Json) dates', async () => {
+      expect(locale.parseDate('2019-12-12T18:25:43.511Z').getTime()).toEqual(1576175143511);
+    });
+
     it('should be able to parse 2 and 3 digit years', async () => {
-      await locale.setLocale('en-US');
       expect(locale.parseDate('10/10/10', { dateFormat: 'M/d/yyyy' }).getTime()).toEqual(new Date(2010, 9, 10, 0, 0, 0).getTime());
       expect(locale.parseDate('10/10/010', { dateFormat: 'M/d/yyyy' }).getTime()).toEqual(new Date(2010, 9, 10, 0, 0, 0).getTime());
     });
 
     it('should parse or format a string of four, six, or eight zeroes', async () => {
-      await locale.setLocale('en-US');
       expect(locale.parseDate('0000')).toEqual(undefined);
       expect(locale.parseDate('000000')).toEqual(undefined);
       expect(locale.parseDate('00000000')).toEqual(undefined);

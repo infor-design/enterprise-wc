@@ -4,11 +4,13 @@ import {
   scss,
   customElement,
   attributes,
-  stringUtils
+  stringUtils,
+  mix
 } from '../ids-base';
 
 // Import Mixins
 import {
+  IdsEventsMixin,
   IdsLocaleMixin
 } from '../ids-mixins';
 
@@ -30,9 +32,14 @@ const sizes = {
  */
 @customElement('ids-icon')
 @scss(styles)
-class IdsIcon extends IdsElement {
+class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this.handleEvents();
   }
 
   /**
@@ -40,7 +47,38 @@ class IdsIcon extends IdsElement {
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [attributes.ICON, attributes.SIZE, attributes.VERTICAL];
+    return [
+      attributes.LANGUAGE,
+      attributes.LOCALE,
+      attributes.ICON,
+      attributes.SIZE,
+      attributes.VERTICAL
+    ];
+  }
+
+  /**
+   * Handle change events
+   */
+  handleEvents() {
+    this.offEvent('languagechanged.container');
+    this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
+      await this.locale.setLanguage(e.detail.language.name);
+      if (this.isFlipped(this.icon)) {
+        this.container.classList.add('flipped');
+      } else {
+        this.container.classList.remove('flipped');
+      }
+    });
+
+    this.offEvent('languagechanged.icon');
+    this.onEvent('languagechanged.icon', this, async (e) => {
+      await this.locale.setLanguage(e.detail.language.name);
+      if (this.isFlipped(this.icon)) {
+        this.container.classList.add('flipped');
+      } else {
+        this.container.classList.remove('flipped');
+      }
+    });
   }
 
   /**
@@ -49,7 +87,7 @@ class IdsIcon extends IdsElement {
    */
   template() {
     const size = sizes[this.size];
-    return `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flip"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+    return `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
       ${this.iconData()}
     </svg>`;
   }
@@ -68,74 +106,43 @@ class IdsIcon extends IdsElement {
    * @returns {boolean} true if flipped / rtl
    */
   isFlipped(iconName) {
-    return false;
-    /*
     const flippedIcons = [
-      'attach',
-      'bottom-aligned',
-      'bullet-list',
-      'cancel',
-      'cart',
-      'collapse-app-tray',
-      'cut',
-      'document',
-      'drilldown',
-      'duplicate',
-      'expand-app-tray',
-      'export',
-      'first-page',
-      'folder',
-      'import',
-      'last-page',
-      'launch',
-      'left-align',
-      'left-text-align',
-      'left-arrow',
-      'new-document',
-      'next-page',
-      'number-list',
-      'paste',
-      'previous-page',
-      'quote',
-      'redo',
-      'refresh',
-      'right-align',
-      'right-arrow',
-      'right-text-align',
-      'save',
-      'search-folder',
-      'search-list',
-      'search',
-      'send',
-      'tack',
-      'tree-collapse',
-      'tree-expand',
-      'undo',
-      'unlocked',
       'add-grid-record',
       'add-grid-row',
-      'additional-help',
-      'bubble',
+      'attach',
+      'bullet-list',
       'bullet-steps',
+      'caret-left',
+      'caret-right',
+      'cart',
       'cascade',
       'change-font',
       'clear-screen',
-      'script',
       'clockwise-90',
       'close-cancel',
       'close-save',
+      'closed-folder',
+      'collapse-app-tray',
       'contacts',
       'copy-from',
       'copy-mail',
       'copy-url',
       'counter-clockwise-90',
       'create-report',
+      'cut',
       'delete-grid-record',
       'delete-grid-row',
       'display',
+      'document',
+      'drilldown',
+      'duplicate',
       'employee-directory',
+      'expand-app-tray',
+      'export',
       'export-2',
       'export-to-pdf',
+      'first-page',
+      'folder',
       'generate-key',
       'get-more-rows',
       'group-selection',
@@ -143,52 +150,66 @@ class IdsIcon extends IdsElement {
       'help',
       'helper-list-select',
       'history',
+      'import',
       'invoice-released',
-      'language',
-      'logout',
       'key',
-      'lasso',
-      'line-bar-chart',
-      'line-chart',
+      'language',
+      'last-page',
+      'launch',
+      'left-align',
+      'left-arrow',
+      'left-text-align',
+      'logout',
+      'new-document',
       'new-expense-report',
-      'new-payment-request',
       'new-time-sheet',
       'new-travel-plan',
+      'next-page',
       'no-attachment',
       'no-comment',
       'no-filter',
-      'overlay-line',
-      'pdf-file',
+      'paste',
       'phone',
-      'payment-request',
-      'pie-chart',
+      'previous-page',
       'queries',
       'quick-access',
+      'redo',
+      'refresh',
       'refresh-current',
       'restore-user',
+      'right-align',
+      'right-arrow',
+      'right-text-align',
       'run-quick-access',
+      'save',
       'save-close',
       'save-new',
+      'search',
+      'search-folder',
+      'search-list',
       'search-results-history',
       'select',
+      'send',
       'send-submit',
       'show-last-x-days',
       'special-item',
       'stacked',
+      'tack',
       'timesheet',
+      'tree-collapse',
+      'tree-expand',
+      'undo',
       'unsubscribe',
       'update-preview',
       'zoom-100',
       'zoom-in',
-      'zoom-out',
-      'caret-left',
-      'caret-right'
+      'zoom-out'
     ];
+
     if (this.locale.isRTL() && flippedIcons.includes(iconName)) {
       return true;
     }
     return false;
-    */
   }
 
   /**

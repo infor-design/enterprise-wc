@@ -222,6 +222,10 @@ class IdsLocale {
    * @param {string} value The locale string value
    */
   async setLocale(value) {
+    if (!value) {
+      return;
+    }
+
     const locale = this.#correctLocale(value);
     if (this.state.localeName !== locale) {
       this.state.localeName = locale;
@@ -246,7 +250,7 @@ class IdsLocale {
     if (locale === 'in-ID') {
       locale = 'id-ID';
     }
-    if (locale.substr(0, 2) === 'iw') {
+    if (locale?.substr(0, 2) === 'iw') {
       locale = 'he-IL';
     }
     return locale;
@@ -276,16 +280,16 @@ class IdsLocale {
     }
 
     if (opts?.style === 'integer') {
-      opts.style = null;
+      opts.style = undefined;
       opts.maximumFractionDigits = 0;
       opts.minimumFractionDigits = 0;
     }
 
     if (typeof value === 'string') {
-      val = this.parseNumber(value);
+      val = this.parseNumber(value, opts);
     }
 
-    // Handle Big Int
+    // Handle Big Int (integers)
     if (typeof value === 'string'
       && value.length >= 18
       && value.indexOf('.') === -1
@@ -293,15 +297,17 @@ class IdsLocale {
       return BigInt(value).toLocaleString(usedLocale, opts);
     }
 
+    // Handle Big Int (decimals)
     if (typeof value === 'string'
     && value.length >= 18
     && (value.indexOf('.') > -1
     || value.indexOf(',') > -1)) {
       const index = value.indexOf('.') > -1 ? value.indexOf('.') : value.indexOf(',');
-      const decimalPart = value.substr(index);
+      let decimalPart = value.substr(index);
       const intPart = value.substr(0, index);
       const bigInt = BigInt(intPart).toLocaleString(usedLocale);
-      return bigInt + decimalPart;
+      decimalPart = Number(decimalPart).toLocaleString(usedLocale, opts);
+      return bigInt + decimalPart.substr(1);
     }
     return Number(val).toLocaleString(usedLocale, opts);
   }
@@ -514,9 +520,14 @@ class IdsLocale {
    */
   parseDate(dateString, options) {
     const localeData = this.loadedLocales.get(options?.locale || this.locale.name);
-    let sourceFormat = options?.dateFormat || localeData.calendars[0].dateFormat.datetime;
+    let sourceFormat = options?.dateFormat || localeData.calendars[0]?.dateFormat.datetime;
     sourceFormat = sourceFormat.replace('. ', '.').replace('. ', '.');
     dateString = dateString.replace('. ', '.').replace('. ', '.');
+
+    // ISO Date String
+    if (dateString.indexOf('T') > -1 && dateString.substr(dateString.length - 1) === 'Z') {
+      return new Date(dateString);
+    }
 
     // Validation
     if (/^0*$/.test(dateString)) {

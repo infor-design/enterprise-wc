@@ -15,7 +15,8 @@ import IdsDeepCloneUtils from '../ids-base/ids-deep-clone-utils';
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsLocaleMixin
 } from '../ids-mixins';
 
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
@@ -28,6 +29,7 @@ import styles from './ids-data-grid.scss';
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsLocaleMixin
  * @part table - the table main element
  * @part container - the table container element
  * @part body - the table body element
@@ -41,7 +43,8 @@ import styles from './ids-data-grid.scss';
 class IdsDataGrid extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsThemeMixin,
-    IdsKeyboardMixin
+    IdsKeyboardMixin,
+    IdsLocaleMixin
   ) {
   constructor() {
     super();
@@ -63,6 +66,8 @@ class IdsDataGrid extends mix(IdsElement).with(
     return [
       attributes.ALTERNATE_ROW_SHADING,
       attributes.LABEL,
+      attributes.LANGUAGE,
+      attributes.LOCALE,
       attributes.ROW_HEIGHT,
       attributes.VIRTUAL_SCROLL,
       attributes.MODE,
@@ -114,6 +119,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
 
     const template = document.createElement('template');
+    const dir = this.container?.getAttribute('dir');
     const html = this.template();
 
     // Render and append styles
@@ -144,6 +150,11 @@ class IdsDataGrid extends mix(IdsElement).with(
     if (this.data.length > 0) {
       this.setActiveCell(0, 0);
       this.handleKeys();
+    }
+
+    // Set back direction
+    if (dir) {
+      this.container.setAttribute('dir', dir);
     }
   }
 
@@ -199,15 +210,16 @@ class IdsDataGrid extends mix(IdsElement).with(
   /**
    * Return the row's markup
    * @private
-   * @param  {object} row The row data object
-   * @param  {number} index [description]
+   * @param {object} row The row data object
+   * @param {number} index [description]
    * @returns {string} The html string for the row
    */
   rowTemplate(row, index) {
     let html = `<div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row">`;
 
     this.columns.forEach((column, j) => {
-      html += `<span role="cell" part="cell" class="ids-data-grid-cell" aria-colindex="${j + 1}">${this.cellTemplate(row, column)}</span>`;
+      const cssClasses = column?.readonly ? ' readonly' : '';
+      html += `<span role="cell" part="cell" class="ids-data-grid-cell${cssClasses}" aria-colindex="${j + 1}">${this.cellTemplate(row, column, index + 1, this)}</span>`;
     });
 
     html += '</div>';
@@ -217,12 +229,14 @@ class IdsDataGrid extends mix(IdsElement).with(
   /**
    * Render the individual cell using the column formatter
    * @private
-   * @param  {object} row The data item for the row
-   * @param  {object} column The column data for the row
-   * @returns {string} The template
+   * @param {object} row The data item for the row
+   * @param {object} column The column data for the row
+   * @param {object} index The running index
+   * @param {object} api The entire datagrid api
+   * @returns {string} The template to display
    */
-  cellTemplate(row, column) {
-    return this.formatters.text(row, column);
+  cellTemplate(row, column, index, api) {
+    return this.formatters[column?.formatter?.name || 'text'](row, column, index, api);
   }
 
   /**
@@ -250,6 +264,33 @@ class IdsDataGrid extends mix(IdsElement).with(
       const row = cell.parentNode;
       // TODO Handle Hidden Cells
       this.setActiveCell(parseInt(cell.getAttribute('aria-colindex') - 1, 10), parseInt(row.getAttribute('aria-rowindex') - 1, 10));
+    });
+
+    // Handle the Locale Changes
+    // Respond to parent changing language
+    this.offEvent('languagechanged.container');
+    this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
+      await this.locale.setLanguage(e.detail.language.name);
+    });
+
+    // Respond to the element changing language
+    this.offEvent('languagechanged.this');
+    this.onEvent('languagechanged.this', this, async (e) => {
+      await this.locale.setLanguage(e.detail.language.name);
+    });
+
+    // Respond to parent changing language
+    this.offEvent('localechanged.container');
+    this.onEvent('localechanged.container', this.closest('ids-container'), async (e) => {
+      await this.locale.setLocale(e.detail.locale.name);
+      this.rerender();
+    });
+
+    // Respond to the element changing language
+    this.offEvent('localechanged.this');
+    this.onEvent('localechanged.this', this, async (e) => {
+      await this.locale.setLocale(e.detail.locale.name);
+      this.rerender();
     });
   }
 
@@ -416,13 +457,11 @@ class IdsDataGrid extends mix(IdsElement).with(
     if (value) {
       this.setAttribute(attributes.LABEL, value);
       this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', value);
-      this.rerender();
       return;
     }
 
     this.removeAttribute(attributes.LABEL);
     this.shadowRoot.querySelector('.ids-data-grid').setAttribute('aria-label', 'Data Grid');
-    this.rerender();
   }
 
   get label() { return this.getAttribute(attributes.LABEL) || 'Data Grid'; }
@@ -471,8 +510,8 @@ class IdsDataGrid extends mix(IdsElement).with(
 
   /**
    * Set the active cell for focus
-   * @param  {number} cell [description]
-   * @param  {number} row  [description]
+   * @param {number} cell [description]
+   * @param {number} row  [description]
    * @returns {object} the current active cell
    */
   setActiveCell(cell, row) {

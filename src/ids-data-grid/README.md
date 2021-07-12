@@ -39,10 +39,9 @@ A datagrid is created by adding an `ids-data-grid` html element in the page and 
 <ids-data-grid id="data-grid-1" data-automation-id="data-grid-1-automation" alternate-row-shading="true"></ids-card>
 
 <script>
-    const dataGrid = document.querySelector('#data-grid-1');
-
-    dataGrid.data = dataset;
-    dataGrid.columns = columns;
+const dataGrid = document.querySelector('#data-grid-1');
+dataGrid.data = dataset;
+dataGrid.columns = columns;
 </script>
 ```
 
@@ -60,15 +59,41 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 |`id` | The unique id of the column. Each column in the grid should have some unique id.|
 |`sortable` | If false, the column cannot be sorted.|
 |`resizable` | If false the column will not be resizable, thus is a fixed size and can never be changed by the user by dragging the left and right edge.|
+|`readonly` | If true the cell will be set to readonly color, indicating no editing.|
 |`formatter` | Controls how the data is rendered in the cell.|
 |`align` | Can be `left` or `right` or `center`. Note that `center` has limited column type support.|
 |`width` | The column width, this can be an integer for pixel width or a percent for example `10%`, if left off the columns will be sized to contents and to fit the width of the grid using the internal algorithm.|
+
+## Column Settings (Specific)
+
+|Setting|Description|
+|---|---|
+|`href` | Used to create the href for hyperlink formatters. This can be a string or a function that can work dynamically. It can also replace `{{value}}` with the current value. |
+|`text` | Used to create the txt value for hyperlink formatters if a hard coded link text is needed. |
 
 ## Formatters
 
 |Formatter|Description|
 |---|---|
-|`text` | Formats the column value as a direct text element using toString in the grid cell, Undefined or Null values will be shown as empty.|
+|`text` | Formats the column value as a direct text element using toString in the grid cell. Undefined or Null values will be shown as empty.|
+|`password` | Formats the column value masking the string length with stars. Undefined or Null values will be shown as empty. This is good for private data. |
+|`rowNumber` | Formats the cell with a row number column that is shown 1 to n no matter what the sort order is. |
+|`date` | Formats date data as a date string in the desired format, by default it will use `dateStyle: 'short'` for other options you can pass them in with `column.formatOptions` |
+|`time` | Formats date data as a time string in the desired format, by default it will use `timeStyle: 'short'` for other options you can pass them in with `column.formatOptions` |
+|`decimal` | Formats number data as a decimal string in the specified locale. For additional options you can pass them in with `column.formatOptions`. |
+|`integer` | Formats number data as a integer string in the specified locale. For additional options you can pass them in with `column.formatOptions`. |
+
+### Formatters (Deprecated from 4.x)
+
+- `Input` No longer suggested to use, use simple list instead
+- `Status, Color` No longer used
+- `Placeholder` Can now be set on the column and used with other formatters
+- `Ellipsis` Can now be set on the column and used with other formatters
+- `Readonly` Can now be set on the column and used with other formatters
+- `Drilldown` Use button with an icon now
+- `Template` is now deprecated for performance reasons, use a custom formatter
+- `ClassRange` Use column cssClass function or string
+- `Autocomplete, Lookup, TargetedAchievement, ProcessIndicator, Spinbox, Fileupload, Dropdown, Colorpicker, Tree, SummaryRow, GroupFooterRow, GroupRow, Expander, Editor, Textarea, Actions, RowReorder` Will be added later
 
 ## States and Variations
 

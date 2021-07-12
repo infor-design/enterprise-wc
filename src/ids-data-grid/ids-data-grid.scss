@@ -75,7 +75,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     // Hide first border
     &:first-child {
-      border-left: 0;
+      border-left-style: hidden;
     }
   }
 
@@ -171,9 +171,14 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     overflow: hidden;
     white-space: nowrap;
 
-    // Hide first border
+    // Hide first/last border
     &:first-child {
-      border-left: 0;
+      border-left-style: hidden;
+    }
+
+    // Negate link margins
+    ids-hyperlink {
+      margin: 8px;
     }
 
     // Text ellipsis
@@ -183,6 +188,11 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+
+    // Readonly Cell
+    &.readonly {
+      @include bg-slate-20();
     }
 
     // Focus State
@@ -214,7 +224,9 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 }
 
-// Handle Dark Theme
+/// Handle Themes
+
+// Dark Theme
 .ids-data-grid[mode='dark'] {
   @include bg-slate-90();
 
@@ -248,6 +260,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   .ids-data-grid-cell {
     @include border-slate-60();
     @include text-white();
+
+    &.readonly {
+      @include bg-slate-70();
+    }
   }
 }
 
@@ -285,6 +301,11 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   .ids-data-grid-cell {
     @include border-slate-60();
     @include text-slate-100();
+
+
+    &.readonly {
+      @include bg-slate-20();
+    }
 
     &:focus {
       box-shadow: 0 0 0 1px rgba(0, 84, 177, 1);
@@ -327,6 +348,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   .ids-data-grid-cell {
     @include border-classic-slate-30();
     @include text-graphite-100();
+
+    &.readonly {
+      @include bg-graphite-10();
+    }
   }
 }
 
@@ -364,6 +389,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   .ids-data-grid-cell {
     @include border-classic-slate-50();
     @include text-white();
+
+    &.readonly {
+      @include bg-classic-slate-70();
+    }
   }
 }
 
@@ -402,9 +431,26 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     @include border-graphite-60();
     @include text-graphite-100();
 
+    &.readonly {
+      @include bg-graphite-30();
+    }
+
     &:focus {
       box-shadow: 0 0 0 1px rgba(0, 84, 177, 1);
       outline: 1px solid var(--ids-color-palette-azure-80);
+    }
+  }
+}
+
+// Handle RTL
+.ids-data-grid[dir='rtl'] {
+  // Hide first/last border
+  .ids-data-grid-cell {
+    &:first-child {
+      border-left-style: solid;
+    }
+    &:last-child {
+      border-left-style : hidden;
     }
   }
 }

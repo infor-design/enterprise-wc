@@ -6,12 +6,15 @@
 - [X] Numbers
 - [X] Dates
 - [X] Timezone
+- [x] Flip Icons
+- [] Number Inputs (value/mask)
+- [] Date Inputs (value/mask)
+- [x] Number DG Formatter
+- [x] Date DG Formatter
+- [] RTL DG
 - [] RTL all components
-- [] Flip Icons
-- [] Number Inputs
-- [] Date Inputs
-- [] Number Formatter
-- [] Date Formatter
+- [] Coverage / Lint
+- [] Docs / Types
 
 # TODO For Phase 2
 

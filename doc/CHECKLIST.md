@@ -11,7 +11,9 @@
  - [ ] example.index: The main example.html page should just show one simple example and not all variations
  - [ ] test-sandbox.index: The sandbox page should show all other examples in a nicely formatted way.
  - [ ] Standalone Css: Add a basic standalone css example
- - [ ] Compatibility Example: Works in Page with 4.x version
+ - [ ] Right to Left: Test on lang="ar" that when flipped all is correct (best way is to use flex and justify)
+ - [ ] Locale: Make sure strings are translated, and use number / date / timezone parsers as needed
+ - [ ] Side By Side Example: Works in Page with 4.x version
  - [ ] Documentation: Add copious documentation in a README.MD in the folder
  - [ ] TODO: Add a TODO.md for anything needing to be done in the future you think of
  - [ ] Themes: Implement color changes for Themes
@@ -23,7 +25,7 @@
  - [ ] NG / Vue / React / Svelte / TS Example (we will build this out)
  - [ ] Old Issues: Review Be aware of old and new issues on a component in the [old backlog](https://github.com/infor-design/enterprise/issues)
 
-## Component To Convert
+## Components To Convert
 
 Will get a checkbox at minimum viable product. The rest of the details are covered in a TODO.md in the individual folder after first commit
 

@@ -1,8 +1,7 @@
 import { attributes } from '../ids-base/ids-attributes';
 import locale from '../ids-locale/ids-locale-global';
-import { IdsEventsMixin } from '.';
 
-const IdsLocaleMixin = (superclass) => class extends IdsEventsMixin(superclass) {
+const IdsLocaleMixin = (superclass) => class extends superclass {
   constructor() {
     super();
   }
@@ -11,7 +10,10 @@ const IdsLocaleMixin = (superclass) => class extends IdsEventsMixin(superclass) 
     if (!this.getAttribute('language')) {
       this.setAttribute('language', this.language.name);
     }
-    super.connectedCallback();
+    if (!this.getAttribute('locale')) {
+      this.setAttribute('locale', this.locale.locale.name);
+    }
+    super.connectedCallback?.();
   }
 
   static get properties() {
@@ -39,6 +41,7 @@ const IdsLocaleMixin = (superclass) => class extends IdsEventsMixin(superclass) 
     if (value) {
       this.locale.setLanguage(value);
       this.locale.updateLangTag(this, value);
+      this.locale.updateLangTag(this.container, value);
       this.setAttribute('language', value);
       this.triggerEvent('languagechanged', this, { detail: { elem: this, language: this.language, locale: this.locale } });
     }
@@ -60,6 +63,7 @@ const IdsLocaleMixin = (superclass) => class extends IdsEventsMixin(superclass) 
     await this.locale.setLocale(value);
     this.locale = value;
     this.locale.updateLangTag(this, value.substr(0, 2));
+    this.triggerEvent('localechanged', this, { detail: { elem: this, language: this.language, locale: this.locale } });
   }
 
   /**
@@ -70,7 +74,7 @@ const IdsLocaleMixin = (superclass) => class extends IdsEventsMixin(superclass) 
     if (value) {
       this.locale.setLocale(value);
       this.setAttribute('locale', value);
-      this.triggerEvent('localechanged', this, { detail: { elem: this, language: this.language, locale: this.locale } });
+      this.triggerEvent('localechanged', this, { detail: { elem: this, language: this.language, locale: this.locale.locale } });
     }
   }
 
