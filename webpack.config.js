@@ -202,6 +202,10 @@ module.exports = {
             css = css.replace(':host {', ':root {');
             return css;
           }
+        },
+        {
+          from: path.resolve(__dirname, 'app/assets/'),
+          to: path.resolve(__dirname, 'dist/assets/')
         }
       ]
     })

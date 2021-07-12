@@ -129,10 +129,10 @@ export default class IdsPager extends mix(IdsElement).with(
     let nextValue = parseInt(value);
 
     if (Number.isNaN(nextValue)) {
-      console.error('ids-pager: non-numeric value sent to page-size');
+      // console.error('ids-pager: non-numeric value sent to page-size');
       nextValue = 1;
     } else if (nextValue < 1) {
-      console.error('ids-pager: page-size cannot be < 1');
+      // console.error('ids-pager: page-size cannot be < 1');
       nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
@@ -141,6 +141,8 @@ export default class IdsPager extends mix(IdsElement).with(
     if (this.getAttribute(attributes.PAGE_SIZE) !== `${nextValue}`) {
       this.setAttribute(attributes.PAGE_SIZE, nextValue);
     }
+
+    this.#keepPageNumberInBounds();
   }
 
   /** @returns {string|number} The number of items shown per page */
@@ -154,7 +156,7 @@ export default class IdsPager extends mix(IdsElement).with(
 
     if (Number.isNaN(nextValue)) {
       nextValue = 1;
-      console.error('ids-pager: non-numeric value sent to pageNumber');
+      // console.error('ids-pager: non-numeric value sent to pageNumber');
     } else if (nextValue <= 1) {
       nextValue = 1;
     } else {
@@ -162,7 +164,9 @@ export default class IdsPager extends mix(IdsElement).with(
       nextValue = Math.min(nextValue, pageCount);
     }
 
-    this.setAttribute(attributes.PAGE_NUMBER, nextValue);
+    if (parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue) {
+      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
+    }
   }
 
   /** @returns {string|number} value A 1-based-index for the page number displayed */
@@ -170,20 +174,32 @@ export default class IdsPager extends mix(IdsElement).with(
     return parseInt(this.getAttribute(attributes.PAGE_NUMBER));
   }
 
+  /** @returns {number|null} The calculated pageCount using total and pageSize */
+  get pageCount() {
+    /* istanbul ignore next */
+    return (this.total !== null && !Number.isNaN(this.total))
+      ? Math.floor(this.total / this.pageSize)
+      : null;
+  }
+
   /** @param {string|number} value The number of items to track */
   set total(value) {
     let nextValue;
     if (Number.isNaN(Number.parseInt(value))) {
-      console.error('ids-pager: non-numeric value sent to total');
+      // console.error('ids-pager: non-numeric value sent to total');
       nextValue = 1;
     } else if (Number.parseInt(value) <= 0) {
-      console.error('ids-pager: total cannot be <= 0');
+      // console.error('ids-pager: total cannot be <= 0');
       nextValue = 1;
     } else {
       nextValue = Number.parseInt(value);
     }
 
-    this.setAttribute(attributes.TOTAL, nextValue);
+    if (parseInt(this.getAttribute(attributes.TOTAL)) !== nextValue) {
+      this.setAttribute(attributes.TOTAL, nextValue);
+    }
+
+    this.#keepPageNumberInBounds();
   }
 
   /**
@@ -218,7 +234,7 @@ export default class IdsPager extends mix(IdsElement).with(
       this.children[2].setAttribute(attributes.ALIGN, 'end');
       break;
     case 2: {
-      this.children[1].setAttribute(attributes.END, '');
+      this.children[1].setAttribute(attributes.ALIGN, 'end');
 
       // insert an empty pager-section to the left
       // of the 2nd element for alignment purposes
@@ -235,9 +251,26 @@ export default class IdsPager extends mix(IdsElement).with(
     case 1:
       break;
     default: {
-      console.error('ids-pager: invalid number of children passed');
+      // console.error('ids-pager: invalid number of children passed');
       break;
     }
+    }
+  }
+
+  #keepPageNumberInBounds() {
+    let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+
+    /* istanbul ignore next */
+    if (Number.isNaN(nextValue)) {
+      nextValue = 1;
+    } else if (nextValue <= 1) {
+      nextValue = 1;
+    } else if (nextValue > this.pageCount) {
+      nextValue = this.pageCount;
+    }
+
+    if (parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue) {
+      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
     }
   }
 

@@ -227,7 +227,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
         <div class="ids-accordion-panel-expander">
           <slot name="header"></slot>
         </div>
-        <div class="ids-accordion-pane" role="region">
+        <div class="ids-accordion-pane">
           <div class="ids-accordion-pane-content">
             <slot name="content"></slot>
           </div>

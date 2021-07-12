@@ -38,6 +38,9 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    */
   connectedCallback() {
     super.connectedCallback();
+
+    this.leftButton = this.querySelector('[slot="action-left"]');
+    this.rightButton = this.querySelector('[slot="action-right"]');
     this.#handleEvents();
   }
 
@@ -46,20 +49,21 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    * @private
    */
   rendered() {
-    const leftButton = this.querySelector('[slot="action-left"]');
-    const rightButton = this.querySelector('[slot="action-right"]');
-    if (leftButton && this.swipeType === 'reveal') {
+    this.leftButton = this.querySelector('[slot="action-left"]');
+    this.rightButton = this.querySelector('[slot="action-right"]');
+    if (this.leftButton && this.swipeType === 'reveal') {
+      this.leftButton.setAttribute('tabindex', '-1');
+      this.leftButton.setAttribute('aria-hidden', 'true');
+      this.leftButton.setAttribute('no-ripple', 'true');
+    }
+    if (this.rightButton && this.swipeType === 'reveal') {
+      this.rightButton.setAttribute('tabindex', '-1');
+      this.rightButton.setAttribute('aria-hidden', 'true');
+      this.rightButton.setAttribute('no-ripple', 'true');
+    }
+
+    if (this.leftButton && this.swipeType === 'reveal') {
       this.container.scrollLeft = 85;
-    }
-    if (leftButton && this.swipeType === 'reveal') {
-      leftButton.setAttribute('tabindex', '-1');
-      leftButton.setAttribute('aria-hidden', 'true');
-      leftButton.setAttribute('no-ripple', 'true');
-    }
-    if (rightButton && this.swipeType === 'reveal') {
-      rightButton.setAttribute('tabindex', '-1');
-      rightButton.setAttribute('aria-hidden', 'true');
-      rightButton.setAttribute('no-ripple', 'true');
     }
   }
 
@@ -96,6 +100,17 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
       this.onEvent('swipe', this, (e) => {
         this.querySelector(`[slot="action-${e.detail.direction === 'left' ? 'right' : 'left'}"`).click();
       }, { scrollContainer: this.container });
+    }
+
+    // Close on click
+    // istanbul ignore next
+    if (this.swipeType === 'reveal') {
+      this.onEvent('click', this.leftButton, () => {
+        this.container.scrollLeft = 85;
+      });
+      this.onEvent('click', this.rightButton, () => {
+        this.container.scrollLeft = 85;
+      });
     }
   }
 

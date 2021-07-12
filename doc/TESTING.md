@@ -34,7 +34,7 @@ node node_modules/puppeteer/install.js
 
 ## Running test in watch mode
 
-If your doing a lot of testing and changing you can save a lot of time running jest in watch mode. When you do any tests that change will be quickly rerun. To do so type `npm run test:watch` in the command line and then change a test file and watch that it reruns right away.
+If your doing a lot of testing and changing you can save a lot of time running Jest in watch mode. When you do any tests that change will be quickly rerun. To do so type `npm run test:watch` in the command line and then change a test file and watch that it reruns right away.
 
 ## Debugging e2e Tests
 

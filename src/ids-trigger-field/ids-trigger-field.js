@@ -179,7 +179,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   handleEvents() {
     if (this.input) {
       const className = 'has-validation-message';
-      this.onEvent('validated', this.input, (e) => {
+      this.onEvent('validate', this.input, (e) => {
         if (e.detail?.isValid) {
           this.container?.classList?.remove(className);
         } else {
