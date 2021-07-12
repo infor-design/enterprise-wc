@@ -19,9 +19,7 @@ const IdsThemeMixin = (superclass) => class extends superclass {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
-
-    this.initThemeHandlers();
+    super.connectedCallback?.();    this.initThemeHandlers();
   }
 
   /**
