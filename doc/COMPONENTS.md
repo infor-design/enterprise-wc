@@ -14,7 +14,7 @@ Some important steps here include:
 
 - If this new code is an IDS Component, ensure that it imports `src/ids-base/ids-element.js` extends the `IdsElement` base component.
 - Ensure that your styles are imported in `ids-[component].js` and added to the component via the `@scss` decorator.
-- Review the mixins that are available in the `src/ids-base` folder for any reusable parts then include them with a line like:
+- Review the mixins that are available in the `src/ids-mixins` folder for any reusable parts then include them with a line like:
 
 ```js
 class IdsComponent extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin2) {
@@ -68,7 +68,7 @@ Some HTMLElement types support boolean attributes, such as `disabled`.  [The spe
 - The absence of the attribute will evaluate as `false`.
 - If the attribute is present, its string value does not matter, and will always mean `true`.
 
-Ids WebComponents take the added step of evaluating the string value, and will cause a string value of `"false"` to actually evaluate as `false`, removing the attribute and property.
+Ids WebComponents take the added step of evaluating the string value, and will cause a string value of `"false"` to actually evaluate as `false`, removing the attribute and property -- this will need to be checked via `stringUtils.stringToBool`, but it is a good idea to consider the web spec for future components and omit properties for flags meaning false.
 
 #### Private Class Fields and Methods
 
