@@ -60,7 +60,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} value sets the padding to the container
    */
   set padding(value) {
-    this.container.style.padding = value;
+    this.container.style.padding = `${value}px`;
     this.setAttribute('padding', value.toString());
   }
 
