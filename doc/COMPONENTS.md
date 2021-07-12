@@ -22,14 +22,16 @@ class IdsComponent extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin
 
 ### Add a new app example for the new component
 
+Note that when first adding new HTML files or renaming, a restart on the webpack compiler will be needed for it to be visitable.
+
 - [ ] Add an `example.html`, which contains the basic example template for your component
-- [ ] Add an `index.html`, which is the main layout template
+- [ ] Add an `index.html`, which is the main layout template found at `[app-url]/ids-[component]`.
 - [ ] Add an `index.js` for loading and building the component, this should just contain what is needed for the component itself to run
 - [ ] Add an `example.js` for any demo code in the example.html
-- [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path.
+- [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path, where the root component is the default export along with any sub components beyond that.
 
 ```js
-import IdsComponent from '../../src/ids-[component]/ids-[component]';
+import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/ids-[component]';
 ```
 
 - [ ] `index.html` will contain the contents of `example.html` but also includes the dev server's header and footer partials.  It looks like the following:
