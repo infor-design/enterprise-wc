@@ -60,7 +60,8 @@ const TYPES = {
   text: 'text',
   password: 'password',
   number: 'number',
-  email: 'email'
+  email: 'email',
+  color: 'color'
 };
 
 // Setting defaults sizes
