@@ -1,4 +1,4 @@
-import IdsProgress from '../../src/ids-progress/ids-progress';
+import IdsProgressBar from '../../src/ids-progress-bar/ids-progress-bar';
 
 // Supporting components
 import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
     elem.labelAudible = !elem.labelAudible;
   });
 });
+
 
 //Initialize the 4.x
 $('body').initialize();
