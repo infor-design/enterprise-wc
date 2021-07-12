@@ -17,6 +17,11 @@
     0 0 4px 3px var(--ids-color-brand-primary-base) // primary color (shadowy-part)
 }
 
+// Used to make the focus "border" on non-solid buttons (modal buttons, etc)
+@mixin alternate-button-shadow() {
+  box-shadow: 0 0 3px 1px var(--ids-color-brand-primary-base) // primary color (shadowy-part)
+}
+
 // Used to include a basic set of ripple-effect styles
 @mixin ids-base-ripple-styles() {
   .ripple-effect {
@@ -494,7 +499,7 @@
     color: var(--ids-color-brand-primary-base);
 
     &:focus {
-      @include solid-button-shadow();
+      @include alternate-button-shadow();
     }
 
     &:hover {
@@ -524,7 +529,7 @@
     color: var(--ids-color-brand-secondary-contrast);
 
     &:focus {
-      @include solid-button-shadow();
+      @include alternate-button-shadow();
     }
 
     &:hover {

@@ -129,6 +129,7 @@ button {
   @include py-12();
 
   display: block;
+  font-weight: 600;
 
   &:focus {
     z-index: 1;
