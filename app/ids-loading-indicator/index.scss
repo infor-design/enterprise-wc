@@ -16,6 +16,18 @@
   padding: 24px 16px;
 }
 
+[mode='light'] .sticky-indicator-container {
+  border-color: var(--ids-color-palette-slate-60);
+}
+
+[mode='dark'] .sticky-indicator-container {
+  border-color: var(--ids-color-palette-white);
+}
+
+[mode='contrast'] .sticky-indicator-container {
+  border-color: var(--ids-color-palette-slate-60);
+}
+
 .circular-progress-container {
   display: flex;
   width: 100%;

@@ -4,16 +4,19 @@
 :host(ids-loading-indicator) {
   --progress-color: var(--ids-color-palette-azure-80);
   --overall-color: var(--ids-color-palette-azure-10);
+  --text-color: var(--ids-color-palette-slate-60);
 }
 
 :host(ids-loading-indicator[mode='dark']) {
   --progress-color: var(--ids-color-palette-azure-10);
   --overall-color: var(--ids-color-palette-azure-80);
+  --text-color: var(--ids-color-palette-white);
 }
 
 :host(ids-loading-indicator[mode='contrast']) {
   --progress-color: var(--ids-color-palette-azure-80);
-  --overall-color: var(--ids-color-palette-graphite-30);
+  --overall-color: var(--ids-color-palette-slate-60);
+  --text-color: var(--ids-color-palette-slate-60);
 }
 
 :host(ids-loading-indicator:not([linear]):not([sticky])) {
@@ -60,14 +63,13 @@
 }
 
 .progress-percentage {
-  @include text-graphite-30();
-
   display: flex;
   align-items: center;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  color: var(--text-color);
 }
 
 .progress-percentage.linear {
