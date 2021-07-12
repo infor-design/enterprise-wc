@@ -35,6 +35,8 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   connectedCallback() {
     super.connectedCallback();
+    // eslint-disable-next-line no-self-assign
+    this.padding = this.padding;
   }
 
   /**
@@ -42,7 +44,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [attributes.SCROLLABLE, attributes.MODE, attributes.VERSION];
+    return [attributes.SCROLLABLE, attributes.MODE, attributes.PADDING, attributes.VERSION];
   }
 
   /**
@@ -51,6 +53,19 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   template() {
     return `<div class="ids-container" part="container"${this.scrollable === 'true' ? ' tabindex="0"' : ''}><slot></slot></div>`;
+  }
+
+  /**
+   * If set to number the container will have padding added
+   * @param {string} value sets the padding to the container
+   */
+  set padding(value) {
+    this.container.style.padding = value;
+    this.setAttribute('padding', value.toString());
+  }
+
+  get padding() {
+    return this.getAttribute('padding') || '0';
   }
 
   /**
