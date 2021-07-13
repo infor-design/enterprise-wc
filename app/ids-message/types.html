@@ -1,0 +1,93 @@
+{{> ../layouts/head.html }}
+
+<!-- Error Message -->
+<ids-message id="message-error" status="error">
+  <ids-text slot="title" font-size="24" type="h2" id="message-error-title">Lost connection</ids-text>
+  <ids-text class="demo-contents">This application has experienced a system error due to the lack of internet access.
+    Please restart the application in order to proceed.</ids-text>
+  <ids-modal-button slot="buttons" type="primary" id="message-error-ok">OK</ids-modal-button>
+</ids-message>
+
+<!-- Alert Message -->
+<ids-message id="message-alert" status="alert">
+  <ids-text slot="title" font-size="24" type="h2" id="message-alert-title">Application Alert</ids-text>
+  <ids-text class="demo-contents">This application has experienced a security alert. Please acknowledge the alert to proceed or cancel to abort.</ids-text>
+  <ids-modal-button slot="buttons" type="primary" id="message-alert-acknowledge">Acknowledge</ids-modal-button>
+  <ids-modal-button slot="buttons" type="secondary" id="message-alert-cancel" cancel>Cancel</ids-modal-button>
+</ids-message>
+
+<!-- Alert Message -->
+<ids-message id="message-success" status="success">
+  <ids-text slot="title" font-size="24" type="h2" id="message-success-title">Application Success</ids-text>
+  <ids-text class="demo-contents">Success! You've done the thing! Here's a <ids-hyperlink href="http://www.example.com" target="_blank">link</ids-hyperlink>.</ids-text>
+  <ids-modal-button slot="buttons" type="primary" id="message-success-ok">OK</ids-modal-button>
+</ids-message>
+
+<!-- Info Message -->
+<ids-message id="message-info" status="info">
+  <ids-text slot="title" font-size="24" type="h2" id="message-info-title">File Upload Complete</ids-text>
+  <ids-text class="demo-contents">Your file "<em>photo.png</em>" was successfully uploaded to your personal folder, and is now <strong>public for viewing</strong>.</ids-text>
+  <ids-modal-button slot="buttons" type="primary" id="message-info-done">Done</ids-modal-button>
+</ids-message>
+
+<!-- Default (Confirmation) Message -->
+<ids-message id="message-confirmation">
+  <ids-text slot="title" font-size="24" type="h2" id="message-confirmation-title">Delete this Application</ids-text>
+  <ids-text class="demo-contents">You are about to delete this application permanently.<br/><br/>
+  Would you like to proceed?</ids-text>
+  <ids-modal-button slot="buttons" type="secondary" id="message-confirmation-yes">Yes</ids-modal-button>
+  <ids-modal-button slot="buttons" type="primary" id="message-confirmation-yes" cancel>No</ids-modal-button>
+</ids-message>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Message Types</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="message-error-trigger">Error Example</ids-button>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="message-alert-trigger">Alert Example</ids-button>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="message-success-trigger">Success Example</ids-button>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="message-info-trigger">Info Example</ids-button>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="message-confirmation-trigger">Confirmation Example</ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">XSS Demos</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="message-allow-tags-trigger">Allow Tags</ids-button>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="message-disallow-trigger">Disallow Tags</ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Other Types</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="message-large-trigger">Large Message</ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}

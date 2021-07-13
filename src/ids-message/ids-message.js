@@ -22,8 +22,7 @@ const MESSAGE_STATUSES = [
 // Attributes that apply to message components
 const MESSAGE_ATTRIBUTES = [
   attributes.MESSAGE,
-  attributes.STATUS,
-  attributes.TITLE
+  attributes.STATUS
 ];
 
 const MESSAGE_DEFAULTS = {
@@ -64,17 +63,37 @@ class IdsMessage extends IdsModal {
   }
 
   /**
-   * @returns {string|HTMLElement}
+   * @returns {string|HTMLElement} the current contents of the messsage
    */
   get message() {
-
+    return this.querySelectorAll('*:not([slot])');
   }
 
   /**
-   * @param {string|HTMLElement}
+   * @param {string|HTMLElement} val the desired contents of the message element
    */
   set message(val) {
+    let contentElem;
+    if (val instanceof HTMLElement) {
+      contentElem = val.cloneNode(true);
+    } else if (typeof val === 'string') {
+      contentElem = document.createElement('div');
+      contentElem.insertAdjacentHTML('afterbegin', val);
+    }
+    this.#refreshMessage(contentElem);
+  }
 
+  /**
+   * Refreshes the state of the Message's Content
+   * @param {HTMLElement} contentElem the new message content element
+   */
+  #refreshMessage(contentElem) {
+    // Remove any existing message elements
+    const currentMessage = this.message;
+    currentMessage?.remove();
+
+    // Append the new one
+    this.appendChild(contentElem);
   }
 
   /**
@@ -145,7 +164,7 @@ class IdsMessage extends IdsModal {
    * @returns {void}
    */
   #setIconColor(iconEl, thisStatus = 'none') {
-    if (!iconEl instanceof IdsIcon) {
+    if (!(iconEl instanceof IdsIcon)) {
       return;
     }
 

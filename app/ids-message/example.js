@@ -10,9 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Link the Message to its trigger button
   message.target = triggerBtn;
 
-  // Display the message once the page loads
-  message.show();
-
   // Disable the trigger button when showing the Modal.
   message.addEventListener('beforeshow', () => {
     triggerBtn.disabled = true;
