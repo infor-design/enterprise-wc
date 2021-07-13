@@ -122,6 +122,7 @@ export const attributes = {
   STEP: 'step',
   STEP_NUMBER: 'step-number',
   SUBMENU: 'submenu',
+  SWATCH: 'swatch',
   SWIPE_TYPE: 'swipe-type',
   TABBABLE: 'tabbable',
   TABINDEX: 'tabindex',
