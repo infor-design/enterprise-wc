@@ -14,7 +14,7 @@ Some important steps here include:
 
 - If this new code is an IDS Component, ensure that it imports `src/ids-base/ids-element.js` extends the `IdsElement` base component.
 - Ensure that your styles are imported in `ids-[component].js` and added to the component via the `@scss` decorator.
-- Review the mixins that are available in the `src/ids-base` folder for any reusable parts then include them with a line like:
+- Review the mixins that are available in the `src/ids-mixins` folder for any reusable parts then include them with a line like:
 
 ```js
 class IdsComponent extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin2) {
@@ -22,14 +22,16 @@ class IdsComponent extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin
 
 ### Add a new app example for the new component
 
+Note that when first adding new HTML files or renaming, a restart on the webpack compiler will be needed for it to be visitable.
+
 - [ ] Add an `example.html`, which contains the basic example template for your component
-- [ ] Add an `index.html`, which is the main layout template
+- [ ] Add an `index.html`, which is the main layout template found at `[app-url]/ids-[component]`.
 - [ ] Add an `index.js` for loading and building the component, this should just contain what is needed for the component itself to run
 - [ ] Add an `example.js` for any demo code in the example.html
-- [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path.
+- [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path, where the root component is the default export along with any sub components beyond that.
 
 ```js
-import IdsComponent from '../../src/ids-[component]/ids-[component]';
+import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/ids-[component]';
 ```
 
 - [ ] `index.html` will contain the contents of `example.html` but also includes the dev server's header and footer partials.  It looks like the following:
@@ -66,7 +68,7 @@ Some HTMLElement types support boolean attributes, such as `disabled`.  [The spe
 - The absence of the attribute will evaluate as `false`.
 - If the attribute is present, its string value does not matter, and will always mean `true`.
 
-Ids WebComponents take the added step of evaluating the string value, and will cause a string value of `"false"` to actually evaluate as `false`, removing the attribute and property.
+Ids WebComponents take the added step of evaluating the string value, and will cause a string value of `"false"` to actually evaluate as `false`, removing the attribute and property -- this will need to be checked via `stringUtils.stringToBool`, but it is a good idea to consider the web spec for future components and omit properties for flags meaning false.
 
 #### Private Class Fields and Methods
 
