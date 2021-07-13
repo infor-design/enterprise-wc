@@ -53,7 +53,6 @@ class IdsColor extends IdsElement {
 
   /** @returns {string} The hex code being used */
   get hex() {
-    /* istanbul ignore next */
     return this.getAttribute('hex') || '#000000';
   }
 }
