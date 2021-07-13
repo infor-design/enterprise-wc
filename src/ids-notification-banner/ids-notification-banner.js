@@ -84,7 +84,8 @@ class IdsNotificationBanner extends mix(IdsElement).with(
     return [
       attributes.TYPE,
       attributes.LINK,
-      attributes.LINK_TEXT
+      attributes.LINK_TEXT,
+      attributes.MESSAGE_TEXT,
     ];
   }
 
@@ -103,7 +104,7 @@ class IdsNotificationBanner extends mix(IdsElement).with(
       <div class="ids-notification-banner" part="container">
         <ids-alert icon="${alertIcon}"></ids-alert>
         <div class="ids-notification-banner-message" part="message">
-          <slot name="message"></slot>
+          <ids-text overflow="ellipsis">${this.messageText !== null ? this.messageText : 'Enter Message Text.'}</ids-text>
         </div>
 
         ${ this.link !== null ? `<div part="link">
@@ -163,6 +164,18 @@ class IdsNotificationBanner extends mix(IdsElement).with(
   }
 
   get linkText() { return this.getAttribute('link-text'); }
+
+  /**
+   * Set the message text of the Notification Banner
+   * @param {string | null} value the link-text value
+   */
+  set messageText(value) {
+    if (value) {
+      this.setAttribute('message-text', value);
+    }
+  }
+
+  get messageText() { return this.getAttribute('message-text'); }
 
   /**
    * Establish Internal Event Handlers

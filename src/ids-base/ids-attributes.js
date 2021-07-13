@@ -80,6 +80,7 @@ export const attributes = {
   MASK_RETAIN_POSITIONS: 'mask-retain-positions',
   MAXLENGTH: 'maxlength',
   MENU: 'menu',
+  MESSAGE_TEXT: 'message-text',
   METHOD: 'method',
   MIN: 'min',
   MODE: 'mode',
