@@ -24,14 +24,23 @@ A normal container used as a web component.
 </ids-container>
 ```
 
+A normal container with a set padding.
+```html
+<ids-container scrollable="true" padding="8">
+  <!-- ids components -->
+</ids-container>
+```
+
 ## Settings and Attributes
 
 - `scrollable` {boolean} Turns on the overflow to allow for scroll
+- `padding` {number} Sets the padding in px around the container (defaults to 0 / none)
 
 ## States and Variations (With Code Examples)
 
 - Color
 - Scrollable
+- Padding
 
 ## Keyboard Guidelines
 

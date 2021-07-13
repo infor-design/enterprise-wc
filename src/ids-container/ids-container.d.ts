@@ -12,4 +12,7 @@ export default class IdsTag extends IdsElement {
 
   /** Sets the container to scrollable */
   scrollable: boolean | string;
+
+  /** Sets the container padding to string value */
+  padding: string;
 }
