@@ -78,7 +78,7 @@ Set as Indeterminate the checkbox. This `indeterminate` attribute will remove on
 <ids-checkbox label="Indeterminate" indeterminate="true"></ids-checkbox>
 ```
 
-## Attributes and Properties
+## Settings (Attributes)
 
 - `checked` {boolean} set checked state.
 - `color` {string} set the color for checkbox.

@@ -16,9 +16,9 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
     super.connectedCallback?.();
   }
 
-  static get properties() {
+  static get attributes() {
     return [
-      ...super.properties,
+      ...super.attributes,
       attributes.LANGUAGE,
       attributes.LOCALE
     ];

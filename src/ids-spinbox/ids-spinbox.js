@@ -47,8 +47,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
    */
   static get attributes() {
     return [

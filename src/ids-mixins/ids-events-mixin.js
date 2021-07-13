@@ -20,9 +20,9 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     this.onEvent = this.onEvent.bind(this);
   }
 
-  static get properties() {
+  static get attributes() {
     return [
-      ...super.properties
+      ...super.attributes
     ];
   }
 

@@ -16,7 +16,6 @@
 - [] Coverage / Lint
 - [] Docs / Types
 
-# TODO For Phase 2
+## TODO For Phase 2
 
 - [] Change fonts for some locales (how would we do this?)
-

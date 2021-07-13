@@ -80,7 +80,7 @@ This mixin add functionality for validation to the component. This includes a ad
 This mixin adds functionality to change the theme on a component. To use it you need to:
 
 1. Include the IdsThemeMixin in the `mix` list.
-1. Add two properties to the properties array. For example:
+1. Add two attributes to the attributes array. For example:
 
 ```js
   static get attributes() {
@@ -89,7 +89,7 @@ This mixin adds functionality to change the theme on a component. To use it you 
 ```
 
 1. Make sure if you use connectedCallback that you have a `super.connectedCallback()` in the method
-1. Add types for MODE and VERSION to the `d.ts` file for the new properties.
+1. Add types for MODE and VERSION to the `d.ts` file for the new attributes.
 1. Add the theme mixin name to the @mixes tag for future docs.
 1. Add the color changes for each theme scss file. For example:
 
@@ -139,7 +139,7 @@ This mixin adds functionality to change the theme on a component. To use it you 
 This mixin adds functionality to display a tooltip on an item.
 
 1. Include the import and then IdsTooltipMixin in the `mix` list.
-1. Add types for MODE and VERSION to the `d.ts` file for the new properties.
+1. Add types for MODE and VERSION to the `d.ts` file for the new attributes.
 1. Add IdsTooltipMixin to the @mixes list
 
 When using it...
@@ -175,7 +175,7 @@ get providedAttributes() {
 This mixin adds functionality to handle locale and adds a locale API shared instance onto the component.
 
 1. Include the import and then IdsLocaleMixin in the `mix` list.
-1. Add types for LANGUAGE and LOCALE to the `d.ts` file for the new properties.
+1. Add types for LANGUAGE and LOCALE to the `d.ts` file for the new attributes.
 1. Add IdsLocaleMixin to the @mixes list
 
 When using it access the locale with `this.locale`.
@@ -184,11 +184,11 @@ When using it access the locale with `this.locale`.
 1. Add tests for your locale use cases to your component tests.
 1. If you need to respond and change things on language or locale change then you may need to add a combination of the following to handle events
 
-```
+```js
 // Respond to parent changing language
 this.offEvent('languagechanged.container');
 this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
-  await this.locale.setLanguage(e.detail.language.name);
+  await this.setLanguage(e.detail.language.name);
   // Do something with parent lang
 });
 
@@ -218,16 +218,16 @@ this.onEvent('localechanged.this', this, async (e) => {
 
 One goal of the local mixin is to handler RTL but you don't always need it. The best approach is to try and make your css work either direction before resorting to resets. One useful technique is to use css grid / flex with `end` or `flex-end`. This automatically works in RTL mode without trying to negate a anything.
 
-```
+```scss
 // On Parent
 display: grid;
 grid-auto-flow: column;
-  // On Child
-  justify-self: end;
+// On Child
+justify-self: end;
 ```
 
-```
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
+```scss
+display: flex;
+flex-direction: row;
+justify-content: flex-end;
 ```

@@ -33,7 +33,7 @@ The Ids Popup Menu is a complex component that combines an [`IdsMenu`](../ids-me
 **Target** Defined on Popup Menus. The Popup Menus can have a `target` property defined that will define another element in the page as being the "actionable" element for causing the menu to show/hide.
 **Trigger** Defined on Popup Menus. The name of the action that causes the Popup Menu to be displayed. The default behavior for Popup Menus will make them occur on the browser's document-level `contextmenu` event, but the trigger behavior can also occur on a left/right/middle `click`, as well as displaying when invoked by using the `immediate` behavior.
 
-## Attributes and Properties
+## Settings (Attributes)
 
 ### Popup Menu
 
@@ -123,7 +123,7 @@ document.body.appendChild(menu);
 
 ## Keyboard Guidelines
 
-- <kbd>Tab</kbd> Can be used to navigate to the next available menu item with a 0+ tabindex value.
+- <kbd>Tab</kbd> Can be used to navigate to the next available menu item with a 0+ tab-index value.
 - <kbd>Shift + Tab</kbd> Does the opposite, navigating to the previous available menu item.
 - <kbd>Up/down arrow</kbd> navigate up and down the list.
 - <kbd>Left/right arrow</kbd> traverses nested Popup Menus.  If the currently-highlighted menu item contains a Submenu, pressing the right arrow will open that Submenu.  If the left arrow is pressed while a nested menu item is focused, its Submenu will be closed and focus will be returned to the parent menu item.

@@ -43,8 +43,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
    */
   static get attributes() {
     return [
@@ -62,7 +62,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   handleEvents() {
     this.offEvent('languagechanged.container');
     this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
+      await this.setLanguage(e.detail.language.name);
       if (this.isFlipped(this.icon)) {
         this.container.classList.add('flipped');
       } else {

@@ -154,7 +154,9 @@ class IdsLocale {
       if (options.showAsUndefined) {
         return undefined;
       }
-      if (!this.state.defaultLocale.messages[key]) {
+
+      messages = this.state.defaultLocale?.messages;
+      if (!messages || !messages[key]) {
         return `${options.showBrackets ? '[' : ''}${key}${options.showBrackets ? ']' : ''}`;
       }
       return this.state.defaultLocale.messages[key].value;

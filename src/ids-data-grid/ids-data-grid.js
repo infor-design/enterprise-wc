@@ -59,8 +59,8 @@ class IdsDataGrid extends mix(IdsElement).with(
   datasource = new IdsDataSource();
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
    */
   static get attributes() {
     return [
@@ -270,7 +270,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     // Respond to parent changing language
     this.offEvent('languagechanged.container');
     this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
+      await this.setLanguage(e.detail.language.name);
     });
 
     // Respond to the element changing language
@@ -282,13 +282,16 @@ class IdsDataGrid extends mix(IdsElement).with(
     // Respond to parent changing language
     this.offEvent('localechanged.container');
     this.onEvent('localechanged.container', this.closest('ids-container'), async (e) => {
-      await this.locale.setLocale(e.detail.locale.name);
+      await this.setLocale(e.detail.locale.name);
       this.rerender();
     });
 
     // Respond to the element changing language
     this.offEvent('localechanged.this');
     this.onEvent('localechanged.this', this, async (e) => {
+      if (!e.detail.locale.name) {
+        return;
+      }
       await this.locale.setLocale(e.detail.locale.name);
       this.rerender();
     });

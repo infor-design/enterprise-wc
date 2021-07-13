@@ -48,8 +48,8 @@ class IdsText extends mix(IdsElement).with(
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
    */
   static get attributes() {
     return [
@@ -103,7 +103,7 @@ class IdsText extends mix(IdsElement).with(
     if (this.translateText) {
       this.offEvent('languagechanged.container');
       this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
-        await this.locale.setLanguage(e.detail.language.name);
+        await this.setLanguage(e.detail.language.name);
         this.#translateAsync();
       });
 

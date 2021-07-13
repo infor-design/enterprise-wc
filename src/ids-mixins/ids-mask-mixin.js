@@ -31,7 +31,7 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   }
 
   /**
-   * @returns {Array<string>} IdsInput component observable properties
+   * @returns {Array<string>} IdsInput component observable attributes
    */
   static get attributes() {
     return [...super.attributes, ...MASK_ATTRIBUTES];

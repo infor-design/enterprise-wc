@@ -276,8 +276,7 @@ describe('IdsSpinbox Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('toggling disabled and renderonly states preserves provides proper'
-  + ' disabled states', async () => {
+  it('toggling disabled and readony states preserves states', async () => {
     elem = await createElemViaTemplate(
       `<ids-spinbox readonly value="10"></ids-spinbox>`
     );
