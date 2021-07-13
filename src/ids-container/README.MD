@@ -34,7 +34,7 @@ A normal container with a set padding.
 ## Settings and Attributes
 
 - `scrollable` {boolean} Turns on the overflow to allow for scroll
-- `Padding` {number} Sets the padding in px around the Ids Container.
+- `padding` {number} Sets the padding in px around the container
 
 ## States and Variations (With Code Examples)
 
