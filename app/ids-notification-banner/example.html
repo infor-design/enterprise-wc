@@ -40,27 +40,35 @@
 </ids-layout-grid>
 
 
-<!-- <ids-layout-grid cols="3" gap="md">
+<ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
     <ids-card>
       <div slot="card-header">
         <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card Title One</ids-text>
       </div>
       <div slot="card-content">
-        <ids-notification-banner type="success">
-          <ids-text slot="message" overflow="ellipsis">DTO rejected by your manager for Sept 30, 2018.</ids-text>
+        <ids-notification-banner
+          message-text="DTO rejected by your manager for Sept 30, 2018."
+          type="success"
+        >
         </ids-notification-banner>
 
-        <ids-notification-banner type="alert">
-          <ids-text slot="message" overflow="ellipsis">Notification Banner with no link</ids-text>
+        <ids-notification-banner
+          message-text="Notification Banner with no link"
+          type="alert"
+        >
         </ids-notification-banner>
 
-        <ids-notification-banner type="info">
-          <ids-text slot="message" overflow="ellipsis">Notification Banner with custom link text.</ids-text>
+        <ids-notification-banner
+          message-text="Notification Banner with custom link text."
+          type="info"
+        >
         </ids-notification-banner>
 
-        <ids-notification-banner type="error">
-          <ids-text slot="message" overflow="ellipsis">DTO rejected by your manager for Sept 30, 2018.</ids-text>
+        <ids-notification-banner
+          message-text="DTO rejected by your manager for Sept 30, 2018."
+          type="error"
+        >
         </ids-notification-banner>
 
         <ids-list-view id="list-view-1" virtual-scroll="true">
@@ -73,4 +81,4 @@
       </div>
     </ids-card>
   </ids-layout-grid-cell>
-</ids-layout-grid> -->
+</ids-layout-grid>

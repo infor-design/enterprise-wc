@@ -18,17 +18,3 @@ xmlhttp.onreadystatechange = function onreadystatechange() {
 // 3. Execute the request
 xmlhttp.open('GET', url, true);
 xmlhttp.send();
-
-const notificationBanner = new IdsNotificationBanner();
-console.log(notificationBanner);
-
-document.addEventListener('DOMContentLoaded', () => {
-
-  // notificationBanner.show({
-  //   id: 'custom-notification-id',
-  //   messageText: 'Hello',
-  //   type: 'success',
-  //   link: 'https://infor.com',
-  //   linkText: 'Click to view'
-  // });
-});
