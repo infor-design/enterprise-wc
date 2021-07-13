@@ -1,3 +1,5 @@
+/* global $ */
+
 import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
 
 // Supporting components
@@ -14,5 +16,5 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-//Initialize the 4.x
+// Initialize the 4.x
 $('body').initialize();

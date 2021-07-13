@@ -1,3 +1,5 @@
+/* global $ */
+
 import IdsUploadAdvanced from '../../src/ids-upload-advanced/ids-upload-advanced';
 
 /**
@@ -8,7 +10,7 @@ import IdsUploadAdvanced from '../../src/ids-upload-advanced/ids-upload-advanced
  * @param {object} uiElem The ui element
  * @returns {void}
  */
- function customSendMethodXhr(formData, uiElem) {
+function customSendMethodXhr(formData, uiElem) {
   const xhr = new XMLHttpRequest();
   xhr.upload.addEventListener('progress', uiElem.progressHandler.bind(uiElem), false);
   xhr.addEventListener('load', uiElem.completeHandler.bind(uiElem), false);
@@ -28,9 +30,9 @@ document.addEventListener('DOMContentLoaded', () => {
   uploadEl.send = customSendMethodXhr;
 });
 
-//Initialize the 4.x
+// Initialize the 4.x
 $('body').initialize();
-$('body').on('initialized', function() {
+$('body').on('initialized', () => {
   $('.fileupload-advanced').fileuploadadvanced({
     attributes: [
       {
@@ -42,5 +44,5 @@ $('body').on('initialized', function() {
         value: 'fileupload-advanced-automation-id'
       }
     ]
-  })
+  });
 });

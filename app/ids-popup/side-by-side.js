@@ -1,3 +1,5 @@
+/* global $ */
+
 import IdsPopup from '../../src/ids-popup/ids-popup';
 
 // Supporting Components
@@ -16,9 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-//Initialize the 4.x
+// Initialize the 4.x
 $('body').initialize();
-var POPOVER_OPTIONS = {
+const POPOVER_OPTIONS = {
   attributes: [{
     name: 'data-automation-id',
     value: 'my-popover-automation-id'

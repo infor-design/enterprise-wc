@@ -1,6 +1,8 @@
+/* global $ */
+
 import IdsSpinbox from '../../src/ids-spinbox';
 
-//Initialize the 4.x
+// Initialize the 4.x
 $('body').initialize();
 $('#regular-spinbox').spinbox({
   attributes: [

@@ -1,3 +1,5 @@
+/* global $ */
+
 import IdsListView from '../../src/ids-list-view/ids-list-view';
 import IdsCard from '../../src/ids-card/ids-card';
 
@@ -18,5 +20,5 @@ xmlhttp.onreadystatechange = function onreadystatechange() {
 xmlhttp.open('GET', url, true);
 xmlhttp.send();
 
-//Initialize the 4.x
-  $('body').initialize();
+// Initialize the 4.x
+$('body').initialize();

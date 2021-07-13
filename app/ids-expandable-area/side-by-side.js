@@ -1,3 +1,5 @@
+/* global $ */
+
 import IdsExpandableArea from '../../src/ids-expandable-area/ids-expandable-area';
 
 // Supporting components
@@ -18,55 +20,54 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-//Initialize the 4.x
+// Initialize the 4.x
 $('body').initialize();
-$('body').on('initialized', function() {
-
+$('body').on('initialized', () => {
   $('#expandable-area-1').expandablearea({
     attributes: [{
-        name: 'id',
-        value: 'expandablearea-id-1'
-      },
-      {
-        name: 'data-automation-id',
-        value: 'expandablearea-automation-id-1'
-      }
+      name: 'id',
+      value: 'expandablearea-id-1'
+    },
+    {
+      name: 'data-automation-id',
+      value: 'expandablearea-automation-id-1'
+    }
     ]
   });
 
   $('#expandable-area-2').expandablearea({
     attributes: [{
-        name: 'id',
-        value: 'expandablearea-id-2'
-      },
-      {
-        name: 'data-automation-id',
-        value: 'expandablearea-automation-id-2'
-      }
+      name: 'id',
+      value: 'expandablearea-id-2'
+    },
+    {
+      name: 'data-automation-id',
+      value: 'expandablearea-automation-id-2'
+    }
     ]
   });
 
   $('#expandable-area-3').expandablearea({
     attributes: [{
-        name: 'id',
-        value: 'expandablearea-id-3'
-      },
-      {
-        name: 'data-automation-id',
-        value: 'expandablearea-automation-id-3'
-      }
+      name: 'id',
+      value: 'expandablearea-id-3'
+    },
+    {
+      name: 'data-automation-id',
+      value: 'expandablearea-automation-id-3'
+    }
     ]
   });
 
   $('#expandable-area-4').expandablearea({
     attributes: [{
-        name: 'id',
-        value: 'expandablearea-id-4'
-      },
-      {
-        name: 'data-automation-id',
-        value: 'expandablearea-automation-id-4'
-      }
+      name: 'id',
+      value: 'expandablearea-id-4'
+    },
+    {
+      name: 'data-automation-id',
+      value: 'expandablearea-automation-id-4'
+    }
     ]
   });
 });

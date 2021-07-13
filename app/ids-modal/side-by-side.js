@@ -1,3 +1,5 @@
+/* global $ */
+
 import IdsModal from '../../src/ids-modal/ids-modal';
 
 // Supporting Components
@@ -29,39 +31,41 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-//Initialize the 4.x
+// Initialize the 4.x
 $('body').initialize();
-var modals = {
+const modals = {
   'add-context': {
-    'title': 'Add Context',
-    'id': 'my-id',
-    'content': $('#modal-add-context')
+    title: 'Add Context',
+    id: 'my-id',
+    content: $('#modal-add-context')
   }
-},
+};
 
-setModal = function (opt) {
+const setModal = function modalContent(opt) {
+  /* eslint-disable no-param-reassign */
   opt = $.extend({
     buttons: [{
       text: 'Cancel',
-    //  id: 'modal-button-1',
-      click: function(e, modal) {
+      //  id: 'modal-button-1',
+      click(e, modal) {
         modal.close();
       }
     }, {
       text: 'Save',
-    //  id: 'modal-button-2',
-      click: function(e, modal) {
+      //  id: 'modal-button-2',
+      click(e, modal) {
         modal.close();
       },
       validate: false,
       isDefault: true
     }]
   }, opt);
+  /* eslint-disable no-param-reassign */
 
   $('body').modal(opt);
 };
 
-$('#add-context').on('click', function () {
+$('#add-context').on('click', function addContext() {
   $(this).focus();
   setModal(modals[this.id]);
 });

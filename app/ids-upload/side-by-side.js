@@ -1,6 +1,8 @@
+/* global $ */
+
 import IdsText from '../../src/ids-upload/ids-upload';
 
-//Initialize the 4.x
+// Initialize the 4.x
 $('body').initialize();
 $('#fileupload').fileupload({
   attributes: [

@@ -1,7 +1,9 @@
+/* global $ */
+
 import IdsCard from '../../src/ids-card/ids-card';
 
-//Initialize the 4.x
+// Initialize the 4.x
 $('body').initialize();
-$('.btn-actions').on('selected', function (e, args) {
-  console.log(e, args);
+$('.btn-actions').on('selected', (e, args) => {
+  console.log(e, args); // eslint-disable-line no-console
 });

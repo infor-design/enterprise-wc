@@ -1,3 +1,5 @@
+/* global $ */
+
 import IdsMenu from '../../src/ids-menu/ids-menu';
 import IdsMenuHeader from '../../src/ids-menu/ids-menu-header';
 import IdsMenuItem from '../../src/ids-menu/ids-menu-item';
@@ -21,7 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-//Initialize the 4.x
+// Initialize the 4.x
 $('body').initialize();
 $('#popupmenu-trigger').popupmenu({
   attributes: [

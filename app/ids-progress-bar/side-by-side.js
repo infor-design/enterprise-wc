@@ -1,3 +1,5 @@
+/* global $ */
+
 import IdsProgressBar from '../../src/ids-progress-bar/ids-progress-bar';
 
 // Supporting components
@@ -36,9 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-
-//Initialize the 4.x
+// Initialize the 4.x
 $('body').initialize();
-$('#upd-progressbar').on('click', function () {
+$('#upd-progressbar').on('click', () => {
   $('#progress-bar1').data('progress').update('100');
 });
