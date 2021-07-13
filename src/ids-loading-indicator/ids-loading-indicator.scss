@@ -1,0 +1,222 @@
+/* Ids Loader */
+@import '../ids-base/ids-base';
+
+:host(ids-loading-indicator) {
+  --progress-color: var(--ids-color-palette-azure-80);
+  --overall-color: var(--ids-color-palette-azure-10);
+  --text-color: var(--ids-color-palette-slate-60);
+}
+
+:host(ids-loading-indicator[mode='dark']) {
+  --progress-color: var(--ids-color-palette-azure-10);
+  --overall-color: var(--ids-color-palette-azure-80);
+  --text-color: var(--ids-color-palette-white);
+}
+
+:host(ids-loading-indicator[mode='contrast']) {
+  --progress-color: var(--ids-color-palette-azure-80);
+  --overall-color: var(--ids-color-palette-slate-60);
+  --text-color: var(--ids-color-palette-slate-60);
+}
+
+:host(ids-loading-indicator:not([linear]):not([sticky])) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+:host(ids-loading-indicator:not([linear]):not([sticky]):not([inline])) {
+  width: 50px;
+  height: 50px;
+}
+
+:host(ids-loading-indicator[inline]:not([linear]):not([sticky])) {
+  width: 11px;
+  height: 11px;
+}
+
+:host(ids-loading-indicator[linear]),
+:host(ids-loading-indicator[sticky]) {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+:host(ids-loading-indicator[sticky]) {
+  position: absolute;
+  align-items: center;
+  top: 0;
+  left: 0;
+}
+
+:host(ids-loading-indicator[linear]) {
+  align-items: flex-end;
+  height: 48px;
+}
+
+.progress {
+  @include z-1();
+
+  transition: stroke-dashoffset 0.275s ease-in, transform 0.275s ease-in;
+}
+
+.progress-percentage {
+  display: flex;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--text-color);
+}
+
+.progress-percentage.linear {
+  top: calc(50%);
+}
+
+.percentage {
+  position: relative;
+  top: -4px;
+  right: -2px;
+}
+
+svg.linear-indicator {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+
+  &.sticky {
+    height: 8px;
+  }
+
+  .progress {
+    fill: var(--progress-color);
+    transform: #{'scaleX(calc(var(--progress) * 1%))'};
+  }
+
+  .overall {
+    fill: var(--overall-color);
+  }
+}
+
+svg.circular-indicator {
+  position: relative;
+  overflow: visible;
+  fill: transparent;
+  transform-origin: 50% 50%;
+  transform: rotateZ(-90deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  circle {
+    transform-origin: 50% 50%;
+  }
+
+  .overall {
+    stroke: var(--overall-color);
+  }
+
+  .progress {
+    stroke-dasharray: 283;
+    stroke: var(--progress-color);
+  }
+}
+
+svg.circular-indicator:not(.inline) {
+  width: 50px;
+  height: 50px;
+}
+
+svg.circular-indicator.inline {
+  width: 11px;
+  height: 11px;
+}
+
+.circular-indicator.determinate .progress {
+  /*
+   * circumference is 2πr(45) => 282.74, or 283
+   */
+  stroke-dashoffset: #{'calc(283 - (var(--progress) * 2.83))'};
+}
+
+@keyframes indeterminate-spinner-progress-anim {
+  0%,
+  15% {
+    stroke-dashoffset: 272;
+    transform: rotate(0);
+  }
+
+  60% {
+    stroke-dashoffset: 80;
+    transform: rotate(45deg);
+  }
+
+  65% {
+    stroke-dashoffset: 80;
+    transform: rotate(45deg);
+  }
+
+  100% {
+    stroke-dashoffset: 272;
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes indeterminate-spinner-anim {
+  0% {
+    transform: rotateZ(0deg);
+  }
+
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+svg.circular-indicator.indeterminate .progress {
+  animation: 1.52s linear infinite both indeterminate-spinner-progress-anim;
+}
+
+svg.circular-indicator.indeterminate {
+  animation: 2.4s linear infinite indeterminate-spinner-anim;
+}
+
+svg.linear-indicator.indeterminate .progress {
+  animation: 2.8s linear infinite both indeterminate-linear-progress-anim;
+}
+
+@keyframes indeterminate-linear-progress-anim {
+  0% {
+    transform: scaleX(0%) translateX(0%);
+  }
+
+  3.125%,
+  53.125% {
+    transform: scaleX(20%) translateX(0%);
+  }
+
+  6.25% {
+    transform: scaleX(30%) translateX(20%);
+  }
+
+  12.5%,
+  62.5% {
+    transform: scaleX(45%) translateX(60%);
+  }
+
+  25%,
+  75% {
+    transform: scaleX(100%) translateX(100%);
+  }
+
+  25.0000001%,
+  50%,
+  75.0000001%,
+  100% {
+    transform: scaleX(0%) translateX(0);
+  }
+}
