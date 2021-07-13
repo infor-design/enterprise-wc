@@ -2,6 +2,7 @@
 
 import IdsListView from '../../src/ids-list-view/ids-list-view';
 import IdsCard from '../../src/ids-card/ids-card';
+import './side-by-side.scss';
 
 // Example for populating the List View
 const listView = document.querySelector('#list-view-1');

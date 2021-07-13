@@ -1,5 +1,8 @@
+/* global $ */
+
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
 import IdsIcon from '../../src/ids-icon/ids-icon';
+import './side-by-side.scss';
 
 // Imports Used in the Examples
 
@@ -29,3 +32,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Initialize the 4.x
+$('body').initialize();

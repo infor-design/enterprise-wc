@@ -3,7 +3,7 @@
 <ids-layout-grid>
   <h2 class="ids-text ids-text-px-12">Web Component List View</h2>
 </ids-layout-grid>
-<ids-layout-grid cols="2">
+<ids-layout-grid cols="3">
   <ids-layout-grid-cell col-span="1">
     <ids-card>
       <div slot="card-header">
@@ -44,11 +44,11 @@
           </svg>
         </button>
       </div>
-      <div class="card-content" style="overflow: hidden;">
+      <div class="card-content">
         <div class="listview disable-hover" id="task-listview" data-options="{'source': '//main-enterprise.demo.design.infor.com/api/inventory-tasks', 'template': 'task-tmpl', 'selectable': 'false', 'attributes': [ { 'name': 'data-automation-id', 'value': 'test' } ] }" tabindex="-1" x-ms-format-detection="none" data-automation-id="test-listview">
           <ul role="listbox" aria-label="Tasks">
             <li tabindex="0" role="option" data-automation-id="test-listview-item-0" aria-posinset="1" aria-setsize="12">
-              <p class="listview-heading" style="width: 579px;">Task #Task 191/2001</p>
+              <p class="listview-heading">Task #Task 191/2001</p>
               <p class="listview-subheading">Special fields test - New item has been created. </p>
               <p class="listview-micro">Due: 10/11/2015</p>
             </li>
