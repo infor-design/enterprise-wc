@@ -13,6 +13,7 @@ import {
   IdsThemeMixin
 } from '../ids-mixins';
 
+import IdsDraggable from './ids-draggable';
 import styles from './ids-splitter.scss';
 
 /**
@@ -55,10 +56,9 @@ export default class IdsSplitter extends mix(IdsElement).with(
    */
   template() {
     return (
-      `<div
-        class="ids-splitter"
-        part="splitter"
-      ></div>`
+      `<ids-draggable axis="${this.axis}">
+        <div class="ids-splitter ${this.axis}" draggable="true" part="splitter"></div>
+      </ids-draggable>`
     );
   }
 
