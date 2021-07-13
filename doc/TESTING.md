@@ -34,7 +34,7 @@ node node_modules/puppeteer/install.js
 
 ## Running test in watch mode
 
-If your doing a lot of testing and changing you can save a lot of time running jest in watch mode. When you do any tests that change will be quickly rerun. To do so type `npm run test:watch` in the command line and then change a test file and watch that it reruns right away.
+If your doing a lot of testing and changing you can save a lot of time running Jest in watch mode. When you do any tests that change will be quickly rerun. To do so type `npm run test:watch` in the command line and then change a test file and watch that it reruns right away.
 
 ## Debugging e2e Tests
 
@@ -75,6 +75,7 @@ We should have one visual regression image per component. When you PR a test an 
 
 ## Coverage
 
-- To run in coverage mode (since it takes longer) use the command `npm run test:coverage`
+- To run in coverage mode (which may take more time than just running tests alone), use the command `npm run test:coverage`
 - Open the [newly generated coverage report @ ../coverage/index.html](../coverage/index.html) in any browser
 - Drill in to the component in question and try and improve coverage to 100%
+- If while inspecting the coverage report you notice a black "E" or "I", this would indicate that a connected logic branch (else or if) to the line reported is not detected as covered
