@@ -34,13 +34,13 @@ A normal container with a set padding.
 ## Settings and Attributes
 
 - `scrollable` {boolean} Turns on the overflow to allow for scroll
-- `padding` {number} Sets the padding in px around the container
+- `padding` {number} Sets the padding in px around the container (defaults to 0 / none)
 
 ## States and Variations (With Code Examples)
 
 - Color
 - Scrollable
-- Padding 
+- Padding
 
 ## Keyboard Guidelines
 
