@@ -15,10 +15,10 @@
   @include outline-none();
   @include p-8();
 
-  height: calc(100% - 16px);
-  margin: -8px;
+  height: 100%;
+  margin: 0;
   overflow: auto;
-  width: calc(100% - 16px);
+  width: 100%;
 
   &[scrollable='false'] {
     overflow: hidden;
