@@ -1,0 +1,42 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Hyperlink</h2>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-hyperlink href="http://www.example.com" target="_blank">Normal Link</ids-hyperlink>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Hyperlink (disabled)</ids-text>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-hyperlink href="http://www.example.com" disabled="true" target="_blank">Disabled Link</ids-hyperlink>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Hyperlink</h2>
+</ids-layout-grid>
+<div class="svg hidden">
+  <div class="svg-icons">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+      <symbol id="icon-caret-right" viewBox="0 0 18 18"><path d="M4.5 17.5L13 9 4.5.5" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+      <symbol id="icon-caret-left" viewBox="0 0 18 18"><path d="M12.5 17.5L4 9 12.5.5" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+    </svg>
+  </div>
+</div>
+<div class="row">
+  <div class="one-half column">
+    <a class="hyperlink hide-focus" href="#">Normal Hyperlink</a><p>&nbsp;</p>
+    <a class="hyperlink hide-focus" disabled tabindex="-1" href="#">Disabled Hyperlink</a><p>&nbsp;</p>
+  </div>
+</div>
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}

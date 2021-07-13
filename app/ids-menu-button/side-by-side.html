@@ -1,0 +1,85 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Menu Button</h2>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Menu Buttons</ids-text>
+</ids-layout-grid>
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+      <ids-menu-button id="menu-button" icon="settings" type="tertiary" menu="my-menu" dropdown-icon>
+          <span slot="text">Settings</span>
+      </ids-menu-button>
+      <ids-popup-menu id="my-menu" target="menu-button" trigger="click">
+          <ids-menu-group>
+              <ids-menu-item>Personalize Columns</ids-menu-item>
+          </ids-menu-group>
+          <ids-separator></ids-separator>
+          <ids-menu-group select="single">
+              <ids-menu-header>Row Height</ids-menu-header>
+              <ids-menu-item disabled="true">Extra Small</ids-menu-item>
+              <ids-menu-item>Small</ids-menu-item>
+              <ids-menu-item>Medium</ids-menu-item>
+              <ids-menu-item selected="true">Large</ids-menu-item>
+          </ids-menu-group>
+          <ids-separator></ids-separator>
+          <ids-menu-group select="multiple" keep-open="true">
+              <ids-menu-item selected="true">Show Filter Row</ids-menu-item>
+          </ids-menu-group>
+          <ids-menu-group>
+              <ids-menu-item>Run Filter</ids-menu-item>
+              <ids-menu-item>Clear Filter</ids-menu-item>
+          </ids-menu-group>
+      </ids-popup-menu>
+
+      <ids-menu-button id="icon-button" menu="icon-menu">
+        <ids-icon slot="icon" icon="more"></ids-icon>
+        <span class="audible">Icon Only Button</span>
+      </ids-menu-button>
+      <ids-popup-menu id="icon-menu" target="icon-button" trigger="click">
+        <ids-menu-group>
+          <ids-menu-item>Option One</ids-menu-item>
+          <ids-menu-item>Option Two</ids-menu-item>
+          <ids-menu-item>Option Three</ids-menu-item>
+        </ids-menu-group>
+      </ids-popup-menu>
+
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Menu Button</h2>
+</ids-layout-grid>
+<div class="svg hidden">
+  <div class="svg-icons">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+      <symbol id="icon-dropdown" viewBox="0 0 18 18"><path d="M4 6l5 6 5-6H4" fill="currentColor" fill-rule="evenodd" stroke="none"></path></symbol>
+    </svg>
+  </div>
+</div>
+<div class="row">
+  <div class="twelve columns">
+
+    <!-- Normal Menu -->
+    <div class="field">
+      <button id="popupmenu-trigger" class="btn-menu">
+        <span>Normal Menu</span>
+        <svg role="presentation" aria-hidden="true" focusable="false" class="icon icon-dropdown">
+          <use href="#icon-dropdown"></use>
+        </svg>
+      </button>
+      <ul class="popupmenu">
+        <li><a href="#">Menu Option #1</a></li>
+        <li><a href="#">Menu Option #2</a></li>
+        <li><a href="#">Menu Option #3</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}
