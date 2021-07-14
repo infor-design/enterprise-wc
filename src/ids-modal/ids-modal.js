@@ -239,7 +239,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       // Search for slotted title elements.
       // If one is found, replace the contents.  Otherwise, create one.
       if (!titleEls.length) {
-        this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.settings.title}</ids-text>`);
+        this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.title}</ids-text>`);
         titleEls = [this.querySelector('[slot="title"]')];
       }
 
