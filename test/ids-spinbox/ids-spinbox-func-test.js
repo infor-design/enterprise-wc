@@ -284,45 +284,28 @@ describe('IdsSpinbox Component', () => {
     expectElemFlagBehavior(elem, 'label-hidden');
   });
 
-  it('toggling disabled and readony states preserves states', async () => {
+  it('toggling disabled and readonly preserves states', async () => {
     elem = await createElemViaTemplate(
       `<ids-spinbox readonly value="10"></ids-spinbox>`
     );
 
-    elem.setAttribute('disabled', true);
-    await processAnimFrame();
-
-    const idsButtons = [...elem.shadowRoot.querySelectorAll('ids-button')];
-
-    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
-
-    elem.removeAttribute('readonly');
-    await processAnimFrame();
-
-    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
-    expect(elem.readonly).toBeNull();
-
-    elem.removeAttribute('disabled');
-    await processAnimFrame();
-
-    expect(idsButtons.find((el) => el.hasAttribute('disabled'))).toEqual(undefined);
-    expect(elem.disabled).toBeNull();
+    elem.disabled = true;
+    elem.readonly = true;
+    expect(elem.getAttribute('readonly')).toEqual('true');
+    expect(elem.getAttribute('disabled')).toEqual('true');
+    elem.readonly = false;
+    elem.disabled = false;
+    expect(elem.getAttribute('readonly')).toBeFalsy();
+    expect(elem.getAttribute('disabled')).toBeFalsy();
 
     elem.readonly = true;
-    await processAnimFrame();
-
-    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
-    expect(elem.readonly).not.toBeNull();
-
-    elem.setAttribute('disabled', true);
-    await processAnimFrame();
-
-    elem.removeAttribute('disabled');
-    await processAnimFrame();
-
-    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
-    expect(elem.readonly).not.toBeNull();
-    expect(elem.disabled).toBeNull();
+    elem.disabled = true;
+    expect(elem.getAttribute('disabled')).toEqual('true');
+    expect(elem.getAttribute('readonly')).toEqual('true');
+    elem.disabled = false;
+    elem.readonly = false;
+    expect(elem.getAttribute('readonly')).toBeFalsy();
+    expect(elem.getAttribute('disabled')).toBeFalsy();
   });
 
   // note this behavior should be more intelligent on iteration;
