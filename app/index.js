@@ -81,3 +81,4 @@ import './ids-spinbox/index';
 import './ids-tabs/index';
 import './ids-pager/example';
 import './ids-loading-indicator/index';
+import './ids-draggable';

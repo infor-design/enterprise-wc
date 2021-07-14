@@ -1,0 +1,21 @@
+// temporary/debug styling
+
+ids-draggable {
+  display: flex;
+  width: 32px;
+  height: 100%;
+  background-color: #f00;
+  cursor: grab;
+}
+
+.ids-draggable[axis='x']:not([disabled]) {
+  cursor: col-resize;
+}
+
+.ids-draggable[axis='y']:not([disabled]) {
+  cursor: row-resize;
+}
+
+.ids-draggable[is-dragging] {
+  cursor: grabbing;
+}
