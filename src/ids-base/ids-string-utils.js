@@ -25,8 +25,8 @@ export function removeDuplicates(str) {
 }
 
 /**
- * Convert a string value into a boolean
- * @param {string|boolean|any} val string value from the component property
+ * Convert an attribute string into a boolean representation
+ * @param {string|boolean|any} val string value from the component attribute
  * @returns {boolean} The return boolean
  */
 export function stringToBool(val) {
@@ -37,8 +37,8 @@ export function stringToBool(val) {
 }
 
 /**
- * Convert a string value into a number
- * @param {string|number|any} val string value from the component property
+ * Converts an attribute string into a number
+ * @param {string|number|any} val string value from the component attribute
  * @returns {number} The return boolean
  */
 export function stringToNumber(val) {
@@ -76,7 +76,7 @@ export function buildClassAttrib(...classes) {
   }, '');
 
   /* istanbul ignore next */
-  return !classAttrib ? '' : ` class=${classAttrib}`;
+  return !classAttrib ? '' : ` class="${classAttrib}"`;
 }
 
 /**

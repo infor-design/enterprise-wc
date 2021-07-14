@@ -1,7 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`IdsLoader Component renders correctly 1`] = `
-"<style nonce=\\"0a59a005\\">.ids-loader { background-color: transparent; }</style><div class=\\"ids-loader\\" part=\\"loader\\">
-      <div class=\\"ids-loader-indeterminate\\"></div>
-    </div>"
-`;
