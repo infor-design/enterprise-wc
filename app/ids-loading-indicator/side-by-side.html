@@ -1,16 +1,19 @@
 {{> ../layouts/head-side-by-side.html }}
 
 <ids-layout-grid>
-  <h2 class="ids-text ids-text-px-12">Web Component Loader</h2>
-  <p>Loader is above</p>
+  <h2 class="ids-text ids-text-px-12">Web Component Loading Indicator</h2>
 </ids-layout-grid>
-<ids-layout-grid>
-  <ids-loader></ids-loader>
+<ids-layout-grid gap="md" cols="4">
+  <ids-layout-grid-cell>
+    <div class="circular-progress-container" data-step="10">
+      <ids-loading-indicator></ids-loading-indicator>
+    </div>
+  </ids-layout-grid-cell>
 </ids-layout-grid>
 
 <ids-layout-grid>
-  <h2 class="ids-text ids-text-px-12">4.x Loader</h2>
-  <p>Click Submit button to see Loader</p>
+  <h2 class="ids-text ids-text-px-12">4.x Loading Indicator</h2>
+  <p>Click Submit button to see Loading Indicator</p>
 </ids-layout-grid>
 <div class="row">
   <div class="one-half column">
