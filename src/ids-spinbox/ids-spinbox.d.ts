@@ -42,6 +42,15 @@ export default class IdsSpinbox extends IdsElement {
   /** label text describing the spinbox value */
   label: string;
 
+  /**
+   * Whether a label's text has been flagged
+   * as hidden.
+   *
+   * (a label is still required for the sake of accessibility and
+   * will be applied on the input element)
+   */
+  labelHidden?: boolean;
+
   /** whether the dirty tracker has been enabled */
   dirtyTracker: boolean | string;
 

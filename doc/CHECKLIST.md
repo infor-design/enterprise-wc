@@ -41,7 +41,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Breadcrumb (ids-bread-crumb
  - [ ] Bubble (ids-bubble-chart
  - [ ] Bullet (ids-bullet-chart
- - [x] Loader (ids-loader) aka Busy Indicator / Loading Indicator
+ - [x] Loader (ids-loading-indicator) aka Busy Indicator / Loading Indicator
  - [x] Button (ids-button)
  - [ ] Calendar (ids-calendar
  - [x] Cards (ids-card)
