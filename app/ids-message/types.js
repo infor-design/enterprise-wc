@@ -1,4 +1,5 @@
-import IdsMessage from '../../src/ids-message/ids-message';
+import IdsMessage from '../../src/ids-message';
+import IdsModal, { IdsModalButton } from '../../src/ids-modal';
 
 // Supporting Components
 import IdsButton from '../../src/ids-button/ids-button';
@@ -7,7 +8,7 @@ import IdsHyperlink from '../../src/ids-hyperlink/ids-hyperlink';
 import './types.scss';
 
 // Convenience function for setting up modal/trigger button connection
-const setupMessage = (messageEl, triggerBtnEl, cancelBtnEl) => {
+const setupMessage = (messageEl, triggerBtnEl) => {
   // Link the Message to its trigger button
   messageEl.target = triggerBtnEl;
 
@@ -17,12 +18,12 @@ const setupMessage = (messageEl, triggerBtnEl, cancelBtnEl) => {
     return true;
   });
 
-  // Close the modal when its cancel button is clicked.
-  if (cancelBtnEl) {
-    cancelBtnEl.addEventListener('click', () => {
-      messageEl.hide();
-    });
-  }
+  // Setup the response callback
+  messageEl.onButtonClick = (buttonEl) => {
+    const response = buttonEl.cancel ? 'cancel' : buttonEl.text;
+    console.info(`IdsMessage with title "${messageEl.title}" had its "${response}" button clicked`);
+    messageEl.hide();
+  };
 
   // After the modal is done hiding, re-enable its trigger button.
   messageEl.addEventListener('hide', () => {
@@ -39,24 +40,20 @@ document.addEventListener('DOMContentLoaded', () => {
   // Alert Message
   const messageAlertEl = document.querySelector('#message-alert');
   const messageAlertTriggerBtn = document.querySelector('#message-alert-trigger');
-  const messageAlertCancelBtn = document.querySelector('#message-alert-cancel');
-  setupMessage(messageAlertEl, messageAlertTriggerBtn, messageAlertCancelBtn);
+  setupMessage(messageAlertEl, messageAlertTriggerBtn);
 
   // Success Message
   const messageSuccessEl = document.querySelector('#message-success');
   const messageSuccessTriggerBtn = document.querySelector('#message-success-trigger');
-  const messageSuccessCancelBtn = document.querySelector('#message-success-cancel');
-  setupMessage(messageSuccessEl, messageSuccessTriggerBtn, messageSuccessCancelBtn);
+  setupMessage(messageSuccessEl, messageSuccessTriggerBtn);
 
   // Info Message
   const messageInfoEl = document.querySelector('#message-info');
   const messageInfoTriggerBtn = document.querySelector('#message-info-trigger');
-  const messageInfoCancelBtn = document.querySelector('#message-info-cancel');
-  setupMessage(messageInfoEl, messageInfoTriggerBtn, messageInfoCancelBtn);
+  setupMessage(messageInfoEl, messageInfoTriggerBtn);
 
   // Default (Confirmation) Message
   const messageConfEl = document.querySelector('#message-confirmation');
   const messageConfTriggerBtn = document.querySelector('#message-confirmation-trigger');
-  const messageConfCancelBtn = document.querySelector('#message-confirmation-cancel');
-  setupMessage(messageConfEl, messageConfTriggerBtn, messageConfCancelBtn);
+  setupMessage(messageConfEl, messageConfTriggerBtn);
 });

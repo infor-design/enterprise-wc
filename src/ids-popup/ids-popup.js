@@ -190,10 +190,14 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {void}
    */
   handleEvents() {
+    /*
     const slot = this.shadowRoot.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
-      this.refresh();
+      window.requestAnimationFrame(() => {
+        this.refresh();
+      });
     });
+    */
   }
 
   /**

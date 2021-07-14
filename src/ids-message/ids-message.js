@@ -90,18 +90,17 @@ class IdsMessage extends IdsModal {
   #refreshMessage(contentElem) {
     // Remove any existing message elements
     const currentMessage = this.message;
-    currentMessage?.remove();
+    if (currentMessage) {
+      [...currentMessage].forEach((messageEl) => {
+        messageEl.remove();
+      });
+    }
 
     // Append the new one
     this.appendChild(contentElem);
-  }
 
-  /**
-   * @readonly
-   * @returns {IdsModal} internal Modal instance
-   */
-  get modal() {
-    return this.container;
+    // Re-position the Popup
+    this.setModalPosition();
   }
 
   /**
@@ -125,7 +124,7 @@ class IdsMessage extends IdsModal {
       this.state.status = realStatusValue;
 
       if (typeof val === 'string' && val.length) {
-        this.setAttribute(attributes.STATUS, realStatusValue)
+        this.setAttribute(attributes.STATUS, realStatusValue);
       } else {
         this.removeAttribute(attributes.STATUS);
       }
@@ -145,7 +144,7 @@ class IdsMessage extends IdsModal {
     }
 
     let icon = header.querySelector('ids-icon');
-    if (val) {
+    if (val && val !== MESSAGE_STATUSES[0]) {
       if (!icon) {
         header.insertAdjacentHTML('afterbegin', `<ids-icon slot="icon" icon="${val}" class="ids-icon ids-message-status"></ids-icon>`);
         icon = header.querySelector('ids-icon');
@@ -159,8 +158,8 @@ class IdsMessage extends IdsModal {
 
   /**
    * Changes the color of the Status Icon
-   * @param {IdsIcon} iconEl
-   * @param {string} [thisStatus='none']
+   * @param {IdsIcon} iconEl the icon element to update
+   * @param {string} [thisStatus='none'] the status string to apply as a CSS class
    * @returns {void}
    */
   #setIconColor(iconEl, thisStatus = 'none') {

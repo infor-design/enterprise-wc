@@ -97,8 +97,11 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       this.setModalPosition();
     }));
 
+    // Update Inner Modal Parts
+
     this.shouldUpdate = true;
 
+    // Update Outer Modal Parts
     this.#refreshOverlay(this.overlay);
     this.#refreshVisibility(this.visible);
 
@@ -139,6 +142,14 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
         </div>
       </div>
     </ids-popup>`;
+  }
+
+  /**
+   * @readonly
+   * @returns {NodeList} currently slotted buttons
+   */
+  get buttons() {
+    return this.querySelectorAll('[slot="buttons"]');
   }
 
   /**
@@ -191,7 +202,8 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {string} the content of the message's title
    */
   get title() {
-    return this.state.title;
+    const titleEl = this.querySelector('[slot="title"]');
+    return titleEl?.textContent || '';
   }
 
   /**
@@ -391,13 +403,16 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       this.popup.align = 'center';
     }
 
-    // If the modal isn't visible, subtract its width/height from the equation
     const isOpen = this.popup.animatedOpen;
+    let width = 0;
+    let height = 0;
 
-    /* istanbul ignore next */
-    const width = !isOpen ? this.popup.container?.clientWidth || 0 : 0;
-    /* istanbul ignore next */
-    const height = !isOpen ? this.popup.container?.clientHeight || 0 : 0;
+    // If the modal isn't visible, subtract its width/height from the equation.
+    // If the modal IS visible,
+    if (!isOpen) {
+      width = this.popup.container?.clientWidth || 0;
+      height = this.popup.container?.clientHeight || 0;
+    }
 
     this.popup.x = (window.innerWidth - width) / 2;
     this.popup.y = (window.innerHeight - height) / 2;
@@ -456,6 +471,14 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
           this.title = titleNodes[0].textContent;
         }
       });
+    });
+
+    // If a Modal Button is clicked, fire an optional callback
+    const buttonSlot = this.container.querySelector('slot[name="buttons"]');
+    this.onEvent('click.buttons', buttonSlot, (e) => {
+      if (typeof this.onButtonClick === 'function') {
+        this.onButtonClick(e.target);
+      }
     });
   }
 
