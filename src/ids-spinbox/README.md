@@ -68,6 +68,9 @@ Spinbox which is required to have a value set when tabbed off of or `this.handle
 
 `label` `{string}` label shown above the spinbox
 
+`labelHidden` `{string}` label whether a label's text has been flagged as hidden.
+(a label is still required for the sake of accessibility and will be applied on the input element)
+
 `placeholder` `{string}` text shown as a hint when user clears text on the input
 
 `validate` `{string}` validation message text; set to `required` to require validation.
