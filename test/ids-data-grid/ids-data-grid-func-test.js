@@ -12,6 +12,7 @@ describe('IdsDataGrid Component', () => {
   const formatters = new IdsDataGridFormatters();
   const columns = () => {
     const cols = [];
+    // Set up columns
     cols.push({
       id: 'selectionCheckbox',
       sortable: false,
@@ -21,20 +22,19 @@ describe('IdsDataGrid Component', () => {
       width: 20
     });
     cols.push({
-      id: 'book',
-      name: 'Book',
-      field: 'book',
-      formatter: formatters.text,
-      width: 65,
-      sortable: true,
-      readonly: true
+      id: 'rowNumber',
+      name: '#',
+      formatter: formatters.rowNumber,
+      sortable: false,
+      readonly: true,
+      width: 65
     });
     cols.push({
       id: 'description',
       name: 'Description',
       field: 'description',
-      formatter: formatters.text,
-      sortable: true
+      sortable: true,
+      formatter: formatters.text
     });
     cols.push({
       id: 'ledger',
@@ -43,8 +43,27 @@ describe('IdsDataGrid Component', () => {
       formatter: formatters.text
     });
     cols.push({
+      id: 'publishDate',
+      name: 'Pub. Date',
+      field: 'publishDate',
+      formatter: formatters.date
+    });
+    cols.push({
+      id: 'publishTime',
+      name: 'Pub. Time',
+      field: 'publishDate',
+      formatter: formatters.time
+    });
+    cols.push({
+      id: 'price',
+      name: 'Price',
+      field: 'price',
+      formatter: formatters.decimal,
+      formatOptions: { locale: 'en-US' } // Data Values are in en-US
+    });
+    cols.push({
       id: 'bookCurrency',
-      name: 'Book Currency',
+      name: 'Currency',
       field: 'bookCurrency',
       formatter: formatters.text
     });
@@ -53,6 +72,20 @@ describe('IdsDataGrid Component', () => {
       name: 'Transaction Currency',
       field: 'transactionCurrency',
       formatter: formatters.text,
+    });
+    cols.push({
+      id: 'integer',
+      name: 'Price (Int)',
+      field: 'price',
+      formatter: formatters.integer,
+      formatOptions: { locale: 'en-US' } // Data Values are in en-US
+    });
+    cols.push({
+      id: 'location',
+      name: 'Location',
+      field: 'location',
+      formatter: formatters.hyperlink,
+      href: '#'
     });
     cols.push({
       id: 'postHistory',
@@ -89,19 +122,13 @@ describe('IdsDataGrid Component', () => {
       id: 'useForEmployee',
       name: 'Use For Employee',
       field: 'useForEmployee',
-      formatter: formatters.dropdown
+      formatter: formatters.password
     });
     cols.push({
       id: 'deprecationHistory',
       name: 'Deprecation History',
       field: 'deprecationHistory',
-      formatter: formatters.dropdown
-    });
-    cols.push({
-      id: 'useForEmployee',
-      name: 'Use For Employee',
-      field: 'useForEmployee',
-      formatter: dataGrid.formatters.password
+      formatter: formatters.text
     });
     return cols;
   };
@@ -177,7 +204,7 @@ describe('IdsDataGrid Component', () => {
   describe('Row Rendering Tests', () => {
     it('renders row data', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(126);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(dataGrid.columns.length * 9);
     });
 
     it('renders with no errors on empty data and columns', () => {
@@ -324,8 +351,8 @@ describe('IdsDataGrid Component', () => {
     });
 
     it('sets sort state via the API', () => {
-      dataGrid.setSortState('book');
-      expect(dataGrid.shadowRoot.querySelectorAll('[data-column-id]')[1].getAttribute('aria-sort')).toBe('ascending');
+      dataGrid.setSortState('description');
+      expect(dataGrid.shadowRoot.querySelectorAll('[data-column-id]')[2].getAttribute('aria-sort')).toBe('ascending');
     });
 
     it('handles wrong ID on sort', () => {
@@ -338,12 +365,12 @@ describe('IdsDataGrid Component', () => {
     it('fires sorted event on click', () => {
       const mockCallback = jest.fn((x) => {
         expect(x.detail.elem).toBeTruthy();
-        expect(x.detail.sortColumn.id).toEqual('book');
+        expect(x.detail.sortColumn.id).toEqual('description');
         expect(x.detail.sortColumn.ascending).toEqual(true);
       });
 
       dataGrid.addEventListener('sort', mockCallback);
-      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[1].click();
+      dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell')[2].click();
 
       expect(mockCallback.mock.calls.length).toBe(1);
     });
@@ -409,26 +436,114 @@ describe('IdsDataGrid Component', () => {
 
   describe('Formatter Tests', () => {
     it('can render with the text formatter', () => {
-      // Renders text
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[1].querySelector('.text-ellipsis').innerHTML).toEqual('101');
-
-      // Renders undefined
+      // Renders undefined/null
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
         .querySelectorAll('.ids-data-grid-cell')[3].querySelector('.text-ellipsis').innerHTML).toEqual('');
 
-      // Renders null
+      // Renders text
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
-        .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('');
+        .querySelectorAll('.ids-data-grid-cell')[3].querySelector('.text-ellipsis').innerHTML).toEqual('CORE');
     });
 
     it('can render with the password formatter', () => {
-      // Renders text
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[13].querySelector('.text-ellipsis').innerHTML).toEqual('**');
+        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('**');
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[13].querySelector('.text-ellipsis').innerHTML).toEqual('**');
+        .querySelectorAll('.ids-data-grid-cell')[16].querySelector('.text-ellipsis').innerHTML).toEqual('**');
+    });
+
+    it('can render with the rowNumber formatter', () => {
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[1].querySelector('.text-ellipsis').innerHTML).toEqual('1');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
+        .querySelectorAll('.ids-data-grid-cell')[1].querySelector('.text-ellipsis').innerHTML).toEqual('4');
+    });
+
+    it('can render with the date formatter', () => {
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('4/23/2021');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
+        .querySelectorAll('.ids-data-grid-cell')[4].querySelector('.text-ellipsis').innerHTML).toEqual('');
+    });
+
+    it('can render with the time formatter', () => {
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML).toEqual('2:25 PM');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
+        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML).toEqual('');
+    });
+
+    it('can render with the decimal formatter', () => {
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
+        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('');
+    });
+
+    it('can render with the decimal formatter (with defaults)', () => {
+      delete dataGrid.columns[6].formatOptions;
+      dataGrid.rerender();
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('12.99');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
+        .querySelectorAll('.ids-data-grid-cell')[6].querySelector('.text-ellipsis').innerHTML).toEqual('');
+    });
+
+    it('can render with the integer formatter', () => {
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
+        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('');
+    });
+
+    it('can render with the integer formatter (with defaults)', () => {
+      delete dataGrid.columns[9].formatOptions;
+      dataGrid.rerender();
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('13');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
+        .querySelectorAll('.ids-data-grid-cell')[9].querySelector('.text-ellipsis').innerHTML).toEqual('');
+    });
+
+    it('can render with the hyperlink formatter', () => {
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').innerHTML).toEqual('United States');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
+        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
+    });
+
+    it('can render with the hyperlink formatter (with default href)', () => {
+      delete dataGrid.columns[10].href;
+      dataGrid.rerender();
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
+        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').innerHTML).toEqual('United States');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
+        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
+    });
+
+    it('can render with the hyperlink formatter (with href function)', () => {
+      dataGrid.columns[10].href = (row) => {
+        if (row.book === 101) {
+          return null;
+        }
+        return `${row.book}`;
+      };
+      dataGrid.rerender();
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[2]
+        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink').getAttribute('href')).toEqual('102');
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[6]
+        .querySelectorAll('.ids-data-grid-cell')[10].querySelector('ids-hyperlink')).toBeFalsy();
     });
   });
 
@@ -442,7 +557,6 @@ describe('IdsDataGrid Component', () => {
 
       expect(dataGrid.activeCell.row).toEqual(0);
       expect(dataGrid.activeCell.cell).toEqual(1);
-
       dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(2);
       dataGrid.dispatchEvent(event);
@@ -468,7 +582,15 @@ describe('IdsDataGrid Component', () => {
       dataGrid.dispatchEvent(event);
       expect(dataGrid.activeCell.cell).toEqual(13);
       dataGrid.dispatchEvent(event);
-      expect(dataGrid.activeCell.cell).toEqual(13);
+      expect(dataGrid.activeCell.cell).toEqual(14);
+      dataGrid.dispatchEvent(event);
+      expect(dataGrid.activeCell.cell).toEqual(15);
+      dataGrid.dispatchEvent(event);
+      expect(dataGrid.activeCell.cell).toEqual(16);
+      dataGrid.dispatchEvent(event);
+      expect(dataGrid.activeCell.cell).toEqual(17);
+      dataGrid.dispatchEvent(event);
+      expect(dataGrid.activeCell.cell).toEqual(17);
     });
 
     it('can handle ArrowLeft key', () => {

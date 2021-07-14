@@ -35,6 +35,23 @@ describe('IdsLocale API', () => {
       expect(locale.locale.options.calendars[0].dateFormat.short).toEqual('dd.MM.yyyy');
     });
 
+    it('handles setting the locale with the setter', () => {
+      locale = new IdsLocale();
+      locale.locale = 'de-DE';
+      expect(locale.locale.name).toEqual('de-DE');
+      locale.locale = '';
+      expect(locale.locale.name).toEqual('de-DE');
+    });
+
+    it('handles null/undefined locale in setLocale', async () => {
+      await locale.setLocale(null);
+      expect(locale.locale.name).toEqual('en-US');
+      await locale.setLocale(undefined);
+      expect(locale.locale.name).toEqual('en-US');
+      await locale.setLocale('');
+      expect(locale.locale.name).toEqual('en-US');
+    });
+
     it('renders with no errors', () => {
       const errors = jest.spyOn(global.console, 'error');
       locale = new IdsLocale();
@@ -174,6 +191,11 @@ describe('IdsLocale API', () => {
       expect(locale.language.name).toEqual('nn');
     });
 
+    it('should show in the current language when language is not loaded', async () => {
+      await locale.setLanguage('fi');
+      expect(locale.translate('Actions', { language: 'de' })).toEqual('Toiminnot');
+    });
+
     it('renders correctly', () => {
       expect(locale).toBeTruthy();
       expect(locale.translate).toBeTruthy();
@@ -196,6 +218,14 @@ describe('IdsLocale API', () => {
 
       await locale.setLanguage('iw');
       expect(locale.language.name).toEqual('he');
+    });
+
+    it('should map in and iw locales', async () => {
+      await locale.setLocale('in-ID');
+      expect(locale.locale.name).toEqual('id-ID');
+
+      await locale.setLocale('iw');
+      expect(locale.locale.name).toEqual('he-IL');
     });
 
     it('should contain time data', async () => {
@@ -607,6 +637,25 @@ describe('IdsLocale API', () => {
         group: '',
         decimal: '.'
       })).toEqual('-922589489099.38');
+
+      await locale.setLocale('de-DE');
+      expect(locale.formatNumber('12345678901222121.123456', {
+        style: 'decimal',
+        minimumFractionDigits: 6,
+        maximumFractionDigits: 6
+      })).toEqual('12.345.678.901.222.121,123456');
+    });
+
+    it('should format integer numbers', async () => {
+      await locale.setLocale('en-US');
+      expect(locale.formatNumber('123456', {
+        style: 'integer'
+      })).toEqual('123,456');
+
+      await locale.setLocale('de-DE');
+      expect(locale.formatNumber('123456', {
+        style: 'integer'
+      })).toEqual('123.456');
     });
 
     it('should handle minimumFractionDigits', async () => {
@@ -858,6 +907,21 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber(4000)).toEqual(4000);
     });
 
+    it('should handle group when passed to parseNumber', async () => {
+      await locale.setLocale('en-US');
+      expect(locale.parseNumber('4.000', { group: '.' })).toEqual(4000);
+    });
+
+    it('should handle percentSign when passed to parseNumber', async () => {
+      await locale.setLocale('en-US');
+      expect(locale.parseNumber('%40', { percentSign: '%' })).toEqual(40);
+    });
+
+    it('should handle currencySign when passed to parseNumber', async () => {
+      await locale.setLocale('en-US');
+      expect(locale.parseNumber('€4,000', { currencySign: '€' })).toEqual(4000);
+    });
+
     it('handle big numbers ending in decimal', async () => {
       expect(locale.formatNumber('-1,482,409,800.81')).toEqual('-1,482,409,800.81');
       expect(locale.parseNumber('-1,482,409,800.81')).toEqual(-1482409800.81);
@@ -1051,6 +1115,13 @@ describe('IdsLocale API', () => {
       await locale.setLocale('sv-SE');
       expect(locale.formatDate(new Date(2000, 11, 1, 13, 40), { month: 'long', day: 'numeric' })).toEqual('1 december');
       expect(locale.formatDate(new Date(2000, 11, 1, 13, 5), { month: 'long', year: 'numeric' })).toEqual('december 2000');
+    });
+
+    it('should correct two digit year', () => {
+      expect(locale.twoToFourDigitYear('40')).toEqual(1940);
+      expect(locale.twoToFourDigitYear('20')).toEqual(2020);
+      expect(locale.twoToFourDigitYear('940')).toEqual(1940);
+      expect(locale.twoToFourDigitYear('020')).toEqual(2020);
     });
 
     it('should format datetimeMillis and timestampMillis', async () => {
@@ -1408,6 +1479,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('en-US');
 
       expect(locale.formatHour(0)).toEqual('12:00 AM');
+      expect(locale.formatHour('1')).toEqual('1:00 AM');
       expect(locale.formatHour('0:30')).toEqual('12:30 AM');
       expect(locale.formatHour(0.5)).toEqual('12:30 AM');
       expect(locale.formatHour(5)).toEqual('5:00 AM');
@@ -1673,6 +1745,11 @@ describe('IdsLocale API', () => {
       await locale.setLocale('en-US');
       expect(locale.parseDate('2015-05-10', { dateFormat: 'yyyy-dd-MM' }).getTime()).toEqual(new Date(2015, 9, 5, 0, 0, 0).getTime());
       expect(locale.parseDate('05-10-2015', { dateFormat: 'dd-MM-yyyy' }).getTime()).toEqual(new Date(2015, 9, 5, 0, 0, 0).getTime());
+    });
+
+    it('should parse ISO Dates with dashes in them', async () => {
+      await locale.setLocale('en-US');
+      expect(locale.parseDate('2011-10-05T14:48:00.000Z').getTime()).toEqual(1317826080000);
     });
   });
 

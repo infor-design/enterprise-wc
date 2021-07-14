@@ -16,6 +16,7 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
     super.connectedCallback?.();
   }
 
+  /* istanbul ignore next */
   static get attributes() {
     return [
       ...super.attributes,
@@ -60,10 +61,12 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
    * @param {string} value The locale string value
    */
   async setLocale(value) {
-    await this.locale.setLocale(value);
-    this.locale = value;
-    this.locale.updateLangTag(this, value.substr(0, 2));
-    this.triggerEvent('localechanged', this, { detail: { elem: this, language: this.language, locale: this.locale } });
+    if (value) {
+      await this.locale.setLocale(value);
+      this.locale = value;
+      this.locale.updateLangTag(this, value.substr(0, 2));
+      this.triggerEvent('localechanged', this, { detail: { elem: this, language: this.language, locale: this.locale } });
+    }
   }
 
   /**

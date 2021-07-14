@@ -302,9 +302,8 @@ class IdsLocale {
     // Handle Big Int (decimals)
     if (typeof value === 'string'
     && value.length >= 18
-    && (value.indexOf('.') > -1
-    || value.indexOf(',') > -1)) {
-      const index = value.indexOf('.') > -1 ? value.indexOf('.') : value.indexOf(',');
+    && (value.indexOf('.') > -1)) {
+      const index = value.indexOf('.');
       let decimalPart = value.substr(index);
       const intPart = value.substr(0, index);
       const bigInt = BigInt(intPart).toLocaleString(usedLocale);
@@ -393,12 +392,10 @@ class IdsLocale {
     const usedLocale = usedOptions?.locale || this.locale.name;
     let sourceDate = value;
 
-    if (!usedOptions?.cache || (usedOptions?.cache && !this.intlDateTimeFormatter)) {
-      this.dateFormatter = new Intl.DateTimeFormat(
-        usedLocale,
-        usedOptions
-      );
-    }
+    this.dateFormatter = new Intl.DateTimeFormat(
+      usedLocale,
+      usedOptions
+    );
 
     // Validation
     if (/^0*$/.test(value)) {
@@ -549,16 +546,16 @@ class IdsLocale {
     }
 
     // Parse the date
-    const dateComponents = dateString.indexOf('T') > -1 ? dateString.split('T') : dateString.split(' ');
-    const datePieces = dateComponents[0].split(separator || '-');
+    const dateComponents = dateString.split(' ');
+    const datePieces = dateComponents[0].split(separator);
 
     // Parse the time part
     let timePieces = dateComponents[1] ? dateComponents[1].split(':') : [0, 0, 0, 0];
     if (dateComponents[1] && dateComponents[1].indexOf('.') > -1) {
       timePieces = dateComponents[1].split('.');
     }
-    const formatComponents = sourceFormat.indexOf('T') > -1 ? sourceFormat.split('T') : sourceFormat.split(' ');
-    const formatPieces = formatComponents[0].split(separator || '-');
+    const formatComponents = sourceFormat.split(' ');
+    const formatPieces = formatComponents[0].split(separator);
 
     const month = this.#determineDatePart(formatPieces, datePieces, 'M', 'MM', 'MMM', 'MMMM');
     const year = this.#determineDatePart(formatPieces, datePieces, 'y', 'yy', 'yyyy');
@@ -576,6 +573,7 @@ class IdsLocale {
     }
 
     // Return arrays for arabic dates
+    /* istanbul ignore next */
     if (this.isIslamic()) {
       return [
         Number(this.twoToFourDigitYear(year)),
@@ -593,6 +591,7 @@ class IdsLocale {
       day,
       (timePieces && timePieces[0] ? timePieces[0] : 0),
       (timePieces && timePieces[1] ? timePieces[1] : 0),
+      /* istanbul ignore next */
       (timePieces && timePieces[2] ? timePieces[2] : 0),
     ));
   }
@@ -612,9 +611,11 @@ class IdsLocale {
     if (dateFormat.indexOf('. ') > -1) {
       return '.';
     }
+    /* istanbul ignore next */
     if (dateFormat.indexOf('.') > -1) {
       return '.';
     }
+    /* istanbul ignore next */
     return '';
   }
 
@@ -653,6 +654,7 @@ class IdsLocale {
    calendar(locale, name) {
      const localeData = this.loadedLocales.get(locale || this.locale.name);
      const calendars = localeData.calendars;
+     /* istanbul ignore next */
      if (name && calendars) {
        for (let i = 0; i < calendars.length; i++) {
          const cal = calendars[i];

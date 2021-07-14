@@ -58,37 +58,6 @@ const locale = {
     decimal: ',',
     group: '.',
     groupSizes: [3, 3]
-  },
-  /**
-   * Turkish-specific rules for changing a string to uppercase
-   * @param {string} str starting text string
-   * @returns {string} the fixed string
-   */
-  toUpperCase: function(str) { // eslint-disable-line
-    return str.replace(/ğ/g, 'Ğ')
-      .replace(/ü/g, 'Ü')
-      .replace(/ş/g, 'Ş')
-      .replace(/ı/g, 'I')
-      .replace(/i/g, 'İ')
-      .replace(/ö/g, 'Ö')
-      .replace(/ç/g, 'Ç')
-      .toUpperCase();
-  },
-
-  /**
-   * Turkish-specific rules for changing a string to lowercase
-   * @param {string} str starting text string
-   * @returns {string} the fixed string
-   */
-  toLowerCase: function(str) { // eslint-disable-line
-    return str.replace(/Ğ/g, 'ğ')
-      .replace(/Ü/g, 'ü')
-      .replace(/Ş/g, 'ş')
-      .replace(/I/g, 'ı')
-      .replace(/İ/g, 'i')
-      .replace(/Ö/g, 'ö')
-      .replace(/Ç/g, 'ç')
-      .toLowerCase();
   }
 };
 

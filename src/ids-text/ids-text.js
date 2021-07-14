@@ -299,9 +299,7 @@ class IdsText extends mix(IdsElement).with(
       this.setAttribute(attributes.TRANSLATE_TEXT, value);
       this.setAttribute('translation-key', this.textContent);
       this.#translateAsync();
-      return;
     }
-    this.removeAttribute(attributes.TRANSLATE_TEXT);
   }
 
   /**

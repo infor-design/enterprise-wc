@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import IdsContainer from '../../src/ids-container/ids-container';
 import IdsText from '../../src/ids-text/ids-text';
 
 describe('IdsText Component', () => {
@@ -51,8 +52,9 @@ describe('IdsText Component', () => {
 
   it('renders color setting as "unset", then removes it', () => {
     elem = new IdsText();
-    document.body.appendChild(elem);
     elem.color = 'unset';
+    document.body.appendChild(elem);
+    elem.template();
     expect(elem.color).toEqual('unset');
     elem.color = null;
     expect(elem.fontSize).toEqual(null);
@@ -118,6 +120,8 @@ describe('IdsText Component', () => {
   it('renders disabled setting', () => {
     elem.disabled = 'true';
     expect(elem.disabled).toEqual('true');
+    elem.disabled = false;
+    expect(elem.disabled).toEqual(null);
   });
 
   it('renders font-size setting then removes it', () => {
@@ -136,6 +140,7 @@ describe('IdsText Component', () => {
     document.body.appendChild(elem);
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
     elem.audible = true;
+    elem.template();
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
     elem.audible = false;
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
@@ -172,5 +177,26 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
     elem.audible = false;
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
+  });
+
+  it('can translate text', async () => {
+    const container = new IdsContainer();
+    const text = new IdsText();
+    text.textContent = 'BrowserLanguage';
+    text.translateText = true;
+    container.appendChild(text);
+    document.body.appendChild(container);
+
+    await container.setLanguage('en');
+    expect(text.textContent).toEqual('Browser Language');
+    await container.setLanguage('fi');
+    expect(text.textContent).toEqual('Selaimen kieli');
+
+    text.removeAttribute('translation-key');
+    text.textContent = 'Test';
+    expect(text.textContent).toEqual('Test');
+
+    text.translateText = false;
+    expect(text.textContent).toEqual('Test');
   });
 });
