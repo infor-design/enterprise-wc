@@ -7,14 +7,16 @@
 - [X] Dates
 - [X] Timezone
 - [x] Flip Icons
-- [] Number Inputs (value/mask)
-- [] Date Inputs (value/mask)
 - [x] Number DG Formatter
 - [x] Date DG Formatter
-- [] RTL DG
+- [x] RTL DG
+- [x] Coverage / Lint
+- [x] Docs / Types
 - [] RTL all components
-- [] Coverage / Lint
-- [] Docs / Types
+- [] Number Inputs (value/mask)
+- [] Date Inputs (value/mask)
+- [] May have to review the need for Arabic Calendar as it included in Intl.DateTimeFormat we can try to use it via that
+- [] may have to review the cases parseNumber has
 
 ## TODO For Phase 2
 
