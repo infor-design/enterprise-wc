@@ -1,39 +1,216 @@
-# Components
+# Developing New Components
 
-## Adding a new component from scratch
+## Steps for Making a new Web Component for IDS
+
+### Familiarize yourself with Web Components
+
+We have generated a list of [Articles](./ARTICLES.md) about web components and other web component libraries for reference. You probably should learn about concepts like: ShadowRoot, Encapsulation, Constructed Style Sheets, Sass, Web Component lifecycles and styling in web components.
+
+In general, the Ids WebComponents Library is striving to adhere to the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki), within reason.
+
+Good components to look at that are done already are are IdsTag, IdsAlerts and IdsHyperlink as references.
 
 ### Scaffold the component source code
 
 - [ ] Create a folder `/src/ids-[component]`, which will contain all your new component source code.
 - [ ] Add an `ids-[component].js`, which is the WebComponent interaction code.
-- [ ] Add an `ids-[component].d.ts` for this WebComponent's TypeScript defs.
+- [ ] Add an `ids-[component].d.ts` for this WebComponent's TypeScript definitions.
 - [ ] Add an `ids-[component].scss`, which holds all scoped styles for this WebComponent.
 - [ ] Add a `README.md` for documentation, specification, etc.
 
-Some important steps here include:
+### Code The Component Javascript
 
-- If this new code is an IDS Component, ensure that it imports `src/ids-base/ids-element.js` extends the `IdsElement` base component.
-- Ensure that your styles are imported in `ids-[component].js` and added to the component via the `@scss` decorator.
-- Review the mixins that are available in the `src/ids-mixins` folder for any reusable parts then include them with a line like:
+Create an example basic component, for example this code would make a new custom element and web component that extends from our base and has theme and events support and basic structure.
 
 ```js
-class IdsComponent extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin2) {
+// Import Base and Decorators
+import {
+  IdsElement,
+  customElement,
+  scss,
+  mix,
+  attributes
+} from '../ids-base';
+
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../ids-mixins';
+
+// Import Sass to be encapsulated in the component shadowRoot
+import styles from './ids-[component-name].scss';
+
+/**
+ * IDS [Component] Component
+ * @type {[IdsComponent]}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part container - the container element
+ */
+@customElement('ids-[component]')
+@scss(styles)
+class [IdsComponent] extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+  constructor() {
+    super();
+  }
+
+  /**
+   * Invoked each time the custom element is add into a document-connected element
+   */
+  connectedCallback() {
+    this.#handleEvents();
+    super.connectedCallback();
+  }
+
+  /**
+   * Return the attributes we handle as getters and setters
+   * @returns {Array} The attributes in an array
+   */
+  static get attributes() {
+    return [
+      attributes.SETTING_NAME
+    ];
+  }
+
+  /**
+   * Create the template for the contents
+   * @returns {string} The template
+   */
+  template() {
+    return '<div class="ids-[component]" part="container"><slot></slot></div>';
+  }
+
+  /**
+   * Establish internal event handlers
+   * @private
+   * @returns {object} The object for chaining
+   */
+  #handleEvents() {
+    return this;
+  }
+}
+
+export default Ids[Component];
+```
+
+Each of the steps and code sections are explained here.
+
+- Import the base element and other utilities and decorators from `../ids-base`
+
+```js
+import {
+  IdsElement,
+  customElement,
+  scss,
+  mix
+} from '../ids-base';
+```
+
+- If this new code is an IDS UI Web Component (not a special class or utility ect), ensure that it imports `src/ids-base/ids-element.js` extends the `IdsElement` base component.
+- Ensure that your styles are imported from `ids-[component-name].scss` and added to the component via the `@scss` decorator, this will be added into the components shadowRoot by IdsElement.
+
+```js
+import styles from './ids-[component-name].scss';
+```
+
+- Add some JSDOC containing the mixin names and `parts` (explained further below)
+
+```js
+/**
+ * IDS [Component] Component
+ * @type {[IdsComponent]}
+ * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
+ * @part container - the container element
+ */
+```
+
+- Add the `customElement` directive, this will ensure that when `ids-[component-name]` is used in the document that this is the code that will execute for it. See [MDN Docs on custom elements](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements) for more information.
+
+```js
+@customElement('ids-[component]')
+```
+
+- Review the mixins that are available in the `src/ids-mixins/README.md` folder for any reusable parts then include them in the `mix(IdsElement).with(`. Some commonly used ones include IdsEventsMix if you need event handlers, and IdsThemeMixin if you your component is visual with colors and needs themes and IdsKeyBoardMixin if your component responds to keyboard inputs.
+
+```js
+class [IdsComponent] extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+```
+
+- Add a constructor which is a basic web component requirement. Nothing much should be done in here, this is called when the element is created.
+
+```js
+constructor() {
+  super();
+}
+```
+
+- Add a `connectedCallback` this is called when the element is attached to the DOM. You can add any setup functions here and call `super` as some mixins also need the callback and this will call it on them.
+
+```js
+connectedCallback() {
+  this.#handleEvents();
+  super.connectedCallback();
+}
+```
+
+- If the component has any settings (attributes) then add a static method that returns an array. We make sure all our settings are listed as constants in `src/ids-base/attributes.js`. This helps make things consistent.
+
+```js
+  static get attributes() {
+    return [
+      attributes.SETTING_NAME
+    ];
+  }
+```
+
+- Create a template method that returns a template string which will be the internal markup of the component. You can inject any settings into the string. Some elements should have `part` attributes, these are potential elements an outside developer might want to style and it gives them some access to otherwise encapsulated styles to override. For more info see the [shadow parts spec](https://drafts.csswg.org/css-shadow-parts-1/#part-attr).
+
+```js
+template() {
+  return '<div class="ids-[component]" part="container"><slot></slot></div>';
+}
+```
+
+- Make any custom methods. We usually use `#handleEvents` to setup any event handlers. We use [Private class fields](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields) to hide private methods from the end user and cleanup the API.
+
+```js
+  #handleEvents() {
+    return this;
+  }
+}
+```
+
+- Export the component (usually as default)
+
+```js
+export default Ids[Component];
 ```
 
 ### Add a new app example for the new component
 
 Note that when first adding new HTML files or renaming, a restart on the webpack compiler will be needed for it to be visitable.
 
-- [ ] Add an `example.html`, which contains the basic example template for your component
-- [ ] Add an `index.html`, which is the main layout template found at `[app-url]/ids-[component]`.
-- [ ] Add an `index.js` for loading and building the component, this should just contain what is needed for the component itself to run
-- [ ] Add an `example.js` for any demo code in the example.html
-- [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path, where the root component is the default export along with any sub components beyond that.
+- [ ] Create a folder at `app/ids-[component]`, which will hold the markup for the demos
+- [ ] Add an `example.html`, which contains the basic example template for your component. In the markup make a H1 tag and wrap your component in the layout grid. For example:
 
-```js
-import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/ids-[component]';
+```html
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Component</ids-text>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+   <ids-component>
+      Dom Contents
+    </ids-component>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
 ```
 
+- [ ] Add an `index.html`, which is the main layout template found at `app/ids-[component]`.
 - [ ] `index.html` will contain the contents of `example.html` but also includes the dev server's header and footer partials.  It looks like the following:
 
 ```handlebars
@@ -42,9 +219,26 @@ import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/ids-
 {{> ../layouts/footer.html }}
 ```
 
+We have several head layouts available:
+
+`head.html` - The default and most common one. Has a theme switcher and the container has 8px padding. The container is hidden initially to avoid FOUC.
+`head-no-padding.html` - The default and most common one. Has a theme switcher and the container has 0 padding, to demo full page components. The container is hidden initially to avoid FOUC.
+`head-side-by-side.html` - Used for the side-by-side examples and adds the 4.x version in for testing side by side. It has no container.
+`head-themeless.html` - Has no theme switcher and the container has 8px padding. The container is hidden initially to avoid FOUC.
+`head-visible.html` - The container is visible initially and has 8px padding.
+
+- [ ] Add an `index.js` for loading and building the component, this should just contain what is needed for the component itself to run. This is also going to be used to create the usable component in the final build.
+- [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path, where the root component is the default export along with any sub components beyond that.
+
+```js
+import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/ids-[component]';
+```
+
+- [ ] Add an `example.js` for any demo code in the example.html (if needed)
+
 ### Add new information to `webpack.config.js`
 
-The Entry and HTMLWebPack element are now auto added and picked up on script load. You mean need to restart the server or use `npm run start:watch`
+The Entry and HTMLWebPack element are now auto added and picked up on script load. You may need to restart the server or use `npm run start` if you don't see your contents reload.
 
 ## Component Standards
 
@@ -79,7 +273,3 @@ Basically any fields or methods should add the # in front to make it private. Th
 Decided not to make either the `connectedCallback` nor `template` events private as the former is a lifecycle event in web components and the template may need to be overridable in some cases for flexibility.
 
 For an example see IdsTag, IdsAccordion.
-
-#### Example Component
-
-Good ones to look at are IdsTag, IdsFavorites, IdsAlerts and IdsHyperlink as examples.

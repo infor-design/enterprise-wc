@@ -1,0 +1,26 @@
+@import '../ids-base/ids-base';
+
+.ids-scroll-view {
+  @include flex();
+
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+
+  ::slotted([slot='scroll-view-item']) {
+    @include w-full();
+
+    // Remove this if we want items to stretch
+    flex-shrink: 0;
+    scroll-snap-align: start;
+
+    > * {
+      @include block();
+      @include m-0();
+    }
+  }
+}
+
+.ids-scroll-view::-webkit-scrollbar {
+  display: none;
+}
