@@ -96,7 +96,9 @@ class IdsNotificationBanner extends mix(IdsElement).with(
   template() {
     // Set the alert icon based on the notification type
     let alertIcon;
-    if (this.type === TYPES[this.type].type) {
+    if (TYPES[this.type]?.type === undefined) {
+      alertIcon = TYPES.success.type;
+    } else {
       alertIcon = this.type;
     }
 
@@ -127,55 +129,50 @@ class IdsNotificationBanner extends mix(IdsElement).with(
    * success, alert, info, error
    */
   set type(value) {
-    if (value) {
-      this.setAttribute('type', value);
-      let bgColor;
-
-      if (value === TYPES[value].type) {
-        bgColor = `var(--ids-color-palette-${TYPES[value].color}-10)`;
-      }
-
+    let bgColor;
+    if (!value || TYPES[value] === undefined) {
+      this.removeAttribute(attributes.TYPE);
+      this.setAttribute(attributes.TYPE, TYPES.success.type);
+      bgColor = `var(--ids-color-palette-${TYPES.success.color}-10)`;
+      this.container.style.backgroundColor = bgColor;
+    } else {
+      this.setAttribute(attributes.TYPE, value);
+      bgColor = `var(--ids-color-palette-${TYPES[value].color}-10)`;
       this.container.style.backgroundColor = bgColor;
     }
   }
 
-  get type() { return this.getAttribute('type'); }
+  get type() { return this.getAttribute(attributes.TYPE); }
 
   /**
    * Set the link inside the Notification Banner
    * @param {string | null} value the link value
    */
   set link(value) {
-    if (value) {
-      this.setAttribute('link', value);
-    }
+    this.setAttribute(attributes.LINK, value);
   }
 
-  get link() { return this.getAttribute('link'); }
+  get link() { return this.getAttribute(attributes.LINK); }
 
   /**
    * Set the custom link text of the Notification Banner
    * @param {string | null} value the link-text value
    */
   set linkText(value) {
-    if (value) {
-      this.setAttribute('link-text', value);
-    }
+    this.setAttribute(attributes.LINK_TEXT, value);
   }
 
-  get linkText() { return this.getAttribute('link-text'); }
+  get linkText() { return this.getAttribute(attributes.LINK_TEXT); }
 
   /**
    * Set the message text of the Notification Banner
    * @param {string | null} value the link-text value
    */
   set messageText(value) {
-    if (value) {
-      this.setAttribute('message-text', value);
-    }
+    this.setAttribute(attributes.MESSAGE_TEXT, value);
   }
 
-  get messageText() { return this.getAttribute('message-text'); }
+  get messageText() { return this.getAttribute(attributes.MESSAGE_TEXT); }
 
   /**
    * Establish Internal Event Handlers

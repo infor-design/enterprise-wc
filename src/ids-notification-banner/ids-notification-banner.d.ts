@@ -11,4 +11,7 @@ export default class IdsNotificationBanner extends IdsElement {
 
   /** Sets the linkText of the notification */
   linkText: string;
+
+  /** Sets the messageText of the notification */
+  messageText: string;
 }
