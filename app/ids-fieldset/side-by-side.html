@@ -1,0 +1,53 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Fieldset</h2>
+</ids-layout-grid>
+<ids-layout-grid>
+  <form>
+    <ids-fieldset>
+      <ids-input type="text" label="Company Name" id="company-name"></ids-input>
+      <ids-input type="text" label="Company Type" id="type"></ids-input>
+      <ids-input type="text" label="Company Address" id="company-address"></ids-input>
+      <ids-checkbox label="Checked" checked="true"></ids-checkbox>
+      <ids-button type="primary">Submit</ids-button>
+    </ids-fieldset>
+  </form>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Fieldset</h2>
+</ids-layout-grid>
+<div class="row">
+  <div class="six columns">
+
+    <form action="#" method="post">
+      <fieldset role="region">
+
+        <div class="field">
+          <label for="example-fs-company-name">Company Name</label>
+          <input type="text" id="example-fs-company-name" name="example-fs-company-name"/>
+        </div>
+
+        <div class="field">
+          <label for="example-fs-company-type">Company Type</label>
+          <input type="password" id="example-fs-company-type" name="example-fs-company-type"/>
+        </div>
+
+        <div class="field">
+          <label for="example-fs-company-address">Company Address</label>
+          <input type="password" id="example-fs-company-address" name="example-fs-company-address"/>
+        </div>
+
+        <button class="btn-primary" type="submit">Submit</button>
+      </fieldset>
+    </form>
+
+  </div>
+</div>
+
+<script>
+  $('body').initialize();
+</script>
+
+{{> ../layouts/footer.html }}
