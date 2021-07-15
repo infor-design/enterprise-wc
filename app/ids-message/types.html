@@ -33,10 +33,16 @@
 <!-- Default (Confirmation) Message -->
 <ids-message id="message-confirmation">
   <ids-text slot="title" font-size="24" type="h2" id="message-confirmation-title">Delete this Application</ids-text>
-  <ids-text class="demo-contents">You are about to delete this application permanently.<br/><br/>
-  Would you like to proceed?</ids-text>
+  <ids-text class="demo-contents">You are about to delete this application permanently.<br /><br />
+    Would you like to proceed?</ids-text>
   <ids-modal-button slot="buttons" type="secondary" id="message-confirmation-yes">Yes</ids-modal-button>
   <ids-modal-button slot="buttons" type="primary" id="message-confirmation-yes" cancel>No</ids-modal-button>
+</ids-message>
+
+<!-- "No Buttons" Message -->
+<ids-message id="message-no-buttons">
+  <ids-text slot="title" font-size="24" type="h2" id="message-no-buttons-title">No Buttons</ids-text>
+  <ids-text class="demo-contents">No problem.</ids-text>
 </ids-message>
 
 <ids-layout-grid auto="true">
@@ -87,6 +93,9 @@
 <ids-layout-grid auto="true">
   <ids-layout-grid-cell>
     <ids-button type="secondary" id="message-large-trigger">Large Message</ids-button>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="message-no-buttons-trigger">No Buttons</ids-button>
   </ids-layout-grid-cell>
 </ids-layout-grid>
 

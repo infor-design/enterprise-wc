@@ -31,6 +31,10 @@ $modal-border-style: 1px solid var(--ids-color-border-lighter);
   @include mt-20();
 
   border-top: $modal-border-style;
+
+  &[hidden] {
+    border-top: none;
+  }
 }
 
 ::slotted([slot='buttons']) {

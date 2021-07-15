@@ -128,6 +128,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     const extraContentClass = extraClass ? ` ${extraClass}-content` : '';
     const extraHeaderClass = extraClass ? ` ${extraClass}-header` : '';
     const extraFooterClass = extraClass ? ` ${extraClass}-footer` : '';
+    const footerHidden = this.buttons.length ? '' : ' hidden';
 
     return `<ids-popup part="modal" class="ids-modal" type="custom">
       <div class="ids-modal-container" slot="content">
@@ -137,7 +138,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
         <div class="ids-modal-content${extraContentClass}">
           <slot></slot>
         </div>
-        <div class="ids-modal-footer${extraFooterClass}">
+        <div class="ids-modal-footer${extraFooterClass}" ${footerHidden}>
           <slot name="buttons"></slot>
         </div>
       </div>
@@ -250,6 +251,20 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
         }
         el.textContent = this.state.title;
       });
+    }
+  }
+
+  /**
+   * Refreshes the state of the Modal footer, hiding/showing it
+   * @param {boolean} hasTitle true if the title should be rendered
+   * @returns {void}
+   */
+  #refreshModalFooter() {
+    const footerEl = this.container.querySelector('.ids-modal-footer');
+    if (this.buttons.length) {
+      footerEl.removeAttribute('hidden');
+    } else {
+      footerEl.setAttribute('hidden', '');
     }
   }
 
@@ -461,6 +476,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    */
   handleEvents() {
     const titleSlot = this.container.querySelector('slot[name="title"]');
+    const buttonSlot = this.container.querySelector('slot[name="buttons"]');
 
     // Stagger these one frame to prevent them from occuring
     // immediately when the component invokes
@@ -471,10 +487,13 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
           this.title = titleNodes[0].textContent;
         }
       });
+      this.onEvent('slotchange.buttonset', buttonSlot, () => {
+        this.#refreshModalFooter();
+        this.setModalPosition();
+      });
     });
 
     // If a Modal Button is clicked, fire an optional callback
-    const buttonSlot = this.container.querySelector('slot[name="buttons"]');
     this.onEvent('click.buttons', buttonSlot, (e) => {
       if (typeof this.onButtonClick === 'function') {
         this.onButtonClick(e.target);

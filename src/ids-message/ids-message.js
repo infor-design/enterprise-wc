@@ -66,7 +66,7 @@ class IdsMessage extends IdsModal {
    * @returns {string|HTMLElement} the current contents of the messsage
    */
   get message() {
-    return this.querySelectorAll('*:not([slot])');
+    return this.querySelector('*:not([slot])').textContent;
   }
 
   /**
