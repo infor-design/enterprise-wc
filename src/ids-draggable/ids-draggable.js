@@ -14,6 +14,7 @@ import {
 } from '../ids-mixins';
 
 import styles from './ids-draggable.scss';
+import getElTranslatePoint from './getElTranslatePoint';
 
 /**
  * IDS Draggable Component
@@ -143,9 +144,9 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
         // record mouse point at start
 
         this.#mouseStartingPoint = { x: e.x, y: e.y };
+        this.#startingOffset = getElTranslatePoint(this.#content);
 
-        // TODO: get the translation from style if it exists
-        this.#translationStartingPoint = { x: 0, y: 0 };
+        console.log('translationStartingPoint ->', this.#startingOffset);
 
         e.parentRect = rect;
 
@@ -164,8 +165,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
       }
     });
 
-    // workaround an issue where dragend fires with a delay
-    // on MacOS
+    // workaround an issue where dragend fires with a delay on MacOS
+    // TODO: figure out a workaround on this or use mouse-up
 
     this.addEventListener('dragover', (event) => {
       event.preventDefault();
@@ -173,15 +174,11 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
 
     this.addEventListener('drag', (event) => {
       const deltaX = event.x - this.#mouseStartingPoint.x;
-      const offsetX = this.#translationStartingPoint.x + deltaX;
-      console.log('translate ->', `translate(${offsetX}px, 0px)`);
+      const offsetX = this.#startingOffset.x + deltaX;
       this.#content.style.transform = `translate(${offsetX}px, 0px)`;
 
       // limit for parent rect if needed
       event.dataTransfer.setDragImage(this.#content, 200, 0);
-    });
-
-    this.addEventListener('dragend', (event) => {
     });
   }
 
@@ -205,7 +202,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
    *
    * @type {{ x: number, y: number }} | undefined
    */
-  #translationStartingPoint;
+  #startingOffset;
 
   setParentRect = (rect) => {
     this.#parentRect = rect;
