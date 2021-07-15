@@ -9,6 +9,8 @@
   @include block();
   @include m-0();
 
+  // Default
+  font-size: 16px;
   text-decoration: unset;
 
   &.audible {

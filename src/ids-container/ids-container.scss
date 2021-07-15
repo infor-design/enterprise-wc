@@ -13,12 +13,12 @@
   @include absolute();
   @include bg-white();
   @include outline-none();
-  @include p-8();
+  @include p-0();
 
-  height: calc(100% - 16px);
+  height: 100%;
   margin: -8px;
   overflow: auto;
-  width: calc(100% - 16px);
+  width: 100%;
 
   &[scrollable='false'] {
     overflow: hidden;
