@@ -38,7 +38,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
   static get attributes() {
     return [
       attributes.AXIS,
-      attributes.BOUNDED_BY_PARENT,
+      attributes.PARENT_CONTAINMENT,
       attributes.DISABLED,
     ];
   }
@@ -90,16 +90,20 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
     const isTruthy = stringUtils.stringToBool(value);
 
     if (isTruthy) {
-      if (this.getAttribute(attributes.BOUNDED_BY_PARENT) !== '') {
-        this.setAttribute(attributes.BOUNDED_BY_PARENT, '');
+      if (this.getAttribute(attributes.PARENT_CONTAINMENT) !== '') {
+        this.setAttribute(attributes.PARENT_CONTAINMENT, '');
       }
-    } else if (!isTruthy && this.hasAttribute(attributes.BOUNDED_BY_PARENT)) {
-      this.removeAttribute(attributes.BOUNDED_BY_PARENT);
+    } else if (!isTruthy && this.hasAttribute(attributes.PARENT_CONTAINMENT)) {
+      this.removeAttribute(attributes.PARENT_CONTAINMENT);
     }
   }
 
   connectedCallback() {
     super.connectedCallback?.();
+
+    // grab the user-content and then pass draggable attrib
+    this.#content = this.children[0];
+    this.#content.setAttribute('draggable', 'true');
 
     // in order to measure the size of the parent,
     // when dragging has started, iterate through
@@ -107,9 +111,9 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
     // outside of this draggable or an immediate IdsElement
     // (e.g. non styled container) is detected
 
-    this.addEventListener('dragstart', (event) => {
+    this.addEventListener('dragstart', (e) => {
       let pathElemIndex = 0;
-      let pathElem = event.path[pathElemIndex];
+      let pathElem = e.path[pathElemIndex];
       let hasTraversedThis = false;
 
       this.#parentRect = undefined;
@@ -120,7 +124,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
         }
 
         pathElemIndex++;
-        pathElem = event.path[pathElemIndex];
+        pathElem = e.path[pathElemIndex];
 
         if (pathElem instanceof ShadowRoot || pathElem.tagName === 'SLOT') {
           continue;
@@ -136,25 +140,72 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
           this.#parentRect = rect;
         }
 
-        event.parentRect = rect;
+        // record mouse point at start
+
+        this.#mouseStartingPoint = { x: e.x, y: e.y };
+
+        // TODO: get the translation from style if it exists
+        this.#translationStartingPoint = { x: 0, y: 0 };
+
+        e.parentRect = rect;
+
+        // ============================== //
+        // remove draggable image overlay //
+        // ============================== //
+
+        const draggableImageEl = this.#content.cloneNode(true);
+        draggableImageEl.style.display = 'none';
+        document.body.appendChild(draggableImageEl);
+        e.dataTransfer.setDragImage(draggableImageEl, 0, 0);
+
+        requestAnimationFrame(() => {
+          document.body.removeChild(draggableImageEl);
+        });
       }
     });
 
-    /*
-    this.addEventListener('drag', (event) => {
-      console.log('drag ->',
-      {
-        offsetX: event.offsetX,
-        movementX: event.movementX,
-        pageX: event.pageX
-      });
+    // workaround an issue where dragend fires with a delay
+    // on MacOS
 
-      console.log('event ->', event);
+    this.addEventListener('dragover', (event) => {
+      event.preventDefault();
+    }, false);
+
+    this.addEventListener('drag', (event) => {
+      const deltaX = event.x - this.#mouseStartingPoint.x;
+      const offsetX = this.#translationStartingPoint.x + deltaX;
+      console.log('translate ->', `translate(${offsetX}px, 0px)`);
+      this.#content.style.transform = `translate(${offsetX}px, 0px)`;
+
+      // limit for parent rect if needed
+      event.dataTransfer.setDragImage(this.#content, 200, 0);
     });
-    */
+
+    this.addEventListener('dragend', (event) => {
+    });
   }
 
+  /**
+   * element related to slot
+   */
+  #content;
+
   #parentRect;
+
+  /**
+   * The point where we start dragging on the mouse
+   * to delta from for current tracking.
+   * @type {{ x: number, y: number }} | undefined
+   */
+  #mouseStartingPoint;
+
+  /**
+   * The last delta tracked by the draggable based
+   * on style translateX/Y prop
+   *
+   * @type {{ x: number, y: number }} | undefined
+   */
+  #translationStartingPoint;
 
   setParentRect = (rect) => {
     this.#parentRect = rect;
@@ -167,7 +218,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
    */
   template() {
     return (
-      `<slot part="draggable"></slot>`
+      `<slot></slot>`
     );
   }
 }

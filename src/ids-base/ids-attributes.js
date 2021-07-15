@@ -24,6 +24,7 @@ export const attributes = {
   BUTTONS: 'buttons',
   CANCEL: 'cancel',
   BOUNDED_BY_PARENT: 'bounded-by-parent',
+  PARENT_CONTAINMENT: 'parent-containment',
   CHAR_MAX_TEXT: 'char-max-text',
   CHAR_REMAINING_TEXT: 'char-remaining-text',
   CHARACTER_COUNTER: 'character-counter',
