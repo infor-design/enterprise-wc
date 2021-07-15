@@ -1,21 +1,15 @@
-// temporary/debug styling
-
-ids-draggable {
-  display: flex;
-  width: 32px;
-  height: 100%;
-  background-color: #f00;
-  cursor: grab;
+:host(ids-draggable) {
+  cursor: move;
 }
 
-.ids-draggable[axis='x']:not([disabled]) {
-  cursor: col-resize;
+:host(ids-draggable[axis='x']:not([disabled])) {
+  cursor: ew-resize;
 }
 
-.ids-draggable[axis='y']:not([disabled]) {
-  cursor: row-resize;
+:host(ids-draggable[axis='y']:not([disabled])) {
+  cursor: ns-resize;
 }
 
-.ids-draggable[is-dragging] {
+ids-draggable[is-dragging] {
   cursor: grabbing;
 }

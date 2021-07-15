@@ -47,6 +47,7 @@ import IdsPager, {
   IdsPagerButton,
   IdsPagerNumberList
 } from '../src/ids-pager';
+import IdsDraggable from '../src/ids-draggable';
 
 // Import Example Code
 
