@@ -39,8 +39,9 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
   static get attributes() {
     return [
       attributes.AXIS,
-      attributes.PARENT_CONTAINMENT,
       attributes.DISABLED,
+      attributes.IS_DRAGGING,
+      attributes.PARENT_CONTAINMENT,
     ];
   }
 
@@ -104,15 +105,25 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
 
     // grab the user-content and then pass draggable attrib
     this.#content = this.children[0];
-    this.#content.setAttribute('draggable', 'true');
+    // this.#content.setAttribute('draggable', 'true');
 
-    // in order to measure the size of the parent,
-    // when dragging has started, iterate through
-    // path captured from drag until parent level
-    // outside of this draggable or an immediate IdsElement
-    // (e.g. non styled container) is detected
+    const that = this;
 
-    this.addEventListener('dragstart', (e) => {
+    this.onEvent('dragstart', this, (e) => {
+      that.isDragging = true;
+
+      // ============================== //
+      // capture 1st valid parentRect   //
+      // ============================== //
+
+      // in order to measure the size of the parent,
+      // when dragging has started, iterate through
+      // path captured from drag until parent level
+      // outside of this draggable or an immediate IdsElement
+      // (e.g. non styled container) is detected
+
+      // TODO: move logic to functionÍ
+
       let pathElemIndex = 0;
       let pathElem = e.path[pathElemIndex];
       let hasTraversedThis = false;
@@ -146,8 +157,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
         this.#mouseStartingPoint = { x: e.x, y: e.y };
         this.#startingOffset = getElTranslatePoint(this.#content);
 
-        console.log('translationStartingPoint ->', this.#startingOffset);
-
         e.parentRect = rect;
 
         // ============================== //
@@ -168,17 +177,26 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
     // workaround an issue where dragend fires with a delay on MacOS
     // TODO: figure out a workaround on this or use mouse-up
 
-    this.addEventListener('dragover', (event) => {
+    this.onEvent('dragover', this, (event) => {
       event.preventDefault();
     }, false);
 
-    this.addEventListener('drag', (event) => {
-      const deltaX = event.x - this.#mouseStartingPoint.x;
-      const offsetX = this.#startingOffset.x + deltaX;
-      this.#content.style.transform = `translate(${offsetX}px, 0px)`;
+    this.onEvent('dragend', this, (e) => {
+      this.isDragging = false;
+    });
 
-      // limit for parent rect if needed
-      event.dataTransfer.setDragImage(this.#content, 200, 0);
+    this.onEvent('mousemove', document, (event) => {
+      if (that.isDragging) {
+        const deltaX = event.x - this.#mouseStartingPoint.x;
+        const offsetX = this.#startingOffset.x + deltaX;
+        const deltaY = event.y - this.#mouseStartingPoint.y;
+        const offsetY = this.#startingOffset.y + deltaY;
+
+        const translateX = `${this.axis !== 'y' ? offsetX : 0}px`;
+        const translateY = `${this.axis !== 'x' ? offsetY : 0}px`;
+
+        this.#content.style.transform = `translate(${translateX}, ${translateY})`;
+      }
     });
   }
 
@@ -207,6 +225,21 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
   setParentRect = (rect) => {
     this.#parentRect = rect;
   };
+
+  set isDragging(value) {
+    const isTruthy = stringUtils.stringToBool(value);
+    console.log('setting isDragging ->', isTruthy);
+
+    if (isTruthy && this.getAttribute(attributes.IS_DRAGGING) !== '') {
+      this.setAttribute(attributes.IS_DRAGGING, '');
+    } else if (!isTruthy && this.hasAttribute(attributes.IS_DRAGGING)) {
+      this.removeAttribute(attributes.IS_DRAGGING);
+    }
+  }
+
+  get isDragging() {
+    return stringUtils.stringToBool(this.getAttribute(attributes.IS_DRAGGING));
+  }
 
   /**
    * Create the Template to render

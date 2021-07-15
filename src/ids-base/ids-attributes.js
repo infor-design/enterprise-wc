@@ -70,6 +70,7 @@ export const attributes = {
   ID: 'id',
   INDETERMINATE: 'indeterminate',
   INLINE: 'inline',
+  IS_DRAGGING: 'is-dragging',
   JUSTIFY: 'justify',
   KEEP_OPEN: 'keep-open',
   LABEL: 'label',
