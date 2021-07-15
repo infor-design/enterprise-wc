@@ -26,7 +26,7 @@ For guidelines on when and where to use the components see the [design.infor.com
 - Fully Namespaced with an `ids-` namespace
 - We Follow the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki)
 - Type safe for TypeScript users with d.ts files
-- Every component has the Css and Dom Encapsulated (in supported browsers)
+- Every component has the CSS and DOM Encapsulated (in supported browsers)
 - 140+ Components to convert
 
 ## Browser Support

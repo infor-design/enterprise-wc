@@ -35,8 +35,6 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   connectedCallback() {
     super.connectedCallback();
-    // eslint-disable-next-line no-self-assign
-    this.padding = this.padding;
   }
 
   /**
@@ -44,7 +42,12 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [attributes.SCROLLABLE, attributes.MODE, attributes.PADDING, attributes.VERSION];
+    return [
+      attributes.MODE,
+      attributes.PADDING,
+      attributes.SCROLLABLE,
+      attributes.VERSION
+    ];
   }
 
   /**
@@ -56,16 +59,19 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * If set to number the container will have padding added
+   * If set to number the container will have padding added (in pixels)
    * @param {string} value sets the padding to the container
    */
   set padding(value) {
+    const double = Number(value) * 2;
     this.container.style.padding = `${value}px`;
+    this.container.style.height = `calc(100% - ${double}px)`;
+    this.container.style.width = `calc(100% - ${double}px)`;
     this.setAttribute('padding', value.toString());
   }
 
   get padding() {
-    return this.getAttribute('padding') || '0';
+    return this.getAttribute('padding');
   }
 
   /**

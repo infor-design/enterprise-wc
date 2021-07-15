@@ -58,8 +58,8 @@ describe('IdsContainer Component', () => {
   });
 
   it('has a padding attribute', () => {
-    const padding = '18px';
-    container.setAttribute('padding', padding);
-    expect(container.getAttribute('padding')).toEqual(padding);
+    container.padding = 18;
+    expect(container.getAttribute('padding')).toEqual('18');
+    expect(container.padding).toEqual('18');
   });
 });

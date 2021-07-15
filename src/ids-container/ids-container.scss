@@ -13,10 +13,10 @@
   @include absolute();
   @include bg-white();
   @include outline-none();
-  @include p-8();
+  @include p-0();
 
   height: 100%;
-  margin: 0;
+  margin: -8px;
   overflow: auto;
   width: 100%;
 

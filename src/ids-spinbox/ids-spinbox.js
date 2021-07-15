@@ -55,6 +55,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       attributes.DIRTY_TRACKER,
       attributes.DISABLED,
       attributes.LABEL,
+      attributes.LABEL_HIDDEN,
       attributes.MAX,
       attributes.MIN,
       attributes.MODE,
@@ -84,7 +85,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     ) ? ' disabled' : '';
 
     /* istanbul ignore next */
-    const labelHtml = (
+    const labelHtml = this.labelHidden ? '<span></span>' : (
       `<label
         ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
         part="label"
@@ -392,6 +393,63 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   get label() {
     return this.getAttribute(attributes.LABEL);
+  }
+
+  /**
+   * @param {boolean} value Flags a label's text as not displayed
+   * explicitly in the label element
+   *
+   * (still requires a label for the sake of accessibility and
+   * will be applied on the input element)
+   */
+  set labelHidden(value) {
+    if (stringUtils.stringToBool(value)) {
+      if (this.getAttribute(attributes.LABEL_HIDDEN) !== '') {
+        this.setAttribute(attributes.LABEL_HIDDEN, '');
+      }
+
+      const existingLabel = this.shadowRoot.querySelector('label');
+      if (existingLabel) {
+        existingLabel.remove();
+      }
+
+      this.input?.setAttribute?.('aria-label', this.label);
+    } else {
+      if (this.hasAttribute(attributes.LABEL_HIDDEN)) {
+        this.removeAttribute(attributes.LABEL_HIDDEN);
+      }
+
+      /* istanbul ignore else */
+      if (this.input) {
+        this.input?.removeAttribute('aria-label');
+
+        const labelTemplate = document.createElement('template');
+        /* istanbul ignore next */
+        labelTemplate.innerHTML = (
+          `<label
+              ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
+              part="label"
+              for="${this.id}-input-input"
+            >`
+        );
+
+        this.container.insertBefore(
+          labelTemplate.content.childNodes[0],
+          this.container.querySelector('field-container')
+        );
+      }
+    }
+  }
+
+  /**
+   * @returns {boolean} value Whether a label's text has been flagged
+   * as hidden.
+   *
+   * (a label is still required for the sake of accessibility and this will be applied on the input
+   * element)
+   */
+  get labelHidden() {
+    return this.hasAttribute(attributes.LABEL_HIDDEN);
   }
 
   /**
