@@ -8,13 +8,20 @@ import {
 } from '../ids-base/ids-element';
 
 import {
-  IdsKeyboardMixin,
-  IdsEventsMixin,
-  IdsThemeMixin
+  IdsEventsMixin
 } from '../ids-mixins';
 
 import styles from './ids-draggable.scss';
 import getElTranslatePoint from './getElTranslatePoint';
+
+const { stringToBool } = stringUtils;
+
+console.log([
+  attributes.AXIS,
+  attributes.DISABLED,
+  attributes.IS_DRAGGING,
+  attributes.PARENT_CONTAINMENT,
+]);
 
 /**
  * IDS Draggable Component
@@ -27,7 +34,7 @@ import getElTranslatePoint from './getElTranslatePoint';
  */
 @customElement('ids-draggable')
 @scss(styles)
-export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
@@ -43,6 +50,17 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
       attributes.IS_DRAGGING,
       attributes.PARENT_CONTAINMENT,
     ];
+  }
+
+  /**
+   * Create the Template to render
+   *
+   * @returns {string} the template to render
+   */
+  template() {
+    return (
+      `<slot></slot>`
+    );
   }
 
   /**
@@ -88,8 +106,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
    * @param {string|boolean} value whether the draggable should be limited in range
    * by its parent element
    */
-  set boundedByParent(value) {
-    const isTruthy = stringUtils.stringToBool(value);
+  set parentContainment(value) {
+    const isTruthy = stringToBool(value);
 
     if (isTruthy) {
       if (this.getAttribute(attributes.PARENT_CONTAINMENT) !== '') {
@@ -100,18 +118,19 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
     }
   }
 
-  connectedCallback() {
-    super.connectedCallback?.();
+  get parentContainment() {
+    return stringToBool(this.getAttribute(attributes.PARENT_CONTAINMENT));
+  }
 
+  connectedCallback() {
     // grab the user-content and then pass draggable attrib
     this.#content = this.children[0];
-    // this.#content.setAttribute('draggable', 'true');
+    this.#content.setAttribute('draggable', 'true');
 
     const that = this;
 
     this.onEvent('dragstart', this, (e) => {
-      that.isDragging = true;
-
+      that.setAttribute(attributes.IS_DRAGGING, 'true');
       // ============================== //
       // capture 1st valid parentRect   //
       // ============================== //
@@ -174,19 +193,19 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
       }
     });
 
-    // workaround an issue where dragend fires with a delay on MacOS
-    // TODO: figure out a workaround on this or use mouse-up
+    let callCount = 0;
 
-    this.onEvent('dragover', this, (event) => {
-      event.preventDefault();
-    }, false);
-
-    this.onEvent('dragend', this, (e) => {
-      this.isDragging = false;
+    document.addEventListener('mousemove', () => {
+      callCount++;
+      if (callCount % 5 === 0) {
+        setTimeout(() => {
+          console.log('mouseMove ->', that.getAttribute(attributes.IS_DRAGGING));
+        });
+      }
     });
 
     this.onEvent('mousemove', document, (event) => {
-      if (that.isDragging) {
+      if (that.getAttribute(attributes.IS_DRAGGING)) {
         const deltaX = event.x - this.#mouseStartingPoint.x;
         const offsetX = this.#startingOffset.x + deltaX;
         const deltaY = event.y - this.#mouseStartingPoint.y;
@@ -198,6 +217,29 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
         this.#content.style.transform = `translate(${translateX}, ${translateY})`;
       }
     });
+
+    // TODO: figure out a on dragend firing with delay on MacOS
+    // or replace with mouseup
+
+    this.onEvent('dragend', this, () => {
+      this.removeAttribute(attributes.IS_DRAGGING);
+    });
+
+    super.connectedCallback?.();
+  }
+
+  set isDragging(value) {
+    const isTruthy = stringToBool(value);
+
+    if (isTruthy && this.getAttribute(attributes.IS_DRAGGING) !== '') {
+      this.setAttribute(attributes.IS_DRAGGING, '');
+    } else if (!isTruthy && this.hasAttribute(attributes.IS_DRAGGING)) {
+      this.removeAttribute(attributes.IS_DRAGGING);
+    }
+  }
+
+  get isDragging() {
+    return stringToBool(this.getAttribute(attributes.IS_DRAGGING));
   }
 
   /**
@@ -225,30 +267,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
   setParentRect = (rect) => {
     this.#parentRect = rect;
   };
-
-  set isDragging(value) {
-    const isTruthy = stringUtils.stringToBool(value);
-    console.log('setting isDragging ->', isTruthy);
-
-    if (isTruthy && this.getAttribute(attributes.IS_DRAGGING) !== '') {
-      this.setAttribute(attributes.IS_DRAGGING, '');
-    } else if (!isTruthy && this.hasAttribute(attributes.IS_DRAGGING)) {
-      this.removeAttribute(attributes.IS_DRAGGING);
-    }
-  }
-
-  get isDragging() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.IS_DRAGGING));
-  }
-
-  /**
-   * Create the Template to render
-   *
-   * @returns {string} the template to render
-   */
-  template() {
-    return (
-      `<slot></slot>`
-    );
-  }
 }
+
+export default IdsDraggable;

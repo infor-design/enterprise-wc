@@ -135,6 +135,7 @@ class IdsElement extends HTMLElement {
    * @type {Array}
    */
   static get observedAttributes() {
+    console.log('this.attributes ->', this.attributes);
     return this.attributes;
   }
 
