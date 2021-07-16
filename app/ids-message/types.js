@@ -61,4 +61,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const messageNoButtonsEl = document.querySelector('#message-no-buttons');
   const messageNoButtonsBtn = document.querySelector('#message-no-buttons-trigger');
   setupMessage(messageNoButtonsEl, messageNoButtonsBtn);
+
+  // Allowed Tags Message
+  const messageAllowedTagsEl = document.querySelector('#message-allow-tags');
+  const messageAllowedTagsBtn = document.querySelector('#message-allow-tags-trigger');
+  setupMessage(messageAllowedTagsEl, messageAllowedTagsBtn);
+
+  // Disallowed Tags Message
+  const messageDisallowedTagsEl = document.querySelector('#message-disallow-tags');
+  const messageDisallowedTagsBtn = document.querySelector('#message-disallow-tags-trigger');
+  setupMessage(messageDisallowedTagsEl, messageDisallowedTagsBtn);
 });

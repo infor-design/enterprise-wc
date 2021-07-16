@@ -14,7 +14,8 @@ import {
   IdsRenderLoopMixin,
   IdsRenderLoopItem,
   IdsResizeMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsXssMixin
 } from '../ids-mixins';
 
 import zCounter from './ids-modal-z-counter';
@@ -38,6 +39,7 @@ const appliedMixins = [
   IdsRenderLoopMixin,
   IdsResizeMixin,
   IdsThemeMixin,
+  IdsXssMixin,
 ];
 
 /**
@@ -58,12 +60,13 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   constructor() {
     super();
 
-    this.state = {
-      overlay: null,
-      target: null,
-      title: null,
-      visible: false,
-    };
+    if (!this.state) {
+      this.state = {};
+    }
+    this.state.overlay = null;
+    this.state.target = null;
+    this.state.title = null;
+    this.state.visible = false;
   }
 
   static get attributes() {
@@ -211,8 +214,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @param {string} val the new content to be used as the message's title
    */
   set title(val) {
-    // @TODO handle XSS/etc
-    const trueVal = val;
+    const trueVal = this.xssSanitize(val);
     const currentVal = this.state.title;
 
     if (currentVal !== trueVal) {

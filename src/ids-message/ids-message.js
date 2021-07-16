@@ -42,6 +42,12 @@ const MESSAGE_DEFAULTS = {
 class IdsMessage extends IdsModal {
   constructor() {
     super();
+
+    if (!this.state) {
+      this.state = {};
+    }
+    this.state.message = MESSAGE_DEFAULTS.message;
+    this.state.status = MESSAGE_DEFAULTS.status;
   }
 
   static get attributes() {
@@ -54,50 +60,48 @@ class IdsMessage extends IdsModal {
   connectedCallback() {
     super.connectedCallback();
 
-    // Set initial state
-    Object.keys(MESSAGE_ATTRIBUTES).forEach((prop) => {
-      this.state[prop] = this.getAttribute(prop) || MESSAGE_DEFAULTS[prop];
-    });
-
     this.status = this.getAttribute(attributes.STATUS);
+
+    // Sanitizes the HTML in the component
+    const currentContentEl = this.querySelector('*:not([slot])');
+    if (currentContentEl) {
+      this.message = currentContentEl.innerHTML;
+    }
   }
 
   /**
-   * @returns {string|HTMLElement} the current contents of the messsage
+   * @returns {string} the current contents of the messsage
    */
   get message() {
-    return this.querySelector('*:not([slot])').textContent;
+    return this.state.message;
   }
 
   /**
-   * @param {string|HTMLElement} val the desired contents of the message element
+   * @param {string} val the desired contents of the message element
    */
   set message(val) {
-    let contentElem;
-    if (val instanceof HTMLElement) {
-      contentElem = val.cloneNode(true);
-    } else if (typeof val === 'string') {
-      contentElem = document.createElement('div');
-      contentElem.insertAdjacentHTML('afterbegin', val);
+    const sanitizedVal = this.xssSanitize(val);
+    if (sanitizedVal !== this.state.message) {
+      this.#refreshMessage(sanitizedVal);
     }
-    this.#refreshMessage(contentElem);
   }
 
   /**
    * Refreshes the state of the Message's Content
-   * @param {HTMLElement} contentElem the new message content element
+   * @param {string} content the new message content element
    */
-  #refreshMessage(contentElem) {
-    // Remove any existing message elements
-    const currentMessage = this.message;
-    if (currentMessage) {
-      [...currentMessage].forEach((messageEl) => {
-        messageEl.remove();
-      });
+  #refreshMessage(content) {
+    let messageEl = this.querySelector('*:not([slot])');
+    if (!messageEl) {
+      messageEl = document.createElement('div');
+      this.appendChild(messageEl);
+    } else {
+      messageEl.innerHTML = '';
     }
 
-    // Append the new one
-    this.appendChild(contentElem);
+    // Replace the message content
+    messageEl.insertAdjacentHTML('afterbegin', content);
+    this.state.message = content;
 
     // Re-position the Popup
     this.setModalPosition();

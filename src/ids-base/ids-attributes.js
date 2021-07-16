@@ -158,6 +158,7 @@ export const attributes = {
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
   X: 'x',
+  XSS_IGNORED_TAGS: 'xss-ignored-tags',
   Y: 'y'
 };
 // Please keep constants alphabetized

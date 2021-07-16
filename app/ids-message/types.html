@@ -45,6 +45,32 @@
   <ids-text class="demo-contents">No problem.</ids-text>
 </ids-message>
 
+<!-- "Allow Tags" Message (has HTML tags in the message that are bypassed by the XSS sanitizer) -->
+<ids-message id="message-allow-tags">
+  <ids-text slot="title" font-size="24" type="h2" id="message-allow-tags-title">Tags are present</ids-text>
+  <ids-text class="demo-contents">
+    <a href="#" class="hyperlink hide-focus longpress-target"><b>You</b> </a>have <br />allowed <br />any
+    <del>tags</del>
+    <em>to</em> <i>appear</i> <ins>in</ins> <mark>this</mark> <small>message</small>. <strong>All </strong>
+    <sub>are</sub>
+    <sup>default allowed</sup>.
+  </ids-text>
+  <ids-modal-button slot="buttons" type="primary" id="message-confirmation-ok">OK</ids-modal-button>
+</ids-message>
+
+<!-- "Disallow Tags" Message (has the same tags as above, but they are stripped out by the sanitizer) -->
+<ids-message id="message-disallow-tags" xss-ignored-tags="">
+  <ids-text slot="title" font-size="24" type="h2" id="message-disallow-tags-title">Tags are NOT present</ids-text>
+  <ids-text class="demo-contents">
+    <a href="#" class="hyperlink hide-focus longpress-target"><b>You</b> </a>have <br />disallowed <br />any <del>tags</del>
+    <em>from</em> <i>appearing</i> <ins>in</ins> <mark>this</mark> <small>message</small>. <strong>All</strong>
+    <sub>are</sub> <sup>stripped</sup>.
+  </ids-text>
+  <ids-modal-button slot="buttons" type="primary" id="message-confirmation-ok">OK</ids-modal-button>
+</ids-message>
+
+<!-- In-page controls for the messages are below -->
+
 <ids-layout-grid auto="true">
   <ids-layout-grid-cell>
     <ids-text font-size="12" type="h1">Message Types</ids-text>
@@ -80,7 +106,7 @@
     <ids-button type="secondary" id="message-allow-tags-trigger">Allow Tags</ids-button>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
-    <ids-button type="secondary" id="message-disallow-trigger">Disallow Tags</ids-button>
+    <ids-button type="secondary" id="message-disallow-tags-trigger">Disallow Tags</ids-button>
   </ids-layout-grid-cell>
 </ids-layout-grid>
 
