@@ -1,0 +1,83 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Counts</h2>
+</ids-layout-grid>
+<ids-layout-grid cols="5" gap="md">
+  <ids-layout-grid-cell>
+    <ids-counts color="base" href="#">
+      <ids-text count-value>7</ids-text>
+      <ids-text count-text>Active <br /> Opportunities</ids-text>
+    </ids-counts>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-counts color="base" href="#">
+      <ids-text count-text>Open <br /> Incidents</ids-text>
+      <ids-text count-value>2</ids-text>
+    </ids-counts>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-counts color="base" href="#">
+      <ids-text count-text>Escalated <br /> Incidents</ids-text>
+      <ids-text count-value>4</ids-text>
+    </ids-counts>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-counts color="base" href="#">
+      <ids-text count-value>7</ids-text>
+      <ids-text count-text>Open <br /> Projects</ids-text>
+    </ids-counts>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-counts color="base" href="#">
+      <ids-text count-value>7</ids-text>
+      <ids-text count-text>Active <br /> Contacts</ids-text>
+    </ids-counts>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Counts</h2>
+</ids-layout-grid>
+<div class="row l-center">
+  <div class="one-fifth column one-half-mobile">
+    <a class="hyperlink object-count hide-focus" href="#">
+      <span class="xl-text">7</span>
+      <span>Active <br/> Opportunities</span>
+    </a>
+  </div>
+
+  <div class="one-fifth column one-half-mobile">
+    <a class="hyperlink object-count hide-focus" href="#">
+      <span class="xl-text">2</span>
+      <span>Open <br/> Incidents</span>
+    </a>
+  </div>
+
+  <div class="one-fifth column one-half-mobile">
+    <a class="hyperlink object-count hide-focus" href="#">
+      <span class="xl-text">4</span>
+      <span>Escalated <br/> Incidents</span>
+    </a>
+  </div>
+
+  <div class="one-fifth column one-half-mobile">
+    <a class="hyperlink object-count hide-focus" href="#">
+      <span class="xl-text">7</span>
+      <span>Open <br/> Projects</span>
+    </a>
+  </div>
+
+  <div class="one-fifth column one-half-mobile">
+    <a class="hyperlink object-count hide-focus" href="#">
+      <span class="xl-text">7</span>
+      <span>Active <br/> Contacts</span>
+    </a>
+  </div>
+
+</div>
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}

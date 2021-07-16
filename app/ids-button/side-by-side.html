@@ -1,0 +1,233 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Button</h2>
+</ids-layout-grid>
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Disabled Buttons</ids-text>
+</ids-layout-grid>
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+    <ids-button id="test-disabled-button-default" disabled="true">
+      <span slot="text">Default Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-disabled-button-primary" type="primary"  disabled="true">
+      <span slot="text">Primary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-disabled-button-secondary" type="secondary"  disabled="true">
+      <span slot="text">Secondary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-disabled-button-tertiary" type="tertiary"  disabled="true">
+      <span slot="text">Tertiary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Icon Only Buttons</ids-text>
+</ids-layout-grid>
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-only-button-default">
+      <span class="audible">Default Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-only-button-primary" type="primary">
+      <span class="audible">Primary Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-only-button-secondary" type="secondary">
+      <span class="audible">Secondary Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-only-button-tertiary" type="tertiary">
+      <span class="audible">Tertiary Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Icon + Text Buttons</ids-text>
+</ids-layout-grid>
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-button-default">
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+      <span slot="text">Default Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-button-primary" type="primary">
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+      <span slot="text">Primary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-button-secondary" type="secondary">
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+      <span slot="text">Secondary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-button-tertiary" type="tertiary">
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+      <span slot="text">Tertiary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Text + Icon Buttons</ids-text>
+</ids-layout-grid>
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+      <ids-button id="test-icon-end-button-default" icon-align="end">
+          <span slot="text">Default Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+      </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+      <ids-button id="test-icon-end-button-primary" icon-align="end" type="primary">
+          <span slot="text">Primary Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+      </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+      <ids-button id="test-icon-end-button-secondary" icon-align="end" type="secondary">
+          <span slot="text">Secondary Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+      </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+      <ids-button id="test-icon-end-button-tertiary" icon-align="end" type="tertiary">
+          <span slot="text">Tertiary Button</span>
+          <ids-icon slot="icon" icon="settings"></ids-icon>
+      </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Button</h2>
+</ids-layout-grid>
+<div class="svg hidden">
+  <div class="svg-icons">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+      <symbol id="icon-alert" viewBox="0 0 18 18"><path d="M9 2L1 16.5h16L9 2zm0 6v4m0 1v1" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+      <symbol id="icon-calendar" viewBox="0 0 18 18"><path d="M.5 3.5h17v8.727c0 2.912-2.342 5.273-5.23 5.273H.5v-14zm.5 4h16M3.5 0v3m11-3v3" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+      <symbol id="icon-filter" viewBox="0 0 18 18"><path d="M0 3.5h18m-12 12h6m-9-6h12" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+      <symbol id="icon-settings" viewBox="0 0 18 18"><path d="M13.25 1.5h-8.5L.5 8.75 4.75 16h8.5l4.25-7.25-4.25-7.25zm-1 7.25a3.25 3.25 0 11-6.499.001 3.25 3.25 0 016.499-.001z" stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path></symbol>
+    </svg>
+  </div>
+</div>
+
+<div class="row is-personalizable">
+  <div class="four columns">
+    <span class="label">Primary</span>
+    <button class="btn-primary hide-focus" type="button" id="primary-action-two">Action</button><br/><br/><br/>
+    <button class="btn-primary hide-focus" type="button" id="primary-action-three" disabled="">Action</button><br/><br/><br/>
+
+    <button class="btn-primary hide-focus" type="button" id="primary-alert">
+      <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
+        <use href="#icon-alert"></use>
+      </svg>
+      <span>Primary Button</span>
+    </button>
+
+    <br/><br/><br/><br/>
+  </div>
+
+  <div class="three columns">
+    <span class="label">Secondary</span>
+    <button class="btn-secondary hide-focus" type="button" id="secondary-action-one">Action</button><br/><br/><br/>
+    <button class="btn-secondary hide-focus" type="button" id="secondary-action-two" disabled="">Action</button><br/><br/><br/>
+
+    <button class="btn-secondary hide-focus" type="button" id="secondary-alert">
+      <svg class="icon" focusable="false" aria-hidden="true" role="presentation">
+        <use href="#icon-settings"></use>
+      </svg>
+      <span>Secondary Button</span>
+    </button>
+
+    <br/><br/><br/><br/>
+  </div>
+
+  <div class="three columns">
+    <span class="label">Tertiary</span>
+
+    <button type="button" class="btn-tertiary hide-focus" id="tertiary-filter-one">
+      <svg role="presentation" aria-hidden="true" focusable="false" class="icon">
+        <use href="#icon-filter"></use>
+      </svg>
+      <span>Action</span>
+    </button>
+    <br/><br/>
+
+    <button type="button" class="btn-tertiary hide-focus" id="tertiary-filter-two" disabled="">
+      <svg role="presentation" aria-hidden="true" focusable="false" class="icon">
+        <use href="#icon-filter"></use>
+      </svg>
+      <span>Action</span>
+    </button>
+    <br/><br/>
+
+    <button type="button" class="btn btn-link hide-focus" id="tertiary-filter-three">
+      <svg role="presentation" aria-hidden="true" focusable="false" class="icon">
+        <use href="#icon-filter"></use>
+      </svg>
+      <span>Action</span>
+    </button>
+
+    <br/><br/><br/><br/>
+  </div>
+
+  <div class="two columns">
+    <span class="label">Icon</span>
+
+    <button type="button" class="btn-icon hide-focus" id="calendar-enabled">
+      <span>Date</span>
+      <svg role="presentation" aria-hidden="true" focusable="false" class="icon">
+        <use href="#icon-calendar"></use>
+      </svg>
+    </button>
+    <br/><br/>
+
+    <button type="button" class="btn-icon hide-focus" id="calendar-disabled" disabled="">
+      <span>Date</span>
+      <svg role="presentation" aria-hidden="true" focusable="false" class="icon">
+        <use href="#icon-calendar"></use>
+      </svg>
+    </button>
+
+    <br/><br/><br/><br/>
+  </div>
+</div>
+
+<script>
+  $('body').initialize();
+</script>
+{{> ../layouts/footer.html }}

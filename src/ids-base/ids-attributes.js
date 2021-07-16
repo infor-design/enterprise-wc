@@ -102,6 +102,7 @@ export const attributes = {
   PAGE_COUNT: 'page-count',
   PAGE_NUMBER: 'page-number',
   PAGE_SIZE: 'page-size',
+  PADDING: 'padding',
   PARENT_DISABLED: 'parent-disabled',
   PERCENTAGE_VISIBLE: 'percentage-visible',
   PLACEHOLDER: 'placeholder',

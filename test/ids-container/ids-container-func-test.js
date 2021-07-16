@@ -66,4 +66,10 @@ describe('IdsContainer Component', () => {
     expect(container.getAttribute('language')).toEqual('de');
     expect(container.getAttribute('dir')).toEqual(null);
   });
+
+  it('has a padding attribute', () => {
+    container.padding = 18;
+    expect(container.getAttribute('padding')).toEqual('18');
+    expect(container.padding).toEqual('18');
+  });
 });
