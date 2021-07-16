@@ -56,4 +56,10 @@ describe('IdsContainer Component', () => {
     container.version = 'classic';
     expect(container.container.getAttribute('version')).toEqual('classic');
   });
+
+  it('has a padding attribute', () => {
+    container.padding = 18;
+    expect(container.getAttribute('padding')).toEqual('18');
+    expect(container.padding).toEqual('18');
+  });
 });
