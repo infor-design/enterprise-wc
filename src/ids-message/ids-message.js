@@ -43,6 +43,7 @@ class IdsMessage extends IdsModal {
   constructor() {
     super();
 
+    /* istanbul ignore next */
     if (!this.state) {
       this.state = {};
     }
@@ -127,7 +128,7 @@ class IdsMessage extends IdsModal {
     if (realStatusValue !== currentValue) {
       this.state.status = realStatusValue;
 
-      if (typeof val === 'string' && val.length) {
+      if (typeof val === 'string' && val.length && realStatusValue !== MESSAGE_STATUSES[0]) {
         this.setAttribute(attributes.STATUS, realStatusValue);
       } else {
         this.removeAttribute(attributes.STATUS);
@@ -143,10 +144,6 @@ class IdsMessage extends IdsModal {
    */
   #refreshStatus(val) {
     const header = this.container.querySelector('.ids-modal-header');
-    if (!header) {
-      return;
-    }
-
     let icon = header.querySelector('ids-icon');
     if (val && val !== MESSAGE_STATUSES[0]) {
       if (!icon) {
@@ -163,14 +160,10 @@ class IdsMessage extends IdsModal {
   /**
    * Changes the color of the Status Icon
    * @param {IdsIcon} iconEl the icon element to update
-   * @param {string} [thisStatus='none'] the status string to apply as a CSS class
+   * @param {string} thisStatus the status string to apply as a CSS class
    * @returns {void}
    */
-  #setIconColor(iconEl, thisStatus = 'none') {
-    if (!(iconEl instanceof IdsIcon)) {
-      return;
-    }
-
+  #setIconColor(iconEl, thisStatus) {
     const iconElClassList = iconEl.classList;
     MESSAGE_STATUSES.forEach((status) => {
       if (thisStatus !== 'none' && thisStatus === status) {
@@ -185,6 +178,7 @@ class IdsMessage extends IdsModal {
    * Add additional open events
    * @returns {void}
    */
+  /* istanbul ignore next */
   applyOpenEvents() {
     super.applyOpenEvents();
 
@@ -201,6 +195,7 @@ class IdsMessage extends IdsModal {
    * Remove additional Open Events
    * @returns {void}
    */
+  /* istanbul ignore next */
   removeOpenEvents() {
     super.removeOpenEvents();
 

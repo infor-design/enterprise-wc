@@ -60,6 +60,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   constructor() {
     super();
 
+    /* istanbul ignore next */
     if (!this.state) {
       this.state = {};
     }
@@ -207,7 +208,9 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    */
   get title() {
     const titleEl = this.querySelector('[slot="title"]');
-    return titleEl?.textContent || '';
+
+    /* istanbul ignore next */
+    return titleEl?.textContent || this.state.title;
   }
 
   /**
@@ -222,7 +225,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
         this.state.title = trueVal;
         this.setAttribute('title', trueVal);
       } else {
-        this.state.title = null;
+        this.state.title = '';
         this.removeAttribute('title');
       }
 
@@ -235,25 +238,32 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean} hasTitle true if the title should be rendered
    * @returns {void}
    */
+  /* istanbul ignore next */
   #refreshModalHeader(hasTitle) {
-    if (hasTitle) {
-      let titleEls = [...this.querySelectorAll('[slot="title"]')];
+    let titleEls = [...this.querySelectorAll('[slot="title"]')];
 
+    if (hasTitle) {
       // Search for slotted title elements.
       // If one is found, replace the contents.  Otherwise, create one.
+      /* istanbul ignore next */
       if (!titleEls.length) {
         this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.title}</ids-text>`);
         titleEls = [this.querySelector('[slot="title"]')];
       }
+    }
 
-      titleEls.forEach((el, i) => {
+    titleEls.forEach((el, i) => {
+      if (hasTitle) {
+        /* istanbul ignore next */
         if (i > 0) {
           el.remove();
           return;
         }
         el.textContent = this.state.title;
-      });
-    }
+      } else {
+        el.remove();
+      }
+    });
   }
 
   /**
@@ -262,7 +272,10 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   #refreshModalFooter() {
+    /* istanbul ignore next */
     const footerEl = this.container.querySelector('.ids-modal-footer');
+
+    /* istanbul ignore next */
     if (this.buttons.length) {
       footerEl.removeAttribute('hidden');
     } else {
@@ -425,7 +438,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     let height = 0;
 
     // If the modal isn't visible, subtract its width/height from the equation.
-    // If the modal IS visible,
+    /* istanbul ignore next */
     if (!isOpen) {
       width = this.popup.container?.clientWidth || 0;
       height = this.popup.container?.clientHeight || 0;
@@ -482,6 +495,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
 
     // Stagger these one frame to prevent them from occuring
     // immediately when the component invokes
+    /* istanbul ignore next */
     window.requestAnimationFrame(() => {
       this.onEvent('slotchange.title', titleSlot, () => {
         const titleNodes = titleSlot.assignedNodes();
@@ -496,6 +510,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     });
 
     // If a Modal Button is clicked, fire an optional callback
+    /* istanbul ignore next */
     this.onEvent('click.buttons', buttonSlot, (e) => {
       if (typeof this.onButtonClick === 'function') {
         this.onButtonClick(e.target);

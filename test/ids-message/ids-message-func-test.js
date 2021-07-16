@@ -20,7 +20,7 @@ describe('IdsMessage Component (using properties)', () => {
   let messageEl;
 
   beforeEach(async () => {
-    messageEl = new IdsMessage();
+    messageEl = document.createElement('ids-message');
     messageEl.id = messageId;
     messageEl.title = messageTitle;
     messageEl.status = messageStatus;
@@ -34,6 +34,7 @@ describe('IdsMessage Component (using properties)', () => {
 
   afterEach(async () => {
     document.body.innerHTML = '';
+    messageEl = null;
   });
 
   it('should render', () => {
@@ -56,6 +57,39 @@ describe('IdsMessage Component (using properties)', () => {
     expect(messageEl.title).toEqual(messageTitle);
     expect(messageEl.status).toEqual(messageStatus);
     expect(messageEl.message).toEqual(message);
+  });
+
+  it('can alter the message', () => {
+    const newMessage = 'This is the new error message';
+    messageEl.message = newMessage;
+
+    expect(messageEl.message).toEqual(newMessage);
+
+    messageEl.message = '';
+
+    expect(messageEl.message).toEqual('');
+  });
+
+  it('can alter the status', () => {
+    messageEl.status = 'success';
+
+    expect(messageEl.status).toEqual('success');
+
+    messageEl.status = 'none';
+
+    expect(messageEl.status).toEqual('none');
+  });
+
+  it('can alter its buttons', () => {
+    const buttons = messageEl.buttons;
+    const button1 = buttons[0];
+    button1.setAttribute('cancel', '');
+
+    expect(button1.cancel).toBeTruthy();
+
+    button1.removeAttribute('cancel');
+
+    expect(button1.cancel).toBeFalsy();
   });
 });
 
@@ -96,5 +130,42 @@ describe('IdsMessage Component (using attributes)', () => {
     expect(messageEl.title).toEqual(messageTitle);
     expect(messageEl.status).toEqual(messageStatus);
     expect(messageEl.message).toEqual(message);
+  });
+});
+
+describe('IdsMessage Component (empty)', () => {
+  let messageEl;
+
+  beforeEach(async () => {
+    document.body.insertAdjacentHTML('beforeend', `<ids-message id="${messageId}" status="${messageStatus}"></ids-message>`);
+    messageEl = document.querySelector('ids-message');
+  });
+
+  afterEach(async () => {
+    document.body.innerHTML = '';
+    messageEl = null;
+  });
+
+  it('should render', () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    expect(document.querySelectorAll('ids-message').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('can add a message after being invoked', () => {
+    const msg = 'This is my message component. Here\'s a <a href="http://example.com">Link</a>.';
+    messageEl.message = msg;
+
+    expect(messageEl.querySelectorAll('*').length).toBeTruthy();
+    expect(messageEl.message).toEqual(msg);
+  });
+
+  it('can add a title after being invoked', () => {
+    const title = 'Lost Connection';
+    messageEl.title = title;
+
+    expect(messageEl.querySelectorAll('*').length).toBeTruthy();
+    expect(messageEl.title).toEqual(title);
   });
 });

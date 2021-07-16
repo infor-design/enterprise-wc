@@ -8,6 +8,7 @@ import { attributes } from '../ids-base/ids-attributes';
 const IdsXssMixin = (superclass) => class extends superclass {
   constructor() {
     super();
+    /* istanbul ignore next */
     if (!this.state) {
       this.state = {};
     }

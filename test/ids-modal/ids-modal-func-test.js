@@ -112,6 +112,25 @@ describe('IdsModal Component', () => {
     expect(modal.state.target).toBeNull();
   });
 
+  it('can have a title', () => {
+    modal.title = 'I have a title';
+
+    expect(modal.state.title).toEqual('I have a title');
+    expect(modal.querySelectorAll('[slot="title"]').length).toBe(1);
+
+    // Removes the slotted element if no title is present
+    modal.title = '';
+
+    expect(modal.state.title).toEqual('');
+    expect(modal.querySelectorAll('[slot="title"]').length).toBe(0);
+
+    // Adds it back if we apply a new title
+    modal.title = 'New title';
+
+    expect(modal.state.title).toEqual('New title');
+    expect(modal.querySelectorAll('[slot="title"]').length).toBe(1);
+  });
+
   it('can use an external overlay, if applicable', () => {
     const overlay = new IdsOverlay();
     modal.overlay = overlay;

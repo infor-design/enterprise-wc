@@ -110,6 +110,10 @@ describe('IdsXssUtils tests', () => {
     result = IdsXssUtils.stripHTML('Test <s c r i p t>alert()</s c r i p t> Test');
 
     expect(result).toEqual('Test alert() Test');
+
+    result = IdsXssUtils.stripHTML('');
+
+    expect(result).toEqual('');
   });
 
   it('Should santize html tags', () => {
