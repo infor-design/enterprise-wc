@@ -250,6 +250,9 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
         this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.messageTitle}</ids-text>`);
         titleEls = [this.querySelector('[slot="title"]')];
       }
+      this.setAttribute('aria-label', this.state.title);
+    } else {
+      this.removeAttribute('aria-label');
     }
 
     titleEls.forEach((el, i) => {

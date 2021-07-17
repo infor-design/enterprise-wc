@@ -42,6 +42,14 @@ describe('IdsMessage Component (using properties)', () => {
 
     expect(document.querySelectorAll('ids-message').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
+
+    // Use Snapshots
+    expect(messageEl.outerHTML).toMatchSnapshot();
+    messageEl.show();
+    expect(messageEl.outerHTML).toMatchSnapshot();
+
+    messageEl.hide();
+    expect(messageEl.outerHTML).toMatchSnapshot();
   });
 
   it('can be destroyed', () => {
