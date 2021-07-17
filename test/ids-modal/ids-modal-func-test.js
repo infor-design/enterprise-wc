@@ -113,21 +113,21 @@ describe('IdsModal Component', () => {
   });
 
   it('can have a title', () => {
-    modal.title = 'I have a title';
+    modal.messageTitle = 'I have a title';
 
-    expect(modal.state.title).toEqual('I have a title');
+    expect(modal.state.messageTitle).toEqual('I have a title');
     expect(modal.querySelectorAll('[slot="title"]').length).toBe(1);
 
     // Removes the slotted element if no title is present
-    modal.title = '';
+    modal.messageTitle = '';
 
-    expect(modal.state.title).toEqual('');
+    expect(modal.state.messageTitle).toEqual('');
     expect(modal.querySelectorAll('[slot="title"]').length).toBe(0);
 
     // Adds it back if we apply a new title
-    modal.title = 'New title';
+    modal.messageTitle = 'New title';
 
-    expect(modal.state.title).toEqual('New title');
+    expect(modal.state.messageTitle).toEqual('New title');
     expect(modal.querySelectorAll('[slot="title"]').length).toBe(1);
   });
 

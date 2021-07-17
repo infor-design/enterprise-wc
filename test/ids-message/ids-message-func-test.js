@@ -4,7 +4,7 @@
 import IdsMessage from '../../src/ids-message';
 
 // Supporing components
-import IdsModalButton from '../../src/ids-modal';
+import IdsModalButton from '../../src/ids-modal-button';
 import IdsText from '../../src/ids-text/ids-text';
 
 const messageId = 'test-message';
@@ -22,7 +22,7 @@ describe('IdsMessage Component (using properties)', () => {
   beforeEach(async () => {
     messageEl = document.createElement('ids-message');
     messageEl.id = messageId;
-    messageEl.title = messageTitle;
+    messageEl.messageTitle = messageTitle;
     messageEl.status = messageStatus;
     messageEl.message = message;
 
@@ -54,7 +54,7 @@ describe('IdsMessage Component (using properties)', () => {
   });
 
   it('has properties', () => {
-    expect(messageEl.title).toEqual(messageTitle);
+    expect(messageEl.messageTitle).toEqual(messageTitle);
     expect(messageEl.status).toEqual(messageStatus);
     expect(messageEl.message).toEqual(message);
   });
@@ -127,7 +127,7 @@ describe('IdsMessage Component (using attributes)', () => {
   });
 
   it('has properties', () => {
-    expect(messageEl.title).toEqual(messageTitle);
+    expect(messageEl.messageTitle).toEqual(messageTitle);
     expect(messageEl.status).toEqual(messageStatus);
     expect(messageEl.message).toEqual(message);
   });
@@ -163,9 +163,9 @@ describe('IdsMessage Component (empty)', () => {
 
   it('can add a title after being invoked', () => {
     const title = 'Lost Connection';
-    messageEl.title = title;
+    messageEl.messageTitle = title;
 
     expect(messageEl.querySelectorAll('*').length).toBeTruthy();
-    expect(messageEl.title).toEqual(title);
+    expect(messageEl.messageTitle).toEqual(title);
   });
 });

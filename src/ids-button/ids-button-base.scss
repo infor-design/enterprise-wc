@@ -495,7 +495,6 @@
 
   &.btn-primary {
     background-color: var(--ids-color-brand-primary-contrast);
-    // border-color: var(--ids-color-brand-primary-base);
     color: var(--ids-color-brand-primary-base);
 
     &:focus {
@@ -503,7 +502,6 @@
     }
 
     &:hover {
-    //  border-color: var(--ids-color-palette-azure-80);
       color: var(--ids-color-palette-azure-80);
     }
 
@@ -525,7 +523,6 @@
     @include bg-slate-30();
 
     background-color: var(--ids-color-brand-primary-contrast);
-    // border-color: var(--ids-color-brand-secondary-contrast);
     color: var(--ids-color-brand-secondary-contrast);
 
     &:focus {
@@ -533,7 +530,6 @@
     }
 
     &:hover {
-      // border-color: var(--ids-color-palette-slate-100);
       color: var(--ids-color-palette-slate-100);
     }
 

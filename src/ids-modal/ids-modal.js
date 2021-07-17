@@ -21,7 +21,7 @@ import {
 import zCounter from './ids-modal-z-counter';
 import IdsPopup from '../ids-popup/ids-popup';
 import IdsOverlay from './ids-overlay';
-import IdsModalButton from './ids-modal-button';
+import IdsModalButton from '../ids-modal-button';
 
 // @ts-ignore
 import styles from './ids-modal.scss';
@@ -29,7 +29,7 @@ import { IdsStringUtils } from '../ids-base/ids-string-utils';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
 const MODAL_ATTRIBUTES = [
-  attributes.TITLE,
+  attributes.MESSAGE_TITLE,
   attributes.VISIBLE
 ];
 
@@ -66,7 +66,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     }
     this.state.overlay = null;
     this.state.target = null;
-    this.state.title = null;
+    this.state.messageTitle = null;
     this.state.visible = false;
   }
 
@@ -206,7 +206,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   /**
    * @returns {string} the content of the message's title
    */
-  get title() {
+  get messageTitle() {
     const titleEl = this.querySelector('[slot="title"]');
 
     /* istanbul ignore next */
@@ -216,16 +216,16 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   /**
    * @param {string} val the new content to be used as the message's title
    */
-  set title(val) {
+  set messageTitle(val) {
     const trueVal = this.xssSanitize(val);
     const currentVal = this.state.title;
 
     if (currentVal !== trueVal) {
       if (typeof trueVal === 'string' && trueVal.length) {
-        this.state.title = trueVal;
+        this.state.messageTitle = trueVal;
         this.setAttribute('title', trueVal);
       } else {
-        this.state.title = '';
+        this.state.messageTitle = '';
         this.removeAttribute('title');
       }
 
@@ -247,7 +247,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       // If one is found, replace the contents.  Otherwise, create one.
       /* istanbul ignore next */
       if (!titleEls.length) {
-        this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.title}</ids-text>`);
+        this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.messageTitle}</ids-text>`);
         titleEls = [this.querySelector('[slot="title"]')];
       }
     }
@@ -268,7 +268,6 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
 
   /**
    * Refreshes the state of the Modal footer, hiding/showing it
-   * @param {boolean} hasTitle true if the title should be rendered
    * @returns {void}
    */
   #refreshModalFooter() {
@@ -500,7 +499,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       this.onEvent('slotchange.title', titleSlot, () => {
         const titleNodes = titleSlot.assignedNodes();
         if (titleNodes.length) {
-          this.title = titleNodes[0].textContent;
+          this.messageTitle = titleNodes[0].textContent;
         }
       });
       this.onEvent('slotchange.buttonset', buttonSlot, () => {

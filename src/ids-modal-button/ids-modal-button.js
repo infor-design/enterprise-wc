@@ -54,7 +54,7 @@ class IdsModalButton extends IdsButton {
    * @returns {boolean} true if the button is a cancel button
    */
   get cancel() {
-    return this.hasAttribute('cancel');
+    return this.hasAttribute(attributes.CANCEL);
   }
 
   /**
@@ -63,9 +63,9 @@ class IdsModalButton extends IdsButton {
   set cancel(val) {
     const isValueTruthy = stringToBool(val);
     if (isValueTruthy) {
-      this.setAttribute('cancel', `${val}`);
+      this.setAttribute(attributes.CANCEL, `${val}`);
     } else {
-      this.removeAttribute('cancel');
+      this.removeAttribute(attributes.CANCEL);
     }
   }
 }

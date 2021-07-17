@@ -65,11 +65,6 @@ button {
     @include pl-4();
   }
 
-  // Technically not valid
-  ::slotted(ids-icon:only-child) {
-    @include block();
-  }
-
   .ripple-effect {
     height: 250px;
     width: 250px;
@@ -81,6 +76,11 @@ button {
 .ids-menu-button {
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
+
+  // Technically not valid
+  ::slotted(ids-icon:only-child) {
+    @include block();
+  }
 }
 
 .ids-icon-button {

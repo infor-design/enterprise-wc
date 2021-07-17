@@ -55,6 +55,10 @@
   - Now exists as its own component
   - Markup is `<ids-menu-button></ids-menu-button>`
   - Implicitly linked to a menu by using `menu="my-menu"` CSS selector attribute, or direct element reference in JS
+- `[Message]` The Message is now a web component called ids-menu
+  - The Message component now extends the Modal component, containing the same properties and methods.
+  - Modal Buttons, Title, Status, and Message can be changed via API
+  - Markup is `<ids-message></ids-message>`
 - `[Modal]` The Modal is now a web component called ids-modal ([WC#118](https://github.com/infor-design/enterprise-wc/issues/118))
   - All content inside the modal boundary is now user-defined by slot
   - Triggering element for the modal is now configurable with the `target` prop

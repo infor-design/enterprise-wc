@@ -36,7 +36,7 @@
   <ids-text class="demo-contents">You are about to delete this application permanently.<br /><br />
     Would you like to proceed?</ids-text>
   <ids-modal-button slot="buttons" type="secondary" id="message-confirmation-yes">Yes</ids-modal-button>
-  <ids-modal-button slot="buttons" type="primary" id="message-confirmation-yes" cancel>No</ids-modal-button>
+  <ids-modal-button slot="buttons" type="primary" id="message-confirmation-no" cancel>No</ids-modal-button>
 </ids-message>
 
 <!-- "No Buttons" Message -->
@@ -55,7 +55,7 @@
     <sub>are</sub>
     <sup>default allowed</sup>.
   </ids-text>
-  <ids-modal-button slot="buttons" type="primary" id="message-confirmation-ok">OK</ids-modal-button>
+  <ids-modal-button slot="buttons" type="primary" id="message-allow-tags-ok">OK</ids-modal-button>
 </ids-message>
 
 <!-- "Disallow Tags" Message (has the same tags as above, but they are stripped out by the sanitizer) -->
@@ -66,7 +66,7 @@
     <em>from</em> <i>appearing</i> <ins>in</ins> <mark>this</mark> <small>message</small>. <strong>All</strong>
     <sub>are</sub> <sup>stripped</sup>.
   </ids-text>
-  <ids-modal-button slot="buttons" type="primary" id="message-confirmation-ok">OK</ids-modal-button>
+  <ids-modal-button slot="buttons" type="primary" id="message-disallow-tags-ok">OK</ids-modal-button>
 </ids-message>
 
 <!-- In-page controls for the messages are below -->
