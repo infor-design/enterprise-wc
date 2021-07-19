@@ -9,6 +9,8 @@
 }
 
 .ids-popup {
+  @include z-3000();
+
   display: none;
   position: relative;
 
