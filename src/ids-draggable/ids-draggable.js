@@ -176,7 +176,7 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       // TODO: move logic to function
 
       let pathElemIndex = 0;
-      let pathElem = e.path[pathElemIndex];
+      let pathElem = (e?.path || e?.composedPath?.())[pathElemIndex];
       let hasTraversedThis = false;
 
       this.#parentRect = undefined;
@@ -187,7 +187,7 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         }
 
         pathElemIndex++;
-        pathElem = e.path[pathElemIndex];
+        pathElem = (e?.path || e?.composedPath?.())[pathElemIndex];
 
         if (pathElem instanceof ShadowRoot || pathElem.tagName === 'SLOT') {
           continue;
