@@ -64,6 +64,8 @@ class IdsNotificationBanner extends mix(IdsElement).with(
    */
   constructor() {
     super();
+
+    this.state = {};
   }
 
   /**
@@ -74,6 +76,17 @@ class IdsNotificationBanner extends mix(IdsElement).with(
       .#handleEvents()
       .#handleKeys();
     super.connectedCallback();
+  }
+
+  /**
+   * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
+   * check for a true `shouldUpdate` property.
+   * @param  {string} name The property name
+   * @param  {string} oldValue The property old value
+   * @param  {string} newValue The property new value
+   */
+  attributeChangedCallback(name, oldValue, newValue) {
+    super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
   }
 
   /**
@@ -194,6 +207,53 @@ class IdsNotificationBanner extends mix(IdsElement).with(
     const closeBtn = this.container.querySelector('ids-button');
     this.listen('Enter', closeBtn, () => this.dismiss());
     return this;
+  }
+
+  /**
+   * Shows a notification banner dynamically
+   * @param {object} notification Object passed in for notification creation
+   * @returns {void}
+   */
+  add(notification) {
+    const {
+      id,
+      parent,
+      type,
+      messageText,
+      link,
+      linkText
+    } = notification;
+    const messageTextEl = this.container.querySelector('[part="message"]');
+    const alertIcon = this.container.querySelector('ids-alert');
+
+    // Set properties
+    if (id) {
+      this.setAttribute('id', id);
+    }
+    this.type = type;
+    this.messageText = messageText;
+    alertIcon.setAttribute('icon', this.type);
+    messageTextEl.innerHTML = `<ids-text overflow="ellipsis">${this.messageText}</ids-text>`;
+
+    // Check for link and create the necassary elements.
+    if (notification.link) {
+      const linkPart = document.createElement('div');
+      linkPart.setAttribute('part', 'link');
+      this.link = link;
+      this.linkText = linkText === undefined ? 'Click to view' : linkText;
+      linkPart.innerHTML = `<ids-hyperlink href="${this.link}" target="_blank">${this.linkText}</ids-hyperlink>`;
+      // Insert after the message text.
+      messageTextEl.parentNode.insertBefore(linkPart, messageTextEl.nextSibling);
+    }
+
+    // Check if parent container is defined to prepend
+    // If not prepend to body element.
+    if (parent) {
+      const parentEl = document.getElementById(parent);
+      parentEl.prepend(this);
+    } else {
+      document.body.prepend(this);
+    }
   }
 
   /**

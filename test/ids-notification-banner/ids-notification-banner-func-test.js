@@ -190,4 +190,41 @@ describe('IdsNotificationBanner Component', () => {
     notificationBanner.template();
     expect(notificationBanner.messageText).toEqual('Lorem ipsum dolor set');
   });
+
+  it('can create notification dynamically with add()', () => {
+    const notificationObj = {
+      id: 'ids-notification-banner-5',
+      type: 'alert',
+      messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+    };
+    const notification = new IdsNotificationBanner();
+    notification.add(notificationObj);
+
+    notificationObj.parent = 'notification-container';
+    const parentEl = document.createElement('div');
+    parentEl.setAttribute('id', notificationObj.parent);
+    notification.appendChild(parentEl);
+    expect(notificationObj.parent).toEqual('notification-container');
+
+    const notificationObj2 = {
+      type: 'alert',
+      parent: 'notification-container',
+      messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+      link: 'https://infor.com',
+      linkText: 'Learn More'
+    };
+    const notification2 = new IdsNotificationBanner();
+    notification2.add(notificationObj2);
+    expect(notificationObj2.id).toEqual(undefined);
+    expect(notificationObj2.linkText).toEqual('Learn More');
+
+    const notificationObj3 = {
+      id: 'ids-notification-banner-5',
+      type: 'alert',
+      messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+      link: 'https://infor.com',
+    };
+    const notification3 = new IdsNotificationBanner();
+    notification3.add(notificationObj3);
+  });
 });

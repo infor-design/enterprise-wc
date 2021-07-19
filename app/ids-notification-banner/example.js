@@ -1,4 +1,3 @@
-import IdsCard from '../../src/ids-card/ids-card';
 import IdsNotificationBanner from '../../src/ids-notification-banner/ids-notification-banner';
 
 // Example for populating the List View
