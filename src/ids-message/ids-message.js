@@ -61,6 +61,7 @@ class IdsMessage extends IdsModal {
   connectedCallback() {
     super.connectedCallback();
 
+    // Update status and correct
     this.status = this.getAttribute(attributes.STATUS);
 
     // Sanitizes the HTML in the component
@@ -68,6 +69,16 @@ class IdsMessage extends IdsModal {
     if (currentContentEl) {
       this.message = currentContentEl.innerHTML;
     }
+  }
+
+  /**
+   * Used for ARIA Labels and other content
+   * @readonly
+   * @returns {string} concatenating the status and title together.
+   */
+  get ariaLabelContent() {
+    const status = this.status !== 'none' ? `${this.status}: ` : '';
+    return `${status}${this.messageTitle}`;
   }
 
   /**
@@ -135,6 +146,7 @@ class IdsMessage extends IdsModal {
       }
 
       this.#refreshStatus(realStatusValue);
+      this.refreshAriaLabel();
     }
   }
 

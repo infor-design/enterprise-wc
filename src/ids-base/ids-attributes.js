@@ -87,6 +87,7 @@ export const attributes = {
   MENU: 'menu',
   METHOD: 'method',
   MESSAGE: 'message',
+  MESSAGE_TITLE: 'message-title',
   MIN: 'min',
   MODE: 'mode',
   MULTIPLE: 'multiple',

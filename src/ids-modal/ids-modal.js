@@ -93,7 +93,11 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     this.popup.type = 'modal';
     this.popup.animated = true;
     this.popup.animationStyle = 'scale-in';
+
+    // Update ARIA / Sets up the label
+    this.messageTitle = this.querySelector('[slot="title"]')?.textContent;
     this.setAttribute('role', 'dialog');
+    this.refreshAriaLabel();
 
     // Listen for changes to the window size
     /* istanbul ignore next */
@@ -147,6 +151,15 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
         </div>
       </div>
     </ids-popup>`;
+  }
+
+  /**
+   * Used for ARIA Labels and other content
+   * @readonly
+   * @returns {string} concatenating the status and title together.
+   */
+  get ariaLabelContent() {
+    return this.messageTitle;
   }
 
   /**
@@ -210,7 +223,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     const titleEl = this.querySelector('[slot="title"]');
 
     /* istanbul ignore next */
-    return titleEl?.textContent || this.state.title;
+    return titleEl?.textContent || this.state.messageTitle;
   }
 
   /**
@@ -218,15 +231,15 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    */
   set messageTitle(val) {
     const trueVal = this.xssSanitize(val);
-    const currentVal = this.state.title;
+    const currentVal = this.state.messageTitle;
 
     if (currentVal !== trueVal) {
       if (typeof trueVal === 'string' && trueVal.length) {
         this.state.messageTitle = trueVal;
-        this.setAttribute('title', trueVal);
+        this.setAttribute(attributes.MESSAGE_TITLE, trueVal);
       } else {
         this.state.messageTitle = '';
-        this.removeAttribute('title');
+        this.removeAttribute(attributes.MESSAGE_TITLE);
       }
 
       this.#refreshModalHeader(!!trueVal);
@@ -250,10 +263,9 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
         this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.messageTitle}</ids-text>`);
         titleEls = [this.querySelector('[slot="title"]')];
       }
-      this.setAttribute('aria-label', this.state.title);
-    } else {
-      this.removeAttribute('aria-label');
     }
+
+    this.refreshAriaLabel();
 
     titleEls.forEach((el, i) => {
       if (hasTitle) {
@@ -262,11 +274,24 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
           el.remove();
           return;
         }
-        el.textContent = this.state.title;
+        el.textContent = this.state.messageTitle;
       } else {
         el.remove();
       }
     });
+  }
+
+  /**
+   * Renders or Removes a correct `aria-label` attribute on the Modal about its contents.
+   * @returns {void}
+   */
+  refreshAriaLabel() {
+    const title = this.ariaLabelContent;
+    if (title) {
+      this.setAttribute('aria-label', title);
+      return;
+    }
+    this.removeAttribute('aria-label');
   }
 
   /**
@@ -383,6 +408,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     if (val && !popupCl?.contains('visible')) {
       this.overlay.visible = true;
       this.popup.visible = true;
+      this.removeAttribute('aria-hidden');
 
       // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
       this.rl.onNextTick(() => {
@@ -406,6 +432,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       await IdsDOMUtils.waitForTransitionEnd(this.overlay.container, 'opacity');
       this.overlay.container.style.zIndex = '';
       this.popup.container.style.zIndex = '';
+      this.setAttribute('aria-hidden', 'true');
       zCounter.decrement();
       zCounter.decrement();
 

@@ -79,13 +79,17 @@ describe('IdsMessage Component (using properties)', () => {
   });
 
   it('can alter the status', () => {
+    expect(messageEl.ariaLabelContent).toEqual(`${messageStatus}: ${messageTitle}`);
+
     messageEl.status = 'success';
 
     expect(messageEl.status).toEqual('success');
+    expect(messageEl.ariaLabelContent).toEqual(`success: ${messageTitle}`);
 
     messageEl.status = 'none';
 
     expect(messageEl.status).toEqual('none');
+    expect(messageEl.ariaLabelContent).toEqual(messageTitle);
   });
 
   it('can alter its buttons', () => {
