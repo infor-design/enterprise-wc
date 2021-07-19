@@ -9,5 +9,3 @@ exports[`IdsNotificationBanner Component renders correctly 3`] = `"<ids-notifica
 exports[`IdsNotificationBanner Component renders correctly 4`] = `"<ids-notification-banner type=\\"error\\"></ids-notification-banner>"`;
 
 exports[`IdsNotificationBanner Component renders correctly 5`] = `"<ids-notification-banner type=\\"success\\"></ids-notification-banner>"`;
-
-exports[`IdsNotificationBanner Component renders correctly 6`] = `"<ids-notification-banner type=\\"success\\"></ids-notification-banner>"`;

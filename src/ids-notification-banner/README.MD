@@ -49,6 +49,24 @@ An error notification banner with no link
 </ids-notification-banner>
 ```
 
+Add a notification banner dynamically
+
+```js
+const notificationBanner = new IdsNotificationBanner();
+notificationBanner.add({
+  id: 'ids-notification-banner-1',
+  parent: 'notification-container',
+  type: 'alert',
+  messageText: 'DTO accepted by your manager for Sept 30, 2018.',
+  link: 'https://infor.com',
+  linkText: 'Learn More'
+});
+```
+
+```html
+<div id="notification-banner"></div>
+```
+
 ## Settings and Attributes
 - `type` `{string}` can be 1 of 4 types (success, alert, info, error)
 - `message-text` `{string}` text shown inside the banner
