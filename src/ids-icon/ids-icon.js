@@ -60,8 +60,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    * Handle change events
    */
   handleEvents() {
-    this.offEvent('languagechanged.container');
-    this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       if (this.isFlipped(this.icon)) {
         this.container.classList.add('flipped');
@@ -70,8 +70,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       }
     });
 
-    this.offEvent('languagechanged.icon');
-    this.onEvent('languagechanged.icon', this, async (e) => {
+    this.offEvent('languagechange.icon');
+    this.onEvent('languagechange.icon', this, async (e) => {
       await this.locale.setLanguage(e.detail.language.name);
       if (this.isFlipped(this.icon)) {
         this.container.classList.add('flipped');

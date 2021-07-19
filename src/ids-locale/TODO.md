@@ -1,17 +1,5 @@
 # TODO For Locales
 
-- [x] Promises/Await
-- [X] Translations
-- [X] Convert all code
-- [X] Numbers
-- [X] Dates
-- [X] Timezone
-- [x] Flip Icons
-- [x] Number DG Formatter
-- [x] Date DG Formatter
-- [x] RTL DG
-- [x] Coverage / Lint
-- [x] Docs / Types
 - [] RTL all components
 - [] Number Inputs (value/mask)
 - [] Date Inputs (value/mask)

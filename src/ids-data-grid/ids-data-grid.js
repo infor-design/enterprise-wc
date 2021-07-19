@@ -268,27 +268,27 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     // Handle the Locale Changes
     // Respond to parent changing language
-    this.offEvent('languagechanged.container');
-    this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
     });
 
     // Respond to the element changing language
-    this.offEvent('languagechanged.this');
-    this.onEvent('languagechanged.this', this, async (e) => {
+    this.offEvent('languagechange.this');
+    this.onEvent('languagechange.this', this, async (e) => {
       await this.locale.setLanguage(e.detail.language.name);
     });
 
     // Respond to parent changing language
-    this.offEvent('localechanged.container');
-    this.onEvent('localechanged.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('localechange.container');
+    this.onEvent('localechange.container', this.closest('ids-container'), async (e) => {
       await this.setLocale(e.detail.locale.name);
       this.rerender();
     });
 
     // Respond to the element changing language
-    this.offEvent('localechanged.this');
-    this.onEvent('localechanged.this', this, async (e) => {
+    this.offEvent('localechange.this');
+    this.onEvent('localechange.this', this, async (e) => {
       if (!e.detail.locale.name) {
         return;
       }

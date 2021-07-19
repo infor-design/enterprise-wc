@@ -8,4 +8,7 @@ export default class IdsIcon extends IdsElement {
 
   /* The name of the icon to display */
   icon: string;
+
+  /** Set the language */
+  language: string;
 }

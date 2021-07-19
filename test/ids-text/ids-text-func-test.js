@@ -54,7 +54,7 @@ describe('IdsText Component', () => {
     elem = new IdsText();
     elem.color = 'unset';
     document.body.appendChild(elem);
-    elem.template();
+    elem.render();
     expect(elem.color).toEqual('unset');
     elem.color = null;
     expect(elem.fontSize).toEqual(null);
@@ -140,7 +140,7 @@ describe('IdsText Component', () => {
     document.body.appendChild(elem);
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
     elem.audible = true;
-    elem.template();
+    elem.render();
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
     elem.audible = false;
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);

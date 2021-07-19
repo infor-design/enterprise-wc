@@ -36,4 +36,10 @@ export default class IdsText extends HTMLElement {
 
   /** If set to "unset", allows parent to color text */
   color: 'unset' | null;
+
+  /** Set the language */
+  language: string;
+
+  /** Set the locale */
+  locale: 'unset' | null;
 }

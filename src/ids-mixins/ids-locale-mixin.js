@@ -44,7 +44,7 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
       this.locale.updateLangTag(this, value);
       this.locale.updateLangTag(this.container, value);
       this.setAttribute('language', value);
-      this.triggerEvent('languagechanged', this, { detail: { elem: this, language: this.language, locale: this.locale } });
+      this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.locale } });
     }
   }
 
@@ -65,7 +65,7 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
       await this.locale.setLocale(value);
       this.locale = value;
       this.locale.updateLangTag(this, value.substr(0, 2));
-      this.triggerEvent('localechanged', this, { detail: { elem: this, language: this.language, locale: this.locale } });
+      this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.locale } });
     }
   }
 
@@ -77,7 +77,7 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
     if (value) {
       this.locale.setLocale(value);
       this.setAttribute('locale', value);
-      this.triggerEvent('localechanged', this, { detail: { elem: this, language: this.language, locale: this.locale.locale } });
+      this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.locale.locale } });
     }
   }
 

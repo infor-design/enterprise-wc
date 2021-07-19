@@ -101,14 +101,14 @@ class IdsText extends mix(IdsElement).with(
    */
   handleEvents() {
     if (this.translateText) {
-      this.offEvent('languagechanged.container');
-      this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
+      this.offEvent('languagechange.container');
+      this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
         await this.setLanguage(e.detail.language.name);
         this.#translateAsync();
       });
 
-      this.offEvent('languagechanged.this');
-      this.onEvent('languagechanged.this', this, async (e) => {
+      this.offEvent('languagechange.this');
+      this.onEvent('languagechange.this', this, async (e) => {
         await this.locale.setLanguage(e.detail.language.name);
         this.#translateAsync();
       });

@@ -172,7 +172,7 @@ get providedAttributes() {
 
 ## Ids Locale Mixin
 
-This mixin adds functionality to handle locale and adds a locale API shared instance onto the component.
+This mixin adds a shared locale API into the component.
 
 1. Include the import and then IdsLocaleMixin in the `mix` list.
 1. Add types for LANGUAGE and LOCALE to the `d.ts` file for the new attributes.
@@ -186,29 +186,29 @@ When using it access the locale with `this.locale`.
 
 ```js
 // Respond to parent changing language
-this.offEvent('languagechanged.container');
-this.onEvent('languagechanged.container', this.closest('ids-container'), async (e) => {
+this.offEvent('languagechange.container');
+this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
   await this.setLanguage(e.detail.language.name);
   // Do something with parent lang
 });
 
 // Respond to the element changing language
-this.offEvent('languagechanged.this');
-this.onEvent('languagechanged.this', this, async (e) => {
+this.offEvent('languagechange.this');
+this.onEvent('languagechange.this', this, async (e) => {
   await this.locale.setLanguage(e.detail.language.name);
  // Do something with component lang
 });
 
 // Respond to parent changing language
-this.offEvent('localechanged.container');
-this.onEvent('localechanged.container', this.closest('ids-container'), async (e) => {
+this.offEvent('localechange.container');
+this.onEvent('localechange.container', this.closest('ids-container'), async (e) => {
   await this.locale.setLocale(e.detail.locale.name);
   // Do something with parent locale
 });
 
 // Respond to the element changing language
-this.offEvent('localechanged.this');
-this.onEvent('localechanged.this', this, async (e) => {
+this.offEvent('localechange.this');
+this.onEvent('localechange.this', this, async (e) => {
   await this.locale.setLocale(e.detail.locale.name);
  // Do something with component locale
 });
