@@ -17,6 +17,29 @@ import getElTranslatePoint from './getElTranslatePoint';
 
 const { stringToBool } = stringUtils;
 
+const CURSOR_EL_SIZE = 16;
+
+/**
+ * get "cursor" property of cursor element
+ * placed in front of drag (may also use this
+ * for draggable itself after refactor vs CSS
+ * for DRY)
+ *
+ * @param {{ axis: 'x'|'y'|undefined }} param0 properties
+ * @returns {string} cursor property
+ */
+function getCursorStyle({ axis }) {
+  switch (axis) {
+  case 'x': { return 'ew-resize'; }
+  case 'y': { return 'ns-resize'; }
+  default: { return 'move'; }
+  }
+}
+
+// TODO: pool the cursor element for re-use after
+// creating during the connectedCallback vs
+// create each time
+
 /**
  * IDS Draggable Component
  * @type {IdsDraggable}
@@ -120,7 +143,7 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   connectedCallback() {
     // grab the user-content and then pass draggable attrib
     this.#content = this.children[0];
-    this.#content.setAttribute('draggable', 'true');
+    this.setAttribute('draggable', 'true');
 
     this.onEvent('mousedown', this, (e) => {
       e.preventDefault();
@@ -129,6 +152,11 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         if (this.isDragging) {
           this.isDragging = false;
           this.offEvent('mousemove', this.onMouseMove);
+        }
+
+        if (this.#cursorEl) {
+          this.#cursorEl.remove();
+          this.#cursorEl = undefined;
         }
       });
 
@@ -145,7 +173,7 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       // outside of this draggable or an immediate IdsElement
       // (e.g. non styled container) is detected
 
-      // TODO: move logic to functionÍ
+      // TODO: move logic to function
 
       let pathElemIndex = 0;
       let pathElem = e.path[pathElemIndex];
@@ -178,22 +206,23 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         // record mouse point at start
 
         e.parentRect = rect;
-
-        // ============================== //
-        // remove draggable image overlay //
-        // ============================== //
-
-        const draggableImageEl = this.#content.cloneNode(true);
-        draggableImageEl.style.display = 'none';
-        document.body.appendChild(draggableImageEl);
-
-        requestAnimationFrame(() => {
-          document.body.removeChild(draggableImageEl);
-        });
       }
 
       this.#mouseStartingPoint = { x: e.x, y: e.y };
       this.#startingOffset = getElTranslatePoint(this);
+
+      if (!this.cursorEl) {
+        this.#cursorEl = document.createElement('div');
+      }
+
+      this.#cursorEl.style.position = 'absolute';
+      this.#cursorEl.style.opacity = 0;
+      this.#cursorEl.style.width = `${CURSOR_EL_SIZE}px`;
+      this.#cursorEl.style.height = `${CURSOR_EL_SIZE}px`;
+      this.#cursorEl.style.backgroundColor = '#000';
+      this.#cursorEl.style.cursor = getCursorStyle({ axis: this.axis });
+
+      document.body.appendChild(this.#cursorEl);
     });
 
     super.connectedCallback?.();
@@ -211,6 +240,11 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       const translateY = `${this.axis !== 'x' ? offsetY : 0}px`;
 
       this.style.transform = `translate(${translateX}, ${translateY})`;
+
+      if (this.#cursorEl) {
+        this.#cursorEl.style.left = `${e.x - CURSOR_EL_SIZE / 2}px`;
+        this.#cursorEl.style.top = `${e.y - CURSOR_EL_SIZE / 2}px`;
+      }
     }
   };
 
@@ -253,6 +287,14 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   setParentRect = (rect) => {
     this.#parentRect = rect;
   };
+
+  /**
+   * element which provides cursor for mouse when
+   * dragging after mousedown event since we can
+   * bind to X/Y axes and there's no way to override
+   * the behavior
+   */
+  #cursorEl;
 }
 
 export default IdsDraggable;
