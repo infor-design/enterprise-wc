@@ -81,7 +81,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Modal (ids-modal)
  - [ ] Monthview (ids-month-view)
  - [ ] Multiselect (ids-multi-select)
- - [ ] Notification (ids-notification)
+ - [x] Notification (ids-notification)
  - [ ] Page Layouts (ids-page-layout or as individual separate examples)
  - [ ] Page Patterns (ids-page-pattern or as individual separate examples)
  - [ ] Pager (ids-pager)
