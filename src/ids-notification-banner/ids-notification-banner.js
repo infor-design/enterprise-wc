@@ -64,8 +64,6 @@ class IdsNotificationBanner extends mix(IdsElement).with(
    */
   constructor() {
     super();
-
-    this.state = {};
   }
 
   /**
