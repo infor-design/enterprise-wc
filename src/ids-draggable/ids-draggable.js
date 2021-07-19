@@ -8,6 +8,7 @@ import {
 } from '../ids-base/ids-element';
 
 import {
+  IdsKeyboardMixin,
   IdsEventsMixin
 } from '../ids-mixins';
 
@@ -15,13 +16,6 @@ import styles from './ids-draggable.scss';
 import getElTranslatePoint from './getElTranslatePoint';
 
 const { stringToBool } = stringUtils;
-
-console.log([
-  attributes.AXIS,
-  attributes.DISABLED,
-  attributes.IS_DRAGGING,
-  attributes.PARENT_CONTAINMENT,
-]);
 
 /**
  * IDS Draggable Component
@@ -45,6 +39,7 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.AXIS,
       attributes.DISABLED,
       attributes.IS_DRAGGING,
@@ -127,10 +122,19 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     this.#content = this.children[0];
     this.#content.setAttribute('draggable', 'true');
 
-    const that = this;
+    this.onEvent('mousedown', this, (e) => {
+      e.preventDefault();
 
-    this.onEvent('dragstart', this, (e) => {
-      that.setAttribute(attributes.IS_DRAGGING, 'true');
+      this.onEvent('mouseup', document, () => {
+        if (this.isDragging) {
+          this.isDragging = false;
+          this.offEvent('mousemove', this.onMouseMove);
+        }
+      });
+
+      this.isDragging = true;
+      this.onEvent('mousemove', document, this.onMouseMove);
+
       // ============================== //
       // capture 1st valid parentRect   //
       // ============================== //
@@ -173,9 +177,6 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
         // record mouse point at start
 
-        this.#mouseStartingPoint = { x: e.x, y: e.y };
-        this.#startingOffset = getElTranslatePoint(this.#content);
-
         e.parentRect = rect;
 
         // ============================== //
@@ -185,48 +186,34 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         const draggableImageEl = this.#content.cloneNode(true);
         draggableImageEl.style.display = 'none';
         document.body.appendChild(draggableImageEl);
-        e.dataTransfer.setDragImage(draggableImageEl, 0, 0);
 
         requestAnimationFrame(() => {
           document.body.removeChild(draggableImageEl);
         });
       }
-    });
 
-    let callCount = 0;
 
-    document.addEventListener('mousemove', () => {
-      callCount++;
-      if (callCount % 5 === 0) {
-        setTimeout(() => {
-          console.log('mouseMove ->', that.getAttribute(attributes.IS_DRAGGING));
-        });
-      }
-    });
-
-    this.onEvent('mousemove', document, (event) => {
-      if (that.getAttribute(attributes.IS_DRAGGING)) {
-        const deltaX = event.x - this.#mouseStartingPoint.x;
-        const offsetX = this.#startingOffset.x + deltaX;
-        const deltaY = event.y - this.#mouseStartingPoint.y;
-        const offsetY = this.#startingOffset.y + deltaY;
-
-        const translateX = `${this.axis !== 'y' ? offsetX : 0}px`;
-        const translateY = `${this.axis !== 'x' ? offsetY : 0}px`;
-
-        this.#content.style.transform = `translate(${translateX}, ${translateY})`;
-      }
-    });
-
-    // TODO: figure out a on dragend firing with delay on MacOS
-    // or replace with mouseup
-
-    this.onEvent('dragend', this, () => {
-      this.removeAttribute(attributes.IS_DRAGGING);
+      this.#mouseStartingPoint = { x: e.x, y: e.y };
+      this.#startingOffset = getElTranslatePoint(this.#content);
     });
 
     super.connectedCallback?.();
   }
+
+  onMouseMove = (e) => {
+    e.preventDefault();
+    if (this.isDragging) {
+      const deltaX = e.x - this.#mouseStartingPoint.x;
+      const offsetX = this.#startingOffset.x + deltaX;
+      const deltaY = e.y - this.#mouseStartingPoint.y;
+      const offsetY = this.#startingOffset.y + deltaY;
+
+      const translateX = `${this.axis !== 'y' ? offsetX : 0}px`;
+      const translateY = `${this.axis !== 'x' ? offsetY : 0}px`;
+
+      this.#content.style.transform = `translate(${translateX}, ${translateY})`;
+    }
+  };
 
   set isDragging(value) {
     const isTruthy = stringToBool(value);
