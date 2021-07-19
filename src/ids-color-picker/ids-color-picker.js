@@ -18,13 +18,6 @@ import '../ids-trigger-field/ids-trigger-button';
 import '../ids-popup/ids-popup';
 import styles from './ids-color-picker.scss';
 
-const appliedMixins = [
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsPopupOpenEventsMixin,
-  IdsThemeMixin
-];
-
 /**
  * IDS ColorPicker
  * @type {IdsColorPicker}
@@ -34,7 +27,12 @@ const appliedMixins = [
  */
 @customElement('ids-color-picker')
 @scss(styles)
-class IdsColorPicker extends mix(IdsElement).with(...appliedMixins) {
+class IdsColorPicker extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsKeyboardMixin,
+    IdsPopupOpenEventsMixin,
+    IdsThemeMixin
+  ) {
   constructor() {
     super();
   }
@@ -86,8 +84,8 @@ class IdsColorPicker extends mix(IdsElement).with(...appliedMixins) {
       attributes.DISABLED,
       attributes.LABEL,
       attributes.MODE,
-      attributes.SWATCH,
       attributes.READONLY,
+      attributes.SWATCH,
       attributes.VALUE,
       attributes.VERSION
     ];

@@ -1,5 +1,6 @@
 import { attributes } from '../ids-base';
 import IdsEventsMixin from './ids-events-mixin';
+import IdsPopup from '../ids-popup';
 
 const POPUP_INTERACTIONS_ATTRIBUTES = [
   attributes.TRIGGER
