@@ -192,9 +192,8 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         });
       }
 
-
       this.#mouseStartingPoint = { x: e.x, y: e.y };
-      this.#startingOffset = getElTranslatePoint(this.#content);
+      this.#startingOffset = getElTranslatePoint(this);
     });
 
     super.connectedCallback?.();
@@ -211,7 +210,7 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       const translateX = `${this.axis !== 'y' ? offsetX : 0}px`;
       const translateY = `${this.axis !== 'x' ? offsetY : 0}px`;
 
-      this.#content.style.transform = `translate(${translateX}, ${translateY})`;
+      this.style.transform = `translate(${translateX}, ${translateY})`;
     }
   };
 
