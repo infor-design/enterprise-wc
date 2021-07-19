@@ -222,7 +222,12 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       this.#cursorEl.style.backgroundColor = '#000';
       this.#cursorEl.style.cursor = getCursorStyle({ axis: this.axis });
 
-      document.body.appendChild(this.#cursorEl);
+      // append the cursor to either the top-level ids-container
+      // or if not found the document body
+      // (to avoid double overflow scrollbars)
+
+      (document.body.querySelector('ids-container') || document.body)
+        .appendChild(this.#cursorEl);
     });
 
     super.connectedCallback?.();
