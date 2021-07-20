@@ -110,18 +110,6 @@ A layout grid is not on its own keyboard focusable and has no keyboard interacti
 
 The Layout grid replaces the former grid entirely. Apply the new markup.
 
-## Designs
-
-## Alternate Designs
-
-- Need to re-visit responsiveness as we begin to test complex layouts.
-- Add a breakpoint properties for example:
-  - `<ids-layout-grid cols="2" md-cols="4" lg-cols="8">` or
-  - `<ids-layout-grid cols="{sm: 2, md: 4, lg: 8}">`
-- Add fixed unit sizing options for cells and rows.
-- Add `minColWidth` property. For auto-responsive grids that use `auto-fit` and `minmax` there could be a setting to control where the reflow happens
-  - `<ids-layout-grid minColWidth="120px">`
-
 ## Test Plan
 
 1. Accessibility - Axe

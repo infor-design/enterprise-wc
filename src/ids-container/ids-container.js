@@ -64,6 +64,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set padding(value) {
     const double = Number(value) * 2;
+    this.style.margin = '-8px';
     this.container.style.padding = `${value}px`;
     this.container.style.height = `calc(100% - ${double}px)`;
     this.container.style.width = `calc(100% - ${double}px)`;
