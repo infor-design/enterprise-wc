@@ -11,6 +11,10 @@ ids-alert {
   @include flex();
 }
 
+ids-text::part(text) {
+  color: var(--ids-color-palette-slate-80);
+}
+
 ids-hyperlink::part(link) {
   @include ml-8();
 

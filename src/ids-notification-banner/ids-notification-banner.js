@@ -77,26 +77,15 @@ class IdsNotificationBanner extends mix(IdsElement).with(
   }
 
   /**
-   * Override `attributeChangedCallback` from IdsElement to wrap its normal operation in a
-   * check for a true `shouldUpdate` property.
-   * @param  {string} name The property name
-   * @param  {string} oldValue The property old value
-   * @param  {string} newValue The property new value
-   */
-  attributeChangedCallback(name, oldValue, newValue) {
-    super.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
-  }
-
-  /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
   static get attributes() {
     return [
-      attributes.TYPE,
+      attributes.MESSAGE_TEXT,
       attributes.LINK,
       attributes.LINK_TEXT,
-      attributes.MESSAGE_TEXT,
+      attributes.TYPE
     ];
   }
 
@@ -127,7 +116,7 @@ class IdsNotificationBanner extends mix(IdsElement).with(
         <div class="ids-notification-banner-button" part="button">
           <ids-button type="tertiary">
             <span class="audible">Close Button</span>
-            <ids-icon slot="icon" icon="close"></ids-icon>
+            <ids-icon slot="icon" icon="close" size="small"></ids-icon>
           </ids-button>
         </div>
       </div>
