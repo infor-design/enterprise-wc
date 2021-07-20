@@ -1,11 +1,11 @@
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
 import {
-  IdsElement,
-  scss,
-  customElement,
   attributes,
-  stringUtils,
-  mix
+  customElement,
+  IdsElement,
+  mix,
+  scss,
+  stringUtils
 } from '../ids-base';
 
 // Import Mixins
@@ -15,6 +15,8 @@ import {
 } from '../ids-mixins';
 
 import styles from './ids-icon.scss';
+
+import IdsInverseColorMixin from '../ids-mixins/ids-inverse-color-mixin';
 
 // Setting Defaults
 const sizes = {
@@ -32,7 +34,7 @@ const sizes = {
  */
 @customElement('ids-icon')
 @scss(styles)
-class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
+class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsInverseColorMixin) {
   constructor() {
     super();
   }

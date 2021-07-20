@@ -10,6 +10,7 @@ import {
 // Import Mixins
 import {
   IdsEventsMixin,
+  IdsInverseColorMixin,
   IdsTooltipMixin,
   IdsThemeMixin,
   IdsLocaleMixin
@@ -36,14 +37,15 @@ class IdsText extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsThemeMixin,
     IdsTooltipMixin,
-    IdsLocaleMixin
+    IdsLocaleMixin,
+    IdsInverseColorMixin
   ) {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback?.();
     this.handleEvents();
   }
 
@@ -53,6 +55,7 @@ class IdsText extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.AUDIBLE,
       attributes.COLOR,
       attributes.DISABLED,
