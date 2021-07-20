@@ -17,7 +17,7 @@ import getElTranslatePoint from './getElTranslatePoint';
 
 const { stringToBool } = stringUtils;
 
-const CURSOR_EL_SIZE = 16;
+const CURSOR_EL_SIZE = 32;
 
 /**
  * get "cursor" property of cursor element
@@ -163,49 +163,55 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       this.isDragging = true;
       this.onEvent('mousemove', document, this.onMouseMove);
 
-      // ============================== //
-      // capture 1st valid parentRect   //
-      // ============================== //
+      // if we have our content being draggable by the parent element,
+      // then we need to grab the first parent rectangle bounds
+      // as well as append it to the associated event detail
 
-      // in order to measure the size of the parent,
-      // when dragging has started, iterate through
-      // path captured from drag until parent level
-      // outside of this draggable or an immediate IdsElement
-      // (e.g. non styled container) is detected
+      if (this.parentContainment) {
+        // ============================== //
+        // capture 1st valid parentRect   //
+        // ============================== //
 
-      // TODO: move logic to function
+        // in order to measure the size of the parent,
+        // when dragging has started, iterate through
+        // path captured from drag until parent level
+        // outside of this draggable or an immediate IdsElement
+        // (e.g. non styled container) is detected
 
-      let pathElemIndex = 0;
-      let pathElem = (e?.path || e?.composedPath?.())[pathElemIndex];
-      let hasTraversedThis = false;
+        // TODO: move logic to function
 
-      this.#parentRect = undefined;
+        let pathElemIndex = 0;
+        let pathElem = (e?.path || e?.composedPath?.())[pathElemIndex];
+        let hasTraversedThis = false;
 
-      while (!hasTraversedThis || pathElem instanceof ShadowRoot || pathElem.tagName === 'SLOT' || !this.#parentRect) {
-        if (pathElem === this) {
-          hasTraversedThis = true;
+        this.#parentRect = undefined;
+
+        while (!hasTraversedThis || pathElem instanceof ShadowRoot || pathElem.tagName === 'SLOT' || !this.#parentRect) {
+          if (pathElem === this) {
+            hasTraversedThis = true;
+          }
+
+          pathElemIndex++;
+          pathElem = (e?.path || e?.composedPath?.())[pathElemIndex];
+
+          if (pathElem instanceof ShadowRoot || pathElem.tagName === 'SLOT') {
+            continue;
+          }
+
+          const rect = pathElem.getBoundingClientRect();
+
+          // only use as parent if not a non-presentational rectangles (e.g.
+          // the parent IdsElement which has no explicit styling; hence
+          // zero-width or zero-height rendered)
+
+          if (rect.height !== 0 && rect.width !== 0) {
+            this.#parentRect = rect;
+          }
+
+          // append rectangle to element for reference if bounding client
+
+          e.parentRect = rect;
         }
-
-        pathElemIndex++;
-        pathElem = (e?.path || e?.composedPath?.())[pathElemIndex];
-
-        if (pathElem instanceof ShadowRoot || pathElem.tagName === 'SLOT') {
-          continue;
-        }
-
-        const rect = pathElem.getBoundingClientRect();
-
-        // only use as parent if not a non-presentational rectangles (e.g.
-        // the parent IdsElement which has no explicit styling; hence
-        // zero-width or zero-height rendered)
-
-        if (rect.height !== 0 && rect.width !== 0) {
-          this.#parentRect = rect;
-        }
-
-        // record mouse point at start
-
-        e.parentRect = rect;
       }
 
       this.#mouseStartingPoint = { x: e.x, y: e.y };
@@ -235,11 +241,14 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
   onMouseMove = (e) => {
     e.preventDefault();
+
     if (this.isDragging) {
       const deltaX = e.x - this.#mouseStartingPoint.x;
       const offsetX = this.#startingOffset.x + deltaX;
       const deltaY = e.y - this.#mouseStartingPoint.y;
       const offsetY = this.#startingOffset.y + deltaY;
+
+      // TODO: restrict parent bounds here
 
       const translateX = `${this.axis !== 'y' ? offsetX : 0}px`;
       const translateY = `${this.axis !== 'x' ? offsetY : 0}px`;
@@ -288,10 +297,6 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * @type {{ x: number, y: number }} | undefined
    */
   #startingOffset;
-
-  setParentRect = (rect) => {
-    this.#parentRect = rect;
-  };
 
   /**
    * element which provides cursor for mouse when
