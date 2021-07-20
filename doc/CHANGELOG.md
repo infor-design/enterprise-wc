@@ -55,7 +55,7 @@
   - Now exists as its own component
   - Markup is `<ids-menu-button></ids-menu-button>`
   - Implicitly linked to a menu by using `menu="my-menu"` CSS selector attribute, or direct element reference in JS
-- `[Message]` The Message is now a web component called ids-menu
+- `[Message]` The Message is now a web component called ids-message
   - The Message component now extends the Modal component, containing the same properties and methods.
   - Modal Buttons, Title, Status, and Message can be changed via API
   - Markup is `<ids-message></ids-message>`
