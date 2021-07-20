@@ -46,3 +46,37 @@ messageEl.messageTitle = 'Different Title';
 messageEl.message = 'Alternate Message';
 messageEl.status = 'success';
 ```
+
+Messages extend [Modals](../ids-modal/README.md), so it's possible to configure them in similar fashion.  You can control Messages manually with the same API:
+
+```js
+// Manually show a Message Component
+const messageEl = document.querySelector('#my-message');
+messageEl.show();
+```
+
+You can also take advange of the Modal's `target` property to activate a Message component by clicking an associated target element, like a button for example:
+
+```html
+<ids-message id="my-message">
+    <ids-text slot="title" font-size="24" type="h2">My Message Title</ids-text>
+    <p>This is my message</p>
+    <ids-modal-button slot="buttons" type="secondary">OK</ids-modal-button>
+    <ids-modal-button slot="buttons" type="primary" cancel>Cancel</ids-modal-button>
+</ids-message>
+
+<ids-button id="trigger-button" type="secondary">
+    <span slot="text">Show Message</span>
+    <ids-icon slot="icon" icon="launch"></ids-icon>
+</ids-button>
+```
+
+```js
+// Show a message component when clicking a trigger button
+const messageEl = document.querySelector('#my-message');
+const btnEl = document.querySelector('#trigger-button');
+messageEl.target = btnEl;
+
+btnEl.click();
+```
+
