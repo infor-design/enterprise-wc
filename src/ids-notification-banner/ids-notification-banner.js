@@ -238,6 +238,8 @@ class IdsNotificationBanner extends mix(IdsElement).with(
     if (parent) {
       const parentEl = document.getElementById(parent);
       parentEl.prepend(this);
+    } else if (document.querySelector('ids-container')) {
+      document.querySelector('ids-container').prepend(this);
     } else {
       document.body.prepend(this);
     }

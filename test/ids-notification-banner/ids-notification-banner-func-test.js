@@ -225,6 +225,8 @@ describe('IdsNotificationBanner Component', () => {
       link: 'https://infor.com',
     };
     const notification3 = new IdsNotificationBanner();
+    const idsContainer = document.createElement('ids-container');
+    document.body.prepend(idsContainer);
     notification3.add(notificationObj3);
   });
 });
