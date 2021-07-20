@@ -11,24 +11,12 @@ import { attributes } from '../ids-base/ids-attributes';
 import { IdsStringUtils } from '../ids-base/ids-string-utils';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
-// @ts-ignore
 import styles from './ids-message.scss';
 
 // Types of status that can be applied to message components
 const MESSAGE_STATUSES = [
   'none', 'default', 'error', 'alert', 'success', 'info'
 ];
-
-// Attributes that apply to message components
-const MESSAGE_ATTRIBUTES = [
-  attributes.MESSAGE,
-  attributes.STATUS
-];
-
-const MESSAGE_DEFAULTS = {
-  message: '',
-  status: MESSAGE_STATUSES[0],
-};
 
 /**
  * IDS Message Component
@@ -47,12 +35,16 @@ class IdsMessage extends IdsModal {
     if (!this.state) {
       this.state = {};
     }
-    this.state.message = MESSAGE_DEFAULTS.message;
-    this.state.status = MESSAGE_DEFAULTS.status;
+    this.state.message = '';
+    this.state.status = MESSAGE_STATUSES[0];
   }
 
   static get attributes() {
-    return [...super.attributes, ...MESSAGE_ATTRIBUTES];
+    return [
+      ...super.attributes,
+      attributes.MESSAGE,
+      attributes.STATUS
+    ];
   }
 
   /**
@@ -184,34 +176,6 @@ class IdsMessage extends IdsModal {
         iconElClassList.remove(status);
       }
     });
-  }
-
-  /**
-   * Add additional open events
-   * @returns {void}
-   */
-  /* istanbul ignore next */
-  applyOpenEvents() {
-    super.applyOpenEvents();
-
-    // When a cancel button is clicked, hide the Message
-    this.onEvent('click.cancel', this.container, (e) => {
-      const modalBtn = e.target.closest('ids-modal-button');
-      if (modalBtn?.cancel) {
-        this.hide();
-      }
-    });
-  }
-
-  /**
-   * Remove additional Open Events
-   * @returns {void}
-   */
-  /* istanbul ignore next */
-  removeOpenEvents() {
-    super.removeOpenEvents();
-
-    this.offEvent('click.cancel');
   }
 }
 

@@ -23,24 +23,13 @@ import IdsPopup from '../ids-popup/ids-popup';
 import IdsOverlay from './ids-overlay';
 import IdsModalButton from '../ids-modal-button';
 
-// @ts-ignore
 import styles from './ids-modal.scss';
 import { IdsStringUtils } from '../ids-base/ids-string-utils';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
-const MODAL_ATTRIBUTES = [
-  attributes.MESSAGE_TITLE,
-  attributes.VISIBLE
-];
-
-const appliedMixins = [
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsRenderLoopMixin,
-  IdsResizeMixin,
-  IdsThemeMixin,
-  IdsXssMixin,
-];
+// When a user clicks the Modal Buttons, this is the delay between
+// the click and the "hiding" of the Modal.
+const dismissTimeout = 200;
 
 /**
  * IDS Modal Component
@@ -56,7 +45,14 @@ const appliedMixins = [
  */
 @customElement('ids-modal')
 @scss(styles)
-class IdsModal extends mix(IdsElement).with(...appliedMixins) {
+class IdsModal extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsKeyboardMixin,
+    IdsRenderLoopMixin,
+    IdsResizeMixin,
+    IdsThemeMixin,
+    IdsXssMixin,
+  ) {
   constructor() {
     super();
 
@@ -71,7 +67,11 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   }
 
   static get attributes() {
-    return [...super.attributes, ...MODAL_ATTRIBUTES];
+    return [
+      ...super.attributes,
+      attributes.MESSAGE_TITLE,
+      attributes.VISIBLE
+    ];
   }
 
   /**
@@ -541,10 +541,32 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     // If a Modal Button is clicked, fire an optional callback
     /* istanbul ignore next */
     this.onEvent('click.buttons', buttonSlot, (e) => {
+      this.handleButtonClick(e);
+    });
+  }
+
+  /**
+   * Handles when Modal Button is clicked.
+   * @param {*} e the original event object
+   */
+  handleButtonClick(e) {
+    const timeoutCallback = () => {
       if (typeof this.onButtonClick === 'function') {
         this.onButtonClick(e.target);
       }
-    });
+      // If this IdsModalButton has a `cancel` prop, treat
+      // it as a `cancel` button and hide.
+      const modalBtn = e.target.closest('ids-modal-button');
+      if (modalBtn?.cancel) {
+        this.hide();
+      }
+    };
+
+    // Run click handler on a staggered interval
+    this.rl.register(new IdsRenderLoopItem({
+      duration: dismissTimeout,
+      timeoutCallback
+    }));
   }
 
   /**

@@ -9,10 +9,6 @@ import { attributes } from '../ids-base/ids-attributes';
 
 import styles from '../ids-button/ids-button.scss';
 
-const MODAL_BUTTON_ATTRIBUTES = [
-  attributes.CANCEL
-];
-
 /**
  * IDS Modal Button Component
  * @type {IdsModalButton}
@@ -29,7 +25,10 @@ class IdsModalButton extends IdsButton {
    * @returns {Array} containing configurable properties on this component
    */
   static get attributes() {
-    return [...super.attributes, ...MODAL_BUTTON_ATTRIBUTES];
+    return [
+      ...super.attributes,
+      attributes.CANCEL
+    ];
   }
 
   /**
