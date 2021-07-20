@@ -51,9 +51,9 @@ class IdsHeader extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
    */
   template() {
     return `
-    <header class="ids-header">
+    <div class="ids-header">
       <slot></slot>
-    </header>`;
+    </div>`;
   }
 
   /**
