@@ -58,7 +58,7 @@ class IdsHeader extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
 
   /**
    * Sets the color attribute
-   * @param c
+   * @param {string} c string value for color
    */
   set color(c) {
     this.container.style.backgroundColor = c.toString();
