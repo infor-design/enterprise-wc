@@ -21,6 +21,9 @@ import styles from './ids-text.scss';
 const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
 const fontWeightClasses = ['bold', 'bolder'];
 
+// These types will have a CSS style class appended to them
+const typesCssClasses = ['label', 'legend', 'span'];
+
 /**
  * IDS Text Component
  * @type {IdsText}
@@ -180,9 +183,22 @@ class IdsText extends mix(IdsElement).with(
     }
 
     this.render();
+    this.#setTypeClass(value);
   }
 
   get type() { return this.getAttribute(attributes.TYPE); }
+
+  /**
+   * Sets a CSS Class on the container element for some Text types
+   * @param {string} value the class type to check/add
+   * @returns {void}
+   */
+  #setTypeClass(value) {
+    this.container.classList.remove(...typesCssClasses);
+    if (typesCssClasses.includes(value)) {
+      this.container.classList.add(value);
+    }
+  }
 
   /**
    * If set to "unset", color can be controlled by parent container

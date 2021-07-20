@@ -1,0 +1,165 @@
+{{> ../layouts/head-inverse.html }}
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1" inverse>Buttons</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+    <ids-button id="test-button-default" inverse>
+      <span slot="text">Default Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-button-primary" type="primary" inverse>
+      <span slot="text">Primary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-button-secondary" type="secondary" inverse>
+      <span slot="text">Secondary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-button-tertiary" type="tertiary" inverse>
+      <span slot="text">Tertiary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1" inverse>Disabled Buttons</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+    <ids-button id="test-disabled-button-default" disabled="true" inverse>
+      <span slot="text">Default Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-disabled-button-primary" type="primary" disabled="true" inverse>
+      <span slot="text">Primary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-disabled-button-secondary" type="secondary" disabled="true" inverse>
+      <span slot="text">Secondary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-disabled-button-tertiary" type="tertiary" disabled="true" inverse>
+      <span slot="text">Tertiary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1" inverse>Icon Only Buttons</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-only-button-default" inverse>
+      <span class="audible">Default Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-only-button-primary" type="primary" inverse>
+      <span class="audible">Primary Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-only-button-secondary" type="secondary" inverse>
+      <span class="audible">Secondary Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-only-button-tertiary" type="tertiary" inverse>
+      <span class="audible">Tertiary Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1" inverse>Icon + Text Buttons</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-button-default" inverse>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+      <span slot="text">Default Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-button-primary" type="primary" inverse>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+      <span slot="text">Primary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-button-secondary" type="secondary" inverse>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+      <span slot="text">Secondary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-button-tertiary" type="tertiary" inverse>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+      <span slot="text">Tertiary Button</span>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1" inverse>Text + Icon Buttons</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid cols="4" gap="md">
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-end-button-default" icon-align="end" inverse>
+      <span slot="text">Default Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-end-button-primary" icon-align="end" type="primary" inverse>
+      <span slot="text">Primary Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-end-button-secondary" icon-align="end" type="secondary" inverse>
+      <span slot="text">Secondary Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-button id="test-icon-end-button-tertiary" icon-align="end" type="tertiary" inverse>
+      <span slot="text">Tertiary Button</span>
+      <ids-icon slot="icon" icon="settings"></ids-icon>
+    </ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}

@@ -16,8 +16,6 @@ import {
 
 import styles from './ids-icon.scss';
 
-import IdsInverseColorMixin from '../ids-mixins/ids-inverse-color-mixin';
-
 // Setting Defaults
 const sizes = {
   large: 24,
@@ -34,7 +32,7 @@ const sizes = {
  */
 @customElement('ids-icon')
 @scss(styles)
-class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsInverseColorMixin) {
+class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   constructor() {
     super();
   }

@@ -11,7 +11,8 @@ import {
 import {
   IdsEventsMixin,
   IdsThemeMixin,
-  IdsLocaleMixin
+  IdsLocaleMixin,
+  IdsInverseColorMixin,
 } from '../ids-mixins';
 
 import styles from './ids-container.scss';
@@ -27,7 +28,12 @@ import styles from './ids-container.scss';
  */
 @customElement('ids-container')
 @scss(styles)
-class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsLocaleMixin) {
+class IdsContainer extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsLocaleMixin,
+    IdsInverseColorMixin,
+    IdsThemeMixin
+  ) {
   constructor() {
     super();
   }
@@ -36,7 +42,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, I
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback?.();
 
     /* istanbul ignore next */
     if (this.reset) {
@@ -50,9 +56,9 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, I
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.LANGUAGE,
       attributes.LOCALE,
-      attributes.MODE,
       attributes.PADDING,
       attributes.RESET,
       attributes.SCROLLABLE,
