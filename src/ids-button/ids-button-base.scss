@@ -51,6 +51,8 @@
   @include text-16();
   @include text-slate-60();
 
+  //color: var(--ids-color-font-base);
+  color: currentColor;
   overflow: hidden;
   padding-bottom: 6px;
   padding-top: 6px;

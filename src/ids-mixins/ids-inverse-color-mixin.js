@@ -10,11 +10,22 @@ import { attributes, IdsStringUtils } from '../ids-base';
 const IdsInverseColorMixin = (superclass) => class extends superclass {
   constructor() {
     super();
+
+    if (!this.state) {
+      this.state = {};
+    }
+
+    // Overrides the IdsElement `render` method to also include an update
+    // to the `inverse` styling after it runs, keeping the visual state in-sync.
+    this.render = () => {
+      super.render();
+      this.refreshInverse();
+    };
   }
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.refreshInverse();
+    this.inverse = IdsStringUtils.stringToBool(this.getAttribute('inverse')) || false;
   }
 
   static get attributes() {
@@ -28,20 +39,23 @@ const IdsInverseColorMixin = (superclass) => class extends superclass {
    * @returns {boolean} true if the inverse property is currently enabled
    */
   get inverse() {
-    return this.hasAttribute(attributes.INVERSE);
+    return this.state.inverse;
   }
 
   /**
    * @param {boolean} val true if the inverse property should become enabled
    */
   set inverse(val) {
-    const isValueTruthy = IdsStringUtils.stringToBool(val);
-    if (isValueTruthy) {
-      this.setAttribute(attributes.INVERSE, `${val}`);
-    } else {
-      this.removeAttribute(attributes.INVERSE);
+    const truthyVal = IdsStringUtils.stringToBool(val);
+    if (truthyVal !== this.state.inverse) {
+      if (truthyVal) {
+        this.setAttribute(attributes.INVERSE, `${val}`);
+      } else {
+        this.removeAttribute(attributes.INVERSE);
+      }
+      this.state.inverse = truthyVal;
+      this.refreshInverse();
     }
-    this.refreshInverse();
   }
 
   /**

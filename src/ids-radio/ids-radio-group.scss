@@ -17,8 +17,6 @@
   display: inline-block;
 
   .group-label-text {
-    @include text-slate-80();
-
     &.required::after {
       @include absolute();
       @include font-sans();

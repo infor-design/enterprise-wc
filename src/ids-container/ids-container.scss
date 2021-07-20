@@ -11,7 +11,6 @@
 
 .ids-container {
   @include absolute();
-  @include bg-white();
   @include outline-none();
   @include p-0();
 
@@ -28,24 +27,60 @@
 // Handle Themes
 .ids-container[mode='light'] {
   @include bg-white();
+  @include text-slate-100();
+
+  &.inverse {
+    @include bg-black();
+    @include text-slate-10();
+  }
 }
 
 .ids-container[mode='dark'] {
   @include bg-slate-90();
+  @include text-slate-10();
+
+  &.inverse {
+    @include bg-slate-20();
+    @include text-slate-100();
+  }
 }
 
 .ids-container[mode='contrast'] {
   @include bg-slate-10();
+  @include text-slate-100();
+
+  &.inverse {
+    @include bg-black();
+    @include text-white();
+  }
 }
 
 .ids-container[version='classic'][mode='light'] {
   @include bg-graphite-10();
+  @include text-graphite-60();
+
+  &.inverse {
+    @include bg-graphite-90();
+    @include text-graphite-40();
+  }
 }
 
 .ids-container[version='classic'][mode='dark'] {
   @include bg-classic-slate-90();
+  @include text-classic-slate-10();
+
+  &.inverse {
+    @include bg-classic-slate-10();
+    @include text-classic-slate-90();
+  }
 }
 
 .ids-container[version='classic'][mode='contrast'] {
   @include bg-graphite-20();
+  @include text-graphite-80();
+
+  &.inverse {
+    @include bg-graphite-80();
+    @include text-graphite-20();
+  }
 }
