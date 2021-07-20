@@ -8,6 +8,7 @@ import {
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
+  IdsPopupOpenEventsMixin,
   IdsThemeMixin
 } from '../ids-mixins';
 
@@ -26,7 +27,12 @@ import styles from './ids-color-picker.scss';
  */
 @customElement('ids-color-picker')
 @scss(styles)
-class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+class IdsColorPicker extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsKeyboardMixin,
+    IdsPopupOpenEventsMixin,
+    IdsThemeMixin
+  ) {
   constructor() {
     super();
   }
@@ -34,11 +40,17 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
   // Reference to the root
   root = this.shadowRoot
 
+  // Reference to internal Popup
+  popup = this.root.querySelector('ids-popup');
+
   // Reference to swatch input
   swatchInput = this.root.querySelector('.color-input')
 
   // Reference to the color picker input
   colorPickerInput = this.root.querySelector(/* istanbul ignore next */ this.label === '' ? '.color-input-value-no-label' : '.color-input-value')
+
+  // Reference to the color picker's trigger button
+  triggerBtn = this.root.querySelector('ids-trigger-button');
 
   // Reference to the color preview
   colorPreview = this.root.querySelector('.color-preview')
@@ -68,7 +80,15 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
   }
 
   static get attributes() {
-    return [attributes.DISABLED, attributes.LABEL, attributes.MODE, 'swatch', attributes.READONLY, attributes.VALUE, attributes.VERSION];
+    return [
+      attributes.DISABLED,
+      attributes.LABEL,
+      attributes.MODE,
+      attributes.READONLY,
+      attributes.SWATCH,
+      attributes.VALUE,
+      attributes.VERSION
+    ];
   }
 
   template() {
@@ -222,17 +242,45 @@ class IdsColorPicker extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMix
     */
    #openCloseColorpicker() {
      /* istanbul ignore next */
-     const popup = this.container.querySelector('ids-popup');
-     /* istanbul ignore next */
-     popup.alignTarget = this.container.querySelector('ids-icon');
-     /* istanbul ignore next */
-     popup.align = 'bottom, center';
-     /* istanbul ignore next */
-     popup.arrow = 'bottom';
-     /* istanbul ignore next */
-     popup.y = 12;
-     /* istanbul ignore next */
-     popup.visible = !popup.visible;
+     if (!this.popup.visible) {
+       this.show();
+     } else {
+       this.hide();
+     }
+   }
+
+   /**
+    * Hides the Color Picker's Popup
+    * @returns {void}
+    */
+   /* istanbul ignore next */
+   hide() {
+     this.popup.visible = false;
+     this.removeOpenEvents();
+   }
+
+   /**
+    * Shows the Color Picker's Popup
+    * @returns {void}
+    */
+   /* istanbul ignore next */
+   show() {
+     this.popup.alignTarget = this.container.querySelector('ids-icon');
+     this.popup.align = 'bottom, center';
+     this.popup.arrow = 'bottom';
+     this.popup.y = 12;
+     this.popup.visible = true;
+     this.addOpenEvents();
+   }
+
+   /**
+    * Inherited from the Popup Open Events Mixin.
+    * Runs when a click event is propagated to the window.
+    * @returns {void}
+    */
+   /* istanbul ignore next */
+   onOutsideClick() {
+     this.hide();
    }
 
    /**
