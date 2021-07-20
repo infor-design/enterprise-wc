@@ -2,6 +2,8 @@ export { default as IdsClearableMixin } from './ids-clearable-mixin';
 export { default as IdsDirtyTrackerMixin } from './ids-dirty-tracker-mixin';
 export { default as IdsEventsMixin } from './ids-events-mixin';
 export { default as IdsKeyboardMixin } from './ids-keyboard-mixin';
+export { default as IdsPopupInteractionsMixin } from './ids-popup-interactions-mixin';
+export { default as IdsPopupOpenEventsMixin } from './ids-popup-open-events-mixin';
 export { default as IdsResizeMixin } from './ids-resize-mixin';
 export { default as IdsMaskMixin } from './ids-mask-mixin';
 export { default as IdsAttributeProviderMixin } from './ids-attribute-provider-mixin';

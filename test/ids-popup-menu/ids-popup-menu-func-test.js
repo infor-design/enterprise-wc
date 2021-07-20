@@ -302,6 +302,44 @@ describe('IdsPopupMenu Component', () => {
     }, 20);
   });
 
+  it('toggles the menu open and closed when by clicking its target element when configured with a `click` trigger type', (done) => {
+    const targetElem = document.createElement('button');
+    targetElem.id = 'test-button';
+    targetElem.type = 'button';
+    document.body.appendChild(targetElem);
+
+    menu.target = targetElem;
+    menu.trigger = 'click';
+
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+
+    targetElem.dispatchEvent(clickEvent);
+
+    setTimeout(() => {
+      expect(menu.popup.visible).toBeTruthy();
+
+      targetElem.dispatchEvent(clickEvent);
+
+      setTimeout(() => {
+        expect(menu.popup.visible).toBeFalsy();
+        done();
+      }, 20);
+    }, 20);
+  });
+
+  it('can trigger by click without a target', (done) => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+
+    menu.trigger = 'click';
+
+    document.body.dispatchEvent(clickEvent);
+
+    setTimeout(() => {
+      expect(menu.popup.visible).toBeTruthy();
+      done();
+    }, 20);
+  });
+
   it('navigates between menu and submenu with arrow keys', (done) => {
     const navigateRightEvent = new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true });
     const navigateLeftEvent = new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true });
