@@ -13,7 +13,7 @@ import {
 } from '../ids-mixins';
 
 import styles from './ids-draggable.scss';
-import getElTranslatePoint from './getElTranslatePoint';
+import getElTranslation from './getElTranslatePoint';
 
 const { stringToBool } = stringUtils;
 
@@ -149,7 +149,6 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   connectedCallback() {
     // grab the user-content and then pass draggable attrib
     this.#content = this.children[0];
-    this.setAttribute('draggable', 'true');
 
     this.onEvent('mousedown', this, (e) => {
       e.preventDefault();
@@ -158,12 +157,12 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         if (this.isDragging) {
           this.isDragging = false;
           this.offEvent('mousemove', this.onMouseMove);
+
+          (document.body.querySelector('ids-container') || document.body)
+            ?.removeChild(this.#cursorEl);
         }
 
-        if (this.#cursorEl) {
-          this.#cursorEl.remove();
-          this.#cursorEl = undefined;
-        }
+        this.#cursorEl.style.pointerEvents = 'none';
       });
 
       this.isDragging = true;
@@ -221,26 +220,37 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       }
 
       this.#dragStartMousePoint = { x: e.x, y: e.y };
-      this.#dragStartOffset = getElTranslatePoint(this);
+
+      const dragOffset = getElTranslation(this);
+      this.#dragStartOffset = {
+        x: this.axis !== 'y' ? dragOffset.x : 0,
+        y: this.axis !== 'x' ? dragOffset.y : 0
+      };
+
       const thisRect = this.getBoundingClientRect();
 
+      // track the base element rectangle
+      // (before translation considered)
+
       this.#dragStartRect = {
-        left: thisRect.left + this.#dragStartOffset.x,
-        right: thisRect.right + this.#dragStartOffset.x,
+        width: thisRect.width,
+        height: thisRect.height,
+        left: thisRect.left - this.#dragStartOffset.x,
+        right: thisRect.right - this.#dragStartOffset.x,
         top: thisRect.top - this.#dragStartOffset.y,
         bottom: thisRect.bottom - this.#dragStartOffset.y
       };
 
-      if (!this.cursorEl) {
-        this.#cursorEl = document.createElement('div');
+      if (this.#parentRect) {
+        this.#xformBounds = {
+          left: (this.#parentRect.left - this.#dragStartRect.left),
+          right: (this.#parentRect.right - this.#dragStartRect.right),
+          top: (this.#parentRect.top - this.#dragStartRect.top),
+          bottom: (this.#parentRect.bottom - this.#dragStartRect.bottom)
+        };
       }
 
-      this.#cursorEl.style.position = 'absolute';
-      this.#cursorEl.style.opacity = 0;
-      this.#cursorEl.style.width = `${CURSOR_EL_SIZE}px`;
-      this.#cursorEl.style.height = `${CURSOR_EL_SIZE}px`;
-      this.#cursorEl.style.backgroundColor = '#000';
-      this.#cursorEl.style.cursor = getCursorStyle({ axis: this.axis });
+      this.#cursorEl.style.pointerEvents = 'all';
 
       // append the cursor to either the top-level ids-container
       // or if not found the document body
@@ -250,16 +260,15 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         .appendChild(this.#cursorEl);
     });
 
+    // style the cursor element
+    this.#cursorEl.style.position = 'absolute';
+    this.#cursorEl.style.opacity = 0;
+    this.#cursorEl.style.width = `${CURSOR_EL_SIZE}px`;
+    this.#cursorEl.style.height = `${CURSOR_EL_SIZE}px`;
+    this.#cursorEl.style.backgroundColor = '#000';
+    this.#cursorEl.style.cursor = getCursorStyle({ axis: this.axis });
+
     super.connectedCallback?.();
-  }
-
-  /**
-   * returns leftmost drag offset
-   *
-   * TODO: consider window.scrollX once things work
-   */
-  get #dragBoundLeft() {
-
   }
 
   getOffsetYOnDrag() {
@@ -272,9 +281,6 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     if (this.isDragging) {
       const dragDeltaX = e.x - this.#dragStartMousePoint.x;
       const dragDeltaY = e.y - this.#dragStartMousePoint.y;
-
-      console.log('actual left ->', this.#dragStartOffset.x + dragDeltaX);
-
       let translateX = 0;
       let translateY = 0;
 
@@ -291,13 +297,13 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
       if (this.parentContainment && this.#parentRect) {
         if (this.axis !== 'y') {
-          // left limit
-          translateX = Math.max(this.#dragStartRect.left - this.#parentRect.left, translateX);
+          translateX = Math.max(this.#xformBounds.left, translateX);
+          translateX = Math.min(this.#xformBounds.right, translateX);
         }
 
         if (this.axis !== 'x') {
-          // top limit
-          translateY = Math.max(this.#dragStartRect.top - this.#parentRect.top, translateY);
+          translateY = Math.max(this.#xformBounds.top, translateY);
+          translateY = Math.min(this.#xformBounds.bottom, translateY);
         }
       }
 
@@ -348,6 +354,8 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    */
   #dragStartOffset;
 
+  #parentOffset;
+
   /**
    * The bounding rectangle of this component at the
    * time of a dragstart
@@ -355,13 +363,15 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    */
   #dragStartRect;
 
+  #xformBounds;
+
   /**
    * element which provides cursor for mouse when
    * dragging after mousedown event since we can
    * bind to X/Y axes and there's no way to override
    * the behavior
    */
-  #cursorEl;
+  #cursorEl = document.createElement('div');
 }
 
 export default IdsDraggable;
