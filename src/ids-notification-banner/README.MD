@@ -74,8 +74,10 @@ notificationBanner.add({
 - `link-text` `{string | null}` custom text for the call to action (if `null` will display "Click to view")
 
 ## Themeable Parts
-
-TODO
+- [] `bgColor` Allows you to further style the background
+- [] `closeBtn` Allows you to further style the close btn
+- [] `messageText` Allows you to further style the message text
+- [] `linkText` Allows you to further style the link text
 
 ## Keyboard Guidelines
 - TAB should move off of the component to the next focusable element on page.
