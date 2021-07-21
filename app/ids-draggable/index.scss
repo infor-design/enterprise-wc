@@ -8,25 +8,25 @@
 }
 
 .ids-draggable-demo-content {
+  box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  width: 500px;
-  height: 500px;
-  border: dashed 1px #f00;
+  width: 312px;
+  height: 128px;
+  border: 1px dashed var(--ids-color-palette-graphite-60);
 }
 
-ids-draggable:not(:first-child) .ids-draggable-demo-box {
-  margin-left: 8px;
-}
-
-ids-draggable:nth-of-type(1) .ids-draggable-demo-box {
+ids-draggable:nth-of-type(1) .ids-draggable-demo-box,
+ids-layout-grid-cell:nth-of-type(1) .ids-draggable-demo-box {
   border-color: rgba(255, 0, 0, 0.25);
 }
 
-ids-draggable:nth-of-type(2) .ids-draggable-demo-box {
+ids-draggable:nth-of-type(2) .ids-draggable-demo-box,
+ids-layout-grid-cell:nth-of-type(2) .ids-draggable-demo-box {
   border-color: rgba(0, 255, 0, 0.25);
 }
 
-ids-draggable:nth-of-type(3) .ids-draggable-demo-box {
+ids-draggable:nth-of-type(3) .ids-draggable-demo-box,
+ids-layout-grid-cell:nth-of-type(3) .ids-draggable-demo-box {
   border-color: rgba(0, 0, 255, 0.25);
 }
