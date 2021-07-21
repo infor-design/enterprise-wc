@@ -3,7 +3,7 @@
 <!-- Error Message -->
 <ids-message id="message-error" status="error">
   <ids-text slot="title" font-size="24" type="h2" id="message-error-title">Lost connection</ids-text>
-  <ids-text class="demo-contents">This application has experienced a system error due to the lack of internet access.
+  <ids-text class="demo-contents" align="left">This application has experienced a system error due to the lack of internet access.
     Please restart the application in order to proceed.</ids-text>
   <ids-modal-button slot="buttons" type="primary" id="message-error-ok">OK</ids-modal-button>
 </ids-message>
@@ -11,7 +11,7 @@
 <!-- Alert Message -->
 <ids-message id="message-alert" status="alert">
   <ids-text slot="title" font-size="24" type="h2" id="message-alert-title">Application Alert</ids-text>
-  <ids-text class="demo-contents">This application has experienced a security alert. Please acknowledge the alert to proceed or cancel to abort.</ids-text>
+  <ids-text class="demo-contents" align="left">This application has experienced a security alert. Please acknowledge the alert to proceed or cancel to abort.</ids-text>
   <ids-modal-button slot="buttons" type="primary" id="message-alert-acknowledge">Acknowledge</ids-modal-button>
   <ids-modal-button slot="buttons" type="secondary" id="message-alert-cancel" cancel>Cancel</ids-modal-button>
 </ids-message>
@@ -26,14 +26,14 @@
 <!-- Info Message -->
 <ids-message id="message-info" status="info">
   <ids-text slot="title" font-size="24" type="h2" id="message-info-title">File Upload Complete</ids-text>
-  <ids-text class="demo-contents">Your file "<em>photo.png</em>" was successfully uploaded to your personal folder, and is now <strong>public for viewing</strong>.</ids-text>
+  <ids-text class="demo-contents" align="left">Your file "<em>photo.png</em>" was successfully uploaded to your personal folder, and is now <strong>public for viewing</strong>.</ids-text>
   <ids-modal-button slot="buttons" type="primary" id="message-info-done">Done</ids-modal-button>
 </ids-message>
 
 <!-- Default (Confirmation) Message -->
 <ids-message id="message-confirmation">
   <ids-text slot="title" font-size="24" type="h2" id="message-confirmation-title">Delete this Application</ids-text>
-  <ids-text class="demo-contents">You are about to delete this application permanently.<br /><br />
+  <ids-text class="demo-contents" align="left">You are about to delete this application permanently.<br /><br />
     Would you like to proceed?</ids-text>
   <ids-modal-button slot="buttons" type="secondary" id="message-confirmation-yes">Yes</ids-modal-button>
   <ids-modal-button slot="buttons" type="primary" id="message-confirmation-no" cancel>No</ids-modal-button>
@@ -48,7 +48,7 @@
 <!-- "Allow Tags" Message (has HTML tags in the message that are bypassed by the XSS sanitizer) -->
 <ids-message id="message-allow-tags">
   <ids-text slot="title" font-size="24" type="h2" id="message-allow-tags-title">Tags are present</ids-text>
-  <ids-text class="demo-contents">
+  <ids-text class="demo-contents" align="left">
     <a href="#" class="hyperlink hide-focus longpress-target"><b>You</b> </a>have <br />allowed <br />any
     <del>tags</del>
     <em>to</em> <i>appear</i> <ins>in</ins> <mark>this</mark> <small>message</small>. <strong>All </strong>
@@ -61,7 +61,7 @@
 <!-- "Disallow Tags" Message (has the same tags as above, but they are stripped out by the sanitizer) -->
 <ids-message id="message-disallow-tags" xss-ignored-tags="">
   <ids-text slot="title" font-size="24" type="h2" id="message-disallow-tags-title">Tags are NOT present</ids-text>
-  <ids-text class="demo-contents">
+  <ids-text class="demo-contents" align="left">
     <a href="#" class="hyperlink hide-focus longpress-target"><b>You</b> </a>have <br />disallowed <br />any <del>tags</del>
     <em>from</em> <i>appearing</i> <ins>in</ins> <mark>this</mark> <small>message</small>. <strong>All</strong>
     <sub>are</sub> <sup>stripped</sup>.
