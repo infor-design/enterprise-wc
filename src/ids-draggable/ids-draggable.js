@@ -19,8 +19,6 @@ const { stringToBool } = stringUtils;
 
 const CURSOR_EL_SIZE = 32;
 
-// TODO: consider window.scrollX, window.scrollY in getBoundingClientRect
-
 /**
  * get "cursor" property of cursor element
  * placed in front of drag (may also use this
@@ -38,10 +36,6 @@ function getCursorStyle({ axis }) {
   }
 }
 
-function getVPRect(originRect, translatePoint) {
-  return originRect.left + translatePoint.x;
-}
-
 // TODO: pool the cursor element for re-use after
 // creating during the connectedCallback vs
 // create each time
@@ -56,7 +50,7 @@ function getVPRect(originRect, translatePoint) {
  */
 @customElement('ids-draggable')
 @scss(styles)
-class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
@@ -126,7 +120,7 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * @param {string|boolean} value whether the draggable should be limited in range
+   * @param {boolean} value whether the draggable should be limited in range
    * by its parent element
    */
   set parentContainment(value) {
@@ -141,14 +135,15 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
+  /**
+   * @returns {boolean} value whether the draggable should be limited in range
+   * by its parent element
+   */
   get parentContainment() {
     return stringToBool(this.getAttribute(attributes.PARENT_CONTAINMENT));
   }
 
   connectedCallback() {
-    // grab the user-content and then pass draggable attrib
-    this.#content = this.children[0];
-
     this.onEvent('mousedown', this, (e) => {
       e.preventDefault();
 
@@ -172,50 +167,7 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       // as well as append it to the associated event detail
 
       if (this.parentContainment) {
-        // ============================== //
-        // capture 1st valid parentRect   //
-        // ============================== //
-
-        // in order to measure the size of the parent,
-        // when dragging has started, iterate through
-        // path captured from drag until parent level
-        // outside of this draggable or an immediate IdsElement
-        // (e.g. non styled container) is detected
-
-        // TODO: move logic to function
-
-        let pathElemIndex = 0;
-        let pathElem = (e?.path || e?.composedPath?.())[pathElemIndex];
-        let hasTraversedThis = false;
-
-        this.#parentRect = undefined;
-
-        while (!hasTraversedThis || pathElem instanceof ShadowRoot || pathElem.tagName === 'SLOT' || !this.#parentRect) {
-          if (pathElem === this) {
-            hasTraversedThis = true;
-          }
-
-          pathElemIndex++;
-          pathElem = (e?.path || e?.composedPath?.())[pathElemIndex];
-
-          if (pathElem instanceof ShadowRoot || pathElem.tagName === 'SLOT') {
-            continue;
-          }
-
-          const rect = pathElem.getBoundingClientRect();
-
-          // only use as parent if not a non-presentational rectangles (e.g.
-          // the parent IdsElement which has no explicit styling; hence
-          // zero-width or zero-height rendered)
-
-          if (rect.height !== 0 && rect.width !== 0) {
-            this.#parentRect = rect;
-          }
-
-          // append rectangle to element for reference if bounding client
-
-          e.parentRect = rect;
-        }
+        this.#updateParentRect(e?.path || e?.composedPath?.());
       }
 
       this.#dragStartMousePoint = { x: e.x, y: e.y };
@@ -270,10 +222,13 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     super.connectedCallback?.();
   }
 
-  getOffsetYOnDrag() {
-
-  }
-
+  /**
+   * called on mouse move; transforms element for
+   * transition offset and updates cursor overlay
+   * element as necessary
+   *
+   * @param {*} e mousemove event
+   */
   onMouseMove = (e) => {
     e.preventDefault();
 
@@ -315,6 +270,10 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     }
   };
 
+  /**
+   * @param {boolean} value whether or not this element
+   * and content is being dragged
+   */
   set isDragging(value) {
     const isTruthy = stringToBool(value);
 
@@ -325,22 +284,32 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
+  /**
+   * @returns {boolean} value whether or not this element
+   * and content is being dragged
+   */
   get isDragging() {
     return stringToBool(this.getAttribute(attributes.IS_DRAGGING));
   }
 
   /**
-   * element related to slot
+   * slot element
    */
   #content;
 
+  /**
+   * first measurable parent's rectangle
+   * when a drag is initiated
+   *
+   * @type {{ x: number, y: number }}
+   */
   #parentRect;
 
   /**
    * The point where we start dragging on the mouse
    * to delta from for current tracking.
    *
-   * @type {{ x: number, y: number }} | undefined
+   * @type {{ x: number, y: number }}
    */
   #dragStartMousePoint;
 
@@ -349,19 +318,28 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * the time of a dragstart in order to calculate
    * delta during drag
    *
-   * @type {{ x: number, y: number }} | undefined
+   * @type {{ x: number, y: number }}
    */
   #dragStartOffset;
 
+  /**
+   * parent's offset to the document when dragging
+   *
+   * @type {{ x: number, y:number }}
+   */
   #parentOffset;
 
   /**
    * The bounding rectangle of this component at the
    * time of a dragstart
-   * @type {{ x: number, y: number }} | undefined
+   * @type {{ x: number, y: number }}
    */
   #dragStartRect;
 
+  /**
+   * bounds that transform is limited to if drag is bounded
+   * by parent
+   */
   #xformBounds;
 
   /**
@@ -371,6 +349,53 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * the behavior
    */
   #cursorEl = document.createElement('div');
-}
 
-export default IdsDraggable;
+  /**
+   * update parent rectangle stored
+   * in this.#parentRect
+   *
+   * @param {*} path path passed by mouse/drag event
+   * to traverse through shadow and lightDOM
+   */
+  #updateParentRect(path) {
+    // in order to measure the size of the parent,
+    // when dragging has started, iterate through
+    // path captured from drag until parent level
+    // outside of this draggable or an immediate IdsElement
+    // (e.g. non styled container) is detected
+
+    this.#parentRect = undefined;
+
+    let pathElemIndex = 0;
+    let pathElem = path[pathElemIndex];
+    let hasTraversedThis = false;
+    let isAtSlotEl = false;
+    let isAtShadowRoot = false;
+
+    while (!this.#parentRect || !hasTraversedThis || isAtShadowRoot || isAtSlotEl) {
+      if (pathElem === this) {
+        hasTraversedThis = true;
+      }
+
+      pathElemIndex++;
+      pathElem = path[pathElemIndex];
+
+      isAtSlotEl = pathElem.tagName === 'SLOT';
+      isAtShadowRoot = pathElem instanceof ShadowRoot;
+
+      if (isAtShadowRoot || isAtSlotEl) {
+        continue;
+      }
+
+      const rect = pathElem.getBoundingClientRect();
+
+      // only use as parent if not a non-presentational rectangles (e.g.
+      // the parent IdsElement which has no explicit styling; hence
+      // zero-width or zero-height rendered)
+
+      if (rect.height !== 0 && rect.width !== 0) {
+        this.#parentRect = rect;
+      }
+    }
+  }
+}
