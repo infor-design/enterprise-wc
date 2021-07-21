@@ -25,6 +25,9 @@ export default class IdsText extends HTMLElement {
   /* Sets up a string based tooltip , if true the text will show when the text is ellipsis */
   tooltip?: string | boolean;
 
+  /* Sets the text to the matching translations (if found) */
+  translateText: boolean;
+
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 
@@ -33,4 +36,10 @@ export default class IdsText extends HTMLElement {
 
   /** If set to "unset", allows parent to color text */
   color: 'unset' | null;
+
+  /** Set the language */
+  language: string;
+
+  /** Set the locale */
+  locale: 'unset' | null;
 }

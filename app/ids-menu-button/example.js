@@ -3,12 +3,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Log to the console on `toggle`
   menuBtnEl.menuEl.popup.addEventListener('show', () => {
-    // eslint-disable-next-line
-    console.log(`Menu Button items were displayed`);
+    console.info(`Menu Button items were displayed`);
   });
 
   menuBtnEl.menuEl.popup.addEventListener('hide', () => {
-    // eslint-disable-next-line
-    console.log(`Menu Button items were hidden`);
+    console.info(`Menu Button items were hidden`);
   });
 });

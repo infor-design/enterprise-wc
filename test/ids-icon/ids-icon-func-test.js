@@ -1,15 +1,18 @@
 /**
  * @jest-environment jsdom
  */
+import IdsContainer from '../../src/ids-container/ids-container';
 import IdsIcon from '../../src/ids-icon/ids-icon';
 
 describe('IdsIcon Component', () => {
   let elem;
-
+  let container;
   beforeEach(async () => {
+    container = new IdsContainer();
     const icon = new IdsIcon();
     icon.icon = 'close';
-    document.body.appendChild(icon);
+    container.appendChild(icon);
+    document.body.appendChild(container);
     elem = document.querySelector('ids-icon');
   });
 
@@ -74,5 +77,44 @@ describe('IdsIcon Component', () => {
     elem.vertical = null;
     expect(elem.vertical).toEqual(false);
     expect(elem.getAttribute('vertical')).toEqual(null);
+  });
+
+  it('can change language', () => {
+    elem = new IdsIcon();
+    document.body.appendChild(elem);
+    elem.language = 'ar';
+    expect(elem.getAttribute('dir')).toEqual('rtl');
+    expect(elem.container.getAttribute('dir')).toEqual('rtl');
+  });
+
+  it('will flip some icons in RTL', () => {
+    document.body.innerHTML = '';
+    container = new IdsContainer();
+    const icon = new IdsIcon();
+    icon.icon = 'previous-page';
+    icon.language = 'ar';
+    container.appendChild(icon);
+    document.body.appendChild(container);
+    icon.language = 'ar';
+    expect(icon.isFlipped('previous-page')).toBeTruthy();
+    expect(icon.template()).toContain('class="flipped"'); // Class list doesnt work on SVG?
+  });
+
+  it('can change language from the container', () => {
+    elem.icon = 'previous-page';
+    container.language = 'ar';
+    expect(elem.getAttribute('dir')).toEqual('rtl');
+    expect(elem.container.getAttribute('dir')).toEqual('rtl');
+    expect(elem.template()).toContain('class="flipped"');
+    container.language = 'en';
+  });
+
+  it('can change language from the container', () => {
+    elem.icon = 'previous-page';
+    container.language = 'de';
+    expect(elem.getAttribute('dir')).toBeFalsy();
+    expect(elem.container.getAttribute('dir')).toBeFalsy();
+    container.language = 'ar';
+    expect(elem.template()).toContain('class="flipped"');
   });
 });

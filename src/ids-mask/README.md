@@ -77,7 +77,7 @@ input.mask = (rawValue, opts) => {
 
 ### Built-in Mask Functions
 
-Ids Mask comes with some built in masking functions.  These hook into other IDS components and utilites to provide localization and formatting.
+Ids Mask comes with some built in masking functions.  These hook into other IDS components and utilities to provide localization and formatting.
 
 For example, configuring an input field to mask as a U.S. localized short-hand date could be done this way:
 
@@ -119,7 +119,7 @@ As a convenience, the number formatter can also be applied by string:
 input.mask = 'number';
 ```
 
-## Attributes and Properties
+## Settings (Attributes)
 
 - `mask` {Array<string|RegExp>|Function} the mask that is applied to the input.
 - `mask-options` {object} options that will be applied to a masking function in progress.

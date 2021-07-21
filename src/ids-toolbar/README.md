@@ -2,7 +2,7 @@
 
 ## Description
 
-The Ids Toolbar is used for building highly-configurable Toolbars for sections of your application.  It displays [buttons](../ids-button/README.md), hyperlinks, and other components in different alignable sections, along with contextual information about a workflow or process.
+The Ids Toolbar is used for building highly-configurable Toolbars for sections of your application.  It displays [buttons](../ids-button/README.md), hyperlinks, and other components in different align-able sections, along with contextual information about a workflow or process.
 
 The Ids Toolbar can also be responsive, intelligently hiding buttons that can't be shown on-screen, and displaying them in an overflow menu.
 
@@ -17,7 +17,7 @@ The Ids Toolbar can also be responsive, intelligently hiding buttons that can't 
 **Item** Toolbar items are the actionable elements within a toolbar.  In general they correspond standard HTML Elements or other IDS Components, such as buttons, hyperlinks, checkboxes, etc.
 **More Actions** This optional element can be applied to Toolbars that contain a significant number of actions that cannot all be displayed on screen at one time.  This element contains a menu button that will display any "spilled-over" contents from the Toolbar when active, once those actions are no longer visible on the Toolbar.
 
-## Attributes and Properties
+## Settings (Attributes)
 
 ### Toolbar
 

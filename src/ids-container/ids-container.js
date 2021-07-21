@@ -10,7 +10,8 @@ import {
 // Import Mixins
 import {
   IdsEventsMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsLocaleMixin
 } from '../ids-mixins';
 
 import styles from './ids-container.scss';
@@ -21,11 +22,12 @@ import styles from './ids-container.scss';
  * @inherits IdsElement
  * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsLocaleMixin
  * @part container - the entire container element
  */
 @customElement('ids-container')
 @scss(styles)
-class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsLocaleMixin) {
   constructor() {
     super();
   }
@@ -38,11 +40,13 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
    */
   static get attributes() {
     return [
+      attributes.LANGUAGE,
+      attributes.LOCALE,
       attributes.MODE,
       attributes.PADDING,
       attributes.SCROLLABLE,
