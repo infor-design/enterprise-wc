@@ -6,8 +6,8 @@ The IDS Textarea component is a simple wrapper around a standard HTMLTextareaEle
 
 ## Use Cases
 
-- Create standalone textareas
-- Create textareas, each with different styling to provide context for actions that are disabled, readonly, and various sizes, types.
+- Create a standalone textarea
+- Create a textarea, with different styling to provide context for actions that are disabled, readonly, and various sizes, types.
 
 ## Terminology
 
@@ -109,7 +109,7 @@ Set the sizes, available sizes are `'sm'|'md'|'lg'|'full'` and default type is `
 <ids-textarea label="Placeholder" placeholder="Type your notes here...">></ids-textarea>
 ```
 
-## Attributes and Properties
+## Settings (Attributes)
 
 - `autogrow` {boolean} set automatically expand to fit the contents when typing.
 - `autogrowMaxHeight` {number|string} set max height of the textarea when autogrow is enabled.

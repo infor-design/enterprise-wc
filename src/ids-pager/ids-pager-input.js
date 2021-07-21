@@ -93,7 +93,7 @@ export default class IdsPagerInput extends mix(IdsElement).with(
       this.setAttribute(attributes.PAGE_NUMBER, 1);
     }
 
-    // give parent a chance to reflect properties
+    // give parent a chance to reflect attributes
 
     window.requestAnimationFrame(() => {
       this.#updatePageCountShown();

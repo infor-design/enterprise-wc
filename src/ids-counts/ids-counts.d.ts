@@ -7,9 +7,6 @@ export default class IdsCounts extends IdsElement {
   /** Set the tag type/color */
   color: 'base' | 'caution' | 'danger' | 'success' | 'warning' | string;
 
-  /** List the settable component properties */
-  properties: string[];
-
   /** Sets the value size at 32 when true (instead of 40) */
   compact?: 'true' | 'false' | boolean;
 

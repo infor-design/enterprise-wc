@@ -81,6 +81,8 @@
   - Markup has changed to a custom element `<ids-progress-bar></ids-progress-bar>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Locale]` The locale component has been changed to a mixin and added to many but not all components. You can now change the locale on the `ids-container` element to have it propagate down.
+  - See the [locale components docs](../src/ids-locales/README.md) for more detailed change info the the "Converting from Previous Versions" sections
 - `[Radio]` The Radio component has been changed to a web component and use with ids-radio and ids-radio-group.
   - Markup has changed to a custom element `<ids-radio-group><ids-radio></ids-radio></ids-radio-group>`
   - If using events, events are now plain JS events.

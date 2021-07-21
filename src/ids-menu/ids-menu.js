@@ -291,7 +291,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
       return;
     }
 
-    // Re-apply template (picks up top-level properties from menu data)
+    // Re-apply template (picks up top-level attributes from menu data)
     const template = document.createElement('template');
     const html = this.template();
 

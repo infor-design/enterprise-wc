@@ -6,11 +6,12 @@
 @import '../ids-mixins/ids-mixins';
 
 /* Global variables (might want these to become tokens) */
-$breakpoint-lg: 1280px;
+$breakpoint-xxl: 1440px;
+$breakpoint-xl: 1280px;
+$breakpoint-lg: 1024px;
 $breakpoint-md: 840px;
 $breakpoint-sm: 600px;
-$breakpoint-xl: 1440px;
-$breakpoint-xs: 360px;
+$breakpoint-xl: 360px;
 
 $transition-length: 200ms;
 $transition-ease: cubic-bezier(0.4, 0, 0.6, 1);

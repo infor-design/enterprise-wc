@@ -135,8 +135,8 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} properties
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes as an array
    */
   static get attributes() {
     return MENU_ATTRIBUTES;
@@ -494,7 +494,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
   /**
    * @private
    * @param {boolean|string} val true if a submenu is present and should be identified
-   * with icons and correct aria properties
+   * with icons and correct aria attributes
    */
   decorateSubmenu(val) {
     const icon = this.container.querySelector('ids-icon[icon="dropdown"]');
