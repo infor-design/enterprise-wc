@@ -11,6 +11,8 @@ import { attributes } from '../ids-base/ids-attributes';
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
+  IdsPopupInteractionsMixin,
+  IdsPopupOpenEventsMixin,
   IdsRenderLoopMixin,
   IdsRenderLoopItem,
   IdsResizeMixin,
@@ -48,6 +50,8 @@ const dismissTimeout = 200;
 class IdsModal extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
+    IdsPopupInteractionsMixin,
+    IdsPopupOpenEventsMixin,
     IdsRenderLoopMixin,
     IdsResizeMixin,
     IdsThemeMixin,
@@ -61,7 +65,6 @@ class IdsModal extends mix(IdsElement).with(
       this.state = {};
     }
     this.state.overlay = null;
-    this.state.target = null;
     this.state.messageTitle = null;
     this.state.visible = false;
   }
@@ -111,16 +114,10 @@ class IdsModal extends mix(IdsElement).with(
 
     // Update Outer Modal Parts
     this.#refreshOverlay(this.overlay);
-    this.#refreshVisibility(this.visible);
-
-    // Add events to the target element
-    /* istanbul ignore next */
-    if (this.target) {
-      this.#refreshTargetEvents();
-    }
+    this.visible = this.getAttribute('visible');
 
     // Run refresh once on connect
-    this.rl.onNextTick(() => {
+    window.requestAnimationFrame(() => {
       this.setModalPosition();
     });
 
@@ -195,25 +192,6 @@ class IdsModal extends mix(IdsElement).with(
    */
   get popup() {
     return this.shadowRoot.querySelector('ids-popup');
-  }
-
-  /**
-   * @returns {HTMLElement} the defined target element
-   */
-  get target() {
-    return this.state.target;
-  }
-
-  /**
-   * @param {HTMLElement} val a specified target element
-   */
-  set target(val) {
-    if (val && val instanceof HTMLElement) {
-      this.state.target = val;
-    } else {
-      this.state.target = null;
-    }
-    this.#refreshTargetEvents();
   }
 
   /**
@@ -329,10 +307,12 @@ class IdsModal extends mix(IdsElement).with(
       this.shouldUpdate = false;
       this.setAttribute(attributes.VISIBLE, '');
       this.shouldUpdate = true;
+      this.addOpenEvents();
     } else {
       this.shouldUpdate = false;
       this.removeAttribute(attributes.VISIBLE);
       this.shouldUpdate = true;
+      this.removeOpenEvents();
     }
 
     this.#refreshVisibility(trueVal);
@@ -349,7 +329,6 @@ class IdsModal extends mix(IdsElement).with(
     }
 
     this.visible = true;
-    this.applyOpenEvents();
   }
 
   /**
@@ -363,18 +342,35 @@ class IdsModal extends mix(IdsElement).with(
     }
 
     this.visible = false;
-    this.removeOpenEvents();
   }
 
-  applyOpenEvents() {
+  /**
+   * Overrides `addOpenEvents` from the OpenEvents mixin to add additional "Escape" key handling
+   */
+  addOpenEvents() {
+    super.addOpenEvents();
+
     /* istanbul ignore next */
     this.listen('Escape', this, () => {
       this.hide();
     });
+
+    // If a Modal Button is clicked, fire an optional callback
+    const buttonSlot = this.container.querySelector('slot[name="buttons"]');
+
+    /* istanbul ignore next */
+    this.onEvent('click.buttons', buttonSlot, (e) => {
+      this.handleButtonClick(e);
+    });
   }
 
+  /**
+   * Overrides `removeOpenEvents` from the OpenEvents mixin to remove "Escape" key handling
+   */
   removeOpenEvents() {
+    super.removeOpenEvents();
     this.unlisten('Escape');
+    this.offEvent('click.buttons');
   }
 
   /**
@@ -411,7 +407,7 @@ class IdsModal extends mix(IdsElement).with(
       this.removeAttribute('aria-hidden');
 
       // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
-      this.rl.onNextTick(() => {
+      window.requestAnimationFrame(() => {
         this.overlay.container.style.zIndex = zCounter.increment();
         this.popup.container.style.zIndex = zCounter.increment();
         this.setModalPosition();
@@ -538,11 +534,8 @@ class IdsModal extends mix(IdsElement).with(
       });
     });
 
-    // If a Modal Button is clicked, fire an optional callback
-    /* istanbul ignore next */
-    this.onEvent('click.buttons', buttonSlot, (e) => {
-      this.handleButtonClick(e);
-    });
+    // Set up all the events specifically-related to the "trigger" type
+    this.refreshTriggerEvents();
   }
 
   /**
@@ -551,6 +544,7 @@ class IdsModal extends mix(IdsElement).with(
    */
   handleButtonClick(e) {
     const timeoutCallback = () => {
+      /* istanbul ignore next */
       if (typeof this.onButtonClick === 'function') {
         this.onButtonClick(e.target);
       }
@@ -567,26 +561,6 @@ class IdsModal extends mix(IdsElement).with(
       duration: dismissTimeout,
       timeoutCallback
     }));
-  }
-
-  /**
-   * Connects a click event to the defined target element, which will allow the modal to open
-   * by click, or by a keyboard press with the Enter/Return key.
-   * @returns {void}
-   */
-  #refreshTargetEvents() {
-    this.detachEventsByName('click.target');
-
-    if (!this.target) {
-      return;
-    }
-
-    this.target.setAttribute('aria-controls', `${this.id}`);
-    this.onEvent('click.target', this.target, () => {
-      if (!this.visible) {
-        this.show();
-      }
-    });
   }
 
   /**
@@ -611,6 +585,26 @@ class IdsModal extends mix(IdsElement).with(
       }
     });
     return canShow;
+  }
+
+  /**
+   * Handle `onTriggerClick` from IdsPopupInteractionsMixin
+   */
+  /* istanbul ignore next */
+  onTriggerClick() {
+    this.show();
+  }
+
+  /**
+   * Handle `onOutsideClick` from IdsPopupOpenEventsMixin
+   * @param {MouseEvent} e the original click event
+   */
+  /* istanbul ignore next */
+  onOutsideClick(e) {
+    if (!this.isEqualNode(e.target)) {
+      return;
+    }
+    this.hide();
   }
 }
 

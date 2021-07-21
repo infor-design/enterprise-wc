@@ -79,4 +79,3 @@ messageEl.target = btnEl;
 
 btnEl.click();
 ```
-

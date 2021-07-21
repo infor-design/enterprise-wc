@@ -11,6 +11,7 @@ import './types.scss';
 const setupMessage = (messageEl, triggerBtnEl) => {
   // Link the Message to its trigger button
   messageEl.target = triggerBtnEl;
+  messageEl.trigger = 'click';
 
   // Disable the trigger button when showing the Modal.
   messageEl.addEventListener('beforeshow', () => {

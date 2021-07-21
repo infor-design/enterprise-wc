@@ -6,6 +6,12 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
 
 .ids-modal {
   @include internal-position-reset();
+
+  pointer-events: none;
+
+  &[visible] {
+    pointer-events: auto;
+  }
 }
 
 .ids-modal-header {

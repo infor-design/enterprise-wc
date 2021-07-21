@@ -15,6 +15,7 @@ describe('IdsModal Component', () => {
 
   afterEach(async () => {
     document.body.innerHTML = '';
+    modal = null;
   });
 
   it('renders with no errors', () => {
@@ -158,6 +159,23 @@ describe('IdsModal Component', () => {
         expect(modal.popup.visible).toBeFalsy();
         done();
       }, 70);
+    }, 70);
+  });
+
+  it('can click outside an open modal to close it', (done) => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+
+    modal.onOutsideClick = jest.fn();
+    modal.show();
+
+    setTimeout(() => {
+      // Click outside the Modal into the overlay area
+      document.body.dispatchEvent(clickEvent);
+
+      setTimeout(() => {
+        expect(modal.onOutsideClick).toHaveBeenCalled();
+        done();
+      });
     }, 70);
   });
 

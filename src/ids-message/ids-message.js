@@ -179,4 +179,4 @@ class IdsMessage extends IdsModal {
   }
 }
 
-export default IdsModal;
+export default IdsMessage;

@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Link the Message to its trigger button
   message.target = triggerBtn;
+  message.trigger = 'click';
 
   // Setup the response callback
   message.onButtonClick = (buttonEl) => {

@@ -1,19 +1,11 @@
 {{> ../layouts/head.html }}
 
 <ids-modal id="my-modal" visible="true" aria-labelledby="my-modal-title">
-  <ids-layout-grid>
-    <ids-text font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
-  </ids-layout-grid>
-  <ids-layout-grid>
-    <p>This is an active IDS Modal component</p>
-  </ids-layout-grid>
-  <ids-layout-grid auto="true">
-    <ids-layout-grid-cell>
-      <ids-button id="modal-close-btn" type="secondary">
-        <span slot="text">OK</span>
-      </ids-button>
-    </ids-layout-grid-cell>
-  </ids-layout-grid>
+  <ids-text slot="title" font-size="24" type="h2" id="my-modal-title">Active IDS Modal</ids-text>
+  <p>This is an active IDS Modal component</p>
+  <ids-modal-button slot="buttons" id="modal-close-btn" type="secondary" cancel>
+    <span slot="text">OK</span>
+  </ids-modal-button>
 </ids-modal>
 
 <ids-layout-grid>

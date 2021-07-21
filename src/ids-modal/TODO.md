@@ -1,10 +1,11 @@
 # IDS Modal
 
 - [] Examples with CSS parts
-- [] Keep keyboard navigation within the Modal's boundaries (don't focus on anything outside the active modal)
+- [] Keep keyboard navigation within the Modal's boundaries (don't focus on anything outside the active modal) ([#267](https://www.github.com/infor-design/enterprise-wc/issues/267))
 - [] Shared overlay support (multiple modals with one overlay)
 - [] Trigger an event on the "target" containing a value of some sort (useful for Lookup/etc)
 - [] Disable/Enable all elements within the modal
+- [] Add `keepOpen` behavior to prevent clicking outside to close
 
 ## Modal Manager (Stack?)
 

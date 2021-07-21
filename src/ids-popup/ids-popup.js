@@ -156,8 +156,6 @@ class IdsPopup extends mix(IdsElement).with(
 
     this.state.visible = this.hasAttribute(attributes.VISIBLE);
 
-    this.handleEvents();
-
     this.shouldUpdate = true;
     window.requestAnimationFrame(() => {
       this.refresh();
@@ -183,21 +181,6 @@ class IdsPopup extends mix(IdsElement).with(
         <slot name="content"></slot>
       </div>
     </div>`;
-  }
-
-  /**
-   * @private
-   * @returns {void}
-   */
-  handleEvents() {
-    /*
-    const slot = this.shadowRoot.querySelector('slot');
-    this.onEvent('slotchange', slot, () => {
-      window.requestAnimationFrame(() => {
-        this.refresh();
-      });
-    });
-    */
   }
 
   /**
