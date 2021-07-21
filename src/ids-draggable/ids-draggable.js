@@ -53,7 +53,6 @@ function getVPRect(originRect, translatePoint) {
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
- * @part draggable -- the draggable content this component contains
  */
 @customElement('ids-draggable')
 @scss(styles)
