@@ -4,9 +4,11 @@
 import { IdsEventsMixin } from './ids-events-mixin';
 import { IdsKeyboardMixin } from './ids-keyboard-mixin';
 import { IdsResizeMixin } from './ids-resize-mixin';
+import { IdsLocaleMixin } from './ids-locale-mixin';
 
 export {
   IdsEventsMixin,
   IdsKeyboardMixin,
-  IdsResizeMixin
+  IdsResizeMixin,
+  IdsLocaleMixin
 };

@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Log to the console on `selected`
   popupmenuEl.addEventListener('selected', (e) => {
-    // eslint-disable-next-line
-    console.log(`Item "${e.detail.elem.text}" was selected`);
+    console.info(`Item "${e.detail.elem.text}" was selected`);
   });
 });

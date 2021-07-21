@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Upload Advanced component is a web component that contains an API that makes it easy to set functionality such as limit the file types, max file size, max number of files to be uploaded. It shows currently uploading files with a progress indicator. It aso contains functionality to display the file status, error, progress and other functionality.
+The IDS Upload Advanced component is a web component that contains an API that makes it easy to set functionality such as limit the file types, max file size, max number of files to be uploaded. It shows currently uploading files with a progress indicator. It l contains functionality to display the file status, error, progress and other functionality.
 
 ## Use Cases
 
@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 ```
 
-## Attributes and Properties
+## Settings (Attributes)
 
 ### IDS Upload Advanced attributes and properties
 

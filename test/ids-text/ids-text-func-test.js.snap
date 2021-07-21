@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsText Component renders correctly 1`] = `"<ids-text></ids-text>"`;
+exports[`IdsText Component renders correctly 1`] = `"<ids-text language=\\"en\\" locale=\\"en-US\\"></ids-text>"`;
 
-exports[`IdsText Component renders correctly 2`] = `"<ids-text font-size=\\"24\\"></ids-text>"`;
+exports[`IdsText Component renders correctly 2`] = `"<ids-text language=\\"en\\" locale=\\"en-US\\" font-size=\\"24\\"></ids-text>"`;
 
-exports[`IdsText Component renders correctly 3`] = `"<ids-text font-size=\\"24\\" type=\\"h1\\"></ids-text>"`;
+exports[`IdsText Component renders correctly 3`] = `"<ids-text language=\\"en\\" locale=\\"en-US\\" font-size=\\"24\\" type=\\"h1\\"></ids-text>"`;

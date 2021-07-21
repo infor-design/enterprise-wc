@@ -132,7 +132,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   /**
-   * @returns {Array<string>} IdsInput component observable properties
+   * @returns {Array<string>} IdsInput component observable attributes
    */
   static get attributes() {
     return [...super.attributes, ...INPUT_ATTRIBUTES];
