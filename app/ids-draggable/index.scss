@@ -10,6 +10,9 @@
 .ids-draggable-demo-content {
   display: flex;
   flex-direction: row;
+  width: 500px;
+  height: 500px;
+  border: dashed 1px #f00;
 }
 
 ids-draggable:not(:first-child) .ids-draggable-demo-box {

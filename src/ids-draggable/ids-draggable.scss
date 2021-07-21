@@ -1,5 +1,6 @@
 :host(ids-draggable) {
   cursor: move;
+  touch-action: none;
 }
 
 :host(ids-draggable[axis='x']:not([disabled])) {

@@ -19,6 +19,8 @@ const { stringToBool } = stringUtils;
 
 const CURSOR_EL_SIZE = 32;
 
+// TODO: consider window.scrollX, window.scrollY in getBoundingClientRect
+
 /**
  * get "cursor" property of cursor element
  * placed in front of drag (may also use this
@@ -34,6 +36,10 @@ function getCursorStyle({ axis }) {
   case 'y': { return 'ns-resize'; }
   default: { return 'move'; }
   }
+}
+
+function getVPRect(originRect, translatePoint) {
+  return originRect.left + translatePoint.x;
 }
 
 // TODO: pool the cursor element for re-use after
@@ -214,8 +220,16 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         }
       }
 
-      this.#mouseStartingPoint = { x: e.x, y: e.y };
-      this.#startingOffset = getElTranslatePoint(this);
+      this.#dragStartMousePoint = { x: e.x, y: e.y };
+      this.#dragStartOffset = getElTranslatePoint(this);
+      const thisRect = this.getBoundingClientRect();
+
+      this.#dragStartRect = {
+        left: thisRect.left + this.#dragStartOffset.x,
+        right: thisRect.right + this.#dragStartOffset.x,
+        top: thisRect.top - this.#dragStartOffset.y,
+        bottom: thisRect.bottom - this.#dragStartOffset.y
+      };
 
       if (!this.cursorEl) {
         this.#cursorEl = document.createElement('div');
@@ -239,21 +253,55 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     super.connectedCallback?.();
   }
 
+  /**
+   * returns leftmost drag offset
+   *
+   * TODO: consider window.scrollX once things work
+   */
+  get #dragBoundLeft() {
+
+  }
+
+  getOffsetYOnDrag() {
+
+  }
+
   onMouseMove = (e) => {
     e.preventDefault();
 
     if (this.isDragging) {
-      const deltaX = e.x - this.#mouseStartingPoint.x;
-      const offsetX = this.#startingOffset.x + deltaX;
-      const deltaY = e.y - this.#mouseStartingPoint.y;
-      const offsetY = this.#startingOffset.y + deltaY;
+      const dragDeltaX = e.x - this.#dragStartMousePoint.x;
+      const dragDeltaY = e.y - this.#dragStartMousePoint.y;
 
-      // TODO: restrict parent bounds here
+      console.log('actual left ->', this.#dragStartOffset.x + dragDeltaX);
 
-      const translateX = `${this.axis !== 'y' ? offsetX : 0}px`;
-      const translateY = `${this.axis !== 'x' ? offsetY : 0}px`;
+      let translateX = 0;
+      let translateY = 0;
 
-      this.style.transform = `translate(${translateX}, ${translateY})`;
+      if (this.axis !== 'y') {
+        translateX = this.#dragStartOffset.x + dragDeltaX;
+      }
+
+      if (this.axis !== 'x') {
+        translateY = this.#dragStartOffset.y + dragDeltaY;
+      }
+
+      // bound the draggable to the rectangle of the first
+      // parent detected
+
+      if (this.parentContainment && this.#parentRect) {
+        if (this.axis !== 'y') {
+          // left limit
+          translateX = Math.max(this.#dragStartRect.left - this.#parentRect.left, translateX);
+        }
+
+        if (this.axis !== 'x') {
+          // top limit
+          translateY = Math.max(this.#dragStartRect.top - this.#parentRect.top, translateY);
+        }
+      }
+
+      this.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
       if (this.#cursorEl) {
         this.#cursorEl.style.left = `${e.x - CURSOR_EL_SIZE / 2}px`;
@@ -286,17 +334,26 @@ class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   /**
    * The point where we start dragging on the mouse
    * to delta from for current tracking.
-   * @type {{ x: number, y: number }} | undefined
-   */
-  #mouseStartingPoint;
-
-  /**
-   * The last delta tracked by the draggable based
-   * on style translateX/Y prop
    *
    * @type {{ x: number, y: number }} | undefined
    */
-  #startingOffset;
+  #dragStartMousePoint;
+
+  /**
+   * The transform translation point applied at
+   * the time of a dragstart in order to calculate
+   * delta during drag
+   *
+   * @type {{ x: number, y: number }} | undefined
+   */
+  #dragStartOffset;
+
+  /**
+   * The bounding rectangle of this component at the
+   * time of a dragstart
+   * @type {{ x: number, y: number }} | undefined
+   */
+  #dragStartRect;
 
   /**
    * element which provides cursor for mouse when
