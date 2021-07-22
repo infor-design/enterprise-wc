@@ -1,0 +1,1 @@
+import IdsCompletionChart from '../../src/ids-completion-chart';
