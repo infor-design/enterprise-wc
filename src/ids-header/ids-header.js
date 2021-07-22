@@ -30,19 +30,30 @@ import '../ids-breadcrumb/ids-breadcrumb';
 @customElement('ids-header')
 @scss(styles)
 
-class IdsHeader extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+class IdsHeader extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsKeyboardMixin,
+    IdsThemeMixin
+  ) {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    // TODO: Need to do this and not sure why or the setters/getters do not work
-    // eslint-disable-next-line no-self-assign
-    this.color = this.color;
+    super.connectedCallback?.();
+
+    if (this.hasAttribute('color')) {
+      this.color = this.getAttribute('color');
+    }
   }
 
   static get attributes() {
-    return [attributes.MODE, attributes.VERSION, attributes.COLOR];
+    return [
+      ...super.attributes,
+      attributes.MODE,
+      attributes.VERSION,
+      attributes.COLOR
+    ];
   }
 
   /**

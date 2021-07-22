@@ -1,0 +1,44 @@
+{{> ../layouts/head-visible.html }}
+
+<link rel="stylesheet" href="ids-header.css" />
+<link rel="stylesheet" href="../ids-toolbar/ids-toolbar.css" />
+<link rel="stylesheet" href="../ids-toolbar-section/ids-toolbar-section.css" />
+<link rel="stylesheet" href="../ids-container/ids-container.css" />
+<link rel="stylesheet" href="../ids-button/ids-button.css" />
+<link rel="stylesheet" href="../ids-text/ids-text.css" />
+
+<div class="ids-header" mode="light" version="new">
+  <div class="ids-toolbar">
+    <div class="ids-toolbar-section static">
+      <button class="ids-icon-button">
+        <span class="audible">Application Menu</span>
+        <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+          viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+          <path d="M0 2.5h18m-18 12h18m-18-6h18" stroke="currentColor" fill="none" fill-rule="evenodd"
+            vector-effect="non-scaling-stroke"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ids-toolbar-section title">
+      <span class="ids-text ids-text-20">My Header</span>
+      <span class="ids-text ids-text-14">With some extra information below</span>
+    </div>
+
+    <div class="ids-toolbar-section buttonset align-end">
+      <button id="button-1" class="ids-button">
+        <span>Text</span>
+      </button>
+
+      <button id="button-2" class="ids-button">
+        <span>Menu</span>
+        <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+          viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+          <path d="M4 6l5 6 5-6H4" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+{{> ../layouts/footer.html }}
