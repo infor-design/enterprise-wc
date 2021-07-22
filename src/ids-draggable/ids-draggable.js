@@ -143,8 +143,32 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     return stringToBool(this.getAttribute(attributes.PARENT_CONTAINMENT));
   }
 
+  /**
+   * @param {boolean} value Whether or not to disable the pager overall
+   */
+  set disabled(value) {
+    const isTruthy = stringUtils.stringToBool(value);
+
+    if (isTruthy && this.getAttribute(attributes.DISABLED) !== '') {
+      this.offEvent('mousemove', this.onMouseMove);
+      this.setAttribute(attributes.DISABLED, '');
+    } else if (!isTruthy && this.hasAttribute(attributes.DISABLED)) {
+      this.removeAttribute(attributes.DISABLED);
+    }
+  }
+
+  /**
+   * @returns {boolean} value Whether or not to disable the pager overall
+   */
+  get disabled() {
+    return stringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
+  }
+
   connectedCallback() {
     this.onEvent('mousedown', this, (e) => {
+      if (this.disabled) {
+        return;
+      }
       e.preventDefault();
 
       this.onEvent('mouseup', document, () => {
@@ -331,14 +355,17 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * The bounding rectangle of this component at the
-   * time of a dragstart
+   * time of a dragstart offset by translate (so
+   * its original position in the div on start of drag)
    * @type {{ x: number, y: number }}
    */
   #dragStartRect;
 
   /**
-   * bounds that transform is limited to if drag is bounded
-   * by parent
+   * Rectangle bounds that transform is limited to if drag
+   * is bounded by parent
+   *
+   * @type {{ top: number, bottom: number, left: number, right: number }}
    */
   #xformBounds;
 

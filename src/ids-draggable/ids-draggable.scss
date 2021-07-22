@@ -5,6 +5,10 @@
   height: fit-content;
 }
 
+:host(ids-draggable[disabled]) {
+  cursor: inherit;
+}
+
 :host(ids-draggable[axis='x']:not([disabled])) {
   cursor: ew-resize;
 }
