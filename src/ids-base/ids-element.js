@@ -11,6 +11,13 @@ import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import { stringUtils } from './ids-string-utils';
 
+const areAdoptedStyleSheetsSupported = (
+  window.ShadowRoot
+  && (window.ShadyCSS === undefined || window.ShadyCSS.nativeShadow)
+  && 'adoptedStyleSheets' in Document.prototype
+  && 'replace' in CSSStyleSheet.prototype
+);
+
 /**
  * simple dictionary used to memoize attribute names
  * to their corresponding property names.
@@ -21,11 +28,57 @@ import { stringUtils } from './ids-string-utils';
  *
  * @type {object.<string, string>}
  */
-const attribPropNameDict = Object.fromEntries(
+const memodAttribPropNames = Object.fromEntries(
   Object.entries(attributes).map(([_, attrib]) => (
     [attrib, stringUtils.camelCase(attrib)]
   ))
 );
+
+/**
+ * cache for ids-component styles to avoid reconstruction/parsing
+ * objects and/or stylesheets for repeated components once seen/parsed.
+ *
+ * note: if we end change our style solution to not only
+ * rely on  .scss we may need to consider the key of objects as hash
+ * or just make the object nested levels to make sure we don't
+ * pool unrelated styles.
+ * @type {object.<string, CSSStyleSheet>}
+ */
+const memodComponentStyles = {};
+
+/**
+ * creates a component style to add to
+ * memodComponentStyles
+ *
+ * @param {string} namespace namespace of component e.g. ids-text
+ * @param {string} cssStyles the CSS Styles for the component
+ * @returns {HTMLElement} style tag object
+ */
+function getMemodComponentStyle(namespace, cssStyles) {
+  // if cache doesn't exist, create the stylesheet depending on
+  // whether adopted stylesheets are supported or not by
+  // the browser
+
+  if (!memodComponentStyles[namespace]) {
+    if (!areAdoptedStyleSheetsSupported) {
+      const style = document.createElement('style');
+      style.textContent = cssStyles;
+      if (/^:(:)?host/.test(style.textContent)) {
+        style.textContent = style.textContent.replace(/^:(:)?host/, `.${namespace}`);
+      }
+      style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
+      memodComponentStyles[namespace] = style;
+    }
+
+    if (areAdoptedStyleSheetsSupported) {
+      const style = new CSSStyleSheet();
+      style.replaceSync(cssStyles);
+      memodComponentStyles[namespace] = style;
+    }
+  }
+
+  return memodComponentStyles[namespace];
+}
 
 /**
  * IDS Base Element
@@ -108,11 +161,11 @@ class IdsElement extends HTMLElement {
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
-      if (!attribPropNameDict[name]) {
-        attribPropNameDict[name] = stringUtils.camelCase(name);
+      if (!memodAttribPropNames[name]) {
+        memodAttribPropNames[name] = stringUtils.camelCase(name);
       }
 
-      this[attribPropNameDict[name]] = newValue;
+      this[memodAttribPropNames[name]] = newValue;
     }
   }
 
@@ -170,7 +223,10 @@ class IdsElement extends HTMLElement {
       this.attachShadow({ mode: 'open' });
     }
 
-    this.appendStyles();
+    if (this.shadowRoot.adoptedStyleSheets) {
+      this.appendStyles();
+    }
+
     template.innerHTML = this.template();
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
@@ -219,21 +275,18 @@ class IdsElement extends HTMLElement {
       return;
     }
 
-    if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
-      const style = document.createElement('style');
-      style.textContent = this.cssStyles;
-      if (/^:(:)?host/.test(style.textContent)) {
-        style.textContent = style.textContent.replace(/^:(:)?host/, `.${this.name}`);
+    if (this.cssStyles) {
+      const style = getMemodComponentStyle(this.name, this.cssStyles);
+
+      if (!areAdoptedStyleSheetsSupported && typeof this.cssStyles === 'string') {
+        this.shadowRoot?.appendChild(style);
       }
-      style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
-      this.shadowRoot?.appendChild(style);
+
+      if (areAdoptedStyleSheetsSupported) {
+        this.shadowRoot.adoptedStyleSheets = [style];
+      }
     }
 
-    if (this.cssStyles && this.shadowRoot.adoptedStyleSheets) {
-      const style = new CSSStyleSheet();
-      style.replaceSync(this.cssStyles);
-      this.shadowRoot.adoptedStyleSheets = [style];
-    }
     this.hasStyles = true;
   }
 }
