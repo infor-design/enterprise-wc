@@ -1,6 +1,6 @@
 @import '../ids-base/ids-base';
 
-.ids-completion-chart {
+.ids-progress-chart {
   @include antialiased();
   @include bg-slate-20();
   @include border-1();

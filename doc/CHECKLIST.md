@@ -48,7 +48,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Checkboxes (ids-checkbox)
  - [ ] Color Picker (ids-color-picker)
  - [ ] Column (ids-column-chart or ids-bar with a orientation setting)
- - [ ] Completion Chart (ids-completion-chart)
+ - [ ] Completion Chart (ids-progress-chart)
  - [ ] Contextual Action Panel (ids-contextual-action-panel or ids-modal
  - [ ] Datagrid (ids-data-grid)
  - [ ] Datepicker (ids-date-picker)
