@@ -61,6 +61,10 @@
   - Triggering element for the modal is now configurable with the `target` prop
   - Events are now just plain JS events
   - Markup has been changed to custom element `<ids-modal></ids-modal>`
+- `[NotificationBanner]` The Notification Banner is now a web component called ids-notification-banner
+  - The type, alert icon, message text, link and link text are all configurable via properties on the custom element
+  - Additionally, user's can define the notification via a JS api, where the `parent` and `id` can be configured
+  - Custom element: `<ids-notification-banner></ids-notification-banner>`
 - `[Pager]` Pager is now a web component called ids-pager ([WC#148](https://github.com/infor-design/enterprise-wc/issues/148))
   - there is a new base-component: `<ids-pager>`, and several sub-components to provide specific controls.
   - content is automatically managed/aligned via nesting controls inside of `<ids-pager-section>`

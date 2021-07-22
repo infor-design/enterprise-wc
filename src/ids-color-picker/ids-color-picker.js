@@ -101,7 +101,7 @@ class IdsColorPicker extends mix(IdsElement).with(
             <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
             <ids-text audible="true">Pick Custom Color</ids-text>
           </label>
-          <ids-input size="sm" dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
+          <ids-input value="${this.value.toLowerCase()}" size="sm" dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
           <ids-trigger-button id="${id}-button" title="${id}">
             <ids-text audible="true">color picker trigger</ids-text>
             <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
@@ -124,7 +124,7 @@ class IdsColorPicker extends mix(IdsElement).with(
   }
 
   get value() {
-    return this.getAttribute('value') || '#B94E4E';
+    return this.getAttribute('value') || '#b94e4e';
   }
 
   /**
@@ -201,7 +201,7 @@ class IdsColorPicker extends mix(IdsElement).with(
 
         if (target.hasAttribute('hex')) {
           this.#updateColorCheck(target);
-          this.setAttribute('value', target.getAttribute('hex'));
+          this.setAttribute('value', target.getAttribute('hex').toLowerCase());
           this.#openCloseColorpicker();
         }
       });
@@ -212,7 +212,7 @@ class IdsColorPicker extends mix(IdsElement).with(
             this.#openCloseColorpicker();
           }
           if (keyup.target.hasAttribute('hex')) {
-            this.setAttribute('value', keyup.target.getAttribute('hex'));
+            this.setAttribute('value', keyup.target.getAttribute('hex').toLowerCase());
             this.#openCloseColorpicker();
             this.#updateColorCheck(keyup.target);
           }
