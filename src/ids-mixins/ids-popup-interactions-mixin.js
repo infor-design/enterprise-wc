@@ -1,10 +1,6 @@
 import { attributes } from '../ids-base';
 import IdsEventsMixin from './ids-events-mixin';
 
-const POPUP_INTERACTIONS_ATTRIBUTES = [
-  attributes.TRIGGER
-];
-
 const POPUP_TRIGGER_TYPES = [
   'contextmenu',
   'click',
@@ -26,6 +22,7 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
     if (!this.state) {
       this.state = {};
     }
+    this.state.target = null;
     this.state.trigger = POPUP_TRIGGER_TYPES[0];
   }
 
@@ -34,11 +31,18 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [...super.attributes, ...POPUP_INTERACTIONS_ATTRIBUTES];
+    return [
+      ...super.attributes,
+      attributes.TARGET,
+      attributes.TRIGGER
+    ];
   }
 
   connectedCallback() {
     super.connectedCallback?.();
+    if (this.target) {
+      this.refreshTriggerEvents();
+    }
   }
 
   disconnectedCallback() {
@@ -58,6 +62,26 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
    */
   get popup() {
     return this.shadowRoot.querySelector('ids-popup');
+  }
+
+  /**
+   * @returns {any} [HTMLElement|undefined] reference to a target element, if applicable
+   */
+  get target() {
+    return this.popup.alignTarget;
+  }
+
+  /**
+   * @param {any} val [HTMLElement|string] reference to an element, or a string that will be used
+   * as a CSS Selector referencing an element, that the Popupmenu will align against.
+   */
+  set target(val) {
+    if (val !== this.popup.alignTarget) {
+      this.removeTriggerEvents();
+      this.popup.alignTarget = val;
+      this.state.target = val;
+      this.refreshTriggerEvents();
+    }
   }
 
   /**
@@ -86,8 +110,6 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
   refreshTriggerEvents() {
     const targetElem = this.popup.alignTarget || window;
 
-    this.removeTriggerEvents();
-
     // Based on the trigger type, bind new events
     switch (this.state.trigger) {
     case 'click':
@@ -95,6 +117,12 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
       this.popup.align = 'bottom, left';
       this.popup.arrow = 'bottom';
       this.popup.y = 8;
+
+      // Announce Popup control with `aria-controls` on the target
+      /* istanbul ignore next */
+      if (targetElem.id && targetElem !== 'window') {
+        this.target.setAttribute('aria-controls', `${this.id}`);
+      }
 
       // Open/Close the menu when the trigger element is clicked
       this.detachAllEvents();
@@ -137,6 +165,8 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
    * @returns {void}
    */
   removeTriggerEvents() {
+    this.alignTarget?.removeAttribute('aria-controls');
+
     const removeEventTargets = ['contextmenu.trigger', 'click.trigger'];
     removeEventTargets.forEach((eventName) => {
       const evt = this.handledEvents.get(eventName);

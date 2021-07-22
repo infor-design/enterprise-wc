@@ -12,3 +12,4 @@ export { IdsRenderLoopMixin, IdsRenderLoopItem } from './ids-render-loop-mixin';
 export { default as IdsThemeMixin } from './ids-theme-mixin';
 export { default as IdsTooltipMixin } from './ids-tooltip-mixin';
 export { default as IdsValidationMixin } from './ids-validation-mixin';
+export { default as IdsXssMixin } from './ids-xss-mixin';

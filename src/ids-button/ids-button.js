@@ -489,7 +489,7 @@ class IdsButton extends mix(IdsElement).with(
     if (textElem && textElem.textContent?.length) {
       return textElem.textContent;
     }
-    return this.state.text;
+    return this.textContent;
   }
 
   /**

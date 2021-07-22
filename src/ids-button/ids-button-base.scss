@@ -17,6 +17,11 @@
     0 0 4px 3px var(--ids-color-brand-primary-base) // primary color (shadowy-part)
 }
 
+// Used to make the focus "border" on non-solid buttons (modal buttons, etc)
+@mixin alternate-button-shadow() {
+  box-shadow: 0 0 3px 1px var(--ids-color-brand-primary-base) // primary color (shadowy-part)
+}
+
 // Used to include a basic set of ripple-effect styles
 @mixin ids-base-ripple-styles() {
   .ripple-effect {
@@ -42,9 +47,7 @@
   @include border-solid();
   @include font-normal();
   @include font-sans();
-  @include inline-flex();
   @include px-28();
-  @include rounded-default();
   @include text-16();
   @include text-slate-60();
 
@@ -80,21 +83,9 @@
   white-space: nowrap;
 
   &:focus {
-    @include shadow();
-
-    border-color: var(--ids-color-brand-primary-base);
-
     // Disable standard focus state in Chrome
     outline: none;
     outline-color: transparent;
-  }
-
-  &:hover {
-    @include text-black();
-  }
-
-  &[disabled] {
-    @include text-slate-30();
   }
 
   &:not([disabled]) {
@@ -120,6 +111,40 @@
 
   .ripple-effect {
     background-color: var(--ids-color-palette-azure-50);
+  }
+
+  // ====================================================
+  // Alignment changes
+
+  &.align-icon-end {
+    ids-icon[slot] {
+      align-self: flex-end;
+    }
+  }
+}
+
+/**
+ * Provides the standard color rules for all regular buttons
+ */
+@mixin ids-standard-button-colors() {
+  @include inline-flex();
+  @include px-28();
+  @include rounded-default();
+
+  color: var(--ids-color-font-base);
+
+  &:focus {
+    @include shadow();
+
+    border-color: var(--ids-color-brand-primary-base);
+  }
+
+  &:hover {
+    @include text-black();
+  }
+
+  &[disabled] {
+    @include text-slate-30();
   }
 
   // ====================================================
@@ -196,262 +221,326 @@
   }
 
   // ====================================================
-  // Alignment changes
+  // Dark Mode
 
-  &.align-icon-end {
-    ids-icon[slot] {
-      align-self: flex-end;
+  &[mode='dark'] {
+    @include text-slate-20();
+
+    &[disabled] {
+      @include text-slate-40();
     }
-  }
-}
-
-// Handle Dark Theme
-.ids-button[mode='dark'],
-.ids-icon-button[mode='dark'],
-.ids-menu-button[mode='dark'],
-.ids-button.btn-tertiary[mode='dark'],
-.ids-icon-button.btn-tertiary[mode='dark'],
-.ids-menu-button.btn-tertiary[mode='dark'] {
-  @include text-slate-20();
-
-  &[disabled] {
-    @include text-slate-40();
-  }
-
-  &:hover {
-    @include text-white();
-  }
-}
-
-.ids-button.btn-primary[mode='dark'],
-.ids-icon-button.btn-primary[mode='dark'] {
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
-  }
-
-  &[disabled] {
-    @include text-white();
-  }
-}
-
-.ids-button.btn-secondary[mode='dark'],
-.ids-icon-button.btn-secondary[mode='dark'] {
-  @include border-slate-30();
-  @include bg-slate-30();
-  @include text-slate-80();
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
-  }
-
-  &[disabled] {
-    @include bg-slate-40();
-    @include border-slate-40();
-  }
-
-  &:hover {
-    @include border-slate-40();
-    @include bg-slate-40();
-  }
-}
-
-// Handle contrast Theme
-.ids-button[mode='contrast'],
-.ids-icon-button[mode='contrast'],
-.ids-menu-button[mode='contrast'],
-.ids-button.btn-tertiary[mode='contrast'],
-.ids-icon-button.btn-tertiary[mode='contrast'] {
-  @include text-slate-100();
-
-  &[disabled] {
-    @include text-slate-40();
-  }
-
-  &:hover {
-    @include text-black();
-  }
-}
-
-.ids-button.btn-primary[mode='contrast'],
-.ids-icon-button.btn-primary[mode='contrast'] {
-  @include bg-azure-90();
-  @include text-white();
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
-  }
-
-  &[disabled] {
-    @include bg-azure-30();
-  }
-}
-
-.ids-button.btn-secondary[mode='contrast'],
-.ids-icon-button.btn-secondary[mode='contrast'] {
-  @include bg-slate-70();
-  @include text-white();
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
-  }
-
-  &[disabled] {
-    @include bg-slate-40();
-    @include border-slate-40();
-  }
-}
-
-// Handle Classic Light Theme
-.ids-button[mode='light'][version='classic'],
-.ids-icon-button[mode='light'][version='classic'],
-.ids-menu-button[mode='light'][version='classic'],
-.ids-button.btn-tertiary[mode='light'][version='classic'],
-.ids-icon-button.btn-tertiary[mode='light'][version='classic'] {
-  @include text-graphite-100();
-
-  &[disabled] {
-    @include text-graphite-40();
-  }
-
-  &:hover {
-    @include text-black();
-  }
-}
-
-.ids-button.btn-primary[mode='light'][version='classic'],
-.ids-icon-button.btn-primary[mode='light'][version='classic'] {
-  @include bg-azure-50();
-  @include text-white();
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
-  }
-
-  &[disabled] {
-    @include bg-azure-30();
-  }
-}
-
-.ids-button.btn-secondary[mode='light'][version='classic'],
-.ids-icon-button.btn-secondary[mode='light'][version='classic'] {
-  @include bg-graphite-30();
-  @include text-graphite-80();
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
-  }
-
-  &[disabled] {
-    @include bg-graphite-20();
-    @include border-graphite-20();
-    @include text-graphite-40();
-  }
-}
-
-// Handle Dark Classic Theme
-.ids-button[mode='dark'][version='classic'],
-.ids-icon-button[mode='dark'][version='classic'],
-.ids-menu-button[mode='dark'][version='classic'],
-.ids-button.btn-tertiary[mode='dark'][version='classic'],
-.ids-icon-button.btn-tertiary[mode='dark'][version='classic'] {
-  @include text-classic-slate-10();
-
-  &[disabled] {
-    @include text-classic-slate-50();
 
     &:hover {
-      @include text-classic-slate-50();
+      @include text-white();
     }
   }
 
-  &:hover {
-    @include text-white();
+  // ====================================================
+  // High-Contrast Mode
+
+  &[mode='contrast'] {
+    @include text-slate-100();
+
+    &[disabled] {
+      @include text-slate-40();
+    }
+
+    &:hover {
+      @include text-black();
+    }
+  }
+
+  // ====================================================
+  // "Classic" Light Mode
+
+  &[mode='light'][version='classic'] {
+    @include text-graphite-100();
+
+    &[disabled] {
+      @include text-graphite-40();
+    }
+
+    &:hover {
+      @include text-black();
+    }
+  }
+
+  // ====================================================
+  // "Classic" Dark Mode
+
+  &[mode='dark'][version='classic'] {
+    @include text-classic-slate-10();
+
+    &[disabled] {
+      @include text-classic-slate-50();
+
+      &:hover {
+        @include text-classic-slate-50();
+      }
+    }
+
+    &:hover {
+      @include text-white();
+    }
+  }
+
+  // ====================================================
+  // "Classic" High-Contrast Mode
+
+  &[mode='contrast'][version='classic'] {
+    @include text-graphite-70();
+
+    &:focus {
+      box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+    }
+
+    &[disabled] {
+      @include text-graphite-40();
+    }
+
+    &:hover {
+      @include text-black();
+    }
   }
 }
 
-.ids-button.btn-primary[mode='dark'][version='classic'],
-.ids-icon-button.btn-primary[mode='dark'][version='classic'] {
-  @include bg-azure-50();
-  @include border-azure-50();
+/**
+ * Provides the standard color rules for buttons that need box shadow
+ */
+@mixin ids-standard-contextual-button-colors() {
+  &.btn-primary {
+    // ====================================================
+    // Primary Dark Mode
 
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+    &[mode='dark'] {
+      &:focus {
+        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+      }
+
+      &[disabled] {
+        @include text-white();
+      }
+    }
+
+    // ====================================================
+    // Primary High-Contrast Mode
+
+    &[mode='contrast'] {
+      @include bg-azure-90();
+      @include text-white();
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+      }
+
+      &[disabled] {
+        @include bg-azure-30();
+      }
+    }
+
+    // ====================================================
+    // Primary "Classic" Light Mode
+
+    &[mode='light'][version='classic'] {
+      @include bg-azure-50();
+      @include text-white();
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
+      }
+
+      &[disabled] {
+        @include bg-azure-30();
+      }
+    }
+
+    // ====================================================
+    // Primary "Classic" Dark Mode
+
+    &[mode='dark'][version='classic'] {
+      @include bg-azure-50();
+      @include border-azure-50();
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+      }
+
+      &[disabled] {
+        @include bg-azure-80();
+        @include border-azure-80();
+        @include text-classic-slate-40();
+      }
+    }
+
+    // ====================================================
+    // Primary "Classic" High-Contrast Mode
+
+    &[mode='contrast'][version='classic'] {
+      @include bg-azure-90();
+      @include border-azure-90();
+      @include text-white();
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+      }
+
+      &[disabled] {
+        @include bg-azure-70();
+        @include border-azure-90();
+      }
+    }
   }
 
-  &[disabled] {
-    @include bg-azure-80();
-    @include border-azure-80();
-    @include text-classic-slate-40();
+  &.btn-secondary {
+    // ====================================================
+    // Secondary Dark Mode
+
+    &[mode='dark'] {
+      @include border-slate-30();
+      @include bg-slate-30();
+      @include text-slate-80();
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+      }
+
+      &[disabled] {
+        @include bg-slate-40();
+        @include border-slate-40();
+      }
+
+      &:hover {
+        @include border-slate-40();
+        @include bg-slate-40();
+      }
+    }
+
+    // ====================================================
+    // Secondary High-Contrast Mode
+
+    &[mode='contrast'] {
+      @include bg-slate-70();
+      @include text-white();
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+      }
+
+      &[disabled] {
+        @include bg-slate-40();
+        @include border-slate-40();
+      }
+    }
+
+    // ====================================================
+    // Secondary "Classic" Light Mode
+
+    &[mode='light'][version='classic'] {
+      @include bg-graphite-30();
+      @include text-graphite-80();
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
+      }
+
+      &[disabled] {
+        @include bg-graphite-20();
+        @include border-graphite-20();
+        @include text-graphite-40();
+      }
+    }
+
+    // ====================================================
+    // Secondary "Classic" Dark Mode
+
+    &[mode='dark'][version='classic'] {
+      @include bg-classic-slate-30();
+      @include border-classic-slate-30();
+      @include text-classic-slate-100();
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+      }
+
+      &[disabled] {
+        @include bg-classic-slate-50();
+        @include border-classic-slate-50();
+        @include text-classic-slate-80();
+      }
+    }
+
+    // ====================================================
+    // Secondary "Classic" High-Contrast Mode
+
+    &[mode='contrast'][version='classic'] {
+      @include bg-graphite-70();
+      @include border-graphite-70();
+      @include text-white();
+
+      &:focus {
+        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+      }
+
+      &[disabled] {
+        @include bg-graphite-50();
+        @include border-graphite-50();
+        @include text-graphite-20();
+      }
+    }
   }
 }
 
-.ids-button.btn-secondary[mode='dark'][version='classic'],
-.ids-icon-button.btn-secondary[mode='dark'][version='classic'] {
-  @include bg-classic-slate-30();
-  @include border-classic-slate-30();
-  @include text-classic-slate-100();
+@mixin ids-alternate-button-colors() {
+  // ====================================================
+  // Primary Button styles
 
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+  &.btn-primary {
+    background-color: var(--ids-color-brand-primary-contrast);
+    color: var(--ids-color-brand-primary-base);
+
+    &:focus {
+      @include alternate-button-shadow();
+    }
+
+    &:hover {
+      color: var(--ids-color-palette-azure-80);
+    }
+
+    &[disabled] {
+      opacity: 0.3;
+    }
+
+    .ripple-effect {
+      background-color: var(--ids-color-brand-primary-base);
+    }
   }
 
-  &[disabled] {
-    @include bg-classic-slate-50();
-    @include border-classic-slate-50();
-    @include text-classic-slate-80();
-  }
-}
+  // ====================================================
+  // Secondary/Tertiary/Destructive Button styles
 
-// Handle contrast light Theme
-.ids-button[mode='contrast'][version='classic'],
-.ids-icon-button[mode='contrast'][version='classic'],
-.ids-menu-button[mode='contrast'][version='classic'],
-.ids-button.btn-tertiary[mode='contrast'][version='classic'],
-.ids-icon-button.btn-tertiary[mode='contrast'][version='classic'] {
-  @include text-graphite-70();
+  &.btn-secondary,
+  &.btn-tertiary,
+  &.btn-destructive {
+    @include bg-slate-30();
 
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
-  }
+    background-color: var(--ids-color-brand-primary-contrast);
+    color: var(--ids-color-brand-secondary-contrast);
 
-  &[disabled] {
-    @include text-graphite-40();
-  }
+    &:focus {
+      @include alternate-button-shadow();
+    }
 
-  &:hover {
-    @include text-black();
-  }
-}
+    &:hover {
+      color: var(--ids-color-palette-slate-100);
+    }
 
-.ids-button.btn-primary[mode='contrast'][version='classic'],
-.ids-icon-button.btn-primary[mode='contrast'][version='classic'] {
-  @include bg-azure-90();
-  @include border-azure-90();
-  @include text-white();
+    &[disabled] {
+      @include bg-slate-20();
+      @include border-slate-20();
+    }
 
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
-  }
-
-  &[disabled] {
-    @include bg-azure-70();
-    @include border-azure-90();
-  }
-}
-
-.ids-button.btn-secondary[mode='contrast'][version='classic'],
-.ids-icon-button.btn-secondary[mode='contrast'][version='classic'] {
-  @include bg-graphite-70();
-  @include border-graphite-70();
-  @include text-white();
-
-  &:focus {
-    box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
-  }
-
-  &[disabled] {
-    @include bg-graphite-50();
-    @include border-graphite-50();
-    @include text-graphite-20();
+    .ripple-effect {
+      background-color: var(--ids-color-brand-secondary-lighter);
+    }
   }
 }

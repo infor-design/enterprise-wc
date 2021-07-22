@@ -21,6 +21,8 @@ export const attributes = {
   AUTOSELECT: 'autoselect',
   BG_TRANSPARENT: 'bg-transparent',
   BLEED: 'bleed',
+  BUTTONS: 'buttons',
+  CANCEL: 'cancel',
   CHAR_MAX_TEXT: 'char-max-text',
   CHAR_REMAINING_TEXT: 'char-remaining-text',
   CHARACTER_COUNTER: 'character-counter',
@@ -88,6 +90,8 @@ export const attributes = {
   MENU: 'menu',
   MESSAGE_TEXT: 'message-text',
   METHOD: 'method',
+  MESSAGE: 'message',
+  MESSAGE_TITLE: 'message-title',
   MIN: 'min',
   MODE: 'mode',
   MULTIPLE: 'multiple',
@@ -132,6 +136,8 @@ export const attributes = {
   SHOW_BROWSE_LINK: 'show-browse-link',
   SQUARE: 'square',
   SIZE: 'size',
+  START: 'start',
+  STATUS: 'status',
   STEP: 'step',
   STEP_NUMBER: 'step-number',
   SUBMENU: 'submenu',
@@ -140,6 +146,7 @@ export const attributes = {
   TABBABLE: 'tabbable',
   TABINDEX: 'tabindex',
   TARGET: 'target',
+  TITLE: 'title',
   TOOLTIP: 'tooltip',
   TOTAL: 'total',
   TRANSLATE_TEXT: 'translate-text',
@@ -161,6 +168,7 @@ export const attributes = {
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
   X: 'x',
+  XSS_IGNORED_TAGS: 'xss-ignored-tags',
   Y: 'y'
 };
 // Please keep constants alphabetized
