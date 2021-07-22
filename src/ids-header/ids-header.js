@@ -42,7 +42,7 @@ class IdsHeader extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
   }
 
   static get attributes() {
-    return [attributes.MODE, attributes.VERSION, attributes.COLOR];
+    return [attributes.COLOR, attributes.MODE, attributes.VERSION];
   }
 
   /**
