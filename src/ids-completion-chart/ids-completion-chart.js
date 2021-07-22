@@ -50,14 +50,14 @@ class IdsCompletionChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMi
       attributes.SIZE,
       attributes.VALUE,
       attributes.TOTAL,
-      // attributes.COMPLETED-LABEL,
-      // attributes.ERROR-LABEL,
-      // attributes.ICON
+      // attributes.COMPLETED-LABEL, // these are not in ids-attributes.js?
+      // attributes.ERROR-LABEL, // these are not in ids-attributes.js?
+      // attributes.ICON // these are not in ids-attributes.js?
     ];
   }
 
   /**
-   * Create the template for the ocntents
+   * Create the template for the contents
    * @returns {string} The template
    */
   template() {
