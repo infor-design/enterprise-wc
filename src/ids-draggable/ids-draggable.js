@@ -144,7 +144,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * @param {boolean} value Whether or not to disable the pager overall
+   * @param {boolean} value Whether or not draggable functionality is to be disabled
    */
   set disabled(value) {
     const isTruthy = stringUtils.stringToBool(value);
@@ -158,7 +158,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * @returns {boolean} value Whether or not to disable the pager overall
+   * @returns {boolean} value Whether or not draggable functionality is disabled
    */
   get disabled() {
     return stringUtils.stringToBool(this.getAttribute(attributes.DISABLED));

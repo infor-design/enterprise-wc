@@ -6,5 +6,16 @@ export default class IdsDraggable extends IdsElement {
    * be moving along (e.g. X => horizontal, Y => vertical);
    * By default, not defined and supports both axes.
    */
-  axis?: string;
+  axis?: 'x' | 'y' | undefined;
+
+  /**
+   * value whether the draggable should be limited in range
+   * by its parent element
+   */
+   parentContainment?: boolean;
+
+  /**
+   * Whether or not draggable functionality is disabled
+   */
+  disabled?: boolean;
 }
