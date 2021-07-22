@@ -41,10 +41,6 @@ class IdsHeader extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
-
-    if (this.hasAttribute('color')) {
-      this.color = this.getAttribute('color');
-    }
   }
 
   static get attributes() {
