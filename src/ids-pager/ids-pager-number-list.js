@@ -49,7 +49,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
   }
 
   connectedCallback() {
-    // give parent a chance to reflect properties
+    // give parent a chance to reflect attributes
 
     window.requestAnimationFrame(() => {
       this.#populatePageNumberButtons();

@@ -1,0 +1,35 @@
+@import '../ids-base/ids-base';
+
+.ids-notification-banner {
+  @include flex();
+  @include p-8();
+
+  align-items: center;
+}
+
+ids-alert {
+  @include flex();
+}
+
+ids-text::part(text) {
+  color: var(--ids-color-palette-slate-80);
+}
+
+ids-hyperlink::part(link) {
+  @include ml-8();
+
+  color: var(--ids-color-palette-slate-80);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ids-notification-banner-button {
+  margin-left: auto;
+}
+
+.ids-notification-banner-message {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

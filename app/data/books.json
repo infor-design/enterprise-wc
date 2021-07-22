@@ -11,7 +11,10 @@
     "methodSwitch": "Yes",
     "trackDeprecationHistory": "Yes",
     "useForEmployee": "No",
-    "deprecationHistory": "Asset Label"
+    "deprecationHistory": "Asset Label",
+    "publishDate": "2021-04-23T18:25:43.511Z",
+    "price": "12.99",
+    "location": "United States"
 	},
   {
     "book": 102,
@@ -24,7 +27,10 @@
     "methodSwitch": "No",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
-    "deprecationHistory": "Asset Label"
+    "deprecationHistory": "Asset Label",
+    "publishDate": "2021-02-23T18:25:43.511Z",
+    "price": "13.99",
+    "location": "Canada"
   },
   {
     "book": 103,
@@ -37,7 +43,9 @@
     "methodSwitch": "Yes",
     "trackDeprecationHistory": "No",
     "useForEmployee": "Yes",
-    "deprecationHistory": "Asset Label"
+    "deprecationHistory": "Asset Label",
+    "publishDate": "2021-12-23T18:25:43.511Z",
+    "location": "United States"
   },
   {
     "book": 104,
@@ -51,7 +59,8 @@
     "methodSwitch": "No",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
-    "deprecationHistory": "Asset Label"
+    "deprecationHistory": "Asset Label",
+    "location": "Canada"
   },
   {
     "book": 105,
@@ -65,7 +74,10 @@
     "methodSwitch": "Yes",
     "trackDeprecationHistory": "No",
     "useForEmployee": "Yes",
-    "deprecationHistory": "Asset Label"
+    "deprecationHistory": "Asset Label",
+    "publishDate": "2021-12-12T18:25:43.511Z",
+    "price": "15.99",
+    "location": "United States"
   },
   {
     "book": 106,
@@ -93,7 +105,8 @@
     "methodSwitch": "No",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
-    "deprecationHistory": "Asset Label"
+    "deprecationHistory": "Asset Label",
+    "location": "Canada"
   },
   {
     "book": 108,
@@ -107,7 +120,9 @@
     "methodSwitch": "No",
     "trackDeprecationHistory": "Yes",
     "useForEmployee": "Yes",
-    "deprecationHistory": "Asset Label"
+    "deprecationHistory": "Asset Label",
+    "publishDate": "2020-12-12T18:25:43.511Z",
+    "price": "15.50"
   },
   {
     "book": 109,
@@ -121,6 +136,9 @@
     "methodSwitch": "Yes",
     "trackDeprecationHistory": "No",
     "useForEmployee": "No",
-    "deprecationHistory": "Asset Label"
+    "deprecationHistory": "Asset Label",
+    "publishDate": "2019-12-12T18:25:43.511Z",
+    "price": "29.48",
+    "location": "United States"
   }
 ]

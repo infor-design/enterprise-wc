@@ -32,8 +32,8 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} properties
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes as an array
    */
   static get attributes() {
     return [
@@ -69,7 +69,7 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Updates some attributes/properties after changes to the component are made.
+   * Updates some attributes after changes to the component are made.
    * @private
    * @returns {void}
    */

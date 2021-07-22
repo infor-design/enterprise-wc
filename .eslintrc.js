@@ -1,7 +1,7 @@
 module.exports = {
   env: {
-    browser: true,
-    es6: true // All source code is at least ES6 friendly
+    es2020: true,
+    browser: true
   },
   extends: [
     // Import some AirBNB rules and some web component and jsdoc rules
@@ -79,7 +79,7 @@ module.exports = {
     // Allow Arrow functions to be on the next line or below
     'no-useless-constructor': ['off', { }],
     // Allow assignment of properties from items in `forEach` loops
-    'no-param-reassign': ['error', { props: false }],
+    'no-param-reassign': ['off', { props: false }],
     // Allow hasOwnProperty
     'no-prototype-builtins': ['off', { }],
     // Allow functions with no this in them

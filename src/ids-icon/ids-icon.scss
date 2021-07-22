@@ -10,3 +10,7 @@
 .vertical {
   transform: rotate(90deg);
 }
+
+.flipped {
+  transform: scaleX(-1);
+}

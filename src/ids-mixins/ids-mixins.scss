@@ -73,7 +73,7 @@ $animation-prefixes: -webkit-, -moz-, '';
   display: none;
 }
 
-// vendor prefixed transitions for regular properties (non-vendor prefixed)
+// vendor prefixed transitions for regular attributes (non-vendor prefixed)
 @mixin transition($transitions-list...) {
   @each $prefix in $prefixes {
     #{$prefix}transition: $transitions-list;

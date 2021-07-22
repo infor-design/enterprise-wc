@@ -146,8 +146,8 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
    */
   static get attributes() {
     return ['height', 'item-height', 'buffer-size', 'data', 'scroll-top'];

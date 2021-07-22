@@ -49,6 +49,7 @@
   @include font-sans();
   @include px-28();
   @include text-16();
+  @include text-slate-60();
 
   overflow: hidden;
   padding-bottom: 6px;

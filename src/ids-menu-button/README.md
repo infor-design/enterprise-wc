@@ -14,7 +14,7 @@ The IDS Menu Button component is an extension of the standard [Button component]
 
 **Dropdown Icon** Menu Buttons have a secondary icon (separate from the IDS Button "icon" property) that acts as the Popup Menu's Arrow Target.  This icon is normally a standard "dropdown" icon, but can be changed if needed.
 
-## Attributes and Properties
+## Settings (Attributes)
 
 - `dropdownIcon` sets the type of icon to be used as the dropdown icon.  If null/empty, the dropdown icon is not displayed.  Note that this is different than the standard IDS Button `icon` property, and both can exist at the same time.
 - `menu` can be defined as a CSS selector string, or if using the JS property, can be a direct reference to an IdsPopupMenu component.
@@ -24,7 +24,7 @@ The IDS Menu Button component is an extension of the standard [Button component]
 Since the menu button combined from several IDS Components, you can refer to their documentation for information about states/variants:
 
 - [IdsButton](../ids-button/README.md) for Button-specific states
-- [IdsPopupMenu](../ids-popup-menu/README.md) for Menu-specifc states
+- [IdsPopupMenu](../ids-popup-menu/README.md) for Menu-specific states
 
 ### Variations
 

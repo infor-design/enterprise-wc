@@ -8,18 +8,11 @@ import { IdsRenderLoopMixin } from '../../src/ids-mixins/ids-render-loop-mixin';
 import IdsIcon from '../../src/ids-icon/ids-icon';
 
 describe('Ids RenderLoop', () => {
-  let icon;
   let loop;
 
   beforeEach(() => {
-    // Setup Icon
-    icon = new IdsIcon();
-    icon.setAttribute('icon', 'settings');
-    document.body.appendChild(icon);
-
     // Setup Loop
-    icon.rl = new IdsRenderLoop();
-    loop = icon.rl;
+    loop = new IdsRenderLoop();
   });
 
   afterEach(() => {
@@ -325,18 +318,11 @@ describe('Ids RenderLoop', () => {
 });
 
 describe('Ids RenderLoop (with Autostart)', () => {
-  let icon;
   let loop;
 
   beforeEach(() => {
-    // Setup Icon
-    icon = new IdsIcon();
-    icon.setAttribute('icon', 'settings');
-    document.body.appendChild(icon);
-
     // Setup Loop
-    icon.rl = new IdsRenderLoop({ autoStart: false });
-    loop = icon.rl;
+    loop = new IdsRenderLoop({ autoStart: false });
   });
 
   afterEach(() => {

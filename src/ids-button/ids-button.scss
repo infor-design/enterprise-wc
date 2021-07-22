@@ -155,6 +155,7 @@ button {
 .btn-swipe-action-left,
 .btn-swipe-action-right {
   @include bg-slate-30();
+  @include text-slate-100();
 
   border-radius: 0;
   display: block;

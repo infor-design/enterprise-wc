@@ -14,7 +14,7 @@ The IDS Modal Component builds on top of the [Ids Popup](../ids-popup/README.md)
 **Overlay** The transparent background that exists between the Modal and the page content.  Its opacity can be adjusted.
 **Target** Refers to the element that will "trigger" the Modal by click.  This element is optional, as Modals can exist and be triggered by other operations.
 
-## Attributes and Properties
+## Settings (Attributes)
 
 - `visible` can be used to make the Modal show or hide
 - `buttons` (readonly) contains a list of references to any Modal Buttons present
