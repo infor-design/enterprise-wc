@@ -21,11 +21,35 @@ import { stringUtils } from './ids-string-utils';
  *
  * @type {object.<string, string>}
  */
-const attribPropNameDict = Object.fromEntries(
+const memodAttribPropNames = Object.fromEntries(
   Object.entries(attributes).map(([_, attrib]) => (
     [attrib, stringUtils.camelCase(attrib)]
   ))
 );
+
+const memodComponentStyles = {};
+
+/**
+ * creates a component style to add to
+ * memodComponentStyles
+ *
+ * @param {string} namespace namespace of component e.g. ids-text
+ * @param {string} cssStyles the CSS Styles for the component
+ * @returns {HTMLElement} style tag object
+ */
+function getMemodComponentStyle(namespace, cssStyles) {
+  if (!memodComponentStyles[namespace]) {
+    const style = document.createElement('style');
+    style.textContent = cssStyles;
+    if (/^:(:)?host/.test(style.textContent)) {
+      style.textContent = style.textContent.replace(/^:(:)?host/, `.${namespace}`);
+    }
+    style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
+    memodComponentStyles[namespace] = style;
+  }
+
+  return memodComponentStyles[namespace];
+}
 
 /**
  * IDS Base Element
@@ -108,11 +132,11 @@ class IdsElement extends HTMLElement {
    */
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
-      if (!attribPropNameDict[name]) {
-        attribPropNameDict[name] = stringUtils.camelCase(name);
+      if (!memodAttribPropNames[name]) {
+        memodAttribPropNames[name] = stringUtils.camelCase(name);
       }
 
-      this[attribPropNameDict[name]] = newValue;
+      this[memodAttribPropNames[name]] = newValue;
     }
   }
 
@@ -170,7 +194,10 @@ class IdsElement extends HTMLElement {
       this.attachShadow({ mode: 'open' });
     }
 
-    this.appendStyles();
+    if (this.shadowRoot.adoptedStyleSheets) {
+      this.appendStyles();
+    }
+
     template.innerHTML = this.template();
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
@@ -220,12 +247,7 @@ class IdsElement extends HTMLElement {
     }
 
     if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
-      const style = document.createElement('style');
-      style.textContent = this.cssStyles;
-      if (/^:(:)?host/.test(style.textContent)) {
-        style.textContent = style.textContent.replace(/^:(:)?host/, `.${this.name}`);
-      }
-      style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
+      const style = getMemodComponentStyle(this.name, this.cssStyles);
       this.shadowRoot?.appendChild(style);
     }
 
