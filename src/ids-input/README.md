@@ -79,7 +79,7 @@ Set the Text Align to Text Input this way:
 <ids-input label="Right align" value="Right align" text-align="right"></ids-input>
 ```
 
-## Attributes and Properties
+## Settings (Attributes)
 
 - `autoselect` {boolean} set auto select text on focus to input.
 - `bgTransparent` {boolean} set the transparent background to readonly input.

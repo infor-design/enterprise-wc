@@ -59,4 +59,10 @@ export default class IdsDataGrid extends IdsElement {
   /** Fires while the tag is removed */
   // eslint-disable-next-line no-use-before-define
   on(event: 'activecellchange', listener: (event: activecellchange) => void): this;
+
+  /** Set the language */
+  language: string;
+
+  /** Set the locale */
+  locale: 'unset' | null;
 }

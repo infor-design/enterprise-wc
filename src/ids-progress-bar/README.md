@@ -6,7 +6,7 @@ Displays feedback about a system process. It is best for showing feedback about 
 
 ## Use Cases
 
-- Showing feedback about a running system proces
+- Showing feedback about a running system process
 
 ## Terminology
 
@@ -39,7 +39,7 @@ Set the audible (screen reader only) label to Progress:
 <ids-progress-bar label="Audible label" label-audible="true" value="30"></ids-progress-bar>
 ```
 
-## Attributes and Properties
+## Settings (Attributes)
 
 - `disabled` {boolean} set the disabled state.
 - `label` {string} set the label text

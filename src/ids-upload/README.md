@@ -57,7 +57,7 @@ Upload field with required validation
 <ids-upload label="Required" validate="required"></ids-upload>
 ```
 
-## Attributes and Properties
+## Settings (Attributes)
 
 - `accept` {string} sets limit the file types to be uploaded.
 - `dirty-tracker` {boolean} sets the dirty tracking feature on to indicate a changed field.

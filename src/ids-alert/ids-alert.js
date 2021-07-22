@@ -33,7 +33,7 @@ class IdsAlert extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Return the properties we handle as getters/setters
+   * Return the attributes we handle as getters/setters
    * @returns {Array} The propertires in an array
    */
   static get attributes() {
