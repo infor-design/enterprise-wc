@@ -9,7 +9,10 @@ export class IdsPopupInteractionsMixin {
   /** reference to the IdsPopup component used in shadow root */
   readonly popup: IdsPopup;
 
-  /** sets the trigger type */
+  /* defines the "target" HTMLElement in which to apply the PopupMenu */
+  target?: HTMLElement | undefined;
+
+  /* defines the action that will cause the menu to appear */
   trigger: 'contextmenu' | 'click' | 'immediate';
 
   /** Refreshes the currently-bound interaction events */

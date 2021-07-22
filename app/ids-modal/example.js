@@ -1,14 +1,14 @@
 // Supporting Components
-import IdsButton from '../../src/ids-button/ids-button';
+import IdsModalButton from '../../src/ids-modal-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#modal-trigger-btn';
   const triggerBtn = document.querySelector(triggerId);
   const modal = document.querySelector('ids-modal');
-  const modalCloseBtn = modal.querySelector('ids-button');
 
   // Links the Modal to its trigger button (sets up click/focus events)
   modal.target = triggerBtn;
+  modal.trigger = 'click';
 
   // Disable the trigger button when showing the Modal.
   modal.addEventListener('beforeshow', () => {
@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   // Close the modal when its inner button is clicked.
-  modalCloseBtn.addEventListener('click', () => {
+  modal.onButtonClick = () => {
     modal.hide();
-  });
+  };
 
   // After the modal is done hiding, re-enable its trigger button.
   modal.addEventListener('hide', () => {

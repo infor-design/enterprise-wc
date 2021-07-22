@@ -1,0 +1,31 @@
+@import '../ids-modal/ids-modal';
+
+:host {
+  display: block;
+}
+
+.ids-message-status {
+  @include pr-8();
+
+  color: var(--ids-color-palette-black);
+
+  &.default {
+    color: var(--ids-color-brand-secondary-base);
+  }
+
+  &.error {
+    color: var(--ids-color-status-danger);
+  }
+
+  &.alert {
+    color: var(--ids-color-status-warning);
+  }
+
+  &.success {
+    color: var(--ids-color-status-success);
+  }
+
+  &.info {
+    color: var(--ids-color-status-base);
+  }
+}
