@@ -15,7 +15,26 @@ A basic use case of the default ids header.
   <ids-text font-size="12" type="h1">Ids Header</ids-text>
 </ids-header>
 ```
+Header components can contain other navigation components, such as [IdsBreadcrumb](../ids-breadcrumb/README.md) and `[IdsToolbar](../ids-toolbar/README.md):
 
+```html
+<ids-header>
+  <ids-toolbar id="my-toolbar">
+    <ids-toolbar-section type="title">
+      <ids-text font-size="20">My Header</ids-text>
+      <ids-text font-size="14">With some extra information below</ids-text>
+    </ids-toolbar-section>
+    <ids-toolbar-section type="buttonset" align="end">
+      <ids-button id="button-1" role="button">
+        <span slot="text">Text</span>
+      </ids-button>
+      <ids-button id="button-2">
+        <span slot="text" class="audible">Settings</span>
+        <ids-icon slot="icon" icon="settings"></ids-icon>
+      </ids-button>
+    </ids-toolbar-section>
+  </ids-toolbar>
+</ids-header>
 ## Converting from Previous Versions
 
 ### Version - 4.x

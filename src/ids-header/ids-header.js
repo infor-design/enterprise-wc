@@ -13,7 +13,7 @@ import {
 } from '../ids-mixins';
 
 import styles from './ids-header.scss';
-import '../ids-input/ids-input';
+import IdsInput from '../ids-input/ids-input';
 import '../ids-toolbar/ids-toolbar';
 import '../ids-button/ids-button';
 import '../ids-text/ids-text';
@@ -50,9 +50,9 @@ class IdsHeader extends mix(IdsElement).with(
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.COLOR,
       attributes.MODE,
-      attributes.VERSION,
-      attributes.COLOR
+      attributes.VERSION
     ];
   }
 

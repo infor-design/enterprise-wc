@@ -41,3 +41,8 @@
     @include text-white();
   }
 }
+
+::slotted(ids-toolbar),
+.ids-toolbar {
+  @include p-12();
+}
