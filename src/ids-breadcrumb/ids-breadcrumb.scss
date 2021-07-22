@@ -86,6 +86,6 @@ a.ids-hyperlink {
   @include text-graphite-30();
 }
 
-::slotted(ids-hyperlink:not([mode]), ids-hyperlink[version='classic'][disabled]){
+::slotted(ids-hyperlink:not([mode]), ids-hyperlink[version='classic'][disabled]) {
   @include text-slate-60();
 }
