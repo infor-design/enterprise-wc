@@ -1,1 +1,1 @@
-import IdsCompletionChart from '../../src/ids-completion-chart';
+import IdsCompletionChart from '../../src/ids-completion-chart/ids-completion-chart';

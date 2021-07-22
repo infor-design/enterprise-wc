@@ -4,23 +4,22 @@ import {
   scss,
   mix,
   attributes
-} from '.../ids-base';
+} from '../ids-base';
 
 // Import Mixins
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin
-} from '.../ids-mixins';
-import { scss } from '../ids-base';
+} from '../ids-mixins';
 
-import styles from './ids-tag.scss';
+import styles from './ids-completion-chart.scss';
 
 /**
  * IDS Completion Chart Component
  * @type {IdsCompletionChart}
  * @inherits IdsElement
- * @mixes @IdsEventsMixin
+ * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part chart - the chart element
  * @part icon - the icon element
@@ -67,7 +66,7 @@ class IdsCompletionChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMi
   /**
    * Establish internal event handlers
    * @private
-   * @return {object} The object for chaining
+   * @returns {object} The object for chaining
    */
   #handleEvents() {
     return this;
