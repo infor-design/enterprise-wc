@@ -66,7 +66,7 @@ class IdsCompletionChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMi
   /**
    * Establish internal event handlers
    * @private
-   * @return {object} The object for chaining
+   * @returns {object} The object for chaining
    */
   #handleEvents() {
     return this;
