@@ -1,0 +1,17 @@
+---
+ component: Wizard
+ description: A clickable 4 step wizard
+ category: Navigation and Interaction
+ keywords: wizard, steps, tabs
+ examples:
+  - link: example.html
+    description: Showing a 4 step clickable wizard
+    keywords: true
+    tag: new
+  - link: side-by-side.html
+    description: Example showing it work side by side
+    keywords: side by side, 4.x, old version
+    tag: updated
+  - link: side-by-side.html
+    description: Miscellaneous Tests and Examples
+    keywords: sandbox, examples

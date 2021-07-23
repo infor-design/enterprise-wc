@@ -46,37 +46,3 @@ import IdsPager, {
   IdsPagerButton,
   IdsPagerNumberList
 } from '../src/ids-pager';
-
-// Import Example Code
-
-import './ids-menu-button/example';
-import './ids-icon/example';
-import './ids-popup/example';
-import './ids-render-loop/example';
-import './ids-toggle-button/example';
-import './ids-alert/example';
-import './ids-button/index';
-import './ids-menu-button/index';
-import './ids-checkbox/example';
-import './ids-icon/index';
-import './ids-input/example';
-import './ids-input/test-validation-message';
-import './ids-mask/example';
-import './ids-modal/example';
-import './ids-progress-bar/example';
-import './ids-upload-advanced/example';
-import './ids-popup/index';
-import './ids-render-loop/index';
-import './ids-toggle-button/index';
-import './ids-trigger-field/index';
-import './ids-radio/example';
-import './ids-alert/index';
-import './ids-badge/index';
-import './ids-textarea/example';
-import './ids-block-grid/index';
-import './ids-counts/index';
-import './ids-wizard/index';
-import './ids-spinbox/index';
-import './ids-tabs/index';
-import './ids-pager/example';
-import './ids-loading-indicator/index';

@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -25,6 +26,11 @@ module.exports = {
     } else {
       acc[`${entry}/${path.basename(filePath).replace('.js', '')}`] = filePath;
     }
+
+    // Add kitchen sink example js
+    if (acc.index) {
+      acc.example = './app/example.js';
+    }
     return acc;
   }, {}),
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
@@ -51,6 +57,11 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js'
   },
+  resolve: {
+    alias: {
+      handlebars: 'handlebars/dist/handlebars.js'
+    }
+  },
   // Configure the dev server (node) with settings
   devServer: {
     port: 4300,
@@ -59,6 +70,7 @@ module.exports = {
     // Server the files in app/data as a JSON "API"
     // For example: http://localhost:4300/api/bikes or relative as /api/bikes
     before: (app) => {
+      // Serve JSON Data
       app.get('/api/:fileName', (req, res) => {
         const { fileName } = req.params;
         const json = fs.readFileSync(`./app/data/${fileName}.json`, 'utf8');
@@ -115,6 +127,11 @@ module.exports = {
       {
         test: /\.html$/,
         loader: 'handlebars-loader'
+      },
+      {
+        test: /\.yaml$/,
+        type: 'json',
+        use: 'yaml-loader'
       },
       {
         test: /\.js$/,
@@ -184,7 +201,8 @@ module.exports = {
       template: 'app/index.html',
       inject: 'body',
       title: 'IDS Enterprise Web Components',
-      chunks: ['index']
+      categories: ['One', 'Two'],
+      chunks: ['index', 'example']
     }),
     new CopyWebpackPlugin({
       patterns: [
@@ -282,6 +300,7 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
   if (jsFile === 'index.js' && fs.existsSync(demoFile)) {
     folderChunks.push(`${folderName}/example`);
   }
+
   // Create the entry
   module.exports.plugins.push(
     new HTMLWebpackPlugin({

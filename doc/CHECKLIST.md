@@ -22,6 +22,17 @@
  - [ ] Security: We will always pass all [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) guidelines. But the code is setup to error if this fails. Also we will pass security scans like Veracode and Snyk. The biggest issue here is usually XSS.
  - [ ] NG / Vue / React / Svelte / TS Example (we will build this out)
  - [ ] Old Issues: Review Be aware of old and new issues on a component in the [old backlog](https://github.com/infor-design/enterprise/issues)
+ - [ ] Add an index.yaml file to expose the examples on the root page for categories it should be one of:
+
+ ```
+Form Inputs
+Navigation and Interaction
+Messages and Alerts
+Lists
+Layouts
+Patterns
+Charts and Visualizations
+```
 
 ## Component To Convert
 
