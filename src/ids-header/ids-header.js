@@ -50,7 +50,7 @@ class IdsHeader extends mix(IdsElement).with(
   }
 
   /**
-   * Create the template for the rating contents
+   * Create the template for the header contents
    * @returns {string} The template
    */
   template() {
