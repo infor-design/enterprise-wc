@@ -1,9 +1,10 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/css-style-sheet-mock';
+import styleMock from '../helpers/style-mock';
 import IdsTag from '../../src/ids-tag/ids-tag';
 import { IdsElement } from '../../src/ids-base/ids-element';
-import styleMock from '../helpers/style-mock';
 
 describe('IdsBase Tests', () => {
   afterEach(async () => {
@@ -12,10 +13,6 @@ describe('IdsBase Tests', () => {
 
   it('can fall back to appending styles (mocked)', () => {
     const elem = new IdsTag();
-
-    window.CSSStyleSheet = function CSSStyleSheet() { //eslint-disable-line
-      return { cssRules: [], replaceSync: () => '' };
-    };
 
     elem.shadowRoot.adoptedStyleSheets = () => {};
 

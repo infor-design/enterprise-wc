@@ -11,13 +11,6 @@ import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import { stringUtils } from './ids-string-utils';
 
-const areAdoptedStyleSheetsSupported = (
-  window.ShadowRoot
-  && (window.ShadyCSS === undefined || window.ShadyCSS.nativeShadow)
-  && 'adoptedStyleSheets' in Document.prototype
-  && 'replace' in CSSStyleSheet.prototype
-);
-
 /**
  * simple dictionary used to memoize attribute names
  * to their corresponding property names.
@@ -52,9 +45,14 @@ const memodComponentStyles = {};
  *
  * @param {string} namespace namespace of component e.g. ids-text
  * @param {string} cssStyles the CSS Styles for the component
+ * @param {boolean} areAdoptedStyleSheetsSupported whether or not adopted stylesheets are supported
  * @returns {HTMLElement} style tag object
  */
-function getMemodComponentStyle(namespace, cssStyles) {
+function getMemodComponentStyle(
+  namespace,
+  cssStyles,
+  areAdoptedStyleSheetsSupported
+) {
   // if cache doesn't exist, create the stylesheet depending on
   // whether adopted stylesheets are supported or not by
   // the browser
@@ -223,9 +221,7 @@ class IdsElement extends HTMLElement {
       this.attachShadow({ mode: 'open' });
     }
 
-    if (this.shadowRoot.adoptedStyleSheets) {
-      this.appendStyles();
-    }
+    this.appendStyles();
 
     template.innerHTML = this.template();
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
@@ -276,13 +272,17 @@ class IdsElement extends HTMLElement {
     }
 
     if (this.cssStyles) {
-      const style = getMemodComponentStyle(this.name, this.cssStyles);
+      const style = getMemodComponentStyle(
+        this.name,
+        this.cssStyles,
+        this.shadowRoot.adoptedStyleSheets
+      );
 
-      if (!areAdoptedStyleSheetsSupported && typeof this.cssStyles === 'string') {
+      if (!this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
         this.shadowRoot?.appendChild(style);
       }
 
-      if (areAdoptedStyleSheetsSupported) {
+      if (this.shadowRoot.adoptedStyleSheets) {
         this.shadowRoot.adoptedStyleSheets = [style];
       }
     }
