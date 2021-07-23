@@ -1,0 +1,19 @@
+<ids-message id="message-example-error" status="error">
+  <ids-text slot="title" font-size="24" type="h2" id="my-message-title">Lost connection</ids-text>
+  <ids-text id="my-message-contents" align="left">This application has experienced a system error due to the lack of internet access. Please restart the
+    application in order to proceed.</ids-text>
+  <ids-modal-button slot="buttons" type="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
+  <ids-modal-button slot="buttons" type="primary" id="my-message-confirm">Confirm</ids-modal-button>
+</ids-message>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Message</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-button type="secondary" id="message-example-error-trigger">Error Example</ids-button>
+  </ids-layout-grid-cell>
+</ids-layout-grid>

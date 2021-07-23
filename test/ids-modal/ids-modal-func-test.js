@@ -15,6 +15,7 @@ describe('IdsModal Component', () => {
 
   afterEach(async () => {
     document.body.innerHTML = '';
+    modal = null;
   });
 
   it('renders with no errors', () => {
@@ -112,6 +113,25 @@ describe('IdsModal Component', () => {
     expect(modal.state.target).toBeNull();
   });
 
+  it('can have a title', () => {
+    modal.messageTitle = 'I have a title';
+
+    expect(modal.state.messageTitle).toEqual('I have a title');
+    expect(modal.querySelectorAll('[slot="title"]').length).toBe(1);
+
+    // Removes the slotted element if no title is present
+    modal.messageTitle = '';
+
+    expect(modal.state.messageTitle).toEqual('');
+    expect(modal.querySelectorAll('[slot="title"]').length).toBe(0);
+
+    // Adds it back if we apply a new title
+    modal.messageTitle = 'New title';
+
+    expect(modal.state.messageTitle).toEqual('New title');
+    expect(modal.querySelectorAll('[slot="title"]').length).toBe(1);
+  });
+
   it('can use an external overlay, if applicable', () => {
     const overlay = new IdsOverlay();
     modal.overlay = overlay;
@@ -139,6 +159,23 @@ describe('IdsModal Component', () => {
         expect(modal.popup.visible).toBeFalsy();
         done();
       }, 70);
+    }, 70);
+  });
+
+  it('can click outside an open modal to close it', (done) => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+
+    modal.onOutsideClick = jest.fn();
+    modal.show();
+
+    setTimeout(() => {
+      // Click outside the Modal into the overlay area
+      document.body.dispatchEvent(clickEvent);
+
+      setTimeout(() => {
+        expect(modal.onOutsideClick).toHaveBeenCalled();
+        done();
+      });
     }, 70);
   });
 

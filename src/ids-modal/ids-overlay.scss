@@ -15,5 +15,7 @@
 
   &.visible {
     @include block();
+
+    opacity: 0.3;
   }
 }

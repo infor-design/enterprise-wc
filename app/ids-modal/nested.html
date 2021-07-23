@@ -1,38 +1,22 @@
 {{> ../layouts/head.html }}
 
 <ids-modal id="parent-modal" aria-labelledby="parent-modal-title">
-  <ids-layout-grid>
-    <ids-text font-size="24" type="h2" id="parent-modal-title">Parent Modal</ids-text>
-  </ids-layout-grid>
-  <ids-layout-grid>
-    <p>This is the Parent IDS Modal</p>
-  </ids-layout-grid>
-  <ids-layout-grid auto="true">
-    <ids-layout-grid-cell>
-      <ids-button id="parent-modal-close-btn" type="secondary">
-        <span slot="text">Close</span>
-      </ids-button>
-      <ids-button id="nested-modal-trigger-btn" type="primary">
-        <span slot="text">Open Another</span>
-      </ids-button>
-    </ids-layout-grid-cell>
-  </ids-layout-grid>
+  <ids-text slot="title" font-size="24" type="h2" id="parent-modal-title">Parent Modal</ids-text>
+  <p>This is the Parent IDS Modal</p>
+  <ids-modal-button slot="buttons" id="parent-modal-close-btn" type="secondary" cancel>
+    <span slot="text">Close</span>
+  </ids-modal-button>
+  <ids-modal-button slot="buttons" id="nested-modal-trigger-btn" type="primary">
+    <span slot="text">Open Another</span>
+  </ids-modal-button>
 </ids-modal>
 
 <ids-modal id="nested-modal" aria-labelledby="nested-modal-title">
-  <ids-layout-grid>
-    <ids-text font-size="24" type="h2" id="nested-modal-title">Nested Modal</ids-text>
-  </ids-layout-grid>
-  <ids-layout-grid>
-    <p>This is the Nested IDS Modal</p>
-  </ids-layout-grid>
-  <ids-layout-grid auto="true">
-    <ids-layout-grid-cell>
-      <ids-button id="nested-modal-close-btn" type="secondary">
-        <span slot="text">Close</span>
-      </ids-button>
-    </ids-layout-grid-cell>
-  </ids-layout-grid>
+  <ids-text slot="title" font-size="24" type="h2" id="nested-modal-title">Nested Modal</ids-text>
+  <p>This is the Nested IDS Modal</p>
+  <ids-modal-button slot="buttons" id="nested-modal-close-btn" type="secondary" cancel>
+    <span slot="text">Close</span>
+  </ids-modal-button>
 </ids-modal>
 
 <ids-layout-grid>

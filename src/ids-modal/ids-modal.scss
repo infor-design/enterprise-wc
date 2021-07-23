@@ -2,8 +2,60 @@
 @import './ids-modal-base';
 @import '../ids-popup/ids-popup-base';
 
-/*
+$modal-border-style: 1px solid var(--ids-color-palette-slate-30);
+
 .ids-modal {
   @include internal-position-reset();
+
+  pointer-events: none;
+
+  &[visible] {
+    pointer-events: auto;
+  }
 }
-*/
+
+.ids-modal-header {
+  @include p-20();
+}
+
+.ids-modal-content {
+  @include px-20();
+  @include pt-20();
+}
+
+.ids-modal-header + .ids-modal-content {
+  @include pt-0();
+}
+
+.ids-modal-header,
+.ids-modal-footer {
+  align-items: center;
+  display: flex;
+}
+
+.ids-modal-footer {
+  @include mt-20();
+
+  border-top: $modal-border-style;
+
+  &[hidden] {
+    border-top: none;
+  }
+}
+
+::slotted([slot='buttons']) {
+  flex-grow: 1;
+  display: flex;
+}
+
+// =====================================================
+// Alter the rules in this block to affect the border
+// between buttons inside the Modal Footer
+
+::slotted([slot='buttons']:not(:first-of-type)) {
+  border-left: $modal-border-style;
+}
+
+.ids-modal-button + .ids-modal-button {
+  border-left: $modal-border-style;
+}
