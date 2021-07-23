@@ -1,7 +1,6 @@
 // Please keep constants alphabetized
 export const attributes = {
   ACCEPT: 'accept',
-  STICKY: 'sticky',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
   ANIMATION_STYLE: 'animation-style',
@@ -128,6 +127,7 @@ export const attributes = {
   ROW_SPAN: 'row-span',
   ROW_START: 'row-start',
   ROWS: 'rows',
+  RESET: 'reset',
   SCROLLABLE: 'scrollable',
   SCROLL_TOP: 'scroll-top',
   SELECT: 'select',
@@ -140,6 +140,7 @@ export const attributes = {
   STATUS: 'status',
   STEP: 'step',
   STEP_NUMBER: 'step-number',
+  STICKY: 'sticky',
   SUBMENU: 'submenu',
   SWATCH: 'swatch',
   SWIPE_TYPE: 'swipe-type',
