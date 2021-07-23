@@ -11,13 +11,6 @@ import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import { stringUtils } from './ids-string-utils';
 
-const areAdoptedStyleSheetsSupported = (
-  window.ShadowRoot
-  && (window.ShadyCSS === undefined || window.ShadyCSS.nativeShadow)
-  && 'adoptedStyleSheets' in Document.prototype
-  && 'replace' in CSSStyleSheet.prototype
-);
-
 /**
  * simple dictionary used to memoize attribute names
  * to their corresponding property names.
@@ -34,16 +27,6 @@ const memodAttribPropNames = Object.fromEntries(
   ))
 );
 
-/**
- * cache for ids-component styles to avoid reconstruction/parsing
- * objects and/or stylesheets for repeated components once seen/parsed.
- *
- * note: if we end change our style solution to not only
- * rely on  .scss we may need to consider the key of objects as hash
- * or just make the object nested levels to make sure we don't
- * pool unrelated styles.
- * @type {object.<string, CSSStyleSheet>}
- */
 const memodComponentStyles = {};
 
 /**
@@ -55,26 +38,14 @@ const memodComponentStyles = {};
  * @returns {HTMLElement} style tag object
  */
 function getMemodComponentStyle(namespace, cssStyles) {
-  // if cache doesn't exist, create the stylesheet depending on
-  // whether adopted stylesheets are supported or not by
-  // the browser
-
   if (!memodComponentStyles[namespace]) {
-    if (!areAdoptedStyleSheetsSupported) {
-      const style = document.createElement('style');
-      style.textContent = cssStyles;
-      if (/^:(:)?host/.test(style.textContent)) {
-        style.textContent = style.textContent.replace(/^:(:)?host/, `.${namespace}`);
-      }
-      style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
-      memodComponentStyles[namespace] = style;
+    const style = document.createElement('style');
+    style.textContent = cssStyles;
+    if (/^:(:)?host/.test(style.textContent)) {
+      style.textContent = style.textContent.replace(/^:(:)?host/, `.${namespace}`);
     }
-
-    if (areAdoptedStyleSheetsSupported) {
-      const style = new CSSStyleSheet();
-      style.replaceSync(cssStyles);
-      memodComponentStyles[namespace] = style;
-    }
+    style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
+    memodComponentStyles[namespace] = style;
   }
 
   return memodComponentStyles[namespace];
@@ -275,18 +246,16 @@ class IdsElement extends HTMLElement {
       return;
     }
 
-    if (this.cssStyles) {
+    if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
       const style = getMemodComponentStyle(this.name, this.cssStyles);
-
-      if (!areAdoptedStyleSheetsSupported && typeof this.cssStyles === 'string') {
-        this.shadowRoot?.appendChild(style);
-      }
-
-      if (areAdoptedStyleSheetsSupported) {
-        this.shadowRoot.adoptedStyleSheets = [style];
-      }
+      this.shadowRoot?.appendChild(style);
     }
 
+    if (this.cssStyles && this.shadowRoot.adoptedStyleSheets) {
+      const style = new CSSStyleSheet();
+      style.replaceSync(this.cssStyles);
+      this.shadowRoot.adoptedStyleSheets = [style];
+    }
     this.hasStyles = true;
   }
 }
