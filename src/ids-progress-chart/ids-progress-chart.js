@@ -28,6 +28,14 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     super();
   }
 
+  connectedCallback() {
+    this.#handleEvents();
+    super.connectedCallback();
+
+    this.insertAdjacentHTML('beforeend', `<div class="progress-bar"></div>`);
+    this.insertAdjacentHTML('beforeend', `<div class="label">Some Label</div>`);
+  }
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -59,7 +67,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   set color(value) {
     if (value) {
       this.setAttribute('color', value);
-      
+
       // check if the color param starts with #, else use some ids-color-status (not sure what error or danger is tho)
       const prop = value.substr(0, 1) === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
       this.container.style.backgroundColor = prop;
@@ -72,6 +80,36 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   }
 
   get color() { return this.getAttribute('color'); }
+
+  /**
+   * Check if an icon exists if not add it
+   * @param {string} iconName The icon name to check
+   * @private
+   */
+  #appendIcon(iconName) {
+    const icon = this.querySelector(`[icon="${iconName}"]`);
+    if (!icon) {
+      this.insertAdjacentHTML('beforeend', `<ids-icon part="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
+      this.#handleEvents();
+    }
+  }
+
+  /**
+   * Check if an icon exists if not add it
+   * @param {string} iconName The icon name to check
+   * @private
+   */
+  #removeIcon(iconName) {
+    const icon = this.querySelector(`[icon="${iconName}]`);
+    if (icon) {
+      icon.remove();
+    }
+  }
+
+  #handleEvents() {
+    return this;
+  }
 }
+
 
 export default IdsProgressChart;
