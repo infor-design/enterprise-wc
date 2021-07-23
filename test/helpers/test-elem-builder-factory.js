@@ -18,13 +18,14 @@ export default function templateElemBuilderFactory() {
 
   return {
     clearElement,
-    createElemFromTemplate: async (innerHTML) => {
+    createElemFromTemplate: async (innerHTML, parentEl) => {
       clearElement();
       const template = document.createElement('template');
       template.innerHTML = innerHTML;
       elem = template.content.childNodes[0];
 
-      document.body.appendChild(elem);
+      const container = parentEl || document.body;
+      container.appendChild(elem);
       await processAnimFrame();
 
       return elem;
