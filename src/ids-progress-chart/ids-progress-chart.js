@@ -34,7 +34,13 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    */
   static get attributes() {
     return [
-      attributes.COLOR
+      attributes.COLOR,
+      attributes.SIZE, // small or normal
+      attributes.TOTAL, // integer amt for whole bar (?)
+      attributes.VALUE, // curent progress value
+      // completed-label
+      // error-label
+      // icon
     ];
   }
 
@@ -51,7 +57,18 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * @param {string} value The color value, this can be a hex code with the #
    */
   set color(value) {
-    // TODO
+    if (value) {
+      this.setAttribute('color', value);
+      
+      // check if the color param starts with #, else use some ids-color-status (not sure what error or danger is tho)
+      const prop = value.substr(0, 1) === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
+      this.container.style.backgroundColor = prop;
+
+      return;
+    }
+
+    this.removeAttribute('color');
+    this.container.style.backgroundColor = '';
   }
 
   get color() { return this.getAttribute('color'); }
