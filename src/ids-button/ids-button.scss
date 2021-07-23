@@ -49,10 +49,10 @@ button {
 .ids-menu-button,
 .ids-modal-button {
   // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
-  ::slotted(ids-icon:nth-child(2):last-child), // shadowroot + text + icon
+  ::slotted(ids-icon), // shadowroot + text + icon
   ::slotted(span:nth-child(2):last-child), // shadowroot + icon + text
   ::slotted(span:nth-child(3):last-child) { // shadowroot + icon + (audible text) + text
-    @include pl-4();
+    padding-left: 4px !important; // needs the !important to override the padding: 0 rule from _reset.scss
   }
 
   .ids-icon {
