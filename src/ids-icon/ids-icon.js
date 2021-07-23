@@ -48,6 +48,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.LANGUAGE,
       attributes.LOCALE,
       attributes.ICON,
@@ -87,7 +88,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    */
   template() {
     const size = sizes[this.size];
-    return `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+    return `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
   }

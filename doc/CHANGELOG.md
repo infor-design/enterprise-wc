@@ -55,11 +55,19 @@
   - Now exists as its own component
   - Markup is `<ids-menu-button></ids-menu-button>`
   - Implicitly linked to a menu by using `menu="my-menu"` CSS selector attribute, or direct element reference in JS
+- `[Message]` The Message is now a web component called ids-message
+  - The Message component now extends the Modal component, containing the same properties and methods.
+  - Modal Buttons, Title, Status, and Message can be changed via API
+  - Markup is `<ids-message></ids-message>`
 - `[Modal]` The Modal is now a web component called ids-modal ([WC#118](https://github.com/infor-design/enterprise-wc/issues/118))
   - All content inside the modal boundary is now user-defined by slot
   - Triggering element for the modal is now configurable with the `target` prop
   - Events are now just plain JS events
   - Markup has been changed to custom element `<ids-modal></ids-modal>`
+- `[NotificationBanner]` The Notification Banner is now a web component called ids-notification-banner
+  - The type, alert icon, message text, link and link text are all configurable via properties on the custom element
+  - Additionally, user's can define the notification via a JS api, where the `parent` and `id` can be configured
+  - Custom element: `<ids-notification-banner></ids-notification-banner>`
 - `[Pager]` Pager is now a web component called ids-pager ([WC#148](https://github.com/infor-design/enterprise-wc/issues/148))
   - there is a new base-component: `<ids-pager>`, and several sub-components to provide specific controls.
   - content is automatically managed/aligned via nesting controls inside of `<ids-pager-section>`
