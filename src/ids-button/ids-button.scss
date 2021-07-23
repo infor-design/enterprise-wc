@@ -18,6 +18,16 @@
   ::slotted(span.audible) {
     @include audible();
   }
+
+  // Button elements should fill the space inside shadow root
+  button {
+    width: 100%;
+  }
+}
+
+// Reset button display styles internally
+button {
+  display: block;
 }
 
 .ripple-effect {
@@ -31,12 +41,6 @@
   &.animating {
     @include animation(ripple-animation 1.2s ease-out);
   }
-}
-
-// Reset all internal button styles
-button {
-  display: block;
-  width: 100%;
 }
 
 // Applies to all non-icon button types
