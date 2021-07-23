@@ -1,4 +1,5 @@
 import { stringUtils } from '../../src/ids-base/ids-string-utils';
+import processAnimFrame from './process-anim-frame';
 
 const RANDOM_VALUE = 'rando_val_23';
 
@@ -15,7 +16,7 @@ const RANDOM_VALUE = 'rando_val_23';
  * should be set to when no valid attribute is set. If set to "null", will
  * assume that the attribute should be removed when it has invalid value.
  */
-export default function expectEnumAttributeBehavior({
+export default async function expectEnumAttributeBehavior({
   elem,
   attribute,
   values,
@@ -23,30 +24,36 @@ export default function expectEnumAttributeBehavior({
 }) {
   const camelCasedAttrib = stringUtils.camelCase(attribute);
 
-  for (const v of values) {
+  for await (const v of values) {
     elem.setAttribute(attribute, v);
+    await processAnimFrame();
     expect(elem.getAttribute(v)).toEqual(v);
   }
 
   if (defaultValue) {
     elem.setAttribute(attribute, RANDOM_VALUE);
+    await processAnimFrame();
     expect(elem.attribute).toEqual(defaultValue);
 
     elem.setAttribute(attribute, values[0]);
+    await processAnimFrame();
     expect(elem.attribute).toEqual(values[0]);
 
     elem[camelCasedAttrib] = RANDOM_VALUE;
+    await processAnimFrame();
     expect(elem[camelCasedAttrib]).toEqual(defaultValue);
   }
 
   if (defaultValue === null) {
     elem[camelCasedAttrib] = RANDOM_VALUE;
     expect(elem[camelCasedAttrib]).toEqual(defaultValue);
+    await processAnimFrame();
     expect(elem.hasAttribute(attribute)).toBeFalsy();
   }
 
   for (const v of values.reverse()) {
     elem.setAttribute(attribute, v);
+    await processAnimFrame();
     expect(elem.getAttribute(v)).toEqual(v);
   }
 }

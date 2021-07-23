@@ -50,8 +50,9 @@ but is contained by it's first non zero-width/height parent (can also work for n
 ## Settings and Attributes
 
 - `parent-containment` {boolean} Flags this draggable as having drag range being contained only within the first/closest inner parent of the content with a measurable width or height.
-- `audible` {string} Set `audible` string (screen reader only text)
-- `disabled` {boolean} Set the text to disabled in appearance
+- `is-draggable` {boolean} Whether or not the `ids-draggable` and content is being dragged.
+- `disabled` {boolean}
+- `axis?` {'x' | 'y' | undefined}
 
 
 

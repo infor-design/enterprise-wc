@@ -19,6 +19,7 @@ const { stringToBool } = stringUtils;
 
 const CURSOR_EL_SIZE = 32;
 
+/* istanbul ignore next */
 /**
  * get "cursor" property of cursor element
  * placed in front of drag (may also use this
@@ -50,7 +51,7 @@ function getCursorStyle({ axis }) {
  */
 @customElement('ids-draggable')
 @scss(styles)
-export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
   constructor() {
     super();
   }
@@ -103,9 +104,12 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     }
     }
 
+    console.log(`<set>id-draggable.${attributes.AXIS}(nextValue) => ${nextValue}`);
     if (nextValue && this.getAttribute(attributes.AXIS) !== nextValue) {
+      console.log(`<set>ids-draggable.${attributes.AXIS} setter => ${nextValue}`);
       this.setAttribute(attributes.AXIS, nextValue);
     } else if (!nextValue && this.hasAttribute(attributes.AXIS)) {
+      console.log(`<set>ids-draggable.${attributes.AXIS} removed`);
       this.removeAttribute(attributes.AXIS);
     }
   }
@@ -116,6 +120,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * By default not defined and supports both axes.
    */
   get axis() {
+    console.log(`<get>ids-draggable.${attributes.AXIS} => ${this.getAttribute(attributes.AXIS)}`);
     return this.getAttribute(attributes.AXIS);
   }
 
