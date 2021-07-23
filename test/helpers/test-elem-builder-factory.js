@@ -14,7 +14,7 @@ import processAnimFrame from './process-anim-frame';
 export default function templateElemBuilderFactory() {
   let elem;
 
-  const clearElement = () => elem?.remove?.();
+  const clearElement = async () => elem?.remove?.();
 
   return {
     clearElement,

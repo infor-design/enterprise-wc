@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import expectElemFlagBehavior from '../helpers/expect-elem-flag-behavior';
+import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
 import processAnimFrame from '../helpers/process-anim-frame';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
 import IdsSpinbox from '../../src/ids-spinbox';
@@ -281,7 +281,7 @@ describe('IdsSpinbox Component', () => {
     elem = await createElemViaTemplate(
       `<ids-spinbox readonly value="10" label-hidden label="hidden label"></ids-spinbox>`
     );
-    expectElemFlagBehavior(elem, 'label-hidden');
+    expectFlagAttributeBehavior({ elem, attribute: 'label-hidden' });
   });
 
   it('toggling disabled and readonly preserves states', async () => {
