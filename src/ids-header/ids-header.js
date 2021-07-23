@@ -14,13 +14,10 @@ import {
 
 import styles from './ids-header.scss';
 import IdsInput from '../ids-input/ids-input';
-import '../ids-toolbar/ids-toolbar';
-import '../ids-button/ids-button';
-import '../ids-text/ids-text';
-import '../ids-breadcrumb/ids-breadcrumb';
+import { stripHTML } from '../ids-base/ids-xss-utils';
 
 /**
- * IDS Rating Component
+ * IDS Header Component
  * @type {IdsHeader}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
@@ -68,8 +65,12 @@ class IdsHeader extends mix(IdsElement).with(
    * @param {string} c string value for color
    */
   set color(c) {
-    this.container.style.backgroundColor = c.toString();
-    this.setAttribute('color', c.toString());
+    if (typeof c !== 'string' || !c.length) {
+      return;
+    }
+    const sanitzedVal = stripHTML(c);
+    this.container.style.backgroundColor = sanitzedVal;
+    this.setAttribute('color', sanitzedVal);
   }
 
   get color() {

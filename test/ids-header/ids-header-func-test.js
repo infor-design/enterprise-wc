@@ -1,8 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-
-import IdsHeader from '../../src/ids-header/ids-header';
+import IdsHeader from '../../src/ids-header';
 
 describe('IdsHeader Component', () => {
   let elem;
@@ -27,10 +26,20 @@ describe('IdsHeader Component', () => {
   });
 
   it('has a color attribute', () => {
-    elem.remove();
-    elem = new IdsHeader();
-    document.body.appendChild(elem);
     elem.color = '#0072ed';
-    expect(elem.getAttribute('color')).toEqual('#0072ed');
+
+    expect(elem.color).toBe('#0072ed');
+    expect(elem.getAttribute('color')).toBe('#0072ed');
+
+    elem.setAttribute('color', '#bb5500');
+
+    expect(elem.color).toBe('#bb5500');
+    expect(elem.getAttribute('color')).toBe('#bb5500');
+
+    // Reset to default
+    elem.removeAttribute('color');
+
+    expect(elem.color).toBe('#0072ed');
+    expect(elem.getAttribute('color')).toBe(null);
   });
 });
