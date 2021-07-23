@@ -289,7 +289,26 @@ describe('IdsSpinbox Component', () => {
       `<ids-spinbox readonly value="10"></ids-spinbox>`
     );
 
-    elem.disabled = true;
+    elem.setAttribute('disabled', true);
+    await processAnimFrame();
+    await processAnimFrame();
+
+    const idsButtons = [...elem.shadowRoot.querySelectorAll('ids-button')];
+
+    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+
+    elem.removeAttribute('readonly');
+    await processAnimFrame();
+
+    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(elem.readonly).toBeNull();
+
+    elem.removeAttribute('disabled');
+    await processAnimFrame();
+
+    expect(idsButtons.find((el) => el.hasAttribute('disabled'))).toEqual(undefined);
+    expect(elem.disabled).toBeNull();
+
     elem.readonly = true;
     expect(elem.getAttribute('readonly')).toEqual('true');
     expect(elem.getAttribute('disabled')).toEqual('true');
