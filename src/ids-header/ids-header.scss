@@ -1,9 +1,12 @@
 @import '../ids-base/ids-base.scss';
 
 .ids-header {
-  width: 100%;
+  @include bg-azure-60();
+  @include text-white();
+
   display: flex;
   flex-direction: column;
+  width: 100%;
 
   // New Version: Light Mode
   &[mode='light'] {

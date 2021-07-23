@@ -15,8 +15,8 @@
   @include outline-none();
   @include p-0();
 
+  box-sizing: border-box;
   height: 100%;
-  margin: 0;
   overflow: auto;
   width: 100%;
 

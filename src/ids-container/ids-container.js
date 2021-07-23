@@ -37,6 +37,11 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, I
    */
   connectedCallback() {
     super.connectedCallback();
+
+    /* istanbul ignore next */
+    if (this.reset) {
+      this.#addReset();
+    }
   }
 
   /**
@@ -49,6 +54,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, I
       attributes.LOCALE,
       attributes.MODE,
       attributes.PADDING,
+      attributes.RESET,
       attributes.SCROLLABLE,
       attributes.VERSION
     ];
@@ -67,16 +73,12 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, I
    * @param {string} value sets the padding to the container
    */
   set padding(value) {
-    const double = Number(value) * 2;
-    this.style.margin = '-8px';
     this.container.style.padding = `${value}px`;
-    this.container.style.height = `calc(100% - ${double}px)`;
-    this.container.style.width = `calc(100% - ${double}px)`;
-    this.setAttribute('padding', value.toString());
+    this.setAttribute(attributes.PADDING, value.toString());
   }
 
   get padding() {
-    return this.getAttribute('padding');
+    return this.getAttribute(attributes.PADDING);
   }
 
   /**
@@ -85,18 +87,41 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, I
    */
   set scrollable(value) {
     if (stringUtils.stringToBool(value)) {
-      this.setAttribute('scrollable', 'true');
-      this.container.setAttribute('scrollable', 'true');
+      this.setAttribute(attributes.SCROLLABLE, 'true');
+      this.container.setAttribute(attributes.SCROLLABLE, 'true');
       this.container.setAttribute('tabindex', '0');
       return;
     }
 
-    this.setAttribute('scrollable', 'false');
-    this.container.setAttribute('scrollable', 'false');
+    this.setAttribute(attributes.SCROLLABLE, 'false');
+    this.container.setAttribute(attributes.SCROLLABLE, 'false');
     this.container.removeAttribute('tabindex');
   }
 
-  get scrollable() { return this.getAttribute('scrollable') || 'true'; }
+  get scrollable() { return this.getAttribute(attributes.SCROLLABLE) || 'true'; }
+
+  /**
+   * Add the reset to the body
+   * @private
+   */
+  #addReset() {
+    document.querySelector('body').style.margin = '0';
+  }
+
+  /**
+   * If set to true body element will get reset
+   * @param {boolean|string} value true of false
+   */
+  set reset(value) {
+    if (stringUtils.stringToBool(value)) {
+      this.#addReset();
+      return;
+    }
+    this.removeAttribute(attributes.RESET);
+    document.querySelector('body').style.margin = '';
+  }
+
+  get reset() { return this.getAttribute(attributes.RESET) || 'true'; }
 }
 
 export default IdsContainer;

@@ -72,4 +72,13 @@ describe('IdsContainer Component', () => {
     expect(container.getAttribute('padding')).toEqual('18');
     expect(container.padding).toEqual('18');
   });
+
+  it('has a reset attribute', () => {
+    expect(container.reset).toEqual('true');
+    container.reset = false;
+    expect(document.querySelector('body').style.margin).toEqual('');
+    expect(container.getAttribute('reset')).toBeFalsy();
+    container.reset = true;
+    expect(document.querySelector('body').style.margin).toEqual('0px');
+  });
 });
