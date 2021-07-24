@@ -52,7 +52,8 @@ but is contained by it's first non zero-width/height parent (can also work for n
 - `parent-containment` {boolean} Flags this draggable as having drag range being contained only within the first/closest inner parent of the content with a measurable width or height.
 - `is-draggable` {boolean} Whether or not the `ids-draggable` and content is being dragged.
 - `disabled` {boolean}
-- `axis?` {'x' | 'y' | undefined}
+- `axis?` {'x' | 'y'}   The axis that the draggable content will be moving along (e.g. X => horizontal, Y => vertical); By default, not defined and supports both axes.
+   */
 
 
 

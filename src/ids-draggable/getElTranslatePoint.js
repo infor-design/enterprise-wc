@@ -5,20 +5,26 @@
  * @param {HTMLElement} element element to grab translation point from it's styles with
  * @returns {{ x?: number, y?: number, z?:number }} translation point if available
  */
-export default function getElTranslatePoint(element) {
+export default function getElTranslatePoint(element) /* istanbul ignore next */ {
   const style = window.getComputedStyle(element);
   const matrix = style.transform;
 
   // No transform property. Simply return 0 values.
 
-  if (matrix === 'none' || typeof matrix === 'undefined') {
+  if (matrix === 'none' || !matrix) {
     return { x: 0, y: 0, z: 0 };
   }
 
   // Can either be 2d or 3d transform
 
-  const matrixType = matrix.includes('3d') ? '3d' : '2d'
-  const matrixValues = matrix.match(/matrix.*\((.+)\)/)[1].split(', ')
+  const matrixType = matrix.includes('3d') ? '3d' : '2d';
+
+  // the following checks are need for non standard envs e.g. Jest or SSR
+  const matrixValues = matrix.match(/matrix.*\((.+)\)/)?.[1]?.split(', ');
+
+  if (matrixValues.length === 0) {
+    return { x: 0, y: 0, z: 0 };
+  }
 
   // 2d matrices have 6 values
   // Last 2 values are X and Y.

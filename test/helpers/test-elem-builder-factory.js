@@ -14,7 +14,10 @@ import processAnimFrame from './process-anim-frame';
 export default function templateElemBuilderFactory() {
   let elem;
 
-  const clearElement = async () => elem?.remove?.();
+  const clearElement = async () => {
+    elem?.remove?.();
+    await processAnimFrame();
+  };
 
   return {
     clearElement,
@@ -26,7 +29,6 @@ export default function templateElemBuilderFactory() {
 
       const container = parentEl || document.body;
       container.appendChild(elem);
-      await processAnimFrame();
 
       return elem;
     },

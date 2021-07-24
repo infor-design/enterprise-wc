@@ -7,10 +7,7 @@ import {
   mix
 } from '../ids-base/ids-element';
 
-import {
-  IdsKeyboardMixin,
-  IdsEventsMixin
-} from '../ids-mixins';
+import { IdsKeyboardMixin, IdsThemeMixin, IdsEventsMixin } from '../ids-mixins';
 
 import styles from './ids-draggable.scss';
 import getElTranslation from './getElTranslatePoint';
@@ -51,7 +48,11 @@ function getCursorStyle({ axis }) {
  */
 @customElement('ids-draggable')
 @scss(styles)
-export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
+export default class IdsDraggable extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsThemeMixin,
+    IdsKeyboardMixin
+  ) {
   constructor() {
     super();
   }
@@ -104,12 +105,9 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
     }
     }
 
-    console.log(`<set>id-draggable.${attributes.AXIS}(nextValue) => ${nextValue}`);
-    if (nextValue && this.getAttribute(attributes.AXIS) !== nextValue) {
-      console.log(`<set>ids-draggable.${attributes.AXIS} setter => ${nextValue}`);
+    if (nextValue) {
       this.setAttribute(attributes.AXIS, nextValue);
     } else if (!nextValue && this.hasAttribute(attributes.AXIS)) {
-      console.log(`<set>ids-draggable.${attributes.AXIS} removed`);
       this.removeAttribute(attributes.AXIS);
     }
   }
@@ -120,8 +118,7 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
    * By default not defined and supports both axes.
    */
   get axis() {
-    console.log(`<get>ids-draggable.${attributes.AXIS} => ${this.getAttribute(attributes.AXIS)}`);
-    return this.getAttribute(attributes.AXIS);
+    return this.getAttribute('axis');
   }
 
   /**
@@ -170,15 +167,18 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
   }
 
   connectedCallback() {
+    /* istanbul ignore next */
     this.onEvent('mousedown', this, (e) => {
       if (this.disabled) {
         return;
       }
       e.preventDefault();
+      this.triggerEvent('ids-dragstart', this, { detail: {} });
 
       this.onEvent('mouseup', document, () => {
         if (this.isDragging) {
           this.isDragging = false;
+          this.triggerEvent('ids-dragend', this, e);
           this.offEvent('mousemove', this.onMouseMove);
 
           (document.body.querySelector('ids-container') || document.body)
@@ -258,14 +258,18 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
    *
    * @param {*} e mousemove event
    */
-  onMouseMove = (e) => {
+  onMouseMove = (e) => /* istanbul ignore next */ {
     e.preventDefault();
+    const eventDetail = {};
 
     if (this.isDragging) {
       const dragDeltaX = e.x - this.#dragStartMousePoint.x;
       const dragDeltaY = e.y - this.#dragStartMousePoint.y;
       let translateX = 0;
       let translateY = 0;
+
+      eventDetail.dragDeltaX = dragDeltaX;
+      eventDetail.dragDeltaY = dragDeltaY;
 
       if (this.axis !== 'y') {
         translateX = this.#dragStartOffset.x + dragDeltaX;
@@ -288,7 +292,12 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
           translateY = Math.max(this.#xformBounds.top, translateY);
           translateY = Math.min(this.#xformBounds.bottom, translateY);
         }
+
+        eventDetail.parentRect = this.#parentRect;
       }
+
+      eventDetail.translateX = translateX;
+      eventDetail.translateY = translateY;
 
       this.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
@@ -297,6 +306,8 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
         this.#cursorEl.style.top = `${e.y - CURSOR_EL_SIZE / 2}px`;
       }
     }
+
+    this.triggerEvent('ids-drag', this, e);
   };
 
   /**
@@ -388,14 +399,14 @@ export default class IdsDraggable extends IdsEventsMixin(IdsElement) {
    *
    * @param {*} path path passed by mouse/drag event
    * to traverse through shadow and lightDOM
+   * @private
    */
-  #updateParentRect(path) {
+  #updateParentRect(path) /* istanbul ignore next */ {
     // in order to measure the size of the parent,
     // when dragging has started, iterate through
     // path captured from drag until parent level
     // outside of this draggable or an immediate IdsElement
     // (e.g. non styled container) is detected
-
     this.#parentRect = undefined;
 
     let pathElemIndex = 0;
