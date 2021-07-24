@@ -31,9 +31,6 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   connectedCallback() {
     this.#handleEvents();
     super.connectedCallback();
-
-    this.insertAdjacentHTML('beforeend', `<div class="progress-bar"></div>`);
-    this.insertAdjacentHTML('beforeend', `<div class="label">Some Label</div>`);
   }
 
   /**
@@ -57,7 +54,22 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * @returns {string} The template
    */
   template() {
-    return '<span class="ids-progress-chart" part="tag"><slot></slot></span>';
+
+    return `
+    <div class="ids-progress-chart" part="chart">
+      <div class="labels">
+        ${this.label && `<ids-text class="label-main">${this.label}</ids-test>` }
+        <slot></slot>
+        ${this.completedLabel && `<ids-text class="label-completed">${this.completedLabel} </ids-text>` }
+        ${this.value && `<ids-text class="label-value">${this.value} </ids-text>` }
+        ${this.total && `<ids-text class="label-total">${this.total}</ids-text>` }
+      </div>
+      <div class="progress-bar">
+        <div part="barcolor" class="bar-total">
+          <div class="bar-current"></div>
+        </div>
+      </div>
+    </div>`;
   }
 
   /**
@@ -70,7 +82,14 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
 
       // check if the color param starts with #, else use some ids-color-status (not sure what error or danger is tho)
       const prop = value.substr(0, 1) === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
-      this.container.style.backgroundColor = prop;
+      
+      // TODO: figure out how to grab the .bar-current to set its background color
+      const progressChart = document.getElementsByClassName('.ids-progress-chart');
+      // const progressBar = progressChart.querySelector('.progress-bar');
+      // const progressBarCurrent = progressBar.querySelector('.bar-current');
+      // this.progressBarCurrent.style.backgroundColor = prop;
+      // this.container.style.backgroundColor = prop;
+      // progressChart.style.backgroundColor = prop;
 
       return;
     }
@@ -81,6 +100,50 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
 
   get color() { return this.getAttribute('color'); }
 
+  set label(value) {
+    if (value) {
+      this.setAttribute('label', value);
+
+      return;
+    }
+
+    // TODO: why does this still show null? 
+    this.removeAttribute('label');
+  }
+
+  get label() { return this.getAttribute('label'); }
+
+  set value(value) {
+    if (value) {
+      this.setAttribute('value', value);
+
+      return;
+    }
+    this.removeAttribute('value');
+  }
+
+  get value() { return this.getAttribute('value'); }
+
+  set total(value) {
+    if (value) {
+      this.setAttribute('total', value);
+
+      return;
+    }
+    this.removeAttribute('total');
+  }
+
+  get total() { return this.getAttribute('total'); }
+
+  set completedLabel(value) {
+    if (value) {
+      this.setAttribute('completed-label', value);
+      return;
+    }
+    this.removeAttribute('completed-label');
+  }
+  get completedLabel() { return this.getAttribute('completed-label'); }
+
   /**
    * Check if an icon exists if not add it
    * @param {string} iconName The icon name to check
@@ -89,7 +152,8 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   #appendIcon(iconName) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (!icon) {
-      this.insertAdjacentHTML('beforeend', `<ids-icon part="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
+      const labels = this.querySelector('.label-main');
+      labels.insertAdjacentHTML('afterend', `<ids-icon part="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
       this.#handleEvents();
     }
   }

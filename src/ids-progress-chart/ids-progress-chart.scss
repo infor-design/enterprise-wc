@@ -2,46 +2,69 @@
 
 .ids-progress-chart {
   @include antialiased();
-  @include bg-slate-20();
-  @include border-1();
-  @include border-slate-20();
-  @include border-solid();
+  // @include bg-slate-20();
+  // @include border-1();
+  // @include border-slate-20();
+  // @include border-solid();
   @include font-sans();
 
-  border-radius: 2px;
-  min-height: 25px;
-  min-width: 300px;
-  // padding: 10px;
   display: flex;
-  position: absolute;
+  flex-direction: column;
+
   
-  .progress-bar {
+  .labels {
     display: flex;
-    // position: absolute;
-    top: 0;
-    left: 0;
-    background-color: aqua;
-    width: 100px;
-    height: inherit;
-  }
-}
+    flex-direction: row;
+    position: relative;
+    margin-bottom: 10px;
+    @include text-slate-60(); 
 
-::slotted(div) {
+    .label-main {
+      display: inline-block;
+    }
+
+    .label-completed {
+      display: inline-block;
+
+      padding-left: 2px;
+    }
+
+    .label-total {
+      display: inline-block;
+      position: absolute;
+      right: 0;
+    }
+
+    .label-value {
+      display: inline-block;
+      padding-left: 2px;
+    }
+  }
+
   .progress-bar {
-
+    margin-top: 10px;
+    border-radius: 2px;
+    min-height: 28px;
+    min-width: 66px;
     display: flex;
-    // position: absolute;
-    top: 0;
-    left: 0;
-    background-color: aqua;
-    width: 100px;
-    height: inherit;
-    // border-radius: 2px;
-    @include border-1();
-  }
-  color: green;
-  bottom: 0;
+    position: relative;
 
-  .label {
+    .bar-total {
+      @include bg-slate-30();
+      display: flex;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: inherit;
+    }
+
+    .bar-current { 
+      display: flex;
+      top: 0;
+      left: 0;
+      background-color: aqua;
+      width: 100px;
+      height: inherit;
+    }
   }
 }
