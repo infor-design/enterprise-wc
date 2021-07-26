@@ -180,13 +180,15 @@
   // style: "menu"
   &.menu {
     @include antialiased();
-    @include bg-white();
     @include border-1();
     @include border-solid();
     @include font-sans();
     @include py-4();
     @include rounded-default();
-    @include shadow();
+
+    // New Light Regular Colors
+    @include bg-white();
+    @include text-slate-80();
 
     border-color: var(--ids-color-border-lighter);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
@@ -221,6 +223,12 @@
 
     .arrow.top::after {
       border-top-color: var(--ids-color-palette-white);
+    }
+
+    // New Light Inverse Colors
+    &.inverse {
+      @include bg-slate-70();
+      @include text-white();
     }
   }
 
@@ -345,6 +353,7 @@
 .ids-popup.menu[mode='dark'] {
   @include bg-slate-70();
   @include border-slate-50();
+  @include text-white();
 
   box-shadow: 0 2px 5px rgb(239, 239, 240, 0.2);
 

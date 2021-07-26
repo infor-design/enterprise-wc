@@ -11,8 +11,14 @@
     vertical-align: bottom;
   }
 
+  ::slotted(span),
+  ::slotted(ids-text) {
+    color: currentColor;
+  }
+
   ::slotted(ids-icon) {
     vertical-align: middle;
+    color: currentColor;
   }
 
   ::slotted(span.audible) {
@@ -46,7 +52,7 @@ button {
 // Applies to all non-icon button types
 .ids-button,
 .ids-toggle-button,
-.ids-menu-button,
+.ids-menu-button:not(.ids-icon-button),
 .ids-modal-button {
   // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
   ::slotted(ids-icon), // shadowroot + text + icon
