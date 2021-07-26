@@ -8,7 +8,6 @@ A container which limits and tracks the dragging of an HTML Element along a spec
 
 A draggable would be used in the case where you may have a pane splitter (e.g. in `ids-splitter`), or a list that is meant to be dragged along a specific axis. It may also be used in many cases where we have a canvas or pane that should be resized (in one or two dimensions).
 
-
 It does not currently support drag/drop targets in the current iteration, but in the future this component may be used for moving items.
 
 ## Features (With Code Examples)
@@ -47,6 +46,24 @@ but is contained by it's first non zero-width/height parent (can also work for n
 </div>
 ```
 
+A draggable component which is draggable only by a specific handle on the tab (note: a draggable component currently has a limitation of one handle element, even if the class matches multiple handles).
+```html
+<div>
+ <ids-draggable handle=".drag-handle">
+    <div class="ids-draggable-demo-box">
+      <ids-icon
+        class="drag-handle"
+        icon="drag"
+        size="large"
+      ></ids-icon>
+      <ids-text>
+        All-content drags, but only .drag-handle is draggable
+      </ids-text>
+    </div>
+  </ids-draggable>
+</div>
+```
+
 ## Settings and Attributes
 
 - `parent-containment` {boolean} Flags this draggable as having drag range being contained only within the first/closest inner parent of the content with a measurable width or height.
@@ -54,8 +71,6 @@ but is contained by it's first non zero-width/height parent (can also work for n
 - `disabled` {boolean}
 - `axis?` {'x' | 'y'}   The axis that the draggable content will be moving along (e.g. X => horizontal, Y => vertical); By default, not defined and supports both axes.
 - `handle?` {string} A query selector representing an optional handle that can be used to drag the content of the draggable.
-
-
 
 ## Accessibility
 
