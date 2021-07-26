@@ -1,26 +1,21 @@
-import percySnapshot from '@percy/puppeteer';
+describe('Ids Draggable e2e Tests', () => {
+  const exampleUrl = 'http://localhost:4444/ids-pager';
+  const sandboxUrl = 'http://localhost:4444/ids-pager/sandbox';
 
-describe('Ids Draggable Percy Tests', () => {
-  const url = 'http://localhost:4444/ids-draggable';
-
-  it('should not have visual regressions in new light theme (percy)', async () => {
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-draggable');
+  beforeAll(async () => {
+    await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
   });
 
-  it('should not have visual regressions in new dark theme (percy)', async () => {
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await page.evaluate(() => {
-      document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
-    });
-    await percySnapshot(page, 'ids-draggable-new-dark');
+  it('should not have errors', async () => {
+    await expect(page.title()).resolves.toMatch('IDS Draggable Component');
   });
 
-  it('should not have visual regressions in new contrast theme (percy)', async () => {
-    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await page.evaluate(() => {
-      document.querySelector('ids-draggable').setAttribute('mode', 'contrast');
-    });
-    await percySnapshot(page, 'ids-draggable');
+  it('should pass Axe accessibility tests', async () => {
+    await page.setBypassCSP(true);
+    await page.goto(exampleUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
+    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'region'] });
+
+    await page.goto(sandboxUrl, { waitUntil: ['domcontentloaded', 'networkidle0'] });
+    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'region'] });
   });
 });

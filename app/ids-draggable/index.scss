@@ -31,8 +31,19 @@ ids-layout-grid-cell:nth-of-type(3) .ids-draggable-demo-box {
   border: 1px dashed var(--ids-color-palette-azure-40);
 }
 
-.handle {
-  width: 64px;
-  height: 36px;
+.ids-draggable-handle-example {
+  display: flex;
+  flex-direction: row;
   border: 1px dashed var(--ids-color-palette-ruby-40);
+  align-items: center;
+  justify-content: center;
+
+  & div:nth-child(2) {
+    padding: 16px 8px;
+  }
+}
+
+.ids-draggable-handle {
+  align-items: center;
+  margin-right: 8px;
 }

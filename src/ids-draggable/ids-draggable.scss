@@ -1,8 +1,11 @@
+:host(ids-draggable) {
+  width: fit-content;
+  height: fit-content;
+}
+
 :host(ids-draggable:not([handle])) {
   cursor: move;
   touch-action: none;
-  width: fit-content;
-  height: fit-content;
 }
 
 :host(ids-draggable[disabled]:not([handle])) {
