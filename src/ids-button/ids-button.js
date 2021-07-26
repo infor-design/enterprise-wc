@@ -7,8 +7,14 @@ import {
   stringUtils
 } from '../ids-base';
 
-import { IdsEventsMixin, IdsThemeMixin, IdsTooltipMixin } from '../ids-mixins';
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-mixins/ids-render-loop-mixin';
+import {
+  IdsEventsMixin,
+  IdsInverseColorMixin,
+  IdsRenderLoopMixin,
+  IdsRenderLoopItem,
+  IdsThemeMixin,
+  IdsTooltipMixin
+} from '../ids-mixins';
 
 import styles from './ids-button.scss';
 
@@ -77,6 +83,7 @@ const baseProtoClasses = [
 class IdsButton extends mix(IdsElement).with(
     IdsRenderLoopMixin,
     IdsEventsMixin,
+    IdsInverseColorMixin,
     IdsThemeMixin,
     IdsTooltipMixin
   ) {
@@ -702,6 +709,20 @@ class IdsButton extends mix(IdsElement).with(
    */
   focus() {
     this.button.focus();
+  }
+
+  /**
+   * Implements callback from IdsInverseColorMixin used to
+   * update the inverse setting on children components
+   * @returns {void}
+   */
+  onInverseRefresh() {
+    const icons = this.querySelectorAll('ids-icon');
+    const texts = this.querySelectorAll('ids-text');
+    const iterator = (el) => {
+      el.inverse = this.inverse;
+    };
+    [...icons, ...texts].forEach(iterator);
   }
 }
 

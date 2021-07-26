@@ -22,6 +22,29 @@
   box-shadow: 0 0 3px 1px var(--ids-color-brand-primary-base) // primary color (shadowy-part)
 }
 
+@mixin inverse-button-shadow() {
+  box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.3);
+}
+
+// Simplifies some common lines of code used on all mode/version variants of text color
+@mixin inverse-white-text-only() {
+  &.inverse {
+    @include text-white();
+
+    &[disabled] {
+      @include text-white();
+    }
+
+    &:focus {
+      @include inverse-button-shadow();
+    }
+
+    &:hover {
+      @include text-white();
+    }
+  }
+}
+
 // Used to include a basic set of ripple-effect styles
 @mixin ids-base-ripple-styles() {
   .ripple-effect {
@@ -49,9 +72,7 @@
   @include font-sans();
   @include px-28();
   @include text-16();
-  @include text-slate-60();
 
-  //color: var(--ids-color-font-base);
   color: currentColor;
   overflow: hidden;
   padding-bottom: 6px;
@@ -109,13 +130,6 @@
   }
 
   // ====================================================
-  // Ripple effect customizations per style
-
-  .ripple-effect {
-    background-color: var(--ids-color-palette-azure-50);
-  }
-
-  // ====================================================
   // Alignment changes
 
   &.align-icon-end {
@@ -133,7 +147,9 @@
   @include px-28();
   @include rounded-default();
 
-  color: var(--ids-color-font-base);
+  // ====================================================
+  // Primary Button styles
+  @include text-slate-60();
 
   &:focus {
     @include shadow();
@@ -147,6 +163,10 @@
 
   &[disabled] {
     @include text-slate-30();
+  }
+
+  .ripple-effect {
+    background-color: var(--ids-color-palette-azure-50);
   }
 
   // ====================================================
@@ -223,6 +243,36 @@
   }
 
   // ====================================================
+  // Light Mode Inverse Styles
+
+  &.inverse {
+    @include text-white();
+
+    opacity: 0.7;
+
+    &:focus {
+      @include inverse-button-shadow();
+
+      border-color: var(--ids-color-palette-white);
+      opacity: 1;
+    }
+
+    &:hover {
+      @include text-white();
+
+      opacity: 1;
+    }
+
+    &[disabled] {
+      opacity: 0.3;
+    }
+
+    .ripple-effect {
+      background-color: var(--ids-color-palette-white);
+    }
+  }
+
+  // ====================================================
   // Dark Mode
 
   &[mode='dark'] {
@@ -235,6 +285,9 @@
     &:hover {
       @include text-white();
     }
+
+    // Dark Mode "inverse" styles
+    @include inverse-white-text-only();
   }
 
   // ====================================================
@@ -250,6 +303,9 @@
     &:hover {
       @include text-black();
     }
+
+    // High-Contrast Mode "inverse" styles
+    @include inverse-white-text-only();
   }
 
   // ====================================================
@@ -265,6 +321,9 @@
     &:hover {
       @include text-black();
     }
+
+    // Classic Light Mode "inverse" styles
+    @include inverse-white-text-only();
   }
 
   // ====================================================
@@ -284,6 +343,9 @@
     &:hover {
       @include text-white();
     }
+
+    // Classic Dark Mode "inverse" styles
+    @include inverse-white-text-only();
   }
 
   // ====================================================
@@ -303,6 +365,9 @@
     &:hover {
       @include text-black();
     }
+
+    // Classic High-Contrast Mode "inverse" styles
+    @include inverse-white-text-only();
   }
 }
 

@@ -59,11 +59,16 @@ const IdsInverseColorMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * Sets the "inverse" class on the container based on the defined property.
+   * Refreshes the component's "inverse" state
    * @returns {void}
    */
   refreshInverse() {
     this.container.classList[this.inverse ? 'add' : 'remove']('inverse');
+
+    // Fire optional callback
+    if (typeof this.onInverseRefresh === 'function') {
+      this.onInverseRefresh();
+    }
   }
 };
 

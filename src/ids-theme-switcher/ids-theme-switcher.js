@@ -10,7 +10,10 @@ import {
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 
 // Import Mixins
-import { IdsEventsMixin } from '../ids-mixins';
+import {
+  IdsEventsMixin,
+  IdsInverseColorMixin
+} from '../ids-mixins';
 
 import styles from './ids-theme-switcher.scss';
 
@@ -19,7 +22,7 @@ import styles from './ids-theme-switcher.scss';
  */
 @customElement('ids-theme-switcher')
 @scss(styles)
-class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin, IdsInverseColorMixin) {
   constructor() {
     super();
   }
@@ -120,6 +123,15 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   get version() { return this.getAttribute('version') || 'new'; }
+
+  /**
+   * Implements callback from IdsInverseColorMixin used to
+   * update the inverse setting on children components
+   * @returns {void}
+   */
+  onInverseRefresh() {
+    this.container.inverse = this.inverse;
+  }
 }
 
 export default IdsThemeSwitcher;
