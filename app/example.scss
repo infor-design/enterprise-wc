@@ -2,20 +2,16 @@
 
 ids-text ids-icon {
   position: relative;
-  padding: 8px 8px;
+  padding: 8px;
   top: 3px;
 }
 
-ids-hyperlink {
-  span {
-    padding: 0 4px;
-    position: relative;
-    text-decoration: underline;
-    text-transform: capitalize;
-    top: -3px;
-  }
-}
-
-.component-section {
-  margin: 16px;
+[slot='card-content'] {
+  cursor: pointer;
+  height: 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }

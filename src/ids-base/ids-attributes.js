@@ -20,6 +20,7 @@ export const attributes = {
   AUTO_HEIGHT: 'auto-height',
   AUTOSELECT: 'autoselect',
   BG_TRANSPARENT: 'bg-transparent',
+  BOLD: 'bold',
   BLEED: 'bleed',
   CHAR_MAX_TEXT: 'char-max-text',
   CHAR_REMAINING_TEXT: 'char-remaining-text',

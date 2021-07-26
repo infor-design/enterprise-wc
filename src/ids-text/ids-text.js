@@ -45,19 +45,18 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
    */
   static get attributes() {
     return [
-      attributes.TYPE,
-      attributes.FONT_SIZE,
       attributes.AUDIBLE,
+      attributes.COLOR,
       attributes.DISABLED,
       attributes.DISPLAY,
       attributes.ERROR,
-      attributes.MODE,
-      attributes.VERSION,
-      attributes.LABEL,
+      attributes.FONT_SIZE,
       attributes.FONT_WEIGHT,
-      attributes.AUDIBLE,
+      attributes.LABEL,
+      attributes.MODE,
       attributes.OVERFLOW,
-      attributes.COLOR
+      attributes.TYPE,
+      attributes.VERSION
     ];
   }
 
@@ -160,10 +159,14 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
     if (value === 'unset') {
       this.setAttribute(attributes.COLOR, value);
       this.container.classList.add('ids-text-color-unset');
-    } else {
-      this.removeAttribute(attributes.COLOR);
-      this.container.classList.remove('ids-text-color-unset');
+      return;
     }
+    if (typeof value === 'string') {
+      this.container.style.color = `var(--ids-color-palette-${value})`;
+      return;
+    }
+    this.removeAttribute(attributes.COLOR);
+    this.container.classList.remove('ids-text-color-unset');
   }
 
   get color() {

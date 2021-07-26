@@ -1,0 +1,15 @@
+---
+ component: Toogle Button
+ link: ids-toggle-button
+ description: An on/off toggle button
+ category: Navigation and Interaction
+ keywords: button, toggle
+ examples:
+  - link: example.html
+    description: Showing a standard on / off toggle button
+  - link: icon-align-right.html
+    description: Showing a toggle with a right side icon
+  - link: side-by-side.html
+    description: Showing a toolbar side by side working with 4.x
+
+

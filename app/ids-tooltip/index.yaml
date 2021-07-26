@@ -1,0 +1,16 @@
+---
+ component: Tooltip
+ link: ids-tooltip
+ description: An message tooltip that shows on click/hover/focus
+ category: Messages and Alerts
+ keywords: tooltip, title, popup
+ examples:
+  - link: example.html
+    description: Showing a tooltip on hover
+  - link: test-sandbox.html
+    description: Other use cases for the tooltip
+  - link: side-by-side.html
+    description: Example showing it work side by side
+    keywords: side by side, 4.x, old version
+  - link: test-performance.html
+    description: A test page that puts many tooltips on

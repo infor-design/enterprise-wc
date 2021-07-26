@@ -2,7 +2,7 @@
 
 ## Description
 
-The Ids Toolbar is used for building highly-configurable Toolbars for sections of your application.  It displays [buttons](../ids-button/README.md), hyperlinks, and other components in different alignable sections, along with contextual information about a workflow or process.
+The Ids Toolbar is used for building highly-configurable Toolbars for sections of your application.  It displays [buttons](../ids-button/README.md), hyperlinks, and other components in different align-able sections, along with contextual information about a workflow or process.
 
 The Ids Toolbar can also be responsive, intelligently hiding buttons that can't be shown on-screen, and displaying them in an overflow menu.
 

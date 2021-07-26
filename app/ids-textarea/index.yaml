@@ -1,0 +1,11 @@
+---
+ component: Text Area
+ link: ids-text-area
+ description: An input for multi line text
+ category: Form Inputs
+ keywords: theme, color, switcher
+ examples:
+  - link: example.html
+    description: Showing all textarea states
+  - link: side-by-side.html
+    description: Showing a textarea side by side working with 4.x
