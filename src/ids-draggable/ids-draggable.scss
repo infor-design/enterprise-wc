@@ -1,22 +1,22 @@
-:host(ids-draggable) {
+:host(ids-draggable:not([handle])) {
   cursor: move;
   touch-action: none;
   width: fit-content;
   height: fit-content;
 }
 
-:host(ids-draggable[disabled]) {
+:host(ids-draggable[disabled]:not([handle])) {
   cursor: inherit;
 }
 
-:host(ids-draggable[axis='x']:not([disabled])) {
+:host(ids-draggable[axis='x']:not([disabled]):not([handle])) {
   cursor: ew-resize;
 }
 
-:host(ids-draggable[axis='y']:not([disabled])) {
+:host(ids-draggable[axis='y']:not([disabled]):not([handle])) {
   cursor: ns-resize;
 }
 
-ids-draggable[is-dragging] {
+ids-draggable[is-dragging]:not([handle]) {
   cursor: grabbing;
 }

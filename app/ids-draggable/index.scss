@@ -18,15 +18,21 @@
 
 ids-draggable:nth-of-type(1) .ids-draggable-demo-box,
 ids-layout-grid-cell:nth-of-type(1) .ids-draggable-demo-box {
-  border-color: rgba(255, 0, 0, 0.25);
+  border: 1px dashed var(--ids-color-palette-ruby-40);
 }
 
 ids-draggable:nth-of-type(2) .ids-draggable-demo-box,
 ids-layout-grid-cell:nth-of-type(2) .ids-draggable-demo-box {
-  border-color: rgba(0, 255, 0, 0.25);
+  border: 1px dashed var(--ids-color-palette-emerald-40);
 }
 
 ids-draggable:nth-of-type(3) .ids-draggable-demo-box,
 ids-layout-grid-cell:nth-of-type(3) .ids-draggable-demo-box {
-  border-color: rgba(0, 0, 255, 0.25);
+  border: 1px dashed var(--ids-color-palette-azure-40);
+}
+
+.handle {
+  width: 64px;
+  height: 36px;
+  border: 1px dashed var(--ids-color-palette-ruby-40);
 }

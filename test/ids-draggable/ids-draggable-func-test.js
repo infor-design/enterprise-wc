@@ -73,6 +73,23 @@ describe('IdsDraggable Component', () => {
     });
   });
 
+  it('can set/get the handle attribute predictably', async () => {
+    const elem = await elemBuilder.createElemFromTemplate(
+      `<ids-draggable handle=".handle">
+        <div class="handle">draggable</div>
+      </ids-draggable>`
+    );
+
+    elem.handle = null;
+    expect(elem.getAttribute('handle')).toEqual(null);
+
+    elem.handle = '.handle';
+    expect(elem.getAttribute('handle')).toEqual('.handle');
+
+    elem.handle = '.handle';
+    expect(elem.getAttribute('handle')).toEqual('.handle');
+  });
+
   it('can set/get the is-dragging attribute predictably', async () => {
     const elem = await elemBuilder.createElemFromTemplate(
       `<ids-draggable>

@@ -166,28 +166,54 @@ export default class IdsDraggable extends mix(IdsElement).with(
     return stringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
-  connectedCallback() {
-    /* istanbul ignore next */
-    this.onEvent('mousedown', this, (e) => {
+  /**
+   * @param {string} value A query selector representing an optional handle that can be used to
+   * drag the content of the draggable
+   */
+  set handle(value) {
+    if (this.getAttribute(attributes.HANDLE) !== value) {
+      if (this.hasAttribute(attributes.HANDLE) && (
+        !value || /* istanbul ignore next */ typeof value !== 'string')
+      ) {
+        this.removeAttribute(attributes.HANDLE);
+      } else {
+        this.setAttribute(attributes.HANDLE, value);
+      }
+
+      this.#updateHandleElem();
+    }
+  }
+
+  /**
+   * @returns {string} value A query selector representing an optional handle that can be used to
+   * drag the content of the draggable
+   */
+  get handle() {
+    return this.getAttribute(attributes.HANDLE);
+  }
+
+  #updateHandleElem = () => {
+    this.offEvent('mousedown', this.#handleElem);
+    this.offEvent('mouseup', document, this.onMouseUp);
+    this.offEvent('mousemove', document, this.onMouseMove);
+
+    this.#handleElem = this.handle ? (
+      document.querySelector(this.handle) || /* istanbul ignore next */ this
+    ) : this;
+
+    if (this.#handleElem !== this) {
+      this.#handleElem.style.cursor = getCursorStyle({ axis: this.axis });
+    }
+
+    this.onEvent('mousedown', this.#handleElem, (e) => /* istanbul ignore next */ {
       if (this.disabled) {
         return;
       }
+
       e.preventDefault();
       this.triggerEvent('ids-dragstart', this, { detail: {} });
 
-      this.onEvent('mouseup', document, () => {
-        if (this.isDragging) {
-          this.isDragging = false;
-          this.triggerEvent('ids-dragend', this, e);
-          this.offEvent('mousemove', this.onMouseMove);
-
-          (document.body.querySelector('ids-container') || document.body)
-            ?.removeChild(this.#cursorEl);
-        }
-
-        this.#cursorEl.style.pointerEvents = 'none';
-      });
-
+      this.onEvent('mouseup', document, this.onMouseUp);
       this.isDragging = true;
       this.onEvent('mousemove', document, this.onMouseMove);
 
@@ -239,6 +265,10 @@ export default class IdsDraggable extends mix(IdsElement).with(
       (document.body.querySelector('ids-container') || document.body)
         .appendChild(this.#cursorEl);
     });
+  };
+
+  connectedCallback() {
+    this.#updateHandleElem();
 
     // style the cursor element
     this.#cursorEl.style.position = 'absolute';
@@ -310,6 +340,19 @@ export default class IdsDraggable extends mix(IdsElement).with(
     this.triggerEvent('ids-drag', this, e);
   };
 
+  onMouseUp = (e) => /* istanbul ignore next */ {
+    if (this.isDragging) {
+      this.isDragging = false;
+      this.triggerEvent('ids-dragend', this, e);
+      this.offEvent('mousemove', this.onMouseMove);
+
+      (document.body.querySelector('ids-container') || document.body)
+        ?.removeChild(this.#cursorEl);
+    }
+
+    this.#cursorEl.style.pointerEvents = 'none';
+  };
+
   /**
    * @param {boolean} value whether or not this element
    * and content is being dragged
@@ -335,7 +378,7 @@ export default class IdsDraggable extends mix(IdsElement).with(
   /**
    * slot element
    */
-  #content;
+  #handleElem;
 
   /**
    * first measurable parent's rectangle

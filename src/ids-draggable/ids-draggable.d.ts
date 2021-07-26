@@ -18,4 +18,10 @@ export default class IdsDraggable extends IdsElement {
    * Whether or not draggable functionality is disabled
    */
   disabled?: boolean;
+
+  /**
+   * A query selector representing an optional handle that can be used to
+   * drag the content of the draggable
+   */
+  handle?: string;
 }

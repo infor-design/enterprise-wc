@@ -53,7 +53,7 @@ but is contained by it's first non zero-width/height parent (can also work for n
 - `is-draggable` {boolean} Whether or not the `ids-draggable` and content is being dragged.
 - `disabled` {boolean}
 - `axis?` {'x' | 'y'}   The axis that the draggable content will be moving along (e.g. X => horizontal, Y => vertical); By default, not defined and supports both axes.
-   */
+- `handle?` {string} A query selector representing an optional handle that can be used to drag the content of the draggable.
 
 
 

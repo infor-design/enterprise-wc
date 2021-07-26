@@ -310,6 +310,8 @@ describe('IdsSpinbox Component', () => {
     expect(elem.disabled).toBeNull();
 
     elem.readonly = true;
+    await processAnimFrame();
+    await processAnimFrame();
     expect(elem.getAttribute('readonly')).toEqual('true');
     expect(elem.getAttribute('disabled')).toEqual('true');
     elem.readonly = false;

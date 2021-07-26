@@ -61,6 +61,7 @@ export const attributes = {
   GAP: 'gap',
   GROUP: 'group',
   GROUP_DISABLED: 'group-disabled',
+  HANDLE: 'handle',
   HEIGHT: 'height',
   HORIZONTAL: 'horizontal',
   HREF: 'href',

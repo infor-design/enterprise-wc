@@ -1,5 +1,4 @@
 import { stringUtils } from '../../src/ids-base/ids-string-utils';
-import processAnimFrame from './process-anim-frame';
 
 const RANDOM_VALUE = 'rando_val_23';
 
@@ -46,7 +45,7 @@ export default function expectEnumAttributeBehavior({
     expect(elem.hasAttribute(attribute)).toBeFalsy();
   }
 
-  values.reverse().map((v) => {
+  values.reverse().forEach((v) => {
     elem.setAttribute(attribute, v);
     expect(elem.getAttribute(attribute)).toEqual(v);
   });
