@@ -115,9 +115,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     if (prop > 0 && prop <= this.total) {
       this.setAttribute('value', prop);
       percentage = Math.floor((prop / this.total) * 100);
-    }
-
-    else {
+    } else {
       // default progress is 10%
       this.setAttribute('value', '10%');
     }
