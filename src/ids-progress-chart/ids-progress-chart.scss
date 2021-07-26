@@ -10,6 +10,7 @@
 
   display: flex;
   flex-direction: column;
+  margin: 10px 0;
 
   
   .labels {
@@ -25,7 +26,6 @@
 
     .label-completed {
       display: inline-block;
-
       padding-left: 2px;
     }
 
