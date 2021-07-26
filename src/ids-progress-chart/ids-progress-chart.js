@@ -43,7 +43,8 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       attributes.SIZE, // small or normal
       attributes.TOTAL, // integer amt for whole bar (?)
       attributes.VALUE, // curent progress value
-      // completed-label
+      attributes.LABEL,
+      "completed-label",
       // error-label
       // icon
     ];
@@ -61,11 +62,11 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
         ${this.label && `<ids-text class="label-main">${this.label}</ids-test>` }
         <slot></slot>
         ${this.completedLabel && `<ids-text class="label-completed">${this.completedLabel} </ids-text>` }
-        ${this.value && `<ids-text class="label-value">${this.value} </ids-text>` }
+        ${this.value && `<ids-text class="label-value">${this.value ? this.value : ''} </ids-text>` }
         ${this.total && `<ids-text class="label-total">${this.total}</ids-text>` }
       </div>
       <div class="progress-bar">
-        <div part="barcolor" class="bar-total">
+        <div class="bar-total">
           <div class="bar-current"></div>
         </div>
       </div>
@@ -83,43 +84,42 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       // check if the color param starts with #, else use some ids-color-status (not sure what error or danger is tho)
       const prop = value.substr(0, 1) === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
       
-      // TODO: figure out how to grab the .bar-current to set its background color
-      const progressChart = document.getElementsByClassName('.ids-progress-chart');
-      // const progressBar = progressChart.querySelector('.progress-bar');
-      // const progressBarCurrent = progressBar.querySelector('.bar-current');
-      // this.progressBarCurrent.style.backgroundColor = prop;
-      // this.container.style.backgroundColor = prop;
-      // progressChart.style.backgroundColor = prop;
-
-      return;
+      const bar = this.container.querySelector('.bar-current');
+      bar.style.backgroundColor = prop;
     }
-
-    this.removeAttribute('color');
-    this.container.style.backgroundColor = '';
   }
 
   get color() { return this.getAttribute('color'); }
 
   set label(value) {
     if (value) {
-      this.setAttribute('label', value);
+      this.setAttribute('label', value); 
 
       return;
     }
 
-    // TODO: why does this still show null? 
-    this.removeAttribute('label');
+    this.setAttribute('label', '');
+
   }
 
   get label() { return this.getAttribute('label'); }
 
   set value(value) {
-    if (value) {
-      this.setAttribute('value', value);
+    const prop = parseInt(value);
+    let percentage = 10;
 
-      return;
+    if (prop > 0 && prop <= this.total) {
+      this.setAttribute('value', prop);
+      percentage = Math.floor(prop/this.total*100);
     }
-    this.removeAttribute('value');
+
+    else {
+      // default progress is 10%
+      this.setAttribute('value', '10%')
+    }
+
+    const bar = this.container.querySelector('.bar-current');
+    bar.style.width = percentage + '%';
   }
 
   get value() { return this.getAttribute('value'); }
@@ -154,6 +154,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     if (!icon) {
       const labels = this.querySelector('.label-main');
       labels.insertAdjacentHTML('afterend', `<ids-icon part="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
+      labels.backgroundColor = "#FF0000"
       this.#handleEvents();
     }
   }
