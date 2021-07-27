@@ -231,3 +231,28 @@ display: flex;
 flex-direction: row;
 justify-content: flex-end;
 ```
+
+### Ids Inverse Color Mixin
+
+This mixin injects an `inverse` property into a component that can be used as a way to provide alternate styles to that component that may work better against contrasting background colors.  For example, in an application using Light Mode, an [IdsContainer Component](../ids-container/README.md) can be set to `inverse`, switching its background color to a dark Slate, and the foreground text color to white.  The white is propagated to children components such as [IdsIcon](../ids-icon/README.md) and [IdsText](../ids-text/README.md).
+
+The style change is achieved by adding an `.inverse` CSS property onto whichever element is picked up by [IdsElement](../ids-base/README.md)'s `container` property when the `inverse` property is present.
+
+Additionally, this mixin will try to run an optional `onInverseRefresh` callback whenever the inverse property is updated.  This can contain custom ways to modify a component when `inverse` is added or removed.
+
+The usage of this mixin would be:
+
+1. Import the mixin and add it to the `mix` list
+1. Manually add the `inverse` property to your example, or have your component set this property automatically.
+1. In your `.scss` code, apply styles intended for inverse mode to an `.inverse` CSS class.  A simple implementation of style scaffolding may look like this:
+
+```scss
+.my-component-container {
+  // base styles
+  &.inverse {
+    // inverse styles
+  }
+}
+```
+
+To see a more complex version of how inverse styles could be implemented, see the [SCSS source code for Ids Button](../ids-button/ids-button.scss) and search for `inverse`.

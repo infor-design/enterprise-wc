@@ -23,7 +23,7 @@
 }
 
 @mixin inverse-button-shadow() {
-  box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.7);
 }
 
 // Simplifies some common lines of code used on all mode/version variants of text color
@@ -270,6 +270,62 @@
     .ripple-effect {
       background-color: var(--ids-color-palette-white);
     }
+
+    // ====================================================
+    // New Light Inverse Primary Button styles
+
+    &.btn-primary {
+      background-color: var(--ids-color-palette-azure-40);
+      border-color: var(--ids-color-palette-azure-40);
+      color: var(--ids-color-brand-primary-contrast);
+      opacity: 1;
+
+      &:focus {
+        @include inverse-button-shadow();
+
+        border-color: var(--ids-color-palette-white);
+      }
+
+      &:hover {
+        @include bg-azure-30();
+      }
+
+      &[disabled] {
+        @include bg-azure-30();
+        @include border-azure-30();
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-brand-primary-contrast);
+      }
+    }
+
+    // ====================================================
+    // New Light Inverse Secondary Button styles
+
+    &.btn-secondary {
+      @include bg-slate-30();
+
+      color: var(--ids-color-font-base);
+      opacity: 1;
+
+      &:focus {
+        @include inverse-button-shadow();
+      }
+
+      &:hover {
+        @include bg-slate-40();
+      }
+
+      &[disabled] {
+        @include bg-slate-20();
+        @include border-slate-20();
+      }
+
+      .ripple-effect {
+        background-color: var(--ids-color-brand-primary-contrast);
+      }
+    }
   }
 
   // ====================================================
@@ -286,7 +342,7 @@
       @include text-white();
     }
 
-    // Dark Mode "inverse" styles
+    // Dark Mode "inverse" styles (similar to light mode's)
     @include inverse-white-text-only();
   }
 
@@ -305,7 +361,41 @@
     }
 
     // High-Contrast Mode "inverse" styles
-    @include inverse-white-text-only();
+    &.inverse {
+      @include text-white();
+
+      opacity: 1;
+
+      &[disabled] {
+        @include text-white();
+      }
+
+      &:hover {
+        @include text-white();
+
+        text-decoration: underline;
+      }
+
+      // High-Contrast Inverse Primary Styles
+      &.btn-primary {
+        background-color: var(--ids-color-palette-azure-60);
+        border-color: var(--ids-color-palette-azure-60);
+
+        &:hover {
+          background-color: var(--ids-color-palette-azure-50);
+        }
+      }
+
+      // High-Contrast Inverse Secondary Styles
+      &.btn-secondary {
+        background-color: var(--ids-color-palette-slate-50);
+        border-color: var(--ids-color-palette-slate-50);
+
+        &:hover {
+          background-color: var(--ids-color-palette-slate-40);
+        }
+      }
+    }
   }
 
   // ====================================================
