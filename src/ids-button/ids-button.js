@@ -125,8 +125,8 @@ class IdsButton extends mix(IdsElement).with(
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
    */
   static get attributes() {
     return [...super.attributes, ...BUTTON_ATTRIBUTES];
@@ -489,7 +489,7 @@ class IdsButton extends mix(IdsElement).with(
     if (textElem && textElem.textContent?.length) {
       return textElem.textContent;
     }
-    return this.state.text;
+    return this.textContent;
   }
 
   /**

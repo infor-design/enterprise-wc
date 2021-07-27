@@ -7,8 +7,7 @@ const popupEl = popupmenuEl.popup;
 // Standard menu configuration
 document.addEventListener('DOMContentLoaded', () => {
   popupmenuEl.addEventListener('selected', (e) => {
-    // eslint-disable-next-line
-    console.log(`Item "${e.detail.elem.text}" was selected`);
+    console.info(`Item "${e.detail.elem.text}" was selected`);
   });
 });
 

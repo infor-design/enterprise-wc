@@ -11,32 +11,27 @@ import { attributes } from '../ids-base/ids-attributes';
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
+  IdsPopupInteractionsMixin,
+  IdsPopupOpenEventsMixin,
   IdsRenderLoopMixin,
   IdsRenderLoopItem,
   IdsResizeMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsXssMixin
 } from '../ids-mixins';
 
 import zCounter from './ids-modal-z-counter';
 import IdsPopup from '../ids-popup/ids-popup';
 import IdsOverlay from './ids-overlay';
+import IdsModalButton from '../ids-modal-button';
 
-// @ts-ignore
 import styles from './ids-modal.scss';
 import { IdsStringUtils } from '../ids-base/ids-string-utils';
 import IdsDOMUtils from '../ids-base/ids-dom-utils';
 
-const MODAL_ATTRIBUTES = [
-  attributes.VISIBLE
-];
-
-const appliedMixins = [
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsRenderLoopMixin,
-  IdsResizeMixin,
-  IdsThemeMixin,
-];
+// When a user clicks the Modal Buttons, this is the delay between
+// the click and the "hiding" of the Modal.
+const dismissTimeout = 200;
 
 /**
  * IDS Modal Component
@@ -52,19 +47,34 @@ const appliedMixins = [
  */
 @customElement('ids-modal')
 @scss(styles)
-class IdsModal extends mix(IdsElement).with(...appliedMixins) {
+class IdsModal extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsKeyboardMixin,
+    IdsPopupInteractionsMixin,
+    IdsPopupOpenEventsMixin,
+    IdsRenderLoopMixin,
+    IdsResizeMixin,
+    IdsThemeMixin,
+    IdsXssMixin,
+  ) {
   constructor() {
     super();
 
-    this.state = {
-      overlay: null,
-      target: null,
-      visible: false,
-    };
+    /* istanbul ignore next */
+    if (!this.state) {
+      this.state = {};
+    }
+    this.state.overlay = null;
+    this.state.messageTitle = null;
+    this.state.visible = false;
   }
 
   static get attributes() {
-    return [...super.attributes, ...MODAL_ATTRIBUTES];
+    return [
+      ...super.attributes,
+      attributes.MESSAGE_TITLE,
+      attributes.VISIBLE
+    ];
   }
 
   /**
@@ -86,7 +96,11 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     this.popup.type = 'modal';
     this.popup.animated = true;
     this.popup.animationStyle = 'scale-in';
+
+    // Update ARIA / Sets up the label
+    this.messageTitle = this.querySelector('[slot="title"]')?.textContent;
     this.setAttribute('role', 'dialog');
+    this.refreshAriaLabel();
 
     // Listen for changes to the window size
     /* istanbul ignore next */
@@ -94,21 +108,20 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       this.setModalPosition();
     }));
 
+    // Update Inner Modal Parts
+
     this.shouldUpdate = true;
 
+    // Update Outer Modal Parts
     this.#refreshOverlay(this.overlay);
-    this.#refreshVisibility(this.visible);
-
-    // Add events to the target element
-    /* istanbul ignore next */
-    if (this.target) {
-      this.#refreshTargetEvents();
-    }
+    this.visible = this.getAttribute('visible');
 
     // Run refresh once on connect
-    this.rl.onNextTick(() => {
+    window.requestAnimationFrame(() => {
       this.setModalPosition();
     });
+
+    this.handleEvents();
   }
 
   /**
@@ -116,9 +129,42 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {string} The template
    */
   template() {
-    return `<ids-popup part="modal" class="ids-modal" type="menu">
-      <slot slot="content"></slot>
+    const extraClass = this.name !== 'ids-modal' ? this.name : '';
+    const extraContentClass = extraClass ? ` ${extraClass}-content` : '';
+    const extraHeaderClass = extraClass ? ` ${extraClass}-header` : '';
+    const extraFooterClass = extraClass ? ` ${extraClass}-footer` : '';
+    const footerHidden = this.buttons.length ? '' : ' hidden';
+
+    return `<ids-popup part="modal" class="ids-modal" type="custom">
+      <div class="ids-modal-container" slot="content">
+        <div class="ids-modal-header${extraHeaderClass}">
+          <slot name="title"></slot>
+        </div>
+        <div class="ids-modal-content${extraContentClass}">
+          <slot></slot>
+        </div>
+        <div class="ids-modal-footer${extraFooterClass}" ${footerHidden}>
+          <slot name="buttons"></slot>
+        </div>
+      </div>
     </ids-popup>`;
+  }
+
+  /**
+   * Used for ARIA Labels and other content
+   * @readonly
+   * @returns {string} concatenating the status and title together.
+   */
+  get ariaLabelContent() {
+    return this.messageTitle;
+  }
+
+  /**
+   * @readonly
+   * @returns {NodeList} currently slotted buttons
+   */
+  get buttons() {
+    return this.querySelectorAll('[slot="buttons"]');
   }
 
   /**
@@ -149,22 +195,97 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   }
 
   /**
-   * @returns {HTMLElement} the defined target element
+   * @returns {string} the content of the message's title
    */
-  get target() {
-    return this.state.target;
+  get messageTitle() {
+    const titleEl = this.querySelector('[slot="title"]');
+
+    /* istanbul ignore next */
+    return titleEl?.textContent || this.state.messageTitle;
   }
 
   /**
-   * @param {HTMLElement} val a specified target element
+   * @param {string} val the new content to be used as the message's title
    */
-  set target(val) {
-    if (val && val instanceof HTMLElement) {
-      this.state.target = val;
-    } else {
-      this.state.target = null;
+  set messageTitle(val) {
+    const trueVal = this.xssSanitize(val);
+    const currentVal = this.state.messageTitle;
+
+    if (currentVal !== trueVal) {
+      if (typeof trueVal === 'string' && trueVal.length) {
+        this.state.messageTitle = trueVal;
+        this.setAttribute(attributes.MESSAGE_TITLE, trueVal);
+      } else {
+        this.state.messageTitle = '';
+        this.removeAttribute(attributes.MESSAGE_TITLE);
+      }
+
+      this.#refreshModalHeader(!!trueVal);
     }
-    this.#refreshTargetEvents();
+  }
+
+  /**
+   * Refreshes the state of the Modal header, either adding its slot/contents or removing it
+   * @param {boolean} hasTitle true if the title should be rendered
+   * @returns {void}
+   */
+  /* istanbul ignore next */
+  #refreshModalHeader(hasTitle) {
+    let titleEls = [...this.querySelectorAll('[slot="title"]')];
+
+    if (hasTitle) {
+      // Search for slotted title elements.
+      // If one is found, replace the contents.  Otherwise, create one.
+      /* istanbul ignore next */
+      if (!titleEls.length) {
+        this.insertAdjacentHTML('afterbegin', `<ids-text slot="title" type="h2" font-size="24">${this.state.messageTitle}</ids-text>`);
+        titleEls = [this.querySelector('[slot="title"]')];
+      }
+    }
+
+    this.refreshAriaLabel();
+
+    titleEls.forEach((el, i) => {
+      if (hasTitle) {
+        /* istanbul ignore next */
+        if (i > 0) {
+          el.remove();
+          return;
+        }
+        el.textContent = this.state.messageTitle;
+      } else {
+        el.remove();
+      }
+    });
+  }
+
+  /**
+   * Renders or Removes a correct `aria-label` attribute on the Modal about its contents.
+   * @returns {void}
+   */
+  refreshAriaLabel() {
+    const title = this.ariaLabelContent;
+    if (title) {
+      this.setAttribute('aria-label', title);
+      return;
+    }
+    this.removeAttribute('aria-label');
+  }
+
+  /**
+   * Refreshes the state of the Modal footer, hiding/showing it
+   * @returns {void}
+   */
+  #refreshModalFooter() {
+    /* istanbul ignore next */
+    const footerEl = this.container.querySelector('.ids-modal-footer');
+
+    /* istanbul ignore next */
+    if (this.buttons.length) {
+      footerEl.removeAttribute('hidden');
+    } else {
+      footerEl.setAttribute('hidden', '');
+    }
   }
 
   /**
@@ -186,10 +307,12 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       this.shouldUpdate = false;
       this.setAttribute(attributes.VISIBLE, '');
       this.shouldUpdate = true;
+      this.addOpenEvents();
     } else {
       this.shouldUpdate = false;
       this.removeAttribute(attributes.VISIBLE);
       this.shouldUpdate = true;
+      this.removeOpenEvents();
     }
 
     this.#refreshVisibility(trueVal);
@@ -206,7 +329,6 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     }
 
     this.visible = true;
-    this.#applyOpenEvents();
   }
 
   /**
@@ -220,18 +342,35 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     }
 
     this.visible = false;
-    this.#removeOpenEvents();
   }
 
-  #applyOpenEvents() {
+  /**
+   * Overrides `addOpenEvents` from the OpenEvents mixin to add additional "Escape" key handling
+   */
+  addOpenEvents() {
+    super.addOpenEvents();
+
     /* istanbul ignore next */
-    this.listen('Escape', this.container, () => {
+    this.listen('Escape', this, () => {
       this.hide();
+    });
+
+    // If a Modal Button is clicked, fire an optional callback
+    const buttonSlot = this.container.querySelector('slot[name="buttons"]');
+
+    /* istanbul ignore next */
+    this.onEvent('click.buttons', buttonSlot, (e) => {
+      this.handleButtonClick(e);
     });
   }
 
-  #removeOpenEvents() {
+  /**
+   * Overrides `removeOpenEvents` from the OpenEvents mixin to remove "Escape" key handling
+   */
+  removeOpenEvents() {
+    super.removeOpenEvents();
     this.unlisten('Escape');
+    this.offEvent('click.buttons');
   }
 
   /**
@@ -265,9 +404,10 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
     if (val && !popupCl?.contains('visible')) {
       this.overlay.visible = true;
       this.popup.visible = true;
+      this.removeAttribute('aria-hidden');
 
       // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
-      this.rl.onNextTick(() => {
+      window.requestAnimationFrame(() => {
         this.overlay.container.style.zIndex = zCounter.increment();
         this.popup.container.style.zIndex = zCounter.increment();
         this.setModalPosition();
@@ -288,6 +428,7 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       await IdsDOMUtils.waitForTransitionEnd(this.overlay.container, 'opacity');
       this.overlay.container.style.zIndex = '';
       this.popup.container.style.zIndex = '';
+      this.setAttribute('aria-hidden', 'true');
       zCounter.decrement();
       zCounter.decrement();
 
@@ -317,13 +458,16 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       this.popup.align = 'center';
     }
 
-    // If the modal isn't visible, subtract its width/height from the equation
     const isOpen = this.popup.animatedOpen;
+    let width = 0;
+    let height = 0;
 
+    // If the modal isn't visible, subtract its width/height from the equation.
     /* istanbul ignore next */
-    const width = !isOpen ? this.popup.container?.clientWidth || 0 : 0;
-    /* istanbul ignore next */
-    const height = !isOpen ? this.popup.container?.clientHeight || 0 : 0;
+    if (!isOpen) {
+      width = this.popup.container?.clientWidth || 0;
+      height = this.popup.container?.clientHeight || 0;
+    }
 
     this.popup.x = (window.innerWidth - width) / 2;
     this.popup.y = (window.innerHeight - height) / 2;
@@ -334,7 +478,23 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   #setModalFocus() {
-    const focusable = [...this.querySelectorAll('button, ids-button, [href], input, ids-input, select, textarea, ids-textarea, [tabindex]:not([tabindex="-1"])')];
+    const focusableSelectors = [
+      'button',
+      'ids-button',
+      'ids-menu-button',
+      'ids-modal-button',
+      'ids-toggle-button',
+      '[href]',
+      'input',
+      'ids-input',
+      'select',
+      'textarea',
+      'ids-textarea',
+      '[tabindex]:not([tabindex="-1"]'
+    ];
+    const selectorStr = focusableSelectors.join(', ');
+
+    const focusable = [...this.querySelectorAll(selectorStr)];
     if (focusable.length) {
       focusable[0].focus();
     }
@@ -352,23 +512,55 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
   }
 
   /**
-   * Connects a click event to the defined target element, which will allow the modal to open
-   * by click, or by a keyboard press with the Enter/Return key.
-   * @returns {void}
+   * Sets up overall events
    */
-  #refreshTargetEvents() {
-    this.detachEventsByName('click.target');
+  handleEvents() {
+    const titleSlot = this.container.querySelector('slot[name="title"]');
+    const buttonSlot = this.container.querySelector('slot[name="buttons"]');
 
-    if (!this.target) {
-      return;
-    }
-
-    this.target.setAttribute('aria-controls', `${this.id}`);
-    this.onEvent('click.target', this.target, () => {
-      if (!this.visible) {
-        this.show();
-      }
+    // Stagger these one frame to prevent them from occuring
+    // immediately when the component invokes
+    /* istanbul ignore next */
+    window.requestAnimationFrame(() => {
+      this.onEvent('slotchange.title', titleSlot, () => {
+        const titleNodes = titleSlot.assignedNodes();
+        if (titleNodes.length) {
+          this.messageTitle = titleNodes[0].textContent;
+        }
+      });
+      this.onEvent('slotchange.buttonset', buttonSlot, () => {
+        this.#refreshModalFooter();
+        this.setModalPosition();
+      });
     });
+
+    // Set up all the events specifically-related to the "trigger" type
+    this.refreshTriggerEvents();
+  }
+
+  /**
+   * Handles when Modal Button is clicked.
+   * @param {*} e the original event object
+   */
+  handleButtonClick(e) {
+    const timeoutCallback = () => {
+      /* istanbul ignore next */
+      if (typeof this.onButtonClick === 'function') {
+        this.onButtonClick(e.target);
+      }
+      // If this IdsModalButton has a `cancel` prop, treat
+      // it as a `cancel` button and hide.
+      const modalBtn = e.target.closest('ids-modal-button');
+      if (modalBtn?.cancel) {
+        this.hide();
+      }
+    };
+
+    // Run click handler on a staggered interval
+    this.rl.register(new IdsRenderLoopItem({
+      duration: dismissTimeout,
+      timeoutCallback
+    }));
   }
 
   /**
@@ -393,6 +585,26 @@ class IdsModal extends mix(IdsElement).with(...appliedMixins) {
       }
     });
     return canShow;
+  }
+
+  /**
+   * Handle `onTriggerClick` from IdsPopupInteractionsMixin
+   */
+  /* istanbul ignore next */
+  onTriggerClick() {
+    this.show();
+  }
+
+  /**
+   * Handle `onOutsideClick` from IdsPopupOpenEventsMixin
+   * @param {MouseEvent} e the original click event
+   */
+  /* istanbul ignore next */
+  onOutsideClick(e) {
+    if (!this.isEqualNode(e.target)) {
+      return;
+    }
+    this.hide();
   }
 }
 

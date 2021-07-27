@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsNotificationBanner Component renders correctly 1`] = `"<ids-notification-banner type=\\"success\\"></ids-notification-banner>"`;
+
+exports[`IdsNotificationBanner Component renders correctly 2`] = `"<ids-notification-banner type=\\"alert\\"></ids-notification-banner>"`;
+
+exports[`IdsNotificationBanner Component renders correctly 3`] = `"<ids-notification-banner type=\\"info\\"></ids-notification-banner>"`;
+
+exports[`IdsNotificationBanner Component renders correctly 4`] = `"<ids-notification-banner type=\\"error\\"></ids-notification-banner>"`;
+
+exports[`IdsNotificationBanner Component renders correctly 5`] = `"<ids-notification-banner type=\\"success\\"></ids-notification-banner>"`;

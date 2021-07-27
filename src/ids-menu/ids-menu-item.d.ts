@@ -38,7 +38,7 @@ interface beforedeselected extends Event {
 }
 
 export default class IdsMenuItem extends IdsElement {
-  /* Internal state object used for some properties */
+  /* Internal state object used for some attributes */
   readonly state: unknown;
 
   /* reference to the Menu Item's anchor */

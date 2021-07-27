@@ -1,5 +1,3 @@
-import IdsIcon from '../ids-icon/ids-icon';
-
 /**
  * Track changes on inputs elements and show a dirty indicator.
  * @param {any} superclass Accepts a superclass and creates a new subclass from it

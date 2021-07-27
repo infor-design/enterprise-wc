@@ -44,7 +44,7 @@ const ARROW_TYPES = ['none', 'bottom', 'top', 'left', 'right'];
 const POSITION_STYLES = ['fixed', 'absolute'];
 
 // Types of Popups
-const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt'];
+const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt', 'custom'];
 
 // Properties exposed with getters/setters
 // safeSet/RemoveAttribute also use these so we pull them out
@@ -156,8 +156,6 @@ class IdsPopup extends mix(IdsElement).with(
 
     this.state.visible = this.hasAttribute(attributes.VISIBLE);
 
-    this.handleEvents();
-
     this.shouldUpdate = true;
     window.requestAnimationFrame(() => {
       this.refresh();
@@ -165,8 +163,8 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
    */
   static get attributes() {
     return [...super.attributes, ...POPUP_PROPERTIES];
@@ -183,17 +181,6 @@ class IdsPopup extends mix(IdsElement).with(
         <slot name="content"></slot>
       </div>
     </div>`;
-  }
-
-  /**
-   * @private
-   * @returns {void}
-   */
-  handleEvents() {
-    const slot = this.shadowRoot.querySelector('slot');
-    this.onEvent('slotchange', slot, () => {
-      this.refresh();
-    });
   }
 
   /**

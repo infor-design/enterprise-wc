@@ -6,19 +6,19 @@
 :host {
   @include block();
 
-  min-height: calc(100vh - 16px);
+  min-height: 100vh;
 }
 
 .ids-container {
   @include absolute();
   @include bg-white();
   @include outline-none();
-  @include p-8();
+  @include p-0();
 
-  height: calc(100% - 16px);
-  margin: -8px;
+  box-sizing: border-box;
+  height: 100%;
   overflow: auto;
-  width: calc(100% - 16px);
+  width: 100%;
 
   &[scrollable='false'] {
     overflow: hidden;

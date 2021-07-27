@@ -12,11 +12,13 @@
 - [] Column Sizes/Widths
 - [] Column Resize
 - [] Filter Row
-- [] Formatters
+- [x] Formatters
+- [] Button formatters left: Checkbox, SelectionCheckbox, Badge, Tag, Alert, Image, Button, Favorite
+- [] Add deprecated formatters as column settings
 - [] Editors / Editing / Dirty
 - [] Fixed header
 - [] Frozen Columns
-- [] Keyboard Navigation see (standards)[https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids] (actionable mode, Xcell navigation, X row navigation)
+- [] Keyboard Navigation see (standards)[https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids] (actionable mode, X cell navigation, X row navigation)
 - [] Check all current options
 - [] More Accessibility see (standards)[https://design.infor.com/code/ids-enterprise/latest/listview#accessibility]
 
@@ -40,7 +42,7 @@
 - [] Automation id's
 - [] Errors and Validation
 - [] Disabled Rows
-- [] Export to excel (Seperate Util/Api)
+- [] Export to excel (Separate Util/Api)
 - [] Check all current API/Events
 
 ## Tier Three/Deprecate
@@ -50,4 +52,4 @@
 - [] Column spanning cells
 - [] Stretch and Spacer Columns
 - [] Column Sizing / Size Compression
-- [] Row Reorder
+- [] Row Reorder (and formatter?)

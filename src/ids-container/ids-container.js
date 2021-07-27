@@ -10,7 +10,8 @@ import {
 // Import Mixins
 import {
   IdsEventsMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsLocaleMixin
 } from '../ids-mixins';
 
 import styles from './ids-container.scss';
@@ -21,11 +22,12 @@ import styles from './ids-container.scss';
  * @inherits IdsElement
  * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsLocaleMixin
  * @part container - the entire container element
  */
 @customElement('ids-container')
 @scss(styles)
-class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsLocaleMixin) {
   constructor() {
     super();
   }
@@ -35,14 +37,27 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   connectedCallback() {
     super.connectedCallback();
+
+    /* istanbul ignore next */
+    if (this.reset) {
+      this.#addReset();
+    }
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.SCROLLABLE, attributes.MODE, attributes.VERSION];
+    return [
+      attributes.LANGUAGE,
+      attributes.LOCALE,
+      attributes.MODE,
+      attributes.PADDING,
+      attributes.RESET,
+      attributes.SCROLLABLE,
+      attributes.VERSION
+    ];
   }
 
   /**
@@ -54,23 +69,59 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
+   * If set to number the container will have padding added (in pixels)
+   * @param {string} value sets the padding to the container
+   */
+  set padding(value) {
+    this.container.style.padding = `${value}px`;
+    this.setAttribute(attributes.PADDING, value.toString());
+  }
+
+  get padding() {
+    return this.getAttribute(attributes.PADDING);
+  }
+
+  /**
    * If set to true the container is scrollable
    * @param {boolean|string} value true of false depending if the tag is scrollable
    */
   set scrollable(value) {
     if (stringUtils.stringToBool(value)) {
-      this.setAttribute('scrollable', 'true');
-      this.container.setAttribute('scrollable', 'true');
+      this.setAttribute(attributes.SCROLLABLE, 'true');
+      this.container.setAttribute(attributes.SCROLLABLE, 'true');
       this.container.setAttribute('tabindex', '0');
       return;
     }
 
-    this.setAttribute('scrollable', 'false');
-    this.container.setAttribute('scrollable', 'false');
+    this.setAttribute(attributes.SCROLLABLE, 'false');
+    this.container.setAttribute(attributes.SCROLLABLE, 'false');
     this.container.removeAttribute('tabindex');
   }
 
-  get scrollable() { return this.getAttribute('scrollable') || 'true'; }
+  get scrollable() { return this.getAttribute(attributes.SCROLLABLE) || 'true'; }
+
+  /**
+   * Add the reset to the body
+   * @private
+   */
+  #addReset() {
+    document.querySelector('body').style.margin = '0';
+  }
+
+  /**
+   * If set to true body element will get reset
+   * @param {boolean|string} value true of false
+   */
+  set reset(value) {
+    if (stringUtils.stringToBool(value)) {
+      this.#addReset();
+      return;
+    }
+    this.removeAttribute(attributes.RESET);
+    document.querySelector('body').style.margin = '';
+  }
+
+  get reset() { return this.getAttribute(attributes.RESET) || 'true'; }
 }
 
 export default IdsContainer;

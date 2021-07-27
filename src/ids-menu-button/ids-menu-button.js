@@ -35,7 +35,7 @@ class IdsMenuButton extends IdsButton {
   }
 
   /**
-   * @returns {Array} containing configurable properties on this component
+   * @returns {Array} containing configurable attributes on this component
    */
   static get attributes() {
     return BUTTON_ATTRIBUTES.concat(MENU_BUTTON_ATTRIBUTES);

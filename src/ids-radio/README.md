@@ -151,7 +151,7 @@ Set Radio Group as Horizontal:
 </ids-radio-group>
 ```
 
-## Attributes and Properties (for Radios)
+## Settings (Attributes) (for Radios)
 
 - `checked` {boolean} set checked state.
 - `color` {string} set the color for radio.
@@ -162,7 +162,7 @@ Set Radio Group as Horizontal:
 - `validation-has-error` {boolean} set the validation error state.
 - `value` {string} set the radio value.
 
-## Attributes and Properties (for Radio Groups)
+## Settings (Attributes) (for Radio Groups)
 
 - `dirty-tracker` {boolean} set dirty tracker.
 - `disabled` {boolean} set disabled state.
