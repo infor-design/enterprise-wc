@@ -1,0 +1,11 @@
+---
+ component: Menu Button
+ link: ids-menu-button
+ description: A button with a popup menu
+ category: Navigation and Interaction
+ keywords: Modal, Dialog
+ examples:
+  - link: index.html
+    description: Showing a simple menu button example
+  - link: side-by-side.html
+    description: Showing a menu button side by side with 4.x

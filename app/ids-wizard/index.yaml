@@ -5,7 +5,7 @@
  category: Navigation and Interaction
  keywords: wizard, steps, tabs
  examples:
-  - link: example.html
+  - link: index.html
     description: Showing a 4 step clickable wizard
     keywords: true
     tag: new

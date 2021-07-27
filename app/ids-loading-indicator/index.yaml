@@ -1,0 +1,13 @@
+---
+ component: Loading Indicator
+ link: ids-loading-indicator
+ description: Animation for loading
+ category: Navigation and Interaction
+ keywords: Loading Indicator, Busy Indicator, Skeleton
+ examples:
+  - link: index.html
+    description: Shows all available loading indicators
+  - link: side-by-side.html
+    description: Showing a loading indicators side by side with a 4.x busy indicator
+
+

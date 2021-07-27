@@ -5,7 +5,7 @@
  category: Form Inputs
  keywords: upload, files, file upload
  examples:
-  - link: example.html
+  - link: index.html
     description: Showing a basic file upload
   - link: side-by-side.html
     description: Example showing it work side by side

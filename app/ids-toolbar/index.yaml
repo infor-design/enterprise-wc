@@ -5,7 +5,7 @@
  category: Layouts
  keywords: toolbar, layout, buttons
  examples:
-  - link: example.html
+  - link: index.html
     description: Showing a simple toolbar
   - link: centered.html
     description: Showing a toolbar with centered text

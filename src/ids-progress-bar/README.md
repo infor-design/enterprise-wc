@@ -6,7 +6,7 @@ Displays feedback about a system process. It is best for showing feedback about 
 
 ## Use Cases
 
-- Showing feedback about a running system proces
+- Showing feedback about a running system process
 
 ## Terminology
 

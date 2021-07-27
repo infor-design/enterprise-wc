@@ -1,0 +1,14 @@
+---
+ component: Checkbox
+ link: ids-checkbox
+ description: Checkbox Input element
+ category: Form Inputs
+ keywords: checkbox, checkboxes
+ examples:
+  - link: index.html
+    description: Shows all checkbox settings and states
+  - link: side-by-side.html
+    description: Showing an checkbox with a 4.x checkbox
+  - link: standalone-css.html
+    description: Showing a checkbox that works with css only
+

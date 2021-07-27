@@ -1,0 +1,19 @@
+---
+ component: Popup Menu
+ link: ids-popup-menu
+ description: Displays a context menu
+ category: Navigation and Interaction
+ keywords: Popup, context menu, menu
+ examples:
+  - link: index.html
+    description: Showing a Popup Menu example
+  - link: data-driven.html
+    description: Showing a Popup Menu fed with a dataset
+  - link: selected-state.html
+    description: Showing a Popup Menu with selections
+  - link: trigger-immediate.html
+    description: Showing a Popup Menu invoked on demand
+  - link: side-by-side.html
+    description: Showing a Popup Menu side by side with 4.x
+  - link: standalone-css.html
+    description: Showing Popup Menu that works with css only

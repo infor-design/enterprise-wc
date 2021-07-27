@@ -1,0 +1,12 @@
+---
+ component: Icon
+ link: ids-icon
+ description: SVG icons
+ category: Messages and Alerts
+ keywords: icon, svg
+ examples:
+  - link: index.html
+    description: Shows all available icons and sizes
+  - link: side-by-side.html
+    description: Showing a few icons next to 4.x iconss
+

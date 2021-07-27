@@ -5,7 +5,9 @@
  category: Form Inputs
  keywords: theme, color, switcher
  examples:
-  - link: example.html
+  - link: index.html
     description: Showing all textarea states
   - link: side-by-side.html
     description: Showing a textarea side by side working with 4.x
+  - link: standalone-css.html
+    description: Showing a limited toolbar that works with css only

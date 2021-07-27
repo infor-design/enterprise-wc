@@ -1,11 +1,11 @@
 ---
  component: Upload Advanced
  link: ids-upload-advanced
- description: Upload multiple files with drag and drop
+ description: Upload multiple files
  category: Form Inputs
  keywords: upload, files, file upload
  examples:
-  - link: example.html
+  - link: index.html
     description: Showing a basic file upload
   - link: side-by-side.html
     description: Example showing it work side by side

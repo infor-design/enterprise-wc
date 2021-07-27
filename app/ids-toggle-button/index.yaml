@@ -5,7 +5,7 @@
  category: Navigation and Interaction
  keywords: button, toggle
  examples:
-  - link: example.html
+  - link: index.html
     description: Showing a standard on / off toggle button
   - link: icon-align-right.html
     description: Showing a toggle with a right side icon

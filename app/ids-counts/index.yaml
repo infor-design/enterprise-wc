@@ -1,0 +1,16 @@
+---
+ component: Counts
+ link: ids-counts
+ description: Informational Counts
+ category: Charts and Visualizations
+ keywords: Count, Process Display
+ examples:
+  - link: index.html
+    description: Shows a count on top and bottom
+  - link: not-actionable.html
+    description: Shows a readonly (non clickable) count
+  - link: standalone-css.html
+    description: Shows a css only count
+  - link: side-by-side.html
+    description: Showing a count next to a 4.x count
+

@@ -5,6 +5,6 @@
  category: Navigation and Interaction
  keywords: Virtual, Scroll, Big Data, Scroller, Scrolling
  examples:
-  - link: example.html
+  - link: index.html
     description: Showing a list with virtual scrolling
     keywords: Virtual, Scroll, Big Data, Scroller, Scrolling

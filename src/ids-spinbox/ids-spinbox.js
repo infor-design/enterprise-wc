@@ -619,9 +619,10 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       return;
     }
 
+    /* istanbul ignore next */
     if (parseInt(this.value) >= parseInt(this.max)) {
       this.#incrementButton?.setAttribute(attributes.DISABLED, '');
-    } /* istanbul ignore else */ else if (!this.hasAttribute(attributes.READONLY)) {
+    } else if (!this.hasAttribute(attributes.READONLY)) {
       this.#incrementButton?.removeAttribute(attributes.DISABLED);
     }
 
@@ -634,9 +635,10 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       return;
     }
 
+    /* istanbul ignore next */
     if (parseInt(this.value) <= parseInt(this.min)) {
       this.#decrementButton.setAttribute(attributes.DISABLED, '');
-    } /* istanbul ignore else */ else if (!this.hasAttribute(attributes.READONLY)) {
+    } else if (!this.hasAttribute(attributes.READONLY)) {
       this.#decrementButton.removeAttribute(attributes.DISABLED);
     }
   }

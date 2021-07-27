@@ -162,6 +162,8 @@ class IdsText extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsToo
       return;
     }
     if (typeof value === 'string') {
+      this.setAttribute(attributes.COLOR, value);
+      this.container.classList.remove('ids-text-color-unset');
       this.container.style.color = `var(--ids-color-palette-${value})`;
       return;
     }

@@ -1,0 +1,11 @@
+---
+ component: Accordion
+ link: ids-alert
+ description: Vertically Stacked Sections
+ category: Layouts
+ keywords: accordion, sections
+ examples:
+  - link: index.html
+    description: Shows a basic accordion
+  - link: side-by-side.html
+    description: Showing a accordion side by side with a 4.x accordion

@@ -7,11 +7,12 @@ ids-text ids-icon {
 }
 
 [slot='card-content'] {
+  align-items: center;
   cursor: pointer;
-  height: 100px;
   display: flex;
   flex-direction: column;
+  height: 100px;
   justify-content: center;
-  align-items: center;
+  text-align: center;
   width: 100%;
 }

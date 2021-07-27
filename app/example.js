@@ -1,5 +1,40 @@
 // Import Every Yaml File
-
+import accordionYaml from './ids-accordion/index.yaml';
+import alertYaml from './ids-alert/index.yaml';
+import badgeYaml from './ids-badge/index.yaml';
+import blockGridYaml from './ids-block-grid/index.yaml';
+import breadcrumbYaml from './ids-breadcrumb/index.yaml';
+import buttonYaml from './ids-button/index.yaml';
+import cardYaml from './ids-card/index.yaml';
+import checkboxYaml from './ids-checkbox/index.yaml';
+import colorYaml from './ids-color/index.yaml';
+import colorPickerYaml from './ids-color-picker/index.yaml';
+import countsYaml from './ids-counts/index.yaml';
+import dataGridYaml from './ids-data-grid/index.yaml';
+import expandableAreaYaml from './ids-expandable-area/index.yaml';
+import fieldsetYaml from './ids-fieldset/index.yaml';
+import hyperlinkYaml from './ids-hyperlink/index.yaml';
+import iconYaml from './ids-icon/index.yaml';
+import inputYaml from './ids-input/index.yaml';
+import layoutGridYaml from './ids-list-view/index.yaml';
+import listviewYaml from './ids-layout-grid/index.yaml';
+import loadingIndicatorYaml from './ids-loading-indicator/index.yaml';
+import maskYaml from './ids-mask/index.yaml';
+import menuYaml from './ids-menu/index.yaml';
+import menuButtonYaml from './ids-menu-button/index.yaml';
+import modalYaml from './ids-modal/index.yaml';
+import pagerYaml from './ids-pager/index.yaml';
+import popupYaml from './ids-popup/index.yaml';
+import popupMenuYaml from './ids-popup-menu/index.yaml';
+import progressBarYaml from './ids-progress-bar/index.yaml';
+import radioYaml from './ids-radio/index.yaml';
+import ratingYaml from './ids-rating/index.yaml';
+import skiplinkActionYaml from './ids-skip-link/index.yaml';
+import spinboxActionYaml from './ids-spinbox/index.yaml';
+import swipeActionYaml from './ids-swipe-action/index.yaml';
+import switchYaml from './ids-switch/index.yaml';
+import tabsYaml from './ids-tabs/index.yaml';
+import tagYaml from './ids-tag/index.yaml';
 import textYaml from './ids-text/index.yaml';
 import themeSwitcherButtonYaml from './ids-theme-switcher/index.yaml';
 import toggleButtonYaml from './ids-toggle-button/index.yaml';
@@ -21,7 +56,7 @@ const categories = [
   { name: 'Messages and Alerts', icon: 'success', components: [] },
   { name: 'Lists', icon: 'spreadsheet', components: [] },
   { name: 'Layouts', icon: 'project', components: [] },
-  { name: 'Patterns', icon: 'design-mode', components: [] },
+  // { name: 'Patterns', icon: 'design-mode', components: [] },
   { name: 'Charts and Visualizations', icon: 'line-bar-chart', components: [] }
 ];
 
@@ -31,6 +66,42 @@ const addYaml = (yaml) => {
 };
 
 // Add each yaml file
+addYaml(accordionYaml);
+addYaml(alertYaml);
+addYaml(badgeYaml);
+addYaml(blockGridYaml);
+addYaml(breadcrumbYaml);
+addYaml(buttonYaml);
+addYaml(cardYaml);
+addYaml(checkboxYaml);
+addYaml(colorYaml);
+addYaml(colorPickerYaml);
+addYaml(countsYaml);
+addYaml(dataGridYaml);
+addYaml(expandableAreaYaml);
+addYaml(fieldsetYaml);
+addYaml(hyperlinkYaml);
+addYaml(iconYaml);
+addYaml(inputYaml);
+addYaml(layoutGridYaml);
+addYaml(listviewYaml);
+addYaml(loadingIndicatorYaml);
+addYaml(maskYaml);
+addYaml(menuYaml);
+addYaml(menuButtonYaml);
+addYaml(modalYaml);
+addYaml(pagerYaml);
+addYaml(popupYaml);
+addYaml(popupMenuYaml);
+addYaml(progressBarYaml);
+addYaml(radioYaml);
+addYaml(ratingYaml);
+addYaml(skiplinkActionYaml);
+addYaml(spinboxActionYaml);
+addYaml(swipeActionYaml);
+addYaml(switchYaml);
+addYaml(tabsYaml);
+addYaml(tagYaml);
 addYaml(textYaml);
 addYaml(themeSwitcherButtonYaml);
 addYaml(toggleButtonYaml);
@@ -44,8 +115,8 @@ addYaml(wizardYaml);
 
 let html = '';
 categories.forEach((category) => {
-  html += `<ids-text type="h1" font-size="20"><ids-icon icon="${category.icon}"></ids-icon>${category.name}</ids-text>
-  <ids-layout-grid cols="5" gap="md">`;
+  html += `<ids-text type="h1" font-size="24">${category.name}</ids-text>
+  <ids-layout-grid gap="md" auto="true">`;
   category.components.forEach((component) => {
     html += `<ids-layout-grid-cell><ids-card auto-height="true"><div slot="card-content" link="${component.link}">
     <ids-text type="h2" font-size="16" font-weight="bold" color="slate-100">${component.component}</ids-text>

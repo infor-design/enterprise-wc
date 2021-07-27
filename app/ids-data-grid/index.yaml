@@ -1,0 +1,16 @@
+---
+ component: Data Grid
+ link: ids-data-grid
+ description: Tabular Data
+ category: Lists
+ keywords: Data Grid, Grid, datagrid
+ examples:
+  - link: index.html
+    description: Shows a basic datagrid with formatters
+  - link: virtual-scroll.html
+    description: Shows a basic datagrid with virtual scrolling
+  - link: standalone-css.html
+    description: Shows a css only styles table
+  - link: side-by-side.html
+    description: Showing a datagrid next to a 4.x datagrid
+

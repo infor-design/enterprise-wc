@@ -1,0 +1,16 @@
+---
+ component: Input
+ link: ids-input
+ description: Input element and features
+ category: Form Inputs
+ keywords: input, text, form
+ examples:
+  - link: index.html
+    description: Shows all input settings and states
+  - link: side-by-side.html
+    description: Showing an input with a 4.x input
+  - link: validation-message.html
+    description: Shows all validation messages
+  - link: standalone-css.html
+    description: Showing a input that works with css only
+

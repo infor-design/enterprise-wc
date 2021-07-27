@@ -1,0 +1,14 @@
+---
+ component: Expandable Area
+ link: ids-expandable-area
+ description: Collapsible form sections
+ category: Layouts
+ keywords: fieldset, collapse, expandable area, form, section
+ examples:
+  - link: index.html
+    description: Shows general expandable area examples
+  - link: standalone.html
+    description: Shows a css expandable area
+  - link: side-by-side.html
+    description: Showing a expandable area next to a 4.x expandable area
+

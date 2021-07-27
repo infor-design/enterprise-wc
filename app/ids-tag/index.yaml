@@ -1,0 +1,13 @@
+---
+ component: Tag
+ link: ids-tag
+ description: UI Classification
+ category: Navigation and Interaction
+ keywords: tag, label, text
+ examples:
+  - link: index.html
+    description: Shows all ids-tag combinations
+  - link: side-by-side.html
+    description: Showing a tag element side by side working with 4.x
+  - link: standalone-css.html
+    description: Showing a limited tag that works with css only
