@@ -1,0 +1,35 @@
+{{> ../layouts/head-no-padding.html }}
+
+<ids-text font-size="12" type="h1" audible="true">Ids Header (Different Button Types)</ids-text>
+<ids-header>
+  <ids-toolbar>
+    <ids-toolbar-section>
+      <ids-button icon="menu" role="button" inverse>
+        <span slot="text" class="audible">Application Menu Trigger</span>
+      </ids-button>
+    </ids-toolbar-section>
+    <ids-toolbar-section type="title">
+      <ids-text font-size="20" inverse>My Header</ids-text>
+      <ids-text font-size="14" inverse>With some extra information below</ids-text>
+    </ids-toolbar-section>
+    <ids-toolbar-section type="buttonset" align="end">
+      <ids-button id="button-1" role="button" type="primary" inverse>
+        <ids-icon slot="icon" icon="filter"></ids-icon>
+        <span slot="text">My Filters</span>
+      </ids-button>
+
+      <ids-button id="button-3" type="secondary" inverse>
+        <ids-icon slot="icon" icon="settings"></ids-icon>
+        <span slot="text">My Settings</span>
+      </ids-button>
+
+      <ids-button id="button-4" type="tertiary" inverse>
+        <ids-icon slot="icon" icon="delete"></ids-icon>
+        <span slot="text">Trash</span>
+      </ids-button>
+    </ids-toolbar-section>
+    <ids-theme-switcher mode="light" version="new" inverse></ids-theme-switcher>
+  </ids-toolbar>
+</ids-header>
+
+{{> ../layouts/footer.html }}

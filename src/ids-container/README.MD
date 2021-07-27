@@ -35,6 +35,7 @@ A normal container with a set padding.
 
 - `scrollable` {boolean} Turns on the overflow to allow for scroll
 - `padding` {number} Sets the padding in px around the container (defaults to 0 / none)
+- `inverse` {boolean} if true, displays alternate contrasting color for text/icons via the [IdsInverseColorMixin](../ids-mixins/README.md)
 
 ## States and Variations (With Code Examples)
 
