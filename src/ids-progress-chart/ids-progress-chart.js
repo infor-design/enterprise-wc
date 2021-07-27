@@ -40,13 +40,12 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   static get attributes() {
     return [
       attributes.COLOR,
+      attributes.LABEL,
+      attributes.LABEL_TOTAL,
+      attributes.LABEL_VALUE,
       attributes.SIZE, // small or large
       attributes.TOTAL,
-      attributes.PROGRESS,
-      attributes.LABEL,
-      attributes.LABEL_PROGRESS,
-      // error-label
-      // icon
+      attributes.VALUE,
     ];
   }
 
@@ -58,14 +57,16 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     return `
     <div class="ids-progress-chart" part="chart">
       <div class="labels">
-        ${this.label && `<ids-text class="label-main">${this.label}</ids-test>` }
+        <ids-text class="label-main">${this.label}</ids-test>
         <slot></slot>
-        <ids-text class="label-progress">${this.progressLabel} </ids-text>
-        <ids-text class="label-total">${this.total}</ids-text>
+        <ids-text class="label-value">${this.valueLabel} </ids-text>
+        <div class="label-right">
+          <ids-text class="label-total">${this.totalLabel}</ids-text>
+        </div>
       </div>
       <div class="progress-bar">
         <div class="bar-total">
-          <div class="bar-current"></div>
+          <div class="bar-value"></div>
         </div>
       </div>
     </div>`;
@@ -79,16 +80,25 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     if (value) {
       this.setAttribute('color', value);
 
-      const prop = value.substr(0, 1) === '#' ? value : `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
+      let prop = value;
 
-      const bar = this.container.querySelector('.bar-current');
+      if (value.includes('error') || value.includes('caution') || value.includes('warning') || value.includes('base') || value.includes('success')) {
+        prop = `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
+
+        // only color the icons and progress labels if it's error, caution, or warning
+        if (value.includes('error') || value.includes('caution') || value.includes('warning')) {
+          const completedLabel = this.container.querySelector('.label-value');
+          completedLabel.style.color = prop;
+
+          const icon = this.container.querySelector('slot');
+          icon.style.color = prop;
+        }
+      } else if (value.substr(0, 1) !== '#') {
+        prop = `var(--ids-color-palette-${value})`;
+      }
+
+      const bar = this.container.querySelector('.bar-value');
       bar.style.backgroundColor = prop;
-
-      const completedLabel = this.container.querySelector('.label-progress');
-      completedLabel.style.color = (prop.includes('warning') || prop.includes('caution') || prop.includes('danger')) && prop;
-
-      const icon = this.container.querySelector('slot');
-      icon.style.color = prop;
     }
   }
 
@@ -114,23 +124,22 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * Set the numeric value of progress that has been completed
    * @param {string} value The progress value, between 0 and the total
    */
-  set progress(value) {
+  set value(value) {
     const prop = parseInt(value);
     let percentage = 10;
 
     if (prop > 0 && prop <= this.total) {
-      this.setAttribute('progress', prop);
+      this.setAttribute('value', prop);
       percentage = Math.floor((prop / this.total) * 100);
     } else {
-      // default progress is 10%
-      this.setAttribute('progress', '10%');
+      this.setAttribute('value', '0%');
     }
 
-    const bar = this.container.querySelector('.bar-current');
+    const bar = this.container.querySelector('.bar-value');
     bar.style.width = `${percentage}%`;
   }
 
-  get progress() { return this.getAttribute('progress'); }
+  get value() { return this.getAttribute('value'); }
 
   /**
    * Set the total value of possible progress that can be completed
@@ -151,15 +160,30 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * Set the label of completed progress--useful for displaying units
    * @param {string} value The label for completed progress (i.e. 13 hours)
    */
-  set progressLabel(value) {
+  set valueLabel(value) {
     if (value) {
-      this.setAttribute('label-progress', value);
+      this.setAttribute('label-value', value);
       return;
     }
-    this.setAttribute('label-progress', '');
+    this.setAttribute('label-value', '');
   }
 
-  get progressLabel() { return this.getAttribute('label-progress'); }
+  get valueLabel() { return this.getAttribute('label-value'); }
+
+  /**
+   * Set the label of total possible progress--useful for displaying units
+   * @param {string} value The label for total progress (i.e. 26 hours)
+   */
+  set totalLabel(value) {
+    if (value) {
+      this.setAttribute('label-total', value);
+      return;
+    }
+    this.setAttribute('label-total', '');
+  }
+
+  get totalLabel() { return this.getAttribute('label-total'); }
+
 
   /**
    * Set the size of the progress bar (small, or large (default)
@@ -176,32 +200,6 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   }
 
   get size() { return this.getAttribute('size'); }
-
-  /**
-   * Check if an icon exists if not add it
-   * @param {string} iconName The icon name to check
-   * @private
-   */
-  #appendIcon(iconName) {
-    const icon = this.querySelector(`[icon="${iconName}"]`);
-    if (!icon) {
-      const labels = this.querySelector('.label-main');
-      labels.insertAdjacentHTML('afterend', `<ids-icon part="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
-      // this.#handleEvents();
-    }
-  }
-
-  /**
-   * Check if an icon exists if so, remove it
-   * @param {string} iconName The icon name to check
-   * @private
-   */
-  #removeIcon(iconName) {
-    const icon = this.querySelector(`[icon="${iconName}]`);
-    if (icon) {
-      icon.remove();
-    }
-  }
 
   #handleEvents() {
     return this;

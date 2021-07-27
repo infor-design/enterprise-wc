@@ -14,35 +14,53 @@
 
   
   .labels {
-    display: flex;
+    display: inline-flex;
     flex-direction: row;
     position: relative;
     margin-bottom: 8px;
-    @include text-slate-60(); 
+    @include text-slate-60();
+    width: 100%;
+    border: solid 1px;
+    // justify-content: flex-end;
+    flex-wrap: nowrap;
 
     .label-main {
       display: inline-block;
     }
 
-    .label-progress {
+    .label-value{
       display: inline-block;
-      padding-left: 2px;
+      padding: 0 2px;
     }
 
-    .label-progress::part(text) {
+    .label-value::part(text) {
       color: currentColor;
     }
 
-    .label-total {
-      display: inline-block;
-      position: absolute;
-      right: 0;
+    .label-right {
+      display: flex;
+      // display: inline-block;
+      width: 100%;
+      justify-content: flex-end;
+      border: solid 1px;
     }
 
-    .label-value {
-      display: inline-block;
-      padding-left: 2px;
+    .label-total {
+      display: flex;
+      // display: flex;
+      border: solid 1px;
+      // justify-content: flex-end;
+      // justify-self: flex-end;
+      // right: 0;
+      // position: absolute;
+      // top: 0;
+      // right: 0;
+      // justify-content: flex-end;
     }
+  }
+
+  ::slotted(ids-icon) {
+    align-items: center;
   }
 
   .progress-bar {
@@ -61,7 +79,7 @@
       height: inherit;
     }
 
-    .bar-current { 
+    .bar-value { 
       display: flex;
       top: 0;
       left: 0;
