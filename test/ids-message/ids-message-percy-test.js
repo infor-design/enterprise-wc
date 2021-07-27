@@ -9,6 +9,6 @@ describe('Ids Message Percy Tests', () => {
       document.querySelector('#message-example-error-trigger').click();
     });
     await page.waitFor(200); // approx. time for a Modal to show
-    await percySnapshot(page, 'ids-message-new-light');
+    await percySnapshot(page, 'ids-message-new-light', { widths: [1280] });
   });
 });
