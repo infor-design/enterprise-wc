@@ -26,7 +26,7 @@
  - [ ] Old Issues: Review Be aware of old and new issues on a component in the [old backlog](https://github.com/infor-design/enterprise/issues)
  - [ ] Add an index.yaml file to expose the examples on the root page for categories it should be one of:
 
- ```
+```sh
 Form Inputs
 Navigation and Interaction
 Messages and Alerts
