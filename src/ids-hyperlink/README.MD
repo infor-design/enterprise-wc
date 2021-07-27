@@ -64,7 +64,7 @@ A Disabled appearing hyperlink element.
 
 ## Designs
 
-[Design Specs](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
+[Design Specs](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
 
 ## Accessibility Guidelines
 

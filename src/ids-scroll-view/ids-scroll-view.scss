@@ -1,12 +1,15 @@
 @import '../ids-base/ids-base';
 
+// The main scrollable container
 .ids-scroll-view {
+  @include focus-border-off();
   @include flex();
 
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
 
+  // The items that are adding as slot items
   ::slotted([slot='scroll-view-item']) {
     @include w-full();
 
@@ -21,6 +24,64 @@
   }
 }
 
+// Remove the scrollbar / we dont want it visible
 .ids-scroll-view::-webkit-scrollbar {
   display: none;
+}
+
+// The pager controls (circle container)
+.ids-scroll-view-controls {
+  @include focus-border-off();
+
+  display: flex;
+  justify-content: center;
+
+  // Container is focusable
+  &:focus {
+    @include focus-border-on();
+  }
+
+  // The circle buttons and states
+  a {
+    @include cursor-pointer();
+    @include relative();
+    @include cursor-pointer();
+
+    display: inline-block;
+    height: 44px;
+    outline: none;
+    width: 44px;
+
+    &::after {
+      @include border-slate-70();
+      @include border-1();
+      @include border-solid();
+      @include rounded-round();
+
+      content: '';
+      height: 14px;
+      outline: none;
+      opacity: 0.8;
+      position: absolute;
+      transition: border-color 0.2s ease 0s;
+      width: 14px;
+      left: calc(50% - 8px);
+      top: calc(50% - 8px);
+    }
+
+    &.selected::after {
+      @include border-azure-60();
+      @include bg-azure-60();
+    }
+
+    span.audible {
+      @include audible();
+    }
+
+    &:hover:not(.selected) {
+      &::after {
+        @include border-slate-100();
+      }
+    }
+  }
 }

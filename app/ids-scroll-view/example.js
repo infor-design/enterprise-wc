@@ -1,1 +1,1 @@
-console.log('Code Goes Here');
+import IdsCard from '../../src/ids-card/ids-card';

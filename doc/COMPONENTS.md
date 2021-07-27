@@ -4,7 +4,7 @@
 
 ### Familiarize yourself with Web Components
 
-We have generated a list of [Articles](./ARTICLES.md) about web components and other web component libraries for reference. You probably should learn about concepts like: ShadowRoot, Encapsulation, Constructed Style Sheets, Sass, Web Component lifecycles and styling in web components.
+We have generated a list of [Articles](./ARTICLES.md) about web components and other web component libraries for reference. You probably should learn about concepts like: [ShadowRoot](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot), [Encapsulation/Scoped Css](https://developers.google.com/web/fundamentals/web-components/shadowdom), [Constructed Style Sheets](https://developers.google.com/web/updates/2019/02/constructable-stylesheets), [Sass](https://sass-lang.com/), [Web Component lifecycles](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements#using_the_lifecycle_callbacks) and styling in web components.
 
 In general, the Ids WebComponents Library is striving to adhere to the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki), within reason.
 
@@ -239,6 +239,111 @@ import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/ids-
 ### Add new information to `webpack.config.js`
 
 The Entry and HTMLWebPack element are now auto added and picked up on script load. You may need to restart the server or use `npm run start` if you don't see your contents reload.
+
+### Code the Sass/JS
+
+Now that you have a `ids-[component].scss`, which holds all scoped styles for the WebComponent. You can begin to style it. There are several concepts to know and several selectors to learn about.
+
+- Currently we use [constructed style sheets](https://developers.google.com/web/updates/2019/02/constructable-stylesheets) on chrome where its supported and on safari and firefox the style sheet is appended a `style` tag.
+- The web component base will take the first child of the shadowRoot template and label it a container. In the web component you can access it with `this.container` but also this should get the root styles. For example if the component is called `component` it should get a class `ids-component`. This will make it easier to create the standalone css examples. These are examples that have a minimal amount of usable css and markup for the component  that could be used from the style sheet alone. Think about what you can expose thats useful.
+- We use a `Mixin Style` for properties that come from our design repo's tokens. For a complete list see [the file in node_modules](../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins.scss). Any of these should be used over standard css for consistency and to follow our standards. For example:
+
+```scss
+.ids-component {
+  @include antialiased();
+  @include bg-slate-20();
+  @include border-1();
+  @include border-slate-20();
+  @include border-solid();
+  @include font-sans();
+}
+```
+
+- If you need any colors or any properties from the design repo tokens you should import base on the first line
+
+```scss
+@import '../ids-base/ids-base';
+```
+
+- Use tools like css flex and css grid to do layouts. In addition when checking RTL try and do it in a way with css that does not require additional css when the page is RTL. The best approach is to try and make your css work either direction before resorting to resets. One simple one is to put the same margin or padding or other positional css on both sides. One useful technique is to use css grid / flex with `end` or `flex-end`. This automatically works in RTL mode without trying to negate anything.
+
+```scss
+// On Parent
+display: grid;
+grid-auto-flow: column;
+// On Child
+justify-self: end;
+```
+
+```scss
+display: flex;
+flex-direction: row;
+justify-content: flex-end;
+```
+
+- Get to know the following css concepts for web components [:host](https://developer.mozilla.org/en-US/docs/Web/CSS/:host()) and [:slotted](https://developer.mozilla.org/en-US/docs/Web/CSS/::slotted)
+
+### Code the Docs/README.md
+
+For a component you should have a readme with several sections. See tag/hyperlink ect for some examples. In looking for docs try to review and improve the previous docs. We want to combine the previous docs from the [design site product section](https://design.infor.com/product) and [design site components  readme][https://github.com/infor-design/enterprise/blob/main/src/components/circlepager/readme.md)  review whats there for the previous component and leverage the copy. The key is to be concise yet detailed at the same time.
+
+The following sections are the most important:
+
+#### Description
+
+Add a brief description of what the component is, what it can do and its main features in an advertisement for it sort of way.
+
+#### Use Cases
+
+Add a list of typical uses for the component and possibly some "do not use" situations.
+
+#### Terminology
+
+Add a list of any terms surrounding the component you should define for the reader or any other similar names for the component.
+
+#### Features (With Code Examples)
+
+Show the scenarios and code setup that are typical for common uses.
+
+#### Settings and Attributes
+
+Add the setters/and getters that work on the component. This does repeat the `d.ts` file to a degree.
+
+#### States and Variations
+
+Add the different states and variations the component may have that are worth considering.
+
+#### Keyboard Guidelines
+
+Add all the keys and key combinations the component will respond to.
+
+#### Mobile Guidelines
+
+Add anything of consideration for mobile devices.
+
+#### Designs
+
+Add a link to the [design doc](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
+
+#### Converting from Previous Versions
+
+Add detailed but concise info on converting from previous version.
+
+#### Accessibility Guidelines
+
+Add detailed info on accessibility both from the point of view of how the component works with it and anything the developers should know.
+
+#### Regional Considerations
+
+Add info on what behaviors or considerations the developer needs to know regarding when running in different languages.
+
+### Code the Tests
+
+#### What to test
+
+- Test the settings for all settings and test both setting the attribute and the js setting
+- Any api functions for input/result
+- Any external event handlers fire
 
 ## Component Standards
 
