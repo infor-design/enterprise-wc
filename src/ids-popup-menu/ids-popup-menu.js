@@ -1,8 +1,7 @@
 import {
   customElement,
   mix,
-  scss,
-  attributes
+  scss
 } from '../ids-base';
 
 import IdsPopupOpenEventsMixin from '../ids-mixins/ids-popup-open-events-mixin';
@@ -14,15 +13,6 @@ import IdsPopup from '../ids-popup/ids-popup';
 import styles from './ids-popup-menu.scss';
 import { IdsEventsMixin } from '../ids-mixins';
 
-const POPUPMENU_PROPERTIES = [
-  attributes.TARGET
-];
-
-const appliedMixins = [
-  IdsPopupOpenEventsMixin,
-  IdsPopupInteractionsMixin
-];
-
 /**
  * IDS Popup Menu Component
  * @type {IdsPopupMenu}
@@ -32,17 +22,12 @@ const appliedMixins = [
  */
 @customElement('ids-popup-menu')
 @scss(styles)
-class IdsPopupMenu extends mix(IdsMenu).with(...appliedMixins) {
+class IdsPopupMenu extends mix(IdsMenu).with(
+    IdsPopupOpenEventsMixin,
+    IdsPopupInteractionsMixin
+  ) {
   constructor() {
     super();
-  }
-
-  /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
-   */
-  static get attributes() {
-    return [...super.attributes, ...POPUPMENU_PROPERTIES];
   }
 
   /**
@@ -158,21 +143,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(...appliedMixins) {
         }
       });
     }
-  }
-
-  /**
-   * @returns {any} [HTMLElement|undefined] reference to a target element, if applicable
-   */
-  get target() {
-    return this.popup.alignTarget;
-  }
-
-  /**
-   * @param {any} val [HTMLElement|string] reference to an element, or a string that will be used
-   * as a CSS Selector referencing an element, that the Popupmenu will align against.
-   */
-  set target(val) {
-    this.popup.alignTarget = val;
   }
 
   /**

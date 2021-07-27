@@ -17,7 +17,7 @@ The Ids Toolbar can also be responsive, intelligently hiding buttons that can't 
 **Item** Toolbar items are the actionable elements within a toolbar.  In general they correspond standard HTML Elements or other IDS Components, such as buttons, hyperlinks, checkboxes, etc.
 **More Actions** This optional element can be applied to Toolbars that contain a significant number of actions that cannot all be displayed on screen at one time.  This element contains a menu button that will display any "spilled-over" contents from the Toolbar when active, once those actions are no longer visible on the Toolbar.
 
-## Attributes and Properties
+## Settings (Attributes)
 
 ### Toolbar
 

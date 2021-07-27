@@ -40,7 +40,7 @@ Add an Disabled Switch as checked:
 <ids-switch label="Allow connections" checked="true" disabled="true"></ids-switch>
 ```
 
-## Attributes and Properties
+## Settings (Attributes)
 
 - `checked` {boolean} set checked state.
 - `disabled` {boolean} set disabled state.

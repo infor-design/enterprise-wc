@@ -310,7 +310,7 @@ glob.sync('./app/**/*.html').reduce((acc, filePath) => {
       title,
       chunksSortMode: 'manual',
       chunks: jsFile === 'standalone-css.js'
-        ? []
+        ? [chunk]
         : folderChunks
     }),
   );

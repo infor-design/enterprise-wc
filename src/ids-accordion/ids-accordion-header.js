@@ -29,8 +29,8 @@ class IdsAccordionHeader extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMi
   }
 
   /**
-   * Return the properties we handle as getters/setters
-   * @returns {Array} The properties in an array
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
    */
   static get attributes() {
     return [attributes.MODE, attributes.VERSION];

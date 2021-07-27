@@ -14,9 +14,11 @@ The IDS Modal Component builds on top of the [Ids Popup](../ids-popup/README.md)
 **Overlay** The transparent background that exists between the Modal and the page content.  Its opacity can be adjusted.
 **Target** Refers to the element that will "trigger" the Modal by click.  This element is optional, as Modals can exist and be triggered by other operations.
 
-## Attributes and Properties
+## Settings (Attributes)
 
-- visible/hidden
+- `visible` can be used to make the Modal show or hide
+- `buttons` (readonly) contains a list of references to any Modal Buttons present
+- `messageTitle` The text present at the very top of the Modal to indicate its purpose
 
 ## Themeable Parts
 
@@ -66,4 +68,19 @@ modal.target = btn;
 
 btn.click();
 // ...Modal is triggered by its target element
+```
+### Adding a Message Title and Buttons
+
+It's possible to append a Message Title to add more context, and Buttons to create mulitple actions that can be triggered from the Modal.  To do so, take advantage of the Modal's slots:
+
+- The "title" slot, which can be populated by an [IdsText](../ids-text/README.md) or other text element, and will be located at the top of the Modal.
+- The "buttons" slot, which can be filled with one or multiple [IdsModalButtons](../ids-modal-button/README.md), and will be located at the bottom of the Modal.
+
+```html
+<ids-modal id="my-modal">
+    <ids-text slot="title" font-size="24" type="h2">This is the Title</ids-text>
+    <p>This is a simple Modal component</p>
+    <ids-modal-button slot="buttons" id="ok" type="primary">OK</ids-modal-button>
+    <ids-modal-button slot="buttons" id="cancel" type="secondary" cancel>Cancel</ids-modal-button>
+</ids-modal>
 ```
