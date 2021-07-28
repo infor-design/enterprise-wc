@@ -7,10 +7,7 @@ import {
   mix
 } from '../ids-base/ids-element';
 
-import {
-  IdsThemeMixin,
-  IdsEventsMixin
-} from '../ids-mixins';
+import { IdsEventsMixin } from '../ids-mixins';
 
 import styles from './ids-draggable.scss';
 import getElTranslation from './getElTranslatePoint';
@@ -31,7 +28,7 @@ const CURSOR_EL_SIZE = 32;
  */
 @customElement('ids-draggable')
 @scss(styles)
-export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
