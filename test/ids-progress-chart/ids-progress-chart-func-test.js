@@ -44,19 +44,82 @@ describe('IdsProgressChart Component', () => {
   });
 
   it('sets color correctly', () => {
+    chart.color = '';
+    expect(chart.color).toBeNull();
+
+    chart.color = 'error';
+    expect(chart.color).toBe('error');
+
     chart.color = 'success';
     expect(chart.color).toBe('success');
 
     chart.color = 'warning';
     expect(chart.color).toBe('warning');
 
-    chart.color = '#FF0000';
-    expect(chart.color).toBe('#FF0000');
+    chart.color = '#606066';
+    expect(chart.color).toBe('#606066');
 
     chart.color = 'amethyst-50';
     expect(chart.color).toBe('amethyst-50');
+
     // chart.shadowRoot.querySelector('.bar-value').style.backgroundColor = 'var(--ids-color-palette-amethyst-50)';
     // console.log(chart.shadowRoot.querySelector('.bar-value').style.backgroundColor);
     // expect(chart.shadowRoot.querySelector('.bar-value').style.backgroundColor).toEqual('var(--ids-color-palette-amethyst-50)');
+  });
+
+  it('sets labels correctly', () => {
+    chart.label = 'test label';
+    expect(chart.label).toBe('test label');
+
+    chart.label = null;
+    expect(chart.label).toBe('');
+  });
+
+  it('sets value correctly', () => {
+    chart.value = '50';
+    expect(chart.value).toBe('50');
+
+    chart.value = '';
+    expect(chart.value).toBeNull();
+
+    // expect(chart.value = '-1').toBeFalsy();
+
+    // chart.total = '200';
+    // expect(chart.value = '150').toBe(75);
+  });
+
+  it('sets total correctly', () => {
+    chart.total = '100';
+    expect(chart.total).toBe('100');
+
+    chart.total = '';
+    expect(chart.total).toBeNull();
+
+    chart.total = false;
+    expect(chart.total).toBeNull();
+  });
+
+  it('sets value label correctly', () => {
+    chart.valueLabel = '50 meters';
+    expect(chart.valueLabel).toBe('50 meters');
+
+    chart.valueLabel = '';
+    expect(chart.valueLabel).toBe('');
+  });
+
+  it('sets total label correctly', () => {
+    chart.totalLabel = '100 meters';
+    expect(chart.totalLabel).toBe('100 meters');
+
+    chart.totalLabel = '';
+    expect(chart.totalLabel).toBe('');
+  });
+
+  it('sets size correctly', () => {
+    chart.size = 'small';
+    expect(chart.size).toBe('small');
+
+    chart.size = '';
+    expect(chart.size).toBeNull();
   });
 });

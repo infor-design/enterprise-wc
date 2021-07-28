@@ -99,10 +99,61 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
 
       const bar = this.container.querySelector('.bar-value');
       bar.style.backgroundColor = prop;
+
+      return;
     }
+    this.removeAttribute('color');
   }
 
   get color() { return this.getAttribute('color'); }
+
+  /**
+   * Set the numeric value of progress that has been completed
+   * @param {string} value The progress value, between 0 and the total
+   */
+  set value(value) {
+    if (value) {
+      this.setAttribute('value', value);
+
+      if (this.total) {
+        const prop = parseInt(value);
+
+        if (prop > 0 && prop <= this.total) {
+          const percentage = Math.floor((prop / this.total) * 100);
+          const bar = this.container.querySelector('.bar-value');
+          bar.style.width = `${percentage}%`;
+          return percentage;
+        }
+      }
+      return false;
+    }
+    this.removeAttribute('value');
+    return false;
+  }
+
+  get value() { return this.getAttribute('value'); }
+
+  /**
+   * Set the total value of possible progress that can be completed
+   * @param {string} value The total value, must be greater than or equal to the progress value
+   */
+  set total(value) {
+    if (value) {
+      this.setAttribute('total', value);
+
+      const prop = parseInt(value);
+
+      if (Number.isNaN(prop) || prop < 0) {
+        return false;
+      }
+
+      return prop;
+    }
+    this.removeAttribute('total');
+    return false;
+  }
+
+  get total() { return this.getAttribute('total'); }
 
   /**
    * Set the label title of the bar
@@ -119,42 +170,6 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   }
 
   get label() { return this.getAttribute('label'); }
-
-  /**
-   * Set the numeric value of progress that has been completed
-   * @param {string} value The progress value, between 0 and the total
-   */
-  set value(value) {
-    const prop = parseInt(value);
-    let percentage = 10;
-
-    if (prop > 0 && prop <= this.total) {
-      this.setAttribute('value', prop);
-      percentage = Math.floor((prop / this.total) * 100);
-    } else {
-      this.setAttribute('value', '0%');
-    }
-
-    const bar = this.container.querySelector('.bar-value');
-    bar.style.width = `${percentage}%`;
-  }
-
-  get value() { return this.getAttribute('value'); }
-
-  /**
-   * Set the total value of possible progress that can be completed
-   * @param {string} value The total value, must be greater than or equal to the progress value
-   */
-  set total(value) {
-    if (value) {
-      this.setAttribute('total', value);
-
-      return;
-    }
-    this.removeAttribute('total');
-  }
-
-  get total() { return this.getAttribute('total'); }
 
   /**
    * Set the label of completed progress--useful for displaying units
