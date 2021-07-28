@@ -48,9 +48,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Create the Template to render
-   *
-   * @returns {string} the template to render
+   * @returns {string} The template innerHTML to render
    */
   template() {
     return (
@@ -59,7 +57,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * @param {"x"|"y"|undefined} value the axis that the draggable content will
+   * @param {"x"|"y"|undefined} value The axis that the draggable content will
    * be moving along (e.g. X => horizontal, Y => vertical);
    * By default, not defined and supports both axes.
    */
@@ -89,7 +87,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * @returns {"x"|"y"|undefined} value the axis that the draggable content will
+   * @returns {"x"|"y"|undefined} value The axis that the draggable content will
    * be moving along (e.g. X => horizontal, Y => vertical);
    * By default not defined and supports both axes.
    */
@@ -98,7 +96,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * @param {boolean} value whether the draggable should be limited in range
+   * @param {boolean} value Whether the draggable should be limited in range
    * by its parent element
    */
   set parentContainment(value) {
@@ -114,7 +112,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * @returns {boolean} value whether the draggable should be limited in range
+   * @returns {boolean} value Whether the draggable should be limited in range
    * by its parent element
    */
   get parentContainment() {
@@ -330,7 +328,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   };
 
   /**
-   * @param {boolean} value whether or not this element
+   * @param {boolean} value Whether or not this element
    * and content is being dragged
    */
   set isDragging(value) {
@@ -344,7 +342,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * @returns {boolean} value whether or not this element
+   * @returns {boolean} value Whether or not this element
    * and content is being dragged
    */
   get isDragging() {
@@ -352,7 +350,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * get "cursor" property of cursor element
+   * Get the "cursor" property of cursor element
    * placed in front of drag
    *
    * @returns {string} cursor property
@@ -366,12 +364,15 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * slot element
+   * Element that is currently draggable;
+   * if "handle" becomes it possibly becomes the selected element.
+   *
+   * Otherwise it defaults to the overall draggable container (this)
    */
   #handleElem;
 
   /**
-   * first measurable parent's rectangle
+   * First measurable parent's rectangle
    * when a drag is initiated
    *
    * @type {{ x: number, y: number }}
@@ -396,7 +397,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   #dragStartOffset;
 
   /**
-   * parent's offset to the document when dragging
+   * Parent's offset to the document when dragging
    *
    * @type {{ x: number, y:number }}
    */
@@ -419,7 +420,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   #xformBounds;
 
   /**
-   * element which provides cursor for mouse when
+   * Element which provides cursor for mouse when
    * dragging after mousedown event since we can
    * bind to X/Y axes and there's no way to override
    * the behavior
@@ -427,8 +428,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   #cursorEl = document.createElement('div');
 
   /**
-   * update parent rectangle stored
-   * in this.#parentRect
+   * Update parent rectangle stored in this.#parentRect
    *
    * @param {*} path path passed by mouse/drag event
    * to traverse through shadow and lightDOM
