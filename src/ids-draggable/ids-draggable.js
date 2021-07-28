@@ -10,7 +10,7 @@ import {
 import { IdsEventsMixin } from '../ids-mixins';
 
 import styles from './ids-draggable.scss';
-import getElTranslation from './getElTranslatePoint';
+import getElTranslation from './get-el-translate-point';
 
 const { stringToBool } = stringUtils;
 
