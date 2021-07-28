@@ -3,6 +3,7 @@
  */
 import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
 import processAnimFrame from '../helpers/process-anim-frame';
+import waitFor from '../helpers/wait-for';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
 import IdsSpinbox from '../../src/ids-spinbox';
 
@@ -289,44 +290,48 @@ describe('IdsSpinbox Component', () => {
       `<ids-spinbox readonly value="10"></ids-spinbox>`
     );
 
+    const getIdsButtons = () => (
+      [...elem.shadowRoot.querySelectorAll('ids-button')]
+    );
+
     elem.setAttribute('disabled', true);
-    await processAnimFrame();
-    await processAnimFrame();
 
-    const idsButtons = [...elem.shadowRoot.querySelectorAll('ids-button')];
-
-    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+    await waitFor(() => expect(
+      getIdsButtons().find((el) => el.hasAttribute('disabled'))
+    ).not.toEqual(undefined));
 
     elem.removeAttribute('readonly');
-    await processAnimFrame();
 
-    expect(idsButtons.find((el) => !el.hasAttribute('disabled'))).toEqual(undefined);
+    await waitFor(() => expect(
+      getIdsButtons().find((el) => el.hasAttribute('disabled'))
+    ).not.toEqual(undefined));
+
     expect(elem.readonly).toBeNull();
 
     elem.removeAttribute('disabled');
-    await processAnimFrame();
 
-    expect(idsButtons.find((el) => el.hasAttribute('disabled'))).toEqual(undefined);
+    await waitFor(() => expect(
+      getIdsButtons().find((el) => el.hasAttribute('disabled'))
+    ).toEqual(undefined));
+
     expect(elem.disabled).toBeNull();
 
     elem.readonly = true;
-    await processAnimFrame();
-    await processAnimFrame();
-    expect(elem.getAttribute('readonly')).toEqual('true');
-    expect(elem.getAttribute('disabled')).toEqual('true');
+    await waitFor(() => expect(elem.getAttribute('readonly')).toEqual('true'));
+    await waitFor(() => expect(elem.getAttribute('disabled')).toEqual(null));
     elem.readonly = false;
     elem.disabled = false;
-    expect(elem.getAttribute('readonly')).toBeFalsy();
-    expect(elem.getAttribute('disabled')).toBeFalsy();
+    await waitFor(() => expect(elem.getAttribute('readonly')).toBeFalsy());
+    await waitFor(() => expect(elem.getAttribute('disabled')).toBeFalsy());
 
     elem.readonly = true;
     elem.disabled = true;
-    expect(elem.getAttribute('disabled')).toEqual('true');
-    expect(elem.getAttribute('readonly')).toEqual('true');
+    await waitFor(() => expect(elem.getAttribute('disabled')).toEqual('true'));
+    await waitFor(() => expect(elem.getAttribute('readonly')).toEqual('true'));
     elem.disabled = false;
     elem.readonly = false;
-    expect(elem.getAttribute('readonly')).toBeFalsy();
-    expect(elem.getAttribute('disabled')).toBeFalsy();
+    await waitFor(() => expect(elem.getAttribute('readonly')).toBeFalsy());
+    await waitFor(() => expect(elem.getAttribute('disabled')).toBeFalsy());
   });
 
   // note this behavior should be more intelligent on iteration;
