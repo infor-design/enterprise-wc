@@ -141,10 +141,7 @@ describe('IdsDraggable Component', () => {
       })
     });
 
-    await simulateMouseDownEvents({
-      element: elem,
-      mouseDownTime: 100
-    });
+    await simulateMouseDownEvents({ element: elem, mouseDownTime: 100 });
     expect(hasDraggingBeenSet).toBeTruthy();
   });
 
@@ -186,10 +183,6 @@ describe('IdsDraggable Component', () => {
 
     await processAnimFrame();
 
-    await simulateMouseDownEvents({
-      element: elem,
-      mouseDownTime: 100,
-      callMouseMove: true
-    });
+    await simulateMouseDownEvents({ element: elem, mouseDownTime: 100 });
   });
 });
