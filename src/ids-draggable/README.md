@@ -14,25 +14,28 @@ It does not currently support drag/drop targets in the current iteration, but in
 A draggable component with no bounds to where it is moved.
 ```html
  <ids-draggable>
-    <div class="ids-draggable-demo-box">
-      <ids-text>Drag Me</ids-text></div>
-  </ids-draggable>
+  <div class="ids-draggable-demo-box">
+    <ids-text>Drag Me</ids-text>
+  </div>
+</ids-draggable>
 ```
 
 A draggable component along the X axis (e.g. drags horizontally).
 ```html
- <ids-draggable axis="x">
-    <div class="ids-draggable-demo-box">
-      <ids-text>Horizontally Draggable</ids-text></div>
-  </ids-draggable>
+<ids-draggable axis="x">
+  <div class="ids-draggable-demo-box">
+    <ids-text>Horizontally Draggable</ids-text>
+  </div>
+</ids-draggable>
 ```
 
 A draggable component along the Y axis (e.g. drags vertically).
 ```html
- <ids-draggable axis="y">
-    <div class="ids-draggable-demo-box">
-      <ids-text>Vertically Draggable</ids-text></div>
-  </ids-draggable>
+<ids-draggable axis="y">
+  <div class="ids-draggable-demo-box">
+    <ids-text>Vertically Draggable</ids-text>
+  </div>
+</ids-draggable>
 ```
 
 A draggable component which can be dragged either horizontally or vertically

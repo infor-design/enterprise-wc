@@ -6,10 +6,10 @@ import { stringUtils } from '../../src/ids-base/ids-string-utils';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
-import testElemBuilderFactory from '../helpers/test-elem-builder-factory';
+import elemBuilderFactory from '../helpers/elem-builder-factory';
 import processAnimFrame from '../helpers/process-anim-frame';
 
-const elemBuilder = testElemBuilderFactory();
+const elemBuilder = elemBuilderFactory();
 
 describe('IdsDraggable Component', () => {
   afterAll(async () => { elemBuilder.clearElement(); });
