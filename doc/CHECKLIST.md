@@ -53,7 +53,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Datagrid (ids-data-grid)
  - [ ] Datepicker (ids-date-picker)
  - [ ] Donut (ids-donut or combined with ids-pie)
- - [ ] Drag (ids-draggable)
+ - [x] Drag (ids-draggable)
  - [ ] Dropdown (ids-drop-down)
  - [ ] Editor (ids-editor)
  - [ ] Emptymessage (ids-empty-message)
