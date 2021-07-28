@@ -20,26 +20,6 @@ const { stringToBool } = stringUtils;
 const CURSOR_EL_SIZE = 32;
 
 /* istanbul ignore next */
-/**
- * get "cursor" property of cursor element
- * placed in front of drag (may also use this
- * for draggable itself after refactor vs CSS
- * for DRY)
- *
- * @param {{ axis: 'x'|'y'|undefined }} param0 properties
- * @returns {string} cursor property
- */
-function getCursorStyle({ axis }) {
-  switch (axis) {
-  case 'x': { return 'ew-resize'; }
-  case 'y': { return 'ns-resize'; }
-  default: { return 'move'; }
-  }
-}
-
-// TODO: pool the cursor element for re-use after
-// creating during the connectedCallback vs
-// create each time
 
 /**
  * IDS Draggable Component
@@ -201,7 +181,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
     ) : this;
 
     if (this.#handleElem !== this) {
-      this.#handleElem.style.cursor = getCursorStyle({ axis: this.axis });
+      this.#handleElem.style.cursor = this.#getCursorStyle({ axis: this.axis });
     }
 
     this.onEvent('mousedown', this.#handleElem, (e) => /* istanbul ignore next */ {
@@ -275,7 +255,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
     this.#cursorEl.style.width = `${CURSOR_EL_SIZE}px`;
     this.#cursorEl.style.height = `${CURSOR_EL_SIZE}px`;
     this.#cursorEl.style.backgroundColor = '#000';
-    this.#cursorEl.style.cursor = getCursorStyle({ axis: this.axis });
+    this.#cursorEl.style.cursor = this.#getCursorStyle({ axis: this.axis });
 
     super.connectedCallback?.();
   }
@@ -372,6 +352,20 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin, I
    */
   get isDragging() {
     return stringToBool(this.getAttribute(attributes.IS_DRAGGING));
+  }
+
+  /**
+   * get "cursor" property of cursor element
+   * placed in front of drag
+   *
+   * @returns {string} cursor property
+   */
+  #getCursorStyle() /* istanbul ignore next */ {
+    switch (this.axis) {
+    case 'x': { return 'ew-resize'; }
+    case 'y': { return 'ns-resize'; }
+    default: { return 'move'; }
+    }
   }
 
   /**
