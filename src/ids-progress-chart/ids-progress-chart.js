@@ -184,7 +184,6 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
 
   get totalLabel() { return this.getAttribute('label-total'); }
 
-
   /**
    * Set the size of the progress bar (small, or large (default)
    * @param {string} value The size of the progress bar
