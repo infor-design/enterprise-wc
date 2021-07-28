@@ -23,6 +23,7 @@
 }
 
 @mixin inverse-button-shadow() {
+  border-color: var(--ids-color-palette-white);
   box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.7);
 }
 
@@ -33,10 +34,6 @@
 
     &[disabled] {
       @include text-white();
-    }
-
-    &:focus {
-      @include inverse-button-shadow();
     }
 
     &:hover {
@@ -148,13 +145,14 @@
   @include rounded-default();
 
   // ====================================================
-  // Primary Button styles
+  // Default/Tertiary/Destructive Button styles
+
+  @include border-transparent();
   @include text-slate-60();
 
   &:focus {
+    @include border-azure-70();
     @include shadow();
-
-    border-color: var(--ids-color-brand-primary-base);
   }
 
   &:hover {
@@ -170,7 +168,7 @@
   }
 
   // ====================================================
-  // Primary Button styles
+  // Primary Button Styles
 
   &.btn-primary {
     background-color: var(--ids-color-brand-primary-base);
@@ -196,7 +194,7 @@
   }
 
   // ====================================================
-  // Secondary Button styles
+  // Secondary Button Styles
 
   &.btn-secondary {
     @include bg-slate-30();
@@ -218,27 +216,6 @@
 
     .ripple-effect {
       background-color: var(--ids-color-brand-primary-contrast);
-    }
-  }
-
-  // ====================================================
-  // Tertiary/Destructive Button styles
-
-  &.btn-tertiary,
-  &.btn-destructive {
-    @include border-transparent();
-
-    &:focus {
-      @include border-azure-70();
-      @include shadow();
-    }
-
-    &:hover {
-      @include text-black();
-    }
-
-    &[disabled] {
-      @include text-slate-30();
     }
   }
 
@@ -272,7 +249,7 @@
     }
 
     // ====================================================
-    // New Light Inverse Primary Button styles
+    // Light Mode Inverse Primary Styles
 
     &.btn-primary {
       background-color: var(--ids-color-palette-azure-40);
@@ -293,6 +270,8 @@
       &[disabled] {
         @include bg-azure-30();
         @include border-azure-30();
+
+        opacity: 0.7;
       }
 
       .ripple-effect {
@@ -301,12 +280,12 @@
     }
 
     // ====================================================
-    // New Light Inverse Secondary Button styles
+    // Light Mode Inverse Secondary Styles
 
     &.btn-secondary {
       @include bg-slate-30();
+      @include text-slate-100();
 
-      color: var(--ids-color-font-base);
       opacity: 1;
 
       &:focus {
@@ -315,11 +294,14 @@
 
       &:hover {
         @include bg-slate-40();
+        @include text-slate-100();
       }
 
       &[disabled] {
         @include bg-slate-20();
         @include border-slate-20();
+
+        opacity: 0.7;
       }
 
       .ripple-effect {
@@ -334,16 +316,61 @@
   &[mode='dark'] {
     @include text-slate-20();
 
-    &[disabled] {
-      @include text-slate-40();
-    }
-
     &:hover {
       @include text-white();
     }
 
-    // Dark Mode "inverse" styles (similar to light mode's)
-    @include inverse-white-text-only();
+    &[disabled] {
+      @include text-slate-40();
+    }
+
+    // Dark Mode Primary Styles
+    &.btn-primary {
+      &[disabled] {
+        @include text-white();
+      }
+    }
+
+    // Dark Mode Secondary Styles
+    &.btn-secondary {
+      @include border-slate-30();
+      @include bg-slate-30();
+      @include text-slate-80();
+
+      &:hover {
+        @include border-slate-40();
+        @include bg-slate-40();
+      }
+
+      &[disabled] {
+        @include bg-slate-40();
+        @include border-slate-40();
+      }
+    }
+
+    // Dark Mode Inverse Styles
+    &.inverse {
+      @include text-white();
+
+      // Dark Mode Primary Inverse Styles
+      // NONE YET
+
+      // Dark Mode Secondary Inverse Styles
+      &.btn-secondary {
+        @include bg-slate-30();
+        @include text-graphite-100();
+
+        &:hover {
+          @include text-graphite-100();
+        }
+
+        &[disabled] {
+          @include bg-slate-20();
+          @include border-slate-20();
+          @include text-graphite-100();
+        }
+      }
+    }
   }
 
   // ====================================================
@@ -352,68 +379,172 @@
   &[mode='contrast'] {
     @include text-slate-100();
 
-    &[disabled] {
-      @include text-slate-40();
-    }
-
     &:hover {
       @include text-black();
     }
 
-    // High-Contrast Mode "inverse" styles
-    &.inverse {
+    &[disabled] {
+      @include text-slate-40();
+    }
+
+    // High-Contrast Mode Primary Styles
+    &.btn-primary {
+      @include bg-azure-90();
       @include text-white();
+
+      &[disabled] {
+        @include bg-azure-30();
+      }
+    }
+
+    // High-Contrast Mode Secondary Styles
+    // NONE YET
+
+    // High-Contrast Mode Inverse Styles
+    &.inverse {
+      @include text-slate-10();
 
       opacity: 1;
 
-      &[disabled] {
-        @include text-white();
-      }
-
       &:hover {
         @include text-white();
-
-        text-decoration: underline;
       }
 
-      // High-Contrast Inverse Primary Styles
+      &[disabled] {
+        @include text-slate-40();
+      }
+
+      // High-Contrast Mode Inverse Primary Styles
       &.btn-primary {
-        background-color: var(--ids-color-palette-azure-60);
-        border-color: var(--ids-color-palette-azure-60);
+        @include bg-azure-60();
+        @include border-azure-60();
+        @include text-white();
 
         &:hover {
-          background-color: var(--ids-color-palette-azure-50);
+          @include bg-azure-50();
+          @include text-white();
+        }
+
+        &[disabled] {
+          @include bg-azure-70();
+          @include border-azure-70();
+
+          opacity: 0.7;
         }
       }
 
-      // High-Contrast Inverse Secondary Styles
+      // High-Contrast Mode Inverse Secondary Styles
       &.btn-secondary {
-        background-color: var(--ids-color-palette-slate-50);
-        border-color: var(--ids-color-palette-slate-50);
+        @include bg-slate-60();
+        @include border-slate-60();
 
         &:hover {
-          background-color: var(--ids-color-palette-slate-40);
+          @include bg-slate-50();
+        }
+
+        &[disabled] {
+          @include bg-slate-70();
+          @include border-slate-70();
+
+          opacity: 0.7;
         }
       }
     }
   }
 
   // ====================================================
-  // "Classic" Light Mode
+  // Classic Light Mode
 
   &[mode='light'][version='classic'] {
     @include text-graphite-100();
-
-    &[disabled] {
-      @include text-graphite-40();
-    }
 
     &:hover {
       @include text-black();
     }
 
-    // Classic Light Mode "inverse" styles
-    @include inverse-white-text-only();
+    &[disabled] {
+      @include text-graphite-40();
+    }
+
+    // Classic Light Mode Primary Styles
+    &.btn-primary {
+      @include bg-azure-50();
+      @include text-white();
+
+      &[disabled] {
+        @include bg-azure-30();
+      }
+    }
+
+    // Classic Light Mode Secondary Styles
+    &.btn-secondary {
+      @include bg-graphite-30();
+      @include text-graphite-80();
+
+      &[disabled] {
+        @include bg-graphite-20();
+        @include border-graphite-20();
+        @include text-graphite-40();
+      }
+    }
+
+    // Classic Light Mode Inverse Styles
+    &.inverse {
+      @include text-white();
+
+      &:focus {
+        @include inverse-button-shadow();
+      }
+
+      &:hover {
+        @include text-white();
+      }
+
+      &[disabled] {
+        @include text-white();
+      }
+
+      // Classic Light Mode Inverse Primary Styles
+      &.btn-primary {
+        @include bg-azure-50();
+        @include border-azure-50();
+        @include text-white();
+
+        opacity: 1;
+
+        &:hover {
+          @include bg-azure-40();
+          @include border-azure-40();
+        }
+
+        &[disabled] {
+          @include bg-azure-50();
+          @include border-azure-50();
+
+          opacity: 0.7;
+        }
+      }
+
+      // Classic Light Mode Inverse Secondary Styles
+      &.btn-secondary {
+        @include bg-graphite-40();
+        @include border-graphite-40();
+        @include text-classic-slate-100();
+
+        opacity: 1;
+
+        &:hover {
+          @include bg-graphite-30();
+        }
+
+        &[disabled] {
+          @include bg-graphite-50();
+          @include border-graphite-50();
+
+          opacity: 0.7;
+        }
+      }
+    }
   }
 
   // ====================================================
@@ -422,20 +553,89 @@
   &[mode='dark'][version='classic'] {
     @include text-classic-slate-10();
 
-    &[disabled] {
-      @include text-classic-slate-50();
-
-      &:hover {
-        @include text-classic-slate-50();
-      }
-    }
-
     &:hover {
       @include text-white();
     }
 
-    // Classic Dark Mode "inverse" styles
-    @include inverse-white-text-only();
+    &[disabled] {
+      @include text-classic-slate-50();
+    }
+
+    // Classic Dark Mode Primary Styles
+    &.btn-primary {
+      @include bg-azure-50();
+      @include border-azure-50();
+
+      &[disabled] {
+        @include bg-azure-70();
+        @include border-azure-70();
+        @include text-classic-slate-40();
+      }
+    }
+
+    // Classic Dark Mode Secondary Styles
+    &.btn-secondary {
+      @include bg-classic-slate-30();
+      @include border-classic-slate-30();
+      @include text-classic-slate-100();
+
+      &[disabled] {
+        @include bg-classic-slate-50();
+        @include border-classic-slate-50();
+        @include text-classic-slate-80();
+      }
+    }
+
+    // Classic Dark Mode Inverse Styles
+    &.inverse {
+      @include text-white();
+
+      &:hover {
+        @include text-white();
+      }
+
+      &[disabled] {
+        @include text-white();
+      }
+
+      // Classic Dark Mode Primary Inverse Styles
+      &.btn-primary {
+        @include bg-azure-50();
+        @include border-azure-50();
+
+        &:hover {
+          @include bg-azure-40();
+          @include border-azure-40();
+        }
+
+        &[disabled] {
+          @include bg-azure-50();
+          @include border-azure-50();
+
+          opacity: 0.7;
+        }
+      }
+
+      // Classic Dark Mode Secondary Inverse Styles
+      &.btn-secondary {
+        @include bg-graphite-40();
+        @include border-graphite-40();
+        @include text-classic-slate-100();
+
+        opacity: 1;
+
+        &:hover {
+          @include bg-graphite-30();
+        }
+
+        &[disabled] {
+          @include bg-graphite-50();
+          @include border-graphite-50();
+
+          opacity: 0.7;
+        }
+      }
+    }
   }
 
   // ====================================================
@@ -444,20 +644,85 @@
   &[mode='contrast'][version='classic'] {
     @include text-graphite-70();
 
-    &:focus {
-      box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+    &:hover {
+      @include text-black();
     }
 
     &[disabled] {
       @include text-graphite-40();
     }
 
-    &:hover {
-      @include text-black();
+    // Classic High-Contrast Mode Primary Styles
+    &.btn-primary {
+      @include bg-azure-90();
+      @include border-azure-90();
+      @include text-white();
+
+      &[disabled] {
+        @include bg-azure-70();
+        @include border-azure-90();
+      }
     }
 
-    // Classic High-Contrast Mode "inverse" styles
-    @include inverse-white-text-only();
+    // Classic High-Contrast Mode Secondary Styles
+    &.btn-secondary {
+      @include bg-graphite-70();
+      @include border-graphite-70();
+      @include text-white();
+
+      &[disabled] {
+        @include bg-graphite-50();
+        @include border-graphite-50();
+        @include text-graphite-20();
+      }
+    }
+
+    // Classic High-Contrast Mode Inverse Styles
+    &.inverse {
+      @include text-white();
+
+      &:hover {
+        @include text-white();
+      }
+
+      &[disabled] {
+        @include text-classic-slate-30();
+      }
+
+      // Classic High-Contrast Mode Primary Inverse Styles
+      &.btn-primary {
+        @include bg-azure-70();
+        @include border-azure-70();
+
+        &:hover {
+          @include bg-azure-60();
+        }
+
+        &[disabled] {
+          @include bg-azure-80();
+          @include border-azure-80();
+
+          opacity: 0.7;
+        }
+      }
+
+      // Classic High-Contrast Mode Secondary Inverse Styles
+      &.btn-secondary {
+        @include bg-graphite-60();
+        @include border-graphite-60();
+
+        &:hover {
+          @include bg-graphite-50();
+        }
+
+        &[disabled] {
+          @include bg-graphite-100();
+          @include border-graphite-100();
+
+          opacity: 0.7;
+        }
+      }
+    }
   }
 }
 
@@ -474,8 +739,10 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
       }
 
-      &[disabled] {
-        @include text-white();
+      &.inverse {
+        &:focus {
+          @include inverse-button-shadow();
+        }
       }
     }
 
@@ -483,15 +750,14 @@
     // Primary High-Contrast Mode
 
     &[mode='contrast'] {
-      @include bg-azure-90();
-      @include text-white();
-
       &:focus {
         box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
       }
 
-      &[disabled] {
-        @include bg-azure-30();
+      &.inverse {
+        &:focus {
+          @include inverse-button-shadow();
+        }
       }
     }
 
@@ -499,15 +765,14 @@
     // Primary "Classic" Light Mode
 
     &[mode='light'][version='classic'] {
-      @include bg-azure-50();
-      @include text-white();
-
       &:focus {
         box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
       }
 
-      &[disabled] {
-        @include bg-azure-30();
+      &.inverse {
+        &:focus {
+          @include inverse-button-shadow();
+        }
       }
     }
 
@@ -515,17 +780,14 @@
     // Primary "Classic" Dark Mode
 
     &[mode='dark'][version='classic'] {
-      @include bg-azure-50();
-      @include border-azure-50();
-
       &:focus {
         box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
       }
 
-      &[disabled] {
-        @include bg-azure-80();
-        @include border-azure-80();
-        @include text-classic-slate-40();
+      &.inverse {
+        &:focus {
+          @include inverse-button-shadow();
+        }
       }
     }
 
@@ -533,17 +795,14 @@
     // Primary "Classic" High-Contrast Mode
 
     &[mode='contrast'][version='classic'] {
-      @include bg-azure-90();
-      @include border-azure-90();
-      @include text-white();
-
       &:focus {
         box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
       }
 
-      &[disabled] {
-        @include bg-azure-70();
-        @include border-azure-90();
+      &.inverse {
+        &:focus {
+          @include inverse-button-shadow();
+        }
       }
     }
   }
@@ -551,24 +810,15 @@
   &.btn-secondary {
     // ====================================================
     // Secondary Dark Mode
-
     &[mode='dark'] {
-      @include border-slate-30();
-      @include bg-slate-30();
-      @include text-slate-80();
-
       &:focus {
         box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
       }
 
-      &[disabled] {
-        @include bg-slate-40();
-        @include border-slate-40();
-      }
-
-      &:hover {
-        @include border-slate-40();
-        @include bg-slate-40();
+      &.inverse {
+        &:focus {
+          @include inverse-button-shadow();
+        }
       }
     }
 
@@ -576,16 +826,14 @@
     // Secondary High-Contrast Mode
 
     &[mode='contrast'] {
-      @include bg-slate-70();
-      @include text-white();
-
       &:focus {
         box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
       }
 
-      &[disabled] {
-        @include bg-slate-40();
-        @include border-slate-40();
+      &.inverse {
+        &:focus {
+          @include inverse-button-shadow();
+        }
       }
     }
 
@@ -593,17 +841,14 @@
     // Secondary "Classic" Light Mode
 
     &[mode='light'][version='classic'] {
-      @include bg-graphite-30();
-      @include text-graphite-80();
-
       &:focus {
         box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
       }
 
-      &[disabled] {
-        @include bg-graphite-20();
-        @include border-graphite-20();
-        @include text-graphite-40();
+      &.inverse {
+        &:focus {
+          @include inverse-button-shadow();
+        }
       }
     }
 
@@ -611,18 +856,14 @@
     // Secondary "Classic" Dark Mode
 
     &[mode='dark'][version='classic'] {
-      @include bg-classic-slate-30();
-      @include border-classic-slate-30();
-      @include text-classic-slate-100();
-
       &:focus {
         box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
       }
 
-      &[disabled] {
-        @include bg-classic-slate-50();
-        @include border-classic-slate-50();
-        @include text-classic-slate-80();
+      &.inverse {
+        &:focus {
+          @include inverse-button-shadow();
+        }
       }
     }
 
@@ -630,18 +871,14 @@
     // Secondary "Classic" High-Contrast Mode
 
     &[mode='contrast'][version='classic'] {
-      @include bg-graphite-70();
-      @include border-graphite-70();
-      @include text-white();
-
       &:focus {
         box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
       }
 
-      &[disabled] {
-        @include bg-graphite-50();
-        @include border-graphite-50();
-        @include text-graphite-20();
+      &.inverse {
+        &:focus {
+          @include inverse-button-shadow();
+        }
       }
     }
   }

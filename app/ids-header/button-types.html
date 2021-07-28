@@ -18,12 +18,12 @@
         <span slot="text">My Filters</span>
       </ids-button>
 
-      <ids-button id="button-3" type="secondary" inverse>
+      <ids-button id="button-2" type="secondary" inverse>
         <ids-icon slot="icon" icon="settings"></ids-icon>
         <span slot="text">My Settings</span>
       </ids-button>
 
-      <ids-button id="button-4" type="tertiary" inverse>
+      <ids-button id="button-3" type="tertiary" inverse>
         <ids-icon slot="icon" icon="delete"></ids-icon>
         <span slot="text">Trash</span>
       </ids-button>
@@ -31,5 +31,11 @@
     <ids-theme-switcher mode="light" version="new" inverse></ids-theme-switcher>
   </ids-toolbar>
 </ids-header>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-checkbox id="controls-disabled" label="Disable Header Buttons"></ids-checkbox>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
 
 {{> ../layouts/footer.html }}

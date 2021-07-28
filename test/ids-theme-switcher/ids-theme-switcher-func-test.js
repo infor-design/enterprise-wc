@@ -61,4 +61,10 @@ describe('IdsThemeSwitcher Component', () => {
     expect(switcher.version).toEqual('new');
     expect(switcher.getAttribute('version')).toBeFalsy();
   });
+
+  it('can be set to inverse colors', () => {
+    switcher.inverse = true;
+
+    expect(switcher.container.inverse).toBeTruthy();
+  });
 });
