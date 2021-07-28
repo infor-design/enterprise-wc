@@ -11,6 +11,7 @@
 
 .ids-container {
   @include absolute();
+  @include basic-color-transition();
   @include outline-none();
   @include p-0();
 
@@ -30,7 +31,7 @@
   @include text-slate-100();
 
   &.inverse {
-    @include bg-black();
+    @include bg-slate-70();
     @include text-slate-10();
   }
 }
@@ -40,8 +41,8 @@
   @include text-slate-10();
 
   &.inverse {
-    @include bg-slate-20();
-    @include text-slate-100();
+    @include bg-black();
+    @include text-slate-10();
   }
 }
 
@@ -60,8 +61,8 @@
   @include text-graphite-60();
 
   &.inverse {
-    @include bg-graphite-90();
-    @include text-graphite-40();
+    @include bg-graphite-70();
+    @include text-graphite-20();
   }
 }
 
@@ -70,8 +71,8 @@
   @include text-classic-slate-10();
 
   &.inverse {
-    @include bg-classic-slate-10();
-    @include text-classic-slate-90();
+    @include bg-graphite-90();
+    @include text-classic-slate-10();
   }
 }
 
@@ -80,7 +81,7 @@
   @include text-graphite-80();
 
   &.inverse {
-    @include bg-graphite-80();
+    @include bg-graphite-90();
     @include text-graphite-20();
   }
 }

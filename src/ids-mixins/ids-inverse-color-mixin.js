@@ -11,6 +11,7 @@ const IdsInverseColorMixin = (superclass) => class extends superclass {
   constructor() {
     super();
 
+    /* istanbul ignore next */
     if (!this.state) {
       this.state = {};
     }
@@ -25,7 +26,7 @@ const IdsInverseColorMixin = (superclass) => class extends superclass {
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.inverse = IdsStringUtils.stringToBool(this.getAttribute('inverse')) || false;
+    this.inverse = IdsStringUtils.stringToBool(this.getAttribute(attributes.INVERSE)) || false;
   }
 
   static get attributes() {
