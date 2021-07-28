@@ -60,7 +60,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
         <ids-text class="label-main">${this.label}</ids-test>
         <slot></slot>
         <ids-text class="label-value">${this.valueLabel} </ids-text>
-        <div class="label-right">
+        <div class="label-end">
           <ids-text class="label-total">${this.totalLabel}</ids-text>
         </div>
       </div>
