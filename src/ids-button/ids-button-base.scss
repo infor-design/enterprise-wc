@@ -398,7 +398,16 @@
     }
 
     // High-Contrast Mode Secondary Styles
-    // NONE YET
+    &.btn-secondary {
+      @include bg-slate-70();
+      @include border-slate-70();
+      @include text-white();
+
+      &[disabled] {
+        @include bg-slate-40();
+        @include border-slate-40();
+      }
+    }
 
     // High-Contrast Mode Inverse Styles
     &.inverse {
