@@ -47,6 +47,7 @@ import IdsPager, {
   IdsPagerButton,
   IdsPagerNumberList
 } from '../src/ids-pager';
+import IdsDraggable from '../src/ids-draggable';
 
 // Import Example Code
 
@@ -81,3 +82,4 @@ import './ids-spinbox/index';
 import './ids-tabs/index';
 import './ids-pager/example';
 import './ids-loading-indicator/index';
+import './ids-draggable/index';

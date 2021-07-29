@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import expectElemFlagBehavior from '../helpers/expect-elem-flag-behavior';
+import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
 import processAnimFrame from '../helpers/process-anim-frame';
 import IdsLoadingIndicator from '../../src/ids-loading-indicator';
 
@@ -95,7 +95,7 @@ describe('IdsLoadingIndicator Component', () => {
   it('sets and gets the sticky attribute reliably', async () => {
     elem = await createElemViaTemplate('<ids-loading-indicator></ids-loading-indicator>');
 
-    expectElemFlagBehavior(elem, 'sticky');
+    expectFlagAttributeBehavior({ elem, attribute: 'sticky' });
   });
 
   it('sets and gets the linear attribute reliably', async () => {
@@ -103,7 +103,7 @@ describe('IdsLoadingIndicator Component', () => {
       '<ids-loading-indicator></ids-loading-indicator>'
     );
 
-    expectElemFlagBehavior(elem, 'linear');
+    expectFlagAttributeBehavior({ elem, attribute: 'linear' });
   });
 
   it('sets and gets the inline attribute reliably', async () => {
@@ -111,7 +111,7 @@ describe('IdsLoadingIndicator Component', () => {
       '<ids-loading-indicator inline></ids-loading-indicator>'
     );
 
-    expectElemFlagBehavior(elem, 'inline');
+    expectFlagAttributeBehavior({ elem, attribute: 'inline' });
   });
 
   it('calls type getter reliably based on flags set', async () => {
@@ -132,7 +132,7 @@ describe('IdsLoadingIndicator Component', () => {
       '<ids-loading-indicator sticky percentage-visible></ids-loading-indicator>'
     );
 
-    expectElemFlagBehavior(elem, 'percentage-visible');
+    expectFlagAttributeBehavior({ elem, attribute: 'percentage-visible' });
   });
 
   it('supports setting mode', async () => {
