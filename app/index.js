@@ -11,6 +11,7 @@ import IdsCard from '../src/ids-card/ids-card';
 import IdsCheckbox from '../src/ids-checkbox/ids-checkbox';
 import IdsColor from '../src/ids-color/ids-color';
 import IdsColorPicker from '../src/ids-color-picker/ids-color-picker';
+import IdsDraggable from '../src/ids-draggable';
 import IdsExpandableArea from '../src/ids-expandable-area/ids-expandable-area';
 import IdsHeader from '../src/ids-header/ids-header';
 import IdsHyperlink from '../src/ids-hyperlink/ids-hyperlink';

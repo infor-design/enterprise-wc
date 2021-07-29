@@ -61,8 +61,6 @@ class IdsText extends mix(IdsElement).with(
       attributes.FONT_SIZE,
       attributes.FONT_WEIGHT,
       attributes.LABEL,
-      attributes.MODE,
-      attributes.OVERFLOW,
       attributes.LANGUAGE,
       attributes.LOCALE,
       attributes.MODE,

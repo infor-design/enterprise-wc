@@ -57,11 +57,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].js'
   },
-  resolve: {
-    alias: {
-      handlebars: 'handlebars/dist/handlebars.js'
-    }
-  },
   // Configure the dev server (node) with settings
   devServer: {
     port: 4300,
