@@ -174,10 +174,6 @@ describe('IdsDataGrid Component', () => {
       expect(dataGrid.getAttribute('label')).toEqual(null);
     });
 
-    it('renders correctly', () => {
-      expect(dataGrid.shadowRoot.innerHTML).toMatchSnapshot();
-    });
-
     it('renders column css with adoptedStyleSheets', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
