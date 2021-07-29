@@ -1,0 +1,11 @@
+---
+ component: Text Element
+ link: ids-text
+ description: An element for plain text
+ category: Form Inputs
+ keywords: text, color, switcher
+ examples:
+  - link: index.html
+    description: Shows all ids-text sizes
+  - link: side-by-side.html
+    description: Showing a text element side by side working with 4.x

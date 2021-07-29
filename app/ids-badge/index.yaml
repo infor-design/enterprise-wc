@@ -1,0 +1,11 @@
+---
+ component: Badge
+ link: ids-badge
+ description: Ui Text decoration
+ category: Navigation and Interaction
+ keywords: badge, decoration
+ examples:
+  - link: index.html
+    description: Shows all badge types
+  - link: side-by-side.html
+    description: Showing a Badge side by side with a 4.x Badge

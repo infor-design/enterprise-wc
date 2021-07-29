@@ -1,0 +1,14 @@
+---
+ component: Hyperlink
+ link: ids-hyperlink
+ description: SVG icons
+ category: Messages and Alerts
+ keywords: link, anchor, hyperlink
+ examples:
+  - link: index.html
+    description: Shows all hyperlinks and states
+  - link: multi-line.html
+    description: Shows a multi line hyperlink
+  - link: side-by-side.html
+    description: Showing a hyperlink next to a 4.x hyperlink
+

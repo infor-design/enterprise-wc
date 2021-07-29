@@ -1,0 +1,17 @@
+---
+ component: Tabs
+ link: ids-tabs
+ description: Segment different areas
+ category: Navigation and Interaction
+ keywords: tab, tabs, sections
+ examples:
+  - link: index.html
+    description: Shows a basic ids-tabs example
+  - link: counts.html
+    description: Shows tabs with a count for each tab
+  - link: vertical.html
+    description: Shows vertical tabs
+  - link: side-by-side.html
+    description: Showing a tab element side by side working with 4.x
+  - link: standalone-css.html
+    description: Showing limited tabs that works with css only

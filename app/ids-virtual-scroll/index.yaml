@@ -1,0 +1,10 @@
+---
+ component: Virtual Scroll
+ link: ids-virtual-scroll
+ description: Fast scrolling for lots of data
+ category: Navigation and Interaction
+ keywords: Virtual, Scroll, Big Data, Scroller, Scrolling
+ examples:
+  - link: index.html
+    description: Showing a list with virtual scrolling
+    keywords: Virtual, Scroll, Big Data, Scroller, Scrolling

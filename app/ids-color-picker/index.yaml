@@ -1,0 +1,10 @@
+---
+ component: Color Picker
+ link: ids-color-picker
+ description: Input field for colors
+ category: Form Inputs
+ keywords: Color, Input
+ examples:
+  - link: index.html
+    description: Shows a color picker and states
+

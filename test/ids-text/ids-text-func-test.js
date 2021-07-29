@@ -179,6 +179,12 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
   });
 
+  it('can render a color from the color palette', () => {
+    elem.color = 'slate-10';
+    expect(elem.color).toEqual('slate-10');
+    expect(elem.container.style.color).toEqual('');
+  });
+
   it('can translate text', async () => {
     const container = new IdsContainer();
     const text = new IdsText();

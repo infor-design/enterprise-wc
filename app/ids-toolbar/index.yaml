@@ -1,0 +1,30 @@
+---
+ component: Toolbar
+ link: ids-toolbar
+ description:  A container for buttons
+ category: Layouts
+ keywords: toolbar, layout, buttons
+ examples:
+  - link: index.html
+    description: Showing a simple toolbar
+  - link: centered.html
+    description: Showing a toolbar with centered text
+  - link: disabled.html
+    description: Showing a disabled toolbar
+  - link: no-eyebrow.html
+    description: Showing a toolbar without eye brow text
+  - link: no-eyebrow.html
+    description: Showing a toolbar without eye brow text
+  - link: overflowed.html
+    description: Showing a toolbar without overflow
+  - link: side-by-side.html
+    description: Showing a toolbar side by side working with 4.x
+  - link: side-by-side.html
+    description: Showing a toolbar side by side working with 4.x
+  - link: standalone-css.html
+    description: Showing a limited toolbar that works with css only
+  - link: tabbale.html
+    description: Demos the tabbable setting to disable tabbing
+
+
+

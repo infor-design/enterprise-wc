@@ -1,0 +1,15 @@
+---
+ component: Popup
+ link: ids-popup
+ description: Displays a Popup Container
+ category: Layouts
+ keywords: Popup, popover, popdown
+ examples:
+  - link: index.html
+    description: Showing a Popup example
+  - link: test-sandbox.html
+    description: Showing a test page for positioning
+  - link: side-by-side.html
+    description: Showing a Popup Menu side by side with 4.x
+  - link: standalone-css.html
+    description: Showing Popup Menu that works with css only

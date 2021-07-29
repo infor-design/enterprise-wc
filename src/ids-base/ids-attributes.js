@@ -20,6 +20,7 @@ export const attributes = {
   AUTOSELECT: 'autoselect',
   AXIS: 'axis',
   BG_TRANSPARENT: 'bg-transparent',
+  BOLD: 'bold',
   BLEED: 'bleed',
   BUTTONS: 'buttons',
   CANCEL: 'cancel',
