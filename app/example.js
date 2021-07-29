@@ -11,6 +11,7 @@ import colorYaml from './ids-color/index.yaml';
 import colorPickerYaml from './ids-color-picker/index.yaml';
 import countsYaml from './ids-counts/index.yaml';
 import dataGridYaml from './ids-data-grid/index.yaml';
+import draggableYaml from './ids-draggable/index.yaml';
 import expandableAreaYaml from './ids-expandable-area/index.yaml';
 import fieldsetYaml from './ids-fieldset/index.yaml';
 import hyperlinkYaml from './ids-hyperlink/index.yaml';
@@ -78,6 +79,7 @@ addYaml(colorYaml);
 addYaml(colorPickerYaml);
 addYaml(countsYaml);
 addYaml(dataGridYaml);
+addYaml(draggableYaml);
 addYaml(expandableAreaYaml);
 addYaml(fieldsetYaml);
 addYaml(hyperlinkYaml);
@@ -116,15 +118,15 @@ addYaml(wizardYaml);
 let html = '';
 categories.forEach((category) => {
   html += `<ids-text type="h1" font-size="24">${category.name}</ids-text>
-  <ids-layout-grid gap="md" auto="true">`;
+  <ids-layout-grid><ids-layout-grid-cell><ids-block-grid align="center">`;
   category.components.forEach((component) => {
-    html += `<ids-layout-grid-cell><ids-card auto-height="true"><div slot="card-content" link="${component.link}">
+    html += `<ids-block-grid-item><ids-card auto-height="true"><div slot="card-content" link="${component.link}">
     <ids-text type="h2" font-size="16" font-weight="bold" color="slate-100">${component.component}</ids-text>
     <ids-text type="h2" font-size="16" color="slate-60">${component.description}</ids-text>
-    </div></ids-layout-grid-cell></ids-card>
+    </div></ids-card></ids-block-grid-item>
     `;
   });
-  html += `</ids-layout-grid>`;
+  html += `</iids-block-grid></ids-layout-grid-cell></ids-layout-grid>`;
 });
 document.querySelector('#dynamic-area').insertAdjacentHTML('afterbegin', html);
 
