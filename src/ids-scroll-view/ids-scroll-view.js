@@ -60,10 +60,10 @@ class IdsScrollView extends mix(IdsElement).with(
    */
   template() {
     return `<div class="ids-scroll-view-container" part="container">
-        <div class="ids-scroll-view" part="scroll-view">
+        <div class="ids-scroll-view" part="scroll-view" role="complementary">
           <slot name="scroll-view-item"></slot>
         </div>
-        <div class="ids-scroll-view-controls" part="controls" tabindex="0">
+        <div class="ids-scroll-view-controls" part="controls" role="tablist">
         </div>
     </div>`;
   }
@@ -82,9 +82,7 @@ class IdsScrollView extends mix(IdsElement).with(
         return;
       }
 
-      this.controls.querySelector('a.selected')?.classList.remove('selected');
-      event.target.classList.add('selected');
-      event.target.focus();
+      this.#activateLink(event.target, true);
       isClick = true;
 
       this.timer = this.rl?.register(new IdsRenderLoopItem({
@@ -97,44 +95,53 @@ class IdsScrollView extends mix(IdsElement).with(
       }));
     });
 
+    // handle arrow keys
+    this.listen(['ArrowLeft', 'ArrowRight'], this.controls, (e) => {
+      const selected = this.controls.querySelector('.selected');
+      if (e.key === 'ArrowRight' && selected.nextElementSibling) {
+        this.container.scrollBy(this.container.offsetWidth, 0);
+        this.#activateLink(selected.nextElementSibling, true);
+        return;
+      }
+      if (e.key === 'ArrowLeft' && selected.previousElementSibling) {
+        this.container.scrollBy(-this.container.offsetWidth, 0);
+        this.#activateLink(selected.previousElementSibling, true);
+      }
+    });
+
     // Set selected state on scroll/swipe
     this.querySelectorAll('[slot').forEach((elem, i) => {
       elem.scrollViewIndex = i;
       const observer = new IntersectionObserver((entries) => {
         const elemToCheck = entries[0];
         if (elemToCheck.isIntersecting && !isClick) {
-          this.controls.querySelector('a.selected')?.classList.remove('selected');
-          this.controls.querySelectorAll('a')[elemToCheck.target.scrollViewIndex]?.classList.add('selected');
+          this.controls.querySelector('.selected')?.blur();
+          this.#activateLink(this.controls.querySelectorAll('a')[elemToCheck.target.scrollViewIndex]);
         }
       },
       { threshold: 0.51 });
       observer.observe(elem);
     });
-
-    // Handle Keys
-    this.listen('ArrowLeft', this.controls, () => {
-      this.#activateAdjacent(-1);
-    });
-
-    this.listen('ArrowRight', this.controls, () => {
-      this.#activateAdjacent(1);
-    });
   }
 
   /**
-   * Activate the next/previous slide
-   * @param {number} direction The direction to move
+   * Activate the circle button
    * @private
+   * @param {HTMLElement} elem The next selected element
+   * @param {boolean} focus The next selected element
    */
-  #activateAdjacent(direction) {
-    const active = this.controls.querySelector('a.selected');
-    active.classList.remove('selected');
+  #activateLink(elem, focus) {
+    const selected = this.controls.querySelector('.selected');
+    selected.classList.remove('selected');
+    selected.setAttribute('tabindex', '-1');
+    selected.removeAttribute('aria-selected');
 
-    if (active.scrollViewIndex + direction >= 0) {
-      active.previousElementSibling.click();
-    }
-    if (active.scrollViewIndex + direction <= this.controls.querySelectorAll('a').length - 1) {
-      active.nextElementSibling.click();
+    elem.classList.add('selected');
+    elem.setAttribute('tabindex', '0');
+    elem.setAttribute('aria-selected', 'true');
+
+    if (focus) {
+      elem.focus();
     }
   }
 
@@ -147,7 +154,7 @@ class IdsScrollView extends mix(IdsElement).with(
     items.forEach((item, i) => {
       const id = `id-${i}`;
       item.id = id;
-      this.controls.insertAdjacentHTML('beforeend', `<a ${i === 0 ? ' class="selected"' : ''} href="#${id}" part="button"><span class="audible">${item.getAttribute('alt')}</span></a>`);
+      this.controls.insertAdjacentHTML('beforeend', `<a ${i === 0 ? ' class="selected"' : ''} href="#${id}" part="button" tabindex="${i === 0 ? '0' : '-1'}" role="tab" aria-selected="${i === 0 ? 'true' : 'false'}"><span class="audible">${item.getAttribute('alt')}</span></a>`);
     });
   }
 }

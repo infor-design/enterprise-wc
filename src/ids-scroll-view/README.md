@@ -16,16 +16,16 @@ The scroll view component allows swipe and scroll in between a number of slides/
 
 ## Features (With Code Examples)
 
-A scrollview with images. You just need to add each element to the scroll view. Each of the immediate children should get `slot="scroll-view-item"`. If using images the `alt` tag is very important for accessibility.
+A scrollview with images. You just need to add each element to the scroll view. Each of the immediate children should get `slot="scroll-view-item"`. If using images the `alt` tag is very important for accessibility. As a tip you can add "Slide N" or similar text to the alt tag as it helps screen reader users for context.
 
 ```html
 <ids-scroll-view>
-    <img slot="scroll-view-item" src="/assets/rocks-natural.png" alt="Natural Rocks">
-    <img slot="scroll-view-item" src="/assets/rocks-polished-dark.png" alt="Dark Polished Rocks">
-    <img slot="scroll-view-item" src="/assets/rocks-polished-light.png" alt="Light Polished Rocks">
-    <img slot="scroll-view-item" src="/assets/rocks-river.png" alt="River Cured Rocks">
-    <img slot="scroll-view-item" src="/assets/rocks-sea.png" alt="Sea Cured Rocks">
-    <img slot="scroll-view-item" src="/assets/rocks-white.png" alt="White Rocks">
+    <img slot="scroll-view-item" src="/assets/camera-1.jpeg" alt="Slide 1, Sony Camera, Front"/>
+    <img slot="scroll-view-item" src="/assets/camera-2.jpeg" alt="Slide 3, Sony Camera, Back Display"/>
+    <img slot="scroll-view-item" src="/assets/camera-3.jpeg" alt="Slide 3, Sony Camera, From Top"/>
+    <img slot="scroll-view-item" src="/assets/camera-4.jpeg" alt="Slide 4, Olympus Camera, Front"/>
+    <img slot="scroll-view-item" src="/assets/camera-5.jpeg" alt="Slide 5, Olympus Camera, Exposed to water"/>
+    <img slot="scroll-view-item" src="/assets/camera-6.jpeg" alt="Slide 6, Sony E-mount Camera, Front"/>
 </ids-scroll-view>
 ```
 
@@ -48,7 +48,7 @@ None
 
 ## Keyboard Guidelines
 
-- <kbd>Tab/Shift+Tab</kbd>: Tabs you into either the content if its interactive or to the tab control area
+- <kbd>Tab/Shift+Tab</kbd>: Tabs you into the sider control area
 - <kbd>ArrowLeft / ArrowRight</kbd>: Moves to the next or previous slide
 
 ## Responsive

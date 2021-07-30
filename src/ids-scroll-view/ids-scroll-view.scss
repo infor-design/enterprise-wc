@@ -2,9 +2,9 @@
 
 // The main scrollable container
 .ids-scroll-view {
-  @include focus-border-off();
   @include flex();
 
+  outline: none;
   overflow-x: scroll;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -31,18 +31,12 @@
 
 // The pager controls (circle container)
 .ids-scroll-view-controls {
-  @include focus-border-off();
-
   display: flex;
   justify-content: center;
 
-  // Container is focusable
-  &:focus {
-    @include focus-border-on();
-  }
-
   // The circle buttons and states
   a {
+    @include focus-border-off();
     @include cursor-pointer();
     @include relative();
     @include cursor-pointer();
@@ -82,6 +76,12 @@
       &::after {
         @include border-slate-100();
       }
+    }
+
+    &:focus {
+      @include focus-border-on();
+
+      outline: none;
     }
   }
 }

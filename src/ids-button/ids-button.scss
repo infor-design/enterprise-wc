@@ -91,6 +91,10 @@ button {
   @include ids-base-button-styles();
   @include ids-standard-button-colors();
 
+  ::slotted(ids-icon) {
+    padding-left: 0 !important; // needs the !important to override the padding: 0 rule from _reset.scss
+  }
+
   // Everything below is only for icon buttons
   @include px-8();
   @include py-8();

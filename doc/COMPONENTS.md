@@ -331,11 +331,39 @@ Add detailed but concise info on converting from previous version.
 
 #### Accessibility Guidelines
 
-Add detailed info on accessibility both from the point of view of how the component works with it and anything the developers should know.
+Add detailed info on accessibility both from the point of view of how the component works with it and anything the developers should know. Only public methods, events and settings should be mentioned, no need to add anything else. Familiarize yourself with [every day types](https://www.typescriptlang.org/docs/handbook/2/everyday-types.html).
+
+Example of a setting with an enum note that we try to use single line comments with the first letter capitalized:
+```js
+/** Set the tag type/color */
+color: 'secondary' | 'error' | 'success' | 'caution' | string;
+```
+
+Example of a boolean type:
+```js
+/** Add a dismissible x button to the tag */
+dismissible: boolean;
+```
+
+Example of a public method:
+```js
+/** Dismiss a dismissible tag */
+dismiss(): void;
+```
+
+Example of an event:
+```js
+/** Fires before the tag is removed, you can return false in the response to veto. */
+on(event: 'beforetagremove', listener: (detail: IdsTagEventVetoable) => void): this;
+```
 
 #### Regional Considerations
 
 Add info on what behaviors or considerations the developer needs to know regarding when running in different languages.
+
+### Code the Types
+
+We include type `d.ts` files for typescript users so that they can get the typings for events, settings and public methods. These three things should be added to the types. Review the current examples
 
 ### Code the Tests
 
