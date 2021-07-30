@@ -138,7 +138,7 @@ button {
 // Specific Modifications for Modal Buttons
 .ids-modal-button {
   @include ids-base-button-styles();
-  @include ids-alternate-button-colors();
+  @include ids-modal-button-colors();
   @include py-12();
 
   display: block;

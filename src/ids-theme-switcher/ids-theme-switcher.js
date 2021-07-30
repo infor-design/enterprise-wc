@@ -12,7 +12,7 @@ import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 // Import Mixins
 import {
   IdsEventsMixin,
-  IdsInverseColorMixin
+  IdsColorVariantMixin
 } from '../ids-mixins';
 
 import styles from './ids-theme-switcher.scss';
@@ -22,7 +22,7 @@ import styles from './ids-theme-switcher.scss';
  */
 @customElement('ids-theme-switcher')
 @scss(styles)
-class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin, IdsInverseColorMixin) {
+class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin, IdsColorVariantMixin) {
   constructor() {
     super();
   }
@@ -93,6 +93,12 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin, IdsInverseCo
   }
 
   /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  availableColorVariants = ['alternate'];
+
+  /**
    * Set the mode of the current theme
    * @param {string} value The mode value for example: light, dark, or high-contrast
    */
@@ -125,12 +131,13 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin, IdsInverseCo
   get version() { return this.getAttribute('version') || 'new'; }
 
   /**
-   * Implements callback from IdsInverseColorMixin used to
+   * Implements callback from IdsColorVariantMixin used to
    * update the inverse setting on children components
    * @returns {void}
    */
-  onInverseRefresh() {
-    this.container.inverse = this.inverse;
+  onColorVariantRefresh() {
+    // Updates the inner menu button's color variant, which should match the theme switcher's
+    this.container.colorVariant = this.colorVariant;
   }
 }
 
