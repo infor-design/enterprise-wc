@@ -8,12 +8,12 @@ export default class IdsNotificationBanner extends IdsElement {
   label: string;
 
   /** Sets the labelValue of the chart */
-  labelValue: string;
+  labelProgress: string;
 
   /** Sets the labelTotal of the chart */
   labelTotal: string;
 
-  value: string;
+  progress: string;
 
   total: string;
 
