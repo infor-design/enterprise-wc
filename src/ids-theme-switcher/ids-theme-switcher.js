@@ -132,11 +132,12 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin, IdsColorVari
 
   /**
    * Implements callback from IdsColorVariantMixin used to
-   * update the inverse setting on children components
+   * update the color variant setting on children components
    * @returns {void}
    */
   onColorVariantRefresh() {
     // Updates the inner menu button's color variant, which should match the theme switcher's
+    /* istanbul ignore next */
     this.container.colorVariant = this.colorVariant;
   }
 }
