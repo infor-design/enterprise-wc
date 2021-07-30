@@ -58,23 +58,23 @@ It's also possible to use named slots to more specifically identify elements ins
 </ids-button>
 ```
 
-### Inverse Styles
+### Color Variants
 
-If placing a button inside a container with a contrasting background color, sometimes the "base" styles for Ids Button types aren't adequate for passing contrast checks. To resolve this problem, the `inverse` property can be used by way of the [IdsInverseColorMixin](../ids-mixins/README.md):
+If placing a button inside a container with a contrasting background color, sometimes the "base" styles for Ids Button types aren't adequate for passing contrast checks. To resolve this problem, the `color-variant` property can be used by way of the [IdsColorVariantMixin](../ids-mixins/README.md):
 
 ```html
 <!-- Generates a default (Tertiary) Button with white text and focus/hover states --->
-<ids-button id="my-button-1" inverse>
+<ids-button id="my-button-1" color-variant="alternate">
   <span slot="text">My Button</span>
 </ids-button>
 
 <!-- Generates a Primary Button with a slightly more bright Azure --->
-<ids-button id="my-button-2" type="primary" inverse>
+<ids-button id="my-button-2" type="primary" color-variant="alternate">
   <span slot="text">My Button</span>
 </ids-button>
 
 <!-- Generates a Secondary Button with a slightly more bright Slate --->
-<ids-button id="my-button-2" type="primary" inverse>
+<ids-button id="my-button-2" type="primary" color-variant="alternate">
   <span slot="text">My Button</span>
 </ids-button>
 ```
@@ -88,7 +88,7 @@ Standard button states include:
 - Focus
 - Active (pressed)
 - Disabled
-- Inverse - alternate colors for each button type are available via the [IdsInverseColorMixin](../ids-mixins/README.md)
+- Color Variant - alternate colors for each button type are available via the [IdsColorVariantMixin](../ids-mixins/README.md)
 
 IDS button types include:
 

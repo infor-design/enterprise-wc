@@ -3,6 +3,7 @@
  */
 import IdsContainer from '../../src/ids-container/ids-container';
 import IdsThemeSwitcher from '../../src/ids-theme-switcher/ids-theme-switcher';
+import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 
 describe('IdsThemeSwitcher Component', () => {
   let container;
@@ -62,9 +63,13 @@ describe('IdsThemeSwitcher Component', () => {
     expect(switcher.getAttribute('version')).toBeFalsy();
   });
 
-  it('can be set to inverse colors', () => {
-    switcher.inverse = true;
-
-    expect(switcher.container.inverse).toBeTruthy();
+  it('can be set to alternate colors', async () => {
+    const elem = switcher.container;
+    await expectEnumAttributeBehavior({
+      elem,
+      attribute: 'color-variant',
+      values: ['default', 'alternate'],
+      defaultValue: null
+    });
   });
 });

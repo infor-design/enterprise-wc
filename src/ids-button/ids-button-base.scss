@@ -18,28 +18,13 @@
 }
 
 // Used to make the focus "border" on non-solid buttons (modal buttons, etc)
-@mixin alternate-button-shadow() {
+@mixin modal-button-shadow() {
   box-shadow: 0 0 3px 1px var(--ids-color-brand-primary-base) // primary color (shadowy-part)
 }
 
-@mixin inverse-button-shadow() {
+@mixin alternate-button-shadow() {
   border-color: var(--ids-color-palette-white);
   box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.7);
-}
-
-// Simplifies some common lines of code used on all mode/version variants of text color
-@mixin inverse-white-text-only() {
-  &.inverse {
-    @include text-white();
-
-    &[disabled] {
-      @include text-white();
-    }
-
-    &:hover {
-      @include text-white();
-    }
-  }
 }
 
 // Used to include a basic set of ripple-effect styles
@@ -220,15 +205,15 @@
   }
 
   // ====================================================
-  // Light Mode Inverse Styles
+  // Light Mode Alternate Styles
 
-  &.inverse {
+  &.color-variant-alternate {
     @include text-white();
 
     opacity: 0.7;
 
     &:focus {
-      @include inverse-button-shadow();
+      @include alternate-button-shadow();
 
       border-color: var(--ids-color-palette-white);
       opacity: 1;
@@ -249,7 +234,7 @@
     }
 
     // ====================================================
-    // Light Mode Inverse Primary Styles
+    // Light Mode Alternate Primary Styles
 
     &.btn-primary {
       background-color: var(--ids-color-palette-azure-40);
@@ -258,7 +243,7 @@
       opacity: 1;
 
       &:focus {
-        @include inverse-button-shadow();
+        @include alternate-button-shadow();
 
         border-color: var(--ids-color-palette-white);
       }
@@ -280,7 +265,7 @@
     }
 
     // ====================================================
-    // Light Mode Inverse Secondary Styles
+    // Light Mode Alternate Secondary Styles
 
     &.btn-secondary {
       @include bg-slate-30();
@@ -289,7 +274,7 @@
       opacity: 1;
 
       &:focus {
-        @include inverse-button-shadow();
+        @include alternate-button-shadow();
       }
 
       &:hover {
@@ -348,14 +333,14 @@
       }
     }
 
-    // Dark Mode Inverse Styles
-    &.inverse {
+    // Dark Mode Alternate Styles
+    &.color-variant-alternate {
       @include text-white();
 
-      // Dark Mode Primary Inverse Styles
+      // Dark Mode Primary Alternate Styles
       // NONE YET
 
-      // Dark Mode Secondary Inverse Styles
+      // Dark Mode Secondary Alternate Styles
       &.btn-secondary {
         @include bg-slate-30();
         @include text-graphite-100();
@@ -409,8 +394,8 @@
       }
     }
 
-    // High-Contrast Mode Inverse Styles
-    &.inverse {
+    // High-Contrast Mode Alternate Styles
+    &.color-variant-alternate {
       @include text-slate-10();
 
       opacity: 1;
@@ -423,7 +408,7 @@
         @include text-slate-40();
       }
 
-      // High-Contrast Mode Inverse Primary Styles
+      // High-Contrast Mode Alternate Primary Styles
       &.btn-primary {
         @include bg-azure-60();
         @include border-azure-60();
@@ -442,7 +427,7 @@
         }
       }
 
-      // High-Contrast Mode Inverse Secondary Styles
+      // High-Contrast Mode Alternate Secondary Styles
       &.btn-secondary {
         @include bg-slate-60();
         @include border-slate-60();
@@ -497,12 +482,12 @@
       }
     }
 
-    // Classic Light Mode Inverse Styles
-    &.inverse {
+    // Classic Light Mode Alternate Styles
+    &.color-variant-alternate {
       @include text-white();
 
       &:focus {
-        @include inverse-button-shadow();
+        @include alternate-button-shadow();
       }
 
       &:hover {
@@ -513,7 +498,7 @@
         @include text-white();
       }
 
-      // Classic Light Mode Inverse Primary Styles
+      // Classic Light Mode Alternate Primary Styles
       &.btn-primary {
         @include bg-azure-50();
         @include border-azure-50();
@@ -534,7 +519,7 @@
         }
       }
 
-      // Classic Light Mode Inverse Secondary Styles
+      // Classic Light Mode Alternate Secondary Styles
       &.btn-secondary {
         @include bg-graphite-40();
         @include border-graphite-40();
@@ -595,8 +580,8 @@
       }
     }
 
-    // Classic Dark Mode Inverse Styles
-    &.inverse {
+    // Classic Dark Mode Alternate Styles
+    &.color-variant-alternate {
       @include text-white();
 
       &:hover {
@@ -607,7 +592,7 @@
         @include text-white();
       }
 
-      // Classic Dark Mode Primary Inverse Styles
+      // Classic Dark Mode Primary Alternate Styles
       &.btn-primary {
         @include bg-azure-50();
         @include border-azure-50();
@@ -625,7 +610,7 @@
         }
       }
 
-      // Classic Dark Mode Secondary Inverse Styles
+      // Classic Dark Mode Secondary Alternate Styles
       &.btn-secondary {
         @include bg-graphite-40();
         @include border-graphite-40();
@@ -686,8 +671,8 @@
       }
     }
 
-    // Classic High-Contrast Mode Inverse Styles
-    &.inverse {
+    // Classic High-Contrast Mode Alternate Styles
+    &.color-variant-alternate {
       @include text-white();
 
       &:hover {
@@ -698,7 +683,7 @@
         @include text-classic-slate-30();
       }
 
-      // Classic High-Contrast Mode Primary Inverse Styles
+      // Classic High-Contrast Mode Primary Alternate Styles
       &.btn-primary {
         @include bg-azure-70();
         @include border-azure-70();
@@ -715,7 +700,7 @@
         }
       }
 
-      // Classic High-Contrast Mode Secondary Inverse Styles
+      // Classic High-Contrast Mode Secondary Alternate Styles
       &.btn-secondary {
         @include bg-graphite-60();
         @include border-graphite-60();
@@ -748,9 +733,9 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
       }
 
-      &.inverse {
+      &.color-variant-alternate {
         &:focus {
-          @include inverse-button-shadow();
+          @include alternate-button-shadow();
         }
       }
     }
@@ -763,9 +748,9 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
       }
 
-      &.inverse {
+      &.color-variant-alternate {
         &:focus {
-          @include inverse-button-shadow();
+          @include alternate-button-shadow();
         }
       }
     }
@@ -778,9 +763,9 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
       }
 
-      &.inverse {
+      &.color-variant-alternate {
         &:focus {
-          @include inverse-button-shadow();
+          @include alternate-button-shadow();
         }
       }
     }
@@ -793,9 +778,9 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
       }
 
-      &.inverse {
+      &.color-variant-alternate {
         &:focus {
-          @include inverse-button-shadow();
+          @include alternate-button-shadow();
         }
       }
     }
@@ -808,9 +793,9 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
       }
 
-      &.inverse {
+      &.color-variant-alternate {
         &:focus {
-          @include inverse-button-shadow();
+          @include alternate-button-shadow();
         }
       }
     }
@@ -824,9 +809,9 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
       }
 
-      &.inverse {
+      &.color-variant-alternate {
         &:focus {
-          @include inverse-button-shadow();
+          @include alternate-button-shadow();
         }
       }
     }
@@ -839,9 +824,9 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
       }
 
-      &.inverse {
+      &.color-variant-alternate {
         &:focus {
-          @include inverse-button-shadow();
+          @include alternate-button-shadow();
         }
       }
     }
@@ -854,9 +839,9 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
       }
 
-      &.inverse {
+      &.color-variant-alternate {
         &:focus {
-          @include inverse-button-shadow();
+          @include alternate-button-shadow();
         }
       }
     }
@@ -869,9 +854,9 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
       }
 
-      &.inverse {
+      &.color-variant-alternate {
         &:focus {
-          @include inverse-button-shadow();
+          @include alternate-button-shadow();
         }
       }
     }
@@ -884,16 +869,16 @@
         box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
       }
 
-      &.inverse {
+      &.color-variant-alternate {
         &:focus {
-          @include inverse-button-shadow();
+          @include alternate-button-shadow();
         }
       }
     }
   }
 }
 
-@mixin ids-alternate-button-colors() {
+@mixin ids-modal-button-colors() {
   // ====================================================
   // Primary Button styles
 
@@ -902,7 +887,7 @@
     color: var(--ids-color-brand-primary-base);
 
     &:focus {
-      @include alternate-button-shadow();
+      @include modal-button-shadow();
     }
 
     &:hover {
@@ -930,7 +915,7 @@
     color: var(--ids-color-brand-secondary-contrast);
 
     &:focus {
-      @include alternate-button-shadow();
+      @include modal-button-shadow();
     }
 
     &:hover {

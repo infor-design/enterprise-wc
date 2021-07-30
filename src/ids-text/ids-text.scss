@@ -27,7 +27,7 @@
   &.label {
     @include text-slate-60();
 
-    &.inverse {
+    &.color-variant-alternate {
       @include text-white();
     }
   }
@@ -139,7 +139,7 @@
     @include text-slate-30();
   }
 
-  &.inverse.label {
+  &.color-variant-alternate.label {
     @include text-slate-80();
   }
 }

@@ -9,7 +9,7 @@ import {
 
 import {
   IdsEventsMixin,
-  IdsInverseColorMixin,
+  IdsColorVariantMixin,
   IdsRenderLoopMixin,
   IdsRenderLoopItem,
   IdsThemeMixin,
@@ -83,7 +83,7 @@ const baseProtoClasses = [
 class IdsButton extends mix(IdsElement).with(
     IdsRenderLoopMixin,
     IdsEventsMixin,
-    IdsInverseColorMixin,
+    IdsColorVariantMixin,
     IdsThemeMixin,
     IdsTooltipMixin
   ) {
@@ -138,6 +138,12 @@ class IdsButton extends mix(IdsElement).with(
   static get attributes() {
     return [...super.attributes, ...BUTTON_ATTRIBUTES];
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  availableColorVariants = ['alternate'];
 
   /**
    * Figure out the classes
@@ -712,15 +718,15 @@ class IdsButton extends mix(IdsElement).with(
   }
 
   /**
-   * Implements callback from IdsInverseColorMixin used to
-   * update the inverse setting on children components
+   * Implements callback from IdsColorVariantMixin used to
+   * update the color variant on children components
    * @returns {void}
    */
-  onInverseRefresh() {
+  onColorVariantRefresh() {
     const icons = this.querySelectorAll('ids-icon');
     const texts = this.querySelectorAll('ids-text');
     const iterator = (el) => {
-      el.inverse = this.inverse;
+      el.colorVariant = this.colorVariant;
     };
     [...icons, ...texts].forEach(iterator);
   }

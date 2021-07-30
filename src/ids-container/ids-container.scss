@@ -30,7 +30,7 @@
   @include bg-white();
   @include text-slate-100();
 
-  &.inverse {
+  &.color-variant-alternate {
     @include bg-slate-70();
     @include text-slate-10();
   }
@@ -40,7 +40,7 @@
   @include bg-slate-90();
   @include text-slate-10();
 
-  &.inverse {
+  &.color-variant-alternate {
     @include bg-black();
     @include text-slate-10();
   }
@@ -50,7 +50,7 @@
   @include bg-slate-10();
   @include text-slate-100();
 
-  &.inverse {
+  &.color-variant-alternate {
     @include bg-black();
     @include text-white();
   }
@@ -60,7 +60,7 @@
   @include bg-graphite-10();
   @include text-graphite-60();
 
-  &.inverse {
+  &.color-variant-alternate {
     @include bg-graphite-70();
     @include text-graphite-20();
   }
@@ -70,7 +70,7 @@
   @include bg-classic-slate-90();
   @include text-classic-slate-10();
 
-  &.inverse {
+  &.color-variant-alternate {
     @include bg-graphite-90();
     @include text-classic-slate-10();
   }
@@ -80,7 +80,7 @@
   @include bg-graphite-20();
   @include text-graphite-80();
 
-  &.inverse {
+  &.color-variant-alternate {
     @include bg-graphite-90();
     @include text-graphite-20();
   }

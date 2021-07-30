@@ -12,7 +12,7 @@ import {
   IdsEventsMixin,
   IdsThemeMixin,
   IdsLocaleMixin,
-  IdsInverseColorMixin,
+  IdsColorVariantMixin,
 } from '../ids-mixins';
 
 import styles from './ids-container.scss';
@@ -31,7 +31,7 @@ import styles from './ids-container.scss';
 class IdsContainer extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsLocaleMixin,
-    IdsInverseColorMixin,
+    IdsColorVariantMixin,
     IdsThemeMixin
   ) {
   constructor() {
@@ -73,6 +73,12 @@ class IdsContainer extends mix(IdsElement).with(
   template() {
     return `<div class="ids-container" part="container"${this.scrollable === 'true' ? ' tabindex="0"' : ''}><slot></slot></div>`;
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  availableColorVariants = ['alternate'];
 
   /**
    * If set to number the container will have padding added (in pixels)

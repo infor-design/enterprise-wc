@@ -225,8 +225,8 @@
       border-top-color: var(--ids-color-palette-white);
     }
 
-    // New Light Inverse Colors
-    &.inverse {
+    // New Light Alternate Colors
+    &.color-variant-alternate {
       @include bg-slate-70();
       @include text-white();
     }
