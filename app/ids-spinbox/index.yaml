@@ -1,0 +1,11 @@
+---
+ component: Spinbox
+ link: ids-spinbox
+ description: Input element for numbers
+ category: Form Inputs
+ keywords: number, spinbox, spinner, input, form
+ examples:
+  - link: index.html
+    description: Showing a spinbox with all states
+  - link: side-by-side.html
+    description: Showing a spinbox component side by side working with 4.x

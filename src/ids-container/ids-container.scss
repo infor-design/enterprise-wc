@@ -6,7 +6,7 @@
 :host {
   @include block();
 
-  min-height: calc(100vh - 16px);
+  min-height: 100vh;
 }
 
 .ids-container {
@@ -15,8 +15,8 @@
   @include outline-none();
   @include p-0();
 
+  box-sizing: border-box;
   height: 100%;
-  margin: -8px;
   overflow: auto;
   width: 100%;
 

@@ -159,13 +159,22 @@
 
   // style: "none" (temporary)
   // maybe makes sense to be "custom"?
-  // @TODO remove this or replace it with something that makes more sense.
   &.none {
     @include bg-white();
     @include border-1();
     @include border-solid();
-    @include border-emerald-30();
+    @include border-slate-100();
     @include p-12();
+  }
+
+  // style: "custom"
+  // provides bare-minimum styles needed to create a popup, allowing external customizations
+  &.custom {
+    @include bg-white();
+    @include border-1();
+    @include border-solid();
+
+    border-color: transparent;
   }
 
   // style: "menu"
@@ -319,7 +328,7 @@
     @include border-1();
     @include border-solid();
     @include font-sans();
-    @include p-8();
+    @include p-0();
     @include rounded-default();
     @include shadow();
 

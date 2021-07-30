@@ -24,6 +24,17 @@
  - [ ] Security: We will always pass all [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) guidelines. But the code is setup to error if this fails. Also we will pass security scans like Veracode and Snyk. The biggest issue here is usually XSS.
  - [ ] NG / Vue / React / Svelte / TS Example (we will build this out)
  - [ ] Old Issues: Review Be aware of old and new issues on a component in the [old backlog](https://github.com/infor-design/enterprise/issues)
+ - [ ] Add an index.yaml file to expose the examples on the root page for categories it should be one of:
+
+```sh
+Form Inputs
+Navigation and Interaction
+Messages and Alerts
+Lists
+Layouts
+Patterns
+Charts and Visualizations
+```
 
 ## Components To Convert
 
@@ -53,6 +64,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Datagrid (ids-data-grid)
  - [ ] Datepicker (ids-date-picker)
  - [ ] Donut (ids-donut or combined with ids-pie)
+ - [x] Drag (ids-draggable)
  - [ ] Dropdown (ids-drop-down)
  - [ ] Editor (ids-editor)
  - [ ] Emptymessage (ids-empty-message)
@@ -79,7 +91,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Mask (ids-mask)
  - [ ] Masthead (ids-masthead)
  - [x] MenuButton (ids-menu-button)
- - [ ] Message (ids-message)
+ - [x] Message (ids-message)
  - [x] Modal (ids-modal)
  - [ ] Monthview (ids-month-view)
  - [ ] Multiselect (ids-multi-select)

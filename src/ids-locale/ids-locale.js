@@ -585,13 +585,13 @@ class IdsLocale {
       ];
     }
 
+    /* istanbul ignore next */
     return (new Date(
       this.twoToFourDigitYear(year),
       (month - 1),
       day,
       (timePieces && timePieces[0] ? timePieces[0] : 0),
       (timePieces && timePieces[1] ? timePieces[1] : 0),
-      /* istanbul ignore next */
       (timePieces && timePieces[2] ? timePieces[2] : 0),
     ));
   }

@@ -1,6 +1,7 @@
 import { IdsElement } from '../ids-base/ids-element';
 import IdsOverlay from './ids-overlay';
 import IdsPopup from '../ids-popup/ids-popup';
+import IdsModalButton from '../ids-modal-button';
 
 interface beforeshow extends Event {
   bubbles: true,
@@ -46,6 +47,12 @@ export default class IdsModal extends IdsElement {
 
   /** If defined, points to an element that causes the Modal to become active when clicked */
   target?: HTMLElement;
+
+  /** Defines the Modal's title */
+  messageTitle?: string;
+
+  /** If buttons are defined, returns a list of the defined buttons */
+  readonly buttons?: Array<IdsModalButton>;
 
   /** Provides access to the internal Popup component */
   readonly popup?: IdsPopup;

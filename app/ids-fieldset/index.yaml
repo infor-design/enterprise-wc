@@ -1,0 +1,14 @@
+---
+ component: Fieldset
+ link: ids-fieldset
+ description: Divide Form Areas
+ category: Layouts
+ keywords: fieldset, form, section
+ examples:
+  - link: index.html
+    description: Shows general fieldset examples
+  - link: standalone.html
+    description: Shows a css fieldset
+  - link: side-by-side.html
+    description: Showing a fieldset next to a 4.x fieldset
+

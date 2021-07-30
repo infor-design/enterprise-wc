@@ -1,0 +1,12 @@
+---
+ component: Trigger Field
+ link: ids-trigger-field
+ description: An input field with an icon
+ category: Form Inputs
+ keywords: trigger, input, fields
+ examples:
+  - link: index.html
+    description: Showing a trigger field
+  - link: side-by-side.html
+    description: Example showing it work side by side
+    keywords: side by side, 4.x, old version

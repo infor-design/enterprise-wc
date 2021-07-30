@@ -1,11 +1,11 @@
 import percySnapshot from '@percy/puppeteer';
 
-describe('Ids Swipe Action Percy Tests', () => {
-  const url = 'http://localhost:4444/ids-swipe-action';
+describe('Ids Rating Percy Tests', () => {
+  const url = 'http://localhost:4444/ids-header';
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-swipe-action-new-light');
+    await percySnapshot(page, 'ids-header-new-light');
   });
 
   it('should not have visual regressions in new dark theme (percy)', async () => {
@@ -13,7 +13,7 @@ describe('Ids Swipe Action Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
-    await percySnapshot(page, 'ids-swipe-action-new-dark');
+    await percySnapshot(page, 'ids-header-new-dark');
   });
 
   it('should not have visual regressions in new contrast theme (percy)', async () => {
@@ -21,6 +21,6 @@ describe('Ids Swipe Action Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
-    await percySnapshot(page, 'ids-swipe-action-new-contrast');
+    await percySnapshot(page, 'ids-header-new-contrast');
   });
 });

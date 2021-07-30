@@ -1,0 +1,11 @@
+---
+ component: Block Grid
+ link: ids-block-grid
+ description: Box/Block Grid Layout
+ category: Layouts
+ keywords: breadcrumb, wayfinding
+ examples:
+  - link: index.html
+    description: Shows a simple block grid
+  - link: side-by-side.html
+    description: Showing a block grid with a 4.x block grid

@@ -1,0 +1,11 @@
+---
+ component: Menu
+ link: ids-menu
+ description: A static UI menu
+ category: Navigation and Interaction
+ keywords: Menu, Context Menu
+ examples:
+  - link: index.html
+    description: Showing a simple static menu
+  - link: side-by-side.html
+    description: Showing a menu side by side with 4.x
