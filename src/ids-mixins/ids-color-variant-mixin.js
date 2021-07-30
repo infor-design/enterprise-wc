@@ -51,14 +51,14 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
   }
 
   /**
-   * @param {string|null} val the name of the color varaint to be applied
+   * @param {string|null} val the name of the color variant to be applied
    */
   set colorVariant(val) {
-    if (typeof val !== 'string') {
-      return;
+    let safeVal = null;
+    if (typeof val === 'string') {
+      safeVal = stripTags(val, '');
     }
 
-    let safeVal = stripTags(val, '');
     if (this.availableColorVariants.includes(safeVal)) {
       this.setAttribute(attributes.COLOR_VARIANT, `${safeVal}`);
     } else {
@@ -66,6 +66,7 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
       safeVal = null;
     }
 
+    /* istanbul ignore next */
     if (this.state.colorVariant !== safeVal) {
       this.state.colorVariant = safeVal;
       this.#refreshColorVariant(safeVal);
@@ -85,9 +86,9 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
 
     variantClasses.forEach((variantClass) => {
       if (variantName !== null && variantClass === thisVariantClass && !cl.contains(variantClass)) {
-        cl.add(thisVariantClass);
+        cl.add(variantClass);
       } else if (variantClass !== thisVariantClass && cl.contains(variantClass)) {
-        cl.remove(thisVariantClass);
+        cl.remove(variantClass);
       }
     });
 

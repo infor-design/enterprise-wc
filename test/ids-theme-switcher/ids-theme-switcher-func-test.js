@@ -63,12 +63,11 @@ describe('IdsThemeSwitcher Component', () => {
     expect(switcher.getAttribute('version')).toBeFalsy();
   });
 
-  it('can be set to alternate colors', async () => {
-    const elem = switcher.container;
+  it('supports setting color variants', async () => {
     await expectEnumAttributeBehavior({
-      elem,
+      elem: switcher.container,
       attribute: 'color-variant',
-      values: ['default', 'alternate'],
+      values: ['alternate'],
       defaultValue: null
     });
   });
