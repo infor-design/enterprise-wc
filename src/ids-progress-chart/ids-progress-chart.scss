@@ -2,44 +2,35 @@
 
 .ids-progress-chart {
   @include antialiased();
-  // @include bg-slate-20();
-  // @include border-1();
-  // @include border-slate-20();
-  // @include border-solid();
   @include font-sans();
 
   display: flex;
   flex-direction: column;
   margin: 0 0 8px 0;
-  
+
   .labels {
+    @include text-slate-60();
+
     display: inline-flex;
     flex-direction: row;
     position: relative;
     margin-bottom: 8px;
-    @include text-slate-60();
     width: 100%;
     flex-wrap: nowrap;
     align-items: flex-end;
-
-    // ::slotted(ids-icon) {
-    //   display: inline-flex;
-      
-    //   background-color: #25AF65;
-    // }
 
     .label-main {
       display: inline-flex;
       flex: 1;
     }
 
-    .label-value{
+    .label-progress {
       display: inline-flex;
       flex: 1;
       padding: 0 2px;
     }
 
-    .label-value::part(text) {
+    .label-progress::part(text) {
       color: currentColor;
     }
 
@@ -57,7 +48,7 @@
     }
   }
 
-  .progress-bar {
+  .bar {
     border-radius: 2px;
     min-height: 28px;
     min-width: 66px;
@@ -66,6 +57,7 @@
 
     .bar-total {
       @include bg-slate-30();
+
       display: flex;
       top: 0;
       left: 0;
@@ -73,11 +65,10 @@
       height: inherit;
     }
 
-    .bar-value { 
+    .bar-progress {
       display: flex;
       top: 0;
       left: 0;
-      background-color: #25AF65;
       height: inherit;
     }
   }

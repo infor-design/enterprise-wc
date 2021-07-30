@@ -14,6 +14,12 @@ import {
 
 import styles from './ids-progress-chart.scss';
 
+// Defaults
+const DEFAULT_PROGRESS = 0;
+const DEFAULT_TOTAL = 100;
+const DEFAULT_COLOR = '#25af65';
+const DEFAULT_SIZE = 'large';
+
 /**
  * IDS Progress Chart Component
  * @type {IdsProgressChart}
@@ -59,14 +65,14 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       <div class="labels">
         <ids-text class="label-main">${this.label}</ids-test>
         <slot></slot>
-        <ids-text class="label-value">${this.progressLabel} </ids-text>
+        <ids-text class="label-progress">${this.progressLabel} </ids-text>
         <div class="label-end">
           <ids-text class="label-total">${this.totalLabel}</ids-text>
         </div>
       </div>
-      <div class="progress-bar">
+      <div class="bar">
         <div class="bar-total">
-          <div class="bar-value"></div>
+          <div class="bar-progress"></div>
         </div>
       </div>
     </div>`;
@@ -77,143 +83,121 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * @param {string} value The color value, this can be a hex code with the #
    */
   set color(value) {
-    if (value) {
-      this.setAttribute('color', value);
+    this.setAttribute(attributes.COLOR, value || DEFAULT_COLOR);
+    this.updateUI(attributes.COLOR);
+  }
 
-      let prop = value;
+  get color() { return this.getAttribute(attributes.COLOR); }
 
-      if (value.includes('error') || value.includes('caution') || value.includes('warning') || value.includes('base') || value.includes('success')) {
-        prop = `var(--ids-color-status-${value === 'error' ? 'danger' : value})`;
+  updateUI(setting) {
+    if (setting === attributes.PROGRESS || setting === attributes.TOTAL) {
+      const prog = parseFloat(this.progress) || DEFAULT_PROGRESS;
+      const tot = parseFloat(this.total) || DEFAULT_TOTAL;
+      // make sure that prog / tot doesn't exceed 1 -- will happen if prog > tot
+      const percentage = Math.floor((prog / tot > 1 ? 1 : prog / tot) * 100);
+      this.percentage = percentage;
+      this.container.querySelector('.bar-progress').style.width = `${percentage}%`;
+    }
+
+    if (setting === attributes.SIZE) {
+      const bar = this.container.querySelector('.bar');
+      bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
+    }
+
+    if (setting === attributes.COLOR) {
+      let prop = this.color;
+
+      if (this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning') || this.color.includes('base') || this.color.includes('success')) {
+        prop = `var(--ids-color-status-${this.color === 'error' ? 'danger' : this.color})`;
 
         // only color the icons and progress labels if it's error, caution, or warning
-        if (value.includes('error') || value.includes('caution') || value.includes('warning')) {
-          const completedLabel = this.container.querySelector('.label-value');
+        if (this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning')) {
+          const completedLabel = this.container.querySelector('.label-progress');
           completedLabel.style.color = prop;
 
           const icon = this.container.querySelector('slot');
           icon.style.color = prop;
         }
-      } else if (value.substr(0, 1) !== '#') {
-        prop = `var(--ids-color-palette-${value})`;
+      } else if (this.color.substr(0, 1) !== '#') {
+        prop = `var(--ids-color-palette-${this.color})`;
       }
 
-      const bar = this.container.querySelector('.bar-value');
+      const bar = this.container.querySelector('.bar-progress');
       bar.style.backgroundColor = prop;
-
-      return;
     }
-    this.removeAttribute('color');
   }
-
-  get color() { return this.getAttribute('color'); }
 
   /**
    * Set the numeric value of progress that has been completed
    * @param {string} value The progress value, between 0 and the total
    */
   set progress(value) {
-    if (value) {
-      this.setAttribute('progress', value);
+    const prop = (parseFloat(value) < 0 || Number.isNaN(parseFloat(value)))
+      ? DEFAULT_PROGRESS
+      : value;
 
-      if (this.total) {
-        const prop = parseInt(value);
-
-        if (prop > 0 && prop <= this.total) {
-          const percentage = Math.floor((prop / this.total) * 100);
-          const bar = this.container.querySelector('.bar-value');
-          bar.style.width = `${percentage}%`;
-          return percentage;
-        }
-      }
-      return false;
-    }
-    this.removeAttribute('progress');
-    return false;
+    this.setAttribute(attributes.PROGRESS, prop);
+    this.updateUI(attributes.PROGRESS);
   }
 
-  get progress() { return this.getAttribute('progress'); }
+  get progress() { return this.getAttribute(attributes.PROGRESS); }
 
   /**
    * Set the total value of possible progress that can be completed
    * @param {string} value The total value, must be greater than or equal to the progress value
    */
   set total(value) {
-    if (value) {
-      this.setAttribute('total', value);
+    const prop = (parseFloat(value) < 0 || Number.isNaN(parseFloat(value)))
+      ? DEFAULT_TOTAL
+      : value;
 
-      const prop = parseInt(value);
-
-      if (Number.isNaN(prop) || prop < 0) {
-        return false;
-      }
-
-      return prop;
-    }
-    this.removeAttribute('total');
-    return false;
+    this.setAttribute(attributes.TOTAL, prop);
+    this.updateUI(attributes.TOTAL);
   }
 
-  get total() { return this.getAttribute('total'); }
+  get total() { return this.getAttribute(attributes.TOTAL); }
 
   /**
    * Set the label title of the bar
    * @param {string} value The title value, whatever you want to name the bar
    */
   set label(value) {
-    if (value) {
-      this.setAttribute('label', value);
-
-      return;
-    }
-
-    this.setAttribute('label', '');
+    this.setAttribute(attributes.LABEL, value || '');
   }
 
-  get label() { return this.getAttribute('label'); }
+  get label() { return this.getAttribute(attributes.LABEL); }
 
   /**
    * Set the label of completed progress--useful for displaying units
    * @param {string} value The label for completed progress (i.e. 13 hours)
    */
   set progressLabel(value) {
-    if (value) {
-      this.setAttribute('label-progress', value);
-      return;
-    }
-    this.setAttribute('label-progress', '');
+    this.setAttribute(attributes.LABEL_PROGRESS, value || '');
   }
 
-  get progressLabel() { return this.getAttribute('label-progress'); }
+  get progressLabel() { return this.getAttribute(attributes.LABEL_PROGRESS); }
 
   /**
    * Set the label of total possible progress--useful for displaying units
    * @param {string} value The label for total progress (i.e. 26 hours)
    */
   set totalLabel(value) {
-    if (value) {
-      this.setAttribute('label-total', value);
-      return;
-    }
-    this.setAttribute('label-total', '');
+    this.setAttribute(attributes.LABEL_TOTAL, value || '');
   }
 
-  get totalLabel() { return this.getAttribute('label-total'); }
+  get totalLabel() { return this.getAttribute(attributes.LABEL_TOTAL); }
 
   /**
    * Set the size of the progress bar (small, or large (default)
    * @param {string} value The size of the progress bar
    */
   set size(value) {
-    if (value) {
-      this.setAttribute('size', value);
-      const bar = this.container.querySelector('.progress-bar');
-      bar.style.minHeight = value === 'small' ? '10px' : '28px';
-      return;
-    }
-    this.removeAttribute('size');
+    const prop = value === 'small' ? value : DEFAULT_SIZE;
+    this.setAttribute(attributes.SIZE, prop);
+    this.updateUI(attributes.SIZE);
   }
 
-  get size() { return this.getAttribute('size'); }
+  get size() { return this.getAttribute(attributes.SIZE); }
 
   #handleEvents() {
     return this;
