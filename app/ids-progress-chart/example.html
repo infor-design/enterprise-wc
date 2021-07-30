@@ -41,5 +41,59 @@
     <ids-progress-chart size="small" color="warning" label-progress="13h" progress="13" label-total="16h" total="16" label="alert"></ids-progress-chart>
     <ids-progress-chart size="small" color="caution" label-progress="13h" progress="13" label-total="20h" total="20" label="alert-yellow"></ids-progress-chart>
   </ids-layout-grid-cell>
+
 </ids-layout-grid>
-  
+
+<br></br>
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">README.md Examples</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid cols="4" gap="xl">
+  <!-- README examples -->
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Basic Example: </ids-text>
+    <ids-progress-chart label="Basic" progress="50"></ids-progress-chart>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Color Examples: </ids-text>
+    <ids-progress-chart label="#A876EB" color="#A876EB" progress="50"></ids-progress-chart>
+    <ids-progress-chart label="Amethyst-40" color="amethyst-40" progress="50"></ids-progress-chart>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Decimals: </ids-text>
+    <ids-progress-chart label="Decimals" progress="0.7" total="1"></ids-progress-chart>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Labels: </ids-text>
+    <ids-progress-chart label="Decimals with labels" progress="0.7" label-progress="0.7" total="1" label-total="1"></ids-progress-chart>
+    <ids-progress-chart label="Sprint progress" label-progress="1 week" progress="1" label-total="2 wks" total="2"></ids-progress-chart>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Important Statuses: </ids-text>
+    <ids-progress-chart label="Error" color="error" progress="50" label-progress="50%"></ids-progress-chart>
+    <ids-progress-chart label="Warning" color="warning" progress="50" label-progress="50%"></ids-progress-chart>
+    <ids-progress-chart label="Caution" color="caution" progress="50" label-progress="50%"></ids-progress-chart>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Icon Example: </ids-text>
+    <ids-progress-chart label="Error with icon" color="error" progress="50" label-progress="50%">
+      <ids-icon icon="error" size="small"></ids-icon>
+    </ids-progress-chart>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Size Example: </ids-text>
+    <ids-progress-chart label="Compact" size="small" progress="50"></ids-progress-chart>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Web Component: </ids-text>
+    <ids-progress-chart label="New Progress Chart" progress="13" label-progress="13h" color="#D66221"></ids-progress-chart>
+  </ids-layout-grid-cell>
+
+</ids-layout-grid>

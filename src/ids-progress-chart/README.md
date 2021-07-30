@@ -23,25 +23,29 @@ Similar to the Progress Bar component, this component is more ideal for creating
 
 The default total is 100, so even if you leave that field blank, it will render as 50% progress. There is also a default color for the progress bar.
 
+### Adding colors
+
+```html
+<ids-progress-chart label="#A876EB" color="#A876EB" progress="50"></ids-progress-chart>
+```
+
+With the use of IDS tokens, the above is visually identical to the following:
+
+```html
+<ids-progress-chart label="Amethyst-40" color="amethyst-40" progress="50"></ids-progress-chart>
+```
+
 ### Using Decimals
 
 ```html
 <ids-progress-chart label="Decimals" progress="0.7" total="1"></ids-progress-chart>
 ```
 
-### Adding colors
-
-```html
-<ids-progress-chart label="Amethyst" color="#A876EB" progress="50"></ids-progress-chart>
-```
-
-With the use if IDS tokens, the above is identical to the following:
-
-```html
-<ids-progress-chart label="Amethyst" color="amethyst-40" progress="50"></ids-progress-chart>
-```
-
 ### Adding labels
+
+```html
+<ids-progress-chart label="Decimals with labels" label-progress="0.7" progress="0.7" label-total="1" total="1"></ids-progress-chart>
+```
 
 ```html
 <ids-progress-chart label="Sprint progress" label-progress="1 week" progress="1" label-total="2 wks" total="2"></ids-progress-chart>
@@ -56,11 +60,11 @@ There are colors associated with the certain statuses
 ```
 
 ```html
-<ids-progress-chart label="Caution" color="caution" progress="50" label-progress="50%"></ids-progress-chart>
+<ids-progress-chart label="Warning" color="warning" progress="50" label-progress="50%"></ids-progress-chart>
 ```
 
 ```html
-<ids-progress-chart label="Warning" color="warning" progress="50" label-progress="50%"></ids-progress-chart>
+<ids-progress-chart label="Caution" color="caution" progress="50" label-progress="50%"></ids-progress-chart>
 ```
 
 These are the few scenarios where it will color the progress label as well
@@ -70,7 +74,7 @@ These are the few scenarios where it will color the progress label as well
 You can insert `ids-icon` components to include in the label heading
 
 ```html
-<ids-progress-chart label="Error" color="error" progress="50">
+<ids-progress-chart label="Error with icon" color="error" progress="50">
   <ids-icon icon="error" size="small"></ids-icon>
 </ids-progress-chart>
 ```
@@ -126,4 +130,4 @@ The IDS Progress Chart component is now a WebComponent. Instead of using classes
 
 <!-- this is the same progress chart using the WebComponent -->
 <ids-progress-chart label="New Progress Chart" progress="13" label-progress="13h" color="#D66221"></ids-progress-chart>
-  ```
+```
