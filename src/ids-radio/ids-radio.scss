@@ -40,10 +40,6 @@
       }
     }
 
-    ~ .label-text {
-      @include text-slate-80();
-    }
-
     &.error ~ .circle {
       @include radio-unchecked-error-circle();
     }
