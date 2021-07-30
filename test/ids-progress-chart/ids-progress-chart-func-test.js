@@ -31,21 +31,21 @@ describe('IdsProgressChart Component', () => {
 
   it('renders correctly', () => {
     const elem = new IdsProgressChart();
-    //  elem.icon = 'add';
     elem.label = 'test';
-    elem.valueLabel = '30 mins';
+    elem.progressLabel = '30 mins';
     elem.totalLabel = '60 mins';
-    elem.value = 30;
-    elem.total = 60;
-    //  elem.state.type = 'icon';
+    elem.progress = '30';
+    elem.total = '60';
+    elem.size = 'small';
     document.body.appendChild(elem);
     elem.template();
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
   it('sets color correctly', () => {
+    // empty input sets color to default (#25af65)
     chart.color = '';
-    expect(chart.color).toBeNull();
+    expect(chart.color).toBe('#25af65');
 
     chart.color = 'error';
     expect(chart.color).toBe('error');
@@ -61,10 +61,6 @@ describe('IdsProgressChart Component', () => {
 
     chart.color = 'amethyst-50';
     expect(chart.color).toBe('amethyst-50');
-
-    // chart.shadowRoot.querySelector('.bar-value').style.backgroundColor = 'var(--ids-color-palette-amethyst-50)';
-    // console.log(chart.shadowRoot.querySelector('.bar-value').style.backgroundColor);
-    // expect(chart.shadowRoot.querySelector('.bar-value').style.backgroundColor).toEqual('var(--ids-color-palette-amethyst-50)');
   });
 
   it('sets labels correctly', () => {
@@ -75,36 +71,46 @@ describe('IdsProgressChart Component', () => {
     expect(chart.label).toBe('');
   });
 
-  it('sets value correctly', () => {
-    chart.value = '50';
-    expect(chart.value).toBe('50');
+  it('sets progress correctly', () => {
+    chart.progress = '50';
+    expect(chart.progress).toBe('50');
 
-    chart.value = '';
-    expect(chart.value).toBeNull();
+    // invalid inputs set attribute to default (0)
+    chart.progress = '';
+    expect(chart.progress).toBe('0');
 
-    // expect(chart.value = '-1').toBeFalsy();
-
-    // chart.total = '200';
-    // expect(chart.value = '150').toBe(75);
+    chart.progress = '-1';
+    expect(chart.progress).toBe('0');
   });
 
   it('sets total correctly', () => {
-    chart.total = '100';
+    chart.total = '70';
+    expect(chart.total).toBe('70');
+
+    // invalid inputs set attribute to default (100)
+    chart.total = '';
     expect(chart.total).toBe('100');
 
-    chart.total = '';
-    expect(chart.total).toBeNull();
-
     chart.total = false;
-    expect(chart.total).toBeNull();
+    expect(chart.total).toBe('100');
   });
 
-  it('sets value label correctly', () => {
-    chart.valueLabel = '50 meters';
-    expect(chart.valueLabel).toBe('50 meters');
+  it('calculates percentage correctly', () => {
+    chart.progress = '0.7';
+    chart.total = '1';
+    expect(chart.percentage).toBe(70);
 
-    chart.valueLabel = '';
-    expect(chart.valueLabel).toBe('');
+    chart.progress = '5';
+    chart.total = '3';
+    expect(chart.percentage).toBe(100);
+  });
+
+  it('sets progress label correctly', () => {
+    chart.progressLabel = '50 meters';
+    expect(chart.progressLabel).toBe('50 meters');
+
+    chart.progressLabel = '';
+    expect(chart.progressLabel).toBe('');
   });
 
   it('sets total label correctly', () => {
@@ -119,7 +125,11 @@ describe('IdsProgressChart Component', () => {
     chart.size = 'small';
     expect(chart.size).toBe('small');
 
+    // invalid inputs set attribute to default (large)
     chart.size = '';
-    expect(chart.size).toBeNull();
+    expect(chart.size).toBe('large');
+
+    chart.size = '25';
+    expect(chart.size).toBe('large');
   });
 });
