@@ -42,10 +42,10 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       attributes.COLOR,
       attributes.LABEL,
       attributes.LABEL_TOTAL,
-      attributes.LABEL_VALUE,
+      attributes.LABEL_PROGRESS,
       attributes.SIZE, // small or large
       attributes.TOTAL,
-      attributes.VALUE,
+      attributes.PROGRESS,
     ];
   }
 
@@ -59,7 +59,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       <div class="labels">
         <ids-text class="label-main">${this.label}</ids-test>
         <slot></slot>
-        <ids-text class="label-value">${this.valueLabel} </ids-text>
+        <ids-text class="label-value">${this.progressLabel} </ids-text>
         <div class="label-end">
           <ids-text class="label-total">${this.totalLabel}</ids-text>
         </div>
@@ -111,9 +111,9 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * Set the numeric value of progress that has been completed
    * @param {string} value The progress value, between 0 and the total
    */
-  set value(value) {
+  set progress(value) {
     if (value) {
-      this.setAttribute('value', value);
+      this.setAttribute('progress', value);
 
       if (this.total) {
         const prop = parseInt(value);
@@ -127,11 +127,11 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       }
       return false;
     }
-    this.removeAttribute('value');
+    this.removeAttribute('progress');
     return false;
   }
 
-  get value() { return this.getAttribute('value'); }
+  get progress() { return this.getAttribute('progress'); }
 
   /**
    * Set the total value of possible progress that can be completed
@@ -175,15 +175,15 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * Set the label of completed progress--useful for displaying units
    * @param {string} value The label for completed progress (i.e. 13 hours)
    */
-  set valueLabel(value) {
+  set progressLabel(value) {
     if (value) {
-      this.setAttribute('label-value', value);
+      this.setAttribute('label-progress', value);
       return;
     }
-    this.setAttribute('label-value', '');
+    this.setAttribute('label-progress', '');
   }
 
-  get valueLabel() { return this.getAttribute('label-value'); }
+  get progressLabel() { return this.getAttribute('label-progress'); }
 
   /**
    * Set the label of total possible progress--useful for displaying units

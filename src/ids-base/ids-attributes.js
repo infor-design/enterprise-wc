@@ -73,7 +73,7 @@ export const attributes = {
   LABEL_HIDDEN: 'label-hidden',
   LABEL_REQUIRED: 'label-required',
   LABEL_FILETYPE: 'label-filetype',
-  LABEL_VALUE: 'label-value',
+  LABEL_PROGRESS: 'label-progress',
   LABEL_TOTAL: 'label-total',
   LANGUAGE: 'language',
   LINEAR: 'linear',
