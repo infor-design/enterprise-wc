@@ -13,7 +13,8 @@ import {
   IdsThemeMixin
 } from '../ids-mixins';
 
-import IdsDraggable from './ids-draggable';
+import IdsSplitterPane from './ids-splitter-pane';
+import IdsDraggable from '../ids-draggable';
 import styles from './ids-splitter.scss';
 
 /**
@@ -44,7 +45,6 @@ export default class IdsSplitter extends mix(IdsElement).with(
     return [
       attributes.AXIS,
       attributes.DISABLED,
-      attributes.MAX_SIZE,
       attributes.RESIZE_ON_DRAG_END
     ];
   }
@@ -55,14 +55,21 @@ export default class IdsSplitter extends mix(IdsElement).with(
    * @returns {string} the template to render
    */
   template() {
-    return (
-      `<ids-draggable axis="${this.axis}">
-        <div class="ids-splitter ${this.axis}" draggable="true" part="splitter"></div>
-      </ids-draggable>`
-    );
+    return (`<div class="ids-splitter"></div>`);
   }
 
   connectedCallback() {
+    const containerIndexes = [];
+    const draggableIndexes = [];
+
+    [...this.children].forEach((elem, i) => {
+      if (elem instanceof IdsDraggable) {
+        draggableIndexes.push(i);
+      } else {
+        containerIndexes.push(i);
+      }
+    });
+
     super.connectedCallback?.();
   }
 
@@ -110,25 +117,11 @@ export default class IdsSplitter extends mix(IdsElement).with(
     return stringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
-  set maxSize(value) {
-    // TODO: think through edge cases
-    this.setAttribute(parseInt(value));
-  }
-
-  get maxSize() {
-    // TODO: think through edge cases
-    return parseInt(this.getAttribute(attributes.MAX_SIZE));
-  }
-
-  set resizeOnDragEnd(value) {
-    const isTruthy = stringUtils.stringToBool(value);
-
-    if (isTruthy) {
-      if (this.getAttribute(attributes.RESIZE_ON_DRAG_END) !== '') {
-        this.setAttribute(attributes.RESIZE_ON_DRAG_END, '');
-      } else if (this.hasAttribute(attributes.RESIZE_ON_DRAG_END)) {
-        this.removeAttribute(attributes.RESIZE_ON_DRAG_END);
-      }
-    }
-  }
+  /**
+   * links draggables to a set of associated elements which it controls.
+   * Example: []
+   *
+   * @type {Map<IdsDraggable, Set<HTMLElement>>}
+   */
+  #draggableContainerMap = new Map();
 }
