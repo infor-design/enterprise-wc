@@ -5,7 +5,7 @@
 <ids-layout-grid cols="3" gap="xl">
   <ids-layout-grid-cell>
     <ids-progress-chart color="#606066" label-progress="90%" progress="90" label-total="" total="" label="dark"></ids-progress-chart>
-    <ids-progress-chart color="error" label-progress="33%" progress="33" label-total="" total="" label="error">
+    <ids-progress-chart label="error" color="error" label-progress="33%" progress="33" label-total="" total="">
       <ids-icon icon="error" size="small"></ids-icon>
     </ids-progress-chart>
     <ids-progress-chart color="success" label-progress="10 min" progress="10" label-total="1 hr" total="60" label="good"></ids-progress-chart>
@@ -17,8 +17,9 @@
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
+    <!-- why does setting the label attribute at the end affect how color gets set? -->
     <ids-progress-chart size="small" color="#606066" label-progress="" progress="10" label-total="" total="100" label="dark"></ids-progress-chart>
-    <ids-progress-chart size="small" color="error" label-progress="" progress="10" label-total="" total="100" label="error">
+    <ids-progress-chart label="error" size="small" color="error" label-progress="" progress="10" label-total="" total="100">
       <ids-icon icon="error" size="small"></ids-icon>
     </ids-progress-chart>
     <ids-progress-chart size="small" color="success" label-progress="" progress="10" label-total="" total="100" label="good"></ids-progress-chart>

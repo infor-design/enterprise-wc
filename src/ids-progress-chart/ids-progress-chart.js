@@ -84,47 +84,56 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    */
   set color(value) {
     this.setAttribute(attributes.COLOR, value || DEFAULT_COLOR);
-    this.updateUI(attributes.COLOR);
+    this.updateColor();
   }
 
   get color() { return this.getAttribute(attributes.COLOR); }
 
-  updateUI(setting) {
-    if (setting === attributes.PROGRESS || setting === attributes.TOTAL) {
-      const prog = parseFloat(this.progress) || DEFAULT_PROGRESS;
-      const tot = parseFloat(this.total) || DEFAULT_TOTAL;
-      // make sure that prog / tot doesn't exceed 1 -- will happen if prog > tot
-      const percentage = Math.floor((prog / tot > 1 ? 1 : prog / tot) * 100);
-      this.percentage = percentage;
-      this.container.querySelector('.bar-progress').style.width = `${percentage}%`;
-    }
+  updateColor() {
+    let prop = this.color;
 
-    if (setting === attributes.SIZE) {
-      const bar = this.container.querySelector('.bar');
-      bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
-    }
+    if (this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning') || this.color.includes('base') || this.color.includes('success')) {
+      prop = `var(--ids-color-status-${this.color === 'error' ? 'danger' : this.color})`;
 
-    if (setting === attributes.COLOR) {
-      let prop = this.color;
+      // only color the icons and progress labels if it's error, caution, or warning
+      if (this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning')) {
+        const completedLabel = this.container.querySelector('.label-progress');
+        completedLabel.style.color = prop;
 
-      if (this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning') || this.color.includes('base') || this.color.includes('success')) {
-        prop = `var(--ids-color-status-${this.color === 'error' ? 'danger' : this.color})`;
-
-        // only color the icons and progress labels if it's error, caution, or warning
-        if (this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning')) {
-          const completedLabel = this.container.querySelector('.label-progress');
-          completedLabel.style.color = prop;
-
-          const icon = this.container.querySelector('slot');
-          icon.style.color = prop;
-        }
-      } else if (this.color.substr(0, 1) !== '#') {
-        prop = `var(--ids-color-palette-${this.color})`;
+        const icon = this.container.querySelector('slot');
+        icon.style.color = prop;
       }
-
-      const bar = this.container.querySelector('.bar-progress');
-      bar.style.backgroundColor = prop;
+    } else if (this.color.substr(0, 1) !== '#') {
+      prop = `var(--ids-color-palette-${this.color})`;
     }
+
+    const bar = this.container.querySelector('.bar-progress');
+    bar.style.backgroundColor = prop;
+  }
+
+  updateLabel(labelType) {
+    // main title label
+    if (labelType === attributes.LABEL) {
+      this.container.querySelector('.label-main').innerHTML = this.label;
+    } else if (labelType === attributes.LABEL_PROGRESS) {
+      this.container.querySelector('.label-progress').innerHTML = this.progressLabel;
+    } else if (labelType === attributes.LABEL_TOTAL) {
+      this.container.querySelector('.label-total').innerHTML = this.totalLabel;
+    }
+  }
+
+  updateProgress() {
+    const prog = parseFloat(this.progress) || DEFAULT_PROGRESS;
+    const tot = parseFloat(this.total) || DEFAULT_TOTAL;
+    // make sure that prog / tot doesn't exceed 1 -- will happen if prog > tot
+    const percentage = Math.floor((prog / tot > 1 ? 1 : prog / tot) * 100);
+    this.percentage = percentage;
+    this.container.querySelector('.bar-progress').style.width = `${percentage}%`;
+  }
+
+  updateSize() {
+    const bar = this.container.querySelector('.bar');
+    bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
   }
 
   /**
@@ -137,7 +146,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       : value;
 
     this.setAttribute(attributes.PROGRESS, prop);
-    this.updateUI(attributes.PROGRESS);
+    this.updateProgress();
   }
 
   get progress() { return this.getAttribute(attributes.PROGRESS); }
@@ -152,7 +161,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       : value;
 
     this.setAttribute(attributes.TOTAL, prop);
-    this.updateUI(attributes.TOTAL);
+    this.updateProgress();
   }
 
   get total() { return this.getAttribute(attributes.TOTAL); }
@@ -163,6 +172,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    */
   set label(value) {
     this.setAttribute(attributes.LABEL, value || '');
+    this.updateLabel(attributes.LABEL);
   }
 
   get label() { return this.getAttribute(attributes.LABEL); }
@@ -173,6 +183,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    */
   set progressLabel(value) {
     this.setAttribute(attributes.LABEL_PROGRESS, value || '');
+    this.updateLabel(attributes.LABEL_PROGRESS);
   }
 
   get progressLabel() { return this.getAttribute(attributes.LABEL_PROGRESS); }
@@ -183,6 +194,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    */
   set totalLabel(value) {
     this.setAttribute(attributes.LABEL_TOTAL, value || '');
+    this.updateLabel(attributes.LABEL_TOTAL);
   }
 
   get totalLabel() { return this.getAttribute(attributes.LABEL_TOTAL); }
@@ -194,7 +206,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   set size(value) {
     const prop = value === 'small' ? value : DEFAULT_SIZE;
     this.setAttribute(attributes.SIZE, prop);
-    this.updateUI(attributes.SIZE);
+    this.updateSize();
   }
 
   get size() { return this.getAttribute(attributes.SIZE); }
