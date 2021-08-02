@@ -14,15 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputIconDefault = document.querySelector('#input-validation-icon-default');
   const inputIconCustom = document.querySelector('#input-validation-icon-custom');
 
-  // Init, add message on load
-  addInputMessage();
-
-  // Bind buttons
-  btnAddMessage?.addEventListener('click', addInputMessage);
-  btnRemoveMessage?.addEventListener('click', removeInputMessage);
 
   // Add input message
-  function addInputMessage() {
+  const addInputMessage = () => {
     // Error
     inputError?.addMessage({
       message: 'Something is wrong do not continue',
@@ -65,10 +59,10 @@ document.addEventListener('DOMContentLoaded', () => {
       id: 'icon-custom',
       icon: 'mail'
     });
-  }
+  };
 
   // Remove input message
-  function removeInputMessage() {
+  const removeInputMessage = () => {
     // Error
     inputError?.removeMessage({ id: 'error' });
 
@@ -86,6 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Icon custom (mail)
     inputIconCustom?.removeMessage({ id: 'icon-custom' });
-  }
+  };
 
+  // Init, add message on load
+  addInputMessage();
+
+  // Bind buttons
+  btnAddMessage?.addEventListener('click', addInputMessage);
+  btnRemoveMessage?.addEventListener('click', removeInputMessage);
 });
