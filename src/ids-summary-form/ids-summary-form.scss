@@ -1,0 +1,23 @@
+@import '../ids-base/ids-base';
+
+.ids-summary-form {
+  @include antialiased();
+  @include font-sans();
+
+  color: black;
+
+  ::slotted(ids-text) {
+    .labels::part(text) {
+      color: blue;
+    }
+    color: red;
+  }
+}
+
+.label {
+  color: purple;
+}
+
+.data {
+  color: green;
+}
