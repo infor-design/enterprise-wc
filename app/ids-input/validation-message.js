@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputIconDefault = document.querySelector('#input-validation-icon-default');
   const inputIconCustom = document.querySelector('#input-validation-icon-custom');
 
-
   // Add input message
   const addInputMessage = () => {
     // Error
