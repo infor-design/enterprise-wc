@@ -4,6 +4,9 @@ import IdsInput from '../../src/ids-input/ids-input';
 import IdsButton from '../../src/ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
+  const btnAddMessage = document.querySelector('#btn-add-message');
+  const btnRemoveMessage = document.querySelector('#btn-remove-message');
+
   const inputError = document.querySelector('#input-validation-error');
   const inputAlert = document.querySelector('#input-validation-alert');
   const inputSuccess = document.querySelector('#input-validation-success');
@@ -11,46 +14,78 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputIconDefault = document.querySelector('#input-validation-icon-default');
   const inputIconCustom = document.querySelector('#input-validation-icon-custom');
 
-  // Error
-  inputError?.addMessage({
-    message: 'Something is wrong do not continue',
-    type: 'error',
-    id: 'error'
-  });
+  // Init, add message on load
+  addInputMessage();
 
-  // Alert
-  inputAlert?.addMessage({
-    message: 'Warning the value may be incorrect',
-    type: 'alert',
-    id: 'alert'
-  });
+  // Bind buttons
+  btnAddMessage?.addEventListener('click', addInputMessage);
+  btnRemoveMessage?.addEventListener('click', removeInputMessage);
 
-  // Success
-  inputSuccess?.addMessage({
-    message: 'This value is correct',
-    type: 'success',
-    id: 'success'
-  });
+  // Add input message
+  function addInputMessage() {
+    // Error
+    inputError?.addMessage({
+      message: 'Something is wrong do not continue',
+      type: 'error',
+      id: 'error'
+    });
 
-  // Info
-  inputInfo?.addMessage({
-    message: 'Random information about this field',
-    type: 'info',
-    id: 'info'
-  });
+    // Alert
+    inputAlert?.addMessage({
+      message: 'Warning the value may be incorrect',
+      type: 'alert',
+      id: 'alert'
+    });
 
-  // Icon default
-  inputIconDefault?.addMessage({
-    message: 'Something about your user profile',
-    type: 'icon',
-    id: 'icon-default'
-  });
+    // Success
+    inputSuccess?.addMessage({
+      message: 'This value is correct',
+      type: 'success',
+      id: 'success'
+    });
 
-  // Icon custom (mail)
-  inputIconCustom?.addMessage({
-    message: 'Something about your mail information',
-    type: 'icon',
-    id: 'icon-custom',
-    icon: 'mail'
-  });
+    // Info
+    inputInfo?.addMessage({
+      message: 'Random information about this field',
+      type: 'info',
+      id: 'info'
+    });
+
+    // Icon default
+    inputIconDefault?.addMessage({
+      message: 'Something about your user profile',
+      type: 'icon',
+      id: 'icon-default'
+    });
+
+    // Icon custom (mail)
+    inputIconCustom?.addMessage({
+      message: 'Something about your mail information',
+      type: 'icon',
+      id: 'icon-custom',
+      icon: 'mail'
+    });
+  }
+
+  // Remove input message
+  function removeInputMessage() {
+    // Error
+    inputError?.removeMessage({ id: 'error' });
+
+    // Alert
+    inputAlert?.removeMessage({ id: 'alert' });
+
+    // Success
+    inputSuccess?.removeMessage({ id: 'success' });
+
+    // Info
+    inputInfo?.removeMessage({ id: 'info' });
+
+    // Icon default
+    inputIconDefault?.removeMessage({ id: 'icon-default' });
+
+    // Icon custom (mail)
+    inputIconCustom?.removeMessage({ id: 'icon-custom' });
+  }
+
 });
