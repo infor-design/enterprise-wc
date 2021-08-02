@@ -21,15 +21,18 @@
 
     .label-main {
       display: inline-flex;
-      flex: 1;
+      margin: 0 4px 0 0;
+    }
+
+    .label-main::part(text) {
+      color: currentColor;
     }
 
     .label-progress {
       display: inline-flex;
-      flex: 1;
-      padding: 0 2px;
+      margin: 0 4px;
     }
-
+    
     .label-progress::part(text) {
       color: currentColor;
     }
@@ -42,9 +45,13 @@
       width: 100%;
       justify-content: flex-end;
     }
-
+    
     .label-total {
       position: absolute;
+    }
+
+    .label-total::part(text) {
+      color: currentColor;
     }
   }
 
@@ -72,5 +79,8 @@
       height: inherit;
       background-color: #25af65;
     }
+  }
+  ::slotted(ids-icon) {
+    margin: 3px 4px 0 4px;
   }
 }
