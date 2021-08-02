@@ -3,8 +3,9 @@
 .ids-summary-form {
   @include antialiased();
   @include font-sans();
+  @include text-slate-80();
 
-  color: black;
+  // color: black;
 
   ::slotted(ids-text) {
     .labels::part(text) {
