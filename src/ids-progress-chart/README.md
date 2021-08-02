@@ -2,7 +2,7 @@
 
 ## Description
 
-Similar to the Progress Bar component, this component is more ideal for creating the standard bar chart visual. It is useful for showing the progress completed or time remaining for a task/goal, since it has customizable labels. It is a simple web component where the amount of progress and total progress can be set with the `progress` and `total` setting/attribute, respectively. Labels can be set with `label`, `label-progress`, `label-total` and can include icons which need to be inserted as a child of the component in the HTML.
+Similar to the [Progress Bar](../ids-progress-bar/README.md) component, this component is more ideal for creating the standard bar chart visual. It is useful for showing the progress completed or time remaining for a task/goal, since it has customizable labels. It is a simple web component where the amount of progress and total progress can be set with the `progress` and `total` setting/attribute, respectively. Labels can be set with `label`, `label-progress`, `label-total` and can include icons which need to be inserted as a child of the component in the HTML.
 
 ## Use Cases
 
