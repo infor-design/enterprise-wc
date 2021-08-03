@@ -47,11 +47,11 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     return [
       attributes.COLOR,
       attributes.LABEL,
-      attributes.LABEL_TOTAL,
       attributes.LABEL_PROGRESS,
+      attributes.LABEL_TOTAL,
+      attributes.PROGRESS,
       attributes.SIZE, // small or large
       attributes.TOTAL,
-      attributes.PROGRESS,
     ];
   }
 
