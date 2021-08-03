@@ -1,0 +1,13 @@
+---
+ component: Radio
+ link: ids-radio
+ description: Input Radio element
+ category: Form Inputs
+ keywords: radio, choice, input
+ examples:
+  - link: index.html
+    description: Showing a radio with all states
+  - link: side-by-side.html
+    description: Showing a radio component side by side working with 4.x
+  - link: standalone-css.html
+    description: Showing radio that works with css only

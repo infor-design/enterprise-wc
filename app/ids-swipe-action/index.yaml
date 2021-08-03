@@ -1,0 +1,9 @@
+---
+ component: Swipe Action
+ link: ids-swipe-action
+ description: Container for swipe actions
+ category: Layouts
+ keywords: swipe, container, swipe action
+ examples:
+  - link: index.html
+    description: Showing a swipe action card layout

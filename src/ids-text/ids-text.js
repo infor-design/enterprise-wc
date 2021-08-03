@@ -189,10 +189,16 @@ class IdsText extends mix(IdsElement).with(
     if (value === 'unset') {
       this.setAttribute(attributes.COLOR, value);
       this.container.classList.add('ids-text-color-unset');
-    } else {
-      this.removeAttribute(attributes.COLOR);
-      this.container.classList.remove('ids-text-color-unset');
+      return;
     }
+    if (typeof value === 'string') {
+      this.setAttribute(attributes.COLOR, value);
+      this.container.classList.remove('ids-text-color-unset');
+      this.container.style.color = `var(--ids-color-palette-${value})`;
+      return;
+    }
+    this.removeAttribute(attributes.COLOR);
+    this.container.classList.remove('ids-text-color-unset');
   }
 
   get color() {
