@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsProgressChart from '../../src/ids-progress-chart/ids-progress-chart';
+import { expect } from '@jest/globals';
 
 describe('IdsProgressChart Component', () => {
   let chart;
@@ -45,6 +46,9 @@ describe('IdsProgressChart Component', () => {
   it('sets color correctly', () => {
     // empty input sets color to default (#25af65)
     chart.color = '';
+    expect(chart.container.querySelector('.bar-progress').style.backgroundColor).toBe('rgb(37, 175, 101)');
+
+    chart.color = '#25af65';
     expect(chart.color).toBe('#25af65');
 
     chart.color = 'error';
