@@ -15,6 +15,8 @@ Similar to the [Progress Bar](../ids-progress-bar/README.md) component, this com
 
 ## Features (With Code Samples)
 
+Examples can be viewed at [http://localhost:4300/ids-progress-chart/readme-examples](http://localhost:4300/ids-progress-chart/readme-examples)
+
 ### A standard basic progress chart
 
 ```html
