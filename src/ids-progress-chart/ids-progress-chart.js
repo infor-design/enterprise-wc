@@ -64,7 +64,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     <div class="ids-progress-chart" part="chart">
       <div class="labels">
         <ids-text class="label-main">${this.label ? this.label : ''}</ids-text>
-        <slot></slot>
+        <slot name="icon"></slot>
         <ids-text class="label-progress">${this.progressLabel ? this.progressLabel : ''} </ids-text>
         <div class="label-end">
           <ids-text class="label-total">${this.totalLabel ? this.totalLabel : '' }</ids-text>
@@ -92,26 +92,26 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   updateColor() {
     let prop = this.color;
 
-    if (this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning') || this.color.includes('base') || this.color.includes('success')) {
+    const includesAlert = this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning');
+
+    if (includesAlert || this.color.includes('base') || this.color.includes('success')) {
       prop = `var(--ids-color-status-${this.color === 'error' ? 'danger' : this.color})`;
 
       // only color the icons and progress labels if it's error, caution, or warning
-      if (this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning')) {
+      if (includesAlert) {
         const completedLabel = this.container.querySelector('.label-progress');
 
         if (completedLabel) {
           completedLabel.style.color = prop;
         }
 
-        // TODO: not sure which one to select to make sure colors go thru
-        // const icon = this.container.querySelector('slot');
-        const icon = this.container.querySelectorAll('ids-icon');
-
-        if (icon) {
-          // for the one initialized in the HTML as child node
-          this.container.querySelector('slot').style.color = prop;
-          // if user adds more icons
-          icon.forEach((x) => { x.style.color = prop; });
+        const slot = this.container.querySelector('slot');
+        if (slot) {
+          slot.style.color = prop;
+          const icon = this.querySelector('ids-icon');
+          if (icon) {
+            icon.style.color = prop;
+          }
         }
       }
     } else if (this.color.substr(0, 1) !== '#') {
@@ -223,6 +223,10 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   get size() { return this.getAttribute(attributes.SIZE); }
 
   #handleEvents() {
+    this.onEvent('slotchange', this.container.querySelector('slot'), () => {
+      this.updateColor();
+    });
+
     return this;
   }
 }

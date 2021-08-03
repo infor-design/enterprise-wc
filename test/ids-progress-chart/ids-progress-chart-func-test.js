@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import IdsProgressChart from '../../src/ids-progress-chart/ids-progress-chart';
-import { expect } from '@jest/globals';
 
 describe('IdsProgressChart Component', () => {
   let chart;

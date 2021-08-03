@@ -32,7 +32,7 @@
       display: inline-flex;
       margin: 0 4px;
     }
-    
+
     .label-progress::part(text) {
       color: currentColor;
     }
@@ -45,7 +45,7 @@
       width: 100%;
       justify-content: flex-end;
     }
-    
+
     .label-total {
       position: absolute;
     }
@@ -80,6 +80,7 @@
       background-color: #25af65;
     }
   }
+
   ::slotted(ids-icon) {
     margin: 3px 4px 0 4px;
   }
