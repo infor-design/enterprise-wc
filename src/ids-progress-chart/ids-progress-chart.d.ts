@@ -13,9 +13,12 @@ export default class IdsNotificationBanner extends IdsElement {
   /** Sets the labelTotal of the chart */
   labelTotal: string;
 
+  /** Sets the current progress value of the chart */
   progress: string;
 
-  total: string;
-
+  /** Sets the size of the chart */
   size: 'small' | 'large' | string;
+
+  /** Sets the progress goal of the chart */
+  total: string;
 }

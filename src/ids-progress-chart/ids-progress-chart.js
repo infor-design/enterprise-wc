@@ -84,12 +84,16 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    */
   set color(value) {
     this.setAttribute(attributes.COLOR, value || DEFAULT_COLOR);
-    this.updateColor();
+    this.#updateColor();
   }
 
   get color() { return this.getAttribute(attributes.COLOR); }
 
-  updateColor() {
+  /**
+   * Updates the UI when color attribute is set
+   * @private
+   */
+  #updateColor() {
     let prop = this.color;
 
     const includesAlert = this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning');
@@ -122,8 +126,12 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     bar.style.backgroundColor = prop;
   }
 
-  updateLabel(labelType) {
-    // main title label
+  /**
+   * Updates the UI when the main/progress/total label is set
+   * @param {string} labelType The type of label being set
+   * @private
+   */
+  #updateLabel(labelType) {
     if (labelType === attributes.LABEL) {
       this.container.querySelector('.label-main').innerHTML = this.label;
     } else if (labelType === attributes.LABEL_PROGRESS) {
@@ -133,7 +141,11 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     }
   }
 
-  updateProgress() {
+  /**
+   * Updates the UI when the progress value/total is set
+   * @private
+   */
+  #updateProgress() {
     const prog = parseFloat(this.progress) || DEFAULT_PROGRESS;
     const tot = parseFloat(this.total) || DEFAULT_TOTAL;
     // make sure that prog / tot doesn't exceed 1 -- will happen if prog > tot
@@ -142,7 +154,11 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     this.container.querySelector('.bar-progress').style.width = `${percentage}%`;
   }
 
-  updateSize() {
+  /**
+   * Updates the UI when the chart size is set
+   * @private
+   */
+  #updateSize() {
     const bar = this.container.querySelector('.bar');
     bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
   }
@@ -157,7 +173,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       : value;
 
     this.setAttribute(attributes.PROGRESS, prop);
-    this.updateProgress();
+    this.#updateProgress();
   }
 
   get progress() { return this.getAttribute(attributes.PROGRESS); }
@@ -172,7 +188,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       : value;
 
     this.setAttribute(attributes.TOTAL, prop);
-    this.updateProgress();
+    this.#updateProgress();
   }
 
   get total() { return this.getAttribute(attributes.TOTAL); }
@@ -183,7 +199,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    */
   set label(value) {
     this.setAttribute(attributes.LABEL, value || '');
-    this.updateLabel(attributes.LABEL);
+    this.#updateLabel(attributes.LABEL);
   }
 
   get label() { return this.getAttribute(attributes.LABEL); }
@@ -194,7 +210,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    */
   set progressLabel(value) {
     this.setAttribute(attributes.LABEL_PROGRESS, value || '');
-    this.updateLabel(attributes.LABEL_PROGRESS);
+    this.#updateLabel(attributes.LABEL_PROGRESS);
   }
 
   get progressLabel() { return this.getAttribute(attributes.LABEL_PROGRESS); }
@@ -205,7 +221,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    */
   set totalLabel(value) {
     this.setAttribute(attributes.LABEL_TOTAL, value || '');
-    this.updateLabel(attributes.LABEL_TOTAL);
+    this.#updateLabel(attributes.LABEL_TOTAL);
   }
 
   get totalLabel() { return this.getAttribute(attributes.LABEL_TOTAL); }
@@ -217,14 +233,14 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   set size(value) {
     const prop = value === 'small' ? value : DEFAULT_SIZE;
     this.setAttribute(attributes.SIZE, prop);
-    this.updateSize();
+    this.#updateSize();
   }
 
   get size() { return this.getAttribute(attributes.SIZE); }
 
   #handleEvents() {
     this.onEvent('slotchange', this.container.querySelector('slot'), () => {
-      this.updateColor();
+      this.#updateColor();
     });
 
     return this;
