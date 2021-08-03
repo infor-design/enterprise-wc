@@ -63,7 +63,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     return `
     <div class="ids-progress-chart" part="chart">
       <div class="labels">
-        <ids-text class="label-main">${this.label ? this.label : ''}</ids-test>
+        <ids-text class="label-main">${this.label ? this.label : ''}</ids-text>
         <slot></slot>
         <ids-text class="label-progress">${this.progressLabel ? this.progressLabel : ''} </ids-text>
         <div class="label-end">
@@ -98,10 +98,21 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       // only color the icons and progress labels if it's error, caution, or warning
       if (this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning')) {
         const completedLabel = this.container.querySelector('.label-progress');
-        completedLabel.style.color = prop;
 
-        const icon = this.container.querySelector('slot');
-        icon.style.color = prop;
+        if (completedLabel) {
+          completedLabel.style.color = prop;
+        }
+
+        // TODO: not sure which one to select to make sure colors go thru
+        // const icon = this.container.querySelector('slot');
+        const icon = this.container.querySelectorAll('ids-icon');
+
+        if (icon) {
+          // for the one initialized in the HTML as child node
+          this.container.querySelector('slot').style.color = prop;
+          // if user adds more icons
+          icon.forEach((x) => { x.style.color = prop; });
+        }
       }
     } else if (this.color.substr(0, 1) !== '#') {
       prop = `var(--ids-color-palette-${this.color})`;
