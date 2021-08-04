@@ -135,9 +135,9 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin, IdsColorVari
    * update the color variant setting on children components
    * @returns {void}
    */
+  /* istanbul ignore next */
   onColorVariantRefresh() {
     // Updates the inner menu button's color variant, which should match the theme switcher's
-    /* istanbul ignore next */
     this.container.colorVariant = this.colorVariant;
   }
 }
