@@ -97,6 +97,7 @@
     "sass": "^1.36.0",
     "sass-loader": "^12.1.0",
     "sass-to-string": "^1.5.1",
+    "source-map-loader": "^3.0.0",
     "style-loader": "^3.2.1",
     "stylelint": "^13.13.1",
     "stylelint-config-sass-guidelines": "^8.0.0",
