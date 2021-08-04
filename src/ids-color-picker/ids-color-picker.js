@@ -3,7 +3,8 @@ import {
   customElement,
   scss,
   mix,
-  attributes
+  attributes,
+  stringUtils
 } from '../ids-base/ids-element';
 import {
   IdsEventsMixin,
@@ -17,6 +18,8 @@ import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-popup/ids-popup';
 import styles from './ids-color-picker.scss';
+
+const { stringToBool, buildClassAttrib } = stringUtils;
 
 /**
  * IDS ColorPicker
@@ -85,13 +88,33 @@ class IdsColorPicker extends mix(IdsElement).with(
 
   template() {
     const id = this.id || 'ids-color';
+
+    const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
+      ? /* istanbul ignore next */' disabled'
+      : '';
+
+    console.log(disabledAttribHtml);
+
+    const buttonDisabledAttribHtml = (
+      this.hasAttribute(attributes.DISABLED) || this.hasAttribute(attributes.READONLY)
+    ) ? ' disabled' : '';
+
+    /* istanbul ignore next */
+    const labelHtml = this.labelHidden ? '<span></span>' : (
+      `<label
+        ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
+        part="label"
+        for="${this.id}-input"
+      >
+        <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
+      </label>`
+    );
+
     /* istanbul ignore next */
     const template = `
       <div class="ids-color-picker">
         <ids-trigger-field tabbable="false">
-          <label class="ids-label-text" part="label">
-            <ids-text label>${this.label}</ids-text>
-          </label>
+          ${labelHtml}
           <div class="color-picker-content">
             <label class="color-preview">
               <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
@@ -101,12 +124,16 @@ class IdsColorPicker extends mix(IdsElement).with(
               value="${this.value.toLowerCase()}"
               size="sm"
               dirty-tracker="true"
-              disabled="${this.disabled}"
               class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}"
               label="${this.label}"
               label-hidden="true"
+              ${disabledAttribHtml}
             ></ids-input>
-            <ids-trigger-button class="color-picker-trigger-btn" id="${id}-button" title="${id}">
+            <ids-trigger-button
+              class="color-picker-trigger-btn"
+              id="${id}-button" title="${id}"
+              ${buttonDisabledAttribHtml}
+            >
               <ids-text audible="true">color picker trigger</ids-text>
               <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
             </ids-trigger-button>
