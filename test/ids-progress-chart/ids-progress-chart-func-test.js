@@ -66,6 +66,12 @@ describe('IdsProgressChart Component', () => {
     expect(chart.color).toBe('amethyst-50');
   });
 
+  it('adds icon', () => {
+    chart.color = 'error';
+    chart.container.querySelector('slot').insertAdjacentHTML('beforeend', `<ids-icon slot="icon" size="small" icon="alert"></ids-icon>`);
+    expect(chart.container.querySelector('ids-icon').getAttribute('slot')).toBe('icon');
+  });
+
   it('sets labels correctly', () => {
     chart.label = 'test label';
     expect(chart.label).toBe('test label');
