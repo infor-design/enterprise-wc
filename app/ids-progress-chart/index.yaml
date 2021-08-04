@@ -2,7 +2,7 @@
  component: Progress Chart
  link: ids-progress-chart
  description: Displays progress on a bar, useful for bar charting
- category: Data Visualization
+ category: Charts and Visualizations
  keywords: progress, chart, bar
  examples:
   - link: index.html
