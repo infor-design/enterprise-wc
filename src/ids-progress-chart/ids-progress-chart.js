@@ -94,36 +94,38 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * @private
    */
   #updateColor() {
-    let prop = this.color;
+    if (this.color) {
+      let prop = this.color;
 
-    const includesAlert = this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning');
+      const includesAlert = this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning');
 
-    if (includesAlert || this.color.includes('base') || this.color.includes('success')) {
-      prop = `var(--ids-color-status-${this.color === 'error' ? 'danger' : this.color})`;
+      if (includesAlert || this.color.includes('base') || this.color.includes('success')) {
+        prop = `var(--ids-color-status-${this.color === 'error' ? 'danger' : this.color})`;
 
-      // only color the icons and progress labels if it's error, caution, or warning
-      if (includesAlert) {
-        const completedLabel = this.container.querySelector('.label-progress');
+        // only color the icons and progress labels if it's error, caution, or warning
+        if (includesAlert) {
+          const completedLabel = this.container.querySelector('.label-progress');
 
-        if (completedLabel) {
-          completedLabel.style.color = prop;
-        }
+          if (completedLabel) {
+            completedLabel.style.color = prop;
+          }
 
-        const slot = this.container.querySelector('slot');
-        if (slot) {
-          slot.style.color = prop;
-          const icon = this.querySelector('ids-icon');
-          if (icon) {
-            icon.style.color = prop;
+          const slot = this.container.querySelector('slot');
+          if (slot) {
+            slot.style.color = prop;
+            const icon = this.querySelector('ids-icon');
+            if (icon) {
+              icon.style.color = prop;
+            }
           }
         }
+      } else if (this.color.substr(0, 1) !== '#') {
+        prop = `var(--ids-color-palette-${this.color})`;
       }
-    } else if (this.color.substr(0, 1) !== '#') {
-      prop = `var(--ids-color-palette-${this.color})`;
-    }
 
-    const bar = this.container.querySelector('.bar-progress');
-    bar.style.backgroundColor = prop;
+      const bar = this.container.querySelector('.bar-progress');
+      bar.style.backgroundColor = prop;
+    }
   }
 
   /**

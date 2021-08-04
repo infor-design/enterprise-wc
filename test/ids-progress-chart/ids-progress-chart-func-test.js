@@ -42,6 +42,14 @@ describe('IdsProgressChart Component', () => {
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
+  it('checks for an icon', () => {
+    chart.color = 'error';
+    chart.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="group" size="small"></ids-icon>`);
+    chart.container.querySelector('slot').insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="alert" size="small" id="test-icon">hello</ids-icon>`);
+    expect(chart.container.querySelector('slot > ids-icon').getAttribute('slot')).toBe('icon');
+    expect(chart.container.querySelector('slot > ids-icon').getAttribute('size')).toBe('small');
+  });
+
   it('sets color correctly', () => {
     // empty input sets color to default (#25af65)
     chart.color = '';
@@ -115,6 +123,10 @@ describe('IdsProgressChart Component', () => {
     expect(chart.progressLabel).toBe('50 meters');
     expect(chart.container.querySelector('.label-progress').innerHTML).toBe('50 meters');
 
+    chart.progressLabel = '2 weeks';
+    expect(chart.progressLabel).toBe('2 weeks');
+    expect(chart.container.querySelector('.label-progress').innerHTML).toBe('2 weeks');
+
     chart.progressLabel = '';
     expect(chart.progressLabel).toBe('');
     expect(chart.container.querySelector('.label-progress').innerHTML).toBe('');
@@ -124,6 +136,10 @@ describe('IdsProgressChart Component', () => {
     chart.totalLabel = '100 meters';
     expect(chart.totalLabel).toBe('100 meters');
     expect(chart.container.querySelector('.label-total').innerHTML).toBe('100 meters');
+
+    chart.totalLabel = '12 months';
+    expect(chart.totalLabel).toBe('12 months');
+    expect(chart.container.querySelector('.label-total').innerHTML).toBe('12 months');
 
     chart.totalLabel = '';
     expect(chart.totalLabel).toBe('');
