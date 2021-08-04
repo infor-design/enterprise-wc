@@ -6,12 +6,20 @@
 <ids-layout-grid auto="true" gap="md">
   <ids-layout-grid-cell>
 
-    <ids-input label="Test Error" id="input-validation-error"></ids-input>
-    <ids-input label="Test Alert (Warning)" id="input-validation-alert"></ids-input>
-    <ids-input label="Test Confirmation" id="input-validation-success"></ids-input>
-    <ids-input label="Test Information" id="input-validation-info"></ids-input>
-    <ids-input label="Test Icon (default icon)" id="input-validation-icon-default"></ids-input>
-    <ids-input label="Test Icon (custom icon)" id="input-validation-icon-custom"></ids-input>
+    <ids-button id="btn-add-message" type="secondary">
+      <span slot="text">Add Message</span>
+    </ids-button>
+    <ids-button id="btn-remove-message" type="secondary">
+      <span slot="text">Remove Message</span>
+    </ids-button>
+    <br/><br/>
+
+    <ids-input label="Test Error" id="input-validation-error" value="Some text"></ids-input>
+    <ids-input label="Test Alert (Warning)" id="input-validation-alert" value="Some text"></ids-input>
+    <ids-input label="Test Confirmation" id="input-validation-success" value="Some text"></ids-input>
+    <ids-input label="Test Information" id="input-validation-info" value="Some text"></ids-input>
+    <ids-input label="Test Icon (default icon)" id="input-validation-icon-default" value="Some text"></ids-input>
+    <ids-input label="Test Icon (custom icon)" id="input-validation-icon-custom" value="Some text"></ids-input>
 
   </ids-layout-grid-cell>
 </ids-layout-grid>

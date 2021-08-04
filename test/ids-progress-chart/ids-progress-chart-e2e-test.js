@@ -14,6 +14,6 @@ describe('Ids Progress Chart e2e Tests', () => {
      * The colors for ids-color-status-warning and ids-color-status-caution
      * both fail axe tests against both light and dark mode backgrounds
      */
-    // await expect(page).toPassAxeTests();
+    await expect(page).toPassAxeTests({ disabledRules: ['color-contrast'] });
   });
 });
