@@ -74,7 +74,7 @@ class IdsScrollView extends mix(IdsElement).with(
    * @returns {void}
    */
   #handleEvents() {
-    let isClick = false;
+    this.isClick = false;
 
     // Set selected state on click
     this.onEvent('click', this.controls, (event) => {
@@ -83,21 +83,13 @@ class IdsScrollView extends mix(IdsElement).with(
       }
 
       this.#activateLink(event.target, true);
-      isClick = true;
-      /* istanbul ignore next */
-      this.timer = this.rl?.register(new IdsRenderLoopItem({
-        duration: 500,
-        timeoutCallback: () => {
-          isClick = false;
-          this.timer?.destroy(true);
-          this.timer = null;
-        }
-      }));
+      this.#resetIsClick();
     });
 
     // handle arrow keys
     this.listen(['ArrowLeft', 'ArrowRight'], this.controls, (e) => {
       const selected = this.controls.querySelector('.selected');
+      this.#resetIsClick();
       if (e.key === 'ArrowRight' && selected.nextElementSibling) {
         this.container.scrollBy(this.container.offsetWidth, 0);
         this.#activateLink(selected.nextElementSibling, true);
@@ -115,7 +107,7 @@ class IdsScrollView extends mix(IdsElement).with(
       elem.scrollViewIndex = i;
       const observer = new IntersectionObserver((entries) => {
         const elemToCheck = entries[0];
-        if (elemToCheck.isIntersecting && !isClick) {
+        if (elemToCheck.isIntersecting && !this.isClick) {
           this.controls.querySelector('.selected')?.blur();
           this.#activateLink(this.controls.querySelectorAll('a')[elemToCheck.target.scrollViewIndex]);
         }
@@ -123,6 +115,23 @@ class IdsScrollView extends mix(IdsElement).with(
       { threshold: 0.51 });
       observer.observe(elem);
     });
+  }
+
+  /**
+   * Mark a flag as interacting with mouse/keyboard vs swiping
+   * @private
+   */
+  #resetIsClick() {
+    this.isClick = true;
+    /* istanbul ignore next */
+    this.timer = this.rl?.register(new IdsRenderLoopItem({
+      duration: 500,
+      timeoutCallback: () => {
+        this.isClick = false;
+        this.timer?.destroy(true);
+        this.timer = null;
+      }
+    }));
   }
 
   /**

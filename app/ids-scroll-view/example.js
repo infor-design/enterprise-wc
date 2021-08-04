@@ -1,1 +1,1 @@
-import IdsCard from '../../src/ids-card/ids-card';
+import IdsScrollView from '../../src/ids-scroll-view/ids-scroll-view';
