@@ -72,6 +72,23 @@ class IdsColorPicker extends mix(IdsElement).with(
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
     this.#handleEvents();
+
+    const labelEl = this.container.querySelector('label');
+    const colorPickerContainer = this.container.querySelector('.color-picker-content');
+    this.onEvent('click.label', labelEl, () => {
+      /* istanbul ignore else */
+      if (!this.isDisabled) {
+        this.colorPickerInput.input.focus();
+      }
+    });
+
+    this.onEvent('focus', this.colorPickerInput, () => {
+      colorPickerContainer.classList.add('color-picker-input-focused');
+    });
+
+    this.onEvent('blur', this.colorPickerInput, () => {
+      colorPickerContainer.classList.remove('color-picker-input-focused');
+    });
   }
 
   static get attributes() {

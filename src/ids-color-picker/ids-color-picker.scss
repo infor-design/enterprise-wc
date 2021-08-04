@@ -9,8 +9,25 @@
 
 .color-picker-content {
   @include flex();
+  @include antialiased();
+  @include bg-white();
+  @include box-border();
+  @include border-1();
+  @include border-slate-40();
+  @include border-solid();
+  @include font-sans();
+  @include rounded-default();
+  @include text-16();
+  @include text-black();
 
   align-items: center;
+  -webkit-appearance: none;
+  border-collapse: separate;
+  border-radius: 2px;
+
+  &:hover {
+    @include border-slate-90();
+  }
 }
 
 ids-input::part(container) {
@@ -18,6 +35,7 @@ ids-input::part(container) {
 }
 
 ids-input::part(input) {
+  border: none;
   margin-bottom: 0;
 }
 
@@ -28,9 +46,22 @@ ids-trigger-field::part(field) {
   align-items: flex-start;
 }
 
-.color-picker-trigger-btn {
+.color-picker-trigger-btn::part(button) {
   position: relative;
+  margin-left: 0;
   z-index: 2;
+}
+
+.ids-color-picker:focus-within .color-picker-content {
+  @include border-azure-60();
+  @include shadow();
+
+  outline: none;
+  outline-color: transparent;
+}
+
+.ids-color-picker:focus-within ids-input::part(input) {
+  box-shadow: none;
 }
 
 .color-popup {
