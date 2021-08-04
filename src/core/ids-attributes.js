@@ -99,7 +99,7 @@ export const attributes = {
   MASK_OPTIONS: 'mask-options',
   MASK_RETAIN_POSITIONS: 'mask-retain-positions',
   MAXLENGTH: 'maxlength',
-  MAX_SIZE: 'max-width',
+  MAX_SIZE: 'max-size',
   MENU: 'menu',
   MESSAGE_TEXT: 'message-text',
   METHOD: 'method',
