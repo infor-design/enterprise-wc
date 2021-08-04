@@ -10,7 +10,8 @@ import {
 import {
   IdsKeyboardMixin,
   IdsEventsMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsAttributeProviderMixin
 } from '../ids-mixins';
 
 import IdsSplitterPane from './ids-splitter-pane';
@@ -31,7 +32,8 @@ import styles from './ids-splitter.scss';
 export default class IdsSplitter extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
-    IdsThemeMixin
+    IdsThemeMixin,
+    IdsAttributeProviderMixin
   ) {
   constructor() {
     super();
@@ -49,13 +51,25 @@ export default class IdsSplitter extends mix(IdsElement).with(
     ];
   }
 
+  get providedAttributes() {
+    return {
+      [attributes.AXIS]: [{
+        component: IdsDraggable,
+        targetAttribute: attributes.AXIS,
+        valueXformer: (axis) => (((axis === 'x') || (axis === 'y')) ? axis : 'x')
+      }]
+    };
+  }
+
   /**
    * Create the Template to render
    *
    * @returns {string} the template to render
    */
   template() {
-    return (`<div class="ids-splitter"></div>`);
+    return (
+      `<div class="ids-splitter"><ids-draggable /></div>`
+    );
   }
 
   connectedCallback() {
