@@ -29,7 +29,6 @@ A Disabled appearing text element.
 <ids-text disabled="true">Disabled Text</ids-text>
 ```
 
-
 ## Settings and Attributes
 
 - `type` {boolean} Set the type of element it is usually h1-h6. Defaults to span
@@ -39,6 +38,7 @@ A Disabled appearing text element.
 - `mode` {string} Set the theme mode
 - `version` {string} Set the theme version
 - `color` {string} If set to `unset`, the CSS color will be `'unset'` allowing you to color with surrounding content.
+- `color-variant` {string} can be set to "alternate" to display contrasting color for text via the [IdsColorVariantMixin](../ids-mixins/README.md)
 
 ## Themeable Parts
 
@@ -49,6 +49,7 @@ A Disabled appearing text element.
 - Audible
 - Size
 - Disabled
+- Color Variant (alternate)
 
 ## Keyboard Guidelines
 

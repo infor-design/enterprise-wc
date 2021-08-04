@@ -186,11 +186,21 @@ const IdsValidationMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   removeMessage(settings) {
-    const { id, type } = settings;
+    const id = settings.id;
+    let type = settings.type;
 
     /* istanbul ignore else */
     if (!this.#externalValidationEl) {
-      this.shadowRoot.querySelector(`[validation-id="${id}"]`)?.remove?.();
+      const elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
+      if (elem) {
+        if (!type) {
+          type = elem.getAttribute('type');
+        }
+        if (!this.isTypeNotValid) {
+          this.isTypeNotValid = {};
+        }
+        elem.remove?.();
+      }
     } else {
       this.#externalValidationEl.innerHTML = '';
     }

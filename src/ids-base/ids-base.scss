@@ -15,3 +15,11 @@ $breakpoint-xl: 360px;
 
 $transition-length: 200ms;
 $transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
+
+// Basic transition that animates text and background color
+// according to the standard ease/length above
+@mixin basic-color-transition() {
+  transition:
+    background-color $transition-length $transition-ease,
+    color $transition-length $transition-ease;
+}

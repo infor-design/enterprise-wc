@@ -1,42 +1,35 @@
-/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-use-before-define */
 /* eslint-disable no-async-promise-executor */
+import areJestFakeTimersEnabled from './are-jest-fake-timers-enabled';
 
 // crux of it adapted from https://github.com/testing-library/dom-testing-library
 // /blob/d347302d6b17280b71505d55d0cb9cda376b95cc/src/wait-for.js
 
 /**
- * @returns {boolean} whether jest timers are enabled
- */
-function areJestFakeTimersEnabled() {
-  /* istanbul ignore else */
-  if (typeof jest !== 'undefined' && jest !== null) {
-    return (
-      setTimeout._isMockFunction === true
-      || Object.prototype.hasOwnProperty.call(setTimeout, 'clock')
-    );
-  }
-  // istanbul ignore next
-  return false;
-}
-
-/**
  * Wait for an assertion to stop failing with an optional timeout;
  * considers some quirks with jest fake timers.
- * usage: waitFor(() => expect(condition).[jestExpr e.g. "toNotEqual"/"toEqual"/etc]())
+ * usage:
+ * await waitFor(() => <string>selector)
+ * await waitFor(() => expect(condition).[jestExpr e.g. "toNotEqual"/"toEqual"/etc]())
  *
- * @param {Function} callback method which returns a boolean to indicate that we have
+ * @param {Function} selectorOrAssertionCb method which returns a CSS selector to check for
+ * the presence of, or an assertion for jest
  * @param {object} options document these options
- * @param {any} options.container container of selector to query
+ * @param {any} options.container container to query
+ *  (also runs on outermost container?.shadowRoot if possible as well)
  * @param {number} options.timeout time to wait before timing out
  * @param {number} options.interval interval between refreshing check
  * @param {Function} options.onTimeout timeout callback which accepts an error called
  * @param {object} options.mutationObserverOptions options passed to the mutation observer which
- * we're queryingh the container on for updates
+ * we're querying the container on for updates
+ * @param {object} options.hidden a flag which, if specified, inverts the check for presence of
+ * and instead waits for a selector to be hidden (if the first param is a query string).
+ * Note that it uses the term "hidden" to possibly be isomorphic with Puppeteer in the future,
+ * but does not look for the CSS "hidden" flag itself.
  * @returns {Promise} promise which waits for given callback to return true
  */
 export default async function waitFor(
-  callback,
+  selectorOrAssertionCb,
   {
     container = window.document,
     timeout = 3000,
@@ -47,7 +40,8 @@ export default async function waitFor(
       childList: true,
       attributes: true,
       characterData: true,
-    }
+    },
+    hidden = false
   } = {
     container: window.document,
     timeout: 100,
@@ -57,12 +51,26 @@ export default async function waitFor(
       subtree: true,
       childList: true,
       attributes: true,
-      characterData: true,
-    }
+      characterData: true
+    },
+    hidden: false
   }
 ) {
-  if (typeof callback !== 'function') {
-    throw new TypeError('Received `callback` arg must be a function');
+  switch (typeof selectorOrAssertionCb) {
+  case 'function':
+    break;
+  case 'string':
+    return waitFor(() => {
+      const truthyOrFalsy = hidden ? 'Falsy' : 'Truthy';
+      const elem = (
+        container.querySelector?.(selectorOrAssertionCb)
+        || container?.shadowRoot?.querySelector?.(selectorOrAssertionCb)
+      );
+
+      return expect(elem && (elem instanceof HTMLElement))[`toBe${truthyOrFalsy}`]();
+    });
+  default:
+    throw new TypeError('waitFor requires a dom query string or an assertion callback');
   }
 
   return new Promise(async (resolve, reject) => {
@@ -175,7 +183,7 @@ export default async function waitFor(
 
       // otherwise, run the callback and check the result has run already
       try {
-        const result = callback();
+        const result = selectorOrAssertionCb();
         if (typeof result?.then === 'function') {
           promiseStatus = 'pending';
           result.then(

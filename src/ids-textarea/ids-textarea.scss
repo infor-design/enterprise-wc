@@ -18,7 +18,6 @@ $textarea-size-default-height: 120px;
   @include font-sans();
   @include mb-20();
   @include text-16();
-  @include text-slate-80();
 
   .hidden {
     @include hidden();
@@ -43,7 +42,6 @@ $textarea-size-default-height: 120px;
   .label-text {
     @include antialiased();
     @include font-sans();
-    @include text-slate-60();
     @include mb-8();
 
     align-items: baseline;
@@ -64,16 +62,6 @@ $textarea-size-default-height: 120px;
 
       &.no-required-indicator::after {
         content: '';
-      }
-    }
-  }
-
-  &.disabled {
-    .label-text {
-      @include text-slate-30();
-
-      &.required::after {
-        @include text-ruby-30();
       }
     }
   }
@@ -122,17 +110,14 @@ $textarea-size-default-height: 120px;
 
   .ids-textarea-field {
     @include antialiased();
-    @include bg-white();
     @include box-border();
     @include border-1();
-    @include border-slate-40();
     @include border-solid();
     @include font-sans();
     @include mb-4();
     @include p-12();
     @include rounded-default();
     @include text-16();
-    @include text-black();
     @include w-full();
 
     -webkit-appearance: none;
@@ -143,30 +128,11 @@ $textarea-size-default-height: 120px;
     resize: none;
     text-align: left;
 
-    &:hover {
-      @include border-slate-90();
-    }
-
     &:focus {
-      @include border-azure-60();
       @include shadow();
 
       outline: none;
       outline-color: transparent;
-    }
-
-    &[disabled] {
-      @include border-slate-30();
-      @include text-slate-30();
-    }
-
-    &[readonly] {
-      @include bg-slate-20();
-      @include border-1();
-      @include border-solid();
-      @include border-slate-40();
-      @include rounded-default();
-      @include text-black();
     }
 
     &[readonly],
@@ -311,6 +277,47 @@ $textarea-size-default-height: 120px;
 }
 
 // Handle Themes
+.ids-textarea[mode='light'] {
+  .ids-textarea-field {
+    @include bg-white();
+    @include border-slate-40();
+    @include text-black();
+
+    &[readonly] {
+      @include bg-slate-20();
+      @include border-slate-40();
+      @include text-black();
+    }
+
+    &:hover {
+      @include border-slate-90();
+    }
+
+    &:focus {
+      @include border-azure-60();
+    }
+
+    &[disabled] {
+      @include border-slate-30();
+      @include text-slate-30();
+    }
+  }
+
+  .label-text {
+    @include text-slate-60();
+  }
+
+  &.disabled {
+    .label-text {
+      @include text-slate-30();
+
+      &.required::after {
+        @include text-ruby-30();
+      }
+    }
+  }
+}
+
 .ids-textarea[mode='dark'] {
   .ids-textarea-field {
     @include bg-transparent();
