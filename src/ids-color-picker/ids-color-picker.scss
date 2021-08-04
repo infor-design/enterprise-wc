@@ -2,9 +2,9 @@
 @import '../ids-input/ids-input.scss';
 
 .ids-color-picker {
-  align-items: center;
-  display: inline-flex;
-  flex-direction: column;
+  @include mb-16();
+
+  display: block;
 }
 
 .color-picker-content {
@@ -24,10 +24,15 @@
   -webkit-appearance: none;
   border-collapse: separate;
   border-radius: 2px;
+  padding-inline-end: calc(var(--ids-number-spacing-base) / 2);
 
   &:hover {
     @include border-slate-90();
   }
+}
+
+:host(ids-color-picker[disabled='true']) {
+  pointer-events: none;
 }
 
 ids-input::part(container) {
@@ -69,18 +74,14 @@ ids-trigger-field::part(field) {
   gap: 4px;
   grid-template-columns: repeat(10, 20px);
   overflow: auto;
-  padding: 8px;
+  padding: var(--ids-number-spacing-base);
   width: 239px;
 }
 
 .color-preview {
-  border-left: solid 1px var(--ids-color-palette-slate-40);
-  border-top: solid 1px var(--ids-color-palette-slate-40);
-  border-bottom: solid 1px var(--ids-color-palette-slate-40);
-  border-right: solid 0 transparent;
   display: block;
-  height: 36px;
-  width: 37px;
+  height: 38px;
+  width: 38px;
   cursor: pointer;
 }
 
@@ -96,7 +97,7 @@ ids-trigger-field::part(field) {
 }
 
 .color-input-value-no-label {
-  padding-top: 24px;
+  padding-top: calc(var(--ids-number-spacing-base) * 3);
 }
 
 .color-container {

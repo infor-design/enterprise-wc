@@ -74,20 +74,11 @@ class IdsColorPicker extends mix(IdsElement).with(
     this.#handleEvents();
 
     const labelEl = this.container.querySelector('label');
-    const colorPickerContainer = this.container.querySelector('.color-picker-content');
     this.onEvent('click.label', labelEl, () => {
       /* istanbul ignore else */
       if (!this.isDisabled) {
         this.colorPickerInput.input.focus();
       }
-    });
-
-    this.onEvent('focus', this.colorPickerInput, () => {
-      colorPickerContainer.classList.add('color-picker-input-focused');
-    });
-
-    this.onEvent('blur', this.colorPickerInput, () => {
-      colorPickerContainer.classList.remove('color-picker-input-focused');
     });
   }
 
@@ -130,7 +121,7 @@ class IdsColorPicker extends mix(IdsElement).with(
       <div class="ids-color-picker">
         <ids-trigger-field tabbable="false">
           ${labelHtml}
-          <div class="color-picker-content">
+          <div class="color-picker-content" ${disabledAttribHtml}>
             <label class="color-preview">
               <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
               <ids-text audible="true">Pick Custom Color</ids-text>
