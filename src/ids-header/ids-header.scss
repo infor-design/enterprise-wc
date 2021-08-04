@@ -1,6 +1,7 @@
 @import '../ids-base/ids-base.scss';
 
 .ids-header {
+  @include basic-color-transition();
   @include bg-azure-60();
   @include text-white();
 
@@ -34,7 +35,7 @@
 
   // Classic Version: Dark Mode
   &[mode='dark'][version='classic'] {
-    @include bg-slate-90();
+    @include bg-graphite-90();
     @include text-white();
   }
 
