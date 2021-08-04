@@ -69,6 +69,7 @@ describe('IdsProgressChart Component', () => {
   it('sets labels correctly', () => {
     chart.label = 'test label';
     expect(chart.label).toBe('test label');
+    expect(chart.container.querySelector('.label-main').innerHTML).toBe('test label');
 
     chart.label = null;
     expect(chart.label).toBe('');
@@ -103,6 +104,7 @@ describe('IdsProgressChart Component', () => {
     chart.total = '1';
     expect(chart.percentage).toBe(70);
 
+    // when the progress value is more than the total, it should max out at 100, never beyond
     chart.progress = '5';
     chart.total = '3';
     expect(chart.percentage).toBe(100);
@@ -111,17 +113,21 @@ describe('IdsProgressChart Component', () => {
   it('sets progress label correctly', () => {
     chart.progressLabel = '50 meters';
     expect(chart.progressLabel).toBe('50 meters');
+    expect(chart.container.querySelector('.label-progress').innerHTML).toBe('50 meters');
 
     chart.progressLabel = '';
     expect(chart.progressLabel).toBe('');
+    expect(chart.container.querySelector('.label-progress').innerHTML).toBe('');
   });
 
   it('sets total label correctly', () => {
     chart.totalLabel = '100 meters';
     expect(chart.totalLabel).toBe('100 meters');
+    expect(chart.container.querySelector('.label-total').innerHTML).toBe('100 meters');
 
     chart.totalLabel = '';
     expect(chart.totalLabel).toBe('');
+    expect(chart.container.querySelector('.label-total').innerHTML).toBe('');
   });
 
   it('sets size correctly', () => {
