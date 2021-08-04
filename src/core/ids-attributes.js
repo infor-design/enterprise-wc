@@ -62,6 +62,7 @@ export const attributes = {
   DISMISSIBLE: 'dismissible',
   DISPLAY: 'display',
   DRAGGABLE: 'draggable',
+  EDGE: 'edge',
   ERROR: 'error',
   EXPAND_ICON: 'expand-icon',
   EXPANDED: 'expanded',

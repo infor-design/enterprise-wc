@@ -112,6 +112,35 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
   }
 
   /**
+   * @returns {Array<string>} names of vetoable events.  Override this in your component
+   * to listen for and handle vetoable events.
+   */
+  vetoableEventTypes = [];
+
+  /**
+   * Triggers an event that occurs before the show/hide operations of the Modal that can "cancel"
+   * @param {string} eventType the name of the event to trigger
+   * @returns {boolean} true if the event works
+   */
+  triggerVetoableEvent(eventType) {
+    if (!this.vetoableEventTypes.includes(eventType)) {
+      return false;
+    }
+
+    let canShow = true;
+    const eventResponse = (veto) => {
+      canShow = !!veto;
+    };
+    this.triggerEvent(eventType, this, {
+      detail: {
+        elem: this,
+        response: eventResponse
+      }
+    });
+    return canShow;
+  }
+
+  /**
    * Detach all event handlers
    */
   detachAllEvents() {
