@@ -3,7 +3,8 @@ import {
   IdsElement,
   customElement,
   scss,
-  mix
+  mix,
+  attributes
 } from '../ids-base';
 
 // Import Mixins
@@ -30,7 +31,7 @@ import styles from './ids-scroll-view.scss';
  * @part container - the parent container element
  * @part scroll-view - the scrolling container
  * @part controls - the control button area
- * @part button - the individual circle buttons in the carousel
+ * @part button - the individual circle buttons in the scroll view
  */
 @customElement('ids-scroll-view')
 @scss(styles)
@@ -42,6 +43,10 @@ class IdsScrollView extends mix(IdsElement).with(
   ) {
   constructor() {
     super();
+  }
+
+  static get attributes() {
+    return [attributes.MODE, attributes.VERSION];
   }
 
   /**

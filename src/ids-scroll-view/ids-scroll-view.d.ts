@@ -4,4 +4,9 @@
 import { IdsElement } from '../ids-base';
 
 export default class IdsScrollView extends IdsElement {
+  /** Set the theme mode */
+  mode: 'light' | 'dark' | 'contrast' | string;
+
+  /** Set the theme version */
+  version: 'new' | 'classic' | string;
 }

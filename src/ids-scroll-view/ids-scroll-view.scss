@@ -85,3 +85,69 @@
     }
   }
 }
+
+// Add Theme support
+.ids-scroll-view[mode='dark'] {
+  + .ids-scroll-view-controls {
+    a::after {
+      @include border-slate-40();
+    }
+
+    a.selected::after {
+      @include border-azure-60();
+      @include bg-azure-60();
+    }
+  }
+}
+
+.ids-scroll-view[mode='contrast'] {
+  + .ids-scroll-view-controls {
+    a::after {
+      @include border-slate-60();
+    }
+
+    a.selected::after {
+      @include border-azure-90();
+      @include bg-azure-90();
+    }
+  }
+}
+
+.ids-scroll-view[version='classic'][mode='light'] {
+  + .ids-scroll-view-controls {
+    a::after {
+      @include border-graphite-40();
+    }
+
+    a.selected::after {
+      @include border-azure-90();
+      @include bg-azure-90();
+    }
+  }
+}
+
+.ids-scroll-view[version='classic'][mode='dark'] {
+  + .ids-scroll-view-controls {
+    a::after {
+      @include border-classic-slate-40();
+    }
+
+    a.selected::after {
+      @include border-azure-60();
+      @include bg-azure-60();
+    }
+  }
+}
+
+.ids-scroll-view[version='classic'][mode='contrast'] {
+  + .ids-scroll-view-controls {
+    a::after {
+      @include border-graphite-60();
+    }
+
+    a.selected::after {
+      @include border-azure-80();
+      @include bg-azure-80();
+    }
+  }
+}

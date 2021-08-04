@@ -18,6 +18,8 @@ Good components to look at that are done already are are IdsTag, IdsAlerts and I
 - [ ] Add an `ids-[component].scss`, which holds all scoped styles for this WebComponent.
 - [ ] Add a `README.md` for documentation, specification, etc.
 
+See the [checklist](https://github.com/infor-design/enterprise-wc/blob/main/doc/CHECKLIST.md#general-component-checklist) for general steps some of which is explained below.
+
 ### Code The Component Javascript
 
 Create an example basic component, for example this code would make a new custom element and web component that extends from our base and has theme and events support and basic structure.
@@ -510,6 +512,10 @@ await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-requ
 ```
 
 In the future we will add many more e2e tests, including tests for BDD (test steps for QA).
+
+### Additional Steps
+
+See the [checklist](https://github.com/infor-design/enterprise-wc/blob/main/doc/CHECKLIST.md#general-component-checklist) for additional steps.
 
 #### Code the percy tests
 
