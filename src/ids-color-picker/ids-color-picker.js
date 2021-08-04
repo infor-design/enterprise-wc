@@ -106,7 +106,7 @@ class IdsColorPicker extends mix(IdsElement).with(
               label="${this.label}"
               label-hidden="true"
             ></ids-input>
-            <ids-trigger-button id="${id}-button" title="${id}">
+            <ids-trigger-button class="color-picker-trigger-btn" id="${id}-button" title="${id}">
               <ids-text audible="true">color picker trigger</ids-text>
               <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
             </ids-trigger-button>

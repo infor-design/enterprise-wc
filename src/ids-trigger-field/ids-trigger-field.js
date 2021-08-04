@@ -61,7 +61,11 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-trigger-field" part="field"><slot></slot></div>`;
+    return `
+      <div class="ids-trigger-field" part="field">
+        <slot></slot>
+      </div>
+    `;
   }
 
   /**

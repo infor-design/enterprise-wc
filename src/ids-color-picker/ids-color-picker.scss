@@ -28,6 +28,11 @@ ids-trigger-field::part(field) {
   align-items: flex-start;
 }
 
+.color-picker-trigger-btn {
+  position: relative;
+  z-index: 2;
+}
+
 .color-popup {
   display: grid;
   gap: 4px;
