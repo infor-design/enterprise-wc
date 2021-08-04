@@ -101,7 +101,6 @@ export default class IdsPager extends mix(IdsElement).with(
       this.pageNumber = e.detail.value;
     });
 
-    this.provideAttributes();
     super.connectedCallback?.();
   }
 
