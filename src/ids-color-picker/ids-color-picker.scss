@@ -1,9 +1,31 @@
 @import '../ids-base/ids-base';
+@import '../ids-input/ids-input.scss';
 
 .ids-color-picker {
   align-items: center;
   display: inline-flex;
   flex-direction: column;
+}
+
+.color-picker-content {
+  @include flex();
+
+  align-items: center;
+}
+
+ids-input::part(container) {
+  margin-bottom: 0;
+}
+
+ids-input::part(input) {
+  margin-bottom: 0;
+}
+
+ids-trigger-field::part(field) {
+  @include flex();
+
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .color-popup {
@@ -23,7 +45,6 @@
   display: block;
   height: 36px;
   width: 37px;
-  margin-top: 3px;
   cursor: pointer;
 }
 

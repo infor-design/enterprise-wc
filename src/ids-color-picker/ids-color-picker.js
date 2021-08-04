@@ -69,14 +69,6 @@ class IdsColorPicker extends mix(IdsElement).with(
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
     this.#handleEvents();
-
-    // TODO: Do this a cleaner way to lay the label out
-    this.inputLabel = this.colorPickerInput?.shadowRoot?.querySelector('label');
-
-    /* istanbul ignore next */
-    if (this.inputLabel) {
-      this.inputLabel.style.marginLeft = '-38px';
-    }
   }
 
   static get attributes() {
@@ -97,15 +89,28 @@ class IdsColorPicker extends mix(IdsElement).with(
     const template = `
       <div class="ids-color-picker">
         <ids-trigger-field tabbable="false">
-          <label class="color-preview">
-            <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
-            <ids-text audible="true">Pick Custom Color</ids-text>
+          <label class="ids-label-text" part="label">
+            <ids-text label>${this.label}</ids-text>
           </label>
-          <ids-input value="${this.value.toLowerCase()}" size="sm" dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
-          <ids-trigger-button id="${id}-button" title="${id}">
-            <ids-text audible="true">color picker trigger</ids-text>
-            <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
-          </ids-trigger-button>
+          <div class="color-picker-content">
+            <label class="color-preview">
+              <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
+              <ids-text audible="true">Pick Custom Color</ids-text>
+            </label>
+            <ids-input
+              value="${this.value.toLowerCase()}"
+              size="sm"
+              dirty-tracker="true"
+              disabled="${this.disabled}"
+              class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}"
+              label="${this.label}"
+              label-hidden="true"
+            ></ids-input>
+            <ids-trigger-button id="${id}-button" title="${id}">
+              <ids-text audible="true">color picker trigger</ids-text>
+              <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
+            </ids-trigger-button>
+          </div>
         </ids-trigger-field>
         <ids-popup type="menu">
           <slot slot="content" class="color-popup"></slot>
