@@ -84,7 +84,7 @@ class IdsScrollView extends mix(IdsElement).with(
 
       this.#activateLink(event.target, true);
       isClick = true;
-
+      /* istanbul ignore next */
       this.timer = this.rl?.register(new IdsRenderLoopItem({
         duration: 500,
         timeoutCallback: () => {
@@ -110,7 +110,8 @@ class IdsScrollView extends mix(IdsElement).with(
     });
 
     // Set selected state on scroll/swipe
-    this.querySelectorAll('[slot').forEach((elem, i) => {
+    /* istanbul ignore next - cant test IntersectionObserver */
+    this.querySelectorAll('[slot]').forEach((elem, i) => {
       elem.scrollViewIndex = i;
       const observer = new IntersectionObserver((entries) => {
         const elemToCheck = entries[0];
@@ -140,6 +141,7 @@ class IdsScrollView extends mix(IdsElement).with(
     elem.setAttribute('tabindex', '0');
     elem.setAttribute('aria-selected', 'true');
 
+    /* istanbul ignore next - cant test private function/IntersectionObserver */
     if (focus) {
       elem.focus();
     }

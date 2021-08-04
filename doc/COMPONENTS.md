@@ -372,6 +372,160 @@ We include type `d.ts` files for typescript users so that they can get the typin
 - Test the settings for all settings and test both setting the attribute and the js setting
 - Any api functions for input/result
 - Any external event handlers fire
+- Aim for 100% test coverage in the functional tests
+- Basic e2e tests including Axe and Percy tests
+
+#### Code the functional tests
+
+First run `npm run test:coverage` and then open up the file at `coverage/index.html` to see the lacking coverage. We want all the columns to have 100%. With this page you can drill into the component and see whats lacking.
+
+Create a folder in `tests/component-name` with the file `test/component-name/component-name-func-test.js` and wire it to import the component and any supporting html and inserts that into the page in beforeEach.
+
+Note that sometimes you need to import the component itself and not the markup so that the web component API works in jest. And also make sure to set the innerHTML of the body in afterEach to cleanup after so no other tests can be impacted. For example:
+
+```js
+import IdsTag from '../../src/ids-tag/ids-tag';
+
+describe('IdsTag Component', () => {
+  let tag;
+
+  beforeEach(async () => {
+    const elem = new IdsTag();
+    document.body.appendChild(elem);
+    tag = document.querySelector('ids-tag');
+  });
+
+  afterEach(async () => {
+    document.body.innerHTML = '';
+  });
+```
+
+Add a test that checks if the component errors out. Basically this test watches for errors and then while watching append your component and check there are no errors. For example:
+
+```js
+  it('renders with no errors', () => {
+    const errors = jest.spyOn(global.console, 'error');
+    const elem = new IdsTag();
+    document.body.appendChild(elem);
+    elem.remove();
+    expect(document.querySelectorAll('ids-tag').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+```
+
+Add a test that adds a [jest snapshot](https://jestjs.io/docs/snapshot-testing) for this test you can either test the outerHTML or the shadowRoot's html depending whats more important.
+
+```js
+  it('renders correctly', () => {
+    expect(scrollView.shadowRoot.innerHTML).toMatchSnapshot();
+  });
+```
+
+Then for each setting add a test that sets all settings via the JS api.
+
+```js
+  it('renders danger from the api', () => {
+    tag.color = 'danger';
+    expect(tag.getAttribute('color')).toEqual('danger');
+    expect(tag.color).toEqual('danger');
+  });
+```
+
+Sets each setting from the settings and responds to the update accordingly.
+
+```js
+  it('renders danger from the api', () => {
+    tag.getAttribute('color', 'danger');
+    expect(tag.getAttribute('color')).toEqual('danger');
+    expect(tag.color).toEqual('danger');
+  });
+```
+
+Can reset each setting to the default.
+
+```js
+it('renders danger from the api', () => {
+  tag.color = 'danger';
+  tag.color = '';
+  expect(tag.getAttribute('color')).toEqual('default');
+  expect(tag.color).toEqual('default');
+});
+```
+
+Can add a test for keyboard handlers
+
+```js
+it('dismisses on backspace/delete', () => {
+  tag.dismissible = true;
+  const event = new KeyboardEvent('keydown', { key: 'Backspace' });
+  tag.dispatchEvent(event);
+  expect(document.querySelectorAll('ids-tag').length).toEqual(0);
+});
+```
+
+Then recheck coverage and tests the rest of the functionality. Like events and methods ect (see other tests for details). As a tip if trying to finish the coverage on a component you cant run `npx jest --coverage -- component-name-func` to run just the tests quickly for a component and then target the coverage that way for that one component.
+
+You may need to add ignores for some situations because jest runs in JSDOM which is virtual it cant do somethings. Some of these cases is RenderLoops, MutationObserver, ResizeObserver, IntersectionObserver ect. To do this add `/* istanbul ignore next */` to the line before or before the function. For example:
+
+```js
+/* istanbul ignore next */
+this.timer = this.rl?.register(new IdsRenderLoopItem({
+  duration: 500,
+  timeoutCallback: () => {
+    isClick = false;
+    this.timer?.destroy(true);
+    this.timer = null;
+  }
+}));
+```
+
+You also might need to debug tests. More information on that [can be found here.](https://github.com/infor-design/enterprise-wc/blob/main/doc/TESTING.md#debugging-functional-tests)
+
+#### Code the e2e tests
+
+We add a basic e2e test that loads the page and does any testing that cannot be done with jest/JSDOM. Keep in mind e2e tests aren't covered in coverage. Some of the things we do in e2e tests. Run the e2e tests only with `npm run test:ui` or `npx jest -- component-name-e2e`.
+
+Add basic loading test.
+
+```js
+it('should not have errors', async () => {
+  await expect(page.title()).resolves.toMatch('IDS Scroll View Component');
+});
+```
+
+Add axe test.
+
+```js
+it('should pass Axe accessibility tests', async () => {
+  await page.setBypassCSP(true);
+  await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+  await expect(page).toPassAxeTests();
+});
+```
+
+Note that you can ignore some rules if they do not make sense. For example some designs might not be accessible for color contrast.
+
+```js
+await expect(page).toPassAxeTests({ disabledRules: ['color-contrast', 'aria-required-children', 'aria-required-parent'] });
+```
+
+In the future we will add many more e2e tests, including tests for BDD (test steps for QA).
+
+#### Code the percy tests
+
+We use [percy](https://percy.io/) for visual regression tests. Its a simplified process for visual images regression testing. You should add one test per component per theme (new theme only). We have a limit of 100,000 screen shots. So be aware of this. Each time you push small updated it can effect the count once you PR. Add the `skip-ci-tests` label or close your PR and reopen it if its not ready for review and you keep adding fixes. For these tests the name of the file is `ids-component-name-percy-test.js`. These tests run on the CI when you do pull requests. Check the checks for results once you push.
+
+A percy tests sets the theme and takes a screen shot. Note the file name  and theme convention in the `percySnapshot` command and looks like this:
+
+```js
+it('should not have visual regressions in new dark theme (percy)', async () => {
+  await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+  await page.evaluate(() => {
+    document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
+  });
+  await percySnapshot(page, 'ids-scroll-view-new-dark');
+});
+```
 
 ## Component Standards
 
