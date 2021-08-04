@@ -11,8 +11,14 @@
     vertical-align: bottom;
   }
 
+  ::slotted(span),
+  ::slotted(ids-text) {
+    color: currentColor;
+  }
+
   ::slotted(ids-icon) {
     vertical-align: middle;
+    color: currentColor;
   }
 
   ::slotted(span.audible) {
@@ -46,7 +52,7 @@ button {
 // Applies to all non-icon button types
 .ids-button,
 .ids-toggle-button,
-.ids-menu-button,
+.ids-menu-button:not(.ids-icon-button),
 .ids-modal-button {
   // Padding rules for buttons that insert both text/icon into the fallback (unnamed) slot.
   ::slotted(ids-icon), // shadowroot + text + icon
@@ -103,9 +109,12 @@ button {
     @include rounded-round();
   }
 
-  // Fixes an issue that the ripple is not "round" on safari
-  -webkit-mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
-  mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
+  // Fixes an issue that causes the ripple effect not to appear "round" on Safari.
+  // NOTE: Needs to be applied only when not focused because it cuts off the focus state.
+  &:not(:focus) {
+    -webkit-mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
+    mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
+  }
 
   .ids-icon {
     @include block();
@@ -133,7 +142,7 @@ button {
 // Specific Modifications for Modal Buttons
 .ids-modal-button {
   @include ids-base-button-styles();
-  @include ids-alternate-button-colors();
+  @include ids-modal-button-colors();
   @include py-12();
 
   display: block;

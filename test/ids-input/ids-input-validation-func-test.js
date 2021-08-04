@@ -62,6 +62,20 @@ describe('IdsInput Component', () => {
     expect(msgEl).toBeTruthy();
   });
 
+  it('should add/remove manually message', () => {
+    expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(0);
+    elem.addMessage({
+      message: 'Something is wrong do not continue',
+      type: 'error',
+      id: 'error'
+    });
+
+    expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(1);
+    elem.removeMessage({ id: 'error' });
+
+    expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(0);
+  });
+
   it('should skip if it already has an error', () => {
     elem.validate = 'required';
     elem.template();

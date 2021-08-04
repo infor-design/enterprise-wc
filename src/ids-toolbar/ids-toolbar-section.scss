@@ -34,6 +34,12 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   &.buttonset {
     @include flex();
     @include py-4();
+
+    // In buttonset areas, automatically add padding between buttons
+    ::slotted(ids-button:not(:first-child)),
+    ::slotted(ids-menu-button:not(:first-child)) {
+      @include pl-4();
+    }
   }
 
   // Title sections are not Flex containers (so we can stack content)

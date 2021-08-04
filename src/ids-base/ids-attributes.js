@@ -34,6 +34,7 @@ export const attributes = {
   COL_SPAN: 'col-span',
   COL_START: 'col-start',
   COLOR: 'color',
+  COLOR_VARIANT: 'color-variant',
   COLS: 'cols',
   COMPACT: 'compact',
   COUNT: 'count',

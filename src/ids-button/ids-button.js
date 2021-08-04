@@ -7,8 +7,14 @@ import {
   stringUtils
 } from '../ids-base';
 
-import { IdsEventsMixin, IdsThemeMixin, IdsTooltipMixin } from '../ids-mixins';
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-mixins/ids-render-loop-mixin';
+import {
+  IdsEventsMixin,
+  IdsColorVariantMixin,
+  IdsRenderLoopMixin,
+  IdsRenderLoopItem,
+  IdsThemeMixin,
+  IdsTooltipMixin
+} from '../ids-mixins';
 
 import styles from './ids-button.scss';
 
@@ -77,6 +83,7 @@ const baseProtoClasses = [
 class IdsButton extends mix(IdsElement).with(
     IdsRenderLoopMixin,
     IdsEventsMixin,
+    IdsColorVariantMixin,
     IdsThemeMixin,
     IdsTooltipMixin
   ) {
@@ -131,6 +138,12 @@ class IdsButton extends mix(IdsElement).with(
   static get attributes() {
     return [...super.attributes, ...BUTTON_ATTRIBUTES];
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  availableColorVariants = ['alternate'];
 
   /**
    * Figure out the classes
@@ -702,6 +715,20 @@ class IdsButton extends mix(IdsElement).with(
    */
   focus() {
     this.button.focus();
+  }
+
+  /**
+   * Implements callback from IdsColorVariantMixin used to
+   * update the color variant on children components
+   * @returns {void}
+   */
+  onColorVariantRefresh() {
+    const icons = this.querySelectorAll('ids-icon');
+    const texts = this.querySelectorAll('ids-text');
+    const iterator = (el) => {
+      el.colorVariant = this.colorVariant;
+    };
+    [...icons, ...texts].forEach(iterator);
   }
 }
 

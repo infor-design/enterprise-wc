@@ -10,13 +10,10 @@
   }
 
   .droparea {
-    @include bg-slate-10();
     @include border-1();
-    @include border-slate-50();
     @include flex();
     @include relative();
     @include rounded-default();
-    @include text-slate-50();
 
     align-items: center;
     border-style: dashed;
@@ -29,7 +26,6 @@
       @include antialiased();
       @include block();
       @include no-select();
-      @include text-slate-100();
 
       text-align: center;
     }
@@ -110,6 +106,33 @@
   }
 
   &.disabled {
+    .droparea {
+      .hyperlink {
+        cursor: default;
+        pointer-events: none;
+      }
+    }
+
+    .errorarea.has-error {
+      @include border-ruby-30();
+      @include text-slate-30();
+    }
+  }
+}
+
+// Handle Themes
+.ids-upload-advanced[mode='light'] {
+  .droparea {
+    @include bg-slate-10();
+    @include border-slate-50();
+    @include text-slate-50();
+
+    .droparea-label {
+      @include text-slate-100();
+    }
+  }
+
+  &.disabled {
     .droparea,
     .droparea.hover,
     .droparea:hover {
@@ -123,15 +146,9 @@
         @include text-slate-30();
       }
     }
-
-    .errorarea.has-error {
-      @include border-ruby-30();
-      @include text-slate-30();
-    }
   }
 }
 
-// Handle Themes
 .ids-upload-advanced[mode='dark'] {
   .droparea {
     @include bg-slate-70();

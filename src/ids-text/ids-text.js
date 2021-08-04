@@ -10,6 +10,7 @@ import {
 // Import Mixins
 import {
   IdsEventsMixin,
+  IdsColorVariantMixin,
   IdsTooltipMixin,
   IdsThemeMixin,
   IdsLocaleMixin
@@ -19,6 +20,9 @@ import styles from './ids-text.scss';
 
 const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
 const fontWeightClasses = ['bold', 'bolder'];
+
+// These types will have a CSS style class appended to them
+const typesCssClasses = ['label', 'legend', 'span'];
 
 /**
  * IDS Text Component
@@ -36,14 +40,15 @@ class IdsText extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsThemeMixin,
     IdsTooltipMixin,
-    IdsLocaleMixin
+    IdsLocaleMixin,
+    IdsColorVariantMixin
   ) {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback?.();
     this.handleEvents();
   }
 
@@ -53,6 +58,7 @@ class IdsText extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.AUDIBLE,
       attributes.COLOR,
       attributes.DISABLED,
@@ -94,6 +100,12 @@ class IdsText extends mix(IdsElement).with(
     ><slot></slot>
     </${tag}>`;
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  availableColorVariants = ['alternate'];
 
   /**
    * Handle internal events
@@ -177,9 +189,22 @@ class IdsText extends mix(IdsElement).with(
     }
 
     this.render();
+    this.#setTypeClass(value);
   }
 
   get type() { return this.getAttribute(attributes.TYPE); }
+
+  /**
+   * Sets a CSS Class on the container element for some Text types
+   * @param {string} value the class type to check/add
+   * @returns {void}
+   */
+  #setTypeClass(value) {
+    this.container.classList.remove(...typesCssClasses);
+    if (typesCssClasses.includes(value)) {
+      this.container.classList.add(value);
+    }
+  }
 
   /**
    * If set to "unset", color can be controlled by parent container

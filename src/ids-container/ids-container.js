@@ -11,7 +11,8 @@ import {
 import {
   IdsEventsMixin,
   IdsThemeMixin,
-  IdsLocaleMixin
+  IdsLocaleMixin,
+  IdsColorVariantMixin,
 } from '../ids-mixins';
 
 import styles from './ids-container.scss';
@@ -27,7 +28,12 @@ import styles from './ids-container.scss';
  */
 @customElement('ids-container')
 @scss(styles)
-class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsLocaleMixin) {
+class IdsContainer extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsLocaleMixin,
+    IdsColorVariantMixin,
+    IdsThemeMixin
+  ) {
   constructor() {
     super();
   }
@@ -36,7 +42,7 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, I
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback?.();
 
     /* istanbul ignore next */
     if (this.reset) {
@@ -50,9 +56,9 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, I
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.LANGUAGE,
       attributes.LOCALE,
-      attributes.MODE,
       attributes.PADDING,
       attributes.RESET,
       attributes.SCROLLABLE,
@@ -67,6 +73,12 @@ class IdsContainer extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, I
   template() {
     return `<div class="ids-container" part="container"${this.scrollable === 'true' ? ' tabindex="0"' : ''}><slot></slot></div>`;
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  availableColorVariants = ['alternate'];
 
   /**
    * If set to number the container will have padding added (in pixels)
