@@ -93,8 +93,6 @@ class IdsColorPicker extends mix(IdsElement).with(
       ? /* istanbul ignore next */' disabled'
       : '';
 
-    console.log(disabledAttribHtml);
-
     const buttonDisabledAttribHtml = (
       this.hasAttribute(attributes.DISABLED) || this.hasAttribute(attributes.READONLY)
     ) ? ' disabled' : '';
