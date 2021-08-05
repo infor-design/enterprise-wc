@@ -1,4 +1,15 @@
+/* istanbul ignore file */
 import { IdsElement } from '../ids-base';
+
+const identityFn = (v) => v;
+
+/**
+ * standard element types that are accepted
+ * besides IdsElement when traversing trees
+ * (doesn't cover all cases but just a
+ * reasonable subset)
+ */
+const traversibleHTMLTags = new Set(['DIV', 'SPAN']);
 
 /**
  * Casts/Mirrors specific attributes in one-way-bindings to
@@ -14,38 +25,56 @@ export default (superclass) => class extends superclass {
   }
 
   /**
-   * update registered props on registered child component types
-   *
-   * @param {Array|string} attributes object containing
-   * property lookups that will match with types in iterable it's linked with
+   * Update registered props on registered child component types
+   * @param {object} attributes lookup object containing attributes
+   * and their relation when provided to children
    * @param {boolean} recursive optional; specifies whether to recursively
    * check simple search of IdsElement on container/perimeter level
    * @param {HTMLElement} scannedEl Base case: element provider.
    * Recursive case: scanned IdsElement in tree
    */
   provideAttributes(attributes = this.providedAttributes, recursive = true, scannedEl = this) {
-    for (const el of [...scannedEl.children, ...scannedEl.shadowRoot.children]) {
-      for (const [sourceAttribName, componentEntries] of Object.entries(attributes)) {
-        if (recursive && el instanceof IdsElement) {
-          this.provideAttributes(attributes, true, el);
-        }
+    const domNodes = [
+      ...(scannedEl.children || []),
+      ...(scannedEl.shadowRoot?.children || [])
+    ];
+    for (const el of domNodes) {
+      if (recursive && ((el instanceof IdsElement) || traversibleHTMLTags.has(el?.tagName))) {
+        this.provideAttributes(attributes, true, el);
+      }
 
+      for (const [sourceAttribute, componentEntries] of Object.entries(attributes)) {
         for (const entry of componentEntries) {
-          const IdsComponent = Array.isArray(entry) ? entry[0] : entry;
-          if (!(el instanceof IdsComponent)) { continue; }
+          /** @type {IdsElement} */
+          let component;
 
-          const attribName = Array.isArray(entry)
-            ? /* istanbul ignore next */ entry[1]
-            : sourceAttribName;
+          /** @type {string} */
+          let targetAttribute;
+
+          /** @type {Function} */
+          let setter;
+
+          if (entry.prototype instanceof IdsElement) {
+            component = entry;
+            setter = identityFn;
+            targetAttribute = sourceAttribute;
+          } else if (typeof entry === 'object') {
+            component = entry.component;
+            targetAttribute = entry.targetAttribute || sourceAttribute;
+            setter = entry.setter || identityFn;
+          }
+
+          if (!component || !(el instanceof component)) { continue; }
+
+          const targetValue = setter(this.getAttribute(sourceAttribute));
 
           /* istanbul ignore else */
-          if (this.hasAttribute(sourceAttribName) && this.getAttribute(sourceAttribName) !== null) {
-            const attribValue = this.getAttribute(sourceAttribName);
-            if (el.getAttribute(attribName) !== attribValue) {
-              el.setAttribute(attribName, attribValue);
+          if (this.hasAttribute(sourceAttribute) && (targetValue !== null)) {
+            if (el.getAttribute(targetAttribute) !== targetValue) {
+              el.setAttribute(targetAttribute, targetValue);
             }
-          } else if (el.hasAttribute(attribName)) {
-            el.removeAttribute(attribName);
+          } else if (el.hasAttribute(targetAttribute) && (targetValue === null)) {
+            el.removeAttribute(targetAttribute);
           }
         }
       }
@@ -76,6 +105,8 @@ export default (superclass) => class extends superclass {
       attributeFilter: Object.keys(this.providedAttributes),
       subtree: false
     });
+
     super.connectedCallback?.();
+    this.provideAttributes();
   }
 };
