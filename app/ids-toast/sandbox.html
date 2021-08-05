@@ -1,0 +1,94 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Toast Sandbox</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+
+    <ids-button id="btn-toast-position" type="secondary">
+      <span slot="text">Position</span>
+    </ids-button>
+    Set position of the toast container in specific place
+    <ids-radio-group horizontal="true" id="radio-toast-position">
+      <ids-radio value="top-start" label="Top Start"></ids-radio>
+      <ids-radio value="top-end" label="Top End"></ids-radio>
+      <ids-radio value="bottom-start" label="Bottom Start" checked="true"></ids-radio>
+      <ids-radio value="bottom-end" label="Bottom End"></ids-radio>
+    </ids-radio-group>
+    <br/>
+
+    <ids-button id="btn-toast-draggable" type="secondary">
+      <span slot="text">Draggable</span>
+    </ids-button>
+    Set user to allows drag/drop the toast container
+    <br/><br/>
+
+    <ids-button id="btn-toast-save-position" type="secondary">
+      <span slot="text">Save Position</span>
+    </ids-button>
+    Save toast container position to local storage
+    <br/><br/>
+
+    <ids-button id="btn-toast-clear-saved-position" type="secondary">
+      <span slot="text">Clear Saved</span>
+    </ids-button>
+    Clear the saved position from local storage
+    <br/><br/>
+
+    <ids-button id="btn-toast-clear-all-saved-position" type="secondary">
+      <span slot="text">Clear All Saved</span>
+    </ids-button>
+    Clear all toast related saved position from local storage
+    <br/><br/>
+
+    <ids-button id="btn-toast-destroy-on-complete" type="secondary">
+      <span slot="text">Destroy After Complete</span>
+    </ids-button>
+    Set to not destroy after complete all the toast messages
+    <br/><br/>
+
+    <ids-button id="btn-toast-allow-link" type="secondary">
+      <span slot="text">Allow link</span>
+    </ids-button>
+    Set to put links in the toast message
+    <br/><br/>
+
+    <ids-button id="btn-toast-timeout" type="secondary">
+      <span slot="text">Timeout</span>
+    </ids-button>
+    Set the amount of time (2 seconds), the toast should be present on-screen
+    <br/><br/>
+
+    <ids-button id="btn-toast-close-button-label" type="secondary">
+      <span slot="text">Close Button Label</span>
+    </ids-button>
+    Custom text for close button label in the toast message
+    <br/><br/>
+
+    <ids-button id="btn-toast-progress-bar" type="secondary">
+      <span slot="text">Progress Bar</span>
+    </ids-button>
+    Hide the progress bar in toast message
+    <br/><br/>
+
+    <ids-button id="btn-toast-audible" type="secondary">
+      <span slot="text">Audible Only</span>
+    </ids-button>
+    Let toast message to be invisible on the screen
+    <br/><br/>
+
+    <ids-button id="btn-toast-markup" type="secondary">
+      <span slot="text">By Markup</span>
+    </ids-button>
+    Toast message by markup
+    <ids-toast id="toast-markup" destroy-on-complete="false">
+      <span slot="title">Application Offline</span>
+      <span slot="message">This is a Toast message.</span>
+    </ids-toast>
+
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}

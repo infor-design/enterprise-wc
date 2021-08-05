@@ -10,6 +10,7 @@ import mix from '../ids-mixins/ids-mixin-builder';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import { stringUtils } from './ids-string-utils';
+import { xssUtils } from './ids-xss-utils';
 
 /**
  * simple dictionary used to memoize attribute names
@@ -245,5 +246,6 @@ export {
   mix,
   scss,
   attributes,
-  stringUtils
+  stringUtils,
+  xssUtils
 };

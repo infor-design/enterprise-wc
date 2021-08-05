@@ -129,6 +129,10 @@
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
   - If using a clearable X on the textarea the x is now tabbable by default for accessibility
+- `[Toast]` The Toast component has been changed to a web component and renamed to ids-toast.
+  - Markup is now a custom element `<ids-toast></ids-toast>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Toolbar]` The Toolbar component has been changed to a web component.
   - Markup is now a custom element `<ids-toolbar></ids-toolbar>`
   - There is no longer a "Toolbar Item" component, instead use standard components directly.

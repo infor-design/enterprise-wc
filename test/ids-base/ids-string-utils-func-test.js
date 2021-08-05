@@ -38,4 +38,24 @@ describe('IdsStringUtils Tests', () => {
 
     expect(stringUtils.injectTemplate(template, obj)).toEqual('Test String <b>test-value</b>');
   });
+
+  it('should check whether the given object is an object or not', () => {
+    const obj = { field: 'test-value' };
+
+    expect(stringUtils.isObject(obj)).toEqual(true);
+    expect(stringUtils.isObject(123)).toEqual(false);
+    expect(stringUtils.isObject('test')).toEqual(false);
+    expect(stringUtils.isObject(['a', 'b', 'c'])).toEqual(false);
+  });
+
+  it('should check the given object is an object and NOT empty', () => {
+    const obj = { field: 'test-value' };
+    const objEmpty = {};
+
+    expect(stringUtils.isObjectAndNotEmpty(obj)).toEqual(true);
+    expect(stringUtils.isObjectAndNotEmpty(objEmpty)).toEqual(false);
+    expect(stringUtils.isObjectAndNotEmpty(123)).toEqual(false);
+    expect(stringUtils.isObjectAndNotEmpty('test')).toEqual(false);
+    expect(stringUtils.isObjectAndNotEmpty(['a', 'b', 'c'])).toEqual(false);
+  });
 });
