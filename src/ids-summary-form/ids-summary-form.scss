@@ -3,22 +3,58 @@
 .ids-summary-form {
   @include antialiased();
   @include font-sans();
-  @include text-slate-80();
+  color: black;
 
-  // color: black;
+  display: inline-block;
 
-  ::slotted(ids-text) {
-    .labels::part(text) {
-      color: blue;
-    }
-    color: red;
-  }
+  // ::slotted {
+  //   ::part(text) {
+  //     color: blue;
+  //   }
+  //   color: red;
+  // }
+  // .label {
+  //   margin-bottom: 8px;
+  // }
+  @include font-bold();
+  margin-bottom: 20px;
 }
 
-.label {
-  color: purple;
+// slot[name="label"]::slotted(.label) {
+//   color: purple;
+//   margin-bottom: 8px;
+//   font-weight: bold;
+//   &::part(text) {
+//     color: blue;
+//     border: 1px solid green;
+//   }
+// }
+
+::slotted(.label) {
+  // @include text-slate-80();
+  // border: 1px solid red;
+  margin: 0 0 8px;
+  color: orange;
+
 }
 
-.data {
-  color: green;
+::slotted(.data) {
+  color: black;
 }
+
+// .labelSlot {
+//   ids-text::part(text) {
+//       color: orange;
+//     }
+// }
+
+::slotted(ids-text)::part(text) {
+  font-weight: bold;
+}
+
+// ids-text {
+//   color: purple;
+//   ::part(text) {
+//     color: aqua;
+//   }
+// }

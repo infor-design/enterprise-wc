@@ -49,8 +49,8 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   template() {
     return `
       <div class="ids-summary-form">
-        <ids-text class="label">Label<ids-text>
-        <ids-text class="data">Data<ids-text>
+        <slot name="label" class="labelSlot"></slot>
+        <slot name="data" class="dataSlot"></slot>
       </div>`;
   }
 
