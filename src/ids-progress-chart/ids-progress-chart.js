@@ -65,7 +65,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       <div class="labels">
         <ids-text class="label-main">${this.label ? this.label : ''}</ids-text>
         <slot name="icon"></slot>
-        <ids-text class="label-progress">${this.progressLabel ? this.progressLabel : ''} </ids-text>
+        <ids-text class="label-progress">${this.progressLabel ? this.progressLabel : ''}</ids-text>
         <div class="label-end">
           <ids-text class="label-total">${this.totalLabel ? this.totalLabel : '' }</ids-text>
         </div>
@@ -94,38 +94,33 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * @private
    */
   #updateColor() {
-    if (this.color) {
-      let prop = this.color;
+    let prop = this.color;
 
-      const includesAlert = this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning');
+    const includesAlert = this.color.includes('error') || this.color.includes('caution') || this.color.includes('warning');
 
-      if (includesAlert || this.color.includes('base') || this.color.includes('success')) {
-        prop = `var(--ids-color-status-${this.color === 'error' ? 'danger' : this.color})`;
+    if (includesAlert || this.color.includes('base') || this.color.includes('success')) {
+      prop = `var(--ids-color-status-${this.color === 'error' ? 'danger' : this.color})`;
 
-        // only color the icons and progress labels if it's error, caution, or warning
-        if (includesAlert) {
-          const progressLabel = this.container.querySelector('.label-progress');
-
-          if (progressLabel) {
-            progressLabel.style.color = prop;
-          }
-
-          const slot = this.container.querySelector('slot');
-          if (slot) {
-            slot.style.color = prop;
-            const icon = this.querySelector('ids-icon');
-            if (icon) {
-              icon.style.color = prop;
-            }
-          }
+      // only color the icons and progress labels if it's error, caution, or warning
+      if (includesAlert) {
+        const progressLabel = this.container.querySelector('.label-progress');
+        /* istanbul ignore else */
+        if (progressLabel) {
+          progressLabel.style.color = prop;
         }
-      } else if (this.color.substr(0, 1) !== '#') {
-        prop = `var(--ids-color-palette-${this.color})`;
-      }
 
-      const bar = this.container.querySelector('.bar-progress');
-      bar.style.backgroundColor = prop;
+        const slot = this.container.querySelector('slot');
+        /* istanbul ignore else */
+        if (slot) {
+          slot.style.color = prop;
+        }
+      }
+    } else if (this.color.substr(0, 1) !== '#') {
+      prop = `var(--ids-color-palette-${this.color})`;
     }
+
+    const bar = this.container.querySelector('.bar-progress');
+    bar.style.backgroundColor = prop;
   }
 
   /**
@@ -134,6 +129,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * @private
    */
   #updateLabel(labelType) {
+    /* istanbul ignore else */
     if (labelType === attributes.LABEL) {
       this.container.querySelector('.label-main').innerHTML = this.label;
     } else if (labelType === attributes.LABEL_PROGRESS) {
