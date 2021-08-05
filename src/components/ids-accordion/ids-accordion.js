@@ -9,10 +9,15 @@ import {
 import styles from './ids-accordion.scss';
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
-import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
+import {
+  IdsAttributeProviderMixin,
+  IdsColorVariantMixin,
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../../mixins';
 
 /**
- * IDS Accordion  Component
+ * IDS Accordion Component
  * @type {IdsAccordion}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
@@ -21,13 +26,18 @@ import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
  */
 @customElement('ids-accordion')
 @scss(styles)
-class IdsAccordion extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsAccordion extends mix(IdsElement).with(
+    IdsAttributeProviderMixin,
+    IdsColorVariantMixin,
+    IdsEventsMixin,
+    IdsThemeMixin
+  ) {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback?.();
   }
 
   /**
@@ -35,8 +45,24 @@ class IdsAccordion extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.MODE, attributes.VERSION];
+    return [
+      ...super.attributes,
+      attributes.MODE,
+      attributes.VERSION
+    ];
   }
+
+  /**
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  availableColorVariants = ['app-menu'];
+
+  /**
+   * @returns {Array} List of attributes provided to child components
+   */
+  providedAttributes = {
+    [attributes.COLOR_VARIANT]: [IdsAccordionHeader, IdsAccordionPanel],
+  };
 
   /**
    * Inner template contents

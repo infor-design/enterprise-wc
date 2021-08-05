@@ -1,36 +1,141 @@
 @import '../../core/ids-base';
 
-.ids-accordion-header {
-  @include antialiased();
-  @include border-1();
-  @include border-solid();
-  @include border-slate-20();
-  @include px-16();
-  @include py-12();
+// ================================================
+// Styles specific to the in-page Accordion
 
-  align-items: center;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  border-top-color: transparent;
-  cursor: pointer;
-  display: grid;
-  grid-auto-flow: column;
+@mixin accordion-header-standard-colors() {
+  // Light Mode Styles
+  &[mode='light'] {
+    @include border-slate-20();
 
-  &:focus {
-    @include shadow();
-    @include outline-none();
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
 
-    border: 1px solid var(--ids-color-palette-azure-70);
+    &:focus {
+      @include shadow();
+
+      border: 1px solid var(--ids-color-palette-azure-70);
+    }
+  }
+
+  // Dark Mode Styles
+  &[mode='dark'] {
+    @include text-white();
+
+    border-bottom-color: var(--ids-color-palette-slate-70);
+
+    ids-icon {
+      @include text-slate-10();
+    }
+
+    &:focus {
+      border-bottom-color: var(--ids-color-palette-azure-70);
+    }
+  }
+
+  // Contrast Mode Styles
+  &[mode='contrast'] {
+    @include text-black();
+
+    border-bottom-color: var(--ids-color-palette-slate-30);
+
+    ids-icon {
+      @include text-slate-100();
+    }
+
+    &:focus {
+      border-bottom-color: var(--ids-color-palette-azure-80);
+    }
+  }
+
+  // Classic Light Mode Styles
+  &[version='classic'][mode='light'] {
+    @include text-graphite-100();
+
+    border-bottom-color: var(--ids-color-palette-graphite-20);
+
+    ids-icon {
+      @include text-graphite-100();
+    }
+
+    &:focus {
+      border-bottom-color: var(--ids-color-palette-azure-70);
+    }
+  }
+
+  // Classic Dark Mode Styles
+  &[version='classic'][mode='dark'] {
+    @include text-white();
+
+    border-bottom-color: var(--ids-color-palette-classic-slate-100);
+
+    ids-icon {
+      @include text-slate-10();
+    }
+
+    &:focus {
+      border-bottom-color: var(--ids-color-palette-azure-70);
+    }
+  }
+
+  // Classic Contrast Mode Styles
+  &[version='classic'][mode='contrast'] {
+    @include text-black();
+
+    border-bottom-color: var(--ids-color-palette-classic-slate-40);
+
+    ids-icon {
+      @include text-slate-100();
+    }
+
+    &:focus {
+      border-bottom-color: var(--ids-color-palette-azure-80);
+    }
+  }
+}
+
+// ================================================
+// Styles specific to the App Menu Accordions
+
+@mixin acccordion-header-app-menu-colors() {
+  @include mx-8();
+  @include rounded-md();
+
+  // Light Mode Styles
+  &[mode='light'] {
+    // Contrasts background of "bg-slate-100()" from the Drawer
+    @include bg-slate-100();
+    @include border-slate-100();
+    @include text-slate-20();
+
+    &:hover {
+      @include bg-slate-90();
+      @include border-slate-90();
+    }
+
+    &:focus {
+      @include text-white();
+      @include border-azure-70();
+    }
+
+    &[disabled] {
+      @include bg-slate-100();
+      @include border-slate-100();
+      @include text-slate-40();
+    }
   }
 }
 
 :host {
+  /*
   &:focus {
     @include shadow();
     @include outline-none();
 
     border: 1px solid var(--ids-color-palette-azure-70);
   }
+  */
 
   ids-icon {
     transition: transform $transition-length $transition-ease;
@@ -44,73 +149,27 @@
   }
 }
 
-// Handle Themes
-.ids-accordion-header[mode='dark'] {
-  @include text-white();
+.ids-accordion-header {
+  @include antialiased();
+  @include border-1();
+  @include border-solid();
+  @include px-16();
+  @include py-12();
 
-  border-bottom-color: var(--ids-color-palette-slate-70);
-
-  ids-icon {
-    @include text-slate-10();
-  }
-
-  &:focus {
-    border-bottom-color: var(--ids-color-palette-azure-70);
-  }
-}
-
-.ids-accordion-header[mode='contrast'] {
-  @include text-black();
-
-  border-bottom-color: var(--ids-color-palette-slate-30);
-
-  ids-icon {
-    @include text-slate-100();
-  }
+  align-items: center;
+  cursor: pointer;
+  display: grid;
+  grid-auto-flow: column;
 
   &:focus {
-    border-bottom-color: var(--ids-color-palette-azure-80);
-  }
-}
-
-.ids-accordion-header[version='classic'][mode='light'] {
-  @include text-graphite-100();
-
-  border-bottom-color: var(--ids-color-palette-graphite-20);
-
-  ids-icon {
-    @include text-graphite-100();
+    @include outline-none();
   }
 
-  &:focus {
-    border-bottom-color: var(--ids-color-palette-azure-70);
-  }
-}
-
-.ids-accordion-header[version='classic'][mode='dark'] {
-  @include text-white();
-
-  border-bottom-color: var(--ids-color-palette-classic-slate-100);
-
-  ids-icon {
-    @include text-slate-10();
+  &:not(.color-variant-app-menu) {
+    @include accordion-header-standard-colors();
   }
 
-  &:focus {
-    border-bottom-color: var(--ids-color-palette-azure-70);
-  }
-}
-
-.ids-accordion-header[version='classic'][mode='contrast'] {
-  @include text-black();
-
-  border-bottom-color: var(--ids-color-palette-classic-slate-40);
-
-  ids-icon {
-    @include text-slate-100();
-  }
-
-  &:focus {
-    border-bottom-color: var(--ids-color-palette-azure-80);
+  &.color-variant-app-menu {
+    @include acccordion-header-app-menu-colors();
   }
 }

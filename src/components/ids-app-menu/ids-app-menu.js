@@ -29,6 +29,11 @@ class IdsAppMenu extends IdsDrawer {
     super.connectedCallback?.();
     this.edge = 'start';
     this.type = 'app-menu';
+    this.#refreshAccordions();
+  }
+
+  static get attributes() {
+    return [...super.attributes];
   }
 
   // Slots:
@@ -62,8 +67,11 @@ class IdsAppMenu extends IdsDrawer {
     </div>`;
   }
 
-  static get attributes() {
-    return [...super.attributes];
+  #refreshAccordions() {
+    const accordions = [...this.querySelectorAll('ids-accordion')];
+    accordions.forEach((acc) => {
+      acc.colorVariant = 'app-menu';
+    });
   }
 }
 

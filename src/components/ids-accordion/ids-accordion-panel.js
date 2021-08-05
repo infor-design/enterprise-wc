@@ -6,7 +6,13 @@ import {
   attributes
 } from '../../core';
 
-import { IdsEventsMixin, IdsKeyboardMixin } from '../../mixins';
+import {
+  IdsColorVariantMixin,
+  IdsEventsMixin,
+  IdsKeyboardMixin,
+  IdsThemeMixin,
+} from '../../mixins';
+
 import styles from './ids-accordion-panel.scss';
 
 /**
@@ -18,13 +24,21 @@ import styles from './ids-accordion-panel.scss';
  */
 @customElement('ids-accordion-panel')
 @scss(styles)
-class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+class IdsAccordionPanel extends mix(IdsElement).with(
+    IdsColorVariantMixin,
+    IdsEventsMixin,
+    IdsKeyboardMixin,
+    IdsThemeMixin,
+  ) {
   constructor() {
     super();
     this.state = {};
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
+
+    /** @type {HTMLElement | null } */
     this.expander = this.shadowRoot?.querySelector('.ids-accordion-panel-expander');
     this.header = this.querySelector('[slot="header"]');
     this.pane = this.shadowRoot?.querySelector('.ids-accordion-pane');
@@ -32,6 +46,11 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
     this.#attachEventHandlers();
     this.#switchState();
   }
+
+  /**
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  availableColorVariants = ['app-menu'];
 
   /**
    * Create a unique title for each accordion pane
@@ -66,7 +85,12 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.EXPANDED];
+    return [
+      ...super.attributes,
+      attributes.EXPANDED,
+      attributes.MODE,
+      attributes.VERSION
+    ];
   }
 
   /**
@@ -97,6 +121,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
       }
 
       this.pane.style.height = `${this.pane.scrollHeight}px`;
+      this.container.classList.remove('expanded');
       requestAnimationFrame(() => {
         /* istanbul ignore next */
         if (!this.pane) {
@@ -116,6 +141,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
     if (!this.pane) {
       return;
     }
+    this.container.classList.add('expanded');
     this.pane.style.height = `${this.pane.scrollHeight}px`;
   }
 

@@ -287,7 +287,7 @@ class IdsDrawer extends mix(IdsElement).with(IdsEventsMixin, IdsPopupOpenEventsM
    */
   /* istanbul ignore next */
   onOutsideClick(e) {
-    if (this.isEqualNode(e.target)) {
+    if (this.isEqualNode(e.target) || this.contains(e.target)) {
       return;
     }
     this.hide();

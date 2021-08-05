@@ -1,5 +1,28 @@
 @import '../../core/ids-base';
 
+@mixin accordion-panel-app-menu-colors() {
+  @include mb-8();
+
+  transition:
+    background-color $transition-length $transition-ease,
+    height $transition-length $transition-ease,
+    padding $transition-length $transition-ease;
+
+  // Light Mode Styles
+  &[mode='light'] {
+    &.expanded {
+      @include py-8();
+      @include bg-black();
+    }
+  }
+}
+
+.ids-accordion-panel {
+  &.color-variant-app-menu {
+    @include accordion-panel-app-menu-colors();
+  }
+}
+
 .ids-accordion-pane {
   @include box-border();
 

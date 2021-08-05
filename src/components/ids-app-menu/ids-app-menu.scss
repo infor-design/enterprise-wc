@@ -27,8 +27,5 @@
   // Specific Infor Logo sizing (@TODO: maybe make this its own component)
   ids-icon[icon='logo'] {
     @include p-8();
-
-    height: 34px;
-    width: 34px;
   }
 }
