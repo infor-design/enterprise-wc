@@ -42,14 +42,6 @@ describe('IdsProgressChart Component', () => {
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
-  it('checks for an icon', () => {
-    chart.color = 'error';
-    chart.insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="group" size="small"></ids-icon>`);
-    chart.container.querySelector('slot').insertAdjacentHTML('beforeend', `<ids-icon slot="icon" icon="alert" size="small" id="test-icon">hello</ids-icon>`);
-    expect(chart.container.querySelector('slot > ids-icon').getAttribute('slot')).toBe('icon');
-    expect(chart.container.querySelector('slot > ids-icon').getAttribute('size')).toBe('small');
-  });
-
   it('sets color correctly', () => {
     // empty input sets color to default (#25af65)
     chart.color = '';
@@ -74,8 +66,12 @@ describe('IdsProgressChart Component', () => {
     expect(chart.color).toBe('amethyst-50');
   });
 
-  it('adds icon', () => {
+  it('adds icon and label', () => {
     chart.color = 'error';
+    chart.progressLabel = '2%';
+    chart.totalLabel = '100%';
+    expect(chart.container.querySelector('.label-progress').innerHTML).toBe('2%');
+    expect(chart.container.querySelector('.label-total').innerHTML).toBe('100%');
     chart.container.querySelector('slot').insertAdjacentHTML('beforeend', `<ids-icon slot="icon" size="small" icon="alert"></ids-icon>`);
     expect(chart.container.querySelector('ids-icon').getAttribute('slot')).toBe('icon');
   });

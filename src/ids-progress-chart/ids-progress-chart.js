@@ -104,10 +104,10 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
 
         // only color the icons and progress labels if it's error, caution, or warning
         if (includesAlert) {
-          const completedLabel = this.container.querySelector('.label-progress');
+          const progressLabel = this.container.querySelector('.label-progress');
 
-          if (completedLabel) {
-            completedLabel.style.color = prop;
+          if (progressLabel) {
+            progressLabel.style.color = prop;
           }
 
           const slot = this.container.querySelector('slot');
