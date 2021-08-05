@@ -53,7 +53,11 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.TABBABLE, attributes.APPEARANCE, attributes.DISABLE_EVENTS];
+    return [
+      attributes.APPEARANCE,
+      attributes.DISABLE_EVENTS,
+      attributes.TABBABLE
+    ];
   }
 
   /**
@@ -63,7 +67,12 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   template() {
     return `
       <div class="ids-trigger-field" part="field">
-        <slot></slot>
+        <slot name="ids-trigger-field-label"></slot>
+        <div class="ids-trigger-field-content">
+          <slot name="ids-trigger-field-btn-start"></slot>
+          <slot name="ids-trigger-field-input"></slot>
+          <slot name="ids-trigger-field-btn-end"></slot>
+        </div>
       </div>
     `;
   }

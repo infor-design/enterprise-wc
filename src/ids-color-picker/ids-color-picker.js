@@ -110,6 +110,7 @@ class IdsColorPicker extends mix(IdsElement).with(
     const labelHtml = this.labelHidden ? '<span></span>' : (
       `<label
         ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
+        slot="ids-trigger-field-label"
         part="label"
         for="${this.id}-input"
       >
@@ -120,31 +121,31 @@ class IdsColorPicker extends mix(IdsElement).with(
     /* istanbul ignore next */
     const template = `
       <div class="ids-color-picker">
-        <ids-trigger-field tabbable="false">
+        <ids-trigger-field tabbable="false" ${disabledAttribHtml}>
           ${labelHtml}
-          <div class="color-picker-content" ${disabledAttribHtml}>
-            <label class="color-preview">
-              <ids-input tabindex="-1" class="color-input" type="color" ${buttonDisabledAttribHtml}></ids-input>
-              <ids-text audible="true">Pick Custom Color</ids-text>
-            </label>
-            <ids-input
-              value="${this.value.toLowerCase()}"
-              size="sm"
-              dirty-tracker="true"
-              class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}"
-              label="${this.label}"
-              label-hidden="true"
-              ${disabledAttribHtml}
-            ></ids-input>
-            <ids-trigger-button
-              class="color-picker-trigger-btn"
-              id="${id}-button" title="${id}"
-              ${buttonDisabledAttribHtml}
-            >
-              <ids-text audible="true">color picker trigger</ids-text>
-              <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
-            </ids-trigger-button>
-          </div>
+          <label slot="ids-trigger-field-btn-start" class="color-preview">
+            <ids-input tabindex="-1" class="color-input" type="color" ${buttonDisabledAttribHtml}></ids-input>
+            <ids-text audible="true">Pick Custom Color</ids-text>
+          </label>
+          <ids-input
+            slot="ids-trigger-field-input"
+            value="${this.value.toLowerCase()}"
+            size="sm"
+            dirty-tracker="true"
+            class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}"
+            label="${this.label}"
+            label-hidden="true"
+            ${disabledAttribHtml}
+          ></ids-input>
+          <ids-trigger-button
+            slot="ids-trigger-field-btn-end"
+            class="color-picker-trigger-btn"
+            id="${id}-button" title="${id}"
+            ${buttonDisabledAttribHtml}
+          >
+            <ids-text audible="true">color picker trigger</ids-text>
+            <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
+          </ids-trigger-button>
         </ids-trigger-field>
         <ids-popup type="menu">
           <slot slot="content" class="color-popup"></slot>

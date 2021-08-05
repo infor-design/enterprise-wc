@@ -20,8 +20,10 @@ $input-size-default: map-get($input-sizes, 'md');
 }
 
 .ids-trigger-field {
-  align-items: center;
-  display: flex;
+  @include flex();
+
+  align-items: flex-start;
+  flex-direction: column;
 
   &.compact,
   &.field-height-xs {
@@ -35,9 +37,12 @@ $input-size-default: map-get($input-sizes, 'md');
   }
 }
 
+:host(ids-trigger-field[disabled]) {
+  pointer-events: none;
+}
+
 ::slotted(ids-trigger-button) {
   @include relative();
-  @include mt-4();
 
   flex: 0;
   z-index: 2;
@@ -52,3 +57,35 @@ $input-size-default: map-get($input-sizes, 'md');
 }
 
 @include input-sizes();
+
+.ids-trigger-field-content {
+  @include flex();
+  @include antialiased();
+  @include bg-white();
+  @include box-border();
+  @include border-1();
+  @include border-slate-40();
+  @include border-solid();
+  @include font-sans();
+  @include rounded-default();
+  @include text-16();
+  @include text-black();
+
+  align-items: center;
+  -webkit-appearance: none;
+  border-collapse: separate;
+  border-radius: 2px;
+  padding-inline-end: calc(var(--ids-number-spacing-base) / 2);
+
+  &:hover {
+    @include border-slate-90();
+  }
+}
+
+.ids-trigger-field:focus-within .ids-trigger-field-content {
+  @include border-azure-60();
+  @include shadow();
+
+  outline: none;
+  outline-color: transparent;
+}

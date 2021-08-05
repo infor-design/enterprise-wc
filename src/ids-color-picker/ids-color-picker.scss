@@ -7,34 +7,6 @@
   display: block;
 }
 
-.color-picker-content {
-  @include flex();
-  @include antialiased();
-  @include bg-white();
-  @include box-border();
-  @include border-1();
-  @include border-slate-40();
-  @include border-solid();
-  @include font-sans();
-  @include rounded-default();
-  @include text-16();
-  @include text-black();
-
-  align-items: center;
-  -webkit-appearance: none;
-  border-collapse: separate;
-  border-radius: 2px;
-  padding-inline-end: calc(var(--ids-number-spacing-base) / 2);
-
-  &:hover {
-    @include border-slate-90();
-  }
-}
-
-:host(ids-color-picker[disabled]) {
-  pointer-events: none;
-}
-
 ids-input::part(container) {
   margin-bottom: 0;
 }
@@ -44,25 +16,10 @@ ids-input::part(input) {
   margin-bottom: 0;
 }
 
-ids-trigger-field::part(field) {
-  @include flex();
-
-  flex-direction: column;
-  align-items: flex-start;
-}
-
 .color-picker-trigger-btn::part(button) {
   position: relative;
   margin-left: 0;
   z-index: 2;
-}
-
-.ids-color-picker:focus-within .color-picker-content {
-  @include border-azure-60();
-  @include shadow();
-
-  outline: none;
-  outline-color: transparent;
 }
 
 .ids-color-picker:focus-within ids-input::part(input) {
