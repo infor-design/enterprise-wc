@@ -18,8 +18,9 @@ import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-popup/ids-popup';
 import styles from './ids-color-picker.scss';
+import { stringToBool } from '../ids-base/ids-string-utils';
 
-const { stringToBool, buildClassAttrib } = stringUtils;
+const { buildClassAttrib } = stringUtils;
 
 /**
  * IDS ColorPicker
@@ -76,7 +77,7 @@ class IdsColorPicker extends mix(IdsElement).with(
     const labelEl = this.container.querySelector('label');
     this.onEvent('click.label', labelEl, () => {
       /* istanbul ignore else */
-      if (!this.isDisabled) {
+      if (!stringToBool(this.disabled)) {
         this.colorPickerInput.input.focus();
       }
     });
@@ -103,7 +104,7 @@ class IdsColorPicker extends mix(IdsElement).with(
 
     const buttonDisabledAttribHtml = (
       this.hasAttribute(attributes.DISABLED) || this.hasAttribute(attributes.READONLY)
-    ) ? ' disabled' : '';
+    ) ? /* istanbul ignore next */' disabled' : '';
 
     /* istanbul ignore next */
     const labelHtml = this.labelHidden ? '<span></span>' : (
@@ -123,7 +124,7 @@ class IdsColorPicker extends mix(IdsElement).with(
           ${labelHtml}
           <div class="color-picker-content" ${disabledAttribHtml}>
             <label class="color-preview">
-              <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
+              <ids-input tabindex="-1" class="color-input" type="color" ${buttonDisabledAttribHtml}></ids-input>
               <ids-text audible="true">Pick Custom Color</ids-text>
             </label>
             <ids-input
@@ -184,11 +185,13 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} d string value from the disabled attribute
    */
   set disabled(d) {
-    this.setAttribute('disabled', d.toString());
+    if (d) {
+      this.setAttribute('disabled', d.toString());
+    }
   }
 
   get disabled() {
-    return this.getAttribute('disabled') || 'false';
+    return this.getAttribute('disabled');
   }
 
   /**
@@ -228,7 +231,7 @@ class IdsColorPicker extends mix(IdsElement).with(
     });
 
     /* istanbul ignore next */
-    if (this.disabled === 'false') {
+    if (!this.disabled) {
       this.onEvent('click', this.container, (event) => {
         const target = event.target;
         const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));

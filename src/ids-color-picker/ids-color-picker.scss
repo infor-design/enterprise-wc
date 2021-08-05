@@ -31,7 +31,7 @@
   }
 }
 
-:host(ids-color-picker[disabled='true']) {
+:host(ids-color-picker[disabled]) {
   pointer-events: none;
 }
 
