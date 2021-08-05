@@ -72,7 +72,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
   }
 
   get providedAttributes() {
-    const getDraggableAxis = this.#getDraggableAxis();
+    const getDraggableAxis = () => this.#getDraggableAxis();
     return {
       [attributes.AXIS]: [{
         component: IdsDraggable,
@@ -90,7 +90,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
   template() {
     return (
       `<div class="ids-splitter">
-        <ids-draggable />
+        <slot></slot>
       </div>`
     );
   }
@@ -193,13 +193,14 @@ export default class IdsSplitter extends mix(IdsElement).with(
 
       const draggable = new IdsDraggable();
       draggable.axis = this.#getDraggableAxis();
+      draggable.innerHTML = '&lt;draggable-here&gt;';
       lPaneEntry.after = draggable;
 
       if (rPaneEntry) {
         rPaneEntry.before = draggable;
       }
 
-      this.insertAdjacentElement('afterend', draggable);
+      lPane.insertAdjacentElement('afterend', draggable);
     }
   }
 
