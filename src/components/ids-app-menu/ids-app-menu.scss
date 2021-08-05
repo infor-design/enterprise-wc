@@ -1,0 +1,34 @@
+@import '../ids-drawer/ids-drawer';
+
+.ids-app-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ids-app-menu-branding,
+.ids-app-menu-footer,
+.ids-app-menu-header,
+.ids-app-menu-search,
+.ids-app-menu-user {
+  flex-grow: 0;
+}
+
+.ids-app-menu-content {
+  flex-grow: 1;
+}
+
+// Add some padding and sizing on Avatar Icons
+::slotted(ids-icon[slot='avatar']) {
+  @include p-8();
+}
+
+.ids-app-menu-branding {
+  // Specific Infor Logo sizing (@TODO: maybe make this its own component)
+  ids-icon[icon='logo'] {
+    @include p-8();
+
+    height: 34px;
+    width: 34px;
+  }
+}

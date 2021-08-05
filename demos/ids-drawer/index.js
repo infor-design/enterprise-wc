@@ -10,13 +10,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   appMenuDrawer.target = appMenuTriggerBtn;
   appMenuTriggerBtn.addEventListener('click', () => {
-    // appMenuDrawer.visible = true;
     appMenuTriggerBtn.disabled = true;
   });
 
   actionSheetDrawer.target = actionSheetTriggerBtn;
   actionSheetTriggerBtn.addEventListener('click', () => {
-    // actionSheetDrawer.visible = true;
     actionSheetTriggerBtn.disabled = true;
   });
 
