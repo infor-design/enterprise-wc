@@ -49,6 +49,7 @@ module.exports = {
         test: /\.js(\?.*)?$/i
       }),
     ],
+    runtimeChunk: 'single'
   },
   output: {
     library: '[name]-lib.js',
@@ -178,6 +179,11 @@ module.exports = {
           // Compiles Sass to CSS
           'sass-loader',
         ]
+      },
+      {
+        test: /\.js$/,
+        enforce: 'pre',
+        use: ['source-map-loader'],
       },
     ]
   },
