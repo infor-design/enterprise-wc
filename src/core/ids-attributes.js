@@ -137,6 +137,7 @@ export const attributes = {
   LAST: 'last',
   LINK: 'link',
   LINK_TEXT: 'link-text',
+  PANE_ID: 'pane-id',
   PROGRESS: 'progress',
   PROGRESS_COLOR: 'progress-color',
   READONLY: 'readonly',
