@@ -125,7 +125,6 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
 
   #updateSize() {
     if (this.hasAttribute(attributes.SIZE)) {
-      // TODO: measure pxSize
       this.#size = getSize(this.size);
     }
   }

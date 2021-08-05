@@ -18,6 +18,17 @@ import IdsSplitterPane from './ids-splitter-pane';
 import IdsDraggable from '../ids-draggable';
 import styles from './ids-splitter.scss';
 
+// TODO
+
+// (1) detect the size of the overall splitter using
+// MutationObserver + method
+
+// (2) add MutationObserver for children that refreshes the
+// IdsSplitterPanes being tracked if it detects
+// untracked panes suddenly pop in or are removed
+
+// (3) figure out left/top, add styles and inner content on draggable
+
 /**
  * IDS Splitter Component
  * @type {IdsSplitter}
@@ -40,6 +51,15 @@ export default class IdsSplitter extends mix(IdsElement).with(
   }
 
   /**
+   * maps panes to associated draggables
+   * that are before/after the panes on
+   * both sides
+   *
+   * @type {Map<IdsSplitterPane, { before: IdsDraggable, after: IdsDraggable }>}
+   */
+  #paneDraggableMap = new Map();
+
+  /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
    */
@@ -52,11 +72,12 @@ export default class IdsSplitter extends mix(IdsElement).with(
   }
 
   get providedAttributes() {
+    const getDraggableAxis = this.#getDraggableAxis();
     return {
       [attributes.AXIS]: [{
         component: IdsDraggable,
         targetAttribute: attributes.AXIS,
-        valueXformer: (axis) => (((axis === 'x') || (axis === 'y')) ? axis : 'x')
+        valueXformer: getDraggableAxis
       }]
     };
   }
@@ -68,23 +89,15 @@ export default class IdsSplitter extends mix(IdsElement).with(
    */
   template() {
     return (
-      `<div class="ids-splitter"><ids-draggable /></div>`
+      `<div class="ids-splitter">
+        <ids-draggable />
+      </div>`
     );
   }
 
   connectedCallback() {
-    const containerIndexes = [];
-    const draggableIndexes = [];
-
-    [...this.children].forEach((elem, i) => {
-      if (elem instanceof IdsDraggable) {
-        draggableIndexes.push(i);
-      } else {
-        containerIndexes.push(i);
-      }
-    });
-
     super.connectedCallback?.();
+    this.#refreshPaneMappings();
   }
 
   disconnectedCallback() {
@@ -132,10 +145,70 @@ export default class IdsSplitter extends mix(IdsElement).with(
   }
 
   /**
-   * links draggables to a set of associated elements which it controls.
-   * Example: []
-   *
-   * @type {Map<IdsDraggable, Set<HTMLElement>>}
+   * tracks references for quick determination
+   * of which pane is already in the splitter
+   * when mutating the DOM
    */
-  #draggableContainerMap = new Map();
+  #paneSet = new Set();
+
+  /**
+   * set of draggables being used
+   */
+  #draggableSet = new Set();
+
+  #refreshPaneMappings() {
+    // TODO: before clearing pane draggables, re-grab references
+    // to the panes/draggable based on their orders and pane-ids
+
+    this.#paneSet.clear();
+    this.#paneDraggableMap.clear();
+
+    for (const el of this.children) {
+      if (el instanceof IdsSplitterPane) {
+        this.#paneDraggableMap.set(el, { left: undefined, right: undefined });
+
+        // assign a pane-id for referencing when
+        // possibly dispatching drag events
+
+        if (!el.hasAttribute(attributes.PANE_ID)) {
+          el.setAttribute(attributes.PANE_ID, ++this.#paneIdCount);
+        }
+
+        // add this pane to be tracked
+        if (!this.#paneSet.has(el)) {
+          this.#paneSet.add(el);
+        }
+      }
+    }
+
+    // populate draggables
+
+    const paneMappings = [...this.#paneDraggableMap.keys()];
+
+    for (let i = 0; i < paneMappings.length / 2; i += 2) {
+      const lPane = paneMappings[i];
+      const rPane = ((i + 2) > paneMappings.length) ? paneMappings[i + 1] : undefined;
+      const lPaneEntry = this.#paneDraggableMap.get(lPane);
+      const rPaneEntry = this.#paneDraggableMap.get(rPane);
+
+      const draggable = new IdsDraggable();
+      draggable.axis = this.#getDraggableAxis();
+      lPaneEntry.after = draggable;
+
+      if (rPaneEntry) {
+        rPaneEntry.before = draggable;
+      }
+
+      this.insertAdjacentElement('afterend', draggable);
+    }
+  }
+
+  /**
+   * track pane-ids instantiated by this splitter
+   */
+  #paneIdCount = 0;
+
+  #getDraggableAxis(axis) {
+    return (((axis === 'x') || (axis === 'y')) ? axis : 'x');
+  }
 }
