@@ -63,7 +63,20 @@ class IdsAccordion extends mix(IdsElement).with(
    * @returns {Array} List of attributes provided to child components
    */
   providedAttributes = {
-    [attributes.COLOR_VARIANT]: [IdsAccordionHeader, IdsAccordionPanel],
+    // @TODO work out how `valueXformer` gets its context, and
+    // if the component receiving the transformation can be checked
+    // (need to see if we can figure out whether or not accordion panes are nested)
+    [attributes.COLOR_VARIANT]: [{
+      component: IdsAccordionHeader,
+      valueXformer: () => (
+        this.parentNode.parentNode.tagName === 'IDS-ACCORDION-PANEL' ? 'sub-app-menu' : 'app-menu'
+      )
+    }, {
+      component: IdsAccordionPanel,
+      valueXformer: () => (
+        this.parentNode.tagName === 'IDS-ACCORDION-PANEL' ? 'sub-app-menu' : 'app-menu'
+      )
+    }]
   };
 
   /**

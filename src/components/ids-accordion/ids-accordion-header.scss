@@ -96,7 +96,7 @@
 }
 
 // ================================================
-// Styles specific to the App Menu Accordions
+// Styles specific to the Top-level App Menu Accordions
 
 @mixin acccordion-header-app-menu-colors() {
   @include mx-8();
@@ -108,6 +108,11 @@
     @include bg-slate-100();
     @include border-slate-100();
     @include text-slate-20();
+
+    &.expanded {
+      background-color: transparent;
+      border-color: transparent;
+    }
 
     &:hover {
       @include bg-slate-90();
@@ -125,6 +130,13 @@
       @include text-slate-40();
     }
   }
+}
+
+// ================================================
+// Styles specific to the Sub-level App Menu Accordions
+
+@mixin accordion-header-sub-level-colors() {
+  @include m-0();
 }
 
 :host {
@@ -165,11 +177,19 @@
     @include outline-none();
   }
 
-  &:not(.color-variant-app-menu) {
+  // In-page Accordions
+  &:not(.color-variant-app-menu),
+  &:not(.color-variant-sub-app-menu) {
     @include accordion-header-standard-colors();
   }
 
+  // Top Level App Menu Accordions
   &.color-variant-app-menu {
     @include acccordion-header-app-menu-colors();
+  }
+
+  // Sub-level App Menu Accordions
+  &.color-variant-sub-app-menu {
+    @include accordion-header-sub-level-colors();
   }
 }

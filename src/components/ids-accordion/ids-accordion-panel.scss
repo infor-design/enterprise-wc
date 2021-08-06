@@ -1,5 +1,7 @@
 @import '../../core/ids-base';
 
+// ============================================
+// Top-level App Menu Accordion Panel Styles
 @mixin accordion-panel-app-menu-colors() {
   @include mb-8();
 
@@ -17,9 +19,19 @@
   }
 }
 
+// ============================================
+// Sub-level App Menu Accordion Panel Styles
+@mixin accordion-panel-sub-menu-colors() {
+  @include m-0();
+}
+
 .ids-accordion-panel {
   &.color-variant-app-menu {
     @include accordion-panel-app-menu-colors();
+  }
+
+  &.color-variant-sub-app-menu {
+    @include accordion-panel-sub-menu-colors();
   }
 }
 

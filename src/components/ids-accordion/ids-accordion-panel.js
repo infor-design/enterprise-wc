@@ -7,12 +7,14 @@ import {
 } from '../../core';
 
 import {
+  IdsAttributeProviderMixin,
   IdsColorVariantMixin,
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
 } from '../../mixins';
 
+import IdsAccordionHeader from './ids-accordion-header';
 import styles from './ids-accordion-panel.scss';
 
 /**
@@ -27,6 +29,7 @@ import styles from './ids-accordion-panel.scss';
 @customElement('ids-accordion-panel')
 @scss(styles)
 class IdsAccordionPanel extends mix(IdsElement).with(
+    IdsAttributeProviderMixin,
     IdsColorVariantMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
@@ -52,7 +55,14 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  availableColorVariants = ['app-menu'];
+  availableColorVariants = ['app-menu', 'sub-app-menu'];
+
+  /**
+   * @returns {Array} List of attributes provided to child components
+   */
+  providedAttributes = {
+    // [attributes.EXPANDED]: [IdsAccordionHeader],
+  };
 
   /**
    * Create a unique title for each accordion pane
@@ -130,6 +140,8 @@ class IdsAccordionPanel extends mix(IdsElement).with(
 
       this.pane.style.height = `${this.pane.scrollHeight}px`;
       this.container.classList.remove('expanded');
+      this.header.expanded = false;
+
       requestAnimationFrame(() => {
         /* istanbul ignore next */
         if (!this.pane) {
@@ -166,6 +178,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
 
     requestAnimationFrame(() => {
       this.container.classList.add('expanded');
+      this.header.expanded = true;
 
       // Setting height kicks off animation
       this.pane.style.height = `${this.pane.scrollHeight}px`;
