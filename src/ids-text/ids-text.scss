@@ -3,13 +3,16 @@
 
 .ids-text {
   @include antialiased();
-  @include text-slate-100();
   @include font-sans();
   @include font-normal();
   @include block();
   @include m-0();
 
-  // Default
+  // Default color is inherited from IdsContainer,
+  // or from a wrapper element style
+  color: currentColor;
+
+  // Other defaults
   font-size: 16px;
   text-decoration: unset;
 
@@ -23,6 +26,10 @@
 
   &.label {
     @include text-slate-60();
+
+    &.color-variant-alternate {
+      @include text-white();
+    }
   }
 
   &.ellipsis {
@@ -131,28 +138,41 @@
   &.label {
     @include text-slate-30();
   }
+
+  &.color-variant-alternate.label {
+    @include text-slate-80();
+  }
 }
 
-// Handle Themes
-.ids-text[mode='dark'] {
-  @include text-slate-10();
+// ========================================================
+// Theme Styles
 
+// Dark (New)
+.ids-text[mode='dark'] {
   &.label {
     @include text-slate-30();
+  }
+
+  &.legend {
+    @include text-slate-20();
   }
 }
 
 :host([disabled][mode='dark']) .ids-text {
-  @include text-slate-60();
+  @include text-slate-50();
 
   &.label {
-    @include text-slate-60();
+    @include text-slate-50();
+  }
+
+  &.legend {
+    @include text-slate-40();
   }
 }
 
-.ids-text[mode='contrast'] {
-  @include text-slate-100();
+// Contrast (New)
 
+.ids-text[mode='contrast'] {
   &.label {
     @include text-slate-90();
   }
@@ -166,26 +186,32 @@
   }
 }
 
-.ids-text[mode='light'][version='classic'] {
-  @include text-graphite-60();
-}
+// Light (Classic)
 
 :host([disabled][mode='light'][version='classic']) .ids-text {
   @include text-graphite-40();
+
+  &.label {
+    @include text-graphite-40();
+  }
 }
 
-.ids-text[mode='dark'][version='classic'] {
-  @include text-classic-slate-10();
-}
+// Dark (Classic)
 
 :host([disabled][mode='dark'][version='classic']) .ids-text {
   @include text-classic-slate-50();
+
+  &.label {
+    @include text-classic-slate-50();
+  }
 }
 
-.ids-text[mode='contrast'][version='classic'] {
-  @include text-graphite-80();
-}
+// Contrast (Classic)
 
 :host([disabled][mode='contrast'][version='classic']) .ids-text {
   @include text-graphite-40();
+
+  &.label {
+    @include text-graphite-40();
+  }
 }

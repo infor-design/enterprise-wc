@@ -58,15 +58,28 @@ export default class IdsPager extends mix(IdsElement).with(
     );
   }
 
+  /**
+   * @returns {object.<string, string>} the attributes and how they will
+   * be passed down
+   */
   get providedAttributes() {
     return {
       [attributes.PAGE_NUMBER]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
       [attributes.TOTAL]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
       [attributes.PAGE_SIZE]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
       [attributes.DISABLED]: [
-        [IdsPagerInput, attributes.PARENT_DISABLED],
-        [IdsPagerButton, attributes.PARENT_DISABLED],
-        [IdsPagerNumberList, attributes.PARENT_DISABLED]
+        {
+          component: IdsPagerInput,
+          targetAttribute: attributes.PARENT_DISABLED
+        },
+        {
+          component: IdsPagerButton,
+          targetAttribute: attributes.PARENT_DISABLED
+        },
+        {
+          component: IdsPagerNumberList,
+          targetAttribute: attributes.PARENT_DISABLED
+        }
       ]
     };
   }

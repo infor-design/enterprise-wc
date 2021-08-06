@@ -249,6 +249,11 @@ describe('IdsLocale API', () => {
       expect(locale.calendar().dateFormat.timestamp).toEqual('HH.mm.ss');
       expect(locale.calendar().dateFormat.datetime).toEqual('dd-MM-yyyy HH.mm');
 
+      await locale.setLocale('fi-FI');
+      expect(locale.calendar().timeFormat).toEqual('H.mm');
+      expect(locale.calendar().dateFormat.timestamp).toEqual('H.mm.ss');
+      expect(locale.calendar().dateFormat.datetime).toEqual('d.M.yyyy H.mm');
+
       await locale.setLocale('de-DE');
       expect(locale.calendar().timeFormat).toEqual('HH:mm');
       expect(locale.calendar().dateFormat.timestamp).toEqual('HH:mm:ss');
@@ -1302,15 +1307,26 @@ describe('IdsLocale API', () => {
         year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric'
       })).toEqual('29/3/2018 14:15');
 
-      expect(['10/11/2018 14:15 GMT-4', '10/11/2018 14:15 GMT-5']).toContain(locale.formatDate(new Date(2018, 10, 10, 14, 15, 12), {
+      let opts = {
         year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'short'
-      }));
-      expect(['2014-12-31', '10/11/2018 14:15 hora estándar oriental', '10/11/2018 14:15 hora de verano oriental']).toContain(locale.formatDate(new Date(2018, 10, 10, 14, 15, 12), {
+      };
+      let date = new Date(2018, 10, 10, 14, 15, 12);
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('es-419', opts).format(date).replace(',', ''));
+
+      opts = {
         year: 'numeric', day: 'numeric', month: 'numeric', hour: 'numeric', minute: 'numeric', timeZoneName: 'long'
-      }));
-      expect(locale.formatDate(new Date(2018, 10, 10), {
+      };
+      date = new Date(2018, 10, 10);
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('es-419', opts).format(date).replace(',', ''));
+
+      opts = {
         day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric'
-      })).toEqual('10 de nov. de 2018 00:00');
+      };
+      date = new Date(2018, 10, 10);
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('es-419', opts).format(date).replace(',', ''));
     });
 
     it('should format long', async () => {
@@ -1362,17 +1378,24 @@ describe('IdsLocale API', () => {
       };
 
       opts.timeZone = 'Australia/Brisbane';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('3/26/2018 2:00 PM Australian Eastern Standard Time');
+      const date = new Date(2018, 2, 26);
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
+
       opts.timeZone = 'Asia/Shanghai';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('3/26/2018 12:00 PM China Standard Time');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
       opts.timeZone = 'America/New_York';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('3/26/2018 12:00 AM Eastern Daylight Time');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
 
       await locale.setLocale('nl-NL');
       opts.timeZone = 'Australia/Brisbane';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('26-3-2018 14:00 Oost-Australische standaardtijd');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('nl-NL', opts).format(date).replace(',', ''));
       opts.timeZone = 'Asia/Shanghai';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('26-3-2018 12:00 Chinese standaardtijd');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('nl-NL', opts).format(date).replace(',', ''));
     });
 
     it('should be able to display dates into another timezone including short timezone name', async () => {
@@ -1388,17 +1411,24 @@ describe('IdsLocale API', () => {
 
       await locale.setLocale('en-US');
       opts.timeZone = 'Australia/Brisbane';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('3/26/2018 2:00:00 PM GMT+10');
+      const date = new Date(2018, 2, 26);
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
       opts.timeZone = 'Asia/Shanghai';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('3/26/2018 12:00:00 PM GMT+8');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
       opts.timeZone = 'America/New_York';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('3/26/2018 12:00:00 AM EDT');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
 
       await locale.setLocale('nl-NL');
       opts.timeZone = 'Australia/Brisbane';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('26-3-2018 14:00:00 GMT+10');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('nl-NL', opts).format(date).replace(',', ''));
+
       opts.timeZone = 'Asia/Shanghai';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('26-3-2018 12:00:00 GMT+8');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('nl-NL', opts).format(date).replace(',', ''));
     });
 
     it('should be able to display dates into another timezone', async () => {
@@ -1413,19 +1443,25 @@ describe('IdsLocale API', () => {
 
       await locale.setLocale('en-US');
       opts.timeZone = 'Australia/Brisbane';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('3/26/2018 2:00:00 PM');
+
+      const date = new Date(2018, 2, 26);
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
       opts.timeZone = 'Asia/Shanghai';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('3/26/2018 12:00:00 PM');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
       opts.timeZone = 'America/New_York';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('3/26/2018 12:00:00 AM');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
 
       await locale.setLocale('nl-NL');
+      opts.timeZone = 'Asia/Shanghai';
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('nl-NL', opts).format(date).replace(',', ''));
+
       opts.timeZone = 'America/New_York';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('26-3-2018 00:00:00');
-      opts.timeZone = 'America/New_York';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('26-3-2018 00:00:00');
-      opts.timeZone = 'America/New_York';
-      expect(locale.formatDate(new Date(2018, 2, 26), opts)).toEqual('26-3-2018 00:00:00');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('nl-NL', opts).format(date).replace(',', ''));
     });
 
     it('should be able to format timezones and timezones', async () => {
@@ -1437,21 +1473,27 @@ describe('IdsLocale API', () => {
         minute: 'numeric',
         timeZoneName: 'short'
       };
+
+      const date = new Date(2020, 6, 22, 21, 11, 12);
       await locale.setLocale('en-US');
-      expect(locale.formatDate(new Date(2020, 6, 22, 21, 11, 12), opts)).toEqual('7/22/2020 9:11 PM EDT');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
 
       await locale.setLocale('hr-HR');
-      expect(['22. 07. 2020. 21:11 GMT -4', '22. 07. 2020. 21:11 GMT -5']).toContain(locale.formatDate(new Date(2020, 6, 22, 21, 11, 12), opts));
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('hr-HR', opts).format(date).replace(',', ''));
 
       await locale.setLocale('it-IT');
-      expect(locale.formatDate(new Date(2020, 6, 22, 21, 11, 12), opts)).toEqual('22/7/2020 21:11 GMT-4');
-      expect(locale.formatDate(new Date(2020, 6, 22, 21, 11, 12), opts)).toEqual('22/7/2020 21:11 GMT-4');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('it-IT', opts).format(date).replace(',', ''));
 
       await locale.setLocale('zh-Hant');
-      expect(locale.formatDate(new Date(2020, 6, 22, 21, 11, 12), opts)).toEqual('2020/7/22 下午9:11 [EDT]');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('zh-Hant', opts).format(date).replace(',', ''));
 
       await locale.setLocale('zh-TW');
-      expect(locale.formatDate(new Date(2020, 6, 22, 21, 11, 12), opts)).toEqual('2020/7/22 下午9:11 [EDT]');
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('zh-TW', opts).format(date).replace(',', ''));
     });
 
     it('should format dates with long timezones', async () => {
@@ -1464,13 +1506,14 @@ describe('IdsLocale API', () => {
         timeZoneName: 'long'
       };
 
+      const date = new Date(2018, 2, 22, 20, 11, 12);
       await locale.setLocale('en-US');
-      expect(locale.formatDate(new Date(2018, 2, 22, 20, 11, 12), opts)).toEqual(expect.stringMatching(/Eastern/));
-      expect(locale.formatDate(new Date(2000, 2, 22, 20, 11, 12), opts)).toEqual(expect.stringMatching(/Eastern/));
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('en-US', opts).format(date).replace(',', ''));
 
       await locale.setLocale('nl-NL');
-      expect(locale.formatDate(new Date(2018, 2, 22, 20, 11, 12), opts)).toEqual(expect.stringMatching(/Eastern/));
-      expect(locale.formatDate(new Date(2018, 2, 22, 20, 11, 12), opts)).toEqual(expect.stringMatching(/Eastern/));
+      expect(locale.formatDate(date, opts))
+        .toEqual(new Intl.DateTimeFormat('nl-NL', opts).format(date).replace(',', ''));
     });
   });
 

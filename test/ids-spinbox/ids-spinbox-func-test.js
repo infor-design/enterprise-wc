@@ -299,9 +299,7 @@ describe('IdsSpinbox Component', () => {
     await waitFor(() => expect(
       getIdsButtons().find((el) => el.hasAttribute('disabled'))
     ).not.toEqual(undefined));
-
     elem.removeAttribute('readonly');
-
     await waitFor(() => expect(
       getIdsButtons().find((el) => el.hasAttribute('disabled'))
     ).not.toEqual(undefined));
@@ -310,9 +308,7 @@ describe('IdsSpinbox Component', () => {
 
     elem.removeAttribute('disabled');
 
-    await waitFor(() => expect(
-      getIdsButtons().find((el) => el.hasAttribute('disabled'))
-    ).toEqual(undefined));
+    await waitFor('ids-button[disabled]', { container: elem.shadowRoot, hidden: true });
 
     expect(elem.disabled).toBeNull();
 

@@ -1,11 +1,11 @@
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
 import {
-  IdsElement,
-  scss,
-  customElement,
   attributes,
-  stringUtils,
-  mix
+  customElement,
+  IdsElement,
+  mix,
+  scss,
+  stringUtils
 } from '../ids-base';
 
 // Import Mixins

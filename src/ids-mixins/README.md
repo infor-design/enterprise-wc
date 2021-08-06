@@ -155,19 +155,28 @@ using single directional data flow. When an attribute observed in the parent cha
 any changes become mirrored in the children types specified for those specific attributes.
 
 1. Include the import and then IdsAttributeProviderMixin in the `mix` list.
-1. In the `providedAttributes` of the parent which will provide attributes to children in it's tree, add a `providedAttributes` getter which an object mapping with the key being the attribute to map, and the value being an array where each entry is a list of components or a mapping of components and their property names e.g.
+1. In the `providedAttributes` of the parent which will provide attributes to children in it's tree, add a `providedAttributes` getter which an object mapping with the key being the attribute to map, and the value being:
+  - an array of components or a mapping-of components and their property names (for example `PAGE_SIZE` below)
+  - a touple/array of `[IDSComponent, attributeName]` (for example, `DISABLED` below)
+  - an array of object mappings e.g. `{ component, targetAttribute (optional), valueXformer (optional) }` with (1) `targetAttribute` being the attribute to map to the child, (2) component being an IDSComponent class (not instance) and (3/optional) a `valueXformer` where we transform the attribute before applying it.
 ```js
 get providedAttributes() {
   return {
     [attributes.PAGE_SIZE]: [IdsPagerInput, IdsPagerNumberList],
-      [attributes.DISABLED]: [
-        [IdsPagerInput, attributes.PARENT_DISABLED],
-        [IdsPagerButton, attributes.PARENT_DISABLED]
-      ]
+    [attributes.DISABLED]: [
+      [IdsPagerInput, attributes.PARENT_DISABLED],
+      [IdsPagerButton, attributes.PARENT_DISABLED]
+    ],
+    [attributes.AXIS]: [{
+      component: IdsDraggable,
+      valueXformer: (axis) => (
+        ((axis === 'x') || (axis === 'y')) ? axis : 'x'
+      )
+    }]
   };
 }
 ```
-3. be sure that in the child components, setters/getters exist for the target attributes. So in the above example, `IdsPagerInput` and `IdsPagerNumberList` should have `set`/`get` `pageSize`, `parentDisabled`.
+3. be sure that in the child components, setters/getters exist for the target attributes. So in the above example, `IdsPagerInput` and `IdsPagerNumberList` should have `set`/`get` `pageSize`, `parentDisabled`, and `axis`.
 1. similar to above, be sure to include the target attributes in children components that receive the property updates from the parent in the `static attributes` variable of the child components.
 
 ## Ids Locale Mixin
@@ -231,3 +240,29 @@ display: flex;
 flex-direction: row;
 justify-content: flex-end;
 ```
+
+### Ids Color Variant Mixin
+
+This mixin injects an `color-variant` property into a component that can be used as a way to provide alternate styles to that component that may work better against contrasting background colors.  For example, in an application using Light Mode, an [IdsContainer Component](../ids-container/README.md) can be set to `alternate`, switching its background color to a dark Slate, and the foreground text color to white.  The white is propagated to children components such as [IdsIcon](../ids-icon/README.md) and [IdsText](../ids-text/README.md).
+
+The style change is achieved by maintaining an array of alternate color variants on your component, as well as adding a `.color-variant-{name}` CSS property onto whichever element is picked up by [IdsElement](../ids-base/README.md)'s `container` property when the `color-variant` property is present.
+
+Additionally, this mixin will try to run an optional `onColorVariantRefresh` callback whenever the color-variant property is updated.  This can contain custom ways to modify a component when `color-variant` is added or removed.
+
+The usage of this mixin would be:
+
+1. Import the mixin and add it to the `mix` list
+1. Manually add the `color-variant` property to your example, or have your component set this property automatically.
+1. Add a property to your component called `availableColorVariants` that provides an array of strings containing names of color variants other than the default (In JS, the default variant is `null`).
+1. In your `.scss` code, apply styles intended for your variant to a `.color-variant-{name}` CSS class.  A simple implementation of style scaffolding may look like this:
+
+```scss
+.my-component-container {
+  // base styles
+  &.color-variant-alternate {
+    // styles for the "alternate" color variant
+  }
+}
+```
+
+To see a more complex version of how color variants could be implemented, see the [SCSS source code for Ids Button](../ids-button/ids-button.scss) and search for `color-variant`.
