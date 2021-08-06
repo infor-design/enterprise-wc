@@ -95,6 +95,7 @@ module.exports = {
     // Allow console.info
     'no-console': ['error', { allow: ['error', 'info'] }],
     'template-curly-spacing': ['off'],
+    'no-underscore-dangle': ['error', { allow: ['_client'] }],
     indent: ['error', 2, { ignoredNodes: ['TemplateLiteral'] }
     ],
   },

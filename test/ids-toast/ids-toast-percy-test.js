@@ -5,6 +5,7 @@ describe('Ids Toast Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page._client.send('Animation.setPlaybackRate', { playbackRate: 3 });
     await page.evaluate(() => {
       document.querySelector('#btn-toast-demo').click();
     });
@@ -13,6 +14,7 @@ describe('Ids Toast Percy Tests', () => {
 
   it('should not have visual regressions in new dark theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page._client.send('Animation.setPlaybackRate', { playbackRate: 3 });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
       document.querySelector('#btn-toast-demo').click();
@@ -22,6 +24,7 @@ describe('Ids Toast Percy Tests', () => {
 
   it('should not have visual regressions in new contrast theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page._client.send('Animation.setPlaybackRate', { playbackRate: 3 });
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
       document.querySelector('#btn-toast-demo').click();
