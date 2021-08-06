@@ -8,7 +8,10 @@ describe('Ids Message Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('#message-example-error-trigger').click();
     });
-    await page.waitFor(200); // approx. time for a Modal to show
+    await page.evaluate(() => {
+      document.querySelector('.ids-message').setProperty('transition', 'none', 'important');
+    });
+    await page.waitForTimeout(200); // approx. time for a Modal to show
     await percySnapshot(page, 'ids-message-new-light', { widths: [1280] });
   });
 });
