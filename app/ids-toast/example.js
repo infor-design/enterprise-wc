@@ -15,8 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     toast.show({
       title: 'Application Offline',
-      message: 'This is a Toast message.',
-      timeout: 20000
+      message: 'This is a Toast message.'
     });
   });
 });

@@ -22,21 +22,6 @@ import styles from './ids-toast.scss';
 
 import { IdsDraggable } from '../ids-draggable';
 
-// Attributes observed by the Toast
-const TOAST_ATTRIBUTES = [
-  attributes.ALLOW_LINK,
-  attributes.AUDIBLE,
-  attributes.DRAGGABLE,
-  attributes.LANGUAGE,
-  attributes.LOCALE,
-  attributes.POSITION,
-  attributes.PROGRESS_BAR,
-  attributes.SAVE_POSITION,
-  attributes.TIMEOUT,
-  attributes.UNIQUE_ID,
-  shared.ATTRIBUTE_TOAST_DESTROY_AFTER_TIMEOUT
-];
-
 /**
  * IDS Toast Component
  * @type {IdsToast}
@@ -77,7 +62,20 @@ class IdsToast extends mix(IdsElement).with(
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [...super.attributes, ...TOAST_ATTRIBUTES];
+    return [
+      ...super.attributes,
+      attributes.ALLOW_LINK,
+      attributes.AUDIBLE,
+      attributes.DRAGGABLE,
+      attributes.LANGUAGE,
+      attributes.LOCALE,
+      attributes.POSITION,
+      attributes.PROGRESS_BAR,
+      attributes.SAVE_POSITION,
+      attributes.TIMEOUT,
+      attributes.UNIQUE_ID,
+      shared.ATTRIBUTE_TOAST_DESTROY_AFTER_TIMEOUT
+    ];
   }
 
   /**

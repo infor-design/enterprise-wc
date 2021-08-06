@@ -24,14 +24,6 @@ import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-mixins/ids-render-loop-mixin';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 
-// Attributes observed
-const TOAST_MESSAGE_ATTRIBUTES = [
-  attributes.AUDIBLE,
-  attributes.PROGRESS_BAR,
-  attributes.TIMEOUT,
-  shared.ATTRIBUTE_MESSAGE_ID
-];
-
 /**
  * IDS Toast Message Component
  * @type {IdsToastMessage}
@@ -69,7 +61,13 @@ class IdsToastMessage extends
    * @returns {Array} The properties in an array
    */
   static get attributes() {
-    return [...super.attributes, ...TOAST_MESSAGE_ATTRIBUTES];
+    return [
+      ...super.attributes,
+      attributes.AUDIBLE,
+      attributes.PROGRESS_BAR,
+      attributes.TIMEOUT,
+      shared.ATTRIBUTE_MESSAGE_ID
+    ];
   }
 
   /**
@@ -84,7 +82,7 @@ class IdsToastMessage extends
         <ids-text slot="text" audible="true">
           <slot name="close-button-label">${d.closeButtonLabel}</slot>
         </ids-text>
-        <ids-icon slot="icon" icon="close" part="close-button-icon"></ids-icon>
+        <ids-icon slot="icon" icon="close" part="close-button-icon" size="small"></ids-icon>
       </ids-trigger-button>`;
 
     const progress = this.progressBar ? '<div class="progress-bar" part="progress-bar"></div>' : '';
