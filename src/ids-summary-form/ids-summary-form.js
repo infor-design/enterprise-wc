@@ -25,12 +25,10 @@ import styles from './ids-summary-form.scss';
 @scss(styles)
 class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
-    console.log('constructor()');
     super();
   }
 
   connectedCallback() {
-    console.log('connectedCallback()');
     super.connectedCallback();
   }
 
@@ -59,31 +57,42 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
       </div>`;
   }
 
+  /**
+   * Set the data field
+   * @param {string} value The input for the data
+   */
   set data(value) {
     console.log('setting data to: ' + value);
-    this.setAttribute('data', value || '');
-    this.updateData();
+    this.setAttribute(attributes.VALUE, value || '');
+    this.#updateData();
   }
-  
+
   get data() {
     console.log('getting data: ' + this.getAttribute('data'));
-    return this.getAttribute('data');
+    return this.getAttribute(attributes.VALUE);
   }
-  
+
+  /**
+   * Set the label field
+   * @param {string} value The name for the label
+   */
   set label(value) {
     console.log('setting label to: ' + value);
-    // const prop = value || 'label';
-    // console.log('label prop is ' + prop);
-    // this.value = prop;
-    this.setAttribute('label', value || '');
-    this.updateLabel();
+    this.setAttribute(attributes.LABEL, value || '');
+    this.#updateLabel();
   }
 
   get label() {
     console.log('getting label: ' + this.getAttribute('label'));
-    return this.getAttribute('label');
+    return this.getAttribute(attributes.LABEL);
   }
 
+  /**
+   * Sets the font-weight of the data field
+   * The default is bold
+   * It can be explicitly disabled by setting the font-weight to an empty string
+   * @param {string} value The attribute value for font-weight of the data field
+   */
   set fontWeight(value) {
     console.log('font-weight is being set to ' + value);
     this.setAttribute(attributes.FONT_WEIGHT, value);
@@ -92,15 +101,23 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
 
   get fontWeight() {
     console.log('getting font-weight: ' + this.getAttribute('font-weight'));
-    return this.getAttribute('font-weight');
+    return this.getAttribute(attributes.FONT_WEIGHT);
   }
 
-  updateLabel() {
+  /**
+   * Updates the UI when the label is set
+   * @private
+   */
+  #updateLabel() {
     console.log('UI is being updated');
     this.container.querySelector('.label').innerHTML = this.label;
   }
 
-  updateData() {
+  /**
+   * Updates the UI when the data is set
+   * @private
+   */
+  #updateData() {
     this.container.querySelector('.data').innerHTML = this.data;
   }
 }
