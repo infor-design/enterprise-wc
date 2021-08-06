@@ -91,13 +91,13 @@ There are 2 sizes, `small` and `large`
 
 ## Settings (Attributes)
 
-- `progress` {string | number} set the progress value attribute
-- `total` {string | number} set the total progress value attribute
-- `color` {string} set the color of the progress bar
-- `size` { "small" | "large" } set the size of the progress bar
-- `label` {string} set the title label
-- `label-progress` {string} set the progress value label
-- `label-total` {string} set the total progress value label
+- `progress` { string | number } set the progress value attribute
+- `total` { string | number } set the total progress value attribute
+- `color` { string } set the color of the progress bar
+- `size` { 'small' | 'large' } set the size of the progress bar
+- `label` { string } set the title label
+- `label-progress` { string } set the progress value label
+- `label-total` { string } set the total progress value label
 
 ## Responsive Guidelines
 
