@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Toast component provides information, warning small and temporary messages. The Toast will close itself after a timeout (default 6s) or clicked on close button. It is also possible to have more than one toast onscreen at a time.
+Toasts are used to display confirmations of success, failure, or other statuses of system processes related to a user’s workflow. If a user submits a form, a toast will confirm the successful or unsuccessful completion of that submission. Toasts are dismissible via the “close” icon or the escape key. If not dismissed, the toast will hide after a configurable amount of time. The Toast will close itself after a timeout (default 6s) or if the close button is clicked. It is also possible to have more than one toast onscreen at a time.
 
 ## Use Cases
 
