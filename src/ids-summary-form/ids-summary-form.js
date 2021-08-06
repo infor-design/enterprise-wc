@@ -96,12 +96,16 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   set fontWeight(value) {
     console.log('font-weight is being set to ' + value);
     this.setAttribute(attributes.FONT_WEIGHT, value);
-    // this.updateUI();
+    this.#updateFontWeight();
   }
 
   get fontWeight() {
     console.log('getting font-weight: ' + this.getAttribute('font-weight'));
     return this.getAttribute(attributes.FONT_WEIGHT);
+  }
+
+  #updateFontWeight() {
+    this.container.querySelector('.data').setAttribute('font-weight', this.fontWeight);
   }
 
   /**
