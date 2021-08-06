@@ -379,6 +379,29 @@ btnToast?.addEventListener('click', () => {
 - `close-button` allows you to further style the toast close button element
 - `close-button-icon` allows you to further style the toast close button icon element
 
+## Events (Toast)
+
+- `add-message` Fires while the toast message is added to container
+- `remove-message` Fires while the toast message is removed from container
+- `save-position` Fires after the local storage settings changed in some way
+- `clear-position` Fires after clear the saved position from local storage
+
+## Events (Toast Message)
+
+- `remove-message` Fires while the toast message is removed from container
+
+## Methods (Toast)
+
+- `clearPosition(uniqueId: string|undefined)` Clear the saved position from local storage, If uniqueId is undefined will use Internal attached
+- `clearPositionAll()` Clear all toast related saved position from local storage
+- `messageElem(messageId: string)` Get message element by given message id
+- `show(options: IdsToastShowSettings)` Set to show the toast message
+- `toastContainer()` Get the toast container
+
+## Methods (Toast Message)
+
+- `removeToastMessage()` Remove the toast message from container
+
 ## States and Variations (With Code Examples)
 
 - Audible

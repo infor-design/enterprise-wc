@@ -9,6 +9,7 @@ describe('Ids Toast Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('#btn-toast-demo').click();
     });
+    await page.waitForTimeout(200); // approx. time for a Modal to show
     await percySnapshot(page, 'ids-toast-new-light');
   });
 
@@ -19,6 +20,7 @@ describe('Ids Toast Percy Tests', () => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
       document.querySelector('#btn-toast-demo').click();
     });
+    await page.waitForTimeout(200); // approx. time for a Modal to show
     await percySnapshot(page, 'ids-toast-new-dark');
   });
 
@@ -29,6 +31,7 @@ describe('Ids Toast Percy Tests', () => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
       document.querySelector('#btn-toast-demo').click();
     });
+    await page.waitForTimeout(200); // approx. time for a Modal to show
     await percySnapshot(page, 'ids-toast-new-contrast');
   });
 });

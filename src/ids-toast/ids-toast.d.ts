@@ -3,7 +3,7 @@
 
 import { IdsElement } from '../ids-base';
 
-interface IdsToastMessageAddEventDetail extends Event {
+interface IdsToastMsgAddRemoveEventDetail extends Event {
   detail: {
     elem: HTMLElement,
     messageId: string,
@@ -105,7 +105,10 @@ export default class IdsToast extends IdsElement {
   toastContainer(): HTMLElement;
 
   /** Fires while the toast message is added */
-  on(event: 'add-message', listener: (detail: IdsToastMessageAddEventDetail) => void): this;
+  on(event: 'add-message', listener: (detail: IdsToastMsgAddRemoveEventDetail) => void): this;
+
+  /** Fires while the toast message is removed */
+  on(event: 'remove-message', listener: (detail: IdsToastMsgAddRemoveEventDetail) => void): this;
 
   /** Fires after the local storage settings changed in some way */
   on(event: 'save-position', listener: (detail: IdsToastSavePositionEventDetail) => void): this;
