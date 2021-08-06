@@ -145,13 +145,6 @@ export default class IdsSplitter extends mix(IdsElement).with(
   }
 
   /**
-   * tracks references for quick determination
-   * of which pane is already in the splitter
-   * when mutating the DOM
-   */
-  #paneSet = new Set();
-
-  /**
    * set of draggables being used
    */
   #draggableSet = new Set();
@@ -160,7 +153,6 @@ export default class IdsSplitter extends mix(IdsElement).with(
     // TODO: before clearing pane draggables, re-grab references
     // to the panes/draggable based on their orders and pane-ids
 
-    this.#paneSet.clear();
     this.#paneDraggableMap.clear();
 
     for (const el of this.children) {
@@ -172,11 +164,6 @@ export default class IdsSplitter extends mix(IdsElement).with(
 
         if (!el.hasAttribute(attributes.PANE_ID)) {
           el.setAttribute(attributes.PANE_ID, ++this.#paneIdCount);
-        }
-
-        // add this pane to be tracked
-        if (!this.#paneSet.has(el)) {
-          this.#paneSet.add(el);
         }
       }
     }
@@ -211,5 +198,11 @@ export default class IdsSplitter extends mix(IdsElement).with(
 
   #getDraggableAxis(axis) {
     return (((axis === 'x') || (axis === 'y')) ? axis : 'x');
+  }
+
+  sizePanes() {
+    for (const [pane] of this.#paneDraggableMap) {
+      const { value: size, unit } = pane.getSizeMeta();
+    }
   }
 }

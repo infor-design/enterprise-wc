@@ -100,11 +100,54 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
   }
 
   set size(value) {
-    const currentValue = this.getAttribute(attributes.SIZE);
-    const nextValue = parseInt(value);
-    if (nextValue !== currentValue) {
-      this.setAttribute(attributes.SIZE, nextValue);
+    if ((value !== null) && (value !== this.getAttribute.SIZE)) {
+      this.setAttribute(attributes.SIZE, value);
       this.#updateSize();
+    }
+
+    if ((value === null) && this.hasAttribute(attributes.SIZE)) {
+      this.removeAttribute(attributes.SIZE);
+      this.#updateSize();
+    }
+  }
+
+  get maxSize() {
+    if (this.hasAttribute(attributes.MAX_SIZE)) {
+      return this.getAttribute(attributes.MAX_SIZE);
+    }
+
+    return null;
+  }
+
+  set maxSize(value) {
+    if ((value !== null) && (value !== this.getAttribute.MAX_SIZE)) {
+      this.setAttribute(attributes.MAX_SIZE, value);
+      this.#updateMaxSize();
+    }
+
+    if ((value === null) && this.hasAttribute(attributes.MAX_SIZE)) {
+      this.removeAttribute(attributes.MAX_SIZE);
+      this.#updateMaxSize();
+    }
+  }
+
+  get minSize() {
+    if (this.hasAttribute(attributes.MIN_SIZE)) {
+      return this.getAttribute(attributes.MIN_SIZE);
+    }
+
+    return null;
+  }
+
+  set minSize(value) {
+    if ((value !== null) && (value !== this.getAttribute.MIN_SIZE)) {
+      this.setAttribute(attributes.MIN_SIZE, value);
+      this.#updateMinSize();
+    }
+
+    if ((value === null) && this.hasAttribute(attributes.MIN_SIZE)) {
+      this.removeAttribute(attributes.MIN_SIZE);
+      this.#updateMinSize();
     }
   }
 
@@ -117,15 +160,77 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     unit: 'px'
   };
 
+  #maxSize = {
+    value: 0,
+    unit: 'px'
+  };
+
+  #minSize = {
+    value: 0,
+    unit: 'px'
+  };
+
+  /**
+   * used by ids-splitter to grab current parsed size attribute
+   * related data
+   * @returns {{ size, maxSize, minSize }} size info with unit included
+   */
+  getSizeMeta() {
+    const sizeMeta = {};
+    if (this.getAttribute(attributes.SIZE) !== null) {
+      sizeMeta.size = {
+        value: this.#size.value,
+        unit: this.#size.unit
+      };
+    }
+
+    if (this.getAttribute(attributes.MIN_SIZE) !== null) {
+      sizeMeta.minSize = {
+        value: this.#minSize.value,
+        unit: this.#minSize.unit
+      };
+    }
+
+    if (this.getAttribute(attributes.MAX_SIZE) !== null) {
+      sizeMeta.maxSize = {
+        value: this.#maxSize.value,
+        unit: this.#maxSize.unit
+      };
+    }
+
+    return sizeMeta;
+  }
+
   /**
    * bounding box size in the direction of the
    * axis attribute
    */
   #measuredSize;
 
+  /** Update internal size + meta */
   #updateSize() {
     if (this.hasAttribute(attributes.SIZE)) {
       this.#size = getSize(this.size);
+    } else {
+      this.#size = undefined;
+    }
+  }
+
+  /** Update internal max size + meta */
+  #updateMaxSize() {
+    if (this.hasAttribute(attributes.MAX_SIZE)) {
+      this.#maxSize = getSize(this.maxSize);
+    } else {
+      this.#maxSize = undefined;
+    }
+  }
+
+  /** Update internal min size + meta */
+  #updateMinSize() {
+    if (this.hasAttribute(attributes.MIN_SIZE)) {
+      this.#minSize = getSize(this.minSize);
+    } else {
+      this.#minSize = undefined;
     }
   }
 }
