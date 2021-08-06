@@ -36,10 +36,6 @@
   &.bold {
     @include font-bold();
   }
-
-  &.bolder {
-    @include font-extrabold();
-  }
 }
 
 .ids-text-decoration-none {

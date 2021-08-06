@@ -19,7 +19,7 @@ import {
 import styles from './ids-text.scss';
 
 const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
-const fontWeightClasses = ['bold', 'bolder'];
+const fontWeightClasses = ['bold', 'lighter'];
 
 // These types will have a CSS style class appended to them
 const typesCssClasses = ['label', 'legend', 'span'];
@@ -89,7 +89,7 @@ class IdsText extends mix(IdsElement).with(
     classList += (this.overflow === 'ellipsis') ? ' ellipsis' : '';
     classList += ((this.audible)) ? ' audible' : '';
     classList += this.fontSize ? ` ids-text-${this.fontSize}` : '';
-    classList += (this.fontWeight === 'bold' || this.fontWeight === 'bolder')
+    classList += (this.fontWeight === 'bold' || this.fontWeight === 'lighter')
       ? ` ${this.fontWeight}` : '';
 
     return `<${tag}
@@ -147,7 +147,7 @@ class IdsText extends mix(IdsElement).with(
   get fontSize() { return this.getAttribute(attributes.FONT_SIZE); }
 
   /**
-   * Adjust font weight; can be either "bold" or "bolder"
+   * Adjust font weight; can be either "bold" or "lighter"
    * @param {string | null} value (if bold)
    */
   set fontWeight(value) {
@@ -155,7 +155,7 @@ class IdsText extends mix(IdsElement).with(
 
     switch (value) {
     case 'bold':
-    case 'bolder':
+    case 'lighter':
       hasValue = true;
       break;
     default:

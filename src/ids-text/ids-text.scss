@@ -40,8 +40,8 @@
     @include font-bold();
   }
 
-  &.bolder {
-    @include font-extrabold();
+  &.lighter {
+    font-weight: 300;
   }
 }
 

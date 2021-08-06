@@ -17,7 +17,7 @@ export default class IdsText extends HTMLElement {
     '32' | 'xl' | '40' | '48' | '60' | '72' | string | null;
 
   /** Set the font weight */
-  fontWeight: 'bold' | 'bolder' | null;
+  fontWeight: 'bold' | 'lighter' | null;
 
   /** Set the overflow style */
   overflow: 'ellipsis' | null;
