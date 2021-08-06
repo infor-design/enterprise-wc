@@ -59,7 +59,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
       attributes.APPEARANCE,
       attributes.DISABLE_EVENTS,
       attributes.TABBABLE,
-      'content-borders'
+      attributes.CONTENT_BORDERS
     ];
   }
 
@@ -194,15 +194,15 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   set contentBorders(value) {
     const isValueTruthy = stringToBool(value);
     if (isValueTruthy) {
-      this.setAttribute('content-borders', true);
-      this.container.classList.add('content-has-borders');
+      this.setAttribute(attributes.CONTENT_BORDERS, true);
+      this.container.classList.add('has-content-borders');
     } else {
-      this.removeAttribute('content-borders');
-      this.container.classList.remove('content-has-borders');
+      this.removeAttribute(attributes.CONTENT_BORDERS);
+      this.container.classList.remove('has-content-borders');
     }
   }
 
-  get contentBorders() { return this.getAttribute('content-borders'); }
+  get contentBorders() { return this.getAttribute(attributes.CONTENT_BORDERS); }
 
   /**
    * Establish Internal Event Handlers

@@ -33,7 +33,7 @@ $input-size-default: map-get($input-sizes, 'md');
   }
 
   &.has-validation-message ::slotted(ids-trigger-button) {
-    margin-top: -16px;
+    margin-top: -20px;
   }
 }
 
@@ -48,7 +48,7 @@ $input-size-default: map-get($input-sizes, 'md');
   width: 100%;
 }
 
-.content-has-borders .ids-trigger-field-content {
+.has-content-borders .ids-trigger-field-content {
   @include antialiased();
   @include bg-white();
   @include box-border();
@@ -71,7 +71,7 @@ $input-size-default: map-get($input-sizes, 'md');
   }
 }
 
-.content-has-borders:focus-within .ids-trigger-field-content {
+.has-content-borders:focus-within .ids-trigger-field-content {
   @include border-azure-60();
   @include shadow();
 
