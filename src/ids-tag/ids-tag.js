@@ -114,7 +114,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
   }
 
   /**
-   * Check if an icon exists if not add it
+   * Check if an icon exists if so, remove it
    * @param {string} iconName The icon name to check
    * @private
    */

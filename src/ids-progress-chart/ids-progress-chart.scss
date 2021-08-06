@@ -1,0 +1,87 @@
+@import '../ids-base/ids-base';
+
+.ids-progress-chart {
+  @include antialiased();
+  @include font-sans();
+
+  display: flex;
+  flex-direction: column;
+  margin: 0 0 8px 0;
+
+  .labels {
+    @include text-slate-60();
+
+    display: inline-flex;
+    flex-direction: row;
+    position: relative;
+    margin-bottom: 8px;
+    width: 100%;
+    flex-wrap: nowrap;
+    align-items: flex-end;
+
+    .label-main {
+      display: inline-flex;
+      margin: 0 4px 0 0;
+    }
+
+    .label-main::part(text) {
+      color: currentColor;
+    }
+
+    .label-progress {
+      display: inline-flex;
+      margin: 0 4px;
+    }
+
+    .label-progress::part(text) {
+      color: currentColor;
+    }
+
+    .label-end {
+      display: flex;
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      justify-content: flex-end;
+    }
+
+    .label-total {
+      position: absolute;
+    }
+
+    .label-total::part(text) {
+      color: currentColor;
+    }
+  }
+
+  .bar {
+    border-radius: 2px;
+    min-height: 28px;
+    min-width: 66px;
+    display: flex;
+    position: relative;
+
+    .bar-total {
+      @include bg-slate-30();
+
+      display: flex;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: inherit;
+    }
+
+    .bar-progress {
+      display: flex;
+      top: 0;
+      left: 0;
+      height: inherit;
+      background-color: #25af65;
+    }
+  }
+
+  ::slotted(ids-icon) {
+    margin: 3px 4px 0 4px;
+  }
+}
