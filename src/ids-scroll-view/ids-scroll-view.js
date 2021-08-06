@@ -103,6 +103,7 @@ class IdsScrollView extends mix(IdsElement).with(
         this.container.scrollBy(-this.container.offsetWidth, 0);
         this.#activateLink(selected.previousElementSibling, true);
       }
+      /* istanbul ignore next */
       if (e.key === 'Enter') {
         e.preventDefault();
         e.stopPropagation();
