@@ -99,6 +99,7 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
 
   /**
    * Updates the UI when the font-weight is set
+   * @private
    */
   #updateFontWeight() {
     this.container.querySelector('.data').setAttribute('font-weight', this.fontWeight);

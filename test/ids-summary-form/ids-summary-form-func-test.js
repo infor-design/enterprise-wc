@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { expect, it } from '@jest/globals';
 import IdsSummaryForm from '../../src/ids-summary-form/ids-summary-form';
 
 describe('IdsSummaryForm Component', () => {
