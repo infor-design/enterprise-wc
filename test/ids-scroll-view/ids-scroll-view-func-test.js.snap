@@ -2,7 +2,7 @@
 
 exports[`IdsScrollContainer Component renders correctly 1`] = `
 "<style nonce=\\"0a59a005\\">.ids-scroll-view { background-color: transparent; }</style><div class=\\"ids-scroll-view-container\\" part=\\"container\\">
-        <div class=\\"ids-scroll-view\\" part=\\"scroll-view\\" role=\\"complementary\\">
+        <div class=\\"ids-scroll-view\\" part=\\"scroll-view\\" role=\\"complementary\\" tabindex=\\"-1\\">
           <slot name=\\"scroll-view-item\\"></slot>
         </div>
         <div class=\\"ids-scroll-view-controls\\" part=\\"controls\\" role=\\"tablist\\">
