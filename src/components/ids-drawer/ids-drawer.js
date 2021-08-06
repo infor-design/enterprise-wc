@@ -188,11 +188,11 @@ class IdsDrawer extends mix(IdsElement).with(IdsEventsMixin, IdsPopupOpenEventsM
     const cl = this.container.classList;
     const typeClass = `type-${this.type}`;
     TYPES.forEach((type) => {
-      const thisEdgeClass = `type-${type}`;
-      if (this.type !== null && typeClass === thisEdgeClass && !cl.contains(typeClass)) {
+      const thisTypeClass = `type-${type}`;
+      if (this.type !== null && typeClass === thisTypeClass && !cl.contains(typeClass)) {
         cl.add(typeClass);
-      } else if (typeClass !== thisEdgeClass && cl.contains(thisEdgeClass)) {
-        cl.remove(thisEdgeClass);
+      } else if (typeClass !== thisTypeClass && cl.contains(thisTypeClass)) {
+        cl.remove(thisTypeClass);
       }
     });
   }

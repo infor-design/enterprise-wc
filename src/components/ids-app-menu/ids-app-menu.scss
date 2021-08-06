@@ -18,9 +18,20 @@
   flex-grow: 1;
 }
 
+.ids-app-menu-user {
+  @include p-24();
+}
+
 // Add some padding and sizing on Avatar Icons
 ::slotted(ids-icon[slot='avatar']) {
   @include p-8();
+}
+
+::slotted(img[slot='avatar']) {
+  @include rounded-round();
+
+  height: 40px;
+  width: 40px;
 }
 
 .ids-app-menu-branding {

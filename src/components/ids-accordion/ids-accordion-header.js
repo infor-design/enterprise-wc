@@ -20,6 +20,7 @@ const DEFAULT_ICON_OFF = 'caret-down';
  * IDS Accordion Header Component
  * @type {IdsAccordionHeader}
  * @inherits IdsElement
+ * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part header - the accordion header root element

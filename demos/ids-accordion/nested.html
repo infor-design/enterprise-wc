@@ -1,0 +1,47 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Accordion (Nested)</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid cols="2" gap="md">
+  <ids-layout-grid-cell>
+    <ids-accordion>
+      <ids-accordion-panel>
+        <ids-accordion-header slot="header" id="l1">
+          <ids-text font-size="16">Level 1</ids-text>
+        </ids-accordion-header>
+        <ids-accordion-panel slot="content">
+          <ids-accordion-header slot="header" id="l2">
+            <ids-text font-size="16">Level 2</ids-text>
+          </ids-accordion-header>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header" id="l3">
+              <ids-text font-size="16">Level 3</ids-text>
+            </ids-accordion-header>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header" id="l4">
+                <ids-text font-size="16">Level 4</ids-text>
+              </ids-accordion-header>
+              <ids-accordion-panel slot="content">
+                <ids-accordion-header slot="header" id="l5">
+                  <ids-text font-size="16">Level 5</ids-text>
+                </ids-accordion-header>
+                <ids-accordion-panel slot="content">
+                  <ids-accordion-header slot="header" id="l6">
+                    <ids-text font-size="16">Level 6</ids-text>
+                  </ids-accordion-header>
+                </ids-accordion-panel>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+          </ids-accordion-panel>
+        </ids-accordion-panel>
+      </ids-accordion-panel>
+    </ids-accordion>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+
+{{> ../layouts/footer.html }}

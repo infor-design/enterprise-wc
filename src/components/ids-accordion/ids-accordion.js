@@ -20,6 +20,8 @@ import {
  * IDS Accordion Component
  * @type {IdsAccordion}
  * @inherits IdsElement
+ * @mixes IdsAttributeProviderMixin
+ * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part accordion - the accordion root element

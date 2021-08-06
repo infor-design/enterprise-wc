@@ -19,8 +19,10 @@ import styles from './ids-accordion-panel.scss';
  * IDS Accordion Panel Component
  * @type {IdsAccordionPanel}
  * @inherits IdsElement
+ * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsThemeMixin
  */
 @customElement('ids-accordion-panel')
 @scss(styles)
@@ -120,6 +122,12 @@ class IdsAccordionPanel extends mix(IdsElement).with(
         return;
       }
 
+      // Remove any pre-existing Open listener that may still be in progress
+      if (this.paneOpenListener) {
+        this.pane.removeEventListener('transitionend', this.paneCloseListener);
+        delete this.paneOpenListener;
+      }
+
       this.pane.style.height = `${this.pane.scrollHeight}px`;
       this.container.classList.remove('expanded');
       requestAnimationFrame(() => {
@@ -127,7 +135,13 @@ class IdsAccordionPanel extends mix(IdsElement).with(
         if (!this.pane) {
           return;
         }
+
+        // Setting height to "0" kicks off animation
         this.pane.style.height = `0px`;
+        this.paneCloseListener = () => {
+          this.pane.style.display = 'none';
+        };
+        this.pane.addEventListener('transitionend', this.paneCloseListener, { once: true });
       });
     });
   }
@@ -141,8 +155,27 @@ class IdsAccordionPanel extends mix(IdsElement).with(
     if (!this.pane) {
       return;
     }
-    this.container.classList.add('expanded');
-    this.pane.style.height = `${this.pane.scrollHeight}px`;
+
+    // Remove any pre-existing Close listener that may still be in progress
+    if (this.paneCloseListener) {
+      this.pane.removeEventListener('transitionend', this.paneCloseListener);
+      delete this.paneCloseListener;
+    }
+
+    this.pane.style.display = '';
+
+    requestAnimationFrame(() => {
+      this.container.classList.add('expanded');
+
+      // Setting height kicks off animation
+      this.pane.style.height = `${this.pane.scrollHeight}px`;
+      this.paneOpenListener = () => {
+        // NOTE: `auto` height allows for nested accordions to expand
+        // when their content is displayed
+        this.pane.style.height = 'auto';
+      };
+      this.pane.addEventListener('transitionend', this.paneOpenListener, { once: true });
+    });
   }
 
   /**

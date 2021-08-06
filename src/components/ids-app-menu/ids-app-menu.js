@@ -1,8 +1,7 @@
 import {
   IdsElement,
   customElement,
-  scss,
-  attributes
+  scss
 } from '../ids-base';
 import IdsDrawer from '../ids-drawer';
 import styles from './ids-app-menu.scss';
@@ -47,7 +46,7 @@ class IdsAppMenu extends IdsDrawer {
     return `<div class="ids-drawer ids-app-menu type-app-menu">
       <div class="ids-app-menu-user">
         <slot name="avatar"></slot>
-        <ids-text font-size="24">Richard Fairbanks</ids-text>
+        <slot name="username"></slot>
       </div>
       <div class="ids-app-menu-header">
         <slot name="header"></slot>
