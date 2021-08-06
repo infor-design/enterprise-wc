@@ -25,6 +25,7 @@ import {
   IdsThemeMixin,
   IdsTooltipMixin
 } from '../ids-mixins';
+import { stringToBool } from '../ids-base/ids-string-utils';
 
 // Properties observed by the Input
 const INPUT_ATTRIBUTES = [
@@ -51,7 +52,9 @@ const INPUT_ATTRIBUTES = [
   attributes.VALIDATE,
   attributes.VALIDATION_EVENTS,
   attributes.VALUE,
-  attributes.VERSION
+  attributes.VERSION,
+  'remove-borders',
+  'remove-margins'
 ];
 
 // Types
@@ -321,6 +324,36 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   get labelHidden() {
     return this.getAttribute(attributes.LABEL_HIDDEN);
+  }
+
+  set removeBorders(value) {
+    const isValueTruthy = stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute('remove-borders', true);
+      this.container.classList.add('no-borders');
+    } else {
+      this.removeAttribute('remove-borders');
+      this.container.classList.remove('no-borders');
+    }
+  }
+
+  get removeBorders() {
+    return this.getAttribute('remove-borders');
+  }
+
+  set removeMargins(value) {
+    const isValueTruthy = stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute('remove-margins', true);
+      this.container.classList.add('no-margins');
+    } else {
+      this.removeAttribute('remove-margins');
+      this.container.classList.remove('no-margins');
+    }
+  }
+
+  get removeMargins() {
+    return this.getAttribute('remove-borders');
   }
 
   /**

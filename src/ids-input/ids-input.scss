@@ -292,6 +292,20 @@ $input-compact-height: $input-field-height-xs;
   &.compact {
     @include input-extra-small-height($input-compact-height);
   }
+
+  &.no-borders {
+    .ids-input-field {
+      border: none;
+    }
+  }
+
+  &.no-margins {
+    margin: 0;
+
+    .ids-input-field {
+      margin: 0;
+    }
+  }
 }
 
 // Handle Themes

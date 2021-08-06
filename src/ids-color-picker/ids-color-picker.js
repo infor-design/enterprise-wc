@@ -121,7 +121,7 @@ class IdsColorPicker extends mix(IdsElement).with(
     /* istanbul ignore next */
     const template = `
       <div class="ids-color-picker">
-        <ids-trigger-field tabbable="false" ${disabledAttribHtml}>
+        <ids-trigger-field tabbable="false" content-borders ${disabledAttribHtml}>
           ${labelHtml}
           <label slot="ids-trigger-field-btn-start" class="color-preview">
             <ids-input tabindex="-1" class="color-input" type="color" ${buttonDisabledAttribHtml}></ids-input>

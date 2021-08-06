@@ -20,6 +20,8 @@ import { IdsButton } from '../ids-button/ids-button';
 import IdsInput from '../ids-input/ids-input';
 import IdsTriggerButton from './ids-trigger-button';
 
+const { stringToBool } = stringUtils;
+
 /**
  * IDS Trigger Field Component
  * @type {IdsTriggerField}
@@ -56,7 +58,8 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     return [
       attributes.APPEARANCE,
       attributes.DISABLE_EVENTS,
-      attributes.TABBABLE
+      attributes.TABBABLE,
+      'content-borders'
     ];
   }
 
@@ -183,6 +186,23 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   }
 
   get disableNativeEvents() { return this.getAttribute(attributes.DISABLE_EVENTS); }
+
+  /**
+   * Set the appearance of the ids-trigger-field-content
+   * @param {string} value whether or not the content has borders and focus states
+   */
+  set contentBorders(value) {
+    const isValueTruthy = stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute('content-borders', true);
+      this.container.classList.add('content-has-borders');
+    } else {
+      this.removeAttribute('content-borders');
+      this.container.classList.remove('content-has-borders');
+    }
+  }
+
+  get contentBorders() { return this.getAttribute('content-borders'); }
 
   /**
    * Establish Internal Event Handlers
