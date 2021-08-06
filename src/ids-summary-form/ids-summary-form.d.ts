@@ -5,7 +5,7 @@ export default class IdsSummaryForm extends IdsElement {
   data: string;
 
   /** Sets the font-weight of the data field of the summary form */
-  fontWeight: 'bold' | 'bolder' | '' | string;
+  fontWeight: 'bold' | '';
 
   /** Sets the label of the summary form */
   label: string;

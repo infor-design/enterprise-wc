@@ -37,7 +37,6 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    console.log('getting attributes()');
     return [
       attributes.DATA,
       attributes.FONT_WEIGHT,
@@ -59,16 +58,14 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
 
   /**
    * Set the data field
-   * @param {string} value The input for the data
+   * @param {string} value The contents of the data
    */
   set data(value) {
-    console.log('setting data to: ' + value);
     this.setAttribute(attributes.VALUE, value || '');
     this.#updateData();
   }
 
   get data() {
-    console.log('getting data: ' + this.getAttribute('data'));
     return this.getAttribute(attributes.VALUE);
   }
 
@@ -77,33 +74,32 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    * @param {string} value The name for the label
    */
   set label(value) {
-    console.log('setting label to: ' + value);
     this.setAttribute(attributes.LABEL, value || '');
     this.#updateLabel();
   }
 
   get label() {
-    console.log('getting label: ' + this.getAttribute('label'));
     return this.getAttribute(attributes.LABEL);
   }
 
   /**
    * Sets the font-weight of the data field
    * The default is bold
-   * It can be explicitly disabled by setting the font-weight to an empty string
+   * It can be explicitly disabled by setting the font-weight to an empty string ''
    * @param {string} value The attribute value for font-weight of the data field
    */
   set fontWeight(value) {
-    console.log('font-weight is being set to ' + value);
     this.setAttribute(attributes.FONT_WEIGHT, value);
     this.#updateFontWeight();
   }
 
   get fontWeight() {
-    console.log('getting font-weight: ' + this.getAttribute('font-weight'));
     return this.getAttribute(attributes.FONT_WEIGHT);
   }
 
+  /**
+   * Updates the UI when the font-weight is set
+   */
   #updateFontWeight() {
     this.container.querySelector('.data').setAttribute('font-weight', this.fontWeight);
   }
@@ -113,7 +109,6 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    * @private
    */
   #updateLabel() {
-    console.log('UI is being updated');
     this.container.querySelector('.label').innerHTML = this.label;
   }
 
