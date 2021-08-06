@@ -62,7 +62,7 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   set data(value) {
     console.log('setting data to: ' + value);
     this.setAttribute('data', value || '');
-    this.updateUI();
+    this.updateData();
   }
   
   get data() {
@@ -76,7 +76,7 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
     // console.log('label prop is ' + prop);
     // this.value = prop;
     this.setAttribute('label', value || '');
-    this.updateUI();
+    this.updateLabel();
   }
 
   get label() {
@@ -95,10 +95,12 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
     return this.getAttribute('font-weight');
   }
 
-  updateUI() {
+  updateLabel() {
     console.log('UI is being updated');
-
     this.container.querySelector('.label').innerHTML = this.label;
+  }
+
+  updateData() {
     this.container.querySelector('.data').innerHTML = this.data;
   }
 }
