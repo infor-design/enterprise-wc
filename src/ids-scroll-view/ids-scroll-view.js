@@ -65,7 +65,7 @@ class IdsScrollView extends mix(IdsElement).with(
    */
   template() {
     return `<div class="ids-scroll-view-container" part="container">
-        <div class="ids-scroll-view" part="scroll-view" role="complementary">
+        <div class="ids-scroll-view" part="scroll-view" role="complementary" tabindex="-1">
           <slot name="scroll-view-item"></slot>
         </div>
         <div class="ids-scroll-view-controls" part="controls" role="tablist">
@@ -86,13 +86,12 @@ class IdsScrollView extends mix(IdsElement).with(
       if (event.target.nodeName !== 'A') {
         return;
       }
-
       this.#activateLink(event.target, true);
       this.#resetIsClick();
     });
 
     // handle arrow keys
-    this.listen(['ArrowLeft', 'ArrowRight'], this.controls, (e) => {
+    this.listen(['ArrowLeft', 'ArrowRight', 'Enter'], this.controls, (e) => {
       const selected = this.controls.querySelector('.selected');
       this.#resetIsClick();
       if (e.key === 'ArrowRight' && selected.nextElementSibling) {
@@ -104,6 +103,10 @@ class IdsScrollView extends mix(IdsElement).with(
         this.container.scrollBy(-this.container.offsetWidth, 0);
         this.#activateLink(selected.previousElementSibling, true);
       }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        e.stopPropagation();
+      }
     });
 
     // Set selected state on scroll/swipe
@@ -113,11 +116,10 @@ class IdsScrollView extends mix(IdsElement).with(
       const observer = new IntersectionObserver((entries) => {
         const elemToCheck = entries[0];
         if (elemToCheck.isIntersecting && !this.isClick) {
-          this.controls.querySelector('.selected')?.blur();
           this.#activateLink(this.controls.querySelectorAll('a')[elemToCheck.target.scrollViewIndex]);
         }
       },
-      { threshold: 0.51 });
+      { threshold: 0.50 });
       observer.observe(elem);
     });
   }
@@ -130,7 +132,7 @@ class IdsScrollView extends mix(IdsElement).with(
     this.isClick = true;
     /* istanbul ignore next */
     this.timer = this.rl?.register(new IdsRenderLoopItem({
-      duration: 500,
+      duration: 800,
       timeoutCallback: () => {
         this.isClick = false;
         this.timer?.destroy(true);
