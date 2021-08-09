@@ -219,7 +219,7 @@
   &.data {
     @include text-white();
   }
-  
+
   &.label {
     @include text-classic-slate-30();
   }
@@ -254,5 +254,4 @@
   &.label {
     @include text-graphite-40();
   }
-
 }

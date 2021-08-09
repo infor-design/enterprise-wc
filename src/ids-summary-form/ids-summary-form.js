@@ -11,7 +11,6 @@ import styles from './ids-summary-form.scss';
  * IDS Summary Form Component
  * @type {IdsSummaryForm}
  * @inherits IdsElement
- * @scss styles 
  */
 @customElement('ids-summary-form')
 @scss(styles)
