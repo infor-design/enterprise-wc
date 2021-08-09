@@ -2,15 +2,8 @@ import {
   IdsElement,
   customElement,
   scss,
-  mix,
   attributes
 } from '../ids-base';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../ids-mixins';
 
 import styles from './ids-summary-form.scss';
 
@@ -18,12 +11,11 @@ import styles from './ids-summary-form.scss';
  * IDS Summary Form Component
  * @type {IdsSummaryForm}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
+ * @scss styles 
  */
 @customElement('ids-summary-form')
 @scss(styles)
-class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsSummaryForm extends IdsElement {
   constructor() {
     super();
   }
@@ -51,8 +43,8 @@ class IdsSummaryForm extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   template() {
     return `
       <div class="ids-summary-form">
-        <ids-text class="label">${this.label ?? ''}</ids-text>
-        <ids-text class="data" font-weight="${this.fontWeight ?? 'bold'}">${this.data ?? ''}</ids-text>
+        <ids-text label="true" class="label">${this.label ?? ''}</ids-text>
+        <ids-text data="true" class="data" font-weight="${this.fontWeight ?? 'bold'}">${this.data ?? ''}</ids-text>
       </div>`;
   }
 
