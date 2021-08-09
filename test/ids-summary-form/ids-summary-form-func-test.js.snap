@@ -1,3 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`IdsSummaryForm Component renders correctly 1`] = `"<ids-summary-form label=\\"test\\" value=\\"some random data\\"></ids-summary-form>"`;

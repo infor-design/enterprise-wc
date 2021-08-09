@@ -5,16 +5,16 @@ import {
   attributes
 } from '../ids-base';
 
-import styles from './ids-summary-form.scss';
+import styles from './ids-summary-field.scss';
 
 /**
- * IDS Summary Form Component
- * @type {IdsSummaryForm}
+ * IDS Summary Field Component
+ * @type {IdsSummaryField}
  * @inherits IdsElement
  */
-@customElement('ids-summary-form')
+@customElement('ids-summary-field')
 @scss(styles)
-class IdsSummaryForm extends IdsElement {
+class IdsSummaryField extends IdsElement {
   constructor() {
     super();
   }
@@ -26,7 +26,6 @@ class IdsSummaryForm extends IdsElement {
   static get attributes() {
     return [
       attributes.DATA,
-      attributes.FONT_WEIGHT,
       attributes.LABEL,
     ];
   }
@@ -37,9 +36,9 @@ class IdsSummaryForm extends IdsElement {
    */
   template() {
     return `
-      <div class="ids-summary-form">
+      <div class="ids-summary-field">
         <ids-text label="true" class="label">${this.label ?? ''}</ids-text>
-        <ids-text data="true" class="data" font-weight="${this.fontWeight ?? 'bold'}">${this.data ?? ''}</ids-text>
+        <ids-text data="true" class="data" font-weight="bold">${this.data ?? ''}</ids-text>
       </div>`;
   }
 
@@ -70,29 +69,6 @@ class IdsSummaryForm extends IdsElement {
   }
 
   /**
-   * Sets the font-weight of the data field
-   * The default is bold
-   * It can be explicitly disabled by setting the font-weight to an empty string ''
-   * @param {string} value The attribute value for font-weight of the data field
-   */
-  set fontWeight(value) {
-    this.setAttribute(attributes.FONT_WEIGHT, value);
-    this.#updateFontWeight();
-  }
-
-  get fontWeight() {
-    return this.getAttribute(attributes.FONT_WEIGHT);
-  }
-
-  /**
-   * Updates the UI when the font-weight is set
-   * @private
-   */
-  #updateFontWeight() {
-    this.container.querySelector('.data').setAttribute('font-weight', this.fontWeight);
-  }
-
-  /**
    * Updates the UI when the label is set
    * @private
    */
@@ -109,4 +85,4 @@ class IdsSummaryForm extends IdsElement {
   }
 }
 
-export default IdsSummaryForm;
+export default IdsSummaryField;
