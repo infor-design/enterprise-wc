@@ -42,7 +42,8 @@ const IdsToastShared = {
     addMessage: 'add-message',
     removeMessage: 'remove-message',
     savePosition: 'save-position',
-    clearPosition: 'clear-position'
+    clearPosition: 'clear-position',
+    removeContainer: 'remove-container',
   },
 
   /**

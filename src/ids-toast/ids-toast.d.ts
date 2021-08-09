@@ -35,6 +35,13 @@ interface IdsToastClearPositionEventDetail extends Event {
   }
 }
 
+interface IdsToastRmContainerEventDetail extends Event {
+  detail: {
+    elem: IdsToast,
+    uniqueId: string
+  }
+}
+
 type IdsToastShowTypes = {
   /** Text that is displayed in the toast message title */
   title: string;
@@ -115,4 +122,7 @@ export default class IdsToast extends IdsElement {
 
   /** Fires after clear the saved position from local storage */
   on(event: 'clear-position', listener: (detail: IdsToastClearPositionEventDetail) => void): this;
+
+  /** Fires after removed the toast message container */
+  on(event: 'remove-container', listener: (detail: IdsToastRmContainerEventDetail) => void): this;
 }

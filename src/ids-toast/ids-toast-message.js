@@ -290,8 +290,8 @@ class IdsToastMessage extends
   }
 
   get timeout() {
-    const timeout = this.getAttribute(attributes.TIMEOUT);
-    return timeout !== null ? parseInt(timeout, 10) : shared.DEFAULTS.timeout;
+    const timeout = parseInt(this.getAttribute(attributes.TIMEOUT), 10);
+    return !isNaN(timeout) ? timeout : shared.DEFAULTS.timeout; // eslint-disable-line
   }
 
   /**

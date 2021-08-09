@@ -1,194 +1,137 @@
 // IdsToast Sandbox
 import './index';
+import '../../src/ids-checkbox/ids-checkbox';
 import '../../src/ids-radio/ids-radio';
 
 document.addEventListener('DOMContentLoaded', () => {
   const idsContainer = document.querySelector('ids-container');
 
-  // Position
-  // 'bottom-end', 'bottom-start', 'top-end', 'top-start' (default: 'top-end')
-  const radioPosition = document.querySelector('#radio-toast-position');
-  const btnPosition = document.querySelector('#btn-toast-position');
-  btnPosition?.addEventListener('click', () => {
-    const position = radioPosition.value;
-    const toastId = 'test-toast-position';
+  /*
+   * Variant Toast
+   * show toast message with variant settings
+   */
+  const isChecked = (sel) => document.querySelector(sel)?.checked === 'true';
+  const btnToastVariant = document.querySelector('#btn-toast-variant');
+
+  btnToastVariant?.addEventListener('click', () => {
+    const draggable = isChecked('#cb-toast-draggable');
+    const destroyOnComplete = isChecked('#cb-toast-destroy-on-complete');
+    const position = document.querySelector('#radio-toast-position').value;
+
+    const allowLink = isChecked('#cb-toast-allow-link');
+    const audible = isChecked('#cb-toast-audible');
+    const closeButtonLabel = isChecked('#cb-toast-close-button-label') ? 'Click here to close' : null;
+    const progressBar = isChecked('#cb-toast-progress-bar');
+    const timeout = isChecked('#cb-toast-timeout') ? 2000 : null;
+
+    const title = 'Application Offline';
+    const message = !allowLink
+      ? 'This is a Toast message.'
+      : 'Link in message: <ids-hyperlink href="http://www.example.com" target="_blank">Google</ids-hyperlink>';
+
+    const toastId = 'test-toast-variant';
     let toast = document.querySelector(`#${toastId}`);
     if (!toast) {
       toast = document.createElement('ids-toast');
       toast.setAttribute('id', toastId);
-      toast.position = position;
       idsContainer?.appendChild(toast);
     }
+
+    toast.draggable = draggable;
+    toast.destroyOnComplete = destroyOnComplete;
+    toast.position = position;
+
     toast.show({
-      title: 'Application Offline',
-      message: 'This is a Toast message.'
+      title,
+      message,
+      allowLink,
+      audible,
+      closeButtonLabel,
+      progressBar,
+      timeout
     });
   });
 
-  // Draggable
-  const btnDraggable = document.querySelector('#btn-toast-draggable');
-  btnDraggable?.addEventListener('click', () => {
-    const toastId = 'test-toast-draggable';
-    let toast = document.querySelector(`#${toastId}`);
-    if (!toast) {
-      toast = document.createElement('ids-toast');
-      toast.setAttribute('id', toastId);
-      toast.draggable = true;
-      idsContainer?.appendChild(toast);
-    }
-    toast.show({
-      title: 'Application Offline',
-      message: 'This is a Toast message.'
-    });
-  });
+  /*
+   * Save position
+   * apply only when draggable set to true
+   *
+   * uniqueId: Use to clear the saved position from storage
+   * if not will use internal auto generated id
+   */
+  const uniqueId1 = 'some-uniqueid-1';
+  const uniqueId2 = 'some-uniqueid-2';
 
-  // Save position
-  // apply only when draggable set to true
-  const btnSavePosition = document.querySelector('#btn-toast-save-position');
-  btnSavePosition?.addEventListener('click', () => {
-    const toastId = 'test-toast-save-position';
-    /*
-     * uniqueId: Use to clear the saved position from storage
-     * if not will use internal auto generated id
-     */
-    const uniqueId = 'some-uniqueid';
+  const setClearButtons = (sel, toast) => {
+    const buttons = {
+      clearAll: document.querySelector('#btn-toast-clear-position-all'),
+      btnClear1: document.querySelector('#btn-toast-clear-position-1'),
+      btnClear2: document.querySelector('#btn-toast-clear-position-2'),
+    };
+    if (buttons.btnClear1 && buttons.btnClear2 && buttons.clearAll && toast) {
+      const btn = buttons[`btnClear${sel}`];
+      const btnAlt = buttons[`btnClear${sel !== 1 ? 1 : 2}`];
+      buttons.clearAll.disabled = true;
+      btn.disabled = true;
+      toast.addEventListener('remove-container', () => {
+        btn.disabled = false;
+        if (!btnAlt.disabled) {
+          buttons.clearAll.disabled = false;
+        }
+      });
+    }
+  };
+  const handleSavePosition = (sel) => {
+    const toastId = `test-toast-save-position-${sel}`;
     let toast = document.querySelector(`#${toastId}`);
     if (!toast) {
       toast = document.createElement('ids-toast');
       toast.setAttribute('id', toastId);
-      toast.localStorage = {};
-      toast.uniqueId = uniqueId;
+      toast.uniqueId = sel === 1 ? uniqueId1 : uniqueId2;
       toast.savePosition = true;
       toast.draggable = true;
       idsContainer?.appendChild(toast);
     }
     toast.show({
-      title: 'Application Offline',
+      title: `Application Offline (${sel})`,
       message: 'This is a Toast message.'
     });
+
+    // Set clear buttons disable/enable, so it not in action while toast active
+    setClearButtons(sel, toast);
+  };
+  const btnSavePosition1 = document.querySelector('#btn-toast-save-position-1');
+  const btnSavePosition2 = document.querySelector('#btn-toast-save-position-2');
+  btnSavePosition1?.addEventListener('click', () => {
+    handleSavePosition(1);
+  });
+  btnSavePosition2?.addEventListener('click', () => {
+    handleSavePosition(2);
   });
 
-  // Clear saved position from local storage
-  const btnClearSavedPosition = document.querySelector('#btn-toast-clear-saved-position');
-  btnClearSavedPosition?.addEventListener('click', () => {
-    /*
-     * uniqueId: Used with toast while saveing the position to storage
-     */
-    const uniqueId = 'some-uniqueid';
+  /*
+   * Clear position
+   * uniqueId: Used with toast while saveing the position to storage
+   */
+  const btnClear1 = document.querySelector('#btn-toast-clear-position-1');
+  const btnClear2 = document.querySelector('#btn-toast-clear-position-2');
+  const btnClearAll = document.querySelector('#btn-toast-clear-position-all');
+  btnClear1?.addEventListener('click', () => {
     const toast = document.createElement('ids-toast');
-    toast.clearPosition(uniqueId);
+    toast.clearPosition(uniqueId1);
   });
-
-  // Clear (all) saved position toast related from local storage
-  const btnClearAllSavedPosition = document.querySelector('#btn-toast-clear-all-saved-position');
-  btnClearAllSavedPosition?.addEventListener('click', () => {
+  btnClear2?.addEventListener('click', () => {
+    const toast = document.createElement('ids-toast');
+    toast.clearPosition(uniqueId2);
+  });
+  btnClearAll?.addEventListener('click', () => {
     const toast = document.createElement('ids-toast');
     toast.clearPositionAll();
   });
 
-  // Destroy from dom, after all messages complete with this toast id
-  const btnDestroyOnComplete = document.querySelector('#btn-toast-destroy-on-complete');
-  btnDestroyOnComplete?.addEventListener('click', () => {
-    const toastId = 'test-toast-destroy-on-complete';
-    let toast = document.querySelector(`#${toastId}`);
-    if (!toast) {
-      toast = document.createElement('ids-toast');
-      toast.setAttribute('id', toastId);
-      toast.destroyOnComplete = false;
-      idsContainer?.appendChild(toast);
-    }
-    toast.show({
-      title: 'Application Offline',
-      message: 'This is a Toast message.'
-    });
-  });
-
-  // Allow link
-  const btnAllowLink = document.querySelector('#btn-toast-allow-link');
-  btnAllowLink?.addEventListener('click', () => {
-    const toastId = 'test-toast-allow-link';
-    let toast = document.querySelector(`#${toastId}`);
-    if (!toast) {
-      toast = document.createElement('ids-toast');
-      toast.setAttribute('id', toastId);
-      idsContainer?.appendChild(toast);
-    }
-    toast.show({
-      title: 'Application Offline',
-      message: 'Link in message: <ids-hyperlink href="http://www.example.com" target="_blank">Google</ids-hyperlink>',
-      allowLink: true
-    });
-  });
-
-  // Timeout
-  const btnTimeout = document.querySelector('#btn-toast-timeout');
-  btnTimeout?.addEventListener('click', () => {
-    const toastId = 'test-toast-timeout';
-    let toast = document.querySelector(`#${toastId}`);
-    if (!toast) {
-      toast = document.createElement('ids-toast');
-      toast.setAttribute('id', toastId);
-      idsContainer?.appendChild(toast);
-    }
-    toast.show({
-      title: 'Application Offline',
-      message: 'This is a Toast message.',
-      timeout: 2000
-    });
-  });
-
-  // Close button custom label text
-  const btnCloseButtonLabel = document.querySelector('#btn-toast-close-button-label');
-  btnCloseButtonLabel?.addEventListener('click', () => {
-    const toastId = 'test-toast-close-button-label';
-    let toast = document.querySelector(`#${toastId}`);
-    if (!toast) {
-      toast = document.createElement('ids-toast');
-      toast.setAttribute('id', toastId);
-      idsContainer?.appendChild(toast);
-    }
-    toast.show({
-      title: 'Application Offline',
-      message: 'This is a Toast message.',
-      closeButtonLabel: 'Click here to close'
-    });
-  });
-
-  // Progress bar (hidden)
-  const btnProgressBar = document.querySelector('#btn-toast-progress-bar');
-  btnProgressBar?.addEventListener('click', () => {
-    const toastId = 'test-toast-progress-bar';
-    let toast = document.querySelector(`#${toastId}`);
-    if (!toast) {
-      toast = document.createElement('ids-toast');
-      toast.setAttribute('id', toastId);
-      idsContainer?.appendChild(toast);
-    }
-    toast.show({
-      title: 'Application Offline',
-      message: 'This is a Toast message.',
-      progressBar: false
-    });
-  });
-
-  // Audible only
-  const btnAudible = document.querySelector('#btn-toast-audible');
-  btnAudible?.addEventListener('click', () => {
-    const toastId = 'test-toast-audible';
-    let toast = document.querySelector(`#${toastId}`);
-    if (!toast) {
-      toast = document.createElement('ids-toast');
-      toast.setAttribute('id', toastId);
-      idsContainer?.appendChild(toast);
-    }
-    toast.show({
-      title: 'Application Offline',
-      message: 'This is a Toast message.',
-      audible: true
-    });
-  });
-
-  // Toast message by markup
+  /*
+   * Toast message by markup
+   */
   const btnMarkup = document.querySelector('#btn-toast-markup');
   const toastMarkup = document.querySelector('#toast-markup');
   btnMarkup?.addEventListener('click', () => {

@@ -277,7 +277,7 @@ class IdsToast extends mix(IdsElement).with(
     const addAttribute = (elem, attr) => {
       const key = stringUtils.camelCase(attr);
       const value = { toast: this[key], opt: options[key] };
-      if (typeof value.opt !== 'undefined') {
+      if (typeof value.opt !== 'undefined' && value.opt !== null) {
         elem.setAttribute(attr, value.opt.toString());
       }
     };
@@ -357,6 +357,9 @@ class IdsToast extends mix(IdsElement).with(
       if (!this.#toastsMap.size) {
         this.#savePosition();
         toastContainer?.parentNode?.removeChild(toastContainer);
+        this.triggerEvent(shared.EVENTS.removeContainer, this, {
+          detail: { elem: this, uniqueId: this.uniqueId }
+        });
 
         // Remove from DOM
         if (this.destroyOnComplete) {

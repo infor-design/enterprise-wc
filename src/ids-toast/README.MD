@@ -385,6 +385,7 @@ btnToast?.addEventListener('click', () => {
 - `remove-message` Fires while the toast message is removed from container
 - `save-position` Fires after the local storage settings changed in some way
 - `clear-position` Fires after clear the saved position from local storage
+- `remove-container` Fires after removed the toast message container
 
 ## Events (Toast Message)
 
