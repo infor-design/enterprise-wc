@@ -96,13 +96,13 @@ class IdsColorPicker extends mix(IdsElement).with(
     /* istanbul ignore next */
     const template = `
       <div class="ids-color-picker">
-        <ids-trigger-field tabbable="false">
+        <ids-trigger-field>
           <label class="color-preview">
             <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
             <ids-text audible="true">Pick Custom Color</ids-text>
           </label>
           <ids-input value="${this.value.toLowerCase()}" size="sm" dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
-          <ids-trigger-button id="${id}-button" title="${id}">
+          <ids-trigger-button id="${id}-button" title="${id}" tabbable="false">
             <ids-text audible="true">color picker trigger</ids-text>
             <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
           </ids-trigger-button>

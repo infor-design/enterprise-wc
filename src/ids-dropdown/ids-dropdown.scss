@@ -1,0 +1,6 @@
+/* Ids Tag Component */
+@import '../ids-base/ids-base';
+
+:host(ids-input) {
+  @include cursor-pointer();
+}
