@@ -7,14 +7,9 @@
   margin-bottom: 20px;
 
   .label {
-    @include text-slate-60();
 
     &::part(text) {
       margin-bottom: 8px;
     }
-  }
-
-  .data {
-    color: black;
   }
 }
