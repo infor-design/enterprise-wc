@@ -16,13 +16,13 @@ describe('IdsSummaryField Component', () => {
 
   afterEach(async () => {
     document.body.innerHTML = '';
-    summaryField= null;
+    summaryField = null;
   });
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
     summaryField.remove();
-    summaryField= new IdsSummaryField();
+    summaryField = new IdsSummaryField();
     document.body.appendChild(summaryField);
 
     expect(document.querySelectorAll('ids-summary-field').length).toEqual(1);
