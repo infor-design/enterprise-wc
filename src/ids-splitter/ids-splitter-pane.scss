@@ -1,6 +1,20 @@
-.ids-splitter-pane {
+:host(ids-splitter-pane) {
   display: flex;
-  flex-direction: var(--axis-direction);
-  width: 100%;
+  flex-basis: var(--size);
+  flex-shrink: 0;
+}
+
+:host(ids-splitter-pane[axis='x']) {
+  max-width: var(--max-size);
+  min-width: var(--min-size);
   height: 100%;
+}
+
+:host(ids-splitter-pane[axis='y']) {
+  --max-size: attr(max-size);
+  --min-size: attr(min-size);
+
+  max-height: var(--max-size, 100%);
+  min-height: var(--min-size, 0%);
+  width: 100%;
 }

@@ -1,5 +1,13 @@
-.ids-splitter {
+:host(ids-splitter) {
   display: flex;
   width: 100%;
   height: 100%;
+}
+
+:host(ids-splitter[axis='x']) {
+  flex-direction: row;
+}
+
+:host(ids-splitter[axis='y']) {
+  flex-direction: column;
 }

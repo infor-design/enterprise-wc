@@ -78,6 +78,10 @@ export default class IdsSplitter extends mix(IdsElement).with(
         component: IdsDraggable,
         targetAttribute: attributes.AXIS,
         valueXformer: getDraggableAxis
+      }, {
+        component: IdsSplitterPane,
+        targetAttribute: attributes.AXIS,
+        valueXformer: getDraggableAxis
       }]
     };
   }
@@ -88,11 +92,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
    * @returns {string} the template to render
    */
   template() {
-    return (
-      `<div class="ids-splitter">
-        <slot></slot>
-      </div>`
-    );
+    return (`<slot></slot>`);
   }
 
   connectedCallback() {

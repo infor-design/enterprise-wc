@@ -14,12 +14,18 @@ import {
 import styles from './ids-splitter-pane.scss';
 import IdsDraggable from '../ids-draggable';
 
+/**
+ * parses size string that can be specified with px/%
+ *
+ * @param {*} value size attribute string/number
+ * @returns {{ unit: 'px'|'%', size: number }} | undefined
+ */
 const getSize = (value) => {
-  const capturedParts = `${value}`.match(/([0-9]+)[\s]*(%|px)/);
+  const capturedParts = `${value}`.match(/([0-9]+)[\s]*(%|px)?/);
 
   if (capturedParts) {
     /* eslint-disable-next-line no-unused-vars */
-    const [_, number, unit] = capturedParts;
+    const [_, number, unit = 'px'] = capturedParts;
     return { number, unit };
   }
 
@@ -77,6 +83,26 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
+  }
+
+  set axis(value) {
+    let nextValue;
+
+    switch (value) {
+    case 'y': {
+      nextValue = 'y';
+      break;
+    }
+    case 'x':
+    default: {
+      nextValue = 'x';
+      break;
+    }
+    }
+
+    if (this.getAttribute(attributes.AXIS) !== nextValue) {
+      this.setAttribute(attributes.AXIS, nextValue);
+    }
   }
 
   set paneId(value) {
@@ -214,6 +240,12 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     } else {
       this.#size = undefined;
     }
+
+    if (this.#size) {
+      this.style.setProperty('--size', this.size);
+    } else {
+      this.style.removeProperty('--size');
+    }
   }
 
   /** Update internal max size + meta */
@@ -223,6 +255,12 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     } else {
       this.#maxSize = undefined;
     }
+
+    if (this.#maxSize) {
+      this.style.setProperty('--max-size', this.maxSize);
+    } else {
+      this.style.removeProperty('--max-size');
+    }
   }
 
   /** Update internal min size + meta */
@@ -231,6 +269,12 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
       this.#minSize = getSize(this.minSize);
     } else {
       this.#minSize = undefined;
+    }
+
+    if (this.#minSize) {
+      this.style.setProperty('--min-size', this.minSize);
+    } else {
+      this.style.removeProperty('--min-size');
     }
   }
 }
