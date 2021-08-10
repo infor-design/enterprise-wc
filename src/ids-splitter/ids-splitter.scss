@@ -1,4 +1,5 @@
 :host(ids-splitter) {
+  position: relative;
   display: flex;
   width: 100%;
   height: 100%;
@@ -6,8 +7,43 @@
 
 :host(ids-splitter[axis='x']) {
   flex-direction: row;
+  min-height: 48px;
 }
 
 :host(ids-splitter[axis='y']) {
   flex-direction: column;
+  min-width: 48px;
+}
+
+ids-draggable {
+  position: absolute;
+}
+
+ids-draggable[axis='x'] {
+  top: 0;
+  height: 100%;
+  border-left: 1px solid #000;
+}
+
+.drag-handle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+ids-draggable[axis='x']:hover:not([disabled]) {
+  background-color: #ccc;
+}
+
+ids-draggable[axis='y'] {
+  left: 0;
+  width: 100%;
+  border-top: 1px solid #000;
+}
+
+ids-draggable[axis='y'] ids-icon {
+  transform: rotate(-90deg);
 }

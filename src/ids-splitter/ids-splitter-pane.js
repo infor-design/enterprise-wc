@@ -12,7 +12,6 @@ import {
   IdsThemeMixin
 } from '../ids-mixins';
 import styles from './ids-splitter-pane.scss';
-import IdsDraggable from '../ids-draggable';
 
 /**
  * parses size string that can be specified with px/%

@@ -258,6 +258,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       this.isDragging = true;
 
       this.onEvent('mouseup', document, this.onMouseUp);
+      this.isDragging = true;
+
       this.onEvent('mousemove', document, this.onMouseMove);
 
       // if we have our content being draggable by the parent element,
@@ -474,6 +476,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       eventDetail.dragDeltaY = dragDeltaY;
       eventDetail.translateX = translateX;
       eventDetail.translateY = translateY;
+
+      this.style.setProperty('transform', `translate(${translateX}px, ${translateY}px)`);
 
       if (this.#cursorEl) {
         this.#cursorEl.style.left = `${e.x - CURSOR_EL_SIZE / 2}px`;

@@ -30,6 +30,18 @@ import styles from './ids-splitter.scss';
 // (3) figure out left/top, add styles and inner content on draggable
 
 /**
+ * @type {{ x: HTMLTemplateElement, y: HTMLTemplateElement }}
+ */
+const dragHandleTemplates = {};
+
+['x', 'y'].forEach((axis) => {
+  const template = document.createElement('template');
+  template.innerHTML = `<div class="drag-handle"><ids-icon icon="drag"></ids-icon></div>`;
+
+  dragHandleTemplates[axis] = template;
+});
+
+/**
  * IDS Splitter Component
  * @type {IdsSplitter}
  * @inherits IdsElement
@@ -121,6 +133,9 @@ export default class IdsSplitter extends mix(IdsElement).with(
 
     if (this.getAttribute(attributes.AXIS) !== nextValue) {
       this.setAttribute(attributes.AXIS, nextValue);
+      window.requestAnimationFrame(() => {
+        this.#refreshPaneMappings();
+      });
     }
   }
 
@@ -150,14 +165,25 @@ export default class IdsSplitter extends mix(IdsElement).with(
   #draggableSet = new Set();
 
   #refreshPaneMappings() {
-    // TODO: before clearing pane draggables, re-grab references
+    // TODO: instead of clearing pane draggables, re-grab references
     // to the panes/draggable based on their orders and pane-ids
+
+    /* eslint-disable-next-line no-unused-vars */
+    for (const [_p, entry] of this.#paneDraggableMap) {
+      if (entry.before) {
+        entry.before.parentNode.removeChild(entry.before);
+      }
+
+      if (entry.after) {
+        entry.after.parentNode.removeChild(entry.after);
+      }
+    }
 
     this.#paneDraggableMap.clear();
 
     for (const el of this.children) {
       if (el instanceof IdsSplitterPane) {
-        this.#paneDraggableMap.set(el, { left: undefined, right: undefined });
+        this.#paneDraggableMap.set(el, { before: undefined, after: undefined });
 
         // assign a pane-id for referencing when
         // possibly dispatching drag events
@@ -172,22 +198,48 @@ export default class IdsSplitter extends mix(IdsElement).with(
 
     const paneMappings = [...this.#paneDraggableMap.keys()];
 
+    // TODO: use local var when resize code exists
+    const thisRect = this.getBoundingClientRect();
+
     for (let i = 0; i < paneMappings.length / 2; i += 2) {
-      const lPane = paneMappings[i];
-      const rPane = ((i + 2) > paneMappings.length) ? paneMappings[i + 1] : undefined;
-      const lPaneEntry = this.#paneDraggableMap.get(lPane);
-      const rPaneEntry = this.#paneDraggableMap.get(rPane);
+      const p1 = paneMappings[i];
+      const p2 = ((i + 2) > paneMappings.length) ? paneMappings[i + 1] : undefined;
+      const p1Entry = this.#paneDraggableMap.get(p1);
+      const p2Entry = this.#paneDraggableMap.get(p2);
 
       const draggable = new IdsDraggable();
       draggable.axis = this.#getDraggableAxis();
-      draggable.innerHTML = '&lt;draggable-here&gt;';
-      lPaneEntry.after = draggable;
 
-      if (rPaneEntry) {
-        rPaneEntry.before = draggable;
+      // TODO: consider storing rect in entry and updating on resize
+      // when event exists
+      const pane1Rect = p1.getBoundingClientRect();
+
+      // set draggable overall left offset relative to hte parent since they are
+      // added to shadowDOM from parent; this cannot be done through direct
+      // style inject but must be through a variable because of WC quirks
+
+      p1Entry.after = draggable;
+      draggable.appendChild(dragHandleTemplates[this.axis].content.cloneNode(true));
+
+      if (p2Entry) {
+        p2Entry.before = draggable;
       }
 
-      lPane.insertAdjacentElement('afterend', draggable);
+      window.requestAnimationFrame(() => {
+        if (this.axis === 'x') {
+          draggable.style.setProperty(
+            '--parent-offset',
+            `${pane1Rect.left + pane1Rect.width - thisRect.left}px`
+          );
+        } else {
+          draggable.style.setProperty(
+            '--parent-offset',
+            `${pane1Rect.top + pane1Rect.height - thisRect.top}px`
+          );
+        }
+
+        this.shadowRoot.appendChild(draggable);
+      });
     }
   }
 
