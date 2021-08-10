@@ -4,6 +4,7 @@ import {
   version,
   scss
 } from './ids-decorators';
+
 import { attributes } from './ids-attributes';
 import mix from './ids-mixin-builder';
 import renderLoop from '../components/ids-render-loop/ids-render-loop-global';
@@ -151,7 +152,13 @@ class IdsElement extends HTMLElement {
    * @returns {object} The object for chaining.
    */
   render() {
-    // set up shadowRoot and constructed stylesheet
+    if (!this.template || !this.template()) {
+      return this;
+    }
+
+    // Make template and shadow objects
+    const template = document.createElement('template');
+
     if (this.shadowRoot?.innerHTML) {
       this.shadowRoot.innerHTML = '';
       // Append the style sheet for safari
@@ -166,16 +173,7 @@ class IdsElement extends HTMLElement {
     }
 
     this.appendStyles();
-
-    // for content with a template, render template
-    const template = document.createElement('template');
-    const templateHTML = this.template?.();
-
-    if (!templateHTML) {
-      return this;
-    }
-
-    template.innerHTML = templateHTML;
+    template.innerHTML = this.template();
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
     /** @type {any} */
@@ -188,16 +186,27 @@ class IdsElement extends HTMLElement {
       this.container = this.shadowRoot?.firstElementChild;
     }
 
+<<<<<<< HEAD:src/core/ids-element.js
+=======
+    // Remove any close hidden element to avoid FOUC
+    this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
+    this.closest('ids-container')?.removeAttribute('hidden');
+
+>>>>>>> 43787561... reverse ids-element changes while testing:src/ids-base/ids-element.js
     // Runs on next next paint to be sure rendered() fully
     if (this.rendered) {
       renderLoop.register(new IdsRenderLoopItem({
         duration: 1,
+<<<<<<< HEAD:src/core/ids-element.js
         timeoutCallback: () => {
           this.rendered();
           // Remove any close hidden element to avoid FOUC
           this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
           this.closest('ids-container')?.removeAttribute('hidden');
         }
+=======
+        timeoutCallback: () => { this.rendered(); }
+>>>>>>> 43787561... reverse ids-element changes while testing:src/ids-base/ids-element.js
       }));
     }
 
