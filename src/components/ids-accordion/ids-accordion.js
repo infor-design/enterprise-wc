@@ -10,7 +10,6 @@ import styles from './ids-accordion.scss';
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
 import {
-  IdsAttributeProviderMixin,
   IdsColorVariantMixin,
   IdsEventsMixin,
   IdsThemeMixin
@@ -20,7 +19,6 @@ import {
  * IDS Accordion Component
  * @type {IdsAccordion}
  * @inherits IdsElement
- * @mixes IdsAttributeProviderMixin
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
@@ -29,7 +27,6 @@ import {
 @customElement('ids-accordion')
 @scss(styles)
 class IdsAccordion extends mix(IdsElement).with(
-    IdsAttributeProviderMixin,
     IdsColorVariantMixin,
     IdsEventsMixin,
     IdsThemeMixin
@@ -40,6 +37,10 @@ class IdsAccordion extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
+
+    if (this.colorVariant) {
+      this.#assignNestedColorVariant();
+    }
   }
 
   /**
@@ -60,26 +61,6 @@ class IdsAccordion extends mix(IdsElement).with(
   availableColorVariants = ['app-menu'];
 
   /**
-   * @returns {Array} List of attributes provided to child components
-   */
-  providedAttributes = {
-    // @TODO work out how `valueXformer` gets its context, and
-    // if the component receiving the transformation can be checked
-    // (need to see if we can figure out whether or not accordion panes are nested)
-    [attributes.COLOR_VARIANT]: [{
-      component: IdsAccordionHeader,
-      valueXformer: () => (
-        this.parentNode.parentNode.tagName === 'IDS-ACCORDION-PANEL' ? 'sub-app-menu' : 'app-menu'
-      )
-    }, {
-      component: IdsAccordionPanel,
-      valueXformer: () => (
-        this.parentNode.tagName === 'IDS-ACCORDION-PANEL' ? 'sub-app-menu' : 'app-menu'
-      )
-    }]
-  };
-
-  /**
    * Inner template contents
    * @returns {string} The template
    */
@@ -89,6 +70,55 @@ class IdsAccordion extends mix(IdsElement).with(
         <slot></slot>
       </div>
     `;
+  }
+
+  get colorVariant() {
+    return super.colorVariant;
+  }
+
+  set colorVariant(val) {
+    super.colorVariant = val;
+    this.#assignNestedColorVariant();
+  }
+
+  /**
+   * Labels Headers and Panels by their depth within the accordion tree.
+   * Used for assigning alternate
+   * @param {HTMLElement} element the element to check
+   * @param {number} depth the zero.
+   */
+  #assignNestedColorVariant(element = this, depth = 0) {
+    if (!this.colorVariant) {
+      return;
+    }
+
+    // @TODO: remove this after debugging
+    if (element.depth !== depth) {
+      element.setAttribute('depth', depth);
+    }
+
+    // Defines the color variant based on depth
+    // DON'T do this on the accordion itself
+    if (depth > 0) {
+      const variant = depth > 1 ? `sub-${this.colorVariant}` : this.colorVariant;
+      const header = element.querySelector('ids-accordion-header');
+      element.colorVariant = variant;
+      if (header) {
+        header.colorVariant = variant;
+      }
+    }
+
+    // Check children for nested panes
+    const children = element.children;
+    for (const childEl of children) {
+      if (depth > 5) {
+        break;
+      }
+      if (childEl.tagName !== 'IDS-ACCORDION-PANEL') {
+        continue;
+      }
+      this.#assignNestedColorVariant(childEl, depth + 1);
+    }
   }
 }
 

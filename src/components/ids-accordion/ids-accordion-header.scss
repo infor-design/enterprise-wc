@@ -140,15 +140,6 @@
 }
 
 :host {
-  /*
-  &:focus {
-    @include shadow();
-    @include outline-none();
-
-    border: 1px solid var(--ids-color-palette-azure-70);
-  }
-  */
-
   ids-icon {
     transition: transform $transition-length $transition-ease;
     justify-self: end;
@@ -165,13 +156,19 @@
   @include antialiased();
   @include border-1();
   @include border-solid();
-  @include px-16();
-  @include py-12();
 
   align-items: center;
   cursor: pointer;
-  display: grid;
+  display: flex;
   grid-auto-flow: column;
+
+  ::slotted(ids-text) {
+    flex-grow: 1;
+  }
+
+  ::slotted(ids-icon) {
+    @include mr-8();
+  }
 
   &:focus {
     @include outline-none();
@@ -180,16 +177,22 @@
   // In-page Accordions
   &:not(.color-variant-app-menu),
   &:not(.color-variant-sub-app-menu) {
+    @include px-16();
+    @include py-12();
     @include accordion-header-standard-colors();
   }
 
   // Top Level App Menu Accordions
   &.color-variant-app-menu {
+    @include px-16();
+    @include py-12();
     @include acccordion-header-app-menu-colors();
   }
 
   // Sub-level App Menu Accordions
   &.color-variant-sub-app-menu {
-    @include accordion-header-sub-level-colors();
+    @include px-12();
+    @include py-8();
+    @include acccordion-header-app-menu-colors();
   }
 }
