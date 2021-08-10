@@ -228,10 +228,6 @@
 :host([disabled][mode='dark'][version='classic']) .ids-text {
   @include text-classic-slate-50();
 
-  &.data {
-    @include text-white();
-  }
-
   &.label {
     @include text-classic-slate-50();
   }
