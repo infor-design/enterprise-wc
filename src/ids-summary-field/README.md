@@ -2,7 +2,7 @@
 
 ## Description
 
-This component is closely intertwined with the [old component](https://main-enterprise.demo.design.infor.com/components/form/example-forms.html) and provides readable information based on what is entered in those fields. The style of this summary field by default has a font weight `bold` for the `data` field. To overwrite these styles, you would have to edit the source code, specifically the styles of the `ids-text` elements of the template.
+This component is closely intertwined with the [old component](https://main-enterprise.demo.design.infor.com/components/form/example-forms.html) and provides readable information based on what is entered in those fields. The style of this summary field by default has a font weight `bold` for the `data` field. To overwrite these styles, you would have to edit the source code, specifically the styles of the `ids-text` elements of the template
 
 ## Use Cases
 
