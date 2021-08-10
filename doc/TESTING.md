@@ -87,4 +87,4 @@ await page._client.send('Animation.setPlaybackRate', { playbackRate: 3 });
 - To run in coverage mode (which may take more time than just running tests alone), use the command `npm run test:coverage`
 - Open the [newly generated coverage report @ ../coverage/index.html](../coverage/index.html) in any browser
 - Drill in to the component in question and try and improve coverage to 100%.
-- if when inspecting the coverage report and you notice a black "E" or "I", this would indicate that a branch (else or if) is not detected as covered.
+- If while inspecting the coverage report you notice a black "E" or "I", this would indicate that a connected logic branch (else or if) to the line reported is not detected as covered.
