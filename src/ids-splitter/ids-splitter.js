@@ -84,7 +84,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
   }
 
   get providedAttributes() {
-    const getDraggableAxis = () => this.#getDraggableAxis();
+    const getDraggableAxis = () => this.#getDraggableAxis(this.axis);
     return {
       [attributes.AXIS]: [{
         component: IdsDraggable,
@@ -133,9 +133,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
 
     if (this.getAttribute(attributes.AXIS) !== nextValue) {
       this.setAttribute(attributes.AXIS, nextValue);
-      window.requestAnimationFrame(() => {
-        this.#refreshPaneMappings();
-      });
+      this.#refreshPaneMappings();
     }
   }
 
@@ -208,7 +206,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
       const p2Entry = this.#paneDraggableMap.get(p2);
 
       const draggable = new IdsDraggable();
-      draggable.axis = this.#getDraggableAxis();
+      draggable.axis = this.#getDraggableAxis(this.axis);
 
       // TODO: consider storing rect in entry and updating on resize
       // when event exists
@@ -225,21 +223,19 @@ export default class IdsSplitter extends mix(IdsElement).with(
         p2Entry.before = draggable;
       }
 
-      window.requestAnimationFrame(() => {
-        if (this.axis === 'x') {
-          draggable.style.setProperty(
-            '--parent-offset',
-            `${pane1Rect.left + pane1Rect.width - thisRect.left}px`
-          );
-        } else {
-          draggable.style.setProperty(
-            '--parent-offset',
-            `${pane1Rect.top + pane1Rect.height - thisRect.top}px`
-          );
-        }
+      if (this.axis === 'x') {
+        draggable.style.setProperty(
+          '--parent-offset',
+          `${pane1Rect.left + pane1Rect.width - thisRect.left}px`
+        );
+      } else {
+        draggable.style.setProperty(
+          '--parent-offset',
+          `${pane1Rect.top + pane1Rect.height - thisRect.top}px`
+        );
+      }
 
-        this.shadowRoot.appendChild(draggable);
-      });
+      this.shadowRoot.appendChild(draggable);
     }
   }
 
@@ -249,7 +245,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
   #paneIdCount = 0;
 
   #getDraggableAxis(axis) {
-    return (((axis === 'x') || (axis === 'y')) ? axis : 'x');
+    return ((axis === 'x') || (axis === 'y')) ? axis : 'x';
   }
 
   sizePanes() {

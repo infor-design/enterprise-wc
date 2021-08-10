@@ -34,8 +34,8 @@ ids-draggable[axis='x'] {
   height: 100%;
 }
 
-ids-draggable[axis='x']:hover:not([disabled]) {
-  background-color: #ccc;
+ids-draggable:hover:not([disabled]) {
+  background-color: var(--ids-color-palette-slate-20);
 }
 
 ids-draggable[axis='y'] {
