@@ -98,15 +98,16 @@
 // ================================================
 // Styles specific to the Top-level App Menu Accordions
 
-@mixin acccordion-header-app-menu-colors() {
+@mixin accordion-header-app-menu-colors() {
   @include mx-8();
   @include rounded-md();
 
   // Light Mode Styles
   &[mode='light'] {
     // Contrasts background of "bg-slate-100()" from the Drawer
-    @include bg-slate-100();
-    @include border-slate-100();
+    background-color: transparent;
+    border-color: transparent;
+
     @include text-slate-20();
 
     &.expanded {
@@ -132,11 +133,21 @@
   }
 }
 
+@mixin accordion-header-top-level-app-menu-colors() {
+  .placeholder {
+    content: '';
+  }
+}
+
 // ================================================
 // Styles specific to the Sub-level App Menu Accordions
 
-@mixin accordion-header-sub-level-colors() {
+@mixin accordion-header-nested-app-menu-colors() {
   @include m-0();
+
+  .placeholder {
+    content: '';
+  }
 }
 
 :host {
@@ -175,8 +186,7 @@
   }
 
   // In-page Accordions
-  &:not(.color-variant-app-menu),
-  &:not(.color-variant-sub-app-menu) {
+  &:not(.color-variant-app-menu):not(.color-variant-sub-app-menu) {
     @include px-16();
     @include py-12();
     @include accordion-header-standard-colors();
@@ -186,13 +196,15 @@
   &.color-variant-app-menu {
     @include px-16();
     @include py-12();
-    @include acccordion-header-app-menu-colors();
+    @include accordion-header-app-menu-colors();
+    @include accordion-header-top-level-app-menu-colors();
   }
 
   // Sub-level App Menu Accordions
   &.color-variant-sub-app-menu {
     @include px-12();
     @include py-8();
-    @include acccordion-header-app-menu-colors();
+    @include accordion-header-app-menu-colors();
+    @include accordion-header-nested-app-menu-colors();
   }
 }

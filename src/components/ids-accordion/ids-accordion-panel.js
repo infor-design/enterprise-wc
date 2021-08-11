@@ -7,7 +7,6 @@ import {
 } from '../../core';
 
 import {
-  IdsAttributeProviderMixin,
   IdsColorVariantMixin,
   IdsEventsMixin,
   IdsKeyboardMixin,
@@ -15,6 +14,7 @@ import {
 } from '../../mixins';
 
 import IdsAccordionHeader from './ids-accordion-header';
+import { stringToBool } from '../../utils/ids-string-utils';
 import styles from './ids-accordion-panel.scss';
 
 /**
@@ -29,7 +29,6 @@ import styles from './ids-accordion-panel.scss';
 @customElement('ids-accordion-panel')
 @scss(styles)
 class IdsAccordionPanel extends mix(IdsElement).with(
-    IdsAttributeProviderMixin,
     IdsColorVariantMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
@@ -58,13 +57,6 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   availableColorVariants = ['app-menu', 'sub-app-menu'];
 
   /**
-   * @returns {Array} List of attributes provided to child components
-   */
-  providedAttributes = {
-    // [attributes.EXPANDED]: [IdsAccordionHeader],
-  };
-
-  /**
    * Create a unique title for each accordion pane
    * @private
    */
@@ -78,19 +70,22 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @param {string} value true/false
    */
   set expanded(value) {
-    if (value) {
-      this.setAttribute(attributes.EXPANDED, value);
+    const isValueTruthy = stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute(attributes.EXPANDED, `${value}`);
     } else {
-      this.setAttribute(attributes.EXPANDED, 'false');
+      this.removeAttribute(attributes.EXPANDED);
     }
-    this.#switchState();
+    this.#switchState(isValueTruthy);
   }
 
   /**
    * Get the expanded property
    * @returns {string} the expanded property
    */
-  get expanded() { return this.getAttribute(attributes.EXPANDED); }
+  get expanded() {
+    return stringToBool(this.getAttribute(attributes.EXPANDED));
+  }
 
   /**
    * Return the attributes we handle as getters/setters
@@ -107,11 +102,12 @@ class IdsAccordionPanel extends mix(IdsElement).with(
 
   /**
    * The main state switching function
+   * @param {boolean} isExpanded true if the panel is to be expanded
    * @returns {void}
    * @private
    */
-  #switchState() {
-    this.state.expanded = this.getAttribute(attributes.EXPANDED) === 'true' || false;
+  #switchState(isExpanded) {
+    this.state.expanded = isExpanded || false;
     this.header?.setAttribute('aria-expanded', this.state.expanded);
 
     if (!this.state.expanded) {
@@ -208,22 +204,17 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   #attachEventHandlers() {
     this.onEvent('click', this.expander, () => {
       this.setAttributes();
+      this.select(this);
     });
 
-    this.listen('Enter', this.expander, () => {
+    this.listen('Enter', this.expander, (e) => {
+      e.stopPropagation();
       this.setAttributes();
     });
 
-    this.listen(' ', this.expander, () => {
+    this.listen(' ', this.expander, (e) => {
+      e.stopPropagation();
       this.setAttributes();
-    });
-
-    this.listen('ArrowDown', this.expander, () => {
-      this.select(this.getNextPanel(this));
-    });
-
-    this.listen('ArrowUp', this.expander, () => {
-      this.select(this.getPrevPanel(this));
     });
 
     this.onEvent('touchstart', this.expander, (e) => {
@@ -237,42 +228,6 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   }
 
   /**
-   * Get the next panel element
-   * @private
-   * @param {object} panel The current panel element
-   * @returns {object} The next panel element
-   */
-  getNextPanel(panel) {
-    const next = panel.nextElementSibling;
-
-    /* eslint-disable */
-    if (next === null) {
-      return;
-    } else {
-      return next;
-    }
-    /* eslint-enable */
-  }
-
-  /**
-   * Get the next panel element
-   * @private
-   * @param {object} panel The current panel element
-   * @returns {object} The previous panel element
-   */
-  getPrevPanel(panel) {
-    const prev = panel.previousElementSibling;
-
-    /* eslint-disable */
-    if (prev === null) {
-      return;
-    } else {
-      return prev;
-    }
-    /* eslint-enable */
-  }
-
-  /**
    * Select the prev/next panel
    * @private
    * @param {object} panel The panel to be selected
@@ -281,9 +236,15 @@ class IdsAccordionPanel extends mix(IdsElement).with(
     if (panel === undefined) {
       return;
     }
-    const header = panel.querySelector('ids-accordion-header').shadowRoot.querySelector('.ids-accordion-header');
-    header.setAttribute('tabindex', '0');
-    header.focus();
+    panel.focus();
+  }
+
+  /**
+   * Passes focus from the Panel to its Header component
+   * @returns {void}
+   */
+  focus() {
+    this.header.focus();
   }
 
   /**

@@ -74,7 +74,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    * @returns {boolean} true if this header's pane wrapper is expanded
    */
   get expanded() {
-    return this.pane.expanded;
+    return this.panel.expanded;
   }
 
   /**
@@ -83,6 +83,24 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   set expanded(val) {
     const trueVal = stringToBool(val);
     this.container.classList[trueVal ? 'add' : 'remove']('expanded');
+  }
+
+  /**
+   * Focuses this accordion header
+   * @returns {void}
+   */
+  focus() {
+    this.setAttribute('tabindex', '0');
+    this.container.setAttribute('tabindex', '0');
+    this.container.focus();
+  }
+
+  /**
+   * Removes the ability to focus this accordion header
+   */
+  unfocus() {
+    this.setAttribute('tabindex', '-1');
+    this.container.setAttribute('tabindex', '0');
   }
 }
 

@@ -25,13 +25,33 @@
   @include m-0();
 }
 
+// ============================================
+// Controls the size of nested accordions
+@mixin accordion-pane-standard-size() {
+  .ids-accordion-pane-content {
+    @include p-16();
+  }
+}
+
+@mixin accordion-pane-nested-size() {
+  .ids-accordion-pane-content {
+    @include pl-16();
+  }
+}
+
 .ids-accordion-panel {
+  &:not(.color-variant-app-menu):not(.color-variant-sub-app-menu) {
+    @include accordion-pane-standard-size();
+  }
+
   &.color-variant-app-menu {
     @include accordion-panel-app-menu-colors();
+    @include accordion-pane-standard-size();
   }
 
   &.color-variant-sub-app-menu {
     @include accordion-panel-sub-menu-colors();
+    @include accordion-pane-nested-size();
   }
 }
 
@@ -41,10 +61,6 @@
   height: 0;
   overflow: hidden;
   transition: height $transition-length $transition-ease;
-}
-
-.ids-accordion-pane-content {
-  @include p-16();
 }
 
 .ids-accordion-pane-title {

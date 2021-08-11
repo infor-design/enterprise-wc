@@ -3,6 +3,7 @@
 .ids-app-menu {
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   align-items: stretch;
 }
 
@@ -15,6 +16,7 @@
 }
 
 .ids-app-menu-content {
+  overflow: auto;
   flex-grow: 1;
 }
 
