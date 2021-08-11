@@ -221,12 +221,13 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
 
   set icon(value) {
     const svgElem = this.shadowRoot?.querySelector('svg');
-    if (value && svgElem) {
+    if (value && this.iconData()) {
+      svgElem.styles.display = '';
       this.setAttribute(attributes.ICON, value);
       svgElem.innerHTML = this.iconData();
     } else {
       this.removeAttribute(attributes.ICON);
-      svgElem?.remove();
+      svgElem.style.display = 'none';
     }
   }
 
