@@ -215,14 +215,18 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
 
   /**
    * Return the icon name
-   * @returns {string} the path data
+   * @returns {string} the icon
    */
   get icon() { return this.getAttribute(attributes.ICON) || ''; }
 
+  /**
+   * Sets the icon svg path to render
+   * @param {string} value The value must be a valid key in the path-data.json
+   */
   set icon(value) {
     const svgElem = this.shadowRoot?.querySelector('svg');
     if (value && this.iconData()) {
-      svgElem.styles.display = '';
+      svgElem.style.display = '';
       this.setAttribute(attributes.ICON, value);
       svgElem.innerHTML = this.iconData();
     } else {
@@ -233,7 +237,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
 
   /**
    * Return the size. May be large, normal/medium or small
-   * @returns {string} the path data
+   * @returns {string} the size
    */
   get size() { return this.getAttribute(attributes.SIZE) || 'normal'; }
 

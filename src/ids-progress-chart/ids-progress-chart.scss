@@ -11,6 +11,7 @@
   .labels {
     @include text-graphite-50();
 
+    font-size: 16px;
     display: inline-flex;
     flex-direction: row;
     position: relative;
@@ -30,17 +31,16 @@
       }
     }
 
-
     .label-progress {
       display: inline-flex;
       margin: 0 4px;
+
       &::part(text) {
         color: currentColor;
         font-family: inherit;
         font-size: inherit;
       }
     }
-
 
     .label-end {
       display: flex;
@@ -53,24 +53,23 @@
 
     .label-total {
       position: absolute;
+
       &::part(text) {
         color: currentColor;
         font-family: inherit;
         font-size: inherit;
       }
     }
-
   }
 
   .bar {
     border-radius: 2px;
+    min-height: 28px;
     min-width: 66px;
     display: flex;
     position: relative;
 
     .bar-total {
-      // @include bg-slate-30();
-
       border-radius: inherit;
       display: flex;
       top: 0;
@@ -78,10 +77,8 @@
       width: 100%;
       height: inherit;
     }
-    
+
     .bar-progress {
-      // @include bg-slate-60();
-      
       border-radius: inherit;
       display: flex;
       top: 0;
@@ -89,81 +86,61 @@
       height: inherit;
     }
   }
+}
 
-  
-  &[version='new'] {
-    ids-icon {
-      margin: 3px 4px 0 4px;
+.ids-progress-chart[version='new'] {
+  &[mode='light'] {
+    .bar {
+      .bar-total {
+        @include bg-slate-30();
+      }
+
+      .bar-progress {
+        @include bg-slate-60();
+      }
     }
 
     .labels {
-      font-size: 16px;
+      @include text-slate-60();
     }
+  }
 
+  &[mode='dark'] {
     .bar {
-      min-height: 28px;
+      .bar-total {
+        @include bg-slate-50();
+      }
+
+      .bar-progress {
+        @include bg-azure-60();
+      }
     }
 
-    &[mode='light'] {
-      .bar {
-        .bar-total {
-          @include bg-slate-30();
-        }
-  
-        .bar-progress {
-          @include bg-slate-60();
-        }
-      }
-      .labels {
-        @include text-slate-60();
-      }
+    .labels {
+      @include text-slate-30();
     }
-  
-    &[mode='dark'] {
-      .bar {
-        .bar-total {
-          @include bg-slate-50();
-        }
-  
-        .bar-progress {
-          @include bg-azure-60();
-        }
-      }
-      .labels {
-        @include text-slate-30();
-      }
-    }
-  
-    &[mode='contrast'] {
-      .bar {
-        .bar-total {
-          @include bg-slate-40();
-        }
-  
-        .bar-progress {
-          @include bg-azure-90();
-        }
-      }
-      .labels {
-        @include text-slate-90();
-      }
-    }
-  } 
+  }
 
+  &[mode='contrast'] {
+    .bar {
+      .bar-total {
+        @include bg-slate-40();
+      }
+
+      .bar-progress {
+        @include bg-azure-90();
+      }
+    }
+
+    .labels {
+      @include text-slate-90();
+    }
+  }
 }
 
 .ids-progress-chart[version='classic'] {
   ids-icon {
-    margin: 0px;
-  }
-
-  .labels {
-    font-family: helvetica;
-    font-size: 12px;
-  }
-
-  .bar {
-    min-height: 26px;
+    margin: 0;
   }
 
   &[mode='light'] {
@@ -176,6 +153,7 @@
         background-color: #5c5c5c;
       }
     }
+
     .labels {
       color: #5c5c5c;
     }
@@ -188,9 +166,10 @@
       }
 
       .bar-progress {
-        background-color: #368ac0
+        background-color: #368ac0;
       }
     }
+
     .labels {
       color: #abaeb7;
     }
@@ -206,8 +185,9 @@
         background-color: #383838;
       }
     }
+
     .labels {
-      color: #383838
+      color: #383838;
     }
   }
 }

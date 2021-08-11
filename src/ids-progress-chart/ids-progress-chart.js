@@ -78,9 +78,22 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     </div>`;
   }
 
+  /**
+   * Sets the icon inside the label
+   * @param {string} value The icon name
+   */
   set icon(value) {
-    this.setAttribute(attributes.ICON, value);
-    this.container.querySelector('ids-icon').setAttribute(attributes.ICON, value);
+    const icon = this.container.querySelector('.icon');
+    if (value) {
+      icon.style.display = '';
+      icon.style.margin = '0 4px';
+      this.setAttribute(attributes.ICON, value);
+      icon.setAttribute(attributes.ICON, value);
+    } else {
+      icon.style.display = 'none';
+      this.setAttribute(attributes.ICON, '');
+      icon.setAttribute(attributes.ICON, '');
+    }
   }
 
   get icon() { return this.getAttribute(attributes.ICON); }
