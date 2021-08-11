@@ -9,9 +9,6 @@
   margin: 0 0 8px 0;
 
   .labels {
-    // @include text-slate-60();
-    font-family: helvetica, arial, sans-serif;
-    font-size: 12px;
     @include text-graphite-50();
 
     display: inline-flex;
@@ -25,20 +22,25 @@
     .label-main {
       display: inline-flex;
       margin: 0 4px 0 0;
+
+      &::part(text) {
+        color: currentColor;
+        font-family: inherit;
+        font-size: inherit;
+      }
     }
 
-    .label-main::part(text) {
-      color: currentColor;
-    }
 
     .label-progress {
       display: inline-flex;
       margin: 0 4px;
+      &::part(text) {
+        color: currentColor;
+        font-family: inherit;
+        font-size: inherit;
+      }
     }
 
-    .label-progress::part(text) {
-      color: currentColor;
-    }
 
     .label-end {
       display: flex;
@@ -51,16 +53,17 @@
 
     .label-total {
       position: absolute;
+      &::part(text) {
+        color: currentColor;
+        font-family: inherit;
+        font-size: inherit;
+      }
     }
 
-    .label-total::part(text) {
-      color: currentColor;
-    }
   }
 
   .bar {
     border-radius: 2px;
-    min-height: 28px;
     min-width: 66px;
     display: flex;
     position: relative;
@@ -87,64 +90,124 @@
     }
   }
 
-  ::slotted(ids-icon) {
-    margin: 3px 4px 0 4px;
+  
+  &[version='new'] {
+    ids-icon {
+      margin: 3px 4px 0 4px;
+    }
+
+    .labels {
+      font-size: 16px;
+    }
+
+    .bar {
+      min-height: 28px;
+    }
+
+    &[mode='light'] {
+      .bar {
+        .bar-total {
+          @include bg-slate-30();
+        }
+  
+        .bar-progress {
+          @include bg-slate-60();
+        }
+      }
+      .labels {
+        @include text-slate-60();
+      }
+    }
+  
+    &[mode='dark'] {
+      .bar {
+        .bar-total {
+          @include bg-slate-50();
+        }
+  
+        .bar-progress {
+          @include bg-azure-60();
+        }
+      }
+      .labels {
+        @include text-slate-30();
+      }
+    }
+  
+    &[mode='contrast'] {
+      .bar {
+        .bar-total {
+          @include bg-slate-40();
+        }
+  
+        .bar-progress {
+          @include bg-azure-90();
+        }
+      }
+      .labels {
+        @include text-slate-90();
+      }
+    }
+  } 
+
+}
+
+.ids-progress-chart[version='classic'] {
+  ids-icon {
+    margin: 0px;
   }
 
+  .labels {
+    font-family: helvetica;
+    font-size: 12px;
+  }
+
+  .bar {
+    min-height: 26px;
+  }
 
   &[mode='light'] {
     .bar {
       .bar-total {
-        @include bg-slate-30();
+        background-color: #bdbdbd;
       }
 
       .bar-progress {
-        // @include bg-slate-60();
-        background-color: orange;
+        background-color: #5c5c5c;
       }
     }
     .labels {
-      @include text-slate-60();
+      color: #5c5c5c;
     }
   }
 
   &[mode='dark'] {
     .bar {
       .bar-total {
-        @include bg-slate-50();
+        background-color: #50535a;
       }
 
       .bar-progress {
-        @include bg-white();
-        // background-color: orange !important;
+        background-color: #368ac0
       }
     }
     .labels {
-      @include text-slate-30();
+      color: #abaeb7;
     }
   }
 
   &[mode='contrast'] {
     .bar {
       .bar-total {
-        @include bg-slate-40();
+        background-color: #737373;
       }
 
       .bar-progress {
-        @include bg-azure-90();
+        background-color: #383838;
       }
     }
     .labels {
-      @include text-slate-90();
+      color: #383838
     }
-  }
-
-}
-
-.ids-progress-chart[mode='light'][version='classic'] {
-  .labels {
-    font-family: helvetica;
-    font-size: 12px;
-    @include text-graphite-50();
   }
 }

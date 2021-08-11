@@ -17,8 +17,7 @@ import styles from './ids-progress-chart.scss';
 // Defaults
 const DEFAULT_PROGRESS = 0;
 const DEFAULT_TOTAL = 100;
-const DEFAULT_COLOR = '#606066';
-const DEFAULT_SIZE = 'large';
+const DEFAULT_SIZE = 'normal';
 
 /**
  * IDS Progress Chart Component
@@ -50,7 +49,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       attributes.LABEL_PROGRESS,
       attributes.LABEL_TOTAL,
       attributes.PROGRESS,
-      attributes.SIZE, // small or large
+      attributes.SIZE, // small or normal
       attributes.TOTAL,
     ];
   }
@@ -60,11 +59,12 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * @returns {string} The template
    */
   template() {
+    console.log(this.icon)
     return `
     <div class="ids-progress-chart" part="chart">
       <div class="labels">
         <ids-text class="label-main">${this.label ?? ''}</ids-text>
-        <slot name="icon"></slot>
+        <ids-icon class="icon" icon="${this.icon ?? ''}"></ids-icon>
         <ids-text class="label-progress">${this.progressLabel ?? ''}</ids-text>
         <div class="label-end">
           <ids-text class="label-total">${this.totalLabel ?? ''}</ids-text>
@@ -78,12 +78,19 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     </div>`;
   }
 
+  set icon(value) {
+    this.setAttribute('icon', value);
+    this.container.querySelector('ids-icon').setAttribute('icon', value);
+  }
+
+  get icon() { return this.getAttribute('icon'); }
+
   /**
    * Set the color of the bar
    * @param {string} value The color value, this can be a hex code with the #
    */
   set color(value) {
-    this.setAttribute(attributes.COLOR, value || DEFAULT_COLOR);
+    this.setAttribute(attributes.COLOR, value);
     this.#updateColor();
   }
 
@@ -109,10 +116,10 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
           progressLabel.style.color = prop;
         }
 
-        const slot = this.container.querySelector('slot');
+        const icon = this.container.querySelector('ids-icon');
         /* istanbul ignore else */
-        if (slot) {
-          slot.style.color = prop;
+        if (icon) {
+          icon.style.color = prop;
         }
       }
     } else if (this.color.substr(0, 1) !== '#') {
@@ -159,6 +166,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   #updateSize() {
     const bar = this.container.querySelector('.bar');
     bar.style.minHeight = this.size === 'small' ? '10px' : '28px';
+    bar.style.borderRadius = this.size === 'small' ? '0px' : '2px';
   }
 
   /**
