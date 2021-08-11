@@ -48,16 +48,15 @@ describe('IdsProgressChart Component', () => {
     chart.icon = 'alert';
     expect(chart.icon).toBe('alert');
     expect(icon.getAttribute('icon')).toBe('alert');
-    expect(icon.style.display).toBe('')
-    
+    expect(icon.style.display).toBe('');
+
     chart.size = 'small';
     expect(icon.getAttribute('size')).toBe('small');
 
     chart.icon = '';
     expect(chart.icon).toBe('');
     expect(icon.getAttribute('icon')).toBe('');
-    expect(icon.style.display).toBe('none')
-
+    expect(icon.style.display).toBe('none');
   });
 
   it('sets color correctly', () => {

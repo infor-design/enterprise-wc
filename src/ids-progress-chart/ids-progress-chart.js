@@ -253,7 +253,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     const prop = value === 'small' ? value : DEFAULT_SIZE;
     this.setAttribute(attributes.SIZE, prop);
     const icon = this.container.querySelector('.icon');
-    icon.setAttribute('size', prop)
+    icon.setAttribute('size', prop);
     this.#updateSize();
   }
 
