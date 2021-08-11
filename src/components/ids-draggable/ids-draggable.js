@@ -353,27 +353,19 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_X));
     }
 
-    return null;
+    return this.getAttribute(attributes.MAX_TRANSFORM_X);
   }
 
   set minTransformY(value) {
-    setIntAttribute(this, attributes.MIN_TRANSFORM_Y, value);
-  }
-
-  get minTransformY() {
-    if (this.hasAttribute(attributes.MIN_TRANSFORM_Y)) {
-      return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_Y));
-    }
-
-    return null;
+    setIntAttribute(this, attributes.MIN_TRANSFORM_X, value);
   }
 
   get maxTransformY() {
     if (this.hasAttribute(attributes.MAX_TRANSFORM_Y)) {
-      return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_Y));
+      return this.getAttribute(parseInt(attributes.MIN_TRANSFORM_Y));
     }
 
-    return null;
+    return this.getAttribute(attributes.MAX_TRANSFORM_Y);
   }
 
   set maxTransformY(value) {
@@ -476,8 +468,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       eventDetail.dragDeltaY = dragDeltaY;
       eventDetail.translateX = translateX;
       eventDetail.translateY = translateY;
-
-      this.style.setProperty('transform', `translate(${translateX}px, ${translateY}px)`);
 
       if (this.#cursorEl) {
         this.#cursorEl.style.left = `${e.x - CURSOR_EL_SIZE / 2}px`;
