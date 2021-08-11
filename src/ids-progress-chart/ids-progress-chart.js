@@ -64,7 +64,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     <div class="ids-progress-chart" part="chart">
       <div class="labels">
         <ids-text class="label-main">${this.label ?? ''}</ids-text>
-        <ids-icon class="icon" icon="${this.icon ?? ''}"></ids-icon>
+        <ids-icon class="icon" icon="${this.icon ?? ''}" size="${this.size ?? DEFAULT_SIZE}"></ids-icon>
         <ids-text class="label-progress">${this.progressLabel ?? ''}</ids-text>
         <div class="label-end">
           <ids-text class="label-total">${this.totalLabel ?? ''}</ids-text>
@@ -80,7 +80,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
 
   set icon(value) {
     this.setAttribute(attributes.ICON, value);
-    this.container.querySelector('ids-icon').setAttribute('icon', value);
+    this.container.querySelector('ids-icon').setAttribute(attributes.ICON, value);
   }
 
   get icon() { return this.getAttribute(attributes.ICON); }
@@ -233,7 +233,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   get totalLabel() { return this.getAttribute(attributes.LABEL_TOTAL); }
 
   /**
-   * Set the size of the progress bar (small, or large (default)
+   * Set the size of the progress bar (small, or normal (default)
    * @param {string} value The size of the progress bar
    */
   set size(value) {
@@ -245,10 +245,6 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   get size() { return this.getAttribute(attributes.SIZE); }
 
   #handleEvents() {
-    this.onEvent('slotchange', this.container.querySelector('slot'), () => {
-      this.#updateColor();
-    });
-
     return this;
   }
 }

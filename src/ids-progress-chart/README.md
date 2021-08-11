@@ -73,20 +73,24 @@ These are the few scenarios where it will color the progress label as well
 
 ### Adding icons
 
-You can insert `ids-icon` components to include in the label heading
+You can include icons in the label heading
 
 ```html
-<ids-progress-chart label="Error with icon" color="error" progress="50">
-  <ids-icon icon="error" size="small"></ids-icon>
-</ids-progress-chart>
+<ids-progress-chart icon="error" label="Error with icon" color="error" progress="50"></ids-progress-chart>
 ```
 
 ### Adjust the size
 
-There are 2 sizes, `small` and `large`
+There are 2 sizes, `small` and `normal`
 
 ```html
 <ids-progress-chart label="Compact" size="small" progress="50"></ids-progress-chart>
+```
+
+Icons adjust accordingly to the size of the chart
+
+```html
+<ids-progress-chart icon="alert" label="Compact w/ icon" size="small" progress="50"></ids-progress-chart>
 ```
 
 ## Settings (Attributes)
@@ -94,8 +98,9 @@ There are 2 sizes, `small` and `large`
 - `progress` { string | number } set the progress value attribute
 - `total` { string | number } set the total progress value attribute
 - `color` { string } set the color of the progress bar
-- `size` { 'small' | 'large' } set the size of the progress bar
+- `size` { 'small' | 'normal' } set the size of the progress bar
 - `label` { string } set the title label
+- `icon` { string } set the icon type
 - `label-progress` { string } set the progress value label
 - `label-total` { string } set the total progress value label
 
