@@ -17,7 +17,7 @@ import styles from './ids-progress-chart.scss';
 // Defaults
 const DEFAULT_PROGRESS = 0;
 const DEFAULT_TOTAL = 100;
-const DEFAULT_COLOR = '#25af65';
+const DEFAULT_COLOR = '#606066';
 const DEFAULT_SIZE = 'large';
 
 /**

@@ -9,7 +9,10 @@
   margin: 0 0 8px 0;
 
   .labels {
-    @include text-slate-60();
+    // @include text-slate-60();
+    font-family: helvetica, arial, sans-serif;
+    font-size: 12px;
+    @include text-graphite-50();
 
     display: inline-flex;
     flex-direction: row;
@@ -63,25 +66,85 @@
     position: relative;
 
     .bar-total {
-      @include bg-slate-30();
+      // @include bg-slate-30();
 
+      border-radius: inherit;
       display: flex;
       top: 0;
       left: 0;
       width: 100%;
       height: inherit;
     }
-
+    
     .bar-progress {
+      // @include bg-slate-60();
+      
+      border-radius: inherit;
       display: flex;
       top: 0;
       left: 0;
       height: inherit;
-      background-color: #25af65;
     }
   }
 
   ::slotted(ids-icon) {
     margin: 3px 4px 0 4px;
+  }
+
+
+  &[mode='light'] {
+    .bar {
+      .bar-total {
+        @include bg-slate-30();
+      }
+
+      .bar-progress {
+        // @include bg-slate-60();
+        background-color: orange;
+      }
+    }
+    .labels {
+      @include text-slate-60();
+    }
+  }
+
+  &[mode='dark'] {
+    .bar {
+      .bar-total {
+        @include bg-slate-50();
+      }
+
+      .bar-progress {
+        @include bg-white();
+        // background-color: orange !important;
+      }
+    }
+    .labels {
+      @include text-slate-30();
+    }
+  }
+
+  &[mode='contrast'] {
+    .bar {
+      .bar-total {
+        @include bg-slate-40();
+      }
+
+      .bar-progress {
+        @include bg-azure-90();
+      }
+    }
+    .labels {
+      @include text-slate-90();
+    }
+  }
+
+}
+
+.ids-progress-chart[mode='light'][version='classic'] {
+  .labels {
+    font-family: helvetica;
+    font-size: 12px;
+    @include text-graphite-50();
   }
 }
