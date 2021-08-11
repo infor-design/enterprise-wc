@@ -75,9 +75,9 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     this.onEvent('languagechange.icon', this, async (e) => {
       await this.locale.setLanguage(e.detail.language.name);
       if (this.isFlipped(this.icon)) {
-        this.container.classList.add('flipped');
+        this.shadowRoot.querySelector('svg').classList.add('flipped');
       } else {
-        this.container.classList.remove('flipped');
+        this.shadowRoot.querySelector('svg').classList.remove('flipped');
       }
     });
   }
@@ -225,7 +225,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    */
   set icon(value) {
     const svgElem = this.shadowRoot?.querySelector('svg');
-    if (value && this.iconData()) {
+    if (value && pathData[value]) {
       svgElem.style.display = '';
       this.setAttribute(attributes.ICON, value);
       svgElem.innerHTML = this.iconData();
