@@ -45,6 +45,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   static get attributes() {
     return [
       attributes.COLOR,
+      attributes.ICON,
       attributes.LABEL,
       attributes.LABEL_PROGRESS,
       attributes.LABEL_TOTAL,
@@ -59,7 +60,6 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * @returns {string} The template
    */
   template() {
-    console.log(this.icon)
     return `
     <div class="ids-progress-chart" part="chart">
       <div class="labels">
@@ -79,11 +79,11 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   }
 
   set icon(value) {
-    this.setAttribute('icon', value);
+    this.setAttribute(attributes.ICON, value);
     this.container.querySelector('ids-icon').setAttribute('icon', value);
   }
 
-  get icon() { return this.getAttribute('icon'); }
+  get icon() { return this.getAttribute(attributes.ICON); }
 
   /**
    * Set the color of the bar
