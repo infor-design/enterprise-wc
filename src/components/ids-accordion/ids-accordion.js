@@ -167,16 +167,31 @@ class IdsAccordion extends mix(IdsElement).with(
         this.#unfocusOtherHeaders(e.target);
       }
     });
+    this.onEvent('selected', this, (e) => {
+      this.#deselectOtherHeaders(e.target);
+    });
   }
 
   /**
-   * Prevents focusability of any accordion headers except for the provided one.
+   * Prevents focusability of any accordion headers, except for the provided one.
    * @param {HTMLElement} target a header to ignore
    */
   #unfocusOtherHeaders(target) {
     this.headers.forEach((header) => {
       if (!target.isEqualNode(header)) {
         header.unfocus();
+      }
+    });
+  }
+
+  /**
+   * Makes accordion headers appear to be deselected, except for the provided one.
+   * @param {HTMLElement} target a header to ignore
+   */
+  #deselectOtherHeaders(target) {
+    this.headers.forEach((header) => {
+      if (header.selected && !target.isEqualNode(header)) {
+        header.selected = false;
       }
     });
   }

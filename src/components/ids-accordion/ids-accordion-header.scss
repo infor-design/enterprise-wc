@@ -125,6 +125,10 @@
       @include border-azure-70();
     }
 
+    &.selected {
+      @include text-white();
+    }
+
     &[disabled] {
       @include bg-slate-100();
       @include border-slate-100();
@@ -192,12 +196,20 @@
     @include accordion-header-standard-colors();
   }
 
+  &.selected {
+    font-weight: bolder;
+  }
+
   // Top Level App Menu Accordions
   &.color-variant-app-menu {
     @include px-16();
     @include py-12();
     @include accordion-header-app-menu-colors();
     @include accordion-header-top-level-app-menu-colors();
+
+    ::slotted(ids-text::part(text)) {
+      font-weight: inherit;
+    }
   }
 
   // Sub-level App Menu Accordions

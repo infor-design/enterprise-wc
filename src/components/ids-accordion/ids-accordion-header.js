@@ -48,7 +48,8 @@ class IdsAccordionHeader extends mix(IdsElement).with(
       ...super.attributes,
       attributes.MODE,
       attributes.VERSION,
-      attributes.EXPANDED
+      attributes.EXPANDED,
+      attributes.SELECTED
     ];
   }
 
@@ -101,6 +102,42 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   unfocus() {
     this.setAttribute('tabindex', '-1');
     this.container.setAttribute('tabindex', '0');
+  }
+
+  /**
+   * @returns {boolean} true if this accordion header should appear "selected"
+   */
+  get selected() {
+    return stringToBool(this.getAttribute(attributes.SELECTED));
+  }
+
+  /**
+   * @param {boolean} val true if this accordion header should appear "selected"
+   */
+  set selected(val) {
+    const isValueTruthy = stringToBool(val);
+    if (isValueTruthy) {
+      this.setAttribute(attributes.SELECTED, `${val}`);
+    } else {
+      this.removeAttribute(attributes.SELECTED);
+    }
+    this.#refreshSelected(isValueTruthy);
+  }
+
+  /**
+   * Refreshes the visual "Selected" state
+   * @param {*} isSelected true if the Accordion Header should appear "Selected"
+   */
+  #refreshSelected(isSelected) {
+    const textNode = this.querySelector('ids-text');
+
+    this.container.classList[isSelected ? 'add' : 'remove']('selected');
+    if (isSelected) {
+      textNode.fontWeight = 'bold';
+      this.triggerEvent('selected', this, { bubbles: true });
+    } else {
+      textNode.fontWeight = '';
+    }
   }
 }
 

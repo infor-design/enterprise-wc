@@ -13,4 +13,8 @@ document.addEventListener('DOMContentLoaded', () => {
   appMenuDrawer.addEventListener('hide', () => {
     appMenuTriggerBtn.disabled = false;
   });
+
+  appMenuDrawer.addEventListener('selected', (e) => {
+    console.info(`Header "${e.target.textContent.trim()}" was selected.`);
+  });
 });
