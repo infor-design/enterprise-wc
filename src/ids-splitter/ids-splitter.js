@@ -79,6 +79,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
     return [
       attributes.AXIS,
       attributes.DISABLED,
+      attributes.PANE_ID,
       attributes.RESIZE_ON_DRAG_END
     ];
   }
@@ -187,7 +188,8 @@ export default class IdsSplitter extends mix(IdsElement).with(
         // possibly dispatching drag events
 
         if (!el.hasAttribute(attributes.PANE_ID)) {
-          el.setAttribute(attributes.PANE_ID, ++this.#paneIdCount);
+          const paneId = ++this.#paneIdCount;
+          el.setAttribute(attributes.PANE_ID, paneId);
         }
       }
     }
@@ -199,40 +201,47 @@ export default class IdsSplitter extends mix(IdsElement).with(
     // TODO: use local var when resize code exists
     const thisRect = this.getBoundingClientRect();
 
-    for (let i = 0; i < paneMappings.length / 2; i += 2) {
+    for (let i = 0; i < paneMappings.length; i += 2) {
       const p1 = paneMappings[i];
-      const p2 = ((i + 2) > paneMappings.length) ? paneMappings[i + 1] : undefined;
+      const p2 = ((i + 1) < paneMappings.length) ? paneMappings[i + 1] : undefined;
       const p1Entry = this.#paneDraggableMap.get(p1);
       const p2Entry = this.#paneDraggableMap.get(p2);
 
       const draggable = new IdsDraggable();
       draggable.axis = this.#getDraggableAxis(this.axis);
 
-      // TODO: consider storing rect in entry and updating on resize
-      // when event exists
-      const pane1Rect = p1.getBoundingClientRect();
+      // mark/hash the draggable as after this pane for parsing
+      // on-resize
+      draggable.setAttribute(attributes.ID, `d_after_${p1.paneId}`);
+
+      draggable.addEventListener('ids-dragend', (e) => {
+        this.#onResizePaneViaDraggable({
+          pane: p1,
+          dragDeltaX: e.detail.dragDeltaX,
+          dragDeltaY: e.detail.dragDeltaY
+        });
+      });
 
       // set draggable overall left offset relative to hte parent since they are
       // added to shadowDOM from parent; this cannot be done through direct
       // style inject but must be through a variable because of WC quirks
 
       p1Entry.after = draggable;
-      draggable.appendChild(dragHandleTemplates[this.axis].content.cloneNode(true));
+      draggable.appendChild(
+        dragHandleTemplates[this.axis].content.cloneNode(true)
+      );
 
-      if (p2Entry) {
-        p2Entry.before = draggable;
-      }
+      this.onEvent(`splitter-pane-resize.${p1.paneId}`, p1, (e) => {
+        p1Entry.contentRect = e.detail.contentRect;
 
-      if (this.axis === 'x') {
-        draggable.style.setProperty(
-          '--parent-offset',
-          `${pane1Rect.left + pane1Rect.width - thisRect.left}px`
-        );
-      } else {
-        draggable.style.setProperty(
-          '--parent-offset',
-          `${pane1Rect.top + pane1Rect.height - thisRect.top}px`
-        );
+        this.#repositionDraggables();
+      });
+
+      if (p2) {
+        this.onEvent(`splitter-pane-resize.${p2.paneId}`, p2, (e) => {
+          p2Entry.contentRect = e.detail.contentRect;
+          this.#repositionDraggables();
+        });
       }
 
       this.shadowRoot.appendChild(draggable);
@@ -248,9 +257,26 @@ export default class IdsSplitter extends mix(IdsElement).with(
     return ((axis === 'x') || (axis === 'y')) ? axis : 'x';
   }
 
-  sizePanes() {
-    for (const [pane] of this.#paneDraggableMap) {
-      const { value: size, unit } = pane.getSizeMeta();
+  #repositionDraggables() {
+    let afterOffset = 0;
+    for (const [pane, entry] of this.#paneDraggableMap) {
+      const { contentRect, after } = entry;
+
+      if (contentRect) {
+        afterOffset += this.axis === 'x' ? contentRect.width : contentRect.height;
+        if (entry.after) {
+          after.style.setProperty('transform', `translateX(${afterOffset}px)`);
+        }
+      }
+    }
+  }
+
+  #onResizePaneViaDraggable({ pane, dragDeltaX, dragDeltaY }) {
+    const paneEntry = this.#paneDraggableMap.get(pane);
+
+    if (paneEntry?.contentRect) {
+      const size = this.axis === 'x' ? paneEntry.contentRect.width : paneEntry.contentRect.height;
+      pane.size = `${size + (this.axis === 'x' ? dragDeltaX : dragDeltaY)}px`;
     }
   }
 }

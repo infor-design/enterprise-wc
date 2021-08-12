@@ -13,6 +13,8 @@ import {
 } from '../ids-mixins';
 import styles from './ids-splitter-pane.scss';
 
+// TODO: debounce resize event called
+
 /**
  * parses size string that can be specified with px/%
  *
@@ -65,6 +67,28 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     ];
   }
 
+  /* istanbul ignore next */
+  resizeObserver = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const contentRect = entry.contentRect?.[0] || entry.contentRect;
+      const paneId = (() => entry.target.paneId)();
+      this.triggerEvent(
+        'splitter-pane-resize',
+        this,
+        {
+          detail: {
+            paneId,
+            contentRect: {
+              width: contentRect.width,
+              height: contentRect.height
+            }
+          }
+        },
+        { bubbles: true }
+      );
+    }
+  });
+
   /**
    * Create the Template to render
    *
@@ -78,10 +102,12 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
+    this.resizeObserver.observe(this);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
+    this.resizeObserver.disconnect();
   }
 
   set axis(value) {
