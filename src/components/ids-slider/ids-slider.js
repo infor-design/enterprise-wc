@@ -57,12 +57,21 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   template() {
     return `
     <div class="ids-slider">
-      <div class="slidecontainer">
-        <input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+      <div class="slidecontainer" style='--value:30;'>
+        <input type="range" min="1" max="100" value="30" class="slider" id="myRange"
+        onchange="this.parentNode.style.setProperty('--value', this.value);"
+        >
+        <span class="range"></span>
         <span class="tick end"></span>
         <span class="tick start"></span>
+        <div class="label"></div>
       </div>
     </div>`;
+  }
+
+  updateUI(value) {
+    this.container.querySelector('.slidecontainer').styles.setProperty('--value', value);
+    this.container.querySelector('.label').innerHTML = value;
   }
 
   /**
