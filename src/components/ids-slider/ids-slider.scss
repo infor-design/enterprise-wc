@@ -1,0 +1,75 @@
+.slidecontainer {
+  width: 100%; /* Width of the outside container */
+  position: relative;
+  // align-items: center;
+  display: flex;
+  // justify-content: space-between; 
+
+  .tick {
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    background-color: #0072ED;
+    position: absolute;
+    // z-index: 20;
+    
+    &.start {
+      left: 2px;
+    }
+
+    &.end {
+      right: 2px;
+    }
+  }
+}
+
+/* The slider itself */
+.slider {
+  // -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 4px; /* Specified height */
+  background-color: #97979B; /* Grey background */
+  border-radius: 2px;
+  outline: none; /* Remove outline */
+  // opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  // -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  // transition: opacity .2s;
+  cursor: pointer;
+  // z-index: 10;
+  // overflow: hidden;
+}
+
+.slider::-webkit-progress-value {
+  // overflow: hidden;
+  -webkit-appearance: none;
+  height: 4px;
+  background-color: red;
+  color: red;
+  outline: none;
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: #0072ED;
+  cursor: pointer;
+  // cursor: ew-resize;
+
+  // box-shadow: -500px 0 0 500px #43e5f7;
+
+  // z-index: 30;
+}
+
+.slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  z-index: 20;
+  background: #0072ED;
+  cursor: pointer;
+}
+
