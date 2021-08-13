@@ -137,11 +137,14 @@ class IdsAccordion extends mix(IdsElement).with(
     // Defines the color variant based on depth
     // DON'T do this on the accordion itself
     if (depth > 0) {
-      const variant = depth > 1 ? `sub-${this.colorVariant}` : this.colorVariant;
+      const subLevelDepth = depth > 1;
+      const variant = subLevelDepth ? `sub-${this.colorVariant}` : this.colorVariant;
+      const expanderType = subLevelDepth ? 'plus-minus' : 'caret';
       const header = element.querySelector('ids-accordion-header');
       element.colorVariant = variant;
       if (header) {
         header.colorVariant = variant;
+        header.expanderType = expanderType;
       }
     }
 
@@ -162,25 +165,8 @@ class IdsAccordion extends mix(IdsElement).with(
    * @returns {void}
    */
   #handleEvents() {
-    this.onEvent('focusin', this, (e) => {
-      if (e.target.tagName === 'IDS-ACCORDION-HEADER') {
-        this.#unfocusOtherHeaders(e.target);
-      }
-    });
     this.onEvent('selected', this, (e) => {
       this.#deselectOtherHeaders(e.target);
-    });
-  }
-
-  /**
-   * Prevents focusability of any accordion headers, except for the provided one.
-   * @param {HTMLElement} target a header to ignore
-   */
-  #unfocusOtherHeaders(target) {
-    this.headers.forEach((header) => {
-      if (!target.isEqualNode(header)) {
-        header.unfocus();
-      }
     });
   }
 
@@ -205,60 +191,89 @@ class IdsAccordion extends mix(IdsElement).with(
     this.listen(['ArrowUp'], this, (e) => {
       e.preventDefault();
       e.stopPropagation();
-      this.navigate(-1, true);
+      this.#prevPanel();
     });
 
     // Arrow Down navigates focus forward
     this.listen(['ArrowDown'], this, (e) => {
       e.preventDefault();
       e.stopPropagation();
-      this.navigate(1, true);
+      this.#nextPanel();
     });
   }
 
   /**
-   * Uses a currently-highlighted toolbar item to "navigate" a specified number
-   * of steps to another toolbar item, highlighting it.
-   * @param {number} [amt] the amount of items to navigate
-   * @param {boolean} [doFocus] if true, causes the new item to become focused.
-   * @returns {any} the item that will be focused
+   * Navigates focus from the currently focused Accordion Panel to the next,
+   * looping focus to the first panel if applicable.
+   * @returns {void}
    */
-  navigate(amt = 0, doFocus = false) {
-    const panes = this.panels;
-    let currentItem = this.focused || panes[0];
+  #nextPanel() {
+    const currentItem = this.focused;
+    let next;
 
-    if (typeof amt !== 'number') {
-      return currentItem;
+    // If the focused panel is expandable, find the first panel inside of it
+    if (currentItem.isExpandable && currentItem.expanded) {
+      next = currentItem.querySelector('ids-accordion-panel');
+    } else {
+      next = currentItem.nextElementSibling;
     }
 
-    // Calculate steps/meta
-    const negative = amt < 0;
-    let steps = Math.abs(amt);
-    let currentIndex = panes.indexOf(currentItem);
-
-    // Step through items to the target
-    while (steps > 0) {
-      currentItem = panes[currentIndex + (negative ? -1 : 1)];
-      currentIndex = panes.indexOf(currentItem);
-
-      // "-1" means we've crossed the boundary and need to loop back around
-      if (currentIndex < 0) {
-        currentIndex = (negative ? panes.length - 1 : 0);
-        currentItem = panes[currentIndex];
-      }
-
-      // Don't count disabled or nested headers inside a collapsed header as "taking a step"
-      // @TODO work on the nested headers part
-      if (!currentItem.disabled) {
-        steps -= 1;
-      }
+    // If there's no next sibiling, or this pane has been closed,
+    // navigate to next item outside this panel
+    if (!next) {
+      next = currentItem.parentElement.nextElementSibling;
     }
 
-    if (!currentItem.disabled && doFocus) {
-      currentItem.focus();
+    // If next is not an accordion panel, consider that we've 'looped'
+    // back around to the top and pick the first panel
+    if (!next || next.tagName !== 'IDS-ACCORDION-PANEL') {
+      next = this.querySelector('ids-accordion-panel');
     }
 
-    return currentItem;
+    next.focus();
+  }
+
+  /**
+   * Navigates focus from the currently focused Accordion Panel to the previous,
+   * looping focus to the last panel if applicable.
+   * @returns {void}
+   */
+  #prevPanel() {
+    const currentItem = this.focused;
+    const getLastPanel = () => {
+      const prevChildren = currentItem.querySelectorAll('ids-accordion-panel:last-child');
+      return prevChildren[prevChildren.length - 1];
+    };
+
+    let prev = currentItem.previousElementSibling;
+    if (!prev) {
+      prev = getLastPanel();
+    }
+
+    // If the previous panel is expandable, focus on its last pane instead
+    if (prev.isExpandable && prev.expanded) {
+      prev = prev.querySelector('ids-accordion-panel:last-child');
+    }
+
+    // If the previous element is a header, no more panels are present.
+    // Navigation should be pushed one panel level up;
+    if (prev.tagName === 'IDS-ACCORDION-HEADER') {
+      prev = prev.parentElement;
+    }
+
+    // If there's no next sibiling, or this pane has been closed,
+    // navigate to previous item outside this pane
+    if (!prev) {
+      prev = currentItem.parentElement;
+    }
+
+    // If previous is not an accordion panel, consider that we've 'looped'
+    // back around to the top and pick the first header
+    if (!prev || prev.tagName !== 'IDS-ACCORDION-PANEL') {
+      prev = getLastPanel();
+    }
+
+    prev.focus();
   }
 }
 

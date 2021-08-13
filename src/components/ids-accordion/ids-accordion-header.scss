@@ -137,21 +137,11 @@
   }
 }
 
-@mixin accordion-header-top-level-app-menu-colors() {
-  .placeholder {
-    content: '';
-  }
-}
-
 // ================================================
 // Styles specific to the Sub-level App Menu Accordions
 
 @mixin accordion-header-nested-app-menu-colors() {
   @include m-0();
-
-  .placeholder {
-    content: '';
-  }
 }
 
 :host {
@@ -162,7 +152,7 @@
 }
 
 :host([aria-expanded='true']) {
-  ids-icon {
+  ids-icon[icon='caret-down'] {
     transform: rotateX(180deg);
   }
 }
@@ -176,13 +166,18 @@
   cursor: pointer;
   display: flex;
   grid-auto-flow: column;
+  user-select: none;
 
   ::slotted(ids-text) {
     flex-grow: 1;
   }
 
   ::slotted(ids-icon) {
-    @include mr-8();
+    @include mr-12();
+  }
+
+  ids-icon {
+    @include mr-12();
   }
 
   &:focus {
@@ -205,18 +200,19 @@
     @include px-16();
     @include py-12();
     @include accordion-header-app-menu-colors();
-    @include accordion-header-top-level-app-menu-colors();
-
-    ::slotted(ids-text::part(text)) {
-      font-weight: inherit;
-    }
   }
 
   // Sub-level App Menu Accordions
   &.color-variant-sub-app-menu {
-    @include px-12();
+    @include px-20();
     @include py-8();
     @include accordion-header-app-menu-colors();
     @include accordion-header-nested-app-menu-colors();
+  }
+}
+
+.ids-accordion-expander-button {
+  &:first-child {
+    @include mr-8();
   }
 }

@@ -66,6 +66,7 @@ export const attributes = {
   ERROR: 'error',
   EXPAND_ICON: 'expand-icon',
   EXPANDED: 'expanded',
+  EXPANDER_TYPE: 'expander-type',
   FIELD_HEIGHT: 'field-height',
   FILE: 'file',
   FILE_NAME: 'file-name',

@@ -29,13 +29,13 @@
 // Controls the size of nested accordions
 @mixin accordion-pane-standard-size() {
   .ids-accordion-pane-content {
-    @include p-16();
+    @include p-8();
   }
 }
 
 @mixin accordion-pane-nested-size() {
   .ids-accordion-pane-content {
-    @include pl-16();
+    @include pl-28();
   }
 }
 

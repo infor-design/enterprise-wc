@@ -47,6 +47,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
     this.pane = this.shadowRoot?.querySelector('.ids-accordion-pane');
     this.#setTitles();
     this.#attachEventHandlers();
+    this.#toggleExpanderDisplay();
     this.#toggleExpanded(this.expanded);
   }
 
@@ -75,6 +76,47 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   #setTitles() {
     const identifier = Math.floor(10000 + Math.random() * 90000);
     this.pane?.setAttribute('title', `ids-accordion-pane-${identifier}`);
+  }
+
+  /**
+   * Overrides the setter from `IdsColorVariantMixin` to include a check on the expander icon
+   * @param {string} val the desired color variant
+   */
+  set colorVariant(val) {
+    super.colorVariant = val;
+    this.#toggleExpanderDisplay();
+  }
+
+  /**
+   * @returns {string} the current color variant
+   */
+  get colorVariant() {
+    return super.colorVariant;
+  }
+
+  /**
+   * @readonly
+   * @returns {boolean} true if this pane resides inside another pane
+   */
+  get hasParentPanel() {
+    return this.parentElement.tagName === 'IDS-ACCORDION-PANEL';
+  }
+
+  /**
+   * @readonly
+   * @returns {boolean} true if this pane resides in an expanded parent pane
+   */
+  get parentExpanded() {
+    return this.hasParentPanel && this.parentElement.expanded;
+  }
+
+  /**
+   * @readonly
+   * @returns {boolean} true if this accordion panel has child content
+   * (aside from its header) and can be expanded/collapsed
+   */
+  get isExpandable() {
+    return [...this.children].length > 1;
   }
 
   /**
@@ -126,6 +168,14 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   #selectAndToggle() {
     this.expanded = !this.expanded;
     this.select(this);
+  }
+
+  /**
+   * Hides/Shows an Accordion Header's expander icon
+   * @returns {void}
+   */
+  #toggleExpanderDisplay() {
+    this.header?.toggleExpanderIcon(this.isExpandable);
   }
 
   /**
@@ -225,6 +275,10 @@ class IdsAccordionPanel extends mix(IdsElement).with(
       }
     }, {
       passive: true
+    });
+
+    this.onEvent('slotchange', this, () => {
+      this.#toggleExpanderDisplay();
     });
   }
 
