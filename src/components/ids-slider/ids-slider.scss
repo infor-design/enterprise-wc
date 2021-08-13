@@ -25,31 +25,32 @@
 
   .tooltip {
     position: absolute;
-    width: 40px;
-    height: 30px;
+    width: auto;
+    padding: 1px;
+    height: auto;
     background-color: #47474C;
     color: white;
     text-align: center;
     margin: auto;
-    bottom: 250%;
+    bottom: 275%;
     border-radius: 2px;
     left: calc(var(--percent) * 1% + (var(--pos) * 1px));
     vertical-align: middle;
     line-height: 30px;
-    // font-size: 1.6px;
     max-width: 300px;
     min-width: 40px;
-    // padding: 1px;
-    transition: opacity 0.4 ease;
+    transition: opacity 0.2s ease;
+    opacity: 0;
 
     .pin {
       position: absolute;
       width: 0; 
       height: 0; 
-      border-left: 20px solid transparent;
-      border-right: 20px solid transparent;
-      
-      border-top: 20px solid #f00;
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid #47474C;
+      left: 14px;
+      margin-top: 1px;
     }
   }
 
@@ -99,7 +100,7 @@
     }
 
     &:hover {
-      // box-shadow: var(--hover-shadow);
+      box-shadow: var(--hover-shadow);
     }
 
   }

@@ -68,7 +68,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     <div class="ids-slider">
       <div class="slidecontainer">
         <div class="tooltip">
-          <ids-text>${this.value ?? DEFAULT_VALUE}</ids-text>
+          <ids-text class="text">${this.value ?? DEFAULT_VALUE}</ids-text>
           <div class="pin"></div>
         </div>
         <input type="range" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}" value="${this.value ?? DEFAULT_VALUE}" class="slider">
@@ -91,7 +91,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.container.querySelector('.tooltip').style.setProperty("--percent", percent);
     this.container.querySelector('.tooltip').style.setProperty("--pos", pos);
 
-    this.container.querySelector('.tooltip').innerHTML = this.value;
+    this.container.querySelector('.tooltip .text').innerHTML = this.value;
   }
 
   get value() { return this.getAttribute(attributes.VALUE) || DEFAULT_VALUE; }
@@ -122,14 +122,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get color() { return this.getAttribute(attributes.COLOR); }
 
   set hideTooltip(value) {
-    // console.log("active Element is: ");
-    // console.log(document.activeElement);
-
-    // if false, remove the hidden attribute
     if (!value) {
-      this.container.querySelector('.tooltip').removeAttribute('hidden');
+      this.container.querySelector('.tooltip').style.opacity = 1;
     } else {
-      this.container.querySelector('.tooltip').setAttribute('hidden', '');
+      this.container.querySelector('.tooltip').style.opacity = 0;
     }
   }
 
@@ -146,12 +142,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
     window.addEventListener('click', () => {
       const idsSliderSelected = document.activeElement.name === 'ids-slider';
+
       this.hideTooltip = !idsSliderSelected;
+
       if (idsSliderSelected) {
         console.log('ids-slider selected')
         this.container.querySelector('.slider:hover').style.removeProperty('box-shadow')
-        this.container.querySelector('.slider').style.setProperty('--hover-shadow', 'rgb(0 114 237 / 20%) 0px 0px 0px 8px')
-        this.container.querySelector('.slider').style.setProperty('--focus-shadow', 'rgb(0 114 237 / 20%) 0px 0px 0px 8px')
+        this.container.querySelector('.slider').style.setProperty('--hover-shadow', 'rgb(0 114 237 / 10%) 0px 0px 0px 8px')
+        this.container.querySelector('.slider').style.setProperty('--focus-shadow', 'rgb(0 114 237 / 10%) 0px 0px 0px 8px')
       } else {
         console.log('ids-slider NOT selected')
         this.container.querySelector('.slider').style.setProperty('--focus-shadow', '');
