@@ -3,11 +3,16 @@ import {
   customElement,
   attributes,
   scss,
+<<<<<<< HEAD:src/components/ids-tabs/ids-tabs.js
   mix,
 } from '../../core/ids-element';
 
 // Import Utils
 import { IdsStringUtils } from '../../utils';
+=======
+  mix
+} from '../ids-base/ids-element';
+>>>>>>> 42125a29... remove ids-tab' shadowDOM, +ids-tab-content & boilerplate, fix attrib-provider (main merge mistake?), misc:src/ids-tabs/ids-tabs.js
 
 import {
   IdsKeyboardMixin,
@@ -46,12 +51,8 @@ export default class IdsTabs extends mix(IdsElement).with(
     return [attributes.ORIENTATION, attributes.VALUE];
   }
 
-  /**
-   * Create the Template to render
-   *
-   * @returns {string} the template to render
-   */
   template() {
+<<<<<<< HEAD:src/components/ids-tabs/ids-tabs.js
     return (
       `<div
         ${ IdsStringUtils.buildClassAttrib('ids-tabs', this.orientation) }
@@ -60,6 +61,9 @@ export default class IdsTabs extends mix(IdsElement).with(
         <slot></slot>
       </div>`
     );
+=======
+    return '<slot></slot>';
+>>>>>>> 42125a29... remove ids-tab' shadowDOM, +ids-tab-content & boilerplate, fix attrib-provider (main merge mistake?), misc:src/ids-tabs/ids-tabs.js
   }
 
   connectedCallback() {
@@ -103,7 +107,6 @@ export default class IdsTabs extends mix(IdsElement).with(
     switch (value) {
     case 'vertical': {
       this.setAttribute(attributes.ORIENTATION, 'vertical');
-      this.container.classList.add('vertical');
 
       for (let i = 0; i < this.children.length; i++) {
         this.children[i].setAttribute('orientation', 'vertical');
@@ -113,7 +116,6 @@ export default class IdsTabs extends mix(IdsElement).with(
     case 'horizontal':
     default: {
       this.setAttribute(attributes.ORIENTATION, 'horizontal');
-      this.container.classList.remove('vertical');
 
       for (let i = 0; i < this.children.length; i++) {
         this.children[i].setAttribute('orientation', 'horizontal');
@@ -176,7 +178,7 @@ export default class IdsTabs extends mix(IdsElement).with(
   #tabElIndexMap = new Map();
 
   /**
-   * used to detach event listeners properly
+   * Used to detach event listeners properly
    * @type {Set<string>}
    * @private
    */
@@ -256,7 +258,7 @@ export default class IdsTabs extends mix(IdsElement).with(
 
   /* istanbul ignore next */
   /**
-   * @returns {number} currently focused tab index, or -1
+   * @returns {number} Currently focused tab index, or -1
    */
   getFocusedTabIndex() {
     if (!(document.activeElement instanceof IdsTab)) {
@@ -312,7 +314,7 @@ export default class IdsTabs extends mix(IdsElement).with(
 
     if (this.orientation !== 'vertical') {
       /* istanbul ignore next */
-      this.listen('ArrowLeft', this.container, () => {
+      this.listen('ArrowLeft', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
         if (focusedTabIndex > 0) {
@@ -321,7 +323,7 @@ export default class IdsTabs extends mix(IdsElement).with(
       });
 
       /* istanbul ignore next */
-      this.listen('ArrowRight', this.container, () => {
+      this.listen('ArrowRight', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
         if (focusedTabIndex + 1 < this.children.length) {
@@ -330,7 +332,7 @@ export default class IdsTabs extends mix(IdsElement).with(
       });
     } else {
       /* istanbul ignore next */
-      this.listen('ArrowUp', this.container, () => {
+      this.listen('ArrowUp', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
         if (focusedTabIndex > 0) {
@@ -339,7 +341,7 @@ export default class IdsTabs extends mix(IdsElement).with(
       });
 
       /* istanbul ignore next */
-      this.listen('ArrowDown', this.container, () => {
+      this.listen('ArrowDown', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
         if (focusedTabIndex + 1 < this.children.length) {
@@ -349,17 +351,17 @@ export default class IdsTabs extends mix(IdsElement).with(
     }
 
     /* istanbul ignore next */
-    this.listen('Home', this.container, () => {
+    this.listen('Home', this, () => {
       this.children[0].focus();
     });
 
     /* istanbul ignore next */
-    this.listen('End', this.container, () => {
+    this.listen('End', this, () => {
       this.children[this.children.length - 1].focus();
     });
 
     /* istanbul ignore next */
-    this.listen('Enter', this.container, () => {
+    this.listen('Enter', this, () => {
       const focusedTabIndex = this.getFocusedTabIndex();
 
       if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
@@ -369,7 +371,7 @@ export default class IdsTabs extends mix(IdsElement).with(
   }
 
   /**
-   * sets the ids-tab selection states
+   * Sets the ids-tab selection states
    * based on the current value
    */
   #updateSelectionState() {

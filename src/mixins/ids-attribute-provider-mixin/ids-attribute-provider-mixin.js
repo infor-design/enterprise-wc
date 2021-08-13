@@ -52,21 +52,21 @@ export default (superclass) => class extends superclass {
           let targetAttribute;
 
           /** @type {Function} */
-          let setter;
+          let valueXformer;
 
           if (entry.prototype instanceof IdsElement) {
             component = entry;
-            setter = identityFn;
+            valueXformer = identityFn;
             targetAttribute = sourceAttribute;
           } else if (typeof entry === 'object') {
             component = entry.component;
             targetAttribute = entry.targetAttribute || sourceAttribute;
-            setter = entry.setter || identityFn;
+            valueXformer = entry.valueXformer || identityFn;
           }
 
           if (!component || !(el instanceof component)) { continue; }
 
-          const targetValue = setter(this.getAttribute(sourceAttribute));
+          const targetValue = valueXformer(this.getAttribute(sourceAttribute));
 
           /* istanbul ignore else */
           if (this.hasAttribute(sourceAttribute) && (targetValue !== null)) {

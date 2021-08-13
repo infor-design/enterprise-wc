@@ -4,23 +4,20 @@
   --tab-width: 100%;
 
   contain: content;
-}
-
-.ids-tabs {
-  &.vertical {
-    flex-direction: column;
-  }
-
-  &:not(.vertical) {
-    @include border-b-1;
-    @include mt-8;
-    @include border-graphite-60;
-  }
-
   position: relative;
   display: flex;
   width: 100%;
   padding-inline-start: 0;
   margin-block-start: 0;
   margin-inline-start: 0;
+}
+
+:host(ids-tabs[orientation='vertical']) {
+  flex-direction: column;
+}
+
+:host(ids-tabs:not([orientation='vertical'])) {
+  @include border-b-1;
+  @include mt-8;
+  @include border-graphite-60;
 }

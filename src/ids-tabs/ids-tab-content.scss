@@ -1,0 +1,7 @@
+ids-tab-content[active] {
+  display: block;
+}
+
+ids-tab-content:not([active]) {
+  display: none;
+}
