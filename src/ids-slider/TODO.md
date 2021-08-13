@@ -1,0 +1,3 @@
+- [ ] include a larger "hit" area where user can adjust range value even if they click around/not directly on the running track/thumb
+- [ ] smooth transitions when tooltip badge fades, when user clicks running track and thumb slides towards new position, and focus shadow grow
+- [ ] add outer solid ring when clicked
