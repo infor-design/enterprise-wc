@@ -66,7 +66,7 @@ export default (superclass) => class extends superclass {
 
           if (!component || !(el instanceof component)) { continue; }
 
-          const targetValue = valueXformer(this.getAttribute(sourceAttribute));
+          const targetValue = valueXformer(this.getAttribute(sourceAttribute), el);
 
           /* istanbul ignore else */
           if (this.hasAttribute(sourceAttribute) && (targetValue !== null)) {
