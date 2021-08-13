@@ -3,6 +3,7 @@
   position: relative;
   align-items: center;
   display: flex;
+  margin: 25px;
   // justify-content: space-between; 
 
   .tick {
@@ -22,6 +23,21 @@
     }
   }
 
+  .tooltip {
+    width: 25px;
+    height: 25px;
+    background-color: #606066;
+    color: white;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    bottom: 200%;
+    border-radius: 5px;
+    left: calc(var(--value) * 1%);
+    vertical-align: middle;
+    line-height: 25px;
+  }
+
   /* The slider itself */
   .slider {
     -webkit-appearance: none;  /* Override default CSS styles */
@@ -33,18 +49,19 @@
     outline: none; /* Remove outline */
     // opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
     // -webkit-transition: .2s; /* 0.2 seconds transition on hover */
-    // transition: opacity .2s;
     cursor: pointer;
     // z-index: 10;
     // overflow: hidden;
   }
+  .slider:focus::-webkit-slider-runnable-track {
+    // border: 5px solid red;
+  }
   .slider::-webkit-slider-runnable-track {
-    background: linear-gradient(to right, red calc(var(--value) * 1%), transparent 30%);
+    background: linear-gradient(to right, #0072ED calc(var(--value) * 1%), transparent 0%);
     background-position: left;
     height: 4px;
-    // width: 50%;
   }
-
+  
   .slider::-webkit-slider-thumb {
     -webkit-appearance: none;
     appearance: none;
@@ -54,12 +71,20 @@
     border-radius: 8px;
     background: #0072ED;
     cursor: pointer !important;
-    // cursor: ew-resize;
+    transition: box-shadow .2s;
     
-    // box-shadow: 500px 0 0 0 #43e5f7;
-    
-    z-index: 30;
+    // z-index: 30;
+    &:active {
+      border: 6px solid #0072ED;
+    }
+
+    &:hover {
+      box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
+      // border: 6px solid red;
+    }
+
   }
+
   
   .slider::-moz-range-thumb {
     appearance: none;
@@ -72,7 +97,10 @@
   }
 
   .label {
-    color: red;
+    display: flex;
+    position: absolute;
+    top: 100%;
+    margin: 15px 0;
   }
 }
 
