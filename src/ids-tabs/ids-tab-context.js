@@ -9,6 +9,7 @@ import {
 import { IdsAttributeProviderMixin } from '../ids-mixins';
 
 import IdsTab from './ids-tab';
+import IdsTabContent from './ids-tab-content';
 import IdsTabs from './ids-tabs';
 import styles from './ids-tabs.scss';
 
@@ -33,14 +34,21 @@ export default class IdsTabContext extends mix(IdsElement).with(IdsAttributeProv
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.ORIENTATION, attributes.VALUE];
+    return [attributes.VALUE];
   }
 
   get providedAttributes() {
     return {
       [attributes.VALUE]: [{
+        component: IdsTabContent,
+        valueXformer: (value, element) => (
+          element.getAttribute(attributes.VALUE) === value
+        ),
+        targetAttribute: attributes.ACTIVE
+      }, {
         component: IdsTabs
-      }]
+      }],
+      [attributes.ORIENTATION]: [IdsTab]
     };
   }
 
@@ -50,7 +58,7 @@ export default class IdsTabContext extends mix(IdsElement).with(IdsAttributeProv
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.container = this;
+    this.provideAttributes();
   }
 
   disconnectedCallback() {
