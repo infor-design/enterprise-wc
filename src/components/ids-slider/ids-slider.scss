@@ -3,7 +3,7 @@
   position: relative;
   align-items: center;
   display: flex;
-  margin: 25px;
+  margin: 50px 0;
   // justify-content: space-between; 
 
   .tick {
@@ -24,18 +24,33 @@
   }
 
   .tooltip {
-    width: 25px;
-    height: 25px;
-    background-color: #606066;
+    position: absolute;
+    width: 40px;
+    height: 30px;
+    background-color: #47474C;
     color: white;
     text-align: center;
     margin: auto;
-    position: absolute;
-    bottom: 200%;
-    border-radius: 5px;
-    left: calc(var(--value) * 1%);
+    bottom: 250%;
+    border-radius: 2px;
+    left: calc(var(--percent) * 1% + (var(--pos) * 1px));
     vertical-align: middle;
-    line-height: 25px;
+    line-height: 30px;
+    // font-size: 1.6px;
+    max-width: 300px;
+    min-width: 40px;
+    // padding: 1px;
+    transition: opacity 0.4 ease;
+
+    .pin {
+      position: absolute;
+      width: 0; 
+      height: 0; 
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      
+      border-top: 20px solid #f00;
+    }
   }
 
   /* The slider itself */
@@ -57,12 +72,15 @@
     // border: 5px solid red;
   }
   .slider::-webkit-slider-runnable-track {
-    background: linear-gradient(to right, #0072ED calc(var(--value) * 1%), transparent 0%);
+    background: linear-gradient(to right, #0072ED calc(var(--percent) * 1%), transparent 0%);
     background-position: left;
     height: 4px;
   }
   
   .slider::-webkit-slider-thumb {
+    // --focus-shadow: 0 2px 5px rgb(0 0 0 / 20%);
+    // --hover-shadow: 0 2px 5px rgb(0 0 0 / 20%);
+
     -webkit-appearance: none;
     appearance: none;
     margin: -6px 0;
@@ -71,16 +89,17 @@
     border-radius: 8px;
     background: #0072ED;
     cursor: pointer !important;
-    transition: box-shadow .2s;
+    transition: box-shadow translate 1s;
+    box-shadow: var(--focus-shadow);
+
     
     // z-index: 30;
-    &:active {
+    &:focus {
       border: 6px solid #0072ED;
     }
 
     &:hover {
-      box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
-      // border: 6px solid red;
+      // box-shadow: var(--hover-shadow);
     }
 
   }
@@ -94,6 +113,7 @@
     z-index: 20;
     background: #0072ED;
     cursor: pointer;
+    border: 5px solid red;
   }
 
   .label {
