@@ -558,7 +558,7 @@ class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixi
     // Build/Fire a `beforeselect` event that will allow an external hook to
     // determine if this menu item can be selected, or perform other actions.
     let canSelect = true;
-    const beforeSelectResponse = (/** @type {any} */ veto) => {
+    const beforeSelectResponse = (veto) => {
       canSelect = !!veto;
     };
     this.triggerEvent(beforeEventName, this, {

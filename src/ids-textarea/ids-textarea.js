@@ -109,9 +109,7 @@ class IdsTextarea extends mix(IdsElement).with(
    * @returns {void}
    */
   connectedCallback() {
-    /** @type {any} */
     this.input = this.shadowRoot.querySelector(`#${ID}`);
-    /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
 
     this.handleClearable();
@@ -230,7 +228,7 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   setBrowser() {
     const ua = navigator.userAgent || navigator.vendor || window.opera;
-    const browser = (/** @type {any} */ s) => ua.toLowerCase().indexOf(s) > -1;
+    const browser = (s) => ua.toLowerCase().indexOf(s) > -1;
     this.isSafari = browser('safari') && !browser('chrome') && !browser('android');
   }
 
@@ -400,7 +398,7 @@ class IdsTextarea extends mix(IdsElement).with(
     if (this.input) {
       const events = ['change', 'input', 'propertychange', 'focus', 'select'];
       events.forEach((evt) => {
-        this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+        this.onEvent(evt, this.input, (e) => {
           /**
            * Trigger event on parent and compose the args
            * will fire nativeEvents.

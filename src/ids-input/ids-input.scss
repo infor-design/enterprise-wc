@@ -123,12 +123,17 @@ $input-compact-height: $input-field-height-xs;
       @include border-slate-90();
     }
 
-    &:focus {
+    &:focus,
+    &.is-active {
       @include border-azure-60();
       @include shadow();
 
       outline: none;
       outline-color: transparent;
+    }
+
+    &.is-active {
+      border-radius: 2px 2px 0 0;
     }
 
     &[disabled] {

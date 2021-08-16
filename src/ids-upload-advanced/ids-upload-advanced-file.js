@@ -147,14 +147,14 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
       el.root?.classList.add(attributes.DISABLED);
       el.progress.setAttribute(attributes.DISABLED, val.toString());
       el.btnClose.setAttribute(attributes.DISABLED, val.toString());
-      el.alerts.forEach((/** @type {any} */ alert) => {
+      el.alerts.forEach((alert) => {
         alert?.setAttribute(attributes.DISABLED, val.toString());
       });
     } else {
       el.root?.classList.remove(attributes.DISABLED);
       el.progress.removeAttribute(attributes.DISABLED);
       el.btnClose.removeAttribute(attributes.DISABLED);
-      el.alerts.forEach((/** @type {any} */ alert) => {
+      el.alerts.forEach((alert) => {
         alert?.removeAttribute(attributes.DISABLED);
       });
     }
@@ -209,7 +209,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    */
   handleBtnCloseClickEvent() {
     const btnClose = this.shadowRoot?.querySelector('.btn-close');
-    this.onEvent('click', btnClose, (/** @type {any} */ e) => {
+    this.onEvent('click', btnClose, (e) => {
       this.abortHandler();
       this.dispatchChangeEvent('closebuttonclick', e);
     });

@@ -1,0 +1,25 @@
+/* Styling for Dropdown List Options */
+@import '../ids-base/ids-base';
+
+:host {
+  @include cursor-pointer();
+  @include block();
+  @include text-slate-100();
+  @include font-sans();
+
+  font-size: 16px;
+  line-height: 32px;
+  padding: 5px 0;
+  text-indent: 10px;
+  user-select: none;
+  width: 298px;
+}
+
+:host(.is-selected) {
+  @include bg-azure-60();
+  @include text-white();
+}
+
+:host(:hover:not(.is-selected)) {
+  @include bg-slate-20();
+}

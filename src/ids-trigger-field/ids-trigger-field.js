@@ -131,7 +131,6 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    */
   set tabbable(value) {
     const isTabbable = stringUtils.stringToBool(value);
-    /** @type {any} */
     const button = this.querySelector('ids-trigger-button');
     this.setAttribute(attributes.TABBABLE, value.toString());
     button.tabbable = isTabbable;
@@ -192,7 +191,6 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
       return false;
     }
 
-    /** @type {any} */
     const button = this.querySelector('ids-trigger-button');
     if (button) {
       this.onEvent('click', button, () => this.trigger());
@@ -206,7 +204,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    */
   trigger() {
     let canTrigger = true;
-    const response = (/** @type {any} */ veto) => {
+    const response = (veto) => {
       canTrigger = !!veto;
     };
     this.triggerEvent('beforetriggerclicked', this, { detail: { elem: this, response } });

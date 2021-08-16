@@ -40,6 +40,7 @@ export const attributes = {
   COUNT: 'count',
   CLICKABLE: 'clickable',
   CSS_CLASS: 'css-class',
+  CURSOR: 'cursor',
   DATA: 'data',
   DELAY: 'delay',
   DIRTY_TRACKER: 'dirty-tracker',

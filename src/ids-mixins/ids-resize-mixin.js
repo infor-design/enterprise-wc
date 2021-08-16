@@ -179,8 +179,7 @@ const IdsResizeMixin = (superclass) => class extends superclass {
 
     /* istanbul ignore next */
     if (!this.mo && typeof MutationObserver !== 'undefined') {
-      /** @type {any} */
-      this.mo = new MutationObserver((/** @type {any} */ mutation) => {
+      this.mo = new MutationObserver((mutation) => {
         switch (mutation.type) {
         case 'childList':
           break;

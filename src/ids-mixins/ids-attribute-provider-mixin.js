@@ -45,13 +45,8 @@ export default (superclass) => class extends superclass {
 
       for (const [sourceAttribute, componentEntries] of Object.entries(attributes)) {
         for (const entry of componentEntries) {
-          /** @type {IdsElement} */
           let component;
-
-          /** @type {string} */
           let targetAttribute;
-
-          /** @type {Function} */
           let setter;
 
           if (entry.prototype instanceof IdsElement) {

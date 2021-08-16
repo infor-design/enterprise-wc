@@ -17,11 +17,9 @@ import IdsDeepCloneUtils from './ids-deep-clone-utils';
  */
 class IdsDataSource {
   // Holds a reference to the original data
-  /** @type {any} */
   originalData = [];
 
   // Holds the data in its current state
-  /** @type {any} */
   currentData = [];
 
   /**
@@ -66,9 +64,9 @@ class IdsDataSource {
    * @returns {object} The sorted dataset or it uses
    */
   sortFunction(field, reverse, primer) {
-    const key = (/** @type {any} */x) => (primer ? primer(x[field]) : x[field]);
+    const key = (x) => (primer ? primer(x[field]) : x[field]);
 
-    return (/** @type {any} */a, /** @type {any} */b) => {
+    return (a, b) => {
       const A = key(a);
       const B = key(b);
       return ((A < B) ? -1 : ((A > B) ? 1 : 0)) * [-1, 1][+!!reverse]; // eslint-disable-line

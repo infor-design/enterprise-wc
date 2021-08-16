@@ -62,9 +62,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {void}
    */
   connectedCallback() {
-    /** @type {any} */
     this.fileInput = this.shadowRoot.querySelector('.file-input');
-    /** @type {any} */
     this.droparea = this.shadowRoot.querySelector('.droparea');
 
     this.files = [];
@@ -80,7 +78,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   template() {
     const toBool = stringUtils.stringToBool;
     const d = shared.DEFAULTS;
-    const hiddenClass = (/** @type {boolean} */ opt) => (opt ? ' hidden' : '');
+    const hiddenClass = (opt) => (opt ? ' hidden' : '');
     const accept = this.accept ? ` accept="${this.accept}"` : '';
     const disabled = toBool(this.disabled) ? ' disabled' : '';
     const multiple = this.maxFilesInProcess > 1 ? ' multiple' : '';
@@ -144,8 +142,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     xhr.open(this.method, this.url);
     xhr.setRequestHeader('param-name', this.paramName);
     if (this.xhrHeaders) {
-      const isValid = (/** @type {object} */ h) => (h && h.name !== '');
-      this.xhrHeaders.forEach((/** @type {object} */ h) => {
+      const isValid = (h) => (h && h.name !== '');
+      this.xhrHeaders.forEach((h) => {
         if (isValid(h)) {
           xhr.setRequestHeader(h.name, h.value);
         }
@@ -167,7 +165,6 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   setXhrHeaders() {
     const errorarea = this.shadowRoot?.querySelector('.errorarea');
     errorarea.innerHTML = '';
-    /** @type {any} */
     let xhrHeaders = shared.slotVal(this.shadowRoot, 'xhr-headers');
     let isValid = true;
     try {
@@ -225,7 +222,6 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   getDropareaLabel(hasBrowse) {
     const toBool = stringUtils.stringToBool;
-    // const isValid = (/** @type {string} */ s) => typeof s === 'string' && s !== '';
     const text = shared.slotVal(this.shadowRoot, 'text-droparea');
     const textHasBrowse = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse');
     const link = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse-link');
@@ -288,9 +284,9 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   errorMessage(opt) {
     const {
-      /** @type {string} */ error, // The error message
-      /** @type {string} */ data, // The data to show with message if any
-      /** @type {boolean} */ remove // If set true, will remove error message
+      error, // The error message
+      data, // The data to show with message if any
+      remove // If set true, will remove error message
     } = opt;
     const errorarea = this.shadowRoot?.querySelector('.errorarea');
     errorarea?.classList.remove('has-error');
@@ -325,7 +321,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {Array} The filter files
    */
   statusFiles(status) {
-    return this.files.filter((/** @type {any} */ file) => file.status === status);
+    return this.files.filter((file) => file.status === status);
   }
 
   /**
@@ -338,10 +334,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     const rootEl = this.shadowRoot.querySelector('.ids-upload-advanced');
     const alertError = this.shadowRoot.querySelector('.errorarea .status ids-alert');
     const link = this.shadowRoot.querySelector('ids-hyperlink');
-
-    /** @type {any} */
     const uiElemArr = [].slice.call(this.shadowRoot.querySelectorAll('ids-upload-advanced-file'));
-    const attr = (/** @type {any} */ el, /** @type {any} */ val) => {
+    const attr = (el, val) => {
       if (val) {
         el?.setAttribute(attributes.DISABLED, val.toString());
       } else {
@@ -352,13 +346,13 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     if (val) {
       attr(this.fileInput, val);
       attr(alertError, val);
-      uiElemArr.forEach((/** @type {any} */ uiElem) => attr(uiElem, val));
+      uiElemArr.forEach((uiElem) => attr(uiElem, val));
       rootEl?.classList.add(attributes.DISABLED);
       link?.setAttribute(attributes.DISABLED, 'true');
     } else {
       attr(this.fileInput, null);
       attr(alertError, null);
-      uiElemArr.forEach((/** @type {any} */ uiElem) => attr(uiElem, null));
+      uiElemArr.forEach((uiElem) => attr(uiElem, null));
       rootEl?.classList.remove(attributes.DISABLED);
       link?.removeAttribute(attributes.DISABLED);
     }
@@ -490,7 +484,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
       'text-droparea-with-browse',
       'text-droparea-with-browse-link'
     ];
-    dropareaLabelSlotsName.forEach((/** @type {any} */ slotName) => {
+    dropareaLabelSlotsName.forEach((slotName) => {
       const slot = this.shadowRoot?.querySelector(`slot[name="${slotName}"]`);
       this.onEvent('slotchange', slot, () => {
         this.setDropareaLabel();
@@ -510,8 +504,8 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   handleLabelClickEvent() {
     const label = this.shadowRoot?.querySelector('label');
-    this.onEvent('click', label, (/** @type {any} */ e) => {
-      const hasClass = (/** @type {string} */ c) => e.target?.classList?.contains(c);
+    this.onEvent('click', label, (e) => {
+      const hasClass = (c) => e.target?.classList?.contains(c);
       if (!(hasClass('hyperlink') || hasClass('file-input'))) {
         e.preventDefault();
       }
@@ -535,7 +529,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {void}
    */
   handleDropareaDragenterEvent() {
-    this.onEvent('dragenter', this.droparea, (/** @type {any} */ e) => {
+    this.onEvent('dragenter', this.droparea, (e) => {
       e.stopPropagation();
       e.preventDefault();
       if (this.disabled) {
@@ -552,7 +546,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {void}
    */
   handleDropareaDragoverEvent() {
-    this.onEvent('dragover', this.droparea, (/** @type {any} */ e) => {
+    this.onEvent('dragover', this.droparea, (e) => {
       e.stopPropagation();
       e.preventDefault();
     });
@@ -564,7 +558,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {void}
    */
   handleDropareaDropEvent() {
-    this.onEvent('drop', this.droparea, (/** @type {any} */ e) => {
+    this.onEvent('drop', this.droparea, (e) => {
       e.preventDefault();
       if (this.disabled) {
         return;
@@ -586,7 +580,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   handleDocumentDragDropEvents() {
     const events = ['dragenter', 'dragover', 'drop'];
     events.forEach((eventName) => {
-      this.onEvent(eventName, document, (/** @type {any} */ e) => {
+      this.onEvent(eventName, document, (e) => {
         e.stopPropagation();
         e.preventDefault();
         if (e.type === 'dragover') {
@@ -605,7 +599,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   handleFileEvent(uiElem) {
     const events = ['error', 'complete', 'abort', 'closebuttonclick'];
     events.forEach((eventName) => {
-      this.onEvent(eventName, uiElem, (/** @type {any} */ e) => {
+      this.onEvent(eventName, uiElem, (e) => {
         let target = {};
         for (let i = 0; i < this.files.length; i++) {
           if (uiElem.id === this.files[i].id) {
@@ -692,7 +686,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
       'error-url'
     ];
     let html = '';
-    slotNames.forEach((/** @type {any} */ slotName) => {
+    slotNames.forEach((slotName) => {
       html += `<span slot="${slotName}">${shared.slotVal(this.shadowRoot, slotName)}</span>`;
     });
     html += `<span slot="error-max-files">${this.errorMaxFilesVal}</span>`;

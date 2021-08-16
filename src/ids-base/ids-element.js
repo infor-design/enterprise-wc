@@ -174,7 +174,6 @@ class IdsElement extends HTMLElement {
     template.innerHTML = this.template();
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
-    /** @type {any} */
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
     if (!this.shadowRoot.adoptedStyleSheets && !this.container) {
       this.container = this.shadowRoot?.firstElementChild.nextSibling;

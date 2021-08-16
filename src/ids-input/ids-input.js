@@ -33,6 +33,7 @@ const INPUT_ATTRIBUTES = [
   attributes.CLEARABLE,
   attributes.CLEARABLE_FORCED,
   attributes.COMPACT,
+  attributes.CURSOR,
   attributes.DIRTY_TRACKER,
   attributes.DISABLED,
   attributes.FIELD_HEIGHT,
@@ -388,7 +389,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   handleNativeEvents() {
     const events = ['change.input', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
-      this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+      this.onEvent(evt, this.input, (e) => {
         /**
          * Trigger event on parent and compose the args
          * will fire nativeEvents.
@@ -765,6 +766,19 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
 
   get id() {
     return this.getAttribute(attributes.ID);
+  }
+
+  /**
+   * Set the css cursor property to something other than text
+   * @param {string} value the css cursor value
+   */
+  set cursor(value) {
+    this.setAttribute(attributes.CURSOR, value);
+    this.input.style.cursor = value;
+  }
+
+  get cursor() {
+    return this.getAttribute(attributes.CURSOR);
   }
 }
 

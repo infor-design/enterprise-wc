@@ -343,6 +343,23 @@
     border-color: var(--ids-color-palette-slate-30);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   }
+
+  // style: "dropdown"
+  &.dropdown {
+    @include antialiased();
+    @include bg-white();
+    @include border-azure-60();
+    @include border-1();
+    @include border-solid();
+    @include outline-none();
+
+    box-shadow:
+      -3px 3px 3px 0 rgb(54 138 192 / 30%),
+      0 2px 3px 0 rgb(54 138 192 / 30%),
+      3px 3px 3px 0 rgb(54 138 192 / 30%);
+    border-radius: 0 0 2px 2px;
+    border-top-color: var(--ids-color-palette-slate-30);
+  }
 }
 
 .content-wrapper {

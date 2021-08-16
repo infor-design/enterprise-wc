@@ -3,4 +3,6 @@
 
 :host(ids-input) {
   @include cursor-pointer();
+
+  user-select: false;
 }

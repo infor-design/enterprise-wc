@@ -73,9 +73,9 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {void}
    */
   attributeChangedCallback(
-    /** @type {string} */ name,
-    /** @type {any} */ oldValue,
-    /** @type {any} */ newValue
+    name,
+    oldValue,
+    newValue
   ) {
     if (oldValue !== newValue) {
       attribs.forEach((attribute) => {
@@ -93,11 +93,8 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   connectedCallback() {
     super.connectedCallback();
 
-    /** @type {any} */
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
-    /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector('label');
-    /** @type {any} */
     this.rootEl = this.shadowRoot.querySelector('.ids-radio');
 
     if (this.checked && !this.input.getAttribute(attributes.CHECKED)) {
@@ -164,7 +161,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   handleNativeEvents() {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
-      this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+      this.onEvent(evt, this.input, (e) => {
         /**
          * Trigger event on parent and compose the args
          * will fire nativeEvents.

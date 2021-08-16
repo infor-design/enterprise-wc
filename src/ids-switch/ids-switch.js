@@ -54,7 +54,6 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {void}
    */
   connectedCallback() {
-    /** @type {object} */
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
@@ -133,7 +132,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
             this.offEvent(evt, this.input);
           }
         } else {
-          this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+          this.onEvent(evt, this.input, (e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire nativeEvents.

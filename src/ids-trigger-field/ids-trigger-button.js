@@ -48,7 +48,6 @@ class IdsTriggerButton extends IdsButton {
    */
   set tabbable(value) {
     const isTabbable = stringUtils.stringToBool(value);
-    /** @type {any} */
     const button = this.shadowRoot?.querySelector('button');
     this.setAttribute(attributes.TABBABLE, value.toString());
     button.tabIndex = !isTabbable ? '-1' : '0';
