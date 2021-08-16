@@ -14,9 +14,17 @@ import {
 
 import styles from './ids-slider.scss';
 
+const TYPES = [
+  'single',
+  'range',
+  'step',
+  'vertical'
+]
+
 const DEFAULT_VALUE = 50;
 const DEFAULT_MIN = 0;
 const DEFAULT_MAX = 100;
+const DEFAULT_TYPE = TYPES[0];
 
 /**
  * IDS Slider Component
@@ -71,11 +79,19 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           <ids-text class="text">${this.value ?? DEFAULT_VALUE}</ids-text>
           <div class="pin"></div>
         </div>
-        <input type="range" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}" value="${this.value ?? DEFAULT_VALUE}" class="slider">
+        <input class="slider" type="range" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}" value="${this.value ?? DEFAULT_VALUE}">
+        <input class="slider class="double-range" id="double-range" type="range" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}" value="${this.value ?? DEFAULT_VALUE}">
         <span class="range"></span>
         <span class="tick end"></span>
         <span class="tick start"></span>
         <ids-text label class="label">${this.min ?? DEFAULT_MIN}</ids-text>
+      </div>
+      <div class="container2">
+        <ids-draggable parent-containment class="draggable">
+          <div class="experiment">
+            <ids-text>hello</ids-text>
+          </div>
+        </ids-draggable>
       </div>
     </div>`;
   }
@@ -110,6 +126,21 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   get max() { return this.getAttribute(attributes.MIN) || DEFAULT_MAX; }
 
+  set type(value) {
+    console.log('type is ' + value);
+    if (value && TYPES.includes(value)) {
+      console.log('valid type');
+      this.setAttribute(attributes.TYPE, value);
+      if (value === 'single') {
+        this.container.querySelector('.double-range').remove();
+      }
+    } else {
+      this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
+    }
+  }
+  
+  get type() { return this.getAttribute(attributes.TYPE)}
+
   /**
    * Set the color of the bar
    * @param {string} value The color value, this can be a hex code with the #
@@ -133,6 +164,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
     this.onEvent('input', this.container.querySelector('.slider'), () => {
       this.setAttribute(attributes.VALUE, this.container.querySelector('.slider').value);
+      this.hideTooltip = false;
     })
 
     this.onEvent('click', this.container.querySelector('.slider'), () => {
