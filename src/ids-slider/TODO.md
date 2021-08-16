@@ -2,4 +2,5 @@
 - [x] smooth transitions when tooltip badge fades
 - [ ]when user clicks running track and thumb slides towards new position, and focus shadow grow
 - [ ] add outer solid ring when clicked
-- [ ] add types enum
+- [x] add types enum
+- [ ] double range slider
