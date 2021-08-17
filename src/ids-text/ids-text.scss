@@ -153,6 +153,10 @@
     @include text-slate-30();
   }
 
+  &.data {
+    @include text-white();
+  }
+
   &.legend {
     @include text-slate-20();
   }
@@ -176,6 +180,10 @@
   &.label {
     @include text-slate-90();
   }
+
+  &.data {
+    @include text-black();
+  }
 }
 
 :host([disabled][mode='contrast']) .ids-text {
@@ -188,6 +196,16 @@
 
 // Light (Classic)
 
+.ids-text[mode='light'][version='classic'] {
+  &.data {
+    @include text-graphite-100();
+  }
+
+  &.label {
+    @include text-graphite-60();
+  }
+}
+
 :host([disabled][mode='light'][version='classic']) .ids-text {
   @include text-graphite-40();
 
@@ -197,6 +215,15 @@
 }
 
 // Dark (Classic)
+.ids-text[mode='dark'][version='classic'] {
+  &.data {
+    @include text-white();
+  }
+
+  &.label {
+    @include text-classic-slate-30();
+  }
+}
 
 :host([disabled][mode='dark'][version='classic']) .ids-text {
   @include text-classic-slate-50();
@@ -207,6 +234,15 @@
 }
 
 // Contrast (Classic)
+.ids-text[mode='contrast'][version='classic'] {
+  &.data {
+    @include text-graphite-100();
+  }
+
+  &.label {
+    @include text-graphite-80();
+  }
+}
 
 :host([disabled][mode='contrast'][version='classic']) .ids-text {
   @include text-graphite-40();
