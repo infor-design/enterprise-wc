@@ -16,7 +16,7 @@ import styles from './ids-slider.scss';
 
 const TYPES = [
   'single',
-  'range',
+  'double',
   'step',
   'vertical'
 ]
@@ -80,21 +80,36 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           <div class="pin"></div>
         </div>
         <input class="slider" type="range" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}" value="${this.value ?? DEFAULT_VALUE}">
-        <input class="slider class="double-range" id="double-range" type="range" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}" value="${this.value ?? DEFAULT_VALUE}">
+        <div class="tooltip second">
+          <ids-text class="text">${this.valueb ?? DEFAULT_MAX}</ids-text>
+          <div class="pin"></div>
+        </div>
+        <input class="slider second" type="range" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}" value="${this.valueb ?? DEFAULT_MAX}">
         <span class="range"></span>
         <span class="tick end"></span>
         <span class="tick start"></span>
-        <ids-text label class="label">${this.min ?? DEFAULT_MIN}</ids-text>
-      </div>
-      <div class="container2">
-        <ids-draggable parent-containment class="draggable">
-          <div class="experiment">
-            <ids-text>hello</ids-text>
-          </div>
-        </ids-draggable>
+        <ids-text label class="label min">${this.min ?? DEFAULT_MIN}</ids-text>
+        <ids-text label class="label max">${this.max ?? DEFAULT_MAX}</ids-text>
       </div>
     </div>`;
   }
+
+  set valueb(value) {
+    console.log('setting valueb to ' + value);
+    this.setAttribute('valueb', value || DEFAULT_MAX);
+
+    const percent = (this.valueb - this.min) * 100 / (this.max - this.min);
+    const pos = -10 - (percent * 0.2);
+
+    this.container.querySelector('.slider:nth-of-type(2)').setAttribute('valueb', this.valueb);
+    this.container.querySelector('.slider:nth-of-type(2)').style.setProperty("--percentB", percent);
+    this.container.querySelectorAll('.tooltip:nth-of-type(2)').style.setProperty("--percentB", percent);
+    this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--posB", pos);
+
+    this.container.querySelector('.tooltip:nth-of-type(2) .text').innerHTML = this.value;
+  }
+
+  get valueb() { return this.getAttribute('valueb'); }
 
   set value(value) {
     this.setAttribute(attributes.VALUE, value || DEFAULT_VALUE);
@@ -102,12 +117,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const percent = (this.value - this.min) * 100 / (this.max - this.min);
     const pos = -10 - (percent * 0.2);
 
-    this.container.querySelector('.slider').setAttribute('value', this.value);
-    this.container.querySelector('.slider').style.setProperty("--percent", percent);
-    this.container.querySelector('.tooltip').style.setProperty("--percent", percent);
-    this.container.querySelector('.tooltip').style.setProperty("--pos", pos);
+    this.container.querySelector('.slider:nth-of-type(1)').setAttribute('value', this.value);
+    this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percent", percent);
+    this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--percent", percent);
+    this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--pos", pos);
 
-    this.container.querySelector('.tooltip .text').innerHTML = this.value;
+    this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = this.value;
   }
 
   get value() { return this.getAttribute(attributes.VALUE) || DEFAULT_VALUE; }
@@ -132,7 +147,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       console.log('valid type');
       this.setAttribute(attributes.TYPE, value);
       if (value === 'single') {
-        this.container.querySelector('.double-range').remove();
+        this.container.querySelector('.tooltip:nth-of-type(2)').remove();
+        this.container.querySelector('.slider:nth-of-type(2)').remove();
       }
     } else {
       this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
@@ -160,30 +176,43 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 
+  set hideTooltipB(value) {
+    if (!value) {
+      this.container.querySelector('.tooltip:nth-of-type(2)').style.opacity = 1;
+    } else {
+      this.container.querySelector('.tooltip:nth-of-type(2)').style.opacity = 0;
+    }
+  }
+
   #handleEvents() {
 
-    this.onEvent('input', this.container.querySelector('.slider'), () => {
-      this.setAttribute(attributes.VALUE, this.container.querySelector('.slider').value);
+    this.onEvent('input', this.container.querySelector('.slider:nth-of-type(1)'), () => {
+      this.setAttribute(attributes.VALUE, this.container.querySelector('.slider:nth-of-type(1)').value);
       this.hideTooltip = false;
     })
 
+    this.onEvent('input', this.container.querySelector('.slider:nth-of-type(2)'), () => {
+      this.setAttribute('valueb', this.container.querySelector('.slider:nth-of-type(2)').value);
+      this.hideTooltipB = false;
+      console.log(this.container.querySelector('.slider:nth-of-type(2)').value);
+    })
+
     this.onEvent('click', this.container.querySelector('.slider'), () => {
-      console.log('slider clicked')
       this.hideTooltip = false;
+      this.hideTooltipB = false;
     })
 
     window.addEventListener('click', () => {
       const idsSliderSelected = document.activeElement.name === 'ids-slider';
 
       this.hideTooltip = !idsSliderSelected;
+      this.hideTooltipB = !idsSliderSelected;
 
       if (idsSliderSelected) {
-        console.log('ids-slider selected')
         this.container.querySelector('.slider:hover').style.removeProperty('box-shadow')
         this.container.querySelector('.slider').style.setProperty('--hover-shadow', 'rgb(0 114 237 / 10%) 0px 0px 0px 8px')
         this.container.querySelector('.slider').style.setProperty('--focus-shadow', 'rgb(0 114 237 / 10%) 0px 0px 0px 8px')
       } else {
-        console.log('ids-slider NOT selected')
         this.container.querySelector('.slider').style.setProperty('--focus-shadow', '');
         this.container.querySelector('.slider').style.setProperty('--hover-shadow', '0 2px 5px rgb(0 0 0 / 20%)');
       }

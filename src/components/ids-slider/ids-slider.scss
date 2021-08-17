@@ -1,4 +1,10 @@
+
+.ids-slider {
+  // display: inline-block
+}
+
 .slidecontainer {
+  // display: inline-block;
   display: flex;
   width: 100%;
   position: relative;
@@ -33,13 +39,20 @@
     margin: auto;
     bottom: 275%;
     border-radius: 2px;
-    left: calc(var(--percent) * 1% + (var(--pos) * 1px));
     vertical-align: middle;
     line-height: 30px;
     max-width: 300px;
     min-width: 40px;
     transition: opacity 0.2s ease;
     opacity: 0;
+
+    &:nth-of-type(1) {
+      left: calc(var(--percent) * 1% + (var(--pos) * 1px));
+    }
+    
+    &:nth-of-type(2) {
+      left: calc(var(--percentB) * 1% + (var(--posB) * 1px));
+    }
 
     .pin {
       position: absolute;
@@ -78,7 +91,8 @@
   }
 
   .slider {
-    display: flex;
+    position: absolute;
+    left: 0;
     -webkit-appearance: none;
     appearance: none;
     width: 100%;
@@ -113,7 +127,7 @@
     }
 
     &:active {
-      // z-index: 50;
+      z-index: 50; // overlap the slider that's being dragged (for double-range)
       cursor: grabbing;
     }
   }
@@ -128,26 +142,3 @@
     margin: 15px 0;
   }
 }
-
-.ids-slider {
-  display: flex;
-  flex-direction: column;
-}
-
-.container2 {
-  display: flex;
-  width: 100%;
-  height: auto;
-  border: 1px solid red;
-
-  .experiment {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 64px;
-    height: 64px;
-    border-style: dashed;
-  }
-}
-
-
