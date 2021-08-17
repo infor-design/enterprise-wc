@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsSummaryField Component renders correctly 1`] = `"<ids-summary-field label=\\"test\\" value=\\"some random data\\"></ids-summary-field>"`;
