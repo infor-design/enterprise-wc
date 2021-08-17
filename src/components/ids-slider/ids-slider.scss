@@ -83,7 +83,7 @@
 
   @mixin thumb {
     appearance: none;
-    margin: -6px 0;
+    margin: 3px 0;
     width: 16px;
     height: 16px;
     border-radius: 50%;
@@ -101,12 +101,14 @@
 
   @mixin track {
     // background: linear-gradient(to right, #0072ED calc(var(--percent) * 1%), transparent 0%);
-    background: linear-gradient(to right, transparent calc(var(--percentStart) * 1%), red calc(var(--percentStart) * 1%), red calc(var(--percentEnd) * 1%), transparent 0%);
-    // background: linear-gradient(to right, transparent 10%, red 10%, red 50%, transparent 0%);
     // background-position: left;
-    // left: 50px;
+    background: linear-gradient(to right, transparent calc(var(--percentStart) * 1%), red calc(var(--percentStart) * 1%), red calc(var(--percentEnd) * 1%), transparent 0%);
     height: 4px;
+    // TODO: make transparent and hit area of 24 px
+    // height: 24px;
+    // background-color: transparent;
     width: 100%;
+    align-items: center;
   }
 
   .slider {
@@ -118,16 +120,11 @@
     width: 100%;
     height: 4px;
     background-color: #97979B;
+    // TODO: make transparent and create new track div over it
+    // background-color: transparent;
     border-radius: 2px;
     outline: none;
     cursor: pointer;
-
-    // &:nth-of-type(1) {
-    // }
-    
-    // &:nth-of-type(2) {
-      // --percent: --percentB;
-    // }
     
     &::-webkit-slider-runnable-track {
       @include track;
