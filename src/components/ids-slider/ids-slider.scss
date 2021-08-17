@@ -4,31 +4,45 @@
 }
 
 .slidecontainer {
-  // display: inline-block;
+  --tick-size: 8px;
+
   display: flex;
   width: 100%;
+  height: 100%;
   position: relative;
-  align-items: center;
+  // align-items: center;
   margin: 50px 0;
 
-  .tick {
-    width: 8px;
-    height: 8px;
-    border-radius: 4px;
-    background-color: #0072ED;
+  .tick-container {
+    display: flex;
     position: absolute;
-    z-index: 40;
-    
+    width: 100%;
+    left: 2px;
+    // bottom: 4px;
+
     &.start {
-      left: 2px;
+      justify-content: flex-start;
+    }
+    
+    &.end {
+      justify-content: flex-end;
     }
 
-    &.end {
-      right: 2px;
+    .tick {
+      display: flex;
+      position: absolute;
+      width: var(--tick-size);
+      height: var(--tick-size);
+      border-radius: 50%;
+      background-color: #0072ED;
+      z-index: 40;
+      
     }
   }
 
   .tooltip {
+    display: flex;
+    justify-content: center;
     position: absolute;
     width: auto;
     padding: 1px;
@@ -37,7 +51,7 @@
     color: white;
     text-align: center;
     margin: auto;
-    bottom: 275%;
+    bottom: 15px;
     border-radius: 2px;
     vertical-align: middle;
     line-height: 30px;
@@ -62,6 +76,7 @@
       border-right: 6px solid transparent;
       border-top: 6px solid #47474C;
       left: 14px;
+      bottom: -6px;
       margin-top: 1px;
     }
   }
@@ -91,6 +106,7 @@
   }
 
   .slider {
+    display: flex;
     position: absolute;
     left: 0;
     -webkit-appearance: none;
@@ -132,13 +148,20 @@
     }
   }
 
-  
-
-
   .label {
     display: flex;
     position: absolute;
     top: 100%;
     margin: 15px 0;
+
+    &.min {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    &.max {
+      width: 100%;
+      justify-content: flex-end;
+    }
   }
 }

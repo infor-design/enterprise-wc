@@ -113,7 +113,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Searchfield (ids-search-field)
  - [ ] Signin (ids-sign-in)
  - [x] Skiplink (ids-skip-link)
- - [ ] Slider (ids-slider)
+ - [x] Slider (ids-slider)
  - [ ] Sparkline (ids-spark-line-chart)
  - [ ] Spinbox (ids-spin-box)
  - [ ] Splitter (ids-splitter)
