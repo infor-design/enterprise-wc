@@ -6,12 +6,56 @@ import {
   mix
 } from '../ids-base/ids-element';
 
-import { IdsAttributeProviderMixin } from '../ids-mixins';
+import {
+  IdsAttributeProviderMixin,
+  IdsEventsMixin
+} from '../ids-mixins';
 
 import IdsTab from './ids-tab';
 import IdsTabContent from './ids-tab-content';
 import IdsTabs from './ids-tabs';
 import styles from './ids-tabs.scss';
+
+/**
+ * list of entries for attributes provided by
+ * the ids-tab-context and how they map,
+ * as well as which are listened on for updates
+ * in the children
+ */
+const attributesProvided = {
+  attributesProvided: [{
+    attribute: attributes.VALUE,
+    component: IdsTabContent,
+    valueXformer: ({ value, element }) => (
+      element.getAttribute(attributes.VALUE) === value
+    ),
+    targetAttribute: attributes.ACTIVE
+  }, {
+    attribute: attributes.ORIENTATION,
+    component: IdsTabs
+  }, {
+    component: IdsTab,
+    attribute: attributes.SELECTED,
+    valueXformer: ({ value, element }) => element.getAttribute(value)
+  }, {
+    attribute: attributes.ORIENTATION,
+    component: [IdsTab, IdsTabs]
+  }],
+  attributesListenedFor: [{
+    component: IdsTabs,
+    attribute: attributes.ORIENTATION,
+    onAttributeChange: ({ element }) => { }
+  }, {
+    component: IdsTab,
+    attribute: attributes.SELECTED
+  }, {
+    component: IdsTab,
+    attribute: attributes.VALUE
+  }, {
+    component: IdsTabs,
+    attribute: attributes.VALUE
+  }]
+};
 
 /**
  * IDS TabContext Component
@@ -24,7 +68,10 @@ import styles from './ids-tabs.scss';
  */
 @customElement('ids-tab-context')
 @scss(styles)
-export default class IdsTabContext extends mix(IdsElement).with(IdsAttributeProviderMixin) {
+export default class IdsTabContext extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsAttributeProviderMixin(attributesProvided)
+  ) {
   constructor() {
     super();
   }
@@ -37,28 +84,57 @@ export default class IdsTabContext extends mix(IdsElement).with(IdsAttributeProv
     return [attributes.VALUE];
   }
 
-  get providedAttributes() {
-    return {
-      [attributes.VALUE]: [{
-        component: IdsTabContent,
-        valueXformer: (value, element) => (
-          element.getAttribute(attributes.VALUE) === value
-        ),
-        targetAttribute: attributes.ACTIVE
-      }, {
-        component: IdsTabs
-      }],
-      [attributes.ORIENTATION]: [IdsTab]
-    };
-  }
-
   template() {
     return '<slot></slot>';
   }
 
   connectedCallback() {
     super.connectedCallback?.();
+
+    // scan for first tab's VALUE if one was not set
+    // yet for the sake of assigning it to the ids-tab-context
+
+    /*
+    if (!this.hasAttribute(attributes.VALUE)) {
+      const value = this.#findFirstValueAssigned();
+      if (value) {
+        this.value = value;
+      }
+    }
+    */
+
     this.provideAttributes();
+  }
+
+  /**
+   * recursively scan for first element to assign value
+   * @param {HTMLElement} el element being scanned
+   */
+  #findFirstValueAssigned(el) {
+    let tabInstance = null;
+
+    if (el instanceof IdsTabs) {
+      if (el.hasAttribute(attributes.VALUE)) {
+        return el.getAttribute(attributes.VALUE);
+      } else if (el.hasAttribute(attributes.VALUE)) {
+        return el.children?.[0].getAttribute();
+      }
+    } else {
+      const nodesToScan = [
+        ...el.children,
+        ...(el.shadowRoot?.children || [])
+      ];
+
+      for (const cEl of nodesToScan) {
+        let value = this.#findFirstValueAssigned(cEl);
+        if (value) {
+          return value;
+        }
+      }
+    }
+
+    // @TODO: finish this function
+    return undefined;
   }
 
   disconnectedCallback() {
