@@ -126,7 +126,7 @@ class IdsToastMessage extends
       progressBar = undefined;
     }
 
-    const duration = this.audible ? 100 : this.timeout;
+    const duration = this.audible ? shared.AUDIBLE_TIMEOUT : this.timeout;
     const self = this;
     let percentage = 100;
 

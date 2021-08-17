@@ -27,6 +27,9 @@ const IdsToastShared = {
     uniqueId: null
   },
 
+  // Audible timeout
+  AUDIBLE_TIMEOUT: 100,
+
   // Extra attribute use
   ATTRIBUTE_MESSAGE_ID: 'message-id',
   ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE: 'destroy-on-complete',

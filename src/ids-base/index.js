@@ -8,8 +8,10 @@ export {
   appendIds,
   mix,
   scss,
+  objectUtils,
   stringUtils,
   xssUtils
 } from './ids-element';
+export { default as IdsObjectUtils } from './ids-object-utils';
 export { default as IdsStringUtils } from './ids-string-utils';
 export { default as IdsXssUtils } from './ids-xss-utils';

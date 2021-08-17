@@ -42,7 +42,7 @@ interface IdsToastRmContainerEventDetail extends Event {
   }
 }
 
-type IdsToastShowTypes = {
+type IdsToastShownTypes = {
   /** Text that is displayed in the toast message title */
   title: string;
 
@@ -106,7 +106,7 @@ export default class IdsToast extends IdsElement {
   messageElem(messageId: string): HTMLElement | undefined;
 
   /** Set to show the toast message */
-  show(options: IdsToastShowTypes): void;
+  show(options: IdsToastShownTypes): void;
 
   /** Get the toast container */
   toastContainer(): HTMLElement;

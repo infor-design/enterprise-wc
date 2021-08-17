@@ -4,6 +4,7 @@ import {
   scss,
   mix,
   attributes,
+  objectUtils,
   stringUtils,
   xssUtils
 } from '../ids-base';
@@ -184,7 +185,7 @@ class IdsToast extends mix(IdsElement).with(
    * @returns {void}
    */
   show(options) {
-    const opt = stringUtils.isObject(options) ? options : {};
+    const opt = objectUtils.isObject(options) ? options : {};
     opt.messageId = this.#messageId(opt.messageId);
     const toast = this.#toast(opt);
     this.#toastsMap.set(toast, opt);
