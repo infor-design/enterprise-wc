@@ -60,13 +60,13 @@
     transition: opacity 0.2s ease;
     opacity: 0;
 
-    &:nth-of-type(1) {
+    // &:nth-of-type(1) {
       left: calc(var(--percent) * 1% + (var(--pos) * 1px));
-    }
+    // }
     
-    &:nth-of-type(2) {
-      left: calc(var(--percentB) * 1% + (var(--posB) * 1px));
-    }
+    // &:nth-of-type(2) {
+    //   left: calc(var(--percent) * 1% + (var(--pos) * 1px));
+    // }
 
     .pin {
       position: absolute;
@@ -100,9 +100,13 @@
   }
 
   @mixin track {
-    background: linear-gradient(to right, #0072ED calc(var(--percent) * 1%), transparent 0%);
-    background-position: left;
+    // background: linear-gradient(to right, #0072ED calc(var(--percent) * 1%), transparent 0%);
+    background: linear-gradient(to right, transparent calc(var(--percentStart) * 1%), red calc(var(--percentStart) * 1%), red calc(var(--percentEnd) * 1%), transparent 0%);
+    // background: linear-gradient(to right, transparent 10%, red 10%, red 50%, transparent 0%);
+    // background-position: left;
+    // left: 50px;
     height: 4px;
+    width: 100%;
   }
 
   .slider {
@@ -117,6 +121,13 @@
     border-radius: 2px;
     outline: none;
     cursor: pointer;
+
+    // &:nth-of-type(1) {
+    // }
+    
+    // &:nth-of-type(2) {
+      // --percent: --percentB;
+    // }
     
     &::-webkit-slider-runnable-track {
       @include track;

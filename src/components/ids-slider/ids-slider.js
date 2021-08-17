@@ -101,14 +101,29 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   set valueb(value) {
     this.setAttribute('valueb', value || DEFAULT_MAX);
+
+    const range = this.max - this.min
     
-    const percent = (this.valueb - this.min) * 100 / (this.max - this.min);
-    const pos = -10 - (percent * 0.2);
+    const percentB = (this.valueb - this.min) * 100 / range;
+    const tooltipPos = -10 - (percentB * 0.2);
+    // const progress = (this.valueb - this.valuea) / range;
+    const percentA = (this.value - this.min) * 100 / range;
+
+    console.log('percentB: ' + percentB);
+    console.log('percentA: ' + percentA);
     
+    // binding
     this.container.querySelector('.slider:nth-of-type(2)').setAttribute('value', this.valueb);
-    this.container.querySelector('.slider:nth-of-type(2)').style.setProperty("--percentB", percent);
-    this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--percentB", percent);
-    this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--posB", pos);
+    
+    // this.container.querySelector('.slider:nth-of-type(2)').style.setProperty("--percent", percentB);
+
+    // progress color track
+    this.container.querySelector('.slider:nth-of-type(2)').style.setProperty("--percentStart", Math.min(percentB, percentA));
+    this.container.querySelector('.slider:nth-of-type(2)').style.setProperty("--percentEnd", Math.max(percentB, percentA));
+
+    // tooltip positioning
+    this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--percent", percentB);
+    this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--pos", tooltipPos);
     
     this.container.querySelector('.tooltip:nth-of-type(2) .text').innerHTML = this.valueb;
   }
@@ -118,13 +133,20 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set value(value) {
     this.setAttribute(attributes.VALUE, value || DEFAULT_VALUE);
 
-    const percent = (this.value - this.min) * 100 / (this.max - this.min);
-    const pos = -10 - (percent * 0.2);
+    const percentA = (this.value - this.min) * 100 / (this.max - this.min);
+    const tooltipPos = -10 - (percentA * 0.2);
 
     this.container.querySelector('.slider:nth-of-type(1)').setAttribute('value', this.value);
-    this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percent", percent);
-    this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--percent", percent);
-    this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--pos", pos);
+
+    if(this.type === 'single') {
+      this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentStart", 0);
+      this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentEnd", percentA);
+    } else if (this.type === 'double') {
+      const percentB = (this.valueb - this.min) * 100 / (this.max - this.min);
+      this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentStart", Math.min(percentB, percentA));
+    }
+    this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--percent", percentA);
+    this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--pos", tooltipPos);
 
     this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = this.value;
   }
