@@ -57,6 +57,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.COLOR,
       attributes.TOOLTIP,
       attributes.VALUE,
+      'valueb',
       attributes.MIN,
       attributes.MAX,
       attributes.STEP,
@@ -86,8 +87,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         </div>
         <input class="slider second" type="range" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}" value="${this.valueb ?? DEFAULT_MAX}">
         <span class="range"></span>
-        <span class="tick end"></span>
-        <span class="tick start"></span>
+        <div class="tick-container end">
+          <span class="tick"></span>
+        </div>
+        <div class="tick-container start">
+          <span class="tick"></span>
+        </div>
         <ids-text label class="label min">${this.min ?? DEFAULT_MIN}</ids-text>
         <ids-text label class="label max">${this.max ?? DEFAULT_MAX}</ids-text>
       </div>
@@ -95,22 +100,21 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   set valueb(value) {
-    console.log('setting valueb to ' + value);
     this.setAttribute('valueb', value || DEFAULT_MAX);
-
+    
     const percent = (this.valueb - this.min) * 100 / (this.max - this.min);
     const pos = -10 - (percent * 0.2);
-
-    this.container.querySelector('.slider:nth-of-type(2)').setAttribute('valueb', this.valueb);
+    
+    this.container.querySelector('.slider:nth-of-type(2)').setAttribute('value', this.valueb);
     this.container.querySelector('.slider:nth-of-type(2)').style.setProperty("--percentB", percent);
-    this.container.querySelectorAll('.tooltip:nth-of-type(2)').style.setProperty("--percentB", percent);
+    this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--percentB", percent);
     this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--posB", pos);
-
-    this.container.querySelector('.tooltip:nth-of-type(2) .text').innerHTML = this.value;
+    
+    this.container.querySelector('.tooltip:nth-of-type(2) .text').innerHTML = this.valueb;
   }
-
-  get valueb() { return this.getAttribute('valueb'); }
-
+  
+  get valueb() { return this.getAttribute('valueb') || DEFAULT_MAX; }
+  
   set value(value) {
     this.setAttribute(attributes.VALUE, value || DEFAULT_VALUE);
 
@@ -187,14 +191,19 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   #handleEvents() {
 
     this.onEvent('input', this.container.querySelector('.slider:nth-of-type(1)'), () => {
-      this.setAttribute(attributes.VALUE, this.container.querySelector('.slider:nth-of-type(1)').value);
+      const val = this.container.querySelector('.slider:nth-of-type(1)').value;
+      this.setAttribute('value', val);
       this.hideTooltip = false;
+      this.container.querySelector('.tooltip:nth-of-type(1)').style.zIndex = 2;
+      this.container.querySelector('.tooltip:nth-of-type(2)').style.zIndex = 1;
     })
-
+    
     this.onEvent('input', this.container.querySelector('.slider:nth-of-type(2)'), () => {
-      this.setAttribute('valueb', this.container.querySelector('.slider:nth-of-type(2)').value);
+      const val = this.container.querySelector('.slider:nth-of-type(2)').value;
+      this.setAttribute('valueb', val);
       this.hideTooltipB = false;
-      console.log(this.container.querySelector('.slider:nth-of-type(2)').value);
+      this.container.querySelector('.tooltip:nth-of-type(2)').style.zIndex = 2;
+      this.container.querySelector('.tooltip:nth-of-type(1)').style.zIndex = 1;
     })
 
     this.onEvent('click', this.container.querySelector('.slider'), () => {
