@@ -120,7 +120,7 @@ class IdsScrollView extends mix(IdsElement).with(
           this.#activateLink(this.controls.querySelectorAll('a')[elemToCheck.target.scrollViewIndex]);
         }
       },
-      { threshold: 0.50 });
+      { threshold: 1 });
       observer.observe(elem);
     });
   }
