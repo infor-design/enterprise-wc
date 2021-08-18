@@ -26,25 +26,28 @@ const attributesProvided = {
   attributesProvided: [{
     attribute: attributes.VALUE,
     component: IdsTabContent,
-    valueXformer: ({ value, element }) => (
-      element.getAttribute(attributes.VALUE) === value
-    ),
+    valueXformer: ({ value, element }) => element.getAttribute(attributes.VALUE) === value,
     targetAttribute: attributes.ACTIVE
   }, {
-    attribute: attributes.ORIENTATION,
-    component: IdsTabs
+    component: IdsTab,
+    attribute: attributes.VALUE,
+    targetAttribute: attributes.SELECTED,
+    valueXformer: ({ value, element }) => (
+      element.getAttribute(attributes.VALUE) === value
+    )
+  }, {
+    component: IdsTabs,
+    attribute: attributes.VALUE
+  }, {
+    component: IdsTabs,
+    attribute: attributes.ORIENTATION
   }, {
     component: IdsTab,
-    attribute: attributes.SELECTED,
-    valueXformer: ({ value, element }) => element.getAttribute(value)
-  }, {
     attribute: attributes.ORIENTATION,
-    component: [IdsTab, IdsTabs]
   }],
   attributesListenedFor: [{
     component: IdsTabs,
     attribute: attributes.ORIENTATION,
-    onAttributeChange: ({ element }) => { }
   }, {
     component: IdsTab,
     attribute: attributes.SELECTED

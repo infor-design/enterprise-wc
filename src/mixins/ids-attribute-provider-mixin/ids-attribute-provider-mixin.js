@@ -1,7 +1,7 @@
 /* istanbul ignore file */
 import { IdsElement } from '../../core';
 
-const identityFn = (v) => v;
+const identityFn = ({ value }) => value;
 
 /**
  * standard element types that are accepted
@@ -25,7 +25,7 @@ export default (attributeProviderDefs) => (superclass) => {
     attributesListenedFor = []
   } = attributeProviderDefs;
 
-  const attributeList = attributesProvided.map((d) => d.attribute);
+  const providedAttributes = attributesProvided.map((d) => d.attribute);
 
   return class extends superclass {
     constructor() {
@@ -33,31 +33,60 @@ export default (attributeProviderDefs) => (superclass) => {
     }
 
     /**
-     * Lookups for attributes to map to parent components
+     * Lookups for attributes to map to parent components,
+     * and then to the associated definitions for
+     * quick de-referencing
      * @type {Map<string, object>}
      */
-    #attributesProvidedMap = new Map(attributesProvided.map((d) => (
-      [d.attribute, d]
-    )));
+    #attributesProvidedMap = (() => {
+      const map = new Map();
+      attributesProvided.forEach((def) => {
+        const componentMap = map.get(def.attribute) || new Map();
+        componentMap.set(def.component, def);
+        map.set(def.attribute, componentMap);
+      });
+
+      return map;
+    })();
 
     /**
      * Lookups for targetAttributes to map back to child components
      * on-change
      * @type {Map<string, object>}
      */
-    #attributesListenedForMap = new Map(attributesListenedFor.map((d) => (
-      [d.targetAttribute, d]
-    )));
+    #attributesListenedForMap = (() => {
+      const map = new Map();
+      attributesListenedFor.forEach((def) => {
+        const entries = map.get(def.targetAttribute) || [];
+        entries.push(def);
+        map.set(def.targetAttribute, entries);
+      });
+
+      return map;
+    })();
+
+    /**
+     * stack of updates to prevent callback when
+     * children are updated redundantly
+     */
+    #providedValueMap = new Map();
 
     /**
      * Lookups for components to map to definitions.
-     * @type {Map<IdsElement, object>}
+     * @type {Map<IdsElement, Array<object>>}
      */
     #componentsListenedForMap = (() => {
-      attributesListenedFor.forEach((d) => {
+      attributesListenedFor.forEach((def) => {
         const map = new Map();
-        const components = d.component?.[0] ? d.component : [d.component];
-        components.forEach((c) => map.set(c, d));
+        const components = def.component?.[0]
+          ? def.component
+          : [def.component];
+
+        components.forEach((c) => {
+          const entries = map.get(c) || [];
+          entries.push(def);
+          map.set(c, entries);
+        });
 
         return map;
       });
@@ -72,8 +101,14 @@ export default (attributeProviderDefs) => (superclass) => {
      * check simple search of IdsElement on container/perimeter level
      * @param {HTMLElement} scannedEl Base case: element provider.
      * Recursive case: scanned IdsElement in tree
+     * @param {number} depth (not needed to provide by user)
      */
-    provideAttributes(attributes = attributeList, recursive = true, scannedEl = this) {
+    provideAttributes(
+      attributes = providedAttributes,
+      recursive = true,
+      scannedEl = this,
+      depth = 1
+    ) {
       const domNodes = [
         ...(scannedEl.children || []),
         ...(scannedEl.shadowRoot?.children || [])
@@ -81,32 +116,30 @@ export default (attributeProviderDefs) => (superclass) => {
 
       for (const element of domNodes) {
         for (const sourceAttribute of attributes) {
-          const {
-            /** @type {IdsElement} */
-            component: componentDef,
-            /** @type {string} */
-            targetAttribute = sourceAttribute,
-            /** @type {Function} */
-            valueXformer = identityFn
-          } = this.#attributesProvidedMap.get(sourceAttribute);
+          const componentMap = this.#attributesProvidedMap.get(sourceAttribute);
 
-          /** @type {IdsElement|Array<IdsElement>} */
-          const components = componentDef?.[0] ? componentDef : [componentDef];
-
-          for (const component of components) {
+          for (const [component, def] of componentMap) {
             if (!component || !(element instanceof component)) { continue; }
+
+            const {
+              /** @type {string} */
+              targetAttribute = sourceAttribute,
+              /** @type {Function} */
+              valueXformer = identityFn
+            } = def;
 
             const targetValue = valueXformer({
               value: this.getAttribute(sourceAttribute),
-              element
+              element,
+              depth
             });
 
             /* istanbul ignore else */
-            if (this.hasAttribute(sourceAttribute) && (targetValue !== null)) {
-              if (element.getAttribute(targetAttribute) !== targetValue) {
-                element.setAttribute(targetAttribute, targetValue);
-              }
-            } else if (element.hasAttribute(targetAttribute) && (targetValue === null)) {
+            if (targetValue !== null && element.getAttribute(targetAttribute) !== targetValue) {
+              this.#providedValueMap.set(element, targetValue);
+              element.setAttribute(targetAttribute, targetValue);
+            } else if ((targetValue === null) && element.hasAttribute(targetAttribute)) {
+              this.#providedValueMap.set(element, targetValue);
               element.removeAttribute(targetAttribute);
             }
           }
@@ -116,7 +149,7 @@ export default (attributeProviderDefs) => (superclass) => {
           (element instanceof IdsElement)
           || traversibleHTMLTags.has(element?.tagName))
         ) {
-          this.provideAttributes(attributes, true, element);
+          this.provideAttributes(attributes, true, element, depth + 1);
         }
       }
     }
@@ -141,7 +174,7 @@ export default (attributeProviderDefs) => (superclass) => {
       this.attributeObserver.observe(this, {
         attributes: true,
         attributeOldValue: true,
-        attributeFilter: attributeList,
+        attributeFilter: providedAttributes,
         subtree: false
       });
 

@@ -121,6 +121,9 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     this.setAttribute('tabindex', stringToBool(this.selected) ? '0' : '-1');
 
     this.setAttribute('aria-label', this.#getReadableAriaLabel());
+    this.onEvent('click', this, () => {
+      // @TODO
+    });
   }
 
   /**

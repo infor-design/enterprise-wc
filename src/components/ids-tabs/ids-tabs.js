@@ -73,6 +73,7 @@ export default class IdsTabs extends mix(IdsElement).with(
     // set up observer for monitoring if a child
     // element changed
 
+    /*
     this.#tabObserver.observe(this, {
       childList: true,
       attributes: true,
@@ -80,9 +81,10 @@ export default class IdsTabs extends mix(IdsElement).with(
       attributeFilter: ['selected', 'value'],
       subtree: true
     });
+    */
 
     // set initial selection state
-    this.#updateSelectionState();
+    // this.#updateSelectionState();
   }
 
   disconnectedCallback() {
@@ -139,7 +141,7 @@ export default class IdsTabs extends mix(IdsElement).with(
     }
 
     this.setAttribute(attributes.VALUE, value);
-    this.#updateSelectionState();
+    // this.#updateSelectionState();
 
     // make sure we send them the click
     // on the next paint and any overall
@@ -199,7 +201,7 @@ export default class IdsTabs extends mix(IdsElement).with(
           /* istanbul ignore next */
           this.#updateCallbacks();
           /* istanbul ignore next */
-          this.#updateSelectionState();
+          // this.#updateSelectionState();
         }
         break;
       }
@@ -237,7 +239,7 @@ export default class IdsTabs extends mix(IdsElement).with(
         /* istanbul ignore else */
         if (m.target instanceof IdsTab || m.target instanceof IdsTabs) {
           if (value !== m.oldValue && m.attributeName === 'value') {
-            this.#updateSelectionState();
+            // this.#updateSelectionState();
           }
         }
         break;
@@ -251,7 +253,7 @@ export default class IdsTabs extends mix(IdsElement).with(
       /* istanbul ignore next */
       if (m.type === 'childList') {
         this.#updateCallbacks();
-        this.#updateSelectionState();
+        // this.#updateSelectionState();
       }
     }
   });
@@ -273,6 +275,11 @@ export default class IdsTabs extends mix(IdsElement).with(
   }
 
   /* istanbul ignore next */
+  /**
+   * When a child value or this component value changes,
+   * called to rebind onclick callbacks to each child
+   *
+   */
   #updateCallbacks() {
     // map tab el refs to their indexes
 
