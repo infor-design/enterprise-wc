@@ -92,12 +92,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       attributes.IS_DRAGGING,
       attributes.MAX_TRANSFORM_X,
       attributes.MAX_TRANSFORM_Y,
-      attributes.MAX_X,
-      attributes.MAX_Y,
-      attributes.MIN_X,
       attributes.MIN_TRANSFORM_X,
       attributes.MIN_TRANSFORM_Y,
-      attributes.MIN_Y,
       attributes.PARENT_CONTAINMENT,
     ];
   }
@@ -170,8 +166,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   /**
    * @param {boolean} value Whether the draggable should be limited in range
    * by its parent element
-   *
-   * TODO: change to containment/optional enum
    */
   set parentContainment(value) {
     const isTruthy = stringToBool(value);
