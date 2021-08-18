@@ -80,7 +80,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
             <div class="pin"></div>
           </div>
           <div class="track-area">
-            <ids-draggable axis="x" parent-containment>
+            <ids-draggable class="thumb-draggable" axis="x" parent-containment>
               <div class="thumb"></div>
             </ids-draggable>
           </div>
@@ -216,14 +216,60 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     // when dragging thumb, show tool tip, change value(s)
     // when ids-slider clicked, show tool tip
     // when clicked outside, hide tool tip
+
+    // ? 
+    // How should I track dragging motions?
+    // - the thumb has an isDragging property
+    // - clicking anywhere in the hit area should also calculate the x, y and change value based on that
+    // - right now the click below does not work--returns <body> and not <ids-slider>
     
 
     // check if click landed on ids-slider or outside of it
     window.addEventListener('click', (event) => {
-      const idsSliderSelected = document.activeElement.className === 'ids-slider';
-      console.log('ids-slider was clicked: ');
-      console.log(document.activeElement);
+      // const idsSliderSelected = document.activeElement.className === 'ids-slider';
+      // console.log('ids-slider was clicked: ');
+      // console.log(document.activeElement);
+      
+      // console.log('isDragging: ' + this.container.querySelector('.thumb-draggable').isDragging);
 
+      // console.log('track area left: ' + this.container.querySelector('.track-area').offsetLeft)
+      // console.log('track area top: ' + this.container.querySelector('.track-area').offsetTop)
+      console.log('.slider left: ' + this.container.querySelector('.slider').offsetLeft)
+      console.log('.slider top: ' + this.container.querySelector('.slider').offsetTop)
+      // console.log('container left: ' + this.container.offsetLeft)
+      // console.log('container top: ' + this.container.offsetTop)
+
+      const slider = this.container.querySelector('.slider');
+      const trackArea = this.container.querySelector('.track-area');
+      const thumb = this.container.querySelector('.thumb');
+
+      const bounds = [
+        slider.offsetTop + trackArea.offsetTop, // top 0
+        slider.offsetTop - trackArea.offsetTop, // bottom 1
+        slider.offsetLeft, // left 2
+        slider.offsetLeft + trackArea.clientWidth, // right 3
+      ]
+
+      const clickedTrackArea = event.clientY >= bounds[0] && event.clientY < bounds[1] && event.clientX > bounds[2] && event.clientX < bounds[3];
+      
+      const x = event.clientX;
+      const y = event.clientY;
+
+      const percent = (x - bounds[2]) / (bounds[3] - bounds[2]) * 100 // +/- 2% for the ticks/edges
+      if (clickedTrackArea) {
+        console.log('percent: ' + percent + '%')
+      }
+
+      const xTranslate = x - bounds[2] - thumb.clientWidth;
+      console.log('translate x by: ' + xTranslate);
+      this.container.querySelector('.thumb-draggable').style.transform = `translate(${xTranslate}px, 0px)`;
+      // if (event.clientY > bounds[0] && event.clientY <= bounds[1]) {
+      //   console.log('click is inside y-area')
+      // }
+      // if (event.clientX > bounds[2] && event.clientX <= bounds[3]) {
+      //   console.log('click is inside x-area')
+      // }
+  
       console.log(event.clientX + ", " + event.clientY)
       console.log(event.pageX + ", " + event.pageY)
     //   // tooltip styling for single and double
