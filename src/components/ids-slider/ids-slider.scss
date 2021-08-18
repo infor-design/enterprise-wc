@@ -9,7 +9,7 @@ ids-slider {
   height: 100%;
 
   &:hover {
-    background-color: #cbe;
+    background: rgba(51, 170, 51, .1);
   }
 }
 
@@ -54,47 +54,47 @@ ids-slider {
     }
   }
 
-  // .tooltip {
-  //   display: flex;
-  //   justify-content: center;
-  //   position: absolute;
-  //   width: auto;
-  //   padding: 1px;
-  //   height: auto;
-  //   background-color: #47474C;
-  //   color: white;
-  //   text-align: center;
-  //   margin: auto;
-  //   bottom: 15px;
-  //   border-radius: 2px;
-  //   vertical-align: middle;
-  //   line-height: 30px;
-  //   max-width: 300px;
-  //   min-width: 40px;
-  //   transition: opacity 0.2s ease;
-  //   opacity: 0;
-  //   left: calc(var(--percent) * 1% + (var(--pos) * 1px));
+  .tooltip {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    width: auto;
+    padding: 1px;
+    height: auto;
+    background-color: #47474C;
+    color: white;
+    text-align: center;
+    margin: auto;
+    bottom: 18px;
+    border-radius: 2px;
+    vertical-align: middle;
+    line-height: 30px;
+    max-width: 300px;
+    min-width: 40px;
+    transition: opacity 0.2s ease;
+    opacity: 0;
+    left: calc(var(--percent) * 1% + (var(--pos) * 1px));
     
 
-  //   .pin {
-  //     position: absolute;
-  //     width: 0; 
-  //     height: 0; 
-  //     border-left: 6px solid transparent;
-  //     border-right: 6px solid transparent;
-  //     border-top: 6px solid #47474C;
-  //     left: 14px;
-  //     bottom: -6px;
-  //     margin-top: 1px;
-  //   }
-  // }
+    .pin {
+      position: absolute;
+      width: 0; 
+      height: 0; 
+      border-left: 6px solid transparent;
+      border-right: 6px solid transparent;
+      border-top: 6px solid #47474C;
+      left: 14px;
+      bottom: -6px;
+      margin-top: 1px;
+    }
+  }
 
   @mixin thumb {
     // margin: 3px 0;
     width: 16px;
     height: 16px;
     border-radius: 50%;
-    background: #0072ED;
+    background: red;
     cursor: pointer !important;
     // transition: box-shadow translate 1s;
     // box-shadow: var(--focus-shadow);
@@ -123,7 +123,7 @@ ids-slider {
     z-index: 50;
 
     &:hover {
-      background-color: #ffffaa
+      background: rgba(0, 200, 51, .1) 
     }
   }
   
