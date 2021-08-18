@@ -213,26 +213,19 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   #handleEvents() {
 
-    // this.onEvent('input', this.container.querySelector('.slider:nth-of-type(1)'), () => {
-    //   const val = this.container.querySelector('.slider:nth-of-type(1)').value;
-    //   this.setAttribute('valuea', val);
-    //   this.hideTooltipA = false;
-    //   this.container.querySelector('.tooltip:nth-of-type(1)').style.zIndex = 2;
-    //   this.container.querySelector('.tooltip:nth-of-type(2)').style.zIndex = 1;
-    // })
+    // when dragging thumb, show tool tip, change value(s)
+    // when ids-slider clicked, show tool tip
+    // when clicked outside, hide tool tip
     
-    // this.onEvent('input', this.container.querySelector('.slider:nth-of-type(2)'), () => {
-    //   const val = this.container.querySelector('.slider:nth-of-type(2)').value;
-    //   this.setAttribute('valueb', val);
-    //   this.hideTooltipB = false;
-    //   this.container.querySelector('.tooltip:nth-of-type(2)').style.zIndex = 2;
-    //   this.container.querySelector('.tooltip:nth-of-type(1)').style.zIndex = 1;
-    // })
 
     // check if click landed on ids-slider or outside of it
-    // window.addEventListener('click', () => {
-    //   const idsSliderSelected = document.activeElement.name === 'ids-slider';
+    window.addEventListener('click', (event) => {
+      const idsSliderSelected = document.activeElement.className === 'ids-slider';
+      console.log('ids-slider was clicked: ');
+      console.log(document.activeElement);
 
+      console.log(event.clientX + ", " + event.clientY)
+      console.log(event.pageX + ", " + event.pageY)
     //   // tooltip styling for single and double
     //   if (this.type === 'single' || this.type === 'double')
     //   this.hideTooltipA = !idsSliderSelected;
@@ -252,7 +245,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     //       this.container.querySelector('.slider').style.setProperty('--hover-shadow', '0 2px 5px rgb(0 0 0 / 20%)');
     //     }
     //   }
-    // })
+    })
     return this;
   }
 }

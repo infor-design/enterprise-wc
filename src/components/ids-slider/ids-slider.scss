@@ -1,8 +1,16 @@
 
+ids-slider {
+  position: relative;
+}
+
 .ids-slider {
-  display: inline-flex;
+  display: flex;
   width: 100%;
-  height: 200px;
+  height: 100%;
+
+  &:hover {
+    background-color: #cbe;
+  }
 }
 
 .slider {
@@ -19,32 +27,32 @@
   align-items: center;
   // margin: 50px 0;
 
-  // .tick-container {
-  //   display: flex;
-  //   // position: absolute;
-  //   width: 100%;
-  //   left: 2px;
-  //   // bottom: 4px;
+  .tick-container {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    // left: 2px;
+    // bottom: 4px;
 
-  //   &.start {
-  //     justify-content: flex-start;
-  //   }
+    &.start {
+      justify-content: flex-start;
+    }
     
-  //   &.end {
-  //     justify-content: flex-end;
-  //   }
+    &.end {
+      justify-content: flex-end;
+    }
 
-  //   .tick {
-  //     display: flex;
-  //     // position: absolute;
-  //     width: var(--tick-size);
-  //     height: var(--tick-size);
-  //     border-radius: 50%;
-  //     background-color: #0072ED;
-  //     // z-index: 40;
+    .tick {
+      display: flex;
+      // position: absolute;
+      width: var(--tick-size);
+      height: var(--tick-size);
+      border-radius: 50%;
+      background-color: #0072ED;
+      z-index: 40;
       
-  //   }
-  // }
+    }
+  }
 
   // .tooltip {
   //   display: flex;
@@ -107,11 +115,16 @@
   .track-area {
     width: 100%;
     background-color: transparent;
+    // background-color: #ffffaa;
     height: 24px;
     align-items: center;
     display: flex;
     position: absolute;
     z-index: 50;
+
+    &:hover {
+      background-color: #ffffaa
+    }
   }
   
   @mixin track {
@@ -121,11 +134,11 @@
     // height: 4px;
     // TODO: make transparent and hit area of 24 px
     height: 4px;
-    background-color: red;
+    background-color: #97979B;
     width: 100%;
     position: absolute;
     // align-items: center;
-    z-index: 49;
+    z-index: 30;
     border-radius: 2px;
     
   }
