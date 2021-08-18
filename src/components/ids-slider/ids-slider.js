@@ -80,11 +80,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
             <div class="pin"></div>
           </div>
           <div class="track-area">
-            <div class="track"></div>
             <ids-draggable axis="x" parent-containment>
               <div class="thumb"></div>
             </ids-draggable>
           </div>
+          <div class="track"></div>
           <div class="tick-container end">
             <span class="tick"></span>
           </div>
