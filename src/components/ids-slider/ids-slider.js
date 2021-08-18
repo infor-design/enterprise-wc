@@ -77,6 +77,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       <div class="ids-slider">
         <div class="slider">
           <div class="tooltip">
+            <ids-text class="text">${this.valuea ?? DEFAULT_VALUE}</ids-text>
             <div class="pin"></div>
           </div>
           <div class="track-area">
@@ -99,7 +100,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   updateUI() {
-    console.log('updating UI');
+    // console.log('updating UI');
 
     const range = this.max - this.min;
 
@@ -113,9 +114,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     // if (this.type === 'double') {
     //   console.log('type is double')
     //   const percentB = (this.valueb - this.min) / range * 100;
-    //   const percentA = (this.valuea - this.min) / range * 100;
+      const percentA = (Math.ceil(this.valuea) - this.min) / range * 100;
       
-    //   const tooltipPosA = -10 - (percentA * 0.2);
+      // const tooltipPosA = -10 - (percentA * 0.01);
+      const tooltipPosA = -12 - (percentA * 0.16);
     //   const tooltipPosB = -10 - (percentB * 0.2);
       
     //   console.log('percentB: ' + percentB);
@@ -127,10 +129,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     //   this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentStart", Math.min(percentB, percentA));
     //   this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentEnd", Math.max(percentB, percentA));
     
-    //   this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--percent", percentA);
-    //   this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--pos", tooltipPosA);
+      this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--percent", percentA);
+      this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--pos", tooltipPosA);
     
-    //   this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = this.valuea;
+      this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = Math.ceil(this.valuea);
       
     //   // B
     //   // binding
@@ -204,11 +206,92 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get color() { return this.getAttribute(attributes.COLOR); }
 
   set hideTooltipA(value) {
-      // this.container.querySelector('.tooltip:nth-of-type(1)').style.opacity = value ? 0 : 1;
+      this.container.querySelector('.tooltip:nth-of-type(1)').style.opacity = value ? 0 : 1;
   }
 
   set hideTooltipB(value) {
       // this.container.querySelector('.tooltip:nth-of-type(2)').style.opacity = value ? 0 : 1;
+    }
+    
+    calculateUI(x, y) {
+    // console.log('track area left: ' + this.container.querySelector('.track-area').offsetLeft)
+    // console.log('track area top: ' + this.container.querySelector('.track-area').offsetTop)
+    // console.log('.slider left: ' + this.container.querySelector('.slider').offsetLeft)
+    // console.log('.slider top: ' + this.container.querySelector('.slider').offsetTop)
+    // console.log('container left: ' + this.container.offsetLeft)
+    // console.log('container top: ' + this.container.offsetTop)
+  
+  
+    // console.log('thumb bounding')
+    // console.log(thumb.getBoundingClientRect().width);
+    // console.log('slider bounding')
+    // console.log(slider.getBoundingClientRect().width);
+    // console.log('trackArea bounding')
+    // console.log(trackArea.getBoundingClientRect().width);
+  
+  
+  
+    // if (event.clientY > bounds[0] && event.clientY <= bounds[1]) {
+    //   console.log('click is inside y-area')
+    // }
+    // if (event.clientX > bounds[2] && event.clientX <= bounds[3]) {
+    //   console.log('click is inside x-area')
+    // }
+    const slider = this.container.querySelector('.slider');
+    const trackArea = this.container.querySelector('.track-area');
+    const thumb = this.container.querySelector('.thumb');
+    const thumbDraggable = this.container.querySelector('.thumb-draggable');
+
+    const bounds = [
+      slider.offsetTop + trackArea.offsetTop, // top 0
+      slider.offsetTop - trackArea.offsetTop, // bottom 1
+      slider.offsetLeft, // left 2
+      slider.offsetLeft + trackArea.clientWidth, // right 3
+    ]
+
+    // const x = event.clientX;
+    // const y = event.clientY;
+    const clickedTrackArea = y >= bounds[0] && y < bounds[1] && x > bounds[2] && x < bounds[3];
+    
+
+    // for single
+    if (clickedTrackArea) {
+      const percent = this.calcPercentFromX(x, bounds[2], bounds[3], thumbDraggable.clientWidth);
+      const roundedPercent = percent > 50 ? Math.ceil(percent) : Math.floor(percent);
+      // console.log('rounded percent: ' + roundedPercent + '%')
+      console.log('percent: ' + percent + '%')
+
+      // const xTranslate = x - bounds[2];
+      const xTranslate = Math.ceil(percent) / 100 * (bounds[3] - bounds[2]);
+      console.log('translate x by: ' + xTranslate);
+      const power = 100;
+      const xPos = power*(percent * -.16/power);
+      const xResult = xTranslate + xPos;
+      console.log('xPos: ' + xPos);
+      // console.log(xResult);
+      this.container.querySelector('.thumb-draggable').style.transform = `
+      translate(${xResult}px, 0px)
+      `;
+
+      const value = percent / 100 * this.max;
+      console.log('value: ' + value);
+      this.setAttribute('valuea', value);
+    }
+  }
+
+  calcPercentFromX(x, xStart, xEnd, thumbWidth) {
+    // if x < thumbWidth/2 or x > xEnd - thumbWidth / 2
+    let percent = 0;
+    if (x - xStart < thumbWidth/2) {
+      percent = 0;
+    }
+    else if (x - xStart > xEnd - thumbWidth/2) {
+      percent = 100;
+    } else {
+      percent = (x - xStart - thumbWidth/2) / (xEnd - thumbWidth/2 - xStart) * 100 // +/- 2% for the ticks/edges
+    }
+    return percent;
+
   }
 
   #handleEvents() {
@@ -219,62 +302,32 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
     // ? 
     // How should I track dragging motions?
-    // - the thumb has an isDragging property
-    // - clicking anywhere in the hit area should also calculate the x, y and change value based on that
-    // - right now the click below does not work--returns <body> and not <ids-slider>
-    
+    // - [x] the thumb has an isDragging property
+    // - [x] clicking anywhere in the hit area should also calculate the x, y and change value based on that
+    // - [x] the click below does not work--returns <body> and not <ids-slider> FIX: replaced document.activeElement with event.target
+    const thumbDraggable = this.container.querySelector('.thumb-draggable');
 
+    // TODO: change to onEvent
+    thumbDraggable.addEventListener('ids-drag', (e) => {
+      // console.log('ids-drag event happened');
+      // console.log(thumbDraggable.style.offsetLeft)
+    });
+    
+    // TODO: change to onEvent
     // check if click landed on ids-slider or outside of it
     window.addEventListener('click', (event) => {
-      // const idsSliderSelected = document.activeElement.className === 'ids-slider';
-      // console.log('ids-slider was clicked: ');
-      // console.log(document.activeElement);
-      
-      // console.log('isDragging: ' + this.container.querySelector('.thumb-draggable').isDragging);
+      const idsSliderSelected = event.target.name === 'ids-slider';
+      // console.log('event: ')
+      // console.log(event.target)
+      console.log('slider selected :' + idsSliderSelected);
 
-      // console.log('track area left: ' + this.container.querySelector('.track-area').offsetLeft)
-      // console.log('track area top: ' + this.container.querySelector('.track-area').offsetTop)
-      console.log('.slider left: ' + this.container.querySelector('.slider').offsetLeft)
-      console.log('.slider top: ' + this.container.querySelector('.slider').offsetTop)
-      // console.log('container left: ' + this.container.offsetLeft)
-      // console.log('container top: ' + this.container.offsetTop)
-
-      const slider = this.container.querySelector('.slider');
-      const trackArea = this.container.querySelector('.track-area');
-      const thumb = this.container.querySelector('.thumb');
-
-      const bounds = [
-        slider.offsetTop + trackArea.offsetTop, // top 0
-        slider.offsetTop - trackArea.offsetTop, // bottom 1
-        slider.offsetLeft, // left 2
-        slider.offsetLeft + trackArea.clientWidth, // right 3
-      ]
-
-      const clickedTrackArea = event.clientY >= bounds[0] && event.clientY < bounds[1] && event.clientX > bounds[2] && event.clientX < bounds[3];
-      
-      const x = event.clientX;
-      const y = event.clientY;
-
-      const percent = (x - bounds[2]) / (bounds[3] - bounds[2]) * 100 // +/- 2% for the ticks/edges
-      if (clickedTrackArea) {
-        console.log('percent: ' + percent + '%')
-      }
-
-      const xTranslate = x - bounds[2] - thumb.clientWidth;
-      console.log('translate x by: ' + xTranslate);
-      this.container.querySelector('.thumb-draggable').style.transform = `translate(${xTranslate}px, 0px)`;
-      // if (event.clientY > bounds[0] && event.clientY <= bounds[1]) {
-      //   console.log('click is inside y-area')
-      // }
-      // if (event.clientX > bounds[2] && event.clientX <= bounds[3]) {
-      //   console.log('click is inside x-area')
-      // }
   
       console.log(event.clientX + ", " + event.clientY)
-      console.log(event.pageX + ", " + event.pageY)
+      // console.log(event.pageX + ", " + event.pageY)
     //   // tooltip styling for single and double
     //   if (this.type === 'single' || this.type === 'double')
-    //   this.hideTooltipA = !idsSliderSelected;
+      this.hideTooltipA = !idsSliderSelected;
+      this.calculateUI(event.clientX, event.clientY);
 
     //   if (this.type === 'double') {
     //     this.hideTooltipB = !idsSliderSelected;
