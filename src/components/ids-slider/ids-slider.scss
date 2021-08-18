@@ -8,10 +8,10 @@
 .slider {
   --tick-size: 8px;
 
-  border: 1px solid orange;
-  background-color: pink;
+  // border: 1px solid orange;
+  // background-color: pink;
   display: inline-flex;
-  // position: relative;
+  position: relative;
   width: 92%;
   height: 4px;
   margin: 25px 4% 50px;
@@ -93,6 +93,7 @@
     // outline: none;
     // border: none;
     // position: absolute;
+    z-index: 50 !important;
 
     &:hover {
       box-shadow: var(--hover-shadow);
@@ -105,10 +106,12 @@
 
   .track-area {
     width: 100%;
-    background-color: #ffffaa;
+    background-color: transparent;
     height: 24px;
     align-items: center;
     display: flex;
+    position: absolute;
+    z-index: 50;
   }
   
   @mixin track {
@@ -120,7 +123,10 @@
     height: 4px;
     background-color: red;
     width: 100%;
+    position: absolute;
     // align-items: center;
+    z-index: 49;
+    border-radius: 2px;
     
   }
 
