@@ -397,11 +397,11 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       }
     }
 
-    if (this.minTransformX !== null) {
+    if (this.getAttribute(attributes.MIN_TRANSFORM_X) !== null) {
       translateX = Math.max(translateX, this.minTransformX);
     }
 
-    if (this.maxTransformX !== null) {
+    if (this.getAttribute(attributes.MAX_TRANSFORM_X) !== null) {
       translateX = Math.min(translateX, this.maxTransformX);
     }
 
@@ -409,7 +409,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       translateY = Math.max(translateY, this.minTransformY);
     }
 
-    if (this.maxTransformY !== null) {
+    if (this.getAttribute(attributes.MAX_TRANSFORM_Y) !== null) {
       translateY = Math.min(translateY, this.maxTransformY);
     }
 
