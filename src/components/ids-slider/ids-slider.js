@@ -74,29 +74,28 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   template() {
     return `
-    <div class="ids-slider">
-      <div class="slidecontainer">
-        <div class="tooltip">
-          <ids-text class="text">${this.valuea ?? DEFAULT_VALUE}</ids-text>
-          <div class="pin"></div>
+      <div class="ids-slider">
+        <div class="slider">
+          <div class="tooltip">
+            <div class="pin"></div>
+          </div>
+          <div class="track-area">
+            <div class="track"></div>
+            <ids-draggable axis="x" parent-containment>
+              <div class="thumb"></div>
+            </ids-draggable>
+          </div>
+          <div class="tick-container end">
+            <span class="tick"></span>
+          </div>
+          <div class="tick-container start">
+            <span class="tick"></span>
+          </div>
+          <ids-text label class="label min">${this.min ?? DEFAULT_MIN}</ids-text>
+          <ids-text label class="label max">${this.max ?? DEFAULT_MAX}</ids-text>
         </div>
-        <input class="slider" type="range" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}" value="${this.valuea ?? DEFAULT_VALUE}">
-        <div class="tooltip second">
-          <ids-text class="text">${this.valueb ?? DEFAULT_MAX}</ids-text>
-          <div class="pin"></div>
-        </div>
-        <input class="slider second" type="range" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}" value="${this.valueb ?? DEFAULT_MAX}">
-        <span class="range"></span>
-        <div class="tick-container end">
-          <span class="tick"></span>
-        </div>
-        <div class="tick-container start">
-          <span class="tick"></span>
-        </div>
-        <ids-text label class="label min">${this.min ?? DEFAULT_MIN}</ids-text>
-        <ids-text label class="label max">${this.max ?? DEFAULT_MAX}</ids-text>
       </div>
-    </div>`;
+    `;
   }
 
   updateUI() {
@@ -104,49 +103,49 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
     const range = this.max - this.min;
 
-    if (this.type === 'single') {
-      console.log('type is single')
+    // if (this.type === 'single') {
+    //   console.log('type is single')
       
-      this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentStart", 0);
-      this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentEnd", percentA);
-    }
+    //   this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentStart", 0);
+    //   this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentEnd", percentA);
+    // }
     
-    if (this.type === 'double') {
-      console.log('type is double')
-      const percentB = (this.valueb - this.min) / range * 100;
-      const percentA = (this.valuea - this.min) / range * 100;
+    // if (this.type === 'double') {
+    //   console.log('type is double')
+    //   const percentB = (this.valueb - this.min) / range * 100;
+    //   const percentA = (this.valuea - this.min) / range * 100;
       
-      const tooltipPosA = -10 - (percentA * 0.2);
-      const tooltipPosB = -10 - (percentB * 0.2);
+    //   const tooltipPosA = -10 - (percentA * 0.2);
+    //   const tooltipPosB = -10 - (percentB * 0.2);
       
-      console.log('percentB: ' + percentB);
-      console.log('percentA: ' + percentA);
+    //   console.log('percentB: ' + percentB);
+    //   console.log('percentA: ' + percentA);
   
-      // A
-      this.container.querySelector('.slider:nth-of-type(1)').setAttribute('value', this.valuea);
+    //   // A
+    //   this.container.querySelector('.slider:nth-of-type(1)').setAttribute('value', this.valuea);
     
-      this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentStart", Math.min(percentB, percentA));
-      this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentEnd", Math.max(percentB, percentA));
+    //   this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentStart", Math.min(percentB, percentA));
+    //   this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentEnd", Math.max(percentB, percentA));
     
-      this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--percent", percentA);
-      this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--pos", tooltipPosA);
+    //   this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--percent", percentA);
+    //   this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--pos", tooltipPosA);
     
-      this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = this.valuea;
+    //   this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = this.valuea;
       
-      // B
-      // binding
-      this.container.querySelector('.slider:nth-of-type(2)').setAttribute('value', this.valueb);
+    //   // B
+    //   // binding
+    //   this.container.querySelector('.slider:nth-of-type(2)').setAttribute('value', this.valueb);
       
-      // progress color track
-      this.container.querySelector('.slider:nth-of-type(2)').style.setProperty("--percentStart", Math.min(percentB, percentA));
-      this.container.querySelector('.slider:nth-of-type(2)').style.setProperty("--percentEnd", Math.max(percentB, percentA));
+    //   // progress color track
+    //   this.container.querySelector('.slider:nth-of-type(2)').style.setProperty("--percentStart", Math.min(percentB, percentA));
+    //   this.container.querySelector('.slider:nth-of-type(2)').style.setProperty("--percentEnd", Math.max(percentB, percentA));
     
-      // tooltip positioning
-      this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--percent", percentB);
-      this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--pos", tooltipPosB);
+    //   // tooltip positioning
+    //   this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--percent", percentB);
+    //   this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--pos", tooltipPosB);
       
-      this.container.querySelector('.tooltip:nth-of-type(2) .text').innerHTML = this.valueb;
-    }
+    //   this.container.querySelector('.tooltip:nth-of-type(2) .text').innerHTML = this.valueb;
+    // }
     
   }
 
@@ -182,10 +181,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (value && TYPES.includes(value)) {
       this.setAttribute(attributes.TYPE, value);
 
-      if (value === 'single') {
-        this.container.querySelector('.tooltip:nth-of-type(2)').remove();
-        this.container.querySelector('.slider:nth-of-type(2)').remove();
-      }
+      // if (value === 'single') {
+      //   this.container.querySelector('.tooltip:nth-of-type(2)').remove();
+      //   this.container.querySelector('.slider:nth-of-type(2)').remove();
+      // }
     } else {
       this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
     }
@@ -205,60 +204,55 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get color() { return this.getAttribute(attributes.COLOR); }
 
   set hideTooltipA(value) {
-      this.container.querySelector('.tooltip:nth-of-type(1)').style.opacity = value ? 0 : 1;
+      // this.container.querySelector('.tooltip:nth-of-type(1)').style.opacity = value ? 0 : 1;
   }
 
   set hideTooltipB(value) {
-      this.container.querySelector('.tooltip:nth-of-type(2)').style.opacity = value ? 0 : 1;
+      // this.container.querySelector('.tooltip:nth-of-type(2)').style.opacity = value ? 0 : 1;
   }
 
   #handleEvents() {
 
-    this.onEvent('input', this.container.querySelector('.slider:nth-of-type(1)'), () => {
-      const val = this.container.querySelector('.slider:nth-of-type(1)').value;
-      this.setAttribute('valuea', val);
-      this.hideTooltipA = false;
-      this.container.querySelector('.tooltip:nth-of-type(1)').style.zIndex = 2;
-      this.container.querySelector('.tooltip:nth-of-type(2)').style.zIndex = 1;
-    })
-    
-    this.onEvent('input', this.container.querySelector('.slider:nth-of-type(2)'), () => {
-      const val = this.container.querySelector('.slider:nth-of-type(2)').value;
-      this.setAttribute('valueb', val);
-      this.hideTooltipB = false;
-      this.container.querySelector('.tooltip:nth-of-type(2)').style.zIndex = 2;
-      this.container.querySelector('.tooltip:nth-of-type(1)').style.zIndex = 1;
-    })
-
-    // this.onEvent('click', this.container.querySelector('.slider'), () => {
+    // this.onEvent('input', this.container.querySelector('.slider:nth-of-type(1)'), () => {
+    //   const val = this.container.querySelector('.slider:nth-of-type(1)').value;
+    //   this.setAttribute('valuea', val);
     //   this.hideTooltipA = false;
+    //   this.container.querySelector('.tooltip:nth-of-type(1)').style.zIndex = 2;
+    //   this.container.querySelector('.tooltip:nth-of-type(2)').style.zIndex = 1;
+    // })
+    
+    // this.onEvent('input', this.container.querySelector('.slider:nth-of-type(2)'), () => {
+    //   const val = this.container.querySelector('.slider:nth-of-type(2)').value;
+    //   this.setAttribute('valueb', val);
     //   this.hideTooltipB = false;
+    //   this.container.querySelector('.tooltip:nth-of-type(2)').style.zIndex = 2;
+    //   this.container.querySelector('.tooltip:nth-of-type(1)').style.zIndex = 1;
     // })
 
     // check if click landed on ids-slider or outside of it
-    window.addEventListener('click', () => {
-      const idsSliderSelected = document.activeElement.name === 'ids-slider';
+    // window.addEventListener('click', () => {
+    //   const idsSliderSelected = document.activeElement.name === 'ids-slider';
 
-      // tooltip styling for single and double
-      if (this.type === 'single' || this.type === 'double')
-      this.hideTooltipA = !idsSliderSelected;
+    //   // tooltip styling for single and double
+    //   if (this.type === 'single' || this.type === 'double')
+    //   this.hideTooltipA = !idsSliderSelected;
 
-      if (this.type === 'double') {
-        this.hideTooltipB = !idsSliderSelected;
-      }
+    //   if (this.type === 'double') {
+    //     this.hideTooltipB = !idsSliderSelected;
+    //   }
 
-      // shadow styles for single
-      if (this.type === 'single') {
-        if (idsSliderSelected) {
-          this.container.querySelector('.slider:hover').style.removeProperty('box-shadow')
-          this.container.querySelector('.slider').style.setProperty('--hover-shadow', 'rgb(0 114 237 / 10%) 0px 0px 0px 8px')
-          this.container.querySelector('.slider').style.setProperty('--focus-shadow', 'rgb(0 114 237 / 10%) 0px 0px 0px 8px')
-        } else {
-          this.container.querySelector('.slider').style.setProperty('--focus-shadow', '');
-          this.container.querySelector('.slider').style.setProperty('--hover-shadow', '0 2px 5px rgb(0 0 0 / 20%)');
-        }
-      }
-    })
+    //   // shadow styles for single
+    //   if (this.type === 'single') {
+    //     if (idsSliderSelected) {
+    //       this.container.querySelector('.slider:hover').style.removeProperty('box-shadow')
+    //       this.container.querySelector('.slider').style.setProperty('--hover-shadow', 'rgb(0 114 237 / 10%) 0px 0px 0px 8px')
+    //       this.container.querySelector('.slider').style.setProperty('--focus-shadow', 'rgb(0 114 237 / 10%) 0px 0px 0px 8px')
+    //     } else {
+    //       this.container.querySelector('.slider').style.setProperty('--focus-shadow', '');
+    //       this.container.querySelector('.slider').style.setProperty('--hover-shadow', '0 2px 5px rgb(0 0 0 / 20%)');
+    //     }
+    //   }
+    // })
     return this;
   }
 }

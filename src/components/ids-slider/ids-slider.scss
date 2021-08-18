@@ -1,159 +1,131 @@
 
 .ids-slider {
-  // display: inline-block
+  display: inline-flex;
+  width: 100%;
+  height: 200px;
 }
 
-.slidecontainer {
+.slider {
   --tick-size: 8px;
 
-  display: flex;
-  width: 100%;
-  height: 100%;
-  position: relative;
-  // align-items: center;
-  margin: 50px 0;
+  border: 1px solid orange;
+  background-color: pink;
+  display: inline-flex;
+  // position: relative;
+  width: 92%;
+  height: 4px;
+  margin: 25px 4% 50px;
+  justify-content: center;
+  align-items: center;
+  // margin: 50px 0;
 
-  .tick-container {
-    display: flex;
-    position: absolute;
-    width: 100%;
-    left: 2px;
-    // bottom: 4px;
+  // .tick-container {
+  //   display: flex;
+  //   // position: absolute;
+  //   width: 100%;
+  //   left: 2px;
+  //   // bottom: 4px;
 
-    &.start {
-      justify-content: flex-start;
-    }
+  //   &.start {
+  //     justify-content: flex-start;
+  //   }
     
-    &.end {
-      justify-content: flex-end;
-    }
+  //   &.end {
+  //     justify-content: flex-end;
+  //   }
 
-    .tick {
-      display: flex;
-      position: absolute;
-      width: var(--tick-size);
-      height: var(--tick-size);
-      border-radius: 50%;
-      background-color: #0072ED;
-      z-index: 40;
+  //   .tick {
+  //     display: flex;
+  //     // position: absolute;
+  //     width: var(--tick-size);
+  //     height: var(--tick-size);
+  //     border-radius: 50%;
+  //     background-color: #0072ED;
+  //     // z-index: 40;
       
-    }
-  }
+  //   }
+  // }
 
-  .tooltip {
-    display: flex;
-    justify-content: center;
-    position: absolute;
-    width: auto;
-    padding: 1px;
-    height: auto;
-    background-color: #47474C;
-    color: white;
-    text-align: center;
-    margin: auto;
-    bottom: 15px;
-    border-radius: 2px;
-    vertical-align: middle;
-    line-height: 30px;
-    max-width: 300px;
-    min-width: 40px;
-    transition: opacity 0.2s ease;
-    opacity: 0;
-
-    // &:nth-of-type(1) {
-      left: calc(var(--percent) * 1% + (var(--pos) * 1px));
-    // }
+  // .tooltip {
+  //   display: flex;
+  //   justify-content: center;
+  //   position: absolute;
+  //   width: auto;
+  //   padding: 1px;
+  //   height: auto;
+  //   background-color: #47474C;
+  //   color: white;
+  //   text-align: center;
+  //   margin: auto;
+  //   bottom: 15px;
+  //   border-radius: 2px;
+  //   vertical-align: middle;
+  //   line-height: 30px;
+  //   max-width: 300px;
+  //   min-width: 40px;
+  //   transition: opacity 0.2s ease;
+  //   opacity: 0;
+  //   left: calc(var(--percent) * 1% + (var(--pos) * 1px));
     
-    // &:nth-of-type(2) {
-    //   left: calc(var(--percent) * 1% + (var(--pos) * 1px));
-    // }
 
-    .pin {
-      position: absolute;
-      width: 0; 
-      height: 0; 
-      border-left: 6px solid transparent;
-      border-right: 6px solid transparent;
-      border-top: 6px solid #47474C;
-      left: 14px;
-      bottom: -6px;
-      margin-top: 1px;
-    }
-  }
+  //   .pin {
+  //     position: absolute;
+  //     width: 0; 
+  //     height: 0; 
+  //     border-left: 6px solid transparent;
+  //     border-right: 6px solid transparent;
+  //     border-top: 6px solid #47474C;
+  //     left: 14px;
+  //     bottom: -6px;
+  //     margin-top: 1px;
+  //   }
+  // }
 
   @mixin thumb {
-    appearance: none;
-    margin: 3px 0;
+    // margin: 3px 0;
     width: 16px;
     height: 16px;
     border-radius: 50%;
     background: #0072ED;
     cursor: pointer !important;
-    transition: box-shadow translate 1s;
-    box-shadow: var(--focus-shadow);
-    outline: none;
-    border: none;
+    // transition: box-shadow translate 1s;
+    // box-shadow: var(--focus-shadow);
+    // outline: none;
+    // border: none;
+    // position: absolute;
 
     &:hover {
       box-shadow: var(--hover-shadow);
     }
   }
 
+  .thumb {
+    @include thumb;
+  }
+
+  .track-area {
+    width: 100%;
+    background-color: #ffffaa;
+    height: 24px;
+    align-items: center;
+    display: flex;
+  }
+  
   @mixin track {
     // background: linear-gradient(to right, #0072ED calc(var(--percent) * 1%), transparent 0%);
     // background-position: left;
-    background: linear-gradient(to right, transparent calc(var(--percentStart) * 1%), red calc(var(--percentStart) * 1%), red calc(var(--percentEnd) * 1%), transparent 0%);
-    height: 4px;
+    // background: linear-gradient(to right, transparent calc(var(--percentStart) * 1%), red calc(var(--percentStart) * 1%), red calc(var(--percentEnd) * 1%), transparent 0%);
+    // height: 4px;
     // TODO: make transparent and hit area of 24 px
-    // height: 24px;
-    // background-color: transparent;
+    height: 4px;
+    background-color: red;
     width: 100%;
-    align-items: center;
+    // align-items: center;
+    
   }
 
-  .slider {
-    display: flex;
-    position: absolute;
-    left: 0;
-    -webkit-appearance: none;
-    appearance: none;
-    width: 100%;
-    height: 4px;
-    background-color: #97979B;
-    // TODO: make transparent and create new track div over it
-    // background-color: transparent;
-    border-radius: 2px;
-    outline: none;
-    cursor: pointer;
-    
-    &::-webkit-slider-runnable-track {
-      @include track;
-    }
-    
-    &::-moz-range-track {
-      @include track;
-    }
-    
-    &::-ms-track {
-      @include track;
-    }
-   
-    &::-webkit-slider-thumb {
-      @include thumb;
-    }
-
-    &::-moz-range-thumb {
-      @include thumb;
-    }
-  
-    &::-ms-thumb {
-      @include thumb;
-    }
-
-    &:active {
-      z-index: 50; // overlap the slider that's being dragged (for double-range)
-      cursor: grabbing;
-    }
+  .track {
+    @include track;
   }
 
   .label {
