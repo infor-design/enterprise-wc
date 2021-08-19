@@ -30,7 +30,7 @@ const CURSOR_EL_SIZE = 32;
  * @param {string} attribute the attribute to update
  * @param {any} value a value to set on the
  */
-function setIntAttribute(elem, attribute, value) {
+function setIntAttribute(elem, attribute, value) /* istanbul ignore next */ {
   const nextValue = parseInt(value);
 
   if (nextValue !== null && !Number.isNaN(nextValue)) {
@@ -42,6 +42,7 @@ function setIntAttribute(elem, attribute, value) {
   }
 }
 
+/* istanbul ignore next */
 /**
  * @param {{
  *  left: number,
@@ -62,8 +63,6 @@ function getBoundsHash(bounds) {
     }_${bounds?.bottom || 0}`
   );
 }
-
-/* istanbul ignore next */
 
 /**
  * IDS Draggable Component
@@ -376,6 +375,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     setIntAttribute(this, attributes.MAX_TRANSFORM_Y, value);
   }
 
+  /* istanbul ignore next */
   /**
    * update the transform with respect to containment
    * and min/max transform bounds
@@ -655,6 +655,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
+  /* istanbul ignore next */
   /**
    * @param {number} value The max coordinates relative
    * to the overall div; e.g. "left: -20; right: -20" would extend
@@ -673,6 +674,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
   #relativeBounds = {};
 
+  /* istanbul ignore next */
   #updateRelativeBounds() {
     if (this.hasAttribute(attributes.RELATIVE_BOUNDS)) {
       const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
