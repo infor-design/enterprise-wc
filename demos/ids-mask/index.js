@@ -1,1 +1,1 @@
-import IdsInput from '../../src/ids-input/ids-input';
+import IdsInput from '../../src/components/ids-input/ids-input';

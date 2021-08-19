@@ -1,1 +1,2 @@
-import { attributes } from '../../src/ids-base/ids-attributes'; //eslint-disable-line
+// eslint-disable-next-line no-unused-vars
+import { attributes } from '../../src/core/ids-attributes';

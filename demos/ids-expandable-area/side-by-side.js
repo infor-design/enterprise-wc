@@ -1,15 +1,15 @@
 /* global $ */
 
-import IdsExpandableArea from '../../src/ids-expandable-area/ids-expandable-area';
+import IdsExpandableArea from '../../src/components/ids-expandable-area/ids-expandable-area';
 
 // Supporting components
-import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
-import IdsLayoutGridCell from '../../src/ids-layout-grid/ids-layout-grid-cell';
-import IdsText from '../../src/ids-text/ids-text';
-import IdsInput from '../../src/ids-input/ids-input';
-import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
-import IdsIcon from '../../src/ids-icon/ids-icon';
-import IdsHyperlink from '../../src/ids-hyperlink/ids-hyperlink';
+import IdsLayoutGrid from '../../src/components/ids-layout-grid/ids-layout-grid';
+import IdsLayoutGridCell from '../../src/components/ids-layout-grid/ids-layout-grid-cell';
+import IdsText from '../../src/components/ids-text/ids-text';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-button';
+import IdsIcon from '../../src/components/ids-icon/ids-icon';
+import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Add an event listener to test clickable links

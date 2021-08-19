@@ -1,1 +1,1 @@
-import IdsVirtualScroll from '../../src/ids-virtual-scroll/ids-virtual-scroll';
+import IdsVirtualScroll from '../../src/components/ids-virtual-scroll/ids-virtual-scroll';

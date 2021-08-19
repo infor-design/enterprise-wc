@@ -1,0 +1,136 @@
+@import '../../core/ids-base';
+@import '../ids-input/ids-input.scss';
+@import '../../mixins/sass/ids-validation-mixin';
+
+:host(ids-spinbox) {
+  --readonly-background: var(--ids-color-palette-slate-20);
+  --readonly-color: var(--ids-color-palette-black);
+
+  width: fit-content;
+}
+
+:host(ids-spinbox[mode='dark']) {
+  --readonly-background: var(--ids-color-palette-slate-70);
+  --readonly-color: var(--ids-color-palette-slate-20);
+}
+
+:host(ids-spinbox[mode='contrast']) {
+  --readonly-background: var(--ids-color-palette-slate-20);
+}
+
+:host(ids-spinbox:focus-within) {
+  border: none;
+  outline: none;
+}
+
+.ids-spinbox:focus-within > .ids-spinbox-content {
+  @include border-azure-60();
+  @include shadow();
+
+  border-width: 1;
+  outline: none;
+}
+
+:host(ids-spinbox[disabled]) {
+  @include border-slate-30();
+
+  pointer-events: none;
+}
+
+.ids-spinbox.readonly {
+  ids-button::part(button) {
+    background-color: var(--readonly-background);
+    color: var(--readonly-color);
+  }
+}
+
+[mode='contrast'] ids-button::part(button) {
+  @include bg-white();
+}
+
+.ids-spinbox.disabled {
+  @include text-slate-30();
+
+  pointer-events: none;
+
+  ids-input::part(input) {
+    @include border-slate-30();
+    @include text-slate-30();
+
+    pointer-events: none;
+  }
+
+  ids-button::part(button) {
+    @include text-slate-20();
+  }
+}
+
+.ids-spinbox:focus-within .ids-spinbox-content ids-button:not([disabled]):not([readonly])::part(button) {
+  border-color: var(--ids-color-palette-azure-60);
+  border-width: 1px;
+  box-shadow: none;
+}
+
+.ids-spinbox {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+
+  .hidden {
+    display: none;
+  }
+
+  .label {
+    @include my-8();
+  }
+
+  .ids-spinbox-content {
+    contain: content;
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    max-height: 38px;
+    margin-bottom: 4px;
+
+    &:focus-within ids-input:not(.error)::part(input) {
+      border-color: var(--ids-color-palette-azure-60) !important;
+      border-width: 1px;
+      box-shadow: none;
+    }
+
+    &:focus-visible ids-button::part(button) {
+      outline: none;
+    }
+
+    ids-button::part(button) {
+      @include border-slate-30();
+
+      border-style: solid;
+      width: 33px;
+      max-width: 33px;
+      justify-content: center;
+      align-items: center;
+      padding: 0 0;
+      box-shadow: none;
+      border-width: 1px;
+    }
+
+    ids-button:first-child::part(button) {
+      border-radius: 2px 0 0 2px;
+      border-right-style: none;
+    }
+
+    ids-button:last-child::part(button) {
+      border-radius: 0 2px 2px 0;
+      border-left-style: none;
+    }
+
+    & ids-input::part(input) {
+      @include border-1();
+
+      border-radius: 0;
+      max-width: 84px;
+      margin-bottom: 0;
+    }
+  }
+}

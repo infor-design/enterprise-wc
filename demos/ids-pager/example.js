@@ -1,7 +1,7 @@
-import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
-import IdsLayoutGridCell from '../../src/ids-layout-grid/ids-layout-grid-cell';
-import IdsText from '../../src/ids-text/ids-text';
-import IdsButton from '../../src/ids-button/ids-button';
+import IdsLayoutGrid from '../../src/components/ids-layout-grid/ids-layout-grid';
+import IdsLayoutGridCell from '../../src/components/ids-layout-grid/ids-layout-grid-cell';
+import IdsText from '../../src/components/ids-text/ids-text';
+import IdsButton from '../../src/components/ids-button/ids-button';
 
 const TemplateHTML = {
   INPUT: (

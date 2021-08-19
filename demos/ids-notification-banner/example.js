@@ -1,4 +1,4 @@
-import IdsNotificationBanner from '../../src/ids-notification-banner/ids-notification-banner';
+import IdsNotificationBanner from '../../src/components/ids-notification-banner/ids-notification-banner';
 
 // Example for populating the List View
 const listView = document.querySelector('#list-view-1');

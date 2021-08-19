@@ -1,4 +1,4 @@
-import IdsCard from '../../src/ids-card/ids-card';
+import IdsCard from '../../src/components/ids-card/ids-card';
 import './index.scss';
 
 // Example for populating the Virtual Scoller

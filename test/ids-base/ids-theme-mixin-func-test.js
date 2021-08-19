@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsTag from '../../src/ids-tag/ids-tag';
-import IdsThemeSwitcher from '../../src/ids-theme-switcher/ids-theme-switcher';
+import IdsTag from '../../src/components/ids-tag/ids-tag';
+import IdsThemeSwitcher from '../../src/components/ids-theme-switcher/ids-theme-switcher';
 
 describe('IdsThemeMixin Tests', () => {
   let elem;

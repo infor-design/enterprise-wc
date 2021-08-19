@@ -1,5 +1,5 @@
-import IdsInput from '../../src/ids-input/ids-input';
-import { DIGITS_REGEX, EMPTY_STRING } from '../../src/ids-mask/ids-mask-common';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import { DIGITS_REGEX, EMPTY_STRING } from '../../src/components/ids-mask/ids-mask-common';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Masked field with a prefix

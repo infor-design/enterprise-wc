@@ -1,7 +1,7 @@
 // Supporting components
-import IdsIcon from '../../src/ids-icon/ids-icon';
-import IdsText from '../../src/ids-text/ids-text';
-import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
+import IdsIcon from '../../src/components/ids-icon/ids-icon';
+import IdsText from '../../src/components/ids-text/ids-text';
+import IdsLayoutGrid from '../../src/components/ids-layout-grid/ids-layout-grid';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Add an event listener to test clickable links

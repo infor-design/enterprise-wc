@@ -1,5 +1,5 @@
 // Supporting components
-import IdsButton from '../../src/ids-button/ids-button';
+import IdsButton from '../../src/components/ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnEnable = document.querySelector('#btn-input-enable');

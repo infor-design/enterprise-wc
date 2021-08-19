@@ -17,9 +17,9 @@ const fileUpload = require('express-fileupload');
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
 module.exports = {
-  entry: glob.sync('./app/**/**.js').reduce((acc, filePath) => {
+  entry: glob.sync('./demos/**/**.js').reduce((acc, filePath) => {
     let entry = filePath.replace(`/${path.basename(filePath)}`, '');
-    entry = (entry === './app' ? 'index' : entry.replace('./app/', ''));
+    entry = (entry === './demos' ? 'index' : entry.replace('./demos/', ''));
 
     if (path.basename(filePath) === 'index.js') {
       acc[entry === 'index' ? entry : `${entry}/${entry}`] = filePath;
@@ -29,7 +29,7 @@ module.exports = {
 
     // Add kitchen sink example js
     if (acc.index) {
-      acc.example = './app/example.js';
+      acc.example = './demos/example.js';
     }
     return acc;
   }, {}),
@@ -63,13 +63,13 @@ module.exports = {
     port: 4300,
     writeToDisk: true,
     contentBase: path.resolve(__dirname, 'dist'),
-    // Server the files in app/data as a JSON "API"
+    // Server the files in demos/data as a JSON "API"
     // For example: http://localhost:4300/api/bikes or relative as /api/bikes
     before: (app) => {
       // Serve JSON Data
       app.get('/api/:fileName', (req, res) => {
         const { fileName } = req.params;
-        const json = fs.readFileSync(`./app/data/${fileName}.json`, 'utf8');
+        const json = fs.readFileSync(`./demos/data/${fileName}.json`, 'utf8');
         res.json(JSON.parse(json));
       });
 
@@ -143,7 +143,7 @@ module.exports = {
         test: /\.scss$/,
         exclude: [
           /node_modules/,
-          path.resolve(__dirname, 'app')
+          path.resolve(__dirname, 'demos')
         ],
         use: [
           'sass-to-string',
@@ -199,7 +199,7 @@ module.exports = {
     }),
     // Append index "kitchen sink", rest is dynamic below
     new HTMLWebpackPlugin({
-      template: 'app/index.html',
+      template: 'demos/index.html',
       inject: 'body',
       title: 'IDS Enterprise Web Components',
       categories: ['One', 'Two'],
@@ -208,7 +208,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: './src/**/*.scss',
+          from: './src/components/**/*.scss',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             return `${baseName.replace('.scss', '')}/${baseName.replace('scss', 'css')}`;
@@ -223,7 +223,7 @@ module.exports = {
           }
         },
         {
-          from: path.resolve(__dirname, 'app/assets/'),
+          from: path.resolve(__dirname, 'demos/assets/'),
           to: path.resolve(__dirname, 'dist/assets/')
         }
       ]
@@ -234,7 +234,7 @@ module.exports = {
 // Fix build error on prod about favicon
 if (!isProduction) {
   module.exports.plugins.push(new FaviconsWebpackPlugin({
-    logo: 'app/assets/favicon.ico',
+    logo: 'demos/assets/favicon.ico',
     mode: 'auto'
   }));
 }
@@ -244,10 +244,10 @@ if (isProduction) {
   module.exports.plugins.push(new CopyWebpackPlugin({
     patterns: [
       {
-        from: './src/**/*.d.ts',
+        from: './src/components/**/*.d.ts',
         to({ absoluteFilename }) {
           const baseName = path.basename(absoluteFilename);
-          if (absoluteFilename.indexOf('ids-base') > -1) {
+          if (absoluteFilename.indexOf('core') > -1) {
             return `${absoluteFilename.replace('/src/', '/dist/')}`;
           }
           return `${baseName.replace('.d.ts', '')}/${baseName}`;
@@ -258,9 +258,9 @@ if (isProduction) {
 }
 
 // Dynamically add all html examples
-glob.sync('./app/**/*.html').reduce((acc, filePath) => {
-  const folderName = path.dirname(filePath).replace('./app/', '');
-  let folderAndFile = filePath.replace('./app/', '');
+glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
+  const folderName = path.dirname(filePath).replace('./demos/', '');
+  let folderAndFile = filePath.replace('./demos/', '');
   let title = `${folderName.split('-').map((word) =>
     `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`)
     .join(' ')} ${folderAndFile.indexOf('standalone-css') > -1 ? 'Standalone Css' : 'Component'}`;

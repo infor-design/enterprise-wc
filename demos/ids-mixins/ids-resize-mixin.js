@@ -1,1 +1,1 @@
-import IdsResizeMixin from '../../src/ids-mixins/ids-resize-mixin';
+import IdsResizeMixin from '../../src/mixins';

@@ -1,4 +1,4 @@
-import IdsPopupMenu from '../../src/ids-popup-menu/ids-popup-menu';
+import IdsPopupMenu from '../../src/components/ids-popup-menu/ids-popup-menu';
 
 document.addEventListener('DOMContentLoaded', () => {
   const popupmenuEl = document.querySelector('ids-popup-menu');

@@ -1,4 +1,4 @@
-import IdsCard from '../../src/ids-card/ids-card';
+import IdsCard from '../../src/components/ids-card/ids-card';
 
 // Setup normal click events on the actions
 document.addEventListener('DOMContentLoaded', () => {

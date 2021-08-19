@@ -3,5 +3,5 @@ import {
   customElement,
   version,
   scss
-} from '../../src/ids-base/ids-decorators';
+} from '../../src/core/ids-decorators';
 /* eslint-enable */

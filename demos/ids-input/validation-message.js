@@ -1,7 +1,7 @@
-import IdsInput from '../../src/ids-input/ids-input';
+import IdsInput from '../../src/components/ids-input/ids-input';
 
 // Supporting components
-import IdsButton from '../../src/ids-button/ids-button';
+import IdsButton from '../../src/components/ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnAddMessage = document.querySelector('#btn-add-message');

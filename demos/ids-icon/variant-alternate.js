@@ -1,4 +1,4 @@
-import IdsIcon from '../../src/ids-icon/ids-icon';
+import IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Switch the theme switcher button to alternate

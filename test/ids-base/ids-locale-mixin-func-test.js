@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsText from '../../src/ids-text/ids-text';
+import IdsText from '../../src/components/ids-text/ids-text';
 
 let elem;
 

@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsBreadcrumb from '../../src/ids-breadcrumb/ids-breadcrumb';
-import IdsHyperlink from '../../src/ids-hyperlink/ids-hyperlink';
+import IdsBreadcrumb from '../../src/components/ids-breadcrumb/ids-breadcrumb';
+import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 describe('IdsBreadcrumb Component', () => {
   let breadcrumb;

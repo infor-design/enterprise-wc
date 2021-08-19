@@ -1,1 +1,1 @@
-import IdsElement from '../../src/ids-base/ids-element';
+import IdsElement from '../../src/core/ids-element';

@@ -1,9 +1,9 @@
-import '../../src/ids-breadcrumb/ids-breadcrumb';
-import '../../src/ids-layout-grid/ids-layout-grid';
-import '../../src/ids-layout-grid/ids-layout-grid-cell';
-import '../../src/ids-button/ids-button';
-import '../../src/ids-checkbox/ids-checkbox';
-import IdsHyperlink from '../../src/ids-hyperlink/ids-hyperlink';
+import '../../src/components/ids-breadcrumb/ids-breadcrumb';
+import '../../src/components/ids-layout-grid/ids-layout-grid';
+import '../../src/components/ids-layout-grid/ids-layout-grid-cell';
+import '../../src/components/ids-button/ids-button';
+import '../../src/components/ids-checkbox/ids-checkbox';
+import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 const [button1, button2] = document.querySelectorAll('ids-button');
 const breadcrumb = document.querySelector('ids-breadcrumb');

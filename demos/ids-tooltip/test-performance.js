@@ -1,4 +1,4 @@
-import IdsButton from '../../src/ids-button/ids-button';
+import IdsButton from '../../src/components/ids-button/ids-button';
 
 // eslint-disable-next-line no-unused-vars
 const appendTestItems = () => {

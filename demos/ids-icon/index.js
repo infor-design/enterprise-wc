@@ -1,1 +1,1 @@
-import IdsIcon from '../../src/ids-icon/ids-icon';
+import IdsIcon from '../../src/components/ids-icon/ids-icon';

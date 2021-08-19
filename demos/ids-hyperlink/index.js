@@ -1,1 +1,1 @@
-import IdsHyperlink from '../../src/ids-hyperlink/ids-hyperlink';
+import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';

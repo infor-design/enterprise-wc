@@ -1,4 +1,4 @@
-import IdsInput from '../../src/ids-input/ids-input';
+import IdsInput from '../../src/components/ids-input/ids-input';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Number Input - use `number` string to pre-configure the internal Number Mask

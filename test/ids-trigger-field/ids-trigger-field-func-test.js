@@ -1,10 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import IdsTriggerField from '../../src/ids-trigger-field/ids-trigger-field';
-import IdsInput from '../../src/ids-input/ids-input';
-import IdsTriggerButton from '../../src/ids-trigger-field/ids-trigger-button';
-import { attributes } from '../../src/ids-base';
+import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger-button';
+import { attributes } from '../../src/core';
 
 const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
   this.observe = jest.fn();

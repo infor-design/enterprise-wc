@@ -6,7 +6,7 @@
 
 - [ ] Create a folder `/src/ids-[component]`, which will contain all your new component source code.
 - [ ] Add an `ids-[component].js`, which is the WebComponent interaction code.
-- [ ] Add an `ids-[component].d.ts` for this WebComponent's TypeScript defs.
+- [ ] Add an `ids-[component].d.ts` for this WebComponent's TypeScript definitions.
 - [ ] Add an `ids-[component].scss`, which holds all scoped styles for this WebComponent.
 - [ ] Add a `README.md` for documentation, specification, etc.
 
@@ -14,7 +14,7 @@ Some important steps here include:
 
 - If this new code is an IDS Component, ensure that it imports `src/ids-base/ids-element.js` extends the `IdsElement` base component.
 - Ensure that your styles are imported in `ids-[component].js` and added to the component via the `@scss` decorator.
-- Review the mixins that are available in the `src/ids-mixins` folder for any reusable parts then include them with a line like:
+- Review the mixins that are available in the `src/mixins` folder for any reusable parts then include them with a line like:
 
 ```js
 class IdsComponent extends mix(IdsElement).with(IdsExampleMixin, IdsExampleMixin2) {
@@ -31,7 +31,7 @@ Note that when first adding new HTML files or renaming, a restart on the webpack
 - [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path, where the root component is the default export along with any sub components beyond that.
 
 ```js
-import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/ids-[component]';
+import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/components/ids-[component]';
 ```
 
 - [ ] `index.html` will contain the contents of `example.html` but also includes the dev server's header and footer partials.  It looks like the following:
@@ -68,7 +68,7 @@ Some HTMLElement types support boolean attributes, such as `disabled`.  [The spe
 - The absence of the attribute will evaluate as `false`.
 - If the attribute is present, its string value does not matter, and will always mean `true`.
 
-Ids WebComponents take the added step of evaluating the string value, and will cause a string value of `"false"` to actually evaluate as `false`, removing the attribute and property -- this will need to be checked via `stringUtils.stringToBool`, but it is a good idea to consider the web spec for future components and omit properties for flags meaning false.
+Ids WebComponents take the added step of evaluating the string value, and will cause a string value of `"false"` to actually evaluate as `false`, removing the attribute and property -- this will need to be checked via `IdsStringUtils.stringToBool`, but it is a good idea to consider the web spec for future components and omit properties for flags meaning false.
 
 #### Private Class Fields and Methods
 

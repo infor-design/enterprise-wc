@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsXssMixin from '../../src/ids-mixins';
-import IdsMessage from '../../src/ids-message';
+import IdsXssMixin from '../../src/mixins';
+import IdsMessage from '../../src/components/ids-message';
 
 describe('IdsXssMixin tests (properties)', () => {
   let messageEl;

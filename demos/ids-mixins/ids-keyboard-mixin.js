@@ -1,1 +1,1 @@
-import IdsKeyboardMixin from '../../src/ids-mixins/ids-keyboard-mixin';
+import IdsKeyboardMixin from '../../src/mixins';

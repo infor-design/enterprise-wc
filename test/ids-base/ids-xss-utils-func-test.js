@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsXssUtils } from '../../src/ids-base/ids-xss-utils';
+import { IdsXssUtils } from '../../src/utils/ids-xss-utils';
 
 describe('IdsXssUtils tests', () => {
   it('Should white list specific html tags', () => {

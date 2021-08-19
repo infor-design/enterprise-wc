@@ -1,1 +1,1 @@
-import IdsSkipLink from '../../src/ids-skip-link/ids-skip-link';
+import IdsSkipLink from '../../src/components/ids-skip-link/ids-skip-link';

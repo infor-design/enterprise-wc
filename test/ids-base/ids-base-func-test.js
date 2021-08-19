@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsTag from '../../src/ids-tag/ids-tag';
-import { IdsElement } from '../../src/ids-base/ids-element';
+import IdsTag from '../../src/components/ids-tag/ids-tag';
+import { IdsElement } from '../../src/core/ids-element';
 import styleMock from '../helpers/style-mock';
 
 describe('IdsBase Tests', () => {

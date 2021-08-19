@@ -1,6 +1,6 @@
 /* global $ */
 
-import IdsText from '../../src/ids-upload/ids-upload';
+import IdsText from '../../src/components/ids-upload/ids-upload';
 
 // Initialize the 4.x
 $('body').initialize();

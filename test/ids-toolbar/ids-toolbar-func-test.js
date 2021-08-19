@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsToolbar from '../../src/ids-toolbar/ids-toolbar';
+import IdsToolbar from '../../src/components/ids-toolbar/ids-toolbar';
 
 const exampleHTML = `
   <ids-toolbar-section id="appmenu-section">

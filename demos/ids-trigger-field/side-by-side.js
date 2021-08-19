@@ -1,6 +1,6 @@
 /* global $ */
 
-import IdsTriggerField from '../../src/ids-trigger-field/ids-trigger-field';
+import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 
 // Initialize the 4.x
 $('body').initialize();

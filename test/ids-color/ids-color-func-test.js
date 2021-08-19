@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import IdsColor from '../../src/ids-color/ids-color';
+import IdsColor from '../../src/components/ids-color/ids-color';
 
 describe('Ids Color Component', () => {
   let color;

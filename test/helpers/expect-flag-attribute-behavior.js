@@ -1,4 +1,4 @@
-import { stringUtils } from '../../src/ids-base/ids-string-utils';
+import { IdsStringUtils } from '../../src/utils';
 
 /**
  * Runs assertions on a test that an element's standard flag attribute
@@ -11,8 +11,8 @@ import { stringUtils } from '../../src/ids-base/ids-string-utils';
  * @param {string} param0.attribute string-attribute-namespace
  */
 export default function expectFlagAttributeBehavior({ elem, attribute }) {
-  const initialValue = stringUtils.stringToBool(elem.getAttribute(attribute));
-  const camelCasedAttrib = stringUtils.camelCase(attribute);
+  const initialValue = IdsStringUtils.stringToBool(elem.getAttribute(attribute));
+  const camelCasedAttrib = IdsStringUtils.camelCase(attribute);
 
   if (initialValue) {
     elem[camelCasedAttrib] = false;

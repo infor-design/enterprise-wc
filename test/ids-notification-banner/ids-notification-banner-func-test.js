@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsNotificationBanner from '../../src/ids-notification-banner/ids-notification-banner';
-import IdsHyperLink from '../../src/ids-hyperlink/ids-hyperlink';
+import IdsNotificationBanner from '../../src/components/ids-notification-banner/ids-notification-banner';
+import IdsHyperLink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 describe('IdsNotificationBanner Component', () => {
   let notificationBanner;

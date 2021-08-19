@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsProgressChart from '../../src/ids-progress-chart/ids-progress-chart';
+import IdsProgressChart from '../../src/components/ids-progress-chart/ids-progress-chart';
 
 describe('IdsProgressChart Component', () => {
   let chart;

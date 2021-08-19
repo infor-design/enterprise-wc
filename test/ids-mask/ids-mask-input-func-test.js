@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsInput from '../../src/ids-input/ids-input';
-import { autoCorrectedDatePipe, dateMask, numberMask } from '../../src/ids-mask/ids-masks';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import { autoCorrectedDatePipe, dateMask, numberMask } from '../../src/components/ids-mask/ids-masks';
 
 const CREDIT_CARD_MASK = [/\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
 const PHONE_NUMBER_MASK = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];

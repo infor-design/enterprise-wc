@@ -1,1 +1,1 @@
-import IdsTooltip from '../../src/ids-tooltip/ids-tooltip';
+import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';

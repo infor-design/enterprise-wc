@@ -1,1 +1,1 @@
-import IdsLoadingIndicator from '../../src/ids-loading-indicator/ids-loading-indicator';
+import IdsLoadingIndicator from '../../src/components/ids-loading-indicator/ids-loading-indicator';

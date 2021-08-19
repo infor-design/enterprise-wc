@@ -1,4 +1,4 @@
-import { stringUtils } from '../../src/ids-base/ids-string-utils';
+import { IdsStringUtils } from '../../src/utils';
 
 const RANDOM_VALUE = 'rando_val_23';
 
@@ -21,7 +21,7 @@ export default function expectEnumAttributeBehavior({
   values,
   defaultValue
 }) {
-  const camelCasedAttrib = stringUtils.camelCase(attribute);
+  const camelCasedAttrib = IdsStringUtils.camelCase(attribute);
 
   values.forEach((v) => {
     elem.setAttribute(attribute, v);

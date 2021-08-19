@@ -1,1 +1,1 @@
-import IdsClearableMixin from '../../src/ids-mixins/ids-clearable-mixin';
+import IdsClearableMixin from '../../src/mixins';

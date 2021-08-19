@@ -1,6 +1,6 @@
-import IdsModal from '../../src/ids-modal';
-import IdsModalButton from '../../src/ids-modal-button';
-import IdsButton from '../../src/ids-button/ids-button';
+import IdsModal from '../../src/components/ids-modal';
+import IdsModalButton from '../../src/components/ids-modal-button';
+import IdsButton from '../../src/components/ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#modal-trigger-btn';

@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsBadge from '../../src/ids-badge/ids-badge';
-import IdsIcon from '../../src/ids-icon/ids-icon';
+import IdsBadge from '../../src/components/ids-badge/ids-badge';
+import IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 describe('IdsBadge Component', () => {
   let badge;

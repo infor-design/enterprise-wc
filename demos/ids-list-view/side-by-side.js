@@ -1,7 +1,7 @@
 /* global $ */
 
-import IdsListView from '../../src/ids-list-view/ids-list-view';
-import IdsCard from '../../src/ids-card/ids-card';
+import IdsListView from '../../src/components/ids-list-view/ids-list-view';
+import IdsCard from '../../src/components/ids-card/ids-card';
 import './side-by-side.scss';
 
 // Example for populating the List View

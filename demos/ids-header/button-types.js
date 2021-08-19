@@ -1,5 +1,5 @@
-import IdsHeader from '../../src/ids-header';
-import IdsCheckbox from '../../src/ids-checkbox/ids-checkbox';
+import IdsHeader from '../../src/components/ids-header';
+import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
 
 document.addEventListener('DOMContentLoaded', () => {
   const primaryBtn = document.querySelector('#button-1');

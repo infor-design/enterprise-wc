@@ -1,14 +1,14 @@
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../../src/ids-mixins/ids-render-loop-mixin';
+import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../../src/mixins';
 
 // Supporting Components
-import IdsText from '../../src/ids-text/ids-text';
-import IdsLayoutGridCell from '../../src/ids-layout-grid/ids-layout-grid-cell';
-import IdsLayoutGrid from '../../src/ids-layout-grid/ids-layout-grid';
-import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
+import IdsText from '../../src/components/ids-text/ids-text';
+import IdsLayoutGridCell from '../../src/components/ids-layout-grid/ids-layout-grid-cell';
+import IdsLayoutGrid from '../../src/components/ids-layout-grid/ids-layout-grid';
+import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-button';
 
 // Access the global RenderLoop instance.
 // When using the mixin on a real component, the `rl` property exists on the component instance.
-import renderLoop from '../../src/ids-render-loop/ids-render-loop-global';
+import renderLoop from '../../src/components/ids-render-loop/ids-render-loop-global';
 
 // When the DOM Loads, register a loop that counts durations
 // of both the loop and an individual item, as well as sets up play/stop.

@@ -1,1 +1,1 @@
-import IdsValidationMixin from '../../src/ids-mixins/ids-validation-mixin';
+import IdsValidationMixin from '../../src/mixins';

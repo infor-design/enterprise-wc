@@ -1,11 +1,11 @@
 // Supporting components
-import IdsButton from '../../src/ids-button/ids-button';
-import IdsInput from '../../src/ids-input/ids-input';
-import IdsMenuButton from '../../src/ids-menu-button/ids-menu-button';
+import IdsButton from '../../src/components/ids-button/ids-button';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button';
 import IdsPopupMenu, {
   IdsMenuGroup,
   IdsMenuItem,
   IdsMenuHeader,
   IdsSeparator
-} from '../../src/ids-popup-menu/ids-popup-menu';
-import IdsText from '../../src/ids-text/ids-text';
+} from '../../src/components/ids-popup-menu/ids-popup-menu';
+import IdsText from '../../src/components/ids-text/ids-text';

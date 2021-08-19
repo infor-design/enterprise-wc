@@ -1,4 +1,4 @@
-import IdsCard from '../../src/ids-card/ids-card';
+import IdsCard from '../../src/components/ids-card/ids-card';
 
 // Example for populating the List View
 const listView = document.querySelector('#list-view-1');

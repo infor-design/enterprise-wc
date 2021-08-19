@@ -1,11 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import IdsTooltip from '../../src/ids-tooltip/ids-tooltip';
-import { IdsButton } from '../../src/ids-button/ids-button';
-import IdsText from '../../src/ids-text/ids-text';
-import IdsInput from '../../src/ids-input/ids-input';
-import IdsContainer from '../../src/ids-container/ids-container';
+import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
+import { IdsButton } from '../../src/components/ids-button/ids-button';
+import IdsText from '../../src/components/ids-text/ids-text';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsTooltip Component', () => {
   let tooltip;

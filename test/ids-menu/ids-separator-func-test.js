@@ -6,7 +6,7 @@ import IdsMenu, {
   IdsMenuHeader,
   IdsMenuItem,
   IdsSeparator
-} from '../../src/ids-menu/ids-menu';
+} from '../../src/components/ids-menu/ids-menu';
 
 // Appended to the menu once it's in the DOM
 const exampleHTML = `
