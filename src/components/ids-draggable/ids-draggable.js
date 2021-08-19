@@ -353,11 +353,11 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_X));
     }
 
-    return this.getAttribute(attributes.MAX_TRANSFORM_X);
+    return null;
   }
 
   set minTransformY(value) {
-    setIntAttribute(this, attributes.MIN_TRANSFORM_X, value);
+    setIntAttribute(this, attributes.MIN_TRANSFORM_Y, value);
   }
 
   get maxTransformY() {

@@ -12,16 +12,6 @@
   cursor: inherit;
 }
 
-:host(ids-draggable[axis='x']) {
-  left: var(--parent-offset, 0);
-  top: 0;
-}
-
-:host(ids-draggable[axis='y']) {
-  top: var(--parent-offset, 0);
-  left: 0;
-}
-
 :host(ids-draggable[axis='x']:not([disabled])) {
   cursor: ew-resize;
 }
