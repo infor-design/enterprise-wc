@@ -37,7 +37,7 @@ function setIntAttribute(elem, attribute, value) {
     if (parseInt(elem.getAttribute(attribute)) !== nextValue) {
       elem.setAttribute(attribute, nextValue);
     }
-  } else if (elem.hasAttribute(attribute)) {
+  } else if (nextValue === null && elem.hasAttribute(attribute)) {
     elem.removeAttribute(attribute);
   }
 }
@@ -625,7 +625,10 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     let isAtSlotEl = false;
     let isAtShadowRoot = false;
 
-    while (!this.#parentRect || !hasTraversedThis || isAtShadowRoot || isAtSlotEl) {
+    while (
+      (!this.#parentRect || !hasTraversedThis || isAtShadowRoot || isAtSlotEl)
+      && ((pathElemIndex + 1) < path.length)
+    ) {
       if (pathElem === this) {
         hasTraversedThis = true;
       }
@@ -640,13 +643,13 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         continue;
       }
 
-      const rect = pathElem.getBoundingClientRect();
+      const rect = pathElem?.getBoundingClientRect?.();
 
       // only use as parent if not a non-presentational rectangles (e.g.
       // the parent IdsElement which has no explicit styling; hence
       // zero-width or zero-height rendered)
 
-      if (rect.height !== 0 && rect.width !== 0) {
+      if (rect?.height !== 0 && rect?.width !== 0) {
         this.#parentRect = rect;
       }
     }
