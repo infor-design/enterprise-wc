@@ -2,7 +2,6 @@ describe('Ids Wizard e2e Tests', () => {
   const url = 'http://localhost:4444/ids-wizard';
 
   beforeAll(async () => {
-    page = await browser.newPage();
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
   });
 
@@ -11,7 +10,6 @@ describe('Ids Wizard e2e Tests', () => {
   });
 
   it('should pass Axe accessibility tests', async () => {
-    page = await browser.newPage();
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
     await expect(page).toPassAxeTests();

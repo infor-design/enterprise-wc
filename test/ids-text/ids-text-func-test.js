@@ -66,8 +66,8 @@ describe('IdsText Component', () => {
     elem.fontWeight = 'bold';
     expect(elem.getAttribute('font-weight')).toEqual('bold');
 
-    elem.fontWeight = 'bolder';
-    expect(elem.getAttribute('font-weight')).toEqual('bolder');
+    elem.fontWeight = 'lighter';
+    expect(elem.getAttribute('font-weight')).toEqual('lighter');
 
     elem.fontWeight = undefined;
     expect(elem.fontWeight).toEqual(null);
