@@ -4,7 +4,6 @@ import {
   scss,
   mix,
   attributes,
-  stringUtils
 } from '../ids-base/ids-element';
 import {
   IdsEventsMixin,
@@ -18,9 +17,6 @@ import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-popup/ids-popup';
 import styles from './ids-color-picker.scss';
-import { stringToBool } from '../ids-base/ids-string-utils';
-
-const { buildClassAttrib } = stringUtils;
 
 /**
  * IDS ColorPicker
@@ -73,14 +69,6 @@ class IdsColorPicker extends mix(IdsElement).with(
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
     this.#handleEvents();
-
-    const labelEl = this.container.querySelector('label');
-    this.onEvent('click.label', labelEl, () => {
-      /* istanbul ignore else */
-      if (!stringToBool(this.disabled)) {
-        this.colorPickerInput.input.focus();
-      }
-    });
   }
 
   static get attributes() {
@@ -107,38 +95,30 @@ class IdsColorPicker extends mix(IdsElement).with(
     ) ? /* istanbul ignore next */' disabled' : '';
 
     /* istanbul ignore next */
-    const labelHtml = this.labelHidden ? '<span></span>' : (
-      `<label
-        ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
-        slot="ids-trigger-field-label"
-        part="label"
-        for="${this.id}-input"
-      >
-        <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
-      </label>`
-    );
-
-    /* istanbul ignore next */
     const template = `
       <div class="ids-color-picker">
-        <ids-trigger-field tabbable="false" content-borders ${disabledAttribHtml}>
-          ${labelHtml}
-          <label slot="ids-trigger-field-btn-start" class="color-preview">
+        <ids-trigger-field
+          id="${this.id}"
+          tabbable="false"
+          label="${this.label}"
+          content-borders
+          ${disabledAttribHtml}
+        >
+          <label class="color-preview">
             <ids-input tabindex="-1" class="color-input" type="color" ${buttonDisabledAttribHtml}></ids-input>
             <ids-text audible="true">Pick Custom Color</ids-text>
           </label>
           <ids-input
-            slot="ids-trigger-field-input"
             value="${this.value.toLowerCase()}"
             size="sm"
             dirty-tracker="true"
             class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}"
             label="${this.label}"
             label-hidden="true"
+            triggerfield="true"
             ${disabledAttribHtml}
           ></ids-input>
           <ids-trigger-button
-            slot="ids-trigger-field-btn-end"
             class="color-picker-trigger-btn"
             id="${id}-button" title="${id}"
             ${buttonDisabledAttribHtml}

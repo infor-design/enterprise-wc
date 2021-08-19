@@ -306,6 +306,21 @@ $input-compact-height: $input-field-height-xs;
       margin: 0;
     }
   }
+
+  &.triggerfield-has-content-borders {
+    margin-bottom: 0;
+
+    .ids-input-field {
+      &.has-triggerfield {
+        border: none;
+        margin-bottom: 0;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
+  }
 }
 
 // Handle Themes

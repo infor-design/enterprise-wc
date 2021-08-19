@@ -4,9 +4,9 @@
 
 <ids-layout-grid auto="true" gap="md">
   <ids-layout-grid-cell>
-    <ids-trigger-field tabbable="false" >
-      <ids-input slot="ids-trigger-field-input" label="Date Field" size="sm"></ids-input>
-      <ids-trigger-button slot="ids-trigger-field-btn-end">
+    <ids-trigger-field tabbable="false" label="Date Field" content-borders>
+      <ids-input size="sm"></ids-input>
+      <ids-trigger-button>
         <ids-text audible="true">Date Field trigger</ids-text>
         <ids-icon slot="icon" icon="schedule"></ids-icon>
       </ids-trigger-button>
@@ -14,14 +14,12 @@
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
-    <ids-trigger-field>
+    <ids-trigger-field label="Timepicker" content-borders>
       <ids-input
-        slot="ids-trigger-field-input"
         type="text"
-        label="Timepicker"
         size="full"
       ></ids-input>
-      <ids-trigger-button slot="ids-trigger-field-btn-end">
+      <ids-trigger-button>
         <ids-text audible="true">Timepicker trigger</ids-text>
         <ids-icon slot="icon" icon="clock"></ids-icon>
       </ids-trigger-button>
@@ -29,17 +27,56 @@
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
-    <ids-trigger-field disable-native-events="true">
+    <ids-trigger-field label="Products" content-borders disable-native-events="true">
       <ids-input
-        slot="ids-trigger-field-input"
-        label="Products"
         placeholder="Enter Product"
         size="full"
         validate="required">
       </ids-input>
-      <ids-trigger-button slot="ids-trigger-field-btn-end">
+      <ids-trigger-button>
         <ids-text audible="true">Products trigger</ids-text>
         <ids-icon slot="icon" icon="search-list"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid auto="true" gap="md">
+  <ids-layout-grid-cell>
+    <ids-trigger-field label="Disabled Trigger Field" content-borders disabled>
+      <ids-input
+        placeholder="Enter Product"
+        size="full"
+        disabled
+      >
+      </ids-input>
+      <ids-trigger-button>
+        <ids-text audible="true">Products trigger</ids-text>
+        <ids-icon slot="icon" icon="search-list"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-trigger-field
+      id="trigger-field-1"
+      tabbable="false"
+      label="Two Trigger Buttons"
+      content-borders
+    >
+      <ids-trigger-button>
+        <ids-text audible="true">Products trigger</ids-text>
+        <ids-icon slot="icon" icon="caret-down"></ids-icon>
+      </ids-trigger-button>
+      <ids-input
+        placeholder="Enter Product"
+        size="sm"
+        label-hidden
+      >
+      </ids-input>
+      <ids-trigger-button>
+        <ids-text audible="true">Products trigger</ids-text>
+        <ids-icon slot="icon" icon="caret-down"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
   </ids-layout-grid-cell>

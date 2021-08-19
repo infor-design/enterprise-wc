@@ -3,14 +3,6 @@
  */
 
 import IdsColorPicker from '../../src/ids-color-picker/ids-color-picker';
-import processAnimFrame from '../helpers/process-anim-frame';
-
-const DEFAULT_COLORPICKER_HTML = (
-  `<ids-color-picker
-    id="color-picker-1"
-    label="Regular Color Picker"
-  ></ids-color-picker>`
-);
 
 describe('Ids Color Picker Component', () => {
   let colorpicker;
@@ -23,19 +15,6 @@ describe('Ids Color Picker Component', () => {
     document.body.innerHTML = '';
     colorpicker = null;
   });
-
-  const createElemViaTemplate = async (innerHTML) => {
-    colorpicker?.remove?.();
-
-    const template = document.createElement('template');
-    template.innerHTML = innerHTML;
-    colorpicker = template.content.childNodes[0];
-    document.body.appendChild(colorpicker);
-
-    await processAnimFrame();
-
-    return colorpicker;
-  };
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
@@ -76,14 +55,5 @@ describe('Ids Color Picker Component', () => {
   it('has a label attribute', () => {
     colorpicker.label = 'Ids Color Picker';
     expect(colorpicker.getAttribute('label')).toEqual('Ids Color Picker');
-  });
-
-  it('clicks the label and input receives focus', async () => {
-    colorpicker = await createElemViaTemplate(DEFAULT_COLORPICKER_HTML);
-    const labelEl = colorpicker.shadowRoot.querySelector('.ids-label-text');
-    const idsInput = colorpicker.shadowRoot.querySelector('.color-input-value');
-    labelEl.click();
-
-    expect(colorpicker.shadowRoot.activeElement).toEqual(idsInput);
   });
 });

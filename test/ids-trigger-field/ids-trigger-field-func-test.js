@@ -175,4 +175,9 @@ describe('IdsTriggerField Component', () => {
     expect(input.getAttribute('size')).toEqual('sm');
     expect(input.container.classList).toContain('sm');
   });
+
+  it('has a label attribute', () => {
+    triggerField.label = 'Ids Trigger Field';
+    expect(triggerField.getAttribute('label')).toEqual('Ids Trigger Field');
+  });
 });

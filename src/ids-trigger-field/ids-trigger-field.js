@@ -20,7 +20,7 @@ import { IdsButton } from '../ids-button/ids-button';
 import IdsInput from '../ids-input/ids-input';
 import IdsTriggerButton from './ids-trigger-button';
 
-const { stringToBool } = stringUtils;
+const { stringToBool, buildClassAttrib } = stringUtils;
 
 /**
  * IDS Trigger Field Component
@@ -48,6 +48,16 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     this.setInputAttributes();
     this.handleEvents();
     super.connectedCallback();
+
+    const labelEl = this.container.querySelector('label');
+    this.onEvent('click.label', labelEl, () => {
+      /* istanbul ignore else */
+      if (!stringToBool(this.disabled)) {
+        [...this.inputs].forEach((input) => {
+          input.input.focus();
+        });
+      }
+    });
   }
 
   /**
@@ -57,9 +67,11 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   static get attributes() {
     return [
       attributes.APPEARANCE,
+      attributes.CONTENT_BORDERS,
+      attributes.DISABLED,
       attributes.DISABLE_EVENTS,
-      attributes.TABBABLE,
-      attributes.CONTENT_BORDERS
+      attributes.LABEL,
+      attributes.TABBABLE
     ];
   }
 
@@ -68,13 +80,22 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {string} The template
    */
   template() {
+    const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
+      ? /* istanbul ignore next */' disabled'
+      : '';
+
     return `
       <div class="ids-trigger-field" part="field">
-        <slot name="ids-trigger-field-label"></slot>
+        ${ this.label !== '' ? `<label
+          ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
+          slot="ids-trigger-field-label"
+          part="label"
+          for="${this.id}-input"
+        >
+          <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
+        </label>` : ''}
         <div class="ids-trigger-field-content">
-          <slot name="ids-trigger-field-btn-start"></slot>
-          <slot name="ids-trigger-field-input"></slot>
-          <slot name="ids-trigger-field-btn-end"></slot>
+          <slot></slot>
         </div>
       </div>
     `;
@@ -100,7 +121,10 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
       this.inputObserver.disconnect();
     }
     this.inputObserver = new MutationObserver(callback);
-    this.inputObserver.observe(this.input, { attributes: true });
+
+    [...this.inputs].forEach((input) => {
+      this.inputObserver.observe(input, { attributes: true });
+    });
   }
 
   /**
@@ -129,15 +153,17 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {void}
    */
   setInputAttributes() {
-    this.input = this.querySelector('ids-input');
-    if (this.input) {
-      this.input.setAttribute(attributes.TRIGGERFIELD, 'true');
+    this.inputs = this.querySelectorAll('ids-input');
+    if (this.inputs) {
+      [...this.inputs].forEach((input) => {
+        input.setAttribute(attributes.TRIGGERFIELD, 'true');
 
-      // Set class for compact or field height
-      const attribs = ['compact', 'field-height'];
-      const attr = (a) => ({ name: a, val: this.input.getAttribute(a) });
-      attribs.forEach((a) => this.containerSetHeightClass(attr(a)));
-      this.setInputObserver();
+        // Set class for compact or field height
+        const attribs = ['compact', 'field-height'];
+        const attr = (a) => ({ name: a, val: input.getAttribute(a) });
+        attribs.forEach((a) => this.containerSetHeightClass(attr(a)));
+        this.setInputObserver();
+      });
     }
   }
 
@@ -196,6 +222,24 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     if (isValueTruthy) {
       this.setAttribute(attributes.CONTENT_BORDERS, true);
       this.container.classList.add('has-content-borders');
+
+      const slottedNodes = this.shadowRoot.querySelector('slot').assignedNodes();
+      const idsInputs = slottedNodes.filter((node) => node.nodeName === 'IDS-INPUT');
+      const triggerBtns = slottedNodes.filter((node) => node.nodeName === 'IDS-TRIGGER-BUTTON');
+
+      if (idsInputs) {
+        [...idsInputs].forEach((idsInput) => {
+          const input = idsInput.shadowRoot?.querySelector('.ids-input');
+          input?.classList.add('triggerfield-has-content-borders');
+        });
+      }
+
+      if (triggerBtns) {
+        [...triggerBtns].forEach((triggerBtn) => {
+          const btn = triggerBtn.shadowRoot?.querySelector('button');
+          btn?.classList.add('triggerfield-has-content-borders');
+        });
+      }
     } else {
       this.removeAttribute(attributes.CONTENT_BORDERS);
       this.container.classList.remove('has-content-borders');
@@ -203,6 +247,32 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   }
 
   get contentBorders() { return this.getAttribute(attributes.CONTENT_BORDERS); }
+
+  /**
+   * Sets the label attribute
+   * @param {string} value string value from the label attribute
+   */
+  set label(value) {
+    this.setAttribute('label', value.toString());
+  }
+
+  get label() {
+    return this.getAttribute('label') || '';
+  }
+
+  /**
+   * Sets the disabled attribute
+   * @param {string} d string value from the disabled attribute
+   */
+  set disabled(d) {
+    if (d) {
+      this.setAttribute('disabled', d.toString());
+    }
+  }
+
+  get disabled() {
+    return this.getAttribute('disabled');
+  }
 
   /**
    * Establish Internal Event Handlers

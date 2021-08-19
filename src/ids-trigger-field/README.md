@@ -15,12 +15,6 @@ We include a trigger field component that helps layout an input next to a button
 
 ## Features (With Code Examples)
 
-The ids-trigger-field contains 4 slots:
-- `ids-trigger-field-label`
-- `ids-trigger-field-btn-start`
-- `ids-trigger-field-input`
-- `ids-trigger-field-btn-end`
-
 Add an ids-trigger-field to the page and inside its slot add an ids-input and ids-trigger-button.
 
 ```html
@@ -33,18 +27,20 @@ Add an ids-trigger-field to the page and inside its slot add an ids-input and id
 </ids-trigger-field>
 ```
 
-Example usage with all slots
+Example usage with buttons on both sides of input. Note: you need to hide the label on `ids-input` and instead add it on the `ids-trigger-field` component. Also, in order to wrap the border around the buttons and `ids-input` you need to add the `content-borders` attribute to `ids-trigger-field`
 
 ```html
-<ids-trigger-field tabbable="false" content-borders>
-  <label slot="ids-trigger-field-label">
-    <ids-text label>Trigger field label</ids-text>
-  </label>
-  <ids-trigger-button slot="ids-trigger-field-btn-start" class="color-preview">
+<ids-trigger-field
+    id="trigger-field-1"
+    label="Trigger field label"
+    tabbable="false"
+    content-borders
+>
+  <ids-trigger-button class="color-preview">
     <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
     <ids-text audible="true">Call to action</ids-text>
   </ids-trigger-button>
-  <ids-input slot="ids-trigger-field-input" size="sm"></ids-input>
+  <ids-input size="sm" label-hidden></ids-input>
   <ids-trigger-button slot="ids-trigger-field-btn-end">
     <ids-text audible="true">color picker trigger</ids-text>
     <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
@@ -54,9 +50,10 @@ Example usage with all slots
 
 ## Settings and Attributes
 
-- `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
 - `appearance` {string} Turns on the functionality to have more compact field size (TODO)
 - `content-borders` {boolean} This adds the 'input' border and focus state to the ids-trigger-field-content.
+- `label` {string} This adds a label to the trigger field
+- `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
 
 ## Converting from Previous Versions
 
