@@ -678,7 +678,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
   #relativeBounds = {};
 
-  /* istanbul ignore next */
   #updateRelativeBounds() {
     /* istanbul ignore next */
     if (this.hasAttribute(attributes.RELATIVE_BOUNDS)) {
