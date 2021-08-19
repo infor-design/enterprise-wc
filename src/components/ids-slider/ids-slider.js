@@ -279,24 +279,20 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   calcPercentFromX(x, xStart, xEnd, thumbWidth) {
-    // if x < thumbWidth/2 or x > xEnd - thumbWidth / 2
     let percent = 0;
+    // allow bigger hit areas for clicking the ends of the slider to round to 0 or 100, since the thumb takes up considerable space
     if (x - xStart < thumbWidth/2) {
       percent = 0;
     }
-    else if (x - xStart > xEnd - thumbWidth/2) {
+    else if (x - xStart > xEnd - thumbWidth/2 - xStart) {
       percent = 100;
     } else {
-      percent = (x - xStart - thumbWidth/2) / (xEnd - thumbWidth/2 - xStart) * 100 // +/- 2% for the ticks/edges
+      percent = (x - xStart - thumbWidth/2) / (xEnd - thumbWidth/2 - xStart) * 100;
     }
     return percent;
   }
 
   #handleEvents() {
-
-    // when dragging thumb, show tool tip, change value(s)
-    // when ids-slider clicked, show tool tip
-    // when clicked outside, hide tool tip
 
     const thumbDraggable = this.container.querySelector('.thumb-draggable');
 
@@ -307,26 +303,16 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       const trackArea = this.trackArea;
       const thumbDraggable = this.thumbDraggable;
 
-      // TODO: use e.detail.translateX instead of parsing the style string
-      // const transformString = e.target.style.transform;
-      // const translateX = transformString.split('(')[1].split('p')[0];
       this.hideTooltipA = false;
 
-      console.log('e.detail.translateX: ' + e.detail.translateX);
-
-      const x = e.pageX;
-      console.log(x);
       const bounds = [
         slider.offsetLeft, // left 0
         slider.offsetLeft + trackArea.clientWidth, // right 1
       ];
-      console.log(bounds)
 
-      const percent = this.calcPercentFromX(x, bounds[0], bounds[1], thumbDraggable.clientWidth);
-      console.log('percent: ' + percent);
+      const percent = this.calcPercentFromX(e.detail.mouseX, bounds[0], bounds[1], thumbDraggable.clientWidth);
       const value = this.calcValueFromPercent(percent);
-      console.log('value: ' + value);
-      // this.setAttribute('valuea', value);
+      this.setAttribute('valuea', value);
     });
     
     // Listen for click events
