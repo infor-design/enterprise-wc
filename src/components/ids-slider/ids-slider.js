@@ -312,6 +312,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       // const translateX = transformString.split('(')[1].split('p')[0];
       this.hideTooltipA = false;
 
+      console.log('e.detail.translateX: ' + e.detail.translateX);
+
       const x = e.pageX;
       console.log(x);
       const bounds = [
