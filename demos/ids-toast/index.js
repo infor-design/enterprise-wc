@@ -1,2 +1,2 @@
 // IdsToast
-import IdsToast from '../../src/ids-toast/ids-toast';
+import IdsToast from '../../src/components/ids-toast/ids-toast';
