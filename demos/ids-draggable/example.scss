@@ -31,6 +31,16 @@ ids-layout-grid-cell:nth-of-type(3) .ids-draggable-demo-box {
   border: 1px dashed var(--ids-color-palette-azure-40);
 }
 
+ids-draggable:nth-of-type(4) .ids-draggable-demo-box,
+ids-layout-grid-cell:nth-of-type(4) .ids-draggable-demo-box {
+  border: 1px dashed var(--ids-color-palette-amethyst-40);
+}
+
+ids-draggable:nth-of-type(5) .ids-draggable-demo-box,
+ids-layout-grid-cell:nth-of-type(5) .ids-draggable-demo-box {
+  border: 1px dashed var(--ids-color-palette-amber-40);
+}
+
 .ids-draggable-handle-example {
   display: flex;
   flex-direction: row;

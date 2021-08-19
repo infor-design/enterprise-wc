@@ -194,7 +194,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     const isTruthy = IdsStringUtils.stringToBool(value);
 
     if (isTruthy && this.getAttribute(attributes.DISABLED) !== '') {
-      this.offEvent('mousemove', this.onMouseMove);
+      this.offEvent('mousemove', window.document, this.onMouseMove);
       this.setAttribute(attributes.DISABLED, '');
     } else if (!isTruthy && this.hasAttribute(attributes.DISABLED)) {
       this.removeAttribute(attributes.DISABLED);
@@ -236,8 +236,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
   #updateHandleElem = () => {
     this.offEvent('mousedown', this.#handleElem);
-    this.offEvent('mouseup', document, this.onMouseUp);
-    this.offEvent('mousemove', document, this.onMouseMove);
+    this.offEvent('mouseup', window.document, this.onMouseUp);
+    this.offEvent('mousemove', window.document, this.onMouseMove);
 
     this.#handleElem = this.handle ? (
       document.querySelector(this.handle) || /* istanbul ignore next */ this
@@ -253,11 +253,9 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       }
 
       e.preventDefault();
-      this.triggerEvent('ids-dragstart', this, { detail: {} });
-
-      this.onEvent('mouseup', document, this.onMouseUp);
       this.isDragging = true;
 
+      this.onEvent('mouseup', document, this.onMouseUp);
       this.onEvent('mousemove', document, this.onMouseMove);
 
       // if we have our content being draggable by the parent element,
@@ -271,10 +269,18 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       this.#dragStartMousePoint = { x: e.x, y: e.y };
 
       const dragOffset = getElTranslation(this);
+
       this.#dragStartOffset = {
         x: this.axis !== 'y' ? dragOffset.x : 0,
         y: this.axis !== 'x' ? dragOffset.y : 0
       };
+
+      this.triggerEvent('ids-dragstart', this, {
+        detail: {
+          translateX: this.#dragStartOffset.x,
+          transitionY: this.#dragStartOffset.y
+        }
+      });
 
       const thisRect = this.getBoundingClientRect();
 
@@ -341,19 +347,27 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_X));
     }
 
-    return this.getAttribute(attributes.MAX_TRANSFORM_X);
+    return null;
   }
 
   set minTransformY(value) {
-    setIntAttribute(this, attributes.MIN_TRANSFORM_X, value);
+    setIntAttribute(this, attributes.MIN_TRANSFORM_Y, value);
+  }
+
+  get minTransformY() {
+    if (this.hasAttribute(attributes.MIN_TRANSFORM_Y)) {
+      return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_Y));
+    }
+
+    return null;
   }
 
   get maxTransformY() {
     if (this.hasAttribute(attributes.MAX_TRANSFORM_Y)) {
-      return this.getAttribute(parseInt(attributes.MIN_TRANSFORM_Y));
+      return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_Y));
     }
 
-    return this.getAttribute(attributes.MAX_TRANSFORM_Y);
+    return null;
   }
 
   set maxTransformY(value) {
@@ -377,12 +391,12 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     // first started dragging the mouse from where
     // we moved to
 
-    if (mouseDeltaX !== null && this.axis !== 'y') {
-      translateX = this.#dragStartOffset.x + mouseDeltaX;
+    if (this.axis !== 'y') {
+      translateX = this.#dragStartOffset.x + (mouseDeltaX || 0);
     }
 
-    if (mouseDeltaY !== null && this.axis !== 'x') {
-      translateY = this.#dragStartOffset.y + mouseDeltaY;
+    if (this.axis !== 'x') {
+      translateY = this.#dragStartOffset.y + (mouseDeltaY || 0);
     }
 
     if (this.parentContainment) {
@@ -397,19 +411,19 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       }
     }
 
-    if (this.getAttribute(attributes.MIN_TRANSFORM_X) !== null) {
+    if (this.hasAttribute(attributes.MIN_TRANSFORM_X)) {
       translateX = Math.max(translateX, this.minTransformX);
     }
 
-    if (this.getAttribute(attributes.MAX_TRANSFORM_X) !== null) {
+    if (this.hasAttribute(attributes.MAX_TRANSFORM_X)) {
       translateX = Math.min(translateX, this.maxTransformX);
     }
 
-    if (this.getAttribute(attributes.MIN_TRANSFORM_X) !== null) {
+    if (this.hasAttribute(attributes.MIN_TRANSFORM_Y)) {
       translateY = Math.max(translateY, this.minTransformY);
     }
 
-    if (this.getAttribute(attributes.MAX_TRANSFORM_Y) !== null) {
+    if (this.hasAttribute(attributes.MAX_TRANSFORM_Y)) {
       translateY = Math.min(translateY, this.maxTransformY);
     }
 
@@ -474,11 +488,13 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
           dragDeltaY: e.y - this.#dragStartMousePoint.y
         }
       });
-      this.offEvent('mousemove', this.onMouseMove);
 
       (document.body.querySelector('ids-container') || document.body)
         ?.removeChild(this.#cursorEl);
     }
+
+    this.offEvent('mousemove', document, this.onMouseMove);
+    this.offEvent('mouseup', document, this.onMouseUp);
 
     this.#cursorEl.style.pointerEvents = 'none';
   };
