@@ -54,9 +54,10 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Bullet (ids-bullet-chart
  - [x] Loader (ids-loading-indicator) aka Busy Indicator / Loading Indicator
  - [x] Button (ids-button)
- - [ ] Calendar (ids-calendar
+ - [ ] Calendar (ids-calendar)
  - [x] Cards (ids-card)
  - [x] Checkboxes (ids-checkbox)
+ - [x] Circle Pager (ids-scroll-view)
  - [ ] Color Picker (ids-color-picker)
  - [ ] Column (ids-column-chart or ids-bar with a orientation setting)
  - [x] Completion Chart (ids-progress-chart)
