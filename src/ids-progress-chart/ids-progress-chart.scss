@@ -9,8 +9,9 @@
   margin: 0 0 8px 0;
 
   .labels {
-    @include text-slate-60();
+    @include text-graphite-50();
 
+    font-size: 16px;
     display: inline-flex;
     flex-direction: row;
     position: relative;
@@ -22,19 +23,23 @@
     .label-main {
       display: inline-flex;
       margin: 0 4px 0 0;
-    }
 
-    .label-main::part(text) {
-      color: currentColor;
+      &::part(text) {
+        color: currentColor;
+        font-family: inherit;
+        font-size: inherit;
+      }
     }
 
     .label-progress {
       display: inline-flex;
       margin: 0 4px;
-    }
 
-    .label-progress::part(text) {
-      color: currentColor;
+      &::part(text) {
+        color: currentColor;
+        font-family: inherit;
+        font-size: inherit;
+      }
     }
 
     .label-end {
@@ -48,10 +53,12 @@
 
     .label-total {
       position: absolute;
-    }
 
-    .label-total::part(text) {
-      color: currentColor;
+      &::part(text) {
+        color: currentColor;
+        font-family: inherit;
+        font-size: inherit;
+      }
     }
   }
 
@@ -63,8 +70,7 @@
     position: relative;
 
     .bar-total {
-      @include bg-slate-30();
-
+      border-radius: inherit;
       display: flex;
       top: 0;
       left: 0;
@@ -73,15 +79,115 @@
     }
 
     .bar-progress {
+      border-radius: inherit;
       display: flex;
       top: 0;
       left: 0;
       height: inherit;
-      background-color: #25af65;
+    }
+  }
+}
+
+.ids-progress-chart[version='new'] {
+  &[mode='light'] {
+    .bar {
+      .bar-total {
+        @include bg-slate-30();
+      }
+
+      .bar-progress {
+        @include bg-slate-60();
+      }
+    }
+
+    .labels {
+      @include text-slate-60();
     }
   }
 
-  ::slotted(ids-icon) {
-    margin: 3px 4px 0 4px;
+  &[mode='dark'] {
+    .bar {
+      .bar-total {
+        @include bg-slate-50();
+      }
+
+      .bar-progress {
+        @include bg-azure-60();
+      }
+    }
+
+    .labels {
+      @include text-slate-30();
+    }
+  }
+
+  &[mode='contrast'] {
+    .bar {
+      .bar-total {
+        @include bg-slate-40();
+      }
+
+      .bar-progress {
+        @include bg-azure-90();
+      }
+    }
+
+    .labels {
+      @include text-slate-90();
+    }
+  }
+}
+
+.ids-progress-chart[version='classic'] {
+  ids-icon {
+    margin: 0;
+  }
+
+  &[mode='light'] {
+    .bar {
+      .bar-total {
+        background-color: #bdbdbd;
+      }
+
+      .bar-progress {
+        background-color: #5c5c5c;
+      }
+    }
+
+    .labels {
+      color: #5c5c5c;
+    }
+  }
+
+  &[mode='dark'] {
+    .bar {
+      .bar-total {
+        background-color: #50535a;
+      }
+
+      .bar-progress {
+        background-color: #368ac0;
+      }
+    }
+
+    .labels {
+      color: #abaeb7;
+    }
+  }
+
+  &[mode='contrast'] {
+    .bar {
+      .bar-total {
+        background-color: #737373;
+      }
+
+      .bar-progress {
+        background-color: #383838;
+      }
+    }
+
+    .labels {
+      color: #383838;
+    }
   }
 }
