@@ -277,6 +277,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
       this.triggerEvent('ids-dragstart', this, {
         detail: {
+          mouseX: e.x,
+          mouseY: e.y,
           translateX: this.#dragStartOffset.x,
           transitionY: this.#dragStartOffset.y
         }
@@ -450,9 +452,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       const dragDeltaX = e.x - this.#dragStartMousePoint.x;
       const dragDeltaY = e.y - this.#dragStartMousePoint.y;
 
-      eventDetail.dragDeltaX = dragDeltaX;
-      eventDetail.dragDeltaY = dragDeltaY;
-
       // once draggable bound to parent was updated,
       // update the transform
 
@@ -465,6 +464,10 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         eventDetail.parentRect = this.#parentRect;
       }
 
+      eventDetail.mouseX = e.x;
+      eventDetail.mouseY = e.y;
+      eventDetail.dragDeltaX = dragDeltaX;
+      eventDetail.dragDeltaY = dragDeltaY;
       eventDetail.translateX = translateX;
       eventDetail.translateY = translateY;
 
@@ -484,6 +487,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       this.isDragging = false;
       this.triggerEvent('ids-dragend', this, {
         detail: {
+          mouseX: e.x,
+          mouseY: e.y,
           dragDeltaX: e.x - this.#dragStartMousePoint.x,
           dragDeltaY: e.y - this.#dragStartMousePoint.y
         }
