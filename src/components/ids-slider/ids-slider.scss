@@ -8,9 +8,9 @@ ids-slider {
   width: 100%;
   height: 100%;
 
-  &:hover {
-    background: rgba(51, 170, 51, .1);
-  }
+  // &:hover {
+  //   background: rgba(51, 170, 51, .1);
+  // }
 }
 
 .slider {
@@ -65,7 +65,7 @@ ids-slider {
     color: white;
     text-align: center;
     margin: auto;
-    bottom: 18px;
+    bottom: 175%;
     border-radius: 2px;
     vertical-align: middle;
     line-height: 30px;
@@ -73,7 +73,7 @@ ids-slider {
     min-width: 40px;
     transition: opacity 0.2s ease;
     opacity: 0;
-    left: calc(var(--percent) * 1% + (var(--pos) * 1px));
+    left: -12px;
     
 
     .pin {
@@ -103,8 +103,19 @@ ids-slider {
     // position: absolute;
     z-index: 50 !important;
 
+    &:focus {
+      border: 1px blue solid;
+      box-shadow: rgb(0 114 237 / 10%) 0px 0px 0px 8px;
+    }
+
+    &:active {
+      border: 1px green solid;
+      box-shadow: rgb(0 114 237 / 10%) 0px 0px 0px 8px;
+    }
+
     &:hover {
-      box-shadow: var(--hover-shadow);
+      // box-shadow: var(--hover-shadow);
+      box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
     }
   }
 
@@ -122,9 +133,9 @@ ids-slider {
     position: absolute;
     z-index: 50;
 
-    &:hover {
-      background: rgba(0, 200, 51, .1) 
-    }
+    // &:hover {
+    //   background: rgba(0, 200, 51, .1) 
+    // }
   }
   
   @mixin track {
