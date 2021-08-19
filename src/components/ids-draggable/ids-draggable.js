@@ -93,7 +93,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       attributes.MAX_TRANSFORM_Y,
       attributes.MIN_TRANSFORM_X,
       attributes.MIN_TRANSFORM_Y,
-      attributes.PARENT_CONTAINMENT,
+      attributes.PARENT_CONTAINMENT
     ];
   }
 
@@ -336,7 +336,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_X));
     }
 
-    return this.getAttribute(attributes.MIN_TRANSFORM_X);
+    return null;
   }
 
   set maxTransformX(value) {
@@ -668,14 +668,15 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     this.#updateRelativeBounds();
   }
 
+  /* istanbul ignore next */
   get relativeBounds() {
     return this.getAttribute(attributes.RELATIVE_BOUNDS);
   }
 
   #relativeBounds = {};
 
-  /* istanbul ignore next */
   #updateRelativeBounds() {
+    /* istanbul ignore next */
     if (this.hasAttribute(attributes.RELATIVE_BOUNDS)) {
       const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
       const newBounds = Object.fromEntries(relativeBoundsAttr.split(';').map((str) => {

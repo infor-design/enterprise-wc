@@ -12,6 +12,11 @@ import processAnimFrame from '../helpers/process-anim-frame';
 const elemBuilder = elemBuilderFactory();
 
 describe('IdsDraggable Component', () => {
+  /**
+   * @param {string} outerHTML HTML for ids-draggable
+   * @returns {IdsDraggable} draggable with a container
+   * attached that was added to the DOM
+   */
   async function createContainedDraggable(outerHTML) {
     const container = document.createElement('div');
     container.style.width = '640px';
@@ -261,5 +266,18 @@ describe('IdsDraggable Component', () => {
     await processAnimFrame();
     expect(elem.getAttribute('min-transform-y')).toEqual('0');
     expect(elem.minTransformY).toEqual(0);
+  });
+
+  it('expects transform values to be predictable when not set', async () => {
+    const elem = await elemBuilder.createElemFromTemplate(
+      `<ids-draggable parent-containment>
+      <div>draggable</div>
+    </ids-draggable>`
+    );
+
+    expect(elem.minTransformX).toBeNull();
+    expect(elem.minTransformY).toBeNull();
+    expect(elem.maxTransformX).toBeNull();
+    expect(elem.maxTransformY).toBeNull();
   });
 });
