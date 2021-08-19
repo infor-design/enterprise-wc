@@ -11,7 +11,7 @@ import renderLoop from '../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-item';
 
 // Import Utils
-import { IdsStringUtils } from '../utils';
+import { IdsStringUtils as stringUtils } from '../utils';
 
 /**
  * simple dictionary used to memoize attribute names
@@ -25,7 +25,7 @@ import { IdsStringUtils } from '../utils';
  */
 const attribPropNameDict = Object.fromEntries(
   Object.entries(attributes).map(([_, attrib]) => (
-    [attrib, IdsStringUtils.camelCase(attrib)]
+    [attrib, stringUtils.camelCase(attrib)]
   ))
 );
 
@@ -111,7 +111,7 @@ class IdsElement extends HTMLElement {
   attributeChangedCallback(name, oldValue, newValue) {
     if (oldValue !== newValue) {
       if (!attribPropNameDict[name]) {
-        attribPropNameDict[name] = IdsStringUtils.camelCase(name);
+        attribPropNameDict[name] = stringUtils.camelCase(name);
       }
 
       this[attribPropNameDict[name]] = newValue;
@@ -186,15 +186,16 @@ class IdsElement extends HTMLElement {
       this.container = this.shadowRoot?.firstElementChild;
     }
 
-    // Remove any close hidden element to avoid FOUC
-    this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
-    this.closest('ids-container')?.removeAttribute('hidden');
-
     // Runs on next next paint to be sure rendered() fully
     if (this.rendered) {
       renderLoop.register(new IdsRenderLoopItem({
         duration: 1,
-        timeoutCallback: () => { this.rendered(); }
+        timeoutCallback: () => {
+          this.rendered();
+          // Remove any close hidden element to avoid FOUC
+          this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
+          this.closest('ids-container')?.removeAttribute('hidden');
+        }
       }));
     }
 
@@ -246,6 +247,5 @@ export {
   appendIds,
   mix,
   scss,
-  attributes,
-  IdsStringUtils
+  attributes
 };

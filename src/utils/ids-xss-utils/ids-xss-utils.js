@@ -77,16 +77,14 @@ export function stripTags(html, allowed) {
 
   const allowList = ((`${allowed || ''}`)
     .toLowerCase()
-    .match(/<[a-z][a-z0-9]*>/g) || [])
-    .join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c>)
+    .match(/<[a-z][a-z0-9|ids\-a-z]*>/g) || [])
+    .join(''); // making sure the allowed arg is a string containing only tags in lowercase (<a><b><c><ids-abc>)
 
-  const tags = /<\/?([a-z][a-z0-9]*)\b[^>]*>/gi;
+  const tags = /<\/?([a-z][a-z0-9|ids\-a-z]*)\b[^>]*>/gi;
   const commentsAndPhpTags = /<!--[\s\S]*?-->|<\?(?:php)?[\s\S]*?\?>/gi;
   let returnHTML = '';
   returnHTML = html.replace(commentsAndPhpTags, '')
     .replace(tags, ($0, $1) => allowList.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ''); //eslint-disable-line
-  returnHTML = returnHTML.replace(tags, ($0, $1) => allowList.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ''); //eslint-disable-line
-  /* istanbul ignore next */
   returnHTML = returnHTML.replace(tags, ($0, $1) => allowList.indexOf('<' + $1.toLowerCase() + '>') > -1 ? $0 : ''); //eslint-disable-line
 
   return returnHTML;
@@ -99,3 +97,4 @@ export const IdsXssUtils = {
   stripHTML
 };
 export default IdsXssUtils;
+export { IdsXssUtils as xssUtils };

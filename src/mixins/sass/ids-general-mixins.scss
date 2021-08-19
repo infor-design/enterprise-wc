@@ -87,3 +87,27 @@ $animation-prefixes: -webkit-, -moz-, '';
     background-color $transition-length $transition-ease,
     color $transition-length $transition-ease;
 }
+
+// 'transform'-specific vendor prefixing mixins
+// This is because we can't include the word 'transform' inside the normal vendor prefixer,
+// since it would not be prefixed properly.
+@mixin transform($value) {
+  @each $prefix in $prefixes {
+    #{$prefix}transform: $value;
+  }
+}
+
+// Hidden
+@mixin focus-border-off {
+  @include border-transparent();
+  @include border-1();
+  @include border-solid();
+}
+
+@mixin focus-border-on {
+  @include border-azure-60();
+  @include border-1();
+  @include border-solid();
+  @include outline-none();
+  @include shadow();
+}

@@ -45,6 +45,10 @@
   }
 
   .step-label {
+    @include border-transparent();
+    @include border-1();
+    @include border-solid();
+
     position: absolute;
     top: 24px;
     box-sizing: border-box;

@@ -179,13 +179,14 @@ class IdsHyperlink extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get fontSize() { return this.getAttribute(attributes.FONT_SIZE); }
 
   /**
-   * Adjust font weight; can be either "bold" or "bolder"
+   * Adjust font weight; can be either "bold" "lighter" or not present
+   * since font supports 300, 400, 600
    * @param {string | null} value (if bold)
    */
   set fontWeight(value) {
-    this.container?.classList.remove('bold', 'bolder');
+    this.container?.classList.remove('bold', 'lighter');
 
-    if (value === 'bold' || value === 'bolder') {
+    if (value === 'bold' || value === 'lighter') {
       this.setAttribute(attributes.FONT_WEIGHT, value);
       this.container?.classList.add(value);
       return;

@@ -61,7 +61,7 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
     if (this.lastElementChild) {
       this.lastElementChild.setAttribute('font-weight', '');
     }
-    breadcrumb.setAttribute('font-weight', 'bolder');
+    breadcrumb.setAttribute('font-weight', 'bold');
     breadcrumb.setAttribute('color', 'unset');
     breadcrumb.setAttribute('role', 'listitem');
     breadcrumb.setAttribute('text-decoration', 'hover');
@@ -80,7 +80,7 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
     if (this.lastElementChild) {
       const breadcrumb = this.removeChild(this.lastElementChild);
       if (this.lastElementChild) {
-        this.lastElementChild.setAttribute('font-weight', 'bolder');
+        this.lastElementChild.setAttribute('font-weight', 'bold');
       }
       return breadcrumb;
     }

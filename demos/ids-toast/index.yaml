@@ -1,0 +1,13 @@
+---
+ component: Toast
+ link: ids-toast
+ description: Provides feedback after an action has taken place.
+ category: Messages and Alerts
+ keywords: toast, feedback, information, warning, status, Html5 toast
+ examples:
+  - link: index.html
+    description: Shows basic toast message
+  - link: sandbox.html
+    description: Shows additional toast scenarios
+  - link: side-by-side.html
+    description: Showing toast side by side with 4.x toast

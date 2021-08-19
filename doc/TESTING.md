@@ -60,7 +60,6 @@ We should have one visual regression image per component. When you PR a test an 
 
 ```js
   it('should not have visual regressions (percy)', async () => {
-    await page.setBypassCSP(true);
     await page.goto('http://localhost:4444/ids-tag', { waitUntil: ['networkidle0', 'domcontentloaded'] });
     await percySnapshot(page, 'ids-tag');
   });
@@ -72,6 +71,16 @@ We should have one visual regression image per component. When you PR a test an 
 - To run only one test in a suite add only. For example `test.only(`
 - To run only one suite use `describe.only(`
 - To skip a test add `test.skip(`
+
+## e2e Test Tips
+
+### Animations
+
+In some cases you might want to speed  up animations for a page. To speed up animations 3 times you can use.
+
+```js
+await page._client.send('Animation.setPlaybackRate', { playbackRate: 3 });
+```
 
 ## Coverage
 
