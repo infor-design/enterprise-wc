@@ -97,7 +97,7 @@ describe('IdsIcon Component', () => {
     document.body.appendChild(container);
     icon.language = 'ar';
     expect(icon.isFlipped('previous-page')).toBeTruthy();
-    expect(icon.template()).toContain('class="flipped"'); // Class list doesnt work on SVG?
+    expect(icon.template()).toContain('class="flipped"');
   });
 
   it('can change language from the container', () => {

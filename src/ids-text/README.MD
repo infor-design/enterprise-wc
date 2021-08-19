@@ -29,6 +29,12 @@ A Disabled appearing text element.
 <ids-text disabled="true">Disabled Text</ids-text>
 ```
 
+Using the data/label theme, related to [IdsSummaryField](../ids-summary-field/README.md)
+```html
+<ids-text label="true">Title</ids-text>
+<ids-text data="true">Some random data</ids-text>
+```
+
 ## Settings and Attributes
 
 - `type` {boolean} Set the type of element it is usually h1-h6. Defaults to span
@@ -39,7 +45,8 @@ A Disabled appearing text element.
 - `version` {string} Set the theme version
 - `color` {string} If set to `unset`, the CSS color will be `'unset'` allowing you to color with surrounding content.
 - `color-variant` {string} can be set to "alternate" to display contrasting color for text via the [IdsColorVariantMixin](../ids-mixins/README.md)
-
+- `data` {boolean} Sets the css of the text to the according theme
+- `label` {boolean} Sets the css of the text to the according theme 
 ## Themeable Parts
 
 - `text` allows you to further style the text element
@@ -66,7 +73,7 @@ Text is not keyboard focusable so has no keyboard shortcuts.
 
 ## Designs
 
-[Design Specs](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
+[Design Specs](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
 
 ## Accessibility Guidelines
 

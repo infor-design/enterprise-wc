@@ -85,4 +85,4 @@ The swipe action is not keyboard friendly. For this we use the actions button fo
 
 ## Designs
 
-[Design Specs](https://www.figma.com/file/KMCdcFsKVDZjdPFClAS5OF/WFM-Mobile-Components-(Internal)?node-id=292%3A3506)
+[Design Specs](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)

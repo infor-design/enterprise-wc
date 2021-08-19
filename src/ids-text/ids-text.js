@@ -61,6 +61,7 @@ class IdsText extends mix(IdsElement).with(
       ...super.attributes,
       attributes.AUDIBLE,
       attributes.COLOR,
+      attributes.DATA,
       attributes.DISABLED,
       attributes.DISPLAY,
       attributes.ERROR,
@@ -284,7 +285,7 @@ class IdsText extends mix(IdsElement).with(
 
   /**
    * Set the text to label color.
-   * @param {boolean} value True if error text
+   * @param {boolean} value True if label text
    */
   set label(value) {
     const val = stringUtils.stringToBool(value);
@@ -298,6 +299,23 @@ class IdsText extends mix(IdsElement).with(
   }
 
   get label() { return this.getAttribute(attributes.LABEL); }
+
+  /**
+   * Set the text to data color.
+   * @param {boolean} value True if data text
+   */
+  set data(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.container.classList.add('data');
+      this.setAttribute(attributes.DATA, value);
+      return;
+    }
+    this.removeAttribute(attributes.DATA);
+    this.container.classList.remove('data');
+  }
+
+  get data() { return this.getAttribute(attributes.DATA); }
 
   /**
    * Set how content overflows; can specify 'ellipsis', or undefined or 'none'
