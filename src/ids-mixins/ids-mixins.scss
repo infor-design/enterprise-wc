@@ -88,3 +88,18 @@ $animation-prefixes: -webkit-, -moz-, '';
     #{$prefix}transform: $value;
   }
 }
+
+// Hidden
+@mixin focus-border-off {
+  @include border-transparent();
+  @include border-1();
+  @include border-solid();
+}
+
+@mixin focus-border-on {
+  @include border-azure-60();
+  @include border-1();
+  @include border-solid();
+  @include outline-none();
+  @include shadow();
+}

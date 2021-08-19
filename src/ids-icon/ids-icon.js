@@ -75,9 +75,9 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     this.onEvent('languagechange.icon', this, async (e) => {
       await this.locale.setLanguage(e.detail.language.name);
       if (this.isFlipped(this.icon)) {
-        this.container.classList.add('flipped');
+        this.shadowRoot.querySelector('svg').classList.add('flipped');
       } else {
-        this.container.classList.remove('flipped');
+        this.shadowRoot.querySelector('svg').classList.remove('flipped');
       }
     });
   }
@@ -215,24 +215,29 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
 
   /**
    * Return the icon name
-   * @returns {string} the path data
+   * @returns {string} the icon
    */
   get icon() { return this.getAttribute(attributes.ICON) || ''; }
 
+  /**
+   * Sets the icon svg path to render
+   * @param {string} value The value must be a valid key in the path-data.json
+   */
   set icon(value) {
     const svgElem = this.shadowRoot?.querySelector('svg');
-    if (value && svgElem) {
+    if (value && pathData[value]) {
+      svgElem.style.display = '';
       this.setAttribute(attributes.ICON, value);
       svgElem.innerHTML = this.iconData();
     } else {
       this.removeAttribute(attributes.ICON);
-      svgElem?.remove();
+      svgElem.style.display = 'none';
     }
   }
 
   /**
    * Return the size. May be large, normal/medium or small
-   * @returns {string} the path data
+   * @returns {string} the size
    */
   get size() { return this.getAttribute(attributes.SIZE) || 'normal'; }
 
