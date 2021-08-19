@@ -1,0 +1,36 @@
+<style>
+  #check{
+    color: #2AC371;
+  }
+  #alert{
+    color: #DA1217;
+  }
+</style>
+
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Step Chart</ids-text>
+</ids-layout-grid>
+<ids-layout-grid cols="2" gap="md">
+  <ids-layout-grid-cell>
+   <ids-card>
+    <div slot="card-header">
+      <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">My Project Step Examples</ids-text>
+    </div>
+    <div slot="card-content">
+      <ids-step-chart label="7 of 7 steps completed" color="emerald07" step-number="7" value="7" steps-in-progress="3" progress-color="ruby03">
+        <ids-icon id="check" slot="icon" icon="apply-rule" ></ids-icon>
+      </ids-step-chart>
+      <ids-step-chart label="2 of 7 steps completed" color="azure08" step-number="7" value="2">
+      </ids-step-chart>
+      <ids-step-chart label="2 of 7 steps completed" color="azure08" step-number="7" value="2" completed-label="5 days remaining">
+      </ids-step-chart><ids-step-chart label="2 of 7 steps completed" color="azure08" step-number="7" value="3" completed-label="5 days overdue" steps-in-progress="3" progress-color="ruby03">
+
+        <ids-icon id="alert" slot="icon" icon="alert"></ids-icon>
+      </ids-step-chart>
+      <ids-step-chart label="2 of 7 steps completed" color="azure08" step-number="7" value="2">
+      </ids-step-chart>
+    </div>
+   </ids-card>
+
+  </ids-layout-grid-cell>
+</ids-layout-grid>

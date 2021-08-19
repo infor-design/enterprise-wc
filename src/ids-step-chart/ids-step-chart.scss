@@ -1,0 +1,52 @@
+@import '../ids-base/ids-colorpalette-variables';
+@import '../ids-base/ids-base';
+
+.ids-step-chart{
+  @include m-8;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+
+  .step-label-container{
+    @include mb-4;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 1 1 auto;
+
+    .secondary-label{
+      display: flex;
+      flex-direction: row;
+
+      .icon{
+        @include ml-4;
+      }
+    }
+  }
+
+  .step-chart-container{
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+
+    .step{
+      @include m-1;
+
+      @each $name in $color-names {
+        $i: index($color-names, $name);
+        $color: var(#{nth($color-vars, $i)});
+
+        &[color='#{$name}']{
+          background-color: $color;
+        }
+      }
+      height: 15px;
+      flex: 1 1 auto;
+      //background-color: var(--ids-color-palette-amethyst-100);
+    }
+  }
+
+}
+
