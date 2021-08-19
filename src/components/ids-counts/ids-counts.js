@@ -113,4 +113,4 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get href() { return this.getAttribute(attributes.HREF); }
 }
 
-export { IdsCounts };
+export default IdsCounts;

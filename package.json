@@ -10,6 +10,8 @@
     "example": "demos"
   },
   "scripts": {
+    "build:dist": "npx webpack --config webpack.config.dist.js",
+    "build:dist:prod": "npx webpack --config webpack.config.dist.js --mode production",
     "build": "webpack",
     "build:prod": "webpack --mode production",
     "build:verbose": "npx webpack --progress profile",
