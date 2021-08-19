@@ -131,7 +131,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Textarea (ids-text-area)
  - [ ] Timeline (ids-time-line)
  - [ ] Timepicker (ids-time-picker)
- - [ ] Toast (ids-toast)
+ - [x] Toast (ids-toast)
  - [x] Toolbar (ids-toolbar)r
  - [x] Tooltip (ids-tooltip
  - [x] Trackdirty (mixin)

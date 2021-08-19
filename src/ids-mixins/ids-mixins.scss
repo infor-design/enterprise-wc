@@ -80,6 +80,15 @@ $animation-prefixes: -webkit-, -moz-, '';
   }
 }
 
+// 'transform'-specific vendor prefixing mixins
+// This is because we can't include the word 'transform' inside the normal vendor prefixer,
+// since it would not be prefixed properly.
+@mixin transform($value) {
+  @each $prefix in $prefixes {
+    #{$prefix}transform: $value;
+  }
+}
+
 // Hidden
 @mixin focus-border-off {
   @include border-transparent();

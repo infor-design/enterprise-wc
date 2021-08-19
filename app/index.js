@@ -41,6 +41,7 @@ import IdsTag from '../src/ids-tag/ids-tag';
 import IdsToggleButton from '../src/ids-toggle-button/ids-toggle-button';
 import IdsToolbar, { IdsToolbarSection, IdsToolbarMoreActions } from '../src/ids-toolbar/ids-toolbar';
 import IdsTooltip from '../src/ids-tooltip/ids-tooltip';
+import IdsToast from '../src/ids-toast/ids-toast';
 import IdsText from '../src/ids-text/ids-text';
 import IdsTextarea from '../src/ids-textarea/ids-textarea';
 import IdsTriggerField from '../src/ids-trigger-field/ids-trigger-field';
