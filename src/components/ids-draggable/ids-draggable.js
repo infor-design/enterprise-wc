@@ -48,7 +48,7 @@ function setIntAttribute(elem, attribute, value) {
  *  top: number,
  *  right: number,
  *  bottom: number
- * }} bounds
+ * }} bounds rectangle bounds to hash
  * @returns {string} a hash for bounds in a predictable
  * order that can be diffed for attribute changes
  */
