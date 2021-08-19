@@ -1,5 +1,5 @@
 /* Ids Toast Container Component */
-@import '../ids-base/ids-base';
+@import '../../core/ids-base';
 
 :host(ids-toast-message) {
   @include block();

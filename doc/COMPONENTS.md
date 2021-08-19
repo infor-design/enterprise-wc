@@ -234,7 +234,7 @@ We have several head layouts available:
 - [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path, where the root component is the default export along with any sub components beyond that.
 
 ```js
-import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/ids-[component]';
+import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/components/ids-[component]';
 ```
 
 - [ ] Add an `example.js` for any demo code in the example.html (if needed)
@@ -265,7 +265,7 @@ Now that you have a `ids-[component].scss`, which holds all scoped styles for th
 - If you need any colors or any properties from the design repo tokens you should import base on the first line
 
 ```scss
-@import '../ids-base/ids-base';
+@import '../../core/ids-base';
 ```
 
 - Use tools like css flex and css grid to do layouts. In addition when checking RTL try and do it in a way with css that does not require additional css when the page is RTL. The best approach is to try and make your css work either direction before resorting to resets. One simple one is to put the same margin or padding or other positional css on both sides. One useful technique is to use css grid / flex with `end` or `flex-end`. This automatically works in RTL mode without trying to negate anything.
@@ -387,7 +387,7 @@ Create a folder in `tests/component-name` with the file `test/component-name/com
 Note that sometimes you need to import the component itself and not the markup so that the web component API works in jest. And also make sure to set the innerHTML of the body in afterEach to cleanup after so no other tests can be impacted. For example:
 
 ```js
-import IdsTag from '../../src/ids-tag/ids-tag';
+import IdsTag from '../../src/components/ids-tag';
 
 describe('IdsTag Component', () => {
   let tag;

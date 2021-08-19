@@ -1,4 +1,4 @@
-import { stringUtils } from '../ids-base';
+import { IdsStringUtils as stringUtils } from '../../utils';
 
 /**
  * Shared in between toast.

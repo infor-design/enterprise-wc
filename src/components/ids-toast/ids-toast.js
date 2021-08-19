@@ -3,11 +3,8 @@ import {
   customElement,
   scss,
   mix,
-  attributes,
-  objectUtils,
-  stringUtils,
-  xssUtils
-} from '../ids-base';
+  attributes
+} from '../../core';
 
 // Import Mixins
 import {
@@ -15,7 +12,14 @@ import {
   IdsKeyboardMixin,
   IdsThemeMixin,
   IdsLocaleMixin
-} from '../ids-mixins';
+} from '../../mixins';
+
+// Import Utils
+import {
+  IdsObjectUtils as objectUtils,
+  IdsStringUtils as stringUtils,
+  IdsXssUtils as xssUtils
+} from '../../utils';
 
 import { IdsToastShared as shared } from './ids-toast-shared';
 import { IdsToastMessage } from './ids-toast-message';

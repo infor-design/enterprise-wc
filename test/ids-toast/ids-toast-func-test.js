@@ -2,10 +2,8 @@
  * @jest-environment jsdom
  */
 import wait from '../helpers/wait';
-import IdsContainer from '../../src/ids-container/ids-container';
-import IdsToast from '../../src/ids-toast/ids-toast';
-import IdsToastMessage from '../../src/ids-toast/ids-toast-message';
-import { IdsToastShared as shared } from '../../src/ids-toast/ids-toast-shared';
+import IdsContainer from '../../src/components/ids-container';
+import { IdsToastMessage, IdsToast, IdsToastShared as shared } from '../../src/components/ids-toast';
 
 describe('IdsToast Component', () => {
   const origInnerWidth = window.innerWidth;

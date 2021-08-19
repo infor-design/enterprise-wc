@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { objectUtils } from '../../src/ids-base/ids-object-utils';
+import { IdsObjectUtils as objectUtils } from '../../src/utils';
 
 describe('IdsObjectUtils Tests', () => {
   afterEach(async () => {

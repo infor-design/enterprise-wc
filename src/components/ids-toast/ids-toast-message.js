@@ -4,14 +4,16 @@ import {
   scss,
   mix,
   attributes
-} from '../ids-base';
+} from '../../core';
 
 // Import Mixins
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
-  IdsThemeMixin
-} from '../ids-mixins';
+  IdsThemeMixin,
+  IdsRenderLoopMixin,
+  IdsRenderLoopItem
+} from '../../mixins';
 
 import { IdsToastShared as shared } from './ids-toast-shared';
 import styles from './ids-toast-message.scss';
@@ -21,7 +23,6 @@ import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-mixins/ids-render-loop-mixin';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 
 /**

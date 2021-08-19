@@ -1,7 +1,7 @@
 // IdsToast Sandbox
 import './index';
-import '../../src/ids-checkbox/ids-checkbox';
-import '../../src/ids-radio/ids-radio';
+import '../../src/components/ids-checkbox';
+import '../../src/components/ids-radio';
 
 document.addEventListener('DOMContentLoaded', () => {
   const idsContainer = document.querySelector('ids-container');

@@ -1,5 +1,5 @@
 /* global $ */
-import IdsToast from '../../src/ids-toast/ids-toast';
+import IdsToast from '../../src/components/ids-toast';
 
 // Initialize Web Component
 document.addEventListener('DOMContentLoaded', () => {
