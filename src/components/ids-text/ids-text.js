@@ -108,7 +108,7 @@ class IdsText extends mix(IdsElement).with(
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  availableColorVariants = ['alternate'];
+  colorVariants = ['alternate'];
 
   /**
    * Handle internal events
