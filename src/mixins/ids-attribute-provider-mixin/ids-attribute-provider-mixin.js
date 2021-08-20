@@ -72,27 +72,6 @@ export default (attributeProviderDefs) => (superclass) => {
     #providedValueMap = new Map();
 
     /**
-     * Lookups for components to map to definitions.
-     * @type {Map<IdsElement, Array<object>>}
-     */
-    #componentsListenedForMap = (() => {
-      attributesListenedFor.forEach((def) => {
-        const map = new Map();
-        const components = def.component?.[0]
-          ? def.component
-          : [def.component];
-
-        components.forEach((c) => {
-          const entries = map.get(c) || [];
-          entries.push(def);
-          map.set(c, entries);
-        });
-
-        return map;
-      });
-    })();
-
-    /**
      * Update registered props on registered child component types
      *
      * @param {object} attributes lookup object containing attributes

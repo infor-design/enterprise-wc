@@ -3,25 +3,32 @@ import {
   customElement,
   attributes,
   scss,
-<<<<<<< HEAD:src/components/ids-tabs/ids-tabs.js
   mix,
 } from '../../core/ids-element';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-=======
-  mix
-} from '../ids-base/ids-element';
->>>>>>> 42125a29... remove ids-tab' shadowDOM, +ids-tab-content & boilerplate, fix attrib-provider (main merge mistake?), misc:src/ids-tabs/ids-tabs.js
 
 import {
   IdsKeyboardMixin,
   IdsEventsMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsAttributeProviderMixin
 } from '../../mixins';
 
+import IdsHeader from '../ids-header';
 import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
+
+/**
+ * list of entries for attributes provided by
+ * the ids-tab-context and how they map,
+ * as well as which are listened on for updates
+ * in the children
+ */
+const attributeProviderDefs = {
+  attributesProvided: [{
+    attribute: attributes.COLOR_VARIANT,
+    component: IdsTab
+  }]
+};
 
 /**
  * IDS Tabs Component
@@ -35,6 +42,7 @@ import styles from './ids-tabs.scss';
 @customElement('ids-tabs')
 @scss(styles)
 export default class IdsTabs extends mix(IdsElement).with(
+    IdsAttributeProviderMixin(attributeProviderDefs),
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsThemeMixin
@@ -48,7 +56,11 @@ export default class IdsTabs extends mix(IdsElement).with(
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.ORIENTATION, attributes.VALUE];
+    return [
+      attributes.COLOR_VARIANT,
+      attributes.ORIENTATION,
+      attributes.VALUE
+    ];
   }
 
   template() {
@@ -73,18 +85,12 @@ export default class IdsTabs extends mix(IdsElement).with(
     // set up observer for monitoring if a child
     // element changed
 
-    /*
-    this.#tabObserver.observe(this, {
-      childList: true,
-      attributes: true,
-      attributeOldValue: true,
-      attributeFilter: ['selected', 'value'],
-      subtree: true
-    });
-    */
-
     // set initial selection state
-    // this.#updateSelectionState();
+    this.#updateSelectionState();
+
+    if (!this.hasAttribute(attributes.COLOR_VARIANT)) {
+      this.#checkAndSetColorVariant();
+    }
   }
 
   disconnectedCallback() {
@@ -239,7 +245,7 @@ export default class IdsTabs extends mix(IdsElement).with(
         /* istanbul ignore else */
         if (m.target instanceof IdsTab || m.target instanceof IdsTabs) {
           if (value !== m.oldValue && m.attributeName === 'value') {
-            // this.#updateSelectionState();
+            this.#updateSelectionState();
           }
         }
         break;
@@ -253,10 +259,37 @@ export default class IdsTabs extends mix(IdsElement).with(
       /* istanbul ignore next */
       if (m.type === 'childList') {
         this.#updateCallbacks();
-        // this.#updateSelectionState();
+        this.#updateSelectionState();
       }
     }
   });
+
+  /**
+   * checks if we are in a header tab and adjusts color-variant
+   * accordingly
+   */
+  #checkAndSetColorVariant() {
+    let isHeaderDescendent = false;
+    let currentElement = this.host || this.parentNode;
+
+    while (!isHeaderDescendent && currentElement) {
+      if (currentElement instanceof IdsHeader) {
+        isHeaderDescendent = true;
+        break;
+      }
+
+      // consider the body the ceiling of where to reach here
+      if (currentElement.tagName === 'BODY') {
+        break;
+      }
+
+      currentElement = currentElement.host || currentElement.parentNode;
+    }
+
+    if (isHeaderDescendent) {
+      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
+    }
+  }
 
   /* istanbul ignore next */
   /**
@@ -402,6 +435,19 @@ export default class IdsTabs extends mix(IdsElement).with(
       if (!hadTabSelection && Boolean(this.children[i].selected)) {
         hadTabSelection = true;
       }
+    }
+  }
+
+  set colorVariant(variant) {
+    switch (variant) {
+    case 'alternate': {
+      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
+      break;
+    }
+    default: {
+      this.removeAttribute(attributes.COLOR_VARIANT);
+      break;
+    }
     }
   }
 }

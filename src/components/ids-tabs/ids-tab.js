@@ -41,6 +41,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   static get attributes() {
     return [
+      attributes.COLOR_VARIANT,
       attributes.COUNT,
       attributes.ORIENTATION,
       attributes.SELECTED,

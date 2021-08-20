@@ -22,7 +22,7 @@ import styles from './ids-tabs.scss';
  * as well as which are listened on for updates
  * in the children
  */
-const attributesProvided = {
+const attributeProviderDefs = {
   attributesProvided: [{
     attribute: attributes.VALUE,
     component: IdsTabContent,
@@ -73,7 +73,7 @@ const attributesProvided = {
 @scss(styles)
 export default class IdsTabContext extends mix(IdsElement).with(
     IdsEventsMixin,
-    IdsAttributeProviderMixin(attributesProvided)
+    IdsAttributeProviderMixin(attributeProviderDefs)
   ) {
   constructor() {
     super();
@@ -119,7 +119,9 @@ export default class IdsTabContext extends mix(IdsElement).with(
     if (el instanceof IdsTabs) {
       if (el.hasAttribute(attributes.VALUE)) {
         return el.getAttribute(attributes.VALUE);
-      } else if (el.hasAttribute(attributes.VALUE)) {
+      }
+
+      if (el.hasAttribute(attributes.VALUE)) {
         return el.children?.[0].getAttribute();
       }
     } else {
