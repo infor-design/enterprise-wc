@@ -84,7 +84,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         <div class="slider">
           <input hidden value="${this.valuea ?? DEFAULT_VALUE}" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}"></input>
           <div class="track-area">
-            <ids-draggable class="thumb-draggable" axis="x" parent-containment>
+            <ids-draggable hidden tabindex="1" class="thumb-draggable" axis="x" parent-containment>
+              <div class="thumb-shadow"></div>
               <div class="thumb">
                 <div class="tooltip">
                   <ids-text class="text">${this.valuea ?? DEFAULT_VALUE}</ids-text>
@@ -220,6 +221,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set hideTooltipB(value) {
       // this.container.querySelector('.tooltip:nth-of-type(2)').style.opacity = value ? 0 : 1;
     }
+
+    wasCursorInBoundingBox(x, y, top, bottom, left, right) {
+      return y >= top && y < bottom && x > left && x < right;
+    }
     
     calculateUI(x, y) {  
     // const slider = this.container.querySelector('.slider');
@@ -239,25 +244,23 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     ];
 
 
-    const clickedTrackArea = y >= bounds[0] && y < bounds[1] && x > bounds[2] && x < bounds[3];
-    
+    // const clickedTrackArea = y >= bounds[0] && y < bounds[1] && x > bounds[2] && x < bounds[3];
+    const clickedTrackArea = this.wasCursorInBoundingBox(x, y, bounds[0], bounds[1], bounds[2], bounds[3]);
 
     // for single
     if (clickedTrackArea) {
       const percent = this.calcPercentFromX(x, bounds[2], bounds[3], thumbDraggable.clientWidth);
       // console.log('percent: ' + percent + '%')
 
-      // const xTranslate = Math.ceil(percent) / 100 * (bounds[3] - bounds[2]);
       const xTranslate = this.calcTranslateFromPercent(bounds[2], bounds[3], percent);
-      console.log('translate x by: ' + xTranslate);
 
-      // console.log('xPos: ' + xPos);
-      // console.log(xResult);
       this.container.querySelector('.thumb-draggable').style.transform = `translate(${xTranslate}px, 0px)`;
 
       const value = this.calcValueFromPercent(percent);
-      // console.log('value: ' + value);
       this.setAttribute('valuea', value);
+
+      // also focus the thumb-draggable
+      this.thumbDraggable.focus();
     }
   }
 
@@ -297,8 +300,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const thumbDraggable = this.container.querySelector('.thumb-draggable');
 
     // Listen for drag event on draggable thumb
-    // TODO: change to onEvent
-    thumbDraggable.addEventListener('ids-drag', (e) => {
+    this.onEvent('ids-drag', thumbDraggable, (e) => {
       const slider = this.slider;
       const trackArea = this.trackArea;
       const thumbDraggable = this.thumbDraggable;
@@ -314,16 +316,35 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       const value = this.calcValueFromPercent(percent);
       this.setAttribute('valuea', value);
     });
+
+    this.onEvent('ids-dragstart', thumbDraggable, () => {
+      console.log('ids-drag started')
+      this.thumbDraggable.blur();
+    })
+    this.onEvent('ids-dragend', thumbDraggable, () => {
+      console.log('ids-drag ended')
+      this.thumbDraggable.focus();
+    })
+
+    this.onEvent('focus', thumbDraggable, () => {
+      console.log('show')
+      this.container.querySelector('.thumb-shadow').removeAttribute('hidden');
+      // this.container.querySelector('.thumb-shadow').style.width = '30px';
+      // this.container.querySelector('.thumb-shadow').style.height = '30px';
+    })
+    this.onEvent('blur', thumbDraggable, () => {
+      console.log('hide')
+      // this.container.querySelector('.thumb-shadow').style.width = '8px';
+      // this.container.querySelector('.thumb-shadow').style.height = '8px';
+      this.container.querySelector('.thumb-shadow').setAttribute('hidden', '');
+    })
     
     // Listen for click events
-    // TODO: change to onEvent
     // check if click landed on ids-slider or outside of it
-    window.addEventListener('click', (event) => {
+    this.onEvent('click', window, (event) => {
       const idsSliderSelected = event.target.name === 'ids-slider';
-      console.log('slider selected :' + idsSliderSelected);
+      console.log(event.target.name);
 
-  
-      console.log(event.clientX + ", " + event.clientY)
       this.hideTooltipA = !idsSliderSelected;
       this.calculateUI(event.clientX, event.clientY);
 

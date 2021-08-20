@@ -7,32 +7,23 @@ ids-slider {
   display: flex;
   width: 100%;
   height: 100%;
-
-  // &:hover {
-  //   background: rgba(51, 170, 51, .1);
-  // }
 }
 
 .slider {
   --tick-size: 8px;
+  --thumb-size: 16px;
 
-  // border: 1px solid orange;
-  // background-color: pink;
   display: inline-flex;
   position: relative;
   width: 92%;
-  // height: 4px;
   margin: 25px 4% 50px;
   justify-content: center;
   align-items: center;
-  // margin: 50px 0;
 
   .tick-container {
     display: flex;
     position: absolute;
     width: 100%;
-    // left: 2px;
-    // bottom: 4px;
 
     &.start {
       justify-content: flex-start;
@@ -44,7 +35,6 @@ ids-slider {
 
     .tick {
       display: flex;
-      // position: absolute;
       width: var(--tick-size);
       height: var(--tick-size);
       border-radius: 50%;
@@ -88,39 +78,40 @@ ids-slider {
       margin-top: 1px;
     }
   }
-
-  @mixin thumb {
-    // margin: 3px 0;
-    width: 16px;
-    height: 16px;
+  
+  .thumb-draggable {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     border-radius: 50%;
-    background: red;
-    cursor: pointer !important;
-    // transition: box-shadow translate 1s;
-    // box-shadow: var(--focus-shadow);
-    // outline: none;
-    // border: none;
-    // position: absolute;
-    z-index: 50 !important;
+    outline: none;
+    transition: transform 0.2s ease 0s;
+    
+    --blue-shadow: rgba(0 ,114 ,237, 0.1) 0px 0px 0px 8px;
 
-    &:focus {
-      border: 1px blue solid;
-      box-shadow: rgb(0 114 237 / 10%) 0px 0px 0px 8px;
+    .thumb-shadow {
+      position: absolute;
+      border-radius: 50%;
+      width: 30px;
+      height: 30px;
+      background-color: rgba(0, 114, 237, 0.1);
+      border: 1px #0072ed solid;
+      // transition: width 0.1s linear, height 0.1s linear;
     }
 
-    &:active {
-      border: 1px green solid;
-      box-shadow: rgb(0 114 237 / 10%) 0px 0px 0px 8px;
+    .thumb {
+      width: var(--thumb-size);
+      height: var(--thumb-size);
+      border-radius: 50%;
+      background: #0072ED;
+      cursor: pointer !important;
+      z-index: 50 !important;
+      
+      &:hover {
+        box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
+      }
     }
-
-    &:hover {
-      // box-shadow: var(--hover-shadow);
-      box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
-    }
-  }
-
-  .thumb {
-    @include thumb;
+    
   }
 
   .track-area {
@@ -133,6 +124,9 @@ ids-slider {
     position: absolute;
     z-index: 50;
 
+    &:focus {
+      background-color: red;
+    }
     // &:hover {
     //   background: rgba(0, 200, 51, .1) 
     // }
