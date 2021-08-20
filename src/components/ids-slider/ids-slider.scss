@@ -96,7 +96,6 @@ ids-slider {
       height: 30px;
       background-color: rgba(0, 114, 237, 0.1);
       border: 1px #0072ed solid;
-      // transition: width 0.1s linear, height 0.1s linear;
     }
 
     .thumb {
@@ -117,7 +116,6 @@ ids-slider {
   .track-area {
     width: 100%;
     background-color: transparent;
-    // background-color: #ffffaa;
     height: 24px;
     align-items: center;
     display: flex;
@@ -127,9 +125,6 @@ ids-slider {
     &:focus {
       background-color: red;
     }
-    // &:hover {
-    //   background: rgba(0, 200, 51, .1) 
-    // }
   }
   
   @mixin track {
