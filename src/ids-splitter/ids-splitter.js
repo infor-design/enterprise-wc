@@ -259,16 +259,23 @@ export default class IdsSplitter extends mix(IdsElement).with(
 
   #repositionDraggables() {
     let afterOffset = 0;
-    for (const [pane, entry] of this.#paneDraggableMap) {
-      const { contentRect, after } = entry;
+    // @TODO: calculate this once in mutation observer
+    const totalWidth = this.getBoundingClientRect().width;
 
+    console.log('totalWidth ->', totalWidth);
+
+    [...this.#paneDraggableMap.entries()].forEach(([pane, { contentRect, after }], i) => {
       if (contentRect) {
         afterOffset += this.axis === 'x' ? contentRect.width : contentRect.height;
-        if (entry.after) {
+        if (after) {
           after.style.setProperty('transform', `translateX(${afterOffset}px)`);
         }
+
+        if (i === (this.#paneDraggableMap.size - 1)) {
+          pane.size = `${totalWidth - afterOffset}px`;
+        }
       }
-    }
+    });
   }
 
   #onResizePaneViaDraggable({ pane, dragDeltaX, dragDeltaY }) {

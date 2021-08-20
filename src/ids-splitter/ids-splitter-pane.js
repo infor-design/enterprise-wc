@@ -67,11 +67,25 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     ];
   }
 
+  #previousContentSizeHash = '';
+
   /* istanbul ignore next */
   resizeObserver = new ResizeObserver((entries) => {
     for (const entry of entries) {
       const contentRect = entry.contentRect?.[0] || entry.contentRect;
       const paneId = (() => entry.target.paneId)();
+
+      const contentSizeHash = `${parseInt(contentRect.width)}_${parseInt(contentRect.height)}`;
+      const shouldTriggerEvent = this.#previousContentSizeHash !== contentSizeHash;
+
+      if (!shouldTriggerEvent) {
+        return;
+      }
+
+      console.log('should resize splitter-pane ->', contentSizeHash, this.#previousContentSizeHash);
+
+      this.#previousContentSizeHash = contentSizeHash;
+
       this.triggerEvent(
         'splitter-pane-resize',
         this,
