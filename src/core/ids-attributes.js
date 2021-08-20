@@ -124,6 +124,7 @@ export const attributes = {
   PADDING: 'padding',
   PARENT_CONTAINMENT: 'parent-containment',
   PARENT_DISABLED: 'parent-disabled',
+  PERCENT: 'percent',
   PERCENTAGE_VISIBLE: 'percentage-visible',
   PLACEHOLDER: 'placeholder',
   PLACEMENT: 'placement',
