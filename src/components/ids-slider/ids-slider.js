@@ -38,24 +38,15 @@ const DEFAULT_TYPE = TYPES[0];
 class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
-
+  }
+  
+  connectedCallback() {
     this.slider = this.container.querySelector('.slider');
     this.trackArea = this.container.querySelector('.track-area');
     this.thumb = this.container.querySelector('.thumb');
     this.thumbDraggable = this.container.querySelector('.thumb-draggable');
-    this.toolTipText = this.container.querySelector('.tooltip .text').innerHTML;
+    // this.toolTipText = this.container.querySelector('.tooltip .text');
 
-    this.trackBounds = {
-      // TOP: this.slider.offsetTop + this.trackArea.offsetTop, // top 0
-      // BOTTOM: this.slider.offsetTop - this.trackArea.offsetTop, // bottom 1
-      // LEFT: this.slider.offsetLeft, // left 2
-      // RIGHT: this.slider.offsetLeft + this.trackArea.clientWidth, // right 3
-    };
-  }
-
-
-  
-  connectedCallback() {
     this.#addEventListeners();
     super.connectedCallback();
   }
@@ -118,13 +109,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   updateToolTip(value) {
+    // console.log('updateToolTip() w value : ' + value);
     this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = Math.ceil(value);
     // this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = Math.ceil(this.valuea);
     //   this.container.querySelector('.tooltip:nth-of-type(2) .text').innerHTML = this.valueb;
     
   }
   
-  updateUI() {
+  updateProgressBar() {
     const range = this.max - this.min;
     // console.log('updating UI');
     // this.moveThumb();
@@ -175,8 +167,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   set percent(value) {
-    // const percent = value || this.valuea / (this.max - this.min) * 100;
-    // console.log('percent is set to : ' + value);
     this.setAttribute('percent', value);
   }
 
@@ -184,7 +174,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   set valueb(value) {
     this.setAttribute('valueb', value || DEFAULT_MAX);
-    // this.updateUI();
+    // this.updateProgressBar();
   }
   
   get valueb() { return this.getAttribute('valueb') || DEFAULT_MAX; }
@@ -195,7 +185,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       this.setAttribute('percent', (this.valuea - this.min) / (this.max - this.min) * 100);
       this.updateToolTip(value);
       this.moveThumb(); // change name to updateThumbPosition() ? 
-      // this.updateUI();
+      // this.updateProgressBar();
     }
   }
 
@@ -206,14 +196,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.container.querySelector('.label.min').innerHTML = this.min;
   }
 
-  get min() { return this.getAttribute(attributes.MIN) || DEFAULT_MIN; }
+  get min() { return parseFloat(this.getAttribute(attributes.MIN)) || DEFAULT_MIN; }
 
   set max(value) {
     this.setAttribute(attributes.MAX, value || DEFAULT_MAX);
     this.container.querySelector('.label.max').innerHTML = this.max;
   }
 
-  get max() { return this.getAttribute(attributes.MAX) || DEFAULT_MAX; }
+  get max() { return parseFloat(this.getAttribute(attributes.MAX)) || DEFAULT_MAX; }
 
   set type(value) {
     if (value && TYPES.includes(value)) {
@@ -242,6 +232,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get color() { return this.getAttribute(attributes.COLOR); }
 
   set hideTooltipA(value) {
+    console.log('hiding tool tip: '+ value);
       this.container.querySelector('.tooltip:nth-of-type(1)').style.opacity = value ? 0 : 1;
   }
 
@@ -254,61 +245,39 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
     
     calculateUI(x, y) {  
-    // const slider = this.container.querySelector('.slider');
-    // const trackArea = this.container.querySelector('.track-area');
-    // const thumb = this.container.querySelector('.thumb');
-    // const thumbDraggable = this.container.querySelector('.thumb-draggable');
-    const slider = this.slider;
-    const trackArea = this.trackArea;
-    const thumb = this.thumb;
-    const thumbDraggable = this.thumbDraggable;
+    this.thumbDraggable.style.transition = 'transform 0.2s ease 0s';
 
-    this.trackBounds = {
-      TOP: slider.offsetTop + trackArea.offsetTop, // top 0
-      BOTTOM: slider.offsetTop - trackArea.offsetTop, // bottom 1
-      LEFT: slider.offsetLeft, // left 2
-      RIGHT: slider.offsetLeft + trackArea.clientWidth, // right 3
-    };
     const top = this.trackBounds.TOP;
     const bottom = this.trackBounds.BOTTOM;
     const left = this.trackBounds.LEFT;
     const right = this.trackBounds.RIGHT;
 
-
-    // const clickedTrackArea = y >= bounds[0] && y < bounds[1] && x > bounds[2] && x < bounds[3];
     const clickedTrackArea = this.wasCursorInBoundingBox(x, y, top, bottom, left, right);
 
     // for single
     if (clickedTrackArea) {
-      const percent = this.calcPercentFromX(x, left, right, thumbDraggable.clientWidth);
-      // this.setAttribute('percent', percent);
-      // console.log('percent: ' + percent + '%')
-
-      // do this in the set valuea
-      // const xTranslate = this.calcTranslateFromPercent(left, right, percent);
-
-      // this.container.querySelector('.thumb-draggable').style.transform = `translate(${xTranslate}px, 0px)`;
-      
+      console.log('track area hit');
+      this.hideTooltipA = false;
+      const percent = this.calcPercentFromX(x, left, right, this.thumbDraggable.clientWidth);
       const value = this.calcValueFromPercent(percent);
-      this.setAttribute('valuea', value);
-      this.moveThumb();
 
-      // do this when valuea changes
-      // also focus the thumb-draggable
+      this.setAttribute('valuea', value);
+
       this.thumbDraggable.focus();
-    }
+    } 
   }
 
   moveThumb() {
-    // do this in the set valuea
-    const xTranslate = this.calcTranslateFromPercent(this.trackBounds.LEFT, this.trackBounds.RIGHT, this.percent);
-    this.thumbDraggable.style.transform = `translate(${xTranslate}px, 0px)`;
+    // check to make sure trackBounds have been initialized
+    if (this.trackBounds && this.trackBounds.LEFT && this.trackBounds.RIGHT) {
+      const xTranslate = this.calcTranslateFromPercent(this.trackBounds.LEFT, this.trackBounds.RIGHT, this.percent);
+      this.thumbDraggable.style.transform = `translate(${xTranslate}px, 0px)`;
+    }
   }
 
   // based on percent, calculate that numerical value between min and max
   calcValueFromPercent(percent) {
-    // ALERT: parseFloat() needed or else this.min reads as a string
-    return (percent / 100 * (this.max - this.min)) + parseFloat(this.min);
+    return (percent / 100 * (this.max - this.min)) + (this.min);
   }
 
   // based on percent, calculate how much the thumb should translate on the X-axis
@@ -340,48 +309,75 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   #addEventListeners() {
+    // init the this.trackBounds upon window load 
+    window.onload = () => {
+      this.trackBounds = {
+        TOP: this.slider.offsetTop + this.trackArea.offsetTop, // top 0
+        BOTTOM: this.slider.offsetTop - this.trackArea.offsetTop, // bottom 1
+        LEFT: this.slider.offsetLeft, // left 2
+        RIGHT: this.slider.offsetLeft + this.trackArea.clientWidth, // right 3
+      };
+      console.log('window.onload()')
+      console.log(this.trackBounds);
 
-    const thumbDraggable = this.thumbDraggable;
+      // update thumb now that bounds have been initialized
+      this.moveThumb();
+    }
 
-    // Listen for drag event on draggable thumb
-    this.onEvent('ids-drag', thumbDraggable, (e) => {
-      const slider = this.slider;
-      const trackArea = this.trackArea;
-      // redundant line, consider removing
-      const thumbDraggable = this.thumbDraggable;
-
-      this.hideTooltipA = false;
-
-      // TODO: replace with this.trackBounds (after figuring out where to declare them as soon as page finishes rendering)
-      const bounds = [
-        slider.offsetLeft, // left 0
-        slider.offsetLeft + trackArea.clientWidth, // right 1
-      ];
-
-      // debugger;
-      const percent = this.calcPercentFromX(e.detail.mouseX, bounds[0], bounds[1], thumbDraggable.clientWidth);
-      const value = this.calcValueFromPercent(percent);
-      this.updateToolTip(value);
-      // this.setAttribute('valuea', value);
+    // update this.trackBounds with new values when window size changes
+    const resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        if (entry.contentBoxSize) {
+          // console.log(entry.target.className)
+          
+          this.trackBounds = {
+            TOP: this.slider.offsetTop + this.trackArea.offsetTop, // top 0
+            BOTTOM: this.slider.offsetTop - this.trackArea.offsetTop, // bottom 1
+            LEFT: this.slider.offsetLeft, // left 2
+            RIGHT: this.slider.offsetLeft + this.trackArea.clientWidth, // right 3
+          };
+          // console.log('resizeObserver()')
+          // console.log(this.trackBounds);
+          this.moveThumb();
+        }
+      }
     });
 
-    this.onEvent('ids-dragstart', thumbDraggable, () => {
+    // don't think i need both of them...
+    resizeObserver.observe(this.trackArea);
+    // resizeObserver.observe(this.slider);
+
+
+    // Listen for drag event on draggable thumb
+    this.onEvent('ids-drag', this.thumbDraggable, (e) => {
+      this.hideTooltipA = false;
+
+      const percent = this.calcPercentFromX(e.detail.mouseX, this.trackBounds.LEFT, this.trackBounds.RIGHT, this.thumbDraggable.clientWidth);
+      const value = this.calcValueFromPercent(percent);
+      this.updateToolTip(value);
+      // only set the percent -- because changing the value causes the moveThumb() to fire like crazy 
+      // -- dragging becomes jittery because moveThumb() sets translate at the same time dragging sets translate
+      this.setAttribute('percent', percent);
+    });
+
+    this.onEvent('ids-dragstart', this.thumbDraggable, () => {
       this.thumbDraggable.style.removeProperty('transition'); //disable transitions while dragging, doesn't quite work... css default style doesn't get removed
-      console.log('transition style:')
-      console.log(this.thumbDraggable.style.transition)
       this.thumbDraggable.blur();
     })
-    this.onEvent('ids-dragend', thumbDraggable, () => {
+    this.onEvent('ids-dragend', this.thumbDraggable, (e) => {
       this.thumbDraggable.style.transition = 'transform 0.2s ease 0s';
-      console.log(this.thumbDraggable.style.transition)
       this.thumbDraggable.focus();
-      this.valuea = parseFloat(this.toolTipText);
+      // to ensure that after dragging, the value is updated..
+      //  this is the roundabout solution to prevent the firing of moveThumb() every single ids-drag event
+      // i don't really like this roundabout cause we're setting everything else BUT the value, which we save for the end...
+      // but I can't think of anything better atm
+      this.setAttribute('valuea', this.calcValueFromPercent(this.percent));
     })
-
-    this.onEvent('focus', thumbDraggable, () => {
+    
+    this.onEvent('focus', this.thumbDraggable, () => {
       this.container.querySelector('.thumb-shadow').removeAttribute('hidden');
     })
-    this.onEvent('blur', thumbDraggable, () => {
+    this.onEvent('blur', this.thumbDraggable, () => {
       this.container.querySelector('.thumb-shadow').setAttribute('hidden', '');
     })
     
@@ -389,9 +385,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     // check if click landed on ids-slider or outside of it
     this.onEvent('click', window, (event) => {
       const idsSliderSelected = event.target.name === 'ids-slider';
-      // console.log(event.target.name);
-      console.log(event.clientX + ', ' + event.clientY);
+      console.log('idsSliderSelected: ' + idsSliderSelected);
       this.hideTooltipA = !idsSliderSelected;
+      // console.log(event.target.name);
+      // console.log(event.clientX + ', ' + event.clientY);
       this.calculateUI(event.clientX, event.clientY);
 
     //   if (this.type === 'double') {

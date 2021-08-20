@@ -6,6 +6,11 @@
 - [ ] decide order of events when valuea is changed
   - [x] when user clicks hit area -> move thumb towards the correct pixels based on mouse click xcoord -> percent
   - [x] when user drags the thumb -> calculate the value & percent based on mouse xcoord
-  - [ ] when value is set -> calculate the percent and translateX for thumb
-- [ ] remove transition animation when dragging the slider (it slows it down), otherwise keep for clicking and setting value thru console
+  - [x] when value is set -> calculate the percent and translateX for thumb
+- [x] remove transition animation when dragging the slider (it slows it down), otherwise keep for clicking and setting value thru console
+- [x] fix bugs when min/max are not just simply 0/100
+- [ ] adjust the draggable to center on the tick at both ends (gah)
+- [ ] test for min/max to be within negative number range
+- [ ] test that it works when attributes are not set
+- [ ] add progress color bar
 - [ ] double range slider
