@@ -14,11 +14,13 @@
   font-size: 16px;
   border-radius: 0 0 2px 2px;
   box-shadow: 0 0 4px 1px rgba(0, 0, 0, 0.3);
-  left: 0;
+  left: auto;
   line-height: 30px;
   padding: 0 8px 3px 8px;
   top: -45px;
   transition: top 0.6s ease-out 0s, background 0.6s linear 0s;
+  flex-direction: row;
+  justify-content: flex-end;
 
   &:focus {
     @include outline-none();

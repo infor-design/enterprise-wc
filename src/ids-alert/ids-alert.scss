@@ -1,7 +1,7 @@
 @import '../ids-base/ids-base';
 
 :host {
-  @include mr-8();
+  @include mx-8();
 
   [icon='success'],
   [icon='success-solid'] {

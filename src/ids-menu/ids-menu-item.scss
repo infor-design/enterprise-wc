@@ -113,7 +113,7 @@
 
   &.has-icon {
     a {
-      @include pl-4();
+      @include px-8();
 
       grid-template-columns: 30px calc(100% - 30px);
     }
@@ -155,7 +155,7 @@
 
   &.has-submenu {
     a {
-      @include pr-0();
+      @include pr-4();
 
       grid-template-columns: 0 calc(100% - 25px) 25px;
     }

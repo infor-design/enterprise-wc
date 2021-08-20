@@ -168,7 +168,7 @@ $textarea-size-default-height: 120px;
 
     // textarea text-align: [left, center, right]
     &.left {
-      text-align: left;
+      text-align: start;
     }
 
     &.center {
@@ -176,7 +176,7 @@ $textarea-size-default-height: 120px;
     }
 
     &.right {
-      text-align: right;
+      text-align: end;
     }
 
     // textarea message: [alert, error, info, success]
