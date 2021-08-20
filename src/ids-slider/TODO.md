@@ -1,6 +1,11 @@
-- [ ] include a larger "hit" area where user can adjust range value even if they click around/not directly on the running track/thumb
+- [x] include a larger "hit" area where user can adjust range value even if they click around/not directly on the running track/thumb
 - [x] smooth transitions when tooltip badge fades
-- [ ]when user clicks running track and thumb slides towards new position, and focus shadow grow
-- [ ] add outer solid ring when clicked
+- [x]when user clicks running track and thumb slides towards new position, and focus shadow
+- [x] add outer solid ring when clicked
 - [x] add types enum
+- [ ] decide order of events when valuea is changed
+  - [x] when user clicks hit area -> move thumb towards the correct pixels based on mouse click xcoord -> percent
+  - [x] when user drags the thumb -> calculate the value & percent based on mouse xcoord
+  - [ ] when value is set -> calculate the percent and translateX for thumb
+- [ ] remove transition animation when dragging the slider (it slows it down), otherwise keep for clicking and setting value thru console
 - [ ] double range slider

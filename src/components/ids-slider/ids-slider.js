@@ -43,6 +43,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.trackArea = this.container.querySelector('.track-area');
     this.thumb = this.container.querySelector('.thumb');
     this.thumbDraggable = this.container.querySelector('.thumb-draggable');
+    this.toolTipText = this.container.querySelector('.tooltip .text').innerHTML;
 
     this.trackBounds = {
       // TOP: this.slider.offsetTop + this.trackArea.offsetTop, // top 0
@@ -116,10 +117,17 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     `;
   }
 
+  updateToolTip(value) {
+    this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = Math.ceil(value);
+    // this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = Math.ceil(this.valuea);
+    //   this.container.querySelector('.tooltip:nth-of-type(2) .text').innerHTML = this.valueb;
+    
+  }
+  
   updateUI() {
+    const range = this.max - this.min;
     // console.log('updating UI');
     // this.moveThumb();
-    const range = this.max - this.min;
 
     // if (this.type === 'single') {
     //   console.log('type is single')
@@ -149,7 +157,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       // this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--percent", percentA);
       // this.container.querySelector('.tooltip:nth-of-type(1)').style.setProperty("--pos", tooltipPosA);
     
-      this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = Math.ceil(this.valuea);
       
     //   // B
     //   // binding
@@ -163,7 +170,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     //   this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--percent", percentB);
     //   this.container.querySelector('.tooltip:nth-of-type(2)').style.setProperty("--pos", tooltipPosB);
       
-    //   this.container.querySelector('.tooltip:nth-of-type(2) .text').innerHTML = this.valueb;
     // }
     
   }
@@ -178,18 +184,19 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   set valueb(value) {
     this.setAttribute('valueb', value || DEFAULT_MAX);
-    this.updateUI();
+    // this.updateUI();
   }
   
   get valueb() { return this.getAttribute('valueb') || DEFAULT_MAX; }
   
   set valuea(value) {
-    this.setAttribute('valuea', value || DEFAULT_VALUE);
-    // console.log('value a is set to: ' + value)
-    // console.log('this.valuea is: ' + this.valuea)
-    this.setAttribute('percent', (this.valuea - this.min) / (this.max - this.min) * 100);
-    // console.log('this.percent is: ' + this.percent);
-    this.updateUI();
+    if (value <= this.max && value >= this.min) {
+      this.setAttribute('valuea', value || DEFAULT_VALUE);
+      this.setAttribute('percent', (this.valuea - this.min) / (this.max - this.min) * 100);
+      this.updateToolTip(value);
+      this.moveThumb(); // change name to updateThumbPosition() ? 
+      // this.updateUI();
+    }
   }
 
   get valuea() { return this.getAttribute('valuea') || DEFAULT_VALUE; }
@@ -295,7 +302,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   moveThumb() {
     // do this in the set valuea
     const xTranslate = this.calcTranslateFromPercent(this.trackBounds.LEFT, this.trackBounds.RIGHT, this.percent);
-
     this.thumbDraggable.style.transform = `translate(${xTranslate}px, 0px)`;
   }
 
@@ -307,12 +313,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   // based on percent, calculate how much the thumb should translate on the X-axis
   calcTranslateFromPercent(xStart, xEnd, percent) {
-    console.log('calcTranslateFromPercent----------------')
-    console.log('xStart: ' + xStart)
-    console.log('xEnd: ' + xEnd)
-    console.log('percent: ' + percent)
     const xCoord = Math.ceil(percent) / 100 * (xEnd - xStart);
-    console.log('xCoord: ' + xCoord)
     // the higher the number, the smoother the thumb will match the right position when moving towards 100% 
     const refinement = 100;
     // this is to account for the fact that the top left corner of the thumb gets translated
@@ -320,7 +321,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     // .16 because the thumb is 16 pixels large
     const xPos = refinement*(percent * -.16/refinement);
     const xTranslate = xCoord + xPos;
-    console.log('xTranslate: ' + xTranslate);
     return xTranslate;
   }
 
@@ -360,17 +360,22 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
       // debugger;
       const percent = this.calcPercentFromX(e.detail.mouseX, bounds[0], bounds[1], thumbDraggable.clientWidth);
-      console.log('drag percent: ' + percent);
       const value = this.calcValueFromPercent(percent);
-      console.log('drag value: ' + value);
-      this.setAttribute('valuea', value);
+      this.updateToolTip(value);
+      // this.setAttribute('valuea', value);
     });
 
     this.onEvent('ids-dragstart', thumbDraggable, () => {
+      this.thumbDraggable.style.removeProperty('transition'); //disable transitions while dragging, doesn't quite work... css default style doesn't get removed
+      console.log('transition style:')
+      console.log(this.thumbDraggable.style.transition)
       this.thumbDraggable.blur();
     })
     this.onEvent('ids-dragend', thumbDraggable, () => {
+      this.thumbDraggable.style.transition = 'transform 0.2s ease 0s';
+      console.log(this.thumbDraggable.style.transition)
       this.thumbDraggable.focus();
+      this.valuea = parseFloat(this.toolTipText);
     })
 
     this.onEvent('focus', thumbDraggable, () => {
