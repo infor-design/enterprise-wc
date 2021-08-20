@@ -94,12 +94,13 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
               </div>
             </ids-draggable>
           </div>
-          <div class="track"></div>
-          <div class="tick-container end">
-            <span class="tick"></span>
-          </div>
-          <div class="tick-container start">
-            <span class="tick"></span>
+          <div class="track">
+            <div class="tick-container end">
+              <span class="tick"></span>
+            </div>
+            <div class="tick-container start">
+              <span class="tick"></span>
+            </div>
           </div>
           <ids-text label class="label min">${this.min ?? DEFAULT_MIN}</ids-text>
           <ids-text label class="label max">${this.max ?? DEFAULT_MAX}</ids-text>
