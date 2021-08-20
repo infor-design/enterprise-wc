@@ -12,5 +12,6 @@
 - [ ] adjust the draggable to center on the tick at both ends (gah)
 - [ ] test for min/max to be within negative number range
 - [ ] test that it works when attributes are not set
-- [ ] add progress color bar
+- [x] add progress color bar 
+  - [ ] w/ animation effect
 - [ ] double range slider
