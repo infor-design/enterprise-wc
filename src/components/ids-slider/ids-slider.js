@@ -125,8 +125,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     // if (this.type === 'single') {
     //   console.log('type is single')
       
-    //   this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentStart", 0);
-    //   this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentEnd", percentA);
+      this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentStart", 0);
+      this.container.querySelector('.slider:nth-of-type(1)').style.setProperty("--percentEnd", this.percent);
     // }
     
     // if (this.type === 'double') {
@@ -169,6 +169,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   set percent(value) {
     this.setAttribute('percent', value);
+    this.updateProgressBar();
+    this.updateToolTip(this.calcValueFromPercent(value));
   }
 
   get percent() { return this.getAttribute('percent') || (this.valuea - this.min) / (this.max - this.min) * 100; }
@@ -184,9 +186,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (value <= this.max && value >= this.min) {
       this.setAttribute('valuea', value || DEFAULT_VALUE);
       this.setAttribute('percent', (this.valuea - this.min) / (this.max - this.min) * 100);
-      this.updateToolTip(value);
+      // this.updateToolTip(value);
       this.moveThumb(); // change name to updateThumbPosition() ? 
-      // this.updateProgressBar();
     }
   }
 
