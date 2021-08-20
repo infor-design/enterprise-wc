@@ -1,6 +1,6 @@
 /* global $ */
 
-import IdsUploadAdvanced from '../../src/components/ids-upload-advanced/ids-upload-advanced';
+import IdsUploadAdvanced from '../../src/components/ids-upload-advanced';
 
 /**
  * Example to show the way to custom send method for uploading files.

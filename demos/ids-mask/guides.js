@@ -1,4 +1,4 @@
-import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsInput from '../../src/components/ids-input';
 
 document.addEventListener('DOMContentLoaded', () => {
   const mask = ['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];

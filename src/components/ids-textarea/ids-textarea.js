@@ -19,9 +19,9 @@ import {
 } from '../../mixins';
 
 // Import Dependencies
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsText from '../ids-text/ids-text';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+import IdsIcon from '../ids-icon';
+import IdsText from '../ids-text';
+import IdsTriggerButton from '../ids-trigger-field';
 
 // Import Styles
 import styles from './ids-textarea.scss';

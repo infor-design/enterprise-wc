@@ -16,7 +16,7 @@ import {
 } from '../../mixins';
 
 import styles from './ids-radio.scss';
-import IdsText from '../ids-text/ids-text';
+import IdsText from '../ids-text';
 import IdsRadioGroup from './ids-radio-group';
 
 const attribs = [

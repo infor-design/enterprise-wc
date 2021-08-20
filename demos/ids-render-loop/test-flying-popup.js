@@ -1,9 +1,9 @@
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../../src/mixins';
 
 // Supporting Components
-import IdsPopup from '../../src/components/ids-popup/ids-popup';
-import IdsText from '../../src/components/ids-text/ids-text';
-import IdsButton from '../../src/components/ids-button/ids-button';
+import IdsPopup from '../../src/components/ids-popup';
+import IdsText from '../../src/components/ids-text';
+import IdsButton from '../../src/components/ids-button';
 
 // Styles
 import './test-flying-popup.scss';

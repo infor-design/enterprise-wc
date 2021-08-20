@@ -16,8 +16,8 @@ import {
 } from '../../mixins';
 
 // Import Dependencies
-import IdsText from '../ids-text/ids-text';
-import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import IdsText from '../ids-text';
+import IdsHyperlink from '../ids-hyperlink';
 
 // Import Styles
 import styles from './ids-counts.scss';

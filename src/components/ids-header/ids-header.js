@@ -13,7 +13,7 @@ import {
 } from '../../mixins';
 
 import styles from './ids-header.scss';
-import IdsInput from '../ids-input/ids-input';
+import IdsInput from '../ids-input';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 /**

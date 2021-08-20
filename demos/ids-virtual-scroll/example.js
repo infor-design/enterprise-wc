@@ -1,4 +1,4 @@
-import IdsCard from '../../src/components/ids-card/ids-card';
+import IdsCard from '../../src/components/ids-card';
 import './index.scss';
 
 // Example for populating the Virtual Scoller
@@ -7,7 +7,7 @@ const virtualScrollTable = document.querySelector('#virtual-scroll-2');
 
 // 1. Do an ajax request
 const xmlhttp = new XMLHttpRequest();
-const url = '/api/products';
+const url = '/data/products.json';
 
 xmlhttp.onreadystatechange = function onreadystatechange() {
   if (this.readyState === 4 && this.status === 200) {

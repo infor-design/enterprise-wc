@@ -1,6 +1,5 @@
 // Setup a simple express server used only for running tests
 const express = require('express');
-const fs = require('fs');
 const log = require('loglevel');
 
 const app = express();
@@ -14,14 +13,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', express.static(`${__dirname}/dist`));
-
-// Server the static data in app data
-app.get('/api/:fileName', (req, res) => {
-  const { fileName } = req.params;
-  const json = fs.readFileSync(`./app/data/${fileName}.json`, 'utf8');
-  res.json(JSON.parse(json));
-});
+app.use('/', express.static(`${__dirname}/demo-dist`));
 
 // Listen on port 4444
 app.listen(port, () => {

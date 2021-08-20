@@ -5,8 +5,8 @@ import {
   scss,
   mix
 } from '../../core';
-import { IdsButton } from '../ids-button/ids-button';
-import { IdsIcon } from '../ids-icon/ids-icon';
+import { IdsButton } from '../ids-button';
+import { IdsIcon } from '../ids-icon';
 import IdsPagerSection from './ids-pager-section';
 import styles from './ids-pager-button.scss';
 import { IdsEventsMixin } from '../../mixins';

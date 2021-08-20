@@ -8,7 +8,7 @@ import {
 
 import { IdsStringUtils } from '../../utils';
 import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
-import IdsIcon from '../ids-icon/ids-icon';
+import IdsIcon from '../ids-icon';
 import styles from './ids-alert.scss';
 
 /**

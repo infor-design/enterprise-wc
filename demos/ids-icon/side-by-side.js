@@ -1,7 +1,7 @@
 /* global $ */
 
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
-import IdsIcon from '../../src/components/ids-icon/ids-icon';
+import IdsIcon from '../../src/components/ids-icon';
 import './side-by-side.scss';
 
 // Imports Used in the Examples

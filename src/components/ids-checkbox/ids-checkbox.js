@@ -16,7 +16,7 @@ import {
   IdsThemeMixin
 } from '../../mixins';
 
-import IdsText from '../ids-text/ids-text';
+import IdsText from '../ids-text';
 
 const attribs = [
   { name: 'checked', prop: 'checked' },

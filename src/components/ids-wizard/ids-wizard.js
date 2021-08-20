@@ -7,7 +7,7 @@ import {
 } from '../../core';
 
 // Supporting Components
-import IdsText from '../ids-text/ids-text';
+import IdsText from '../ids-text';
 
 // Import Mixins
 import { IdsEventsMixin } from '../../mixins';

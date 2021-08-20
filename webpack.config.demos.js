@@ -1,6 +1,4 @@
-/* eslint-disable array-callback-return */
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
@@ -55,28 +53,24 @@ module.exports = {
     library: '[name]-lib.js',
     libraryTarget: 'umd',
     libraryExport: 'default',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'demo-dist'),
     filename: '[name].js'
   },
   // Configure the dev server (node) with settings
   devServer: {
     port: 4300,
-    writeToDisk: true,
-    contentBase: path.resolve(__dirname, 'dist'),
-    // Server the files in demos/data as a JSON "API"
-    // For example: http://localhost:4300/api/bikes or relative as /api/bikes
-    before: (app) => {
-      // Serve JSON Data
-      app.get('/api/:fileName', (req, res) => {
-        const { fileName } = req.params;
-        const json = fs.readFileSync(`./demos/data/${fileName}.json`, 'utf8');
-        res.json(JSON.parse(json));
-      });
-
+    devMiddleware: {
+      writeToDisk: true,
+    },
+    hot: true,
+    static: {
+      directory: path.resolve(__dirname, 'demo-dist'),
+    },
+    onBeforeSetupMiddleware: (devServer) => {
       // Post method, upload files to `/tmp` folder
       // After one minute, all files will get removed
-      app.use(fileUpload({ debug: false }));
-      app.post('/upload', async (req, res) => {
+      devServer.app.use(fileUpload({ debug: false }));
+      devServer.app.post('/upload', async (req, res) => {
         if (!req.files || Object.keys(req.files).length === 0) {
           res.status(400).send('No files were uploaded.');
           return;
@@ -202,7 +196,6 @@ module.exports = {
       template: 'demos/index.html',
       inject: 'body',
       title: 'IDS Enterprise Web Components',
-      categories: ['One', 'Two'],
       chunks: ['index', 'example']
     }),
     new CopyWebpackPlugin({
@@ -211,7 +204,8 @@ module.exports = {
           from: './src/components/**/*.scss',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
-            return `${baseName.replace('.scss', '')}/${baseName.replace('scss', 'css')}`;
+            const folders = path.dirname(absoluteFilename).split(path.sep);
+            return `${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
           },
           transform(content, transFormPath) {
             const result = sass.renderSync({
@@ -223,8 +217,8 @@ module.exports = {
           }
         },
         {
-          from: path.resolve(__dirname, 'demos/assets/'),
-          to: path.resolve(__dirname, 'dist/assets/')
+          from: path.resolve(__dirname, 'demos/data/'),
+          to: path.resolve(__dirname, 'demo-dist/data/')
         }
       ]
     })
@@ -239,28 +233,10 @@ if (!isProduction) {
   }));
 }
 
-// Make a Copy of the Sass Files only for standalone Css
-if (isProduction) {
-  module.exports.plugins.push(new CopyWebpackPlugin({
-    patterns: [
-      {
-        from: './src/components/**/*.d.ts',
-        to({ absoluteFilename }) {
-          const baseName = path.basename(absoluteFilename);
-          if (absoluteFilename.indexOf('core') > -1) {
-            return `${absoluteFilename.replace('/src/', '/dist/')}`;
-          }
-          return `${baseName.replace('.d.ts', '')}/${baseName}`;
-        },
-      }
-    ]
-  }));
-}
-
 // Dynamically add all html examples
 glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
   const folderName = path.dirname(filePath).replace('./demos/', '');
-  let folderAndFile = filePath.replace('./demos/', '');
+  const folderAndFile = filePath.replace('./demos/', '');
   let title = `${folderName.split('-').map((word) =>
     `${word.substring(0, 1).toUpperCase()}${word.substring(1)}`)
     .join(' ')} ${folderAndFile.indexOf('standalone-css') > -1 ? 'Standalone Css' : 'Component'}`;
@@ -271,11 +247,6 @@ glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
   // Adjust the folder paths for layouts
   if (folderName === 'layouts' || folderAndFile.indexOf('example.html') > -1 || folderAndFile === 'index.html') {
     return folderName;
-  }
-
-  // Figure out the chunks to use
-  if (folderAndFile.indexOf('index.html') === -1) {
-    folderAndFile = folderAndFile.replace('.html', '');
   }
 
   let chunk = `${folderName}/${folderName}`;

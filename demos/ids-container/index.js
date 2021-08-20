@@ -1,1 +1,1 @@
-import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsContainer from '../../src/components/ids-container';

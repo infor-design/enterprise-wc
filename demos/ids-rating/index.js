@@ -1,1 +1,1 @@
-import IdsRating from '../../src/components/ids-rating/ids-rating';
+import IdsRating from '../../src/components/ids-rating';

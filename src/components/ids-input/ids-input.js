@@ -22,8 +22,8 @@ import {
 import { IdsStringUtils } from '../../utils';
 
 // Supporting components
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsText from '../ids-text/ids-text';
+import IdsIcon from '../ids-icon';
+import IdsText from '../ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 
 // Import Styles

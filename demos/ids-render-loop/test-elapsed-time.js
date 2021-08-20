@@ -1,10 +1,7 @@
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../../src/mixins';
 
 // Supporting Components
-import IdsText from '../../src/components/ids-text/ids-text';
-import IdsLayoutGridCell from '../../src/components/ids-layout-grid/ids-layout-grid-cell';
-import IdsLayoutGrid from '../../src/components/ids-layout-grid/ids-layout-grid';
-import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-button';
+import IdsToggleButton from '../../src/components/ids-toggle-button';
 
 // Access the global RenderLoop instance.
 // When using the mixin on a real component, the `rl` property exists on the component instance.

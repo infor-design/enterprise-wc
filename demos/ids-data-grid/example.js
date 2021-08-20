@@ -8,7 +8,7 @@ const container = document.querySelector('ids-container');
 
   // Do an ajax request
   const xmlhttp = new XMLHttpRequest();
-  const url = '/api/books';
+  const url = '/data/books.json';
   const columns = [];
 
   // Set up columns

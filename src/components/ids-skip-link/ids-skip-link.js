@@ -13,7 +13,7 @@ import {
 } from '../../mixins';
 
 import styles from './ids-skip-link.scss';
-import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import IdsHyperlink from '../ids-hyperlink';
 
 /**
  * IDS IdsSkipLink Component

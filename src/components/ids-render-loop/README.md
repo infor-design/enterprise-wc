@@ -1,6 +1,6 @@
 # Ids RenderLoop
 
-The IDS RenderLoop is a utility component that provides a single [`requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame) instance to other components that may need to run asynchronous operations. The loop instance is made available to these components by way of a mixin.
+The IDS RenderLoop is a utility component that provides a single [`requestAnimationFrame`](https://developer.mozilla.org/en-US/docs/Web/data/window/requestAnimationFrame) instance to other components that may need to run asynchronous operations. The loop instance is made available to these components by way of a mixin.
 
 The IDS RenderLoop exists to provide an alternative, performance-friendly way to run code that would otherwise require the use of `setTimeout/setInterval` or multiple `requestAnimationFrame` loops.  When creating/using IDS components, using the RenderLoop for these purposes is preferable.
 

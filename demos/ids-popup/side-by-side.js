@@ -1,9 +1,9 @@
 /* global $ */
 
-import IdsPopup from '../../src/components/ids-popup/ids-popup';
+import IdsPopup from '../../src/components/ids-popup';
 
 // Supporting Components
-import IdsButton from '../../src/components/ids-button/ids-button';
+import IdsButton from '../../src/components/ids-button';
 
 import './example.scss';
 

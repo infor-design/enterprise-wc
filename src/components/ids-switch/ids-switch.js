@@ -16,7 +16,7 @@ import {
 } from '../../mixins';
 
 import styles from './ids-switch.scss';
-import IdsText from '../ids-text/ids-text';
+import IdsText from '../ids-text';
 
 /**
  * IDS Switch Component

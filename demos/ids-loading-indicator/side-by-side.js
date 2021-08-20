@@ -1,6 +1,6 @@
 /* global $ */
 
-import IdsLoadingIndicator from '../../src/components/ids-loading-indicator/ids-loading-indicator';
+import IdsLoadingIndicator from '../../src/components/ids-loading-indicator';
 
 // Initialize the 4.x
 $('body').initialize();

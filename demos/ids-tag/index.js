@@ -1,1 +1,1 @@
-import IdsTag from '../../src/components/ids-tag/ids-tag';
+import IdsTag from '../../src/components/ids-tag';

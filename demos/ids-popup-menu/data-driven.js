@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Create an ajax request
 const xmlhttp = new XMLHttpRequest();
-const url = '/api/menu-contents';
+const url = '/data/menu-contents.json';
 xmlhttp.onreadystatechange = function onreadystatechange() {
   if (this.readyState === 4 && this.status === 200) {
     popupEl.align = 'top, left';

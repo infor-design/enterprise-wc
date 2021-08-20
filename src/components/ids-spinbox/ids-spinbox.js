@@ -9,8 +9,8 @@ import {
 // Import Utils
 import { IdsStringUtils } from '../../utils';
 
-import IdsButton from '../ids-button/ids-button';
-import IdsInput from '../ids-input/ids-input';
+import IdsButton from '../ids-button';
+import IdsInput from '../ids-input';
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,

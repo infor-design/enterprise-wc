@@ -11,9 +11,9 @@ import { IdsStringUtils } from '../../utils';
 
 // Supporting Components
 import styles from './ids-upload-advanced-file.scss';
-import IdsAlert from '../ids-alert/ids-alert';
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-import IdsProgressBar from '../ids-progress-bar/ids-progress-bar';
+import IdsAlert from '../ids-alert';
+import IdsTriggerButton from '../ids-trigger-field';
+import IdsProgressBar from '../ids-progress-bar';
 import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
 
 // Import Mixins

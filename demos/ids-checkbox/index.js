@@ -1,1 +1,1 @@
-import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
+import IdsCheckbox from '../../src/components/ids-checkbox';

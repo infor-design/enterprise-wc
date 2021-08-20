@@ -21,7 +21,7 @@ import {
 } from '../../mixins';
 
 import zCounter from './ids-modal-z-counter';
-import IdsPopup from '../ids-popup/ids-popup';
+import IdsPopup from '../ids-popup';
 import IdsOverlay from './ids-overlay';
 import IdsModalButton from '../ids-modal-button';
 

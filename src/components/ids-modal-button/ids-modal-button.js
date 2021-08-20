@@ -5,7 +5,7 @@ import {
 } from '../../core';
 
 import styles from '../ids-button/ids-button.scss';
-import { IdsButton } from '../ids-button/ids-button';
+import { IdsButton } from '../ids-button';
 import { IdsStringUtils } from '../../utils';
 
 const { stringToBool } = IdsStringUtils;

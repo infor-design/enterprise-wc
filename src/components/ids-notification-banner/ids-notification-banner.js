@@ -14,11 +14,11 @@ import {
 } from '../../mixins';
 
 import styles from './ids-notification-banner.scss';
-import IdsText from '../ids-text/ids-text';
-import IdsAlert from '../ids-alert/ids-alert';
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
-import IdsButton from '../ids-button/ids-button';
+import IdsText from '../ids-text';
+import IdsAlert from '../ids-alert';
+import IdsIcon from '../ids-icon';
+import IdsHyperlink from '../ids-hyperlink';
+import IdsButton from '../ids-button';
 
 // Notification Types
 const TYPES = {

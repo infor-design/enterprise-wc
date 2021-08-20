@@ -18,8 +18,8 @@ import {
 } from '../../mixins';
 
 // Supporting components
-import '../ids-input/ids-input';
-import '../ids-trigger-field/ids-trigger-field';
+import '../ids-input';
+import '../ids-trigger-field';
 
 // Input id
 const ID = 'ids-upload-id';

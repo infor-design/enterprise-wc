@@ -4,7 +4,7 @@
 
 ### Familiarize yourself with Web Components
 
-We have generated a list of [Articles](./ARTICLES.md) about web components and other web component libraries for reference. You probably should learn about concepts like: [ShadowRoot](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot), [Encapsulation/Scoped Css](https://developers.google.com/web/fundamentals/web-components/shadowdom), [Constructed Style Sheets](https://developers.google.com/web/updates/2019/02/constructable-stylesheets), [Sass](https://sass-lang.com/), [Web Component lifecycles](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements#using_the_lifecycle_callbacks) and styling in web components.
+We have generated a list of [Articles](./ARTICLES.md) about web components and other web component libraries for reference. You probably should learn about concepts like: [ShadowRoot](https://developer.mozilla.org/en-US/docs/Web/data/ShadowRoot), [Encapsulation/Scoped Css](https://developers.google.com/web/fundamentals/web-components/shadowdom), [Constructed Style Sheets](https://developers.google.com/web/updates/2019/02/constructable-stylesheets), [Sass](https://sass-lang.com/), [Web Component lifecycles](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements#using_the_lifecycle_callbacks) and styling in web components.
 
 In general, the Ids WebComponents Library is striving to adhere to the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki), within reason.
 
@@ -33,13 +33,13 @@ import {
   scss,
   mix,
   attributes
-} from '../ids-base';
+} from '../../core';
 
 // Import Mixins
 import {
   IdsEventsMixin,
   IdsThemeMixin
-} from '../ids-mixins';
+} from '../../mixins';
 
 // Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-[component-name].scss';
@@ -108,7 +108,7 @@ import {
   customElement,
   scss,
   mix
-} from '../ids-base';
+} from '../../core';
 ```
 
 - If this new code is an IDS UI Web Component (not a special class or utility ect), ensure that it imports `src/ids-base/ids-element.js` extends the `IdsElement` base component.

@@ -20,7 +20,7 @@ import {
 
 // Import Dependencies
 import { IdsDataGridFormatters } from './ids-data-grid-formatters';
-import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+import IdsVirtualScroll from '../ids-virtual-scroll';
 
 // Import Styles
 import styles from './ids-data-grid.scss';

@@ -11,7 +11,7 @@ import {
 } from '../../mixins';
 
 import IdsMenu from '../ids-menu/ids-menu';
-import IdsPopup from '../ids-popup/ids-popup';
+import IdsPopup from '../ids-popup';
 import styles from './ids-popup-menu.scss';
 
 /**

@@ -18,8 +18,8 @@ import {
 import styles from './ids-trigger-field.scss';
 
 // Supporting components
-import { IdsButton } from '../ids-button/ids-button';
-import IdsInput from '../ids-input/ids-input';
+import { IdsButton } from '../ids-button';
+import IdsInput from '../ids-input';
 import IdsTriggerButton from './ids-trigger-button';
 
 /**

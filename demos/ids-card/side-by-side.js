@@ -1,6 +1,6 @@
 /* global $ */
 
-import IdsCard from '../../src/components/ids-card/ids-card';
+import IdsCard from '../../src/components/ids-card';
 
 // Initialize the 4.x
 $('body').initialize();

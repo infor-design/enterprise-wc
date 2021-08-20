@@ -12,7 +12,7 @@ import { IdsStringUtils } from '../../utils';
 import IdsDataSource from '../../core/ids-data-source';
 import { IdsThemeMixin, IdsEventsMixin } from '../../mixins';
 
-import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+import IdsVirtualScroll from '../ids-virtual-scroll';
 import styles from './ids-list-view.scss';
 
 /**

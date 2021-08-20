@@ -10,7 +10,7 @@ import {
 import { IdsEventsMixin } from '../../mixins';
 
 // Import Dependencies
-import IdsText from '../ids-text/ids-text';
+import IdsText from '../ids-text';
 
 // Import Styles
 import styles from './ids-tab.scss';

@@ -2,8 +2,8 @@ import IdsMessage from '../../src/components/ids-message';
 import IdsModal, { IdsModalButton } from '../../src/components/ids-modal';
 
 // Supporting Components
-import IdsButton from '../../src/components/ids-button/ids-button';
-import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
+import IdsButton from '../../src/components/ids-button';
+import IdsHyperlink from '../../src/components/ids-hyperlink';
 
 import './types.scss';
 

@@ -39,7 +39,7 @@ A tooltips content can be set in an synchronous way with the beforeShow property
 ```js
 const getContents = () => new Promise((resolve) => {
   const xhr = new XMLHttpRequest();
-  xhr.open('get', '/api/bikes', true);
+  xhr.open('get', '/data/bikes.json', true);
   xhr.onload = () => {
     const status = xhr.status;
     if (status === 200) {

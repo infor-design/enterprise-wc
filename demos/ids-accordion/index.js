@@ -1,1 +1,1 @@
-import IdsAccordion from '../../dist/ids-accordion';
+import IdsAccordion from '../../src/components/ids-accordion';

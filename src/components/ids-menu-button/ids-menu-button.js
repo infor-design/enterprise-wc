@@ -8,9 +8,9 @@ import {
 import { IdsStringUtils, IdsDOMUtils } from '../../utils';
 
 // Import Dependencies
-import { IdsButton, BUTTON_ATTRIBUTES } from '../ids-button/ids-button';
-import IdsIcon from '../ids-icon/ids-icon';
-import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+import { IdsButton, BUTTON_ATTRIBUTES } from '../ids-button';
+import IdsIcon from '../ids-icon';
+import IdsPopupMenu from '../ids-popup-menu';
 
 // Import Styles
 import styles from '../ids-button/ids-button.scss';

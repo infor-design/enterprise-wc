@@ -16,7 +16,7 @@ import {
 } from '../../mixins';
 
 import IdsUploadAdvancedFile from './ids-upload-advanced-file';
-import IdsHyperLink from '../ids-hyperlink/ids-hyperlink';
+import IdsHyperLink from '../ids-hyperlink';
 import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
 
 import styles from './ids-upload-advanced.scss';
