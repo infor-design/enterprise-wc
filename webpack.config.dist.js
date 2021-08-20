@@ -123,6 +123,14 @@ module.exports = {
             css = css.replace(':host {', ':root {');
             return css;
           }
+        },
+        {
+          from: './src/components/**/index.js',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            const folders = path.dirname(absoluteFilename).split(path.sep);
+            return `${folders[folders.length - 1]}/${baseName}`;
+          }
         }
       ]
     })
