@@ -127,7 +127,9 @@ ids-slider {
     }
   }
   
-  @mixin track {
+  .track {
+    display: flex;
+    align-items: center;
     // background: linear-gradient(to right, #0072ED calc(var(--percent) * 1%), transparent 0%);
     // background-position: left;
     // background: linear-gradient(to right, transparent calc(var(--percentStart) * 1%), red calc(var(--percentStart) * 1%), red calc(var(--percentEnd) * 1%), transparent 0%);
@@ -135,16 +137,11 @@ ids-slider {
     // TODO: make transparent and hit area of 24 px
     height: 4px;
     background-color: #97979B;
-    width: 100%;
+    width: calc(100% - (var(--thumb-size) / 2));
     position: absolute;
     // align-items: center;
     z-index: 30;
     border-radius: 2px;
-    
-  }
-
-  .track {
-    @include track;
   }
 
   .label {
