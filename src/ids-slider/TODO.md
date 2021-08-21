@@ -10,11 +10,17 @@
 - [x] remove transition animation when dragging the slider (it slows it down), otherwise keep for clicking and setting value thru console
 - [x] fix bugs when min/max are not just simply 0/100
 - [x] adjust the draggable to center on the tick at both ends (gah--nvm found a easy trick to reduce the track width >:D)
-- [ ] test for min/max to be within negative number range
-- [ ] test that it works when attributes are not set
+- [x] test for min/max to be within negative number range
+- [x] test that it works when attributes are not set
 - [x] add progress color bar 
   - [x] w/ animation effect
 - [x] add tab focus ability
   - [x] change value when key LEFT/RIGHT
 - [x] privatize functions
-- [ ] double range slider
+- [x] double range slider
+  - [ ] make the code clean, remove duplicate, make functions modular
+  - [x] make sure to add styles for thumb draggable secondary transitions
+  - [x] add tab arrow key left/right functionality
+  - [ ] settle on naming conventions for the attributes
+  - [x] add the progress color bar btw the two thumbs
+    - [ ] make the animation smooth btw the two thumbs when progress bar size changes

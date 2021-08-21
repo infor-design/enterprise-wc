@@ -85,10 +85,11 @@ ids-slider {
     align-items: center;
     border-radius: 50%;
     outline: none;
+    position: absolute;
     // transition: transform 0.2s ease;
     
     --blue-shadow: rgba(0 ,114 ,237, 0.1) 0px 0px 0px 8px;
-
+    
     .thumb-shadow {
       position: absolute;
       border-radius: 50%;
@@ -97,7 +98,7 @@ ids-slider {
       background-color: rgba(0, 114, 237, 0.1);
       border: 1px #0072ed solid;
     }
-
+    
     .thumb {
       width: var(--thumb-size);
       height: var(--thumb-size);
@@ -108,6 +109,9 @@ ids-slider {
       
       &:hover {
         box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
+      }
+      &.secondary {
+        background: red;
       }
     }
     
@@ -141,6 +145,7 @@ ids-slider {
       height: inherit;
       width: calc((var(--percentEnd) - var(--percentStart)) * 1%);
       background-color: yellow;
+      position: absolute;
       // transition: width 0.2s ease; 
     }
   }
