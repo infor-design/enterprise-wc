@@ -16,4 +16,5 @@
   - [x] w/ animation effect
 - [x] add tab focus ability
   - [x] change value when key LEFT/RIGHT
+- [x] privatize functions
 - [ ] double range slider
