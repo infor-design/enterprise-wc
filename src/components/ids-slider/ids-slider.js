@@ -95,6 +95,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
             </ids-draggable>
           </div>
           <div class="track">
+          <div class="track-progress"></div>
             <div class="tick-container end">
               <span class="tick"></span>
             </div>
