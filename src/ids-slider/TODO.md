@@ -9,9 +9,11 @@
   - [x] when value is set -> calculate the percent and translateX for thumb
 - [x] remove transition animation when dragging the slider (it slows it down), otherwise keep for clicking and setting value thru console
 - [x] fix bugs when min/max are not just simply 0/100
-- [ ] adjust the draggable to center on the tick at both ends (gah)
+- [x] adjust the draggable to center on the tick at both ends (gah--nvm found a easy trick to reduce the track width >:D)
 - [ ] test for min/max to be within negative number range
 - [ ] test that it works when attributes are not set
 - [x] add progress color bar 
-  - [ ] w/ animation effect
+  - [x] w/ animation effect
+- [x] add tab focus ability
+  - [x] change value when key LEFT/RIGHT
 - [ ] double range slider
