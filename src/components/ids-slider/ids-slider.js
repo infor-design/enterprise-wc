@@ -202,7 +202,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set valuea(value) {
     // console.log('setting valuea: ' + value);
     if (this.#withinBounds(value)) {
-      console.log('value is within bounds');
       this.setAttribute('valuea', value || DEFAULT_VALUE);
       this.setAttribute('percent', (this.valuea - this.min) / (this.max - this.min) * 100);
       // this.updateToolTip(value);
@@ -423,10 +422,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         switch (event.key) {
           // TODO: might need to swap for RTL
           case "ArrowLeft":
-            this.valuea--;
+            // need to round so we don't get stuck between decimals
+            this.valuea = Math.ceil(this.valuea) - 1;
             break;
           case "ArrowRight":
-            this.valuea++;
+            this.valuea = Math.floor(this.valuea) + 1;
             break;
         }
       }
