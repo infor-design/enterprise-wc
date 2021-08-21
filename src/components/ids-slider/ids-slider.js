@@ -176,7 +176,21 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.updateToolTip(this.calcValueFromPercent(value));
   }
 
-  get percent() { return this.getAttribute('percent') || (this.valuea - this.min) / (this.max - this.min) * 100; }
+  get percent() { 
+    if (this.getAttribute('percent')) {
+      return this.getAttribute('percent');
+    } else {
+      if (this.#withinBounds(this.valuea)) {
+        return (this.valuea - this.min) / (this.max - this.min) * 100;
+      } else {
+        return 0;
+      }
+    }
+  }
+
+  #withinBounds(value) {
+    return value >= this.min && value <= this.max;
+  }
 
   set valueb(value) {
     this.setAttribute('valueb', value || DEFAULT_MAX);
@@ -186,7 +200,9 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get valueb() { return this.getAttribute('valueb') || DEFAULT_MAX; }
   
   set valuea(value) {
-    if (value <= this.max && value >= this.min) {
+    // console.log('setting valuea: ' + value);
+    if (this.#withinBounds(value)) {
+      console.log('value is within bounds');
       this.setAttribute('valuea', value || DEFAULT_VALUE);
       this.setAttribute('percent', (this.valuea - this.min) / (this.max - this.min) * 100);
       // this.updateToolTip(value);
@@ -197,6 +213,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get valuea() { return this.getAttribute('valuea') || DEFAULT_VALUE; }
 
   set min(value) {
+    // console.log('setting min: ' + value);
     this.setAttribute(attributes.MIN, value || DEFAULT_MIN);
     this.container.querySelector('.label.min').innerHTML = this.min;
   }
@@ -277,6 +294,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   moveThumb() {
+    // console.log('moving thumb with percent of : ' + this.percent);
     // check to make sure trackBounds have been initialized
     if (this.trackBounds && this.trackBounds.LEFT && this.trackBounds.RIGHT) {
       const xTranslate = this.calcTranslateFromPercent(this.trackBounds.LEFT, this.trackBounds.RIGHT, this.percent);
