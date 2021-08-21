@@ -153,6 +153,25 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     return this.getAttribute(attributes.SELECTED);
   }
 
+  set colorVariant(variant) {
+    switch (variant) {
+    case 'alternate': {
+      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
+      this.container.classList.add('color-variant-alternate');
+      break;
+    }
+    default: {
+      this.removeAttribute(attributes.COLOR_VARIANT);
+      this.container.classList.remove('color-variant-alternate');
+      break;
+    }
+    }
+  }
+
+  get colorVariant() {
+    return this.getAttribute(attributes.COLOR_VARIANT);
+  }
+
   /**
    * @param {string} value value which becomes selected by tabs component
    */
