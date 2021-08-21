@@ -45,7 +45,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.trackArea = this.container.querySelector('.track-area');
     this.thumb = this.container.querySelector('.thumb');
     this.thumbDraggable = this.container.querySelector('.thumb-draggable');
-    // this.toolTipText = this.container.querySelector('.tooltip .text');
+    this.thumbShadow = this.container.querySelector('.thumb-shadow');
+    this.progressTrack = this.container.querySelector('.track-progress');
 
     this.#addEventListeners();
     super.connectedCallback();
@@ -85,7 +86,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           <input hidden value="${this.valuea ?? DEFAULT_VALUE}" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}"></input>
           <div class="track-area">
             <ids-draggable hidden tabindex="1" class="thumb-draggable" axis="x" parent-containment>
-              <div class="thumb-shadow"></div>
+              <div hidden class="thumb-shadow"></div>
               <div class="thumb">
                 <div class="tooltip">
                   <ids-text class="text">${this.valuea ?? DEFAULT_VALUE}</ids-text>
@@ -111,6 +112,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   updateToolTip(value) {
+    this.#hideTooltipA = false;
     // console.log('updateToolTip() w value : ' + value);
     this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = Math.ceil(value);
     // this.container.querySelector('.tooltip:nth-of-type(1) .text').innerHTML = Math.ceil(this.valuea);
@@ -234,22 +236,24 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   get color() { return this.getAttribute(attributes.COLOR); }
 
-  set hideTooltipA(value) {
-    console.log('hiding tool tip: '+ value);
+  set #hideTooltipA(value) {
+    // console.log('hiding tool tip: '+ value);
       this.container.querySelector('.tooltip:nth-of-type(1)').style.opacity = value ? 0 : 1;
   }
 
-  set hideTooltipB(value) {
+  set #hideTooltipB(value) {
       // this.container.querySelector('.tooltip:nth-of-type(2)').style.opacity = value ? 0 : 1;
     }
 
-    wasCursorInBoundingBox(x, y, top, bottom, left, right) {
-      return y >= top && y < bottom && x > left && x < right;
-    }
-    
-    calculateUI(x, y) {  
-    this.thumbDraggable.style.transition = 'transform 0.2s ease 0s';
+  set #hideThumbShadow(value) {
+    value ? this.thumbShadow.setAttribute('hidden', '') : this.thumbShadow.removeAttribute('hidden');
+  }
 
+  wasCursorInBoundingBox(x, y, top, bottom, left, right) {
+    return y >= top && y < bottom && x > left && x < right;
+  }
+    
+  calculateUI(x, y) {  
     const top = this.trackBounds.TOP;
     const bottom = this.trackBounds.BOTTOM;
     const left = this.trackBounds.LEFT;
@@ -260,14 +264,16 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     // for single
     if (clickedTrackArea) {
       console.log('track area hit');
-      this.hideTooltipA = false;
+      this.#hideTooltipA = false;
       const percent = this.calcPercentFromX(x, left, right, this.thumbDraggable.clientWidth);
       const value = this.calcValueFromPercent(percent);
 
       this.setAttribute('valuea', value);
 
       this.thumbDraggable.focus();
-    } 
+    } else {
+      this.thumbDraggable.blur();
+    }
   }
 
   moveThumb() {
@@ -320,11 +326,17 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         LEFT: this.slider.offsetLeft, // left 2
         RIGHT: this.slider.offsetLeft + this.trackArea.clientWidth, // right 3
       };
-      console.log('window.onload()')
-      console.log(this.trackBounds);
+      // console.log('window.onload()')
+      // console.log(this.trackBounds);
 
-      // update thumb now that bounds have been initialized
+      // update initial position of thumb now that bounds have been initialized
       this.moveThumb();
+      
+      // set the transition styles
+      if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
+        this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease');
+        this.progressTrack.style.setProperty('transition', 'width 0.2s ease');
+      }
     }
 
     // update this.trackBounds with new values when window size changes
@@ -353,63 +365,70 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
     // Listen for drag event on draggable thumb
     this.onEvent('ids-drag', this.thumbDraggable, (e) => {
-      this.hideTooltipA = false;
+      this.#hideTooltipA = false;
 
       const percent = this.calcPercentFromX(e.detail.mouseX, this.trackBounds.LEFT, this.trackBounds.RIGHT, this.thumbDraggable.clientWidth);
       const value = this.calcValueFromPercent(percent);
       this.updateToolTip(value);
       // only set the percent -- because changing the value causes the moveThumb() to fire like crazy 
       // -- dragging becomes jittery because moveThumb() sets translate at the same time dragging sets translate
-      this.setAttribute('percent', percent);
+      this.percent = percent;
     });
 
     this.onEvent('ids-dragstart', this.thumbDraggable, () => {
       this.thumbDraggable.style.removeProperty('transition'); //disable transitions while dragging, doesn't quite work... css default style doesn't get removed
+      this.progressTrack.style.removeProperty('transition');
       this.thumbDraggable.blur();
-    })
+    });
+
     this.onEvent('ids-dragend', this.thumbDraggable, (e) => {
-      this.thumbDraggable.style.transition = 'transform 0.2s ease 0s';
+      this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
+      this.progressTrack.style.setProperty('transition', 'width 0.2s ease');
       this.thumbDraggable.focus();
       // to ensure that after dragging, the value is updated..
       //  this is the roundabout solution to prevent the firing of moveThumb() every single ids-drag event
       // i don't really like this roundabout cause we're setting everything else BUT the value, which we save for the end...
       // but I can't think of anything better atm
       this.setAttribute('valuea', this.calcValueFromPercent(this.percent));
-    })
+    });
     
     this.onEvent('focus', this.thumbDraggable, () => {
-      this.container.querySelector('.thumb-shadow').removeAttribute('hidden');
-    })
+      this.#hideThumbShadow = false;
+    });
+
     this.onEvent('blur', this.thumbDraggable, () => {
-      this.container.querySelector('.thumb-shadow').setAttribute('hidden', '');
-    })
+      this.#hideThumbShadow = true;
+    });
     
+    this.onEvent('keydown', document, (event) => {
+      if (document.activeElement.name === 'ids-slider') {
+        switch (event.key) {
+          // TODO: might need to swap for RTL
+          case "ArrowLeft":
+            this.valuea--;
+            break;
+          case "ArrowRight":
+            this.valuea++;
+            break;
+        }
+      }
+    });
+
     // Listen for click events
     // check if click landed on ids-slider or outside of it
     this.onEvent('click', window, (event) => {
       const idsSliderSelected = event.target.name === 'ids-slider';
-      console.log('idsSliderSelected: ' + idsSliderSelected);
-      this.hideTooltipA = !idsSliderSelected;
+      // console.log('idsSliderSelected: ' + idsSliderSelected);
+      this.#hideTooltipA = !idsSliderSelected;
       // console.log(event.target.name);
       // console.log(event.clientX + ', ' + event.clientY);
       this.calculateUI(event.clientX, event.clientY);
 
     //   if (this.type === 'double') {
-    //     this.hideTooltipB = !idsSliderSelected;
+    //     this.#hideTooltipB = !idsSliderSelected;
     //   }
-
-    //   // shadow styles for single
-    //   if (this.type === 'single') {
-    //     if (idsSliderSelected) {
-    //       this.container.querySelector('.slider:hover').style.removeProperty('box-shadow')
-    //       this.container.querySelector('.slider').style.setProperty('--hover-shadow', 'rgb(0 114 237 / 10%) 0px 0px 0px 8px')
-    //       this.container.querySelector('.slider').style.setProperty('--focus-shadow', 'rgb(0 114 237 / 10%) 0px 0px 0px 8px')
-    //     } else {
-    //       this.container.querySelector('.slider').style.setProperty('--focus-shadow', '');
-    //       this.container.querySelector('.slider').style.setProperty('--hover-shadow', '0 2px 5px rgb(0 0 0 / 20%)');
-    //     }
-    //   }
-    })
+    });
+    
     return this;
   }
 }
