@@ -107,9 +107,7 @@ export default class IdsTabs extends mix(IdsElement).with(
   }
 
   /**
-   * Set the orientation of how tabs will be laid out
-   *
-   * @param {'horizontal' | 'vertical'} value orientation
+   * @param {'horizontal' | 'vertical'} value The direction the tabs will be laid out in.
    */
   set orientation(value) {
     switch (value) {
@@ -133,13 +131,15 @@ export default class IdsTabs extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @returns {string} The direction the tabs will be laid out in.
+   */
   get orientation() {
     return this.getAttribute(attributes.ORIENTATION);
   }
 
   /**
-   * the value representing a currently selected tab
-   * @type {string}
+   * @param {string} value A value which represents a currently selected tab
    */
   set value(value) {
     if (this.getAttribute(attributes.VALUE) === value) {
@@ -160,6 +160,9 @@ export default class IdsTabs extends mix(IdsElement).with(
     });
   }
 
+  /**
+   * @returns {string} The value representing a currently selected tab
+   */
   get value() {
     return this.getAttribute(attributes.VALUE);
   }
@@ -438,6 +441,10 @@ export default class IdsTabs extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @param {'alternate'|undefined} variant A theming variant to the ids-tabs which
+   * also applies to each ids-tab
+   */
   set colorVariant(variant) {
     switch (variant) {
     case 'alternate': {
@@ -449,5 +456,13 @@ export default class IdsTabs extends mix(IdsElement).with(
       break;
     }
     }
+  }
+
+  /**
+   * @returns {'alternate'|undefined} A theming variant for the ids-tabs which also
+   * applies to each ids-tab
+   */
+  get colorVariant() {
+    return this.getAttribute(attributes.COLOR_VARIANT);
   }
 }

@@ -128,7 +128,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * @param {string} isSelected value which becomes selected by tabs component
+   * @param {boolean} isSelected Whether or not this tab is selected.
    */
   set selected(isSelected) {
     const isValueTruthy = stringToBool(isSelected);
@@ -141,7 +141,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       this.setAttribute('tabindex', '-1');
     } else {
       this.container.classList.add(attributes.SELECTED);
-      this.setAttribute('selected', true);
+      this.setAttribute('selected', '');
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
       this.setAttribute('tabindex', '0');
     }
@@ -149,10 +149,18 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
   }
 
+  /**
+   * @returns {boolean} isSelected Whether or not this tab is selected.
+   */
   get selected() {
-    return this.getAttribute(attributes.SELECTED);
+    return this.hasAttribute(attributes.SELECTED);
   }
 
+  /**
+   * @param {'alternate'|undefined} variant A value which represents a currently
+   * selected tab; at any time, should match one of the child ids-tab `value`
+   * attributes set for a valid selection.
+   */
   set colorVariant(variant) {
     switch (variant) {
     case 'alternate': {
@@ -168,13 +176,16 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
+  /**
+   * @returns {'alternate'|undefined} A value which represents a currently
+   * selected tab; at any time, should match one of the child ids-tab `value`
+   * attributes set for a valid selection.
+   */
   get colorVariant() {
     return this.getAttribute(attributes.COLOR_VARIANT);
   }
 
-  /**
-   * @param {string} value value which becomes selected by tabs component
-   */
+  /** @param {string} value The value which becomes selected by ids-tabs component */
   set value(value) {
     /* istanbul ignore next */
     if (value !== this.getAttribute(attributes.VALUE)) {
@@ -183,16 +194,18 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
+  /** @returns {string} value The value which becomes selected by ids-tabs component */
   get value() {
     return this.getAttribute(attributes.VALUE);
   }
 
+  /** @returns {string} value The number of items represented in the tab (may or may not apply) */
   get count() {
     return this.getAttribute(attributes.COUNT);
   }
 
   /**
-   * @param {string} value the count
+   * @param {string} value The number of items represented in the tab (may or may not apply)
    */
   set count(value) {
     if (value === '') {
@@ -215,10 +228,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
-  /**
-   * Set the orientation of how tabs will be laid out
-   * @param {'horizontal' | 'vertical'} value orientation
-   */
+  /** @param {'horizontal' | 'vertical'} value The direction which tabs will be laid out in */
   set orientation(value) {
     switch (value) {
     case 'vertical': {
@@ -235,6 +245,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
+  /** @returns {'horizontal' | 'vertical'} value The direction which tabs will be laid out in. */
   get orientation() {
     return this.getAttribute(attributes.ORIENTATION);
   }
