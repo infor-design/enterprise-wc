@@ -98,6 +98,7 @@ class IdsColorPicker extends mix(IdsElement).with(
     const template = `
       <div class="ids-color-picker">
         <ids-trigger-field
+          size="sm"
           id="${this.id}"
           tabbable="false"
           label="${this.label}"
@@ -109,8 +110,8 @@ class IdsColorPicker extends mix(IdsElement).with(
             <ids-text audible="true">Pick Custom Color</ids-text>
           </label>
           <ids-input
+            size="full"
             value="${this.value.toLowerCase()}"
-            size="sm"
             dirty-tracker="true"
             class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}"
             label="${this.label}"

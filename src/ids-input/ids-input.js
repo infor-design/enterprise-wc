@@ -65,7 +65,7 @@ const TYPES = {
 };
 
 // Setting defaults sizes
-const SIZES = {
+export const SIZES = {
   default: 'md',
   xs: 'xs',
   sm: 'sm',
@@ -309,7 +309,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
         );
         this.container.insertBefore(
           labelTemplate.content.childNodes[0],
-          this.container.querySelector('field-container')
+          this.container.querySelector('.field-container')
         );
       }
     }

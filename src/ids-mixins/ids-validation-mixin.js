@@ -33,7 +33,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
     const canRadio = ((!isRadioGroup) || (!!(isRadioGroup && this.querySelector('ids-radio'))));
 
-    if (this.labelEl && this.input && typeof this.validate === 'string' && canRadio) {
+    if (this.labelEl && typeof this.validate === 'string' && canRadio) {
       const isCheckbox = this.input?.getAttribute('type') === 'checkbox';
       const defaultEvents = (isCheckbox || isRadioGroup) ? 'change' : 'blur';
       const events = (this.validationEvents && typeof this.validationEvents === 'string')
@@ -44,14 +44,22 @@ const IdsValidationMixin = (superclass) => class extends superclass {
 
       this.validate.split(' ').forEach((/** @type {string} */ strRule) => {
         if (strRule === 'required') {
-          this.labelEl.classList.add('required');
-          this.input.setAttribute('aria-required', true);
+          this.labelEl?.classList.add('required');
+          this.input?.setAttribute('aria-required', true);
+
+          // Triggerfield with multiple inputs
+          if (this.inputs) {
+            [...this.inputs].forEach((input) => {
+              input.setAttribute('aria-required', true);
+            });
+          }
+
           if (isRadioGroup) {
             const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
             radioArr.forEach((r) => r.input.setAttribute('required', 'required'));
           }
         }
-        const useRules = this.useRules.get(this.input);
+        let useRules = this.useRules.get(this.input);
         if (useRules) {
           let found = false;
           useRules.forEach((/** @type {object} */ rule) => {
@@ -67,6 +75,29 @@ const IdsValidationMixin = (superclass) => class extends superclass {
         } else {
           this.useRules.set(this.input, [getRule(strRule)]);
           isRulesAdded = true;
+        }
+
+        // If multiple inputs in triggerfield
+        if (this.inputs) {
+          [...this.inputs].forEach((input) => {
+            useRules = this.useRules.get(input);
+            if (useRules) {
+              let found = false;
+              useRules.forEach((/** @type {object} */ rule) => {
+                if (rule.id === strRule) {
+                  found = true;
+                }
+              });
+              if (!found) {
+                const mergeRule = [...useRules, getRule(strRule)];
+                this.useRules.set(input, mergeRule);
+                isRulesAdded = true;
+              }
+            } else {
+              this.useRules.set(input, [getRule(strRule)]);
+              isRulesAdded = true;
+            }
+          });
         }
       });
       if (isRulesAdded) {
@@ -104,6 +135,26 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       this.isTypeNotValid = null;
       this.triggerEvent('validate', this, { detail: { elem: this, value: this.value, isValid } });
     }
+
+    // If multiple inputs in triggerfield
+    if (this.inputs) {
+      [...this.inputs].forEach((input) => {
+        this.isTypeNotValid = {};
+        let isValid = true;
+        const useRules = this.useRules.get(input);
+        useRules?.forEach((/** @type {object} */ thisRule) => {
+          if (!thisRule.rule.check(input) && this.isTypeNotValid) {
+            this.addMessage(thisRule.rule);
+            isValid = false;
+            this.isTypeNotValid[thisRule.rule.type] = true;
+          } else {
+            this.removeMessage(thisRule.rule);
+          }
+        });
+        this.isTypeNotValid = null;
+        this.triggerEvent('validate', this, { detail: { elem: this, value: this.value, isValid } });
+      });
+    }
   }
 
   /**
@@ -136,7 +187,14 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     audible = audible ? `<ids-text audible="true">${audible} </ids-text>` : '';
     let cssClass = 'validation-message';
     let iconName = this.VALIDATION_ICONS[type];
-    const messageId = `${this.input.getAttribute('id')}-${settings.type}`;
+    let messageId = `${this.input?.getAttribute('id')}-${settings.type}`;
+
+    // If multiple inupts in triggerfield
+    if (this.inputs) {
+      [...this.inputs].forEach((input) => {
+        messageId = `${input.getAttribute('id')}-${settings.type}`;
+      });
+    }
 
     if (!iconName && type === 'icon') {
       iconName = icon || this.VALIDATION_DEFAULT_ICON;
@@ -160,9 +218,9 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     elem.setAttribute('type', type);
     elem.className = cssClass;
     elem.innerHTML = `${iconHtml}<ids-text error="true" class="message-text">${audible}${message}</ids-text>`;
-    this.input.classList.add(type);
-    this.input.setAttribute('aria-describedby', messageId);
-    this.input.setAttribute('aria-invalid', 'true');
+    this.input?.classList.add(type);
+    this.input?.setAttribute('aria-describedby', messageId);
+    this.input?.setAttribute('aria-invalid', 'true');
 
     const rootEl = this.shadowRoot.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
     const parent = rootEl || this.shadowRoot;
@@ -170,6 +228,16 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     /* istanbul ignore else */
     if (!this.#externalValidationEl) {
       parent.appendChild(elem);
+    }
+
+    // If multiple inputs in triggerfield
+    if (this.inputs) {
+      [...this.inputs].forEach((input) => {
+        input.classList.add(type);
+        input.setAttribute('aria-describedby', messageId);
+        input.setAttribute('aria-invalid', 'true');
+        parent.querySelector('.ids-trigger-field-content').classList.add(type);
+      });
     }
 
     // Add extra classes for radios
@@ -207,8 +275,23 @@ const IdsValidationMixin = (superclass) => class extends superclass {
 
     if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
       this.input?.classList.remove(type);
-      this.input.removeAttribute('aria-describedby');
-      this.input.removeAttribute('aria-invalid');
+      this.input?.removeAttribute('aria-describedby');
+      this.input?.removeAttribute('aria-invalid');
+    }
+
+    const rootEl = this.shadowRoot.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
+    const parent = rootEl || this.shadowRoot;
+
+    // If multiple inputs in triggerfield
+    if (this.inputs) {
+      [...this.inputs].forEach((input) => {
+        if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
+          input.classList.remove(type);
+          input.removeAttribute('aria-describedby');
+          input.removeAttribute('aria-invalid');
+          parent.querySelector('.ids-trigger-field-content').classList.remove(type);
+        }
+      });
     }
 
     const isRadioGroup = this.input?.classList.contains('ids-radio-group');
@@ -254,6 +337,24 @@ const IdsValidationMixin = (superclass) => class extends superclass {
         }
       });
     }
+
+    // If multiple inputs in triggerfield
+    if (this.inputs) {
+      [...this.inputs].forEach((input) => {
+        this.validationEventsList.forEach((eventName) => {
+          if (option === 'remove') {
+            const handler = this.handledEvents.get(eventName);
+            if (handler && handler.target === input) {
+              this.offEvent(eventName, input);
+            }
+          } else {
+            this.onEvent(eventName, input, () => {
+              this.checkValidation();
+            });
+          }
+        });
+      });
+    }
   }
 
   /**
@@ -270,6 +371,19 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       }
       this.labelEl?.classList.remove('required');
       this.removeAllMessages();
+    }
+
+    // If multiple inputs in triggerfield
+    if (this.inputs) {
+      [...this.inputs].forEach((input) => {
+        const useRules = this.useRules.get(input);
+        if (useRules) {
+          this.handleValidationEvents('remove');
+          this.useRules.delete(input);
+        }
+        this.labelEl?.classList.remove('required');
+        this.removeAllMessages();
+      });
     }
   }
 

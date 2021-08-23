@@ -1,7 +1,6 @@
 import {
   IdsElement,
   customElement,
-  mix,
   scss,
   attributes,
   stringUtils
@@ -17,7 +16,7 @@ import styles from './ids-trigger-field.scss';
 
 // Supporting components
 import { IdsButton } from '../ids-button/ids-button';
-import IdsInput from '../ids-input/ids-input';
+import IdsInput, { SIZES } from '../ids-input/ids-input';
 import IdsTriggerButton from './ids-trigger-button';
 
 const { stringToBool, buildClassAttrib } = stringUtils;
@@ -32,7 +31,7 @@ const { stringToBool, buildClassAttrib } = stringUtils;
  */
 @customElement('ids-trigger-field')
 @scss(styles)
-class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsTriggerField extends IdsInput {
   /**
    * Call the constructor and then initialize
    */
@@ -71,6 +70,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
       attributes.DISABLED,
       attributes.DISABLE_EVENTS,
       attributes.LABEL,
+      attributes.SIZE,
       attributes.TABBABLE
     ];
   }
@@ -85,9 +85,10 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
       : '';
 
     return `
-      <div class="ids-trigger-field" part="field">
+      <div class="ids-trigger-field ${this.size}" part="field">
         ${ this.label !== '' ? `<label
-          ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
+          ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled', this.validate !== null && 'required') }
+          ${this.validate !== null ? ' required' : ''}
           slot="ids-trigger-field-label"
           part="label"
           for="${this.id}-input"
@@ -136,7 +137,6 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   containerSetHeightClass(attr) {
     const heightClassName = (h) => `field-height-${h}`;
     const heights = ['xs', 'sm', 'md', 'lg'];
-
     if (attr.name === 'compact') {
       this.container?.classList[stringUtils.stringToBool(attr.val) ? 'add' : 'remove']('compact');
     } else if (attr.name === 'field-height') {
@@ -157,6 +157,10 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
         input.setAttribute(attributes.TRIGGERFIELD, 'true');
+        input.setAttribute(attributes.LABEL, this.label);
+        input.setAttribute(attributes.SIZE, this.size);
+        input.setAttribute(attributes.VALIDATE, this.validate);
+        input.setAttribute(attributes.LABEL_HIDDEN, true);
 
         // Set class for compact or field height
         const attribs = ['compact', 'field-height'];
@@ -275,19 +279,34 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   }
 
   /**
+   * Set the size (width) of input
+   * @param {string} value [xs, sm, mm, md, lg, full]
+   */
+  set size(value) {
+    const size = SIZES[value];
+    this.setAttribute(attributes.SIZE, size || SIZES.default);
+    this.container?.classList.remove(...Object.values(SIZES));
+    this.container?.classList.add(size || SIZES.default);
+  }
+
+  get size() { return this.getAttribute(attributes.SIZE) || SIZES.default; }
+
+  /**
    * Establish Internal Event Handlers
    * @private
    * @returns {object} The object for chaining.
    */
   handleEvents() {
-    if (this.input) {
-      const className = 'has-validation-message';
-      this.onEvent('validate', this.input, (e) => {
-        if (e.detail?.isValid) {
-          this.container?.classList?.remove(className);
-        } else {
-          this.container?.classList?.add(className);
-        }
+    if (this.inputs) {
+      [...this.inputs].forEach((input) => {
+        const className = 'has-validation-message';
+        this.onEvent('validate', input, (e) => {
+          if (e.detail?.isValid) {
+            this.container?.classList?.remove(className);
+          } else {
+            this.container?.classList?.add(className);
+          }
+        });
       });
     }
 

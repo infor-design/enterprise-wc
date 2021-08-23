@@ -2,10 +2,16 @@
   <ids-text font-size="12" type="h1">Trigger Field</ids-text>
 </ids-layout-grid>
 
-<ids-layout-grid auto="true" gap="md">
+<ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
-    <ids-trigger-field tabbable="false" label="Date Field" content-borders>
-      <ids-input size="sm"></ids-input>
+    <ids-trigger-field
+      id="trigger-field-1"
+      size="sm"
+      tabbable="false"
+      label="Date Field"
+      content-borders
+    >
+      <ids-input></ids-input>
       <ids-trigger-button>
         <ids-text audible="true">Date Field trigger</ids-text>
         <ids-icon slot="icon" icon="schedule"></ids-icon>
@@ -14,10 +20,14 @@
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
-    <ids-trigger-field label="Timepicker" content-borders>
+    <ids-trigger-field
+      id="trigger-field-2"
+      size="md"
+      label="Timepicker"
+      content-borders
+    >
       <ids-input
         type="text"
-        size="full"
       ></ids-input>
       <ids-trigger-button>
         <ids-text audible="true">Timepicker trigger</ids-text>
@@ -27,11 +37,17 @@
   </ids-layout-grid-cell>
 
   <ids-layout-grid-cell>
-    <ids-trigger-field label="Products" content-borders disable-native-events="true">
+    <ids-trigger-field
+      id="trigger-field-3"
+      label="Products"
+      content-borders
+      disable-native-events="true"
+      validate="required"
+    >
       <ids-input
         placeholder="Enter Product"
-        size="full"
-        validate="required">
+        validate="required"
+      >
       </ids-input>
       <ids-trigger-button>
         <ids-text audible="true">Products trigger</ids-text>
@@ -41,12 +57,17 @@
   </ids-layout-grid-cell>
 </ids-layout-grid>
 
-<ids-layout-grid auto="true" gap="md">
+<ids-layout-grid cols="3" gap="md">
   <ids-layout-grid-cell>
-    <ids-trigger-field label="Disabled Trigger Field" content-borders disabled>
+    <ids-trigger-field
+      id="trigger-field-4"
+      size="md"
+      label="Disabled Trigger Field"
+      content-borders
+      disabled
+    >
       <ids-input
         placeholder="Enter Product"
-        size="full"
         disabled
       >
       </ids-input>
@@ -59,7 +80,8 @@
 
   <ids-layout-grid-cell>
     <ids-trigger-field
-      id="trigger-field-1"
+      id="trigger-field-5"
+      size="md"
       tabbable="false"
       label="Two Trigger Buttons"
       content-borders
@@ -70,7 +92,6 @@
       </ids-trigger-button>
       <ids-input
         placeholder="Enter Product"
-        size="sm"
         label-hidden
       >
       </ids-input>

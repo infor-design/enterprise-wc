@@ -37,7 +37,7 @@
   }
 
   &.triggerfield-has-content-borders {
-    margin-left: 0;
+    @include mx-8;
   }
 }
 

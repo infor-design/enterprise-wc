@@ -6,6 +6,7 @@
 .validation-message {
   @include antialiased();
   @include font-sans();
+  @include mt-4();
 
   display: flex;
 
