@@ -7,9 +7,7 @@ export default class IdsTabs extends IdsElement {
   /** A theming variant to the ids-tabs which also applies to each ids-tab */
   colorVariant? : 'alternate';
 
-  /**
-   * The direction the tabs will be laid out in; defaults to `horizontal`.
-   */
+  /** The direction the tabs will be laid out in; defaults to `horizontal`. */
    orientation? : 'horizontal' | 'vertical';
 
   /**
