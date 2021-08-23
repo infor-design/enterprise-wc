@@ -3,7 +3,9 @@
  */
 import wait from '../helpers/wait';
 import IdsContainer from '../../src/components/ids-container';
-import { IdsToastMessage, IdsToast, IdsToastShared as shared } from '../../src/components/ids-toast';
+import IdsToast from '../../src/components/ids-toast';
+import IdsToastMessage from '../../src/components/ids-toast/ids-toast-message';
+import { IdsToastShared as shared } from '../../src/components/ids-toast/ids-toast-shared';
 
 describe('IdsToast Component', () => {
   const origInnerWidth = window.innerWidth;

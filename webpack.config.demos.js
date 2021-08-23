@@ -58,11 +58,12 @@ module.exports = {
   },
   // Configure the dev server (node) with settings
   devServer: {
+    hot: false,
+    liveReload: false,
     port: 4300,
     devMiddleware: {
       writeToDisk: true,
     },
-    hot: true,
     static: {
       directory: path.resolve(__dirname, 'demo-dist'),
     },
@@ -219,6 +220,10 @@ module.exports = {
         {
           from: path.resolve(__dirname, 'demos/data/'),
           to: path.resolve(__dirname, 'demo-dist/data/')
+        },
+        {
+          from: path.resolve(__dirname, 'demos/assets/'),
+          to: path.resolve(__dirname, 'demo-dist/assets/')
         }
       ]
     })
@@ -286,5 +291,6 @@ glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
         : folderChunks
     }),
   );
+
   return folderName;
 }, {});
