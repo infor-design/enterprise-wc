@@ -385,6 +385,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           this.#hideTooltip(false, 'primary');
           this.valuea = value;
           this.thumbDraggable.focus();
+        } else {
           // focus on thumb b
           this.#hideTooltip(false, 'secondary');
           this.valueb = value;
