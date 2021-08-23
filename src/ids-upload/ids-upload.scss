@@ -1,6 +1,8 @@
 @import '../ids-base/ids-base';
 
 .ids-upload {
+  @include mb-16();
+
   position: relative;
 
   .ids-upload-filetype {
@@ -11,4 +13,13 @@
     transform: translateY(-50%);
     z-index: -1;
   }
+}
+
+ids-input::part(container) {
+  margin-bottom: 0;
+}
+
+ids-input::part(input) {
+  border: none;
+  margin-bottom: 0;
 }
