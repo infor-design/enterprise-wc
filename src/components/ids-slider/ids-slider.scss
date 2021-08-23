@@ -33,6 +33,10 @@ ids-slider {
       justify-content: flex-end;
     }
 
+    &.step {
+      justify-content: space-between;
+    }
+
     .tick {
       display: flex;
       width: var(--tick-size);
@@ -96,6 +100,7 @@ ids-slider {
       width: 30px;
       height: 30px;
       background-color: rgba(0, 114, 237, 0.1);
+      background-color: #0072ed;
       border: 1px #0072ed solid;
     }
     
@@ -125,28 +130,31 @@ ids-slider {
     display: flex;
     position: absolute;
     z-index: 50;
-
-    &:focus {
-      background-color: red;
-    }
   }
   
   .track {
     display: flex;
     align-items: center;
     height: 4px;
-    background-color: #97979B;
     width: calc(100% - (var(--thumb-size) / 2));
     position: absolute;
     z-index: 30;
     border-radius: 2px;
-
+    background-color: #97979B;
+    
+    // background: linear-gradient(transparent 0 20%, red 20% 40%, transparent 40% 100%);
+    // background: linear-gradient(to right, transparent calc(var(--percentStart) * 1%), #0072ed calc(var(--percentStart) * 1%), #0072ed calc(var(--percentEnd) * 1%), transparent 0%);    // -webkit-animation: Animation 5s ease infinite;
+    
     .track-progress {
       height: inherit;
-      width: calc((var(--percentEnd) - var(--percentStart)) * 1%);
-      background-color: yellow;
       position: absolute;
-      // transition: width 0.2s ease; 
+      // background: linear-gradient(to right, transparent 0% calc(var(--percentStart) * 1%), #0072ed calc(var(--percentStart) * 1%) calc(var(--percentEnd) * 1%), transparent calc(var(--percentEnd) * 1%) 100%);    // -webkit-animation: Animation 5s ease infinite;
+      width: calc((var(--percentEnd) - var(--percentStart)) * 1%);
+      // width: 100%;
+      // left: 50%;
+      // right: 80%;
+      background-color: yellow;
+      // transition: left 1s ease; 
     }
   }
 

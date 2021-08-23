@@ -21,7 +21,7 @@ const TYPES = [
   'vertical'
 ]
 
-const DEFAULT_VALUE = 50;
+const DEFAULT_VALUE = 0;
 const DEFAULT_VALUE_SECONDARY = 75;
 const DEFAULT_MIN = 0;
 const DEFAULT_MAX = 100;
@@ -42,7 +42,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
   
   connectedCallback() {
-    console.log('type is: ' + this.type);
+    // console.log('type is: ' + this.type);
     this.slider = this.container.querySelector('.slider');
     this.trackArea = this.container.querySelector('.track-area');
     this.progressTrack = this.container.querySelector('.track-progress');
@@ -62,6 +62,15 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     } else if (this.type !== 'double') {
       this.container.querySelector('.thumb-draggable:nth-of-type(2)').remove();
     }
+
+    if (this.type === 'step') {
+      this.tickContainerStep = this.container.querySelector('.tick-container.step');
+      this.container.querySelector('.tick-container.end').remove();
+      this.container.querySelector('.tick-container.start').remove();
+    } else {
+      this.container.querySelector('.tick-container.step').remove();
+    }
+
     this.#addEventListeners();
     super.connectedCallback();
   }
@@ -82,7 +91,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.MAX,
       attributes.PERCENT,
       'percentb',
-      attributes.STEP,
+      attributes.STEP_NUMBER,
       attributes.LABEL,
     ];
   }
@@ -127,6 +136,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
             <div class="tick-container start">
               <span class="tick"></span>
             </div>
+            <div class="tick-container step">
+              <span class="tick"></span>
+              <span class="tick"></span>
+            </div>
           </div>
           <ids-text label class="label min">${this.min ?? DEFAULT_MIN}</ids-text>
           <ids-text label class="label max">${this.max ?? DEFAULT_MAX}</ids-text>
@@ -155,8 +168,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
   
   updateProgressBar() {
-    if (this.type === 'single') {
-    //   console.log('type is single')
+    if (this.type === 'single' || this.type === 'step') {
       this.slider.style.setProperty("--percentStart", 0);
       this.slider.style.setProperty("--percentEnd", this.percent);
 
@@ -166,6 +178,28 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         this.progressTrack.style.setProperty('left', `${Math.min(this.percent, this.percentb)}%`)
     }
   }
+
+  setStepLabels(array) {
+    // set innerHTML of whatever div element attached to tick 
+  }
+
+  set stepNumber(value) {
+    // must have at least 2 steps
+    if (value >= 2) {
+      this.setAttribute('step-number', value);
+      const stepLength = this.container.querySelectorAll('.tick').length;
+      // check that step number equals amount of ticks in the slider
+      if (stepLength !== this.stepNumber) {
+        const x = Math.abs(stepLength - this.stepNumber);
+        for (let i = 0; i < x; i++) {
+          // remove
+          stepLength > this.stepNumber ? this.container.querySelector('.tick').remove() : this.container.querySelector('.tick').insertAdjacentHTML('afterend', '<span class="tick"></span>');
+        }
+      }
+    }
+  }
+
+  get stepNumber() { return parseInt(this.getAttribute('step-number')) || 2; }
 
   set percentb(value) {
     this.setAttribute('percentb', value);
@@ -210,11 +244,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (this.#withinBounds(value)) {
       console.log('valueb: ' + value);
       this.setAttribute('valueb', value);
-      console.log('set attribute to ' + this.getAttribute('valueb'));
-      console.log('percent b is: ')
+      // console.log('set attribute to ' + this.getAttribute('valueb'));
+      // console.log('percent b is: ')
       this.setAttribute('percentb', (this.valueb - this.min) / (this.max - this.min) * 100);
       this.updateToolTip(value, 'secondary');
-      this.moveThumb('secondary'); // change name to updateThumbPosition() ? 
+      this.moveThumb('secondary');
     } else {
       if (value < this.min) {
         this.setAttribute('valueb', this.min);
@@ -224,7 +258,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
   
-  get valueb() { return this.getAttribute('valueb') || DEFAULT_MAX; }
+  get valueb() { return parseFloat(this.getAttribute('valueb')) || DEFAULT_MAX; }
   
   set valuea(value) {
     // console.log('setting valuea: ' + value);
@@ -232,7 +266,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       this.setAttribute('valuea', value);
       this.setAttribute('percent', (this.valuea - this.min) / (this.max - this.min) * 100);
       this.updateToolTip(value);
-      this.moveThumb(); // change name to updateThumbPosition() ? 
+      this.moveThumb();
     } else {
       if (value < this.min) {
         this.setAttribute('valuea', this.min);
@@ -242,79 +276,84 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 
-  get valuea() { return this.getAttribute('valuea') || DEFAULT_VALUE; }
+  get valuea() { return parseFloat(this.getAttribute('valuea')) || DEFAULT_VALUE; }
 
-  // OK 
   set min(value) {
     this.setAttribute(attributes.MIN, value || DEFAULT_MIN);
     this.container.querySelector('.label.min').innerHTML = this.min;
   }
 
-  // OK
   get min() { return parseFloat(this.getAttribute(attributes.MIN)) || DEFAULT_MIN; }
 
-  // OK
   set max(value) {
     this.setAttribute(attributes.MAX, value || DEFAULT_MAX);
     this.container.querySelector('.label.max').innerHTML = this.max;
   }
 
-  // OK
   get max() { return parseFloat(this.getAttribute(attributes.MAX)) || DEFAULT_MAX; }
 
-  // TODO:
   set type(value) {
     if (value && TYPES.includes(value)) {
       this.setAttribute(attributes.TYPE, value);
-
-      if (value !== 'double') {
-        if (this.thumbDraggableSecondary) {
-          this.container.querySelector('.thumb-draggable:nth-of-type(2)').remove();
-        }
-      }
-      // TODO: add it back in, in case user wants to change type through console
     } else {
       this.setAttribute(attributes.TYPE, DEFAULT_TYPE);
     }
   }
   
-  get type() { return this.getAttribute(attributes.TYPE)}
+  get type() { return this.getAttribute(attributes.TYPE) || DEFAULT_TYPE }
 
-  // TODO:
   /**
    * Set the color of the bar
    * @param {string} value The color value, this can be a hex code with the #
    */
   set color(value) {
+    // console.log('setting color to: ' + value);
     this.setAttribute(attributes.COLOR, value);
-    // this.#updateColor();
   }
 
-  get color() { return this.getAttribute(attributes.COLOR); }
+  get color() { return this.getAttribute(attributes.COLOR) || DEFAULT_COLOR; }
+
+  #updateColor() {
+    const color = this.color;
+    const ticks = this.container.querySelectorAll('.tick');
+    // console.log(ticks);
+    ticks.forEach((tick) => {
+      tick.style.setProperty('background-color', color);
+    });
+    this.thumb.style.setProperty('background-color', color);
+    console.log('computed-color');
+    const rgbString = window.getComputedStyle(this.thumb).backgroundColor;
+    // have to specify opacity in background-color, otherwise the opacity affects the ring border
+    const rgbaString = rgbString.slice(0, 3) + 'a' + rgbString.slice(3, rgbString.length-1) + ', 0.1)';
+    console.log(rgbaString);
+    this.thumbShadow.style.setProperty('background-color', rgbaString);
+    this.thumbShadow.style.setProperty('border', `1px ${color} solid`);
+    this.progressTrack.style.setProperty('background-color', color);
+    
+    if (this.type === 'double') {
+      this.thumbShadowSecondary.style.setProperty('background-color', rgbaString);
+      this.thumbShadowSecondary.style.setProperty('border', `1px ${color} solid`);
+      this.thumbSecondary.style.setProperty('background-color', color);
+    }
+  }
 
   #hideTooltip(value, primaryOrSecondary) {
-    if (primaryOrSecondary && this.type === 'double') {
-      if (primaryOrSecondary === 'primary') {
-        this.tooltip.style.opacity = value ? 0 : 1;
-      }
-      else if (primaryOrSecondary ==='secondary') {
-        this.tooltipSecondary.style.opacity = value ? 0 : 1;
-      }
-    } else {
-      // default if 2nd param is not included
+    if (primaryOrSecondary ==='secondary' && this.tooltipSecondary) {
+      this.tooltipSecondary.style.opacity = value ? 0 : 1;
+    }
+     else {
       this.tooltip.style.opacity = value ? 0 : 1;
     }
   }
   
   // TODO: when hide shadow is false, set the z-index to be higher than the other, when type === 'double' -- this is for when you use arrow keys and they overlap
   #hideThumbShadow(value, primaryOrSecondary) {
-    let thumbShadow = this.thumbShadow;
-
-    if (primaryOrSecondary && primaryOrSecondary === 'secondary') {
+    if (primaryOrSecondary === 'secondary' && this.thumbShadowSecondary) {
       thumbShadow = this.thumbShadowSecondary;
+      value ? this.thumbShadowSecodnary.setAttribute('hidden', '') : thumbShadowSecondary.removeAttribute('hidden');
+    } else {
+      value ? this.thumbShadow.setAttribute('hidden', '') : this.thumbShadow.removeAttribute('hidden');
     }
-
-    value ? thumbShadow.setAttribute('hidden', '') : thumbShadow.removeAttribute('hidden');
   }
 
   wasCursorInBoundingBox(x, y, top, bottom, left, right) {
@@ -332,13 +371,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
     // for single
     if (clickedTrackArea) {
+      console.log('clickedTrackArea');
 
-      
-      // if double, check where if mouse is closer to thumb a/b
-      // move thumb a/b if so
-      
-      // this.#hideTooltipB = false;
-      
       const percent = this.calcPercentFromX(x, left, right, this.thumbDraggable.clientWidth);
       const value = this.calcValueFromPercent(percent);
       
@@ -358,12 +392,37 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           this.valueb = value;
           this.thumbDraggableSecondary.focus();
         }
-      } else {
+      } else if (this.type === 'single') {
         // default; duplicate code
         this.#hideTooltip(false);
         this.valuea = value;
         this.thumbDraggable.focus();
-
+        
+      } else if (this.type === 'step') {
+        const arr = [];
+        
+        for (let i = 0; i < this.stepNumber; i++) {
+          arr[i] = (100 / (this.stepNumber - 1)) * i;
+        }
+        
+        // console.log(arr);
+        
+        const differences = arr.map((x) => Math.abs(x - percent))
+        // console.log(differences);
+        
+        let min = differences[0];
+        let minIndex = 0;
+        for (let i = 0; i < differences.length; i++) {
+          if (differences[i] < min) {
+            min = differences[i];
+            minIndex = i;
+          }
+        }
+        // console.log('minIndex: ' + minIndex)
+        // console.log('closest value is ' + arr[minIndex]);
+        
+        this.valuea = arr[minIndex];
+        this.thumbDraggable.focus();
       }
 
     } else {
@@ -379,6 +438,9 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     // check to make sure trackBounds have been initialized
     
     if (this.trackBounds && this.trackBounds.LEFT && this.trackBounds.RIGHT) {
+      console.log('trackbounds.LEFT: ' + this.trackBounds.LEFT);
+      console.log('trackbounds.RIGHT: ' + this.trackBounds.RIGHT);
+      console.log('dir: ' + this.container.getAttribute('dir'));
       // default values
       let thumbDraggable = this.thumbDraggable;
       let percent = this.percent;
@@ -387,7 +449,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       if (primaryOrSecondary && primaryOrSecondary === 'secondary' && this.type === 'double') {
         thumbDraggable = this.thumbDraggableSecondary;
         percent = this.percentb;
-        console.log('moving thumb b')
+        // console.log('moving thumb b')
       }
       
       console.log('moving thumb with percent of : ' + percent);
@@ -396,7 +458,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       console.log('translated thumb by ' + xTranslate);
     }
     
-    // TODO: do this for secondary thumb if type === double
   }
 
   // OK - Modular for SINGLE & DOUBLE
@@ -446,7 +507,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       };
 
       // SINGLE
-      if (this.type === 'single' || this.type === 'double') {
+      if (this.type === 'single' || this.type === 'double' || this.type === 'step') {
         // update initial position of thumb now that bounds have been initialized
         this.moveThumb();
         
@@ -463,13 +524,15 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         // update initial position of thumb 2 
         this.moveThumb('secondary');
         // set transition styles
-        if (!this.thumbDraggableSecondary.style.transition && !this.progressTrack.style.transition) {
+        if (!this.thumbDraggableSecondary.style.transition) {
           this.thumbDraggableSecondary.style.setProperty('transition', 'transform 0.2s ease');
           this.progressTrackSecondary.style.setProperty('transition', 'width 0.2s ease');
         }
-        // TODO: moveThumb for secondary thumb
-        // TODO: set transition styles for secondary thumb
       }
+
+      // init custom colors
+      this.#updateColor();
+      this.updateProgressBar();
 
     }
 
@@ -585,23 +648,40 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         // .. wonder if there's a better way to do this? maybe store hidden state in class variable?
         let value = '';
         let attribute = '';
-        if (this.thumbShadow.hasAttribute('hidden')) {
-          attribute = 'valueb'
-          value = this.valueb;
-          console.log('value is b')
-        } else if (this.thumbShadowSecondary.hasAttribute('hidden')) {
-          attribute = 'valuea'
+
+        if (this.type === 'double') {
+          if (this.thumbShadow.hasAttribute('hidden')) {
+            attribute = 'valueb'
+            value = this.valueb;
+            console.log('value is b')
+          } else if (this.thumbShadowSecondary && this.thumbShadowSecondary.hasAttribute('hidden')) {
+            attribute = 'valuea'
+            value = this.valuea;
+            console.log('value is a')
+          }
+        } else {
+          attribute = 'valuea';
           value = this.valuea;
-          console.log('value is a')
         }
         switch (event.key) {
           // TODO: might need to swap for RTL
           case "ArrowLeft":
-            // need to round so we don't get stuck between decimals
-            this.setAttribute(attribute, Math.ceil(value) - 1);
+            if (this.type === 'step') {
+              console.log(value - (this.max / (this.stepNumber - 1)))
+              this.setAttribute(attribute, value - (this.max / (this.stepNumber - 1)));
+            }
+            else {
+              // need to round so we don't get stuck between decimals
+              this.setAttribute(attribute, Math.ceil(value) - 1);
+            }
             break;
           case "ArrowRight":
-            this.setAttribute(attribute, Math.floor(value) + 1);
+            if (this.type === 'step') {
+              // console.log(value + (this.max / (this.stepNumber - 1)))
+              this.setAttribute(attribute, value + (this.max / (this.stepNumber - 1)));
+            } else {
+              this.setAttribute(attribute, Math.floor(value) + 1);
+            }
             break;
         }
       }
@@ -614,10 +694,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       // console.log('idsSliderSelected: ' + idsSliderSelected);
 
       this.#hideTooltip(!idsSliderSelected);
-      this.#hideTooltip(!idsSliderSelected, 'secondary');
-
-      // TODO: if double
-      // this.#hideTooltipB = !idsSliderSelected;
+      this.type === 'double' && this.#hideTooltip(!idsSliderSelected, 'secondary');
 
       // console.log(event.target.name);
       // console.log(event.clientX + ', ' + event.clientY);
