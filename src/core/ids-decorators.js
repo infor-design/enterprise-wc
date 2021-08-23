@@ -1,5 +1,5 @@
 /* eslint no-param-reassign: ["error", { "props": false }] */
-const VERSION = '0.0.0-beta.12';
+const VERSION = '0.0.0-beta.13';
 
 /**
  * Add the version to the component

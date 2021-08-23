@@ -196,6 +196,7 @@ module.exports = {
     new HTMLWebpackPlugin({
       template: 'demos/index.html',
       inject: 'body',
+      minify: false,
       title: 'IDS Enterprise Web Components',
       chunks: ['index', 'example']
     }),
@@ -285,6 +286,7 @@ glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
       inject: 'body',
       filename: folderAndFile,
       title,
+      minify: false,
       chunksSortMode: 'manual',
       chunks: jsFile === 'standalone-css.js'
         ? [chunk]
