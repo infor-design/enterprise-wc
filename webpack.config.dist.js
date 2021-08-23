@@ -10,10 +10,8 @@ const glob = require('glob');
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 
 module.exports = {
-  entry: glob.sync('./src/components/**/index.js').reduce((acc, filePath) => {
-    let entry = filePath.replace(`/${path.basename(filePath)}`, '');
-    entry = entry.replace('./src/components/', '');
-    acc[`${entry}/${entry}`] = filePath;
+  entry: glob.sync('./src/**/**/ids*.js',).reduce((acc, filePath) => {
+    acc[filePath.replace('./src', '').replace('.js', '')] = filePath;
     return acc;
   }, {}),
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
@@ -31,8 +29,7 @@ module.exports = {
       new TerserPlugin({
         test: /\.js(\?.*)?$/i
       }),
-    ],
-    runtimeChunk: 'single'
+    ]
   },
   output: {
     library: '[name]-lib.js',
@@ -80,25 +77,14 @@ module.exports = {
         use: [
           // Creates `style` nodes from JS strings
           {
-            loader: 'style-loader',
-            options: {
-              attributes: {
-                id: 'demo-styles',
-                nonce: '0a59a005' // @TODO needs to match a global nonce instance
-              }
-            }
+            loader: 'style-loader'
           },
           // Translates CSS into CommonJS
           'css-loader',
           // Compiles Sass to CSS
           'sass-loader',
         ]
-      },
-      {
-        test: /\.js$/,
-        enforce: 'pre',
-        use: ['source-map-loader'],
-      },
+      }
     ]
   },
   plugins: [
@@ -113,7 +99,7 @@ module.exports = {
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            return `${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
+            return `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
           },
           transform(content, transFormPath) {
             const result = sass.renderSync({
@@ -125,40 +111,36 @@ module.exports = {
           }
         },
         {
-          from: './src/components/**/index.js',
+          from: './src/**/**/index.js',
           to({ absoluteFilename }) {
             const baseName = path.basename(absoluteFilename);
             const folders = path.dirname(absoluteFilename).split(path.sep);
-            return `${folders[folders.length - 1]}/${baseName}`;
+            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath.replace('src/', '');
+            return filePath;
+          }
+        },
+        {
+          from: './src/**/**/*.d.ts',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            const folders = path.dirname(absoluteFilename).split(path.sep);
+            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath.replace('src/', '');
+            return filePath;
+          }
+        },
+        {
+          from: './src/**/**/*.md',
+          to({ absoluteFilename }) {
+            const baseName = path.basename(absoluteFilename);
+            const folders = path.dirname(absoluteFilename).split(path.sep);
+            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
+            filePath = filePath.replace('src/', '');
+            return filePath;
           }
         }
       ]
     })
   ]
 };
-
-// Make a Copy of the Sass Files only for standalone Css
-if (isProduction) {
-  module.exports.plugins.push(new CopyWebpackPlugin({
-    patterns: [
-      {
-        from: './src/components/**/*.d.ts',
-        to({ absoluteFilename }) {
-          const baseName = path.basename(absoluteFilename);
-          if (absoluteFilename.indexOf('core') > -1) {
-            return `${absoluteFilename.replace('/src/', '/dist/')}`;
-          }
-          return `${baseName.replace('.d.ts', '')}/${baseName}`;
-        },
-      },
-      {
-        from: './src/components/**/*.md',
-        to({ absoluteFilename }) {
-          const baseName = path.basename(absoluteFilename);
-          const folders = path.dirname(absoluteFilename).split(path.sep);
-          return `${folders[folders.length - 1]}/${baseName}`;
-        }
-      }
-    ]
-  }));
-}

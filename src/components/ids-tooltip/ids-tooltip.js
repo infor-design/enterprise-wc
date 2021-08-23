@@ -202,7 +202,7 @@ class IdsTooltip extends mix(IdsElement).with(
    */
   #updateAria() {
     // For ellipsis based tooltips we dont do this
-    if (this.state.noAria) {
+    if (this.state?.noAria) {
       return;
     }
     this.popup.alignTarget = typeof this.target === 'object'
