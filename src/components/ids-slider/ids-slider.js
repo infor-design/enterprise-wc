@@ -42,7 +42,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
   
   connectedCallback() {
-    // console.log('type is: ' + this.type);
     this.slider = this.container.querySelector('.slider');
     this.trackArea = this.container.querySelector('.track-area');
     this.progressTrack = this.container.querySelector('.track-progress');
@@ -149,21 +148,17 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   #updateToolTip(value, primaryOrSecondary) {
-    if (primaryOrSecondary) {
-      this.#hideTooltip(false, primaryOrSecondary);
-
-      if (primaryOrSecondary === 'primary') {
-        tooltipText.innerHTML = Math.ceil(value);
-        
-      } else if (primaryOrSecondary === 'secondary') {
-        const tooltipTextSecondary = this.container.querySelector('.tooltip.secondary .text.secondary');
-        tooltipTextSecondary.innerHTML = Math.ceil(value);
-
-      }
-    } else {
-      // default behavior
-      this.#hideTooltip(false);
+    if (this.type === 'step') {
       this.tooltipText.innerHTML = Math.ceil(value);
+    } else {
+     if (primaryOrSecondary === 'secondary') {
+       this.#hideTooltip(false, 'secondary');
+      //  const tooltipTextSecondary = this.container.querySelector('.tooltip.secondary .text.secondary');
+       this.tooltipTextSecondary.innerHTML = Math.ceil(value);
+     } else {
+       this.#hideTooltip(false);
+       this.tooltipText.innerHTML = Math.ceil(value);
+     }
     }
   }
   
@@ -239,15 +234,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   #withinBounds(value) {
-    return value >= this.min && value <= this.max;
+    return parseFloat(value) >= this.min && parseFloat(value) <= this.max;
   }
 
   set valueb(value) {
     if (this.#withinBounds(value)) {
-      console.log('valueb: ' + value);
       this.setAttribute('valueb', value);
-      // console.log('set attribute to ' + this.getAttribute('valueb'));
-      // console.log('percent b is: ')
       this.setAttribute('percentb', (this.valueb - this.min) / (this.max - this.min) * 100);
       this.#updateToolTip(value, 'secondary');
       this.#moveThumb('secondary');
@@ -260,10 +252,17 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
   
-  get valueb() { return parseFloat(this.getAttribute('valueb')) || DEFAULT_MAX; }
+  get valueb() { 
+    const b = this.getAttribute('valueb')
+    if (b === null || b === '' || Number.isNaN(parseFloat(b))) {
+      return DEFAULT_VALUE_SECONDARY;
+    } else {
+      return parseFloat(this.getAttribute('valueb')); 
+    }
+  }
+
   
   set valuea(value) {
-    // console.log('setting valuea: ' + value);
     if (this.#withinBounds(value)) {
       this.setAttribute('valuea', value);
       this.setAttribute('percent', (this.valuea - this.min) / (this.max - this.min) * 100);
@@ -278,7 +277,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 
-  get valuea() { return parseFloat(this.getAttribute('valuea')) || DEFAULT_VALUE; }
+  get valuea() { 
+    const a = this.getAttribute('valueb')
+    if (a === null || a === '' || Number.isNaN(parseFloat(a))) {
+      return DEFAULT_VALUE;
+    } else {
+      return parseFloat(this.getAttribute('valuea')); 
+    }
+  }
 
   set min(value) {
     this.setAttribute(attributes.MIN, value || DEFAULT_MIN);
@@ -309,7 +315,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} value The color value, this can be a hex code with the #
    */
   set color(value) {
-    // console.log('setting color to: ' + value);
     this.setAttribute(attributes.COLOR, value);
   }
 
@@ -318,16 +323,13 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   #updateColor() {
     const color = this.color;
     const ticks = this.container.querySelectorAll('.tick');
-    // console.log(ticks);
     ticks.forEach((tick) => {
       tick.style.setProperty('background-color', color);
     });
     this.thumb.style.setProperty('background-color', color);
-    console.log('computed-color');
     const rgbString = window.getComputedStyle(this.thumb).backgroundColor;
     // have to specify opacity in background-color, otherwise the opacity affects the ring border
     const rgbaString = rgbString.slice(0, 3) + 'a' + rgbString.slice(3, rgbString.length-1) + ', 0.1)';
-    console.log(rgbaString);
     this.thumbShadow.style.setProperty('background-color', rgbaString);
     this.thumbShadow.style.setProperty('border', `1px ${color} solid`);
     this.progressTrack.style.setProperty('background-color', color);
@@ -361,7 +363,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     return y >= top && y < bottom && x > left && x < right;
   }
     
-  #calculateUI(event) {
+  #calculateUIFromClick(event) {
     const [x, y] = [event.clientX, event.clientY];
     const top = this.trackBounds.TOP;
     const bottom = this.trackBounds.BOTTOM;
@@ -370,9 +372,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
     const clickedTrackArea = this.#wasCursorInBoundingBox(x, y, top, bottom, left, right);
 
-    // for single
     if (clickedTrackArea) {
-      // console.log('clickedTrackArea');
 
       const percent = this.#calcPercentFromX(x, left, right, this.thumbDraggable.clientWidth);
       const value = this.#calcValueFromPercent(percent);
@@ -380,19 +380,17 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       if (this.type === 'double') {
         const thumbX = this.thumbDraggable.getBoundingClientRect().x;
         const thumbXSecondary = this.thumbDraggableSecondary.getBoundingClientRect().x;
-        if (Math.abs(x - thumbX) < Math.abs(x-thumbXSecondary)) {
+        if (Math.abs(x - thumbX) < Math.abs(x - thumbXSecondary)) {
           // focus on the thumb a
           this.#hideTooltip(false, 'primary');
           this.valuea = value;
           this.thumbDraggable.focus();
-        } else {
           // focus on thumb b
           this.#hideTooltip(false, 'secondary');
           this.valueb = value;
           this.thumbDraggableSecondary.focus();
         }
-      } else if (this.type === 'single') {
-        // default; duplicate code
+      } else if (this.type === 'single' || this.type === 'vertical') {
         this.#hideTooltip(false);
         this.valuea = value;
         this.thumbDraggable.focus();
@@ -423,9 +421,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     } else {
       // blur both if clicked outside of hit area
       this.thumbDraggable.blur();
-      if (this.type === 'double' && this.thumbDraggableSecondary) {
-        this.thumbDraggableSecondary.blur();
-      }
+      this.type === 'double' && this.thumbDraggableSecondary && this.thumbDraggableSecondary.blur();
     }
   }
 
@@ -436,7 +432,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       // console.log('trackbounds.LEFT: ' + this.trackBounds.LEFT);
       // console.log('trackbounds.RIGHT: ' + this.trackBounds.RIGHT);
       // console.log('dir: ' + this.container.getAttribute('dir'));
-      // default values
       let thumbDraggable = this.thumbDraggable;
       let percent = this.percent;
       
@@ -488,6 +483,26 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   #addEventListeners() {
+    // INIT AFTER CSS LOADS
+    this.#postRenderInitialization();
+
+    // RESIZE OBSERVER for when window size changes
+    this.#addResizeObserver().observe(this.trackArea);
+
+    // DRAGGABLE EVENTS
+    this.#addDragEvents();
+    this.type === 'double' && this.#addDragEvents('secondary');
+    
+    // KEYBOARD EVENTS
+    this.#addKeyboardEvents();
+
+    // CLICK EVENTS
+    this.#addClickEvents();
+
+    return this;
+  }
+
+  #postRenderInitialization() {
     window.onload = () => {
       // init the this.trackBounds when render paint finishes
       this.trackBounds = {
@@ -497,35 +512,26 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         RIGHT: this.slider.offsetLeft + this.trackArea.clientWidth, // right 3
       };
 
-      // SINGLE
-      if (this.type === 'single' || this.type === 'double' || this.type === 'step') {
-        // update initial position of thumb now that bounds have been initialized
-        this.#moveThumb();
-        
-        // set the transition styles
-        if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
-          this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease');
-          this.progressTrack.style.setProperty('transition', 'width 0.2s ease');
-        }
-        
+      // update initial position of thumb now that bounds have been initialized
+      this.#moveThumb();
+      this.type === 'double' && this.#moveThumb('secondary');
+      
+      // set the transition styles
+      if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
+        this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease');
+        this.progressTrack.style.setProperty('transition', 'width 0.2s ease');
+      }
+      if (this.type === 'double' && this.thumbDraggableSecondary && !this.thumbDraggableSecondary.style.transition) {
+        this.thumbDraggableSecondary.style.setProperty('transition', 'transform 0.2s ease');
       }
       
-      // DOUBLE
-      if (this.type ==='double') {
-        // update initial position of thumb 2 
-        this.#moveThumb('secondary');
-        // set transition styles
-        if (!this.thumbDraggableSecondary.style.transition) {
-          this.thumbDraggableSecondary.style.setProperty('transition', 'transform 0.2s ease');
-        }
-      }
-
       // init custom colors
       this.#updateColor();
       this.#updateProgressBar();
-
     }
+  }
 
+  #addResizeObserver() {
     // update this.trackBounds with new values when window size changes
     const resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
@@ -538,98 +544,111 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
             LEFT: this.slider.offsetLeft, // left 2
             RIGHT: this.slider.offsetLeft + this.trackArea.clientWidth, // right 3
           };
-          // console.log('resizeObserver()')
-          // console.log(this.trackBounds);
-          this.#moveThumb();
 
-          if (this.type === 'double') {
-            this.#moveThumb('secondary');
-          }
+          this.#moveThumb();
+          this.type === 'double' && this.#moveThumb('secondary');
         }
       }
     });
 
-    resizeObserver.observe(this.trackArea);
+    return resizeObserver;
+  }
+  
+  #addClickEvents() {
+    this.onEvent('click', window, (event) => {
+      const idsSliderSelected = event.target.name === 'ids-slider';
+      // console.log('idsSliderSelected: ' + idsSliderSelected);
+  
+      this.#hideTooltip(!idsSliderSelected);
+      this.type === 'double' && this.#hideTooltip(!idsSliderSelected, 'secondary');
+  
+      // console.log(event.target.name);
+      // console.log(event.clientX + ', ' + event.clientY);
+      this.#calculateUIFromClick(event);
+    });
+  }
 
-    const primary = {
-      thumbDraggable: 'thumbDraggable',
-      percent: 'percent',
-      value: 'valuea',
-      type: 'primary',
-    };
+  #addDragEvents(primaryOrSecondary) {
+    let obj = {};
+    
+    if (this.type === 'double' && primaryOrSecondary === 'secondary') {
+      const secondary = {
+        thumbDraggable: this.thumbDraggableSecondary,
+        thumbDraggableOther: this.thumbDraggable,
+        percentAttribute: 'percentb',
+        valueAttribute: 'valueb',
+        type: 'secondary',
+      };
+
+      obj = secondary;
+    } else {
+      const primary = {
+        thumbDraggable: this.thumbDraggable,
+        thumbDraggableOther: this.thumbDraggableSecondary,
+        percentAttribute: 'percent',
+        valueAttribute: 'valuea',
+        type: 'primary',
+      };
+
+      obj = primary;
+    }
+
+    const swapZIndex = () => {
+      if (obj.thumbDraggableOther) {
+        obj.thumbDraggableOther.style.zIndex = 50;
+        obj.thumbDraggable.style.zIndex = 51;
+      }
+    }
 
     // TODO: make all these onEvents modular for both single/double thumbDraggables
     // Listen for drag event on draggable thumb
-    this.onEvent('ids-drag', this.thumbDraggable, (e) => {
+    this.onEvent('ids-drag', obj.thumbDraggable, (e) => {
       this.#hideTooltip(false);
 
-      const percent = this.#calcPercentFromX(e.detail.mouseX, this.trackBounds.LEFT, this.trackBounds.RIGHT, this.thumbDraggable.clientWidth);
+      const percent = this.#calcPercentFromX(e.detail.mouseX, this.trackBounds.LEFT, this.trackBounds.RIGHT, obj.thumbDraggable.clientWidth);
       const value = this.#calcValueFromPercent(percent);
-      if (this.type === 'double' && this.thumbDraggableSecondary) {
-        this.thumbDraggableSecondary.style.zIndex = 50;
-      }
-      this.thumbDraggable.style.zIndex = 51;
+      this.#hideThumbShadow(true, obj.type);
+
+      this.type === 'double' && swapZIndex();
       // only set the percent -- because changing the value causes the moveThumb() to fire like crazy 
       // -- dragging becomes jittery because moveThumb() sets translate at the same time dragging sets translate
-      this.percent = percent;
+      this.setAttribute(obj.percentAttribute, percent);
     });
     
-    this.onEvent('ids-dragstart', this.thumbDraggable, () => {
-      this.thumbDraggable.style.removeProperty('transition'); //disable transitions while dragging, doesn't quite work... css default style doesn't get removed
+    this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
+      obj.thumbDraggable.style.removeProperty('transition'); //disable transitions while dragging, doesn't quite work... css default style doesn't get removed
       this.progressTrack.style.removeProperty('transition');
-      this.thumbDraggable.blur();
+      obj.thumbDraggable.blur();
+      this.type === 'double' && obj.thumbDraggableOther.blur();
     });
     
-    this.onEvent('ids-dragend', this.thumbDraggable, (e) => {
-      this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
+    this.onEvent('ids-dragend', obj.thumbDraggable, (e) => {
+      obj.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
       this.progressTrack.style.setProperty('transition', 'width 0.2s ease');
-      this.thumbDraggable.focus();
+      obj.thumbDraggable.focus();
       // to ensure that after dragging, the value is updated..
       //  this is the roundabout solution to prevent the firing of moveThumb() every single ids-drag event
       // i don't really like this roundabout cause we're setting everything else BUT the value, which we save for the end...
       // but I can't think of anything better atm
-      this.valuea = this.#calcValueFromPercent(this.percent);
+      const freshPercent = this.getAttribute(obj.percentAttribute);
+      const calcValue = this.#calcValueFromPercent(freshPercent);
+      this.setAttribute(obj.valueAttribute, calcValue);
     });
     
-    this.onEvent('focus', this.thumbDraggable, () => {
-      this.#hideThumbShadow(false, 'primary');
+    this.onEvent('focus', obj.thumbDraggable, () => {
+      if (this.type === 'double') {
+        swapZIndex();
+        obj.thumbDraggableOther.blur();
+      }
+        this.#hideThumbShadow(false, obj.type);
     });
 
-    this.onEvent('blur', this.thumbDraggable, () => {
-      this.#hideThumbShadow(true, 'primary');
+    this.onEvent('blur', obj.thumbDraggable, () => {
+      this.#hideThumbShadow(true, obj.type);
     });
-    
-    if (this.type === 'double') {
-      this.onEvent('ids-drag', this.thumbDraggableSecondary, (e) => {
-        this.#hideTooltip(false);
-  
-        const percent = this.#calcPercentFromX(e.detail.mouseX, this.trackBounds.LEFT, this.trackBounds.RIGHT, this.thumbDraggableSecondary.clientWidth);
-        const value = this.#calcValueFromPercent(percent);
-        this.thumbDraggable.style.zIndex = 50;
-        this.thumbDraggableSecondary.style.zIndex = 51;
-        this.percentb = percent;
-      });
-      this.onEvent('ids-dragstart', this.thumbDraggableSecondary, () => {
-        this.thumbDraggableSecondary.style.removeProperty('transition');
-        this.progressTrack.style.removeProperty('transition');
-        this.thumbDraggableSecondary.blur();
-      });
-      
-      this.onEvent('ids-dragend', this.thumbDraggableSecondary, (e) => {
-        this.thumbDraggableSecondary.style.setProperty('transition', 'transform 0.2s ease 0s');
-        this.progressTrack.style.setProperty('transition', 'width 0.2s ease');
-        this.thumbDraggableSecondary.focus();
-        this.valueb = this.#calcValueFromPercent(this.percentb);
-      });
-      this.onEvent('focus', this.thumbDraggableSecondary, () => {
-        this.#hideThumbShadow(false, 'secondary');
-      });
-  
-      this.onEvent('blur', this.thumbDraggableSecondary, () => {
-        this.#hideThumbShadow(true, 'secondary');
-      });
-    }
-    
+  }
+
+  #addKeyboardEvents() {
     this.onEvent('keydown', document, (event) => {
       if (document.activeElement.name === 'ids-slider') {
         // check if focus is on b or a
@@ -653,7 +672,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           // TODO: might need to swap for RTL
           case "ArrowLeft":
             if (this.type === 'step') {
-              console.log(value - (this.max / (this.stepNumber - 1)))
               this.setAttribute(attribute, value - (this.max / (this.stepNumber - 1)));
             }
             else {
@@ -663,31 +681,16 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
             break;
           case "ArrowRight":
             if (this.type === 'step') {
-              // console.log(value + (this.max / (this.stepNumber - 1)))
               this.setAttribute(attribute, value + (this.max / (this.stepNumber - 1)));
             } else {
+              console.log('stepping right')
+              console.log(Math.floor(value) + 1);
               this.setAttribute(attribute, Math.floor(value) + 1);
             }
             break;
         }
       }
     });
-
-    // Listen for click events
-    // check if click landed on ids-slider or outside of it
-    this.onEvent('click', window, (event) => {
-      const idsSliderSelected = event.target.name === 'ids-slider';
-      // console.log('idsSliderSelected: ' + idsSliderSelected);
-
-      this.#hideTooltip(!idsSliderSelected);
-      this.type === 'double' && this.#hideTooltip(!idsSliderSelected, 'secondary');
-
-      // console.log(event.target.name);
-      // console.log(event.clientX + ', ' + event.clientY);
-      this.#calculateUI(event);
-    });
-    
-    return this;
   }
 }
 
