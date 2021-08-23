@@ -91,6 +91,12 @@ export default class IdsTabs extends mix(IdsElement).with(
     if (!this.hasAttribute(attributes.COLOR_VARIANT)) {
       this.#checkAndSetColorVariant();
     }
+
+    this.onEvent('tabselect', this, (e) => {
+      if (e.target.value !== this.value) {
+        this.setAttribute(attributes.VALUE, e.target.value);
+      }
+    });
   }
 
   disconnectedCallback() {
@@ -142,17 +148,11 @@ export default class IdsTabs extends mix(IdsElement).with(
    * @param {string} value A value which represents a currently selected tab
    */
   set value(value) {
-    if (this.getAttribute(attributes.VALUE) === value) {
-      return;
+    if (this.getAttribute(attributes.VALUE) !== value) {
+      this.setAttribute(attributes.VALUE, value);
     }
 
-    this.setAttribute(attributes.VALUE, value);
-    // this.#updateSelectionState();
-
-    // make sure we send them the click
-    // on the next paint and any overall
-    // selection updates in siblings are
-    // made properly
+    this.#updateSelectionState();
 
     this.triggerEvent('change', this, {
       bubbles: false,
@@ -210,7 +210,7 @@ export default class IdsTabs extends mix(IdsElement).with(
           /* istanbul ignore next */
           this.#updateCallbacks();
           /* istanbul ignore next */
-          // this.#updateSelectionState();
+          this.#updateSelectionState();
         }
         break;
       }
@@ -242,13 +242,6 @@ export default class IdsTabs extends mix(IdsElement).with(
             if (Boolean(m.target.selected) && this.value !== m.target.value) {
               this.value = m.target.value;
             }
-          }
-        }
-
-        /* istanbul ignore else */
-        if (m.target instanceof IdsTab || m.target instanceof IdsTabs) {
-          if (value !== m.oldValue && m.attributeName === 'value') {
-            this.#updateSelectionState();
           }
         }
         break;
@@ -431,13 +424,23 @@ export default class IdsTabs extends mix(IdsElement).with(
       const tabValue = this.children[i].getAttribute(attributes.VALUE);
       const isTabSelected = Boolean(this.value === tabValue);
 
-      if (Boolean(this.children[i].selected) !== isTabSelected) {
+      if (this.children[i].selected !== isTabSelected) {
         this.children[i].selected = isTabSelected;
       }
 
       if (!hadTabSelection && Boolean(this.children[i].selected)) {
         hadTabSelection = true;
       }
+    }
+
+    // if no selection found, flag the first child;
+    // this will possibly send a callback up to context for
+    // other listeners and trigger a value change
+
+    if (!hadTabSelection) {
+      window.requestAnimationFrame(() => {
+        this.children[0].selected = true;
+      });
     }
   }
 

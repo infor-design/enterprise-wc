@@ -30,7 +30,7 @@ const { stringToBool, buildClassAttrib } = IdsStringUtils;
  */
 @customElement('ids-tab')
 @scss(styles)
-class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
@@ -123,7 +123,9 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
     this.setAttribute('aria-label', this.#getReadableAriaLabel());
     this.onEvent('click', this, () => {
-      // @TODO
+      if (!this.hasAttribute(attributes.SELECTED)) {
+        this.setAttribute(attributes.SELECTED, '');
+      }
     });
   }
 
@@ -135,15 +137,17 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
     /* istanbul ignore if */
     if (!isValueTruthy) {
-      this.container.classList.remove(attributes.SELECTED);
       this.removeAttribute('selected');
+      this.container.classList.remove('selected');
       this.container?.children?.[0]?.removeAttribute?.('font-weight');
       this.setAttribute('tabindex', '-1');
     } else {
-      this.container.classList.add(attributes.SELECTED);
       this.setAttribute('selected', '');
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
+      this.container.classList.add('selected');
       this.setAttribute('tabindex', '0');
+
+      this.triggerEvent('tabselect', this, { bubbles: true });
     }
 
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
@@ -191,6 +195,10 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     if (value !== this.getAttribute(attributes.VALUE)) {
       /* istanbul ignore next */
       this.setAttribute(attributes.VALUE, value);
+      this.triggerEvent('tabvaluechange', this, {
+        bubbles: true,
+        detail: { value: `${value}` }
+      });
     }
   }
 
@@ -260,6 +268,10 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   #getReadableAriaLabel() {
     const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
 
+    if (!idsTextEls.length) {
+      return '';
+    }
+
     return idsTextEls.map((textEl) => {
       const slotNode = textEl.querySelector('slot')?.assignedNodes?.()?.[0];
       return slotNode?.textContent || textEl.textContent;
@@ -275,7 +287,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     const idsText = this.container?.querySelector('ids-text');
     const slotNode = idsText.querySelector('slot')?.assignedNodes?.()?.[0];
 
-    if (slotNode) {
+    if (slotNode && idsText) {
       idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
     }
   };
@@ -285,5 +297,3 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     this.container.focus();
   }
 }
-
-export default IdsTab;
