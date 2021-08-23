@@ -195,11 +195,12 @@ export default class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     if (value !== this.getAttribute(attributes.VALUE)) {
       /* istanbul ignore next */
       this.setAttribute(attributes.VALUE, value);
-      this.triggerEvent('tabvaluechange', this, {
-        bubbles: true,
-        detail: { value: `${value}` }
-      });
     }
+
+    this.triggerEvent('tabvaluechange', this, {
+      bubbles: true,
+      detail: { value: `${value}` }
+    });
   }
 
   /** @returns {string} value The value which becomes selected by ids-tabs component */
