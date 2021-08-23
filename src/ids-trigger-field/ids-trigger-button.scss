@@ -5,9 +5,13 @@
   @include border-1();
   @include border-transparent();
   @include cursor-pointer();
+  @include flex();
+  @include p-0();
   @include rounded-round();
   @include text-slate-60();
 
+  align-items: center;
+  justify-content: center;
   height: 28px;
   margin-left: -32px;
   width: 28px;
@@ -30,10 +34,6 @@
   &.readonly {
     @include cursor-default();
     @include text-slate-40();
-  }
-
-  ::slotted(ids-icon) {
-    margin-left: -2px;
   }
 
   &.triggerfield-has-content-borders {

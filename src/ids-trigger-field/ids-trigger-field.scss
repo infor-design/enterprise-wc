@@ -19,12 +19,10 @@ $input-size-default: map-get($input-sizes, 'md');
     }
 
     :host([size='#{$key}']) .has-content-borders .ids-trigger-field-content {
-      max-width: $val;
+      max-width: $val + 28 + 16; // Add the width and margins of the trigger button.
     }
   }
 }
-
-
 
 .ids-trigger-field {
   @include flex();

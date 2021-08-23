@@ -269,8 +269,9 @@ class IdsTriggerField extends IdsInput {
    * @param {string} d string value from the disabled attribute
    */
   set disabled(d) {
-    if (d) {
+    if (stringUtils.stringToBool(d)) {
       this.setAttribute('disabled', d.toString());
+      this.setAttribute(attributes.TABBABLE, 'false');
     }
   }
 

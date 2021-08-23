@@ -110,7 +110,6 @@ class IdsColorPicker extends mix(IdsElement).with(
             <ids-text audible="true">Pick Custom Color</ids-text>
           </label>
           <ids-input
-            size="full"
             value="${this.value.toLowerCase()}"
             dirty-tracker="true"
             class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}"
