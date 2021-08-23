@@ -6,6 +6,7 @@ import {
 } from '../../core';
 
 import styles from './ids-layout-grid.scss';
+import IdsLayoutGridCell from './ids-layout-grid-cell';
 
 /**
  * IDS Layout Grid Component
