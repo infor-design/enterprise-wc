@@ -3,7 +3,7 @@
 - [x]when user clicks running track and thumb slides towards new position, and focus shadow
 - [x] add outer solid ring when clicked
 - [x] add types enum
-- [ ] decide order of events when valuea is changed
+- [x] decide order of events when valuea is changed
   - [x] when user clicks hit area -> move thumb towards the correct pixels based on mouse click xcoord -> percent
   - [x] when user drags the thumb -> calculate the value & percent based on mouse xcoord
   - [x] when value is set -> calculate the percent and translateX for thumb
@@ -23,4 +23,8 @@
   - [x] add tab arrow key left/right functionality
   - [ ] settle on naming conventions for the attributes
   - [x] add the progress color bar btw the two thumbs
+    - [x] fix: progress color bar does not show upon init
     - [ ] make the animation smooth btw the two thumbs when progress bar size changes
+- [ ] make it work for RTL
+- [x] step slider
+  - [ ] add step labels
