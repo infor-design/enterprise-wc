@@ -62,6 +62,10 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
 
     // Append an IDS Tooltip and show it
     const tooltip = document.createElement('ids-tooltip');
+    /* istanbul ignore next */
+    if (!tooltip.state) {
+      tooltip.state = {};
+    }
     tooltip.state.noAria = true;
     tooltip.target = this.toolTipTarget;
     tooltip.alignTarget = this.toolTipTarget;

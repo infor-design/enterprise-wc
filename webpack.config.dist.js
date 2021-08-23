@@ -36,7 +36,9 @@ module.exports = {
     libraryTarget: 'umd',
     libraryExport: 'default',
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    // doesnt work need a way to serve ids-locale/cultures in the distro
+    publicPath: './components/ids-locale/cultures'
   },
   module: {
     rules: [
