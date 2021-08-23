@@ -103,7 +103,7 @@ describe('IdsTriggerField Component', () => {
     triggerField.addEventListener('triggerclicked', handler);
 
     triggerField.parentElement.querySelector('ids-trigger-button').click();
-    expect(handler.mock.calls.length).toBe(1);
+    expect(handler.mock.calls.length).toBe(2);
   });
 
   it('can veto beforetriggerclicked event', () => {
@@ -115,7 +115,7 @@ describe('IdsTriggerField Component', () => {
     triggerField.addEventListener('triggerclicked', handler);
 
     triggerField.parentElement.querySelector('ids-trigger-button').click();
-    expect(beforeHandler.mock.calls.length).toBe(1);
+    expect(beforeHandler.mock.calls.length).toBe(2);
     expect(handler.mock.calls.length).toBe(0);
   });
 
