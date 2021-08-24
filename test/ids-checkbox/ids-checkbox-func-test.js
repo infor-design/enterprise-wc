@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsCheckbox from '../../src/ids-checkbox/ids-checkbox';
+import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
 
 describe('IdsCheckbox Component', () => {
   let cb;

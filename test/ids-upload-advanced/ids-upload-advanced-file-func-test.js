@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsUploadAdvancedFile from '../../src/ids-upload-advanced/ids-upload-advanced-file';
+import IdsUploadAdvancedFile from '../../src/components/ids-upload-advanced/ids-upload-advanced-file';
 
 describe('IdsUploadAdvancedFile Component', () => {
   let el;

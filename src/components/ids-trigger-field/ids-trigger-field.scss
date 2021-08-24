@@ -1,0 +1,54 @@
+@import '../../core/ids-base';
+
+// Input sizes
+$input-sizes: (
+  xs: 75px,
+  sm: 150px,
+  mm: 225px,
+  md: 300px,
+  lg: 400px,
+  full: 100%,
+);
+$input-size-default: map-get($input-sizes, 'md');
+
+@mixin input-sizes {
+  @each $key, $val in $input-sizes {
+    ::slotted(ids-input[size='#{$key}']) {
+      max-width: $val;
+    }
+  }
+}
+
+.ids-trigger-field {
+  align-items: center;
+  display: flex;
+
+  &.compact,
+  &.field-height-xs {
+    ::slotted(ids-trigger-button) {
+      @include mt-8();
+    }
+  }
+
+  &.has-validation-message ::slotted(ids-trigger-button) {
+    margin-top: -16px;
+  }
+}
+
+::slotted(ids-trigger-button) {
+  @include relative();
+  @include mt-4();
+
+  flex: 0;
+  z-index: 2;
+}
+
+::slotted(ids-input) {
+  @include relative();
+
+  flex: 1;
+  max-width: $input-size-default;
+  z-index: 1;
+}
+
+@include input-sizes();

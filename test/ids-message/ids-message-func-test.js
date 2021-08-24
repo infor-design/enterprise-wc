@@ -1,11 +1,11 @@
 /**
  * @jest-environment jsdom
  */
-import IdsMessage from '../../src/ids-message';
+import IdsMessage from '../../src/components/ids-message';
 
 // Supporing components
-import IdsModalButton from '../../src/ids-modal-button';
-import IdsText from '../../src/ids-text/ids-text';
+import IdsModalButton from '../../src/components/ids-modal-button';
+import IdsText from '../../src/components/ids-text/ids-text';
 
 const messageId = 'test-message';
 const messageStatus = 'error';

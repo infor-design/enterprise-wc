@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsContainer from '../../src/ids-container/ids-container';
-import IdsIcon from '../../src/ids-icon/ids-icon';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsIcon from '../../src/components/ids-icon/ids-icon';
 
 describe('IdsIcon Component', () => {
   let elem;

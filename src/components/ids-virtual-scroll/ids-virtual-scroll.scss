@@ -1,0 +1,20 @@
+/* Ids Virtual Scroller Css */
+@import '../../core/ids-base';
+
+.ids-virtual-scroll {
+  @include w-full();
+
+  height: 250px;
+  overflow: auto;
+  display: grid;
+  grid-auto-flow: column;
+
+  &:focus {
+    @include outline-none();
+    justify-self: end;
+  }
+}
+
+.ids-virtual-scroll-viewport {
+  position: relative;
+}

@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsFieldset from '../../src/ids-fieldset/ids-fieldset';
+import IdsFieldset from '../../src/components/ids-fieldset/ids-fieldset';
 
 describe('IdsFieldset Component', () => {
   let fieldset;

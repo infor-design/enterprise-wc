@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsSwitch from '../../src/ids-switch/ids-switch';
+import IdsSwitch from '../../src/components/ids-switch/ids-switch';
 
 describe('IdsSwitch Component', () => {
   let el;

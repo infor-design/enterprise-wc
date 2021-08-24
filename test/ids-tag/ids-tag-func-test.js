@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsTag from '../../src/ids-tag/ids-tag';
+import IdsTag from '../../src/components/ids-tag/ids-tag';
 
 describe('IdsTag Component', () => {
   let tag;

@@ -1,4 +1,4 @@
-import { convertPatternFromString } from '../../src/ids-mask/ids-mask-common';
+import { convertPatternFromString } from '../../src/components/ids-mask/ids-mask-common';
 
 describe('Ids Mask (common API)', () => {
   it('can convert a string-based pattern to a Javascript array', () => {

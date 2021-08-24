@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsDataGrid, IdsDataGridFormatters } from '../../src/ids-data-grid/ids-data-grid';
-import IdsContainer from '../../src/ids-container/ids-container';
-import dataset from '../../app/data/books.json';
+import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-data-grid/ids-data-grid';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import dataset from '../../demos/data/books.json';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid;

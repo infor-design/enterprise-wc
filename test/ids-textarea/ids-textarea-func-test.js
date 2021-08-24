@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsTextarea from '../../src/ids-textarea/ids-textarea';
-import IdsEventsMixin from '../../src/ids-mixins/ids-events-mixin';
+import IdsTextarea from '../../src/components/ids-textarea/ids-textarea';
+import IdsEventsMixin from '../../src/mixins';
 
 describe('IdsTextarea Component', () => {
   let textarea;
