@@ -1,3 +1,4 @@
+import './header-tabs-demo.scss';
 import IdsText from '../../src/components/ids-text';
 import IdsHeader from '../../src/components/ids-header';
 
