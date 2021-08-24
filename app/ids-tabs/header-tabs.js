@@ -1,11 +1,12 @@
 import IdsText from '../../src/ids-text/ids-text';
+import IdsHeader from '../ids-header';
+
 import IdsTabs, {
   IdsTab,
   IdsTabContent,
   IdsTabContext,
   IdsTabDivider
 } from '../../src/ids-tabs';
-import IdsHeader from '../ids-header';
 
 document.addEventListener('DOMContentLoaded', () => {
   const tabs = document.getElementById('ids-tabs-basic');

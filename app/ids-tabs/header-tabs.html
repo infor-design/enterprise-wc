@@ -1,7 +1,17 @@
 <ids-text font-size="12" type="h1" audible="true">Ids Tabs (Header Tabs)</ids-text>
-
 <ids-tab-context value="contracts">
   <ids-header>
+    <ids-toolbar>
+      <ids-toolbar-section>
+        <ids-toolbar-section type="title">
+          <ids-text font-size="20" color-variant="alternate">Header Tabs</ids-text>
+          <ids-text font-size="14" color-variant="alternate">ids-tabs for an overall app header</ids-text>
+        </ids-toolbar-section>
+      </ids-toolbar-section>
+      <ids-toolbar-section type="buttonset" align="end">
+      </ids-toolbar-section>
+      <ids-theme-switcher mode="light" version="new" color-variant="alternate"></ids-theme-switcher>
+    </ids-toolbar>
     <ids-tabs id="ids-tabs-basic">
       <ids-tab value="contracts">Contracts</ids-tab>
       <ids-tab value="opportunities">Opportunities</ids-tab>
@@ -24,12 +34,16 @@
     </div>
   </ids-tab-content>
   <ids-tab-content value="attachments" for="ids-tabs-basic">
-    It’s ridiculous to live 100 years and only be able to remember 30 million bytes.
-    You know, less than a compact disc. The human condition is really becoming more
-    obsolete every minute. (Marvin Minsky)
+    <ids-text font-size="14">
+      It's ridiculous to live 100 years and only be able to remember 30 million bytes.
+      You know, less than a compact disc. The human condition is really becoming more
+      obsolete every minute. (Marvin Minsky)
+    </ids-text>
   </ids-tab-content>
   <ids-tab-content value="notes" for="ids-tabs-basic">
-    If debugging is the process of removing bugs, then programming must be the process of
-    putting them in. (Edsger W. Dijkstra)
+    <ids-text font-size="14">
+      If debugging is the process of removing bugs, then programming must be the process of
+      putting them in. (Edsger W. Dijkstra)
+    </ids-text>
   </ids-tab-content>
 </ids-tab-context>

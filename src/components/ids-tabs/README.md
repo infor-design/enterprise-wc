@@ -32,7 +32,29 @@ A vertical tabs component.
 </ids-tabs>
 ```
 
-TODO: phase i examples
+Using a tab context which auto-updates the active `ids-tab-content`.
+```html
+<ids-tabs-context> <!-- context has no outward styling or content -->
+    <ids-tabs value="one">
+        <ids-tab value="one">Section 1</ids-tab>
+        <ids-tab value="two">Section 2</ids-tab>
+        <ids-tab value="three">Section 3</ids-tab>
+    </ids-tabs>
+    <div class="tab-content">
+        <ids-tab-content value="one">
+            This will be initially visible
+        </ids-tab-content>
+        <ids-tab-content value="two">
+            If ids-tabs value="two" is selected, or ids-tab with value "two"
+            is set as selected, then this will be visible and one will be hidden
+        </ids-tab-content>
+        <ids-tab-content value="three">
+            And this will show if the ids-tabs value or selection becomes "three",
+            similar to the previous content entry. Only one will be shown at once.
+        </ids-tab-content>
+    </div>
+</ids-tabs-context>
+```
 
 ## Settings and Attributes
 
