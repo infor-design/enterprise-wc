@@ -82,8 +82,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       'valueb',
       attributes.MIN,
       attributes.MAX,
-      attributes.PERCENT,
-      'percentb',
       attributes.STEP_NUMBER,
       attributes.LABEL,
     ];
@@ -199,9 +197,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           x.innerHTML = labels[i];
         })
       } else {
+        // TODO: throw error
         console.log('label array size must match amt of label elements');
       }
     } else {
+      // TODO: throw error
       console.log('label array size must match step number')
     }
   }
@@ -216,7 +216,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         if (stepLength !== this.stepNumber) {
           const x = Math.abs(stepLength - this.stepNumber);
           for (let i = 0; i < x; i++) {
-            console.log('adding tick');
             // remove or add ticks
             stepLength > this.stepNumber ? this.container.querySelector('.tick').remove() : this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterend', '<span class="tick"></span>');
           }
@@ -230,15 +229,16 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get stepNumber() { return parseInt(this.getAttribute('step-number')) || 2; }
 
   set percentb(value) {
-    this.setAttribute('percentb', value);
+    this._percentb = value;
     this.#updateProgressBar();
     this.#updateToolTip(this.#calcValueFromPercent(value), 'secondary');
   }
-
+  
   get percentb() { 
-    if (this.getAttribute('percentb')) {
-      return this.getAttribute('percentb');
+    if (this._percentb) {
+      return this._percentb;
     } else {
+
       if (this.#withinBounds(this.valueb)) {
         return (this.valueb - this.min) / (this.max - this.min) * 100;
       } else {
@@ -246,15 +246,16 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       }
     }
   }
+
   set percent(value) {
-    this.setAttribute('percent', value);
+    this._percent = value;
     this.#updateProgressBar();
     this.#updateToolTip(this.#calcValueFromPercent(value));
   }
 
   get percent() { 
-    if (this.getAttribute('percent')) {
-      return this.getAttribute('percent');
+    if (this._percent) {
+      return this._percent;
     } else {
       if (this.#withinBounds(this.valuea)) {
         return (this.valuea - this.min) / (this.max - this.min) * 100;
@@ -271,7 +272,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set valueb(value) {
     if (this.#withinBounds(value)) {
       this.setAttribute('valueb', value);
-      this.setAttribute('percentb', (this.valueb - this.min) / (this.max - this.min) * 100);
+      this.percentb = (this.valueb - this.min) / (this.max - this.min) * 100;
       this.#updateToolTip(value, 'secondary');
       this.#moveThumb('secondary');
     } else {
@@ -286,17 +287,21 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get valueb() { 
     const b = this.getAttribute('valueb')
     if (b === null || b === '' || Number.isNaN(parseFloat(b))) {
+      // TODO: check why it's NaN
+      console.log('b is null ' + b === null )
+      console.log('b is empty string ' + b === '' )
+      console.log('b is NaN ' + Number.isNaN(parseFloat(b))) 
       return DEFAULT_VALUE_SECONDARY;
     } else {
       return parseFloat(this.getAttribute('valueb')); 
     }
   }
-
+  
   
   set valuea(value) {
     if (this.#withinBounds(value)) {
       this.setAttribute('valuea', value);
-      this.setAttribute('percent', (this.valuea - this.min) / (this.max - this.min) * 100);
+      this.percent = (this.valuea - this.min) / (this.max - this.min) * 100;
       this.#updateToolTip(value);
       this.#moveThumb();
     } else {
@@ -618,8 +623,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       const secondary = {
         thumbDraggable: this.thumbDraggableSecondary,
         thumbDraggableOther: this.thumbDraggable,
-        percentAttribute: 'percentb',
-        valueAttribute: 'valueb',
         type: 'secondary',
       };
 
@@ -628,8 +631,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       const primary = {
         thumbDraggable: this.thumbDraggable,
         thumbDraggableOther: this.thumbDraggableSecondary,
-        percentAttribute: 'percent',
-        valueAttribute: 'valuea',
         type: 'primary',
       };
 
@@ -655,7 +656,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       this.type === 'double' && swapZIndex();
       // only set the percent -- because changing the value causes the moveThumb() to fire like crazy 
       // -- dragging becomes jittery because moveThumb() sets translate at the same time dragging sets translate
-      this.setAttribute(obj.percentAttribute, percent);
+      obj.type === 'secondary' ? this.percentb = percent : this.percent = percent;
     });
     
     this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
@@ -673,12 +674,13 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       //  this is the roundabout solution to prevent the firing of moveThumb() every single ids-drag event
       // i don't really like this roundabout cause we're setting everything else BUT the value, which we save for the end...
       // but I can't think of anything better atm
-      const freshPercent = this.getAttribute(obj.percentAttribute);
+      const freshPercent = obj.type === 'secondary' ? this.percentb : this.percent;
       const calcValue = this.#calcValueFromPercent(freshPercent);
-      this.setAttribute(obj.valueAttribute, calcValue);
+      obj.type === 'secondary' ? this.valueb = calcValue : this.value = calcValue;
     });
     
     this.onEvent('focus', obj.thumbDraggable, () => {
+      console.log(obj.type + ' is focused')
       if (this.type === 'double') {
         swapZIndex();
         obj.thumbDraggableOther.blur();

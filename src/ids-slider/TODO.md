@@ -18,6 +18,7 @@
   - [x] change value when key LEFT/RIGHT
 - [x] privatize functions
 - [x] double range slider
+  - [ ] fix bug where when drag is released too close to other thumb, it calculates the UI translate for that thumb thru calculateUIFromClick()
   - [x] make the code clean, remove duplicate, make functions modular
   - [x] make sure to add styles for thumb draggable secondary transitions
   - [x] add tab arrow key left/right functionality
@@ -30,3 +31,4 @@
 - [x] step slider
   - [x] add step labels
 - [ ] make function for init css styles
+- [ ] remove percent attributes--don't want them accessible from outside
