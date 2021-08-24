@@ -64,18 +64,7 @@ export default class IdsTabs extends mix(IdsElement).with(
   }
 
   template() {
-<<<<<<< HEAD:src/components/ids-tabs/ids-tabs.js
-    return (
-      `<div
-        ${ IdsStringUtils.buildClassAttrib('ids-tabs', this.orientation) }
-        part="container"
-      >
-        <slot></slot>
-      </div>`
-    );
-=======
     return '<slot></slot>';
->>>>>>> 42125a29... remove ids-tab' shadowDOM, +ids-tab-content & boilerplate, fix attrib-provider (main merge mistake?), misc:src/ids-tabs/ids-tabs.js
   }
 
   connectedCallback() {

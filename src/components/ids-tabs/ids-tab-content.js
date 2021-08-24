@@ -1,17 +1,17 @@
-import { stringUtils } from '../ids-base';
+import { IdsStringUtils } from '../../utils';
 import {
   IdsElement,
   customElement,
   attributes,
   scss,
   mix
-} from '../ids-base/ids-element';
+} from '../../core';
 
 import {
   IdsKeyboardMixin,
   IdsEventsMixin,
   IdsThemeMixin
-} from '../ids-mixins';
+} from '../../mixins';
 
 import IdsTab from './ids-tab';
 import styles from './ids-tab-content.scss';
@@ -72,7 +72,7 @@ export default class IdsTabContent extends mix(IdsElement).with(
   }
 
   set active(value) {
-    const isTruthy = stringUtils.stringToBool(value);
+    const isTruthy = IdsStringUtils.stringToBool(value);
 
     if (isTruthy && this.getAttribute(attributes.ACTIVE) !== '') {
       this.setAttribute(attributes.ACTIVE, '');

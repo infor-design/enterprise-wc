@@ -4,13 +4,8 @@ import {
   scss
 } from '../../core/ids-element';
 
-<<<<<<< HEAD:src/components/ids-tabs/ids-tabs-divider.js
 import { IdsEventsMixin } from '../../mixins';
 import styles from './ids-tabs-divider.scss';
-=======
-import { IdsEventsMixin } from '../ids-mixins';
-import styles from './ids-tab-divider.scss';
->>>>>>> 42125a29... remove ids-tab' shadowDOM, +ids-tab-content & boilerplate, fix attrib-provider (main merge mistake?), misc:src/ids-tabs/ids-tab-divider.js
 
 /* istanbul ignore next */
 /**
