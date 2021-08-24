@@ -11,6 +11,7 @@ import {
   IdsEventsMixin,
   IdsThemeMixin
 } from '../ids-mixins';
+import IdsThemeSwitcher from '../ids-theme-switcher/ids-theme-switcher';
 
 import styles from './ids-slider.scss';
 
@@ -49,25 +50,18 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.thumb = this.container.querySelector('.thumb');
     this.thumbDraggable = this.container.querySelector('.thumb-draggable');
     this.thumbShadow = this.container.querySelector('.thumb-shadow');
-    this.tooltip = this.container.querySelector('.tooltip:nth-of-type(1)');
-    this.tooltipText = this.container.querySelector('.tooltip:nth-of-type(1) .text');
+    this.tooltip = this.container.querySelector('.tooltip');
+    this.tooltipText = this.container.querySelector('.tooltip .text');
+    this.tickContainer = this.container.querySelector('.tick-container');
     
     if (this.type === 'double') {
-      this.thumbSecondary = this.container.querySelector('.thumb:nth-of-type(2)');
-      this.thumbDraggableSecondary = this.container.querySelector('.thumb-draggable:nth-of-type(2)');
+      this.thumbSecondary = this.container.querySelector('.thumb.secondary');
+      this.thumbDraggableSecondary = this.container.querySelector('.thumb-draggable.secondary');
       this.thumbShadowSecondary = this.container.querySelector('.thumb-shadow.secondary');
       this.tooltipSecondary = this.container.querySelector('.tooltip.secondary')
       this.tooltipTextSecondary = this.container.querySelector('.tooltip.secondary .text.secondary');
     } else if (this.type !== 'double') {
-      this.container.querySelector('.thumb-draggable:nth-of-type(2)').remove();
-    }
-
-    if (this.type === 'step') {
-      this.tickContainerStep = this.container.querySelector('.tick-container.step');
-      this.container.querySelector('.tick-container.end').remove();
-      this.container.querySelector('.tick-container.start').remove();
-    } else {
-      this.container.querySelector('.tick-container.step').remove();
+      this.container.querySelector('.thumb-draggable.secondary').remove();
     }
 
     this.#addEventListeners();
@@ -129,40 +123,34 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           </div>
           <div class="track">
           <div class="track-progress"></div>
-            <div class="tick-container end">
-              <span class="tick"></span>
-            </div>
-            <div class="tick-container start">
-              <span class="tick"></span>
-            </div>
-            <div class="tick-container step">
+            <div class="tick-container">
               <span class="tick"></span>
               <span class="tick"></span>
             </div>
           </div>
-          <ids-text label class="label min">${this.min ?? DEFAULT_MIN}</ids-text>
-          <ids-text label class="label max">${this.max ?? DEFAULT_MAX}</ids-text>
         </div>
       </div>
     `;
   }
 
   #updateToolTip(value, primaryOrSecondary) {
-    if (this.type === 'step') {
-      this.tooltipText.innerHTML = Math.ceil(value);
-    } else {
-     if (primaryOrSecondary === 'secondary') {
-       this.#hideTooltip(false, 'secondary');
-      //  const tooltipTextSecondary = this.container.querySelector('.tooltip.secondary .text.secondary');
-       this.tooltipTextSecondary.innerHTML = Math.ceil(value);
-     } else {
-       this.#hideTooltip(false);
-       this.tooltipText.innerHTML = Math.ceil(value);
-     }
+    let tooltipText = this.tooltipText;
+    let type = 'primary';
+
+    if (primaryOrSecondary === 'secondary') {
+      tooltipText = this.tooltipTextSecondary;
+      type = 'secondary';
+    }
+
+    tooltipText.innerHTML = Math.ceil(value);
+
+    if(this.type !== 'step') {
+      this.#hideTooltip(false, type)
     }
   }
   
   #updateProgressBar() {
+    // TODO: add vertical settings
     if (this.type === 'single' || this.type === 'step') {
       this.slider.style.setProperty("--percentStart", 0);
       this.slider.style.setProperty("--percentEnd", this.percent);
@@ -174,8 +162,48 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 
-  #setStepLabels(array) {
-    // set innerHTML of whatever div element attached to tick 
+  set labels(array) {
+    this._labels = array;
+    this.#setStepLabels();
+  }
+
+  get labels() {
+    return this._labels;
+  }
+
+  #setStepLabels() {
+    if (this.type !== 'step') return;
+
+    const labels = this.labels;
+    const stepNumber = this.stepNumber;
+
+    // check to make sure labels length is equal to step number
+    if (labels.length === stepNumber) {
+      // check amount of label elements -- add or remove 
+      let labelElements = this.container.querySelectorAll('.label');
+      const ticks = this.container.querySelectorAll('.tick');
+      if (labelElements.length !== stepNumber) {
+        const x = Math.abs(stepNumber - labelElements.length);
+        for(let i = 0; i < x; i++) {
+          labelElements.length > stepNumber 
+          ? this.container.querySelector('.label').remove()
+          : ticks[ticks.length - 1 - i].insertAdjacentHTML('afterbegin', '<ids-text label class="label"></ids-text>');
+        }
+        // grab fresh label elements group
+        labelElements = this.container.querySelectorAll('.label');
+      }
+      // set the innerHTML for each label in the array
+      if (labels.length === labelElements.length) {
+        labelElements.forEach((x, i) => {
+          // set innerHTML of whatever div element attached to tick 
+          x.innerHTML = labels[i];
+        })
+      } else {
+        console.log('label array size must match amt of label elements');
+      }
+    } else {
+      console.log('label array size must match step number')
+    }
   }
 
   set stepNumber(value) {
@@ -188,11 +216,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         if (stepLength !== this.stepNumber) {
           const x = Math.abs(stepLength - this.stepNumber);
           for (let i = 0; i < x; i++) {
-            // remove
-            stepLength > this.stepNumber ? this.container.querySelector('.tick').remove() : this.container.querySelector('.tick').insertAdjacentHTML('afterend', '<span class="tick"></span>');
+            console.log('adding tick');
+            // remove or add ticks
+            stepLength > this.stepNumber ? this.container.querySelector('.tick').remove() : this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterend', '<span class="tick"></span>');
           }
         }
       }
+    } else {
+      this.removeAttribute('step-number');
     }
   }
 
@@ -288,14 +319,16 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   set min(value) {
     this.setAttribute(attributes.MIN, value || DEFAULT_MIN);
-    this.container.querySelector('.label.min').innerHTML = this.min;
+    console.log('setting the min to : ' + value)
   }
-
+  
   get min() { return parseFloat(this.getAttribute(attributes.MIN)) || DEFAULT_MIN; }
-
+  
   set max(value) {
+    // TODO: this would probably break if max was set to 0
+    // should also check if '' null or NaN
+    console.log('setting the max to : ' + value)
     this.setAttribute(attributes.MAX, value || DEFAULT_MAX);
-    this.container.querySelector('.label.max').innerHTML = this.max;
   }
 
   get max() { return parseFloat(this.getAttribute(attributes.MAX)) || DEFAULT_MAX; }
@@ -334,7 +367,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.thumbShadow.style.setProperty('border', `1px ${color} solid`);
     this.progressTrack.style.setProperty('background-color', color);
     
-    if (this.type === 'double' && this.thumbShadowSecondary) {
+    if (this.type === 'double' && this.thumbShadowSecondary && this.thumbSecondary) {
       this.thumbShadowSecondary.style.setProperty('background-color', rgbaString);
       this.thumbShadowSecondary.style.setProperty('border', `1px ${color} solid`);
       this.thumbSecondary.style.setProperty('background-color', color);
@@ -342,7 +375,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   #hideTooltip(value, primaryOrSecondary) {
-    if (primaryOrSecondary ==='secondary' && this.tooltipSecondary) {
+    if (primaryOrSecondary === 'secondary' && this.tooltipSecondary) {
       this.tooltipSecondary.style.opacity = value ? 0 : 1;
     }
      else {
@@ -363,8 +396,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     return y >= top && y < bottom && x > left && x < right;
   }
     
-  #calculateUIFromClick(event) {
-    const [x, y] = [event.clientX, event.clientY];
+  #calculateUIFromClick(x, y) {
     const top = this.trackBounds.TOP;
     const bottom = this.trackBounds.BOTTOM;
     const left = this.trackBounds.LEFT;
@@ -373,7 +405,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const clickedTrackArea = this.#wasCursorInBoundingBox(x, y, top, bottom, left, right);
 
     if (clickedTrackArea) {
-
       const percent = this.#calcPercentFromX(x, left, right, this.thumbDraggable.clientWidth);
       const value = this.#calcValueFromPercent(percent);
       
@@ -414,7 +445,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
             minIndex = i;
           }
         }
-        
+
+        // snap to the value interval closest to click
         this.valuea = arr[minIndex];
         this.thumbDraggable.focus();
       }
@@ -529,6 +561,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       // init custom colors
       this.#updateColor();
       this.#updateProgressBar();
+
+      // init labels
+      if (this.type === 'step') {
+        this.labels = [...Array(this.stepNumber).keys()];
+      } else {
+        this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterbegin', `<ids-text label class="label">${this.max}</ids-text>`);
+        this.container.querySelector('.tick:first-child').insertAdjacentHTML('afterbegin', `<ids-text label class="label">${this.min}</ids-text>`);
+      }
     }
   }
 
@@ -560,12 +600,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       const idsSliderSelected = event.target.name === 'ids-slider';
       // console.log('idsSliderSelected: ' + idsSliderSelected);
   
-      this.#hideTooltip(!idsSliderSelected);
-      this.type === 'double' && this.#hideTooltip(!idsSliderSelected, 'secondary');
+      if (this.type !== 'step') {
+        this.#hideTooltip(!idsSliderSelected);
+        this.type === 'double' && this.#hideTooltip(!idsSliderSelected, 'secondary');
+      }
   
       // console.log(event.target.name);
       // console.log(event.clientX + ', ' + event.clientY);
-      this.#calculateUIFromClick(event);
+      this.#calculateUIFromClick(event.clientX, event.clientY);
     });
   }
 
@@ -604,7 +646,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     // TODO: make all these onEvents modular for both single/double thumbDraggables
     // Listen for drag event on draggable thumb
     this.onEvent('ids-drag', obj.thumbDraggable, (e) => {
-      this.#hideTooltip(false);
+      this.type !== 'step' && this.#hideTooltip(false);
 
       const percent = this.#calcPercentFromX(e.detail.mouseX, this.trackBounds.LEFT, this.trackBounds.RIGHT, obj.thumbDraggable.clientWidth);
       const value = this.#calcValueFromPercent(percent);
