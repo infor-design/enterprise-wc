@@ -1,0 +1,10 @@
+/* Ids Theme Switcher Css */
+@import '../../core/ids-base';
+
+// @TODO: Temporary until we get page layouts/IdsHeader implemented,
+// and we decide on final demoapp design.
+:host {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}

@@ -1,0 +1,6 @@
+@import '../../core/ids-base';
+
+::slotted(img) {
+  border: 1px solid transparent;
+  margin-bottom: 10px;
+}

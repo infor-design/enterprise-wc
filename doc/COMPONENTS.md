@@ -4,7 +4,7 @@
 
 ### Familiarize yourself with Web Components
 
-We have generated a list of [Articles](./ARTICLES.md) about web components and other web component libraries for reference. You probably should learn about concepts like: [ShadowRoot](https://developer.mozilla.org/en-US/docs/Web/API/ShadowRoot), [Encapsulation/Scoped Css](https://developers.google.com/web/fundamentals/web-components/shadowdom), [Constructed Style Sheets](https://developers.google.com/web/updates/2019/02/constructable-stylesheets), [Sass](https://sass-lang.com/), [Web Component lifecycles](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements#using_the_lifecycle_callbacks) and styling in web components.
+We have generated a list of [Articles](./ARTICLES.md) about web components and other web component libraries for reference. You probably should learn about concepts like: [ShadowRoot](https://developer.mozilla.org/en-US/docs/Web/data/ShadowRoot), [Encapsulation/Scoped Css](https://developers.google.com/web/fundamentals/web-components/shadowdom), [Constructed Style Sheets](https://developers.google.com/web/updates/2019/02/constructable-stylesheets), [Sass](https://sass-lang.com/), [Web Component lifecycles](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements#using_the_lifecycle_callbacks) and styling in web components.
 
 In general, the Ids WebComponents Library is striving to adhere to the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki), within reason.
 
@@ -17,6 +17,7 @@ Good components to look at that are done already are are IdsTag, IdsAlerts and I
 - [ ] Add an `ids-[component].d.ts` for this WebComponent's TypeScript definitions.
 - [ ] Add an `ids-[component].scss`, which holds all scoped styles for this WebComponent.
 - [ ] Add a `README.md` for documentation, specification, etc.
+- [ ] Add a `index.js` that imports whats needed (and only whats needed) to use the component.
 
 See the [checklist](https://github.com/infor-design/enterprise-wc/blob/main/doc/CHECKLIST.md#general-component-checklist) for general steps some of which is explained below.
 
@@ -32,13 +33,13 @@ import {
   scss,
   mix,
   attributes
-} from '../ids-base';
+} from '../../core';
 
 // Import Mixins
 import {
   IdsEventsMixin,
   IdsThemeMixin
-} from '../ids-mixins';
+} from '../../mixins';
 
 // Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-[component-name].scss';
@@ -107,7 +108,7 @@ import {
   customElement,
   scss,
   mix
-} from '../ids-base';
+} from '../../core';
 ```
 
 - If this new code is an IDS UI Web Component (not a special class or utility ect), ensure that it imports `src/ids-base/ids-element.js` extends the `IdsElement` base component.
@@ -233,7 +234,7 @@ We have several head layouts available:
 - [ ] In the root `index.js`, import the WebComponent's source file that you've created using a relative path, where the root component is the default export along with any sub components beyond that.
 
 ```js
-import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/ids-[component]';
+import IdsComponent, { IdsSubcomponent1, IdsSubcomponent2 } from '../../src/components/ids-[component]';
 ```
 
 - [ ] Add an `example.js` for any demo code in the example.html (if needed)
@@ -264,7 +265,7 @@ Now that you have a `ids-[component].scss`, which holds all scoped styles for th
 - If you need any colors or any properties from the design repo tokens you should import base on the first line
 
 ```scss
-@import '../ids-base/ids-base';
+@import '../../core/ids-base';
 ```
 
 - Use tools like css flex and css grid to do layouts. In addition when checking RTL try and do it in a way with css that does not require additional css when the page is RTL. The best approach is to try and make your css work either direction before resorting to resets. One simple one is to put the same margin or padding or other positional css on both sides. One useful technique is to use css grid / flex with `end` or `flex-end`. This automatically works in RTL mode without trying to negate anything.
@@ -386,7 +387,7 @@ Create a folder in `tests/component-name` with the file `test/component-name/com
 Note that sometimes you need to import the component itself and not the markup so that the web component API works in jest. And also make sure to set the innerHTML of the body in afterEach to cleanup after so no other tests can be impacted. For example:
 
 ```js
-import IdsTag from '../../src/ids-tag/ids-tag';
+import IdsTag from '../../src/components/ids-tag';
 
 describe('IdsTag Component', () => {
   let tag;

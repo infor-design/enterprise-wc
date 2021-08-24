@@ -1,0 +1,237 @@
+@import '../../core/ids-base';
+@import '../../mixins/sass/ids-checkbox-mixin';
+@import '../../mixins/sass/ids-dirty-tracker-mixin';
+@import '../../mixins/sass/ids-validation-mixin';
+
+.ids-checkbox {
+  @include mb-8();
+
+  label {
+    @include cursor-pointer();
+    @include no-select();
+    @include pl-24();
+    @include relative();
+
+    display: inline-block;
+
+    &.required .label-text::after {
+      @include absolute();
+      @include font-sans();
+      @include mx-2();
+      @include text-20();
+      @include text-alert-danger();
+
+      content: '*';
+      right: -13px;
+      top: -2px;
+    }
+
+    &.no-required-indicator .label-text::after {
+      content: '';
+    }
+  }
+
+  &.disabled label {
+    @include cursor-default();
+
+    &.required .label-text::after {
+      @include text-ruby-30();
+    }
+  }
+
+  &.horizontal {
+    @include mr-12();
+
+    display: inline-block;
+  }
+
+  input[type='checkbox'] {
+    @include absolute();
+    @include cursor-pointer();
+    @include opacity-0();
+
+    height: 0;
+    width: 0;
+
+    ~ .checkmark {
+      @include checkbox-unchecked();
+    }
+
+    &.error ~ .checkmark {
+      @include checkbox-unchecked-error();
+    }
+
+    &:checked ~ .checkmark {
+      @include checkbox-checked();
+
+      &::after {
+        @include checkbox-checked-after();
+      }
+    }
+
+    &.indeterminate ~ .checkmark {
+      @include checkbox-indeterminate();
+
+      &::after {
+        @include checkbox-indeterminate-after();
+      }
+    }
+
+    &:focus ~ .checkmark {
+      @include checkbox-focus();
+    }
+
+    &:disabled {
+      ~ .checkmark {
+        @include checkbox-disabled-unchecked();
+      }
+
+      ~ .label-text {
+        @include checkbox-disabled-text();
+      }
+
+      &.error ~ .checkmark {
+        @include checkbox-disabled-unchecked-error();
+      }
+
+      &:checked ~ .checkmark {
+        @include checkbox-disabled-checked(light);
+      }
+    }
+  }
+
+  // Colored Checkboxes
+  @include checkbox-colored();
+
+  .validation-message {
+    @include mt-4();
+
+    margin-left: -1px;
+  }
+}
+
+:host-context(form) {
+  @include mb-8();
+  @include flex();
+}
+
+// Handle Themes
+.ids-checkbox[mode='dark'] {
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(dark);
+  }
+}
+
+.ids-checkbox[mode='dark']:not([color]) {
+  input[type='checkbox'] ~ .checkmark {
+    @include checkbox-unchecked(dark);
+  }
+
+  input[type='checkbox']:checked ~ .checkmark {
+    @include checkbox-checked(dark);
+  }
+
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(dark);
+  }
+
+  input[type='checkbox'].indeterminate ~ .checkmark {
+    @include checkbox-indeterminate(dark);
+  }
+}
+
+.ids-checkbox[mode='contrast'] {
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(contrast);
+  }
+}
+
+.ids-checkbox[mode='contrast']:not([color]) {
+  input[type='checkbox'] ~ .checkmark {
+    @include checkbox-unchecked(contrast);
+  }
+
+  input[type='checkbox']:checked ~ .checkmark {
+    @include checkbox-checked(contrast);
+  }
+
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(contrast);
+  }
+
+  input[type='checkbox'].indeterminate ~ .checkmark {
+    @include checkbox-indeterminate(contrast);
+  }
+}
+
+.ids-checkbox[mode='light'][version='classic'] {
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicLight);
+  }
+}
+
+.ids-checkbox[mode='light'][version='classic']:not([color]) {
+  input[type='checkbox'] ~ .checkmark {
+    @include checkbox-unchecked(classicLight);
+  }
+
+  input[type='checkbox']:checked ~ .checkmark {
+    @include checkbox-checked(classicLight);
+  }
+
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicLight);
+  }
+
+  input[type='checkbox'].indeterminate ~ .checkmark {
+    @include checkbox-indeterminate(classicLight);
+  }
+}
+
+.ids-checkbox[mode='dark'][version='classic'] {
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicDark);
+  }
+}
+
+.ids-checkbox[mode='dark'][version='classic']:not([color]) {
+  input[type='checkbox'] ~ .checkmark {
+    @include checkbox-unchecked(classicDark);
+  }
+
+  input[type='checkbox']:checked ~ .checkmark {
+    @include checkbox-checked(classicDark);
+  }
+
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicDark);
+  }
+
+  input[type='checkbox'].indeterminate ~ .checkmark {
+    @include checkbox-indeterminate(classicDark);
+  }
+}
+
+.ids-checkbox[mode='dark'][version='contrast'] {
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicContrast);
+  }
+}
+
+.ids-checkbox[mode='dark'][version='contrast']:not([color]) {
+  input[type='checkbox'] ~ .checkmark {
+    @include checkbox-unchecked(classicContrast);
+  }
+
+  input[type='checkbox']:checked ~ .checkmark {
+    @include checkbox-checked(classicContrast);
+  }
+
+  input[type='checkbox']:disabled ~ .checkmark {
+    @include checkbox-disabled-checked(classicContrast);
+  }
+
+  input[type='checkbox'].indeterminate ~ .checkmark {
+    @include checkbox-indeterminate(classicContrast);
+  }
+}

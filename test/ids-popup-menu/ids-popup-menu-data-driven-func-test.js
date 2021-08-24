@@ -6,12 +6,12 @@ import IdsPopupMenu, {
   IdsMenuHeader,
   IdsMenuItem,
   IdsSeparator
-} from '../../src/ids-popup-menu/ids-popup-menu';
+} from '../../src/components/ids-popup-menu/ids-popup-menu';
 
-import IdsPopup from '../../src/ids-popup/ids-popup';
+import IdsPopup from '../../src/components/ids-popup/ids-popup';
 
 // Pull in menu contents
-import dataset from '../../app/data/menu-contents.json';
+import dataset from '../../demos/data/menu-contents.json';
 
 describe('IdsPopupMenu Component', () => {
   let menu;

@@ -1,0 +1,205 @@
+/* Ids Hyperlink Css */
+@import '../../core/ids-base';
+
+.ids-hyperlink {
+  @include antialiased();
+  @include text-azure-60();
+  @include font-sans();
+  @include font-normal();
+  @include p-4();
+  @include rounded-default();
+  @include mb-8();
+
+  border: 1px solid transparent;
+  display: inline-block;
+  margin: -4px;
+
+  &[disabled] {
+    @include text-slate-40();
+    @include cursor-default();
+
+    pointer-events: none;
+    user-select: none;
+  }
+
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
+    @include text-azure-70();
+  }
+
+  &:focus {
+    border: 1px solid var(--ids-color-palette-azure-60);
+    box-shadow: 0 0 4px 3px rgb(54, 138, 192, 0.3);
+    outline: none;
+  }
+
+  &.bold {
+    @include font-bold();
+  }
+}
+
+.ids-text-decoration-none {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.ids-text-decoration-hover {
+  text-decoration: none;
+
+  &[href]:hover {
+    text-decoration: underline;
+  }
+}
+
+.ids-hyperlink-color-unset {
+  color: unset !important;
+}
+
+/* Ids Typography System */
+.ids-text-10 {
+  @include text-10();
+  @include text-uppercase();
+}
+
+.ids-text-12,
+.ids-text-xs {
+  @include text-12();
+  @include text-uppercase();
+}
+
+.ids-text-14,
+.ids-text-sm {
+  @include text-14();
+}
+
+.ids-text-16,
+.ids-text-base {
+  @include text-16();
+}
+
+.ids-text-20 {
+  @include text-20();
+}
+
+.ids-text-24,
+.ids-text-lg {
+  @include text-24();
+}
+
+.ids-text-28 {
+  @include text-28();
+}
+
+.ids-text-32,
+.ids-text-xl {
+  @include text-32();
+}
+
+.ids-text-40 {
+  @include text-40();
+}
+
+.ids-text-48 {
+  @include text-48();
+}
+
+.ids-text-60 {
+  @include text-60();
+}
+
+.ids-text-72 {
+  @include text-72();
+  @include mb-0();
+}
+
+// Handle Themes
+.ids-hyperlink[mode='dark'] {
+  @include text-azure-40();
+
+  &:focus {
+    border: 1px solid var(--ids-color-palette-azure-60);
+    box-shadow: 0 0 4px 2px rgb(141, 201, 230, 0.3);
+  }
+
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
+    @include text-azure-60();
+  }
+
+  &[disabled] {
+    @include text-slate-50();
+  }
+}
+
+.ids-hyperlink[mode='contrast'] {
+  @include text-azure-90();
+
+  &:focus {
+    border: 1px solid var(--ids-color-palette-azure-90);
+    box-shadow: 0 0 4px 2px rgb(41, 41, 41, 0.3);
+  }
+
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
+    @include text-azure-100();
+  }
+
+  &[disabled] {
+    @include text-slate-50();
+  }
+}
+
+.ids-hyperlink[version='classic'][mode='light'] {
+  @include text-azure-70();
+
+  &:focus {
+    box-shadow: 0 0 4px 3px rgb(54, 138, 192, 0.3);
+  }
+
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
+    @include text-azure-80();
+  }
+
+  &[disabled] {
+    @include text-graphite-40();
+  }
+}
+
+.ids-hyperlink[version='classic'][mode='dark'] {
+  @include text-azure-40();
+
+  &:focus {
+    box-shadow: 0 0 4px 3px rgb(141, 201, 230, 0.3);
+  }
+
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
+    @include text-azure-50();
+  }
+
+  &[disabled] {
+    @include text-classic-slate-50();
+  }
+}
+
+.ids-hyperlink[version='classic'][mode='contrast'] {
+  @include text-azure-90();
+
+  &:focus {
+    border: 1px solid var(--ids-color-palette-azure-90);
+    box-shadow: 0 0 4px 2px rgb(41, 41, 41, 0.3);
+  }
+
+  &:hover:not([disabled]):not(.ids-text-decoration-hover),
+  &:active:not([disabled]):not(.ids-text-decoration-hover) {
+    @include text-azure-100();
+  }
+
+  &[disabled] {
+    @include text-classic-slate-50();
+  }
+}

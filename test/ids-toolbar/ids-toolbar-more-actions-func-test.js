@@ -4,7 +4,7 @@
 import IdsToolbar, {
   IdsToolbarSection,
   IdsToolbarMoreActions
-} from '../../src/ids-toolbar/ids-toolbar';
+} from '../../src/components/ids-toolbar/ids-toolbar';
 
 const exampleHTML = `
   <ids-toolbar-section id="appmenu-section">

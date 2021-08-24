@@ -3,7 +3,7 @@
  */
 import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavior';
 import processAnimFrame from '../helpers/process-anim-frame';
-import IdsLoadingIndicator from '../../src/ids-loading-indicator';
+import IdsLoadingIndicator from '../../src/components/ids-loading-indicator';
 
 describe('IdsLoadingIndicator Component', () => {
   let elem;

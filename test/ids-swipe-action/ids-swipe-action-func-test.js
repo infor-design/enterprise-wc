@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsSwipeAction from '../../src/ids-swipe-action/ids-swipe-action';
+import IdsSwipeAction from '../../src/components/ids-swipe-action/ids-swipe-action';
 
 const exampleHTML = `
 <ids-button slot="action-left" id="action-left-continuous" type="swipe-action-left">

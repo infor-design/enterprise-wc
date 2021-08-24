@@ -1,0 +1,14 @@
+@import '../../core/ids-base';
+
+// Creates an absolutely-positioned element that "covers" the entire viewport area
+// within encapsulation, preventing the need for an external "reset.css" file
+@mixin internal-position-reset() {
+  @include block();
+  @include absolute();
+  @include m-8();
+  @include p-8();
+
+  height: calc(100% - 16px);
+  width: calc(100% - 16px);
+  margin: -8px;
+}

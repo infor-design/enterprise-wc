@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsSummaryField from '../../src/ids-summary-field/ids-summary-field';
+import IdsSummaryField from '../../src/components/ids-summary-field/ids-summary-field';
 
 describe('IdsSummaryField Component', () => {
   let summaryField;

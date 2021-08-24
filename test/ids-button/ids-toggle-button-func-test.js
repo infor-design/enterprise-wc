@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
+import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-button';
 
 describe('IdsToggleButton Component', () => {
   let btn;

@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsRadio from '../../src/ids-radio/ids-radio';
-import IdsRadioGroup from '../../src/ids-radio/ids-radio-group';
+import IdsRadio from '../../src/components/ids-radio/ids-radio';
+import IdsRadioGroup from '../../src/components/ids-radio/ids-radio-group';
 
 jest.useFakeTimers();
 

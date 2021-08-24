@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import IdsModal, { IdsOverlay } from '../../src/ids-modal';
-import IdsText from '../../src/ids-text/ids-text';
-import { IdsModalButton } from '../../src/ids-modal-button';
+import IdsModal, { IdsOverlay } from '../../src/components/ids-modal';
+import IdsText from '../../src/components/ids-text/ids-text';
+import { IdsModalButton } from '../../src/components/ids-modal-button';
 
 const modalButtonHTML = `
   <ids-modal-button slot="buttons" type="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>
