@@ -5,6 +5,7 @@ import IdsTriggerField from '../../src/ids-trigger-field/ids-trigger-field';
 import IdsInput from '../../src/ids-input/ids-input';
 import IdsTriggerButton from '../../src/ids-trigger-field/ids-trigger-button';
 import { attributes } from '../../src/ids-base';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
   this.observe = jest.fn();
@@ -15,6 +16,13 @@ const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
   };
 });
 global.ResizeObserver = resizeObserverMock;
+
+const DEFAULT_TRIGGERFIELD_HTML = (
+  `<ids-trigger-field
+    size="md"
+    label="Trigger Field Label"
+  ></ids-trigger-field>`
+);
 
 describe('IdsTriggerField Component', () => {
   let triggerField;
@@ -32,6 +40,19 @@ describe('IdsTriggerField Component', () => {
   afterEach(async () => {
     document.body.innerHTML = '';
   });
+
+  const createElemViaTemplate = async (innerHTML) => {
+    triggerField?.remove?.();
+
+    const template = document.createElement('template');
+    template.innerHTML = innerHTML;
+    triggerField = template.content.childNodes[0];
+    document.body.appendChild(triggerField);
+
+    await processAnimFrame();
+
+    return triggerField;
+  };
 
   it('renders with no errors', () => {
     const errors = jest.spyOn(global.console, 'error');
@@ -58,6 +79,20 @@ describe('IdsTriggerField Component', () => {
     expect(document.body.contains(triggerField)).toEqual(true);
   });
 
+  it('clicks the label and input receives focus', async () => {
+    triggerField = await createElemViaTemplate(DEFAULT_TRIGGERFIELD_HTML);
+    const labelEl = triggerField.shadowRoot.querySelector('.ids-trigger-field').children[0];
+    const inputs = triggerField.parentElement.querySelectorAll('ids-input');
+    labelEl.click();
+    if (inputs) {
+      console.log(inputs);
+      [...inputs].forEach((input) => {
+        console.log(input);
+        expect(triggerField.shadowRoot.activeElement).toEqual(input);
+      });
+    }
+  });
+
   it('renders tabbable setting', () => {
     triggerField.tabbable = true;
     expect(triggerField.getAttribute(attributes.TABBABLE)).toEqual('true');
@@ -75,6 +110,26 @@ describe('IdsTriggerField Component', () => {
     triggerField.appearance = 'compact';
     expect(triggerField.getAttribute(attributes.APPEARANCE)).toEqual('compact');
     expect(triggerField.appearance).toEqual('compact');
+  });
+
+  it('has a disabled attribute', () => {
+    triggerField.disabled = false;
+    expect(triggerField.disabled).toEqual(null);
+    expect(triggerField.getAttribute('disabled')).toEqual(null);
+
+    triggerField.disabled = true;
+    expect(triggerField.disabled).toEqual('true');
+    expect(triggerField.getAttribute('disabled')).toEqual('true');
+  });
+
+  it('should not set wrong size', () => {
+    triggerField.size = 'test';
+    expect(triggerField.getAttribute('size')).toEqual('md');
+    expect(triggerField.container.classList).not.toContain('test');
+    const size = 'sm';
+    triggerField.size = size;
+    expect(triggerField.getAttribute('size')).toEqual(size);
+    expect(triggerField.container.classList).toContain(size);
   });
 
   it('removes appearance setting if reset', () => {

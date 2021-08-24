@@ -154,6 +154,7 @@ class IdsTriggerField extends IdsInput {
    */
   setInputAttributes() {
     this.inputs = this.querySelectorAll('ids-input');
+    /* istanbul ignore else */
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
         input.setAttribute(attributes.TRIGGERFIELD, 'true');
@@ -231,6 +232,7 @@ class IdsTriggerField extends IdsInput {
       const idsInputs = slottedNodes.filter((node) => node.nodeName === 'IDS-INPUT');
       const triggerBtns = slottedNodes.filter((node) => node.nodeName === 'IDS-TRIGGER-BUTTON');
 
+      /* istanbul ignore else */
       if (idsInputs) {
         [...idsInputs].forEach((idsInput) => {
           const input = idsInput.shadowRoot?.querySelector('.ids-input');
@@ -238,6 +240,7 @@ class IdsTriggerField extends IdsInput {
         });
       }
 
+      /* istanbul ignore else */
       if (triggerBtns) {
         [...triggerBtns].forEach((triggerBtn) => {
           const btn = triggerBtn.shadowRoot?.querySelector('button');
@@ -298,6 +301,7 @@ class IdsTriggerField extends IdsInput {
    * @returns {object} The object for chaining.
    */
   handleEvents() {
+    /* istanbul ignore else */
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
         const className = 'has-validation-message';
