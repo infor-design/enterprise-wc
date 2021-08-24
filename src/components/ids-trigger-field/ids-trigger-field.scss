@@ -1,0 +1,193 @@
+@import '../../core/ids-base';
+@import '../ids-input/ids-input';
+
+// Input sizes
+$input-sizes: (
+  xs: 75px,
+  sm: 150px,
+  mm: 225px,
+  md: 300px,
+  lg: 400px,
+  full: 100%,
+);
+$input-size-default: map-get($input-sizes, 'md');
+
+@mixin input-sizes {
+  @each $key, $val in $input-sizes {
+    ::slotted(ids-input[size='#{$key}']) {
+      max-width: $val;
+    }
+
+    :host([size='#{$key}']) .has-content-borders .ids-trigger-field-content {
+      max-width: $val + 28 + 16; // Add the width and margins of the trigger button.
+    }
+  }
+}
+
+.ids-trigger-field {
+  @include flex();
+
+  align-items: flex-start;
+  flex-direction: column;
+
+  &.has-validation-message ::slotted(ids-trigger-button) {
+    margin-top: -20px;
+  }
+}
+
+:host(ids-trigger-field[disabled]) {
+  pointer-events: none;
+}
+
+.ids-trigger-field-content {
+  @include flex();
+
+  align-items: center;
+  width: 100%;
+}
+
+.has-content-borders {
+  // input sizes: [xs, sm, mm, md, lg, full]
+  &.xs .ids-trigger-field-content {
+    max-width: $input-size-xs;
+  }
+
+  &.sm .ids-trigger-field-content {
+    max-width: $input-size-sm;
+  }
+
+  &.mm .ids-trigger-field-content {
+    max-width: $input-size-mm;
+  }
+
+  &.md .ids-trigger-field-content {
+    max-width: $input-size-md;
+  }
+
+  &.lg .ids-trigger-field-content {
+    max-width: $input-size-lg;
+  }
+
+  &.full .ids-trigger-field-content {
+    max-width: $input-size-full;
+  }
+}
+
+.has-content-borders .ids-trigger-field-content {
+  @include antialiased();
+  @include bg-white();
+  @include box-border();
+  @include border-1();
+  @include border-slate-40();
+  @include border-solid();
+  @include font-sans();
+  @include rounded-default();
+  @include text-16();
+  @include text-black();
+
+  -webkit-appearance: none;
+  border-collapse: separate;
+  border-radius: 2px;
+
+  &:hover {
+    @include border-slate-90();
+  }
+
+  // input message: [alert, error, info, success]
+  &.alert,
+  &.alert:hover {
+    @include border-alert-warning();
+    @include text-alert-warning();
+
+    &:focus-within {
+      @include border-alert-warning();
+
+      box-shadow: rgba(249, 131, 0, 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-amber-30();
+      @include text-amber-30();
+    }
+  }
+
+  &.error,
+  &.error:hover {
+    @include border-alert-danger();
+    @include text-alert-danger();
+
+    &:focus-within {
+      @include border-alert-danger();
+      @include shadow-error();
+    }
+
+    &[disabled] {
+      @include border-ruby-30();
+      @include text-ruby-30();
+    }
+  }
+
+  &.info,
+  &.info:hover {
+    @include border-alert-info();
+    @include text-alert-info();
+
+    &:focus-within {
+      @include border-alert-info();
+
+      box-shadow: rgba(0, 102, 212, 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-azure-30();
+      @include text-azure-30();
+    }
+  }
+
+  &.success,
+  &.success:hover {
+    @include border-alert-success();
+    @include text-alert-success();
+
+    &:focus {
+      @include border-alert-success();
+
+      box-shadow: rgba(42, 195, 113, 0.3) 0 0 3px 2px;
+    }
+
+    &[disabled] {
+      @include border-emerald-30();
+      @include text-emerald-30();
+    }
+  }
+}
+
+.has-content-borders:focus-within .ids-trigger-field-content {
+  @include border-azure-60();
+  @include shadow();
+
+  outline: none;
+  outline-color: transparent;
+}
+
+:host([disabled]) .has-content-borders .ids-trigger-field-content {
+  @include border-slate-30();
+  @include text-slate-30();
+}
+
+::slotted(ids-trigger-button) {
+  @include relative();
+
+  flex: 0;
+  z-index: 2;
+}
+
+::slotted(ids-input) {
+  @include relative();
+
+  flex: 1;
+  max-width: $input-size-default;
+  z-index: 1;
+}
+
+@include input-sizes();

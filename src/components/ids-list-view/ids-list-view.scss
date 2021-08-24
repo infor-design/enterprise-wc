@@ -1,0 +1,42 @@
+@import '../../core/ids-base';
+
+.ids-list-view {
+  height: 310px;
+  overflow: auto;
+
+  ul {
+    @include list-none();
+    @include px-0();
+    @include m-0();
+  }
+
+  li {
+    @include py-12();
+    @include px-20();
+    @include border-b-1();
+    @include border-slate-20();
+  }
+}
+
+// Handle Themes
+.ids-list-view[mode='dark'] li {
+  @include border-slate-70();
+}
+
+.ids-list-view[mode='contrast'] li {
+  @include bg-white();
+  @include border-slate-60();
+}
+
+.ids-list-view[version='classic'][mode='light'] li {
+  @include border-graphite-30();
+}
+
+.ids-list-view[version='classic'][mode='dark'] li {
+  @include border-graphite-50();
+}
+
+.ids-list-view[version='classic'][mode='contrast'] li {
+  @include bg-white();
+  @include border-graphite-60();
+}

@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsContainer from '../../src/ids-container/ids-container';
-import IdsThemeSwitcher from '../../src/ids-theme-switcher/ids-theme-switcher';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsThemeSwitcher from '../../src/components/ids-theme-switcher/ids-theme-switcher';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 
 describe('IdsThemeSwitcher Component', () => {

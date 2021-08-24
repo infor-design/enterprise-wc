@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import IdsColorPicker from '../../src/ids-color-picker/ids-color-picker';
+import IdsColorPicker from '../../src/components/ids-color-picker/ids-color-picker';
 
 describe('Ids Color Picker Component', () => {
   let colorpicker;

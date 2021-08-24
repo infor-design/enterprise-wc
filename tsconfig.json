@@ -17,6 +17,6 @@
     "moduleResolution": "node",
     "resolveJsonModule": true
   },
-  "include": ["src/**/*.js", "src/**/*.d.ts"],
-  "exclude": ["node_modules", "test" , "app"]
+  "include": ["src/**/**/*.js", "src/**/**/*.d.ts"],
+  "exclude": ["node_modules", "test" , "demos"]
 }

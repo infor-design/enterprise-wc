@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsHyperlink from '../../src/ids-hyperlink/ids-hyperlink';
+import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 describe('IdsHyperlink Component', () => {
   let elem;
@@ -122,11 +122,11 @@ describe('IdsHyperlink Component', () => {
     expect(elem.getAttribute('font-size')).toEqual('14');
   });
 
-  it('sets font weight to bold or bolder', () => {
+  it('sets font weight to bold or lighter', () => {
     elem.fontWeight = 'bold';
     expect(elem.getAttribute('font-weight')).toEqual('bold');
-    elem.fontWeight = 'bolder';
-    expect(elem.getAttribute('font-weight')).toEqual('bolder');
+    elem.fontWeight = 'lighter';
+    expect(elem.getAttribute('font-weight')).toEqual('lighter');
   });
 
   it('removes font size if attribute is empty', () => {
@@ -135,7 +135,7 @@ describe('IdsHyperlink Component', () => {
     expect(elem.fontSize).toEqual(null);
   });
 
-  it('does not set font weight to anything other than bold or bolder', () => {
+  it('does not set font weight to anything other than bold or lighter', () => {
     elem.fontWeight = 'extra bold';
     expect(elem.getAttribute('font-weight')).toEqual(null);
     expect(elem.fontWeight).toEqual(null);

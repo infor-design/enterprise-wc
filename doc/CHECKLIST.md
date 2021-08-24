@@ -54,12 +54,13 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Bullet (ids-bullet-chart
  - [x] Loader (ids-loading-indicator) aka Busy Indicator / Loading Indicator
  - [x] Button (ids-button)
- - [ ] Calendar (ids-calendar
+ - [ ] Calendar (ids-calendar)
  - [x] Cards (ids-card)
  - [x] Checkboxes (ids-checkbox)
+ - [x] Circle Pager (ids-scroll-view)
  - [ ] Color Picker (ids-color-picker)
  - [ ] Column (ids-column-chart or ids-bar with a orientation setting)
- - [ ] Completion Chart (ids-completion-chart)
+ - [x] Completion Chart (ids-progress-chart)
  - [ ] Contextual Action Panel (ids-contextual-action-panel or ids-modal
  - [ ] Datagrid (ids-data-grid)
  - [ ] Datepicker (ids-date-picker)
@@ -117,6 +118,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Spinbox (ids-spin-box)
  - [ ] Splitter (ids-splitter)
  - [ ] Stepchart (ids-step-chart)
+ - [x] Summaryfield (ids-summary-field)
  - [ ] Swaplist (ids-swap-list)
  - [ ] Switch (ids-switch)
  - [ ] Tabs (ids-tabs)
@@ -129,7 +131,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Textarea (ids-text-area)
  - [ ] Timeline (ids-time-line)
  - [ ] Timepicker (ids-time-picker)
- - [ ] Toast (ids-toast)
+ - [x] Toast (ids-toast)
  - [x] Toolbar (ids-toolbar)r
  - [x] Tooltip (ids-tooltip
  - [x] Trackdirty (mixin)

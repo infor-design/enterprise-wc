@@ -1,0 +1,121 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Toast Sandbox</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-button id="btn-toast-variant" type="secondary">
+      <span slot="text">Show Toast (choose settings below)</span>
+    </ids-button>
+    <br /><br />
+
+    <ids-checkbox
+      id="cb-toast-timeout"
+      label="Timeout (default 6 seconds): Set the amount of time (2 seconds), the toast should be present on-screen."
+    ></ids-checkbox>
+
+    <ids-checkbox
+      id="cb-toast-allow-link"
+      label="Allow Link: Set to put links in the toast message"
+    ></ids-checkbox>
+
+    <ids-checkbox
+      id="cb-toast-draggable"
+      label="Draggable: Set user to allows drag/drop the toast container"
+    ></ids-checkbox>
+
+    <ids-checkbox
+      id="cb-toast-progress-bar"
+      label="Progress Bar: Show the progress bar in toast message"
+       checked="true"
+    ></ids-checkbox>
+
+    <ids-checkbox
+      id="cb-toast-close-button-label"
+      label="Close Button Label: Custom text (Click here to close) for close button label in the toast message"
+    ></ids-checkbox>
+
+    <ids-checkbox
+      id="cb-toast-audible"
+      label="Audible Only: Let toast message to be invisible on the screen"
+    ></ids-checkbox>
+
+    <ids-checkbox
+      id="cb-toast-destroy-on-complete"
+      label="Destroy After Complete: Set to not destroy after complete all the toast messages"
+      checked="true"
+    ></ids-checkbox>
+
+    <ids-radio-group id="radio-toast-position" label="Position: Set position of the toast container in specific place">
+      <ids-radio value="top-start" label="Top Start"></ids-radio>
+      <ids-radio value="top-end" label="Top End" checked="true"></ids-radio>
+      <ids-radio value="bottom-start" label="Bottom Start"></ids-radio>
+      <ids-radio value="bottom-end" label="Bottom End"></ids-radio>
+    </ids-radio-group>
+
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Toast - Save Position</ids-text>
+    <br/>
+    <ids-text>Save Position</ids-text>
+    <ids-text>1. Open Toast by clicking any `Show Toast` button below</ids-text>
+    <ids-text>2. Drag the Toast to move around and leave at different position then origin</ids-text>
+    <ids-text>3. Wait for timer timeout or click close (x) button to close the Toast</ids-text>
+    <ids-text>4. At this point it shoud be saved the current position to local storage</ids-text>
+    <ids-text>5. Refresh or close/open the page, and open the same Toast</ids-text>
+    <ids-text>6. It should open with previously saved position</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+        <ids-button id="btn-toast-save-position-1" type="secondary">
+          <span slot="text">Show Toast(1)</span>
+        </ids-button>
+        <ids-button id="btn-toast-clear-position-1" type="secondary">
+          <span slot="text">Clear position for saved Toast(1)</span>
+        </ids-button>
+        <br/><br/>
+        <ids-button id="btn-toast-save-position-2" type="secondary">
+          <span slot="text">Show Toast(2)</span>
+        </ids-button>
+        <ids-button id="btn-toast-clear-position-2" type="secondary">
+          <span slot="text">Clear position for saved Toast(2)</span>
+        </ids-button>
+        <br /><br />
+        <ids-button id="btn-toast-clear-position-all" type="secondary">
+          <span slot="text">Clear all</span>
+        </ids-button>
+        <ids-text class="inline">Clear all toast related saved position from local storage</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<br /><br />
+<ids-layout-grid>
+  <ids-text font-size="12" type="h1">Toast show by markup</ids-text>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <ids-layout-grid-cell>
+    <ids-button id="btn-toast-markup" type="secondary">
+      <span slot="text">Toast - By markup</span>
+      <span slot="text"></span>
+    </ids-button>
+    <ids-text class="inline">Toast message setup by markup</ids-text>
+    <ids-toast id="toast-markup" destroy-on-complete="false">
+      <span slot="title">Application Offline</span>
+      <span slot="message">This is a Toast message.</span>
+    </ids-toast>
+
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+{{> ../layouts/footer.html }}

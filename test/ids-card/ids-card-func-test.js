@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsCard from '../../src/ids-card/ids-card';
+import IdsCard from '../../src/components/ids-card/ids-card';
 
 describe('IdsCard Component', () => {
   let card;

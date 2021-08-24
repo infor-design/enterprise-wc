@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsLocale from '../../src/ids-locale/ids-locale';
-import IdsContainer from '../../src/ids-container/ids-container';
+import IdsLocale from '../../src/components/ids-locale/ids-locale';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsLocale API', () => {
   let locale;
@@ -248,6 +248,11 @@ describe('IdsLocale API', () => {
       expect(locale.calendar().timeFormat).toEqual('HH.mm');
       expect(locale.calendar().dateFormat.timestamp).toEqual('HH.mm.ss');
       expect(locale.calendar().dateFormat.datetime).toEqual('dd-MM-yyyy HH.mm');
+
+      await locale.setLocale('fi-FI');
+      expect(locale.calendar().timeFormat).toEqual('H.mm');
+      expect(locale.calendar().dateFormat.timestamp).toEqual('H.mm.ss');
+      expect(locale.calendar().dateFormat.datetime).toEqual('d.M.yyyy H.mm');
 
       await locale.setLocale('de-DE');
       expect(locale.calendar().timeFormat).toEqual('HH:mm');

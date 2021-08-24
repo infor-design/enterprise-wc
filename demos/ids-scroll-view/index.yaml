@@ -1,0 +1,9 @@
+---
+ component: Scroll View
+ link: ids-scroll-view
+ description: Swipe / Scroll Container
+ category: Navigation and Interaction
+ keywords: swipe, scroll, circle pager, carousel
+ examples:
+  - link: index.html
+    description: Shows a basic scroll view

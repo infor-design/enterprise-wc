@@ -1,0 +1,77 @@
+/* Ids Swipe Container Css */
+@import '../../core/ids-base';
+
+.ids-swipe-container {
+  @include flex();
+
+  overflow-x: scroll;
+  scroll-snap-type: x proximity;
+  scroll-behavior: smooth;
+  margin-left: -1px;
+
+  &.continuous {
+    scroll-snap-type: x proximity;
+
+    .ids-swipe-action-left,
+    .ids-swipe-action-right {
+      scroll-snap-align: initial;
+    }
+  }
+}
+
+// Hide scroll bar
+.ids-swipe-container::-webkit-scrollbar {
+  display: none;
+}
+
+// Snaps into view
+.ids-swipe-element {
+  @include antialiased();
+  @include font-sans();
+  @include p-16();
+
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  min-width: 100%;
+}
+
+// Actions and element should be 100% wide
+.ids-swipe-action {
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  min-width: 100%;
+}
+
+// Style the action buttons
+.ids-swipe-action-left {
+  @include bg-slate-30();
+
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.ids-swipe-action-right {
+  @include bg-azure-60();
+
+  justify-content: flex-end;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+// Button should remain sticky
+::slotted(ids-button) {
+  display: contents;
+  position: sticky;
+}
+
+// Firefox only
+@-moz-document url-prefix() {
+  .ids-swipe-container {
+    overflow-x: hidden;
+  }
+
+  .ids-swipe-action-left {
+    display: none;
+  }
+}

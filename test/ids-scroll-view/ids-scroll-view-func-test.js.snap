@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsScrollContainer Component renders correctly 1`] = `
+"<style nonce=\\"0a59a005\\">.ids-scroll-view { background-color: transparent; }</style><div class=\\"ids-scroll-view-container\\" part=\\"container\\">
+        <div class=\\"ids-scroll-view\\" part=\\"scroll-view\\" role=\\"complementary\\" tabindex=\\"-1\\">
+          <slot name=\\"scroll-view-item\\"></slot>
+        </div>
+        <div class=\\"ids-scroll-view-controls\\" part=\\"controls\\" role=\\"tablist\\">
+        <a class=\\"selected\\" href=\\"#id-0\\" part=\\"button\\" tabindex=\\"0\\" role=\\"tab\\" aria-selected=\\"true\\"><span class=\\"audible\\">Slide 1, Sony Camera, Front</span></a><a href=\\"#id-1\\" part=\\"button\\" tabindex=\\"-1\\" role=\\"tab\\" aria-selected=\\"false\\"><span class=\\"audible\\">Slide 3, Sony Camera, Back Display</span></a><a href=\\"#id-2\\" part=\\"button\\" tabindex=\\"-1\\" role=\\"tab\\" aria-selected=\\"false\\"><span class=\\"audible\\">Slide 3, Sony Camera, From Top</span></a><a href=\\"#id-3\\" part=\\"button\\" tabindex=\\"-1\\" role=\\"tab\\" aria-selected=\\"false\\"><span class=\\"audible\\">Slide 4, Olympus Camera, Front</span></a><a href=\\"#id-4\\" part=\\"button\\" tabindex=\\"-1\\" role=\\"tab\\" aria-selected=\\"false\\"><span class=\\"audible\\">Slide 5, Olympus Camera, Exposed to water</span></a><a href=\\"#id-5\\" part=\\"button\\" tabindex=\\"-1\\" role=\\"tab\\" aria-selected=\\"false\\"><span class=\\"audible\\">Slide 6, Sony E-mount Camera, Front</span></a></div>
+    </div>"
+`;

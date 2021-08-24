@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsPopup from '../../src/ids-popup/ids-popup';
+import IdsPopup from '../../src/components/ids-popup/ids-popup';
 
 /**
  * Creates the test div used as an ArrowTarget in many of the below tests
