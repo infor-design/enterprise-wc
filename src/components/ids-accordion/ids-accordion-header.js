@@ -13,7 +13,7 @@ import {
   IdsEventsMixin
 } from '../../mixins';
 
-import { stringToBool } from '../../utils/ids-string-utils';
+import { IdsStringUtils } from '../../utils/ids-string-utils';
 
 // Expander Types
 const EXPANDER_TYPES = ['caret', 'plus-minus'];
@@ -108,7 +108,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    * @param {boolean} val true if this header should appear expanded
    */
   set expanded(val) {
-    const trueVal = stringToBool(val);
+    const trueVal = IdsStringUtils.stringToBool(val);
     this.container.classList[trueVal ? 'add' : 'remove']('expanded');
     this.#refreshExpanderIconType();
   }
@@ -142,7 +142,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    * @returns {boolean} true if this accordion header should appear "selected"
    */
   get selected() {
-    return stringToBool(this.getAttribute(attributes.SELECTED));
+    return IdsStringUtils.stringToBool(this.getAttribute(attributes.SELECTED));
   }
 
   /**
@@ -150,7 +150,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    */
   set selected(val) {
     const currentValue = this.selected;
-    const isValueTruthy = stringToBool(val);
+    const isValueTruthy = IdsStringUtils.stringToBool(val);
 
     if (currentValue !== isValueTruthy) {
       if (isValueTruthy) {
@@ -183,7 +183,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    * @param {boolean} val true if the expander icon should be displayed
    */
   toggleExpanderIcon(val) {
-    if (stringToBool(val)) {
+    if (IdsStringUtils.stringToBool(val)) {
       this.#showExpanderIcon();
     } else {
       this.#hideExpanderIcon();

@@ -4,15 +4,16 @@ import {
   attributes,
   scss,
   mix
-} from '../ids-base/ids-element';
+} from '../../core/ids-element';
 
-import { stripHTML } from '../ids-base/ids-xss-utils';
-import { stringToBool } from '../ids-base/ids-string-utils';
+import { IdsXssUtils } from '../../utils/ids-xss-utils';
+import { IdsStringUtils } from '../../utils/ids-string-utils';
 
 import {
   IdsEventsMixin,
   IdsPopupOpenEventsMixin
-} from '../ids-mixins';
+} from '../../mixins';
+
 import styles from './ids-drawer.scss';
 
 // Edges that can have a drawer applied
@@ -208,9 +209,9 @@ class IdsDrawer extends mix(IdsElement).with(IdsEventsMixin, IdsPopupOpenEventsM
    * @param {boolean} val true if the Drawer should become visible
    */
   set visible(val) {
-    const trueVal = stringToBool(val);
+    const trueVal = IdsStringUtils.stringToBool(val);
     if (trueVal) {
-      this.setAttribute(attributes.VISIBLE, stripHTML(`${val}`));
+      this.setAttribute(attributes.VISIBLE, IdsXssUtils.stripHTML(`${val}`));
     } else {
       this.removeAttribute(attributes.VISIBLE);
     }

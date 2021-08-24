@@ -2,7 +2,8 @@ import {
   IdsElement,
   customElement,
   scss
-} from '../ids-base';
+} from '../../core';
+
 import IdsDrawer from '../ids-drawer';
 import styles from './ids-app-menu.scss';
 

@@ -16,7 +16,7 @@ import {
   IdsThemeMixin
 } from '../../mixins';
 
-import IdsDOMUtils from '../ids-base/ids-dom-utils';
+import IdsDOMUtils from '../../utils/ids-dom-utils';
 
 /**
  * IDS Accordion Component

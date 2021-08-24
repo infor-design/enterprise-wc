@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsDrawer from '../../src/ids-drawer';
-import IdsButton from '../../src/ids-button/ids-button';
+import IdsDrawer from '../../src/components/ids-drawer';
+import IdsButton from '../../src/components/ids-button';
 
 import elemBuilderFactory from '../helpers/elem-builder-factory';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';

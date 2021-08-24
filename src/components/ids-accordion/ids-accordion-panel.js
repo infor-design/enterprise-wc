@@ -14,7 +14,7 @@ import {
 } from '../../mixins';
 
 import IdsAccordionHeader from './ids-accordion-header';
-import { stringToBool } from '../../utils/ids-string-utils';
+import { IdsStringUtils } from '../../utils/ids-string-utils';
 import styles from './ids-accordion-panel.scss';
 
 /**
@@ -124,7 +124,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @param {string} value true/false
    */
   set expanded(value) {
-    const isValueTruthy = stringToBool(value);
+    const isValueTruthy = IdsStringUtils.stringToBool(value);
     const currentValue = this.expanded;
 
     if (isValueTruthy) {
@@ -143,7 +143,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @returns {string} the expanded property
    */
   get expanded() {
-    return stringToBool(this.getAttribute(attributes.EXPANDED));
+    return IdsStringUtils.stringToBool(this.getAttribute(attributes.EXPANDED));
   }
 
   /**
