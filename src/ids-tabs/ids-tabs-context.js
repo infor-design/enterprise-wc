@@ -16,7 +16,7 @@ import styles from './ids-tabs.scss';
 
 /**
  * list of entries for attributes provided by
- * the ids-tab-context and how they map,
+ * the ids-tabs-context and how they map,
  * as well as which are listened on for updates
  * in the children
  */
@@ -30,17 +30,17 @@ const attributeProviderDefs = {
 };
 
 /**
- * IDS TabContext Component
- * @type {IdsTabContext}
+ * IDS TabsContext Component
+ * @type {IdsTabsContext}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
  * @part container - the container of all tabs
  */
-@customElement('ids-tab-context')
+@customElement('ids-tabs-context')
 @scss(styles)
-export default class IdsTabContext extends mix(IdsElement).with(
+export default class IdsTabsContext extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsAttributeProviderMixin(attributeProviderDefs)
   ) {

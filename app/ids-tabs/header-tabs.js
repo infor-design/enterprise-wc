@@ -4,7 +4,7 @@ import IdsHeader from '../ids-header';
 import IdsTabs, {
   IdsTab,
   IdsTabContent,
-  IdsTabContext,
+  IdsTabsContext,
   IdsTabDivider
 } from '../../src/ids-tabs';
 

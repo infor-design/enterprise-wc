@@ -2,6 +2,6 @@ import IdsText from '../../src/ids-text/ids-text';
 import IdsTabs, {
   IdsTab,
   IdsTabContent,
-  IdsTabContext,
+  IdsTabsContext,
   IdsTabDivider
 } from '../../src/ids-tabs';

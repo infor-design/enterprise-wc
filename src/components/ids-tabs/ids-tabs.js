@@ -19,7 +19,7 @@ import styles from './ids-tabs.scss';
 
 /**
  * list of entries for attributes provided by
- * the ids-tab-context and how they map,
+ * the ids-tabs-context and how they map,
  * as well as which are listened on for updates
  * in the children
  */
