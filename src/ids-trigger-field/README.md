@@ -27,7 +27,7 @@ Add an ids-trigger-field to the page and inside its slot add an ids-input and id
 </ids-trigger-field>
 ```
 
-Example usage with buttons on both sides of input. Note: you need to hide the label on `ids-input` and instead add it on the `ids-trigger-field` component. Also, in order to wrap the border around the buttons and `ids-input` you need to add the `content-borders` attribute to `ids-trigger-field`
+Example usage with buttons on both sides of input. In order to wrap the border around the buttons and `ids-input` you need to add the `content-borders` attribute to `ids-trigger-field`
 
 ```html
 <ids-trigger-field
@@ -40,8 +40,8 @@ Example usage with buttons on both sides of input. Note: you need to hide the la
     <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
     <ids-text audible="true">Call to action</ids-text>
   </ids-trigger-button>
-  <ids-input size="sm" label-hidden></ids-input>
-  <ids-trigger-button slot="ids-trigger-field-btn-end">
+  <ids-input placeholder="Enter Product"></ids-input>
+  <ids-trigger-button>
     <ids-text audible="true">color picker trigger</ids-text>
     <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
   </ids-trigger-button>
@@ -52,7 +52,9 @@ Example usage with buttons on both sides of input. Note: you need to hide the la
 
 - `appearance` {string} Turns on the functionality to have more compact field size (TODO)
 - `content-borders` {boolean} This adds the 'input' border and focus state to the ids-trigger-field-content.
+- `disabled` {boolean} set disabled state.
 - `label` {string} This adds a label to the trigger field
+- `size` {string} set the input size, it will set `md` as defaults
 - `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
 
 ## Converting from Previous Versions
