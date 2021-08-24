@@ -41,7 +41,7 @@ const REQUIRED_TRIGGERFIELD_HTML = (
       tabbable="false"
       label="Date Field"
       content-borders
-      validate="true"
+      validate="required"
     >
       <ids-input></ids-input>
       <ids-trigger-button>
@@ -139,7 +139,30 @@ describe('IdsTriggerField Component', () => {
 
   it('renders validation setting', async () => {
     triggerField = await createElemViaTemplate(REQUIRED_TRIGGERFIELD_HTML);
-    expect(triggerField.validate).toBe('true');
+    expect(triggerField.validate).toBe('required');
+  });
+
+  it('should add/remove validation errors', async () => {
+    triggerField = await createElemViaTemplate(DEFAULT_TRIGGERFIELD_HTML);
+    triggerField.validate = 'required';
+    triggerField.template();
+    document.body.appendChild(triggerField);
+
+    expect(triggerField.getAttribute('validate')).toEqual('required');
+    expect(triggerField.validate).toEqual('required');
+    expect(triggerField.shadowRoot.querySelector('.validation-message')).toBeFalsy();
+
+    triggerField.querySelector('ids-input').focus();
+    triggerField.querySelector('ids-input').blur();
+    triggerField.checkValidation();
+    const msgEl = triggerField.shadowRoot.querySelector('.validation-message');
+    expect(msgEl).toBeTruthy();
+    expect(msgEl.getAttribute('validation-id')).toEqual('required');
+
+    triggerField.querySelector('ids-input').value = 'test';
+    triggerField.querySelector('ids-input').blur();
+    triggerField.checkValidation();
+    expect(triggerField.shadowRoot.querySelector('.validation-message')).toBe(null);
   });
 
   it('renders disabled setting', async () => {

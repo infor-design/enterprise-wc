@@ -59,47 +59,41 @@ const IdsValidationMixin = (superclass) => class extends superclass {
             radioArr.forEach((r) => r.input.setAttribute('required', 'required'));
           }
         }
-        let useRules = this.useRules.get(this.input);
-        if (useRules) {
-          let found = false;
-          useRules.forEach((/** @type {object} */ rule) => {
-            if (rule.id === strRule) {
-              found = true;
-            }
-          });
-          if (!found) {
-            const mergeRule = [...useRules, getRule(strRule)];
-            this.useRules.set(this.input, mergeRule);
-            isRulesAdded = true;
-          }
-        } else {
-          this.useRules.set(this.input, [getRule(strRule)]);
-          isRulesAdded = true;
-        }
 
-        // If multiple inputs in triggerfield
-        if (this.inputs) {
-          [...this.inputs].forEach((input) => {
-            useRules = this.useRules.get(input);
-            if (useRules) {
-              let found = false;
-              useRules.forEach((/** @type {object} */ rule) => {
-                if (rule.id === strRule) {
-                  found = true;
-                }
-              });
-              if (!found) {
-                const mergeRule = [...useRules, getRule(strRule)];
-                this.useRules.set(input, mergeRule);
-                isRulesAdded = true;
+        /**
+         * Set the useRules map
+         * @param {*} input element(s)
+         */
+        const setRules = (input) => {
+          const useRules = this.useRules.get(input);
+          if (useRules) {
+            let found = false;
+            useRules.forEach((/** @type {object} */ rule) => {
+              if (rule.id === strRule) {
+                found = true;
               }
-            } else {
-              this.useRules.set(input, [getRule(strRule)]);
+            });
+            if (!found) {
+              const mergeRule = [...useRules, getRule(strRule)];
+              this.useRules.set(input, mergeRule);
               isRulesAdded = true;
             }
+          } else {
+            this.useRules.set(input, [getRule(strRule)]);
+            isRulesAdded = true;
+          }
+        };
+
+        setRules(this.input);
+
+        // If there are multiple inputs in the trigger field.
+        if (this.inputs) {
+          [...this.inputs].forEach((input) => {
+            setRules(input);
           });
         }
       });
+
       if (isRulesAdded) {
         this.handleValidationEvents();
       }
@@ -113,18 +107,17 @@ const IdsValidationMixin = (superclass) => class extends superclass {
    * @private
    * @returns {void}
    */
-  /**
-   * Check the validation and add/remove errors as needed
-   * @private
-   * @returns {void}
-   */
   checkValidation() {
-    if (this.input) {
+    /**
+     * Check validation rules
+     * @param {*} input element
+     */
+    const checkRules = (input) => {
       this.isTypeNotValid = {};
       let isValid = true;
-      const useRules = this.useRules.get(this.input);
+      const useRules = this.useRules.get(input);
       useRules?.forEach((/** @type {object} */ thisRule) => {
-        if (!thisRule.rule.check(this.input) && this.isTypeNotValid) {
+        if (!thisRule.rule.check(input) && this.isTypeNotValid) {
           this.addMessage(thisRule.rule);
           isValid = false;
           this.isTypeNotValid[thisRule.rule.type] = true;
@@ -134,25 +127,15 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       });
       this.isTypeNotValid = null;
       this.triggerEvent('validate', this, { detail: { elem: this, value: this.value, isValid } });
+    };
+
+    if (this.input) {
+      checkRules(this.input);
     }
 
-    // If multiple inputs in triggerfield
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
-        this.isTypeNotValid = {};
-        let isValid = true;
-        const useRules = this.useRules.get(input);
-        useRules?.forEach((/** @type {object} */ thisRule) => {
-          if (!thisRule.rule.check(input) && this.isTypeNotValid) {
-            this.addMessage(thisRule.rule);
-            isValid = false;
-            this.isTypeNotValid[thisRule.rule.type] = true;
-          } else {
-            this.removeMessage(thisRule.rule);
-          }
-        });
-        this.isTypeNotValid = null;
-        this.triggerEvent('validate', this, { detail: { elem: this, value: this.value, isValid } });
+        checkRules(input);
       });
     }
   }
@@ -189,7 +172,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     let iconName = this.VALIDATION_ICONS[type];
     let messageId = `${this.input?.getAttribute('id')}-${settings.type}`;
 
-    // If multiple inupts in triggerfield
+    // If multiple inputs in triggerfield
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
         messageId = `${input.getAttribute('id')}-${settings.type}`;
@@ -285,6 +268,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     // If multiple inputs in triggerfield
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
+        /* istanbul ignore else */
         if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
           input.classList.remove(type);
           input.removeAttribute('aria-describedby');
@@ -322,37 +306,34 @@ const IdsValidationMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   handleValidationEvents(option = '') {
-    /* istanbul ignore next */
-    if (this.input) {
+    /**
+     * Handle the validation events
+     * @param {*} input element(s)
+     */
+    const validationEvents = (input) => {
       this.validationEventsList.forEach((eventName) => {
         if (option === 'remove') {
           const handler = this.handledEvents.get(eventName);
-          if (handler && handler.target === this.input) {
-            this.offEvent(eventName, this.input);
+          if (handler && handler.target === input) {
+            this.offEvent(eventName, input);
           }
         } else {
-          this.onEvent(eventName, this.input, () => {
+          this.onEvent(eventName, input, () => {
             this.checkValidation();
           });
         }
       });
+    };
+
+    /* istanbul ignore next */
+    if (this.input) {
+      validationEvents(this.input);
     }
 
     // If multiple inputs in triggerfield
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
-        this.validationEventsList.forEach((eventName) => {
-          if (option === 'remove') {
-            const handler = this.handledEvents.get(eventName);
-            if (handler && handler.target === input) {
-              this.offEvent(eventName, input);
-            }
-          } else {
-            this.onEvent(eventName, input, () => {
-              this.checkValidation();
-            });
-          }
-        });
+        validationEvents(input);
       });
     }
   }
@@ -362,27 +343,29 @@ const IdsValidationMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   destroyValidation() {
-    /* istanbul ignore next */
-    if (this.input) {
-      const useRules = this.useRules.get(this.input);
+    /**
+     * Destroy validation
+     * @param {*} input element(s)
+     */
+    const destroy = (input) => {
+      const useRules = this.useRules.get(input);
       if (useRules) {
         this.handleValidationEvents('remove');
-        this.useRules.delete(this.input);
+        this.useRules.delete(input);
       }
       this.labelEl?.classList.remove('required');
       this.removeAllMessages();
+    };
+
+    /* istanbul ignore next */
+    if (this.input) {
+      destroy(this.input);
     }
 
     // If multiple inputs in triggerfield
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
-        const useRules = this.useRules.get(input);
-        if (useRules) {
-          this.handleValidationEvents('remove');
-          this.useRules.delete(input);
-        }
-        this.labelEl?.classList.remove('required');
-        this.removeAllMessages();
+        destroy(input);
       });
     }
   }
