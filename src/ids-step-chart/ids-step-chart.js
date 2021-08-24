@@ -30,6 +30,7 @@ import styles from './ids-step-chart.scss';
 class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
+    this.internalStepsInProgress = [];
   }
 
   /**
@@ -51,7 +52,6 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.COMPLETED_LABEL,
       attributes.LABEL,
       attributes.PROGRESS_COLOR,
-      attributes.STEPS_IN_PROGRESS,
       attributes.STEP_NUMBER,
       attributes.VALUE
     ];
@@ -93,47 +93,51 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     });
   }
 
-  get stepCount() { return parseInt(this.getAttribute(attributes.STEP_NUMBER)); }
+  get stepNumber() { return parseInt(this.getAttribute(attributes.STEP_NUMBER)); }
+
+  set stepNumber(value) {
+    this.setAttribute('step-number', value);
+    this.container.innerHTML = this.template();
+    this.#updateColor();
+  }
 
   get stepsInProgress() {
-    const inProgressSteps = this.getAttribute(attributes.STEPS_IN_PROGRESS);
-    let inProgressStepArray = [];
-    /* istanbul ignore else */
-    if (inProgressSteps) {
-      inProgressStepArray = inProgressSteps.split(',').map(Number);
-    }
-    return inProgressStepArray;
+    return this.internalStepsInProgress;
   }
 
   set stepsInProgress(value) {
-    this.setAttribute('steps-in-progress', value);
-    this.updateColor();
+    this.internalStepsInProgress = value.map(Number);
+    this.#updateColor();
   }
 
   get value() { return parseInt(this.getAttribute(attributes.VALUE)); }
 
   set value(value) {
     this.setAttribute('value', value);
-    this.updateColor();
+    this.#updateColor();
   }
 
-  updateColor() {
-    this.container.querySelectorAll(`.step`).forEach((element, index) => {
-      element.classes = `step`;
+  // eslint-disable-next-line jsdoc/require-returns
+  /**
+   * Custom Element `attributeChangedCallback` implementation
+   * @param {string} name The name of attribute changed
+   * @param {any} oldValue The old value
+   * @param {any} newValue The new value
+   * @returns {void}
+   */
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue !== newValue && name !== 'step-count') {
+      this[name] = newValue;
+    }
+  }
 
-      if (this.stepsInProgress.length > 0
-        && this.progressColor
-        && this.stepsInProgress.includes(index + 1)) {
-        element.classList.add(`in-progress`);
-        element.setAttribute(`color`, `${this.progressColor}`);
-      } else if (index <= this.value - 1) {
-        element.setAttribute(`color`, `${this.color}`);
-        element.classList.add(`complete`);
-      } else {
-        element.setAttribute(`color`, `graphite03`);
-        element.classList.add(`untouched`);
-      }
-    });
+  /**
+   * Establish internal event handlers
+   * @private
+   * @returns {object} The object for chaining
+   */
+  #handleEvents() {
+    return this;
   }
 
   /**
@@ -147,13 +151,13 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     let stepDiv = '';
     let template = '';
 
-    for (let i = 1; i <= this.stepCount; i++) {
+    for (let i = 1; i <= this.stepNumber; i++) {
       let classes = 'step';
       let color = ``;
 
-      if (this.stepsInProgress.length > 0
+      if (this.internalStepsInProgress && this.internalStepsInProgress.length > 0
         && this.progressColor
-        && this.stepsInProgress.includes(i)) {
+        && this.internalStepsInProgress.includes(i)) {
         classes += ` in-progress`;
         color = `${this.progressColor}`;
       } else if (i <= this.value) {
@@ -183,27 +187,26 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     return template;
   }
 
-  // eslint-disable-next-line jsdoc/require-returns
   /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @param {string} name The name of attribute changed
-   * @param {any} oldValue The old value
-   * @param {any} newValue The new value
-   * @returns {void}
+   * updates the colors and classes of the step divs
    */
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue !== newValue && name !== 'step-count') {
-      this[name] = newValue;
-    }
-  }
-
-  /**
-   * Establish internal event handlers
-   * @private
-   * @returns {object} The object for chaining
-   */
-  #handleEvents() {
-    return this;
+  #updateColor() {
+    this.container.querySelectorAll(`.step`).forEach((element, index) => {
+      element.className = '';
+      if (this.internalStepsInProgress
+        && this.internalStepsInProgress.length > 0
+        && this.progressColor
+        && this.internalStepsInProgress.includes(index + 1)) {
+        element.classList.add(`step`, `in-progress`);
+        element.setAttribute(`color`, `${this.progressColor}`);
+      } else if (index <= this.value - 1) {
+        element.setAttribute(`color`, `${this.color}`);
+        element.classList.add(`step`, `complete`);
+      } else {
+        element.setAttribute(`color`, `graphite03`);
+        element.classList.add(`step`, `untouched`);
+      }
+    });
   }
 }
 

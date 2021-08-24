@@ -21,9 +21,9 @@ describe('Ids Step Chart Tests', () => {
 
   beforeEach(async () => {
     elem = await createElemViaTemplate(
-      `<ids-step-chart label="2 of 7 steps completed" color="azure08" step-number="7" value="3" completed-label="5 days overdue" steps-in-progress="3" progress-color="ruby03"></ids-step-chart>`
+      `<ids-step-chart label="2 of 7 steps completed" color="azure08" step-number="7" value="3" completed-label="5 days overdue" progress-color="ruby03"></ids-step-chart>`
     );
-    debugger;
+    elem.stepsInProgress = ['3'];
   });
 
   afterEach(async () => {
@@ -40,12 +40,14 @@ describe('Ids Step Chart Tests', () => {
   });
 
   it('generates the correct number of steps', () => {
-    debugger;
     expect(elem.shadowRoot.querySelectorAll('.step').length).toEqual(7);
   });
 
   it('generates the correct number of completed steps', () => {
     expect(elem.shadowRoot.querySelectorAll('.complete').length).toEqual(2);
+    elem.value = '5';
+    expect(elem.getAttribute('value')).toBe('5');
+    expect(elem.shadowRoot.querySelectorAll('.complete').length).toEqual(4);
   });
 
   it('correctly marks steps as in progress', () => {
@@ -62,15 +64,26 @@ describe('Ids Step Chart Tests', () => {
     expect(elem.shadowRoot.querySelector('.complete').getAttribute('color')).toBe('amethyst05');
   });
   it('can steps in progress be updated', () => {
-    elem.stepsInProgress = '3,5,7';
-    expect(elem.getAttribute('steps-in-progress')).toBe('3,5,7');
+    elem.stepsInProgress = ['3', '5', '7'];
     expect(elem.shadowRoot.querySelectorAll('.in-progress').length).toBe(3);
+    expect(elem.stepsInProgress).toEqual([3, 5, 7]);
   });
   it('completed label can be updated', () => {
-    debugger;
     expect(elem.shadowRoot.querySelector('.completed-label').innerHTML).toBe('5 days overdue');
     elem.completedLabel = 'Test change';
     expect(elem.getAttribute('completed-label')).toBe('Test change');
     expect(elem.shadowRoot.querySelector('.completed-label').innerHTML).toBe('Test change');
+  });
+  it('label can be updated', () => {
+    expect(elem.shadowRoot.querySelector('.label').innerHTML).toBe('2 of 7 steps completed');
+    elem.label = 'Test Label';
+    expect(elem.getAttribute('label')).toBe('Test Label');
+    expect(elem.shadowRoot.querySelector('.label').innerHTML).toBe('Test Label');
+  });
+  it('update the steps', () => {
+    expect(elem.shadowRoot.querySelectorAll('.step').length).toBe(7);
+    elem.stepNumber = '10';
+    expect(elem.getAttribute('step-number')).toBe('10');
+    expect(elem.shadowRoot.querySelectorAll('.step').length).toBe(10);
   });
 });
