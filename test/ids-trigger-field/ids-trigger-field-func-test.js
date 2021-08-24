@@ -19,9 +19,55 @@ global.ResizeObserver = resizeObserverMock;
 
 const DEFAULT_TRIGGERFIELD_HTML = (
   `<ids-trigger-field
-    size="md"
-    label="Trigger Field Label"
-  ></ids-trigger-field>`
+      id="trigger-field-1"
+      size="sm"
+      tabbable="false"
+      label="Date Field"
+      content-borders
+    >
+      <ids-input></ids-input>
+      <ids-trigger-button>
+        <ids-text audible="true">Date Field trigger</ids-text>
+        <ids-icon slot="icon" icon="schedule"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>
+  `
+);
+
+const REQUIRED_TRIGGERFIELD_HTML = (
+  `<ids-trigger-field
+      id="trigger-field-1"
+      size="sm"
+      tabbable="false"
+      label="Date Field"
+      content-borders
+      validate="true"
+    >
+      <ids-input></ids-input>
+      <ids-trigger-button>
+        <ids-text audible="true">Date Field trigger</ids-text>
+        <ids-icon slot="icon" icon="schedule"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>
+  `
+);
+
+const DISABLED_TRIGGERFIELD_HTML = (
+  `<ids-trigger-field
+      id="trigger-field-1"
+      size="sm"
+      tabbable="false"
+      label="Date Field"
+      content-borders
+      disabled="true"
+    >
+      <ids-input></ids-input>
+      <ids-trigger-button>
+        <ids-text audible="true">Date Field trigger</ids-text>
+        <ids-icon slot="icon" icon="schedule"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>
+  `
 );
 
 describe('IdsTriggerField Component', () => {
@@ -82,15 +128,23 @@ describe('IdsTriggerField Component', () => {
   it('clicks the label and input receives focus', async () => {
     triggerField = await createElemViaTemplate(DEFAULT_TRIGGERFIELD_HTML);
     const labelEl = triggerField.shadowRoot.querySelector('.ids-trigger-field').children[0];
-    const inputs = triggerField.parentElement.querySelectorAll('ids-input');
+    const inputs = triggerField.shadowRoot.querySelectorAll('ids-input');
     labelEl.click();
     if (inputs) {
-      console.log(inputs);
       [...inputs].forEach((input) => {
-        console.log(input);
         expect(triggerField.shadowRoot.activeElement).toEqual(input);
       });
     }
+  });
+
+  it('renders validation setting', async () => {
+    triggerField = await createElemViaTemplate(REQUIRED_TRIGGERFIELD_HTML);
+    expect(triggerField.validate).toBe('true');
+  });
+
+  it('renders disabled setting', async () => {
+    triggerField = await createElemViaTemplate(DISABLED_TRIGGERFIELD_HTML);
+    expect(triggerField.disabled).toBe('true');
   });
 
   it('renders tabbable setting', () => {
