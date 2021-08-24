@@ -26,6 +26,6 @@
     - [x] fix: progress color bar does not show upon init
     - [ ] make the animation smooth btw the two thumbs when progress bar size changes
 - [ ] make it work for RTL
-- [ ] fix bug, stepping right from 0 with arrows on left thumb stops at 1 
+- [x] fix bug, stepping right from 0 with arrows on left thumb stops at 1 
 - [x] step slider
   - [ ] add step labels
