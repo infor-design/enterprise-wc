@@ -28,4 +28,5 @@
 - [ ] make it work for RTL
 - [x] fix bug, stepping right from 0 with arrows on left thumb stops at 1 
 - [x] step slider
-  - [ ] add step labels
+  - [x] add step labels
+- [ ] make function for init css styles

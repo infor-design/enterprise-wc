@@ -24,18 +24,7 @@ ids-slider {
     display: flex;
     position: absolute;
     width: 100%;
-
-    &.start {
-      justify-content: flex-start;
-    }
-    
-    &.end {
-      justify-content: flex-end;
-    }
-
-    &.step {
-      justify-content: space-between;
-    }
+    justify-content: space-between;
 
     .tick {
       display: flex;
@@ -45,6 +34,10 @@ ids-slider {
       background-color: #0072ED;
       z-index: 40;
       
+      .label {
+        position: absolute;
+        transform: translate(-50%, 100%)
+      }
     }
   }
 
@@ -90,7 +83,6 @@ ids-slider {
     border-radius: 50%;
     outline: none;
     position: absolute;
-    // transition: transform 0.2s ease;
     
     --blue-shadow: rgba(0 ,114 ,237, 0.1) 0px 0px 0px 8px;
     
@@ -114,9 +106,6 @@ ids-slider {
       
       &:hover {
         box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
-      }
-      &.secondary {
-        background: red;
       }
     }
     
@@ -155,23 +144,6 @@ ids-slider {
       // right: 80%;
       background-color: yellow;
       // transition: left 1s ease; 
-    }
-  }
-
-  .label {
-    display: flex;
-    position: absolute;
-    top: 100%;
-    margin: 15px 0;
-
-    &.min {
-      width: 100%;
-      justify-content: flex-start;
-    }
-
-    &.max {
-      width: 100%;
-      justify-content: flex-end;
     }
   }
 }
