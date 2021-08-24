@@ -1,9 +1,27 @@
 /**
  * @jest-environment jsdom
  */
-import IdsAccordion from '../../src/components/ids-accordion/ids-accordion';
-import IdsAccordionHeader from '../../src/components/ids-accordion/ids-accordion-header';
-import IdsAccordionPanel from '../../src/components/ids-accordion/ids-accordion-panel';
+import IdsAccordion, {
+  IdsAccordionHeader,
+  IdsAccordionPanel
+} from '../../src/components/ids-accordion';
+
+import elemBuilderFactory from '../helpers/elem-builder-factory';
+
+const elemBuilder = elemBuilderFactory();
+
+const createAccordion = async () => elemBuilder.createElemFromTemplate(`<ids-accordion>
+    <ids-accordion-panel id="p1">
+      <ids-accordion-header id="h1" slot="header"></ids-accordion-header>
+    </ids-accordion-panel>
+    <ids-accordion-panel id="p2">
+      <ids-accordion-header id="h2" slot="header"></ids-accordion-header>
+    </ids-accordion-panel>
+    <ids-accordion-panel id="p3">
+      <ids-accordion-header id="h3" slot="header"></ids-accordion-header>
+    </ids-accordion-panel>
+  </ids-accordion>
+`);
 
 describe('IdsAccordion Component', () => {
   let accordion;
@@ -16,32 +34,29 @@ describe('IdsAccordion Component', () => {
 
   beforeEach(async () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
-    const wrapper = new IdsAccordion();
-    panel = new IdsAccordionPanel();
-    panel2 = new IdsAccordionPanel();
-    panel3 = new IdsAccordionPanel();
-    header = new IdsAccordionHeader();
-    header2 = new IdsAccordionHeader();
-    header3 = new IdsAccordionHeader();
 
-    document.body.appendChild(wrapper);
-    accordion = document.querySelector('ids-accordion');
+    accordion = await createAccordion();
 
-    accordion.appendChild(panel);
-    accordion.appendChild(panel2);
-    accordion.appendChild(panel3);
-
-    panel.appendChild(header);
-    panel2.appendChild(header2);
-    panel3.appendChild(header3);
+    panel = document.querySelector('#p1');
+    panel2 = document.querySelector('#p2');
+    panel3 = document.querySelector('#p3');
+    header = document.querySelector('#h1');
+    header2 = document.querySelector('#h2');
+    header3 = document.querySelector('#h3');
   });
 
   afterEach(async () => {
-    document.body.innerHTML = '';
+    elemBuilder.clearElement();
     accordion = null;
+    panel = null;
+    panel2 = null;
+    panel3 = null;
+    header = null;
+    header2 = null;
+    header3 = null;
   });
 
-  it('renders correctly', () => {
+  it('renders correctly', async () => {
     expect(accordion.outerHTML).toMatchSnapshot();
     panel.expanded = true;
     expect(accordion.outerHTML).toMatchSnapshot();
@@ -49,12 +64,10 @@ describe('IdsAccordion Component', () => {
     expect(accordion.outerHTML).toMatchSnapshot();
   });
 
-  it('renders with no errors', () => {
+  it('renders with no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
     accordion.remove();
-
-    accordion = new IdsAccordion();
-    document.body.appendChild(accordion);
+    accordion = await createAccordion();
 
     expect(document.querySelectorAll('ids-accordion').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
@@ -71,19 +84,18 @@ describe('IdsAccordion Component', () => {
 
     panelEl.setAttribute('expanded', true);
     panel.expanded = true;
-    expect(panelEl.getAttribute('expanded')).toBe('true');
-    expect(panel.getAttribute('expanded')).toBe('true');
+    expect(panelEl.getAttribute('expanded')).toBeTruthy();
+    expect(panel.getAttribute('expanded')).toBeTruthy();
 
     panelEl.setAttribute('expanded', false);
     panel.expanded = false;
-    expect(panelEl.getAttribute('expanded')).toBe('false');
-    expect(panel.expanded).toBe('false');
+    expect(panelEl.getAttribute('expanded')).toBeFalsy();
+    expect(panel.expanded).toBeFalsy();
   });
 
   it('can change set its aria-expanded attribute', () => {
-    panel.state.expanded = true;
-    panel.expander.setAttribute('aria-expanded', panel.state.expanded);
-    expect(panel.expander.getAttribute('aria-expanded')).toBe('true');
+    panel.expanded = true;
+    expect(header.getAttribute('aria-expanded')).toBeTruthy();
   });
 
   it('can be expanded/collapsed when clicked (mouse)', () => {
@@ -96,13 +108,11 @@ describe('IdsAccordion Component', () => {
 
     // Expand
     panel.expander.dispatchEvent(event);
-    expect(panel.expanded).toBe('true');
-    expect(panel.state.expanded).toBe(true);
+    expect(panel.expanded).toBeTruthy();
 
     // Collapse
     panel.expander.dispatchEvent(event);
-    expect(panel.expanded).toBe('false');
-    expect(panel.state.expanded).toBe(false);
+    expect(panel.expanded).toBeFalsy();
   });
 
   it('can be expanded/collapsed when touched', () => {
@@ -120,17 +130,13 @@ describe('IdsAccordion Component', () => {
 
     // Expand
     panel.expander.dispatchEvent(event);
-    panel.expanded = true;
-    panel.state.expanded = true;
-    expect(panel.expanded).toBe('true');
-    expect(panel.state.expanded).toBe(true);
+
+    expect(panel.expanded).toBeTruthy();
 
     // Collapse
     panel.expander.dispatchEvent(event);
-    panel.expanded = false;
-    panel.state.expanded = false;
-    expect(panel.expanded).toBe('false');
-    expect(panel.state.expanded).toBe(false);
+
+    expect(panel.expanded).toBeFalsy();
   });
 
   it('can be expanded/collapsed when pressing Enter key', () => {
@@ -138,13 +144,11 @@ describe('IdsAccordion Component', () => {
 
     // Expand
     panel.dispatchEvent(event);
-    expect(panel.state.expanded).toBe(true);
-    expect(panel.expanded).toBe('true');
+    expect(panel.expanded).toBeTruthy();
 
     // Collapse
     panel.dispatchEvent(event);
-    expect(panel.state.expanded).toBe(false);
-    expect(panel.expanded).toBe('false');
+    expect(panel.expanded).toBeFalsy();
   });
 
   it('can be expanded/collapsed when pressing Space key', () => {
@@ -152,13 +156,11 @@ describe('IdsAccordion Component', () => {
 
     // Expand
     panel.dispatchEvent(event);
-    expect(panel.state.expanded).toBe(true);
-    expect(panel.expanded).toBe('true');
+    expect(panel.expanded).toBeTruthy();
 
     // Collapse
     panel.dispatchEvent(event);
-    expect(panel.state.expanded).toBe(false);
-    expect(panel.expanded).toBe('false');
+    expect(panel.expanded).toBeFalsy();
   });
 
   it('can select the next panel when pressing the ArrowDown key', () => {
@@ -197,14 +199,6 @@ describe('IdsAccordion Component', () => {
       });
     });
     expect(panel.pane.style.height).toEqual('0px');
-  });
-
-  it('wont error caling api with no panel', () => {
-    panel.pane = null;
-    panel.expanded = true;
-    panel.expanded = false;
-    panel.expanded = true;
-    expect(panel.expanded).toEqual('true');
   });
 
   it('supports setting mode', () => {

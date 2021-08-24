@@ -159,6 +159,10 @@ class IdsAccordionHeader extends mix(IdsElement).with(
         this.removeAttribute(attributes.SELECTED);
       }
       this.#refreshSelected(isValueTruthy);
+
+      if (isValueTruthy) {
+        this.triggerEvent('selected', this, { bubbles: true });
+      }
     }
   }
 
@@ -167,14 +171,11 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    * @param {boolean} isSelected true if the Accordion Header should appear "Selected"
    */
   #refreshSelected(isSelected) {
-    const textNode = this.querySelector('ids-text');
-
     this.container.classList[isSelected ? 'add' : 'remove']('selected');
-    if (isSelected) {
-      textNode.fontWeight = 'bold';
-      this.triggerEvent('selected', this, { bubbles: true });
-    } else {
-      textNode.fontWeight = '';
+
+    const textNode = this.querySelector('ids-text, span');
+    if (textNode) {
+      textNode.fontWeight = isSelected ? 'bold' : '';
     }
   }
 

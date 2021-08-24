@@ -41,10 +41,6 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   connectedCallback() {
     super.connectedCallback?.();
 
-    /** @type {HTMLElement | null } */
-    this.expander = this.shadowRoot?.querySelector('.ids-accordion-panel-expander');
-    this.header = this.querySelector('[slot="header"]');
-    this.pane = this.shadowRoot?.querySelector('.ids-accordion-pane');
     this.#setTitles();
     this.#attachEventHandlers();
     this.#toggleExpanderDisplay();
@@ -92,6 +88,30 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    */
   get colorVariant() {
     return super.colorVariant;
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement|null} the provided header, if applicable
+   */
+  get header() {
+    return this.querySelector('[slot="header"]');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement|null} the expander button
+   */
+  get expander() {
+    return this.container.querySelector('.ids-accordion-panel-expander');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement|null} the inner expand/collapse pane element
+   */
+  get pane() {
+    return this.container.querySelector('.ids-accordion-pane');
   }
 
   /**
@@ -175,7 +195,9 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @returns {void}
    */
   #toggleExpanderDisplay() {
-    this.header?.toggleExpanderIcon(this.isExpandable);
+    if (this.header instanceof IdsAccordionHeader) {
+      this.header.toggleExpanderIcon(this.isExpandable);
+    }
   }
 
   /**
@@ -197,7 +219,9 @@ class IdsAccordionPanel extends mix(IdsElement).with(
 
       this.pane.style.height = `${this.pane.scrollHeight}px`;
       this.container.classList.remove('expanded');
-      this.header.expanded = false;
+      if (this.header) {
+        this.header.expanded = false;
+      }
 
       requestAnimationFrame(() => {
         /* istanbul ignore next */
@@ -235,7 +259,9 @@ class IdsAccordionPanel extends mix(IdsElement).with(
 
     requestAnimationFrame(() => {
       this.container.classList.add('expanded');
-      this.header.expanded = true;
+      if (this.header) {
+        this.header.expanded = true;
+      }
 
       // Setting height kicks off animation
       this.pane.style.height = `${this.pane.scrollHeight}px`;
