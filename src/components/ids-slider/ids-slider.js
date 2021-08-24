@@ -278,7 +278,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get valuea() { 
-    const a = this.getAttribute('valueb')
+    const a = this.getAttribute('valuea');
     if (a === null || a === '' || Number.isNaN(parseFloat(a))) {
       return DEFAULT_VALUE;
     } else {
@@ -684,8 +684,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
             if (this.type === 'step') {
               this.setAttribute(attribute, value + (this.max / (this.stepNumber - 1)));
             } else {
-              console.log('stepping right')
-              console.log(Math.floor(value) + 1);
               this.setAttribute(attribute, Math.floor(value) + 1);
             }
             break;
