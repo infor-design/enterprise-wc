@@ -18,9 +18,9 @@ We include a trigger field component that helps layout an input next to a button
 Add an ids-trigger-field to the page and inside its slot add an ids-input and ids-trigger-button.
 
 ```html
-<ids-trigger-field tabbable="false">
-  <ids-input slot="ids-trigger-field-input" label="Date Field" size="sm"></ids-input>
-  <ids-trigger-button slot="ids-trigger-field-btn-end">
+<ids-trigger-field size="sm" label="Date Field" tabbable="false" content-borders>
+  <ids-input></ids-input>
+  <ids-trigger-button>
     <ids-text audible="true">Date Field trigger</ids-text>
     <ids-icon slot="icon" icon="schedule"></ids-icon>
   </ids-trigger-button>

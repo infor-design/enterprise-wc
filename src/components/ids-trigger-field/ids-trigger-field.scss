@@ -29,10 +29,6 @@ $input-size-default: map-get($input-sizes, 'md');
 
   align-items: flex-start;
   flex-direction: column;
-
-  &.has-validation-message ::slotted(ids-trigger-button) {
-    margin-top: -20px;
-  }
 }
 
 :host(ids-trigger-field[disabled]) {
