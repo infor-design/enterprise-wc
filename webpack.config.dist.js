@@ -24,16 +24,12 @@ module.exports = {
     version: '0.0.0'
   },
   optimization: {
-    // minimize: !!isProduction,
-    // minimizer: [
-    //   new TerserPlugin({
-    //     test: /\.js(\?.*)?$/i
-    //   }),
-    // ]
-    splitChunks: {
-      chunks: 'all',
-      minSize: 3000
-    }
+    minimize: !!isProduction,
+    minimizer: [
+      new TerserPlugin({
+        test: /\.js(\?.*)?$/i
+      }),
+    ]
   },
   output: {
     library: '[name]-lib.js',
