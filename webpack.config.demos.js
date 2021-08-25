@@ -182,7 +182,8 @@ module.exports = {
   plugins: [
     new BundleAnalyzerPlugin({
       analyzerMode: 'static', // options: server | static | json | disabled
-      openAnalyzer: false
+      openAnalyzer: false,
+      reportFilename: 'dev-build-report.html'
     }),
     new webpack.LoaderOptionsPlugin({
       options: {
