@@ -89,10 +89,10 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin,
   #handleEvents() {
     // Respond to parent changing language
     this.offEvent('languagechange.container');
+    /* istanbul ignore next */
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       await this.icon.setLanguage(e.detail.language.name);
-      // Do something with parent lang
     });
   }
 

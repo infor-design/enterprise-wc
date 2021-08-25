@@ -71,4 +71,11 @@ describe('IdsThemeSwitcher Component', () => {
       defaultValue: null
     });
   });
+
+  it('can change child languages', async () => {
+    container.language = 'de';
+    setTimeout(() => {
+      expect(switcher.getAttribute('language')).toEqual('de');
+    });
+  });
 });

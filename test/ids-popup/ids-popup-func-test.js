@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsPopup from '../../src/components/ids-popup/ids-popup';
+import IdsPopup from '../../src/components/ids-popup';
+import IdsContainer from '../../src/components/ids-container';
 
 /**
  * Creates the test div used as an ArrowTarget in many of the below tests
@@ -20,8 +21,11 @@ function createTestDiv() {
 describe('IdsPopup Component', () => {
   let popup;
   let contentElem;
+  let container;
 
   beforeEach(async () => {
+    container = new IdsContainer();
+
     // Create Popup w/ basic dimensions
     popup = new IdsPopup();
     popup.style.width = '100px';
@@ -32,9 +36,9 @@ describe('IdsPopup Component', () => {
     contentElem.setAttribute('slot', 'content');
     contentElem.textContent = 'My Popup';
     popup.appendChild(contentElem);
-
+    container.appendChild(popup);
     // Add to DOM
-    document.body.appendChild(popup);
+    document.body.appendChild(container);
   });
 
   afterEach(async () => {
@@ -838,5 +842,12 @@ describe('IdsPopup Component', () => {
     popup.arrowTarget = undefined;
 
     expect(popup.arrowTarget).not.toBeDefined();
+  });
+
+  it('can change child languages', async () => {
+    container.language = 'de';
+    setTimeout(() => {
+      expect(popup.getAttribute('language')).toEqual('de');
+    });
   });
 });
