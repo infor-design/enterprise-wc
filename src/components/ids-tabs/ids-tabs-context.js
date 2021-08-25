@@ -14,8 +14,6 @@ import {
 import IdsTabContent from './ids-tab-content';
 import styles from './ids-tabs.scss';
 
-console.log('ids-tabs-context loading');
-
 /**
  * list of entries for attributes provided by
  * the ids-tabs-context and how they map,
