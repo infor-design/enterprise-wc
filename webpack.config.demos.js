@@ -3,6 +3,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const sass = require('sass');
 
 const path = require('path');
@@ -179,6 +180,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static', // options: server | static | json | disabled
+      openAnalyzer: false
+    }),
     new webpack.LoaderOptionsPlugin({
       options: {
         handlebarsLoader: {}
