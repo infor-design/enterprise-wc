@@ -5,14 +5,20 @@ import {
   scss,
   mix
 } from '../../core';
-import { IdsButton } from '../ids-button';
-import { IdsIcon } from '../ids-icon';
-import IdsPagerSection from './ids-pager-section';
-import styles from './ids-pager-button.scss';
-import { IdsEventsMixin } from '../../mixins';
+
+// Import Mixins
+import { IdsEventsMixin, IdsLocaleMixin } from '../../mixins';
 
 // Import Utils
 import { IdsStringUtils } from '../../utils';
+
+// Import Dependencies
+import { IdsButton } from '../ids-button';
+import { IdsIcon } from '../ids-icon';
+import IdsPagerSection from './ids-pager-section';
+
+// Import Styles
+import styles from './ids-pager-button.scss';
 
 const { stringToBool } = IdsStringUtils;
 const buttonTypes = ['first', 'last', 'next', 'previous'];
@@ -21,12 +27,14 @@ const buttonTypes = ['first', 'last', 'next', 'previous'];
  * IDS PagerButton Component
  * @type {IdsPagerButton}
  * @inherits IdsElement
+ * @mixes IdsLocaleMixin
+ * @mixes IdsEventsMixin
  * @part button - the `ids-button` component
  * @part icon - the `ids-icon` component
  */
 @customElement('ids-pager-button')
 @scss(styles)
-export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   constructor() {
     super();
   }
@@ -51,6 +59,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
       attributes.DISABLED,
       attributes.FIRST,
       attributes.LAST,
+      attributes.LANGUAGE,
       attributes.NAV_DISABLED,
       attributes.NEXT,
       attributes.PAGE_NUMBER,
@@ -63,11 +72,28 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin)
 
   connectedCallback() {
     this.button = this.shadowRoot.querySelector('ids-button');
+    this.icon = this.shadowRoot.querySelector('ids-icon');
     this.onEvent('click', this.button, (e) => this.#onClick(e));
 
     this.#updateNavDisabled();
     this.#updateDisabledState();
     super.connectedCallback?.();
+    this.#handleEvents();
+  }
+
+  /**
+   * Handle events
+   * @private
+   * @returns {void}
+   */
+  #handleEvents() {
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      await this.icon.setLanguage(e.detail.language.name);
+      // Do something with parent lang
+    });
   }
 
   /**

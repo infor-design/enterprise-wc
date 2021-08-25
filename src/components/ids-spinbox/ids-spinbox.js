@@ -14,6 +14,7 @@ import IdsInput from '../ids-input';
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
+  IdsLocaleMixin,
   IdsThemeMixin
 } from '../../mixins';
 import styles from './ids-spinbox.scss';
@@ -31,6 +32,7 @@ let instanceCounter = 0;
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  * @part container the overall container of the spinbox
  * @part button increment/decrement button
@@ -43,7 +45,8 @@ let instanceCounter = 0;
 export default class IdsSpinbox extends mix(IdsElement).with(
     IdsThemeMixin,
     IdsEventsMixin,
-    IdsKeyboardMixin
+    IdsKeyboardMixin,
+    IdsLocaleMixin
   ) {
   constructor() {
     super();
@@ -59,6 +62,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       attributes.DISABLED,
       attributes.LABEL,
       attributes.LABEL_HIDDEN,
+      attributes.LANGUAGE,
       attributes.MAX,
       attributes.MIN,
       attributes.MODE,
@@ -185,6 +189,12 @@ export default class IdsSpinbox extends mix(IdsElement).with(
         this.value = this.input.value;
         this.#onStepButtonUnpressed();
       }
+    });
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
     });
 
     const labelEl = this.container.children[0];

@@ -50,3 +50,15 @@
     }
   }
 }
+
+// RTL Adjustments
+.ids-radio-group[dir='rtl'] {
+  .group-label-text.required::after {
+    left: -13px;
+    right: initial;
+  }
+
+  &.first-item-checked .icon-dirty {
+    margin: 7px -3px 0 0;
+  }
+}

@@ -11,6 +11,7 @@
 
   &:focus {
     @include outline-none();
+
     justify-self: end;
   }
 }

@@ -11,8 +11,9 @@ import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 
 // Import Mixins
 import {
+  IdsColorVariantMixin,
   IdsEventsMixin,
-  IdsColorVariantMixin
+  IdsLocaleMixin
 } from '../../mixins';
 
 import styles from './ids-theme-switcher.scss';
@@ -22,21 +23,25 @@ import styles from './ids-theme-switcher.scss';
  */
 @customElement('ids-theme-switcher')
 @scss(styles)
-class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin, IdsColorVariantMixin) {
+class IdsThemeSwitcher extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsLocaleMixin,
+    IdsColorVariantMixin
+  ) {
   constructor() {
     super();
   }
 
   connectedCallback() {
     super.conenctedCallback?.();
-    this.handleEvents();
+    this.#handleEvents();
   }
 
   /**
    * Establish Internal Event Handlers
    * @private
    */
-  handleEvents() {
+  #handleEvents() {
     // Handle Clicking the x for dismissible
     // Ensure icon is always last
     this.onEvent('selected', this.shadowRoot.querySelector('ids-popup-menu'), (e) => {
@@ -47,6 +52,14 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin, IdsColorVari
       if (val === 'light' || val === 'dark' || val === 'contrast') {
         this.mode = val;
       }
+    });
+
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      await this.shadowRoot.querySelector('ids-popup-menu').setLanguage(e.detail.language.name);
+      await this.shadowRoot.querySelector('ids-popup-menu')
+        .shadowRoot.querySelector('ids-popup').setLanguage(e.detail.language.name);
     });
   }
 
@@ -89,7 +102,7 @@ class IdsThemeSwitcher extends mix(IdsElement).with(IdsEventsMixin, IdsColorVari
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [...super.attributes, attributes.MODE, attributes.VERSION];
+    return [...super.attributes, attributes.LANGUAGE, attributes.MODE, attributes.VERSION];
   }
 
   /**

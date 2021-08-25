@@ -21,7 +21,7 @@
   align-items: center;
   cursor: pointer;
   list-style: none;
-  min-width: 80px; // needed to provide base sizing for menus
+  min-width: 90px; // needed to provide base sizing for menus
   position: static;
   transition: background-color $menu-item-transition-length cubic-bezier(0.4, 0, 0.6, 1);
   user-select: none;
@@ -72,7 +72,7 @@
     }
 
     .ids-menu-item-submenu-icon {
-      @include ml-4();
+      @include ml-12();
 
       grid-column-start: 3;
       -webkit-transform: rotateZ(-90deg);
@@ -376,3 +376,16 @@
   }
 }
 
+// RTL Fixes
+.ids-menu-item[dir='rtl'] {
+  a .ids-menu-item-submenu-icon {
+    grid-column-start: 3;
+    margin-left: 0;
+    margin-right: 18px;
+    transform: rotateZ(90deg);
+  }
+
+  &.has-submenu a {
+    padding-right: 8px;
+  }
+}
