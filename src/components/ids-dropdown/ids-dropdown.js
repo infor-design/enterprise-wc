@@ -4,7 +4,7 @@ import {
   scss,
   mix,
   attributes
-} from '../ids-base';
+} from '../../core';
 
 // Import Mixins
 import {
@@ -13,7 +13,7 @@ import {
   IdsPopupOpenEventsMixin,
   IdsThemeMixin,
   IdsLocaleMixin
-} from '../ids-mixins';
+} from '../../mixins';
 
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
