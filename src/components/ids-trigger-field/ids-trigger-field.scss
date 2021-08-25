@@ -191,3 +191,131 @@ $input-size-default: map-get($input-sizes, 'md');
 }
 
 @include input-sizes();
+
+// Handle Themes
+.has-content-borders[mode='dark'] .ids-trigger-field-content {
+  @include bg-transparent();
+  @include border-slate-40();
+  @include text-white();
+
+  &[disabled] {
+    @include border-slate-60();
+    @include text-slate-60();
+  }
+
+  &[readonly] {
+    @include bg-slate-70();
+    @include border-slate-40();
+    @include text-slate-10();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-transparent();
+  }
+
+  &:focus-within {
+    @include border-azure-60();
+  }
+}
+
+.has-content-borders[mode='contrast'] .ids-trigger-field-content {
+  @include bg-white();
+  @include border-slate-40();
+  @include text-black();
+
+  &[disabled] {
+    @include border-slate-30();
+    @include text-slate-30();
+  }
+
+  &[readonly] {
+    @include bg-slate-20();
+    @include border-slate-40();
+    @include text-slate-100();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-white();
+  }
+
+  &:focus-within {
+    @include border-azure-90();
+  }
+}
+
+.has-content-borders[version='classic'][mode='light'] .ids-trigger-field-content {
+  @include bg-transparent();
+  @include border-graphite-40();
+  @include text-graphite-100();
+
+  &[disabled] {
+    @include border-graphite-30();
+    @include text-graphite-40();
+  }
+
+  &[readonly] {
+    @include bg-graphite-20();
+    @include border-graphite-40();
+    @include text-classic-slate-100();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-transparent();
+  }
+
+  &:focus-within {
+    @include border-azure-60();
+  }
+}
+
+.has-content-borders[version='classic'][mode='dark'] .ids-trigger-field-content {
+  @include bg-transparent();
+  @include border-slate-40();
+  @include text-white();
+
+  &[disabled] {
+    @include border-classic-slate-40();
+    @include text-classic-slate-50();
+  }
+
+  &[readonly] {
+    @include bg-classic-slate-60();
+    @include border-classic-slate-40();
+    @include text-white();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-transparent();
+  }
+
+  &:focus-within {
+    @include border-azure-60();
+  }
+}
+
+.has-content-borders[version='classic'][mode='contrast'] .ids-trigger-field-content {
+  @include bg-white();
+  @include border-graphite-80();
+  @include text-graphite-100();
+
+  &[disabled] {
+    @include bg-transparent();
+    @include border-slate-50();
+    @include text-graphite-80();
+  }
+
+  &[readonly] {
+    @include bg-slate-30();
+    @include border-slate-80();
+    @include text-graphite-100();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-white();
+  }
+
+  &:focus-within,
+  &:focus[readonly] {
+    @include border-azure-60();
+  }
+}
