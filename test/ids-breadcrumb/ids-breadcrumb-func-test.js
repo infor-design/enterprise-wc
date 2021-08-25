@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsBreadcrumb from '../../src/ids-breadcrumb/ids-breadcrumb';
-import IdsHyperlink from '../../src/ids-hyperlink/ids-hyperlink';
+import IdsBreadcrumb from '../../src/components/ids-breadcrumb/ids-breadcrumb';
+import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
 describe('IdsBreadcrumb Component', () => {
   let breadcrumb;
@@ -36,7 +36,7 @@ describe('IdsBreadcrumb Component', () => {
       expect(child.getAttribute('role')).toEqual('listitem');
       expect(child.getAttribute('font-size')).toEqual('14');
     }
-    expect(breadcrumb.lastElementChild.getAttribute('font-weight')).toEqual('bolder');
+    expect(breadcrumb.lastElementChild.getAttribute('font-weight')).toEqual('bold');
   });
 
   it('removes breadcrumb off the stack and returns it', () => {
@@ -44,7 +44,7 @@ describe('IdsBreadcrumb Component', () => {
     breadcrumb.add(new IdsHyperlink());
     expect(breadcrumb.delete() instanceof IdsHyperlink).toEqual(true);
     expect(breadcrumb.children.length).toEqual(1);
-    expect(breadcrumb.lastElementChild.fontWeight).toEqual('bolder');
+    expect(breadcrumb.lastElementChild.fontWeight).toEqual('bold');
     breadcrumb.delete();
     expect(breadcrumb.children.length).toEqual(0);
     expect(breadcrumb.delete()).toEqual(null);

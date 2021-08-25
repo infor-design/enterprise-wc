@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsUploadAdvancedShared as shared } from '../../src/ids-upload-advanced/ids-upload-advanced-shared';
+import { IdsUploadAdvancedShared as shared } from '../../src/components/ids-upload-advanced/ids-upload-advanced-shared';
 
 describe('IdsUploadAdvanced Component (shared)', () => {
   it('should format bytes from shared file', () => {

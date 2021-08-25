@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsUpload from '../../src/ids-upload/ids-upload';
+import IdsUpload from '../../src/components/ids-upload/ids-upload';
 
 jest.useFakeTimers();
 

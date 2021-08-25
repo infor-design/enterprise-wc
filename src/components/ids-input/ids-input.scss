@@ -1,0 +1,428 @@
+@import '../../core/ids-base';
+@import '../../mixins/sass/ids-clearable-mixin';
+@import '../../mixins/sass/ids-dirty-tracker-mixin';
+@import '../../mixins/sass/ids-validation-mixin';
+
+// Field Sizes
+$input-size-xs: 75px;
+$input-size-sm: 150px;
+$input-size-mm: 225px;
+$input-size-md: 300px;
+$input-size-lg: 400px;
+$input-size-full: 100%;
+
+// Field Field Height
+$input-field-height-xs: 28px;
+$input-field-height-sm: 30px;
+$input-field-height-md: 38px;
+$input-field-height-lg: 48px;
+
+// Set default
+$input-size-default: $input-size-md;
+$input-field-height-default: $input-field-height-md;
+$input-compact-height: $input-field-height-xs;
+
+/* in case of external label in compound component */
+.ids-label-text {
+  @include antialiased();
+  @include font-sans();
+  @include text-slate-60();
+  @include mb-4();
+
+  align-items: baseline;
+  display: flex;
+
+  &.required {
+    &::after {
+      @include relative();
+      @include font-sans();
+      @include mx-2();
+      @include text-20();
+      @include text-alert-danger();
+
+      content: '*';
+      margin-top: -10px;
+      top: 1px;
+    }
+
+    &.no-required-indicator::after {
+      content: '';
+    }
+  }
+}
+
+.disabled {
+  .ids-label-text {
+    @include text-slate-30();
+
+    &.required::after {
+      @include text-ruby-30();
+    }
+  }
+}
+
+@mixin input-extra-small-height($h: $input-field-height-xs) {
+  @include mb-12();
+
+  .ids-label-text {
+    @include text-14();
+  }
+
+  .field-container {
+    @include mb-1();
+  }
+
+  .ids-input-field {
+    @include mb-2();
+    @include px-4();
+    @include py-0();
+    @include text-14();
+
+    height: $h;
+  }
+}
+
+.ids-input {
+  @include block();
+  @include mb-16();
+
+  .field-container {
+    @include m-0();
+    @include p-0();
+    @include relative();
+
+    align-items: center;
+    display: flex;
+    max-width: $input-size-default;
+  }
+
+  .ids-input-field {
+    @include antialiased();
+    @include bg-white();
+    @include box-border();
+    @include border-1();
+    @include border-slate-40();
+    @include border-solid();
+    @include font-sans();
+    @include mb-4();
+    @include p-8();
+    @include rounded-default();
+    @include text-16();
+    @include text-black();
+    @include w-full();
+
+    -webkit-appearance: none;
+    border-collapse: separate;
+    border-radius: 2px;
+    display: inline-block;
+    height: $input-field-height-default;
+    resize: none;
+    text-align: left;
+
+    &:hover {
+      @include border-slate-90();
+    }
+
+    &:focus,
+    &.is-active {
+      @include border-azure-60();
+      @include shadow();
+
+      outline: none;
+      outline-color: transparent;
+    }
+
+    &.is-active {
+      border-radius: 2px 2px 0 0;
+    }
+
+    &[disabled] {
+      @include border-slate-30();
+      @include text-slate-30();
+    }
+
+    &[readonly] {
+      @include bg-slate-20();
+      @include border-1();
+      @include border-solid();
+      @include border-slate-40();
+      @include rounded-default();
+      @include text-black();
+
+      padding-bottom: 9px;
+      padding-top: 9px;
+
+      &.bg-transparent {
+        @include bg-transparent();
+      }
+
+      &.bg-transparent:focus {
+        @include border-azure-60();
+      }
+    }
+
+    &.text-ellipsis {
+      @include ellipsis();
+    }
+
+    &.has-triggerfield {
+      @include pr-32();
+    }
+
+    // input text-align: [left, center, right]
+    &.left {
+      text-align: left;
+    }
+
+    &.center {
+      text-align: center;
+    }
+
+    &.right {
+      text-align: right;
+    }
+
+    // input message: [alert, error, info, success]
+    &.alert,
+    &.alert:hover {
+      @include border-alert-warning();
+      @include text-alert-warning();
+
+      &:focus {
+        @include border-alert-warning();
+
+        box-shadow: rgba(249, 131, 0, 0.3) 0 0 3px 2px;
+      }
+
+      &[disabled] {
+        @include border-amber-30();
+        @include text-amber-30();
+      }
+    }
+
+    &.error,
+    &.error:hover {
+      @include border-alert-danger();
+      @include text-alert-danger();
+
+      &:focus {
+        @include border-alert-danger();
+        @include shadow-error();
+      }
+
+      &[disabled] {
+        @include border-ruby-30();
+        @include text-ruby-30();
+      }
+    }
+
+    &.info,
+    &.info:hover {
+      @include border-alert-info();
+      @include text-alert-info();
+
+      &:focus {
+        @include border-alert-info();
+
+        box-shadow: rgba(0, 102, 212, 0.3) 0 0 3px 2px;
+      }
+
+      &[disabled] {
+        @include border-azure-30();
+        @include text-azure-30();
+      }
+    }
+
+    &.success,
+    &.success:hover {
+      @include border-alert-success();
+      @include text-alert-success();
+
+      &:focus {
+        @include border-alert-success();
+
+        box-shadow: rgba(42, 195, 113, 0.3) 0 0 3px 2px;
+      }
+
+      &[disabled] {
+        @include border-emerald-30();
+        @include text-emerald-30();
+      }
+    }
+  }
+
+  // input sizes: [xs, sm, mm, md, lg, full]
+  &.xs .field-container {
+    max-width: $input-size-xs;
+  }
+
+  &.sm .field-container {
+    max-width: $input-size-sm;
+  }
+
+  &.mm .field-container {
+    max-width: $input-size-mm;
+  }
+
+  &.md .field-container {
+    max-width: $input-size-md;
+  }
+
+  &.lg .field-container {
+    max-width: $input-size-lg;
+  }
+
+  &.full .field-container {
+    max-width: $input-size-full;
+  }
+
+  // input field-heights: [xs, sm, md, lg]
+  &.field-height-xs {
+    @include input-extra-small-height();
+  }
+
+  &.field-height-sm .ids-input-field {
+    height: $input-field-height-sm;
+  }
+
+  &.field-height-md .ids-input-field {
+    height: $input-field-height-md;
+  }
+
+  &.field-height-lg .ids-input-field {
+    height: $input-field-height-lg;
+  }
+
+  // input compact
+  &.compact {
+    @include input-extra-small-height($input-compact-height);
+  }
+}
+
+// Handle Themes
+.ids-input[mode='dark'] .ids-input-field {
+  @include bg-transparent();
+  @include border-slate-40();
+  @include text-white();
+
+  &[disabled] {
+    @include border-slate-60();
+    @include text-slate-60();
+  }
+
+  &[readonly] {
+    @include bg-slate-70();
+    @include border-slate-40();
+    @include text-slate-10();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-transparent();
+  }
+
+  &:focus {
+    @include border-azure-60();
+  }
+}
+
+.ids-input[mode='contrast'] .ids-input-field {
+  @include bg-white();
+  @include border-slate-40();
+  @include text-black();
+
+  &[disabled] {
+    @include border-slate-30();
+    @include text-slate-30();
+  }
+
+  &[readonly] {
+    @include bg-slate-20();
+    @include border-slate-40();
+    @include text-slate-100();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-white();
+  }
+
+  &:focus {
+    @include border-azure-90();
+  }
+}
+
+.ids-input[version='classic'][mode='light'] .ids-input-field {
+  @include bg-transparent();
+  @include border-graphite-40();
+  @include text-graphite-100();
+
+  &[disabled] {
+    @include border-graphite-30();
+    @include text-graphite-40();
+  }
+
+  &[readonly] {
+    @include bg-graphite-20();
+    @include border-graphite-40();
+    @include text-classic-slate-100();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-transparent();
+  }
+
+  &:focus {
+    @include border-azure-60();
+  }
+}
+
+.ids-input[version='classic'][mode='dark'] .ids-input-field {
+  @include bg-transparent();
+  @include border-slate-40();
+  @include text-white();
+
+  &[disabled] {
+    @include border-classic-slate-40();
+    @include text-classic-slate-50();
+  }
+
+  &[readonly] {
+    @include bg-classic-slate-60();
+    @include border-classic-slate-40();
+    @include text-white();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-transparent();
+  }
+
+  &:focus {
+    @include border-azure-60();
+  }
+}
+
+.ids-input[version='classic'][mode='contrast'] .ids-input-field {
+  @include bg-white();
+  @include border-graphite-80();
+  @include text-graphite-100();
+
+  &[disabled] {
+    @include bg-transparent();
+    @include border-slate-50();
+    @include text-graphite-80();
+  }
+
+  &[readonly] {
+    @include bg-slate-30();
+    @include border-slate-80();
+    @include text-graphite-100();
+  }
+
+  &.bg-transparent[readonly] {
+    @include bg-white();
+  }
+
+  &:focus,
+  &:focus[readonly] {
+    @include border-azure-60();
+  }
+}

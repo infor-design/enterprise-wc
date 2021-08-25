@@ -1,0 +1,38 @@
+{{> ../layouts/head-side-by-side.html }}
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">Web Component Toast</h2>
+</ids-layout-grid>
+<ids-layout-grid cols="3" gap="md">
+  <ids-layout-grid-cell>
+
+    <ids-button id="btn-toast-wc" type="secondary">
+      <span slot="text">Toast Message (wc)</span>
+    </ids-button>
+
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid>
+  <h2 class="ids-text ids-text-px-12">4.x Toast</h2>
+</ids-layout-grid>
+<div class="svg hidden">
+  <div class="svg-icons">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" class="svg-icons">
+      <symbol id="icon-close" viewBox="0 0 18 18">
+        <path d="M17.5.5l-17 17m17 0L.5.5" stroke="currentColor" fill="none" fill-rule="evenodd"
+          vector-effect="non-scaling-stroke"></path>
+      </symbol>
+    </svg>
+  </div>
+</div>
+
+<div class="row">
+  <div class="twelve columns">
+
+    <button class="btn-secondary" type="button" id="btn-toast-4x">Toast Message (4.x)</button>
+
+  </div>
+</div>
+
+{{> ../layouts/footer.html }}

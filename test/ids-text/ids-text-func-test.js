@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsContainer from '../../src/ids-container/ids-container';
-import IdsText from '../../src/ids-text/ids-text';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsText from '../../src/components/ids-text/ids-text';
 
 describe('IdsText Component', () => {
   let elem;
@@ -66,8 +66,8 @@ describe('IdsText Component', () => {
     elem.fontWeight = 'bold';
     expect(elem.getAttribute('font-weight')).toEqual('bold');
 
-    elem.fontWeight = 'bolder';
-    expect(elem.getAttribute('font-weight')).toEqual('bolder');
+    elem.fontWeight = 'lighter';
+    expect(elem.getAttribute('font-weight')).toEqual('lighter');
 
     elem.fontWeight = undefined;
     expect(elem.fontWeight).toEqual(null);

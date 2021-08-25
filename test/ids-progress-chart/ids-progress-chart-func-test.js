@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsProgressChart from '../../src/ids-progress-chart/ids-progress-chart';
+import IdsProgressChart from '../../src/components/ids-progress-chart/ids-progress-chart';
 
 describe('IdsProgressChart Component', () => {
   let chart;
@@ -42,11 +42,24 @@ describe('IdsProgressChart Component', () => {
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
-  it('sets color correctly', () => {
-    // empty input sets color to default (#25af65)
-    chart.color = '';
-    expect(chart.container.querySelector('.bar-progress').style.backgroundColor).toBe('rgb(37, 175, 101)');
+  it('sets icon correctly', () => {
+    const icon = chart.container.querySelector('.icon');
 
+    chart.icon = 'alert';
+    expect(chart.icon).toBe('alert');
+    expect(icon.getAttribute('icon')).toBe('alert');
+    expect(icon.style.display).toBe('');
+
+    chart.size = 'small';
+    expect(icon.getAttribute('size')).toBe('small');
+
+    chart.icon = '';
+    expect(chart.icon).toBe('');
+    expect(icon.getAttribute('icon')).toBe('');
+    expect(icon.style.display).toBe('none');
+  });
+
+  it('sets color correctly', () => {
     chart.color = '#25af65';
     expect(chart.color).toBe('#25af65');
 
@@ -64,16 +77,6 @@ describe('IdsProgressChart Component', () => {
 
     chart.color = 'amethyst-50';
     expect(chart.color).toBe('amethyst-50');
-  });
-
-  it('adds icon and label', () => {
-    chart.color = 'error';
-    chart.progressLabel = '2%';
-    chart.totalLabel = '100%';
-    expect(chart.container.querySelector('.label-progress').innerHTML).toBe('2%');
-    expect(chart.container.querySelector('.label-total').innerHTML).toBe('100%');
-    chart.container.querySelector('slot').insertAdjacentHTML('beforeend', `<ids-icon slot="icon" size="small" icon="alert"></ids-icon>`);
-    expect(chart.container.querySelector('ids-icon').getAttribute('slot')).toBe('icon');
   });
 
   it('sets labels correctly', () => {
@@ -152,11 +155,11 @@ describe('IdsProgressChart Component', () => {
     chart.size = 'small';
     expect(chart.size).toBe('small');
 
-    // invalid inputs set attribute to default (large)
+    // invalid inputs set attribute to default (normal)
     chart.size = '';
-    expect(chart.size).toBe('large');
+    expect(chart.size).toBe('normal');
 
     chart.size = '25';
-    expect(chart.size).toBe('large');
+    expect(chart.size).toBe('normal');
   });
 });

@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsLocale from '../../src/ids-locale/ids-locale';
-import IdsContainer from '../../src/ids-container/ids-container';
+import IdsLocale from '../../src/components/ids-locale/ids-locale';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsLocale API', () => {
   let locale;

@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsInput from '../../src/ids-input/ids-input';
-import IdsClearableMixin from '../../src/ids-mixins/ids-clearable-mixin';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsClearableMixin from '../../src/mixins';
 
 const processAnimFrame = () => new Promise((resolve) => {
   window.requestAnimationFrame(() => {

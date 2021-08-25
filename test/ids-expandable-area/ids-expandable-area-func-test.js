@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsExpandableArea from '../../src/ids-expandable-area/ids-expandable-area';
-import IdsToggleButton from '../../src/ids-toggle-button/ids-toggle-button';
+import IdsExpandableArea from '../../src/components/ids-expandable-area/ids-expandable-area';
+import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-button';
 
 describe('IdsExpandableArea Component', () => {
   let el;

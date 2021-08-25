@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import IdsAccordion from '../../src/ids-accordion/ids-accordion';
-import IdsAccordionHeader from '../../src/ids-accordion/ids-accordion-header';
-import IdsAccordionPanel from '../../src/ids-accordion/ids-accordion-panel';
+import IdsAccordion from '../../src/components/ids-accordion/ids-accordion';
+import IdsAccordionHeader from '../../src/components/ids-accordion/ids-accordion-header';
+import IdsAccordionPanel from '../../src/components/ids-accordion/ids-accordion-panel';
 
 describe('IdsAccordion Component', () => {
   let accordion;
