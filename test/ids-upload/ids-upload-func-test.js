@@ -196,7 +196,7 @@ describe('IdsUpload Component', () => {
 
   it('should renders validate', () => {
     expect(upload.getAttribute('validate')).toEqual(null);
-    expect(upload.textInput.validate).toBe("null");
+    expect(upload.textInput.validate).toBe('null');
     upload.validate = 'required';
     expect(upload.getAttribute('validate')).toEqual('required');
     expect(upload.textInput.validate).toBe('required');
