@@ -4,8 +4,6 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const sass = require('sass');
-const TerserPlugin = require('terser-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const path = require('path');
 const fs = require('fs');
@@ -42,13 +40,10 @@ module.exports = {
     version: '0.0.0'
   },
   optimization: {
-    minimize: !!isProduction,
-    minimizer: [
-      new TerserPlugin({
-        test: /\.js(\?.*)?$/i
-      }),
-    ],
-    runtimeChunk: 'single'
+    splitChunks: {
+      chunks: 'all',
+      minSize: 3000
+    }
   },
   output: {
     library: '[name]-lib.js',
@@ -184,7 +179,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new BundleAnalyzerPlugin(),
     new webpack.LoaderOptionsPlugin({
       options: {
         handlebarsLoader: {}
