@@ -4,3 +4,4 @@ import IdsTabs, {
   IdsTabsContext,
   IdsTabsDivider
 } from '../../src/components/ids-tabs';
+import './example.scss';

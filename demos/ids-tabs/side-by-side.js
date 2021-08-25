@@ -10,6 +10,8 @@ import IdsTabs, {
   IdsTabDivider
 } from '../../src/components/ids-tabs';
 
+console.log('IdsTabsContext ->', IdsTabsContext);
+
 document.addEventListener('DOMContentLoaded', () => {
   const tabs = document.querySelector('ids-tabs');
 

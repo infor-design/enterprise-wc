@@ -14,6 +14,8 @@ import {
 import IdsTabContent from './ids-tab-content';
 import styles from './ids-tabs.scss';
 
+console.log('ids-tabs-context loading');
+
 /**
  * list of entries for attributes provided by
  * the ids-tabs-context and how they map,
@@ -75,10 +77,7 @@ export default class IdsTabsContext extends mix(IdsElement).with(
     super.disconnectedCallback?.();
   }
 
-  /**
-   * the value representing a currently selected tab
-   * @type {string}
-   */
+  /** @param {string} value The value representing a currently selected tab */
   set value(value) {
     if (this.getAttribute(attributes.VALUE) !== value) {
       this.setAttribute(attributes.VALUE, value);

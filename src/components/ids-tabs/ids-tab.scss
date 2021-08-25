@@ -8,6 +8,10 @@
   @include mr-4;
 }
 
+:host(ids-tab:focus-visible) {
+  outline: none;
+}
+
 .ids-tab {
   @include px-4();
   @include border-1();
@@ -26,14 +30,20 @@
   &:focus-visible,
   &:focus {
     @include shadow();
-    @include border-azure-60();
     @include border-solid();
 
     outline: none;
   }
 
-  &.selected:focus-visible,
-  &.selected:focus {
+  &:focus-visible:not(.color-variant-alternate),
+  &:focus:not(.color-variant-alternate),
+  &:focus-within:not(.color-variant-alternate) {
+    @include border-azure-60();
+  }
+
+  &.color-variant-alternate:focus-visible,
+  &.color-variant-alternate:focus,
+  &.color-variant-alternate:focus-within {
     @include border-white();
   }
 
