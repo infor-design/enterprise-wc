@@ -1,5 +1,5 @@
-/* Ids Tag Component */
-@import '../ids-base/ids-base';
+/* Ids Dropdown Component */
+@import '../../core/ids-base';
 
 :host(ids-input) {
   @include cursor-pointer();
