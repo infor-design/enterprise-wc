@@ -266,6 +266,8 @@ class IdsTriggerField extends IdsInput {
 
   /**
    * Adds borders to the trigger field content
+   * @private
+   * @returns {void}
    */
   #setContentBorders() {
     this.container.classList.add('has-content-borders');
