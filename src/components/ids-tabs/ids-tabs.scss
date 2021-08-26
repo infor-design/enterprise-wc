@@ -1,6 +1,7 @@
 @import '../../core/ids-base';
 
-:host(ids-tabs) {
+:host(ids-tabs),
+.ids-tabs-container {
   --tab-width: 100%;
 
   contain: content;

@@ -1,14 +1,17 @@
 @import '../../core/ids-base';
 
-:host(ids-tab[orientation='horizontal']:first-child) {
+:host(ids-tab[orientation='horizontal']:first-child),
+.ids-tab-container[orientation='horizontal']:first-child {
   @include ml-4;
 }
 
-:host(ids-tab[orientation='horizontal']:last-child) {
+:host(ids-tab[orientation='horizontal']:last-child),
+.ids-tab-container[orientation='horizontal']:last-child {
   @include mr-4;
 }
 
-:host(ids-tab:focus-visible) {
+:host(ids-tab:focus-visible),
+.ids-tab-container:focus-visible {
   outline: none;
 }
 
