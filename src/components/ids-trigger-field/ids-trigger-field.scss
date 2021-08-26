@@ -26,6 +26,7 @@ $input-size-default: map-get($input-sizes, 'md');
 
 .ids-trigger-field {
   @include flex();
+  @include mb-16();
 
   align-items: flex-start;
   flex-direction: column;
@@ -314,4 +315,8 @@ $input-size-default: map-get($input-sizes, 'md');
   &:focus[readonly] {
     @include border-azure-60();
   }
+}
+
+.validation-message {
+  margin-top: -12px;
 }
