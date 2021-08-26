@@ -2,7 +2,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const sass = require('sass');
-const TerserPlugin = require('terser-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const path = require('path');
 const glob = require('glob');
@@ -24,12 +24,10 @@ module.exports = {
     version: '0.0.0'
   },
   optimization: {
-    minimize: !!isProduction,
-    minimizer: [
-      new TerserPlugin({
-        test: /\.js(\?.*)?$/i
-      }),
-    ]
+    splitChunks: {
+      chunks: 'all',
+      minSize: 3000
+    }
   },
   output: {
     library: '[name]-lib.js',
@@ -90,6 +88,10 @@ module.exports = {
     ]
   },
   plugins: [
+    new BundleAnalyzerPlugin({
+      analyzerMode: process.env.npm_lifecycle_event === "build:dist:prod:stats" ? 'static' : 'disabled', // options: server | static | json | disabled      openAnalyzer: false,
+      reportFilename: 'prod-build-report.html'
+    }),
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].min.css'
