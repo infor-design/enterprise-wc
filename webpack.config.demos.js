@@ -181,7 +181,7 @@ module.exports = {
   },
   plugins: [
     new BundleAnalyzerPlugin({
-      analyzerMode: process.env.npm_lifecycle_event === "build:stats" ? 'static' : 'disabled', // options: server | static | json | disabled      openAnalyzer: false,
+      analyzerMode: process.env.npm_lifecycle_event === "build:stats" ? 'static' : 'disabled', // options: server | static | json | disabled
       reportFilename: 'dev-build-report.html'
     }),
     new webpack.LoaderOptionsPlugin({
