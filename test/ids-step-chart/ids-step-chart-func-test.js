@@ -39,6 +39,10 @@ describe('Ids Step Chart Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
+  it('renders correctly', () => {
+    expect(elem.innerHTML).toMatchSnapshot();
+  });
+
   it('generates the correct number of steps', () => {
     expect(elem.shadowRoot.querySelectorAll('.step').length).toEqual(7);
   });

@@ -61,7 +61,7 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   set color(value) {
     /* istanbul ignore else */
-    if (value) {
+    if (value && this.getAttribute(attributes.COLOR) !== value) {
       this.setAttribute('color', value);
 
       this.container.querySelectorAll(`.complete`).forEach((completedStep) => {
@@ -73,32 +73,40 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get completedLabel() { return this.getAttribute(attributes.COMPLETED_LABEL); }
 
   set completedLabel(value) {
-    this.setAttribute('completed-label', value);
-    this.container.querySelector('.completed-label').innerHTML = `${value}`;
+    if (this.getAttribute(attributes.COMPLETED_LABEL) !== value) {
+      this.setAttribute('completed-label', value);
+      this.container.querySelector('.completed-label').innerHTML = `${value}`;
+    }
   }
 
   get label() { return this.getAttribute(attributes.LABEL); }
 
   set label(value) {
-    this.setAttribute('label', value);
-    this.container.querySelector('.label').innerHTML = `${value}`;
+    if (this.getAttribute(attributes.LABEL) !== value) {
+      this.setAttribute('label', value);
+      this.container.querySelector('.label').innerHTML = `${value}`;
+    }
   }
 
   get progressColor() { return this.getAttribute(attributes.PROGRESS_COLOR); }
 
   set progressColor(value) {
-    this.setAttribute('progress-color', value);
-    this.container.querySelectorAll(`.in-progress`).forEach((element) => {
-      element.setAttribute('color', value);
-    });
+    if (this.getAttribute(attributes.PROGRESS_COLOR) !== value) {
+      this.setAttribute('progress-color', value);
+      this.container.querySelectorAll(`.in-progress`).forEach((element) => {
+        element.setAttribute('color', value);
+      });
+    }
   }
 
   get stepNumber() { return parseInt(this.getAttribute(attributes.STEP_NUMBER)); }
 
   set stepNumber(value) {
-    this.setAttribute('step-number', value);
-    this.container.innerHTML = this.template();
-    this.#updateColor();
+    if (this.getAttribute(attributes.STEP_NUMBER) !== value) {
+      this.setAttribute('step-number', value);
+      this.container.innerHTML = this.template();
+      this.#updateColor();
+    }
   }
 
   get stepsInProgress() {
@@ -113,8 +121,10 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   get value() { return parseInt(this.getAttribute(attributes.VALUE)); }
 
   set value(value) {
-    this.setAttribute('value', value);
-    this.#updateColor();
+    if (this.getAttribute(attributes.VALUE) !== this.value) {
+      this.setAttribute('value', value);
+      this.#updateColor();
+    }
   }
 
   // eslint-disable-next-line jsdoc/require-returns
@@ -164,7 +174,7 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         color = `${this.color}`;
         classes += ` complete`;
       } else {
-        color = `graphite03`;
+        color = `graphite02`;
         classes += ` untouched`;
       }
 
@@ -203,7 +213,7 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         element.setAttribute(`color`, `${this.color}`);
         element.classList.add(`step`, `complete`);
       } else {
-        element.setAttribute(`color`, `graphite03`);
+        element.setAttribute(`color`, `graphite02`);
         element.classList.add(`step`, `untouched`);
       }
     });

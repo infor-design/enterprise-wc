@@ -20,6 +20,10 @@
       display: flex;
       flex-direction: row;
 
+      .completed-label{
+        margin-right: 4px;
+      }
+
       .icon{
         @include ml-4;
       }
@@ -43,6 +47,7 @@
         }
       }
       height: 15px;
+      border: 1px;
       flex: 1 1 auto;
       //background-color: var(--ids-color-palette-amethyst-100);
     }
