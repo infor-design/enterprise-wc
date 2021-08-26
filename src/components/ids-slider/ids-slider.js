@@ -4,14 +4,14 @@ import {
   scss,
   mix,
   attributes
-} from '../ids-base';
+} from '../../core/ids-element';
 
 // Import Mixins
 import {
   IdsEventsMixin,
-  IdsThemeMixin
-} from '../ids-mixins';
-import IdsThemeSwitcher from '../ids-theme-switcher/ids-theme-switcher';
+  IdsThemeMixin,
+  IdsLocaleMixin
+} from '../../mixins';
 
 import styles from './ids-slider.scss';
 
@@ -34,10 +34,11 @@ const DEFAULT_TYPE = TYPES[0];
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsLocaleMixin
  */
 @customElement('ids-slider')
 @scss(styles)
-class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsLocaleMixin) {
   constructor() {
     super();
   }
@@ -131,6 +132,55 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     `;
   }
 
+  set isRtl(value) {
+    // console.log('setting rtl to ' + value);
+    if (value !== this._isRtl) {
+      this._isRtl = value;
+     
+      this.trackBounds = this.#calculateBounds();
+      this.#moveThumb();
+      this.type === 'double' && this.#moveThumb('secondary');
+    }
+  }
+
+  get isRtl() {
+    return this._isRtl;
+  }
+
+  #addRtlListener() {
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      const isRtl = this.locale.isRTL(e.detail.language.name);
+      this.isRtl = isRtl;
+    })
+    // let isInRTLContainer = false;
+    // let currentElement = this.host || this.parentNode;
+
+    // while (!isInRTLContainer && currentElement) {
+    //   console.log(currentElement);
+    //   if (currentElement.getAttribute('dir') === 'rtl') {
+    //     isInRtlContainer = true;
+    //   }
+    // }
+    // return isInRTLContainer;
+  }
+
+  // #addRTLMutationObserver() {
+  //   const targetNode = document.querySelector('ids-container');
+
+  //   const config = { attributes: true, childList: false, subtree: false };
+
+  //   const observer = new MutationObserver((mutations, observer) => {
+  //     for (const mutation in mutations) {
+  //       if (mutation.type === 'attributes') {
+  //         console.log(mutation.attributeName + ' attribute was modified')
+  //       }
+  //     }
+  //   });
+
+  //   observer.observe(targetNode, config);
+  // }
+
   #updateToolTip(value, primaryOrSecondary) {
     let tooltipText = this.tooltipText;
     let type = 'primary';
@@ -152,7 +202,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (this.type === 'single' || this.type === 'step') {
       this.slider.style.setProperty("--percentStart", 0);
       this.slider.style.setProperty("--percentEnd", this.percent);
-
+      console.log('setting slider --percentEnd to : ' + this.percent)
     } else if (this.type === 'double') {
         this.slider.style.setProperty("--percentStart", Math.min(this.percentb, this.percent));
         this.slider.style.setProperty("--percentEnd", Math.max(this.percentb, this.percent));
@@ -234,34 +284,28 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.#updateToolTip(this.#calcValueFromPercent(value), 'secondary');
   }
   
-  get percentb() { 
-    if (this._percentb) {
+  get percentb() {
+    // undefined values will go to else block for isNaN but not Number.isNaN
+    if (!isNaN(this._percentb)) {
       return this._percentb;
     } else {
-
-      if (this.#withinBounds(this.valueb)) {
-        return (this.valueb - this.min) / (this.max - this.min) * 100;
-      } else {
-        return 0;
-      }
+      return (this.valueb - this.min) / (this.max - this.min) * 100;
     }
   }
-
+  
   set percent(value) {
     this._percent = value;
     this.#updateProgressBar();
     this.#updateToolTip(this.#calcValueFromPercent(value));
   }
-
+  
   get percent() { 
-    if (this._percent) {
+    // undefined values will go to else block for isNaN but not Number.isNaN
+    if (!isNaN(this._percent)) {
+      console.log('returning this._percent: ' + this._percent)
       return this._percent;
     } else {
-      if (this.#withinBounds(this.valuea)) {
-        return (this.valuea - this.min) / (this.max - this.min) * 100;
-      } else {
-        return 0;
-      }
+      return (this.valuea - this.min) / (this.max - this.min) * 100;
     }
   }
 
@@ -270,7 +314,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   set valueb(value) {
-    if (this.#withinBounds(value)) {
+    if (this.#withinBounds(value)) { 
       this.setAttribute('valueb', value);
       this.percentb = (this.valueb - this.min) / (this.max - this.min) * 100;
       this.#updateToolTip(value, 'secondary');
@@ -280,17 +324,15 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         this.setAttribute('valueb', this.min);
       } else if (value > this.max) {
         this.setAttribute('valueb', this.max)
+      } else {
+        this.setAttribute('valueb', DEFAULT_VALUE_SECONDARY)
       }
     }
   }
   
   get valueb() { 
     const b = this.getAttribute('valueb')
-    if (b === null || b === '' || Number.isNaN(parseFloat(b))) {
-      // TODO: check why it's NaN
-      console.log('b is null ' + b === null )
-      console.log('b is empty string ' + b === '' )
-      console.log('b is NaN ' + Number.isNaN(parseFloat(b))) 
+    if (b === null || b === '' || Number.isNaN(b)) {
       return DEFAULT_VALUE_SECONDARY;
     } else {
       return parseFloat(this.getAttribute('valueb')); 
@@ -309,13 +351,22 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         this.setAttribute('valuea', this.min);
       } else if (value > this.max) {
         this.setAttribute('valuea', this.max)
+      } else {
+        this.setAttribute('valuea', DEFAULT_VALUE);
       }
     }
   }
-
+  
   get valuea() { 
     const a = this.getAttribute('valuea');
-    if (a === null || a === '' || Number.isNaN(parseFloat(a))) {
+    // console.log('valuea: ' + a);
+    if (a === null || a === '' || Number.isNaN(a)) {
+      // // TODO: check why it's NaN
+      // console.log('entered if statement')
+      // console.log(a === null )
+      // console.log(a === '' )
+      // console.log(Number.isNaN(a)) 
+      // console.log('returning DEFAULT_VALUE: ' + DEFAULT_VALUE)
       return DEFAULT_VALUE;
     } else {
       return parseFloat(this.getAttribute('valuea')); 
@@ -409,9 +460,13 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
     const clickedTrackArea = this.#wasCursorInBoundingBox(x, y, top, bottom, left, right);
 
+    console.log(top + ", " + bottom + ", " + left + ", " + right);
     if (clickedTrackArea) {
-      const percent = this.#calcPercentFromX(x, left, right, this.thumbDraggable.clientWidth);
+      console.log('clickedTrackArea')
+      const percent = this.isRtl ? this.#calcPercentFromX(x, right, left, this.thumbDraggable.clientWidth) : this.#calcPercentFromX(x, left, right, this.thumbDraggable.clientWidth);
       const value = this.#calcValueFromPercent(percent);
+      console.log('percent: ' + percent);
+      console.log('value: ' + value);
       
       if (this.type === 'double') {
         const thumbX = this.thumbDraggable.getBoundingClientRect().x;
@@ -469,7 +524,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (this.trackBounds && this.trackBounds.LEFT && this.trackBounds.RIGHT) {
       // console.log('trackbounds.LEFT: ' + this.trackBounds.LEFT);
       // console.log('trackbounds.RIGHT: ' + this.trackBounds.RIGHT);
-      // console.log('dir: ' + this.container.getAttribute('dir'));
       let thumbDraggable = this.thumbDraggable;
       let percent = this.percent;
       
@@ -478,11 +532,13 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         thumbDraggable = this.thumbDraggableSecondary;
         percent = this.percentb;
       }
-      
+     
+      console.log('moveThumb percent: ' + percent);
       // console.log('moving thumb with percent of : ' + percent);
-      const xTranslate = this.#calcTranslateFromPercent(this.trackBounds.LEFT, this.trackBounds.RIGHT, percent);
+      let xTranslate = this.#calcTranslateFromPercent(this.trackBounds.LEFT, this.trackBounds.RIGHT, percent);
+      if (this.isRtl) { xTranslate = xTranslate * - 1; }
       thumbDraggable.style.transform = `translate(${xTranslate}px, 0px)`;
-      // console.log('translated thumb by ' + xTranslate);
+      console.log('translated thumb by ' + xTranslate);
     }
     
   }
@@ -509,18 +565,23 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   #calcPercentFromX(x, xStart, xEnd, thumbWidth) {
     let percent = 0;
     // allow bigger hit areas for clicking the ends of the slider to round to 0 or 100, since the thumb takes up considerable space
-    if (x - xStart < thumbWidth/2) {
+    if (Math.abs(x - xEnd) > (Math.abs(xStart - xEnd)  - thumbWidth/2)) {
       percent = 0;
     }
-    else if (x - xStart > xEnd - thumbWidth/2 - xStart) {
+    else if (Math.abs(x - xStart) > (Math.abs(xEnd - xStart) - thumbWidth/2)) {
       percent = 100;
     } else {
-      percent = (x - xStart - thumbWidth/2) / (xEnd - thumbWidth/2 - xStart) * 100;
+      percent = (Math.abs(x - xStart) - thumbWidth/2) / (Math.abs(xEnd - xStart) - thumbWidth/2) * 100;
     }
+    console.log('calcPercentFromX()');
+    console.log('percent is: ' + percent);
     return percent;
   }
 
   #addEventListeners() {
+    // CHECK IF RTL    
+    this.#addRtlListener();
+
     // INIT AFTER CSS LOADS
     this.#postRenderInitialization();
 
@@ -540,15 +601,19 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     return this;
   }
 
+  #calculateBounds() {
+    return {
+      TOP: this.slider.offsetTop + this.trackArea.offsetTop, // top 0
+      BOTTOM: this.slider.offsetTop - this.trackArea.offsetTop, // bottom 1
+      LEFT: this.slider.offsetLeft, // left 2
+      RIGHT: this.slider.offsetLeft + this.trackArea.clientWidth, // right 3 
+    }
+  }
+
   #postRenderInitialization() {
     window.onload = () => {
       // init the this.trackBounds when render paint finishes
-      this.trackBounds = {
-        TOP: this.slider.offsetTop + this.trackArea.offsetTop, // top 0
-        BOTTOM: this.slider.offsetTop - this.trackArea.offsetTop, // bottom 1
-        LEFT: this.slider.offsetLeft, // left 2
-        RIGHT: this.slider.offsetLeft + this.trackArea.clientWidth, // right 3
-      };
+      this.trackBounds = this.#calculateBounds();
 
       // update initial position of thumb now that bounds have been initialized
       this.#moveThumb();
@@ -649,8 +714,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.onEvent('ids-drag', obj.thumbDraggable, (e) => {
       this.type !== 'step' && this.#hideTooltip(false);
 
-      const percent = this.#calcPercentFromX(e.detail.mouseX, this.trackBounds.LEFT, this.trackBounds.RIGHT, obj.thumbDraggable.clientWidth);
-      const value = this.#calcValueFromPercent(percent);
+      const left = this.trackBounds.LEFT;
+      const right = this.trackBounds.RIGHT;
+      const x = e.detail.mouseX;
+
+      const percent = this.isRtl ? this.#calcPercentFromX(x, right, left, obj.thumbDraggable.clientWidth) : this.#calcPercentFromX(x, left, right, obj.thumbDraggable.clientWidth);
+      // const value = this.#calcValueFromPercent(percent);
       this.#hideThumbShadow(true, obj.type);
 
       this.type === 'double' && swapZIndex();
