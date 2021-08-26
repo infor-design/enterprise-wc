@@ -89,7 +89,7 @@ module.exports = {
   },
   plugins: [
     new BundleAnalyzerPlugin({
-      analyzerMode: process.env.npm_lifecycle_event === "build:dist:prod:stats" ? 'static' : 'disabled', // options: server | static | json | disabled      openAnalyzer: false,
+      analyzerMode: process.env.npm_lifecycle_event === "build:dist:prod:stats" ? 'static' : 'disabled', // options: server | static | json | disabled
       reportFilename: 'prod-build-report.html'
     }),
     new CleanWebpackPlugin(),
