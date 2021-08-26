@@ -22,7 +22,8 @@ const traversibleHTMLTags = new Set(['DIV', 'SPAN']);
 export default (attributeProviderDefs) => (superclass) => {
   const {
     attributesProvided = [],
-    attributesListenedFor = []
+    attributesListenedFor = [],
+    maxDepth = Number.MAX_SAFE_INTEGER
   } = attributeProviderDefs;
 
   // vars intended for private/static access among component
@@ -115,6 +116,10 @@ export default (attributeProviderDefs) => (superclass) => {
               element.removeAttribute(targetAttribute);
             }
           }
+        }
+
+        if (depth > maxDepth) {
+          return;
         }
 
         if (recursive

@@ -24,9 +24,11 @@ const attributeProviderDefs = {
   attributesProvided: [{
     attribute: attributes.VALUE,
     component: IdsTabContent,
+    targetAttribute: attributes.ACTIVE,
     valueXformer: ({ value, element }) => element.getAttribute(attributes.VALUE) === value,
-    targetAttribute: attributes.ACTIVE
-  }]
+  }],
+  attributesListenedFor: [],
+  maxDepth: 8
 };
 
 /**
