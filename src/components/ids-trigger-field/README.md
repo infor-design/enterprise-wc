@@ -18,7 +18,7 @@ We include a trigger field component that helps layout an input next to a button
 Add an ids-trigger-field to the page and inside its slot add an ids-input and ids-trigger-button.
 
 ```html
-<ids-trigger-field size="sm" label="Date Field" tabbable="false" content-borders>
+<ids-trigger-field size="sm" label="Date Field" tabbable="false">
   <ids-input></ids-input>
   <ids-trigger-button>
     <ids-text audible="true">Date Field trigger</ids-text>
@@ -27,14 +27,13 @@ Add an ids-trigger-field to the page and inside its slot add an ids-input and id
 </ids-trigger-field>
 ```
 
-Example usage with buttons on both sides of input. In order to wrap the border around the buttons and `ids-input` you need to add the `content-borders` attribute to `ids-trigger-field`
+Example usage with buttons on both sides of input.
 
 ```html
 <ids-trigger-field
     id="trigger-field-1"
     label="Trigger field label"
     tabbable="false"
-    content-borders
 >
   <ids-trigger-button class="color-preview">
     <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
@@ -51,7 +50,6 @@ Example usage with buttons on both sides of input. In order to wrap the border a
 ## Settings and Attributes
 
 - `appearance` {string} Turns on the functionality to have more compact field size (TODO)
-- `content-borders` {boolean} This adds the 'input' border and focus state to the ids-trigger-field-content.
 - `disabled` {boolean} set disabled state.
 - `label` {string} This adds a label to the trigger field
 - `size` {string} set the input size, it will set `md` as defaults

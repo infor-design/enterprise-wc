@@ -89,6 +89,11 @@ $input-size-default: map-get($input-sizes, 'md');
     @include border-slate-90();
   }
 
+  &.disabled {
+    @include border-slate-30();
+    @include text-slate-30();
+  }
+
   // input message: [alert, error, info, success]
   &.alert,
   &.alert:hover {
@@ -166,11 +171,6 @@ $input-size-default: map-get($input-sizes, 'md');
   outline-color: transparent;
 }
 
-:host([disabled]) .has-content-borders .ids-trigger-field-content {
-  @include border-slate-30();
-  @include text-slate-30();
-}
-
 ::slotted(ids-trigger-button) {
   @include relative();
 
@@ -194,7 +194,7 @@ $input-size-default: map-get($input-sizes, 'md');
   @include border-slate-40();
   @include text-white();
 
-  &[disabled] {
+  &.disabled {
     @include border-slate-60();
     @include text-slate-60();
   }
@@ -219,7 +219,7 @@ $input-size-default: map-get($input-sizes, 'md');
   @include border-slate-40();
   @include text-black();
 
-  &[disabled] {
+  &.disabled {
     @include border-slate-30();
     @include text-slate-30();
   }
@@ -244,7 +244,7 @@ $input-size-default: map-get($input-sizes, 'md');
   @include border-graphite-40();
   @include text-graphite-100();
 
-  &[disabled] {
+  &.disabled {
     @include border-graphite-30();
     @include text-graphite-40();
   }
@@ -269,7 +269,7 @@ $input-size-default: map-get($input-sizes, 'md');
   @include border-slate-40();
   @include text-white();
 
-  &[disabled] {
+  &.disabled {
     @include border-classic-slate-40();
     @include text-classic-slate-50();
   }
@@ -294,7 +294,7 @@ $input-size-default: map-get($input-sizes, 'md');
   @include border-graphite-80();
   @include text-graphite-100();
 
-  &[disabled] {
+  &.disabled {
     @include bg-transparent();
     @include border-slate-50();
     @include text-graphite-80();

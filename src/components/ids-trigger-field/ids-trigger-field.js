@@ -51,6 +51,7 @@ class IdsTriggerField extends IdsInput {
   connectedCallback() {
     this.setInputAttributes();
     this.handleEvents();
+    this.#setContentBorders();
     super.connectedCallback();
 
     const labelEl = this.container.querySelector('label');
@@ -92,7 +93,7 @@ class IdsTriggerField extends IdsInput {
     return `
       <div class="ids-trigger-field ${this.size}" part="field">
         ${ this.label !== '' ? `<label
-          ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled', this.validate !== null && 'required') }
+          ${ buildClassAttrib('ids-label-text', this.disabled !== null && 'disabled', this.validate !== null && 'required') }
           ${this.validate !== null ? ' required' : ''}
           slot="ids-trigger-field-label"
           part="label"
@@ -100,7 +101,7 @@ class IdsTriggerField extends IdsInput {
         >
           <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
         </label>` : ''}
-        <div class="ids-trigger-field-content">
+        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled !== null && 'disabled', this.validate !== null && 'required') }>
           <slot></slot>
         </div>
       </div>
@@ -224,43 +225,6 @@ class IdsTriggerField extends IdsInput {
   get disableNativeEvents() { return this.getAttribute(attributes.DISABLE_EVENTS); }
 
   /**
-   * Set the appearance of the ids-trigger-field-content
-   * @param {string} value whether or not the content has borders and focus states
-   */
-  set contentBorders(value) {
-    const isValueTruthy = stringToBool(value);
-    if (isValueTruthy) {
-      this.setAttribute(attributes.CONTENT_BORDERS, true);
-      this.container.classList.add('has-content-borders');
-
-      const slottedNodes = this.shadowRoot.querySelector('slot').assignedNodes();
-      const idsInputs = slottedNodes.filter((node) => node.nodeName === 'IDS-INPUT');
-      const triggerBtns = slottedNodes.filter((node) => node.nodeName === 'IDS-TRIGGER-BUTTON');
-
-      /* istanbul ignore else */
-      if (idsInputs) {
-        [...idsInputs].forEach((idsInput) => {
-          const input = idsInput.shadowRoot?.querySelector('.ids-input');
-          input?.classList.add('triggerfield-has-content-borders');
-        });
-      }
-
-      /* istanbul ignore else */
-      if (triggerBtns) {
-        [...triggerBtns].forEach((triggerBtn) => {
-          const btn = triggerBtn.shadowRoot?.querySelector('button');
-          btn?.classList.add('triggerfield-has-content-borders');
-        });
-      }
-    } else {
-      this.removeAttribute(attributes.CONTENT_BORDERS);
-      this.container.classList.remove('has-content-borders');
-    }
-  }
-
-  get contentBorders() { return this.getAttribute(attributes.CONTENT_BORDERS); }
-
-  /**
    * Sets the label attribute
    * @param {string} value string value from the label attribute
    */
@@ -299,6 +263,33 @@ class IdsTriggerField extends IdsInput {
   }
 
   get size() { return this.getAttribute(attributes.SIZE) || SIZES.default; }
+
+  /**
+   * Adds borders to the trigger field content
+   */
+  #setContentBorders() {
+    this.container.classList.add('has-content-borders');
+
+    const slottedNodes = this.shadowRoot.querySelector('slot').assignedNodes();
+    const idsInputs = slottedNodes.filter((node) => node.nodeName === 'IDS-INPUT');
+    const triggerBtns = slottedNodes.filter((node) => node.nodeName === 'IDS-TRIGGER-BUTTON');
+
+    /* istanbul ignore else */
+    if (idsInputs) {
+      [...idsInputs].forEach((idsInput) => {
+        const input = idsInput.shadowRoot?.querySelector('.ids-input');
+        input?.classList.add('triggerfield-has-content-borders');
+      });
+    }
+
+    /* istanbul ignore else */
+    if (triggerBtns) {
+      [...triggerBtns].forEach((triggerBtn) => {
+        const btn = triggerBtn.shadowRoot?.querySelector('button');
+        btn?.classList.add('triggerfield-has-content-borders');
+      });
+    }
+  }
 
   /**
    * Establish Internal Event Handlers
