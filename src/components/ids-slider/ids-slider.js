@@ -139,6 +139,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
      
       this.trackBounds = this.#calculateBounds();
       this.#moveThumb();
+      this.#updateProgressBar();
       this.type === 'double' && this.#moveThumb('secondary');
     }
   }
@@ -206,7 +207,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     } else if (this.type === 'double') {
         this.slider.style.setProperty("--percentStart", Math.min(this.percentb, this.percent));
         this.slider.style.setProperty("--percentEnd", Math.max(this.percentb, this.percent));
-        this.progressTrack.style.setProperty('left', `${Math.min(this.percent, this.percentb)}%`)
+        const direction = this.isRtl ? 'right' : 'left';
+        this.progressTrack.style.setProperty(direction, `${Math.min(this.percent, this.percentb)}%`)
     }
   }
 
