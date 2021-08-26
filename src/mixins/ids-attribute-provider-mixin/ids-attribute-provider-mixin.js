@@ -25,51 +25,46 @@ export default (attributeProviderDefs) => (superclass) => {
     attributesListenedFor = []
   } = attributeProviderDefs;
 
+  // vars intended for private/static access among component
+  // for attribute mapping and lookups
+  // (will be more important when we have two-way lookups,
+  // for now it is just laid out here for consistency with
+  // that)
+
   const providedAttributes = attributesProvided.map((d) => d.attribute);
+
+  /**
+   * Lookups for attributes to map to parent components,
+   * and then to the associated definitions for
+   * quick de-referencing;
+   *
+   * @type {Map<string, object>}
+   */
+  const attributesProvidedMap = new Map();
+  attributesProvided.forEach((def) => {
+    const componentMap = attributesProvidedMap.get(def.attribute) || new Map();
+    componentMap.set(def.component, def);
+    attributesProvidedMap.set(def.attribute, componentMap);
+  });
+
+  /**
+   * Lookups for targetAttributes to map back to child components
+   * on-change;
+   *
+   * not currently used yet but will be needed for 2-way binding
+   * @type {Map<string, object>}
+   */
+  const attributesListenedForMap = new Map();
+  attributesListenedFor.forEach((def) => {
+    const entries = attributesListenedForMap.get(def.targetAttribute) || [];
+    entries.push(def);
+    attributesListenedForMap.set(def.targetAttribute, entries);
+  });
 
   return class extends superclass {
     constructor() {
       super();
     }
-
-    /**
-     * Lookups for attributes to map to parent components,
-     * and then to the associated definitions for
-     * quick de-referencing
-     * @type {Map<string, object>}
-     */
-    #attributesProvidedMap = (() => {
-      const map = new Map();
-      attributesProvided.forEach((def) => {
-        const componentMap = map.get(def.attribute) || new Map();
-        componentMap.set(def.component, def);
-        map.set(def.attribute, componentMap);
-      });
-
-      return map;
-    })();
-
-    /**
-     * Lookups for targetAttributes to map back to child components
-     * on-change
-     * @type {Map<string, object>}
-     */
-    #attributesListenedForMap = (() => {
-      const map = new Map();
-      attributesListenedFor.forEach((def) => {
-        const entries = map.get(def.targetAttribute) || [];
-        entries.push(def);
-        map.set(def.targetAttribute, entries);
-      });
-
-      return map;
-    })();
-
-    /**
-     * stack of updates to prevent callback when
-     * children are updated redundantly
-     */
-    #providedValueMap = new Map();
 
     /**
      * Update registered props on registered child component types
@@ -95,7 +90,7 @@ export default (attributeProviderDefs) => (superclass) => {
 
       for (const element of domNodes) {
         for (const sourceAttribute of attributes) {
-          const componentMap = this.#attributesProvidedMap.get(sourceAttribute);
+          const componentMap = attributesProvidedMap.get(sourceAttribute);
 
           for (const [component, def] of componentMap) {
             if (!component || !(element instanceof component)) { continue; }
@@ -115,18 +110,17 @@ export default (attributeProviderDefs) => (superclass) => {
 
             /* istanbul ignore else */
             if (targetValue !== null && element.getAttribute(targetAttribute) !== targetValue) {
-              this.#providedValueMap.set(element, targetValue);
               element.setAttribute(targetAttribute, targetValue);
             } else if ((targetValue === null) && element.hasAttribute(targetAttribute)) {
-              this.#providedValueMap.set(element, targetValue);
               element.removeAttribute(targetAttribute);
             }
           }
         }
 
-        if (recursive && (
-          (element instanceof IdsElement)
-          || traversibleHTMLTags.has(element?.tagName))
+        if (recursive
+          && ((element instanceof IdsElement)
+          || traversibleHTMLTags.has(element?.tagName)
+          )
         ) {
           this.provideAttributes(attributes, true, element, depth + 1);
         }
@@ -142,7 +136,7 @@ export default (attributeProviderDefs) => (superclass) => {
         /* istanbul ignore else */
         if (m.type === 'attributes') {
           const value = this.getAttribute(m.attributeName);
-          if (this.#attributesProvidedMap.has(m.attributeName) && (value !== m.oldValue)) {
+          if (attributesProvidedMap.has(m.attributeName) && (value !== m.oldValue)) {
             this.provideAttributes([m.attributeName]);
           }
         }
