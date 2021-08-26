@@ -42,6 +42,7 @@ class IdsAccordion extends mix(IdsElement).with(
   connectedCallback() {
     super.connectedCallback?.();
 
+    /* istanbul ignore next */
     if (this.colorVariant) {
       this.#assignNestedColorVariant();
     }
@@ -130,12 +131,14 @@ class IdsAccordion extends mix(IdsElement).with(
    * @param {number} depth the zero.
    */
   #assignNestedColorVariant(element = this, depth = 0) {
+    /* istanbul ignore next */
     if (!this.colorVariant) {
       return;
     }
 
     // Defines the color variant based on depth
     // DON'T do this on the accordion itself
+    /* istanbul ignore next */
     if (depth > 0) {
       const subLevelDepth = depth > 1;
       const variant = subLevelDepth ? `sub-${this.colorVariant}` : this.colorVariant;
@@ -149,7 +152,9 @@ class IdsAccordion extends mix(IdsElement).with(
     }
 
     // Check children for nested panes
+    /* istanbul ignore next */
     const children = element.children;
+    /* istanbul ignore next */
     for (const childEl of children) {
       if (depth > 5) {
         break;
@@ -203,6 +208,29 @@ class IdsAccordion extends mix(IdsElement).with(
   }
 
   /**
+   * Traverses the Accordion a specified number of steps, focusing the last one
+   * @param {number} amt the amount of steps to take
+   * @returns {IdsAccordionPanel} the newly-focused accordion pane
+   */
+  navigate(amt = 0) {
+    if (typeof amt !== 'number') {
+      return this.focused;
+    }
+
+    const negative = amt < 0;
+    let steps = Math.abs(amt);
+    while (steps > 0) {
+      if (negative) {
+        this.#prevPanel();
+      } else {
+        this.#nextPanel();
+      }
+      steps -= 1;
+    }
+    return this.focused;
+  }
+
+  /**
    * Navigates focus from the currently focused Accordion Panel to the next,
    * looping focus to the first panel if applicable.
    * @returns {void}
@@ -213,7 +241,8 @@ class IdsAccordion extends mix(IdsElement).with(
 
     // If the focused panel is expandable, find the first panel inside of it
     if (currentItem.isExpandable && currentItem.expanded) {
-      next = currentItem.querySelector('ids-accordion-panel');
+      /* istanbul ignore next */
+      next = currentItem.querySelector('ids-accordion-panel') || currentItem.nextElementSibling;
     } else {
       next = currentItem.nextElementSibling;
     }
@@ -241,7 +270,7 @@ class IdsAccordion extends mix(IdsElement).with(
   #prevPanel() {
     const currentItem = this.focused;
     const getLastPanel = () => {
-      const prevChildren = currentItem.querySelectorAll('ids-accordion-panel:last-child');
+      const prevChildren = currentItem.parentElement.querySelectorAll('ids-accordion-panel:last-child');
       return prevChildren[prevChildren.length - 1];
     };
 
@@ -252,7 +281,9 @@ class IdsAccordion extends mix(IdsElement).with(
 
     // If the previous panel is expandable, focus on its last pane instead
     if (prev.isExpandable && prev.expanded) {
-      prev = prev.querySelector('ids-accordion-panel:last-child');
+      const current = prev;
+      /* istanbul ignore next */
+      prev = prev.querySelector('ids-accordion-panel:last-child') || current;
     }
 
     // If the previous element is a header, no more panels are present.
@@ -261,14 +292,21 @@ class IdsAccordion extends mix(IdsElement).with(
       prev = prev.parentElement;
     }
 
-    // If there's no next sibiling, or this pane has been closed,
-    // navigate to previous item outside this pane
+    // If this pane has been closed, navigate to previous item outside this pane
+    while (prev.parentElement.tagName === 'IDS-ACCORDION-PANEL' && !prev.parentElement.expanded) {
+      /* istanbul ignore next */
+      prev = prev.parentElement;
+    }
+
+    // If there's no previous sibiling, navigate to the previous highest pane
+    /* istanbul ignore next */
     if (!prev) {
       prev = currentItem.parentElement;
     }
 
     // If previous is not an accordion panel, consider that we've 'looped'
     // back around to the top and pick the first header
+    /* istanbul ignore next */
     if (!prev || prev.tagName !== 'IDS-ACCORDION-PANEL') {
       prev = getLastPanel();
     }

@@ -1,4 +1,4 @@
-import { IdsElement } from '../ids-base';
+import { IdsElement } from '../../core';
 
 export default class extends IdsElement {
   /** Defines the edge on which to display the Drawer */

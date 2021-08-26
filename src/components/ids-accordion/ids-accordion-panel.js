@@ -86,6 +86,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   /**
    * @returns {string} the current color variant
    */
+  /* istanbul ignore next */
   get colorVariant() {
     return super.colorVariant;
   }
@@ -195,6 +196,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @returns {void}
    */
   #toggleExpanderDisplay() {
+    /* istanbul ignore next */
     if (this.header instanceof IdsAccordionHeader) {
       this.header.toggleExpanderIcon(this.isExpandable);
     }
@@ -207,6 +209,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    */
   collapsePane() {
     requestAnimationFrame(() => {
+      /* istanbul ignore next */
       if (!this.pane) {
         return;
       }
@@ -219,6 +222,8 @@ class IdsAccordionPanel extends mix(IdsElement).with(
 
       this.pane.style.height = `${this.pane.scrollHeight}px`;
       this.container.classList.remove('expanded');
+
+      /* istanbul ignore next */
       if (this.header) {
         this.header.expanded = false;
       }
@@ -231,6 +236,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
 
         // Setting height to "0" kicks off animation
         this.pane.style.height = `0px`;
+        /* istanbul ignore next */
         this.paneCloseListener = () => {
           this.pane.style.display = 'none';
         };
@@ -245,11 +251,13 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @returns {void}
    */
   expandPane() {
+    /* istanbul ignore next */
     if (!this.pane) {
       return;
     }
 
     // Remove any pre-existing Close listener that may still be in progress
+    /* istanbul ignore next */
     if (this.paneCloseListener) {
       this.pane.removeEventListener('transitionend', this.paneCloseListener);
       delete this.paneCloseListener;
@@ -259,12 +267,15 @@ class IdsAccordionPanel extends mix(IdsElement).with(
 
     requestAnimationFrame(() => {
       this.container.classList.add('expanded');
+
+      /* istanbul ignore next */
       if (this.header) {
         this.header.expanded = true;
       }
 
       // Setting height kicks off animation
       this.pane.style.height = `${this.pane.scrollHeight}px`;
+      /* istanbul ignore next */
       this.paneOpenListener = () => {
         // NOTE: `auto` height allows for nested accordions to expand
         // when their content is displayed
@@ -303,6 +314,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
       passive: true
     });
 
+    /* istanbul ignore next */
     this.onEvent('slotchange', this, () => {
       this.#toggleExpanderDisplay();
     });
@@ -314,6 +326,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @returns {void}
    */
   select(panel) {
+    /* istanbul ignore next */
     if (panel === undefined) {
       return;
     }

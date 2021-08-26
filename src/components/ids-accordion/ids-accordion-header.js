@@ -91,8 +91,9 @@ class IdsAccordionHeader extends mix(IdsElement).with(
 
   /**
    * @readonly
-   * @returns {IdsAccordionPanel} this header's panel
+   * @returns {HTMLElement} this header's panel
    */
+  /* istanbul ignore next */
   get panel() {
     return this.parentElement;
   }
@@ -100,6 +101,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   /**
    * @returns {boolean} true if this header's pane wrapper is expanded
    */
+  /* istanbul ignore next */
   get expanded() {
     return this.panel.expanded;
   }
@@ -109,17 +111,25 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    */
   set expanded(val) {
     const trueVal = IdsStringUtils.stringToBool(val);
+    /* istanbul ignore next */
     this.container.classList[trueVal ? 'add' : 'remove']('expanded');
     this.#refreshExpanderIconType();
   }
 
+  /**
+   * @returns {string} the current expander type
+   */
   get expanderType() {
     return this.getAttribute(attributes.EXPANDER_TYPE);
   }
 
+  /**
+   * @param {string} val the type of expander to use
+   */
   set expanderType(val) {
     const currentVal = this.expanderType;
     let trueVal = EXPANDER_TYPES[0];
+    /* istanbul ignore next */
     if (EXPANDER_TYPES.includes(val)) {
       trueVal = val;
     }
@@ -174,6 +184,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
     this.container.classList[isSelected ? 'add' : 'remove']('selected');
 
     const textNode = this.querySelector('ids-text, span');
+    /* istanbul ignore next */
     if (textNode) {
       textNode.fontWeight = isSelected ? 'bold' : '';
     }
@@ -191,10 +202,16 @@ class IdsAccordionHeader extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * Renders the expander icon, either adding it to the DOM or updating if it exists.
+   * @returns {void}
+   */
   #showExpanderIcon() {
+    /* istanbul ignore next */
     const appendLocation = this.colorVariant?.indexOf('sub-') === 0 ? 'afterbegin' : 'beforeend';
     const expander = this.container.querySelector('ids-icon');
 
+    /* istanbul ignore next */
     if (!expander) {
       // Apply the expander button in front of the text
       // for any variants prefixed with `sub-`.
@@ -207,20 +224,27 @@ class IdsAccordionHeader extends mix(IdsElement).with(
     this.#refreshExpanderIconType();
   }
 
+  /**
+   * Removes the expander icon from the DOM.
+   * @returns {void}
+   */
   #hideExpanderIcon() {
-    const expander = this.container.querySelector('ids-icon');
-    if (expander) {
-      expander.remove();
-    }
+    this.container.querySelector('ids-icon')?.remove();
   }
 
+  /**
+   * Changes the visual style of the expander icon
+   * @returns {void}
+   */
   #refreshExpanderIconType() {
     const icon = this.container.querySelector('ids-icon');
+    /* istanbul ignore next */
     if (!icon) {
       return;
     }
 
     let iconType = DEFAULT_ICON_OFF;
+    /* istanbul ignore next */
     if (this.expanderType === 'plus-minus') {
       iconType = this.expanded ? ICON_PLUS : ICON_MINUS;
     }

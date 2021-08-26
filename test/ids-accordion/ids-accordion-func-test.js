@@ -7,21 +7,30 @@ import IdsAccordion, {
 } from '../../src/components/ids-accordion';
 
 import elemBuilderFactory from '../helpers/elem-builder-factory';
+import waitFor from '../helpers/wait-for';
 
 const elemBuilder = elemBuilderFactory();
 
-const createAccordion = async () => elemBuilder.createElemFromTemplate(`<ids-accordion>
+const createAccordion = async (variant) => {
+  const variantProp = variant ? ` colorVariant="${variant}"` : '';
+  return elemBuilder.createElemFromTemplate(`<ids-accordion${variantProp}>
     <ids-accordion-panel id="p1">
-      <ids-accordion-header id="h1" slot="header"></ids-accordion-header>
+      <ids-accordion-header id="h1" slot="header">
+        <ids-text>Header 1</ids-text>
+      </ids-accordion-header>
     </ids-accordion-panel>
     <ids-accordion-panel id="p2">
-      <ids-accordion-header id="h2" slot="header"></ids-accordion-header>
+      <ids-accordion-header id="h2" slot="header">
+        <ids-text>Header 2</ids-text>
+      </ids-accordion-header>
     </ids-accordion-panel>
     <ids-accordion-panel id="p3">
-      <ids-accordion-header id="h3" slot="header"></ids-accordion-header>
+      <ids-accordion-header id="h3" slot="header">
+        <ids-text>Header 3</ids-text>
+      </ids-accordion-header>
     </ids-accordion-panel>
-  </ids-accordion>
-`);
+  </ids-accordion>`);
+};
 
 describe('IdsAccordion Component', () => {
   let accordion;
@@ -209,5 +218,82 @@ describe('IdsAccordion Component', () => {
   it('supports setting version', () => {
     accordion.version = 'classic';
     expect(accordion.container.getAttribute('version')).toEqual('classic');
+  });
+
+  it('supports color variants', async () => {
+    elemBuilder.clearElement();
+    accordion = await createAccordion('app-menu');
+    waitFor(() => expect(accordion.colorVariant).toBe('app-menu'));
+  });
+
+  it('has a reference to its panels', () => {
+    expect(accordion.panels.length).toBe(3);
+    expect(accordion.panels.includes(panel3));
+  });
+
+  it('has a reference to its focused panel', () => {
+    panel2.focus();
+
+    expect(document.activeElement.isEqualNode(header2)).toBeTruthy();
+    expect(accordion.focused.isEqualNode(panel2)).toBeTruthy();
+
+    // Create another element outside the app menu and focus it
+    const extraneousElem = document.createElement('input');
+    document.body.appendChild(extraneousElem);
+    extraneousElem.focus();
+
+    // If no element inside the menu is focused, the property should be undefined
+    expect(accordion.focused).toBeFalsy();
+  });
+
+  it('can navigate among its panels programatically', () => {
+    panel.focus();
+    const next = accordion.navigate(1);
+    expect(next.isEqualNode(panel2)).toBeTruthy();
+
+    const prev = accordion.navigate(-1);
+    expect(prev.isEqualNode(panel)).toBeTruthy();
+
+    // If "0" is passed, stay put
+    const none = accordion.navigate(0);
+    expect(none.isEqualNode(panel)).toBeTruthy();
+
+    // Don't accept junk values
+    const junk = accordion.navigate('junk');
+    expect(junk.isEqualNode(panel)).toBeTruthy();
+
+    const noArgs = accordion.navigate();
+    expect(noArgs.isEqualNode(panel)).toBeTruthy();
+  });
+
+  it('can navigate among its panels using the keyboard', () => {
+    const navigateUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    const navigateDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+
+    // Focus the first one
+    panel.focus();
+    expect(accordion.focused).toEqual(panel);
+
+    accordion.dispatchEvent(navigateDownEvent);
+    expect(accordion.focused).toEqual(panel2);
+
+    accordion.dispatchEvent(navigateUpEvent);
+    expect(accordion.focused).toEqual(panel);
+  });
+
+  it('has headers that are aware of their expanded status', () => {
+    panel.expanded = true;
+    expect(header.expanded).toBeTruthy();
+  });
+
+  it('can select headers', () => {
+    header.selected = true;
+
+    expect(header.container.classList.contains('selected')).toBeTruthy();
+
+    header2.selected = true;
+
+    expect(header.selected).toBeFalsy();
+    expect(header2.container.classList.contains('selected')).toBeTruthy();
   });
 });

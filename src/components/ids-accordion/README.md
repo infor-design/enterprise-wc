@@ -6,7 +6,8 @@ The IDS Accordion component is a UI pattern that is comprised of a stacked list 
 
 ## Use Cases
 
-Can be used to conserve space, by hiding information until needed. Accordions can be commonly seen on mobile sites and applications. It can help tell the user what the page is about and allows the user to select and see what is needed.
+- Can be used to conserve space, by hiding information until needed. Accordions can be commonly seen on mobile sites and applications. It can help tell the user what the page is about and allows the user to select and see what is needed.
+- Can be used for navigation.  The accordion is the main interactive element inside of the [App Menu](../ids-app-menu/README.md)
 
 ## Terminology
 
@@ -75,6 +76,48 @@ Standard accordion, most commonly used:
 </ids-accordion>
 ```
 
+### Nested Accordions
+
+It's possible to nest accordion structures.  This is common in accordions used for navigation purposes, such as the ones applied to the [App Menu](../ids-app-menu/README.md).
+
+In the example below, the "My Benefits", "Dependents and Beneficiaries", "Life Events", and "Benefits Information" panels are nested beneath the "Benefits" panel, which is nested beneath the "Employee" panel.
+
+```html
+<ids-accordion id="app-menu-style">
+    <ids-accordion-panel id="employee">
+        <ids-accordion-header slot="header">
+            <ids-icon icon="user" size="medium"></ids-icon>
+            <ids-text font-size="16">Employee</ids-text>
+        </ids-accordion-header>
+        <ids-accordion-panel slot="content" id="benefits">
+            <ids-accordion-header slot="header" expander-type="plus-minus">
+                <ids-text font-size="14">Benefits</ids-text>
+            </ids-accordion-header>
+            <ids-accordion-panel slot="content" id="my-benefits">
+                <ids-accordion-header slot="header">
+                    <ids-text font-size="14">My Benefits</ids-text>
+                </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content" id="dependents-beneficiaries">
+                <ids-accordion-header slot="header">
+                    <ids-text font-size="14">Dependents and Beneficiaries</ids-text>
+                </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content" id="life-events">
+                <ids-accordion-header slot="header">
+                    <ids-text font-size="14">Life Events</ids-text>
+                </ids-accordion-header>
+            </ids-accordion-panel>
+            <ids-accordion-panel slot="content" id="benefits-information">
+                <ids-accordion-header slot="header">
+                    <ids-text font-size="14">Benefits Information</ids-text>
+                </ids-accordion-header>
+            </ids-accordion-panel>
+        </ids-accordion-panel>
+    </ids-accordion-panel>
+</ids-accordion>
+```
+
 ## States and Variations
 
 The Accordion's headers support the following states:
@@ -88,7 +131,8 @@ The Accordion's headers support the following states:
 ## Keyboard Guidelines
 
 - **Shift+Tab**: Works the same as Tab, but in the opposite direction. When focus is on the tab or accordion header, a press of down/right will move focus to the next logical accordion Header or Tab page. When focus reaches the last header/tab page, further key presses will have optionally wrap to the first header
-- **Up Arrow or Left Arrow**: When focus is on the tab or accordion header, a press of up/left will move focus to the previous logical accordion header or tab page. When focus reaches the first header/tab page, further key presses will optionally wrap to the first header.
+- **Up Arrow or Left Arrow**: When focus is on the tab or accordion header, a press of up/left will move focus to the previous logical accordion header or tab page. When focus reaches the first header/tab page, further key presses will optionally wrap to the last header.  This keystroke is also aware of how to traverse different levels of nested accordion panels.
+- **Down Arrow or Right Arrow**: When focus is on the tab or accordion header, a press of down/right will move focus to the next logical accordion header or tab page. When focus reaches the last header/tab page, further key presses will optionally wrap to the first header.  This keystroke is also aware of how to traverse different levels of nested accordion panels.
 - **Enter or Space**: When focus is on an accordion header, this keystroke toggles the expansion of the corresponding panel. If collapsed, the panel is expanded, and its aria-expanded state is set to true. If expanded, the panel is collapsed and its aria-expanded state is set to false.
 
 ## Accessibility

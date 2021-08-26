@@ -27,6 +27,7 @@ const TYPES = ['app-menu', 'action-sheet'];
  * @type {IdsDrawer}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsPopupOpenEventsMixin
  */
 @customElement('ids-drawer')
 @scss(styles)
