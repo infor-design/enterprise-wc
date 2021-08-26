@@ -318,9 +318,9 @@ class IdsTriggerField extends IdsInput {
     }
 
     /** @type {any} */
-    const button = this.querySelector('ids-trigger-button');
-    if (button) {
-      this.onEvent('click', button, () => this.trigger());
+    const buttons = this.querySelectorAll('ids-trigger-button');
+    if (buttons) {
+      [...buttons].forEach((button) => this.onEvent('click', button, () => this.trigger()));
     }
 
     return this;
