@@ -319,6 +319,7 @@ class IdsTriggerField extends IdsInput {
 
     /** @type {any} */
     const buttons = this.querySelectorAll('ids-trigger-button');
+    /* istanbul ignore else */
     if (buttons) {
       [...buttons].forEach((button) => this.onEvent('click', button, () => this.trigger()));
     }

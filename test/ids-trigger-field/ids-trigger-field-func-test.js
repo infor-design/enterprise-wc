@@ -222,14 +222,6 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.disableNativeEvents).toEqual('true');
   });
 
-  it('renders content borders setting', () => {
-    triggerField.contentBorders = false;
-    expect(triggerField.contentBorders).toEqual(null);
-
-    triggerField.contentBorders = true;
-    expect(triggerField.contentBorders).toEqual('true');
-  });
-
   it('fires triggerclicked event', () => {
     const handler = jest.fn();
     triggerField.addEventListener('triggerclicked', handler);
