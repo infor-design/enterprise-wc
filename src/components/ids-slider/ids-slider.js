@@ -204,7 +204,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     } else if (this.type === 'double') {
         this.slider.style.setProperty("--percentStart", Math.min(this.percentb, this.percent));
         this.slider.style.setProperty("--percentEnd", Math.max(this.percentb, this.percent));
-        const direction = this.isRtl ? 'right' : 'left';
+        const direction = this.vertical ? 'top' : this.isRtl ? 'right' : 'left';
         this.progressTrack.style.setProperty(direction, `${Math.min(this.percent, this.percentb)}%`)
     }
   }
