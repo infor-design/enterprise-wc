@@ -1,24 +1,59 @@
 {{> ../layouts/head-visible.html }}
 
-<link rel="stylesheet" href="../ids-toolbar/ids-tabs.css" />
-<link rel="stylesheet" href="../ids-toolbar/ids-tab.css" />
+<link rel="stylesheet" href="../ids-tabs/ids-tabs.css" />
+<link rel="stylesheet" href="../ids-tabs/ids-tab.css" />
 <link rel="stylesheet" href="../ids-container/ids-container.css" />
 <link rel="stylesheet" href="../ids-popup-menu/ids-popup-menu.css" />
 <link rel="stylesheet" href="../ids-popup/ids-popup.css" />
-<link rel="stylesheet" href="../ids-menu-group/ids-menu-group.css" />
-<link rel="stylesheet" href="../ids-menu-header/ids-menu-header.css" />
-<link rel="stylesheet" href="../ids-menu-item/ids-menu-item.css" />
-<link rel="stylesheet" href="../ids-separator/ids-separator.css" />
+<link rel="stylesheet" href="../ids-menu/ids-menu-group.css" />
+<link rel="stylesheet" href="../ids-menu/ids-menu-header.css" />
+<link rel="stylesheet" href="../ids-menu/ids-menu-item.css" />
+<link rel="stylesheet" href="../ids-menu/ids-separator.css" />
 <link rel="stylesheet" href="../ids-button/ids-button.css" />
 <link rel="stylesheet" href="../ids-text/ids-text.css" />
 
-<h1 class="ids-text ids-text-12 audible">Tabs</h1>
+<div class="ids-layout-grid">
+  <h1 class="ids-text ids-text-12">Tabs Standalone CSS</h1>
+</div>
 
 <div class="ids-tabs-container" mode="light" version="new">
-  <div class="ids-tab selected">Contracts</div>
-  <div class="ids-tab">Opportunities</div>
-  <div class="ids-tab">Attachments</div>
-  <div class="ids-tab">Notes</div>
+  <div class="ids-tab-container">
+    <div class="ids-tab selected ids-text" tabindex="0">
+      Contracts
+      <div class="selection-underline"></div>
+    </div>
+  </div>
+  <div class="ids-tab-container">
+    <div class="ids-tab ids-text" tabindex="0">Opportunities</div>
+  </div>
+  <div class="ids-tab-container">
+    <div class="ids-tab ids-text" tabindex="0">Attachments</div>
+  </div>
+  <div class="ids-tab-container">
+    <div class="ids-tab ids-text" tabindex="0">Notes</div>
+  </div>
+</div>
+
+<div class="ids-layout-grid">
+  <h1 class="ids-text ids-text-12">Tabs Standalone CSS (Vertical)</h1>
+</div>
+
+<div class="ids-tabs-container" mode="light" version="new" orientation="vertical">
+  <div class="ids-tab-container" orientation="vertical">
+    <div class="ids-tab selected ids-text vertical" tabindex="0">
+      Contracts
+      <div class="selection-underline"></div>
+    </div>
+  </div>
+  <div class="ids-tab-container" orientation="vertical">
+    <div class="ids-tab ids-text vertical" tabindex="0">Opportunities</div>
+  </div>
+  <div class="ids-tab-container vertical" orientation="vertical">
+    <div class="ids-tab ids-text vertical" tabindex="0">Attachments</div>
+  </div>
+  <div class="ids-tab-container vertical" orientation="vertical">
+    <div class="ids-tab ids-text vertical" tabindex="0">Notes</div>
+  </div>
 </div>
 
 {{> ../layouts/footer.html }}
