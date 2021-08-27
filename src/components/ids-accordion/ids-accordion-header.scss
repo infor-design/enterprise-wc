@@ -180,6 +180,10 @@
     @include mr-12();
   }
 
+  .ids-accordion-display-icon {
+    display: none;
+  }
+
   &:focus {
     @include outline-none();
   }
@@ -193,6 +197,12 @@
 
   &.selected {
     font-weight: bolder;
+  }
+
+  &.has-icons {
+    .ids-accordion-display-icon {
+      display: flex;
+    }
   }
 
   // Top Level App Menu Accordions
@@ -211,7 +221,7 @@
   }
 }
 
-.ids-accordion-expander-button {
+.ids-accordion-expander-icon {
   &:first-child {
     @include mr-8();
   }

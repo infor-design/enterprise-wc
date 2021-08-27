@@ -1,5 +1,6 @@
 import IdsAppMenu from '../../src/components/ids-app-menu';
 import IdsButton from '../../src/components/ids-button';
+import IdsToolbar, { IdsToolbarSection } from '../../src/components/ids-toolbar';
 
 document.addEventListener('DOMContentLoaded', () => {
   const appMenuDrawer = document.querySelector('#app-menu');

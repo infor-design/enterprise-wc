@@ -46,6 +46,11 @@ class IdsAccordionHeader extends mix(IdsElement).with(
     super();
   }
 
+  connectedCallback() {
+    super.connectedCallback?.();
+    this.#setDisplayIcon(this.icon);
+  }
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -57,6 +62,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
       attributes.VERSION,
       attributes.EXPANDED,
       attributes.EXPANDER_TYPE,
+      attributes.ICON,
       attributes.SELECTED
     ];
   }
@@ -73,6 +79,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   template() {
     return `
       <div class="ids-accordion-header" tabindex="0" part="header">
+        <ids-icon class="ids-accordion-display-icon" part="display-icon"></ids-icon>
         <slot></slot>
         ${this.templateExpanderIcon()}
       </div>
@@ -85,7 +92,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    */
   templateExpanderIcon() {
     return `
-      <ids-icon class="ids-accordion-expander-button" icon=${DEFAULT_ICON_OFF} part="icon"></ids-icon>
+      <ids-icon class="ids-accordion-expander-icon" icon=${DEFAULT_ICON_OFF} part="expander-icon"></ids-icon>
     `;
   }
 
@@ -149,6 +156,35 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   }
 
   /**
+   * @param {string} val the type of display icon to show
+   */
+  set icon(val) {
+    if (this.icon !== val) {
+      if (typeof val !== 'string' || !val.length) {
+        this.removeAttribute('icon');
+      } else {
+        this.setAttribute('icon', `${val}`);
+      }
+      this.#setDisplayIcon(val);
+    }
+  }
+
+  /**
+   * @returns {string} the currently-displayed icon, if applicable
+   */
+  get icon() {
+    return this.getAttribute('icon');
+  }
+
+  /**
+   * @param {string} iconType the new icon type
+   */
+  #setDisplayIcon(iconType) {
+    this.container.querySelector('.ids-accordion-display-icon').icon = iconType;
+    this.container.classList[(iconType && iconType.length) ? 'add' : 'remove']('has-icons');
+  }
+
+  /**
    * @returns {boolean} true if this accordion header should appear "selected"
    */
   get selected() {
@@ -209,7 +245,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   #showExpanderIcon() {
     /* istanbul ignore next */
     const appendLocation = this.colorVariant?.indexOf('sub-') === 0 ? 'afterbegin' : 'beforeend';
-    const expander = this.container.querySelector('ids-icon');
+    const expander = this.container.querySelector('.ids-accordion-expander-icon');
 
     /* istanbul ignore next */
     if (!expander) {
@@ -229,7 +265,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    * @returns {void}
    */
   #hideExpanderIcon() {
-    this.container.querySelector('ids-icon')?.remove();
+    this.container.querySelector('.ids-accordion-expander-icon')?.remove();
   }
 
   /**
@@ -237,7 +273,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    * @returns {void}
    */
   #refreshExpanderIconType() {
-    const icon = this.container.querySelector('ids-icon');
+    const icon = this.container.querySelector('.ids-accordion-expander-icon');
     /* istanbul ignore next */
     if (!icon) {
       return;

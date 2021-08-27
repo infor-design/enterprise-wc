@@ -11,12 +11,35 @@
 </ids-layout-grid>
 
 <ids-app-menu id="app-menu">
+  <!-- Avatar/Username Area -->
   <img slot="avatar" src="/assets/avatar-placeholder.jpg" alt="Picture of Richard Fairbanks" />
   <ids-text slot="username" font-size="24" font-weight="bold">Richard Fairbanks</ids-text>
+
+  <!-- Header Toolbar -->
+  <ids-toolbar slot="header">
+    <ids-toolbar-section align="center-even" type="fluid">
+      <ids-button id="header-btn-download" icon="download">
+        <ids-text slot="text" audible>Download</ids-text>
+      </ids-button>
+      <ids-button id="header-btn-print" icon="print">
+        <ids-text slot="text" audible>Print</ids-text>
+      </ids-button>
+      <ids-button id="header-btn-purchasing" icon="purchasing">
+        <ids-text slot="text" audible>Purchasing</ids-text>
+      </ids-button>
+      <ids-button id="header-btn-notification" icon="notification">
+        <ids-text slot="text" audible>Notification</ids-text>
+      </ids-button>
+      <ids-button id="header-btn-inventory" icon="inventory">
+        <ids-text slot="text" audible>Inventory</ids-text>
+      </ids-button>
+    </ids-toolbar-section>
+  </ids-toolbar>
+
+  <!-- Main Content (Accordion Navigation) -->
   <ids-accordion>
     <ids-accordion-panel>
-      <ids-accordion-header slot="header">
-        <ids-icon icon="user" size="medium"></ids-icon>
+      <ids-accordion-header slot="header" icon="user">
         <ids-text font-size="16">Employee</ids-text>
       </ids-accordion-header>
       <ids-accordion-panel slot="content">
@@ -86,4 +109,24 @@
       </ids-accordion-panel>
     </ids-accordion-panel>
   </ids-accordion>
+
+  <!-- Footer Toolbar -->
+  <ids-toolbar slot="footer">
+    <ids-toolbar-section align="center-even" type="fluid">
+      <ids-button id="footer-btn-settings">
+        <ids-icon slot="icon" icon="settings"></ids-icon>
+        <span slot="text">Settings</span>
+      </ids-button>
+      <ids-button id="footer-btn-proxy" icon="employee-directory">
+        <ids-text slot="text" audible>Proxy as User</ids-text>
+      </ids-button>
+      <ids-button id="footer-btn-about" icon="info-linear">
+        <ids-text slot="text" audible>About This Application</ids-text>
+      </ids-button>
+      <ids-button id="footer-btn-logout" icon="logout">
+        <ids-text slot="text" audible>Logout</ids-text>
+      </ids-button>
+    </ids-toolbar-section>
+  </ids-toolbar>
+
 </ids-app-menu>

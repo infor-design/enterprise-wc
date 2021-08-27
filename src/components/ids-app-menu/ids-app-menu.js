@@ -7,9 +7,11 @@ import {
 import IdsDrawer from '../ids-drawer';
 import styles from './ids-app-menu.scss';
 
-import '../ids-accordion/ids-accordion';
+import '../ids-accordion';
+import '../ids-button';
 import '../ids-icon';
-import '../ids-text/ids-text';
+import '../ids-text';
+import '../ids-toolbar';
 
 /**
  * IDS App Menu Component
@@ -71,6 +73,11 @@ class IdsAppMenu extends IdsDrawer {
     const accordions = [...this.querySelectorAll('ids-accordion')];
     accordions.forEach((acc) => {
       acc.colorVariant = 'app-menu';
+    });
+
+    const btns = [...this.querySelectorAll('ids-button')];
+    btns.forEach((btn) => {
+      btn.colorVariant = 'alternate';
     });
   }
 }

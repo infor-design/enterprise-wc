@@ -36,6 +36,10 @@
   width: 40px;
 }
 
+::slotted(ids-toolbar) {
+  @include px-8();
+}
+
 .ids-app-menu-branding {
   // Specific Infor Logo sizing (@TODO: maybe make this its own component)
   ids-icon[icon='logo'] {

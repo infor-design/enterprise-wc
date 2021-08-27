@@ -93,6 +93,14 @@ class IdsAccordionPanel extends mix(IdsElement).with(
 
   /**
    * @readonly
+   * @returns {boolean} true if icons are present in this pane's immediate children
+   */
+  get hasIcons() {
+    return this.header?.container.classList.contains('has-icons') || false;
+  }
+
+  /**
+   * @readonly
    * @returns {HTMLElement|null} the provided header, if applicable
    */
   get header() {
