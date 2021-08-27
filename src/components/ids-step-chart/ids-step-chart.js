@@ -4,12 +4,12 @@ import {
   scss,
   mix,
   attributes
-} from '../ids-base';
+} from '../../core/ids-element';
 
 import {
   IdsEventsMixin,
   IdsThemeMixin
-} from '../ids-mixins';
+} from '../../mixins';
 
 import IdsColor from '../ids-color/ids-color';
 import IdsIcon from '../ids-icon/ids-icon';

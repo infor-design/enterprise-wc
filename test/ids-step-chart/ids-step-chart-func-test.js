@@ -2,8 +2,8 @@
  * @jest-environment jsdom
  */
 /* eslint-disable no-debugger */
-import IdsStepChart from '../../src/ids-step-chart/ids-step-chart';
-import IdsText from '../../src/ids-text/ids-text';
+import IdsStepChart from '../../src/components/ids-step-chart/ids-step-chart';
+import IdsText from '../../src/components/ids-text/ids-text';
 
 describe('Ids Step Chart Tests', () => {
   let elem;

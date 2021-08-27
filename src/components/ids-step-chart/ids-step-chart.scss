@@ -1,5 +1,5 @@
-@import '../ids-base/ids-colorpalette-variables';
-@import '../ids-base/ids-base';
+@import '../../mixins/sass/ids-colorpalette-variables.scss';
+@import '../../core/ids-base.scss';
 
 .ids-step-chart{
   @include m-8;
