@@ -23,16 +23,28 @@
   - [x] make sure to add styles for thumb draggable secondary transitions
   - [x] add tab arrow key left/right functionality
   - [ ] settle on naming conventions for the attributes
+    - [ ] replace string values with attribute vars
   - [x] add the progress color bar btw the two thumbs
     - [x] fix: progress color bar does not show upon init
-    - [ ] make the animation smooth btw the two thumbs when progress bar size changes
+    - [ ] **make the animation smooth btw the two thumbs when progress bar size changes--left/right positioning--see enterprise example; for now it's disabled
 - [x] make it work for RTL
   - [x] single slider
-  - [ ] check that it works for double slider and step slider
+  - [x] check that it works for double slider and step slider
   - [x] check upon load if it's RTL or not
 - [x] fix bug, stepping right from 0 with arrows on left thumb stops at 1 
 - [x] step slider
   - [x] add step labels
+  - [ ] center the step labels under ticks
 - [ ] make function for init css styles
 - [x] remove percent attributes--don't want them accessible from outside
 - [x] fix bug on single slider where dragging past 0 results in negative value (see tooltip when dragging)
+- [ ] add themes
+- [x] add vertical functionality
+  - [x] single slider
+  - [ ] double slider // need to fix the transition styles that are set
+  - [ ] step slider
+  - [x] set css classes for vertical to separate better
+  - [ ] flip min to bottom, max to top
+- [-] add custom color functionality
+  - [ ] works with ids-status colors
+  - [x] works with css native color keywords

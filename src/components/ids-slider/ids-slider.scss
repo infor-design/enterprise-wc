@@ -5,8 +5,11 @@ ids-slider {
 
 .ids-slider {
   display: flex;
-  width: 100%;
-  height: 100%;
+  justify-content: center; // horizontal
+  width: 100%; // horizontal
+  &.vertical {
+    height: 300px; // vertical
+  }
 }
 
 .slider {
@@ -15,7 +18,10 @@ ids-slider {
 
   display: inline-flex;
   position: relative;
-  width: 92%;
+  width: 92%; // horizontal
+  &.vertical {
+    height: 92%; // vertical
+  }
   margin: 25px 4% 50px;
   justify-content: center;
   align-items: center;
@@ -23,8 +29,14 @@ ids-slider {
   .tick-container {
     display: flex;
     position: absolute;
-    width: 100%;
+    width: 100%; // horizontal
     justify-content: space-between;
+
+    &.vertical {
+      height: 100%; // vertical
+      flex-direction: column; // vertical
+      align-items: center; // vertical
+    }
 
     .tick {
       display: flex;
@@ -36,7 +48,12 @@ ids-slider {
       
       .label {
         position: absolute;
-        transform: translate(-50%, 100%)
+        transform: translate(-50%, 100%); // horiz
+        &.vertical {
+          transform: translate(-150%, -25%); // vert
+          min-width: 50px; // vert
+          text-align: right; // vert
+        }
       }
     }
   }
@@ -92,7 +109,6 @@ ids-slider {
       width: 30px;
       height: 30px;
       background-color: rgba(0, 114, 237, 0.1);
-      background-color: #0072ed;
       border: 1px #0072ed solid;
     }
     
@@ -112,20 +128,35 @@ ids-slider {
   }
 
   .track-area {
-    width: 100%;
+    width: 100%; // horizontal
+    height: 24px; // horizontal
+    &.vertical {
+      height: 100%; // vert
+      width: 24px; // vert
+    }
     background-color: transparent;
-    height: 24px;
-    align-items: center;
+    align-items: center; // for horizontal slider
+    justify-content: center; // for vertical slider
     display: flex;
     position: absolute;
     z-index: 50;
+
+    &:hover {
+      background-color:rgba(0 ,114 ,237, 0.1);
+    }
   }
   
   .track {
     display: flex;
-    align-items: center;
-    height: 4px;
-    width: calc(100% - (var(--thumb-size) / 2));
+    align-items: center; // horizontal
+    justify-content: flex-start; // horizontal
+    height: 4px; // horizontal
+    width: calc(100% - (var(--thumb-size) / 2)); // horizontal
+    &.vertical {
+      justify-content: center; // vertical
+      width: 4px; // vert
+      height: calc(100% - (var(--thumb-size) / 2)); // vert
+    }
     position: absolute;
     z-index: 30;
     border-radius: 2px;
@@ -137,8 +168,16 @@ ids-slider {
     .track-progress {
       height: inherit;
       position: absolute;
+      width: calc((var(--percentEnd) - var(--percentStart)) * 1%); // horiz
+      // left: 0%; // TODO: need solution for RTL; replaced by flex-start in .track
+
+      &.vertical {
+        height: calc((var(--percentEnd) - var(--percentStart)) * 1%); // vert
+        width: 100%; // vert
+        top: 0%; // vert
+      }
+
       // background: linear-gradient(to right, transparent 0% calc(var(--percentStart) * 1%), #0072ed calc(var(--percentStart) * 1%) calc(var(--percentEnd) * 1%), transparent calc(var(--percentEnd) * 1%) 100%);    // -webkit-animation: Animation 5s ease infinite;
-      width: calc((var(--percentEnd) - var(--percentStart)) * 1%);
       // width: 100%;
       // left: 50%;
       // right: 80%;
