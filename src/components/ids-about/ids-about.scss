@@ -1,0 +1,38 @@
+@import '../ids-modal/ids-modal';
+
+.ids-about {
+  .ids-modal-container {
+    max-width: 560px;
+    min-width: 300px;
+  }
+
+  .ids-modal-header {
+    padding-top: 40px;
+    justify-content: center;
+    width: calc(100% - 40px)
+  }
+
+  .ids-modal-content-wrapper {
+    padding: 5px 20px;
+    margin-bottom: 20px;
+    overflow: hidden;
+  }
+
+  .ids-modal-content {
+    border: 1px solid #B7B7BA;
+    border-radius: 2px;
+    margin: 0 10px 30px;
+    max-height: 199px;
+    outline: medium none;
+    overflow-y: scroll;
+    padding-top: 0;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: left;
+
+    p {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+  }
+}
