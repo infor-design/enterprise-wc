@@ -112,6 +112,47 @@ class IdsAbout extends IdsModal {
 
     contentEl.innerHTML = content;
   }
+
+  /**
+   * Returns the browser specs. Currently returns browse, os, cookiesEnabled and locale
+   * @returns {object} The specs of the browser.
+   */
+  #getDeviceSpecs() {
+    const locale = navigator.appName === 'Microsoft Internet Explorer' ? navigator.userLanguage : navigator.language;
+    const browser = () => {
+      const ua = navigator.userAgent;
+      let result = [];
+      let M = ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) || [];
+
+      if (/trident/i.test(M[1])) {
+        result = /\brv[ :]+(\d+)/g.exec(ua) || [];
+        return `IE '${result[1]}`;
+      }
+
+      if (M[1] === 'Chrome') {
+        result = ua.match(/\b(OPR|Edge)\/(\d+)/);
+        if (result != null) {
+          return result.slice(1).join(' ').replace('OPR', 'Opera');
+        }
+      }
+
+      M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
+      result = ua.match(/version\/(\d+)/i);
+      if (result !== null) {
+        M.splice(1, 1, result[1]);
+      }
+
+      return M.join(' ');
+    };
+
+    return {
+      browser: browser(),
+      os: navigator.platform,
+      cookiesEnabled: navigator.cookieEnabled,
+      locale,
+    };
+  }
+
 }
 
 export default IdsAbout;
