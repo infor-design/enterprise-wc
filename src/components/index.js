@@ -32,7 +32,7 @@ import IdsRating from './ids-rating';
 import IdsSpinbox from './ids-spinbox';
 import IdsSwipeAction from './ids-swipe-action';
 import IdsSwitch from './ids-switch/ids-switch';
-import IdsTabs, { IdsTab } from './ids-tabs';
+import IdsTabs, { IdsTab, IdsTabsContext, IdsTabContent } from './ids-tabs';
 import IdsTag from './ids-tag/ids-tag';
 import IdsToggleButton from './ids-toggle-button';
 import IdsToolbar, { IdsToolbarSection, IdsToolbarMoreActions } from './ids-toolbar';
