@@ -1,4 +1,4 @@
-import { IdsElement } from '../ids-base';
+import { IdsElement } from '../../core';
 
 export default class IdsTab extends IdsElement {
   /**

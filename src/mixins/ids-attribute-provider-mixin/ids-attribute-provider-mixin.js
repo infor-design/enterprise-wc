@@ -26,7 +26,7 @@ const traversibleHTMLTags = new Set(['DIV', 'SPAN']);
  * children to avoid boilerplate/errors manually managing
  * this in child components
  *
- * @param {Object} defs definitions for attribute provider
+ * @param {object} defs definitions for attribute provider
  * @param {Array<AttributeProvidedDef>} defs.attributesProvided definitions relating to how
  * attributes will be provided down the DOM tree to provide attributes
  * @returns {any} the extended object
