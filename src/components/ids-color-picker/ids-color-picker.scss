@@ -17,7 +17,8 @@ ids-input::part(input) {
 }
 
 .color-picker-trigger-btn::part(button) {
-  @include mx-8();
+  @include ml-8();
+  @include mr-4();
 
   position: relative;
   z-index: 2;
