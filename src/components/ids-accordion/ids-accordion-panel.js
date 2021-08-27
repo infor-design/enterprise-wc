@@ -252,7 +252,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    */
   expandPane() {
     /* istanbul ignore next */
-    if (!this.pane) {
+    if (!this.pane || !this.isExpandable) {
       return;
     }
 
