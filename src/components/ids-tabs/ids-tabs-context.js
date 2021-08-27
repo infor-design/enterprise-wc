@@ -25,7 +25,8 @@ const attributeProviderDefs = {
     attribute: attributes.VALUE,
     component: IdsTabContent,
     targetAttribute: attributes.ACTIVE,
-    valueXformer: ({ value, element }) => element.getAttribute(attributes.VALUE) === value,
+    valueTransformer: ({ value, element }) => element.getAttribute(attributes.VALUE) === value,
+    cliffTags: ['IDS-TABS', 'IDS-TAB-CONTENT']
   }],
   attributesListenedFor: [],
   maxDepth: 8

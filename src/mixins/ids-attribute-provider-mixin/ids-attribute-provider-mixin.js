@@ -12,19 +12,31 @@ const identityFn = ({ value }) => value;
 const traversibleHTMLTags = new Set(['DIV', 'SPAN']);
 
 /**
+ * @typedef AttributeProvidedDef
+ * @property {string} attribute the type of attribute
+ * @property {string} targetAttribute the attribute being targeted
+ * on the child which is assigned
+ * @property {Function} valueXformer transforms the value assigned
+ * @property {Array} cliffTags tags where we know we won't find our
+ * intended element and can stop traversing e.g. ['SVG']
+ */
+
+/**
  * Casts/Mirrors specific attributes in one-way-bindings to
  * children to avoid boilerplate/errors manually managing
  * this in child components
  *
- * @param {Function} attributeProviderDefs definitions for attribute provider
+ * @param {Object} defs definitions for attribute provider
+ * @param {Array<AttributeProvidedDef>} defs.attributesProvided definitions relating to how
+ * attributes will be provided down the DOM tree to provide attributes
  * @returns {any} the extended object
  */
-export default (attributeProviderDefs) => (superclass) => {
+export default (defs) => (superclass) => {
   const {
     attributesProvided = [],
     attributesListenedFor = [],
     maxDepth = Number.MAX_SAFE_INTEGER
-  } = attributeProviderDefs;
+  } = defs;
 
   // vars intended for private/static access among component
   // for attribute mapping and lookups
@@ -100,10 +112,10 @@ export default (attributeProviderDefs) => (superclass) => {
               /** @type {string} */
               targetAttribute = sourceAttribute,
               /** @type {Function} */
-              valueXformer = identityFn
+              valueTransformer = identityFn
             } = def;
 
-            const targetValue = valueXformer({
+            const targetValue = valueTransformer({
               value: this.getAttribute(sourceAttribute),
               element,
               depth

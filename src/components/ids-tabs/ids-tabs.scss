@@ -13,15 +13,18 @@
   margin-inline-start: 0;
 }
 
-:host(ids-tabs[orientation='vertical']) {
+:host(ids-tabs[orientation='vertical']),
+.ids-tabs-container[orientation='vertical'] {
   flex-direction: column;
 }
 
-:host(ids-tabs:not([orientation='vertical'])) {
+:host(ids-tabs:not([orientation='vertical'])),
+.ids-tabs-container:not([orientation='vertical']) {
   @include mt-8;
 }
 
-:host(ids-tabs:not([orientation='vertical']):not([color-variant='alternate'])) {
+:host(ids-tabs:not([orientation='vertical']):not([color-variant='alternate'])),
+.ids-tabs-container:not([orientation='vertical']):not([color-variant='alternate']) {
   @include border-b-1;
   @include border-graphite-60;
 }

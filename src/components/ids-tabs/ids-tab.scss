@@ -1,12 +1,12 @@
 @import '../../core/ids-base';
 
-:host(ids-tab[orientation='horizontal']:first-child),
-.ids-tab-container[orientation='horizontal']:first-child {
+:host(ids-tab:not([orientation='vertical']):first-child),
+.ids-tab-container:not([orientation='vertical']):first-child {
   @include ml-4;
 }
 
-:host(ids-tab[orientation='horizontal']:last-child),
-.ids-tab-container[orientation='horizontal']:last-child {
+:host(ids-tab:not([orientation='vertical']):last-child),
+.ids-tab-container:not([orientation='vertical']):last-child {
   @include mr-4;
 }
 
@@ -66,7 +66,8 @@
    * text-content is set in ids-tab => rendered()
    *  */
 
-  ids-text::part(text) {
+  ids-text::part(text),
+  .ids-tab.ids-text {
     display: inline-flex;
     flex-direction: column;
     align-items: center;
@@ -81,7 +82,8 @@
     color: var(--ids-color-palette-white);
   }
 
-  & ids-text::part(text)::after {
+  & ids-text::part(text)::after,
+  &.ids-tab.ids-text::after {
     @include font-bold();
 
     content: attr(data-text);
@@ -112,6 +114,7 @@
   &.vertical {
     @include pl-24();
 
+    display: flex;
     align-items: flex-start;
     justify-content: center;
     width: 100%;
@@ -136,7 +139,15 @@
 
   cursor: default;
 
-  &:not(.vertical)::after {
+  &.ids-text {
+    @include font-bold();
+  }
+
+  &:not(.vertical)::after,
+  /* cannot read css var for color in :after
+   * without shadowDOM scope so need .selection-underline div
+   * as workaround */
+  &:not(.vertical) .selection-underline {
     position: absolute;
     bottom: 0;
     height: 3px;
@@ -147,11 +158,13 @@
     content: '';
   }
 
-  &:not(.vertical):not(.color-variant-alternate)::after {
+  &:not(.vertical):not(.color-variant-alternate)::after,
+  &:not(.vertical):not(.color-variant-alternate) .selection-underline {
     @include bg-azure-60();
   }
 
-  &.color-variant-alternate:not(.vertical)::after {
+  &.color-variant-alternate:not(.vertical)::after,
+  &.color-variant-alternate:not(.vertical) .selection-underline {
     @include bg-white();
   }
 }

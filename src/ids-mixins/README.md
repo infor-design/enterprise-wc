@@ -158,7 +158,7 @@ any changes become mirrored in the children types specified for those specific a
 1. In the `providedAttributes` of the parent which will provide attributes to children in it's tree, add a `providedAttributes` getter which an object mapping with the key being the attribute to map, and the value being:
   - an array of components or a mapping-of components and their property names (for example `PAGE_SIZE` below)
   - a touple/array of `[IDSComponent, attributeName]` (for example, `DISABLED` below)
-  - an array of object mappings e.g. `{ component, targetAttribute (optional), valueXformer (optional) }` with (1) `targetAttribute` being the attribute to map to the child, (2) component being an IDSComponent class (not instance) and (3/optional) a `valueXformer` where we transform the attribute before applying it.
+  - an array of object mappings e.g. `{ component, targetAttribute (optional), valueTransformer (optional) }` with (1) `targetAttribute` being the attribute to map to the child, (2) component being an IDSComponent class (not instance) and (3/optional) a `valueTransformer` where we transform the attribute before applying it.
 ```js
 get providedAttributes() {
   return {
@@ -169,7 +169,7 @@ get providedAttributes() {
     ],
     [attributes.AXIS]: [{
       component: IdsDraggable,
-      valueXformer: (axis) => (
+      valueTransformer: (axis) => (
         ((axis === 'x') || (axis === 'y')) ? axis : 'x'
       )
     }]
