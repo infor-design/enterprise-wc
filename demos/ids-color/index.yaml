@@ -1,0 +1,9 @@
+---
+ component: Color
+ link: ids-color
+ description: Color Swatches
+ category: Charts and Visualizations
+ keywords: Color, Swatch
+ examples:
+  - link: index.html
+    description: Shows a color swatch

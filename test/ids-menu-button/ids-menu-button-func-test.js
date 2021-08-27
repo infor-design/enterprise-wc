@@ -1,14 +1,14 @@
 /**
  * @jest-environment jsdom
  */
-import IdsIcon from '../../src/ids-icon/ids-icon';
-import IdsMenuButton from '../../src/ids-menu-button/ids-menu-button';
+import IdsIcon from '../../src/components/ids-icon/ids-icon';
+import IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button';
 import IdsPopupMenu, {
   IdsMenuGroup,
   IdsMenuHeader,
   IdsMenuItem,
   IdsSeparator
-} from '../../src/ids-popup-menu/ids-popup-menu';
+} from '../../src/components/ids-popup-menu/ids-popup-menu';
 
 describe('IdsMenuButton Component', () => {
   let buttonEl;

@@ -9,6 +9,7 @@
 - `[Breadcrumb]` The button component has been changed to a web component. ([#137](https://github.com/infor-design/enterprise-wc/issues/137))
   - Markup has changed to a custom element `<ids-breadcrumb></ids-breadcrumb>`
   - Can now be imported as a single JS file and used with encapsulated styles.
+  - gradients on overflowing horizontal tab headers have been updated to blend with the background
 - `[Card]` The Card/Widget component has been changed to a web component and renamed to ids-card.
   - Markup has changed to a custom element `<ids-card></ids-card>` and has slots for the header and body content
   - Can now be imported as a single JS file and used with encapsulated styles
@@ -26,6 +27,13 @@
   - If using properties/settings these are now attributes or as plain properties for example: data, virtual-scroll
   - Markup has changed to a custom element `<ids-data-grid></ids-data-grid>`
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Draggable]` The drag component is now a web component called `ids-draggable` ([#253](https://github.com/infor-design/enterprise-wc/issues/253))
+  - Markup has changed to a custom element that wraps draggable content; `<ids-draggable>content</ids-draggable>`.
+  - Bounding drag movement to a specific axis is done by passing the axis attribute as `x` or `y`.
+  - The Draggable can be contained to the first measurable parent's rectangle bounds by adding the
+  flag `parent-container`.
+  - A handle within the draggable content can be set by using the attribute `handle` as a query selector e.g. `handle=".custom-handle-class"`.
+  - Draggable events to listen for are now `ids-dragstart`, `ids-drag`, and `ids-dragend`.
 - `[Fieldset]` The fieldset component has been changed to a web component `ids-fieldset` ([#138](https://github.com/infor-design/enterprise-wc/issues/138))
   - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
   - Can now be imported as a single JS file and used with encapsulated styles.
@@ -99,6 +107,9 @@
 - `[RenderLoop]` The RenderLoop component has been implemented as a mixin.
   - Added `IdsRenderLoopMixin` for access to a global renderLoop instance from within WebComponents.
   - API has been simplified and made more user-friendly.
+- `[ScrollView/CirclePager]` The IdsScrollView component replaces circle pager from the previous version and adds swiping
+  - Markup has changed to a custom element `<ids-scroll-view></ids-scroll-view>`
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Spinbox]` The spinbox component has been changed to a web component and renamed to ids-spinbox.
   - Markup has changed to a custom element `<ids-spinbox></ids-spinbox>`
   - If using events, events are now plain JS events.
@@ -121,6 +132,10 @@
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
   - If using a clearable X on the textarea the x is now tabbable by default for accessibility
+- `[Toast]` The Toast component has been changed to a web component and renamed to ids-toast.
+  - Markup is now a custom element `<ids-toast></ids-toast>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Toolbar]` The Toolbar component has been changed to a web component.
   - Markup is now a custom element `<ids-toolbar></ids-toolbar>`
   - There is no longer a "Toolbar Item" component, instead use standard components directly.

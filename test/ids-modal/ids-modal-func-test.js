@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsModal, { IdsOverlay } from '../../src/ids-modal';
-import { IdsButton } from '../../src/ids-button/ids-button';
+import IdsModal, { IdsOverlay } from '../../src/components/ids-modal';
+import { IdsButton } from '../../src/components/ids-button/ids-button';
 
 describe('IdsModal Component', () => {
   let modal;

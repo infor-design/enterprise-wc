@@ -1,8 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import IdsContainer from '../../src/ids-container/ids-container';
-import IdsText from '../../src/ids-text/ids-text';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsText from '../../src/components/ids-text/ids-text';
 
 describe('IdsText Component', () => {
   let elem;
@@ -66,8 +66,8 @@ describe('IdsText Component', () => {
     elem.fontWeight = 'bold';
     expect(elem.getAttribute('font-weight')).toEqual('bold');
 
-    elem.fontWeight = 'bolder';
-    expect(elem.getAttribute('font-weight')).toEqual('bolder');
+    elem.fontWeight = 'lighter';
+    expect(elem.getAttribute('font-weight')).toEqual('lighter');
 
     elem.fontWeight = undefined;
     expect(elem.fontWeight).toEqual(null);
@@ -168,6 +168,17 @@ describe('IdsText Component', () => {
     expect(elem.label).toEqual(null);
   });
 
+  it('renders data setting then removes it', () => {
+    elem = new IdsText();
+    document.body.appendChild(elem);
+    expect(elem.shadowRoot.querySelector('span').classList.contains('data')).toEqual(false);
+    elem.data = true;
+    expect(elem.shadowRoot.querySelector('span').classList.contains('data')).toEqual(true);
+    expect(elem.data).toEqual('true');
+    elem.data = false;
+    expect(elem.data).toEqual(null);
+  });
+
   it('renders with audible setting enabled, then removes it', () => { // ids-text audible
     document.body.innerHTML = '';
     const templateElem = document.createElement('template');
@@ -177,6 +188,12 @@ describe('IdsText Component', () => {
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(1);
     elem.audible = false;
     expect(elem.shadowRoot.querySelectorAll('.audible').length).toEqual(0);
+  });
+
+  it('can render a color from the color palette', () => {
+    elem.color = 'slate-10';
+    expect(elem.color).toEqual('slate-10');
+    expect(elem.container.style.color).toEqual('');
   });
 
   it('can translate text', async () => {

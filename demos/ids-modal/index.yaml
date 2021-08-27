@@ -1,0 +1,15 @@
+---
+ component: Modal
+ link: ids-modal
+ description: Displays a Modal Dialog
+ category: Navigation and Interaction
+ keywords: Modal, Dialog
+ examples:
+  - link: index.html
+    description: Showing a simple modal example
+  - link: nested.html
+    description: Showing a test page for nested modals
+  - link: side-by-side.html
+    description: Showing a modal side by side with 4.x
+  - link: visible.html
+    description: Showing a modal thats always visible

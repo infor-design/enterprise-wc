@@ -1,7 +1,8 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsButton } from '../../src/ids-button/ids-button';
+import { IdsButton } from '../../src/components/ids-button/ids-button';
+import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 
 describe('IdsButton Component', () => {
   let btn;
@@ -435,5 +436,14 @@ describe('IdsButton ripple effect tests', () => {
     btn.noRipple = false;
     expect(btn.getAttribute('no-ripple')).toEqual(null);
     expect(btn.noRipple).toEqual(false);
+  });
+
+  it('supports setting color variants', async () => {
+    await expectEnumAttributeBehavior({
+      elem: btn,
+      attribute: 'color-variant',
+      values: ['alternate'],
+      defaultValue: null
+    });
   });
 });

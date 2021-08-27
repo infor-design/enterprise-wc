@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsContainer from '../../src/ids-container/ids-container';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsContainer Component', () => {
   let container;

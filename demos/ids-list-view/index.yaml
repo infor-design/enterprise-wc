@@ -1,0 +1,14 @@
+---
+ component: List View
+ link: ids-list-view
+ description: Use to display a list of records
+ category: Lists
+ keywords: List, List View, Listview
+ examples:
+  - link: index.html
+    description: Shows a list view with virtual scrolling
+  - link: side-by-side.html
+    description: Showing a list view side by side with a 4.x busy indicator
+  - link: standalone-css.html
+    description: Showing a limited list view that works with css only
+

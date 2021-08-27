@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsInput from '../../src/ids-input/ids-input';
+import IdsInput from '../../src/components/ids-input/ids-input';
 
 let elem = null;
 
@@ -60,6 +60,20 @@ describe('IdsInput Component', () => {
 
     const msgEl = elem.shadowRoot.querySelector('.validation-message');
     expect(msgEl).toBeTruthy();
+  });
+
+  it('should add/remove manually message', () => {
+    expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(0);
+    elem.addMessage({
+      message: 'Something is wrong do not continue',
+      type: 'error',
+      id: 'error'
+    });
+
+    expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(1);
+    elem.removeMessage({ id: 'error' });
+
+    expect(elem.shadowRoot.querySelectorAll('.validation-message').length).toEqual(0);
   });
 
   it('should skip if it already has an error', () => {

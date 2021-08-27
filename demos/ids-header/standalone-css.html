@@ -1,0 +1,83 @@
+{{> ../layouts/head-visible.html }}
+
+<link rel="stylesheet" href="ids-header.css" />
+<link rel="stylesheet" href="../ids-toolbar/ids-toolbar.css" />
+<link rel="stylesheet" href="../ids-toolbar-section/ids-toolbar-section.css" />
+<link rel="stylesheet" href="../ids-container/ids-container.css" />
+<link rel="stylesheet" href="../ids-popup-menu/ids-popup-menu.css" />
+<link rel="stylesheet" href="../ids-popup/ids-popup.css" />
+<link rel="stylesheet" href="../ids-menu-group/ids-menu-group.css" />
+<link rel="stylesheet" href="../ids-menu-header/ids-menu-header.css" />
+<link rel="stylesheet" href="../ids-menu-item/ids-menu-item.css" />
+<link rel="stylesheet" href="../ids-separator/ids-separator.css" />
+<link rel="stylesheet" href="../ids-button/ids-button.css" />
+<link rel="stylesheet" href="../ids-text/ids-text.css" />
+
+<h1 class="ids-text ids-text-12 audible">Header Breadcrumb</h1>
+
+<div class="ids-header" mode="light" version="new">
+  <div class="ids-toolbar">
+    <div class="ids-toolbar-section static">
+      <button class="ids-icon-button color-variant-alternate">
+        <span class="audible">Application Menu</span>
+        <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+          viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+          <path d="M0 2.5h18m-18 12h18m-18-6h18" stroke="currentColor" fill="none" fill-rule="evenodd"
+            vector-effect="non-scaling-stroke"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ids-toolbar-section title">
+      <span class="ids-text ids-text-20">My Header</span>
+      <span class="ids-text ids-text-14">With some extra information below</span>
+    </div>
+
+    <div class="ids-toolbar-section buttonset align-end">
+      <button id="button-1" class="ids-button color-variant-alternate">
+        <span>Text</span>
+      </button>
+
+      <button id="button-2" class="ids-button color-variant-alternate">
+        <span>Menu</span>
+        <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+          viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+          <path d="M4 6l5 6 5-6H4" fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+        </svg>
+      </button>
+
+      <button id="button-3" class="ids-icon-button color-variant-alternate" disabled>
+        <span class="audible">Settings</span>
+        <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+          viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+          <path
+            d="M13.25 1.5h-8.5L.5 8.75 4.75 16h8.5l4.25-7.25-4.25-7.25zm-1 7.25a3.25 3.25 0 11-6.499.001 3.25 3.25 0 016.499-.001z"
+            stroke="currentColor" fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+        </svg>
+      </button>
+
+      <button id="button-4" class="ids-icon-button color-variant-alternate">
+        <span class="audible">Trash</span>
+        <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+          viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+          <path d="M1.5 2.5l2 15H10c2.66 0 5.01-1.805 5.25-4.5L16.5 2.5h-15zM0 2.5h18m-12.5 0v-2h7v2" stroke="currentColor"
+            fill="none" fill-rule="evenodd" vector-effect="non-scaling-stroke"></path>
+        </svg>
+      </button>
+    </div>
+
+    <div class="ids-toolbar-section ids-toolbar-section-more more">
+      <button class="ids-icon-button color-variant-alternate">
+        <span class="audible">More Actions</span>
+        <svg class="ids-icon" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" fill="none" height="18" width="18"
+          viewBox="0 0 18 18" focusable="false" aria-hidden="true" role="presentation">
+          <path
+            d="M16.5 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM9 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM1.5 7a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"
+            fill="currentColor" fill-rule="evenodd" stroke="none"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+{{> ../layouts/footer.html }}

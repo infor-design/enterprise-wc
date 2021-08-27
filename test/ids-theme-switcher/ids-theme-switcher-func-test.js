@@ -1,8 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import IdsContainer from '../../src/ids-container/ids-container';
-import IdsThemeSwitcher from '../../src/ids-theme-switcher/ids-theme-switcher';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsThemeSwitcher from '../../src/components/ids-theme-switcher/ids-theme-switcher';
+import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 
 describe('IdsThemeSwitcher Component', () => {
   let container;
@@ -60,5 +61,14 @@ describe('IdsThemeSwitcher Component', () => {
     switcher.version = '';
     expect(switcher.version).toEqual('new');
     expect(switcher.getAttribute('version')).toBeFalsy();
+  });
+
+  it('supports setting color variants', async () => {
+    await expectEnumAttributeBehavior({
+      elem: switcher.container,
+      attribute: 'color-variant',
+      values: ['alternate'],
+      defaultValue: null
+    });
   });
 });

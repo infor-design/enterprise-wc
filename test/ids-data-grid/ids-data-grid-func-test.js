@@ -1,9 +1,9 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsDataGrid, IdsDataGridFormatters } from '../../src/ids-data-grid/ids-data-grid';
-import IdsContainer from '../../src/ids-container/ids-container';
-import dataset from '../../app/data/books.json';
+import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-data-grid/ids-data-grid';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import dataset from '../../demos/data/books.json';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid;
@@ -172,10 +172,6 @@ describe('IdsDataGrid Component', () => {
       dataGrid.label = null;
       expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('aria-label')).toEqual('Data Grid');
       expect(dataGrid.getAttribute('label')).toEqual(null);
-    });
-
-    it('renders correctly', () => {
-      expect(dataGrid.shadowRoot.innerHTML).toMatchSnapshot();
     });
 
     it('renders column css with adoptedStyleSheets', () => {
@@ -471,10 +467,12 @@ describe('IdsDataGrid Component', () => {
 
     it('can render with the time formatter', () => {
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[1]
-        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML).toEqual('2:25 PM');
+        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML)
+        .toEqual(new Intl.DateTimeFormat('en-US', { hour: 'numeric', minute: 'numeric' }).format(new Date('2021-04-23T18:25:43.511Z')));
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row')[4]
-        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML).toEqual('');
+        .querySelectorAll('.ids-data-grid-cell')[5].querySelector('.text-ellipsis').innerHTML)
+        .toEqual('');
     });
 
     it('can render with the decimal formatter', () => {

@@ -3,8 +3,8 @@
  */
 // eslint-disable-next-line
 import MutationObserver from '../helpers/mutation-observer-mock';
-import IdsTabs, { IdsTab } from '../../src/ids-tabs';
-import IdsText from '../../src/ids-text/ids-text';
+import IdsTabs, { IdsTab } from '../../src/components/ids-tabs';
+import IdsText from '../../src/components/ids-text/ids-text';
 
 const processAnimFrame = () => new Promise((resolve) => {
   window.requestAnimationFrame(() => {

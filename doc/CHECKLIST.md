@@ -24,6 +24,17 @@
  - [ ] Security: We will always pass all [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) guidelines. But the code is setup to error if this fails. Also we will pass security scans like Veracode and Snyk. The biggest issue here is usually XSS.
  - [ ] NG / Vue / React / Svelte / TS Example (we will build this out)
  - [ ] Old Issues: Review Be aware of old and new issues on a component in the [old backlog](https://github.com/infor-design/enterprise/issues)
+ - [ ] Add an index.yaml file to expose the examples on the root page for categories it should be one of:
+
+```sh
+Form Inputs
+Navigation and Interaction
+Messages and Alerts
+Lists
+Layouts
+Patterns
+Charts and Visualizations
+```
 
 ## Components To Convert
 
@@ -43,16 +54,18 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Bullet (ids-bullet-chart
  - [x] Loader (ids-loading-indicator) aka Busy Indicator / Loading Indicator
  - [x] Button (ids-button)
- - [ ] Calendar (ids-calendar
+ - [ ] Calendar (ids-calendar)
  - [x] Cards (ids-card)
  - [x] Checkboxes (ids-checkbox)
+ - [x] Circle Pager (ids-scroll-view)
  - [ ] Color Picker (ids-color-picker)
  - [ ] Column (ids-column-chart or ids-bar with a orientation setting)
- - [ ] Completion Chart (ids-completion-chart)
+ - [x] Completion Chart (ids-progress-chart)
  - [ ] Contextual Action Panel (ids-contextual-action-panel or ids-modal
  - [ ] Datagrid (ids-data-grid)
  - [ ] Datepicker (ids-date-picker)
  - [ ] Donut (ids-donut or combined with ids-pie)
+ - [x] Drag (ids-draggable)
  - [ ] Dropdown (ids-drop-down)
  - [ ] Editor (ids-editor)
  - [ ] Emptymessage (ids-empty-message)
@@ -105,6 +118,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Spinbox (ids-spin-box)
  - [ ] Splitter (ids-splitter)
  - [ ] Stepchart (ids-step-chart)
+ - [x] Summaryfield (ids-summary-field)
  - [ ] Swaplist (ids-swap-list)
  - [ ] Switch (ids-switch)
  - [ ] Tabs (ids-tabs)
@@ -117,7 +131,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Textarea (ids-text-area)
  - [ ] Timeline (ids-time-line)
  - [ ] Timepicker (ids-time-picker)
- - [ ] Toast (ids-toast)
+ - [x] Toast (ids-toast)
  - [x] Toolbar (ids-toolbar)r
  - [x] Tooltip (ids-tooltip
  - [x] Trackdirty (mixin)

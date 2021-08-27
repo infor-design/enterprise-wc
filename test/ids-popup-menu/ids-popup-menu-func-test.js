@@ -6,9 +6,9 @@ import IdsPopupMenu, {
   IdsMenuHeader,
   IdsMenuItem,
   IdsSeparator
-} from '../../src/ids-popup-menu/ids-popup-menu';
+} from '../../src/components/ids-popup-menu/ids-popup-menu';
 
-import IdsPopup from '../../src/ids-popup/ids-popup';
+import IdsPopup from '../../src/components/ids-popup/ids-popup';
 
 /*
 The final markup displayed by this test component should look like the following:

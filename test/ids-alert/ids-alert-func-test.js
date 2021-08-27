@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsAlert from '../../src/ids-alert/ids-alert';
+import IdsAlert from '../../src/components/ids-alert/ids-alert';
 
 describe('IdsAlert Component', () => {
   let el;

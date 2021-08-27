@@ -1,0 +1,15 @@
+---
+ component: BreadCrumb
+ link: ids-breadcrumb
+ description: Navigational Wayfinding
+ category: Navigation and Interaction
+ keywords: breadcrumb, wayfinding
+ examples:
+  - link: index.html
+    description: Shows a basic breadcrumb
+  - link: add-remove.html
+    description: Shows an api to add and remove breadcrumbs
+  - link: side-by-side.html
+    description: Showing a breadcrumb with a 4.x breadcrumb
+  - link: standalone-css.html
+    description: Showing a breadcrumb that works with css only

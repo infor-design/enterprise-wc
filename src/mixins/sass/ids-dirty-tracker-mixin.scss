@@ -1,0 +1,39 @@
+@import '../../core/ids-base';
+
+.icon-dirty {
+  @include absolute();
+  @include m-4();
+  @include text-alert-caution();
+
+  top: 0;
+}
+
+// Radio
+.ids-radio-group {
+  .icon-dirty {
+    margin: 8px 0 0 -2px;
+    top: auto;
+  }
+
+  &.first-item-checked .icon-dirty {
+    margin: 7px 0 0 -3px;
+    z-index: 1;
+  }
+}
+
+// Checkbox
+.ids-checkbox {
+  input[type='checkbox'] {
+    ~ .icon-dirty {
+      @include z-1();
+
+      left: -2px;
+      top: 0;
+    }
+
+    &:checked ~ .icon-dirty {
+      left: -4px;
+      top: -2px;
+    }
+  }
+}

@@ -1,0 +1,49 @@
+.ids-draggable-demo-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  border-style: dashed;
+}
+
+.ids-draggable-demo-content {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  width: 312px;
+  height: 128px;
+  border: 1px dashed var(--ids-color-palette-graphite-60);
+}
+
+ids-draggable:nth-of-type(1) .ids-draggable-demo-box,
+ids-layout-grid-cell:nth-of-type(1) .ids-draggable-demo-box {
+  border: 1px dashed var(--ids-color-palette-ruby-40);
+}
+
+ids-draggable:nth-of-type(2) .ids-draggable-demo-box,
+ids-layout-grid-cell:nth-of-type(2) .ids-draggable-demo-box {
+  border: 1px dashed var(--ids-color-palette-emerald-40);
+}
+
+ids-draggable:nth-of-type(3) .ids-draggable-demo-box,
+ids-layout-grid-cell:nth-of-type(3) .ids-draggable-demo-box {
+  border: 1px dashed var(--ids-color-palette-azure-40);
+}
+
+.ids-draggable-handle-example {
+  display: flex;
+  flex-direction: row;
+  border: 1px dashed var(--ids-color-palette-ruby-40);
+  align-items: center;
+  justify-content: center;
+
+  & div:nth-child(2) {
+    padding: 16px 8px;
+  }
+}
+
+.ids-draggable-handle {
+  align-items: center;
+  margin-right: 8px;
+}

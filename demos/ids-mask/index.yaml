@@ -1,0 +1,19 @@
+---
+ component: Mask
+ link: ids-mask
+ description: Util for masking input
+ category: Form Inputs
+ keywords: Mask, Type
+ examples:
+  - link: index.html
+    description: Shows a basic masic scenarios
+  - link: mask-attribute.html
+    description: Shows a mask set but a string attribute
+  - link: number-leading-zeros.html
+    description: Shows a test with leading zeros
+  - link: prefix-suffix.html
+    description: Shows adding a prefix or suffix to the mask
+  - link: side-by-side.html
+    description: Showing a mask side by side with 4.x
+
+

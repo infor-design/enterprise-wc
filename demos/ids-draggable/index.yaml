@@ -1,0 +1,12 @@
+---
+ component: Draggable
+ link: ids-draggable
+ description: Drag API
+ category: Lists
+ keywords: Drag, Draggable, Html5 draggable
+ examples:
+  - link: index.html
+    description: Shows basic dragging scenarios
+  - link: sandbox.html
+    description: Shows additional dragging scenarios
+

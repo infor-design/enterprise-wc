@@ -1,0 +1,10 @@
+---
+ component: Theme Switcher
+ link: ids-theme-switcher
+ description: Set and control themes
+ category: Navigation and Interaction
+ keywords: theme, color, switcher
+ examples:
+  - link: index.html
+    description: Showing a tag with the switcher
+

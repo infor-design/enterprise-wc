@@ -1,0 +1,88 @@
+@import '../../core/ids-base';
+
+:host {
+  @include mr-8();
+
+  [icon='success'],
+  [icon='success-solid'] {
+    @include text-alert-success();
+
+    &.disabled {
+      color: var(--ids-color-palette-emerald-30);
+    }
+  }
+
+  [icon='alert'],
+  [icon='alert-solid'] {
+    @include text-alert-warning();
+
+    &.disabled {
+      color: var(--ids-color-palette-amber-30);
+    }
+  }
+
+  [icon='info'],
+  [icon='info-solid'] {
+    @include text-alert-info();
+
+    &.disabled {
+      color: var(--ids-color-palette-azure-30);
+    }
+  }
+
+  [icon='error'],
+  [icon='error-solid'] {
+    @include text-alert-danger();
+
+    &.disabled {
+      color: var(--ids-color-palette-ruby-30);
+    }
+  }
+
+  [icon='new'],
+  [icon='new-solid'] {
+    color: var(--ids-color-palette-amber-70);
+
+    &.disabled {
+      color: var(--ids-color-palette-amber-30);
+    }
+  }
+
+  [icon='in-progress'],
+  [icon='in-progress-solid'] {
+    color: var(--ids-color-palette-amethyst-70);
+
+    &.disabled {
+      color: var(--ids-color-palette-amethyst-30);
+    }
+  }
+
+  [icon='info-field'],
+  [icon='info-field-solid'] {
+    color: var(--ids-color-status-base);
+    color: var(--ids-color-palette-azure-60);
+
+    &.disabled {
+      color: var(--ids-color-palette-azure-30);
+    }
+  }
+
+  [icon='empty-circle'],
+  [icon='half-empty-circle'] {
+    color: var(--ids-color-palette-slate-80);
+  }
+
+  [mode='dark'][icon='empty-circle'],
+  [mode='dark'][icon='half-empty-circle'] {
+    color: var(--ids-color-palette-classic-slate-30);
+  }
+
+  [version='classic'][mode='dark'][icon='empty-circle'],
+  [version='classic'][mode='dark'][icon='half-empty-circle'] {
+    color: var(--ids-color-palette-classic-slate-30);
+
+    &.disabled {
+      color: var(--ids-color-palette-slate-30);
+    }
+  }
+}

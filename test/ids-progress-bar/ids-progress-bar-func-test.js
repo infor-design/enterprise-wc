@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsProgressBar from '../../src/ids-progress-bar/ids-progress-bar';
+import IdsProgressBar from '../../src/components/ids-progress-bar/ids-progress-bar';
 
 describe('IdsProgressBar Component', () => {
   let el;

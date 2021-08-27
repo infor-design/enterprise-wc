@@ -1,0 +1,113 @@
+/**
+ * Mixins used throughout the scss styles and come in as part of base. Keep Base small.
+ */
+
+// All vendor prefixes
+$prefixes: -webkit-, -moz-, -o-, -ms-, '';
+
+// Prefixes that are only relevant to animations/transitions
+$animation-prefixes: -webkit-, -moz-, '';
+
+// Builds a list of vendor-prefixed animation definitions
+@mixin animation($animate...) {
+  $max: length($animate);
+  $animations: '';
+
+  @for $i from 1 through $max {
+    $animations: #{$animations + nth($animate, $i)};
+
+    @if $i < $max {
+      $animations: #{$animations + ', '};
+    }
+  }
+
+  @each $prefix in $animation-prefixes {
+    #{$prefix}animation: $animations;
+  }
+}
+
+// Hides text from the screen in a way that is friendly to Screen Reading software
+@mixin audible() {
+  clip: rect(0, 0, 0, 0);
+  height: 0;
+  line-height: 0;
+  min-height: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+// basic vendor prefixing
+@mixin css3($property, $value...) {
+  @each $prefix in $prefixes {
+    #{$prefix}#{$property}: $value;
+  }
+}
+
+// Builds out vendor-prefixed keyframe definitions
+@mixin keyframes($animation-name) {
+  @-webkit-keyframes #{$animation-name} { @content; }
+
+  @-moz-keyframes #{$animation-name} { @content; }
+
+  @keyframes #{$animation-name} { @content; }
+}
+
+// Disable Select
+@mixin no-select {
+  @include css3(user-select, none);
+
+  -webkit-touch-callout: none;
+}
+
+// Truncate to Ellipsis....
+@mixin ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Hidden
+@mixin hidden {
+  display: none;
+}
+
+// vendor prefixed transitions for regular attributes (non-vendor prefixed)
+@mixin transition($transitions-list...) {
+  @each $prefix in $prefixes {
+    #{$prefix}transition: $transitions-list;
+  }
+}
+
+// Basic transition that animates text and background color
+// according to the standard ease/length above
+@mixin basic-color-transition() {
+  transition:
+    background-color $transition-length $transition-ease,
+    color $transition-length $transition-ease;
+}
+
+// 'transform'-specific vendor prefixing mixins
+// This is because we can't include the word 'transform' inside the normal vendor prefixer,
+// since it would not be prefixed properly.
+@mixin transform($value) {
+  @each $prefix in $prefixes {
+    #{$prefix}transform: $value;
+  }
+}
+
+// Hidden
+@mixin focus-border-off {
+  @include border-transparent();
+  @include border-1();
+  @include border-solid();
+}
+
+@mixin focus-border-on {
+  @include border-azure-60();
+  @include border-1();
+  @include border-solid();
+  @include outline-none();
+  @include shadow();
+}

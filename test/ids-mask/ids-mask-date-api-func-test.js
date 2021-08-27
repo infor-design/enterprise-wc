@@ -1,5 +1,5 @@
-import MaskAPI from '../../src/ids-mask/ids-mask-api';
-import { dateMask, autoCorrectedDatePipe } from '../../src/ids-mask/ids-masks';
+import MaskAPI from '../../src/components/ids-mask/ids-mask-api';
+import { dateMask, autoCorrectedDatePipe } from '../../src/components/ids-mask/ids-masks';
 
 let api;
 

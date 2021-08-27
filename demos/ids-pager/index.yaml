@@ -1,0 +1,13 @@
+---
+ component: Pager
+ link: ids-pager
+ description: Displays a Pager for lists
+ category: Navigation and Interaction
+ keywords: Pager, Paging
+ examples:
+  - link: index.html
+    description: Showing a standalone Pager example
+  - link: sandbox.html
+    description: Showing a test page for pager states
+  - link: side-by-side.html
+    description: Showing a Popup Menu side by side with 4.x

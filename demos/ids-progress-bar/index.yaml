@@ -1,0 +1,13 @@
+---
+ component: Progress Bar
+ link: ids-progress-bar
+ description: Displays feedback on a process
+ category: Messages and Alerts
+ keywords: progress, status, feedback
+ examples:
+  - link: index.html
+    description: Showing a progress bar example
+  - link: side-by-side.html
+    description: Showing a progress bar side by side with 4.x
+  - link: standalone-css.html
+    description: Showing progress bar that works with css only
