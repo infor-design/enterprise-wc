@@ -162,9 +162,6 @@ ids-slider {
     border-radius: 2px;
     background-color: #97979B;
     
-    // background: linear-gradient(transparent 0 20%, red 20% 40%, transparent 40% 100%);
-    // background: linear-gradient(to right, transparent calc(var(--percentStart) * 1%), #0072ed calc(var(--percentStart) * 1%), #0072ed calc(var(--percentEnd) * 1%), transparent 0%);    // -webkit-animation: Animation 5s ease infinite;
-    
     .track-progress {
       height: inherit;
       position: absolute;
