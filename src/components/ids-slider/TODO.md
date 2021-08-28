@@ -27,6 +27,7 @@
   - [x] add the progress color bar btw the two thumbs
     - [x] fix: progress color bar does not show upon init
     - [ ] **make the animation smooth btw the two thumbs when progress bar size changes--left/right positioning--see enterprise example; for now it's disabled
+      - [ ] also w vertical (possibly remove the whole transition anim)
 - [x] make it work for RTL
   - [x] single slider
   - [x] check that it works for double slider and step slider
@@ -34,17 +35,28 @@
 - [x] fix bug, stepping right from 0 with arrows on left thumb stops at 1 
 - [x] step slider
   - [x] add step labels
-  - [ ] center the step labels under ticks
+  - [x] center the step labels under ticks
 - [ ] make function for init css styles
 - [x] remove percent attributes--don't want them accessible from outside
 - [x] fix bug on single slider where dragging past 0 results in negative value (see tooltip when dragging)
 - [ ] add themes
 - [x] add vertical functionality
   - [x] single slider
-  - [ ] double slider // need to fix the transition styles that are set
-  - [ ] step slider
+  - [x] double slider // need to fix the transition styles that are set
+    - [ ] move tooltip to right side
+  - [x] step slider
   - [x] set css classes for vertical to separate better
   - [ ] flip min to bottom, max to top
 - [-] add custom color functionality
   - [ ] works with ids-status colors
   - [x] works with css native color keywords
+- wrapping up before PR
+  - [ ] npm run lint
+  - [ ] remove hover css
+  - [ ] delete this file (?)
+  - [ ] comb through all "TODO"s
+  - [ ] test
+    - [ ] make sure double range slider sets default inputs even if attribute valueb is unspecified or out of the bounds of min/max
+    - [ ] test double range slider with negative min and positive max
+  - [-] bugs
+    - [x] when tabbing to secondary thumb on double slider, first key press jumps to 0
