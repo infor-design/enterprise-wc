@@ -4,10 +4,19 @@ import {
   scss
 } from '../../core/ids-element';
 
+import {
+  mix
+} from '../../core';
+
 import IdsModal from '../ids-modal';
 
 import { attributes } from '../../core/ids-attributes';
 import { IdsStringUtils, IdsDOMUtils } from '../../utils';
+
+// Import Mixins
+import {
+  IdsLocaleMixin
+} from '../../mixins';
 
 import styles from './ids-about.scss';
 
@@ -20,7 +29,7 @@ import styles from './ids-about.scss';
  */
 @customElement('ids-about')
 @scss(styles)
-class IdsAbout extends IdsModal {
+class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   constructor() {
     super();
   }
@@ -40,8 +49,7 @@ class IdsAbout extends IdsModal {
    */
   connectedCallback() {
     super.connectedCallback();
-
-    this.#refreshProduct();
+    this.#handleEvents();
   }
 
   /**
@@ -64,6 +72,29 @@ class IdsAbout extends IdsModal {
         </div>
       </div>
     </ids-popup>`;
+  }
+
+  /**
+   * Establish internal event handlers
+   * @private
+   * @returns {object} The object for chaining
+   */
+  #handleEvents() {
+    this.#refreshProduct();
+
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      this.#refreshDeviceSpecs();
+    });
+
+    this.offEvent('languagechange.this');
+    this.onEvent('languagechange.this', this, async (e) => {
+      await this.locale.setLanguage(e.detail.language.name);
+      this.#refreshDeviceSpecs();
+    });
+
+    return this;
   }
 
   /**
@@ -153,6 +184,17 @@ class IdsAbout extends IdsModal {
     };
   }
 
+  /**
+   * Refreshes the device specs content
+   * @returns {void}
+   */
+  #refreshDeviceSpecs() {
+    const specs = this.#getDeviceSpecs();
+    const contentEl = this.container.querySelector('.ids-about-device');
+    const content = `<p>${this.locale.translate('BrowserLanguage')} : ${specs.locale}</p>`;
+
+    contentEl.innerHTML = content;
+  }
 }
 
 export default IdsAbout;
