@@ -39,8 +39,28 @@ const DEFAULT_COLOR = '#0072ed'; // TODO: change to ids-status-primary
 @customElement('ids-slider')
 @scss(styles)
 class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsLocaleMixin) {
+  slider;
+  trackArea;
+  progressTrack;
+  track;
+  tickContainer;
+
+  thumb;
+  thumbDraggable;
+  thumbShadow;
+  tooltip;
+  tooltipText;
+
+  // DOUBLE only
+  thumbSecondary;
+  thumbDraggableSecondary;
+  thumbShadowSecondary;
+  tooltipSecondary;
+  tooltipTextSecondary;
+
   constructor() {
     super();
+
   }
   
   connectedCallback() {
@@ -48,13 +68,13 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     this.trackArea = this.container.querySelector('.track-area');
     this.progressTrack = this.container.querySelector('.track-progress');
     this.track = this.container.querySelector('.track');
+    this.tickContainer = this.container.querySelector('.tick-container');
 
     this.thumb = this.container.querySelector('.thumb');
     this.thumbDraggable = this.container.querySelector('.thumb-draggable');
     this.thumbShadow = this.container.querySelector('.thumb-shadow');
     this.tooltip = this.container.querySelector('.tooltip');
     this.tooltipText = this.container.querySelector('.tooltip .text');
-    this.tickContainer = this.container.querySelector('.tick-container');
     
     if (this.type === 'double') {
       this.thumbSecondary = this.container.querySelector('.thumb.secondary');
@@ -134,7 +154,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   set vertical(value) {
     const val = IdsStringUtils.stringToBool(value);
-    console.log('vertical is true: ' + val);
     val ? this.setAttribute(attributes.VERTICAL, val) : this.removeAttribute(attributes.VERTICAL);
     if (val) {
       this.container.classList.add('vertical'); // div w/ class ids-slider
@@ -191,11 +210,9 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
   
   #updateProgressBar() {
-    // TODO: add vertical settings
     if (this.type === 'single' || this.type === 'step') {
       this.slider.style.setProperty("--percentStart", 0);
       this.slider.style.setProperty("--percentEnd", this.percent);
-      // console.log('setting slider --percentEnd to : ' + this.percent)
     } else if (this.type === 'double') {
         const minPercent = Math.min(this.percent, this.percentb);
         const maxPercent = Math.max(this.percent, this.percentb);
@@ -281,6 +298,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   get stepNumber() { return parseInt(this.getAttribute('step-number')) || 2; }
 
   set percentb(value) {
+    console.log('setting percentb: ' + value);
     this._percentb = value;
     this.#updateProgressBar();
     this.#updateToolTip(this.#calcValueFromPercent(value), 'secondary');
@@ -296,13 +314,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
   
   set percent(value) {
+    console.log('setting percent: ' + value);
     this._percent = value;
     this.#updateProgressBar();
     this.#updateToolTip(this.#calcValueFromPercent(value));
   }
   
   get percent() { 
-    // undefined values will go to else block for isNaN but not Number.isNaN
+    // undefined values will go to else block for !isNaN but not !Number.isNaN
     if (!isNaN(this._percent)) {
       // console.log('returning this._percent: ' + this._percent)
       return this._percent;
@@ -317,7 +336,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   set valueb(value) {
     if (this.#withinBounds(value)) { 
-      console.log(value + ' is within bounds');
+      // console.log(value + ' is within bounds');
       this.setAttribute('valueb', value);
       this.percentb = (this.valueb - this.min) / (this.max - this.min) * 100;
       this.#updateToolTip(value, 'secondary');
@@ -335,12 +354,9 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   
   get valueb() { 
     const b = this.getAttribute('valueb')
-    // console.log('valueb: ' + b);
     if (b === null || b === '' || Number.isNaN(b)) {
-      // console.log('returning default secondary value')
       return this.max;
     } else {
-      // console.log('returning parseFLoat getAttribute')
       return parseFloat(this.getAttribute('valueb')); 
     }
   }
@@ -365,9 +381,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   
   get valuea() { 
     const a = this.getAttribute('valuea');
-    // console.log('valuea: ' + a);
     if (a === null || a === '' || Number.isNaN(a)) {
-      // return DEFAULT_VALUE;
       return this.min;
     } else {
       return parseFloat(this.getAttribute('valuea')); 
@@ -376,13 +390,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   set min(value) {
     const val = parseFloat(value);
-    if (val >= this.max) {
+    if (val >= this.max || val === null || val === '' || Number.isNaN(val)) {
       this.setAttribute(attributes.MIN, DEFAULT_MIN);
     } else {
       this.setAttribute(attributes.MIN, val);
     }
-    // this.setAttribute(attributes.MIN, value || DEFAULT_MIN);
-    // console.log('setting the min to : ' + value)
   }
   
   get min() { 
@@ -390,13 +402,9 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
   
   set max(value) {
-    // TODO: this would probably break if max was set to 0
-    // should also check if '' null or NaN
-    // console.log('setting the max to : ' + value)
     const val = parseFloat(value);
-    if (val <= this.min) {
-      // console.log('made into if statement')
-      this.setAttribute(attributes.MAX, DEFAULT_MAX);
+    if (val <= this.min || val === null || val === '' || Number.isNaN(val)) {
+      this.setAttribute(attributes.MAX, this.min + DEFAULT_MAX);
     } else {
       this.setAttribute(attributes.MAX, val);
     }
@@ -404,12 +412,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   get max() {
     const val = parseFloat(this.getAttribute(attributes.MAX));
-    if (val <= this.min) {
-      return DEFAULT_MAX
+    if (val <= this.min || val === null || val === '' || Number.isNaN(val)) {
+      return DEFAULT_MAX;
     } else {
       return val;
     }
-    // return parseFloat(this.getAttribute(attributes.MAX)) || DEFAULT_MAX; 
   }
 
   set type(value) {
@@ -487,26 +494,20 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     const clickedTrackArea = this.#wasCursorInBoundingBox(x, y, top, bottom, left, right);
     
     if (clickedTrackArea) {
+      console.log('clickedTrackArea true')
       const mousePos = this.vertical ? y : x;
       const startPos = this.vertical ? top : this.isRtl ? right : left;
       const endPos = this.vertical ? bottom : this.isRtl ? left : right;
 
       const percent = this.#calcPercentFromMousePos(mousePos, startPos, endPos, this.thumbDraggable.clientWidth);
       const value = this.#calcValueFromPercent(percent);
-      // console.log('percent: ' + percent);
-      // // console.log('value: ' + value);
+      console.log('percent: ' + percent);
+      // console.log('value: ' + value);
       
       if (this.type === 'double') {
         const thumbPos = this.vertical ? this.thumbDraggable.getBoundingClientRect().y : this.thumbDraggable.getBoundingClientRect().x;
         const thumbPosSecondary = this.vertical ? this.thumbDraggableSecondary.getBoundingClientRect().y : this.thumbDraggableSecondary.getBoundingClientRect().x;
-        // TODO: shorten to ternaries
-        // if (this.vertical) {
-        //   thumbPos = this.thumbDraggable.getBoundingClientRect().y;
-        //   thumbPosSecondary = this.thumbDraggableSecondary.getBoundingClientRect().y;
-        // } else {
-        //   thumbPos = this.thumbDraggable.getBoundingClientRect().x;
-        //   thumbPosSecondary = this.thumbDraggableSecondary.getBoundingClientRect().x;
-        // }
+
         if (Math.abs(mousePos - thumbPos) < Math.abs(mousePos - thumbPosSecondary)) {
           // focus on the thumb a
           this.#hideTooltip(false, 'primary');
@@ -608,8 +609,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     } else {
       percent = (Math.abs(a - aStart) - thumbWidth/2) / (Math.abs(aEnd - aStart) - thumbWidth/2) * 100;
     }
-    // console.log('calcPercentFromClick()');
-    // console.log('percent is: ' + percent);
     return percent;
   }
 
@@ -739,25 +738,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   #addDragEvents(primaryOrSecondary) {
-    let obj = {};
-    
-    if (this.type === 'double' && primaryOrSecondary === 'secondary') {
-      const secondary = {
-        thumbDraggable: this.thumbDraggableSecondary,
-        thumbDraggableOther: this.thumbDraggable,
-        type: 'secondary',
-      };
-
-      obj = secondary;
-    } else {
-      const primary = {
-        thumbDraggable: this.thumbDraggable,
-        thumbDraggableOther: this.thumbDraggableSecondary,
-        type: 'primary',
-      };
-
-      obj = primary;
-    }
+    const d = this.type === 'double' && primaryOrSecondary === 'secondary';
+    let obj = {
+      thumbDraggable: d ? this.thumbDraggableSecondary : this.thumbDraggable,
+      thumbDraggableOther: d ? this.thumbDraggable : this.thumbDraggableSecondary,
+      type: d ? 'secondary' : 'primary',
+      valueAttribute: d ? 'valueb' : 'valuea',
+      percentAttribute: d ? 'percentb' : 'percent'
+    };
 
     const swapZIndex = () => {
       if (obj.thumbDraggableOther) {
@@ -773,7 +761,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       const [left, right, top, bottom] = [this.trackBounds.LEFT, this.trackBounds.RIGHT, this.trackBounds.TOP, this.trackBounds.BOTTOM];
 
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
-      console.log('x, y: ' + x + ', ' + y)
+      // console.log('x, y: ' + x + ', ' + y)
 
       const mousePos = this.vertical ? y : x;
       const startPos = this.vertical ? top : this.isRtl ? right : left;
@@ -786,7 +774,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       this.type === 'double' && swapZIndex();
       // only set the percent -- because changing the value causes the moveThumb() to fire like crazy 
       // -- dragging becomes jittery because moveThumb() sets translate at the same time dragging sets translate
-      obj.type === 'secondary' ? this.percentb = percent : this.percent = percent;
+      this[obj.percentAttribute] = percent;
     });
     
     this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
@@ -806,7 +794,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       // but I can't think of anything better atm
       const freshPercent = obj.type === 'secondary' ? this.percentb : this.percent;
       const calcValue = this.#calcValueFromPercent(freshPercent);
-      obj.type === 'secondary' ? this.valueb = calcValue : this.value = calcValue;
+      // obj.type === 'secondary' ? this.valueb = calcValue : this.value = calcValue;
+      this[obj.valueAttribute] = calcValue;
     });
     
     this.onEvent('focus', obj.thumbDraggable, () => {

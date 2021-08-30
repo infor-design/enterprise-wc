@@ -58,5 +58,6 @@
   - [ ] test
     - [ ] make sure double range slider sets default inputs even if attribute valueb is unspecified or out of the bounds of min/max
     - [ ] test double range slider with negative min and positive max
+    - [ ] write tests
   - [-] bugs
     - [x] when tabbing to secondary thumb on double slider, first key press jumps to 0
