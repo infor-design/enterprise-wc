@@ -51,7 +51,8 @@ const BUTTON_ATTRIBUTES = [
   attributes.SQUARE,
   attributes.TEXT,
   attributes.TYPE,
-  attributes.TABINDEX
+  attributes.TABINDEX,
+  attributes.COLOR_VARIANT
 ];
 
 // Icon alignments
