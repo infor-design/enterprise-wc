@@ -1,14 +1,14 @@
 @import '../../mixins/sass/ids-colorpalette-variables.scss';
 @import '../../core/ids-base.scss';
 
-.ids-step-chart{
+.ids-step-chart {
   @include m-8;
 
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
 
-  .step-label-container{
+  .step-label-container {
     @include mb-4;
 
     display: flex;
@@ -16,42 +16,40 @@
     justify-content: space-between;
     flex: 1 1 auto;
 
-    .secondary-label{
+    .secondary-label {
       display: flex;
       flex-direction: row;
 
-      .completed-label{
+      .completed-label {
         margin-right: 4px;
       }
 
-      .icon{
+      .icon {
         @include ml-4;
       }
     }
   }
 
-  .step-chart-container{
+  .step-chart-container {
     display: flex;
     flex-direction: row;
     flex: 1 1 auto;
 
-    .step{
+    .step {
       @include m-1;
 
       @each $name in $color-names {
         $i: index($color-names, $name);
         $color: var(#{nth($color-vars, $i)});
 
-        &[color='#{$name}']{
+        &[color='#{$name}'] {
           background-color: $color;
         }
       }
+
       height: 15px;
       border: 1px;
       flex: 1 1 auto;
-      //background-color: var(--ids-color-palette-amethyst-100);
     }
   }
-
 }
-
