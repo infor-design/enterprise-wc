@@ -11,7 +11,7 @@ import {
 import IdsModal from '../ids-modal';
 
 import { attributes } from '../../core/ids-attributes';
-import { IdsStringUtils, IdsDOMUtils } from '../../utils';
+import { IdsStringUtils, IdsDOMUtils, IdsEnvironmentUtil } from '../../utils';
 
 // Import Mixins
 import {
@@ -93,6 +93,8 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
       await this.locale.setLanguage(e.detail.language.name);
       this.#refreshDeviceSpecs();
     });
+
+    IdsEnvironmentUtil.set();
 
     return this;
   }
@@ -191,7 +193,15 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   #refreshDeviceSpecs() {
     const specs = this.#getDeviceSpecs();
     const contentEl = this.container.querySelector('.ids-about-device');
-    const content = `<p>${this.locale.translate('BrowserLanguage')} : ${specs.locale}</p>`;
+    const content = `<p><span>${this.locale.translate('OperatingSystem')} : ${IdsEnvironmentUtil.devicespecs.os.replace(IdsEnvironmentUtil.devicespecs.currentOSVersion, '')} ${IdsEnvironmentUtil.devicespecs.currentOSVersion}</span><br>
+      <span>${this.locale.translate('Platform')} : ${specs.os}</span><br>
+      <span>${this.locale.translate('Mobile')} : ${IdsEnvironmentUtil.devicespecs.isMobile}</span><br>
+      <span>${this.locale.translate('Locale')} : ${this.locale.locale.name}</span><br>
+      <span>${this.locale.translate('Language')} : ${this.locale.language.name}</span><br>
+      <span>${this.locale.translate('Browser')} : ${` ${IdsEnvironmentUtil.devicespecs.browserVersionName}`} ${IdsEnvironmentUtil.devicespecs.currentBrowser} (${IdsEnvironmentUtil.devicespecs.browserVersion})</span><br>
+      <span>${this.locale.translate('BrowserLanguage')} : ${specs.locale}</span><br>
+      <span>${this.locale.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br>
+    </p>`;
 
     contentEl.innerHTML = content;
   }

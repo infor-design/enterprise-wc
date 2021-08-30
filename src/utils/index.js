@@ -3,3 +3,4 @@ export { default as IdsDOMUtils } from './ids-dom-utils/ids-dom-utils';
 export { default as IdsStringUtils } from './ids-string-utils/ids-string-utils';
 export { default as IdsXssUtils } from './ids-xss-utils/ids-xss-utils';
 export { default as IdsObjectUtils } from './ids-object-utils/ids-object-utils';
+export { default as IdsEnvironmentUtil } from './ids-environment-utils';
