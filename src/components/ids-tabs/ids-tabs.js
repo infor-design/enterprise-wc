@@ -77,12 +77,12 @@ export default class IdsTabs extends mix(IdsElement).with(
     // set initial selection state
     this.#updateSelectionState();
 
+    /* istanbul ignore next */
     if (!this.hasAttribute(attributes.COLOR_VARIANT)) {
       this.#checkAndSetColorVariant();
     }
 
-    /* istanbul ignore next */
-    this.onEvent('tabselect', this, (e) => {
+    this.onEvent('tabselect', this, (e) => /* istanbul ignore next */ {
       if (e.target.value !== this.value) {
         this.setAttribute(attributes.VALUE, e.target.value);
       }
@@ -260,6 +260,7 @@ export default class IdsTabs extends mix(IdsElement).with(
     let currentElement = this.host || this.parentNode;
 
     while (!isHeaderDescendent && currentElement) {
+      /* istanbul ignore next */
       if (currentElement instanceof IdsHeader) {
         isHeaderDescendent = true;
         break;

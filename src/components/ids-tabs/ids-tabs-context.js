@@ -14,6 +14,7 @@ import {
 import IdsTabContent from './ids-tab-content';
 import styles from './ids-tabs.scss';
 
+/* istanbul ignore next */
 /**
  * list of entries for attributes provided by
  * the ids-tabs-context and how they map,
@@ -67,6 +68,7 @@ export default class IdsTabsContext extends mix(IdsElement).with(
     super.connectedCallback?.();
     this.provideAttributes();
 
+    /* istanbul ignore next */
     this.onEvent('tabselect', this, (e) => {
       if (this.getAttribute(attributes.VALUE) !== e.target.value) {
         this.setAttribute(attributes.VALUE, e.target.value);

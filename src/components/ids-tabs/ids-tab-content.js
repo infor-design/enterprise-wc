@@ -60,13 +60,16 @@ export default class IdsTabContent extends mix(IdsElement).with(
    * @type {string}
    */
   set value(value) {
+    /* istanbul ignore else */
     if (this.getAttribute(attributes.VALUE) === value) {
       return;
     }
 
+    /* istanbul ignore next */
     this.setAttribute(attributes.VALUE, value);
   }
 
+  /* istanbul ignore next */
   get value() {
     return this.getAttribute(attributes.VALUE);
   }
