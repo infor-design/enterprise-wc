@@ -47,7 +47,6 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   static get attributes() {
     return [
-
       attributes.COLOR,
       attributes.COMPLETED_LABEL,
       attributes.LABEL,

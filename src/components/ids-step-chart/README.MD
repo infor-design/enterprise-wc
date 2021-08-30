@@ -2,34 +2,33 @@
 
 ## Description
 
-Step chart provides a custom element <ids-step-chart></ids-step-chart> that, when provided provides a stepped and labelled progress bar
+Step chart provides a custom element <ids-step-chart></ids-step-chart> that, when provided provides a stepped indication that demonstrates progress toward a single goal with an individual bar, they are great for showing action steps or distance from a target number.
 
 ## Use Cases
 
-The step chart is designed to indicate progress through a series of steps, this can be a simple binary, step complete incomplete or optionally allows for a "in progress" state that indicates a step is partially completed. this also provides the option for labeling the chart with primary and secondary text indicators. see the features section for more details
+- The step chart is designed to indicate progress through a series of steps, this can be a simple binary, step complete incomplete or optionally allows for a "in progress" state that indicates a step is partially completed. this also provides the option for labeling the chart with primary and secondary text indicators. see the features section for more details.
 
 ## Terminology
 
-Step: individual block in the component represented by a colored div. can be completed, in progress or untouched.
+**Step**: Individual block in the component represented by a colored `<div>` can be completed, in progress or not done.
 
-Completed: possible status of a step, will be displayed in a user selected color.
+**Completed**: A possible status of a step that will be displayed in a user selected color.
 
-In Progress: optional status of a step that has not been completed but touched, will be displayed in a user provided secondary color
+**In Progress**: An optional status of a step that has not been completed but started, will be displayed in a user provided secondary color.
 
-Untouched: dfault step status for step not in the other two catagories, is set by the component to a default graphite
+**Not Started**: Default step status for step not in the other two categories, is set by the component to a default graphite.
 
 ## Features (With Code Examples)
 
 Ids step chart is created by using the <ids-step-chart> element.
-
-for an implimentation with only a primary label and completed incompleted steps see the below example.
+For an implementation with only a primary label and completed uncompleted steps see the below example.
 
 ```html
 <ids-step-chart label="2 of 7 steps completed" color="azure06" step-number="7" value="2">
 </ids-step-chart>
 ```
 
-to set in progress steps you must pass an array of strings or numbers where each item in the array is the number of the step you want to update and set the progress-color attribute
+To set in progress steps you must pass an array of strings or numbers where each item in the array is the number of the step you want to update and set the `progress-color` attribute.
 ```html
   <ids-step-chart label="2 of 7 steps completed" color="azure06" step-number="7" value="3" completed-label="5 days overdue" progress-color="ruby02">
 ```
@@ -55,7 +54,7 @@ IDS step chart also has an available slot `icon` that can be used to append cont
 
 ## Settings and Attributes
 
-  - color: the color used for completed steps (must use ids provided colors)
+  - `color` {string} Sets the color used for completed steps (must use ids provided colors).
   - completed-label: secondary label for the component
   - label: primary label for the compenent usually formatted as "x of y steps completed
   - progress-color: color used for flaged steps in progress (must use ids provided colors)
