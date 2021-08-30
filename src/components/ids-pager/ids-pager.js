@@ -16,6 +16,50 @@ import IdsPagerInput from './ids-pager-input';
 import IdsPagerNumberList from './ids-pager-number-list';
 import styles from './ids-pager.scss';
 
+const attributeProviderDefs = {
+  attributesProvided: [{
+    attribute: attributes.PAGE_NUMBER,
+    component: IdsPagerInput
+  }, {
+    attribute: attributes.PAGE_NUMBER,
+    component: IdsPagerNumberList
+  }, {
+    attribute: attributes.PAGE_NUMBER,
+    component: IdsPagerButton
+  }, {
+    attribute: attributes.TOTAL,
+    component: IdsPagerInput
+  }, {
+    attribute: attributes.TOTAL,
+    component: IdsPagerNumberList
+  }, {
+    attribute: attributes.TOTAL,
+    component: IdsPagerButton
+  }, {
+    attribute: attributes.PAGE_SIZE,
+    component: IdsPagerNumberList
+  }, {
+    attribute: attributes.PAGE_SIZE,
+    component: IdsPagerButton
+  }, {
+    attributes: attributes.DISABLED,
+    component: IdsPagerInput,
+    targetAttribute: attributes.PARENT_DISABLED
+  }, {
+    attributes: attributes.DISABLED,
+    component: IdsPagerButton,
+    targetAttribute: attributes.PARENT_DISABLED
+  }, {
+    attributes: attributes.DISABLED,
+    component: IdsPagerInput,
+    targetAttribute: attributes.PARENT_DISABLED
+  }, {
+    attributes: attributes.DISABLED,
+    component: IdsPagerNumberList,
+    targetAttribute: attributes.PARENT_DISABLED
+  }]
+};
+
 /**
  * IDS Pager Component
  * @type {IdsPager}
@@ -26,7 +70,7 @@ import styles from './ids-pager.scss';
 @customElement('ids-pager')
 @scss(styles)
 export default class IdsPager extends mix(IdsElement).with(
-    IdsAttributeProviderMixin,
+    IdsAttributeProviderMixin(attributeProviderDefs),
     IdsEventsMixin,
     IdsThemeMixin
   ) {
@@ -59,32 +103,6 @@ export default class IdsPager extends mix(IdsElement).with(
         <slot></slot>
       </div>`
     );
-  }
-
-  /**
-   * @returns {object.<string, string>} the attributes and how they will
-   * be passed down
-   */
-  get providedAttributes() {
-    return {
-      [attributes.PAGE_NUMBER]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
-      [attributes.TOTAL]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
-      [attributes.PAGE_SIZE]: [IdsPagerInput, IdsPagerNumberList, IdsPagerButton],
-      [attributes.DISABLED]: [
-        {
-          component: IdsPagerInput,
-          targetAttribute: attributes.PARENT_DISABLED
-        },
-        {
-          component: IdsPagerButton,
-          targetAttribute: attributes.PARENT_DISABLED
-        },
-        {
-          component: IdsPagerNumberList,
-          targetAttribute: attributes.PARENT_DISABLED
-        }
-      ]
-    };
   }
 
   connectedCallback() {
