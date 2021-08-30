@@ -24,4 +24,24 @@ export default class IdsDraggable extends IdsElement {
    * drag the content of the draggable
    */
   handle?: string;
+
+  /**
+   *  The minimum offset/x-transform/translate the draggable can be translated/dragged on the DOM.
+   */
+  minTransformX?: number;
+
+  /**
+   * The maximum offset/x-transform/translate the draggable can be placed from its position on the DOM.
+   */
+  maxTransformX?: number;
+
+  /**
+   * The minimum offset/y-transform/translate the draggable can be placed frm it's position on the DOM.
+   */
+  minTransformY?: number;
+
+  /**
+   * The maximum offset/y-transform/translate the draggable can be from it's position on the dom
+   */
+  maxTransformY?: number;
 }
