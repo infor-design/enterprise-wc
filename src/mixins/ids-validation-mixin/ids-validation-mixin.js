@@ -117,11 +117,12 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       let isValid = true;
       const useRules = this.useRules.get(input);
       useRules?.forEach((/** @type {object} */ thisRule) => {
-        if (!thisRule.rule.check(input) && this.isTypeNotValid) {
+        /* istanbul ignore else */
+        if (thisRule.rule !== undefined && !thisRule.rule?.check(input) && this.isTypeNotValid) {
           this.addMessage(thisRule.rule);
           isValid = false;
           this.isTypeNotValid[thisRule.rule.type] = true;
-        } else {
+        } else if (thisRule.rule !== undefined) {
           this.removeMessage(thisRule.rule);
         }
       });
