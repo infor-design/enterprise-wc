@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 // eslint-disable-next-line
-import MutationObserver from '../helpers/mutation-observer-mock';
+import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
 import IdsTabs, { IdsTab } from '../../src/components/ids-tabs';
+import IdsHeader from '../../src/components/ids-header';
 import IdsText from '../../src/components/ids-text/ids-text';
 
 const processAnimFrame = () => new Promise((resolve) => {
@@ -269,5 +270,41 @@ describe('IdsTabs Tests', () => {
 
     elem.count = 'z20z';
     expect(elem.getAttribute('count')).toEqual('20');
+  });
+
+  it('is created within ids-header and gets set to an alternate color variant', async () => {
+    const idsHeader = new IdsHeader();
+    document.body.appendChild(idsHeader);
+
+    elem = await createElemViaTemplate(DEFAULT_TABS_HTML, idsHeader);
+  });
+
+  it('predictably sets/gets color-variant', async () => {
+    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    expectEnumAttributeBehavior({
+      elem,
+      attribute: 'color-variant',
+      values: ['alternate'],
+      defaultValue: null
+    });
+  });
+
+  it('clicks on an unselected tab and ids-tabs detects tabselect', async () => {
+    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+
+    const tabChangeListener = jest.fn();
+
+    elem.addEventListener('tabselect', tabChangeListener);
+
+    const clickEvent = new MouseEvent('click', {
+      target: elem.children[1],
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+    elem.children[1].dispatchEvent(clickEvent);
+    await processAnimFrame();
+
+    expect(tabChangeListener).toBeCalledTimes(1);
   });
 });

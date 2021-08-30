@@ -186,6 +186,7 @@ export default class IdsTabs extends mix(IdsElement).with(
 
   /** observes changes in tabs */
   #tabObserver = new MutationObserver((mutations) => {
+    /* istanbul ignore next */
     for (const m of mutations) {
       switch (m.type) {
       case 'childList': {
@@ -268,9 +269,11 @@ export default class IdsTabs extends mix(IdsElement).with(
         break;
       }
 
+      /* istanbul ignore next */
       currentElement = currentElement.host || currentElement.parentNode;
     }
 
+    /* istanbul ignore next */
     if (isHeaderDescendent) {
       this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
     }
@@ -309,6 +312,7 @@ export default class IdsTabs extends mix(IdsElement).with(
 
     // clear tab values tracked
 
+    /* istanbul ignore next */
     for (const tabValue of this.#tabValueSet) {
       this.offEvent(`click.${tabValue}`);
       this.#tabValueSet.delete(tabValue);

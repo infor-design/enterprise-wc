@@ -16,9 +16,9 @@ import IdsText from '../ids-text';
 import styles from './ids-tab.scss';
 
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import { IdsStringUtils as stringUtils } from '../../utils';
 
-const { stringToBool, buildClassAttrib } = IdsStringUtils;
+const { stringToBool, buildClassAttrib } = stringUtils;
 
 /**
  * IDS Tab Component
@@ -120,8 +120,9 @@ export default class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     this.setAttribute('role', 'tab');
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
     this.setAttribute('tabindex', stringToBool(this.selected) ? '0' : '-1');
-
     this.setAttribute('aria-label', this.#getReadableAriaLabel());
+
+    /* istanbul ignore next */
     this.onEvent('click', this, () => {
       if (!this.hasAttribute(attributes.SELECTED)) {
         this.setAttribute(attributes.SELECTED, '');
