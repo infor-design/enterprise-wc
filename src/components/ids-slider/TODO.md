@@ -18,7 +18,6 @@
   - [x] change value when key LEFT/RIGHT
 - [x] privatize functions
 - [x] double range slider
-  - [ ] fix bug where when drag is released too close to other thumb, it calculates the UI translate for that thumb thru calculateUIFromClick()
   - [x] make the code clean, remove duplicate, make functions modular
   - [x] make sure to add styles for thumb draggable secondary transitions
   - [x] add tab arrow key left/right functionality
@@ -43,7 +42,7 @@
 - [x] add vertical functionality
   - [x] single slider
   - [x] double slider // need to fix the transition styles that are set
-    - [ ] move tooltip to right side
+    - [x] move tooltip to right side
   - [x] step slider
   - [x] set css classes for vertical to separate better
   - [ ] flip min to bottom, max to top
@@ -54,10 +53,10 @@
   - [ ] npm run lint
   - [ ] remove hover css
   - [ ] delete this file (?)
-  - [ ] comb through all "TODO"s
   - [ ] test
-    - [ ] make sure double range slider sets default inputs even if attribute valueb is unspecified or out of the bounds of min/max
-    - [ ] test double range slider with negative min and positive max
+    - [x] make sure double range slider sets default inputs even if attribute valueb is unspecified or out of the bounds of min/max
+    - [x] test double range slider with negative min and positive max
     - [ ] write tests
   - [-] bugs
-    - [x] when tabbing to secondary thumb on double slider, first key press jumps to 0
+    - [x] double slider: when tabbing to secondary thumb, first key press jumps to 0
+    - [ ] double slider: fix bug where when drag is released too close to other thumb, it calculates the UI translate for that thumb thru calculateUIFromClick()
