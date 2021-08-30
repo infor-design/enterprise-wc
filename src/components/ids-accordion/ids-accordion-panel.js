@@ -238,6 +238,20 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   }
 
   /**
+   * @returns {boolean} true if this panel appears "nested"
+   */
+  get nested() {
+    return this.container.classList.contains('nested');
+  }
+
+  /**
+   * @param {boolean} val true if this panel should appear "nested"
+   */
+  set nested(val) {
+    this.container.classList[IdsStringUtils.stringToBool(val) ? 'add' : 'remove']('nested');
+  }
+
+  /**
    * Collapse the expandable area pane.
    * @private
    * @returns {void}

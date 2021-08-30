@@ -41,7 +41,13 @@ class IdsAccordion extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
+
+    // Assign depth-dependent styles, and re-apply them on changes
     this.#assignDepthDependentStyles();
+    this.#contentObserver.observe(this, {
+      childList: true
+    });
+
     this.#handleEvents();
     this.#handleKeys();
   }
@@ -74,6 +80,14 @@ class IdsAccordion extends mix(IdsElement).with(
       </div>
     `;
   }
+
+  #contentObserver = new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      if (m.type === 'childList') {
+        this.#assignDepthDependentStyles();
+      }
+    }
+  });
 
   /**
    * @readonly
@@ -139,6 +153,9 @@ class IdsAccordion extends mix(IdsElement).with(
       const subLevelDepth = depth > 1;
       const header = element.querySelector('ids-accordion-header');
 
+      // Assign Nested Padding CSS Classes
+      element.nested = subLevelDepth;
+
       // Assign Color Variant
       if (doColorVariant && this.colorVariant) {
         const variant = subLevelDepth ? `sub-${this.colorVariant}` : this.colorVariant;
@@ -151,12 +168,15 @@ class IdsAccordion extends mix(IdsElement).with(
 
       if (header) {
         // Assign Expander Type
+        // (Use Plus/Minus-style expander on any nested panels)
         if (doExpanderType) {
           const expanderType = subLevelDepth ? 'plus-minus' : 'caret';
           header.expanderType = expanderType;
         }
 
         // Assign Content Alignment Style
+        // (applies special alignment rules to ALL panes
+        // adjacent to panes containing an icon in their header)
         if (doDisplayIconType) {
           const displayIconType = header.icon;
           if (typeof displayIconType === 'string' && displayIconType.length && !element.contentAlignment) {

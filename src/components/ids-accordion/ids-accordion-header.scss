@@ -178,11 +178,9 @@
     @include mr-12();
   }
 
-  ids-icon {
-    @include mr-12();
-  }
-
   .ids-accordion-display-icon {
+    @include mr-12();
+
     display: none;
   }
 
@@ -220,6 +218,17 @@
     @include py-8();
     @include accordion-header-app-menu-colors();
     @include accordion-header-nested-app-menu-colors();
+  }
+
+  // =========================================
+  // Modifications to Expander Icon Types
+  &.expander-type-plus-minus {
+    .ids-accordion-expander-icon {
+      position: relative;
+      margin-top: -4px;
+      height: 14px;
+      width: 14px;
+    }
   }
 }
 

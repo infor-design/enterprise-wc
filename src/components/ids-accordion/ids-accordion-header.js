@@ -145,7 +145,20 @@ class IdsAccordionHeader extends mix(IdsElement).with(
     if (currentVal !== trueVal) {
       this.setAttribute(attributes.EXPANDER_TYPE, val);
       this.toggleExpanderIcon(trueVal);
+      this.#refreshExpanderIconClass();
     }
+  }
+
+  #refreshExpanderIconClass() {
+    const cl = this.container.classList;
+    EXPANDER_TYPES.forEach((type) => {
+      const typeClass = `expander-type-${type}`;
+      if (type === this.expanderType && !cl.contains(typeClass)) {
+        cl.add(typeClass);
+      } else if (type === this.expanderType && cl.contains(typeClass)) {
+        cl.remove(typeClass);
+      }
+    });
   }
 
   /**
@@ -252,7 +265,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    */
   #showExpanderIcon() {
     /* istanbul ignore next */
-    const appendLocation = this.colorVariant?.indexOf('sub-') === 0 ? 'afterbegin' : 'beforeend';
+    const appendLocation = this.panel.hasParentPanel ? 'afterbegin' : 'beforeend';
     const expander = this.container.querySelector('.ids-accordion-expander-icon');
 
     /* istanbul ignore next */
