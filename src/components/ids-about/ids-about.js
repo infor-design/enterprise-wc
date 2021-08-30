@@ -86,12 +86,14 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       this.#refreshDeviceSpecs();
+      this.#refreshCopyright(this.copyrightYear);
     });
 
     this.offEvent('languagechange.this');
     this.onEvent('languagechange.this', this, async (e) => {
       await this.locale.setLanguage(e.detail.language.name);
       this.#refreshDeviceSpecs();
+      this.#refreshCopyright(this.copyrightYear);
     });
 
     IdsEnvironmentUtil.set();
@@ -200,8 +202,39 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
       <span>${this.locale.translate('Language')} : ${this.locale.language.name}</span><br>
       <span>${this.locale.translate('Browser')} : ${` ${IdsEnvironmentUtil.devicespecs.browserVersionName}`} ${IdsEnvironmentUtil.devicespecs.currentBrowser} (${IdsEnvironmentUtil.devicespecs.browserVersion})</span><br>
       <span>${this.locale.translate('BrowserLanguage')} : ${specs.locale}</span><br>
-      <span>${this.locale.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br>
+      <span>${this.locale.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span>
     </p>`;
+
+    contentEl.innerHTML = content;
+  }
+
+  /**
+   * @returns {string} copyrightYear attribute value
+   */
+  get copyrightYear() {
+    return this.getAttribute(attributes.COPYRIGHT_YEAR) || new Date().getFullYear();
+  }
+
+  /**
+   * Set the copyright year property
+   * @param {string} val copyrightYear attribute value
+   */
+  set copyrightYear(val) {
+    const sanitizedVal = this.xssSanitize(val);
+    this.setAttribute(attributes.COPYRIGHT_YEAR, sanitizedVal);
+
+    this.#refreshCopyright(sanitizedVal);
+  }
+
+  /**
+   * Refreshes the copyright content
+   * @param {string} copyrightYear year attribute
+   * @returns {void}
+   */
+  #refreshCopyright(copyrightYear) {
+    const contentEl = this.container.querySelector('.ids-about-copyright');
+    const copyright = `<p>${this.locale.translate('AboutText')} <a class="hyperlink" href="http://www.infor.com" target="_blank">www.infor.com</a>.</p>`;
+    const content = copyright.replace('{0}', copyrightYear);
 
     contentEl.innerHTML = content;
   }
