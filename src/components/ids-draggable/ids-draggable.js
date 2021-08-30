@@ -88,6 +88,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       ...super.attributes,
       attributes.AXIS,
       attributes.DISABLED,
+      attributes.HANDLE,
       attributes.IS_DRAGGING,
       attributes.MAX_TRANSFORM_X,
       attributes.MAX_TRANSFORM_Y,
