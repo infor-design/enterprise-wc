@@ -270,6 +270,7 @@ export default class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   #getReadableAriaLabel() {
     const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
 
+    /* istanbul ignore next */
     if (!idsTextEls.length) {
       return '';
     }

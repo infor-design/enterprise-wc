@@ -81,6 +81,7 @@ export default class IdsTabs extends mix(IdsElement).with(
       this.#checkAndSetColorVariant();
     }
 
+    /* istanbul ignore next */
     this.onEvent('tabselect', this, (e) => {
       if (e.target.value !== this.value) {
         this.setAttribute(attributes.VALUE, e.target.value);
