@@ -2,13 +2,17 @@
  * @jest-environment jsdom
  */
 import IdsSwitch from '../../src/components/ids-switch/ids-switch';
+import IdsContainer from '../../src/components/ids-container';
 
 describe('IdsSwitch Component', () => {
   let el;
+  let container;
 
   beforeEach(async () => {
+    container = new IdsContainer();
     const elem = new IdsSwitch();
-    document.body.appendChild(elem);
+    container.appendChild(elem);
+    document.body.appendChild(container);
     el = document.querySelector('ids-switch');
   });
 
@@ -122,5 +126,12 @@ describe('IdsSwitch Component', () => {
     expect(rootEl.classList).toContain('disabled');
     expect(el.getAttribute('checked')).toEqual('true');
     expect(el.checked).toEqual('true');
+  });
+
+  it('can change language from the container', async () => {
+    container.language = 'de';
+    setTimeout(() => {
+      expect(el.getAttribute('language')).toEqual('de');
+    });
   });
 });

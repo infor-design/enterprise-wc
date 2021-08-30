@@ -1,6 +1,8 @@
 @import '../../core/ids-base';
 
 :host {
+  @include inline-flex();
+
   text-align: center;
 }
 

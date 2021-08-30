@@ -5,24 +5,24 @@ exports[`IdsThemeSwitcher Component renders correctly 1`] = `
             <ids-icon slot=\\"icon\\" icon=\\"more\\" language=\\"en\\" locale=\\"en-US\\"></ids-icon>
             <span class=\\"audible\\">Theme Switcher</span>
         </ids-menu-button>
-        <ids-popup-menu id=\\"ids-theme-menu\\" target=\\"#ids-theme-switcher\\" trigger=\\"click\\" hidden=\\"\\">
+        <ids-popup-menu id=\\"ids-theme-menu\\" target=\\"#ids-theme-switcher\\" trigger=\\"click\\" hidden=\\"\\" language=\\"en\\" locale=\\"en-US\\">
           <ids-menu-group>
-            <ids-menu-item mode=\\"light\\" version=\\"new\\">
+            <ids-menu-item language=\\"en\\" locale=\\"en-US\\" mode=\\"light\\" version=\\"new\\">
               Theme
-              <ids-popup-menu slot=\\"submenu\\" hidden=\\"\\">
+              <ids-popup-menu slot=\\"submenu\\" hidden=\\"\\" language=\\"en\\" locale=\\"en-US\\">
                 <ids-menu-group select=\\"single\\">
-                  <ids-menu-item selected=\\"true\\" value=\\"new\\" mode=\\"light\\" version=\\"new\\">New</ids-menu-item>
-                  <ids-menu-item value=\\"classic\\" mode=\\"light\\" version=\\"new\\">Classic</ids-menu-item>
+                  <ids-menu-item selected=\\"true\\" value=\\"new\\" language=\\"en\\" locale=\\"en-US\\" mode=\\"light\\" version=\\"new\\">New</ids-menu-item>
+                  <ids-menu-item value=\\"classic\\" language=\\"en\\" locale=\\"en-US\\" mode=\\"light\\" version=\\"new\\">Classic</ids-menu-item>
                 </ids-menu-group>
               </ids-popup-menu>
             </ids-menu-item>
-            <ids-menu-item mode=\\"light\\" version=\\"new\\">
+            <ids-menu-item language=\\"en\\" locale=\\"en-US\\" mode=\\"light\\" version=\\"new\\">
               Mode
-              <ids-popup-menu slot=\\"submenu\\" hidden=\\"\\">
+              <ids-popup-menu slot=\\"submenu\\" hidden=\\"\\" language=\\"en\\" locale=\\"en-US\\">
                 <ids-menu-group select=\\"single\\">
-                  <ids-menu-item selected=\\"true\\" value=\\"light\\" mode=\\"light\\" version=\\"new\\">Light</ids-menu-item>
-                  <ids-menu-item value=\\"dark\\" mode=\\"light\\" version=\\"new\\">Dark</ids-menu-item>
-                  <ids-menu-item value=\\"contrast\\" mode=\\"light\\" version=\\"new\\">High Contrast</ids-menu-item>
+                  <ids-menu-item selected=\\"true\\" value=\\"light\\" language=\\"en\\" locale=\\"en-US\\" mode=\\"light\\" version=\\"new\\">Light</ids-menu-item>
+                  <ids-menu-item value=\\"dark\\" language=\\"en\\" locale=\\"en-US\\" mode=\\"light\\" version=\\"new\\">Dark</ids-menu-item>
+                  <ids-menu-item value=\\"contrast\\" language=\\"en\\" locale=\\"en-US\\" mode=\\"light\\" version=\\"new\\">High Contrast</ids-menu-item>
                 </ids-menu-group>
               </ids-popup-menu>
             </ids-menu-item>
