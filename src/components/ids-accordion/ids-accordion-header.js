@@ -14,6 +14,7 @@ import {
 } from '../../mixins';
 
 import { IdsStringUtils } from '../../utils/ids-string-utils';
+import { applyContentAlignmentClass } from './ids-accordion-common';
 
 // Expander Types
 const EXPANDER_TYPES = ['caret', 'plus-minus'];
@@ -48,7 +49,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.#setDisplayIcon(this.icon);
+    this.#refreshIconDisplay(this.icon);
   }
 
   /**
@@ -143,7 +144,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
 
     if (currentVal !== trueVal) {
       this.setAttribute(attributes.EXPANDER_TYPE, val);
-      this.toggleExpanderIcon(this.expanded);
+      this.toggleExpanderIcon(trueVal);
     }
   }
 
@@ -165,8 +166,16 @@ class IdsAccordionHeader extends mix(IdsElement).with(
       } else {
         this.setAttribute('icon', `${val}`);
       }
-      this.#setDisplayIcon(val);
+      this.#refreshIconDisplay(val);
     }
+  }
+
+  /**
+   * @param {string} val the icon definition to apply
+   */
+  #refreshIconDisplay(val) {
+    const iconDef = typeof val === 'string' && val.length ? val : null;
+    this.container.querySelector('.ids-accordion-display-icon').icon = iconDef;
   }
 
   /**
@@ -177,11 +186,10 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   }
 
   /**
-   * @param {string} iconType the new icon type
+   * @param {string} thisAlignment the type of alignment to apply
    */
-  #setDisplayIcon(iconType) {
-    this.container.querySelector('.ids-accordion-display-icon').icon = iconType;
-    this.container.classList[(iconType && iconType.length) ? 'add' : 'remove']('has-icons');
+  refreshContentAlignment(thisAlignment) {
+    applyContentAlignmentClass(this.container.classList, thisAlignment);
   }
 
   /**
@@ -231,7 +239,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    * @param {boolean} val true if the expander icon should be displayed
    */
   toggleExpanderIcon(val) {
-    if (IdsStringUtils.stringToBool(val)) {
+    if (this.panel.isExpandable && IdsStringUtils.stringToBool(val)) {
       this.#showExpanderIcon();
     } else {
       this.#hideExpanderIcon();
@@ -284,7 +292,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
     if (this.expanderType === 'plus-minus') {
       iconType = this.expanded ? ICON_PLUS : ICON_MINUS;
     }
-    icon.icon = iconType;
+    icon.setAttribute('icon', iconType);
   }
 }
 

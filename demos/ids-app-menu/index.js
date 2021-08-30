@@ -1,5 +1,7 @@
 import IdsAppMenu from '../../src/components/ids-app-menu';
+import IdsAccordion from '../../src/components/ids-accordion';
 import IdsButton from '../../src/components/ids-button';
+import IdsIcon from '../../src/components/ids-icon';
 import IdsToolbar, { IdsToolbarSection } from '../../src/components/ids-toolbar';
 
 document.addEventListener('DOMContentLoaded', () => {

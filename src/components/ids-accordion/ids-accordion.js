@@ -41,12 +41,7 @@ class IdsAccordion extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
-
-    /* istanbul ignore next */
-    if (this.colorVariant) {
-      this.#assignNestedColorVariant();
-    }
-
+    this.#assignDepthDependentStyles();
     this.#handleEvents();
     this.#handleKeys();
   }
@@ -121,33 +116,53 @@ class IdsAccordion extends mix(IdsElement).with(
    */
   set colorVariant(val) {
     super.colorVariant = val;
-    this.#assignNestedColorVariant();
+    this.#assignDepthDependentStyles(this, 0, true, false, false);
   }
 
   /**
-   * Labels Headers and Panels by their depth within the accordion tree.
-   * Used for assigning alternate
+   * Labels Headers and Panels with styling information that is
+   * dependent on how deeply-nested they are within the Accordion tree.
    * @param {HTMLElement} element the element to check
    * @param {number} depth the zero.
+   * @param {boolean} doColorVariant if true, modifies the color variant
+   * @param {boolean} doExpanderType if true, modifies the expander type
+   * @param {boolean} doDisplayIconType if true, modifies the display icon type
    */
-  #assignNestedColorVariant(element = this, depth = 0) {
-    /* istanbul ignore next */
-    if (!this.colorVariant) {
-      return;
-    }
-
-    // Defines the color variant based on depth
-    // DON'T do this on the accordion itself
-    /* istanbul ignore next */
+  #assignDepthDependentStyles(
+    element = this,
+    depth = 0,
+    doColorVariant = true,
+    doExpanderType = true,
+    doDisplayIconType = true
+  ) {
     if (depth > 0) {
       const subLevelDepth = depth > 1;
-      const variant = subLevelDepth ? `sub-${this.colorVariant}` : this.colorVariant;
-      const expanderType = subLevelDepth ? 'plus-minus' : 'caret';
       const header = element.querySelector('ids-accordion-header');
-      element.colorVariant = variant;
+
+      // Assign Color Variant
+      if (doColorVariant && this.colorVariant) {
+        const variant = subLevelDepth ? `sub-${this.colorVariant}` : this.colorVariant;
+        element.colorVariant = variant;
+
+        if (header) {
+          header.colorVariant = variant;
+        }
+      }
+
       if (header) {
-        header.colorVariant = variant;
-        header.expanderType = expanderType;
+        // Assign Expander Type
+        if (doExpanderType) {
+          const expanderType = subLevelDepth ? 'plus-minus' : 'caret';
+          header.expanderType = expanderType;
+        }
+
+        // Assign Content Alignment Style
+        if (doDisplayIconType) {
+          const displayIconType = header.icon;
+          if (typeof displayIconType === 'string' && displayIconType.length && !element.contentAlignment) {
+            this.#markAdjacentPanesForIcons(element, true);
+          }
+        }
       }
     }
 
@@ -156,13 +171,13 @@ class IdsAccordion extends mix(IdsElement).with(
     const children = element.children;
     /* istanbul ignore next */
     for (const childEl of children) {
-      if (depth > 5) {
+      if (depth > 6) {
         break;
       }
       if (childEl.tagName !== 'IDS-ACCORDION-PANEL') {
         continue;
       }
-      this.#assignNestedColorVariant(childEl, depth + 1);
+      this.#assignDepthDependentStyles(childEl, depth + 1);
     }
   }
 
@@ -312,6 +327,22 @@ class IdsAccordion extends mix(IdsElement).with(
     }
 
     prev.focus();
+  }
+
+  /**
+   * Assigns CSS classes to panes/headers that will correctly align their contents
+   * for either having an icon, or not having an icon
+   * @param {*} panel the accordion panel that contains icons
+   * @param {*} status true if other adjacent accordion panels
+   *   should appear to be aligned with this panel's icon
+   */
+  #markAdjacentPanesForIcons(panel, status) {
+    const parent = panel.parentElement;
+    [...parent.children].forEach((node) => {
+      if (node.tagName === 'IDS-ACCORDION-PANEL') {
+        node.contentAlignment = status ? 'has-icon' : null;
+      }
+    });
   }
 }
 

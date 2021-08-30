@@ -145,6 +145,8 @@
 }
 
 :host {
+  display: block;
+
   ids-icon {
     transition: transform $transition-length $transition-ease;
     justify-self: end;
@@ -199,7 +201,7 @@
     font-weight: bolder;
   }
 
-  &.has-icons {
+  &.has-icon {
     .ids-accordion-display-icon {
       display: flex;
     }

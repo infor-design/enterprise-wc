@@ -15,6 +15,7 @@ import {
 
 import IdsAccordionHeader from './ids-accordion-header';
 import { IdsStringUtils } from '../../utils/ids-string-utils';
+import { ALIGNMENT_TYPES, applyContentAlignmentClass } from './ids-accordion-common';
 import styles from './ids-accordion-panel.scss';
 
 /**
@@ -36,6 +37,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   ) {
   constructor() {
     super();
+    this.state = {};
   }
 
   connectedCallback() {
@@ -43,6 +45,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
 
     this.#setTitles();
     this.#attachEventHandlers();
+    this.#refreshContentAlignment(this.contentAlignment);
     this.#toggleExpanderDisplay();
     this.#toggleExpanded(this.expanded);
   }
@@ -92,11 +95,35 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   }
 
   /**
-   * @readonly
-   * @returns {boolean} true if icons are present in this pane's immediate children
+   * Sets a CSS class containing alignment rules for text/icons/images on this accordion panel
+   * @param {string|null} val the new alignment rule to set
    */
-  get hasIcons() {
-    return this.header?.container.classList.contains('has-icons') || false;
+  set contentAlignment(val) {
+    let thisAlignment = null;
+    if (ALIGNMENT_TYPES.includes(val)) {
+      thisAlignment = val;
+    }
+
+    if (this.state.contentAlignment !== thisAlignment) {
+      this.state.contentAlignment = thisAlignment;
+      this.#refreshContentAlignment(thisAlignment);
+      this.header.refreshContentAlignment(thisAlignment);
+    }
+  }
+
+  /**
+   * @returns {string|null} representing how icons/text/images are currently aligned
+   */
+  get contentAlignment() {
+    return this.state.contentAlignment;
+  }
+
+  /**
+   * Visually updates the alignment of icons/text/images in the accordion panel
+   * @param {*} thisAlignment the alignment rule to set
+   */
+  #refreshContentAlignment(thisAlignment = null) {
+    applyContentAlignmentClass(this.container.classList, thisAlignment);
   }
 
   /**
@@ -223,6 +250,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
       }
 
       // Remove any pre-existing Open listener that may still be in progress
+      /* istanbul ignore next */
       if (this.paneOpenListener) {
         this.pane.removeEventListener('transitionend', this.paneCloseListener);
         delete this.paneOpenListener;

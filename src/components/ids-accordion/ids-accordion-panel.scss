@@ -3,7 +3,7 @@
 // ============================================
 // Top-level App Menu Accordion Panel Styles
 @mixin accordion-panel-app-menu-colors() {
-  @include mb-8();
+  @include mb-4();
 
   transition:
     background-color $transition-length $transition-ease,
@@ -39,7 +39,13 @@
   }
 }
 
+:host {
+  display: block;
+}
+
 .ids-accordion-panel {
+  // ============================================
+  // Color Variant Rules
   &:not(.color-variant-app-menu):not(.color-variant-sub-app-menu) {
     @include accordion-pane-standard-size();
   }
@@ -52,6 +58,18 @@
   &.color-variant-sub-app-menu {
     @include accordion-panel-sub-menu-colors();
     @include accordion-pane-nested-size();
+  }
+
+  // ============================================
+  // Content Alignment Rules
+  &.has-icon {
+    ::slotted(ids-accordion-panel) {
+      @include pl-24();
+    }
+
+    .ids-accordion-panel {
+      @include pl-24();
+    }
   }
 }
 

@@ -6,6 +6,8 @@ import IdsAccordion, {
   IdsAccordionHeader,
   IdsAccordionPanel
 } from '../../src/components/ids-accordion';
+import IdsButton from '../../src/components/ids-button';
+import IdsToolbar, { IdsToolbarSection } from '../../src/components/ids-toolbar';
 import IdsText from '../../src/components/ids-text';
 
 import elemBuilderFactory from '../helpers/elem-builder-factory';
@@ -82,5 +84,23 @@ describe('IdsAppMenu Component', () => {
   it('should convert inner accordions to use the "app-menu" color variant', async () => {
     const acc = appMenuElem.querySelector('ids-accordion');
     waitFor(() => expect(acc.colorVariant).toBe('app-menu'));
+  });
+
+  it('can close by pressing the escape key', () => {
+    const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
+
+    // Open the Menu
+    appMenuElem.show();
+    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+
+    // Focus the first header and "Press Escape"
+    const header1 = document.querySelector('#h1');
+    header1.focus();
+    header1.dispatchEvent(closeEvent);
+    waitFor(() => expect(appMenuElem.visible).toBeFalsy());
+
+    // Dispatch again while closed (coverage)
+    header1.dispatchEvent(closeEvent);
+    waitFor(() => expect(appMenuElem.visible).toBeFalsy());
   });
 });

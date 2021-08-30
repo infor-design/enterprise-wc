@@ -1,12 +1,15 @@
 import {
   IdsElement,
   customElement,
+  mix,
   scss
 } from '../../core';
-
+import { IdsKeyboardMixin } from '../../mixins';
+import { IdsDOMUtils } from '../../utils';
 import IdsDrawer from '../ids-drawer';
 import styles from './ids-app-menu.scss';
 
+// Supporting Components
 import '../ids-accordion';
 import '../ids-button';
 import '../ids-icon';
@@ -22,7 +25,7 @@ import '../ids-toolbar';
  */
 @customElement('ids-app-menu')
 @scss(styles)
-class IdsAppMenu extends IdsDrawer {
+class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
   constructor() {
     super();
   }
@@ -31,7 +34,8 @@ class IdsAppMenu extends IdsDrawer {
     super.connectedCallback?.();
     this.edge = 'start';
     this.type = 'app-menu';
-    this.#refreshAccordions();
+    this.#refreshVariants();
+    this.#handleKeys();
   }
 
   static get attributes() {
@@ -69,7 +73,7 @@ class IdsAppMenu extends IdsDrawer {
     </div>`;
   }
 
-  #refreshAccordions() {
+  #refreshVariants() {
     const accordions = [...this.querySelectorAll('ids-accordion')];
     accordions.forEach((acc) => {
       acc.colorVariant = 'app-menu';
@@ -78,6 +82,20 @@ class IdsAppMenu extends IdsDrawer {
     const btns = [...this.querySelectorAll('ids-button')];
     btns.forEach((btn) => {
       btn.colorVariant = 'alternate';
+    });
+  }
+
+  /**
+   * Sets up app-menu level keystrokes
+   * @returns {void}
+   */
+  #handleKeys() {
+    // If the escape key is pressed while an element
+    // inside the App Menu is focused, close the App Menu.
+    this.listen(['Escape'], this, (e) => {
+      if (IdsDOMUtils.getClosest(e.target, 'ids-app-menu').isEqualNode(this) && this.visible) {
+        this.hide();
+      }
     });
   }
 }

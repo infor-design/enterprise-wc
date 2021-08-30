@@ -37,6 +37,7 @@
 }
 
 ::slotted(ids-toolbar) {
+  @include mb-8();
   @include px-8();
 }
 

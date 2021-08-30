@@ -281,9 +281,9 @@ describe('IdsAccordion Component', () => {
     expect(accordion.focused).toEqual(panel);
   });
 
-  it('has headers that are aware of their expanded status', () => {
+  it('has headers that are aware of their expanded status', async () => {
     panel.expanded = true;
-    expect(header.expanded).toBeTruthy();
+    waitFor(() => expect(header.expanded).toBeTruthy());
   });
 
   it('can select headers', () => {
@@ -295,5 +295,12 @@ describe('IdsAccordion Component', () => {
 
     expect(header.selected).toBeFalsy();
     expect(header2.container.classList.contains('selected')).toBeTruthy();
+  });
+
+  it('can change its headers expander type', () => {
+    expect(header.expanderType).toBe('caret');
+
+    header.expanderType = 'plus-minus';
+    expect(header.expanderType).toBe('plus-minus');
   });
 });
