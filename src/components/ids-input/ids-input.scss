@@ -166,7 +166,7 @@ $input-compact-height: $input-field-height-xs;
 
     // input text-align: [left, center, right]
     &.left {
-      text-align: left;
+      text-align: start;
     }
 
     &.center {
@@ -174,7 +174,7 @@ $input-compact-height: $input-field-height-xs;
     }
 
     &.right {
-      text-align: right;
+      text-align: end;
     }
 
     // input message: [alert, error, info, success]

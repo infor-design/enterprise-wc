@@ -7,7 +7,8 @@ import {
 import {
   IdsPopupInteractionsMixin,
   IdsPopupOpenEventsMixin,
-  IdsEventsMixin
+  IdsEventsMixin,
+  IdsLocaleMixin
 } from '../../mixins';
 
 import IdsMenu from '../ids-menu/ids-menu';
@@ -20,12 +21,14 @@ import styles from './ids-popup-menu.scss';
  * @inherits IdsElement
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsPopupInteractionsMixin
+ * @mixes IdsLocaleMixin
  */
 @customElement('ids-popup-menu')
 @scss(styles)
 class IdsPopupMenu extends mix(IdsMenu).with(
     IdsPopupOpenEventsMixin,
-    IdsPopupInteractionsMixin
+    IdsPopupInteractionsMixin,
+    IdsLocaleMixin
   ) {
   constructor() {
     super();
@@ -58,6 +61,15 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     }
 
     super.connectedCallback?.();
+
+    // Respond to parent changing language
+    this.offEvent('languagechange');
+    this.onEvent('languagechange', this, async (e) => {
+      await this.shadowRoot.querySelector('ids-popup')?.setLanguage(e.detail.language.name);
+      this.querySelectorAll('ids-menu-group')?.forEach((menuGroup) => {
+        menuGroup?.setLanguage(e.detail.language.name);
+      });
+    });
   }
 
   /**

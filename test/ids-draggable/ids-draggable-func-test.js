@@ -12,6 +12,30 @@ import processAnimFrame from '../helpers/process-anim-frame';
 const elemBuilder = elemBuilderFactory();
 
 describe('IdsDraggable Component', () => {
+  /**
+   * @param {string} outerHTML HTML for ids-draggable
+   * @returns {IdsDraggable} draggable with a container
+   * attached that was added to the DOM
+   */
+  async function createContainedDraggable(outerHTML) {
+    const container = document.createElement('div');
+    container.style.width = '640px';
+    container.style.height = '480px';
+
+    const elem = await elemBuilder.createElemFromTemplate(
+      outerHTML,
+      container
+    );
+    document.body.appendChild(elem);
+
+    return elem;
+  }
+
+  beforeAll(async () => {
+    const idsDraggable = new IdsDraggable();
+    document.body.appendChild(idsDraggable);
+  });
+
   afterAll(async () => { elemBuilder.clearElement(); });
 
   it('renders with no errors', async () => {
@@ -169,7 +193,7 @@ describe('IdsDraggable Component', () => {
     expect(hasDraggingBeenSet).toBeTruthy();
   });
 
-  it('begins drag and then the parent-rect of the container gets measured', async () => {
+  it('begins drag and no errors are thrown', async () => {
     const container = document.createElement('div');
     container.style.width = '640px';
     container.style.height = '480px';
@@ -181,8 +205,79 @@ describe('IdsDraggable Component', () => {
       container
     );
 
-    await processAnimFrame();
+    document.body.appendChild(elem);
 
+    await processAnimFrame();
     await simulateMouseDownEvents({ element: elem, mouseDownTime: 100 });
+  });
+
+  it('sets max-transform-x value predictably', async () => {
+    const elem = await createContainedDraggable(
+      `<ids-draggable parent-containment max-transform-x='80'>
+        <div>draggable</div>
+      </ids-draggable>`
+    );
+    expect(elem.getAttribute('max-transform-x')).toEqual('80');
+
+    elem.setAttribute('max-transform-x', 0);
+    await processAnimFrame();
+    expect(elem.getAttribute('max-transform-x')).toEqual('0');
+    expect(elem.maxTransformX).toEqual(0);
+  });
+
+  it('sets min-transform-x value predictably', async () => {
+    const elem = await createContainedDraggable(
+      `<ids-draggable parent-containment min-transform-x='-20'>
+        <div>draggable</div>
+      </ids-draggable>`
+    );
+
+    expect(elem.getAttribute('min-transform-x')).toEqual('-20');
+
+    elem.setAttribute('min-transform-x', 0);
+    await processAnimFrame();
+    expect(elem.getAttribute('min-transform-x')).toEqual('0');
+    expect(elem.minTransformX).toEqual(0);
+  });
+
+  it('sets max-transform-y value predictably', async () => {
+    const elem = await createContainedDraggable(
+      `<ids-draggable parent-containment max-transform-y='-20'>
+        <div>draggable</div>
+      </ids-draggable>`
+    );
+
+    expect(elem.getAttribute('max-transform-y')).toEqual('-20');
+    elem.setAttribute('max-transform-y', 0);
+    await processAnimFrame();
+    expect(elem.getAttribute('max-transform-y')).toEqual('0');
+    expect(elem.maxTransformY).toEqual(0);
+  });
+
+  it('sets min-transform-y value predictably', async () => {
+    const elem = await createContainedDraggable(
+      `<ids-draggable parent-containment min-transform-y='-20'>
+      <div>draggable</div>
+    </ids-draggable>`
+    );
+    expect(elem.getAttribute('min-transform-y')).toEqual('-20');
+
+    elem.setAttribute('min-transform-y', '0');
+    await processAnimFrame();
+    expect(elem.getAttribute('min-transform-y')).toEqual('0');
+    expect(elem.minTransformY).toEqual(0);
+  });
+
+  it('expects transform values to be predictable when not set', async () => {
+    const elem = await elemBuilder.createElemFromTemplate(
+      `<ids-draggable parent-containment>
+      <div>draggable</div>
+    </ids-draggable>`
+    );
+
+    expect(elem.minTransformX).toBeNull();
+    expect(elem.minTransformY).toBeNull();
+    expect(elem.maxTransformX).toBeNull();
+    expect(elem.maxTransformY).toBeNull();
   });
 });

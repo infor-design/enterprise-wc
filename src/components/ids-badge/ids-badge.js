@@ -33,7 +33,7 @@ class IdsBadge extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.COLOR, attributes.SHAPE, attributes.MODE, attributes.version];
+    return [attributes.COLOR, attributes.MODE, attributes.SHAPE];
   }
 
   /**

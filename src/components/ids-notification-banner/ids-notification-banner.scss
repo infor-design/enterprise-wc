@@ -16,7 +16,7 @@ ids-text::part(text) {
 }
 
 ids-hyperlink::part(link) {
-  @include ml-8();
+  @include mx-8();
 
   color: var(--ids-color-palette-slate-80);
   overflow: hidden;
@@ -25,7 +25,7 @@ ids-hyperlink::part(link) {
 }
 
 .ids-notification-banner-button {
-  margin-left: auto;
+  margin-inline-start: auto;
 }
 
 .ids-notification-banner-message {

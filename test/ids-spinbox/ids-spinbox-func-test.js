@@ -6,6 +6,7 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import waitFor from '../helpers/wait-for';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
 import IdsSpinbox from '../../src/components/ids-spinbox';
+import IdsContainer from '../../src/components/ids-container';
 
 const DEFAULT_SPINBOX_HTML = (
   `<ids-spinbox
@@ -20,6 +21,7 @@ const DEFAULT_SPINBOX_HTML = (
 
 describe('IdsSpinbox Component', () => {
   let elem;
+  let container;
 
   afterEach(async () => {
     elem?.remove();
@@ -28,11 +30,13 @@ describe('IdsSpinbox Component', () => {
 
   const createElemViaTemplate = async (innerHTML) => {
     elem?.remove?.();
+    container = new IdsContainer();
 
     const template = document.createElement('template');
     template.innerHTML = innerHTML;
     elem = template.content.childNodes[0];
-    document.body.appendChild(elem);
+    container.appendChild(elem);
+    document.body.appendChild(container);
 
     await processAnimFrame();
 
@@ -378,5 +382,12 @@ describe('IdsSpinbox Component', () => {
     elem.input.value = (value + (step / 2)) - 1;
 
     expect(elem.value).toEqual(`${value}`);
+  });
+
+  it('can change language from the container', async () => {
+    container.language = 'de';
+    setTimeout(() => {
+      expect(elem.getAttribute('language')).toEqual('de');
+    });
   });
 });

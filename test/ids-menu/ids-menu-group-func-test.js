@@ -8,6 +8,8 @@ import IdsMenu, {
   IdsSeparator
 } from '../../src/components/ids-menu/ids-menu';
 
+import waitFor from '../helpers/wait-for';
+
 const exampleHTML = `
   <ids-menu-header id="primary-header">My Items</ids-menu-header>
   <ids-menu-group id="primary" select="single" aria-labelledby="primary-header">
@@ -122,5 +124,12 @@ describe('IdsMenuGroup Component', () => {
 
     expect(selected.length).toEqual(1);
     expect(selected[0].isEqualNode(item5)).toBeTruthy();
+  });
+
+  it('can change child languages', async () => {
+    group1.language = 'de';
+    await waitFor(() => expect(
+      item1.getAttribute('language')
+    ).toEqual('de'));
   });
 });
