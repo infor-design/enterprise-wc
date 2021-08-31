@@ -21,8 +21,8 @@
   - [x] make the code clean, remove duplicate, make functions modular
   - [x] make sure to add styles for thumb draggable secondary transitions
   - [x] add tab arrow key left/right functionality
-  - [ ] settle on naming conventions for the attributes
-    - [ ] replace string values with attribute vars
+  - [x] settle on naming conventions for the attributes
+    - [x] replace string values with attribute vars
   - [x] add the progress color bar btw the two thumbs
     - [x] fix: progress color bar does not show upon init
     - [ ] **make the animation smooth btw the two thumbs when progress bar size changes--left/right positioning--see enterprise example; for now it's disabled
@@ -52,7 +52,7 @@
   - [x] works with css native color keywords
 - wrapping up before PR
   - [x] npm run lint
-    - [ ] request changes to lint rules
+    - [x] request changes to lint rules
   - [x] remove hover css
   - [-] test
     - [x] make sure double range slider sets default inputs even if attribute valueb is unspecified or out of the bounds of min/max
