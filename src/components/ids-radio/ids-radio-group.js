@@ -20,17 +20,6 @@ import {
 import styles from './ids-radio-group.scss';
 import IdsText from '../ids-text/ids-text';
 
-const attribs = [
-  { name: 'dirty-tracker', prop: 'dirtyTracker' },
-  { name: 'disabled', prop: 'disabled' },
-  { name: 'horizontal', prop: 'horizontal' },
-  { name: 'label', prop: 'label' },
-  { name: 'label-required', prop: 'labelRequired' },
-  { name: 'validate', prop: 'validate' },
-  { name: 'validation-events', prop: 'validationEvents' },
-  { name: 'value', prop: 'value' }
-];
-
 /**
  * IDS Radio Group Component
  * @type {IdsRadioGroup}
@@ -61,37 +50,13 @@ class IdsRadioGroup extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.DIRTY_TRACKER,
-      attributes.DISABLED,
+      ...attributes.DISABLED,
       attributes.HORIZONTAL,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
       attributes.LANGUAGE,
-      attributes.VALIDATE,
-      attributes.VALIDATION_EVENTS,
       attributes.VALUE
     ];
-  }
-
-  /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @param {string} name The name of attribute changed
-   * @param {any} oldValue The old value
-   * @param {any} newValue The new value
-   * @returns {void}
-   */
-  attributeChangedCallback(
-    /** @type {string} */ name,
-    /** @type {any} */ oldValue,
-    /** @type {any} */ newValue
-  ) {
-    if (oldValue !== newValue) {
-      attribs.forEach((attribute) => {
-        if (name === attribute.name) {
-          this[attribute.prop] = newValue;
-        }
-      });
-    }
   }
 
   /**
@@ -101,16 +66,17 @@ class IdsRadioGroup extends mix(IdsElement).with(
   connectedCallback() {
     const slot = this.shadowRoot.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
-      this.afterChildrenReady();
+      this.#afterChildrenReady();
     });
-    this.#handleEvents();
+    this.#attachEventHandlers();
+    super.connectedCallback();
   }
 
   /**
    * Event handlers for the component
    * @private
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     // Respond to parent changing language
     this.offEvent('languagechange.container');
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
@@ -143,7 +109,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  afterChildrenReady() {
+  #afterChildrenReady() {
     this.input = this.shadowRoot.querySelector('.ids-radio-group');
     this.labelEl = this.shadowRoot.querySelector('.group-label-text');
 
@@ -309,22 +275,6 @@ class IdsRadioGroup extends mix(IdsElement).with(
   }
 
   /**
-   * Sets the dirty tracking feature on to indicate a changed field
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value) {
-    const val = IdsStringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
-
-  /**
    * Sets checkbox to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
@@ -395,36 +345,6 @@ class IdsRadioGroup extends mix(IdsElement).with(
   }
 
   get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
-
-  /**
-   * Sets the validation check to use
-   * @param {string} value The `validate` attribute
-   */
-  set validate(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATE, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATE);
-    }
-    this.handleValidation();
-  }
-
-  get validate() { return this.getAttribute(attributes.VALIDATE); }
-
-  /**
-   * Sets which events to fire validation on
-   * @param {string} value The `validation-events` attribute
-   */
-  set validationEvents(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATION_EVENTS, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATION_EVENTS);
-    }
-    this.handleValidation();
-  }
-
-  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Sets the checkbox `value` attribute

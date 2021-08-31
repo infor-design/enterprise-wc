@@ -29,34 +29,6 @@ import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 // Import Styles
 import styles from './ids-input.scss';
 
-// Properties observed by the Input
-const INPUT_ATTRIBUTES = [
-  attributes.AUTOSELECT,
-  attributes.BG_TRANSPARENT,
-  attributes.CLEARABLE,
-  attributes.CLEARABLE_FORCED,
-  attributes.COMPACT,
-  attributes.DIRTY_TRACKER,
-  attributes.DISABLED,
-  attributes.FIELD_HEIGHT,
-  attributes.LABEL,
-  attributes.LABEL_HIDDEN,
-  attributes.LABEL_REQUIRED,
-  attributes.ID,
-  attributes.MODE,
-  attributes.PLACEHOLDER,
-  attributes.SIZE,
-  attributes.READONLY,
-  attributes.TEXT_ALIGN,
-  attributes.TEXT_ELLIPSIS,
-  attributes.TRIGGERFIELD,
-  attributes.TYPE,
-  attributes.VALIDATE,
-  attributes.VALIDATION_EVENTS,
-  attributes.VALUE,
-  attributes.VERSION
-];
-
 // Types
 const TYPES = {
   default: 'text',
@@ -138,7 +110,29 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {Array<string>} IdsInput component observable attributes
    */
   static get attributes() {
-    return [...super.attributes, ...INPUT_ATTRIBUTES];
+    return [
+      ...attributes.AUTOSELECT,
+      attributes.BG_TRANSPARENT,
+      attributes.CLEARABLE,
+      attributes.CLEARABLE_FORCED,
+      attributes.COMPACT,
+      attributes.DISABLED,
+      attributes.FIELD_HEIGHT,
+      attributes.LABEL,
+      attributes.LABEL_HIDDEN,
+      attributes.LABEL_REQUIRED,
+      attributes.ID,
+      attributes.MODE,
+      attributes.PLACEHOLDER,
+      attributes.SIZE,
+      attributes.READONLY,
+      attributes.TEXT_ALIGN,
+      attributes.TEXT_ELLIPSIS,
+      attributes.TRIGGERFIELD,
+      attributes.TYPE,
+      attributes.VALUE,
+      attributes.VERSION
+    ];
   }
 
   /**
@@ -146,18 +140,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
-
     this.handleEvents();
     this.handleClearable();
-    this.handleDirtyTracker();
-    // @ts-ignore
-    this.handleValidation();
 
     /* istanbul ignore next */
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
+    super.connectedCallback();
   }
 
   /**
@@ -523,23 +513,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   get compact() { return this.getAttribute(attributes.COMPACT); }
 
   /**
-   *  Set the dirty tracking feature on to indicate a changed field
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value) {
-    const val = IdsStringUtils.stringToBool(value);
-
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
-
-  /**
    * Sets input to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
@@ -700,36 +673,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get type() { return this.getAttribute(attributes.TYPE); }
-
-  /**
-   * Sets the validation check to use
-   * @param {string} value The `validate` attribute
-   */
-  set validate(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATE, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATE);
-    }
-    this.handleValidation();
-  }
-
-  get validate() { return this.getAttribute(attributes.VALIDATE); }
-
-  /**
-   * Set `validation-events` attribute
-   * @param {string} value The `validation-events` attribute
-   */
-  set validationEvents(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATION_EVENTS, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATION_EVENTS);
-    }
-    this.handleValidation();
-  }
-
-  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Set the `value` attribute of input

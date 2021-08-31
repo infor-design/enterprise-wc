@@ -49,9 +49,9 @@ const attribs = [
 @customElement('ids-checkbox')
 @scss(styles)
 class IdsCheckbox extends mix(IdsElement).with(
+    IdsEventsMixin,
     IdsDirtyTrackerMixin,
     IdsValidationMixin,
-    IdsEventsMixin,
     IdsThemeMixin,
     IdsLocaleMixin
   ) {
@@ -68,17 +68,14 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.CHECKED,
+      ...attributes.CHECKED,
       attributes.COLOR,
-      attributes.DIRTY_TRACKER,
       attributes.DISABLED,
       attributes.HORIZONTAL,
       attributes.INDETERMINATE,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
       attributes.LANGUAGE,
-      attributes.VALIDATE,
-      attributes.VALIDATION_EVENTS,
       attributes.VALUE,
       attributes.MODE,
       attributes.VERSION
@@ -115,8 +112,6 @@ class IdsCheckbox extends mix(IdsElement).with(
     this.labelEl = this.shadowRoot.querySelector('label');
 
     this.#handleEvents();
-    this.handleDirtyTracker();
-    this.handleValidation();
     super.connectedCallback();
   }
 
@@ -244,23 +239,6 @@ class IdsCheckbox extends mix(IdsElement).with(
   get color() { return this.getAttribute(attributes.COLOR); }
 
   /**
-   * Set the dirty tracking feature on to indicate a changed field
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value) {
-    const val = IdsStringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
-
-  /**
    * Sets input to disabled
    * @param {boolean|string} value If true will set `disabled` attribute
    */
@@ -357,37 +335,6 @@ class IdsCheckbox extends mix(IdsElement).with(
   }
 
   get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
-
-  /**
-   * Sets the validation check to use
-   * @param {string} value The `validate` attribute
-   */
-  set validate(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATE, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATE);
-    }
-
-    this.handleValidation();
-  }
-
-  get validate() { return this.getAttribute(attributes.VALIDATE); }
-
-  /**
-   * Sets which events to fire validation on
-   * @param {string} value The `validation-events` attribute
-   */
-  set validationEvents(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATION_EVENTS, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATION_EVENTS);
-    }
-    this.handleValidation();
-  }
-
-  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Set the checkbox `value` attribute

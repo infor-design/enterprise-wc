@@ -82,14 +82,13 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.AUTOGROW,
+      ...attributes.AUTOGROW,
       attributes.AUTOGROW_MAX_HEIGHT,
       attributes.AUTOSELECT,
       attributes.CHAR_MAX_TEXT,
       attributes.CHAR_REMAINING_TEXT,
       attributes.CHARACTER_COUNTER,
       attributes.CLEARABLE,
-      attributes.DIRTY_TRACKER,
       attributes.DISABLED,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
@@ -101,8 +100,6 @@ class IdsTextarea extends mix(IdsElement).with(
       attributes.RESIZABLE,
       attributes.ROWS,
       attributes.TEXT_ALIGN,
-      attributes.VALIDATE,
-      attributes.VALIDATION_EVENTS,
       attributes.VALUE
     ];
   }
@@ -117,7 +114,6 @@ class IdsTextarea extends mix(IdsElement).with(
     /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
 
-    this.handleClearable();
     this.handleEvents();
     super.connectedCallback();
   }
@@ -432,8 +428,6 @@ class IdsTextarea extends mix(IdsElement).with(
     this.handleSlotchangeEvent();
     this.handleNativeEvents();
     this.handleTextareaChangeEvent();
-    this.handleDirtyTracker();
-    this.handleValidation();
   }
 
   /**
@@ -582,38 +576,6 @@ class IdsTextarea extends mix(IdsElement).with(
   }
 
   get characterCounter() { return this.getAttribute(attributes.CHARACTER_COUNTER); }
-
-  /**
-   * When set the it will add a clearable x button
-   * @param {boolean|string} value If true will set `clearable` attribute
-   */
-  set clearable(value) {
-    const val = IdsStringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.CLEARABLE, val.toString());
-    } else {
-      this.removeAttribute(attributes.CLEARABLE);
-    }
-    this.handleClearable();
-  }
-
-  get clearable() { return this.getAttribute(attributes.CLEARABLE); }
-
-  /**
-   *  Set the dirty tracking feature on to indicate a changed field
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value) {
-    const val = IdsStringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Sets textarea to disabled
@@ -785,36 +747,6 @@ class IdsTextarea extends mix(IdsElement).with(
   }
 
   get textAlign() { return this.getAttribute(attributes.TEXT_ALIGN) || TEXT_ALIGN.default; }
-
-  /**
-   * Sets the validation check to use
-   * @param {string} value The `validate` attribute
-   */
-  set validate(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATE, value.toString());
-    } else {
-      this.removeAttribute(attributes.VALIDATE);
-    }
-    this.handleValidation();
-  }
-
-  get validate() { return this.getAttribute(attributes.VALIDATE); }
-
-  /**
-   * Set `validation-events` attribute
-   * @param {string} value The `validation-events` attribute
-   */
-  set validationEvents(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
-    } else {
-      this.removeAttribute(attributes.VALIDATION_EVENTS);
-    }
-    this.handleValidation();
-  }
-
-  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Set the `value` of textarea

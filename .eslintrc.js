@@ -96,6 +96,7 @@ module.exports = {
     'no-console': ['error', { allow: ['error', 'info'] }],
     'template-curly-spacing': ['off'],
     'no-underscore-dangle': ['error', { allow: ['_client'] }],
+    'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
     indent: ['error', 2, { ignoredNodes: ['TemplateLiteral'] }
     ],
   },
@@ -124,7 +125,7 @@ module.exports = {
       plugins: ['@typescript-eslint'],
       rules: {
         quotes: ['error', 'single'],
-        'max-len': ['error', { comments: 200, code: 100 }],
+        'max-len': ['error', { comments: 160, code: 120 }],
         'no-shadow': ['off', { }],
         'no-use-before-define': ['off', { }],
         'max-classes-per-file': ['error', 5]
