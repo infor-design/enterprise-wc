@@ -7,32 +7,39 @@
   }
 
   .ids-modal-header {
-    padding-top: 40px;
+    @include pt-40();
+
     justify-content: center;
     width: calc(100% - 40px)
   }
 
   .ids-modal-content-wrapper {
-    padding: 5px 20px;
-    margin-bottom: 20px;
+    @include py-4();
+    @include px-20();
+    @include mb-20();
+
     overflow: hidden;
   }
 
   .ids-modal-content {
-    border: 1px solid #B7B7BA;
-    border-radius: 2px;
-    margin: 0 10px 30px;
+    @include antialiased();
+    @include border-1();
+    @include border-solid();
+    @include border-slate-30();
+    @include rounded-default();
+    @include mt-0();
+    @include my-8();
+    @include mb-28();
+    @include pt-0();
+    @include px-12();
+
     max-height: 199px;
     outline: medium none;
     overflow-y: scroll;
-    padding-top: 0;
-    padding-left: 10px;
-    padding-right: 10px;
     text-align: left;
 
-    p {
-      margin-top: 0;
-      margin-bottom: 10px;
+    &:hover {
+      @include border-slate-70();
     }
   }
 }
