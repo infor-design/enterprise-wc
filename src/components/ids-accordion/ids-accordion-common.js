@@ -9,3 +9,12 @@ export const applyContentAlignmentClass = (cl, thisAlignment) => {
     }
   });
 };
+
+/**
+ * @param {DOMTokenList} cl the classlist of an IdsElement's `container`
+ * @param {boolean} val true if this component should be displayed with RTL styles
+ * @returns {void}
+ */
+export const refreshRTLStyle = (cl, val) => {
+  cl[val ? 'add' : 'remove']('rtl');
+};

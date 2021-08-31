@@ -174,13 +174,7 @@
     flex-grow: 1;
   }
 
-  ::slotted(ids-icon) {
-    @include mr-12();
-  }
-
   .ids-accordion-display-icon {
-    @include mr-12();
-
     display: none;
   }
 
@@ -232,8 +226,36 @@
   }
 }
 
-.ids-accordion-expander-icon {
-  &:first-child {
-    @include mr-8();
+// LTR styles for icon spacing
+:not(.rtl) {
+  ::slotted(ids-icon) {
+    @include mr-12();
+  }
+
+  .ids-accordion-display-icon {
+    @include mr-12();
+  }
+
+  .ids-accordion-expander-icon {
+    &:first-child {
+      @include mr-8();
+    }
+  }
+}
+
+// RTL styles for icon spacing
+.rtl {
+  ::slotted(ids-icon) {
+    @include ml-12();
+  }
+
+  .ids-accordion-display-icon {
+    @include ml-12();
+  }
+
+  .ids-accordion-expander-icon {
+    &:first-child {
+      @include ml-8();
+    }
   }
 }

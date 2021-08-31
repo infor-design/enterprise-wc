@@ -24,6 +24,7 @@
     transform $transition-length $transition-ease);
 }
 
+// =================================================
 // Bottom Drawer Styles
 
 :host([edge='bottom']) {
@@ -39,9 +40,10 @@
   transform: translateY(0);
 }
 
+// =================================================
 // Left Drawer Styles
 
-:host([edge='start']) {
+:host([edge='start']:not([dir])) {
   bottom: 0;
   left: 0;
   top: 0;
@@ -51,6 +53,22 @@
 }
 
 :host([edge='start'][visible]) {
+  transform: translateX(0);
+}
+
+// =================================================
+// Left Drawer Styles (RTL)
+
+:host([dir='rtl'][edge='start']) {
+  bottom: 0;
+  right: 0;
+  top: 0;
+
+  // Moves the drawer off the left-most edge
+  transform: translateX(100%);
+}
+
+:host([dir='rtl'][edge='start'][visible]) {
   transform: translateX(0);
 }
 

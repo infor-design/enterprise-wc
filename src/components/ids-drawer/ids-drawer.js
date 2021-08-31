@@ -11,6 +11,7 @@ import { IdsStringUtils } from '../../utils/ids-string-utils';
 
 import {
   IdsEventsMixin,
+  IdsLocaleMixin,
   IdsPopupOpenEventsMixin
 } from '../../mixins';
 
@@ -31,7 +32,11 @@ const TYPES = ['app-menu', 'action-sheet'];
  */
 @customElement('ids-drawer')
 @scss(styles)
-class IdsDrawer extends mix(IdsElement).with(IdsEventsMixin, IdsPopupOpenEventsMixin) {
+class IdsDrawer extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsLocaleMixin,
+    IdsPopupOpenEventsMixin
+  ) {
   constructor() {
     super();
 
@@ -47,7 +52,7 @@ class IdsDrawer extends mix(IdsElement).with(IdsEventsMixin, IdsPopupOpenEventsM
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.handleEvents();
+    this.#handleEvents();
   }
 
   static get attributes() {
@@ -253,8 +258,12 @@ class IdsDrawer extends mix(IdsElement).with(IdsEventsMixin, IdsPopupOpenEventsM
   /**
    * @returns {void}
    */
-  handleEvents() {
-    // TBD
+  #handleEvents() {
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+    });
   }
 
   /**

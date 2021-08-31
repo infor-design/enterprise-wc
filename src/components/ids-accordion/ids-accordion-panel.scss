@@ -32,17 +32,40 @@
     @include px-8();
   }
 
-  &.nested {
-    .ids-accordion-pane-content {
-      @include pl-8();
-      @include pr-0();
+  &:not(.rtl) {
+    &.nested {
+      .ids-accordion-pane-content {
+        @include pl-16();
+        @include pr-0();
+      }
+    }
+  }
+
+  // RTL Styles on Nested Accordions
+  // (applies the padding to the opposite side)
+  &.rtl {
+    &.nested {
+      .ids-accordion-pane-content {
+        @include pl-0();
+        @include pr-16();
+      }
     }
   }
 }
 
 @mixin accordion-pane-nested-size() {
-  .ids-accordion-pane-content {
-    @include pl-28();
+  // LTR nested styles (default)
+  &:not(.rtl) {
+    .ids-accordion-pane-content {
+      @include pl-28();
+    }
+  }
+
+  // RTL nested styles
+  &.rtl {
+    .ids-accordion-pane-content {
+      @include pr-28();
+    }
   }
 }
 
@@ -69,13 +92,28 @@
 
   // ============================================
   // Content Alignment Rules
+
   &.has-icon {
-    ::slotted(ids-accordion-panel) {
-      @include pl-24();
+    // LTR content alignment (padding comes from the left)
+    &:not(.rtl) {
+      ::slotted(ids-accordion-panel) {
+        @include pl-24();
+      }
+
+      .ids-accordion-panel {
+        @include pl-24();
+      }
     }
 
-    .ids-accordion-panel {
-      @include pl-24();
+    // RTL content alignment (padding comes from the right)
+    &.rtl {
+      ::slotted(ids-accordion-panel) {
+        @include pr-24();
+      }
+
+      .ids-accordion-panel {
+        @include pr-24();
+      }
     }
   }
 }

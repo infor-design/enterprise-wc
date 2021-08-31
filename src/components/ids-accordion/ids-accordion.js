@@ -10,29 +10,37 @@ import styles from './ids-accordion.scss';
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
 import {
+  IdsAttributeProviderMixin,
   IdsColorVariantMixin,
   IdsEventsMixin,
   IdsKeyboardMixin,
+  IdsLocaleMixin,
   IdsThemeMixin
 } from '../../mixins';
 
 import IdsDOMUtils from '../../utils/ids-dom-utils';
+import { refreshRTLStyle } from './ids-accordion-common';
 
 /**
  * IDS Accordion Component
  * @type {IdsAccordion}
  * @inherits IdsElement
+ * @mixes IdsAttributeProviderMixin
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  * @part accordion - the accordion root element
  */
 @customElement('ids-accordion')
 @scss(styles)
 class IdsAccordion extends mix(IdsElement).with(
+    IdsAttributeProviderMixin,
     IdsColorVariantMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
+    IdsLocaleMixin,
     IdsThemeMixin
   ) {
   constructor() {
@@ -62,6 +70,17 @@ class IdsAccordion extends mix(IdsElement).with(
       attributes.MODE,
       attributes.VERSION
     ];
+  }
+
+  /**
+   * @returns {object.<string, string>} the attributes and how they will
+   * be passed down
+   */
+  get providedAttributes() {
+    return {
+      [attributes.LANGUAGE]: [IdsAccordionHeader, IdsAccordionPanel],
+      [attributes.LOCALE]: [IdsAccordionHeader, IdsAccordionPanel]
+    };
   }
 
   /**
@@ -130,7 +149,7 @@ class IdsAccordion extends mix(IdsElement).with(
    */
   set colorVariant(val) {
     super.colorVariant = val;
-    this.#assignDepthDependentStyles(this, 0, true, false, false);
+    this.#assignDepthDependentStyles(this, 0, true, false, false, false);
   }
 
   /**
@@ -141,18 +160,29 @@ class IdsAccordion extends mix(IdsElement).with(
    * @param {boolean} doColorVariant if true, modifies the color variant
    * @param {boolean} doExpanderType if true, modifies the expander type
    * @param {boolean} doDisplayIconType if true, modifies the display icon type
+   * @param {boolean} doRTL if true, modifies RTL styles
    */
   #assignDepthDependentStyles(
     element = this,
     depth = 0,
     doColorVariant = true,
     doExpanderType = true,
-    doDisplayIconType = true
+    doDisplayIconType = true,
+    doRTL = true
   ) {
-    if (depth > 0) {
-      const subLevelDepth = depth > 1;
-      const header = element.querySelector('ids-accordion-header');
+    const header = element.querySelector(':scope > ids-accordion-header');
+    const subLevelDepth = depth > 1;
+    const isRTL = this.locale.isRTL();
 
+    // Assign RTL CSS Classes
+    if (doRTL) {
+      refreshRTLStyle(element.container.classList, isRTL);
+      if (header) {
+        refreshRTLStyle(header.container.classList, isRTL);
+      }
+    }
+
+    if (depth > 0) {
       // Assign Nested Padding CSS Classes
       element.nested = subLevelDepth;
 
@@ -205,6 +235,14 @@ class IdsAccordion extends mix(IdsElement).with(
    * @returns {void}
    */
   #handleEvents() {
+    // Respond to a parent container's language change
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      this.#assignDepthDependentStyles(this, 0, false, false, false, true);
+    });
+
+    // Responds to `selected` events triggered by children
     this.onEvent('selected', this, (e) => {
       this.#deselectOtherHeaders(e.target);
     });
