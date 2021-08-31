@@ -71,8 +71,8 @@ class IdsNotificationBanner extends mix(IdsElement).with(
    */
   connectedCallback() {
     this
-      .#handleEvents()
-      .#handleKeys();
+      .#attachEventHandlers()
+      .#attachKeyboardListeners();
     super.connectedCallback();
   }
 
@@ -179,7 +179,7 @@ class IdsNotificationBanner extends mix(IdsElement).with(
    * @private
    * @returns {object} The object for chaining.
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     const closeBtn = this.container.querySelector('ids-button');
     this.onEvent('click', closeBtn, () => this.dismiss());
     return this;
@@ -190,7 +190,7 @@ class IdsNotificationBanner extends mix(IdsElement).with(
    * @private
    * @returns {object} This API object for chaining
    */
-  #handleKeys() {
+  #attachKeyboardListeners() {
     const closeBtn = this.container.querySelector('ids-button');
     this.listen('Enter', closeBtn, () => this.dismiss());
     return this;

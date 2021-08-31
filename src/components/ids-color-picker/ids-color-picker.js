@@ -68,7 +68,7 @@ class IdsColorPicker extends mix(IdsElement).with(
     this.swatch = this.swatch;
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
-    this.#handleEvents();
+    this.#attachEventHandlers();
 
     // TODO: Do this a cleaner way to lay the label out
     this.inputLabel = this.colorPickerInput?.shadowRoot?.querySelector('label');
@@ -183,7 +183,7 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @returns {void}
    */
   /* istanbul ignore next */
-   #handleEvents() {
+   #attachEventHandlers() {
     /* istanbul ignore next */
     this.idsColorsArr.forEach((element) => {
       element.style.backgroundColor = element.getAttribute('hex');

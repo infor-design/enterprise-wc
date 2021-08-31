@@ -81,7 +81,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
 
     this.files = this.fileInput.files;
-    this.handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -290,7 +290,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @private
    * @returns {void}
    */
-  handleEvents() {
+  #attachEventHandlers() {
     this.handleWindowFocusEvent();
     this.handleFileInputChangeEvent();
     this.handleFileInputCancelEvent();

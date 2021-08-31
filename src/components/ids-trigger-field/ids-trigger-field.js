@@ -46,7 +46,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    */
   connectedCallback() {
     this.setInputAttributes();
-    this.handleEvents();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -164,7 +164,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     const isDisabled = IdsStringUtils.stringToBool(value);
     if (isDisabled) {
       this.setAttribute(attributes.DISABLE_EVENTS, value.toString());
-      this.handleEvents();
+      this.#attachEventHandlers();
       return;
     }
 
@@ -178,7 +178,7 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @private
    * @returns {object} The object for chaining.
    */
-  handleEvents() {
+  #attachEventHandlers() {
     if (this.input) {
       const className = 'has-validation-message';
       this.onEvent('validate', this.input, (e) => {

@@ -73,19 +73,6 @@ class IdsRadioGroup extends mix(IdsElement).with(
   }
 
   /**
-   * Event handlers for the component
-   * @private
-   */
-  #attachEventHandlers() {
-    // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      // Do something with parent lang
-    });
-  }
-
-  /**
    * Create the Template for the contents
    * @returns {string} The template
    */
@@ -113,12 +100,10 @@ class IdsRadioGroup extends mix(IdsElement).with(
     this.input = this.shadowRoot.querySelector('.ids-radio-group');
     this.labelEl = this.shadowRoot.querySelector('.group-label-text');
 
-    this.setValue();
-    this.handleHorizontal();
-    this.handleDisabled();
-    this.handleEvents();
-    this.handleDirtyTracker();
-    this.handleValidation();
+    this.#setValue();
+    this.#handleHorizontal();
+    this.#handleDisabled();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -126,7 +111,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  setValue() {
+  #setValue() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio[checked="true"]'));
     const len = radioArr.length;
     const value = radioArr[len - 1]?.getAttribute(attributes.VALUE);
@@ -159,7 +144,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * Set disabled for each radio in group.
    * @returns {void}
    */
-  handleDisabled() {
+  #handleDisabled() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
 
@@ -178,7 +163,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * Set horizontal for each radio in group.
    * @returns {void}
    */
-  handleHorizontal() {
+  #handleHorizontal() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
     if (IdsStringUtils.stringToBool(this.horizontal)) {
@@ -269,9 +254,16 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleEvents() {
+  #attachEventHandlers() {
     this.handleRadioGroupChangeEvent();
     this.handleRadioGroupKeydown();
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      // Do something with parent lang
+    });
   }
 
   /**
@@ -284,7 +276,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     } else {
       this.removeAttribute(attributes.DISABLED);
     }
-    this.handleDisabled();
+    this.#handleDisabled();
   }
 
   get disabled() { return this.getAttribute(attributes.DISABLED); }
@@ -299,7 +291,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     } else {
       this.removeAttribute(attributes.HORIZONTAL);
     }
-    this.handleHorizontal();
+    this.#handleHorizontal();
   }
 
   get horizontal() { return this.getAttribute(attributes.HORIZONTAL); }

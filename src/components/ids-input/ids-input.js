@@ -140,8 +140,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {void}
    */
   connectedCallback() {
-    this.handleEvents();
-    this.handleClearable();
+    this.#attachEventHandlers();
 
     /* istanbul ignore next */
     if (this.hasAttribute(attributes.AUTOSELECT)) {
@@ -366,7 +365,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @private
    * @returns {void}
    */
-  handleInputChangeEvent() {
+  #attachInputChangeEvent() {
     const eventName = 'change.input';
     this.onEvent(eventName, this.input, () => {
       this.value = this.input.value;
@@ -378,7 +377,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @private
    * @returns {object} The object for chaining.
    */
-  handleNativeEvents() {
+  #attachNativeEvents() {
     const events = ['change.input', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (/** @type {any} */ e) => {
@@ -406,9 +405,9 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @private
    * @returns {void}
    */
-  handleEvents() {
-    this.handleNativeEvents();
-    this.handleInputChangeEvent();
+  #attachEventHandlers() {
+    this.#attachNativeEvents();
+    this.#attachInputChangeEvent();
   }
 
   /**

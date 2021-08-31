@@ -114,7 +114,7 @@ class IdsTextarea extends mix(IdsElement).with(
     /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
 
-    this.handleEvents();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -421,7 +421,7 @@ class IdsTextarea extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleEvents() {
+  #attachEventHandlers() {
     this.setBrowser();
     this.handleAutoselect();
     this.handleAutogrow();

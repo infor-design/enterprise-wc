@@ -87,8 +87,8 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * Sets up event handlers used in this menu.
    * @returns {void}
    */
-  handleEvents() {
-    super.handleEvents();
+  attachEventHandlers() {
+    super.attachEventHandlers();
 
     // Hide the menu when an item is selected
     // (only if `keep-open` attribute is not present)
@@ -115,8 +115,8 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * Sets up the connection to the global keyboard handler
    * @returns {void}
    */
-  handleKeys() {
-    super.handleKeys();
+  attachKeyboardListeners() {
+    super.attachKeyboardListeners();
 
     // Arrow Right on an item containing a submenu causes that submenu to open
     this.listen(['ArrowRight'], this, (e) => {

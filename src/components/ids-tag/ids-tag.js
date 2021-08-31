@@ -37,8 +37,8 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
    */
   connectedCallback() {
     this
-      .#handleEvents()
-      .#handleKeys();
+      .#attachEventHandlers()
+      .#attachKeyboardListeners();
     super.connectedCallback();
   }
 
@@ -109,7 +109,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (!icon) {
       this.insertAdjacentHTML('beforeend', `<ids-icon part="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
-      this.#handleEvents();
+      this.#attachEventHandlers();
     }
   }
 
@@ -135,7 +135,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
       this.container.classList.add('ids-focusable');
       this.container.setAttribute('tabindex', '0');
       this.#appendIcon('close');
-      this.#handleKeys();
+      this.#attachKeyboardListeners();
       return;
     }
 
@@ -156,7 +156,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
       this.setAttribute('clickable', value.toString());
       this.container.classList.add('ids-focusable');
       this.container.setAttribute('tabindex', '0');
-      this.#handleKeys();
+      this.#attachKeyboardListeners();
       return;
     }
 
@@ -172,7 +172,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
    * @private
    * @returns {object} The object for chaining.
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     // Handle Clicking the x for dismissible
     const closeIcon = this.querySelector('ids-icon[icon="close"]');
     if (closeIcon) {
@@ -198,7 +198,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
    * @private
    * @returns {object} This API object for chaining
    */
-  #handleKeys() {
+  #attachKeyboardListeners() {
     if (this.dismissible) {
       this.listen(['Delete', 'Backspace'], this, () => {
         this.dismiss();

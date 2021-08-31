@@ -56,14 +56,14 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) 
    * @returns {void}
    */
   connectedCallback() {
-    this.#handleEvents();
+    this.#attachNativeEvents();
     this.refresh();
   }
 
   /**
    * @returns {void}
    */
-  #handleEvents() {
+  #attachNativeEvents() {
     // Listen for `selected` events from child menu items.
     // Single-select groups will force deselection of other items in the group.
     this.onEvent('selected', this, (/** @type {any} */ e) => {

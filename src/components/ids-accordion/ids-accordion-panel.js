@@ -32,7 +32,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
     /** @type {HTMLElement | null } */
     this.pane = this.shadowRoot?.querySelector('.ids-accordion-pane');
     this.#setTitles();
-    this.handleEvents();
+    this.#attachEventHandlers();
     this.#switchState();
   }
 
@@ -136,7 +136,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    * @private
    * @returns {void}
    */
-  handleEvents() {
+  #attachEventHandlers() {
     this.onEvent('click', this.expander, () => {
       this.setAttributes();
     });

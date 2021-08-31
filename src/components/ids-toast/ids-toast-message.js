@@ -53,7 +53,7 @@ class IdsToastMessage extends
   connectedCallback() {
     this
       .#setTimer()
-      .#handleEvents();
+      .#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -209,7 +209,7 @@ class IdsToastMessage extends
    * @private
    * @returns {object} The object for chaining.
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     const toast = this.container;
     const id = this.messageId;
 

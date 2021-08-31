@@ -181,7 +181,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   connectedCallback() {
     this.refresh();
-    this.handleEvents();
+    this.#attachNativeEvents();
     this.shouldUpdate = true;
     super.connectedCallback();
   }
@@ -201,7 +201,7 @@ class IdsMenuItem extends mix(IdsElement).with(
   /**
    * @returns {void}
    */
-  handleEvents() {
+  #attachNativeEvents() {
     const self = this;
     // "Hover" timeout deals with `mouseenter`/`mouseleave` events, and causes the
     // menu to open after a delay.

@@ -111,7 +111,7 @@ class IdsCheckbox extends mix(IdsElement).with(
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
-    this.#handleEvents();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -144,11 +144,11 @@ class IdsCheckbox extends mix(IdsElement).with(
   }
 
   /**
-   * Handle checkbox change event
+   * Attach checkbox change event
    * @private
    * @returns {void}
    */
-  handleCheckboxChangeEvent() {
+  #attachCheckboxChangeEvent() {
     this.onEvent('change', this.input, (e) => {
       this.indeterminate = false;
       this.checked = this.input.checked;
@@ -168,7 +168,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleNativeEvents() {
+  #attachNativeEvents() {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (/** @type {any} */ e) => {
@@ -189,9 +189,9 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  #handleEvents() {
-    this.handleCheckboxChangeEvent();
-    this.handleNativeEvents();
+  #attachEventHandlers() {
+    this.#attachCheckboxChangeEvent();
+    this.#attachNativeEvents();
 
     // Respond to parent changing language
     this.offEvent('languagechange.container');

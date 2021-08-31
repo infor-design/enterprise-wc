@@ -34,7 +34,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
 
   connectedCallback() {
     if (!this.readonly) {
-      this.handleEvents();
+      this.#attachEventHandlers();
     } else {
       this.updateHalfStar(this.ratingArr);
     }
@@ -126,7 +126,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
       }
 
       if (ro && !this.readonly) {
-        this.handleEvents();
+        this.#attachEventHandlers();
         this.setAttribute('readonly', ro.toString());
       }
     }
@@ -157,10 +157,10 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
      * @returns {void}
      */
     /* istanbul ignore next */
-    handleEvents() {
+    #attachEventHandlers() {
       this.onEvent('click', this.container, (e) => this.updateStars(e));
       this.onEvent('keyup', this.container, (e) => {
-        if (e.key === 'Enter' && this.readonly === false) {
+        if ((e.key === 'Enter' || e.key === ' ') && this.readonly === false) {
           this.updateStars(e);
         }
       });
