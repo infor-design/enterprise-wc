@@ -47,8 +47,8 @@
     - [x] allow custom min/max values; automatically set decimal labels when step number is larger than max-min
   - [x] set css classes for vertical to separate better
   - [ ] flip min to bottom, max to top
-- [-] add custom color functionality
-  - [ ] works with ids-status colors
+- [x] add custom color functionality
+  - [x] works with ids-status colors
   - [x] works with css native color keywords
 - wrapping up before PR
   - [ ] npm run lint
