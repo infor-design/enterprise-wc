@@ -188,6 +188,7 @@ export const attributes = {
   VALIDATION_EVENTS: 'validation-events',
   VALIDATION_HAS_ERROR: 'validation-has-error',
   VALUE: 'value',
+  VALUE_SECONDARY: 'value-secondary',
   VERSION: 'version',
   VERTICAL: 'vertical',
   VIRTUAL_SCROLL: 'virtual-scroll',

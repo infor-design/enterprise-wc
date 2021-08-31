@@ -44,6 +44,7 @@
   - [x] double slider // need to fix the transition styles that are set
     - [x] move tooltip to right side
   - [x] step slider
+    - [x] allow custom min/max values; automatically set decimal labels when step number is larger than max-min
   - [x] set css classes for vertical to separate better
   - [ ] flip min to bottom, max to top
 - [-] add custom color functionality

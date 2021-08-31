@@ -105,9 +105,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       attributes.MAX,
       attributes.STEP_NUMBER,
       attributes.TYPE,
-      // attributes.VALUE,
-      'valuea',
-      'valueb',
+      attributes.VALUE,
+      // 'valuea',
+      attributes.VALUE_SECONDARY,
+      // 'valueb',
       attributes.VERTICAL,
     ];
   }
@@ -123,13 +124,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return `
       <div class="ids-slider">
         <div class="slider">
-          <input hidden value="${this.valuea ?? DEFAULT_VALUE}" min="${this.min ?? DEFAULT_MIN}" max="${this.max ?? DEFAULT_MAX}"></input>
           <div class="track-area">
             <ids-draggable hidden tabindex="1" class="thumb-draggable" axis="${this.vertical ? 'y' : 'x'}" parent-containment>
               <div hidden class="thumb-shadow"></div>
               <div class="thumb">
                 <div class="tooltip">
-                  <ids-text class="text">${this.valuea ?? DEFAULT_VALUE}</ids-text>
+                  <ids-text class="text">${this.value ?? DEFAULT_VALUE}</ids-text>
                   <div class="pin"></div>
                 </div>
               </div>
@@ -138,7 +138,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
               <div hidden class="thumb-shadow secondary"></div>
               <div class="thumb secondary">
                 <div class="tooltip secondary">
-                  <ids-text class="text secondary">${this.valueb ?? DEFAULT_VALUE_SECONDARY}</ids-text>
+                  <ids-text class="text secondary">${this.valueSecondary ?? DEFAULT_VALUE_SECONDARY}</ids-text>
                   <div class="pin secondary"></div>
                 </div>
               </div>
@@ -306,7 +306,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   get stepNumber() { return parseInt(this.getAttribute('step-number')) || 2; }
 
   set percentb(value) {
-    console.log('setting percentb: ' + value);
+    // console.log('setting percentb: ' + value);
     this._percentb = value;
     this.#updateProgressBar();
     this.#updateToolTip(this.#calcValueFromPercent(value), 'secondary');
@@ -317,12 +317,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     if (!isNaN(this._percentb)) {
       return this._percentb;
     } else {
-      return (this.valueb - this.min) / (this.max - this.min) * 100;
+      return (this.valueSecondary - this.min) / (this.max - this.min) * 100;
     }
   }
   
   set percent(value) {
-    console.log('setting percent: ' + value);
+    // console.log('setting percent: ' + value);
     this._percent = value;
     this.#updateProgressBar();
     this.#updateToolTip(this.#calcValueFromPercent(value));
@@ -334,7 +334,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       // console.log('returning this._percent: ' + this._percent)
       return this._percent;
     } else {
-      return (this.valuea - this.min) / (this.max - this.min) * 100;
+      return (this.value - this.min) / (this.max - this.min) * 100;
     }
   }
 
@@ -342,57 +342,57 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return parseFloat(value) >= this.min && parseFloat(value) <= this.max;
   }
 
-  set valueb(value) {
+  set valueSecondary(value) {
     if (this.#withinBounds(value)) { 
       // console.log(value + ' is within bounds');
-      this.setAttribute('valueb', value);
-      this.percentb = (this.valueb - this.min) / (this.max - this.min) * 100;
+      this.setAttribute(attributes.VALUE_SECONDARY, value);
+      this.percentb = (this.valueSecondary - this.min) / (this.max - this.min) * 100;
       this.#updateToolTip(value, 'secondary');
       this.#moveThumb('secondary');
     } else {
       if (value < this.min) {
-        this.setAttribute('valueb', this.min);
+        this.setAttribute(attributes.VALUE_SECONDARY, this.min);
       } else if (value > this.max) {
-        this.setAttribute('valueb', this.max)
+        this.setAttribute(attributes.VALUE_SECONDARY, this.max)
       } else {
-        this.setAttribute('valueb', DEFAULT_VALUE_SECONDARY)
+        this.setAttribute(attributes.VALUE_SECONDARY, DEFAULT_VALUE_SECONDARY)
       }
     }
   }
   
-  get valueb() { 
-    const b = this.getAttribute('valueb')
+  get valueSecondary() { 
+    const b = this.getAttribute(attributes.VALUE_SECONDARY)
     if (b === null || b === '' || Number.isNaN(b)) {
       return this.max;
     } else {
-      return parseFloat(this.getAttribute('valueb')); 
+      return parseFloat(this.getAttribute(attributes.VALUE_SECONDARY)); 
     }
   }
   
   
-  set valuea(value) {
+  set value(value) {
     if (this.#withinBounds(value)) {
-      this.setAttribute('valuea', value);
-      this.percent = (this.valuea - this.min) / (this.max - this.min) * 100;
+      this.setAttribute(attributes.VALUE, value);
+      this.percent = (this.value - this.min) / (this.max - this.min) * 100;
       this.#updateToolTip(value);
       this.#moveThumb();
     } else {
       if (value < this.min) {
-        this.setAttribute('valuea', this.min);
+        this.setAttribute(attributes.VALUE, this.min);
       } else if (value > this.max) {
-        this.setAttribute('valuea', this.max)
+        this.setAttribute(attributes.VALUE, this.max)
       } else {
-        this.setAttribute('valuea', DEFAULT_VALUE);
+        this.setAttribute(attributes.VALUE, DEFAULT_VALUE);
       }
     }
   }
   
-  get valuea() { 
-    const a = this.getAttribute('valuea');
+  get value() { 
+    const a = this.getAttribute(attributes.VALUE);
     if (a === null || a === '' || Number.isNaN(a)) {
       return this.min;
     } else {
-      return parseFloat(this.getAttribute('valuea')); 
+      return parseFloat(this.getAttribute(attributes.VALUE)); 
     }
   }
 
@@ -500,9 +500,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
     
     const clickedTrackArea = this.#wasCursorInBoundingBox(x, y, top, bottom, left, right);
+
+    this.clickFromDrag = false;
+    console.log('clickFromDrag: ' + this.clickFromDrag)
     
     if (clickedTrackArea) {
-      console.log('clickedTrackArea true')
+      // console.log('clickedTrackArea true')
       const mousePos = this.vertical ? y : x;
       const startPos = this.vertical ? top : this.isRtl ? right : left;
       const endPos = this.vertical ? bottom : this.isRtl ? left : right;
@@ -511,36 +514,33 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       const value = this.#calcValueFromPercent(percent);
       console.log('percent: ' + percent);
       // console.log('value: ' + value);
-      
-      if (this.type === 'double') {
+
+      if (this.type !== 'step') {
         const thumbPos = this.vertical ? this.thumbDraggable.getBoundingClientRect().y : this.thumbDraggable.getBoundingClientRect().x;
         const thumbPosSecondary = this.vertical ? this.thumbDraggableSecondary.getBoundingClientRect().y : this.thumbDraggableSecondary.getBoundingClientRect().x;
 
-        if (Math.abs(mousePos - thumbPos) < Math.abs(mousePos - thumbPosSecondary)) {
-          // focus on the thumb a
-          this.#hideTooltip(false, 'primary');
-          this.valuea = value;
-          this.thumbDraggable.focus();
-        } else {
-          // focus on thumb b
-          this.#hideTooltip(false, 'secondary');
-          this.valueb = value;
-          this.thumbDraggableSecondary.focus();
+        let thumbDraggable = this.thumbDraggable;
+        let valueAttribute = 'value';
+        let primaryOrSecondary = 'primary';
+
+        if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
+          // cursor is closer to second thumb
+          valueAttribute = 'valueSecondary';
+          thumbDraggable = this.thumbDraggableSecondary;
+          primaryOrSecondary = 'secondary';
         }
-      } else if (this.type === 'single' || this.type === 'vertical') {
-        this.#hideTooltip(false);
-        this.valuea = value;
-        this.thumbDraggable.focus();
-        
-      } else if (this.type === 'step') {
+
+        this.#hideTooltip(false, primaryOrSecondary);
+        this[valueAttribute] = value;
+        thumbDraggable.focus();
+      } else {
         const arr = [];
         
         for (let i = 0; i < this.stepNumber; i++) {
-          arr[i] = (100 / (this.stepNumber - 1)) * i;
+          arr[i] = (this.max / (this.stepNumber - 1)) * i;
         }
-        
-        const differences = arr.map((x) => Math.abs(x - percent))
-        
+        const differences = arr.map((x) => Math.abs(x - (percent / 100 * this.max)))
+
         let min = differences[0];
         let minIndex = 0;
 
@@ -552,7 +552,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         }
 
         // snap to the value interval closest to click
-        this.valuea = arr[minIndex];
+        this.value = arr[minIndex];
         this.thumbDraggable.focus();
       }
 
@@ -579,7 +579,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       }
      
       // console.log('moveThumb percent: ' + percent);
-      console.log('moving thumb with percent of : ' + percent);
+      // console.log('moving thumb with percent of : ' + percent);
       const startPos = this.vertical ? this.trackBounds.TOP : this.trackBounds.LEFT;
       const endPos = this.vertical ? this.trackBounds.BOTTOM : this.trackBounds.RIGHT;
       let trans = this.#calcTranslateFromPercent(startPos, endPos, percent) 
@@ -695,7 +695,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
       // init labels
       if (this.type === 'step') {
-        this.labels = [...Array(this.stepNumber).keys()];
+        const arr = [];
+        for (let i = 0; i < this.stepNumber; i++) {
+          arr[i] = Math.round(((this.max / (this.stepNumber - 1)) * i) * 10) / 10; // rounds floats to 1st decimal
+        }
+        this.labels = arr;
+        // this.labels = [...Array(this.stepNumber).keys()];
       } else {
         this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterbegin', `<ids-text label class="label ${this.vertical && 'vertical'}">${this.max}</ids-text>`);
         this.container.querySelector('.tick:first-child').insertAdjacentHTML('afterbegin', `<ids-text label class="label ${this.vertical && 'vertical'}">${this.min}</ids-text>`);
@@ -704,14 +709,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   #addResizeObserver() {
-    // update this.trackBounds with new values when window size changes
+    // update thumb positions and trackBounds with new values when window size changes
     const resizeObserver = new ResizeObserver(entries => {
       for (let entry of entries) {
         if (entry.contentBoxSize) {
           // console.log(entry.target.className)
-          
           this.trackBounds = this.#calculateBounds(); 
-
           this.#moveThumb();
           this.type === 'double' && this.#moveThumb('secondary');
         }
@@ -723,6 +726,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   
   #addClickEvents() {
     this.onEvent('click', window, (event) => {
+      // console.log('click event fired')
       const idsSliderSelected = event.target.name === 'ids-slider';
       // console.log('idsSliderSelected: ' + idsSliderSelected);
   
@@ -732,7 +736,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       }
   
       // console.log(event.target.name);
-      console.log(event.clientX + ', ' + event.clientY);
+      // console.log(event.clientX + ', ' + event.clientY);
       this.#calculateUIFromClick(event.clientX, event.clientY);
     });
   }
@@ -743,7 +747,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       thumbDraggable: d ? this.thumbDraggableSecondary : this.thumbDraggable,
       thumbDraggableOther: d ? this.thumbDraggable : this.thumbDraggableSecondary,
       primaryOrSecondary: d ? 'secondary' : 'primary',
-      valueAttribute: d ? 'valueb' : 'valuea',
+      valueAttribute: d ? 'valueSecondary' : 'value',
       percentAttribute: d ? 'percentb' : 'percent'
     };
 
@@ -785,6 +789,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     });
     
     this.onEvent('ids-dragend', obj.thumbDraggable, (e) => {
+      // console.log('ids-dragend, clickFromDrag is true')
+      // this.clickFromDrag = true;
       obj.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
       this.progressTrack.style.setProperty('transition', 'width 0.2s ease, transform 0.2s ease');
       obj.thumbDraggable.focus();
@@ -843,29 +849,30 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   #decreaseValue(primaryOrSecondary) {
+    // TODO: set values dynamically
     if (this.type === 'step') {
-      this.valuea = this.valuea - (this.max / (this.stepNumber - 1));
+      this.value = this.value - (this.max / (this.stepNumber - 1));
     } else {
       if (this.type === 'double' && primaryOrSecondary === 'secondary') {
-        const value = this.valueb;
-        this.valueb = Math.ceil(value) - 1
+        const value = this.valueSecondary;
+        this.valueSecondary = Math.ceil(value) - 1
       } else {
-        const value = this.valuea;
-        this.valuea = Math.ceil(value) - 1
+        const value = this.value;
+        this.value = Math.ceil(value) - 1
       }
     }
   }
   
   #increaseValue(primaryOrSecondary) {
     if (this.type === 'step') {
-      this.valuea = this.valuea + (this.max / (this.stepNumber - 1));
+      this.value = this.value + (this.max / (this.stepNumber - 1));
     } else {
       if (this.type === 'double' && primaryOrSecondary === 'secondary') {
-        const value = this.valueb;
-        this.valueb = Math.ceil(value) + 1
+        const value = this.valueSecondary;
+        this.valueSecondary = Math.ceil(value) + 1
       } else {
-        const value = this.valuea;
-        this.valuea = Math.ceil(value) + 1
+        const value = this.value;
+        this.value = Math.ceil(value) + 1
       }
     }
   }
