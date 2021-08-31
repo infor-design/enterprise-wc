@@ -16,6 +16,26 @@
         <ids-text>axis='x'</ids-text>
       </div>
     </ids-draggable>
+    <ids-draggable
+      id="limit-transform-draggable"
+      max-transform-x="80"
+      min-transform-x="-20"
+      max-transform-y="80"
+      min-transform-y="-80"
+      handle="#limit-transform-draggable .ids-draggable-demo-box"
+    >
+      <div class="ids-draggable-demo-box">
+        <div>
+          <ids-text>w/limits</ids-text>
+        </div>
+      </div>
+      <div class="draggable-limit-markers">
+        <ids-text tag="p" color="unset" font-size="10">min-transform-x: -20</ids-text>
+        <ids-text tag="p" color="unset" font-size="10">max-transform-x: 80</ids-text>
+        <ids-text tag="p" color="unset" font-size="10">min-transform-y: -80</ids-text>
+        <ids-text tag="p" color="unset" font-size="10">max-transform-y: 80</ids-text>
+      </div>
+    </ids-draggable>
 </ids-layout-grid>
 <ids-layout-grid>
   <ids-text font-size="12" type="h1">Draggable (Bounded by Div/Container)</ids-text>

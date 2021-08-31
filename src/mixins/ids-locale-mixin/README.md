@@ -59,3 +59,13 @@ display: flex;
 flex-direction: row;
 justify-content: flex-end;
 ```
+
+If needed and it cannot be done with css. Then add the Ids Locale mixin as described above and then add css rules like:
+
+```scss
+.ids-component-name[dir='rtl'] {
+  // Reversals
+  border-left-style: solid;
+  border-left-style: hidden;
+}
+```

@@ -22,7 +22,47 @@ const { stringToBool } = IdsStringUtils;
 
 const CURSOR_EL_SIZE = 32;
 
+/**
+ * sets an optional integer attribute for an element
+ * (may offload as general util; just need to think
+ * through this a bit more)
+ * @param {IdsElement} elem ids element to update
+ * @param {string} attribute the attribute to update
+ * @param {any} value a value to set on the
+ */
+function setIntAttribute(elem, attribute, value) /* istanbul ignore next */ {
+  const nextValue = parseInt(value);
+
+  if (nextValue !== null && !Number.isNaN(nextValue)) {
+    if (parseInt(elem.getAttribute(attribute)) !== nextValue) {
+      elem.setAttribute(attribute, nextValue);
+    }
+  } else if (nextValue === null && elem.hasAttribute(attribute)) {
+    elem.removeAttribute(attribute);
+  }
+}
+
 /* istanbul ignore next */
+/**
+ * @param {{
+ *  left: number,
+ *  top: number,
+ *  right: number,
+ *  bottom: number
+ * }} bounds rectangle bounds to hash
+ * @returns {string} a hash for bounds in a predictable
+ * order that can be diffed for attribute changes
+ */
+function getBoundsHash(bounds) {
+  return (
+    `${bounds?.left || 0
+    }_${
+      bounds?.right || 0
+    }_${
+      bounds?.top || 0
+    }_${bounds?.bottom || 0}`
+  );
+}
 
 /**
  * IDS Draggable Component
@@ -48,8 +88,13 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       ...super.attributes,
       attributes.AXIS,
       attributes.DISABLED,
+      attributes.HANDLE,
       attributes.IS_DRAGGING,
-      attributes.PARENT_CONTAINMENT,
+      attributes.MAX_TRANSFORM_X,
+      attributes.MAX_TRANSFORM_Y,
+      attributes.MIN_TRANSFORM_X,
+      attributes.MIN_TRANSFORM_Y,
+      attributes.PARENT_CONTAINMENT
     ];
   }
 
@@ -60,6 +105,19 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     return (
       `<slot></slot>`
     );
+  }
+
+  connectedCallback() {
+    this.#updateHandleElem();
+
+    // style the cursor element
+    this.#cursorEl.style.position = 'absolute';
+    this.#cursorEl.style.opacity = 0;
+    this.#cursorEl.style.width = `${CURSOR_EL_SIZE}px`;
+    this.#cursorEl.style.height = `${CURSOR_EL_SIZE}px`;
+    this.#cursorEl.style.cursor = this.#getCursorStyle({ axis: this.axis });
+
+    super.connectedCallback?.();
   }
 
   /**
@@ -87,8 +145,12 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
     if (nextValue) {
       this.setAttribute(attributes.AXIS, nextValue);
+      this.isDragging = false;
+      this.#cursorEl.style.cursor = this.#getCursorStyle({ axis: this.axis });
     } else if (!nextValue && this.hasAttribute(attributes.AXIS)) {
       this.removeAttribute(attributes.AXIS);
+      this.isDragging = false;
+      this.#cursorEl.style.cursor = this.#getCursorStyle({ axis: this.axis });
     }
   }
 
@@ -132,7 +194,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     const isTruthy = IdsStringUtils.stringToBool(value);
 
     if (isTruthy && this.getAttribute(attributes.DISABLED) !== '') {
-      this.offEvent('mousemove', this.onMouseMove);
+      this.offEvent('mousemove', window.document, this.onMouseMove);
       this.setAttribute(attributes.DISABLED, '');
     } else if (!isTruthy && this.hasAttribute(attributes.DISABLED)) {
       this.removeAttribute(attributes.DISABLED);
@@ -174,8 +236,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
   #updateHandleElem = () => {
     this.offEvent('mousedown', this.#handleElem);
-    this.offEvent('mouseup', document, this.onMouseUp);
-    this.offEvent('mousemove', document, this.onMouseMove);
+    this.offEvent('mouseup', window.document, this.onMouseUp);
+    this.offEvent('mousemove', window.document, this.onMouseMove);
 
     this.#handleElem = this.handle ? (
       document.querySelector(this.handle) || /* istanbul ignore next */ this
@@ -191,10 +253,9 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       }
 
       e.preventDefault();
-      this.triggerEvent('ids-dragstart', this, { detail: {} });
+      this.isDragging = true;
 
       this.onEvent('mouseup', document, this.onMouseUp);
-      this.isDragging = true;
       this.onEvent('mousemove', document, this.onMouseMove);
 
       // if we have our content being draggable by the parent element,
@@ -208,10 +269,20 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       this.#dragStartMousePoint = { x: e.x, y: e.y };
 
       const dragOffset = getElTranslation(this);
+
       this.#dragStartOffset = {
         x: this.axis !== 'y' ? dragOffset.x : 0,
         y: this.axis !== 'x' ? dragOffset.y : 0
       };
+
+      this.triggerEvent('ids-dragstart', this, {
+        detail: {
+          mouseX: e.x,
+          mouseY: e.y,
+          translateX: this.#dragStartOffset.x,
+          transitionY: this.#dragStartOffset.y
+        }
+      });
 
       const thisRect = this.getBoundingClientRect();
 
@@ -227,14 +298,24 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         bottom: thisRect.bottom - this.#dragStartOffset.y
       };
 
+      let parentLOffset = 0;
+      let parentROffset = 0;
+      let parentTOffset = 0;
+      let parentBOffset = 0;
+
       if (this.#parentRect) {
-        this.#xformBounds = {
-          left: (this.#parentRect.left - this.#dragStartRect.left),
-          right: (this.#parentRect.right - this.#dragStartRect.right),
-          top: (this.#parentRect.top - this.#dragStartRect.top),
-          bottom: (this.#parentRect.bottom - this.#dragStartRect.bottom)
-        };
+        parentLOffset = (this.#parentRect.left - this.#dragStartRect.left);
+        parentROffset = (this.#parentRect.right - this.#dragStartRect.right);
+        parentTOffset = (this.#parentRect.top - this.#dragStartRect.top);
+        parentBOffset = (this.#parentRect.bottom - this.#dragStartRect.bottom);
       }
+
+      this.#xformBounds = {
+        left: parentLOffset + (this.#relativeBounds.left || 0),
+        right: parentROffset - (this.#relativeBounds.right || 0),
+        top: parentTOffset + (this.#relativeBounds.top || 0),
+        bottom: parentBOffset - (this.#relativeBounds.bottom || 0)
+      };
 
       this.#cursorEl.style.pointerEvents = 'all';
 
@@ -247,19 +328,115 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     });
   };
 
-  connectedCallback() {
-    this.#updateHandleElem();
-
-    // style the cursor element
-    this.#cursorEl.style.position = 'absolute';
-    this.#cursorEl.style.opacity = 0;
-    this.#cursorEl.style.width = `${CURSOR_EL_SIZE}px`;
-    this.#cursorEl.style.height = `${CURSOR_EL_SIZE}px`;
-    this.#cursorEl.style.backgroundColor = '#000';
-    this.#cursorEl.style.cursor = this.#getCursorStyle({ axis: this.axis });
-
-    super.connectedCallback?.();
+  set minTransformX(value) {
+    setIntAttribute(this, attributes.MIN_TRANSFORM_X, value);
   }
+
+  get minTransformX() {
+    if (this.hasAttribute(attributes.MIN_TRANSFORM_X)) {
+      return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_X));
+    }
+
+    return null;
+  }
+
+  set maxTransformX(value) {
+    setIntAttribute(this, attributes.MAX_TRANSFORM_X, value);
+  }
+
+  get maxTransformX() {
+    if (this.hasAttribute(attributes.MAX_TRANSFORM_X)) {
+      return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_X));
+    }
+
+    return null;
+  }
+
+  set minTransformY(value) {
+    setIntAttribute(this, attributes.MIN_TRANSFORM_Y, value);
+  }
+
+  get minTransformY() {
+    if (this.hasAttribute(attributes.MIN_TRANSFORM_Y)) {
+      return parseInt(this.getAttribute(attributes.MIN_TRANSFORM_Y));
+    }
+
+    return null;
+  }
+
+  get maxTransformY() {
+    if (this.hasAttribute(attributes.MAX_TRANSFORM_Y)) {
+      return parseInt(this.getAttribute(attributes.MAX_TRANSFORM_Y));
+    }
+
+    return null;
+  }
+
+  set maxTransformY(value) {
+    setIntAttribute(this, attributes.MAX_TRANSFORM_Y, value);
+  }
+
+  /* istanbul ignore next */
+  /**
+   * update the transform with respect to containment
+   * and min/max transform bounds
+   *
+   * @param {number} mouseDeltaX mouse delta x
+   * @param {number} mouseDeltaY mouse delta y
+   * @returns {Array} [transformX, transformY]
+   */
+  #updateTransform = (mouseDeltaX = null, mouseDeltaY = null) => {
+    let translateX = 0;
+    let translateY = 0;
+
+    // in case we're dragging and passed in the delta
+    // then consider the translateX/Y vs where we
+    // first started dragging the mouse from where
+    // we moved to
+
+    if (this.axis !== 'y') {
+      translateX = this.#dragStartOffset.x + (mouseDeltaX || 0);
+    }
+
+    if (this.axis !== 'x') {
+      translateY = this.#dragStartOffset.y + (mouseDeltaY || 0);
+    }
+
+    if (this.parentContainment) {
+      if (this.axis !== 'y') {
+        translateX = Math.max(this.#xformBounds.left, translateX);
+        translateX = Math.min(this.#xformBounds.right, translateX);
+      }
+
+      if (this.axis !== 'x') {
+        translateY = Math.max(this.#xformBounds.top, translateY);
+        translateY = Math.min(this.#xformBounds.bottom, translateY);
+      }
+    }
+
+    if (this.hasAttribute(attributes.MIN_TRANSFORM_X)) {
+      translateX = Math.max(translateX, this.minTransformX);
+    }
+
+    if (this.hasAttribute(attributes.MAX_TRANSFORM_X)) {
+      translateX = Math.min(translateX, this.maxTransformX);
+    }
+
+    if (this.hasAttribute(attributes.MIN_TRANSFORM_Y)) {
+      translateY = Math.max(translateY, this.minTransformY);
+    }
+
+    if (this.hasAttribute(attributes.MAX_TRANSFORM_Y)) {
+      translateY = Math.min(translateY, this.maxTransformY);
+    }
+
+    this.style.setProperty(
+      'transform',
+      `translate(${translateX}px, ${translateY}px)`
+    );
+
+    return [translateX, translateY];
+  };
 
   /**
    * called on mouse move; transforms element for
@@ -275,41 +452,25 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     if (this.isDragging) {
       const dragDeltaX = e.x - this.#dragStartMousePoint.x;
       const dragDeltaY = e.y - this.#dragStartMousePoint.y;
-      let translateX = 0;
-      let translateY = 0;
 
-      eventDetail.dragDeltaX = dragDeltaX;
-      eventDetail.dragDeltaY = dragDeltaY;
+      // once draggable bound to parent was updated,
+      // update the transform
 
-      if (this.axis !== 'y') {
-        translateX = this.#dragStartOffset.x + dragDeltaX;
-      }
+      const [
+        translateX,
+        translateY
+      ] = this.#updateTransform(dragDeltaX, dragDeltaY);
 
-      if (this.axis !== 'x') {
-        translateY = this.#dragStartOffset.y + dragDeltaY;
-      }
-
-      // bound the draggable to the rectangle of the first
-      // parent detected
-
-      if (this.parentContainment && this.#parentRect) {
-        if (this.axis !== 'y') {
-          translateX = Math.max(this.#xformBounds.left, translateX);
-          translateX = Math.min(this.#xformBounds.right, translateX);
-        }
-
-        if (this.axis !== 'x') {
-          translateY = Math.max(this.#xformBounds.top, translateY);
-          translateY = Math.min(this.#xformBounds.bottom, translateY);
-        }
-
+      if (this.#parentRect) {
         eventDetail.parentRect = this.#parentRect;
       }
 
+      eventDetail.mouseX = e.x;
+      eventDetail.mouseY = e.y;
+      eventDetail.dragDeltaX = dragDeltaX;
+      eventDetail.dragDeltaY = dragDeltaY;
       eventDetail.translateX = translateX;
       eventDetail.translateY = translateY;
-
-      this.style.transform = `translate(${translateX}px, ${translateY}px)`;
 
       if (this.#cursorEl) {
         this.#cursorEl.style.left = `${e.x - CURSOR_EL_SIZE / 2}px`;
@@ -317,18 +478,29 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       }
     }
 
-    this.triggerEvent('ids-drag', this, e);
+    eventDetail.originalEvent = e;
+
+    this.triggerEvent('ids-drag', this, { detail: eventDetail });
   };
 
   onMouseUp = (e) => /* istanbul ignore next */ {
     if (this.isDragging) {
       this.isDragging = false;
-      this.triggerEvent('ids-dragend', this, e);
-      this.offEvent('mousemove', this.onMouseMove);
+      this.triggerEvent('ids-dragend', this, {
+        detail: {
+          mouseX: e.x,
+          mouseY: e.y,
+          dragDeltaX: e.x - this.#dragStartMousePoint.x,
+          dragDeltaY: e.y - this.#dragStartMousePoint.y
+        }
+      });
 
       (document.body.querySelector('ids-container') || document.body)
         ?.removeChild(this.#cursorEl);
     }
+
+    this.offEvent('mousemove', document, this.onMouseMove);
+    this.offEvent('mouseup', document, this.onMouseUp);
 
     this.#cursorEl.style.pointerEvents = 'none';
   };
@@ -454,7 +626,10 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     let isAtSlotEl = false;
     let isAtShadowRoot = false;
 
-    while (!this.#parentRect || !hasTraversedThis || isAtShadowRoot || isAtSlotEl) {
+    while (
+      (!this.#parentRect || !hasTraversedThis || isAtShadowRoot || isAtSlotEl)
+      && ((pathElemIndex + 1) < path.length)
+    ) {
       if (pathElem === this) {
         hasTraversedThis = true;
       }
@@ -469,14 +644,50 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
         continue;
       }
 
-      const rect = pathElem.getBoundingClientRect();
+      const rect = pathElem?.getBoundingClientRect?.();
 
       // only use as parent if not a non-presentational rectangles (e.g.
       // the parent IdsElement which has no explicit styling; hence
       // zero-width or zero-height rendered)
 
-      if (rect.height !== 0 && rect.width !== 0) {
+      if (rect?.height !== 0 && rect?.width !== 0) {
         this.#parentRect = rect;
+      }
+    }
+  }
+
+  /* istanbul ignore next */
+  /**
+   * @param {number} value The max coordinates relative
+   * to the overall div; e.g. "left: -20; right: -20" would extend
+   * the minimum x and maximum x from current container
+   * bounds, or "top: 10; bottom: 20" would make the top (upwards
+   * bounds) 10 below the top or 20 below the bottom).
+   */
+  set relativeBounds(value) {
+    this.setAttribute(attributes.RELATIVE_BOUNDS, value);
+    this.#updateRelativeBounds();
+  }
+
+  /* istanbul ignore next */
+  get relativeBounds() {
+    return this.getAttribute(attributes.RELATIVE_BOUNDS);
+  }
+
+  #relativeBounds = {};
+
+  #updateRelativeBounds() {
+    /* istanbul ignore next */
+    if (this.hasAttribute(attributes.RELATIVE_BOUNDS)) {
+      const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
+      const newBounds = Object.fromEntries(relativeBoundsAttr.split(';').map((str) => {
+        const [kStr, vStr] = str?.split?.(':');
+
+        return [kStr, !Number.isNaN(parseInt(vStr)) ? parseInt(vStr) : 0];
+      }));
+
+      if (getBoundsHash(newBounds) !== getBoundsHash(this.#relativeBounds)) {
+        this.#relativeBounds = newBounds;
       }
     }
   }

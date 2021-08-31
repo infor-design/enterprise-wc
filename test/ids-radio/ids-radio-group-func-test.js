@@ -3,13 +3,16 @@
  */
 import IdsRadio from '../../src/components/ids-radio/ids-radio';
 import IdsRadioGroup from '../../src/components/ids-radio/ids-radio-group';
+import IdsContainer from '../../src/components/ids-container';
 
 jest.useFakeTimers();
 
 describe('IdsRadioGroup Component', () => {
   let rg;
+  let container;
 
   beforeEach(async () => {
+    container = new IdsContainer();
     const rb1 = new IdsRadio();
     const rb2 = new IdsRadio();
     const elem = new IdsRadioGroup();
@@ -20,7 +23,8 @@ describe('IdsRadioGroup Component', () => {
     elem.label = 'testRg';
     elem.appendChild(rb1);
     elem.appendChild(rb2);
-    document.body.appendChild(elem);
+    container.appendChild(elem);
+    document.body.appendChild(container);
     rg = document.querySelector('ids-radio-group');
   });
 
@@ -381,5 +385,12 @@ describe('IdsRadioGroup Component', () => {
     expect(rootEl.classList).toContain('disabled');
     expect(rootEl.classList).toContain('horizontal');
     expect(rg.getAttribute('horizontal')).toEqual('true');
+  });
+
+  it('can change language from the container', async () => {
+    container.language = 'de';
+    setTimeout(() => {
+      expect(rg.getAttribute('language')).toEqual('de');
+    });
   });
 });
