@@ -6,7 +6,7 @@ We include a trigger field component that helps layout an input next to a button
 
 ## Use Cases
 
-- When you want an input with a trigger button icon that opens some kind of selection dialog that works with the field.
+- When you want an input with a trigger button/buttons that opens some kind of selection dialog that works with the field.
 
 ## Terminology
 
