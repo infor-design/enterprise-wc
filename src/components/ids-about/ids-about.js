@@ -4,19 +4,14 @@ import {
   scss
 } from '../../core/ids-element';
 
-import {
-  mix
-} from '../../core';
+import { mix } from '../../core';
 
 import IdsModal from '../ids-modal';
 
 import { attributes } from '../../core/ids-attributes';
 import { IdsStringUtils, IdsDOMUtils, IdsEnvironmentUtil } from '../../utils';
 
-// Import Mixins
-import {
-  IdsLocaleMixin
-} from '../../mixins';
+import { IdsLocaleMixin } from '../../mixins';
 
 import styles from './ids-about.scss';
 
@@ -40,7 +35,8 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
       attributes.PRODUCT_NAME,
       attributes.PRODUCT_VERSION,
       attributes.COPYRIGHT_YEAR,
-      attributes.DEVICE_SPECS
+      attributes.DEVICE_SPECS,
+      attributes.USE_DEFAULT_COPYRIGHT,
     ];
   }
 
@@ -64,10 +60,10 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
         </div>
         <div class="ids-modal-content-wrapper">
           <div class="ids-modal-content">
-            <div class="ids-about-product"></div>
+            <slot name="product"></slot>
             <slot name="content"></slot>
-            <div class="ids-about-copyright"></div>
-            <div class="ids-about-device"></div>
+            <slot name="copyright"></slot>
+            <slot name="device"></slot>
           </div>
         </div>
       </div>
@@ -82,18 +78,20 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   #handleEvents() {
     this.#refreshProduct();
 
+    // Respond to parent changing language
     this.offEvent('languagechange.container');
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       this.#refreshDeviceSpecs();
-      this.#refreshCopyright(this.copyrightYear);
+      this.#refreshCopyright();
     });
 
+    // Respond to element changing language
     this.offEvent('languagechange.this');
     this.onEvent('languagechange.this', this, async (e) => {
       await this.locale.setLanguage(e.detail.language.name);
       this.#refreshDeviceSpecs();
-      this.#refreshCopyright(this.copyrightYear);
+      this.#refreshCopyright();
     });
 
     IdsEnvironmentUtil.set();
@@ -142,10 +140,35 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    * @returns {void}
    */
   #refreshProduct() {
-    const contentEl = this.container.querySelector('.ids-about-product');
-    const content = `<p>${this.productName ? `${this.productName} ` : ''}${this.productVersion || ''}</p>`;
+    const slot = this.querySelectorAll('[slot="product"]');
+    const element = `<ids-text slot="product" type="p">${this.productName ? `${this.productName} ` : ''}${this.productVersion || ''}</ids-text>`;
 
-    contentEl.innerHTML = content;
+    // Clear slot before rerender
+    slot.forEach((item) => item.remove());
+
+    if (this.productName || this.productVersion) {
+      this.insertAdjacentHTML('beforeend', element);
+    }
+  }
+
+  /**
+   * @returns {boolean} deviceSpecs attribute value
+   */
+  get deviceSpecs() {
+    const attrVal = this.getAttribute(attributes.DEVICE_SPECS);
+
+    return attrVal ? IdsStringUtils.stringToBool(attrVal) : true;
+  }
+
+  /**
+   * Sets whether or not to display device information.
+   * @param {string|boolean} val deviceSpecs attribute value
+   */
+  set deviceSpecs(val) {
+    const trueVal = IdsStringUtils.stringToBool(val);
+    this.setAttribute(attributes.DEVICE_SPECS, trueVal);
+
+    this.#refreshDeviceSpecs();
   }
 
   /**
@@ -190,12 +213,13 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
 
   /**
    * Refreshes the device specs content
+   * @private
    * @returns {void}
    */
   #refreshDeviceSpecs() {
     const specs = this.#getDeviceSpecs();
-    const contentEl = this.container.querySelector('.ids-about-device');
-    const content = `<p><span>${this.locale.translate('OperatingSystem')} : ${IdsEnvironmentUtil.devicespecs.os.replace(IdsEnvironmentUtil.devicespecs.currentOSVersion, '')} ${IdsEnvironmentUtil.devicespecs.currentOSVersion}</span><br>
+    const slot = this.querySelectorAll('[slot="device"]');
+    const element = `<ids-text slot="device" type="p"><span>${this.locale.translate('OperatingSystem')} : ${IdsEnvironmentUtil.devicespecs.os.replace(IdsEnvironmentUtil.devicespecs.currentOSVersion, '')} ${IdsEnvironmentUtil.devicespecs.currentOSVersion}</span><br>
       <span>${this.locale.translate('Platform')} : ${specs.os}</span><br>
       <span>${this.locale.translate('Mobile')} : ${IdsEnvironmentUtil.devicespecs.isMobile}</span><br>
       <span>${this.locale.translate('Locale')} : ${this.locale.locale.name}</span><br>
@@ -203,9 +227,14 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
       <span>${this.locale.translate('Browser')} : ${` ${IdsEnvironmentUtil.devicespecs.browserVersionName}`} ${IdsEnvironmentUtil.devicespecs.currentBrowser} (${IdsEnvironmentUtil.devicespecs.browserVersion})</span><br>
       <span>${this.locale.translate('BrowserLanguage')} : ${specs.locale}</span><br>
       <span>${this.locale.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span>
-    </p>`;
+    </ids-text>`;
 
-    contentEl.innerHTML = content;
+    // Clear slot before rerender
+    slot.forEach((item) => item.remove());
+
+    if (this.deviceSpecs) {
+      this.insertAdjacentHTML('beforeend', element);
+    }
   }
 
   /**
@@ -223,20 +252,45 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     const sanitizedVal = this.xssSanitize(val);
     this.setAttribute(attributes.COPYRIGHT_YEAR, sanitizedVal);
 
-    this.#refreshCopyright(sanitizedVal);
+    this.#refreshCopyright();
+  }
+
+  /**
+   * @returns {boolean} useDefaultCopyright attribute value
+   */
+  get useDefaultCopyright() {
+    const attrVal = this.getAttribute(attributes.USE_DEFAULT_COPYRIGHT);
+
+    return attrVal ? IdsStringUtils.stringToBool(attrVal) : true;
+  }
+
+  /**
+   * Sets whether or not to display Legal Approved Infor Copyright Text
+   * @param {string|boolean} val useDefaultCopyright attribute value
+   */
+  set useDefaultCopyright(val) {
+    const trueVal = IdsStringUtils.stringToBool(val);
+    this.setAttribute(attributes.USE_DEFAULT_COPYRIGHT, trueVal);
+
+    this.#refreshCopyright();
   }
 
   /**
    * Refreshes the copyright content
-   * @param {string} copyrightYear year attribute
+   * @private
    * @returns {void}
    */
-  #refreshCopyright(copyrightYear) {
-    const contentEl = this.container.querySelector('.ids-about-copyright');
-    const copyright = `<p>${this.locale.translate('AboutText')} <a class="hyperlink" href="http://www.infor.com" target="_blank">www.infor.com</a>.</p>`;
-    const content = copyright.replace('{0}', copyrightYear);
+  #refreshCopyright() {
+    const slot = this.querySelectorAll('[slot="copyright"]');
+    const copyrightText = this.locale.translate('AboutText').replace('{0}', this.copyrightYear);
+    const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="htts://www.infor.com">www.infor.com</ids-hyperlink></ids-text>`;
 
-    contentEl.innerHTML = content;
+    // Clear slot before rerender
+    slot.forEach((item) => item.remove());
+
+    if (this.useDefaultCopyright) {
+      this.insertAdjacentHTML('beforeend', element);
+    }
   }
 }
 

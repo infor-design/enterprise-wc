@@ -183,6 +183,7 @@ export const attributes = {
   TYPE: 'type',
   UNIQUE_ID: 'unique-id',
   URL: 'url',
+  USE_DEFAULT_COPYRIGHT: 'use-default-copyright',
   VALIDATE: 'validate',
   VALIDATION_EVENTS: 'validation-events',
   VALIDATION_HAS_ERROR: 'validation-has-error',
