@@ -22,12 +22,13 @@ class IdsLayoutGrid extends IdsElement {
 
   static get attributes() {
     return [
-      attributes.FIXED,
-      attributes.GAP,
       attributes.AUTO,
       attributes.COLS,
-      attributes.ROWS,
-      attributes.NO_MARGINS
+      attributes.FIXED,
+      attributes.GAP,
+      attributes.NO_MARGINS,
+      'min-col-width',
+      attributes.ROWS
     ];
   }
 
@@ -147,6 +148,23 @@ class IdsLayoutGrid extends IdsElement {
   }
 
   get noMargins() { return this.getAttribute(attributes.NO_MARGINS); }
+
+  /**
+   * Sets the min col width on the grid
+   * @param {string} value number for pixel length
+   */
+  set minColWidth(value) {
+    if (value) {
+      this.setAttribute('min-col-width', value.toString());
+      this.style.setProperty('--grid-min-col-width', value);
+      return;
+    }
+
+    this.removeAttribute('min-col-width');
+    this.style.removeProperty('--grid-min-col-width');
+  }
+
+  get minColWidth() { return this.getAttribute('min-col-width'); }
 }
 
 export default IdsLayoutGrid;
