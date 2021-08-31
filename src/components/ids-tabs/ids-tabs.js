@@ -37,11 +37,10 @@ const attributeProviderDefs = {
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
- * @part container - the container of all tabs
  */
 @customElement('ids-tabs')
 @scss(styles)
-export default class IdsTabs extends mix(IdsElement).with(
+class IdsTabs extends mix(IdsElement).with(
     IdsAttributeProviderMixin(attributeProviderDefs),
     IdsEventsMixin,
     IdsKeyboardMixin,
@@ -464,3 +463,5 @@ export default class IdsTabs extends mix(IdsElement).with(
     return this.getAttribute(attributes.COLOR_VARIANT);
   }
 }
+
+export default IdsTabs;

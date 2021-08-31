@@ -65,6 +65,7 @@ do not have a value, will fall back to being a 0-based index. Otherwise, it can
 also be any string as long as there are relevant matches for the values.
 - `orientation` {'horizontal' | 'vertical'} defaults to horizontal; controls
 the direction/axis tabs are flowed on.
+- `color-variant` {'alternate'} (optional) sets the color variant to `alternate`; this is used on header components and set automatically when placed inside of an `ids-header` component.
 
 ### Individual Tabs Settings (`ids-tab`)
 - `disabled` {boolean} allows you to disable a tab among a set of tabs.
@@ -72,12 +73,13 @@ the direction/axis tabs are flowed on.
 has an equivalent for, selects this tab.
 
 ## Themeable Parts
-
-TODO
+### IdsTabs
+- `container` allows you to style the container of the tab
 
 ## States and Variations (With Code Examples)
 
-Ids Header
+When placed inside of an `IdsHeader` component, the `ids-tabs` component automatically gains the property `color-variant` which is set to `alternate` as it's default style.
+
 
 ## Keyboard Guidelines
 

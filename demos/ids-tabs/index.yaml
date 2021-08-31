@@ -16,4 +16,4 @@
   - link: standalone-css.html
     description: Showing limited tabs that works with css only
   - link: header-tabs.html
-    description: Tabs within header and content in body updating.
+    description: Header Tabs and content in body updating.

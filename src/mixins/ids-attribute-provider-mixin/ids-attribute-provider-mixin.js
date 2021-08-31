@@ -13,11 +13,11 @@ const traversibleHTMLTags = new Set(['DIV', 'SPAN']);
 
 /**
  * @typedef AttributeProvidedDef
- * @property {string} attribute the type of attribute
+ * @property {string} attribute the type of attribute being provided
  * @property {string} targetAttribute the attribute being targeted
  * on the child which is assigned
- * @property {Function} valueXformer transforms the value assigned
- * @property {Array} cliffTags tags where we know we won't find our
+ * @property {Function} valueTransformer transforms the value assigned
+ * @property {Array} cliffTags tags where we know to stop searching for more nodes < @TODO.
  * intended element and can stop traversing e.g. ['SVG']
  */
 
