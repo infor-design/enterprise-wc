@@ -229,8 +229,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       this.slider.style.setProperty('--percentStart', 0);
       this.slider.style.setProperty('--percentEnd', this.percent);
     } else if (this.type === 'double') {
-      const minPercent = Math.min(this.percent, this.percentb);
-      const maxPercent = Math.max(this.percent, this.percentb);
+      const minPercent = Math.min(this.percent, this.percentSecondary);
+      const maxPercent = Math.max(this.percent, this.percentSecondary);
       this.slider.style.setProperty('--percentStart', minPercent);
       this.slider.style.setProperty('--percentEnd', maxPercent);
 
@@ -312,18 +312,19 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   get stepNumber() { return parseInt(this.getAttribute('step-number')) || 2; }
 
-  set percentb(value) {
-    this._percentb = value;
+  set percentSecondary(value) {
+    this._percentSecondary = value;
     this.#updateProgressBar();
     this.#updateToolTip(this.#calcValueFromPercent(value), 'secondary');
   }
 
-  get percentb() {
-    // undefined values will go to else block for isNaN but not Number.isNaN
-    if (!isNaN(this._percentb)) {
-      return this._percentb;
+  get percentSecondary() {
+    // we need all these checks so that it still works with 0
+    if (Number.isNaN(this._percentSecondary) || typeof this._percentSecondary === 'undefined' || this._percentSecondary === null || this._percentSecondary === '') {
+      // calculate on the fly if not a valid number
+      return ((this.valueSecondary - this.min) / (this.max - this.min)) * 100;
     }
-    return ((this.valueSecondary - this.min) / (this.max - this.min)) * 100;
+    return this._percentSecondary;
   }
 
   set percent(value) {
@@ -333,11 +334,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   get percent() {
-    // undefined values will go to else block for !isNaN but not !Number.isNaN
-    if (!isNaN(this._percent)) {
-      return this._percent;
+    if(Number.isNaN(this._percentSecondary) || typeof this._percentSecondary === 'undefined' || this._percentSecondary === null || this._percentSecondary === '') {
+      return ((this.value - this.min) / (this.max - this.min)) * 100;
     }
-    return ((this.value - this.min) / (this.max - this.min)) * 100;
+    return this._percent;
   }
 
   #withinBounds(value) {
@@ -347,7 +347,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   set valueSecondary(value) {
     if (this.#withinBounds(value)) {
       this.setAttribute(attributes.VALUE_SECONDARY, value);
-      this.percentb = ((this.valueSecondary - this.min) / (this.max - this.min)) * 100;
+      this.percentSecondary = ((this.valueSecondary - this.min) / (this.max - this.min)) * 100;
       this.#updateToolTip(value, 'secondary');
       this.#moveThumb('secondary');
     } else if (value < this.min) {
@@ -568,7 +568,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       // secondary values
       if (primaryOrSecondary === 'secondary' && this.type === 'double') {
         thumbDraggable = this.thumbDraggableSecondary;
-        percent = this.percentb;
+        percent = this.percentSecondary;
       }
 
       // console.log('moveThumb percent: ' + percent);
@@ -737,7 +737,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       thumbDraggableOther: d ? this.thumbDraggable : this.thumbDraggableSecondary,
       primaryOrSecondary: d ? 'secondary' : 'primary',
       valueAttribute: d ? 'valueSecondary' : 'value',
-      percentAttribute: d ? 'percentb' : 'percent'
+      percentAttribute: d ? 'percentSecondary' : 'percent'
     };
 
     const swapZIndex = () => {
@@ -751,12 +751,17 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     this.onEvent('ids-drag', obj.thumbDraggable, (e) => {
       this.type !== 'step' && this.#hideTooltip(false);
 
-      const {LEFT, RIGHT, TOP, BOTTOM} = this.trackBounds;
+      const { 
+        LEFT,
+        RIGHT,
+        TOP,
+        BOTTOM
+      } = this.trackBounds;
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
 
       const mousePos = this.vertical ? y : x;
-      const startPos = this.vertical ? top : left;
-      const endPos = this.vertical ? bottom : right;
+      const startPos = this.vertical ? TOP : LEFT;
+      const endPos = this.vertical ? BOTTOM : RIGHT;
 
       const percent = this.#calcPercentFromMousePos(
         mousePos,
@@ -787,7 +792,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       obj.thumbDraggable.focus();
       // to ensure that after dragging, the value is updated only after dragging has ended..
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event
-      const freshPercent = obj.primaryOrSecondary === 'secondary' ? this.percentb : this.percent;
+      const freshPercent = obj.primaryOrSecondary === 'secondary' ? this.percentSecondary : this.percent;
       const calcValue = this.#calcValueFromPercent(freshPercent);
       this[obj.valueAttribute] = calcValue;
     });
