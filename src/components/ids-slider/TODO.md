@@ -38,7 +38,7 @@
 - [ ] make function for init css styles
 - [x] remove percent attributes--don't want them accessible from outside
 - [x] fix bug on single slider where dragging past 0 results in negative value (see tooltip when dragging)
-- [ ] add themes
+- [ ] **add themes
 - [x] add vertical functionality
   - [x] single slider
   - [x] double slider // need to fix the transition styles that are set
@@ -46,15 +46,15 @@
   - [x] step slider
     - [x] allow custom min/max values; automatically set decimal labels when step number is larger than max-min
   - [x] set css classes for vertical to separate better
-  - [ ] flip min to bottom, max to top
+  - [ ] **flip min to bottom, max to top
 - [x] add custom color functionality
   - [x] works with ids-status colors
   - [x] works with css native color keywords
 - wrapping up before PR
-  - [ ] npm run lint
-  - [ ] remove hover css
-  - [ ] delete this file (?)
-  - [ ] test
+  - [x] npm run lint
+    - [ ] request changes to lint rules
+  - [x] remove hover css
+  - [-] test
     - [x] make sure double range slider sets default inputs even if attribute valueb is unspecified or out of the bounds of min/max
     - [x] test double range slider with negative min and positive max
     - [ ] write tests
