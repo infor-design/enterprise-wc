@@ -34,7 +34,7 @@ const attributeProviderDefs = {
 };
 
 /**
- * IDS TabsContext Component
+ * IDS Tabs Context Component
  * @type {IdsTabsContext}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
