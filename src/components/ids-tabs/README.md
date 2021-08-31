@@ -32,7 +32,7 @@ A vertical tabs component.
 </ids-tabs>
 ```
 
-Using a tab context auto-updates the active `ids-tab-content`.
+Using a tab context to show the active tab content in `ids-tab-content`.
 ```html
 <ids-tabs-context> <!-- context has no outward styling or content -->
     <ids-tabs value="one">
