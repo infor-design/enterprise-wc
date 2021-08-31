@@ -10,7 +10,7 @@
     @include pt-40();
 
     justify-content: center;
-    width: calc(100% - 40px)
+    width: calc(100% - 40px);
   }
 
   .ids-modal-content-wrapper {
@@ -42,4 +42,17 @@
       @include border-slate-70();
     }
   }
+
+  &-close {
+    @include absolute();
+    @include right-8();
+    @include top-8();
+  }
+}
+
+::slotted([slot='product']),
+::slotted([slot='content']),
+::slotted([slot='copyright']) {
+  @include block();
+  @include mb-8();
 }
