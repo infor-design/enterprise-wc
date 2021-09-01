@@ -86,6 +86,7 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} value set the text for the secondary label
    */
   set completedLabel(value) {
+    /* istanbul ignore else */
     if (this.getAttribute(attributes.COMPLETED_LABEL) !== value) {
       this.setAttribute('completed-label', value);
       this.container.querySelector('.completed-label').innerHTML = `${value}`;
@@ -117,6 +118,7 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} value sets the ids color variable that in progress steps use
    */
   set progressColor(value) {
+    /* istanbul ignore else */
     if (this.getAttribute(attributes.PROGRESS_COLOR) !== value) {
       this.setAttribute('progress-color', value);
       this.container.querySelectorAll(`.in-progress`).forEach((element) => {
@@ -134,6 +136,7 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string|number} value sets the number of steps in the step chart
    */
   set stepNumber(value) {
+    /* istanbul ignore else */
     if (this.getAttribute(attributes.STEP_NUMBER) !== value) {
       this.setAttribute('step-number', value);
       this.container.innerHTML = this.template();
@@ -142,14 +145,14 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * @returns {Array[number]} an array of the steps that have been marked as in progress
+   * @returns {Array} an array of the steps that have been marked as in progress
    */
   get stepsInProgress() {
     return this.internalStepsInProgress;
   }
 
   /**
-   * @param {Array[number|string]} value updates the list of steps that are marked as
+   * @param {Array} value updates the list of steps that are marked as
    * in progress
    */
   set stepsInProgress(value) {
@@ -166,6 +169,7 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} value sets the number of the last step in the array to be filled in
    */
   set value(value) {
+    /* istanbul ignore else */
     if (this.getAttribute(attributes.VALUE) !== this.value) {
       this.setAttribute('value', value);
       this.#updateColor();
