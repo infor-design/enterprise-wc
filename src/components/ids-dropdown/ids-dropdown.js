@@ -8,39 +8,52 @@ import {
 
 // Import Mixins
 import {
+  IdsDirtyTrackerMixin,
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsPopupOpenEventsMixin,
   IdsThemeMixin,
+  IdsValidationMixin,
   IdsLocaleMixin
 } from '../../mixins';
 
-import '../ids-trigger-field/ids-trigger-field';
-import '../ids-trigger-field/ids-trigger-button';
-import '../ids-popup/ids-popup';
-import '../ids-list-box/ids-list-box';
+// Import Utils
+import { IdsStringUtils as stringUtils } from '../../utils';
 
+// Supporting components
+import { IdsTriggerButton, IdsTriggerField } from '../ids-trigger-field';
+import IdsInput from '../ids-input';
+import IdsPopup from '../ids-popup';
+import IdsListBox from '../ids-list-box';
+import IdsText from '../ids-text';
+import IdsIcon from '../ids-icon';
+
+// Import Styles
 import styles from './ids-dropdown.scss';
 
 /**
  * IDS Dropdown Component
  * @type {IdsDropdown}
  * @inherits IdsElement
+ * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsPopupOpenEventsMixin
+ * @mixes IdsValidationMixin
  * @part dropdown - the tag element
  */
 @customElement('ids-dropdown')
 @scss(styles)
 class IdsDropdown extends mix(IdsElement).with(
+    IdsDirtyTrackerMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsPopupOpenEventsMixin,
     IdsThemeMixin,
-    IdsLocaleMixin
+    IdsLocaleMixin,
+    IdsValidationMixin
   ) {
   constructor() {
     super();
@@ -53,15 +66,26 @@ class IdsDropdown extends mix(IdsElement).with(
   connectedCallback() {
     super.connectedCallback();
 
+    // Empty Dropdown
+    if (!this.container.querySelector) {
+      this.container = document.createElement('ids-trigger-field');
+    }
     this.popup = this.shadowRoot.querySelector('ids-popup');
-    this.fieldContainer = this.container.querySelector('ids-input').shadowRoot.querySelector('.field-container');
-    this.trigger = this.container.querySelector('ids-trigger-button');
-    this.input = this.shadowRoot.querySelector('ids-input').shadowRoot.querySelector('input');
+    this.inputRoot = this.shadowRoot.querySelector('ids-input');
+    this.fieldContainer = this.container.querySelector('ids-input')?.shadowRoot.querySelector('.field-container');
+    this.trigger = this.shadowRoot.querySelector('ids-trigger-button');
+    this.input = this.inputRoot?.shadowRoot?.querySelector('input');
+    this.listBox = this.querySelector('ids-list-box');
+    this.labelEl = this.inputRoot?.shadowRoot.querySelector('label');
 
     this
+      .#addAria()
       .#handleEvents()
-      .#handleKeys()
-      .#addAria();
+      .#handleKeys();
+
+    // TODO Refactor once 321 is merged
+    this.handleDirtyTracker();
+    this.handleValidation();
   }
 
   /**
@@ -70,9 +94,14 @@ class IdsDropdown extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
+      attributes.DIRTY_TRACKER,
+      attributes.DISABLED,
       attributes.LABEL,
       attributes.LANGUAGE,
       attributes.MODE,
+      attributes.READONLY,
+      attributes.VALIDATE,
+      attributes.VALIDATION_EVENTS,
       attributes.VALUE,
       attributes.VERSION
     ];
@@ -85,8 +114,8 @@ class IdsDropdown extends mix(IdsElement).with(
   template() {
     return `
     <ids-trigger-field>
-      <ids-input label="${this.label}" size="md" cursor="pointer" readonly bg-transparent="true" user-select="none"></ids-input>
-      <ids-trigger-button tabbable="false">
+      <ids-input label="${this.label}" disabled="${this.disabled}" readonly="true" size="md" ${!this.disabled && !this.readonly ? 'cursor="pointer"' : ''} ${this.readonly ? 'cursor="text"' : ''} readonly bg-transparent="${!this.readonly && !this.disabled}" user-select="none"></ids-input>
+      <ids-trigger-button tabbable="false" disabled="${this.disabled}" readonly="${this.readonly}">
         <ids-text audible="true">Dropdown Button</ids-text>
         <ids-icon slot="icon" icon="dropdown"></ids-icon>
       </ids-trigger-button>
@@ -109,12 +138,11 @@ class IdsDropdown extends mix(IdsElement).with(
       'aria-expanded': 'false',
       'aria-autocomplete': 'list',
       'aria-haspopup': 'listbox',
-      'aria-description': this.locale.translate('PressDown'),
-      'aria-controls': 'ids-list-box-id'
+      'aria-description': this.locale?.translate('PressDown'),
+      'aria-controls': this.listBox?.getAttribute('id') || 'ids-list-box-id'
     };
-
-    this.querySelector('ids-list-box').setAttribute('id', 'ids-list-box-id');
-    Object.keys(attrs).forEach((key) => this.input.setAttribute(key, attrs[key]));
+    this.listBox?.setAttribute('id', 'ids-list-box-id');
+    Object.keys(attrs).forEach((key) => this.setAttribute(key, attrs[key]));
     return this;
   }
 
@@ -123,10 +151,8 @@ class IdsDropdown extends mix(IdsElement).with(
    * @param {boolean|string} value true of false depending if the tag is dismissed
    */
   set label(value) {
-    if (value) {
-      this.setAttribute('label', value);
-      this.shadowRoot.querySelector('ids-input').setAttribute('label', value);
-    }
+    this.setAttribute('label', value);
+    this.shadowRoot.querySelector('ids-input').setAttribute('label', value);
   }
 
   get label() { return this.getAttribute('label'); }
@@ -137,9 +163,12 @@ class IdsDropdown extends mix(IdsElement).with(
    */
   set value(value) {
     const elem = this.selectedOption;
+    if (!elem) {
+      return;
+    }
     this.#clearSelected();
     this.#selectOption(elem);
-    this.shadowRoot.querySelector('ids-input').value = elem?.textContent || '';
+    this.shadowRoot.querySelector('ids-input').value = elem.textContent;
     this.state.selectedIndex = [...elem.parentElement.children].indexOf(elem);
     this.setAttribute('value', value);
   }
@@ -177,12 +206,82 @@ class IdsDropdown extends mix(IdsElement).with(
   }
 
   /**
+   * Sets the readonly attribute
+   * @param {string|boolean} value string value from the readonly attribute
+   */
+  set readonly(value) {
+    const isReadonly = stringUtils.stringToBool(value);
+    if (isReadonly) {
+      if (this.input) {
+        this.removeAttribute('disabled');
+        this.inputRoot.readonly = true;
+        this.inputRoot.disabled = false;
+        this.inputRoot.cursor = 'text';
+        this.inputRoot.bgTransparent = false;
+        this.trigger.readonly = true;
+        this.trigger.disabled = false;
+      }
+      this.setAttribute('readonly', 'true');
+      return;
+    }
+
+    if (this.input) {
+      this.inputRoot.readonly = false;
+      this.inputRoot.disabled = false;
+      this.inputRoot.cursor = 'pointer';
+      this.inputRoot.bgTransparent = true;
+      this.trigger.readonly = false;
+      this.trigger.disabled = false;
+    }
+    this.removeAttribute('readonly');
+  }
+
+  get readonly() {
+    return stringUtils.stringToBool(this.getAttribute('readonly')) || false;
+  }
+
+  /**
+   * Sets the disabled attribute
+   * @param {string|boolean} value string value from the disabled attribute
+   */
+  set disabled(value) {
+    const isDisabled = stringUtils.stringToBool(value);
+    if (isDisabled) {
+      if (this.inputRoot) {
+        this.removeAttribute('readonly');
+        this.inputRoot.disabled = true;
+        this.inputRoot.readonly = false;
+        this.inputRoot.cursor = 'initial';
+        this.inputRoot.bgTransparent = true;
+        this.trigger.disabled = true;
+        this.trigger.readonly = false;
+      }
+      this.setAttribute('disabled', 'true');
+      return;
+    }
+
+    if (this.input) {
+      this.inputRoot.disabled = false;
+      this.inputRoot.readonly = false;
+      this.inputRoot.cursor = 'pointer';
+      this.inputRoot.bgTransparent = false;
+      this.trigger.disabled = false;
+      this.trigger.readonly = false;
+    }
+    this.removeAttribute('disabled');
+  }
+
+  get disabled() {
+    return stringUtils.stringToBool(this.getAttribute('disabled')) || false;
+  }
+
+  /**
    * Set the aria and state on the element
    * @param {HTMLElement} option the option to select
    */
    #selectOption(option) {
-    option.setAttribute('aria-selected', 'true');
-    option.classList.add('is-selected');
+    option?.setAttribute('aria-selected', 'true');
+    option?.classList.add('is-selected');
   }
 
   /**
@@ -200,6 +299,10 @@ class IdsDropdown extends mix(IdsElement).with(
    * Open the dropdown list
    */
   open() {
+    if (this.disabled || this.readonly) {
+      return;
+    }
+
     // Open the popup and add a class
     this.popup.alignTarget = this.container.querySelector('ids-input').shadowRoot.querySelector('.field-container');
     this.popup.align = 'bottom, left';
@@ -209,10 +312,15 @@ class IdsDropdown extends mix(IdsElement).with(
     this.popup.type = 'dropdown';
     this.addOpenEvents();
     this.input.classList.add('is-active');
-    this.input.setAttribute('aria-expanded', 'false');
+    this.input.setAttribute('aria-expanded', 'true');
 
     // Add aria for the open state
-    this.setAttribute('aria-activedescendant', this.selectedOption.id || this.selectedIndex);
+    this.listBox?.setAttribute('aria-activedescendant', this.selectedOption?.id || this.selectedIndex);
+    const selected = this.listBox?.querySelector('.is-selected');
+    if (selected) {
+      selected.setAttribute('tabindex', 0);
+      selected.focus();
+    }
   }
 
   /**
@@ -226,15 +334,24 @@ class IdsDropdown extends mix(IdsElement).with(
 
   /**
    * Close the dropdown popup
+   * @param {boolean} noFocus if true do not focus on close
    */
-  close() {
+  close(noFocus) {
     this.popup.visible = false;
     this.input.classList.remove('is-active');
     this.input.setAttribute('aria-expanded', 'false');
     const selected = this.querySelector('ids-list-box-option.is-selected');
-    selected.classList.remove('is-selected');
-    this.selectedOption.classList.add('is-selected');
+
+    if (selected) {
+      selected.classList.remove('is-selected');
+      this.selectedOption.classList.add('is-selected');
+    }
+
     this.removeOpenEvents();
+
+    if (!noFocus) {
+      this.input.focus();
+    }
   }
 
   /**
@@ -273,14 +390,17 @@ class IdsDropdown extends mix(IdsElement).with(
 
     // Respond to parent changing language
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      if (!this.setLanguage) {
+        return;
+      }
       await this.setLanguage(e.detail.language.name);
-      this.input.setAttribute('aria-description', this.locale.translate('PressDown'));
+      this.setAttribute('aria-description', this.locale.translate('PressDown'));
     });
 
     // Respond to the element changing language
     this.onEvent('languagechange.this', this, async (e) => {
       await this.locale.setLanguage(e.detail.language.name);
-      this.input.setAttribute('aria-description', this.locale.translate('PressDown'));
+      this.setAttribute('aria-description', this.locale.translate('PressDown'));
     });
 
     // Disable text selection on tab (extra info in the screen reader)
@@ -321,13 +441,18 @@ class IdsDropdown extends mix(IdsElement).with(
         return;
       }
 
-      if (e.key === 'ArrowDown' && selected.nextElementSibling) {
+      if (e.key === 'ArrowDown' && selected?.nextElementSibling) {
         selected.classList.remove('is-selected');
+        selected.setAttribute('tabindex', '-1');
         selected.nextElementSibling.classList.add('is-selected');
+        selected.nextElementSibling.setAttribute('tabindex', '0');
+        selected.nextElementSibling.focus();
       }
-      if (e.key === 'ArrowUp' && selected.previousElementSibling) {
+      if (e.key === 'ArrowUp' && selected?.previousElementSibling) {
         selected.classList.remove('is-selected');
+        selected.setAttribute('tabindex', '-1');
         selected.previousElementSibling.classList.add('is-selected');
+        selected.previousElementSibling.focus();
       }
     });
 
@@ -347,8 +472,70 @@ class IdsDropdown extends mix(IdsElement).with(
       this.value = selected.getAttribute('id');
       this.close();
     });
+
+    // Move to Next on Tab
+    this.listen(['Tab'], this, (e) => {
+      if (!this.popup.visible) {
+        return;
+      }
+
+      if (e.shiftKey) {
+        this.input.focus();
+      }
+
+      const selected = this.querySelector('ids-list-box-option.is-selected');
+      this.value = selected.getAttribute('id');
+      this.close(true);
+    });
     return this;
   }
+
+  /**
+   * Set the dirty tracking feature on to indicate a changed dropdown
+   * @param {boolean|string} value If true will set `dirty-tracker` attribute
+   */
+  set dirtyTracker(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
+    } else {
+      this.removeAttribute(attributes.DIRTY_TRACKER);
+    }
+
+    this.handleDirtyTracker();
+  }
+
+  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
+
+  /**
+   * Sets the validation check to use
+   * @param {string} value The `validate` attribute
+   */
+  set validate(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATE, value.toString());
+    } else {
+      this.removeAttribute(attributes.VALIDATE);
+    }
+    this.handleValidation();
+  }
+
+  get validate() { return this.getAttribute(attributes.VALIDATE); }
+
+  /**
+   * Set `validation-events` attribute
+   * @param {string} value The `validation-events` attribute
+   */
+  set validationEvents(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
+    } else {
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
+    }
+    this.handleValidation();
+  }
+
+  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS) || 'change'; }
 }
 
 export default IdsDropdown;

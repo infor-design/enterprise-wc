@@ -60,7 +60,11 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   removeDirtyTrackerIcon() {
-    const icon = this.shadowRoot.querySelector('.icon-dirty');
+    let icon = this.shadowRoot.querySelector('.icon-dirty');
+    if (icon) {
+      icon.remove();
+    }
+    icon = this.shadowRoot.querySelector('ids-input')?.shadowRoot?.querySelector('.icon-dirty');
     if (icon) {
       icon.remove();
     }
@@ -88,7 +92,11 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   removeDirtyTrackerMsg() {
-    const msg = this.labelEl?.querySelector('.msg-dirty');
+    let msg = this.labelEl?.querySelector('.msg-dirty');
+    if (msg) {
+      msg.remove();
+    }
+    msg = this.shadowRoot.querySelector('ids-input')?.shadowRoot?.querySelector('.icon-dirty');
     if (msg) {
       msg.remove();
     }

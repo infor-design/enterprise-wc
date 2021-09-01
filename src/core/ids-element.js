@@ -152,13 +152,17 @@ class IdsElement extends HTMLElement {
    * @returns {object} The object for chaining.
    */
   render() {
-    if (!this.template || !this.template()) {
+    if (!this.template) {
+      return this;
+    }
+
+    const templateHTML = this.template();
+    if (!templateHTML) {
       return this;
     }
 
     // Make template and shadow objects
     const template = document.createElement('template');
-
     if (this.shadowRoot?.innerHTML) {
       this.shadowRoot.innerHTML = '';
       // Append the style sheet for safari
@@ -173,7 +177,7 @@ class IdsElement extends HTMLElement {
     }
 
     this.appendStyles();
-    template.innerHTML = this.template();
+    template.innerHTML = templateHTML;
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);

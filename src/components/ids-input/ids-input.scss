@@ -124,7 +124,8 @@ $input-compact-height: $input-field-height-xs;
     }
 
     &:focus,
-    &.is-active {
+    &.is-active,
+    &:focus[readonly] {
       @include border-azure-60();
       @include shadow();
 
@@ -133,6 +134,7 @@ $input-compact-height: $input-field-height-xs;
     }
 
     &.is-active {
+      border-color: var(--ids-color-palette-azure-60) !important;
       border-radius: 2px 2px 0 0;
     }
 

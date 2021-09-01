@@ -32,6 +32,11 @@
     @include text-slate-40();
   }
 
+  &[readonly] {
+    @include cursor-text();
+    @include text-slate-40();
+  }
+
   ::slotted(ids-icon) {
     margin-left: -2px;
     margin-top: 3px;

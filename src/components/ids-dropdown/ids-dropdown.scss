@@ -1,8 +1,8 @@
 /* Ids Dropdown Component */
-@import '../../core/ids-base';
+@import '../../mixins/sass/ids-validation-mixin';
 
-:host(ids-input) {
-  @include cursor-pointer();
+// Styles are in list-box, popup and triggr field
 
-  user-select: false;
+.validation-message {
+  margin-top: - 10px;
 }

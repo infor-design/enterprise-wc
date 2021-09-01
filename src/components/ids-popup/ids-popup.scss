@@ -359,6 +359,19 @@
       3px 3px 3px 0 rgb(54 138 192 / 30%);
     border-radius: 0 0 2px 2px;
     border-top-color: var(--ids-color-palette-slate-30);
+
+    // One Side
+    // 4px 0px, rgb(54 138 192 / 30%) -2px -3px 2px 1px, 0px -4px
+    &.flipped {
+      border-radius: 2px 2px 0 0;
+      border-bottom-color: var(--ids-color-palette-slate-30);
+      border-top-color: var(--ids-color-palette-slate-60);
+      box-shadow:
+        0 -3px 3px 0 rgb(54 138 192 / 30%),
+        2px 0 3px 0 rgb(54 138 192 / 30%),
+        -3px 0 3px 0 rgb(54 138 192 / 30%);
+      margin-top: 3px;
+    }
   }
 }
 

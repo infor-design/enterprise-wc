@@ -7,8 +7,6 @@ describe('Ids Dropdown e2e Tests', () => {
 
   it('should not have errors', async () => {
     await expect(page.title()).resolves.toMatch('IDS Dropdown Component');
-    await expect(page.evaluate('document.querySelector("ids-theme-switcher").getAttribute("mode")'))
-      .resolves.toMatch('light');
   });
 
   it('should pass Axe accessibility tests', async () => {

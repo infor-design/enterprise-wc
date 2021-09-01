@@ -1,23 +1,27 @@
 import {
   IdsElement,
-  customElement
+  customElement,
+  scss
 } from '../../core';
 
 import './ids-list-box-option';
+import styles from './ids-list-box.scss';
 
 /**
  * IDS List Box Component
- * @type {IdsListBoxOption}
+ * @type {IdsListBox}
  * @inherits IdsElement
  */
 @customElement('ids-list-box')
-class IdsListBoxOption extends IdsElement {
+@scss(styles)
+class IdsListBox extends IdsElement {
   constructor() {
     super();
   }
 
   connectedCallback() {
     this.setAttribute('role', 'listbox');
+    this.setAttribute('tabindex', '0');
   }
 
   /**
@@ -29,4 +33,4 @@ class IdsListBoxOption extends IdsElement {
   }
 }
 
-export default IdsListBoxOption;
+export default IdsListBox;

@@ -21,6 +21,7 @@ class IdsListBoxOption extends IdsElement {
 
   connectedCallback() {
     this.setAttribute('role', 'option');
+    this.setAttribute('tabindex', '-1');
   }
 
   /**

@@ -866,6 +866,9 @@ class IdsPopup extends mix(IdsElement).with(
             }
           });
           this.container.classList.add('open');
+          if (this.isFlipped) {
+            this.container.classList.add('flipped');
+          }
         }
         if (!this.state.animated && this.container.classList.contains('animated')) {
           this.container.classList.remove('animated');
@@ -891,6 +894,11 @@ class IdsPopup extends mix(IdsElement).with(
           // Remove the `visible` class if its there
           if (this.container.classList.contains('visible')) {
             this.container.classList.remove('visible');
+          }
+          // Remove the `flipped` class if its there
+          if (this.isFlipped) {
+            this.container.classList.remove('flipped');
+            this.isFlipped = false;
           }
         }
         if (this.state.animated && !this.container.classList.contains('animated')) {
@@ -952,6 +960,7 @@ class IdsPopup extends mix(IdsElement).with(
   placeAgainstTarget(targetAlignEdge) {
     let x = this.x;
     let y = this.y;
+    this.container.classList.remove('flipped');
 
     // Detect sizes/locations of the popup and the alignment target Element
     let popupRect = this.container.getBoundingClientRect();
@@ -1036,6 +1045,7 @@ class IdsPopup extends mix(IdsElement).with(
     /* istanbul ignore next */
     if (this.#shouldFlip(popupRect) && !targetAlignEdge) {
       this.placeAgainstTarget(this.oppositeAlignEdge);
+      this.isFlipped = true;
       return;
     }
 
@@ -1047,7 +1057,6 @@ class IdsPopup extends mix(IdsElement).with(
     if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
       this.#setArrowDirection(this.oppositeAlignEdge);
     }
-
     this.#renderPlacement(popupRect);
   }
 

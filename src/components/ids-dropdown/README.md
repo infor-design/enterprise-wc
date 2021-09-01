@@ -2,11 +2,11 @@
 
 ## Description
 
-Hjkdjks sdkjdsjkds j
+The Dropdown allows users to select from a list. Like an Html Select with style. Displays one or more selectable values in a menu that is collapsed by default. A user can select an actionable value.
 
 ## Use Cases
 
-- Use when the content on your page is mapped into multiple categories and does not only fit into one hierarchical category.
+- Use when you need to let the user select something from a list of values
 - Use when you want users to contribute data to your website and let them organize their content themselves.
 
 ## Terminology
@@ -35,9 +35,11 @@ A normal tag used as a web component.
 
 ## Keyboard Guidelines
 
-- <kbd>Tab/Shift+Tab</kbd>: If the tab is focusable this will focus or unfocus the tag.
-- <kbd>Backspace / Alt+Del</kbd>: If the tag is dismissible then this will remove the tag.
-- <kbd>Enter</kbd>: If the tag is clickable then this will follow the tag link.
+- <kbd>Tab/Shift + Tab</kbd>: Moves focus into and out of the dropdown input. If the list is open, this will close the list, selecting the current item, and moving to the next focusable element
+- <kbd>Alt + Down Arrow / Down Arrow</kbd>: Opens the dropdown list and moves focus to the selected option. If nothing is selected, then focus moves to the first option in the list. If the combobox is not editable nothing will happen.
+- <kbd>Enter</kbd>: Selects the currently highlighted item in the list, updates the input field, highlights the selected item in the dropdown list, closes the dropdown list, and returns focus to the input field.
+- <kbd>Escape</kbd>: Closes the dropdown list, returns focus to the edit field, and does not change the current selection.
+- <kbd>AnyKey</kbd>: Typing a letter opens the list and filters to the items that start with that letter
 
 ## Responsive Guidelines
 

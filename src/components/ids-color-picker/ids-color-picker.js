@@ -18,6 +18,8 @@ import '../ids-trigger-field/ids-trigger-button';
 import '../ids-popup/ids-popup';
 import styles from './ids-color-picker.scss';
 
+import { IdsStringUtils as stringUtils } from '../../utils';
+
 /**
  * IDS ColorPicker
  * @type {IdsColorPicker}
@@ -98,11 +100,11 @@ class IdsColorPicker extends mix(IdsElement).with(
       <div class="ids-color-picker">
         <ids-trigger-field>
           <label class="color-preview">
-            <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
+            <ids-input tabindex="-1" class="color-input" type="color" ${this.disabled || this.readonly ? ' disabled="true"' : ''}></ids-input>
             <ids-text audible="true">Pick Custom Color</ids-text>
           </label>
-          <ids-input value="${this.value.toLowerCase()}" size="sm" dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
-          <ids-trigger-button id="${id}-button" title="${id}" tabbable="false">
+          <ids-input value="${this.value.toLowerCase()}" size="sm" dirty-tracker="true" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''} class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
+          <ids-trigger-button id="${id}-button" title="${id}" tabbable="false" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''}>
             <ids-text audible="true">color picker trigger</ids-text>
             <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
           </ids-trigger-button>
@@ -138,7 +140,7 @@ class IdsColorPicker extends mix(IdsElement).with(
 
   /* istanbul ignore next */
   get readonly() {
-    return this.getAttribute('readonly') || 'false';
+    return stringUtils.stringToBool(this.getAttribute('readonly')) || false;
   }
 
   /**
@@ -150,7 +152,7 @@ class IdsColorPicker extends mix(IdsElement).with(
   }
 
   get disabled() {
-    return this.getAttribute('disabled') || 'false';
+    return stringUtils.stringToBool(this.getAttribute('disabled')) || false;
   }
 
   /**
@@ -190,35 +192,47 @@ class IdsColorPicker extends mix(IdsElement).with(
     });
 
     /* istanbul ignore next */
-    if (this.disabled === 'false') {
-      this.onEvent('click', this.container, (event) => {
-        const target = event.target;
-        const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
+    this.onEvent('click', this.container, (event) => {
+      const isEditable = !stringUtils.stringToBool(this.readonly)
+      && !stringUtils.stringToBool(this.disabled);
 
-        if (openColorCondition) {
+      if (!isEditable) {
+        return;
+      }
+
+      const target = event.target;
+      const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
+
+      if (openColorCondition) {
+        this.#openCloseColorpicker();
+      }
+
+      if (target.hasAttribute('hex')) {
+        this.#updateColorCheck(target);
+        this.setAttribute('value', target.getAttribute('hex').toLowerCase());
+        this.#openCloseColorpicker();
+      }
+    });
+
+    /* istanbul ignore next */
+    this.onEvent('keyup', this.container, (keyup) => {
+      const isEditable = !stringUtils.stringToBool(this.readonly)
+      && !stringUtils.stringToBool(this.disabled);
+
+      if (!isEditable) {
+        return;
+      }
+      if (keyup.key === 'Enter') {
+        if (keyup.target.id === `${this.id}-button`) {
           this.#openCloseColorpicker();
         }
-
-        if (target.hasAttribute('hex')) {
-          this.#updateColorCheck(target);
-          this.setAttribute('value', target.getAttribute('hex').toLowerCase());
+        if (keyup.target.hasAttribute('hex')) {
+          this.setAttribute('value', keyup.target.getAttribute('hex').toLowerCase());
           this.#openCloseColorpicker();
+          this.#updateColorCheck(keyup.target);
         }
-      });
-
-      this.onEvent('keyup', this.container, (keyup) => {
-        if (keyup.key === 'Enter') {
-          if (keyup.target.id === `${this.id}-button`) {
-            this.#openCloseColorpicker();
-          }
-          if (keyup.target.hasAttribute('hex')) {
-            this.setAttribute('value', keyup.target.getAttribute('hex').toLowerCase());
-            this.#openCloseColorpicker();
-            this.#updateColorCheck(keyup.target);
-          }
-        }
-      });
-    }
+      }
+    });
 
     this.onEvent('change', this.swatchInput, /* istanbul ignore next */ () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
     this.onEvent('change', this.colorPickerInput, /* istanbul ignore next */ () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
