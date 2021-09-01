@@ -62,6 +62,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     return `<ids-popup part="modal" class="ids-modal ids-about" type="custom">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header">
+          <slot name="icon"></slot>
           <slot name="appName"></slot>
         </div>
         <div class="ids-about-close">

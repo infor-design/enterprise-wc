@@ -10,6 +10,7 @@
     @include pt-40();
 
     justify-content: center;
+    flex-direction: column;
     width: calc(100% - 40px);
   }
 
@@ -53,5 +54,9 @@
 ::slotted([slot='content']),
 ::slotted([slot='copyright']) {
   @include block();
+  @include mb-8();
+}
+
+::slotted([slot='icon']) {
   @include mb-8();
 }
