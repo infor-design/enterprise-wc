@@ -16,48 +16,30 @@ import IdsPagerInput from './ids-pager-input';
 import IdsPagerNumberList from './ids-pager-number-list';
 import styles from './ids-pager.scss';
 
+const {
+  PAGE_NUMBER,
+  PAGE_SIZE,
+  DISABLED,
+  PARENT_DISABLED,
+  TOTAL
+} = attributes;
+
 const attributeProviderDefs = {
-  attributesProvided: [{
-    attribute: attributes.PAGE_NUMBER,
-    component: IdsPagerInput
-  }, {
-    attribute: attributes.PAGE_NUMBER,
-    component: IdsPagerNumberList
-  }, {
-    attribute: attributes.PAGE_NUMBER,
-    component: IdsPagerButton
-  }, {
-    attribute: attributes.TOTAL,
-    component: IdsPagerInput
-  }, {
-    attribute: attributes.TOTAL,
-    component: IdsPagerNumberList
-  }, {
-    attribute: attributes.TOTAL,
-    component: IdsPagerButton
-  }, {
-    attribute: attributes.PAGE_SIZE,
-    component: IdsPagerNumberList
-  }, {
-    attribute: attributes.PAGE_SIZE,
-    component: IdsPagerButton
-  }, {
-    attributes: attributes.DISABLED,
-    component: IdsPagerInput,
-    targetAttribute: attributes.PARENT_DISABLED
-  }, {
-    attributes: attributes.DISABLED,
-    component: IdsPagerButton,
-    targetAttribute: attributes.PARENT_DISABLED
-  }, {
-    attributes: attributes.DISABLED,
-    component: IdsPagerInput,
-    targetAttribute: attributes.PARENT_DISABLED
-  }, {
-    attributes: attributes.DISABLED,
-    component: IdsPagerNumberList,
-    targetAttribute: attributes.PARENT_DISABLED
-  }]
+  attributesProvided: [
+    { attribute: PAGE_NUMBER, component: IdsPagerInput },
+    { attribute: PAGE_NUMBER, component: IdsPagerNumberList },
+    { attribute: PAGE_NUMBER, component: IdsPagerButton },
+    { attribute: TOTAL, component: IdsPagerInput },
+    { attribute: TOTAL, component: IdsPagerNumberList },
+    { attribute: TOTAL, component: IdsPagerButton },
+    { attribute: PAGE_SIZE, component: IdsPagerNumberList },
+    { attribute: PAGE_SIZE, component: IdsPagerButton },
+    { attribute: PAGE_SIZE, component: IdsPagerInput },
+    { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
+    { attribute: DISABLED, component: IdsPagerButton, targetAttribute: PARENT_DISABLED },
+    { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
+    { attribute: DISABLED, component: IdsPagerNumberList, targetAttribute: PARENT_DISABLED }
+  ]
 };
 
 /**
