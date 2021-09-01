@@ -5,6 +5,7 @@ import IdsAccordion, {
   IdsAccordionHeader,
   IdsAccordionPanel
 } from '../../src/components/ids-accordion';
+import IdsContainer from '../../src/components/ids-container';
 
 import elemBuilderFactory from '../helpers/elem-builder-factory';
 import waitFor from '../helpers/wait-for';
@@ -302,5 +303,39 @@ describe('IdsAccordion Component', () => {
 
     header.expanderType = 'plus-minus';
     expect(header.expanderType).toBe('plus-minus');
+  });
+
+  it('can add/remove icons from accordion headers', () => {
+    const icon = header.container.querySelector('.ids-accordion-display-icon');
+    header.icon = 'user';
+
+    expect(header.getAttribute('icon')).toBe('user');
+    expect(icon.icon).toBe('user');
+
+    header.icon = null;
+
+    expect(header.getAttribute('icon')).toBe(null);
+    expect(icon.icon).toBe(null);
+  });
+
+  it('should update with container language change', () => {
+    const container = new IdsContainer();
+    document.body.appendChild(container);
+    container.appendChild(accordion);
+
+    const language = { before: 'en', after: 'ar' };
+    const mockCallback = jest.fn((e) => {
+      expect(e.detail.language.name).toEqual(language.after);
+    });
+
+    expect(accordion.language.name).toEqual(language.before);
+    container.addEventListener('languagechange', mockCallback);
+    const event = new CustomEvent('languagechange', {
+      detail: { language: { name: language.after } }
+    });
+    container.dispatchEvent(event);
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+    expect(accordion.language.name).toEqual(language.after);
   });
 });

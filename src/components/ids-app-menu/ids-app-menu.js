@@ -80,6 +80,7 @@ class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
     });
 
     const btns = [...this.querySelectorAll('ids-button')];
+    /* istanbul ignore next */
     btns.forEach((btn) => {
       btn.colorVariant = 'alternate';
     });

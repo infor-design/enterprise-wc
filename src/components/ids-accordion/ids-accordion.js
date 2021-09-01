@@ -49,15 +49,16 @@ class IdsAccordion extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
-
-    // Assign depth-dependent styles, and re-apply them on changes
-    this.#assignDepthDependentStyles();
-    this.#contentObserver.observe(this, {
-      childList: true
-    });
-
     this.#handleEvents();
     this.#handleKeys();
+
+    // Assign depth-dependent styles, and re-apply them on changes
+    requestAnimationFrame(() => {
+      this.#assignDepthDependentStyles();
+      this.#contentObserver.observe(this, {
+        childList: true
+      });
+    });
   }
 
   /**
@@ -100,6 +101,10 @@ class IdsAccordion extends mix(IdsElement).with(
     `;
   }
 
+  /**
+   * Observes changes in the accordion tree
+   */
+  /* istanbul ignore next */
   #contentObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'childList') {
@@ -171,15 +176,16 @@ class IdsAccordion extends mix(IdsElement).with(
     doRTL = true
   ) {
     const header = element.querySelector(':scope > ids-accordion-header');
+    const elemCl = element.container?.classList;
+    const headerCl = header?.container?.classList;
+
     const subLevelDepth = depth > 1;
     const isRTL = this.locale.isRTL();
 
     // Assign RTL CSS Classes
     if (doRTL) {
-      refreshRTLStyle(element.container.classList, isRTL);
-      if (header) {
-        refreshRTLStyle(header.container.classList, isRTL);
-      }
+      if (elemCl) refreshRTLStyle(elemCl, isRTL);
+      if (headerCl) refreshRTLStyle(headerCl, isRTL);
     }
 
     if (depth > 0) {
@@ -187,6 +193,7 @@ class IdsAccordion extends mix(IdsElement).with(
       element.nested = subLevelDepth;
 
       // Assign Color Variant
+      /* istanbul ignore next */
       if (doColorVariant && this.colorVariant) {
         const variant = subLevelDepth ? `sub-${this.colorVariant}` : this.colorVariant;
         element.colorVariant = variant;
@@ -196,6 +203,7 @@ class IdsAccordion extends mix(IdsElement).with(
         }
       }
 
+      /* istanbul ignore next */
       if (header) {
         // Assign Expander Type
         // (Use Plus/Minus-style expander on any nested panels)
@@ -395,7 +403,9 @@ class IdsAccordion extends mix(IdsElement).with(
    *   should appear to be aligned with this panel's icon
    */
   #markAdjacentPanesForIcons(panel, status) {
+    /* istanbul ignore next */
     const parent = panel.parentElement;
+    /* istanbul ignore next */
     [...parent.children].forEach((node) => {
       if (node.tagName === 'IDS-ACCORDION-PANEL') {
         node.contentAlignment = status ? 'has-icon' : null;

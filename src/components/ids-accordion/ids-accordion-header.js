@@ -107,6 +107,14 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   }
 
   /**
+   * @param {string} thisAlignment the type of alignment to apply
+   */
+  /* istanbul ignore next */
+  refreshContentAlignment(thisAlignment) {
+    applyContentAlignmentClass(this.container.classList, thisAlignment);
+  }
+
+  /**
    * @returns {boolean} true if this header's pane wrapper is expanded
    */
   /* istanbul ignore next */
@@ -145,20 +153,16 @@ class IdsAccordionHeader extends mix(IdsElement).with(
     if (currentVal !== trueVal) {
       this.setAttribute(attributes.EXPANDER_TYPE, val);
       this.toggleExpanderIcon(trueVal);
-      this.#refreshExpanderIconClass();
+      this.#refreshExpanderIconClass(currentVal, trueVal);
     }
   }
 
-  #refreshExpanderIconClass() {
+  #refreshExpanderIconClass(oldType, newType) {
     const cl = this.container.classList;
-    EXPANDER_TYPES.forEach((type) => {
-      const typeClass = `expander-type-${type}`;
-      if (type === this.expanderType && !cl.contains(typeClass)) {
-        cl.add(typeClass);
-      } else if (type === this.expanderType && cl.contains(typeClass)) {
-        cl.remove(typeClass);
-      }
-    });
+    const oldTypeClass = `expander-type-${oldType}`;
+    const newTypeClass = `expander-type-${newType}`;
+    cl.remove(oldTypeClass);
+    cl.add(newTypeClass);
   }
 
   /**
@@ -167,6 +171,13 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    */
   focus() {
     this.container.focus();
+  }
+
+  /**
+   * @returns {string} the currently-displayed icon, if applicable
+   */
+  get icon() {
+    return this.getAttribute('icon');
   }
 
   /**
@@ -189,20 +200,6 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   #refreshIconDisplay(val) {
     const iconDef = typeof val === 'string' && val.length ? val : null;
     this.container.querySelector('.ids-accordion-display-icon').icon = iconDef;
-  }
-
-  /**
-   * @returns {string} the currently-displayed icon, if applicable
-   */
-  get icon() {
-    return this.getAttribute('icon');
-  }
-
-  /**
-   * @param {string} thisAlignment the type of alignment to apply
-   */
-  refreshContentAlignment(thisAlignment) {
-    applyContentAlignmentClass(this.container.classList, thisAlignment);
   }
 
   /**

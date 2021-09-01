@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import ResizeObserver from '../helpers/resize-observer-mock';
 import IdsAccordion, {
   IdsAccordionHeader,
   IdsAccordionPanel
@@ -9,6 +10,7 @@ import IdsIcon from '../../src/components/ids-icon';
 import IdsText from '../../src/components/ids-text';
 
 import elemBuilderFactory from '../helpers/elem-builder-factory';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 const elemBuilder = elemBuilderFactory();
 
@@ -95,11 +97,13 @@ describe('IdsAccordion Component (nested)', () => {
   beforeEach(async () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
     accordion = await createAccordion();
+    await processAnimFrame();
   });
 
   afterEach(async () => {
     elemBuilder.clearElement();
     accordion = null;
+    await processAnimFrame();
   });
 
   it('renders with no errors', async () => {
@@ -145,6 +149,14 @@ describe('IdsAccordion Component (nested)', () => {
     expect(benefitsPanel.hasParentPanel).toBeTruthy();
   });
 
+  it('can identify nested panels', () => {
+    const benefitsInfoPanel = accordion.querySelector('#benefits-information');
+    expect(benefitsInfoPanel.nested).toBeTruthy();
+
+    const employeePanel = accordion.querySelector('#employee');
+    expect(employeePanel.nested).toBeFalsy();
+  });
+
   it('can describe if its parent panel is expanded', () => {
     const benefitsPanel = accordion.querySelector('#benefits');
     expect(benefitsPanel.parentExpanded).toBeFalsy();
@@ -170,5 +182,21 @@ describe('IdsAccordion Component (nested)', () => {
     benefitsPanel.expanderType = 'junk';
 
     expect(benefitsHeader.expanderType).toBe('plus-minus');
+  });
+
+  it('can change alignment types', () => {
+    const benefitsPanel = accordion.querySelector('#benefits');
+    benefitsPanel.contentAlignment = 'has-icon';
+
+    expect(benefitsPanel.container.classList.contains('has-icon')).toBeTruthy();
+
+    benefitsPanel.contentAlignment = '';
+
+    expect(benefitsPanel.container.classList.contains('has-icon')).toBeFalsy();
+
+    // Test unchanging condition
+    benefitsPanel.contentAlignment = '';
+
+    expect(benefitsPanel.container.classList.contains('has-icon')).toBeFalsy();
   });
 });

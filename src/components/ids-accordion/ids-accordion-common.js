@@ -1,6 +1,7 @@
 export const ALIGNMENT_TYPES = ['has-icon'];
 
 export const applyContentAlignmentClass = (cl, thisAlignment) => {
+  /* istanbul ignore next */
   ALIGNMENT_TYPES.forEach((alignment) => {
     if (!thisAlignment || (alignment !== thisAlignment && cl.contains(alignment))) {
       cl.remove(alignment);

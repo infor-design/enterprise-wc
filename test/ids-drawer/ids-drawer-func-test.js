@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsDrawer from '../../src/components/ids-drawer';
+import IdsContainer from '../../src/components/ids-container';
 import IdsButton from '../../src/components/ids-button';
 
 import elemBuilderFactory from '../helpers/elem-builder-factory';
@@ -132,5 +133,27 @@ describe('IdsDrawer Component', () => {
     elem.hide();
 
     expect(elem.visible).toBeTruthy();
+  });
+
+  it('should update with container language change', () => {
+    const elem = new IdsDrawer();
+    const container = new IdsContainer();
+    document.body.appendChild(container);
+    container.appendChild(elem);
+
+    const language = { before: 'en', after: 'ar' };
+    const mockCallback = jest.fn((e) => {
+      expect(e.detail.language.name).toEqual(language.after);
+    });
+
+    expect(elem.language.name).toEqual(language.before);
+    container.addEventListener('languagechange', mockCallback);
+    const event = new CustomEvent('languagechange', {
+      detail: { language: { name: language.after } }
+    });
+    container.dispatchEvent(event);
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+    expect(elem.language.name).toEqual(language.after);
   });
 });

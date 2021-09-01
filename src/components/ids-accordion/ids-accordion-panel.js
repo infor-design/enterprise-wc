@@ -240,6 +240,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
   /**
    * @returns {boolean} true if this panel appears "nested"
    */
+  /* istanbul ignore next */
   get nested() {
     return this.container.classList.contains('nested');
   }
@@ -248,6 +249,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @param {boolean} val true if this panel should appear "nested"
    */
   set nested(val) {
+    /* istanbul ignore next */
     this.container.classList[IdsStringUtils.stringToBool(val) ? 'add' : 'remove']('nested');
   }
 
