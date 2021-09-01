@@ -222,8 +222,22 @@ $grid-cols-sm: 4;
     --grid-gap: 24px;
   }
 
+  &.ids-layout-grid-system-xl {
+    @media (min-width: $breakpoint-xl) {
+      --grid-cols: 16;
+      --grid-gap: 24px;
+    }
+  }
+
   grid-gap: var(--grid-gap);
   grid-template-columns: repeat(var(--grid-cols), minmax(0, 1fr));
+}
+
+:host(.ids-layout-grid-system.ids-layout-grid-system-xl) {
+  @media (min-width: $breakpoint-xl) {
+    --grid-cols: 16;
+    --grid-gap: 24px;
+  }
 }
 
 /**

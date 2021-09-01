@@ -59,7 +59,8 @@ class IdsLayoutGridCell extends IdsElement {
       this.style.setProperty('--grid-col-span', value);
       this.classList.add(`ids-layout-grid-col-span`);
 
-      const isGridSystem = this.parentElement.getAttribute(attributes.COLS) === 'layout-grid';
+      const gridColSetting = this.parentElement.getAttribute(attributes.COLS);
+      const isGridSystem = gridColSetting === 'layout-grid' || gridColSetting === 'layout-grid-xl';
       if (isGridSystem) {
         this.classList.remove(`ids-layout-grid-col-span`);
         this.classList.add(`ids-layout-grid-col-span-${value}`);
