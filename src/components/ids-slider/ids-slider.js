@@ -26,7 +26,6 @@ const TYPES = [
 const DEFAULT_MIN = 0;
 const DEFAULT_MAX = 100;
 const DEFAULT_TYPE = TYPES[0];
-const DEFAULT_COLOR = 'base';
 
 /**
  * IDS Slider Component
@@ -435,37 +434,42 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    */
   set color(value) {
     this.setAttribute(attributes.COLOR, value);
+    this.#updateColor();
   }
 
-  get color() { return this.getAttribute(attributes.COLOR) || DEFAULT_COLOR; }
+  get color() { return this.getAttribute(attributes.COLOR) }
 
   #updateColor() {
     const color = this.color;
-    const ticks = this.container.querySelectorAll('.tick');
 
-    let colorString = color;
+    if (color) {
 
-    if (color.substring(0, 1) !== '#') {
-      if (color.includes('error') || color.includes('warning') || color.includes('caution') || color.includes('base') || color.includes('success')) {
-        colorString = `var(--ids-color-status-${color === 'error' ? 'danger' : color})`;
+      const ticks = this.container.querySelectorAll('.tick');
+      
+      let colorString = color;
+      
+      if (color.substring(0, 1) !== '#') {
+        if (color.includes('error') || color.includes('warning') || color.includes('caution') || color.includes('base') || color.includes('success')) {
+          colorString = `var(--ids-color-status-${color === 'error' ? 'danger' : color})`;
+        }
       }
-    }
-
-    ticks.forEach((tick) => {
-      tick.style.setProperty('background-color', colorString);
-    });
-    this.thumb.style.setProperty('background-color', colorString);
-    const rgbString = window.getComputedStyle(this.thumb).backgroundColor;
-    // have to specify opacity in background-color, otherwise the opacity affects the ring border
-    const rgbaString = `${rgbString.slice(0, 3)}a${rgbString.slice(3, rgbString.length - 1)}, 0.1)`;
-    this.thumbShadow.style.setProperty('background-color', rgbaString);
-    this.thumbShadow.style.setProperty('border', `1px ${colorString} solid`);
-    this.progressTrack.style.setProperty('background-color', colorString);
-
-    if (this.type === 'double' && this.thumbShadowSecondary && this.thumbSecondary) {
-      this.thumbShadowSecondary.style.setProperty('background-color', rgbaString);
-      this.thumbShadowSecondary.style.setProperty('border', `1px ${colorString} solid`);
-      this.thumbSecondary.style.setProperty('background-color', colorString);
+      
+      ticks.forEach((tick) => {
+        tick.style.setProperty('background-color', colorString);
+      });
+      this.thumb.style.setProperty('background-color', colorString);
+      const rgbString = window.getComputedStyle(this.thumb).backgroundColor;
+      // have to specify opacity in background-color, otherwise the opacity affects the ring border
+      const rgbaString = `${rgbString.slice(0, 3)}a${rgbString.slice(3, rgbString.length - 1)}, 0.1)`;
+      this.thumbShadow.style.setProperty('background-color', rgbaString);
+      this.thumbShadow.style.setProperty('border', `1px ${colorString} solid`);
+      this.progressTrack.style.setProperty('background-color', colorString);
+      
+      if (this.type === 'double' && this.thumbShadowSecondary && this.thumbSecondary) {
+        this.thumbShadowSecondary.style.setProperty('background-color', rgbaString);
+        this.thumbShadowSecondary.style.setProperty('border', `1px ${colorString} solid`);
+        this.thumbSecondary.style.setProperty('background-color', colorString);
+      }
     }
   }
 
