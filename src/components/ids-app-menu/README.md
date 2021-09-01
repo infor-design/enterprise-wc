@@ -117,4 +117,3 @@ The App Menu doesn't contain any states or variants of its own, but applies the 
 ## Keyboard Guidelines
 
 - **Escape**: When focus is on an element inside an open App Menu, the App Menu will close.
-
