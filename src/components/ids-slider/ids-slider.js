@@ -26,7 +26,7 @@ const TYPES = [
 const DEFAULT_MIN = 0;
 const DEFAULT_MAX = 100;
 const DEFAULT_TYPE = TYPES[0];
-const DEFAULT_COLOR = '#0072ed'; // TODO: change to ids-status-primary
+const DEFAULT_COLOR = 'base';
 
 /**
  * IDS Slider Component
@@ -286,8 +286,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         // console.log('label array size must match amt of label elements');
       }
     } else {
-      // TODO: throw error
-      // console.log('label array size must match step number')
+      // set labels to be empty
+      let labelElements = this.container.querySelectorAll('.label');
+      labelElements.forEach((x) => {
+        x.innerHTML = '';
+      })
     }
   }
 
@@ -334,7 +337,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   get percent() {
-    if(Number.isNaN(this._percentSecondary) || typeof this._percentSecondary === 'undefined' || this._percentSecondary === null || this._percentSecondary === '') {
+    if (Number.isNaN(this._percent) || typeof this._percent === 'undefined' || this._percent === null || this._percent === '') {
       return ((this.value - this.min) / (this.max - this.min)) * 100;
     }
     return this._percent;
@@ -511,21 +514,23 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         const thumbPos = this.vertical
           ? this.thumbDraggable.getBoundingClientRect().y
           : this.thumbDraggable.getBoundingClientRect().x;
+          
+          let thumbDraggable = this.thumbDraggable;
+          let valueAttribute = 'value';
+          let primaryOrSecondary = 'primary';
+          
+          if (this.type === 'double') {
+            const thumbPosSecondary = this.vertical
+              ? this.thumbDraggableSecondary.getBoundingClientRect().y
+              : this.thumbDraggableSecondary.getBoundingClientRect().x;
 
-        const thumbPosSecondary = this.vertical
-          ? this.thumbDraggableSecondary.getBoundingClientRect().y
-          : this.thumbDraggableSecondary.getBoundingClientRect().x;
-
-        let thumbDraggable = this.thumbDraggable;
-        let valueAttribute = 'value';
-        let primaryOrSecondary = 'primary';
-
-        if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
-          // cursor is closer to second thumb
-          valueAttribute = 'valueSecondary';
-          thumbDraggable = this.thumbDraggableSecondary;
-          primaryOrSecondary = 'secondary';
-        }
+            if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
+              // cursor is closer to second thumb
+              thumbDraggable = this.thumbDraggableSecondary;
+              valueAttribute = 'valueSecondary';
+              primaryOrSecondary = 'secondary';
+            }
+          }
 
         this.#hideTooltip(false, primaryOrSecondary);
         this[valueAttribute] = value;
@@ -674,11 +679,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       // set the transition styles
       if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
         this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease');
-        this.progressTrack.style.setProperty('transition', 'width 0.2s ease');
+        !this.vertical && this.progressTrack.style.setProperty('transition', 'width 0.2s ease, transform 0.2s ease');
       }
       if (this.type === 'double' && this.thumbDraggableSecondary && !this.thumbDraggableSecondary.style.transition) {
         this.thumbDraggableSecondary.style.setProperty('transition', 'transform 0.2s ease');
-        this.progressTrack.style.setProperty('transition', 'width 0.2s ease, transform 0.2s ease'); // track move animation
       }
 
       // init custom colors
@@ -751,7 +755,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     this.onEvent('ids-drag', obj.thumbDraggable, (e) => {
       this.type !== 'step' && this.#hideTooltip(false);
 
-      const { 
+      const {
         LEFT,
         RIGHT,
         TOP,
@@ -788,7 +792,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       // console.log('ids-dragend, clickFromDrag is true')
       // this.clickFromDrag = true;
       obj.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
-      this.progressTrack.style.setProperty('transition', 'width 0.2s ease, transform 0.2s ease');
+      !this.vertical && this.progressTrack.style.setProperty('transition', 'width 0.2s ease, transform 0.2s ease');
       obj.thumbDraggable.focus();
       // to ensure that after dragging, the value is updated only after dragging has ended..
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event

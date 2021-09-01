@@ -25,8 +25,8 @@
     - [x] replace string values with attribute vars
   - [x] add the progress color bar btw the two thumbs
     - [x] fix: progress color bar does not show upon init
-    - [ ] **make the animation smooth btw the two thumbs when progress bar size changes--left/right positioning--see enterprise example; for now it's disabled
-      - [ ] also w vertical (possibly remove the whole transition anim)
+    - [x] **make the animation smooth btw the two thumbs when progress bar size changes--left/right positioning--see enterprise example; for now it's disabled
+      - [x] also w vertical (possibly remove the whole transition anim)
 - [x] make it work for RTL
   - [x] single slider
   - [x] check that it works for double slider and step slider
@@ -34,6 +34,7 @@
 - [x] fix bug, stepping right from 0 with arrows on left thumb stops at 1 
 - [x] step slider
   - [x] add step labels
+    - [x] remove labels if labels is set to an array that doesn't match step number
   - [x] center the step labels under ticks
 - [ ] make function for init css styles
 - [x] remove percent attributes--don't want them accessible from outside
