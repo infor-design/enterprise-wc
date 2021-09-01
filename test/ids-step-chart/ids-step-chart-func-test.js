@@ -40,7 +40,7 @@ describe('Ids Step Chart Tests', () => {
   });
 
   it('renders correctly', () => {
-    expect(elem.innerHTML).toMatchSnapshot();
+    expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
   it('generates the correct number of steps', () => {
@@ -58,6 +58,7 @@ describe('Ids Step Chart Tests', () => {
     expect(elem.shadowRoot.querySelectorAll('.in-progress').length).toEqual(1);
     expect(elem.shadowRoot.querySelector('.step.in-progress:nth-child(3)')).toBeTruthy();
   });
+
   it('color is set correctly', () => {
     expect(elem.shadowRoot.querySelector('.in-progress').getAttribute('color')).toBe('ruby03');
     elem.progressColor = 'turquoise06';
@@ -67,23 +68,27 @@ describe('Ids Step Chart Tests', () => {
     elem.color = 'amethyst05';
     expect(elem.shadowRoot.querySelector('.complete').getAttribute('color')).toBe('amethyst05');
   });
+
   it('can steps in progress be updated', () => {
     elem.stepsInProgress = ['3', '5', '7'];
     expect(elem.shadowRoot.querySelectorAll('.in-progress').length).toBe(3);
     expect(elem.stepsInProgress).toEqual([3, 5, 7]);
   });
+
   it('completed label can be updated', () => {
     expect(elem.shadowRoot.querySelector('.completed-label').innerHTML).toBe('5 days overdue');
     elem.completedLabel = 'Test change';
     expect(elem.getAttribute('completed-label')).toBe('Test change');
     expect(elem.shadowRoot.querySelector('.completed-label').innerHTML).toBe('Test change');
   });
+
   it('label can be updated', () => {
     expect(elem.shadowRoot.querySelector('.label').innerHTML).toBe('2 of 7 steps completed');
     elem.label = 'Test Label';
     expect(elem.getAttribute('label')).toBe('Test Label');
     expect(elem.shadowRoot.querySelector('.label').innerHTML).toBe('Test Label');
   });
+
   it('update the steps', () => {
     expect(elem.shadowRoot.querySelectorAll('.step').length).toBe(7);
     elem.stepNumber = '10';

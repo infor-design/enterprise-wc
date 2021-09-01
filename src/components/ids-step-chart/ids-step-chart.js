@@ -56,8 +56,16 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     ];
   }
 
+  /**
+   * @returns {string} returns the current ids color variable
+   * for completed steps
+   */
   get color() { return this.getAttribute(attributes.COLOR); }
 
+  /**
+   * @param {string} value sets the color variable that is used to fill
+   * completed steps
+   */
   set color(value) {
     /* istanbul ignore else */
     if (value && this.getAttribute(attributes.COLOR) !== value) {
@@ -69,8 +77,14 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 
+  /**
+   * @returns {string} returns the text for the step charts secondary label
+   */
   get completedLabel() { return this.getAttribute(attributes.COMPLETED_LABEL); }
 
+  /**
+   * @param {string} value set the text for the secondary label
+   */
   set completedLabel(value) {
     if (this.getAttribute(attributes.COMPLETED_LABEL) !== value) {
       this.setAttribute('completed-label', value);
@@ -78,8 +92,14 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 
+  /**
+   * @returns {string} returns the current primary label text
+   */
   get label() { return this.getAttribute(attributes.LABEL); }
 
+  /**
+   * @param {string} value set the primary label for the step chart
+   */
   set label(value) {
     if (this.getAttribute(attributes.LABEL) !== value) {
       this.setAttribute('label', value);
@@ -87,8 +107,15 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 
+  /**
+   * @returns {string} the ids color variable that
+   * in progress steps are currently set with
+   */
   get progressColor() { return this.getAttribute(attributes.PROGRESS_COLOR); }
 
+  /**
+   * @param {string} value sets the ids color variable that in progress steps use
+   */
   set progressColor(value) {
     if (this.getAttribute(attributes.PROGRESS_COLOR) !== value) {
       this.setAttribute('progress-color', value);
@@ -98,8 +125,14 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 
+  /**
+   * @returns {string | number} the current number of steps displayed in the step chart
+   */
   get stepNumber() { return parseInt(this.getAttribute(attributes.STEP_NUMBER)); }
 
+  /**
+   * @param {string|number} value sets the number of steps in the step chart
+   */
   set stepNumber(value) {
     if (this.getAttribute(attributes.STEP_NUMBER) !== value) {
       this.setAttribute('step-number', value);
@@ -108,17 +141,30 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 
+  /**
+   * @returns {Array[number]} an array of the steps that have been marked as in progress
+   */
   get stepsInProgress() {
     return this.internalStepsInProgress;
   }
 
+  /**
+   * @param {Array[number|string]} value updates the list of steps that are marked as
+   * in progress
+   */
   set stepsInProgress(value) {
     this.internalStepsInProgress = value.map(Number);
     this.#updateColor();
   }
 
+  /**
+   * @returns {string} the number of the last step to be filled in
+   */
   get value() { return parseInt(this.getAttribute(attributes.VALUE)); }
 
+  /**
+   * @param {string} value sets the number of the last step in the array to be filled in
+   */
   set value(value) {
     if (this.getAttribute(attributes.VALUE) !== this.value) {
       this.setAttribute('value', value);
@@ -173,7 +219,7 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         color = `${this.color}`;
         classes += ` complete`;
       } else {
-        color = `graphite02`;
+        color = `slate02`;
         classes += ` untouched`;
       }
 
@@ -212,7 +258,7 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
         element.setAttribute(`color`, `${this.color}`);
         element.classList.add(`step`, `complete`);
       } else {
-        element.setAttribute(`color`, `graphite02`);
+        element.setAttribute(`color`, `slate02`);
         element.classList.add(`step`, `untouched`);
       }
     });

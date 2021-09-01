@@ -58,17 +58,13 @@ IDS step chart also has an available slot `icon` that can be used to append cont
   - completed-label: secondary label for the component
   - label: primary label for the compenent usually formatted as "x of y steps completed
   - progress-color: color used for flaged steps in progress (must use ids provided colors)
-  - steps-in-progress: an array of steps that should be flagged as in progress
+  - stepsInProgress: an array of steps that should be flagged as in progress
   - step-number: total number of steps in the chart
   - value: total number of steps completed or in progress
-
-## States and Variations
 
 ## Keyboard Guidelines
 
 This componenent does not add any new keyboard fuctionality, steps are not tabable but text is readable by screen readers.
-
-## Mobile Guidelines
 
 ## Designs
 
@@ -76,12 +72,33 @@ This componenent does not add any new keyboard fuctionality, steps are not tabab
 
 ## Converting from Previous Versions
 
-Add detailed but concise info on converting from previous version.
+If you are converting this from the enterprise version you will no longer be using the `data-options` attribute. the following options from the `data-options` objects are implemented as attributes of the `ids-step-chart` component as follows:
+
+- `steps: 7` => `step-number="7"`
+- `completed: 2` => `value="2"`
+- `extraText: '2 Days Overdue'` => `completed-label="2 Days Overdue"`
+
+The `iconType` option has been replaced with a slot called `icon` that can be injected with the desired markup like so:
+
+```html
+<ids-alert slot="icon" icon="alert"></ids-icon>
+```
+
+The `inProgress` option has been replaced with a property on the component called `stepsInProgress`. This is setable with an array of numbers corrisponding to the number of the steps you want to display as in progress. see this example below
+
+```js
+econst element = document.querySelectorAll('ids-step-chart')[3];
+element.stepsInProgress = ['3'];
+```
+
+Color for `inProgress` steps is not set automatically and a color must be set using the `progress-color` attribute. to duplicate
+existing red in progress steps use `ruby02`.
+
+labeling for the step chart is handled through the `label` compnent attribute and there are no special format requriments for the label string.
 
 ## Accessibility Guidelines
 
 Keep in mind that individual steps are not focusable elements as they are purely visual. It is important to keep both primary and secondary labels up to date for screen reader users.
-
 
 #### Regional Considerations
 
