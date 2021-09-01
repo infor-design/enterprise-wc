@@ -88,7 +88,7 @@
     "jest": "^27.1.0",
     "jest-puppeteer": "^5.0.4",
     "loglevel": "^1.7.1",
-    "mini-css-extract-plugin": "^2.2.1",
+    "mini-css-extract-plugin": "^2.2.2",
     "mutationobserver-shim": "^0.3.7",
     "nodemon": "^2.0.12",
     "pino": "^6.13.1",
