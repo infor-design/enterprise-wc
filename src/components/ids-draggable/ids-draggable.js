@@ -445,7 +445,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    *
    * @param {*} e mousemove event
    */
-  onMouseMove = (e) => /* istanbul ignore next */ {
+  /* istanbul ignore next */
+  onMouseMove = (e) => {
     e.preventDefault();
     const eventDetail = {};
 
@@ -483,7 +484,8 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     this.triggerEvent('ids-drag', this, { detail: eventDetail });
   };
 
-  onMouseUp = (e) => /* istanbul ignore next */ {
+  /* istanbul ignore next */
+  onMouseUp = (e) => {
     if (this.isDragging) {
       this.isDragging = false;
       this.triggerEvent('ids-dragend', this, {

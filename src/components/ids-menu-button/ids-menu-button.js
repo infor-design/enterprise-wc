@@ -50,14 +50,14 @@ class IdsMenuButton extends IdsButton {
    */
   connectedCallback() {
     this.configureMenu();
-    this.#attachEventHandlers();
+    this.attachEventHandlers();
     IdsButton.prototype.connectedCallback.apply(this);
   }
 
   /**
    * @returns {void}
    */
-  #attachEventHandlers() {
+  attachEventHandlers() {
     IdsButton.prototype.attachEventHandlers.apply(this);
   }
 

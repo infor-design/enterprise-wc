@@ -55,6 +55,8 @@ class IdsRadioGroup extends mix(IdsElement).with(
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
       attributes.LANGUAGE,
+      attributes.VALIDATE,
+      attributes.VALIDATION_EVENTS,
       attributes.VALUE
     ];
   }
@@ -66,10 +68,23 @@ class IdsRadioGroup extends mix(IdsElement).with(
   connectedCallback() {
     const slot = this.shadowRoot.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
-      this.#afterChildrenReady();
+      this.afterChildrenReady();
     });
     this.#attachEventHandlers();
     super.connectedCallback();
+  }
+
+  /**
+   * Event handlers for the component
+   * @private
+   */
+  #attachEventHandlers() {
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      // Do something with parent lang
+    });
   }
 
   /**
@@ -96,14 +111,16 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  #afterChildrenReady() {
+  afterChildrenReady() {
     this.input = this.shadowRoot.querySelector('.ids-radio-group');
     this.labelEl = this.shadowRoot.querySelector('.group-label-text');
 
-    this.#setValue();
-    this.#handleHorizontal();
-    this.#handleDisabled();
-    this.#attachEventHandlers();
+    this.setValue();
+    this.handleHorizontal();
+    this.handleDisabled();
+    this.attachInternalEventHandlers();
+    this.handleDirtyTracker();
+    this.handleValidation();
   }
 
   /**
@@ -111,7 +128,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  #setValue() {
+  setValue() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio[checked="true"]'));
     const len = radioArr.length;
     const value = radioArr[len - 1]?.getAttribute(attributes.VALUE);
@@ -144,7 +161,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * Set disabled for each radio in group.
    * @returns {void}
    */
-  #handleDisabled() {
+  handleDisabled() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
 
@@ -163,7 +180,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * Set horizontal for each radio in group.
    * @returns {void}
    */
-  #handleHorizontal() {
+  handleHorizontal() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     const rootEl = this.shadowRoot.querySelector('.ids-radio-group');
     if (IdsStringUtils.stringToBool(this.horizontal)) {
@@ -213,7 +230,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleRadioGroupChangeEvent() {
+  attachRadioGroupChangeEvent() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
 
     radioArr.forEach((r) => {
@@ -228,7 +245,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleRadioGroupKeydown() {
+  attachRadioGroupKeydown() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
@@ -254,17 +271,26 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  #attachEventHandlers() {
-    this.handleRadioGroupChangeEvent();
-    this.handleRadioGroupKeydown();
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      // Do something with parent lang
-    });
+  attachInternalEventHandlers() {
+    this.attachRadioGroupChangeEvent();
+    this.attachRadioGroupKeydown();
   }
+
+  /**
+   * Sets the dirty tracking feature on to indicate a changed field
+   * @param {boolean|string} value If true will set `dirty-tracker` attribute
+   */
+  set dirtyTracker(value) {
+    const val = IdsStringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
+    } else {
+      this.removeAttribute(attributes.DIRTY_TRACKER);
+    }
+    this.handleDirtyTracker();
+  }
+
+  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Sets checkbox to disabled
@@ -276,7 +302,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     } else {
       this.removeAttribute(attributes.DISABLED);
     }
-    this.#handleDisabled();
+    this.handleDisabled();
   }
 
   get disabled() { return this.getAttribute(attributes.DISABLED); }
@@ -291,7 +317,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     } else {
       this.removeAttribute(attributes.HORIZONTAL);
     }
-    this.#handleHorizontal();
+    this.handleHorizontal();
   }
 
   get horizontal() { return this.getAttribute(attributes.HORIZONTAL); }
@@ -337,6 +363,36 @@ class IdsRadioGroup extends mix(IdsElement).with(
   }
 
   get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
+
+  /**
+   * Sets the validation check to use
+   * @param {string} value The `validate` attribute
+   */
+  set validate(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATE, value);
+    } else {
+      this.removeAttribute(attributes.VALIDATE);
+    }
+    this.handleValidation();
+  }
+
+  get validate() { return this.getAttribute(attributes.VALIDATE); }
+
+  /**
+   * Sets which events to fire validation on
+   * @param {string} value The `validation-events` attribute
+   */
+  set validationEvents(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATION_EVENTS, value);
+    } else {
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
+    }
+    this.handleValidation();
+  }
+
+  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Sets the checkbox `value` attribute

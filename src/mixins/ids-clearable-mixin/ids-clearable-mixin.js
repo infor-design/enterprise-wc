@@ -16,6 +16,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     super();
   }
 
+  /* istanbul ignore next */
   static get attributes() {
     return [
       ...super.attributes,
@@ -208,6 +209,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * When set the input will force to add a clearable x button on readonly and disabled
    * @param {boolean|string} value If true will set `clearable-forced` attribute
    */
+  /* istanbul ignore next */
   set clearableForced(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {

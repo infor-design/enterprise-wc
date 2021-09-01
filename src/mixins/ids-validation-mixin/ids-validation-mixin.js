@@ -15,6 +15,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     this.handleValidation();
   }
 
+  /* istanbul ignore next */
   static get attributes() {
     return [
       ...super.attributes,

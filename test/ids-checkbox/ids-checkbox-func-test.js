@@ -226,8 +226,8 @@ describe('IdsCheckbox Component', () => {
     document.body.appendChild(elem);
     cb = document.querySelector('ids-checkbox');
 
-    cb.handleCheckboxChangeEvent('remove');
-    cb.handleNativeEvents('remove');
+    cb.attachCheckboxChangeEvent('remove');
+    cb.attachNativeEvents('remove');
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;

@@ -88,7 +88,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @private
    * @returns {void}
    */
-  attachNativeEvents() {
+  attachEventHandlers() {
     // Highlight handler -- Menu Items Only, don't change if the target is disabled
     const highlightItem = (/** @type {any} */ e) => {
       const thisItem = e.target.closest('ids-menu-item');
@@ -150,7 +150,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {void}
    */
   connectedCallback() {
-    this.attachNativeEvents();
+    this.attachEventHandlers();
     this.attachKeyboardListeners();
   }
 

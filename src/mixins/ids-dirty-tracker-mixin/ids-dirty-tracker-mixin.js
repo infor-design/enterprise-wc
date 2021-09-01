@@ -18,6 +18,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     this.handleDirtyTracker();
   }
 
+  /* istanbul ignore next */
   static get attributes() {
     return [
       ...super.attributes,

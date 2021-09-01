@@ -74,7 +74,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
     this.#attachSwitchChangeEvent('remove');
-    this.#attachNativeEvents('remove');
+    this.attachNativeEvents('remove');
   }
 
   /**
@@ -128,7 +128,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
    * @param {string} option If 'remove', will remove attached events
    * @returns {object} The object for chaining.
    */
-  #attachNativeEvents(option = '') {
+  attachNativeEvents(option = '') {
     if (this.input) {
       const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt) => {
@@ -168,7 +168,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
    */
   #attachEventHandlers() {
     this.#attachSwitchChangeEvent();
-    this.#attachNativeEvents();
+    this.attachNativeEvents();
 
     // Respond to parent changing language
     this.offEvent('languagechange.container');
