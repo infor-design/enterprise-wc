@@ -96,17 +96,24 @@ class IdsLayoutGrid extends IdsElement {
    */
   set cols(value) {
     if (value) {
-      this.auto = false;
       this.setAttribute(attributes.COLS, value);
       this.style.setProperty('--grid-cols', value);
       this.classList.add(`ids-layout-grid-cols`);
       this.classList.remove('ids-layout-grid-auto');
-      return;
+
+      if (value === 'layout-grid') {
+        this.setAttribute(attributes.COLS, value);
+        this.classList.remove('ids-layout-grid-auto');
+        this.classList.add('ids-layout-grid-system');
+        this.classList.remove(`ids-layout-grid-cols`);
+        this.style.removeProperty('--grid-cols');
+      }
     }
 
     this.style.removeProperty('--grid-cols');
     this.removeAttribute(attributes.AUTO);
     this.classList.remove(`ids-layout-grid-cols`);
+    this.classList.remove('ids-layout-grid-auto');
   }
 
   get cols() { return this.getAttribute(attributes.COLS); }
