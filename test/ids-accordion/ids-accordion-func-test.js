@@ -40,7 +40,6 @@ describe('IdsAccordion Component', () => {
   let panel3;
   let header;
   let header2;
-  let header3;
 
   beforeEach(async () => {
     jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
@@ -52,7 +51,6 @@ describe('IdsAccordion Component', () => {
     panel3 = document.querySelector('#p3');
     header = document.querySelector('#h1');
     header2 = document.querySelector('#h2');
-    header3 = document.querySelector('#h3');
   });
 
   afterEach(async () => {
@@ -63,7 +61,6 @@ describe('IdsAccordion Component', () => {
     panel3 = null;
     header = null;
     header2 = null;
-    header3 = null;
   });
 
   it('renders correctly', async () => {

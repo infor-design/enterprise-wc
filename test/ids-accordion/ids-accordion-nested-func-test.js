@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import ResizeObserver from '../helpers/resize-observer-mock';
 import IdsAccordion, {
   IdsAccordionHeader,
   IdsAccordionPanel
@@ -187,16 +186,14 @@ describe('IdsAccordion Component (nested)', () => {
   it('can change alignment types', () => {
     const benefitsPanel = accordion.querySelector('#benefits');
     benefitsPanel.contentAlignment = 'has-icon';
-
     expect(benefitsPanel.container.classList.contains('has-icon')).toBeTruthy();
 
+    // Tests empty/null
     benefitsPanel.contentAlignment = '';
-
     expect(benefitsPanel.container.classList.contains('has-icon')).toBeFalsy();
 
     // Test unchanging condition
     benefitsPanel.contentAlignment = '';
-
     expect(benefitsPanel.container.classList.contains('has-icon')).toBeFalsy();
   });
 });
