@@ -110,6 +110,17 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   }
 
   /**
+   * Used for ARIA Labels and other content
+   * @readonly
+   * @returns {string} concatenating the application name, product name and product version.
+   */
+  get ariaLabelContent() {
+    const appName = this.querySelector('[slot="appName"')?.innerText;
+
+    return `${appName || ''} ${this.productName || ''} ${this.productVersion || ''}`;
+  }
+
+  /**
    * @returns {string} productName attribute value
    */
   get productName() {
@@ -255,7 +266,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   #refreshCopyright() {
     const slot = this.querySelectorAll('[slot="copyright"]');
     const copyrightText = this.locale.translate('AboutText').replace('{0}', this.copyrightYear);
-    const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="htts://www.infor.com">www.infor.com</ids-hyperlink></ids-text>`;
+    const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="https://www.infor.com">www.infor.com</ids-hyperlink></ids-text>`;
 
     // Clear slot before rerender
     slot.forEach((item) => item.remove());
