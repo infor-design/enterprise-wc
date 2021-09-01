@@ -193,3 +193,24 @@ ids-slider {
     }
   }
 }
+
+.ids-slider {
+  &[mode='contrast'] {
+    .tick {
+      background-color: #004A99;
+    }
+
+    .thumb-shadow {
+     border: #004A99; 
+     background-color: rgba(0, 74, 153, 0.1);
+    }
+
+    .thumb {
+      background: #004A99;
+    }
+
+    .track-progress {
+      background-color: #004A99;
+    }
+  }
+}
