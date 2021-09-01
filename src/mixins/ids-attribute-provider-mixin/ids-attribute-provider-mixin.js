@@ -9,7 +9,7 @@ const identityFn = ({ value }) => value;
  * (doesn't cover all cases but just a
  * reasonable subset)
  */
-const traversibleHTMLTags = new Set(['DIV', 'SPAN']);
+const traversibleTagSet = new Set(['DIV', 'SPAN']);
 
 /**
  * @typedef AttributeProvidedDef
@@ -17,8 +17,8 @@ const traversibleHTMLTags = new Set(['DIV', 'SPAN']);
  * @property {string} targetAttribute the attribute being targeted
  * on the child which is assigned
  * @property {Function} valueTransformer transforms the value assigned
- * @property {Array} cliffTags tags where we know to stop searching for more nodes < @TODO.
- * intended element and can stop traversing e.g. ['SVG']
+ * @property {Array} sentinelTags tags where we know to stop searching for more nodes < @TODO.
+ * intended element and can stop traversing; can also be IdsElement tags e.g. ['IDS-BUTTON']
  */
 
 /**
@@ -31,12 +31,15 @@ const traversibleHTMLTags = new Set(['DIV', 'SPAN']);
  * attributes will be provided down the DOM tree to provide attributes
  * @returns {any} the extended object
  */
-export default (defs) => (superclass) => {
+const IdsAttributeProviderMixin = (defs) => (superclass) => {
   const {
     attributesProvided = [],
     attributesListenedFor = [],
-    maxDepth = Number.MAX_SAFE_INTEGER
+    maxDepth = Number.MAX_SAFE_INTEGER,
+    sentinelTags = []
   } = defs;
+
+  const sentinelTagSet = new Set(sentinelTags);
 
   // vars intended for private/static access among component
   // for attribute mapping and lookups
@@ -49,7 +52,8 @@ export default (defs) => (superclass) => {
   /**
    * Lookups for attributes to map to parent components,
    * and then to the associated definitions for
-   * quick de-referencing;
+   * quick de-referencing; provides some meta data
+   * to help do that when needed
    *
    * @type {Map<string, object>}
    */
@@ -101,6 +105,7 @@ export default (defs) => (superclass) => {
         ...(scannedEl.shadowRoot?.children || [])
       ];
 
+      // walk the dom starting at element
       for (const element of domNodes) {
         for (const sourceAttribute of attributes) {
           const componentMap = attributesProvidedMap.get(sourceAttribute);
@@ -134,11 +139,12 @@ export default (defs) => (superclass) => {
           return;
         }
 
-        if (recursive
-          && ((element instanceof IdsElement)
-          || traversibleHTMLTags.has(element?.tagName)
-          )
-        ) {
+        const isIdsElement = element instanceof IdsElement;
+        const isRelevantTag = (
+          traversibleTagSet.has(element?.tagName)
+          && !sentinelTagSet.has(element?.tagName)
+        );
+        if (recursive && (isIdsElement || isRelevantTag)) {
           this.provideAttributes(attributes, true, element, depth + 1);
         }
       }
@@ -173,3 +179,5 @@ export default (defs) => (superclass) => {
     }
   };
 };
+
+export default IdsAttributeProviderMixin;

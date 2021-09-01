@@ -26,19 +26,19 @@ const {
 
 const attributeProviderDefs = {
   attributesProvided: [
-    { attribute: PAGE_NUMBER, component: IdsPagerInput },
-    { attribute: PAGE_NUMBER, component: IdsPagerNumberList },
-    { attribute: PAGE_NUMBER, component: IdsPagerButton },
-    { attribute: TOTAL, component: IdsPagerInput },
-    { attribute: TOTAL, component: IdsPagerNumberList },
-    { attribute: TOTAL, component: IdsPagerButton },
-    { attribute: PAGE_SIZE, component: IdsPagerNumberList },
-    { attribute: PAGE_SIZE, component: IdsPagerButton },
-    { attribute: PAGE_SIZE, component: IdsPagerInput },
     { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
     { attribute: DISABLED, component: IdsPagerButton, targetAttribute: PARENT_DISABLED },
     { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
-    { attribute: DISABLED, component: IdsPagerNumberList, targetAttribute: PARENT_DISABLED }
+    { attribute: DISABLED, component: IdsPagerNumberList, targetAttribute: PARENT_DISABLED },
+    { attribute: PAGE_NUMBER, component: IdsPagerInput },
+    { attribute: PAGE_NUMBER, component: IdsPagerNumberList },
+    { attribute: PAGE_NUMBER, component: IdsPagerButton },
+    { attribute: PAGE_SIZE, component: IdsPagerNumberList },
+    { attribute: PAGE_SIZE, component: IdsPagerButton },
+    { attribute: PAGE_SIZE, component: IdsPagerInput },
+    { attribute: TOTAL, component: IdsPagerInput },
+    { attribute: TOTAL, component: IdsPagerNumberList },
+    { attribute: TOTAL, component: IdsPagerButton }
   ]
 };
 

@@ -26,10 +26,10 @@ const attributeProviderDefs = {
     attribute: attributes.VALUE,
     component: IdsTabContent,
     targetAttribute: attributes.ACTIVE,
-    valueTransformer: ({ value, element }) => element.getAttribute(attributes.VALUE) === value,
-    cliffTags: ['IDS-TABS', 'IDS-TAB-CONTENT']
+    valueTransformer: ({ value, element }) => element.getAttribute(attributes.VALUE) === value
   }],
   attributesListenedFor: [],
+  sentinelTags: ['IDS-TABS', 'IDS-TAB-CONTENT'],
   maxDepth: 8
 };
 
