@@ -3,8 +3,6 @@
 name: Build Check
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
     types: [ opened, reopened, synchronize, unlabeled ]
@@ -59,27 +57,3 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-
-    - name: Extract branch name
-      if: github.event.pull_request.merged == true
-      shell: bash
-      run: |
-        echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
-      id: extract_branch
-
-    - name: Configure AWS credentials
-      if: github.event.pull_request.merged == true
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
-
-    - name: Copy wc dist-demo files to S3
-      if: github.event.pull_request.merged == true
-      run: |
-       branch_name=${{ steps.extract_branch.outputs.branch }}
-       echo "Deploying ${branch_name//./_}"
-       aws s3 cp demo-dist/ "s3://wc-demos/${branch_name//./_}" --recursive
-       aws configure set preview.cloudfront true
-       aws cloudfront create-invalidation --distribution-id E2Q51X0UO412XH --paths /${branch_name//./_}
