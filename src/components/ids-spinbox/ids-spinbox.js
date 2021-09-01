@@ -513,7 +513,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     if (value) {
       this.setAttribute(attributes.VALIDATE, value);
       this.input.setAttribute(attributes.VALIDATE, value);
-
+      /* istanbul ignore next */
       if (this.container.children.length === 2) {
         const validateElTemplate = document.createElement('template');
         validateElTemplate.innerHTML = `<div class="validation-message"></div>`;
