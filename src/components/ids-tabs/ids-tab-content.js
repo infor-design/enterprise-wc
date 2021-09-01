@@ -26,7 +26,7 @@ import styles from './ids-tab-content.scss';
  */
 @customElement('ids-tab-content')
 @scss(styles)
-export default class IdsTabContent extends mix(IdsElement).with(
+class IdsTabContent extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsThemeMixin
@@ -90,3 +90,5 @@ export default class IdsTabContent extends mix(IdsElement).with(
     return this.hasAttribute(attributes.ACTIVE);
   }
 }
+
+export default IdsTabContent;

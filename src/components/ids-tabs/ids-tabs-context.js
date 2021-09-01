@@ -44,7 +44,7 @@ const attributeProviderDefs = {
  */
 @customElement('ids-tabs-context')
 @scss(styles)
-export default class IdsTabsContext extends mix(IdsElement).with(
+class IdsTabsContext extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsAttributeProviderMixin(attributeProviderDefs)
   ) {
@@ -91,3 +91,5 @@ export default class IdsTabsContext extends mix(IdsElement).with(
     return this.getAttribute(attributes.VALUE);
   }
 }
+
+export default IdsTabsContext;

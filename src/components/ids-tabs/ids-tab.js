@@ -30,7 +30,7 @@ const { stringToBool, buildClassAttrib } = stringUtils;
  */
 @customElement('ids-tab')
 @scss(styles)
-export default class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
@@ -300,3 +300,5 @@ export default class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     this.container.focus();
   }
 }
+
+export default IdsTab;
