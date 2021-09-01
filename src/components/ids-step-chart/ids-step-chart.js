@@ -27,7 +27,7 @@ import styles from './ids-step-chart.scss';
 
 @customElement('ids-step-chart')
 @scss(styles)
-class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsStepChart extends mix(IdsElement).with(IdsThemeMixin) {
   constructor() {
     super();
     this.internalStepsInProgress = [];
@@ -38,7 +38,6 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.#handleEvents();
   }
 
   /**
@@ -47,6 +46,7 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.COLOR,
       attributes.COMPLETED_LABEL,
       attributes.LABEL,
@@ -188,15 +188,6 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (oldValue !== newValue && name !== 'step-count') {
       this[name] = newValue;
     }
-  }
-
-  /**
-   * Establish internal event handlers
-   * @private
-   * @returns {object} The object for chaining
-   */
-  #handleEvents() {
-    return this;
   }
 
   /**

@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-/* eslint-disable no-debugger */
 import IdsStepChart from '../../src/components/ids-step-chart/ids-step-chart';
 import IdsText from '../../src/components/ids-text/ids-text';
 
