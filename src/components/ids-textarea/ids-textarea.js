@@ -57,6 +57,8 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsValidationMixin
  * @part textarea - the textarea element
  * @part label - the label element
  */
@@ -109,9 +111,7 @@ class IdsTextarea extends mix(IdsElement).with(
    * @returns {void}
    */
   connectedCallback() {
-    /** @type {any} */
     this.input = this.shadowRoot.querySelector(`#${ID}`);
-    /** @type {any} */
     this.labelEl = this.shadowRoot.querySelector(`[for="${ID}"]`);
 
     this.#attachEventHandlers();
