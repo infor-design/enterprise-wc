@@ -98,10 +98,6 @@ export function getEnvSpecs() {
       verOffset = nUAgent.indexOf('Version');
       appVersion = nUAgent.substring(verOffset + 8);
     }
-  } else if (this.browser.isWKWebView()) {
-    browser = `WKWebView`;
-    appVersion = '';
-    majorVersion = '';
   } else if (nUAgent.indexOf('Firefox') !== -1) {
     verOffset = nUAgent.indexOf('Firefox');
     browser = 'Firefox';
@@ -158,7 +154,7 @@ export function getEnvSpecs() {
     { s: 'UNIX', r: /UNIX/ },
   ];
 
-  os = (clientStrings.find((cs) => cs.r.test(nUAgent)) || {}).s;
+  os = (clientStrings.find((cs) => cs.r.test(nUAgent)) || {}).s || unknown;
 
   let osVersion = unknown;
 

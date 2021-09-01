@@ -33,6 +33,10 @@ import styles from './ids-about.scss';
 class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   constructor() {
     super();
+
+    // Default properties
+    this.useDefaultCopyright = true;
+    this.deviceSpecs = true;
   }
 
   static get attributes() {
@@ -198,24 +202,25 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    * @returns {void}
    */
   #refreshDeviceSpecs() {
-    const specs = IdsDeviceEnvUtils.getDeviceSpecs();
-    const env = IdsDeviceEnvUtils.getEnvSpecs();
     const slot = this.querySelectorAll('[slot="device"]');
-    const element = `<ids-text slot="device" type="p"><span>${this.locale.translate('OperatingSystem')} : ${env.os.replace(env.currentOSVersion, '')} ${env.currentOSVersion}</span><br>
-      <span>${this.locale.translate('Platform')} : ${specs.os}</span><br>
-      <span>${this.locale.translate('Mobile')} : ${env.isMobile}</span><br>
-      <span>${this.locale.translate('Locale')} : ${this.locale.locale.name}</span><br>
-      <span>${this.locale.translate('Language')} : ${this.locale.language.name}</span><br>
-      <span>${this.locale.translate('Browser')} : ${` ${env.browserVersionName}`} ${env.currentBrowser} (${env.browserVersion})</span><br>
-      <span>${this.locale.translate('BrowserLanguage')} : ${specs.locale}</span><br>
-      <span>${this.locale.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br>
-      <span>${this.locale.translate('Version')} : ${env.idsVersion}</span>
-    </ids-text>`;
 
     // Clear slot before rerender
     slot.forEach((item) => item.remove());
 
     if (this.deviceSpecs) {
+      const specs = IdsDeviceEnvUtils.getDeviceSpecs();
+      const env = IdsDeviceEnvUtils.getEnvSpecs();
+      const element = `<ids-text slot="device" type="p"><span>${this.locale.translate('OperatingSystem')} : ${env.os.replace(env.currentOSVersion, '')} ${env.currentOSVersion}</span><br>
+        <span>${this.locale.translate('Platform')} : ${specs.os}</span><br>
+        <span>${this.locale.translate('Mobile')} : ${env.isMobile}</span><br>
+        <span>${this.locale.translate('Locale')} : ${this.locale.locale.name}</span><br>
+        <span>${this.locale.translate('Language')} : ${this.locale.language.name}</span><br>
+        <span>${this.locale.translate('Browser')} : ${` ${env.browserVersionName}`} ${env.currentBrowser} (${env.browserVersion})</span><br>
+        <span>${this.locale.translate('BrowserLanguage')} : ${specs.locale}</span><br>
+        <span>${this.locale.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br>
+        <span>${this.locale.translate('Version')} : ${env.idsVersion}</span>
+      </ids-text>`;
+
       this.insertAdjacentHTML('beforeend', element);
     }
   }
