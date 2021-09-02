@@ -205,18 +205,17 @@ describe('IdsTabs Tests', () => {
     expect(hasValidTabs).toEqual(false);
   });
 
-  it('sets tabs to an invalid value and triggers an error', async () => {
+  it('sets tabs to an invalid value, and is reset to the first tab value available', async () => {
     const errors = jest.spyOn(global.console, 'error');
     elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
     await processAnimFrame();
 
     elem.value = 'random_value';
     await processAnimFrame();
-    await processAnimFrame();
 
     const hasValidTabs = areTabSelectionAttribsValid(elem);
 
-    expect(hasValidTabs).toEqual(false);
+    expect(hasValidTabs).toEqual(true);
     expect(errors).not.toHaveBeenCalled();
   });
 

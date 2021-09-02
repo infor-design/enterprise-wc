@@ -70,12 +70,6 @@ class IdsTabs extends mix(IdsElement).with(
     super.connectedCallback?.();
     this.setAttribute('role', 'tablist');
 
-    // set up observer for monitoring if a child
-    // element changed
-
-    // set initial selection state
-    this.#updateSelectionState();
-
     /* istanbul ignore next */
     if (!this.hasAttribute(attributes.COLOR_VARIANT)) {
       this.#checkAndSetColorVariant();
@@ -86,6 +80,9 @@ class IdsTabs extends mix(IdsElement).with(
         this.setAttribute(attributes.VALUE, e.target.value);
       }
     });
+
+    // set initial selection state
+    this.#updateSelectionState();
   }
 
   disconnectedCallback() {
