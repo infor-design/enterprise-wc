@@ -340,7 +340,6 @@ class IdsTriggerField extends IdsInput {
     if (!canTrigger) {
       return;
     }
-
     this.triggerEvent('triggerclicked', this, { detail: { elem: this } });
   }
 }
