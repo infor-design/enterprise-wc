@@ -116,7 +116,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       this.container.querySelector('.thumb-draggable.secondary').remove();
     }
 
-    this.#addEventListeners();
+    this.#attachEventListeners();
     super.connectedCallback();
   }
 
@@ -178,6 +178,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     `;
   }
 
+  /**
+   * Set the orientation of the slider
+   * @param {boolean} value Whether the orientation is vertical or horizontal
+   */
   set vertical(value) {
     const val = IdsStringUtils.stringToBool(value);
     val ? this.setAttribute(attributes.VERTICAL, val) : this.removeAttribute(attributes.VERTICAL);
@@ -199,6 +203,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return this.getAttribute(attributes.VERTICAL) || false;
   }
 
+  /** 
+   * Keep track of RTL
+   * @param {boolean} value Whether or not RTL is in effect
+   */
   set isRtl(value) {
     if (value !== this.isRtl) {
       this.#isRtl = value;
@@ -214,6 +222,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return this.#isRtl;
   }
 
+  /** Add event listener for when the language changes to check for RTL */
   #addRtlListener() {
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
@@ -222,6 +231,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     });
   }
 
+  /** Helper method to update the UI of the tooltip and its text */
   #updateToolTip(value, primaryOrSecondary) {
     let tooltipText = this.tooltipText;
     let type = 'primary';
@@ -238,6 +248,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
   }
 
+  /** Helper method to update the UI of the progress track bar */
   #updateProgressBar() {
     if (this.type === 'single' || this.type === 'step') {
       this.slider.style.setProperty('--percentStart', 0);
@@ -260,6 +271,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
   }
 
+  /**
+   * Set the labels to display on each step/tick mark (only applicable to step sliders)
+   * @param {Array} array the list of labels to set
+   */
   set labels(array) {
     this.#labels = array;
     this.#setStepLabels();
@@ -269,6 +284,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return this.#labels;
   }
 
+  /** Helper method to update the labels on the UI according to stepNumber and labels */
   #setStepLabels() {
     if (this.type !== 'step') return;
 
@@ -310,6 +326,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
   }
 
+  /** 
+   * Set the amount of step intervals desired (only applicable to step sliders) 
+   * @param {string} value the amount of steps
+  */
   set stepNumber(value) {
     if (this.type === 'step') {
       // must have at least 2 steps
@@ -331,6 +351,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   get stepNumber() { return parseInt(this.getAttribute('step-number')) || 2; }
 
+  /** Tracks the secondary percent based on the value, min, and max */
   set percentSecondary(value) {
     this.#percentSecondary = value;
     this.#updateProgressBar();
@@ -346,6 +367,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return this.#percentSecondary;
   }
 
+  /** Tracks the percent based on the value, min, and max */
   set percent(value) {
     this.#percent = value;
     this.#updateProgressBar();
@@ -359,10 +381,15 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return this.#percent;
   }
 
+  /** Helper function to check if values being set are within min and max */
   #withinBounds(value) {
     return parseFloat(value) >= this.min && parseFloat(value) <= this.max;
   }
 
+  /**
+   * Set the secondary value of the slider (only applicable to double sliders)
+   * @param {string} value The secondary input value
+   */
   set valueSecondary(value) {
     if (this.#withinBounds(value)) {
       this.setAttribute(attributes.VALUE_SECONDARY, value);
@@ -384,6 +411,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return parseFloat(this.getAttribute(attributes.VALUE_SECONDARY));
   }
 
+  /**
+   * Set the primary value of the slider
+   * @param {string} value The input value
+   */
   set value(value) {
     if (this.#withinBounds(value)) {
       this.setAttribute(attributes.VALUE, value);
@@ -405,6 +436,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return parseFloat(this.getAttribute(attributes.VALUE));
   }
 
+  /**
+   * Set the minimum value of the slider
+   * @param {string} value The desired minimum
+   */
   set min(value) {
     const val = parseFloat(value);
     if (val >= this.max || val === null || val === '' || Number.isNaN(val)) {
@@ -418,6 +453,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return parseFloat(this.getAttribute(attributes.MIN)) || DEFAULT_MIN;
   }
 
+  /**
+   * Set the maximum value of the slider
+   * @param {string} value The desired max
+   */
   set max(value) {
     const val = parseFloat(value);
     if (val <= this.min || val === null || val === '' || Number.isNaN(val)) {
@@ -435,6 +474,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return val;
   }
 
+  /**
+   * Set the type of the bar
+   * @param {string} value The type of slider
+   */
   set type(value) {
     if (value && TYPES.includes(value)) {
       this.setAttribute(attributes.TYPE, value);
@@ -447,7 +490,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   /**
    * Set the color of the bar
-   * @param {string} value The color value, this can be a hex code with the #
+   * @param {string} value The color, this can be a hex code with the #, a native css color, or an ids-status color
    */
   set color(value) {
     this.setAttribute(attributes.COLOR, value);
@@ -456,6 +499,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   get color() { return this.getAttribute(attributes.COLOR); }
 
+  /** Update the color theme of the slider */
   #updateColor() {
     const color = this.color;
 
@@ -489,6 +533,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
   }
 
+  /** Hide/show the tooltip of the value */
   #hideTooltip(value, primaryOrSecondary) {
     if (primaryOrSecondary === 'secondary' && this.tooltipSecondary) {
       this.tooltipSecondary.style.opacity = value ? 0 : 1;
@@ -497,6 +542,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
   }
 
+  /** Hide/show the spotlight/box-shadow of the thumb */
   #hideThumbShadow(value, primaryOrSecondary) {
     let thumbShadow = this.thumbShadow;
 
@@ -507,10 +553,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     value ? thumbShadow.setAttribute('hidden', '') : thumbShadow.removeAttribute('hidden');
   }
 
+  /** Helper method for calculating if click was inside track area */
   #wasCursorInBoundingBox(x, y, top, bottom, left, right) {
     return y >= top && y < bottom && x > left && x < right;
   }
 
+  /** Perform the calculations to update the UI and value(s)/percent(s) accordingly */
   #calculateUIFromClick(x, y) {
     if (!this.trackBounds) return;
 
@@ -546,8 +594,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
             ? this.thumbDraggableSecondary.getBoundingClientRect().y
             : this.thumbDraggableSecondary.getBoundingClientRect().x;
 
+          // figure out which thumb is closer to the click location
           if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
-            // cursor is closer to second thumb
             thumbDraggable = this.thumbDraggableSecondary;
             valueAttribute = 'valueSecondary';
             primaryOrSecondary = 'secondary';
@@ -558,6 +606,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         this[valueAttribute] = value;
         thumbDraggable.focus();
       } else {
+        // for step sliders, snap to the closest interval
         const arr = [];
 
         for (let i = 0; i < this.stepNumber; i++) {
@@ -574,20 +623,19 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
             minIndex = i;
           }
         }
-        // snap to the value interval closest to click
+
         this.value = arr[minIndex];
         this.thumbDraggable.focus();
       }
     } else {
-      // blur both if clicked outside of hit area
+      // blur both thumbs if click is outside of track area
       this.thumbDraggable.blur();
       this.type === 'double' && this.thumbDraggableSecondary && this.thumbDraggableSecondary.blur();
     }
   }
 
+  /** Translate the thumb(s) according to the percent values */
   #moveThumb(primaryOrSecondary) {
-    // check to make sure trackBounds have been initialized
-
     if (this.trackBounds) {
       let thumbDraggable = this.thumbDraggable;
       let percent = this.percent;
@@ -610,12 +658,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
   }
 
-  // based on percent, calculate that numerical value between min and max
+  /** Calculate the true value based on the percent value */
   #calcValueFromPercent(percent) {
     return ((percent / 100) * (this.max - this.min)) + (this.min);
   }
 
-  // based on percent, calculate how much the thumb should translate on the X-axis
+  /** Calculate the pixels to translate thumbs by based on percent value */
   #calcTranslateFromPercent(aStart, aEnd, percent, notCentered) {
     // minus thumb height bc it overshoots
     const editedRange = Math.abs(aEnd - aStart) - this.thumbDraggable.clientHeight;
@@ -626,7 +674,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return coord;
   }
 
-  // based on mouse click, figure out the percent of progress
+  /** Calculate the percent value based on mouse click location */
   #calcPercentFromMousePos(a, aStart, aEnd, thumbWidth) {
     let percent = 0;
     // allow bigger hit areas for controlling thumb
@@ -640,7 +688,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return percent;
   }
 
-  #addEventListeners() {
+  /** Attach all the necessary event listeners */
+  #attachEventListeners() {
     // CHECK IF RTL
     this.#addRtlListener();
 
@@ -663,6 +712,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return this;
   }
 
+  /** Calculates the x,y coordinates of the bounding box of the clickable track area */ 
   #calculateBounds() {
     // console.log('this.slider.offsetTop: ' + this.slider.offsetTop) // 117
     // console.log('this.slider.offsetLeft: ' + this.slider.offsetLeft) // 285
@@ -686,6 +736,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return bounds;
   }
 
+  /** Performs initializations, like style set ups, that can only be done after browser finishes rendering */ 
   #postRenderInitialization() {
     window.onload = () => {
       // init the this.trackBounds when render paint finishes
@@ -726,6 +777,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     };
   }
 
+  /** Checks if the window changes sizes and updates UI accordingly*/
   #addResizeObserver() {
     // update thumb positions and trackBounds with new values when window size changes
     const resizeObserver = new ResizeObserver((entries) => {
@@ -741,6 +793,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     return resizeObserver;
   }
 
+  /** Add event listeners for clicking the track area */
   #addClickEvents() {
     this.onEvent('click', document, (event) => {
       // console.log('click event fired')
@@ -756,6 +809,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     });
   }
 
+  /** Add event listeners for dragging the slider thumbs */
   #addDragEvents(primaryOrSecondary) {
     const d = this.type === 'double' && primaryOrSecondary === 'secondary';
     const obj = {
@@ -837,6 +891,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     });
   }
 
+  /** Add event listeners for arrow keys to move thumbs */
   #addKeyboardEvents() {
     this.onEvent('keydown', document, (event) => {
       if (document.activeElement.name === 'ids-slider') {
@@ -873,6 +928,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     });
   }
 
+  /** Helper method for arrow key actions */
   #decreaseValue(primaryOrSecondary) {
     if (this.type === 'step') {
       this.value -= (this.max / (this.stepNumber - 1));
@@ -882,7 +938,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       this.value = Math.ceil(this.value) - 1;
     }
   }
-
+  
+  /** Helper method for arrow key actions */
   #increaseValue(primaryOrSecondary) {
     if (this.type === 'step') {
       this.value += (this.max / (this.stepNumber - 1));
