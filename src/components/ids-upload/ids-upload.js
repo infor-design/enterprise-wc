@@ -110,8 +110,13 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           <ids-text audible="true" class="label-filetype" part="label">${labelFiletype}</ids-text>
         </label>
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
-        <ids-trigger-field>
-          <ids-input part="input" readonly="true" triggerfield="true" ${clearableForced}${bgTransparent}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}></ids-input>
+        <ids-trigger-field ${label}${disabled}${readonlyBtn}${validate}>
+          <ids-input
+            part="input"
+            readonly="true"
+            triggerfield="true"
+            ${clearableForced}${bgTransparent}${dirtyTracker}${disabled}${label}${placeholder}${size}${validate}${validationEvents}${textEllipsis}${value}
+          ></ids-input>
           <ids-trigger-button part="button" class="trigger"${disabled}${readonlyBtn}>
             <ids-text slot="text" audible="true" class="trigger-label">${triggerLabel}</ids-text>
             <ids-icon slot="icon" icon="folder"></ids-icon>

@@ -71,14 +71,6 @@ class IdsColorPicker extends mix(IdsElement).with(
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
     this.#handleEvents();
-
-    // TODO: Do this a cleaner way to lay the label out
-    this.inputLabel = this.colorPickerInput?.shadowRoot?.querySelector('label');
-
-    /* istanbul ignore next */
-    if (this.inputLabel) {
-      this.inputLabel.style.marginLeft = '-38px';
-    }
   }
 
   static get attributes() {
@@ -95,16 +87,37 @@ class IdsColorPicker extends mix(IdsElement).with(
 
   template() {
     const id = this.id || 'ids-color';
-    /* istanbul ignore next */
+
     const template = `
       <div class="ids-color-picker">
-        <ids-trigger-field>
+        <ids-trigger-field
+          size="sm"
+          id="${this.id}"
+          tabbable="false"
+          label="${this.label}"
+          content-borders
+          ${this.disabled ? ' disabled="true"' : ''}
+          ${this.readonly ? ' readonly="true"' : ''}
+        >
           <label class="color-preview">
             <ids-input tabindex="-1" class="color-input" type="color" ${this.disabled || this.readonly ? ' disabled="true"' : ''}></ids-input>
             <ids-text audible="true">Pick Custom Color</ids-text>
           </label>
-          <ids-input value="${this.value.toLowerCase()}" size="sm" dirty-tracker="true" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''} class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
-          <ids-trigger-button id="${id}-button" title="${id}" tabbable="false" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''}>
+          <ids-input
+            value="${this.value.toLowerCase()}"
+            dirty-tracker="true"
+            class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}"
+            label="${this.label}"
+            label-hidden="true"
+            triggerfield="true"
+            ${this.disabled ? ' disabled="true"' : ''}
+            ${this.readonly ? ' readonly="true"' : ''}
+          ></ids-input>
+          <ids-trigger-button
+            class="color-picker-trigger-btn"
+            id="${id}-button" title="${id}"
+            tabbable="false" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''}
+          >
             <ids-text audible="true">color picker trigger</ids-text>
             <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
           </ids-trigger-button>
@@ -148,7 +161,9 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} d string value from the disabled attribute
    */
   set disabled(d) {
-    this.setAttribute('disabled', d.toString());
+    if (d) {
+      this.setAttribute('disabled', d.toString());
+    }
   }
 
   get disabled() {
@@ -214,14 +229,7 @@ class IdsColorPicker extends mix(IdsElement).with(
       }
     });
 
-    /* istanbul ignore next */
     this.onEvent('keyup', this.container, (keyup) => {
-      const isEditable = !stringUtils.stringToBool(this.readonly)
-      && !stringUtils.stringToBool(this.disabled);
-
-      if (!isEditable) {
-        return;
-      }
       if (keyup.key === 'Enter') {
         if (keyup.target.id === `${this.id}-button`) {
           this.#openCloseColorpicker();

@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsPopupMenu Component IdsMenuItem can render a new item correctly 1`] = `
-"<ids-menu-item id=\\"newitem\\" icon=\\"settings\\" selected=\\"\\"><ids-icon slot=\\"icon\\" icon=\\"settings\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\" language=\\"en\\" locale=\\"en-US\\"></ids-icon><ids-popup-menu id=\\"new-submenu\\" hidden=\\"\\"><ids-menu-group id=\\"new-group\\">
-  <ids-menu-item id=\\"newitem1\\" value=\\"new1\\">First New Item</ids-menu-item>
-  <ids-menu-item id=\\"newitem2\\" value=\\"new2\\">Second New Item</ids-menu-item>
-  <ids-menu-item id=\\"newitem3\\" value=\\"new3\\">Third New Item</ids-menu-item>
+"<ids-menu-item id=\\"newitem\\" icon=\\"settings\\" selected=\\"\\" language=\\"en\\" locale=\\"en-US\\"><ids-icon slot=\\"icon\\" icon=\\"settings\\" size=\\"medium\\" class=\\"ids-icon ids-menu-item-display-icon\\" language=\\"en\\" locale=\\"en-US\\"></ids-icon><ids-popup-menu id=\\"new-submenu\\" hidden=\\"\\" language=\\"en\\" locale=\\"en-US\\"><ids-menu-group id=\\"new-group\\">
+  <ids-menu-item id=\\"newitem1\\" value=\\"new1\\" language=\\"en\\" locale=\\"en-US\\">First New Item</ids-menu-item>
+  <ids-menu-item id=\\"newitem2\\" value=\\"new2\\" language=\\"en\\" locale=\\"en-US\\">Second New Item</ids-menu-item>
+  <ids-menu-item id=\\"newitem3\\" value=\\"new3\\" language=\\"en\\" locale=\\"en-US\\">Third New Item</ids-menu-item>
 </ids-menu-group></ids-popup-menu></ids-menu-item>"
 `;

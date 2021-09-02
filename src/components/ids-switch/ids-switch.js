@@ -12,6 +12,7 @@ import { IdsStringUtils } from '../../utils';
 // Import Mixins
 import {
   IdsEventsMixin,
+  IdsLocaleMixin,
   IdsThemeMixin
 } from '../../mixins';
 
@@ -23,6 +24,7 @@ import IdsText from '../ids-text';
  * @type {IdsSwitch}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  * @part checkbox - the checkbox input element
  * @part slider - the sliding part of the switch
@@ -30,7 +32,7 @@ import IdsText from '../ids-text';
  */
 @customElement('ids-switch')
 @scss(styles)
-class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsThemeMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -47,6 +49,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.CHECKED,
       attributes.DISABLED,
       attributes.LABEL,
+      attributes.LANGUAGE,
       attributes.VALUE
     ];
   }
@@ -59,7 +62,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
-    this.handleEvents();
+    this.#handleEvents();
     super.connectedCallback();
   }
 
@@ -162,9 +165,16 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @private
    * @returns {void}
    */
-  handleEvents() {
+  #handleEvents() {
     this.handleSwitchChangeEvent();
     this.handleNativeEvents();
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      // Do something with parent lang
+    });
   }
 
   /**

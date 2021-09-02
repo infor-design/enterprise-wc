@@ -6,7 +6,7 @@ A container which limits and tracks the dragging of an HTML Element along a spec
 
 ## Use Cases
 
-A draggable would be used in the case where you may have a pane splitter (e.g. in `ids-splitter`), or a list that is meant to be dragged along a specific axis. It may also be used in many cases where we have a canvas or pane that should be resized (in one or two dimensions).
+A draggable would be used in the case where you may have a pane splitter (e.g. in `ids-splitter`, internally), or a list that is meant to be dragged along a specific axis. It may also be used in many cases where we have a canvas or pane that should be resized (in one or two dimensions).
 
 It does not currently support drag/drop targets in the current iteration, but in the future this component may be used for moving items.
 
@@ -74,9 +74,14 @@ A draggable component which is draggable only by a specific handle on the tab (n
 - `disabled` {boolean}
 - `axis?` {'x' | 'y'}   The axis that the draggable content will be moving along (e.g. X => horizontal, Y => vertical); By default, not defined and supports both axes.
 - `handle?` {string} A query selector representing an optional handle that can be used to drag the content of the draggable.
+- `min-transform-x` {number} The minimum offset/x-transform/translate the draggable can be translated/dragged on the DOM.
+- `max-transform-x` {number} The maximum offset/x-transform/translate the draggable can be placed from its position on the DOM.
+- `min-transform-y` {number} The minimum offset/y-transform/translate the draggable can be placed frm it's position on the DOM.
+- `max-transform-y` {number} The maximum offset/y-transform/translate the draggable can be from it's position on the dom
 
 ## Accessibility
 
 - Wherever possible, it would be worth adding some visual indicator that content is dragged (this can be done using the `is-dragging` attribute or listening on `ids-dragstart` and `ids-dragend` callbacks).
+- if you have text that should be readable, where a minimum width or height is needed, or if it affects presentation, but sure to set reasonable `{min|max}-xform-{x|y}` attributes to restrict the amount of offset on a draggable.
 - It is good to keep in mind that draggable content may present issues for people with visual impairments, and so things such as scrollability and typical keyboard
 navigation should all function as normal in the case where a user is browsing content that may have resize handles or other draggability aspects.

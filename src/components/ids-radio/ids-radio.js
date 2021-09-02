@@ -12,6 +12,7 @@ import { IdsStringUtils } from '../../utils';
 // Import Mixins
 import {
   IdsEventsMixin,
+  IdsLocaleMixin,
   IdsThemeMixin
 } from '../../mixins';
 
@@ -36,13 +37,14 @@ const attribs = [
  * @inherits IdsElement
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsLocaleMixin
  * @part radio - the actual radio input element
  * @part circle - the visible circle element
  * @part label - the label text element
  */
 @customElement('ids-radio')
 @scss(styles)
-class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsThemeMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -62,6 +64,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.GROUP_DISABLED,
       attributes.HORIZONTAL,
       attributes.LABEL,
+      attributes.LANGUAGE,
       attributes.VALIDATION_HAS_ERROR,
       attributes.VALUE
     ];
@@ -190,6 +193,13 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.handleRadioClickEvent();
     this.handleRadioChangeEvent();
     this.handleNativeEvents();
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      // Do something with parent lang
+    });
   }
 
   /**

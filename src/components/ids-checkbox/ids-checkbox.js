@@ -13,7 +13,8 @@ import {
   IdsEventsMixin,
   IdsDirtyTrackerMixin,
   IdsValidationMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsLocaleMixin
 } from '../../mixins';
 
 import IdsText from '../ids-text';
@@ -40,6 +41,7 @@ const attribs = [
  * @mixes IdsValidationMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsLocaleMixin
  * @part label - the label element
  * @part input - the checkbox input element
  * @part label-text - the label text element
@@ -50,7 +52,8 @@ class IdsCheckbox extends mix(IdsElement).with(
     IdsDirtyTrackerMixin,
     IdsValidationMixin,
     IdsEventsMixin,
-    IdsThemeMixin
+    IdsThemeMixin,
+    IdsLocaleMixin
   ) {
   /**
    * Call the constructor and then initialize
@@ -73,6 +76,7 @@ class IdsCheckbox extends mix(IdsElement).with(
       attributes.INDETERMINATE,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
+      attributes.LANGUAGE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
       attributes.VALUE,
@@ -110,7 +114,7 @@ class IdsCheckbox extends mix(IdsElement).with(
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
-    this.handleEvents();
+    this.#handleEvents();
     this.handleDirtyTracker();
     this.handleValidation();
     super.connectedCallback();
@@ -190,9 +194,16 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleEvents() {
+  #handleEvents() {
     this.handleCheckboxChangeEvent();
     this.handleNativeEvents();
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      // Do something with parent lang
+    });
   }
 
   /**

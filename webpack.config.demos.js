@@ -33,6 +33,9 @@ module.exports = {
   }, {}),
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',
+  infrastructureLogging: {
+    level: 'warn'
+  },
   performance: {
     hints: false
   },

@@ -13,6 +13,7 @@ import { IdsStringUtils } from '../../utils';
 import {
   IdsEventsMixin,
   IdsDirtyTrackerMixin,
+  IdsLocaleMixin,
   IdsValidationMixin
 } from '../../mixins';
 
@@ -36,6 +37,7 @@ const attribs = [
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsValidationMixin
  */
 @customElement('ids-radio-group')
@@ -43,6 +45,7 @@ const attribs = [
 class IdsRadioGroup extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsDirtyTrackerMixin,
+    IdsLocaleMixin,
     IdsValidationMixin
   ) {
   /**
@@ -63,6 +66,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
       attributes.HORIZONTAL,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
+      attributes.LANGUAGE,
       attributes.VALIDATE,
       attributes.VALIDATION_EVENTS,
       attributes.VALUE
@@ -98,6 +102,20 @@ class IdsRadioGroup extends mix(IdsElement).with(
     const slot = this.shadowRoot.querySelector('slot');
     this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
+    });
+    this.#handleEvents();
+  }
+
+  /**
+   * Event handlers for the component
+   * @private
+   */
+  #handleEvents() {
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      // Do something with parent lang
     });
   }
 

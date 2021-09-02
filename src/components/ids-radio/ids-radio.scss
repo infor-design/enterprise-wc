@@ -258,3 +258,21 @@
     }
   }
 }
+
+// Negate some rules for RTL
+.ids-radio[dir='rtl'] {
+  input[type='radio'] ~ .circle {
+    left: initial;
+    right: 0;
+  }
+
+  label {
+    padding-right: 24px;
+    padding-left: 0;
+  }
+
+  label.required .label-text::after {
+    right: initial;
+    left: -13px;
+  }
+}
