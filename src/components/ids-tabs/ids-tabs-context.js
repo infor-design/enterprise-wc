@@ -29,7 +29,7 @@ const attributeProviderDefs = {
     valueTransformer: ({ value, element }) => element.getAttribute(attributes.VALUE) === value
   }],
   attributesListenedFor: [],
-  sentinelTags: ['IDS-TABS', 'IDS-TAB-CONTENT'],
+  exitTags: ['IDS-TABS', 'IDS-TAB-CONTENT', 'IDS-TABS-CONTEXT'],
   maxDepth: 8
 };
 
@@ -66,10 +66,10 @@ class IdsTabsContext extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.provideAttributes();
 
     /* istanbul ignore next */
     this.onEvent('tabselect', this, (e) => {
+      e.stopPropagation();
       if (this.getAttribute(attributes.VALUE) !== e.target.value) {
         this.setAttribute(attributes.VALUE, e.target.value);
       }

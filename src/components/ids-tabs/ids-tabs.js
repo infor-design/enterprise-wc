@@ -281,9 +281,7 @@ class IdsTabs extends mix(IdsElement).with(
   }
 
   /* istanbul ignore next */
-  /**
-   * @returns {number} Currently focused tab index, or -1
-   */
+  /** @returns {number} Currently focused tab index, or -1 */
   getFocusedTabIndex() {
     if (!(document.activeElement instanceof IdsTab)) {
       return -1;
@@ -300,7 +298,6 @@ class IdsTabs extends mix(IdsElement).with(
   /**
    * When a child value or this component value changes,
    * called to rebind onclick callbacks to each child
-   *
    */
   #updateCallbacks() {
     // map tab el refs to their indexes
@@ -434,6 +431,7 @@ class IdsTabs extends mix(IdsElement).with(
     if (!hadTabSelection) {
       window.requestAnimationFrame(() => {
         this.children[0].selected = true;
+        this.triggerEvent('tabselect', this.children[0], { bubbles: true });
       });
     }
   }

@@ -11,9 +11,9 @@ import IdsTabs, {
 } from '../../src/components/ids-tabs';
 
 document.addEventListener('DOMContentLoaded', () => {
-  const tabs = document.querySelector('ids-tabs');
+  const tabElements = [...document.querySelectorAll('ids-tabs')];
 
-  tabs.addEventListener('change', (e) => {
-    console.info(`#${e.target.getAttribute('id')}.on('change') =>`, e.target.value);
-  });
+  tabElements.forEach((el) => el.addEventListener('change', (e) => {
+    console.info(`ids-tabs.on('change') =>`, e.target.value);
+  }));
 });

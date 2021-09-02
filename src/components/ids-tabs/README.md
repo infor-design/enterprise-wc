@@ -34,7 +34,8 @@ A vertical tabs component.
 
 Using a tab context to show the active tab content in `ids-tab-content`.
 ```html
-<ids-tabs-context> <!-- context has no outward styling or content -->
+<ids-tabs-context>
+    <!-- ^ context has no outward styling or content, but width/height or display can be set -->
     <ids-tabs value="one">
         <ids-tab value="one">Section 1</ids-tab>
         <ids-tab value="two">Section 2</ids-tab>
@@ -79,7 +80,6 @@ has an equivalent for, selects this tab.
 ## States and Variations (With Code Examples)
 
 When placed inside of an `IdsHeader` component, the `ids-tabs` component automatically gains the property `color-variant` which is set to `alternate` as it's default style.
-
 
 ## Keyboard Guidelines
 

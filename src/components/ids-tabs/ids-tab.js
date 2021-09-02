@@ -31,6 +31,9 @@ const { stringToBool, buildClassAttrib } = stringUtils;
 @customElement('ids-tab')
 @scss(styles)
 class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
+  /** store the previous "selected" value to prevent double firing events */
+  #prevSelected = false;
+
   constructor() {
     super();
   }
@@ -117,10 +120,12 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   connectedCallback() {
+    this.#prevSelected = false;
     this.setAttribute('role', 'tab');
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
     this.setAttribute('tabindex', stringToBool(this.selected) ? '0' : '-1');
     this.setAttribute('aria-label', this.#getReadableAriaLabel());
+    this.selected = this.hasAttribute(attributes.SELECTED);
 
     /* istanbul ignore next */
     this.onEvent('click', this, () => {
@@ -148,9 +153,14 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       this.container.classList.add('selected');
       this.setAttribute('tabindex', '0');
 
-      this.triggerEvent('tabselect', this, { bubbles: true });
+      if (!this.#prevSelected) {
+        // reqAnimFrame needed to fire for context to read reliably due to onEvent binding
+        window.requestAnimationFrame(() => {
+          this.triggerEvent('tabselect', this, { bubbles: true });
+        });
+      }
     }
-
+    this.#prevSelected = isValueTruthy;
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
   }
 

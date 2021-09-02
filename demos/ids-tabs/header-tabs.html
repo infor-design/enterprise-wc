@@ -1,6 +1,6 @@
 {{> ../layouts/head-no-padding.html }}
 <ids-text font-size="12" type="h1" audible="true">Ids Tabs (Header Tabs)</ids-text>
-<ids-tabs-context value="contracts">
+<ids-tabs-context>
   <ids-header>
     <ids-toolbar>
       <ids-toolbar-section>
@@ -13,7 +13,7 @@
       </ids-toolbar-section>
       <ids-theme-switcher mode="light" version="new" color-variant="alternate"></ids-theme-switcher>
     </ids-toolbar>
-    <ids-tabs>
+    <ids-tabs value="attachments">
       <ids-tab value="contracts">Contracts</ids-tab>
       <ids-tab value="opportunities">Opportunities</ids-tab>
       <ids-tab value="attachments">Attachments</ids-tab>
@@ -36,11 +36,44 @@
       </div>
     </ids-tab-content>
     <ids-tab-content value="attachments">
-      <ids-text font-size="18">
-        It's ridiculous to live 100 years and only be able to remember 30 million bytes.
-        You know, less than a compact disc. The human condition is really becoming more
-        obsolete every minute. (Marvin Minsky)
-      </ids-text>
+      <ids-tabs-context>
+        <ids-tabs value="b">
+          <ids-tab value="a">A</ids-tab>
+          <ids-tab value="b">B</ids-tab>
+          <ids-tab value="c">C</ids-tab>
+          <ids-tab value="d">D</ids-tab>
+        </ids-tabs>
+        <div class="ids-tabs-content">
+          <ids-tab-content value="a">
+            <ids-text font-size="18">
+              Attachment A
+            </ids-text>
+          </ids-tab-content>
+          <ids-tab-content value="b">
+            <div class="tab-content">
+              <ids-text font-size="18">
+                Attachment B
+              </ids-text>
+            </div>
+          </ids-tab-content>
+          <ids-tab-content value="c">
+            <ids-text font-size="18">
+              Attachment C
+            </ids-text>
+          </ids-tab-content>
+          <ids-tab-content value="d">
+            <ids-text font-size="18">
+              Attachment D
+            </ids-text>
+          </ids-tab-content>
+        </div>
+      </ids-tabs-context>
+    </ids-tab-content>
+    <ids-tab-content value="attachments">
+      <pre>=====================</pre>
+    </ids-tab-content>
+    <ids-tab-content value="attachments">
+      Additional Attachments Here
     </ids-tab-content>
     <ids-tab-content value="notes">
       <ids-text font-size="18">

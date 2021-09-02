@@ -35,10 +35,7 @@ class IdsTabContent extends mix(IdsElement).with(
     super();
   }
 
-  /**
-   * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
-   */
+  /** @returns {Array} The attributes we handle as getters/setters */
   static get attributes() {
     return [attributes.VALUE, attributes.ACTIVE];
   }
@@ -77,7 +74,7 @@ class IdsTabContent extends mix(IdsElement).with(
   set active(value) {
     const isTruthy = IdsStringUtils.stringToBool(value);
 
-    if (isTruthy && this.getAttribute(attributes.ACTIVE) !== '') {
+    if (isTruthy && !this.hasAttribute(attributes.ACTIVE)) {
       this.setAttribute(attributes.ACTIVE, '');
     }
 

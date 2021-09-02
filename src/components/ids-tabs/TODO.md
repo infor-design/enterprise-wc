@@ -11,3 +11,5 @@ Tentative for Phase 1 but certain things e.g. overflows may need to  get done in
 - [] test: for keyboard events
 - [] test: figure out how to get coveralls + Jest to detect certain parts of code
 - [] test: figure out why ids-tab.selected = false doesn't trigger in Jest
+- fix an issue with double firing of change
+- some JSDoc

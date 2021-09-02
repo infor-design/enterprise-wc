@@ -17,7 +17,7 @@ const traversibleTagSet = new Set(['DIV', 'SPAN']);
  * @property {string} targetAttribute the attribute being targeted
  * on the child which is assigned
  * @property {Function} valueTransformer transforms the value assigned
- * @property {Array} sentinelTags tags where we know to stop searching for more nodes < @TODO.
+ * @property {Array} exitTags tags where we know to stop searching for more nodes < @TODO.
  * intended element and can stop traversing; can also be IdsElement tags e.g. ['IDS-BUTTON']
  */
 
@@ -36,10 +36,10 @@ const IdsAttributeProviderMixin = (defs) => (superclass) => {
     attributesProvided = [],
     attributesListenedFor = [],
     maxDepth = Number.MAX_SAFE_INTEGER,
-    sentinelTags = []
+    exitTags = []
   } = defs;
 
-  const sentinelTagSet = new Set(sentinelTags);
+  const exitTagSet = new Set(exitTags);
 
   // vars intended for private/static access among component
   // for attribute mapping and lookups
@@ -142,9 +142,11 @@ const IdsAttributeProviderMixin = (defs) => (superclass) => {
         const isIdsElement = element instanceof IdsElement;
         const isRelevantTag = (
           traversibleTagSet.has(element?.tagName)
-          && !sentinelTagSet.has(element?.tagName)
         );
-        if (recursive && (isIdsElement || isRelevantTag)) {
+
+        const isExitTag = exitTagSet.has(element?.tagName);
+
+        if (recursive && (isIdsElement || isRelevantTag) && !isExitTag) {
           this.provideAttributes(attributes, true, element, depth + 1);
         }
       }
