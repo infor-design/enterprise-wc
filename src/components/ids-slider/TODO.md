@@ -62,3 +62,7 @@
   - [-] bugs
     - [x] double slider: when tabbing to secondary thumb, first key press jumps to 0
     - [ ] **double slider: fix bug where when drag is released too close to other thumb, it calculates the UI translate for that thumb thru calculateUIFromClick()
+- [x] add doc comments
+- [x] edit type file
+- [x] change name to attachEventListeners
+
