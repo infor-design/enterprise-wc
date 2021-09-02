@@ -1,20 +1,20 @@
 # Dropdown TODO's
 
 - [x] Set value (by id)
-- [ ] Keyboard
-    - [ ] Typeahead
 - [x] Accessibility
-- [ ] States
+- [x] States
     - [x] Disabled / methods
     - [x] Readonly
     - [x] Dirty
     - [x] Validation
-- [ ] Ajax (callbacks) / Dataset
 - [ ] Icons
 - [ ] Tooltip
+- [ ] Ajax (callbacks) / Dataset
 - [ ] Themes
 - [ ] Tests
 - [ ] Docs
+- [ ] Keyboard
+    - [ ] Typeahead
 
 ## Bugs
 

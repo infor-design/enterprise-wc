@@ -25,3 +25,9 @@
 :host(:hover:not(.is-selected)) {
   @include bg-slate-20();
 }
+
+// Style Icons when in the list
+::slotted(ids-icon) {
+  vertical-align: middle;
+  margin: 0 7px 2px 0;
+}
