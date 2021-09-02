@@ -1,9 +1,31 @@
 @import '../../core/ids-base';
+@import '../ids-input/ids-input.scss';
 
 .ids-color-picker {
-  align-items: center;
-  display: inline-flex;
-  flex-direction: column;
+  @include mb-16();
+
+  display: block;
+}
+
+ids-input::part(container) {
+  margin-bottom: 0;
+}
+
+ids-input::part(input) {
+  border: none;
+  margin-bottom: 0;
+}
+
+.color-picker-trigger-btn::part(button) {
+  @include ml-8();
+  @include mr-4();
+
+  position: relative;
+  z-index: 2;
+}
+
+.ids-color-picker:focus-within ids-input::part(input) {
+  box-shadow: none;
 }
 
 .color-popup {
@@ -11,19 +33,14 @@
   gap: 4px;
   grid-template-columns: repeat(10, 20px);
   overflow: auto;
-  padding: 8px;
+  padding: var(--ids-number-spacing-base);
   width: 239px;
 }
 
 .color-preview {
-  border-left: solid 1px var(--ids-color-palette-slate-40);
-  border-top: solid 1px var(--ids-color-palette-slate-40);
-  border-bottom: solid 1px var(--ids-color-palette-slate-40);
-  border-right: solid 0 transparent;
   display: block;
-  height: 36px;
-  width: 37px;
-  margin-top: 3px;
+  height: 38px;
+  width: 38px;
   cursor: pointer;
 }
 
@@ -39,7 +56,7 @@
 }
 
 .color-input-value-no-label {
-  padding-top: 24px;
+  padding-top: calc(var(--ids-number-spacing-base) * 3);
 }
 
 .color-container {

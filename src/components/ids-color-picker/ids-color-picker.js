@@ -69,14 +69,6 @@ class IdsColorPicker extends mix(IdsElement).with(
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
     this.#attachEventHandlers();
-
-    // TODO: Do this a cleaner way to lay the label out
-    this.inputLabel = this.colorPickerInput?.shadowRoot?.querySelector('label');
-
-    /* istanbul ignore next */
-    if (this.inputLabel) {
-      this.inputLabel.style.marginLeft = '-38px';
-    }
   }
 
   static get attributes() {
@@ -93,16 +85,44 @@ class IdsColorPicker extends mix(IdsElement).with(
 
   template() {
     const id = this.id || 'ids-color';
+
+    const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
+      ? /* istanbul ignore next */' disabled'
+      : '';
+
+    const buttonDisabledAttribHtml = (
+      this.hasAttribute(attributes.DISABLED) || this.hasAttribute(attributes.READONLY)
+    ) ? /* istanbul ignore next */' disabled' : '';
+
     /* istanbul ignore next */
     const template = `
       <div class="ids-color-picker">
-        <ids-trigger-field tabbable="false">
+        <ids-trigger-field
+          size="sm"
+          id="${this.id}"
+          tabbable="false"
+          label="${this.label}"
+          content-borders
+          ${disabledAttribHtml}
+        >
           <label class="color-preview">
-            <ids-input tabindex="-1" class="color-input" type="color" disabled="${this.disabled}"></ids-input>
+            <ids-input tabindex="-1" class="color-input" type="color" ${buttonDisabledAttribHtml}></ids-input>
             <ids-text audible="true">Pick Custom Color</ids-text>
           </label>
-          <ids-input value="${this.value.toLowerCase()}" size="sm" dirty-tracker="true" disabled="${this.disabled}" class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}" label="${this.label}"></ids-input>
-          <ids-trigger-button id="${id}-button" title="${id}">
+          <ids-input
+            value="${this.value.toLowerCase()}"
+            dirty-tracker="true"
+            class="${this.label === '' ? 'color-input-value-no-label' : 'color-input-value'}"
+            label="${this.label}"
+            label-hidden="true"
+            triggerfield="true"
+            ${disabledAttribHtml}
+          ></ids-input>
+          <ids-trigger-button
+            class="color-picker-trigger-btn"
+            id="${id}-button" title="${id}"
+            ${buttonDisabledAttribHtml}
+          >
             <ids-text audible="true">color picker trigger</ids-text>
             <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
           </ids-trigger-button>
@@ -146,11 +166,13 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} d string value from the disabled attribute
    */
   set disabled(d) {
-    this.setAttribute('disabled', d.toString());
+    if (d) {
+      this.setAttribute('disabled', d.toString());
+    }
   }
 
   get disabled() {
-    return this.getAttribute('disabled') || 'false';
+    return this.getAttribute('disabled');
   }
 
   /**
@@ -183,14 +205,14 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @returns {void}
    */
   /* istanbul ignore next */
-   #attachEventHandlers() {
+  #attachEventHandlers() {
     /* istanbul ignore next */
     this.idsColorsArr.forEach((element) => {
       element.style.backgroundColor = element.getAttribute('hex');
     });
 
     /* istanbul ignore next */
-    if (this.disabled === 'false') {
+    if (!this.disabled) {
       this.onEvent('click', this.container, (event) => {
         const target = event.target;
         const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
@@ -231,10 +253,10 @@ class IdsColorPicker extends mix(IdsElement).with(
     */
    /* istanbul ignore next */
    #updateColorPickerValues(colorValue) {
-     this.swatchInput.value = colorValue;
-     this.colorPreview.style.backgroundColor = colorValue;
-     this.colorPickerInput.value = colorValue;
-   }
+    this.swatchInput.value = colorValue;
+    this.colorPreview.style.backgroundColor = colorValue;
+    this.colorPickerInput.value = colorValue;
+  }
 
    /**
     * Open/Close popup to show and hide color panel
