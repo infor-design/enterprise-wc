@@ -27,7 +27,7 @@ import styles from './ids-step-chart.scss';
 
 @customElement('ids-step-chart')
 @scss(styles)
-class IdsStepChart extends mix(IdsElement).with(IdsThemeMixin) {
+class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
     this.internalStepsInProgress = [];
