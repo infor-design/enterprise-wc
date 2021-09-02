@@ -70,7 +70,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
           <slot name="appName"></slot>
         </div>
         <div class="ids-about-close">
-          <ids-button icon="close" css-class="ids-about-close">
+          <ids-modal-button icon="close" cancel>
             <span class="audible">Close modal</span>
           </ids-button>
         </div>

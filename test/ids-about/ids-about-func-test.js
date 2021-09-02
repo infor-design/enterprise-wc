@@ -4,6 +4,7 @@
 import IdsAbout from '../../src/components/ids-about';
 
 // Supporing components
+import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsText from '../../src/components/ids-text/ids-text';
 import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
@@ -234,5 +235,35 @@ describe('IdsABout Component (empty)', () => {
 
     expect(component.querySelectorAll('*').length).toBeTruthy();
     expect(component.deviceSpecs).toBeFalsy();
+  });
+});
+
+describe('IdsABout Component locale', () => {
+  let component;
+  let container;
+
+  beforeEach(async () => {
+    container = new IdsContainer();
+    component = new IdsAbout();
+    container.appendChild(component);
+    document.body.appendChild(container);
+  });
+
+  afterEach(async () => {
+    document.body.innerHTML = '';
+    component = null;
+    container = null;
+  });
+
+  it('can change language', async () => {
+    await component.setLanguage('ar');
+    expect(component.getAttribute('dir')).toEqual('rtl');
+    expect(component.container.getAttribute('dir')).toEqual('rtl');
+  });
+
+  it('can change language from the container', async () => {
+    await container.setLanguage('ar');
+    expect(component.getAttribute('dir')).toEqual('rtl');
+    expect(component.container.getAttribute('dir')).toEqual('rtl');
   });
 });
