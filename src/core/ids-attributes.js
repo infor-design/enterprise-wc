@@ -101,6 +101,7 @@ export const attributes = {
   MESSAGE: 'message',
   MESSAGE_TITLE: 'message-title',
   MIN: 'min',
+  MIN_COL_WIDTH: 'min-col-width',
   MODE: 'mode',
   MULTIPLE: 'multiple',
   NAME: 'name',

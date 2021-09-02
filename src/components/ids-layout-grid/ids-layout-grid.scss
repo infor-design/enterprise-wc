@@ -200,6 +200,9 @@ $grid-cols-sm: 4;
   }
 }
 
+/**
+  12 column grid system
+*/
 :host(.ids-layout-grid-system),
 .ids-layout-grid.ids-layout-grid-system {
   --grid-cols: 0;

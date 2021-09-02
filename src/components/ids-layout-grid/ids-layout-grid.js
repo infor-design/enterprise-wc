@@ -27,8 +27,8 @@ class IdsLayoutGrid extends IdsElement {
       attributes.FIXED,
       attributes.GAP,
       attributes.NO_MARGINS,
-      'min-col-width',
-      attributes.ROWS
+      attributes.MIN_COL_WIDTH,
+      attributes.ROWS,
     ];
   }
 
@@ -103,7 +103,6 @@ class IdsLayoutGrid extends IdsElement {
 
       if (value === 'layout-grid') {
         this.setAttribute(attributes.COLS, value);
-        this.classList.remove('ids-layout-grid-auto');
         this.classList.remove(`ids-layout-grid-cols`);
         this.classList.add('ids-layout-grid-system');
         this.style.removeProperty('--grid-cols');
@@ -111,7 +110,6 @@ class IdsLayoutGrid extends IdsElement {
 
       if (value === 'layout-grid-xl') {
         this.setAttribute(attributes.COLS, value);
-        this.classList.remove('ids-layout-grid-auto');
         this.classList.remove(`ids-layout-grid-cols`);
         this.classList.add('ids-layout-grid-system');
         this.classList.add('ids-layout-grid-system-xl');
