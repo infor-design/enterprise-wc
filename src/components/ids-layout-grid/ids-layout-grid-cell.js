@@ -21,7 +21,6 @@ class IdsLayoutGridCell extends IdsElement {
       attributes.COL_START,
       attributes.COL_END,
       attributes.FILL,
-      'grid-area',
       attributes.JUSTIFY,
       attributes.ROW_SPAN,
       attributes.ROW_START,

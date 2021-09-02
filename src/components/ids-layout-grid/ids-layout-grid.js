@@ -32,6 +32,18 @@ class IdsLayoutGrid extends IdsElement {
     ];
   }
 
+  autoGridClass = `ids-layout-grid-auto`;
+
+  colsGridClass = `ids-layout-grid-cols`;
+
+  gridSystemClass = `ids-layout-grid-system`;
+
+  gridSystemXlClass = `ids-layout-grid-system-xl`
+
+  rowsClass = `ids-layout-grid-rows`;
+
+  noMarginsClass = `ids-layout-grid-no-margins`;
+
   template() {
     return `<slot></slot>`;
   }
@@ -80,12 +92,12 @@ class IdsLayoutGrid extends IdsElement {
   set auto(value) {
     if (value) {
       this.setAttribute(attributes.AUTO, value.toString());
-      this.classList.add('ids-layout-grid-auto');
+      this.classList.add(this.autoGridClass);
       return;
     }
 
     this.removeAttribute(attributes.AUTO);
-    this.classList.remove('ids-layout-grid-auto');
+    this.classList.remove(this.autoGridClass);
   }
 
   get auto() { return this.getAttribute(attributes.AUTO); }
@@ -98,29 +110,27 @@ class IdsLayoutGrid extends IdsElement {
     if (value) {
       this.setAttribute(attributes.COLS, value);
       this.style.setProperty('--grid-cols', value);
-      this.classList.add(`ids-layout-grid-cols`);
-      this.classList.remove('ids-layout-grid-auto');
-
-      if (value === 'layout-grid') {
-        this.setAttribute(attributes.COLS, value);
-        this.classList.remove(`ids-layout-grid-cols`);
-        this.classList.add('ids-layout-grid-system');
-        this.style.removeProperty('--grid-cols');
-      }
-
-      if (value === 'layout-grid-xl') {
-        this.setAttribute(attributes.COLS, value);
-        this.classList.remove(`ids-layout-grid-cols`);
-        this.classList.add('ids-layout-grid-system');
-        this.classList.add('ids-layout-grid-system-xl');
-        this.style.removeProperty('--grid-cols');
-      }
+      this.classList.add(this.colsGridClass);
+      this.classList.remove(this.autoGridClass);
     }
 
-    this.style.removeProperty('--grid-cols');
+    if (value === 'layout-grid') {
+      this.setAttribute(attributes.COLS, value);
+      this.classList.remove(this.colsGridClass);
+      this.classList.add(this.gridSystemClass);
+      this.style.removeProperty('--grid-cols');
+    }
+
+    if (value === 'layout-grid-xl') {
+      this.setAttribute(attributes.COLS, value);
+      this.classList.remove(this.colsGridClass);
+      this.classList.add(this.gridSystemClass);
+      this.classList.add(this.gridSystemXlClass);
+      this.style.removeProperty('--grid-cols');
+    }
+
     this.removeAttribute(attributes.AUTO);
-    this.classList.remove(`ids-layout-grid-cols`);
-    this.classList.remove('ids-layout-grid-auto');
+    this.classList.remove(this.autoGridClass);
   }
 
   get cols() { return this.getAttribute(attributes.COLS); }
@@ -134,14 +144,14 @@ class IdsLayoutGrid extends IdsElement {
       this.auto = false;
       this.setAttribute(attributes.ROWS, value);
       this.style.setProperty('--grid-rows', value);
-      this.classList.add(`ids-layout-grid-rows`);
-      this.classList.remove('ids-layout-grid-auto');
+      this.classList.add(this.rowsClass);
+      this.classList.remove(this.autoGridClass);
       return;
     }
 
     this.style.removeProperty('--grid-rows');
     this.removeAttribute(attributes.AUTO);
-    this.classList.remove(`ids-layout-grid-rows`);
+    this.classList.remove(this.rowsClass);
   }
 
   get rows() { return this.getAttribute(attributes.ROWS); }
@@ -153,12 +163,12 @@ class IdsLayoutGrid extends IdsElement {
   set noMargins(value) {
     if (value) {
       this.setAttribute(attributes.NO_MARGINS, value.toString());
-      this.classList.add('ids-layout-grid-no-margins');
+      this.classList.add(this.noMarginsClass);
       return;
     }
 
     this.removeAttribute(attributes.NO_MARGINS);
-    this.classList.remove('ids-layout-grid-no-margins');
+    this.classList.remove(this.noMarginsClass);
   }
 
   get noMargins() { return this.getAttribute(attributes.NO_MARGINS); }
@@ -169,16 +179,16 @@ class IdsLayoutGrid extends IdsElement {
    */
   set minColWidth(value) {
     if (value) {
-      this.setAttribute('min-col-width', value.toString());
+      this.setAttribute(attributes.MIN_COL_WIDTH, value.toString());
       this.style.setProperty('--grid-min-col-width', value);
       return;
     }
 
-    this.removeAttribute('min-col-width');
+    this.removeAttribute(attributes.MIN_COL_WIDTH);
     this.style.removeProperty('--grid-min-col-width');
   }
 
-  get minColWidth() { return this.getAttribute('min-col-width'); }
+  get minColWidth() { return this.getAttribute(attributes.MIN_COL_WIDTH); }
 }
 
 export default IdsLayoutGrid;
