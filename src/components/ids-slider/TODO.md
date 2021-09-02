@@ -39,7 +39,7 @@
 - [ ] make function for init css styles
 - [x] remove percent attributes--don't want them accessible from outside
 - [x] fix bug on single slider where dragging past 0 results in negative value (see tooltip when dragging)
-- [ ] **add themes
+- [x] **add themes
 - [x] add vertical functionality
   - [x] single slider
   - [x] double slider // need to fix the transition styles that are set
@@ -58,7 +58,7 @@
   - [-] test
     - [x] make sure double range slider sets default inputs even if attribute valueb is unspecified or out of the bounds of min/max
     - [x] test double range slider with negative min and positive max
-    - [ ] write tests
+    - [-] write tests
   - [-] bugs
     - [x] double slider: when tabbing to secondary thumb, first key press jumps to 0
-    - [ ] double slider: fix bug where when drag is released too close to other thumb, it calculates the UI translate for that thumb thru calculateUIFromClick()
+    - [ ] **double slider: fix bug where when drag is released too close to other thumb, it calculates the UI translate for that thumb thru calculateUIFromClick()
