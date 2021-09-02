@@ -104,7 +104,6 @@ $input-compact-height: $input-field-height-xs;
     @include border-slate-40();
     @include border-solid();
     @include font-sans();
-    @include mb-4();
     @include p-8();
     @include rounded-default();
     @include text-16();
@@ -160,13 +159,9 @@ $input-compact-height: $input-field-height-xs;
       @include ellipsis();
     }
 
-    &.has-triggerfield {
-      @include pr-32();
-    }
-
     // input text-align: [left, center, right]
     &.left {
-      text-align: left;
+      text-align: start;
     }
 
     &.center {
@@ -174,7 +169,7 @@ $input-compact-height: $input-field-height-xs;
     }
 
     &.right {
-      text-align: right;
+      text-align: end;
     }
 
     // input message: [alert, error, info, success]
@@ -291,6 +286,35 @@ $input-compact-height: $input-field-height-xs;
   // input compact
   &.compact {
     @include input-extra-small-height($input-compact-height);
+  }
+
+  &.no-borders {
+    .ids-input-field {
+      border: none;
+    }
+  }
+
+  &.no-margins {
+    margin: 0;
+
+    .ids-input-field {
+      margin: 0;
+    }
+  }
+
+  &.triggerfield-has-content-borders {
+    margin-bottom: 0;
+
+    .ids-input-field {
+      &.has-triggerfield {
+        border: none;
+        margin-bottom: 0;
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
   }
 }
 

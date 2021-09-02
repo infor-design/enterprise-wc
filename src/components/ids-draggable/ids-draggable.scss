@@ -12,11 +12,11 @@
   cursor: inherit;
 }
 
-:host(ids-draggable[axis='x']:not([disabled]):not([handle])) {
+:host(ids-draggable[axis='x']:not([disabled])) {
   cursor: ew-resize;
 }
 
-:host(ids-draggable[axis='y']:not([disabled]):not([handle])) {
+:host(ids-draggable[axis='y']:not([disabled])) {
   cursor: ns-resize;
 }
 

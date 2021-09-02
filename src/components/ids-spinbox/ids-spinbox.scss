@@ -103,7 +103,7 @@
     }
 
     ids-button::part(button) {
-      @include border-slate-30();
+      @include border-slate-40();
 
       border-style: solid;
       width: 33px;
@@ -132,5 +132,19 @@
       max-width: 84px;
       margin-bottom: 0;
     }
+  }
+}
+
+.ids-spinbox[dir='rtl'] {
+  .ids-spinbox-content ids-button:first-child::part(button) {
+    border-left-style: none;
+    border-right-style: solid;
+    border-radius: 0 2px 2px 0;
+  }
+
+  .ids-spinbox-content ids-button:last-child::part(button) {
+    border-left-style: solid;
+    border-right-style: none;
+    border-radius: 2px 0 0 2px;
   }
 }

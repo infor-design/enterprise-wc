@@ -236,3 +236,26 @@
     }
   }
 }
+
+// Negate some rules for RTL
+.ids-switch[dir='rtl'] {
+  input[type='checkbox'] ~ .slider {
+    left: initial;
+    right: 0;
+  }
+
+  input[type='checkbox']:checked ~ .slider::after {
+    left: 0;
+    right: 15px;
+  }
+
+  input[type='checkbox'] ~ .slider::after {
+    left: initial;
+    right: 0;
+  }
+
+  label {
+    padding-right: 40px;
+    padding-left: 0;
+  }
+}

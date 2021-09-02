@@ -2,9 +2,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 64px;
-  height: 64px;
-  border-style: dashed;
+  overflow: visible;
+  width: 100%;
+  height: 100%;
 }
 
 .ids-draggable-demo-content {
@@ -13,22 +13,41 @@
   flex-direction: row;
   width: 312px;
   height: 128px;
-  border: 1px dashed var(--ids-color-palette-graphite-60);
 }
 
-ids-draggable:nth-of-type(1) .ids-draggable-demo-box,
-ids-layout-grid-cell:nth-of-type(1) .ids-draggable-demo-box {
+ids-draggable {
+  position: relative;
+  width: 64px;
+  height: 64px;
+}
+
+ids-draggable:nth-of-type(1) {
   border: 1px dashed var(--ids-color-palette-ruby-40);
 }
 
-ids-draggable:nth-of-type(2) .ids-draggable-demo-box,
-ids-layout-grid-cell:nth-of-type(2) .ids-draggable-demo-box {
+ids-draggable:nth-of-type(2) {
   border: 1px dashed var(--ids-color-palette-emerald-40);
 }
 
-ids-draggable:nth-of-type(3) .ids-draggable-demo-box,
-ids-layout-grid-cell:nth-of-type(3) .ids-draggable-demo-box {
+ids-draggable:nth-of-type(3) {
   border: 1px dashed var(--ids-color-palette-azure-40);
+}
+
+ids-draggable:nth-of-type(4) {
+  border: 1px dashed var(--ids-color-palette-amethyst-40);
+}
+
+.draggable-limit-markers {
+  position: absolute;
+  left: 80px;
+  top: 50%;
+  width: 500px;
+  transform: translateY(-50%);
+  color: var(--ids-color-palette-amethyst-90);
+}
+
+ids-draggable:nth-of-type(5) {
+  border: 1px dashed var(--ids-color-palette-amber-40);
 }
 
 .ids-draggable-handle-example {

@@ -580,3 +580,10 @@
     }
   }
 }
+
+// RTL Fixes
+.ids-popup[dir='rtl'] {
+  .arrow.bottom::after {
+    left: 8px;
+  }
+}

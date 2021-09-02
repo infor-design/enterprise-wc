@@ -13,6 +13,7 @@ import { IdsStringUtils } from '../../utils';
 import {
   IdsEventsMixin,
   IdsThemeMixin,
+  IdsLocaleMixin,
   IdsRenderLoopMixin,
   IdsRenderLoopItem
 } from '../../mixins';
@@ -38,6 +39,7 @@ const MENU_DEFAULTS = {
 const MENU_ATTRIBUTES = [
   attributes.DISABLED,
   attributes.ICON,
+  attributes.LANGUAGE,
   attributes.SELECTED,
   attributes.SUBMENU,
   attributes.TABINDEX,
@@ -61,6 +63,7 @@ function safeForAttribute(value) {
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsRenderLoopMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  * @part menu-item - the menu item element
  * @part text - the text element
@@ -69,7 +72,12 @@ function safeForAttribute(value) {
  */
 @customElement('ids-menu-item')
 @scss(styles)
-class IdsMenuItem extends mix(IdsElement).with(IdsRenderLoopMixin, IdsEventsMixin, IdsThemeMixin) {
+class IdsMenuItem extends mix(IdsElement).with(
+    IdsRenderLoopMixin,
+    IdsEventsMixin,
+    IdsLocaleMixin,
+    IdsThemeMixin
+  ) {
   /**
    * Build the menu item
    */
