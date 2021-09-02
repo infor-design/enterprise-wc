@@ -1,10 +1,11 @@
 import {
   IdsElement,
   customElement,
-  mix,
   scss,
   attributes
 } from '../../core';
+
+import { stringUtils } from '../../utils/ids-string-utils/ids-string-utils';
 
 // Import Utils
 import { IdsStringUtils } from '../../utils';
@@ -20,7 +21,10 @@ import styles from './ids-trigger-field.scss';
 // Supporting components
 import { IdsButton } from '../ids-button';
 import IdsInput from '../ids-input';
+import { SIZES } from '../ids-input/ids-input';
 import IdsTriggerButton from './ids-trigger-button';
+
+const { stringToBool, buildClassAttrib } = stringUtils;
 
 /**
  * IDS Trigger Field Component
@@ -32,7 +36,7 @@ import IdsTriggerButton from './ids-trigger-button';
  */
 @customElement('ids-trigger-field')
 @scss(styles)
-class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsTriggerField extends IdsInput {
   /**
    * Call the constructor and then initialize
    */
@@ -47,7 +51,18 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   connectedCallback() {
     this.setInputAttributes();
     this.handleEvents();
+    this.#setContentBorders();
     super.connectedCallback();
+
+    const labelEl = this.container.querySelector('label');
+    this.onEvent('click.label', labelEl, () => {
+      /* istanbul ignore else */
+      if (!stringToBool(this.disabled)) {
+        [...this.inputs].forEach((input) => {
+          input.input.focus();
+        });
+      }
+    });
   }
 
   /**
@@ -55,7 +70,15 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.TABBABLE, attributes.APPEARANCE, attributes.DISABLE_EVENTS];
+    return [
+      attributes.APPEARANCE,
+      attributes.CONTENT_BORDERS,
+      attributes.DISABLED,
+      attributes.DISABLE_EVENTS,
+      attributes.LABEL,
+      attributes.SIZE,
+      attributes.TABBABLE
+    ];
   }
 
   /**
@@ -63,7 +86,26 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-trigger-field" part="field"><slot></slot></div>`;
+    const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
+      ? /* istanbul ignore next */' disabled'
+      : '';
+
+    return `
+      <div class="ids-trigger-field ${this.size}" part="field">
+        ${ this.label !== '' ? `<label
+          ${ buildClassAttrib('ids-label-text', this.disabled !== null && 'disabled', this.validate !== null && 'required') }
+          ${this.validate !== null ? ' required' : ''}
+          slot="ids-trigger-field-label"
+          part="label"
+          for="${this.id}-input"
+        >
+          <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
+        </label>` : ''}
+        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled !== null && 'disabled', this.validate !== null && 'required') }>
+          <slot></slot>
+        </div>
+      </div>
+    `;
   }
 
   /**
@@ -86,7 +128,10 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
       this.inputObserver.disconnect();
     }
     this.inputObserver = new MutationObserver(callback);
-    this.inputObserver.observe(this.input, { attributes: true });
+
+    [...this.inputs].forEach((input) => {
+      this.inputObserver.observe(input, { attributes: true });
+    });
   }
 
   /**
@@ -98,7 +143,6 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   containerSetHeightClass(attr) {
     const heightClassName = (h) => `field-height-${h}`;
     const heights = ['xs', 'sm', 'md', 'lg'];
-
     if (attr.name === 'compact') {
       this.container?.classList[IdsStringUtils.stringToBool(attr.val) ? 'add' : 'remove']('compact');
     } else if (attr.name === 'field-height') {
@@ -115,15 +159,22 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
    * @returns {void}
    */
   setInputAttributes() {
-    this.input = this.querySelector('ids-input');
-    if (this.input) {
-      this.input.setAttribute(attributes.TRIGGERFIELD, 'true');
+    this.inputs = this.querySelectorAll('ids-input');
+    /* istanbul ignore else */
+    if (this.inputs) {
+      [...this.inputs].forEach((input) => {
+        input.setAttribute(attributes.TRIGGERFIELD, 'true');
+        input.setAttribute(attributes.LABEL, this.label);
+        input.setAttribute(attributes.SIZE, this.size);
+        input.setAttribute(attributes.VALIDATE, this.validate);
+        input.setAttribute(attributes.LABEL_HIDDEN, true);
 
-      // Set class for compact or field height
-      const attribs = ['compact', 'field-height'];
-      const attr = (a) => ({ name: a, val: this.input.getAttribute(a) });
-      attribs.forEach((a) => this.containerSetHeightClass(attr(a)));
-      this.setInputObserver();
+        // Set class for compact or field height
+        const attribs = ['compact', 'field-height'];
+        const attr = (a) => ({ name: a, val: input.getAttribute(a) });
+        attribs.forEach((a) => this.containerSetHeightClass(attr(a)));
+        this.setInputObserver();
+      });
     }
   }
 
@@ -174,19 +225,91 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   get disableNativeEvents() { return this.getAttribute(attributes.DISABLE_EVENTS); }
 
   /**
+   * Sets the label attribute
+   * @param {string} value string value from the label attribute
+   */
+  set label(value) {
+    this.setAttribute('label', value.toString());
+  }
+
+  get label() {
+    return this.getAttribute('label') || '';
+  }
+
+  /**
+   * Sets the disabled attribute
+   * @param {string} d string value from the disabled attribute
+   */
+  set disabled(d) {
+    if (stringUtils.stringToBool(d)) {
+      this.setAttribute('disabled', d.toString());
+      this.setAttribute(attributes.TABBABLE, 'false');
+    }
+  }
+
+  get disabled() {
+    return this.getAttribute('disabled');
+  }
+
+  /**
+   * Set the size (width) of input
+   * @param {string} value [xs, sm, mm, md, lg, full]
+   */
+  set size(value) {
+    const size = SIZES[value];
+    this.setAttribute(attributes.SIZE, size || SIZES.default);
+    this.container?.classList.remove(...Object.values(SIZES));
+    this.container?.classList.add(size || SIZES.default);
+  }
+
+  get size() { return this.getAttribute(attributes.SIZE) || SIZES.default; }
+
+  /**
+   * Adds borders to the trigger field content
+   * @private
+   * @returns {void}
+   */
+  #setContentBorders() {
+    this.container.classList.add('has-content-borders');
+
+    const slottedNodes = this.shadowRoot.querySelector('slot').assignedNodes();
+    const idsInputs = slottedNodes.filter((node) => node.nodeName === 'IDS-INPUT');
+    const triggerBtns = slottedNodes.filter((node) => node.nodeName === 'IDS-TRIGGER-BUTTON');
+
+    /* istanbul ignore else */
+    if (idsInputs) {
+      [...idsInputs].forEach((idsInput) => {
+        const input = idsInput.shadowRoot?.querySelector('.ids-input');
+        input?.classList.add('triggerfield-has-content-borders');
+      });
+    }
+
+    /* istanbul ignore else */
+    if (triggerBtns) {
+      [...triggerBtns].forEach((triggerBtn) => {
+        const btn = triggerBtn.shadowRoot?.querySelector('button');
+        btn?.classList.add('triggerfield-has-content-borders');
+      });
+    }
+  }
+
+  /**
    * Establish Internal Event Handlers
    * @private
    * @returns {object} The object for chaining.
    */
   handleEvents() {
-    if (this.input) {
-      const className = 'has-validation-message';
-      this.onEvent('validate', this.input, (e) => {
-        if (e.detail?.isValid) {
-          this.container?.classList?.remove(className);
-        } else {
-          this.container?.classList?.add(className);
-        }
+    /* istanbul ignore else */
+    if (this.inputs) {
+      [...this.inputs].forEach((input) => {
+        const className = 'has-validation-message';
+        this.onEvent('validate', input, (e) => {
+          if (e.detail?.isValid) {
+            this.container?.classList?.remove(className);
+          } else {
+            this.container?.classList?.add(className);
+          }
+        });
       });
     }
 
@@ -195,9 +318,10 @@ class IdsTriggerField extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     }
 
     /** @type {any} */
-    const button = this.querySelector('ids-trigger-button');
-    if (button) {
-      this.onEvent('click', button, () => this.trigger());
+    const buttons = this.querySelectorAll('ids-trigger-button');
+    /* istanbul ignore else */
+    if (buttons) {
+      [...buttons].forEach((button) => this.onEvent('click', button, () => this.trigger()));
     }
 
     return this;
