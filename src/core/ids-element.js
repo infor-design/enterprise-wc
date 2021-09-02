@@ -186,27 +186,16 @@ class IdsElement extends HTMLElement {
       this.container = this.shadowRoot?.firstElementChild;
     }
 
-<<<<<<< HEAD:src/core/ids-element.js
-=======
-    // Remove any close hidden element to avoid FOUC
-    this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
-    this.closest('ids-container')?.removeAttribute('hidden');
-
->>>>>>> 43787561... reverse ids-element changes while testing:src/ids-base/ids-element.js
     // Runs on next next paint to be sure rendered() fully
     if (this.rendered) {
       renderLoop.register(new IdsRenderLoopItem({
         duration: 1,
-<<<<<<< HEAD:src/core/ids-element.js
         timeoutCallback: () => {
           this.rendered();
           // Remove any close hidden element to avoid FOUC
           this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
           this.closest('ids-container')?.removeAttribute('hidden');
         }
-=======
-        timeoutCallback: () => { this.rendered(); }
->>>>>>> 43787561... reverse ids-element changes while testing:src/ids-base/ids-element.js
       }));
     }
 
