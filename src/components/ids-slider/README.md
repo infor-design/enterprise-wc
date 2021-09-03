@@ -6,16 +6,17 @@ Holds the value(s) between a minimum and maximum, which can be controlled by the
 
 ## Use Cases
 
-- Control an input with limited options through clicking/dragging/keyboard interaction
+- Control an input with limited options through clicking/dragging/keyboard interaction.
+- Best for showing a user's current selection relative to the lower and upper limits of a scale.
 
 ## Terminology
 
-- Minimum: The smallest value possible, on one end of the slider
-- Maximum: The largest value possible, on the other end of the slider
-- Thumb: The circular button that can be dragged back and forth on the slider to control input
-- Tick: The dots along the step slider that indicate the amount of choices for input
-- Track: The bar which the thumb moves along
-- Track area: The area around the track which can be clicked to modify the input value
+- **Minimum**: The smallest value possible, on one end of the slider
+- **Maximum**: The largest value possible, on the other end of the slider
+- **Thumb**: The circular button that can be dragged back and forth on the slider to control input
+- **Tick**: The dots along the step slider that indicate the amount of choices for input
+- **Track**: The bar which the thumb moves along
+- **Track area**: The area around the track which can be clicked to modify the input value
 
 ## Settings (Attributes)
 
@@ -83,46 +84,14 @@ A vertical step slider witih 12 intervals
 
 ### Converting from 4.x
 
-Single Slider: 
-
 ```html
 <div class="field">
+  <label for="slider-regular-example">Regular</label>
   <input id="slider-regular-example" name="slider-regular" class="slider" type="range"/>
 </div>
 ```
-is the 4.x equivalent of the web component below
+is the 4.x equivalent of the web component example below
 
 ```html
 <ids-slider type="single"></ids-slider>
-```
-
-Double Slider:
-
-```html
-<div class="field">
-  <input id="slider-regular-example" name="slider-regular-example" class="slider" type="range" data-tooltip-content='[""]' data-tooltip-persist="true" />
-</div>
-```
-
-is the 4.x equivalent of the web component below
-
-```html
-<ids-slider type="double"></ids-slider>
-```
-
-Step Slider:
-
-```html
-<div class="field">
-  <input id="slider-stepped-example" name="slider-stepped" class="slider" type="range" step="5" data-ticks='[
-    {"value": 0, "description": "Min"},
-    {"value": 100, "description": "Max"}
-  ]'/>
-</div>
-```
-
-is the 4.x equivalent of the web component below
-
-```html
-<ids-slider type="step" step-number="5" min="0" max="100"></ids-slider>
 ```
