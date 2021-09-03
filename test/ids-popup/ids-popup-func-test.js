@@ -450,11 +450,11 @@ describe('IdsPopup Component', () => {
   it('will not set non-numeric values as x/y numbers', () => {
     popup.x = 'tree';
 
-    expect(popup.state.x).toEqual(0);
+    expect(popup.x).toEqual(0);
 
     popup.y = 'tree';
 
-    expect(popup.state.y).toEqual(0);
+    expect(popup.y).toEqual(0);
   });
 
   it('should autocorrect some alignment definitions to become their shorthand values', () => {
@@ -643,12 +643,12 @@ describe('IdsPopup Component', () => {
 
     popup.containingElem = containerDiv;
 
-    expect(popup.state.containingElem.isEqualNode(containerDiv)).toBeTruthy();
+    expect(popup.containingElem.isEqualNode(containerDiv)).toBeTruthy();
 
     // Can't set anything but HTMLElement types (everything else is ignored)
     popup.containingElem = [];
 
-    expect(popup.state.containingElem.isEqualNode(containerDiv)).toBeTruthy();
+    expect(popup.containingElem.isEqualNode(containerDiv)).toBeTruthy();
   });
 
   it('will not bleed beyond a container boundary', () => {
