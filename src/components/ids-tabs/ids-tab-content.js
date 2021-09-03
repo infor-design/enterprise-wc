@@ -52,10 +52,7 @@ class IdsTabContent extends mix(IdsElement).with(
     super.disconnectedCallback?.();
   }
 
-  /**
-   * the value representing a currently selected tab
-   * @type {string}
-   */
+  /** @type {string} Value representing associated tab */
   set value(value) {
     /* istanbul ignore else */
     if (this.getAttribute(attributes.VALUE) === value) {
@@ -67,10 +64,12 @@ class IdsTabContent extends mix(IdsElement).with(
   }
 
   /* istanbul ignore next */
+  /** @returns {string} Value representing associated tab */
   get value() {
     return this.getAttribute(attributes.VALUE);
   }
 
+  /** @value Whether or not this tab will be flagged as active/visible */
   set active(value) {
     const isTruthy = IdsStringUtils.stringToBool(value);
 
@@ -83,6 +82,7 @@ class IdsTabContent extends mix(IdsElement).with(
     }
   }
 
+  /** @value Whether or not this tab will be flagged as active/visible */
   get active() {
     return this.hasAttribute(attributes.ACTIVE);
   }
