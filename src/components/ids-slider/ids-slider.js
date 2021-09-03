@@ -798,17 +798,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * @returns {object} The track area boundaries
    */
   #calculateBounds() {
-    // console.log('this.slider.offsetTop: ' + this.slider.offsetTop) // 117
-    // console.log('this.slider.offsetLeft: ' + this.slider.offsetLeft) // 285
-    // console.log('this.trackArea.offsetTop: ' + this.trackArea.offsetTop) // 0
-    // console.log('this.trackArea.offsetLeft: ' + this.trackArea.offsetLeft) // -12
-    // console.log('this.trackArea.clientWidth: ' + this.trackArea.clientWidth) // 24
-    // console.log('this.trackArea.clientHeight: ' + this.trackArea.clientHeight) // 24
-
-    const LEFT = this.slider.offsetLeft + this.trackArea.offsetLeft;
+    const rect = this.trackArea.getBoundingClientRect();
+    const LEFT = rect.left + window.scrollX;
+    const TOP = rect.top + window.scrollY;
     const RIGHT = LEFT + this.trackArea.clientWidth;
-    const TOP = this.slider.offsetTop + this.trackArea.offsetTop;
-    const BOTTOM = TOP + this.trackArea.clientHeight;
+    const BOTTOM = TOP + this.trackArea.clientHeight
 
     const bounds = {
       LEFT,
@@ -818,6 +812,24 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     };
 
     return bounds;
+  }
+
+  #toggleTransitionStyles(toggleOn) {
+    if (toggleOn) {
+      if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
+        console.log('init transition styles')
+        this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
+        !this.vertical && this.progressTrack.style.setProperty('transition', 'width 0.2s ease 0s, transform 0.2s ease 0s');
+      }
+      if (this.type === 'double' && this.thumbDraggableSecondary && !this.thumbDraggableSecondary.style.transition) {
+        console.log('init transition styles for double')
+        this.thumbDraggableSecondary.style.setProperty('transition', 'transform 0.2s ease');
+      }
+    } else {
+      this.thumbDraggable.style.removeProperty('transition');
+      this.progressTrack.style.removeProperty('transition');
+      if(this.type === 'double') this.thumbDraggableSecondary.style.removeProperty('transition');
+    }
   }
 
   /** Performs initializations, like style set ups, that can only be done after browser finishes rendering */
@@ -834,26 +846,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       this.#moveThumb();
       this.type === 'double' && this.#moveThumb('secondary');
 
-      // set the transition styles
-      if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
-        this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease');
-        !this.vertical && this.progressTrack.style.setProperty('transition', 'width 0.2s ease, transform 0.2s ease');
-      }
-      if (this.type === 'double' && this.thumbDraggableSecondary && !this.thumbDraggableSecondary.style.transition) {
-        this.thumbDraggableSecondary.style.setProperty('transition', 'transform 0.2s ease');
-      }
-
       // init custom colors
       this.#updateColor();
       this.#updateProgressBar();
 
       // init labels
       if (this.type === 'step') {
-        // const arr = [];
-        // for (let i = 0; i < this.stepNumber; i++) {
-        //   // rounds floats to 1st decimal
-        //   arr[i] = Math.round(((this.max / (this.stepNumber - 1)) * i) * 10) / 10;
-        // }
         this.labels = this.#generateNumericalLabels();
       } else {
         this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterbegin', `<ids-text label class="label${this.vertical ? ' vertical' : ''}">${this.max}</ids-text>`);
@@ -880,17 +878,21 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   /** Add event listeners for clicking the track area */
   #addClickEvents() {
-    this.onEvent('click', document, (event) => {
+    this.onEvent('click', this, (event) => {
       // console.log('click event fired')
-      const idsSliderSelected = event.target.name === 'ids-slider';
-
+      const idsSliderSelected = event.target === this;
+      
       if (this.type !== 'step') {
         this.#hideTooltip(!idsSliderSelected);
         this.type === 'double' && this.#hideTooltip(!idsSliderSelected, 'secondary');
       }
-
+      
       // console.log(event.clientX + ', ' + event.clientY);
-      this.#calculateUIFromClick(event.clientX, event.clientY);
+      if (idsSliderSelected) {
+        this.#toggleTransitionStyles(true);
+        this.trackBounds = this.#calculateBounds();
+        this.#calculateUIFromClick(event.clientX, event.clientY);
+      }
     });
   }
 
@@ -920,8 +922,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     this.onEvent('ids-drag', obj.thumbDraggable, (e) => {
       this.type !== 'step' && this.#hideTooltip(false);
 
-      // if (!this.trackBounds) { return; }
-
       const {
         LEFT,
         RIGHT,
@@ -950,17 +950,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     });
 
     this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
-      obj.thumbDraggable.style.removeProperty('transition');
-      this.progressTrack.style.removeProperty('transition');
+      this.trackBounds = this.#calculateBounds();
+      this.#toggleTransitionStyles(false);
       obj.thumbDraggable.blur();
       this.type === 'double' && obj.thumbDraggableOther.blur();
     });
 
     this.onEvent('ids-dragend', obj.thumbDraggable, () => {
-      // console.log('ids-dragend, clickFromDrag is true')
-      // this.clickFromDrag = true;
-      obj.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
-      !this.vertical && this.progressTrack.style.setProperty('transition', 'width 0.2s ease, transform 0.2s ease');
+      this.#toggleTransitionStyles(true);
       obj.thumbDraggable.focus();
       // to ensure that after dragging, the value is updated only after dragging has ended..
       // this is the roundabout solution to prevent the firing of moveThumb() every ids-drag event
