@@ -44,6 +44,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   DEFAULT_TYPE = DEFAULT_TYPE;
 
+  #trackBounds;
+
   #labels;
 
   #isRTL;
@@ -78,7 +80,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   lastTick;
 
-  // DOUBLE only
   thumbSecondary;
 
   thumbDraggableSecondary;
@@ -123,6 +124,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
 
     this.#attachEventListeners();
+    this.#initUIStyles();
     super.connectedCallback();
   }
 
@@ -217,7 +219,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     /* istanbul ignore else */
     if (value !== this.isRTL) {
       this.#isRTL = value;
-      this.trackBounds = this.#calculateBounds();
+      this.#trackBounds = this.#calculateBounds();
       this.#moveThumb();
       this.#updateProgressBar();
       this.type === 'double' && this.#moveThumb('secondary');
@@ -271,9 +273,9 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       this.slider.style.setProperty('--percentStart', minPercent);
       this.slider.style.setProperty('--percentEnd', maxPercent);
 
-      if (this.trackBounds) {
-        const startPos = this.vertical ? this.trackBounds.BOTTOM : this.trackBounds.LEFT;
-        const endPos = this.vertical ? this.trackBounds.TOP : this.trackBounds.RIGHT;
+      if (this.#trackBounds) {
+        const startPos = this.vertical ? this.#trackBounds.BOTTOM : this.#trackBounds.LEFT;
+        const endPos = this.vertical ? this.#trackBounds.TOP : this.#trackBounds.RIGHT;
         const centered = false;
         let trans = this.#calcTranslateFromPercent(startPos, endPos, minPercent, centered);
         if (this.vertical || this.isRTL) { trans *= -1; }
@@ -606,7 +608,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       BOTTOM,
       LEFT,
       RIGHT
-    } = this.trackBounds;
+    } = this.#trackBounds;
 
     return y >= TOP && y < BOTTOM && x > LEFT && x < RIGHT;
   }
@@ -617,12 +619,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * @param {number} y coordnate of mouse click
    */
   #calculateUIFromClick(x, y) {
-    if (!this.trackBounds) return;
+    if (!this.#trackBounds) return;
 
-    const top = this.trackBounds.TOP;
-    const bottom = this.trackBounds.BOTTOM;
-    const left = this.trackBounds.LEFT;
-    const right = this.trackBounds.RIGHT;
+    const top = this.#trackBounds.TOP;
+    const bottom = this.#trackBounds.BOTTOM;
+    const left = this.#trackBounds.LEFT;
+    const right = this.#trackBounds.RIGHT;
 
     const clickedTrackArea = this.#wasCursorInBoundingBox(x, y);
 
@@ -696,7 +698,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * @param {string} primaryOrSecondary which thumb to move
    */
   #moveThumb(primaryOrSecondary) {
-    if (this.trackBounds) {
+    if (this.#trackBounds) {
       let thumbDraggable = this.thumbDraggable;
       let percent = this.percent;
 
@@ -706,8 +708,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         percent = this.percentSecondary;
       }
 
-      const startPos = this.vertical ? this.trackBounds.BOTTOM :  this.trackBounds.LEFT;
-      const endPos = this.vertical ? this.trackBounds.TOP :  this.trackBounds.RIGHT;
+      const startPos = this.vertical ? this.#trackBounds.BOTTOM :  this.#trackBounds.LEFT;
+      const endPos = this.vertical ? this.#trackBounds.TOP :  this.#trackBounds.RIGHT;
       const centered = true;
       let trans = this.#calcTranslateFromPercent(startPos, endPos, percent, centered);
 
@@ -774,10 +776,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   #attachEventListeners() {
     // CHECK IF RTL
     this.#attachRTLListener();
-
-    // INIT AFTER CSS LOADS
-    this.#attachPostRenderInit();
-
+    
     // RESIZE OBSERVER for when window size changes
     this.#attachResizeObserver();
 
@@ -832,18 +831,16 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
   }
 
-  /** Performs initializations, like style set ups, that can only be done after browser finishes rendering */
-  #attachPostRenderInit() {
-
-    this.#toggleTransitionStyles(true);
+  /** Performs initializations, like style set ups */
+  #initUIStyles() {
+    // init UI styles
+    this.#updateProgressBar();
     this.#moveThumb();
     this.type === 'double' && this.#moveThumb('secondary');
-    this.#updateProgressBar();
-    
-    // init custom colors
+    this.#toggleTransitionStyles(true);
     this.#updateColor();
 
-    // init labels
+    // init base min/max labels
     if (this.firstTick && this.lastTick) {
       const maxTick = this.vertical ? this.firstTick : this.lastTick;
       const minTick = this.vertical ? this.lastTick : this.firstTick;
@@ -859,7 +856,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.contentBoxSize) {
-          this.trackBounds = this.#calculateBounds();
+          this.#trackBounds = this.#calculateBounds();
           this.#moveThumb();
           this.type === 'double' && this.#moveThumb('secondary');
         }
@@ -876,7 +873,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
       // console.log(event.clientX + ', ' + event.clientY);
       if (idsSliderSelected) {
-        this.trackBounds = this.#calculateBounds();
+        this.#trackBounds = this.#calculateBounds();
         this.#calculateUIFromClick(event.clientX, event.clientY);
       }
     });
@@ -920,7 +917,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         RIGHT,
         TOP,
         BOTTOM
-      } = this.trackBounds;
+      } = this.#trackBounds;
 
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
 
@@ -943,7 +940,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     });
 
     this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
-      this.trackBounds = this.#calculateBounds();
+      this.#trackBounds = this.#calculateBounds();
       this.#toggleTransitionStyles(false);
       obj.thumbDraggable.blur();
       this.type === 'double' && obj.thumbDraggableOther.blur();
