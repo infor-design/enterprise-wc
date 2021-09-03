@@ -148,11 +148,11 @@ class IdsDataGrid extends mix(IdsElement).with(
       this.virtualScrollContainer.data = this.data;
     }
 
-    this.handleEvents();
+    this.#attachEventHandlers();
 
     if (this.data.length > 0) {
       this.setActiveCell(0, 0);
-      this.handleKeys();
+      this.#attachKeyboardListeners();
     }
 
     // Set back direction
@@ -246,7 +246,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * Handle all triggering and handling of events
    * @private
    */
-  handleEvents() {
+  #attachEventHandlers() {
     const sortableColumns = this.shadowRoot.querySelector('.ids-data-grid-header');
 
     // Add a sort Handler
@@ -305,7 +305,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @private
    * @returns {object} This API object for chaining
    */
-  handleKeys() {
+  #attachKeyboardListeners() {
     // Handle arrow navigation
     this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e) => {
       const key = e.key;

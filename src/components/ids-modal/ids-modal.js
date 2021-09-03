@@ -120,7 +120,7 @@ class IdsModal extends mix(IdsElement).with(
       this.setModalPosition();
     });
 
-    this.handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -513,7 +513,7 @@ class IdsModal extends mix(IdsElement).with(
   /**
    * Sets up overall events
    */
-  handleEvents() {
+  #attachEventHandlers() {
     const titleSlot = this.container.querySelector('slot[name="title"]');
     const buttonSlot = this.container.querySelector('slot[name="buttons"]');
 

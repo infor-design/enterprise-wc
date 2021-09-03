@@ -20,17 +20,6 @@ import {
 import styles from './ids-radio-group.scss';
 import IdsText from '../ids-text/ids-text';
 
-const attribs = [
-  { name: 'dirty-tracker', prop: 'dirtyTracker' },
-  { name: 'disabled', prop: 'disabled' },
-  { name: 'horizontal', prop: 'horizontal' },
-  { name: 'label', prop: 'label' },
-  { name: 'label-required', prop: 'labelRequired' },
-  { name: 'validate', prop: 'validate' },
-  { name: 'validation-events', prop: 'validationEvents' },
-  { name: 'value', prop: 'value' }
-];
-
 /**
  * IDS Radio Group Component
  * @type {IdsRadioGroup}
@@ -61,8 +50,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.DIRTY_TRACKER,
-      attributes.DISABLED,
+      ...attributes.DISABLED,
       attributes.HORIZONTAL,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
@@ -74,27 +62,6 @@ class IdsRadioGroup extends mix(IdsElement).with(
   }
 
   /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @param {string} name The name of attribute changed
-   * @param {any} oldValue The old value
-   * @param {any} newValue The new value
-   * @returns {void}
-   */
-  attributeChangedCallback(
-    name,
-    oldValue,
-    newValue
-  ) {
-    if (oldValue !== newValue) {
-      attribs.forEach((attribute) => {
-        if (name === attribute.name) {
-          this[attribute.prop] = newValue;
-        }
-      });
-    }
-  }
-
-  /**
    * Custom Element `connectedCallback` implementation
    * @returns {void}
    */
@@ -103,14 +70,15 @@ class IdsRadioGroup extends mix(IdsElement).with(
     this.onEvent('slotchange', slot, () => {
       this.afterChildrenReady();
     });
-    this.#handleEvents();
+    this.#attachEventHandlers();
+    super.connectedCallback();
   }
 
   /**
    * Event handlers for the component
    * @private
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     // Respond to parent changing language
     this.offEvent('languagechange.container');
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
@@ -150,7 +118,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     this.setValue();
     this.handleHorizontal();
     this.handleDisabled();
-    this.handleEvents();
+    this.attachInternalEventHandlers();
     this.handleDirtyTracker();
     this.handleValidation();
   }
@@ -262,7 +230,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleRadioGroupChangeEvent() {
+  attachRadioGroupChangeEvent() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
 
     radioArr.forEach((r) => {
@@ -277,7 +245,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleRadioGroupKeydown() {
+  attachRadioGroupKeydown() {
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
@@ -303,9 +271,9 @@ class IdsRadioGroup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleEvents() {
-    this.handleRadioGroupChangeEvent();
-    this.handleRadioGroupKeydown();
+  attachInternalEventHandlers() {
+    this.attachRadioGroupChangeEvent();
+    this.attachRadioGroupKeydown();
   }
 
   /**

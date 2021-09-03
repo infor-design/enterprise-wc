@@ -63,7 +63,7 @@ class [IdsComponent] extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
-    this.#handleEvents();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -90,7 +90,7 @@ class [IdsComponent] extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    * @private
    * @returns {object} The object for chaining
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     return this;
   }
 }
@@ -155,7 +155,7 @@ constructor() {
 
 ```js
 connectedCallback() {
-  this.#handleEvents();
+  this.#attachEventHandlers();
   super.connectedCallback();
 }
 ```
@@ -178,10 +178,10 @@ template() {
 }
 ```
 
-- Make any custom methods. We usually use `#handleEvents` to setup any event handlers. We use [Private class fields](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields) to hide private methods from the end user and cleanup the API.
+- Make any custom methods. We usually use `#attachEventHandlers` to setup any event handlers. We use [Private class fields](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes/Private_class_fields) to hide private methods from the end user and cleanup the API.
 
 ```js
-  #handleEvents() {
+  #attachEventHandlers() {
     return this;
   }
 }

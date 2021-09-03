@@ -34,14 +34,14 @@ class IdsThemeSwitcher extends mix(IdsElement).with(
 
   connectedCallback() {
     super.conenctedCallback?.();
-    this.#handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
    * Establish Internal Event Handlers
    * @private
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     // Handle Clicking the x for dismissible
     // Ensure icon is always last
     this.onEvent('selected', this.shadowRoot.querySelector('ids-popup-menu'), (e) => {

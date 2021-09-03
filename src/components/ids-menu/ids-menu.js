@@ -88,7 +88,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @private
    * @returns {void}
    */
-  handleEvents() {
+  attachEventHandlers() {
     // Highlight handler -- Menu Items Only, don't change if the target is disabled
     const highlightItem = (e) => {
       const thisItem = e.target.closest('ids-menu-item');
@@ -121,7 +121,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * Sets up the connection to the global keyboard handler
    * @returns {void}
    */
-  handleKeys() {
+  attachKeyboardListeners() {
     // Arrow Up navigates focus backward
     this.listen(['ArrowUp'], this, (e) => {
       e.preventDefault();
@@ -150,8 +150,8 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    * @returns {void}
    */
   connectedCallback() {
-    this.handleEvents();
-    this.handleKeys();
+    this.attachEventHandlers();
+    this.attachKeyboardListeners();
   }
 
   /**

@@ -126,7 +126,7 @@ class IdsButton extends mix(IdsElement).with(
    * @returns {void}
    */
   connectedCallback() {
-    this.handleEvents();
+    this.attachEventHandlers();
     this.setIconAlignment();
     this.shouldUpdate = true;
     super.connectedCallback();
@@ -235,7 +235,7 @@ class IdsButton extends mix(IdsElement).with(
    * @returns {void}
    */
   /* istanbul ignore next */
-  handleEvents() {
+  attachEventHandlers() {
     let x;
     let y;
     let preceededByTouchstart = false;

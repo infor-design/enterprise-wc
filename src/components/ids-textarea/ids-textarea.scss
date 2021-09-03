@@ -301,6 +301,10 @@ $textarea-size-default-height: 120px;
       @include border-slate-30();
       @include text-slate-30();
     }
+
+    &.error {
+      @include border-alert-danger();
+    }
   }
 
   .label-text {
@@ -339,6 +343,10 @@ $textarea-size-default-height: 120px;
     &:focus {
       @include border-azure-60();
     }
+
+    &.error {
+      @include border-alert-danger();
+    }
   }
 }
 
@@ -362,6 +370,10 @@ $textarea-size-default-height: 120px;
 
     &:focus {
       @include border-azure-90();
+    }
+
+    &.error {
+      @include border-alert-danger();
     }
   }
 }
@@ -387,6 +399,10 @@ $textarea-size-default-height: 120px;
     &:focus {
       @include border-azure-60();
     }
+
+    &.error {
+      @include border-alert-danger();
+    }
   }
 }
 
@@ -411,6 +427,10 @@ $textarea-size-default-height: 120px;
     &:focus {
       @include border-azure-60();
     }
+
+    &.error {
+      @include border-alert-danger();
+    }
   }
 }
 
@@ -434,6 +454,10 @@ $textarea-size-default-height: 120px;
 
     &:focus {
       @include border-azure-90();
+    }
+
+    &.error {
+      @include border-alert-danger();
     }
   }
 }

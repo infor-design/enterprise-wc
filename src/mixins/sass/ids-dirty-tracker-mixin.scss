@@ -2,7 +2,7 @@
 
 .icon-dirty {
   @include absolute();
-  @include m-4();
+  @include m-2();
   @include text-alert-caution();
 
   left: -3px;

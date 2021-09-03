@@ -93,7 +93,7 @@ class IdsTooltip extends mix(IdsElement).with(
    * @private
    * @returns {object} The object for chaining.
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     this.detachAllEvents();
     if (!(typeof this.target === 'string')) {
       this.#bindEvents(this.target);
@@ -319,18 +319,18 @@ class IdsTooltip extends mix(IdsElement).with(
 
     if (value && typeof value !== 'string') {
       this.removeAttribute('target');
-      this.#handleEvents();
+      this.#attachEventHandlers();
       return;
     }
 
     if (value && typeof value === 'string') {
       this.setAttribute('target', value);
-      this.#handleEvents();
+      this.#attachEventHandlers();
       return;
     }
 
     this.removeAttribute('target');
-    this.#handleEvents();
+    this.#attachEventHandlers();
   }
 
   get target() { return this.state.target; }
@@ -344,12 +344,12 @@ class IdsTooltip extends mix(IdsElement).with(
 
     if (this.state.trigger) {
       this.setAttribute('trigger', this.state.trigger);
-      this.#handleEvents();
+      this.#attachEventHandlers();
       return;
     }
 
     this.removeAttribute('trigger');
-    this.#handleEvents();
+    this.#attachEventHandlers();
   }
 
   get trigger() { return this.state.trigger || 'hover'; }

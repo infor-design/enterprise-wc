@@ -1,3 +1,8 @@
+import { attributes } from '../../core';
+
+// Import Utils
+import { IdsStringUtils as stringUtils } from '../../utils';
+
 /**
  * Track changes on inputs elements and show a dirty indicator.
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -6,6 +11,19 @@
 const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback?.();
+    this.handleDirtyTracker();
+  }
+
+  /* istanbul ignore next */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.DIRTY_TRACKER
+    ];
   }
 
   isCheckbox = false;
@@ -189,6 +207,23 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     this.removeDirtyTrackerMsg();
     this.dirty = null;
   }
+
+  /**
+   * Set the dirty tracking feature on to indicate a changed field
+   * @param {boolean|string} value If true will set `dirty-tracker` attribute
+   */
+  set dirtyTracker(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
+    } else {
+      this.removeAttribute(attributes.DIRTY_TRACKER);
+    }
+
+    this.handleDirtyTracker();
+  }
+
+  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 };
 
 export default IdsDirtyTrackerMixin;

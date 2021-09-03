@@ -69,7 +69,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
 
     this.files = [];
 
-    this.handleEvents();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -625,7 +625,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @private
    * @returns {void}
    */
-  handleEvents() {
+  #attachEventHandlers() {
     this.handleSlotchangeEvent();
     this.handleLabelClickEvent();
     this.handleFileInputChangeEvent();

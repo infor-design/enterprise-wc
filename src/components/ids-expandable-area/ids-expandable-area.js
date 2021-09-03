@@ -43,7 +43,7 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
     this.pane = this.shadowRoot?.querySelector('.ids-expandable-area-pane');
-    this.handleEvents();
+    this.#attachEventHandlers();
     this.switchState();
     super.connectedCallback();
   }
@@ -156,7 +156,7 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @private
    * @returns {void}
    */
-  handleEvents() {
+  #attachEventHandlers() {
     this.onEvent('click', this.expander, () => {
       this.setAttributes();
     });

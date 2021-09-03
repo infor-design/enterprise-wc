@@ -31,14 +31,14 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
 
     this.applyHeight();
     this.renderItems(false);
-    this.handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
    * Establish Internal Event Handlers
    * @returns {object} The object for chaining.
    */
-  handleEvents() {
+  #attachEventHandlers() {
     this.timeout = null;
 
     this.onEvent('scroll', this.container, (e) => {

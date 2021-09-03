@@ -48,7 +48,7 @@ Spinbox which shows a marker with changes, and no range limits
 ></ids-spinbox>
 ```
 
-Spinbox which is required to have a value set when tabbed off of or `this.handleValidation()` called.
+Spinbox which is required to have a value set when tabbed off.
 
 ```html
 <ids-spinbox
