@@ -109,7 +109,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
       this.checked = true;
     }
 
-    this.handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -140,22 +140,22 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
   }
 
   /**
-   * Handle radio change event
+   * Attach radio change event
    * @private
    * @returns {void}
    */
-  handleRadioChangeEvent() {
+  #attachRadioChangeEvent() {
     this.onEvent('change', this.input, () => {
       this.checked = this.input.checked;
     });
   }
 
   /**
-   * Handle radio click event
+   * Attach radio click event
    * @private
    * @returns {void}
    */
-  handleRadioClickEvent() {
+  #attachRadioClickEvent() {
     this.onEvent('click', this.labelEl, () => {
       this.input?.focus(); // Safari need focus first click
     });
@@ -166,7 +166,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    * @private
    * @returns {void}
    */
-  handleNativeEvents() {
+  #attachNativeEvents() {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (/** @type {any} */ e) => {
@@ -188,14 +188,14 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
   }
 
   /**
-   * Handle events
+   * Attach events
    * @private
    * @returns {void}
    */
-  handleEvents() {
-    this.handleRadioClickEvent();
-    this.handleRadioChangeEvent();
-    this.handleNativeEvents();
+  #attachEventHandlers() {
+    this.#attachRadioClickEvent();
+    this.#attachRadioChangeEvent();
+    this.#attachNativeEvents();
 
     // Respond to parent changing language
     this.offEvent('languagechange.container');

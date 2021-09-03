@@ -20,6 +20,9 @@ export default class IdsTriggerField extends HTMLElement {
   /** Set the theme version */
   version: 'new' | 'classic' | string;
 
+  /** Sets the appearance of the ids-trigger-field-content container */
+  contentBorders: boolean;
+
   /** Fire the trigger event and action */
   trigger(): void;
 

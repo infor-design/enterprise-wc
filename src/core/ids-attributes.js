@@ -38,6 +38,7 @@ export const attributes = {
   COLOR_VARIANT: 'color-variant',
   COLS: 'cols',
   COMPACT: 'compact',
+  CONTENT_BORDERS: 'content-borders',
   COUNT: 'count',
   COPYRIGHT_YEAR: 'copyright-year',
   CLICKABLE: 'clickable',

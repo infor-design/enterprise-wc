@@ -2,10 +2,11 @@
 
 .icon-dirty {
   @include absolute();
-  @include m-4();
+  @include m-2();
   @include text-alert-caution();
 
-  top: 0;
+  left: -3px;
+  top: -3px;
 }
 
 // Radio

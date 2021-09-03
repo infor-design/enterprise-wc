@@ -51,7 +51,7 @@ class IdsText extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
-    this.handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -114,7 +114,7 @@ class IdsText extends mix(IdsElement).with(
    * Handle internal events
    * @private
    */
-  handleEvents() {
+  #attachEventHandlers() {
     if (this.translateText) {
       this.offEvent('languagechange.container');
       this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {

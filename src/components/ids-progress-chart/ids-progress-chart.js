@@ -34,7 +34,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   }
 
   connectedCallback() {
-    this.#handleEvents();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -60,14 +60,13 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * @returns {string} The template
    */
   template() {
-    return `
-    <div class="ids-progress-chart" part="chart">
+    return `<div class="ids-progress-chart" part="chart">
       <div class="labels">
-        <ids-text class="label-main">${this.label ?? ''}</ids-text>
-        <ids-icon class="icon" icon="${this.icon ?? ''}" size="${this.size ?? DEFAULT_SIZE}"></ids-icon>
-        <ids-text class="label-progress">${this.progressLabel ?? ''}</ids-text>
+        <ids-text class="label-main">${this.label || ''}</ids-text>
+        <ids-icon class="icon" icon="${this.icon || ''}" size="${this.size || DEFAULT_SIZE}"></ids-icon>
+        <ids-text class="label-progress">${this.progressLabel || ''}</ids-text>
         <div class="label-end">
-          <ids-text class="label-total">${this.totalLabel ?? ''}</ids-text>
+          <ids-text class="label-total">${this.totalLabel || ''}</ids-text>
         </div>
       </div>
       <div class="bar">
@@ -259,7 +258,7 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
 
   get size() { return this.getAttribute(attributes.SIZE); }
 
-  #handleEvents() {
+  #attachEventHandlers() {
     return this;
   }
 }
