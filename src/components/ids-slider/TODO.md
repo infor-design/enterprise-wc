@@ -1,3 +1,5 @@
+# IDS Slider TODO
+
 - [x] include a larger "hit" area where user can adjust range value even if they click around/not directly on the running track/thumb
 - [x] smooth transitions when tooltip badge fades
 - [x]when user clicks running track and thumb slides towards new position, and focus shadow
@@ -9,7 +11,7 @@
   - [x] when value is set -> calculate the percent and translateX for thumb
 - [x] remove transition animation when dragging the slider (it slows it down), otherwise keep for clicking and setting value thru console
 - [x] fix bugs when min/max are not just simply 0/100
-- [x] adjust the draggable to center on the tick at both ends (gah--nvm found a easy trick to reduce the track width >:D)
+- [x] adjust the draggable to center on the tick at both ends
 - [x] test for min/max to be within negative number range
 - [x] test that it works when attributes are not set
 - [x] add progress color bar 
@@ -36,7 +38,6 @@
   - [x] add step labels
     - [x] remove labels if labels is set to an array that doesn't match step number
   - [x] center the step labels under ticks
-- [ ] make function for init css styles
 - [x] remove percent attributes--don't want them accessible from outside
 - [x] fix bug on single slider where dragging past 0 results in negative value (see tooltip when dragging)
 - [x] **add themes
@@ -55,10 +56,10 @@
   - [x] npm run lint
     - [x] request changes to lint rules
   - [x] remove hover css
-  - [-] test
+  - [x] test
     - [x] make sure double range slider sets default inputs even if attribute valueb is unspecified or out of the bounds of min/max
     - [x] test double range slider with negative min and positive max
-    - [-] write tests
+    - [x] write tests
   - [-] bugs
     - [x] double slider: when tabbing to secondary thumb, first key press jumps to 0
     - [ ] **double slider: fix bug where when drag is released too close to other thumb, it calculates the UI translate for that thumb thru calculateUIFromClick()
