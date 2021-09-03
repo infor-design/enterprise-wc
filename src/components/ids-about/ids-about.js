@@ -55,7 +55,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.#handleEvents();
+    this.#addEventHandlers();
   }
 
   /**
@@ -91,7 +91,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    * @private
    * @returns {object} The object for chaining
    */
-  #handleEvents() {
+  #addEventHandlers() {
     this.#refreshProduct();
 
     // Respond to parent changing language
