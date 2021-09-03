@@ -54,7 +54,7 @@ class IdsScrollView extends mix(IdsElement).with(
     super.connectedCallback();
     this.controls = this.shadowRoot.querySelector('.ids-scroll-view-controls');
     this.#renderButtons();
-    this.#handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -76,7 +76,7 @@ class IdsScrollView extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     this.isClick = false;
 
     // Set selected state on click

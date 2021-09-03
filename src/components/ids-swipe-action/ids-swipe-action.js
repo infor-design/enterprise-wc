@@ -41,7 +41,7 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
 
     this.leftButton = this.querySelector('[slot="action-left"]');
     this.rightButton = this.querySelector('[slot="action-right"]');
-    this.#handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -95,7 +95,7 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    * Establish Internal Event Handlers
    * @private
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     if (this.swipeType === 'continuous') {
       this.onEvent('swipe', this, (e) => {
         this.querySelector(`[slot="action-${e.detail.direction === 'left' ? 'right' : 'left'}"`).click();

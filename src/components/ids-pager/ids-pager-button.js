@@ -78,7 +78,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin,
     this.#updateNavDisabled();
     this.#updateDisabledState();
     super.connectedCallback?.();
-    this.#handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -86,7 +86,7 @@ export default class IdsPagerButton extends mix(IdsElement).with(IdsEventsMixin,
    * @private
    * @returns {void}
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     // Respond to parent changing language
     this.offEvent('languagechange.container');
     /* istanbul ignore next */

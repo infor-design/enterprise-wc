@@ -215,7 +215,7 @@ describe('IdsSpinbox Component', () => {
     elem = await createElemViaTemplate(
       `<ids-spinbox
         value="0"
-        dirty-tracker
+        dirty-tracker="true"
       ></ids-spinbox>`
     );
     expect(document.querySelectorAll('ids-spinbox').length).toEqual(1);
@@ -303,6 +303,7 @@ describe('IdsSpinbox Component', () => {
     await waitFor(() => expect(
       getIdsButtons().find((el) => el.hasAttribute('disabled'))
     ).not.toEqual(undefined));
+
     elem.removeAttribute('readonly');
     await waitFor(() => expect(
       getIdsButtons().find((el) => el.hasAttribute('disabled'))
@@ -311,9 +312,6 @@ describe('IdsSpinbox Component', () => {
     expect(elem.readonly).toBeNull();
 
     elem.removeAttribute('disabled');
-
-    await waitFor('ids-button[disabled]', { container: elem.shadowRoot, hidden: true });
-
     expect(elem.disabled).toBeNull();
 
     elem.readonly = true;

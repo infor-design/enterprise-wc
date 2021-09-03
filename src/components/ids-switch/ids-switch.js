@@ -63,7 +63,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
-    this.#handleEvents();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -73,8 +73,8 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
    */
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
-    this.handleSwitchChangeEvent('remove');
-    this.handleNativeEvents('remove');
+    this.#attachSwitchChangeEvent('remove');
+    this.attachNativeEvents('remove');
   }
 
   /**
@@ -104,7 +104,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleSwitchChangeEvent(option = '') {
+  #attachSwitchChangeEvent(option = '') {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {
@@ -128,7 +128,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
    * @param {string} option If 'remove', will remove attached events
    * @returns {object} The object for chaining.
    */
-  handleNativeEvents(option = '') {
+  attachNativeEvents(option = '') {
     if (this.input) {
       const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt) => {
@@ -166,9 +166,9 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
    * @private
    * @returns {void}
    */
-  #handleEvents() {
-    this.handleSwitchChangeEvent();
-    this.handleNativeEvents();
+  #attachEventHandlers() {
+    this.#attachSwitchChangeEvent();
+    this.attachNativeEvents();
 
     // Respond to parent changing language
     this.offEvent('languagechange.container');

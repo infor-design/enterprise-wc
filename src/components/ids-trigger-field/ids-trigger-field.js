@@ -50,7 +50,7 @@ class IdsTriggerField extends IdsInput {
    */
   connectedCallback() {
     this.setInputAttributes();
-    this.handleEvents();
+    this.#attachEventHandlers();
     this.#setContentBorders();
     super.connectedCallback();
 
@@ -215,7 +215,7 @@ class IdsTriggerField extends IdsInput {
     const isDisabled = IdsStringUtils.stringToBool(value);
     if (isDisabled) {
       this.setAttribute(attributes.DISABLE_EVENTS, value.toString());
-      this.handleEvents();
+      this.#attachEventHandlers();
       return;
     }
 
@@ -298,7 +298,7 @@ class IdsTriggerField extends IdsInput {
    * @private
    * @returns {object} The object for chaining.
    */
-  handleEvents() {
+  #attachEventHandlers() {
     /* istanbul ignore else */
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
@@ -340,7 +340,6 @@ class IdsTriggerField extends IdsInput {
     if (!canTrigger) {
       return;
     }
-
     this.triggerEvent('triggerclicked', this, { detail: { elem: this } });
   }
 }

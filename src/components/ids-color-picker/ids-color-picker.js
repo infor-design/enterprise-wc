@@ -68,7 +68,7 @@ class IdsColorPicker extends mix(IdsElement).with(
     this.swatch = this.swatch;
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
-    this.#handleEvents();
+    this.#attachEventHandlers();
   }
 
   static get attributes() {
@@ -205,7 +205,7 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @returns {void}
    */
   /* istanbul ignore next */
-   #handleEvents() {
+  #attachEventHandlers() {
     /* istanbul ignore next */
     this.idsColorsArr.forEach((element) => {
       element.style.backgroundColor = element.getAttribute('hex');
@@ -253,10 +253,10 @@ class IdsColorPicker extends mix(IdsElement).with(
     */
    /* istanbul ignore next */
    #updateColorPickerValues(colorValue) {
-     this.swatchInput.value = colorValue;
-     this.colorPreview.style.backgroundColor = colorValue;
-     this.colorPickerInput.value = colorValue;
-   }
+    this.swatchInput.value = colorValue;
+    this.colorPreview.style.backgroundColor = colorValue;
+    this.colorPickerInput.value = colorValue;
+  }
 
    /**
     * Open/Close popup to show and hide color panel

@@ -1,3 +1,5 @@
+import { attributes } from '../../core';
+
 /**
  * Adds validation to any input field
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -6,6 +8,20 @@
 const IdsValidationMixin = (superclass) => class extends superclass {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback?.();
+    this.handleValidation();
+  }
+
+  /* istanbul ignore next */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.VALIDATE,
+      attributes.VALIDATION_EVENTS
+    ];
   }
 
   // Map of rules to use
@@ -420,6 +436,37 @@ const IdsValidationMixin = (superclass) => class extends superclass {
   }
 
   #externalValidationEl;
+
+  /**
+   * Sets the validation check to use
+   * @param {string} value The `validate` attribute
+   */
+  set validate(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATE, value);
+    } else {
+      this.removeAttribute(attributes.VALIDATE);
+    }
+
+    this.handleValidation();
+  }
+
+  get validate() { return this.getAttribute(attributes.VALIDATE); }
+
+  /**
+   * Sets which events to fire validation on
+   * @param {string} value The `validation-events` attribute
+   */
+  set validationEvents(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATION_EVENTS, value);
+    } else {
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
+    }
+    this.handleValidation();
+  }
+
+  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 };
 
 export default IdsValidationMixin;
