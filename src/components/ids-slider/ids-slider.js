@@ -46,7 +46,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   #labels;
 
-  #isRtl;
+  #isRTL;
 
   #percent;
 
@@ -207,10 +207,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * Keep track of RTL
    * @param {boolean} value Whether or not RTL is in effect
    */
-  set isRtl(value) {
+  set isRTL(value) {
     /* istanbul ignore else */
-    if (value !== this.isRtl) {
-      this.#isRtl = value;
+    if (value !== this.isRTL) {
+      this.#isRTL = value;
       this.trackBounds = this.#calculateBounds();
       this.#moveThumb();
       this.#updateProgressBar();
@@ -218,18 +218,18 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
   }
 
-  get isRtl() {
-    if (typeof this.#isRtl === 'undefined') this.#isRtl = false;
-    return this.#isRtl;
+  get isRTL() {
+    if (typeof this.#isRTL === 'undefined') this.#isRTL = false;
+    return this.#isRTL;
   }
 
   /** Add event listener for when the language changes to check for RTL */
-  #addRtlListener() {
+  #attachRTLListener() {
     /* istanbul ignore next */
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
-      const isRtl = this.locale.isRTL(e.detail.language.name);
-      this.isRtl = isRtl;
+      const isRTL = this.locale.isRTL(e.detail.language.name);
+      this.isRTL = isRTL;
     });
   }
 
@@ -270,7 +270,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         const endPos = this.vertical ? this.trackBounds.BOTTOM : this.trackBounds.RIGHT;
         const notCentered = true;
         let trans = this.#calcTranslateFromPercent(startPos, endPos, minPercent, notCentered);
-        if (this.isRtl) { trans *= -1; }
+        if (this.isRTL) { trans *= -1; }
         const transString = this.vertical ? `translate(0, ${trans}px)` : `translate(${trans}px, 0)`;
         this.progressTrack.style.transform = transString;
       }
@@ -320,13 +320,9 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       /* istanbul ignore else */
       if (labels.length === labelElements.length) {
         labelElements.forEach((x, i) => {
-          // set innerHTML of whatever div element attached to tick
           x.innerHTML = labels[i];
           this.vertical && x.classList.add('vertical'); // add vertical styles
         });
-      } else {
-        // TODO: throw error
-        // console.log('label array size must match amt of label elements');
       }
     } else {
       // set labels to be empty
@@ -624,10 +620,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
     const clickedTrackArea = this.#wasCursorInBoundingBox(x, y);
 
-    // TODO: fix the bug where both thumbs move when clicking too close to the other thumb
     this.clickFromDrag = false;
 
     if (clickedTrackArea) {
+
       const mousePos = this.vertical ? y : x;
       const startPos = this.vertical ? top : left;
       const endPos = this.vertical ? bottom : right;
@@ -636,16 +632,18 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       const value = this.#calcValueFromPercent(percent);
 
       if (this.type !== 'step') {
+        this.#hideTooltip(false);
         const thumbPos = this.vertical
           ? this.thumbDraggable.getBoundingClientRect().y
           : this.thumbDraggable.getBoundingClientRect().x;
-
+        
         let thumbDraggable = this.thumbDraggable;
         let valueAttribute = 'value';
         let primaryOrSecondary = 'primary';
-
+        
         /* istanbul ignore else */
         if (this.type === 'double') {
+          this.#hideTooltip(false, 'secondary');
           const thumbPosSecondary = this.vertical
             ? this.thumbDraggableSecondary.getBoundingClientRect().y
             : this.thumbDraggableSecondary.getBoundingClientRect().x;
@@ -659,7 +657,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
           }
         }
 
-        this.#hideTooltip(false, primaryOrSecondary);
         this[valueAttribute] = value;
         thumbDraggable.focus();
       } else {
@@ -687,7 +684,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     } else {
       // blur both thumbs if click is outside of track area
       this.thumbDraggable.blur();
-      this.type === 'double' && this.thumbDraggableSecondary && this.thumbDraggableSecondary.blur();
+      this.type === 'double' && this.thumbDraggableSecondary.blur();
     }
   }
 
@@ -706,13 +703,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         percent = this.percentSecondary;
       }
 
-      // console.log('moveThumb percent: ' + percent);
-      // console.log('moving thumb with percent of : ' + percent);
       const startPos = this.vertical ? this.trackBounds.TOP : this.trackBounds.LEFT;
       const endPos = this.vertical ? this.trackBounds.BOTTOM : this.trackBounds.RIGHT;
       let trans = this.#calcTranslateFromPercent(startPos, endPos, percent);
 
-      if (this.isRtl) { trans *= -1; }
+      if (this.isRTL) { trans *= -1; }
       const transString = this.vertical ? `translate(0, ${trans}px)` : `translate(${trans}px, 0)`;
       thumbDraggable.style.transform = transString;
     }
@@ -774,23 +769,23 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   /** Attach all the necessary event listeners */
   #attachEventListeners() {
     // CHECK IF RTL
-    this.#addRtlListener();
+    this.#attachRTLListener();
 
     // INIT AFTER CSS LOADS
-    this.#postRenderInitialization();
+    this.#attachPostRenderInit();
 
     // RESIZE OBSERVER for when window size changes
-    this.#addResizeObserver();
+    this.#attachResizeObserver();
 
     // DRAGGABLE EVENTS
-    this.#addDragEvents();
-    this.type === 'double' && this.#addDragEvents('secondary');
+    this.#attachDragEventListeners();
+    this.type === 'double' && this.#attachDragEventListeners('secondary');
 
     // KEYBOARD EVENTS
-    this.#addKeyboardEvents();
+    this.#attachKeyboardListeners();
 
     // CLICK EVENTS
-    this.#addClickEvents();
+    this.#attachClickListeners();
   }
 
   /**
@@ -816,13 +811,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   #toggleTransitionStyles(toggleOn) {
     if (toggleOn) {
+      // primary styles
       if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
-        console.log('init transition styles')
         this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
-        !this.vertical && this.progressTrack.style.setProperty('transition', 'width 0.2s ease 0s, transform 0.2s ease 0s');
+        // the progress track transition animation is jittery on vertical and double sliders, so don't add for those
+        (!this.vertical || !this.type === 'double') && this.progressTrack.style.setProperty('transition', 'width 0.2s ease 0s, transform 0.2s ease 0s');
       }
+      // secondary styles
       if (this.type === 'double' && this.thumbDraggableSecondary && !this.thumbDraggableSecondary.style.transition) {
-        console.log('init transition styles for double')
         this.thumbDraggableSecondary.style.setProperty('transition', 'transform 0.2s ease');
       }
     } else {
@@ -833,7 +829,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   /** Performs initializations, like style set ups, that can only be done after browser finishes rendering */
-  #postRenderInitialization() {
+  #attachPostRenderInit() {
     /* istanbul ignore next */
     window.onload = () => {
       // init the this.trackBounds when render paint finishes
@@ -861,7 +857,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   /** Checks if the window changes sizes and updates UI accordingly */
-  #addResizeObserver() {
+  #attachResizeObserver() {
     /* istanbul ignore next */
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
@@ -877,15 +873,9 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   /** Add event listeners for clicking the track area */
-  #addClickEvents() {
+  #attachClickListeners() {
     this.onEvent('click', this, (event) => {
-      // console.log('click event fired')
       const idsSliderSelected = event.target === this;
-      
-      if (this.type !== 'step') {
-        this.#hideTooltip(!idsSliderSelected);
-        this.type === 'double' && this.#hideTooltip(!idsSliderSelected, 'secondary');
-      }
       
       // console.log(event.clientX + ', ' + event.clientY);
       if (idsSliderSelected) {
@@ -894,13 +884,20 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         this.#calculateUIFromClick(event.clientX, event.clientY);
       }
     });
+    
+    this.onEvent('click', document, (event) => {
+        if (event.target !== this) {
+          this.#hideTooltip(true);
+          this.type === 'double' && this.#hideTooltip(true, 'secondary');
+        }
+    });
   }
 
   /**
    * Add event listeners for dragging the slider thumbs
    * @param {string} primaryOrSecondary the primary or secondary thumb
    */
-  #addDragEvents(primaryOrSecondary) {
+  #attachDragEventListeners(primaryOrSecondary) {
     const d = this.type === 'double' && primaryOrSecondary === 'secondary';
     const obj = {
       thumbDraggable: d ? this.thumbDraggableSecondary : this.thumbDraggable,
@@ -980,10 +977,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   /** Add event listeners for arrow keys to move thumbs */
-  #addKeyboardEvents() {
-    this.onEvent('keydown', document, (event) => {
+  #attachKeyboardListeners() {
+    this.onEvent('keydown', this, (event) => {
       /* istanbul ignore else */
-      if (document.activeElement.name === 'ids-slider') {
+      if (event.target.name === 'ids-slider') {
         let primaryOrSecondary = '';
 
         if (this.type === 'double') {
@@ -1001,12 +998,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
           this.#decreaseValue(primaryOrSecondary);
           break;
         case 'ArrowRight':
-          this.isRtl
+          this.isRTL
             ? this.#decreaseValue(primaryOrSecondary)
             : this.#increaseValue(primaryOrSecondary);
           break;
         case 'ArrowLeft':
-          this.isRtl
+          this.isRTL
             ? this.#increaseValue(primaryOrSecondary)
             : this.#decreaseValue(primaryOrSecondary);
           break;
