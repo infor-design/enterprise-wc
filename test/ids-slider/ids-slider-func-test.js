@@ -29,6 +29,17 @@ const HTMLSnippets = {
 describe('IdsSlider Component', () => {
   let slider;
 
+  const createEvent = (type, attributes = {}) => {
+    const event = new Event(type);
+    Object.assign(event, attributes);
+    return event;
+  };
+
+  const createKeyboardEvent = (keyName) => {
+    const event = new KeyboardEvent('keydown', { key: keyName });
+    return event;
+  };
+
   const createElemViaTemplate = async (innerHTML) => {
     slider?.remove?.();
 
@@ -69,7 +80,6 @@ describe('IdsSlider Component', () => {
     slider.value = 50;
     slider.stepNumber = 5;
     slider.type = 'step';
-    // document.body.appendChild(elem);
     slider.template();
     expect(slider.outerHTML).toMatchSnapshot();
   });
@@ -134,11 +144,12 @@ describe('IdsSlider Component', () => {
       expect(sliderLabels[i].innerHTML).toBe(slider.labels[i]);
     }
 
-    slider.type = 'double';
     slider.stepNumber = 2;
     sliderLabels = slider.container.querySelectorAll('.label');
     expect(sliderLabels.length).toBe(2);
+    expect(sliderLabels[0].innerHTML).toBe('0');
     slider.labels = ['worst', 'best'];
+    expect(sliderLabels[0].innerHTML).toBe('worst');
     expect(slider.stepNumber).toBe(2);
   });
 
@@ -252,17 +263,52 @@ describe('IdsSlider Component', () => {
 
     slider.isRtl = false;
     expect(slider.isRtl).toBeFalsy();
+
+    // expect(slider.trackBounds).toBe('');
   });
 
-  it('clicks correctly on step slider', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.VERTICAL_STEP_SLIDER);
-    processAnimFrame();
+  it('drags correctly on double slider', async () => {
+    slider = await createElemViaTemplate(HTMLSnippets.DOUBLE_SLIDER);
+    await processAnimFrame();
 
-    const createEvent = (type, attributes = {}) => {
-      const event = new Event(type);
-      Object.assign(event, attributes);
-      return event;
+    const mockBounds = {
+      LEFT: 0,
+      RIGHT: 100,
+      TOP: 0,
+      BOTTOM: 24
     };
+
+    slider.trackBounds = mockBounds;
+
+    expect(slider.value).toBe(0);
+    expect(slider.valueSecondary).toBe(100);
+
+    slider.thumbDraggableSecondary.dispatchEvent(
+      createEvent('ids-drag', { detail: { mouseX: 80, mouseY: 12 } })
+    );
+
+    slider.thumbDraggableSecondary.dispatchEvent(
+      createEvent('ids-dragend', { detail: { mouseX: 80, mouseY: 12 } })
+    );
+
+    expect(slider.valueSecondary).toBe(80);
+
+    document.dispatchEvent(
+      createEvent('click', { clientX: 90, clientY: 12 })
+    );
+
+    await processAnimFrame();
+
+    expect(slider.value).toBe(90);
+
+    document.dispatchEvent(
+      createEvent('click', { clientX: 150, clientY: 12 })
+    );
+  });
+
+  it('clicks correctly on vertical step slider', async () => {
+    slider = await createElemViaTemplate(HTMLSnippets.VERTICAL_STEP_SLIDER);
+    await processAnimFrame();
 
     const mockBounds = {
       LEFT: 0,
@@ -274,12 +320,52 @@ describe('IdsSlider Component', () => {
     slider.trackBounds = mockBounds;
 
     document.dispatchEvent(
-      createEvent('click', { clientX: 12, clientY: 10 })
+      createEvent('click', { clientX: 12, clientY: 47 })
+    );
+    expect(slider.value).toBe(50);
+
+    expect(slider.max / (slider.stepNumber - 1)).toBe(25);
+
+    slider.thumbDraggable.dispatchEvent(
+      createEvent('ids-drag', { detail: { mouseX: 12, mouseY: 15 } })
     );
 
-    document.dispatchEvent(new Event('click', { bubbles: true, clientX: 12, clientY: 10 }));
+    slider.thumbDraggable.dispatchEvent(
+      createEvent('ids-dragend', { detail: { mouseX: 12, mouseY: 15 } })
+    );
 
-    expect(slider.value).toBe(10);
+    await processAnimFrame();
+    expect(slider.value).toBe(15);
+
+    slider.thumbDraggable.dispatchEvent(
+      createEvent('ids-drag', { detail: { mouseX: 12, mouseY: 8 } })
+    );
+
+    slider.thumbDraggable.dispatchEvent(
+      createEvent('ids-dragend', { detail: { mouseX: 12, mouseY: 8 } })
+    );
+
+    expect(slider.value).toBe(8);
+
+    slider.thumbDraggable.focus();
+
+    expect(document.activeElement.name).toBe('ids-slider');
+
+    document.dispatchEvent(
+      createKeyboardEvent('ArrowUp')
+    );
+    expect(slider.value).toBe(33);
+
+    document.dispatchEvent(
+      createKeyboardEvent('ArrowLeft')
+    );
+
+    expect(slider.value).toBe(8);
+
+    document.dispatchEvent(
+      createKeyboardEvent('Enter')
+    );
+    expect(slider.value).toBe(8);
   });
 
   it('clicks and drags and navigates keyboard arrows on vertical double slider correctly', async () => {
@@ -289,17 +375,6 @@ describe('IdsSlider Component', () => {
     expect(slider.vertical).toBeTruthy();
 
     slider.trackArea.click();
-
-    const createEvent = (type, attributes = {}) => {
-      const event = new Event(type);
-      Object.assign(event, attributes);
-      return event;
-    };
-
-    const createKeyboardEvent = (keyName) => {
-      const event = new KeyboardEvent('keydown', { key: keyName });
-      return event;
-    };
 
     const mockBounds = {
       LEFT: 0,
@@ -311,6 +386,12 @@ describe('IdsSlider Component', () => {
     slider.trackBounds = mockBounds;
 
     expect(slider.trackBounds).toBe(mockBounds);
+
+    document.dispatchEvent(
+      createEvent('click', { clientX: 12, clientY: 50 })
+    );
+
+    expect(slider.value).toBe(25);
 
     slider.thumbDraggable.dispatchEvent(
       createEvent('ids-dragstart', { detail: { mouseX: 12, mouseY: 0 } })
