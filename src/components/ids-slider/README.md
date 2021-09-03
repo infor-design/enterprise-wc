@@ -82,3 +82,47 @@ A vertical step slider witih 12 intervals
 ## Converting from Previous Versions
 
 ### Converting from 4.x
+
+Single Slider: 
+
+```html
+<div class="field">
+  <input id="slider-regular-example" name="slider-regular" class="slider" type="range"/>
+</div>
+```
+is the 4.x equivalent of the web component below
+
+```html
+<ids-slider type="single"></ids-slider>
+```
+
+Double Slider:
+
+```html
+<div class="field">
+  <input id="slider-regular-example" name="slider-regular-example" class="slider" type="range" data-tooltip-content='[""]' data-tooltip-persist="true" />
+</div>
+```
+
+is the 4.x equivalent of the web component below
+
+```html
+<ids-slider type="double"></ids-slider>
+```
+
+Step Slider:
+
+```html
+<div class="field">
+  <input id="slider-stepped-example" name="slider-stepped" class="slider" type="range" step="5" data-ticks='[
+    {"value": 0, "description": "Min"},
+    {"value": 100, "description": "Max"}
+  ]'/>
+</div>
+```
+
+is the 4.x equivalent of the web component below
+
+```html
+<ids-slider type="step" step-number="5" min="0" max="100"></ids-slider>
+```
