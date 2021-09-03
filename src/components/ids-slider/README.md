@@ -2,7 +2,7 @@
 
 ## Description
 
-Holds the value(s) between a minimum and maximum, which can be controlled by the thumb(s) along the track of the slider. There is a single slider (1 thumb), double slider (2 thumbs), and a step slider (1 thumb and x amount of ticks). They can also be converted from horizontal (default) to vertical orientation. The value(s) can be modified by either clicking the area around the track, by dragging the thumb back and forth, or by focusing and pressing the arrow keys. 
+Displays a range of selectable values(s) between a minimum and maximum, which can be controlled by the thumb(s) along the track of the slider. There is a single slider (1 thumb), double slider (2 thumbs), and a step slider (1 thumb and x amount of ticks). They can also be converted from horizontal (default) to vertical orientation. The value(s) can be modified by either clicking the area around the track, by dragging the thumb back and forth, or by focusing and pressing the arrow keys.  A user can select a single value or range of values. 
 
 ## Use Cases
 
