@@ -473,8 +473,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
       eventDetail.translateX = translateX;
       eventDetail.translateY = translateY;
 
-      this.style.transform = `translate(${translateX}px, ${translateY}px)`;
-
       if (this.#cursorEl) {
         this.#cursorEl.style.left = `${e.x - CURSOR_EL_SIZE / 2}px`;
         this.#cursorEl.style.top = `${e.y - CURSOR_EL_SIZE / 2}px`;
