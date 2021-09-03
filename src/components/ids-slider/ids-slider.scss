@@ -156,10 +156,6 @@ ids-slider {
     display: flex;
     position: absolute;
     z-index: 50;
-
-    &:hover {
-      background-color:rgba(0 ,114 ,237, 0.1);
-    }
   }
   
   .track {
