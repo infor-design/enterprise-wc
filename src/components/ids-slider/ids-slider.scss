@@ -182,7 +182,7 @@ ids-slider {
       &.vertical {
         height: calc((var(--percentEnd) - var(--percentStart)) * 1%); // vert
         width: 100%; // vert
-        top: 0%; // vert
+        bottom: 0%; // vert
       }
 
       background-color: #0072ED;

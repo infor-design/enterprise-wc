@@ -74,6 +74,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   tooltipPin;
 
+  firstTick;
+
+  lastTick;
+
   // DOUBLE only
   thumbSecondary;
 
@@ -104,6 +108,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     this.tooltip = this.container.querySelector('.tooltip');
     this.tooltipText = this.container.querySelector('.tooltip .text');
     this.tooltipPin = this.container.querySelector('.tooltip .pin');
+    this.lastTick = this.container.querySelector('.tick:last-child');
+    this.firstTick = this.container.querySelector('.tick:first-child');
 
     if (this.type === 'double') {
       this.thumbSecondary = this.container.querySelector('.thumb.secondary');
@@ -266,11 +272,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       this.slider.style.setProperty('--percentEnd', maxPercent);
 
       if (this.trackBounds) {
-        const startPos = this.vertical ? this.trackBounds.TOP : this.trackBounds.LEFT;
-        const endPos = this.vertical ? this.trackBounds.BOTTOM : this.trackBounds.RIGHT;
-        const notCentered = true;
-        let trans = this.#calcTranslateFromPercent(startPos, endPos, minPercent, notCentered);
-        if (this.isRTL) { trans *= -1; }
+        const startPos = this.vertical ? this.trackBounds.BOTTOM : this.trackBounds.LEFT;
+        const endPos = this.vertical ? this.trackBounds.TOP : this.trackBounds.RIGHT;
+        const centered = false;
+        let trans = this.#calcTranslateFromPercent(startPos, endPos, minPercent, centered);
+        if (this.vertical || this.isRTL) { trans *= -1; }
         const transString = this.vertical ? `translate(0, ${trans}px)` : `translate(${trans}px, 0)`;
         this.progressTrack.style.transform = transString;
       }
@@ -301,7 +307,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     // check to make sure labels length is equal to step number
     /* istanbul ignore else */
     if (labels.length === stepNumber) {
-      // check amount of label elements -- add or remove
+      // check amount of label elements -- add or remove accordingly
       let labelElements = this.container.querySelectorAll('.label');
       const ticks = this.container.querySelectorAll('.tick');
       /* istanbul ignore else */
@@ -320,7 +326,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       /* istanbul ignore else */
       if (labels.length === labelElements.length) {
         labelElements.forEach((x, i) => {
-          x.innerHTML = labels[i];
+          x.innerHTML = this.vertical ? labels[labels.length - 1 - i] : labels[i];
           this.vertical && x.classList.add('vertical'); // add vertical styles
         });
       }
@@ -354,14 +360,14 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     if (this.type === 'step') {
       // must have at least 2 steps
       /* istanbul ignore else */
-      if (value >= 2) {
+      if (parseInt(value) >= 2) {
         this.setAttribute('step-number', value);
         const stepLength = this.container.querySelectorAll('.tick').length;
         /* istanbul ignore else */
         if (stepLength !== this.stepNumber) {
           const x = Math.abs(stepLength - this.stepNumber);
           for (let i = 0; i < x; i++) {
-            // remove or add ticks
+            // remove or add ticks accordingly
             stepLength > this.stepNumber ? this.container.querySelector('.tick').remove() : this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterend', '<span class="tick"></span>');
           }
         }
@@ -624,8 +630,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
     if (clickedTrackArea) {
       const mousePos = this.vertical ? y : x;
-      const startPos = this.vertical ? top : left;
-      const endPos = this.vertical ? bottom : right;
+      const startPos = this.vertical ? bottom : this.isRTL ? right : left;
+      const endPos = this.vertical ? top : this.isRTL ? left : right;
 
       const percent = this.#calcPercentFromMousePos(mousePos, startPos, endPos, this.thumbDraggable.clientWidth);
       const value = this.#calcValueFromPercent(percent);
@@ -700,11 +706,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         percent = this.percentSecondary;
       }
 
-      const startPos = this.vertical ? this.trackBounds.TOP : this.trackBounds.LEFT;
-      const endPos = this.vertical ? this.trackBounds.BOTTOM : this.trackBounds.RIGHT;
-      let trans = this.#calcTranslateFromPercent(startPos, endPos, percent);
+      const startPos = this.vertical ? this.trackBounds.BOTTOM :  this.trackBounds.LEFT;
+      const endPos = this.vertical ? this.trackBounds.TOP :  this.trackBounds.RIGHT;
+      const centered = true;
+      let trans = this.#calcTranslateFromPercent(startPos, endPos, percent, centered);
 
-      if (this.isRTL) { trans *= -1; }
+      if (this.vertical || this.isRTL) { trans *= -1; }
       const transString = this.vertical ? `translate(0, ${trans}px)` : `translate(${trans}px, 0)`;
       thumbDraggable.style.transform = transString;
     }
@@ -729,11 +736,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * if notCentered is false, it will translate negatively and positively with 0 being the center
    * @returns {number} coordinates or the amount of pixels to translate by
    */
-  #calcTranslateFromPercent(nStart, nEnd, percent, notCentered) {
+  #calcTranslateFromPercent(nStart, nEnd, percent, centered) {
     // minus thumb height bc it overshoots
     const editedRange = Math.abs(nEnd - nStart) - this.thumbDraggable.clientWidth;
     let coord = (Math.ceil(percent) / 100) * editedRange;
-    coord = !notCentered ? coord - (editedRange / 2) : coord;
+    coord = centered ? coord - (editedRange / 2) : coord;
 
     return coord;
   }
@@ -827,30 +834,23 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   /** Performs initializations, like style set ups, that can only be done after browser finishes rendering */
   #attachPostRenderInit() {
-    /* istanbul ignore next */
-    window.onload = () => {
-      // init the this.trackBounds when render paint finishes
-      this.trackBounds = this.#calculateBounds();
 
-      this.thumbDraggable.setAttribute('axis', `${this.vertical ? 'y' : 'x'}`);
-      this.type === 'double' && this.thumbDraggableSecondary.setAttribute('axis', `${this.vertical ? 'y' : 'x'}`);
+    this.#toggleTransitionStyles(true);
+    this.#moveThumb();
+    this.type === 'double' && this.#moveThumb('secondary');
+    this.#updateProgressBar();
+    
+    // init custom colors
+    this.#updateColor();
 
-      // update initial position of thumb now that bounds have been initialized
-      this.#moveThumb();
-      this.type === 'double' && this.#moveThumb('secondary');
+    // init labels
+    if (this.firstTick && this.lastTick) {
+      const maxTick = this.vertical ? this.firstTick : this.lastTick;
+      const minTick = this.vertical ? this.lastTick : this.firstTick;
 
-      // init custom colors
-      this.#updateColor();
-      this.#updateProgressBar();
-
-      // init labels
-      if (this.type === 'step') {
-        this.labels = this.#generateNumericalLabels();
-      } else {
-        this.container.querySelector('.tick:last-child').insertAdjacentHTML('afterbegin', `<ids-text label class="label${this.vertical ? ' vertical' : ''}">${this.max}</ids-text>`);
-        this.container.querySelector('.tick:first-child').insertAdjacentHTML('afterbegin', `<ids-text label class="label${this.vertical ? ' vertical' : ''}">${this.min}</ids-text>`);
-      }
-    };
+      minTick.innerHTML = `<ids-text label class="label${this.vertical ? ' vertical' : ''}">${this.min}</ids-text>`;
+      maxTick.innerHTML = `<ids-text label class="label${this.vertical ? ' vertical' : ''}">${this.max}</ids-text>`;
+    }
   }
 
   /** Checks if the window changes sizes and updates UI accordingly */
@@ -876,7 +876,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
       // console.log(event.clientX + ', ' + event.clientY);
       if (idsSliderSelected) {
-        this.#toggleTransitionStyles(true);
         this.trackBounds = this.#calculateBounds();
         this.#calculateUIFromClick(event.clientX, event.clientY);
       }
@@ -926,8 +925,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
 
       const mousePos = this.vertical ? y : x;
-      const startPos = this.vertical ? TOP : LEFT;
-      const endPos = this.vertical ? BOTTOM : RIGHT;
+      const startPos = this.vertical ? BOTTOM : this.isRTL ? RIGHT : LEFT;
+      const endPos = this.vertical ? TOP : this.isRTL ? LEFT : RIGHT;
 
       const percent = this.#calcPercentFromMousePos(
         mousePos,
