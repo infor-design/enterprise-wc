@@ -1,7 +1,7 @@
 import { IdsElement } from '../../core';
 
 export default class IdsSlider extends IdsElement {
-  /** Sets the color theme of the chart */
+  /** Sets the color of the slider bar */
   color: string | 'success' | 'warning' | 'caution' | 'error' | 'base';
 
   /** Sets the max value of the slider */
