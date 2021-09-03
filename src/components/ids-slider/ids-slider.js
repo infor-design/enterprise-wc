@@ -623,7 +623,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     this.clickFromDrag = false;
 
     if (clickedTrackArea) {
-
       const mousePos = this.vertical ? y : x;
       const startPos = this.vertical ? top : left;
       const endPos = this.vertical ? bottom : right;
@@ -636,11 +635,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         const thumbPos = this.vertical
           ? this.thumbDraggable.getBoundingClientRect().y
           : this.thumbDraggable.getBoundingClientRect().x;
-        
+
         let thumbDraggable = this.thumbDraggable;
         let valueAttribute = 'value';
-        let primaryOrSecondary = 'primary';
-        
+
         /* istanbul ignore else */
         if (this.type === 'double') {
           this.#hideTooltip(false, 'secondary');
@@ -653,7 +651,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
           if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
             thumbDraggable = this.thumbDraggableSecondary;
             valueAttribute = 'valueSecondary';
-            primaryOrSecondary = 'secondary';
           }
         }
 
@@ -797,7 +794,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     const LEFT = rect.left + window.scrollX;
     const TOP = rect.top + window.scrollY;
     const RIGHT = LEFT + this.trackArea.clientWidth;
-    const BOTTOM = TOP + this.trackArea.clientHeight
+    const BOTTOM = TOP + this.trackArea.clientHeight;
 
     const bounds = {
       LEFT,
@@ -824,7 +821,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     } else {
       this.thumbDraggable.style.removeProperty('transition');
       this.progressTrack.style.removeProperty('transition');
-      if(this.type === 'double') this.thumbDraggableSecondary.style.removeProperty('transition');
+      if (this.type === 'double') this.thumbDraggableSecondary.style.removeProperty('transition');
     }
   }
 
@@ -876,7 +873,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   #attachClickListeners() {
     this.onEvent('click', this, (event) => {
       const idsSliderSelected = event.target === this;
-      
+
       // console.log(event.clientX + ', ' + event.clientY);
       if (idsSliderSelected) {
         this.#toggleTransitionStyles(true);
@@ -884,12 +881,12 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         this.#calculateUIFromClick(event.clientX, event.clientY);
       }
     });
-    
+
     this.onEvent('click', document, (event) => {
-        if (event.target !== this) {
-          this.#hideTooltip(true);
-          this.type === 'double' && this.#hideTooltip(true, 'secondary');
-        }
+      if (event.target !== this) {
+        this.#hideTooltip(true);
+        this.type === 'double' && this.#hideTooltip(true, 'secondary');
+      }
     });
   }
 
