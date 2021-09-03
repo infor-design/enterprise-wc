@@ -43,8 +43,7 @@
   }
 
   ::slotted(ids-icon) {
-    margin-left: -2px;
-    margin-top: 3px;
+    margin: 0 3px;
   }
 
   &.triggerfield-has-content-borders {
