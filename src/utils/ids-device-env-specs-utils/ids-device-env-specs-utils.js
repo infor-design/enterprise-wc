@@ -128,10 +128,9 @@ export function getEnvSpecs() {
     appVersion = appVersion.substring(0, ix);
   }
 
-  majorVersion = ` ${parseInt(appVersion, 10)}`;
   if (Number.isNaN(majorVersion)) {
     appVersion = ` ${parseFloat(navigator.appVersion)}`;
-    majorVersion = parseInt(navigator.appVersion, 10);
+    majorVersion = ` ${parseInt(navigator.appVersion, 10)}`;
   }
 
   // mobile version
@@ -195,7 +194,7 @@ export function getEnvSpecs() {
   return {
     currentBrowser: browser,
     browserVersion: appVersion.trim(),
-    browserMajorVersion: majorVersion,
+    browserMajorVersion: majorVersion.toString(),
     isMobile: mobile || isIPad(),
     os,
     currentOSVersion: osVersion,
