@@ -208,17 +208,16 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     slot.forEach((item) => item.remove());
 
     if (this.deviceSpecs) {
-      const specs = IdsDeviceEnvUtils.getDeviceSpecs();
-      const env = IdsDeviceEnvUtils.getEnvSpecs();
-      const element = `<ids-text slot="device" type="p"><span>${this.locale.translate('OperatingSystem')} : ${env.os.replace(env.currentOSVersion, '')} ${env.currentOSVersion}</span><br/>
-        <span>${this.locale.translate('Platform')} : ${specs.os}</span><br/>
-        <span>${this.locale.translate('Mobile')} : ${env.isMobile}</span><br/>
+      const specs = IdsDeviceEnvUtils.getSpecs();
+      const element = `<ids-text slot="device" type="p"><span>${this.locale.translate('OperatingSystem')} : ${specs.os.replace(specs.currentOSVersion, '')} ${specs.currentOSVersion}</span><br/>
+        <span>${this.locale.translate('Platform')} : ${specs.platform}</span><br/>
+        <span>${this.locale.translate('Mobile')} : ${specs.isMobile}</span><br/>
         <span>${this.locale.translate('Locale')} : ${this.locale.locale.name}</span><br/>
         <span>${this.locale.translate('Language')} : ${this.locale.language.name}</span><br/>
-        <span>${this.locale.translate('Browser')} : ${` ${env.browserVersionName}`} ${env.currentBrowser} (${env.browserVersion})</span><br/>
-        <span>${this.locale.translate('BrowserLanguage')} : ${specs.locale}</span><br/>
+        <span>${this.locale.translate('Browser')} : ${` ${specs.browserVersionName}`} ${specs.currentBrowser} (${specs.browserVersion})</span><br/>
+        <span>${this.locale.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
         <span>${this.locale.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br/>
-        <span>${this.locale.translate('Version')} : ${env.idsVersion}</span>
+        <span>${this.locale.translate('Version')} : ${specs.idsVersion}</span>
       </ids-text>`;
 
       this.insertAdjacentHTML('beforeend', element);

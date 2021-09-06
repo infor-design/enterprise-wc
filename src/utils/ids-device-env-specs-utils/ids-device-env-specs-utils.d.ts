@@ -1,11 +1,4 @@
-interface DeviceSpecs {
-  browser: string,
-  os: string,
-  cookiesEnabled: boolean,
-  locale: string
-}
-
-interface EnvSpecs {
+interface Specs {
   currentBrowser: string,
   browserVersion: string,
   browserMajorVersion: string,
@@ -13,8 +6,10 @@ interface EnvSpecs {
   os: string,
   currentOSVersion: string,
   browserVersionName: string,
-  idsVersion: string
+  idsVersion: string,
+  cookiesEnabled: boolean,
+  platform: string,
+  browserLanguage: string
 }
 
-export function getDeviceSpecs(): DeviceSpecs;
-export function getEnvSpecs(): EnvSpecs;
+export function getSpecs(): Specs;

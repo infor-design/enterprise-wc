@@ -2,65 +2,24 @@ import packageJson from '../../../package.json';
 
 /**
  * @private
- * @returns {object} device specs
+ * @returns {object} broser device env specs
  */
-export function getDeviceSpecs() {
-  const locale = navigator.appName === 'Microsoft Internet Explorer'
-    ? navigator.userLanguage
-    : navigator.language;
-  const browser = () => {
-    const ua = navigator.userAgent;
-    let result = [];
-    let M = ua.match(
-      /(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i
-    ) || [];
-
-    if (/trident/i.test(M[1])) {
-      result = /\brv[ :]+(\d+)/g.exec(ua) || [];
-      return `IE '${result[1]}`;
-    }
-
-    if (M[1] === 'Chrome') {
-      result = ua.match(/\b(OPR|Edge)\/(\d+)/);
-      if (result != null) {
-        return result.slice(1).join(' ').replace('OPR', 'Opera');
-      }
-    }
-
-    M = M[2] ? [M[1], M[2]] : [navigator.appName, navigator.appVersion, '-?'];
-    result = ua.match(/version\/(\d+)/i);
-    if (result !== null) {
-      M.splice(1, 1, result[1]);
-    }
-
-    return M.join(' ');
-  };
-
-  return {
-    browser: browser(),
-    os: navigator.platform,
-    cookiesEnabled: navigator.cookieEnabled,
-    locale,
-  };
-}
-
-/**
- * @private
- * @returns {object} env specs
- */
-export function getEnvSpecs() {
+export function getSpecs() {
   const unknown = '-';
   const nAppVer = navigator.appVersion;
   const nUAgent = navigator.userAgent;
   let browser = navigator.appName;
   let appVersion = ` ${parseFloat(navigator.appVersion)}`;
-  let majorVersion = parseInt(navigator.appVersion, 10);
+  const majorVersion = parseInt(navigator.appVersion, 10);
   let nameOffset;
   let verOffset;
   let ix;
   let browserVersionName = '';
   const isIPad = () => !!(navigator.userAgent.match(/(iPad)/)
     || (navigator.platform === 'MacIntel' && typeof navigator.standalone !== 'undefined'));
+  const browserLanguage = navigator.appName === 'Microsoft Internet Explorer'
+    ? navigator.userLanguage
+    : navigator.language;
 
   if (nUAgent.indexOf('Opera') !== -1) {
     verOffset = nUAgent.indexOf('Opera');
@@ -128,11 +87,6 @@ export function getEnvSpecs() {
     appVersion = appVersion.substring(0, ix);
   }
 
-  if (Number.isNaN(majorVersion)) {
-    appVersion = ` ${parseFloat(navigator.appVersion)}`;
-    majorVersion = ` ${parseInt(navigator.appVersion, 10)}`;
-  }
-
   // mobile version
   const mobile = /Mobile|mini|Fennec|Android|iP(ad|od|hone)/.test(nAppVer);
 
@@ -157,10 +111,6 @@ export function getEnvSpecs() {
 
   let osVersion = unknown;
 
-  if (/Windows/.test(os)) {
-    osVersion = /Windows (.*)/.exec(os)[1];
-  }
-
   switch (os) {
   case 'Mac OS X':
     osVersion = /Mac OS X ([1-9][0-9][._\d]+)/
@@ -182,6 +132,10 @@ export function getEnvSpecs() {
     break;
   }
 
+  if (/Windows/.test(os)) {
+    osVersion = /Windows (.*)/.exec(os)[1];
+  }
+
   if (isIPad()) {
     const osVersionStr = nUAgent.substr(
       nUAgent.indexOf('Version'),
@@ -193,19 +147,21 @@ export function getEnvSpecs() {
 
   return {
     currentBrowser: browser,
+    cookiesEnabled: navigator.cookieEnabled,
     browserVersion: appVersion.trim(),
-    browserMajorVersion: majorVersion.toString(),
+    browserMajorVersion: `${majorVersion}`,
     isMobile: mobile || isIPad(),
     os,
     currentOSVersion: osVersion,
     browserVersionName,
-    idsVersion: packageJson.version
+    idsVersion: packageJson.version,
+    platform: navigator.platform,
+    browserLanguage
   };
 }
 
 export const IdsDeviceEnvUtils = {
-  getDeviceSpecs,
-  getEnvSpecs,
+  getSpecs,
 };
 export default IdsDeviceEnvUtils;
 export { IdsDeviceEnvUtils as deviceEnvUtils };
