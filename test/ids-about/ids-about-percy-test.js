@@ -5,6 +5,10 @@ describe('Ids About Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
+    await page.evaluate(() => {
+      document.querySelector('#about-example-trigger').click();
+    });
+    await page.waitForTimeout(200); // approx. time for a Modal to show
     await percySnapshot(page, 'ids-about-new-light');
   });
 
@@ -13,6 +17,11 @@ describe('Ids About Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
+    await page.waitForTimeout(200);
+    await page.evaluate(() => {
+      document.querySelector('#about-example-trigger').click();
+    });
+    await page.waitForTimeout(200); // approx. time for a Modal to show
     await percySnapshot(page, 'ids-about-new-dark');
   });
 
@@ -21,6 +30,11 @@ describe('Ids About Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
+    await page.waitForTimeout(200);
+    await page.evaluate(() => {
+      document.querySelector('#about-example-trigger').click();
+    });
+    await page.waitForTimeout(200); // approx. time for a Modal to show
     await percySnapshot(page, 'ids-about-new-contrast');
   });
 });
