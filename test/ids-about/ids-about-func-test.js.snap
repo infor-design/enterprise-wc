@@ -6,7 +6,7 @@ exports[`IdsAbout Component (using properties) should render 1`] = `
         <span>Mobile : false</span><br>
         <span>Locale : en-US</span><br>
         <span>Language : en</span><br>
-        <span>Browser :    jsdom (16.7.0)</span><br>
+        <span>Browser :  jsdom (16.7.0)</span><br>
         <span>Browser Language : en-US</span><br>
         <span>Cookies Enabled : true</span><br>
         <span>IDS Version : 0.0.0-beta.15</span>
@@ -19,7 +19,7 @@ exports[`IdsAbout Component (using properties) should render 2`] = `
         <span>Mobile : false</span><br>
         <span>Locale : en-US</span><br>
         <span>Language : en</span><br>
-        <span>Browser :    jsdom (16.7.0)</span><br>
+        <span>Browser :  jsdom (16.7.0)</span><br>
         <span>Browser Language : en-US</span><br>
         <span>Cookies Enabled : true</span><br>
         <span>IDS Version : 0.0.0-beta.15</span>
@@ -32,7 +32,7 @@ exports[`IdsAbout Component (using properties) should render 3`] = `
         <span>Mobile : false</span><br>
         <span>Locale : en-US</span><br>
         <span>Language : en</span><br>
-        <span>Browser :    jsdom (16.7.0)</span><br>
+        <span>Browser :  jsdom (16.7.0)</span><br>
         <span>Browser Language : en-US</span><br>
         <span>Cookies Enabled : true</span><br>
         <span>IDS Version : 0.0.0-beta.15</span>

@@ -5,7 +5,6 @@ interface Specs {
   isMobile: boolean,
   os: string,
   currentOSVersion: string,
-  browserVersionName: string,
   idsVersion: string,
   cookiesEnabled: boolean,
   platform: string,

@@ -14,7 +14,6 @@ export function getSpecs() {
   let nameOffset;
   let verOffset;
   let ix;
-  let browserVersionName = '';
   const isIPad = () => !!(navigator.userAgent.match(/(iPad)/)
     || (navigator.platform === 'MacIntel' && typeof navigator.standalone !== 'undefined'));
   const browserLanguage = navigator.appName === 'Microsoft Internet Explorer'
@@ -46,9 +45,6 @@ export function getSpecs() {
     verOffset = nUAgent.indexOf('Chrome');
     browser = 'Chrome';
     appVersion = nUAgent.substring(verOffset + 7);
-    if (nUAgent.indexOf('Edg') > -1) {
-      browserVersionName = 'Microsoft Edge';
-    }
   } else if (nUAgent.indexOf('Safari') !== -1) {
     verOffset = nUAgent.indexOf('Safari');
     browser = 'Safari';
@@ -69,9 +65,6 @@ export function getSpecs() {
     verOffset = nUAgent.lastIndexOf('/');
     browser = nUAgent.substring(nameOffset, verOffset);
     appVersion = nUAgent.substring(verOffset + 1);
-    if (browser.toLowerCase() === browser.toUpperCase()) {
-      browser = navigator.appName;
-    }
   }
   // Trim the version string
   if (appVersion.indexOf(';') !== -1) {
@@ -153,7 +146,6 @@ export function getSpecs() {
     isMobile: mobile || isIPad(),
     os,
     currentOSVersion: osVersion,
-    browserVersionName,
     idsVersion: packageJson.version,
     platform: navigator.platform,
     browserLanguage
