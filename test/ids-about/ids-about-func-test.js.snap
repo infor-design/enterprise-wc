@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsAbout Component (using properties) should render 1`] = `
-"<ids-about use-default-copyright=\\"true\\" device-specs=\\"true\\" id=\\"test-about-component\\" product-version=\\"4.0.0\\" product-name=\\"Controls\\" copyright-year=\\"2022\\" language=\\"en\\" locale=\\"en-US\\" aria-label=\\" Controls 4.0.0\\" role=\\"dialog\\"><ids-text slot=\\"device\\" type=\\"p\\" language=\\"en\\" locale=\\"en-US\\"><span>Operating System :  -</span><br>
+"<ids-about id=\\"test-about-component\\" product-version=\\"4.0.0\\" product-name=\\"Controls\\" copyright-year=\\"2022\\" device-specs=\\"true\\" use-default-copyright=\\"true\\" language=\\"en\\" locale=\\"en-US\\" aria-label=\\" Controls 4.0.0\\" role=\\"dialog\\"><ids-text slot=\\"device\\" type=\\"p\\" language=\\"en\\" locale=\\"en-US\\"><span>Operating System :  -</span><br>
         <span>Platform : </span><br>
         <span>Mobile : false</span><br>
         <span>Locale : en-US</span><br>
@@ -14,7 +14,7 @@ exports[`IdsAbout Component (using properties) should render 1`] = `
 `;
 
 exports[`IdsAbout Component (using properties) should render 2`] = `
-"<ids-about use-default-copyright=\\"true\\" device-specs=\\"true\\" id=\\"test-about-component\\" product-version=\\"4.0.0\\" product-name=\\"Controls\\" copyright-year=\\"2022\\" language=\\"en\\" locale=\\"en-US\\" aria-label=\\" Controls 4.0.0\\" role=\\"dialog\\" visible=\\"\\"><ids-text slot=\\"device\\" type=\\"p\\" language=\\"en\\" locale=\\"en-US\\"><span>Operating System :  -</span><br>
+"<ids-about id=\\"test-about-component\\" product-version=\\"4.0.0\\" product-name=\\"Controls\\" copyright-year=\\"2022\\" device-specs=\\"true\\" use-default-copyright=\\"true\\" language=\\"en\\" locale=\\"en-US\\" aria-label=\\" Controls 4.0.0\\" role=\\"dialog\\" visible=\\"\\"><ids-text slot=\\"device\\" type=\\"p\\" language=\\"en\\" locale=\\"en-US\\"><span>Operating System :  -</span><br>
         <span>Platform : </span><br>
         <span>Mobile : false</span><br>
         <span>Locale : en-US</span><br>
@@ -27,7 +27,7 @@ exports[`IdsAbout Component (using properties) should render 2`] = `
 `;
 
 exports[`IdsAbout Component (using properties) should render 3`] = `
-"<ids-about use-default-copyright=\\"true\\" device-specs=\\"true\\" id=\\"test-about-component\\" product-version=\\"4.0.0\\" product-name=\\"Controls\\" copyright-year=\\"2022\\" language=\\"en\\" locale=\\"en-US\\" aria-label=\\" Controls 4.0.0\\" role=\\"dialog\\"><ids-text slot=\\"device\\" type=\\"p\\" language=\\"en\\" locale=\\"en-US\\"><span>Operating System :  -</span><br>
+"<ids-about id=\\"test-about-component\\" product-version=\\"4.0.0\\" product-name=\\"Controls\\" copyright-year=\\"2022\\" device-specs=\\"true\\" use-default-copyright=\\"true\\" language=\\"en\\" locale=\\"en-US\\" aria-label=\\" Controls 4.0.0\\" role=\\"dialog\\"><ids-text slot=\\"device\\" type=\\"p\\" language=\\"en\\" locale=\\"en-US\\"><span>Operating System :  -</span><br>
         <span>Platform : </span><br>
         <span>Mobile : false</span><br>
         <span>Locale : en-US</span><br>

@@ -33,10 +33,6 @@ import styles from './ids-about.scss';
 class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   constructor() {
     super();
-
-    // Default properties
-    this.useDefaultCopyright = true;
-    this.deviceSpecs = true;
   }
 
   static get attributes() {
@@ -182,7 +178,11 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   get deviceSpecs() {
     const attrVal = this.getAttribute(attributes.DEVICE_SPECS);
 
-    return attrVal ? IdsStringUtils.stringToBool(attrVal) : true;
+    if (attrVal) {
+      return IdsStringUtils.stringToBool(attrVal);
+    }
+
+    return true;
   }
 
   /**
@@ -190,8 +190,9 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    * @param {string|boolean} val deviceSpecs attribute value
    */
   set deviceSpecs(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
-    this.setAttribute(attributes.DEVICE_SPECS, trueVal);
+    const boolVal = IdsStringUtils.stringToBool(val);
+
+    this.setAttribute(attributes.DEVICE_SPECS, boolVal);
 
     this.#refreshDeviceSpecs();
   }
@@ -248,7 +249,11 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   get useDefaultCopyright() {
     const attrVal = this.getAttribute(attributes.USE_DEFAULT_COPYRIGHT);
 
-    return attrVal ? IdsStringUtils.stringToBool(attrVal) : true;
+    if (attrVal) {
+      return IdsStringUtils.stringToBool(attrVal);
+    }
+
+    return true;
   }
 
   /**
@@ -256,8 +261,9 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    * @param {string|boolean} val useDefaultCopyright attribute value
    */
   set useDefaultCopyright(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
-    this.setAttribute(attributes.USE_DEFAULT_COPYRIGHT, trueVal);
+    const boolVal = IdsStringUtils.stringToBool(val);
+
+    this.setAttribute(attributes.USE_DEFAULT_COPYRIGHT, boolVal);
 
     this.#refreshCopyright();
   }

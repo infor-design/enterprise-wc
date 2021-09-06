@@ -226,14 +226,12 @@ describe('IdsABout Component (empty)', () => {
   it('can remove default copyright after being invoked', () => {
     component.useDefaultCopyright = false;
 
-    expect(component.querySelectorAll('*').length).toBeTruthy();
     expect(component.useDefaultCopyright).toBeFalsy();
   });
 
   it('can remove device specs after being invoked', () => {
     component.deviceSpecs = false;
 
-    expect(component.querySelectorAll('*').length).toBeTruthy();
     expect(component.deviceSpecs).toBeFalsy();
   });
 });
