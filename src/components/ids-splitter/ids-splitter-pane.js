@@ -13,7 +13,15 @@ import {
 } from '../../mixins';
 import styles from './ids-splitter-pane.scss';
 
-// @TODO detect redundant size changes (maybe hash size_min-size_max-size?)
+/**
+ * @param {object} m sizeMeta
+ * @returns {string} `${minSize}${minSizeU}${size}${sizeU}${maxSize}${maxSizeU}`
+ */
+const getSizesHash = (m) => (
+  `${m.minSize?.number || 0}${m.minSize?.unit || 'px'}`
+  + `${m.size?.number || 0}${m.size?.unit || 'px'}`
+  + `${m.maxSize?.number || 0}${m.maxSize?.unit || 'px'}`
+);
 
 /**
  * parses size string that can be specified with px/%
@@ -135,20 +143,14 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
   set size(value) {
     if ((value !== null) && (value !== this.getAttribute.SIZE)) {
       this.setAttribute(attributes.SIZE, value);
-      this.#updateSize();
     }
 
     if ((value === null) && this.hasAttribute(attributes.SIZE)) {
       this.removeAttribute(attributes.SIZE);
-      this.#updateSize();
     }
 
-    this.triggerEvent('splitter-pane-size-attrib-change', this, {
-      detail: {
-        paneId: this.paneId,
-        ...this.getSizeMeta()
-      }
-    });
+    this.#updateSize();
+    this.#checkToUpdateSizesHash();
   }
 
   get maxSize() {
@@ -162,20 +164,14 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
   set maxSize(value) {
     if ((value !== null) && (value !== this.getAttribute.MAX_SIZE)) {
       this.setAttribute(attributes.MAX_SIZE, value);
-      this.#updateMaxSize();
     }
 
     if ((value === null) && this.hasAttribute(attributes.MAX_SIZE)) {
       this.removeAttribute(attributes.MAX_SIZE);
-      this.#updateMaxSize();
     }
 
-    this.triggerEvent('splitter-pane-size-attrib-change', this, {
-      detail: {
-        paneId: this.paneId,
-        ...this.getSizeMeta()
-      }
-    });
+    this.#updateMaxSize();
+    this.#checkToUpdateSizesHash();
   }
 
   get minSize() {
@@ -189,40 +185,36 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
   set minSize(value) {
     if ((value !== null) && (value !== this.getAttribute.MIN_SIZE)) {
       this.setAttribute(attributes.MIN_SIZE, value);
-      this.#updateMinSize();
     }
 
     if ((value === null) && this.hasAttribute(attributes.MIN_SIZE)) {
       this.removeAttribute(attributes.MIN_SIZE);
-      this.#updateMinSize();
     }
 
-    this.triggerEvent('splitter-pane-size-attrib-change', this, {
-      detail: {
-        paneId: this.paneId,
-        ...this.getSizeMeta()
-      }
-    });
+    this.#updateMinSize();
+    this.#checkToUpdateSizesHash();
   }
 
   /**
    * the size and relevant meta data once parsed
+   * @type {{ number: number, unit: 'px'|'%', measuredSize: number }}
+   */
+  #size = { number: 0, unit: 'px' };
+
+  /**
+   * the max-size and relevant meta data once parsed
+   * @type {{ number: number, unit: 'px'|'%', measuredSize: number }}
+   */
+  #maxSize = { number: 0, unit: 'px' };
+
+  /**
+   * the min-size and relevant meta data once parsed
    * @type {{ value: number, unit: 'px'|'%', measuredSize: number }}
    */
-  #size = {
-    value: 0,
-    unit: 'px'
-  };
+  #minSize = { number: 0, unit: 'px' };
 
-  #maxSize = {
-    value: 0,
-    unit: 'px'
-  };
-
-  #minSize = {
-    value: 0,
-    unit: 'px'
-  };
+  /** contains the string hash of ${min_size}_${size}_${max-size} */
+  #sizesHash = '0px_0px_0px';
 
   /**
    * used by ids-splitter to grab current parsed size attribute
@@ -233,21 +225,21 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     const sizeMeta = {};
     if (this.getAttribute(attributes.SIZE) !== null) {
       sizeMeta.size = {
-        value: this.#size.value,
+        number: this.#size.number,
         unit: this.#size.unit
       };
     }
 
     if (this.getAttribute(attributes.MIN_SIZE) !== null) {
       sizeMeta.minSize = {
-        value: this.#minSize.value,
+        number: this.#minSize.number,
         unit: this.#minSize.unit
       };
     }
 
     if (this.getAttribute(attributes.MAX_SIZE) !== null) {
       sizeMeta.maxSize = {
-        value: this.#maxSize.value,
+        number: this.#maxSize.number,
         unit: this.#maxSize.unit
       };
     }
@@ -262,12 +254,6 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     } else {
       this.#size = undefined;
     }
-
-    if (this.#size) {
-      this.style.setProperty('--size', this.size);
-    } else {
-      this.style.removeProperty('--size');
-    }
   }
 
   /** Update internal max size + meta */
@@ -276,12 +262,6 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
       this.#maxSize = getSize(this.maxSize);
     } else {
       this.#maxSize = undefined;
-    }
-
-    if (this.#maxSize) {
-      this.style.setProperty('--max-size', this.maxSize);
-    } else {
-      this.style.removeProperty('--max-size');
     }
   }
 
@@ -292,11 +272,25 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     } else {
       this.#minSize = undefined;
     }
+  }
 
-    if (this.#minSize) {
-      this.style.setProperty('--min-size', this.minSize);
-    } else {
-      this.style.removeProperty('--min-size');
+  /**
+   * When combo of min/max/size changes, triggers an attrib-change
+   * event for the observing parent ids-splitter to register
+   * the new user-entered dimensions
+   */
+  #checkToUpdateSizesHash() {
+    const sizesHash = getSizesHash(this.getSizeMeta());
+    if (sizesHash !== this.#sizesHash) {
+      this.#sizesHash = sizesHash;
+
+      this.triggerEvent('splitter-pane-size-attrib-change', this, {
+        bubbles: true,
+        detail: {
+          paneId: this.paneId,
+          ...this.getSizeMeta()
+        }
+      });
     }
   }
 }

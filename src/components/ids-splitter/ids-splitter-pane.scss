@@ -4,15 +4,11 @@
 }
 
 :host(ids-splitter-pane[axis='x']) {
-  max-width: var(--max-size);
-  min-width: var(--min-size);
   height: 100%;
   width: var(--size, auto);
 }
 
 :host(ids-splitter-pane[axis='y']) {
-  max-height: var(--max-size, 100%);
-  min-height: var(--min-size, 0%);
   height: var(--size, auto);
   width: 100%;
 }
