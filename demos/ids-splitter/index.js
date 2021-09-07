@@ -1,1 +1,1 @@
-import IdsSplitter, { IdsSplitterPane } from '../../src/ids-splitter';
+import { IdsSplitter, IdsSplitterPane } from '../../src/components';

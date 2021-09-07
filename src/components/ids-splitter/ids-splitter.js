@@ -3,16 +3,19 @@ import {
   customElement,
   attributes,
   scss,
-  stringUtils,
   mix
-} from '../ids-base/ids-element';
+} from '../../core';
+
+import {
+  IdsStringUtils as stringUtils
+} from '../../utils';
 
 import {
   IdsKeyboardMixin,
   IdsEventsMixin,
   IdsThemeMixin,
   IdsAttributeProviderMixin
-} from '../ids-mixins';
+} from '../../mixins';
 
 import IdsSplitterPane from './ids-splitter-pane';
 import IdsDraggable from '../ids-draggable';

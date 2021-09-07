@@ -4,13 +4,13 @@ import {
   attributes,
   scss,
   mix
-} from '../ids-base/ids-element';
+} from '../../core/ids-element';
 
 import {
   IdsKeyboardMixin,
   IdsEventsMixin,
   IdsThemeMixin
-} from '../ids-mixins';
+} from '../../mixins';
 import styles from './ids-splitter-pane.scss';
 
 // TODO: debounce resize event called

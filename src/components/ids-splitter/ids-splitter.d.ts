@@ -1,3 +1,3 @@
-import { IdsElement } from '../ids-base';
+import { IdsElement } from '../../core';
 
 export default class IdsSplitter extends IdsElement {}

@@ -30,6 +30,7 @@ import IdsProgressBar from './ids-progress-bar';
 import IdsRadio from './ids-radio';
 import IdsRating from './ids-rating';
 import IdsSpinbox from './ids-spinbox';
+import IdsSplitter, { IdsSplitterPane } from './ids-splitter';
 import IdsSwipeAction from './ids-swipe-action';
 import IdsSwitch from './ids-switch/ids-switch';
 import IdsTabs, { IdsTab } from './ids-tabs';
