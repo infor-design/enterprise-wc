@@ -606,7 +606,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * Helper method to calculate the percentage of slider from mouse click; not a pure function
    * @param {number} x coordinate of mouse click
    * @param {number} y coordinate of mouse click
-   * @returns the percent
+   * @returns {number} the percent
    */
   #calcPercentFromClick(x, y) {
     this.#refreshTrackBounds();
@@ -670,7 +670,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         arr[i] = (this.max / (this.stepNumber - 1)) * i;
       }
 
-      const percent = this.#calcPercentFromClick(x, y); 
+      const percent = this.#calcPercentFromClick(x, y);
       const differences = arr.map((val) => Math.abs(val - ((percent / 100) * this.max)));
 
       let min = differences[0];
@@ -973,7 +973,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   /** Add event listeners for arrow keys to move thumbs */
   #attachKeyboardListeners() {
     this.onEvent('keydown', this, (event) => {
-
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
         event.preventDefault();
       }
