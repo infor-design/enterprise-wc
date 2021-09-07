@@ -49,3 +49,14 @@
     @include top-8();
   }
 }
+
+::slotted([slot='product']),
+::slotted([slot='content']),
+::slotted([slot='copyright']) {
+  @include block();
+  @include mb-8();
+}
+
+::slotted([slot='icon']) {
+  @include mb-8();
+}
