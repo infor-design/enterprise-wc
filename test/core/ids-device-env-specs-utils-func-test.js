@@ -35,6 +35,8 @@ describe('IdsDeviceEnvUtils Tests', () => {
     const userAgentGetter = jest.spyOn(window.navigator, 'userAgent', 'get');
     const platformGetter = jest.spyOn(window.navigator, 'platform', 'get');
     const appVersionGetter = jest.spyOn(window.navigator, 'appVersion', 'get');
+    const appNameGetter = jest.spyOn(window.navigator, 'appName', 'get');
+
     userAgentGetter.mockReturnValue('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36');
     appVersionGetter.mockReturnValue('5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36');
     platformGetter.mockReturnValue('MacIntel');
@@ -76,7 +78,7 @@ describe('IdsDeviceEnvUtils Tests', () => {
     expect(specs.currentBrowser).toEqual('Firefox');
     expect(specs.browserVersion).toEqual('92.0.4515.159');
 
-    userAgentGetter.mockReturnValue('Mozilla/5.0 Windows 10.0 OPR 92 Opera Version 92');
+    userAgentGetter.mockReturnValue('Mozilla/5.0 Windows 10.0 Opera 92 OPR 92');
 
     specs = IdsDeviceEnvUtils.getSpecs();
 
@@ -111,5 +113,25 @@ describe('IdsDeviceEnvUtils Tests', () => {
     expect(specs.currentOSVersion).toEqual('8');
     expect(specs.currentBrowser).toEqual('Microsoft Internet Explorer');
     expect(specs.browserVersion).toEqual('11.0');
+
+    userAgentGetter.mockReturnValue('Mozilla/5.0 Windows 10.0 Opera Version 92');
+
+    specs = IdsDeviceEnvUtils.getSpecs();
+
+    expect(specs.currentBrowser).toEqual('Opera');
+    expect(specs.browserVersion).toEqual('92');
+
+    userAgentGetter.mockReturnValue('Safari/92');
+
+    specs = IdsDeviceEnvUtils.getSpecs();
+
+    expect(specs.currentBrowser).toEqual('Safari');
+    expect(specs.browserVersion).toEqual('92');
+
+    appNameGetter.mockReturnValue('Microsoft Internet Explorer');
+
+    specs = IdsDeviceEnvUtils.getSpecs();
+
+    expect(specs.browserLanguage).toBe(undefined);
   });
 });
