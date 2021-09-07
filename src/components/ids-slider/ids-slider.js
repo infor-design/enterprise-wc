@@ -606,7 +606,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * Helper method to calculate the percentage of slider from mouse click; not a pure function
    * @param {number} x coordinate of mouse click
    * @param {number} y coordinate of mouse click
-   * @returns the percent 
+   * @returns the percent
    */
   #calcPercentFromClick(x, y) {
     this.#refreshTrackBounds();
@@ -630,6 +630,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * Perform the calculations to update the UI and value(s)/percent(s) accordingly
    * @param {number} x coordinate of mouse click
    * @param {number} y coordnate of mouse click
+   * @param {number} labelValueClicked if label was clicked or not
    */
   #calculateUIFromClick(x, y, labelValueClicked) {
     if (this.type !== 'step') {
@@ -669,7 +670,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         arr[i] = (this.max / (this.stepNumber - 1)) * i;
       }
 
-      const percent = this.#calcPercentFromClick(x, y);      
+      const percent = this.#calcPercentFromClick(x, y); 
       const differences = arr.map((val) => Math.abs(val - ((percent / 100) * this.max)));
 
       let min = differences[0];
@@ -734,7 +735,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * @param {number} nStart the starting x or y coordinate of the slider
    * @param {number} nEnd the ending x or y coordinate of the slider
    * @param {number} percent the percent/location of the thumb relative to the slider
-   * @param {boolean} notCentered whether or not the thumb(s) or progress track is centered or not
+   * @param {boolean} centered whether or not the thumb(s) or progress track is centered or not
    * if notCentered is true, it will translate from 0
    * if notCentered is false, it will translate negatively and positively with 0 being the center
    * @returns {number} coordinates or the amount of pixels to translate by
@@ -753,7 +754,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * @param {number} n the mouse x or y coordinate
    * @param {number} nStart the starting x or y coordinate of the slider
    * @param {number} nEnd the ending x or y coordinate of the slider
-   * @param {number} thumbWidth the width of the thumb
    * @returns {number} the percent/location of the thumb relative to the slider
    */
   #calcPercentFromRange(n, nStart, nEnd) {
@@ -778,7 +778,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   #attachEventListeners() {
     // CHECK IF RTL
     this.#attachRTLListener();
-    
+
     // RESIZE OBSERVER for when window size changes
     this.#attachResizeObserver();
 
@@ -883,13 +883,13 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       // console.log(event.clientX + ', ' + event.clientY);
       if (idsSliderSelected) {
         const clickedLabel = className.includes('label');
-        const clickedTrackArea = className.includes('track-area')
+        const clickedTrackArea = className.includes('track-area');
 
         if (clickedTrackArea) {
           this.#calculateUIFromClick(event.clientX, event.clientY);
         } else if (clickedLabel) {
           const labelValueClicked = parseFloat(event.target.innerHTML);
-          this.#calculateUIFromClick(event.clientX, event.clientY, labelValueClicked)
+          this.#calculateUIFromClick(event.clientX, event.clientY, labelValueClicked);
         } else {
           this.thumbDraggable.blur();
           this.type === 'double' && this.thumbDraggableSecondary.blur();
@@ -930,7 +930,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     // Listen for drag event on draggable thumb
     this.onEvent('ids-drag', obj.thumbDraggable, (e) => {
       this.type !== 'step' && this.#hideTooltip(false);
-      
+
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
       const percent = this.#calcPercentFromClick(x, y);
 
@@ -974,7 +974,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   #attachKeyboardListeners() {
     this.onEvent('keydown', this, (event) => {
 
-      if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
+      if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
         event.preventDefault();
       }
 
