@@ -13,7 +13,7 @@ import {
 } from '../../mixins';
 import styles from './ids-splitter-pane.scss';
 
-// TODO: debounce resize event called
+// @TODO detect redundant size changes (maybe hash size_min-size_max-size?)
 
 /**
  * parses size string that can be specified with px/%
@@ -69,40 +69,6 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
 
   #previousContentSizeHash = '';
 
-  /* istanbul ignore next */
-  resizeObserver = new ResizeObserver((entries) => {
-    for (const entry of entries) {
-      const contentRect = entry.contentRect?.[0] || entry.contentRect;
-      const paneId = (() => entry.target.paneId)();
-
-      const contentSizeHash = `${parseInt(contentRect.width)}_${parseInt(contentRect.height)}`;
-      const shouldTriggerEvent = this.#previousContentSizeHash !== contentSizeHash;
-
-      if (!shouldTriggerEvent) {
-        return;
-      }
-
-      console.log('should resize splitter-pane ->', contentSizeHash, this.#previousContentSizeHash);
-
-      this.#previousContentSizeHash = contentSizeHash;
-
-      this.triggerEvent(
-        'splitter-pane-resize',
-        this,
-        {
-          detail: {
-            paneId,
-            contentRect: {
-              width: contentRect.width,
-              height: contentRect.height
-            }
-          }
-        },
-        { bubbles: true }
-      );
-    }
-  });
-
   /**
    * Create the Template to render
    *
@@ -114,14 +80,16 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     );
   }
 
+  onSizeChange() {
+
+  }
+
   connectedCallback() {
     super.connectedCallback?.();
-    this.resizeObserver.observe(this);
   }
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
-    this.resizeObserver.disconnect();
   }
 
   set axis(value) {
@@ -174,6 +142,13 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
       this.removeAttribute(attributes.SIZE);
       this.#updateSize();
     }
+
+    this.triggerEvent('splitter-pane-size-attrib-change', this, {
+      detail: {
+        paneId: this.paneId,
+        ...this.getSizeMeta()
+      }
+    });
   }
 
   get maxSize() {
@@ -194,6 +169,13 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
       this.removeAttribute(attributes.MAX_SIZE);
       this.#updateMaxSize();
     }
+
+    this.triggerEvent('splitter-pane-size-attrib-change', this, {
+      detail: {
+        paneId: this.paneId,
+        ...this.getSizeMeta()
+      }
+    });
   }
 
   get minSize() {
@@ -214,6 +196,13 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
       this.removeAttribute(attributes.MIN_SIZE);
       this.#updateMinSize();
     }
+
+    this.triggerEvent('splitter-pane-size-attrib-change', this, {
+      detail: {
+        paneId: this.paneId,
+        ...this.getSizeMeta()
+      }
+    });
   }
 
   /**
@@ -265,12 +254,6 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
 
     return sizeMeta;
   }
-
-  /**
-   * bounding box size in the direction of the
-   * axis attribute
-   */
-  #measuredSize;
 
   /** Update internal size + meta */
   #updateSize() {

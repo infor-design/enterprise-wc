@@ -102,11 +102,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
     };
   }
 
-  /**
-   * Create the Template to render
-   *
-   * @returns {string} the template to render
-   */
+  /** @returns {string} the template to render */
   template() {
     return (`<slot></slot>`);
   }
@@ -114,6 +110,20 @@ export default class IdsSplitter extends mix(IdsElement).with(
   connectedCallback() {
     super.connectedCallback?.();
     this.#refreshPaneMappings();
+    this.onEvent('splitter-pane-size-attrib-change', this, (e) => {
+      const {
+        detail: {
+          paneId,
+          size,
+          minSize,
+          maxSize
+        }
+      } = e;
+
+      console.log({
+        paneId, size, minSize, maxSize
+      });
+    });
   }
 
   disconnectedCallback() {
@@ -265,8 +275,6 @@ export default class IdsSplitter extends mix(IdsElement).with(
     // @TODO: calculate this once in mutation observer
     const totalWidth = this.getBoundingClientRect().width;
 
-    console.log('totalWidth ->', totalWidth);
-
     [...this.#paneDraggableMap.entries()].forEach(([pane, { contentRect, after }], i) => {
       if (contentRect) {
         afterOffset += this.axis === 'x' ? contentRect.width : contentRect.height;
@@ -287,6 +295,15 @@ export default class IdsSplitter extends mix(IdsElement).with(
     if (paneEntry?.contentRect) {
       const size = this.axis === 'x' ? paneEntry.contentRect.width : paneEntry.contentRect.height;
       pane.size = `${size + (this.axis === 'x' ? dragDeltaX : dragDeltaY)}px`;
+    }
+  }
+
+  /**
+   * Recalculates pane sizes on child ids-splitter-panes
+   */
+  #calculatePaneSizes() {
+    for (const [pane, entry] of this.#paneDraggableMap) {
+      const { minSize, maxSize, size } = pane.getSizeMeta();
     }
   }
 }
