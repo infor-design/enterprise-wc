@@ -69,7 +69,7 @@ class IdsTabContent extends mix(IdsElement).with(
     return this.getAttribute(attributes.VALUE);
   }
 
-  /** @value Whether or not this tab will be flagged as active/visible */
+  /** @param {boolean|string} value Whether or not this tab will be flagged as active/visible */
   set active(value) {
     const isTruthy = IdsStringUtils.stringToBool(value);
 
@@ -82,7 +82,7 @@ class IdsTabContent extends mix(IdsElement).with(
     }
   }
 
-  /** @value Whether or not this tab will be flagged as active/visible */
+  /** @returns {boolean|string} Whether or not this tab will be flagged as active/visible */
   get active() {
     return this.hasAttribute(attributes.ACTIVE);
   }
