@@ -71,7 +71,16 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     ];
   }
 
+  input;
+  triggerButton;
+  triggerButtonIcon;
+  triggerField;
+
   connectedCallback() {
+    this.input = this.container.querySelector('ids-input');
+    this.triggerField = this.container.querySelector('ids-trigger-field');
+    this.triggerButton = this.container.querySelector('ids-trigger-button');
+    this.triggerButtonIcon = this.container.querySelector('ids-trigger-button ids-icon');
     this.#attachEventHandlers();
     super.connectedCallback();
   }
@@ -88,7 +97,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
         >
           <ids-input 
             id=""
-            value=""
             placeholder="hi"
           >
           </ids-input>
