@@ -6,6 +6,7 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import waitFor from '../helpers/wait-for';
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
 import IdsSpinbox from '../../src/components/ids-spinbox';
+import IdsContainer from '../../src/components/ids-container';
 
 const DEFAULT_SPINBOX_HTML = (
   `<ids-spinbox
@@ -20,6 +21,7 @@ const DEFAULT_SPINBOX_HTML = (
 
 describe('IdsSpinbox Component', () => {
   let elem;
+  let container;
 
   afterEach(async () => {
     elem?.remove();
@@ -28,11 +30,13 @@ describe('IdsSpinbox Component', () => {
 
   const createElemViaTemplate = async (innerHTML) => {
     elem?.remove?.();
+    container = new IdsContainer();
 
     const template = document.createElement('template');
     template.innerHTML = innerHTML;
     elem = template.content.childNodes[0];
-    document.body.appendChild(elem);
+    container.appendChild(elem);
+    document.body.appendChild(container);
 
     await processAnimFrame();
 
@@ -211,7 +215,7 @@ describe('IdsSpinbox Component', () => {
     elem = await createElemViaTemplate(
       `<ids-spinbox
         value="0"
-        dirty-tracker
+        dirty-tracker="true"
       ></ids-spinbox>`
     );
     expect(document.querySelectorAll('ids-spinbox').length).toEqual(1);
@@ -299,6 +303,7 @@ describe('IdsSpinbox Component', () => {
     await waitFor(() => expect(
       getIdsButtons().find((el) => el.hasAttribute('disabled'))
     ).not.toEqual(undefined));
+
     elem.removeAttribute('readonly');
     await waitFor(() => expect(
       getIdsButtons().find((el) => el.hasAttribute('disabled'))
@@ -307,9 +312,6 @@ describe('IdsSpinbox Component', () => {
     expect(elem.readonly).toBeNull();
 
     elem.removeAttribute('disabled');
-
-    await waitFor('ids-button[disabled]', { container: elem.shadowRoot, hidden: true });
-
     expect(elem.disabled).toBeNull();
 
     elem.readonly = true;
@@ -378,5 +380,12 @@ describe('IdsSpinbox Component', () => {
     elem.input.value = (value + (step / 2)) - 1;
 
     expect(elem.value).toEqual(`${value}`);
+  });
+
+  it('can change language from the container', async () => {
+    container.language = 'de';
+    setTimeout(() => {
+      expect(elem.getAttribute('language')).toEqual('de');
+    });
   });
 });

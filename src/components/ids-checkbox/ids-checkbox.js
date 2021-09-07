@@ -13,7 +13,8 @@ import {
   IdsEventsMixin,
   IdsDirtyTrackerMixin,
   IdsValidationMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsLocaleMixin
 } from '../../mixins';
 
 import IdsText from '../ids-text';
@@ -40,6 +41,7 @@ const attribs = [
  * @mixes IdsValidationMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsLocaleMixin
  * @part label - the label element
  * @part input - the checkbox input element
  * @part label-text - the label text element
@@ -47,10 +49,11 @@ const attribs = [
 @customElement('ids-checkbox')
 @scss(styles)
 class IdsCheckbox extends mix(IdsElement).with(
+    IdsEventsMixin,
     IdsDirtyTrackerMixin,
     IdsValidationMixin,
-    IdsEventsMixin,
-    IdsThemeMixin
+    IdsThemeMixin,
+    IdsLocaleMixin
   ) {
   /**
    * Call the constructor and then initialize
@@ -65,16 +68,14 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.CHECKED,
+      ...attributes.CHECKED,
       attributes.COLOR,
-      attributes.DIRTY_TRACKER,
       attributes.DISABLED,
       attributes.HORIZONTAL,
       attributes.INDETERMINATE,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
-      attributes.VALIDATE,
-      attributes.VALIDATION_EVENTS,
+      attributes.LANGUAGE,
       attributes.VALUE,
       attributes.MODE,
       attributes.VERSION
@@ -110,9 +111,7 @@ class IdsCheckbox extends mix(IdsElement).with(
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
-    this.handleEvents();
-    this.handleDirtyTracker();
-    this.handleValidation();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -145,11 +144,11 @@ class IdsCheckbox extends mix(IdsElement).with(
   }
 
   /**
-   * Handle checkbox change event
+   * Attach checkbox change event
    * @private
    * @returns {void}
    */
-  handleCheckboxChangeEvent() {
+  attachCheckboxChangeEvent() {
     this.onEvent('change', this.input, (e) => {
       this.indeterminate = false;
       this.checked = this.input.checked;
@@ -169,7 +168,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleNativeEvents() {
+  attachNativeEvents() {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (/** @type {any} */ e) => {
@@ -190,9 +189,16 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  handleEvents() {
-    this.handleCheckboxChangeEvent();
-    this.handleNativeEvents();
+  #attachEventHandlers() {
+    this.attachCheckboxChangeEvent();
+    this.attachNativeEvents();
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      // Do something with parent lang
+    });
   }
 
   /**
@@ -231,23 +237,6 @@ class IdsCheckbox extends mix(IdsElement).with(
   }
 
   get color() { return this.getAttribute(attributes.COLOR); }
-
-  /**
-   * Set the dirty tracking feature on to indicate a changed field
-   * @param {boolean|string} value If true will set `dirty-tracker` attribute
-   */
-  set dirtyTracker(value) {
-    const val = IdsStringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-
-    this.handleDirtyTracker();
-  }
-
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
 
   /**
    * Sets input to disabled
@@ -346,37 +335,6 @@ class IdsCheckbox extends mix(IdsElement).with(
   }
 
   get labelRequired() { return this.getAttribute(attributes.LABEL_REQUIRED); }
-
-  /**
-   * Sets the validation check to use
-   * @param {string} value The `validate` attribute
-   */
-  set validate(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATE, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATE);
-    }
-
-    this.handleValidation();
-  }
-
-  get validate() { return this.getAttribute(attributes.VALIDATE); }
-
-  /**
-   * Sets which events to fire validation on
-   * @param {string} value The `validation-events` attribute
-   */
-  set validationEvents(value) {
-    if (value) {
-      this.setAttribute(attributes.VALIDATION_EVENTS, value);
-    } else {
-      this.removeAttribute(attributes.VALIDATION_EVENTS);
-    }
-    this.handleValidation();
-  }
-
-  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS); }
 
   /**
    * Set the checkbox `value` attribute

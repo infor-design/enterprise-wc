@@ -14,7 +14,10 @@ import IdsInput from '../ids-input';
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
-  IdsThemeMixin
+  IdsLocaleMixin,
+  IdsThemeMixin,
+  IdsDirtyTrackerMixin,
+  IdsValidationMixin
 } from '../../mixins';
 import styles from './ids-spinbox.scss';
 
@@ -31,7 +34,10 @@ let instanceCounter = 0;
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsValidationMixin
  * @part container the overall container of the spinbox
  * @part button increment/decrement button
  * @part input input containing value/placeholder
@@ -43,7 +49,10 @@ let instanceCounter = 0;
 export default class IdsSpinbox extends mix(IdsElement).with(
     IdsThemeMixin,
     IdsEventsMixin,
-    IdsKeyboardMixin
+    IdsKeyboardMixin,
+    IdsLocaleMixin,
+    IdsDirtyTrackerMixin,
+    IdsValidationMixin
   ) {
   constructor() {
     super();
@@ -55,16 +64,15 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.DIRTY_TRACKER,
-      attributes.DISABLED,
+      ...attributes.DISABLED,
       attributes.LABEL,
       attributes.LABEL_HIDDEN,
+      attributes.LANGUAGE,
       attributes.MAX,
       attributes.MIN,
       attributes.MODE,
       attributes.READONLY,
       attributes.STEP,
-      attributes.VALIDATE,
       attributes.VALUE,
       attributes.VERSION
     ];
@@ -187,8 +195,15 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       }
     });
 
-    const labelEl = this.container.children[0];
-    this.onEvent('click.label', labelEl, () => {
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    /* istanbul ignore next */
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+    });
+
+    this.labelEl = this.container.children[0];
+    this.onEvent('click.label', this.labelEl, () => {
       const isDisabled = this.hasAttribute(attributes.DISABLED);
       /* istanbul ignore else */
       if (!isDisabled) {
@@ -201,7 +216,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.input.setValidationElement(validationEl);
     }
 
-    this.input.setLabelElement(labelEl);
+    this.input.setLabelElement(this.labelEl);
 
     this.onEvent(
       'mousedown.increment',
@@ -456,25 +471,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
   }
 
   /**
-   * @param {boolean|string} value whether to enable the dirty-tracker functionality
-   */
-  set dirtyTracker(value) {
-    const isValueTruthy = stringToBool(value);
-    if (isValueTruthy) {
-      this.setAttribute(attributes.DIRTY_TRACKER, true);
-      this.input.setAttribute(attributes.DIRTY_TRACKER, true);
-    } else {
-      this.removeAttribute(attributes.DIRTY_TRACKER);
-      this.input.removeAttribute(attributes.DIRTY_TRACKER);
-    }
-  }
-
-  /**
-   * @returns {boolean|string} whether the dirty tracker has been enabled
-   */
-  get dirtyTracker() { return this.getAttribute(attributes.DIRTY_TRACKER); }
-
-  /**
    * @param {boolean|string} value whether or not spinbox
    * interaction is disabled
    */
@@ -517,7 +513,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     if (value) {
       this.setAttribute(attributes.VALIDATE, value);
       this.input.setAttribute(attributes.VALIDATE, value);
-
+      /* istanbul ignore next */
       if (this.container.children.length === 2) {
         const validateElTemplate = document.createElement('template');
         validateElTemplate.innerHTML = `<div class="validation-message"></div>`;

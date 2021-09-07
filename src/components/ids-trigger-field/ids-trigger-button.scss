@@ -5,10 +5,15 @@
   @include border-1();
   @include border-transparent();
   @include cursor-pointer();
+  @include flex();
+  @include p-0();
   @include rounded-round();
   @include text-slate-60();
 
+  align-items: center;
+  justify-content: center;
   height: 28px;
+  margin-right: -32px;
   margin-left: -32px;
   width: 28px;
 
@@ -32,9 +37,8 @@
     @include text-slate-40();
   }
 
-  ::slotted(ids-icon) {
-    margin-left: -2px;
-    margin-top: 3px;
+  &.triggerfield-has-content-borders {
+    @include mx-8;
   }
 }
 

@@ -7,7 +7,7 @@ import {
 } from '../../core';
 
 // Import Mixins
-import { IdsEventsMixin } from '../../mixins';
+import { IdsEventsMixin, IdsLocaleMixin } from '../../mixins';
 
 // Import Utils
 import { IdsStringUtils } from '../../utils';
@@ -27,10 +27,11 @@ const MENU_GROUP_SELECT_TYPES = [
  * @type {IdsMenuGroup}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsLocaleMixin
  */
 @customElement('ids-menu-group')
 @scss(styles)
-class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   constructor() {
     super();
   }
@@ -42,6 +43,7 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
   static get attributes() {
     return [
       attributes.KEEP_OPEN,
+      attributes.LANGUAGE,
       attributes.SELECT
     ];
   }
@@ -54,14 +56,14 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   connectedCallback() {
-    this.handleEvents();
+    this.#attachEventHandlers();
     this.refresh();
   }
 
   /**
    * @returns {void}
    */
-  handleEvents() {
+  #attachEventHandlers() {
     // Listen for `selected` events from child menu items.
     // Single-select groups will force deselection of other items in the group.
     this.onEvent('selected', this, (/** @type {any} */ e) => {
@@ -69,6 +71,12 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin) {
       if (this.select === 'single') {
         this.deselectAllExcept(item);
       }
+    });
+
+    this.onEvent('languagechange', this, async (e) => {
+      this.querySelectorAll('ids-menu-item')?.forEach((menuItem) => {
+        menuItem?.setLanguage(e.detail.language.name);
+      });
     });
   }
 

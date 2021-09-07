@@ -2,7 +2,7 @@
 
 ## Description
 
-The locale API handles many aspects and i18n use cases including: dates, numbers, calendars (like arabic and gregorian) and, translation and right to left. The Locale component is used in many other components to handle various localization and i18n use cases. The locale API will be available on the `ids-container` as the root element to set the locale or language. And also on any component that needs the locale information so they can be set separate.
+The locale API handles many aspects and i18n use cases including: dates, numbers, calendars (like arabic and gregorian), translation and right to left. The Locale component is used in many other components to handle various localization and i18n use cases. The locale API will be available on the `ids-container` as the root element to set the locale or language. And also on any component that needs the locale information so they can be set separate.
 
 The Locale API handles the following functionality
 

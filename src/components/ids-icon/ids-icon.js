@@ -42,7 +42,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
 
   connectedCallback() {
     super.connectedCallback();
-    this.handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -63,7 +63,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   /**
    * Handle change events
    */
-  handleEvents() {
+  #attachEventHandlers() {
     this.offEvent('languagechange.container');
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);

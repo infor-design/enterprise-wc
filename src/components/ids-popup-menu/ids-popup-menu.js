@@ -7,7 +7,8 @@ import {
 import {
   IdsPopupInteractionsMixin,
   IdsPopupOpenEventsMixin,
-  IdsEventsMixin
+  IdsEventsMixin,
+  IdsLocaleMixin
 } from '../../mixins';
 
 import IdsMenu from '../ids-menu/ids-menu';
@@ -20,12 +21,14 @@ import styles from './ids-popup-menu.scss';
  * @inherits IdsElement
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsPopupInteractionsMixin
+ * @mixes IdsLocaleMixin
  */
 @customElement('ids-popup-menu')
 @scss(styles)
 class IdsPopupMenu extends mix(IdsMenu).with(
     IdsPopupOpenEventsMixin,
-    IdsPopupInteractionsMixin
+    IdsPopupInteractionsMixin,
+    IdsLocaleMixin
   ) {
   constructor() {
     super();
@@ -58,6 +61,15 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     }
 
     super.connectedCallback?.();
+
+    // Respond to parent changing language
+    this.offEvent('languagechange');
+    this.onEvent('languagechange', this, async (e) => {
+      await this.shadowRoot.querySelector('ids-popup')?.setLanguage(e.detail.language.name);
+      this.querySelectorAll('ids-menu-group')?.forEach((menuGroup) => {
+        menuGroup?.setLanguage(e.detail.language.name);
+      });
+    });
   }
 
   /**
@@ -75,8 +87,8 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * Sets up event handlers used in this menu.
    * @returns {void}
    */
-  handleEvents() {
-    super.handleEvents();
+  attachEventHandlers() {
+    super.attachEventHandlers();
 
     // Hide the menu when an item is selected
     // (only if `keep-open` attribute is not present)
@@ -103,8 +115,8 @@ class IdsPopupMenu extends mix(IdsMenu).with(
    * Sets up the connection to the global keyboard handler
    * @returns {void}
    */
-  handleKeys() {
-    super.handleKeys();
+  attachKeyboardListeners() {
+    super.attachKeyboardListeners();
 
     // Arrow Right on an item containing a submenu causes that submenu to open
     this.listen(['ArrowRight'], this, (e) => {

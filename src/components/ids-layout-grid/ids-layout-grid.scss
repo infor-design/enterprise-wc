@@ -208,18 +208,21 @@ $grid-cols-sm: 4;
   --grid-cols: 0;
   --grid-gap: 16px;
 
-  @media (min-width: $breakpoint-xs){
+  @media (min-width: $breakpoint-xs) {
     --grid-cols: 4;
     --grid-gap: 16px;
   }
+
   @media (min-width: $breakpoint-sm) {
     --grid-cols: 8;
     --grid-gap: 16px;
   }
+
   @media (min-width: $breakpoint-md) {
     --grid-cols: 12;
     --grid-gap: 16px;
   }
+
   @media (min-width: $breakpoint-lg) {
     --grid-cols: 12;
     --grid-gap: 24px;

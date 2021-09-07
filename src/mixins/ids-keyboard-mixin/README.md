@@ -7,7 +7,13 @@
 The Keyboard mixin is attached with the `mix ... with` decorator. To use it to respond to keys in a component you can use it like this:
 
 ```js
-handleKeys() {
+connectedCallback() {
+ this.#attachKeyboardListeners();
+}
+```
+
+```js
+#attachKeyboardListeners() {
     this.listen('Enter', this, (e) => {
         // Do something on Enter
     });

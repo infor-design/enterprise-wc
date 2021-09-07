@@ -15,6 +15,7 @@ import {
   IdsRenderLoopMixin,
   IdsRenderLoopItem,
   IdsResizeMixin,
+  IdsLocaleMixin,
   IdsThemeMixin
 } from '../../mixins';
 
@@ -59,6 +60,7 @@ const POPUP_PROPERTIES = [
   attributes.ANIMATED,
   attributes.ANIMATION_STYLE,
   attributes.BLEED,
+  attributes.LANGUAGE,
   attributes.POSITION_STYLE,
   attributes.TYPE,
   attributes.VISIBLE,
@@ -100,6 +102,7 @@ function formatAlignAttribute(alignX, alignY, edge) {
  * @mixes IdsRenderLoopMixin
  * @mixes IdsResizeMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  * @part popup - the popup outer element
  * @part arrow - the arrow element
@@ -110,6 +113,7 @@ class IdsPopup extends mix(IdsElement).with(
     IdsRenderLoopMixin,
     IdsResizeMixin,
     IdsEventsMixin,
+    IdsLocaleMixin,
     IdsThemeMixin
   ) {
   constructor() {
@@ -159,6 +163,12 @@ class IdsPopup extends mix(IdsElement).with(
     this.shouldUpdate = true;
     window.requestAnimationFrame(() => {
       this.refresh();
+    });
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
     });
   }
 

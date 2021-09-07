@@ -3,7 +3,8 @@
  */
 // eslint-disable-next-line
 import processAnimFrame from '../helpers/process-anim-frame';
-import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsInput from '../../src/components/ids-input';
+import IdsContainer from '../../src/components/ids-container';
 import IdsPager, {
   IdsPagerInput,
   IdsPagerButton,
@@ -72,9 +73,11 @@ const HTMLSnippets = {
 
 describe('IdsPager Component', () => {
   let elem;
+  let container;
 
   const createElemViaTemplate = async (innerHTML) => {
     elem?.remove?.();
+    container = new IdsContainer();
 
     const template = document.createElement('template');
     template.innerHTML = innerHTML;
@@ -640,5 +643,13 @@ describe('IdsPager Component', () => {
 
     elem.align = null;
     expect(elem.attribute).toEqual(undefined);
+  });
+
+  it('can change child languages', async () => {
+    const button1 = elem.querySelector('ids-pager-button');
+    container.language = 'de';
+    setTimeout(() => {
+      expect(button1.getAttribute('language')).toEqual('de');
+    });
   });
 });

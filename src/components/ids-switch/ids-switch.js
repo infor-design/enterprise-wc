@@ -12,6 +12,7 @@ import { IdsStringUtils } from '../../utils';
 // Import Mixins
 import {
   IdsEventsMixin,
+  IdsLocaleMixin,
   IdsThemeMixin
 } from '../../mixins';
 
@@ -23,6 +24,7 @@ import IdsText from '../ids-text';
  * @type {IdsSwitch}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  * @part checkbox - the checkbox input element
  * @part slider - the sliding part of the switch
@@ -30,7 +32,7 @@ import IdsText from '../ids-text';
  */
 @customElement('ids-switch')
 @scss(styles)
-class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsThemeMixin) {
   /**
    * Call the constructor and then initialize
    */
@@ -47,6 +49,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.CHECKED,
       attributes.DISABLED,
       attributes.LABEL,
+      attributes.LANGUAGE,
       attributes.VALUE
     ];
   }
@@ -60,7 +63,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
-    this.handleEvents();
+    this.#attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -70,8 +73,8 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   disconnectedCallback() {
     IdsElement.prototype.disconnectedCallback.apply(this);
-    this.handleSwitchChangeEvent('remove');
-    this.handleNativeEvents('remove');
+    this.#attachSwitchChangeEvent('remove');
+    this.attachNativeEvents('remove');
   }
 
   /**
@@ -101,7 +104,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} option If 'remove', will remove attached events
    * @returns {void}
    */
-  handleSwitchChangeEvent(option = '') {
+  #attachSwitchChangeEvent(option = '') {
     if (this.input) {
       const eventName = 'change';
       if (option === 'remove') {
@@ -125,7 +128,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {string} option If 'remove', will remove attached events
    * @returns {object} The object for chaining.
    */
-  handleNativeEvents(option = '') {
+  attachNativeEvents(option = '') {
     if (this.input) {
       const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
       events.forEach((evt) => {
@@ -163,9 +166,16 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @private
    * @returns {void}
    */
-  handleEvents() {
-    this.handleSwitchChangeEvent();
-    this.handleNativeEvents();
+  #attachEventHandlers() {
+    this.#attachSwitchChangeEvent();
+    this.attachNativeEvents();
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      // Do something with parent lang
+    });
   }
 
   /**

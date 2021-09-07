@@ -39,7 +39,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   connectedCallback() {
     this.setAttribute('role', 'toolbar');
     this.makeTabbable(this.detectTabbable());
-    this.handleKeys();
+    this.#attachKeyboardListeners();
   }
 
   /**
@@ -47,7 +47,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @private
    * @returns {void}
    */
-  handleKeys() {
+  #attachKeyboardListeners() {
     // Arrow Up navigates focus backward
     this.listen(['ArrowLeft'], this, (e) => {
       e.preventDefault();

@@ -2,13 +2,17 @@
  * @jest-environment jsdom
  */
 import IdsCheckbox from '../../src/components/ids-checkbox/ids-checkbox';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsCheckbox Component', () => {
   let cb;
+  let container;
 
   beforeEach(async () => {
+    container = new IdsContainer();
     const elem = new IdsCheckbox();
-    document.body.appendChild(elem);
+    container.appendChild(elem);
+    document.body.appendChild(container);
     cb = document.querySelector('ids-checkbox');
   });
 
@@ -222,8 +226,8 @@ describe('IdsCheckbox Component', () => {
     document.body.appendChild(elem);
     cb = document.querySelector('ids-checkbox');
 
-    cb.handleCheckboxChangeEvent('remove');
-    cb.handleNativeEvents('remove');
+    cb.attachCheckboxChangeEvent('remove');
+    cb.attachNativeEvents('remove');
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       let response = null;
@@ -254,5 +258,10 @@ describe('IdsCheckbox Component', () => {
     expect(cb.getAttribute('checked')).toEqual('true');
     expect(cb.checked).toEqual('true');
     expect(cb.getAttribute('indeterminate')).toEqual('true');
+  });
+
+  it('can change language from the container', () => {
+    container.language = 'en';
+    expect(cb.getAttribute('language')).toEqual('en');
   });
 });

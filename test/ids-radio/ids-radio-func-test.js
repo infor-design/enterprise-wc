@@ -1,14 +1,18 @@
 /**
  * @jest-environment jsdom
  */
-import IdsRadio from '../../src/components/ids-radio/ids-radio';
+import IdsRadio from '../../src/components/ids-radio';
+import IdsContainer from '../../src/components/ids-container';
 
 describe('IdsRadio Component', () => {
   let rb;
+  let container;
 
   beforeEach(async () => {
+    container = new IdsContainer();
     const elem = new IdsRadio();
-    document.body.appendChild(elem);
+    container.appendChild(elem);
+    document.body.appendChild(container);
     rb = document.querySelector('ids-radio');
   });
 
@@ -177,5 +181,12 @@ describe('IdsRadio Component', () => {
     expect(rb.getAttribute('horizontal')).toEqual('true');
     expect(rb.getAttribute('checked')).toEqual('true');
     expect(rb.checked).toEqual('true');
+  });
+
+  it('can change language from the container', async () => {
+    container.language = 'de';
+    setTimeout(() => {
+      expect(rb.getAttribute('language')).toEqual('de');
+    });
   });
 });

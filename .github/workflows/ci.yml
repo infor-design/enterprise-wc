@@ -3,8 +3,6 @@
 name: Build Check
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
     types: [ opened, reopened, synchronize, unlabeled ]
@@ -59,4 +57,3 @@ jobs:
       uses: coverallsapp/github-action@master
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }}
-

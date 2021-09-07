@@ -54,7 +54,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   connectedCallback() {
-    this.handleEvents();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -222,7 +222,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @private
    * @returns {void}
    */
-  handleEvents() {
+  #attachEventHandlers() {
     this.handleBtnCloseClickEvent();
   }
 

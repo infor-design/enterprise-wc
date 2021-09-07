@@ -1,3 +1,8 @@
+import { attributes } from '../../core';
+
+// Import Utils
+import { IdsStringUtils as stringUtils } from '../../utils';
+
 /**
  *Clearable (Shows an x-icon button to clear).
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
@@ -9,6 +14,19 @@ const IdsClearableMixin = (superclass) => class extends superclass {
 
   constructor() {
     super();
+  }
+
+  /* istanbul ignore next */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.DIRTY_TRACKER
+    ];
+  }
+
+  connectedCallback() {
+    super.connectedCallback?.();
+    this.handleClearable();
   }
 
   /**
@@ -170,6 +188,39 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e, 'remove'));
     this.removeClearableButton();
   }
+
+  /**
+   * When set the input will add a clearable x button
+   * @param {boolean|string} value If true will set `clearable` attribute
+   */
+  set clearable(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.CLEARABLE, val.toString());
+    } else {
+      this.removeAttribute(attributes.CLEARABLE);
+    }
+    this.handleClearable();
+  }
+
+  get clearable() { return this.getAttribute(attributes.CLEARABLE); }
+
+  /**
+   * When set the input will force to add a clearable x button on readonly and disabled
+   * @param {boolean|string} value If true will set `clearable-forced` attribute
+   */
+  /* istanbul ignore next */
+  set clearableForced(value) {
+    const val = stringUtils.stringToBool(value);
+    if (val) {
+      this.setAttribute(attributes.CLEARABLE_FORCED, val.toString());
+    } else {
+      this.removeAttribute(attributes.CLEARABLE_FORCED);
+    }
+    this.handleClearable();
+  }
+
+  get clearableForced() { return this.getAttribute(attributes.CLEARABLE_FORCED); }
 };
 
 export default IdsClearableMixin;

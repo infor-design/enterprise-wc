@@ -32,8 +32,19 @@ describe('Ids Color Picker Component', () => {
   });
 
   it('has a disabled attribute', () => {
-    colorpicker.disabled = 'false';
-    expect(colorpicker.getAttribute('disabled')).toEqual('false');
+    colorpicker.disabled = false;
+    expect(colorpicker.getAttribute('disabled')).toEqual(null);
+
+    colorpicker.disabled = true;
+    expect(colorpicker.getAttribute('disabled')).toEqual('true');
+  });
+
+  it('has a readonly attribute', () => {
+    colorpicker.readonly = false;
+    expect(colorpicker.getAttribute('readonly')).toEqual('false');
+
+    colorpicker.readonly = true;
+    expect(colorpicker.getAttribute('readonly')).toEqual('true');
   });
 
   it('has a swatch attribute', () => {
