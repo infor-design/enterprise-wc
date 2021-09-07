@@ -45,13 +45,19 @@ ids-slider {
       border-radius: 50%;
       background-color: #0072ED;
       z-index: 40;
+      justify-content: center;
       
       .label {
         cursor: pointer !important;
         position: absolute;
-        transform: translate(-50%, 100%); // horiz
+        transform: translate(0, 100%); // horiz
+
+        &::part(text) {
+          white-space: nowrap;
+        }
+
         &.vertical {
-          transform: translate(-150%, -25%); // vert
+          transform: translate(-50px, -25%); // vert
           min-width: 50px; // vert
           text-align: right; // vert
         }
