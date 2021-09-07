@@ -1,0 +1,9 @@
+---
+ component: Search Field 
+ link: ids-search-field
+ description: Interactive input for typing in to search for results
+ category: Input
+ keywords: search, field, input
+ examples:
+  - link: index.html
+    description: Showing various search field examples
