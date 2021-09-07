@@ -94,6 +94,22 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
+
+    // When mounting, trigger initial size to parent;
+    // note that we can probably grab this directly from
+    // ids-splitter on first-render but the children
+    // mount before parent on WC.
+    // This is only a quick implementation/MVP to test POC.
+    window.requestAnimationFrame(() => {
+      this.triggerEvent('splitter-pane-size-attrib-change', this, {
+        bubbles: true,
+        detail: {
+          elem: this,
+          paneId: this.paneId,
+          ...this.getSizeMeta()
+        }
+      });
+    });
   }
 
   disconnectedCallback() {
@@ -141,7 +157,7 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
   }
 
   set size(value) {
-    if ((value !== null) && (value !== this.getAttribute.SIZE)) {
+    if ((value !== null) && (value !== this.getAttribute(attributes.SIZE))) {
       this.setAttribute(attributes.SIZE, value);
     }
 
@@ -162,7 +178,7 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
   }
 
   set maxSize(value) {
-    if ((value !== null) && (value !== this.getAttribute.MAX_SIZE)) {
+    if ((value !== null) && (value !== this.getAttribute(attributes.MAX_SIZE))) {
       this.setAttribute(attributes.MAX_SIZE, value);
     }
 
@@ -183,7 +199,7 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
   }
 
   set minSize(value) {
-    if ((value !== null) && (value !== this.getAttribute.MIN_SIZE)) {
+    if ((value !== null) && (value !== this.getAttribute(attributes.MIN_SIZE))) {
       this.setAttribute(attributes.MIN_SIZE, value);
     }
 
@@ -192,6 +208,7 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     }
 
     this.#updateMinSize();
+    console.log('just updated minSize');
     this.#checkToUpdateSizesHash();
   }
 
@@ -223,25 +240,17 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
    */
   getSizeMeta() {
     const sizeMeta = {};
-    if (this.getAttribute(attributes.SIZE) !== null) {
-      sizeMeta.size = {
-        number: this.#size.number,
-        unit: this.#size.unit
-      };
+
+    if (this.hasAttribute(attributes.SIZE)) {
+      sizeMeta.size = this.#size;
     }
 
-    if (this.getAttribute(attributes.MIN_SIZE) !== null) {
-      sizeMeta.minSize = {
-        number: this.#minSize.number,
-        unit: this.#minSize.unit
-      };
+    if (this.hasAttribute(attributes.MIN_SIZE)) {
+      sizeMeta.minSize = this.#minSize;
     }
 
-    if (this.getAttribute(attributes.MAX_SIZE) !== null) {
-      sizeMeta.maxSize = {
-        number: this.#maxSize.number,
-        unit: this.#maxSize.unit
-      };
+    if (this.hasAttribute(attributes.MAX_SIZE)) {
+      sizeMeta.maxSize = this.#maxSize;
     }
 
     return sizeMeta;
@@ -281,14 +290,17 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
    */
   #checkToUpdateSizesHash() {
     const sizesHash = getSizesHash(this.getSizeMeta());
+
     if (sizesHash !== this.#sizesHash) {
       this.#sizesHash = sizesHash;
+      const sizeMeta = this.getSizeMeta();
 
       this.triggerEvent('splitter-pane-size-attrib-change', this, {
         bubbles: true,
         detail: {
+          elem: this,
           paneId: this.paneId,
-          ...this.getSizeMeta()
+          ...sizeMeta
         }
       });
     }

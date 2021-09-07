@@ -113,6 +113,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
     this.onEvent('splitter-pane-size-attrib-change', this, (e) => {
       const {
         detail: {
+          elem,
           paneId,
           size,
           minSize,
@@ -120,9 +121,17 @@ export default class IdsSplitter extends mix(IdsElement).with(
         }
       } = e;
 
-      console.log({
-        paneId, size, minSize, maxSize
-      });
+      // @TODO: also just insert/manage draggables where needed here?
+      // vs in explicit event? (for D.R.Y./base case logic)
+
+      if (this.#paneDraggableMap.has(elem)) {
+        const entry = this.#paneDraggableMap.get(elem);
+        entry.size = size;
+        entry.minSize = minSize;
+        entry.maxSize = maxSize;
+      }
+
+      this.#calculatePaneSizes();
     });
   }
 
@@ -292,18 +301,28 @@ export default class IdsSplitter extends mix(IdsElement).with(
   #onResizePaneViaDraggable({ pane, dragDeltaX, dragDeltaY }) {
     const paneEntry = this.#paneDraggableMap.get(pane);
 
+    /*
     if (paneEntry?.contentRect) {
       const size = this.axis === 'x' ? paneEntry.contentRect.width : paneEntry.contentRect.height;
       pane.size = `${size + (this.axis === 'x' ? dragDeltaX : dragDeltaY)}px`;
     }
+    */
   }
 
   /**
    * Recalculates pane sizes on child ids-splitter-panes
    */
   #calculatePaneSizes() {
+    console.log('calculatePaneSizes() called');
+
+    // @TODO: figure out how to virtually size panes based on:
+    // (1) this.boundingRect
+    // (2) each pane's min/max/size and unit (percent must be translated)
+    // (3) if there are conflicts after sizing e.g. too large, recursively
+    // resize things with max-size, then size if possible, and if not fall back
+    // to every div with min-size as last resort to respect the sizes
+
     for (const [pane, entry] of this.#paneDraggableMap) {
-      const { minSize, maxSize, size } = pane.getSizeMeta();
     }
   }
 }
