@@ -219,7 +219,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     /* istanbul ignore else */
     if (value !== this.isRTL) {
       this.#isRTL = value;
-      this.#trackBounds = this.#calculateBounds();
       this.#moveThumb();
       this.#updateProgressBar();
       this.type === 'double' && this.#moveThumb('secondary');
@@ -274,8 +273,15 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       this.slider.style.setProperty('--percentEnd', maxPercent);
 
       if (this.#trackBounds) {
-        const startPos = this.vertical ? this.#trackBounds.BOTTOM : this.#trackBounds.LEFT;
-        const endPos = this.vertical ? this.#trackBounds.TOP : this.#trackBounds.RIGHT;
+        const {
+          TOP,
+          BOTTOM,
+          LEFT,
+          RIGHT
+        } = this.#trackBounds;
+
+        const startPos = this.vertical ? BOTTOM : LEFT;
+        const endPos = this.vertical ? TOP : RIGHT;
         const centered = false;
         let trans = this.#calcTranslateFromPercent(startPos, endPos, minPercent, centered);
         if (this.vertical || this.isRTL) { trans *= -1; }
@@ -597,20 +603,23 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   /**
-   * Helper method to calculate the percentage of slider from mouse click
+   * Helper method to calculate the percentage of slider from mouse click; not a pure function
    * @param {number} x coordinate of mouse click
    * @param {number} y coordinate of mouse click
    * @returns the percent 
    */
-  #calculatePercentFromClick(x, y) {
-    const top = this.#trackBounds.TOP;
-    const bottom = this.#trackBounds.BOTTOM;
-    const left = this.#trackBounds.LEFT;
-    const right = this.#trackBounds.RIGHT;
+  #calcPercentFromClick(x, y) {
+    this.#refreshTrackBounds();
+    const {
+      TOP,
+      BOTTOM,
+      LEFT,
+      RIGHT
+    } = this.#trackBounds;
 
     const mousePos = this.vertical ? y : x;
-    const startPos = this.vertical ? bottom : this.isRTL ? right : left;
-    const endPos = this.vertical ? top : this.isRTL ? left : right;
+    const startPos = this.vertical ? BOTTOM : this.isRTL ? RIGHT : LEFT;
+    const endPos = this.vertical ? TOP : this.isRTL ? LEFT : RIGHT;
 
     const percent = this.#calcPercentFromRange(mousePos, startPos, endPos);
 
@@ -624,8 +633,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    */
   #calculateUIFromClick(x, y, labelValueClicked) {
     if (this.type !== 'step') {
-      if (!this.#trackBounds) return;
-      const value = labelValueClicked ?? this.#calcValueFromPercent(this.#calculatePercentFromClick(x, y));
+      const value = labelValueClicked ?? this.#calcValueFromPercent(this.#calcPercentFromClick(x, y));
 
       this.#hideTooltip(false);
       const thumbPos = this.vertical
@@ -661,7 +669,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         arr[i] = (this.max / (this.stepNumber - 1)) * i;
       }
 
-      const percent = this.#calculatePercentFromClick(x, y);      
+      const percent = this.#calcPercentFromClick(x, y);      
       const differences = arr.map((val) => Math.abs(val - ((percent / 100) * this.max)));
 
       let min = differences[0];
@@ -684,25 +692,32 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * @param {string} primaryOrSecondary which thumb to move
    */
   #moveThumb(primaryOrSecondary) {
-    if (this.#trackBounds) {
-      let thumbDraggable = this.thumbDraggable;
-      let percent = this.percent;
+    this.#refreshTrackBounds();
 
-      // secondary values
-      if (primaryOrSecondary === 'secondary' && this.type === 'double') {
-        thumbDraggable = this.thumbDraggableSecondary;
-        percent = this.percentSecondary;
-      }
+    let thumbDraggable = this.thumbDraggable;
+    let percent = this.percent;
 
-      const startPos = this.vertical ? this.#trackBounds.BOTTOM :  this.#trackBounds.LEFT;
-      const endPos = this.vertical ? this.#trackBounds.TOP :  this.#trackBounds.RIGHT;
-      const centered = true;
-      let trans = this.#calcTranslateFromPercent(startPos, endPos, percent, centered);
-
-      if (this.vertical || this.isRTL) { trans *= -1; }
-      const transString = this.vertical ? `translate(0, ${trans}px)` : `translate(${trans}px, 0)`;
-      thumbDraggable.style.transform = transString;
+    // secondary values
+    if (primaryOrSecondary === 'secondary' && this.type === 'double') {
+      thumbDraggable = this.thumbDraggableSecondary;
+      percent = this.percentSecondary;
     }
+
+    const {
+      TOP,
+      BOTTOM,
+      LEFT,
+      RIGHT
+    } = this.#trackBounds;
+
+    const startPos = this.vertical ? BOTTOM : LEFT;
+    const endPos = this.vertical ? TOP : RIGHT;
+    const centered = true;
+    let trans = this.#calcTranslateFromPercent(startPos, endPos, percent, centered);
+
+    if (this.vertical || this.isRTL) { trans *= -1; }
+    const transString = this.vertical ? `translate(0, ${trans}px)` : `translate(${trans}px, 0)`;
+    thumbDraggable.style.transform = transString;
   }
 
   /**
@@ -782,7 +797,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * Calculates the x,y coordinates of the bounding box of the clickable track area
    * @returns {object} The track area boundaries
    */
-  #calculateBounds() {
+  #calculateTrackBounds() {
     const rect = this.trackArea.getBoundingClientRect();
     const LEFT = rect.left + window.scrollX;
     const TOP = rect.top + window.scrollY;
@@ -837,13 +852,19 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
   }
 
+  /**
+   * Recalculates and updates the track bounds
+   */
+  #refreshTrackBounds() {
+    this.#trackBounds = this.#calculateTrackBounds();
+  }
+
   /** Checks if the window changes sizes and updates UI accordingly */
   #attachResizeObserver() {
     /* istanbul ignore next */
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.contentBoxSize) {
-          this.#trackBounds = this.#calculateBounds();
           this.#moveThumb();
           this.type === 'double' && this.#moveThumb('secondary');
         }
@@ -861,7 +882,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
       // console.log(event.clientX + ', ' + event.clientY);
       if (idsSliderSelected) {
-        // this.#trackBounds = this.#calculateBounds();
         const clickedLabel = className.includes('label');
         const clickedTrackArea = className.includes('track-area')
 
@@ -912,7 +932,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       this.type !== 'step' && this.#hideTooltip(false);
       
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
-      const percent = this.#calculatePercentFromClick(x, y);
+      const percent = this.#calcPercentFromClick(x, y);
 
       this.#hideThumbShadow(true, obj.primaryOrSecondary);
 
@@ -922,7 +942,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     });
 
     this.onEvent('ids-dragstart', obj.thumbDraggable, () => {
-      this.#trackBounds = this.#calculateBounds();
       this.#toggleTransitionStyles(false);
       obj.thumbDraggable.blur();
       this.type === 'double' && obj.thumbDraggableOther.blur();
