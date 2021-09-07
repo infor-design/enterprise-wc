@@ -597,20 +597,24 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   /**
-   * Helper method for calculating if click was inside track area
+   * Helper method to calculate the percentage of slider from mouse click
    * @param {number} x coordinate of mouse click
    * @param {number} y coordinate of mouse click
-   * @returns {boolean} whether or not the click was inside the track area
+   * @returns the percent 
    */
-  #wasCursorInBoundingBox(x, y) {
-    const {
-      TOP,
-      BOTTOM,
-      LEFT,
-      RIGHT
-    } = this.#trackBounds;
+  #calculatePercentFromClick(x, y) {
+    const top = this.#trackBounds.TOP;
+    const bottom = this.#trackBounds.BOTTOM;
+    const left = this.#trackBounds.LEFT;
+    const right = this.#trackBounds.RIGHT;
 
-    return y >= TOP && y < BOTTOM && x > LEFT && x < RIGHT;
+    const mousePos = this.vertical ? y : x;
+    const startPos = this.vertical ? bottom : this.isRTL ? right : left;
+    const endPos = this.vertical ? top : this.isRTL ? left : right;
+
+    const percent = this.#calcPercentFromRange(mousePos, startPos, endPos);
+
+    return percent;
   }
 
   /**
@@ -618,78 +622,60 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * @param {number} x coordinate of mouse click
    * @param {number} y coordnate of mouse click
    */
-  #calculateUIFromClick(x, y) {
-    if (!this.#trackBounds) return;
+  #calculateUIFromClick(x, y, labelValueClicked) {
+    if (this.type !== 'step') {
+      if (!this.#trackBounds) return;
+      const value = labelValueClicked ?? this.#calcValueFromPercent(this.#calculatePercentFromClick(x, y));
 
-    const top = this.#trackBounds.TOP;
-    const bottom = this.#trackBounds.BOTTOM;
-    const left = this.#trackBounds.LEFT;
-    const right = this.#trackBounds.RIGHT;
+      this.#hideTooltip(false);
+      const thumbPos = this.vertical
+        ? this.thumbDraggable.getBoundingClientRect().y
+        : this.thumbDraggable.getBoundingClientRect().x;
 
-    const clickedTrackArea = this.#wasCursorInBoundingBox(x, y);
+      let thumbDraggable = this.thumbDraggable;
+      let valueAttribute = 'value';
 
-    this.clickFromDrag = false;
+      /* istanbul ignore else */
+      if (this.type === 'double') {
+        this.#hideTooltip(false, 'secondary');
+        const thumbPosSecondary = this.vertical
+          ? this.thumbDraggableSecondary.getBoundingClientRect().y
+          : this.thumbDraggableSecondary.getBoundingClientRect().x;
 
-    if (clickedTrackArea) {
-      const mousePos = this.vertical ? y : x;
-      const startPos = this.vertical ? bottom : this.isRTL ? right : left;
-      const endPos = this.vertical ? top : this.isRTL ? left : right;
-
-      const percent = this.#calcPercentFromMousePos(mousePos, startPos, endPos, this.thumbDraggable.clientWidth);
-      const value = this.#calcValueFromPercent(percent);
-
-      if (this.type !== 'step') {
-        this.#hideTooltip(false);
-        const thumbPos = this.vertical
-          ? this.thumbDraggable.getBoundingClientRect().y
-          : this.thumbDraggable.getBoundingClientRect().x;
-
-        let thumbDraggable = this.thumbDraggable;
-        let valueAttribute = 'value';
-
-        /* istanbul ignore else */
-        if (this.type === 'double') {
-          this.#hideTooltip(false, 'secondary');
-          const thumbPosSecondary = this.vertical
-            ? this.thumbDraggableSecondary.getBoundingClientRect().y
-            : this.thumbDraggableSecondary.getBoundingClientRect().x;
-
-          /* istanbul ignore if */
-          // figure out which thumb is closer to the click location
-          if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
-            thumbDraggable = this.thumbDraggableSecondary;
-            valueAttribute = 'valueSecondary';
-          }
+        /* istanbul ignore if */
+        // figure out which thumb is closer to the click location
+        const mousePos = this.vertical ? y : x;
+        if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
+          thumbDraggable = this.thumbDraggableSecondary;
+          valueAttribute = 'valueSecondary';
         }
-
-        this[valueAttribute] = value;
-        thumbDraggable.focus();
-      } else {
-        // for step sliders, snap to the closest interval
-        const arr = [];
-
-        for (let i = 0; i < this.stepNumber; i++) {
-          arr[i] = (this.max / (this.stepNumber - 1)) * i;
-        }
-        const differences = arr.map((val) => Math.abs(val - ((percent / 100) * this.max)));
-
-        let min = differences[0];
-        let minIndex = 0;
-
-        for (let i = 0; i < differences.length; i++) {
-          if (differences[i] < min) {
-            min = differences[i];
-            minIndex = i;
-          }
-        }
-
-        this.value = arr[minIndex];
-        this.thumbDraggable.focus();
       }
+
+      this[valueAttribute] = value;
+      thumbDraggable.focus();
     } else {
-      // blur both thumbs if click is outside of track area
-      this.thumbDraggable.blur();
-      this.type === 'double' && this.thumbDraggableSecondary.blur();
+      // for step sliders, snap to the closest interval
+      const arr = [];
+
+      for (let i = 0; i < this.stepNumber; i++) {
+        arr[i] = (this.max / (this.stepNumber - 1)) * i;
+      }
+
+      const percent = this.#calculatePercentFromClick(x, y);      
+      const differences = arr.map((val) => Math.abs(val - ((percent / 100) * this.max)));
+
+      let min = differences[0];
+      let minIndex = 0;
+
+      for (let i = 0; i < differences.length; i++) {
+        if (differences[i] < min) {
+          min = differences[i];
+          minIndex = i;
+        }
+      }
+
+      this.value = arr[minIndex];
+      this.thumbDraggable.focus();
     }
   }
 
@@ -755,7 +741,8 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * @param {number} thumbWidth the width of the thumb
    * @returns {number} the percent/location of the thumb relative to the slider
    */
-  #calcPercentFromMousePos(n, nStart, nEnd, thumbWidth) {
+  #calcPercentFromRange(n, nStart, nEnd) {
+    const thumbWidth = this.thumbDraggable.clientWidth;
     let percent = 0;
     // allow bigger hit areas for controlling thumb
     /* istanbul ignore next */
@@ -868,13 +855,25 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   /** Add event listeners for clicking the track area */
   #attachClickListeners() {
-    this.onEvent('click', this, (event) => {
-      const idsSliderSelected = event.target === this;
+    this.onEvent('click', this.container, (event) => {
+      const className = event.target.className;
+      const idsSliderSelected = className.includes('ids-slider') || className.includes('track-area') || className.includes('label');
 
       // console.log(event.clientX + ', ' + event.clientY);
       if (idsSliderSelected) {
-        this.#trackBounds = this.#calculateBounds();
-        this.#calculateUIFromClick(event.clientX, event.clientY);
+        // this.#trackBounds = this.#calculateBounds();
+        const clickedLabel = className.includes('label');
+        const clickedTrackArea = className.includes('track-area')
+
+        if (clickedTrackArea) {
+          this.#calculateUIFromClick(event.clientX, event.clientY);
+        } else if (clickedLabel) {
+          const labelValueClicked = parseFloat(event.target.innerHTML);
+          this.#calculateUIFromClick(event.clientX, event.clientY, labelValueClicked)
+        } else {
+          this.thumbDraggable.blur();
+          this.type === 'double' && this.thumbDraggableSecondary.blur();
+        }
       }
     });
 
@@ -911,26 +910,9 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     // Listen for drag event on draggable thumb
     this.onEvent('ids-drag', obj.thumbDraggable, (e) => {
       this.type !== 'step' && this.#hideTooltip(false);
-
-      const {
-        LEFT,
-        RIGHT,
-        TOP,
-        BOTTOM
-      } = this.#trackBounds;
-
+      
       const [x, y] = [e.detail.mouseX, e.detail.mouseY];
-
-      const mousePos = this.vertical ? y : x;
-      const startPos = this.vertical ? BOTTOM : this.isRTL ? RIGHT : LEFT;
-      const endPos = this.vertical ? TOP : this.isRTL ? LEFT : RIGHT;
-
-      const percent = this.#calcPercentFromMousePos(
-        mousePos,
-        startPos,
-        endPos,
-        obj.thumbDraggable.clientWidth
-      );
+      const percent = this.#calculatePercentFromClick(x, y);
 
       this.#hideThumbShadow(true, obj.primaryOrSecondary);
 
@@ -972,6 +954,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   /** Add event listeners for arrow keys to move thumbs */
   #attachKeyboardListeners() {
     this.onEvent('keydown', this, (event) => {
+
+      if(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
+        event.preventDefault();
+      }
+
       /* istanbul ignore else */
       if (event.target.name === 'ids-slider') {
         let primaryOrSecondary = '';

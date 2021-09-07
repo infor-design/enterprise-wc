@@ -47,6 +47,7 @@ ids-slider {
       z-index: 40;
       
       .label {
+        cursor: pointer !important;
         position: absolute;
         transform: translate(-50%, 100%); // horiz
         &.vertical {
@@ -156,6 +157,7 @@ ids-slider {
     display: flex;
     position: absolute;
     z-index: 50;
+    cursor: pointer !important;
   }
   
   .track {
