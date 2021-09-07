@@ -27,14 +27,14 @@ this.onEvent('languagechange.this', this, async (e) => {
  // Do something with component lang
 });
 
-// Respond to parent changing language
+// Respond to parent changing locale 
 this.offEvent('localechange.container');
 this.onEvent('localechange.container', this.closest('ids-container'), async (e) => {
   await this.locale.setLocale(e.detail.locale.name);
   // Do something with parent locale
 });
 
-// Respond to the element changing language
+// Respond to the element changing locale
 this.offEvent('localechange.this');
 this.onEvent('localechange.this', this, async (e) => {
   await this.locale.setLocale(e.detail.locale.name);
@@ -44,7 +44,7 @@ this.onEvent('localechange.this', this, async (e) => {
 
 ## Ids Locale Mixin (RTL Tips)
 
-One goal of the local mixin is to handler RTL but you don't always need it. The best approach is to try and make your css work either direction before resorting to resets. One useful technique is to use css grid / flex with `end` or `flex-end`. This automatically works in RTL mode without trying to negate a anything.
+One goal of the local mixin is to handle RTL but you don't always need it. The best approach is to try and make your css work either direction before resorting to resets. One useful technique is to use css grid / flex with `end` or `flex-end`. This automatically works in RTL mode without trying to negate a anything.
 
 ```scss
 // On Parent
