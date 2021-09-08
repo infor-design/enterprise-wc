@@ -5,10 +5,8 @@
 
 :host(ids-splitter-pane[axis='x']) {
   height: 100%;
-  width: var(--size, auto);
 }
 
 :host(ids-splitter-pane[axis='y']) {
-  height: var(--size, auto);
   width: 100%;
 }

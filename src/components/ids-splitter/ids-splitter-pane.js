@@ -88,10 +88,6 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     );
   }
 
-  onSizeChange() {
-
-  }
-
   connectedCallback() {
     super.connectedCallback?.();
 
@@ -208,7 +204,6 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     }
 
     this.#updateMinSize();
-    console.log('just updated minSize');
     this.#checkToUpdateSizesHash();
   }
 

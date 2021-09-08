@@ -23,18 +23,15 @@ import styles from './ids-splitter.scss';
 
 // TODO
 
-// (1) detect the size of the overall splitter using
-// MutationObserver + method
-
-// (2) add MutationObserver for children that refreshes the
+// (1) add MutationObserver for childList,
+// or callback on IdsSplitterPane that refreshes the
 // IdsSplitterPanes being tracked if it detects
 // untracked panes suddenly pop in or are removed
 
-// (3) figure out left/top, add styles and inner content on draggable
+// (2) figure out left/top, add styles and inner content
+// on draggable
 
-/**
- * @type {{ x: HTMLTemplateElement, y: HTMLTemplateElement }}
- */
+/** @type {{ x: HTMLTemplateElement, y: HTMLTemplateElement }} */
 const dragHandleTemplates = {};
 
 ['x', 'y'].forEach((axis) => {
@@ -66,13 +63,41 @@ export default class IdsSplitter extends mix(IdsElement).with(
   }
 
   /**
-   * maps panes to associated draggables
+   * Maps panes to associated draggables
    * that are before/after the panes on
    * both sides
    *
    * @type {Map<IdsSplitterPane, { before: IdsDraggable, after: IdsDraggable }>}
    */
   #paneDraggableMap = new Map();
+
+  /** A set of ids-draggables being used */
+  #draggableSet = new Set();
+
+  /** Tracks pane-ids instantiated by this splitter */
+  #paneIdCount = 0;
+
+  /** Responsive rectangle representing the size of the overall splitter */
+  #dimensions = { width: 0, height: 0 };
+
+  /** When the splitter observed size changes, store that in contentRect */
+  #resizeObserver = new ResizeObserver((entries) => {
+    for (const entry of entries) {
+      const contentRect = entry.contentRect?.[0] || entry.contentRect;
+      if (contentRect) {
+        this.#dimensions = {
+          width: contentRect.width,
+          height: contentRect.height
+        };
+
+        this.#updatePaneSizes();
+      }
+    }
+  });
+
+  constructor() {
+    super();
+  }
 
   /**
    * Return the properties we handle as getters/setters
@@ -131,8 +156,10 @@ export default class IdsSplitter extends mix(IdsElement).with(
         entry.maxSize = maxSize;
       }
 
-      this.#calculatePaneSizes();
+      this.#updatePaneSizes();
     });
+
+    this.#resizeObserver.observe(this);
   }
 
   disconnectedCallback() {
@@ -180,11 +207,6 @@ export default class IdsSplitter extends mix(IdsElement).with(
     return stringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
-  /**
-   * set of draggables being used
-   */
-  #draggableSet = new Set();
-
   #refreshPaneMappings() {
     // TODO: instead of clearing pane draggables, re-grab references
     // to the panes/draggable based on their orders and pane-ids
@@ -220,9 +242,6 @@ export default class IdsSplitter extends mix(IdsElement).with(
 
     const paneMappings = [...this.#paneDraggableMap.keys()];
 
-    // TODO: use local var when resize code exists
-    const thisRect = this.getBoundingClientRect();
-
     for (let i = 0; i < paneMappings.length; i += 2) {
       const p1 = paneMappings[i];
       const p2 = ((i + 1) < paneMappings.length) ? paneMappings[i + 1] : undefined;
@@ -256,13 +275,15 @@ export default class IdsSplitter extends mix(IdsElement).with(
       this.onEvent(`splitter-pane-resize.${p1.paneId}`, p1, (e) => {
         p1Entry.contentRect = e.detail.contentRect;
 
-        this.#repositionDraggables();
+        // TODO: update width of pane from pane draggable match/paneId
+        // based on the offset delta of draggable
+        this.#updatePaneSizes();
       });
 
       if (p2) {
         this.onEvent(`splitter-pane-resize.${p2.paneId}`, p2, (e) => {
           p2Entry.contentRect = e.detail.contentRect;
-          this.#repositionDraggables();
+          this.#updatePaneSizes();
         });
       }
 
@@ -270,19 +291,13 @@ export default class IdsSplitter extends mix(IdsElement).with(
     }
   }
 
-  /**
-   * track pane-ids instantiated by this splitter
-   */
-  #paneIdCount = 0;
-
   #getDraggableAxis(axis) {
     return ((axis === 'x') || (axis === 'y')) ? axis : 'x';
   }
 
   #repositionDraggables() {
     let afterOffset = 0;
-    // @TODO: calculate this once in mutation observer
-    const totalWidth = this.getBoundingClientRect().width;
+    const totalWidth = this.#dimensions.width;
 
     [...this.#paneDraggableMap.entries()].forEach(([pane, { contentRect, after }], i) => {
       if (contentRect) {
@@ -309,20 +324,54 @@ export default class IdsSplitter extends mix(IdsElement).with(
     */
   }
 
-  /**
-   * Recalculates pane sizes on child ids-splitter-panes
-   */
-  #calculatePaneSizes() {
-    console.log('calculatePaneSizes() called');
+  /** Recalculates pane sizes on child ids-splitter-panes */
+  #updatePaneSizes() {
+    // Virtually size panes based on:
+    //
+    // (1) this.boundingRect ✅
+    // (2) each pane's min/max/size and unit (percent must be translated) ✅
+    // (3) translated size after dragging (TODO); may need to consider the size
+    // set in pane's "style" prop to see if explicitly declared
+    // (4) if there are conflicts after sizing e.g. too large, recursively
+    //     resize things with max-size, then size if possible, and if not fall back
+    //     to every div with min-size as last resort to respect the sizes
 
-    // @TODO: figure out how to virtually size panes based on:
-    // (1) this.boundingRect
-    // (2) each pane's min/max/size and unit (percent must be translated)
-    // (3) if there are conflicts after sizing e.g. too large, recursively
-    // resize things with max-size, then size if possible, and if not fall back
-    // to every div with min-size as last resort to respect the sizes
+    // Consideration: can natural size be used? would need to measure rect
+    // but may not be efficient (also complicates logic)
+
+    const dimension = (this.axis === 'x') ? 'width' : 'height';
+    const splitterSize = this.#dimensions[dimension];
 
     for (const [pane, entry] of this.#paneDraggableMap) {
+      const {
+        minSize = { value: 0, unit: 'px' },
+        maxSize = { value: splitterSize, unit: 'px' },
+        size = {}
+      } = entry;
+
+      const [minSizePx, maxSizePx, sizePx] = [minSize, maxSize, size].map((sizeEntry) => {
+        if (!sizeEntry) {
+          return undefined;
+        }
+        const { unit, number } = sizeEntry;
+        return unit === '%' ? Math.round(splitterSize * number * 0.01) : number;
+      });
+
+      let limitedSizePx = sizePx || 0;
+      if (minSizePx) {
+        limitedSizePx = Math.max(limitedSizePx, minSizePx);
+      }
+
+      if (maxSizePx) {
+        limitedSizePx = Math.min(limitedSizePx, maxSizePx);
+      }
+
+      pane.style.setProperty(dimension, `${limitedSizePx}px`);
     }
+
+    // TODO: update the left offset of draggables based on sizes applied above;
+    // for example if P1 has width 269px, P1.after IdsDraggable has left === 269px
+
+    this.#repositionDraggables();
   }
 }
