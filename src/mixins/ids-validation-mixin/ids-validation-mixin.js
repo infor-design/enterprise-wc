@@ -5,7 +5,7 @@ import { attributes } from '../../core';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
- const IdsValidationMixin = (superclass) => class extends superclass {
+const IdsValidationMixin = (superclass) => class extends superclass {
   constructor() {
     super();
   }

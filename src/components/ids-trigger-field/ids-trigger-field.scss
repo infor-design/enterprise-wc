@@ -1,29 +1,6 @@
 @import '../../core/ids-base';
 @import '../ids-input/ids-input';
 
-// Input sizes
-$input-sizes: (
-  xs: 75px,
-  sm: 150px,
-  mm: 225px,
-  md: 300px,
-  lg: 400px,
-  full: 100%,
-);
-$input-size-default: map-get($input-sizes, 'md');
-
-@mixin input-sizes {
-  @each $key, $val in $input-sizes {
-    ::slotted(ids-input[size='#{$key}']) {
-      max-width: $val;
-    }
-
-    :host([size='#{$key}']) .has-content-borders .ids-trigger-field-content {
-      max-width: $val + 28 + 16; // Add the width and margins of the trigger button.
-    }
-  }
-}
-
 .ids-trigger-field {
   @include flex();
   @include mb-16();
@@ -37,40 +14,6 @@ $input-size-default: map-get($input-sizes, 'md');
 }
 
 .ids-trigger-field-content {
-  @include flex();
-
-  align-items: center;
-  width: 100%;
-}
-
-.has-content-borders {
-  // input sizes: [xs, sm, mm, md, lg, full]
-  &.xs .ids-trigger-field-content {
-    max-width: $input-size-xs;
-  }
-
-  &.sm .ids-trigger-field-content {
-    max-width: $input-size-sm;
-  }
-
-  &.mm .ids-trigger-field-content {
-    max-width: $input-size-mm;
-  }
-
-  &.md .ids-trigger-field-content {
-    max-width: $input-size-md;
-  }
-
-  &.lg .ids-trigger-field-content {
-    max-width: $input-size-lg;
-  }
-
-  &.full .ids-trigger-field-content {
-    max-width: $input-size-full;
-  }
-}
-
-.has-content-borders .ids-trigger-field-content {
   @include antialiased();
   @include bg-white();
   @include box-border();
@@ -78,13 +21,17 @@ $input-size-default: map-get($input-sizes, 'md');
   @include border-slate-40();
   @include border-solid();
   @include font-sans();
+  @include flex();
   @include rounded-default();
   @include text-16();
   @include text-black();
 
+  align-items: center;
   -webkit-appearance: none;
   border-collapse: separate;
   border-radius: 2px;
+  height: $input-field-height-md;
+  width: 100%;
 
   &:hover {
     @include border-slate-90();
@@ -93,6 +40,11 @@ $input-size-default: map-get($input-sizes, 'md');
   &.disabled {
     @include border-slate-30();
     @include text-slate-30();
+  }
+
+  &[readonly] {
+    @include bg-slate-20();
+    @include border-slate-40();
   }
 
   // input message: [alert, error, info, success]
@@ -164,12 +116,40 @@ $input-size-default: map-get($input-sizes, 'md');
   }
 }
 
-.has-content-borders:focus-within .ids-trigger-field-content {
-  @include border-azure-60();
-  @include shadow();
+// input sizes: [xs, sm, mm, md, lg, full]
+.ids-trigger-field.xs .ids-trigger-field-content {
+  max-width: $input-size-xs;
+}
 
-  outline: none;
-  outline-color: transparent;
+.ids-trigger-field.sm .ids-trigger-field-content {
+  max-width: $input-size-sm;
+}
+
+.ids-trigger-field.mm .ids-trigger-field-content {
+  max-width: $input-size-mm;
+}
+
+.ids-trigger-field.md .ids-trigger-field-content {
+  max-width: $input-size-md;
+}
+
+.ids-trigger-field.lg .ids-trigger-field-content {
+  max-width: $input-size-lg;
+}
+
+.ids-trigger-field.full .ids-trigger-field-content {
+  max-width: $input-size-full;
+}
+
+.ids-trigger-field:focus-within,
+.ids-trigger-field.is-active {
+  .ids-trigger-field-content:not(.error):not(.info):not(.success) {
+    @include border-azure-60();
+    @include shadow();
+
+    outline: none;
+    outline-color: transparent;
+  }
 }
 
 ::slotted(ids-trigger-button) {
@@ -187,10 +167,8 @@ $input-size-default: map-get($input-sizes, 'md');
   z-index: 1;
 }
 
-@include input-sizes();
-
 // Handle Themes
-.has-content-borders[mode='dark'] .ids-trigger-field-content {
+.ids-trigger-field[mode='dark'] .ids-trigger-field-content {
   @include bg-transparent();
   @include border-slate-40();
   @include text-white();
@@ -215,7 +193,7 @@ $input-size-default: map-get($input-sizes, 'md');
   }
 }
 
-.has-content-borders[mode='contrast'] .ids-trigger-field-content {
+.ids-trigger-field[mode='contrast'] .ids-trigger-field-content {
   @include bg-white();
   @include border-slate-40();
   @include text-black();
@@ -240,7 +218,7 @@ $input-size-default: map-get($input-sizes, 'md');
   }
 }
 
-.has-content-borders[version='classic'][mode='light'] .ids-trigger-field-content {
+.ids-trigger-field[version='classic'][mode='light'] .ids-trigger-field-content {
   @include bg-transparent();
   @include border-graphite-40();
   @include text-graphite-100();
@@ -265,7 +243,7 @@ $input-size-default: map-get($input-sizes, 'md');
   }
 }
 
-.has-content-borders[version='classic'][mode='dark'] .ids-trigger-field-content {
+.ids-trigger-field[version='classic'][mode='dark'] .ids-trigger-field-content {
   @include bg-transparent();
   @include border-slate-40();
   @include text-white();
@@ -290,7 +268,7 @@ $input-size-default: map-get($input-sizes, 'md');
   }
 }
 
-.has-content-borders[version='classic'][mode='contrast'] .ids-trigger-field-content {
+.ids-trigger-field[version='classic'][mode='contrast'] .ids-trigger-field-content {
   @include bg-white();
   @include border-graphite-80();
   @include text-graphite-100();
@@ -317,6 +295,8 @@ $input-size-default: map-get($input-sizes, 'md');
   }
 }
 
+// Not sure why we need to do this
 .validation-message {
+  margin-bottom: 12px;
   margin-top: -12px;
 }

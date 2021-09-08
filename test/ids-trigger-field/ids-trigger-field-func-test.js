@@ -23,7 +23,6 @@ const DEFAULT_TRIGGERFIELD_HTML = (
       size="sm"
       tabbable="false"
       label="Date Field"
-      content-borders
     >
       <ids-input></ids-input>
       <ids-trigger-button>
@@ -40,7 +39,6 @@ const REQUIRED_TRIGGERFIELD_HTML = (
       size="sm"
       tabbable="false"
       label="Date Field"
-      content-borders
       validate="required"
     >
       <ids-input></ids-input>
@@ -58,7 +56,6 @@ const DISABLED_TRIGGERFIELD_HTML = (
       size="sm"
       tabbable="false"
       label="Date Field"
-      content-borders
       disabled="true"
     >
       <ids-input></ids-input>

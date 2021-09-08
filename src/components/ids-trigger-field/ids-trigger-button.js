@@ -52,8 +52,13 @@ class IdsTriggerButton extends IdsButton {
   set tabbable(value) {
     const isTabbable = stringUtils.stringToBool(value);
     const button = this.shadowRoot?.querySelector('button');
-    this.setAttribute(attributes.TABBABLE, value.toString());
-    button.tabIndex = !isTabbable ? '-1' : '0';
+    if (isTabbable) {
+      this.setAttribute(attributes.TABBABLE, 'true');
+      button.setAttribute(attributes.TABINDEX, '0');
+      return;
+    }
+    this.setAttribute(attributes.TABBABLE, 'false');
+    button.setAttribute(attributes.TABINDEX, '-1');
   }
 
   get tabbable() { return this.getAttribute(attributes.TABBABLE) || true; }
@@ -67,10 +72,12 @@ class IdsTriggerButton extends IdsButton {
     const button = this.shadowRoot?.querySelector('button');
     if (isReadonly) {
       button.setAttribute(attributes.READONLY, 'true');
+      button.setAttribute(attributes.TABINDEX, '-1');
       this.setAttribute(attributes.READONLY, 'true');
       return;
     }
     button.removeAttribute(attributes.READONLY);
+    button.setAttribute(attributes.TABINDEX, this.tabbable ? '0' : '-1');
     this.removeAttribute(attributes.READONLY);
   }
 

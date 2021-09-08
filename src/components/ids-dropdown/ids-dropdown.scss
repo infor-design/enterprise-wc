@@ -1,8 +1,17 @@
 /* Ids Dropdown Component */
 @import '../../mixins/sass/ids-validation-mixin';
 
-// Styles are in list-box, popup and triggr field
+// Most Styles are in list-box, popup and trigger field
+ids-trigger-button {
+  width: 34px;
+}
 
-.validation-message {
-  margin-top: - 10px;
+// Icon Placement
+.icon-container {
+  @include text-slate-100();
+  @include mx-8();
+  @include my-4();
+
+  position: relative;
+  top: 2px;
 }

@@ -1,6 +1,7 @@
 // Please keep constants alphabetized
 export const attributes = {
   ACCEPT: 'accept',
+  ADVANCED: 'advanced',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
   ANIMATION_STYLE: 'animation-style',
@@ -38,7 +39,6 @@ export const attributes = {
   COLOR_VARIANT: 'color-variant',
   COLS: 'cols',
   COMPACT: 'compact',
-  CONTENT_BORDERS: 'content-borders',
   COUNT: 'count',
   CLICKABLE: 'clickable',
   CSS_CLASS: 'css-class',

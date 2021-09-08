@@ -11,6 +11,7 @@
 - [ ] Tooltip
 - [ ] Ajax (callbacks) / Dataset
 - [ ] Themes
+- [ ] RTL
 - [ ] Tests
 - [ ] Docs
 - [ ] Keyboard

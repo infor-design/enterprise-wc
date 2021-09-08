@@ -9,12 +9,11 @@
   @include p-0();
   @include rounded-round();
   @include text-slate-60();
+  @include mx-4;
 
   align-items: center;
   justify-content: center;
   height: 28px;
-  margin-right: -32px;
-  margin-left: -32px;
   width: 28px;
 
   &:focus {
@@ -40,14 +39,6 @@
   &[readonly] {
     @include cursor-text();
     @include text-slate-40();
-  }
-
-  ::slotted(ids-icon) {
-    margin: 0 3px;
-  }
-
-  &.triggerfield-has-content-borders {
-    @include mx-8;
   }
 }
 

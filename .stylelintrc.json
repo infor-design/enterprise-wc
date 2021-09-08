@@ -20,7 +20,7 @@
     ],
     "max-nesting-depth": 3,
     "no-descending-specificity": null,
-    "order/properties-alphabetical-order": null,
+    "order/properties-alphabetical-order": true,
     "selector-pseudo-class-no-unknown": [true, {
       "ignorePseudoClasses": ["root", "host", "unresolved", "part", "::part"]
     }],

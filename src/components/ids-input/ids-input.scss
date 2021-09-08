@@ -3,20 +3,6 @@
 @import '../../mixins/sass/ids-dirty-tracker-mixin';
 @import '../../mixins/sass/ids-validation-mixin';
 
-// Field Sizes
-$input-size-xs: 75px;
-$input-size-sm: 150px;
-$input-size-mm: 225px;
-$input-size-md: 300px;
-$input-size-lg: 400px;
-$input-size-full: 100%;
-
-// Field Field Height
-$input-field-height-xs: 28px;
-$input-field-height-sm: 30px;
-$input-field-height-md: 38px;
-$input-field-height-lg: 48px;
-
 // Set default
 $input-size-default: $input-size-md;
 $input-field-height-default: $input-field-height-md;
@@ -84,7 +70,6 @@ $input-compact-height: $input-field-height-xs;
 
 .ids-input {
   @include block();
-  @include mb-16();
 
   .field-container {
     @include m-0();
@@ -109,6 +94,7 @@ $input-compact-height: $input-field-height-xs;
     @include text-16();
     @include text-black();
     @include w-full();
+    @include mb-16();
 
     -webkit-appearance: none;
     border-collapse: separate;
@@ -123,18 +109,12 @@ $input-compact-height: $input-field-height-xs;
     }
 
     &:focus,
-    &.is-active,
     &:focus[readonly] {
       @include border-azure-60();
       @include shadow();
 
       outline: none;
       outline-color: transparent;
-    }
-
-    &.is-active {
-      border-color: var(--ids-color-palette-azure-60) !important;
-      border-radius: 2px 2px 0 0;
     }
 
     &[disabled] {
@@ -246,6 +226,15 @@ $input-compact-height: $input-field-height-xs;
         @include text-emerald-30();
       }
     }
+
+    &.has-triggerfield {
+      border: none;
+      margin-bottom: 0;
+
+      &:focus {
+        box-shadow: none;
+      }
+    }
   }
 
   // input sizes: [xs, sm, mm, md, lg, full]
@@ -284,6 +273,10 @@ $input-compact-height: $input-field-height-xs;
 
   &.field-height-md .ids-input-field {
     height: $input-field-height-md;
+
+    &.has-triggerfield {
+      height: $input-field-height-md - 2;
+    }
   }
 
   &.field-height-lg .ids-input-field {
@@ -295,32 +288,11 @@ $input-compact-height: $input-field-height-xs;
     @include input-extra-small-height($input-compact-height);
   }
 
-  &.no-borders {
-    .ids-input-field {
-      border: none;
-    }
-  }
-
   &.no-margins {
     margin: 0;
 
     .ids-input-field {
       margin: 0;
-    }
-  }
-
-  &.triggerfield-has-content-borders {
-    margin-bottom: 0;
-
-    .ids-input-field {
-      &.has-triggerfield {
-        border: none;
-        margin-bottom: 0;
-      }
-
-      &:focus {
-        box-shadow: none;
-      }
     }
   }
 }

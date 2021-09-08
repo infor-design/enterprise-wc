@@ -148,7 +148,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   connectedCallback() {
     super.connectedCallback?.();
-
     this.handleEvents();
     this.handleClearable();
     this.handleDirtyTracker();

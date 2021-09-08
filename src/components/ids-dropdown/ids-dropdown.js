@@ -75,6 +75,8 @@ class IdsDropdown extends mix(IdsElement).with(
     this.fieldContainer = this.container.querySelector('ids-input')?.shadowRoot.querySelector('.field-container');
     this.trigger = this.shadowRoot.querySelector('ids-trigger-button');
     this.input = this.inputRoot?.shadowRoot?.querySelector('input');
+    this.triggerContent = this.container.shadowRoot.querySelector('.ids-trigger-field-content');
+    this.triggerField = this.container.shadowRoot.querySelector('.ids-trigger-field');
     this.listBox = this.querySelector('ids-list-box');
     this.labelEl = this.inputRoot?.shadowRoot.querySelector('label');
 
@@ -112,12 +114,28 @@ class IdsDropdown extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
+    this.hasIcons = this.querySelector('ids-list-box-option ids-icon');
+
     return `
-    <ids-trigger-field>
-      <ids-input label="${this.label}" disabled="${this.disabled}" readonly="true" size="md" ${!this.disabled && !this.readonly ? 'cursor="pointer"' : ''} ${this.readonly ? 'cursor="text"' : ''} readonly bg-transparent="${!this.readonly && !this.disabled}" user-select="none"></ids-input>
-      <ids-trigger-button tabbable="false" disabled="${this.disabled}" readonly="${this.readonly}">
+    <ids-trigger-field
+      label="${this.label}"
+      ${this.disabled ? ' disabled="true"' : ''}
+      ${this.readonly ? ' readonly="true"' : ''}
+      ${this.validate ? ` validate="${this.validate}"` : ''}
+      ${this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
+      ${this.hasIcons ? '<span class="icon-container"><ids-icon icon="user-profile"></ids-icon></span>' : ''}
+      <ids-input
+        part="container"
+        disabled="${this.disabled}"
+        readonly="true"
+        label-hidden="true" ${!this.disabled && !this.readonly ? 'cursor="pointer"' : ''}
+        ${this.readonly ? 'cursor="text"' : ''}
+        readonly bg-transparent="${!this.readonly && !this.disabled}"
+        user-select="none" triggerfield="true"></ids-input>
+      <ids-trigger-button part="trigger-button" tabbable="false" disabled="${this.disabled}"
+      readonly="${this.readonly}">
         <ids-text audible="true">Dropdown Button</ids-text>
-        <ids-icon slot="icon" icon="dropdown"></ids-icon>
+        <ids-icon slot="icon" icon="dropdown" part="icon"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
     <ids-popup type="menu">
@@ -168,7 +186,8 @@ class IdsDropdown extends mix(IdsElement).with(
     }
     this.#clearSelected();
     this.#selectOption(elem);
-    this.shadowRoot.querySelector('ids-input').value = elem.textContent;
+    this.#selectIcon(elem);
+    this.shadowRoot.querySelector('ids-input').value = elem.textContent.trim();
     this.state.selectedIndex = [...elem.parentElement.children].indexOf(elem);
     this.setAttribute('value', value);
   }
@@ -277,6 +296,7 @@ class IdsDropdown extends mix(IdsElement).with(
 
   /**
    * Set the aria and state on the element
+   * @private
    * @param {HTMLElement} option the option to select
    */
    #selectOption(option) {
@@ -285,15 +305,24 @@ class IdsDropdown extends mix(IdsElement).with(
   }
 
   /**
+   * Set the icon to be visible (if used)
+   * @private
+   * @param {HTMLElement} option the option to select
+   */
+  #selectIcon(option) {
+     console.log(option);
+   }
+
+  /**
    * Remove the aria and state from the currently selected element
    */
   #clearSelected() {
-     const option = this.querySelector('ids-list-box-option[aria-selected]');
-     if (option) {
-       option.removeAttribute('aria-selected');
-       option.classList.remove('is-selected');
-     }
-   }
+    const option = this.querySelector('ids-list-box-option[aria-selected]');
+    if (option) {
+      option.removeAttribute('aria-selected');
+      option.classList.remove('is-selected');
+    }
+  }
 
   /**
    * Open the dropdown list
@@ -304,14 +333,14 @@ class IdsDropdown extends mix(IdsElement).with(
     }
 
     // Open the popup and add a class
-    this.popup.alignTarget = this.container.querySelector('ids-input').shadowRoot.querySelector('.field-container');
+    this.popup.alignTarget = this.triggerContent;
     this.popup.align = 'bottom, left';
     this.popup.arrow = 'none';
-    this.popup.y = -5;
+    this.popup.y = -1;
     this.popup.visible = true;
     this.popup.type = 'dropdown';
     this.addOpenEvents();
-    this.input.classList.add('is-active');
+    this.triggerField.classList.add('is-active');
     this.input.setAttribute('aria-expanded', 'true');
 
     // Add aria for the open state
@@ -338,7 +367,7 @@ class IdsDropdown extends mix(IdsElement).with(
    */
   close(noFocus) {
     this.popup.visible = false;
-    this.input.classList.remove('is-active');
+    this.triggerField.classList.remove('is-active');
     this.input.setAttribute('aria-expanded', 'false');
     const selected = this.querySelector('ids-list-box-option.is-selected');
 
@@ -514,8 +543,10 @@ class IdsDropdown extends mix(IdsElement).with(
   set validate(value) {
     if (value) {
       this.setAttribute(attributes.VALIDATE, value.toString());
+      this.container.setAttribute(attributes.VALIDATE, value.toString());
     } else {
       this.removeAttribute(attributes.VALIDATE);
+      this.container.removeAttribute(attributes.VALIDATE);
     }
     this.handleValidation();
   }
@@ -529,8 +560,10 @@ class IdsDropdown extends mix(IdsElement).with(
   set validationEvents(value) {
     if (value) {
       this.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
+      this.container.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
     } else {
       this.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.container.removeAttribute(attributes.VALIDATION_EVENTS);
     }
     this.handleValidation();
   }
