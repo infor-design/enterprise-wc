@@ -1,6 +1,6 @@
 import percySnapshot from '@percy/puppeteer';
 
-describe('Ids Progress Chart Percy Tests', () => {
+describe('Ids Slider Percy Tests', () => {
   const url = 'http://localhost:4444/ids-slider';
 
   it('should not have visual regressions in new light theme (percy)', async () => {

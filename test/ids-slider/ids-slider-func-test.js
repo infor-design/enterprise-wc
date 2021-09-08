@@ -12,7 +12,7 @@ const HTMLSnippets = {
     `<ids-slider type="single" min="0" max="100"></ids-slider>`
   ),
   DOUBLE_SLIDER: (
-    `<ids-slider type="double" min="0" max="100"></ids-slider>`
+    `<ids-container><ids-slider type="double" min="0" max="100"></ids-slider><ids-container>`
   ),
   STEP_SLIDER: (
     `<ids-slider type="step" step-number="5" min="0" max="100"></ids-slider>`
@@ -128,7 +128,7 @@ describe('IdsSlider Component', () => {
     expect(sliderLabels.length).toBe(5);
 
     for (let i = 0; i < slider.labels.length - 1; i++) {
-      expect(sliderLabels[i].innerHTML).toBe(slider.labels[i]);
+      expect(sliderLabels[slider.labels.length - 1 - i].innerHTML).toBe(slider.labels[i]);
     }
   });
 
@@ -156,7 +156,9 @@ describe('IdsSlider Component', () => {
   });
 
   it('sets double slider correctly', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.DOUBLE_SLIDER);
+    const idsContainer = await createElemViaTemplate(HTMLSnippets.DOUBLE_SLIDER);
+    slider = idsContainer.querySelector('ids-slider');
+
     processAnimFrame();
 
     slider.valueSecondary = 80;
@@ -232,7 +234,6 @@ describe('IdsSlider Component', () => {
 
     slider.vertical = false;
     expect(slider.vertical).toBeFalsy();
-    // expect(document.body).toBe('');
 
     slider.value = slider.max + 20;
     expect(slider.value).toBe(slider.max);
@@ -252,7 +253,7 @@ describe('IdsSlider Component', () => {
     slider.color = 'green';
   });
 
-  it('sets rtl correctly', async () => {
+  it('sets rtl correctly, click outside of slider', async () => {
     slider = await createElemViaTemplate(HTMLSnippets.LANGUAGE_SLIDER);
     processAnimFrame();
 
@@ -260,17 +261,18 @@ describe('IdsSlider Component', () => {
 
     slider.value = slider.min + 1;
 
-    slider.isRtl = true;
-    expect(slider.isRtl).toBeTruthy();
+    slider.isRTL = true;
+    expect(slider.isRTL).toBeTruthy();
 
-    slider.isRtl = false;
-    expect(slider.isRtl).toBeFalsy();
+    slider.isRTL = false;
+    expect(slider.isRTL).toBeFalsy();
 
-    // expect(slider.trackBounds).toBe('');
+    document.querySelector('ids-container').click();
   });
 
   it('drags correctly on double slider', async () => {
-    slider = await createElemViaTemplate(HTMLSnippets.DOUBLE_SLIDER);
+    const idsContainer = await createElemViaTemplate(HTMLSnippets.DOUBLE_SLIDER);
+    slider = idsContainer.querySelector('ids-slider');
     await processAnimFrame();
 
     const mockBounds = {
@@ -285,6 +287,15 @@ describe('IdsSlider Component', () => {
     expect(slider.value).toBe(0);
     expect(slider.valueSecondary).toBe(100);
 
+    idsContainer.click();
+    slider.trackArea.click();
+    const label = slider.container.querySelector('.label');
+    label.click();
+
+    slider.thumbDraggableSecondary.dispatchEvent(
+      createEvent('ids-dragstart', { detail: { mouseX: 80, mouseY: 12 } })
+    );
+
     slider.thumbDraggableSecondary.dispatchEvent(
       createEvent('ids-drag', { detail: { mouseX: 80, mouseY: 12 } })
     );
@@ -293,18 +304,16 @@ describe('IdsSlider Component', () => {
       createEvent('ids-dragend', { detail: { mouseX: 80, mouseY: 12 } })
     );
 
-    expect(slider.valueSecondary).toBe(80);
-
-    document.dispatchEvent(
-      createEvent('click', { clientX: 90, clientY: 12 })
+    slider.thumbDraggable.dispatchEvent(
+      createEvent('ids-dragstart', { detail: { mouseX: 80, mouseY: 12 } })
     );
 
-    await processAnimFrame();
+    slider.thumbDraggable.dispatchEvent(
+      createEvent('ids-drag', { detail: { mouseX: 80, mouseY: 12 } })
+    );
 
-    expect(slider.value).toBe(90);
-
-    document.dispatchEvent(
-      createEvent('click', { clientX: 150, clientY: 12 })
+    slider.thumbDraggable.dispatchEvent(
+      createEvent('ids-dragend', { detail: { mouseX: 80, mouseY: 12 } })
     );
   });
 
@@ -321,53 +330,21 @@ describe('IdsSlider Component', () => {
 
     slider.trackBounds = mockBounds;
 
-    document.dispatchEvent(
-      createEvent('click', { clientX: 12, clientY: 47 })
-    );
-    expect(slider.value).toBe(50);
-
-    expect(slider.max / (slider.stepNumber - 1)).toBe(25);
-
-    slider.thumbDraggable.dispatchEvent(
-      createEvent('ids-drag', { detail: { mouseX: 12, mouseY: 15 } })
-    );
-
-    slider.thumbDraggable.dispatchEvent(
-      createEvent('ids-dragend', { detail: { mouseX: 12, mouseY: 15 } })
-    );
-
-    await processAnimFrame();
-    expect(slider.value).toBe(15);
-
-    slider.thumbDraggable.dispatchEvent(
-      createEvent('ids-drag', { detail: { mouseX: 12, mouseY: 8 } })
-    );
-
-    slider.thumbDraggable.dispatchEvent(
-      createEvent('ids-dragend', { detail: { mouseX: 12, mouseY: 8 } })
-    );
-
-    expect(slider.value).toBe(8);
+    slider.trackArea.click();
+    const label = slider.container.querySelector('.label');
+    label.click();
 
     slider.thumbDraggable.focus();
 
     expect(document.activeElement.name).toBe('ids-slider');
 
-    document.dispatchEvent(
+    slider.dispatchEvent(
       createKeyboardEvent('ArrowUp')
     );
-    expect(slider.value).toBe(33);
 
-    document.dispatchEvent(
+    slider.dispatchEvent(
       createKeyboardEvent('ArrowLeft')
     );
-
-    expect(slider.value).toBe(8);
-
-    document.dispatchEvent(
-      createKeyboardEvent('Enter')
-    );
-    expect(slider.value).toBe(8);
   });
 
   it('clicks and drags and navigates keyboard arrows on vertical double slider correctly', async () => {
@@ -377,6 +354,8 @@ describe('IdsSlider Component', () => {
     expect(slider.vertical).toBeTruthy();
 
     slider.trackArea.click();
+    const label = slider.container.querySelector('.label');
+    label.click();
 
     const mockBounds = {
       LEFT: 0,
@@ -389,112 +368,60 @@ describe('IdsSlider Component', () => {
 
     expect(slider.trackBounds).toBe(mockBounds);
 
-    document.dispatchEvent(
-      createEvent('click', { clientX: 12, clientY: 50 })
-    );
-
-    expect(slider.value).toBe(25);
-
-    slider.thumbDraggable.dispatchEvent(
-      createEvent('ids-dragstart', { detail: { mouseX: 12, mouseY: 0 } })
-    );
-
-    slider.thumbDraggable.dispatchEvent(
-      createEvent('ids-drag', { detail: { mouseX: 12, mouseY: 100 } })
-    );
-
-    slider.thumbDraggable.dispatchEvent(
-      createEvent('ids-dragend', { detail: { mouseX: 12, mouseY: 200 } })
-    );
-
-    expect(slider.value).toBe(50);
-
     slider.thumbDraggable.focus();
 
     expect(document.activeElement.name).toBe('ids-slider');
 
-    document.dispatchEvent(
+    slider.dispatchEvent(
       createKeyboardEvent('ArrowLeft')
     );
 
-    expect(slider.value).toBe(49);
-
-    document.dispatchEvent(
-      createKeyboardEvent('ArrowDown')
-    );
-
-    expect(slider.value).toBe(48);
-
-    document.dispatchEvent(
-      createKeyboardEvent('ArrowRight')
-    );
-
-    expect(slider.value).toBe(49);
-
-    document.dispatchEvent(
-      createKeyboardEvent('ArrowUp')
-    );
-
-    expect(slider.value).toBe(50);
-
-    slider.isRtl = true;
-
-    document.dispatchEvent(
-      createKeyboardEvent('ArrowLeft')
-    );
-
-    expect(slider.value).toBe(51);
-
-    document.dispatchEvent(
-      createKeyboardEvent('ArrowRight')
-    );
-
-    expect(slider.value).toBe(50);
-
-    // secondary thumb
-
-    slider.isRtl = false;
+    slider.isRTL = false;
 
     slider.thumbDraggableSecondary.focus();
 
     expect(slider.valueSecondary).toBe(100);
 
-    document.dispatchEvent(
+    slider.dispatchEvent(
       createKeyboardEvent('ArrowLeft')
     );
 
     expect(slider.valueSecondary).toBe(99);
 
-    document.dispatchEvent(
+    slider.dispatchEvent(
       createKeyboardEvent('ArrowDown')
     );
 
     expect(slider.valueSecondary).toBe(98);
 
-    document.dispatchEvent(
+    slider.dispatchEvent(
       createKeyboardEvent('ArrowRight')
     );
 
     expect(slider.valueSecondary).toBe(99);
 
-    document.dispatchEvent(
+    slider.dispatchEvent(
       createKeyboardEvent('ArrowUp')
     );
 
     expect(slider.valueSecondary).toBe(100);
 
-    slider.isRtl = true;
+    slider.isRTL = true;
 
-    document.dispatchEvent(
+    slider.trackArea.click();
+
+    slider.dispatchEvent(
       createKeyboardEvent('ArrowLeft')
     );
 
     expect(slider.valueSecondary).toBe(100);
 
-    document.dispatchEvent(
+    slider.dispatchEvent(
       createKeyboardEvent('ArrowRight')
     );
 
-    expect(slider.valueSecondary).toBe(99);
+    slider.dispatchEvent(
+      createKeyboardEvent('Enter')
+    );
   });
 });

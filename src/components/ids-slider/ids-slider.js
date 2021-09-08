@@ -653,9 +653,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
           ? this.thumbDraggableSecondary.getBoundingClientRect().y
           : this.thumbDraggableSecondary.getBoundingClientRect().x;
 
-        /* istanbul ignore if */
         // figure out which thumb is closer to the click location
         const mousePos = this.vertical ? y : x;
+
+        /* istanbul ignore next */
         if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
           thumbDraggable = this.thumbDraggableSecondary;
           valueAttribute = 'valueSecondary';
@@ -678,6 +679,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       let min = differences[0];
       let minIndex = 0;
 
+      /* istanbul ignore next */
       for (let i = 0; i < differences.length; i++) {
         if (differences[i] < min) {
           min = differences[i];
@@ -762,10 +764,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     const thumbWidth = this.thumbDraggable.clientWidth;
     let percent = 0;
     // allow bigger hit areas for controlling thumb
-    /* istanbul ignore next */
     const range = Math.abs(nStart - nEnd) - thumbWidth / 2;
     const endDelta = Math.abs(n - nEnd);
     const startDelta = Math.abs(n - nStart);
+    /* istanbul ignore next */
     if (endDelta > range) {
       percent = 0;
     } else if (startDelta > range) {
@@ -819,6 +821,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   #toggleTransitionStyles(toggleOn) {
     if (toggleOn) {
       // primary styles
+      /* istanbul ignore else */
       if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
         this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
         // the progress track transition animation is jittery on vertical and double sliders, so don't add for those
@@ -831,6 +834,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     } else {
       this.thumbDraggable.style.removeProperty('transition');
       this.progressTrack.style.removeProperty('transition');
+      /* istanbul ignore else */
       if (this.type === 'double') this.thumbDraggableSecondary.style.removeProperty('transition');
     }
   }
@@ -845,6 +849,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     this.#updateColor();
 
     // init base min/max labels
+    /* istanbul ignore else */
     if (this.firstTick && this.lastTick) {
       const maxTick = this.vertical ? this.firstTick : this.lastTick;
       const minTick = this.vertical ? this.lastTick : this.firstTick;
@@ -880,22 +885,21 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   #attachClickListeners() {
     this.onEvent('click', this.container, (event) => {
       const className = event.target.className;
-      const idsSliderSelected = className.includes('ids-slider') || className.includes('track-area') || className.includes('label');
+      const clickedIdsSlider = className.includes('ids-slider');
+      const clickedLabel = className.includes('label');
+      const clickedTrackArea = className.includes('track-area');
 
       // console.log(event.clientX + ', ' + event.clientY);
-      if (idsSliderSelected) {
-        const clickedLabel = className.includes('label');
-        const clickedTrackArea = className.includes('track-area');
-
-        if (clickedTrackArea) {
+      if (clickedIdsSlider || clickedLabel || clickedTrackArea) {
+        if (clickedTrackArea || clickedIdsSlider) {
           this.#calculateUIFromClick(event.clientX, event.clientY);
-        } else if (clickedLabel) {
+        } else {
           const labelValueClicked = parseFloat(event.target.innerHTML);
           this.#calculateUIFromClick(event.clientX, event.clientY, labelValueClicked);
-        } else {
-          this.thumbDraggable.blur();
-          this.type === 'double' && this.thumbDraggableSecondary.blur();
         }
+      } else {
+        this.thumbDraggable.blur();
+        this.type === 'double' && this.thumbDraggableSecondary.blur();
       }
     });
 
@@ -974,6 +978,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   /** Add event listeners for arrow keys to move thumbs */
   #attachKeyboardListeners() {
+    /* istanbul ignore next */
     this.onEvent('keydown', this, (event) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
         event.preventDefault();
