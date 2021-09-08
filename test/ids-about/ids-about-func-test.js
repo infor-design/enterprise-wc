@@ -8,6 +8,10 @@ import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsText from '../../src/components/ids-text/ids-text';
 import IdsHyperlink from '../../src/components/ids-hyperlink/ids-hyperlink';
 
+// locale messages
+import { messages as esMessages } from '../../src/components/ids-locale/cultures/es-messages';
+import { messages as jaMessages } from '../../src/components/ids-locale/cultures/ja-messages';
+
 const name = 'ids-about';
 const id = 'test-about-component';
 const productVersion = '4.0.0';
@@ -256,12 +260,42 @@ describe('IdsABout Component locale', () => {
   it('can change language', async () => {
     await component.setLanguage('ar');
     expect(component.getAttribute('dir')).toEqual('rtl');
-    expect(component.container.getAttribute('dir')).toEqual('rtl');
+
+
   });
 
   it('can change language from the container', async () => {
     await container.setLanguage('ar');
     expect(component.getAttribute('dir')).toEqual('rtl');
-    expect(component.container.getAttribute('dir')).toEqual('rtl');
+
+    await container.setLanguage('es');
+
+    // if copyright translates
+    let copyrightOriginal = esMessages.AboutText.value
+      .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
+      .concat(' www.infor.com');
+    let copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
+
+    expect(copyrightOriginal).toEqual(copyrightReceived);
+
+    // if device specs translates
+    let deviceSpecsText = document.querySelector('[slot="device"]').textContent;
+
+    expect(deviceSpecsText).toContain(esMessages.Platform.value);
+
+    await container.setLanguage('ja');
+
+    // if copyright translates
+    copyrightOriginal = jaMessages.AboutText.value
+      .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
+      .concat(' www.infor.com');
+    copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
+
+    expect(copyrightOriginal).toEqual(copyrightReceived);
+
+    // if device specs translates
+    deviceSpecsText = document.querySelector('[slot="device"]').textContent;
+
+    expect(deviceSpecsText).toContain(jaMessages.Platform.value);
   });
 });
