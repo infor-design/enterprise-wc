@@ -9,9 +9,8 @@ ids-trigger-button {
 // Icon Placement
 .icon-container {
   @include text-slate-100();
-  @include mx-8();
-  @include my-4();
 
+  margin: 0 0 0 8px;
   position: relative;
   top: 2px;
 }

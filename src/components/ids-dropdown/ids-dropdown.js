@@ -64,8 +64,6 @@ class IdsDropdown extends mix(IdsElement).with(
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    super.connectedCallback();
-
     // Empty Dropdown
     if (!this.container.querySelector) {
       this.container = document.createElement('ids-trigger-field');
@@ -82,12 +80,9 @@ class IdsDropdown extends mix(IdsElement).with(
 
     this
       .#addAria()
-      .#handleEvents()
-      .#handleKeys();
-
-    // TODO Refactor once 321 is merged
-    this.handleDirtyTracker();
-    this.handleValidation();
+      .#attachEventHandlers()
+      .#attachKeyboardListeners();
+    super.connectedCallback();
   }
 
   /**
@@ -96,14 +91,11 @@ class IdsDropdown extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.DIRTY_TRACKER,
-      attributes.DISABLED,
+      ...attributes.DISABLED,
       attributes.LABEL,
       attributes.LANGUAGE,
       attributes.MODE,
       attributes.READONLY,
-      attributes.VALIDATE,
-      attributes.VALIDATION_EVENTS,
       attributes.VALUE,
       attributes.VERSION
     ];
@@ -310,7 +302,14 @@ class IdsDropdown extends mix(IdsElement).with(
    * @param {HTMLElement} option the option to select
    */
   #selectIcon(option) {
-     console.log(option);
+     if (!this.hasIcons) {
+       return;
+     }
+     const icon = option.querySelector('ids-icon');
+     if (!icon) {
+       return;
+     }
+     this.shadowRoot.querySelector('.icon-container ids-icon').setAttribute('icon', icon.getAttribute('icon'));
    }
 
   /**
@@ -400,7 +399,7 @@ class IdsDropdown extends mix(IdsElement).with(
    * @private
    * @returns {object} The object for chaining.
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     // Handle Clicking the x for dismissible
     this.onEvent('mouseup', this.fieldContainer, () => {
       this.toggle();
@@ -414,6 +413,11 @@ class IdsDropdown extends mix(IdsElement).with(
     this.onEvent('click', this, (e) => {
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
         this.value = e.target.getAttribute('id');
+        return;
+      }
+
+      if (e.target.closest('ids-list-box-option')) {
+        this.value = e.target.closest('ids-list-box-option').getAttribute('id');
       }
     });
 
@@ -455,7 +459,7 @@ class IdsDropdown extends mix(IdsElement).with(
    * @private
    * @returns {object} This API object for chaining
    */
-  #handleKeys() {
+  #attachKeyboardListeners() {
     // Handle up and down arrow
     this.listen(['ArrowDown', 'ArrowUp'], this, (e) => {
       if (!this.popup.visible) {
