@@ -618,8 +618,10 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     } = this.#trackBounds;
 
     const mousePos = this.vertical ? y : x;
-    const startPos = this.vertical ? BOTTOM : this.isRTL ? RIGHT : LEFT;
-    const endPos = this.vertical ? TOP : this.isRTL ? LEFT : RIGHT;
+    const horizontalStart = this.isRTL ? RIGHT : LEFT;
+    const horizontalEnd = this.isRTL ? LEFT : RIGHT;
+    const startPos = this.vertical ? BOTTOM : horizontalStart;
+    const endPos = this.vertical ? TOP : horizontalEnd;
 
     const percent = this.#calcPercentFromRange(mousePos, startPos, endPos);
 
