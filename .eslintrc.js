@@ -97,6 +97,13 @@ module.exports = {
     'template-curly-spacing': ['off'],
     'no-underscore-dangle': ['error', { allow: ['_client'] }],
     'no-unused-expressions': ['error', { allowShortCircuit: true, allowTernary: true }],
+    'max-len': ['error', 120, 2, {
+      ignoreUrls: true,
+      ignoreComments: false,
+      ignoreRegExpLiterals: true,
+      ignoreStrings: true,
+      ignoreTemplateLiterals: true
+    }],
     indent: ['error', 2, { ignoredNodes: ['TemplateLiteral'] }
     ],
   },
