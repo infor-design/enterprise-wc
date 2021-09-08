@@ -385,6 +385,7 @@ class IdsModal extends mix(IdsElement).with(
       overlay = new IdsOverlay();
       overlay.part = 'overlay';
       this.shadowRoot.prepend(overlay);
+      this.popupOpenEventsTarget = overlay;
     } else {
       overlay = this.shadowRoot.querySelector('ids-overlay');
       overlay.remove();
@@ -600,7 +601,8 @@ class IdsModal extends mix(IdsElement).with(
    */
   /* istanbul ignore next */
   onOutsideClick(e) {
-    if (!this.isEqualNode(e.target)) {
+    const isContainedByPopup = IdsDOMUtils.getClosestRootNode(e.target).isEqualNode(this.popup);
+    if (this.isEqualNode(e.target) || isContainedByPopup) {
       return;
     }
     this.hide();
