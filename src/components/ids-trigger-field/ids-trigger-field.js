@@ -71,7 +71,6 @@ class IdsTriggerField extends IdsInput {
   static get attributes() {
     return [
       attributes.APPEARANCE,
-      attributes.CONTENT_BORDERS,
       attributes.DISABLED,
       attributes.DISABLE_EVENTS,
       attributes.LABEL,
