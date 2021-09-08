@@ -95,10 +95,6 @@ export default class IdsSplitter extends mix(IdsElement).with(
     }
   });
 
-  constructor() {
-    super();
-  }
-
   /**
    * Return the properties we handle as getters/setters
    * @returns {Array} The properties in an array
