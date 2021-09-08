@@ -1,0 +1,55 @@
+@import '../../mixins/sass/ids-colorpalette-variables.scss';
+@import '../../core/ids-base.scss';
+
+.ids-step-chart {
+  @include m-16;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+
+  .step-label-container {
+    @include mb-4;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex: 1 1 auto;
+
+    .secondary-label {
+      display: flex;
+      flex-direction: row;
+
+      .completed-label {
+        margin-right: 4px;
+      }
+
+      .icon {
+        @include ml-4;
+      }
+    }
+  }
+
+  .step-chart-container {
+    display: flex;
+    flex-direction: row;
+    flex: 1 1 auto;
+
+    .step {
+      @include m-1;
+
+      @each $name in $color-names {
+        $i: index($color-names, $name);
+        $color: var(#{nth($color-vars, $i)});
+
+        &[color='#{$name}'] {
+          background-color: $color;
+        }
+      }
+
+      height: 13px;
+      border: 1px;
+      flex: 1 1 auto;
+    }
+  }
+}
