@@ -66,4 +66,3 @@
 - [x] add doc comments
 - [x] edit type file
 - [x] change name to attachEventListeners
-

@@ -22,6 +22,7 @@ ids-slider {
   &.vertical {
     height: 92%; // vertical
   }
+
   margin: 25px 4% 50px;
   justify-content: center;
   align-items: center;
@@ -46,21 +47,21 @@ ids-slider {
       background-color: var(--ids-color-brand-primary-base);
       z-index: 40;
       justify-content: center;
-      
-      .label {
-        cursor: pointer !important;
-        position: absolute;
-        transform: translate(0, 100%); // horiz
+    }
 
-        &::part(text) {
-          white-space: nowrap;
-        }
+    .label {
+      cursor: pointer !important;
+      position: absolute;
+      transform: translate(0, 100%); // horiz
 
-        &.vertical {
-          transform: translate(-50px, -25%); // vert
-          min-width: 50px; // vert
-          text-align: right; // vert
-        }
+      &::part(text) {
+        white-space: nowrap;
+      }
+
+      &.vertical {
+        transform: translate(-50px, -25%); // vert
+        min-width: 50px; // vert
+        text-align: right; // vert
       }
     }
   }
@@ -72,7 +73,7 @@ ids-slider {
     width: auto;
     padding: 1px;
     height: auto;
-    background-color: #47474C;
+    background-color: #47474c;
     color: white;
     text-align: center;
     margin: auto;
@@ -91,19 +92,18 @@ ids-slider {
       left: 200%;
       transform: translate(0, -25%);
     }
-    
 
     .pin {
       position: absolute;
-      width: 0; 
-      height: 0; 
+      width: 0;
+      height: 0;
       bottom: -6px; // horizontal
       margin-top: 1px; // horizontal
       left: 14px; // horizontal
       border-left: 6px solid transparent; // horizontal
-      border-top: 6px solid #47474C; // horizontal
+      border-top: 6px solid #47474c; // horizontal
       border-right: 6px solid transparent; // horizontal
-      
+
       &.vertical {
         left: unset;
         bottom: unset;
@@ -116,7 +116,7 @@ ids-slider {
       }
     }
   }
-  
+
   .thumb-draggable {
     display: flex;
     justify-content: center;
@@ -124,9 +124,7 @@ ids-slider {
     border-radius: 50%;
     outline: none;
     position: absolute;
-    
-    --blue-shadow: rgba(0 ,114 ,237, 0.1) 0px 0px 0px 8px;
-    
+
     .thumb-shadow {
       position: absolute;
       border-radius: 50%;
@@ -135,7 +133,7 @@ ids-slider {
       background-color: rgba(0, 114, 237, 0.1);
       border: 1px var(--ids-color-brand-primary-base) solid;
     }
-    
+
     .thumb {
       width: var(--thumb-size);
       height: var(--thumb-size);
@@ -143,7 +141,7 @@ ids-slider {
       background: var(--ids-color-brand-primary-base);
       cursor: pointer !important;
       z-index: 50 !important;
-      
+
       &:hover {
         box-shadow: 0 2px 5px rgb(0 0 0 / 20%);
       }
@@ -157,6 +155,7 @@ ids-slider {
       height: 100%; // vert
       width: 24px; // vert
     }
+
     background-color: transparent;
     align-items: center; // horizontal
     justify-content: center; // vertical
@@ -165,7 +164,7 @@ ids-slider {
     z-index: 50;
     cursor: pointer !important;
   }
-  
+
   .track {
     display: flex;
     align-items: center; // horizontal
@@ -177,11 +176,12 @@ ids-slider {
       width: 4px; // vert
       height: calc(100% - (var(--thumb-size) / 2)); // vert
     }
+
     position: absolute;
     z-index: 30;
     border-radius: 2px;
-    background-color: #97979B;
-    
+    background-color: #97979b;
+
     .track-progress {
       height: inherit;
       position: absolute;
@@ -196,17 +196,15 @@ ids-slider {
       background-color: var(--ids-color-brand-primary-base);
     }
   }
-}
 
-.ids-slider {
   &[mode='contrast'] {
     .tick {
       background-color: var(--ids-color-palette-azure-90);
     }
 
     .thumb-shadow {
-     border: var(--ids-color-palette-azure-90); 
-     background-color: rgba(0, 74, 153, 0.1);
+      border: var(--ids-color-palette-azure-90);
+      background-color: rgba(0, 74, 153, 0.1);
     }
 
     .thumb {
