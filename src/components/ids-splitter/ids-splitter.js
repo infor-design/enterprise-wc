@@ -295,9 +295,14 @@ export default class IdsSplitter extends mix(IdsElement).with(
     let afterOffset = 0;
     const totalWidth = this.#dimensions.width;
 
-    [...this.#paneDraggableMap.entries()].forEach(([pane, { contentRect, after }], i) => {
-      if (contentRect) {
-        afterOffset += this.axis === 'x' ? contentRect.width : contentRect.height;
+    [...this.#paneDraggableMap.entries()].forEach(([pane, { after }], i) => {
+      // Note: getBoundingClientRect is somewhat expensive;
+      // this call should not be abused if it can be helped
+      // (possibly can use observers or cache based on conditions/setting in size
+      // method?)
+      const paneRect = pane.getBoundingClientRect();
+      if (paneRect) {
+        afterOffset += this.axis === 'x' ? paneRect.width : paneRect.height;
         if (after) {
           after.style.setProperty('transform', `translateX(${afterOffset}px)`);
         }
