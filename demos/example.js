@@ -1,5 +1,6 @@
 // Import Every Yaml File
 import accordionYaml from './ids-accordion/index.yaml';
+import aboutYaml from './ids-about/index.yaml';
 import alertYaml from './ids-alert/index.yaml';
 import badgeYaml from './ids-badge/index.yaml';
 import blockGridYaml from './ids-block-grid/index.yaml';
@@ -71,6 +72,7 @@ const addYaml = (yaml) => {
 
 // Add each yaml file
 addYaml(accordionYaml);
+addYaml(aboutYaml);
 addYaml(alertYaml);
 addYaml(badgeYaml);
 addYaml(blockGridYaml);
