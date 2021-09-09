@@ -73,7 +73,7 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) 
       }
     });
 
-    this.onEvent('languagechange', this, async (e) => {
+    this.onEvent('languagechange.menu-item', this, async (e) => {
       this.querySelectorAll('ids-menu-item')?.forEach((menuItem) => {
         menuItem?.setLanguage(e.detail.language.name);
       });

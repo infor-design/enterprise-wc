@@ -54,8 +54,8 @@ class IdsThemeSwitcher extends mix(IdsElement).with(
       }
     });
 
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.switcher-container');
+    this.onEvent('languagechange.switcher-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       await this.shadowRoot.querySelector('ids-popup-menu').setLanguage(e.detail.language.name);
       await this.shadowRoot.querySelector('ids-popup-menu')
