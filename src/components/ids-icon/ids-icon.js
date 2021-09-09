@@ -91,7 +91,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    */
   template() {
     const size = sizes[this.size];
-    return `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" aria-hidden="true">
+    return `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${this.height || size}" width="${this.width || size}" viewBox="${this.viewbox || '0 0 18 18'}" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
   }
@@ -248,8 +248,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     if (value && sizes[value]) {
       const size = sizes[this.size];
       this.setAttribute(attributes.SIZE, value);
-      this.shadowRoot?.querySelector('svg')?.setAttribute('height', size);
-      this.shadowRoot?.querySelector('svg')?.setAttribute('width', size);
+      this.shadowRoot?.querySelector('svg')?.setAttribute('height', this.height || size);
+      this.shadowRoot?.querySelector('svg')?.setAttribute('width', this.width || size);
     } else {
       this.removeAttribute(attributes.SIZE);
     }
@@ -268,6 +268,42 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     }
     this.removeAttribute(attributes.VERTICAL);
     this.container.classList.remove('vertical');
+  }
+
+  /**
+   * Showcase implementation of custom width/height and viewBox attributes
+   */
+  get width() { return this.getAttribute('width'); }
+
+  set width(value) {
+    if (value) {
+      this.setAttribute('width', value);
+      this.shadowRoot?.querySelector('svg')?.setAttribute('width', value);
+    } else {
+      this.removeAttribute('width');
+    }
+  }
+
+  get height() { return this.getAttribute('height'); }
+
+  set height(value) {
+    if (value) {
+      this.setAttribute('height', value);
+      this.shadowRoot?.querySelector('svg')?.setAttribute('height', value);
+    } else {
+      this.removeAttribute('height');
+    }
+  }
+
+  get viewbox() { return this.getAttribute('viewbox'); }
+
+  set viewbox(value) {
+    if (value) {
+      this.setAttribute('viewbox', value);
+      this.shadowRoot?.querySelector('svg')?.setAttribute('viewBox', value);
+    } else {
+      this.removeAttribute('viewbox');
+    }
   }
 }
 
