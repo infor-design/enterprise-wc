@@ -266,7 +266,7 @@ describe('IdsABout Component locale', () => {
     // if copyright translates
     let copyrightOriginal = esMessages.AboutText.value
       .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
-      .concat(' www.infor.com');
+      .concat(' www.infor.com.');
     let copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
 
     expect(copyrightOriginal).toEqual(copyrightReceived);
@@ -281,7 +281,7 @@ describe('IdsABout Component locale', () => {
     // if copyright translates
     copyrightOriginal = jaMessages.AboutText.value
       .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
-      .concat(' www.infor.com');
+      .concat(' www.infor.com.');
     copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
 
     expect(copyrightOriginal).toEqual(copyrightReceived);
@@ -301,7 +301,7 @@ describe('IdsABout Component locale', () => {
     // if copyright translates
     let copyrightOriginal = esMessages.AboutText.value
       .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
-      .concat(' www.infor.com');
+      .concat(' www.infor.com.');
     let copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
 
     expect(copyrightOriginal).toEqual(copyrightReceived);
@@ -316,7 +316,7 @@ describe('IdsABout Component locale', () => {
     // if copyright translates
     copyrightOriginal = jaMessages.AboutText.value
       .replace('&copy; {0}', `© ${new Date().getFullYear()}`)
-      .concat(' www.infor.com');
+      .concat(' www.infor.com.');
     copyrightReceived = document.querySelector('[slot="copyright"]').textContent;
 
     expect(copyrightOriginal).toEqual(copyrightReceived);

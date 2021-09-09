@@ -280,7 +280,7 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
   #refreshCopyright() {
     const slot = this.querySelectorAll('[slot="copyright"]');
     const copyrightText = this.locale.translate('AboutText').replace('{0}', this.copyrightYear);
-    const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="https://www.infor.com">www.infor.com</ids-hyperlink></ids-text>`;
+    const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="https://www.infor.com">www.infor.com</ids-hyperlink>.</ids-text>`;
 
     // Clear slot before rerender
     slot.forEach((item) => item.remove());
