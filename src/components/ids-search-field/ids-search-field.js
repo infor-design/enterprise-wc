@@ -89,32 +89,19 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   template() {
-    return (
-      `
-      <div class="ids-search-field" id=${this.id}>
-        <ids-trigger-field 
-          size="md"
-          tabbable="false"
-          label="Search Field"
-        >
-          <ids-input 
-            id=""
-            value="${this.value}"
-            placeholder="hi"
-          >
-          </ids-input>
-          <ids-trigger-button>
-            <ids-text audible="true">Icon trigger</ids-text>
-            <ids-icon
-              slot="icon"
-              icon="search"
-              size="small"
-            ></ids-icon>
-          </ids-trigger-button>
-        </ids-trigger-field>
-      </div>
-   `
-    );
+    return `<ids-trigger-field
+      id="${this.id}"
+      label="Search Field">
+      <ids-input
+        placeholder="Search"
+        value="${this.value}"
+        label-hidden>
+      </ids-input>
+      <ids-trigger-button>
+        <ids-text audible="true">Search trigger</ids-text>
+        <ids-icon slot="icon" icon="search"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>`;
   }
 
   set value(value) {
@@ -150,7 +137,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     //   });
     });
 
-    
     // key press
     // on change
     // search (enter or finish typing)
