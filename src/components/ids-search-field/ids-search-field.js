@@ -13,6 +13,8 @@ import {
   IdsClearableMixin,
 } from '../../mixins';
 
+import { IdsStringUtils } from '../../utils';
+
 import styles from './ids-search-field.scss';
 
 import IdsTriggerField from '../ids-trigger-field';
@@ -33,6 +35,8 @@ const appliedMixins = [
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsClearableMixin
  */
 
 @customElement('ids-search-field')
@@ -44,12 +48,12 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
   static get attributes() {
     return [
-      attributes.VALUE,
+      ...attributes.VALUE,
       attributes.PLACEHOLDER,
       attributes.ID,
       // and other ids-input settings
       // attributes.BG_TRANSPARENT,
-      attributes.CLEARABLE,
+      // attributes.CLEARABLE,
       // attributes.CLEARABLE_FORCED,
       // attributes.COMPACT,
       attributes.DISABLED,
@@ -59,7 +63,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       // attributes.LABEL_REQUIRED,
       // attributes.ID,
       // attributes.MODE,
-      attributes.PLACEHOLDER,
+      // attributes.PLACEHOLDER,
       // attributes.SIZE,
       attributes.READONLY,
       // attributes.TEXT_ALIGN,
@@ -82,10 +86,13 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   connectedCallback() {
     this.input = this.container.querySelector('ids-input');
     this.triggerField = this.container.querySelector('ids-trigger-field');
-    this.triggerButton = this.container.querySelector('ids-trigger-button');
-    this.triggerButtonIcon = this.container.querySelector('ids-trigger-button ids-icon');
+    // this.triggerButton = this.container.querySelector('ids-trigger-button');
+    // this.triggerButtonIcon = this.container.querySelector('ids-trigger-button ids-icon');
+
     this.#attachEventHandlers();
     super.connectedCallback();
+
+    console.log(this.attributes)
   }
 
   template() {
@@ -95,20 +102,23 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
         id="${this.id}"
         label="Search Field"
         tabbable="false"
-        >
+      >
+        <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
         <ids-input
-          value="${this.value}"
-          placeholder="Search"
+        clearable="${this.clearable}"
+        value="${this.value}"
+        placeholder="Search"
         >
         </ids-input>
-        <ids-trigger-button>
-          <ids-text audible="true">Search trigger</ids-text>
-          <ids-icon slot="icon" icon="search" size="medium"></ids-icon>
-        </ids-trigger-button>
       </ids-trigger-field>
     </div>
     `;
   }
+
+//   <ids-trigger-button disabled>
+//   <ids-text audible="true">Search trigger</ids-text>
+//   <ids-icon slot="icon" icon="search" size="medium"></ids-icon>
+// </ids-trigger-button>
 
   set value(value) {
     this.setAttribute(attributes.VALUE, value);
@@ -121,6 +131,16 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   get value() {
     // console.log('getting value ' + this.getAttribute(attributes.VALUE));
     return this.getAttribute(attributes.VALUE) || '';
+  }
+
+  set clearable(value) {
+    const val = IdsStringUtils.stringToBool(value);
+    this.setAttribute(attributes.CLEARABLE, val);
+    this.input.clearable = val;
+  }
+
+  get clearable() {
+    return this.getAttribute(attributes.CLEARABLE);
   }
 
   #attachEventHandlers() {
