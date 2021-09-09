@@ -104,8 +104,9 @@ class IdsLayoutGrid extends IdsElement {
   set auto(value) {
     if (value) {
       this.setAttribute(attributes.AUTO, value.toString());
-      this.classList.remove(fluidGridClass);
       this.classList.add(autoGridClass);
+      this.classList.remove(fluidGridClass);
+      this.removeAttribute(attributes.COLS);
       return;
     }
 
@@ -133,6 +134,8 @@ class IdsLayoutGrid extends IdsElement {
       this.classList.remove(colsGridClass);
       this.classList.add(fluidGridClass);
       this.style.removeProperty('--grid-cols');
+      this.removeAttribute(attributes.AUTO);
+      this.classList.remove(autoGridClass);
     }
 
     if (value === 'fluid-grid-xl') {
@@ -141,10 +144,9 @@ class IdsLayoutGrid extends IdsElement {
       this.classList.add(fluidGridClass);
       this.classList.add(fluidGridXlClass);
       this.style.removeProperty('--grid-cols');
+      this.removeAttribute(attributes.AUTO);
+      this.classList.remove(autoGridClass);
     }
-
-    this.removeAttribute(attributes.AUTO);
-    this.classList.remove(autoGridClass);
   }
 
   get cols() { return this.getAttribute(attributes.COLS); }

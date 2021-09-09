@@ -1,16 +1,18 @@
 {{> ../layouts/head-side-by-side.html }}
 
-<ids-layout-grid>
+<ids-layout-grid auto="true">
   <h2 class="ids-text ids-text-px-12">Web Component Skiplink</h2>
 </ids-layout-grid>
 <ids-skip-link href="#main-content">Skip to Main Content</ids-skip-link>
-<ids-layout-grid>
+<ids-layout-grid auto="true">
   <ids-text font-size="12" type="h1" id="main-content">Skiplink (tab into the page with one tab click)</ids-text>
 </ids-layout-grid>
 
-<ids-layout-grid>
-  <h2 class="ids-text ids-text-px-12">4.x Skiplink</h2>
-  <p>Skiplink (tab into the page with two tab clicks)</p>
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <h2 class="ids-text ids-text-px-12">4.x Skiplink</h2>
+    <p>Skiplink (tab into the page with two tab clicks)</p>
+  </ids-layout-grid-cell>
 </ids-layout-grid>
 <a class="skip-link" href="#maincontent">Skip to Main Content</a>
 
