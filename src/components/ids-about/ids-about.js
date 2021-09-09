@@ -92,23 +92,39 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
   #attachEventHandlers() {
     this.#refreshProduct();
 
-    const container = this.closest('ids-container');
-    const setLanguage = (e) => this.setLanguage(e.detail.language.name);
-    const refreshTextWithTranslation = () => {
+    // const container = this.closest('ids-container');
+    // const setLanguage = (e) => this.setLanguage(e.detail.language.name);
+    // const refreshTextWithTranslation = () => {
+    //   this.#refreshDeviceSpecs();
+    //   this.#refreshCopyright();
+    // };
+    // // Respond to parent changing language
+    // if (container) {
+    //   container.removeEventListener('languagechange', setLanguage);
+    //   container.addEventListener('languagechange', setLanguage);
+    // }
+
+    // // Respond to element changing language
+    // if (this) {
+    //   this.removeEventListener('languagechange', refreshTextWithTranslation);
+    //   this.addEventListener('languagechange', refreshTextWithTranslation);
+    // }
+
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      console.log('ids-about languagechange.container event');
+      await this.setLanguage(e.detail.language.name);
       this.#refreshDeviceSpecs();
       this.#refreshCopyright();
-    };
-    // Respond to parent changing language
-    if (container) {
-      container.removeEventListener('languagechange', setLanguage);
-      container.addEventListener('languagechange', setLanguage);
-    }
+    });
 
-    // Respond to element changing language
-    if (this) {
-      this.removeEventListener('languagechange', refreshTextWithTranslation);
-      this.addEventListener('languagechange', refreshTextWithTranslation);
-    }
+    this.offEvent('languagechange.this');
+    this.onEvent('languagechange.this', this, async (e) => {
+      console.log('ids-about languagechange.this event');
+      await this.locale.setLanguage(e.detail.language.name);
+      this.#refreshDeviceSpecs();
+      this.#refreshCopyright();
+    });
 
     return this;
   }
