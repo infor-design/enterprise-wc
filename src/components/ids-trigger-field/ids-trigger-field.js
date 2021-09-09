@@ -184,9 +184,11 @@ class IdsTriggerField extends IdsInput {
   set tabbable(value) {
     const isTabbable = IdsStringUtils.stringToBool(value);
     /** @type {any} */
-    const button = this.querySelector('ids-trigger-button');
     this.setAttribute(attributes.TABBABLE, value.toString());
-    button.tabbable = isTabbable;
+    const button = this.querySelector('ids-trigger-button');
+    if (button) {
+      button.tabbable = isTabbable;
+    }
   }
 
   get tabbable() { return this.getAttribute(attributes.TABBABLE); }
