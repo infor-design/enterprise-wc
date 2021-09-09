@@ -49,19 +49,19 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       attributes.ID,
       // and other ids-input settings
       // attributes.BG_TRANSPARENT,
-      // attributes.CLEARABLE,
+      attributes.CLEARABLE,
       // attributes.CLEARABLE_FORCED,
       // attributes.COMPACT,
-      // attributes.DISABLED,
+      attributes.DISABLED,
       // attributes.FIELD_HEIGHT,
       // attributes.LABEL,
       // attributes.LABEL_HIDDEN,
       // attributes.LABEL_REQUIRED,
       // attributes.ID,
       // attributes.MODE,
-      // attributes.PLACEHOLDER,
+      attributes.PLACEHOLDER,
       // attributes.SIZE,
-      // attributes.READONLY,
+      attributes.READONLY,
       // attributes.TEXT_ALIGN,
       // attributes.TEXT_ELLIPSIS,
       // attributes.TRIGGERFIELD,
@@ -80,7 +80,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   triggerField;
 
   connectedCallback() {
-    console.log('connectedCallback() this.input')
     this.input = this.container.querySelector('ids-input');
     this.triggerField = this.container.querySelector('ids-trigger-field');
     this.triggerButton = this.container.querySelector('ids-trigger-button');
@@ -109,7 +108,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
             <ids-text audible="true">Icon trigger</ids-text>
             <ids-icon
               slot="icon"
-              icon="close"
+              icon="search"
               size="small"
             ></ids-icon>
           </ids-trigger-button>
@@ -121,8 +120,11 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
   set value(value) {
     this.setAttribute(attributes.VALUE, value.toString().toLowerCase());
-    console.log('this.input set')
-    this.input?.value.setAttribute(attributes.VALUE, value);
+
+    if (this.input) {
+      this.input?.value.setAttribute(attributes.VALUE, value);
+      this.input.dispatchEvent(new Event('change', { bubbles: true }));
+    }
   }
 
   get value() {
@@ -131,6 +133,25 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   #attachEventHandlers() {
+    this.onEvent('change', this.input, (e) => {
+      console.log('change event happening');
+      this.value = e.target.value;
+    });
+
+    this.onEvent('change.input', this.input, (e) => {
+      console.log('change.input event happening');
+      this.value = e.target.value;
+
+      this.triggerEvent(e.type, this, {
+        detail: {
+          elem: this,
+          nativeEvents: e,
+          value: this.value
+        }
+      });
+    });
+
+    
     // key press
     // on change
     // search (enter or finish typing)
