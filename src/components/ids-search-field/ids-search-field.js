@@ -97,8 +97,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
         tabbable="false"
         >
         <ids-input
-          id=" "
-          value="${null}"
+          value="${this.value}"
           placeholder="Search"
         >
         </ids-input>
@@ -112,42 +111,27 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   set value(value) {
-    this.setAttribute(attributes.VALUE, value.toString().toLowerCase());
+    this.setAttribute(attributes.VALUE, value);
 
     if (this.input) {
       this.input.value = value;
-      // this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 
   get value() {
     // console.log('getting value ' + this.getAttribute(attributes.VALUE));
-    return this.getAttribute(attributes.VALUE) || 'no value attrib';
+    return this.getAttribute(attributes.VALUE) || '';
   }
 
   #attachEventHandlers() {
     this.onEvent('change', this.input, (e) => {
-      console.log('change event happening');
-      console.log(this.input);
       this.value = e.target.value;
-    });
-
-    this.onEvent('change.input', this.input, (e) => {
-      console.log('change.input event happening');
-      this.value = e.target.value;
-
-    //   this.triggerEvent(e.type, this, {
-    //     detail: {
-    //       elem: this,
-    //       nativeEvents: e,
-    //       value: this.value
-    //     }
-    //   });
+      // search function
     });
 
     this.onEvent('input', this.input, (e) => {
-      console.log('input event happening');
       this.value = e.target.value;
+      // pop up autocomplete suggestions
     });
 
     // key press
