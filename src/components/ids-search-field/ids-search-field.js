@@ -96,7 +96,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
           size="md"
           tabbable="false"
           label="Search Field"
-          validate="required"
         >
           <ids-input 
             id=""
@@ -122,8 +121,8 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     this.setAttribute(attributes.VALUE, value.toString().toLowerCase());
 
     if (this.input) {
-      this.input?.value.setAttribute(attributes.VALUE, value);
-      this.input.dispatchEvent(new Event('change', { bubbles: true }));
+      this.input.value = value;
+      // this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 
@@ -142,13 +141,13 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       console.log('change.input event happening');
       this.value = e.target.value;
 
-      this.triggerEvent(e.type, this, {
-        detail: {
-          elem: this,
-          nativeEvents: e,
-          value: this.value
-        }
-      });
+    //   this.triggerEvent(e.type, this, {
+    //     detail: {
+    //       elem: this,
+    //       nativeEvents: e,
+    //       value: this.value
+    //     }
+    //   });
     });
 
     
