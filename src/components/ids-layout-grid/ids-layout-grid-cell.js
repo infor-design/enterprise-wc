@@ -28,6 +28,11 @@ class IdsLayoutGridCell extends IdsElement {
     ];
   }
 
+  connectedCallback() {
+  }
+
+  parentColSetting = this.parentElement?.getAttribute(attributes.COLS);
+
   /**
    * Handle The Fill Setting
    * @returns {string | null} The fill to true for theme default color
@@ -59,12 +64,14 @@ class IdsLayoutGridCell extends IdsElement {
       this.style.setProperty('--grid-col-span', value);
       this.classList.add(`ids-layout-grid-col-span`);
 
-      const gridColSetting = this.parentElement?.getAttribute(attributes.COLS);
-      const isGridSystem = gridColSetting === 'layout-grid' || gridColSetting === 'layout-grid-xl';
-      if (isGridSystem) {
-        this.classList.remove(`ids-layout-grid-col-span`);
-        this.classList.add(`ids-layout-grid-col-span-${value}`);
-      }
+      requestAnimationFrame(() => {
+        const isFluidGrid = this.parentElement?.getAttribute(attributes.COLS);
+        if (isFluidGrid) {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-${value}`);
+        }
+      });
+
       return;
     }
 

@@ -98,8 +98,8 @@ describe('IdsLayoutGrid Component', () => {
 
   it('renders auto setting', () => {
     const elem = new IdsLayoutGrid();
-    elem.auto = true;
     document.body.appendChild(elem);
+    elem.auto = true;
     expect(elem.auto).toEqual('true');
     expect(document.querySelectorAll('.ids-layout-grid-auto').length).toEqual(1);
   });
@@ -133,18 +133,18 @@ describe('IdsLayoutGrid Component', () => {
 
   it('renders cols setting', () => {
     const elem = new IdsLayoutGrid();
-    elem.cols = 16;
     document.body.appendChild(elem);
+    elem.cols = 16;
     expect(elem.cols).toEqual('16');
     expect(document.querySelectorAll('.ids-layout-grid-cols').length).toEqual(1);
     expect(elem.getAttribute('style')).toEqual(`--grid-cols: 16;`);
 
-    elem.cols = 'layout-grid';
-    expect(document.querySelectorAll('.ids-layout-grid-system').length).toEqual(1);
+    elem.cols = 'fluid-grid';
+    expect(document.querySelectorAll('.ids-layout-fluid-grid').length).toEqual(2);
     expect(elem.getAttribute('style')).toEqual('');
 
-    elem.cols = 'layout-grid-xl';
-    expect(document.querySelectorAll('.ids-layout-grid-system').length).toEqual(1);
+    elem.cols = 'fluid-grid-xl';
+    expect(document.querySelectorAll('.ids-layout-fluid-grid-xl').length).toEqual(1);
     expect(elem.getAttribute('style')).toEqual('');
   });
 
@@ -154,9 +154,8 @@ describe('IdsLayoutGrid Component', () => {
     document.body.appendChild(elem);
     elem.cols = null;
 
-    expect(elem.cols).toEqual('16');
-    expect(document.querySelectorAll('.ids-layout-grid-cols').length).toEqual(1);
-    expect(elem.getAttribute('style')).toEqual(`--grid-cols: 16;`);
+    expect(elem.cols).toEqual('fluid-grid');
+    expect(document.querySelectorAll('.ids-layout-fluid-grid').length).toEqual(2);
   });
 
   it('renders rows setting', () => {
@@ -204,20 +203,6 @@ describe('IdsLayoutGrid Component', () => {
     expect(col.colSpan).toEqual('4');
     expect(document.querySelectorAll('.ids-layout-grid-col-span').length).toEqual(1);
     expect(col.getAttribute('style')).toEqual(`--grid-col-span: 4;`);
-  });
-
-  it('renders grid system classes if col-span is layout-grid', () => {
-    const col = new IdsLayoutGridCell();
-    col.colSpan = 4;
-    document.body.appendChild(col);
-    expect(col.colSpan).toEqual('4');
-    expect(document.querySelectorAll('.ids-layout-grid-col-span').length).toEqual(1);
-    expect(col.getAttribute('style')).toEqual(`--grid-col-span: 4;`);
-
-    col.parentElement.setAttribute('cols', 'layout-grid');
-    col.colSpan = 4;
-    expect(col.getAttribute('style')).toEqual(`--grid-col-span: 4;`);
-    expect(document.querySelectorAll('.ids-layout-grid-col-span-4').length).toEqual(1);
   });
 
   it('resets col-span setting', () => {

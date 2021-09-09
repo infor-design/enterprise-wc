@@ -19,6 +19,71 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 
 ## Features (With Code Examples)
 
+By default the layout grid is a fluid 12 column responsive grid. Which automatically adheres to the following settings:
+
+```
+XXL: 1440px — 12 columns, 24px gutter, 24px margin
+XL: 1280px — 12 columns, 24px gutter, 24px margin
+L: 1024px — 12 columns, 16px gutter, 16px margin
+M: 840px — 8 columns, 16px gutter, 16px margin
+S: 600px — 4 columns, 16px gutter, 16px margin
+XS: 360px — 4 columns, 16px gutter, 16px margin
+```
+
+```html
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+```
+
+There is also an optional setting `fluid-grid-xl` which converts the grid to 16 columns at XL and greater breakpoints.
+
+```html
+<ids-layout-grid cols="fluid-grid-xl">
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="2" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+```
+
 For auto layout the grid cells have a min/max value of 100px and 1fr respectively. The cells will take up as much space as is available until they reach the threshold of 100px, then they will automatically shift until they reach that threshold again. This removes the need for media queries in many cases.
 
 ```html
@@ -67,71 +132,6 @@ Nested Grid. An IdsLayoutGrid component can be nested inside an IdsLayoutGridCel
    <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
    <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
    <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
-</ids-layout-grid>
-```
-
-Bootstrap style responsive grid example. If you pass `layout-grid` to the cols setting the grid will become a bootstrap style responsive 12 column grid. The grid system adheres to our breakpoints and gutters sizes by default:
-
-```
-XXL: 1440px — 12 columns, 24px gutter, 24px margin
-XL: 1280px — 12 columns, 24px gutter, 24px margin
-L: 1024px — 12 columns, 16px gutter, 16px margin
-M: 840px — 8 columns, 16px gutter, 16px margin
-S: 600px — 4 columns, 16px gutter, 16px margin
-XS: 360px — 4 columns, 16px gutter, 16px margin
-```
-
-```html
-<ids-layout-grid cols="layout-grid">
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-</ids-layout-grid>
-```
-
-There is also an optional setting `layout-grid-xl` which converts the grid to 16 columns at XL and greater breakpoints.
-
-```html
-<ids-layout-grid cols="layout-grid-xl">
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
-  <ids-layout-grid-cell col-span="2" fill="true">
-    <ids-text font-size="12">2 Cols</ids-text>
-  </ids-layout-grid-cell>
 </ids-layout-grid>
 ```
 
