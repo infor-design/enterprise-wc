@@ -3,11 +3,14 @@
  */
 import IdsLayoutGrid from '../../src/components/ids-layout-grid/ids-layout-grid';
 import IdsLayoutGridCell from '../../src/components/ids-layout-grid/ids-layout-grid-cell';
+import IdsContainer from '../../src/components/ids-container';
+import processAnimFrame from '../helpers/process-anim-frame';
 
 describe('IdsLayoutGrid Component', () => {
   let gridElem;
 
   beforeEach(async () => {
+    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
     const grid = new IdsLayoutGrid();
     const cell1 = new IdsLayoutGridCell();
     const cell2 = new IdsLayoutGridCell();
@@ -43,6 +46,11 @@ describe('IdsLayoutGrid Component', () => {
     expect(gridElem.outerHTML).toMatchSnapshot();
     gridElem.fixed = true;
     expect(gridElem.outerHTML).toMatchSnapshot();
+  });
+
+  it('renders fluid-grid setting', async () => {
+    await processAnimFrame();
+    expect(gridElem.getAttribute('cols')).toBe('fluid-grid');
   });
 
   it('renders fixed setting', () => {
@@ -214,6 +222,14 @@ describe('IdsLayoutGrid Component', () => {
     expect(col.colSpan).toEqual(null);
     expect(document.querySelectorAll('.ids-layout-grid-col-span').length).toEqual(0);
     expect(col.getAttribute('style')).toEqual('');
+  });
+
+  it('renders col-span classes', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpan = 4;
+    await processAnimFrame();
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-4').length).toEqual(1);
   });
 
   it('renders col-start setting', () => {

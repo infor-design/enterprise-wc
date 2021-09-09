@@ -16,12 +16,13 @@ The Ids Layout Grid is comprised of 2 web components, IdsLayoutGrid and IdsLayou
 - **GridCell** Any direct child of a grid container, we refer to this as `ids-layout-grid-cell`.
 - **Cols** These are the vertical columns of the grid, also referred to as tracks.
 - **Rows** The horizontal tracks of the grid.
+- **MinColWidth** This sets the minimun col width in the grid's minmax setting.
 
 ## Features (With Code Examples)
 
 By default the layout grid is a fluid 12 column responsive grid. Which automatically adheres to the following settings:
 
-```
+```html
 XXL: 1440px — 12 columns, 24px gutter, 24px margin
 XL: 1280px — 12 columns, 24px gutter, 24px margin
 L: 1024px — 12 columns, 16px gutter, 16px margin
@@ -151,7 +152,7 @@ IdsLayoutGrid
 - Fixed
 - Cols
 - Rows
-- Min Col Width
+- MinColWidth
 
 IdsLayoutGridCell
 - Fill
