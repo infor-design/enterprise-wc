@@ -1,0 +1,19 @@
+// In a CSS only About/Modal, custom sizing/placement CSS is required
+// to create similar output to the WebComponent.
+
+#about-example {
+  // Position the Popup in the center of the page
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  // Enabling scroll for About content area
+  pointer-events: unset;
+
+  // About content paragraph spacing
+  .ids-modal-content {
+    .ids-text {
+      margin-bottom: 8px;
+    }
+  }
+}
