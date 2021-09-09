@@ -705,8 +705,10 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {string} value id
    */
   set id(value) {
-    this.setAttribute(attributes.ID, value);
-    this.input?.setAttribute(attributes.ID, `${value}-input`);
+    if (value !== '') {
+      this.setAttribute(attributes.ID, value);
+      this.input?.setAttribute(attributes.ID, `${value}-input`);
+    }
   }
 
   get id() {
