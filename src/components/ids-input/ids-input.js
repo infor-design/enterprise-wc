@@ -687,7 +687,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     }
 
     this.setAttribute(attributes.VALUE, v);
-    if (this.input?.value !== v) {
+    if (this.input && this.input?.value !== v) {
       this.input.value = v;
       this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
