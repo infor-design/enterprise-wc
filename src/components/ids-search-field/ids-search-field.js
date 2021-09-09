@@ -89,19 +89,26 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   template() {
-    return `<ids-trigger-field
-      id="${this.id}"
-      label="Search Field">
-      <ids-input
-        placeholder="Search"
-        value="${this.value}"
-        label-hidden>
-      </ids-input>
-      <ids-trigger-button>
-        <ids-text audible="true">Search trigger</ids-text>
-        <ids-icon slot="icon" icon="search"></ids-icon>
-      </ids-trigger-button>
-    </ids-trigger-field>`;
+    return `
+    <div class="ids-search-field">
+      <ids-trigger-field
+        id="${this.id}"
+        label="Search Field"
+        tabbable="false"
+        >
+        <ids-input
+          id=" "
+          value="${null}"
+          placeholder="Search"
+        >
+        </ids-input>
+        <ids-trigger-button>
+          <ids-text audible="true">Search trigger</ids-text>
+          <ids-icon slot="icon" icon="search" size="medium"></ids-icon>
+        </ids-trigger-button>
+      </ids-trigger-field>
+    </div>
+    `;
   }
 
   set value(value) {
@@ -121,6 +128,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   #attachEventHandlers() {
     this.onEvent('change', this.input, (e) => {
       console.log('change event happening');
+      console.log(this.input);
       this.value = e.target.value;
     });
 
@@ -135,6 +143,11 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     //       value: this.value
     //     }
     //   });
+    });
+
+    this.onEvent('input', this.input, (e) => {
+      console.log('input event happening');
+      this.value = e.target.value;
     });
 
     // key press
