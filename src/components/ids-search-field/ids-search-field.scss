@@ -9,6 +9,12 @@ ids-input::part(container) {
   margin-bottom: 0;
 }
 
-.ids-color-picker:focus-within ids-input::part(input) {
+.ids-search-field:focus-within ids-input::part(input) {
   box-shadow: none;
+}
+
+.ids-search-field {
+  .search-icon {
+    margin-left: 8px;
+  }
 }
