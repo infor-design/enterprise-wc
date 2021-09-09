@@ -1,10 +1,9 @@
 import {
   IdsElement,
   customElement,
-  scss
-} from '../../core/ids-element';
-
-import { mix } from '../../core';
+  scss,
+  mix
+} from '../../core';
 
 import IdsModal from '../ids-modal';
 import IdsHyperlink from '../ids-hyperlink';
@@ -13,11 +12,10 @@ import { attributes } from '../../core/ids-attributes';
 import {
   IdsStringUtils,
   IdsDOMUtils,
-  IdsEnvironmentUtil,
   IdsDeviceEnvUtils
 } from '../../utils';
 
-import { IdsLocaleMixin } from '../../mixins';
+import { IdsLocaleMixin, IdsEventsMixin } from '../../mixins';
 
 import styles from './ids-about.scss';
 
@@ -27,10 +25,12 @@ import styles from './ids-about.scss';
  * @inherits IdsModal
  * @part popup - the popup outer element
  * @part overlay - the inner overlay element
+ * @mixes IdsLocaleMixin
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-about')
 @scss(styles)
-class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
+class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
   constructor() {
     super();
   }
@@ -38,6 +38,8 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.LANGUAGE,
+      attributes.LOCALE,
       attributes.PRODUCT_NAME,
       attributes.PRODUCT_VERSION,
       attributes.COPYRIGHT_YEAR,
@@ -51,7 +53,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    */
   connectedCallback() {
     super.connectedCallback();
-    this.#addEventHandlers();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -87,7 +89,7 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    * @private
    * @returns {object} The object for chaining
    */
-  #addEventHandlers() {
+  #attachEventHandlers() {
     this.#refreshProduct();
 
     const container = this.closest('ids-container');
