@@ -16,8 +16,8 @@
 
   .ids-modal-content-wrapper {
     @include py-4();
-    @include px-20();
-    @include mb-20();
+    @include px-32();
+    @include mb-24();
 
     overflow: hidden;
   }
@@ -30,16 +30,26 @@
     @include rounded-default();
     @include mt-0();
     @include mb-28();
-    @include pt-0();
-    @include px-12();
+    @include px-16();
+
+    padding-top: 15px;
+    padding-bottom: 15px;
 
     max-height: 199px;
     outline: medium none;
-    overflow-y: scroll;
+    overflow: auto;
     text-align: left;
 
     &:hover {
       @include border-slate-70();
+    }
+
+    &:focus {
+      @include border-azure-60();
+      @include outline-none();
+
+      box-shadow: 0 0 4px 3px rgb(54 138 192 / 30%);
+      outline-color: transparent;
     }
   }
 }
@@ -48,17 +58,15 @@
 ::slotted([slot='content']),
 ::slotted([slot='copyright']) {
   @include block();
-  @include mb-8();
+  @include mb-16();
 }
 
 ::slotted([slot='icon']) {
   @include mb-8();
-  width: 72px;
-  height: 72px;
 }
 
 ::slotted([slot='buttons']) {
   @include absolute();
-  @include right-8();
-  @include top-8();
+  top: 3px;
+  right: 3px;
 }

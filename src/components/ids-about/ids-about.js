@@ -121,7 +121,7 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
    * @returns {void}
    */
   #attachCloseButton() {
-    const element = `<ids-modal-button cancel slot="buttons" type="tertiary" css-class="ids-icon-button"><span class="audible">Close modal</span><ids-icon slot="icon" icon="close"></ids-icon></ids-modal-button>`;
+    const element = `<ids-modal-button cancel slot="buttons" type="tertiary" css-class="ids-modal-icon-button"><span class="audible">Close modal</span><ids-icon slot="icon" icon="close"></ids-icon></ids-modal-button>`;
 
     this.insertAdjacentHTML('beforeend', element);
   }

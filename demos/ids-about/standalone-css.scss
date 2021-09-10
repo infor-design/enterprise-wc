@@ -10,17 +10,24 @@
   // Enabling scroll for About content area
   pointer-events: unset;
 
-  // About content paragraph spacing
-  .ids-modal-content {
-    .ids-text {
+  // Logo spacing, slotted in the WebComponent
+  .ids-modal-header {
+    svg {
       margin-bottom: 8px;
     }
   }
 
-  // Styles for close button slotted in the WebComponent
-  .ids-modal-button {
+  // About content paragraph spacing, slotted in the WebComponent
+  .ids-modal-content {
+    .ids-text:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  }
+
+  // Styles for close button, slotted in the WebComponent
+  .ids-modal-icon-button {
     position: absolute;
-    top: 8px;
-    right: 8px;
+    top: 3px;
+    right: 3px;
   }
 }
