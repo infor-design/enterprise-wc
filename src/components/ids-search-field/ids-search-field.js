@@ -77,7 +77,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   connectedCallback() {
     this.input = this.container.querySelector('ids-input');
     this.triggerField = this.container.querySelector('ids-trigger-field');
-    // this.triggerButton = this.container.querySelector('ids-trigger-button');
+    this.triggerButton = this.container.querySelector('ids-trigger-button');
     // this.triggerButtonIcon = this.container.querySelector('ids-trigger-button ids-icon');
 
     this.#attachEventHandlers();
@@ -105,15 +105,15 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
             placeholder="${this.placeholder}"
           >
           </ids-input>
+            <ids-trigger-button>
+            <ids-text audible="true">Search trigger</ids-text>
+            <ids-icon slot="icon" icon="arrow-right" size="medium"></ids-icon>
+            </ids-trigger-button>
         </ids-trigger-field>
       </div>
     `;
   }
 
-//   <ids-trigger-button disabled>
-//   <ids-text audible="true">Search trigger</ids-text>
-//   <ids-icon slot="icon" icon="search" size="medium"></ids-icon>
-// </ids-trigger-button>
 
   set value(value) {
     this.setAttribute(attributes.VALUE, value);
@@ -144,7 +144,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
     if (this.input) {
       this.triggerField.label = value;
-      // this.input.label = value;
     }
   }
 
@@ -175,32 +174,28 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   #searchFunction() {
-    console.log('some search function');
+    // TODO: query something, probably
+    // const searchParam = this.value;
   }
 
   #attachEventHandlers() {
     this.onEvent('change', this.input, (e) => {
       this.value = e.target.value;
-      // search function
+      // TODO: pop up autocomplete suggestions
     });
 
     this.onEvent('input', this.input, (e) => {
       this.value = e.target.value;
-      // pop up autocomplete suggestions
+      // TODO: pop up autocomplete suggestions
     });
 
-    // this.onEvent('keydown', this.input, (e) => {
-    //   this.value = e.target.value;
-    //   // pop up autocomplete suggestions
-    // });
-
-    // key press
-    // on change
-    // search (enter or finish typing)
+    this.onEvent('click', this.triggerButton, (e) => {
+      this.#searchFunction();
+    });
   }
 
   #attachKeyboardListener() {
-    this.onEvent('keydown', this, (event) => {
+    this.onEvent('keydown', this.input, (event) => {
       if (['Enter'].indexOf(event.code) > -1) {
         event.preventDefault();
       }
