@@ -48,20 +48,14 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       ...super.attributes,
       attributes.VALUE,
       attributes.PLACEHOLDER,
-      attributes.ID,
-      // and other ids-input settings
-      // attributes.BG_TRANSPARENT,
-      // attributes.CLEARABLE,
-      // attributes.CLEARABLE_FORCED,
+      // attributes.ID,
       // attributes.COMPACT,
       attributes.DISABLED,
-      // attributes.FIELD_HEIGHT,
       // attributes.LABEL,
       // attributes.LABEL_HIDDEN,
       // attributes.LABEL_REQUIRED,
-      // attributes.ID,
       // attributes.MODE,
-      // attributes.PLACEHOLDER,
+      attributes.PLACEHOLDER,
       // attributes.SIZE,
       attributes.READONLY,
       // attributes.TEXT_ALIGN,
@@ -94,11 +88,13 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
   template() {
     return `
-      <div class="ids-search-field">
+      <div 
+        class="ids-search-field" 
+        id="ids-search-field"
+      >
         <ids-trigger-field
-          id="${this.id}"
-          label="Search Field"
           tabbable="false"
+          label="${this.label}"
           ${this.disabled && 'disabled'}
           ${this.readonly && 'readonly'}
         >
@@ -107,7 +103,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
             ${this.clearable && 'clearable'}
             ${this.readonly && 'readonly'}
             value="${this.value}"
-            placeholder="Search"
+            placeholder="${this.placeholder}"
           >
           </ids-input>
         </ids-trigger-field>
@@ -129,8 +125,32 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get value() {
-    // console.log('getting value ' + this.getAttribute(attributes.VALUE));
     return this.getAttribute(attributes.VALUE) || '';
+  }
+
+  set placeholder(value) {
+    this.setAttribute(attributes.PLACEHOLDER, value);
+
+    if (this.input) {
+      this.input.placeholder = value;
+    }
+  }
+
+  get placeholder() {
+    return this.getAttribute(attributes.PLACEHOLDER) || 'Type to search';
+  }
+
+  set label(value) {
+    this.setAttribute(attributes.LABEL, value);
+
+    if (this.input) {
+      this.triggerField.label = value;
+      // this.input.label = value;
+    }
+  }
+
+  get label() {
+    return this.getAttribute(attributes.LABEL) || 'Search';
   }
 
   set clearable(value) {
