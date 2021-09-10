@@ -111,7 +111,8 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    */
   static get attributes() {
     return [
-      ...attributes.AUTOSELECT,
+      ...super.attributes,
+      attributes.AUTOSELECT,
       attributes.BG_TRANSPARENT,
       attributes.CLEARABLE,
       attributes.CLEARABLE_FORCED,
