@@ -246,13 +246,21 @@ $grid-cols-sm: 4;
   }
 }
 
+@for $i from 1 through $grid-cols-xl {
+  :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-#{$i}),
+  .ids-layout-fluid-grid > .ids-layout-grid-col-span-#{$i} {
+    width: auto;
+    grid-column-end: span $i;
+  }
+}
+
 /**
   Grid - XSmall and up
 */
 @media (min-width: $breakpoint-xs) {
   @for $i from 1 through $grid-cols-sm {
-    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-#{$i}),
-    .ids-layout-fluid-grid > .ids-layout-grid-col-span-#{$i} {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-xs-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-xs-#{$i} {
       width: auto;
       grid-column-end: span $i;
     }
@@ -260,8 +268,8 @@ $grid-cols-sm: 4;
 
   // Reset columns greater than sm to full width
   @for $i from $grid-cols-sm through $grid-cols-xl {
-    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-#{$i}),
-    .ids-layout-fluid-grid > .ids-layout-grid-col-span-#{$i} {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-xs-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-xs-#{$i} {
       width: auto;
       grid-column-end: span $grid-cols-sm;
     }
@@ -273,8 +281,8 @@ $grid-cols-sm: 4;
 */
 @media (min-width: $breakpoint-sm) {
   @for $i from 1 through $grid-cols-md {
-    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-#{$i}),
-    .ids-layout-fluid-grid > .ids-layout-grid-col-span-#{$i} {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-sm-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-sm-#{$i} {
       width: auto;
       grid-column-end: span $i;
     }
@@ -282,8 +290,8 @@ $grid-cols-sm: 4;
 
   // Reset columns greater than sm to full width
   @for $i from $grid-cols-md through $grid-cols-xl {
-    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-#{$i}),
-    .ids-layout-fluid-grid > .ids-layout-grid-col-span-#{$i} {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-sm-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-sm-#{$i} {
       width: auto;
       grid-column-end: span $grid-cols-md;
     }
@@ -295,8 +303,21 @@ $grid-cols-sm: 4;
 */
 @media (min-width: $breakpoint-md) {
   @for $i from 1 through $grid-cols-lg {
-    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-#{$i}),
-    .ids-layout-fluid-grid > .ids-layout-grid-col-span-#{$i} {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-md-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-md-#{$i} {
+      width: auto;
+      grid-column-end: span $i;
+    }
+  }
+}
+
+/**
+  Grid - Large and up
+*/
+@media (min-width: $breakpoint-lg) {
+  @for $i from 1 through $grid-cols-lg {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-lg-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-lg-#{$i} {
       width: auto;
       grid-column-end: span $i;
     }
@@ -308,8 +329,8 @@ $grid-cols-sm: 4;
 */
 @media (min-width: $breakpoint-xl) {
   @for $i from 1 through $grid-cols-xl {
-    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-#{$i}),
-    .ids-layout-fluid-grid > .ids-layout-grid-col-span-#{$i} {
+    :host(.ids-layout-fluid-grid) ::slotted(.ids-layout-grid-col-span-xl-#{$i}),
+    .ids-layout-fluid-grid > .ids-layout-grid-col-span-xl-#{$i} {
       width: auto;
       grid-column-end: span $i;
     }

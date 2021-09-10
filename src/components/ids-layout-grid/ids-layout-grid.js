@@ -36,7 +36,7 @@ class IdsLayoutGrid extends IdsElement {
       attributes.GAP,
       attributes.NO_MARGINS,
       attributes.MIN_COL_WIDTH,
-      attributes.ROWS,
+      attributes.ROWS
     ];
   }
 

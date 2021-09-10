@@ -18,6 +18,12 @@ class IdsLayoutGridCell extends IdsElement {
   static get attributes() {
     return [
       attributes.COL_SPAN,
+      'col-span-xs',
+      'col-span-sm',
+      'col-span-md',
+      'col-span-lg',
+      'col-span-xl',
+      'col-span-xxl',
       attributes.COL_START,
       attributes.COL_END,
       attributes.FILL,
@@ -71,7 +77,6 @@ class IdsLayoutGridCell extends IdsElement {
           this.classList.add(`ids-layout-grid-col-span-${value}`);
         }
       });
-
       return;
     }
 
@@ -81,6 +86,138 @@ class IdsLayoutGridCell extends IdsElement {
   }
 
   get colSpan() { return this.getAttribute(attributes.COL_SPAN); }
+
+  /**
+   * Sets the col span for colSpanXs breakpoint 360px
+   * @param {string | null} value The number value for the colSpanXs col span
+   */
+  set colSpanXs(value) {
+    if (value) {
+      this.setAttribute('col-span-xs', value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-xs-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanXs() {
+    return this.getAttribute('col-span-xs');
+  }
+
+  /**
+   * Sets the col span for sm breakpoint 600px
+   * @param {string | null} value The number value for the sm col span
+   */
+  set colSpanSm(value) {
+    if (value) {
+      this.setAttribute('col-span-sm', value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-sm-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanSm() {
+    return this.getAttribute('col-span-sm');
+  }
+
+  /**
+   * Sets the col span for md breakpoint 840px
+   * @param {string | null} value The number value for the md col span
+   */
+  set colSpanMd(value) {
+    if (value) {
+      this.setAttribute('col-span-md', value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-md-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanMd() {
+    return this.getAttribute('col-span-md');
+  }
+
+  /**
+   * Sets the col span for lg breakpoint 1024px
+   * @param {string | null} value The number value for the lg col span
+   */
+  set colSpanLg(value) {
+    if (value) {
+      this.setAttribute('col-span-lg', value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-lg-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanLg() {
+    return this.getAttribute('col-span-lg');
+  }
+
+  /**
+   * Sets the col span for xl breakpoint 1280px
+   * @param {string | null} value The number value for the xl col span
+   */
+  set colSpanXl(value) {
+    if (value) {
+      this.setAttribute('col-span-xl', value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-xl-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanXl() {
+    return this.getAttribute('col-span-xl');
+  }
+
+  /**
+   * Sets the col span for xxl breakpoint 1440px
+   * @param {string | null} value The number value for the xxl col span
+   */
+  set colSpanXxl(value) {
+    if (value) {
+      this.setAttribute('col-span-xxl', value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-xxl-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanXxl() {
+    return this.getAttribute('col-span-xxl');
+  }
 
   /**
    * Set the starting column
