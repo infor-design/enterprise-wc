@@ -34,7 +34,6 @@
 
     padding-top: 15px;
     padding-bottom: 15px;
-
     max-height: 199px;
     outline: medium none;
     overflow: auto;
@@ -67,6 +66,7 @@
 
 ::slotted([slot='buttons']) {
   @include absolute();
+
   top: 3px;
   right: 3px;
 }

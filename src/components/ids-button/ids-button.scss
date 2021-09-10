@@ -156,7 +156,6 @@ button {
 
 // Adjusting hitbox for the modal close icon
 .ids-modal-icon-button {
-  @extend .ids-icon-button;
   @include p-12();
 }
 
