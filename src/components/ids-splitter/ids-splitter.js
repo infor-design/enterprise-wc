@@ -28,8 +28,11 @@ import styles from './ids-splitter.scss';
 // IdsSplitterPanes being tracked if it detects
 // untracked panes suddenly pop in or are removed
 
-// (2) figure out left/top, add styles and inner content
-// on draggable
+// (2) store max/min/size properties when calculating
+// in updatePaneSizes
+
+// (3) add max/min-transform draggable props and update
+// based on above
 
 /** @type {{ x: HTMLTemplateElement, y: HTMLTemplateElement }} */
 const dragHandleTemplates = {};
@@ -242,7 +245,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
 
     const paneMappings = [...this.#paneDraggableMap.keys()];
 
-    for (let i = 0; i < paneMappings.length; i += 2) {
+    for (let i = 0; i < paneMappings.length - 1; i += 1) {
       const p1 = paneMappings[i];
       const p2 = ((i + 1) < paneMappings.length) ? paneMappings[i + 1] : undefined;
       const p1Entry = this.#paneDraggableMap.get(p1);
@@ -292,10 +295,18 @@ export default class IdsSplitter extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @param {*} axis an axis value defined on draggable's axis param
+   * @returns {'x'|'y'} the axis interpreted for splitter ('x' | 'y')
+   */
   #getDraggableAxis(axis) {
     return ((axis === 'x') || (axis === 'y')) ? axis : 'x';
   }
 
+  /**
+   * Updates the draggable translate values based on the width of each
+   * draggable pane contained in the splitter
+   */
   #repositionDraggables() {
     let afterOffset = 0;
     const totalSize = this.#size[this.#dimension];
@@ -306,7 +317,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
       // (possibly can use servers or cache based on conditions/setting in size
       // method?)
 
-      const paneRect = pane.getBoundingClientRect();
+      const paneRect = pane?.getBoundingClientRect?.();
 
       if (paneRect) {
         afterOffset += this.axis === 'x' ? paneRect.width : paneRect.height;
@@ -324,11 +335,20 @@ export default class IdsSplitter extends mix(IdsElement).with(
     });
   }
 
+  /**
+   * Linked to drag-end for resizing the panes
+   * based on the delta of drag
+   *
+   * @param {object} param0 params
+   * @param {number} param0.resizeDelta number of pixels dragged to resize
+   * @param {IdsSplitterPane} param0.p1 pane to left of draggable
+   * @param {IdsSplitterPane} param0.p2 pane to right of draggable
+   */
   #onResizePaneViaDraggable({ p1, p2, resizeDelta }) {
     [p1, p2].forEach((pane, i) => {
       const paneSize = parseInt(pane.style[this.#dimension]);
-      const direction = resizeDelta * (i === 0) ? 1 : -1;
-      pane.style.setProperty(this.#dimension, `${paneSize + (resizeDelta * direction)}px`);
+      const addOrSub = resizeDelta * (i === 0) ? 1 : -1;
+      pane.style.setProperty(this.#dimension, `${paneSize + (resizeDelta * addOrSub)}px`);
     });
   }
 
