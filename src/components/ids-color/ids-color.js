@@ -31,7 +31,12 @@ class IdsColor extends IdsElement {
    * @returns {Array<string>} this component's observable attributes
    */
   static get attributes() {
-    return [...attributes.MODE, attributes.HEX, attributes.VERSION];
+    return [
+      ...super.attributes,
+      attributes.MODE,
+      attributes.HEX,
+      attributes.VERSION
+    ];
   }
 
   /**

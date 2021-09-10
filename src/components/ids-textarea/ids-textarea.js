@@ -85,7 +85,8 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      ...attributes.AUTOGROW,
+      ...super.attributes,
+      attributes.AUTOGROW,
       attributes.AUTOGROW_MAX_HEIGHT,
       attributes.AUTOSELECT,
       attributes.CHAR_MAX_TEXT,
