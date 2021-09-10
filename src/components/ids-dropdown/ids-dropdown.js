@@ -14,7 +14,8 @@ import {
   IdsPopupOpenEventsMixin,
   IdsThemeMixin,
   IdsValidationMixin,
-  IdsLocaleMixin
+  IdsLocaleMixin,
+  IdsTooltipMixin
 } from '../../mixins';
 
 // Import Utils
@@ -42,6 +43,7 @@ import styles from './ids-dropdown.scss';
  * @mixes IdsLocaleMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsValidationMixin
+ * @mixes IdsTooltipMixin
  * @part dropdown - the tag element
  */
 @customElement('ids-dropdown')
@@ -53,7 +55,8 @@ class IdsDropdown extends mix(IdsElement).with(
     IdsPopupOpenEventsMixin,
     IdsThemeMixin,
     IdsLocaleMixin,
-    IdsValidationMixin
+    IdsValidationMixin,
+    IdsTooltipMixin
   ) {
   constructor() {
     super();
@@ -179,6 +182,7 @@ class IdsDropdown extends mix(IdsElement).with(
     this.#clearSelected();
     this.#selectOption(elem);
     this.#selectIcon(elem);
+    this.#selectTooltip(elem);
     this.shadowRoot.querySelector('ids-input').value = elem.textContent.trim();
     this.state.selectedIndex = [...elem.parentElement.children].indexOf(elem);
     this.setAttribute('value', value);
@@ -313,6 +317,18 @@ class IdsDropdown extends mix(IdsElement).with(
    }
 
   /**
+   * Set the tooltip to be visible for the selected option
+   * @private
+   * @param {HTMLElement} option the option to select
+   */
+  #selectTooltip(option) {
+    const tooltip = option.getAttribute('tooltip');
+    if (tooltip) {
+      this.tooltip = tooltip;
+    }
+  }
+
+  /**
    * Remove the aria and state from the currently selected element
    */
   #clearSelected() {
@@ -326,9 +342,15 @@ class IdsDropdown extends mix(IdsElement).with(
   /**
    * Open the dropdown list
    */
-  open() {
+  async open() {
     if (this.disabled || this.readonly) {
       return;
+    }
+
+    // Trigger an async callback for contents
+    if (this.state.beforeShow) {
+      const stuff = await this.state.beforeShow();
+      this.#loadDataSet(stuff);
     }
 
     // Open the popup and add a class
@@ -350,6 +372,35 @@ class IdsDropdown extends mix(IdsElement).with(
       selected.focus();
     }
   }
+
+  /**
+   * Populate the DOM with the dataset
+   * @param {Function} dataset The dataset to use with value, label ect...
+   * @private
+   */
+  #loadDataSet(dataset) {
+    let html = '';
+    const listbox = this.querySelector('ids-list-box');
+    listbox.innerHTML = '';
+    dataset.forEach((option) => {
+      html += `<ids-list-box-option
+        value="${option.value}"
+        id="${option.id || option.value}">${option.label}
+        </ids-list-box-option>`;
+    });
+    listbox.insertAdjacentHTML('afterbegin', html);
+    this.value = this.getAttribute('value');
+  }
+
+  /**
+   * An async function that fires as the dropdown is opening allowing you to set contents.
+   * @param {Function} func The async function
+   */
+  set beforeShow(func) {
+    this.state.beforeShow = func;
+  }
+
+  get beforeShow() { return this.state.beforeShow; }
 
   /**
    * Inherited from the Popup Open Events Mixin.

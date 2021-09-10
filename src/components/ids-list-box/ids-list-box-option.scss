@@ -8,11 +8,11 @@
   @include font-sans();
 
   font-size: 16px;
-  line-height: 32px;
+  line-height: 36px;
   outline: none;
-  min-height: 28px;
-  padding: 5px 0;
-  text-indent: 10px;
+  min-height: 32px;
+  padding: 0;
+  text-indent: 8px;
   user-select: none;
   width: 298px;
 }
@@ -30,4 +30,56 @@
 ::slotted(ids-icon) {
   vertical-align: middle;
   margin: 0 7px 2px 0;
+}
+
+// Handle Dark Theme
+:host([mode='dark']) {
+  @include text-white();
+}
+
+:host([mode='dark']:hover:not(.is-selected)) {
+  @include bg-slate-80();
+}
+
+// Handle Contrast Theme
+:host([mode='contrast'].is-selected) {
+  @include bg-azure-100();
+  @include text-white();
+}
+
+:host([mode='contrast']:hover:not(.is-selected)) {
+  @include bg-slate-20();
+}
+
+// Handle Classic/Light Theme
+:host([version='classic'][mode='light']) {
+  @include text-graphite-100();
+}
+
+:host([version='classic'][mode='light'].is-selected) {
+  @include bg-azure-60();
+  @include text-white();
+}
+
+:host([version='classic'][mode='light']:hover:not(.is-selected)) {
+  @include bg-graphite-20();
+}
+
+// Handle Classic / Dark Theme
+:host([version='classic'][mode='dark']) {
+  @include text-white();
+}
+
+:host([version='classic'][mode='dark']:hover:not(.is-selected)) {
+  @include bg-classic-slate-50();
+}
+
+// Handle Classic / Contrast Theme
+:host([version='classic'][mode='contrast'].is-selected) {
+  @include bg-azure-100();
+  @include text-white();
+}
+
+:host([version='classic'][mode='contrast']:hover:not(.is-selected)) {
+  @include bg-graphite-20();
 }

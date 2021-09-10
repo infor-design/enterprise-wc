@@ -1,5 +1,6 @@
 import { attributes } from '../../core';
 import { IdsEventsMixin } from '../ids-events-mixin';
+import IdsTooltip from '../../components/ids-tooltip';
 
 /**
 /**
@@ -47,6 +48,9 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
   get toolTipTarget() {
     if (this.nodeName === 'IDS-INPUT') {
       return this.container.querySelector('input');
+    }
+    if (this.nodeName === 'IDS-DROPDOWN') {
+      return this.container.querySelector('ids-input').container.querySelector('input');
     }
     return this;
   }

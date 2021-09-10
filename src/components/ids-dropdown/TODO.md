@@ -7,19 +7,21 @@
     - [x] Readonly
     - [x] Dirty
     - [x] Validation
-- [ ] Icons
-- [ ] Tooltip
-- [ ] Ajax (callbacks) / Dataset
-- [ ] Themes
+- [x] Icons
+- [x] Tooltip
+- [x] Ajax (callbacks) / Dataset
+- [x] Themes
 - [ ] RTL
 - [ ] Tests
 - [ ] Docs
+- [ ] Types (also for the listbox)
 - [ ] Keyboard
     - [ ] Typeahead
 
 ## Bugs
 
 - [ ] No initial value and you cant select
+- [ ] First time it opens up its in the wrong position
 
 ## Future
 
