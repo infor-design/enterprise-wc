@@ -57,12 +57,6 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
   }
 
   /**
-   * Cancel overlay close modal event, reattach the event to the close icon button
-   * @returns {void}
-   */
-  onOutsideClick() {}
-
-  /**
    * Inner template contents
    * @returns {string} The template
    */
@@ -110,12 +104,26 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
       this.#refreshCopyright();
     });
 
-    //
+    this.#attachCloseButton();
+
+    return this;
+  }
+
+  /**
+   * Cancel overlay close modal event, reattach the event to the close icon button
+   * @returns {void}
+   */
+  onOutsideClick() {}
+
+  /**
+   * Add button with icon to the modal
+   * Reusing ids-modal-button component with cancel attribute and extra css class to change appearance
+   * @returns {void}
+   */
+  #attachCloseButton() {
     const element = `<ids-modal-button cancel slot="buttons" type="tertiary" css-class="ids-icon-button"><span class="audible">Close modal</span><ids-icon slot="icon" icon="close"></ids-icon></ids-modal-button>`;
 
     this.insertAdjacentHTML('beforeend', element);
-
-    return this;
   }
 
   /**

@@ -140,6 +140,7 @@ button {
 }
 
 // Specific Modifications for Modal Buttons
+// Do not apply styles to modal button with .ids-icon-button, appearance as icon is required
 .ids-modal-button:not(.ids-icon-button) {
   @include ids-base-button-styles();
   @include ids-modal-button-colors();

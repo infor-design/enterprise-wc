@@ -16,4 +16,11 @@
       margin-bottom: 8px;
     }
   }
+
+  // Styles for close button slotted in the WebComponent
+  .ids-modal-button {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+  }
 }
