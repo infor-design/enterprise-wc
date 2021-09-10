@@ -95,6 +95,11 @@ $input-size-default: map-get($input-sizes, 'md');
     @include text-slate-30();
   }
 
+  &.readonly {
+    @include bg-slate-20();
+    @include text-black();
+  }
+
   // input message: [alert, error, info, success]
   &.alert,
   &.alert:hover {
@@ -200,13 +205,13 @@ $input-size-default: map-get($input-sizes, 'md');
     @include text-slate-60();
   }
 
-  &[readonly] {
+  &.readonly {
     @include bg-slate-70();
     @include border-slate-40();
     @include text-slate-10();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent.readonly {
     @include bg-transparent();
   }
 
@@ -225,13 +230,13 @@ $input-size-default: map-get($input-sizes, 'md');
     @include text-slate-30();
   }
 
-  &[readonly] {
+  &.readonly {
     @include bg-slate-20();
     @include border-slate-40();
     @include text-slate-100();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent.readonly {
     @include bg-white();
   }
 
@@ -250,13 +255,13 @@ $input-size-default: map-get($input-sizes, 'md');
     @include text-graphite-40();
   }
 
-  &[readonly] {
+  &.readonly {
     @include bg-graphite-20();
     @include border-graphite-40();
     @include text-classic-slate-100();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent.readonly {
     @include bg-transparent();
   }
 
@@ -275,13 +280,13 @@ $input-size-default: map-get($input-sizes, 'md');
     @include text-classic-slate-50();
   }
 
-  &[readonly] {
+  &.readonly {
     @include bg-classic-slate-60();
     @include border-classic-slate-40();
     @include text-white();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent.readonly {
     @include bg-transparent();
   }
 
@@ -301,18 +306,18 @@ $input-size-default: map-get($input-sizes, 'md');
     @include text-graphite-80();
   }
 
-  &[readonly] {
+  &.readonly {
     @include bg-slate-30();
     @include border-slate-80();
     @include text-graphite-100();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent.readonly {
     @include bg-white();
   }
 
   &:focus-within,
-  &:focus[readonly] {
+  &:focus.readonly {
     @include border-azure-60();
   }
 }

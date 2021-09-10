@@ -76,6 +76,7 @@ class IdsTriggerField extends IdsInput {
       attributes.DISABLED,
       attributes.DISABLE_EVENTS,
       attributes.LABEL,
+      attributes.READONLY,
       attributes.SIZE,
       attributes.TABBABLE
     ];
@@ -101,7 +102,7 @@ class IdsTriggerField extends IdsInput {
         >
           <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
         </label>` : ''}
-        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled !== null && 'disabled', this.validate !== null && 'required') }>
+        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled !== null && 'disabled', this.readonly !== false && 'readonly', this.validate !== null && 'required') }>
           <slot></slot>
         </div>
       </div>
@@ -251,6 +252,17 @@ class IdsTriggerField extends IdsInput {
 
   get disabled() {
     return this.getAttribute('disabled');
+  }
+
+  set readonly(r) {
+    if (stringUtils.stringToBool(r)) {
+      this.setAttribute('readonly', r.toString());
+      this.setAttribute(attributes.TABBABLE, 'false');
+    }
+  }
+
+  get readonly() {
+    return stringUtils.stringToBool(this.getAttribute('readonly'));
   }
 
   /**
