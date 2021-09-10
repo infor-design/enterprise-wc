@@ -18,12 +18,12 @@ class IdsLayoutGridCell extends IdsElement {
   static get attributes() {
     return [
       attributes.COL_SPAN,
-      'col-span-xs',
-      'col-span-sm',
-      'col-span-md',
-      'col-span-lg',
-      'col-span-xl',
-      'col-span-xxl',
+      attributes.COL_SPAN_XS,
+      attributes.COL_SPAN_SM,
+      attributes.COL_SPAN_MD,
+      attributes.COL_SPAN_LG,
+      attributes.COL_SPAN_XL,
+      attributes.COL_SPAN_XXL,
       attributes.COL_START,
       attributes.COL_END,
       attributes.FILL,
@@ -93,7 +93,7 @@ class IdsLayoutGridCell extends IdsElement {
    */
   set colSpanXs(value) {
     if (value) {
-      this.setAttribute('col-span-xs', value);
+      this.setAttribute(attributes.COL_SPAN_XS, value);
 
       requestAnimationFrame(() => {
         const gridCols = this.parentElement?.getAttribute(attributes.COLS);
@@ -106,7 +106,7 @@ class IdsLayoutGridCell extends IdsElement {
   }
 
   get colSpanXs() {
-    return this.getAttribute('col-span-xs');
+    return this.getAttribute(attributes.COL_SPAN_XS);
   }
 
   /**
@@ -115,7 +115,7 @@ class IdsLayoutGridCell extends IdsElement {
    */
   set colSpanSm(value) {
     if (value) {
-      this.setAttribute('col-span-sm', value);
+      this.setAttribute(attributes.COL_SPAN_SM, value);
 
       requestAnimationFrame(() => {
         const gridCols = this.parentElement?.getAttribute(attributes.COLS);
@@ -128,7 +128,7 @@ class IdsLayoutGridCell extends IdsElement {
   }
 
   get colSpanSm() {
-    return this.getAttribute('col-span-sm');
+    return this.getAttribute(attributes.COL_SPAN_SM);
   }
 
   /**
@@ -137,7 +137,7 @@ class IdsLayoutGridCell extends IdsElement {
    */
   set colSpanMd(value) {
     if (value) {
-      this.setAttribute('col-span-md', value);
+      this.setAttribute(attributes.COL_SPAN_MD, value);
 
       requestAnimationFrame(() => {
         const gridCols = this.parentElement?.getAttribute(attributes.COLS);
@@ -150,7 +150,7 @@ class IdsLayoutGridCell extends IdsElement {
   }
 
   get colSpanMd() {
-    return this.getAttribute('col-span-md');
+    return this.getAttribute(attributes.COL_SPAN_MD);
   }
 
   /**
@@ -159,7 +159,7 @@ class IdsLayoutGridCell extends IdsElement {
    */
   set colSpanLg(value) {
     if (value) {
-      this.setAttribute('col-span-lg', value);
+      this.setAttribute(attributes.COL_SPAN_LG, value);
 
       requestAnimationFrame(() => {
         const gridCols = this.parentElement?.getAttribute(attributes.COLS);
@@ -172,7 +172,7 @@ class IdsLayoutGridCell extends IdsElement {
   }
 
   get colSpanLg() {
-    return this.getAttribute('col-span-lg');
+    return this.getAttribute(attributes.COL_SPAN_LG);
   }
 
   /**
@@ -181,7 +181,7 @@ class IdsLayoutGridCell extends IdsElement {
    */
   set colSpanXl(value) {
     if (value) {
-      this.setAttribute('col-span-xl', value);
+      this.setAttribute(attributes.COL_SPAN_XL, value);
 
       requestAnimationFrame(() => {
         const gridCols = this.parentElement?.getAttribute(attributes.COLS);
@@ -194,7 +194,7 @@ class IdsLayoutGridCell extends IdsElement {
   }
 
   get colSpanXl() {
-    return this.getAttribute('col-span-xl');
+    return this.getAttribute(attributes.COL_SPAN_XL);
   }
 
   /**
@@ -203,7 +203,7 @@ class IdsLayoutGridCell extends IdsElement {
    */
   set colSpanXxl(value) {
     if (value) {
-      this.setAttribute('col-span-xxl', value);
+      this.setAttribute(attributes.COL_SPAN_XXL, value);
 
       requestAnimationFrame(() => {
         const gridCols = this.parentElement?.getAttribute(attributes.COLS);
@@ -216,7 +216,7 @@ class IdsLayoutGridCell extends IdsElement {
   }
 
   get colSpanXxl() {
-    return this.getAttribute('col-span-xxl');
+    return this.getAttribute(attributes.COL_SPAN_XXL);
   }
 
   /**

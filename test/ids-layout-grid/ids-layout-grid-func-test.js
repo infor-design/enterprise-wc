@@ -232,6 +232,131 @@ describe('IdsLayoutGrid Component', () => {
     expect(document.querySelectorAll('.ids-layout-grid-col-span-4').length).toEqual(1);
   });
 
+  it('does not render col-span classes if cols are set', () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.cols = '4';
+
+    col.colSpanXs = '4';
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-xs-4').length).toEqual(0);
+
+    col.colSpanSm = '4';
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-sm-4').length).toEqual(0);
+
+    col.colSpanMd = '4';
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-md-4').length).toEqual(0);
+
+    col.colSpanLg = '4';
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-lg-4').length).toEqual(0);
+
+    col.colSpanXl = '4';
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-xl-4').length).toEqual(0);
+
+    col.colSpanXxl = '4';
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-xxl-4').length).toEqual(0);
+  });
+
+  it('renders col-span-xs setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanXs = 4;
+    await processAnimFrame();
+    expect(col.colSpanXs).toEqual('4');
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-xs-4').length).toEqual(1);
+  });
+
+  it('resets col-span-xs setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanXs = null;
+    await processAnimFrame();
+    expect(col.colSpanXs).toEqual(null);
+  });
+
+  it('renders col-span-sm setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanSm = 4;
+    await processAnimFrame();
+    expect(col.colSpanSm).toEqual('4');
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-sm-4').length).toEqual(1);
+  });
+
+  it('resets col-span-sm setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanSm = null;
+    await processAnimFrame();
+    expect(col.colSpanSm).toEqual(null);
+  });
+
+  it('renders col-span-md setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanMd = 4;
+    await processAnimFrame();
+    expect(col.colSpanMd).toEqual('4');
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-md-4').length).toEqual(1);
+  });
+
+  it('resets col-span-md setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanMd = null;
+    await processAnimFrame();
+    expect(col.colSpanMd).toEqual(null);
+  });
+
+  it('renders col-span-lg setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanLg = 4;
+    await processAnimFrame();
+    expect(col.colSpanLg).toEqual('4');
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-lg-4').length).toEqual(1);
+  });
+
+  it('resets col-span-lg setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanLg = null;
+    await processAnimFrame();
+    expect(col.colSpanLg).toEqual(null);
+  });
+
+  it('renders col-span-xl setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanXl = 4;
+    await processAnimFrame();
+    expect(col.colSpanXl).toEqual('4');
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-xl-4').length).toEqual(1);
+  });
+
+  it('resets col-span-xl setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanXl = null;
+    await processAnimFrame();
+    expect(col.colSpanXl).toEqual(null);
+  });
+
+  it('renders col-span-xxl setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanXxl = 4;
+    await processAnimFrame();
+    expect(col.colSpanXxl).toEqual('4');
+    expect(document.querySelectorAll('.ids-layout-grid-col-span-xxl-4').length).toEqual(1);
+  });
+
+  it('resets col-span-xxl setting', async () => {
+    const col = new IdsLayoutGridCell();
+    gridElem.appendChild(col);
+    col.colSpanXxl = null;
+    await processAnimFrame();
+    expect(col.colSpanXxl).toEqual(null);
+  });
+
   it('renders col-start setting', () => {
     const col = new IdsLayoutGridCell();
     col.colStart = 4;
