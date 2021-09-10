@@ -265,6 +265,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   #adjustViewbox() {
     let viewboxSize = '0 0 18 18';
 
+    /* istanbul ignore next */
     switch (this.icon) {
     case 'logo':
       viewboxSize = '0 0 34 34';
