@@ -55,7 +55,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       // attributes.LABEL_HIDDEN,
       // attributes.LABEL_REQUIRED,
       // attributes.MODE,
-      attributes.PLACEHOLDER,
       // attributes.SIZE,
       attributes.READONLY,
       // attributes.TEXT_ALIGN,
@@ -100,7 +99,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
         >
           <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
           <ids-input
-            ${this.clearable && 'clearable'}
+            ${!this.readyonly && !this.disabled && 'clearable'}
             ${this.readonly && 'readonly'}
             value="${this.value}"
             placeholder="${this.placeholder}"
@@ -151,16 +150,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
   get label() {
     return this.getAttribute(attributes.LABEL) || 'Search';
-  }
-
-  set clearable(value) {
-    const val = IdsStringUtils.stringToBool(value);
-    this.setAttribute(attributes.CLEARABLE, val);
-    this.input.clearable = val;
-  }
-
-  get clearable() {
-    return IdsStringUtils.stringToBool(this.getAttribute(attributes.CLEARABLE));
   }
 
   set disabled(value) {
