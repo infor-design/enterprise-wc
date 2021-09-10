@@ -90,6 +90,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     // this.triggerButtonIcon = this.container.querySelector('ids-trigger-button ids-icon');
 
     this.#attachEventHandlers();
+    this.#attachKeyboardListener();
     super.connectedCallback();
 
     console.log(this.attributes)
@@ -109,6 +110,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
           clearable="${this.clearable}"
           value="${this.value}"
           placeholder="Search"
+          readonly="${this.readonly}"
         >
         </ids-input>
       </ids-trigger-field>
@@ -147,10 +149,26 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   set disabled(value) {
     const val = IdsStringUtils.stringToBool(value);
     this.setAttribute(attributes.DISABLED, val);
+    this.triggerField.disabled = val;
+    this.input.disabled = val;
   }
 
   get disabled() {
     return IdsStringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
+  }
+
+  set readonly(value) {
+    const val = IdsStringUtils.stringToBool(value);
+    this.setAttribute(attributes.READONLY, val);
+    this.input.readonly = val;
+  }
+
+  get readonly() {
+    return IdsStringUtils.stringToBool(this.getAttribute(attributes.READONLY));
+  }
+
+  #searchFunction() {
+    console.log('some search function');
   }
 
   #attachEventHandlers() {
@@ -164,9 +182,30 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       // pop up autocomplete suggestions
     });
 
+    this.onEvent('keydown', this.input, (e) => {
+      this.value = e.target.value;
+      // pop up autocomplete suggestions
+    });
+
     // key press
     // on change
     // search (enter or finish typing)
+  }
+
+  #attachKeyboardListener() {
+    this.onEvent('keydown', this, (event) => {
+      if (['Enter'].indexOf(event.code) > -1) {
+        event.preventDefault();
+      }
+
+      switch (event.key) {
+      case 'Enter':
+        this.#searchFunction();
+        break;
+      default:
+        break;
+      }
+    });
   }
 }
 
