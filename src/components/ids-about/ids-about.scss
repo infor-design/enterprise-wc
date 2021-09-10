@@ -42,12 +42,6 @@
       @include border-slate-70();
     }
   }
-
-  &-close {
-    @include absolute();
-    @include right-8();
-    @include top-8();
-  }
 }
 
 ::slotted([slot='product']),
@@ -61,4 +55,10 @@
   @include mb-8();
   width: 72px;
   height: 72px;
+}
+
+::slotted([slot='buttons']) {
+  @include absolute();
+  @include right-8();
+  @include top-8();
 }
