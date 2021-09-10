@@ -54,10 +54,12 @@ class IdsLayoutGrid extends IdsElement {
    * @returns {void}
    */
   #setDefaults() {
-    this.setAttribute(attributes.COLS, 'fluid-grid');
-    this.classList.remove(colsGridClass);
-    this.classList.add(fluidGridClass);
-    this.style.removeProperty('--grid-cols');
+    if (this.cols === null) {
+      this.setAttribute(attributes.COLS, 'fluid-grid');
+      this.classList.remove(colsGridClass);
+      this.classList.add(fluidGridClass);
+      this.style.removeProperty('--grid-cols');
+    }
   }
 
   /**

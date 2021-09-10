@@ -65,8 +65,8 @@ class IdsLayoutGridCell extends IdsElement {
       this.classList.add(`ids-layout-grid-col-span`);
 
       requestAnimationFrame(() => {
-        const isFluidGrid = this.parentElement?.getAttribute(attributes.COLS);
-        if (isFluidGrid) {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
           this.classList.remove(`ids-layout-grid-col-span`);
           this.classList.add(`ids-layout-grid-col-span-${value}`);
         }
