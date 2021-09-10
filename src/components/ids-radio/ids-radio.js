@@ -198,8 +198,8 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
     this.#attachNativeEvents();
 
     // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.radio-container');
+    this.onEvent('languagechange.radio-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       // Do something with parent lang
     });

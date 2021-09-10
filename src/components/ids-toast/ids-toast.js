@@ -56,8 +56,8 @@ class IdsToast extends mix(IdsElement).with(
     super.connectedCallback();
 
     // Respond to parent changing language
-    this.offEvent('languagechange.toast');
-    this.onEvent('languagechange.toast', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.toast-container');
+    this.onEvent('languagechange.toast-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
     });
   }

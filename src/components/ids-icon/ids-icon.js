@@ -65,8 +65,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    * Handle change events
    */
   #attachEventHandlers() {
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.icon-container');
+    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       if (this.isFlipped(this.icon)) {
         this.container.classList.add('flipped');
