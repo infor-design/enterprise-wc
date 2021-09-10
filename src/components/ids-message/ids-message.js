@@ -1,14 +1,11 @@
 import {
   IdsElement,
   customElement,
-  scss,
-  mix
+  scss
 } from '../../core/ids-element';
 
 import IdsModal from '../ids-modal';
 import IdsIcon from '../ids-icon';
-
-import { IdsLocaleMixin, IdsEventsMixin } from '../../mixins';
 
 import { attributes } from '../../core/ids-attributes';
 import { IdsStringUtils, IdsDOMUtils } from '../../utils';
@@ -29,7 +26,7 @@ const MESSAGE_STATUSES = [
  */
 @customElement('ids-message')
 @scss(styles)
-class IdsMessage extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
+class IdsMessage extends IdsModal {
   constructor() {
     super();
 
@@ -63,18 +60,6 @@ class IdsMessage extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
     if (currentContentEl) {
       this.message = currentContentEl.innerHTML;
     }
-
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
-      console.log('ids-message languagechange.container event');
-      await this.setLanguage(e.detail.language.name);
-    });
-
-    this.offEvent('languagechange.this');
-    this.onEvent('languagechange.this', this, async (e) => {
-      console.log('ids-message languagechange.this event');
-      await this.locale.setLanguage(e.detail.language.name);
-    });
   }
 
   /**
