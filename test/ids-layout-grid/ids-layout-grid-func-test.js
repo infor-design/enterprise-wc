@@ -162,8 +162,8 @@ describe('IdsLayoutGrid Component', () => {
     document.body.appendChild(elem);
     elem.cols = null;
 
-    expect(elem.cols).toEqual('fluid-grid');
-    expect(document.querySelectorAll('.ids-layout-fluid-grid').length).toEqual(2);
+    expect(elem.cols).toEqual('16');
+    expect(document.querySelectorAll('.ids-layout-fluid-grid').length).toEqual(1);
   });
 
   it('renders rows setting', () => {
