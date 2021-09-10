@@ -54,6 +54,19 @@ XS: 360px — 4 columns, 16px gutter, 16px margin
 </ids-layout-grid>
 ```
 
+Examples of grid with breakpoints
+
+```html
+<ids-layout-grid>
+  <ids-layout-grid-cell col-span="12" col-span-sm="6" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell col-span="12" col-span-sm="6" col-span-md="4" fill="true">
+    <ids-text font-size="12">2 Cols</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+```
+
 There is also an optional setting `fluid-grid-xl` which converts the grid to 16 columns at XL and greater breakpoints.
 
 ```html
@@ -157,6 +170,12 @@ IdsLayoutGrid
 IdsLayoutGridCell
 - Fill
 - ColSpan
+- ColSpanXs
+- ColSpanSm
+- ColSpanMd
+- ColSpanLg
+- ColSpanXl
+- ColSpanXxl
 - ColStart
 - ColEnd
 - RowSpan
