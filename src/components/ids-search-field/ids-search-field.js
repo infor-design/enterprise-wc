@@ -24,9 +24,9 @@ import IdsIcon from '../ids-icon';
 
 const appliedMixins = [
   IdsEventsMixin,
-  IdsThemeMixin,
+  IdsClearableMixin,
   IdsKeyboardMixin,
-  IdsClearableMixin
+  IdsThemeMixin,
 ];
 
 /**
@@ -48,7 +48,8 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
   static get attributes() {
     return [
-      ...attributes.VALUE,
+      ...super.attributes,
+      attributes.VALUE,
       attributes.PLACEHOLDER,
       attributes.ID,
       // and other ids-input settings
@@ -92,8 +93,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
     super.connectedCallback();
-
-    console.log(this.attributes)
   }
 
   template() {
@@ -104,13 +103,14 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
           label="Search Field"
           tabbable="false"
           ${this.disabled && 'disabled'}
+          ${this.readonly && 'readonly'}
         >
           <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
           <ids-input
-            clearable="${this.clearable}"
+            ${this.clearable && 'clearable'}
+            ${this.readonly && 'readonly'}
             value="${this.value}"
             placeholder="Search"
-            readonly="${this.readonly}"
           >
           </ids-input>
         </ids-trigger-field>
@@ -161,6 +161,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     const val = IdsStringUtils.stringToBool(value);
     this.setAttribute(attributes.READONLY, val);
     this.input.readonly = val;
+    this.triggerField.readonly = val;
   }
 
   get readonly() {
