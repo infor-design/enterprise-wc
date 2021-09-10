@@ -77,15 +77,19 @@ export default class IdsSplitter extends mix(IdsElement).with(
   /** Tracks pane-ids instantiated by this splitter */
   #paneIdCount = 0;
 
-  /** Responsive rectangle representing the size of the overall splitter */
-  #dimensions = { width: 0, height: 0 };
+  /** Has the width and height of the rectangle representing the splitter div */
+  #size = { width: 0, height: 0 };
+
+  get #dimension() {
+    return (this.axis === 'x') ? 'width' : 'height';
+  }
 
   /** When the splitter observed size changes, store that in contentRect */
   #resizeObserver = new ResizeObserver((entries) => {
     for (const entry of entries) {
       const contentRect = entry.contentRect?.[0] || entry.contentRect;
       if (contentRect) {
-        this.#dimensions = {
+        this.#size = {
           width: contentRect.width,
           height: contentRect.height
         };
@@ -247,15 +251,16 @@ export default class IdsSplitter extends mix(IdsElement).with(
       const draggable = new IdsDraggable();
       draggable.axis = this.#getDraggableAxis(this.axis);
 
-      // mark/hash the draggable as after this pane for parsing
-      // on-resize
+      // mark/hash the draggable as after this pane for parsing on resize
       draggable.setAttribute(attributes.ID, `d_after_${p1.paneId}`);
 
       draggable.addEventListener('ids-dragend', (e) => {
+        const resizeDelta = e.detail[`dragDelta${this.#dimension === 'width' ? 'X' : 'Y'}`];
         this.#onResizePaneViaDraggable({
-          pane: p1,
-          dragDeltaX: e.detail.dragDeltaX,
-          dragDeltaY: e.detail.dragDeltaY
+          draggable,
+          p1,
+          p2,
+          resizeDelta
         });
       });
 
@@ -293,14 +298,16 @@ export default class IdsSplitter extends mix(IdsElement).with(
 
   #repositionDraggables() {
     let afterOffset = 0;
-    const totalWidth = this.#dimensions.width;
+    const totalSize = this.#size[this.#dimension];
 
     [...this.#paneDraggableMap.entries()].forEach(([pane, { after }], i) => {
       // Note: getBoundingClientRect is somewhat expensive;
       // this call should not be abused if it can be helped
-      // (possibly can use observers or cache based on conditions/setting in size
+      // (possibly can use servers or cache based on conditions/setting in size
       // method?)
+
       const paneRect = pane.getBoundingClientRect();
+
       if (paneRect) {
         afterOffset += this.axis === 'x' ? paneRect.width : paneRect.height;
         if (after) {
@@ -308,21 +315,21 @@ export default class IdsSplitter extends mix(IdsElement).with(
         }
 
         if (i === (this.#paneDraggableMap.size - 1)) {
-          pane.size = `${totalWidth - afterOffset}px`;
+          const paneSize = `${totalSize - afterOffset}px`;
+          if (pane.size !== paneSize) {
+            pane.size = paneSize;
+          }
         }
       }
     });
   }
 
-  #onResizePaneViaDraggable({ pane, dragDeltaX, dragDeltaY }) {
-    const paneEntry = this.#paneDraggableMap.get(pane);
-
-    /*
-    if (paneEntry?.contentRect) {
-      const size = this.axis === 'x' ? paneEntry.contentRect.width : paneEntry.contentRect.height;
-      pane.size = `${size + (this.axis === 'x' ? dragDeltaX : dragDeltaY)}px`;
-    }
-    */
+  #onResizePaneViaDraggable({ p1, p2, resizeDelta }) {
+    [p1, p2].forEach((pane, i) => {
+      const paneSize = parseInt(pane.style[this.#dimension]);
+      const direction = resizeDelta * (i === 0) ? 1 : -1;
+      pane.style.setProperty(this.#dimension, `${paneSize + (resizeDelta * direction)}px`);
+    });
   }
 
   /** Recalculates pane sizes on child ids-splitter-panes */
@@ -341,7 +348,7 @@ export default class IdsSplitter extends mix(IdsElement).with(
     // but may not be efficient (also complicates logic)
 
     const dimension = (this.axis === 'x') ? 'width' : 'height';
-    const splitterSize = this.#dimensions[dimension];
+    const splitterSize = this.#size[dimension];
 
     for (const [pane, entry] of this.#paneDraggableMap) {
       const {
