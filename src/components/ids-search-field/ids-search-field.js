@@ -102,12 +102,13 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
         id="${this.id}"
         label="Search Field"
         tabbable="false"
+        ${this.disabled && 'disabled'}
       >
         <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
         <ids-input
-        clearable="${this.clearable}"
-        value="${this.value}"
-        placeholder="Search"
+          clearable="${this.clearable}"
+          value="${this.value}"
+          placeholder="Search"
         >
         </ids-input>
       </ids-trigger-field>
@@ -140,7 +141,16 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get clearable() {
-    return this.getAttribute(attributes.CLEARABLE);
+    return IdsStringUtils.stringToBool(this.getAttribute(attributes.CLEARABLE));
+  }
+
+  set disabled(value) {
+    const val = IdsStringUtils.stringToBool(value);
+    this.setAttribute(attributes.DISABLED, val);
+  }
+
+  get disabled() {
+    return IdsStringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
   #attachEventHandlers() {
