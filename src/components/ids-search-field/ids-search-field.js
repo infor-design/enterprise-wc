@@ -98,23 +98,23 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
   template() {
     return `
-    <div class="ids-search-field">
-      <ids-trigger-field
-        id="${this.id}"
-        label="Search Field"
-        tabbable="false"
-        ${this.disabled && 'disabled'}
-      >
-        <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
-        <ids-input
-          clearable="${this.clearable}"
-          value="${this.value}"
-          placeholder="Search"
-          readonly="${this.readonly}"
+      <div class="ids-search-field">
+        <ids-trigger-field
+          id="${this.id}"
+          label="Search Field"
+          tabbable="false"
+          ${this.disabled && 'disabled'}
         >
-        </ids-input>
-      </ids-trigger-field>
-    </div>
+          <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
+          <ids-input
+            clearable="${this.clearable}"
+            value="${this.value}"
+            placeholder="Search"
+            readonly="${this.readonly}"
+          >
+          </ids-input>
+        </ids-trigger-field>
+      </div>
     `;
   }
 
@@ -182,10 +182,10 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       // pop up autocomplete suggestions
     });
 
-    this.onEvent('keydown', this.input, (e) => {
-      this.value = e.target.value;
-      // pop up autocomplete suggestions
-    });
+    // this.onEvent('keydown', this.input, (e) => {
+    //   this.value = e.target.value;
+    //   // pop up autocomplete suggestions
+    // });
 
     // key press
     // on change
