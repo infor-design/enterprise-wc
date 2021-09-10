@@ -112,7 +112,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Rating (ids-rating)
  - [x] Renderloop (mixin)
  - [ ] Scatterplot (ids-scatter-plot-chart)
- - [ ] Searchfield (ids-search-field)
+ - [x] Searchfield (ids-search-field)
  - [ ] Sign-in (ids-layouts)
  - [x] Skiplink (ids-skip-link)
  - [x] Slider (ids-slider)
