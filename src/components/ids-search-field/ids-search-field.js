@@ -10,7 +10,6 @@ import {
   IdsEventsMixin,
   IdsThemeMixin,
   IdsKeyboardMixin,
-  IdsClearableMixin,
 } from '../../mixins';
 
 import { IdsStringUtils } from '../../utils';
@@ -24,7 +23,6 @@ import IdsIcon from '../ids-icon';
 
 const appliedMixins = [
   IdsEventsMixin,
-  IdsClearableMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
 ];
@@ -36,7 +34,6 @@ const appliedMixins = [
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsClearableMixin
  */
 
 @customElement('ids-search-field')
