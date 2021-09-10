@@ -2,25 +2,29 @@
   <ids-text font-size="12" type="h1">Search Field</ids-text>
 </ids-layout-grid>
 
-<ids-layout-grid cols="3" gap="xl">
+<ids-layout-grid cols="4" gap="xl">
   <ids-layout-grid-cell>
-    <ids-text font-size="12" type="h1">Clearable input</ids-text>
-    <ids-search-field label="Custom Label" clearable value=""></ids-search-field>
+    <ids-text font-size="12" type="h1">Custom Label and Initial Value:</ids-text>
+    <ids-search-field label="Pokemon" value="Pikachu"></ids-search-field>
+  </ids-layout-grid-cell>
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Custom Placeholder:</ids-text>
+    <ids-search-field label="Pokemon" placeholder="Type any Pokemon name"></ids-search-field>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
     <ids-text font-size="12" type="h1">Disabled status</ids-text>
-    <ids-search-field disabled value="example.html"></ids-search-field>
+    <ids-search-field disabled label="Pokemon" value="Snorlax"></ids-search-field>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
     <ids-text font-size="12" type="h1">Read-only status</ids-text>
-    <ids-search-field readonly value="example.html"></ids-search-field>
+    <ids-search-field readonly label="Pokemon" value="Lapras"></ids-search-field>
   </ids-layout-grid-cell>
 </ids-layout-grid>
 <ids-layout-grid cols="3" gap="xl">
   <ids-layout-grid-cell>
     <ids-text font-size="12" type="h1">Wrapped inside a form element</ids-text>
       <form>
-        <ids-search-field readonly value="example.html"></ids-search-field>
+        <ids-search-field readonly value="MewTwo"></ids-search-field>
       </form>
   </ids-layout-grid-cell>
 </ids-layout-grid>
