@@ -66,6 +66,10 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     ];
   }
 
+  DEFAULT_LABEL = 'Search';
+
+  DEFAULT_PLACEHOLDER = 'Type to search';
+
   input;
 
   triggerButton;
@@ -114,7 +118,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     `;
   }
 
-
   set value(value) {
     this.setAttribute(attributes.VALUE, value);
 
@@ -136,7 +139,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get placeholder() {
-    return this.getAttribute(attributes.PLACEHOLDER) || 'Type to search';
+    return this.getAttribute(attributes.PLACEHOLDER) || this.DEFAULT_PLACEHOLDER;
   }
 
   set label(value) {
@@ -148,7 +151,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get label() {
-    return this.getAttribute(attributes.LABEL) || 'Search';
+    return this.getAttribute(attributes.LABEL) || this.DEFAULT_LABEL;
   }
 
   set disabled(value) {
@@ -196,6 +199,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
   #attachKeyboardListener() {
     this.onEvent('keydown', this.input, (event) => {
+      /* istanbul ignore next */
       if (['Enter'].indexOf(event.code) > -1) {
         event.preventDefault();
       }
