@@ -36,9 +36,24 @@ const appliedMixins = [
  * @mixes IdsKeyboardMixin
  */
 
+const DEFAULT_LABEL = 'Search';
+const DEFAULT_PLACEHOLDER = 'Type to search';
+
 @customElement('ids-search-field')
 @scss(styles)
 class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
+  DEFAULT_LABEL = DEFAULT_LABEL;
+
+  DEFAULT_PLACEHOLDER = DEFAULT_PLACEHOLDER;
+
+  input;
+
+  triggerButton;
+
+  triggerButtonIcon;
+
+  triggerField;
+
   constructor() {
     super();
   }
@@ -65,18 +80,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       // attributes.VERSION
     ];
   }
-
-  DEFAULT_LABEL = 'Search';
-
-  DEFAULT_PLACEHOLDER = 'Type to search';
-
-  input;
-
-  triggerButton;
-
-  triggerButtonIcon;
-
-  triggerField;
 
   connectedCallback() {
     this.input = this.container.querySelector('ids-input');
@@ -139,7 +142,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get placeholder() {
-    return this.getAttribute(attributes.PLACEHOLDER) || this.DEFAULT_PLACEHOLDER;
+    return this.getAttribute(attributes.PLACEHOLDER) || DEFAULT_PLACEHOLDER;
   }
 
   set label(value) {
@@ -151,7 +154,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get label() {
-    return this.getAttribute(attributes.LABEL) || this.DEFAULT_LABEL;
+    return this.getAttribute(attributes.LABEL) || DEFAULT_LABEL;
   }
 
   set disabled(value) {
