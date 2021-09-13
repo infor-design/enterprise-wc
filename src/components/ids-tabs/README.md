@@ -32,7 +32,30 @@ A vertical tabs component.
 </ids-tabs>
 ```
 
-TODO: phase i examples
+Using a tab context to show the active tab content in `ids-tab-content`.
+```html
+<ids-tabs-context>
+    <!-- ^ context has no outward styling or content, but width/height or display can be set -->
+    <ids-tabs value="one">
+        <ids-tab value="one">Section 1</ids-tab>
+        <ids-tab value="two">Section 2</ids-tab>
+        <ids-tab value="three">Section 3</ids-tab>
+    </ids-tabs>
+    <div class="tab-content">
+        <ids-tab-content value="one">
+            This will be initially visible
+        </ids-tab-content>
+        <ids-tab-content value="two">
+            If ids-tabs value="two" is selected, or ids-tab with value "two"
+            is set as selected, then this will be visible and one will be hidden
+        </ids-tab-content>
+        <ids-tab-content value="three">
+            And this will show if the ids-tabs value or selection becomes "three",
+            similar to the previous content entry. Only one will be shown at once.
+        </ids-tab-content>
+    </div>
+</ids-tabs-context>
+```
 
 ## Settings and Attributes
 
@@ -43,6 +66,7 @@ do not have a value, will fall back to being a 0-based index. Otherwise, it can
 also be any string as long as there are relevant matches for the values.
 - `orientation` {'horizontal' | 'vertical'} defaults to horizontal; controls
 the direction/axis tabs are flowed on.
+- `color-variant` {'alternate'} (optional) sets the color variant to `alternate`; this is used on header components and set automatically when placed inside of an `ids-header` component.
 
 ### Individual Tabs Settings (`ids-tab`)
 - `disabled` {boolean} allows you to disable a tab among a set of tabs.
@@ -50,12 +74,12 @@ the direction/axis tabs are flowed on.
 has an equivalent for, selects this tab.
 
 ## Themeable Parts
-
-TODO
+### IdsTabs
+- `container` allows you to style the container of the tab
 
 ## States and Variations (With Code Examples)
 
-TODO
+When placed inside of an `IdsHeader` component, the `ids-tabs` component automatically gains the property `color-variant` which is set to `alternate` as it's default style.
 
 ## Keyboard Guidelines
 

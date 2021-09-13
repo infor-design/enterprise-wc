@@ -6,17 +6,29 @@ import {
   mix,
 } from '../../core/ids-element';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
 import {
   IdsKeyboardMixin,
   IdsEventsMixin,
-  IdsThemeMixin
+  IdsThemeMixin,
+  IdsAttributeProviderMixin
 } from '../../mixins';
 
+import IdsHeader from '../ids-header';
 import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
+
+/**
+ * list of entries for attributes provided by
+ * the ids-tabs-context and how they map,
+ * as well as which are listened on for updates
+ * in the children
+ */
+const attributeProviderDefs = {
+  attributesProvided: [{
+    attribute: attributes.COLOR_VARIANT,
+    component: IdsTab
+  }]
+};
 
 /**
  * IDS Tabs Component
@@ -25,11 +37,11 @@ import styles from './ids-tabs.scss';
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
- * @part container - the container of all tabs
  */
 @customElement('ids-tabs')
 @scss(styles)
-export default class IdsTabs extends mix(IdsElement).with(
+class IdsTabs extends mix(IdsElement).with(
+    IdsAttributeProviderMixin(attributeProviderDefs),
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsThemeMixin
@@ -43,38 +55,30 @@ export default class IdsTabs extends mix(IdsElement).with(
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.ORIENTATION, attributes.VALUE];
+    return [
+      attributes.COLOR_VARIANT,
+      attributes.ORIENTATION,
+      attributes.VALUE
+    ];
   }
 
-  /**
-   * Create the Template to render
-   *
-   * @returns {string} the template to render
-   */
   template() {
-    return (
-      `<div
-        ${ IdsStringUtils.buildClassAttrib('ids-tabs', this.orientation) }
-        part="container"
-      >
-        <slot></slot>
-      </div>`
-    );
+    return '<slot></slot>';
   }
 
   connectedCallback() {
     super.connectedCallback?.();
     this.setAttribute('role', 'tablist');
 
-    // set up observer for monitoring if a child
-    // element changed
+    /* istanbul ignore next */
+    if (!this.hasAttribute(attributes.COLOR_VARIANT)) {
+      this.#checkAndSetColorVariant();
+    }
 
-    this.#tabObserver.observe(this, {
-      childList: true,
-      attributes: true,
-      attributeOldValue: true,
-      attributeFilter: ['selected', 'value'],
-      subtree: true
+    this.onEvent('tabselect', this, (e) => /* istanbul ignore next */ {
+      if (e.target.value !== this.value) {
+        this.setAttribute(attributes.VALUE, e.target.value);
+      }
     });
 
     // set initial selection state
@@ -95,15 +99,12 @@ export default class IdsTabs extends mix(IdsElement).with(
   }
 
   /**
-   * Set the orientation of how tabs will be laid out
-   *
-   * @param {'horizontal' | 'vertical'} value orientation
+   * @param {'horizontal' | 'vertical'} value The direction the tabs will be laid out in.
    */
   set orientation(value) {
     switch (value) {
     case 'vertical': {
       this.setAttribute(attributes.ORIENTATION, 'vertical');
-      this.container.classList.add('vertical');
 
       for (let i = 0; i < this.children.length; i++) {
         this.children[i].setAttribute('orientation', 'vertical');
@@ -113,7 +114,6 @@ export default class IdsTabs extends mix(IdsElement).with(
     case 'horizontal':
     default: {
       this.setAttribute(attributes.ORIENTATION, 'horizontal');
-      this.container.classList.remove('vertical');
 
       for (let i = 0; i < this.children.length; i++) {
         this.children[i].setAttribute('orientation', 'horizontal');
@@ -123,26 +123,22 @@ export default class IdsTabs extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @returns {string} The direction the tabs will be laid out in.
+   */
   get orientation() {
     return this.getAttribute(attributes.ORIENTATION);
   }
 
   /**
-   * the value representing a currently selected tab
-   * @type {string}
+   * @param {string} value A value which represents a currently selected tab
    */
   set value(value) {
-    if (this.getAttribute(attributes.VALUE) === value) {
-      return;
+    if (this.getAttribute(attributes.VALUE) !== value) {
+      this.setAttribute(attributes.VALUE, value);
     }
 
-    this.setAttribute(attributes.VALUE, value);
     this.#updateSelectionState();
-
-    // make sure we send them the click
-    // on the next paint and any overall
-    // selection updates in siblings are
-    // made properly
 
     this.triggerEvent('change', this, {
       bubbles: false,
@@ -150,6 +146,9 @@ export default class IdsTabs extends mix(IdsElement).with(
     });
   }
 
+  /**
+   * @returns {string} The value representing a currently selected tab
+   */
   get value() {
     return this.getAttribute(attributes.VALUE);
   }
@@ -176,7 +175,7 @@ export default class IdsTabs extends mix(IdsElement).with(
   #tabElIndexMap = new Map();
 
   /**
-   * used to detach event listeners properly
+   * Used to detach event listeners properly
    * @type {Set<string>}
    * @private
    */
@@ -184,6 +183,7 @@ export default class IdsTabs extends mix(IdsElement).with(
 
   /** observes changes in tabs */
   #tabObserver = new MutationObserver((mutations) => {
+    /* istanbul ignore next */
     for (const m of mutations) {
       switch (m.type) {
       case 'childList': {
@@ -231,13 +231,6 @@ export default class IdsTabs extends mix(IdsElement).with(
             }
           }
         }
-
-        /* istanbul ignore else */
-        if (m.target instanceof IdsTab || m.target instanceof IdsTabs) {
-          if (value !== m.oldValue && m.attributeName === 'value') {
-            this.#updateSelectionState();
-          }
-        }
         break;
       }
       /* istanbul ignore next */
@@ -254,10 +247,38 @@ export default class IdsTabs extends mix(IdsElement).with(
     }
   });
 
-  /* istanbul ignore next */
   /**
-   * @returns {number} currently focused tab index, or -1
+   * checks if we are in a header tab and adjusts color-variant
+   * accordingly
    */
+  #checkAndSetColorVariant() {
+    let isHeaderDescendent = false;
+    let currentElement = this.host || this.parentNode;
+
+    while (!isHeaderDescendent && currentElement) {
+      /* istanbul ignore next */
+      if (currentElement instanceof IdsHeader) {
+        isHeaderDescendent = true;
+        break;
+      }
+
+      // consider the body the ceiling of where to reach here
+      if (currentElement.tagName === 'BODY') {
+        break;
+      }
+
+      /* istanbul ignore next */
+      currentElement = currentElement.host || currentElement.parentNode;
+    }
+
+    /* istanbul ignore next */
+    if (isHeaderDescendent) {
+      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
+    }
+  }
+
+  /* istanbul ignore next */
+  /** @returns {number} Currently focused tab index, or -1 */
   getFocusedTabIndex() {
     if (!(document.activeElement instanceof IdsTab)) {
       return -1;
@@ -271,6 +292,10 @@ export default class IdsTabs extends mix(IdsElement).with(
   }
 
   /* istanbul ignore next */
+  /**
+   * When a child value or this component value changes,
+   * called to rebind onclick callbacks to each child
+   */
   #updateCallbacks() {
     // map tab el refs to their indexes
 
@@ -282,6 +307,7 @@ export default class IdsTabs extends mix(IdsElement).with(
 
     // clear tab values tracked
 
+    /* istanbul ignore next */
     for (const tabValue of this.#tabValueSet) {
       this.offEvent(`click.${tabValue}`);
       this.#tabValueSet.delete(tabValue);
@@ -312,7 +338,7 @@ export default class IdsTabs extends mix(IdsElement).with(
 
     if (this.orientation !== 'vertical') {
       /* istanbul ignore next */
-      this.listen('ArrowLeft', this.container, () => {
+      this.listen('ArrowLeft', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
         if (focusedTabIndex > 0) {
@@ -321,7 +347,7 @@ export default class IdsTabs extends mix(IdsElement).with(
       });
 
       /* istanbul ignore next */
-      this.listen('ArrowRight', this.container, () => {
+      this.listen('ArrowRight', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
         if (focusedTabIndex + 1 < this.children.length) {
@@ -330,7 +356,7 @@ export default class IdsTabs extends mix(IdsElement).with(
       });
     } else {
       /* istanbul ignore next */
-      this.listen('ArrowUp', this.container, () => {
+      this.listen('ArrowUp', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
         if (focusedTabIndex > 0) {
@@ -339,7 +365,7 @@ export default class IdsTabs extends mix(IdsElement).with(
       });
 
       /* istanbul ignore next */
-      this.listen('ArrowDown', this.container, () => {
+      this.listen('ArrowDown', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
         if (focusedTabIndex + 1 < this.children.length) {
@@ -349,17 +375,17 @@ export default class IdsTabs extends mix(IdsElement).with(
     }
 
     /* istanbul ignore next */
-    this.listen('Home', this.container, () => {
+    this.listen('Home', this, () => {
       this.children[0].focus();
     });
 
     /* istanbul ignore next */
-    this.listen('End', this.container, () => {
+    this.listen('End', this, () => {
       this.children[this.children.length - 1].focus();
     });
 
     /* istanbul ignore next */
-    this.listen('Enter', this.container, () => {
+    this.listen('Enter', this, () => {
       const focusedTabIndex = this.getFocusedTabIndex();
 
       if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
@@ -369,7 +395,7 @@ export default class IdsTabs extends mix(IdsElement).with(
   }
 
   /**
-   * sets the ids-tab selection states
+   * Sets the ids-tab selection states
    * based on the current value
    */
   #updateSelectionState() {
@@ -386,7 +412,7 @@ export default class IdsTabs extends mix(IdsElement).with(
       const tabValue = this.children[i].getAttribute(attributes.VALUE);
       const isTabSelected = Boolean(this.value === tabValue);
 
-      if (Boolean(this.children[i].selected) !== isTabSelected) {
+      if (this.children[i].selected !== isTabSelected) {
         this.children[i].selected = isTabSelected;
       }
 
@@ -394,5 +420,43 @@ export default class IdsTabs extends mix(IdsElement).with(
         hadTabSelection = true;
       }
     }
+
+    // if no selection found, flag the first child;
+    // this will possibly send a callback up to context for
+    // other listeners and trigger a value change
+
+    if (!hadTabSelection) {
+      window.requestAnimationFrame(() => {
+        this.children[0].selected = true;
+        this.triggerEvent('tabselect', this.children[0], { bubbles: true });
+      });
+    }
+  }
+
+  /**
+   * @param {'alternate'|undefined} variant A theming variant to the ids-tabs which
+   * also applies to each ids-tab
+   */
+  set colorVariant(variant) {
+    switch (variant) {
+    case 'alternate': {
+      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
+      break;
+    }
+    default: {
+      this.removeAttribute(attributes.COLOR_VARIANT);
+      break;
+    }
+    }
+  }
+
+  /**
+   * @returns {'alternate'|undefined} A theming variant for the ids-tabs which also
+   * applies to each ids-tab
+   */
+  get colorVariant() {
+    return this.getAttribute(attributes.COLOR_VARIANT);
   }
 }
+
+export default IdsTabs;
