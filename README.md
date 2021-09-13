@@ -5,7 +5,7 @@
 [![Build Check](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml/badge.svg)](https://github.com/infor-design/enterprise-wc/actions/workflows/ci.yml)
 [![Coverage Status](https://coveralls.io/repos/github/infor-design/enterprise-wc/badge.svg?branch=main)](https://coveralls.io/github/infor-design/enterprise-wc?branch=main)
 
-Infor Design System's Enterprise component library is a framework-independent UI library consisting of CSS and JS that provides Infor product development teams, partners, and customers the tools to create user experiences that are approachable, focused, relevant and perceptive.
+Infor Design System's Enterprise component library is a framework independent UI library consisting of CSS and JS that provides Infor product development teams, partners, and customers the tools to create user experiences that are approachable, focused, relevant and perceptive.
 
 For guidelines on when and where to use the components see the [design.infor.com](http://design.infor.com).
 
@@ -14,10 +14,10 @@ For guidelines on when and where to use the components see the [design.infor.com
 - Multiple themes, including a WCAG 2.0 AAA compatible high-contrast theme
 - Responsive components, patterns and layouts
 - Touch-friendly interactions
-- SVG-based iconography compatible with high DPI screens
+- SVG-based iconography for high DPI screens and scaling
 - Built-in, extendible localization system
 - Built-in mitigation of XSS exploits
-- 100% Test Coverage (TDD where possible)
+- 100% Functional Test Coverage
 - Passes all code security scans and is fully CSP compliant
 - Well documented in `.md` format
 - Contains an extensive [Change log](./doc/CHANGELOG.md) which lists any and all breaking changes
@@ -25,7 +25,7 @@ For guidelines on when and where to use the components see the [design.infor.com
 - Follows [WAI-ARIA Authoring Practices](https://www.w3.org/TR/wai-aria-practices-1.1/#keyboard-interaction-12) with a focus on accessibility
 - Fully Namespaced with an `ids-` namespace
 - We Follow the [Gold Standard For Making Web Components](https://github.com/webcomponents/gold-standard/wiki)
-- Type safe for TypeScript users with d.ts files
+- Type safe for TypeScript users with `d.ts` files
 - Every component has the CSS and DOM Encapsulated (in supported browsers)
 - 140+ Components to convert
 
@@ -42,7 +42,13 @@ We support the latest release and the release previous to the latest (R-1) for b
 
 ## Installation
 
-To Clone and Run this Repo:
+The components are available via npm/yarn:
+
+```sh
+npm install --save ids-enterprise-wc@latest
+```
+
+To Clone and Run this Repo locally:
 
 ```sh
 mkdir enterprise-wc
@@ -50,12 +56,6 @@ cd enterprise-wc
 git clone git@github.com:infor-design/enterprise-wc.git .
 npm i
 npm run start
-```
-
-The components are also available in npm:
-
-```sh
-npm install --save ids-enterprise-wc@latest
 ```
 
 ## Documentation
