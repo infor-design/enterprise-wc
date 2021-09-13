@@ -7,7 +7,9 @@
   - [x] fix the readonly css to include the icon too
 - [-] check to make sure it works in a
   - [x] form
-  - [ ] header (need to dig what this means)
+  - [-] header
+    - [ ] adjust the search bar into middle
+    - [ ] add the search bar style/attribute
 - [x] add themes/modes
 - [x] figure out the ... in attributes
 - [ ] write tests
