@@ -16,9 +16,9 @@ import IdsText from '../ids-text';
 import styles from './ids-tab.scss';
 
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import { IdsStringUtils as stringUtils } from '../../utils';
 
-const { stringToBool, buildClassAttrib } = IdsStringUtils;
+const { stringToBool, buildClassAttrib } = stringUtils;
 
 /**
  * IDS Tab Component
@@ -31,6 +31,9 @@ const { stringToBool, buildClassAttrib } = IdsStringUtils;
 @customElement('ids-tab')
 @scss(styles)
 class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
+  /** store the previous "selected" value to prevent double firing events */
+  #prevSelected = false;
+
   constructor() {
     super();
   }
@@ -41,6 +44,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   static get attributes() {
     return [
+      attributes.COLOR_VARIANT,
       attributes.COUNT,
       attributes.ORIENTATION,
       attributes.SELECTED,
@@ -116,60 +120,112 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   connectedCallback() {
+    this.#prevSelected = false;
     this.setAttribute('role', 'tab');
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
     this.setAttribute('tabindex', stringToBool(this.selected) ? '0' : '-1');
-
     this.setAttribute('aria-label', this.#getReadableAriaLabel());
+    this.selected = this.hasAttribute(attributes.SELECTED);
+
+    /* istanbul ignore next */
+    this.onEvent('click', this, () => {
+      if (!this.hasAttribute(attributes.SELECTED)) {
+        this.setAttribute(attributes.SELECTED, '');
+      }
+    });
   }
 
   /**
-   * @param {string} isSelected value which becomes selected by tabs component
+   * @param {boolean} isSelected Whether or not this tab is selected.
    */
   set selected(isSelected) {
     const isValueTruthy = stringToBool(isSelected);
 
     /* istanbul ignore if */
     if (!isValueTruthy) {
-      this.container.classList.remove(attributes.SELECTED);
       this.removeAttribute('selected');
+      this.container.classList.remove('selected');
       this.container?.children?.[0]?.removeAttribute?.('font-weight');
       this.setAttribute('tabindex', '-1');
     } else {
-      this.container.classList.add(attributes.SELECTED);
-      this.setAttribute('selected', true);
+      this.setAttribute('selected', '');
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
+      this.container.classList.add('selected');
       this.setAttribute('tabindex', '0');
-    }
 
+      if (!this.#prevSelected) {
+        // reqAnimFrame needed to fire for context to read reliably due to onEvent binding
+        window.requestAnimationFrame(() => {
+          this.triggerEvent('tabselect', this, { bubbles: true });
+        });
+      }
+    }
+    this.#prevSelected = isValueTruthy;
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
   }
 
+  /**
+   * @returns {boolean} isSelected Whether or not this tab is selected.
+   */
   get selected() {
-    return this.getAttribute(attributes.SELECTED);
+    return this.hasAttribute(attributes.SELECTED);
   }
 
   /**
-   * @param {string} value value which becomes selected by tabs component
+   * @param {'alternate'|undefined} variant A value which represents a currently
+   * selected tab; at any time, should match one of the child ids-tab `value`
+   * attributes set for a valid selection.
    */
+  set colorVariant(variant) {
+    switch (variant) {
+    case 'alternate': {
+      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
+      this.container.classList.add('color-variant-alternate');
+      break;
+    }
+    default: {
+      this.removeAttribute(attributes.COLOR_VARIANT);
+      this.container.classList.remove('color-variant-alternate');
+      break;
+    }
+    }
+  }
+
+  /**
+   * @returns {'alternate'|undefined} A value which represents a currently
+   * selected tab; at any time, should match one of the child ids-tab `value`
+   * attributes set for a valid selection.
+   */
+  get colorVariant() {
+    return this.getAttribute(attributes.COLOR_VARIANT);
+  }
+
+  /** @param {string} value The value which becomes selected by ids-tabs component */
   set value(value) {
     /* istanbul ignore next */
     if (value !== this.getAttribute(attributes.VALUE)) {
       /* istanbul ignore next */
       this.setAttribute(attributes.VALUE, value);
     }
+
+    this.triggerEvent('tabvaluechange', this, {
+      bubbles: true,
+      detail: { value: `${value}` }
+    });
   }
 
+  /** @returns {string} value The value which becomes selected by ids-tabs component */
   get value() {
     return this.getAttribute(attributes.VALUE);
   }
 
+  /** @returns {string} value The number of items represented in the tab (may or may not apply) */
   get count() {
     return this.getAttribute(attributes.COUNT);
   }
 
   /**
-   * @param {string} value the count
+   * @param {string} value The number of items represented in the tab (may or may not apply)
    */
   set count(value) {
     if (value === '') {
@@ -192,10 +248,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
-  /**
-   * Set the orientation of how tabs will be laid out
-   * @param {'horizontal' | 'vertical'} value orientation
-   */
+  /** @param {'horizontal' | 'vertical'} value The direction which tabs will be laid out in */
   set orientation(value) {
     switch (value) {
     case 'vertical': {
@@ -212,6 +265,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
+  /** @returns {'horizontal' | 'vertical'} value The direction which tabs will be laid out in. */
   get orientation() {
     return this.getAttribute(attributes.ORIENTATION);
   }
@@ -225,6 +279,11 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   #getReadableAriaLabel() {
     const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
+
+    /* istanbul ignore next */
+    if (!idsTextEls.length) {
+      return '';
+    }
 
     return idsTextEls.map((textEl) => {
       const slotNode = textEl.querySelector('slot')?.assignedNodes?.()?.[0];
@@ -241,7 +300,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     const idsText = this.container?.querySelector('ids-text');
     const slotNode = idsText.querySelector('slot')?.assignedNodes?.()?.[0];
 
-    if (slotNode) {
+    if (slotNode && idsText) {
       idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
     }
   };

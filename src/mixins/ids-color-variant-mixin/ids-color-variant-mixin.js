@@ -42,7 +42,7 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  availableColorVariants = [];
+  colorVariants = [];
 
   /**
    * @returns {string|null} the name of the color variant currently applied
@@ -60,7 +60,7 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
       safeVal = IdsXssUtils.stripTags(val, '');
     }
 
-    if (this.availableColorVariants.includes(safeVal)) {
+    if (this.colorVariants.includes(safeVal)) {
       this.setAttribute(attributes.COLOR_VARIANT, `${safeVal}`);
     } else {
       this.removeAttribute(attributes.COLOR_VARIANT);
@@ -77,15 +77,16 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
   /**
    * Refreshes the component's color variant state, driven by
    * a CSS class on the WebComponent's `container` element
+   *
    * @param {string} variantName the variant name to "add" to the style
    * @returns {void}
    */
   #refreshColorVariant(variantName) {
-    const variantClasses = this.availableColorVariants.map((variant) => `color-variant-${variant}`);
     const thisVariantClass = `color-variant-${variantName}`;
     const cl = this.container.classList;
 
-    variantClasses.forEach((variantClass) => {
+    this.colorVariants.forEach((variant) => {
+      const variantClass = `color-variant-${variant}`;
       if (variantName !== null && variantClass === thisVariantClass && !cl.contains(variantClass)) {
         cl.add(variantClass);
       } else if (variantClass !== thisVariantClass && cl.contains(variantClass)) {

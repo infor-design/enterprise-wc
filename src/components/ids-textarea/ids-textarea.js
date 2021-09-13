@@ -59,6 +59,7 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * @mixes IdsThemeMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsValidationMixin
+ * @mixes IdsClearableMixin
  * @part textarea - the textarea element
  * @part label - the label element
  */
@@ -90,7 +91,6 @@ class IdsTextarea extends mix(IdsElement).with(
       attributes.CHAR_MAX_TEXT,
       attributes.CHAR_REMAINING_TEXT,
       attributes.CHARACTER_COUNTER,
-      attributes.CLEARABLE,
       attributes.DISABLED,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,

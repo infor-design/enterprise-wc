@@ -170,8 +170,8 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
     this.attachNativeEvents();
 
     // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.switch-container');
+    this.onEvent('languagechange.switch-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       // Do something with parent lang
     });

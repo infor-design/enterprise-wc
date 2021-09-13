@@ -63,8 +63,8 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     super.connectedCallback?.();
 
     // Respond to parent changing language
-    this.offEvent('languagechange');
-    this.onEvent('languagechange', this, async (e) => {
+    this.offEvent('languagechange.popup-menu');
+    this.onEvent('languagechange.popup-menu', this, async (e) => {
       await this.shadowRoot.querySelector('ids-popup')?.setLanguage(e.detail.language.name);
       this.querySelectorAll('ids-menu-group')?.forEach((menuGroup) => {
         menuGroup?.setLanguage(e.detail.language.name);

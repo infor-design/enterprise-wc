@@ -3,19 +3,18 @@
 </ids-layout-grid>
 
 <ids-layout-grid cols="3" gap="md">
-  <ids-layout-grid-cell>
-    <ids-trigger-field
-      id="trigger-field-1"
-      size="sm"
-      tabbable="false"
-      label="Date Field">
-      <ids-input></ids-input>
-      <ids-trigger-button>
-        <ids-text audible="true">Date Field trigger</ids-text>
-        <ids-icon slot="icon" icon="schedule"></ids-icon>
-      </ids-trigger-button>
-    </ids-trigger-field>
-  </ids-layout-grid-cell>
+  <ids-trigger-field
+    id="trigger-field-1"
+    size="sm"
+    tabbable="false"
+    label="Date Field"
+  >
+    <ids-input></ids-input>
+    <ids-trigger-button>
+      <ids-text audible="true">Date Field trigger</ids-text>
+      <ids-icon slot="icon" icon="schedule"></ids-icon>
+    </ids-trigger-button>
+  </ids-trigger-field>
 
   <ids-layout-grid-cell>
     <ids-trigger-field
@@ -80,6 +79,22 @@
       <ids-trigger-button>
         <ids-text audible="true">Products trigger</ids-text>
         <ids-icon slot="icon" icon="caret-down"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>
+  </ids-layout-grid-cell>
+
+  <ids-layout-grid-cell>
+    <ids-trigger-field
+      id="trigger-field-6"
+      size="md"
+      label="Search Field">
+      <ids-input
+        placeholder="Search"
+        label-hidden>
+      </ids-input>
+      <ids-trigger-button>
+        <ids-text audible="true">Search trigger</ids-text>
+        <ids-icon slot="icon" icon="search"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
   </ids-layout-grid-cell>

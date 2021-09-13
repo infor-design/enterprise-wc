@@ -1,6 +1,6 @@
 export class IdsColorVariantMixin {
   /** list of available color variants for this component */
-  availableColorVariants: Array<string>;
+  colorVariants: Array<string>;
 
   /** the current color variant */
   colorVariant: string;

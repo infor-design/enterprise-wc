@@ -2,10 +2,10 @@ import {
   IdsElement,
   customElement,
   scss
-} from '../../core/ids-element';
+} from '../../core';
 
 import { IdsEventsMixin } from '../../mixins';
-import styles from './ids-tabs-divider.scss';
+import styles from './ids-tab-divider.scss';
 
 /* istanbul ignore next */
 /**
