@@ -41,4 +41,7 @@ export default class IdsLayoutGridCell extends IdsElement {
 
   /** Set the ending row */
   rowEnd: string;
+
+  /** Float the element to the right using justify-self */
+  justify: boolean;
 }
