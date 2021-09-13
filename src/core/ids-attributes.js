@@ -1,6 +1,7 @@
 // Please keep constants alphabetized
 export const attributes = {
   ACCEPT: 'accept',
+  ACTIVE: 'active',
   ALTERNATE_ROW_SHADING: 'alternate-row-shading',
   ANIMATED: 'animated',
   ANIMATION_STYLE: 'animation-style',

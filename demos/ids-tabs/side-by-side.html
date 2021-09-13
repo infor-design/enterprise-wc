@@ -3,16 +3,45 @@
 <ids-layout-grid>
   <h2 class="ids-text ids-text-px-12">Web Component Tabs</h2>
 </ids-layout-grid>
-<ids-tabs value="notes" id="ids-tabs-basic">
-  <ids-tab value="contracts">Contracts</ids-tab>
-  <ids-tab value="opportunities">Opportunities</ids-tab>
-  <ids-tab value="attachments">Attachments</ids-tab>
-  <ids-tab value="notes">Notes</ids-tab>
-</ids-tabs>
+<ids-tabs-context>
+  <ids-tabs value="notes">
+    <ids-tab value="contracts">Contracts</ids-tab>
+    <ids-tab value="opportunities">Opportunities</ids-tab>
+    <ids-tab value="attachments">Attachments</ids-tab>
+    <ids-tab value="notes">Notes</ids-tab>
+  </ids-tabs>
+  <div class="ids-tabs-content">
+    <ids-tab-content value="contracts">
+      <ids-text font-size="18">
+        I think there’s a world market for about 5 computers.
+        (Thomas J. Watson, Chairman of the Board, IBM, circa 1948)
+      </ids-text>
+    </ids-tab-content>
+    <ids-tab-content value="opportunities">
+      <div class="tab-content">
+        <ids-text font-size="18">
+          Everything that can be invented has been invented.
+          (Charles H. Duell, Commissioner, U.S. Office of Patents, 1899)
+        </ids-text>
+      </div>
+    </ids-tab-content>
+    <ids-tab-content value="attachments">
+      <ids-text font-size="18">
+        It’s ridiculous to live 100 years and only be able to remember 30 million bytes.
+        You know, less than a compact disc. The human condition is really becoming more
+        obsolete every minute. (Marvin Minsky)
+      </ids-text>
+    </ids-tab-content>
+    <ids-tab-content value="notes">
+      <ids-text font-size="18">
+        If debugging is the process of removing bugs, then programming must be the process of
+        putting them in. (Edsger W. Dijkstra)
+      </ids-text>
+    </ids-tab-content>
+  </div>
+</ids-tabs-context>
+<div></div>
 
-<ids-layout-grid>
-  <h2 class="ids-text ids-text-px-12">4.x Tabs</h2>
-</ids-layout-grid>
 <div class="row top-padding">
   <div class="twelve columns">
 

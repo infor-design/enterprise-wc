@@ -1,26 +1,30 @@
 @import '../../core/ids-base';
 
-:host(ids-tabs) {
+:host(ids-tabs),
+.ids-tabs-container {
   --tab-width: 100%;
 
   contain: content;
-}
-
-.ids-tabs {
-  &.vertical {
-    flex-direction: column;
-  }
-
-  &:not(.vertical) {
-    @include border-b-1;
-    @include mt-8;
-    @include border-graphite-60;
-  }
-
   position: relative;
   display: flex;
   width: 100%;
   padding-inline-start: 0;
   margin-block-start: 0;
   margin-inline-start: 0;
+}
+
+:host(ids-tabs[orientation='vertical']),
+.ids-tabs-container[orientation='vertical'] {
+  flex-direction: column;
+}
+
+:host(ids-tabs:not([orientation='vertical'])),
+.ids-tabs-container:not([orientation='vertical']) {
+  @include mt-8;
+}
+
+:host(ids-tabs:not([orientation='vertical']):not([color-variant='alternate'])),
+.ids-tabs-container:not([orientation='vertical']):not([color-variant='alternate']) {
+  @include border-b-1;
+  @include border-graphite-60;
 }
