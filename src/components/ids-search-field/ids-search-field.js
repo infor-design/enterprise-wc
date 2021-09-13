@@ -63,21 +63,9 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       ...super.attributes,
       attributes.VALUE,
       attributes.PLACEHOLDER,
-      // attributes.ID,
-      // attributes.COMPACT,
       attributes.DISABLED,
-      // attributes.LABEL,
-      // attributes.LABEL_HIDDEN,
-      // attributes.LABEL_REQUIRED,
-      // attributes.MODE,
-      // attributes.SIZE,
+      attributes.LABEL,
       attributes.READONLY,
-      // attributes.TEXT_ALIGN,
-      // attributes.TEXT_ELLIPSIS,
-      // attributes.TRIGGERFIELD,
-      // attributes.TYPE,
-      // attributes.VALUE,
-      // attributes.VERSION
     ];
   }
 
@@ -85,7 +73,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     this.input = this.container.querySelector('ids-input');
     this.triggerField = this.container.querySelector('ids-trigger-field');
     this.triggerButton = this.container.querySelector('ids-trigger-button');
-    // this.triggerButtonIcon = this.container.querySelector('ids-trigger-button ids-icon');
+    this.triggerButtonIcon = this.container.querySelector('ids-trigger-button ids-icon');
 
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
@@ -121,6 +109,10 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     `;
   }
 
+  /**
+   * Sets the value inside the input
+   * @param {string} value The input value
+   */
   set value(value) {
     this.setAttribute(attributes.VALUE, value);
 
@@ -133,6 +125,10 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     return this.getAttribute(attributes.VALUE) || '';
   }
 
+  /**
+   * Set the placeholder text inside the input
+   * @param {string} value The placeholder text
+   */
   set placeholder(value) {
     this.setAttribute(attributes.PLACEHOLDER, value);
 
@@ -142,9 +138,17 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get placeholder() {
-    return this.getAttribute(attributes.PLACEHOLDER) || DEFAULT_PLACEHOLDER;
+    const a = this.getAttribute(attributes.PLACEHOLDER);
+    if (typeof a === 'string') {
+      return this.getAttribute(attributes.PLACEHOLDER);
+    }
+    return DEFAULT_PLACEHOLDER;
   }
 
+  /**
+   * Set the label text that rests above the input field
+   * @param {string} value The name for the label
+   */
   set label(value) {
     this.setAttribute(attributes.LABEL, value);
 
@@ -154,9 +158,17 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get label() {
-    return this.getAttribute(attributes.LABEL) || DEFAULT_LABEL;
+    const a = this.getAttribute(attributes.LABEL);
+    if (typeof a === 'string') {
+      return this.getAttribute(attributes.LABEL);
+    }
+    return DEFAULT_LABEL;
   }
 
+  /**
+   * Sets the input state to disabled so the field is uneditable or accessible through tabbing
+   * @param {boolean} value True or False
+   */
   set disabled(value) {
     const val = IdsStringUtils.stringToBool(value);
     this.setAttribute(attributes.DISABLED, val);
@@ -168,6 +180,9 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     return IdsStringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
+  /**
+   * Sets the input state to readonly so the field is uneditable but accessible through tabbing
+   */
   set readonly(value) {
     const val = IdsStringUtils.stringToBool(value);
     this.setAttribute(attributes.READONLY, val);
@@ -179,9 +194,12 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     return IdsStringUtils.stringToBool(this.getAttribute(attributes.READONLY));
   }
 
+  /**
+   * TODO: search function that gets triggered upon 'Enter' key or clicking the trigger button
+   */
   #searchFunction() {
-    // TODO: query something, probably
     // const searchParam = this.value;
+    // query the searchParm in some list/database
   }
 
   #attachEventHandlers() {
@@ -195,7 +213,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       // TODO: pop up autocomplete suggestions
     });
 
-    this.onEvent('click', this.triggerButton, (e) => {
+    this.onEvent('click', this.triggerButton, () => {
       this.#searchFunction();
     });
   }
