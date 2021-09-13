@@ -128,6 +128,20 @@ An Ids Layout Grid with a custom number of columns or rows. The example below sh
 </ids-layout-grid>
 ```
 
+You can pass an optional attribute `minColWidth` to override the default min value in the minmax definition of the grid
+
+```html
+<ids-layout-grid auto="true" minColWidth="200px">
+   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+   <ids-layout-grid-cell fill="true"></ids-layout-grid-cell>
+</ids-layout-grid>
+
 Nested Grid. An IdsLayoutGrid component can be nested inside an IdsLayoutGridCell.
 
 ```html
