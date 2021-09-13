@@ -92,8 +92,6 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
     this.offEvent('languagechange.about-container');
     this.onEvent('languagechange.about-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
-      this.#refreshDeviceSpecs();
-      this.#refreshCopyright();
     });
 
     // Respond to the element changing language
