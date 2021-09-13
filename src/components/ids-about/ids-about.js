@@ -147,8 +147,7 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
    * @param {string} val productName attribute value
    */
   set productName(val) {
-    const sanitizedVal = this.xssSanitize(val);
-    this.setAttribute(attributes.PRODUCT_NAME, sanitizedVal);
+    this.setAttribute(attributes.PRODUCT_NAME, val);
 
     this.#refreshProduct();
   }
@@ -165,8 +164,7 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
    * @param {string} val productVersion attribute value
    */
   set productVersion(val) {
-    const sanitizedVal = this.xssSanitize(val);
-    this.setAttribute(attributes.PRODUCT_VERSION, sanitizedVal);
+    this.setAttribute(attributes.PRODUCT_VERSION, val);
 
     this.#refreshProduct();
   }
@@ -252,8 +250,7 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
    * @param {string} val copyrightYear attribute value
    */
   set copyrightYear(val) {
-    const sanitizedVal = this.xssSanitize(val);
-    this.setAttribute(attributes.COPYRIGHT_YEAR, sanitizedVal);
+    this.setAttribute(attributes.COPYRIGHT_YEAR, val);
 
     this.#refreshCopyright();
   }

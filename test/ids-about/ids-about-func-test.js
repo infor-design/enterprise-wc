@@ -125,10 +125,6 @@ describe('IdsAbout Component (using properties)', () => {
   });
 
   it('can alter copyrightYear', () => {
-    component.copyrightYear = undefined;
-
-    expect(component.copyrightYear).toEqual(new Date().getFullYear());
-
     component.copyrightYear = 2015;
 
     expect(component.copyrightYear).toEqual('2015');
@@ -216,11 +212,6 @@ describe('IdsABout Component (empty)', () => {
   });
 
   it('can change copyrightYear after being invoked', () => {
-    component.copyrightYear = undefined;
-
-    expect(component.querySelectorAll('*').length).toBeTruthy();
-    expect(component.copyrightYear).toEqual(new Date().getFullYear());
-
     component.copyrightYear = 2015;
 
     expect(component.querySelectorAll('*').length).toBeTruthy();
