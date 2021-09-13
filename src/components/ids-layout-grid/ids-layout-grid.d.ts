@@ -23,4 +23,7 @@ export default class IdsLayoutGrid extends IdsElement {
 
   /** Float the element to the right using justify-self */
   justify: boolean;
+
+  /** Minimum column width for auto grids. ex: 120px. */
+  minColWidth: string;
 }
