@@ -194,8 +194,8 @@ class IdsCheckbox extends mix(IdsElement).with(
     this.attachNativeEvents();
 
     // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.checkbox-container');
+    this.onEvent('languagechange.checkbox-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       // Do something with parent lang
     });

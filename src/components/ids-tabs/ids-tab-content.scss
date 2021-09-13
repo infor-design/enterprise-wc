@@ -1,0 +1,7 @@
+:host(ids-tab-content[active]) {
+  display: block;
+}
+
+:host(ids-tab-content:not([active])) {
+  display: none;
+}

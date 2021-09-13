@@ -166,8 +166,8 @@ class IdsPopup extends mix(IdsElement).with(
     });
 
     // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.popup-container');
+    this.onEvent('languagechange.popup-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
     });
   }

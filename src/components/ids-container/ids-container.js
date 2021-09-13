@@ -79,7 +79,7 @@ class IdsContainer extends mix(IdsElement).with(
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  availableColorVariants = ['alternate'];
+  colorVariants = ['alternate'];
 
   /**
    * If set to number the container will have padding added (in pixels)
