@@ -2,7 +2,7 @@
  component: Search Field 
  link: ids-search-field
  description: Interactive input for typing in to search for results
- category: Input
+ category: Form Inputs
  keywords: search, field, input
  examples:
   - link: index.html
