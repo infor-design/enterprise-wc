@@ -2,7 +2,7 @@
   <ids-text font-size="12" type="h1">Search Field</ids-text>
 </ids-layout-grid>
 
-<ids-layout-grid cols="4" gap="xl">
+<ids-layout-grid cols="3" gap="xl">
   <ids-layout-grid-cell>
     <ids-text font-size="12" type="h1">Custom Label and Initial Value:</ids-text>
     <ids-search-field label="Products" value="Anti-virus Software"></ids-search-field>
@@ -15,12 +15,12 @@
     <ids-text font-size="12" type="h1">Disabled status:</ids-text>
     <ids-search-field disabled value="Laptop"></ids-search-field>
   </ids-layout-grid-cell>
+</ids-layout-grid>
+<ids-layout-grid cols="3" gap="xl">
   <ids-layout-grid-cell>
     <ids-text font-size="12" type="h1">Read-only status:</ids-text>
     <ids-search-field readonly value="Notebook"></ids-search-field>
   </ids-layout-grid-cell>
-</ids-layout-grid>
-<ids-layout-grid cols="3" gap="xl">
   <ids-layout-grid-cell>
     <ids-text font-size="12" type="h1">Wrapped inside a form element:</ids-text>
       <form>
@@ -34,7 +34,7 @@
 </ids-layout-grid>
 <ids-layout-grid cols="1">
   <ids-layout-grid-cell>
-
+    <ids-text font-size="12" type="h1">Inside a Header:</ids-text>
     <ids-header>
       <ids-toolbar>
         <ids-toolbar-section>
@@ -47,7 +47,7 @@
           <ids-text font-size="14" color-variant="alternate">With some extra information below</ids-text>
         </ids-toolbar-section>
         <ids-toolbar-section type="search" align="end">
-          <ids-search-field color-variant="alternate" label="" value="Mouse Pad"></ids-search-field>
+          <ids-search-field color-variant="alternate" label=""></ids-search-field>
         </ids-toolbar-section>
         <ids-theme-switcher mode="light" version="new" color-variant="alternate"></ids-theme-switcher>
       </ids-toolbar>
