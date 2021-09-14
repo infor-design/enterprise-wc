@@ -2,7 +2,7 @@
 
 ## Description
 
-Displays a range of selectable values(s) between a minimum and maximum, which can be controlled by the thumb(s) along the track of the slider. There is a single slider (1 thumb), double slider (2 thumbs), and a step slider (1 thumb and x amount of ticks). They can also be converted from horizontal (default) to vertical orientation. The value(s) can be modified by either clicking the area around the track, by dragging the thumb back and forth, or by focusing and pressing the arrow keys.  A user can select a single value or range of values. 
+Displays a range of selectable values(s) between a minimum and maximum, which can be controlled by the thumb(s) along the track of the slider. There is a single slider (1 thumb), double slider (2 thumbs), and a step slider (1 thumb and x amount of ticks). They can also be converted from horizontal (default) to vertical orientation. The value(s) can be modified by either clicking the area around the track, by dragging the thumb back and forth, or by focusing and pressing the arrow keys.  A user can select a single value or range of values.
 
 ## Use Cases
 
@@ -25,7 +25,7 @@ Displays a range of selectable values(s) between a minimum and maximum, which ca
 - `min` {number} set the minimum value of the slider
 - `max` {number} set the maximum value of the slider
 - `color` {string} set the color of the slider
-- `type` {'single' | 'double' | 'step'} set the type of the slider 
+- `type` {'single' | 'double' | 'step'} set the type of the slider
 - `step-number` {number >= 2} number of steps (applicable only for the step slider)
 - `vertical` {boolean}
 
@@ -45,9 +45,9 @@ document.querySelector('ids-slider').labels = ['very bad, poor, average, good, e
 
 Based on the example above, the attribute `step-number` would need to be set to `5`
 
-## Accessability
+## Accessibility
 
-Users can manuever to focus on the thumb with <kbd>Tab<kbd> and modify values with <kbd>↑</kbd<kbd>↓</kbd><kbd>→</kbd><kbd>←</kbd>
+Users can tab to focus on the thumb with <kbd>Tab<kbd> and modify values with <kbd>Arrow Up/Down/Left/Right</kbd>.
 
 ## Features (With Code Samples)
 
