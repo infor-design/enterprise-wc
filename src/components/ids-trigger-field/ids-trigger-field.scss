@@ -184,7 +184,7 @@
     @include text-slate-10();
   }
 
-  &.bg-transparent.readonly {
+  &.bg-transparent {
     @include bg-transparent();
   }
 
@@ -209,7 +209,7 @@
     @include text-slate-100();
   }
 
-  &.bg-transparent.readonly {
+  &.bg-transparent {
     @include bg-white();
   }
 
@@ -234,7 +234,7 @@
     @include text-classic-slate-100();
   }
 
-  &.bg-transparent.readonly {
+  &.bg-transparent {
     @include bg-transparent();
   }
 
@@ -259,7 +259,7 @@
     @include text-white();
   }
 
-  &.bg-transparent.readonly {
+  &.bg-transparent {
     @include bg-transparent();
   }
 
@@ -285,7 +285,7 @@
     @include text-graphite-100();
   }
 
-  &.bg-transparent.readonly {
+  &.bg-transparent {
     @include bg-white();
   }
 
