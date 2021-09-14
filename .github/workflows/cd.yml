@@ -40,6 +40,9 @@ jobs:
     - name: Build and Compile
       run: npm run build
 
+    - name: Run Tests For Percy Baselines
+      run: npm run test:percy
+
     - name: Extract branch name
       shell: bash
       run: |
