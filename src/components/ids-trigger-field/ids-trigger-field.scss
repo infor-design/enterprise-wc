@@ -3,7 +3,6 @@
 
 .ids-trigger-field {
   @include flex();
-  @include mb-16();
 
   align-items: flex-start;
   flex-direction: column;
