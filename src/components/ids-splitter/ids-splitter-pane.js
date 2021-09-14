@@ -77,11 +77,7 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
 
   #previousContentSizeHash = '';
 
-  /**
-   * Create the Template to render
-   *
-   * @returns {string} the template to render
-   */
+  /** @returns {string} Create the template to render */
   template() {
     return (
       `<div class="ids-splitter-pane"><slot></slot></div>`
@@ -226,7 +222,7 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
   #minSize = { number: 0, unit: 'px' };
 
   /** contains the string hash of ${min_size}_${size}_${max-size} */
-  #sizesHash = '0px_0px_0px';
+  #sizesHash = '-';
 
   /**
    * used by ids-splitter to grab current parsed size attribute
@@ -284,11 +280,11 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
    * the new user-entered dimensions
    */
   #checkToUpdateSizesHash() {
-    const sizesHash = getSizesHash(this.getSizeMeta());
+    const sizeMeta = this.getSizeMeta();
+    const sizesHash = getSizesHash(sizeMeta);
 
     if (sizesHash !== this.#sizesHash) {
       this.#sizesHash = sizesHash;
-      const sizeMeta = this.getSizeMeta();
 
       this.triggerEvent('splitter-pane-size-attrib-change', this, {
         bubbles: true,
