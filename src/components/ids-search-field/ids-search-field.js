@@ -51,10 +51,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
   input;
 
-  // triggerButton;
-
-  // triggerButtonIcon;
-
   triggerField;
 
   constructor() {
@@ -82,15 +78,12 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   connectedCallback() {
     this.input = this.container.querySelector('ids-input');
     this.triggerField = this.container.querySelector('ids-trigger-field');
-    // this.triggerButton = this.container.querySelector('ids-trigger-button');
-    // this.triggerButtonIcon = this.container.querySelector('ids-trigger-button ids-icon');
 
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
     super.connectedCallback();
   }
 
-  // TODO: remove bg-transparent when ids-trigger-field gets merged
   template() {
     return `
       <div 
@@ -105,7 +98,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
         >
           <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
           <ids-input
-            bg-transparent
             ${!this.readyonly && !this.disabled && 'clearable'}
             ${this.readonly && 'readonly'}
             value="${this.value}"
