@@ -33,6 +33,7 @@ const { stringToBool, buildClassAttrib } = stringUtils;
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part field - the field container
+ * @part content - the content with trigger buttons and input element
  */
 @customElement('ids-trigger-field')
 @scss(styles)
@@ -102,7 +103,9 @@ class IdsTriggerField extends IdsInput {
         >
           <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
         </label>` : ''}
-        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled && 'disabled', this.readonly && 'readonly') }>
+        <div part="content" 
+          ${ buildClassAttrib('ids-trigger-field-content', this.disabled && 'disabled', this.readonly && 'readonly') }
+        >
           <slot></slot>
         </div>
       </div>
@@ -169,6 +172,7 @@ class IdsTriggerField extends IdsInput {
         input.setAttribute(attributes.SIZE, this.size);
         input.setAttribute(attributes.VALIDATE, this.validate);
         input.setAttribute(attributes.LABEL_HIDDEN, true);
+        input.setAttribute(attributes.BG_TRANSPARENT, true);
 
         // Set class for compact or field height
         const attribs = ['compact', 'field-height'];
