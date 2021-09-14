@@ -164,7 +164,7 @@ describe('IdsTriggerField Component', () => {
 
   it('renders disabled setting', async () => {
     triggerField = await createElemViaTemplate(DISABLED_TRIGGERFIELD_HTML);
-    expect(triggerField.disabled).toBe('true');
+    expect(triggerField.disabled).toBe(true);
   });
 
   it('renders tabbable setting', () => {
@@ -188,11 +188,11 @@ describe('IdsTriggerField Component', () => {
 
   it('has a disabled attribute', () => {
     triggerField.disabled = false;
-    expect(triggerField.disabled).toEqual(null);
+    expect(triggerField.disabled).toEqual(false);
     expect(triggerField.getAttribute('disabled')).toEqual(null);
 
     triggerField.disabled = true;
-    expect(triggerField.disabled).toEqual('true');
+    expect(triggerField.disabled).toEqual(true);
     expect(triggerField.getAttribute('disabled')).toEqual('true');
   });
 

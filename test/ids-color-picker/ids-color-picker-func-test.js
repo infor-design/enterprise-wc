@@ -41,15 +41,10 @@ describe('Ids Color Picker Component', () => {
 
   it('has a readonly attribute', () => {
     colorpicker.readonly = false;
-    expect(colorpicker.getAttribute('readonly')).toEqual('false');
+    expect(colorpicker.getAttribute('readonly')).toBeFalsy();
 
     colorpicker.readonly = true;
     expect(colorpicker.getAttribute('readonly')).toEqual('true');
-  });
-
-  it('has a swatch attribute', () => {
-    colorpicker.swatch = 'true';
-    expect(colorpicker.getAttribute('swatch')).toEqual('true');
   });
 
   it('has a label attribute', () => {

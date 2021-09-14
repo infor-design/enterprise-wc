@@ -36,7 +36,8 @@ class IdsListBoxOption extends mix(IdsElement).with(IdsThemeMixin, IdsTooltipMix
    */
   static get attributes() {
     return [
-      ...attributes.TOOLTIP
+      ...super.attributes,
+      attributes.TOOLTIP
     ];
   }
 

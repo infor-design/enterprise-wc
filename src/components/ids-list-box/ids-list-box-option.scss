@@ -32,6 +32,10 @@
   margin: 0 7px 2px 0;
 }
 
+::slotted(ids-icon[dir='rtl']) {
+  margin: 0 0 2px 7px;
+}
+
 // Handle Dark Theme
 :host([mode='dark']) {
   @include text-white();

@@ -67,8 +67,8 @@ class IdsDropdown extends mix(IdsElement).with(
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    // Empty Dropdown
     if (!this.container.querySelector) {
+      // Empty Dropdown
       this.container = document.createElement('ids-trigger-field');
     }
     this.popup = this.shadowRoot.querySelector('ids-popup');
@@ -154,6 +154,7 @@ class IdsDropdown extends mix(IdsElement).with(
       'aria-description': this.locale?.translate('PressDown'),
       'aria-controls': this.listBox?.getAttribute('id') || 'ids-list-box-id'
     };
+
     this.listBox?.setAttribute('id', 'ids-list-box-id');
     Object.keys(attrs).forEach((key) => this.setAttribute(key, attrs[key]));
     return this;
@@ -191,7 +192,7 @@ class IdsDropdown extends mix(IdsElement).with(
   get value() { return this.getAttribute('value'); }
 
   /**
-   * Return the selected option dom element
+   * Returns the selected option DOM element
    * @returns {HTMLElement} the selected option
    */
   get selectedOption() {
@@ -213,7 +214,7 @@ class IdsDropdown extends mix(IdsElement).with(
   get selectedIndex() { return this.state.selectedIndex; }
 
   /**
-   * Return the currently available options
+   * Returns the currently available options
    * @returns {Array} the array of options
    */
   get options() {
@@ -405,6 +406,7 @@ class IdsDropdown extends mix(IdsElement).with(
   /**
    * Inherited from the Popup Open Events Mixin.
    * Runs when a click event is propagated to the window.
+   * @private
    * @returns {void}
    */
   onOutsideClick() {
@@ -434,7 +436,7 @@ class IdsDropdown extends mix(IdsElement).with(
   }
 
   /**
-   * Toggle dropdown list state
+   * Toggle the dropdown list open/closed state
    * @private
    */
   toggle() {
@@ -454,6 +456,11 @@ class IdsDropdown extends mix(IdsElement).with(
     // Handle Clicking the x for dismissible
     this.onEvent('mouseup', this.fieldContainer, () => {
       this.toggle();
+    });
+
+    // Handle Clicking the x for dismissible
+    this.onEvent('keydownend', this, (e) => {
+      this.#typeAhead(e.detail.keys);
     });
 
     this.onEvent('mouseup', this.trigger, () => {
@@ -572,6 +579,31 @@ class IdsDropdown extends mix(IdsElement).with(
       this.close(true);
     });
     return this;
+  }
+
+  /**
+   * Open the list and move to the key pressed item
+   * @param {string} keyString The last pressed key to use
+   */
+  #typeAhead(keyString) {
+    if (this.readonly || this.disabled) {
+      return;
+    }
+
+    const matches = [].slice.call(this.querySelectorAll('ids-list-box-option'))
+      .filter((a) => a.textContent.toLowerCase().indexOf(keyString.toLowerCase()) === 0);
+
+    if (matches[0]) {
+      if (!this.popup.visible) {
+        this.open();
+      }
+
+      const selected = this.querySelector('ids-list-box-option.is-selected');
+      selected?.classList.remove('is-selected');
+      selected?.setAttribute('tabindex', '-1');
+      matches[0].classList.add('is-selected');
+      matches[0].focus();
+    }
   }
 
   /**

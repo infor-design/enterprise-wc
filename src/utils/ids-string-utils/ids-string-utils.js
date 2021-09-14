@@ -57,10 +57,8 @@ export function injectTemplate(str, obj) {
 }
 
 /**
- * combines classes and considers truthy/falsy +
- * doesn't pollute the attribs/DOM without
- * any fuss
- *
+ * Combines classes and considers truthy/falsy +
+ * doesn't pollute the attribs/DOM
  * @param  {...any} classes classes/expressions
  * @returns {string} ` class="c1 c2..."` || ""
  */
@@ -80,6 +78,24 @@ export function buildClassAttrib(...classes) {
 }
 
 /**
+ * Checks a keycode value and determines if it belongs to a printable character
+ * @private
+ * @param {number} e the event to inspect
+ * @returns {boolean} Returns true if the key is a printable one.
+ */
+export function isPrintable(e) {
+  const controlKeys = ['Alt', 'Shift', 'Control', 'Meta', 'CapsLock', 'Enter', 'Escape', 'Tab'];
+  if (controlKeys.indexOf(e.key) > -1 || e.key.indexOf('Arrow') > -1) {
+    return false;
+  }
+
+  if ((e.altKey && (e.keyCode === 38)) || (e.keyCode > 111 && e.keyCode < 124)) {
+    return false;
+  }
+  return true;
+}
+
+/**
  * Ids String parsing/processing utilities
  */
 export const IdsStringUtils = {
@@ -88,7 +104,8 @@ export const IdsStringUtils = {
   stringToBool,
   stringToNumber,
   removeDuplicates,
-  buildClassAttrib
+  buildClassAttrib,
+  isPrintable
 };
 
 export default IdsStringUtils;

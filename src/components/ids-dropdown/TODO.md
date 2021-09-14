@@ -1,22 +1,8 @@
 # Dropdown TODO's
 
-- [x] Set value (by id)
-- [x] Accessibility
-- [x] States
-    - [x] Disabled / methods
-    - [x] Readonly
-    - [x] Dirty
-    - [x] Validation
-- [x] Icons
-- [x] Tooltip
-- [x] Ajax (callbacks) / Dataset
-- [x] Themes
-- [ ] RTL
 - [ ] Tests
 - [ ] Docs
-- [ ] Types (also for the listbox)
-- [ ] Keyboard
-    - [ ] Typeahead
+- [ ] Number Issue Tests
 
 ## Bugs
 
