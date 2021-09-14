@@ -1,21 +1,25 @@
 - [x] add disabled
 - [x] add clearable mixin
 - [x] listen for input change
+- [x] add color-variant mixin
 - [ ] figure out what search funciton does
 - [ ] check out autocomplete component
 - [x] add readonly
   - [x] fix the readonly css to include the icon too
 - [-] check to make sure it works in a
   - [x] form
-  - [-] header
-    - [ ] adjust the search bar into middle
-    - [ ] add the search bar style/attribute
+  - [x] header
+    - [x] adjust the search bar into middle
+    - [x] add the search bar style/attribute
 - [x] add themes/modes
 - [x] figure out the ... in attributes
 - [ ] write tests
 - [x] write readme
 - [x] add diff examples on example.html
 - [ ] check to make sure attributes set through browser affect the input and trigger field child components correctly
+- [ ] fix bugs
+  - [ ] typing in search field wrapped in header causes the width to change
+- [ ] trigger field sizes don't work?
 
 # Phase 2
 - [x] add go button

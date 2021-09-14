@@ -10,7 +10,7 @@ The usage of this mixin would be:
 
 1. Import the mixin and add it to the `mix` list
 1. Manually add the `color-variant` property to your example, or have your component set this property automatically.
-1. Add a property to your component called `availableColorVariants` that provides an array of strings containing names of color variants other than the default (In JS, the default variant is `null`).
+1. Add a property to your component called `colorVariants` that provides an array of strings containing names of color variants other than the default (In JS, the default variant is `null`).
 1. In your `.scss` code, apply styles intended for your variant to a `.color-variant-{name}` CSS class.  A simple implementation of style scaffolding may look like this:
 
 ```scss
