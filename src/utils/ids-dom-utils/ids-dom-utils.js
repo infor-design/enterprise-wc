@@ -64,6 +64,19 @@ const IdsDOMUtils = {
   },
 
   /**
+   * Returns a parent node, or a host element of a top-level Shadow DOM node
+   * @param {HTMLElement|ShadowRoot} node the element or shadow root to check
+   * @returns {HTMLElement} the true parent element
+   */
+  parentOrHost(node) {
+    let target = node.parentNode;
+    if (target instanceof ShadowRoot) {
+      target = target.host;
+    }
+    return target;
+  },
+
+  /**
    * Changes a CSS property with a transition,
    * @param {HTMLElement} el the element to act on
    * @param {string} property the CSS property with an attached transition to manipulate

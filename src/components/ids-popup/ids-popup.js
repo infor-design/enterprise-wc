@@ -14,7 +14,6 @@ import {
   IdsEventsMixin,
   IdsRenderLoopMixin,
   IdsRenderLoopItem,
-  IdsResizeMixin,
   IdsLocaleMixin,
   IdsThemeMixin
 } from '../../mixins';
@@ -100,7 +99,6 @@ function formatAlignAttribute(alignX, alignY, edge) {
  * @type {IdsPopup}
  * @inherits IdsElement
  * @mixes IdsRenderLoopMixin
- * @mixes IdsResizeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
@@ -111,7 +109,6 @@ function formatAlignAttribute(alignX, alignY, edge) {
 @scss(styles)
 class IdsPopup extends mix(IdsElement).with(
     IdsRenderLoopMixin,
-    IdsResizeMixin,
     IdsEventsMixin,
     IdsLocaleMixin,
     IdsThemeMixin
@@ -131,26 +128,15 @@ class IdsPopup extends mix(IdsElement).with(
     // Always setup link to containing element first
     this.containingElem = IdsDOMUtils.getClosest(this, 'ids-container') || document.body;
 
-    this.animated = this.hasAttribute(attributes.ANIMATED);
-    this.animationStyle = this.getAttribute(attributes.ANIMATION_STYLE) || this.animationStyle;
-    this.#setAnimationStyle('', this.animationStyle);
-
-    this.#type = this.getAttribute(attributes.TYPE) || this.#type;
-    this.#setPopupTypeClass('', this.#type);
-
-    this.#setPositionStyle('', this.#positionStyle);
-
-    this.#visible = this.hasAttribute(attributes.VISIBLE);
-
+    // Set inital state and events
+    this.#setInitialState();
     this.shouldUpdate = true;
-    window.requestAnimationFrame(() => {
-      this.refresh();
-    });
+    this.#attachEventHandlers();
 
-    // Respond to parent changing language
-    this.offEvent('languagechange.popup-container');
-    this.onEvent('languagechange.popup-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    // Stagger visibility and initial placement, if applicable
+    window.requestAnimationFrame(() => {
+      this.refreshVisibility();
+      this.place();
     });
   }
 
@@ -173,6 +159,47 @@ class IdsPopup extends mix(IdsElement).with(
         <slot name="content"></slot>
       </div>
     </div>`;
+  }
+
+  /**
+   * @property {MutationObserver} mo the built-in mutation observer
+   */
+  #mo = new MutationObserver((mutations) => {
+    if (this.#visible) {
+      let placed = false;
+      for (const m of mutations) {
+        if (placed) {
+          break;
+        }
+        if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
+          this.place();
+          placed = true;
+        }
+      }
+    }
+  })
+
+  /**
+   * Cycles through all available props and checks the DOM for their presence
+   * @returns {void}
+   */
+  #setInitialState() {
+    POPUP_PROPERTIES.forEach((prop) => {
+      const camelProp = IdsStringUtils.camelCase(prop);
+      this[camelProp] = this.getAttribute(prop) || this[camelProp];
+    });
+  }
+
+  /**
+   * Attaches event handlers for the duration of the lifespan of this component
+   * @returns {void}
+   */
+  #attachEventHandlers() {
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+    });
   }
 
   /**
@@ -200,7 +227,7 @@ class IdsPopup extends mix(IdsElement).with(
       if (this.#alignTarget !== undefined) {
         this.#alignTarget = undefined;
         this.removeAttribute(attributes.ALIGN_TARGET);
-        this.refresh();
+        this.#refreshAlignTarget();
       }
       return;
     }
@@ -220,7 +247,7 @@ class IdsPopup extends mix(IdsElement).with(
 
     if (!this.#alignTarget || !this.#alignTarget.isEqualNode(elem)) {
       this.#alignTarget = elem;
-      this.refresh();
+      this.#refreshAlignTarget();
     }
   }
 
@@ -230,6 +257,23 @@ class IdsPopup extends mix(IdsElement).with(
    */
   get alignTarget() {
     return this.#alignTarget;
+  }
+
+  #refreshAlignTarget() {
+    if (this.#alignTarget) {
+      this.#mo.observe(this.#alignTarget, {
+        attributes: true,
+        attributeFilter: ['style', 'height', 'width'],
+        attributeOldValue: true,
+        characterData: true,
+        characterDataOldValue: true,
+        childList: true,
+        subtree: true
+      });
+    } else {
+      this.#mo.disconnect();
+    }
+    this.place();
   }
 
   #align = CENTER;
@@ -290,7 +334,7 @@ class IdsPopup extends mix(IdsElement).with(
     if (needsUpdatedAlign) {
       this.#align = newAlign;
       this.setAttribute(attributes.ALIGN, newAlign);
-      this.refresh();
+      this.place();
     } else if (!this.hasAttribute('align')) {
       this.setAttribute(attributes.ALIGN, currentAlign);
     }
@@ -461,24 +505,35 @@ class IdsPopup extends mix(IdsElement).with(
   /**
    * @property {boolean} animated true if animation should occur on this component
    */
-  #animated = true;
+  #animated = false;
 
   /**
    * Whether or not the component should animate its movement
    * @param {boolean} val The alignment setting
    */
   set animated(val) {
-    this.#animated = IdsStringUtils.stringToBool(val);
-    if (this.#animated) {
-      this.setAttribute(attributes.ANIMATED, true);
-    } else {
-      this.removeAttribute(attributes.ANIMATED);
+    const trueVal = IdsStringUtils.stringToBool(val);
+    if (this.#animated !== trueVal) {
+      this.#animated = trueVal;
+      if (trueVal) {
+        this.setAttribute(attributes.ANIMATED, '');
+      } else {
+        this.removeAttribute(attributes.ANIMATED);
+      }
+      this.#refreshAnimated();
     }
-    this.refresh();
   }
 
   get animated() {
     return this.#animated;
+  }
+
+  /**
+   * Refreshes whether or not animations can be applied
+   * @returns {void}
+   */
+  #refreshAnimated() {
+    this.container.classList[this.animated ? 'add' : 'remove']('animated');
   }
 
   /**
@@ -513,7 +568,9 @@ class IdsPopup extends mix(IdsElement).with(
 
     if (trueVal !== this.#animationStyle) {
       this.#animationStyle = trueVal;
-      this.#setAnimationStyle(currentVal, trueVal);
+      this.#refreshAnimationStyle(currentVal, trueVal);
+    } else {
+      this.#refreshAnimationStyle('', currentVal);
     }
   }
 
@@ -530,7 +587,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {string} newStyle the type of animation
    * @returns {void}
    */
-  #setAnimationStyle(currentStyle, newStyle) {
+  #refreshAnimationStyle(currentStyle, newStyle) {
     const thisCl = this.container.classList;
     if (currentStyle) thisCl.remove(`animation-${currentStyle}`);
     thisCl.add(`animation-${newStyle}`);
@@ -554,7 +611,7 @@ class IdsPopup extends mix(IdsElement).with(
       } else {
         this.removeAttribute(attributes.BLEED);
       }
-      this.refresh();
+      this.place();
     }
   }
 
@@ -579,7 +636,7 @@ class IdsPopup extends mix(IdsElement).with(
     }
     if (this.#containingElem !== val) {
       this.#containingElem = val;
-      this.refresh();
+      this.place();
     }
   }
 
@@ -715,7 +772,10 @@ class IdsPopup extends mix(IdsElement).with(
     if (val !== currentStyle && POSITION_STYLES.includes(val)) {
       this.#positionStyle = val;
       this.setAttribute(attributes.POSITION_STYLE, val);
-      this.#setPositionStyle(currentStyle, val);
+      this.#refreshPositionStyle(currentStyle, val);
+      this.place();
+    } else {
+      this.#refreshPositionStyle('', currentStyle);
     }
   }
 
@@ -732,7 +792,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {string} newStyle the new position type
    * @returns {void}
    */
-  #setPositionStyle(currentStyle, newStyle) {
+  #refreshPositionStyle(currentStyle, newStyle) {
     const thisCl = this.container.classList;
     if (currentStyle) thisCl.remove(`position-${currentStyle}`);
     thisCl.add(`position-${newStyle}`);
@@ -748,11 +808,14 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {string} val The popup type
    */
   set type(val) {
-    const current = this.#type;
-    if (val && current !== val && TYPES.includes(val)) {
+    const currentVal = this.#type;
+    if (val && currentVal !== val && TYPES.includes(val)) {
       this.#type = val;
       this.setAttribute(attributes.TYPE, this.#type);
-      this.#setPopupTypeClass(current, val);
+      this.#refreshPopupTypeClass(currentVal, val);
+      this.place();
+    } else {
+      this.#refreshPopupTypeClass('', currentVal);
     }
   }
 
@@ -768,7 +831,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {string} newType the new type CSS class to apply
    * @returns {void}
    */
-  #setPopupTypeClass(currentType, newType) {
+  #refreshPopupTypeClass(currentType, newType) {
     const thisCl = this.container.classList;
     if (currentType) thisCl.remove(currentType);
     thisCl.add(newType);
@@ -788,16 +851,39 @@ class IdsPopup extends mix(IdsElement).with(
     if (this.#visible !== trueVal) {
       this.#visible = trueVal;
       if (trueVal) {
-        this.setAttribute(attributes.VISIBLE, true);
+        this.setAttribute(attributes.VISIBLE, '');
       } else {
         this.removeAttribute(attributes.VISIBLE);
       }
-      this.refresh();
+      this.refreshVisibility();
     }
   }
 
   get visible() {
     return this.#visible;
+  }
+
+  /**
+   * Calculates the current placement of the Popup
+   * @returns {Promise} from the show/hide process
+   */
+  async refreshVisibility() {
+    const cl = this.container.classList;
+    if (this.#visible && !cl.contains('open')) {
+      return this.show();
+    }
+    if (!this.#visible && cl.contains('visible')) {
+      return this.hide();
+    }
+    return new Promise((resolve) => { resolve(); });
+  }
+
+  /**
+   * @returns {void}
+   */
+  async toggleVisibility() {
+    this.visible = !this.visible;
+    if (this.visible) this.place();
   }
 
   /**
@@ -819,7 +905,6 @@ class IdsPopup extends mix(IdsElement).with(
     if (trueVal !== this.#x) {
       this.#x = trueVal;
       this.setAttribute(attributes.X, trueVal.toString());
-      this.refresh();
     }
   }
 
@@ -846,7 +931,6 @@ class IdsPopup extends mix(IdsElement).with(
     if (trueVal !== this.#y) {
       this.#y = trueVal;
       this.setAttribute(attributes.Y, trueVal.toString());
-      this.refresh();
     }
   }
 
@@ -855,67 +939,44 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Calculates the current placement of the Popup
+   * Sets an X/Y position
+   * @param {number} x the x coordinate/offset value
+   * @param {number} y the y coordinate/offset value
+   * @param {boolean} doShow true if the Popup should be displayed before placing
+   * @param {boolean} doPlacement true if the component should run its placement routine
    */
-  refresh() {
-    if (!this.shouldUpdate) {
-      return;
-    }
+  async setPosition(x, y, doShow, doPlacement) {
+    if (x) this.x = x;
+    if (y) this.y = y;
+    if (doShow) this.visible = true;
+    if (doPlacement) await this.place();
+  }
 
-    // Attach to the global ResizeObserver
-    // (this doesn't need updating)
-    /* istanbul ignore next */
-    if (this.shouldResize()) {
-      this.addObservedElement(this.resizeDetectionTarget());
-    }
-
-    // Make the popup actually render before doing placement calcs
-    if (this.#visible) {
+  /**
+   * Shows the Popup
+   * @returns {Promise} resolved once showing and animating the Popup is completed.
+   */
+  async show() {
+    if (this.visible) {
       this.container.classList.add('visible');
-    } else {
-      this.container.classList.remove('open');
+      await this.place();
+      this.#setArrowDirection('', this.arrow);
     }
 
-    // Show/Hide Arrow class, if applicable
-    this.#setArrowDirection('', this.arrow);
+    return new Promise((resolve, reject) => {
+      if (!this.visible) {
+        reject();
+        return;
+      }
 
-    // If no alignment target is present, do a simple x/y coordinate placement.
-    const { alignTarget } = this;
-    if (!alignTarget) {
-      // Remove an established MutationObserver if one exists.
-      if (this.hasMutations) {
-        this.mo?.disconnect();
-        this.disconnectDetectMutations();
-        delete this.hasMutations;
+      // Adds a RenderLoop-staggered check for whether to show the Popup.
+      if (this.openCheck) {
+        this.openCheck.destroy(true);
       }
-      if (this.visible) {
-        this.placeAtCoords();
-      }
-    } else {
-      // connect the alignTarget to the global MutationObserver, if applicable.
-      if (this.shouldDetectMutations() && !this.hasMutations) {
-        this.mo.observe(this.alignTarget, {
-          attributes: true,
-          attributeFilter: ['style', 'height', 'width'],
-          attributeOldValue: true,
-          subtree: true
-        });
-        this.hasMutations = true;
-      }
-      if (this.visible) {
-        this.placeAgainstTarget();
-      }
-    }
 
-    // Adds a RenderLoop-staggered check for whether to show the Popup.
-    if (this.openCheck) {
-      this.openCheck.destroy(true);
-    }
-
-    this.openCheck = this.rl.register(new IdsRenderLoopItem({
-      duration: 70,
-      timeoutCallback: () => {
-        if (this.#visible) {
+      this.openCheck = this.rl.register(new IdsRenderLoopItem({
+        duration: 70,
+        timeoutCallback: () => {
           // If an arrow is displayed, place it correctly.
           this.placeArrow();
 
@@ -931,21 +992,34 @@ class IdsPopup extends mix(IdsElement).with(
           if (this.isFlipped) {
             this.container.classList.add('flipped');
           }
+          this.place().then(() => {
+            resolve();
+          });
         }
-        if (!this.#animated && this.container.classList.contains('animated')) {
-          this.container.classList.remove('animated');
-        }
-      }
-    }));
+      }));
+    });
+  }
 
-    // Adds another RenderLoop-staggered check for whether to hide the Popup.
-    if (this.animatedCheck) {
-      this.animatedCheck.destroy(true);
-    }
-    this.animatedCheck = this.rl.register(new IdsRenderLoopItem({
-      duration: 200,
-      timeoutCallback: () => {
-        if (!this.#visible) {
+  /**
+   * Hides the Popup
+   * @returns {Promise} resolved once hiding and animating the Popup is completed.
+   */
+  async hide() {
+    return new Promise((resolve, reject) => {
+      if (this.visible) {
+        reject();
+        return;
+      }
+
+      this.container.classList.remove('open');
+
+      // Adds another RenderLoop-staggered check for whether to hide the Popup.
+      if (this.closedCheck) {
+        this.closedCheck.destroy(true);
+      }
+      this.closedCheck = this.rl.register(new IdsRenderLoopItem({
+        duration: 200,
+        timeoutCallback: () => {
           // Always fire the 'hide' event
           this.triggerEvent('hide', this, {
             bubbles: true,
@@ -953,22 +1027,40 @@ class IdsPopup extends mix(IdsElement).with(
               elem: this
             }
           });
-          // Remove the `visible` class if its there
-          if (this.container.classList.contains('visible')) {
-            this.container.classList.remove('visible');
-          }
+
           // Remove the `flipped` class if its there
           /* istanbul ignore next */
           if (this.isFlipped) {
             this.container.classList.remove('flipped');
             this.isFlipped = false;
           }
+
+          // Remove the `visible` class if its there
+          if (this.container.classList.contains('visible')) {
+            this.container.classList.remove('visible');
+          }
+          resolve();
         }
-        if (this.#animated && !this.container.classList.contains('animated')) {
-          this.container.classList.add('animated');
+      }));
+    });
+  }
+
+  /**
+   * Runs the configured placement routine for the Popup
+   * @returns {Promise} resolved once placement has finished
+   */
+  async place() {
+    return new Promise((resolve) => {
+      if (this.visible) {
+        const { alignTarget } = this;
+        if (!alignTarget) {
+          this.#placeAtCoords();
+        } else {
+          this.#placeAgainstTarget();
         }
+        resolve();
       }
-    }));
+    });
   }
 
   /**
@@ -976,7 +1068,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  placeAtCoords() {
+  #placeAtCoords() {
     let popupRect = this.container.getBoundingClientRect();
     let x = this.x;
     let y = this.y;
@@ -1020,7 +1112,7 @@ class IdsPopup extends mix(IdsElement).with(
    *  alignment edge than the one defined on the component
    * @returns {void}
    */
-  placeAgainstTarget(targetAlignEdge) {
+  #placeAgainstTarget(targetAlignEdge) {
     let x = this.x;
     let y = this.y;
     this.container.classList.remove('flipped');
@@ -1107,7 +1199,7 @@ class IdsPopup extends mix(IdsElement).with(
     // If neither side will properly fit the popup, the popup will shrink to fit
     /* istanbul ignore next */
     if (this.#shouldFlip(popupRect) && !targetAlignEdge) {
-      this.placeAgainstTarget(this.oppositeAlignEdge);
+      this.#placeAgainstTarget(this.oppositeAlignEdge);
       this.isFlipped = true;
       return;
     }

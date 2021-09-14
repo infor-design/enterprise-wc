@@ -1,12 +1,23 @@
 /* Ids Modal Component */
-@import './ids-modal-base';
 @import '../ids-popup/ids-popup-base';
 
 $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
 
-.ids-modal {
-  @include internal-position-reset();
+:host {
+  @include block();
+  @include fixed();
 
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+.ids-modal {
+  @include block();
+
+  height: 100%;
+  width: 100%;
   pointer-events: none;
 
   &[visible] {

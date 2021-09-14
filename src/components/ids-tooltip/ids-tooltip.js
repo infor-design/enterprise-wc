@@ -187,12 +187,10 @@ class IdsTooltip extends mix(IdsElement).with(
     this.popup.arrow = this.placement;
 
     if (this.placement === 'top' || this.placement === 'bottom') {
-      this.popup.x = 0;
-      this.popup.y = 10;
+      this.popup.setPosition(0, 10);
     }
     if (this.placement === 'left' || this.placement === 'right') {
-      this.popup.x = 10;
-      this.popup.y = 0;
+      this.popup.setPosition(10, 0);
     }
   }
 
@@ -255,7 +253,8 @@ class IdsTooltip extends mix(IdsElement).with(
     // Show the popup
     this.#configurePopup();
     this.popup.visible = true;
-    this.state.visible = true;
+    this.popup.place();
+    this.visible = true;
     this.triggerEvent('show', this, { detail: { elem: this } });
   }
 
@@ -264,7 +263,7 @@ class IdsTooltip extends mix(IdsElement).with(
    */
   #hide() {
     this.popup.visible = false;
-    this.state.visible = false;
+    this.visible = false;
     this.triggerEvent('hide', this, { detail: { elem: this } });
   }
 

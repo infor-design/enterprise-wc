@@ -1,8 +1,12 @@
 /* Ids Overlay Component */
-@import './ids-modal-base.scss';
+@import '../../core/ids-base.scss';
 
 .ids-overlay {
-  @include internal-position-reset();
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+
   @include bg-black();
   @include outline-none();
 

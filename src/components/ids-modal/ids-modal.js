@@ -36,11 +36,14 @@ const dismissTimeout = 200;
  * IDS Modal Component
  * @type {IdsModal}
  * @inherits IdsElement
- * @mixes IdsRenderLoopMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsPopupInteractionsMixin
+ * @mixes IdsPopupOpenEventsMixin
+ * @mixes IdsRenderLoopMixin
  * @mixes IdsResizeMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsXssMixin
  * @part popup - the popup outer element
  * @part overlay - the inner overlay element
  */
@@ -65,7 +68,6 @@ class IdsModal extends mix(IdsElement).with(
     }
     this.state.overlay = null;
     this.state.messageTitle = null;
-    this.state.visible = false;
   }
 
   static get attributes() {
@@ -90,7 +92,7 @@ class IdsModal extends mix(IdsElement).with(
   }
 
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback?.();
 
     this.popup.type = 'modal';
     this.popup.animated = true;
@@ -101,26 +103,17 @@ class IdsModal extends mix(IdsElement).with(
     this.setAttribute('role', 'dialog');
     this.refreshAriaLabel();
 
-    // Listen for changes to the window size
-    /* istanbul ignore next */
-    window.addEventListener('resize', debounce(() => {
-      this.setModalPosition();
-    }));
-
-    // Update Inner Modal Parts
-
-    this.shouldUpdate = true;
-
     // Update Outer Modal Parts
     this.#refreshOverlay(this.overlay);
-    this.visible = this.getAttribute('visible');
-
-    // Run refresh once on connect
-    window.requestAnimationFrame(() => {
-      this.setModalPosition();
-    });
 
     this.#attachEventHandlers();
+    this.shouldUpdate = true;
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    window.removeEventListener('resize', this.#onDebouncedResize);
+    window.removeEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
   }
 
   /**
@@ -287,11 +280,13 @@ class IdsModal extends mix(IdsElement).with(
     }
   }
 
+  #visible = false;
+
   /**
    * @returns {boolean} true if the Modal is visible.
    */
   get visible() {
-    return IdsStringUtils.stringToBool(this.getAttribute('visible'));
+    return this.#visible;
   }
 
   /**
@@ -299,48 +294,98 @@ class IdsModal extends mix(IdsElement).with(
    */
   set visible(val) {
     const trueVal = IdsStringUtils.stringToBool(val);
-    this.state.visible = trueVal;
+    if (this.#visible !== trueVal) {
+      this.#visible = trueVal;
 
-    /* istanbul ignore else */
-    if (trueVal) {
-      this.shouldUpdate = false;
-      this.setAttribute(attributes.VISIBLE, '');
-      this.shouldUpdate = true;
-      this.addOpenEvents();
-    } else {
-      this.shouldUpdate = false;
-      this.removeAttribute(attributes.VISIBLE);
-      this.shouldUpdate = true;
-      this.removeOpenEvents();
+      /* istanbul ignore else */
+      if (trueVal) {
+        this.setAttribute(attributes.VISIBLE, '');
+      } else {
+        this.removeAttribute(attributes.VISIBLE);
+      }
+
+      this.#refreshVisibility(trueVal);
     }
-
-    this.#refreshVisibility(trueVal);
   }
 
   /**
    * Shows the modal
+   * @param {boolean} doSetValue true if the component's visibility should be updated
    * @returns {void}
    */
-  show() {
+  async show(doSetValue = false) {
+    // Setting the value reruns this method, so exit afterward
+    if (doSetValue) {
+      this.visible = true;
+      return;
+    }
+
     // Trigger a veto-able `beforeshow` event.
     if (!this.triggerVetoableEvent('beforeshow')) {
       return;
     }
 
-    this.visible = true;
+    await this.setModalPosition();
+    this.overlay.visible = true;
+    this.popup.visible = true;
+
+    await IdsDOMUtils.waitForTransitionEnd(this.popup.container, 'transform');
+    this.removeAttribute('aria-hidden');
+
+    // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
+    this.overlay.container.style.zIndex = zCounter.increment();
+    this.popup.container.style.zIndex = zCounter.increment();
+
+    // Focus the correct element
+    this.#setModalFocus();
+    this.addOpenEvents();
+    this.triggerEvent('show', this, {
+      bubbles: true,
+      detail: {
+        elem: this,
+        value: undefined
+      }
+    });
   }
 
   /**
    * Hides the modal
+   * @param {boolean} doSetValue true if the component's visibility should be updated
    * @returns {void}
    */
-  hide() {
+  async hide(doSetValue = false) {
+    // Setting the value reruns this method, so exit afterward
+    if (doSetValue) {
+      this.visible = false;
+      return;
+    }
+
     // Trigger a veto-able `beforehide` event.
     if (!this.triggerVetoableEvent('beforehide')) {
       return;
     }
 
-    this.visible = false;
+    this.removeOpenEvents();
+    this.overlay.visible = false;
+    this.popup.visible = false;
+
+    // Animation-out can wait for the opacity transition to end before changing z-index.
+    await IdsDOMUtils.waitForTransitionEnd(this.overlay.container, 'opacity');
+    this.overlay.container.style.zIndex = '';
+    this.popup.container.style.zIndex = '';
+    this.setAttribute('aria-hidden', 'true');
+    zCounter.decrement();
+    zCounter.decrement();
+
+    this.triggerEvent('hide', this, {
+      bubbles: true,
+      detail: {
+        elem: this,
+        value: undefined
+      }
+    });
+
+    this.#setTargetFocus();
   }
 
   /**
@@ -397,49 +442,10 @@ class IdsModal extends mix(IdsElement).with(
    * @returns {void}
    */
   async #refreshVisibility(val) {
-    // Insulate from the popup potentially not being rendered on the very first run:
-    const popupCl = this.popup.container?.classList;
-
-    /* istanbul ignore else */
-    if (val && !popupCl?.contains('visible')) {
-      this.overlay.visible = true;
-      this.popup.visible = true;
-      this.removeAttribute('aria-hidden');
-
-      // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
-      window.requestAnimationFrame(() => {
-        this.overlay.container.style.zIndex = zCounter.increment();
-        this.popup.container.style.zIndex = zCounter.increment();
-        this.setModalPosition();
-        this.#setModalFocus();
-        this.triggerEvent('show', this, {
-          bubbles: true,
-          detail: {
-            elem: this,
-            value: undefined
-          }
-        });
-      });
-    } else if (!val && popupCl?.contains('visible')) {
-      this.overlay.visible = false;
-      this.popup.visible = false;
-
-      // Animation-out can wait for the opacity transition to end before changing z-index.
-      await IdsDOMUtils.waitForTransitionEnd(this.overlay.container, 'opacity');
-      this.overlay.container.style.zIndex = '';
-      this.popup.container.style.zIndex = '';
-      this.setAttribute('aria-hidden', 'true');
-      zCounter.decrement();
-      zCounter.decrement();
-
-      this.triggerEvent('hide', this, {
-        bubbles: true,
-        detail: {
-          elem: this,
-          value: undefined
-        }
-      });
-      this.#setTargetFocus();
+    if (val) {
+      await this.show();
+    } else {
+      await this.hide();
     }
   }
 
@@ -447,7 +453,7 @@ class IdsModal extends mix(IdsElement).with(
    * Centers the Popup's position within the viewport
    * @returns {void}
    */
-  setModalPosition() {
+  async setModalPosition() {
     /* istanbul ignore next */
     if (this.popup.alignTarget !== null) {
       this.popup.alignTarget = null;
@@ -469,8 +475,10 @@ class IdsModal extends mix(IdsElement).with(
       height = this.popup.container?.clientHeight || 0;
     }
 
-    this.popup.x = (window.innerWidth - width) / 2;
-    this.popup.y = (window.innerHeight - height) / 2;
+    const x = (window.innerWidth - width) / 2;
+    const y = (window.innerHeight - height) / 2;
+
+    this.popup.setPosition(x, y, null, true);
   }
 
   /**
@@ -512,6 +520,21 @@ class IdsModal extends mix(IdsElement).with(
   }
 
   /**
+   * @property {Function} onDebouncedResize can be used to set the modal position via resize events
+   */
+  #onDebouncedResize = debounce(() => {
+    this.setModalPosition();
+  });
+
+  /**
+   * @property {Function} onDOMContentLoaded runs calculation-sensitive routines when the entire DOM has loaded
+   */
+  #onDOMContentLoaded = () => {
+    this.setModalPosition();
+    this.visible = this.getAttribute('visible');
+  };
+
+  /**
    * Sets up overall events
    */
   #attachEventHandlers() {
@@ -533,6 +556,10 @@ class IdsModal extends mix(IdsElement).with(
         this.setModalPosition();
       });
     });
+
+    /* istanbul ignore next */
+    window.addEventListener('resize', this.#onDebouncedResize);
+    window.addEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
 
     // Set up all the events specifically-related to the "trigger" type
     this.refreshTriggerEvents();
@@ -579,6 +606,7 @@ class IdsModal extends mix(IdsElement).with(
       canShow = !!veto;
     };
     this.triggerEvent(eventType, this, {
+      bubbles: true,
       detail: {
         elem: this,
         response: eventResponse
