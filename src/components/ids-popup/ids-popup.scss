@@ -6,6 +6,10 @@
   @include absolute();
 
   display: block;
+
+  &[position-style='viewport'] {
+    @include relative();
+  }
 }
 
 .ids-popup {
@@ -152,6 +156,24 @@
   // Position style: absolute
   &.position-absolute {
     @include absolute();
+  }
+
+  // Position style: viewport (uses transforms)
+  &.position-viewport {
+    @include absolute();
+
+    left: 50%;
+    top: 50%;
+    transform-origin: left top;
+
+    // Override some default animation styles to utilize CSS centering via transforms
+    &.animation-scale-in {
+      transform: perspective(1000px) translate3d(-50%, -50%, -500px);
+
+      &.open {
+        transform: perspective(1000px) translate3d(-50%, -50%, 0);
+      }
+    }
   }
 
   // style: "none" (temporary)

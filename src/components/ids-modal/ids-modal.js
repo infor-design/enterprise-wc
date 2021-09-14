@@ -112,7 +112,6 @@ class IdsModal extends mix(IdsElement).with(
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
-    window.removeEventListener('resize', this.#onDebouncedResize);
     window.removeEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
   }
 
@@ -127,7 +126,7 @@ class IdsModal extends mix(IdsElement).with(
     const extraFooterClass = extraClass ? ` ${extraClass}-footer` : '';
     const footerHidden = this.buttons.length ? '' : ' hidden';
 
-    return `<ids-popup part="modal" class="ids-modal" type="custom">
+    return `<ids-popup part="modal" class="ids-modal" type="custom" position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header${extraHeaderClass}">
           <slot name="title"></slot>
@@ -325,16 +324,16 @@ class IdsModal extends mix(IdsElement).with(
       return;
     }
 
-    await this.setModalPosition();
+    // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
+    this.style.zIndex = zCounter.increment();
+    this.overlay.style.zIndex = zCounter.increment();
+    this.popup.style.zIndex = zCounter.increment();
+
     this.overlay.visible = true;
     this.popup.visible = true;
 
     await IdsDOMUtils.waitForTransitionEnd(this.popup.container, 'transform');
     this.removeAttribute('aria-hidden');
-
-    // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
-    this.overlay.container.style.zIndex = zCounter.increment();
-    this.popup.container.style.zIndex = zCounter.increment();
 
     // Focus the correct element
     this.#setModalFocus();
@@ -371,11 +370,9 @@ class IdsModal extends mix(IdsElement).with(
 
     // Animation-out can wait for the opacity transition to end before changing z-index.
     await IdsDOMUtils.waitForTransitionEnd(this.overlay.container, 'opacity');
-    this.overlay.container.style.zIndex = '';
-    this.popup.container.style.zIndex = '';
+    this.style.zIndex = '';
     this.setAttribute('aria-hidden', 'true');
-    zCounter.decrement();
-    zCounter.decrement();
+    zCounter.hideModal();
 
     this.triggerEvent('hide', this, {
       bubbles: true,
@@ -450,38 +447,6 @@ class IdsModal extends mix(IdsElement).with(
   }
 
   /**
-   * Centers the Popup's position within the viewport
-   * @returns {void}
-   */
-  async setModalPosition() {
-    /* istanbul ignore next */
-    if (this.popup.alignTarget !== null) {
-      this.popup.alignTarget = null;
-    }
-
-    /* istanbul ignore next */
-    if (this.popup.align !== 'center') {
-      this.popup.align = 'center';
-    }
-
-    const isOpen = this.popup.animatedOpen;
-    let width = 0;
-    let height = 0;
-
-    // If the modal isn't visible, subtract its width/height from the equation.
-    /* istanbul ignore next */
-    if (!isOpen) {
-      width = this.popup.container?.clientWidth || 0;
-      height = this.popup.container?.clientHeight || 0;
-    }
-
-    const x = (window.innerWidth - width) / 2;
-    const y = (window.innerHeight - height) / 2;
-
-    this.popup.setPosition(x, y, null, true);
-  }
-
-  /**
    * Focuses the first-possible element within the Modal
    * @returns {void}
    */
@@ -520,17 +485,9 @@ class IdsModal extends mix(IdsElement).with(
   }
 
   /**
-   * @property {Function} onDebouncedResize can be used to set the modal position via resize events
-   */
-  #onDebouncedResize = debounce(() => {
-    this.setModalPosition();
-  });
-
-  /**
    * @property {Function} onDOMContentLoaded runs calculation-sensitive routines when the entire DOM has loaded
    */
   #onDOMContentLoaded = () => {
-    this.setModalPosition();
     this.visible = this.getAttribute('visible');
   };
 
@@ -553,12 +510,10 @@ class IdsModal extends mix(IdsElement).with(
       });
       this.onEvent('slotchange.buttonset', buttonSlot, () => {
         this.#refreshModalFooter();
-        this.setModalPosition();
       });
     });
 
     /* istanbul ignore next */
-    window.addEventListener('resize', this.#onDebouncedResize);
     window.addEventListener('DOMContentLoaded', this.#onDOMContentLoaded);
 
     // Set up all the events specifically-related to the "trigger" type

@@ -41,7 +41,7 @@ const ANIMATION_STYLES = [
 const ARROW_TYPES = ['none', 'bottom', 'top', 'left', 'right'];
 
 // Position types
-const POSITION_STYLES = ['fixed', 'absolute'];
+const POSITION_STYLES = ['fixed', 'absolute', 'viewport'];
 
 // Types of Popups
 const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt', 'custom', 'dropdown'];
@@ -1052,11 +1052,15 @@ class IdsPopup extends mix(IdsElement).with(
   async place() {
     return new Promise((resolve) => {
       if (this.visible) {
-        const { alignTarget } = this;
-        if (!alignTarget) {
-          this.#placeAtCoords();
+        if (this.positionStyle === 'viewport') {
+          this.#placeInViewport();
         } else {
-          this.#placeAgainstTarget();
+          const { alignTarget } = this;
+          if (!alignTarget) {
+            this.#placeAtCoords();
+          } else {
+            this.#placeAgainstTarget();
+          }
         }
         resolve();
       }
@@ -1102,7 +1106,7 @@ class IdsPopup extends mix(IdsElement).with(
     // If the Popup bleeds off the viewport, nudge it back into full view
     popupRect = this.#nudge(popupRect);
 
-    this.#renderPlacement(popupRect);
+    this.#renderPlacementInPixels(popupRect);
   }
 
   /**
@@ -1212,7 +1216,16 @@ class IdsPopup extends mix(IdsElement).with(
     if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
       this.#setArrowDirection('', this.oppositeAlignEdge);
     }
-    this.#renderPlacement(popupRect);
+
+    this.#renderPlacementInPixels(popupRect);
+  }
+
+  /**
+   * Places the Popup in relation to the center of the viewport
+   * @returns {void}
+   */
+  #placeInViewport() {
+    this.#renderPlacementWithTransform();
   }
 
   /**
@@ -1317,9 +1330,14 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {DOMRect} popupRect representing approximated new placement values
    * @returns {void}
    */
-  #renderPlacement(popupRect) {
+  #renderPlacementInPixels(popupRect) {
     this.container.style.left = `${popupRect.x}px`;
     this.container.style.top = `${popupRect.y}px`;
+  }
+
+  #renderPlacementWithTransform() {
+    this.container.style.left = `50%`;
+    this.container.style.top = `50%`;
   }
 
   /**
