@@ -115,7 +115,8 @@
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[Splitter]` The splitter component has been changed to a web component and renamed to ids-splitter.
-  - TODO: DETAILS
+  - Content spans the div in the orientation you provide, and is wrapped inside of nested `<ids-splitter-pane>`s.
+  - Orientation is set with the `axis` property, while the size is set with `min-size`, `max-size`, `size`.
 - `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.
   - Markup has changed to a custom element `<ids-switch></ids-switch>`
   - If using events, events are now plain JS events.
