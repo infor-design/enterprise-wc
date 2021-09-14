@@ -15,7 +15,7 @@
 
 ## Deploying a static site
 
-- run a dev server on demo-dist after running `npm run build` for example:
+- run a dev server on `demo-dist` after running `npm run build` for example:
 
 ```sh
 npm run build

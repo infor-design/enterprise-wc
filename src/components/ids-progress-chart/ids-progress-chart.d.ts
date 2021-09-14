@@ -1,6 +1,6 @@
 import { IdsElement } from '../../core';
 
-export default class IdsNotificationBanner extends IdsElement {
+export default class IdsProgressChart extends IdsElement {
   /** Sets the color theme of the chart */
   color: 'success' | 'warning' | 'caution' | 'error' | 'base' | string;
 
