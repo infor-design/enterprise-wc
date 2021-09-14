@@ -1,0 +1,68 @@
+# IDS Slider TODO
+
+- [x] include a larger "hit" area where user can adjust range value even if they click around/not directly on the running track/thumb
+- [x] smooth transitions when tooltip badge fades
+- [x]when user clicks running track and thumb slides towards new position, and focus shadow
+- [x] add outer solid ring when clicked
+- [x] add types enum
+- [x] decide order of events when valuea is changed
+  - [x] when user clicks hit area -> move thumb towards the correct pixels based on mouse click xcoord -> percent
+  - [x] when user drags the thumb -> calculate the value & percent based on mouse xcoord
+  - [x] when value is set -> calculate the percent and translateX for thumb
+- [x] remove transition animation when dragging the slider (it slows it down), otherwise keep for clicking and setting value thru console
+- [x] fix bugs when min/max are not just simply 0/100
+- [x] adjust the draggable to center on the tick at both ends
+- [x] test for min/max to be within negative number range
+- [x] test that it works when attributes are not set
+- [x] add progress color bar 
+  - [x] w/ animation effect
+- [x] add tab focus ability
+  - [x] change value when key LEFT/RIGHT
+- [x] privatize functions
+- [x] double range slider
+  - [x] make the code clean, remove duplicate, make functions modular
+  - [x] make sure to add styles for thumb draggable secondary transitions
+  - [x] add tab arrow key left/right functionality
+  - [x] settle on naming conventions for the attributes
+    - [x] replace string values with attribute vars
+  - [x] add the progress color bar btw the two thumbs
+    - [x] fix: progress color bar does not show upon init
+    - [x] **make the animation smooth btw the two thumbs when progress bar size changes--left/right positioning--see enterprise example; for now it's disabled
+      - [x] also w vertical (possibly remove the whole transition anim)
+- [x] make it work for RTL
+  - [x] single slider
+  - [x] check that it works for double slider and step slider
+  - [x] check upon load if it's RTL or not
+- [x] fix bug, stepping right from 0 with arrows on left thumb stops at 1 
+- [x] step slider
+  - [x] add step labels
+    - [x] remove labels if labels is set to an array that doesn't match step number
+  - [x] center the step labels under ticks
+- [x] remove percent attributes--don't want them accessible from outside
+- [x] fix bug on single slider where dragging past 0 results in negative value (see tooltip when dragging)
+- [x] **add themes
+- [x] add vertical functionality
+  - [x] single slider
+  - [x] double slider // need to fix the transition styles that are set
+    - [x] move tooltip to right side
+  - [x] step slider
+    - [x] allow custom min/max values; automatically set decimal labels when step number is larger than max-min
+  - [x] set css classes for vertical to separate better
+  - [x] **flip min to bottom, max to top
+- [x] add custom color functionality
+  - [x] works with ids-status colors
+  - [x] works with css native color keywords
+- wrapping up before PR
+  - [x] npm run lint
+    - [x] request changes to lint rules
+  - [x] remove hover css
+  - [x] test
+    - [x] make sure double range slider sets default inputs even if attribute valueb is unspecified or out of the bounds of min/max
+    - [x] test double range slider with negative min and positive max
+    - [x] write tests
+  - [-] bugs
+    - [x] double slider: when tabbing to secondary thumb, first key press jumps to 0
+    - [ ] **double slider: fix bug where when drag is released too close to other thumb, it calculates the UI translate for that thumb thru calculateUIFromClick()
+- [x] add doc comments
+- [x] edit type file
+- [x] change name to attachEventListeners
