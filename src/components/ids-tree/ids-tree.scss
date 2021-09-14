@@ -1,0 +1,14 @@
+/* Ids Tree Component */
+@import './ids-tree-shared';
+
+.ids-tree {
+  @include list-none();
+  @include mb-1();
+  @include tree-node-badge();
+
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+}
+
+@include tree-node-badge();

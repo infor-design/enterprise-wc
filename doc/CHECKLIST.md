@@ -137,7 +137,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Toolbar (ids-toolbar)r
  - [x] Tooltip (ids-tooltip
  - [x] Trackdirty (mixin)
- - [ ] Tree (ids-tree)
+ - [x] Tree (ids-tree)
  - [ ] Treemap (ids-tree-map)
  - [x] Typography (ids-text)
  - [x] Validation (mixin)
