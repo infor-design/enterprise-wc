@@ -41,11 +41,7 @@ jobs:
       run: npm run build
 
     - name: Run Tests For Percy Baselines
-      uses: percy/exec-action@v0.3.1
-      with:
-        command: "npm run test:ci"
-      env:
-        PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      run: npm run test:percy
 
     - name: Extract branch name
       shell: bash
