@@ -145,14 +145,14 @@ $input-compact-height: $input-field-height-xs;
 
       padding-bottom: 9px;
       padding-top: 9px;
+    }
 
-      &.bg-transparent {
-        @include bg-transparent();
-      }
+    &.bg-transparent {
+      @include bg-transparent();
+    }
 
-      &.bg-transparent:focus {
-        @include border-azure-60();
-      }
+    &.bg-transparent:focus {
+      @include border-azure-60();
     }
 
     &.text-ellipsis {
@@ -335,7 +335,7 @@ $input-compact-height: $input-field-height-xs;
     @include text-slate-10();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent {
     @include bg-transparent();
   }
 
@@ -360,7 +360,7 @@ $input-compact-height: $input-field-height-xs;
     @include text-slate-100();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent {
     @include bg-white();
   }
 
@@ -385,7 +385,7 @@ $input-compact-height: $input-field-height-xs;
     @include text-classic-slate-100();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent {
     @include bg-transparent();
   }
 
@@ -410,7 +410,7 @@ $input-compact-height: $input-field-height-xs;
     @include text-white();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent {
     @include bg-transparent();
   }
 
@@ -436,7 +436,7 @@ $input-compact-height: $input-field-height-xs;
     @include text-graphite-100();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent {
     @include bg-white();
   }
 
