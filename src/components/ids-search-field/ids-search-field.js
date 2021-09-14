@@ -10,6 +10,7 @@ import {
   IdsEventsMixin,
   IdsThemeMixin,
   IdsKeyboardMixin,
+  IdsColorVariantMixin
 } from '../../mixins';
 
 import { IdsStringUtils } from '../../utils';
@@ -25,6 +26,7 @@ const appliedMixins = [
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
+  IdsColorVariantMixin
 ];
 
 /**
@@ -34,6 +36,7 @@ const appliedMixins = [
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsColorVariantMixin
  */
 
 const DEFAULT_LABEL = 'Search';
@@ -58,14 +61,21 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     super();
   }
 
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  availableColorVariants = ['alternate'];
+
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.VALUE,
-      attributes.PLACEHOLDER,
+      attributes.BG_TRANSPARENT,
       attributes.DISABLED,
       attributes.LABEL,
+      attributes.PLACEHOLDER,
       attributes.READONLY,
+      attributes.VALUE,
     ];
   }
 
@@ -80,6 +90,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     super.connectedCallback();
   }
 
+  // TODO: remove bg-transparent when ids-trigger-field gets merged
   template() {
     return `
       <div 
@@ -94,17 +105,13 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
         >
           <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
           <ids-input
+            bg-transparent
             ${!this.readyonly && !this.disabled && 'clearable'}
             ${this.readonly && 'readonly'}
             value="${this.value}"
             placeholder="${this.placeholder}"
           >
           </ids-input>
-            <ids-trigger-button>
-            <ids-text audible="true">Search trigger</ids-text>
-            <ids-icon slot="icon" icon="arrow-right" size="medium"></ids-icon>
-            </ids-trigger-button>
-        </ids-trigger-field>
       </div>
     `;
   }
@@ -213,9 +220,9 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
       // TODO: pop up autocomplete suggestions
     });
 
-    this.onEvent('click', this.triggerButton, () => {
-      this.#searchFunction();
-    });
+    // this.onEvent('click', this.triggerButton, () => {
+    //   this.#searchFunction();
+    // });
   }
 
   #attachKeyboardListener() {

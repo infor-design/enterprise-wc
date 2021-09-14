@@ -3,12 +3,12 @@
 // Most of the css is added by ids-trigger field
 // Temporary fix until dropdown is merged TODO
 ids-input::part(input) {
-  border: none;
-  margin-bottom: 0;
+  @include border-none();
+  @include mb-0();
 }
 
 ids-input::part(container) {
-  margin-bottom: 0;
+  @include mb-0();
 }
 
 .ids-search-field:focus-within ids-input::part(input) {
@@ -17,6 +17,19 @@ ids-input::part(container) {
 
 .ids-search-field {
   .search-icon {
-    margin-left: 8px;
+    @include ml-8();
+  }
+
+  &.color-variant-alternate {
+    ids-input::part(input) {
+      @include text-white();
+    }
+
+    ids-trigger-field::part(content) {
+      @include border-none();
+
+      background-color: rgba(71, 71, 76, 0.3);
+      border-bottom: 1px solid rgba(62, 62, 66, 0.7);
+    }
   }
 }
