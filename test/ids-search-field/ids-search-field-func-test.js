@@ -144,12 +144,6 @@ describe('IdsSearchField Component', () => {
     );
   });
 
-  it('listens for click events', () => {
-    s.triggerButton.dispatchEvent(
-      createEvent('click')
-    );
-  });
-
   it('listens for keydown events', () => {
     s.input.dispatchEvent(
       createKeyboardEvent('Enter')
