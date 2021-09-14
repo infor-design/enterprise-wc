@@ -11,7 +11,7 @@
  - [ ] example.index: The main example.html page should just show one simple example and not all variations
  - [ ] test-sandbox.index: The sandbox page should show all other examples in a nicely formatted way.
  - [ ] Standalone Css: Add a basic standalone css example
- - [ ] Right to Left: Test on lang="ar" that when flipped all is correct (best way is to use flex and justify)
+ - [ ] Right to Left: Test on `lang="ar"` that when flipped all is correct (best way is to use flex and justify)
  - [ ] Locale: Make sure strings are translated, and use number / date / timezone parsers as needed
  - [ ] Side By Side Example: Works in Page with 4.x version
  - [ ] Documentation: Add copious documentation in a README.MD in the folder
@@ -113,14 +113,14 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Renderloop (mixin)
  - [ ] Scatterplot (ids-scatter-plot-chart)
  - [ ] Searchfield (ids-search-field)
- - [ ] Signin (ids-layouts)
+ - [ ] Sign-in (ids-layouts)
  - [x] Skiplink (ids-skip-link)
  - [x] Slider (ids-slider)
  - [ ] Sparkline (ids-spark-line-chart)
  - [x] Spinbox (ids-spin-box)
  - [ ] Splitter (ids-splitter)
  - [x] Stepchart (ids-step-chart)
- - [x] Summaryfield (ids-summary-field)
+ - [x] Summary field (ids-summary-field)
  - [ ] Swaplist (ids-swap-list)
  - [x] Switch (ids-switch)
  - [x] Tabs (ids-tabs)
