@@ -51,9 +51,9 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
   input;
 
-  triggerButton;
+  // triggerButton;
 
-  triggerButtonIcon;
+  // triggerButtonIcon;
 
   triggerField;
 
@@ -65,7 +65,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  availableColorVariants = ['alternate'];
+  colorVariants = ['alternate'];
 
   static get attributes() {
     return [
@@ -82,8 +82,8 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   connectedCallback() {
     this.input = this.container.querySelector('ids-input');
     this.triggerField = this.container.querySelector('ids-trigger-field');
-    this.triggerButton = this.container.querySelector('ids-trigger-button');
-    this.triggerButtonIcon = this.container.querySelector('ids-trigger-button ids-icon');
+    // this.triggerButton = this.container.querySelector('ids-trigger-button');
+    // this.triggerButtonIcon = this.container.querySelector('ids-trigger-button ids-icon');
 
     this.#attachEventHandlers();
     this.#attachKeyboardListener();
