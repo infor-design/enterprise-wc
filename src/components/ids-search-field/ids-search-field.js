@@ -66,7 +66,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.BG_TRANSPARENT,
       attributes.DISABLED,
       attributes.LABEL,
       attributes.PLACEHOLDER,
