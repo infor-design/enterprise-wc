@@ -1,18 +1,25 @@
 # Ids Splitter Component
 
-The Ids Splitter is composed of resizable "panes" which divide content laid out either horizontally or vertically
-along an axis where a user can resize the panes (represented as `<ids-splitter-pane>` components).
+The Ids Splitter is used to divides the user interface of a screen. It is composed of resizable "panes" which divide content laid out either horizontally or vertically
+along an axis where a user can resize the panes, these are represented as `<ids-splitter-pane>` components.
 
 ![Different variations of IdsSplitterLayout](./doc/ids-splitter-markup-legend.png)
 
+The pane can move to the left or the right of the screen. This allows the user to have control of the customized layout. Elements inside and outside the pane will be resized to fit.
+
 ## Use Cases
 
-A splitter can be used for a section table of contents, a set of widgets that may be resizable, and other cases
-where the point that content is split along can be resized.
+- Divides the user interface of a screen.
 
-## Examples
+## Terminology
 
-*Default behavior; Axis will act as "x"/Horizontal with none set*
+- **Splitter**: The splitter container element
+- **Splitter Pane**: One zone/section inside the splitter
+- **Draggable/Drag Hander**: The generate element to drag
+
+## Features (With Code Examples)
+
+Axis will act as "x"/Horizontal with none set (default behavior).
 
 ```html
 <ids-splitter>
@@ -25,7 +32,8 @@ where the point that content is split along can be resized.
 </ids-splitter>
 ```
 
-*Vertical Splitter with the bottom pane limited to height of 40%*
+Vertical Splitter with the bottom pane limited to height of 40%.
+
 ```html
 <ids-splitter axis="y">
   <ids-splitter-pane>
@@ -37,7 +45,8 @@ where the point that content is split along can be resized.
 </ids-splitter>
 ```
 
-*Nested Pane Content*
+Nested Pane Content
+
 ```html
 <ids-splitter axis="x">
   <ids-splitter-pane min-size="30%" max-size="50%" size="25%">
@@ -55,3 +64,4 @@ where the point that content is split along can be resized.
   </ids-splitter-pane>
 </ids-splitter>
 ```
+

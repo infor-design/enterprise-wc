@@ -138,11 +138,10 @@ export default class IdsSplitter extends mix(IdsElement).with(
   connectedCallback() {
     super.connectedCallback?.();
     this.#refreshPaneMappings();
-    this.onEvent('splitter-pane-size-attrib-change', this, (e) => {
+    this.onEvent('sizechanged', this, (e) => {
       const {
         detail: {
           elem,
-          paneId,
           size,
           minSize,
           maxSize

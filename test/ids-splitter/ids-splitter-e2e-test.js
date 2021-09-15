@@ -1,4 +1,4 @@
-describe('Ids Progress Bar e2e Tests', () => {
+describe('Ids Splitter Bar e2e Tests', () => {
   const url = 'http://localhost:4444/ids-splitter';
 
   beforeAll(async () => {

@@ -14,40 +14,12 @@ import {
 import styles from './ids-splitter-pane.scss';
 
 /**
- * @param {object} m sizeMeta
- * @returns {string} `${minSize}${minSizeU}${size}${sizeU}${maxSize}${maxSizeU}`
- */
-const getSizesHash = (m) => (
-  `${m.minSize?.number || 0}${m.minSize?.unit || 'px'}`
-  + `${m.size?.number || 0}${m.size?.unit || 'px'}`
-  + `${m.maxSize?.number || 0}${m.maxSize?.unit || 'px'}`
-);
-
-/**
- * parses size string that can be specified with px/%
- *
- * @param {*} value size attribute string/number
- * @returns {{ unit: 'px'|'%', size: number }} | undefined
- */
-const getSize = (value) => {
-  const capturedParts = `${value}`.match(/([0-9]+)[\s]*(%|px)?/);
-
-  if (capturedParts) {
-    /* eslint-disable-next-line no-unused-vars */
-    const [_, number, unit = 'px'] = capturedParts;
-    return { number, unit };
-  }
-
-  return undefined;
-};
-
-/**
  * IDS SplitterPane Component
  * @type {IdsSplitterPane}
  * @inherits IdsElement
+ * @mixes IdsKeyboardMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
- * @mixes IdsKeyboardMixin
  * @part container - the container of all tabs
  */
 @customElement('ids-splitter-pane')
@@ -75,25 +47,36 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     ];
   }
 
-  #previousContentSizeHash = '';
+  /**
+   * Get a hash of all the size information
+   * @private
+   * @param {object} m sizeMeta
+   * @returns {string} `${minSize}${minSizeU}${size}${sizeU}${maxSize}${maxSizeU}`
+   */
+  #getSizesHash(m) {
+    return `${m.minSize?.number || 0}${m.minSize?.unit || 'px'}`
+    + `${m.size?.number || 0}${m.size?.unit || 'px'}`
+    + `${m.maxSize?.number || 0}${m.maxSize?.unit || 'px'}`;
+  }
 
-  /** @returns {string} Create the template to render */
   template() {
     return (
       `<div class="ids-splitter-pane"><slot></slot></div>`
     );
   }
 
+  /**
+   * Invoked each time the custom element is appended into a document-connected element.
+   */
   connectedCallback() {
     super.connectedCallback?.();
 
-    // When mounting, trigger initial size to parent;
+    // When mounting, trigger initial size to parent
     // note that we can probably grab this directly from
     // ids-splitter on first-render but the children
-    // mount before parent on WC.
-    // This is only a quick implementation/MVP to test POC.
+    // mount before parent on WC
     window.requestAnimationFrame(() => {
-      this.triggerEvent('splitter-pane-size-attrib-change', this, {
+      this.triggerEvent('sizechanged', this, {
         bubbles: true,
         detail: {
           elem: this,
@@ -104,10 +87,17 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     });
   }
 
+  /**
+   * Invoked each time the custom element is removed from a document-connected element.
+   */
   disconnectedCallback() {
     super.disconnectedCallback?.();
   }
 
+  /**
+   * Set the axis dirction
+   * @param {string} value Can be 'x' or 'y'
+   */
   set axis(value) {
     let nextValue;
 
@@ -128,6 +118,10 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * Set the pane's ID dirction
+   * @param {string} value Can be any string
+   */
   set paneId(value) {
     if (value !== null) {
       this.setAttribute(attributes.PANE_ID, value);
@@ -140,6 +134,10 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     return this.getAttribute(attributes.PANE_ID);
   }
 
+  /**
+   * Get the pane's size
+   * @returns {string} The size string attribute
+   */
   get size() {
     if (this.hasAttribute(attributes.SIZE)) {
       return this.getAttribute(attributes.SIZE);
@@ -148,6 +146,10 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     return null;
   }
 
+  /**
+   * Set the pane's size
+   * @param {string} value Can be any string
+   */
   set size(value) {
     if ((value !== null) && (value !== this.getAttribute(attributes.SIZE))) {
       this.setAttribute(attributes.SIZE, value);
@@ -247,10 +249,27 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
     return sizeMeta;
   }
 
+  /**
+   * Parses size string that can be specified with px/%
+   * @param {*} value size attribute string/number
+   * @returns {{ unit: 'px'|'%', size: number }} | undefined
+   */
+  #getSize(value) {
+    const capturedParts = `${value}`.match(/([0-9]+)[\s]*(%|px)?/);
+
+    if (capturedParts) {
+      /* eslint-disable-next-line no-unused-vars */
+      const [_, number, unit = 'px'] = capturedParts;
+      return { number, unit };
+    }
+
+    return undefined;
+  }
+
   /** Update internal size + meta */
   #updateSize() {
     if (this.hasAttribute(attributes.SIZE)) {
-      this.#size = getSize(this.size);
+      this.#size = this.#getSize(this.size);
     } else {
       this.#size = undefined;
     }
@@ -259,7 +278,7 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
   /** Update internal max size + meta */
   #updateMaxSize() {
     if (this.hasAttribute(attributes.MAX_SIZE)) {
-      this.#maxSize = getSize(this.maxSize);
+      this.#maxSize = this.#getSize(this.maxSize);
     } else {
       this.#maxSize = undefined;
     }
@@ -268,7 +287,7 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
   /** Update internal min size + meta */
   #updateMinSize() {
     if (this.hasAttribute(attributes.MIN_SIZE)) {
-      this.#minSize = getSize(this.minSize);
+      this.#minSize = this.#getSize(this.minSize);
     } else {
       this.#minSize = undefined;
     }
@@ -281,12 +300,12 @@ export default class IdsSplitterPane extends mix(IdsElement).with(
    */
   #checkToUpdateSizesHash() {
     const sizeMeta = this.getSizeMeta();
-    const sizesHash = getSizesHash(sizeMeta);
+    const sizesHash = this.#getSizesHash(sizeMeta);
 
     if (sizesHash !== this.#sizesHash) {
       this.#sizesHash = sizesHash;
 
-      this.triggerEvent('splitter-pane-size-attrib-change', this, {
+      this.triggerEvent('sizechanged', this, {
         bubbles: true,
         detail: {
           elem: this,
