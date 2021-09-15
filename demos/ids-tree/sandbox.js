@@ -132,22 +132,22 @@ document.addEventListener('DOMContentLoaded', async () => {
       treeEv.data = data;
     });
     treeEv.useToggleTarget = true;
-    treeEv.addEventListener('beforeselect', (e) => {
-      show('beforeselect', e.detail);
+    treeEv.addEventListener('beforeselected', (e) => {
+      show('beforeselected', e.detail);
       // e.detail.response(false); // veto
     });
-    treeEv.addEventListener('select', (e) => {
-      show('select', e.detail);
+    treeEv.addEventListener('selected', (e) => {
+      show('selected', e.detail);
     });
-    treeEv.addEventListener('beforecollapse', (e) => {
-      show('beforecollapse', e.detail);
+    treeEv.addEventListener('beforecollapsed', (e) => {
+      show('beforecollapsed', e.detail);
       // e.detail.response(false); // veto
     });
     treeEv.addEventListener('collapsed', (e) => {
       show('collapsed', e.detail);
     });
-    treeEv.addEventListener('beforeexpand', (e) => {
-      show('beforeexpand', e.detail);
+    treeEv.addEventListener('beforeexpanded', (e) => {
+      show('beforeexpanded', e.detail);
       // e.detail.response(false); // veto
     });
     treeEv.addEventListener('expanded', (e) => {

@@ -526,7 +526,7 @@ class IdsTree extends mix(IdsElement).with(
       const response = (veto) => {
         canProceed = !!veto;
       };
-      this.triggerEvent(shared.EVENTS.beforeselect, this,
+      this.triggerEvent(shared.EVENTS.beforeselected, this,
         { detail: { elem: this, response, node } });
       if (!canProceed) {
         return;
@@ -553,7 +553,7 @@ class IdsTree extends mix(IdsElement).with(
       const response = (veto) => {
         canProceed = !!veto;
       };
-      this.triggerEvent(shared.EVENTS.beforeunselect, this,
+      this.triggerEvent(shared.EVENTS.beforeunselected, this,
         { detail: { elem: this, response, node } });
       if (!canProceed) {
         return;
@@ -598,8 +598,8 @@ class IdsTree extends mix(IdsElement).with(
   #toggle(node) {
     if (node && node.elem?.isGroup) {
       const events = node.elem.expanded
-        ? { before: shared.EVENTS.beforecollapse, after: shared.EVENTS.collapsed }
-        : { before: shared.EVENTS.beforeexpand, after: shared.EVENTS.expanded };
+        ? { before: shared.EVENTS.beforecollapsed, after: shared.EVENTS.collapsed }
+        : { before: shared.EVENTS.beforeexpanded, after: shared.EVENTS.expanded };
       let canProceed = true;
       const response = (veto) => {
         canProceed = !!veto;

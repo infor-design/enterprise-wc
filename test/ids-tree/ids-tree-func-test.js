@@ -827,7 +827,7 @@ describe('IdsTree Component', () => {
 
   it('should veto before collapse response', () => {
     tree.data = dataset;
-    tree.addEventListener(shared.EVENTS.beforecollapse, (e) => {
+    tree.addEventListener(shared.EVENTS.beforecollapsed, (e) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;
@@ -856,7 +856,7 @@ describe('IdsTree Component', () => {
 
   it('should veto before expand response', () => {
     tree.data = dataset;
-    tree.addEventListener(shared.EVENTS.beforeexpand, (e) => {
+    tree.addEventListener(shared.EVENTS.beforeexpanded, (e) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;
@@ -885,7 +885,7 @@ describe('IdsTree Component', () => {
 
   it('should veto selection response', () => {
     tree.data = dataset;
-    tree.addEventListener(shared.EVENTS.beforeselect, (e) => {
+    tree.addEventListener(shared.EVENTS.beforeselected, (e) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;
@@ -908,7 +908,7 @@ describe('IdsTree Component', () => {
 
   it('should veto unselection response', () => {
     tree.data = dataset;
-    tree.addEventListener(shared.EVENTS.beforeunselect, (e) => {
+    tree.addEventListener(shared.EVENTS.beforeunselected, (e) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;

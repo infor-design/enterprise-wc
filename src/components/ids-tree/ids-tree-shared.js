@@ -24,13 +24,13 @@ const IdsTreeShared = {
   SELECTABLE: ['single', 'multiple', 'false'],
 
   EVENTS: {
-    beforeselect: 'beforeselect',
+    beforeselected: 'beforeselected',
     selected: 'selected',
-    beforeunselect: 'beforeunselect',
+    beforeunselected: 'beforeunselected',
     unselected: 'unselected',
-    beforecollapse: 'beforecollapse',
+    beforecollapsed: 'beforecollapsed',
     collapsed: 'collapsed',
-    beforeexpand: 'beforeexpand',
+    beforeexpanded: 'beforeexpanded',
     expanded: 'expanded'
   },
 

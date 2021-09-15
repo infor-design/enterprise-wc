@@ -3,27 +3,51 @@
 
 import { IdsElement } from '../../core';
 
+/** Type for tree node */
 type IdsTreeTypeNode = {
+  /** Node element */
   elem: HTMLElement,
+
+  /** Current data */
   data?: unknown,
+
+  /** Stack index in nodes */
   idx: number,
+
+  /** Defines the node type is group or not */
   isGroup: boolean
+
+  /** Defines the node depth level */
   level: number,
+
+  /** Defines the position of the node */
   posinset: number,
+
+  /** Defines the number of nodes */
   setsize: number,
 }
 
+/** Type for tree vetoable event */
 interface IdsTreeEventVetoable extends Event {
   detail: {
+    /** Tree element */
     elem: IdsTree,
+
+    /** Tree node type */
     node: IdsTreeTypeNode,
+
+    /** The method to run for vetoable  */
     response: () => boolean
   }
 }
 
+/** Type for tree event detail */
 interface IdsTreeEventDetail extends Event {
   detail: {
+    /** Tree element */
     elem: IdsTree,
+
+    /** Tree Node type */
     node: IdsTreeTypeNode
   }
 }
@@ -93,25 +117,25 @@ export default class IdsTree extends IdsElement {
   getNode(selector: string): IdsTreeTypeNode;
 
   /** Fires before the tree node/group get selected, you can return false in the response to veto */
-  on(event: 'beforeselect', listener: (detail: IdsTreeEventVetoable) => void): this;
+  on(event: 'beforeselected', listener: (detail: IdsTreeEventVetoable) => void): this;
 
   /** Fires after the tree node/group get selected */
   on(event: 'selected', listener: (detail: IdsTreeEventDetail) => void): this;
 
   /** Fires before the tree node/group get unselected, you can return false in the response to veto */
-  on(event: 'beforeunselect', listener: (detail: IdsTreeEventVetoable) => void): this;
+  on(event: 'beforeunselected', listener: (detail: IdsTreeEventVetoable) => void): this;
 
   /** Fires after the tree node/group get unselected */
   on(event: 'unselected', listener: (detail: IdsTreeEventDetail) => void): this;
 
   /** Fires before the tree group get collapsed, you can return false in the response to veto */
-  on(event: 'beforecollapse', listener: (detail: IdsTreeEventVetoable) => void): this;
+  on(event: 'beforecollapsed', listener: (detail: IdsTreeEventVetoable) => void): this;
 
   /** Fires after the tree group get collapsed */
   on(event: 'collapsed', listener: (detail: IdsTreeEventDetail) => void): this;
 
   /** Fires before the tree group get expanded, you can return false in the response to veto */
-  on(event: 'beforeexpand', listener: (detail: IdsTreeEventVetoable) => void): this;
+  on(event: 'beforeexpanded', listener: (detail: IdsTreeEventVetoable) => void): this;
 
   /** Fires after the tree group get expanded */
   on(event: 'expanded', listener: (detail: IdsTreeEventDetail) => void): this;

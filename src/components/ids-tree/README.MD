@@ -261,13 +261,13 @@ treeDemo?.data = dataset;
 
 ## Events (Tree)
 
-- `beforeselect` Fires before the tree node/group get selected, you can return false in the response to veto
+- `beforeselected` Fires before the tree node/group get selected, you can return false in the response to veto
 - `selected` Fires after the tree node/group get selected
-- `beforeunselect` Fires before the tree node/group get unselected, you can return false in the response to veto
+- `beforeunselected` Fires before the tree node/group get unselected, you can return false in the response to veto
 - `unselected` Fires after the tree node/group get unselected
-- `beforecollapse` Fires before the tree group get collapsed, you can return false in the response to veto.
+- `beforecollapsed` Fires before the tree group get collapsed, you can return false in the response to veto.
 - `collapsed` Fires after the tree group get collapsed
-- `beforeexpand` Fires before the tree group get expanded, you can return false in the response to veto
+- `beforeexpanded` Fires before the tree group get expanded, you can return false in the response to veto
 - `expanded` Fires after the tree group get expanded
 
 ## Methods (Tree)
