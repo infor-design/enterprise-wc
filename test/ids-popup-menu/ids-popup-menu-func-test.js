@@ -183,12 +183,6 @@ describe('IdsPopupMenu Component', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('has an IdsPopup component in the shadow root', () => {
-    // NOTE: Tests `ShadowRoot` detection in the Resize Mixin
-    expect(menu.popup instanceof IdsPopup).toBeTruthy();
-    expect(menu.popup.resizeDetectionTarget().isEqualNode(menu)).toBeTruthy();
-  });
-
   it('can programmatically show and hide', () => {
     menu.show();
 

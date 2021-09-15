@@ -3,6 +3,7 @@ import {
   customElement,
   appendIds,
   mix,
+  scss,
   attributes
 } from '../../core';
 
@@ -19,6 +20,7 @@ import {
 } from '../../mixins';
 
 import IdsPopup from '../ids-popup/ids-popup';
+import styles from './ids-tooltip.scss';
 
 /**
  * IDS Tooltip Component
@@ -32,6 +34,7 @@ import IdsPopup from '../ids-popup/ids-popup';
  */
 @customElement('ids-tooltip')
 @appendIds()
+@scss(styles)
 class IdsTooltip extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
@@ -117,18 +120,18 @@ class IdsTooltip extends mix(IdsElement).with(
     if (this.trigger === 'hover') {
       this.onEvent('hoverend.tooltip', targetElem, (e) => {
         this.popup.alignTarget = e.currentTarget;
-        this.visible = true;
+        this.#show();
       }, { delay: this.delay });
       this.onEvent('mouseleave.tooltip', targetElem, () => {
-        this.visible = false;
+        this.#hide();
       });
       this.onEvent('click.tooltip', targetElem, () => {
-        this.visible = false;
+        this.#hide();
       });
 
       // Long Press
       this.onEvent('longpress.tooltip', targetElem, () => {
-        this.visible = true;
+        this.#show();
       }, { delay: 1000 });
 
       // Keyboard Focus event
@@ -138,12 +141,12 @@ class IdsTooltip extends mix(IdsElement).with(
 
       /* istanbul ignore next */
       this.onEvent('focusout.tooltip', targetElem, () => {
-        this.visible = false;
+        this.#hide();
       });
 
       /* istanbul ignore next */
       this.onEvent('click.popup', this.popup, () => {
-        this.visible = false;
+        this.#hide();
       });
     }
 

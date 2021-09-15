@@ -4,10 +4,6 @@
 :host {
   // Take the WebComponent out of document flow
   position: absolute;
-  display: none;
-}
-
-:host([visible]) {
   display: block;
 }
 
