@@ -1,0 +1,11 @@
+---
+ component: About
+ link: ids-about
+ description: Displays info about a product with copyright and browser specs
+ category: Messages and Alerts
+ keywords: modal, info, popup, product, application
+ examples:
+  - link: index.html
+    description: Shows main example
+  - link: standalone-css.html
+    description: Showing the component that works with css only
