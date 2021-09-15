@@ -16,8 +16,6 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
 .ids-modal {
   @include block();
 
-  height: 100%;
-  width: 100%;
   pointer-events: none;
 
   &[visible] {

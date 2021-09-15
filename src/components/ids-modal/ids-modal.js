@@ -326,13 +326,12 @@ class IdsModal extends mix(IdsElement).with(
 
     // Animation-in needs the Modal to appear in front (z-index), so this occurs on the next tick
     this.style.zIndex = zCounter.increment();
-    this.overlay.style.zIndex = zCounter.increment();
-    this.popup.style.zIndex = zCounter.increment();
-
     this.overlay.visible = true;
     this.popup.visible = true;
 
-    await IdsDOMUtils.waitForTransitionEnd(this.popup.container, 'transform');
+    if (this.animated) {
+      await IdsDOMUtils.waitForTransitionEnd(this.popup.container, 'opacity');
+    }
     this.removeAttribute('aria-hidden');
 
     // Focus the correct element
@@ -369,10 +368,12 @@ class IdsModal extends mix(IdsElement).with(
     this.popup.visible = false;
 
     // Animation-out can wait for the opacity transition to end before changing z-index.
-    await IdsDOMUtils.waitForTransitionEnd(this.overlay.container, 'opacity');
+    if (this.animated) {
+      await IdsDOMUtils.waitForTransitionEnd(this.popup.container, 'opacity');
+    }
     this.style.zIndex = '';
     this.setAttribute('aria-hidden', 'true');
-    zCounter.hideModal();
+    zCounter.decrement();
 
     this.triggerEvent('hide', this, {
       bubbles: true,
@@ -427,7 +428,7 @@ class IdsModal extends mix(IdsElement).with(
       overlay = new IdsOverlay();
       overlay.part = 'overlay';
       this.shadowRoot.prepend(overlay);
-      this.popupOpenEventsTarget = overlay;
+      this.popupOpenEventsTarget = this.overlay;
     } else {
       overlay = this.shadowRoot.querySelector('ids-overlay');
       overlay.remove();
@@ -584,8 +585,8 @@ class IdsModal extends mix(IdsElement).with(
    */
   /* istanbul ignore next */
   onOutsideClick(e) {
-    const isContainedByPopup = IdsDOMUtils.getClosestRootNode(e.target).isEqualNode(this.popup);
-    if (this.isEqualNode(e.target) || isContainedByPopup) {
+    const isOverlay = e.target.tagName === 'ids-overlay';
+    if (this.isEqualNode(e.target) || isOverlay) {
       return;
     }
     this.hide();

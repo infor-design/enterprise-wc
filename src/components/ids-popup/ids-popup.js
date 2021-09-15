@@ -118,10 +118,6 @@ class IdsPopup extends mix(IdsElement).with(
     this.shouldUpdate = false;
   }
 
-  /**
-   * `IdsElement.prototype.connectedCallback` implementation
-   * @returns {void}
-   */
   connectedCallback() {
     super.connectedCallback();
 
@@ -162,6 +158,7 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * Watches for changes
    * @property {MutationObserver} mo the built-in mutation observer
    */
   #mo = new MutationObserver((mutations) => {
@@ -276,11 +273,14 @@ class IdsPopup extends mix(IdsElement).with(
     this.place();
   }
 
+  /**
+   * @property {string} align determines the current direction(s) of alignment for the Popup.
+   * Can be left, right, top, bottom, center, and can also be a comma-delimited list of
+   * multiple alignment types (for example: `left, top` or `right, bottom`)
+   */
   #align = CENTER;
 
   /**
-   * Sets the alignment direction between left, right, top, bottom, center and can be a comma
-   * delimited set of multiple alignment types for example `left, top`
    * @param {string} val a comma-delimited set of alignment types `direction1, direction2`
    */
   set align(val) {
@@ -383,7 +383,7 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Strategy for the parent X alignment ((see the ALIGNMENTS_Y array)
+   * Strategy for the parent X alignment (see the ALIGNMENTS_X array)
    * @returns {string} the strategy to use
    */
   get alignX() {
@@ -396,6 +396,9 @@ class IdsPopup extends mix(IdsElement).with(
    */
   #alignY = ALIGNMENTS_Y[0];
 
+  /**
+   * @param {string} val alignment strategy for the current parent Y alignment
+   */
   set alignY(val) {
     if (typeof val !== 'string' || !val.length) {
       return;
@@ -555,20 +558,10 @@ class IdsPopup extends mix(IdsElement).with(
    */
   set animationStyle(val) {
     const currentVal = this.#animationStyle;
-    let trueVal = ANIMATION_STYLES[0];
-    if (val && ANIMATION_STYLES.includes(val)) {
-      trueVal = val;
-    }
-
-    if (trueVal !== ANIMATION_STYLES[0]) {
-      this.setAttribute(attributes.ANIMATION_STYLE, `${trueVal}`);
-    } else {
-      this.removeAttribute(attributes.ANIMATION_STYLE);
-    }
-
-    if (trueVal !== this.#animationStyle) {
-      this.#animationStyle = trueVal;
-      this.#refreshAnimationStyle(currentVal, trueVal);
+    if (val !== currentVal && ANIMATION_STYLES.includes(val)) {
+      this.#animationStyle = val;
+      this.setAttribute(attributes.ANIMATION_STYLE, val);
+      this.#refreshAnimationStyle(currentVal, val);
     } else {
       this.#refreshAnimationStyle('', currentVal);
     }
@@ -864,7 +857,8 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Calculates the current placement of the Popup
+   * Runs the show/hide routines of the Popup based on current visiblity state.
+   * @async
    * @returns {Promise} from the show/hide process
    */
   async refreshVisibility() {
@@ -879,6 +873,8 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * Turns visibility of the Popup on/off, and places the Popup if it's visible.
+   * @async
    * @returns {void}
    */
   async toggleVisibility() {
@@ -939,7 +935,8 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Sets an X/Y position
+   * Sets an X/Y position and optionally shows/places the Popup
+   * @async
    * @param {number} x the x coordinate/offset value
    * @param {number} y the y coordinate/offset value
    * @param {boolean} doShow true if the Popup should be displayed before placing
@@ -954,12 +951,13 @@ class IdsPopup extends mix(IdsElement).with(
 
   /**
    * Shows the Popup
+   * @async
    * @returns {Promise} resolved once showing and animating the Popup is completed.
    */
   async show() {
     if (this.visible) {
       this.container.classList.add('visible');
-      await this.place();
+      // await this.place();
       this.#setArrowDirection('', this.arrow);
     }
 
@@ -993,6 +991,7 @@ class IdsPopup extends mix(IdsElement).with(
             this.container.classList.add('flipped');
           }
           this.place().then(() => {
+            this.#correct3dMatrix();
             resolve();
           });
         }
@@ -1002,6 +1001,7 @@ class IdsPopup extends mix(IdsElement).with(
 
   /**
    * Hides the Popup
+   * @async
    * @returns {Promise} resolved once hiding and animating the Popup is completed.
    */
   async hide() {
@@ -1011,6 +1011,7 @@ class IdsPopup extends mix(IdsElement).with(
         return;
       }
 
+      this.#remove3dMatrix();
       this.container.classList.remove('open');
 
       // Adds another RenderLoop-staggered check for whether to hide the Popup.
@@ -1047,6 +1048,7 @@ class IdsPopup extends mix(IdsElement).with(
 
   /**
    * Runs the configured placement routine for the Popup
+   * @async
    * @returns {Promise} resolved once placement has finished
    */
   async place() {
@@ -1326,7 +1328,7 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Renders the position of the Popup.
+   * Renders the position of the Popup using offsets/coordinates in Pixels.
    * @param {DOMRect} popupRect representing approximated new placement values
    * @returns {void}
    */
@@ -1335,9 +1337,61 @@ class IdsPopup extends mix(IdsElement).with(
     this.container.style.top = `${popupRect.y}px`;
   }
 
+  /**
+   * Renders the position of the Popup with CSS transforms (applied mostly with CSS).
+   * See the IdsPopup CSS styles for the `animation-style-*` classes for modifying the Transform values.
+   * @returns {void}
+   */
   #renderPlacementWithTransform() {
     this.container.style.left = `50%`;
     this.container.style.top = `50%`;
+  }
+
+  /**
+   * In cases where 3D CSS transforms are used for Popup positioning,
+   * corrects the placement of the Popup after rendering so that it doesn't
+   * reside on half-pixels, causing blurriness to text, icons, etc.
+   * Adapted from https://stackoverflow.com/a/42256897
+   * @returns {void}
+   */
+  #correct3dMatrix() {
+    if (this.positionStyle !== 'viewport') {
+      return;
+    }
+
+    requestAnimationFrame(() => {
+      // Resets the redifined matrix to allow recalculation.
+      // The original style should be defined in the animation-style class, not inline.
+      this.#remove3dMatrix();
+
+      // gets the current computed style
+      const style = window.getComputedStyle(this.container, null);
+      const mx = style.getPropertyValue('-webkit-transform')
+        || style.getPropertyValue('-moz-transform')
+        || style.getPropertyValue('transform') || false;
+
+      // Corrects `matrix3d` coordinate values to be whole numbers
+      const values = mx.replace(/ |\(|\)|matrix3d/g, '').split(',');
+      for (let i = 0; i < values.length; i++) {
+        if (i === 0 && values[i] < 1) values[i] = 1;
+        if (i > 0 && (values[i] > 4 || values[i] < -4)) {
+          values[i] = Math.ceil(values[i]);
+        }
+        if (i === values.length - 1 && values[i] > 1) {
+          values[i] = 1;
+        }
+      }
+
+      this.container.style.transform = `matrix3d(${values.join()})`;
+    });
+  }
+
+  /**
+   * Removes a previously-modified 3D Matrix
+   * @returns {void}
+   */
+  #remove3dMatrix() {
+    this.container.style.transform = '';
   }
 
   /**

@@ -6,13 +6,15 @@
   @include absolute();
 
   display: block;
+}
 
-  &[position-style='viewport'] {
-    @include relative();
-  }
+// Viewport-centered Popup centering is changed
+:host([position-style='viewport']) {
+  position: static;
 }
 
 .ids-popup {
+  @include antialiased();
   @include z-3000();
 
   display: none;
@@ -104,10 +106,6 @@
     display: block;
   }
 
-  // Added to ".visible" to animate the opening.
-  // Add an "open" state to any CSS class that drives animation.
-  // &.open {}
-
   // Animates X/Y movement, fade in/out of the popup.
   &.animated {
     transition:
@@ -165,8 +163,10 @@
     left: 50%;
     top: 50%;
     transform-origin: left top;
+    transform: translate(-50%, -50%);
 
-    // Override some default animation styles to utilize CSS centering via transforms
+    // Override some default animation styles to add the correct
+    // `translate(X/Y/Z/3d)` values to an existing transform property.
     &.animation-scale-in {
       transform: perspective(1000px) translate3d(-50%, -50%, -500px);
 
@@ -198,7 +198,6 @@
 
   // style: "menu"
   &.menu {
-    @include antialiased();
     @include border-1();
     @include border-solid();
     @include font-sans();
@@ -289,7 +288,6 @@
   // style: "tooltip"
   &.tooltip {
     @include bg-slate-80();
-    @include antialiased();
     @include cursor-pointer();
     @include font-sans();
     @include py-4();
@@ -350,7 +348,6 @@
 
   // style: "modal"
   &.modal {
-    @include antialiased();
     @include bg-white();
     @include border-1();
     @include border-solid();
