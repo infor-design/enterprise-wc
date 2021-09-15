@@ -67,6 +67,24 @@ const DISABLED_TRIGGERFIELD_HTML = (
   `
 );
 
+const READONLY_TRIGGERFIELD_HTML = (
+  `<ids-trigger-field
+      id="trigger-field-1"
+      size="sm"
+      tabbable="false"
+      label="Date Field"
+      content-borders
+      readonly="true"
+    >
+      <ids-input></ids-input>
+      <ids-trigger-button>
+        <ids-text audible="true">Date Field trigger</ids-text>
+        <ids-icon slot="icon" icon="schedule"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>
+  `
+);
+
 describe('IdsTriggerField Component', () => {
   let triggerField;
 
@@ -163,6 +181,11 @@ describe('IdsTriggerField Component', () => {
   });
 
   it('renders disabled setting', async () => {
+    triggerField = await createElemViaTemplate(READONLY_TRIGGERFIELD_HTML);
+    expect(triggerField.readonly).toBe(true);
+  });
+
+  it('renders disabled setting', async () => {
     triggerField = await createElemViaTemplate(DISABLED_TRIGGERFIELD_HTML);
     expect(triggerField.disabled).toBe(true);
   });
@@ -184,6 +207,16 @@ describe('IdsTriggerField Component', () => {
     triggerField.appearance = 'compact';
     expect(triggerField.getAttribute(attributes.APPEARANCE)).toEqual('compact');
     expect(triggerField.appearance).toEqual('compact');
+  });
+
+  it('has a readonly attribute', () => {
+    triggerField.readonly = false;
+    expect(triggerField.readonly).toEqual(false);
+    expect(triggerField.getAttribute('readonly')).toEqual(null);
+
+    triggerField.readonly = true;
+    expect(triggerField.readonly).toEqual(true);
+    expect(triggerField.getAttribute('readonly')).toEqual('true');
   });
 
   it('has a disabled attribute', () => {
