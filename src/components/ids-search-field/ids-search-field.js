@@ -114,6 +114,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   set value(value) {
     this.setAttribute(attributes.VALUE, value);
 
+    /* istanbul ignore else */
     if (this.input) {
       this.input.value = value;
     }
@@ -130,6 +131,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   set placeholder(value) {
     this.setAttribute(attributes.PLACEHOLDER, value);
 
+    /* istanbul ignore else */
     if (this.input) {
       this.input.placeholder = value;
     }
@@ -150,6 +152,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   set label(value) {
     this.setAttribute(attributes.LABEL, value);
 
+    /* istanbul ignore else */
     if (this.input) {
       this.triggerField.label = value;
     }
