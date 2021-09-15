@@ -329,7 +329,7 @@ class IdsModal extends mix(IdsElement).with(
     this.overlay.visible = true;
     this.popup.visible = true;
 
-    if (this.animated) {
+    if (this.popup.animated) {
       await IdsDOMUtils.waitForTransitionEnd(this.popup.container, 'opacity');
     }
     this.removeAttribute('aria-hidden');
@@ -368,7 +368,7 @@ class IdsModal extends mix(IdsElement).with(
     this.popup.visible = false;
 
     // Animation-out can wait for the opacity transition to end before changing z-index.
-    if (this.animated) {
+    if (this.popup.animated) {
       await IdsDOMUtils.waitForTransitionEnd(this.popup.container, 'opacity');
     }
     this.style.zIndex = '';

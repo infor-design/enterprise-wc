@@ -540,14 +540,6 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * @readonly
-   * @returns {boolean} true if the Popup is opened and has fully animated into place
-   */
-  get animatedOpen() {
-    return this.container.classList.contains('open');
-  }
-
-  /**
    * @property {string} animationStyle the type of alignment to use on this component's
    *  Y coordinate in relation to a parent element's Y coordinate
    */
@@ -942,9 +934,9 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {boolean} doShow true if the Popup should be displayed before placing
    * @param {boolean} doPlacement true if the component should run its placement routine
    */
-  async setPosition(x, y, doShow, doPlacement) {
-    if (x) this.x = x;
-    if (y) this.y = y;
+  async setPosition(x = null, y = null, doShow = null, doPlacement = null) {
+    if (!Number.isNaN(x)) this.x = x;
+    if (!Number.isNaN(y)) this.y = y;
     if (doShow) this.visible = true;
     if (doPlacement) await this.place();
   }
