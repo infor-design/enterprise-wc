@@ -39,15 +39,10 @@ describe('IdsSearchField Component', () => {
 
     document.body.appendChild(s);
 
-    // await processAnimFrame();
-
     return s;
   };
 
   beforeEach(async () => {
-    // const elem = new IdsSearchField();
-    // document.body.appendChild(elem);
-    // s = document.querySelector('ids-search-field');
     s = await createElemViaTemplate(HTMLSnippets.VANILLA_SEARCH_FIELD);
   });
 
