@@ -2,7 +2,8 @@
 
 ## Description
 
-The Trees component presents a hierarchical structure list. Each node in the hierarchy may have child nodes, and nodes that have children may be expanded or collapsed to show or hide the children.
+A tree is a structure that is hierarchical in structure. The tree consists of categories, subcategories and is vertical in format.
+Trees present a hierarchically structured list. Each node in the hierarchy may have child nodes, and nodes that have children may be expanded or collapsed to show or hide the children.
 
 For example, in a file system that uses tree to display folders and files, a node representing a folder can be expanded to reveal the contents of the folder, which may be files, folders, or both. Tree node depth visualized by indentation in a list.
 
