@@ -3,8 +3,11 @@
 
 :host {
   // Take the WebComponent out of document flow
-  @include absolute();
+  position: absolute;
+  display: none;
+}
 
+:host([visible]) {
   display: block;
 }
 

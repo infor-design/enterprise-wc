@@ -603,26 +603,27 @@ describe('IdsPopup Component', () => {
     expect(popup.positionStyle).toBe('fixed');
     expect(popup.container.classList.contains('position-fixed')).toBeTruthy();
 
+    popup.positionStyle = 'viewport';
+
+    expect(popup.positionStyle).toBe('viewport');
+    expect(popup.container.classList.contains('position-viewport')).toBeTruthy();
+
     // Can't set a junk value
     popup.positionStyle = 'not-real';
 
-    expect(popup.positionStyle).toBe('fixed');
-    expect(popup.container.classList.contains('position-fixed')).toBeTruthy();
+    expect(popup.positionStyle).toBe('viewport');
+    expect(popup.container.classList.contains('position-viewport')).toBeTruthy();
   });
 
-  it('can enable/disable visibility', (done) => {
+  it('can enable/disable visibility', async () => {
     popup.visible = true;
+    await popup.show();
+    expect(popup.container.classList.contains('visible')).toBeTruthy();
 
-    setTimeout(() => {
-      expect(popup.animatedOpen).toBeTruthy();
-      expect(popup.container.classList.contains('visible')).toBeTruthy();
-      popup.visible = false;
+    popup.visible = false;
+    await popup.hide();
 
-      setTimeout(() => {
-        expect(popup.container.classList.contains('visible')).toBeFalsy();
-        done();
-      }, 300);
-    }, 300);
+    expect(popup.container.classList.contains('visible')).toBeFalsy();
   });
 
   it('can enable/disable container bleed', () => {

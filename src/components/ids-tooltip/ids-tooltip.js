@@ -133,7 +133,7 @@ class IdsTooltip extends mix(IdsElement).with(
 
       // Keyboard Focus event
       this.onEvent('keyboardfocus.tooltip', targetElem, () => {
-        this.visible = true;
+        this.#show();
       });
 
       /* istanbul ignore next */
@@ -251,10 +251,13 @@ class IdsTooltip extends mix(IdsElement).with(
     }
 
     // Show the popup
+    if (!this.visible) {
+      this.visible = true;
+      return;
+    }
     this.#configurePopup();
     this.popup.visible = true;
     this.popup.place();
-    this.visible = true;
     this.triggerEvent('show', this, { detail: { elem: this } });
   }
 
@@ -262,8 +265,11 @@ class IdsTooltip extends mix(IdsElement).with(
    * Show the tooltip  (use visible for public API)
    */
   #hide() {
+    if (this.visible) {
+      this.visible = false;
+      return;
+    }
     this.popup.visible = false;
-    this.visible = false;
     this.triggerEvent('hide', this, { detail: { elem: this } });
   }
 
@@ -358,23 +364,26 @@ class IdsTooltip extends mix(IdsElement).with(
    * @param {string|boolean} value The target element selector
    */
   set visible(value) {
-    this.state.visible = IdsStringUtils.stringToBool(value);
+    const trueVal = IdsStringUtils.stringToBool(value);
+    if (this.state.visible !== trueVal) {
+      this.state.visible = trueVal;
 
-    if (!this.popup.alignTarget) {
-      this.popup.alignTarget = typeof this.target === 'object'
-        ? this.target
-        : document.querySelectorAll(this.target)[0];
+      if (!this.popup.alignTarget) {
+        this.popup.alignTarget = typeof this.target === 'object'
+          ? this.target
+          : document.querySelectorAll(this.target)[0];
+      }
+
+      if (this.state.visible) {
+        this.setAttribute('visible', 'true');
+        this.#show();
+        return;
+      }
+
+      this.popup.alignTarget = null;
+      this.removeAttribute('visible');
+      this.#hide();
     }
-
-    if (this.state.visible) {
-      this.setAttribute('visible', 'true');
-      this.#show();
-      return;
-    }
-
-    this.popup.alignTarget = null;
-    this.removeAttribute('visible');
-    this.#hide();
   }
 
   get visible() { return this.state.visible; }

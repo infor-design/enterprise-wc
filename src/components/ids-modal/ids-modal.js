@@ -5,7 +5,6 @@ import {
   mix
 } from '../../core/ids-element';
 
-import debounce from '../../core/ids-debouncer';
 import { attributes } from '../../core/ids-attributes';
 
 import {
@@ -15,7 +14,6 @@ import {
   IdsPopupOpenEventsMixin,
   IdsRenderLoopMixin,
   IdsRenderLoopItem,
-  IdsResizeMixin,
   IdsThemeMixin,
   IdsXssMixin
 } from '../../mixins';
@@ -41,7 +39,6 @@ const dismissTimeout = 200;
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsRenderLoopMixin
- * @mixes IdsResizeMixin
  * @mixes IdsThemeMixin
  * @mixes IdsXssMixin
  * @part popup - the popup outer element
@@ -55,7 +52,6 @@ class IdsModal extends mix(IdsElement).with(
     IdsPopupInteractionsMixin,
     IdsPopupOpenEventsMixin,
     IdsRenderLoopMixin,
-    IdsResizeMixin,
     IdsThemeMixin,
     IdsXssMixin,
   ) {
