@@ -1,0 +1,9 @@
+---
+ component: Slider
+ link: ids-slider
+ description: Allows a user to drag/click an input value between a min and max
+ category: Charts and Visualizations
+ keywords: slider, range, step
+ examples:
+  - link: index.html
+    description: Showing various slider examples

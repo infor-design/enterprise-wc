@@ -1,5 +1,6 @@
 // Import Every Yaml File
 import accordionYaml from './ids-accordion/index.yaml';
+import aboutYaml from './ids-about/index.yaml';
 import alertYaml from './ids-alert/index.yaml';
 import badgeYaml from './ids-badge/index.yaml';
 import blockGridYaml from './ids-block-grid/index.yaml';
@@ -33,6 +34,7 @@ import radioYaml from './ids-radio/index.yaml';
 import ratingYaml from './ids-rating/index.yaml';
 import scrollViewYaml from './ids-scroll-view/index.yaml';
 import skiplinkActionYaml from './ids-skip-link/index.yaml';
+import sliderYaml from './ids-slider/index.yaml';
 import spinboxActionYaml from './ids-spinbox/index.yaml';
 import swipeActionYaml from './ids-swipe-action/index.yaml';
 import switchYaml from './ids-switch/index.yaml';
@@ -71,6 +73,7 @@ const addYaml = (yaml) => {
 
 // Add each yaml file
 addYaml(accordionYaml);
+addYaml(aboutYaml);
 addYaml(alertYaml);
 addYaml(badgeYaml);
 addYaml(blockGridYaml);
@@ -104,6 +107,7 @@ addYaml(radioYaml);
 addYaml(ratingYaml);
 addYaml(scrollViewYaml);
 addYaml(skiplinkActionYaml);
+addYaml(sliderYaml);
 addYaml(spinboxActionYaml);
 addYaml(swipeActionYaml);
 addYaml(switchYaml);
