@@ -140,7 +140,8 @@ button {
 }
 
 // Specific Modifications for Modal Buttons
-.ids-modal-button {
+// Do not apply styles to modal close icon button, appearance as icon is required
+.ids-modal-button:not(.ids-modal-icon-button) {
   @include ids-base-button-styles();
   @include ids-modal-button-colors();
   @include py-12();
@@ -151,6 +152,11 @@ button {
   &:focus {
     z-index: 1;
   }
+}
+
+// Adjusting hitbox for the modal close icon
+.ids-modal-icon-button {
+  @include p-12();
 }
 
 @include keyframes(ripple-animation) {
