@@ -54,7 +54,7 @@ class IdsLayoutGrid extends IdsElement {
    * @returns {void}
    */
   #setDefaults() {
-    if (this.cols === null) {
+    if (this.cols === null && this.auto === null) {
       this.setAttribute(attributes.COLS, 'fluid-grid');
       this.classList.remove(colsGridClass);
       this.classList.add(fluidGridClass);
