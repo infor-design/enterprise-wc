@@ -1,6 +1,6 @@
 ---
  component: Layout Grid
- link: ids-list-view
+ link: ids-layout-grid
  description: Responsive Grid
  category: Layouts
  keywords: List, List View, Listview, Grid, Responsively
