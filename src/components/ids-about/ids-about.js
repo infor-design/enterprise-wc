@@ -107,6 +107,12 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
     return this;
   }
 
+  /*
+   * Cancel overlay close modal event, reattach the event to the close icon button
+   * @returns {void}
+   */
+  onOutsideClick() {}
+
   /**
    * Add button with icon to the modal
    * Reusing ids-modal-button component with cancel attribute and extra css class to change appearance
