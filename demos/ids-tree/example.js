@@ -17,9 +17,9 @@ document.addEventListener('DOMContentLoaded', () => {
       xmlhttp.open('GET', url, true);
       xmlhttp.send();
 
-      // On select
-      treeDemo.addEventListener('select', (e) => {
-        console.info('select:', e?.detail);
+      // On selected
+      treeDemo.addEventListener('selected', (e) => {
+        console.info('selected:', e?.detail);
       });
     }());
   }
