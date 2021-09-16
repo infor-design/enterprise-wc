@@ -71,7 +71,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  availableColorVariants = ['app-menu', 'sub-app-menu'];
+  colorVariants = ['app-menu', 'sub-app-menu'];
 
   /**
    * Inner template contents

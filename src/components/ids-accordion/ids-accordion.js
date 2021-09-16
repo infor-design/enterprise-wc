@@ -21,6 +21,15 @@ import {
 import IdsDOMUtils from '../../utils/ids-dom-utils';
 import { refreshRTLStyle } from './ids-accordion-common';
 
+const attributeProviderDefs = {
+  attributesProvided: [
+    { attribute: attributes.LANGUAGE, component: IdsAccordionHeader },
+    { attribute: attributes.LANGUAGE, component: IdsAccordionPanel },
+    { attribute: attributes.LOCALE, component: IdsAccordionHeader },
+    { attribute: attributes.LOCALE, component: IdsAccordionPanel },
+  ]
+};
+
 /**
  * IDS Accordion Component
  * @type {IdsAccordion}
@@ -36,12 +45,12 @@ import { refreshRTLStyle } from './ids-accordion-common';
 @customElement('ids-accordion')
 @scss(styles)
 class IdsAccordion extends mix(IdsElement).with(
-    IdsAttributeProviderMixin,
     IdsColorVariantMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsLocaleMixin,
-    IdsThemeMixin
+    IdsThemeMixin,
+    IdsAttributeProviderMixin(attributeProviderDefs),
   ) {
   constructor() {
     super();
@@ -74,20 +83,16 @@ class IdsAccordion extends mix(IdsElement).with(
   }
 
   /**
-   * @returns {object.<string, string>} the attributes and how they will
-   * be passed down
-   */
-  get providedAttributes() {
-    return {
-      [attributes.LANGUAGE]: [IdsAccordionHeader, IdsAccordionPanel],
-      [attributes.LOCALE]: [IdsAccordionHeader, IdsAccordionPanel]
-    };
-  }
-
-  /**
    * @returns {Array<string>} List of available color variants for this component
    */
-  availableColorVariants = ['app-menu'];
+  colorVariants = ['app-menu'];
+
+  /**
+   * When the accordion's color variant is set, push this change through to the child elements
+   */
+  onColorVariantRefresh() {
+    this.#assignDepthDependentStyles(this, 0, true, false, false, false);
+  }
 
   /**
    * Inner template contents
@@ -138,23 +143,6 @@ class IdsAccordion extends mix(IdsElement).with(
       return document.activeElement.closest('ids-accordion-panel');
     }
     return undefined;
-  }
-
-  /**
-   * @returns {string} the current top-level color variant
-   */
-  get colorVariant() {
-    return super.colorVariant;
-  }
-
-  /**
-   * Overrides the getter from IdsColorVariantMixin to also include re-assignment
-   * of nested accordion color variants (which may be styled differently than the top-level)
-   * @param {string} val the desired "top-level" color variant
-   */
-  set colorVariant(val) {
-    super.colorVariant = val;
-    this.#assignDepthDependentStyles(this, 0, true, false, false, false);
   }
 
   /**
@@ -235,7 +223,14 @@ class IdsAccordion extends mix(IdsElement).with(
       if (childEl.tagName !== 'IDS-ACCORDION-PANEL') {
         continue;
       }
-      this.#assignDepthDependentStyles(childEl, depth + 1);
+      this.#assignDepthDependentStyles(
+        childEl,
+        depth + 1,
+        doColorVariant,
+        doExpanderType,
+        doDisplayIconType,
+        doRTL
+      );
     }
   }
 
