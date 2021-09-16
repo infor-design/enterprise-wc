@@ -1,5 +1,6 @@
 // Imports Used in the Examples
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
+import './notification-badge';
 
 // Here we append all the HTML to show off the icons to the icon div section
 const queryString = window.location.search;

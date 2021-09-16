@@ -20,6 +20,8 @@ export const attributes = {
   AUTO_HEIGHT: 'auto-height',
   AUTOSELECT: 'autoselect',
   AXIS: 'axis',
+  BADGE_COLOR: 'badge-color',
+  BADGE_POSITION: 'badge-position',
   BG_TRANSPARENT: 'bg-transparent',
   BOLD: 'bold',
   BLEED: 'bleed',
