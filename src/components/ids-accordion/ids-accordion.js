@@ -90,6 +90,7 @@ class IdsAccordion extends mix(IdsElement).with(
   /**
    * When the accordion's color variant is set, push this change through to the child elements
    */
+  /* istanbul ignore next */
   onColorVariantRefresh() {
     this.#assignDepthDependentStyles(this, 0, true, false, false, false);
   }
@@ -171,6 +172,7 @@ class IdsAccordion extends mix(IdsElement).with(
     const isRTL = this.locale.isRTL();
 
     // Assign RTL CSS Classes
+    /* istanbul ignore next */
     if (doRTL) {
       if (elemCl) refreshRTLStyle(elemCl, isRTL);
       if (headerCl) refreshRTLStyle(headerCl, isRTL);
