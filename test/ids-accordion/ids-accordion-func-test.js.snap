@@ -2,18 +2,18 @@
 
 exports[`IdsAccordion Component renders correctly 1`] = `
 "<ids-accordion language=\\"en\\" locale=\\"en-US\\">
-    <ids-accordion-panel id=\\"p1\\">
-      <ids-accordion-header id=\\"h1\\" slot=\\"header\\" aria-expanded=\\"false\\">
+    <ids-accordion-panel id=\\"p1\\" language=\\"en\\" locale=\\"en-US\\">
+      <ids-accordion-header id=\\"h1\\" slot=\\"header\\" aria-expanded=\\"false\\" language=\\"en\\" locale=\\"en-US\\">
         <ids-text>Header 1</ids-text>
       </ids-accordion-header>
     </ids-accordion-panel>
-    <ids-accordion-panel id=\\"p2\\">
-      <ids-accordion-header id=\\"h2\\" slot=\\"header\\" aria-expanded=\\"false\\">
+    <ids-accordion-panel id=\\"p2\\" language=\\"en\\" locale=\\"en-US\\">
+      <ids-accordion-header id=\\"h2\\" slot=\\"header\\" aria-expanded=\\"false\\" language=\\"en\\" locale=\\"en-US\\">
         <ids-text>Header 2</ids-text>
       </ids-accordion-header>
     </ids-accordion-panel>
-    <ids-accordion-panel id=\\"p3\\">
-      <ids-accordion-header id=\\"h3\\" slot=\\"header\\" aria-expanded=\\"false\\">
+    <ids-accordion-panel id=\\"p3\\" language=\\"en\\" locale=\\"en-US\\">
+      <ids-accordion-header id=\\"h3\\" slot=\\"header\\" aria-expanded=\\"false\\" language=\\"en\\" locale=\\"en-US\\">
         <ids-text>Header 3</ids-text>
       </ids-accordion-header>
     </ids-accordion-panel>
@@ -22,18 +22,18 @@ exports[`IdsAccordion Component renders correctly 1`] = `
 
 exports[`IdsAccordion Component renders correctly 2`] = `
 "<ids-accordion language=\\"en\\" locale=\\"en-US\\">
-    <ids-accordion-panel id=\\"p1\\" expanded=\\"true\\">
-      <ids-accordion-header id=\\"h1\\" slot=\\"header\\" aria-expanded=\\"true\\">
+    <ids-accordion-panel id=\\"p1\\" language=\\"en\\" locale=\\"en-US\\" expanded=\\"true\\">
+      <ids-accordion-header id=\\"h1\\" slot=\\"header\\" aria-expanded=\\"true\\" language=\\"en\\" locale=\\"en-US\\">
         <ids-text>Header 1</ids-text>
       </ids-accordion-header>
     </ids-accordion-panel>
-    <ids-accordion-panel id=\\"p2\\">
-      <ids-accordion-header id=\\"h2\\" slot=\\"header\\" aria-expanded=\\"false\\">
+    <ids-accordion-panel id=\\"p2\\" language=\\"en\\" locale=\\"en-US\\">
+      <ids-accordion-header id=\\"h2\\" slot=\\"header\\" aria-expanded=\\"false\\" language=\\"en\\" locale=\\"en-US\\">
         <ids-text>Header 2</ids-text>
       </ids-accordion-header>
     </ids-accordion-panel>
-    <ids-accordion-panel id=\\"p3\\">
-      <ids-accordion-header id=\\"h3\\" slot=\\"header\\" aria-expanded=\\"false\\">
+    <ids-accordion-panel id=\\"p3\\" language=\\"en\\" locale=\\"en-US\\">
+      <ids-accordion-header id=\\"h3\\" slot=\\"header\\" aria-expanded=\\"false\\" language=\\"en\\" locale=\\"en-US\\">
         <ids-text>Header 3</ids-text>
       </ids-accordion-header>
     </ids-accordion-panel>
@@ -42,18 +42,18 @@ exports[`IdsAccordion Component renders correctly 2`] = `
 
 exports[`IdsAccordion Component renders correctly 3`] = `
 "<ids-accordion language=\\"en\\" locale=\\"en-US\\">
-    <ids-accordion-panel id=\\"p1\\">
-      <ids-accordion-header id=\\"h1\\" slot=\\"header\\" aria-expanded=\\"false\\">
+    <ids-accordion-panel id=\\"p1\\" language=\\"en\\" locale=\\"en-US\\">
+      <ids-accordion-header id=\\"h1\\" slot=\\"header\\" aria-expanded=\\"false\\" language=\\"en\\" locale=\\"en-US\\">
         <ids-text>Header 1</ids-text>
       </ids-accordion-header>
     </ids-accordion-panel>
-    <ids-accordion-panel id=\\"p2\\">
-      <ids-accordion-header id=\\"h2\\" slot=\\"header\\" aria-expanded=\\"false\\">
+    <ids-accordion-panel id=\\"p2\\" language=\\"en\\" locale=\\"en-US\\">
+      <ids-accordion-header id=\\"h2\\" slot=\\"header\\" aria-expanded=\\"false\\" language=\\"en\\" locale=\\"en-US\\">
         <ids-text>Header 2</ids-text>
       </ids-accordion-header>
     </ids-accordion-panel>
-    <ids-accordion-panel id=\\"p3\\">
-      <ids-accordion-header id=\\"h3\\" slot=\\"header\\" aria-expanded=\\"false\\">
+    <ids-accordion-panel id=\\"p3\\" language=\\"en\\" locale=\\"en-US\\">
+      <ids-accordion-header id=\\"h3\\" slot=\\"header\\" aria-expanded=\\"false\\" language=\\"en\\" locale=\\"en-US\\">
         <ids-text>Header 3</ids-text>
       </ids-accordion-header>
     </ids-accordion-panel>
