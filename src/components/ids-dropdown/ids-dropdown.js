@@ -71,15 +71,15 @@ class IdsDropdown extends mix(IdsElement).with(
       // Empty Dropdown
       this.container = document.createElement('ids-trigger-field');
     }
-    this.popup = this.shadowRoot.querySelector('ids-popup');
-    this.inputRoot = this.shadowRoot.querySelector('ids-input');
-    this.fieldContainer = this.container.querySelector('ids-input')?.shadowRoot.querySelector('.field-container');
-    this.trigger = this.shadowRoot.querySelector('ids-trigger-button');
+    this.popup = this.shadowRoot?.querySelector('ids-popup');
+    this.inputRoot = this.shadowRoot?.querySelector('ids-input');
+    this.fieldContainer = this.container?.querySelector('ids-input')?.shadowRoot.querySelector('.field-container');
+    this.trigger = this.shadowRoot?.querySelector('ids-trigger-button');
     this.input = this.inputRoot?.shadowRoot?.querySelector('input');
-    this.triggerContent = this.container.shadowRoot.querySelector('.ids-trigger-field-content');
-    this.triggerField = this.container.shadowRoot.querySelector('.ids-trigger-field');
+    this.triggerContent = this.container?.shadowRoot?.querySelector('.ids-trigger-field-content');
+    this.triggerField = this.container?.shadowRoot?.querySelector('.ids-trigger-field');
     this.listBox = this.querySelector('ids-list-box');
-    this.labelEl = this.inputRoot?.shadowRoot.querySelector('label');
+    this.labelEl = this.inputRoot?.shadowRoot?.querySelector('label');
 
     this
       .#addAria()
@@ -109,7 +109,7 @@ class IdsDropdown extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
-    this.hasIcons = this.querySelector('ids-list-box-option ids-icon');
+    this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
 
     return `
     <ids-trigger-field
@@ -117,7 +117,7 @@ class IdsDropdown extends mix(IdsElement).with(
       ${this.disabled ? ' disabled="true"' : ''}
       ${this.readonly ? ' readonly="true"' : ''}
       ${this.validate ? ` validate="${this.validate}"` : ''}
-      ${this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
+      ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
       ${this.hasIcons ? '<span class="icon-container"><ids-icon icon="user-profile"></ids-icon></span>' : ''}
       <ids-input
         part="container"
@@ -152,10 +152,10 @@ class IdsDropdown extends mix(IdsElement).with(
       'aria-autocomplete': 'list',
       'aria-haspopup': 'listbox',
       'aria-description': this.locale?.translate('PressDown'),
-      'aria-controls': this.listBox?.getAttribute('id') || 'ids-list-box-id'
+      'aria-controls': this.listBox?.getAttribute('id') || `ids-list-box-${this.id}`
     };
 
-    this.listBox?.setAttribute('id', 'ids-list-box-id');
+    this.listBox?.setAttribute('id', `ids-list-box-${this.id}`);
     Object.keys(attrs).forEach((key) => this.setAttribute(key, attrs[key]));
     return this;
   }
@@ -204,8 +204,8 @@ class IdsDropdown extends mix(IdsElement).with(
    * @param {number} value the index to use
    */
   set selectedIndex(value) {
-    if (Number.isInteger(value)) {
-      const elem = this.options[value] ? this.options[value] : this.options[0];
+    if (Number.isInteger(value) && this.options[value]) {
+      const elem = this.options[value];
       this.value = elem.getAttribute('id');
       this.state.selectedIndex = value;
     }
@@ -311,9 +311,6 @@ class IdsDropdown extends mix(IdsElement).with(
        return;
      }
      const icon = option.querySelector('ids-icon');
-     if (!icon) {
-       return;
-     }
      this.shadowRoot.querySelector('.icon-container ids-icon').setAttribute('icon', icon.getAttribute('icon'));
    }
 

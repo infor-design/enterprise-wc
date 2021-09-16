@@ -250,7 +250,8 @@ class IdsColorPicker extends mix(IdsElement).with(
       }
     });
 
-    this.onEvent('keyup', this.container, (keyup) => {
+    /* istanbul ignore next */
+    this.onEvent('keydown', this.container, (keyup) => {
       if (keyup.key === 'Enter') {
         if (keyup.target.id === `${this.id}-button`) {
           this.#openCloseColorpicker();

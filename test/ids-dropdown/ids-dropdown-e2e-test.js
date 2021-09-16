@@ -12,6 +12,8 @@ describe('Ids Dropdown e2e Tests', () => {
   it('should pass Axe accessibility tests', async () => {
     await page.setBypassCSP(true);
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await expect(page).toPassAxeTests();
+
+    // Using newer aria-description
+    await expect(page).toPassAxeTests({ disabledRules: ['aria-valid-attr', 'color-contrast', 'duplicate-id'] });
   });
 });

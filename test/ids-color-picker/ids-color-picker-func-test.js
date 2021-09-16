@@ -6,6 +6,16 @@ import IdsColorPicker from '../../src/components/ids-color-picker/ids-color-pick
 
 describe('Ids Color Picker Component', () => {
   let colorpicker;
+
+  const createFromTemplate = (innerHTML) => {
+    colorpicker?.remove();
+    const template = document.createElement('template');
+    template.innerHTML = innerHTML;
+    colorpicker = template.content.childNodes[0];
+    document.body.appendChild(colorpicker);
+    return colorpicker;
+  };
+
   beforeEach(async () => {
     colorpicker = new IdsColorPicker();
     document.body.appendChild(colorpicker);
@@ -26,8 +36,25 @@ describe('Ids Color Picker Component', () => {
     elem.remove();
   });
 
+  it('renders with readonly', () => {
+    colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
+    expect(colorpicker.readonly).toBeTruthy();
+  });
+
+  it('renders with disabled', () => {
+    colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" disabled="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
+    expect(colorpicker.disabled).toBeTruthy();
+  });
+
+  it('renders with advanced', () => {
+    colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" advanced="true" value="#941E1E" label="Readonly Color Picker"></ids-color-picker>`);
+    expect(colorpicker.advanced).toBeTruthy();
+  });
+
   it('has a value attribute', () => {
     colorpicker.value = '#000000';
+    expect(colorpicker.getAttribute('value')).toEqual('#000000');
+    colorpicker.value = '';
     expect(colorpicker.getAttribute('value')).toEqual('#000000');
   });
 

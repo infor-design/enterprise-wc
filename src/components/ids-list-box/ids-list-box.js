@@ -4,7 +4,7 @@ import {
   scss
 } from '../../core';
 
-import './ids-list-box-option';
+import IdsListBoxOption from './ids-list-box-option';
 import styles from './ids-list-box.scss';
 
 /**

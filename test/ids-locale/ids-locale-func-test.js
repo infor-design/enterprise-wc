@@ -937,11 +937,30 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber('123456789012345671')).toEqual('123456789012345671');
       expect(locale.formatNumber('123456789012345678')).toEqual('123,456,789,012,345,678.00');
       expect(locale.parseNumber('123456789012345678')).toEqual('123456789012345678');
+      expect(locale.parseNumber('123456789012345680')).toEqual('123456789012345680');
       expect(locale.parseNumber('12345678910')).toEqual(12345678910);
       expect(locale.parseNumber('12345678900')).toEqual(12345678900);
       expect(locale.parseNumber('123456789100')).toEqual(123456789100);
       expect(locale.parseNumber('1234567890123456710')).toEqual('1234567890123456710');
       expect(locale.parseNumber('1234567890123456700')).toEqual('1234567890123456700');
+      expect(locale.parseNumber('9007199254740991')).toEqual(9007199254740991);
+    });
+
+    it('more other big number tests', () => {
+      expect(locale.formatNumber('1234567890.11')).toEqual('1,234,567,890.11');
+      expect(locale.parseNumber('1234567890.11')).toEqual(1234567890.11);
+
+      expect(locale.formatNumber('12345678910.11')).toEqual('12,345,678,910.11');
+      expect(locale.parseNumber('12345678910.11')).toEqual(12345678910.11);
+
+      expect(locale.formatNumber('123456789120.11')).toEqual('123,456,789,120.11');
+      expect(locale.parseNumber('123456789120.11')).toEqual(123456789120.11);
+
+      expect(locale.formatNumber('1234567891230.11')).toEqual('1,234,567,891,230.11');
+      expect(locale.parseNumber('1234567891230.11')).toEqual(1234567891230.11);
+
+      expect(locale.formatNumber('12345678912340.11')).toEqual('12,345,678,912,340.11');
+      expect(locale.parseNumber('12345678912340.11')).toEqual(12345678912340.11);
     });
 
     it('should parse numbers back', async () => {
