@@ -4,6 +4,8 @@
 // Styles specific to the in-page Accordion
 
 @mixin accordion-header-standard-colors() {
+  border-color: transparent;
+
   // Light Mode Styles
   &[mode='light'] {
     @include border-slate-20();
