@@ -90,11 +90,52 @@ export function stripTags(html, allowed) {
   return returnHTML;
 }
 
+/**
+ * Un-escapes HTML, replacing encoded symbols with special characters.
+ * Symbols taken from https://bit.ly/1iVkGlc
+ * @private
+ * @param {string} value HTML in string form
+ * @returns {string} the modified value
+ */
+export function unescapeHTML(value) {
+  if (value === '') {
+    return '';
+  }
+
+  if (typeof value === 'string') {
+    const match = (regx) => value.match(regx)[0];
+    const doc = new DOMParser().parseFromString(value, 'text/html');
+
+    // Keep leading/trailing spaces
+    return `${match(/^\s*/)}${doc.documentElement.textContent.trim()}${match(/\s*$/)}`;
+  }
+  return value;
+}
+
+/**
+ * htmlentities() is a PHP function which converts special characters (like <)
+ * into their escaped/encoded values (like &lt;). This is a JS verson of it.
+ * This allows you to show to display the string without the browser reading it as HTML.
+ * This is useful for encoding hrefs.
+ * @private
+ * @param {string} string string to process
+ * @returns {string} the processed value
+ */
+export function htmlEntities(string) {
+  return String(string)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
 export const IdsXssUtils = {
   sanitizeConsoleMethods,
   sanitizeHTML,
   stripTags,
-  stripHTML
+  stripHTML,
+  unescapeHTML,
+  htmlEntities
 };
 export default IdsXssUtils;
 export { IdsXssUtils as xssUtils };

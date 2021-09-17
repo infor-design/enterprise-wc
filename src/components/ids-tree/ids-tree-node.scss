@@ -1,0 +1,187 @@
+/* Ids Tree Node Component */
+@import './ids-tree-shared';
+
+.ids-tree-node {
+  @include list-none();
+  @include mb-1();
+
+  .node-container {
+    @include border-1();
+    @include border-solid();
+    @include border-transparent();
+    @include cursor-pointer();
+    @include inline-flex();
+    @include p-4();
+    @include rounded-default();
+    @include text-slate-60();
+    @include transition(background-color 500ms cubic-bezier(0.17, 0.04, 0.03, 0.94),
+    opacity 500ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
+
+    align-items: baseline;
+
+    .icon,
+    .toggle-icon {
+      @include pt-1();
+      @include transition(fill 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
+
+      flex: 0 0 auto;
+      margin-inline-end: 8px;
+      place-self: flex-start;
+    }
+
+    .toggle-icon {
+      &.rotate-forward {
+        animation-duration: 0.2s;
+        animation-iteration-count: 1;
+        animation-name: keyframes-rotate-forward;
+      }
+
+      &.rotate-backward {
+        animation-duration: 0.2s;
+        animation-iteration-count: 1;
+        animation-name: keyframes-rotate-backward;
+      }
+    }
+
+    .text {
+      @include transition(border 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), color 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
+
+      flex-grow: 1;
+      margin-inline-end: 2px;
+    }
+
+    &:hover,
+    &:active {
+      @include text-slate-100();
+    }
+
+    &:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 3px rgb(54, 138, 192, 0.3);
+      outline: none;
+    }
+  }
+
+  .group-nodes {
+    @include list-none();
+
+    overflow: hidden;
+    margin-block-start: 1px;
+    margin-block-end: 1px;
+    padding-inline-start: 24px;
+    transition: max-height 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94);
+  }
+
+  &[selected] {
+    .node-container {
+      @include bg-slate-20();
+      @include text-slate-100();
+    }
+  }
+
+  &[disabled] {
+    .node-container {
+      @include text-slate-40();
+      @include cursor-default();
+
+      pointer-events: none;
+      user-select: none;
+
+      &:hover,
+      &:active {
+        @include text-slate-40();
+      }
+
+      &:focus {
+        @include border-transparent();
+        @include shadow-none();
+      }
+    }
+  }
+
+  &.collapsed .group-nodes {
+    max-height: 0;
+    visibility: hidden;
+  }
+
+  &[mode='dark'] {
+    .node-container {
+      @include text-slate-30();
+
+      &:hover,
+      &:active {
+        @include text-white();
+      }
+
+      &:focus {
+        @include border-azure-60();
+
+        box-shadow: 0 0 4px 2px rgb(141, 201, 230, 0.3);
+      }
+    }
+
+    &[selected] {
+      .node-container {
+        @include bg-slate-60();
+        @include text-white();
+      }
+    }
+
+    &[disabled] {
+      .node-container,
+      .node-container:hover,
+      .node-container:active,
+      .node-container:focus {
+        @include border-transparent();
+        @include text-slate-50();
+      }
+    }
+  }
+
+  &[mode='contrast'] {
+    .node-container {
+      @include text-slate-90();
+
+      .text {
+        @include border-b-1();
+        @include border-transparent();
+      }
+
+      &:hover,
+      &:active {
+        @include text-black();
+      }
+
+      &:hover .text,
+      &:active .text {
+        @include border-black();
+      }
+
+      &:focus {
+        @include border-azure-90();
+
+        box-shadow: 0 0 4px 2px rgb(41, 41, 41, 0.3);
+      }
+    }
+
+    &[selected] {
+      .node-container {
+        @include bg-slate-30();
+        @include text-black();
+      }
+    }
+
+    &[disabled] {
+      .node-container,
+      .node-container:hover,
+      .node-container:active,
+      .node-container:focus {
+        @include border-transparent();
+        @include text-slate-50();
+      }
+    }
+  }
+}
+
+@include tree-node-badge();
