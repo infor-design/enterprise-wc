@@ -1,5 +1,6 @@
 // Import Every Yaml File
 import accordionYaml from './ids-accordion/index.yaml';
+import aboutYaml from './ids-about/index.yaml';
 import alertYaml from './ids-alert/index.yaml';
 import badgeYaml from './ids-badge/index.yaml';
 import blockGridYaml from './ids-block-grid/index.yaml';
@@ -46,6 +47,7 @@ import toggleButtonYaml from './ids-toggle-button/index.yaml';
 import toolbarYaml from './ids-toolbar/index.yaml';
 import tooltipYaml from './ids-tooltip/index.yaml';
 import toastYaml from './ids-toast/index.yaml';
+import treeYaml from './ids-tree/index.yaml';
 import triggerFieldYaml from './ids-trigger-field/index.yaml';
 import uploadYaml from './ids-upload/index.yaml';
 import uploadAdvancedYaml from './ids-upload-advanced/index.yaml';
@@ -73,6 +75,7 @@ const addYaml = (yaml) => {
 
 // Add each yaml file
 addYaml(accordionYaml);
+addYaml(aboutYaml);
 addYaml(alertYaml);
 addYaml(badgeYaml);
 addYaml(blockGridYaml);
@@ -119,6 +122,7 @@ addYaml(toggleButtonYaml);
 addYaml(toolbarYaml);
 addYaml(tooltipYaml);
 addYaml(toastYaml);
+addYaml(treeYaml);
 addYaml(triggerFieldYaml);
 addYaml(uploadYaml);
 addYaml(uploadAdvancedYaml);

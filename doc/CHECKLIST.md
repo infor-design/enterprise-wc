@@ -40,7 +40,7 @@ Charts and Visualizations
 
 Will get a checkbox at minimum viable product. The rest of the details are covered in a TODO.md in the individual folder after first commit
 
- - [ ] About (ids-about)
+ - [x] About (ids-about)
  - [x] Accordion (ids-accordion)
  - [ ] Action Sheet (ids-action-sheet)
  - [x] Alerts (ids-alert)
@@ -137,7 +137,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Toolbar (ids-toolbar)r
  - [x] Tooltip (ids-tooltip
  - [x] Trackdirty (mixin)
- - [ ] Tree (ids-tree)
+ - [x] Tree (ids-tree)
  - [ ] Treemap (ids-tree-map)
  - [x] Typography (ids-text)
  - [x] Validation (mixin)

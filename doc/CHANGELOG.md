@@ -152,6 +152,10 @@
   - Content can now be set with `tooltipElem.textContent`
   - Instead of open and close use `tooltipElem.visible=true`
   - After show event was not needed as its the same as show so this is removed
+- `[Tree]` The Tree component has been changed to a web component and use with ids-tree and ids-tree-node.
+  - Markup has changed to a custom element `<ids-tree><ids-tree-node></ids-tree-node></ids-tree>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Wizard]` The Wizard component has been changed to a web component. ([#5026](https://github.com/infor-design/enterprise/issues/5026))
   - Wizard is now a custom element `<ids-wizard></ids-wizard>`
   - Steps are now codified as custom elements `<ids-wizard-step>MY-LABEL</ids-wizard-step>`
