@@ -876,6 +876,7 @@ class IdsPopup extends mix(IdsElement).with(
             }
           });
           this.container.classList.add('open');
+          /* istanbul ignore next */
           if (this.isFlipped) {
             this.container.classList.add('flipped');
           }
@@ -906,6 +907,7 @@ class IdsPopup extends mix(IdsElement).with(
             this.container.classList.remove('visible');
           }
           // Remove the `flipped` class if its there
+          /* istanbul ignore next */
           if (this.isFlipped) {
             this.container.classList.remove('flipped');
             this.isFlipped = false;

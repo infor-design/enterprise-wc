@@ -6,17 +6,25 @@ import waitFor from '../helpers/wait-for';
 import IdsListBox from '../../src/components/ids-list-box';
 import IdsListBoxOption from '../../src/components/ids-list-box/ids-list-box-option';
 import IdsInput from '../../src/components/ids-input';
+import IdsTriggerField from '../../src/components/ids-trigger-field';
 import states from '../../demos/data/states.json';
+import IdsContainer from '../../src/components/ids-container';
 
 describe('IdsDropdown Component', () => {
   let dropdown;
+  let container;
 
   const createFromTemplate = (innerHTML) => {
     dropdown?.remove();
+    container?.remove();
+
+    container = new IdsContainer();
     const template = document.createElement('template');
     template.innerHTML = innerHTML;
     dropdown = template.content.childNodes[0];
-    document.body.appendChild(dropdown);
+
+    container.appendChild(dropdown);
+    document.body.appendChild(container);
     return dropdown;
   };
 
@@ -123,6 +131,26 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.validationEvents).toEqual('change');
   });
 
+  it('supports validation', async () => {
+    dropdown = createFromTemplate(`<ids-dropdown id="dropdown-5" label="Dropdown with Icons" validate="true">
+     </ids-dropdown>`);
+    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+
+    dropdown.validate = 'required';
+    dropdown.validationEvents = 'blur change';
+    dropdown.triggerEvent('change', dropdown);
+    expect(dropdown.getAttribute('validate')).toEqual('required');
+  });
+
+  it('can reset validation and validation-events', async () => {
+    dropdown.validate = 'required';
+    dropdown.validationEvents = 'blur change';
+    dropdown.validate = null;
+    dropdown.validationEvents = null;
+    expect(dropdown.getAttribute('validate')).toBeFalsy();
+    expect(dropdown.getAttribute('validation-events')).toBeFalsy();
+  });
+
   it('renders with icons', () => {
     dropdown = createFromTemplate(`<ids-dropdown id="dropdown-5" label="Dropdown with Icons" value="opt2">
     <ids-list-box>
@@ -201,6 +229,13 @@ describe('IdsDropdown Component', () => {
     dropdown.value = 'opt3';
     expect(dropdown.dirty).toEqual({ original: 'Option Two' });
     expect(dropdown.inputRoot.shadowRoot.querySelector('.icon-dirty')).toBeTruthy();
+  });
+
+  it('should be able to reset dirty indicator', () => {
+    dropdown.dirtyTracker = true;
+    expect(dropdown.getAttribute('dirty-tracker')).toEqual('true');
+    dropdown.dirtyTracker = false;
+    expect(dropdown.getAttribute('dirty-tracker')).toBeFalsy();
   });
 
   it('should be able to set value', () => {
@@ -312,11 +347,246 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(59);
   });
 
-  it('supports clicking to open', () => {
+  it('supports type ahead to open', async () => {
     expect(dropdown.popup.visible).toEqual(false);
-    //dropdown.fieldContainer.click();
-    console.log(dropdown.container?.querySelector('ids-input')?.shadowRoot.querySelector('.field-container'));
+    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-input')).toBeTruthy());
+    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
+
+    await waitFor(() => expect(dropdown.popup.visible).toEqual(true));
     expect(dropdown.popup.visible).toEqual(true);
-    dropdown.close();
+  });
+
+  it('supports type ahead when open', async () => {
+    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-input')).toBeTruthy());
+    dropdown.open();
+    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option four' } });
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    dropdown.dispatchEvent(event);
+
+    await waitFor(() => expect(dropdown.popup.visible).toEqual(false));
+    expect(dropdown.popup.visible).toEqual(false);
+    expect(dropdown.value).toEqual('opt4');
+  });
+
+  it('ignores type ahead to open when no matches', async () => {
+    expect(dropdown.popup.visible).toEqual(false);
+    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-input')).toBeTruthy());
+    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'xxxxx' } });
+
+    await waitFor(() => expect(dropdown.popup.visible).toEqual(false));
+    expect(dropdown.popup.visible).toEqual(false);
+  });
+
+  it('ignores type ahead when readonly', async () => {
+    expect(dropdown.popup.visible).toEqual(false);
+    await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-input')).toBeTruthy());
+    dropdown.readonly = true;
+    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
+
+    dropdown.disabled = true;
+    dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
+
+    await waitFor(() => expect(dropdown.popup.visible).toEqual(false));
+    expect(dropdown.popup.visible).toEqual(false);
+  });
+
+  it('supports clicking trigger to open', async () => {
+    expect(dropdown.popup.visible).toEqual(false);
+    await waitFor(() => expect(dropdown.trigger).toBeTruthy());
+
+    dropdown.trigger.click();
+    dropdown.triggerEvent('mouseup', dropdown.trigger);
+    expect(dropdown.popup.visible).toEqual(true);
+  });
+
+  it('supports clicking to select', async () => {
+    expect(dropdown.value).toEqual('opt2');
+
+    await waitFor(() => expect(dropdown.trigger).toBeTruthy());
+    dropdown.trigger.click();
+    dropdown.triggerEvent('mouseup', dropdown.trigger);
+
+    await waitFor(() => expect(dropdown.popup.visible).toEqual(true));
+    dropdown.querySelectorAll('ids-list-box-option')[4].click();
+    expect(dropdown.value).toEqual('opt5');
+  });
+
+  it('supports clicking to select on the icon', () => {
+    dropdown = createFromTemplate(`<ids-dropdown id="dropdown-5" label="Dropdown with Icons" value="opt2">
+    <ids-list-box>
+      <ids-list-box-option value="opt1" id="opt1">
+        <ids-icon icon="user-profile"></ids-icon>
+        <span>Option One</span>
+      </ids-list-box-option>
+      <ids-list-box-option value="opt2" id="opt2">
+        <ids-icon icon="project"></ids-icon>
+        <span>Option Two</span>
+      </ids-list-box-option>
+      <ids-list-box-option value="opt3" id="opt3">
+        <ids-icon icon="purchasing"></ids-icon>
+        <span>Option Three</span>
+      </ids-list-box-option>
+      <ids-list-box-option value="opt4" id="opt4">
+        <ids-icon icon="quality"></ids-icon>
+        <span>Option Four</span></ids-list-box-option>
+      <ids-list-box-option value="opt5" id="opt5">
+        <ids-icon icon="rocket"></ids-icon>
+        <span>Option Five</span>
+      </ids-list-box-option>
+      <ids-list-box-option value="opt6" id="opt6">
+        <ids-icon icon="roles"></ids-icon>
+        <span>Option Six</span>
+      </ids-list-box-option>
+    </ids-list-box>
+    </ids-dropdown>`);
+    expect(dropdown.value).toEqual('opt2');
+
+    const icons = dropdown.querySelectorAll('ids-list-box-option ids-icon');
+    icons[5].click();
+    expect(dropdown.value).toEqual('opt6');
+  });
+
+  it('can changing language from the container', async () => {
+    container.language = 'de';
+    await waitFor(() => expect(dropdown.getAttribute('language')).toEqual('de'));
+    expect(dropdown.getAttribute('aria-description')).toEqual('Drücken Sie zum Auswählen die Nach-unten-Taste');
+  });
+
+  it('opens on arrow down', () => {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dropdown.dispatchEvent(event);
+
+    expect(dropdown.popup.visible).toEqual(true);
+  });
+
+  it('ignores arrow down on open', () => {
+    dropdown.open();
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dropdown.dispatchEvent(event);
+
+    expect(dropdown.popup.visible).toEqual(true);
+  });
+
+  it('opens on arrow up', () => {
+    const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    dropdown.dispatchEvent(event);
+
+    expect(dropdown.popup.visible).toEqual(true);
+  });
+
+  it('selects on arrow up and alt key', () => {
+    dropdown.open();
+    expect(dropdown.value).toEqual('opt2');
+    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dropdown.dispatchEvent(event);
+
+    event = new KeyboardEvent('keydown', { key: 'ArrowUp', altKey: true });
+    dropdown.dispatchEvent(event);
+
+    expect(dropdown.popup.visible).toEqual(false);
+    expect(dropdown.value).toEqual('opt3');
+  });
+
+  it('closes on escape without changing', () => {
+    dropdown.open();
+    expect(dropdown.value).toEqual('opt2');
+    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+
+    event = new KeyboardEvent('keydown', { key: 'Escape' });
+    dropdown.dispatchEvent(event);
+
+    expect(dropdown.popup.visible).toEqual(false);
+    expect(dropdown.value).toEqual('opt2');
+  });
+
+  it('can not arrow up past top', () => {
+    dropdown.open();
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+
+    expect(dropdown.querySelector('ids-list-box-option.is-selected').textContent).toEqual('Option Six');
+  });
+
+  it('can not arrow up to the bottom', () => {
+    dropdown.open();
+    const event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+    dropdown.dispatchEvent(event);
+
+    expect(dropdown.querySelector('ids-list-box-option.is-selected').textContent).toEqual('Option One');
+  });
+
+  it('can open on enter or space', () => {
+    expect(dropdown.popup.visible).toEqual(false);
+    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+    dropdown.dispatchEvent(event);
+    expect(dropdown.popup.visible).toEqual(true);
+    dropdown.dispatchEvent(event);
+    expect(dropdown.popup.visible).toEqual(false);
+  });
+
+  it('selects on enter when open', () => {
+    dropdown.open();
+    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dropdown.dispatchEvent(event);
+    event = new KeyboardEvent('keydown', { key: 'Enter' });
+    dropdown.dispatchEvent(event);
+
+    expect(dropdown.popup.visible).toEqual(false);
+    expect(dropdown.value).toEqual('opt3');
+  });
+
+  it('selects on space when open', () => {
+    dropdown.open();
+    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dropdown.dispatchEvent(event);
+    event = new KeyboardEvent('keydown', { key: ' ' });
+    dropdown.dispatchEvent(event);
+
+    expect(dropdown.popup.visible).toEqual(false);
+    expect(dropdown.value).toEqual('opt3');
+  });
+
+  it('selects on tab when open', () => {
+    dropdown.open();
+    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dropdown.dispatchEvent(event);
+    event = new KeyboardEvent('keydown', { key: 'Tab' });
+    dropdown.dispatchEvent(event);
+    dropdown.querySelector('ids-list-box-option.is-selected').dispatchEvent(event);
+
+    expect(dropdown.popup.visible).toEqual(false);
+    expect(dropdown.value).toEqual('opt3');
+
+    dropdown.open();
+    event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    dropdown.dispatchEvent(event);
+    event = new KeyboardEvent('keydown', { key: 'Tab', shiftKey: true });
+    dropdown.dispatchEvent(event);
+    dropdown.querySelector('ids-list-box-option.is-selected').dispatchEvent(event);
+
+    expect(dropdown.popup.visible).toEqual(false);
+    expect(dropdown.value).toEqual('opt4');
+  });
+
+  it('tab works correcty', async () => {
+    dropdown.input.focus();
+    expect(document.activeElement.id).toEqual('dropdown-1');
+    const event = new KeyboardEvent('keydown', { key: 'Tab' });
+    dropdown.dispatchEvent(event);
+
+    // Not working right, not sure why?
+    expect(document.activeElement.id).toEqual('dropdown-1');
   });
 });

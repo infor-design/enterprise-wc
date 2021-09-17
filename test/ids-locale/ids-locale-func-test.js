@@ -692,6 +692,18 @@ describe('IdsLocale API', () => {
       expect(locale.formatNumber(-1000000, { style: 'currency', currency: 'EUR' })).toEqual('-1.000.000,00 €');
     });
 
+    it('should format big decimal numbers', async () => {
+      locale.setLocale('en-US');
+      expect(locale.formatNumber(123.54, { maximumFractionDigits: 15, minimumFractionDigits: 15 })).toEqual('123.540000000000000');
+      expect(locale.formatNumber(123.54, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123.54000000000000000000');
+      expect(locale.formatNumber(123, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123.00000000000000000000');
+
+      locale.setLocale('de-DE');
+      expect(locale.formatNumber(123.54, { maximumFractionDigits: 15, minimumFractionDigits: 15 })).toEqual('123,540000000000000');
+      expect(locale.formatNumber(123.54, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123,54000000000000000000');
+      expect(locale.formatNumber(123, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123,00000000000000000000');
+    });
+
     it('should be able to format a number in a non current locale', async () => {
       await locale.setLocale('nl-NL');
       await locale.setLocale('hi-IN');

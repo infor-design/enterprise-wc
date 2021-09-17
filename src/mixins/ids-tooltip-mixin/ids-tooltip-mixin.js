@@ -49,8 +49,9 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
     if (this.nodeName === 'IDS-INPUT') {
       return this.container.querySelector('input');
     }
+    /* istanbul ignore next */
     if (this.nodeName === 'IDS-DROPDOWN') {
-      return this.container.querySelector('ids-input').container.querySelector('input');
+      return this.container?.querySelector('ids-input').container?.querySelector('input');
     }
     return this;
   }

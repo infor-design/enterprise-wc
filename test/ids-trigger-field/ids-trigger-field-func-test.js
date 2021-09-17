@@ -196,6 +196,16 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.getAttribute('disabled')).toEqual('true');
   });
 
+  it('has a readonly attribute', () => {
+    triggerField.readonly = true;
+    expect(triggerField.readonly).toEqual(true);
+    expect(triggerField.getAttribute('readonly')).toEqual('true');
+
+    triggerField.readonly = false;
+    expect(triggerField.readonly).toEqual(false);
+    expect(triggerField.getAttribute('readonly')).toEqual(null);
+  });
+
   it('should not set wrong size', () => {
     triggerField.size = 'test';
     expect(triggerField.getAttribute('size')).toEqual('md');

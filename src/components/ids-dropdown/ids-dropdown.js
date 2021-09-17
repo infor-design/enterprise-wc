@@ -67,6 +67,7 @@ class IdsDropdown extends mix(IdsElement).with(
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
+    /* istanbul ignore next */
     if (!this.container.querySelector) {
       // Empty Dropdown
       this.container = document.createElement('ids-trigger-field');
@@ -114,13 +115,14 @@ class IdsDropdown extends mix(IdsElement).with(
     return `
     <ids-trigger-field
       label="${this.label}"
+      part="trigger-field"
       ${this.disabled ? ' disabled="true"' : ''}
       ${this.readonly ? ' readonly="true"' : ''}
       ${this.validate ? ` validate="${this.validate}"` : ''}
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
       ${this.hasIcons ? '<span class="icon-container"><ids-icon icon="user-profile"></ids-icon></span>' : ''}
       <ids-input
-        part="container"
+        part="input"
         disabled="${this.disabled}"
         readonly="true"
         label-hidden="true" ${!this.disabled && !this.readonly ? 'cursor="pointer"' : ''}
@@ -133,7 +135,7 @@ class IdsDropdown extends mix(IdsElement).with(
         <ids-icon slot="icon" icon="dropdown" part="icon"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
-    <ids-popup type="menu">
+    <ids-popup type="menu" part="popup">
       <slot slot="content">
       </slot>
     </ids-popup>
@@ -450,16 +452,18 @@ class IdsDropdown extends mix(IdsElement).with(
    * @returns {object} The object for chaining.
    */
   #attachEventHandlers() {
-    // Handle Clicking the x for dismissible
-    this.onEvent('mouseup', this.fieldContainer, () => {
+    // Handle Clicking to open
+    /* istanbul ignore next */
+    this.onEvent('mouseup', this.input, () => {
       this.toggle();
     });
 
-    // Handle Clicking the x for dismissible
+    // Handle Key Typeahead
     this.onEvent('keydownend', this, (e) => {
       this.#typeAhead(e.detail.keys);
     });
 
+    // Handle Clicking to open over the trigger part
     this.onEvent('mouseup', this.trigger, () => {
       this.toggle();
     });
@@ -478,9 +482,6 @@ class IdsDropdown extends mix(IdsElement).with(
 
     // Respond to parent changing language
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
-      if (!this.setLanguage) {
-        return;
-      }
       await this.setLanguage(e.detail.language.name);
       this.setAttribute('aria-description', this.locale.translate('PressDown'));
     });

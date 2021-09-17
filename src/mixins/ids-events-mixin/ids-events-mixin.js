@@ -196,8 +196,8 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
-  /* istanbul ignore next */
   #addSwipeListener(eventName, target, options) {
+    /* istanbul ignore next */
     if (this.swipeOn) {
       return;
     }
@@ -205,6 +205,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     let touchstartX = 0;
     let touchendX = 0;
 
+    /* istanbul ignore next */
     if (options) {
       options.passive = true;
     }
@@ -239,8 +240,10 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
       target.dispatchEvent(event);
     }, options);
 
+    /* istanbul ignore next */
     if (options?.scrollContainer) {
       let lastPercentage = 0;
+      /* istanbul ignore next */
       this.onEvent('scroll', options.scrollContainer, (e) => {
         const eventTarget = e.target;
         const scrollPercentage = 100
@@ -402,7 +405,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
       }
     });
 
-    this.keyDownOn = true;
+    this.keyDownEndOn = true;
   }
 
   /**

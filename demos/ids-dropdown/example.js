@@ -6,7 +6,7 @@ document.querySelector('#dropdown-1')?.addEventListener('focus', (e) => {
   console.info(`Focus Changed to ${e.target}`);
 });
 
-// Use the asyncronous `beforeshow` callback to load contents
+// Use the asynchronous `beforeshow` callback to load contents
 const getContents = () => new Promise((resolve) => {
   const xhr = new XMLHttpRequest();
   xhr.open('get', '/data/states.json', true);
