@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import { EventEmitter } from 'puppeteer';
 import IdsTag from '../../src/components/ids-tag/ids-tag';
 import { IdsElement } from '../../src/core/ids-element';
 import styleMock from '../helpers/style-mock';

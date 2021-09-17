@@ -158,11 +158,11 @@ The promise should resolve and return data with id, value and label info.
 
 ## Themeable Parts
 
-* @part trigger-field - allows you to further style  the trigger field container
-* @part input - allows you to further style  the input in the trigger field container
-* @part trigger-button - allows you to further style the trigger field button
-* @part icon - allows you to further style the trigger field icon
-* @part popup - allows you to further style the dropdown popup
+- `trigger-field` - allows you to further style  the trigger field container
+- `input` - allows you to further style  the input in the trigger field container
+- `trigger-button` - allows you to further style the trigger field button
+- `icon` - allows you to further style the trigger field icon
+- `popup` - allows you to further style the dropdown popup
 
 ## States and Variations
 
