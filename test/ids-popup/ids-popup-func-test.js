@@ -1,10 +1,10 @@
 /**
  * @jest-environment jsdom
  */
+import wait from '../helpers/wait';
+
 import IdsPopup from '../../src/components/ids-popup';
 import IdsContainer from '../../src/components/ids-container';
-
-import wait from '../helpers/wait';
 
 /**
  * Creates the test div used as an ArrowTarget in many of the below tests

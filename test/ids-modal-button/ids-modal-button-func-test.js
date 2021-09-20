@@ -1,10 +1,11 @@
 /**
  * @jest-environment jsdom
  */
+import wait from '../helpers/wait';
+
 import IdsModal, { IdsOverlay } from '../../src/components/ids-modal';
 import IdsText from '../../src/components/ids-text/ids-text';
 import { IdsModalButton } from '../../src/components/ids-modal-button';
-import wait from '../helpers/wait';
 
 const modalButtonHTML = `
   <ids-modal-button slot="buttons" type="secondary" id="my-message-cancel" cancel>Cancel</ids-modal-button>

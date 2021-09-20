@@ -119,7 +119,7 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback?.();
 
     // Always setup link to containing element first
     this.containingElem = IdsDOMUtils.getClosest(this, 'ids-container') || document.body;
@@ -134,6 +134,11 @@ class IdsPopup extends mix(IdsElement).with(
       this.refreshVisibility();
       this.place();
     });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.#ro.disconnect();
   }
 
   /**
@@ -178,6 +183,45 @@ class IdsPopup extends mix(IdsElement).with(
   })
 
   /**
+   * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
+   * coordinate-specific values to the Popup's inner container.
+   * @property {ResizeObserver} mo this Popup component's resize observer
+   */
+  /* istanbul ignore next */
+  #ro = new ResizeObserver((entries) => {
+    if (this.open) {
+      for (const entry of entries) {
+        if (entry.target.tagName.toLowerCase() === 'ids-container') {
+          this.#fixPlacementOnResize();
+        } else {
+          this.#fix3dMatrixOnResize();
+        }
+      }
+    }
+  })
+
+  #fixPlacementOnResize() {
+    /* istanbul ignore next */
+    this.place().then(() => {
+      this.#fix3dMatrixOnResize();
+    });
+  }
+
+  #fix3dMatrixOnResize() {
+    /* istanbul ignore next */
+    requestAnimationFrame(() => {
+      this.container.style.transition = 'none';
+      this.#remove3dMatrix();
+      requestAnimationFrame(() => {
+        this.#correct3dMatrix();
+        requestAnimationFrame(() => {
+          this.container.style.transition = '';
+        });
+      });
+    });
+  }
+
+  /**
    * Cycles through all available props and checks the DOM for their presence
    * @returns {void}
    */
@@ -193,11 +237,17 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {void}
    */
   #attachEventHandlers() {
+    const containerNode = IdsDOMUtils.getClosest(this, 'ids-container');
+
     // Respond to parent changing language
     this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.onEvent('languagechange.container', containerNode, async (e) => {
       await this.setLanguage(e.detail.language.name);
     });
+
+    // Setup Resize Observer
+    this.#ro.observe(this.container);
+    this.#ro.observe(containerNode);
   }
 
   /**
@@ -824,6 +874,11 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * @property {boolean} open true if the Popup is not only visible, but also fully-animated open
+   */
+  open = false;
+
+  /**
    * @property {boolean} visible true if the Popup should be visible
    */
   #visible = false;
@@ -972,6 +1027,7 @@ class IdsPopup extends mix(IdsElement).with(
             this.placeArrow();
 
             this.#correct3dMatrix();
+            this.open = true;
             resolve();
           });
         }
@@ -991,6 +1047,7 @@ class IdsPopup extends mix(IdsElement).with(
         return;
       }
 
+      this.open = false;
       this.#remove3dMatrix();
       this.container.classList.remove('open');
 
@@ -1339,12 +1396,12 @@ class IdsPopup extends mix(IdsElement).with(
       return;
     }
 
+    // Resets the redifined matrix to allow recalculation.
+    // The original style should be defined in the animation-style class, not inline.
+    this.#remove3dMatrix();
+
     /* istanbul ignore next */
     requestAnimationFrame(() => {
-      // Resets the redifined matrix to allow recalculation.
-      // The original style should be defined in the animation-style class, not inline.
-      this.#remove3dMatrix();
-
       // gets the current computed style
       const style = window.getComputedStyle(this.container, null);
       const mx = style.getPropertyValue('-webkit-transform')

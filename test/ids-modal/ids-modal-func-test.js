@@ -1,9 +1,10 @@
 /**
  * @jest-environment jsdom
  */
+import wait from '../helpers/wait';
+
 import IdsModal, { IdsOverlay } from '../../src/components/ids-modal';
 import { IdsButton } from '../../src/components/ids-button/ids-button';
-import wait from '../helpers/wait';
 
 describe('IdsModal Component', () => {
   let modal;
