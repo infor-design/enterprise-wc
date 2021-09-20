@@ -1,0 +1,24 @@
+@import '../../../core/ids-base';
+
+.ids-process-step {
+  display: flex;
+
+  .step {
+    transform: translate(0, -50%);
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: black;
+
+  }
+
+  .details {
+    transform: translate(0, 20px);
+    position: absolute;
+  }
+
+  ids-text.label {
+    position: absolute;
+    transform: translate(0, -200%);
+  }
+}
