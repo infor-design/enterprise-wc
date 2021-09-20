@@ -185,6 +185,7 @@ class IdsPopup extends mix(IdsElement).with(
   /**
    * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
    * coordinate-specific values to the Popup's inner container.
+   * @private
    * @property {ResizeObserver} mo this Popup component's resize observer
    */
   /* istanbul ignore next */
@@ -200,6 +201,10 @@ class IdsPopup extends mix(IdsElement).with(
     }
   })
 
+  /**
+   * Places the Popup and performs an adjustment to its `transform: matrix3d()`
+   * CSS property, if applicable.
+   */
   #fixPlacementOnResize() {
     /* istanbul ignore next */
     this.place().then(() => {
@@ -207,6 +212,10 @@ class IdsPopup extends mix(IdsElement).with(
     });
   }
 
+  /**
+   * Performs an adjustment to the Popup's `transform: matrix3d()`
+   * CSS property, if applicable.
+   */
   #fix3dMatrixOnResize() {
     /* istanbul ignore next */
     requestAnimationFrame(() => {
@@ -563,7 +572,7 @@ class IdsPopup extends mix(IdsElement).with(
 
   /**
    * Whether or not the component should animate its movement
-   * @param {boolean} val The alignment setting
+   * @param {boolean} val true if animation should occur on the Popup
    */
   set animated(val) {
     const trueVal = IdsStringUtils.stringToBool(val);
@@ -578,6 +587,9 @@ class IdsPopup extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @returns {boolean} true if animation will occur on the Popup
+   */
   get animated() {
     return this.#animated;
   }

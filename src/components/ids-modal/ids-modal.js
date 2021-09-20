@@ -275,6 +275,9 @@ class IdsModal extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @property {boolean} visible true if this Modal instance is visible.
+   */
   #visible = false;
 
   /**
@@ -572,6 +575,7 @@ class IdsModal extends mix(IdsElement).with(
 
   /**
    * Handle `onTriggerClick` from IdsPopupInteractionsMixin
+   * @returns {void}
    */
   /* istanbul ignore next */
   onTriggerClick() {
@@ -581,6 +585,7 @@ class IdsModal extends mix(IdsElement).with(
   /**
    * Handle `onOutsideClick` from IdsPopupOpenEventsMixin
    * @param {MouseEvent} e the original click event
+   * @returns {void}
    */
   /* istanbul ignore next */
   onOutsideClick(e) {
