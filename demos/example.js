@@ -132,7 +132,7 @@ addYaml(wizardYaml);
 let html = '';
 categories.forEach((category) => {
   html += `<ids-text type="h1" font-size="24">${category.name}</ids-text>
-  <ids-layout-grid><ids-layout-grid-cell><ids-block-grid align="center">`;
+  <ids-layout-grid auto="true"><ids-layout-grid-cell><ids-block-grid align="center">`;
   category.components.forEach((component) => {
     html += `<ids-block-grid-item><ids-card auto-height="true"><div slot="card-content" link="${component.link}">
     <ids-text type="h2" font-size="16" font-weight="bold" color="slate-100">${component.component}</ids-text>
@@ -140,7 +140,7 @@ categories.forEach((category) => {
     </div></ids-card></ids-block-grid-item>
     `;
   });
-  html += `</iids-block-grid></ids-layout-grid-cell></ids-layout-grid>`;
+  html += `</ids-block-grid></ids-layout-grid-cell></ids-layout-grid>`;
 });
 document.querySelector('#dynamic-area').insertAdjacentHTML('afterbegin', html);
 
