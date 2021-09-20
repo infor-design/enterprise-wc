@@ -3,9 +3,6 @@
  */
 import IdsSlider from '../../src/components/ids-slider';
 import processAnimFrame from '../helpers/process-anim-frame';
-import ResizeObserver from '../helpers/resize-observer-mock';
-
-window.ResizeObserver = ResizeObserver;
 
 const HTMLSnippets = {
   SINGLE_SLIDER: (
