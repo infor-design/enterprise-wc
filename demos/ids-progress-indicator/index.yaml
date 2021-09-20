@@ -1,0 +1,9 @@
+---
+ component: Progress Indicator
+ link: ids-progress-indicator
+ description: Displays progress on a timeline with intervals
+ category: Charts and Visualizations
+ keywords: progress, indicator, timeline 
+ examples:
+  - link: index.html
+    description: Showing various progress indicator examples
