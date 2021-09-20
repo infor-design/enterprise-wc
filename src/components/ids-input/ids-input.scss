@@ -295,6 +295,11 @@ $input-compact-height: $input-field-height-xs;
       margin: 0;
     }
   }
+
+  .validation-message {
+    margin-bottom: 12px;
+    margin-top: -10px;
+  }
 }
 
 // Handle Themes
