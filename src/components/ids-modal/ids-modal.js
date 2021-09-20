@@ -102,7 +102,7 @@ class IdsModal extends mix(IdsElement).with(
     // Update Outer Modal Parts
     this.#refreshOverlay(this.overlay);
 
-    this.#attachEventHandlers();
+    this.attachEventHandlers();
     this.shouldUpdate = true;
   }
 
@@ -463,6 +463,7 @@ class IdsModal extends mix(IdsElement).with(
     const selectorStr = focusableSelectors.join(', ');
 
     const focusable = [...this.querySelectorAll(selectorStr)];
+    /* istanbul ignore next */
     if (focusable.length) {
       focusable[0].focus();
     }
@@ -482,6 +483,7 @@ class IdsModal extends mix(IdsElement).with(
   /**
    * @property {Function} onDOMContentLoaded runs calculation-sensitive routines when the entire DOM has loaded
    */
+  /* istanbul ignore next */
   #onDOMContentLoaded = () => {
     this.visible = this.getAttribute('visible');
   };
@@ -489,7 +491,7 @@ class IdsModal extends mix(IdsElement).with(
   /**
    * Sets up overall events
    */
-  #attachEventHandlers() {
+  attachEventHandlers() {
     const titleSlot = this.container.querySelector('slot[name="title"]');
     const buttonSlot = this.container.querySelector('slot[name="buttons"]');
 

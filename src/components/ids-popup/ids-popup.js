@@ -161,6 +161,7 @@ class IdsPopup extends mix(IdsElement).with(
    * Watches for changes
    * @property {MutationObserver} mo this Popup component's mutation observer
    */
+  /* istanbul ignore next */
   #mo = new MutationObserver((mutations) => {
     if (this.#visible) {
       let placed = false;
@@ -865,16 +866,6 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Turns visibility of the Popup on/off, and places the Popup if it's visible.
-   * @async
-   * @returns {void}
-   */
-  async toggleVisibility() {
-    this.visible = !this.visible;
-    if (this.visible) this.place();
-  }
-
-  /**
    * @property {number} x represents the X coordinate if placed via coordinates,
    * or the X offset when placed in relation to a parent element.
    */
@@ -947,16 +938,13 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {Promise} resolved once showing and animating the Popup is completed.
    */
   async show() {
-    if (this.visible) {
-      this.container.classList.add('visible');
-      this.#setArrowDirection('', this.arrow);
-    }
-
     return new Promise((resolve, reject) => {
       if (!this.visible) {
-        reject();
+        reject(new Error('Cannot show the modal if the `visible` setting is false'));
         return;
       }
+
+      this.container.classList.add('visible');
 
       // Adds a RenderLoop-staggered check for whether to show the Popup.
       if (this.openCheck) {
@@ -966,9 +954,6 @@ class IdsPopup extends mix(IdsElement).with(
       this.openCheck = this.rl.register(new IdsRenderLoopItem({
         duration: 70,
         timeoutCallback: () => {
-          // If an arrow is displayed, place it correctly.
-          this.placeArrow();
-
           // Always fire the 'show' event
           this.triggerEvent('show', this, {
             bubbles: true,
@@ -982,6 +967,10 @@ class IdsPopup extends mix(IdsElement).with(
             this.container.classList.add('flipped');
           }
           this.place().then(() => {
+            // If an arrow is displayed, place it correctly.
+            this.#setArrowDirection('', this.arrow);
+            this.placeArrow();
+
             this.#correct3dMatrix();
             resolve();
           });
@@ -998,7 +987,7 @@ class IdsPopup extends mix(IdsElement).with(
   async hide() {
     return new Promise((resolve, reject) => {
       if (this.visible) {
-        reject();
+        reject(new Error('Cannot hide the modal if the `visible` setting is true'));
         return;
       }
 

@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Toggle the Popup
   triggerBtn.addEventListener('click', () => {
-    popup.toggleVisibility();
+    popup.visible = !popup.visible;
+    // popup.visible ? popup.show() : popup.hide();
   });
 });

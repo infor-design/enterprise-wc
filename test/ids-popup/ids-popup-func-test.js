@@ -850,4 +850,30 @@ describe('IdsPopup Component', () => {
       expect(popup.getAttribute('language')).toEqual('de');
     });
   });
+
+  // Coverage
+  it('can use "setPosition" without changing coordinates', async () => {
+    await popup.setPosition(NaN, NaN, true, true);
+    expect(popup.visible).toBeTruthy();
+  });
+
+  it('will not "show()" unless visiblity is enabled', async () => {
+    try {
+      await popup.show();
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
+
+  it('will not "hide() unless visibility is disabled', async () => {
+    popup.visible = true;
+    popup.show();
+    await wait(200);
+
+    try {
+      await popup.hide();
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
 });

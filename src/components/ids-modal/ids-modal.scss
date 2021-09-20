@@ -13,6 +13,10 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
   left: 0;
 }
 
+:host(:not([visible])) {
+  pointer-events: none;
+}
+
 .ids-modal {
   @include block();
 
