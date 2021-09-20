@@ -82,9 +82,9 @@ Its also possible to show tooltips on the dropdown container or dropdown options
 Sometimes you might want to load the dropdown with Ajax. To do this setup the initial html. in order for the selected element to show. This must be pre-populated.
 
 ```html
-<ids-dropdown id="dropdown-7" label="Dropdown Using Ajax" value="AK">
+<ids-dropdown id="dropdown-7" label="Dropdown Using Ajax" value="ak">
   <ids-list-box>
-    <ids-list-box-option value="AK" id="AK">Alaska</ids-list-box-option>
+    <ids-list-box-option value="ak" id="ak">Alaska</ids-list-box-option>
  </ids-list-box>
 </ids-dropdown>
 ```

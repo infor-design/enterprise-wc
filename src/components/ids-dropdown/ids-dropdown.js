@@ -384,8 +384,7 @@ class IdsDropdown extends mix(IdsElement).with(
     listbox.innerHTML = '';
     dataset.forEach((option) => {
       html += `<ids-list-box-option
-        value="${option.value}"
-        id="${option.id || option.value}">${option.label}
+        value="${option.value}">${option.label}
         </ids-list-box-option>`;
     });
     listbox.insertAdjacentHTML('afterbegin', html);
