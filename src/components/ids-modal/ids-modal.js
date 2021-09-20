@@ -382,6 +382,7 @@ class IdsModal extends mix(IdsElement).with(
 
   /**
    * Overrides `addOpenEvents` from the OpenEvents mixin to add additional "Escape" key handling
+   * @private
    */
   addOpenEvents() {
     super.addOpenEvents();
@@ -402,6 +403,7 @@ class IdsModal extends mix(IdsElement).with(
 
   /**
    * Overrides `removeOpenEvents` from the OpenEvents mixin to remove "Escape" key handling
+   * @private
    */
   removeOpenEvents() {
     super.removeOpenEvents();
@@ -490,6 +492,7 @@ class IdsModal extends mix(IdsElement).with(
 
   /**
    * Sets up overall events
+   * @private
    */
   attachEventHandlers() {
     const titleSlot = this.container.querySelector('slot[name="title"]');

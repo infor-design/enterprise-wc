@@ -1,8 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-import processAnimFrame from '../helpers/process-anim-frame';
-
 import IdsModal, { IdsOverlay } from '../../src/components/ids-modal';
 import { IdsButton } from '../../src/components/ids-button/ids-button';
 import wait from '../helpers/wait';
