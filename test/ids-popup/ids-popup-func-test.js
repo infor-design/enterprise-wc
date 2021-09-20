@@ -4,6 +4,8 @@
 import IdsPopup from '../../src/components/ids-popup';
 import IdsContainer from '../../src/components/ids-container';
 
+import wait from '../helpers/wait';
+
 /**
  * Creates the test div used as an ArrowTarget in many of the below tests
  * @returns {HTMLDivElement} the newly created element
@@ -95,7 +97,6 @@ describe('IdsPopup Component', () => {
     const c = popup.container;
     const originalGetBoundingClientRect = c.getBoundingClientRect;
     popup.bleed = true;
-    popup.visible = true;
 
     // Basic coord alignment (center/center against the point, for modals)
     c.getBoundingClientRect = jest.fn(() => ({
@@ -111,10 +112,7 @@ describe('IdsPopup Component', () => {
 
     // Set values first, then put them back to zero
     // (setting 0 initially would not cause a refresh -- 0 is the value by default)
-    popup.x = 1;
-    popup.y = 1;
-    popup.x = 0;
-    popup.y = 0;
+    popup.setPosition(0, 0, true, true);
 
     expect(popup.container.style.left).toEqual('-50px');
     expect(popup.container.style.top).toEqual('-50px');
@@ -251,7 +249,7 @@ describe('IdsPopup Component', () => {
     popup.y = 50;
 
     expect(popup.container.style.left).toEqual('275px');
-    expect(popup.container.style.top).toEqual('400px');
+    expect(popup.container.style.top).toEqual('350px');
 
     // Reset and test bottom,right alignment
     // (Uses `bottom` as the edge, `right` as secondary border alignment)
@@ -271,22 +269,22 @@ describe('IdsPopup Component', () => {
     // Use the X attribute as an offset
     popup.x = 50;
 
-    expect(popup.container.style.left).toEqual('400px');
+    expect(popup.container.style.left).toEqual('350px');
     expect(popup.container.style.top).toEqual('250px');
 
     // Add a Y offset for fun
     popup.y = 50;
 
-    expect(popup.container.style.left).toEqual('400px');
-    expect(popup.container.style.top).toEqual('300px');
+    expect(popup.container.style.left).toEqual('350px');
+    expect(popup.container.style.top).toEqual('250px');
 
     // Remove the offsets and flip to the opposite alignment
     popup.align = 'top, left';
     popup.x = 0;
     popup.y = 0;
 
-    expect(popup.container.style.left).toEqual('300px');
-    expect(popup.container.style.top).toEqual('200px');
+    expect(popup.container.style.left).toEqual('350px');
+    expect(popup.container.style.top).toEqual('150px');
 
     // Switch edge/secondary
     // (Uses `right` as the edge, `bottom` as secondary border alignment)
@@ -617,12 +615,13 @@ describe('IdsPopup Component', () => {
 
   it('can enable/disable visibility', async () => {
     popup.visible = true;
-    await popup.show();
+    popup.show();
+    await wait(200);
     expect(popup.container.classList.contains('visible')).toBeTruthy();
 
     popup.visible = false;
-    await popup.hide();
-
+    popup.hide();
+    await wait(300);
     expect(popup.container.classList.contains('visible')).toBeFalsy();
   });
 

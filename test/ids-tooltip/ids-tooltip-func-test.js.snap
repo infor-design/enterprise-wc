@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsTooltip Component renders correctly 1`] = `
-"<ids-popup part=\\"popup\\" id=\\"ids-tooltip\\" language=\\"en\\" locale=\\"en-US\\" align=\\"center\\">
+"<style nonce=\\"0a59a005\\">.ids-tooltip { background-color: transparent; }</style><ids-popup part=\\"popup\\" id=\\"ids-tooltip\\" language=\\"en\\" locale=\\"en-US\\" align=\\"center\\">
         <div class=\\"ids-tooltip\\" slot=\\"content\\" part=\\"tooltip\\">
           <slot></slot>
         </div>

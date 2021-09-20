@@ -305,18 +305,17 @@ class IdsModal extends mix(IdsElement).with(
 
   /**
    * Shows the modal
-   * @param {boolean} doSetValue true if the component's visibility should be updated
    * @returns {void}
    */
-  async show(doSetValue = false) {
-    // Setting the value reruns this method, so exit afterward
-    if (doSetValue) {
-      this.visible = true;
+  async show() {
+    // Trigger a veto-able `beforeshow` event.
+    if (!this.triggerVetoableEvent('beforeshow')) {
       return;
     }
 
-    // Trigger a veto-able `beforeshow` event.
-    if (!this.triggerVetoableEvent('beforeshow')) {
+    // Setting the value reruns this method, so exit afterward
+    if (!this.visible) {
+      this.visible = true;
       return;
     }
 
@@ -344,18 +343,17 @@ class IdsModal extends mix(IdsElement).with(
 
   /**
    * Hides the modal
-   * @param {boolean} doSetValue true if the component's visibility should be updated
    * @returns {void}
    */
-  async hide(doSetValue = false) {
-    // Setting the value reruns this method, so exit afterward
-    if (doSetValue) {
-      this.visible = false;
+  async hide() {
+    // Trigger a veto-able `beforehide` event.
+    if (!this.triggerVetoableEvent('beforehide')) {
       return;
     }
 
-    // Trigger a veto-able `beforehide` event.
-    if (!this.triggerVetoableEvent('beforehide')) {
+    // Setting the value reruns this method, so exit afterward
+    if (this.visible) {
+      this.visible = false;
       return;
     }
 

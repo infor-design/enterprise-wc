@@ -56,8 +56,6 @@ class IdsTooltip extends mix(IdsElement).with(
    * Invoked each time the custom element is appended into a document-connected element,
    */
   connectedCallback() {
-    // Setup a reference to the popup element in the shadow root
-    this.popup = this.shadowRoot.firstElementChild;
     this.#updateAria();
   }
 
@@ -274,6 +272,14 @@ class IdsTooltip extends mix(IdsElement).with(
     }
     this.popup.visible = false;
     this.triggerEvent('hide', this, { detail: { elem: this } });
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsPopup} reference to the internal IdsPopup component
+   */
+  get popup() {
+    return this.shadowRoot.querySelector('ids-popup');
   }
 
   /**

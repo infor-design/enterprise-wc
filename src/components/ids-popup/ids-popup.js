@@ -159,7 +159,7 @@ class IdsPopup extends mix(IdsElement).with(
 
   /**
    * Watches for changes
-   * @property {MutationObserver} mo the built-in mutation observer
+   * @property {MutationObserver} mo this Popup component's mutation observer
    */
   #mo = new MutationObserver((mutations) => {
     if (this.#visible) {
@@ -949,7 +949,6 @@ class IdsPopup extends mix(IdsElement).with(
   async show() {
     if (this.visible) {
       this.container.classList.add('visible');
-      // await this.place();
       this.#setArrowDirection('', this.arrow);
     }
 
@@ -1351,6 +1350,7 @@ class IdsPopup extends mix(IdsElement).with(
       return;
     }
 
+    /* istanbul ignore next */
     requestAnimationFrame(() => {
       // Resets the redifined matrix to allow recalculation.
       // The original style should be defined in the animation-style class, not inline.
@@ -1361,6 +1361,9 @@ class IdsPopup extends mix(IdsElement).with(
       const mx = style.getPropertyValue('-webkit-transform')
         || style.getPropertyValue('-moz-transform')
         || style.getPropertyValue('transform') || false;
+      if (!mx) {
+        return;
+      }
 
       // Corrects `matrix3d` coordinate values to be whole numbers
       const values = mx.replace(/ |\(|\)|matrix3d/g, '').split(',');

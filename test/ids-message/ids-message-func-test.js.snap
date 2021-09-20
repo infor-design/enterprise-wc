@@ -8,7 +8,7 @@ exports[`IdsMessage Component (using properties) should render 1`] = `
 `;
 
 exports[`IdsMessage Component (using properties) should render 2`] = `
-"<ids-message id=\\"test-message\\" message-title=\\"Lost Connection\\" aria-label=\\"error: Lost Connection\\" status=\\"error\\" role=\\"dialog\\" style=\\"z-index: 1020;\\"><ids-text slot=\\"title\\" type=\\"h2\\" font-size=\\"24\\" language=\\"en\\" locale=\\"en-US\\">Lost Connection</ids-text><div>This application has experienced a system error
+"<ids-message id=\\"test-message\\" message-title=\\"Lost Connection\\" aria-label=\\"error: Lost Connection\\" status=\\"error\\" role=\\"dialog\\" visible=\\"\\" style=\\"z-index: 1020;\\"><ids-text slot=\\"title\\" type=\\"h2\\" font-size=\\"24\\" language=\\"en\\" locale=\\"en-US\\">Lost Connection</ids-text><div>This application has experienced a system error
   due to the lack of internet access. Please restart the application in order to proceed.</div>
   <ids-modal-button slot=\\"buttons\\" type=\\"secondary\\" id=\\"my-message-cancel\\" cancel=\\"\\">Cancel</ids-modal-button>
   <ids-modal-button slot=\\"buttons\\" type=\\"primary\\" id=\\"my-message-confirm\\">Confirm</ids-modal-button></ids-message>"
