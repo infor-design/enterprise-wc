@@ -14,6 +14,6 @@ describe('Ids Dropdown e2e Tests', () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
 
     // Using newer aria-description
-    await expect(page).toPassAxeTests({ disabledRules: ['aria-valid-attr', 'color-contrast', 'duplicate-id'] });
+    await expect(page).toPassAxeTests({ disabledRules: ['aria-valid-attr', 'color-contrast'] });
   });
 });

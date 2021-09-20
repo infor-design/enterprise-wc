@@ -208,7 +208,7 @@ class IdsDropdown extends mix(IdsElement).with(
   set selectedIndex(value) {
     if (Number.isInteger(value) && this.options[value]) {
       const elem = this.options[value];
-      this.value = elem.getAttribute('id');
+      this.value = elem.getAttribute('value');
       this.state.selectedIndex = value;
     }
   }
@@ -471,12 +471,12 @@ class IdsDropdown extends mix(IdsElement).with(
     // Handle Clicking with the mouse on options
     this.onEvent('click', this, (e) => {
       if (e.target.nodeName === 'IDS-LIST-BOX-OPTION') {
-        this.value = e.target.getAttribute('id');
+        this.value = e.target.getAttribute('value');
         return;
       }
 
       if (e.target.closest('ids-list-box-option')) {
-        this.value = e.target.closest('ids-list-box-option').getAttribute('id');
+        this.value = e.target.closest('ids-list-box-option').getAttribute('value');
       }
     });
 
@@ -525,7 +525,7 @@ class IdsDropdown extends mix(IdsElement).with(
 
       const selected = this.querySelector('ids-list-box-option.is-selected');
       if (e.key === 'ArrowUp' && e.altKey) {
-        this.value = selected.getAttribute('id');
+        this.value = selected.getAttribute('value');
         this.close();
         return;
       }
@@ -558,7 +558,7 @@ class IdsDropdown extends mix(IdsElement).with(
       }
 
       const selected = this.querySelector('ids-list-box-option.is-selected');
-      this.value = selected.getAttribute('id');
+      this.value = selected.getAttribute('value');
       this.close();
     });
 
@@ -573,7 +573,7 @@ class IdsDropdown extends mix(IdsElement).with(
       }
 
       const selected = this.querySelector('ids-list-box-option.is-selected');
-      this.value = selected.getAttribute('id');
+      this.value = selected.getAttribute('value');
       this.close(true);
     });
     return this;
