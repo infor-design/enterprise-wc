@@ -23,4 +23,3 @@
     description: Showing a button that works with css only
   - link: test-fallback-slot.html
     description: Showing a button with an unamed slot working
-

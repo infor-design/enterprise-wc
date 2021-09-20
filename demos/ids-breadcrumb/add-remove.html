@@ -1,20 +1,22 @@
 {{> ../layouts/head.html }}
 
-<ids-layout-grid>
+<ids-layout-grid auto="true">
   <ids-text font-size="12" type="h1">Add/Remove Breadcrumbs</ids-text>
 </ids-layout-grid>
-<ids-layout-grid>
+<ids-layout-grid auto="true">
   <ids-breadcrumb>
     <ids-hyperlink href="#">Breadcrumb 1</ids-hyperlink>
     <ids-hyperlink disabled href="#">Disabled Breadcrumb</ids-hyperlink>
   </ids-breadcrumb>
 </ids-layout-grid>
-<ids-layout-grid cols="16" gap="sm">
+<ids-layout-grid auto="true">
   <ids-checkbox label="Disabled"></ids-checkbox>
 </ids-layout-grid>
-<ids-layout-grid cols="16" gap="sm">
-  <ids-button type="secondary">Add Link</ids-button>
-  <ids-button type="secondary">Remove</ids-button>
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-button type="secondary">Add Link</ids-button>
+    <ids-button type="secondary">Remove</ids-button>
+  </ids-layout-grid-cell>
 </ids-layout-grid>
 
 {{> ../layouts/footer.html }}
