@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 
 import IdsModal, { IdsOverlay } from '../../src/components/ids-modal';

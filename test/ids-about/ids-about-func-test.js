@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+
 import IdsAbout from '../../src/components/ids-about';
 
 // Supporing components

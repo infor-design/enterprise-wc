@@ -1,8 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-import IdsSlider from '../../src/components/ids-slider';
 import processAnimFrame from '../helpers/process-anim-frame';
+import '../helpers/resize-observer-mock';
+
+import IdsSlider from '../../src/components/ids-slider';
 
 const HTMLSnippets = {
   SINGLE_SLIDER: (
