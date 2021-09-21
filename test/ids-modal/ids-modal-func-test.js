@@ -146,19 +146,16 @@ describe('IdsModal Component', () => {
   });
 
   // @TODO Not sure why this won't pass (structured similarly to other tests like it)
-  it.skip('can hide a visible modal by pressing the Escape key', (done) => {
+  it.skip('can hide a visible modal by pressing the Escape key', async () => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
 
-    modal.show();
+    await modal.show();
+    await wait(310);
 
-    setTimeout(() => {
-      // Key event is captured within the Modal container (encapsulated)
-      modal.container.dispatchEvent(closeEvent);
-      setTimeout(() => {
-        expect(modal.popup.visible).toBeFalsy();
-        done();
-      }, 70);
-    }, 70);
+    document.body.dispatchEvent(closeEvent);
+    await wait(310);
+
+    expect(modal.visible).toBeFalsy();
   });
 
   it('will not trigger a vetoable event of any type not supported', () => {

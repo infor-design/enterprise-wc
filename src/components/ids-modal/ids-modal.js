@@ -390,10 +390,19 @@ class IdsModal extends mix(IdsElement).with(
   addOpenEvents() {
     super.addOpenEvents();
 
-    /* istanbul ignore next */
-    this.listen('Escape', this, () => {
-      this.hide();
-    });
+    // Adds a global event listener for the Keydown event on the body to capture close via Escape
+    // (NOTE cannot use IdsEventsMixin here due to scoping)
+    this.globalKeydownListener = (e) => {
+      /* istanbul ignore next */
+      switch (e.key) {
+      case 'Escape':
+        this.hide();
+        break;
+      default:
+        break;
+      }
+    };
+    document.addEventListener('keydown', this.globalKeydownListener);
 
     // If a Modal Button is clicked, fire an optional callback
     const buttonSlot = this.container.querySelector('slot[name="buttons"]');
@@ -410,6 +419,7 @@ class IdsModal extends mix(IdsElement).with(
    */
   removeOpenEvents() {
     super.removeOpenEvents();
+    document.removeEventListener('keydown', this.globalKeydownListener);
     this.unlisten('Escape');
     this.offEvent('click.buttons');
   }

@@ -60,7 +60,7 @@ describe('IdsModal Component (with buttons)', () => {
   it('responds to its cancel buttons\' clicks', async () => {
     // Setup a button click handler
     modal.popup.animated = false;
-    modal.onButtonClick = () => { modal.hide(); };
+    // modal.onButtonClick = () => { modal.hide(); };
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
     // Show the Modal
