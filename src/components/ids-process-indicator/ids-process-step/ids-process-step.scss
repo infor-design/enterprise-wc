@@ -5,10 +5,11 @@
 
   .step {
     transform: translate(0, -50%);
-    height: 15px;
-    width: 15px;
+    height: 11px;
+    width: 11px;
     border-radius: 50%;
-    background-color: black;
+    background-color: white;
+    border: 2px solid grey;
 
   }
 
