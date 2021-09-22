@@ -9,13 +9,20 @@
   .line {
     width: 100%;
     height: 2px;
-    background-color: grey;
+    background-color: var(--ids-color-palette-slate-30);
     align-items: center;
 
     .step-container {
       display: flex;
       justify-content: space-between;
       width: 100%;
+
+      .progress-line {
+        position: absolute;
+        width: var(--percentEnd);
+        height: 2px;
+        background-color: var(--ids-color-palette-azure-70);
+      }
     }
   }
 }

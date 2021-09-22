@@ -74,7 +74,7 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   }
 
   getString(attribute, defaultValue) {
-    const result = this.getAttribute(attribute) || (defaultValue ?? '');;
+    const result = this.getAttribute(attribute) || (defaultValue ?? '');
     return result;
   }
 
@@ -101,15 +101,15 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
         this.container.querySelector('.step').style.height = '18px';
         this.container.querySelector('.step').style.width = '18px';
         this.container.querySelector('ids-icon').setAttribute('icon', 'close');
-        this.container.querySelector('ids-icon').style.color = 'white';
-        this.container.querySelector('.step').style.backgroundColor = 'red';
+        this.container.querySelector('ids-icon').style.color = 'var(--bg-color)';
+        this.container.querySelector('.step').style.backgroundColor = 'var(--cancelled-color)';
         this.container.querySelector('.step').style.border = '0px';
       } else if (val === 'done') {
-        this.container.querySelector('.step').style.border = '2px solid blue';
-        this.container.querySelector('.step').style.backgroundColor = 'blue';
+        this.container.querySelector('.step').style.border = '2px solid var(--active-color)';
+        this.container.querySelector('.step').style.backgroundColor = 'var(--bg-color)';
       } else if (val === 'started') {
-        this.container.querySelector('.step').style.border = '2px solid blue';
-        this.container.querySelector('.step').style.backgroundColor = 'white';
+        this.container.querySelector('.step').style.border = '2px solid var(--active-color)';
+        this.container.querySelector('.step').style.backgroundColor = 'var(--bg-color)';
       }
     }
   }

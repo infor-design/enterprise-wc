@@ -348,7 +348,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   /**
-   * Helper method for setLabels and initialization of labels on window.load
+   * Helper method for setLabels and initialization of labels
    * @returns {Array} An array the size of stepNumber with numerical intervals between the min and max
    */
   #generateNumericalLabels() {
