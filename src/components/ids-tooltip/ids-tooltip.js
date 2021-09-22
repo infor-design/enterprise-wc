@@ -118,33 +118,33 @@ class IdsTooltip extends mix(IdsElement).with(
     if (this.trigger === 'hover') {
       this.onEvent('hoverend.tooltip', targetElem, (e) => {
         this.popup.alignTarget = e.currentTarget;
-        this.#show();
+        this.visible = true;
       }, { delay: this.delay });
       this.onEvent('mouseleave.tooltip', targetElem, () => {
-        this.#hide();
+        this.visible = false;
       });
       this.onEvent('click.tooltip', targetElem, () => {
-        this.#hide();
+        this.visible = false;
       });
 
       // Long Press
       this.onEvent('longpress.tooltip', targetElem, () => {
-        this.#show();
+        this.visible = true;
       }, { delay: 1000 });
 
       // Keyboard Focus event
       this.onEvent('keyboardfocus.tooltip', targetElem, () => {
-        this.#show();
+        this.visible = true;
       });
 
       /* istanbul ignore next */
       this.onEvent('focusout.tooltip', targetElem, () => {
-        this.#hide();
+        this.visible = false;
       });
 
       /* istanbul ignore next */
       this.onEvent('click.popup', this.popup, () => {
-        this.#hide();
+        this.visible = true;
       });
     }
 
