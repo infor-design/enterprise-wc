@@ -23,6 +23,7 @@ const statuses = ['cancelled', 'started', 'done'];
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @part label
  */
 
 @customElement('ids-process-step')
@@ -57,7 +58,7 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
       <div class="ids-process-step">
         <span class="step">
         </span>
-          <ids-text class="label">${this.label}</ids-text>
+          <ids-text part="label" class="label">${this.label}</ids-text>
           <div class="details">
             <slot></slot>
           </div>
@@ -106,7 +107,7 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
         this.container.querySelector('.step').style.border = '0px';
       } else if (val === 'done') {
         this.container.querySelector('.step').style.border = '2px solid var(--active-color)';
-        this.container.querySelector('.step').style.backgroundColor = 'var(--bg-color)';
+        this.container.querySelector('.step').style.backgroundColor = 'var(--active-color)';
       } else if (val === 'started') {
         this.container.querySelector('.step').style.border = '2px solid var(--active-color)';
         this.container.querySelector('.step').style.backgroundColor = 'var(--bg-color)';
