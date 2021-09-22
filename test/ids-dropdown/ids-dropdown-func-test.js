@@ -347,13 +347,13 @@ describe('IdsDropdown Component', () => {
     expect(dropdown.querySelectorAll('ids-list-box-option').length).toEqual(59);
   });
 
-  it('supports type ahead to open', async () => {
+  it('supports type ahead to select', async () => {
     expect(dropdown.popup.visible).toEqual(false);
+    expect(dropdown.value).toEqual('opt2');
     await waitFor(() => expect(dropdown.shadowRoot.querySelector('ids-input')).toBeTruthy());
     dropdown.triggerEvent('keydownend', dropdown, { detail: { keys: 'option thr' } });
 
-    await waitFor(() => expect(dropdown.popup.visible).toEqual(true));
-    expect(dropdown.popup.visible).toEqual(true);
+    expect(dropdown.value).toEqual('opt3');
   });
 
   it('supports type ahead when open', async () => {
@@ -396,6 +396,23 @@ describe('IdsDropdown Component', () => {
 
     dropdown.trigger.click();
     dropdown.triggerEvent('mouseup', dropdown.trigger);
+    expect(dropdown.popup.visible).toEqual(true);
+  });
+
+  it('should not error if no container ready', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+    dropdown.container = null;
+    dropdown.connectedCallback();
+    dropdown.container = dropdown.triggerField;
+    dropdown.connectedCallback();
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('supports clicking input to open', async () => {
+    await waitFor(() => expect(dropdown.input).toBeTruthy());
+
+    dropdown.input.click();
+    dropdown.triggerEvent('mouseup', dropdown.input);
     expect(dropdown.popup.visible).toEqual(true);
   });
 

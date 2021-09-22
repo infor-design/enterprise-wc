@@ -116,6 +116,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       attributes.CLEARABLE,
       attributes.CLEARABLE_FORCED,
       attributes.COMPACT,
+      attributes.CURSOR,
       attributes.DISABLED,
       attributes.FIELD_HEIGHT,
       attributes.LABEL,

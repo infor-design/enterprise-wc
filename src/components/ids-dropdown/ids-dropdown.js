@@ -67,8 +67,7 @@ class IdsDropdown extends mix(IdsElement).with(
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    /* istanbul ignore next */
-    if (!this.container.querySelector) {
+    if (!this.container?.querySelector) {
       // Empty Dropdown
       this.container = document.createElement('ids-trigger-field');
     }
@@ -188,6 +187,16 @@ class IdsDropdown extends mix(IdsElement).with(
     this.#selectTooltip(elem);
     this.shadowRoot.querySelector('ids-input').value = elem.textContent.trim();
     this.state.selectedIndex = [...elem.parentElement.children].indexOf(elem);
+
+    // Send the change event
+    if (this.value === value) {
+      this.triggerEvent('change', this, {
+        detail: {
+          elem: this,
+          value: this.value
+        }
+      });
+    }
     this.setAttribute('value', value);
   }
 
@@ -452,7 +461,6 @@ class IdsDropdown extends mix(IdsElement).with(
    */
   #attachEventHandlers() {
     // Handle Clicking to open
-    /* istanbul ignore next */
     this.onEvent('mouseup', this.input, () => {
       this.toggle();
     });
@@ -496,16 +504,6 @@ class IdsDropdown extends mix(IdsElement).with(
       window.getSelection().removeAllRanges();
     });
 
-    // Send the change event up
-    this.onEvent('change', this.input, (e) => {
-      this.triggerEvent(e.type, this, {
-        detail: {
-          elem: this,
-          nativeEvent: e,
-          value: this.value
-        }
-      });
-    });
     return this;
   }
 
@@ -521,6 +519,9 @@ class IdsDropdown extends mix(IdsElement).with(
         this.open();
         return;
       }
+      e.stopPropagation();
+      e.stopImmediatePropagation();
+      e.preventDefault();
 
       const selected = this.querySelector('ids-list-box-option.is-selected');
       if (e.key === 'ArrowUp' && e.altKey) {
@@ -540,6 +541,7 @@ class IdsDropdown extends mix(IdsElement).with(
         selected.classList.remove('is-selected');
         selected.setAttribute('tabindex', '-1');
         selected.previousElementSibling.classList.add('is-selected');
+        selected.previousElementSibling.setAttribute('tabindex', '0');
         selected.previousElementSibling.focus();
       }
     });
@@ -591,15 +593,16 @@ class IdsDropdown extends mix(IdsElement).with(
       .filter((a) => a.textContent.toLowerCase().indexOf(keyString.toLowerCase()) === 0);
 
     if (matches[0]) {
-      if (!this.popup.visible) {
-        this.open();
-      }
-
       const selected = this.querySelector('ids-list-box-option.is-selected');
       selected?.classList.remove('is-selected');
       selected?.setAttribute('tabindex', '-1');
       matches[0].classList.add('is-selected');
-      matches[0].focus();
+
+      if (!this.popup.visible) {
+        this.value = matches[0].getAttribute('value');
+      } else {
+        matches[0].focus();
+      }
     }
   }
 
