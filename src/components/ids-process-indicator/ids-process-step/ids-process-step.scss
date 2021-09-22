@@ -6,6 +6,7 @@
   --active-color: var(--ids-color-palette-azure-70);
   --base-color: var(--ids-color-palette-slate-30);
   --cancelled-color: var(--ids-color-status-danger);
+  --step-width: 160px;
 
   &[mode='dark'] {
     --bg-color: #3e3e42;
@@ -31,11 +32,17 @@
   .details {
     transform: translate(0, 20px);
     position: absolute;
+    max-width: var(--step-width);
+    min-width: 90px;
+    word-break: break-word;
   }
 
   ids-text.label {
     position: absolute;
-    transform: translate(0, -200%);
+    bottom: 40px;
+    max-width: var(--step-width);
+    min-width: 90px;
+    word-break: break-word;
   }
 
   // CLASSIC
