@@ -33,7 +33,13 @@ class IdsProgressIndicator extends mix(IdsElement).with(IdsEventsMixin, IdsTheme
   }
 
   connectedCallback() {
+    this.container.querySelector('.progress-line').style.setProperty('--percentEnd', '20%');
     super.connectedCallback();
+    
+    // window.onload = () => {
+    //   const steps = this.container.querySelectorAll('ids-process-step');
+    //   console.log(steps);
+    // }
   }
 
   /**
@@ -55,9 +61,10 @@ class IdsProgressIndicator extends mix(IdsElement).with(IdsEventsMixin, IdsTheme
       <div class="ids-process-indicator">
         <span class="line">
           <span class="step-container">
+            <span class="progress-line"></span>
             <slot></slot>
           </span>
-        </span>
+          </span>
       </div>
     `;
   }
