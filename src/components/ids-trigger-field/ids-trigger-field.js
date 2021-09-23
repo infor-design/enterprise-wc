@@ -100,7 +100,7 @@ class IdsTriggerField extends IdsInput {
         >
           <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
         </label>` : ''}
-        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled && 'disabled', this.validate !== null && 'required') }>
+        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled && 'disabled', this.readyonly && 'readonly', this.validate !== null && 'required') }>
           <slot></slot>
         </div>
       </div>
