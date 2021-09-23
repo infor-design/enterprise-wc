@@ -14,12 +14,12 @@ import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-ite
 import { IdsStringUtils as stringUtils } from '../utils';
 
 /**
- * simple dictionary used to memoize attribute names
- * to their corresponding property names.
+ * Simple dictionary used to memoize attribute names
+ * to their corresponding property names
  *
  * Prepopulates with attribs stored in ids-constants,
  * but may have other non-standard attrib names added
- * that are not specified.
+ * that are not specified
  *
  * @type {object.<string, string>}
  */
@@ -160,11 +160,10 @@ class IdsElement extends HTMLElement {
     const template = document.createElement('template');
 
     if (this.shadowRoot?.innerHTML) {
-      this.shadowRoot.innerHTML = '';
-      // Append the style sheet for safari
-      if (!this.shadowRoot.adoptedStyleSheets) {
-        this.hasStyles = false;
-        this.appendStyles();
+      for (const el of this.shadowRoot.children) {
+        if (el.nodeName !== 'STYLE') {
+          el.remove();
+        }
       }
     }
 
@@ -176,13 +175,12 @@ class IdsElement extends HTMLElement {
     template.innerHTML = this.template();
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
-    /** @type {any} */
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
-    if (!this.shadowRoot.adoptedStyleSheets && !this.container) {
+    if (this.shadowRoot?.firstElementChild.nodeName === 'STYLE' && !this.container) {
       this.container = this.shadowRoot?.firstElementChild.nextSibling;
     }
-    /* istanbul ignore next */
-    if (!this.container) {
+
+    if (this.shadowRoot?.firstElementChild.nodeName !== 'STYLE' && !this.container) {
       this.container = this.shadowRoot?.firstElementChild;
     }
 
@@ -191,10 +189,9 @@ class IdsElement extends HTMLElement {
       renderLoop.register(new IdsRenderLoopItem({
         duration: 1,
         timeoutCallback: () => {
-          this.rendered();
-          // Remove any close hidden element to avoid FOUC
-          this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
-          this.closest('ids-container')?.removeAttribute('hidden');
+          if (this.rendered) {
+            this.rendered();
+          }
         }
       }));
     }
@@ -214,6 +211,22 @@ class IdsElement extends HTMLElement {
   }
 
   /**
+   * @returns {string} gets the nonce from the meta tag
+   */
+  get nonce() {
+    this.cachedNonce = '';
+    if (!document.nonce) {
+      const csp = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+      if (csp) {
+        let nonce = csp.getAttribute('content').match(/'nonce-(.*?)'/g)[0];
+        nonce = nonce?.replace('\'nonce-', '').replace('\'', '');
+        document.nonce = nonce;
+      }
+    }
+    return document.nonce;
+  }
+
+  /**
    * Append Styles if present
    * @private
    */
@@ -222,21 +235,10 @@ class IdsElement extends HTMLElement {
       return;
     }
 
-    if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
-      const style = document.createElement('style');
-      style.textContent = this.cssStyles;
-      if (/^:(:)?host/.test(style.textContent)) {
-        style.textContent = style.textContent.replace(/^:(:)?host/, `.${this.name}`);
-      }
-      style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
-      this.shadowRoot?.appendChild(style);
-    }
-
-    if (this.cssStyles && this.shadowRoot.adoptedStyleSheets) {
-      const style = new CSSStyleSheet();
-      style.replaceSync(this.cssStyles);
-      this.shadowRoot.adoptedStyleSheets = [style];
-    }
+    const style = document.createElement('style');
+    style.textContent = this.cssStyles;
+    style.setAttribute('nonce', this.nonce);
+    this.shadowRoot?.appendChild(style);
     this.hasStyles = true;
   }
 }

@@ -54,7 +54,7 @@ class IdsTooltip extends mix(IdsElement).with(
    */
   connectedCallback() {
     // Setup a reference to the popup element in the shadow root
-    this.popup = this.shadowRoot.firstElementChild;
+    this.popup = this.shadowRoot.querySelector('ids-popup');
     this.#updateAria();
   }
 

@@ -329,13 +329,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     let css = '';
     let colsWithoutWidth = 0;
 
-    let styleSheet = null;
-
-    if (this.shadowRoot.adoptedStyleSheets) {
-      styleSheet = this.shadowRoot.adoptedStyleSheets[0];
-    } else if (this.shadowRoot.styleSheets) {
-      styleSheet = this.shadowRoot.styleSheets[0];
-    }
+    const styleSheet = this.shadowRoot.styleSheets[0];
 
     if (!styleSheet) {
       return;
