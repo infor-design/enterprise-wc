@@ -392,8 +392,8 @@ class IdsModal extends mix(IdsElement).with(
 
     // Adds a global event listener for the Keydown event on the body to capture close via Escape
     // (NOTE cannot use IdsEventsMixin here due to scoping)
+    /* istanbul ignore next */
     this.globalKeydownListener = (e) => {
-      /* istanbul ignore next */
       switch (e.key) {
       case 'Escape':
         this.hide();

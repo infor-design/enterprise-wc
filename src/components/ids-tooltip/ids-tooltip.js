@@ -252,10 +252,6 @@ class IdsTooltip extends mix(IdsElement).with(
     }
 
     // Show the popup
-    if (!this.visible) {
-      this.visible = true;
-      return;
-    }
     this.#configurePopup();
     this.popup.visible = true;
     this.popup.place();
@@ -266,10 +262,6 @@ class IdsTooltip extends mix(IdsElement).with(
    * Show the tooltip  (use visible for public API)
    */
   #hide() {
-    if (this.visible) {
-      this.visible = false;
-      return;
-    }
     this.popup.visible = false;
     this.triggerEvent('hide', this, { detail: { elem: this } });
   }
