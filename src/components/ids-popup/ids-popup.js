@@ -1085,10 +1085,7 @@ class IdsPopup extends mix(IdsElement).with(
             this.isFlipped = false;
           }
 
-          // Remove the `visible` class if its there
-          if (this.container.classList.contains('visible')) {
-            this.container.classList.remove('visible');
-          }
+          this.container.classList.remove('visible');
           resolve();
         }
       }));
