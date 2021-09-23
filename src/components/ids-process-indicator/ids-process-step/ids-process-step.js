@@ -69,8 +69,6 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   setString(attribute, value) {
     if (value) {
       this.setAttribute(attribute, value);
-    } else {
-      this.setAttribute(attribute, '');
     }
   }
 
@@ -87,7 +85,7 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     this.setString(attributes.LABEL, value);
   }
 
-  get label() { return this.getString(attributes.LABEL, 'empty label'); }
+  get label() { return this.getString(attributes.LABEL); }
 
   /**
    * Sets the status for the step which determines the icon
@@ -99,9 +97,14 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     if (statuses.includes(val)) {
       this.setString(attributes.STATUS, val);
 
+      /* istanbul ignore next */
       const idsIcons = this.container.querySelectorAll('ids-icon');
-      idsIcons.forEach((icon) => icon.remove());
+      /* istanbul ignore if */
+      if (idsIcons.length > 0) {
+        idsIcons.forEach((icon) => icon.remove());
+      }
 
+      /* istanbul ignore else */
       if (val === 'cancelled') {
         this.container.querySelector('.step').insertAdjacentHTML('beforeend', `<ids-icon icon="" size="xsmall"></ids-icon>`);
         this.container.querySelector('ids-icon').style.display = 'flex';
@@ -123,7 +126,7 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     }
   }
 
-  get status() { return this.getString(attributes.STATUS, 'empty status'); }
+  get status() { return this.getString(attributes.STATUS, ''); }
 }
 
 export default IdsProgressStep;
