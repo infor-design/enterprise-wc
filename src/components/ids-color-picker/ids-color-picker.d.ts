@@ -5,8 +5,8 @@ export default class IdsColorPicker extends HTMLElement {
   /** Set the value */
   value: '#000000' | string;
 
-  /** Sets the swatch */
-  swatch: 'true' | 'false' | boolean;
+  /** Sets the advanced fr a */
+  advanced: 'true' | 'false' | boolean;
 
   /** Set the label */
   label: 'Ids Color Picker' | string;

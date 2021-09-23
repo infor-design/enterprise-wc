@@ -8,7 +8,7 @@ tooltipTop.addEventListener('beforeshow', (e) => {
   console.info('beforeshow', e, e.detail);
 });
 
-// Use the asyncronous `beforeshow` event to load contents
+// Use the asyncronous `beforeshow` callback to load contents
 const getContents = () => new Promise((resolve) => {
   const xhr = new XMLHttpRequest();
   xhr.open('get', '/data/bikes.json', true);

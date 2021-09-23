@@ -73,11 +73,8 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   connectedCallback() {
     super.connectedCallback();
-    /** @type {any} */
     this.trigger = this.shadowRoot.querySelector('.trigger');
-    /** @type {any} */
     this.textInput = this.shadowRoot.querySelector('ids-input');
-    /** @type {any} */
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
 
     this.files = this.fileInput.files;
@@ -203,7 +200,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {void}
    */
   handleFileInputChangeEvent() {
-    this.onEvent('change', this.fileInput, (/** @type {any} */ e) => {
+    this.onEvent('change', this.fileInput, (e) => {
       const files = this.fileInput.files;
       /* istanbul ignore next */
       this.value = [].slice.call(files).map((f) => f.name).join(', ');
@@ -250,7 +247,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {void}
    */
   handleTextInputKeydown() {
-    this.onEvent('keydown', this.textInput, (/** @type {any} */ e) => {
+    this.onEvent('keydown', this.textInput, (e) => {
       const allow = ['Backspace', 'Enter', 'Space'];
       const key = e.code;
       /* istanbul ignore next */
@@ -284,7 +281,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {void}
    */
   handleInputClearedEvent() {
-    this.onEvent('cleared', this.textInput, (/** @type {any} */ e) => {
+    this.onEvent('cleared', this.textInput, (e) => {
       this.clear();
       this.dispatchChangeEvent(e);
     });

@@ -1,5 +1,6 @@
 import { attributes } from '../../core';
 import { IdsEventsMixin } from '../ids-events-mixin';
+import IdsTooltip from '../../components/ids-tooltip';
 
 /**
 /**
@@ -48,6 +49,10 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
     if (this.nodeName === 'IDS-INPUT') {
       return this.container.querySelector('input');
     }
+    /* istanbul ignore next */
+    if (this.nodeName === 'IDS-DROPDOWN') {
+      return this.container?.querySelector('ids-input').container?.querySelector('input');
+    }
     return this;
   }
 
@@ -95,7 +100,9 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
    */
   set tooltip(value) {
     this.setAttribute('tooltip', value);
-    this.container.setAttribute('tooltip', value);
+    if (this.container.setAttribute) {
+      this.container.setAttribute('tooltip', value);
+    }
   }
 
   get tooltip() { return this.getAttribute('tooltip'); }

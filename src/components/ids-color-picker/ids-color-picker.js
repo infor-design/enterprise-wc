@@ -18,6 +18,8 @@ import '../ids-trigger-field/ids-trigger-button';
 import '../ids-popup/ids-popup';
 import styles from './ids-color-picker.scss';
 
+import { IdsStringUtils as stringUtils } from '../../utils';
+
 /**
  * IDS ColorPicker
  * @type {IdsColorPicker}
@@ -65,7 +67,7 @@ class IdsColorPicker extends mix(IdsElement).with(
     // eslint-disable-next-line no-self-assign
     this.disabled = this.disabled;
     // eslint-disable-next-line no-self-assign
-    this.swatch = this.swatch;
+    this.advanced = this.advanced;
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
     this.#attachEventHandlers();
@@ -73,11 +75,12 @@ class IdsColorPicker extends mix(IdsElement).with(
 
   static get attributes() {
     return [
+      attributes.ADVANCED,
       attributes.DISABLED,
       attributes.LABEL,
       attributes.MODE,
       attributes.READONLY,
-      attributes.SWATCH,
+      attributes.ADVANCED,
       attributes.VALUE,
       attributes.VERSION
     ];
@@ -86,15 +89,6 @@ class IdsColorPicker extends mix(IdsElement).with(
   template() {
     const id = this.id || 'ids-color';
 
-    const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
-      ? /* istanbul ignore next */' disabled'
-      : '';
-
-    const buttonDisabledAttribHtml = (
-      this.hasAttribute(attributes.DISABLED) || this.hasAttribute(attributes.READONLY)
-    ) ? /* istanbul ignore next */' disabled' : '';
-
-    /* istanbul ignore next */
     const template = `
       <div class="ids-color-picker">
         <ids-trigger-field
@@ -102,11 +96,11 @@ class IdsColorPicker extends mix(IdsElement).with(
           id="${this.id}"
           tabbable="false"
           label="${this.label}"
-          content-borders
-          ${disabledAttribHtml}
+          ${this.disabled ? ' disabled="true"' : ''}
+          ${this.readonly ? ' readonly="true"' : ''}
         >
           <label class="color-preview">
-            <ids-input tabindex="-1" class="color-input" type="color" ${buttonDisabledAttribHtml}></ids-input>
+            <ids-input tabindex="-1" class="color-input" type="color" ${!this.advanced || this.disabled || this.readonly ? ' disabled="true"' : ''}></ids-input>
             <ids-text audible="true">Pick Custom Color</ids-text>
           </label>
           <ids-input
@@ -116,12 +110,13 @@ class IdsColorPicker extends mix(IdsElement).with(
             label="${this.label}"
             label-hidden="true"
             triggerfield="true"
-            ${disabledAttribHtml}
+            ${this.disabled ? ' disabled="true"' : ''}
+            ${this.readonly ? ' readonly="true"' : ''}
           ></ids-input>
           <ids-trigger-button
             class="color-picker-trigger-btn"
             id="${id}-button" title="${id}"
-            ${buttonDisabledAttribHtml}
+            tabbable="false" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''}
           >
             <ids-text audible="true">color picker trigger</ids-text>
             <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
@@ -139,8 +134,10 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} v string value from the value attribute
    */
   set value(v) {
-    this.#updateColorPickerValues(v);
-    this.setAttribute('value', v.toString().toLowerCase());
+    if (v) {
+      this.#updateColorPickerValues(v);
+      this.setAttribute('value', v.toString().toLowerCase());
+    }
   }
 
   get value() {
@@ -153,38 +150,52 @@ class IdsColorPicker extends mix(IdsElement).with(
    */
   /* istanbul ignore next */
   set readonly(value) {
-    this.setAttribute('readonly', value.toString());
+    value = stringUtils.stringToBool(value);
+    if (value) {
+      this.setAttribute(attributes.READONLY, value.toString());
+      this.triggerBtn.setAttribute(attributes.TABBABLE, false);
+      return;
+    }
+    this.removeAttribute(attributes.READONLY);
   }
 
   /* istanbul ignore next */
   get readonly() {
-    return this.getAttribute('readonly') || 'false';
+    return stringUtils.stringToBool(this.getAttribute(attributes.READONLY)) || false;
   }
 
   /**
    * Sets the disabled attribute
-   * @param {string} d string value from the disabled attribute
+   * @param {string} value string value from the disabled attribute
    */
-  set disabled(d) {
-    if (d) {
-      this.setAttribute('disabled', d.toString());
+  set disabled(value) {
+    value = stringUtils.stringToBool(value);
+    if (value) {
+      this.setAttribute(attributes.DISABLED, value.toString());
+      this.triggerBtn.setAttribute(attributes.TABBABLE, false);
+      return;
     }
+    this.removeAttribute(attributes.DISABLED);
   }
 
   get disabled() {
-    return this.getAttribute('disabled');
+    return stringUtils.stringToBool(this.getAttribute('disabled')) || false;
   }
 
   /**
-   * Sets the swatch attribute
-   * @param {string} s string value from the swatch attribute
+   * Sets the advanced attribute
+   * @param {string} value string value from the advanced attribute
    */
-  set swatch(s) {
-    this.setAttribute('swatch', s.toString());
+  set advanced(value) {
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute('advanced', 'true');
+      return;
+    }
+    this.removeAttribute('advanced');
   }
 
-  get swatch() {
-    return this.getAttribute('swatch') || 'true';
+  get advanced() {
+    return stringUtils.stringToBool(this.getAttribute('advanced')) || false;
   }
 
   /**
@@ -212,35 +223,46 @@ class IdsColorPicker extends mix(IdsElement).with(
     });
 
     /* istanbul ignore next */
-    if (!this.disabled) {
-      this.onEvent('click', this.container, (event) => {
-        const target = event.target;
-        const openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
+    this.onEvent('click', this.container, (event) => {
+      const isEditable = !stringUtils.stringToBool(this.readonly)
+      && !stringUtils.stringToBool(this.disabled);
 
-        if (openColorCondition) {
+      if (!isEditable) {
+        return;
+      }
+
+      const target = event.target;
+      let openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
+      const openAdvanced = target.classList.contains('color-input');
+
+      if (!this.advanced && openAdvanced) {
+        openColorCondition = true;
+      }
+
+      if (openColorCondition) {
+        this.#openCloseColorpicker();
+      }
+
+      if (target.hasAttribute('hex')) {
+        this.#updateColorCheck(target);
+        this.setAttribute('value', target.getAttribute('hex').toLowerCase());
+        this.#openCloseColorpicker();
+      }
+    });
+
+    /* istanbul ignore next */
+    this.onEvent('keydown', this.container, (keyup) => {
+      if (keyup.key === 'Enter') {
+        if (keyup.target.id === `${this.id}-button`) {
           this.#openCloseColorpicker();
         }
-
-        if (target.hasAttribute('hex')) {
-          this.#updateColorCheck(target);
-          this.setAttribute('value', target.getAttribute('hex').toLowerCase());
+        if (keyup.target.hasAttribute('hex')) {
+          this.setAttribute('value', keyup.target.getAttribute('hex').toLowerCase());
           this.#openCloseColorpicker();
+          this.#updateColorCheck(keyup.target);
         }
-      });
-
-      this.onEvent('keyup', this.container, (keyup) => {
-        if (keyup.key === 'Enter') {
-          if (keyup.target.id === `${this.id}-button`) {
-            this.#openCloseColorpicker();
-          }
-          if (keyup.target.hasAttribute('hex')) {
-            this.setAttribute('value', keyup.target.getAttribute('hex').toLowerCase());
-            this.#openCloseColorpicker();
-            this.#updateColorCheck(keyup.target);
-          }
-        }
-      });
-    }
+      }
+    });
 
     this.onEvent('change', this.swatchInput, /* istanbul ignore next */ () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
     this.onEvent('change', this.colorPickerInput, /* istanbul ignore next */ () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));

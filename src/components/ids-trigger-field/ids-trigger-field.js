@@ -51,7 +51,6 @@ class IdsTriggerField extends IdsInput {
   connectedCallback() {
     this.setInputAttributes();
     this.#attachEventHandlers();
-    this.#setContentBorders();
     super.connectedCallback();
 
     const labelEl = this.container.querySelector('label');
@@ -72,10 +71,10 @@ class IdsTriggerField extends IdsInput {
   static get attributes() {
     return [
       attributes.APPEARANCE,
-      attributes.CONTENT_BORDERS,
       attributes.DISABLED,
       attributes.DISABLE_EVENTS,
       attributes.LABEL,
+      attributes.READONLY,
       attributes.SIZE,
       attributes.TABBABLE
     ];
@@ -93,7 +92,7 @@ class IdsTriggerField extends IdsInput {
     return `
       <div class="ids-trigger-field ${this.size}" part="field">
         ${ this.label !== '' ? `<label
-          ${ buildClassAttrib('ids-label-text', this.disabled !== null && 'disabled', this.validate !== null && 'required') }
+          ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled', this.validate !== null && 'required') }
           ${this.validate !== null ? ' required' : ''}
           slot="ids-trigger-field-label"
           part="label"
@@ -101,7 +100,7 @@ class IdsTriggerField extends IdsInput {
         >
           <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
         </label>` : ''}
-        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled !== null && 'disabled', this.validate !== null && 'required') }>
+        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled && 'disabled', this.validate !== null && 'required') }>
           <slot></slot>
         </div>
       </div>
@@ -248,7 +247,25 @@ class IdsTriggerField extends IdsInput {
   }
 
   get disabled() {
-    return this.getAttribute('disabled');
+    return stringUtils.stringToBool(this.getAttribute('disabled')) || false;
+  }
+
+  /**
+   * Sets the readonly attribute
+   * @param {string} d string value from the disabled attribute
+   */
+  set readonly(d) {
+    if (stringUtils.stringToBool(d)) {
+      this.setAttribute(attributes.READONLY, 'true');
+      this.shadowRoot.querySelector('.ids-trigger-field-content').setAttribute(attributes.READONLY, 'true');
+      return;
+    }
+    this.removeAttribute(attributes.READONLY);
+    this.shadowRoot.querySelector('.ids-trigger-field-content').removeAttribute(attributes.READONLY);
+  }
+
+  get readonly() {
+    return stringUtils.stringToBool(this.getAttribute('readonly')) || false;
   }
 
   /**
@@ -263,35 +280,6 @@ class IdsTriggerField extends IdsInput {
   }
 
   get size() { return this.getAttribute(attributes.SIZE) || SIZES.default; }
-
-  /**
-   * Adds borders to the trigger field content
-   * @private
-   * @returns {void}
-   */
-  #setContentBorders() {
-    this.container.classList.add('has-content-borders');
-
-    const slottedNodes = this.shadowRoot.querySelector('slot').assignedNodes();
-    const idsInputs = slottedNodes.filter((node) => node.nodeName === 'IDS-INPUT');
-    const triggerBtns = slottedNodes.filter((node) => node.nodeName === 'IDS-TRIGGER-BUTTON');
-
-    /* istanbul ignore else */
-    if (idsInputs) {
-      [...idsInputs].forEach((idsInput) => {
-        const input = idsInput.shadowRoot?.querySelector('.ids-input');
-        input?.classList.add('triggerfield-has-content-borders');
-      });
-    }
-
-    /* istanbul ignore else */
-    if (triggerBtns) {
-      [...triggerBtns].forEach((triggerBtn) => {
-        const btn = triggerBtn.shadowRoot?.querySelector('button');
-        btn?.classList.add('triggerfield-has-content-borders');
-      });
-    }
-  }
 
   /**
    * Establish Internal Event Handlers
@@ -317,7 +305,6 @@ class IdsTriggerField extends IdsInput {
       return false;
     }
 
-    /** @type {any} */
     const buttons = this.querySelectorAll('ids-trigger-button');
     /* istanbul ignore else */
     if (buttons) {
@@ -332,7 +319,7 @@ class IdsTriggerField extends IdsInput {
    */
   trigger() {
     let canTrigger = true;
-    const response = (/** @type {any} */ veto) => {
+    const response = (veto) => {
       canTrigger = !!veto;
     };
     this.triggerEvent('beforetriggerclicked', this, { detail: { elem: this, response } });

@@ -83,6 +83,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * @returns {string} the template to render
    */
   template() {
+    /* istanbul ignore next */
     if (!this.id) {
       this.setAttribute(attributes.ID, `ids-spinbox-${++instanceCounter}`);
     }
