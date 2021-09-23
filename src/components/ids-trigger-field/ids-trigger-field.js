@@ -255,11 +255,7 @@ class IdsTriggerField extends IdsInput {
   }
 
   get disabled() {
-<<<<<<< HEAD
-    return stringUtils.stringToBool(this.getAttribute('disabled')) || false;
-=======
     return stringUtils.stringToBool(this.getAttribute('disabled'));
->>>>>>> 9faeab1f (ids-trigger-field: change the way this.disabled is read as bool, remove .validate classes since they aren't even used or declared in the .scss file)
   }
 
   /**
