@@ -108,7 +108,7 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
   #appendIcon(iconName) {
     const icon = this.querySelector(`[icon="${iconName}"]`);
     if (!icon) {
-      this.insertAdjacentHTML('beforeend', `<ids-icon part="icon" icon="${iconName}" size="small" class="ids-icon"></ids-icon>`);
+      this.insertAdjacentHTML('beforeend', `<ids-icon part="icon" icon="${iconName}" size="xsmall" class="ids-icon"></ids-icon>`);
       this.#attachEventHandlers();
     }
   }
