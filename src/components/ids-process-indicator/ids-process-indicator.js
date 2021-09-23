@@ -33,9 +33,13 @@ class IdsProgressIndicator extends mix(IdsElement).with(IdsThemeMixin) {
   }
 
   #calculateProgressLine() {
+    /* istanbul ignore next */
     window.requestAnimationFrame(() => {
-      const steps = this.querySelectorAll('ids-process-step');
 
+      /* istanbul ignore next */
+      const steps = this.querySelectorAll('ids-process-step');
+      
+      /* istanbul ignore next */
       if (steps.length >= 2) {
         let lastStatusStep = 0;
 
