@@ -1,0 +1,26 @@
+@import '../../core/ids-base';
+
+.ids-hierarchy-item {
+  padding-inline-start: calc(var(--ids-number-spacing-base) * 3);
+}
+
+.leaf {
+  display: flex;
+  align-items: center;
+  border: 1px solid lightgray;
+  padding: var(--ids-number-spacing-base) calc(var(--ids-number-spacing-base) * 2);
+  margin-block-end: calc(var(--ids-number-spacing-base) * 3);
+}
+
+.avatar {
+  display: block;
+  height: 55px;
+  width: 55px;
+  border-radius: 100%;
+  background-color: lightgray;
+  margin-inline-end: calc(var(--ids-number-spacing-base) * 2);
+}
+
+ids-icon[part="icon-btn"] {
+  margin-inline-start: auto;
+}

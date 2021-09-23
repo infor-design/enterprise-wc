@@ -39,51 +39,12 @@ class IdsHierarchy extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [
-      'items'
-    ];
+    return [];
   }
 
   template() {
-    return `
-      <ul>
-        <li>
-          <div>Leaf<div>
-        </li>
-      </ul>
-    `;
+    return `<slot></slot>`;
   }
-
-  set items(value) {
-    this.setAttribute('items', value);
-  }
-
-  get items() {
-    return this.getAttribute('items');
-  }
-
-  // renderHierarchy(item) {
-  //   return `
-  //     <ul class="ids-hierarchy">
-  //       ${item}
-  //     </ul>
-  //   `;
-  // }
-
-  // renderItems(items) {
-  //   return items.map((item) => item);
-  // }
-
-  /* Hierarchy Type Properties: []
-     Elements:
-        Hierachy container: ids-hierarchy
-        Hierarchy Item: ids-hierarchy-item
-          image placeholder
-          details
-            heading, subheading, micro
-          arrow Trigger icon button
-     States: selected, expanded, collapsed
-  */
 }
 
 export default IdsHierarchy;

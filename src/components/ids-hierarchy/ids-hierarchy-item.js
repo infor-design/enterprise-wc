@@ -2,6 +2,7 @@ import {
   attributes,
   customElement,
   IdsElement,
+  mix,
   scss
 } from '../../core';
 
@@ -20,11 +21,14 @@ import IdsHierarchy from './ids-hierarchy';
 /**
  * IDS Hierarchy Component
  * @type {IdsHierarchyItem}
- * @inherits IdsHierarchy
+ * @inherits IdsElement
  */
 @customElement('ids-hierarchy-item')
 @scss(styles)
-class IdsHierarchyItem extends IdsHierarchy {
+class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin) {
+  // States: selected, expanded, collapsed
+  // Types: root, expandable, nested
+
   constructor() {
     super();
   }
@@ -41,13 +45,22 @@ class IdsHierarchyItem extends IdsHierarchy {
   }
 
   template() {
-    return this.renderHierarchy(
-      `
-        <li>
-          <div>Leaf</div>
-        </li>
-      `
-    );
+    return `
+      <div class="ids-hierarchy-item">
+        <div class="leaf">
+          <span class="avatar">
+            <slot name="avatar"></slot>
+          </span>
+          <div class="details">
+            <slot name="heading"></slot>
+            <slot name="subheading"></slot>
+            <slot name="micro"></slot>
+          </div>
+          <ids-icon icon="caret-down" part="icon-btn"></ids-icon>
+        </div>
+        <slot></slot>
+      </div>
+    `;
   }
 }
 
