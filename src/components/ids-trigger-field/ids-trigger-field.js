@@ -266,8 +266,8 @@ class IdsTriggerField extends IdsInput {
    * Sets the readonly attribute
    * @param {string} d string value from the disabled attribute
    */
-  set readonly(d) {
-    if (stringUtils.stringToBool(d)) {
+  set readonly(r) {
+    if (stringUtils.stringToBool(r)) {
       this.setAttribute(attributes.READONLY, 'true');
       this.shadowRoot.querySelector('.ids-trigger-field-content').setAttribute(attributes.READONLY, 'true');
       return;
@@ -277,7 +277,7 @@ class IdsTriggerField extends IdsInput {
   }
 
   get readonly() {
-    return stringUtils.stringToBool(this.getAttribute('readonly')) || false;
+    return stringUtils.stringToBool(this.getAttribute('readonly'));
   }
 
   /**
