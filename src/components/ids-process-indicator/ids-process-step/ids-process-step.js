@@ -95,7 +95,7 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
       idsIcons.forEach((icon) => icon.remove());
 
       if (val === 'cancelled') {
-        this.container.querySelector('.step').insertAdjacentHTML('beforeend', `<ids-icon icon="" size="small"></ids-icon>`);
+        this.container.querySelector('.step').insertAdjacentHTML('beforeend', `<ids-icon icon="" size="xsmall"></ids-icon>`);
         this.container.querySelector('ids-icon').style.display = 'flex';
         this.container.querySelector('ids-icon').style.justifyContent = 'center';
         this.container.querySelector('ids-icon').style.transform = 'translate(0, 4px)';
@@ -106,8 +106,8 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
         this.container.querySelector('.step').style.backgroundColor = 'var(--cancelled-color)';
         this.container.querySelector('.step').style.border = '0px';
       } else if (val === 'done') {
-        this.container.querySelector('.step').style.border = '2px solid var(--active-color)';
-        this.container.querySelector('.step').style.backgroundColor = 'var(--active-color)';
+        this.container.querySelector('.step').style.border = '2px solid var(--primary-color)';
+        this.container.querySelector('.step').style.backgroundColor = 'var(--primary-color)';
       } else if (val === 'started') {
         this.container.querySelector('.step').style.border = '2px solid var(--active-color)';
         this.container.querySelector('.step').style.backgroundColor = 'var(--bg-color)';

@@ -1,10 +1,11 @@
 ids-process-step
-- [ ] for long text
-  - [ ] wrap it
+- [x] for long text
+  - [x] wrap it
   - [ ] extend the line segment for long text if needed
-- [ ] add styling theme/colors
-- [ ] add status checks
-  - [ ] add colors for diff statuses
+  - [ ] ask jon abt strategy for responsive design
+- [x] add styling theme/colors
+- [x] add status checks
+  - [x] add colors for diff statuses
 - [ ] add ts file
 - [ ] add tests
 - [ ] add readme
