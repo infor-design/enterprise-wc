@@ -19,7 +19,7 @@ const statuses = ['cancelled', 'started', 'done'];
 
 /**
  * IDS Process Step Component
- * @type {IdsProgressStep}
+ * @type {IdsProcessStep}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
@@ -28,7 +28,7 @@ const statuses = ['cancelled', 'started', 'done'];
 
 @customElement('ids-process-step')
 @scss(styles)
-class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -129,4 +129,4 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   get status() { return this.getString(attributes.STATUS, ''); }
 }
 
-export default IdsProgressStep;
+export default IdsProcessStep;
