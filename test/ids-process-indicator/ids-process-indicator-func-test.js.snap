@@ -1,0 +1,8 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsProcessIndicator Component renders correctly 1`] = `
+"<ids-process-indicator>
+  <ids-process-step status=\\"done\\" label=\\"Prepare\\">
+  <ids-process-step status=\\"started\\" label=\\"Delivered\\">
+  </ids-process-step></ids-process-step></ids-process-indicator>"
+`;
