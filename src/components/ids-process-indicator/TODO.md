@@ -8,4 +8,4 @@ ids-process-step
   - [x] add colors for diff statuses
 - [ ] add ts file
 - [ ] add tests
-- [ ] add readme
+- [x] add readme
