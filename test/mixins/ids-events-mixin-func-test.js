@@ -117,7 +117,9 @@ describe('IdsEventsMixin Tests', () => {
     elem.triggerEvent('mouseleave', elem);
     elem.triggerEvent('click', elem);
     expect(elem.hoverEndOn).toBe(true);
-    expect(mockHandler.mock.calls.length).toBe(0);
+    setTimeout(() => {
+      expect(mockHandler.mock.calls.length).toBe(1);
+    });
   });
 
   it('can detach hoverend events', () => {
@@ -126,7 +128,30 @@ describe('IdsEventsMixin Tests', () => {
     expect(elem.hoverEndOn).toBe(true);
     elem.offEvent('hoverend', elem);
     elem.triggerEvent('mouseenter', elem);
-    expect(mockHandler.mock.calls.length).toBe(0);
+    setTimeout(() => {
+      expect(mockHandler.mock.calls.length).toBe(1);
+    });
     expect(elem.hoverEndOn).toBe(false);
+  });
+
+  it('can attach keydownend events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('keydownend', elem, mockHandler);
+    const event = new KeyboardEvent('keydown', { key: 'a' });
+    elem.dispatchEvent(event);
+    setTimeout(() => {
+      expect(mockHandler.mock.calls.length).toBe(1);
+    });
+    expect(elem.keyDownEndOn).toBe(true);
+  });
+
+  it('can detach keydownend events', () => {
+    const mockHandler = jest.fn();
+    elem.onEvent('keydownend', elem, mockHandler);
+    expect(elem.keyDownEndOn).toBe(true);
+    elem.offEvent('keydownend', elem);
+    elem.triggerEvent('mouseenter', elem);
+    expect(mockHandler.mock.calls.length).toBe(0);
+    expect(elem.keyDownEndOn).toBe(false);
   });
 });

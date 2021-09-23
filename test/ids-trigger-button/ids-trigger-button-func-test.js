@@ -6,6 +6,15 @@ import IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger
 describe('IdsTriggerButton Component', () => {
   let triggerButton;
 
+  const createFromTemplate = (innerHTML) => {
+    triggerButton?.remove();
+    const template = document.createElement('template');
+    template.innerHTML = innerHTML;
+    triggerButton = template.content.childNodes[0];
+    document.body.appendChild(triggerButton);
+    return triggerButton;
+  };
+
   beforeEach(async () => {
     const elem = new IdsTriggerButton();
     document.body.appendChild(elem);
@@ -33,6 +42,41 @@ describe('IdsTriggerButton Component', () => {
     expect(triggerButton.tabbable).toEqual(true);
     triggerButton.removeAttribute('tabbable');
     expect(triggerButton.tabbable).toEqual(true);
+  });
+
+  it('supports readonly', () => {
+    triggerButton.readonly = true;
+    expect(triggerButton.readonly).toEqual(true);
+    expect(triggerButton.getAttribute('readonly')).toEqual('true');
+
+    triggerButton.readonly = false;
+    expect(triggerButton.readonly).toEqual(false);
+    expect(triggerButton.getAttribute('readonly')).toBeFalsy();
+  });
+
+  it('supports readonly initially', () => {
+    triggerButton = createFromTemplate(
+      `<ids-trigger-button readonly="true">
+      <ids-text audible="true">Search trigger</ids-text>
+      <ids-icon slot="icon" icon="search"></ids-icon>
+    </ids-trigger-button>`
+    );
+    expect(triggerButton.readonly).toEqual(true);
+    expect(triggerButton.getAttribute('readonly')).toEqual('true');
+  });
+
+  it('supports readonly with tabbable', () => {
+    triggerButton.tabbable = true;
+    triggerButton.readonly = true;
+    expect(triggerButton.readonly).toEqual(true);
+    expect(triggerButton.getAttribute('readonly')).toEqual('true');
+    expect(triggerButton.tabbable).toEqual('true');
+
+    triggerButton.tabbable = false;
+    triggerButton.readonly = false;
+    expect(triggerButton.readonly).toEqual(false);
+    expect(triggerButton.getAttribute('readonly')).toBeFalsy();
+    expect(triggerButton.tabbable).toEqual('false');
   });
 
   it('supports tabbable', () => {

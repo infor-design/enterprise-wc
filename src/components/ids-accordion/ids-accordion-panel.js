@@ -25,11 +25,8 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
   }
 
   connectedCallback() {
-    /** @type {HTMLElement | null } */
     this.expander = this.shadowRoot?.querySelector('.ids-accordion-panel-expander');
-    /** @type {HTMLElement | null } */
     this.header = this.querySelector('[slot="header"]');
-    /** @type {HTMLElement | null } */
     this.pane = this.shadowRoot?.querySelector('.ids-accordion-pane');
     this.#setTitles();
     this.#attachEventHandlers();

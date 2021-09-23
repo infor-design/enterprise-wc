@@ -38,4 +38,14 @@ describe('IdsStringUtils Tests', () => {
 
     expect(IdsStringUtils.injectTemplate(template, obj)).toEqual('Test String <b>test-value</b>');
   });
+
+  it('can test if a character is printable', () => {
+    expect(IdsStringUtils.isPrintable({ key: 'Enter' })).toEqual(false);
+    expect(IdsStringUtils.isPrintable({ key: 'Tab' })).toEqual(false);
+    expect(IdsStringUtils.isPrintable({ key: 'Up', keyCode: 38, altKey: true })).toEqual(false);
+    expect(IdsStringUtils.isPrintable({ keyCode: 65, key: 'a' })).toEqual(true);
+    expect(IdsStringUtils.isPrintable({ keyCode: 90, key: 'z' })).toEqual(true);
+    expect(IdsStringUtils.isPrintable({ key: 'F1', keyCode: 112 })).toEqual(false);
+    expect(IdsStringUtils.isPrintable({ key: 'F12', keyCode: 123 })).toEqual(false);
+  });
 });

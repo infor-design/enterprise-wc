@@ -140,7 +140,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.scrollTarget = this.container;
 
-      this.virtualScrollContainer.itemTemplate = (/** @type {any} */ row, /** @type {any} */ index) => this.rowTemplate(row, index); //eslint-disable-line
+      this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index); //eslint-disable-line
       this.virtualScrollContainer.itemCount = this.data.length;
       // TODO Dynamic Height setting - header height
       this.virtualScrollContainer.height = 350 - this.headerPixelHeight;
@@ -251,7 +251,7 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     // Add a sort Handler
     this.offEvent('click', sortableColumns);
-    this.onEvent('click', sortableColumns, (/** @type {any} */ e) => {
+    this.onEvent('click', sortableColumns, (e) => {
       const header = e.target.closest('.is-sortable');
 
       if (header) {
@@ -307,7 +307,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    */
   #attachKeyboardListeners() {
     // Handle arrow navigation
-    this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'], this, (e) => {
       const key = e.key;
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line

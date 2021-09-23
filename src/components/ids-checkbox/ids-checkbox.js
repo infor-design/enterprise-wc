@@ -90,9 +90,9 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @returns {void}
    */
   attributeChangedCallback(
-    /** @type {string} */ name,
-    /** @type {any} */ oldValue,
-    /** @type {any} */ newValue
+    name,
+    oldValue,
+    newValue
   ) {
     if (oldValue !== newValue) {
       attribs.forEach((attribute) => {
@@ -171,7 +171,7 @@ class IdsCheckbox extends mix(IdsElement).with(
   attachNativeEvents() {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
-      this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+      this.onEvent(evt, this.input, (e) => {
         this.triggerEvent(e.type, this, {
           detail: {
             elem: this,

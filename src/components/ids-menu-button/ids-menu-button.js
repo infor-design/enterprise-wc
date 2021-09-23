@@ -129,7 +129,6 @@ class IdsMenuButton extends IdsButton {
   get menuEl() {
     // Check for a Shadow Root parent.
     // If none, use `document`
-    /** @type {any} */
     const target = IdsDOMUtils.getClosestRootNode(this);
     return target.querySelector(`ids-popup-menu[id="${this.menu}"]`);
   }

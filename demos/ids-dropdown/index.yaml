@@ -1,0 +1,11 @@
+---
+ component: Dropdown
+ link: ids-dropdown
+ description: Ui Text decoration
+ category: Form Inputs
+ keywords: select, dropdown, combobox
+ examples:
+  - link: index.html
+    description: Shows basic dropdown with states
+  - link: side-by-side.html
+    description: Showing a dropdown side by side with a 4.x dropdown

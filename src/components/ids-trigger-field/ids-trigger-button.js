@@ -5,7 +5,7 @@ import {
 } from '../../core';
 
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import { IdsStringUtils as stringUtils } from '../../utils';
 
 // Import Dependencies
 import { IdsButton } from '../ids-button/ids-button';
@@ -26,6 +26,11 @@ class IdsTriggerButton extends IdsButton {
    */
   constructor() {
     super();
+
+    // Trigger it the first time since we have no template
+    if (stringUtils.stringToBool(this.readonly)) {
+      this.readonly = true;
+    }
   }
 
   /**
@@ -33,16 +38,11 @@ class IdsTriggerButton extends IdsButton {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.CSS_CLASS,
-      attributes.DISABLED,
-      attributes.ICON,
-      attributes.ICON_ALIGN,
-      attributes.ID,
-      attributes.TEXT,
-      attributes.TYPE,
-      attributes.TABBABLE,
-      attributes.MODE,
-      attributes.THEME];
+    return [
+      ...super.attributes,
+      attributes.READONLY,
+      attributes.TABBABLE
+    ];
   }
 
   /**
@@ -50,14 +50,41 @@ class IdsTriggerButton extends IdsButton {
    * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    const isTabbable = IdsStringUtils.stringToBool(value);
-    /** @type {any} */
+    const isTabbable = stringUtils.stringToBool(value);
     const button = this.shadowRoot?.querySelector('button');
-    this.setAttribute(attributes.TABBABLE, value.toString());
-    button.tabIndex = !isTabbable ? '-1' : '0';
+    if (isTabbable) {
+      this.setAttribute(attributes.TABBABLE, 'true');
+      button.setAttribute(attributes.TABINDEX, '0');
+      return;
+    }
+    this.setAttribute(attributes.TABBABLE, 'false');
+    button.setAttribute(attributes.TABINDEX, '-1');
   }
 
   get tabbable() { return this.getAttribute(attributes.TABBABLE) || true; }
+
+  /**
+   * Set the trigger button to readonly color
+   * @param {boolean|string} value True of false depending if the trigger button is readonly
+   */
+  set readonly(value) {
+    const isReadonly = stringUtils.stringToBool(value);
+    const button = this.shadowRoot?.querySelector('button');
+    if (isReadonly) {
+      button.setAttribute(attributes.READONLY, 'true');
+      button.setAttribute(attributes.TABINDEX, '-1');
+      this.setAttribute(attributes.READONLY, 'true');
+      return;
+    }
+    button.removeAttribute(attributes.READONLY);
+    /* istanbul ignore next */
+    button.setAttribute(attributes.TABINDEX, this.tabbable ? '0' : '-1');
+    this.removeAttribute(attributes.READONLY);
+  }
+
+  get readonly() {
+    return stringUtils.stringToBool(this.getAttribute(attributes.READONLY)) || false;
+  }
 }
 
 export default IdsTriggerButton;

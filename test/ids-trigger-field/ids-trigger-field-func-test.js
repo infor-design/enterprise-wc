@@ -23,7 +23,6 @@ const DEFAULT_TRIGGERFIELD_HTML = (
       size="sm"
       tabbable="false"
       label="Date Field"
-      content-borders
     >
       <ids-input></ids-input>
       <ids-trigger-button>
@@ -40,7 +39,6 @@ const REQUIRED_TRIGGERFIELD_HTML = (
       size="sm"
       tabbable="false"
       label="Date Field"
-      content-borders
       validate="required"
     >
       <ids-input></ids-input>
@@ -58,7 +56,6 @@ const DISABLED_TRIGGERFIELD_HTML = (
       size="sm"
       tabbable="false"
       label="Date Field"
-      content-borders
       disabled="true"
     >
       <ids-input></ids-input>
@@ -167,7 +164,7 @@ describe('IdsTriggerField Component', () => {
 
   it('renders disabled setting', async () => {
     triggerField = await createElemViaTemplate(DISABLED_TRIGGERFIELD_HTML);
-    expect(triggerField.disabled).toBe('true');
+    expect(triggerField.disabled).toBe(true);
   });
 
   it('renders tabbable setting', () => {
@@ -191,12 +188,22 @@ describe('IdsTriggerField Component', () => {
 
   it('has a disabled attribute', () => {
     triggerField.disabled = false;
-    expect(triggerField.disabled).toEqual(null);
+    expect(triggerField.disabled).toEqual(false);
     expect(triggerField.getAttribute('disabled')).toEqual(null);
 
     triggerField.disabled = true;
-    expect(triggerField.disabled).toEqual('true');
+    expect(triggerField.disabled).toEqual(true);
     expect(triggerField.getAttribute('disabled')).toEqual('true');
+  });
+
+  it('has a readonly attribute', () => {
+    triggerField.readonly = true;
+    expect(triggerField.readonly).toEqual(true);
+    expect(triggerField.getAttribute('readonly')).toEqual('true');
+
+    triggerField.readonly = false;
+    expect(triggerField.readonly).toEqual(false);
+    expect(triggerField.getAttribute('readonly')).toEqual(null);
   });
 
   it('should not set wrong size', () => {

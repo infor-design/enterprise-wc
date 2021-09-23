@@ -1,0 +1,20 @@
+/* Ids Dropdown Component */
+@import '../../mixins/sass/ids-validation-mixin';
+
+// Most Styles are in list-box, popup and trigger field
+ids-trigger-button {
+  width: 34px;
+}
+
+// Icon Placement
+.icon-container {
+  @include text-slate-100();
+
+  margin: 0 0 0 8px;
+  position: relative;
+  top: 2px;
+}
+
+ids-trigger-field[dir='rtl'] .icon-container {
+  margin: 0 8px 0 0;
+}
