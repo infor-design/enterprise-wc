@@ -24,7 +24,7 @@ import IdsInput from '../ids-input';
 import { SIZES } from '../ids-input/ids-input';
 import IdsTriggerButton from './ids-trigger-button';
 
-const { stringToBool, buildClassAttrib } = stringUtils;
+const { stringToBool } = stringUtils;
 
 /**
  * IDS Trigger Field Component
@@ -264,7 +264,7 @@ class IdsTriggerField extends IdsInput {
 
   /**
    * Sets the readonly attribute
-   * @param {string} d string value from the disabled attribute
+   * @param {string} r string value from the disabled attribute
    */
   set readonly(r) {
     if (stringUtils.stringToBool(r)) {
