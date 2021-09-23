@@ -92,7 +92,7 @@ class IdsTriggerField extends IdsInput {
     return `
       <div class="ids-trigger-field ${this.size}" part="field">
         ${ this.label !== '' ? `<label
-          ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled', this.validate !== null && 'required') }
+          ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled', this.readonly && 'readonly') }
           ${this.validate !== null ? ' required' : ''}
           slot="ids-trigger-field-label"
           part="label"
@@ -100,7 +100,7 @@ class IdsTriggerField extends IdsInput {
         >
           <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
         </label>` : ''}
-        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled && 'disabled', this.readyonly && 'readonly', this.validate !== null && 'required') }>
+        <div ${ buildClassAttrib('ids-trigger-field-content', this.disabled && 'disabled', this.readonly && 'readonly') }>
           <slot></slot>
         </div>
       </div>
@@ -249,7 +249,11 @@ class IdsTriggerField extends IdsInput {
   }
 
   get disabled() {
+<<<<<<< HEAD
     return stringUtils.stringToBool(this.getAttribute('disabled')) || false;
+=======
+    return stringUtils.stringToBool(this.getAttribute('disabled'));
+>>>>>>> 9faeab1f (ids-trigger-field: change the way this.disabled is read as bool, remove .validate classes since they aren't even used or declared in the .scss file)
   }
 
   /**
