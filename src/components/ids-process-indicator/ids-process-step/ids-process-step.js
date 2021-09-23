@@ -79,19 +79,27 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     return result;
   }
 
+  /**
+   * Sets the label for the step
+   * @param {string} value The step name
+   */
   set label(value) {
     this.setString(attributes.LABEL, value);
   }
 
   get label() { return this.getString(attributes.LABEL, 'empty label'); }
 
+  /**
+   * Sets the status for the step which determines the icon
+   * @param {string} value The step status
+   */
   set status(value) {
     const val = value.toLowerCase();
 
     if (statuses.includes(val)) {
       this.setString(attributes.STATUS, val);
 
-      let idsIcons = this.container.querySelectorAll('ids-icon');
+      const idsIcons = this.container.querySelectorAll('ids-icon');
       idsIcons.forEach((icon) => icon.remove());
 
       if (val === 'cancelled') {
@@ -116,7 +124,6 @@ class IdsProgressStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   }
 
   get status() { return this.getString(attributes.STATUS, 'empty status'); }
-
 }
 
 export default IdsProgressStep;

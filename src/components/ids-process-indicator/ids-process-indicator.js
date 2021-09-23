@@ -3,7 +3,6 @@ import {
   customElement,
   scss,
   mix,
-  attributes
 } from '../../core';
 
 // Import Mixins
@@ -38,7 +37,6 @@ class IdsProgressIndicator extends mix(IdsElement).with(IdsThemeMixin) {
       const steps = this.querySelectorAll('ids-process-step');
 
       if (steps.length >= 2) {
-
         let lastStatusStep = 0;
 
         steps.forEach((step, i) => {
@@ -49,23 +47,13 @@ class IdsProgressIndicator extends mix(IdsElement).with(IdsThemeMixin) {
               lastStatusStep = i;
             }
           }
-        })
+        });
 
         const n = lastStatusStep;
-        const percent = 100 / (steps.length - 1) * n;
+        const percent = (100 / (steps.length - 1)) * n;
         this.container.querySelector('.progress-line').style.setProperty('--percentEnd', `${percent}%`);
       }
-    })
-  }
-
-  /**
-   * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
-   */
-  static get attributes() {
-    return [
-      ...super.attributes
-    ];
+    });
   }
 
   /**
@@ -73,8 +61,6 @@ class IdsProgressIndicator extends mix(IdsElement).with(IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-
-
     return `
       <div class="ids-process-indicator">
         <span class="line">
