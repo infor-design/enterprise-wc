@@ -8,33 +8,32 @@ import {
 
 // Import Mixins
 import {
-  IdsEventsMixin,
   IdsThemeMixin
 } from '../../mixins';
 
 import styles from './ids-process-indicator.scss';
 import IdsProcessStep from './ids-process-step';
 
-// TODO: might not need IdsEventsMixin
-
 /**
  * IDS Process Indicator Component
  * @type {IdsProgressIndicator}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  */
 
 @customElement('ids-process-indicator')
 @scss(styles)
-class IdsProgressIndicator extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsProgressIndicator extends mix(IdsElement).with(IdsThemeMixin) {
   constructor() {
     super();
   }
 
   connectedCallback() {
     super.connectedCallback();
+    this.#calculateProgressLine();
+  }
 
+  #calculateProgressLine() {
     window.requestAnimationFrame(() => {
       const steps = this.querySelectorAll('ids-process-step');
 
@@ -54,7 +53,6 @@ class IdsProgressIndicator extends mix(IdsElement).with(IdsEventsMixin, IdsTheme
 
         const n = lastStatusStep;
         const percent = 100 / (steps.length - 1) * n;
-        console.log('setting percent: ' + percent);
         this.container.querySelector('.progress-line').style.setProperty('--percentEnd', `${percent}%`);
       }
     })
