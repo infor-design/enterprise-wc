@@ -6,6 +6,7 @@
 - [] Trigger an event on the "target" containing a value of some sort (useful for Lookup/etc)
 - [] Disable/Enable all elements within the modal
 - [] Add `keepOpen` behavior to prevent clicking outside to close
+- [] Add breakpoints/"fullsize" support from 4.x
 
 ## Modal Manager (Stack?)
 

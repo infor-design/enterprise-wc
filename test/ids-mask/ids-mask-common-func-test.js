@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import { convertPatternFromString } from '../../src/components/ids-mask/ids-mask-common';
 
 describe('Ids Mask (common API)', () => {

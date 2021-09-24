@@ -95,7 +95,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
             <ids-text class="size">${this.sizeFormatted}</ids-text>
             <ids-button class="btn-close">
               <span slot="text" class="audible">${this.closeButtonText}</span>
-              <ids-icon slot="icon" icon="close" size="small"></ids-icon>
+              <ids-icon slot="icon" icon="close" size="xsmall"></ids-icon>
             </ids-button>
           </div>
           <div class="progress-row">

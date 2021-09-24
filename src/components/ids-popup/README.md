@@ -58,6 +58,76 @@ To create a Popup that appears to align itself against a button, you could do th
 </ids-button>
 ```
 
+### Using Visibility
+
+Display the Popup using the `visible` attribute:
+
+```html
+<ids-popup id="my-popup"  x="10" y="10" align="top, left" alignTarget="#my-button" visible="true">
+    <div slot="content">My Popup</div>
+</ids-popup>
+```
+
+Programatically, you can use the `visible` JS property:
+
+```js
+const popup = document.querySelector('#my-popup');
+popup.visible = true;
+```
+
+... or explicity call `show()` or `hide()` methods:
+
+```js
+const popup = document.querySelector('#my-popup');
+await popup.show();
+
+// close
+await popup.hide();
+```
+
+When the Popup is visible, it's possible to tell the Popup to re-render its position by using `place()`:
+
+```js
+const popup = document.querySelector('#my-popup');
+await popup.place();
+```
+
+### Place
+
+The Popup's coordinates/offsets can be set individually.  The action of using the x/y setters will change the stored position internally, but will not automatically be rendered.  Also, the position will not be rendered if the Popup is not visible.
+
+To intially set a Popup's position, you can use the following:
+
+```js
+const popup = document.querySelector('#my-popup');
+popup.x = 100;
+popup.y = 200;
+await popup.show();
+await popup.place();
+```
+
+It's also possible to set both coordinate values, make the Popup visible, and render the placement in one pass using `setPosition()`:
+
+```js
+const popup = document.querySelector('#my-popup');
+popup.setPosition(100, 200, true, true);
+```
+
+### Position Styles
+
+There are three position styles:
+
+`fixed` - Uses simpler algorithms using `position: fixed;` and ignores container scrolling.
+`absolute` - Uses `position: fixed;` and accounts for container scrolling.
+`viewport` - This ignores the x/y offsets and positions the Popup directly in the middle of the viewport.  This is used for [Modals](../ids-modal/README.md)
+
+### Animation Styles
+
+If the `animated` property is set, the `animation-styles` available are:
+
+- `fade`: animates in/out using a simple fade transition.
+- `scale-in`: Grows in from the center, shrinks out to the center on top of a simple fade transition. This is used on [Modals](../ids-modal/README.md)
+
 ### Using Arrows
 
 Some Popup styles need to "point" at their triggering element for context, such as [Tooltips](../ids-tooltip/README.md).  To create a Popup that uses an arrow, simply tell it which way to point:

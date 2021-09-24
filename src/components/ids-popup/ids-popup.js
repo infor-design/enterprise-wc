@@ -14,7 +14,6 @@ import {
   IdsEventsMixin,
   IdsRenderLoopMixin,
   IdsRenderLoopItem,
-  IdsResizeMixin,
   IdsLocaleMixin,
   IdsThemeMixin
 } from '../../mixins';
@@ -42,7 +41,7 @@ const ANIMATION_STYLES = [
 const ARROW_TYPES = ['none', 'bottom', 'top', 'left', 'right'];
 
 // Position types
-const POSITION_STYLES = ['fixed', 'absolute'];
+const POSITION_STYLES = ['fixed', 'absolute', 'viewport'];
 
 // Types of Popups
 const TYPES = ['none', 'menu', 'menu-alt', 'modal', 'tooltip', 'tooltip-alt', 'custom', 'dropdown'];
@@ -100,7 +99,6 @@ function formatAlignAttribute(alignX, alignY, edge) {
  * @type {IdsPopup}
  * @inherits IdsElement
  * @mixes IdsRenderLoopMixin
- * @mixes IdsResizeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
@@ -111,65 +109,36 @@ function formatAlignAttribute(alignX, alignY, edge) {
 @scss(styles)
 class IdsPopup extends mix(IdsElement).with(
     IdsRenderLoopMixin,
-    IdsResizeMixin,
     IdsEventsMixin,
     IdsLocaleMixin,
     IdsThemeMixin
   ) {
   constructor() {
     super();
-    this.state = {
-      alignEdge: ALIGNMENT_EDGES[0],
-      alignTarget: undefined,
-      alignX: ALIGNMENTS_X[0],
-      alignY: ALIGNMENTS_Y[0],
-      align: 'center',
-      arrow: ARROW_TYPES[0],
-      arrowTarget: null,
-      animated: false,
-      animationStyle: ANIMATION_STYLES[0],
-      bleed: false,
-      containingElem: document.body,
-      positionStyle: POSITION_STYLES[0],
-      visible: false,
-      type: 'none',
-      x: 0,
-      y: 0
-    };
     this.shouldUpdate = false;
   }
 
-  /**
-   * `IdsElement.prototype.connectedCallback` implementation
-   * @returns {void}
-   */
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback?.();
 
     // Always setup link to containing element first
     this.containingElem = IdsDOMUtils.getClosest(this, 'ids-container') || document.body;
 
-    this.animated = this.hasAttribute(attributes.ANIMATED);
-    this.animationStyle = this.getAttribute(attributes.ANIMATION_STYLE) || this.animationStyle;
-    this.#setAnimationStyle(this.animationStyle);
-
-    this.state.type = this.getAttribute(attributes.TYPE) || this.state.type;
-    this.#setPopupTypeClass(this.state.type);
-
-    this.#setPositionStyle(this.state.positionStyle);
-
-    this.state.visible = this.hasAttribute(attributes.VISIBLE);
-
+    // Set inital state and events
+    this.#setInitialState();
     this.shouldUpdate = true;
-    window.requestAnimationFrame(() => {
-      this.refresh();
-    });
+    this.#attachEventHandlers();
 
-    // Respond to parent changing language
-    this.offEvent('languagechange.popup-container');
-    this.onEvent('languagechange.popup-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
+    // Stagger visibility and initial placement, if applicable
+    window.requestAnimationFrame(() => {
+      this.refreshVisibility();
+      this.place();
     });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.#ro.disconnect();
   }
 
   /**
@@ -194,12 +163,114 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * Watches for changes
+   * @property {MutationObserver} mo this Popup component's mutation observer
+   */
+  /* istanbul ignore next */
+  #mo = new MutationObserver((mutations) => {
+    if (this.#visible) {
+      let placed = false;
+      for (const m of mutations) {
+        if (placed) {
+          break;
+        }
+        if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
+          this.place();
+          placed = true;
+        }
+      }
+    }
+  })
+
+  /**
+   * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
+   * coordinate-specific values to the Popup's inner container.
+   * @private
+   * @property {ResizeObserver} mo this Popup component's resize observer
+   */
+  /* istanbul ignore next */
+  #ro = new ResizeObserver((entries) => {
+    if (this.open) {
+      for (const entry of entries) {
+        if (entry.target.tagName.toLowerCase() === 'ids-container') {
+          this.#fixPlacementOnResize();
+        } else {
+          this.#fix3dMatrixOnResize();
+        }
+      }
+    }
+  })
+
+  /**
+   * Places the Popup and performs an adjustment to its `transform: matrix3d()`
+   * CSS property, if applicable.
+   */
+  #fixPlacementOnResize() {
+    /* istanbul ignore next */
+    this.place().then(() => {
+      this.#fix3dMatrixOnResize();
+    });
+  }
+
+  /**
+   * Performs an adjustment to the Popup's `transform: matrix3d()`
+   * CSS property, if applicable.
+   */
+  #fix3dMatrixOnResize() {
+    /* istanbul ignore next */
+    requestAnimationFrame(() => {
+      this.container.style.transition = 'none';
+      this.#remove3dMatrix();
+      requestAnimationFrame(() => {
+        this.#correct3dMatrix();
+        requestAnimationFrame(() => {
+          this.container.style.transition = '';
+        });
+      });
+    });
+  }
+
+  /**
+   * Cycles through all available props and checks the DOM for their presence
+   * @returns {void}
+   */
+  #setInitialState() {
+    POPUP_PROPERTIES.forEach((prop) => {
+      const camelProp = IdsStringUtils.camelCase(prop);
+      this[camelProp] = this.getAttribute(prop) || this[camelProp];
+    });
+  }
+
+  /**
+   * Attaches event handlers for the duration of the lifespan of this component
+   * @returns {void}
+   */
+  #attachEventHandlers() {
+    const containerNode = IdsDOMUtils.getClosest(this, 'ids-container');
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.container');
+    this.onEvent('languagechange.container', containerNode, async (e) => {
+      await this.setLanguage(e.detail.language.name);
+    });
+
+    // Setup Resize Observer
+    this.#ro.observe(this.container);
+    this.#ro.observe(containerNode);
+  }
+
+  /**
    * @readonly
    * @returns {HTMLElement} reference to the `content-wrapper` element
    */
   get wrapper() {
     return this.shadowRoot.querySelector('.content-wrapper');
   }
+
+  /**
+   * @property {HTMLElement} alignTarget acts as the target element to be used for offset placement
+   */
+  #alignTarget = undefined;
 
   /**
    * Sets the element to align with via a css selector
@@ -210,10 +281,10 @@ class IdsPopup extends mix(IdsElement).with(
     const isElem = val instanceof HTMLElement;
 
     if (!isString && !isElem) {
-      if (this.state.alignTarget !== undefined) {
-        this.state.alignTarget = undefined;
+      if (this.#alignTarget !== undefined) {
+        this.#alignTarget = undefined;
         this.removeAttribute(attributes.ALIGN_TARGET);
-        this.refresh();
+        this.#refreshAlignTarget();
       }
       return;
     }
@@ -231,9 +302,9 @@ class IdsPopup extends mix(IdsElement).with(
       elem = val;
     }
 
-    if (!this.state.alignTarget || !this.state.alignTarget.isEqualNode(elem)) {
-      this.state.alignTarget = elem;
-      this.refresh();
+    if (!this.#alignTarget || !this.#alignTarget.isEqualNode(elem)) {
+      this.#alignTarget = elem;
+      this.#refreshAlignTarget();
     }
   }
 
@@ -242,16 +313,38 @@ class IdsPopup extends mix(IdsElement).with(
    * coordinates from for relative placement
    */
   get alignTarget() {
-    return this.state.alignTarget;
+    return this.#alignTarget;
+  }
+
+  #refreshAlignTarget() {
+    if (this.#alignTarget) {
+      this.#mo.observe(this.#alignTarget, {
+        attributes: true,
+        attributeFilter: ['style', 'height', 'width'],
+        attributeOldValue: true,
+        characterData: true,
+        characterDataOldValue: true,
+        childList: true,
+        subtree: true
+      });
+    } else {
+      this.#mo.disconnect();
+    }
+    this.place();
   }
 
   /**
-   * Sets the alignment direction between left, right, top, bottom, center and can be a comma
-   * delimited set of multiple alignment types for example `left, top`
+   * @property {string} align determines the current direction(s) of alignment for the Popup.
+   * Can be left, right, top, bottom, center, and can also be a comma-delimited list of
+   * multiple alignment types (for example: `left, top` or `right, bottom`)
+   */
+  #align = CENTER;
+
+  /**
    * @param {string} val a comma-delimited set of alignment types `direction1, direction2`
    */
   set align(val) {
-    const currentAlign = this.state.align;
+    const currentAlign = this.#align;
     let trueVal = val;
     if (typeof trueVal !== 'string' || !trueVal.length) {
       trueVal = CENTER;
@@ -264,8 +357,8 @@ class IdsPopup extends mix(IdsElement).with(
     // Adust the first value and set it as the "edge"
     const edge = vals[0];
     if (ALIGNMENT_EDGES.includes(edge)) {
-      this.state.alignEdge = edge;
-      vals[0] = this.state.alignEdge;
+      this.#alignEdge = edge;
+      vals[0] = this.#alignEdge;
     }
 
     // If there's no second value, assumxae it's 'center'
@@ -285,23 +378,23 @@ class IdsPopup extends mix(IdsElement).with(
     let attrY;
     if (ALIGNMENTS_X.includes(vals[0])) {
       attrX = vals[0];
-      this.state.alignX = vals[0];
+      this.#alignX = vals[0];
     } else {
       attrX = this.alignX;
     }
     if (ALIGNMENTS_Y.includes(vals[1])) {
       attrY = vals[1];
-      this.state.alignY = vals[1];
+      this.#alignY = vals[1];
     } else {
       attrY = this.alignY;
     }
 
-    const newAlign = formatAlignAttribute(attrX, attrY, this.state.alignEdge);
+    const newAlign = formatAlignAttribute(attrX, attrY, this.#alignEdge);
     const needsUpdatedAlign = currentAlign !== newAlign;
     if (needsUpdatedAlign) {
-      this.state.align = newAlign;
+      this.#align = newAlign;
       this.setAttribute(attributes.ALIGN, newAlign);
-      this.refresh();
+      this.place();
     } else if (!this.hasAttribute('align')) {
       this.setAttribute(attributes.ALIGN, currentAlign);
     }
@@ -311,8 +404,14 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} a DOM-friendly string reprentation of alignment types
    */
   get align() {
-    return this.state.align;
+    return this.#align;
   }
+
+  /**
+   * @property {string} alignX the type of alignment to use on this component's
+   *  X coordinate in relation to a parent element's X coordinate
+   */
+  #alignX = ALIGNMENTS_X[0];
 
   /**
    * Strategy for the parent X alignment (see the ALIGNMENTS_X array)
@@ -333,9 +432,9 @@ class IdsPopup extends mix(IdsElement).with(
       this.removeAttribute(attributes.ALIGN_X);
     }
 
-    if (this.state.alignX !== alignX) {
-      this.state.alignX = alignX;
-      const alignY = this.state.alignY;
+    if (this.#alignX !== alignX) {
+      this.#alignX = alignX;
+      const alignY = this.#alignY;
 
       // Setting the `align` attribute causes a refresh to occur,
       // so no need to call `refresh()` here.
@@ -344,13 +443,22 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Strategy for the parent X alignment ((see the ALIGNMENTS_Y array)
+   * Strategy for the parent X alignment (see the ALIGNMENTS_X array)
    * @returns {string} the strategy to use
    */
   get alignX() {
-    return this.state.alignX;
+    return this.#alignX;
   }
 
+  /**
+   * @property {string} alignY the type of alignment to use on this component's
+   *  Y coordinate in relation to a parent element's Y coordinate
+   */
+  #alignY = ALIGNMENTS_Y[0];
+
+  /**
+   * @param {string} val alignment strategy for the current parent Y alignment
+   */
   set alignY(val) {
     if (typeof val !== 'string' || !val.length) {
       return;
@@ -366,9 +474,9 @@ class IdsPopup extends mix(IdsElement).with(
       this.removeAttribute(attributes.ALIGN_Y);
     }
 
-    if (this.state.alignY !== alignY) {
-      this.state.alignY = alignY;
-      const alignX = this.state.alignX;
+    if (this.#alignY !== alignY) {
+      this.#alignY = alignY;
+      const alignX = this.#alignX;
 
       // Setting the `align` attribute causes a refresh to occur,
       // so no need to call `refresh()` here.
@@ -380,8 +488,13 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} alignment strategy for the current parent Y alignment
    */
   get alignY() {
-    return this.state.alignY;
+    return this.#alignY;
   }
+
+  /**
+   * @property {string} alignEdge the primary edge of a target element to use for its alignment.
+   */
+  #alignEdge = ALIGNMENT_EDGES[0];
 
   /**
    *  Specifies the edge of the parent element to be placed adjacent,
@@ -408,11 +521,11 @@ class IdsPopup extends mix(IdsElement).with(
     }
 
     // Only update if the value has changed
-    if (this.state.alignEdge !== edge) {
+    if (this.#alignEdge !== edge) {
       let alignX = this.alignX;
       let alignY = this.alignY;
 
-      this.state.alignEdge = edge;
+      this.#alignEdge = edge;
 
       // Determine how to format the `align` property.
       // Using `alignEdge === 'center'` is shorthand for automatically centering the component.
@@ -432,7 +545,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} representing the current adjacent edge of the parent element
    */
   get alignEdge() {
-    return this.state.alignEdge;
+    return this.#alignEdge;
   }
 
   /**
@@ -453,49 +566,59 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * @property {boolean} animated true if animation should occur on this component
+   */
+  #animated = false;
+
+  /**
    * Whether or not the component should animate its movement
-   * @param {boolean} val The alignment setting
+   * @param {boolean} val true if animation should occur on the Popup
    */
   set animated(val) {
-    this.state.animated = IdsStringUtils.stringToBool(val);
-    if (this.state.animated) {
-      this.setAttribute(attributes.ANIMATED, true);
-    } else {
-      this.removeAttribute(attributes.ANIMATED);
+    const trueVal = IdsStringUtils.stringToBool(val);
+    if (this.#animated !== trueVal) {
+      this.#animated = trueVal;
+      if (trueVal) {
+        this.setAttribute(attributes.ANIMATED, '');
+      } else {
+        this.removeAttribute(attributes.ANIMATED);
+      }
+      this.#refreshAnimated();
     }
-    this.refresh();
-  }
-
-  get animated() {
-    return this.state.animated;
   }
 
   /**
-   * @readonly
-   * @returns {boolean} true if the Popup is opened and has fully animated into place
+   * @returns {boolean} true if animation will occur on the Popup
    */
-  get animatedOpen() {
-    return this.container.classList.contains('open');
+  get animated() {
+    return this.#animated;
   }
+
+  /**
+   * Refreshes whether or not animations can be applied
+   * @returns {void}
+   */
+  #refreshAnimated() {
+    this.container.classList[this.animated ? 'add' : 'remove']('animated');
+  }
+
+  /**
+   * @property {string} animationStyle the type of alignment to use on this component's
+   *  Y coordinate in relation to a parent element's Y coordinate
+   */
+  #animationStyle = ANIMATION_STYLES[0];
 
   /**
    * @param {string} val the style of animation this popup uses to show/hide
    */
   set animationStyle(val) {
-    let trueVal = ANIMATION_STYLES[0];
-    if (val && ANIMATION_STYLES.includes(val)) {
-      trueVal = val;
-    }
-
-    if (trueVal !== ANIMATION_STYLES[0]) {
-      this.setAttribute(attributes.ANIMATION_STYLE, `${trueVal}`);
+    const currentVal = this.#animationStyle;
+    if (val !== currentVal && ANIMATION_STYLES.includes(val)) {
+      this.#animationStyle = val;
+      this.setAttribute(attributes.ANIMATION_STYLE, val);
+      this.#refreshAnimationStyle(currentVal, val);
     } else {
-      this.removeAttribute(attributes.ANIMATION_STYLE);
-    }
-
-    if (trueVal !== this.state.animationStyle) {
-      this.state.animationStyle = trueVal;
-      this.#setAnimationStyle(trueVal);
+      this.#refreshAnimationStyle('', currentVal);
     }
   }
 
@@ -503,41 +626,40 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} the style of animation this popup uses to show/hide
    */
   get animationStyle() {
-    return this.state.animationStyle;
+    return this.#animationStyle;
   }
 
   /**
    * Changes the CSS class controlling the animation style of the Popup
+   * @param {string} currentStyle the type of animation
    * @param {string} newStyle the type of animation
    * @returns {void}
    */
-  #setAnimationStyle(newStyle) {
+  #refreshAnimationStyle(currentStyle, newStyle) {
     const thisCl = this.container.classList;
-
-    ANIMATION_STYLES.forEach((style) => {
-      const targetClassName = `animation-${style}`;
-
-      if (style !== newStyle && thisCl.contains(targetClassName)) {
-        thisCl.remove(targetClassName);
-      } else if (style === newStyle && !thisCl.contains(targetClassName)) {
-        thisCl.add(targetClassName);
-      }
-    });
+    if (currentStyle) thisCl.remove(`animation-${currentStyle}`);
+    thisCl.add(`animation-${newStyle}`);
   }
+
+  /**
+   * @property {boolean} bleed true if placement logic should allow crossing
+   *  of the defined `containingElem` boundary
+   */
+  #bleed = false;
 
   /**
    * @param {boolean|string} val true if bleeds should be respected by the Popup
    */
   set bleed(val) {
     const trueVal = IdsStringUtils.stringToBool(val);
-    if (this.state.bleed !== trueVal) {
-      this.state.bleed = val;
+    if (this.#bleed !== trueVal) {
+      this.#bleed = val;
       if (trueVal) {
         this.setAttribute(attributes.BLEED, '');
       } else {
         this.removeAttribute(attributes.BLEED);
       }
-      this.refresh();
+      this.place();
     }
   }
 
@@ -545,8 +667,13 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {boolean} true if bleeds are currently being respected by the Popup
    */
   get bleed() {
-    return this.state.bleed;
+    return this.#bleed;
   }
+
+  /**
+   * @property {HTMLElement} containingElem the element to use for containment of the Popup
+   */
+  #containingElem = document.body;
 
   /**
    * @param {HTMLElement} val an element that will appear to "contain" the Popup
@@ -555,9 +682,9 @@ class IdsPopup extends mix(IdsElement).with(
     if (!(val instanceof HTMLElement)) {
       return;
     }
-    if (this.state.containingElem !== val) {
-      this.state.containingElem = val;
-      this.refresh();
+    if (this.#containingElem !== val) {
+      this.#containingElem = val;
+      this.place();
     }
   }
 
@@ -565,8 +692,15 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {HTMLElement} the element currently appearing to "contain" the Popup
    */
   get containingElem() {
-    return this.state.containingElem;
+    return this.#containingElem;
   }
+
+  /**
+   * @property {string} arrow Specifies whether to show the Popup Arrow, and in which direction.
+   * The direction is in relation to the alignment setting. So for example of you align: top
+   * you want arrow: top as well.
+   */
+  #arrow = ARROW_TYPES[0];
 
   /**
    * Specifies whether to show the Popup Arrow, and in which direction.
@@ -575,16 +709,21 @@ class IdsPopup extends mix(IdsElement).with(
    * @param {string|null} val the arrow direction.  Defaults to `none`
    */
   set arrow(val) {
+    const currentVal = this.#arrow;
     let trueVal = ARROW_TYPES[0];
     if (val && ARROW_TYPES.includes(val)) {
       trueVal = val;
     }
-    if (trueVal !== ARROW_TYPES[0]) {
-      this.setAttribute(attributes.ARROW, `${trueVal}`);
-    } else {
-      this.removeAttribute(attributes.ARROW);
+
+    if (trueVal !== currentVal) {
+      this.#arrow = trueVal;
+      if (trueVal !== ARROW_TYPES[0]) {
+        this.setAttribute(attributes.ARROW, `${trueVal}`);
+      } else {
+        this.removeAttribute(attributes.ARROW);
+      }
+      this.#setArrowDirection(currentVal, trueVal);
     }
-    this.#setArrowDirection(this.arrow);
   }
 
   /**
@@ -600,20 +739,16 @@ class IdsPopup extends mix(IdsElement).with(
 
   /**
    * Show/Hide Arrow pointing in a direction, if applicable
-   * @param {string} direction a CSS class representing a Popup Arrow direction
+   * @param {string} currentDir a CSS class representing a Popup Arrow direction
+   * @param {string} newDir a CSS class representing a Popup Arrow direction
    */
-  #setArrowDirection(direction) {
+  #setArrowDirection(currentDir, newDir) {
     const arrowElCl = this.arrowEl.classList;
-    ARROW_TYPES.forEach((type) => {
-      if (type !== 'none' && type !== direction) {
-        arrowElCl.remove(type);
-      }
-    });
+    const isNone = newDir === 'none';
 
-    this.arrowEl.hidden = direction === 'none';
-    if (direction !== 'none' && !arrowElCl.contains(direction)) {
-      arrowElCl.add(direction);
-    }
+    this.arrowEl.hidden = isNone;
+    if (currentDir) arrowElCl.remove(currentDir);
+    if (newDir && !isNone) arrowElCl.add(newDir);
   }
 
   /**
@@ -625,6 +760,11 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * @param {HTMLElement} arrowTarget
+   */
+  #arrowTarget = null;
+
+  /**
    * Sets the element to align with via a css selector
    * @param {any} val ['string|HTMLElement'] a CSS selector string
    */
@@ -633,8 +773,8 @@ class IdsPopup extends mix(IdsElement).with(
     const isElem = val instanceof HTMLElement;
 
     if (!isString && !isElem) {
-      if (this.state.arrowTarget !== undefined) {
-        this.state.arrowTarget = undefined;
+      if (this.#arrowTarget !== undefined) {
+        this.#arrowTarget = undefined;
         this.removeAttribute(attributes.ARROW_TARGET);
       }
       return;
@@ -653,9 +793,9 @@ class IdsPopup extends mix(IdsElement).with(
       elem = val;
     }
 
-    if (!this.state.arrowTarget || !this.state.arrowTarget.isEqualNode(elem)) {
-      this.state.arrowTarget = elem;
-      this.#setArrowDirection(this.arrow);
+    if (!this.#arrowTarget || !this.#arrowTarget.isEqualNode(elem)) {
+      this.#arrowTarget = elem;
+      this.#setArrowDirection('', this.arrow);
     }
   }
 
@@ -664,19 +804,26 @@ class IdsPopup extends mix(IdsElement).with(
    * coordinates from for relative placement
    */
   get arrowTarget() {
-    return this.state.arrowTarget || this.alignTarget;
+    return this.#arrowTarget || this.alignTarget;
   }
+
+  /**
+   * @property {string} positionStyle the method in which the Popup is positioned
+   */
+  #positionStyle = POSITION_STYLES[0];
 
   /**
    * @param {string} val the position style string
    */
   set positionStyle(val) {
-    const currentStyle = this.state.positionStyle;
+    const currentStyle = this.#positionStyle;
     if (val !== currentStyle && POSITION_STYLES.includes(val)) {
-      this.state.positionStyle = val;
-
+      this.#positionStyle = val;
       this.setAttribute(attributes.POSITION_STYLE, val);
-      this.#setPositionStyle(val);
+      this.#refreshPositionStyle(currentStyle, val);
+      this.place();
+    } else {
+      this.#refreshPositionStyle('', currentStyle);
     }
   }
 
@@ -684,37 +831,39 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} the current position style
    */
   get positionStyle() {
-    return this.state.positionStyle;
+    return this.#positionStyle;
   }
 
   /**
    * Changes the CSS class controlling the position style of the Popup
-   * @param {string} newStyle the type of position
+   * @param {string} currentStyle the current position type
+   * @param {string} newStyle the new position type
    * @returns {void}
    */
-  #setPositionStyle(newStyle) {
+  #refreshPositionStyle(currentStyle, newStyle) {
     const thisCl = this.container.classList;
-
-    POSITION_STYLES.forEach((style) => {
-      const targetClassName = `position-${style}`;
-
-      if (style !== newStyle && thisCl.contains(targetClassName)) {
-        thisCl.remove(targetClassName);
-      } else if (style === newStyle && !thisCl.contains(targetClassName)) {
-        thisCl.add(targetClassName);
-      }
-    });
+    if (currentStyle) thisCl.remove(`position-${currentStyle}`);
+    thisCl.add(`position-${newStyle}`);
   }
 
   /**
-   * The style of popup to use between 'none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'
+   * @property {number} type The style of popup to display.
+   * Can be 'none', 'menu', 'menu-alt', 'tooltip', 'tooltip-alt'
+   */
+  #type = TYPES[0]; // 'none'
+
+  /**
    * @param {string} val The popup type
    */
   set type(val) {
-    if (val && this.state.type !== val && TYPES.includes(val)) {
-      this.state.type = val;
-      this.setAttribute(attributes.TYPE, this.state.type);
-      this.#setPopupTypeClass(this.state.type);
+    const currentVal = this.#type;
+    if (val && currentVal !== val && TYPES.includes(val)) {
+      this.#type = val;
+      this.setAttribute(attributes.TYPE, this.#type);
+      this.#refreshPopupTypeClass(currentVal, val);
+      this.place();
+    } else {
+      this.#refreshPopupTypeClass('', currentVal);
     }
   }
 
@@ -722,23 +871,29 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {string} the type assigned to the Popup
    */
   get type() {
-    return this.state.type;
+    return this.#type;
   }
 
   /**
+   * @param {string} currentType the current type CSS class to remove
    * @param {string} newType the new type CSS class to apply
    * @returns {void}
    */
-  #setPopupTypeClass(newType) {
+  #refreshPopupTypeClass(currentType, newType) {
     const thisCl = this.container.classList;
-    TYPES.forEach((type) => {
-      if (type !== newType && thisCl.contains(type)) {
-        thisCl.remove(type);
-      } else if (type === newType && !thisCl.contains(type)) {
-        thisCl.add(type);
-      }
-    });
+    if (currentType) thisCl.remove(currentType);
+    thisCl.add(newType);
   }
+
+  /**
+   * @property {boolean} open true if the Popup is not only visible, but also fully-animated open
+   */
+  open = false;
+
+  /**
+   * @property {boolean} visible true if the Popup should be visible
+   */
+  #visible = false;
 
   /**
    * Whether or not the component should be displayed
@@ -746,20 +901,42 @@ class IdsPopup extends mix(IdsElement).with(
    */
   set visible(val) {
     const trueVal = IdsStringUtils.stringToBool(val);
-    if (this.state.visible !== trueVal) {
-      this.state.visible = trueVal;
+    if (this.#visible !== trueVal) {
+      this.#visible = trueVal;
       if (trueVal) {
-        this.setAttribute(attributes.VISIBLE, true);
+        this.setAttribute(attributes.VISIBLE, '');
       } else {
         this.removeAttribute(attributes.VISIBLE);
       }
-      this.refresh();
+      this.refreshVisibility();
     }
   }
 
   get visible() {
-    return this.state.visible;
+    return this.#visible;
   }
+
+  /**
+   * Runs the show/hide routines of the Popup based on current visiblity state.
+   * @async
+   * @returns {Promise} from the show/hide process
+   */
+  async refreshVisibility() {
+    const cl = this.container.classList;
+    if (this.#visible && !cl.contains('open')) {
+      return this.show();
+    }
+    if (!this.#visible && cl.contains('visible')) {
+      return this.hide();
+    }
+    return new Promise((resolve) => { resolve(); });
+  }
+
+  /**
+   * @property {number} x represents the X coordinate if placed via coordinates,
+   * or the X offset when placed in relation to a parent element.
+   */
+  #x = 0;
 
   /**
    * Sets the X (left) coordinate of the Popup
@@ -771,16 +948,21 @@ class IdsPopup extends mix(IdsElement).with(
       trueVal = 0;
     }
 
-    if (trueVal !== this.state.x) {
-      this.state.x = trueVal;
+    if (trueVal !== this.#x) {
+      this.#x = trueVal;
       this.setAttribute(attributes.X, trueVal.toString());
-      this.refresh();
     }
   }
 
   get x() {
-    return this.state.x;
+    return this.#x;
   }
+
+  /**
+   * @property {number} y represents the Y coordinate if placed via coordinates,
+   * or the Y offset when placed in relation to a parent element.
+   */
+  #y = 0;
 
   /**
    * Sets the Y (top) coordinate of the Popup
@@ -792,82 +974,53 @@ class IdsPopup extends mix(IdsElement).with(
       trueVal = 0;
     }
 
-    if (trueVal !== this.state.y) {
-      this.state.y = trueVal;
+    if (trueVal !== this.#y) {
+      this.#y = trueVal;
       this.setAttribute(attributes.Y, trueVal.toString());
-      this.refresh();
     }
   }
 
   get y() {
-    return this.state.y;
+    return this.#y;
   }
 
   /**
-   * Calculates the current placement of the Popup
+   * Sets an X/Y position and optionally shows/places the Popup
+   * @async
+   * @param {number} x the x coordinate/offset value
+   * @param {number} y the y coordinate/offset value
+   * @param {boolean} doShow true if the Popup should be displayed before placing
+   * @param {boolean} doPlacement true if the component should run its placement routine
    */
-  refresh() {
-    if (!this.shouldUpdate) {
-      return;
-    }
+  async setPosition(x = null, y = null, doShow = null, doPlacement = null) {
+    if (!Number.isNaN(x)) this.x = x;
+    if (!Number.isNaN(y)) this.y = y;
+    if (doShow) this.visible = true;
+    if (doPlacement) await this.place();
+  }
 
-    // Attach to the global ResizeObserver
-    // (this doesn't need updating)
-    /* istanbul ignore next */
-    if (this.shouldResize()) {
-      this.addObservedElement(this.resizeDetectionTarget());
-    }
+  /**
+   * Shows the Popup
+   * @async
+   * @returns {Promise} resolved once showing and animating the Popup is completed.
+   */
+  async show() {
+    return new Promise((resolve, reject) => {
+      if (!this.visible) {
+        reject(new Error('Cannot show the modal if the `visible` setting is false'));
+        return;
+      }
 
-    // Make the popup actually render before doing placement calcs
-    if (this.state.visible) {
       this.container.classList.add('visible');
-    } else {
-      this.container.classList.remove('open');
-    }
 
-    // Show/Hide Arrow class, if applicable
-    this.#setArrowDirection(this.arrow);
-
-    // If no alignment target is present, do a simple x/y coordinate placement.
-    const { alignTarget } = this;
-    if (!alignTarget) {
-      // Remove an established MutationObserver if one exists.
-      if (this.hasMutations) {
-        this.mo?.disconnect();
-        this.disconnectDetectMutations();
-        delete this.hasMutations;
+      // Adds a RenderLoop-staggered check for whether to show the Popup.
+      if (this.openCheck) {
+        this.openCheck.destroy(true);
       }
-      if (this.visible) {
-        this.placeAtCoords();
-      }
-    } else {
-      // connect the alignTarget to the global MutationObserver, if applicable.
-      if (this.shouldDetectMutations() && !this.hasMutations) {
-        this.mo.observe(this.alignTarget, {
-          attributes: true,
-          attributeFilter: ['style', 'height', 'width'],
-          attributeOldValue: true,
-          subtree: true
-        });
-        this.hasMutations = true;
-      }
-      if (this.visible) {
-        this.placeAgainstTarget();
-      }
-    }
 
-    // Adds a RenderLoop-staggered check for whether to show the Popup.
-    if (this.openCheck) {
-      this.openCheck.destroy(true);
-    }
-
-    this.openCheck = this.rl.register(new IdsRenderLoopItem({
-      duration: 70,
-      timeoutCallback: () => {
-        if (this.state.visible) {
-          // If an arrow is displayed, place it correctly.
-          this.placeArrow();
-
+      this.openCheck = this.rl.register(new IdsRenderLoopItem({
+        duration: 70,
+        timeoutCallback: () => {
           // Always fire the 'show' event
           this.triggerEvent('show', this, {
             bubbles: true,
@@ -880,21 +1033,43 @@ class IdsPopup extends mix(IdsElement).with(
           if (this.isFlipped) {
             this.container.classList.add('flipped');
           }
-        }
-        if (!this.state.animated && this.container.classList.contains('animated')) {
-          this.container.classList.remove('animated');
-        }
-      }
-    }));
+          this.place().then(() => {
+            // If an arrow is displayed, place it correctly.
+            this.#setArrowDirection('', this.arrow);
+            this.placeArrow();
 
-    // Adds another RenderLoop-staggered check for whether to hide the Popup.
-    if (this.animatedCheck) {
-      this.animatedCheck.destroy(true);
-    }
-    this.animatedCheck = this.rl.register(new IdsRenderLoopItem({
-      duration: 200,
-      timeoutCallback: () => {
-        if (!this.state.visible) {
+            this.#correct3dMatrix();
+            this.open = true;
+            resolve();
+          });
+        }
+      }));
+    });
+  }
+
+  /**
+   * Hides the Popup
+   * @async
+   * @returns {Promise} resolved once hiding and animating the Popup is completed.
+   */
+  async hide() {
+    return new Promise((resolve, reject) => {
+      if (this.visible) {
+        reject(new Error('Cannot hide the modal if the `visible` setting is true'));
+        return;
+      }
+
+      this.open = false;
+      this.#remove3dMatrix();
+      this.container.classList.remove('open');
+
+      // Adds another RenderLoop-staggered check for whether to hide the Popup.
+      if (this.closedCheck) {
+        this.closedCheck.destroy(true);
+      }
+      this.closedCheck = this.rl.register(new IdsRenderLoopItem({
+        duration: 200,
+        timeoutCallback: () => {
           // Always fire the 'hide' event
           this.triggerEvent('hide', this, {
             bubbles: true,
@@ -902,22 +1077,42 @@ class IdsPopup extends mix(IdsElement).with(
               elem: this
             }
           });
-          // Remove the `visible` class if its there
-          if (this.container.classList.contains('visible')) {
-            this.container.classList.remove('visible');
-          }
+
           // Remove the `flipped` class if its there
           /* istanbul ignore next */
           if (this.isFlipped) {
             this.container.classList.remove('flipped');
             this.isFlipped = false;
           }
+
+          this.container.classList.remove('visible');
+          resolve();
         }
-        if (this.state.animated && !this.container.classList.contains('animated')) {
-          this.container.classList.add('animated');
+      }));
+    });
+  }
+
+  /**
+   * Runs the configured placement routine for the Popup
+   * @async
+   * @returns {Promise} resolved once placement has finished
+   */
+  async place() {
+    return new Promise((resolve) => {
+      if (this.visible) {
+        if (this.positionStyle === 'viewport') {
+          this.#placeInViewport();
+        } else {
+          const { alignTarget } = this;
+          if (!alignTarget) {
+            this.#placeAtCoords();
+          } else {
+            this.#placeAgainstTarget();
+          }
         }
+        resolve();
       }
-    }));
+    });
   }
 
   /**
@@ -925,7 +1120,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  placeAtCoords() {
+  #placeAtCoords() {
     let popupRect = this.container.getBoundingClientRect();
     let x = this.x;
     let y = this.y;
@@ -959,7 +1154,7 @@ class IdsPopup extends mix(IdsElement).with(
     // If the Popup bleeds off the viewport, nudge it back into full view
     popupRect = this.#nudge(popupRect);
 
-    this.#renderPlacement(popupRect);
+    this.#renderPlacementInPixels(popupRect);
   }
 
   /**
@@ -969,7 +1164,7 @@ class IdsPopup extends mix(IdsElement).with(
    *  alignment edge than the one defined on the component
    * @returns {void}
    */
-  placeAgainstTarget(targetAlignEdge) {
+  #placeAgainstTarget(targetAlignEdge) {
     let x = this.x;
     let y = this.y;
     this.container.classList.remove('flipped');
@@ -1056,7 +1251,7 @@ class IdsPopup extends mix(IdsElement).with(
     // If neither side will properly fit the popup, the popup will shrink to fit
     /* istanbul ignore next */
     if (this.#shouldFlip(popupRect) && !targetAlignEdge) {
-      this.placeAgainstTarget(this.oppositeAlignEdge);
+      this.#placeAgainstTarget(this.oppositeAlignEdge);
       this.isFlipped = true;
       return;
     }
@@ -1067,9 +1262,18 @@ class IdsPopup extends mix(IdsElement).with(
     // If the popup was previously flipped, also flip the arrow alignment
     /* istanbul ignore if */
     if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
-      this.#setArrowDirection(this.oppositeAlignEdge);
+      this.#setArrowDirection('', this.oppositeAlignEdge);
     }
-    this.#renderPlacement(popupRect);
+
+    this.#renderPlacementInPixels(popupRect);
+  }
+
+  /**
+   * Places the Popup in relation to the center of the viewport
+   * @returns {void}
+   */
+  #placeInViewport() {
+    this.#renderPlacementWithTransform();
   }
 
   /**
@@ -1170,13 +1374,74 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
-   * Renders the position of the Popup.
+   * Renders the position of the Popup using offsets/coordinates in Pixels.
    * @param {DOMRect} popupRect representing approximated new placement values
    * @returns {void}
    */
-  #renderPlacement(popupRect) {
+  #renderPlacementInPixels(popupRect) {
     this.container.style.left = `${popupRect.x}px`;
     this.container.style.top = `${popupRect.y}px`;
+  }
+
+  /**
+   * Renders the position of the Popup with CSS transforms (applied mostly with CSS).
+   * See the IdsPopup CSS styles for the `animation-style-*` classes for modifying the Transform values.
+   * @returns {void}
+   */
+  #renderPlacementWithTransform() {
+    this.container.style.left = `50%`;
+    this.container.style.top = `50%`;
+  }
+
+  /**
+   * In cases where 3D CSS transforms are used for Popup positioning,
+   * corrects the placement of the Popup after rendering so that it doesn't
+   * reside on half-pixels, causing blurriness to text, icons, etc.
+   * Adapted from https://stackoverflow.com/a/42256897
+   * @returns {void}
+   */
+  #correct3dMatrix() {
+    if (this.positionStyle !== 'viewport') {
+      return;
+    }
+
+    // Resets the redifined matrix to allow recalculation.
+    // The original style should be defined in the animation-style class, not inline.
+    this.#remove3dMatrix();
+
+    /* istanbul ignore next */
+    requestAnimationFrame(() => {
+      // gets the current computed style
+      const style = window.getComputedStyle(this.container, null);
+      const mx = style.getPropertyValue('-webkit-transform')
+        || style.getPropertyValue('-moz-transform')
+        || style.getPropertyValue('transform') || false;
+      if (!mx) {
+        return;
+      }
+
+      // Corrects `matrix3d` coordinate values to be whole numbers
+      const values = mx.replace(/ |\(|\)|matrix3d/g, '').split(',');
+      for (let i = 0; i < values.length; i++) {
+        if (i === 0 && values[i] < 1) values[i] = 1;
+        if (i > 0 && (values[i] > 4 || values[i] < -4)) {
+          values[i] = Math.ceil(values[i]);
+        }
+        if (i === values.length - 1 && values[i] > 1) {
+          values[i] = 1;
+        }
+      }
+
+      this.container.style.transform = `matrix3d(${values.join()})`;
+    });
+  }
+
+  /**
+   * Removes a previously-modified 3D Matrix
+   * @returns {void}
+   */
+  #remove3dMatrix() {
+    this.container.style.transform = '';
   }
 
   /**

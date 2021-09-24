@@ -1,3 +1,6 @@
+/**
+ * @jest-environment jsdom
+ */
 import MaskAPI from '../../src/components/ids-mask/ids-mask-api';
 import { numberMask } from '../../src/components/ids-mask/ids-masks';
 

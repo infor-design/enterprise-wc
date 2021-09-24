@@ -75,3 +75,9 @@
   top: 3px;
   right: 3px;
 }
+
+// Cancels out a border style applied by IdsModal
+// (not needed since buttons are aligned differently here)
+::slotted([slot='buttons']:not(:first-of-type)) {
+  border-left: transparent;
+}
