@@ -16,20 +16,20 @@ ids-input::part(container) {
 }
 
 .ids-search-field {
-  .search-icon {
+  ids-icon.search-icon {
     @include ml-8();
   }
 
   &.color-variant-alternate {
-    ids-input::part(input) {
-      @include text-white();
-    }
-
     ids-trigger-field::part(content) {
       @include border-none();
 
       background-color: rgba(71, 71, 76, 0.3);
       border-bottom: 1px solid rgba(62, 62, 66, 0.7);
+    }
+
+    ids-icon {
+      color: rgba(255, 255, 255, 0.7);
     }
   }
 }

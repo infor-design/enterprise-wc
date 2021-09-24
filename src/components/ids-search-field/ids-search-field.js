@@ -98,7 +98,8 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
         >
           <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
           <ids-input
-            ${!this.readyonly && !this.disabled && 'clearable'}
+            color-variant="${this.colorVariant}"
+            ${!this.readonly && !this.disabled && 'clearable'}
             ${this.readonly && 'readonly'}
             value="${this.value}"
             placeholder="${this.placeholder}"
@@ -106,6 +107,15 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
           </ids-input>
       </div>
     `;
+  }
+
+  set colorVariant(value) {
+    super.colorVariant = value;
+    this.container.querySelector('ids-input').colorVariant = value;
+  }
+
+  get colorVariant() {
+    return super.colorVariant;
   }
 
   /**
