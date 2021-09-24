@@ -57,9 +57,21 @@ export default class IdsPopup extends IdsElement {
   /** Set the theme version */
   version: 'new' | 'classic' | string;
 
-  /** Calculates the current placement of the Popup */
-  refresh(): void;
+  /** Animates closed the Popup */
+  hide(): void;
+
+  /** Runs the correct routine for setting the Popup's location */
+  place(): Promise<string>;
 
   /** Places the arrow */
   placeArrow(): void;
+
+  /** Calculates the current placement of the Popup */
+  refresh(): void;
+
+  /** Sets both coordinates/offsets and changes visibility/location in a single pass */
+  setPosition(x: number, y: number, doShow: boolean, doPlace: boolean): void;
+
+  /** Animates open the Popup */
+  show(): void;
 }

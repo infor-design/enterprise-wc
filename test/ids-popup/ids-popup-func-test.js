@@ -1,6 +1,9 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+import wait from '../helpers/wait';
+
 import IdsPopup from '../../src/components/ids-popup';
 import IdsContainer from '../../src/components/ids-container';
 
@@ -95,7 +98,6 @@ describe('IdsPopup Component', () => {
     const c = popup.container;
     const originalGetBoundingClientRect = c.getBoundingClientRect;
     popup.bleed = true;
-    popup.visible = true;
 
     // Basic coord alignment (center/center against the point, for modals)
     c.getBoundingClientRect = jest.fn(() => ({
@@ -111,10 +113,7 @@ describe('IdsPopup Component', () => {
 
     // Set values first, then put them back to zero
     // (setting 0 initially would not cause a refresh -- 0 is the value by default)
-    popup.x = 1;
-    popup.y = 1;
-    popup.x = 0;
-    popup.y = 0;
+    popup.setPosition(0, 0, true, true);
 
     expect(popup.container.style.left).toEqual('-50px');
     expect(popup.container.style.top).toEqual('-50px');
@@ -251,7 +250,7 @@ describe('IdsPopup Component', () => {
     popup.y = 50;
 
     expect(popup.container.style.left).toEqual('275px');
-    expect(popup.container.style.top).toEqual('400px');
+    expect(popup.container.style.top).toEqual('350px');
 
     // Reset and test bottom,right alignment
     // (Uses `bottom` as the edge, `right` as secondary border alignment)
@@ -271,22 +270,22 @@ describe('IdsPopup Component', () => {
     // Use the X attribute as an offset
     popup.x = 50;
 
-    expect(popup.container.style.left).toEqual('400px');
+    expect(popup.container.style.left).toEqual('350px');
     expect(popup.container.style.top).toEqual('250px');
 
     // Add a Y offset for fun
     popup.y = 50;
 
-    expect(popup.container.style.left).toEqual('400px');
-    expect(popup.container.style.top).toEqual('300px');
+    expect(popup.container.style.left).toEqual('350px');
+    expect(popup.container.style.top).toEqual('250px');
 
     // Remove the offsets and flip to the opposite alignment
     popup.align = 'top, left';
     popup.x = 0;
     popup.y = 0;
 
-    expect(popup.container.style.left).toEqual('300px');
-    expect(popup.container.style.top).toEqual('200px');
+    expect(popup.container.style.left).toEqual('350px');
+    expect(popup.container.style.top).toEqual('150px');
 
     // Switch edge/secondary
     // (Uses `right` as the edge, `bottom` as secondary border alignment)
@@ -450,11 +449,11 @@ describe('IdsPopup Component', () => {
   it('will not set non-numeric values as x/y numbers', () => {
     popup.x = 'tree';
 
-    expect(popup.state.x).toEqual(0);
+    expect(popup.x).toEqual(0);
 
     popup.y = 'tree';
 
-    expect(popup.state.y).toEqual(0);
+    expect(popup.y).toEqual(0);
   });
 
   it('should autocorrect some alignment definitions to become their shorthand values', () => {
@@ -603,26 +602,28 @@ describe('IdsPopup Component', () => {
     expect(popup.positionStyle).toBe('fixed');
     expect(popup.container.classList.contains('position-fixed')).toBeTruthy();
 
+    popup.positionStyle = 'viewport';
+
+    expect(popup.positionStyle).toBe('viewport');
+    expect(popup.container.classList.contains('position-viewport')).toBeTruthy();
+
     // Can't set a junk value
     popup.positionStyle = 'not-real';
 
-    expect(popup.positionStyle).toBe('fixed');
-    expect(popup.container.classList.contains('position-fixed')).toBeTruthy();
+    expect(popup.positionStyle).toBe('viewport');
+    expect(popup.container.classList.contains('position-viewport')).toBeTruthy();
   });
 
-  it('can enable/disable visibility', (done) => {
+  it('can enable/disable visibility', async () => {
     popup.visible = true;
+    popup.show();
+    await wait(200);
+    expect(popup.container.classList.contains('visible')).toBeTruthy();
 
-    setTimeout(() => {
-      expect(popup.animatedOpen).toBeTruthy();
-      expect(popup.container.classList.contains('visible')).toBeTruthy();
-      popup.visible = false;
-
-      setTimeout(() => {
-        expect(popup.container.classList.contains('visible')).toBeFalsy();
-        done();
-      }, 300);
-    }, 300);
+    popup.visible = false;
+    popup.hide();
+    await wait(300);
+    expect(popup.container.classList.contains('visible')).toBeFalsy();
   });
 
   it('can enable/disable container bleed', () => {
@@ -643,12 +644,12 @@ describe('IdsPopup Component', () => {
 
     popup.containingElem = containerDiv;
 
-    expect(popup.state.containingElem.isEqualNode(containerDiv)).toBeTruthy();
+    expect(popup.containingElem.isEqualNode(containerDiv)).toBeTruthy();
 
     // Can't set anything but HTMLElement types (everything else is ignored)
     popup.containingElem = [];
 
-    expect(popup.state.containingElem.isEqualNode(containerDiv)).toBeTruthy();
+    expect(popup.containingElem.isEqualNode(containerDiv)).toBeTruthy();
   });
 
   it('will not bleed beyond a container boundary', () => {
@@ -849,5 +850,31 @@ describe('IdsPopup Component', () => {
     setTimeout(() => {
       expect(popup.getAttribute('language')).toEqual('de');
     });
+  });
+
+  // Coverage
+  it('can use "setPosition" without changing coordinates', async () => {
+    await popup.setPosition(NaN, NaN, true, true);
+    expect(popup.visible).toBeTruthy();
+  });
+
+  it('will not "show()" unless visiblity is enabled', async () => {
+    try {
+      await popup.show();
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
+
+  it('will not "hide() unless visibility is disabled', async () => {
+    popup.visible = true;
+    popup.show();
+    await wait(200);
+
+    try {
+      await popup.hide();
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
   });
 });

@@ -208,8 +208,9 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     // Hide any "open" submenus (in the event the menu is already open and being positioned)
     this.hideSubmenus();
 
-    // Show this popup
+    // Show the popup and do placement
     this.popup.visible = true;
+    this.popup.place();
 
     this.addOpenEvents();
   }
@@ -272,8 +273,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
   onContextMenu(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.popup.x = e.pageX;
-    this.popup.y = e.pageY;
+    this.popup.setPosition(e.pageX, e.pageY);
     this.show();
   }
 

@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+
 import IdsToolbar, {
   IdsToolbarSection,
   IdsToolbarMoreActions

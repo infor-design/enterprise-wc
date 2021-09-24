@@ -18,23 +18,35 @@ const IdsPopupOpenEventsMixin = (superclass) => class extends IdsEventsMixin(sup
   hasOpenEvents = false;
 
   /**
+   * @property {HTMLElement} popupOpenEventsTarget receives the top-level event listener
+   *  that will cause the `onOutsideClick` callback to fire
+   */
+  popupOpenEventsTarget = document.body;
+
+  /**
+   * @property {HTMLElement|null} currentPopupOpenEventsTarget stores a reference to the event
+   *  target to be used for unbinding events (prevents memory leaks if the
+   *  event target changes while the Popup is open)
+   */
+  #currentPopupOpenEventsTarget = null;
+
+  /**
    * Attaches some events when the Popupmenu is opened.
    * Call this method from inside your extended component whenever "open" events should be applied.
    * @returns {void}
    */
   addOpenEvents() {
-    // These event listeners are added on a repaint to provide time.
-    // for the Popup's triggering event to end
     window.requestAnimationFrame(() => {
       // Attach a click handler to the window for detecting clicks outside the popup.
       // If these aren't captured by a popup, the menu will close.
-      this.onEvent('click.toplevel', window, (e) => {
+      this.onEvent('click.toplevel', this.popupOpenEventsTarget, (e) => {
         /* istanbul ignore next */
         if (typeof this.onOutsideClick === 'function') {
           this.onOutsideClick(e);
         }
       });
       this.hasOpenEvents = true;
+      this.#currentPopupOpenEventsTarget = this.popupOpenEventsTarget;
     });
   }
 
@@ -47,8 +59,9 @@ const IdsPopupOpenEventsMixin = (superclass) => class extends IdsEventsMixin(sup
     if (!this.hasOpenEvents) {
       return;
     }
-    this.offEvent('click.toplevel', window);
+    this.offEvent('click.toplevel', this.#currentPopupOpenEventsTarget);
     this.hasOpenEvents = false;
+    this.#currentPopupOpenEventsTarget = null;
   }
 };
 
