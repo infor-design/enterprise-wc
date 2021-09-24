@@ -25,7 +25,8 @@ const sizes = {
   large: 24,
   normal: 18,
   medium: 18,
-  small: 10
+  small: 14,
+  xsmall: 10
 };
 
 /**
