@@ -4,7 +4,7 @@
 
 - [x] Alternate Row Shading
 - [x] Sorting
-- [] Editing see (example)[https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html]
+- [] Editing see [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html)
 - [] Selection
 - [] Paging
 - [] Hidden Columns
@@ -18,9 +18,9 @@
 - [] Editors / Editing / Dirty
 - [] Fixed header
 - [] Frozen Columns
-- [] Keyboard Navigation see (standards)[https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids] (actionable mode, X cell navigation, X row navigation)
+- [] Keyboard Navigation see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, X cell navigation, X row navigation)
 - [] Check all current options
-- [] More Accessibility see (standards)[https://design.infor.com/code/ids-enterprise/latest/listview#accessibility]
+- [] More Accessibility see [standards](https://design.infor.com/code/ids-enterprise/latest/listview#accessibility)
 
 ## Tier Two
 
