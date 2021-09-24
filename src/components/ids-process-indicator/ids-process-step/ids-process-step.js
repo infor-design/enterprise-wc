@@ -8,27 +8,24 @@ import {
 
 // Import Mixins
 import {
-  IdsEventsMixin,
   IdsThemeMixin
 } from '../../../mixins';
 
 import styles from './ids-process-step.scss';
 
-// TODO: might not need IdsEventsMixin
 const statuses = ['cancelled', 'started', 'done'];
 
 /**
  * IDS Process Step Component
  * @type {IdsProcessStep}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part label
  */
 
 @customElement('ids-process-step')
 @scss(styles)
-class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsProcessStep extends mix(IdsElement).with(IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -43,7 +40,6 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
    */
   static get attributes() {
     return [
-      ...super.attributes,
       attributes.LABEL,
       attributes.STATUS,
     ];
@@ -85,7 +81,9 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
     this.setString(attributes.LABEL, value);
   }
 
-  get label() { return this.getString(attributes.LABEL); }
+  get label() {
+    return this.getString(attributes.LABEL);
+  }
 
   /**
    * Sets the status for the step which determines the icon
@@ -126,7 +124,9 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
     }
   }
 
-  get status() { return this.getString(attributes.STATUS, ''); }
+  get status() {
+    return this.getString(attributes.STATUS, '');
+  }
 }
 
 export default IdsProcessStep;
