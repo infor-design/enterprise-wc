@@ -16,6 +16,8 @@ Indicates the process of an activity over a timeline with process steps showing 
 
 None, but utilizes the child component (IDS Process Step)[./ids-process-step/README.md] which has `label` and `status` attribute.
 
+The colored process line will draw to the farthest process step with a non-null status.
+
 ## Features (With Code Samples)
 
 A simple process indicator with 3 process steps
