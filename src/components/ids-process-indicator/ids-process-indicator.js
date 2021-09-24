@@ -15,14 +15,14 @@ import IdsProcessStep from './ids-process-step';
 
 /**
  * IDS Process Indicator Component
- * @type {IdsProgressIndicator}
+ * @type {IdsProcessIndicator}
  * @inherits IdsElement
  * @mixes IdsThemeMixin
  */
 
 @customElement('ids-process-indicator')
 @scss(styles)
-class IdsProgressIndicator extends mix(IdsElement).with(IdsThemeMixin) {
+class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
   constructor() {
     super();
   }
@@ -77,4 +77,4 @@ class IdsProgressIndicator extends mix(IdsElement).with(IdsThemeMixin) {
   }
 }
 
-export default IdsProgressIndicator;
+export default IdsProcessIndicator;
