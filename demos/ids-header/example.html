@@ -12,7 +12,6 @@
       <ids-text font-size="14" color-variant="alternate">With some extra information below</ids-text>
     </ids-toolbar-section>
     <ids-toolbar-section type="buttonset" align="end">
-      <ids-search-field color-variant="alternate" label=""></ids-search-field>
       <ids-button id="button-1" role="button" color-variant="alternate">
         <span slot="text">Text</span>
       </ids-button>
@@ -46,6 +45,29 @@
         <span slot="text" class="audible">Trash</span>
         <ids-icon slot="icon" icon="delete"></ids-icon>
       </ids-button>
+    </ids-toolbar-section>
+    <ids-theme-switcher mode="light" version="new" color-variant="alternate"></ids-theme-switcher>
+  </ids-toolbar>
+</ids-header>
+
+<br></br>
+
+<ids-text font-size="12" type="h1">Ids Header with Search Field:</ids-text>
+<br></br>
+
+<ids-header>
+  <ids-toolbar>
+    <ids-toolbar-section>
+      <ids-button icon="menu" role="button" color-variant="alternate">
+        <span slot="text" class="audible">Application Menu Trigger</span>
+      </ids-button>
+    </ids-toolbar-section>
+    <ids-toolbar-section type="title">
+      <ids-text font-size="20" color-variant="alternate">My Header</ids-text>
+      <ids-text font-size="14" color-variant="alternate">With some extra information below</ids-text>
+    </ids-toolbar-section>
+    <ids-toolbar-section align="end">
+      <ids-search-field color-variant="alternate" label=""></ids-search-field>
     </ids-toolbar-section>
     <ids-theme-switcher mode="light" version="new" color-variant="alternate"></ids-theme-switcher>
   </ids-toolbar>
