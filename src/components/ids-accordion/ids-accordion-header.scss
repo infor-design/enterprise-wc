@@ -25,6 +25,8 @@
 }
 
 :host {
+  contain: content;
+
   &:focus {
     @include shadow();
     @include outline-none();

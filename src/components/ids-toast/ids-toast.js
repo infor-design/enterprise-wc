@@ -213,8 +213,6 @@ class IdsToast extends mix(IdsElement).with(
       toastContainer.setAttribute('disabled', 'true');
       toastContainer.classList.add('toast-container', this.position);
       this.container.appendChild(toastContainer);
-
-      // this.shadowRoot.insertBefore(toastContainer, this.shadowRoot.firstChild);
     }
     return toastContainer;
   }

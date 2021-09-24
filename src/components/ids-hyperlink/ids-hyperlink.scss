@@ -11,6 +11,7 @@
   @include mb-8();
 
   border: 1px solid transparent;
+  contain: content;
   display: inline-block;
   margin: -4px;
 

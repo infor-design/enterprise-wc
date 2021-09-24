@@ -14,13 +14,8 @@ import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-ite
 import { IdsStringUtils as stringUtils } from '../utils';
 
 /**
- * Simple dictionary used to memoize attribute names
- * to their corresponding property names
- *
- * Prepopulates with attribs stored in ids-constants,
- * but may have other non-standard attrib names added
- * that are not specified
- *
+ * Simple dictionary used to cache attribute names
+ * to their corresponding property names.
  * @type {object.<string, string>}
  */
 const attribPropNameDict = Object.fromEntries(
@@ -181,7 +176,7 @@ class IdsElement extends HTMLElement {
 
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
     if (this.shadowRoot?.firstElementChild.nodeName === 'STYLE' && !this.container) {
-      this.container = this.shadowRoot?.firstElementChild.nextSibling;
+      this.container = this.shadowRoot?.firstElementChild.nextElementSibling;
     }
 
     if (this.shadowRoot?.firstElementChild.nodeName !== 'STYLE' && !this.container) {
@@ -193,9 +188,7 @@ class IdsElement extends HTMLElement {
       renderLoop.register(new IdsRenderLoopItem({
         duration: 1,
         timeoutCallback: () => {
-          if (this.rendered) {
-            this.rendered();
-          }
+          this.rendered();
         }
       }));
     }
@@ -242,6 +235,7 @@ class IdsElement extends HTMLElement {
     const style = document.createElement('style');
     style.textContent = this.cssStyles;
     style.setAttribute('nonce', this.nonce);
+
     this.shadowRoot?.appendChild(style);
     this.hasStyles = true;
   }

@@ -11,6 +11,7 @@
   // Default color is inherited from IdsContainer,
   // or from a wrapper element style
   color: currentColor;
+  contain: content;
 
   // Other defaults
   font-size: 16px;

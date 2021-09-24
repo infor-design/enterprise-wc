@@ -329,7 +329,11 @@ class IdsDataGrid extends mix(IdsElement).with(
     let css = '';
     let colsWithoutWidth = 0;
 
-    const styleSheet = this.shadowRoot.styleSheets[0];
+    if (!this.shadowRoot.styleSheets) {
+      return;
+    }
+
+    const styleSheet = this.shadowRoot.styleSheets ?? this.shadowRoot.styleSheets[0];
 
     if (!styleSheet) {
       return;
@@ -351,9 +355,11 @@ class IdsDataGrid extends mix(IdsElement).with(
       css += ` repeat(${colsWithoutWidth}, minmax(110px, 1fr))`;
     }
 
-    styleSheet.insertRule(`:host {
-      --ids-data-grid-column-widths: ${css} !important;
-    }`);
+    if (styleSheet.insertRule) {
+      styleSheet.insertRule(`:host {
+        --ids-data-grid-column-widths: ${css} !important;
+      }`);
+    }
   }
 
   /**

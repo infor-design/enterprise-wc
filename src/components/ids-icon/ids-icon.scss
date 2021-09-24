@@ -4,6 +4,7 @@
   @include inline-flex();
   @include self-center();
 
+  contain: content;
   place-self: center;
 }
 

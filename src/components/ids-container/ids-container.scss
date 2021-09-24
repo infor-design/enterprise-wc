@@ -19,6 +19,7 @@
   box-sizing: border-box;
   height: 100%;
   overflow: auto;
+  scroll-behavior: smooth;
   width: 100%;
 
   &[scrollable='false'] {

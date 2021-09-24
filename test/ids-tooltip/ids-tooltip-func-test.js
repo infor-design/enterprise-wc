@@ -42,6 +42,7 @@ describe('IdsTooltip Component', () => {
   });
 
   it('renders correctly', () => {
+    tooltip.shadowRoot.querySelector('style').remove();
     expect(tooltip.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
