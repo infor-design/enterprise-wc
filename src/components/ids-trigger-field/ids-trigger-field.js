@@ -253,14 +253,11 @@ class IdsTriggerField extends IdsInput {
   }
 
   /**
-   * Sets the disabled attribute
-   * @param {string} d string value from the disabled attribute
+   * Sets the no margins attribute
+   * @param {string} n string value from the no margins attribute
    */
   set noMargins(n) {
-    console.log('setting noMargins')
     if (stringUtils.stringToBool(n)) {
-      console.log(stringUtils.stringToBool(n));
-      console.log(n.toString());
       this.setAttribute(attributes.NO_MARGINS, 'true');
       this.container.style.marginBottom = '0';
       return;
@@ -289,7 +286,7 @@ class IdsTriggerField extends IdsInput {
 
   /**
    * Sets the readonly attribute
-   * @param {string} r string value from the disabled attribute
+   * @param {string} r string value from the read only attribute
    */
   set readonly(r) {
     if (stringUtils.stringToBool(r)) {
