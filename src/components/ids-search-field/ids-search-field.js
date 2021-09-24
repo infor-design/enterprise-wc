@@ -94,6 +94,7 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
           label="${this.label}"
           ${this.disabled && 'disabled'}
           ${this.readonly && 'readonly'}
+          no-margins
         >
           <ids-icon class="search-icon" size="medium" icon="search"></ids-icon>
           <ids-input

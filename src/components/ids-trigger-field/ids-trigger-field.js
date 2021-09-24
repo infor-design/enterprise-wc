@@ -75,6 +75,7 @@ class IdsTriggerField extends IdsInput {
       attributes.DISABLED,
       attributes.DISABLE_EVENTS,
       attributes.LABEL,
+      attributes.NO_MARGINS,
       attributes.READONLY,
       attributes.SIZE,
       attributes.TABBABLE
@@ -91,10 +92,14 @@ class IdsTriggerField extends IdsInput {
       : '';
 
     return `
-      <div class="ids-trigger-field ${this.size}" part="field">
+      <div 
+        class="ids-trigger-field ${this.size}" 
+        part="field"
+        ${this.noMargins && ' no-margins'}
+      >
         ${ this.label !== '' ? `<label
-          ${this.readonly && 'readonly'}
-          ${this.disabled && 'disabled'}
+          ${this.readonly && ' readonly'}
+          ${this.disabled && ' disabled'}
           class="ids-label-text"
           ${this.validate !== null ? ' required' : ''}
           slot="ids-trigger-field-label"
@@ -104,8 +109,8 @@ class IdsTriggerField extends IdsInput {
           <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
         </label>` : ''}
         <div part="content" 
-          ${this.readonly && 'readonly'}
-          ${this.disabled && 'disabled'}
+          ${this.readonly && ' readonly'}
+          ${this.disabled && ' disabled'}
           class="ids-trigger-field-content"
         >
           <slot></slot>
@@ -251,15 +256,35 @@ class IdsTriggerField extends IdsInput {
    * Sets the disabled attribute
    * @param {string} d string value from the disabled attribute
    */
+  set noMargins(n) {
+    console.log('setting noMargins')
+    if (stringUtils.stringToBool(n)) {
+      console.log(stringUtils.stringToBool(n));
+      console.log(n.toString());
+      this.setAttribute(attributes.NO_MARGINS, 'true');
+      this.container.style.marginBottom = '0';
+      return;
+    }
+    this.removeAttribute(attributes.NO_MARGINS);
+  }
+
+  get noMargins() {
+    return stringUtils.stringToBool(this.getAttribute(attributes.NO_MARGINS));
+  }
+
+  /**
+   * Sets the disabled attribute
+   * @param {string} d string value from the disabled attribute
+   */
   set disabled(d) {
     if (stringUtils.stringToBool(d)) {
-      this.setAttribute('disabled', d.toString());
+      this.setAttribute(attributes.DISABLED, d.toString());
       this.setAttribute(attributes.TABBABLE, 'false');
     }
   }
 
   get disabled() {
-    return stringUtils.stringToBool(this.getAttribute('disabled'));
+    return stringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
   /**
