@@ -11,7 +11,8 @@ import { IdsStringUtils } from '../../utils';
 
 // Import Mixins
 import {
-  IdsEventsMixin
+  IdsEventsMixin,
+  IdsThemeMixin
 } from '../../mixins';
 
 // Import Styles
@@ -25,15 +26,22 @@ import IdsHierarchy from './ids-hierarchy';
  */
 @customElement('ids-hierarchy-item')
 @scss(styles)
-class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin) {
-  // States: selected, expanded, collapsed
+class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   // Types: root, expandable, nested
+  // States: selected, expanded, collapsed
+  // Legend Ex: FT, PT, Contractor, Open Position
 
   constructor() {
     super();
+    this.expander = this.shadowRoot?.querySelector('[part="icon-btn"]');
   }
 
+  hasNestedItems;
+
   connectedCallback() {
+    this.#hasNestedItems();
+    this.#attachEventHandlers();
+    super.connectedCallback();
   }
 
   /**
@@ -41,10 +49,17 @@ class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [];
+    return [
+      attributes.EXPANDED,
+      'has-nested-items'
+    ];
   }
 
   template() {
+    // const nestedItems = this.container?.querySelector('[part="nested-items"]');
+    // this.hasNestedItems = !!nestedItems?.assignedElements().length;
+    // console.log(this.hasNestedItems);
+
     return `
       <div class="ids-hierarchy-item">
         <div class="leaf">
@@ -56,11 +71,59 @@ class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin) {
             <slot name="subheading"></slot>
             <slot name="micro"></slot>
           </div>
-          <ids-icon icon="caret-down" part="icon-btn"></ids-icon>
+          <ids-icon hidden icon="caret-down" part="icon-btn"></ids-icon>
         </div>
-        <slot></slot>
+        <div class="sub-level"><slot part="nested-items"></slot></div>
       </div>
     `;
+  }
+
+  set expanded(value) {
+    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute(attributes.EXPANDED, true);
+    } else {
+      this.removeAttribute?.(attributes.EXPANDED);
+    }
+  }
+
+  get expanded() {
+    return this.getAttribute(attributes.EXPANDED);
+  }
+
+  #expandCollapse(expanded) {
+    if (expanded) {
+      this.setAttribute(attributes.EXPANDED, false);
+    } else {
+      this.setAttribute(attributes.EXPANDED, true);
+    }
+  }
+
+  #hasNestedItems() {
+    const nestedItems = this.container?.querySelector('[part="nested-items"]');
+    const hasNestedItems = !!nestedItems?.assignedElements().length;
+    if (hasNestedItems) {
+      this.container.classList.add('has-nested-items');
+    }
+  }
+
+  /**
+   * Sets up event listeners
+   * @private
+   * @returns {void}
+   */
+   #attachEventHandlers() {
+    this.onEvent('click', this.expander, () => {
+      this.#expandCollapse(this.expanded);
+    });
+
+    this.onEvent('touchstart', this.expander, (e) => {
+      if (e.touches && e.touches.length > 0) {
+        this.#expandCollapse(this.expanded);
+      }
+    }, {
+      passive: true
+    });
   }
 }
 

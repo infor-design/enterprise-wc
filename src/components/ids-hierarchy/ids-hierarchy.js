@@ -1,6 +1,4 @@
-import * as html from 'html-parse-stringify';
 import {
-  attributes,
   customElement,
   IdsElement,
   mix,
@@ -31,16 +29,7 @@ class IdsHierarchy extends mix(IdsElement).with(IdsEventsMixin) {
     super();
   }
 
-  connectedCallback() {
-  }
-
-  /**
-   * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
-   */
-  static get attributes() {
-    return [];
-  }
+  connectedCallback() {}
 
   template() {
     return `<slot></slot>`;

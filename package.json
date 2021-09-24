@@ -112,7 +112,5 @@
     "webpack-dev-server": "^4.2.1",
     "yaml-loader": "^0.6.0"
   },
-  "dependencies": {
-    "html-parse-stringify": "^3.0.1"
-  }
+  "dependencies": {}
 }

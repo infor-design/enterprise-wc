@@ -19,8 +19,29 @@
   border-radius: 100%;
   background-color: lightgray;
   margin-inline-end: calc(var(--ids-number-spacing-base) * 2);
+  overflow: hidden;
 }
 
 ids-icon[part="icon-btn"] {
+  display: none;
+  cursor: pointer;
   margin-inline-start: auto;
+}
+
+.has-nested-items {
+  ids-icon[part="icon-btn"] {
+    display: block;
+  }
+}
+
+:host([expanded]) ids-icon[part="icon-btn"] {
+  transform: rotate(180deg);
+}
+
+.sub-level {
+  display: none;
+}
+
+:host([expanded]) .sub-level {
+  display: block;
 }
