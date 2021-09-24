@@ -48,7 +48,7 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
    * @returns {string|null} the name of the color variant currently applied
    */
   get colorVariant() {
-    return this.state.colorVariant;
+    return this.state?.colorVariant;
   }
 
   /**

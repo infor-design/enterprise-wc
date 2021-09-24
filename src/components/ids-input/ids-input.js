@@ -11,6 +11,7 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsClearableMixin,
+  IdsColorVariantMixin,
   IdsDirtyTrackerMixin,
   IdsMaskMixin,
   IdsValidationMixin,
@@ -70,6 +71,7 @@ const TEXT_ALIGN = {
 const appliedMixins = [
   IdsEventsMixin,
   IdsClearableMixin,
+  IdsColorVariantMixin,
   IdsKeyboardMixin,
   IdsDirtyTrackerMixin,
   IdsMaskMixin,
@@ -85,6 +87,7 @@ let instanceCounter = 0;
  * @type {IdsInput}
  * @inherits IdsElement
  * @mixes IdsClearableMixin
+ * @mixes IdsColorVariantMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
@@ -105,6 +108,12 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   constructor() {
     super();
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate'];
 
   /**
    * @returns {Array<string>} IdsInput component observable attributes
@@ -193,6 +202,15 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
         </div>
       </div>`
     );
+  }
+
+  set colorVariant(value) {
+    super.colorVariant = value;
+    this.clearable && this.refreshClearableButtonStyles();
+  }
+
+  get colorVariant() {
+    return super.colorVariant;
   }
 
   /**
