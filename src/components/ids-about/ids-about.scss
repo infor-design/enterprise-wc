@@ -26,7 +26,6 @@
     @include antialiased();
     @include border-1();
     @include border-solid();
-    @include border-slate-30();
     @include rounded-default();
     @include mt-0();
     @include mb-28();
@@ -39,15 +38,51 @@
     overflow: auto;
     text-align: left;
 
-    &:hover {
-      @include border-slate-70();
+    @at-root[mode='light'] .ids-modal-content {
+      @include border-slate-30();
+
+      &:hover {
+        @include border-slate-70();
+      }
+
+      &:focus {
+        @include border-azure-60();
+
+        box-shadow: 0 0 4px 3px rgba(54, 138, 192, 0.3);
+      }
+    }
+
+    @at-root[mode='dark'] .ids-modal-content {
+      @include border-slate-50();
+
+      &:hover {
+        @include border-slate-30();
+      }
+
+      &:focus {
+        @include border-azure-60();
+
+        box-shadow: 0 0 4px 2px rgba(141, 201, 230, 0.3);
+      }
+    }
+
+    @at-root[mode='contrast'] .ids-modal-content {
+      @include border-slate-60();
+
+      &:hover {
+        @include border-black();
+      }
+
+      &:focus {
+        @include border-azure-90();
+
+        box-shadow: 0 0 4px 2px rgba(41, 41, 41, 0.3);
+      }
     }
 
     &:focus {
-      @include border-azure-60();
       @include outline-none();
 
-      box-shadow: 0 0 4px 3px rgb(54 138 192 / 30%);
       outline-color: transparent;
     }
   }
