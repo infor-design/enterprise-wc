@@ -1,11 +1,10 @@
 /**
  * @jest-environment jsdom
  */
-// eslint-disable-next-line
-import ResizeObserver from '../helpers/resize-observer-mock';
-import IdsWizard, { IdsWizardStep } from '../../src/components/ids-wizard';
+import '../helpers/resize-observer-mock';
+import wait from '../helpers/wait';
 
-const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+import IdsWizard, { IdsWizardStep } from '../../src/components/ids-wizard';
 
 const getLightDOMLabels = (elem) => [...elem.children]
   .map((lEl) => lEl.textContent.trim());

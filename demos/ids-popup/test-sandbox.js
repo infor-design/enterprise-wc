@@ -76,14 +76,14 @@ function yAlignChangeHandler(e) {
  * @param {Event} e the change event object
  */
 function xPosChangeHandler(e) {
-  popupEl.x = e.target.value;
+  popupEl.setPosition(e.target.value, null, null, true);
 }
 
 /**
  * @param {Event} e the change event object
  */
 function yPosChangeHandler(e) {
-  popupEl.y = e.target.value;
+  popupEl.setPosition(null, e.target.value, null, true);
 }
 
 /**
@@ -91,8 +91,7 @@ function yPosChangeHandler(e) {
 function xyResetHandler() {
   xControlEl.value = 0;
   yControlEl.value = 0;
-  popupEl.x = 0;
-  popupEl.y = 0;
+  popupEl.setPosition(0, 0, null, true);
 }
 
 /**
@@ -142,6 +141,16 @@ document.addEventListener('DOMContentLoaded', () => {
   thirdTargetEl.style.height = '50px';
   thirdTargetEl.style.width = '50px';
 
+  // Setup X/Y coordinates/offsets controls
+  xControlEl = document.querySelector('#x-control');
+  xControlEl.addEventListener('change', xPosChangeHandler);
+
+  yControlEl = document.querySelector('#y-control');
+  yControlEl.addEventListener('change', yPosChangeHandler);
+
+  const xyResetEl = document.querySelector('#xy-controls-reset');
+  xyResetEl.addEventListener('click', xyResetHandler);
+
   // Setup align-target controls
   const alignTargetGroupEl = document.querySelector('#align-targets');
   const targetRadioEls = alignTargetGroupEl.querySelectorAll('input[type="radio"]');
@@ -169,16 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
   yAlignRadioEls.forEach((radioEl) => {
     radioEl.addEventListener('click', yAlignChangeHandler);
   });
-
-  // Setup X/Y coordinates/offsets controls
-  xControlEl = document.querySelector('#x-control');
-  xControlEl.addEventListener('change', xPosChangeHandler);
-
-  yControlEl = document.querySelector('#y-control');
-  yControlEl.addEventListener('change', yPosChangeHandler);
-
-  const xyResetEl = document.querySelector('#xy-controls-reset');
-  xyResetEl.addEventListener('click', xyResetHandler);
 
   // Setup toggles
   const animatedControlEl = document.querySelector('#animated-option');
@@ -212,18 +211,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // When in coordinates mode, listen for clicks on the document to set the
   // coordinates automatically. If clicking within control boxes, the clicks are ignored.
   document.addEventListener('click', (e) => {
-    if (xyClickToSetEl.disabled || !xyClickToSetEl.checked) {
-      return;
-    }
+    requestAnimationFrame(() => {
+      if (xyClickToSetEl.disabled || !xyClickToSetEl.checked) {
+        return;
+      }
 
-    const withinFieldset = e.target.closest('fieldset');
-    if (withinFieldset) {
-      return;
-    }
+      const withinFieldset = e.target.closest('fieldset');
+      if (withinFieldset) {
+        return;
+      }
 
-    xControlEl.value = e.clientX;
-    yControlEl.value = e.clientY;
-    popupEl.x = e.clientX;
-    popupEl.y = e.clientY;
+      xControlEl.value = e.clientX;
+      yControlEl.value = e.clientY;
+      popupEl.setPosition(e.clientX, e.clientY, null, true);
+    });
   });
 });

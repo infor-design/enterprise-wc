@@ -116,7 +116,7 @@ class IdsNotificationBanner extends mix(IdsElement).with(
         <div class="ids-notification-banner-button" part="button">
           <ids-button type="tertiary">
             <span class="audible">Close Button</span>
-            <ids-icon slot="icon" icon="close" size="small"></ids-icon>
+            <ids-icon slot="icon" icon="close" size="xsmall"></ids-icon>
           </ids-button>
         </div>
       </div>

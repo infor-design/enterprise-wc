@@ -7,6 +7,7 @@ import IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger
 import { attributes } from '../../src/core';
 import processAnimFrame from '../helpers/process-anim-frame';
 
+/*
 const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
   this.observe = jest.fn();
   this.disconnect = jest.fn();
@@ -16,6 +17,7 @@ const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
   };
 });
 global.ResizeObserver = resizeObserverMock;
+*/
 
 const DEFAULT_TRIGGERFIELD_HTML = (
   `<ids-trigger-field
