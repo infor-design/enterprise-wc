@@ -5,7 +5,6 @@ import {
   attributes
 } from '../../../core';
 
-
 import styles from './ids-process-step.scss';
 
 const statuses = ['cancelled', 'started', 'done'];
