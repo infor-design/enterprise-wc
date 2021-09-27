@@ -35,7 +35,6 @@ class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
     this.edge = 'start';
     this.type = 'app-menu';
     this.#refreshVariants();
-    this.#handleKeys();
   }
 
   static get attributes() {
@@ -87,17 +86,34 @@ class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
   }
 
   /**
-   * Sets up app-menu level keystrokes
+   * Overrides `addOpenEvents` from IdsPopupOpenEventsMixin to add a global handler
+   * for App Menu keyboard events that can cause the menu to close
    * @returns {void}
    */
-  #handleKeys() {
-    // If the escape key is pressed while an element
-    // inside the App Menu is focused, close the App Menu.
-    this.listen(['Escape'], this, (e) => {
-      if (IdsDOMUtils.getClosest(e.target, 'ids-app-menu').isEqualNode(this) && this.visible) {
+  addOpenEvents() {
+    super.addOpenEvents();
+
+    this.globalKeydownListener = (e) => {
+      switch (e.key) {
+      case 'Escape':
+        e.stopImmediatePropagation();
         this.hide();
+        break;
+      /* istanbul ignore next */
+      default:
+        break;
       }
-    });
+    };
+    document.addEventListener('keydown', this.globalKeydownListener);
+  }
+
+  /**
+   * Overrides `removeOpenEvents` from IdsPopupOpenEventsMixin
+   * @returns {void}
+   */
+  removeOpenEvents() {
+    super.removeOpenEvents();
+    document.removeEventListener('keydown', this.globalKeydownListener);
   }
 }
 

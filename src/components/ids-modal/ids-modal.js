@@ -401,6 +401,7 @@ class IdsModal extends mix(IdsElement).with(
     this.globalKeydownListener = (e) => {
       switch (e.key) {
       case 'Escape':
+        e.stopImmediatePropagation();
         this.hide();
         break;
       default:
