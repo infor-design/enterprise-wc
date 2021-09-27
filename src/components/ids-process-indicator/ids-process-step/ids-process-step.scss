@@ -59,10 +59,9 @@
       word-break: break-word;
     }
   }
-    
+
   // CLASSIC
   &[version='classic'] {
-
     &[mode='light'] {
       --bg-color: #eee;
     }

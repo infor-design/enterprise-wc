@@ -2,8 +2,15 @@ import {
   IdsElement,
   customElement,
   scss,
-  attributes
+  attributes,
+  mix
 } from '../../../core';
+
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../../../mixins';
 
 import styles from './ids-process-step.scss';
 
@@ -13,14 +20,20 @@ const statuses = ['cancelled', 'started', 'done'];
  * IDS Process Step Component
  * @type {IdsProcessStep}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
  * @part label
  */
 
 @customElement('ids-process-step')
 @scss(styles)
-class IdsProcessStep extends IdsElement {
+class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
+  }
+
+  connectedCallback() {
+    super.connectedCallback?.();
   }
 
   /**
@@ -29,6 +42,7 @@ class IdsProcessStep extends IdsElement {
    */
   static get attributes() {
     return [
+      ...super.attributes,
       attributes.LABEL,
       attributes.STATUS,
     ];
