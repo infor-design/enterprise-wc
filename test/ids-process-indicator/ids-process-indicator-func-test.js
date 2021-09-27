@@ -7,22 +7,22 @@ import IdsProcessStep from '../../src/components/ids-process-indicator/ids-proce
 const HTMLSnippets = {
   VANILLA_PROCESS_INDICATOR: (
   `<ids-process-indicator>
-  <ids-process-step status="done" label="Prepare"></step>
-  <ids-process-step status="started" label="Delivered"></step>
+  <ids-process-step status="done" label="Prepare"></ids-process-step>
+  <ids-process-step status="started" label="Delivered"></ids-process-step>
   </ids-process-indicator>`
   ),
   CANCELLED_PROCESS_INDICATOR: (
   `<ids-process-indicator>
-  <ids-process-step status="done" label="Prepare"></step>
-  <ids-process-step status="cancelled" label="Advertisement"></step>
-  <ids-process-step status="started" label="Delivered"></step>
+  <ids-process-step status="done" label="Prepare"></ids-process-step>
+  <ids-process-step status="cancelled" label="Advertisement"></ids-process-step>
+  <ids-process-step status="started" label="Delivered"></ids-process-step>
   </ids-process-indicator>`
   ),
   EMPTY_ATTRIBUTES_PROCESS_INDICATOR: (
   `<ids-process-indicator>
-  <ids-process-step status="" label=""></step>
-  <ids-process-step status="" label=""></step>
-  <ids-process-step status="" label=""></step>
+  <ids-process-step status="" label=""></ids-process-step>
+  <ids-process-step status="" label=""></ids-process-step>
+  <ids-process-step status="" label=""></ids-process-step>
   </ids-process-indicator>`
   ),
 };

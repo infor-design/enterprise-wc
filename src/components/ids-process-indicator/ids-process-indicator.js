@@ -32,6 +32,12 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
     this.#calculateProgressLine();
   }
 
+  static get attributes() {
+    return [
+      ...super.attributes,
+    ];
+  }
+
   #calculateProgressLine() {
     /* istanbul ignore next */
     window.requestAnimationFrame(() => {
