@@ -28,7 +28,6 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
   }
 
   connectedCallback() {
-    super.connectedCallback();
     this.#calculateProgressLine();
   }
 
