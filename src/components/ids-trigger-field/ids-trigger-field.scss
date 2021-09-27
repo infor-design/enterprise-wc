@@ -183,7 +183,7 @@
     @include text-slate-60();
   }
 
-  &.readonly {
+  &[readonly] {
     @include bg-slate-70();
     @include border-slate-40();
     @include text-slate-10();
@@ -208,7 +208,7 @@
     @include text-slate-30();
   }
 
-  &.readonly {
+  &[readonly] {
     @include bg-slate-20();
     @include border-slate-40();
     @include text-slate-100();
@@ -233,7 +233,7 @@
     @include text-graphite-40();
   }
 
-  &.readonly {
+  &[readonly] {
     @include bg-graphite-20();
     @include border-graphite-40();
     @include text-classic-slate-100();
@@ -258,7 +258,7 @@
     @include text-classic-slate-50();
   }
 
-  &.readonly {
+  &[readonly] {
     @include bg-classic-slate-60();
     @include border-classic-slate-40();
     @include text-white();
@@ -284,7 +284,7 @@
     @include text-graphite-80();
   }
 
-  &.readonly {
+  &[readonly] {
     @include bg-slate-30();
     @include border-slate-80();
     @include text-graphite-100();
@@ -295,7 +295,7 @@
   }
 
   &:focus-within,
-  &:focus.readonly {
+  &:focus[readonly] {
     @include border-azure-60();
   }
 }

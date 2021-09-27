@@ -356,7 +356,7 @@ $input-compact-height: $input-field-height-xs;
   }
 
   &.bg-transparent {
-    @include bg-white();
+    @include bg-transparent();
   }
 
   &:focus {
@@ -432,7 +432,7 @@ $input-compact-height: $input-field-height-xs;
   }
 
   &.bg-transparent {
-    @include bg-white();
+    @include bg-transparent();
   }
 
   &:focus,
