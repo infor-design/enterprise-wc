@@ -71,7 +71,7 @@ $input-compact-height: $input-field-height-xs;
 .ids-input {
   @include block();
 
-  // ALTERNATE COLORS
+  // alternate colors for header placement
   &.color-variant-alternate {
     .ids-input-field {
       @include text-white();
