@@ -111,7 +111,6 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
    * Cancel overlay close modal event, reattach the event to the close icon button
    * @returns {void}
    */
-  /* istanbul ignore next */
   onOutsideClick() {}
 
   /**

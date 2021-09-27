@@ -215,8 +215,8 @@ class IdsElement extends HTMLElement {
     if (!document.nonce) {
       const csp = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
       if (csp) {
-        let nonce = csp.getAttribute('content').match(/'nonce-(.*?)'/g)[0];
-        nonce = nonce?.replace('\'nonce-', '').replace('\'', '');
+        let nonce = csp.getAttribute('content').match(/'nonce-(.*?)'/g);
+        nonce = nonce ? nonce[0]?.replace('\'nonce-', '').replace('\'', '') : undefined;
         document.nonce = nonce;
       }
     }

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsScrollContainer Component renders correctly 1`] = `
+exports[`IdsScrollView Component renders correctly 1`] = `
 "<style nonce=\\"undefined\\">:host { background-color: transparent; }</style><div class=\\"ids-scroll-view-container\\" part=\\"container\\">
         <div class=\\"ids-scroll-view\\" part=\\"scroll-view\\" role=\\"complementary\\" tabindex=\\"-1\\">
           <slot name=\\"scroll-view-item\\"></slot>

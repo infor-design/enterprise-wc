@@ -72,7 +72,6 @@ MemoryInfo: {totalJSHeapSize: 82678617, usedJSHeapSize: 80235965, jsHeapSizeLim
 Loading Time: 458.7000000476837
 MemoryInfo: {totalJSHeapSize: 83742536, usedJSHeapSize: 81716820, jsHeapSizeLimit: 4294705152}
 
-
 ### Buttons Loading
 
 [Link](http://localhost:4300/ids-button/performance.html)
@@ -123,4 +122,4 @@ Observations:
 
 - Append a script has too slow of a FOUC and doesn't help much
 - Append a style tag is slightly faster
-- After:
+- After: 30-40% better
