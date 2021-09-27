@@ -330,10 +330,6 @@ $input-compact-height: $input-field-height-xs;
     @include text-slate-10();
   }
 
-  &.bg-transparent {
-    @include bg-transparent();
-  }
-
   &:focus {
     @include border-azure-60();
   }
@@ -353,10 +349,6 @@ $input-compact-height: $input-field-height-xs;
     @include bg-slate-20();
     @include border-slate-40();
     @include text-slate-100();
-  }
-
-  &.bg-transparent {
-    @include bg-transparent();
   }
 
   &:focus {
@@ -380,10 +372,6 @@ $input-compact-height: $input-field-height-xs;
     @include text-classic-slate-100();
   }
 
-  &.bg-transparent {
-    @include bg-transparent();
-  }
-
   &:focus {
     @include border-azure-60();
   }
@@ -403,10 +391,6 @@ $input-compact-height: $input-field-height-xs;
     @include bg-classic-slate-60();
     @include border-classic-slate-40();
     @include text-white();
-  }
-
-  &.bg-transparent {
-    @include bg-transparent();
   }
 
   &:focus {
@@ -429,10 +413,6 @@ $input-compact-height: $input-field-height-xs;
     @include bg-slate-30();
     @include border-slate-80();
     @include text-graphite-100();
-  }
-
-  &.bg-transparent {
-    @include bg-white();
   }
 
   &:focus,
