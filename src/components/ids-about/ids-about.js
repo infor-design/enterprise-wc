@@ -52,8 +52,7 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback();
-    this.#attachEventHandlers();
+    super.connectedCallback?.();
   }
 
   /**
@@ -61,7 +60,7 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<ids-popup part="modal" class="ids-modal ids-about" type="custom">
+    return `<ids-popup part="modal" class="ids-modal ids-about" type="custom" position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header">
           <slot name="icon"></slot>
@@ -82,10 +81,11 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
 
   /**
    * Establish internal event handlers
-   * @private
    * @returns {object} The object for chaining
    */
-  #attachEventHandlers() {
+  attachEventHandlers() {
+    super.attachEventHandlers();
+
     this.#refreshProduct();
 
     // Respond to parent changing language
@@ -111,6 +111,7 @@ class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
    * Cancel overlay close modal event, reattach the event to the close icon button
    * @returns {void}
    */
+  /* istanbul ignore next */
   onOutsideClick() {}
 
   /**

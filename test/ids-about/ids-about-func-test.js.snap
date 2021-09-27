@@ -14,7 +14,7 @@ exports[`IdsAbout Component (using properties) should render 1`] = `
 `;
 
 exports[`IdsAbout Component (using properties) should render 2`] = `
-"<ids-about id=\\"test-about-component\\" product-version=\\"4.0.0\\" product-name=\\"Controls\\" copyright-year=\\"2022\\" device-specs=\\"true\\" use-default-copyright=\\"true\\" language=\\"en\\" locale=\\"en-US\\" aria-label=\\" Controls 4.0.0\\" role=\\"dialog\\" visible=\\"\\"><ids-text slot=\\"device\\" type=\\"p\\" language=\\"en\\" locale=\\"en-US\\"><span>Operating System :  -</span><br>
+"<ids-about id=\\"test-about-component\\" product-version=\\"4.0.0\\" product-name=\\"Controls\\" copyright-year=\\"2022\\" device-specs=\\"true\\" use-default-copyright=\\"true\\" language=\\"en\\" locale=\\"en-US\\" aria-label=\\" Controls 4.0.0\\" role=\\"dialog\\" visible=\\"\\" style=\\"z-index: 1020;\\"><ids-text slot=\\"device\\" type=\\"p\\" language=\\"en\\" locale=\\"en-US\\"><span>Operating System :  -</span><br>
         <span>Platform : </span><br>
         <span>Mobile : false</span><br>
         <span>Locale : en-US</span><br>
@@ -27,7 +27,7 @@ exports[`IdsAbout Component (using properties) should render 2`] = `
 `;
 
 exports[`IdsAbout Component (using properties) should render 3`] = `
-"<ids-about id=\\"test-about-component\\" product-version=\\"4.0.0\\" product-name=\\"Controls\\" copyright-year=\\"2022\\" device-specs=\\"true\\" use-default-copyright=\\"true\\" language=\\"en\\" locale=\\"en-US\\" aria-label=\\" Controls 4.0.0\\" role=\\"dialog\\"><ids-text slot=\\"device\\" type=\\"p\\" language=\\"en\\" locale=\\"en-US\\"><span>Operating System :  -</span><br>
+"<ids-about id=\\"test-about-component\\" product-version=\\"4.0.0\\" product-name=\\"Controls\\" copyright-year=\\"2022\\" device-specs=\\"true\\" use-default-copyright=\\"true\\" language=\\"en\\" locale=\\"en-US\\" aria-label=\\" Controls 4.0.0\\" role=\\"dialog\\" style=\\"z-index: 1020;\\"><ids-text slot=\\"device\\" type=\\"p\\" language=\\"en\\" locale=\\"en-US\\"><span>Operating System :  -</span><br>
         <span>Platform : </span><br>
         <span>Mobile : false</span><br>
         <span>Locale : en-US</span><br>

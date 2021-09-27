@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+
 import IdsDropdown from '../../src/components/ids-dropdown';
 import waitFor from '../helpers/wait-for';
 import IdsListBox from '../../src/components/ids-list-box';

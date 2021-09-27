@@ -105,9 +105,6 @@ class IdsMessage extends IdsModal {
     // Replace the message content
     messageEl.insertAdjacentHTML('afterbegin', content);
     this.state.message = content;
-
-    // Re-position the Popup
-    this.setModalPosition();
   }
 
   /**

@@ -3,12 +3,17 @@
 
 :host {
   // Take the WebComponent out of document flow
-  @include absolute();
-
+  position: absolute;
   display: block;
 }
 
+// Viewport-centered Popup centering is changed
+:host([position-style='viewport']) {
+  position: static;
+}
+
 .ids-popup {
+  @include antialiased();
   @include z-3000();
 
   display: none;
@@ -100,10 +105,6 @@
     display: block;
   }
 
-  // Added to ".visible" to animate the opening.
-  // Add an "open" state to any CSS class that drives animation.
-  // &.open {}
-
   // Animates X/Y movement, fade in/out of the popup.
   &.animated {
     transition:
@@ -134,16 +135,13 @@
   &.animation-scale-in {
     @include opacity-0();
 
-    // @TODO: re-enable this after better popup container support exists
-    // transform: perspective(1000px) translate3d(0, 0, -500px);
-    transform: scale(0);
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translate3d(0, 0, -500px);
 
     &.open {
       @include opacity-100();
 
-      // @TODO: re-enable this after better popup container support exists
-      // transform: perspective(1000px) translate3d(0, 0, 0);
-      transform: scale(1);
+      transform: perspective(1000px) translate3d(0, 0, 0);
     }
   }
 
@@ -155,6 +153,26 @@
   // Position style: absolute
   &.position-absolute {
     @include absolute();
+  }
+
+  // Position style: viewport (uses transforms)
+  &.position-viewport {
+    @include absolute();
+
+    left: 50%;
+    top: 50%;
+    transform-origin: left top;
+    transform: translate(-50%, -50%);
+
+    // Override some default animation styles to add the correct
+    // `translate(X/Y/Z/3d)` values to an existing transform property.
+    &.animation-scale-in {
+      transform: perspective(1000px) translate3d(-50%, -50%, -500px);
+
+      &.open {
+        transform: perspective(1000px) translate3d(-50%, -50%, 0);
+      }
+    }
   }
 
   // style: "none" (temporary)
@@ -179,7 +197,6 @@
 
   // style: "menu"
   &.menu {
-    @include antialiased();
     @include border-1();
     @include border-solid();
     @include font-sans();
@@ -270,7 +287,6 @@
   // style: "tooltip"
   &.tooltip {
     @include bg-slate-80();
-    @include antialiased();
     @include cursor-pointer();
     @include font-sans();
     @include py-4();
@@ -331,7 +347,6 @@
 
   // style: "modal"
   &.modal {
-    @include antialiased();
     @include bg-white();
     @include border-1();
     @include border-solid();
@@ -376,7 +391,39 @@
   @include static();
 }
 
+// =====================================================
 // Handle Themes
+
+// Dark Theme
+
+.ids-popup.dropdown[mode='dark'] {
+  @include bg-slate-70();
+  @include border-azure-60();
+
+  box-shadow:
+    -2px 1px 2px 0 rgb(54 138 192 / 30%),
+    0 1px 2px 0 rgb(54 138 192 / 30%),
+    2px 2px 2px 0 rgb(54 138 192 / 30%);
+  border-top-color: var(--ids-color-palette-slate-50);
+
+  &.flipped {
+    border-bottom-color: var(--ids-color-palette-slate-50);
+    border-top-color: var(--ids-color-palette-azure-60);
+    box-shadow:
+      0 -1px 2px 0 rgb(54 138 192 / 30%),
+      2px 0 3px 0 rgb(54 138 192 / 30%),
+      -2px -2px 3px 0 rgb(54 138 192 / 30%);
+  }
+}
+
+.ids-popup.modal[mode='dark'] {
+  @include bg-slate-70();
+  @include border-slate-50();
+  @include text-white();
+
+  box-shadow: 0 2px 5px rgb(239, 239, 240, 0.2);
+}
+
 .ids-popup.menu[mode='dark'] {
   @include bg-slate-70();
   @include border-slate-50();
@@ -432,24 +479,25 @@
   }
 }
 
-.ids-popup.dropdown[mode='dark'] {
-  @include bg-slate-70();
-  @include border-azure-60();
+// Contrast Theme
 
-  box-shadow:
-    -2px 1px 2px 0 rgb(54 138 192 / 30%),
-    0 1px 2px 0 rgb(54 138 192 / 30%),
-    2px 2px 2px 0 rgb(54 138 192 / 30%);
+.ids-popup.dropdown[mode='contrast'] {
+  @include bg-white();
+  @include border-azure-90();
+
   border-top-color: var(--ids-color-palette-slate-50);
 
   &.flipped {
     border-bottom-color: var(--ids-color-palette-slate-50);
-    border-top-color: var(--ids-color-palette-azure-60);
-    box-shadow:
-      0 -1px 2px 0 rgb(54 138 192 / 30%),
-      2px 0 3px 0 rgb(54 138 192 / 30%),
-      -2px -2px 3px 0 rgb(54 138 192 / 30%);
+    border-top-color: var(--ids-color-palette-azure-90);
   }
+}
+
+.ids-popup.modal[mode='contrast'] {
+  @include bg-white();
+  @include border-slate-60();
+
+  box-shadow: 0 2px 5px rgb(239, 239, 240, 0.2);
 }
 
 .ids-popup.menu[mode='contrast'] {
@@ -467,16 +515,13 @@
   }
 }
 
-.ids-popup.dropdown[mode='contrast'] {
+// "Classic" Light Theme
+
+.ids-popup.modal[version='classic'][mode='light'] {
   @include bg-white();
-  @include border-azure-90();
+  @include border-classic-slate-30();
 
-  border-top-color: var(--ids-color-palette-slate-50);
-
-  &.flipped {
-    border-bottom-color: var(--ids-color-palette-slate-50);
-    border-top-color: var(--ids-color-palette-azure-90);
-  }
+  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
 }
 
 .ids-popup.menu[version='classic'][mode='light'] {
@@ -544,6 +589,35 @@
   }
 }
 
+// "Classic" Dark Theme
+
+.ids-popup.dropdown[version='classic'][mode='dark'] {
+  @include bg-classic-slate-70();
+  @include border-azure-60();
+
+  box-shadow:
+    -2px 1px 2px 0 rgb(54 138 192 / 30%),
+    0 1px 2px 0 rgb(54 138 192 / 30%),
+    2px 2px 2px 0 rgb(54 138 192 / 30%);
+  border-top-color: var(--ids-color-palette-classic-slate-40);
+
+  &.flipped {
+    border-bottom-color: var(--ids-color-palette-classic-slate-40);
+    border-top-color: var(--ids-color-palette-azure-60);
+    box-shadow:
+      0 -1px 2px 0 rgb(54 138 192 / 30%),
+      2px 0 3px 0 rgb(54 138 192 / 30%),
+      -2px -2px 3px 0 rgb(54 138 192 / 30%);
+  }
+}
+
+.ids-popup.modal[version='classic'][mode='dark'] {
+  @include border-graphite-50();
+  @include bg-classic-slate-70();
+
+  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+}
+
 .ids-popup.menu[version='classic'][mode='dark'] {
   @include border-graphite-50();
   @include bg-classic-slate-70();
@@ -598,24 +672,25 @@
   }
 }
 
-.ids-popup.dropdown[version='classic'][mode='dark'] {
-  @include bg-classic-slate-70();
-  @include border-azure-60();
+// "Classic" Contrast Theme
 
-  box-shadow:
-    -2px 1px 2px 0 rgb(54 138 192 / 30%),
-    0 1px 2px 0 rgb(54 138 192 / 30%),
-    2px 2px 2px 0 rgb(54 138 192 / 30%);
-  border-top-color: var(--ids-color-palette-classic-slate-40);
+.ids-popup.dropdown[version='classic'][mode='contrast'] {
+  @include bg-white();
+  @include border-azure-90();
+
+  border-top-color: var(--ids-color-palette-classic-slate-60);
 
   &.flipped {
-    border-bottom-color: var(--ids-color-palette-classic-slate-40);
-    border-top-color: var(--ids-color-palette-azure-60);
-    box-shadow:
-      0 -1px 2px 0 rgb(54 138 192 / 30%),
-      2px 0 3px 0 rgb(54 138 192 / 30%),
-      -2px -2px 3px 0 rgb(54 138 192 / 30%);
+    border-bottom-color: var(--ids-color-palette-classic-slate-60);
+    border-top-color: var(--ids-color-palette-azure-90);
   }
+}
+
+.ids-popup.modal[version='classic'][mode='contrast'] {
+  @include bg-white();
+  @include border-classic-slate-30();
+
+  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
 }
 
 .ids-popup.menu[version='classic'][mode='contrast'] {
@@ -669,18 +744,6 @@
     &::after {
       border-right-color: var(--ids-color-palette-graphite-80);
     }
-  }
-}
-
-.ids-popup.dropdown[version='classic'][mode='contrast'] {
-  @include bg-white();
-  @include border-azure-90();
-
-  border-top-color: var(--ids-color-palette-classic-slate-60);
-
-  &.flipped {
-    border-bottom-color: var(--ids-color-palette-classic-slate-60);
-    border-top-color: var(--ids-color-palette-azure-90);
   }
 }
 

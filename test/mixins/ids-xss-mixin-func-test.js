@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+
 import IdsXssMixin from '../../src/mixins';
 import IdsMessage from '../../src/components/ids-message';
 

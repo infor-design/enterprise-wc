@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+
 import IdsAbout from '../../src/components/ids-about';
 
 // Supporing components
@@ -173,7 +175,7 @@ describe('IdsAbout Component (using attributes)', () => {
   });
 });
 
-describe('IdsABout Component (empty)', () => {
+describe('IdsAbout Component (empty)', () => {
   let component;
 
   beforeEach(async () => {
@@ -231,7 +233,7 @@ describe('IdsABout Component (empty)', () => {
   });
 });
 
-describe('IdsABout Component locale', () => {
+describe('IdsAbout Component locale', () => {
   let component;
   let container;
 
