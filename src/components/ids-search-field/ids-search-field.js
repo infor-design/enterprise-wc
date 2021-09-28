@@ -109,6 +109,9 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     `;
   }
 
+  /**
+   * Set the color variant to alternate or default style
+   */
   set colorVariant(value) {
     super.colorVariant = value;
     this.container.querySelector('ids-input').colorVariant = value;
@@ -230,6 +233,9 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
     // });
   }
 
+  /**
+   * Listen for enter key to perform search function
+   */
   #attachKeyboardListener() {
     this.onEvent('keydown', this.input, (event) => {
       /* istanbul ignore next */
