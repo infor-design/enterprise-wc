@@ -44,7 +44,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Accordion (ids-accordion)
  - [ ] Action Sheet (ids-action-sheet)
  - [x] Alerts (ids-alert)
- - [ ] Application menu (ids-application-menu)
+ - [x] Application menu (ids-application-menu)
  - [ ] Area (ids-area-chart)
  - [ ] Autocomplete (ids-autocomplete)
  - [x] Badges (ids-badge)
