@@ -13,6 +13,7 @@ const glob = require('glob');
 const fileUpload = require('express-fileupload');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
+process.env.NODE_ENV = isProduction ? 'production' : 'development';
 
 module.exports = {
   entry: glob.sync('./demos/**/**.js').reduce((acc, filePath) => {

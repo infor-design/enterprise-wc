@@ -10,6 +10,27 @@ In general, the Ids WebComponents Library is striving to adhere to the [Gold Sta
 
 Good components to look at that are done already are are IdsTag, IdsAlerts and IdsHyperlink as references.
 
+
+### Understand some of our concepts
+
+### Inheritance
+
+Some the components by design and functionality should inherit from another one. Examples like this are cases like buttons. A button might have a base button and you extend it to provide other button types. Other cases are modals, where we have an about and message type modal that extends it. For this project we are talking mostly about [Class Inheritance](https://javascript.info/class-inheritance)
+
+### Utils
+
+Utils are sets of [pure functions](https://www.geeksforgeeks.org/pure-functions-in-javascript/) that provide a simple shared function for some functionality. Usually some sort of input/output processing.
+
+Current mixins are documented here `src/utils/README.md`. Some commonly used ones include IdStringUtils, IdsXssUtils.
+
+### Mixins
+
+The mixin pattern - as the name suggests - is a pattern of mixing together an object with other objects to add properties we need. Think of it like add-ons that can give your object additional properties, but these individual properties are not really subclasses themselves.
+
+The type of things that you should make mixins are shared functionality that could be used across more than one component. Sometimes we don't know this right away so its possible to refactor some functionality to use that pattern and a certain point.
+
+Current mixins are documented here `src/mixins/README.md`. Some commonly used ones include IdsEventsMix, IdsKeyBoardMixin and IdsThemeMixin.
+
 ### Scaffold the component source code
 
 - [ ] Create a folder `/src/ids-[component]`, which will contain all your new component source code.
@@ -137,7 +158,7 @@ import styles from './ids-[component-name].scss';
 @customElement('ids-[component]')
 ```
 
-- Review the mixins that are available in the `src/ids-mixins/README.md` folder for any reusable parts then include them in the `mix(IdsElement).with(`. Some commonly used ones include IdsEventsMix if you need event handlers, and IdsThemeMixin if you your component is visual with colors and needs themes and IdsKeyBoardMixin if your component responds to keyboard inputs.
+- Review the mixins that are available in the `src/ids-mixins/README.md` folder for any reusable parts then include them in the `mix(IdsElement).with(`. Some commonly used ones include IdsEventsMix if you need event handlers, and IdsThemeMixin if your component is visual with colors and needs themes and IdsKeyBoardMixin if your component responds to keyboard inputs.
 
 ```js
 class [IdsComponent] extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
