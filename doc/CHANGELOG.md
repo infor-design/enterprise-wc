@@ -2,6 +2,10 @@
 
 ## 5.0.0 Breaking Changes
 
+- `[App Menu]` The App Menu component is now a web component. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
+  - Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
+  - Can now be imported as a single JS file and used with encapsulated styles
+  - Sections are now slotted for easier use.  Accordion is the main slot, and other areas (toolbars, user info, etc) are named slots.
 - `[Button]` The button component has been changed to a web component. ([#4390](https://github.com/infor-design/enterprise/issues/4390))
   - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
   - Can now be imported as a single JS file and used with encapsulated styles.

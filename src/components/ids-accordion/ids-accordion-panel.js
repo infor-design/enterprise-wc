@@ -6,32 +6,67 @@ import {
   attributes
 } from '../../core';
 
-import { IdsEventsMixin, IdsKeyboardMixin } from '../../mixins';
+import {
+  IdsColorVariantMixin,
+  IdsEventsMixin,
+  IdsKeyboardMixin,
+  IdsThemeMixin,
+} from '../../mixins';
+
+import IdsAccordionHeader from './ids-accordion-header';
+import { IdsStringUtils } from '../../utils/ids-string-utils';
+import { ALIGNMENT_TYPES, applyContentAlignmentClass } from './ids-accordion-common';
 import styles from './ids-accordion-panel.scss';
 
 /**
  * IDS Accordion Panel Component
  * @type {IdsAccordionPanel}
  * @inherits IdsElement
+ * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsThemeMixin
  */
 @customElement('ids-accordion-panel')
 @scss(styles)
-class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+class IdsAccordionPanel extends mix(IdsElement).with(
+    IdsColorVariantMixin,
+    IdsEventsMixin,
+    IdsKeyboardMixin,
+    IdsThemeMixin,
+  ) {
   constructor() {
     super();
     this.state = {};
   }
 
   connectedCallback() {
-    this.expander = this.shadowRoot?.querySelector('.ids-accordion-panel-expander');
-    this.header = this.querySelector('[slot="header"]');
-    this.pane = this.shadowRoot?.querySelector('.ids-accordion-pane');
+    super.connectedCallback?.();
+
     this.#setTitles();
     this.#attachEventHandlers();
-    this.#switchState();
+    this.#refreshContentAlignment(this.contentAlignment);
+    this.#toggleExpanderDisplay();
+    this.#toggleExpanded(this.expanded);
   }
+
+  /**
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
+   */
+  static get attributes() {
+    return [
+      ...super.attributes,
+      attributes.EXPANDED,
+      attributes.MODE,
+      attributes.VERSION
+    ];
+  }
+
+  /**
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['app-menu', 'sub-app-menu'];
 
   /**
    * Create a unique title for each accordion pane
@@ -43,46 +78,179 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
   }
 
   /**
+   * Overrides the setter from `IdsColorVariantMixin` to include a check on the expander icon
+   * @param {string} val the desired color variant
+   */
+  set colorVariant(val) {
+    super.colorVariant = val;
+    this.#toggleExpanderDisplay();
+  }
+
+  /**
+   * @returns {string} the current color variant
+   */
+  /* istanbul ignore next */
+  get colorVariant() {
+    return super.colorVariant;
+  }
+
+  /**
+   * Sets a CSS class containing alignment rules for text/icons/images on this accordion panel
+   * @param {string|null} val the new alignment rule to set
+   */
+  set contentAlignment(val) {
+    let thisAlignment = null;
+    if (ALIGNMENT_TYPES.includes(val)) {
+      thisAlignment = val;
+    }
+
+    if (this.state.contentAlignment !== thisAlignment) {
+      this.state.contentAlignment = thisAlignment;
+      this.#refreshContentAlignment(thisAlignment);
+      this.header.refreshContentAlignment(thisAlignment);
+    }
+  }
+
+  /**
+   * @returns {string|null} representing how icons/text/images are currently aligned
+   */
+  get contentAlignment() {
+    return this.state.contentAlignment;
+  }
+
+  /**
+   * Visually updates the alignment of icons/text/images in the accordion panel
+   * @param {*} thisAlignment the alignment rule to set
+   */
+  #refreshContentAlignment(thisAlignment = null) {
+    applyContentAlignmentClass(this.container.classList, thisAlignment);
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement|null} the provided header, if applicable
+   */
+  get header() {
+    return this.querySelector('[slot="header"]');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement|null} the expander button
+   */
+  get expander() {
+    return this.container.querySelector('.ids-accordion-panel-expander');
+  }
+
+  /**
+   * @readonly
+   * @returns {HTMLElement|null} the inner expand/collapse pane element
+   */
+  get pane() {
+    return this.container.querySelector('.ids-accordion-pane');
+  }
+
+  /**
+   * @readonly
+   * @returns {boolean} true if this pane resides inside another pane
+   */
+  get hasParentPanel() {
+    return this.parentElement.tagName === 'IDS-ACCORDION-PANEL';
+  }
+
+  /**
+   * @readonly
+   * @returns {boolean} true if this pane resides in an expanded parent pane
+   */
+  get parentExpanded() {
+    return this.hasParentPanel && this.parentElement.expanded;
+  }
+
+  /**
+   * @readonly
+   * @returns {boolean} true if this accordion panel has child content
+   * (aside from its header) and can be expanded/collapsed
+   */
+  get isExpandable() {
+    return [...this.children].length > 1;
+  }
+
+  /**
    * Set the expanded property
    * @param {string} value true/false
    */
   set expanded(value) {
-    if (value) {
-      this.setAttribute(attributes.EXPANDED, value);
+    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    const currentValue = this.expanded;
+
+    if (isValueTruthy) {
+      this.setAttribute(attributes.EXPANDED, `${value}`);
     } else {
-      this.setAttribute(attributes.EXPANDED, 'false');
+      this.removeAttribute(attributes.EXPANDED);
     }
-    this.#switchState();
+
+    if (isValueTruthy !== currentValue) {
+      this.#toggleExpanded(isValueTruthy);
+    }
   }
 
   /**
    * Get the expanded property
    * @returns {string} the expanded property
    */
-  get expanded() { return this.getAttribute(attributes.EXPANDED); }
-
-  /**
-   * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
-   */
-  static get attributes() {
-    return [attributes.EXPANDED];
+  get expanded() {
+    return IdsStringUtils.stringToBool(this.getAttribute(attributes.EXPANDED));
   }
 
   /**
    * The main state switching function
+   * @param {boolean} isExpanded true if the panel is to be expanded
    * @returns {void}
    * @private
    */
-  #switchState() {
-    this.state.expanded = this.getAttribute(attributes.EXPANDED) === 'true' || false;
-    this.header?.setAttribute('aria-expanded', this.state.expanded);
-
-    if (!this.state.expanded) {
+  #toggleExpanded(isExpanded) {
+    this.header?.setAttribute('aria-expanded', `${isExpanded}`);
+    if (!isExpanded) {
       this.collapsePane();
     } else {
       this.expandPane();
     }
+  }
+
+  /**
+   * Toggles expansion on this pane, and selects its header
+   * @returns {void}
+   */
+  #selectAndToggle() {
+    this.expanded = !this.expanded;
+    this.select(this);
+  }
+
+  /**
+   * Hides/Shows an Accordion Header's expander icon
+   * @returns {void}
+   */
+  #toggleExpanderDisplay() {
+    /* istanbul ignore next */
+    if (this.header instanceof IdsAccordionHeader) {
+      this.header.toggleExpanderIcon(this.isExpandable);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this panel appears "nested"
+   */
+  /* istanbul ignore next */
+  get nested() {
+    return this.container.classList.contains('nested');
+  }
+
+  /**
+   * @param {boolean} val true if this panel should appear "nested"
+   */
+  set nested(val) {
+    /* istanbul ignore next */
+    this.container.classList[IdsStringUtils.stringToBool(val) ? 'add' : 'remove']('nested');
   }
 
   /**
@@ -92,17 +260,39 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    */
   collapsePane() {
     requestAnimationFrame(() => {
+      /* istanbul ignore next */
       if (!this.pane) {
         return;
       }
 
+      // Remove any pre-existing Open listener that may still be in progress
+      /* istanbul ignore next */
+      if (this.paneOpenListener) {
+        this.pane.removeEventListener('transitionend', this.paneCloseListener);
+        delete this.paneOpenListener;
+      }
+
       this.pane.style.height = `${this.pane.scrollHeight}px`;
+      this.container.classList.remove('expanded');
+
+      /* istanbul ignore next */
+      if (this.header) {
+        this.header.expanded = false;
+      }
+
       requestAnimationFrame(() => {
         /* istanbul ignore next */
         if (!this.pane) {
           return;
         }
+
+        // Setting height to "0" kicks off animation
         this.pane.style.height = `0px`;
+        /* istanbul ignore next */
+        this.paneCloseListener = () => {
+          this.pane.style.display = 'none';
+        };
+        this.pane.addEventListener('transitionend', this.paneCloseListener, { once: true });
       });
     });
   }
@@ -113,19 +303,38 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    * @returns {void}
    */
   expandPane() {
-    if (!this.pane) {
+    /* istanbul ignore next */
+    if (!this.pane || !this.isExpandable) {
       return;
     }
-    this.pane.style.height = `${this.pane.scrollHeight}px`;
-  }
 
-  /**
-   * Sets the expanded state attribute
-   * @private
-   * @returns {void}
-   */
-  setAttributes() {
-    this.setAttribute(attributes.EXPANDED, this.getAttribute(attributes.EXPANDED) === 'true' ? 'false' : 'true');
+    // Remove any pre-existing Close listener that may still be in progress
+    /* istanbul ignore next */
+    if (this.paneCloseListener) {
+      this.pane.removeEventListener('transitionend', this.paneCloseListener);
+      delete this.paneCloseListener;
+    }
+
+    this.pane.style.display = '';
+
+    requestAnimationFrame(() => {
+      this.container.classList.add('expanded');
+
+      /* istanbul ignore next */
+      if (this.header) {
+        this.header.expanded = true;
+      }
+
+      // Setting height kicks off animation
+      this.pane.style.height = `${this.pane.scrollHeight}px`;
+      /* istanbul ignore next */
+      this.paneOpenListener = () => {
+        // NOTE: `auto` height allows for nested accordions to expand
+        // when their content is displayed
+        this.pane.style.height = 'auto';
+      };
+      this.pane.addEventListener('transitionend', this.paneOpenListener, { once: true });
+    });
   }
 
   /**
@@ -135,83 +344,54 @@ class IdsAccordionPanel extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboard
    */
   #attachEventHandlers() {
     this.onEvent('click', this.expander, () => {
-      this.setAttributes();
+      this.#selectAndToggle();
     });
 
-    this.listen('Enter', this.expander, () => {
-      this.setAttributes();
+    this.listen('Enter', this.expander, (e) => {
+      e.stopPropagation();
+      this.#selectAndToggle();
     });
 
-    this.listen(' ', this.expander, () => {
-      this.setAttributes();
-    });
-
-    this.listen('ArrowDown', this.expander, () => {
-      this.select(this.getNextPanel(this));
-    });
-
-    this.listen('ArrowUp', this.expander, () => {
-      this.select(this.getPrevPanel(this));
+    this.listen(' ', this.expander, (e) => {
+      e.stopPropagation();
+      this.#selectAndToggle();
     });
 
     this.onEvent('touchstart', this.expander, (e) => {
       /* istanbul ignore next */
       if (e.touches && e.touches.length > 0) {
-        this.setAttributes();
+        this.#selectAndToggle();
       }
     }, {
       passive: true
     });
-  }
 
-  /**
-   * Get the next panel element
-   * @private
-   * @param {object} panel The current panel element
-   * @returns {object} The next panel element
-   */
-  getNextPanel(panel) {
-    const next = panel.nextElementSibling;
-
-    /* eslint-disable */
-    if (next === null) {
-      return;
-    } else {
-      return next;
-    }
-    /* eslint-enable */
-  }
-
-  /**
-   * Get the next panel element
-   * @private
-   * @param {object} panel The current panel element
-   * @returns {object} The previous panel element
-   */
-  getPrevPanel(panel) {
-    const prev = panel.previousElementSibling;
-
-    /* eslint-disable */
-    if (prev === null) {
-      return;
-    } else {
-      return prev;
-    }
-    /* eslint-enable */
+    /* istanbul ignore next */
+    this.onEvent('slotchange', this, () => {
+      this.#toggleExpanderDisplay();
+    });
   }
 
   /**
    * Select the prev/next panel
-   * @private
-   * @param {object} panel The panel to be selected
+   * @param {IdsAccordionPanel} panel The panel to be selected
+   * @returns {void}
    */
   select(panel) {
+    /* istanbul ignore next */
     if (panel === undefined) {
       return;
     }
-    const header = panel.querySelector('ids-accordion-header').shadowRoot.querySelector('.ids-accordion-header');
-    header.setAttribute('tabindex', '0');
-    header.focus();
+    this.header.selected = true;
+    panel.focus();
+  }
+
+  /**
+   * Passes focus from the Panel to its Header component
+   * @returns {void}
+   */
+  focus() {
+    this.header.focus();
   }
 
   /**

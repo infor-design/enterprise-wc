@@ -1,38 +1,153 @@
 @import '../../core/ids-base';
 
-.ids-accordion-header {
-  @include antialiased();
-  @include border-1();
-  @include border-solid();
-  @include border-slate-20();
-  @include px-16();
-  @include py-12();
+// ================================================
+// Styles specific to the in-page Accordion
 
-  align-items: center;
-  border-left-color: transparent;
-  border-right-color: transparent;
-  border-top-color: transparent;
-  cursor: pointer;
-  display: grid;
-  grid-auto-flow: column;
+@mixin accordion-header-standard-colors() {
+  border-color: transparent;
 
-  &:focus {
-    @include shadow();
-    @include outline-none();
+  // Light Mode Styles
+  &[mode='light'] {
+    @include border-slate-20();
 
-    border: 1px solid var(--ids-color-palette-azure-70);
+    border-left-color: transparent;
+    border-right-color: transparent;
+    border-top-color: transparent;
+
+    &:focus {
+      @include shadow();
+
+      border: 1px solid var(--ids-color-palette-azure-70);
+    }
+  }
+
+  // Dark Mode Styles
+  &[mode='dark'] {
+    @include text-white();
+
+    border-bottom-color: var(--ids-color-palette-slate-70);
+
+    ids-icon {
+      @include text-slate-10();
+    }
+
+    &:focus {
+      border-bottom-color: var(--ids-color-palette-azure-70);
+    }
+  }
+
+  // Contrast Mode Styles
+  &[mode='contrast'] {
+    @include text-black();
+
+    border-bottom-color: var(--ids-color-palette-slate-30);
+
+    ids-icon {
+      @include text-slate-100();
+    }
+
+    &:focus {
+      border-bottom-color: var(--ids-color-palette-azure-80);
+    }
+  }
+
+  // Classic Light Mode Styles
+  &[version='classic'][mode='light'] {
+    @include text-graphite-100();
+
+    border-bottom-color: var(--ids-color-palette-graphite-20);
+
+    ids-icon {
+      @include text-graphite-100();
+    }
+
+    &:focus {
+      border-bottom-color: var(--ids-color-palette-azure-70);
+    }
+  }
+
+  // Classic Dark Mode Styles
+  &[version='classic'][mode='dark'] {
+    @include text-white();
+
+    border-bottom-color: var(--ids-color-palette-classic-slate-100);
+
+    ids-icon {
+      @include text-slate-10();
+    }
+
+    &:focus {
+      border-bottom-color: var(--ids-color-palette-azure-70);
+    }
+  }
+
+  // Classic Contrast Mode Styles
+  &[version='classic'][mode='contrast'] {
+    @include text-black();
+
+    border-bottom-color: var(--ids-color-palette-classic-slate-40);
+
+    ids-icon {
+      @include text-slate-100();
+    }
+
+    &:focus {
+      border-bottom-color: var(--ids-color-palette-azure-80);
+    }
   }
 }
 
-:host {
-  contain: content;
+// ================================================
+// Styles specific to the Top-level App Menu Accordions
 
-  &:focus {
-    @include shadow();
-    @include outline-none();
+@mixin accordion-header-app-menu-colors() {
+  @include mx-8();
+  @include rounded-md();
 
-    border: 1px solid var(--ids-color-palette-azure-70);
+  // Light Mode Styles
+  &[mode='light'] {
+    // Contrasts background of "bg-slate-100()" from the Drawer
+    background-color: transparent;
+    border-color: transparent;
+
+    @include text-slate-20();
+
+    &.expanded {
+      background-color: transparent;
+      border-color: transparent;
+    }
+
+    &:hover {
+      @include bg-slate-90();
+      @include border-slate-90();
+    }
+
+    &:focus {
+      @include text-white();
+      @include border-azure-70();
+    }
+
+    &.selected {
+      @include text-white();
+    }
+
+    &[disabled] {
+      @include bg-slate-100();
+      @include border-slate-100();
+      @include text-slate-40();
+    }
   }
+}
+
+// ================================================
+// Styles specific to the Sub-level App Menu Accordions
+
+@mixin accordion-header-nested-app-menu-colors() {
+  @include m-0();
+}
+
+:host {
+  display: block;
 
   ids-icon {
     transition: transform $transition-length $transition-ease;
@@ -41,78 +156,108 @@
 }
 
 :host([aria-expanded='true']) {
-  ids-icon {
+  ids-icon[icon='caret-down'] {
     transform: rotateX(180deg);
   }
 }
 
-// Handle Themes
-.ids-accordion-header[mode='dark'] {
-  @include text-white();
+.ids-accordion-header {
+  @include antialiased();
+  @include border-1();
+  @include border-solid();
 
-  border-bottom-color: var(--ids-color-palette-slate-70);
+  align-items: center;
+  cursor: pointer;
+  display: flex;
+  grid-auto-flow: column;
+  user-select: none;
 
-  ids-icon {
-    @include text-slate-10();
+  ::slotted(ids-text) {
+    flex-grow: 1;
+  }
+
+  .ids-accordion-display-icon {
+    display: none;
   }
 
   &:focus {
-    border-bottom-color: var(--ids-color-palette-azure-70);
+    @include outline-none();
+  }
+
+  // In-page Accordions
+  &:not(.color-variant-app-menu):not(.color-variant-sub-app-menu) {
+    @include px-16();
+    @include py-12();
+    @include accordion-header-standard-colors();
+  }
+
+  &.selected {
+    font-weight: bolder;
+  }
+
+  &.has-icon {
+    .ids-accordion-display-icon {
+      display: flex;
+    }
+  }
+
+  // Top Level App Menu Accordions
+  &.color-variant-app-menu {
+    @include px-16();
+    @include py-12();
+    @include accordion-header-app-menu-colors();
+  }
+
+  // Sub-level App Menu Accordions
+  &.color-variant-sub-app-menu {
+    @include px-20();
+    @include py-8();
+    @include accordion-header-app-menu-colors();
+    @include accordion-header-nested-app-menu-colors();
+  }
+
+  // =========================================
+  // Modifications to Expander Icon Types
+  &.expander-type-plus-minus {
+    .ids-accordion-expander-icon {
+      position: relative;
+      margin-top: -4px;
+      height: 14px;
+      width: 14px;
+    }
   }
 }
 
-.ids-accordion-header[mode='contrast'] {
-  @include text-black();
-
-  border-bottom-color: var(--ids-color-palette-slate-30);
-
-  ids-icon {
-    @include text-slate-100();
+// LTR styles for icon spacing
+:not(.rtl) {
+  ::slotted(ids-icon) {
+    @include mr-12();
   }
 
-  &:focus {
-    border-bottom-color: var(--ids-color-palette-azure-80);
-  }
-}
-
-.ids-accordion-header[version='classic'][mode='light'] {
-  @include text-graphite-100();
-
-  border-bottom-color: var(--ids-color-palette-graphite-20);
-
-  ids-icon {
-    @include text-graphite-100();
+  .ids-accordion-display-icon {
+    @include mr-12();
   }
 
-  &:focus {
-    border-bottom-color: var(--ids-color-palette-azure-70);
+  .ids-accordion-expander-icon {
+    &:first-child {
+      @include mr-8();
+    }
   }
 }
 
-.ids-accordion-header[version='classic'][mode='dark'] {
-  @include text-white();
-
-  border-bottom-color: var(--ids-color-palette-classic-slate-100);
-
-  ids-icon {
-    @include text-slate-10();
+// RTL styles for icon spacing
+.rtl {
+  ::slotted(ids-icon) {
+    @include ml-12();
   }
 
-  &:focus {
-    border-bottom-color: var(--ids-color-palette-azure-70);
-  }
-}
-
-.ids-accordion-header[version='classic'][mode='contrast'] {
-  @include text-black();
-
-  border-bottom-color: var(--ids-color-palette-classic-slate-40);
-
-  ids-icon {
-    @include text-slate-100();
+  .ids-accordion-display-icon {
+    @include ml-12();
   }
 
-  &:focus {
-    border-bottom-color: var(--ids-color-palette-azure-80);
+  .ids-accordion-expander-icon {
+    &:first-child {
+      @include ml-8();
+    }
   }
 }

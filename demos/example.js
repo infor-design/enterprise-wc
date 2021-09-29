@@ -2,6 +2,7 @@
 import accordionYaml from './ids-accordion/index.yaml';
 import aboutYaml from './ids-about/index.yaml';
 import alertYaml from './ids-alert/index.yaml';
+import appMenuYaml from './ids-app-menu/index.yaml';
 import badgeYaml from './ids-badge/index.yaml';
 import blockGridYaml from './ids-block-grid/index.yaml';
 import breadcrumbYaml from './ids-breadcrumb/index.yaml';
@@ -77,6 +78,7 @@ const addYaml = (yaml) => {
 addYaml(accordionYaml);
 addYaml(aboutYaml);
 addYaml(alertYaml);
+addYaml(appMenuYaml);
 addYaml(badgeYaml);
 addYaml(blockGridYaml);
 addYaml(breadcrumbYaml);

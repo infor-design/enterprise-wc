@@ -1,5 +1,6 @@
 import IdsAccordion from './ids-accordion';
 import IdsAlert from './ids-alert';
+import IdsAppMenu from './ids-app-menu';
 import IdsBadge from './ids-badge';
 import { IdsBlockGrid, IdsBlockGridItem } from './ids-block-grid';
 import IdsButton from './ids-button';
