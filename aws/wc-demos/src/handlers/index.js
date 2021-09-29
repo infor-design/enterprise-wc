@@ -1,6 +1,8 @@
 const pointsToFile = uri => /\/[^/]+\.[^/]+$/.test(uri)
 const hasTrailingSlash = uri => uri.endsWith('/')
 const needsTrailingSlash = uri => !pointsToFile(uri) && !hasTrailingSlash(uri)
+const bucketName = 'wc-staging-demos'
+const subDomain = 'wc-staging'
 
 
 exports.LambdaHandler = async (event, context, callback) => {
@@ -34,12 +36,13 @@ exports.LambdaHandler = async (event, context, callback) => {
   // If it doesn't have a subdomain, there will be no need for a path
   // because the static files will be at the root of the bucket, so
   // return an empty string.
-  const subdomainPattern = /^[a-zA-Z0-9-_]+\.wc\.design\.infor\.com$/
-  const dir = subdomainPattern.test(host) ? host.split(".")[0] : undefined
+  const subdomainPattern = `[a-zA-Z0-9-_]+\.${subDomain}\.design\.infor\.com`
+  const re = new RegExp(subdomainPattern, 'g')
+  const dir = re.test(host) ? host.split(".")[0] : undefined
   const entryPoint = dir ? `/${dir}` : ""
 
   // Declare the website endpoint of your Custom Origin.
-  const domain = "wc-demos.s3-website-us-east-1.amazonaws.com"
+  const domain = `${bucketName}.s3-website-us-east-1.amazonaws.com`
 
   // Instruct to send the request to the S3 bucket, specifying for it
   // to look for content within the sub-directory or at the root.

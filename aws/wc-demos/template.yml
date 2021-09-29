@@ -24,15 +24,66 @@ Parameters:
 Mappings:
   AliasMap:
     staging:
-      Alias: "wc-staging.design.infor.com"
+      Aliases: 'wc-staging.design.infor.com,*.wc-staging.design.infor.com'
     production:
-      Alias: "wc-prod.design.infor.com"
+      Aliases: 'wc-prod.design.infor.com,*.wc-prod.design.infor.com'
 
 # Resources declares the AWS resources that you want to include in the stack
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
   # Each Lambda function is defined by properties:
   # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
+
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: wc-staging-demos
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - Date
+            Id: myCORSRuleId1
+            MaxAge: 3600
+          - AllowedHeaders:
+              - x-amz-*
+            AllowedMethods:
+              - DELETE
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - Connection
+              - Server
+              - Date
+            Id: myCORSRuleId2
+            MaxAge: 1800
+
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - 's3:GetObject'
+            Effect: Allow
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref S3Bucket
+                - /*
+            Principal: '*'
 
   CFDistribution:
     Type: AWS::CloudFront::Distribution
@@ -41,27 +92,36 @@ Resources:
         ViewerCertificate:
           AcmCertificateArn: arn:aws:acm:us-east-1:611646686338:certificate/d4b81490-0e07-49d4-add6-9037546090b5
           SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
         Enabled: 'true'
         Comment: !Sub '${Stage} - CI/CD for Lambda@Edge'
-        Aliases:
-          - !FindInMap [AliasMap, !Ref Stage, Alias]
+        Aliases: !Split [",", !FindInMap [ AliasMap, !Ref Stage, Aliases] ]
+        HttpVersion: http2
+
         Origins:
           -
-            Id: WCDemosOrigin
-            DomainName: aws.amazon.com
+            Id: !Ref S3Bucket
+            DomainName: !GetAtt S3Bucket.DomainName
             CustomOriginConfig:
               HTTPPort: 80
               OriginProtocolPolicy: match-viewer
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: http-only
+
         DefaultCacheBehavior:
-          TargetOriginId: WCDemosOrigin
+          TargetOriginId: !Ref S3Bucket
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
           LambdaFunctionAssociations:
             - 
               EventType: origin-request
               LambdaFunctionARN: !Ref LambdaHandler.Version
           ForwardedValues:
-            QueryString: 'false'
+            QueryString: 'true'
             Headers:
-              - Origin
+              - Host
             Cookies:
               Forward: none
           ViewerProtocolPolicy: allow-all
@@ -96,6 +156,26 @@ Resources:
       MemorySize: 128
       Timeout: 5
       AutoPublishAlias: live
+
+  DNSRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: Z116857R5HR37V
+      Name: 'wc-staging.design.infor.com'
+      ResourceRecords:
+      - !GetAtt CFDistribution.DomainName
+      TTL: 900
+      Type: CNAME
+
+  DNSRecordWildcard:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: Z116857R5HR37V
+      Name: '*.wc-staging.design.infor.com'
+      ResourceRecords:
+      - !GetAtt CFDistribution.DomainName
+      TTL: 900
+      Type: CNAME
 
 Outputs:
     LambdaHandlerVersion: 
