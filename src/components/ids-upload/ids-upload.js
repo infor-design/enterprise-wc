@@ -110,7 +110,10 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           <ids-text audible="true" class="label-filetype" part="label">${labelFiletype}</ids-text>
         </label>
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
-        <ids-trigger-field ${label}${disabled}${readonlyBtn}${validate}>
+        <ids-trigger-field 
+          ${label}${disabled}${readonlyBtn}${validate}
+          css-class="ids-upload"
+        >
           <ids-input
             part="input"
             readonly="true"

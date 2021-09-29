@@ -52,6 +52,14 @@
     @include border-slate-40();
   }
 
+  &.ids-upload {
+    &[readonly] {
+      @include bg-white();
+      @include text-slate-30();
+      @include border-slate-30();
+    }
+  }
+
   // input message: [alert, error, info, success]
   &.alert,
   &.alert:hover {
@@ -178,6 +186,14 @@
   @include border-slate-40();
   @include text-white();
 
+  &.ids-upload {
+    &[readonly] {
+      @include bg-transparent();
+      @include border-slate-60();
+      @include text-slate-60();
+    }
+  }
+
   &[disabled] {
     @include border-slate-60();
     @include text-slate-60();
@@ -202,6 +218,14 @@
   @include bg-white();
   @include border-slate-40();
   @include text-black();
+
+  &.ids-upload {
+    &[readonly] {
+      @include bg-white();
+      @include border-slate-30();
+      @include text-slate-30();
+    }
+  }
 
   &[disabled] {
     @include border-slate-30();
@@ -228,6 +252,14 @@
   @include border-graphite-40();
   @include text-graphite-100();
 
+  &.ids-upload {
+    &[readonly] {
+      @include bg-transparent();
+      @include border-graphite-30();
+      @include text-graphite-40();
+    }
+  }
+
   &[disabled] {
     @include border-graphite-30();
     @include text-graphite-40();
@@ -253,6 +285,14 @@
   @include border-slate-40();
   @include text-white();
 
+  &.ids-upload {
+    &[readonly] {
+      @include bg-transparent();
+      @include border-classic-slate-40();
+      @include text-classic-slate-50();
+    }
+  }
+
   &[disabled] {
     @include border-classic-slate-40();
     @include text-classic-slate-50();
@@ -277,6 +317,14 @@
   @include bg-white();
   @include border-graphite-80();
   @include text-graphite-100();
+
+  &.ids-upload {
+    &[readonly] {
+      @include bg-transparent();
+      @include border-slate-50();
+      @include text-graphite-80();
+    }
+  }
 
   &[disabled] {
     @include bg-transparent();
