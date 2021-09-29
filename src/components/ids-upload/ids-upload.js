@@ -94,7 +94,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const label = this.label ? ` label="${this.label}"` : '';
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const multiple = trueVal(this.multiple) ? ` multiple="multiple"` : '';
-    const readonlyBtn = trueVal(this.readonly) ? ` disabled="true"` : '';
+    const readonlyBtn = trueVal(this.readonly) ? ` readonly="true"` : '';
     const bgTransparent = ` bg-transparent="${!trueVal(this.readonly)}"`;
     const clearableForced = ` clearable-forced="${this.hasAccess}"`;
     const size = this.size ? ` size="${this.size}"` : '';
