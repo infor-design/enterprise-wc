@@ -84,7 +84,7 @@
     "htmlhint": "^0.15.2",
     "ids-identity": "4.7.5",
     "install": "^0.13.0",
-    "jest": "^27.2.3",
+    "jest": "^27.2.4",
     "jest-puppeteer": "^6.0.0",
     "loglevel": "^1.7.1",
     "mini-css-extract-plugin": "^2.3.0",
