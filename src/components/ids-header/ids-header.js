@@ -12,9 +12,11 @@ import {
   IdsThemeMixin
 } from '../../mixins';
 
-import styles from './ids-header.scss';
+import { IdsXssUtils } from '../../utils/ids-xss-utils/ids-xss-utils';
+
 import IdsInput from '../ids-input';
-import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+
+import styles from './ids-header.scss';
 
 /**
  * IDS Header Component
@@ -68,7 +70,7 @@ class IdsHeader extends mix(IdsElement).with(
     if (typeof c !== 'string' || !c.length) {
       return;
     }
-    const sanitzedVal = stripHTML(c);
+    const sanitzedVal = IdsXssUtils.stripHTML(c);
     this.container.style.backgroundColor = sanitzedVal;
     this.setAttribute('color', sanitzedVal);
   }
