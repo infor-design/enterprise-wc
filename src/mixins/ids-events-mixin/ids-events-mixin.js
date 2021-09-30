@@ -123,7 +123,8 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * @returns {boolean} true if the event works
    */
   triggerVetoableEvent(eventType) {
-    if (!this.vetoableEventTypes.includes(eventType)) {
+    if (this.vetoableEventTypes.length > 0
+      && !this.vetoableEventTypes.includes(eventType)) {
       return false;
     }
 

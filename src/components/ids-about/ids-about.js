@@ -15,7 +15,7 @@ import {
   IdsDeviceEnvUtils
 } from '../../utils';
 
-import { IdsLocaleMixin, IdsEventsMixin } from '../../mixins';
+import { IdsLocaleMixin } from '../../mixins';
 
 import styles from './ids-about.scss';
 
@@ -26,11 +26,10 @@ import styles from './ids-about.scss';
  * @part popup - the popup outer element
  * @part overlay - the inner overlay element
  * @mixes IdsLocaleMixin
- * @mixes IdsEventsMixin
  */
 @customElement('ids-about')
 @scss(styles)
-class IdsAbout extends mix(IdsModal).with(IdsEventsMixin, IdsLocaleMixin) {
+class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   constructor() {
     super();
   }
