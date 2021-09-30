@@ -142,12 +142,8 @@ Resources:
             Sid: "AllowLambdaServiceToAssumeRole"
             Effect: "Allow"
             Action: 
-              Action: 
-            Action: 
               - "sts:AssumeRole"
             Principal:
-              Service: 
-                Service: 
               Service: 
                 - "lambda.amazonaws.com"
                 - "edgelambda.amazonaws.com"
@@ -185,14 +181,9 @@ Resources:
 
 Outputs:
   LambdaHandlerVersion: 
-    LambdaHandlerVersion: 
-  LambdaHandlerVersion: 
     Description: Lambda@Edge Function ARN with Version
     Value: !Ref LambdaHandler.Version
 
   CFDistribution: 
-    CFDistribution: 
-  CFDistribution: 
     Description: Cloudfront Distribution Domain Name
     Value: !GetAtt CFDistribution.DomainName
-
