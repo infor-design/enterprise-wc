@@ -96,13 +96,10 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     let template = `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
-    /* istanbul ignore else */
     if (this.badgePosition || this.badgeColor) {
-      /* istanbul ignore next */
       if (!this.badgePosition) {
         this.badgePosition = `bottom-right`;
       }
-      /* istanbul ignore else */
       if (!this.badgeColor) {
         this.badgeColor = `danger`;
       }
