@@ -24,6 +24,19 @@
       height: auto;
     }
   }
+
+  // Adjust the width/height to parent fit
+  &.ids-card-auto-fit {
+    @include m-0();
+
+    box-sizing: border-box;
+    min-height: auto;
+    height: 100%;
+
+    .ids-card-content {
+      height: 100%;
+    }
+  }
 }
 
 .ids-card-content {
