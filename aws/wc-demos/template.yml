@@ -10,7 +10,7 @@ Description: >-
 # Transform section specifies one or more macros that AWS CloudFormation uses to process your template
 # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
 Transform:
-- AWS::Serverless-2016-10-31
+  - AWS::Serverless-2016-10-31
 
 Parameters:
   Stage:
@@ -21,24 +21,27 @@ Parameters:
     Default: staging
     Description: Stage that can be added to resource names
 
+  AcmCertificateArn:
+    Type: String
+    Description: ACM Certificate ARN
+
+  S3BucketName:
+    Type: String
+    Description: S3 bucket name where static assets live
+
 Mappings:
   AliasMap:
     staging:
       Aliases: 'wc-staging.design.infor.com,*.wc-staging.design.infor.com'
     production:
-      Aliases: 'wc-prod.design.infor.com,*.wc-prod.design.infor.com'
+      Aliases: 'wc.design.infor.com,*.wc.design.infor.com'
 
-# Resources declares the AWS resources that you want to include in the stack
-# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resources-section-structure.html
 Resources:
-  # Each Lambda function is defined by properties:
-  # https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-
   S3Bucket:
     Type: AWS::S3::Bucket
     DeletionPolicy: Retain
     Properties:
-      BucketName: wc-staging-demos
+      BucketName: !Ref S3BucketName
       AccessControl: PublicRead
       WebsiteConfiguration:
         IndexDocument: index.html
@@ -90,11 +93,11 @@ Resources:
     Properties:
       DistributionConfig:
         ViewerCertificate:
-          AcmCertificateArn: arn:aws:acm:us-east-1:611646686338:certificate/d4b81490-0e07-49d4-add6-9037546090b5
+          AcmCertificateArn: !Ref AcmCertificateArn
           SslSupportMethod: sni-only
           MinimumProtocolVersion: TLSv1.2_2021
         Enabled: 'true'
-        Comment: !Sub '${Stage} - CI/CD for Lambda@Edge'
+        Comment: !Sub '${Stage} - Lambda@Edge'
         Aliases: !Split [",", !FindInMap [ AliasMap, !Ref Stage, Aliases] ]
         HttpVersion: http2
 
@@ -129,23 +132,26 @@ Resources:
   LambdaEdgeFunctionRole:
     Type: "AWS::IAM::Role"
     Properties:
-        Path: "/"
-        ManagedPolicyArns:
-            - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-        AssumeRolePolicyDocument:
-          Version: "2012-10-17"
-          Statement:
-            -
-              Sid: "AllowLambdaServiceToAssumeRole"
-              Effect: "Allow"
+      Path: "/"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Sid: "AllowLambdaServiceToAssumeRole"
+            Effect: "Allow"
+            Action: 
               Action: 
-                - "sts:AssumeRole"
-              Principal:
+            Action: 
+              - "sts:AssumeRole"
+            Principal:
+              Service: 
                 Service: 
-                  - "lambda.amazonaws.com"
-                  - "edgelambda.amazonaws.com"
+              Service: 
+                - "lambda.amazonaws.com"
+                - "edgelambda.amazonaws.com"
 
-  # This is a Lambda function config associated with the source code: index.js
   LambdaHandler:
     Type: AWS::Serverless::Function
     Properties:
@@ -161,9 +167,9 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: Z116857R5HR37V
-      Name: 'wc-staging.design.infor.com'
+      Name: !Select [ "0", !Split [",", !FindInMap [ AliasMap, !Ref Stage, Aliases] ] ]
       ResourceRecords:
-      - !GetAtt CFDistribution.DomainName
+        - !GetAtt CFDistribution.DomainName
       TTL: 900
       Type: CNAME
 
@@ -171,17 +177,22 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: Z116857R5HR37V
-      Name: '*.wc-staging.design.infor.com'
+      Name: !Select [ "1", !Split [",", !FindInMap [ AliasMap, !Ref Stage, Aliases] ] ]
       ResourceRecords:
-      - !GetAtt CFDistribution.DomainName
+        - !GetAtt CFDistribution.DomainName
       TTL: 900
       Type: CNAME
 
 Outputs:
+  LambdaHandlerVersion: 
     LambdaHandlerVersion: 
-      Description: Lambda@Edge Function ARN with Version
-      Value: !Ref LambdaHandler.Version
+  LambdaHandlerVersion: 
+    Description: Lambda@Edge Function ARN with Version
+    Value: !Ref LambdaHandler.Version
 
+  CFDistribution: 
     CFDistribution: 
-      Description: Cloudfront Distribution Domain Name
-      Value: !GetAtt CFDistribution.DomainName
+  CFDistribution: 
+    Description: Cloudfront Distribution Domain Name
+    Value: !GetAtt CFDistribution.DomainName
+

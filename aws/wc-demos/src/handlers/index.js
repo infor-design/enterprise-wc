@@ -1,8 +1,9 @@
 const pointsToFile = uri => /\/[^/]+\.[^/]+$/.test(uri)
 const hasTrailingSlash = uri => uri.endsWith('/')
 const needsTrailingSlash = uri => !pointsToFile(uri) && !hasTrailingSlash(uri)
-const bucketName = 'wc-staging-demos'
-const subDomain = 'wc-staging'
+const bucketName = 'wc-demos'
+const baseDomain = 'wc.design.infor.com'
+const region = 'us-east-1'
 
 
 exports.LambdaHandler = async (event, context, callback) => {
@@ -21,8 +22,8 @@ exports.LambdaHandler = async (event, context, callback) => {
       headers: {
         location: [{
           key: 'Location',
-          value: qs ? `${olduri}/?${qs}` : `${olduri}/`,
-        }],
+          value: qs ? `${olduri}/?${qs}` : `${olduri}/`
+        }]
       }
     })
   }
@@ -36,13 +37,12 @@ exports.LambdaHandler = async (event, context, callback) => {
   // If it doesn't have a subdomain, there will be no need for a path
   // because the static files will be at the root of the bucket, so
   // return an empty string.
-  const subdomainPattern = `[a-zA-Z0-9-_]+\.${subDomain}\.design\.infor\.com`
-  const re = new RegExp(subdomainPattern, 'g')
+  const re = new RegExp(`[a-zA-Z0-9-_]+.${baseDomain}`, 'g')
   const dir = re.test(host) ? host.split(".")[0] : undefined
   const entryPoint = dir ? `/${dir}` : ""
 
   // Declare the website endpoint of your Custom Origin.
-  const domain = `${bucketName}.s3-website-us-east-1.amazonaws.com`
+  const s3domain = `${bucketName}.s3-website-${region}.amazonaws.com`
 
   // Instruct to send the request to the S3 bucket, specifying for it
   // to look for content within the sub-directory or at the root.
@@ -50,7 +50,7 @@ exports.LambdaHandler = async (event, context, callback) => {
   // It does not affect the request URI (eg. /login). 
   request.origin = {
     custom: {
-      domainName: domain,
+      domainName: s3domain,
       port: 80,
       protocol: "http",
       path: entryPoint,
@@ -64,6 +64,6 @@ exports.LambdaHandler = async (event, context, callback) => {
     }
   }
 
-  request.headers["host"] = [{ key: "host", value: domain }]
+  request.headers["host"] = [{ key: "host", value: s3domain }]
   callback(null, request)
 }

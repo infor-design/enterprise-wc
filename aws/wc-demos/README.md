@@ -97,7 +97,7 @@ The dead-letter queue is a location for Lambda to send events that could not be 
 Deploy the updated application.
 
 ```bash
-$ sam deploy
+$ sam deploy --parameter-overrides $(cat .sam-params)
 ```
 
 Open the [**Applications**](https://console.aws.amazon.com/lambda/home#/applications) page of the Lambda console, and choose your application. When the deployment completes, view the application resources on the **Overview** tab to see the new resource. Then, choose the function to see the updated configuration that specifies the dead-letter queue.
