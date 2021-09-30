@@ -72,14 +72,12 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   template() {
-    /* istanbul ignore next */
     if (!this.hasSectionContainers()) {
       return (
         `<ids-pager-section><slot></slot></ids-pager-section>`
       );
     }
 
-    /* istanbul ignore next */
     return (
       `<div class="ids-pager">
         <slot></slot>
@@ -109,7 +107,6 @@ export default class IdsPager extends mix(IdsElement).with(
    * @returns {boolean} Whether or not IdsPageSection containers were
    * provided to content
    */
-  /* istanbul ignore next */
   hasSectionContainers() {
     for (const el of this.children) {
       if (el instanceof IdsPagerSection) {
@@ -192,7 +189,6 @@ export default class IdsPager extends mix(IdsElement).with(
 
   /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount() {
-    /* istanbul ignore next */
     return (this.total !== null && !Number.isNaN(this.total))
       ? Math.floor(this.total / this.pageSize)
       : null;
@@ -234,16 +230,13 @@ export default class IdsPager extends mix(IdsElement).with(
    * if only 2 sections exist for alignment sake to
    * keep things simple
    */
-  /* istanbul ignore next */
-  #normalizeSectionContainers() {
-    /* istanbul ignore next */
+    #normalizeSectionContainers() {
     if (!this.hasSectionContainers()) {
       this.shadowRoot.querySelector('ids-pager-section')
         .setAttribute('role', 'navigation');
       return;
     }
 
-    /* istanbul ignore next */
     switch (this.children.length) {
     case 3:
       this.children[0].setAttribute(attributes.ALIGN, 'start');
@@ -274,30 +267,28 @@ export default class IdsPager extends mix(IdsElement).with(
   }
 
   #keepPageNumberInBounds() {
-    let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER));
+      let nextValue = parseInt(this.getAttribute(attributes.PAGE_NUMBER));
 
-    /* istanbul ignore next */
-    if (Number.isNaN(nextValue)) {
-      nextValue = 1;
-    } else if (nextValue <= 1) {
-      nextValue = 1;
-    } else if (nextValue > this.pageCount) {
-      nextValue = this.pageCount;
-    }
+      if (Number.isNaN(nextValue)) {
+        nextValue = 1;
+      } else if (nextValue <= 1) {
+        nextValue = 1;
+      } else if (nextValue > this.pageCount) {
+        nextValue = this.pageCount;
+      }
 
-    if (parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue) {
-      this.setAttribute(attributes.PAGE_NUMBER, nextValue);
-    }
-  }
-
-  /** Observes changes in content/layout */
-  /* istanbul ignore next */
-  #contentObserver = new MutationObserver((mutations) => {
-    for (const m of mutations) {
-      if (m.type === 'childList') {
-        this.#normalizeSectionContainers();
-        this.provideAttributes();
+      if (parseInt(this.getAttribute(attributes.PAGE_NUMBER)) !== nextValue) {
+        this.setAttribute(attributes.PAGE_NUMBER, nextValue);
       }
     }
-  });
+
+  /** Observes changes in content/layout */
+    #contentObserver = new MutationObserver((mutations) => {
+      for (const m of mutations) {
+        if (m.type === 'childList') {
+          this.#normalizeSectionContainers();
+          this.provideAttributes();
+        }
+      }
+    });
 }

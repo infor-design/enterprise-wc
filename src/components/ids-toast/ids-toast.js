@@ -460,7 +460,6 @@ class IdsToast extends mix(IdsElement).with(
       if (lsPosition) {
         container.style.transform = lsPosition;
         const rect = container.getBoundingClientRect();
-        /* istanbul ignore next */
         if (!this.#isPosInViewport(rect)) {
           reset();
         }

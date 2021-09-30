@@ -2,7 +2,11 @@
 
 The IDS components are backed by both functional and end-to-end (e2e) test suites.  When contributing to the IDS enterprise project, before we can accept pull requests we expect that new tests will be provided to prove that new functionality works, and that all existing tests pass.
 
-The testing strategy is to aim for 100% coverage with the functional tests. Because the tests use JSDOM this means that some things may not be testable with it so in that case you should use `/* istanbul ignore next */` to skip coverage rather than make it drop. For these situations consider adding an e2e puppeteer test to cover this functionality in addition to skipping.
+The testing strategy is to aim for 100% coverage but initially 80% is the minimum. You should try to make sure to cover all the functionality of the component with tests. Any time you fix a bug you should also make an additional test for that bug if it was not noticed by a test.
+
+When covering tests you can use either the functional tests `*-func-test.js` or e2e puppeteer tests `*-e2e-test.js`. The coverage is combined between these. Because the functional tests use JSDOM this means that some things may not be testable with it so in that case you should try to test it in an e2e puppeteer test which uses a real browser. If both fail you can use `/* istanbul ignore next - reason */` to skip coverage rather than make it drop.
+
+Aim for 100% but the minimum is 80% and we can come back to some.
 
 ## Test Stack
 
@@ -51,6 +55,7 @@ We could improve this...
 - Also check out `await jestPuppeteer.debug();`
 - edit the jest-puppeteer.config.js and set `devtools: true` and `headless: false`
 - run `npm run test:debug -- tooltip`
+- may also need to make the [timeout](https://github.com/infor-design/enterprise-wc/blob/main/jest.config.js#L21) longer temporarily
 
 ## Visual Regression tests
 

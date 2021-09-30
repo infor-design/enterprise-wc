@@ -79,7 +79,6 @@ class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
     });
 
     const btns = [...this.querySelectorAll('ids-button')];
-    /* istanbul ignore next */
     btns.forEach((btn) => {
       btn.colorVariant = 'alternate';
     });
@@ -94,14 +93,9 @@ class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
     super.addOpenEvents();
 
     this.globalKeydownListener = (e) => {
-      switch (e.key) {
-      case 'Escape':
+      if (e.key === 'Escape') {
         e.stopImmediatePropagation();
         this.hide();
-        break;
-      /* istanbul ignore next */
-      default:
-        break;
       }
     };
     document.addEventListener('keydown', this.globalKeydownListener);
@@ -112,6 +106,7 @@ class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
    * @returns {void}
    */
   removeOpenEvents() {
+    console.log('removeOpenEvents')
     super.removeOpenEvents();
     document.removeEventListener('keydown', this.globalKeydownListener);
   }

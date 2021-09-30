@@ -15,7 +15,6 @@ import { IdsEventsMixin } from '../../mixins';
 // Import Styles
 import styles from './ids-wizard.scss';
 
-/* istanbul ignore next */
 /**
  * retrieves a step marker element within
  * a wizard's shadow DOM
@@ -30,7 +29,6 @@ function getStepEl(wizardEl, stepNumber) {
   );
 }
 
-/* istanbul ignore next */
 /**
  * Checks whether bounding box/rects retrieved
  * from elem's bounding box are colliding horizontally
@@ -45,7 +43,6 @@ function areRectsHColliding(r1, r2) {
   );
 }
 
-/* istanbul ignore next */
 /**
  * Recursively resize steps for an element so they don't collide;
  * (only pass the wizard element to args)
@@ -193,90 +190,88 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     }
   });
 
-  /* istanbul ignore next */
-  resizeObserver = new ResizeObserver(() => {
-    this.fitAndSizeElements();
-  });
+    resizeObserver = new ResizeObserver(() => {
+      this.fitAndSizeElements();
+    });
 
-  /* istanbul ignore next */
-  /**
-   * fits and resizes all labels to fit
-   * within the space available
-   */
-  fitAndSizeElements() {
-    const labelEls = [];
+    /**
+     * fits and resizes all labels to fit
+     * within the space available
+     */
+    fitAndSizeElements() {
+      const labelEls = [];
 
-    for (let i = 0; i < this.children.length; i++) {
-      const labelEl = getStepEl(this, i + 1).children[1];
-      labelEl.style.maxWidth = 'unset';
-      labelEls.push(labelEl);
+      for (let i = 0; i < this.children.length; i++) {
+        const labelEl = getStepEl(this, i + 1).children[1];
+        labelEl.style.maxWidth = 'unset';
+        labelEls.push(labelEl);
+      }
+
+      window.requestAnimationFrame(() => {
+        const stepRects = resizeStepLabelRects(this);
+        for (let i = 0; i < stepRects.length; i++) {
+          const { width } = stepRects[i];
+
+          labelEls[i].style.maxWidth = `${width}px`;
+        }
+      });
     }
 
-    window.requestAnimationFrame(() => {
-      const stepRects = resizeStepLabelRects(this);
-      for (let i = 0; i < stepRects.length; i++) {
-        const { width } = stepRects[i];
+    /**
+     * Return the attributes we handle as getters/setters
+     * @returns {Array} The attributes in an array
+     */
+    static get attributes() {
+      return [attributes.STEP_NUMBER, attributes.CLICKABLE];
+    }
 
-        labelEls[i].style.maxWidth = `${width}px`;
-      }
-    });
-  }
+    /**
+     * whether or not a step is clickable
+     * @private
+     * @param {number} stepNumber the step number to check
+     * @returns {boolean} whether or not the step is clickable
+     */
+    isStepClickable(stepNumber) {
+      const stepEl = this.children[stepNumber - 1];
 
-  /**
-   * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
-   */
-  static get attributes() {
-    return [attributes.STEP_NUMBER, attributes.CLICKABLE];
-  }
-
-  /**
-   * whether or not a step is clickable
-   * @private
-   * @param {number} stepNumber the step number to check
-   * @returns {boolean} whether or not the step is clickable
-   */
-  isStepClickable(stepNumber) {
-    const stepEl = this.children[stepNumber - 1];
-
-    return (
-      (!this.clickable && (stepEl.getAttribute(attributes.CLICKABLE) !== 'false'))
+      return (
+        (!this.clickable && (stepEl.getAttribute(attributes.CLICKABLE) !== 'false'))
       || stepEl.getAttribute(attributes.CLICKABLE) !== 'false'
-    );
-  }
+      );
+    }
 
-  /**
-   * Create the Template for the contents
-   * @returns {string} the template to render
-   */
-  template() {
-    let stepsHtml = '';
+    /**
+     * Create the Template for the contents
+     * @returns {string} the template to render
+     */
+    template() {
+      let stepsHtml = '';
 
-    // iterate through ids-wizard-step
-    // lightDOM to create shadowDOM markup
+      // iterate through ids-wizard-step
+      // lightDOM to create shadowDOM markup
 
-    const stepIndex = this.stepNumber - 1;
+      const stepIndex = this.stepNumber - 1;
 
-    for (const [i, stepEl] of [...this.children].entries()) {
-      const isCurrentStep = stepIndex === i;
-      const isVisitedStep = i <= stepIndex;
-      const isClickable = this.isStepClickable(i + 1);
-      const label = stepEl.textContent;
-      const hrefUrl = this.hrefURIs?.[i];
+      for (const [i, stepEl] of [...this.children].entries()) {
+        const isCurrentStep = stepIndex === i;
+        const isVisitedStep = i <= stepIndex;
+        const isClickable = this.isStepClickable(i + 1);
+        const label = stepEl.textContent;
+        const hrefUrl = this.hrefURIs?.[i];
 
-      let stepClassName = 'step';
-      stepClassName += isCurrentStep ? ' current' : '';
-      stepClassName += isVisitedStep ? ' visited' : '';
-      stepClassName += isClickable ? ' clickable' : '';
+        let stepClassName = 'step';
+        stepClassName += isCurrentStep ? ' current' : '';
+        stepClassName += isVisitedStep ? ' visited' : '';
+        stepClassName += isClickable ? ' clickable' : '';
 
-      const pathSegmentHtml = (i >= this.children.length - 1) ? '' : (
+        const pathSegmentHtml = (i >= this.children.length - 1) ? '' : (
         `<div
           class="path-segment${stepIndex <= i ? '' : ' visited'}
           part="path-segment"
         ></div>`
-      );
+        );
 
-      const stepLabelHtml = (
+        const stepLabelHtml = (
         `<div
           class="step-label"
           step-number=${i + 1}
@@ -289,12 +284,12 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
           >${label}
           </ids-text>
         </div>`
-      );
+        );
 
-      let anchorAttribsHtml = `name="#${label}" title="${label}"`;
-      anchorAttribsHtml += (!isClickable || isCurrentStep) ? '' : ` href="#${hrefUrl}"`;
+        let anchorAttribsHtml = `name="#${label}" title="${label}"`;
+        anchorAttribsHtml += (!isClickable || isCurrentStep) ? '' : ` href="#${hrefUrl}"`;
 
-      stepsHtml += (
+        stepsHtml += (
         `<a
           class="${stepClassName}"
           part="step"
@@ -314,151 +309,146 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
           ${stepLabelHtml}
         </a>
         ${pathSegmentHtml}`
-      );
-    }
+        );
+      }
 
-    return (
+      return (
       `<div class="ids-wizard">
         <nav class="steps">
           ${stepsHtml}
         </nav>
       </div>`
-    );
-  }
-
-  /**
-   * Get the step number
-   * @returns {number|string} step number (1-based)
-   */
-  get stepNumber() {
-    const stepNumber = parseInt(this.getAttribute(attributes.STEP_NUMBER));
-
-    if (Number.isNaN(stepNumber)) {
-      return -1;
+      );
     }
 
-    return stepNumber;
-  }
+    /**
+     * Get the step number
+     * @returns {number|string} step number (1-based)
+     */
+    get stepNumber() {
+      const stepNumber = parseInt(this.getAttribute(attributes.STEP_NUMBER));
 
-  /**
-   * Set the step number
-   * @param {number|string} value step number (1-based)
-   */
-  set stepNumber(value) {
-    if (Number.isNaN(Number(value))) {
-      throw new Error('ids-wizard: Invalid step number provided');
-    }
-
-    const v = parseInt(value);
-    if (v <= 0) {
-      throw new Error('ids-wizard: step number should be > 0');
-    } else if (v > this.children.length) {
-      throw new Error('ids-wizard: step number should be below step-count');
-    }
-
-    this.setAttribute('step-number', v);
-  }
-
-  set clickable(value) {
-    this.setAttribute(attributes.CLICKABLE, value !== 'false');
-  }
-
-  get clickable() {
-    return this.getAttribute(attributes.CLICKABLE);
-  }
-
-  connectedCallback() {
-    this.updateHrefURIs();
-    /* istanbul ignore next */
-    if (window.location.hash.length) {
-      const uriHash = window.location.hash.substr(1);
-      const stepNumber = this.hrefURIs.indexOf(uriHash) + 1;
-
-      if (stepNumber) {
-        this.stepNumber = stepNumber;
+      if (Number.isNaN(stepNumber)) {
+        return -1;
       }
+
+      return stepNumber;
     }
 
-    this.stepObserver.disconnect();
+    /**
+     * Set the step number
+     * @param {number|string} value step number (1-based)
+     */
+    set stepNumber(value) {
+      if (Number.isNaN(Number(value))) {
+        throw new Error('ids-wizard: Invalid step number provided');
+      }
 
-    // set up observer for monitoring if a child element changed
-    this.stepObserver.observe(this, {
-      childList: true,
-      attributes: true,
-      subtree: true
-    });
-  }
+      const v = parseInt(value);
+      if (v <= 0) {
+        throw new Error('ids-wizard: step number should be > 0');
+      } else if (v > this.children.length) {
+        throw new Error('ids-wizard: step number should be below step-count');
+      }
 
-  /**
-   * Handle Setting changes of observed properties
-   * @param  {string} name The property name
-   * @param  {string} oldValue The property old value
-   * @param  {string} newValue The property new value
-   */
-  attributeChangedCallback(name, oldValue, newValue) {
-    super.attributeChangedCallback(name, oldValue, newValue);
+      this.setAttribute('step-number', v);
+    }
 
-    // when we change the step number, we want to track any
-    // size changes we defined for maxWidth, so that we
-    // don't see any kind of flicker via remeasure (ResizeObserver
-    // does not have an option not to dispatch initially).
+    set clickable(value) {
+      this.setAttribute(attributes.CLICKABLE, value !== 'false');
+    }
 
-    // We also want to render the changes quickly,
-    // and focus trap the selected step if needed
-    // so that focus isn't lost suddenly
+    get clickable() {
+      return this.getAttribute(attributes.CLICKABLE);
+    }
 
-    if (oldValue !== newValue) {
-      switch (name) {
-      case 'clickable':
-      case 'step-number': {
-        const activeStepNumber = document.activeElement.getAttribute('step-number');
+    connectedCallback() {
+      this.updateHrefURIs();
+      if (window.location.hash.length) {
+        const uriHash = window.location.hash.substr(1);
+        const stepNumber = this.hrefURIs.indexOf(uriHash) + 1;
 
-        // track any label widths
-
-        const resizedWidthsMap = new Map();
-
-        /* istanbul ignore next */
-        for (let i = 0; i < this.children?.length; i++) {
-          const labelEl = getStepEl(this, i + 1).children?.[1];
-
-          if (labelEl.style.maxWidth && labelEl.style.maxWidth !== 'unset') {
-            resizedWidthsMap.set(i + 1, labelEl.style.maxWidth);
-          }
+        if (stepNumber) {
+          this.stepNumber = stepNumber;
         }
+      }
 
-        this.shouldUpdateCallbacks = true;
-        this.render();
+      this.stepObserver.disconnect();
 
-        /* istanbul ignore next */
-        if ((typeof activeStepNumber === 'string') && parseInt(activeStepNumber)) {
-          const currentStep = this.shadowRoot.querySelector(
-            `[step-number="${activeStepNumber}"]`
-          );
+      // set up observer for monitoring if a child element changed
+      this.stepObserver.observe(this, {
+        childList: true,
+        attributes: true,
+        subtree: true
+      });
+    }
 
-          currentStep?.focus();
+    /**
+     * Handle Setting changes of observed properties
+     * @param  {string} name The property name
+     * @param  {string} oldValue The property old value
+     * @param  {string} newValue The property new value
+     */
+    attributeChangedCallback(name, oldValue, newValue) {
+      super.attributeChangedCallback(name, oldValue, newValue);
 
-          // restore label widths after render
-          for (const [stepNumber, width] of resizedWidthsMap) {
-            const labelEl = getStepEl(this, stepNumber)?.children?.[1];
-            if (labelEl?.style) {
-              labelEl.style.maxWidth = width;
+      // when we change the step number, we want to track any
+      // size changes we defined for maxWidth, so that we
+      // don't see any kind of flicker via remeasure (ResizeObserver
+      // does not have an option not to dispatch initially).
+
+      // We also want to render the changes quickly,
+      // and focus trap the selected step if needed
+      // so that focus isn't lost suddenly
+
+      if (oldValue !== newValue) {
+        switch (name) {
+        case 'clickable':
+        case 'step-number': {
+          const activeStepNumber = document.activeElement.getAttribute('step-number');
+
+          // track any label widths
+
+          const resizedWidthsMap = new Map();
+
+          for (let i = 0; i < this.children?.length; i++) {
+            const labelEl = getStepEl(this, i + 1).children?.[1];
+
+            if (labelEl.style.maxWidth && labelEl.style.maxWidth !== 'unset') {
+              resizedWidthsMap.set(i + 1, labelEl.style.maxWidth);
             }
           }
+
+          this.shouldUpdateCallbacks = true;
+          this.render();
+
+          if ((typeof activeStepNumber === 'string') && parseInt(activeStepNumber)) {
+            const currentStep = this.shadowRoot.querySelector(
+            `[step-number="${activeStepNumber}"]`
+            );
+
+            currentStep?.focus();
+
+            // restore label widths after render
+            for (const [stepNumber, width] of resizedWidthsMap) {
+              const labelEl = getStepEl(this, stepNumber)?.children?.[1];
+              if (labelEl?.style) {
+                labelEl.style.maxWidth = width;
+              }
+            }
+          }
+          break;
         }
-        break;
-      }
-      /* istanbul ignore next */
-      default: break;
+        default: break;
+        }
       }
     }
-  }
 
   /**
    * Binds associated callbacks and cleans
    * old handlers when template refreshes
    */
   rendered = () => {
-    /* istanbul ignore next */
     if (!this.shouldUpdateCallbacks) {
       return;
     }

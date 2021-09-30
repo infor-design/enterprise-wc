@@ -182,7 +182,6 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     // Setup events
     this.onEvent('touchstart.longpress', target, (e) => {
       e.preventDefault();
-      /* istanbul ignore next */
       if (!this.timer) {
         this.timer = this.rl?.register(new IdsRenderLoopItem({
           duration: options?.delay || 500,
@@ -195,7 +194,6 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
       }
     }, { passive: true });
 
-    /* istanbul ignore next */
     this.onEvent('touchend.longpress', target, (e) => {
       e.preventDefault();
       this.clearTimer();
@@ -226,7 +224,6 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
   #addSwipeListener(eventName, target, options) {
-    /* istanbul ignore next */
     if (this.swipeOn) {
       return;
     }
@@ -234,18 +231,15 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     let touchstartX = 0;
     let touchendX = 0;
 
-    /* istanbul ignore next */
     if (options) {
       options.passive = true;
     }
 
     // Setup events
-    /* istanbul ignore next */
     this.onEvent('touchstart.swipe', target, (e) => {
       touchstartX = e.changedTouches[0].screenX;
     }, options);
 
-    /* istanbul ignore next */
     this.onEvent('touchend.swipe', target, (e) => {
       touchendX = e.changedTouches[0].screenX;
       let direction = '';
@@ -269,10 +263,8 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
       target.dispatchEvent(event);
     }, options);
 
-    /* istanbul ignore next */
     if (options?.scrollContainer) {
       let lastPercentage = 0;
-      /* istanbul ignore next */
       this.onEvent('scroll', options.scrollContainer, (e) => {
         const eventTarget = e.target;
         const scrollPercentage = 100
@@ -340,12 +332,10 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
       this.isClick = true;
     });
 
-    /* istanbul ignore next */
     this.onEvent('keypress.keyboardfocus', target, () => {
       this.isClick = false;
     });
 
-    /* istanbul ignore next */
     this.onEvent('focus.keyboardfocus', target, (e) => {
       const event = new CustomEvent('keyboardfocus', e);
       target.dispatchEvent(event);
@@ -377,7 +367,6 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
   #addHoverEndListener(eventName, target, options) {
     // Setup events
     this.onEvent('mouseenter.eventsmixin', target, (e) => {
-      /* istanbul ignore next */
       if (!this.timer) {
         this.timer = this.rl?.register(new IdsRenderLoopItem({
           duration: options?.delay || 500,
@@ -416,7 +405,6 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
       }
       keys += e.key;
 
-      /* istanbul ignore next */
       if (!this.timer) {
         this.timer = this.rl?.register(new IdsRenderLoopItem({
           duration: options?.delay || 500,

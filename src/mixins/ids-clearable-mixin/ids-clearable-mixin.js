@@ -16,7 +16,6 @@ const IdsClearableMixin = (superclass) => class extends superclass {
     super();
   }
 
-  /* istanbul ignore next */
   static get attributes() {
     return [
       ...super.attributes,
@@ -89,7 +88,6 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   clear() {
-    /* istanbul ignore next */
     if (this.input) {
       this.value = '';
       this.input.dispatchEvent(new Event('change'));
@@ -142,7 +140,6 @@ const IdsClearableMixin = (superclass) => class extends superclass {
       const eventName = 'click';
       if (option === 'remove') {
         const handler = this?.handledEvents?.get(eventName);
-        /* istanbul ignore next */
         if (handler && handler.target === xButton) {
           this.offEvent(eventName, xButton);
         }
@@ -162,7 +159,6 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   handleClearableInputEvents(evt, option) {
-    /* istanbul ignore next */
     if (this.input && evt && typeof evt === 'string') {
       const eventName = evt;
       if (option === 'remove') {
@@ -209,7 +205,6 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * When set the input will force to add a clearable x button on readonly and disabled
    * @param {boolean|string} value If true will set `clearable-forced` attribute
    */
-  /* istanbul ignore next */
   set clearableForced(value) {
     const val = stringUtils.stringToBool(value);
     if (val) {

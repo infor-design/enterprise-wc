@@ -67,7 +67,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
      * Sets the value attribute
      * @param {string} val string value from the value attribute
      */
-    /* istanbul ignore next */
     set value(val) {
       const isReadonly = IdsStringUtils.stringToBool(this.readonly);
 
@@ -139,7 +138,6 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
      * Sets the size attribute
      * @param {string} s string value from the size attribute
      */
-    /* istanbul ignore next */
     set size(s) {
       if (s) {
         this.ratingArr.forEach((element) => element.setAttribute('size', s.toString()));
@@ -156,11 +154,8 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
      * @private
      * @returns {void}
      */
-    /* istanbul ignore next */
-    #attachEventHandlers() {
-      /* istanbul ignore next */
+        #attachEventHandlers() {
       this.onEvent('click', this.container, (e) => this.updateStars(e));
-      /* istanbul ignore next */
       this.onEvent('keyup', this.container, (e) => {
         if ((e.key === 'Enter' || e.key === ' ') && this.readonly === false) {
           this.updateStars(e);
@@ -168,60 +163,57 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
       });
     }
 
-    /**
-     * Sets star state, active class and icon attribute
-     * @param {any} event event target
-     */
-    /* istanbul ignore next */
-    updateStars(event) {
-      const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
-      let attrName = 'star-filled';
-      let action = 'add';
-      for (const ratingOption of this.ratingArr) {
-        ratingOption.classList[action]('active');
-        ratingOption.setAttribute('icon', attrName);
-        if (ratingOption === event.target) {
-          action = 'remove';
-          attrName = 'star-outlined';
+        /**
+         * Sets star state, active class and icon attribute
+         * @param {any} event event target
+         */
+        updateStars(event) {
+          const activeElements = this.ratingArr.filter((item) => item.classList.contains('active'));
+          let attrName = 'star-filled';
+          let action = 'add';
+          for (const ratingOption of this.ratingArr) {
+            ratingOption.classList[action]('active');
+            ratingOption.setAttribute('icon', attrName);
+            if (ratingOption === event.target) {
+              action = 'remove';
+              attrName = 'star-outlined';
+            }
+            if (activeElements.length === 1 && event.target.classList.contains('star-0')) {
+              activeElements[0].classList.remove('active');
+              activeElements[0].setAttribute('icon', 'star-outlined');
+            }
+          }
+          this.updateValue(this.ratingArr);
         }
-        if (activeElements.length === 1 && event.target.classList.contains('star-0')) {
-          activeElements[0].classList.remove('active');
-          activeElements[0].setAttribute('icon', 'star-outlined');
+
+        /**
+         * Sets and updates value attribute
+         * @param {any} arr NodeList
+         */
+        updateValue(arr) {
+          const val = [...arr];
+          const value = val.filter((el) => el.classList.contains('active'));
+          this.setAttribute('value', value.length);
         }
-      }
-      this.updateValue(this.ratingArr);
-    }
 
-    /**
-     * Sets and updates value attribute
-     * @param {any} arr NodeList
-     */
-    /* istanbul ignore next */
-    updateValue(arr) {
-      const val = [...arr];
-      const value = val.filter((el) => el.classList.contains('active'));
-      this.setAttribute('value', value.length);
-    }
-
-    /**
-     * Sets and updates value attribute for halfstar
-     * @param {any} arr NodeList
-     */
-    /* istanbul ignore next */
-    updateHalfStar(arr) {
-      const value = this.value;
-      const roundValue = Math.round(value);
-      for (let i = 0; i < roundValue; i++) {
-        arr[i].classList.add('active');
-        arr[i].setAttribute('icon', 'star-filled');
-      }
-      if (value < roundValue) {
-        const activeArr = arr.filter((act) => act.classList.contains('active'));
-        const lastItem = activeArr[activeArr.length - 1];
-        lastItem.classList.add('is-half');
-        lastItem.setAttribute('icon', 'star-half');
-      }
-    }
+        /**
+         * Sets and updates value attribute for halfstar
+         * @param {any} arr NodeList
+         */
+        updateHalfStar(arr) {
+          const value = this.value;
+          const roundValue = Math.round(value);
+          for (let i = 0; i < roundValue; i++) {
+            arr[i].classList.add('active');
+            arr[i].setAttribute('icon', 'star-filled');
+          }
+          if (value < roundValue) {
+            const activeArr = arr.filter((act) => act.classList.contains('active'));
+            const lastItem = activeArr[activeArr.length - 1];
+            lastItem.classList.add('is-half');
+            lastItem.setAttribute('icon', 'star-half');
+          }
+        }
 }
 
 export default IdsRating;

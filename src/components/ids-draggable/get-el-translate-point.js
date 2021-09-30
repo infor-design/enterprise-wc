@@ -13,7 +13,7 @@
  * @param {HTMLElement} element element to grab translation point from it's styles with
  * @returns {TranslationPoint} translation point if available
  */
-export default function getElTranslatePoint(element) /* istanbul ignore next */ {
+export default function getElTranslatePoint(element) {
   const style = window.getComputedStyle(element);
   const matrix = style.transform;
 

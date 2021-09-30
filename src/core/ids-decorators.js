@@ -18,7 +18,6 @@ export function version() {
  */
 export function customElement(name) {
   return (target) => {
-    /* istanbul ignore next */
     if (!customElements.get(name)) {
       customElements.define(name, target);
     }

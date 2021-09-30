@@ -30,7 +30,7 @@ const CURSOR_EL_SIZE = 32;
  * @param {string} attribute the attribute to update
  * @param {any} value a value to set on the
  */
-function setIntAttribute(elem, attribute, value) /* istanbul ignore next */ {
+function setIntAttribute(elem, attribute, value) {
   const nextValue = parseInt(value);
 
   if (nextValue !== null && !Number.isNaN(nextValue)) {
@@ -42,7 +42,6 @@ function setIntAttribute(elem, attribute, value) /* istanbul ignore next */ {
   }
 }
 
-/* istanbul ignore next */
 /**
  * @param {{
  *  left: number,
@@ -215,7 +214,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   set handle(value) {
     if (this.getAttribute(attributes.HANDLE) !== value) {
       if (this.hasAttribute(attributes.HANDLE) && (
-        !value || /* istanbul ignore next */ typeof value !== 'string')
+        !value || typeof value !== 'string')
       ) {
         this.removeAttribute(attributes.HANDLE);
       } else {
@@ -240,14 +239,14 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     this.offEvent('mousemove', window.document, this.onMouseMove);
 
     this.#handleElem = this.handle ? (
-      document.querySelector(this.handle) || /* istanbul ignore next */ this
+      document.querySelector(this.handle) || this
     ) : this;
 
     if (this.#handleElem !== this) {
       this.#handleElem.style.cursor = this.#getCursorStyle({ axis: this.axis });
     }
 
-    this.onEvent('mousedown', this.#handleElem, (e) => /* istanbul ignore next */ {
+    this.onEvent('mousedown', this.#handleElem, (e) => {
       if (this.disabled) {
         return;
       }
@@ -376,7 +375,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     setIntAttribute(this, attributes.MAX_TRANSFORM_Y, value);
   }
 
-  /* istanbul ignore next */
   /**
    * update the transform with respect to containment
    * and min/max transform bounds
@@ -445,7 +443,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    *
    * @param {*} e mousemove event
    */
-  /* istanbul ignore next */
   onMouseMove = (e) => {
     e.preventDefault();
     const eventDetail = {};
@@ -484,7 +481,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     this.triggerEvent('ids-drag', this, { detail: eventDetail });
   };
 
-  /* istanbul ignore next */
   onMouseUp = (e) => {
     if (this.isDragging) {
       this.isDragging = false;
@@ -535,7 +531,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    *
    * @returns {string} cursor property
    */
-  #getCursorStyle() /* istanbul ignore next */ {
+  #getCursorStyle() {
     switch (this.axis) {
     case 'x': { return 'ew-resize'; }
     case 'y': { return 'ns-resize'; }
@@ -614,7 +610,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * to traverse through shadow and lightDOM
    * @private
    */
-  #updateParentRect(path) /* istanbul ignore next */ {
+  #updateParentRect(path) {
     // in order to measure the size of the parent,
     // when dragging has started, iterate through
     // path captured from drag until parent level
@@ -658,7 +654,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
-  /* istanbul ignore next */
   /**
    * @param {number} value The max coordinates relative
    * to the overall div; e.g. "left: -20; right: -20" would extend
@@ -671,7 +666,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     this.#updateRelativeBounds();
   }
 
-  /* istanbul ignore next */
   get relativeBounds() {
     return this.getAttribute(attributes.RELATIVE_BOUNDS);
   }
@@ -679,7 +673,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   #relativeBounds = {};
 
   #updateRelativeBounds() {
-    /* istanbul ignore next */
     if (this.hasAttribute(attributes.RELATIVE_BOUNDS)) {
       const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
       const newBounds = Object.fromEntries(relativeBoundsAttr.split(';').map((str) => {

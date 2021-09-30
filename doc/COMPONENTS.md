@@ -487,12 +487,16 @@ it('dismisses on backspace/delete', () => {
 });
 ```
 
-Then recheck coverage and tests the rest of the functionality. Like events and methods ect (see other tests for details). As a tip if trying to finish the coverage on a component you cant run `npx jest --coverage -- component-name-func` to run just the tests quickly for a component and then target the coverage that way for that one component.
+Then recheck coverage and tests the rest of the functionality. Like events and methods and all settings (getters and setters). See other tests for details. As a tip if trying to finish the coverage on a component you cant run `npx jest --coverage -- component-name` to run just the tests quickly for a component and then target the coverage that way for that one component.
 
-You may need to add ignores for some situations because jest runs in JSDOM which is virtual it cant do somethings. Some of these cases is RenderLoops, MutationObserver, ResizeObserver, IntersectionObserver ect. To do this add `/* istanbul ignore next */` to the line before or before the function. For example:
+Keep in mind that you can cover with both an e2e or functional test. The coverage is combined. Jest tests are preferred for API tests. e2e tests should be done for in browser tests or things that JSDOM/Jest cannot support.
+
+You may need to add ignores for some situations because jest runs in JSDOM which is virtual it cant do somethings. Some of these cases is RenderLoops, MutationObserver, ResizeObserver, IntersectionObserver ect. To do this add `/* istanbul ignore next - reason */` to the line before or before the function. But first try to cover it with an e2e test. And provide a reason.
+
+For example:
 
 ```js
-/* istanbul ignore next */
+/* istanbul ignore next - JSDOM does not support RenderLoop, e2e test not working due to bug in puppetteer */
 this.timer = this.rl?.register(new IdsRenderLoopItem({
   duration: 500,
   timeoutCallback: () => {

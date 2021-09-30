@@ -1,7 +1,6 @@
 import renderLoop from '../components/ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-item';
 
-/* istanbul ignore next */
 /**
  * Debounces a function, preventing running the function too frequently while looping.
  * This is ideal for functions that run on intervals.

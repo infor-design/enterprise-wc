@@ -173,6 +173,23 @@ describe('IdsAbout Component (using attributes)', () => {
     expect(component.useDefaultCopyright).toBeTruthy();
     expect(component.deviceSpecs).toBeTruthy();
   });
+
+  it('should not close on click outside', (done) => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+
+    dropdown.onOutsideClick = jest.fn();
+    dropdown.open();
+
+    setTimeout(() => {
+      // Click outside the Modal into the overlay area
+      document.body.dispatchEvent(clickEvent);
+
+      setTimeout(() => {
+        expect(dropdown.onOutsideClick).toHaveBeenCalled();
+        done();
+      });
+    }, 70);
+  });
 });
 
 describe('IdsAbout Component (empty)', () => {

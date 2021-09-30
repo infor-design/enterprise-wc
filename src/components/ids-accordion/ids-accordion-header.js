@@ -101,7 +101,6 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    * @readonly
    * @returns {HTMLElement} this header's panel
    */
-  /* istanbul ignore next */
   get panel() {
     return this.parentElement;
   }
@@ -109,7 +108,6 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   /**
    * @param {string} thisAlignment the type of alignment to apply
    */
-  /* istanbul ignore next */
   refreshContentAlignment(thisAlignment) {
     applyContentAlignmentClass(this.container.classList, thisAlignment);
   }
@@ -117,7 +115,6 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   /**
    * @returns {boolean} true if this header's pane wrapper is expanded
    */
-  /* istanbul ignore next */
   get expanded() {
     return this.panel.expanded;
   }
@@ -127,7 +124,6 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    */
   set expanded(val) {
     const trueVal = IdsStringUtils.stringToBool(val);
-    /* istanbul ignore next */
     this.container.classList[trueVal ? 'add' : 'remove']('expanded');
     this.#refreshExpanderIconType();
   }
@@ -145,7 +141,6 @@ class IdsAccordionHeader extends mix(IdsElement).with(
   set expanderType(val) {
     const currentVal = this.expanderType;
     let trueVal = EXPANDER_TYPES[0];
-    /* istanbul ignore next */
     if (EXPANDER_TYPES.includes(val)) {
       trueVal = val;
     }
@@ -238,7 +233,6 @@ class IdsAccordionHeader extends mix(IdsElement).with(
     this.container.classList[isSelected ? 'add' : 'remove']('selected');
 
     const textNode = this.querySelector('ids-text, span');
-    /* istanbul ignore next */
     if (textNode) {
       textNode.fontWeight = isSelected ? 'bold' : '';
     }
@@ -261,11 +255,9 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    * @returns {void}
    */
   #showExpanderIcon() {
-    /* istanbul ignore next */
     const appendLocation = this.panel.hasParentPanel ? 'afterbegin' : 'beforeend';
     const expander = this.container.querySelector('.ids-accordion-expander-icon');
 
-    /* istanbul ignore next */
     if (!expander) {
       // Apply the expander button in front of the text
       // for any variants prefixed with `sub-`.
@@ -292,13 +284,11 @@ class IdsAccordionHeader extends mix(IdsElement).with(
    */
   #refreshExpanderIconType() {
     const icon = this.container.querySelector('.ids-accordion-expander-icon');
-    /* istanbul ignore next */
     if (!icon) {
       return;
     }
 
     let iconType = DEFAULT_ICON_OFF;
-    /* istanbul ignore next */
     if (this.expanderType === 'plus-minus') {
       iconType = this.expanded ? ICON_PLUS : ICON_MINUS;
     }
