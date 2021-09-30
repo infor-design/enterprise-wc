@@ -1,0 +1,23 @@
+@import '../../core/ids-base.scss';
+
+.ids-empty-message{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .icon{
+    margin: 16px;
+    height: 80px;
+    width: 80px;
+  }
+  .label{
+    padding: 0 0 0 10px;
+    ::slotted(span){
+      font-size: 20px;
+    }
+  }
+  .description{
+    padding: 0 20px 20px;
+  }
+}

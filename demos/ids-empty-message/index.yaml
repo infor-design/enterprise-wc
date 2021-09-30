@@ -1,0 +1,9 @@
+---
+  component: Icon
+  link: ids-empty-message
+  description: Format for empty message alert
+  category: Messages and Alerts
+  keywords: message, alert
+  examples:
+      - link: index.html
+        description: Shows use cases for the empty message component
