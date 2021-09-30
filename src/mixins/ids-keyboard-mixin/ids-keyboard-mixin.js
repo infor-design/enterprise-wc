@@ -14,18 +14,16 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * @private
    */
   initKeyboardHandlers() {
-    /** @type {Map | any} */
     this.hotkeys = new Map();
-    /** @type {Map | any} */
     this.pressedKeys = new Map();
 
-    this.keyDownHandler = (/** @type {any} */ e) => {
+    this.keyDownHandler = (e) => {
       this.press(e.key);
       this.dispatchHotkeys(e);
     };
     this.onEvent('keydown.keyboard', this, this.keyDownHandler);
 
-    this.keyUpHandler = (/** @type {any} */ e) => {
+    this.keyUpHandler = (e) => {
       this.unpress(e.key);
     };
     this.onEvent('keyup.keyboard', this, this.keyUpHandler);
@@ -81,7 +79,7 @@ const IdsKeyboardMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   dispatchHotkeys(e) {
-    this.hotkeys.forEach((/** @type {any} */ value, /** @type {any} */key) => {
+    this.hotkeys.forEach((value, key) => {
       if (key.split(',').indexOf(e.key) > -1) {
         value(e);
       }

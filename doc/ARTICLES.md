@@ -9,6 +9,7 @@ A curated list of resources related to this project and web components.
 - [Tricks on building a menu component](https://component.kitchen/blog/posts/building-a-great-menu-component-is-so-much-trickier-than-youd-think)
 - [Standards Checklist](https://developers.google.com/web/fundamentals/web-components/best-practices)
 - [Mixins](https://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/)
+- [Accessibility for Web Components](https://developer.salesforce.com/blogs/2020/01/accessibility-for-web-components)
 
 ## Css
 

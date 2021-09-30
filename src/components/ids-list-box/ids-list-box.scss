@@ -1,0 +1,10 @@
+/* Styling for Dropdown List Options */
+@import '../../core/ids-base';
+
+:host {
+  display: block;
+  overflow-x: hidden;
+  overflow-y: auto;
+  max-height: 300px;
+  width: 298px;
+}

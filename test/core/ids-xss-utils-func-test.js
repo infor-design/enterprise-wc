@@ -149,4 +149,28 @@ describe('IdsXssUtils tests', () => {
       expect(IdsXssUtils.sanitizeHTML(`console.${method}("hello world");`)).toEqual('');
     });
   });
+
+  it('Should unescape html special characters', () => {
+    expect(IdsXssUtils.unescapeHTML('&#36;')).toEqual('$');
+    expect(IdsXssUtils.unescapeHTML('&#37;')).toEqual('%');
+    expect(IdsXssUtils.unescapeHTML('&#38;')).toEqual('&');
+    expect(IdsXssUtils.unescapeHTML('&#162;')).toEqual('¢');
+    expect(IdsXssUtils.unescapeHTML('&#163;')).toEqual('£');
+    expect(IdsXssUtils.unescapeHTML('&#169;')).toEqual('©');
+    expect(IdsXssUtils.unescapeHTML('&#174;')).toEqual('®');
+    expect(IdsXssUtils.unescapeHTML('&#8224;')).toEqual('†');
+    expect(IdsXssUtils.unescapeHTML('&#8226;')).toEqual('•');
+    expect(IdsXssUtils.unescapeHTML('&#8364;')).toEqual('€');
+    expect(IdsXssUtils.unescapeHTML('test')).toEqual('test');
+    expect(IdsXssUtils.unescapeHTML('')).toEqual('');
+    expect(IdsXssUtils.unescapeHTML(100)).toEqual(100);
+    expect(IdsXssUtils.unescapeHTML('a&#36;')).toEqual('a$');
+  });
+
+  it('Should escaped html special characters', () => {
+    expect(IdsXssUtils.htmlEntities('&')).toEqual('&amp;');
+    expect(IdsXssUtils.htmlEntities('<')).toEqual('&lt;');
+    expect(IdsXssUtils.htmlEntities('>')).toEqual('&gt;');
+    expect(IdsXssUtils.htmlEntities('"')).toEqual('&quot;');
+  });
 });

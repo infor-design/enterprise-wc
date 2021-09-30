@@ -20,7 +20,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.DIRTY_TRACKER
+      attributes.CLEARABLE
     ];
   }
 

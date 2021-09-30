@@ -19,7 +19,7 @@ export default function expectEnumAttributeBehavior({
   elem,
   attribute,
   values,
-  defaultValue
+  defaultValue,
 }) {
   const camelCasedAttrib = IdsStringUtils.camelCase(attribute);
 
@@ -28,7 +28,9 @@ export default function expectEnumAttributeBehavior({
     expect(elem.getAttribute(attribute)).toEqual(v);
   });
 
-  if (defaultValue) {
+  elem[camelCasedAttrib] = undefined;
+
+  if (defaultValue !== undefined && defaultValue !== null) {
     elem.setAttribute(attribute, RANDOM_VALUE);
     expect(elem.attribute).toEqual(defaultValue);
 
@@ -48,5 +50,6 @@ export default function expectEnumAttributeBehavior({
   values.reverse().forEach((v) => {
     elem.setAttribute(attribute, v);
     expect(elem.getAttribute(attribute)).toEqual(v);
+    expect(elem[camelCasedAttrib]).toEqual(v);
   });
 }

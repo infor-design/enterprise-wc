@@ -83,6 +83,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * @returns {string} the template to render
    */
   template() {
+    /* istanbul ignore next */
     if (!this.id) {
       this.setAttribute(attributes.ID, `ids-spinbox-${++instanceCounter}`);
     }
@@ -196,9 +197,9 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     });
 
     // Respond to parent changing language
-    this.offEvent('languagechange.container');
+    this.offEvent('languagechange.spinbox-container');
     /* istanbul ignore next */
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.onEvent('languagechange.spinbox-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
     });
 

@@ -81,7 +81,7 @@ const IdsUploadAdvancedShared = {
    */
   slotVal(shadowRoot, slotName) {
     const d = this.DEFAULTS;
-    const html = (/** @type {any} */ slot) => slot?.assignedNodes()[0]?.innerHTML;
+    const html = (slot) => slot?.assignedNodes()[0]?.innerHTML;
     const slot = shadowRoot?.querySelector(`slot[name="${slotName}"]`);
     return html(slot) || d[IdsStringUtils.camelCase(slotName)];
   }

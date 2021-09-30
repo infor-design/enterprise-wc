@@ -51,7 +51,8 @@ const BUTTON_ATTRIBUTES = [
   attributes.SQUARE,
   attributes.TEXT,
   attributes.TYPE,
-  attributes.TABINDEX
+  attributes.TABINDEX,
+  attributes.COLOR_VARIANT
 ];
 
 // Icon alignments
@@ -144,7 +145,7 @@ class IdsButton extends mix(IdsElement).with(
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  availableColorVariants = ['alternate'];
+  colorVariants = ['alternate'];
 
   /**
    * Figure out the classes
@@ -169,7 +170,6 @@ class IdsButton extends mix(IdsElement).with(
    */
   refreshProtoClasses() {
     const cl = this.button.classList;
-    /** @type {any} */
     const newProtoClass = this.protoClasses;
 
     cl.remove(...baseProtoClasses);
@@ -244,7 +244,7 @@ class IdsButton extends mix(IdsElement).with(
       return;
     }
 
-    this.onEvent('click.ripple', this.button, (/** @type {any} */ e) => {
+    this.onEvent('click.ripple', this.button, (e) => {
       if (preceededByTouchstart) {
         preceededByTouchstart = false;
         return;
@@ -254,7 +254,7 @@ class IdsButton extends mix(IdsElement).with(
       this.createRipple(x, y);
     });
 
-    this.onEvent('touchstart.ripple', this.button, (/** @type {any} */ e) => {
+    this.onEvent('touchstart.ripple', this.button, (e) => {
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
         x = touch.clientX !== 0 ? touch.clientX : undefined;
@@ -421,7 +421,6 @@ class IdsButton extends mix(IdsElement).with(
    */
   appendIcon(iconName) {
     // First look specifically for an icon slot.
-    /** @type {any} */
     const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
 
     if (icon) {
@@ -463,7 +462,6 @@ class IdsButton extends mix(IdsElement).with(
     }
 
     // Re-arrange the slots
-    /** @type {HTMLElement | null} */
     const iconSlot = this.button.querySelector('slot[name="icon"]');
     /* istanbul ignore next */
     if (!iconSlot) {
@@ -687,7 +685,6 @@ class IdsButton extends mix(IdsElement).with(
 
     // Make/Place a new ripple
     const rippleEl = document.createElement('span');
-    /** @type {object} */
     const btnOffsets = this.getRippleOffsets(x, y);
     rippleEl.classList.add('ripple-effect');
     rippleEl.setAttribute('aria-hidden', 'true');

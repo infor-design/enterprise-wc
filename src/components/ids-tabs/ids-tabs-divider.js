@@ -11,13 +11,13 @@ import styles from './ids-tabs-divider.scss';
 /**
  * IDS TabGroupDivider Component
  *
- * @type {IdsTabsDivider}
+ * @type {IdsTabDivider}
  * @inherits IdsElement
  * @part container - the tab container itself
  */
-@customElement('ids-tabs-divider')
+@customElement('ids-tab-divider')
 @scss(styles)
-class IdsTabsDivider extends IdsElement {
+class IdsTabDivider extends IdsElement {
   constructor() {
     super();
   }
@@ -27,7 +27,7 @@ class IdsTabsDivider extends IdsElement {
    * @returns {string} the template to render
    */
   template() {
-    return `<div class="ids-tabs-divider"></div>`;
+    return `<div class="ids-tab-divider"></div>`;
   }
 
   connectedCallback() {
@@ -35,4 +35,4 @@ class IdsTabsDivider extends IdsElement {
   }
 }
 
-export default IdsTabsDivider;
+export default IdsTabDivider;

@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+
 import IdsTag from '../../src/components/ids-tag/ids-tag';
 import IdsThemeSwitcher from '../../src/components/ids-theme-switcher/ids-theme-switcher';
 

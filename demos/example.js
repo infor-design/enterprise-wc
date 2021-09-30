@@ -1,6 +1,8 @@
 // Import Every Yaml File
 import accordionYaml from './ids-accordion/index.yaml';
+import aboutYaml from './ids-about/index.yaml';
 import alertYaml from './ids-alert/index.yaml';
+import appMenuYaml from './ids-app-menu/index.yaml';
 import badgeYaml from './ids-badge/index.yaml';
 import blockGridYaml from './ids-block-grid/index.yaml';
 import breadcrumbYaml from './ids-breadcrumb/index.yaml';
@@ -12,6 +14,7 @@ import colorPickerYaml from './ids-color-picker/index.yaml';
 import countsYaml from './ids-counts/index.yaml';
 import dataGridYaml from './ids-data-grid/index.yaml';
 import draggableYaml from './ids-draggable/index.yaml';
+import dropdownYaml from './ids-dropdown/index.yaml';
 import expandableAreaYaml from './ids-expandable-area/index.yaml';
 import fieldsetYaml from './ids-fieldset/index.yaml';
 import hyperlinkYaml from './ids-hyperlink/index.yaml';
@@ -33,6 +36,7 @@ import radioYaml from './ids-radio/index.yaml';
 import ratingYaml from './ids-rating/index.yaml';
 import scrollViewYaml from './ids-scroll-view/index.yaml';
 import skiplinkActionYaml from './ids-skip-link/index.yaml';
+import sliderYaml from './ids-slider/index.yaml';
 import spinboxActionYaml from './ids-spinbox/index.yaml';
 import swipeActionYaml from './ids-swipe-action/index.yaml';
 import switchYaml from './ids-switch/index.yaml';
@@ -44,6 +48,7 @@ import toggleButtonYaml from './ids-toggle-button/index.yaml';
 import toolbarYaml from './ids-toolbar/index.yaml';
 import tooltipYaml from './ids-tooltip/index.yaml';
 import toastYaml from './ids-toast/index.yaml';
+import treeYaml from './ids-tree/index.yaml';
 import triggerFieldYaml from './ids-trigger-field/index.yaml';
 import uploadYaml from './ids-upload/index.yaml';
 import uploadAdvancedYaml from './ids-upload-advanced/index.yaml';
@@ -71,7 +76,9 @@ const addYaml = (yaml) => {
 
 // Add each yaml file
 addYaml(accordionYaml);
+addYaml(aboutYaml);
 addYaml(alertYaml);
+addYaml(appMenuYaml);
 addYaml(badgeYaml);
 addYaml(blockGridYaml);
 addYaml(breadcrumbYaml);
@@ -83,6 +90,7 @@ addYaml(colorPickerYaml);
 addYaml(countsYaml);
 addYaml(dataGridYaml);
 addYaml(draggableYaml);
+addYaml(dropdownYaml);
 addYaml(expandableAreaYaml);
 addYaml(fieldsetYaml);
 addYaml(hyperlinkYaml);
@@ -104,6 +112,7 @@ addYaml(radioYaml);
 addYaml(ratingYaml);
 addYaml(scrollViewYaml);
 addYaml(skiplinkActionYaml);
+addYaml(sliderYaml);
 addYaml(spinboxActionYaml);
 addYaml(swipeActionYaml);
 addYaml(switchYaml);
@@ -115,6 +124,7 @@ addYaml(toggleButtonYaml);
 addYaml(toolbarYaml);
 addYaml(tooltipYaml);
 addYaml(toastYaml);
+addYaml(treeYaml);
 addYaml(triggerFieldYaml);
 addYaml(uploadYaml);
 addYaml(uploadAdvancedYaml);
@@ -124,7 +134,7 @@ addYaml(wizardYaml);
 let html = '';
 categories.forEach((category) => {
   html += `<ids-text type="h1" font-size="24">${category.name}</ids-text>
-  <ids-layout-grid><ids-layout-grid-cell><ids-block-grid align="center">`;
+  <ids-layout-grid auto="true"><ids-layout-grid-cell><ids-block-grid align="center">`;
   category.components.forEach((component) => {
     html += `<ids-block-grid-item><ids-card auto-height="true"><div slot="card-content" link="${component.link}">
     <ids-text type="h2" font-size="16" font-weight="bold" color="slate-100">${component.component}</ids-text>
@@ -132,7 +142,7 @@ categories.forEach((category) => {
     </div></ids-card></ids-block-grid-item>
     `;
   });
-  html += `</iids-block-grid></ids-layout-grid-cell></ids-layout-grid>`;
+  html += `</ids-block-grid></ids-layout-grid-cell></ids-layout-grid>`;
 });
 document.querySelector('#dynamic-area').insertAdjacentHTML('afterbegin', html);
 

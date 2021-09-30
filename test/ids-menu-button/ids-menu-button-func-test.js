@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
 import IdsMenuButton from '../../src/components/ids-menu-button/ids-menu-button';
 import IdsPopupMenu, {

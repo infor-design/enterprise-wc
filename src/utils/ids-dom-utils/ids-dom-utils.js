@@ -8,7 +8,6 @@ const IdsDOMUtils = {
    * @returns {ShadowRoot|undefined} the node.
    */
   getClosestShadow(node) {
-    /** @type {any} */
     let parent = (node && node.parentNode);
     while (parent) {
       if (parent.toString() === '[object ShadowRoot]') {
@@ -47,7 +46,6 @@ const IdsDOMUtils = {
    * @returns {Node|undefined} the node if found, otherwise undefined
    */
   getClosest(node, selector) {
-    /** @type {any} */
     let parent = (node && node.parentNode);
     while (parent) {
       if (parent.toString() === '[object ShadowRoot]') {

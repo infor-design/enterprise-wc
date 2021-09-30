@@ -59,7 +59,6 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
    * @returns {void}
    */
   connectedCallback() {
-    /** @type {object} */
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
@@ -138,7 +137,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
             this.offEvent(evt, this.input);
           }
         } else {
-          this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+          this.onEvent(evt, this.input, (e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire nativeEvents.
@@ -171,8 +170,8 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
     this.attachNativeEvents();
 
     // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.switch-container');
+    this.onEvent('languagechange.switch-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       // Do something with parent lang
     });

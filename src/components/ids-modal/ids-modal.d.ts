@@ -57,6 +57,9 @@ export default class IdsModal extends IdsElement {
   /** Provides access to the internal Popup component */
   readonly popup?: IdsPopup;
 
+  /** Changes the visibility of the Modal */
+  visible: boolean;
+
   /** Shows the modal */
   show(): void;
 

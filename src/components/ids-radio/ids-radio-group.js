@@ -80,8 +80,8 @@ class IdsRadioGroup extends mix(IdsElement).with(
    */
   #attachEventHandlers() {
     // Respond to parent changing language
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.radio-group-container');
+    this.onEvent('languagechange.radio-group-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       // Do something with parent lang
     });
@@ -249,7 +249,7 @@ class IdsRadioGroup extends mix(IdsElement).with(
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio:not([disabled="true"])'));
     const len = radioArr.length;
     radioArr.forEach((r, i) => {
-      this.onEvent('keydown', r, (/** @type {any} */ e) => {
+      this.onEvent('keydown', r, (e) => {
         const allow = ['ArrowDown', 'ArrowRight', 'ArrowUp', 'ArrowLeft', 'Space'];
         const key = e.code;
         if (allow.indexOf(key) > -1) {
@@ -402,12 +402,11 @@ class IdsRadioGroup extends mix(IdsElement).with(
     const radioArr = [].slice.call(this.querySelectorAll('ids-radio'));
     if (val) {
       const state = { on: [], off: [] };
-      radioArr.forEach((/** @type {HTMLElement | never} */ r) => {
+      radioArr.forEach((r) => {
         const rVal = r.getAttribute(attributes.VALUE);
         state[rVal === val ? 'on' : 'off'].push(r);
       });
-      state.off.forEach((/** @type {HTMLElement} */ r) => r.removeAttribute(attributes.CHECKED));
-      /** @type {HTMLElement} */
+      state.off.forEach((r) => r.removeAttribute(attributes.CHECKED));
       const r = state.on[state.on.length - 1];
       if (r) {
         r.setAttribute(attributes.CHECKED, 'true');

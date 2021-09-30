@@ -16,5 +16,6 @@ class ResizeObserver {
 }
 
 window.ResizeObserver = ResizeObserver;
+global.ResizeObserver = ResizeObserver;
 
 export default ResizeObserver;

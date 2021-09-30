@@ -125,7 +125,7 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
       }
 
       // Open/Close the menu when the trigger element is clicked
-      this.detachAllEvents();
+      this.offEvent('click.trigger');
       this.onEvent('click.trigger', targetElem, (e) => {
         if (typeof this.onTriggerClick === 'function') {
           this.onTriggerClick(e);

@@ -1,0 +1,78 @@
+@import '../ids-modal/ids-modal';
+
+.ids-about {
+  .ids-modal-container {
+    max-width: 560px;
+    min-width: 300px;
+  }
+
+  .ids-modal-header {
+    @include pt-40();
+
+    justify-content: center;
+    flex-direction: column;
+    width: calc(100% - 40px);
+  }
+
+  .ids-modal-content-wrapper {
+    @include py-4();
+    @include px-32();
+    @include mb-24();
+
+    overflow: hidden;
+  }
+
+  .ids-modal-content {
+    @include antialiased();
+    @include border-1();
+    @include border-solid();
+    @include border-slate-30();
+    @include rounded-default();
+    @include mt-0();
+    @include mb-28();
+    @include px-16();
+
+    padding-top: 15px;
+    padding-bottom: 15px;
+    max-height: 199px;
+    outline: medium none;
+    overflow: auto;
+    text-align: left;
+
+    &:hover {
+      @include border-slate-70();
+    }
+
+    &:focus {
+      @include border-azure-60();
+      @include outline-none();
+
+      box-shadow: 0 0 4px 3px rgb(54 138 192 / 30%);
+      outline-color: transparent;
+    }
+  }
+}
+
+::slotted([slot='product']),
+::slotted([slot='content']),
+::slotted([slot='copyright']) {
+  @include block();
+  @include mb-16();
+}
+
+::slotted([slot='icon']) {
+  @include mb-8();
+}
+
+::slotted([slot='buttons']) {
+  @include absolute();
+
+  top: 3px;
+  right: 3px;
+}
+
+// Cancels out a border style applied by IdsModal
+// (not needed since buttons are aligned differently here)
+::slotted([slot='buttons']:not(:first-of-type)) {
+  border-left: transparent;
+}

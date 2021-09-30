@@ -14,29 +14,29 @@ When using it access the locale with `this.locale`.
 
 ```js
 // Respond to parent changing language
-this.offEvent('languagechange.container');
-this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+this.offEvent('languagechange.component-name-container');
+this.onEvent('languagechange.component-name-container', this.closest('ids-container'), async (e) => {
   await this.setLanguage(e.detail.language.name);
   // Do something with parent lang
 });
 
 // Respond to the element changing language
-this.offEvent('languagechange.this');
-this.onEvent('languagechange.this', this, async (e) => {
+this.offEvent('languagechange.component-name');
+this.onEvent('languagechange.component-name', this, async (e) => {
   await this.locale.setLanguage(e.detail.language.name);
  // Do something with component lang
 });
 
-// Respond to parent changing locale 
-this.offEvent('localechange.container');
-this.onEvent('localechange.container', this.closest('ids-container'), async (e) => {
+// Respond to parent changing locale
+this.offEvent('localechange.component-name-container');
+this.onEvent('localechange.component-name-container', this.closest('ids-container'), async (e) => {
   await this.locale.setLocale(e.detail.locale.name);
   // Do something with parent locale
 });
 
 // Respond to the element changing locale
-this.offEvent('localechange.this');
-this.onEvent('localechange.this', this, async (e) => {
+this.offEvent('localechange.component-name');
+this.onEvent('localechange.component-name', this, async (e) => {
   await this.locale.setLocale(e.detail.locale.name);
  // Do something with component locale
 });

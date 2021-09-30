@@ -11,7 +11,21 @@ $breakpoint-xl: 1280px;
 $breakpoint-lg: 1024px;
 $breakpoint-md: 840px;
 $breakpoint-sm: 600px;
-$breakpoint-xl: 360px;
+$breakpoint-xs: 360px;
 
 $transition-length: 200ms;
 $transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
+
+// Field Sizes
+$input-size-xs: 75px;
+$input-size-sm: 150px;
+$input-size-mm: 225px;
+$input-size-md: 300px;
+$input-size-lg: 400px;
+$input-size-full: 100%;
+
+// Field Field Height
+$input-field-height-xs: 28px;
+$input-field-height-sm: 30px;
+$input-field-height-md: 38px;
+$input-field-height-lg: 48px;

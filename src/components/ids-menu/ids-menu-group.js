@@ -66,14 +66,14 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) 
   #attachEventHandlers() {
     // Listen for `selected` events from child menu items.
     // Single-select groups will force deselection of other items in the group.
-    this.onEvent('selected', this, (/** @type {any} */ e) => {
+    this.onEvent('selected', this, (e) => {
       const item = e.target.closest('ids-menu-item');
       if (this.select === 'single') {
         this.deselectAllExcept(item);
       }
     });
 
-    this.onEvent('languagechange', this, async (e) => {
+    this.onEvent('languagechange.menu-item', this, async (e) => {
       this.querySelectorAll('ids-menu-item')?.forEach((menuItem) => {
         menuItem?.setLanguage(e.detail.language.name);
       });

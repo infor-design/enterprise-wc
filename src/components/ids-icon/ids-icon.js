@@ -21,10 +21,12 @@ import styles from './ids-icon.scss';
 
 // Setting Defaults
 const sizes = {
+  largex3: 62,
   large: 24,
   normal: 18,
   medium: 18,
-  small: 10
+  small: 14,
+  xsmall: 10
 };
 
 /**
@@ -66,8 +68,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    * Handle change events
    */
   #attachEventHandlers() {
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
+    this.offEvent('languagechange.icon-container');
+    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       if (this.isFlipped(this.icon)) {
         this.container.classList.add('flipped');
@@ -292,11 +294,35 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     if (value && sizes[value]) {
       const size = sizes[this.size];
       this.setAttribute(attributes.SIZE, value);
-      this.shadowRoot?.querySelector('svg')?.setAttribute('height', size);
-      this.shadowRoot?.querySelector('svg')?.setAttribute('width', size);
+      this.container?.setAttribute('height', size);
+      this.container?.setAttribute('width', size);
     } else {
       this.removeAttribute(attributes.SIZE);
     }
+    this.#adjustViewbox();
+  }
+
+  /**
+   * Some specific icon types have different `viewBox`
+   * properties that need adjusting at the component level
+   * @returns {void}
+   */
+  #adjustViewbox() {
+    let viewboxSize = '0 0 18 18';
+
+    /* istanbul ignore next */
+    switch (this.icon) {
+    case 'logo':
+      viewboxSize = '0 0 34 34';
+      break;
+    case 'logo-trademark':
+      viewboxSize = '0 0 37 32';
+      break;
+    default:
+      break;
+    }
+
+    this.container.setAttribute('viewBox', viewboxSize);
   }
 
   /** @returns {string|boolean} Whether or not the icon is vertical */

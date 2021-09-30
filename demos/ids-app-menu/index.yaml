@@ -1,0 +1,9 @@
+---
+ component: App Menu
+ link: ids-app-menu
+ description: Application Nav
+ category: Navigation and Interaction
+ keywords: app-menu, sections
+ examples:
+  - link: index.html
+    description: Shows a basic app menu

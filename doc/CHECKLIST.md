@@ -11,7 +11,7 @@
  - [ ] example.index: The main example.html page should just show one simple example and not all variations
  - [ ] test-sandbox.index: The sandbox page should show all other examples in a nicely formatted way.
  - [ ] Standalone Css: Add a basic standalone css example
- - [ ] Right to Left: Test on lang="ar" that when flipped all is correct (best way is to use flex and justify)
+ - [ ] Right to Left: Test on `lang="ar"` that when flipped all is correct (best way is to use flex and justify)
  - [ ] Locale: Make sure strings are translated, and use number / date / timezone parsers as needed
  - [ ] Side By Side Example: Works in Page with 4.x version
  - [ ] Documentation: Add copious documentation in a README.MD in the folder
@@ -40,29 +40,31 @@ Charts and Visualizations
 
 Will get a checkbox at minimum viable product. The rest of the details are covered in a TODO.md in the individual folder after first commit
 
- - [ ] About (ids-about)
+ - [x] About (ids-about)
  - [x] Accordion (ids-accordion)
+ - [ ] Action Sheet (ids-action-sheet)
  - [x] Alerts (ids-alert)
- - [ ] Application menu (ids-application-menu)
+ - [x] Application menu (ids-application-menu)
  - [ ] Area (ids-area-chart)
  - [ ] Autocomplete (ids-autocomplete)
  - [x] Badges (ids-badge)
  - [x] Bar (ids-bar-chart)
  - [x] Block grid (ids-block-grid)
- - [ ] Breadcrumb (ids-bread-crumb
+ - [x] Breadcrumb (ids-bread-crumb
  - [ ] Bubble (ids-bubble-chart
- - [ ] Bullet (ids-bullet-chart
+ - [ ] Bullet (ids-bullet-chart)
+ - [ ] Builder (ids-patterns)
  - [x] Loader (ids-loading-indicator) aka Busy Indicator / Loading Indicator
  - [x] Button (ids-button)
  - [ ] Calendar (ids-calendar)
  - [x] Cards (ids-card)
  - [x] Checkboxes (ids-checkbox)
  - [x] Circle Pager (ids-scroll-view)
- - [ ] Color Picker (ids-color-picker)
+ - [x] Color Picker (ids-color-picker)
  - [ ] Column (ids-column-chart or ids-bar with a orientation setting)
  - [x] Completion Chart (ids-progress-chart)
  - [ ] Contextual Action Panel (ids-contextual-action-panel or ids-modal
- - [ ] Datagrid (ids-data-grid)
+ - [x] Datagrid (ids-data-grid)
  - [ ] Datepicker (ids-date-picker)
  - [ ] Donut (ids-donut or combined with ids-pie)
  - [x] Drag (ids-draggable)
@@ -71,13 +73,13 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Emptymessage (ids-empty-message)
  - [ ] Error Page (ids-page-error)
  - [x] Expandable area (ids-expandable-area)
- - [ ] Fieldset (ids-field-set
- - [ ] Fileupload (ids-file-upload
+ - [ ] Fieldset (ids-field-set)
+ - [x] Fileupload (ids-file-upload)
  - [x] Fileupload Advanced (ids-file-upload-advanced)
  - [ ] Fontpicker (ids-font-picker)
  - [ ] Form  (ids-form)
  - [x] Grid (ids-layout-grid)
- - [ ] Header (ids-header)
+ - [x] Header (ids-header)
  - [ ] Hierarchy (ids-hierarchy)
  - [ ] Homepage (ids-homepage)
  - [x] Hyperlinks (ids-hyperlink)
@@ -87,7 +89,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Line (ids-line-chart)
  - [ ] Listbuilder (ids-list-builder)
  - [x] Listview (ids-list-view)
- - [ ] Locale (ids-locale)
+ - [x] Locale (ids-locale)
  - [ ] Lookup (ids-lookup)
  - [x] Mask (ids-mask)
  - [ ] Masthead (ids-masthead)
@@ -99,7 +101,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Notification (ids-notification)
  - [ ] Page Layouts (ids-page-layout or as individual separate examples)
  - [ ] Page Patterns (ids-page-pattern or as individual separate examples)
- - [ ] Pager (ids-pager)
+ - [x] Pager (ids-pager)
  - [ ] Personalize (ids-personalize or as a mixin on components thats support)
  - [ ] Pie (ids-pie-chart)
  - [x] Popup (ids-popup)
@@ -107,37 +109,37 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Positive Negative (ids-positive-negative-chart)
  - [ ] Radar (ids-radar-chart)
  - [x] Radios (ids-radio)
- - [ ] Rating (ids-rating)
+ - [x] Rating (ids-rating)
  - [x] Renderloop (mixin)
  - [ ] Scatterplot (ids-scatter-plot-chart)
  - [ ] Searchfield (ids-search-field)
- - [ ] Signin (ids-sign-in)
+ - [ ] Sign-in (ids-layouts)
  - [x] Skiplink (ids-skip-link)
- - [ ] Slider (ids-slider)
+ - [x] Slider (ids-slider)
  - [ ] Sparkline (ids-spark-line-chart)
- - [ ] Spinbox (ids-spin-box)
+ - [x] Spinbox (ids-spin-box)
  - [ ] Splitter (ids-splitter)
- - [ ] Stepchart (ids-step-chart)
- - [x] Summaryfield (ids-summary-field)
+ - [x] Stepchart (ids-step-chart)
+ - [x] Summary field (ids-summary-field)
  - [ ] Swaplist (ids-swap-list)
- - [ ] Switch (ids-switch)
- - [ ] Tabs (ids-tabs)
- - [ ] Tabs Header (ids-tabs with option)
+ - [x] Switch (ids-switch)
+ - [x] Tabs (ids-tabs)
+ - [x] Tabs Header (ids-tabs with option)
  - [ ] Tabs Module (ids-tabs with option)
  - [ ] Tabs Multi (ids-tabs with option)
- - [ ] Tabs Vertical (ids-tabs with option)
+ - [x] Tabs Vertical (ids-tabs with option)
  - [x] Tag (ids-tag)
- - [ ] Targeted Achievement (ids-target-chart)
+ - [x] Targeted Achievement (ids-progress-chart)
  - [x] Textarea (ids-text-area)
  - [ ] Timeline (ids-time-line)
- - [ ] Timepicker (ids-time-picker)
+ - [x] Timepicker (ids-time-picker)
  - [x] Toast (ids-toast)
  - [x] Toolbar (ids-toolbar)r
  - [x] Tooltip (ids-tooltip
  - [x] Trackdirty (mixin)
- - [ ] Tree (ids-tree
+ - [x] Tree (ids-tree)
  - [ ] Treemap (ids-tree-map)
  - [x] Typography (ids-text)
- - [ ] Validation (mixin)
+ - [x] Validation (mixin)
  - [ ] Week View (ids-week-view)
  - [x] Wizard (ids-wizard)

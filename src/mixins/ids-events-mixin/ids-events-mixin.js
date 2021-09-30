@@ -1,4 +1,5 @@
 import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop-mixin/ids-render-loop-mixin';
+import { IdsStringUtils as stringUtils } from '../../utils';
 
 /**
  * A mixin that adds event handler functionality that is also safely torn down when a component is
@@ -39,16 +40,19 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     }
 
     if (eventName.indexOf('longpress') === 0) {
-      this.addLongPressListener(eventName, target, options);
+      this.#addLongPressListener(eventName, target, options);
     }
     if (eventName.indexOf('keyboardfocus') === 0) {
-      this.addKeyboardFocusListener(eventName, target, options);
+      this.#addKeyboardFocusListener(eventName, target, options);
     }
     if (eventName.indexOf('hoverend') === 0) {
-      this.addHoverEndListener(eventName, target, options);
+      this.#addHoverEndListener(eventName, target, options);
+    }
+    if (eventName.indexOf('keydownend') === 0) {
+      this.#addKeyDownEndListener(eventName, target, options);
     }
     if (eventName.indexOf('swipe') === 0) {
-      this.addSwipeListener(eventName, target, options);
+      this.#addSwipeListener(eventName, target, options);
     }
     target.addEventListener(eventName.split('.')[0], callback, options);
     this.handledEvents.set(eventName, { target, callback, options });
@@ -66,22 +70,27 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
 
     // Handle Special events
     if (eventName.indexOf('longpress') === 0 && handler?.callback) {
-      this.removeLongPressListener();
+      this.#removeLongPressListener();
       return;
     }
 
     if (eventName.indexOf('keyboardfocus') === 0 && handler?.callback) {
-      this.removeKeyboardFocusListener();
+      this.#removeKeyboardFocusListener();
       return;
     }
 
     if (eventName.indexOf('hoverend') === 0 && handler?.callback) {
-      this.removeHoverEndListener();
+      this.#removeHoverEndListener();
+      return;
+    }
+
+    if (eventName.indexOf('keydownend') === 0 && handler?.callback) {
+      this.#removeKeyDownEndListener();
       return;
     }
 
     if (eventName.indexOf('swipe') === 0 && handler?.callback) {
-      this.removeSwipeListener();
+      this.#removeSwipeListener();
       return;
     }
 
@@ -103,16 +112,46 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
   }
 
   /**
+   * @returns {Array<string>} names of vetoable events.  Override this in your component
+   * to listen for and handle vetoable events.
+   */
+  vetoableEventTypes = [];
+
+  /**
+   * Triggers an event that occurs before the show/hide operations of the Modal that can "cancel"
+   * @param {string} eventType the name of the event to trigger
+   * @returns {boolean} true if the event works
+   */
+  triggerVetoableEvent(eventType) {
+    if (!this.vetoableEventTypes.includes(eventType)) {
+      return false;
+    }
+
+    let canShow = true;
+    const eventResponse = (veto) => {
+      canShow = !!veto;
+    };
+    this.triggerEvent(eventType, this, {
+      detail: {
+        elem: this,
+        response: eventResponse
+      }
+    });
+    return canShow;
+  }
+
+  /**
    * Detach all event handlers
    */
   detachAllEvents() {
     this.handledEvents.forEach((value, key) => {
       this.offEvent(key, value.target, value.options);
     });
-    this.removeLongPressListener();
-    this.removeKeyboardFocusListener();
-    this.removeHoverEndListener();
-    this.removeSwipeListener();
+    this.#removeLongPressListener();
+    this.#removeKeyboardFocusListener();
+    this.#removeHoverEndListener();
+    this.#removeKeyDownEndListener();
+    this.#removeSwipeListener();
   }
 
   /**
@@ -135,7 +174,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
-  addLongPressListener(eventName, target, options) {
+  #addLongPressListener(eventName, target, options) {
     if (this.longPressOn) {
       return;
     }
@@ -169,7 +208,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * Detach all long press events
    * @private
    */
-  removeLongPressListener() {
+  #removeLongPressListener() {
     if (!this.longPressOn) {
       return;
     }
@@ -186,8 +225,8 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
-  /* istanbul ignore next */
-  addSwipeListener(eventName, target, options) {
+  #addSwipeListener(eventName, target, options) {
+    /* istanbul ignore next */
     if (this.swipeOn) {
       return;
     }
@@ -195,6 +234,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     let touchstartX = 0;
     let touchendX = 0;
 
+    /* istanbul ignore next */
     if (options) {
       options.passive = true;
     }
@@ -229,8 +269,10 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
       target.dispatchEvent(event);
     }, options);
 
+    /* istanbul ignore next */
     if (options?.scrollContainer) {
       let lastPercentage = 0;
+      /* istanbul ignore next */
       this.onEvent('scroll', options.scrollContainer, (e) => {
         const eventTarget = e.target;
         const scrollPercentage = 100
@@ -270,7 +312,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * Detach all swipe events
    * @private
    */
-  removeSwipeListener() {
+  #removeSwipeListener() {
     if (!this.swipeOn) {
       return;
     }
@@ -285,7 +327,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * @param {string|any} eventName The event name with optional namespace
    * @param {HTMLElement} target The DOM element to register
    */
-  addKeyboardFocusListener(eventName, target) {
+  #addKeyboardFocusListener(eventName, target) {
     if (this.keyboardFocusOn) {
       return;
     }
@@ -316,7 +358,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * Detach all keyboard focus events
    * @private
    */
-  removeKeyboardFocusListener() {
+  #removeKeyboardFocusListener() {
     if (!this.keyboardFocusOn) {
       return;
     }
@@ -332,7 +374,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * @param {HTMLElement} target The DOM element to register
    * @param {object} options Additional event settings (passive, once, bubbles ect)
    */
-  addHoverEndListener(eventName, target, options) {
+  #addHoverEndListener(eventName, target, options) {
     // Setup events
     this.onEvent('mouseenter.eventsmixin', target, (e) => {
       /* istanbul ignore next */
@@ -359,6 +401,43 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
   }
 
   /**
+   * Setup a custom keydown event that fires after typing a birst of keys
+   * @private
+   * @param {string|any} eventName The event name with optional namespace
+   * @param {HTMLElement} target The DOM element to register
+   * @param {object} options Additional event settings (passive, once, bubbles ect)
+   */
+  #addKeyDownEndListener(eventName, target, options) {
+    let keys = '';
+
+    this.onEvent('keydown.eventsmixin', target, (e) => {
+      if (!stringUtils.isPrintable(e)) {
+        return;
+      }
+      keys += e.key;
+
+      /* istanbul ignore next */
+      if (!this.timer) {
+        this.timer = this.rl?.register(new IdsRenderLoopItem({
+          duration: options?.delay || 500,
+          timeoutCallback: () => {
+            const event = new CustomEvent('keydownend', {
+              detail: {
+                keys
+              }
+            });
+            keys = '';
+            target.dispatchEvent(event);
+            this.clearTimer();
+          }
+        }));
+      }
+    });
+
+    this.keyDownEndOn = true;
+  }
+
+  /**
    * Clear the timer
    * @private
    */
@@ -371,7 +450,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
    * Detach all hoverend events
    * @private
    */
-  removeHoverEndListener() {
+  #removeHoverEndListener() {
     if (!this.hoverEndOn) {
       return;
     }
@@ -380,6 +459,19 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     this.detachEventsByName('click.eventsmixin');
     this.detachEventsByName('mouseleave.eventsmixin');
     this.detachEventsByName('mouseenter.eventsmixin');
+  }
+
+  /**
+   * Detach all keydownend events
+   * @private
+   */
+  #removeKeyDownEndListener() {
+    if (!this.keyDownEndOn) {
+      return;
+    }
+    this.keyDownEndOn = false;
+    this.timer = null;
+    this.detachEventsByName('keydown.eventsmixin');
   }
 };
 

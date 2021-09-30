@@ -1,0 +1,117 @@
+@import '../../core/ids-base.scss';
+
+@mixin action-sheet-box-shadow() {
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+
+@mixin app-menu-off-shadow() {
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0);
+}
+
+@mixin app-menu-on-shadow() {
+  box-shadow: 0 0 20px 1px rgba(0, 0, 0, 0.75);
+}
+
+// =================================================
+// Base Drawer Styles
+
+:host {
+  display: block;
+  position: fixed;
+
+  @include transition(
+    box-shadow $transition-length $transition-ease,
+    transform $transition-length $transition-ease);
+}
+
+// =================================================
+// Bottom Drawer Styles
+
+:host([edge='bottom']) {
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  // Moves the drawer off the left-most edge
+  transform: translateY(100%);
+}
+
+:host([edge='bottom'][visible]) {
+  transform: translateY(0);
+}
+
+// =================================================
+// Left Drawer Styles
+
+:host([edge='start']:not([dir])) {
+  bottom: 0;
+  left: 0;
+  top: 0;
+
+  // Moves the drawer off the left-most edge
+  transform: translateX(-100%);
+}
+
+:host([edge='start'][visible]) {
+  transform: translateX(0);
+}
+
+// =================================================
+// Left Drawer Styles (RTL)
+
+:host([dir='rtl'][edge='start']) {
+  bottom: 0;
+  right: 0;
+  top: 0;
+
+  // Moves the drawer off the left-most edge
+  transform: translateX(100%);
+}
+
+:host([dir='rtl'][edge='start'][visible]) {
+  transform: translateX(0);
+}
+
+.ids-drawer {
+  height: 100%;
+  width: 100%;
+
+  // =================================================
+  // Type Styles
+
+  &.type-action-sheet {
+    @include bg-white();
+    @include p-12();
+    @include text-slate-100();
+    @include action-sheet-box-shadow();
+
+    // temporary
+    margin: 0 auto;
+    max-height: 70vh;
+    max-width: 480px;
+    min-height: 150px;
+
+    // Rounded top edges
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+
+  &.type-app-menu {
+    @include app-menu-off-shadow();
+    @include bg-slate-100();
+    @include text-white();
+
+    // temporary
+    min-width: 300px;
+
+    ::slotted(ids-text) {
+      color: inherit;
+    }
+
+    &.visible {
+      @include app-menu-on-shadow();
+    }
+  }
+}
+
+// Themes

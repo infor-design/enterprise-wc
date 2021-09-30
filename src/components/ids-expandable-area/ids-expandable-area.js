@@ -39,13 +39,9 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   }
 
   connectedCallback() {
-    /** @type {HTMLElement | undefined | null} */
     this.expander = this.shadowRoot?.querySelector('[data-expander]');
-    /** @type {HTMLElement | undefined | null} */
     this.expanderDefault = this.shadowRoot?.querySelector('[name="expander-default"]');
-    /** @type {HTMLElement | undefined | null} */
     this.expanderExpanded = this.shadowRoot?.querySelector('[name="expander-expanded"]');
-    /** @type {HTMLElement | undefined | null} */
     this.pane = this.shadowRoot?.querySelector('.ids-expandable-area-pane');
     this.#attachEventHandlers();
     this.switchState();

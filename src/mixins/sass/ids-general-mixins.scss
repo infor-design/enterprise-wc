@@ -111,3 +111,8 @@ $animation-prefixes: -webkit-, -moz-, '';
   @include outline-none();
   @include shadow();
 }
+
+// rotation
+@mixin rotate($deg) {
+  @include transform(rotate(#{$deg}deg));
+}

@@ -2,6 +2,10 @@
 
 ## 5.0.0 Breaking Changes
 
+- `[App Menu]` The App Menu component is now a web component. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
+  - Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
+  - Can now be imported as a single JS file and used with encapsulated styles
+  - Sections are now slotted for easier use.  Accordion is the main slot, and other areas (toolbars, user info, etc) are named slots.
 - `[Button]` The button component has been changed to a web component. ([#4390](https://github.com/infor-design/enterprise/issues/4390))
   - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
   - Can now be imported as a single JS file and used with encapsulated styles.
@@ -152,6 +156,10 @@
   - Content can now be set with `tooltipElem.textContent`
   - Instead of open and close use `tooltipElem.visible=true`
   - After show event was not needed as its the same as show so this is removed
+- `[Tree]` The Tree component has been changed to a web component and use with ids-tree and ids-tree-node.
+  - Markup has changed to a custom element `<ids-tree><ids-tree-node></ids-tree-node></ids-tree>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Wizard]` The Wizard component has been changed to a web component. ([#5026](https://github.com/infor-design/enterprise/issues/5026))
   - Wizard is now a custom element `<ids-wizard></ids-wizard>`
   - Steps are now codified as custom elements `<ids-wizard-step>MY-LABEL</ids-wizard-step>`

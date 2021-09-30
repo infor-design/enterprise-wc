@@ -1,0 +1,23 @@
+/* Ids Tree Component Shared */
+@import '../../core/ids-base';
+
+// Keyframes for the "plusminus" icon animation
+@include keyframes(keyframes-rotate-forward) {
+  0% { @include rotate(-90); }
+  100% { @include rotate(0); }
+}
+
+@include keyframes(keyframes-rotate-backward) {
+  0% { @include rotate(45); }
+  100% { @include rotate(0); }
+}
+
+// Adjust badge rules for tree node
+@mixin tree-node-badge() {
+  ids-badge::part(badge) {
+    @include border-0();
+    @include m-0();
+
+    margin-inline-end: 8px;
+  }
+}
