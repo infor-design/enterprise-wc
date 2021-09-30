@@ -60,9 +60,9 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
- * Set the card to auto fit to its parent size
- * @param {boolean|null} value The auto fit
- */
+   * Set the card to auto fit to its parent size
+   * @param {boolean|null} value The auto fit
+   */
   set autoFit(value) {
     const className = 'ids-card-auto-fit';
     if (stringUtils.stringToBool(value)) {
