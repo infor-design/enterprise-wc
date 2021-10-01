@@ -27,16 +27,15 @@ import IdsHierarchy from './ids-hierarchy';
 @customElement('ids-hierarchy-item')
 @scss(styles)
 class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
-  // Types: root, expandable, nested
+  // Types: root, expandable, nested - DONE
   // States: selected, expanded, collapsed
   // Legend Ex: FT, PT, Contractor, Open Position
+  // Themeable
 
   constructor() {
     super();
     this.expander = this.shadowRoot?.querySelector('[part="icon-btn"]');
   }
-
-  hasNestedItems;
 
   connectedCallback() {
     this.#hasNestedItems();
@@ -56,10 +55,6 @@ class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   }
 
   template() {
-    // const nestedItems = this.container?.querySelector('[part="nested-items"]');
-    // this.hasNestedItems = !!nestedItems?.assignedElements().length;
-    // console.log(this.hasNestedItems);
-
     return `
       <div class="ids-hierarchy-item">
         <div class="leaf">
@@ -71,7 +66,10 @@ class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
             <slot name="subheading"></slot>
             <slot name="micro"></slot>
           </div>
-          <ids-icon hidden icon="caret-down" part="icon-btn"></ids-icon>
+          <ids-button part="icon-btn" id="test-icon-only-button-default">
+            <span class="audible">Default Button</span>
+            <ids-icon slot="icon" icon="caret-down"></ids-icon>
+          </ids-button>
         </div>
         <div class="sub-level"><slot part="nested-items"></slot></div>
       </div>
