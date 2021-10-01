@@ -219,7 +219,12 @@ class IdsHomePage extends mix(IdsElement).with(
   }
 
   /**
-   * Set card gap.
+   * Set the gap between each card,
+   * will look into three values gap, gap-x, gap-y to sync into gapX and gapY
+   * will not use the gap value if used gap along with gap-x or/and gap-y
+   * for example if user add gap="10", gap-x="15" then will use the gap-x value,
+   * but gap-y will be use as gap value, it will be { x: 15, y: 10 }
+   * since the gap, gap-x, gap-y all three default values "20"
    * @private
    * @returns {object} This API object for chaining
    */
@@ -256,7 +261,7 @@ class IdsHomePage extends mix(IdsElement).with(
   }
 
   /**
-   * Setup each block sizes, based on classes provided from markup
+   * Setup each block sizes, based on card width and height provided from markup
    * @private
    * @returns {void}
    */
