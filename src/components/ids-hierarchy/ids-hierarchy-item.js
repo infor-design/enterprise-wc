@@ -11,6 +11,7 @@ import { IdsStringUtils } from '../../utils';
 
 // Import Mixins
 import {
+  IdsColorVariantMixin,
   IdsEventsMixin,
   IdsThemeMixin
 } from '../../mixins';
@@ -26,7 +27,11 @@ import IdsHierarchy from './ids-hierarchy';
  */
 @customElement('ids-hierarchy-item')
 @scss(styles)
-class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsHierarchyItem extends mix(IdsElement).with(
+    IdsColorVariantMixin,
+    IdsEventsMixin,
+    IdsThemeMixin
+  ) {
   // Types: root, expandable, nested - DONE
   // States: selected, expanded, collapsed
   // Legend Ex: FT, PT, Contractor, Open Position
@@ -35,6 +40,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   constructor() {
     super();
     this.expander = this.shadowRoot?.querySelector('[part="icon-btn"]');
+    this.leaf = this.shadowRoot?.querySelector('[part="leaf"]');
   }
 
   connectedCallback() {
@@ -43,6 +49,13 @@ class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     super.connectedCallback();
   }
 
+  colorVariants = [
+    'full-time',
+    'part-time',
+    'contractor',
+    'open-position'
+  ];
+
   /**
    * Return the attributes we handle as getters/setters
    * @returns {Array} The attributes in an array
@@ -50,14 +63,16 @@ class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   static get attributes() {
     return [
       attributes.EXPANDED,
-      'has-nested-items'
+      'has-nested-items',
+      'selected',
+      'type'
     ];
   }
 
   template() {
     return `
       <div class="ids-hierarchy-item">
-        <div class="leaf">
+        <div class="leaf" part="leaf">
           <span class="avatar">
             <slot name="avatar"></slot>
           </span>
@@ -89,6 +104,19 @@ class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     return this.getAttribute(attributes.EXPANDED);
   }
 
+  set selected(value) {
+    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute('selected', true);
+    } else {
+      this.removeAttribute?.('selected');
+    }
+  }
+
+  get selected() {
+    return this.getAttribute('selected');
+  }
+
   #expandCollapse(expanded) {
     if (expanded) {
       this.setAttribute(attributes.EXPANDED, false);
@@ -113,6 +141,10 @@ class IdsHierarchyItem extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    #attachEventHandlers() {
     this.onEvent('click', this.expander, () => {
       this.#expandCollapse(this.expanded);
+    });
+
+    this.onEvent('click', this.leaf, () => {
+      this.setAttribute('selected', true);
     });
 
     this.onEvent('touchstart', this.expander, (e) => {
