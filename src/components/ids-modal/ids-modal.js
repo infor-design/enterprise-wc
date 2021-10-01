@@ -75,6 +75,11 @@ class IdsModal extends mix(IdsElement).with(
   }
 
   /**
+   * @returns {Array<string>} Modal vetoable events
+   */
+  vetoableEventTypes = ['beforeshow', 'beforehide'];
+
+  /**
    * Handle Setting changes of the value has changed by calling the getter
    * in the extending class.
    * @param {string} name The property name
@@ -396,6 +401,7 @@ class IdsModal extends mix(IdsElement).with(
     this.globalKeydownListener = (e) => {
       switch (e.key) {
       case 'Escape':
+        e.stopImmediatePropagation();
         this.hide();
         break;
       default:
@@ -556,31 +562,6 @@ class IdsModal extends mix(IdsElement).with(
       duration: dismissTimeout,
       timeoutCallback
     }));
-  }
-
-  /**
-   * Triggers an event that occurs before the show/hide operations of the Modal that can "cancel"
-   * @param {string} eventType the name of the event to trigger
-   * @returns {boolean} true if the event works
-   */
-  triggerVetoableEvent(eventType) {
-    const eventTypes = ['beforeshow', 'beforehide'];
-    if (!eventTypes.includes(eventType)) {
-      return false;
-    }
-
-    let canShow = true;
-    const eventResponse = (veto) => {
-      canShow = !!veto;
-    };
-    this.triggerEvent(eventType, this, {
-      bubbles: true,
-      detail: {
-        elem: this,
-        response: eventResponse
-      }
-    });
-    return canShow;
   }
 
   /**

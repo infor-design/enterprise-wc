@@ -288,7 +288,7 @@ justify-content: flex-end;
 
 ### Code the Docs/README.md
 
-For a component you should have a readme with several sections. See tag/hyperlink ect for some examples. In looking for docs try to review and improve the previous docs. We want to combine the previous docs from the [design site product section](https://design.infor.com/product) and [design site components  readme][https://github.com/infor-design/enterprise/blob/main/src/components/circlepager/readme.md)  review whats there for the previous component and leverage the copy. The key is to be concise yet detailed at the same time.
+For a component you should have a readme with several sections. See tag/hyperlink ect for some examples. In looking for docs try to review and improve the previous docs. We want to combine the previous docs from the [design site product section](https://design.infor.com/product) and [design site components  readme](https://github.com/infor-design/enterprise/blob/main/src/components/circlepager/readme.md)  review whats there for the previous component and leverage the copy. The key is to be concise yet detailed at the same time.
 
 The following sections are the most important:
 
