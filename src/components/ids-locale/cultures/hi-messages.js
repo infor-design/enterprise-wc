@@ -44,6 +44,7 @@ const messages = {
   ChangeView: { id: 'ChangeView', value: 'दृश्य बदलें', comment: 'Change the current page from a list of options' },
   Checkbox: { id: 'Checkbox', value: 'चेकबॉक्स', comment: 'Checkbox tooltip' },
   Checked: { id: 'Checked', value: 'जाँच हुआ', comment: 'Checked tooltip' },
+  ChooseFont: { id: 'ChooseFont', value: 'फ़ॉन्ट शैली चुनें', comment: 'Choose a font style' },
   Clear: { id: 'Clear', value: 'क्लियर करें', comment: 'Tooltip for a Clear Action' },
   ClearFilter: { id: 'ClearFilter', value: 'फ़िल्टर क्लियर करें', comment: 'Clear the current filter criteria' },
   ClearFormatting: { id: 'ClearFormatting', value: 'फ़िल्टर क्लियर करें', comment: 'Clear the formatting in editor' },
