@@ -9,6 +9,8 @@
 }
 
 .ids-progress-bar {
+  contain: content;
+
   .progress-label {
     @include antialiased();
     @include text-slate-60();

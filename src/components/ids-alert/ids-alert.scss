@@ -3,6 +3,8 @@
 :host {
   @include mx-8();
 
+  contain: content;
+
   [icon='success'],
   [icon='success-solid'] {
     @include text-alert-success();

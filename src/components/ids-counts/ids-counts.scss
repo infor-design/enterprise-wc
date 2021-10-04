@@ -6,6 +6,7 @@
   @include antialiased();
   @include text-slate-80();
 
+  contain: content;
   text-align: center;
 
   &::part(link) {

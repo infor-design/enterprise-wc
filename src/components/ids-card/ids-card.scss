@@ -9,6 +9,7 @@
   @include mb-20();
 
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 8px;
+  contain: content;
   height: 360px;
 
   // Adjust the heights with settings

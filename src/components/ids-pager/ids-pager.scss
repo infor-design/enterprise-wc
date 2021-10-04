@@ -1,9 +1,13 @@
 :host(ids-pager),
 .ids-pager {
+  // Alignment and Display
+  align-items: center;
+  contain: content;
   display: flex;
-  width: 100%;
+  justify-content: center;
+
+  // Sizing
   height: 38px;
   margin: 6px 0;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
 }
