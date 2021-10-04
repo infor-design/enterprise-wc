@@ -175,12 +175,8 @@ class IdsElement extends HTMLElement {
     if (this.shadowRoot?.firstElementChild.nodeName === 'STYLE' && !this.container) {
       this.container = this.shadowRoot?.firstElementChild.nextElementSibling;
     }
-<<<<<<< HEAD
-    if (!this.container) {
-=======
 
     if (this.shadowRoot?.firstElementChild.nodeName !== 'STYLE' && !this.container) {
->>>>>>> ac7fa03527dea48da50ae5c568ac2b41edf9654d
       this.container = this.shadowRoot?.firstElementChild;
     }
 
