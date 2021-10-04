@@ -17,7 +17,9 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   border-collapse: collapse;
   border-color: $cell-border-color;
+  contain: content;
   overflow: auto;
+  scroll-behavior: smooth;
 
   // Font Info
   @include antialiased();

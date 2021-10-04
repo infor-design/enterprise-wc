@@ -33,6 +33,7 @@ describe('IdsLoadingIndicator Component', () => {
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
 
+    elem.shadowRoot.querySelector('style').remove();
     expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
@@ -44,6 +45,7 @@ describe('IdsLoadingIndicator Component', () => {
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
 
+    elem.shadowRoot.querySelector('style').remove();
     expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
@@ -55,6 +57,7 @@ describe('IdsLoadingIndicator Component', () => {
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
 
+    elem.shadowRoot.querySelector('style').remove();
     expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
@@ -66,6 +69,7 @@ describe('IdsLoadingIndicator Component', () => {
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
 
+    elem.shadowRoot.querySelector('style').remove();
     expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
@@ -77,6 +81,7 @@ describe('IdsLoadingIndicator Component', () => {
     expect(document.querySelectorAll('ids-loading-indicator').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
 
+    elem.shadowRoot.querySelector('style').remove();
     expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
   });
 

@@ -3,47 +3,10 @@
  */
 import IdsTag from '../../src/components/ids-tag/ids-tag';
 import { IdsElement } from '../../src/core/ids-element';
-import styleMock from '../helpers/style-mock';
 
 describe('IdsElement Tests', () => {
   afterEach(async () => {
     document.body.innerHTML = '';
-  });
-
-  it('can fall back to appending styles (mocked)', () => {
-    const elem = new IdsTag();
-
-    window.CSSStyleSheet = function CSSStyleSheet() { //eslint-disable-line
-      return { cssRules: [], replaceSync: () => '' };
-    };
-
-    elem.shadowRoot.adoptedStyleSheets = () => {};
-
-    elem.hasStyles = false;
-    elem.render();
-    expect(elem.shadowRoot.adoptedStyleSheets[0].cssRules).toBeTruthy();
-  });
-
-  it('replace host with name of the component when adoptedStyleSheets are not supported (mocked)', () => {
-    const elem = new IdsTag();
-    const expectedStyleContent = styleMock.replace(':host', `.${elem.tagName.toLowerCase()}`);
-    elem.cssStyles = styleMock;
-    elem.hasStyles = false;
-    elem.render();
-    expect(elem.shadowRoot.querySelector('style').textContent).toEqual(expectedStyleContent);
-
-    // also test with '::host' for good measure
-    elem.cssStyles = styleMock.replace(`:host`, '::host');
-    elem.hasStyles = false;
-    elem.render();
-
-    expect(elem.shadowRoot.querySelector('style').textContent).toEqual(expectedStyleContent);
-
-    // add coverage where there is pre-formatted styles
-    elem.cssStyles = expectedStyleContent;
-    elem.hasStyles = false;
-    elem.render();
-    expect(elem.shadowRoot.querySelector('style').textContent).toEqual(expectedStyleContent);
   });
 
   it('detaches an invalid event name without affecting existing events', () => {
@@ -61,5 +24,36 @@ describe('IdsElement Tests', () => {
     elem.rendered = mockCallback;
     elem.render();
     expect(mockCallback.mock.calls.length).toBe(0);
+  });
+
+  it('if no styles sets the container', () => {
+    const elem = new IdsTag();
+    expect(elem.container.nodeName).toEqual('SPAN');
+    elem.shadowRoot.querySelector('style').remove();
+    elem.name = null;
+    elem.container = null;
+    elem.render();
+    expect(elem.container.nodeName).toEqual('SPAN');
+  });
+
+  it('can find the nonce', () => {
+    const elem = new IdsTag();
+    expect(elem.nonce).toEqual(undefined);
+    document.nonce = '0a59a001';
+    expect(elem.nonce).toEqual('0a59a001');
+
+    document.nonce = undefined;
+    const nonce = document.createElement('meta');
+    nonce.setAttribute('http-equiv', 'Content-Security-Policy');
+    nonce.setAttribute('content', `script-src 'self';
+    style-src 'self' https://fonts.googleapis.com 'nonce-0a59a005';
+    font-src 'self' data: https://fonts.gstatic.com;`);
+    document.head.appendChild(nonce);
+
+    expect(elem.nonce).toEqual('0a59a005');
+
+    document.nonce = undefined;
+    nonce.setAttribute('content', `default-src 'self'; img-src https://*; child-src 'none';`);
+    expect(elem.nonce).toEqual(undefined);
   });
 });

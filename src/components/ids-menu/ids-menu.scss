@@ -3,6 +3,8 @@
 
 :host {
   @include block();
+
+  contain: content;
 }
 
 .ids-menu {

@@ -78,7 +78,8 @@ class IdsTriggerField extends IdsInput {
       attributes.NO_MARGINS,
       attributes.READONLY,
       attributes.SIZE,
-      attributes.TABBABLE
+      attributes.TABBABLE,
+      attributes.CSS_CLASS,
     ];
   }
 
@@ -108,10 +109,11 @@ class IdsTriggerField extends IdsInput {
         >
           <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
         </label>` : ''}
-        <div part="content" 
+        <div 
+          class="ids-trigger-field-content ${this.cssClass}"
+          part="content" 
           ${this.readonly && ' readonly'}
           ${this.disabled && ' disabled'}
-          class="ids-trigger-field-content"
         >
           <slot></slot>
         </div>
@@ -267,6 +269,20 @@ class IdsTriggerField extends IdsInput {
 
   get noMargins() {
     return stringUtils.stringToBool(this.getAttribute(attributes.NO_MARGINS));
+  }
+
+  /**
+   * Sets the css class
+   * @param {string} c string value from the css class
+   */
+  set cssClass(c) {
+    if (c) {
+      this.setAttribute(attributes.CSS_CLASS, c.toString());
+    }
+  }
+
+  get cssClass() {
+    return this.getAttribute(attributes.CSS_CLASS);
   }
 
   /**

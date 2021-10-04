@@ -29,6 +29,9 @@ const appliedMixins = [
   IdsColorVariantMixin
 ];
 
+const DEFAULT_LABEL = 'Search';
+const DEFAULT_PLACEHOLDER = 'Type to search';
+
 /**
  * IDS Search Field Component
  * @type {IdsSearchField}
@@ -38,9 +41,6 @@ const appliedMixins = [
  * @mixes IdsKeyboardMixin
  * @mixes IdsColorVariantMixin
  */
-
-const DEFAULT_LABEL = 'Search';
-const DEFAULT_PLACEHOLDER = 'Type to search';
 
 @customElement('ids-search-field')
 @scss(styles)

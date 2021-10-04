@@ -3,6 +3,7 @@
 
 fieldset {
   border: 0;
+  contain: content;
 }
 
 fieldset > ::slotted(legend),

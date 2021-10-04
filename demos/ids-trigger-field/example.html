@@ -34,15 +34,15 @@
   <ids-layout-grid-cell>
     <ids-trigger-field
       id="trigger-field-3"
-      label="Products"
+      label="Photos"
       disable-native-events="true"
       validate="required">
       <ids-input
-        placeholder="Enter Product">
+        placeholder="Enter Album Name">
       </ids-input>
       <ids-trigger-button>
-        <ids-text audible="true">Products trigger</ids-text>
-        <ids-icon slot="icon" icon="search-list"></ids-icon>
+        <ids-text audible="true">Select Image</ids-text>
+        <ids-icon slot="icon" icon="camera"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
   </ids-layout-grid-cell>
@@ -55,10 +55,10 @@
       size="md"
       label="Disabled Trigger Field"
       disabled>
-      <ids-input disabled="true" value="Enter Product"></ids-input>
+      <ids-input disabled="true" value="Enter Album Name"></ids-input>
       <ids-trigger-button disabled>
-        <ids-text audible="true">Products trigger</ids-text>
-        <ids-icon slot="icon" icon="search-list"></ids-icon>
+        <ids-text audible="true">Select Image</ids-text>
+        <ids-icon slot="icon" icon="camera"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
   </ids-layout-grid-cell>
@@ -87,34 +87,18 @@
     <ids-trigger-field
       id="trigger-field-6"
       size="md"
-      label="Search Field">
-      <ids-trigger-button>
-        <ids-text audible="true">Search trigger</ids-text>
-        <ids-icon slot="icon" icon="search"></ids-icon>
-      </ids-trigger-button>
-      <ids-input
-        placeholder="Search"
-        label-hidden>
-      </ids-input>
-    </ids-trigger-field>
-  </ids-layout-grid-cell>
-
-  <ids-layout-grid-cell>
-    <ids-trigger-field
-      id="trigger-field-7"
-      size="md"
-      label="Read-only Search Field"
+      label="Read-only Trigger Field"
       readonly
       >
       <ids-input
-        placeholder="Search"
+        placeholder="Type an input..."
         label-hidden
         readonly
       >
       </ids-input>
       <ids-trigger-button>
-        <ids-text audible="true">Search trigger</ids-text>
-        <ids-icon slot="icon" icon="search"></ids-icon>
+        <ids-text audible="true">Read Only Trigger Field</ids-text>
+        <ids-icon slot="icon" icon="rename"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
   </ids-layout-grid-cell>

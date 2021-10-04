@@ -31,7 +31,7 @@
     @include text-slate-30();
   }
 
-  &.readonly {
+  &[readonly] {
     @include cursor-text();
     @include text-slate-40();
   }
@@ -49,7 +49,7 @@
     @include text-slate-60();
   }
 
-  &.readonly {
+  &[readonly] {
     @include text-slate-40();
   }
 }
@@ -61,7 +61,7 @@
     @include text-slate-60();
   }
 
-  &.readonly {
+  &[readonly] {
     @include text-slate-40();
   }
 }
@@ -73,7 +73,7 @@
     @include text-slate-100();
   }
 
-  &.readonly {
+  &[readonly] {
     @include text-graphite-40();
   }
 }
@@ -85,7 +85,7 @@
     @include text-white();
   }
 
-  &.readonly {
+  &[readonly] {
     @include text-classic-slate-40();
   }
 }
@@ -97,7 +97,7 @@
     @include text-graphite-60();
   }
 
-  &.readonly {
+  &[readonly] {
     @include text-graphite-80();
   }
 }
