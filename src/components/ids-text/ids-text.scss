@@ -39,7 +39,7 @@
   }
 
   &.bold {
-    @include font-bold();
+    font-weight: 600;
   }
 
   &.lighter {
