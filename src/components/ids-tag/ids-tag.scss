@@ -17,6 +17,8 @@
   @include text-14();
   @include text-slate-100();
 
+  contain: content;
+
   // Secondary has a darker border
   &.ids-secondary {
     @include border-slate-30();
