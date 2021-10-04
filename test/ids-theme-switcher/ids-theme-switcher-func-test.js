@@ -35,6 +35,7 @@ describe('IdsThemeSwitcher Component', () => {
   });
 
   it('renders correctly', () => {
+    switcher.shadowRoot.querySelector('style').remove();
     expect(switcher.shadowRoot.innerHTML).toMatchSnapshot();
   });
 

@@ -436,10 +436,11 @@ Add a test that checks if the component errors out. Basically this test watches 
   });
 ```
 
-Add a test that adds a [jest snapshot](https://jestjs.io/docs/snapshot-testing) for this test you can either test the outerHTML or the shadowRoot's html depending whats more important.
+Add a test that adds a [jest snapshot](https://jestjs.io/docs/snapshot-testing) for this test you can either test the outerHTML or the shadowRoot's html depending whats more important. You can remove the style tag as this may change more frequently
 
 ```js
   it('renders correctly', () => {
+    scrollView.shadowRoot.querySelector('style').remove();
     expect(scrollView.shadowRoot.innerHTML).toMatchSnapshot();
   });
 ```

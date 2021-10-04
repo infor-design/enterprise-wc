@@ -4,6 +4,7 @@
   @include antialiased();
   @include font-sans();
 
+  contain: content;
   margin-bottom: 20px;
 
   .label {

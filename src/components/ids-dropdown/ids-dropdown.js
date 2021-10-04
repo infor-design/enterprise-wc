@@ -73,7 +73,7 @@ class IdsDropdown extends mix(IdsElement).with(
     }
     this.popup = this.shadowRoot?.querySelector('ids-popup');
     this.inputRoot = this.shadowRoot?.querySelector('ids-input');
-    this.fieldContainer = this.container?.querySelector('ids-input')?.shadowRoot.querySelector('.field-container');
+    this.fieldContainer = this.container?.querySelector('ids-input')?.shadowRoot?.querySelector('.field-container');
     this.trigger = this.shadowRoot?.querySelector('ids-trigger-button');
     this.input = this.inputRoot?.shadowRoot?.querySelector('input');
     this.triggerContent = this.container?.shadowRoot?.querySelector('.ids-trigger-field-content');
