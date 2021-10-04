@@ -10,6 +10,7 @@ ids-block-grid-item {
   @include m-0();
 
   align-items: center;
+  contain: content;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;

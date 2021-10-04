@@ -4,7 +4,7 @@
 import IdsScrollView from '../../src/components/ids-scroll-view';
 import IntersectionObserver from '../helpers/intersection-observer-mock';
 
-describe('IdsScrollContainer Component', () => {
+describe('IdsScrollView Component', () => {
   let scrollView;
   const html = `<img slot="scroll-view-item" src="/assets/camera-1.png" alt="Slide 1, Sony Camera, Front"/>
   <img slot="scroll-view-item" src="/assets/camera-2.png" alt="Slide 3, Sony Camera, Back Display"/>

@@ -39,6 +39,7 @@ describe('Ids Step Chart Tests', () => {
   });
 
   it('renders correctly', () => {
+    elem.shadowRoot.querySelector('style').remove();
     expect(elem.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
