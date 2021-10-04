@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     template.innerHTML = `
       <ids-card slot="card" id="${toggleCardId}">
         <div slot="card-header">
-          <ids-text>Card 1x1 (Dom Order 4) - D</ids-text>
+          <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Card 1x1 (Dom Order 4) - D</ids-text>
         </div>
         <div slot="card-content"></div>
       </ids-card>`;
