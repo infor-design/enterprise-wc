@@ -7,6 +7,7 @@ Homepages hold combinations of widgets that are tailored to the needs of a userâ
 ## Use Cases
 
 - Use when you want organize your content in specific order.
+- A homepage is an admin or end-user configured page made up of widgets that are relevant to the workflow of a general role or an individual. Widgets can be resized to create layouts best-suited for the data within the widget or homepage.
 
 ## Terminology
 
