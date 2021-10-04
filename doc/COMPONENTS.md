@@ -10,7 +10,6 @@ In general, the Ids WebComponents Library is striving to adhere to the [Gold Sta
 
 Good components to look at that are done already are are IdsTag, IdsAlerts and IdsHyperlink as references.
 
-
 ### Understand some of our concepts
 
 ### Inheritance

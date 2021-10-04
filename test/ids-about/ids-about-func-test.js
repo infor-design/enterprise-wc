@@ -177,15 +177,15 @@ describe('IdsAbout Component (using attributes)', () => {
   it('should not close on click outside', (done) => {
     const clickEvent = new MouseEvent('click', { bubbles: true });
 
-    dropdown.onOutsideClick = jest.fn();
-    dropdown.open();
-
+    component.visible = true;
     setTimeout(() => {
-      // Click outside the Modal into the overlay area
+      // Click outside the about into the overlay area
       document.body.dispatchEvent(clickEvent);
+      // Nor should calling the method directly
+      component.onOutsideClick();
 
       setTimeout(() => {
-        expect(dropdown.onOutsideClick).toHaveBeenCalled();
+        expect(component.visible).toEqual(true);
         done();
       });
     }, 70);

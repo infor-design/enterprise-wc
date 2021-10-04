@@ -3,6 +3,7 @@
  */
 import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
+import createFromTemplate from '../helpers/create-from-template';
 
 import IdsWizard, { IdsWizardStep } from '../../src/components/ids-wizard';
 
@@ -19,23 +20,13 @@ const getLabels = (elem) => ({
 describe('IdsWizard Tests', () => {
   let elem;
 
-  const createElemViaTemplate = (innerHTML) => {
-    elem?.remove();
-    const template = document.createElement('template');
-    template.innerHTML = innerHTML;
-    elem = template.content.childNodes[0];
-    document.body.appendChild(elem);
-    return elem;
-  };
-
   beforeEach(async () => {
-    elem = createElemViaTemplate(
+    elem = createFromTemplate(elem,
       `<ids-wizard step-number="1">
         <ids-wizard-step>Step One</ids-wizard-step>
         <ids-wizard-step>Step Two</ids-wizard-step>
         <ids-wizard-step>Step Three</ids-wizard-step>
-      </ids-wizard>`
-    );
+      </ids-wizard>`);
   });
 
   afterEach(async () => {
@@ -59,13 +50,12 @@ describe('IdsWizard Tests', () => {
   });
 
   it('initializes without step number and it is set to -1', () => {
-    elem = createElemViaTemplate(
+    elem = createFromTemplate(elem,
       `<ids-wizard>
         <ids-wizard-step>Step One</ids-wizard-step>
         <ids-wizard-step>Step Two</ids-wizard-step>
         <ids-wizard-step>Step Three</ids-wizard-step>
-      </ids-wizard>`
-    );
+      </ids-wizard>`);
     expect(elem.stepNumber).toEqual(-1);
     expect(elem.outerHTML).toMatchSnapshot();
   });
@@ -87,13 +77,12 @@ describe('IdsWizard Tests', () => {
   });
 
   it('initializes with a non-clickable step and finds that step does not have a clickable link', () => {
-    elem = createElemViaTemplate(
+    elem = createFromTemplate(elem,
       `<ids-wizard step-number="1">
         <ids-wizard-step>Step One</ids-wizard-step>
         <ids-wizard-step>Step Two</ids-wizard-step>
         <ids-wizard-step clickable="false">Step Three</ids-wizard-step>
-      </ids-wizard>`
-    );
+      </ids-wizard>`);
 
     /** step 1 and step 3 step should not have href attribs */
     const expectedClickableCount = elem.children.length - 2;
@@ -139,8 +128,7 @@ describe('IdsWizard Tests', () => {
       .toEqual(labels.shadowDOMLabels.join('_'));
   });
 
-  it('sets the step number to invalid values and sees '
-  + 'associated errors', async () => {
+  it('sets the step number to invalid values and sees associated errors', async () => {
     expect(() => { elem.stepNumber = 'z'; })
       .toThrowErrorMatchingSnapshot();
 
@@ -166,5 +154,17 @@ describe('IdsWizard Tests', () => {
     await wait(100);
 
     expect(elem.stepNumber).toEqual(2);
+  });
+
+  it('can calculate rect collision', async () => {
+    expect(elem.areRectsHColliding({ left: 10, width: 10 }, { left: 10, width: 10 })).toEqual(false);
+    expect(elem.areRectsHColliding({ width: 10, right: 10 }, { right: 20 })).toEqual(false);
+  });
+
+  it('can set step-width', async () => {
+    elem.stepNumber = 2;
+    expect(elem.getAttribute('step-number')).toEqual('2');
+    elem.stepNumber = 1;
+    expect(elem.getAttribute('step-number')).toEqual('1');
   });
 });

@@ -233,7 +233,7 @@ class IdsAccordionHeader extends mix(IdsElement).with(
     this.container.classList[isSelected ? 'add' : 'remove']('selected');
 
     const textNode = this.querySelector('ids-text, span');
-    if (textNode) {
+    if (textNode && this.colorVariant === 'app-menu') {
       textNode.fontWeight = isSelected ? 'bold' : '';
     }
   }

@@ -106,7 +106,6 @@ class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
    * @returns {void}
    */
   removeOpenEvents() {
-    console.log('removeOpenEvents')
     super.removeOpenEvents();
     document.removeEventListener('keydown', this.globalKeydownListener);
   }

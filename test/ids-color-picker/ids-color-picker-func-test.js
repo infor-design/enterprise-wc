@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 import '../helpers/resize-observer-mock';
-
+import waitFor from '../helpers/wait-for';
 import IdsColorPicker from '../../src/components/ids-color-picker/ids-color-picker';
+import IdsColor from '../../src/components/ids-color/ids-color';
 
 describe('Ids Color Picker Component', () => {
   let colorpicker;
@@ -78,5 +79,42 @@ describe('Ids Color Picker Component', () => {
   it('has a label attribute', () => {
     colorpicker.label = 'Ids Color Picker';
     expect(colorpicker.getAttribute('label')).toEqual('Ids Color Picker');
+  });
+
+  it('should close on outside click', () => {
+    expect(colorpicker.popup.visible).toEqual(false);
+    colorpicker.triggerEvent('click', colorpicker.container);
+    waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
+    colorpicker.onOutsideClick();
+    waitFor(() => expect(colorpicker.popup.visible).toBeFalsy());
+  });
+
+  it('should not open if readnly', () => {
+    colorpicker.readonly = true;
+    expect(colorpicker.popup.visible).toEqual(false);
+    colorpicker.triggerEvent('click', colorpicker.container);
+    expect(colorpicker.popup.visible).toEqual(false);
+  });
+
+  it('should select on enter', () => {
+    colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"><ids-color hex="#383838"></ids-color></ids-color-picker>`);
+    colorpicker.popup.visible = true;
+    document.querySelector('#color-picker-1 > ids-color[hex="#383838"]').focus();
+    const hex = document.querySelector('#color-picker-1 > ids-color[hex="#383838"]');
+
+    const enterKeyEvent = new KeyboardEvent('keydown', { key: 'Enter', target: hex, bubbles: true });
+    hex.dispatchEvent(enterKeyEvent);
+    expect(colorpicker.value).toEqual('#383838');
+  });
+
+  it('should select on enter when checked', () => {
+    colorpicker = createFromTemplate(`<ids-color-picker id="color-picker-1" readonly="true" value="#941E1E" label="Readonly Color Picker"><ids-color hex="#999999" checked="true"></ids-color></ids-color-picker>`);
+    colorpicker.popup.visible = true;
+    document.querySelector('#color-picker-1 > ids-color[hex="#999999"]').focus();
+    const hex = document.querySelector('#color-picker-1 > ids-color[hex="#999999"]');
+
+    const enterKeyEvent = new KeyboardEvent('keydown', { key: 'Enter', target: hex, bubbles: true });
+    hex.dispatchEvent(enterKeyEvent);
+    expect(colorpicker.value).toEqual('#999999');
   });
 });

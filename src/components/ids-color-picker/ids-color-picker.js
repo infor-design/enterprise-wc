@@ -265,9 +265,9 @@ class IdsColorPicker extends mix(IdsElement).with(
 
   /**
    * Update color picker value to match setected color hex value
-   * @param {string} colorValue
+   * @param {string} colorValue the value to update
    */
-    #updateColorPickerValues(colorValue) {
+ #updateColorPickerValues(colorValue) {
     this.swatchInput.value = colorValue;
     this.colorPreview.style.backgroundColor = colorValue;
     this.colorPickerInput.value = colorValue;
@@ -278,12 +278,12 @@ class IdsColorPicker extends mix(IdsElement).with(
     * @private
     */
    #openCloseColorpicker() {
-      if (!this.popup.visible) {
-        this.show();
-      } else {
-        this.hide();
-      }
-    }
+   if (!this.popup.visible) {
+     this.show();
+   } else {
+     this.hide();
+   }
+ }
 
    /**
     * Hides the Color Picker's Popup
