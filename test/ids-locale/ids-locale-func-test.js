@@ -160,7 +160,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('sl-SI');
       await locale.setLocale('sv-SE');
       await locale.setLocale('th-TH');
-      await locale.setLocale('th-PH');
+      await locale.setLocale('tl-PH');
       await locale.setLocale('tr-TR');
       await locale.setLocale('uk-UA');
       await locale.setLocale('vi-VN');
