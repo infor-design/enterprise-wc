@@ -1,5 +1,4 @@
 @import '../../core/ids-base';
-@import '../../mixins/sass/ids-colorpalette-variables.scss';
 
 :host {
   @include inline-flex();
@@ -21,7 +20,7 @@
   border-radius: 4px;
   height: 6px;
   width: 6px;
-  background-color: red;
+  background-color: var(--ids-color-status-danger);
   position: absolute;
 
   /**
