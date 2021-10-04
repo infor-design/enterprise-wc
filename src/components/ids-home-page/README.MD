@@ -2,7 +2,7 @@
 
 ## Description
 
-The Home Page component will set the layout to display the cards in specific order according to available space in it's container. It take care everything as laid out in the best order and use of space it can be. To keep the responsive behavior it will readjust each card size and position on the event of resize.
+Homepages hold combinations of widgets that are tailored to the needs of a user’s workflow. The Home Page component will set the layout to display the cards in specific order according to available space in it's container. It take care everything as laid out in the best order and use of space that is possible. To keep the responsive behavior it will readjust each card size and position on the event of resize.
 
 ## Use Cases
 
