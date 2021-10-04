@@ -53,7 +53,7 @@ A Card with double height.
 </ids-home-page>
 ```
 
-No animation with cards while change/resize.
+No animation with cards while changing/resizing.
 
 ```html
 <ids-home-page animated="false">
