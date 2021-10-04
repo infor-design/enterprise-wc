@@ -99,6 +99,7 @@ describe('IdsLocale API', () => {
       await locale.setLanguage('sl');
       await locale.setLanguage('sv');
       await locale.setLanguage('th');
+      await locale.setLanguage('tl');
       await locale.setLanguage('tr');
       await locale.setLanguage('uk');
       await locale.setLanguage('vi');
@@ -159,6 +160,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('sl-SI');
       await locale.setLocale('sv-SE');
       await locale.setLocale('th-TH');
+      await locale.setLocale('th-PH');
       await locale.setLocale('tr-TR');
       await locale.setLocale('uk-UA');
       await locale.setLocale('vi-VN');
