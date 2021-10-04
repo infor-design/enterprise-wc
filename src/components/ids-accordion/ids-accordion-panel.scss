@@ -121,6 +121,7 @@
 .ids-accordion-pane {
   @include box-border();
 
+  contain: content;
   height: 0;
   overflow: hidden;
   transition: height $transition-length $transition-ease;

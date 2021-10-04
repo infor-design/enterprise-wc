@@ -100,9 +100,7 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
    */
   set tooltip(value) {
     this.setAttribute('tooltip', value);
-    if (this.container.setAttribute) {
-      this.container.setAttribute('tooltip', value);
-    }
+    this.container?.setAttribute('tooltip', value);
   }
 
   get tooltip() { return this.getAttribute('tooltip'); }

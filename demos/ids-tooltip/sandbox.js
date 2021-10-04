@@ -1,4 +1,4 @@
-import './test-sandbox.scss';
+import './sandbox.scss';
 import IdsTooltip from '../../src/components/ids-tooltip';
 import IdsInput from '../../src/components/ids-input';
 
