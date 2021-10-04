@@ -4,6 +4,7 @@
 .ids-step-chart {
   @include m-16;
 
+  contain: content;
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;

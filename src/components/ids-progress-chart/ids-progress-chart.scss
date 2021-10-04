@@ -4,6 +4,7 @@
   @include antialiased();
   @include font-sans();
 
+  contain: content;
   display: flex;
   flex-direction: column;
   margin: 0 0 8px 0;

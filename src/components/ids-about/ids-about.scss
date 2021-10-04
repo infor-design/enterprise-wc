@@ -1,5 +1,9 @@
 @import '../ids-modal/ids-modal';
 
+:host {
+  contain: content;
+}
+
 .ids-about {
   .ids-modal-container {
     max-width: 560px;
@@ -38,6 +42,7 @@
     outline: medium none;
     overflow: auto;
     text-align: left;
+    scroll-behavior: smooth;
 
     &:hover {
       @include border-slate-70();
