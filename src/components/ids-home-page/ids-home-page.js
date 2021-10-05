@@ -261,6 +261,16 @@ class IdsHomePage extends mix(IdsElement).with(
   }
 
   /**
+   * Refresh the gap to set gap and cards
+   * @private
+   * @returns {void}
+   */
+  #refreshGap() {
+    this.#setGap();
+    this.#resize();
+  }
+
+  /**
    * Setup each block sizes, based on card width and height provided from markup
    * @private
    * @returns {void}
@@ -654,7 +664,7 @@ class IdsHomePage extends mix(IdsElement).with(
    */
   set animated(value) {
     if (this.#isBool(value)) {
-      this.setAttribute(attributes.ANIMATED, value.toString());
+      this.setAttribute(attributes.ANIMATED, value);
     } else {
       this.removeAttribute(attributes.ANIMATED);
     }
@@ -668,7 +678,7 @@ class IdsHomePage extends mix(IdsElement).with(
    */
   set cardHeight(value) {
     if (value) {
-      this.setAttribute(attributes.CARD_HEIGHT, value.toString());
+      this.setAttribute(attributes.CARD_HEIGHT, value);
     } else {
       this.removeAttribute(attributes.CARD_HEIGHT);
     }
@@ -682,7 +692,7 @@ class IdsHomePage extends mix(IdsElement).with(
    */
   set cardWidth(value) {
     if (value) {
-      this.setAttribute(attributes.CARD_WIDTH, value.toString());
+      this.setAttribute(attributes.CARD_WIDTH, value);
     } else {
       this.removeAttribute(attributes.CARD_WIDTH);
     }
@@ -696,7 +706,7 @@ class IdsHomePage extends mix(IdsElement).with(
    */
   set cols(value) {
     if (value) {
-      this.setAttribute(attributes.COLS, value.toString());
+      this.setAttribute(attributes.COLS, value);
     } else {
       this.removeAttribute(attributes.COLS);
     }
@@ -710,11 +720,11 @@ class IdsHomePage extends mix(IdsElement).with(
    */
   set gap(value) {
     if (value) {
-      this.setAttribute(attributes.GAP, value.toString());
+      this.setAttribute(attributes.GAP, value);
     } else {
       this.removeAttribute(attributes.GAP);
     }
-    this.#setGap();
+    this.#refreshGap();
   }
 
   get gap() { return this.getAttribute(attributes.GAP); }
@@ -725,11 +735,11 @@ class IdsHomePage extends mix(IdsElement).with(
    */
   set gapX(value) {
     if (value) {
-      this.setAttribute(attributes.GAP_X, value.toString());
+      this.setAttribute(attributes.GAP_X, value);
     } else {
       this.removeAttribute(attributes.GAP_X);
     }
-    this.#setGap();
+    this.#refreshGap();
   }
 
   get gapX() { return this.getAttribute(attributes.GAP_X); }
@@ -740,11 +750,11 @@ class IdsHomePage extends mix(IdsElement).with(
    */
   set gapY(value) {
     if (value) {
-      this.setAttribute(attributes.GAP_Y, value.toString());
+      this.setAttribute(attributes.GAP_Y, value);
     } else {
       this.removeAttribute(attributes.GAP_Y);
     }
-    this.#setGap();
+    this.#refreshGap();
   }
 
   get gapY() { return this.getAttribute(attributes.GAP_Y); }

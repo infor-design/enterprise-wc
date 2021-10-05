@@ -66,7 +66,7 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set autoFit(value) {
     const className = 'ids-card-auto-fit';
     if (stringUtils.stringToBool(value)) {
-      this.setAttribute(attributes.AUTO_FIT, value.toString());
+      this.setAttribute(attributes.AUTO_FIT, value);
       this.container.classList.add(className);
       return;
     }
@@ -83,7 +83,7 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set autoHeight(value) {
     const className = 'ids-card-auto-height';
     if (stringUtils.stringToBool(value)) {
-      this.setAttribute(attributes.AUTO_HEIGHT, value.toString());
+      this.setAttribute(attributes.AUTO_HEIGHT, value);
       this.container.classList.add(className);
       return;
     }

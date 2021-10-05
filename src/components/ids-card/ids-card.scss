@@ -28,14 +28,14 @@
 
   // Adjust the width/height to parent fit
   &.ids-card-auto-fit {
+    @include box-border();
+    @include h-full();
     @include m-0();
 
-    box-sizing: border-box;
     min-height: auto;
-    height: 100%;
 
     .ids-card-content {
-      height: 100%;
+      @include h-full();
     }
   }
 }
@@ -44,7 +44,7 @@
   @include w-full();
 
   height: 310px;
-  overflow: hidden;
+  overflow: auto;
 }
 
 // Style the title
@@ -80,8 +80,7 @@
 .ids-card[version='classic'][mode='light'] {
   @include border-graphite-30();
   @include rounded-default();
-
-  box-shadow: none;
+  @include shadow-none();
 
   .ids-card-header {
     @include border-graphite-30();
@@ -92,8 +91,7 @@
   @include bg-classic-slate-80();
   @include border-classic-slate-60();
   @include rounded-default();
-
-  box-shadow: none;
+  @include shadow-none();
 
   .ids-card-header {
     @include border-classic-slate-60();
@@ -104,8 +102,7 @@
   @include bg-white();
   @include border-classic-slate-60();
   @include rounded-default();
-
-  box-shadow: none;
+  @include shadow-none();
 
   .ids-card-header {
     @include border-classic-slate-60();
