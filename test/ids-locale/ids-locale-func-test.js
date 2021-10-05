@@ -555,7 +555,7 @@ describe('IdsLocale API', () => {
       expect(locale.translate('ClassicDarkTheme')).toEqual('Klasiko Dark');
       expect(locale.translate('ClassicLightTheme')).toEqual('Klasiko Light');
       expect(locale.translate('ClassicHighContrastTheme')).toEqual('Klasiko High Contrast');
-      expect(locale.translate('Device')).toEqual('Pangalan ng aparato');
+      expect(locale.translate('DeviceName')).toEqual('Pangalan ng aparato');
       expect(locale.translate('ExtraSmall')).toEqual('Pinaka Maliit');
       expect(locale.translate('Roles')).toEqual('Mga tungkulin');
     });

@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Halimbawa ng Placeholder', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'I-export', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'I-export sa Excel', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Ekstra Küçük', comment: 'A smaller font size and compressed mode for datagrid rows.' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Pinaka Maliit', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'Paborito', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'File Upload. Pindutin ang Enter para Mag-browse para sa file', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Field Filter', comment: 'Used for Field Filter' },
