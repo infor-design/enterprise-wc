@@ -48,7 +48,7 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
    * @returns {string|null} the name of the color variant currently applied
    */
   get colorVariant() {
-    return this.state.colorVariant;
+    return this.state?.colorVariant;
   }
 
   /**
@@ -82,17 +82,18 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   #refreshColorVariant(variantName) {
-    const thisVariantClass = `color-variant-${variantName}`;
+    const variantClass = `color-variant-${variantName}`;
     const cl = this.container.classList;
 
-    this.colorVariants.forEach((variant) => {
-      const variantClass = `color-variant-${variant}`;
-      if (variantName !== null && variantClass === thisVariantClass && !cl.contains(variantClass)) {
-        cl.add(variantClass);
-      } else if (variantClass !== thisVariantClass && cl.contains(variantClass)) {
-        cl.remove(variantClass);
-      }
+    // remove any color-variant classes
+    cl.forEach((x) => {
+      if (x.includes('color-variant')) cl.remove(x);
     });
+
+    // add the color-variant class
+    if (variantName !== null) {
+      cl.add(variantClass);
+    }
 
     // Fire optional callback
     if (typeof this.onColorVariantRefresh === 'function') {

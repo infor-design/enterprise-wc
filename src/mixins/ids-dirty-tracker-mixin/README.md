@@ -7,5 +7,5 @@ To implement the dirty tracker mixin:
 1. Import `IdsDirtyTrackerMixin`
 1. Add `IdsDirtyTrackerMixin` to the mixes() section
 1. Add `IdsDirtyTrackerMixin` to the @mixes comment section
-1. Make sure you attributes extend `return [...attributes` in the `attributes` property because `attributes.DIRTY_TRACKER` is added.
+1. Make sure you attributes extend `return [...super.attributes` in the `attributes` property because `attributes.DIRTY_TRACKER` is added.
 1. Make sure the `connectedCallback` calls `super.connectedCallback();`
