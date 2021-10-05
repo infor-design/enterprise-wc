@@ -2,9 +2,14 @@
   <ids-text font-size="12" type="h1">ListBuilder</ids-text>
 </ids-layout-grid>
 
-<ids-layout-grid>
-  <ids-layout-grid-cell>
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell cols="1">
     <ids-list-builder>
+      <template>
+        <ids-text font-size="16" type="h2">${productName}</ids-text>
+        <ids-text font-size="12" type="span">Count: ${units}</ids-text>
+        <ids-text font-size="12" type="span">Price: $ ${unitPrice}</ids-text>
+      </template>
     </ids-list-builder>
   </ids-layout-grid-cell>
 </ids-layout-grid>
