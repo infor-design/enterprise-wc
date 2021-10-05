@@ -123,13 +123,17 @@ class IdsDropdown extends mix(IdsElement).with(
       <ids-input
         part="input"
         disabled="${this.disabled}"
-        readonly="true"
         label-hidden="true" ${!this.disabled && !this.readonly ? 'cursor="pointer"' : ''}
+        readonly
         ${this.readonly ? 'cursor="text"' : ''}
-        readonly bg-transparent="${!this.readonly && !this.disabled}"
+        bg-transparent="${!this.readonly && !this.disabled}"
         user-select="none" triggerfield="true"></ids-input>
-      <ids-trigger-button part="trigger-button" tabbable="false" disabled="${this.disabled}"
-      readonly="${this.readonly}">
+      <ids-trigger-button 
+        part="trigger-button"
+        tabbable="false"
+        disabled="${this.disabled}"
+        readonly="${this.readonly}"
+      >
         <ids-text audible="true">Dropdown Button</ids-text>
         <ids-icon slot="icon" icon="dropdown" part="icon"></ids-icon>
       </ids-trigger-button>

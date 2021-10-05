@@ -64,7 +64,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      ...attributes.DISABLED,
+      ...super.attributes,
+      attributes.DISABLED,
       attributes.LABEL,
       attributes.LABEL_HIDDEN,
       attributes.LANGUAGE,

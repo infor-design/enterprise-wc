@@ -60,7 +60,17 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
    * @returns {Array<string>} this component's observable properties
    */
   static get attributes() {
-    return [attributes.CLICKABLE, attributes.COMPACT, ...attributes.MODE, attributes.READONLY, attributes.SIZE, 'stars', attributes.VALUE, attributes.VERSION];
+    return [
+      ...super.attributes,
+      attributes.CLICKABLE,
+      attributes.COMPACT,
+      attributes.MODE,
+      attributes.READONLY,
+      attributes.SIZE,
+      attributes.STARS,
+      attributes.VALUE,
+      attributes.VERSION
+    ];
   }
 
   /**

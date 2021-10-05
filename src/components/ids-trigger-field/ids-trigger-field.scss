@@ -7,6 +7,10 @@
 
   align-items: flex-start;
   flex-direction: column;
+
+  &[no-margins] {
+    @include mb-0();
+  }
 }
 
 :host(ids-trigger-field[disabled]) {
@@ -37,14 +41,23 @@
     @include border-slate-90();
   }
 
-  &.disabled {
+  &[disabled] {
     @include border-slate-30();
     @include text-slate-30();
   }
 
   &[readonly] {
     @include bg-slate-20();
+    @include text-black();
     @include border-slate-40();
+  }
+
+  &.ids-upload {
+    &[readonly] {
+      @include bg-white();
+      @include text-slate-30();
+      @include border-slate-30();
+    }
   }
 
   // input message: [alert, error, info, success]
@@ -173,7 +186,15 @@
   @include border-slate-40();
   @include text-white();
 
-  &.disabled {
+  &.ids-upload {
+    &[readonly] {
+      @include bg-transparent();
+      @include border-slate-60();
+      @include text-slate-60();
+    }
+  }
+
+  &[disabled] {
     @include border-slate-60();
     @include text-slate-60();
   }
@@ -184,7 +205,7 @@
     @include text-slate-10();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent {
     @include bg-transparent();
   }
 
@@ -198,7 +219,15 @@
   @include border-slate-40();
   @include text-black();
 
-  &.disabled {
+  &.ids-upload {
+    &[readonly] {
+      @include bg-white();
+      @include border-slate-30();
+      @include text-slate-30();
+    }
+  }
+
+  &[disabled] {
     @include border-slate-30();
     @include text-slate-30();
   }
@@ -209,7 +238,7 @@
     @include text-slate-100();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent {
     @include bg-white();
   }
 
@@ -223,7 +252,15 @@
   @include border-graphite-40();
   @include text-graphite-100();
 
-  &.disabled {
+  &.ids-upload {
+    &[readonly] {
+      @include bg-transparent();
+      @include border-graphite-30();
+      @include text-graphite-40();
+    }
+  }
+
+  &[disabled] {
     @include border-graphite-30();
     @include text-graphite-40();
   }
@@ -234,7 +271,7 @@
     @include text-classic-slate-100();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent {
     @include bg-transparent();
   }
 
@@ -248,7 +285,15 @@
   @include border-slate-40();
   @include text-white();
 
-  &.disabled {
+  &.ids-upload {
+    &[readonly] {
+      @include bg-transparent();
+      @include border-classic-slate-40();
+      @include text-classic-slate-50();
+    }
+  }
+
+  &[disabled] {
     @include border-classic-slate-40();
     @include text-classic-slate-50();
   }
@@ -259,7 +304,7 @@
     @include text-white();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent {
     @include bg-transparent();
   }
 
@@ -273,7 +318,15 @@
   @include border-graphite-80();
   @include text-graphite-100();
 
-  &.disabled {
+  &.ids-upload {
+    &[readonly] {
+      @include bg-transparent();
+      @include border-slate-50();
+      @include text-graphite-80();
+    }
+  }
+
+  &[disabled] {
     @include bg-transparent();
     @include border-slate-50();
     @include text-graphite-80();
@@ -285,7 +338,7 @@
     @include text-graphite-100();
   }
 
-  &.bg-transparent[readonly] {
+  &.bg-transparent {
     @include bg-white();
   }
 
