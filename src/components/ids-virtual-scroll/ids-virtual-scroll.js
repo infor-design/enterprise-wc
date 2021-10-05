@@ -175,7 +175,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {number|string} value the height of each item in pixels
    */
   set itemHeight(value) {
-    if (value) {
+    if (IdsStringUtils.stringToBool(value)) {
       this.setAttribute('item-height', value.toString());
       this.applyHeight();
       this.renderItems(false);

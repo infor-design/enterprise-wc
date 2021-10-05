@@ -70,7 +70,8 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
 
     if (this?.data.length > 0 && this.virtualScroll === 'true') {
-      html = `<ids-virtual-scroll height="310">
+      html = `
+        <ids-virtual-scroll height="310">
           <div class="ids-list-view" part="container">
             <ul slot="contents" part="list">
             </ul>
@@ -96,13 +97,14 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   render() {
     super.render();
-
     if (IdsStringUtils.stringToBool(this.virtualScroll) && this?.data.length > 0) {
       /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.itemTemplate = (item) => `<li part="listitem">${this.itemTemplate(item)}</li>`;
       this.virtualScrollContainer.itemCount = this.data.length;
-      this.virtualScrollContainer.itemHeight = this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
+      if (!this.virtualScrollContainer.itemHeight) {
+        this.virtualScrollContainer.itemHeight = this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
+      }
       this.virtualScrollContainer.data = this.data;
 
       this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
@@ -141,13 +143,9 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set virtualScroll(value) {
     if (value) {
       this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
-      if (this?.data.length > 0) {
-        this.render();
-      }
-      return;
+    } else {
+      this.removeAttribute(attributes.VIRTUAL_SCROLL);
     }
-
-    this.removeAttribute(attributes.VIRTUAL_SCROLL);
     this.render();
   }
 
