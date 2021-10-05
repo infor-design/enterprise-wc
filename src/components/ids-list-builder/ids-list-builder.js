@@ -15,6 +15,7 @@ import {
 import styles from './ids-list-builder.scss';
 import IdsListView from '../ids-list-view';
 import IdsCard from '../ids-card';
+import IdsToolBar from '../ids-toolbar';
 
 /**
  * IDS ListBuilder Component
@@ -27,8 +28,6 @@ import IdsCard from '../ids-card';
 @customElement('ids-list-builder')
 @scss(styles)
 class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin) {
-  // listView;
-
   constructor() {
     super();
   }
@@ -211,40 +210,37 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   static get attributes() {
     return [
       ...super.attributes,
-      // attributes.DATA
     ];
   }
-
-  /**
-   * Set the data array of the listview
-   * @param {Array | null} value The array to use
-   */
-  // set data(value) {
-  //   // this.datasource.data = value || [];
-  //   // this.render(true);
-  //   console.log(value);
-
-  //   if (this.listView) {
-  //     this.listView.data = value;
-  //   }
-  // }
-
-  // get data() { 
-  //   // return this?.datasource?.data || [];
-  //   return this.listView?.data || [];
-  // }
 
   /**
    * Create the Template for the contents
    * @returns {string} The template
    */
   template() {
-    console.log(super.template())
     return `
       <div class="ids-list-builder">
         <ids-card>
           <div slot="card-header">
-            <ids-text font-size="20" type="h2">Card Title One</ids-text>
+            <ids-toolbar>
+              <ids-toolbar-section type="buttonset">
+                <ids-button id="button-1">
+                  <ids-icon slot="icon" icon="add"></ids-icon>
+                </ids-button>
+                <ids-button id="button-2">
+                  <ids-icon slot="icon" icon="arrow-up"></ids-icon>
+                </ids-button>
+                <ids-button id="button-3">
+                  <ids-icon slot="icon" icon="arrow-down"></ids-icon>
+                </ids-button>
+                <ids-button id="button-4">
+                  <ids-icon slot="icon" icon="edit"></ids-icon>
+                </ids-button>
+                <ids-button id="button-5">
+                  <ids-icon slot="icon" icon="delete"></ids-icon>
+                </ids-button>
+              </ids-toolbar-section>
+            </ids-toolbar>
           </div>
           <div slot="card-content">
             ${super.template()} 
