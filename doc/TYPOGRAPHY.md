@@ -55,10 +55,8 @@ Small 02 Bold|10|600|13|Uppercase
 
 When using color in type, make sure to follow the guidelines below:
 
-1. Text color should have adequate contrast to its background. You can test the contrast [here](https://www.tpgi.com/color-contrast-checker/)
-
+1. Text color should have adequate contrast to its background. You can test the contrast [here](https://www.tpgi.com/color-contrast-checker/).
 2. Do not use alert colors unless the text corresponds to an alert.
-
 3. Text colors should be mapped to a style token in IDS to ensure consistency.
 
 ## Common variations
