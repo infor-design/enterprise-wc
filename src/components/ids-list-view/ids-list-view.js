@@ -52,34 +52,48 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
+   * Helper method to render the static scrolling template
+   * @returns {string} html
+   */
+  staticScrollTemplate() {
+    const listItems = this.data?.map((item) => `<li part="list-item">${this.itemTemplate(item)}</li>`);
+
+    const html = `
+      <div class="ids-list-view" part="container">
+        <ul part="list">
+          ${listItems.length > 0 ? listItems.reduce((htmlA, htmlB) => htmlA + htmlB) : ''}
+        </ul>
+      </div>
+    `;
+
+    return html;
+  }
+
+  /**
+   * Helper method to render the dynamic scrolling template
+   * @returns {string} html
+   */
+  dynamicScrollTemplate() {
+    const html = `
+      <ids-virtual-scroll height="310" item-height="75">
+        <div class="ids-list-view" part="container">
+          <ul slot="contents" part="list">
+          </ul>
+        </div>
+      </ids-virtual-scroll>
+    `;
+
+    return html;
+  }
+
+  /**
    * Inner template contents
    * @returns {string} The template
    */
   template() {
-    let html = '';
-
-    if (this?.data.length > 0 && this.virtualScroll !== 'true') {
-      html = `<div class="ids-list-view" part="container"><ul part="list">`;
-
-      this.data.forEach((item) => {
-        html += `<li part="list-item">${this.itemTemplate(item)}</li>`;
-      });
-
-      html += `</ul></div>`;
-      return html;
-    }
-
-    if (this?.data.length > 0 && this.virtualScroll === 'true') {
-      html = `
-        <ids-virtual-scroll height="310">
-          <div class="ids-list-view" part="container">
-            <ul slot="contents" part="list">
-            </ul>
-          </div>
-        </ids-virtual-scroll>`;
-      return html;
-    }
-    return `<div class="ids-list-view"></div>`;
+    return `
+      ${this.virtualScroll ? this.dynamicScrollTemplate() : this.staticScrollTemplate()}
+    `;
   }
 
   /**
@@ -100,7 +114,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (IdsStringUtils.stringToBool(this.virtualScroll) && this?.data.length > 0) {
       /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      this.virtualScrollContainer.itemTemplate = (item) => `<li part="listitem">${this.itemTemplate(item)}</li>`;
+      this.virtualScrollContainer.itemTemplate = (item) => `<li part="list-item">${this.itemTemplate(item)}</li>`;
       this.virtualScrollContainer.itemCount = this.data.length;
       if (!this.virtualScrollContainer.itemHeight) {
         this.virtualScrollContainer.itemHeight = this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
@@ -141,7 +155,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean|string} value true to use virtual scrolling
    */
   set virtualScroll(value) {
-    if (value) {
+    if (IdsStringUtils.stringToBool(value)) {
       this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
@@ -149,7 +163,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.render();
   }
 
-  get virtualScroll() { return this.getAttribute(attributes.VIRTUAL_SCROLL) || 'false'; }
+  get virtualScroll() { return this.getAttribute(attributes.VIRTUAL_SCROLL); }
 }
 
 export default IdsListView;

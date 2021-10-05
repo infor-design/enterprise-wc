@@ -256,6 +256,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     let startNode = Math.floor(Number(this.scrollTop) / Number(this.itemHeight))
       - Number(this.bufferSize);
     startNode = Math.max(0, startNode);
+
     return startNode;
   }
 
