@@ -148,7 +148,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: '예제 자리표시자', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: '내보내기', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Excel로 내보내기', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: '초소형', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: '초소형', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: '즐겨찾기', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: '파일 업로드. 파일을 찾으려면 Enter를 누르세요.', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: '필드 필터', comment: 'Used for Field Filter' },

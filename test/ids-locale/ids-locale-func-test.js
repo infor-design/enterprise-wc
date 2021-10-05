@@ -546,6 +546,11 @@ describe('IdsLocale API', () => {
       expect(locale.translate('InsertAnchor')).toEqual('插入定位标记');
     });
 
+    it('Should correct some missing translations', () => {
+      await locale.setLocale('tl-PH');
+      expect(locale.translate('ExtraSmall')).toEqual('Pinaka Maliit');
+    });
+
     it('should support fr-CA', async () => {
       await locale.setLocale('en-US');
       await locale.setLanguage('fr-CA');

@@ -148,7 +148,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Eksempelpladsholder', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Eksportér', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Eksportér til Excel', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Ekstra lille', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Ekstra lille', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'Foretrukken', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Filoverførsel. Tryk på Enter for at navigere til en fil', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Feltfilter', comment: 'Used for Field Filter' },

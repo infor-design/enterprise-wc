@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'Заполнитель примера', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'Экспортировать', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Экспортировать в Excel', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'Очень мелкая', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'Очень мелкая', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'Избранное', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'Выгрузка файла. Нажмите клавишу ВВОД для выбора файла.', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'Фильтр поля', comment: 'Used for Field Filter' },

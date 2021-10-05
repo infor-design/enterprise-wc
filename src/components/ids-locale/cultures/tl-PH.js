@@ -47,7 +47,7 @@ const locale = {
   }],
   // numbers/currencyFormats-numberSystem-latn/standard
   currencySign: '₱',
-  currencyFormat: '### ¤',
+  currencyFormat: '¤ ###',
   // numbers/symbols-numberSystem-latn
   numbers: {
     percentSign: '%',

@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'उदाहरण प्लेसहोल्डर', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'निर्यात', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'एक्सेल में निर्यात करें', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: 'अधिक छोटा', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: 'अधिक छोटा', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'पसंदीदा', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'फ़ाइल अपलोड। एक फ़ाइल ब्राउज़ करने के लिए एंटर दबाएँ', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'फील्ड फ़िल्टर', comment: 'Used for Field Filter' },

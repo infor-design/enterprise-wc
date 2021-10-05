@@ -149,7 +149,7 @@ const messages = {
   ExamplePlaceholder: { id: 'ExamplePlaceholder', value: 'プレースホルダーの例', comment: 'Translated text for an example form placeholder text' },
   Export: { id: 'Export', value: 'エクスポート', comment: 'Export tooltip' },
   ExportToExcel: { id: 'ExportToExcel', value: 'Excel にエクスポート', comment: 'Export To Excel menu option in datagrid' },
-  ExtraSmall: { id: 'ExtraSmall', value: '極小', comment: 'A smaller font size and compressed mode for datagrid rows. NOTE: Please change french to Très petite (Masculine form)' },
+  ExtraSmall: { id: 'ExtraSmall', value: '極小', comment: 'A smaller font size and compressed mode for datagrid rows.' },
   Favorite: { id: 'Favorite', value: 'お気に入り', comment: 'A favorite item' },
   FileUpload: { id: 'FileUpload', value: 'ファイルのアップロード。Enter キーを押してファイルを参照します', comment: 'Screen Reader instructions' },
   FieldFilter: { id: 'FieldFilter', value: 'フィールドフィルター', comment: 'Used for Field Filter' },
