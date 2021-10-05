@@ -167,4 +167,26 @@ describe('IdsWizard Tests', () => {
     elem.stepNumber = 1;
     expect(elem.getAttribute('step-number')).toEqual('1');
   });
+
+  it('handles duplicate steps', () => {
+    elem = createFromTemplate(elem,
+      `<ids-wizard step-number="1">
+        <ids-wizard-step>Step One</ids-wizard-step>
+        <ids-wizard-step>Step One</ids-wizard-step>
+        <ids-wizard-step>Step One</ids-wizard-step>
+    </ids-wizard>`);
+
+    expect(Array.from(elem.hrefsAssignedSet)[0]).toEqual('Step%20One');
+    expect(Array.from(elem.hrefsAssignedSet)[1]).toEqual('Step%20One-1');
+    expect(Array.from(elem.hrefsAssignedSet)[2]).toEqual('Step%20One-2');
+  });
+
+  it('cancel resize if 1 step', () => {
+    elem = createFromTemplate(elem,
+      `<ids-wizard step-number="1">
+        <ids-wizard-step>Step One</ids-wizard-step>
+    </ids-wizard>`);
+
+    expect(elem.resizeStepLabelRects(elem)).toEqual([{ left: 0, right: 0, width: 0 }]);
+  });
 });

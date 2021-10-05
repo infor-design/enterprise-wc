@@ -13,7 +13,7 @@ import { IdsStringUtils, IdsDeepCloneUtils } from '../../utils';
 import { IdsEventsMixin } from '../../mixins';
 
 // Import Dependencies
-import getElTranslation from './get-el-translate-point';
+import getElTranslatePoint from './get-el-translate-point';
 
 // Import Styles
 import styles from './ids-draggable.scss';
@@ -267,7 +267,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
       this.#dragStartMousePoint = { x: e.x, y: e.y };
 
-      const dragOffset = getElTranslation(this);
+      const dragOffset = getElTranslatePoint(this);
 
       this.#dragStartOffset = {
         x: this.axis !== 'y' ? dragOffset.x : 0,

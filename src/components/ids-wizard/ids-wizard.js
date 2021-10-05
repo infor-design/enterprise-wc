@@ -309,9 +309,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
         // restore label widths after render
         for (const [stepNumber, width] of resizedWidthsMap) {
           const labelEl = this.getStepEl(this, stepNumber)?.children?.[1];
-          if (labelEl?.style) {
-            labelEl.style.maxWidth = width;
-          }
+          labelEl.style.maxWidth = width;
         }
       }
     }
@@ -414,13 +412,12 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
     // if this is the initial run, populate the
     // rects array and grab total width
-
     if (totalWidth === -1) {
       const wizardRect = w.getBoundingClientRect();
       totalWidth = wizardRect.width;
 
       for (let i = 0; i < w.children.length; i++) {
-      // eslint-disable-next-line no-unused-vars
+        // eslint-disable-next-line no-unused-vars
         const [_stepEl, labelEl] = this.getStepEl(w, i + 1).children;
 
         const labelRect = labelEl.getBoundingClientRect();
@@ -488,18 +485,15 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     // update rect refs after morphing them above
-
     rects[n - 1] = r1;
     rects[n] = r2;
 
     // recursive case
-
     if (n < rects.length - 1) {
       rects = this.resizeStepLabelRects(w, n + 1, rects, totalWidth);
     }
 
     // pass back rect changes
-
     return rects;
   }
 }
