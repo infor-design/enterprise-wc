@@ -108,7 +108,7 @@ const messages = {
   Default: { id: 'Default', value: 'डिफ़ॉल्ट', comment: 'Refers to a default object of a generic type' },
   Delete: { id: 'Delete', value: 'हटाएँ', comment: 'Delete Toolbar Action Tooltip' },
   DeleteEvent: { id: 'DeleteEvent', value: 'इवेंट हटाएँ', comment: 'Delete an Event (from a calendar)' },
-  : { id: 'Device', value: 'उपकरण', comment: 'Name of the Device' },
+  Device: { id: 'Device', value: 'उपकरण', comment: 'Name of the Device' },
   DistributeHoriz: { id: 'DistributeHoriz', value: 'क्षैतिज रूप से वितरित करें', comment: 'Icon button tooltip for action that distributes elements across Horizontally' },
   Document: { id: 'Document', value: 'दस्तावेज़', comment: 'Document tooltip' },
   DiscretionaryTimeOff: { id: 'DiscretionaryTimeOff', value: 'विवेकाधीन टाइम ऑफ़', comment: 'As in work time off' },
