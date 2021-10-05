@@ -40,6 +40,17 @@ describe('IdsCard Component', () => {
     expect(card.container.classList.contains('ids-card-auto-height')).toEqual(true);
   });
 
+  it('renders auto-fit from an attribute', () => {
+    card.setAttribute('auto-fit', 'true');
+    expect(card.autoFit).toEqual('true');
+    expect(card.getAttribute('auto-fit')).toEqual('true');
+    expect(card.container.classList.contains('ids-card-auto-fit')).toEqual(true);
+    card.setAttribute('auto-fit', 'false');
+    expect(card.autoFit).toEqual(null);
+    expect(card.getAttribute('auto-fit')).toEqual(null);
+    expect(card.container.classList.contains('ids-card-auto-fit')).toEqual(false);
+  });
+
   it('renders success color from the api', () => {
     card.autoHeight = true;
     expect(card.getAttribute('auto-height')).toEqual('true');
