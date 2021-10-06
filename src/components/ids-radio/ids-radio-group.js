@@ -50,7 +50,8 @@ class IdsRadioGroup extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      ...attributes.DISABLED,
+      ...super.attributes,
+      attributes.DISABLED,
       attributes.HORIZONTAL,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,

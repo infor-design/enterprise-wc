@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsSearchField Component renders correctly 1`] = `"<ids-search-field label=\\"Test Search Field Label\\" value=\\"Eevee\\" placeholder=\\"Please type a Pokemon\\"></ids-search-field>"`;
