@@ -63,9 +63,9 @@ class IdsHierarchyItem extends mix(IdsElement).with(
   static get attributes() {
     return [
       attributes.EXPANDED,
-      'has-nested-items',
-      'selected',
-      'type'
+      attributes.SELECTED,
+      attributes.VALUE,
+      attributes.ID
     ];
   }
 
@@ -106,15 +106,23 @@ class IdsHierarchyItem extends mix(IdsElement).with(
 
   set selected(value) {
     const isValueTruthy = IdsStringUtils.stringToBool(value);
-    if (isValueTruthy) {
-      this.setAttribute('selected', true);
+    if (!isValueTruthy) {
+      this.removeAttribute(attributes.SELECTED);
+      this.setAttribute('tabindex', '-1');
     } else {
-      this.removeAttribute?.('selected');
+      this.setAttribute(attributes.SELECTED, true);
+      this.setAttribute('tabindex', '0');
+
+      // requestAnimationFrame(() => {
+      this.triggerEvent('itemselect', this, { bubbles: true });
+      // });
     }
+
+    this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
   }
 
   get selected() {
-    return this.getAttribute('selected');
+    return this.hasAttribute(attributes.SELECTED);
   }
 
   #expandCollapse(expanded) {
@@ -144,7 +152,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(
     });
 
     this.onEvent('click', this.leaf, () => {
-      this.setAttribute('selected', true);
+      this.setAttribute(attributes.SELECTED, true);
     });
 
     this.onEvent('touchstart', this.expander, (e) => {

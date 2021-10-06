@@ -61,6 +61,13 @@
   }
 }
 
+:host(:focus) {
+  outline: none;
+  border: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
 :host([selected]) {
   .leaf {
     box-shadow: 0 0 0 5px rgba(54, 138, 192, 0.3);

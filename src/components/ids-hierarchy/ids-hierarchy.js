@@ -1,4 +1,5 @@
 import {
+  attributes,
   customElement,
   IdsElement,
   mix,
@@ -10,6 +11,7 @@ import { IdsStringUtils } from '../../utils';
 
 // Import Mixins
 import {
+  IdsAttributeProviderMixin,
   IdsEventsMixin,
 } from '../../mixins';
 
@@ -25,7 +27,9 @@ import IdsHierarchyItem from './ids-hierarchy-item';
  */
 @customElement('ids-hierarchy')
 @scss(styles)
-class IdsHierarchy extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsHierarchy extends mix(IdsElement).with(
+    IdsEventsMixin,
+  ) {
   constructor() {
     super();
   }
@@ -35,23 +39,31 @@ class IdsHierarchy extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return ['items'];
+    return [attributes.VALUE];
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    super.connectedCallback?.();
+
+    /* istanbul ignore next */
+    this.onEvent('itemselect', this, (e) => {
+      e.stopPropagation();
+      const items = this.querySelectorAll('ids-hierarchy-item');
+      items.forEach((item) => {
+        item.removeAttribute('selected');
+        item.setAttribute('aria-selected', false);
+      });
+      e.target.setAttribute('selected', true);
+      e.target.setAttribute('aria-selected', true);
+    });
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+  }
 
   template() {
     return `<slot></slot>`;
-  }
-
-  set items(value) {
-    if (value) {
-      this.setAttribute('items', value);
-    }
-  }
-
-  get items() {
-    return this.getAttribute('items');
   }
 }
 
