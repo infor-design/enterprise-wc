@@ -91,7 +91,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(
             <slot name="subheading"></slot>
             <slot name="micro"></slot>
           </div>
-          <ids-button part="icon-btn" id="test-icon-only-button-default">
+          <ids-button part="icon-btn" id="icon-only-button-default">
             <span class="audible">Default Button</span>
             <ids-icon slot="icon" icon="caret-down"></ids-icon>
           </ids-button>
