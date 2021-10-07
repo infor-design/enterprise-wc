@@ -1,5 +1,82 @@
 @import '../../core/ids-base';
 
-:host {
+$images-size: (
+  'sm': (60px, 60px),
+  'md': (154px, 120px),
+  'lg': (300px, 350px),
+);
 
+:host {
+  contain: content;
 }
+
+// set size
+@each $key, $value in $images-size {
+  :host([size='#{$key}']) {
+    .ids-image {
+      width: nth($value, 1);
+      height: nth($value, 2);
+    }
+  }
+}
+
+// focus state
+:host([mode='light']) {
+  .ids-image {
+    &:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 3px rgba(54, 138, 192, 0.3);
+    }
+  }
+}
+
+:host([mode='dark']) {
+  .ids-image {
+    &:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 2px rgba(141, 201, 230, 0.3);
+    }
+  }
+}
+
+:host([mode='contrast']) {
+  .ids-image {
+    &:focus {
+      @include border-azure-90();
+
+      box-shadow: 0 0 4px 2px rgba(41, 41, 41, 0.3);
+    }
+  }
+}
+
+.ids-image {
+  max-width: 100%;
+  height: auto;
+
+  // img related
+  &:not(.placeholder) {
+    object-fit: contain;
+  }
+
+  // to prevent jump on focus
+  @include border-solid();
+  @include border-1();
+  @include border-transparent();
+
+  // placeholder styles
+  &.placeholder {
+    @include flex();
+    @include border-slate-20();
+
+    align-items: center;
+    justify-content: center;
+
+    .audible {
+      @include audible();
+    }
+  }
+}
+
+// @include rounded-round();

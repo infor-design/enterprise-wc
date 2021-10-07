@@ -71,6 +71,7 @@ export const attributes = {
   EXPAND_ICON: 'expand-icon',
   EXPANDED: 'expanded',
   EXPANDER_TYPE: 'expander-type',
+  FALLBACK: 'fallback',
   FIELD_HEIGHT: 'field-height',
   FILE: 'file',
   FILE_NAME: 'file-name',

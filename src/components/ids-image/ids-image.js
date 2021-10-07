@@ -9,7 +9,8 @@ import {
 // Import Utils
 import { IdsStringUtils } from '../../utils';
 
-// TODO: supporting components IdsIcon
+// Supporting components
+import IdsIcon from '../ids-icon';
 
 // Import Mixins
 import {
@@ -48,6 +49,10 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       ...super.attributes,
       attributes.SRC,
       attributes.ALT,
+      attributes.SIZE,
+      attributes.TABINDEX,
+      attributes.PLACEHOLDER,
+      attributes.FALLBACK
     ];
   }
 
@@ -56,7 +61,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<img src="${this.src}" alt="${this.alt}" />`;
+    return `<img class="ids-image" src="${this.src}" alt="${this.alt}" tabindex="0" />`;
   }
 
   /**
@@ -65,11 +70,22 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   attachEventHandlers() {
     this.offEvent('error.image');
-    this.onEvent('error.image', this.container, (e) => {
-      console.log('%c error', 'color: green', e)
-    });
+    this.onEvent('error.image', this.container, () => {
+      if (this.fallback) {
+        // Removing img on error loading
+        this.shadowRoot.querySelector('img').remove();
 
-    // TODO: on load image if placeholder remove
+        // Adding placeholder element
+        const div = document.createElement('div');
+        div.classList = 'ids-image placeholder';
+        div.setAttribute('tabindex', 0);
+        div.innerHTML = `
+          <span class="audible">Placeholder Image</span>
+          <ids-icon icon="insert-image" size="medium"></ids-icon>
+        `;
+        this.shadowRoot.appendChild(div);
+      }
+    });
 
     return this;
   }
@@ -103,6 +119,80 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   set alt(val) {
     this.setAttribute(attributes.ALT, val);
   }
+
+  /**
+   * Get one of predefined sizes
+   * @param {string} val any incoming value
+   * @returns {string} one of predefined sizes
+   */
+  #getSize(val) {
+    // List of sizes to compare with size attribute value
+    const sizes = ['auto', 'sm', 'md', 'lg'];
+
+    if (val && sizes.includes(val)) {
+      return val;
+    }
+
+    // set auto as default or if incorrect attribute value
+    return sizes[0];
+  }
+
+  /**
+   * @returns {string} one of predefined sizes
+   */
+  get size() {
+    const attrVal = this.getAttribute(attributes.SIZE);
+
+    return this.#getSize(attrVal);
+  }
+
+  /**
+   * Set the size
+   * @param {string} val size value
+   */
+  set size(val) {
+    this.setAttribute(attributes.SIZE, this.#getSize(val));
+  }
+
+  set placeholder(val) {
+    const boolVal = IdsStringUtils.stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.PLACEHOLDER, boolVal);
+
+      return;
+    }
+
+    this.removeAttribute(attributes.PLACEHOLDER);
+  }
+
+  get placeholder() {
+    return this.getAttribute(attributes.PLACEHOLDER);
+  }
+
+  set fallback(val) {
+    const boolVal = IdsStringUtils.stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.FALLBACK, boolVal);
+
+      return;
+    }
+
+    this.removeAttribute(attributes.FALLBACK);
+  }
+
+  get fallback() {
+    return this.getAttribute(attributes.FALLBACK);
+  }
+
+  // get tabIndex() {
+
+  // }
+
+  // set tabIndex(val) {
+
+  // }
 }
 
 export default IdsImage;

@@ -5,12 +5,19 @@ import IdsImage from '../../src/components/ids-image';
 
 const name = 'ids-image';
 const id = 'ids-image-example';
+const alt = 'example alt';
+const src = '//via.placeholder.com/60.jpeg';
+const size = 'sm';
 
 describe('IdsImage Component (using properties)', () => {
   let component;
 
   beforeEach(async () => {
     component = new IdsImage();
+    component.id = id;
+    component.src = src;
+    component.alt = alt;
+    component.size = size;
 
     document.body.appendChild(component);
   });
@@ -40,6 +47,23 @@ describe('IdsImage Component (using properties)', () => {
   });
 
   it('has properties', () => {
+    expect(component.src).toEqual(src);
+    expect(component.alt).toEqual(alt);
+    expect(component.size).toEqual(size);
+  });
+
+  it('should set size auto as default', () => {
+    component.size = null;
+
+    expect(component.size).toEqual('auto');
+
+    component.size = 'md';
+
+    expect(component.size).toEqual('md');
+
+    component.size = 'none';
+
+    expect(component.size).toEqual('auto');
   });
 });
 
@@ -47,7 +71,7 @@ describe('IdsImage Component (using attributes)', () => {
   let component;
 
   beforeEach(async () => {
-    document.body.insertAdjacentHTML('beforeend', `<ids-image id="${id}"></ids-image>`);
+    document.body.insertAdjacentHTML('beforeend', `<ids-image id="${id}" src="${src}" alt="${alt}" size="${size}"></ids-image>`);
     component = document.querySelector(name);
   });
 
@@ -73,6 +97,23 @@ describe('IdsImage Component (using attributes)', () => {
   });
 
   it('has properties', () => {
+    expect(component.src).toEqual(src);
+    expect(component.alt).toEqual(alt);
+    expect(component.size).toEqual(size);
+  });
+
+  it('should set size auto as default', () => {
+    component.size = null;
+
+    expect(component.size).toEqual('auto');
+
+    component.size = 'md';
+
+    expect(component.size).toEqual('md');
+
+    component.size = 'none';
+
+    expect(component.size).toEqual('auto');
   });
 });
 
@@ -97,5 +138,6 @@ describe('IdsImage Component (empty)', () => {
   });
 
   it('should have default properties', () => {
+    expect(component.size).toEqual('auto');
   });
 });
