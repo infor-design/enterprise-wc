@@ -18,7 +18,6 @@ import {
 
 // Import Styles
 import styles from './ids-hierarchy-item.scss';
-import IdsHierarchy from './ids-hierarchy';
 
 /**
  * IDS Hierarchy Component

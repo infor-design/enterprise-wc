@@ -2,8 +2,7 @@ import {
   attributes,
   customElement,
   IdsElement,
-  mix,
-  scss
+  mix
 } from '../../core';
 
 // Import Utils
@@ -14,10 +13,6 @@ import {
   IdsEventsMixin,
 } from '../../mixins';
 
-// Import Styles
-import styles from './ids-hierarchy.scss';
-import IdsHierarchyItem from './ids-hierarchy-item';
-
 /**
  * IDS Hierarchy Component
  * @type {IdsHierarchy}
@@ -25,7 +20,6 @@ import IdsHierarchyItem from './ids-hierarchy-item';
  * @mixes IdsEventsMixin
  */
 @customElement('ids-hierarchy')
-@scss(styles)
 class IdsHierarchy extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
