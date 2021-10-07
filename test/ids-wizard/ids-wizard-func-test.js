@@ -120,7 +120,6 @@ describe('IdsWizard Tests', () => {
 
     // MutationObserver must listen/register,
     // so change occurs on next tick
-
     await wait(100);
 
     labels = getLabels(elem);

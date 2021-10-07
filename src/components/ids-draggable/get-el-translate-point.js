@@ -28,7 +28,7 @@ export default function getElTranslatePoint(element) {
   // the following checks are need for non standard envs e.g. Jest or SSR
   const matrixValues = matrix.match(/matrix.*\((.+)\)/)?.[1]?.split(', ');
 
-  if (matrixValues.length === 0) {
+  if (!matrixValues) {
     return { x: 0, y: 0, z: 0 };
   }
 
@@ -45,20 +45,9 @@ export default function getElTranslatePoint(element) {
 
   // 3d matrices have 16 values
   // The 13th, 14th, and 15th values are X, Y, and Z
-  if (matrixType === '3d') {
-    return {
-      x: parseFloat(matrixValues[12]),
-      y: parseFloat(matrixValues[13]),
-      z: parseFloat(matrixValues[14])
-    };
-  }
-
-  // default case; return zeroes in case
-  // we are using in a computation to translate
-  // another component
   return {
-    x: 0,
-    y: 0,
-    z: 0
+    x: parseFloat(matrixValues[12]),
+    y: parseFloat(matrixValues[13]),
+    z: parseFloat(matrixValues[14])
   };
 }

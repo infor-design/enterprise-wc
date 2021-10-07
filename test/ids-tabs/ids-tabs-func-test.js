@@ -7,6 +7,7 @@ import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavi
 import IdsTabs, { IdsTab, IdsTabsContext, IdsTabContent } from '../../src/components/ids-tabs';
 import IdsHeader from '../../src/components/ids-header';
 import IdsText from '../../src/components/ids-text/ids-text';
+import createFromTemplate from '../helpers/create-from-template';
 
 const processAnimFrame = () => new Promise((resolve) => {
   window.requestAnimationFrame(() => {
@@ -70,25 +71,12 @@ describe('IdsTabs Tests', () => {
     return isValidState;
   }
 
-  const createElemViaTemplate = async (innerHTML) => {
-    elem?.remove?.();
-
-    const template = document.createElement('template');
-    template.innerHTML = innerHTML;
-    elem = template.content.childNodes[0];
-    document.body.appendChild(elem);
-
-    await processAnimFrame();
-
-    return elem;
-  };
-
   afterEach(async () => {
     elem?.remove();
   });
 
   it('renders from HTML Template with no errors', async () => {
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
 
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-tabs').length).toEqual(1);
@@ -97,16 +85,15 @@ describe('IdsTabs Tests', () => {
 
   it('Does not show errors when created with no tabs', async () => {
     const errors = jest.spyOn(global.console, 'error');
-    elem = await createElemViaTemplate(
-      '<ids-tabs></ids-tabs>'
-    );
+    elem = await createFromTemplate(elem, '<ids-tabs></ids-tabs>');
 
     expect(document.querySelectorAll('ids-tabs').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
   it('renders a vertical set of tabs with no errors', async () => {
-    elem = await createElemViaTemplate(
+    elem = await createFromTemplate(
+      elem,
       `<ids-tabs value="hello" orientation="vertical">
         <ids-tab value="hello">Hello</ids-tab>
         <ids-tab value="world">World</ids-tab>
@@ -122,7 +109,8 @@ describe('IdsTabs Tests', () => {
 
   it('creates tabs with vertical orientation, then sets them horizontal', async () => {
     const errors = jest.spyOn(global.console, 'error');
-    elem = await createElemViaTemplate(
+    elem = await createFromTemplate(
+      elem,
       `<ids-tabs value="hello" orientation="vertical">
         <ids-tab value="hello">Hello</ids-tab>
         <ids-tab value="world">World</ids-tab>
@@ -139,7 +127,7 @@ describe('IdsTabs Tests', () => {
   });
 
   it('renders correctly', async () => {
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
 
     expect(elem.outerHTML).toMatchSnapshot();
   });
@@ -147,7 +135,8 @@ describe('IdsTabs Tests', () => {
   it('renders with counts, and has no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
-    elem = await createElemViaTemplate(
+    elem = await createFromTemplate(
+      elem,
       `<ids-tabs>
         <ids-tab count="20">Pizzas</ids-tab>
         <ids-tab count="18">Diet Cokes</ids-tab>
@@ -158,14 +147,32 @@ describe('IdsTabs Tests', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('renders with partial counts set, and triggers an error', async () => {
+  it('renders tab dividers on counts, and has no errors', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
-    await createElemViaTemplate(
+    elem = await createFromTemplate(
+      elem,
       `<ids-tabs>
         <ids-tab count="20">Pizzas</ids-tab>
         <ids-tab count="18">Diet Cokes</ids-tab>
-        <ids-tab>Ginger Ales?</ids-tab>
+        <ids-tab-divider></ids-tab-divider>
+       <ids-tab count="12">Ginger Ales</ids-tab>
+      </ids-tabs>`
+    );
+    expect(elem.outerHTML).toMatchSnapshot();
+    expect(errors).not.toHaveBeenCalled();
+    expect(elem.querySelector('ids-tab-divider').getAttribute('role')).toEqual('presentation');
+  });
+
+  it('renders with partial counts set, and triggers no error', async () => {
+    const errors = jest.spyOn(global.console, 'error');
+
+    await createFromTemplate(
+      elem,
+      `<ids-tabs>
+        <ids-tab count="20">Pizzas</ids-tab>
+        <ids-tab count="18">Diet Cokes</ids-tab>
+        <ids-tab>Ginger Ales</ids-tab>
       </ids-tabs>`
     );
 
@@ -174,7 +181,7 @@ describe('IdsTabs Tests', () => {
 
   it('removes a tab after rendering and does not break', async () => {
     const errors = jest.spyOn(global.console, 'error');
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     await processAnimFrame();
 
     elem.remove(elem.children[elem.children.length - 1]);
@@ -186,7 +193,7 @@ describe('IdsTabs Tests', () => {
 
   it('sets "selected" state of a new tab directly, and does not '
   + 'become in an invalid tabs state', async () => {
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
 
     elem.children[1].selected = true;
     await processAnimFrame();
@@ -197,7 +204,7 @@ describe('IdsTabs Tests', () => {
 
   it('unsets "selected" state of a selected tab false, and triggers '
   + 'an error with an invalid tabs state', async () => {
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     elem.children[0].selected = false;
     await processAnimFrame();
     const hasValidTabs = areTabSelectionAttribsValid(elem);
@@ -207,7 +214,7 @@ describe('IdsTabs Tests', () => {
 
   it('sets tabs to an invalid value, and is reset to the first tab value available', async () => {
     const errors = jest.spyOn(global.console, 'error');
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     await processAnimFrame();
 
     elem.value = 'random_value';
@@ -220,7 +227,7 @@ describe('IdsTabs Tests', () => {
   });
 
   it('changes content within a text node to fire a slotchange with no errors', async () => {
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     await processAnimFrame();
 
     const errors = jest.spyOn(global.console, 'error');
@@ -234,7 +241,7 @@ describe('IdsTabs Tests', () => {
 
   it('changes value of ids-tab, and the "selected" attrib of every '
   + 'ids-tab listed is predictable', async () => {
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     await processAnimFrame();
 
     await Promise.all([...elem.children].map((tabEl) => async () => {
@@ -247,7 +254,7 @@ describe('IdsTabs Tests', () => {
   });
 
   it('changes calls value setter of ids-tab to it\'s current value without side effects', async () => {
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     await processAnimFrame();
 
     elem.value = 'world';
@@ -257,7 +264,8 @@ describe('IdsTabs Tests', () => {
   + 'an error', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
-    await expect(createElemViaTemplate(
+    await expect(createFromTemplate(
+      elem,
       `<ids-tabs value="eggs">
         <ids-tab count="z20" value="eggs">Eggs In a Basket</ids-tab>
         <ids-tab count="5" value="peas">Peas in a Pod</ids-tab>
@@ -268,7 +276,8 @@ describe('IdsTabs Tests', () => {
   });
 
   it('sets count attribute on the ids-tab component predictably', async () => {
-    elem = await createElemViaTemplate(
+    elem = await createFromTemplate(
+      elem,
       `<ids-tab count="20" value="eggs">Eggs In a Basket</ids-tab>`
     );
 
@@ -289,11 +298,11 @@ describe('IdsTabs Tests', () => {
     const idsHeader = new IdsHeader();
     document.body.appendChild(idsHeader);
 
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML, idsHeader);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML, idsHeader);
   });
 
   it('predictably sets/gets color-variant', async () => {
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     expectEnumAttributeBehavior({
       elem,
       attribute: 'color-variant',
@@ -305,7 +314,7 @@ describe('IdsTabs Tests', () => {
   });
 
   it('clicks on an unselected tab and ids-tabs detects tabselect', async () => {
-    elem = await createElemViaTemplate(DEFAULT_TABS_HTML);
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
 
     const clickEvent = new MouseEvent('click', {
       target: elem.children[1],
@@ -314,18 +323,16 @@ describe('IdsTabs Tests', () => {
       view: window
     });
     elem.children[1].dispatchEvent(clickEvent);
-
-    // @TODO: figure out how to test callback fired
   });
 
   it('sets/gets the selected flag predictably on ids-tab', async () => {
-    elem = await createElemViaTemplate('<ids-tab value="random"></ids-tab>');
+    elem = await createFromTemplate(elem, '<ids-tab value="random"></ids-tab>');
 
     await expectFlagAttributeBehavior({ elem, attribute: 'selected' });
   });
 
   it('sets/gets the color-variant flag predictably on ids-tab', async () => {
-    elem = await createElemViaTemplate('<ids-tab value="random"></ids-tab>');
+    elem = await createFromTemplate(elem, '<ids-tab value="random"></ids-tab>');
     expectEnumAttributeBehavior({
       elem,
       attribute: 'color-variant',
@@ -337,7 +344,7 @@ describe('IdsTabs Tests', () => {
   });
 
   it('gets/sets the value of ids-tabs-context reliably', async () => {
-    elem = await createElemViaTemplate(TAB_CONTEXT_HTML);
+    elem = await createFromTemplate(elem, TAB_CONTEXT_HTML);
     expectEnumAttributeBehavior({
       elem,
       attribute: 'value',
@@ -349,12 +356,27 @@ describe('IdsTabs Tests', () => {
   });
 
   it('gets/sets the ids-tab-content active flag reliably', async () => {
-    elem = await createElemViaTemplate(TAB_CONTEXT_HTML);
+    elem = await createFromTemplate(elem, TAB_CONTEXT_HTML);
     const contentElem = elem.querySelector('ids-tab-content');
 
     expectFlagAttributeBehavior({
       elem: contentElem,
       attribute: 'active'
     });
+  });
+
+  it('sets the ids-tab-content value directly', async () => {
+    elem = await createFromTemplate(elem, TAB_CONTEXT_HTML);
+    const contentElem = elem.querySelector('ids-tab-content');
+    expect(contentElem.getAttribute('value')).toEqual('a');
+
+    contentElem.value = 'b';
+    expect(contentElem.getAttribute('value')).toEqual('b');
+    expect(contentElem.value).toEqual('b');
+  });
+
+  it('sets the aria-label from tab counts', async () => {
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
+    expect(elem.getAttribute('aria-label')).toEqual('a');
   });
 });

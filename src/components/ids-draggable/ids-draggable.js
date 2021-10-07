@@ -23,47 +23,6 @@ const { stringToBool } = IdsStringUtils;
 const CURSOR_EL_SIZE = 32;
 
 /**
- * sets an optional integer attribute for an element
- * (may offload as general util; just need to think
- * through this a bit more)
- * @param {IdsElement} elem ids element to update
- * @param {string} attribute the attribute to update
- * @param {any} value a value to set on the
- */
-function setIntAttribute(elem, attribute, value) {
-  const nextValue = parseInt(value);
-
-  if (nextValue !== null && !Number.isNaN(nextValue)) {
-    if (parseInt(elem.getAttribute(attribute)) !== nextValue) {
-      elem.setAttribute(attribute, nextValue);
-    }
-  } else if (nextValue === null && elem.hasAttribute(attribute)) {
-    elem.removeAttribute(attribute);
-  }
-}
-
-/**
- * @param {{
- *  left: number,
- *  top: number,
- *  right: number,
- *  bottom: number
- * }} bounds rectangle bounds to hash
- * @returns {string} a hash for bounds in a predictable
- * order that can be diffed for attribute changes
- */
-function getBoundsHash(bounds) {
-  return (
-    `${bounds?.left || 0
-    }_${
-      bounds?.right || 0
-    }_${
-      bounds?.top || 0
-    }_${bounds?.bottom || 0}`
-  );
-}
-
-/**
  * IDS Draggable Component
  * @type {IdsDraggable}
  * @inherits IdsElement
@@ -213,9 +172,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set handle(value) {
     if (this.getAttribute(attributes.HANDLE) !== value) {
-      if (this.hasAttribute(attributes.HANDLE) && (
-        !value || typeof value !== 'string')
-      ) {
+      if (this.hasAttribute(attributes.HANDLE) && (!value)) {
         this.removeAttribute(attributes.HANDLE);
       } else {
         this.setAttribute(attributes.HANDLE, value);
@@ -327,8 +284,28 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     });
   };
 
+  /**
+   * sets an optional integer attribute for an element
+   * (may offload as general util; just need to think
+   * through this a bit more)
+   * @param {IdsElement} elem ids element to update
+   * @param {string} attribute the attribute to update
+   * @param {any} value a value to set on the
+   */
+  #setIntAttribute(elem, attribute, value) {
+    const nextValue = parseInt(value);
+
+    if (nextValue !== null && !Number.isNaN(nextValue)) {
+      if (parseInt(elem.getAttribute(attribute)) !== nextValue) {
+        elem.setAttribute(attribute, nextValue);
+      }
+    } else if (value === null && elem.hasAttribute(attribute)) {
+      elem.removeAttribute(attribute);
+    }
+  }
+
   set minTransformX(value) {
-    setIntAttribute(this, attributes.MIN_TRANSFORM_X, value);
+    this.#setIntAttribute(this, attributes.MIN_TRANSFORM_X, value);
   }
 
   get minTransformX() {
@@ -340,7 +317,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   set maxTransformX(value) {
-    setIntAttribute(this, attributes.MAX_TRANSFORM_X, value);
+    this.#setIntAttribute(this, attributes.MAX_TRANSFORM_X, value);
   }
 
   get maxTransformX() {
@@ -352,7 +329,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   set minTransformY(value) {
-    setIntAttribute(this, attributes.MIN_TRANSFORM_Y, value);
+    this.#setIntAttribute(this, attributes.MIN_TRANSFORM_Y, value);
   }
 
   get minTransformY() {
@@ -372,7 +349,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   set maxTransformY(value) {
-    setIntAttribute(this, attributes.MAX_TRANSFORM_Y, value);
+    this.#setIntAttribute(this, attributes.MAX_TRANSFORM_Y, value);
   }
 
   /**
@@ -383,7 +360,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {number} mouseDeltaY mouse delta y
    * @returns {Array} [transformX, transformY]
    */
-  #updateTransform = (mouseDeltaX = null, mouseDeltaY = null) => {
+  #updateTransform = (mouseDeltaX, mouseDeltaY) => {
     let translateX = 0;
     let translateY = 0;
 
@@ -393,11 +370,11 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     // we moved to
 
     if (this.axis !== 'y') {
-      translateX = this.#dragStartOffset.x + (mouseDeltaX || 0);
+      translateX = this.#dragStartOffset.x + mouseDeltaX;
     }
 
     if (this.axis !== 'x') {
-      translateY = this.#dragStartOffset.y + (mouseDeltaY || 0);
+      translateY = this.#dragStartOffset.y + mouseDeltaY;
     }
 
     if (this.parentContainment) {
@@ -662,8 +639,12 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * bounds) 10 below the top or 20 below the bottom).
    */
   set relativeBounds(value) {
-    this.setAttribute(attributes.RELATIVE_BOUNDS, value);
-    this.#updateRelativeBounds();
+    if (value) {
+      this.setAttribute(attributes.RELATIVE_BOUNDS, value);
+      this.#updateRelativeBounds();
+      return;
+    }
+    this.removeAttribute(attributes.RELATIVE_BOUNDS);
   }
 
   get relativeBounds() {
@@ -672,18 +653,36 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
   #relativeBounds = {};
 
+  /**
+   * @param {{
+   *  left: number,
+   *  top: number,
+   *  right: number,
+   *  bottom: number
+   * }} bounds rectangle bounds to hash
+   * @returns {string} a hash for bounds in a predictable
+   * order that can be diffed for attribute changes
+   */
+  getBoundsHash(bounds) {
+    return (
+        `${bounds?.left || 0
+        }_${
+          bounds?.right || 0
+        }_${
+          bounds?.top || 0
+        }_${bounds?.bottom || 0}`
+    );
+  }
+
   #updateRelativeBounds() {
-    if (this.hasAttribute(attributes.RELATIVE_BOUNDS)) {
-      const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
-      const newBounds = Object.fromEntries(relativeBoundsAttr.split(';').map((str) => {
-        const [kStr, vStr] = str?.split?.(':');
+    const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
+    const newBounds = Object.fromEntries(relativeBoundsAttr.split(';').map((str) => {
+      const [kStr, vStr] = str?.split?.(':');
+      return [kStr, !Number.isNaN(parseInt(vStr)) ? parseInt(vStr) : 0];
+    }));
 
-        return [kStr, !Number.isNaN(parseInt(vStr)) ? parseInt(vStr) : 0];
-      }));
-
-      if (getBoundsHash(newBounds) !== getBoundsHash(this.#relativeBounds)) {
-        this.#relativeBounds = newBounds;
-      }
+    if (this.getBoundsHash(newBounds) !== this.getBoundsHash(this.#relativeBounds)) {
+      this.#relativeBounds = newBounds;
     }
   }
 }

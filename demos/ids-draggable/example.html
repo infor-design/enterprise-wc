@@ -2,21 +2,22 @@
   <ids-text font-size="12" type="h1">Draggable</ids-text>
 </ids-layout-grid>
 <ids-layout-grid auto="true">
-  <ids-draggable>
+  <ids-draggable id="no-axis">
     <div class="ids-draggable-demo-box">
-      <ids-text>no axis</ids-text></div>
-  </ids-draggable>
-    <ids-draggable axis="y">
+      <ids-text>no axis</ids-text>
+    </div>
+   </ids-draggable>
+    <ids-draggable axis="y" id="axis-y">
       <div class="ids-draggable-demo-box">
         <ids-text>axis='y'</ids-text>
       </div>
     </ids-draggable>
-    <ids-draggable axis="x">
+    <ids-draggable axis="x" id="axis-x">
       <div class="ids-draggable-demo-box">
         <ids-text>axis='x'</ids-text>
       </div>
     </ids-draggable>
-    <ids-draggable
+    <ids-draggable id="limits"
       id="limit-transform-draggable"
       max-transform-x="80"
       min-transform-x="-20"
@@ -42,16 +43,16 @@
 </ids-layout-grid>
 <ids-layout-grid auto="true">
   <div class="ids-draggable-demo-content">
-    <ids-draggable parent-containment>
+    <ids-draggable parent-containment id="contained">
       <div class="ids-draggable-demo-box">
         <ids-text>no axis</ids-text></div>
     </ids-draggable>
-    <ids-draggable axis="y" parent-containment>
+    <ids-draggable axis="y" parent-containment id="contained-y">
       <div class="ids-draggable-demo-box">
         <ids-text>axis='y'</ids-text>
       </div>
     </ids-draggable>
-    <ids-draggable axis="x" parent-containment>
+    <ids-draggable axis="x" parent-containment id="contained-x">
       <div class="ids-draggable-demo-box">
         <ids-text>axis='x'</ids-text>
       </div>

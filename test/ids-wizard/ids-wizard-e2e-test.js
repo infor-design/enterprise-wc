@@ -50,7 +50,7 @@ describe('Ids Wizard e2e Tests', () => {
     });
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
     let size = await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelector(".step-label").style.maxWidth');
-    expect(Number(size.replace('px', ''))).toBeLessThan(63);
+    expect(Number(size.replace('px', ''))).toBeLessThan(80);
     expect(Number(size.replace('px', ''))).toBeGreaterThan(60);
 
     await page.setViewport({
@@ -59,7 +59,7 @@ describe('Ids Wizard e2e Tests', () => {
     });
     await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
     size = await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelector(".step-label").style.maxWidth');
-    expect(Number(size.replace('px', ''))).toBeLessThan(48);
+    expect(Number(size.replace('px', ''))).toBeLessThan(55);
     expect(Number(size.replace('px', ''))).toBeGreaterThan(45);
   });
 });

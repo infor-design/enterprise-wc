@@ -8,11 +8,10 @@ import { IdsEventsMixin } from '../../mixins';
 import styles from './ids-tab-divider.scss';
 
 /**
- * IDS TabGroupDivider Component
- *
+ * IDS Tab Divider Component
  * @type {IdsTabDivider}
  * @inherits IdsElement
- * @part container - the tab container itself
+ * @part divider - the tab divider
  */
 @customElement('ids-tab-divider')
 @scss(styles)
@@ -26,7 +25,7 @@ class IdsTabDivider extends IdsElement {
    * @returns {string} the template to render
    */
   template() {
-    return `<div class="ids-tab-divider"></div>`;
+    return `<div class="ids-tab-divider" part="divider"></div>`;
   }
 
   connectedCallback() {
