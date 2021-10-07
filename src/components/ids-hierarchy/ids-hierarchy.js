@@ -11,7 +11,6 @@ import { IdsStringUtils } from '../../utils';
 
 // Import Mixins
 import {
-  IdsAttributeProviderMixin,
   IdsEventsMixin,
 } from '../../mixins';
 
@@ -23,13 +22,11 @@ import IdsHierarchyItem from './ids-hierarchy-item';
  * IDS Hierarchy Component
  * @type {IdsHierarchy}
  * @inherits IdsElement
- * @mixes IdsElement
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-hierarchy')
 @scss(styles)
-class IdsHierarchy extends mix(IdsElement).with(
-    IdsEventsMixin,
-  ) {
+class IdsHierarchy extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
@@ -39,23 +36,16 @@ class IdsHierarchy extends mix(IdsElement).with(
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.VALUE];
+    return [attributes.SELECTED];
   }
 
+  /**
+   * ids-hierarchy `connectedCallback` implementation
+   * @returns {void}
+   */
   connectedCallback() {
+    this.#selectItem();
     super.connectedCallback?.();
-
-    /* istanbul ignore next */
-    this.onEvent('itemselect', this, (e) => {
-      e.stopPropagation();
-      const items = this.querySelectorAll('ids-hierarchy-item');
-      items.forEach((item) => {
-        item.removeAttribute('selected');
-        item.setAttribute('aria-selected', false);
-      });
-      e.target.setAttribute('selected', true);
-      e.target.setAttribute('aria-selected', true);
-    });
   }
 
   disconnectedCallback() {
@@ -64,6 +54,27 @@ class IdsHierarchy extends mix(IdsElement).with(
 
   template() {
     return `<slot></slot>`;
+  }
+
+  /**
+   * Selects the current hierarchy item
+   * and deselects all other items
+   * @private
+   * @returns {void}
+   */
+  #selectItem() {
+    this.onEvent('itemselect', this, (e) => {
+      e.stopPropagation();
+      const items = this.querySelectorAll('ids-hierarchy-item');
+      items.forEach((item) => {
+        item.removeAttribute(attributes.SELECTED);
+        item.setAttribute('aria-selected', false);
+      });
+      requestAnimationFrame(() => {
+        e.target.setAttribute(attributes.SELECTED, true);
+        e.target.setAttribute('aria-selected', true);
+      });
+    });
   }
 }
 
