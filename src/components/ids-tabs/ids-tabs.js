@@ -86,7 +86,6 @@ class IdsTabs extends mix(IdsElement).with(
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
-    this.#tabObserver.disconnect();
   }
 
   /**
@@ -180,63 +179,6 @@ class IdsTabs extends mix(IdsElement).with(
    */
   #tabValueSet = new Set();
 
-  /** observes changes in tabs */
-  #tabObserver = new MutationObserver((mutations) => {
-    for (const m of mutations) {
-      switch (m.type) {
-      case 'childList': {
-        // be sure to only this component's
-        // children in case IdsTab / IdsTab => IdsText
-        // implementation is changed; also to ignore
-        // presentational components
-
-        if (m.target instanceof IdsTabs) {
-          this.#updateCallbacks();
-          this.#updateSelectionState();
-        }
-        break;
-      }
-      case 'attributes': {
-        const value = m.target.getAttribute(m.attributeName);
-
-        if (m.target instanceof IdsTab) {
-          if (value === m.oldValue) {
-            return;
-          }
-
-          // for sub-tab value changes, we need
-          // to rebind callbacks as the click events
-          // are indexed by tab values (in case of value
-          // swaps/etc)
-
-          if (m.attributeName === 'value') {
-            if (m.target.selected && this.value !== value) {
-              this.value = value;
-            } else {
-              this.#updateCallbacks();
-            }
-          }
-
-          if (m.attributeName === 'selected') {
-            if (Boolean(m.target.selected) && this.value !== m.target.value) {
-              this.value = m.target.value;
-            }
-          }
-        }
-        break;
-      }
-      default: {
-        break;
-      }
-      }
-
-      if (m.type === 'childList') {
-        this.#updateCallbacks();
-        this.#updateSelectionState();
-      }
-    }
-  });
-
   /**
    * checks if we are in a header tab and adjusts color-variant
    * accordingly
@@ -291,7 +233,6 @@ class IdsTabs extends mix(IdsElement).with(
     }
 
     // clear tab values tracked
-
     for (const tabValue of this.#tabValueSet) {
       this.offEvent(`click.${tabValue}`);
       this.#tabValueSet.delete(tabValue);
@@ -299,26 +240,20 @@ class IdsTabs extends mix(IdsElement).with(
 
     // scan through children and add
     // click handlers
-
     for (let i = 0; i < this.children.length; i++) {
       const tabValue = this.getTabIndexValue(i);
       const eventNs = `click.${tabValue}`;
       this.#tabValueSet.add(eventNs);
-      this.onEvent(
-        eventNs,
-        this.children[i],
-        () => {
-          if (this.value !== tabValue) {
-            this.value = tabValue;
-          }
-          this.focus();
+      this.onEvent(eventNs, this.children[i], () => {
+        if (this.value !== tabValue) {
+          this.value = tabValue;
         }
-      );
+        this.focus();
+      });
     }
 
     // add key listeners and consider
     // orientation for assignments
-
     if (this.orientation !== 'vertical') {
       this.listen('ArrowLeft', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
@@ -363,7 +298,6 @@ class IdsTabs extends mix(IdsElement).with(
 
     this.listen('Enter', this, () => {
       const focusedTabIndex = this.getFocusedTabIndex();
-
       if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
         this.setAttribute(attributes.VALUE, this.getTabIndexValue(focusedTabIndex));
       }
@@ -371,17 +305,14 @@ class IdsTabs extends mix(IdsElement).with(
   }
 
   /**
-   * Sets the ids-tab selection states
-   * based on the current value
+   * Sets the ids-tab selection states based on the current value
    */
   #updateSelectionState() {
     if (!this.children.length) {
       return;
     }
 
-    // determine which child tab value was set,
-    // then highlight the item
-
+    // determine which child tab value was set, then highlight the item
     let hadTabSelection = false;
 
     for (let i = 0; i < this.children.length; i++) {

@@ -131,6 +131,11 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
       if (!this.hasAttribute(attributes.SELECTED)) {
         this.setAttribute(attributes.SELECTED, '');
       }
+      this.focus();
+    });
+
+    this.onEvent('focus', this, () => {
+      this.focus();
     });
   }
 
@@ -269,16 +274,10 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * sets aria readable label by
    * grabbing all ids-text nodes in order
    * they appear in the DOM
-   *
    * @returns {string} aria-label content
    */
   #getReadableAriaLabel() {
     const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
-
-    if (!idsTextEls.length) {
-      return '';
-    }
-
     return idsTextEls.map((textEl) => {
       const slotNode = textEl.querySelector('slot')?.assignedNodes?.()?.[0];
       return slotNode?.textContent || textEl.textContent;
@@ -297,7 +296,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     if (slotNode && idsText) {
       idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
     }
-  };
+  }
 
   focus() {
     this.container.focus();

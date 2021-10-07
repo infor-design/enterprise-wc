@@ -311,6 +311,7 @@ describe('IdsTabs Tests', () => {
 
     elem.colorVariant = 'random';
     expect(elem.hasAttribute('color-variant')).toBeFalsy();
+    expect(elem.hasAttribute('color-variant')).toBeFalsy();
   });
 
   it('clicks on an unselected tab and ids-tabs detects tabselect', async () => {
@@ -375,8 +376,18 @@ describe('IdsTabs Tests', () => {
     expect(contentElem.value).toEqual('b');
   });
 
-  it('sets the aria-label from tab counts', async () => {
+  it('sets the aria-label', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
-    expect(elem.getAttribute('aria-label')).toEqual('a');
+    expect(elem.querySelector('ids-tab').getAttribute('aria-label')).toEqual('Hello');
+    elem = await createFromTemplate(elem, `<ids-tabs></ids-tabs>`);
+    expect(elem.querySelector('ids-tab')).toBeFalsy();
+  });
+
+  it('should be able to focus', async () => {
+    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
+    expect(elem.querySelector('ids-tab').getAttribute('aria-label')).toEqual('Hello');
+    elem = await createFromTemplate(elem, `<ids-tabs></ids-tabs>`);
+    expect(elem.querySelector('ids-tab')).toBeFalsy();
+    expect(elem.getFocusedTabIndex()).toEqual(-1);
   });
 });

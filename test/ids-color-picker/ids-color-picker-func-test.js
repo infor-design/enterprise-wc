@@ -89,6 +89,16 @@ describe('Ids Color Picker Component', () => {
     waitFor(() => expect(colorpicker.popup.visible).toBeFalsy());
   });
 
+  it('should not close on click outside if no onOutsideClick', () => {
+    expect(colorpicker.popup.visible).toEqual(false);
+    colorpicker.triggerEvent('click', colorpicker.container);
+    waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
+    colorpicker.addOpenEvents();
+    colorpicker.onOutsideClick = null;
+    colorpicker.triggerEvent('click', document.body);
+    waitFor(() => expect(colorpicker.popup.visible).toBeTruthy());
+  });
+
   it('should not open if readnly', () => {
     colorpicker.readonly = true;
     expect(colorpicker.popup.visible).toEqual(false);

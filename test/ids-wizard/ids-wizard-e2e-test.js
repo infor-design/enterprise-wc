@@ -13,18 +13,7 @@ describe('Ids Wizard e2e Tests', () => {
     await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelectorAll("a")[0].click()');
     const activeStep = await page.evaluate(`document.querySelector("ids-wizard").stepNumber`);
     expect(activeStep).toEqual(1);
-  });
-
-  it('should be able to click the second step', async () => {
-    await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelectorAll("a")[2].click()');
-    const activeStep = await page.evaluate(`document.querySelector("ids-wizard").stepNumber`);
-    expect(activeStep).toEqual(3);
-  });
-
-  it('should be able to click last step', async () => {
-    await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelectorAll("a")[3].click()');
-    const activeStep = await page.evaluate(`document.querySelector("ids-wizard").stepNumber`);
-    expect(activeStep).toEqual(4);
+    await page.evaluate('document.querySelector("ids-wizard").shadowRoot.querySelectorAll("a")[0].click()');
   });
 
   it('should pass Axe accessibility tests', async () => {
