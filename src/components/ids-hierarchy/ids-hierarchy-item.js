@@ -42,6 +42,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(
     super();
     this.expander = this.shadowRoot?.querySelector('[part="icon-btn"]');
     this.leaf = this.shadowRoot?.querySelector('[part="leaf"]');
+    this.nestedItemContainer = this.shadowRoot?.querySelector('[part="nested-items"]');
   }
 
   /**

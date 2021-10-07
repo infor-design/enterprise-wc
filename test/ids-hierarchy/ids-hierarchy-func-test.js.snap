@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`IdsHeader Component renders correctly 1`] = `"<ids-hierarchy><ids-hierarchy-item></ids-hierarchy-item></ids-hierarchy>"`;
+
+exports[`IdsHeader Component renders correctly 2`] = `"<ids-hierarchy-item></ids-hierarchy-item>"`;
