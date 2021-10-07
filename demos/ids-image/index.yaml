@@ -1,9 +1,9 @@
 ---
  component: Image
  link: ids-image
- description: Image Sizes and Placeholders
- category:
- keywords: image
+ description: Images, placeholders and thumbnails
+ category: Charts and Visualizations
+ keywords: image, thumbnail, placeholder, user, initials, status
  examples:
   - link: index.html
     description: Image Sizes and Placeholders
