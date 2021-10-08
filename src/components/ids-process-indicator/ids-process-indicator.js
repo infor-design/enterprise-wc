@@ -19,7 +19,6 @@ import IdsProcessStep from './ids-process-step';
  * @inherits IdsElement
  * @mixes IdsThemeMixin
  */
-
 @customElement('ids-process-indicator')
 @scss(styles)
 class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
