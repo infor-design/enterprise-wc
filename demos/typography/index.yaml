@@ -1,0 +1,9 @@
+---
+ component: Typography
+ link: typography
+ description: Variety of text styles and sizes on one page
+ category: Typography
+ keywords: text, font, size, content
+ examples:
+  - link: index.html
+    description: Showing all typography styles

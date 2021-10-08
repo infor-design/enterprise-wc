@@ -5,7 +5,7 @@ const container = document.querySelector('ids-container');
 (async function loadMessages() {
   let html = '';
   // Set language and wait for it to load
-  const initialLocale = 'zh';
+  const initialLocale = 'tl';
   await container.setLanguage(initialLocale);
 
   // Show them in the page
