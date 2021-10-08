@@ -3,3 +3,7 @@
 exports[`IdsHeader Component renders correctly 1`] = `"<ids-hierarchy><ids-hierarchy-item></ids-hierarchy-item></ids-hierarchy>"`;
 
 exports[`IdsHeader Component renders correctly 2`] = `"<ids-hierarchy-item></ids-hierarchy-item>"`;
+
+exports[`IdsHierarchy Component renders correctly 1`] = `"<ids-hierarchy><ids-hierarchy-item></ids-hierarchy-item></ids-hierarchy>"`;
+
+exports[`IdsHierarchy Component renders correctly 2`] = `"<ids-hierarchy-item></ids-hierarchy-item>"`;

@@ -7,7 +7,7 @@ import IdsHierarchyItem from '../../src/components/ids-hierarchy/ids-hierarchy-i
 import IdsContainer from '../../src/components/ids-container';
 
 const DEFAULT_HIERARCHY_HTML = (
-  `<ids-hierarchy>
+  `<ids-hierarchy root>
       <ids-hierarchy-item id="item-1" color-variant="full-time">
       <img src="../assets/placeholder-200x200.png" alt="item-1" slot="avatar">
       <ids-text slot="heading">Tony Cleveland</ids-text>
@@ -39,7 +39,7 @@ const DEFAULT_HIERARCHY_HTML = (
   </ids-hierarchy>`
 );
 
-describe('IdsHeader Component', () => {
+describe('IdsHierarchy Component', () => {
   let el;
   let item;
   let container;
@@ -110,10 +110,23 @@ describe('IdsHeader Component', () => {
     expect(item.getAttribute('expanded')).toBe(null);
   });
 
+  it('can set the root attribute', () => {
+    expect(item.getAttribute('root')).toBe(null);
+
+    item.setAttribute('root', '');
+    expect(item.getAttribute('root')).toBe(null);
+
+    item.root = null;
+    item.removeAttribute('root');
+    expect(item.root).toBe(null);
+    expect(item.getAttribute('root')).toBe(null);
+  });
+
   it('can set the selected attribute', () => {
     expect(item.getAttribute('selected')).toBe(null);
 
     item.setAttribute('selected', true);
+    item.selected = true;
     expect(item.selected).toBe(true);
     expect(item.getAttribute('selected')).toBe('true');
 

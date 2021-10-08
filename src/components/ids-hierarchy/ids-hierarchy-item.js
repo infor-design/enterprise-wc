@@ -73,9 +73,9 @@ class IdsHierarchyItem extends mix(IdsElement).with(
   static get attributes() {
     return [
       attributes.EXPANDED,
+      attributes.ROOT,
       attributes.SELECTED,
-      attributes.VALUE,
-      attributes.ID
+      attributes.VALUE
     ];
   }
 
@@ -83,18 +83,20 @@ class IdsHierarchyItem extends mix(IdsElement).with(
     return `
       <div class="ids-hierarchy-item">
         <div class="leaf" part="leaf">
-          <span class="avatar">
-            <slot name="avatar"></slot>
-          </span>
-          <div class="details">
-            <slot name="heading"></slot>
-            <slot name="subheading"></slot>
-            <slot name="micro"></slot>
+          <div class="leaf-inside">
+            <span class="avatar">
+              <slot name="avatar"></slot>
+            </span>
+            <div class="details">
+              <slot name="heading"></slot>
+              <slot name="subheading"></slot>
+              <slot name="micro"></slot>
+            </div>
+            <ids-button part="icon-btn" id="icon-only-button-default">
+              <span class="audible">Default Button</span>
+              <ids-icon slot="icon" icon="caret-down"></ids-icon>
+            </ids-button>
           </div>
-          <ids-button part="icon-btn" id="icon-only-button-default">
-            <span class="audible">Default Button</span>
-            <ids-icon slot="icon" icon="caret-down"></ids-icon>
-          </ids-button>
         </div>
         <div class="sub-level"><slot part="nested-items"></slot></div>
       </div>
@@ -146,6 +148,26 @@ class IdsHierarchyItem extends mix(IdsElement).with(
    */
   get selected() {
     return this.hasAttribute(attributes.SELECTED);
+  }
+
+  /**
+   * Set the value of the root attribute
+   * @param {string} value the value of the attribute
+   */
+  set root(value) {
+    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    if (isValueTruthy) {
+      this.setAttribute(attributes.ROOT, '');
+    }
+
+    this.removeAttribute(attributes.ROOT);
+  }
+
+  /**
+   * @returns {string|undefined} containing value of the root attribute
+   */
+  get root() {
+    return this.getAttribute(attributes.ROOT);
   }
 
   /**

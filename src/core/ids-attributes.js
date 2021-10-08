@@ -156,6 +156,7 @@ export const attributes = {
   READONLY: 'readonly',
   RESIZABLE: 'resizable',
   REQUIRED: 'required',
+  ROOT: 'root',
   ROW_END: 'row-end',
   ROW_HEIGHT: 'row-height',
   ROW_SPAN: 'row-span',
