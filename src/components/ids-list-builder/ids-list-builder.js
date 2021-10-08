@@ -34,6 +34,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     super.connectedCallback();
 
     this.virtualScroll = true;
+    this.itemHeight = 44;
 
     this.data = [
       {
@@ -272,7 +273,6 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
       if (item.tagName === 'LI') {
         this.#toggleSelected(item);
-        // item.setAttribute('selected', 'selected');
         item.focus();
       }
     });

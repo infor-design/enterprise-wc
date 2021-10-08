@@ -17,7 +17,6 @@
   }
 
   .ids-list-view {
-    height: 310px;
     overflow: auto;
 
     ul {
@@ -29,7 +28,7 @@
     li {
       @include py-12();
       @include px-20();
-
+      
       &[selected='selected']{
         background-color: rgba(51, 170, 51, 0.8);
       }
