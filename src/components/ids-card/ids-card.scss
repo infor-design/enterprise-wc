@@ -11,26 +11,28 @@
   box-shadow: rgba(0, 0, 0, 0.1) 0 0 8px;
   height: 360px;
 
-  // Adjust the heights with settings
-  &.ids-card-auto-height {
+  .ids-card-content {
+    @include w-full();
+
+    height: 310px;
+    overflow: hidden;
+  }
+}
+
+// Adjust the heights with settings
+:host([auto-height]) {
+  .ids-card {
     min-height: auto;
     height: auto;
 
     .ids-card-header {
-      display: none;
+      height: auto;
     }
 
     .ids-card-content {
       height: auto;
     }
   }
-}
-
-.ids-card-content {
-  @include w-full();
-
-  height: 310px;
-  overflow: hidden;
 }
 
 // Style the title

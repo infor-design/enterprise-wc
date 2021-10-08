@@ -7,6 +7,7 @@ import {
 } from '../../core';
 
 import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
+import { IdsStringUtils } from '../../utils';
 
 import styles from './ids-card.scss';
 
@@ -59,13 +60,11 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean | null} value The height can be auto to contents
    */
   set autoHeight(value) {
-    if (value) {
-      this.setAttribute('auto-height', value);
-      this.container.classList.add(`ids-card-auto-height`);
+    const val = IdsStringUtils.stringToBool(value);
+    if (IdsStringUtils.stringToBool(value)) {
+      this.setAttribute('auto-height', val);
       return;
     }
-
-    this.container.classList.remove(`ids-card-auto-height`);
     this.removeAttribute('auto-height');
   }
 
