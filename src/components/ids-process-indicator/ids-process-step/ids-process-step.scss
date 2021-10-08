@@ -80,3 +80,33 @@
     }
   }
 }
+
+:host([status='cancelled']) {
+  .step {
+    width: 18px;
+    height: 18px;
+    background-color: var(--cancelled-color);
+    border: 0;
+
+    ids-icon {
+      display: flex;
+      justify-content: center;
+      transform: translate(0, 4px);
+      color: var(--bg-color);
+    }
+  }
+}
+
+:host([status='done']) {
+  .step {
+    border: 2px solid var(--primary-color);
+    background-color: var(--primary-color);
+  }
+}
+
+:host([status='started']) {
+  .step {
+    border: 2px solid var(--active-color);
+    background-color: var(--bg-color);
+  }
+}

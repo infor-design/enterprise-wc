@@ -98,31 +98,13 @@ class IdsProcessStep extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
     if (statuses.includes(val)) {
       this.setString(attributes.STATUS, val);
 
-      /* istanbul ignore next */
       const idsIcons = this.container.querySelectorAll('ids-icon');
-      /* istanbul ignore if */
       if (idsIcons.length > 0) {
         idsIcons.forEach((icon) => icon.remove());
       }
 
-      /* istanbul ignore else */
       if (val === 'cancelled') {
-        this.container.querySelector('.step').insertAdjacentHTML('beforeend', `<ids-icon icon="" size="xsmall"></ids-icon>`);
-        this.container.querySelector('ids-icon').style.display = 'flex';
-        this.container.querySelector('ids-icon').style.justifyContent = 'center';
-        this.container.querySelector('ids-icon').style.transform = 'translate(0, 4px)';
-        this.container.querySelector('.step').style.height = '18px';
-        this.container.querySelector('.step').style.width = '18px';
-        this.container.querySelector('ids-icon').setAttribute('icon', 'close');
-        this.container.querySelector('ids-icon').style.color = 'var(--bg-color)';
-        this.container.querySelector('.step').style.backgroundColor = 'var(--cancelled-color)';
-        this.container.querySelector('.step').style.border = '0px';
-      } else if (val === 'done') {
-        this.container.querySelector('.step').style.border = '2px solid var(--primary-color)';
-        this.container.querySelector('.step').style.backgroundColor = 'var(--primary-color)';
-      } else if (val === 'started') {
-        this.container.querySelector('.step').style.border = '2px solid var(--active-color)';
-        this.container.querySelector('.step').style.backgroundColor = 'var(--bg-color)';
+        this.container.querySelector('.step').insertAdjacentHTML('beforeend', `<ids-icon icon="close" size="xsmall"></ids-icon>`);
       }
     }
   }
