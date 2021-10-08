@@ -23,7 +23,7 @@ describe('Ids Draggable e2e Tests', () => {
     rects = await example.boundingBox();
 
     expect(rects.x).toBeCloseTo(93);
-    expect(rects.y).toBeGreaterThanOrEqual(-13);
+    expect(rects.y).toBeGreaterThanOrEqual(-15);
   });
 
   it('can drag on y axis', async () => {
@@ -40,7 +40,7 @@ describe('Ids Draggable e2e Tests', () => {
     rects = await example.boundingBox();
 
     expect(rects.x).toBeCloseTo(212); // x didnt change
-    expect(rects.y).toBeGreaterThanOrEqual(231);
+    expect(rects.y).toBeGreaterThanOrEqual(-230);
   });
 
   it('can drag on x axis', async () => {
@@ -84,7 +84,7 @@ describe('Ids Draggable e2e Tests', () => {
     // will max out at a limit
     rects = await example.boundingBox();
     expect(rects.x).toBeCloseTo(568);
-    expect(rects.y).toBeCloseTo(11.5);
+    expect(rects.y).toBeGreaterThanOrEqual(10);
   });
 
   it('can drag with containment', async () => {
@@ -174,7 +174,7 @@ describe('Ids Draggable e2e Tests', () => {
     rects = await example.boundingBox();
 
     expect(rects.x).toBeCloseTo(93);
-    expect(rects.y).toBeGreaterThanOrEqual(13);
+    expect(rects.y).toBeGreaterThanOrEqual(-12);
   });
 
   it('should pass Axe accessibility tests', async () => {
