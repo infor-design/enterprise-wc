@@ -11,7 +11,6 @@ Indicates the process of an activity over a timeline with process steps showing 
 ## Terminology
 
 - **Process Step**: each task/stage/to-do within the whole process
-˚w
 ## Settings (Attributes)
 
 None, but utilizes the child component (IDS Process Step)[./ids-process-step/README.md] which has `label` and `status` attribute.
