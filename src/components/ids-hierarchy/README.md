@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Hierarchy (Org Chart) component is a UI pattern that is comprised expandable hierarchical cards
+The IDS Hierarchy (Org Chart) component is a UI pattern that is comprised expandable hierarchical cards. It consists of an wrapper component called `ids-hierarchy` and it's items called `ids-hierarchy-item`. The `ids-hierarchy-item` component can be nested in side each other to create another level of hierarchy.
 
 ## Use Cases
 
@@ -21,54 +21,32 @@ The main use case for the IDS Hierarchy component is to create an organizational
 
 ```html
 <ids-hierarchy>
-  <ids-hierarchy-item id="item-1" color-variant="full-time">
-    <img src="../assets/placeholder-200x200.png" slot="avatar">
+  <ids-hierarchy-item id="item-1" root expanded color-variant="full-time">
+    <img src="../assets/headshot-1.jpg" alt="item-1" slot="avatar" />
     <ids-text slot="heading">Tony Cleveland</ids-text>
     <ids-text slot="subheading">Director</ids-text>
     <ids-text slot="micro">FT</ids-text>
-  </ids-hierarchy-item>
-  <ids-hierarchy-item id="item-2" color-variant="part-time">
-    <ids-text slot="heading">Julie Dawes</ids-text>
-    <ids-text slot="subheading">Records Clerk</ids-text>
-    <ids-text slot="micro">PT</ids-text>
-  </ids-hierarchy-item>
-  <ids-hierarchy-item id="item-3" color-variant="contractor">
-    <ids-text slot="heading">Kaylee Edwards</ids-text>
-    <ids-text slot="subheading">Records Manager</ids-text>
-    <ids-text slot="micro">C</ids-text>
-  </ids-hierarchy-item>
-</ids-hierarchy>
-```
 
-Nested ids-hierarchy-item
-
-```html
-<ids-hierarchy>
-  <ids-hierarchy-item id="item-1" color-variant="full-time">
-    <img src="../assets/placeholder-200x200.png" slot="avatar">
-    <ids-text slot="heading">Tony Cleveland</ids-text>
-    <ids-text slot="subheading">Director</ids-text>
-    <ids-text slot="micro">FT</ids-text>
-  </ids-hierarchy-item>
-  <ids-hierarchy-item id="item-2" color-variant="part-time">
-    <ids-text slot="heading">Julie Dawes</ids-text>
-    <ids-text slot="subheading">Records Clerk</ids-text>
-    <ids-text slot="micro">PT</ids-text>
-  </ids-hierarchy-item>
-  <ids-hierarchy-item id="item-3" color-variant="contractor">
-    <ids-text slot="heading">Kaylee Edwards</ids-text>
-    <ids-text slot="subheading">Records Manager</ids-text>
-    <ids-text slot="micro">C</ids-text>
-
-    <ids-hierarchy-item id="item-4" color-variant="open-position">
+    <ids-hierarchy-item id="item-2" color-variant="part-time">
       <ids-text slot="heading">Julie Dawes</ids-text>
       <ids-text slot="subheading">Records Clerk</ids-text>
-      <ids-text slot="micro">OP</ids-text>
+      <ids-text slot="micro">PT</ids-text>
+    </ids-hierarchy-item>
+    <ids-hierarchy-item id="item-3" color-variant="contractor">
+      <ids-text slot="heading">Kaylee Edwards</ids-text>
+      <ids-text slot="subheading">Records Manager</ids-text>
+      <ids-text slot="micro">C</ids-text>
 
-      <ids-hierarchy-item id="item-5" color-variant="contractor">
-        <ids-text slot="heading">Tony Cleveland</ids-text>
-        <ids-text slot="subheading">Director</ids-text>
-        <ids-text slot="micro">C</ids-text>
+      <ids-hierarchy-item id="item-4" color-variant="open-position">
+        <ids-text slot="heading">Julie Dawes</ids-text>
+        <ids-text slot="subheading">Records Clerk</ids-text>
+        <ids-text slot="micro">OP</ids-text>
+
+        <ids-hierarchy-item id="item-5" color-variant="contractor">
+          <ids-text slot="heading">Tony Cleveland</ids-text>
+          <ids-text slot="subheading">Director</ids-text>
+          <ids-text slot="micro">C</ids-text>
+        </ids-hierarchy-item>
       </ids-hierarchy-item>
     </ids-hierarchy-item>
   </ids-hierarchy-item>
@@ -77,6 +55,7 @@ Nested ids-hierarchy-item
 
 ## States and Variations
 
+- **root**: This is an attribute that can be added the top level `ids-hierarchy-item`. This is added to adjust the styling of the root item.
 - **Expanded**: The state where the leaf's children are visible. Sometimes it serves as the default state, this state can also be remembered by the application.
 - **Selected**: The state where the leaf appears selected or focused
 
