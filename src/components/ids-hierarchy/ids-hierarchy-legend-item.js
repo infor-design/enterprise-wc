@@ -1,0 +1,72 @@
+import {
+  customElement,
+  mix,
+  IdsElement,
+  scss,
+} from '../../core';
+
+// Import Styles
+import styles from './ids-hierarchy-legend-item.scss';
+
+// Import Mixins
+import {
+  IdsColorVariantMixin,
+} from '../../mixins';
+
+/**
+ * IDS Hierarchy Component
+ * @type {IdsHierarchyLegendItem}
+ * @inherits IdsElement
+ */
+@customElement('ids-hierarchy-legend-item')
+@scss(styles)
+class IdsHierarchyLegendItem extends mix(IdsElement).with(IdsColorVariantMixin) {
+  constructor() {
+    super();
+  }
+
+  /**
+   * ids-hierarchy-legend `connectedCallback` implementation
+   * @returns {void}
+   */
+  connectedCallback() {
+    super.connectedCallback?.();
+  }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+  }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = [
+    'full-time',
+    'part-time',
+    'contractor',
+    'open-position'
+  ];
+
+  template() {
+    return `
+      <div class="ids-hierarchy-legend-item">
+        <ids-text>${this.text}</ids-text>
+      </div>
+    `;
+  }
+
+  set text(value) {
+    if (value) {
+      this.setAttribute('text', value);
+    } else {
+      this.removeAttribute();
+    }
+  }
+
+  get text() {
+    return this.getAttribute('text');
+  }
+}
+
+export default IdsHierarchyLegendItem;

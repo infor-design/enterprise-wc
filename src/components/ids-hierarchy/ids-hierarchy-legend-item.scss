@@ -1,0 +1,44 @@
+@import '../../core/ids-base';
+
+.ids-hierarchy-legend-item {
+  @include flex();
+
+  align-items: center;
+  position: relative;
+  margin-block: calc(var(--ids-number-spacing-base) * 6);
+  margin-inline-end: calc(var(--ids-number-spacing-base) * 4);
+
+  &::before {
+    content: " ";
+    display: block;
+    height: calc(var(--ids-number-spacing-base) * 2);
+    width: calc(var(--ids-number-spacing-base) * 2);
+    margin-inline-end: var(--ids-number-spacing-base);
+    border-radius: 50%;
+    background-color: var(--ids-color-palette-slate-20);
+  }
+
+  &.color-variant-full-time {
+    &::before {
+      background-color: var(--ids-color-palette-azure-80);
+    }
+  }
+
+  &.color-variant-part-time {
+    &::before {
+      background-color: var(--ids-color-palette-turquoise-20);
+    }
+  }
+
+  &.color-variant-contractor {
+    &::before {
+      background-color: var(--ids-color-palette-amethyst-60);
+    }
+  }
+
+  &.color-variant-open-position {
+    &::before {
+      background-color: var(--ids-color-palette-slate-60);
+    }
+  }
+}

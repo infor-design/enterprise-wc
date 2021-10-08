@@ -1,0 +1,7 @@
+@import '../../core/ids-base';
+
+.legend {
+  @include flex();
+
+  justify-content: center;
+}
