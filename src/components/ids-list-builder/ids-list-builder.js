@@ -199,6 +199,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         color: 'Green'
       },
     ];
+
+    this.#attachEventListeners();
   }
 
   /**
@@ -245,6 +247,44 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         <slot></slot>
       </div>
     `;
+  }
+
+  #toggleSelected(item) {
+    if (item.getAttribute('selected')) {
+      item.removeAttribute('selected');
+    } else {
+      item.setAttribute('selected', 'selected');
+    }
+  }
+
+  #attachEventListeners() {
+    this.#attachClickListeners();
+    this.#attachDragEventListeners();
+  }
+
+  #attachClickListeners() {
+    this.onEvent('click', this.container.querySelector('ul'), (event) => {
+      let item = event.target;
+
+      if (item && item.tagName !== 'LI') {
+        item = item.parentNode;
+      }
+
+      if (item.tagName === 'LI') {
+        this.#toggleSelected(item);
+        // item.setAttribute('selected', 'selected');
+        item.focus();
+      }
+    });
+  }
+
+  #attachDragEventListeners() {
+    // this.onEvent('ids-drag', liObject, (event) => {
+      // const [x, y] = [e.detail.mouseX, e.detail.mouseY];
+      // console.log(x + ', ' + y);
+    //   const target = event.target;
+    //   console.log(target)
+    // })
   }
 }
 

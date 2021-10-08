@@ -29,8 +29,40 @@
     li {
       @include py-12();
       @include px-20();
-      @include border-b-1();
-      @include border-slate-20();
+
+      &[selected='selected']{
+        background-color: rgba(51, 170, 51, 0.8);
+      }
+
+      &:hover {
+        // TODO: make RTL version
+        &::before {
+          position: absolute;
+          left: 0;
+          transform: translate(100%, -8%);
+          content: '⁞';
+          font-size: 24px;
+          cursor: move;
+        }
+      }
+
+      &:hover:not(:focus) {
+        background-color: yellow;
+        cursor: pointer;
+      }
+
+      &:focus:not([selected='selected']) {
+        background-color: rgba(132, 218, 132, 0.4);
+      }
+
+      &:focus[selected='selected'] {
+        background-color: rgba(51, 170, 51, 1);
+      }
+
+      ids-text::part(text) {
+        display: inline;
+        user-select: none;
+      }
     }
   }
 }
