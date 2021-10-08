@@ -1,8 +1,8 @@
 ---
  component: Hyperlink
  link: ids-hyperlink
- description: SVG icons
- category: Messages and Alerts
+ description: Linked text
+ category: Typography
  keywords: link, anchor, hyperlink
  examples:
   - link: index.html

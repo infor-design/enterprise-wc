@@ -56,6 +56,7 @@ import uploadYaml from './ids-upload/index.yaml';
 import uploadAdvancedYaml from './ids-upload-advanced/index.yaml';
 import wizardYaml from './ids-wizard/index.yaml';
 import virtualScrollYaml from './ids-virtual-scroll/index.yaml';
+import typographyYaml from './typography/index.yaml';
 
 // Import Styles
 import './example.scss';
@@ -68,7 +69,8 @@ const categories = [
   { name: 'Lists', icon: 'spreadsheet', components: [] },
   { name: 'Layouts', icon: 'project', components: [] },
   // { name: 'Patterns', icon: 'design-mode', components: [] },
-  { name: 'Charts and Visualizations', icon: 'line-bar-chart', components: [] }
+  { name: 'Charts and Visualizations', icon: 'line-bar-chart', components: [] },
+  { name: 'Typography', icon: '', components: [] },
 ];
 
 const addYaml = (yaml) => {
@@ -134,6 +136,7 @@ addYaml(uploadYaml);
 addYaml(uploadAdvancedYaml);
 addYaml(virtualScrollYaml);
 addYaml(wizardYaml);
+addYaml(typographyYaml);
 
 let html = '';
 categories.forEach((category) => {
