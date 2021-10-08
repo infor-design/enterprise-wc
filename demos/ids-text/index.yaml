@@ -1,8 +1,8 @@
 ---
- component: Text Element
+ component: Text
  link: ids-text
  description: An element for plain text
- category: Form Inputs
+ category: Typography
  keywords: text, color, switcher
  examples:
   - link: index.html
