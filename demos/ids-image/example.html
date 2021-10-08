@@ -10,7 +10,10 @@
       size="sm"
     ></ids-image>
     <ids-text font-size="14">image from src</ids-text>
+    <br>
+    <br>
     <ids-image
+      id="e2e-fallback"
       src="https://main-enterprise.demo.design.infor.com/images/non-existant.jpg"
       alt="image-sm non-existant"
       size="sm"
@@ -26,40 +29,43 @@
       size="md"
     ></ids-image>
     <ids-text font-size="14">image from src</ids-text>
+    <br>
+    <br>
     <ids-image
+      id="e2e-placeholder"
       alt="image-md non-existant"
       size="md"
       placeholder
-      fallback
     ></ids-image>
     <ids-text font-size="14">placeholder via attribute</ids-text>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell col-span="2">
     <ids-text type="h2" font-size="14">Size LG - 300x350</ids-text>
     <ids-image
-      src="//via.placeholder.com/300x350.png"
+      src="//via.placeholder.com/300x350.jpg"
       alt="image-lg 300x350"
       size="lg"
     ></ids-image>
     <ids-text font-size="14">image from src</ids-text>
+    <br>
+    <br>
     <ids-image
-      alt="image-lg non-existant"
+      alt="image-lg no src"
       size="lg"
-      placeholder
+      fallback
     ></ids-image>
-    <ids-text font-size="14">placeholder via attribute</ids-text>
+    <ids-text font-size="14">placeholder via fallback</ids-text>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell col-span="2">
     <ids-text type="h2" font-size="14">Size AUTO</ids-text>
     <ids-image
-      src="//via.placeholder.com/500x200.png"
+      src="//via.placeholder.com/500x200.jpg"
       alt="image-auto 500x200"
     ></ids-image>
     <ids-text font-size="14">image from src</ids-text>
-    <ids-image
-      alt="image-auto placeholder"
-      placeholder
-    ></ids-image>
+    <br>
+    <br>
+    <ids-image placeholder></ids-image>
     <ids-text font-size="14">placeholder via attribute</ids-text>
   </ids-layout-grid-cell>
 </ids-layout-grid>

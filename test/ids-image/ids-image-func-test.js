@@ -6,7 +6,7 @@ import IdsImage from '../../src/components/ids-image';
 const name = 'ids-image';
 const id = 'ids-image-example';
 const alt = 'example alt';
-const src = '//via.placeholder.com/60.jpeg';
+const src = 'http://via.placeholder.com/60.jpeg';
 const size = 'sm';
 
 describe('IdsImage Component (using properties)', () => {
@@ -71,7 +71,9 @@ describe('IdsImage Component (using attributes)', () => {
   let component;
 
   beforeEach(async () => {
-    document.body.insertAdjacentHTML('beforeend', `<ids-image id="${id}" src="${src}" alt="${alt}" size="${size}"></ids-image>`);
+    document.body.insertAdjacentHTML('beforeend', `
+      <ids-image id="${id}" src="${src}" alt="${alt}" size="${size}"></ids-image>
+    `);
     component = document.querySelector(name);
   });
 
@@ -115,6 +117,21 @@ describe('IdsImage Component (using attributes)', () => {
 
     expect(component.size).toEqual('auto');
   });
+
+  it('img has src and alt attributes', () => {
+    expect(component.shadowRoot.querySelector('img').src).toEqual(src);
+    expect(component.shadowRoot.querySelector('img').alt).toEqual(alt);
+  });
+
+  it('can change src and alt attributes', () => {
+    const newSrc = 'http://via.placeholder.com/80.jpeg';
+    const newAlt = 'alt updated';
+
+    component.src = newSrc;
+    component.alt = newAlt;
+    expect(component.shadowRoot.querySelector('img').src).toEqual(newSrc);
+    expect(component.shadowRoot.querySelector('img').alt).toEqual(newAlt);
+  });
 });
 
 describe('IdsImage Component (empty)', () => {
@@ -139,5 +156,9 @@ describe('IdsImage Component (empty)', () => {
 
   it('should have default properties', () => {
     expect(component.size).toEqual('auto');
+  });
+
+  it('should render placeholder', () => {
+    expect(component.shadowRoot.querySelector('.placeholder')).toBeTruthy();
   });
 });

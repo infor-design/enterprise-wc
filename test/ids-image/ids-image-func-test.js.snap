@@ -1,3 +1,3 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsImage Component (using properties) should render 1`] = `"<ids-image id=\\"ids-image-example\\" src=\\"//via.placeholder.com/60.jpeg\\" alt=\\"example alt\\" size=\\"sm\\"></ids-image>"`;
+exports[`IdsImage Component (using properties) should render 1`] = `"<ids-image id=\\"ids-image-example\\" src=\\"http://via.placeholder.com/60.jpeg\\" alt=\\"example alt\\" size=\\"sm\\"></ids-image>"`;

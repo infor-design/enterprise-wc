@@ -39,6 +39,10 @@ $images-size: (
       box-shadow: 0 0 4px 2px rgba(141, 201, 230, 0.3);
     }
   }
+
+  .placeholder {
+    @include border-current();
+  }
 }
 
 :host([mode='contrast']) {
@@ -48,6 +52,10 @@ $images-size: (
 
       box-shadow: 0 0 4px 2px rgba(41, 41, 41, 0.3);
     }
+  }
+
+  .placeholder {
+    @include border-current();
   }
 }
 
@@ -68,7 +76,9 @@ $images-size: (
   // placeholder styles
   &.placeholder {
     @include flex();
+    @include p-20();
     @include border-slate-20();
+    @include box-border();
 
     align-items: center;
     justify-content: center;
