@@ -14,16 +14,16 @@ describe('Ids Draggable e2e Tests', () => {
     const example = await page.$('#no-axis');
     let rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(24);
-    expect(rects.y).toEqual(91.5);
+    expect(rects.x).toBeCloseTo(24);
+    expect(rects.y).toBeCloseTo(91.5);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(126, 19);
     await page.mouse.up();
     rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(93);
-    expect(rects.y).toEqual(-13.5);
+    expect(rects.x).toBeCloseTo(93);
+    expect(rects.y).toBeCloseTo(-13.5);
   });
 
   it('can drag on y axis', async () => {
@@ -31,16 +31,16 @@ describe('Ids Draggable e2e Tests', () => {
     const example = await page.$('#axis-y');
     let rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(212);
-    expect(rects.y).toEqual(91.5);
+    expect(rects.x).toBeCloseTo(212);
+    expect(rects.y).toBeCloseTo(91.5);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, -200);
     await page.mouse.up();
     rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(212); // x didnt change
-    expect(rects.y).toEqual(-232.5);
+    expect(rects.x).toBeCloseTo(212); // x didnt change
+    expect(rects.y).toBeCloseTo(-232.5);
   });
 
   it('can drag on x axis', async () => {
@@ -48,16 +48,16 @@ describe('Ids Draggable e2e Tests', () => {
     const example = await page.$('#axis-x');
     let rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(400);
-    expect(rects.y).toEqual(91.5);
+    expect(rects.x).toBeCloseTo(400);
+    expect(rects.y).toBeCloseTo(91.5);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, -200);
     await page.mouse.up();
     rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(-333);
-    expect(rects.y).toEqual(91.5); // y didnt change
+    expect(rects.x).toBeCloseTo(-333);
+    expect(rects.y).toBeCloseTo(91.5); // y didnt change
   });
 
   it('can drag with limits', async () => {
@@ -65,8 +65,8 @@ describe('Ids Draggable e2e Tests', () => {
     const example = await page.$('#limits');
     let rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(588);
-    expect(rects.y).toEqual(91.5);
+    expect(rects.x).toBeCloseTo(588);
+    expect(rects.y).toBeCloseTo(91.5);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, -200);
@@ -74,8 +74,8 @@ describe('Ids Draggable e2e Tests', () => {
     rects = await example.boundingBox();
 
     // will max out at a limit
-    expect(rects.x).toEqual(568);
-    expect(rects.y).toEqual(11.5);
+    expect(rects.x).toBeCloseTo(568);
+    expect(rects.y).toBeCloseTo(11.5);
 
     await page.mouse.down();
     await page.mouse.move(-300, -200);
@@ -83,8 +83,8 @@ describe('Ids Draggable e2e Tests', () => {
 
     // will max out at a limit
     rects = await example.boundingBox();
-    expect(rects.x).toEqual(568);
-    expect(rects.y).toEqual(11.5);
+    expect(rects.x).toBeCloseTo(568);
+    expect(rects.y).toBeCloseTo(11.5);
   });
 
   it('can drag with containment', async () => {
@@ -92,8 +92,8 @@ describe('Ids Draggable e2e Tests', () => {
     const example = await page.$('#contained');
     let rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(24);
-    expect(rects.y).toEqual(205);
+    expect(rects.x).toBeCloseTo(24);
+    expect(rects.y).toBeCloseTo(205);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, 300);
@@ -101,8 +101,8 @@ describe('Ids Draggable e2e Tests', () => {
     rects = await example.boundingBox();
 
     // will max out at a limit
-    expect(rects.x).toEqual(24);
-    expect(rects.y).toEqual(267);
+    expect(rects.x).toBeCloseTo(24);
+    expect(rects.y).toBeCloseTo(267);
   });
 
   it('can drag with containment on axis x', async () => {
@@ -110,8 +110,8 @@ describe('Ids Draggable e2e Tests', () => {
     const example = await page.$('#contained-y');
     let rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(90);
-    expect(rects.y).toEqual(205);
+    expect(rects.x).toBeCloseTo(90);
+    expect(rects.y).toBeCloseTo(205);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, 300);
@@ -119,8 +119,8 @@ describe('Ids Draggable e2e Tests', () => {
     rects = await example.boundingBox();
 
     // will max out at the container limits
-    expect(rects.x).toEqual(90);
-    expect(rects.y).toEqual(267);
+    expect(rects.x).toBeCloseTo(90);
+    expect(rects.y).toBeCloseTo(267);
   });
 
   it('can drag with containment on axis y', async () => {
@@ -128,8 +128,8 @@ describe('Ids Draggable e2e Tests', () => {
     const example = await page.$('#contained-x');
     let rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(156);
-    expect(rects.y).toEqual(205);
+    expect(rects.x).toBeCloseTo(156);
+    expect(rects.y).toBeCloseTo(205);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, 300);
@@ -137,8 +137,8 @@ describe('Ids Draggable e2e Tests', () => {
     rects = await example.boundingBox();
 
     // will max out at the container limits
-    expect(rects.x).toEqual(24);
-    expect(rects.y).toEqual(205);
+    expect(rects.x).toBeCloseTo(24);
+    expect(rects.y).toBeCloseTo(205);
   });
 
   it('will not drag when disabled', async () => {
@@ -146,8 +146,8 @@ describe('Ids Draggable e2e Tests', () => {
     await page.evaluate('document.querySelector("#no-axis").disabled = true');
     const example = await page.$('#no-axis');
     let rects = await example.boundingBox();
-    expect(rects.x).toEqual(24);
-    expect(rects.y).toEqual(91.5);
+    expect(rects.x).toBeCloseTo(24);
+    expect(rects.y).toBeCloseTo(91.5);
 
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
@@ -155,8 +155,8 @@ describe('Ids Draggable e2e Tests', () => {
     await page.mouse.up();
     rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(24);
-    expect(rects.y).toEqual(91.5);
+    expect(rects.x).toBeCloseTo(24);
+    expect(rects.y).toBeCloseTo(91.5);
   });
 
   it('will not re-drag when isDragging is true', async () => {
@@ -164,8 +164,8 @@ describe('Ids Draggable e2e Tests', () => {
     await page.evaluate('document.querySelector("#no-axis").isDragging = true');
     const example = await page.$('#no-axis');
     let rects = await example.boundingBox();
-    expect(rects.x).toEqual(24);
-    expect(rects.y).toEqual(91.5);
+    expect(rects.x).toBeCloseTo(24);
+    expect(rects.y).toBeCloseTo(91.5);
 
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
@@ -173,8 +173,8 @@ describe('Ids Draggable e2e Tests', () => {
     await page.mouse.up();
     rects = await example.boundingBox();
 
-    expect(rects.x).toEqual(93);
-    expect(rects.y).toEqual(-13.5);
+    expect(rects.x).toBeCloseTo(93);
+    expect(rects.y).toBeCloseTo(-13.5);
   });
 
   it('should pass Axe accessibility tests', async () => {

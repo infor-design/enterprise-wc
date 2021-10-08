@@ -45,6 +45,10 @@
 
   height: 310px;
   overflow: auto;
+
+  &.overflow-hidden {
+    overflow: hidden;
+  }
 }
 
 // Style the title
