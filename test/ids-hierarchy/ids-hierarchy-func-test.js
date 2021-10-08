@@ -5,9 +5,32 @@ import processAnimFrame from '../helpers/process-anim-frame';
 import IdsHierarchy from '../../src/components/ids-hierarchy';
 import IdsHierarchyItem from '../../src/components/ids-hierarchy/ids-hierarchy-item';
 import IdsContainer from '../../src/components/ids-container';
+import IdsHierarchyLegend from '../../src/components/ids-hierarchy/ids-hierarchy-legend';
+import IdsHierarchyLegendItem from '../../src/components/ids-hierarchy/ids-hierarchy-legend-item';
+
+const DEFAULT_HIERARCHY_LEGEND_HTML = (
+  `<ids-hierarchy-legend>
+    <ids-hierarchy-legend-item
+      text="Full Time"
+      color-variant="full-time"
+    ></ids-hierarchy-legend-item>
+    <ids-hierarchy-legend-item
+      text="Part Time"
+      color-variant="part-time"
+    ></ids-hierarchy-legend-item>
+    <ids-hierarchy-legend-item
+      text="Contractor"
+      color-variant="contractor"
+    ></ids-hierarchy-legend-item>
+    <ids-hierarchy-legend-item
+      text="Open Position"
+      color-variant="open-position"
+    ></ids-hierarchy-legend-item>
+  </ids-hierarchy-legend>`
+);
 
 const DEFAULT_HIERARCHY_HTML = (
-  `<ids-hierarchy root>
+  `<ids-hierarchy root-item>
       <ids-hierarchy-item id="item-1" color-variant="full-time">
       <img src="../assets/placeholder-200x200.png" alt="item-1" slot="avatar">
       <ids-text slot="heading">Tony Cleveland</ids-text>
@@ -43,19 +66,29 @@ describe('IdsHierarchy Component', () => {
   let el;
   let item;
   let container;
+  let legend;
+  let legendItem;
 
   beforeEach(async () => {
     const elem = new IdsHierarchy();
     const elemItem = new IdsHierarchyItem();
+    const elemLegend = new IdsHierarchyLegend();
+    const elemLegendItem = new IdsHierarchyLegendItem();
     document.body.appendChild(elem);
+    document.body.appendChild(elemLegend);
     elem.appendChild(elemItem);
+    elemLegend.appendChild(elemLegendItem);
     el = document.querySelector('ids-hierarchy');
     item = document.querySelector('ids-hierarchy-item');
+    legend = document.querySelector('ids-hierarchy-legend');
+    legendItem = document.querySelector('ids-hierarchy-legend-item');
   });
 
   afterEach(async () => {
     document.body.innerHTML = '';
     el = null;
+    legend = null;
+    legendItem = null;
   });
 
   const createElemViaTemplate = async (innerHTML) => {
@@ -73,11 +106,34 @@ describe('IdsHierarchy Component', () => {
     return el;
   };
 
+  const createLegendViaTemplate = async (innerHTML) => {
+    legend?.remove?.();
+    container = new IdsContainer();
+
+    const template = document.createElement('template');
+    template.innerHTML = innerHTML;
+    legend = template.content.childNodes[0];
+    container.appendChild(legend);
+    document.body.appendChild(container);
+
+    await processAnimFrame();
+
+    return legend;
+  };
+
   it('renders from HTML Template with no errors', async () => {
     el = await createElemViaTemplate(DEFAULT_HIERARCHY_HTML);
 
     const errors = jest.spyOn(global.console, 'error');
     expect(document.querySelectorAll('ids-hierarchy').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
+  it('renders the legend from HTML Template with no errors', async () => {
+    legend = await createLegendViaTemplate(DEFAULT_HIERARCHY_LEGEND_HTML);
+
+    const errors = jest.spyOn(global.console, 'error');
+    expect(document.querySelectorAll('ids-hierarchy-legend').length).toEqual(1);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -173,5 +229,15 @@ describe('IdsHierarchy Component', () => {
   it('checks for nested items', async () => {
     el = await createElemViaTemplate(DEFAULT_HIERARCHY_HTML);
     expect(el.container.classList.contains('has-nested-items')).toBe(false);
+  });
+
+  it('can set the legend item text attribute', () => {
+    expect(legendItem.getAttribute('text')).toBe(null);
+
+    legendItem.setAttribute('text', 'Test');
+    expect(legendItem.getAttribute('text')).toBe('Test');
+
+    legendItem.text = null;
+    expect(legendItem.getAttribute('text')).toBe(null);
   });
 });

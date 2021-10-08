@@ -3,6 +3,7 @@ import {
   mix,
   IdsElement,
   scss,
+  attributes,
 } from '../../core';
 
 // Import Styles
@@ -38,6 +39,16 @@ class IdsHierarchyLegendItem extends mix(IdsElement).with(IdsColorVariantMixin) 
   }
 
   /**
+   * Return the attributes we handle as getters/setters
+   * @returns {Array} The attributes in an array
+   */
+  static get attributes() {
+    return [
+      attributes.TEXT
+    ];
+  }
+
+  /**
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
@@ -56,14 +67,21 @@ class IdsHierarchyLegendItem extends mix(IdsElement).with(IdsColorVariantMixin) 
     `;
   }
 
+  /**
+   * Set the value of the text attribute
+   * @param {string} value the value of the attribute
+   */
   set text(value) {
     if (value) {
       this.setAttribute('text', value);
     } else {
-      this.removeAttribute();
+      this.removeAttribute('text');
     }
   }
 
+  /**
+   * @returns {string|undefined} containing value of the text attribute
+   */
   get text() {
     return this.getAttribute('text');
   }
