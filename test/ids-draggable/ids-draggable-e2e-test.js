@@ -15,7 +15,7 @@ describe('Ids Draggable e2e Tests', () => {
     let rects = await example.boundingBox();
 
     expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeCloseTo(91.5);
+    expect(rects.y).toBeGreaterThanOrEqual(90);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(126, 19);
@@ -32,7 +32,7 @@ describe('Ids Draggable e2e Tests', () => {
     let rects = await example.boundingBox();
 
     expect(rects.x).toBeCloseTo(212);
-    expect(rects.y).toBeCloseTo(91.5);
+    expect(rects.y).toBeGreaterThanOrEqual(90);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, -200);
@@ -49,7 +49,7 @@ describe('Ids Draggable e2e Tests', () => {
     let rects = await example.boundingBox();
 
     expect(rects.x).toBeCloseTo(400);
-    expect(rects.y).toBeCloseTo(91.5);
+    expect(rects.y).toBeGreaterThanOrEqual(90);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, -200);
@@ -66,7 +66,7 @@ describe('Ids Draggable e2e Tests', () => {
     let rects = await example.boundingBox();
 
     expect(rects.x).toBeCloseTo(588);
-    expect(rects.y).toBeCloseTo(91.5);
+    expect(rects.y).toBeGreaterThanOrEqual(90);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, -200);
@@ -93,7 +93,7 @@ describe('Ids Draggable e2e Tests', () => {
     let rects = await example.boundingBox();
 
     expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeCloseTo(205);
+    expect(rects.y).toBeGreaterThanOrEqual(204);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, 300);
@@ -111,7 +111,7 @@ describe('Ids Draggable e2e Tests', () => {
     let rects = await example.boundingBox();
 
     expect(rects.x).toBeCloseTo(90);
-    expect(rects.y).toBeCloseTo(205);
+    expect(rects.y).toBeGreaterThanOrEqual(204);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, 300);
@@ -129,7 +129,7 @@ describe('Ids Draggable e2e Tests', () => {
     let rects = await example.boundingBox();
 
     expect(rects.x).toBeCloseTo(156);
-    expect(rects.y).toBeCloseTo(205);
+    expect(rects.y).toBeGreaterThanOrEqual(204);
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
     await page.mouse.move(-300, 300);
@@ -147,7 +147,7 @@ describe('Ids Draggable e2e Tests', () => {
     const example = await page.$('#no-axis');
     let rects = await example.boundingBox();
     expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeCloseTo(91.5);
+    expect(rects.y).toBeGreaterThanOrEqual(90);
 
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
@@ -165,7 +165,7 @@ describe('Ids Draggable e2e Tests', () => {
     const example = await page.$('#no-axis');
     let rects = await example.boundingBox();
     expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeCloseTo(91.5);
+    expect(rects.y).toBeGreaterThanOrEqual(90);
 
     await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
     await page.mouse.down();
