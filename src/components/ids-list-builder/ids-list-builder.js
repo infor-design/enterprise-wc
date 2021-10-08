@@ -14,8 +14,6 @@ import {
 
 import styles from './ids-list-builder.scss';
 import IdsListView from '../ids-list-view';
-import IdsCard from '../ids-card';
-import IdsToolBar from '../ids-toolbar';
 
 /**
  * IDS ListBuilder Component
