@@ -55,7 +55,7 @@ The main use case for the IDS Hierarchy component is to create an organizational
 
 ## States and Variations
 
-- **root**: This is an attribute that can be added the top level `ids-hierarchy-item`. This is added to adjust the styling of the root item.
+- **root-item**: This is an attribute that can be added the top level `ids-hierarchy-item`. This is added to adjust the styling of the root item.
 - **Expanded**: The state where the leaf's children are visible. Sometimes it serves as the default state, this state can also be remembered by the application.
 - **Selected**: The state where the leaf appears selected or focused
 

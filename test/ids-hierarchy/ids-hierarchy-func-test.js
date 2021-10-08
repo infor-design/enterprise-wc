@@ -106,16 +106,16 @@ describe('IdsHierarchy Component', () => {
     expect(item.getAttribute('expanded')).toBe(null);
   });
 
-  it('can set the root attribute', () => {
-    expect(item.getAttribute('root')).toBe(null);
+  it('can set the root-item attribute', () => {
+    expect(item.getAttribute('root-item')).toBe(null);
 
-    item.setAttribute('root', '');
-    expect(item.getAttribute('root')).toBe(null);
+    item.setAttribute('root-item', true);
+    expect(item.getAttribute('root-item')).toBe('true');
 
-    item.root = null;
-    item.removeAttribute('root');
-    expect(item.root).toBe(null);
-    expect(item.getAttribute('root')).toBe(null);
+    item.rootItem = null;
+    item.removeAttribute('root-item');
+    expect(item.rootItem).toBe(null);
+    expect(item.getAttribute('root-item')).toBe(null);
   });
 
   it('can set the selected attribute', () => {

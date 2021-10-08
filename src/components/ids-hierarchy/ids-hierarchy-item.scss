@@ -95,7 +95,7 @@
   }
 }
 
-:host([root]) {
+:host([root-item]) {
   .leaf {
     &::before {
       display: none;

@@ -73,7 +73,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(
   static get attributes() {
     return [
       attributes.EXPANDED,
-      attributes.ROOT,
+      'root-item',
       attributes.SELECTED,
       attributes.VALUE
     ];
@@ -154,20 +154,20 @@ class IdsHierarchyItem extends mix(IdsElement).with(
    * Set the value of the root attribute
    * @param {string} value the value of the attribute
    */
-  set root(value) {
+  set rootItem(value) {
     const isValueTruthy = IdsStringUtils.stringToBool(value);
     if (isValueTruthy) {
-      this.setAttribute(attributes.ROOT, '');
+      this.setAttribute('root-item', true);
+    } else {
+      this.removeAttribute('root-item');
     }
-
-    this.removeAttribute(attributes.ROOT);
   }
 
   /**
    * @returns {string|undefined} containing value of the root attribute
    */
-  get root() {
-    return this.getAttribute(attributes.ROOT);
+  get rootItem() {
+    return this.getAttribute('root-item');
   }
 
   /**
