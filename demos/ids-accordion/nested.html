@@ -1,0 +1,136 @@
+{{> ../layouts/head.html }}
+
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
+    <ids-text font-size="12" type="h1">Accordion (Nested)</ids-text>
+  </ids-layout-grid-cell>
+</ids-layout-grid>
+
+<ids-layout-grid cols="2" gap="md">
+  <!-- begin basic nested accordion -->
+  <ids-layout-grid-cell>
+    <ids-accordion id="basic-nested">
+      <ids-accordion-panel>
+        <ids-accordion-header slot="header" id="l1">
+          <ids-text font-size="16">Level 1</ids-text>
+        </ids-accordion-header>
+        <ids-accordion-panel slot="content">
+          <ids-accordion-header slot="header" id="l2">
+            <ids-text font-size="16">Level 2</ids-text>
+          </ids-accordion-header>
+          <ids-accordion-panel slot="content">
+            <ids-accordion-header slot="header" id="l3">
+              <ids-text font-size="16">Level 3</ids-text>
+            </ids-accordion-header>
+            <ids-accordion-panel slot="content">
+              <ids-accordion-header slot="header" id="l4">
+                <ids-text font-size="16">Level 4</ids-text>
+              </ids-accordion-header>
+              <ids-accordion-panel slot="content">
+                <ids-accordion-header slot="header" id="l5">
+                  <ids-text font-size="16">Level 5</ids-text>
+                </ids-accordion-header>
+                <ids-accordion-panel slot="content">
+                  <ids-accordion-header slot="header" id="l6">
+                    <ids-text font-size="16">Level 6</ids-text>
+                  </ids-accordion-header>
+                </ids-accordion-panel>
+              </ids-accordion-panel>
+            </ids-accordion-panel>
+          </ids-accordion-panel>
+        </ids-accordion-panel>
+      </ids-accordion-panel>
+    </ids-accordion>
+  </ids-layout-grid-cell>
+  <!-- end basic nested accordion -->
+
+  <!-- begin app-menu-style nested accordion -->
+  <ids-layout-grid-cell>
+    <ids-accordion id="app-menu-style">
+      <ids-accordion-panel id="employee">
+        <ids-accordion-header slot="header" icon="user">
+          <ids-text font-size="16">Employee</ids-text>
+        </ids-accordion-header>
+        <ids-accordion-panel slot="content" id="my-profile">
+          <ids-accordion-header slot="header">
+            <ids-text font-size="14">My Profile</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel slot="content" id="talent-profile">
+          <ids-accordion-header slot="header">
+            <ids-text font-size="14">Talent Profile</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel slot="content" id="view-compensation">
+          <ids-accordion-header slot="header">
+            <ids-text font-size="14">View Compensation</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel slot="content" id="rave">
+          <ids-accordion-header slot="header">
+            <ids-text font-size="14">RAVE</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel slot="content" id="request-time-off">
+          <ids-accordion-header slot="header">
+            <ids-text font-size="14">Request Time Off</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel slot="content" id="benefits">
+          <ids-accordion-header slot="header" expander-type="plus-minus">
+            <ids-text font-size="14">Benefits</ids-text>
+          </ids-accordion-header>
+          <ids-accordion-panel slot="content" id="my-benefits">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">My Benefits</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content" id="dependents-beneficiaries">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Dependents and Beneficiaries</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content" id="life-events">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Life Events</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+          <ids-accordion-panel slot="content" id="benefits-information">
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">Benefits Information</ids-text>
+            </ids-accordion-header>
+          </ids-accordion-panel>
+        </ids-accordion-panel>
+        <ids-accordion-panel slot="content" id="my-rewards">
+          <ids-accordion-header slot="header">
+            <ids-text font-size="14">My Rewards</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel slot="content" id="find-coworker">
+          <ids-accordion-header slot="header">
+            <ids-text font-size="14">Find a Coworker</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+        <ids-accordion-panel slot="content" id="my-growth">
+          <ids-accordion-header slot="header">
+            <ids-text font-size="14">My Growth</ids-text>
+          </ids-accordion-header>
+        </ids-accordion-panel>
+      </ids-accordion-panel>
+      <ids-accordion-panel id="manager">
+        <ids-accordion-header slot="header">
+          <ids-text font-size="16">Manager</ids-text>
+        </ids-accordion-header>
+      </ids-accordion-panel>
+      <ids-accordion-panel id="recruiter">
+        <ids-accordion-header slot="header">
+          <ids-text font-size="16">Recruiter</ids-text>
+        </ids-accordion-header>
+      </ids-accordion-panel>
+    </ids-accordion>
+  </ids-layout-grid-cell>
+  <!-- end app-menu-style nested accordion -->
+</ids-layout-grid>
+
+
+{{> ../layouts/footer.html }}

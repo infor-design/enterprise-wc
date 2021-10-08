@@ -11,6 +11,7 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsClearableMixin,
+  IdsColorVariantMixin,
   IdsDirtyTrackerMixin,
   IdsMaskMixin,
   IdsValidationMixin,
@@ -70,6 +71,7 @@ const TEXT_ALIGN = {
 const appliedMixins = [
   IdsEventsMixin,
   IdsClearableMixin,
+  IdsColorVariantMixin,
   IdsKeyboardMixin,
   IdsDirtyTrackerMixin,
   IdsMaskMixin,
@@ -85,6 +87,7 @@ let instanceCounter = 0;
  * @type {IdsInput}
  * @inherits IdsElement
  * @mixes IdsClearableMixin
+ * @mixes IdsColorVariantMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
@@ -107,11 +110,18 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate'];
+
+  /**
    * @returns {Array<string>} IdsInput component observable attributes
    */
   static get attributes() {
     return [
-      ...attributes.AUTOSELECT,
+      ...super.attributes,
+      attributes.AUTOSELECT,
       attributes.BG_TRANSPARENT,
       attributes.CLEARABLE,
       attributes.CLEARABLE_FORCED,
@@ -192,6 +202,15 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
         </div>
       </div>`
     );
+  }
+
+  set colorVariant(value) {
+    super.colorVariant = value;
+    this.clearable && this.refreshClearableButtonStyles();
+  }
+
+  get colorVariant() {
+    return super.colorVariant;
   }
 
   /**
@@ -688,7 +707,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     }
 
     this.setAttribute(attributes.VALUE, v);
-    if (this.input?.value !== v) {
+    if (this.input && this.input?.value !== v) {
       this.input.value = v;
       this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
@@ -705,8 +724,11 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {string} value id
    */
   set id(value) {
-    this.setAttribute(attributes.ID, value);
-    this.input?.setAttribute(attributes.ID, `${value}-input`);
+    /* istanbul ignore else */
+    if (value !== '') {
+      this.setAttribute(attributes.ID, value);
+      this.input?.setAttribute(attributes.ID, `${value}-input`);
+    }
   }
 
   get id() {

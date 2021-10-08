@@ -1,0 +1,16 @@
+/* Ids Home page Component */
+@import '../../core/ids-base';
+
+.ids-home-page {
+  @include relative();
+
+  .cards {
+    @include absolute();
+
+    left: 50%;
+  }
+
+  ::slotted(ids-card) {
+    @include absolute();
+  }
+}

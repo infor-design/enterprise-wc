@@ -6,6 +6,7 @@ demo-dist
 coverage
 test/**/diff
 tmp
+app
 
 # OS Setting Files
 .DS_Store

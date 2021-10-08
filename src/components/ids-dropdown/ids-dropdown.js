@@ -73,7 +73,7 @@ class IdsDropdown extends mix(IdsElement).with(
     }
     this.popup = this.shadowRoot?.querySelector('ids-popup');
     this.inputRoot = this.shadowRoot?.querySelector('ids-input');
-    this.fieldContainer = this.container?.querySelector('ids-input')?.shadowRoot.querySelector('.field-container');
+    this.fieldContainer = this.container?.querySelector('ids-input')?.shadowRoot?.querySelector('.field-container');
     this.trigger = this.shadowRoot?.querySelector('ids-trigger-button');
     this.input = this.inputRoot?.shadowRoot?.querySelector('input');
     this.triggerContent = this.container?.shadowRoot?.querySelector('.ids-trigger-field-content');
@@ -123,13 +123,17 @@ class IdsDropdown extends mix(IdsElement).with(
       <ids-input
         part="input"
         disabled="${this.disabled}"
-        readonly="true"
         label-hidden="true" ${!this.disabled && !this.readonly ? 'cursor="pointer"' : ''}
+        readonly
         ${this.readonly ? 'cursor="text"' : ''}
-        readonly bg-transparent="${!this.readonly && !this.disabled}"
+        bg-transparent="${!this.readonly && !this.disabled}"
         user-select="none" triggerfield="true"></ids-input>
-      <ids-trigger-button part="trigger-button" tabbable="false" disabled="${this.disabled}"
-      readonly="${this.readonly}">
+      <ids-trigger-button 
+        part="trigger-button"
+        tabbable="false"
+        disabled="${this.disabled}"
+        readonly="${this.readonly}"
+      >
         <ids-text audible="true">Dropdown Button</ids-text>
         <ids-icon slot="icon" icon="dropdown" part="icon"></ids-icon>
       </ids-trigger-button>

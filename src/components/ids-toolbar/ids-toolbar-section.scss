@@ -23,6 +23,10 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
     justify-content: center;
   }
 
+  &.align-center-even {
+    justify-content: space-around;
+  }
+
   &.align-end {
     justify-content: flex-end;
   }

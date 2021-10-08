@@ -2,6 +2,7 @@
 
 .ids-expandable-area {
   border-bottom: 1px solid var(--ids-color-palette-slate-30);
+  contain: content;
   margin-bottom: calc(var(--ids-number-spacing-base) * 4);
   padding-bottom: calc(var(--ids-number-spacing-base) * 4);
 }

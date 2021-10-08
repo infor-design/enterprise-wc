@@ -1,15 +1,130 @@
 @import '../../core/ids-base';
 
+// ============================================
+// Top-level App Menu Accordion Panel Styles
+@mixin accordion-panel-app-menu-colors() {
+  @include mb-4();
+
+  transition:
+    background-color $transition-length $transition-ease,
+    height $transition-length $transition-ease,
+    padding $transition-length $transition-ease;
+
+  // Light Mode Styles
+  &[mode='light'] {
+    &.expanded {
+      @include py-8();
+      @include bg-black();
+    }
+  }
+}
+
+// ============================================
+// Sub-level App Menu Accordion Panel Styles
+@mixin accordion-panel-sub-menu-colors() {
+  @include m-0();
+}
+
+// ============================================
+// Controls the size of nested accordions
+@mixin accordion-pane-standard-size() {
+  .ids-accordion-pane-content {
+    @include px-8();
+  }
+
+  &:not(.rtl) {
+    &.nested {
+      .ids-accordion-pane-content {
+        @include pl-16();
+        @include pr-0();
+      }
+    }
+  }
+
+  // RTL Styles on Nested Accordions
+  // (applies the padding to the opposite side)
+  &.rtl {
+    &.nested {
+      .ids-accordion-pane-content {
+        @include pl-0();
+        @include pr-16();
+      }
+    }
+  }
+}
+
+@mixin accordion-pane-nested-size() {
+  // LTR nested styles (default)
+  &:not(.rtl) {
+    .ids-accordion-pane-content {
+      @include pl-28();
+    }
+  }
+
+  // RTL nested styles
+  &.rtl {
+    .ids-accordion-pane-content {
+      @include pr-28();
+    }
+  }
+}
+
+:host {
+  display: block;
+}
+
+.ids-accordion-panel {
+  // ============================================
+  // Color Variant Rules
+  &:not(.color-variant-app-menu):not(.color-variant-sub-app-menu) {
+    @include accordion-pane-standard-size();
+  }
+
+  &.color-variant-app-menu {
+    @include accordion-panel-app-menu-colors();
+    @include accordion-pane-standard-size();
+  }
+
+  &.color-variant-sub-app-menu {
+    @include accordion-panel-sub-menu-colors();
+    @include accordion-pane-nested-size();
+  }
+
+  // ============================================
+  // Content Alignment Rules
+
+  &.has-icon {
+    // LTR content alignment (padding comes from the left)
+    &:not(.rtl) {
+      ::slotted(ids-accordion-panel) {
+        @include pl-24();
+      }
+
+      .ids-accordion-panel {
+        @include pl-24();
+      }
+    }
+
+    // RTL content alignment (padding comes from the right)
+    &.rtl {
+      ::slotted(ids-accordion-panel) {
+        @include pr-24();
+      }
+
+      .ids-accordion-panel {
+        @include pr-24();
+      }
+    }
+  }
+}
+
 .ids-accordion-pane {
   @include box-border();
 
+  contain: content;
   height: 0;
   overflow: hidden;
   transition: height $transition-length $transition-ease;
-}
-
-.ids-accordion-pane-content {
-  @include p-16();
 }
 
 .ids-accordion-pane-title {

@@ -11,6 +11,7 @@ const TOOLBAR_SECTION_ATTRIBUTES = [
 const SECTION_ALIGNS = [
   'align-start',
   'align-center',
+  'align-center-even',
   'align-end'
 ];
 

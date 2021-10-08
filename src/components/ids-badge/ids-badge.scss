@@ -3,6 +3,7 @@
 :host {
   @include inline-flex();
 
+  contain: content;
   text-align: center;
 }
 

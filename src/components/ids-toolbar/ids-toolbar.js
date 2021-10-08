@@ -174,13 +174,13 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @returns {Array<any>} list of all available toolbar items present in all toolbar sections
    */
   get items() {
-    let i = [];
+    const i = [];
     this.sections.forEach((section) => {
       // Pass along the More Actions button, if applicable
       if (section?.name === 'ids-toolbar-more-actions') {
         i.push(section.button);
       } else {
-        i = i.concat([...section.items]);
+        i.push(...section.items);
       }
     });
     return i;
@@ -191,10 +191,10 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @returns {Array<any>} list of all available text nodes present in all toolbar sections
    */
   get textElems() {
-    let i = [];
+    const i = [];
     this.sections.forEach((section) => {
       if (section?.name !== 'ids-toolbar-more-actions') {
-        i = i.concat([...section.textElems]);
+        i.push(...section.textElems);
       }
     });
     return i;
