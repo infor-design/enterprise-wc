@@ -220,8 +220,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   template() {
     return `
       <div class="ids-list-builder">
-        <ids-card>
-          <div slot="card-header">
+          <div class="header">
             <ids-toolbar>
               <ids-toolbar-section type="buttonset">
                 <ids-button id="button-1">
@@ -242,10 +241,9 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
               </ids-toolbar-section>
             </ids-toolbar>
           </div>
-          <div slot="card-content">
+          <div class="content">
             ${super.template()} 
           </div>
-        </ids-card>
         <slot></slot>
       </div>
     `;

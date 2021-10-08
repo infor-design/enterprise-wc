@@ -1,6 +1,21 @@
 @import '../../core/ids-base';
 
 .ids-list-builder {
+  border-radius: 2px;
+  border: 1px solid gray;
+
+  .header {
+    background-color: gray;
+
+    ids-icon {
+      color: white;
+    }
+  }
+
+  .content {
+    background-color: transparent;
+  }
+
   .ids-list-view {
     height: 310px;
     overflow: auto;

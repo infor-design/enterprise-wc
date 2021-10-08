@@ -185,7 +185,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     this.removeAttribute('item-height');
   }
 
-  get itemHeight() { return this.getAttribute('item-height'); }
+  get itemHeight() { return this.getAttribute('item-height') || 50; }
 
   /**
    * Extra padding at the top and bottom so that the data transition smoothly
