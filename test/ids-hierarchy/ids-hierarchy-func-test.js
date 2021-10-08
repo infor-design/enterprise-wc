@@ -45,7 +45,6 @@ describe('IdsHierarchy Component', () => {
   let container;
 
   beforeEach(async () => {
-    jest.spyOn(window, 'requestAnimationFrame').mockImplementation((cb) => cb());
     const elem = new IdsHierarchy();
     const elemItem = new IdsHierarchyItem();
     document.body.appendChild(elem);
@@ -57,7 +56,6 @@ describe('IdsHierarchy Component', () => {
   afterEach(async () => {
     document.body.innerHTML = '';
     el = null;
-    window.requestAnimationFrame.mockRestore();
   });
 
   const createElemViaTemplate = async (innerHTML) => {
@@ -75,19 +73,17 @@ describe('IdsHierarchy Component', () => {
     return el;
   };
 
+  it('renders from HTML Template with no errors', async () => {
+    el = await createElemViaTemplate(DEFAULT_HIERARCHY_HTML);
+
+    const errors = jest.spyOn(global.console, 'error');
+    expect(document.querySelectorAll('ids-hierarchy').length).toEqual(1);
+    expect(errors).not.toHaveBeenCalled();
+  });
+
   it('renders correctly', () => {
     expect(el.outerHTML).toMatchSnapshot();
     expect(item.outerHTML).toMatchSnapshot();
-  });
-
-  it('renders with no errors', () => {
-    const errors = jest.spyOn(global.console, 'error');
-    el.remove();
-    el = new IdsHierarchy();
-    document.body.appendChild(el);
-
-    expect(document.querySelectorAll('ids-hierarchy').length).toEqual(1);
-    expect(errors).not.toHaveBeenCalled();
   });
 
   it('can set the expanded attribute', () => {
