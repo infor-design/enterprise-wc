@@ -114,7 +114,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (IdsStringUtils.stringToBool(this.virtualScroll) && this?.data.length > 0) {
       /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      this.virtualScrollContainer.itemTemplate = (item) => `<li part="list-item">${this.itemTemplate(item)}</li>`;
+      this.virtualScrollContainer.itemTemplate = (item) => `<li part="list-item" tabindex="0">${this.itemTemplate(item)}</li>`;
       this.virtualScrollContainer.itemCount = this.data.length;
       if (!this.virtualScrollContainer.itemHeight) {
         this.virtualScrollContainer.itemHeight = this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
