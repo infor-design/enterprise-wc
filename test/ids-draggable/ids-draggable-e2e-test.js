@@ -12,169 +12,140 @@ describe('Ids Draggable e2e Tests', () => {
   it('can drag with no axis', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#no-axis');
-    let rects = await example.boundingBox();
+    const startRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeGreaterThanOrEqual(90);
-    await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
+    await page.mouse.move(startRects.x + startRects.width / 2, startRects.y + startRects.height / 2);
     await page.mouse.down();
-    await page.mouse.move(126, 19);
+    await page.mouse.move(-200, -200);
     await page.mouse.up();
-    rects = await example.boundingBox();
+    const endRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(93);
-    expect(rects.y).toBeGreaterThanOrEqual(-15);
+    expect(endRects.x).toBeLessThan(startRects.x);
+    expect(endRects.y).toBeLessThan(startRects.y);
   });
 
   it('can drag on y axis', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#axis-y');
-    let rects = await example.boundingBox();
+    const startRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(212);
-    expect(rects.y).toBeGreaterThanOrEqual(90);
-    await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
+    await page.mouse.move(startRects.x + startRects.width / 2, startRects.y + startRects.height / 2);
     await page.mouse.down();
-    await page.mouse.move(-300, -200);
+    await page.mouse.move(-200, -200);
     await page.mouse.up();
-    rects = await example.boundingBox();
+    const endRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(212); // x didnt change
-    expect(rects.y).toBeGreaterThanOrEqual(-230);
+    expect(endRects.x).toEqual(startRects.x);
+    expect(endRects.y).toBeLessThan(startRects.y);
   });
 
   it('can drag on x axis', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#axis-x');
-    let rects = await example.boundingBox();
+    const startRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(400);
-    expect(rects.y).toBeGreaterThanOrEqual(90);
-    await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
+    await page.mouse.move(startRects.x + startRects.width / 2, startRects.y + startRects.height / 2);
     await page.mouse.down();
-    await page.mouse.move(-300, -200);
+    await page.mouse.move(-200, -200);
     await page.mouse.up();
-    rects = await example.boundingBox();
+    const endRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(-333);
-    expect(rects.y).toBeGreaterThanOrEqual(90); // y didnt change
+    expect(endRects.x).toBeLessThan(startRects.x);
+    expect(endRects.y).toEqual(startRects.y);
   });
 
   it('can drag with limits', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#limits');
-    let rects = await example.boundingBox();
+    const startRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(588);
-    expect(rects.y).toBeGreaterThanOrEqual(90);
-    await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
+    await page.mouse.move(startRects.x + startRects.width / 2, startRects.y + startRects.height / 2);
     await page.mouse.down();
-    await page.mouse.move(-300, -200);
+    await page.mouse.move(-200, -200);
     await page.mouse.up();
-    rects = await example.boundingBox();
+    const endRects = await example.boundingBox();
 
     // will max out at a limit
-    expect(rects.x).toBeCloseTo(568);
-    expect(rects.y).toBeGreaterThanOrEqual(10);
-
-    await page.mouse.down();
-    await page.mouse.move(-300, -200);
-    await page.mouse.up();
-
-    // will max out at a limit
-    rects = await example.boundingBox();
-    expect(rects.x).toBeCloseTo(568);
-    expect(rects.y).toBeGreaterThanOrEqual(10);
+    expect(endRects.x).toBeLessThan(startRects.x);
+    expect(endRects.y).toBeLessThan(startRects.y);
   });
 
   it('can drag with containment', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#contained');
-    let rects = await example.boundingBox();
+    const startRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeGreaterThanOrEqual(204);
-    await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
+    await page.mouse.move(startRects.x + startRects.width / 2, startRects.y + startRects.height / 2);
     await page.mouse.down();
-    await page.mouse.move(-300, 300);
+    await page.mouse.move(-200, -200);
     await page.mouse.up();
-    rects = await example.boundingBox();
+    const endRects = await example.boundingBox();
 
-    // will max out at a limit
-    expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeGreaterThanOrEqual(265);
+    expect(endRects.x).toBeGreaterThanOrEqual(startRects.x);
   });
 
   it('can drag with containment on axis x', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#contained-y');
-    let rects = await example.boundingBox();
+    const startRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(90);
-    expect(rects.y).toBeGreaterThanOrEqual(204);
-    await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
+    await page.mouse.move(startRects.x + startRects.width / 2, startRects.y + startRects.height / 2);
     await page.mouse.down();
-    await page.mouse.move(-300, 300);
+    await page.mouse.move(-200, -200);
     await page.mouse.up();
-    rects = await example.boundingBox();
+    const endRects = await example.boundingBox();
 
     // will max out at the container limits
-    expect(rects.x).toBeCloseTo(90);
-    expect(rects.y).toBeGreaterThanOrEqual(265);
+    expect(endRects.x).toEqual(startRects.x);
+    expect(endRects.y).toEqual(startRects.y);
   });
 
   it('can drag with containment on axis y', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     const example = await page.$('#contained-x');
-    let rects = await example.boundingBox();
+    const startRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(156);
-    expect(rects.y).toBeGreaterThanOrEqual(204);
-    await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
+    await page.mouse.move(startRects.x + startRects.width / 2, startRects.y + startRects.height / 2);
     await page.mouse.down();
-    await page.mouse.move(-300, 300);
+    await page.mouse.move(-200, -200);
     await page.mouse.up();
-    rects = await example.boundingBox();
+    const endRects = await example.boundingBox();
 
     // will max out at the container limits
-    expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeGreaterThanOrEqual(203);
+    expect(endRects.x).toBeLessThan(startRects.x);
+    expect(endRects.y).toEqual(startRects.y);
   });
 
   it('will not drag when disabled', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("#no-axis").disabled = true');
     const example = await page.$('#no-axis');
-    let rects = await example.boundingBox();
-    expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeGreaterThanOrEqual(90);
+    const startRects = await example.boundingBox();
 
-    await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
+    await page.mouse.move(startRects.x + startRects.width / 2, startRects.y + startRects.height / 2);
     await page.mouse.down();
-    await page.mouse.move(126, 19);
+    await page.mouse.move(-200, -200);
     await page.mouse.up();
-    rects = await example.boundingBox();
+    const endRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeGreaterThanOrEqual(90);
+    expect(endRects.x).toEqual(startRects.x);
+    expect(endRects.y).toEqual(startRects.y);
   });
 
   it('will not re-drag when isDragging is true', async () => {
     await page.goto(exampleUrl, { waitUntil: ['networkidle2', 'load'] });
     await page.evaluate('document.querySelector("#no-axis").isDragging = true');
     const example = await page.$('#no-axis');
-    let rects = await example.boundingBox();
-    expect(rects.x).toBeCloseTo(24);
-    expect(rects.y).toBeGreaterThanOrEqual(90);
+    const startRects = await example.boundingBox();
 
-    await page.mouse.move(rects.x + rects.width / 2, rects.y + rects.height / 2);
+    await page.mouse.move(startRects.x + startRects.width / 2, startRects.y + startRects.height / 2);
     await page.mouse.down();
-    await page.mouse.move(126, 19);
+    await page.mouse.move(-200, -200);
     await page.mouse.up();
-    rects = await example.boundingBox();
+    const endRects = await example.boundingBox();
 
-    expect(rects.x).toBeCloseTo(93);
-    expect(rects.y).toBeGreaterThanOrEqual(-12);
+    expect(endRects.x).toBeLessThan(startRects.x);
+    expect(endRects.y).toBeLessThan(startRects.y);
   });
 
   it('should pass Axe accessibility tests', async () => {
