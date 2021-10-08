@@ -25,6 +25,8 @@ import styles from './ids-list-view.scss';
  * @part list - the ul list element
  * @part list-item - the li list element
  */
+
+const DEFAULT_HEIGHT = 310;
 @customElement('ids-list-view')
 @scss(styles)
 class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
@@ -47,7 +49,9 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     return [
       attributes.VIRTUAL_SCROLL,
       attributes.MODE,
-      attributes.VERSION
+      attributes.VERSION,
+      attributes.HEIGHT,
+      attributes.ITEM_HEIGHT
     ];
   }
 
@@ -75,7 +79,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   dynamicScrollTemplate() {
     const html = `
-      <ids-virtual-scroll height="310" item-height="75">
+      <ids-virtual-scroll height=${this.height} item-height="${this.itemHeight}">
         <div class="ids-list-view" part="container">
           <ul slot="contents" part="list">
           </ul>
@@ -97,7 +101,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Return a item's html injecting any values from the dataset as needed.
+   * Return an item's html injecting any values from the dataset as needed.
    * @param  {object} item The item to generate
    * @returns {string} The html for this item
    */
@@ -111,18 +115,21 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   render() {
     super.render();
-    if (IdsStringUtils.stringToBool(this.virtualScroll) && this?.data.length > 0) {
+    if (this.virtualScroll && this?.data.length > 0) {
       /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.itemTemplate = (item) => `<li part="list-item" tabindex="0">${this.itemTemplate(item)}</li>`;
       this.virtualScrollContainer.itemCount = this.data.length;
-      if (!this.virtualScrollContainer.itemHeight) {
-        this.virtualScrollContainer.itemHeight = this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
-      }
+      this.virtualScrollContainer.itemHeight = this.itemHeight || this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
       this.virtualScrollContainer.data = this.data;
-
       this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
     }
+
+    this.adjustHeight();
+  }
+
+  adjustHeight() {
+    this.shadowRoot.querySelector('.ids-list-view').style.height = `${this.height}px`;
   }
 
   /**
@@ -136,6 +143,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const tester = this.shadowRoot.querySelector('#height-tester');
     const height = tester.offsetHeight;
     tester.remove();
+
     return height;
   }
 
@@ -163,7 +171,31 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.render();
   }
 
-  get virtualScroll() { return this.getAttribute(attributes.VIRTUAL_SCROLL); }
+  get virtualScroll() { return IdsStringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+
+  set height(value) {
+    if (value) {
+      this.setAttribute(attributes.HEIGHT, value);
+    } else {
+      this.setAttribute(attributes.HEIGHT, DEFAULT_HEIGHT);
+    }
+  }
+
+  get height() {
+    return this.getAttribute(attributes.HEIGHT) || DEFAULT_HEIGHT;
+  }
+
+  set itemHeight(value) {
+    if (value) {
+      this.setAttribute(attributes.ITEM_HEIGHT, value);
+    } else {
+      this.removeAttribute(attributes.ITEM_HEIGHT);
+    }
+  }
+
+  get itemHeight() {
+    return this.getAttribute(attributes.ITEM_HEIGHT) || false;
+  }
 }
 
 export default IdsListView;
