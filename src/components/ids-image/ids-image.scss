@@ -75,7 +75,7 @@ $images-size: (
 
   // placeholder styles
   &.placeholder {
-    @include flex();
+    @include inline-flex();
     @include p-20();
     @include border-slate-20();
     @include box-border();

@@ -129,6 +129,7 @@ describe('IdsImage Component (using attributes)', () => {
 
     component.src = newSrc;
     component.alt = newAlt;
+
     expect(component.shadowRoot.querySelector('img').src).toEqual(newSrc);
     expect(component.shadowRoot.querySelector('img').alt).toEqual(newAlt);
   });
@@ -160,5 +161,12 @@ describe('IdsImage Component (empty)', () => {
 
   it('should render placeholder', () => {
     expect(component.shadowRoot.querySelector('.placeholder')).toBeTruthy();
+  });
+
+  it('should render image after src changed', () => {
+    component.src = src;
+
+    expect(component.shadowRoot.querySelector('.placeholder')).toBeFalsy();
+    expect(component.shadowRoot.querySelector('img')).toBeTruthy();
   });
 });
