@@ -50,7 +50,6 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.SRC,
       attributes.ALT,
       attributes.SIZE,
-      attributes.TABINDEX,
       attributes.PLACEHOLDER,
       attributes.FALLBACK
     ];
@@ -61,6 +60,16 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
+    // placeholder attribute or no src attribute provided
+    if (this.placeholder || !this.src) {
+      return `
+        <div class="ids-image placeholder" tabindex="0">
+          <span class="audible">Placeholder Image</span>
+          <ids-icon icon="insert-image"></ids-icon>
+        </div>
+      `;
+    }
+
     return `<img class="ids-image" src="${this.src}" alt="${this.alt}" tabindex="0" />`;
   }
 
@@ -69,23 +78,25 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {object} The object for chaining
    */
   attachEventHandlers() {
-    this.offEvent('error.image');
-    this.onEvent('error.image', this.container, () => {
-      if (this.fallback) {
-        // Removing img on error loading
-        this.shadowRoot.querySelector('img').remove();
+    if (this.src && !this.placeholder) {
+      this.offEvent('error.image');
+      this.onEvent('error.image', this.container, () => {
+        if (this.fallback) {
+          // Removing img on error loading
+          this.shadowRoot.querySelector('img').remove();
 
-        // Adding placeholder element
-        const div = document.createElement('div');
-        div.classList = 'ids-image placeholder';
-        div.setAttribute('tabindex', 0);
-        div.innerHTML = `
-          <span class="audible">Placeholder Image</span>
-          <ids-icon icon="insert-image" size="medium"></ids-icon>
-        `;
-        this.shadowRoot.appendChild(div);
-      }
-    });
+          // Adding placeholder element
+          const div = document.createElement('div');
+          div.classList = 'ids-image placeholder';
+          div.setAttribute('tabindex', 0);
+          div.innerHTML = `
+            <span class="audible">Placeholder Image</span>
+            <ids-icon icon="insert-image"></ids-icon>
+          `;
+          this.shadowRoot.appendChild(div);
+        }
+      });
+    }
 
     return this;
   }
@@ -167,7 +178,9 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get placeholder() {
-    return this.getAttribute(attributes.PLACEHOLDER);
+    const attrVal = this.getAttribute(attributes.PLACEHOLDER);
+
+    return IdsStringUtils.stringToBool(attrVal);
   }
 
   set fallback(val) {
@@ -183,16 +196,10 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get fallback() {
-    return this.getAttribute(attributes.FALLBACK);
+    const attrVal = this.getAttribute(attributes.FALLBACK);
+
+    return IdsStringUtils.stringToBool(attrVal);
   }
-
-  // get tabIndex() {
-
-  // }
-
-  // set tabIndex(val) {
-
-  // }
 }
 
 export default IdsImage;
