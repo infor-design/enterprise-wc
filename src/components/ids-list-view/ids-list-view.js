@@ -60,13 +60,21 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} html
    */
   staticScrollTemplate() {
-    const listItems = this.data?.map((item) => `<li part="list-item">${this.itemTemplate(item)}</li>`);
+    // save this variable for list item template (to use in checkTemplateHeight)
+    const listItems = this.data?.map((item) => `
+      <ids-draggable>
+        <li part="list-item">
+          <span></span>
+          ${this.itemTemplate(item)}
+        </li>
+      </ids-draggable>
+    `);
 
     const html = `
       <div class="ids-list-view" part="container">
-        <ul part="list">
+        <div part="list">
           ${listItems.length > 0 ? listItems.reduce((htmlA, htmlB) => htmlA + htmlB) : ''}
-        </ul>
+        </div>
       </div>
     `;
 
@@ -81,8 +89,8 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const html = `
       <ids-virtual-scroll height=${this.height} item-height="${this.itemHeight}">
         <div class="ids-list-view" part="container">
-          <ul slot="contents" part="list">
-          </ul>
+          <div slot="contents" part="list">
+          </div>
         </div>
       </ids-virtual-scroll>
     `;
@@ -118,7 +126,14 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     if (this.virtualScroll && this?.data.length > 0) {
       /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      this.virtualScrollContainer.itemTemplate = (item) => `<li part="list-item" tabindex="0">${this.itemTemplate(item)}</li>`;
+      this.virtualScrollContainer.itemTemplate = (item) => `
+        <ids-draggable axis="y">  
+          <li part="list-item" tabindex="0">
+            <span></span>
+            ${this.itemTemplate(item)}
+          </li>
+        </ids-draggable>
+      `;
       this.virtualScrollContainer.itemCount = this.data.length;
       this.virtualScrollContainer.itemHeight = this.itemHeight || this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
       this.virtualScrollContainer.data = this.data;
@@ -139,7 +154,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {number} The item height
    */
   checkTemplateHeight(itemTemplate) {
-    this.shadowRoot.querySelector('.ids-list-view ul').insertAdjacentHTML('beforeEnd', itemTemplate);
+    this.shadowRoot.querySelector('.ids-list-view div').insertAdjacentHTML('beforeEnd', itemTemplate);
     const tester = this.shadowRoot.querySelector('#height-tester');
     const height = tester.offsetHeight;
     tester.remove();

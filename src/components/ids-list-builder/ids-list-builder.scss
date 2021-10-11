@@ -19,22 +19,16 @@
   .ids-list-view {
     overflow: auto;
 
-    // ul {
-    //   @include list-none();
-    //   @include px-0();
-    //   @include m-0();
-    // }
-
     li {
       @include list-none();
       @include py-12();
       @include px-20();
-      
+
       &[selected='selected']{
         background-color: rgba(51, 170, 51, 0.8);
       }
 
-      &:hover span:after {
+      &:hover span::after {
         position: absolute;
         left: 0;
         transform: translate(100%, -8%);
