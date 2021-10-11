@@ -173,6 +173,7 @@
   - Markup has changed to a custom element `<ids-upload></ids-upload>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+  - Shows percent progress on file
 - `[Upload Advanced]` The file upload advanced component has been changed to a web component and renamed to ids-upload-advanced.
   - Markup has changed to a custom element `<ids-upload-advanced></ids-upload-advanced>`
   - Each file ui sections now use as components `<ids-upload-advanced-file></ids-upload-advanced-file>`
