@@ -109,7 +109,6 @@ Example with legend
 </ids-hierarchy>
 ```
 
-
 ## States and Variations
 
 - **root-item**: This is an attribute that can be added the top level `ids-hierarchy-item`. This is added to adjust the styling of the root item.
