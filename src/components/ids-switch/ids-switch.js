@@ -256,6 +256,13 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
   }
 
   get value() { return this.getAttribute(attributes.VALUE); }
+
+  /**
+   * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
+   */
+  focus() {
+    this.input.focus();
+  }
 }
 
 export default IdsSwitch;
