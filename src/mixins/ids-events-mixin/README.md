@@ -33,4 +33,3 @@ The events mixin also lets you use a few convenient "custom events" for common i
 - `swipe` Fires when a user swipes left or right on a scrollable element. The direction can be seen in `event.detail`
 - `longpress` Fires when the user presses and olds on a touch device.
 - `keydown` Fires when the user presses a sequence of keys and stops typing
-
