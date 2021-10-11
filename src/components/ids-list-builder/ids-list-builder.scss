@@ -19,13 +19,14 @@
   .ids-list-view {
     overflow: auto;
 
-    ul {
-      @include list-none();
-      @include px-0();
-      @include m-0();
-    }
+    // ul {
+    //   @include list-none();
+    //   @include px-0();
+    //   @include m-0();
+    // }
 
     li {
+      @include list-none();
       @include py-12();
       @include px-20();
       
@@ -33,16 +34,13 @@
         background-color: rgba(51, 170, 51, 0.8);
       }
 
-      &:hover {
-        // TODO: make RTL version
-        &::before {
-          position: absolute;
-          left: 0;
-          transform: translate(100%, -8%);
-          content: '⁞';
-          font-size: 24px;
-          cursor: move;
-        }
+      &:hover span:after {
+        position: absolute;
+        left: 0;
+        transform: translate(100%, -8%);
+        font-size: 24px;
+        content: '⁞';
+        cursor: move;
       }
 
       &:hover:not(:focus) {

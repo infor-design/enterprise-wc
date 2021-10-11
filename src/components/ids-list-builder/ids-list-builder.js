@@ -40,7 +40,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '1 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -49,7 +49,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '2 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -58,7 +58,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '3 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -67,7 +67,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '4 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -76,7 +76,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '5 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -85,7 +85,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '6 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -94,7 +94,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '7 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -103,7 +103,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '8 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -112,7 +112,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '9 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -121,7 +121,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '10 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -130,7 +130,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '11 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -139,7 +139,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '12 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -148,52 +148,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       {
         id: 1,
         productId: '7439937961',
-        productName: 'Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: 'Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: 'Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: 'Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: 'Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: 'Steampan Lid',
+        productName: '13 Steampan Lid',
         inStock: true,
         units: '9',
         unitPrice: 23,
@@ -263,6 +218,30 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.#attachDragEventListeners();
   }
 
+  // helper method for swapping nodes
+  #swap(nodeA, nodeB) {
+    const parentA = nodeA.parentNode;
+    const siblingA = nodeA.nextSibling === nodeB ? nodeA : nodeA.nextSibling;
+
+    nodeB.parentNode.insertBefore(nodeA, nodeB);
+    parentA.insertBefore(nodeB, siblingA);
+  }
+
+  // helper method to determine which node is above
+  #isAbove(nodeA, nodeB) {
+    const rectA = nodeA.getBoundingClientRect();
+    const rectB = nodeB.getBoundingClientRect();
+
+    return rectA.top + rectA.height / 2 < rectB.top + rectB.height / 2;
+  }
+
+  #createPlaceholder(height) {
+    const p = document.createElement('div');
+    p.style.height = `${height}px`;
+    p.style.border = `solid 1px red`;
+    return p;
+  }
+
   #attachClickListeners() {
     this.onEvent('click', this.container.querySelector('ul'), (event) => {
       let item = event.target;
@@ -276,14 +255,38 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         item.focus();
       }
     });
+
+    this.container.querySelectorAll('ids-draggable').forEach((s) => {
+      this.onEvent('ids-drag', s, (event) => {
+        console.log('li span dragged!!')
+      });
+
+      let placeholder;
+      this.onEvent('ids-dragstart', s, (event) => {
+        placeholder = this.#createPlaceholder(s.getBoundingClientRect().height);
+        // placeholder = document.createElement('div');
+        // placeholder.classList.add('placeholder');
+        s.parentNode.insertBefore(
+          placeholder,
+          s.nextSibling
+        );
+
+        // placeholder.style.height = `${s.getBoundingClientRect().height}px`;
+        // placeholder.style.border = `solid 1px red`;
+      });
+
+      this.onEvent('ids-dragend', s, (event) => {
+        placeholder && placeholder.remove();
+      });
+    });
   }
 
   #attachDragEventListeners() {
     // this.onEvent('ids-drag', liObject, (event) => {
-      // const [x, y] = [e.detail.mouseX, e.detail.mouseY];
-      // console.log(x + ', ' + y);
-    //   const target = event.target;
-    //   console.log(target)
+    //   const [x, y] = [e.detail.mouseX, e.detail.mouseY];
+    //   console.log(x + ', ' + y);
+    //   // const target = event.target;
+    //   // console.log(target)
     // })
   }
 }
