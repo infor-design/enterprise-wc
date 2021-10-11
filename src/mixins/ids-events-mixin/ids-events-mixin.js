@@ -11,7 +11,6 @@ const IdsEventsMixin = (superclass) => class extends superclass {
   constructor() {
     super();
     this.handledEvents = new Map();
-    console.log(this);
 
     // for event-subscription related logic, bind "this" of the
     // functions to the class instance to avoid this calls from
