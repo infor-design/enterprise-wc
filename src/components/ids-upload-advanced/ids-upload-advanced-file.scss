@@ -64,19 +64,19 @@
         @include font-normal();
         @include block();
         @include m-0();
-        min-width: 48px;
 
-        .percent {
-          color: var(--ids-color-palette-azure-60);
-          font-weight: bold;
-        }
-  
-        .bar {
-          margin-left: 3px;
-          margin-right: 3px;
-        }
+        min-width: 48px;
       }
 
+      .percent {
+        color: var(--ids-color-palette-azure-60);
+        font-weight: bold;
+      }
+
+      .bar {
+        margin-left: 3px;
+        margin-right: 3px;
+      }
 
       .btn-close {
         @include mx-2();
