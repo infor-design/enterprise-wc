@@ -1,4 +1,4 @@
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop-mixin/ids-render-loop-mixin';
+import { IdsRenderLoopItem } from '../ids-render-loop-mixin/ids-render-loop-mixin';
 import { IdsStringUtils as stringUtils } from '../../utils';
 
 /**

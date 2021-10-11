@@ -1,5 +1,4 @@
 import { attributes } from '../../core';
-import { IdsEventsMixin } from '../ids-events-mixin';
 import IdsTooltip from '../../components/ids-tooltip';
 
 /**

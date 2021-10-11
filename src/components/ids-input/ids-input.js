@@ -8,6 +8,7 @@ import {
 
 // Import Mixins
 import {
+  IdsRenderLoopMixin,
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsClearableMixin,
@@ -69,6 +70,7 @@ const TEXT_ALIGN = {
 };
 
 const appliedMixins = [
+  IdsRenderLoopMixin,
   IdsEventsMixin,
   IdsClearableMixin,
   IdsColorVariantMixin,
@@ -91,6 +93,7 @@ let instanceCounter = 0;
  * @mixes IdsKeyboardMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsRenderLoopMixin
  * @mixes IdsMaskMixin
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
