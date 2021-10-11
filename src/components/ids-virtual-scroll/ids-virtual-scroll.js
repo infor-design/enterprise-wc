@@ -160,7 +160,13 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-virtual-scroll" tabindex="0"><div class="ids-virtual-scroll-viewport"><slot></slot></div></div>`;
+    return `
+      <div class="ids-virtual-scroll" tabindex="0">
+        <div class="ids-virtual-scroll-viewport">
+          <slot></slot>
+        </div>
+      </div>
+    `;
   }
 
   /**
