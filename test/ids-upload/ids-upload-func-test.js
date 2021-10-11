@@ -135,16 +135,16 @@ describe('IdsUpload Component', () => {
 
   it('should disable and enable', () => {
     expect(upload.getAttribute('disabled')).toEqual(null);
-    expect(upload.textInput.readonly).toBe('true');
-    expect(upload.textInput.disabled).toBe(null);
+    expect(upload.textInput.readonly).toBe(true);
+    expect(upload.textInput.disabled).toBe(false);
     upload.disabled = true;
     expect(upload.getAttribute('disabled')).toEqual('true');
-    expect(upload.textInput.readonly).toBe(null);
-    expect(upload.textInput.disabled).toBe('true');
+    expect(upload.textInput.readonly).toBe(false);
+    expect(upload.textInput.disabled).toBe(true);
     upload.disabled = false;
     expect(upload.getAttribute('disabled')).toEqual(null);
-    expect(upload.textInput.readonly).toBe('true');
-    expect(upload.textInput.disabled).toBe(null);
+    expect(upload.textInput.readonly).toBe(true);
+    expect(upload.textInput.disabled).toBe(false);
   });
 
   it('renders field as readonly', () => {

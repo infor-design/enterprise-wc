@@ -3,6 +3,7 @@ import {
   customElement,
   appendIds,
   mix,
+  scss,
   attributes
 } from '../../core';
 
@@ -19,6 +20,7 @@ import {
 } from '../../mixins';
 
 import IdsPopup from '../ids-popup/ids-popup';
+import styles from './ids-tooltip.scss';
 
 /**
  * IDS Tooltip Component
@@ -32,6 +34,7 @@ import IdsPopup from '../ids-popup/ids-popup';
  */
 @customElement('ids-tooltip')
 @appendIds()
+@scss(styles)
 class IdsTooltip extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
@@ -53,8 +56,6 @@ class IdsTooltip extends mix(IdsElement).with(
    * Invoked each time the custom element is appended into a document-connected element,
    */
   connectedCallback() {
-    // Setup a reference to the popup element in the shadow root
-    this.popup = this.shadowRoot.firstElementChild;
     this.#updateAria();
   }
 
@@ -143,7 +144,7 @@ class IdsTooltip extends mix(IdsElement).with(
 
       /* istanbul ignore next */
       this.onEvent('click.popup', this.popup, () => {
-        this.visible = false;
+        this.visible = true;
       });
     }
 
@@ -187,12 +188,10 @@ class IdsTooltip extends mix(IdsElement).with(
     this.popup.arrow = this.placement;
 
     if (this.placement === 'top' || this.placement === 'bottom') {
-      this.popup.x = 0;
-      this.popup.y = 10;
+      this.popup.setPosition(0, 10);
     }
     if (this.placement === 'left' || this.placement === 'right') {
-      this.popup.x = 10;
-      this.popup.y = 0;
+      this.popup.setPosition(10, 0);
     }
   }
 
@@ -255,7 +254,7 @@ class IdsTooltip extends mix(IdsElement).with(
     // Show the popup
     this.#configurePopup();
     this.popup.visible = true;
-    this.state.visible = true;
+    this.popup.place();
     this.triggerEvent('show', this, { detail: { elem: this } });
   }
 
@@ -264,8 +263,15 @@ class IdsTooltip extends mix(IdsElement).with(
    */
   #hide() {
     this.popup.visible = false;
-    this.state.visible = false;
     this.triggerEvent('hide', this, { detail: { elem: this } });
+  }
+
+  /**
+   * @readonly
+   * @returns {IdsPopup} reference to the internal IdsPopup component
+   */
+  get popup() {
+    return this.shadowRoot.querySelector('ids-popup');
   }
 
   /**
@@ -359,23 +365,26 @@ class IdsTooltip extends mix(IdsElement).with(
    * @param {string|boolean} value The target element selector
    */
   set visible(value) {
-    this.state.visible = IdsStringUtils.stringToBool(value);
+    const trueVal = IdsStringUtils.stringToBool(value);
+    if (this.state.visible !== trueVal) {
+      this.state.visible = trueVal;
 
-    if (!this.popup.alignTarget) {
-      this.popup.alignTarget = typeof this.target === 'object'
-        ? this.target
-        : document.querySelectorAll(this.target)[0];
+      if (!this.popup.alignTarget) {
+        this.popup.alignTarget = typeof this.target === 'object'
+          ? this.target
+          : document.querySelectorAll(this.target)[0];
+      }
+
+      if (this.state.visible) {
+        this.setAttribute('visible', 'true');
+        this.#show();
+        return;
+      }
+
+      this.popup.alignTarget = null;
+      this.removeAttribute('visible');
+      this.#hide();
     }
-
-    if (this.state.visible) {
-      this.setAttribute('visible', 'true');
-      this.#show();
-      return;
-    }
-
-    this.popup.alignTarget = null;
-    this.removeAttribute('visible');
-    this.#hide();
   }
 
   get visible() { return this.state.visible; }

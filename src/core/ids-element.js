@@ -14,13 +14,8 @@ import IdsRenderLoopItem from '../components/ids-render-loop/ids-render-loop-ite
 import { IdsStringUtils as stringUtils } from '../utils';
 
 /**
- * simple dictionary used to memoize attribute names
+ * Simple dictionary used to cache attribute names
  * to their corresponding property names.
- *
- * Prepopulates with attribs stored in ids-constants,
- * but may have other non-standard attrib names added
- * that are not specified.
- *
  * @type {object.<string, string>}
  */
 const attribPropNameDict = Object.fromEntries(
@@ -152,19 +147,22 @@ class IdsElement extends HTMLElement {
    * @returns {object} The object for chaining.
    */
   render() {
-    if (!this.template || !this.template()) {
+    if (!this.template) {
+      return this;
+    }
+
+    const templateHTML = this.template();
+    if (!templateHTML) {
       return this;
     }
 
     // Make template and shadow objects
     const template = document.createElement('template');
-
     if (this.shadowRoot?.innerHTML) {
-      this.shadowRoot.innerHTML = '';
-      // Append the style sheet for safari
-      if (!this.shadowRoot.adoptedStyleSheets) {
-        this.hasStyles = false;
-        this.appendStyles();
+      for (const el of this.shadowRoot.children) {
+        if (el.nodeName !== 'STYLE') {
+          el.remove();
+        }
       }
     }
 
@@ -173,16 +171,15 @@ class IdsElement extends HTMLElement {
     }
 
     this.appendStyles();
-    template.innerHTML = this.template();
+    template.innerHTML = templateHTML;
     this.shadowRoot?.appendChild(template.content.cloneNode(true));
 
-    /** @type {any} */
     this.container = this.shadowRoot?.querySelector(`.${this.name}`);
-    if (!this.shadowRoot.adoptedStyleSheets && !this.container) {
-      this.container = this.shadowRoot?.firstElementChild.nextSibling;
+    if (this.shadowRoot?.firstElementChild.nodeName === 'STYLE' && !this.container) {
+      this.container = this.shadowRoot?.firstElementChild.nextElementSibling;
     }
-    /* istanbul ignore next */
-    if (!this.container) {
+
+    if (this.shadowRoot?.firstElementChild.nodeName !== 'STYLE' && !this.container) {
       this.container = this.shadowRoot?.firstElementChild;
     }
 
@@ -192,9 +189,6 @@ class IdsElement extends HTMLElement {
         duration: 1,
         timeoutCallback: () => {
           this.rendered();
-          // Remove any close hidden element to avoid FOUC
-          this.closest('div[role="main"][hidden]')?.removeAttribute('hidden');
-          this.closest('ids-container')?.removeAttribute('hidden');
         }
       }));
     }
@@ -214,6 +208,22 @@ class IdsElement extends HTMLElement {
   }
 
   /**
+   * @returns {string} gets the nonce from the meta tag
+   */
+  get nonce() {
+    this.cachedNonce = '';
+    if (!document.nonce) {
+      const csp = document.querySelector('meta[http-equiv="Content-Security-Policy"]');
+      if (csp) {
+        let nonce = csp.getAttribute('content').match(/'nonce-(.*?)'/g);
+        nonce = nonce ? nonce[0]?.replace('\'nonce-', '').replace('\'', '') : undefined;
+        document.nonce = nonce;
+      }
+    }
+    return document.nonce;
+  }
+
+  /**
    * Append Styles if present
    * @private
    */
@@ -222,21 +232,11 @@ class IdsElement extends HTMLElement {
       return;
     }
 
-    if (this.cssStyles && !this.shadowRoot.adoptedStyleSheets && typeof this.cssStyles === 'string') {
-      const style = document.createElement('style');
-      style.textContent = this.cssStyles;
-      if (/^:(:)?host/.test(style.textContent)) {
-        style.textContent = style.textContent.replace(/^:(:)?host/, `.${this.name}`);
-      }
-      style.setAttribute('nonce', '0a59a005'); // TODO: Make this a setting
-      this.shadowRoot?.appendChild(style);
-    }
+    const style = document.createElement('style');
+    style.textContent = this.cssStyles;
+    style.setAttribute('nonce', this.nonce);
 
-    if (this.cssStyles && this.shadowRoot.adoptedStyleSheets) {
-      const style = new CSSStyleSheet();
-      style.replaceSync(this.cssStyles);
-      this.shadowRoot.adoptedStyleSheets = [style];
-    }
+    this.shadowRoot?.appendChild(style);
     this.hasStyles = true;
   }
 }

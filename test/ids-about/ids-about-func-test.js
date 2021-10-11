@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+
 import IdsAbout from '../../src/components/ids-about';
 
 // Supporing components
@@ -173,7 +175,7 @@ describe('IdsAbout Component (using attributes)', () => {
   });
 });
 
-describe('IdsABout Component (empty)', () => {
+describe('IdsAbout Component (empty)', () => {
   let component;
 
   beforeEach(async () => {
@@ -229,9 +231,24 @@ describe('IdsABout Component (empty)', () => {
 
     expect(component.deviceSpecs).toBeFalsy();
   });
+
+  it('can click outside and it wont close', (done) => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+
+    component.visible = true;
+    setTimeout(() => {
+      document.body.dispatchEvent(clickEvent);
+      component.onOutsideClick();
+
+      setTimeout(() => {
+        expect(component.visible).toEqual(true);
+        done();
+      });
+    }, 70);
+  });
 });
 
-describe('IdsABout Component locale', () => {
+describe('IdsAbout Component locale', () => {
   let component;
   let container;
 

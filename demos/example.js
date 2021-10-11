@@ -2,6 +2,7 @@
 import accordionYaml from './ids-accordion/index.yaml';
 import aboutYaml from './ids-about/index.yaml';
 import alertYaml from './ids-alert/index.yaml';
+import appMenuYaml from './ids-app-menu/index.yaml';
 import badgeYaml from './ids-badge/index.yaml';
 import blockGridYaml from './ids-block-grid/index.yaml';
 import breadcrumbYaml from './ids-breadcrumb/index.yaml';
@@ -13,9 +14,11 @@ import colorPickerYaml from './ids-color-picker/index.yaml';
 import countsYaml from './ids-counts/index.yaml';
 import dataGridYaml from './ids-data-grid/index.yaml';
 import draggableYaml from './ids-draggable/index.yaml';
+import dropdownYaml from './ids-dropdown/index.yaml';
 import expandableAreaYaml from './ids-expandable-area/index.yaml';
 import fieldsetYaml from './ids-fieldset/index.yaml';
 import hierarchyYaml from './ids-hierarchy/index.yaml';
+import homePageYaml from './ids-home-page/index.yaml';
 import hyperlinkYaml from './ids-hyperlink/index.yaml';
 import iconYaml from './ids-icon/index.yaml';
 import inputYaml from './ids-input/index.yaml';
@@ -34,6 +37,7 @@ import progressChartYaml from './ids-progress-chart/index.yaml';
 import radioYaml from './ids-radio/index.yaml';
 import ratingYaml from './ids-rating/index.yaml';
 import scrollViewYaml from './ids-scroll-view/index.yaml';
+import searchFieldYaml from './ids-search-field/index.yaml';
 import skiplinkActionYaml from './ids-skip-link/index.yaml';
 import sliderYaml from './ids-slider/index.yaml';
 import spinboxActionYaml from './ids-spinbox/index.yaml';
@@ -53,6 +57,7 @@ import uploadYaml from './ids-upload/index.yaml';
 import uploadAdvancedYaml from './ids-upload-advanced/index.yaml';
 import wizardYaml from './ids-wizard/index.yaml';
 import virtualScrollYaml from './ids-virtual-scroll/index.yaml';
+import typographyYaml from './typography/index.yaml';
 
 // Import Styles
 import './example.scss';
@@ -65,7 +70,8 @@ const categories = [
   { name: 'Lists', icon: 'spreadsheet', components: [] },
   { name: 'Layouts', icon: 'project', components: [] },
   // { name: 'Patterns', icon: 'design-mode', components: [] },
-  { name: 'Charts and Visualizations', icon: 'line-bar-chart', components: [] }
+  { name: 'Charts and Visualizations', icon: 'line-bar-chart', components: [] },
+  { name: 'Typography', icon: '', components: [] },
 ];
 
 const addYaml = (yaml) => {
@@ -77,6 +83,7 @@ const addYaml = (yaml) => {
 addYaml(accordionYaml);
 addYaml(aboutYaml);
 addYaml(alertYaml);
+addYaml(appMenuYaml);
 addYaml(badgeYaml);
 addYaml(blockGridYaml);
 addYaml(breadcrumbYaml);
@@ -88,9 +95,11 @@ addYaml(colorPickerYaml);
 addYaml(countsYaml);
 addYaml(dataGridYaml);
 addYaml(draggableYaml);
+addYaml(dropdownYaml);
 addYaml(expandableAreaYaml);
 addYaml(fieldsetYaml);
 addYaml(hierarchyYaml);
+addYaml(homePageYaml);
 addYaml(hyperlinkYaml);
 addYaml(iconYaml);
 addYaml(inputYaml);
@@ -109,6 +118,7 @@ addYaml(progressChartYaml);
 addYaml(radioYaml);
 addYaml(ratingYaml);
 addYaml(scrollViewYaml);
+addYaml(searchFieldYaml);
 addYaml(skiplinkActionYaml);
 addYaml(sliderYaml);
 addYaml(spinboxActionYaml);
@@ -128,6 +138,7 @@ addYaml(uploadYaml);
 addYaml(uploadAdvancedYaml);
 addYaml(virtualScrollYaml);
 addYaml(wizardYaml);
+addYaml(typographyYaml);
 
 let html = '';
 categories.forEach((category) => {

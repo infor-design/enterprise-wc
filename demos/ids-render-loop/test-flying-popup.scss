@@ -20,7 +20,6 @@ div[role='main'] {
 .align-target {
   @include font-bold();
   @include text-white();
-  @include text-40();
 
   height: $target-size;
   position: absolute;

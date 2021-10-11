@@ -2,6 +2,10 @@
 
 ## 5.0.0 Breaking Changes
 
+- `[App Menu]` The App Menu component is now a web component. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
+  - Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
+  - Can now be imported as a single JS file and used with encapsulated styles
+  - Sections are now slotted for easier use.  Accordion is the main slot, and other areas (toolbars, user info, etc) are named slots.
 - `[Button]` The button component has been changed to a web component. ([#4390](https://github.com/infor-design/enterprise/issues/4390))
   - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
   - Can now be imported as a single JS file and used with encapsulated styles.
@@ -38,6 +42,10 @@
   - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
   - Can now be imported as a single JS file and used with encapsulated styles.
 - `[Header]` Created an ids header web component. The <ids-header></ids-header> custom element has a color attribute that can be applied to personalize the background color.
+- `[HomePage]` The HomePage component has been changed to a web component and use with ids-home-page.
+  - Markup has changed to a custom element `<ids-home-page></ids-home-page>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Icons]` The icons are now a web component called ids-icon. You no longer need the huge block of svg in the page
   - The icon and size are set via properties/attributes
   - Can now be imported as a single JS file and used with encapsulated styles

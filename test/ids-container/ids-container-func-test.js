@@ -25,6 +25,7 @@ describe('IdsContainer Component', () => {
   });
 
   it('renders correctly', () => {
+    container.shadowRoot.querySelector('style').remove();
     expect(container.shadowRoot.innerHTML).toMatchSnapshot();
   });
 

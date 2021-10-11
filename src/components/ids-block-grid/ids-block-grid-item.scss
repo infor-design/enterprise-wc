@@ -2,5 +2,6 @@
 
 ::slotted(img) {
   border: 1px solid transparent;
+  contain: content;
   margin-bottom: 10px;
 }

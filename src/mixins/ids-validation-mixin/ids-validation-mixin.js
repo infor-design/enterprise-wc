@@ -55,10 +55,10 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       const events = (this.validationEvents && typeof this.validationEvents === 'string')
         ? this.validationEvents : defaultEvents;
       this.validationEventsList = [...new Set(events.split(' '))];
-      const getRule = (/** @type {string} */ id) => ({ id, rule: this.rules[id] });
+      const getRule = (id) => ({ id, rule: this.rules[id] });
       let isRulesAdded = false;
 
-      this.validate.split(' ').forEach((/** @type {string} */ strRule) => {
+      this.validate.split(' ').forEach((strRule) => {
         if (strRule === 'required') {
           this.labelEl?.classList.add('required');
           this.input?.setAttribute('aria-required', true);
@@ -84,7 +84,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
           const useRules = this.useRules.get(input);
           if (useRules) {
             let found = false;
-            useRules.forEach((/** @type {object} */ rule) => {
+            useRules.forEach((rule) => {
               if (rule.id === strRule) {
                 found = true;
               }
@@ -132,7 +132,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       this.isTypeNotValid = {};
       let isValid = true;
       const useRules = this.useRules.get(input);
-      useRules?.forEach((/** @type {object} */ thisRule) => {
+      useRules?.forEach((thisRule) => {
         /* istanbul ignore else */
         if (thisRule.rule !== undefined && !thisRule.rule?.check(input) && this.isTypeNotValid) {
           this.addMessage(thisRule.rule);
@@ -397,7 +397,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
      * @private
      */
     required: {
-      check: (/** @type {object} */input) => {
+      check: (input) => {
         // Checkbox
         if (input.getAttribute('type') === 'checkbox') {
           return input.checked;
@@ -420,7 +420,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
      * @private
      */
     email: {
-      check: (/** @type {object} */ input) => {
+      check: (input) => {
         const val = input.value;
         const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,16}(?:\.[a-z]{2})?)$/i;
         return (val.length) ? regex.test(val) : true;

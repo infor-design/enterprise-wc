@@ -1,0 +1,33 @@
+@import '../../core/ids-base';
+
+ids-input::part(input) {
+  @include border-none();
+  @include mb-0();
+}
+
+ids-input::part(container) {
+  @include mb-0();
+}
+
+.ids-search-field:focus-within ids-input::part(input) {
+  box-shadow: none;
+}
+
+.ids-search-field {
+  ids-icon.search-icon {
+    @include ml-8();
+  }
+
+  &.color-variant-alternate {
+    ids-trigger-field::part(content) {
+      @include border-none();
+
+      background-color: rgba(71, 71, 76, 0.3);
+      border-bottom: 1px solid rgba(62, 62, 66, 0.7);
+    }
+
+    ids-icon {
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}

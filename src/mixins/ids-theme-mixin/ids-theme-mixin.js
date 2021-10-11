@@ -28,7 +28,6 @@ const IdsThemeMixin = (superclass) => class extends superclass {
    * @private
    */
   initThemeHandlers() {
-    /** @type {any} */
     this.switcher = document.querySelector('ids-theme-switcher');
     if (!this.switcher) {
       return;

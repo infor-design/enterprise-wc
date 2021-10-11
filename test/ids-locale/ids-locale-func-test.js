@@ -99,6 +99,7 @@ describe('IdsLocale API', () => {
       await locale.setLanguage('sl');
       await locale.setLanguage('sv');
       await locale.setLanguage('th');
+      await locale.setLanguage('tl');
       await locale.setLanguage('tr');
       await locale.setLanguage('uk');
       await locale.setLanguage('vi');
@@ -159,6 +160,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('sl-SI');
       await locale.setLocale('sv-SE');
       await locale.setLocale('th-TH');
+      await locale.setLocale('tl-PH');
       await locale.setLocale('tr-TR');
       await locale.setLocale('uk-UA');
       await locale.setLocale('vi-VN');
@@ -544,6 +546,20 @@ describe('IdsLocale API', () => {
       expect(locale.translate('InsertAnchor')).toEqual('插入定位标记');
     });
 
+    it('Should correct some missing translations', async () => {
+      await locale.setLocale('tl-PH');
+      expect(locale.translate('Clickable')).toEqual('Napipindot sa editor');
+      expect(locale.translate('Columns')).toEqual('Mga kolum');
+      expect(locale.translate('Component')).toEqual('Bahagi');
+      expect(locale.translate('Classic')).toEqual('Klasiko');
+      expect(locale.translate('ClassicDarkTheme')).toEqual('Klasiko Dark');
+      expect(locale.translate('ClassicLightTheme')).toEqual('Klasiko Light');
+      expect(locale.translate('ClassicHighContrastTheme')).toEqual('Klasiko High Contrast');
+      expect(locale.translate('Device')).toEqual('Pangalan ng aparato');
+      expect(locale.translate('ExtraSmall')).toEqual('Pinaka Maliit');
+      expect(locale.translate('Roles')).toEqual('Mga tungkulin');
+    });
+
     it('should support fr-CA', async () => {
       await locale.setLocale('en-US');
       await locale.setLanguage('fr-CA');
@@ -690,6 +706,18 @@ describe('IdsLocale API', () => {
 
       await locale.setLocale('de-DE');
       expect(locale.formatNumber(-1000000, { style: 'currency', currency: 'EUR' })).toEqual('-1.000.000,00 €');
+    });
+
+    it('should format big decimal numbers', async () => {
+      locale.setLocale('en-US');
+      expect(locale.formatNumber(123.54, { maximumFractionDigits: 15, minimumFractionDigits: 15 })).toEqual('123.540000000000000');
+      expect(locale.formatNumber(123.54, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123.54000000000000000000');
+      expect(locale.formatNumber(123, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123.00000000000000000000');
+
+      locale.setLocale('de-DE');
+      expect(locale.formatNumber(123.54, { maximumFractionDigits: 15, minimumFractionDigits: 15 })).toEqual('123,540000000000000');
+      expect(locale.formatNumber(123.54, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123,54000000000000000000');
+      expect(locale.formatNumber(123, { maximumFractionDigits: 20, minimumFractionDigits: 20 })).toEqual('123,00000000000000000000');
     });
 
     it('should be able to format a number in a non current locale', async () => {
@@ -937,6 +965,30 @@ describe('IdsLocale API', () => {
       expect(locale.parseNumber('123456789012345671')).toEqual('123456789012345671');
       expect(locale.formatNumber('123456789012345678')).toEqual('123,456,789,012,345,678.00');
       expect(locale.parseNumber('123456789012345678')).toEqual('123456789012345678');
+      expect(locale.parseNumber('123456789012345680')).toEqual('123456789012345680');
+      expect(locale.parseNumber('12345678910')).toEqual(12345678910);
+      expect(locale.parseNumber('12345678900')).toEqual(12345678900);
+      expect(locale.parseNumber('123456789100')).toEqual(123456789100);
+      expect(locale.parseNumber('1234567890123456710')).toEqual('1234567890123456710');
+      expect(locale.parseNumber('1234567890123456700')).toEqual('1234567890123456700');
+      expect(locale.parseNumber('9007199254740991')).toEqual(9007199254740991);
+    });
+
+    it('more other big number tests', () => {
+      expect(locale.formatNumber('1234567890.11')).toEqual('1,234,567,890.11');
+      expect(locale.parseNumber('1234567890.11')).toEqual(1234567890.11);
+
+      expect(locale.formatNumber('12345678910.11')).toEqual('12,345,678,910.11');
+      expect(locale.parseNumber('12345678910.11')).toEqual(12345678910.11);
+
+      expect(locale.formatNumber('123456789120.11')).toEqual('123,456,789,120.11');
+      expect(locale.parseNumber('123456789120.11')).toEqual(123456789120.11);
+
+      expect(locale.formatNumber('1234567891230.11')).toEqual('1,234,567,891,230.11');
+      expect(locale.parseNumber('1234567891230.11')).toEqual(1234567891230.11);
+
+      expect(locale.formatNumber('12345678912340.11')).toEqual('12,345,678,912,340.11');
+      expect(locale.parseNumber('12345678912340.11')).toEqual(12345678912340.11);
     });
 
     it('should parse numbers back', async () => {

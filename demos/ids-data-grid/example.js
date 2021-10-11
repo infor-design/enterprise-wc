@@ -134,6 +134,8 @@ const container = document.querySelector('ids-container');
     if (this.readyState === 4 && this.status === 200) {
       dataGrid.columns = columns;
       dataGrid.data = JSON.parse(this.responseText);
+      console.info('Loading Time:', window.performance.now());
+      console.info('Page Memory:', window.performance.memory);
     }
   };
 

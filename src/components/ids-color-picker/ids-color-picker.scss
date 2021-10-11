@@ -5,20 +5,16 @@
   @include mb-16();
 
   display: block;
+  width: $input-size-sm;
 }
 
 ids-input::part(container) {
   margin-bottom: 0;
 }
 
-ids-input::part(input) {
-  border: none;
-  margin-bottom: 0;
-}
-
 .color-picker-trigger-btn::part(button) {
-  @include ml-8();
-  @include mr-4();
+  @include ml-1();
+  @include mr-1();
 
   position: relative;
   z-index: 2;
@@ -29,6 +25,7 @@ ids-input::part(input) {
 }
 
 .color-popup {
+  contain: content;
   display: grid;
   gap: 4px;
   grid-template-columns: repeat(10, 20px);
@@ -39,8 +36,9 @@ ids-input::part(input) {
 
 .color-preview {
   display: block;
-  height: 38px;
-  width: 38px;
+  height: $input-field-height-md - 4;
+  margin: 0 1px;
+  width: $input-field-height-md - 4;
   cursor: pointer;
 }
 
