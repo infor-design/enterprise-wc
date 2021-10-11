@@ -18,7 +18,7 @@ const MASK_ATTRIBUTES = [
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
+const IdsMaskMixin = (superclass) => class extends superclass {
   constructor() {
     super();
     this.maskState = {

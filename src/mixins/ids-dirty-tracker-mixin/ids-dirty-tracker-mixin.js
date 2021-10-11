@@ -177,6 +177,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
           this.offEvent(eventName, this.input);
         }
       } else {
+        this.offEvent(eventName);
         this.onEvent(eventName, this.input, () => {
           const val = this.valMethod(this.input);
           this.setDirtyTracker(val);

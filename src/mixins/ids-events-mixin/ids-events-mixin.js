@@ -7,10 +7,11 @@ import { IdsStringUtils as stringUtils } from '../../utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(superclass) {
+const IdsEventsMixin = (superclass) => class extends superclass {
   constructor() {
     super();
     this.handledEvents = new Map();
+    console.log(this);
 
     // for event-subscription related logic, bind "this" of the
     // functions to the class instance to avoid this calls from

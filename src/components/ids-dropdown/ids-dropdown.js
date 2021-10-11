@@ -9,6 +9,7 @@ import {
 // Import Mixins
 import {
   IdsDirtyTrackerMixin,
+  IdsRenderLoopMixin,
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsPopupOpenEventsMixin,
@@ -37,6 +38,7 @@ import styles from './ids-dropdown.scss';
  * @type {IdsDropdown}
  * @inherits IdsElement
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsRenderLoopMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
@@ -50,6 +52,7 @@ import styles from './ids-dropdown.scss';
 @scss(styles)
 class IdsDropdown extends mix(IdsElement).with(
     IdsDirtyTrackerMixin,
+    IdsRenderLoopMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsPopupOpenEventsMixin,
@@ -128,7 +131,7 @@ class IdsDropdown extends mix(IdsElement).with(
         ${this.readonly ? 'cursor="text"' : ''}
         bg-transparent="${!this.readonly && !this.disabled}"
         user-select="none" triggerfield="true"></ids-input>
-      <ids-trigger-button 
+      <ids-trigger-button
         part="trigger-button"
         tabbable="false"
         disabled="${this.disabled}"

@@ -8,7 +8,7 @@ import IdsTooltip from '../../components/ids-tooltip';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass) {
+const IdsTooltipMixin = (superclass) => class extends superclass {
   constructor() {
     super();
   }

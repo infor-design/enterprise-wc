@@ -1,5 +1,3 @@
-import { IdsEventsMixin } from '../ids-events-mixin';
-
 /**
  * This mixin can be used with the IdsPopup component to provide event handling in some scenarios:
  * - When clicking outside the Popup occurs, an event handler at the document level hides the Popup.
@@ -7,7 +5,7 @@ import { IdsEventsMixin } from '../ids-events-mixin';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsPopupOpenEventsMixin = (superclass) => class extends IdsEventsMixin(superclass) {
+const IdsPopupOpenEventsMixin = (superclass) => class extends superclass {
   constructor() {
     super();
   }

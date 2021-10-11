@@ -5,6 +5,7 @@ import {
   mix,
   attributes
 } from '../../core/ids-element';
+
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
@@ -16,6 +17,7 @@ import '../ids-color/ids-color';
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-popup/ids-popup';
+
 import styles from './ids-color-picker.scss';
 
 import { IdsStringUtils as stringUtils } from '../../utils';

@@ -256,7 +256,9 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Setup Resize Observer
     this.#ro.observe(this.container);
-    this.#ro.observe(containerNode);
+    if (containerNode) {
+      this.#ro.observe(containerNode);
+    }
   }
 
   /**
