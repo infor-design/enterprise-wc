@@ -92,7 +92,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
               <ids-alert class="errored" icon="error-solid"></ids-alert>
             </div>
             <div class="file-name"><span>${this.fileName}</span></div>
-            <ids-text class="size">${this.sizeFormatted}</ids-text>
+            <div class="file-progress"><ids-text class="size">${this.sizeFormatted}</ids-text><div class="progress-text"><span class="bar">|</span><span class="percent">0%</span></div></div>
             <ids-button class="btn-close">
               <span slot="text" class="audible">${this.closeButtonText}</span>
               <ids-icon slot="icon" icon="close" size="xsmall"></ids-icon>
@@ -190,6 +190,16 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
       }
     } else if (value < 100) {
       this.status = shared.STATUS.inProcess;
+    }
+
+    const progressText = this.shadowRoot.querySelector('.progress-text');
+    if (progressText) {
+      const percentText = progressText.querySelector('.percent');
+      percentText.textContent = `${Math.round(value)}%`;
+
+      if (this.status === shared.STATUS.completed) {
+        progressText.remove();
+      }
     }
 
     closeButtonTextEl.innerHTML = this.closeButtonText;
