@@ -39,10 +39,32 @@ const IdsClearableMixin = (superclass) => class extends superclass {
 
     if (isClearable) {
       this.appendClearableButton();
-      this.clearableEvents();
     } else {
       this.destroyClearable();
     }
+  }
+
+  refreshClearableButtonStyles() {
+    this.removeClearableButton();
+    this.appendClearableButton();
+  }
+
+  #initClearableButton() {
+    const xButton = document.createElement('ids-trigger-button');
+    const icon = document.createElement('ids-icon');
+    const text = document.createElement('ids-text');
+    icon.setAttribute('icon', 'close');
+    icon.setAttribute('size', 'small');
+    icon.setAttribute('slot', 'icon');
+    if (this.colorVariant === 'alternate') icon.style.color = 'white';
+    text.setAttribute('audible', 'true');
+    text.textContent = 'clear';
+    xButton.className = 'btn-clear';
+    xButton.appendChild(text);
+    xButton.appendChild(icon);
+    xButton.refreshProtoClasses();
+
+    return xButton;
   }
 
   /**
@@ -53,22 +75,13 @@ const IdsClearableMixin = (superclass) => class extends superclass {
   appendClearableButton() {
     let xButton = this.shadowRoot.querySelector('.btn-clear');
     if (!xButton) {
-      xButton = document.createElement('ids-trigger-button');
-      const icon = document.createElement('ids-icon');
-      const text = document.createElement('ids-text');
-      icon.setAttribute('icon', 'close');
-      icon.setAttribute('size', 'small');
-      icon.setAttribute('slot', 'icon');
-      text.setAttribute('audible', 'true');
-      text.textContent = 'clear';
-      xButton.className = 'btn-clear';
-      xButton.appendChild(text);
-      xButton.appendChild(icon);
-      xButton.refreshProtoClasses();
+      xButton = this.#initClearableButton();
       let parent = this.shadowRoot.querySelector('.ids-input, .ids-textarea');
       parent = parent?.querySelector('.field-container');
       parent?.appendChild(xButton);
       this.input?.classList.add('has-clearable');
+
+      this.attachClearableEvents();
     }
   }
 
@@ -122,7 +135,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * @private
    * @returns {void}
    */
-  clearableEvents() {
+  attachClearableEvents() {
     this.handleClearBtnClick('');
     this.inputClearableEvents.forEach((e) => this.handleClearableInputEvents(e, ''));
 

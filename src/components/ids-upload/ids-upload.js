@@ -94,7 +94,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     const label = this.label ? ` label="${this.label}"` : '';
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const multiple = trueVal(this.multiple) ? ` multiple="multiple"` : '';
-    const readonlyBtn = trueVal(this.readonly) ? ` disabled="true"` : '';
+    const readonlyBtn = trueVal(this.readonly) ? ` readonly="true"` : '';
     const bgTransparent = ` bg-transparent="${!trueVal(this.readonly)}"`;
     const clearableForced = ` clearable-forced="${this.hasAccess}"`;
     const size = this.size ? ` size="${this.size}"` : '';
@@ -110,7 +110,10 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
           <ids-text audible="true" class="label-filetype" part="label">${labelFiletype}</ids-text>
         </label>
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
-        <ids-trigger-field ${label}${disabled}${readonlyBtn}${validate}>
+        <ids-trigger-field 
+          ${label}${disabled}${readonlyBtn}${validate}
+          css-class="ids-upload"
+        >
           <ids-input
             part="input"
             readonly="true"
