@@ -49,6 +49,7 @@
 - `[Icons]` The icons are now a web component called ids-icon. You no longer need the huge block of svg in the page
   - The icon and size are set via properties/attributes
   - Can now be imported as a single JS file and used with encapsulated styles
+  - Can now display notification badges
 - `[Input]` The Input component has been changed to a web component and renamed to ids-input.
   - Markup has changed to a custom element `<ids-input></ids-input>`
   - If using events, events are now plain JS events.
@@ -173,6 +174,7 @@
   - Markup has changed to a custom element `<ids-upload></ids-upload>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+  - Shows percent progress on file
 - `[Upload Advanced]` The file upload advanced component has been changed to a web component and renamed to ids-upload-advanced.
   - Markup has changed to a custom element `<ids-upload-advanced></ids-upload-advanced>`
   - Each file ui sections now use as components `<ids-upload-advanced-file></ids-upload-advanced-file>`
