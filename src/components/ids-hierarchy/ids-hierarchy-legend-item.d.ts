@@ -4,12 +4,6 @@
 import { IdsElement } from '../../core';
 
 export default class extends IdsElement {
-  /** Set the expanded state */
-  expanded: string;
-
-  /** Set the selected state */
-  selected: string;
-
-  /** Set the rootItem element */
-  rootItem: string;
+  /** Set the text string of the element */
+  text: string;
 }
