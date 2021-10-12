@@ -14,3 +14,4 @@ TODO
 - [x] add ability to move list items up/down
 - [ ] add ability to create new item
 - [ ] when dragging, make draggable z-index higher than parent container/toolbar
+- [ ] merge w main, check if any conflicts w tims changes 
