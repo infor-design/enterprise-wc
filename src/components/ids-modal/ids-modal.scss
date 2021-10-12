@@ -56,12 +56,6 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
   }
 }
 
-::slotted([slot='title']) {
-  @media screen and (min-width: $breakpoint-sm) {
-    font-size: 26px;
-  }
-}
-
 ::slotted([slot='buttons']) {
   flex-grow: 1;
   display: flex;
@@ -77,4 +71,11 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
 
 .ids-modal-button + .ids-modal-button {
   border-left: $modal-border-style;
+}
+
+// Media queries setup
+@media screen and (min-width: $breakpoint-sm) {
+  ::slotted([slot='title']) {
+    font-size: 26px;
+  }
 }
