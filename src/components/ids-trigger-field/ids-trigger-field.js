@@ -52,8 +52,7 @@ class IdsTriggerField extends IdsInput {
 
     const labelEl = this.container.querySelector('label');
     this.onEvent('click.label', labelEl, () => {
-      /* istanbul ignore else */
-      if (!stringToBool(this.disabled)) {
+      if (!stringUtils.stringToBool(this.disabled)) {
         [...this.inputs].forEach((input) => {
           input.input.focus();
         });
