@@ -7,7 +7,7 @@ To implement the validation mixin:
 1. Import `IdsValidationMixin`
 1. Add `IdsValidationMixin` to the mixes() section
 1. Add `IdsValidationMixin` to the @mixes comment section
-1. Make sure you attributes extend `return [...attributes` in the `attributes` property because `attributes.VALIDATE` and `attributes.VALIDATION_EVENTS` are added.
+1. Make sure you attributes extend `return [...super.attributes` in the `attributes` property because `attributes.VALIDATE` and `attributes.VALIDATION_EVENTS` are added.
 1. Make sure the `connectedCallback` calls `super.connectedCallback();`
 1. You might need to change the default events from `blur` to other events. You can do that in the getter for example:
 

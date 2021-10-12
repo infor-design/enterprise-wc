@@ -54,11 +54,13 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.BADGE_COLOR,
+      attributes.BADGE_POSITION,
       attributes.LANGUAGE,
       attributes.LOCALE,
       attributes.ICON,
       attributes.SIZE,
-      attributes.VERTICAL
+      attributes.VERTICAL,
     ];
   }
 
@@ -93,9 +95,19 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    */
   template() {
     const size = sizes[this.size];
-    return `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" aria-hidden="true">
+    let template = `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
+    if (this.badgePosition || this.badgeColor) {
+      if (!this.badgePosition) {
+        this.badgePosition = `bottom-right`;
+      }
+      if (!this.badgeColor) {
+        this.badgeColor = `danger`;
+      }
+      template += `<span class="notification-badge ${this.badgePosition} ${this.badgeColor}"></span>`;
+    }
+    return template;
   }
 
   /**
@@ -219,6 +231,44 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   }
 
   /**
+   * @returns {string} the current color of the notification badge
+   */
+  /* istanbul ignore next */
+  get badgeColor() { return this.getAttribute(attributes.BADGE_COLOR); }
+
+  /**
+   * @param {string} value sets the color of the notification badge
+   */
+  set badgeColor(value) {
+    if (value && this.getAttribute(attributes.BADGE_COLOR) !== value) {
+      this.setAttribute(attributes.BADGE_COLOR, value);
+      this.#updateBadge();
+    } else if (!value) {
+      this.setAttribute(attributes.BADGE_COLOR, '');
+      this.#updateBadge();
+    }
+  }
+
+  /**
+   * @returns {string} position of notification badge
+   */
+  get badgePosition() { return this.getAttribute(attributes.BADGE_POSITION); }
+
+  /**
+   * @param {string} value sets the postion of the notification badge
+   */
+  set badgePosition(value) {
+    /* istanbul ignore else */
+    if (value && this.getAttribute(attributes.BADGE_POSITION) !== value) {
+      this.setAttribute(attributes.BADGE_POSITION, value);
+      this.#updateBadge();
+    } else if (!value) {
+      this.setAttribute(attributes.BADGE_POSITION, '');
+      this.#updateBadge();
+    }
+  }
+
+  /**
    * Return the icon name
    * @returns {string} the icon
    */
@@ -294,6 +344,29 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     }
     this.removeAttribute(attributes.VERTICAL);
     this.container.classList.remove('vertical');
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    if (oldValue !== newValue) {
+      this[name] = newValue;
+    }
+  }
+
+  #updateBadge() {
+    /* istanbul ignore next */
+    let badge = this.shadowRoot.querySelector('span');
+    /* istanbul ignore else */
+    if (!badge) {
+      this.shadowRoot.innerHTML = this.template();
+      badge = this.shadowRoot.querySelector('span');
+    }
+
+    if (!this.badgeColor && !this.badgePosition && badge) {
+      this.className = '';
+    } else {
+      badge.className = '';
+      badge.classList.add(`notification-badge`, `${this.badgePosition}`, `${this.badgeColor}`);
+    }
   }
 }
 

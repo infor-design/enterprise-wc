@@ -4,7 +4,9 @@
   @include inline-flex();
   @include self-center();
 
+  contain: content;
   place-self: center;
+  position: relative;
 }
 
 .vertical {
@@ -13,4 +15,58 @@
 
 .flipped {
   transform: scaleX(-1);
+}
+
+.notification-badge {
+  border-radius: 4px;
+  height: 6px;
+  width: 6px;
+  background-color: var(--ids-color-status-danger);
+  position: absolute;
+
+  /**
+  * color notification badge
+  */
+  &.base {
+    background-color: var(--ids-color-status-base);
+  }
+
+  &.caution {
+    background-color: var(--ids-color-status-caution);
+  }
+
+  &.danger {
+    background-color: var(--ids-color-status-danger);
+  }
+
+  &.success {
+    background-color: var(--ids-color-status-success);
+  }
+
+  &.warning {
+    background-color: var(--ids-color-status-warning);
+  }
+
+  /**
+  * positioning notification badge
+  */
+  &.top-right {
+    bottom: 75%;
+    left: 75%;
+  }
+
+  &.top-left {
+    bottom: 75%;
+    left: 0;
+  }
+
+  &.bottom-right {
+    bottom: 0;
+    left: 75%;
+  }
+
+  &.bottom-left {
+    bottom: 0;
+    left: 0;
+  }
 }

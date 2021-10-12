@@ -7,7 +7,7 @@ import {
 } from '../../core';
 
 import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
-import { IdsStringUtils } from '../../utils';
+import { IdsStringUtils as stringUtils } from '../../utils';
 
 import styles from './ids-card.scss';
 
@@ -37,7 +37,11 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.AUTO_HEIGHT, attributes.MODE, attributes.VERSION];
+    return [
+      ...super.attributes,
+      attributes.AUTO_FIT,
+      attributes.AUTO_HEIGHT
+    ];
   }
 
   /**
@@ -56,8 +60,25 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
+   * Set the card to auto fit to its parent size
+   * @param {boolean|null} value The auto fit
+   */
+  set autoFit(value) {
+    const className = 'ids-card-auto-fit';
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(attributes.AUTO_FIT, value);
+      this.container.classList.add(className);
+      return;
+    }
+    this.container.classList.remove(className);
+    this.removeAttribute(attributes.AUTO_FIT);
+  }
+
+  get autoFit() { return this.getAttribute(attributes.AUTO_FIT); }
+
+  /**
    * Set the card to auto height
-   * @param {boolean | null} value The height can be auto to contents
+   * @param {boolean|null} value The height can be auto to contents
    */
   set autoHeight(value) {
     const val = IdsStringUtils.stringToBool(value);
@@ -68,7 +89,7 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.removeAttribute('auto-height');
   }
 
-  get autoHeight() { return this.getAttribute('auto-height'); }
+  get autoHeight() { return this.getAttribute(attributes.AUTO_HEIGHT); }
 }
 
 export default IdsCard;

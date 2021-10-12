@@ -68,7 +68,8 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      ...attributes.CHECKED,
+      ...super.attributes,
+      attributes.CHECKED,
       attributes.COLOR,
       attributes.DISABLED,
       attributes.HORIZONTAL,

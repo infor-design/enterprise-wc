@@ -3,6 +3,7 @@
 .ids-list-view {
   height: 310px;
   overflow: auto;
+  scroll-behavior: smooth;
 
   li {
     @include list-none();
@@ -10,6 +11,8 @@
     @include px-20();
     @include border-b-1();
     @include border-slate-20();
+
+    contain: content;
   }
 }
 

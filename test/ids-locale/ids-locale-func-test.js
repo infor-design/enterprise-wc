@@ -99,6 +99,7 @@ describe('IdsLocale API', () => {
       await locale.setLanguage('sl');
       await locale.setLanguage('sv');
       await locale.setLanguage('th');
+      await locale.setLanguage('tl');
       await locale.setLanguage('tr');
       await locale.setLanguage('uk');
       await locale.setLanguage('vi');
@@ -159,6 +160,7 @@ describe('IdsLocale API', () => {
       await locale.setLocale('sl-SI');
       await locale.setLocale('sv-SE');
       await locale.setLocale('th-TH');
+      await locale.setLocale('tl-PH');
       await locale.setLocale('tr-TR');
       await locale.setLocale('uk-UA');
       await locale.setLocale('vi-VN');
@@ -542,6 +544,20 @@ describe('IdsLocale API', () => {
 
       expect(locale.translate('StrikeThrough')).toEqual('穿透');
       expect(locale.translate('InsertAnchor')).toEqual('插入定位标记');
+    });
+
+    it('Should correct some missing translations', async () => {
+      await locale.setLocale('tl-PH');
+      expect(locale.translate('Clickable')).toEqual('Napipindot sa editor');
+      expect(locale.translate('Columns')).toEqual('Mga kolum');
+      expect(locale.translate('Component')).toEqual('Bahagi');
+      expect(locale.translate('Classic')).toEqual('Klasiko');
+      expect(locale.translate('ClassicDarkTheme')).toEqual('Klasiko Dark');
+      expect(locale.translate('ClassicLightTheme')).toEqual('Klasiko Light');
+      expect(locale.translate('ClassicHighContrastTheme')).toEqual('Klasiko High Contrast');
+      expect(locale.translate('Device')).toEqual('Pangalan ng aparato');
+      expect(locale.translate('ExtraSmall')).toEqual('Pinaka Maliit');
+      expect(locale.translate('Roles')).toEqual('Mga tungkulin');
     });
 
     it('should support fr-CA', async () => {

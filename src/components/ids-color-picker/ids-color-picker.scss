@@ -25,6 +25,7 @@ ids-input::part(container) {
 }
 
 .color-popup {
+  contain: content;
   display: grid;
   gap: 4px;
   grid-template-columns: repeat(10, 20px);
