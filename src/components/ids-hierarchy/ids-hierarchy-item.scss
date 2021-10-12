@@ -8,6 +8,10 @@
   flex-direction: column;
   padding-inline-start: calc(var(--ids-number-spacing-base) * 12);
 
+  @media all and (max-width: $breakpoint-sm) {
+    padding-inline-start: 0;
+  }
+
   &.color-variant-full-time {
     .leaf-inside {
       border-left-color: var(--ids-color-palette-azure-80);
@@ -82,6 +86,7 @@
 }
 
 .avatar {
+  flex-shrink: 0;
   display: block;
   height: 55px;
   width: 55px;
@@ -99,6 +104,21 @@
   .leaf {
     &::before {
       display: none;
+    }
+  }
+
+  .ids-hierarchy-item {
+    padding-inline-start: 0;
+  }
+}
+
+:host([root-item][expanded]) {
+  .leaf {
+    &::before {
+      @media all and (max-width: $breakpoint-sm) {
+        display: block;
+        border-left: none;
+      }
     }
   }
 }

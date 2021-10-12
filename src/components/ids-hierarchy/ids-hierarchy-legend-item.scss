@@ -5,8 +5,8 @@
 
   align-items: center;
   position: relative;
-  margin-block: calc(var(--ids-number-spacing-base) * 6);
   margin-inline-end: calc(var(--ids-number-spacing-base) * 4);
+  margin-block-end: var(--ids-number-spacing-base);
 
   &::before {
     content: ' ';

@@ -204,8 +204,8 @@ describe('IdsHierarchy Component', () => {
     expect(item.expanded).toBe(null);
   });
 
-  it('can expand and collapse items when touchstart', () => {
-    const event = new TouchEvent('touchstart', {
+  it('can expand and collapse items when touchend', () => {
+    const event = new TouchEvent('touchend', {
       touches: [{
         identifier: '123',
         pageX: 0,
@@ -224,6 +224,25 @@ describe('IdsHierarchy Component', () => {
     // Collapse
     item.expander.dispatchEvent(event);
     expect(item.expanded).toBe(null);
+  });
+
+  it('can select an item when touchstart', () => {
+    const event = new TouchEvent('touchstart', {
+      touches: [{
+        identifier: '123',
+        pageX: 0,
+        pageY: 0,
+        target: item.leaf
+      }],
+      bubbles: true,
+      cancelable: true,
+      view: window
+    });
+
+    // Select
+    item.leaf.dispatchEvent(event);
+    item.selected = true;
+    expect(item.selected).toBe(true);
   });
 
   it('checks for nested items', async () => {

@@ -206,7 +206,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(
       this.#expandCollapse(this.expanded);
     });
 
-    this.onEvent('touchstart', this.expander, (e) => {
+    this.onEvent('touchend', this.expander, (e) => {
       if (e.touches && e.touches.length > 0) {
         this.#expandCollapse(this.expanded);
       }
