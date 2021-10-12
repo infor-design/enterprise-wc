@@ -92,10 +92,31 @@ describe('IdsFocusCaptureMixin)', () => {
     modal.cyclesFocus = false;
 
     expect(modal.getAttribute('cycles-focus')).toBeFalsy();
+    expect(modal.cyclesFocus).toBeFalsy();
 
     modal.cyclesFocus = true;
 
     expect(modal.getAttribute('cycles-focus')).toBeTruthy();
+    expect(modal.cyclesFocus).toBeTruthy();
+  });
+
+  it('can get references to focusable elements', () => {
+    const focusable = modal.focusableElements;
+    expect(focusable.length).toBe(3);
+    expect(focusable[0].isEqualNode(modalBtnCancel)).toBeTruthy();
+    expect(modal.firstFocusableElement.isEqualNode(modalBtnCancel)).toBeTruthy();
+    expect(modal.lastFocusableElement.isEqualNode(modalBtnOK)).toBeTruthy();
+  });
+
+  it('can configure CSS selectors used for focusable element types', () => {
+    modal.focusableSelectors = [];
+    let focusable = modal.focusableElements;
+    expect(focusable.length).toBe(0);
+
+    // Can't set junk values (coverage)
+    modal.focusableSelectors = '';
+    focusable = modal.focusableElements;
+    expect(focusable.length).toBe(0);
   });
 
   it('can set focus programmatically', async () => {
@@ -205,6 +226,6 @@ describe('IdsFocusCaptureMixin (empty)', () => {
     modal.setFocus();
 
     expect(modal.contains(document.activeElement)).toBeFalsy();
-    expect(modal.componentFocusable).toEqual([]);
+    expect(modal.focusableElements).toEqual([]);
   });
 });

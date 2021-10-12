@@ -73,30 +73,26 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   #attachFocusEvents() {
-    if (this.handledEvents.get(FOCUS_CAPTURE_EVENTNAME)) {
-      return;
-    }
-
     // Keydown events at the document level intercept default Tab behavior on specified elements.
     // On these elements we adjust tabbing behavior.
     if (typeof this.onEvent === 'function') {
       this.onEvent(FOCUS_CAPTURE_EVENTNAME, document, (e) => {
-        const isOnFirst = document.activeElement.isEqualNode(this.firstFocusableElem);
-        const isOnLast = document.activeElement.isEqualNode(this.lastFocusableElem);
+        const isOnFirst = document.activeElement.isEqualNode(this.firstFocusableElement);
+        const isOnLast = document.activeElement.isEqualNode(this.lastFocusableElement);
 
         switch (e.key) {
         case 'Tab':
           if (isOnFirst && e.shiftKey) {
             e.preventDefault();
             requestAnimationFrame(() => {
-              const targetElem = this.cyclesFocus ? this.lastFocusableElem : this.firstFocusableElem;
+              const targetElem = this.cyclesFocus ? this.lastFocusableElement : this.firstFocusableElement;
               targetElem.focus();
             });
           }
           if (isOnLast && !e.shiftKey) {
             e.preventDefault();
             requestAnimationFrame(() => {
-              const targetElem = this.cyclesFocus ? this.firstFocusableElem : this.lastFocusableElem;
+              const targetElem = this.cyclesFocus ? this.firstFocusableElement : this.lastFocusableElement;
               targetElem.focus();
             });
           }
@@ -153,7 +149,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
     return this.#focusableSelectors;
   }
 
-  set focusableSelectors(val = []) {
+  set focusableSelectors(val) {
     if (Array.isArray(val)) {
       this.#focusableSelectors = val;
     }
@@ -162,52 +158,49 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
   /**
    * @property {Array<HTMLElement>} focusable reference to all focusable elements on the document
    */
-  #focusable;
+  #focusableElementsInDocument = [];
 
   /**
    * @readonly
    * @returns {Array<HTMLElement>} all possible focusable elements within Light DOM on the current page
    */
-  get focusable() {
-    if (!this.#focusable) {
+  get focusableElementsInDocument() {
+    if (!this.#focusableElementsInDocument.length && this.focusableSelectors.length) {
       const selectorStr = this.focusableSelectors.join(', ');
-      this.#focusable = [...document.querySelectorAll(selectorStr)];
+      this.#focusableElementsInDocument = [...document.querySelectorAll(selectorStr)];
     }
-    return this.#focusable;
+    return this.#focusableElementsInDocument;
   }
 
   /**
    * @readonly
    * @returns {Array<HTMLElement>} focusable elements inside of this WebComponent's Light DOM
    */
-  get componentFocusable() {
-    if (!this.focusable) {
-      return [];
-    }
-    return this.focusable.filter((i) => this.contains(i));
+  get focusableElements() {
+    return this.focusableElementsInDocument.filter((i) => this.contains(i));
   }
 
   /**
    * @readonly
    * @returns {HTMLElement} the first focusable child element inside this component
    */
-  get firstFocusableElem() {
-    return this.componentFocusable[0];
+  get firstFocusableElement() {
+    return this.focusableElements[0];
   }
 
   /**
    * @readonly
    * @returns {HTMLElement} the next focusable child element inside this component
    */
-  get nextFocusableElem() {
-    if (!this.focusable) {
+  get nextFocusableElement() {
+    if (!this.focusableElementsInDocument.length) {
       return document.activeElement;
     }
 
-    const thisIndex = this.focusable.indexOf(document.activeElement);
-    const nextElem = this.focusable[thisIndex + 1] || document.activeElement;
+    const thisIndex = this.focusableElementsInDocument.indexOf(document.activeElement);
+    const nextElem = this.focusableElementsInDocument[thisIndex + 1] || document.activeElement;
     if (!this.contains(nextElem)) {
-      return this.firstFocusableElem;
+      return this.firstFocusableElement;
     }
     return nextElem;
   }
@@ -216,16 +209,16 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @readonly
    * @returns {HTMLElement} the previous focusable child element inside this component
    */
-  get previousFocusableElem() {
-    if (!this.focusable) {
+  get previousFocusableElement() {
+    if (!this.focusableElementsInDocument.length) {
       return document.activeElement;
     }
 
-    let thisIndex = this.focusable.indexOf(document.activeElement);
-    if (!thisIndex) thisIndex = this.focusable.length;
-    const prevElem = this.focusable[thisIndex - 1] || document.activeElement;
+    let thisIndex = this.focusableElementsInDocument.indexOf(document.activeElement);
+    if (!thisIndex) thisIndex = this.focusableElementsInDocument.length;
+    const prevElem = this.focusableElementsInDocument[thisIndex - 1] || document.activeElement;
     if (!this.contains(prevElem)) {
-      return this.lastFocusableElem;
+      return this.lastFocusableElement;
     }
     return prevElem;
   }
@@ -234,8 +227,8 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @readonly
    * @returns {HTMLElement} the last focusable child element inside this component
    */
-  get lastFocusableElem() {
-    return this.componentFocusable.slice(-1)[0];
+  get lastFocusableElement() {
+    return this.focusableElements.slice(-1)[0];
   }
 
   /**
@@ -244,9 +237,9 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   setFocus(index = 0) {
-    const focusable = this.componentFocusable;
+    const focusable = this.focusableElements;
     const focusedEl = document.activeElement;
-    const focusedIndex = this.componentFocusable.indexOf(focusedEl);
+    const focusedIndex = this.focusableElements.indexOf(focusedEl);
     let safeIndex = 0;
 
     if (focusable.length) {
