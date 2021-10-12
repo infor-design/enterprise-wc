@@ -60,9 +60,9 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} html
    */
   staticScrollTemplate() {
-    // save this variable for list item template (to use in checkTemplateHeight)
+    // TODO: save this variable for list item template (to use in checkTemplateHeight)
     const listItems = this.data?.map((item) => `
-      <ids-draggable>
+      <ids-draggable axis="y">
         <li part="list-item">
           <span></span>
           ${this.itemTemplate(item)}
