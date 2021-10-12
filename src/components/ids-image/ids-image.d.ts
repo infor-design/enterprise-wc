@@ -4,4 +4,8 @@ export default class IdsImage extends HTMLElement {
   src: string;
 
   size: string;
+
+  placeholder: boolean;
+
+  fallback: boolean;
 }

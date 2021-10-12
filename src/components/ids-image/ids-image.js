@@ -59,17 +59,63 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    // placeholder attribute or no src attribute provided
+    // Initially has placeholder attribute or no src attribute provided
     if (this.placeholder || !this.src) {
-      return `
-        <div class="ids-image placeholder" tabindex="0">
-          <span class="audible">Placeholder Image</span>
-          <ids-icon icon="insert-image"></ids-icon>
-        </div>
-      `;
+      return `<div class="ids-image placeholder" tabindex="0"><span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon></div>`;
     }
 
     return `<img class="ids-image" src="${this.src}" alt="${this.alt}" tabindex="0" />`;
+  }
+
+  /**
+   * Add error event when img attached to shadow
+   * @param {HTMLElement} img element to attach error event
+   */
+  #attachOnError(img) {
+    this.offEvent('error.image');
+    this.onEvent('error.image', img, () => {
+      // Removing img on error loading
+      this.shadowRoot.querySelector('img').remove();
+
+      // Adding placeholder element
+      this.shadowRoot.appendChild(this.#getPlaceholderEl());
+    });
+  }
+
+  /**
+   * Remove error event when img detached from shadow
+   */
+  #detachOnError() {
+    this.offEvent('error.image');
+  }
+
+  /**
+   * @param {string} src attribute value
+   * @param {string} alt attribute value
+   * @returns {HTMLElement} img element to attach to shadow
+   */
+  #getImgEl(src, alt) {
+    const img = document.createElement('img');
+    img.classList = 'ids-image';
+    img.setAttribute('tabindex', 0);
+    img.setAttribute('src', src);
+    if (alt) {
+      img.setAttribute('alt', alt);
+    }
+
+    return img;
+  }
+
+  /**
+   * @returns {HTMLElement} placeholder element to attach to shadow
+   */
+  #getPlaceholderEl() {
+    const placeholder = document.createElement('div');
+    placeholder.classList = 'ids-image placeholder';
+    placeholder.setAttribute('tabindex', 0);
+    placeholder.innerHTML = '<span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon>';
+
+    return placeholder;
   }
 
   /**
@@ -90,33 +136,16 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       if (img) {
         img.setAttribute(attributes.SRC, val);
       } else {
+        // Removing placeholder
         this.shadowRoot.querySelector('.placeholder')?.remove();
 
         // Adding image element
-        img = document.createElement('img');
-        img.classList = 'ids-image';
-        img.setAttribute('tabindex', 0);
-        img.setAttribute('src', val);
-        img.setAttribute('alt', this.alt);
+        img = this.#getImgEl(val, this.alt);
         this.shadowRoot.appendChild(img);
       }
 
       if (this.fallback) {
-        this.offEvent('error.image');
-        this.onEvent('error.image', img, () => {
-          // Removing img on error loading
-          this.shadowRoot.querySelector('img').remove();
-
-          // Adding placeholder element
-          const div = document.createElement('div');
-          div.classList = 'ids-image placeholder';
-          div.setAttribute('tabindex', 0);
-          div.innerHTML = `
-            <span class="audible">Placeholder Image</span>
-            <ids-icon icon="insert-image"></ids-icon>
-          `;
-          this.shadowRoot.appendChild(div);
-        });
+        this.#attachOnError(img);
       }
 
       this.setAttribute(attributes.SRC, val);
@@ -125,20 +154,15 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
 
     if (img) {
+      // Removing image element
       img.remove();
 
+      this.#detachOnError();
+
       // Adding placeholder element
-      const div = document.createElement('div');
-      div.classList = 'ids-image placeholder';
-      div.setAttribute('tabindex', 0);
-      div.innerHTML = `
-        <span class="audible">Placeholder Image</span>
-        <ids-icon icon="insert-image"></ids-icon>
-      `;
-      this.shadowRoot.appendChild(div);
+      this.shadowRoot.appendChild(this.#getPlaceholderEl());
     }
 
-    this.offEvent('error.image');
     this.removeAttribute(attributes.SRC);
   }
 
@@ -169,8 +193,8 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   /**
    * Get one of predefined sizes
-   * @param {string} val any incoming value
-   * @returns {string} one of predefined sizes
+   * @param {string} val size attribute value
+   * @returns {'auto'|'sm'|'md'|'lg'} one of predefined sizes
    */
   #getSize(val) {
     // List of sizes to compare with size attribute value
@@ -180,12 +204,12 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       return val;
     }
 
-    // set auto as default or if incorrect attribute value
+    // Set auto as default or if incorrect attribute value
     return sizes[0];
   }
 
   /**
-   * @returns {string} one of predefined sizes
+   * @returns {'auto'|'sm'|'md'|'lg'} one of predefined sizes
    */
   get size() {
     const attrVal = this.getAttribute(attributes.SIZE);
