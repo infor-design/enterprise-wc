@@ -251,10 +251,6 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     const rectB = nodeB.getBoundingClientRect();
     const centerA = rectA.top + rectA.height / 2;
     const centerB = rectB.top + rectB.height / 2;
-    // console.log('centerA: ' + centerA);
-    // console.log(nodeA)
-    // console.log('centerB: ' + centerB);
-    // console.log(nodeB);
     return centerA < centerB;
   }
 
@@ -286,11 +282,11 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         }
       }
     });
-    
+
     this.onEvent('click', this.container.querySelector('#button-edit'), (event) => {
       console.log('button edit clicked');
     });
-    
+
     this.onEvent('click', this.container.querySelector('#button-delete'), (event) => {
       console.log('button delete clicked');
       if (this.#selectedItem) {
@@ -298,33 +294,21 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         this.#selectedItem = null;
       }
     });
+  }
 
-
-    // this.onEvent('click', this.container.querySelector('div[part="list"]'), (event) => {
-    //   console.log('click')
-    //   let item = event.target;
-    //   console.log(item)
-
-    //   if (item && item.tagName === 'ids-text') {
-    //     console.log(item)
-    //     item = item.tagName === 'ids-text' ? item.parentNode : item.childNode;
-    //     console.log(item)
-    //   }
-
-    //   // this.#toggleSelectedListItem(item);
-    // });
-
+  #attachDragEventListeners() {
     this.container.querySelectorAll('ids-draggable').forEach((s) => {
       this.onEvent('ids-dragstart', s, (event) => {
-        console.log('ids-dragstart')
+        // toggle selected item
         const listItem = event.target.querySelector('li');
-        console.log(listItem)
         this.#toggleSelectedListItem(listItem);
 
+        // create placeholder
         this.placeholder = this.#createPlaceholder(s.getBoundingClientRect().height);
 
         // need this for draggable to move around
         s.style.position = `absolute`;
+        s.parentNode.style.zIndex = `100`;
 
         s.parentNode.insertBefore(
           this.placeholder,
@@ -333,40 +317,38 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       });
 
       this.onEvent('ids-drag', s, (event) => {
-        const prevEle = s.previousElementSibling; // might be null for first
-        const nextEle = this.placeholder?.nextElementSibling;
+        let prevEle = this.placeholder?.previousElementSibling; // might be null for first
+        let nextEle = this.placeholder?.nextElementSibling;
 
-        console.log('checking prev el')
-        if (prevEle && this.#isAbove(s, prevEle)) {
-          this.#swap(this.placeholder, s);
-          this.#swap(this.placeholder, prevEle);
-          // return;
+        // skip over checking the original selected node position
+        if (prevEle === this.#selectedItem.parentNode) {
+          prevEle = prevEle.previousElementSibling;
+        }
+        // skip over checking the original selected position
+        if (nextEle === this.#selectedItem.parentNode) {
+          nextEle = nextEle.nextElementSibling;
         }
 
-        console.log('checking next el')
+        if (prevEle && this.#isAbove(s, prevEle)) {
+          this.#swap(this.placeholder, prevEle);
+          return;
+        }
+
         if (nextEle && this.#isAbove(nextEle, s)) {
           this.#swap(nextEle, this.placeholder);
-          this.#swap(nextEle, s);
         }
       });
 
       this.onEvent('ids-dragend', s, (event) => {
-        s.style.position = ``;
+        s.style.removeProperty('position');
+        s.style.removeProperty('transform');
+
+        this.#swap(s, this.placeholder);
         if (this.placeholder) {
-          console.log('remove placeholder')
           this.placeholder.remove();
         }
       });
     });
-  }
-
-  #attachDragEventListeners() {
-    // this.onEvent('ids-drag', liObject, (event) => {
-    //   const [x, y] = [e.detail.mouseX, e.detail.mouseY];
-    //   console.log(x + ', ' + y);
-    //   // const target = event.target;
-    //   // console.log(target)
-    // })
   }
 }
 

@@ -8,8 +8,9 @@ TODO
 - [x] fix ids-toolbar items iteration error (export modules in index.js was whack)
 - [ ] add themes/color styles
 - [x] add hover, focus, select styles/attributes; appropriate cursors for 4 dots vs li
-- [ ] add ability to drag
+- [x] add ability to drag
 - [ ] add ability to edit
-- [ ] add ability to delete
-- [ ] add ability to move list items up/down
+- [x] add ability to delete
+- [x] add ability to move list items up/down
 - [ ] add ability to create new item
+- [ ] when dragging, make draggable z-index higher than parent container/toolbar
