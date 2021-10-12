@@ -31,8 +31,15 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
   #capturesFocus = false;
 
   set capturesFocus(val) {
-    this.#capturesFocus = IdsStringUtils.stringToBool(val);
-    this.#updateFocusEvents();
+    const currentVal = this.#capturesFocus;
+    const newVal = IdsStringUtils.stringToBool(val);
+    if (currentVal !== newVal) {
+      this.#capturesFocus = newVal;
+      newVal
+        ? this.setAttribute(attributes.CAPTURES_FOCUS, `${newVal}`)
+        : this.removeAttribute(attributes.CAPTURES_FOCUS);
+      this.#updateFocusEvents();
+    }
   }
 
   get capturesFocus() {
@@ -46,8 +53,15 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
   #cyclesFocus = true;
 
   set cyclesFocus(val) {
-    this.#cyclesFocus = IdsStringUtils.stringToBool(val);
-    this.gainFocus();
+    const currentVal = this.#cyclesFocus;
+    const newVal = IdsStringUtils.stringToBool(val);
+    if (currentVal !== newVal) {
+      this.#cyclesFocus = newVal;
+      newVal
+        ? this.setAttribute(attributes.CYCLES_FOCUS, `${newVal}`)
+        : this.removeAttribute(attributes.CYCLES_FOCUS);
+      this.gainFocus();
+    }
   }
 
   get cyclesFocus() {
@@ -244,7 +258,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
       case '': // Leave at 0
         break;
       default: // undefined
-        safeIndex = parseInt(safeIndex);
+        safeIndex = parseInt(index);
         break;
       }
       requestAnimationFrame(() => {
