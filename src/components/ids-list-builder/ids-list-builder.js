@@ -14,6 +14,7 @@ import {
 
 import styles from './ids-list-builder.scss';
 import IdsListView from '../ids-list-view';
+import IdsInput from '../ids-input/ids-input';
 
 /**
  * IDS ListBuilder Component
@@ -31,6 +32,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   }
 
   #selectedItem;
+
+  #selectedItemEditor;
 
   placeholder;
 
@@ -261,6 +264,17 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     return p;
   }
 
+  #updateSelectedItemWithEditorValue() {
+    this.#selectedItem.querySelector('ids-text').innerHTML = this.#selectedItemEditor.value;
+  }
+
+  #removeSelectedItemEditor() {
+    this.#selectedItem.style.display = 'list-item';
+    this.#selectedItem.parentNode.removeAttribute('disabled');
+    this.#selectedItemEditor.remove();
+    this.#selectedItemEditor = null;
+  }
+
   #attachClickListeners() {
     this.onEvent('click', this.container.querySelector('#button-add'), (event) => {
     });
@@ -284,14 +298,32 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     });
 
     this.onEvent('click', this.container.querySelector('#button-edit'), (event) => {
-      console.log('button edit clicked');
+      // replace innerHTML with <input> that has the value of the current li
+      // const i = document.createElement('input');
+      if (this.#selectedItem) {
+        if (!this.#selectedItemEditor) {
+          const i = new IdsInput();
+
+          // insert into DOM
+          this.#selectedItem.parentNode.insertBefore(i, this.#selectedItem);
+
+          // hide & disable IDS draggable
+          this.#selectedItem.style.display = `none`;
+          this.#selectedItem.parentNode.setAttribute('disabled', '');
+
+          // set the value of input
+          this.#selectedItemEditor = i;
+          i.value = this.#selectedItem.querySelector('ids-text').innerHTML;
+          i.autoselect = 'true';
+        }
+      }
     });
 
     this.onEvent('click', this.container.querySelector('#button-delete'), (event) => {
-      console.log('button delete clicked');
       if (this.#selectedItem) {
-        this.#selectedItem.remove();
+        this.#selectedItem.parentNode.remove();
         this.#selectedItem = null;
+        if (this.#selectedItemEditor) this.#selectedItemEditor = null;
       }
     });
   }
@@ -299,6 +331,12 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   #attachDragEventListeners() {
     this.container.querySelectorAll('ids-draggable').forEach((s) => {
       this.onEvent('ids-dragstart', s, (event) => {
+        // unfocus any editor
+        if (this.#selectedItemEditor) {
+          this.#updateSelectedItemWithEditorValue();
+          this.#removeSelectedItemEditor();
+        }
+
         // toggle selected item
         const listItem = event.target.querySelector('li');
         this.#toggleSelectedListItem(listItem);
