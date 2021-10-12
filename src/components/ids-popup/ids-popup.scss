@@ -171,6 +171,11 @@
 
       &.open {
         transform: perspective(1000px) translate3d(-50%, -50%, 0);
+        width: calc(100% - 16px);
+
+        @media screen and (min-width: $breakpoint-sm) {
+          width: auto;
+        }
       }
     }
   }
