@@ -189,9 +189,6 @@ describe('IdsFocusCaptureMixin)', () => {
   });
 
   it('listens to namespaced keydown events', async () => {
-    const tabToNextEvent = new CustomEvent('keydown.focus-capture', { key: 'Tab', bubbles: true });
-    const tabToPrevEvent = new CustomEvent('keydown.focus-capture', { key: 'Tab', bubbles: true, shiftKey: true });
-
     await modal.show();
     await wait(310);
 
@@ -200,13 +197,12 @@ describe('IdsFocusCaptureMixin)', () => {
 
     expect(document.activeElement.isEqualNode(modalBtnCancel));
 
-    //document.body.dispatchEvent(tabToPrevEvent);
     modal.triggerEvent('keydown.focus-capture', document, { key: 'Tab', bubbles: true, shiftKey: true });
 
     // Focus should cycle back around to the OK button
     expect(document.activeElement.isEqualNode(modalBtnOK));
 
-    document.body.dispatchEvent(tabToNextEvent);
+    modal.triggerEvent('keydown.focus-capture', document, { key: 'Tab', bubbles: true });
 
     // Focus should cycle back around to the Cancel button
     expect(document.activeElement.isEqualNode(modalBtnCancel));
