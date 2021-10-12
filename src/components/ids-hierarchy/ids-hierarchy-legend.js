@@ -8,7 +8,7 @@ import {
 import styles from './ids-hierarchy-legend.scss';
 
 /**
- * IDS Hierarchy Component
+ * IDS Hierarchy Legend Component
  * @type {IdsHierarchyLegend}
  * @inherits IdsElement
  */

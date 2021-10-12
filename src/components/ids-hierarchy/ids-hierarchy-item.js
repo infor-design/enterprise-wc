@@ -20,7 +20,7 @@ import {
 import styles from './ids-hierarchy-item.scss';
 
 /**
- * IDS Hierarchy Component
+ * IDS Hierarchy Item Component
  * @type {IdsHierarchyItem}
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
@@ -74,8 +74,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(
     return [
       attributes.EXPANDED,
       attributes.ROOT_ITEM,
-      attributes.SELECTED,
-      attributes.VALUE
+      attributes.SELECTED
     ];
   }
 

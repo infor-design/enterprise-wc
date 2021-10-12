@@ -26,14 +26,6 @@ class IdsHierarchy extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
-   */
-  static get attributes() {
-    return [attributes.SELECTED];
-  }
-
-  /**
    * ids-hierarchy `connectedCallback` implementation
    * @returns {void}
    */

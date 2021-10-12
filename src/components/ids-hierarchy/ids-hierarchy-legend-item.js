@@ -15,7 +15,7 @@ import {
 } from '../../mixins';
 
 /**
- * IDS Hierarchy Component
+ * IDS Hierarchy Legend Item Component
  * @type {IdsHierarchyLegendItem}
  * @inherits IdsElement
  */
