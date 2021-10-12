@@ -19,10 +19,18 @@
   .ids-list-view {
     overflow: auto;
 
+    ids-draggable {
+      // position: absolute;
+      width: 100%;
+      display: flex;
+    }
+
     li {
       @include list-none();
       @include py-12();
       @include px-20();
+
+      width: 100%;
 
       &[selected='selected']{
         background-color: rgba(51, 170, 51, 0.8);

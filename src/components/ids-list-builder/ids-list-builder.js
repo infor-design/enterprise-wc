@@ -30,6 +30,10 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     super();
   }
 
+  #selectedItem;
+
+  placeholder;
+
   connectedCallback() {
     super.connectedCallback();
 
@@ -179,19 +183,19 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
           <div class="header">
             <ids-toolbar>
               <ids-toolbar-section type="buttonset">
-                <ids-button id="button-1">
+                <ids-button id="button-add">
                   <ids-icon slot="icon" icon="add"></ids-icon>
                 </ids-button>
-                <ids-button id="button-2">
+                <ids-button id="button-up">
                   <ids-icon slot="icon" icon="arrow-up"></ids-icon>
                 </ids-button>
-                <ids-button id="button-3">
+                <ids-button id="button-down">
                   <ids-icon slot="icon" icon="arrow-down"></ids-icon>
                 </ids-button>
-                <ids-button id="button-4">
+                <ids-button id="button-edit">
                   <ids-icon slot="icon" icon="edit"></ids-icon>
                 </ids-button>
-                <ids-button id="button-5">
+                <ids-button id="button-delete">
                   <ids-icon slot="icon" icon="delete"></ids-icon>
                 </ids-button>
               </ids-toolbar-section>
@@ -205,11 +209,25 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     `;
   }
 
-  #toggleSelected(item) {
+  #toggleSelectedAttribute(item) {
     if (item.getAttribute('selected')) {
       item.removeAttribute('selected');
     } else {
       item.setAttribute('selected', 'selected');
+    }
+  }
+
+  #toggleSelectedListItem(item) {
+    if (item.tagName === 'LI') {
+      if (item !== this.#selectedItem) {
+        if (this.#selectedItem?.getAttribute('selected')) {
+          // unselect previous item if it's selected
+          this.#toggleSelectedAttribute(this.#selectedItem);
+        }
+        this.#selectedItem = item;
+      }
+      this.#toggleSelectedAttribute(item);
+      item.focus();
     }
   }
 
@@ -231,8 +249,13 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   #isAbove(nodeA, nodeB) {
     const rectA = nodeA.getBoundingClientRect();
     const rectB = nodeB.getBoundingClientRect();
-
-    return rectA.top + rectA.height / 2 < rectB.top + rectB.height / 2;
+    const centerA = rectA.top + rectA.height / 2;
+    const centerB = rectB.top + rectB.height / 2;
+    // console.log('centerA: ' + centerA);
+    // console.log(nodeA)
+    // console.log('centerB: ' + centerB);
+    // console.log(nodeB);
+    return centerA < centerB;
   }
 
   #createPlaceholder(height) {
@@ -243,40 +266,96 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   }
 
   #attachClickListeners() {
-    this.onEvent('click', this.container.querySelector('ul'), (event) => {
-      let item = event.target;
-
-      if (item && item.tagName !== 'LI') {
-        item = item.parentNode;
-      }
-
-      if (item.tagName === 'LI') {
-        this.#toggleSelected(item);
-        item.focus();
+    this.onEvent('click', this.container.querySelector('#button-add'), (event) => {
+    });
+    this.onEvent('click', this.container.querySelector('#button-up'), (event) => {
+      if (this.#selectedItem) {
+        const prev = this.#selectedItem.parentNode.previousElementSibling;
+        if (prev) {
+          this.#swap(this.#selectedItem.parentNode, prev);
+        }
       }
     });
 
-    this.container.querySelectorAll('ids-draggable').forEach((s) => {
-      this.onEvent('ids-drag', s, (event) => {
-        console.log('li span dragged!!')
-      });
+    this.onEvent('click', this.container.querySelector('#button-down'), (event) => {
+      // const selected = this.container.querySelector('li[selected]');
+      if (this.#selectedItem) {
+        const next = this.#selectedItem.parentNode.nextElementSibling;
+        if (next) {
+          this.#swap(this.#selectedItem.parentNode, next);
+        }
+      }
+    });
+    
+    this.onEvent('click', this.container.querySelector('#button-edit'), (event) => {
+      console.log('button edit clicked');
+    });
+    
+    this.onEvent('click', this.container.querySelector('#button-delete'), (event) => {
+      console.log('button delete clicked');
+      if (this.#selectedItem) {
+        this.#selectedItem.remove();
+        this.#selectedItem = null;
+      }
+    });
 
-      let placeholder;
+
+    // this.onEvent('click', this.container.querySelector('div[part="list"]'), (event) => {
+    //   console.log('click')
+    //   let item = event.target;
+    //   console.log(item)
+
+    //   if (item && item.tagName === 'ids-text') {
+    //     console.log(item)
+    //     item = item.tagName === 'ids-text' ? item.parentNode : item.childNode;
+    //     console.log(item)
+    //   }
+
+    //   // this.#toggleSelectedListItem(item);
+    // });
+
+    this.container.querySelectorAll('ids-draggable').forEach((s) => {
       this.onEvent('ids-dragstart', s, (event) => {
-        placeholder = this.#createPlaceholder(s.getBoundingClientRect().height);
-        // placeholder = document.createElement('div');
-        // placeholder.classList.add('placeholder');
+        console.log('ids-dragstart')
+        const listItem = event.target.querySelector('li');
+        console.log(listItem)
+        this.#toggleSelectedListItem(listItem);
+
+        this.placeholder = this.#createPlaceholder(s.getBoundingClientRect().height);
+
+        // need this for draggable to move around
+        s.style.position = `absolute`;
+
         s.parentNode.insertBefore(
-          placeholder,
+          this.placeholder,
           s.nextSibling
         );
+      });
 
-        // placeholder.style.height = `${s.getBoundingClientRect().height}px`;
-        // placeholder.style.border = `solid 1px red`;
+      this.onEvent('ids-drag', s, (event) => {
+        const prevEle = s.previousElementSibling; // might be null for first
+        const nextEle = this.placeholder?.nextElementSibling;
+
+        console.log('checking prev el')
+        if (prevEle && this.#isAbove(s, prevEle)) {
+          this.#swap(this.placeholder, s);
+          this.#swap(this.placeholder, prevEle);
+          // return;
+        }
+
+        console.log('checking next el')
+        if (nextEle && this.#isAbove(nextEle, s)) {
+          this.#swap(nextEle, this.placeholder);
+          this.#swap(nextEle, s);
+        }
       });
 
       this.onEvent('ids-dragend', s, (event) => {
-        placeholder && placeholder.remove();
+        s.style.position = ``;
+        if (this.placeholder) {
+          console.log('remove placeholder')
+          this.placeholder.remove();
+        }
       });
     });
   }
