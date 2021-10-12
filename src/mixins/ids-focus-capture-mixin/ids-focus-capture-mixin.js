@@ -73,36 +73,36 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   #attachFocusEvents() {
+    const keydownEventHandler = (e) => {
+      const isOnFirst = document.activeElement.isEqualNode(this.firstFocusableElement);
+      const isOnLast = document.activeElement.isEqualNode(this.lastFocusableElement);
+
+      switch (e.key) {
+      case 'Tab':
+        if (isOnFirst && e.shiftKey) {
+          e.preventDefault();
+          requestAnimationFrame(() => {
+            const targetElem = this.cyclesFocus ? this.lastFocusableElement : this.firstFocusableElement;
+            targetElem.focus();
+          });
+        }
+        if (isOnLast && !e.shiftKey) {
+          e.preventDefault();
+          requestAnimationFrame(() => {
+            const targetElem = this.cyclesFocus ? this.firstFocusableElement : this.lastFocusableElement;
+            targetElem.focus();
+          });
+        }
+        break;
+      default:
+        break;
+      }
+      return true;
+    };
+
     // Keydown events at the document level intercept default Tab behavior on specified elements.
     // On these elements we adjust tabbing behavior.
-    if (typeof this.onEvent === 'function') {
-      this.onEvent(FOCUS_CAPTURE_EVENTNAME, document, (e) => {
-        const isOnFirst = document.activeElement.isEqualNode(this.firstFocusableElement);
-        const isOnLast = document.activeElement.isEqualNode(this.lastFocusableElement);
-
-        switch (e.key) {
-        case 'Tab':
-          if (isOnFirst && e.shiftKey) {
-            e.preventDefault();
-            requestAnimationFrame(() => {
-              const targetElem = this.cyclesFocus ? this.lastFocusableElement : this.firstFocusableElement;
-              targetElem.focus();
-            });
-          }
-          if (isOnLast && !e.shiftKey) {
-            e.preventDefault();
-            requestAnimationFrame(() => {
-              const targetElem = this.cyclesFocus ? this.firstFocusableElement : this.lastFocusableElement;
-              targetElem.focus();
-            });
-          }
-          break;
-        default:
-          break;
-        }
-        return true;
-      });
-    }
+    this.onEvent(FOCUS_CAPTURE_EVENTNAME, document, keydownEventHandler.bind(this));
   }
 
   /**
@@ -110,9 +110,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   #removeFocusEvents() {
-    if (typeof this.offEvent === 'function') {
-      this.offEvent(FOCUS_CAPTURE_EVENTNAME);
-    }
+    this.offEvent(FOCUS_CAPTURE_EVENTNAME);
   }
 
   /**
@@ -193,13 +191,13 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @returns {HTMLElement} the next focusable child element inside this component
    */
   get nextFocusableElement() {
-    if (!this.focusableElementsInDocument.length) {
-      return document.activeElement;
+    if (!this.focusableElements.length) {
+      return undefined;
     }
 
     const thisIndex = this.focusableElementsInDocument.indexOf(document.activeElement);
-    const nextElem = this.focusableElementsInDocument[thisIndex + 1] || document.activeElement;
-    if (!this.contains(nextElem)) {
+    const nextElem = this.focusableElementsInDocument[thisIndex + 1];
+    if (!this.contains(nextElem) && this.cyclesFocus) {
       return this.firstFocusableElement;
     }
     return nextElem;
@@ -210,14 +208,13 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @returns {HTMLElement} the previous focusable child element inside this component
    */
   get previousFocusableElement() {
-    if (!this.focusableElementsInDocument.length) {
-      return document.activeElement;
+    if (!this.focusableElements.length) {
+      return undefined;
     }
 
-    let thisIndex = this.focusableElementsInDocument.indexOf(document.activeElement);
-    if (!thisIndex) thisIndex = this.focusableElementsInDocument.length;
-    const prevElem = this.focusableElementsInDocument[thisIndex - 1] || document.activeElement;
-    if (!this.contains(prevElem)) {
+    const thisIndex = this.focusableElementsInDocument.indexOf(document.activeElement);
+    const prevElem = this.focusableElementsInDocument[thisIndex - 1];
+    if (!this.contains(prevElem) && this.cyclesFocus) {
       return this.lastFocusableElement;
     }
     return prevElem;

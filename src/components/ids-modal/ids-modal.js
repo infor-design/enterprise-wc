@@ -470,14 +470,6 @@ class IdsModal extends mix(IdsElement).with(
   }
 
   /**
-   * Focuses the first-possible element within the Modal
-   * @returns {void}
-   */
-  #setModalFocus() {
-    this.setFocus();
-  }
-
-  /**
    * Focuses the defined target element, if applicable
    * @returns {void}
    */

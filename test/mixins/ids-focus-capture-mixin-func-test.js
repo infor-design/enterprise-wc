@@ -127,10 +127,14 @@ describe('IdsFocusCaptureMixin)', () => {
     modal.setFocus();
     await processAnimFrame();
     expect(document.activeElement.isEqualNode(modalBtnCancel)).toBeTruthy();
+    expect(modal.nextFocusableElement).toEqual(modalBtnReset);
+    expect(modal.previousFocusableElement).toEqual(modalBtnOK);
 
     modal.setFocus(1);
     await processAnimFrame();
     expect(document.activeElement.isEqualNode(modalBtnReset)).toBeTruthy();
+    expect(modal.nextFocusableElement).toEqual(modalBtnOK);
+    expect(modal.previousFocusableElement).toEqual(modalBtnCancel);
 
     modal.setFocus('first');
     await processAnimFrame();
@@ -139,6 +143,8 @@ describe('IdsFocusCaptureMixin)', () => {
     modal.setFocus('last');
     await processAnimFrame();
     expect(document.activeElement.isEqualNode(modalBtnOK)).toBeTruthy();
+    expect(modal.nextFocusableElement).toEqual(modalBtnCancel);
+    expect(modal.previousFocusableElement).toEqual(modalBtnReset);
   });
 
   it('can set focus with keyboard events', async () => {
@@ -181,6 +187,30 @@ describe('IdsFocusCaptureMixin)', () => {
     // Focus should escape the modal and hit the "After" Button (next available elem)
     expect(document.activeElement.isEqualNode(afterBtn));
   });
+
+  it('listens to namespaced keydown events', async () => {
+    const tabToNextEvent = new CustomEvent('keydown.focus-capture', { key: 'Tab', bubbles: true });
+    const tabToPrevEvent = new CustomEvent('keydown.focus-capture', { key: 'Tab', bubbles: true, shiftKey: true });
+
+    await modal.show();
+    await wait(310);
+
+    modal.setFocus();
+    await processAnimFrame();
+
+    expect(document.activeElement.isEqualNode(modalBtnCancel));
+
+    //document.body.dispatchEvent(tabToPrevEvent);
+    modal.triggerEvent('keydown.focus-capture', document, { key: 'Tab', bubbles: true, shiftKey: true });
+
+    // Focus should cycle back around to the OK button
+    expect(document.activeElement.isEqualNode(modalBtnOK));
+
+    document.body.dispatchEvent(tabToNextEvent);
+
+    // Focus should cycle back around to the Cancel button
+    expect(document.activeElement.isEqualNode(modalBtnCancel));
+  });
 });
 
 describe('IdsFocusCaptureMixin (empty)', () => {
@@ -222,10 +252,16 @@ describe('IdsFocusCaptureMixin (empty)', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('sets no focus', () => {
+  it('sets no focus', async () => {
+    await modal.show();
+    await wait(310);
+
     modal.setFocus();
+    await processAnimFrame();
 
     expect(modal.contains(document.activeElement)).toBeFalsy();
     expect(modal.focusableElements).toEqual([]);
+    expect(modal.nextFocusableElement).not.toBeDefined();
+    expect(modal.previousFocusableElement).not.toBeDefined();
   });
 });
