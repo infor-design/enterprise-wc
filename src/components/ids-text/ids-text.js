@@ -12,8 +12,6 @@ import { IdsStringUtils } from '../../utils';
 // Import Mixins
 import {
   IdsEventsMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem,
   IdsColorVariantMixin,
   IdsTooltipMixin,
   IdsThemeMixin,
@@ -33,7 +31,6 @@ const typesCssClasses = ['label', 'legend', 'span'];
  * @type {IdsText}
  * @inherits IdsElement
  * @mixes IdsThemeMixin
- * @mixes IdsRenderLoopMixin
  * @mixes IdsEventsMixin
  * @mixes IdsTooltipMixin
  * @mixes IdsLocaleMixin
@@ -42,7 +39,6 @@ const typesCssClasses = ['label', 'legend', 'span'];
 @customElement('ids-text')
 @scss(styles)
 class IdsText extends mix(IdsElement).with(
-    IdsRenderLoopMixin,
     IdsEventsMixin,
     IdsThemeMixin,
     IdsTooltipMixin,

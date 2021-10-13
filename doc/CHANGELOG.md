@@ -114,7 +114,6 @@
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[RenderLoop]` The RenderLoop component has been implemented as a mixin.
-  - Added `IdsRenderLoopMixin` for access to a global renderLoop instance from within WebComponents.
   - API has been simplified and made more user-friendly.
 - `[ScrollView/CirclePager]` The IdsScrollView component replaces circle pager from the previous version and adds swiping
   - Markup has changed to a custom element `<ids-scroll-view></ids-scroll-view>`

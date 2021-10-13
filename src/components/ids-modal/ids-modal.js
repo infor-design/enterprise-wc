@@ -12,11 +12,14 @@ import {
   IdsKeyboardMixin,
   IdsPopupInteractionsMixin,
   IdsPopupOpenEventsMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem,
   IdsThemeMixin,
   IdsXssMixin
 } from '../../mixins';
+
+import {
+  renderLoop,
+  IdsRenderLoopItem
+} from '../ids-render-loop';
 
 import zCounter from './ids-modal-z-counter';
 import IdsPopup from '../ids-popup';
@@ -38,7 +41,6 @@ const dismissTimeout = 200;
  * @mixes IdsKeyboardMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsPopupOpenEventsMixin
- * @mixes IdsRenderLoopMixin
  * @mixes IdsThemeMixin
  * @mixes IdsXssMixin
  * @part popup - the popup outer element
@@ -51,7 +53,6 @@ class IdsModal extends mix(IdsElement).with(
     IdsKeyboardMixin,
     IdsPopupInteractionsMixin,
     IdsPopupOpenEventsMixin,
-    IdsRenderLoopMixin,
     IdsThemeMixin,
     IdsXssMixin,
   ) {
@@ -558,7 +559,7 @@ class IdsModal extends mix(IdsElement).with(
     };
 
     // Run click handler on a staggered interval
-    this.rl.register(new IdsRenderLoopItem({
+    renderLoop.register(new IdsRenderLoopItem({
       duration: dismissTimeout,
       timeoutCallback
     }));

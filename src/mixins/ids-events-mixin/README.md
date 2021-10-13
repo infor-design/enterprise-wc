@@ -27,7 +27,7 @@ console.log(this.handledEvents());
 // `click.doop` is not there, but `click` remains.
 ```
 
-The events mixin also lets you use a few convenient "custom events" for common interactions. We currently have the following events. This mixin requires IdsRenderLoopMixin also to be mixed in the component if using any of these events.
+The events mixin also lets you use a few convenient "custom events" for common interactions. We currently have the following events:
 
 - `hoverend` Fires when the user hovers the target and stops. This is to ensure they actually hovered the element and didn't just accidentally pass the mouse over it.
 - `swipe` Fires when a user swipes left or right on a scrollable element. The direction can be seen in `event.detail`

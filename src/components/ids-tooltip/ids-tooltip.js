@@ -15,8 +15,6 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem
 } from '../../mixins';
 
 import IdsPopup from '../ids-popup/ids-popup';
@@ -28,7 +26,6 @@ import styles from './ids-tooltip.scss';
  * @inherits IdsElement
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
- * @mixes IdsRenderLoopMixin
  * @mixes IdsThemeMixin
  * @part tooltip - the tooltip container
  */
@@ -38,7 +35,6 @@ import styles from './ids-tooltip.scss';
 class IdsTooltip extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
-    IdsRenderLoopMixin,
     IdsThemeMixin
   ) {
   constructor() {

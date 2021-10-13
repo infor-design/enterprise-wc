@@ -1,4 +1,4 @@
-import { IdsRenderLoopItem } from '../ids-render-loop-mixin/ids-render-loop-mixin';
+import { renderLoop, IdsRenderLoopItem } from '../../components/ids-render-loop';
 import { IdsStringUtils as stringUtils } from '../../utils';
 
 /**
@@ -185,7 +185,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
       e.preventDefault();
       /* istanbul ignore next */
       if (!this.timer) {
-        this.timer = this.rl?.register(new IdsRenderLoopItem({
+        this.timer = renderLoop.register(new IdsRenderLoopItem({
           duration: options?.delay || 500,
           timeoutCallback: () => {
             const event = new CustomEvent('longpress', e);
@@ -380,7 +380,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     this.onEvent('mouseenter.eventsmixin', target, (e) => {
       /* istanbul ignore next */
       if (!this.timer) {
-        this.timer = this.rl?.register(new IdsRenderLoopItem({
+        this.timer = renderLoop.register(new IdsRenderLoopItem({
           duration: options?.delay || 500,
           timeoutCallback: () => {
             const event = new CustomEvent('hoverend', e);
@@ -419,7 +419,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
 
       /* istanbul ignore next */
       if (!this.timer) {
-        this.timer = this.rl?.register(new IdsRenderLoopItem({
+        this.timer = renderLoop.register(new IdsRenderLoopItem({
           duration: options?.delay || 500,
           timeoutCallback: () => {
             const event = new CustomEvent('keydownend', {

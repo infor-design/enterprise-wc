@@ -9,7 +9,6 @@ import {
 // Import Mixins
 import {
   IdsDirtyTrackerMixin,
-  IdsRenderLoopMixin,
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsPopupOpenEventsMixin,
@@ -38,7 +37,6 @@ import styles from './ids-dropdown.scss';
  * @type {IdsDropdown}
  * @inherits IdsElement
  * @mixes IdsDirtyTrackerMixin
- * @mixes IdsRenderLoopMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
@@ -52,7 +50,6 @@ import styles from './ids-dropdown.scss';
 @scss(styles)
 class IdsDropdown extends mix(IdsElement).with(
     IdsDirtyTrackerMixin,
-    IdsRenderLoopMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsPopupOpenEventsMixin,

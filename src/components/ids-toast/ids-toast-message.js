@@ -11,8 +11,6 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem
 } from '../../mixins';
 
 import { IdsToastShared as shared } from './ids-toast-shared';
@@ -23,7 +21,8 @@ import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
-import renderLoop from '../ids-render-loop/ids-render-loop-global';
+
+import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
 
 /**
  * IDS Toast Message Component

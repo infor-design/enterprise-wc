@@ -16,7 +16,6 @@ We include a trigger field component that helps layout an input next to a button
   IdsEventsMixin
   IdsKeyboardMixin
   IdsMaskMixin
-  IdsRenderLoopMixin
   IdsThemeMixin
   IdsTooltipMixin
   IdsValidationMixin

@@ -24,32 +24,10 @@ The IDS RenderLoop exists to provide an alternative, performance-friendly way to
 
 ## Features (With Code Samples)
 
-Many IDS Components, such as the [Popup]('../ids-popup/README.md'), use the global RenderLoop instance internally and allow access using the `rl` property:
+Before using, import the global renderloop instance and the RenderLoop Item:
 
 ```js
-const popup = new IdsPopup();
-console.log(popup.rl);
-```
-
-If creating a custom component that needs RenderLoop access, you can use the `IdsRenderLoopMixin`.  No other setup is necessary -- a single instance of the RenderLoop will be setup and activated upon first access of the `rl` property:
-
-```js
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '[my-path-to-ids]/src/ids-render-loop/ids-render-loop-mixin';
-
-@customElement('my-component')
-@scss(styles)
-@mixin(IdsRenderLoopMixin)
-class MyComponent {
-  constructor() {
-    // ...
-  }
-}
-```
-
-In some cases, you may not want to roll the RenderLoop into a component, and simply want access to add non-DOM-related asynchronous operations.  For this, it's possible to simply access the `rl` property directly on the mixin definition:
-
-```js
-console.log(IdsRenderLoopMixin.rl);
+import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
 ```
 
 ### RenderLoop Items with a Timeout
@@ -71,11 +49,11 @@ const item = new IdsRenderLoopItem({
 });
 ```
 
-The RenderLoop Item won't execute until it's registered with the loop.  We can access the RenderLoop instance from the component we built earlier, using the `register()` method to pass it on:
+The RenderLoop Item won't execute until it's registered with the loop.  We can use the global RenderLoop instance's `register()` method to pass it on:
 
 ```js
 const myComponent = document.querySelector('my-component');
-myComponent.rl.register(item);
+renderLoop.register(item);
 ```
 
 After 100ms passes, the text content of our `span` tag will change!
@@ -99,14 +77,14 @@ const item = new IdsRenderLoopItem({
     textSpan.textContent = `${counter}`;
   }
 });
-myComponent.rl.register(item);
+renderLoop.register(item);
 ```
 
 The above example doesn't specify a duration.  The default duration (`-1`) causes the RenderLoop item to remain in the queue indefinitely until it's cleared.  This can be done by removing the RenderLoop item from the `items` array in various ways:
 
 ```js
 // Remove using the Loop API:
-myComponent.rl.remove(item);
+renderLoop.remove(item);
 
 // ... OR destroy the item directly
 item.destroy();
@@ -133,7 +111,7 @@ const item = new IdsRenderLoopItem({
     textSpan.textContent = `${counter}`;
   }
 });
-myComponent.rl.register(item);
+renderLoop.register(item);
 ```
 
 When removing the item from the queue as shown above, the `updateCallback` will cease firing, and the `timeoutCallback` will fire.

@@ -469,20 +469,6 @@ it('dismisses on backspace/delete', () => {
 
 Then recheck coverage and tests the rest of the functionality. Like events and methods ect (see other tests for details). As a tip if trying to finish the coverage on a component you cant run `npx jest --coverage -- component-name-func` to run just the tests quickly for a component and then target the coverage that way for that one component.
 
-You may need to add ignores for some situations because jest runs in JSDOM which is virtual it cant do somethings. Some of these cases is RenderLoops, MutationObserver, ResizeObserver, IntersectionObserver ect. To do this add `/* istanbul ignore next */` to the line before or before the function. For example:
-
-```js
-/* istanbul ignore next */
-this.timer = this.rl?.register(new IdsRenderLoopItem({
-  duration: 500,
-  timeoutCallback: () => {
-    isClick = false;
-    this.timer?.destroy(true);
-    this.timer = null;
-  }
-}));
-```
-
 You also might need to debug tests. More information on that [can be found here.](https://github.com/infor-design/enterprise-wc/blob/main/doc/TESTING.md#debugging-functional-tests)
 
 #### Code the e2e tests

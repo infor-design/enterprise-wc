@@ -11,12 +11,11 @@ import { IdsStringUtils } from '../../utils';
 import {
   IdsEventsMixin,
   IdsColorVariantMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem,
   IdsThemeMixin,
   IdsTooltipMixin
 } from '../../mixins';
 
+import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
 import styles from './ids-button.scss';
 
 const { stringToBool } = IdsStringUtils;
@@ -72,7 +71,6 @@ const baseProtoClasses = [
  * IDS Button Component
  * @type {IdsButton}
  * @inherits IdsElement
- * @mixes IdsRenderLoopMixin
  * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsTooltipMixin
@@ -83,7 +81,6 @@ const baseProtoClasses = [
 @customElement('ids-button')
 @scss(styles)
 class IdsButton extends mix(IdsElement).with(
-    IdsRenderLoopMixin,
     IdsEventsMixin,
     IdsColorVariantMixin,
     IdsThemeMixin,
@@ -700,7 +697,7 @@ class IdsButton extends mix(IdsElement).with(
       this.rippleTimeout.destroy(true);
     }
 
-    this.rippleTimeout = this.rl.register(new IdsRenderLoopItem({
+    this.rippleTimeout = renderLoop.register(new IdsRenderLoopItem({
       duration: 1200,
       timeoutCallback() {
         rippleEl.remove();
