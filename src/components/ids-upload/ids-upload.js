@@ -185,7 +185,6 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       if (this.isFilePickerOpened) {
         this.isFilePickerOpened = false;
         // Need timeout because `focus` get before the `files` on fileInput
-        /* istanbul ignore next */
         setTimeout(() => {
           const files = this.fileInput.files;
           const eventName = `files${files.length ? 'select' : 'cancel'}`;
@@ -205,7 +204,6 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   handleFileInputChangeEvent() {
     this.onEvent('change', this.fileInput, (e) => {
       const files = this.fileInput.files;
-      /* istanbul ignore next */
       this.value = [].slice.call(files).map((f) => f.name).join(', ');
       this.dispatchChangeEvent(e);
     });
@@ -253,7 +251,6 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.onEvent('keydown', this.textInput, (e) => {
       const allow = ['Backspace', 'Enter', 'Space'];
       const key = e.code;
-      /* istanbul ignore next */
       const isClearBtn = e.path?.filter((p) => p?.classList?.contains('btn-clear')).length > 0;
       if (allow.indexOf(key) > -1 && !isClearBtn) {
         if (key === 'Backspace') {

@@ -33,7 +33,6 @@ const IdsMaskMixin = (superclass) => class extends superclass {
   /**
    * @returns {Array<string>} IdsInput component observable attributes
    */
-  /* istanbul ignore next */
   static get attributes() {
     return [...super.attributes, ...MASK_ATTRIBUTES];
   }
@@ -195,7 +194,6 @@ const IdsMaskMixin = (superclass) => class extends superclass {
     };
 
     // Modify process options in some specific cases
-    /* istanbul ignore next */
     if (posBegin !== posEnd) {
       processOptions.selection.contents = rawValue.substring(posBegin, posEnd);
     }
@@ -234,11 +232,9 @@ const IdsMaskMixin = (superclass) => class extends superclass {
       previousMaskResult: previousValue,
       previousPlaceholder: this.maskState.previousPlaceholder,
     };
-    /* istanbul ignore next */
     if (processed.pipedCharacterIndexes) {
       adjustCaretOpts.indexesOfPipedChars = processed.pipedCharIndexes;
     }
-    /* istanbul ignore next */
     if (processed.caretTrapIndexes) {
       adjustCaretOpts.caretTrapIndexes = processed.caretTrapIndexes;
     }
@@ -286,7 +282,6 @@ const IdsMaskMixin = (superclass) => class extends superclass {
    * @param {number} endPos end position
    * @returns {void}
    */
-  /* istanbul ignore next */
   safelySetSelection(host = document, startPos = 0, endPos = 0) {
     // @ts-ignore
     if (host?.activeElement === this.input) {

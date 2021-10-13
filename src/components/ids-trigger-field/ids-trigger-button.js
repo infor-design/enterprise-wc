@@ -77,7 +77,6 @@ class IdsTriggerButton extends IdsButton {
       return;
     }
     button.removeAttribute(attributes.READONLY);
-    /* istanbul ignore next */
     button.setAttribute(attributes.TABINDEX, this.tabbable ? '0' : '-1');
     this.removeAttribute(attributes.READONLY);
   }

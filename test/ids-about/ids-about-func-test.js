@@ -173,6 +173,23 @@ describe('IdsAbout Component (using attributes)', () => {
     expect(component.useDefaultCopyright).toBeTruthy();
     expect(component.deviceSpecs).toBeTruthy();
   });
+
+  it('should not close on click outside', (done) => {
+    const clickEvent = new MouseEvent('click', { bubbles: true });
+
+    component.visible = true;
+    setTimeout(() => {
+      // Click outside the about into the overlay area
+      document.body.dispatchEvent(clickEvent);
+      // Nor should calling the method directly
+      component.onOutsideClick();
+
+      setTimeout(() => {
+        expect(component.visible).toEqual(true);
+        done();
+      });
+    }, 70);
+  });
 });
 
 describe('IdsAbout Component (empty)', () => {

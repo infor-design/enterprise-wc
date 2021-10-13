@@ -118,20 +118,28 @@ describe('IdsXssUtils tests', () => {
 
   it('Should santize html tags', () => {
     let result = IdsXssUtils.sanitizeHTML('<strong>hello world</strong>');
-
     expect(result).toEqual('<strong>hello world</strong>');
 
     result = IdsXssUtils.sanitizeHTML('<img src=x onerror=alert(\'img\') />');
-
     expect(result).toEqual('<img src=x>');
 
     result = IdsXssUtils.sanitizeHTML('<script>alert(\'hello world\')</script>');
-
     expect(result).toEqual('');
 
     result = IdsXssUtils.sanitizeHTML('<script><script>alert(\'hello world\')</script></script>');
-
     expect(result).toEqual('');
+
+    result = IdsXssUtils.sanitizeHTML('<div title="alert(\'hello world\')"></div>');
+    expect(result).toEqual('<div title="alert(\'hello world\')"></div>');
+
+    result = IdsXssUtils.sanitizeHTML('<div /onchange="alert()"></div>');
+    expect(result).toEqual('<div ></div>');
+
+    result = IdsXssUtils.sanitizeHTML('<div title="/onerror=alert(\'img\')"></div>');
+    expect(result).toEqual('<div title="/error=alert(\'img\')"></div>');
+
+    result = IdsXssUtils.sanitizeHTML('<div title="onerror=alert(\'img\')"></div>');
+    expect(result).toEqual('<div title="onerror=alert(\'img\')"></div>');
   });
 
   it('Should santize console methods', () => {
@@ -148,6 +156,8 @@ describe('IdsXssUtils tests', () => {
     methods.forEach((method) => {
       expect(IdsXssUtils.sanitizeHTML(`console.${method}("hello world");`)).toEqual('');
     });
+
+    expect(IdsXssUtils.sanitizeConsoleMethods([])).toEqual([]);
   });
 
   it('Should unescape html special characters', () => {

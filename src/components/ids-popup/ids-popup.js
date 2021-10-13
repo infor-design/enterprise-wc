@@ -166,58 +166,54 @@ class IdsPopup extends mix(IdsElement).with(
    * Watches for changes
    * @property {MutationObserver} mo this Popup component's mutation observer
    */
-  /* istanbul ignore next */
-  #mo = new MutationObserver((mutations) => {
-    if (this.#visible) {
-      let placed = false;
-      for (const m of mutations) {
-        if (placed) {
-          break;
-        }
-        if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
-          this.place();
-          placed = true;
+    #mo = new MutationObserver((mutations) => {
+      if (this.#visible) {
+        let placed = false;
+        for (const m of mutations) {
+          if (placed) {
+            break;
+          }
+          if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
+            this.place();
+            placed = true;
+          }
         }
       }
-    }
-  })
+    })
 
-  /**
-   * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
-   * coordinate-specific values to the Popup's inner container.
-   * @private
-   * @property {ResizeObserver} mo this Popup component's resize observer
-   */
-  /* istanbul ignore next */
-  #ro = new ResizeObserver((entries) => {
-    if (this.open) {
-      for (const entry of entries) {
-        if (entry.target.tagName.toLowerCase() === 'ids-container') {
-          this.#fixPlacementOnResize();
-        } else {
-          this.#fix3dMatrixOnResize();
+    /**
+     * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
+     * coordinate-specific values to the Popup's inner container.
+     * @private
+     * @property {ResizeObserver} mo this Popup component's resize observer
+     */
+    #ro = new ResizeObserver((entries) => {
+      if (this.open) {
+        for (const entry of entries) {
+          if (entry.target.tagName.toLowerCase() === 'ids-container') {
+            this.#fixPlacementOnResize();
+          } else {
+            this.#fix3dMatrixOnResize();
+          }
         }
       }
-    }
-  })
+    })
 
   /**
    * Places the Popup and performs an adjustment to its `transform: matrix3d()`
    * CSS property, if applicable.
    */
   #fixPlacementOnResize() {
-    /* istanbul ignore next */
-    this.place().then(() => {
-      this.#fix3dMatrixOnResize();
-    });
-  }
+      this.place().then(() => {
+        this.#fix3dMatrixOnResize();
+      });
+    }
 
   /**
    * Performs an adjustment to the Popup's `transform: matrix3d()`
    * CSS property, if applicable.
    */
   #fix3dMatrixOnResize() {
-    /* istanbul ignore next */
     requestAnimationFrame(() => {
       this.container.style.transition = 'none';
       this.#remove3dMatrix();
@@ -1031,7 +1027,6 @@ class IdsPopup extends mix(IdsElement).with(
             }
           });
           this.container.classList.add('open');
-          /* istanbul ignore next */
           if (this.isFlipped) {
             this.container.classList.add('flipped');
           }
@@ -1081,7 +1076,6 @@ class IdsPopup extends mix(IdsElement).with(
           });
 
           // Remove the `flipped` class if its there
-          /* istanbul ignore next */
           if (this.isFlipped) {
             this.container.classList.remove('flipped');
             this.isFlipped = false;
@@ -1222,11 +1216,9 @@ class IdsPopup extends mix(IdsElement).with(
         x = targetRect.right + x;
         break;
       default: // center
-        /* istanbul ignore next */
         if (alignXCentered) {
           break;
         }
-        /* istanbul ignore next */
         x = (targetRect.left + targetRect.width / 2) - popupRect.width / 2 + x;
       }
 
@@ -1251,7 +1243,6 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Check boundaries and attempt to flip the component in the opposite direction, if needed.
     // If neither side will properly fit the popup, the popup will shrink to fit
-    /* istanbul ignore next */
     if (this.#shouldFlip(popupRect) && !targetAlignEdge) {
       this.#placeAgainstTarget(this.oppositeAlignEdge);
       this.isFlipped = true;
@@ -1262,7 +1253,6 @@ class IdsPopup extends mix(IdsElement).with(
     popupRect = this.#nudge(popupRect);
 
     // If the popup was previously flipped, also flip the arrow alignment
-    /* istanbul ignore if */
     if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
       this.#setArrowDirection('', this.oppositeAlignEdge);
     }
@@ -1297,29 +1287,23 @@ class IdsPopup extends mix(IdsElement).with(
     let fixedX = popupRect.x;
     let fixedY = popupRect.y;
 
-    /* istanbul ignore next */
     const rightEdge = bleed ? viewportWidth : containerRect.right;
 
-    /* istanbul ignore next */
     const leftEdge = bleed ? 0 : containerRect.left;
 
-    /* istanbul ignore next */
     const topEdge = bleed ? 0 : containerRect.top;
 
-    /* istanbul ignore next */
     const bottomEdge = bleed ? viewportHeight : containerRect.bottom;
 
     if (popupRect.right > rightEdge) {
       fixedX -= (popupRect.right - rightEdge);
     }
-    /* istanbul ignore next */
     if (popupRect.left < leftEdge) {
       fixedX += (Math.abs(popupRect.left) + leftEdge);
     }
     if (popupRect.bottom > bottomEdge) {
       fixedY -= (popupRect.bottom - bottomEdge);
     }
-    /* istanbul ignore next */
     if (popupRect.top < topEdge) {
       fixedY += (Math.abs(popupRect.top) + topEdge);
     }
@@ -1371,7 +1355,6 @@ class IdsPopup extends mix(IdsElement).with(
 
     // If the popup does not fit, and there's more space between the opposite edge
     // and viewport boundary, compared to the current edge and its viewport boundary, return true.
-    /* istanbul ignore next */
     return !popupFits && newDistance > currentDistance;
   }
 
@@ -1411,7 +1394,6 @@ class IdsPopup extends mix(IdsElement).with(
     // The original style should be defined in the animation-style class, not inline.
     this.#remove3dMatrix();
 
-    /* istanbul ignore next */
     requestAnimationFrame(() => {
       // gets the current computed style
       const style = window.getComputedStyle(this.container, null);
@@ -1487,7 +1469,6 @@ class IdsPopup extends mix(IdsElement).with(
       newArrowRect.top = arrowRect.top + d;
       newArrowRect.bottom = arrowRect.bottom + d;
 
-      /* istanbul ignore next */
       if (newArrowRect.top <= elementRect.top || newArrowRect.bottom >= elementRect.bottom) {
         arrowHidden = true;
       }
@@ -1499,7 +1480,6 @@ class IdsPopup extends mix(IdsElement).with(
       newArrowRect.left = arrowRect.left + d;
       newArrowRect.right = arrowRect.right + d;
 
-      /* istanbul ignore next */
       if (newArrowRect.left <= elementRect.left || newArrowRect.right >= elementRect.right) {
         arrowHidden = true;
       }
@@ -1509,7 +1489,6 @@ class IdsPopup extends mix(IdsElement).with(
     d = Math.ceil(d);
 
     // Hide the arrow if it goes beyond the element boundaries
-    /* istanbul ignore next */
     if (arrowHidden) {
       arrowEl.hidden = true;
     }

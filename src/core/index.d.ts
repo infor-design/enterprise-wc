@@ -2,12 +2,10 @@
 // confirm our code is type safe, and to support TypeScript users.
 
 import { attributes, prefix } from './ids-attributes';
-import debounce from './ids-debouncer';
 import { IdsElement } from './ids-element';
 
 export {
   attributes,
   prefix,
-  debounce,
   IdsElement
 };

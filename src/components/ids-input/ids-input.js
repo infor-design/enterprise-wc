@@ -156,7 +156,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   connectedCallback() {
     this.#attachEventHandlers();
 
-    /* istanbul ignore next */
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
@@ -312,7 +311,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     } else {
       this?.removeAttribute(attributes.LABEL_HIDDEN);
 
-      /* istanbul ignore else */
       if (this.input) {
         this.input?.removeAttribute('aria-label');
 

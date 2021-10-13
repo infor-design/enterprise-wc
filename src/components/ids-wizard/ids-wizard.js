@@ -15,148 +15,6 @@ import { IdsEventsMixin } from '../../mixins';
 // Import Styles
 import styles from './ids-wizard.scss';
 
-/* istanbul ignore next */
-/**
- * retrieves a step marker element within
- * a wizard's shadow DOM
- *
- * @param {*} wizardEl source Wizard
- * @param {*} stepNumber step number
- * @returns {HTMLElement} the step element
- */
-function getStepEl(wizardEl, stepNumber) {
-  return wizardEl?.shadowRoot?.querySelector(
-    `.step[step-number="${stepNumber}"]`
-  );
-}
-
-/* istanbul ignore next */
-/**
- * Checks whether bounding box/rects retrieved
- * from elem's bounding box are colliding horizontally
- * @param {DOMRect} r1 elem1's bounding box
- * @param {DOMRect} r2 elem2's bounding box
- * @returns {boolean} whether there is collision on x-axis
- */
-function areRectsHColliding(r1, r2) {
-  return (
-    ((r1.left + r1.width) > r2.left)
-    && ((r1.right - r1.width) < r2.right)
-  );
-}
-
-/* istanbul ignore next */
-/**
- * Recursively resize steps for an element so they don't collide;
- * (only pass the wizard element to args)
- * @param {Array} args the arguments; should be IdsWizard element as only
- * user-defined element
- * @returns {Array<DOMRect>} array of rects for step positioning/sizing
- */
-function resizeStepLabelRects(...args) {
-  const w = args[0];
-  const n = args[1] || 1;
-  let rects = args[2] || [];
-  let totalWidth = args[3] || -1;
-
-  // if this is the initial run, populate the
-  // rects array and grab total width
-
-  if (totalWidth === -1) {
-    const wizardRect = w.getBoundingClientRect();
-    totalWidth = wizardRect.width;
-
-    for (let i = 0; i < w.children.length; i++) {
-      // eslint-disable-next-line no-unused-vars
-      const [_stepEl, labelEl] = getStepEl(w, i + 1).children;
-
-      const labelRect = labelEl.getBoundingClientRect();
-      const offsetRect = {
-        width: labelRect.width,
-        left: labelRect.left,
-        right: labelRect.right
-      };
-
-      rects.push(offsetRect);
-    }
-  }
-
-  if (rects.length <= 1) {
-    return rects;
-  }
-
-  const r1 = rects[n - 1];
-  const r2 = rects[n];
-
-  while (areRectsHColliding(r1, r2)) {
-    const isR1LeftAligned = n === 1;
-    const isR2RightAligned = n === rects.length - 1;
-
-    let r1Mult = Math.round((r1.width / r2.width) * 0.5);
-    let r2Mult = Math.round((r2.width / r1.width) * 0.5);
-
-    if (r1.width <= 16) { r1Mult = 0.01; }
-    if (r2.width <= 16) { r2Mult = 0.01; }
-
-    if (isR1LeftAligned) {
-      r1Mult *= 0.5;
-    }
-
-    if (isR2RightAligned) {
-      r2Mult *= 0.5;
-    }
-
-    // gradually subtract width
-
-    r1.width -= 8 * r1Mult;
-    r2.width -= 8 * r2Mult;
-
-    if (isR1LeftAligned) {
-      r1.right -= 8 * r1Mult;
-      r2.right -= 4 * r2Mult;
-      r2.left += 4 * r2Mult;
-    }
-
-    if (isR2RightAligned) {
-      r2.left += 8 * r2Mult;
-      r1.right -= 4 * r1Mult;
-      r1.left += 4 * r1Mult;
-    }
-
-    if (!isR1LeftAligned) {
-      r1.left += 4 * r1Mult;
-      r1.right -= 4 * r1Mult;
-    }
-
-    if (!isR2RightAligned) {
-      r2.left += 4 * r2Mult;
-      r2.right -= 4 * r2Mult;
-    }
-  }
-
-  // update rect refs after morphing them above
-
-  rects[n - 1] = r1;
-  rects[n] = r2;
-
-  // recursive case
-
-  if (n < rects.length - 1) {
-    rects = resizeStepLabelRects(w, n + 1, rects, totalWidth);
-  }
-
-  // pass back rect changes
-
-  return rects;
-}
-
-/**
- * maps objects to href sets;
- * this lets us know that we shouldn't re-use
- * a link with a similar label when constructing them
- */
-const hrefsAssignedSet = new Set();
-
 /**
  * IDS Wizard Component
  * @type {IdsWizard}
@@ -171,6 +29,13 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
   }
+
+  /**
+   * maps objects to href sets;
+   * this lets us know that we shouldn't re-use
+   * a link with a similar label when constructing them
+   */
+  hrefsAssignedSet = new Set();
 
   /**
    * whether to update callbacks after
@@ -193,12 +58,10 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     }
   });
 
-  /* istanbul ignore next */
   resizeObserver = new ResizeObserver(() => {
     this.fitAndSizeElements();
   });
 
-  /* istanbul ignore next */
   /**
    * fits and resizes all labels to fit
    * within the space available
@@ -207,19 +70,33 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     const labelEls = [];
 
     for (let i = 0; i < this.children.length; i++) {
-      const labelEl = getStepEl(this, i + 1).children[1];
+      const labelEl = this.getStepEl(this, i + 1).children[1];
       labelEl.style.maxWidth = 'unset';
       labelEls.push(labelEl);
     }
 
     window.requestAnimationFrame(() => {
-      const stepRects = resizeStepLabelRects(this);
+      const stepRects = this.resizeStepLabelRects(this);
       for (let i = 0; i < stepRects.length; i++) {
         const { width } = stepRects[i];
 
         labelEls[i].style.maxWidth = `${width}px`;
       }
     });
+  }
+
+  /**
+   * Checks whether bounding box/rects retrieved
+   * from elem's bounding box are colliding horizontally
+   * @param {DOMRect} r1 elem1's bounding box
+   * @param {DOMRect} r2 elem2's bounding box
+   * @returns {boolean} whether there is collision on x-axis
+   */
+  areRectsHColliding(r1, r2) {
+    return (
+      ((r1.left + r1.width) > r2.left)
+      && ((r1.right - r1.width) < r2.right)
+    );
   }
 
   /**
@@ -241,7 +118,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
     return (
       (!this.clickable && (stepEl.getAttribute(attributes.CLICKABLE) !== 'false'))
-      || stepEl.getAttribute(attributes.CLICKABLE) !== 'false'
+    || stepEl.getAttribute(attributes.CLICKABLE) !== 'false'
     );
   }
 
@@ -270,59 +147,59 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
       stepClassName += isClickable ? ' clickable' : '';
 
       const pathSegmentHtml = (i >= this.children.length - 1) ? '' : (
-        `<div
-          class="path-segment${stepIndex <= i ? '' : ' visited'}
-          part="path-segment"
-        ></div>`
+      `<div
+        class="path-segment${stepIndex <= i ? '' : ' visited'}
+        part="path-segment"
+      ></div>`
       );
 
       const stepLabelHtml = (
-        `<div
-          class="step-label"
-          step-number=${i + 1}
-        >
-          <ids-text
-            overflow="ellipsis"
-            size=18
-            font-weight="${isCurrentStep ? 'bold' : 'normal'}"
-            color="unset"
-          >${label}
-          </ids-text>
-        </div>`
+      `<div
+        class="step-label"
+        step-number=${i + 1}
+      >
+        <ids-text
+          overflow="ellipsis"
+          size=18
+          font-weight="${isCurrentStep ? 'bold' : 'normal'}"
+          color="unset"
+        >${label}
+        </ids-text>
+      </div>`
       );
 
       let anchorAttribsHtml = `name="#${label}" title="${label}"`;
       anchorAttribsHtml += (!isClickable || isCurrentStep) ? '' : ` href="#${hrefUrl}"`;
 
       stepsHtml += (
-        `<a
-          class="${stepClassName}"
-          part="step"
-          step-number="${i + 1}"
-          tabindex="${isClickable ? '0' : '-1'}"'
-          ${anchorAttribsHtml}
-        >
-          <div class="step-marker">
-            <svg viewBox="0 0 24 24">
+      `<a
+        class="${stepClassName}"
+        part="step"
+        step-number="${i + 1}"
+        tabindex="${isClickable ? '0' : '-1'}"'
+        ${anchorAttribsHtml}
+      >
+        <div class="step-marker">
+          <svg viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="12" />
+          </svg>
+          ${ !isCurrentStep ? '' : (
+            `<svg viewBox="0 0 24 24">
               <circle cx="12" cy="12" r="12" />
-            </svg>
-            ${ !isCurrentStep ? '' : (
-              `<svg viewBox="0 0 24 24">
-                <circle cx="12" cy="12" r="12" />
-              </svg>`) }
-          </div>
-          ${stepLabelHtml}
-        </a>
-        ${pathSegmentHtml}`
+            </svg>`) }
+        </div>
+        ${stepLabelHtml}
+      </a>
+      ${pathSegmentHtml}`
       );
     }
 
     return (
-      `<div class="ids-wizard">
-        <nav class="steps">
-          ${stepsHtml}
-        </nav>
-      </div>`
+    `<div class="ids-wizard">
+      <nav class="steps">
+        ${stepsHtml}
+      </nav>
+    </div>`
     );
   }
 
@@ -369,7 +246,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
   connectedCallback() {
     this.updateHrefURIs();
-    /* istanbul ignore next */
     if (window.location.hash.length) {
       const uriHash = window.location.hash.substr(1);
       const stepNumber = this.hrefURIs.indexOf(uriHash) + 1;
@@ -408,47 +284,33 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
     // so that focus isn't lost suddenly
 
     if (oldValue !== newValue) {
-      switch (name) {
-      case 'clickable':
-      case 'step-number': {
-        const activeStepNumber = document.activeElement.getAttribute('step-number');
+      const activeStepNumber = document.activeElement.getAttribute('step-number');
 
-        // track any label widths
+      // track any label widths
+      const resizedWidthsMap = new Map();
+      for (let i = 0; i < this.children?.length; i++) {
+        const labelEl = this.getStepEl(this, i + 1).children?.[1];
 
-        const resizedWidthsMap = new Map();
-
-        /* istanbul ignore next */
-        for (let i = 0; i < this.children?.length; i++) {
-          const labelEl = getStepEl(this, i + 1).children?.[1];
-
-          if (labelEl.style.maxWidth && labelEl.style.maxWidth !== 'unset') {
-            resizedWidthsMap.set(i + 1, labelEl.style.maxWidth);
-          }
+        if (labelEl.style.maxWidth && labelEl.style.maxWidth !== 'unset') {
+          resizedWidthsMap.set(i + 1, labelEl.style.maxWidth);
         }
-
-        this.shouldUpdateCallbacks = true;
-        this.render();
-
-        /* istanbul ignore next */
-        if ((typeof activeStepNumber === 'string') && parseInt(activeStepNumber)) {
-          const currentStep = this.shadowRoot.querySelector(
-            `[step-number="${activeStepNumber}"]`
-          );
-
-          currentStep?.focus();
-
-          // restore label widths after render
-          for (const [stepNumber, width] of resizedWidthsMap) {
-            const labelEl = getStepEl(this, stepNumber)?.children?.[1];
-            if (labelEl?.style) {
-              labelEl.style.maxWidth = width;
-            }
-          }
-        }
-        break;
       }
-      /* istanbul ignore next */
-      default: break;
+
+      this.shouldUpdateCallbacks = true;
+      this.render();
+
+      if ((typeof activeStepNumber === 'string') && parseInt(activeStepNumber)) {
+        const currentStep = this.shadowRoot.querySelector(
+          `[step-number="${activeStepNumber}"]`
+        );
+
+        currentStep?.focus();
+
+        // restore label widths after render
+        for (const [stepNumber, width] of resizedWidthsMap) {
+          const labelEl = this.getStepEl(this, stepNumber)?.children?.[1];
+          labelEl.style.maxWidth = width;
+        }
       }
     }
   }
@@ -458,7 +320,6 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
    * old handlers when template refreshes
    */
   rendered = () => {
-    /* istanbul ignore next */
     if (!this.shouldUpdateCallbacks) {
       return;
     }
@@ -510,16 +371,130 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
 
       while (
         (this.hrefURIs?.[i] !== uriHash)
-        && hrefsAssignedSet.has?.(uriHash)
+        && this.hrefsAssignedSet.has?.(uriHash)
       ) {
         collisionCount = collisionCount ? (collisionCount + 1) : 1;
         uriHash = `${encodeURI(el.textContent)}-${collisionCount}`;
       }
 
-      hrefsAssignedSet.add(uriHash);
+      this.hrefsAssignedSet.add(uriHash);
 
       return uriHash;
     });
+  }
+
+  /**
+   * retrieves a step marker element within
+   * a wizard's shadow DOM
+   *
+   * @param {*} wizardEl source Wizard
+   * @param {*} stepNumber step number
+   * @returns {HTMLElement} the step element
+   */
+  getStepEl(wizardEl, stepNumber) {
+    return wizardEl?.shadowRoot?.querySelector(
+    `.step[step-number="${stepNumber}"]`
+    );
+  }
+
+  /**
+   * Recursively resize steps for an element so they don't collide;
+   * (only pass the wizard element to args)
+   * @param {Array} args the arguments; should be IdsWizard element as only
+   * user-defined element
+   * @returns {Array<DOMRect>} array of rects for step positioning/sizing
+   */
+  resizeStepLabelRects(...args) {
+    const w = args[0];
+    const n = args[1] || 1;
+    let rects = args[2] || [];
+    let totalWidth = args[3] || -1;
+
+    // if this is the initial run, populate the
+    // rects array and grab total width
+    if (totalWidth === -1) {
+      const wizardRect = w.getBoundingClientRect();
+      totalWidth = wizardRect.width;
+
+      for (let i = 0; i < w.children.length; i++) {
+        // eslint-disable-next-line no-unused-vars
+        const [_stepEl, labelEl] = this.getStepEl(w, i + 1).children;
+
+        const labelRect = labelEl.getBoundingClientRect();
+        const offsetRect = {
+          width: labelRect.width,
+          left: labelRect.left,
+          right: labelRect.right
+        };
+
+        rects.push(offsetRect);
+      }
+    }
+
+    if (rects.length <= 1) {
+      return rects;
+    }
+
+    const r1 = rects[n - 1];
+    const r2 = rects[n];
+
+    while (this.areRectsHColliding(r1, r2)) {
+      const isR1LeftAligned = n === 1;
+      const isR2RightAligned = n === rects.length - 1;
+
+      let r1Mult = Math.round((r1.width / r2.width) * 0.5);
+      let r2Mult = Math.round((r2.width / r1.width) * 0.5);
+
+      if (r1.width <= 16) { r1Mult = 0.01; }
+      if (r2.width <= 16) { r2Mult = 0.01; }
+
+      if (isR1LeftAligned) {
+        r1Mult *= 0.5;
+      }
+
+      if (isR2RightAligned) {
+        r2Mult *= 0.5;
+      }
+
+      // gradually subtract width
+
+      r1.width -= 8 * r1Mult;
+      r2.width -= 8 * r2Mult;
+
+      if (isR1LeftAligned) {
+        r1.right -= 8 * r1Mult;
+        r2.right -= 4 * r2Mult;
+        r2.left += 4 * r2Mult;
+      }
+
+      if (isR2RightAligned) {
+        r2.left += 8 * r2Mult;
+        r1.right -= 4 * r1Mult;
+        r1.left += 4 * r1Mult;
+      }
+
+      if (!isR1LeftAligned) {
+        r1.left += 4 * r1Mult;
+        r1.right -= 4 * r1Mult;
+      }
+
+      if (!isR2RightAligned) {
+        r2.left += 4 * r2Mult;
+        r2.right -= 4 * r2Mult;
+      }
+    }
+
+    // update rect refs after morphing them above
+    rects[n - 1] = r1;
+    rects[n] = r2;
+
+    // recursive case
+    if (n < rects.length - 1) {
+      rects = this.resizeStepLabelRects(w, n + 1, rects, totalWidth);
+    }
+
+    // pass back rect changes
+    return rects;
   }
 }
 
