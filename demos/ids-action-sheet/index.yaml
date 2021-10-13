@@ -1,0 +1,9 @@
+---
+ component: Action Sheet
+ link: ids-action-sheet
+ description: Displays a menu at the bottom of your screen on mobile devices
+ category: Navigation and Interaction
+ keywords: modal, info, popup, product, application
+ examples:
+  - link: index.html
+    description: Shows main example
