@@ -1,0 +1,9 @@
+---
+ component: Process Indicator
+ link: ids-process-indicator
+ description: Displays process on a timeline with intervals
+ category: Charts and Visualizations
+ keywords: process, indicator, timeline 
+ examples:
+  - link: index.html
+    description: Showing various process indicator examples
