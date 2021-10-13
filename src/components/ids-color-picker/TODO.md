@@ -2,7 +2,7 @@
 
 - [ ] Tooltip on the colors
 - [ ] Fix focus state around input and swatch (needs trigger button issue)
-- [ ] Fix the keyboard (arrow down , keys around the colors ect)
+- [ ] Fix the keyboard (arrow down , enter, keys around the colors ect)
 - [ ] Click the swatch to select / option for the "advanced" picker
 - [ ] Fix arrow position
 - [ ] Enable/Disable standard HTML colorpicker independently of other Colorpicker parts using a boolean attribute
@@ -24,7 +24,6 @@
 - [ ] Enable/Disable standard HTML colorpicker independently of other Colorpicker parts using a boolean attribute
 - [ ] Standardize/Abstract out Popup/Picker/"return value" interface (to be used in this and other pickers)
 - [ ] Need to add JSDoc comments for everything that's missing
-- [ ] Add/ Test Themes
 - [ ] Add test for change event
 - [ ] Change hide/show to open/close
 - [ ] Implement Field heights

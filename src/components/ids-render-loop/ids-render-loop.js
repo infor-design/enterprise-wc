@@ -148,7 +148,6 @@ class IdsRenderLoop {
    * @returns {number} amount of time that has passed since the RenderLoop was started.
    */
   get elapsedTime() {
-    /* istanbul ignore next */
     return timestamp() - ((this.startTime || 0) + this.totalStoppedTime);
   }
 
@@ -190,7 +189,6 @@ class IdsRenderLoop {
     }
 
     // Cause the item to timeout
-    /* istanbul ignore next */
     if (removedItem?.timeoutCallback) {
       removedItem.timeout();
     }

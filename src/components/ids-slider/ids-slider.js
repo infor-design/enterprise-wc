@@ -216,7 +216,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * @param {boolean} value Whether or not RTL is in effect
    */
   set isRTL(value) {
-    /* istanbul ignore else */
     if (value !== this.isRTL) {
       this.#isRTL = value;
       this.#moveThumb();
@@ -232,7 +231,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   /** Add event listener for when the language changes to check for RTL */
   #attachRTLListener() {
-    /* istanbul ignore next */
     this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
       const isRTL = this.locale.isRTL(e.detail.language.name);
@@ -306,23 +304,21 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   /** Helper method to update the labels on the UI according to stepNumber and labels */
   #setStepLabels() {
-    /* istanbul ignore next */
     if (this.type !== 'step') return;
 
     const labels = this.labels;
     const stepNumber = this.stepNumber;
 
     // check to make sure labels length is equal to step number
-    /* istanbul ignore else */
+
     if (labels.length === stepNumber) {
       // check amount of label elements -- add or remove accordingly
       let labelElements = this.container.querySelectorAll('.label');
       const ticks = this.container.querySelectorAll('.tick');
-      /* istanbul ignore else */
+
       if (labelElements.length !== stepNumber) {
         const x = Math.abs(stepNumber - labelElements.length);
         for (let i = 0; i < x; i++) {
-          /* istanbul ignore else */
           if (labelElements.length < stepNumber) {
             ticks[ticks.length - 1 - i].insertAdjacentHTML('afterbegin', '<ids-text label class="label"></ids-text>');
           }
@@ -331,7 +327,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         labelElements = this.container.querySelectorAll('.label');
       }
       // set the innerHTML for each label in the array
-      /* istanbul ignore else */
+
       if (labels.length === labelElements.length) {
         labelElements.forEach((x, i) => {
           x.innerHTML = this.vertical ? labels[labels.length - 1 - i] : labels[i];
@@ -348,7 +344,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   }
 
   /**
-   * Helper method for setLabels and initialization of labels on window.load
+   * Helper method for setLabels and initialization of labels
    * @returns {Array} An array the size of stepNumber with numerical intervals between the min and max
    */
   #generateNumericalLabels() {
@@ -367,11 +363,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   set stepNumber(value) {
     if (this.type === 'step') {
       // must have at least 2 steps
-      /* istanbul ignore else */
+
       if (parseInt(value) >= 2) {
         this.setAttribute('step-number', value);
         const stepLength = this.container.querySelectorAll('.tick').length;
-        /* istanbul ignore else */
+
         if (stepLength !== this.stepNumber) {
           const x = Math.abs(stepLength - this.stepNumber);
           for (let i = 0; i < x; i++) {
@@ -646,7 +642,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       let thumbDraggable = this.thumbDraggable;
       let valueAttribute = 'value';
 
-      /* istanbul ignore else */
       if (this.type === 'double') {
         this.#hideTooltip(false, 'secondary');
         const thumbPosSecondary = this.vertical
@@ -656,7 +651,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
         // figure out which thumb is closer to the click location
         const mousePos = this.vertical ? y : x;
 
-        /* istanbul ignore next */
         if (Math.abs(mousePos - thumbPos) > Math.abs(mousePos - thumbPosSecondary)) {
           thumbDraggable = this.thumbDraggableSecondary;
           valueAttribute = 'valueSecondary';
@@ -679,7 +673,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
       let min = differences[0];
       let minIndex = 0;
 
-      /* istanbul ignore next */
       for (let i = 0; i < differences.length; i++) {
         if (differences[i] < min) {
           min = differences[i];
@@ -767,7 +760,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     const range = Math.abs(nStart - nEnd) - thumbWidth / 2;
     const endDelta = Math.abs(n - nEnd);
     const startDelta = Math.abs(n - nStart);
-    /* istanbul ignore next */
     if (endDelta > range) {
       percent = 0;
     } else if (startDelta > range) {
@@ -821,7 +813,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
   #toggleTransitionStyles(toggleOn) {
     if (toggleOn) {
       // primary styles
-      /* istanbul ignore else */
+
       if (!this.thumbDraggable.style.transition && !this.progressTrack.style.transition) {
         this.thumbDraggable.style.setProperty('transition', 'transform 0.2s ease 0s');
         // the progress track transition animation is jittery on vertical and double sliders, so don't add for those
@@ -834,7 +826,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     } else {
       this.thumbDraggable.style.removeProperty('transition');
       this.progressTrack.style.removeProperty('transition');
-      /* istanbul ignore else */
+
       if (this.type === 'double') this.thumbDraggableSecondary.style.removeProperty('transition');
     }
   }
@@ -849,7 +841,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     this.#updateColor();
 
     // init base min/max labels
-    /* istanbul ignore else */
+
     if (this.firstTick && this.lastTick) {
       const maxTick = this.vertical ? this.firstTick : this.lastTick;
       const minTick = this.vertical ? this.lastTick : this.firstTick;
@@ -868,7 +860,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   /** Checks if the window changes sizes and updates UI accordingly */
   #attachResizeObserver() {
-    /* istanbul ignore next */
     const resizeObserver = new ResizeObserver((entries) => {
       for (const entry of entries) {
         if (entry.contentBoxSize) {
@@ -926,7 +917,6 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     };
 
     const swapZIndex = () => {
-      /* istanbul ignore else */
       if (obj.thumbDraggableOther) {
         obj.thumbDraggableOther.style.zIndex = 50;
         obj.thumbDraggable.style.zIndex = 51;
@@ -978,13 +968,11 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
 
   /** Add event listeners for arrow keys to move thumbs */
   #attachKeyboardListeners() {
-    /* istanbul ignore next */
     this.onEvent('keydown', this, (event) => {
       if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].indexOf(event.code) > -1) {
         event.preventDefault();
       }
 
-      /* istanbul ignore else */
       if (event.target.name === 'ids-slider') {
         let primaryOrSecondary = '';
 

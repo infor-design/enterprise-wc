@@ -204,12 +204,10 @@ class IdsButton extends mix(IdsElement).with(
       type = ` btn-${this.state.type}`;
     }
 
-    /* istanbul ignore next */
     if (this.hasAttribute(attributes.SQUARE)) {
       cssClass += ' square';
     }
 
-    /* istanbul ignore next */
     if (this.protoClasses.length) {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }
@@ -232,7 +230,6 @@ class IdsButton extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  /* istanbul ignore next */
   attachEventHandlers() {
     let x;
     let y;
@@ -331,7 +328,6 @@ class IdsButton extends mix(IdsElement).with(
     this.shouldUpdate = true;
     this.state.disabled = isValueTruthy;
 
-    /* istanbul ignore next */
     if (this.button) {
       this.button.disabled = isValueTruthy;
     }
@@ -460,7 +456,6 @@ class IdsButton extends mix(IdsElement).with(
 
     // Re-arrange the slots
     const iconSlot = this.button.querySelector('slot[name="icon"]');
-    /* istanbul ignore next */
     if (!iconSlot) {
       return;
     }
@@ -630,7 +625,6 @@ class IdsButton extends mix(IdsElement).with(
    */
   getRippleOffsets(x, y) {
     const btnRect = this.getBoundingClientRect();
-    /* istanbul ignore next */
     const halfRippleSize = this.button.classList.contains('ids-icon-button') ? 35 : 125;
     let btnX;
     let btnY;

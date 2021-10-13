@@ -157,7 +157,6 @@ class IdsHomePage extends mix(IdsElement).with(
    * @private
    * @type {number}
    */
-  /* istanbul ignore next */
   #resizeObserver = new ResizeObserver(() => this.#resize());
 
   /**

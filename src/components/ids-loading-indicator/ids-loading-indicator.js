@@ -248,7 +248,6 @@ export default class IdsLoadingIndicator extends mix(IdsElement).with(
   set percentageVisible(value) {
     const isTruthy = stringToBool(value);
 
-    /* istanbul ignore else */
     if (isTruthy && !this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {
       this.setAttribute(attributes.PERCENTAGE_VISIBLE, '');
     } else if (!isTruthy && this.hasAttribute(attributes.PERCENTAGE_VISIBLE)) {

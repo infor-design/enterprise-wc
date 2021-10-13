@@ -233,7 +233,6 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   /**
    * @returns {string} the current color of the notification badge
    */
-  /* istanbul ignore next */
   get badgeColor() { return this.getAttribute(attributes.BADGE_COLOR); }
 
   /**
@@ -258,7 +257,6 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    * @param {string} value sets the postion of the notification badge
    */
   set badgePosition(value) {
-    /* istanbul ignore else */
     if (value && this.getAttribute(attributes.BADGE_POSITION) !== value) {
       this.setAttribute(attributes.BADGE_POSITION, value);
       this.#updateBadge();
@@ -316,7 +314,6 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   #adjustViewbox() {
     let viewboxSize = '0 0 18 18';
 
-    /* istanbul ignore next */
     switch (this.icon) {
     case 'logo':
       viewboxSize = '0 0 34 34';
@@ -353,9 +350,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   }
 
   #updateBadge() {
-    /* istanbul ignore next */
     let badge = this.shadowRoot.querySelector('span');
-    /* istanbul ignore else */
     if (!badge) {
       this.shadowRoot.innerHTML = this.template();
       badge = this.shadowRoot.querySelector('span');

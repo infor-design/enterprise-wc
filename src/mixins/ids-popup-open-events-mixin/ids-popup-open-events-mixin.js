@@ -38,10 +38,7 @@ const IdsPopupOpenEventsMixin = (superclass) => class extends superclass {
       // Attach a click handler to the window for detecting clicks outside the popup.
       // If these aren't captured by a popup, the menu will close.
       this.onEvent('click.toplevel', this.popupOpenEventsTarget, (e) => {
-        /* istanbul ignore next */
-        if (typeof this.onOutsideClick === 'function') {
-          this.onOutsideClick(e);
-        }
+        this?.onOutsideClick(e);
       });
       this.hasOpenEvents = true;
       this.#currentPopupOpenEventsTarget = this.popupOpenEventsTarget;

@@ -155,7 +155,6 @@ class IdsColorPicker extends mix(IdsElement).with(
    * Sets the readonly attribute
    * @param {string} value string value from the readonly attribute
    */
-  /* istanbul ignore next */
   set readonly(value) {
     value = stringUtils.stringToBool(value);
     if (value) {
@@ -166,7 +165,6 @@ class IdsColorPicker extends mix(IdsElement).with(
     this.removeAttribute(attributes.READONLY);
   }
 
-  /* istanbul ignore next */
   get readonly() {
     return stringUtils.stringToBool(this.getAttribute(attributes.READONLY)) || false;
   }
@@ -222,14 +220,11 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  /* istanbul ignore next */
   #attachEventHandlers() {
-    /* istanbul ignore next */
     this.idsColorsArr.forEach((element) => {
       element.style.backgroundColor = element.getAttribute('hex');
     });
 
-    /* istanbul ignore next */
     this.onEvent('click', this.container, (event) => {
       const isEditable = !stringUtils.stringToBool(this.readonly)
       && !stringUtils.stringToBool(this.disabled);
@@ -239,7 +234,8 @@ class IdsColorPicker extends mix(IdsElement).with(
       }
 
       const target = event.target;
-      let openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
+      let openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown')
+      || target.classList.contains('color-preview') || target.classList.contains('color-picker-trigger-btn'));
       let openAdvanced = target.classList.contains('color-input');
 
       if (target.classList.contains('ids-dropdown') && this.advanced) {
@@ -262,7 +258,6 @@ class IdsColorPicker extends mix(IdsElement).with(
       }
     });
 
-    /* istanbul ignore next */
     this.onEvent('keydown', this.container, (keyup) => {
       if (keyup.key === 'Enter') {
         if (keyup.target.id === `${this.id}-button`) {
@@ -276,18 +271,16 @@ class IdsColorPicker extends mix(IdsElement).with(
       }
     });
 
-    this.onEvent('change', this.swatchInput, /* istanbul ignore next */ () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
-    this.onEvent('change', this.colorPickerInput, /* istanbul ignore next */ () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
+    this.onEvent('change', this.swatchInput, () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
+    this.onEvent('change', this.colorPickerInput, () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
     this.onEvent('change', this.triggerColorPickerInput, () => this.setAttribute('value', this.triggerColorPickerInput.value.toLowerCase()));
-    this.onEvent('click', this.colorPreview, /* istanbul ignore next */ () => this.idsColorsArr.forEach((element) => element.removeAttribute('checked')));
   }
 
-   /**
-    * Update color picker value to match setected color hex value
-    * @param {string} colorValue
-    */
-   /* istanbul ignore next */
-   #updateColorPickerValues(colorValue) {
+  /**
+   * Update color picker value to match setected color hex value
+   * @param {string} colorValue the value to update
+   */
+ #updateColorPickerValues(colorValue) {
     this.swatchInput.value = colorValue;
     this.colorPreview.style.backgroundColor = colorValue;
     this.colorPickerInput.value = colorValue;
@@ -298,19 +291,17 @@ class IdsColorPicker extends mix(IdsElement).with(
     * @private
     */
    #openCloseColorpicker() {
-     /* istanbul ignore next */
-     if (!this.popup.visible) {
-       this.show();
-     } else {
-       this.hide();
-     }
+   if (!this.popup.visible) {
+     this.show();
+   } else {
+     this.hide();
    }
+ }
 
    /**
     * Hides the Color Picker's Popup
     * @returns {void}
     */
-   /* istanbul ignore next */
    hide() {
      this.popup.visible = false;
      this.removeOpenEvents();
@@ -320,7 +311,6 @@ class IdsColorPicker extends mix(IdsElement).with(
     * Shows the Color Picker's Popup
     * @returns {void}
     */
-   /* istanbul ignore next */
    show() {
      this.popup.alignTarget = this.container.querySelector('ids-icon');
      this.popup.align = 'bottom, center';
@@ -335,7 +325,6 @@ class IdsColorPicker extends mix(IdsElement).with(
     * Runs when a click event is propagated to the window.
     * @returns {void}
     */
-   /* istanbul ignore next */
    onOutsideClick() {
      this.hide();
    }
@@ -345,13 +334,10 @@ class IdsColorPicker extends mix(IdsElement).with(
     * @param {any} target event target
     */
    #updateColorCheck(target) {
-     /* istanbul ignore next */
      const checkedColor = target.parentElement.querySelector('[checked="true"]');
-     /* istanbul ignore next */
      if (checkedColor) {
        checkedColor.removeAttribute('checked');
      }
-     /* istanbul ignore next */
      target.setAttribute('checked', 'true');
    }
 }

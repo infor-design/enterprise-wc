@@ -133,12 +133,10 @@ class IdsTooltip extends mix(IdsElement).with(
         this.visible = true;
       });
 
-      /* istanbul ignore next */
       this.onEvent('focusout.tooltip', targetElem, () => {
         this.visible = false;
       });
 
-      /* istanbul ignore next */
       this.onEvent('click.popup', this.popup, () => {
         this.visible = true;
       });

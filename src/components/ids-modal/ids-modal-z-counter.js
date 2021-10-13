@@ -10,7 +10,6 @@ class IdsModalZCounter {
     return this.zCounter++;
   }
 
-  /* istanbul ignore next */
   decrement() {
     return this.zCounter--;
   }

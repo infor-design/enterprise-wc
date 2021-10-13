@@ -14,3 +14,6 @@ app
 
 # Error Reports from the Test Suite
 report.*.json
+
+# AWS
+.aws-sam/

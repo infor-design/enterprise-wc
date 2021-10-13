@@ -13,7 +13,6 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
   constructor() {
     super();
 
-    /* istanbul ignore next */
     if (!this.state) {
       this.state = {};
     }
@@ -67,7 +66,6 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
       safeVal = null;
     }
 
-    /* istanbul ignore next */
     if (this.state.colorVariant !== safeVal) {
       this.state.colorVariant = safeVal;
       this.#refreshColorVariant(safeVal);

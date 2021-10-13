@@ -127,11 +127,15 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     this.setAttribute('aria-label', this.#getReadableAriaLabel());
     this.selected = this.hasAttribute(attributes.SELECTED);
 
-    /* istanbul ignore next */
     this.onEvent('click', this, () => {
       if (!this.hasAttribute(attributes.SELECTED)) {
         this.setAttribute(attributes.SELECTED, '');
       }
+      this.focus();
+    });
+
+    this.onEvent('focus', this, () => {
+      this.focus();
     });
   }
 
@@ -141,7 +145,6 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
   set selected(isSelected) {
     const isValueTruthy = stringToBool(isSelected);
 
-    /* istanbul ignore if */
     if (!isValueTruthy) {
       this.removeAttribute('selected');
       this.container.classList.remove('selected');
@@ -202,9 +205,7 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
   /** @param {string} value The value which becomes selected by ids-tabs component */
   set value(value) {
-    /* istanbul ignore next */
     if (value !== this.getAttribute(attributes.VALUE)) {
-      /* istanbul ignore next */
       this.setAttribute(attributes.VALUE, value);
     }
 
@@ -229,7 +230,6 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set count(value) {
     if (value === '') {
-      /* istanbul ignore else */
       if (this.hasAttribute(attributes.COUNT)) {
         this.removeAttribute(attributes.COUNT);
       }
@@ -274,17 +274,10 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    * sets aria readable label by
    * grabbing all ids-text nodes in order
    * they appear in the DOM
-   *
    * @returns {string} aria-label content
    */
   #getReadableAriaLabel() {
     const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
-
-    /* istanbul ignore next */
-    if (!idsTextEls.length) {
-      return '';
-    }
-
     return idsTextEls.map((textEl) => {
       const slotNode = textEl.querySelector('slot')?.assignedNodes?.()?.[0];
       return slotNode?.textContent || textEl.textContent;
@@ -303,9 +296,8 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     if (slotNode && idsText) {
       idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
     }
-  };
+  }
 
-  /* istanbul ignore next */
   focus() {
     this.container.focus();
   }

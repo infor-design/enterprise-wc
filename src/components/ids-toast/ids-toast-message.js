@@ -108,7 +108,6 @@ class IdsToastMessage extends
   #setTimer() {
     let progressBar = this.shadowRoot.querySelector('.progress-bar');
     const updateProgressBar = (percentage) => {
-      /* istanbul ignore else */
       if (progressBar) {
         progressBar.style.width = `${percentage}%`;
       }
@@ -120,7 +119,6 @@ class IdsToastMessage extends
       this.container?.classList.add(shared.TOAST_MESSAGE_CLASSES.start);
     }
 
-    /* istanbul ignore next */
     if (!this.progressBar && progressBar) {
       progressBar.parentNode?.removeChild(progressBar);
       progressBar = undefined;
