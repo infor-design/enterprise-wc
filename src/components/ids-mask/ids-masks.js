@@ -44,7 +44,6 @@ export const DEFAULT_NUMBER_MASK_OPTIONS = {
  * @returns {Array<string|RegExp>} with strings representing character literals and regex patterns
  */
 function convertToMask(strNumber) {
-  /* istanbul ignore next */
   return strNumber
     .split(EMPTY_STRING)
     .map((char) => (DIGITS_REGEX.test(char) ? DIGITS_REGEX : char));
@@ -60,7 +59,6 @@ function convertToMask(strNumber) {
  * @returns {string} the incoming string formatted with a thousands separator.
  */
 // @ts-ignore
-/* istanbul ignore next */
 function addThousandsSeparator(n, thousands, options = {}, localeStringOpts = {}) { // eslint-disable-line
   return n;
 
@@ -102,7 +100,6 @@ function getRegexForPart(part, type) {
     alphas: ALPHAS_REGEX
   };
 
-  /* istanbul ignore next */
   if (!types[type]) {
     // eslint-disable-next-line
     type = 'any';
@@ -188,7 +185,6 @@ export function numberMask(rawValue, options) {
   }
 
   if (options.integerLimit && typeof options.integerLimit === 'number') {
-    /* istanbul ignore next */
     const thousandsSeparatorRegex = THOUSANDS === '.' ? '[.]' : `${THOUSANDS}`;
     const numberOfThousandSeparators = (integer.match(new RegExp(thousandsSeparatorRegex, 'g')) || []).length;
 
@@ -298,7 +294,6 @@ function getSplitterRegex(splitterStr) {
     if (c === ' ') { // convert space characters into white space matcher
       return '\\s';
     }
-    /* istanbul ignore next */
     if (c === '-') { // escape dashes that might be part of date formats
       return '\\-';
     }
@@ -328,13 +323,11 @@ export function dateMask(rawValue = '', options = {}) {
   const format = thisOptions.format;
   const splitterStr = IdsStringUtils.removeDuplicates(format.replace(/[dMyHhmsa]+/g, ''));
 
-  /* istanbul ignore next */
   const splitterRegex = getSplitterRegex(splitterStr);
   const formatArray = format.match(/(d{1,2}|M{1,4}|y{1,4}|H{1,2}|h{1,2}|m{1,2}|s{1,2}|a{1}|z{1, 4}|E{1, 4})/g);
   const rawValueArray = thisRawValue.split(splitterRegex);
   const maxValue = DATE_MAX_VALUES;
 
-  /* istanbul ignore next */
   formatArray.forEach((part, i) => {
     const value = maxValue[part];
     let size;
@@ -449,7 +442,6 @@ export function autoCorrectedDatePipe(processResult, options) {
   };
 
   // Check first digit
-  /* istanbul ignore next */
   dateFormatArray.forEach((format) => {
     const position = options.dateFormat.indexOf(format);
     const maxFirstDigit = parseInt(maxValue[format].toString().substr(0, 1), 10);
@@ -474,7 +466,6 @@ export function autoCorrectedDatePipe(processResult, options) {
     return value > maxValue[format] || (textValue.length === length && value < minValue[format]);
   });
 
-  /* istanbul ignore next */
   if (isInvalid) {
     return false;
   }

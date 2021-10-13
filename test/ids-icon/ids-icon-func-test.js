@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+
+/* eslint-disable no-debugger */
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
 
@@ -116,5 +118,13 @@ describe('IdsIcon Component', () => {
     expect(elem.container.getAttribute('dir')).toBeFalsy();
     container.language = 'ar';
     expect(elem.template()).toContain('class="flipped"');
+  });
+
+  it('can be updated with notification badges', () => {
+    elem.icon = 'server';
+    elem.badgePosition = 'bottom-right';
+    elem.badgeColor = 'danger';
+    expect(elem.getAttribute('badge-position')).toBe('bottom-right');
+    expect(elem.getAttribute('badge-color')).toBe('danger');
   });
 });

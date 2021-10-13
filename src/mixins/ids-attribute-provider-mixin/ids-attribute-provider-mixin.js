@@ -1,4 +1,3 @@
-/* istanbul ignore file */
 import { IdsElement } from '../../core';
 
 const identityFn = ({ value }) => value;
@@ -126,7 +125,6 @@ const IdsAttributeProviderMixin = (defs) => (superclass) => {
               depth
             });
 
-            /* istanbul ignore else */
             if (targetValue !== null && element.getAttribute(targetAttribute) !== targetValue) {
               element.setAttribute(targetAttribute, targetValue);
             } else if ((targetValue === null) && element.hasAttribute(targetAttribute)) {
@@ -158,7 +156,6 @@ const IdsAttributeProviderMixin = (defs) => (superclass) => {
      */
     attributeObserver = new MutationObserver((mutations) => {
       for (const m of mutations) {
-        /* istanbul ignore else */
         if (m.type === 'attributes') {
           const value = this.getAttribute(m.attributeName);
           if (attributesProvidedMap.has(m.attributeName) && (value !== m.oldValue)) {

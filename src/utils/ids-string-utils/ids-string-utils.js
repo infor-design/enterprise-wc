@@ -63,17 +63,13 @@ export function injectTemplate(str, obj) {
  * @returns {string} ` class="c1 c2..."` || ""
  */
 export function buildClassAttrib(...classes) {
-  /* istanbul ignore next */
   const classAttrib = classes.reduce((attribStr = '', c) => {
-    /* istanbul ignore else */
     if (attribStr && c) { return `${attribStr} ${c}`; }
 
-    /* istanbul ignore else */
     if (!attribStr && c) { return c; }
     return attribStr;
   }, '');
 
-  /* istanbul ignore next */
   return !classAttrib ? '' : ` class="${classAttrib}"`;
 }
 

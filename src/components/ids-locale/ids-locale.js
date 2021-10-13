@@ -573,7 +573,6 @@ class IdsLocale {
     }
 
     // Return arrays for arabic dates
-    /* istanbul ignore next */
     if (this.isIslamic()) {
       return [
         Number(this.twoToFourDigitYear(year)),
@@ -585,7 +584,6 @@ class IdsLocale {
       ];
     }
 
-    /* istanbul ignore next */
     return (new Date(
       this.twoToFourDigitYear(year),
       (month - 1),
@@ -611,11 +609,9 @@ class IdsLocale {
     if (dateFormat.indexOf('. ') > -1) {
       return '.';
     }
-    /* istanbul ignore next */
     if (dateFormat.indexOf('.') > -1) {
       return '.';
     }
-    /* istanbul ignore next */
     return '';
   }
 
@@ -654,7 +650,6 @@ class IdsLocale {
    calendar(locale, name) {
      const localeData = this.loadedLocales.get(locale || this.locale.name);
      const calendars = localeData.calendars;
-     /* istanbul ignore next */
      if (name && calendars) {
        for (let i = 0; i < calendars.length; i++) {
          const cal = calendars[i];

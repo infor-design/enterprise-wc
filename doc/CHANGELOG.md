@@ -50,6 +50,7 @@
 - `[Icons]` The icons are now a web component called ids-icon. You no longer need the huge block of svg in the page
   - The icon and size are set via properties/attributes
   - Can now be imported as a single JS file and used with encapsulated styles
+  - Can now display notification badges
 - `[Input]` The Input component has been changed to a web component and renamed to ids-input.
   - Markup has changed to a custom element `<ids-input></ids-input>`
   - If using events, events are now plain JS events.
@@ -76,12 +77,14 @@
 - `[Message]` The Message is now a web component called ids-message
   - The Message component now extends the Modal component, containing the same properties and methods.
   - Modal Buttons, Title, Status, and Message can be changed via API
+  - Enhance user-interface on mobile and desktop viewports.
   - Markup is `<ids-message></ids-message>`
 - `[Modal]` The Modal is now a web component called ids-modal ([WC#118](https://github.com/infor-design/enterprise-wc/issues/118))
   - All content inside the modal boundary is now user-defined by slot
   - Triggering element for the modal is now configurable with the `target` prop
   - Events are now just plain JS events
   - Markup has been changed to custom element `<ids-modal></ids-modal>`
+  - Enhance user-interface on mobile and desktop viewports.
 - `[NotificationBanner]` The Notification Banner is now a web component called ids-notification-banner
   - The type, alert icon, message text, link and link text are all configurable via properties on the custom element
   - Additionally, user's can define the notification via a JS api, where the `parent` and `id` can be configured
@@ -174,6 +177,7 @@
   - Markup has changed to a custom element `<ids-upload></ids-upload>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+  - Shows percent progress on file
 - `[Upload Advanced]` The file upload advanced component has been changed to a web component and renamed to ids-upload-advanced.
   - Markup has changed to a custom element `<ids-upload-advanced></ids-upload-advanced>`
   - Each file ui sections now use as components `<ids-upload-advanced-file></ids-upload-advanced-file>`

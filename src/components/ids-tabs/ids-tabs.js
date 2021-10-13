@@ -70,12 +70,11 @@ class IdsTabs extends mix(IdsElement).with(
     super.connectedCallback?.();
     this.setAttribute('role', 'tablist');
 
-    /* istanbul ignore next */
     if (!this.hasAttribute(attributes.COLOR_VARIANT)) {
       this.#checkAndSetColorVariant();
     }
 
-    this.onEvent('tabselect', this, (e) => /* istanbul ignore next */ {
+    this.onEvent('tabselect', this, (e) => {
       if (e.target.value !== this.value) {
         this.setAttribute(attributes.VALUE, e.target.value);
       }
@@ -87,7 +86,6 @@ class IdsTabs extends mix(IdsElement).with(
 
   disconnectedCallback() {
     super.disconnectedCallback?.();
-    this.#tabObserver.disconnect();
   }
 
   /**
@@ -181,72 +179,6 @@ class IdsTabs extends mix(IdsElement).with(
    */
   #tabValueSet = new Set();
 
-  /** observes changes in tabs */
-  #tabObserver = new MutationObserver((mutations) => {
-    /* istanbul ignore next */
-    for (const m of mutations) {
-      switch (m.type) {
-      case 'childList': {
-        // be sure to only this component's
-        // children in case IdsTab / IdsTab => IdsText
-        // implementation is changed; also to ignore
-        // presentational components
-
-        /* istanbul ignore next */
-        if (m.target instanceof IdsTabs) {
-          /* istanbul ignore next */
-          this.#updateCallbacks();
-          /* istanbul ignore next */
-          this.#updateSelectionState();
-        }
-        break;
-      }
-      case 'attributes': {
-        const value = m.target.getAttribute(m.attributeName);
-
-        if (m.target instanceof IdsTab) {
-          if (value === m.oldValue) {
-            return;
-          }
-
-          // for sub-tab value changes, we need
-          // to rebind callbacks as the click events
-          // are indexed by tab values (in case of value
-          // swaps/etc)
-
-          /* istanbul ignore next */
-          if (m.attributeName === 'value') {
-            if (m.target.selected && this.value !== value) {
-              this.value = value;
-            } else {
-              this.#updateCallbacks();
-            }
-          }
-
-          /* istanbul ignore next */
-          if (m.attributeName === 'selected') {
-            /* istanbul ignore next */
-            if (Boolean(m.target.selected) && this.value !== m.target.value) {
-              this.value = m.target.value;
-            }
-          }
-        }
-        break;
-      }
-      /* istanbul ignore next */
-      default: {
-        break;
-      }
-      }
-
-      /* istanbul ignore next */
-      if (m.type === 'childList') {
-        this.#updateCallbacks();
-        this.#updateSelectionState();
-      }
-    }
-  });
-
   /**
    * checks if we are in a header tab and adjusts color-variant
    * accordingly
@@ -256,7 +188,6 @@ class IdsTabs extends mix(IdsElement).with(
     let currentElement = this.host || this.parentNode;
 
     while (!isHeaderDescendent && currentElement) {
-      /* istanbul ignore next */
       if (currentElement instanceof IdsHeader) {
         isHeaderDescendent = true;
         break;
@@ -267,17 +198,14 @@ class IdsTabs extends mix(IdsElement).with(
         break;
       }
 
-      /* istanbul ignore next */
       currentElement = currentElement.host || currentElement.parentNode;
     }
 
-    /* istanbul ignore next */
     if (isHeaderDescendent) {
       this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
     }
   }
 
-  /* istanbul ignore next */
   /** @returns {number} Currently focused tab index, or -1 */
   getFocusedTabIndex() {
     if (!(document.activeElement instanceof IdsTab)) {
@@ -291,7 +219,6 @@ class IdsTabs extends mix(IdsElement).with(
     return -1;
   }
 
-  /* istanbul ignore next */
   /**
    * When a child value or this component value changes,
    * called to rebind onclick callbacks to each child
@@ -306,8 +233,6 @@ class IdsTabs extends mix(IdsElement).with(
     }
 
     // clear tab values tracked
-
-    /* istanbul ignore next */
     for (const tabValue of this.#tabValueSet) {
       this.offEvent(`click.${tabValue}`);
       this.#tabValueSet.delete(tabValue);
@@ -315,29 +240,21 @@ class IdsTabs extends mix(IdsElement).with(
 
     // scan through children and add
     // click handlers
-
     for (let i = 0; i < this.children.length; i++) {
       const tabValue = this.getTabIndexValue(i);
       const eventNs = `click.${tabValue}`;
       this.#tabValueSet.add(eventNs);
-      this.onEvent(
-        eventNs,
-        this.children[i],
-        /* istanbul ignore next */
-        () => {
-          if (this.value !== tabValue) {
-            this.value = tabValue;
-          }
-          this.focus();
+      this.onEvent(eventNs, this.children[i], () => {
+        if (this.value !== tabValue) {
+          this.value = tabValue;
         }
-      );
+        this.focus();
+      });
     }
 
     // add key listeners and consider
     // orientation for assignments
-
     if (this.orientation !== 'vertical') {
-      /* istanbul ignore next */
       this.listen('ArrowLeft', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
@@ -346,7 +263,6 @@ class IdsTabs extends mix(IdsElement).with(
         }
       });
 
-      /* istanbul ignore next */
       this.listen('ArrowRight', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
@@ -355,7 +271,6 @@ class IdsTabs extends mix(IdsElement).with(
         }
       });
     } else {
-      /* istanbul ignore next */
       this.listen('ArrowUp', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
@@ -364,7 +279,6 @@ class IdsTabs extends mix(IdsElement).with(
         }
       });
 
-      /* istanbul ignore next */
       this.listen('ArrowDown', this, () => {
         const focusedTabIndex = this.getFocusedTabIndex();
 
@@ -374,20 +288,16 @@ class IdsTabs extends mix(IdsElement).with(
       });
     }
 
-    /* istanbul ignore next */
     this.listen('Home', this, () => {
       this.children[0].focus();
     });
 
-    /* istanbul ignore next */
     this.listen('End', this, () => {
       this.children[this.children.length - 1].focus();
     });
 
-    /* istanbul ignore next */
     this.listen('Enter', this, () => {
       const focusedTabIndex = this.getFocusedTabIndex();
-
       if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
         this.setAttribute(attributes.VALUE, this.getTabIndexValue(focusedTabIndex));
       }
@@ -395,17 +305,14 @@ class IdsTabs extends mix(IdsElement).with(
   }
 
   /**
-   * Sets the ids-tab selection states
-   * based on the current value
+   * Sets the ids-tab selection states based on the current value
    */
   #updateSelectionState() {
     if (!this.children.length) {
       return;
     }
 
-    // determine which child tab value was set,
-    // then highlight the item
-
+    // determine which child tab value was set, then highlight the item
     let hadTabSelection = false;
 
     for (let i = 0; i < this.children.length; i++) {

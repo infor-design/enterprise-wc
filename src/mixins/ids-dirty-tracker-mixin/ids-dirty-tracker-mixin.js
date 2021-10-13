@@ -18,7 +18,6 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
     this.handleDirtyTracker();
   }
 
-  /* istanbul ignore next */
   static get attributes() {
     return [
       ...super.attributes,
@@ -83,7 +82,6 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
       icon.remove();
     }
     icon = this.shadowRoot.querySelector('ids-input')?.shadowRoot?.querySelector('.icon-dirty');
-    /* istanbul ignore next */
     if (icon) {
       icon.remove();
     }
@@ -116,7 +114,6 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
       msg.remove();
     }
     msg = this.shadowRoot.querySelector('ids-input')?.shadowRoot?.querySelector('.icon-dirty');
-    /* istanbul ignore next */
     if (msg) {
       msg.remove();
     }

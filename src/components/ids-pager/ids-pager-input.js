@@ -81,13 +81,12 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     // when leaving user focus, input should adjust itself
     // to the page number already provided by the pager
 
-    this.onEvent('blur', this.input, /* istanbul ignore next */ () => {
+    this.onEvent('blur', this.input, () => {
       if (this.input.value !== `${this.pageNumber}`) {
         this.input.value = this.pageNumber;
       }
     });
 
-    /* istanbul ignore next */
     this.listen('Enter', this.input, () => {
       this.input.dispatchEvent(new Event('change', { bubbles: true }));
     });
@@ -204,7 +203,6 @@ export default class IdsPagerInput extends mix(IdsElement).with(
    * through parent pager's disabled attribute
    */
   set parentDisabled(value) {
-    /* istanbul ignore next */
     if (stringToBool(value)) {
       this.setAttribute(attributes.PARENT_DISABLED, '');
     } else {

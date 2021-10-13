@@ -47,10 +47,35 @@
         @include m-0();
       }
 
+      .file-progress {
+        display: contents;
+      }
+
       .size {
         @include block();
         @include ml-12();
         @include flex-item-stable();
+      }
+
+      .progress-text {
+        @include antialiased();
+        @include ellipsis();
+        @include font-sans();
+        @include font-normal();
+        @include block();
+        @include m-0();
+
+        min-width: 48px;
+      }
+
+      .percent {
+        color: var(--ids-color-palette-azure-60);
+        font-weight: bold;
+      }
+
+      .bar {
+        margin-left: 3px;
+        margin-right: 3px;
       }
 
       .btn-close {

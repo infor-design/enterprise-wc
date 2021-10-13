@@ -13,7 +13,7 @@ import { IdsStringUtils, IdsDeepCloneUtils } from '../../utils';
 import { IdsEventsMixin } from '../../mixins';
 
 // Import Dependencies
-import getElTranslation from './get-el-translate-point';
+import getElTranslatePoint from './get-el-translate-point';
 
 // Import Styles
 import styles from './ids-draggable.scss';
@@ -21,48 +21,6 @@ import styles from './ids-draggable.scss';
 const { stringToBool } = IdsStringUtils;
 
 const CURSOR_EL_SIZE = 32;
-
-/**
- * sets an optional integer attribute for an element
- * (may offload as general util; just need to think
- * through this a bit more)
- * @param {IdsElement} elem ids element to update
- * @param {string} attribute the attribute to update
- * @param {any} value a value to set on the
- */
-function setIntAttribute(elem, attribute, value) /* istanbul ignore next */ {
-  const nextValue = parseInt(value);
-
-  if (nextValue !== null && !Number.isNaN(nextValue)) {
-    if (parseInt(elem.getAttribute(attribute)) !== nextValue) {
-      elem.setAttribute(attribute, nextValue);
-    }
-  } else if (nextValue === null && elem.hasAttribute(attribute)) {
-    elem.removeAttribute(attribute);
-  }
-}
-
-/* istanbul ignore next */
-/**
- * @param {{
- *  left: number,
- *  top: number,
- *  right: number,
- *  bottom: number
- * }} bounds rectangle bounds to hash
- * @returns {string} a hash for bounds in a predictable
- * order that can be diffed for attribute changes
- */
-function getBoundsHash(bounds) {
-  return (
-    `${bounds?.left || 0
-    }_${
-      bounds?.right || 0
-    }_${
-      bounds?.top || 0
-    }_${bounds?.bottom || 0}`
-  );
-}
 
 /**
  * IDS Draggable Component
@@ -214,9 +172,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set handle(value) {
     if (this.getAttribute(attributes.HANDLE) !== value) {
-      if (this.hasAttribute(attributes.HANDLE) && (
-        !value || /* istanbul ignore next */ typeof value !== 'string')
-      ) {
+      if (this.hasAttribute(attributes.HANDLE) && (!value)) {
         this.removeAttribute(attributes.HANDLE);
       } else {
         this.setAttribute(attributes.HANDLE, value);
@@ -240,14 +196,14 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     this.offEvent('mousemove', window.document, this.onMouseMove);
 
     this.#handleElem = this.handle ? (
-      document.querySelector(this.handle) || /* istanbul ignore next */ this
+      document.querySelector(this.handle) || this
     ) : this;
 
     if (this.#handleElem !== this) {
       this.#handleElem.style.cursor = this.#getCursorStyle({ axis: this.axis });
     }
 
-    this.onEvent('mousedown', this.#handleElem, (e) => /* istanbul ignore next */ {
+    this.onEvent('mousedown', this.#handleElem, (e) => {
       if (this.disabled) {
         return;
       }
@@ -268,7 +224,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
 
       this.#dragStartMousePoint = { x: e.x, y: e.y };
 
-      const dragOffset = getElTranslation(this);
+      const dragOffset = getElTranslatePoint(this);
 
       this.#dragStartOffset = {
         x: this.axis !== 'y' ? dragOffset.x : 0,
@@ -328,8 +284,28 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     });
   };
 
+  /**
+   * sets an optional integer attribute for an element
+   * (may offload as general util; just need to think
+   * through this a bit more)
+   * @param {IdsElement} elem ids element to update
+   * @param {string} attribute the attribute to update
+   * @param {any} value a value to set on the
+   */
+  #setIntAttribute(elem, attribute, value) {
+    const nextValue = parseInt(value);
+
+    if (nextValue !== null && !Number.isNaN(nextValue)) {
+      if (parseInt(elem.getAttribute(attribute)) !== nextValue) {
+        elem.setAttribute(attribute, nextValue);
+      }
+    } else if (value === null && elem.hasAttribute(attribute)) {
+      elem.removeAttribute(attribute);
+    }
+  }
+
   set minTransformX(value) {
-    setIntAttribute(this, attributes.MIN_TRANSFORM_X, value);
+    this.#setIntAttribute(this, attributes.MIN_TRANSFORM_X, value);
   }
 
   get minTransformX() {
@@ -341,7 +317,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   set maxTransformX(value) {
-    setIntAttribute(this, attributes.MAX_TRANSFORM_X, value);
+    this.#setIntAttribute(this, attributes.MAX_TRANSFORM_X, value);
   }
 
   get maxTransformX() {
@@ -353,7 +329,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   set minTransformY(value) {
-    setIntAttribute(this, attributes.MIN_TRANSFORM_Y, value);
+    this.#setIntAttribute(this, attributes.MIN_TRANSFORM_Y, value);
   }
 
   get minTransformY() {
@@ -373,10 +349,9 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   set maxTransformY(value) {
-    setIntAttribute(this, attributes.MAX_TRANSFORM_Y, value);
+    this.#setIntAttribute(this, attributes.MAX_TRANSFORM_Y, value);
   }
 
-  /* istanbul ignore next */
   /**
    * update the transform with respect to containment
    * and min/max transform bounds
@@ -385,7 +360,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {number} mouseDeltaY mouse delta y
    * @returns {Array} [transformX, transformY]
    */
-  #updateTransform = (mouseDeltaX = null, mouseDeltaY = null) => {
+  #updateTransform = (mouseDeltaX, mouseDeltaY) => {
     let translateX = 0;
     let translateY = 0;
 
@@ -395,11 +370,11 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     // we moved to
 
     if (this.axis !== 'y') {
-      translateX = this.#dragStartOffset.x + (mouseDeltaX || 0);
+      translateX = this.#dragStartOffset.x + mouseDeltaX;
     }
 
     if (this.axis !== 'x') {
-      translateY = this.#dragStartOffset.y + (mouseDeltaY || 0);
+      translateY = this.#dragStartOffset.y + mouseDeltaY;
     }
 
     if (this.parentContainment) {
@@ -445,7 +420,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    *
    * @param {*} e mousemove event
    */
-  /* istanbul ignore next */
   onMouseMove = (e) => {
     e.preventDefault();
     const eventDetail = {};
@@ -484,7 +458,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     this.triggerEvent('ids-drag', this, { detail: eventDetail });
   };
 
-  /* istanbul ignore next */
   onMouseUp = (e) => {
     if (this.isDragging) {
       this.isDragging = false;
@@ -535,7 +508,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    *
    * @returns {string} cursor property
    */
-  #getCursorStyle() /* istanbul ignore next */ {
+  #getCursorStyle() {
     switch (this.axis) {
     case 'x': { return 'ew-resize'; }
     case 'y': { return 'ns-resize'; }
@@ -614,7 +587,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * to traverse through shadow and lightDOM
    * @private
    */
-  #updateParentRect(path) /* istanbul ignore next */ {
+  #updateParentRect(path) {
     // in order to measure the size of the parent,
     // when dragging has started, iterate through
     // path captured from drag until parent level
@@ -658,7 +631,6 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     }
   }
 
-  /* istanbul ignore next */
   /**
    * @param {number} value The max coordinates relative
    * to the overall div; e.g. "left: -20; right: -20" would extend
@@ -667,30 +639,50 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
    * bounds) 10 below the top or 20 below the bottom).
    */
   set relativeBounds(value) {
-    this.setAttribute(attributes.RELATIVE_BOUNDS, value);
-    this.#updateRelativeBounds();
+    if (value) {
+      this.setAttribute(attributes.RELATIVE_BOUNDS, value);
+      this.#updateRelativeBounds();
+      return;
+    }
+    this.removeAttribute(attributes.RELATIVE_BOUNDS);
   }
 
-  /* istanbul ignore next */
   get relativeBounds() {
     return this.getAttribute(attributes.RELATIVE_BOUNDS);
   }
 
   #relativeBounds = {};
 
+  /**
+   * @param {{
+   *  left: number,
+   *  top: number,
+   *  right: number,
+   *  bottom: number
+   * }} bounds rectangle bounds to hash
+   * @returns {string} a hash for bounds in a predictable
+   * order that can be diffed for attribute changes
+   */
+  getBoundsHash(bounds) {
+    return (
+        `${bounds?.left || 0
+        }_${
+          bounds?.right || 0
+        }_${
+          bounds?.top || 0
+        }_${bounds?.bottom || 0}`
+    );
+  }
+
   #updateRelativeBounds() {
-    /* istanbul ignore next */
-    if (this.hasAttribute(attributes.RELATIVE_BOUNDS)) {
-      const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
-      const newBounds = Object.fromEntries(relativeBoundsAttr.split(';').map((str) => {
-        const [kStr, vStr] = str?.split?.(':');
+    const relativeBoundsAttr = this.getAttribute(attributes.RELATIVE_BOUNDS);
+    const newBounds = Object.fromEntries(relativeBoundsAttr.split(';').map((str) => {
+      const [kStr, vStr] = str?.split?.(':');
+      return [kStr, !Number.isNaN(parseInt(vStr)) ? parseInt(vStr) : 0];
+    }));
 
-        return [kStr, !Number.isNaN(parseInt(vStr)) ? parseInt(vStr) : 0];
-      }));
-
-      if (getBoundsHash(newBounds) !== getBoundsHash(this.#relativeBounds)) {
-        this.#relativeBounds = newBounds;
-      }
+    if (this.getBoundsHash(newBounds) !== this.getBoundsHash(this.#relativeBounds)) {
+      this.#relativeBounds = newBounds;
     }
   }
 }
