@@ -542,12 +542,12 @@ class IdsModal extends mix(IdsElement).with(
         }
       };
 
-    // Run click handler on a staggered interval
-    renderLoop.register(new IdsRenderLoopItem({
-      duration: dismissTimeout,
-      timeoutCallback
-    }));
-  }
+      // Run click handler on a staggered interval
+      renderLoop.register(new IdsRenderLoopItem({
+        duration: dismissTimeout,
+        timeoutCallback
+      }));
+    }
 
     /**
      * Handle `onTriggerClick` from IdsPopupInteractionsMixin
