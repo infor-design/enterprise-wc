@@ -95,7 +95,6 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
       return node;
     });
 
-    /* istanbul ignore next */
     if (this.itemContainer) {
       this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
       this.itemContainer.innerHTML = html;
@@ -115,7 +114,6 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     viewport.style.height = `${this.viewPortHeight}px`;
 
     this.itemContainer = this.querySelector('[slot="contents"]');
-    /* istanbul ignore next */
     if (this.itemContainer) {
       this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
     }
@@ -298,7 +296,6 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   set scrollTarget(value) {
     if (value) {
       this.eventTarget = value;
-      /* istanbul ignore next */
       this.onEvent('scroll', this.eventTarget, (e) => {
         this.handleScroll(e);
       }, { passive: true });

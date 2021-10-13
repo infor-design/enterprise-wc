@@ -1,0 +1,189 @@
+# This is the SAM template that represents the architecture of your serverless application
+# https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-template-basics.html
+
+# The AWSTemplateFormatVersion identifies the capabilities of the template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/format-version-structure.html
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  wc-demos
+
+# Transform section specifies one or more macros that AWS CloudFormation uses to process your template
+# https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-section-structure.html
+Transform:
+  - AWS::Serverless-2016-10-31
+
+Parameters:
+  Stage:
+    Type: String
+    AllowedValues:
+      - staging
+      - production
+    Default: staging
+    Description: Stage that can be added to resource names
+
+  AcmCertificateArn:
+    Type: String
+    Description: ACM Certificate ARN
+
+  S3BucketName:
+    Type: String
+    Description: S3 bucket name where static assets live
+
+Mappings:
+  AliasMap:
+    staging:
+      Aliases: 'wc-staging.design.infor.com,*.wc-staging.design.infor.com'
+    production:
+      Aliases: 'wc.design.infor.com,*.wc.design.infor.com'
+
+Resources:
+  S3Bucket:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+    Properties:
+      BucketName: !Ref S3BucketName
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: index.html
+      CorsConfiguration:
+        CorsRules:
+          - AllowedHeaders:
+              - '*'
+            AllowedMethods:
+              - GET
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - Date
+            Id: myCORSRuleId1
+            MaxAge: 3600
+          - AllowedHeaders:
+              - x-amz-*
+            AllowedMethods:
+              - DELETE
+            AllowedOrigins:
+              - '*'
+            ExposedHeaders:
+              - Connection
+              - Server
+              - Date
+            Id: myCORSRuleId2
+            MaxAge: 1800
+
+  S3BucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Action:
+              - 's3:GetObject'
+            Effect: Allow
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref S3Bucket
+                - /*
+            Principal: '*'
+
+  CFDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        ViewerCertificate:
+          AcmCertificateArn: !Ref AcmCertificateArn
+          SslSupportMethod: sni-only
+          MinimumProtocolVersion: TLSv1.2_2021
+        Enabled: 'true'
+        Comment: !Sub '${Stage} - Lambda@Edge'
+        Aliases: !Split [",", !FindInMap [ AliasMap, !Ref Stage, Aliases] ]
+        HttpVersion: http2
+
+        Origins:
+          -
+            Id: !Ref S3Bucket
+            DomainName: !GetAtt S3Bucket.DomainName
+            CustomOriginConfig:
+              HTTPPort: 80
+              OriginProtocolPolicy: match-viewer
+            CustomOriginConfig:
+              HTTPPort: 80
+              HTTPSPort: 443
+              OriginProtocolPolicy: http-only
+
+        DefaultCacheBehavior:
+          TargetOriginId: !Ref S3Bucket
+          ViewerProtocolPolicy: redirect-to-https
+          Compress: true
+          LambdaFunctionAssociations:
+            - 
+              EventType: origin-request
+              LambdaFunctionARN: !Ref LambdaHandler.Version
+          ForwardedValues:
+            QueryString: 'true'
+            Headers:
+              - Host
+            Cookies:
+              Forward: none
+          ViewerProtocolPolicy: allow-all
+
+  LambdaEdgeFunctionRole:
+    Type: "AWS::IAM::Role"
+    Properties:
+      Path: "/"
+      ManagedPolicyArns:
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          -
+            Sid: "AllowLambdaServiceToAssumeRole"
+            Effect: "Allow"
+            Action: 
+              - "sts:AssumeRole"
+            Principal:
+              Service: 
+                - "lambda.amazonaws.com"
+                - "edgelambda.amazonaws.com"
+
+  LambdaHandler:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Role: !GetAtt LambdaEdgeFunctionRole.Arn
+      Handler: handlers/index.LambdaHandler
+      Runtime: nodejs14.x
+      MemorySize: 128
+      Timeout: 5
+      AutoPublishAlias: live
+
+  DNSRecord:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: Z116857R5HR37V
+      Name: !Select [ "0", !Split [",", !FindInMap [ AliasMap, !Ref Stage, Aliases] ] ]
+      ResourceRecords:
+        - !GetAtt CFDistribution.DomainName
+      TTL: 900
+      Type: CNAME
+
+  DNSRecordWildcard:
+    Type: AWS::Route53::RecordSet
+    Properties:
+      HostedZoneId: Z116857R5HR37V
+      Name: !Select [ "1", !Split [",", !FindInMap [ AliasMap, !Ref Stage, Aliases] ] ]
+      ResourceRecords:
+        - !GetAtt CFDistribution.DomainName
+      TTL: 900
+      Type: CNAME
+
+Outputs:
+  LambdaHandlerVersion: 
+    Description: Lambda@Edge Function ARN with Version
+    Value: !Ref LambdaHandler.Version
+
+  CFDistribution: 
+    Description: Cloudfront Distribution Domain Name
+    Value: !GetAtt CFDistribution.DomainName

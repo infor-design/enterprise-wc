@@ -51,6 +51,10 @@ describe('IdsEventsMixin Tests', () => {
     const mockHandler = jest.fn();
     elem.onEvent('longpress', elem, mockHandler);
     elem.triggerEvent('touchstart', elem);
+    elem.triggerEvent('touchend', elem);
+    elem.timer = null;
+    elem.triggerEvent('touchstart', elem);
+    elem.triggerEvent('touchend', elem);
     expect(mockHandler.mock.calls.length).toBe(0);
     expect(elem.longPressOn).toBe(true);
   });
@@ -59,8 +63,10 @@ describe('IdsEventsMixin Tests', () => {
     const mockHandler = jest.fn();
     elem.onEvent('longpress', elem, mockHandler);
     expect(elem.longPressOn).toBe(true);
+    elem.onEvent('longpress', elem, mockHandler);
     elem.offEvent('longpress', elem);
     elem.triggerEvent('touchstart', elem);
+    elem.triggerEvent('touchend', elem);
     expect(mockHandler.mock.calls.length).toBe(0);
     expect(elem.longPressOn).toBe(false);
   });

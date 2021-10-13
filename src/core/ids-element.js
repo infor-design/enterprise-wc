@@ -50,7 +50,6 @@ class IdsElement extends HTMLElement {
    */
   addInternalIds() {
     const parts = this.shadowRoot.querySelectorAll('[part]');
-    /* istanbul ignore next */
     if (parts.length === 0) {
       return;
     }
@@ -85,11 +84,9 @@ class IdsElement extends HTMLElement {
         label = this.shadowRoot.querySelector(`[for="${parts[i].id}"]`);
       }
       parts[i].setAttribute(name, newId);
-      /* istanbul ignore next */
       if (label) {
         label.setAttribute('for', newId);
       }
-      /* istanbul ignore next */
       if (name === 'id' && this.state?.id) {
         this.state.id = newId;
       }

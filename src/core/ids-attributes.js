@@ -184,6 +184,7 @@ export const attributes = {
   SHOW_BROWSE_LINK: 'show-browse-link',
   SQUARE: 'square',
   SIZE: 'size',
+  STARS: 'stars',
   START: 'start',
   STATUS: 'status',
   STEP: 'step',
