@@ -234,7 +234,8 @@ class IdsColorPicker extends mix(IdsElement).with(
       }
 
       const target = event.target;
-      let openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
+      let openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown')
+      || target.classList.contains('color-preview') || target.classList.contains('color-picker-trigger-btn'));
       let openAdvanced = target.classList.contains('color-input');
 
       if (target.classList.contains('ids-dropdown') && this.advanced) {
@@ -273,7 +274,6 @@ class IdsColorPicker extends mix(IdsElement).with(
     this.onEvent('change', this.swatchInput, () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
     this.onEvent('change', this.colorPickerInput, () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
     this.onEvent('change', this.triggerColorPickerInput, () => this.setAttribute('value', this.triggerColorPickerInput.value.toLowerCase()));
-    this.onEvent('click', this.colorPreview, () => this.idsColorsArr.forEach((element) => element.removeAttribute('checked')));
   }
 
   /**

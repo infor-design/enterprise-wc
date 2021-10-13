@@ -18,9 +18,10 @@ describe('Ids Color Picker e2e Tests', () => {
   it('should open on clicking the swatch', async () => {
     let isVisible = await page.evaluate(`document.querySelector("#color-picker-1").popup.visible`);
     expect(isVisible).toEqual(false);
-    await page.evaluate(`document.querySelector("#color-picker-1").swatchInput.click()`);
+    await page.evaluate(`document.querySelector("#color-picker-1").colorPreview.click()`);
     isVisible = await page.evaluate(`document.querySelector("#color-picker-1").popup.visible`);
     expect(isVisible).toEqual(true);
+    await page.evaluate(`document.querySelector("#color-picker-1").popup.visible = false`);
   });
 
   it('should select when clicking the hex', async () => {
@@ -46,7 +47,7 @@ describe('Ids Color Picker e2e Tests', () => {
     await page.keyboard.press('Enter');
 
     isVisible = await page.evaluate(`document.querySelector("#color-picker-1").popup.visible`);
-    expect(isVisible).toEqual(true);
+    expect(isVisible).toEqual(false);
     await page.evaluate(`document.querySelector("#color-picker-1").popup.visible = false;`);
   });
 });
