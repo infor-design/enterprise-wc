@@ -31,9 +31,9 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     super();
   }
 
-  #selectedItem;
+  #selectedLi;
 
-  #selectedItemEditor;
+  #selectedLiEditor;
 
   placeholder;
 
@@ -212,24 +212,26 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     `;
   }
 
-  #toggleSelectedAttribute(item) {
-    if (item.getAttribute('selected')) {
+  #toggleSelectedAttribute(item, isSelected = null) {
+    if (isSelected !== null) {
+      isSelected ? item.setAttribute('selected', 'selected') : item.removeAttribute('selected');
+    } else if (item.getAttribute('selected')) {
       item.removeAttribute('selected');
     } else {
       item.setAttribute('selected', 'selected');
     }
   }
 
-  #toggleSelectedListItem(item) {
+  #toggleSelectedLi(item, val = null) {
     if (item.tagName === 'LI') {
-      if (item !== this.#selectedItem) {
-        if (this.#selectedItem?.getAttribute('selected')) {
+      if (item !== this.#selectedLi) {
+        if (this.#selectedLi) {
           // unselect previous item if it's selected
-          this.#toggleSelectedAttribute(this.#selectedItem);
+          this.#toggleSelectedAttribute(this.#selectedLi);
         }
-        this.#selectedItem = item;
+        this.#selectedLi = item;
       }
-      this.#toggleSelectedAttribute(item);
+      this.#toggleSelectedAttribute(item, val);
       item.focus();
     }
   }
@@ -257,135 +259,167 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     return centerA < centerB;
   }
 
-  #createPlaceholder(height) {
-    const p = document.createElement('div');
-    p.style.height = `${height}px`;
-    p.style.border = `solid 1px red`;
+  #createPlaceholderClone(node) {
+    const p = node.cloneNode(true);
+    p.style.opacity = `0.5`;
     return p;
   }
 
-  #updateSelectedItemWithEditorValue() {
-    this.#selectedItem.querySelector('ids-text').innerHTML = this.#selectedItemEditor.value;
+  #updateSelectedLiWithEditorValue() {
+    this.#selectedLi.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
   }
 
-  #removeSelectedItemEditor() {
-    this.#selectedItem.style.display = 'list-item';
-    this.#selectedItem.parentNode.removeAttribute('disabled');
-    this.#selectedItemEditor.remove();
-    this.#selectedItemEditor = null;
+  #unfocusAnySelectedLiEditor() {
+    if (this.#selectedLiEditor) {
+      this.#updateSelectedLiWithEditorValue();
+      this.#removeSelectedLiEditor();
+    }
+  }
+
+  #removeSelectedLiEditor() {
+    this.#selectedLi.style.display = 'list-item';
+    this.#selectedLi.parentNode.removeAttribute('disabled');
+    this.#selectedLiEditor.remove();
+    this.#selectedLiEditor = null;
+  }
+
+  #replaceSelectedLiWithEditor(newEntry = false) {
+    if (this.#selectedLi) {
+      if (!this.#selectedLiEditor) {
+        const i = new IdsInput();
+
+        // insert into DOM
+        this.#selectedLi.parentNode.insertBefore(i, this.#selectedLi);
+
+        // hide & disable IDS draggable
+        this.#selectedLi.style.display = `none`;
+        this.#selectedLi.parentNode.setAttribute('disabled', '');
+
+        // set the value of input
+        this.#selectedLiEditor = i;
+        i.value = newEntry ? 'New Value' : this.#selectedLi.querySelector('ids-text').innerHTML;
+        i.autoselect = 'true';
+      }
+    }
   }
 
   #attachClickListeners() {
-    this.onEvent('click', this.container.querySelector('#button-add'), (event) => {
+    this.onEvent('click', this.container.querySelector('#button-add'), () => {
+      this.#unfocusAnySelectedLiEditor();
+
+      const targetDraggableItem = this.#selectedLi ? this.#selectedLi.parentNode : this.container.querySelector('ids-draggable');
+      const newDraggableItem = targetDraggableItem.cloneNode(true);
+
+      targetDraggableItem.parentNode.insertBefore(newDraggableItem, targetDraggableItem.nextSibling);
+      this.#attachDragEventListenersForDraggable(newDraggableItem);
+
+      const listItem = newDraggableItem.querySelector('li');
+      // remove any selected attribute on li that may have propogated from the clone
+      listItem.getAttribute('selected') && listItem.removeAttribute('selected');
+      this.#toggleSelectedLi(listItem);
+
+      const newEntry = true;
+      this.#replaceSelectedLiWithEditor(newEntry);
     });
-    this.onEvent('click', this.container.querySelector('#button-up'), (event) => {
-      if (this.#selectedItem) {
-        const prev = this.#selectedItem.parentNode.previousElementSibling;
+
+    this.onEvent('click', this.container.querySelector('#button-up'), () => {
+      if (this.#selectedLi) {
+        this.#unfocusAnySelectedLiEditor();
+
+        const prev = this.#selectedLi.parentNode.previousElementSibling;
         if (prev) {
-          this.#swap(this.#selectedItem.parentNode, prev);
+          this.#swap(this.#selectedLi.parentNode, prev);
         }
       }
     });
 
-    this.onEvent('click', this.container.querySelector('#button-down'), (event) => {
+    this.onEvent('click', this.container.querySelector('#button-down'), () => {
       // const selected = this.container.querySelector('li[selected]');
-      if (this.#selectedItem) {
-        const next = this.#selectedItem.parentNode.nextElementSibling;
+      if (this.#selectedLi) {
+        this.#unfocusAnySelectedLiEditor();
+
+        const next = this.#selectedLi.parentNode.nextElementSibling;
         if (next) {
-          this.#swap(this.#selectedItem.parentNode, next);
+          this.#swap(this.#selectedLi.parentNode, next);
         }
       }
     });
 
-    this.onEvent('click', this.container.querySelector('#button-edit'), (event) => {
-      // replace innerHTML with <input> that has the value of the current li
-      // const i = document.createElement('input');
-      if (this.#selectedItem) {
-        if (!this.#selectedItemEditor) {
-          const i = new IdsInput();
+    this.onEvent('click', this.container.querySelector('#button-edit'), () => {
+      this.#replaceSelectedLiWithEditor();
+    });
 
-          // insert into DOM
-          this.#selectedItem.parentNode.insertBefore(i, this.#selectedItem);
-
-          // hide & disable IDS draggable
-          this.#selectedItem.style.display = `none`;
-          this.#selectedItem.parentNode.setAttribute('disabled', '');
-
-          // set the value of input
-          this.#selectedItemEditor = i;
-          i.value = this.#selectedItem.querySelector('ids-text').innerHTML;
-          i.autoselect = 'true';
-        }
+    this.onEvent('click', this.container.querySelector('#button-delete'), () => {
+      if (this.#selectedLi) {
+        this.#selectedLi.parentNode.remove();
+        this.#selectedLi = null;
+        if (this.#selectedLiEditor) this.#selectedLiEditor = null;
       }
     });
 
-    this.onEvent('click', this.container.querySelector('#button-delete'), (event) => {
-      if (this.#selectedItem) {
-        this.#selectedItem.parentNode.remove();
-        this.#selectedItem = null;
-        if (this.#selectedItemEditor) this.#selectedItemEditor = null;
-      }
-    });
+    // this.onEvent('click', this.container, (event) => {
+    //   console.log(event.target)
+    // })
   }
 
   #attachDragEventListeners() {
-    this.container.querySelectorAll('ids-draggable').forEach((s) => {
-      this.onEvent('ids-dragstart', s, (event) => {
-        // unfocus any editor
-        if (this.#selectedItemEditor) {
-          this.#updateSelectedItemWithEditorValue();
-          this.#removeSelectedItemEditor();
-        }
+    this.container.querySelectorAll('ids-draggable').forEach((draggable) => {
+      this.#attachDragEventListenersForDraggable(draggable);
+    });
+  }
 
-        // toggle selected item
-        const listItem = event.target.querySelector('li');
-        this.#toggleSelectedListItem(listItem);
+  #attachDragEventListenersForDraggable(el) {
+    this.onEvent('ids-dragstart', el, (event) => {
+      this.#unfocusAnySelectedLiEditor();
 
-        // create placeholder
-        this.placeholder = this.#createPlaceholder(s.getBoundingClientRect().height);
+      // toggle selected item
+      const listItem = event.target.querySelector('li');
+      this.#toggleSelectedLi(listItem, true);
 
-        // need this for draggable to move around
-        s.style.position = `absolute`;
-        s.parentNode.style.zIndex = `100`;
+      // create placeholder
+      this.placeholder = this.#createPlaceholderClone(el);
 
-        s.parentNode.insertBefore(
-          this.placeholder,
-          s.nextSibling
-        );
-      });
+      // need this for draggable to move around
+      el.style.position = `absolute`;
+      el.parentNode.style.zIndex = `100`;
 
-      this.onEvent('ids-drag', s, (event) => {
-        let prevEle = this.placeholder?.previousElementSibling; // might be null for first
-        let nextEle = this.placeholder?.nextElementSibling;
+      el.parentNode.insertBefore(
+        this.placeholder,
+        el.nextSibling
+      );
+    });
 
-        // skip over checking the original selected node position
-        if (prevEle === this.#selectedItem.parentNode) {
-          prevEle = prevEle.previousElementSibling;
-        }
-        // skip over checking the original selected position
-        if (nextEle === this.#selectedItem.parentNode) {
-          nextEle = nextEle.nextElementSibling;
-        }
+    this.onEvent('ids-drag', el, () => {
+      let prevEle = this.placeholder?.previousElementSibling;
+      let nextEle = this.placeholder?.nextElementSibling;
 
-        if (prevEle && this.#isAbove(s, prevEle)) {
-          this.#swap(this.placeholder, prevEle);
-          return;
-        }
+      // skip over checking the original selected node position
+      if (prevEle === this.#selectedLi.parentNode) {
+        prevEle = prevEle.previousElementSibling;
+      }
+      // skip over checking the original selected position
+      if (nextEle === this.#selectedLi.parentNode) {
+        nextEle = nextEle.nextElementSibling;
+      }
 
-        if (nextEle && this.#isAbove(nextEle, s)) {
-          this.#swap(nextEle, this.placeholder);
-        }
-      });
+      if (prevEle && this.#isAbove(el, prevEle)) {
+        this.#swap(this.placeholder, prevEle);
+        return;
+      }
 
-      this.onEvent('ids-dragend', s, (event) => {
-        s.style.removeProperty('position');
-        s.style.removeProperty('transform');
+      if (nextEle && this.#isAbove(nextEle, el)) {
+        this.#swap(nextEle, this.placeholder);
+      }
+    });
 
-        this.#swap(s, this.placeholder);
-        if (this.placeholder) {
-          this.placeholder.remove();
-        }
-      });
+    this.onEvent('ids-dragend', el, () => {
+      el.style.removeProperty('position');
+      el.style.removeProperty('transform');
+
+      this.#swap(el, this.placeholder);
+      if (this.placeholder) {
+        this.placeholder.remove();
+      }
     });
   }
 }
