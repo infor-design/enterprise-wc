@@ -52,12 +52,9 @@ class IdsColorPicker extends mix(IdsElement).with(
 
   // Reference to the color picker input
   colorPickerInput = this.root.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value')
-<<<<<<< HEAD
 
   // Reference to the trigger color picker input
   triggerColorPickerInput = this.root.querySelector('ids-trigger-button').querySelector('input')
-=======
->>>>>>> 34bc867c5938e266b8bd8d8d8d1c979baf6c77be
 
   // Reference to the color picker's trigger button
   triggerBtn = this.root.querySelector('ids-trigger-button');
@@ -273,16 +270,10 @@ class IdsColorPicker extends mix(IdsElement).with(
       }
     });
 
-<<<<<<< HEAD
-    this.onEvent('change', this.swatchInput, /* istanbul ignore next */ () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
-    this.onEvent('change', this.colorPickerInput, /* istanbul ignore next */ () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
-    this.onEvent('change', this.triggerColorPickerInput, () => this.setAttribute('value', this.triggerColorPickerInput.value.toLowerCase()));
-    this.onEvent('click', this.colorPreview, /* istanbul ignore next */ () => this.idsColorsArr.forEach((element) => element.removeAttribute('checked')));
-=======
     this.onEvent('change', this.swatchInput, () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
     this.onEvent('change', this.colorPickerInput, () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
+    this.onEvent('change', this.triggerColorPickerInput, () => this.setAttribute('value', this.triggerColorPickerInput.value.toLowerCase()));
     this.onEvent('click', this.colorPreview, () => this.idsColorsArr.forEach((element) => element.removeAttribute('checked')));
->>>>>>> 34bc867c5938e266b8bd8d8d8d1c979baf6c77be
   }
 
   /**
