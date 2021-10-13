@@ -1,6 +1,6 @@
 @import '../../core/ids-base';
 
-$images-size: (
+$image-sizes: (
   'sm': (60px, 60px),
   'md': (154px, 120px),
   'lg': (300px, 350px),
@@ -8,10 +8,12 @@ $images-size: (
 
 :host {
   contain: content;
+  display: inline-block;
+  max-width: 100%;
 }
 
 // set size
-@each $key, $value in $images-size {
+@each $key, $value in $image-sizes {
   :host([size='#{$key}']) {
     .ids-image {
       width: nth($value, 1);
@@ -59,13 +61,28 @@ $images-size: (
   }
 }
 
+:host([round='true']) {
+  .ids-image {
+    @include rounded-round();
+
+    width: 50px;
+    height: 50px;
+  }
+}
+
+:host([user-status]) {
+  @include relative();
+}
+
 .ids-image {
+  @include box-border();
+
   max-width: 100%;
   height: auto;
 
-  // img related
+  // img only related
   &:not(.placeholder) {
-    object-fit: contain;
+    object-fit: cover;
   }
 
   // to prevent jump on focus
@@ -78,15 +95,19 @@ $images-size: (
     @include inline-flex();
     @include p-20();
     @include border-slate-20();
-    @include box-border();
 
     align-items: center;
     justify-content: center;
+  }
 
-    .audible {
-      @include audible();
-    }
+  .audible {
+    @include audible();
+  }
+
+  .user-status {
+    @include absolute();
+
+    right: 5px;
+    bottom: 5px;
   }
 }
-
-// @include rounded-round();

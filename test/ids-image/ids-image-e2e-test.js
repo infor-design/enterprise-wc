@@ -55,14 +55,9 @@ describe('Ids Image e2e Tests', () => {
       element.src = src;
     }, fallbackEl, imgSrcNotFound);
 
-    // Image appears and loading
-    const hasImage = await page.$eval(fallbackEl, (el) =>
-      el.shadowRoot.querySelector('img'));
-
-    expect(hasImage).toBeTruthy();
-
     // Image failed to load - placeholder appears
-    await page.waitForFunction(`!!document.querySelector('${fallbackEl}').shadowRoot.querySelector('.placeholder')`);
+    await page.waitForFunction(() =>
+      document.querySelector('#e2e-fallback')?.shadowRoot.querySelector('.placeholder'));
 
     const hasPlaceholder = await page.$eval(fallbackEl, (el) =>
       el.shadowRoot.querySelector('.placeholder'));

@@ -50,7 +50,8 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.ALT,
       attributes.SIZE,
       attributes.PLACEHOLDER,
-      attributes.FALLBACK
+      attributes.FALLBACK,
+      attributes.ROUND
     ];
   }
 
@@ -64,14 +65,14 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       return `<div class="ids-image placeholder" tabindex="0"><span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon></div>`;
     }
 
-    return `<img class="ids-image" src="${this.src}" alt="${this.alt}" tabindex="0" />`;
+    return `<img class="ids-image" src="${this.src}" tabindex="0" />`;
   }
 
   /**
    * Add error event when img attached to shadow
    * @param {HTMLElement} img element to attach error event
    */
-  #attachOnError(img) {
+  #attachOnErrorEvent(img) {
     this.offEvent('error.image');
     this.onEvent('error.image', img, () => {
       // Removing img on error loading
@@ -85,7 +86,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   /**
    * Remove error event when img detached from shadow
    */
-  #detachOnError() {
+  #detachOnErrorEvent() {
     this.offEvent('error.image');
   }
 
@@ -145,7 +146,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       }
 
       if (this.fallback) {
-        this.#attachOnError(img);
+        this.#attachOnErrorEvent(img);
       }
 
       this.setAttribute(attributes.SRC, val);
@@ -157,7 +158,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       // Removing image element
       img.remove();
 
-      this.#detachOnError();
+      this.#detachOnErrorEvent();
 
       // Adding placeholder element
       this.shadowRoot.appendChild(this.#getPlaceholderEl());
@@ -179,7 +180,6 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set alt(val) {
     const img = this.shadowRoot.querySelector('img');
-
     if (val) {
       this.setAttribute(attributes.ALT, val);
       img?.setAttribute(attributes.ALT, val);
@@ -194,7 +194,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   /**
    * Get one of predefined sizes
    * @param {string} val size attribute value
-   * @returns {'auto'|'sm'|'md'|'lg'} one of predefined sizes
+   * @returns {'auto'|'sm'|'md'|'lg'} one of the predefined sizes
    */
   #getSize(val) {
     // List of sizes to compare with size attribute value
@@ -209,7 +209,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * @returns {'auto'|'sm'|'md'|'lg'} one of predefined sizes
+   * @returns {'auto'|'sm'|'md'|'lg'} one of the predefined sizes
    */
   get size() {
     const attrVal = this.getAttribute(attributes.SIZE);
@@ -257,6 +257,24 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   get fallback() {
     const attrVal = this.getAttribute(attributes.FALLBACK);
+
+    return IdsStringUtils.stringToBool(attrVal);
+  }
+
+  set round(val) {
+    const boolVal = IdsStringUtils.stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.ROUND, boolVal);
+
+      return;
+    }
+
+    this.removeAttribute(attributes.ROUND);
+  }
+
+  get round() {
+    const attrVal = this.getAttribute(attributes.ROUND);
 
     return IdsStringUtils.stringToBool(attrVal);
   }

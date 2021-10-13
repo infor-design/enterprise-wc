@@ -119,8 +119,8 @@ describe('IdsImage Component (using attributes)', () => {
   });
 
   it('img has src and alt attributes', () => {
-    expect(component.shadowRoot.querySelector('img').src).toEqual(src);
-    expect(component.shadowRoot.querySelector('img').alt).toEqual(alt);
+    expect(component.shadowRoot.querySelector('img')?.getAttribute('src')).toEqual(src);
+    expect(component.shadowRoot.querySelector('img')?.getAttribute('alt')).toEqual(alt);
   });
 
   it('can change src and alt attributes', () => {
@@ -130,8 +130,12 @@ describe('IdsImage Component (using attributes)', () => {
     component.src = newSrc;
     component.alt = newAlt;
 
-    expect(component.shadowRoot.querySelector('img').src).toEqual(newSrc);
-    expect(component.shadowRoot.querySelector('img').alt).toEqual(newAlt);
+    expect(component.shadowRoot.querySelector('img')?.getAttribute('src')).toEqual(newSrc);
+    expect(component.shadowRoot.querySelector('img')?.getAttribute('alt')).toEqual(newAlt);
+
+    component.alt = null;
+
+    expect(component.shadowRoot.querySelector('img')?.getAttribute('alt')).toBeNull();
   });
 });
 
@@ -139,7 +143,7 @@ describe('IdsImage Component (empty)', () => {
   let component;
 
   beforeEach(async () => {
-    document.body.insertAdjacentHTML('beforeend', `<ids-image id="${id}"></ids-about>`);
+    document.body.insertAdjacentHTML('beforeend', `<ids-image id="${id}"></ids-image>`);
     component = document.querySelector(name);
   });
 

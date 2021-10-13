@@ -19,6 +19,7 @@ The `ids-image` component is a web component wrapper around a standard `<img>` t
   - `lg` - 300x350px
 - `fallback` `{true|false}` - Whether or not to replace image with placeholder if the image fails to load
 - `placeholder` `{true|false}` - Whether or not to use placeholder, if set, `src` and `alt` attributes will be ignored, image will not load and placeholder will be used initially
+- `round` `{true|false}` - Whether or not to make the image round with 50x50x size
 
 ## Features (With Code Examples)
 
@@ -40,6 +41,12 @@ Placeholder initially with size md, src and alt attributes are ignored
 <ids-image placeholder="true" size="md"></ids-image>
 ```
 
+Round image
+
+```html
+<ids-image src="image.jpg" alt="image round" round="true"></ids-image>
+```
+
 The component can be controlled dynamically
 
 ```js
@@ -52,6 +59,9 @@ image.alt = 'changed alt';
 // Using fallback in case the image with new src fails to load
 image.fallback = true;
 image.src = 'might-not-exist.jpg';
+
+// Make it round
+image.round = true
 
 // Change to placeholder
 image.src = null;

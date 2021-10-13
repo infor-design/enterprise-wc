@@ -13,4 +13,7 @@ export default class IdsImage extends HTMLElement {
 
   /** Set whether or not to replace image with placeholder initially */
   placeholder: 'true' | 'false' | boolean | null;
+
+  /** Set whether or not the image is round */
+  round: 'true' | 'false' | boolean | null;
 }
