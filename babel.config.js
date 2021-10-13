@@ -9,6 +9,14 @@ module.exports = (api) => {
     ['@babel/plugin-proposal-private-methods']
   ];
 
+  // Instrument code for e2e test coverage
+  if (process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test') {
+    plugins.push(['istanbul', {
+      coverageGlobalScopeFunc: false,
+      coverageGlobalScope: 'window'
+    }, 'istanbul-cov']);
+  }
+
   return {
     presets,
     plugins

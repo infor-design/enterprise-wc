@@ -8,6 +8,7 @@ import expectFlagAttributeBehavior from '../helpers/expect-flag-attribute-behavi
 import simulateMouseDownEvents from '../helpers/simulate-mouse-down-events';
 import elemBuilderFactory from '../helpers/elem-builder-factory';
 import processAnimFrame from '../helpers/process-anim-frame';
+import getElTranslatePoint from '../../src/components/ids-draggable/get-el-translate-point';
 
 const elemBuilder = elemBuilderFactory();
 
@@ -193,6 +194,26 @@ describe('IdsDraggable Component', () => {
     expect(hasDraggingBeenSet).toBeTruthy();
   });
 
+  it('ignores mouse down due to is-dragging', async () => {
+    const elem = await elemBuilder.createElemFromTemplate(
+      `<ids-draggable>
+        <div>draggable</div>
+      </ids-draggable>`
+    );
+
+    elem.isDragging = true;
+    const mockCallback = jest.fn();
+    elem.addEventListener('ids-dragend', mockCallback);
+    await simulateMouseDownEvents({ element: elem, mouseDownTime: 100 });
+    expect(mockCallback.mock.calls.length).toBe(0);
+
+    elem.isDragging = false;
+    const mockCallback2 = jest.fn();
+    elem.addEventListener('ids-dragend', mockCallback2);
+    await simulateMouseDownEvents({ element: elem, mouseDownTime: 100 });
+    expect(mockCallback2.mock.calls.length).toBe(0);
+  });
+
   it('begins drag and no errors are thrown', async () => {
     const container = document.createElement('div');
     container.style.width = '640px';
@@ -254,6 +275,27 @@ describe('IdsDraggable Component', () => {
     expect(elem.maxTransformY).toEqual(0);
   });
 
+  it('sets relative-bounds value predictably', async () => {
+    const elem = await createContainedDraggable(
+      `<ids-draggable parent-containment relative-bounds='left: -20; right: -20'>
+      <div>draggable</div>
+    </ids-draggable>`
+    );
+
+    expect(elem.getAttribute('relative-bounds')).toEqual('left: -20; right: -20');
+    expect(elem.relativeBounds).toEqual(null);
+
+    elem.setAttribute('relative-bounds', 'top: 10; bottom: 20');
+    elem.relativeBounds = 'top: 10; bottom: 20';
+    expect(elem.getAttribute('relative-bounds')).toEqual('top: 10; bottom: 20');
+    expect(elem.relativeBounds).toEqual('top: 10; bottom: 20');
+
+    elem.removeAttribute('relative-bounds');
+    elem.relativeBounds = null;
+    expect(elem.getAttribute('relative-bounds')).toEqual(null);
+    expect(elem.relativeBounds).toEqual(null);
+  });
+
   it('sets min-transform-y value predictably', async () => {
     const elem = await createContainedDraggable(
       `<ids-draggable parent-containment min-transform-y='-20'>
@@ -279,5 +321,57 @@ describe('IdsDraggable Component', () => {
     expect(elem.minTransformY).toBeNull();
     expect(elem.maxTransformX).toBeNull();
     expect(elem.maxTransformY).toBeNull();
+  });
+
+  it('util getElTranslatePoint works correctly', async () => {
+    const elem = document.createElement('p');
+    expect(getElTranslatePoint(elem)).toEqual({ x: 0, y: 0, z: 0 });
+    elem.style.transform = 'none';
+    expect(getElTranslatePoint(elem)).toEqual({ x: 0, y: 0, z: 0 });
+    elem.style.transform = 'matrix(1, 0, 0, 1, 114, 0)';
+    expect(getElTranslatePoint(elem)).toEqual({ x: 114, y: 0, z: 0 });
+    elem.style.transform = 'matrix3d(1, 0, 0, 1, 114, 0)';
+    expect(getElTranslatePoint(elem)).toEqual({ x: NaN, y: NaN, z: NaN });
+    elem.style.transform = 'matrix(0, 0, 0, 0, 0, 0)';
+    expect(getElTranslatePoint(elem)).toEqual({ x: 0, y: 0, z: 0 });
+    elem.style.transform = 'matrix4d(0, 0, 0, 0, 0, 0)';
+    expect(getElTranslatePoint(elem)).toEqual({ x: 0, y: 0, z: 0 });
+    elem.style.transform = 'matrix()';
+    expect(getElTranslatePoint(elem)).toEqual({ x: 0, y: 0, z: 0 });
+  });
+
+  it('safely handles setting integer attributes', async () => {
+    const elem = await elemBuilder.createElemFromTemplate(
+      `<ids-draggable parent-containment>
+      <div>draggable</div>
+    </ids-draggable>`
+    );
+
+    elem.minTransformX = null;
+    expect(elem.getAttribute('min-transform-x')).toEqual(null);
+    elem.minTransformX = undefined;
+    expect(elem.getAttribute('min-transform-x')).toEqual(null);
+    elem.minTransformX = [];
+    expect(elem.getAttribute('min-transform-x')).toEqual(null);
+    elem.minTransformX = '1';
+    expect(elem.getAttribute('min-transform-x')).toEqual('1');
+    elem.minTransformX = null;
+    expect(elem.getAttribute('min-transform-x')).toEqual(null);
+    elem.setAttribute('min-transform-x', '1');
+    elem.minTransformX = null;
+    expect(elem.getAttribute('min-transform-x')).toEqual(null);
+  });
+
+  it('safely handles setting handle', async () => {
+    const elem = await elemBuilder.createElemFromTemplate(
+      `<ids-draggable parent-containment>
+      <div>draggable</div>
+    </ids-draggable>`
+    );
+
+    elem.handle = null;
+    expect(elem.getAttribute('handle')).toEqual(null);
+    elem.handle = '#not-existing';
+    expect(elem.getAttribute('handle')).toEqual('#not-existing');
   });
 });

@@ -16,7 +16,6 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
     super.connectedCallback?.();
   }
 
-  /* istanbul ignore next */
   static get attributes() {
     return [
       ...super.attributes,

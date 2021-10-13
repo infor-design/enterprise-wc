@@ -56,7 +56,6 @@ class IdsTriggerField extends IdsInput {
 
     const labelEl = this.container.querySelector('label');
     this.onEvent('click.label', labelEl, () => {
-      /* istanbul ignore else */
       if (!stringToBool(this.disabled)) {
         [...this.inputs].forEach((input) => {
           input.input.focus();
@@ -89,7 +88,7 @@ class IdsTriggerField extends IdsInput {
    */
   template() {
     const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
-      ? /* istanbul ignore next */' disabled'
+      ? ' disabled'
       : '';
 
     return `
@@ -127,7 +126,6 @@ class IdsTriggerField extends IdsInput {
    * @returns {void}
    */
   setInputObserver() {
-    /* istanbul ignore next */
     const callback = (mutationList) => {
       mutationList.forEach((m) => {
         if (m.type === 'attributes') {
@@ -136,7 +134,6 @@ class IdsTriggerField extends IdsInput {
         }
       });
     };
-    /* istanbul ignore next */
     if (this.inputObserver) {
       this.inputObserver.disconnect();
     }
@@ -173,7 +170,6 @@ class IdsTriggerField extends IdsInput {
    */
   setInputAttributes() {
     this.inputs = this.querySelectorAll('ids-input');
-    /* istanbul ignore else */
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
         input.setAttribute(attributes.TRIGGERFIELD, 'true');
@@ -337,7 +333,6 @@ class IdsTriggerField extends IdsInput {
    * @returns {object} The object for chaining.
    */
   #attachEventHandlers() {
-    /* istanbul ignore else */
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
         const className = 'has-validation-message';
@@ -356,7 +351,6 @@ class IdsTriggerField extends IdsInput {
     }
 
     const buttons = this.querySelectorAll('ids-trigger-button');
-    /* istanbul ignore else */
     if (buttons) {
       [...buttons].forEach((button) => this.onEvent('click', button, () => this.trigger()));
     }

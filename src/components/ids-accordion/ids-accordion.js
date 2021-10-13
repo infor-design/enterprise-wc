@@ -90,7 +90,6 @@ class IdsAccordion extends mix(IdsElement).with(
   /**
    * When the accordion's color variant is set, push this change through to the child elements
    */
-  /* istanbul ignore next */
   onColorVariantRefresh() {
     this.#assignDepthDependentStyles(this, 0, true, false, false, false);
   }
@@ -110,7 +109,6 @@ class IdsAccordion extends mix(IdsElement).with(
   /**
    * Observes changes in the accordion tree
    */
-  /* istanbul ignore next */
   #contentObserver = new MutationObserver((mutations) => {
     for (const m of mutations) {
       if (m.type === 'childList') {
@@ -172,7 +170,6 @@ class IdsAccordion extends mix(IdsElement).with(
     const isRTL = this.locale.isRTL();
 
     // Assign RTL CSS Classes
-    /* istanbul ignore next */
     if (doRTL) {
       if (elemCl) refreshRTLStyle(elemCl, isRTL);
       if (headerCl) refreshRTLStyle(headerCl, isRTL);
@@ -183,7 +180,6 @@ class IdsAccordion extends mix(IdsElement).with(
       element.nested = subLevelDepth;
 
       // Assign Color Variant
-      /* istanbul ignore next */
       if (doColorVariant && this.colorVariant) {
         const variant = subLevelDepth ? `sub-${this.colorVariant}` : this.colorVariant;
         element.colorVariant = variant;
@@ -193,7 +189,6 @@ class IdsAccordion extends mix(IdsElement).with(
         }
       }
 
-      /* istanbul ignore next */
       if (header) {
         // Assign Expander Type
         // (Use Plus/Minus-style expander on any nested panels)
@@ -215,9 +210,7 @@ class IdsAccordion extends mix(IdsElement).with(
     }
 
     // Check children for nested panes
-    /* istanbul ignore next */
     const children = element.children;
-    /* istanbul ignore next */
     for (const childEl of children) {
       if (depth > 6) {
         break;
@@ -319,7 +312,6 @@ class IdsAccordion extends mix(IdsElement).with(
 
     // If the focused panel is expandable, find the first panel inside of it
     if (currentItem.isExpandable && currentItem.expanded) {
-      /* istanbul ignore next */
       next = currentItem.querySelector('ids-accordion-panel') || currentItem.nextElementSibling;
     } else {
       next = currentItem.nextElementSibling;
@@ -360,7 +352,6 @@ class IdsAccordion extends mix(IdsElement).with(
     // If the previous panel is expandable, focus on its last pane instead
     if (prev.isExpandable && prev.expanded) {
       const current = prev;
-      /* istanbul ignore next */
       prev = prev.querySelector('ids-accordion-panel:last-child') || current;
     }
 
@@ -372,19 +363,16 @@ class IdsAccordion extends mix(IdsElement).with(
 
     // If this pane has been closed, navigate to previous item outside this pane
     while (prev.parentElement.tagName === 'IDS-ACCORDION-PANEL' && !prev.parentElement.expanded) {
-      /* istanbul ignore next */
       prev = prev.parentElement;
     }
 
     // If there's no previous sibiling, navigate to the previous highest pane
-    /* istanbul ignore next */
     if (!prev) {
       prev = currentItem.parentElement;
     }
 
     // If previous is not an accordion panel, consider that we've 'looped'
     // back around to the top and pick the first header
-    /* istanbul ignore next */
     if (!prev || prev.tagName !== 'IDS-ACCORDION-PANEL') {
       prev = getLastPanel();
     }
@@ -400,9 +388,7 @@ class IdsAccordion extends mix(IdsElement).with(
    *   should appear to be aligned with this panel's icon
    */
   #markAdjacentPanesForIcons(panel, status) {
-    /* istanbul ignore next */
     const parent = panel.parentElement;
-    /* istanbul ignore next */
     [...parent.children].forEach((node) => {
       if (node.tagName === 'IDS-ACCORDION-PANEL') {
         node.contentAlignment = status ? 'has-icon' : null;

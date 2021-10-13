@@ -153,7 +153,6 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     }
     xhr.send(formData);
 
-    /* istanbul ignore next */
     uiElem?.addEventListener('abort', () => {
       xhr.abort(); // File abort
     });
@@ -252,7 +251,6 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {void}
    */
   setDropareaLabel() {
-    /* istanbul ignore next */
     if (!this.shadowRoot) {
       return;
     }
@@ -612,7 +610,6 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
         }
         this.dispatchFileEvent(eventName, e, target.id, target.file);
 
-        /* istanbul ignore next */
         if (/closebuttonclick|abort/g.test(eventName)) {
           uiElem?.remove();
         }
