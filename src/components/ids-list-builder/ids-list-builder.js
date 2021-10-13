@@ -189,12 +189,14 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
                 <ids-button id="button-add">
                   <ids-icon slot="icon" icon="add"></ids-icon>
                 </ids-button>
+                <div class="separator"></div>
                 <ids-button id="button-up">
-                  <ids-icon slot="icon" icon="arrow-up"></ids-icon>
+                <ids-icon slot="icon" icon="arrow-up"></ids-icon>
                 </ids-button>
                 <ids-button id="button-down">
-                  <ids-icon slot="icon" icon="arrow-down"></ids-icon>
+                <ids-icon slot="icon" icon="arrow-down"></ids-icon>
                 </ids-button>
+                <div class="separator"></div>
                 <ids-button id="button-edit">
                   <ids-icon slot="icon" icon="edit"></ids-icon>
                 </ids-button>
@@ -213,25 +215,28 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   }
 
   #toggleSelectedAttribute(item, isSelected = null) {
+    const hasSelectedAttribute = item.getAttribute('selected');
+
     if (isSelected !== null) {
       isSelected ? item.setAttribute('selected', 'selected') : item.removeAttribute('selected');
-    } else if (item.getAttribute('selected')) {
+    } else if (hasSelectedAttribute || isSelected === false) {
       item.removeAttribute('selected');
-    } else {
+      this.#selectedLi = null;
+    } else if (!hasSelectedAttribute || isSelected) {
       item.setAttribute('selected', 'selected');
+      this.#selectedLi = item;
     }
   }
 
-  #toggleSelectedLi(item, val = null) {
+  #toggleSelectedLi(item) {
     if (item.tagName === 'LI') {
       if (item !== this.#selectedLi) {
         if (this.#selectedLi) {
           // unselect previous item if it's selected
           this.#toggleSelectedAttribute(this.#selectedLi);
         }
-        this.#selectedLi = item;
       }
-      this.#toggleSelectedAttribute(item, val);
+      this.#toggleSelectedAttribute(item);
       item.focus();
     }
   }
@@ -261,7 +266,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
   #createPlaceholderClone(node) {
     const p = node.cloneNode(true);
-    p.style.opacity = `0.5`;
+    p.querySelector('li').classList.add('placeholder');
+    p.querySelector('li').removeAttribute('selected');
     return p;
   }
 
@@ -300,6 +306,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         i.value = newEntry ? 'New Value' : this.#selectedLi.querySelector('ids-text').innerHTML;
         i.autoselect = 'true';
         i.noMargins = 'true';
+        i.colorVariant = 'alternate';
         i.focus();
       }
     }
@@ -358,10 +365,6 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         if (this.#selectedLiEditor) this.#selectedLiEditor = null;
       }
     });
-
-    // this.onEvent('click', this.container, (event) => {
-    //   console.log(event.target)
-    // })
   }
 
   #attachDragEventListeners() {
@@ -376,14 +379,15 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
       // toggle selected item
       const listItem = event.target.querySelector('li');
-      this.#toggleSelectedLi(listItem, true);
+      this.#toggleSelectedLi(listItem);
 
       // create placeholder
       this.placeholder = this.#createPlaceholderClone(el);
 
       // need this for draggable to move around
       el.style.position = `absolute`;
-      el.parentNode.style.zIndex = `100`;
+      el.style.zIndex = `100`;
+      el.style.opacity = `0.95`;
 
       el.parentNode.insertBefore(
         this.placeholder,
@@ -396,11 +400,11 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       let nextEle = this.placeholder?.nextElementSibling;
 
       // skip over checking the original selected node position
-      if (prevEle === this.#selectedLi.parentNode) {
+      if (prevEle === el) {
         prevEle = prevEle.previousElementSibling;
       }
       // skip over checking the original selected position
-      if (nextEle === this.#selectedLi.parentNode) {
+      if (nextEle === el) {
         nextEle = nextEle.nextElementSibling;
       }
 
@@ -417,6 +421,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.onEvent('ids-dragend', el, () => {
       el.style.removeProperty('position');
       el.style.removeProperty('transform');
+      el.style.removeProperty('opacity');
+      el.style.removeProperty('z-index');
 
       this.#swap(el, this.placeholder);
       if (this.placeholder) {

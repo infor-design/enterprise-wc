@@ -9,15 +9,17 @@ TODO
 - [ ] add themes/color styles
 - [x] add hover, focus, select styles/attributes; appropriate cursors for 4 dots vs li
 - [x] add ability to drag
+  - [x] lower opacity of placeholder & intensity of color
+  - [x] lower opacity of dragging element
 - [x] add ability to edit
   - [x] autoselect all text, and focus the input when edit button is clicked
   - [x] make styling/functionality match the example
+  - [x] make the input text white when editing
 - [x] add ability to delete
 - [x] add ability to move list items up/down
 - [x] add ability to create new item
 - [ ] when dragging, make draggable z-index higher than parent container/toolbar
 - [x] merge w main, check if any conflicts w tims changes
 - [x] fix collapsing height when li text is empty
-- [ ] add ability to unselect li by clicking a selected li (don't know why click listeners won't register)
 - [ ] add key listener for enter button when editing li to unfocus the editor
 - [ ] add keyboard listeners for navigating the li's

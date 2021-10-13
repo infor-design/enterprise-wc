@@ -4,6 +4,13 @@
   border-radius: 2px;
   border: 1px solid gray;
 
+  ids-toolbar-section .separator {
+    height: 24px;
+    margin: 6px 11px 0 7px;
+    background-color: #47474c;
+    width: 1px;
+  }
+
   .header {
     background-color: gray;
 
@@ -43,7 +50,8 @@
       @include px-20();
 
       width: 100%;
-      min-height: 20px;
+      box-sizing: border-box;
+      min-height: 44px;
 
       &[selected='selected']{
         background-color: #0072ed;
@@ -65,7 +73,9 @@
       }
 
       &:focus:not([selected='selected']) {
-        background-color: red;
+        background-color: #e6f1fd;
+        border: 1px solid #0072ed;
+        outline: none;
       }
 
       &:focus[selected='selected'] {
@@ -77,6 +87,11 @@
       ids-text::part(text) {
         display: inline;
         user-select: none;
+      }
+
+      &.placeholder {
+        background-color: #e6f1fd;
+        opacity: 0.6;
       }
     }
   }
