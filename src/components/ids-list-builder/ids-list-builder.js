@@ -277,28 +277,30 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   }
 
   #removeSelectedLiEditor() {
-    this.#selectedLi.style.display = 'list-item';
+    this.#selectedLi.querySelector('ids-text').style.display = 'list-item';
     this.#selectedLi.parentNode.removeAttribute('disabled');
     this.#selectedLiEditor.remove();
     this.#selectedLiEditor = null;
   }
 
-  #replaceSelectedLiWithEditor(newEntry = false) {
+  #insertSelectedLiWithEditor(newEntry = false) {
     if (this.#selectedLi) {
       if (!this.#selectedLiEditor) {
         const i = new IdsInput();
 
         // insert into DOM
-        this.#selectedLi.parentNode.insertBefore(i, this.#selectedLi);
+        this.#selectedLi.insertBefore(i, this.#selectedLi.querySelector('ids-text'));
 
         // hide & disable IDS draggable
-        this.#selectedLi.style.display = `none`;
+        this.#selectedLi.querySelector('ids-text').style.display = `none`;
         this.#selectedLi.parentNode.setAttribute('disabled', '');
 
         // set the value of input
         this.#selectedLiEditor = i;
         i.value = newEntry ? 'New Value' : this.#selectedLi.querySelector('ids-text').innerHTML;
         i.autoselect = 'true';
+        i.noMargins = 'true';
+        i.focus();
       }
     }
   }
@@ -319,7 +321,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       this.#toggleSelectedLi(listItem);
 
       const newEntry = true;
-      this.#replaceSelectedLiWithEditor(newEntry);
+      this.#insertSelectedLiWithEditor(newEntry);
     });
 
     this.onEvent('click', this.container.querySelector('#button-up'), () => {
@@ -346,7 +348,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     });
 
     this.onEvent('click', this.container.querySelector('#button-edit'), () => {
-      this.#replaceSelectedLiWithEditor();
+      this.#insertSelectedLiWithEditor();
     });
 
     this.onEvent('click', this.container.querySelector('#button-delete'), () => {

@@ -23,15 +23,31 @@
       width: 100%;
     }
 
+    ids-input {
+      &::part(input) {
+        @include border-0();
+
+        background-color: transparent;
+        height: 20px;
+        padding: 0;
+      }
+
+      &::part(field-container) {
+        max-width: 98%;
+      }
+    }
+
     li {
       @include list-none();
       @include py-12();
       @include px-20();
 
       width: 100%;
+      min-height: 20px;
 
       &[selected='selected']{
-        background-color: rgba(51, 170, 51, 0.8);
+        background-color: #0072ed;
+        color: white;
       }
 
       &:hover span::after {
@@ -43,17 +59,19 @@
         cursor: move;
       }
 
-      &:hover:not(:focus) {
-        background-color: yellow;
+      &:hover:not(:focus):not([selected='selected']) {
+        background-color: #e6f1fd;
         cursor: pointer;
       }
 
       &:focus:not([selected='selected']) {
-        background-color: rgba(132, 218, 132, 0.4);
+        background-color: red;
       }
 
       &:focus[selected='selected'] {
-        background-color: rgba(51, 170, 51, 1);
+        background-color: #0072ed;
+        color: white;
+        outline: none;
       }
 
       ids-text::part(text) {
