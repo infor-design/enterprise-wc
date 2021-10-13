@@ -34,9 +34,7 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
   #init() {
     this.setAttribute('role', 'list');
     const stack = [];
-    /* istanbul ignore next */
     while (this.lastElementChild) { stack.push(this.delete()); }
-    /* istanbul ignore next */
     while (stack.length) { this.add(stack.pop()); }
   }
 
@@ -65,7 +63,6 @@ class IdsBreadcrumb extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
     breadcrumb.setAttribute('color', 'unset');
     breadcrumb.setAttribute('role', 'listitem');
     breadcrumb.setAttribute('text-decoration', 'hover');
-    /* istanbul ignore next */
     if (!(breadcrumb.getAttribute('font-size'))) {
       breadcrumb.setAttribute('font-size', 14);
     }

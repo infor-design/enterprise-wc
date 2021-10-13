@@ -8,7 +8,6 @@ export function sanitizeConsoleMethods(html) {
   const methods = ['assert', 'clear', 'count', 'debug', 'dirxml', 'dir', 'error', 'exception', 'groupCollapsed', 'groupEnd', 'group', 'info', 'log', 'markTimeline', 'profileEnd', 'profile', 'table', 'timeEnd', 'timeStamp', 'time', 'trace', 'warn'];
   const expr = new RegExp(`console\\.(${methods.join('|')})((\\s+)?\\(([^)]+)\\);?)?`, 'igm');
 
-  /* istanbul ignore next */
   return typeof html !== 'string' ? html : html.replace(expr, '');
 }
 
@@ -24,7 +23,6 @@ export function sanitizeHTML(html) {
     const expr = /(\/|\s)on\w+=('|")?/g;
     let str = match;
     if ((str.match(expr) || []).length > 0) {
-      /* istanbul ignore next */
       str = str.replace(/(\/|\s)title=('|")(.*)('|")/g, (m) => {
         if ((m.match(expr) || []).length > 0) {
           return m.replace(expr, (m2) => m2.replace('on', ''));

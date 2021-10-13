@@ -49,7 +49,6 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
     if (this.nodeName === 'IDS-INPUT') {
       return this.container.querySelector('input');
     }
-    /* istanbul ignore next */
     if (this.nodeName === 'IDS-DROPDOWN') {
       return this.container?.querySelector('ids-input').container?.querySelector('input');
     }
@@ -67,7 +66,6 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
 
     // Append an IDS Tooltip and show it
     const tooltip = document.createElement('ids-tooltip');
-    /* istanbul ignore next */
     if (!tooltip.state) {
       tooltip.state = {};
     }
@@ -76,7 +74,6 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
     tooltip.alignTarget = this.toolTipTarget;
 
     // Handle Ellipsis Text if tooltip="true"
-    /* istanbul ignore next */
     tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;
 
     let container = document.querySelector('ids-container');

@@ -103,4 +103,22 @@ describe('IdsAppMenu Component', () => {
     header1.dispatchEvent(closeEvent);
     waitFor(() => expect(appMenuElem.visible).toBeFalsy());
   });
+
+  it('wont close by pressing any key but escape', () => {
+    const closeEvent = new KeyboardEvent('keydown', { key: 'a', bubbles: true });
+
+    // Open the Menu
+    appMenuElem.show();
+    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+
+    // Focus the first header and "Press Escape"
+    const header1 = document.querySelector('#h1');
+    header1.focus();
+    header1.dispatchEvent(closeEvent);
+    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+
+    // Dispatch again while closed (coverage)
+    header1.dispatchEvent(closeEvent);
+    waitFor(() => expect(appMenuElem.visible).toBeTruthy());
+  });
 });

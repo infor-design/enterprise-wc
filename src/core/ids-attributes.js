@@ -187,6 +187,7 @@ export const attributes = {
   SQUARE: 'square',
   SIZE: 'size',
   SRC: 'src',
+  STARS: 'stars',
   START: 'start',
   STATUS: 'status',
   STEP: 'step',

@@ -18,7 +18,6 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
   constructor() {
     super();
 
-    /* istanbul ignore next */
     if (!this.state) {
       this.state = {};
     }
@@ -106,7 +105,6 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
   /**
    * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
    */
-  /* istanbul ignore next */
   refreshTriggerEvents() {
     const targetElem = this.popup.alignTarget || window;
 
@@ -119,7 +117,6 @@ const IdsPopupInteractionsMixin = (superclass) => class extends IdsEventsMixin(s
       this.popup.y = 8;
 
       // Announce Popup control with `aria-controls` on the target
-      /* istanbul ignore next */
       if (targetElem.id && targetElem !== 'window') {
         this.target.setAttribute('aria-controls', `${this.id}`);
       }
