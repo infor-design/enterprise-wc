@@ -1,11 +1,16 @@
 export default class IdsImage extends HTMLElement {
-  alt: string;
+  /** Set the path to the image */
+  src: string | null;
 
-  src: string;
+  /** Set an alternate text for the image */
+  alt: string | null;
 
-  size: string;
+  /** Set the size for the image */
+  size: 'auto' | 'sm' | 'md' | 'lg';
 
-  placeholder: boolean;
+  /** Set whether or not to replace image with placeholder if the image fails to load */
+  fallback: 'true' | 'false' | boolean | null;
 
-  fallback: boolean;
+  /** Set whether or not to replace image with placeholder initially */
+  placeholder: 'true' | 'false' | boolean | null;
 }
