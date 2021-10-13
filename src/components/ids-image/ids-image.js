@@ -84,7 +84,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Remove error event when img detached from shadow
+   * Remove error event when the image is removed
    */
   #detachOnErrorEvent() {
     this.offEvent('error.image');
@@ -120,6 +120,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
+   * Path to the image
    * @returns {string} src attribute value
    */
   get src() {
@@ -127,7 +128,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Set the src
+   * Set the path to the image
    * @param {string} val src attribute value
    */
   set src(val) {
@@ -168,6 +169,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
+   * An alternate text for the image
    * @returns {string} alt attribute value
    */
   get alt() {
@@ -175,7 +177,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Set the alt
+   * Set an alternate text for the image
    * @param {string} val alt attribute value
    */
   set alt(val) {
@@ -192,7 +194,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Get one of predefined sizes
+   * Get one of the predefined sizes
    * @param {string} val size attribute value
    * @returns {'auto'|'sm'|'md'|'lg'} one of the predefined sizes
    */
@@ -209,6 +211,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
+   * Size for the image
    * @returns {'auto'|'sm'|'md'|'lg'} one of the predefined sizes
    */
   get size() {
@@ -218,13 +221,27 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Set the size
-   * @param {string} val size value
+   * Set the size for the image
+   * @param {string} val size attribute value
    */
   set size(val) {
     this.setAttribute(attributes.SIZE, this.#getSize(val));
   }
 
+  /**
+   * Placeholder attribute
+   * @returns {boolean} placeholder attribute value converted to boolean
+   */
+  get placeholder() {
+    const attrVal = this.getAttribute(attributes.PLACEHOLDER);
+
+    return IdsStringUtils.stringToBool(attrVal);
+  }
+
+  /**
+   * Set whether or not to replace image with placeholder initially
+   * @param {string} val placeholder attribute value
+   */
   set placeholder(val) {
     const boolVal = IdsStringUtils.stringToBool(val);
 
@@ -237,12 +254,20 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.removeAttribute(attributes.PLACEHOLDER);
   }
 
-  get placeholder() {
-    const attrVal = this.getAttribute(attributes.PLACEHOLDER);
+  /**
+   * Fallback attribute
+   * @returns {boolean} fallback attribute value converted to boolean
+   */
+  get fallback() {
+    const attrVal = this.getAttribute(attributes.FALLBACK);
 
     return IdsStringUtils.stringToBool(attrVal);
   }
 
+  /**
+   * Set whether or not to replace image with placeholder if the image fails to load
+   * @param {string} val fallback attribute value
+   */
   set fallback(val) {
     const boolVal = IdsStringUtils.stringToBool(val);
 
@@ -255,12 +280,20 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     this.removeAttribute(attributes.FALLBACK);
   }
 
-  get fallback() {
-    const attrVal = this.getAttribute(attributes.FALLBACK);
+  /**
+   * Round attribute
+   * @returns {boolean} round attribute value converted to boolean
+   */
+  get round() {
+    const attrVal = this.getAttribute(attributes.ROUND);
 
     return IdsStringUtils.stringToBool(attrVal);
   }
 
+  /**
+   * Set whether or not the image is round
+   * @param {string} val round attribute value
+   */
   set round(val) {
     const boolVal = IdsStringUtils.stringToBool(val);
 
@@ -271,12 +304,6 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
 
     this.removeAttribute(attributes.ROUND);
-  }
-
-  get round() {
-    const attrVal = this.getAttribute(attributes.ROUND);
-
-    return IdsStringUtils.stringToBool(attrVal);
   }
 }
 
