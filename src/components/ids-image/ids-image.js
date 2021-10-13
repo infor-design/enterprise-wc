@@ -62,10 +62,10 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   template() {
     // Initially has placeholder attribute or no src attribute provided
     if (this.placeholder || !this.src) {
-      return `<div class="ids-image placeholder" tabindex="0"><span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon></div>`;
+      return `<div class="ids-image placeholder"><span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon></div>`;
     }
 
-    return `<img class="ids-image" src="${this.src}" tabindex="0" />`;
+    return `<img class="ids-image" src="${this.src}"/>`;
   }
 
   /**
@@ -98,7 +98,6 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   #getImgEl(src, alt) {
     const img = document.createElement('img');
     img.classList = 'ids-image';
-    img.setAttribute('tabindex', 0);
     img.setAttribute('src', src);
     if (alt) {
       img.setAttribute('alt', alt);
@@ -113,7 +112,6 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   #getPlaceholderEl() {
     const placeholder = document.createElement('div');
     placeholder.classList = 'ids-image placeholder';
-    placeholder.setAttribute('tabindex', 0);
     placeholder.innerHTML = '<span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon>';
 
     return placeholder;

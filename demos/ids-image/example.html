@@ -8,6 +8,7 @@
       src="//main-enterprise.demo.design.infor.com/images/10.jpg"
       alt="Photo of Evyn"
       round
+      tabindex="0"
     ></ids-image>
     <br />
     <ids-image
@@ -15,6 +16,7 @@
       alt="Photo of Evyn"
       round
       status="available"
+      tabindex="0"
     ></ids-image>
     <br />
     <ids-image
@@ -22,6 +24,7 @@
       alt="Photo of Evyn"
       round
       status="away"
+      tabindex="0"
     ></ids-image>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell col-span="1">
@@ -31,6 +34,7 @@
       src="//via.placeholder.com/60.jpg"
       alt="image-sm 60x60"
       size="sm"
+      tabindex="0"
     ></ids-image>
     <ids-text font-size="14">image from src</ids-text>
     <br />
@@ -41,6 +45,7 @@
       alt="image-sm non-existant"
       size="sm"
       fallback
+      tabindex="0"
     ></ids-image>
     <ids-text font-size="14">placeholder via fallback</ids-text>
   </ids-layout-grid-cell>
@@ -50,6 +55,7 @@
       src="//via.placeholder.com/154x120.jpg"
       alt="image-md 154x120"
       size="md"
+      tabindex="0"
     ></ids-image>
     <ids-text font-size="14">image from src</ids-text>
     <br />
@@ -59,6 +65,7 @@
       alt="image-md non-existant"
       size="md"
       placeholder
+      tabindex="0"
     ></ids-image>
     <ids-text font-size="14">placeholder via attribute</ids-text>
   </ids-layout-grid-cell>
@@ -68,6 +75,7 @@
       src="//via.placeholder.com/300x350.jpg"
       alt="image-lg 300x350"
       size="lg"
+      tabindex="0"
     ></ids-image>
     <ids-text font-size="14">image from src</ids-text>
     <br />
@@ -76,6 +84,7 @@
       alt="image-lg no src"
       size="lg"
       fallback
+      tabindex="0"
     ></ids-image>
     <ids-text font-size="14">placeholder via fallback</ids-text>
   </ids-layout-grid-cell>
@@ -84,11 +93,15 @@
     <ids-image
       src="//via.placeholder.com/500x200.jpg"
       alt="image-auto 500x200"
+      tabindex="0"
     ></ids-image>
     <ids-text font-size="14">image from src</ids-text>
     <br />
     <br />
-    <ids-image placeholder></ids-image>
+    <ids-image
+      placeholder
+      tabindex="0"
+    ></ids-image>
     <ids-text font-size="14">placeholder via attribute</ids-text>
   </ids-layout-grid-cell>
 </ids-layout-grid>
