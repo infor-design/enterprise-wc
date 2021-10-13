@@ -5,11 +5,11 @@ import { IdsElement } from '../../core';
 
 export default class extends IdsElement {
   /** Set the expanded state */
-  expanded: string;
+  expanded: boolean;
 
   /** Set the selected state */
-  selected: string;
+  selected: boolean;
 
   /** Set the rootItem element */
-  rootItem: string;
+  rootItem: boolean;
 }

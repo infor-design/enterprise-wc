@@ -2,19 +2,20 @@
 
 .ids-hierarchy-legend-item {
   @include flex();
+  @include relative();
 
   align-items: center;
-  position: relative;
   margin-inline-end: calc(var(--ids-number-spacing-base) * 4);
   margin-block-end: var(--ids-number-spacing-base);
 
   &::before {
+    @include block();
+    @include rounded-round();
+
     content: ' ';
-    display: block;
     height: calc(var(--ids-number-spacing-base) * 2);
     width: calc(var(--ids-number-spacing-base) * 2);
     margin-inline-end: var(--ids-number-spacing-base);
-    border-radius: 50%;
     background-color: var(--ids-color-palette-slate-20);
   }
 

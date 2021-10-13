@@ -54,7 +54,8 @@
 }
 
 .leaf {
-  position: relative;
+  @include relative();
+
   border: 1px solid var(--ids-color-palette-slate-30);
   margin-block-end: calc(var(--ids-number-spacing-base) * 4);
   width: 315px;
@@ -62,13 +63,14 @@
   border-radius: 2px;
 
   &::before {
+    @include block();
+    @include absolute();
+
     border-bottom: 1.34px solid var(--ids-color-palette-slate-30);
     border-left: 1.34px solid var(--ids-color-palette-slate-30);
     content: '';
-    display: block;
     height: 110px;
     left: -30px;
-    position: absolute;
     top: -70px;
     width: 50%;
     z-index: 0;
@@ -76,18 +78,20 @@
 }
 
 .leaf-inside {
-  display: flex;
+  @include flex();
+  @include relative();
+
   align-items: center;
   background-color: white;
   padding: var(--ids-number-spacing-base) calc(var(--ids-number-spacing-base) * 2);
-  position: relative;
   border-left: 5px solid var(--ids-color-palette-slate-80);
   z-index: 1;
 }
 
 .avatar {
+  @include block();
+
   flex-shrink: 0;
-  display: block;
   height: 55px;
   width: 55px;
   border: 2px solid var(--ids-color-palette-slate-80);
@@ -116,7 +120,8 @@
   .leaf {
     &::before {
       @media all and (max-width: $breakpoint-sm) {
-        display: block;
+        @include block();
+
         border-left: none;
       }
     }
@@ -159,7 +164,7 @@ ids-button[part='icon-btn'] {
 
 .has-nested-items {
   ids-button[part='icon-btn'] {
-    display: block;
+    @include block();
   }
 }
 
@@ -168,7 +173,7 @@ ids-button[part='icon-btn'] {
 }
 
 :host([expanded]) .sub-level {
-  display: block;
+  @include block();
 }
 
 // Handle Themes

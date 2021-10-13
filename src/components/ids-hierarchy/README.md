@@ -22,7 +22,7 @@ The main use case for the IDS Hierarchy component is to create an organizational
 
 ```html
 <ids-hierarchy>
-  <ids-hierarchy-item id="item-1" root expanded color-variant="full-time">
+  <ids-hierarchy-item id="item-1" root-item expanded color-variant="full-time">
     <img src="../assets/headshot-1.jpg" alt="item-1" slot="avatar" />
     <ids-text slot="heading">Tony Cleveland</ids-text>
     <ids-text slot="subheading">Director</ids-text>
@@ -107,6 +107,37 @@ Example with legend
     </ids-hierarchy-item>
   </ids-hierarchy-item>
 </ids-hierarchy>
+```
+
+### Color Variants
+
+The `ids-hierarchy-item` and `ids-hierarchy-legend-item` make use of the [IdsColorVariantMixin](../../mixins/ids-color-variant-mixin/README.md) to modify the colors per item. There are currently 4 color variants available: `full-time`, `part-time`, `contractor` and `open-position`.
+
+```html
+<ids-hierarchy-item id="item-1" color-variant="full-time">
+    <img src="../assets/headshot-1.jpg" alt="item-1" slot="avatar" />
+    <ids-text slot="heading">Tony Cleveland</ids-text>
+    <ids-text slot="subheading">Director</ids-text>
+    <ids-text slot="micro">FT</ids-text>
+</ids-hierarchy-item>
+
+<ids-hierarchy-item id="item-2" color-variant="part-time">
+    <ids-text slot="heading">Julie Dawes</ids-text>
+    <ids-text slot="subheading">Records Clerk</ids-text>
+    <ids-text slot="micro">PT</ids-text>
+</ids-hierarchy-item>
+
+<ids-hierarchy-item id="item-5" color-variant="contractor">
+    <ids-text slot="heading">Tony Cleveland</ids-text>
+    <ids-text slot="subheading">Director</ids-text>
+    <ids-text slot="micro">C</ids-text>
+</ids-hierarchy-item>
+
+<ids-hierarchy-item id="item-4" color-variant="open-position">
+    <ids-text slot="heading">Julie Dawes</ids-text>
+    <ids-text slot="subheading">Records Clerk</ids-text>
+    <ids-text slot="micro">OP</ids-text>
+</ids-hierarchy-item>
 ```
 
 ## States and Variations
