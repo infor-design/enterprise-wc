@@ -30,7 +30,6 @@ class IdsMessage extends IdsModal {
   constructor() {
     super();
 
-    /* istanbul ignore next */
     if (!this.state) {
       this.state = {};
     }

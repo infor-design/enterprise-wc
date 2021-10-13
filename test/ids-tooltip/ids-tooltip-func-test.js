@@ -49,39 +49,6 @@ describe('IdsTooltip Component', () => {
     expect(tooltip.shadowRoot.innerHTML).toMatchSnapshot();
   });
 
-  it('shows on mouseenter', (done) => {
-    const mouseenter = new MouseEvent('mouseenter');
-    button.dispatchEvent(mouseenter);
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      done();
-    }, 50);
-  });
-
-  it('shows on mouseenter and then hides on mouseleave', (done) => {
-    const mouseenter = new MouseEvent('mouseenter');
-    const mouseleave = new MouseEvent('mouseleave');
-    button.dispatchEvent(mouseenter);
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      button.dispatchEvent(mouseleave);
-      expect(tooltip.visible).toEqual(false);
-      done();
-    }, 50);
-  });
-
-  it('shows on mouseenter and then hides on click', (done) => {
-    const mouseenter = new MouseEvent('mouseenter');
-    const click = new MouseEvent('click');
-    button.dispatchEvent(mouseenter);
-    setTimeout(() => {
-      expect(tooltip.visible).toEqual(true);
-      button.dispatchEvent(click);
-      expect(tooltip.visible).toEqual(false);
-      done();
-    }, 50);
-  });
-
   it('handles two or more elements can share a tooltip', (done) => {
     const buttonElem = new IdsButton();
     buttonElem.id = 'button-2';
@@ -104,8 +71,8 @@ describe('IdsTooltip Component', () => {
         button2.dispatchEvent(click);
         expect(tooltip.visible).toEqual(false);
         done();
-      }, 50);
-    }, 50);
+      }, 100);
+    }, 100);
   });
 
   it('handles changing the target', (done) => {

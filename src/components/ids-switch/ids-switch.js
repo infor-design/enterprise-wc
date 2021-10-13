@@ -108,7 +108,6 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
       const eventName = 'change';
       if (option === 'remove') {
         const handler = this.handledEvents?.get(eventName);
-        /* istanbul ignore next */
         if (handler && handler.target === this.input) {
           this.offEvent(eventName, this.input);
         }

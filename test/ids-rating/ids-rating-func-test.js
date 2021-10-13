@@ -69,4 +69,34 @@ describe('IdsRating Component', () => {
     document.body.appendChild(elem);
     expect(document.querySelector('ids-rating').shadowRoot.querySelectorAll('.star').length).toEqual(5);
   });
+
+  it('can click stars to select', () => {
+    expect(rating.value).toEqual(0);
+    rating.shadowRoot.querySelector('.star-2').click();
+    expect(rating.value).toEqual(3);
+  });
+
+  it('should ignore invalid size', () => {
+    expect(rating.size).toEqual('large');
+    rating.size = null;
+    expect(rating.size).toEqual('large');
+  });
+
+  it('should be able to toggle off 1 start', () => {
+    rating.value = 1;
+    rating.shadowRoot.querySelector('.star-0').click();
+    expect(rating.value).toEqual(0);
+  });
+
+  it('can hit enter on a star to select', () => {
+    expect(rating.value).toEqual(0);
+    const star = rating.shadowRoot.querySelector('.star-4');
+    star.focus();
+    let keyEvent = new KeyboardEvent('keyup', { key: 'Enter', target: star, bubbles: true });
+    rating.container.dispatchEvent(keyEvent);
+    expect(rating.value).toEqual(5);
+    keyEvent = new KeyboardEvent('keyup', { key: 'a', target: star, bubbles: true });
+    rating.container.dispatchEvent(keyEvent);
+    expect(rating.value).toEqual(5);
+  });
 });

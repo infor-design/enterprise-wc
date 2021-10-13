@@ -51,7 +51,6 @@ const IdsDOMUtils = {
       if (parent.toString() === '[object ShadowRoot]') {
         parent = parent.host;
       }
-      /* istanbul ignore next */
       if (parent.toString() === '[object HTMLDocument]') {
         return undefined;
       }
@@ -73,7 +72,7 @@ const IdsDOMUtils = {
   transitionToPromise(el, property, value) {
     return new Promise((resolve) => {
       el.style[property] = value;
-      const transitionEnded = /* istanbul ignore next */ (e) => {
+      const transitionEnded = (e) => {
         if (e.propertyName !== property) return;
         el.removeEventListener('transitionend', transitionEnded);
         resolve();
@@ -91,7 +90,7 @@ const IdsDOMUtils = {
    */
   waitForTransitionEnd(el, property) {
     return new Promise((resolve) => {
-      const transitionEnded = /* istanbul ignore next */ (e) => {
+      const transitionEnded = (e) => {
         if (e.propertyName !== property) return;
         el.removeEventListener('transitionend', transitionEnded);
         resolve();

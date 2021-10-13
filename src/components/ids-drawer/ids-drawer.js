@@ -40,7 +40,6 @@ class IdsDrawer extends mix(IdsElement).with(
   constructor() {
     super();
 
-    /* istanbul ignore next */
     if (!this.state) {
       this.state = {};
     }
@@ -296,7 +295,6 @@ class IdsDrawer extends mix(IdsElement).with(
    * Handle `onOutsideClick` from IdsPopupOpenEventsMixin
    * @param {MouseEvent} e the original click event
    */
-  /* istanbul ignore next */
   onOutsideClick(e) {
     if (this.isEqualNode(e.target) || this.contains(e.target)) {
       return;

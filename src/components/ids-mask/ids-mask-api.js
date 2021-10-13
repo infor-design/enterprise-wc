@@ -189,7 +189,6 @@ class MaskAPI {
       let compensatingPlaceholderChars = EMPTY_STRING;
 
       // For every character that was deleted from a placeholder position, we add a placeholder char
-      /* istanbul ignore next */
       for (let i = indexOfFirstChange; i < indexOfLastChange; i++) {
         if (conformSettings.placeholder[i] === placeholderChar) {
           compensatingPlaceholderChars += placeholderChar;
@@ -228,7 +227,6 @@ class MaskAPI {
     // `00 (111)`, the placeholder would be `00 (___)`. If user input is `00 (234)`, the loop below
     // would remove all characters but `234` from the `rawValueArr`. The rest of the algorithm
     // then would lay `234` on top of the available placeholder positions in the mask.
-    /* istanbul ignore next */
     for (let k = rawValueLength - 1; k >= 0; k--) {
       const char = rawValueArr[k];
 
@@ -242,7 +240,6 @@ class MaskAPI {
     }
 
     // Loop through the placeholder string to find characters that need to be filled.
-    /* istanbul ignore next */
     placeholderLoop:
     for (let l = 0; l < placeholderLength; l++) {
       const charInPlaceholder = conformSettings.placeholder[l];
@@ -461,7 +458,6 @@ class MaskAPI {
    * @param {string} placeholderChar - a character that will be used as the placeholder.
    * @returns {string} representing the placeholder
    */
-  /* istanbul ignore next */
   convertMaskToPlaceholder(mask = [], placeholderChar = PLACEHOLDER_CHAR) {
     return mask.map((char) => ((char instanceof RegExp)
       ? placeholderChar : char)).join(EMPTY_STRING);
@@ -489,7 +485,6 @@ class MaskAPI {
     // Store lengths for faster performance?
     const rawValueLength = opts.rawValue.length;
     const previousConformedValueLength = opts.previousMaskResult.length;
-    /* istanbul ignore next */
     const placeholderLength = opts.placeholder ? opts.placeholder.length : 0;
     const conformedValueLength = opts.conformedValue ? opts.conformedValue.length : 0;
 
@@ -509,14 +504,12 @@ class MaskAPI {
     //
     // Such cases can also happen when the user presses the backspace while holding down the ALT
     // key.
-    /* istanbul ignore next */
     const isPartialMultiCharEdit = editLength > 1 && !isAddition && !isFirstRawValue;
 
     // This algorithm doesn't support all cases of multi-character edits, so we just return
     // the current caret position.
     //
     // This works fine for most cases.
-    /* istanbul ignore next */
     if (isPartialMultiCharEdit) {
       return opts.caretPos;
     }
@@ -534,7 +527,6 @@ class MaskAPI {
     let trackRightCharacter;
     let targetChar;
 
-    /* istanbul ignore next */
     if (possiblyHasRejectedChar) {
       startingSearchIndex = opts.caretPos - editLength;
     } else {
@@ -672,7 +664,6 @@ class MaskAPI {
     // That's what the next logic is for.
     //
     // In case of addition, we fast forward.
-    /* istanbul ignore next */
     if (isAddition) {
       // We want to remember the last placeholder character encountered so that if the mask
       // contains more characters after the last placeholder character, we don't forward the caret
@@ -753,7 +744,6 @@ class MaskAPI {
       }
     }
 
-    /* istanbul ignore next */
     return 0;
   }
 
