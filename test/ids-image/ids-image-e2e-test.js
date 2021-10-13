@@ -1,5 +1,6 @@
 const imgSrcExists = 'http://via.placeholder.com/60.jpeg';
 const imgSrcNotFound = 'http://localhost:4444/non-existant.jpg';
+const imageEl = '#e2e-image';
 const placeholderEl = '#e2e-placeholder';
 const fallbackEl = '#e2e-fallback';
 
@@ -46,6 +47,20 @@ describe('Ids Image e2e Tests', () => {
       el.shadowRoot.querySelector('img'));
 
     expect(hasImage).toBeTruthy();
+  });
+
+  it('should change image to placeholder', async () => {
+    await page.evaluate((el) => {
+      const element = document.querySelector(el);
+
+      element.placeholder = true;
+      element.src = null;
+    }, imageEl);
+
+    const hasPlaceholder = await page.$eval(imageEl, (el) =>
+      el.shadowRoot.querySelector('.placeholder'));
+
+    expect(hasPlaceholder).toBeTruthy();
   });
 
   it('should render placeholder if src changed and img failed to load', async () => {
