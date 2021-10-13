@@ -1,1 +1,1 @@
-import IdsCheckbox from '../../src/components/ids-dropdown';
+import IdsDropdown from '../../src/components/ids-dropdown';

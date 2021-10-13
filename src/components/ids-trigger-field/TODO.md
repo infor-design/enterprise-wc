@@ -1,6 +1,2 @@
-- [x] refactor state css selectors to be an attribute instead of a class
-  - [x] readonly
-  - [x] disabled
-- [x] add no-margins option
 - [ ] fix layout
   - [ ] remove ids-trigger-button if empty, so that X on clearable mixin can float to the end

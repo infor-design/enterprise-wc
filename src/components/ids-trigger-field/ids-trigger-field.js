@@ -5,10 +5,8 @@ import {
   attributes
 } from '../../core';
 
-import { stringUtils } from '../../utils/ids-string-utils/ids-string-utils';
-
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import { IdsStringUtils as stringUtils } from '../../utils';
 
 // Import Mixins
 import {
@@ -23,8 +21,6 @@ import { IdsButton } from '../ids-button';
 import IdsInput from '../ids-input';
 import { SIZES } from '../ids-input/ids-input';
 import IdsTriggerButton from './ids-trigger-button';
-
-const { stringToBool } = stringUtils;
 
 /**
  * IDS Trigger Field Component
@@ -57,7 +53,7 @@ class IdsTriggerField extends IdsInput {
     const labelEl = this.container.querySelector('label');
     this.onEvent('click.label', labelEl, () => {
       /* istanbul ignore else */
-      if (!stringToBool(this.disabled)) {
+      if (!stringUtils.stringToBool(this.disabled)) {
         [...this.inputs].forEach((input) => {
           input.input.focus();
         });
@@ -93,8 +89,8 @@ class IdsTriggerField extends IdsInput {
       : '';
 
     return `
-      <div 
-        class="ids-trigger-field ${this.size}" 
+      <div
+        class="ids-trigger-field ${this.size}"
         part="field"
         ${this.noMargins && ' no-margins'}
       >
@@ -109,9 +105,9 @@ class IdsTriggerField extends IdsInput {
         >
           <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
         </label>` : ''}
-        <div 
+        <div
           class="ids-trigger-field-content ${this.cssClass}"
-          part="content" 
+          part="content"
           ${this.readonly && ' readonly'}
           ${this.disabled && ' disabled'}
         >
@@ -157,7 +153,7 @@ class IdsTriggerField extends IdsInput {
     const heightClassName = (h) => `field-height-${h}`;
     const heights = ['xs', 'sm', 'md', 'lg'];
     if (attr.name === 'compact') {
-      this.container?.classList[IdsStringUtils.stringToBool(attr.val) ? 'add' : 'remove']('compact');
+      this.container?.classList[stringUtils.stringToBool(attr.val) ? 'add' : 'remove']('compact');
     } else if (attr.name === 'field-height') {
       this.container?.classList.remove(...heights.map((h) => heightClassName(h)));
       if (attr.val !== null) {
@@ -193,22 +189,26 @@ class IdsTriggerField extends IdsInput {
   }
 
   /**
-   * Set if the trigger field is tabbable
+   * Set the trigger button to tabbable
    * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    const isTabbable = IdsStringUtils.stringToBool(value);
-    /** @type {any} */
-    this.setAttribute(attributes.TABBABLE, value.toString());
-    const button = this.querySelector('ids-trigger-button');
+    const isTabbable = stringUtils.stringToBool(value);
+    this.setAttribute(attributes.TABBABLE, isTabbable);
 
-    /* istanbul ignore else */
+    const button = this.querySelector('ids-trigger-button');
     if (button) {
       button.tabbable = isTabbable;
     }
   }
 
-  get tabbable() { return this.getAttribute(attributes.TABBABLE); }
+  get tabbable() {
+    const attr = this.getAttribute(attributes.TABBABLE);
+    if (attr === null) {
+      return true;
+    }
+    return stringUtils.stringToBool(this.getAttribute(attributes.TABBABLE));
+  }
 
   /**
    * Set the appearance of the trigger field
@@ -230,7 +230,7 @@ class IdsTriggerField extends IdsInput {
    * @param {boolean|string} value True of false depending if the button handles events
    */
   set disableNativeEvents(value) {
-    const isDisabled = IdsStringUtils.stringToBool(value);
+    const isDisabled = stringUtils.stringToBool(value);
     if (isDisabled) {
       this.setAttribute(attributes.DISABLE_EVENTS, value.toString());
       this.#attachEventHandlers();
@@ -294,6 +294,23 @@ class IdsTriggerField extends IdsInput {
       this.setAttribute(attributes.DISABLED, d.toString());
       this.setAttribute(attributes.TABBABLE, 'false');
     }
+    if (stringUtils.stringToBool(d)) {
+      this.setAttribute(attributes.DISABLED, 'true');
+      this.removeAttribute(attributes.READONLY);
+      this.querySelector('ids-trigger-button').setAttribute(attributes.DISABLED, 'true');
+      this.querySelector('ids-trigger-button').removeAttribute(attributes.READONLY);
+      this.querySelector('ids-input').setAttribute(attributes.DISABLED, 'true');
+      this.querySelector('ids-input').removeAttribute(attributes.READONLY);
+      this.shadowRoot.querySelector('label ids-text').setAttribute(attributes.DISABLED, 'true');
+      this.shadowRoot.querySelector('.ids-trigger-field-content').removeAttribute(attributes.READONLY);
+      this.shadowRoot.querySelector('.ids-trigger-field-content').setAttribute(attributes.DISABLED, 'true');
+      return;
+    }
+    this.removeAttribute(attributes.DISABLED);
+    this.querySelector('ids-trigger-button').removeAttribute(attributes.DISABLED);
+    this.querySelector('ids-input').removeAttribute(attributes.DISABLED);
+    this.shadowRoot.querySelector('label ids-text').removeAttribute(attributes.DISABLED);
+    this.shadowRoot.querySelector('.ids-trigger-field-content').removeAttribute(attributes.DISABLED);
   }
 
   get disabled() {
@@ -307,10 +324,12 @@ class IdsTriggerField extends IdsInput {
   set readonly(r) {
     if (stringUtils.stringToBool(r)) {
       this.setAttribute(attributes.READONLY, 'true');
+      this.querySelector('ids-trigger-button').setAttribute(attributes.READONLY, 'true');
       this.shadowRoot.querySelector('.ids-trigger-field-content').setAttribute(attributes.READONLY, 'true');
       return;
     }
     this.removeAttribute(attributes.READONLY);
+    this.querySelector('ids-trigger-button').removeAttribute(attributes.READONLY);
     this.shadowRoot.querySelector('.ids-trigger-field-content').removeAttribute(attributes.READONLY);
   }
 

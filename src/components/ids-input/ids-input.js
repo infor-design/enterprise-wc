@@ -553,7 +553,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   #labelEl;
 
   /**
-   * Set the `label` text of input label
+   * Set the `label` text
    * @param {string} value of the `label` text property
    */
   set label(value) {

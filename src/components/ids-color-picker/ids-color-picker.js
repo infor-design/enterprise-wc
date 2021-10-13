@@ -5,6 +5,7 @@ import {
   mix,
   attributes
 } from '../../core/ids-element';
+
 import {
   IdsEventsMixin,
   IdsKeyboardMixin,
@@ -49,7 +50,7 @@ class IdsColorPicker extends mix(IdsElement).with(
   swatchInput = this.root.querySelector('.color-input')
 
   // Reference to the color picker input
-  colorPickerInput = this.root.querySelector(/* istanbul ignore next */ this.label === '' ? '.color-input-value-no-label' : '.color-input-value')
+  colorPickerInput = this.root.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value')
 
   // Reference to the color picker's trigger button
   triggerBtn = this.root.querySelector('ids-trigger-button');
@@ -70,6 +71,8 @@ class IdsColorPicker extends mix(IdsElement).with(
     this.advanced = this.advanced;
     // eslint-disable-next-line no-self-assign
     this.label = this.label;
+
+    this.triggerField = this.container.querySelector('ids-trigger-field');
     this.#attachEventHandlers();
   }
 
@@ -152,11 +155,20 @@ class IdsColorPicker extends mix(IdsElement).with(
   set readonly(value) {
     value = stringUtils.stringToBool(value);
     if (value) {
-      this.setAttribute(attributes.READONLY, value.toString());
-      this.triggerBtn.setAttribute(attributes.TABBABLE, false);
+      this.setAttribute(attributes.READONLY, 'true');
+      this.triggerField?.setAttribute(attributes.READONLY, 'true');
+      this.colorPickerInput?.setAttribute(attributes.READONLY, 'true');
+      this.removeAttribute(attributes.DISABLED);
+      this.triggerField?.removeAttribute(attributes.DISABLED);
+      this.colorPickerInput?.removeAttribute(attributes.DISABLED);
       return;
     }
     this.removeAttribute(attributes.READONLY);
+    this.triggerField?.removeAttribute(attributes.READONLY);
+    this.colorPickerInput?.removeAttribute(attributes.READONLY);
+    this.removeAttribute(attributes.DISABLED);
+    this.triggerField?.removeAttribute(attributes.DISABLED);
+    this.colorPickerInput?.removeAttribute(attributes.DISABLED);
   }
 
   /* istanbul ignore next */
@@ -169,13 +181,19 @@ class IdsColorPicker extends mix(IdsElement).with(
    * @param {string} value string value from the disabled attribute
    */
   set disabled(value) {
-    value = stringUtils.stringToBool(value);
-    if (value) {
-      this.setAttribute(attributes.DISABLED, value.toString());
-      this.triggerBtn.setAttribute(attributes.TABBABLE, false);
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(attributes.DISABLED, 'true');
+      this.triggerField?.setAttribute(attributes.DISABLED, 'true');
+      this.colorPickerInput?.setAttribute(attributes.DISABLED, 'true');
+      this.removeAttribute(attributes.READONLY);
+      this.triggerField?.removeAttribute(attributes.READONLY);
+      this.colorPickerInput?.removeAttribute(attributes.READONLY);
+      this.colorPickerInput?.removeAttribute(attributes.BG_TRANSPARENT);
       return;
     }
     this.removeAttribute(attributes.DISABLED);
+    this.triggerField?.removeAttribute(attributes.DISABLED);
+    this.colorPickerInput?.removeAttribute(attributes.DISABLED);
   }
 
   get disabled() {
@@ -199,8 +217,8 @@ class IdsColorPicker extends mix(IdsElement).with(
   }
 
   /**
-   * Sets the label attribute
-   * @param {string} value string value from the label attribute
+   * Set the `label` text
+   * @param {string} value of the `label` text property
    */
   set label(value) {
     this.setAttribute('label', value.toString());

@@ -4,7 +4,7 @@
 
 - [] Selection
 - [] Paging
-- [] Organize Embellishment / template clases
+- [] Organize Embellishment / template classes
 - [] Keyboard Navigation see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, cell navigation, row navigation)
 - [] Check all current events
 - [] Disabled
