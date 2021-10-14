@@ -11,6 +11,7 @@ import { IdsStringUtils } from '../../utils';
 
 // Supporting components
 import IdsIcon from '../ids-icon';
+import IdsText from '../ids-text';
 
 // Import Mixins
 import {
@@ -52,7 +53,8 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.PLACEHOLDER,
       attributes.FALLBACK,
       attributes.ROUND,
-      attributes.USER_STATUS
+      attributes.USER_STATUS,
+      attributes.INITIALS
     ];
   }
 
@@ -61,6 +63,11 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
+    // Initially has initials attribute
+    if (this.initials) {
+      return `<div class="ids-image initials"><ids-text font-size="24" font-weight="bold">${this.initials}</ids-text></div>`;
+    }
+
     // Initially has placeholder attribute or no src attribute provided
     if (this.placeholder || !this.src) {
       return `<div class="ids-image placeholder"><span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon></div>`;
@@ -323,7 +330,7 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   /**
-   * Get status element to render when adding or changing the status
+   * Get element to render when adding or changing the status
    * @param {'available'|'away'|'busy'|'do-not-disturb'|'unknown'} status one of predefined statuses
    * @returns {HTMLElement} status element to attach to shadow
    */
@@ -351,14 +358,13 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set userStatus(val) {
     const status = this.#getStatus(val);
-    let element = this.shadowRoot.querySelector('.user-status');
+    const element = this.shadowRoot.querySelector('.user-status');
 
     // Clear element before rerender
     element?.remove();
 
     if (status) {
-      element = this.#getStatusEl(status);
-      this.shadowRoot.appendChild(element);
+      this.shadowRoot.appendChild(this.#getStatusEl(status));
 
       this.setAttribute(attributes.USER_STATUS, status);
 
@@ -366,6 +372,52 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
 
     this.removeAttribute(attributes.USER_STATUS);
+  }
+
+  /**
+   * Get element to render when adding or changing the initials
+   * @param {string} initials cropped text
+   * @returns {HTMLElement} initials element to attach to shadow
+   */
+  #getInitialsEl(initials) {
+    const element = document.createElement('div');
+    element.classList = `ids-image initials`;
+    element.innerHTML = `<ids-text font-size="24" font-weight="bold">${initials}</ids-text>`;
+
+    return element;
+  }
+
+  /**
+   * Initials attribute
+   * @returns {string} initials attribute value
+   */
+  get initials() {
+    return this.getAttribute(attributes.INITIALS);
+  }
+
+  /**
+   * Set initials and render html element
+   * @param {string|null} val initials parameter value
+   */
+  set initials(val) {
+    const element = this.shadowRoot.querySelector('.ids-image');
+    const cropText = val?.substring(0, 2);
+
+    // Clear element before rerender
+    element?.remove();
+
+    if (val) {
+      this.shadowRoot.appendChild(this.#getInitialsEl(cropText));
+
+      this.setAttribute(attributes.INITIALS, val);
+
+      return;
+    }
+
+    // Add placeholder if initials removed
+    this.shadowRoot.appendChild(this.#getPlaceholderEl());
+
+    this.removeAttribute(attributes.INITIALS);
   }
 }
 

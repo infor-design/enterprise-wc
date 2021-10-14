@@ -21,6 +21,7 @@ The `ids-image` component is a web component wrapper around a standard `<img>` t
 - `placeholder` `{true|false}` - Whether or not to use placeholder, if set, `src` and `alt` attributes will be ignored, image will not load and placeholder will be used initially
 - `round` `{true|false}` - Whether or not to make the image round with 50x50x size
 - `user-status` `{available|away|busy|do-not-disturb|unknown}` - Specifies whether or not to show status icon at the bottom right corner of the image and what type of icon
+- `initials` `{string}` - Initials for the user, crops to two letters and uppercase automatically
 
 ## Features (With Code Examples)
 
@@ -54,10 +55,10 @@ With status
 <ids-image src="image.jpg" alt="image round" round="true" user-status="available"></ids-image>
 ```
 
-Round with initials
+Initials
 
 ```html
-<ids-image round="true" initials="MN"></ids-image>
+<ids-image round="true" initials="mn"></ids-image>
 ```
 
 The component can be controlled dynamically
@@ -84,4 +85,7 @@ image.src = null;
 
 // Remove status icon
 image.userStatus = null;
+
+// Show initials
+image.initials = 'mn';
 ```

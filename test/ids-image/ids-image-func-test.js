@@ -219,4 +219,27 @@ describe('IdsImage Component (round and statuses)', () => {
     component.userStatus = 'away';
     expect(component.getAttribute('user-status')).toEqual('away');
   });
+
+  it('should change to initials', () => {
+    component.initials = 'mn';
+
+    expect(component.getAttribute('initials')).toEqual('mn');
+
+    expect(component.shadowRoot.querySelector('img')).toBeFalsy();
+    expect(component.shadowRoot.querySelector('.initials')).toBeTruthy();
+  });
+
+  it('should render initials and back to placeholder', () => {
+    document.body.innerHTML = '';
+    document.body.insertAdjacentHTML('beforeend',
+    `<ids-image round="true" initials="long"></ids-image>`);
+    component = document.querySelector(name);
+
+    expect(component.getAttribute('initials')).toEqual('long');
+    expect(component.shadowRoot.querySelector('.initials')).toBeTruthy();
+
+    component.initials = null;
+    expect(component.getAttribute('initials')).toBeNull();
+    expect(component.shadowRoot.querySelector('.placeholder')).toBeTruthy();
+  });
 });

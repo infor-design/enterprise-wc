@@ -19,4 +19,7 @@ export default class IdsImage extends HTMLElement {
 
   /** Set user status */
   userStatus: 'available' | 'away' | 'busy' | 'do-not-disturb' | 'unknown' | null;
+
+  /** Set the initials */
+  initials: string | null;
 }
