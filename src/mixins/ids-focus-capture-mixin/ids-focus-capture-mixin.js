@@ -1,6 +1,6 @@
 import { attributes } from '../../core';
 // Import Utils
-import { IdsStringUtils, IdsXssUtils } from '../../utils';
+import { IdsStringUtils, IdsDOMUtils } from '../../utils';
 
 const FOCUS_CAPTURE_EVENTNAME = 'keydown.focus-capture';
 
@@ -21,6 +21,17 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
       attributes.CAPTURES_FOCUS,
       attributes.CYCLES_FOCUS
     ];
+  }
+
+  /**
+   * @property {Node} hostNode the top-level node responsible for hosting focus.
+   * This is normally `document` but can also be another component's Shadow Root.
+   */
+  #hostNode = document;
+
+  connectedCallback() {
+    super.connectedCallback?.();
+    this.#hostNode = IdsDOMUtils.getClosestContainerNode(this);
   }
 
   /**
@@ -74,8 +85,8 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    */
   #attachFocusEvents() {
     const keydownEventHandler = (e) => {
-      const isOnFirst = document.activeElement.isEqualNode(this.firstFocusableElement);
-      const isOnLast = document.activeElement.isEqualNode(this.lastFocusableElement);
+      const isOnFirst = this.#hostNode.activeElement.isEqualNode(this.firstFocusableElement);
+      const isOnLast = this.#hostNode.activeElement.isEqualNode(this.lastFocusableElement);
 
       switch (e.key) {
       case 'Tab':
@@ -102,7 +113,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
 
     // Keydown events at the document level intercept default Tab behavior on specified elements.
     // On these elements we adjust tabbing behavior.
-    this.onEvent(FOCUS_CAPTURE_EVENTNAME, document, keydownEventHandler.bind(this));
+    this.onEvent(FOCUS_CAPTURE_EVENTNAME, this.#hostNode, keydownEventHandler.bind(this));
   }
 
   /**
@@ -165,7 +176,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
   get focusableElementsInDocument() {
     if (!this.#focusableElementsInDocument.length && this.focusableSelectors.length) {
       const selectorStr = this.focusableSelectors.join(', ');
-      this.#focusableElementsInDocument = [...document.querySelectorAll(selectorStr)];
+      this.#focusableElementsInDocument = [...this.#hostNode.querySelectorAll(selectorStr)];
     }
     return this.#focusableElementsInDocument;
   }
@@ -195,7 +206,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
       return undefined;
     }
 
-    const thisIndex = this.focusableElementsInDocument.indexOf(document.activeElement);
+    const thisIndex = this.focusableElementsInDocument.indexOf(this.#hostNode.activeElement);
     const nextElem = this.focusableElementsInDocument[thisIndex + 1];
     if (!this.contains(nextElem) && this.cyclesFocus) {
       return this.firstFocusableElement;
@@ -212,7 +223,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
       return undefined;
     }
 
-    const thisIndex = this.focusableElementsInDocument.indexOf(document.activeElement);
+    const thisIndex = this.focusableElementsInDocument.indexOf(this.#hostNode.activeElement);
     const prevElem = this.focusableElementsInDocument[thisIndex - 1];
     if (!this.contains(prevElem) && this.cyclesFocus) {
       return this.lastFocusableElement;
@@ -235,21 +246,21 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    */
   setFocus(index = 0) {
     const focusable = this.focusableElements;
-    const focusedEl = document.activeElement;
+    const focusedEl = this.#hostNode.activeElement;
     const focusedIndex = this.focusableElements.indexOf(focusedEl);
     let safeIndex = 0;
 
     if (focusable.length) {
       switch (index) {
-      case 'last':
-        safeIndex = focusable.length - 1;
-        break;
-      case 'first':
-      case '': // Leave at 0
-        break;
-      default: // undefined
-        safeIndex = parseInt(index);
-        break;
+        case 'last':
+          safeIndex = focusable.length - 1;
+          break;
+        case 'first':
+        case '': // Leave at 0
+          break;
+        default: // undefined
+          safeIndex = parseInt(index);
+          break;
       }
       requestAnimationFrame(() => {
         focusable[safeIndex].focus();
@@ -266,7 +277,7 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
    * @returns {void}
    */
   gainFocus(index = 0) {
-    if (!this.contains(document.activeElement)) {
+    if (!this.contains(this.#hostNode.activeElement)) {
       this.setFocus(index);
     }
   }
