@@ -134,4 +134,9 @@ describe('IdsSwitch Component', () => {
       expect(el.getAttribute('language')).toEqual('de');
     });
   });
+
+  it('can focus its inner Input element', () => {
+    el.focus();
+    expect(document.activeElement).toEqual(el);
+  });
 });

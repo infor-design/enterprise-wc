@@ -622,4 +622,9 @@ describe('IdsInput Component', () => {
     input.cursor = 'pointer';
     expect(input.shadowRoot.querySelector('input').style.cursor).toEqual('pointer');
   });
+
+  it('can focus its inner Input element', () => {
+    input.focus();
+    expect(document.activeElement).toEqual(input);
+  });
 });
