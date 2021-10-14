@@ -3,7 +3,6 @@ import { convertPatternFromString, PLACEHOLDER_CHAR } from '../../components/ids
 import { dateMask, numberMask } from '../../components/ids-mask/ids-masks';
 
 import { attributes } from '../../core/ids-attributes';
-import { IdsEventsMixin } from '../ids-events-mixin';
 import { IdsStringUtils } from '../../utils';
 
 const MASK_ATTRIBUTES = [
@@ -145,7 +144,6 @@ const IdsMaskMixin = (superclass) => class extends superclass {
   }
 
   handleMaskEvents() {
-    // @ts-ignore
     this.onEvent('input', this, () => this.processMaskWithCurrentValue());
   }
 
