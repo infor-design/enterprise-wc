@@ -4,12 +4,14 @@
 
 - [x] Readonly/Disabled
 - [x] Open Modal
-- [] Open Modal Tests
-- [] Grid Is List in the modal
+- [x] Open Modal Tests
+- [x] Grid in the modal
+- [] Validation
+- [] Grid is list
+- [] Grid Width
 - [] Selection Mixin
 - [] Selection as Object
 - [] Dirty
-- [] Validation
 - [] Paging
 - [] Keyboard
 - [] Frozen Cols

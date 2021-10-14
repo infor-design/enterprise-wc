@@ -26,7 +26,7 @@ A normal lookup used as a web component. To distinguish between single and multi
 If necessary you can provide your own custom modal to the lookup. When doing this you control the modal contents and events entirely. The lookup will just open it for you.
 
 ```html
-<ids-lookup id="lookup-4" label="Custom Lookup">
+<ids-lookup id="custom-lookup" label="Custom Lookup">
     <ids-modal slot="lookup-modal" id="custom-lookup-modal" aria-labelledby="custom-lookup-modal-title">
     <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Custom Lookup Modal</ids-text>
     <ids-modal-button slot="buttons" id="modal-close-btn" type="primary">
@@ -41,10 +41,21 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 - `disabled` {boolean} Set the lookup to disabled state.
 - `readonly` {boolean} Set the lookup to readonly state.
 - `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
+- `gridSettings` {object} An object containing name/value pairs for all the settings you want to pass to the datagrid in the modal
+- `columns` {Array<object>} Set the data array of the datagrid. This can be a JSON Array.
+- `data` {Array<object>} Set the columns array of the datagrid. See column settings.
+- `validate` {'required' | string} Sets the validation routine to use
+- `validationEvents` {'blur' | string} Sets the validation events to use
 
 ## Themeable Parts
 
 - `checkbox` allows you to further style the checkbox input element
+- `trigger-field` allows you to further style the trigger container
+- `input`  allows you to further style the input element
+- `trigger-button` allows you to further style the trigger button
+- `icon` allows you to further style the icon in the trigger button
+- `modal`  allows you to further style the modal dialog container
+- `data-grid` allows you to further style the dataGrid element
 
 ## States and Variations (With Code Examples)
 

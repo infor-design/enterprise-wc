@@ -1,12 +1,63 @@
 /**
  * @jest-environment jsdom
  */
+import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-data-grid/ids-data-grid';
 import ResizeObserver from '../helpers/resize-observer-mock';
 import IdsLookup from '../../src/components/ids-lookup';
 import createFromTemplate from '../helpers/create-from-template';
+import dataset from '../../demos/data/books.json';
 
 describe('IdsLookup Component', () => {
   let lookup;
+  const formatters = new IdsDataGridFormatters();
+
+  const columns = () => {
+    const cols = [];
+    // Set up columns
+    cols.push({
+      id: 'selectionCheckbox',
+      sortable: false,
+      resizable: false,
+      formatter: formatters.text,
+      align: 'center',
+      width: 20
+    });
+    cols.push({
+      id: 'rowNumber',
+      name: '#',
+      formatter: formatters.rowNumber,
+      sortable: false,
+      readonly: true,
+      width: 65
+    });
+    cols.push({
+      id: 'description',
+      name: 'Description',
+      field: 'description',
+      sortable: true,
+      formatter: formatters.text
+    });
+    cols.push({
+      id: 'ledger',
+      name: 'Ledger',
+      field: 'ledger',
+      formatter: formatters.text
+    });
+    cols.push({
+      id: 'price',
+      name: 'Price',
+      field: 'price',
+      formatter: formatters.decimal,
+      formatOptions: { locale: 'en-US' } // Data Values are in en-US
+    });
+    cols.push({
+      id: 'bookCurrency',
+      name: 'Currency',
+      field: 'bookCurrency',
+      formatter: formatters.text
+    });
+    return cols;
+  };
 
   beforeEach(async () => {
     lookup = await createFromTemplate(lookup, `<ids-lookup id="lookup-1" label="Normal Lookup"></ids-lookup>`);
@@ -153,11 +204,15 @@ describe('IdsLookup Component', () => {
     expect(lookup.input.value).toEqual('218902');
   });
 
-  it('should open on click', () => {
+  it('should open on click and close on the modal buttons', () => {
     expect(lookup.modal.visible).toBe(false);
     lookup.triggerButton.click();
     expect(lookup.modal.visible).toBe(true);
     lookup.modal.buttons[0].click();
+    expect(lookup.modal.visible).toBe(false);
+    lookup.triggerButton.click();
+    expect(lookup.modal.visible).toBe(true);
+    lookup.modal.buttons[1].click();
     expect(lookup.modal.visible).toBe(false);
   });
 
@@ -178,5 +233,29 @@ describe('IdsLookup Component', () => {
     lookup.disabled = true;
     lookup.triggerButton.click();
     expect(lookup.modal.visible).toBe(false);
+  });
+
+  it('should be able to set modal columns and dataset', () => {
+    lookup.columns = columns();
+    lookup.data = dataset;
+
+    expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-row').length).toEqual(10);
+    expect(lookup.dataGrid.columns.length).toEqual(6);
+    expect(lookup.columns.length).toEqual(6);
+    expect(lookup.data.length).toEqual(9);
+    expect(lookup.dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-cell').length).toEqual(54);
+  });
+
+  it('should be able to set datagrid settings', () => {
+    lookup.columns = columns();
+    lookup.data = dataset;
+    lookup.dataGridSettings = {
+      rowHeight: 'small'
+    };
+
+    expect(lookup.dataGrid.rowHeight).toEqual('small');
+    expect(lookup.dataGridSettings).toEqual({
+      rowHeight: 'small'
+    });
   });
 });

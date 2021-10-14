@@ -11,7 +11,6 @@ import {
   IdsDirtyTrackerMixin,
   IdsEventsMixin,
   IdsKeyboardMixin,
-  IdsPopupOpenEventsMixin,
   IdsThemeMixin,
   IdsValidationMixin,
   IdsLocaleMixin,
@@ -24,6 +23,7 @@ import { IdsStringUtils as stringUtils } from '../../utils';
 // Supporting components
 import { IdsTriggerButton, IdsTriggerField } from '../ids-trigger-field';
 import { IdsModal } from '../ids-modal';
+import { IdsDataGrid } from '../ids-data-grid';
 
 // Import Styles
 import styles from './ids-lookup.scss';
@@ -36,13 +36,14 @@ import styles from './ids-lookup.scss';
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsValidationMixin
  * @mixes IdsTooltipMixin
  * @part trigger-field - the trigger container
  * @part input - the input element
  * @part trigger-button - the trigger button
  * @part icon - the icon in the trigger button
+ * @part modal - the modal dialog container
+ * @part data-grid - the dataGrid element
  */
 @customElement('ids-lookup')
 @scss(styles)
@@ -50,7 +51,6 @@ class IdsLookup extends mix(IdsElement).with(
     IdsDirtyTrackerMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
-    IdsPopupOpenEventsMixin,
     IdsThemeMixin,
     IdsLocaleMixin,
     IdsValidationMixin,
@@ -68,6 +68,8 @@ class IdsLookup extends mix(IdsElement).with(
     this.input = this.shadowRoot?.querySelector('ids-input');
     this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
     this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
+    this.dataGrid = this.shadowRoot?.querySelector('ids-data-grid');
+    this.state = {};
 
     // Link the Modal to its trigger button (sets up click/focus events)
     this.modal = this.querySelector('[slot="lookup-modal"]');
@@ -127,9 +129,16 @@ class IdsLookup extends mix(IdsElement).with(
       </ids-trigger-button>
     </ids-trigger-field>
     <slot name="lookup-modal">
-      <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title">
+      <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title" part="modal">
         <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Active IDS Modal</ids-text>
-        <ids-modal-button slot="buttons" id="modal-cancel-btn" type="secondary">
+        <ids-layout-grid auto="true" gap="md" no-margins="true">
+          <ids-layout-grid-cell>
+            <ids-data-grid id="lookup-data-grid" label="${this.label}" part="data-grid">
+            </ids-data-grid>
+          </ids-layout-grid-cell>
+        </ids-layout-grid>
+
+      <ids-modal-button slot="buttons" id="modal-cancel-btn" type="secondary">
         <span slot="text">Cancel</span>
         </ids-modal-button>
         <ids-modal-button slot="buttons" id="modal-apply-btn" type="primary">
@@ -252,6 +261,42 @@ class IdsLookup extends mix(IdsElement).with(
   }
 
   /**
+   * Set the columns array of the dataGrid
+   * @param {Array} value The array to use
+   */
+  set columns(value) {
+    this.dataGrid.columns = value;
+  }
+
+  get columns() { return this.dataGrid.columns; }
+
+  /**
+   * Set the data array of the dataGrid
+   * @param {Array} value The array to use
+   */
+  set data(value) {
+    this.dataGrid.data = value;
+  }
+
+  get data() { return this.dataGrid.data; }
+
+  /**
+   * Set any number of dataGrid settings
+   * @param {object} settings The settings to use
+   */
+  set dataGridSettings(settings) {
+    this.state.dataGridSettings = settings;
+
+    // Apply the settings to the grid
+    for (const [setting, settingValue] of Object.entries(settings)) {
+      this.dataGrid[setting] = settingValue;
+    }
+    this.dataGrid.listStyle = true;
+  }
+
+  get dataGridSettings() { return this.state.dataGridSettings; }
+
+  /**
    * Establish Internal Event Handlers
    * @private
    * @returns {object} The object for chaining.
@@ -259,6 +304,9 @@ class IdsLookup extends mix(IdsElement).with(
   #handleEvents() {
     this.onEvent('click.lookup', this.modal, (e) => {
       if (e.target.getAttribute('id') === 'modal-cancel-btn') {
+        this.modal.hide();
+      }
+      if (e.target.getAttribute('id') === 'modal-apply-btn') {
         this.modal.hide();
       }
     });
