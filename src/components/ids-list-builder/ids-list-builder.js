@@ -354,9 +354,13 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         this.#toggleEditor();
         break;
       case ' ': // selects the list item
-        event.preventDefault(); // prevent container from scrolling
+        if (!this.#selectedLiEditor) {
+          event.preventDefault(); // prevent container from scrolling
+          this.#toggleSelectedLi(l);
+        }
+        break;
+      case 'Tab':
         this.#unfocusAnySelectedLiEditor();
-        this.#toggleSelectedLi(l);
         break;
       default:
         break;
