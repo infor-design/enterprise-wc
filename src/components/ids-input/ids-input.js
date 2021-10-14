@@ -745,6 +745,13 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   get cursor() {
     return this.getAttribute(attributes.CURSOR);
   }
+
+  /**
+   * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
+   */
+  focus() {
+    this.input.focus();
+  }
 }
 
 export default IdsInput;

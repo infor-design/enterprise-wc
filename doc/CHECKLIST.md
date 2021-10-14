@@ -80,7 +80,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Form  (ids-form)
  - [x] Grid (ids-layout-grid)
  - [x] Header (ids-header)
- - [ ] Hierarchy (ids-hierarchy)
+ - [x] Hierarchy (ids-hierarchy)
  - [ ] Homepage (ids-homepage)
  - [x] Hyperlinks (ids-hyperlink)
  - [x] Icons (ids-icon)
