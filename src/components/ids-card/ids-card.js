@@ -40,7 +40,8 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     return [
       ...super.attributes,
       attributes.AUTO_FIT,
-      attributes.AUTO_HEIGHT
+      attributes.AUTO_HEIGHT,
+      attributes.OVERFLOW
     ];
   }
 
@@ -53,7 +54,7 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       <div class="ids-card-header" part="header">
         <slot name="card-header"></slot>
       </div>
-      <div class="ids-card-content" part="content">
+      <div class="ids-card-content${this.overflow === 'hidden' ? ' overflow-hidden' : ''}" part="content">
         <slot name="card-content"></slot>
       </div>
     </div>`;
@@ -90,6 +91,22 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get autoHeight() { return this.getAttribute(attributes.AUTO_HEIGHT); }
+
+  /**
+   * Set how the container overflows, can be hidden or auto (default)
+   * @param {string | null} [value=null] css property for overflow
+   */
+  set overflow(value) {
+    if (value === 'hidden') {
+      this.container.querySelector('.ids-card-content').classList.add('overflow-hidden');
+      this.setAttribute(attributes.OVERFLOW, value);
+    } else {
+      this.container.querySelector('.ids-card-content').classList.remove('overflow-hidden');
+      this.removeAttribute(attributes.OVERFLOW);
+    }
+  }
+
+  get overflow() { return this.getAttribute(attributes.OVERFLOW); }
 }
 
 export default IdsCard;

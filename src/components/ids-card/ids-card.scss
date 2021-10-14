@@ -16,7 +16,11 @@
     @include w-full();
 
     height: 310px;
-    overflow: hidden;
+    overflow: auto;
+
+    &.overflow-hidden {
+      overflow: hidden;
+    }
   }
 }
 

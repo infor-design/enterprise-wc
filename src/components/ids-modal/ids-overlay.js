@@ -123,7 +123,6 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
   async #smoothlyAnimateVisibility(val) {
     const cl = this.container.classList;
 
-    /* istanbul ignore else */
     if (val && !cl.contains('visible')) {
       // Make visible
       cl.add('visible');
@@ -133,7 +132,6 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
     } else if (!val && cl.contains('visible')) {
       // Make hidden
       await this.#changeOpacity(0);
-      /* istanbul ignore next */
       cl.remove('visible');
     }
   }

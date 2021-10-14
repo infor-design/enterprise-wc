@@ -155,7 +155,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   connectedCallback() {
     this.#attachEventHandlers();
 
-    /* istanbul ignore next */
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
@@ -205,13 +204,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
         </div>
       </div>`
     );
-  }
-
-  /**
-   * propagate the focus method down to the input element
-   */
-  focus() {
-    this.input.focus();
   }
 
   set colorVariant(value) {
@@ -319,7 +311,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     } else {
       this?.removeAttribute(attributes.LABEL_HIDDEN);
 
-      /* istanbul ignore else */
       if (this.input) {
         this.input?.removeAttribute('aria-label');
 
@@ -773,6 +764,13 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
 
   get noMargins() {
     return stringUtils.stringToBool(this.getAttribute(attributes.NO_MARGINS));
+  }
+
+  /**
+   * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
+   */
+  focus() {
+    this.input.focus();
   }
 }
 

@@ -45,7 +45,6 @@ class IdsContainer extends mix(IdsElement).with(
   connectedCallback() {
     super.connectedCallback?.();
 
-    /* istanbul ignore next */
     if (this.reset) {
       this.#addReset();
     }

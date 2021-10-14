@@ -219,7 +219,7 @@ export default class IdsPagerNumberList extends mix(IdsElement).with(
         numberButton.setAttribute(attributes.SELECTED, '');
       }
 
-      numberButton.addEventListener('click', /* istanbul ignore next */ () => {
+      numberButton.addEventListener('click', () => {
         this.triggerEvent('pagenumberchange', this, {
           bubbles: true,
           detail: { elem: this, value: n }

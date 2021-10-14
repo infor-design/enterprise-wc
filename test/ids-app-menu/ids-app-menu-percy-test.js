@@ -8,7 +8,7 @@ describe('Ids App Menu Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('#app-menu-trigger').click();
     });
-    await page.waitFor('ids-app-menu[visible]');
+    await page.waitForSelector('ids-app-menu[visible]');
     await percySnapshot(page, 'ids-color-new-light');
   });
 });

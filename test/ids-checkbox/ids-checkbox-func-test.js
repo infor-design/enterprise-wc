@@ -264,4 +264,9 @@ describe('IdsCheckbox Component', () => {
     container.language = 'en';
     expect(cb.getAttribute('language')).toEqual('en');
   });
+
+  it('can focus its inner Input element', () => {
+    cb.focus();
+    expect(document.activeElement).toEqual(cb);
+  });
 });

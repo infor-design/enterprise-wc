@@ -1,0 +1,9 @@
+@import '../../core/ids-base';
+
+.legend {
+  @include flex();
+
+  justify-content: center;
+  flex-flow: wrap;
+  margin-block: calc(var(--ids-number-spacing-base) * 6);
+}

@@ -54,16 +54,13 @@ class IdsTabContent extends mix(IdsElement).with(
 
   /** @type {string} Value representing associated tab */
   set value(value) {
-    /* istanbul ignore else */
     if (this.getAttribute(attributes.VALUE) === value) {
       return;
     }
 
-    /* istanbul ignore next */
     this.setAttribute(attributes.VALUE, value);
   }
 
-  /* istanbul ignore next */
   /** @returns {string} Value representing associated tab */
   get value() {
     return this.getAttribute(attributes.VALUE);

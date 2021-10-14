@@ -42,6 +42,7 @@
   - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
   - Can now be imported as a single JS file and used with encapsulated styles.
 - `[Header]` Created an ids header web component. The <ids-header></ids-header> custom element has a color attribute that can be applied to personalize the background color.
+- `[Hierarchy]` The Hierarchy component has been changed to a web component and use with `ids-hierarchy`, `ids-hierarchy-item` and `ids-hierarchy-legend`.
 - `[HomePage]` The HomePage component has been changed to a web component and use with ids-home-page.
   - Markup has changed to a custom element `<ids-home-page></ids-home-page>`
   - If using events, events are now plain JS events.
@@ -76,12 +77,14 @@
 - `[Message]` The Message is now a web component called ids-message
   - The Message component now extends the Modal component, containing the same properties and methods.
   - Modal Buttons, Title, Status, and Message can be changed via API
+  - Enhance user-interface on mobile and desktop viewports.
   - Markup is `<ids-message></ids-message>`
 - `[Modal]` The Modal is now a web component called ids-modal ([WC#118](https://github.com/infor-design/enterprise-wc/issues/118))
   - All content inside the modal boundary is now user-defined by slot
   - Triggering element for the modal is now configurable with the `target` prop
   - Events are now just plain JS events
   - Markup has been changed to custom element `<ids-modal></ids-modal>`
+  - Enhance user-interface on mobile and desktop viewports.
 - `[NotificationBanner]` The Notification Banner is now a web component called ids-notification-banner
   - The type, alert icon, message text, link and link text are all configurable via properties on the custom element
   - Additionally, user's can define the notification via a JS api, where the `parent` and `id` can be configured
