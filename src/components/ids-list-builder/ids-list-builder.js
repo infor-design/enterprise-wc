@@ -43,126 +43,6 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     // this.virtualScroll = true;
     this.itemHeight = 44; // hard-coded
 
-    this.data = [
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '1 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '2 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '3 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '4 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '5 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '6 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '7 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '8 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '9 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '10 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '11 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '12 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-      {
-        id: 1,
-        productId: '7439937961',
-        productName: '13 Steampan Lid',
-        inStock: true,
-        units: '9',
-        unitPrice: 23,
-        color: 'Green'
-      },
-    ];
-
     this.#attachEventListeners();
   }
 
@@ -214,6 +94,17 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     `;
   }
 
+  get data() {
+    return super.data;
+  }
+
+  set data(val) {
+    super.data = val;
+
+    // need to reattach event listeners when new data set dynamically adds list items
+    this.#attachEventListeners();
+  }
+
   #toggleSelectedAttribute(item, isSelected = null) {
     const hasSelectedAttribute = item.getAttribute('selected');
 
@@ -243,9 +134,9 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   }
 
   #attachEventListeners() {
-    this.#attachClickListeners();
-    this.#attachDragEventListeners();
-    this.#attachKeyboardListeners();
+    this.#attachClickListeners(); // for toolbar buttons
+    this.#attachDragEventListeners(); // for dragging list items
+    this.#attachKeyboardListeners(); // for selecting/editing list items
   }
 
   // helper method for swapping nodes
