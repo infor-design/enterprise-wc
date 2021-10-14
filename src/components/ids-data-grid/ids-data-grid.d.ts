@@ -24,13 +24,13 @@ interface activecellchange extends Event {
 }
 
 export default class IdsDataGrid extends IdsElement {
-  /** Set the data array of the datagrid * */
+  /** Set the data array of the datagrid */
   data: Array<unknown>;
 
-  /** Set the columns array of the datagrid * */
+  /** Set the columns array of the datagrid */
   columns: Array<unknown>;
 
-  /** The supported cell formatters * */
+  /** The supported cell formatters */
   formatters: {
     text: (rowData: unknown, columnData: unknown) => string;
   };
