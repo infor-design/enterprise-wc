@@ -168,10 +168,10 @@
     // `translate(X/Y/Z/3d)` values to an existing transform property.
     &.animation-scale-in {
       transform: perspective(1000px) translate3d(-50%, -50%, -500px);
+      width: calc(100% - 16px);
 
       &.open {
         transform: perspective(1000px) translate3d(-50%, -50%, 0);
-        width: calc(100% - 16px);
       }
     }
   }
@@ -751,9 +751,7 @@
 // Media queries setup
 @media screen and (min-width: $breakpoint-sm) {
   .ids-popup.position-viewport.animation-scale-in {
-    &.open {
-      width: auto;
-    }
+    width: auto;
   }
 }
 
