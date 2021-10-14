@@ -15,48 +15,59 @@ $user-statuses: (
 );
 
 :host {
-  contain: content;
   display: inline-block;
   max-width: 100%;
-
-  // to prevent jump on focus
-  @include border-solid();
-  @include border-1();
-  @include border-transparent();
 }
 
 // set size
 @each $key, $value in $image-sizes {
   :host([size='#{$key}']) {
-    width: nth($value, 1);
-    height: nth($value, 2);
+    .ids-image {
+      width: nth($value, 1);
+      height: nth($value, 2);
+    }
   }
 }
 
 // focus state
-:host([mode='light']:focus) {
-  @include border-azure-60();
-
-  box-shadow: 0 0 4px 3px rgba(54, 138, 192, 0.3);
+:host(:focus-visible) {
+  outline: none;
 }
 
-:host([mode='dark']:focus) {
-  @include border-azure-60();
+:host([mode='light']:focus),
+:host([mode='light']:focus-visible) {
+  .ids-image {
+    @include border-azure-60();
 
-  box-shadow: 0 0 4px 2px rgba(141, 201, 230, 0.3);
+    box-shadow: 0 0 4px 3px rgba(54, 138, 192, 0.3);
+  }
 }
 
-:host([mode='contrast']:focus) {
-  @include border-azure-90();
+:host([mode='dark']:focus),
+:host([mode='dark']:focus-visible) {
+  .ids-image {
+    @include border-azure-60();
 
-  box-shadow: 0 0 4px 2px rgba(41, 41, 41, 0.3);
+    box-shadow: 0 0 4px 2px rgba(141, 201, 230, 0.3);
+  }
+}
+
+:host([mode='contrast']:focus),
+:host([mode='contrast']:focus-visible) {
+  .ids-image {
+    @include border-azure-90();
+
+    box-shadow: 0 0 4px 2px rgba(41, 41, 41, 0.3);
+  }
 }
 
 :host([round='true']) {
-  @include rounded-round();
+  .ids-image {
+    @include rounded-round();
 
-  width: 50px;
-  height: 50px;
+    width: 50px;
+    height: 50px;
+  }
 }
 
 :host([user-status]) {
@@ -64,26 +75,27 @@ $user-statuses: (
 }
 
 .ids-image {
+  @include box-border();
+  // to prevent jump on focus
+  @include border-solid();
+  @include border-1();
+  @include border-transparent();
+
   max-width: 100%;
   height: auto;
 
   // img only related
   &:not(.placeholder) {
-    @include block();
-
     object-fit: cover;
   }
 
   // placeholder styles
   &.placeholder {
     @include inline-flex();
-    @include border-1();
-    @include border-solid();
     @include border-slate-20();
     @include p-20();
     @include w-full();
     @include h-full();
-    @include box-border();
 
     align-items: center;
     justify-content: center;
@@ -99,10 +111,10 @@ $user-statuses: (
 
   width: 18px;
   height: 18px;
+  right: -1px;
+  bottom: 1px;
 
-  right: 5px;
-  bottom: 5px;
-
+  // icon color
   @each $key, $value in $user-statuses {
     &.#{$key} {
       color: $value;
@@ -119,10 +131,9 @@ $user-statuses: (
     @include rounded-round();
     @include bg-slate-10();
     content: '';
-    left: 1px;
-    top: 1px;
-
     width: 16px;
     height: 16px;
+    left: 1px;
+    top: 1px;
   }
 }
