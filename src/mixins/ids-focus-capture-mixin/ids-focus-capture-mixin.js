@@ -252,15 +252,15 @@ const IdsFocusCaptureMixin = (superclass) => class extends superclass {
 
     if (focusable.length) {
       switch (index) {
-        case 'last':
-          safeIndex = focusable.length - 1;
-          break;
-        case 'first':
-        case '': // Leave at 0
-          break;
-        default: // undefined
-          safeIndex = parseInt(index);
-          break;
+      case 'last':
+        safeIndex = focusable.length - 1;
+        break;
+      case 'first':
+      case '': // Leave at 0
+        break;
+      default: // undefined
+        safeIndex = parseInt(index);
+        break;
       }
       requestAnimationFrame(() => {
         focusable[safeIndex].focus();
