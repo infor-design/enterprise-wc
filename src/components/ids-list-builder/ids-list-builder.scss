@@ -25,6 +25,7 @@
 
   .ids-list-view {
     overflow: auto;
+    position: relative;
 
     ids-draggable {
       width: 100%;
@@ -52,13 +53,15 @@
       width: 100%;
       box-sizing: border-box;
       min-height: 44px;
+      position: relative;
 
       &[selected='selected']{
         background-color: #0072ed;
         color: white;
+        outline: none;
       }
 
-      &:hover span::after {
+      &:hover span.handle::after {
         position: absolute;
         left: 0;
         transform: translate(100%, -8%);
@@ -79,7 +82,7 @@
       }
 
       &:focus[selected='selected'] {
-        background-color: #0072ed;
+        background-color: red;
         color: white;
         outline: none;
       }

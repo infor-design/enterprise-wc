@@ -40,8 +40,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   connectedCallback() {
     super.connectedCallback();
 
-    this.virtualScroll = true;
-    this.itemHeight = 44;
+    // this.virtualScroll = true;
+    this.itemHeight = 44; // hard-coded
 
     this.data = [
       {
@@ -297,9 +297,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         // insert into DOM
         this.#selectedLi.insertBefore(i, this.#selectedLi.querySelector('ids-text'));
 
-        // hide & disable IDS draggable
+        // hide inner text
         this.#selectedLi.querySelector('ids-text').style.display = `none`;
-        this.#selectedLi.parentNode.setAttribute('disabled', '');
 
         // set the value of input
         this.#selectedLiEditor = i;
@@ -316,10 +315,13 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.onEvent('click', this.container.querySelector('#button-add'), () => {
       this.#unfocusAnySelectedLiEditor();
 
-      const targetDraggableItem = this.#selectedLi ? this.#selectedLi.parentNode : this.container.querySelector('ids-draggable');
+      const selectionNull = !this.#selectedLi;
+      // if an item is selected, create a node under it, otherwise create a node above the first item
+      const targetDraggableItem = selectionNull ? this.container.querySelector('ids-draggable') : this.#selectedLi.parentNode;
       const newDraggableItem = targetDraggableItem.cloneNode(true);
 
-      targetDraggableItem.parentNode.insertBefore(newDraggableItem, targetDraggableItem.nextSibling);
+      const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
+      targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
       this.#attachDragEventListenersForDraggable(newDraggableItem);
 
       const listItem = newDraggableItem.querySelector('li');
@@ -386,8 +388,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
       // need this for draggable to move around
       el.style.position = `absolute`;
-      el.style.zIndex = `100`;
       el.style.opacity = `0.95`;
+      el.style.zIndex = `100`;
 
       el.parentNode.insertBefore(
         this.placeholder,
