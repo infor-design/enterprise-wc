@@ -226,6 +226,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       item.setAttribute('selected', 'selected');
       this.#selectedLi = item;
     }
+    item.focus();
   }
 
   #toggleSelectedLi(item) {
@@ -244,6 +245,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   #attachEventListeners() {
     this.#attachClickListeners();
     this.#attachDragEventListeners();
+    this.#attachKeyboardListeners();
   }
 
   // helper method for swapping nodes
@@ -271,15 +273,15 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     return p;
   }
 
-  #updateSelectedLiWithEditorValue() {
-    this.#selectedLi.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
-  }
-
   #unfocusAnySelectedLiEditor() {
     if (this.#selectedLiEditor) {
       this.#updateSelectedLiWithEditorValue();
       this.#removeSelectedLiEditor();
     }
+  }
+
+  #updateSelectedLiWithEditorValue() {
+    this.#selectedLi.querySelector('ids-text').innerHTML = this.#selectedLiEditor.value;
   }
 
   #removeSelectedLiEditor() {
@@ -311,6 +313,17 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     }
   }
 
+  #toggleEditor() {
+    if (this.#selectedLi) {
+      if (!this.#selectedLiEditor) {
+        this.#insertSelectedLiWithEditor();
+      } else {
+        this.#unfocusAnySelectedLiEditor();
+      }
+      this.#selectedLi.focus();
+    }
+  }
+
   #attachClickListeners() {
     this.onEvent('click', this.container.querySelector('#button-add'), () => {
       this.#unfocusAnySelectedLiEditor();
@@ -323,6 +336,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
       targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
       this.#attachDragEventListenersForDraggable(newDraggableItem);
+      this.#attachKeyboardListenersForLi(newDraggableItem.querySelector('li'));
 
       const listItem = newDraggableItem.querySelector('li');
       // remove any selected attribute on li that may have propogated from the clone
@@ -375,6 +389,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     });
   }
 
+  // helper method for attaching drag events
   #attachDragEventListenersForDraggable(el) {
     this.onEvent('ids-dragstart', el, (event) => {
       this.#unfocusAnySelectedLiEditor();
@@ -429,6 +444,31 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       this.#swap(el, this.placeholder);
       if (this.placeholder) {
         this.placeholder.remove();
+      }
+
+      el.querySelector('li').focus();
+    });
+  }
+
+  #attachKeyboardListeners() {
+    this.container.querySelectorAll('li').forEach((l) => {
+      this.#attachKeyboardListenersForLi(l);
+    });
+  }
+
+  #attachKeyboardListenersForLi(l) {
+    this.onEvent('keydown', l, (event) => {
+      switch (event.key) {
+      case 'Enter': // edits the list item
+        this.#toggleEditor();
+        break;
+      case ' ': // selects the list item
+        event.preventDefault(); // prevent container from scrolling
+        this.#unfocusAnySelectedLiEditor();
+        this.#toggleSelectedLi(l);
+        break;
+      default:
+        break;
       }
     });
   }
