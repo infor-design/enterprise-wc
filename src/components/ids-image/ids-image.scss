@@ -61,6 +61,36 @@ $user-statuses: (
   }
 }
 
+:host([mode='light']) {
+  .placeholder {
+    @include border-slate-20();
+
+    ids-icon {
+      @include text-slate-80();
+    }
+  }
+}
+
+:host([mode='dark']) {
+  .placeholder {
+    @include border-slate-40();
+
+    ids-icon {
+      @include text-slate-40();
+    }
+  }
+}
+
+:host([mode='contrast']) {
+  .placeholder {
+    @include border-slate-40();
+
+    ids-icon {
+      @include text-slate-90();
+    }
+  }
+}
+
 :host([round='true']) {
   .ids-image {
     @include rounded-round();
@@ -86,13 +116,15 @@ $user-statuses: (
 
   // img only related
   &:not(.placeholder) {
+    @include block();
+
     object-fit: cover;
   }
 
   // placeholder styles
   &.placeholder {
+    @include bg-white();
     @include inline-flex();
-    @include border-slate-20();
     @include p-20();
     @include w-full();
     @include h-full();
@@ -121,19 +153,20 @@ $user-statuses: (
     }
   }
 
-  ids-icon {
-    @include z-1();
-  }
-
   // background for svg
   &::after {
     @include absolute();
     @include rounded-round();
     @include bg-slate-10();
+
     content: '';
     width: 16px;
     height: 16px;
     left: 1px;
     top: 1px;
+  }
+
+  ids-icon {
+    @include z-1();
   }
 }
