@@ -7,7 +7,7 @@ import {
 } from '../../core';
 
 import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
-import { IdsStringUtils as stringUtils } from '../../utils';
+import { IdsStringUtils } from '../../utils';
 
 import styles from './ids-card.scss';
 
