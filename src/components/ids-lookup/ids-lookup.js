@@ -12,7 +12,6 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
-  IdsValidationMixin,
   IdsLocaleMixin,
   IdsTooltipMixin
 } from '../../mixins';
@@ -36,7 +35,6 @@ import styles from './ids-lookup.scss';
  * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsValidationMixin
  * @mixes IdsTooltipMixin
  * @part trigger-field - the trigger container
  * @part input - the input element
@@ -53,7 +51,6 @@ class IdsLookup extends mix(IdsElement).with(
     IdsKeyboardMixin,
     IdsThemeMixin,
     IdsLocaleMixin,
-    IdsValidationMixin,
     IdsTooltipMixin
   ) {
   constructor() {
@@ -295,6 +292,38 @@ class IdsLookup extends mix(IdsElement).with(
   }
 
   get dataGridSettings() { return this.state.dataGridSettings; }
+
+  /**
+   * Sets the validation check to use
+   * @param {string} value The `validate` attribute
+   */
+  set validate(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATE, value.toString());
+      this.input.setAttribute(attributes.VALIDATE, value.toString());
+    } else {
+      this.removeAttribute(attributes.VALIDATE);
+      this.input.removeAttribute(attributes.VALIDATE);
+    }
+  }
+
+  get validate() { return this.getAttribute(attributes.VALIDATE); }
+
+  /**
+   * Set `validation-events` attribute
+   * @param {string} value The `validation-events` attribute
+   */
+  set validationEvents(value) {
+    if (value) {
+      this.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
+      this.input.setAttribute(attributes.VALIDATION_EVENTS, value.toString());
+    } else {
+      this.removeAttribute(attributes.VALIDATION_EVENTS);
+      this.input.removeAttribute(attributes.VALIDATION_EVENTS);
+    }
+  }
+
+  get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS) || 'change blur'; }
 
   /**
    * Establish Internal Event Handlers

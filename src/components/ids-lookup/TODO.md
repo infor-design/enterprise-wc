@@ -6,7 +6,7 @@
 - [x] Open Modal
 - [x] Open Modal Tests
 - [x] Grid in the modal
-- [] Validation
+- [x] Validation
 - [] Grid is list
 - [] Grid Width
 - [] Selection Mixin
@@ -16,4 +16,7 @@
 - [] Keyboard
 - [] Frozen Cols
 - [] Searchfield above grid
-- [] Fire Events
+- [] Locale
+- [] Tooltip
+- [] Autocomplete
+- [] Theme

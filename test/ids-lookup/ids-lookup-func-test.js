@@ -5,6 +5,7 @@ import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-dat
 import ResizeObserver from '../helpers/resize-observer-mock';
 import IdsLookup from '../../src/components/ids-lookup';
 import createFromTemplate from '../helpers/create-from-template';
+import waitFor from '../helpers/wait-for';
 import dataset from '../../demos/data/books.json';
 
 describe('IdsLookup Component', () => {
@@ -257,5 +258,42 @@ describe('IdsLookup Component', () => {
     expect(lookup.dataGridSettings).toEqual({
       rowHeight: 'small'
     });
+  });
+
+  it('renders with validation', () => {
+    lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-1" validate="required" validation-events="blur change" label="Test"></ids-lookup>`);
+    expect(lookup.validate).toEqual('required');
+    expect(lookup.validationEvents).toEqual('blur change');
+
+    // Generate from the parent defaults
+    lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-1" validate="required" label="Test"></ids-lookup>`);
+    lookup.validationEvents = 'blur change';
+    expect(lookup.validate).toEqual('required');
+    expect(lookup.validationEvents).toEqual('blur change');
+
+    // Default Case
+    lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-1" validate="required" label="Test"></ids-lookup>`);
+    expect(lookup.validate).toEqual('required');
+    expect(lookup.validationEvents).toEqual('change blur');
+  });
+
+  it('supports validation', async () => {
+    lookup = createFromTemplate(lookup, `<ids-lookup id="lookup-5" label="Dropdown with Icons" validate="true">
+     </ids-lookup>`);
+    await waitFor(() => expect(lookup.shadowRoot.querySelector('ids-trigger-field')).toBeTruthy());
+
+    lookup.validate = 'required';
+    lookup.validationEvents = 'blur change';
+    lookup.triggerEvent('change', lookup);
+    expect(lookup.getAttribute('validate')).toEqual('required');
+  });
+
+  it('can reset validation and validation-events', async () => {
+    lookup.validate = 'required';
+    lookup.validationEvents = 'blur change';
+    lookup.validate = null;
+    lookup.validationEvents = null;
+    expect(lookup.getAttribute('validate')).toBeFalsy();
+    expect(lookup.getAttribute('validation-events')).toBeFalsy();
   });
 });
