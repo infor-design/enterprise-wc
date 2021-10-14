@@ -189,4 +189,9 @@ describe('IdsRadio Component', () => {
       expect(rb.getAttribute('language')).toEqual('de');
     });
   });
+
+  it('can focus its inner Input element', () => {
+    rb.focus();
+    expect(document.activeElement).toEqual(rb);
+  });
 });
