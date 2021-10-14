@@ -63,7 +63,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     // TODO: save this variable for list item template (to use in checkTemplateHeight)
     const listItems = this.data?.map((item) => `
       <ids-draggable axis="y">
-        <li part="list-item">
+        <li part="list-item" tabindex="0">
           <span></span>
           ${this.itemTemplate(item)}
         </li>
