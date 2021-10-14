@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import ResizeObserver from '../helpers/resize-observer-mock';
 import IdsLookup from '../../src/components/ids-lookup';
 import createFromTemplate from '../helpers/create-from-template';
 
@@ -150,5 +151,32 @@ describe('IdsLookup Component', () => {
     });
     lookup.value = '218902';
     expect(lookup.input.value).toEqual('218902');
+  });
+
+  it('should open on click', () => {
+    expect(lookup.modal.visible).toBe(false);
+    lookup.triggerButton.click();
+    expect(lookup.modal.visible).toBe(true);
+    lookup.modal.buttons[0].click();
+    expect(lookup.modal.visible).toBe(false);
+  });
+
+  it('should open on down arrow', () => {
+    expect(lookup.modal.visible).toBe(false);
+    const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    lookup.dispatchEvent(event);
+    expect(lookup.modal.visible).toBe(true);
+    lookup.modal.buttons[0].click();
+    expect(lookup.modal.visible).toBe(false);
+  });
+
+  it('should not open on click if readonly / disabled', () => {
+    expect(lookup.modal.visible).toBe(false);
+    lookup.readonly = true;
+    lookup.triggerButton.click();
+    expect(lookup.modal.visible).toBe(false);
+    lookup.disabled = true;
+    lookup.triggerButton.click();
+    expect(lookup.modal.visible).toBe(false);
   });
 });

@@ -2,28 +2,45 @@
 
 ## Description
 
-TBD
+A lookup is an input element that opens a modal with a datagrid list for selecting grid rows.
+
+Allows for users to select from multiple complex options via input field component. Single selection and multi selection can be possible in the modal dialog list with the addition of checkboxes.
 
 ## Use Cases
 
-- Use when the content on your page is mapped into multiple categories and does not only fit into one hierarchical category.
+- Best used when users need more contextual information around options in the grid information.
 - Use when you want users to contribute data to your website and let them organize their content themselves.
 
 ## Terminology
 
-- **Tag**: A UI embellishments for classification
+- **Grid/Datagrid**: Refers to a datagrid when in a lookup as apposed to a responsive grid.
 
 ## Features (With Code Examples)
 
-A normal lookup used as a web component.
+A normal lookup used as a web component. To distinguish between single and multi-select situations, use a checkbox column in multi-select and consider a radio select for single select.
 
 ```html
-<ids-tag>Normal Tag</ids-tag>
+<ids-lookup id="lookup-1" label="Normal Lookup"></ids-lookup>
+```
+
+If necessary you can provide your own custom modal to the lookup. When doing this you control the modal contents and events entirely. The lookup will just open it for you.
+
+```html
+<ids-lookup id="lookup-4" label="Custom Lookup">
+    <ids-modal slot="lookup-modal" id="custom-lookup-modal" aria-labelledby="custom-lookup-modal-title">
+    <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Custom Lookup Modal</ids-text>
+    <ids-modal-button slot="buttons" id="modal-close-btn" type="primary">
+        <span slot="text">Apply</span>
+    </ids-modal-button>
+    </ids-modal>
+</ids-lookup>
 ```
 
 ## Settings and Attributes
 
-- `clickable` {boolean} Turns on the functionality to make the tag clickable like a link
+- `disabled` {boolean} Set the lookup to disabled state.
+- `readonly` {boolean} Set the lookup to readonly state.
+- `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
 
 ## Themeable Parts
 
@@ -31,22 +48,35 @@ A normal lookup used as a web component.
 
 ## States and Variations (With Code Examples)
 
-- Color
+- Default: The normal, unaltered state for lookups.
+- Hover: The state where a user moves over the lookup field with their cursor.
+- Focus: Indicates that the user has tabbed through and highlighted the lookup.
+- Disabled When the lookup is unable to be changed due to its dependence on other factors or partial irrelevance. Since these states can sometimes lead to confusion, it's useful to pair this state with a Tooltip explanation as to why it's disabled.
+- Readonly A lookup state where the selection is only, ever for viewing. While the information cannot be changed, users can copy and view the data. In general a label and value can also be used for read only states as well.
+- Error: The state where the user has interacted with the field and received an error. The lookup field is able to explain what caused the error below.
 
 ## Keyboard Guidelines
 
-- <kbd>Tab/Shift+Tab</kbd>: If the tab is focusable this will focus or unfocus the tag.
-- <kbd>Backspace / Alt+Del</kbd>: If the tag is dismissible then this will remove the tag.
-- <kbd>Enter</kbd>: If the tag is clickable then this will follow the tag link.
+- <kbd>Tab/Shift+Tab</kbd>: Moves focus into the field to/from the next focusable item in the tab order.
+- <kbd>Down Arrow</kbd>: Opens the dialog if the input is enabled
+- <kbd>Esc</kbd>: Cancels and closes the open dialog
+- <kbd>Tab/Shift+Tab</kbd>: Tab and Shift Tab when the dialog is open, tab will move around the items, for example, from the search to the data grid
+- <kbd>Down/Up Arrow</kbd>: When focus is on the grid in the dialog this moves the focus up and down on the rows
+- <kbd>Enter/Space</kbd>: Toggle selection on the current row if multiselect. If single select, the row is selected and inserted if autoApply is enabled.
 
 ## Responsive Guidelines
 
-- Flows with padding and margin within the width and height of the parent container. Possibly scrolling as needed based on parent dimensions.
+- Default size is 300px wide but there are a number of widths in mobile mode it will go to 100%
+- The dialog stretches to 100% - 16px at smaller breakpoints
 
 ## Converting from Previous Versions
 
-- 3.x: Lookup have all new markup and classes.
-- 4.x: Lookup have all new markup and classes for web components.
+- 3.x: Lookup had all new markup and classes.
+- 4.x: Lookup had all new markup and classes for web components.
+    - inforLookup class changed to lookup
+    - Initialization options and API is different
+    - Uses events rather than callbacks
+- 5.x: Lookup had all new markup and classes for web components.
 
 ## Designs
 
@@ -54,7 +84,7 @@ A normal lookup used as a web component.
 
 ## Accessibility Guidelines
 
-- 1.4.1 Use of Color - Color is not used as the only visual means of conveying information, indicating an action, prompting a response, or distinguishing a visual element. Ensure the color Lookup that indicate state like OK, cancel, ect have other ways to indicate that information. This is failing.
+- There should be a label on all lookups to give an indication what the field is containing.
 
 ## Regional Considerations
 

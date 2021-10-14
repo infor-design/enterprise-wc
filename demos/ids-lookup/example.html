@@ -7,5 +7,14 @@
     <ids-lookup id="lookup-1" label="Normal Lookup"></ids-lookup>
     <ids-lookup id="lookup-2" readonly="true" label="Readonly Lookup" value="2241202"></ids-lookup>
     <ids-lookup id="lookup-3" disabled="true" label="Disabled Lookup" value="2241203"></ids-lookup>
+
+    <ids-lookup id="lookup-4" label="Custom Lookup">
+      <ids-modal slot="lookup-modal" id="custom-lookup-modal" aria-labelledby="custom-lookup-modal-title">
+        <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Custom Lookup Modal</ids-text>
+        <ids-modal-button slot="buttons" id="modal-close-btn" type="primary">
+          <span slot="text">Apply</span>
+        </ids-modal-button>
+      </ids-modal>
+    </ids-lookup>
   </ids-layout-grid-cell>
 </ids-layout-grid>

@@ -23,6 +23,7 @@ import { IdsStringUtils as stringUtils } from '../../utils';
 
 // Supporting components
 import { IdsTriggerButton, IdsTriggerField } from '../ids-trigger-field';
+import { IdsModal } from '../ids-modal';
 
 // Import Styles
 import styles from './ids-lookup.scss';
@@ -63,8 +64,18 @@ class IdsLookup extends mix(IdsElement).with(
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
+    // Setup some internal refs
     this.input = this.shadowRoot?.querySelector('ids-input');
     this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
+    this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
+
+    // Link the Modal to its trigger button (sets up click/focus events)
+    this.modal = this.querySelector('[slot="lookup-modal"]');
+    if (!this.modal) {
+      this.modal = this.shadowRoot?.querySelector('ids-modal');
+    }
+    this.modal.target = this.triggerButton;
+    this.modal.trigger = 'click';
 
     this
       .#handleEvents()
@@ -115,10 +126,17 @@ class IdsLookup extends mix(IdsElement).with(
         <ids-icon slot="icon" icon="search-list" part="icon"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
-    <ids-modal>
-      <slot slot="content">
-      </slot>
-    </ids-modal>
+    <slot name="lookup-modal">
+      <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title">
+        <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Active IDS Modal</ids-text>
+        <ids-modal-button slot="buttons" id="modal-cancel-btn" type="secondary">
+        <span slot="text">Cancel</span>
+        </ids-modal-button>
+        <ids-modal-button slot="buttons" id="modal-apply-btn" type="primary">
+          <span slot="text">Apply</span>
+        </ids-modal-button>
+      </ids-modal>
+    </slot>
     `;
   }
 
@@ -224,6 +242,9 @@ class IdsLookup extends mix(IdsElement).with(
 
   get tabbable() {
     const attr = this.getAttribute(attributes.TABBABLE);
+    if (this.readonly || this.disabled) {
+      return false;
+    }
     if (attr === null) {
       return true;
     }
@@ -236,6 +257,17 @@ class IdsLookup extends mix(IdsElement).with(
    * @returns {object} The object for chaining.
    */
   #handleEvents() {
+    this.onEvent('click.lookup', this.modal, (e) => {
+      if (e.target.getAttribute('id') === 'modal-cancel-btn') {
+        this.modal.hide();
+      }
+    });
+
+    this.modal.addEventListener('beforeshow', (e) => {
+      if (this.readonly || this.disabled) {
+        e.detail.response(false);
+      }
+    });
     return this;
   }
 
@@ -246,7 +278,7 @@ class IdsLookup extends mix(IdsElement).with(
    */
   #handleKeys() {
     this.listen(['ArrowDown'], this, () => {
-      // TODO
+      this.modal.show();
     });
     return this;
   }

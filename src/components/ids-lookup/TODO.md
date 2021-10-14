@@ -2,9 +2,10 @@
 
 ## Tier One
 
-- [] Readonly/Disabled
-- [] Open Modal
-- [] Grid Is List
+- [x] Readonly/Disabled
+- [x] Open Modal
+- [] Open Modal Tests
+- [] Grid Is List in the modal
 - [] Selection Mixin
 - [] Selection as Object
 - [] Dirty
@@ -12,3 +13,5 @@
 - [] Paging
 - [] Keyboard
 - [] Frozen Cols
+- [] Searchfield above grid
+- [] Fire Events

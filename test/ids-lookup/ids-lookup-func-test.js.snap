@@ -11,9 +11,16 @@ exports[`IdsLookup Component renders correctly 2`] = `
         <ids-icon slot=\\"icon\\" icon=\\"search-list\\" part=\\"icon\\" language=\\"en\\" locale=\\"en-US\\"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
-    <ids-modal>
-      <slot slot=\\"content\\">
-      </slot>
-    </ids-modal>
+    <slot name=\\"lookup-modal\\">
+      <ids-modal id=\\"lookup-modal\\" aria-labelledby=\\"lookup-modal-title\\" message-title=\\"Active IDS Modal\\" aria-label=\\"Active IDS Modal\\" role=\\"dialog\\">
+        <ids-text slot=\\"title\\" font-size=\\"24\\" type=\\"h2\\" id=\\"lookup-modal-title\\" language=\\"en\\" locale=\\"en-US\\">Active IDS Modal</ids-text>
+        <ids-modal-button slot=\\"buttons\\" id=\\"modal-cancel-btn\\" type=\\"secondary\\">
+        <span slot=\\"text\\">Cancel</span>
+        </ids-modal-button>
+        <ids-modal-button slot=\\"buttons\\" id=\\"modal-apply-btn\\" type=\\"primary\\">
+          <span slot=\\"text\\">Apply</span>
+        </ids-modal-button>
+      </ids-modal>
+    </slot>
     "
 `;
