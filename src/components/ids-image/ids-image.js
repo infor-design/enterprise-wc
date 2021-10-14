@@ -51,7 +51,8 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       attributes.SIZE,
       attributes.PLACEHOLDER,
       attributes.FALLBACK,
-      attributes.ROUND
+      attributes.ROUND,
+      attributes.USER_STATUS
     ];
   }
 
@@ -96,25 +97,25 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {HTMLElement} img element to attach to shadow
    */
   #getImgEl(src, alt) {
-    const img = document.createElement('img');
-    img.classList = 'ids-image';
-    img.setAttribute('src', src);
+    const element = document.createElement('img');
+    element.classList = 'ids-image';
+    element.setAttribute('src', src);
     if (alt) {
-      img.setAttribute('alt', alt);
+      element.setAttribute('alt', alt);
     }
 
-    return img;
+    return element;
   }
 
   /**
    * @returns {HTMLElement} placeholder element to attach to shadow
    */
   #getPlaceholderEl() {
-    const placeholder = document.createElement('div');
-    placeholder.classList = 'ids-image placeholder';
-    placeholder.innerHTML = '<span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon>';
+    const element = document.createElement('div');
+    element.classList = 'ids-image placeholder';
+    element.innerHTML = '<span class="audible">Placeholder Image</span><ids-icon icon="insert-image"></ids-icon>';
 
-    return placeholder;
+    return element;
   }
 
   /**
@@ -302,6 +303,69 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
 
     this.removeAttribute(attributes.ROUND);
+  }
+
+  /**
+   * Get one of the predefined statuses
+   * @param {string} val user status attribute value
+   * @returns {'available'|'away'|'busy'|'do-not-disturb'|'unknown'|null} one of the predefined statuses
+   */
+  #getStatus(val) {
+    // List of available statuses
+    const statuses = ['available', 'away', 'busy', 'do-not-disturb', 'unknown'];
+
+    if (val && statuses.includes(val)) {
+      return val;
+    }
+
+    // No status attribute or status is not in the available
+    return null;
+  }
+
+  /**
+   * Get status element to render when adding or changing the status
+   * @param {'available'|'away'|'busy'|'do-not-disturb'|'unknown'} status one of predefined statuses
+   * @returns {HTMLElement} status element to attach to shadow
+   */
+  #getStatusEl(status) {
+    const element = document.createElement('div');
+    element.classList = `user-status ${status}`;
+    element.innerHTML = `<ids-icon icon="user-status-${status}"></ids-icon>`;
+
+    return element;
+  }
+
+  /**
+   * User status attribute
+   * @returns {'available'|'away'|'busy'|'do-not-disturb'|'unknown'|null} one of predefined statuses
+   */
+  get userStatus() {
+    const attrVal = this.getAttribute(attributes.USER_STATUS);
+
+    return this.#getStatus(attrVal);
+  }
+
+  /**
+   * Set user status and render html element
+   * @param {string} val user status parameter value
+   */
+  set userStatus(val) {
+    const status = this.#getStatus(val);
+    let element = this.shadowRoot.querySelector('.user-status');
+
+    // Clear element before rerender
+    element?.remove();
+
+    if (status) {
+      element = this.#getStatusEl(status);
+      this.shadowRoot.appendChild(element);
+
+      this.setAttribute(attributes.USER_STATUS, status);
+
+      return;
+    }
+
+    this.removeAttribute(attributes.USER_STATUS);
   }
 }
 

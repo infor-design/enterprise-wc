@@ -16,4 +16,7 @@ export default class IdsImage extends HTMLElement {
 
   /** Set whether or not the image is round */
   round: 'true' | 'false' | boolean | null;
+
+  /** Set user status */
+  userStatus: 'available' | 'away' | 'busy' | 'do-not-disturb' | 'unknown' | null;
 }

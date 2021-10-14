@@ -182,7 +182,7 @@ describe('IdsImage Component (round and statuses)', () => {
 
   beforeEach(async () => {
     document.body.insertAdjacentHTML('beforeend',
-      `<ids-image src="${src}" alt="${alt}" round="true"></ids-image>`);
+      `<ids-image src="${src}" alt="${alt}" round="true" user-status="available"></ids-image>`);
     component = document.querySelector(name);
   });
 
@@ -198,18 +198,25 @@ describe('IdsImage Component (round and statuses)', () => {
     expect(errors).not.toHaveBeenCalled();
   });
 
-  it('should have round attribute', () => {
+  it('should have attributes', () => {
     expect(component.round).toBeTruthy();
     expect(component.getAttribute('round')).toEqual('true');
+
+    expect(component.userStatus).toEqual('available');
+    expect(component.getAttribute('user-status')).toEqual('available');
   });
 
-  it('should change round attribute', () => {
+  it('should change attributes', () => {
     component.round = null;
-
     expect(component.getAttribute('round')).toBeNull();
 
     component.round = true;
-
     expect(component.getAttribute('round')).toEqual('true');
+
+    component.userStatus = null;
+    expect(component.getAttribute('user-status')).toBeNull();
+
+    component.userStatus = 'away';
+    expect(component.getAttribute('user-status')).toEqual('away');
   });
 });

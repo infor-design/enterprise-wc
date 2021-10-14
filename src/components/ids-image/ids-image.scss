@@ -6,6 +6,14 @@ $image-sizes: (
   'lg': (300px, 350px),
 );
 
+$user-statuses: (
+  'available': var(--ids-color-status-success),
+  'away': var(--ids-color-status-caution),
+  'busy': var(--ids-color-status-danger),
+  'do-not-disturb': var(--ids-color-status-danger),
+  'unknown': var(--ids-color-palette-slate-30)
+);
+
 :host {
   contain: content;
   display: inline-block;
@@ -84,11 +92,37 @@ $image-sizes: (
   .audible {
     @include audible();
   }
+}
 
-  .user-status {
+.user-status {
+  @include absolute();
+
+  width: 18px;
+  height: 18px;
+
+  right: 5px;
+  bottom: 5px;
+
+  @each $key, $value in $user-statuses {
+    &.#{$key} {
+      color: $value;
+    }
+  }
+
+  ids-icon {
+    @include z-1();
+  }
+
+  // background for svg
+  &::after {
     @include absolute();
+    @include rounded-round();
+    @include bg-slate-10();
+    content: '';
+    left: 1px;
+    top: 1px;
 
-    right: 5px;
-    bottom: 5px;
+    width: 16px;
+    height: 16px;
   }
 }
