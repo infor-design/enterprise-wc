@@ -42,6 +42,7 @@
   - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
   - Can now be imported as a single JS file and used with encapsulated styles.
 - `[Header]` Created an ids header web component. The <ids-header></ids-header> custom element has a color attribute that can be applied to personalize the background color.
+- `[Hierarchy]` The Hierarchy component has been changed to a web component and use with `ids-hierarchy`, `ids-hierarchy-item` and `ids-hierarchy-legend`.
 - `[HomePage]` The HomePage component has been changed to a web component and use with ids-home-page.
   - Markup has changed to a custom element `<ids-home-page></ids-home-page>`
   - If using events, events are now plain JS events.

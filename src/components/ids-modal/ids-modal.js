@@ -9,6 +9,7 @@ import { attributes } from '../../core/ids-attributes';
 
 import {
   IdsEventsMixin,
+  IdsFocusCaptureMixin,
   IdsKeyboardMixin,
   IdsPopupInteractionsMixin,
   IdsPopupOpenEventsMixin,
@@ -38,6 +39,7 @@ const dismissTimeout = 200;
  * @type {IdsModal}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsFocusCaptureMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsPopupOpenEventsMixin
@@ -50,6 +52,7 @@ const dismissTimeout = 200;
 @scss(styles)
 class IdsModal extends mix(IdsElement).with(
     IdsEventsMixin,
+    IdsFocusCaptureMixin,
     IdsKeyboardMixin,
     IdsPopupInteractionsMixin,
     IdsPopupOpenEventsMixin,
@@ -331,7 +334,8 @@ class IdsModal extends mix(IdsElement).with(
     this.removeAttribute('aria-hidden');
 
     // Focus the correct element
-    this.#setModalFocus();
+    this.capturesFocus = true;
+
     this.addOpenEvents();
     this.triggerEvent('show', this, {
       bubbles: true,
@@ -369,6 +373,9 @@ class IdsModal extends mix(IdsElement).with(
     this.style.zIndex = '';
     this.setAttribute('aria-hidden', 'true');
     zCounter.decrement();
+
+    // Disable focus capture
+    this.capturesFocus = false;
 
     this.triggerEvent('hide', this, {
       bubbles: true,
