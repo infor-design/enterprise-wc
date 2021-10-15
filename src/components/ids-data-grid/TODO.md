@@ -37,7 +37,7 @@
 - [] Tooltips
 - [] Summary Row
 - [] Save columns/settings and restore
-- [] List / Readonly Styles
+- [x] List / Readonly Styles
 - [] Context Menus
 - [] Automation id's
 - [] Errors and Validation

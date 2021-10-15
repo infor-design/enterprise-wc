@@ -51,6 +51,7 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 
 - `virtualScroll` {boolean} When virtual scroll is used the grid can render many thousands of rows and only the rows visible in the scroll area are rendered for performance. This setting has limitations such as the rows need to be fixed size.
 - `alternateRowShading` {boolean} For better scan-ability you can shade alternate rows.
+- `listStyle` {boolean} Sets the style of the grid to list style for simple readonly lists.
 - `columns` {Array<object>} Set the data array of the datagrid. This can be a JSON Array.
 - `data` {Array<object>} Set the columns array of the datagrid. See column settings.
 

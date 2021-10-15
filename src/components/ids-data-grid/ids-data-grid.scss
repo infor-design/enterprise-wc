@@ -224,10 +224,57 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   td.ids-data-grid-cell {
     @include px-16();
   }
+
+  // List Style Feature
+  &.is-list-style {
+    border-width: 0;
+
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-slate-10();
+      @include border-slate-10();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-slate-100();
+    }
+
+    // Change Cell Borders/BG
+    .ids-data-grid-cell {
+      border-left: 0;
+      border-top: 1px solid var(--ids-color-palette-slate-20);
+
+      &.readonly {
+        @include bg-slate-10();
+      }
+    }
+
+    .ids-data-grid-body .ids-data-grid-row:first-child .ids-data-grid-cell {
+      border-top: 0;
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-slate-50();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-slate-20();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-slate-20();
+        }
+      }
+    }
+  }
 }
 
 /// Handle Themes
-
 // Dark Theme
 .ids-data-grid[mode='dark'] {
   @include bg-slate-90();
@@ -265,6 +312,38 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     &.readonly {
       @include bg-slate-70();
+    }
+  }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-slate-80();
+      @include border-slate-80();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-slate-30();
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-slate-40();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-slate-20();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-slate-20();
+        }
+      }
     }
   }
 }
@@ -314,6 +393,45 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       outline: 1px solid var(--ids-color-palette-azure-80);
     }
   }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-slate-30();
+      @include border-slate-30();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-slate-100();
+    }
+
+    // Change Cell Borders/BG
+    .ids-data-grid-cell {
+      &.readonly {
+        @include bg-slate-20();
+      }
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-slate-60();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-slate-30();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-slate-30();
+        }
+      }
+    }
+  }
 }
 
 // Handle Classic - Light Theme
@@ -355,6 +473,49 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       @include bg-graphite-10();
     }
   }
+
+  // List Style Feature
+  &.is-list-style {
+    background-color: transparent;
+
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-graphite-20();
+      @include border-graphite-20();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-graphite-60();
+    }
+
+    // Change Cell Borders/BG
+    .ids-data-grid-cell {
+      border-top: 1px solid var(--ids-color-palette-graphite-30);
+
+      &.readonly {
+        @include bg-graphite-20();
+      }
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-graphite-50();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-graphite-30();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-graphite-30();
+        }
+      }
+    }
+  }
 }
 
 // Handle Classic - Dark Theme
@@ -394,6 +555,38 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     &.readonly {
       @include bg-classic-slate-70();
+    }
+  }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-classic-slate-70();
+      @include border-classic-slate-70();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-classic-slate-30();
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-classic-slate-10();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-classic-slate-40();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-classic-slate-40();
+        }
+      }
     }
   }
 }
@@ -440,6 +633,45 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     &:focus {
       box-shadow: 0 0 0 1px rgba(0, 84, 177, 1);
       outline: 1px solid var(--ids-color-palette-azure-80);
+    }
+  }
+
+  // List Style Feature
+  &.is-list-style {
+    // Change Header Color
+    .ids-data-grid-header-cell {
+      @include bg-graphite-30();
+      @include border-graphite-30();
+    }
+
+    .ids-data-grid-header-text {
+      @include text-graphite-100();
+    }
+
+    // Change Cell Borders/BG
+    .ids-data-grid-cell {
+      &.readonly {
+        @include bg-graphite-20();
+      }
+    }
+
+    // Change Sort Icon
+    .is-sortable {
+      ids-icon {
+        @include text-graphite-60();
+      }
+
+      &[aria-sort='descending'] ids-icon {
+        &:last-child {
+          @include text-graphite-40();
+        }
+      }
+
+      &[aria-sort='ascending'] ids-icon {
+        &:first-child {
+          @include text-graphite-40();
+        }
+      }
     }
   }
 }

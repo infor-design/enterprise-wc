@@ -44,8 +44,8 @@ export default class IdsDataGrid extends IdsElement {
   /** Enables the virtual scrolling behavior */
   rowHeight: 'extra-small' | 'small' | 'medium' | 'large';
 
-  /** Set the theme mode */
-  mode: 'light' | 'dark' | 'contrast' | string;
+  /** Sets the style of the grid to list style for simple readonly lists */
+  listStyle: boolean;
 
   /** Set the theme version */
   version: 'new' | 'classic' | string;

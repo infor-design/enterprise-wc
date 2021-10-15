@@ -8,7 +8,7 @@ import {
 } from '../../core';
 
 // Import Utils
-import { IdsStringUtils, IdsDeepCloneUtils } from '../../utils';
+import { IdsDeepCloneUtils, IdsStringUtils as stringUtils } from '../../utils';
 
 // Import Mixins
 import {
@@ -71,6 +71,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       attributes.LABEL,
       attributes.LANGUAGE,
       attributes.LOCALE,
+      attributes.LIST_STYLE,
       attributes.ROW_HEIGHT,
       attributes.VIRTUAL_SCROLL,
       attributes.MODE,
@@ -90,8 +91,10 @@ class IdsDataGrid extends mix(IdsElement).with(
       return html;
     }
 
-    const additionalClasses = this.alternateRowShading === 'true' ? ' alt-row-shading' : '';
-    if (this?.virtualScroll !== 'true') {
+    let additionalClasses = this.alternateRowShading === true ? ' alt-row-shading' : '';
+    additionalClasses += this.listStyle === true ? ' is-list-style' : '';
+
+    if (!this?.virtualScroll) {
       html = `<div class="ids-data-grid${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
       ${this.headerTemplate()}
       ${this.bodyTemplate()}
@@ -135,8 +138,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.container = this.shadowRoot.querySelector('.ids-data-grid');
 
     // Setup virtual scrolling
-    if (IdsStringUtils.stringToBool(this.virtualScroll) && this.data.length > 0) {
-      /** @type {object} */
+    if (this.virtualScroll && this.data.length > 0) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.scrollTarget = this.container;
 
@@ -397,7 +399,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {boolean|string} value true to use alternate row shading
    */
   set alternateRowShading(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringUtils.stringToBool(value)) {
       this.setAttribute(attributes.ALTERNATE_ROW_SHADING, 'true');
       this.shadowRoot?.querySelector('.ids-data-grid').classList.add('alt-row-shading');
       return;
@@ -407,7 +409,9 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.setAttribute(attributes.ALTERNATE_ROW_SHADING, 'false');
   }
 
-  get alternateRowShading() { return this.getAttribute(attributes.ALTERNATE_ROW_SHADING) || 'false'; }
+  get alternateRowShading() {
+    return stringUtils.stringToBool(this.getAttribute(attributes.ALTERNATE_ROW_SHADING)) || false;
+  }
 
   /**
    * Set the columns array of the datagrid
@@ -451,7 +455,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.rerender();
   }
 
-  get virtualScroll() { return this.getAttribute(attributes.VIRTUAL_SCROLL) || 'false'; }
+  get virtualScroll() { return stringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)) || false; }
 
   /**
    * Set the aria-label element in the DOM. This should be translated.
@@ -471,7 +475,6 @@ class IdsDataGrid extends mix(IdsElement).with(
   get label() { return this.getAttribute(attributes.LABEL) || 'Data Grid'; }
 
   /**
-  /**
    * Set the row height between extra-small, small, medium and large (default)
    * @param {string} value The row height
    */
@@ -484,12 +487,28 @@ class IdsDataGrid extends mix(IdsElement).with(
       this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', 'large');
     }
 
-    if (IdsStringUtils.stringToBool(this.virtualScroll)) {
+    if (this.virtualScroll) {
       this.rerender();
     }
   }
 
   get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'large'; }
+
+  /**
+   * Set the style of the grid to list style for simple readonly lists
+   * @param {boolean} value list styling to use
+   */
+  set listStyle(value) {
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(attributes.LIST_STYLE, value);
+      this.shadowRoot.querySelector('.ids-data-grid').classList.add('is-list-style');
+    } else {
+      this.removeAttribute(attributes.LIST_STYLE);
+      this.shadowRoot.querySelector('.ids-data-grid').classList.remove('is-list-style');
+    }
+  }
+
+  get listStyle() { return stringUtils.stringToBool(this.getAttribute(attributes.LIST_STYLE)) || false; }
 
   /**
    * Get the row height in pixels

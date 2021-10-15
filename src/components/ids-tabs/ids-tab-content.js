@@ -52,7 +52,9 @@ class IdsTabContent extends mix(IdsElement).with(
     super.disconnectedCallback?.();
   }
 
-  /** @type {string} Value representing associated tab */
+  /**
+   * @param {boolean|string} value value representing associated tab
+   */
   set value(value) {
     if (this.getAttribute(attributes.VALUE) === value) {
       return;

@@ -110,6 +110,7 @@ export const attributes = {
   LABEL_TOTAL: 'label-total',
   LANGUAGE: 'language',
   LINEAR: 'linear',
+  LIST_STYLE: 'list-style',
   LOCALE: 'locale',
   MAX: 'max',
   MAX_FILE_SIZE: 'max-file-size',
