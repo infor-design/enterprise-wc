@@ -3,7 +3,53 @@
  */
 import IdsListBuilder from '../../src/components/ids-list-builder';
 
-const defaultTemplate = '<template><ids-text font-size="16" type="h2">${productName}</ids-text></template>';
+const sampleData = [
+  {
+    id: 1,
+    productId: '7439937961',
+    productName: 'Steampan Lid',
+    inStock: true,
+    units: '9',
+    unitPrice: 23,
+    color: 'Green'
+  },
+  {
+    id: 2,
+    productId: '3672150959',
+    productName: 'Coconut - Creamed, Pure',
+    inStock: true,
+    units: '588',
+    unitPrice: 18,
+    color: 'Yellow'
+  },
+  {
+    id: 3,
+    productId: '8233719404',
+    productName: 'Onions - Red',
+    inStock: false,
+    units: '68',
+    unitPrice: 58,
+    color: 'Green'
+  },
+  {
+    id: 4,
+    productId: '2451410442',
+    productName: 'Pasta - Fusili Tri - Coloured',
+    inStock: true,
+    units: '02',
+    unitPrice: 24,
+    color: 'Crimson'
+  },
+  {
+    id: 5,
+    productId: '4264251249',
+    productName: 'Bread - Crumbs, Bulk',
+    inStock: true,
+    units: '5',
+    unitPrice: 59,
+    color: 'Maroon'
+  },
+];
 
 const HTMLSnippets = {
   VANILLA_COMPONENT: (
@@ -51,8 +97,8 @@ describe('IdsListBuilder Component', () => {
     expect(idsListBuilder.outerHTML).toMatchSnapshot();
   });
 
-  it('injects template correctly', async () => {
+  it('injects template correctly and sets data correctly', async () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
-    idsListBuilder.defaultTemplate = defaultTemplate;
+    idsListBuilder.data = sampleData;
   });
 });
