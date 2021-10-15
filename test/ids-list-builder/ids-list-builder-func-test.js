@@ -3,6 +3,8 @@
  */
 import IdsListBuilder from '../../src/components/ids-list-builder';
 
+const defaultTemplate = '<template><ids-text font-size="16" type="h2">${productName}</ids-text></template>';
+
 const HTMLSnippets = {
   VANILLA_COMPONENT: (
   `<ids-list-builder>
@@ -47,5 +49,10 @@ describe('IdsListBuilder Component', () => {
     idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
     idsListBuilder.template();
     expect(idsListBuilder.outerHTML).toMatchSnapshot();
+  });
+
+  it('injects template correctly', async () => {
+    idsListBuilder = await createElemViaTemplate(HTMLSnippets.VANILLA_COMPONENT);
+    idsListBuilder.defaultTemplate = defaultTemplate;
   });
 });
