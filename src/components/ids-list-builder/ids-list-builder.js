@@ -40,7 +40,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   connectedCallback() {
     super.connectedCallback();
 
-    // this.virtualScroll = true;
+    this.virtualScroll = true;
     this.itemHeight = 44; // hard-coded
 
     this.#attachEventListeners();
@@ -67,20 +67,25 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
             <ids-toolbar>
               <ids-toolbar-section type="buttonset">
                 <ids-button id="button-add">
+                  <span slot="text" class="audible">Add List Item</span>
                   <ids-icon slot="icon" icon="add"></ids-icon>
                 </ids-button>
                 <div class="separator"></div>
                 <ids-button id="button-up">
-                <ids-icon slot="icon" icon="arrow-up"></ids-icon>
+                  <span slot="text" class="audible">Move Up List Item</span>
+                  <ids-icon slot="icon" icon="arrow-up"></ids-icon>
                 </ids-button>
                 <ids-button id="button-down">
-                <ids-icon slot="icon" icon="arrow-down"></ids-icon>
+                  <span slot="text" class="audible">Move Down List Item</span>
+                  <ids-icon slot="icon" icon="arrow-down"></ids-icon>
                 </ids-button>
                 <div class="separator"></div>
                 <ids-button id="button-edit">
+                  <span slot="text" class="audible">Edit List Item</span>
                   <ids-icon slot="icon" icon="edit"></ids-icon>
                 </ids-button>
                 <ids-button id="button-delete">
+                  <span slot="text" class="audible">Delete Down List Item</span>
                   <ids-icon slot="icon" icon="delete"></ids-icon>
                 </ids-button>
               </ids-toolbar-section>
@@ -121,7 +126,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   }
 
   #toggleSelectedLi(item) {
-    if (item.tagName === 'LI') {
+    if (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item') {
       if (item !== this.#selectedLi) {
         if (this.#selectedLi) {
           // unselect previous item if it's selected
@@ -159,8 +164,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
 
   #createPlaceholderClone(node) {
     const p = node.cloneNode(true);
-    p.querySelector('li').classList.add('placeholder');
-    p.querySelector('li').removeAttribute('selected');
+    p.querySelector('div[part="list-item"]').classList.add('placeholder');
+    p.querySelector('div[part="list-item"]').removeAttribute('selected');
     return p;
   }
 
@@ -227,9 +232,9 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       const insertionLocation = selectionNull ? targetDraggableItem : targetDraggableItem.nextSibling;
       targetDraggableItem.parentNode.insertBefore(newDraggableItem, insertionLocation);
       this.#attachDragEventListenersForDraggable(newDraggableItem);
-      this.#attachKeyboardListenersForLi(newDraggableItem.querySelector('li'));
+      this.#attachKeyboardListenersForLi(newDraggableItem.querySelector('div[part="list-item"]'));
 
-      const listItem = newDraggableItem.querySelector('li');
+      const listItem = newDraggableItem.querySelector('div[part="list-item"]');
       // remove any selected attribute on li that may have propogated from the clone
       listItem.getAttribute('selected') && listItem.removeAttribute('selected');
       this.#toggleSelectedLi(listItem);
@@ -250,7 +255,6 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     });
 
     this.onEvent('click', this.container.querySelector('#button-down'), () => {
-      // const selected = this.container.querySelector('li[selected]');
       if (this.#selectedLi) {
         this.#unfocusAnySelectedLiEditor();
 
@@ -286,7 +290,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       this.#unfocusAnySelectedLiEditor();
 
       // toggle selected item
-      const listItem = event.target.querySelector('li');
+      const listItem = event.target.querySelector('div[part="list-item"]');
       this.#toggleSelectedLi(listItem);
 
       // create placeholder
@@ -337,12 +341,12 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         this.placeholder.remove();
       }
 
-      el.querySelector('li').focus();
+      el.querySelector('div[part="list-item"]').focus();
     });
   }
 
   #attachKeyboardListeners() {
-    this.container.querySelectorAll('li').forEach((l) => {
+    this.container.querySelectorAll('div[part="list-item"]').forEach((l) => {
       this.#attachKeyboardListenersForLi(l);
     });
   }

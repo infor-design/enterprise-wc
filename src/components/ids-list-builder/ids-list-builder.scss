@@ -45,7 +45,7 @@
       }
     }
 
-    li {
+    div[part='list-item'] {
       @include list-none();
       @include py-12();
       @include px-20();

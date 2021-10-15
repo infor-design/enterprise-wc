@@ -63,10 +63,10 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     // TODO: save this variable for list item template (to use in checkTemplateHeight)
     const listItems = this.data?.map((item) => `
       <ids-draggable axis="y">
-        <li part="list-item" tabindex="0">
+        <div part="list-item" tabindex="0">
           <span></span>
           ${this.itemTemplate(item)}
-        </li>
+        </div>
       </ids-draggable>
     `);
 
@@ -128,14 +128,14 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.itemTemplate = (item) => `
         <ids-draggable axis="y">  
-          <li part="list-item" tabindex="0">
+          <div part="list-item" tabindex="0">
             <span></span>
             ${this.itemTemplate(item)}
-          </li>
+          </div>
         </ids-draggable>
       `;
       this.virtualScrollContainer.itemCount = this.data.length;
-      this.virtualScrollContainer.itemHeight = this.itemHeight || this.checkTemplateHeight(`<li id="height-tester">${this.itemTemplate(this.datasource.data[0])}</li>`);
+      this.virtualScrollContainer.itemHeight = this.itemHeight || this.checkTemplateHeight(`<div id="height-tester">${this.itemTemplate(this.datasource.data[0])}</div>`);
       this.virtualScrollContainer.data = this.data;
       this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
     }
