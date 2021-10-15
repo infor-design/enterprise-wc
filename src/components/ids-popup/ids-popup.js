@@ -1118,7 +1118,7 @@ class IdsPopup extends mix(IdsElement).with(
    * @returns {void}
    */
   #placeAtCoords() {
-    let popupRect = this.container.getBoundingClientRect();
+    let popupRect = this.getBoundingClientRect();
     let x = this.x;
     let y = this.y;
 
@@ -1167,7 +1167,7 @@ class IdsPopup extends mix(IdsElement).with(
     this.container.classList.remove('flipped');
 
     // Detect sizes/locations of the popup and the alignment target Element
-    let popupRect = this.container.getBoundingClientRect();
+    let popupRect = this.getBoundingClientRect();
     const targetRect = this.alignTarget.getBoundingClientRect();
     const alignEdge = targetAlignEdge || this.alignEdge;
     let alignXCentered = false;

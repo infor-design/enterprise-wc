@@ -55,7 +55,6 @@
   @include px-28();
   @include text-16();
 
-  color: currentColor;
   overflow: hidden;
   padding-bottom: 6px;
   padding-top: 6px;
@@ -77,6 +76,8 @@
 
   @include bg-transparent();
   @include border-transparent();
+
+  color: currentColor;
 
   // Animate BG/Text/Border color changes on all styles
   transition:
@@ -122,11 +123,21 @@
 }
 
 /**
+ * Provides standardized padding rules for certain button types
+ */
+@mixin ids-standard-button-padding() {
+  @include px-28();
+}
+
+@mixin ids-inline-button-padding() {
+  @include px-12();
+}
+
+/**
  * Provides the standard color rules for all regular buttons
  */
 @mixin ids-standard-button-colors() {
   @include inline-flex();
-  @include px-28();
   @include rounded-default();
 
   // ====================================================

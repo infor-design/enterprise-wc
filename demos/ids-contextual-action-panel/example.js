@@ -7,6 +7,7 @@ import '../../src/components/ids-popup-menu';
 import '../../src/components/ids-textarea';
 import '../../src/components/ids-toolbar';
 import '../../src/components/ids-button';
+import '../../src/components/ids-separator';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#cap-trigger-btn';

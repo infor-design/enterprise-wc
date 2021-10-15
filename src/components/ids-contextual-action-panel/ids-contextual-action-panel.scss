@@ -1,0 +1,33 @@
+@import '../../core/ids-base';
+
+$cap-header-height: 50px;
+$cap-header-bg-color: var(--ids-color-palette-slate-10);
+$cap-header-border-color: var(--ids-color-palette-slate-20);
+
+:host {
+  display: block();
+}
+
+.ids-modal-header {
+  @include border-1();
+  @include border-solid();
+  @include border-transparent();
+
+  background-color: $cap-header-bg-color;
+  border-bottom-color: $cap-header-border-color;
+  height: $cap-header-height;
+}
+
+::slotted(ids-toolbar) {
+  @include pl-8();
+
+  height: 100%;
+}
+
+:host([dir='rtl']) {
+  ::slotted(ids-toolbar) {
+    @include pr-8();
+
+    padding-left: auto;
+  }
+}

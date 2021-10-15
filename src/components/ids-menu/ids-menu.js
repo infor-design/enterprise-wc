@@ -17,7 +17,7 @@ import {
 import IdsMenuGroup from './ids-menu-group';
 import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
-import IdsSeparator from './ids-separator';
+import { IdsSeparator } from '../ids-separator';
 
 import styles from './ids-menu.scss';
 import { IdsDOMUtils } from '../../utils';

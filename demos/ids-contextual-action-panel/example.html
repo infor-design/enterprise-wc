@@ -1,15 +1,20 @@
 <ids-contextual-action-panel id="cap-company-info">
   <ids-toolbar slot="toolbar">
     <ids-toolbar-section type="title">
-      <ids-text font-size="24" type="h2">Company Information</ids-text>
+      <ids-text font-size="20" type="h2">Company Information</ids-text>
     </ids-toolbar-section>
 
-    <ids-toolbar-section type="buttonset">
-      <ids-button id="btn-save" icon="save">Save</ids-button>
-      <ids-separator></ids-separator>
-      <ids-button id="btn-close" icon="close">Close</ids-button>
+    <ids-toolbar-section type="buttonset" align="end">
+      <ids-button id="btn-save" icon="save" no-padding>
+        <ids-text font-weight="bold">Save</ids-text>
+      </ids-button>
+      <ids-separator vertical="true"></ids-separator>
+      <ids-button id="btn-close" icon="close" no-padding>
+        <ids-text font-weight="bold">Close</ids-text>
+      </ids-button>
     </ids-toolbar-section>
 
+    <!--
     <ids-toolbar-more-actions>
       <ids-menu-group>
         <ids-menu-item value="1">Option One</ids-menu-item>
@@ -26,9 +31,10 @@
         </ids-menu-item>
       </ids-menu-group>
     </ids-toolbar-more-actions>
+    -->
   </ids-toolbar>
 
-  <ids-layout-grid cols="2" gap="md">
+  <ids-layout-grid cols="2" gap="md" min-col-width="150px">
     <ids-layout-grid-cell>
       <ids-dropdown id="cap-dd-company-name" label="Company Name" value="">
         <ids-list-box>

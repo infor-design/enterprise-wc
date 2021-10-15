@@ -61,6 +61,12 @@ button {
     padding-left: 4px !important; // needs the !important to override the padding: 0 rule from _reset.scss
   }
 
+  ::slotted(ids-icon:first-child) {
+    @include pr-8();
+
+    padding-left: 0 !important;
+  }
+
   .ids-icon {
     @include inline-flex();
 
@@ -90,6 +96,14 @@ button {
   // Technically not valid
   ::slotted(ids-icon:only-child) {
     @include block();
+  }
+
+  &:not(.no-padding) {
+    @include ids-standard-button-padding();
+  }
+
+  &.no-padding {
+    @include ids-inline-button-padding();
   }
 }
 

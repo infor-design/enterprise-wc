@@ -20,6 +20,10 @@ import styles from './ids-contextual-action-panel.scss';
 class IdsContextualActionPanel extends IdsModal {
   constructor() {
     super();
+
+    if (!this.state) {
+      this.state = {};
+    }
   }
 
   connectedCallback() {
@@ -37,14 +41,12 @@ class IdsContextualActionPanel extends IdsModal {
    */
   template() {
     const toolbarHidden = this.toolbar.length ? '' : 'hidden';
-    const titleHidden = !this.toolbar.length && this.messageTitle.length ? '' : 'hidden';
     const footerHidden = this.buttons.length ? '' : ' hidden';
 
     return `<ids-popup part="modal" class="ids-modal ids-contextual-action-panel" type="custom" position-style="viewport">
       <div class="ids-modal-container" slot="content">
         <div class="ids-modal-header">
           <slot name="toolbar" ${toolbarHidden}></slot>
-          <slot name="title" ${titleHidden}></slot>
         </div>
         <div class="ids-modal-content">
           <slot></slot>
@@ -58,7 +60,6 @@ class IdsContextualActionPanel extends IdsModal {
 
   #refreshHeader() {
     this.container.querySelector('slot[name="toolbar"]').hidden = this.toolbar.length;
-    this.container.querySelector('slot[name="title"]').hidden = !this.toolbar.length && this.messageTitle.length;
   }
 }
 
