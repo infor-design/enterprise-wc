@@ -3,7 +3,6 @@ import { convertPatternFromString, PLACEHOLDER_CHAR } from '../../components/ids
 import { dateMask, numberMask } from '../../components/ids-mask/ids-masks';
 
 import { attributes } from '../../core/ids-attributes';
-import { IdsEventsMixin } from '../ids-events-mixin';
 import { IdsStringUtils } from '../../utils';
 
 const MASK_ATTRIBUTES = [
@@ -18,7 +17,7 @@ const MASK_ATTRIBUTES = [
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
+const IdsMaskMixin = (superclass) => class extends superclass {
   constructor() {
     super();
     this.maskState = {
@@ -145,7 +144,6 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   }
 
   handleMaskEvents() {
-    // @ts-ignore
     this.onEvent('input', this, () => this.processMaskWithCurrentValue());
   }
 

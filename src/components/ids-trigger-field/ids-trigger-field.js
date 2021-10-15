@@ -5,10 +5,8 @@ import {
   attributes
 } from '../../core';
 
-import { stringUtils } from '../../utils/ids-string-utils/ids-string-utils';
-
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import { stringUtils } from '../../utils/ids-string-utils/ids-string-utils';
 
 // Import Mixins
 import {
@@ -24,12 +22,10 @@ import IdsInput from '../ids-input';
 import { SIZES } from '../ids-input/ids-input';
 import IdsTriggerButton from './ids-trigger-button';
 
-const { stringToBool } = stringUtils;
-
 /**
  * IDS Trigger Field Component
  * @type {IdsTriggerField}
- * @inherits IdsElement
+ * @inherits IdsInput
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part field - the field container
@@ -56,7 +52,7 @@ class IdsTriggerField extends IdsInput {
 
     const labelEl = this.container.querySelector('label');
     this.onEvent('click.label', labelEl, () => {
-      if (!stringToBool(this.disabled)) {
+      if (!stringUtils.stringToBool(this.disabled)) {
         [...this.inputs].forEach((input) => {
           input.input.focus();
         });
@@ -92,8 +88,8 @@ class IdsTriggerField extends IdsInput {
       : '';
 
     return `
-      <div 
-        class="ids-trigger-field ${this.size}" 
+      <div
+        class="ids-trigger-field ${this.size}"
         part="field"
         ${this.noMargins && ' no-margins'}
       >
@@ -108,9 +104,9 @@ class IdsTriggerField extends IdsInput {
         >
           <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
         </label>` : ''}
-        <div 
+        <div
           class="ids-trigger-field-content ${this.cssClass}"
-          part="content" 
+          part="content"
           ${this.readonly && ' readonly'}
           ${this.disabled && ' disabled'}
         >
@@ -154,7 +150,7 @@ class IdsTriggerField extends IdsInput {
     const heightClassName = (h) => `field-height-${h}`;
     const heights = ['xs', 'sm', 'md', 'lg'];
     if (attr.name === 'compact') {
-      this.container?.classList[IdsStringUtils.stringToBool(attr.val) ? 'add' : 'remove']('compact');
+      this.container?.classList[stringUtils.stringToBool(attr.val) ? 'add' : 'remove']('compact');
     } else if (attr.name === 'field-height') {
       this.container?.classList.remove(...heights.map((h) => heightClassName(h)));
       if (attr.val !== null) {
@@ -193,12 +189,11 @@ class IdsTriggerField extends IdsInput {
    * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    const isTabbable = IdsStringUtils.stringToBool(value);
+    const isTabbable = stringUtils.stringToBool(value);
     /** @type {any} */
     this.setAttribute(attributes.TABBABLE, value.toString());
     const button = this.querySelector('ids-trigger-button');
 
-    /* istanbul ignore else */
     if (button) {
       button.tabbable = isTabbable;
     }
@@ -226,7 +221,7 @@ class IdsTriggerField extends IdsInput {
    * @param {boolean|string} value True of false depending if the button handles events
    */
   set disableNativeEvents(value) {
-    const isDisabled = IdsStringUtils.stringToBool(value);
+    const isDisabled = stringUtils.stringToBool(value);
     if (isDisabled) {
       this.setAttribute(attributes.DISABLE_EVENTS, value.toString());
       this.#attachEventHandlers();

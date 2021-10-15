@@ -5,9 +5,9 @@ import {
 } from '../../core';
 
 import {
+  IdsEventsMixin,
   IdsPopupInteractionsMixin,
   IdsPopupOpenEventsMixin,
-  IdsEventsMixin,
   IdsLocaleMixin
 } from '../../mixins';
 
@@ -19,6 +19,7 @@ import styles from './ids-popup-menu.scss';
  * IDS Popup Menu Component
  * @type {IdsPopupMenu}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsLocaleMixin
@@ -26,6 +27,7 @@ import styles from './ids-popup-menu.scss';
 @customElement('ids-popup-menu')
 @scss(styles)
 class IdsPopupMenu extends mix(IdsMenu).with(
+    IdsEventsMixin,
     IdsPopupOpenEventsMixin,
     IdsPopupInteractionsMixin,
     IdsLocaleMixin

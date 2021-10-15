@@ -12,9 +12,12 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem
 } from '../../mixins';
+
+import {
+  renderLoop,
+  IdsRenderLoopItem
+} from '../ids-render-loop';
 
 // Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-scroll-view.scss';
@@ -36,8 +39,7 @@ import styles from './ids-scroll-view.scss';
 class IdsScrollView extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
-    IdsThemeMixin,
-    IdsRenderLoopMixin
+    IdsThemeMixin
   ) {
   constructor() {
     super();
@@ -127,7 +129,8 @@ class IdsScrollView extends mix(IdsElement).with(
    */
   #resetIsClick() {
     this.isClick = true;
-    this.timer = this.rl?.register(new IdsRenderLoopItem({
+    /* istanbul ignore next */
+    this.timer = renderLoop.register(new IdsRenderLoopItem({
       duration: 800,
       timeoutCallback: () => {
         this.isClick = false;

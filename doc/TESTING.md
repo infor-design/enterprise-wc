@@ -4,7 +4,7 @@ The IDS components are backed by both functional and end-to-end (e2e) test suite
 
 The testing strategy is to aim for 100% coverage but initially 80% is the minimum. You should try to make sure to cover all the functionality of the component with tests. Any time you fix a bug you should also make an additional test for that bug if it was not noticed by a test.
 
-When covering tests you can use either the functional tests `*-func-test.js` or e2e puppeteer tests `*-e2e-test.js`. The coverage is combined between these. Because the functional tests use JSDOM this means that some things may not be testable with it so in that case you should try to test it in an e2e puppeteer test which uses a real browser. If both fail you can use `/* istanbul ignore next - reason */` to skip coverage rather than make it drop.
+When covering tests you can use either the functional tests `*-func-test.js` or e2e puppeteer tests `*-e2e-test.js`. The coverage is combined between these. Because the functional tests use JSDOM this means that some things may not be testable with it so in that case you should try to test it in an e2e puppeteer test which uses a real browser.
 
 Aim for 100% but the minimum is 80% and we can come back to some.
 

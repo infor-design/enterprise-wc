@@ -85,8 +85,8 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
 
   template() {
     return `
-      <div 
-        class="ids-search-field" 
+      <div
+        class="ids-search-field"
         id="ids-search-field"
       >
         <ids-trigger-field
@@ -128,7 +128,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   set value(value) {
     this.setAttribute(attributes.VALUE, value);
 
-    /* istanbul ignore else */
     if (this.input) {
       this.input.value = value;
     }
@@ -145,7 +144,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   set placeholder(value) {
     this.setAttribute(attributes.PLACEHOLDER, value);
 
-    /* istanbul ignore else */
     if (this.input) {
       this.input.placeholder = value;
     }
@@ -166,7 +164,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
   set label(value) {
     this.setAttribute(attributes.LABEL, value);
 
-    /* istanbul ignore else */
     if (this.input) {
       this.triggerField.label = value;
     }
@@ -238,7 +235,6 @@ class IdsSearchField extends mix(IdsElement).with(...appliedMixins) {
    */
   #attachKeyboardListener() {
     this.onEvent('keydown', this.input, (event) => {
-      /* istanbul ignore next */
       if (['Enter'].indexOf(event.code) > -1) {
         event.preventDefault();
       }

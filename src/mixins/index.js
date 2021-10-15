@@ -9,7 +9,6 @@ export { default as IdsLocaleMixin } from './ids-locale-mixin/ids-locale-mixin';
 export { default as IdsMaskMixin } from './ids-mask-mixin/ids-mask-mixin';
 export { default as IdsPopupInteractionsMixin } from './ids-popup-interactions-mixin/ids-popup-interactions-mixin';
 export { default as IdsPopupOpenEventsMixin } from './ids-popup-open-events-mixin/ids-popup-open-events-mixin';
-export { IdsRenderLoopMixin, IdsRenderLoopItem } from './ids-render-loop-mixin/ids-render-loop-mixin';
 export { default as IdsThemeMixin } from './ids-theme-mixin/ids-theme-mixin';
 export { default as IdsTooltipMixin } from './ids-tooltip-mixin/ids-tooltip-mixin';
 export { default as IdsValidationMixin } from './ids-validation-mixin/ids-validation-mixin';

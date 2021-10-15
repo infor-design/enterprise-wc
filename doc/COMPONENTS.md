@@ -491,21 +491,7 @@ Then recheck coverage and tests the rest of the functionality. Like events and m
 
 Keep in mind that you can cover with both an e2e or functional test. The coverage is combined. Jest tests are preferred for API tests. e2e tests should be done for in browser tests or things that JSDOM/Jest cannot support.
 
-You may need to add ignores for some situations because jest runs in JSDOM which is virtual it cant do somethings. Some of these cases is RenderLoops, MutationObserver, ResizeObserver, IntersectionObserver ect. To do this add `/* istanbul ignore next - reason */` to the line before or before the function. But first try to cover it with an e2e test. And provide a reason.
-
-For example:
-
-```js
-/* istanbul ignore next - JSDOM does not support RenderLoop, e2e test not working due to bug in puppetteer */
-this.timer = this.rl?.register(new IdsRenderLoopItem({
-  duration: 500,
-  timeoutCallback: () => {
-    isClick = false;
-    this.timer?.destroy(true);
-    this.timer = null;
-  }
-}));
-```
+You may need to add ignores for some situations because jest runs in JSDOM which is virtual it cant do somethings. Some of these cases is RenderLoops, MutationObserver, ResizeObserver, IntersectionObserver ect. You can cover this with an e2e test instead.
 
 You also might need to debug tests. More information on that [can be found here.](https://github.com/infor-design/enterprise-wc/blob/main/doc/TESTING.md#debugging-functional-tests)
 
