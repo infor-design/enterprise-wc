@@ -121,9 +121,10 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
   }
 
   template() {
-    return `<div class="ids-toolbar" role="toolbar">
-      <slot></slot>
-    </div>`;
+    return `
+      <div class="ids-toolbar" role="toolbar">
+        <slot></slot>
+      </div>`;
   }
 
   /**
@@ -175,13 +176,15 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    */
   get items() {
     const i = [];
-    this.sections.forEach((section) => {
-      // Pass along the More Actions button, if applicable
-      if (section?.name === 'ids-toolbar-more-actions') {
-        i.push(section.button);
-      } else {
-        i.push(...section.items);
-      }
+    requestAnimationFrame(() => {
+      this.sections?.forEach((section) => {
+        // Pass along the More Actions button, if applicable
+        if (section?.name === 'ids-toolbar-more-actions') {
+          i.push(section.button);
+        } else {
+          i.push(...section.items);
+        }
+      });
     });
     return i;
   }
@@ -242,11 +245,13 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    */
   detectTabbable() {
     let tabbableItem;
-    for (let i = 0; !tabbableItem && i < this.items.length; i++) {
-      if (this.items[i].tabIndex > -1) {
-        tabbableItem = this.items[i];
+    requestAnimationFrame(() => {
+      for (let i = 0; !tabbableItem && i < this.items.length; i++) {
+        if (this.items[i].tabIndex > -1) {
+          tabbableItem = this.items[i];
+        }
       }
-    }
+    });
     return tabbableItem;
   }
 
@@ -254,11 +259,14 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
    * @private
    * @param {HTMLElement} elem an element residing within the toolbar that can accept
    */
-  makeTabbable(elem = this.items[0]) {
+  makeTabbable(elem = this.items && this.items[0]) {
     const isTabbable = this.tabbable;
-    this.items.forEach((item) => {
-      const nonTabbableTargetIndex = elem.isEqualNode(item) ? 0 : -1;
-      item.tabIndex = isTabbable ? 0 : nonTabbableTargetIndex;
+
+    requestAnimationFrame(() => {
+      this.items.forEach((item) => {
+        const nonTabbableTargetIndex = elem.isEqualNode(item) ? 0 : -1;
+        item.tabIndex = isTabbable ? 0 : nonTabbableTargetIndex;
+      });
     });
   }
 }
