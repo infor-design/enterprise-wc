@@ -110,15 +110,13 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.#attachEventListeners();
   }
 
-  #toggleSelectedAttribute(item, isSelected = null) {
+  #toggleSelectedAttribute(item) {
     const hasSelectedAttribute = item.getAttribute('selected');
 
-    if (isSelected !== null) {
-      isSelected ? item.setAttribute('selected', 'selected') : item.removeAttribute('selected');
-    } else if (hasSelectedAttribute || isSelected === false) {
+    if (hasSelectedAttribute) {
       item.removeAttribute('selected');
       this.#selectedLi = null;
-    } else if (!hasSelectedAttribute || isSelected) {
+    } else if (!hasSelectedAttribute) {
       item.setAttribute('selected', 'selected');
       this.#selectedLi = item;
     }
@@ -205,6 +203,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
         i.noMargins = 'true';
         i.colorVariant = 'alternate';
         i.focus();
+      } else {
+        this.#selectedLiEditor.focus();
       }
     }
   }
