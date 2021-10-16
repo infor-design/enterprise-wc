@@ -6,7 +6,7 @@ BUGS
 TODO
 - [x] fix height of toolbar (replaced ids-card wrapper w div)
 - [x] fix ids-toolbar items iteration error (export modules in index.js was whack)
-- [ ] add themes/color styles
+- [x] add themes/color styles
 - [x] add hover, focus, select styles/attributes; appropriate cursors for 4 dots vs li
 - [x] add ability to drag
   - [x] lower opacity of placeholder & intensity of color
@@ -27,4 +27,4 @@ TODO
   - [x] BUG: super.render() in ids-list-view::render() causes the ids-toolbar-section get items() to return undefined -- causing errors in the ids-toolbar get items() -- SOLVED by wrapping it in requestAnimationFrame() (thanks john!)
   - [x] BUG: ids-draggables and tool bar buttons all broken when trying to import data thru example.js -- not sure if it's related to the above... -- SOLVED by reattaching all event listeners to the list items that get added AFTER connectedCallback()
 
-  - [ ] write tests
+  - [x] write tests
