@@ -3,7 +3,6 @@ import {
   customElement,
   scss,
   mix,
-  attributes
 } from '../../core';
 
 // Import Mixins

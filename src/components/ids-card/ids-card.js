@@ -66,7 +66,7 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set autoFit(value) {
     const className = 'ids-card-auto-fit';
-    if (stringUtils.stringToBool(value)) {
+    if (IdsStringUtils.stringToBool(value)) {
       this.setAttribute(attributes.AUTO_FIT, value);
       this.container.classList.add(className);
       return;
