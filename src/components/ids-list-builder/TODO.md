@@ -27,4 +27,5 @@ TODO
   - [x] BUG: super.render() in ids-list-view::render() causes the ids-toolbar-section get items() to return undefined -- causing errors in the ids-toolbar get items() -- SOLVED by wrapping it in requestAnimationFrame() (thanks john!)
   - [x] BUG: ids-draggables and tool bar buttons all broken when trying to import data thru example.js -- not sure if it's related to the above... -- SOLVED by reattaching all event listeners to the list items that get added AFTER connectedCallback()
 
-  - [x] write tests
+- [x] write README
+- [x] write tests

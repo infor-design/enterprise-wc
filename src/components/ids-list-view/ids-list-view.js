@@ -123,6 +123,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   render() {
     super.render();
+
     if (this.virtualScroll && this?.data.length > 0) {
       /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
