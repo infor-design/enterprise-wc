@@ -47,14 +47,14 @@ class IdsImage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.SRC,
       attributes.ALT,
-      attributes.SIZE,
-      attributes.PLACEHOLDER,
       attributes.FALLBACK,
+      attributes.INITIALS,
+      attributes.PLACEHOLDER,
       attributes.ROUND,
-      attributes.USER_STATUS,
-      attributes.INITIALS
+      attributes.SIZE,
+      attributes.SRC,
+      attributes.USER_STATUS
     ];
   }
 
