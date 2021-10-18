@@ -5,7 +5,8 @@ import IdsImage from '../../src/components/ids-image';
 
 const name = 'ids-image';
 const alt = 'example alt';
-const src = 'http://via.placeholder.com/60.jpeg';
+const src = '/assets/placeholder-60x60.png';
+const newSrc = '/assets/placeholder-154x120.png';
 const size = 'sm';
 
 describe('IdsImage Component (using properties)', () => {
@@ -123,7 +124,6 @@ describe('IdsImage Component (using attributes)', () => {
   });
 
   it('can change src, alt and fallback attributes', () => {
-    const newSrc = 'http://via.placeholder.com/80.jpeg';
     const newAlt = 'alt updated';
 
     component.src = newSrc;
