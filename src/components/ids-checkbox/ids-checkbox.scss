@@ -39,6 +39,31 @@
     }
   }
 
+  &.hitbox label {
+    align-items: center;
+    display: inline-flex;
+    height: 44px;
+    padding-left: 14px;
+    padding-right: 14px;
+
+    &.required .label-text::after {
+      position: relative;
+      right: 0;
+      top: 0;
+    }
+
+    span.checkmark {
+      position: relative;
+      top: 0;
+    }
+
+    .label-text {
+      align-items: center;
+      display: inline-flex;
+      margin-left: 14px;
+    }
+  }
+
   &.horizontal {
     @include mr-12();
 

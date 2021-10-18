@@ -15,6 +15,9 @@ export default class IdsCheckbox extends IdsElement {
   /** Sets checkbox to disabled * */
   disabled: boolean;
 
+  /** Sets the checkbox to add hitbox style */
+  hitbox: boolean;
+
   /** Flips the checkbox orientation to horizontal * */
   horizontal: boolean;
 
