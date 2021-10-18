@@ -14,7 +14,6 @@ import {
   IdsThemeMixin
 } from '../../mixins';
 
-//import IdsButton from '../ids-button';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 
@@ -56,6 +55,7 @@ class IdsEmptyMessage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
       this[name] = newValue;
     }
   }
+
   /**
    * Return the attributes we handle as getters and setters
    * @returns {Array} The attributes in an array

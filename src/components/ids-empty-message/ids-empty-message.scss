@@ -1,23 +1,28 @@
 @import '../../core/ids-base.scss';
 
-.ids-empty-message{
+.ids-empty-message {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 
-  .icon{
+  .icon {
     margin: 16px;
     height: 80px;
     width: 80px;
+    fill: transparent;
+    color: #0072ed;
   }
-  .label{
-    padding: 0 0 0 10px;
-    ::slotted(span){
+
+  .label {
+    padding: 0 16px 10px 16px;
+
+    ::slotted(span) {
       font-size: 20px;
     }
   }
-  .description{
+
+  .description {
     padding: 0 20px 20px;
   }
 }
