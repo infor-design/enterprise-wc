@@ -29,6 +29,8 @@ class IdsContextualActionPanel extends IdsModal {
   connectedCallback() {
     super.connectedCallback?.();
     this.#refreshHeader();
+
+    this.popup.animationStyle = 'slide-from-bottom';
   }
 
   get toolbar() {

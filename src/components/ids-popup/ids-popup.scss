@@ -131,12 +131,26 @@
     }
   }
 
-  // Animation Style: 'scale-in'
+  // Animation Style: 'scale-in' (Standard Modal)
   &.animation-scale-in {
     @include opacity-0();
 
     transform-style: preserve-3d;
     transform: perspective(1000px) translate3d(0, 0, -500px);
+
+    &.open {
+      @include opacity-100();
+
+      transform: perspective(1000px) translate3d(0, 0, 0);
+    }
+  }
+
+  // Animation Style: 'slide-from-bottom' (Contextual Action Panel)
+  &.animation-slide-from-bottom {
+    @include opacity-0();
+
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translate3d(100%, 0, 0);
 
     &.open {
       @include opacity-100();
@@ -169,6 +183,15 @@
     &.animation-scale-in {
       transform: perspective(1000px) translate3d(-50%, -50%, -500px);
       width: calc(100% - 16px);
+
+      &.open {
+        transform: perspective(1000px) translate3d(-50%, -50%, 0);
+      }
+    }
+
+    // Contextual Action Panel
+    &.animation-slide-from-bottom {
+      transform: perspective(1000px) translate3d(-50%, 110%, -100px);
 
       &.open {
         transform: perspective(1000px) translate3d(-50%, -50%, 0);

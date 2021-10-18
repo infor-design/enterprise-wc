@@ -37,7 +37,8 @@ const ALIGNMENTS_EDGES_Y = ALIGNMENTS_Y.filter((y) => y !== CENTER);
 // Possible animation styles for the Popup
 const ANIMATION_STYLES = [
   'fade',
-  'scale-in'
+  'scale-in',
+  'slide-from-bottom'
 ];
 
 // Arrow Directions (defaults to 'none')
@@ -167,48 +168,48 @@ class IdsPopup extends mix(IdsElement).with(
    * Watches for changes
    * @property {MutationObserver} mo this Popup component's mutation observer
    */
-    #mo = new MutationObserver((mutations) => {
-      if (this.#visible) {
-        let placed = false;
-        for (const m of mutations) {
-          if (placed) {
-            break;
-          }
-          if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
-            this.place();
-            placed = true;
-          }
+  #mo = new MutationObserver((mutations) => {
+    if (this.#visible) {
+      let placed = false;
+      for (const m of mutations) {
+        if (placed) {
+          break;
+        }
+        if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
+          this.place();
+          placed = true;
         }
       }
-    })
+    }
+  })
 
-    /**
-     * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
-     * coordinate-specific values to the Popup's inner container.
-     * @private
-     * @property {ResizeObserver} mo this Popup component's resize observer
-     */
-    #ro = new ResizeObserver((entries) => {
-      if (this.open) {
-        for (const entry of entries) {
-          if (entry.target.tagName.toLowerCase() === 'ids-container') {
-            this.#fixPlacementOnResize();
-          } else {
-            this.#fix3dMatrixOnResize();
-          }
+  /**
+   * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
+   * coordinate-specific values to the Popup's inner container.
+   * @private
+   * @property {ResizeObserver} mo this Popup component's resize observer
+   */
+  #ro = new ResizeObserver((entries) => {
+    if (this.open) {
+      for (const entry of entries) {
+        if (entry.target.tagName.toLowerCase() === 'ids-container') {
+          this.#fixPlacementOnResize();
+        } else {
+          this.#fix3dMatrixOnResize();
         }
       }
-    })
+    }
+  })
 
   /**
    * Places the Popup and performs an adjustment to its `transform: matrix3d()`
    * CSS property, if applicable.
    */
   #fixPlacementOnResize() {
-      this.place().then(() => {
-        this.#fix3dMatrixOnResize();
-      });
-    }
+    this.place().then(() => {
+      this.#fix3dMatrixOnResize();
+    });
+  }
 
   /**
    * Performs an adjustment to the Popup's `transform: matrix3d()`
@@ -1031,11 +1032,14 @@ class IdsPopup extends mix(IdsElement).with(
           if (this.isFlipped) {
             this.container.classList.add('flipped');
           }
-          this.place().then(() => {
+          this.place().then(async () => {
             // If an arrow is displayed, place it correctly.
             this.#setArrowDirection('', this.arrow);
             this.placeArrow();
 
+            if (this.animated) {
+              await IdsDOMUtils.waitForTransitionEnd(this.container);
+            }
             this.#correct3dMatrix();
             this.open = true;
             resolve();
