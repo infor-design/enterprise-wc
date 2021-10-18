@@ -19,7 +19,6 @@ const DEFAULT_ITEM_HEIGHT = 50;
  * @type {IdsVirtualScroll}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsRenderLoopMixin
  */
 @customElement('ids-virtual-scroll')
 @scss(styles)
