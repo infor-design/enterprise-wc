@@ -4,15 +4,15 @@
 
 An interactive list where you can add, move up/down, edit, and delete items which supports both mouse and keyboard navigation for accessibility.
 
-- Selecting an item can be toggled by a mouse click or by tabbing to the list item and hitting 'Space'. 
+  - Selecting an item can be toggled by a mouse click or by tabbing to the list item and hitting 'Space'. 
 
-- Moving a selected list item up/down can be done by clicking and dragging list items up/down or by toggling the toolbar up/down buttons with mouse or keyboard.
+  - Moving a selected list item up/down can be done by clicking and dragging list items up/down or by toggling the toolbar up/down buttons with mouse or keyboard.
 
-- Editing a selected list item can be done by hitting 'Enter' or by toggling the toolbar edit button with mouse or keyboard.
+  - Editing a selected list item can be done by hitting 'Enter' or by toggling the toolbar edit button with mouse or keyboard.
 
-- Deleting a selected list item can be done by toggling the toolbar delete button with mouse or keyboard.
+  - Deleting a selected list item can be done by toggling the toolbar delete button with mouse or keyboard.
 
-- Adding a new list item can be done by toggling the toolbar add button with mouse or keyboard.
+  - Adding a new list item can be done by toggling the toolbar add button with mouse or keyboard.
 
 ## Use Cases
 
