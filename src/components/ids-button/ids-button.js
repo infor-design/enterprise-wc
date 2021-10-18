@@ -11,6 +11,7 @@ import { IdsStringUtils } from '../../utils';
 import {
   IdsEventsMixin,
   IdsColorVariantMixin,
+  IdsLocaleMixin,
   IdsThemeMixin,
   IdsTooltipMixin
 } from '../../mixins';
@@ -86,6 +87,7 @@ const baseProtoClasses = [
 class IdsButton extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsColorVariantMixin,
+    IdsLocaleMixin,
     IdsThemeMixin,
     IdsTooltipMixin
   ) {
@@ -260,6 +262,13 @@ class IdsButton extends mix(IdsElement).with(
       }
     }, {
       passive: true
+    });
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.button');
+    this.onEvent('languagechange.button', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      this.container.classList[this.locale.isRTL() ? 'add' : 'remove']('rtl');
     });
   }
 
