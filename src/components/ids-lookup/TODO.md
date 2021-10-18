@@ -7,8 +7,8 @@
 - [x] Open Modal Tests
 - [x] Grid in the modal
 - [x] Validation
-- [] Grid is list
-- [] Grid Width
+- [x] Grid is list
+- [x] Grid Width
 - [] Selection Mixin
 - [] Selection as Object
 - [] Dirty
@@ -16,7 +16,7 @@
 - [] Keyboard
 - [] Frozen Cols
 - [] Searchfield above grid
-- [] Locale
-- [] Tooltip
+- [] Locale/RTL
+- [] Tooltip?
 - [] Autocomplete
-- [] Theme
+- [x] Themes

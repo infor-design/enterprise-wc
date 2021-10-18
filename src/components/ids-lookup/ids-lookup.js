@@ -65,8 +65,11 @@ class IdsLookup extends mix(IdsElement).with(
     this.input = this.shadowRoot?.querySelector('ids-input');
     this.triggerField = this.shadowRoot?.querySelector('ids-trigger-field');
     this.triggerButton = this.shadowRoot?.querySelector('ids-trigger-button');
-    this.dataGrid = this.shadowRoot?.querySelector('ids-data-grid');
     this.state = {};
+
+    // Setup Attached Datagrid
+    this.dataGrid = this.shadowRoot?.querySelector('ids-data-grid');
+    this.dataGrid.listStyle = true;
 
     // Link the Modal to its trigger button (sets up click/focus events)
     this.modal = this.querySelector('[slot="lookup-modal"]');
@@ -128,7 +131,7 @@ class IdsLookup extends mix(IdsElement).with(
     <slot name="lookup-modal">
       <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title" part="modal">
         <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Active IDS Modal</ids-text>
-        <ids-layout-grid auto="true" gap="md" no-margins="true">
+        <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="600px">
           <ids-layout-grid-cell>
             <ids-data-grid id="lookup-data-grid" label="${this.label}" part="data-grid">
             </ids-data-grid>

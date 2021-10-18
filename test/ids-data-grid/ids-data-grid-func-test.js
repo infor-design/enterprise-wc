@@ -4,6 +4,7 @@
 import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../demos/data/books.json';
+import createFromTemplate from '../helpers/create-from-template';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid;
@@ -723,10 +724,17 @@ describe('IdsDataGrid Component', () => {
 
     it('renders with listStyle option', () => {
       dataGrid.listStyle = true;
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-view')).toBeTruthy();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeTruthy();
 
       dataGrid.listStyle = false;
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-view')).toBeFalsy();
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeFalsy();
+    });
+
+    it('renders with listStyle  from template', () => {
+      dataGrid = createFromTemplate(dataGrid, `<ids-data-grid list-style="true"></ids-data-grid>`);
+      dataGrid.columns = columns();
+      dataGrid.data = dataset;
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').classList.contains('is-list-style')).toBeTruthy();
     });
   });
 

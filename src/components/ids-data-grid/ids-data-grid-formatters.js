@@ -84,6 +84,11 @@ class IdsDataGridFormatters {
     }
     return `<ids-hyperlink href="${colHref}">${value}</span>`;
   }
+
+  /** Shows a selection checkbox column */
+  selectionCheckbox(rowData, columnData) {
+    return `<span class="ids-datagrid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="${columnData.name}" class="ids-datagrid-checkbox"></span></span>`;
+  }
 }
 
 export { IdsDataGridFormatters };

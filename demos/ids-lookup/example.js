@@ -14,11 +14,11 @@ const container = document.querySelector('ids-container');
   // Set up columns
   columns.push({
     id: 'selectionCheckbox',
+    name: 'selection',
     sortable: false,
     resizable: false,
-    formatter: lookup.dataGrid.formatters.text,
-    align: 'center',
-    width: 20
+    formatter: lookup.dataGrid.formatters.selectionCheckbox,
+    align: 'center'
   });
   columns.push({
     id: 'rowNumber',
@@ -58,7 +58,7 @@ const container = document.querySelector('ids-container');
   xmlhttp.onreadystatechange = function onreadystatechange() {
     if (this.readyState === 4 && this.status === 200) {
       lookup.dataGridSettings = {
-        rowHeight: 'small'
+        rowHeight: 'medium'
       };
       lookup.columns = columns;
       lookup.data = JSON.parse(this.responseText);

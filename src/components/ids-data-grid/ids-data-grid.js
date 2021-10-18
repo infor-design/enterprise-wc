@@ -73,6 +73,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       attributes.LOCALE,
       attributes.LIST_STYLE,
       attributes.ROW_HEIGHT,
+      attributes.SELECTABLE,
       attributes.VIRTUAL_SCROLL,
       attributes.MODE,
       attributes.VERSION
@@ -191,7 +192,9 @@ class IdsDataGrid extends mix(IdsElement).with(
     const cssClasses = `${column.sortable ? ' is-sortable' : ''}`;
 
     const headerTemplate = `<span class="ids-data-grid-header-cell${cssClasses}" part="header-cell" data-column-id="${column.id}" role="columnheader">
-      <span class="ids-data-grid-header-text">${column.name || ''}</span>
+      <span class="ids-data-grid-header-text">${column.id === 'selectionCheckbox'
+      ? `<span class="ids-datagrid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="${column.name}" class="ids-datagrid-checkbox"></span></span>`
+      : column.name || ''}</span>
       ${column.sortable ? sortIndicator : ''}
     </span>`;
     return headerTemplate;
@@ -267,6 +270,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.onEvent('click', body, (e) => {
       const cell = e.target.closest('.ids-data-grid-cell');
       const row = cell.parentNode;
+      this.#handleSelectable(cell, row);
       // TODO Handle Hidden Cells
       this.setActiveCell(parseInt(cell.getAttribute('aria-colindex') - 1, 10), parseInt(row.getAttribute('aria-rowindex') - 1, 10));
     });
@@ -342,6 +346,10 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
 
     this.columns.forEach((column, i) => {
+      // Special Columns
+      if (column.id === 'selectionCheckbox') {
+        column.width = 45;
+      }
       if (column.width && this.columns.length === i + 1) {
         css += `minmax(250px, 1fr)`;
       }
@@ -509,6 +517,28 @@ class IdsDataGrid extends mix(IdsElement).with(
   }
 
   get listStyle() { return stringUtils.stringToBool(this.getAttribute(attributes.LIST_STYLE)) || false; }
+
+  /**
+   * Set the selection mode between false, 'single', 'multiple' and 'mixed
+   * @param {string|boolean} value selection mode to use
+   */
+  set selectable(value) {
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(attributes.SELECTABLE, value);
+    } else {
+      this.removeAttribute(attributes.SELECTABLE);
+    }
+    this.rerender();
+  }
+
+  get selectable() { return this.getAttribute(attributes.SELECTABLE) || false; }
+
+  #handleSelectable(cell, row) {
+    if (this.selectable === false) {
+      return;
+    }
+    row.classList.toggle('is-selected');
+  }
 
   /**
    * Get the row height in pixels
