@@ -1,4 +1,6 @@
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../../src/mixins';
+// Access the global RenderLoop instance.
+// When using the mixin on a real component, the `rl` property exists on the component instance.
+import { renderLoop, IdsRenderLoopItem } from '../../src/components/ids-render-loop';
 
 // Supporting Components
 import IdsPopup from '../../src/components/ids-popup';
@@ -7,10 +9,6 @@ import IdsButton from '../../src/components/ids-button';
 
 // Styles
 import './test-flying-popup.scss';
-
-// Access the global RenderLoop instance.
-// When using the mixin on a real component, the `rl` property exists on the component instance.
-import renderLoop from '../../src/components/ids-render-loop/ids-render-loop-global';
 
 // Setup functionality on page load
 document.addEventListener('DOMContentLoaded', () => {

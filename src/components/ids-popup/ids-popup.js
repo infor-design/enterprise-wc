@@ -12,11 +12,14 @@ import { IdsStringUtils, IdsDOMUtils } from '../../utils';
 // Import Mixins
 import {
   IdsEventsMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem,
   IdsLocaleMixin,
   IdsThemeMixin
 } from '../../mixins';
+
+import {
+  renderLoop,
+  IdsRenderLoopItem
+} from '../ids-render-loop';
 
 import styles from './ids-popup.scss';
 
@@ -98,7 +101,6 @@ function formatAlignAttribute(alignX, alignY, edge) {
  * IDS Popup Component
  * @type {IdsPopup}
  * @inherits IdsElement
- * @mixes IdsRenderLoopMixin
  * @mixes IdsEventsMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
@@ -108,7 +110,6 @@ function formatAlignAttribute(alignX, alignY, edge) {
 @customElement('ids-popup')
 @scss(styles)
 class IdsPopup extends mix(IdsElement).with(
-    IdsRenderLoopMixin,
     IdsEventsMixin,
     IdsLocaleMixin,
     IdsThemeMixin
@@ -252,7 +253,9 @@ class IdsPopup extends mix(IdsElement).with(
 
     // Setup Resize Observer
     this.#ro.observe(this.container);
-    this.#ro.observe(containerNode);
+    if (containerNode) {
+      this.#ro.observe(containerNode);
+    }
   }
 
   /**
@@ -1014,7 +1017,7 @@ class IdsPopup extends mix(IdsElement).with(
         this.openCheck.destroy(true);
       }
 
-      this.openCheck = this.rl.register(new IdsRenderLoopItem({
+      this.openCheck = renderLoop.register(new IdsRenderLoopItem({
         duration: 70,
         timeoutCallback: () => {
           // Always fire the 'show' event
@@ -1062,7 +1065,7 @@ class IdsPopup extends mix(IdsElement).with(
       if (this.closedCheck) {
         this.closedCheck.destroy(true);
       }
-      this.closedCheck = this.rl.register(new IdsRenderLoopItem({
+      this.closedCheck = renderLoop.register(new IdsRenderLoopItem({
         duration: 200,
         timeoutCallback: () => {
           // Always fire the 'hide' event

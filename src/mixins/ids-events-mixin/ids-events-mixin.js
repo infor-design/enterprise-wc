@@ -1,4 +1,4 @@
-import { IdsRenderLoopMixin, IdsRenderLoopItem } from '../ids-render-loop-mixin/ids-render-loop-mixin';
+import { renderLoop, IdsRenderLoopItem } from '../../components/ids-render-loop';
 import { IdsStringUtils as stringUtils } from '../../utils';
 
 /**
@@ -7,7 +7,7 @@ import { IdsStringUtils as stringUtils } from '../../utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(superclass) {
+const IdsEventsMixin = (superclass) => class extends superclass {
   constructor() {
     super();
     this.handledEvents = new Map();
@@ -184,7 +184,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     this.onEvent('touchstart.longpress', target, (e) => {
       e.preventDefault();
       if (!this.timer) {
-        this.timer = this.rl?.register(new IdsRenderLoopItem({
+        this.timer = renderLoop.register(new IdsRenderLoopItem({
           duration: options?.delay || 500,
           timeoutCallback: () => {
             const event = new CustomEvent('longpress', e);
@@ -369,7 +369,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
     // Setup events
     this.onEvent('mouseenter.eventsmixin', target, (e) => {
       if (!this.timer) {
-        this.timer = this.rl?.register(new IdsRenderLoopItem({
+        this.timer = renderLoop.register(new IdsRenderLoopItem({
           duration: options?.delay || 500,
           timeoutCallback: () => {
             const event = new CustomEvent('hoverend', e);
@@ -407,7 +407,7 @@ const IdsEventsMixin = (superclass) => class extends IdsRenderLoopMixin(supercla
       keys += e.key;
 
       if (!this.timer) {
-        this.timer = this.rl?.register(new IdsRenderLoopItem({
+        this.timer = renderLoop.register(new IdsRenderLoopItem({
           duration: options?.delay || 500,
           timeoutCallback: () => {
             const event = new CustomEvent('keydownend', {

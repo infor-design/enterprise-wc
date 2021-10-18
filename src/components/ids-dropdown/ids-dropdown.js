@@ -128,7 +128,7 @@ class IdsDropdown extends mix(IdsElement).with(
         ${this.readonly ? 'cursor="text"' : ''}
         bg-transparent="${!this.readonly && !this.disabled}"
         user-select="none" triggerfield="true"></ids-input>
-      <ids-trigger-button 
+      <ids-trigger-button
         part="trigger-button"
         tabbable="false"
         disabled="${this.disabled}"

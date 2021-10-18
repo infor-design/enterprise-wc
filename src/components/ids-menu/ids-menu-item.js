@@ -13,10 +13,13 @@ import { IdsStringUtils } from '../../utils';
 import {
   IdsEventsMixin,
   IdsThemeMixin,
-  IdsLocaleMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem
+  IdsLocaleMixin
 } from '../../mixins';
+
+import {
+  renderLoop,
+  IdsRenderLoopItem
+} from '../ids-render-loop';
 
 import IdsIcon from '../ids-icon/ids-icon';
 
@@ -62,7 +65,6 @@ function safeForAttribute(value) {
  * @type {IdsMenuItem}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsRenderLoopMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  * @part menu-item - the menu item element
@@ -73,7 +75,6 @@ function safeForAttribute(value) {
 @customElement('ids-menu-item')
 @scss(styles)
 class IdsMenuItem extends mix(IdsElement).with(
-    IdsRenderLoopMixin,
     IdsEventsMixin,
     IdsLocaleMixin,
     IdsThemeMixin
@@ -235,7 +236,7 @@ class IdsMenuItem extends mix(IdsElement).with(
             self.showSubmenu();
           }
         });
-        this.rl.register(hoverTimeout);
+        renderLoop.register(hoverTimeout);
       }
 
       // Highlight
@@ -269,7 +270,7 @@ class IdsMenuItem extends mix(IdsElement).with(
             }
           }
         });
-        this.rl.register(hideSubmenuTimeout);
+        renderLoop.register(hideSubmenuTimeout);
       } else {
         this.unhighlight();
       }
