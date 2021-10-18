@@ -37,7 +37,6 @@ describe('IdsCard Component', () => {
   it('renders auto-height from an attribute', () => {
     card.setAttribute('auto-height', 'true');
     expect(card.getAttribute('auto-height')).toEqual('true');
-    expect(card.container.classList.contains('ids-card-auto-height')).toEqual(true);
   });
 
   it('renders auto-fit from an attribute', () => {
