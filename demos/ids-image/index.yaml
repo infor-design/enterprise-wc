@@ -2,7 +2,7 @@
  component: Image
  link: ids-image
  description: Images, placeholders and thumbnails
- category: Charts and Visualizations
+ category: Layouts
  keywords: image, thumbnail, placeholder, user, initials, status
  examples:
   - link: index.html
