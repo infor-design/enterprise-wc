@@ -63,6 +63,31 @@ class IdsContextualActionPanel extends IdsModal {
   #refreshHeader() {
     this.container.querySelector('slot[name="toolbar"]').hidden = this.toolbar.length;
   }
+
+  /**
+   * Overrides `addOpenEvents` from both Modal and the IdsPopupOpenEventsMixin to include
+   * a way to tie in Toolbar buttons to the Modal's standard `onButtonClick` callback
+   * @returns {void}
+   */
+  addOpenEvents() {
+    super.addOpenEvents();
+
+    // If a Modal Button is clicked, fire an optional callback
+    const toolbarSlot = this.container.querySelector('slot[name="toolbar"]');
+    this.onEvent('click.toolbar', toolbarSlot, (e) => {
+      this.handleButtonClick(e);
+    });
+  }
+
+  /**
+   * Overrides `addOpenEvents` from both Modal and the IdsPopupOpenEventsMixin to include
+   * a way to tie in Toolbar buttons to the Modal's standard `onButtonClick` callback
+   * @returns {void}
+   */
+  removeOpenEvents() {
+    super.removeOpenEvents();
+    this.offEvent('click.toolbar');
+  }
 }
 
 export default IdsContextualActionPanel;

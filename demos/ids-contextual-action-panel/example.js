@@ -24,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     return true;
   });
 
-  // Close the modal when its inner button is clicked.
+  // Close the modal when its inner buttons are clicked
+  // (this can be in the standard button area, OR inside a Toolbar)
   cap.onButtonClick = () => {
     cap.hide();
   };
