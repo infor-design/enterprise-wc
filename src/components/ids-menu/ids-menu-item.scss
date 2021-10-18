@@ -80,6 +80,32 @@
     }
   }
 
+  &.text-center,
+  &.text-start,
+  &.text-end {
+    a {
+      display: block;
+    }
+  }
+
+  &.text-center {
+    a {
+      text-align: center;
+    }
+  }
+
+  &.text-start {
+    a {
+      text-align: start;
+    }
+  }
+
+  &.text-end {
+    a {
+      text-align: end;
+    }
+  }
+
   // ================================================
   // Disabled state
 

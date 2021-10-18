@@ -12,6 +12,7 @@ import {
   IdsThemeMixin
 } from '../../mixins';
 
+import IdsOverlay from '../ids-modal/ids-overlay';
 import styles from './ids-action-sheet.scss';
 
 /**
@@ -48,8 +49,13 @@ class IdsActionSheet extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
   template() {
     return `
       <div class="ids-action-sheet">
-        <ids-text>IDS Action Sheet</ids-text>
-        <slot></slot>
+        <ids-overlay opacity=".7" visible></ids-overlay>
+        <div class="ids-action-sheet-inner">
+          <slot></slot>
+          <ids-button part="cancel-btn">
+            <span slot="text">Cancel</span>
+          </ids-button>
+        </div>
       </div>
     `;
   }

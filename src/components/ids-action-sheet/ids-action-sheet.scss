@@ -1,0 +1,23 @@
+@import '../../core/ids-base';
+
+.ids-action-sheet-inner {
+  @include flex();
+  @include fixed();
+  @include rounded-lg();
+
+  flex-direction: column;
+  align-items: center;
+  width: calc(100% - calc(var(--ids-number-spacing-base) * 2));
+  bottom: 0px;
+  left: 50%;
+  transform: translate(-50%, 100%);
+  padding-block: var(--ids-number-spacing-base);
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  box-shadow: 0 0 8px rgb(0 0 0 / 20%);
+  background-color: var(--ids-color-palette-white);
+}
+
+::slotted(ids-menu) {
+  width: 100%;
+}
