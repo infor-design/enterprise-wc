@@ -103,6 +103,11 @@ class IdsActionSheet extends mix(IdsElement).with(
     });
   }
 
+  /**
+   * Sets up event listeners
+   * @private
+   * @returns {void}
+   */
   #attachEventHandlers() {
     this.onOutsideClick();
     this.onCancelClick();

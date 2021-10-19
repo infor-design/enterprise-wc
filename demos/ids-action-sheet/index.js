@@ -4,3 +4,4 @@ import IdsCard from '../../src/components/ids-card';
 import { IdsLayoutGrid, IdsLayoutGridCell } from '../../src/components/ids-layout-grid';
 import IdsPopupMenu from '../../src/components/ids-popup-menu';
 import IdsActionSheet from '../../src/components/ids-action-sheet/ids-action-sheet';
+import IdsHidden from '../../src/components/ids-hidden/ids-hidden';

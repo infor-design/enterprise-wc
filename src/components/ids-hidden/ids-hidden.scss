@@ -1,0 +1,73 @@
+@import '../../core/ids-base';
+
+:host([bp-xxl-down]) {
+  @media all and (max-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+:host([bp-xxl-up]) {
+  @media all and (min-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+:host([bp-xl-down]) {
+  @media all and (max-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+:host([bp-xl-up]) {
+  @media all and (min-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+:host([bp-lg-down]) {
+  @media all and (max-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+:host([bp-lg-up]) {
+  @media all and (min-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+:host([bp-md-down]) {
+  @media all and (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+:host([bp-md-up]) {
+  @media all and (min-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+:host([bp-sm-down]) {
+  @media all and (max-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+:host([bp-sm-up]) {
+  @media all and (min-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+:host([bp-xs-down]) {
+  @media all and (max-width: $breakpoint-xs) {
+    display: none;
+  }
+}
+
+:host([bp-xs-up]) {
+  @media all and (min-width: $breakpoint-xs) {
+    display: none;
+  }
+}
