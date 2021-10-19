@@ -1,9 +1,9 @@
 ---
- component: ListBuilder 
+ component: List Builder 
  link: ids-list-builder
- description: Displays ListBuilder component 
- category: Choose one -> [Charts and Visualizations, Layouts, Form Inputs, Navigation and Interaction, Lists, Messages and Alerts]
+ description: Displays List Builder component 
+ category: Lists
  keywords: ids-list-builder, ListBuilder 
  examples:
   - link: index.html
-    description: Showing various ListBuilder examples
+    description: Showing various List Builder examples
