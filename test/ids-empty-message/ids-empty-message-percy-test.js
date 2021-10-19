@@ -5,7 +5,7 @@ describe('Ids Step Chart Percy Tests', () => {
 
   it('should not have visual regressions in new light theme (percy)', async () => {
     await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
-    await percySnapshot(page, 'ids-step-chart-new-light');
+    await percySnapshot(page, 'ids-empty-message-new-light');
   });
 
   it('should not have visual regressions in new dark theme (percy)', async () => {
