@@ -1,4 +1,4 @@
-describe('Ids Icon e2e Tests', () => {
+describe('Ids Empty Message e2e Tests', () => {
   const url = 'http://localhost:4444/ids-empty-message';
 
   beforeAll(async () => {
