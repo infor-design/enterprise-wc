@@ -210,7 +210,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   get itemHeight() {
-    return this.getAttribute(attributes.ITEM_HEIGHT) || false;
+    return this.getAttribute(attributes.ITEM_HEIGHT);
   }
 }
 
