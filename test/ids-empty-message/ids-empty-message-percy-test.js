@@ -21,6 +21,6 @@ describe('Ids Step Chart Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'contrast');
     });
-    await percySnapshot(page, 'ids-step-chart-new-contrast');
+    await percySnapshot(page, 'ids-empty-message-new-contrast');
   });
 });
