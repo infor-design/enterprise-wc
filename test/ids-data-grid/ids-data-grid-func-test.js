@@ -4,6 +4,7 @@
 import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../demos/data/books.json';
+import { request } from 'express';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid;
@@ -434,26 +435,28 @@ describe('IdsDataGrid Component', () => {
     });
 
     it('can set the rowHeight setting in virtualScroll mode', () => {
-      dataGrid.virtualScroll = true;
-      dataGrid.rowHeight = 'extra-small';
-      expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('30');
+      requestAnimationFrame(() => {
+        dataGrid.virtualScroll = true;
+        dataGrid.rowHeight = 'extra-small';
+        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('30');
 
-      dataGrid.rowHeight = 'small';
-      expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('35');
+        dataGrid.rowHeight = 'small';
+        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('35');
 
-      dataGrid.rowHeight = 'medium';
-      expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('40');
+        dataGrid.rowHeight = 'medium';
+        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('40');
 
-      dataGrid.rowHeight = null;
-      expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
+        dataGrid.rowHeight = null;
+        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
 
-      dataGrid.rowHeight = 'large';
-      expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
+        dataGrid.rowHeight = 'large';
+        expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
 
-      dataGrid.virtualScroll = false;
-      dataGrid.rowHeight = 'small';
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('small');
-      expect(dataGrid.getAttribute('row-height')).toEqual('small');
+        dataGrid.virtualScroll = false;
+        dataGrid.rowHeight = 'small';
+        expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('small');
+        expect(dataGrid.getAttribute('row-height')).toEqual('small');
+      });
     });
   });
 
