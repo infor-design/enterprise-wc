@@ -26,14 +26,16 @@
 
 // Adjust the width/height to parent fit
 :host([auto-fit]) {
-  @include box-border();
-  @include h-full();
-  @include m-0();
-
-  min-height: auto;
-
-  .ids-card-content {
+  .ids-card {
+    @include box-border();
     @include h-full();
+    @include m-0();
+
+    min-height: auto;
+
+    .ids-card-content {
+      @include h-full();
+    }
   }
 }
 
