@@ -16,7 +16,7 @@ An interactive list where you can add, move up/down, edit, and delete items whic
 
 ## Use Cases
 
-- After importing JSON or array of objects, allowing user to edit, order, add, and/or delete items.
+- Allows for users to create and edit lists of varying content. After importing JSON or array of objects, allowing user to edit, order, add, and/or delete items.
 
 ## Terminology
 
