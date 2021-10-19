@@ -4,7 +4,6 @@
 import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-data-grid/ids-data-grid';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../demos/data/books.json';
-import { request } from 'express';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid;

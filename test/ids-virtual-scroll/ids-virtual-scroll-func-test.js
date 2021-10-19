@@ -67,7 +67,7 @@ describe('IdsVirtualScroll Component', () => {
     virtualScroll.handleScroll({ target: virtualScroll });
     await new Promise((r) => setTimeout(r, 50));
 
-    expect(virtualScroll.innerHTML).not.toEqual('');
+    expect(virtualScroll.innerHTML).not.toEqual('startingHtml');
   });
 
   it('can set the bufferSize attribute', async () => {
