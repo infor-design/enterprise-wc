@@ -175,7 +175,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Helper function to check if a node is being dragged above another node
    * @param {Node} nodeA the node being dragged
    * @param {Node} nodeB the referred node being checked if nodeA is above
-   * @returns
+   * @returns {boolean} whether or not nodeA is above nodeB
    */
   #isAbove(nodeA, nodeB) {
     const rectA = nodeA.getBoundingClientRect();
