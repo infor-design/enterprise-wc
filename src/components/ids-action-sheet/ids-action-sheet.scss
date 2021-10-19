@@ -16,6 +16,13 @@
   border-bottom-right-radius: 0;
   box-shadow: 0 0 8px rgb(0 0 0 / 20%);
   background-color: var(--ids-color-palette-white);
+  transition: transform $transition-length $transition-ease;
+}
+
+:host([visible="true"]) {
+  .ids-action-sheet-inner {
+    transform: translate(-50%, 0);
+  }
 }
 
 ::slotted(ids-menu) {
