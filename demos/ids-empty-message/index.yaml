@@ -1,5 +1,5 @@
 ---
-  component: Icon
+  component: Empty Message
   link: ids-empty-message
   description: Format for empty message alert
   category: Messages and Alerts
