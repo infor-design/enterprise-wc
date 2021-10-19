@@ -13,7 +13,7 @@ describe('Ids Step Chart Percy Tests', () => {
     await page.evaluate(() => {
       document.querySelector('ids-theme-switcher').setAttribute('mode', 'dark');
     });
-    await percySnapshot(page, 'ids-step-chart-new-dark');
+    await percySnapshot(page, 'ids-empty-message-new-dark');
   });
 
   it('should not have visual regressions in new contrast theme (percy)', async () => {
