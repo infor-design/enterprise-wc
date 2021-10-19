@@ -24,6 +24,19 @@
   }
 }
 
+// Adjust the width/height to parent fit
+:host([auto-fit]) {
+  @include box-border();
+  @include h-full();
+  @include m-0();
+
+  min-height: auto;
+
+  .ids-card-content {
+    @include h-full();
+  }
+}
+
 // Adjust the heights with settings
 :host([auto-height]) {
   .ids-card {
@@ -31,24 +44,11 @@
     height: auto;
 
     .ids-card-header {
-      height: auto;
+      display: none;
     }
 
     .ids-card-content {
       height: auto;
-    }
-  }
-
-  // Adjust the width/height to parent fit
-  &.ids-card-auto-fit {
-    @include box-border();
-    @include h-full();
-    @include m-0();
-
-    min-height: auto;
-
-    .ids-card-content {
-      @include h-full();
     }
   }
 }
