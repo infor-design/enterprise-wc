@@ -7,7 +7,7 @@
 
   flex-direction: column;
   align-items: center;
-  width: calc(100% - calc(var(--ids-number-spacing-base) * 2));
+  width: 100%;
   bottom: 0px;
   left: 50%;
   transform: translate(-50%, 100%);
@@ -27,4 +27,15 @@
 
 ::slotted(ids-menu) {
   width: 100%;
+}
+
+ids-button {
+  width: calc(100% - calc(var(--ids-number-spacing-base) * 3));
+  margin-block-start: var(--ids-number-spacing-base);
+
+  span {
+    display: block;
+    width: 100%;
+    text-align: center;
+  }
 }

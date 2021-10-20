@@ -45,7 +45,10 @@ class IdsActionSheet extends mix(IdsElement).with(
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return [attributes.VISIBLE];
+    return [
+      attributes.BTN_TEXT,
+      attributes.VISIBLE
+    ];
   }
 
   /**
@@ -58,14 +61,20 @@ class IdsActionSheet extends mix(IdsElement).with(
         <ids-overlay opacity=".7"></ids-overlay>
         <div class="ids-action-sheet-inner">
           <slot></slot>
-          <ids-button part="cancel-btn">
-            <span slot="text">Cancel</span>
+          <ids-button type="secondary" part="cancel-btn">
+            <span slot="text">
+              ${this.btnText === null ? 'Cancel' : this.btnText}
+            </span>
           </ids-button>
         </div>
       </div>
     `;
   }
 
+  /**
+   * Set the visible attribute
+   * @param {boolean} val true if the action sheet should appear
+   */
   set visible(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
@@ -77,8 +86,30 @@ class IdsActionSheet extends mix(IdsElement).with(
     }
   }
 
+  /**
+   * @returns {boolean} the current visible state
+   */
   get visible() {
     return this.getAttribute(attributes.VISIBLE);
+  }
+
+  /**
+   * Set the btn text attribute
+   * @param {string} val the inner text of the cancel btn
+   */
+  set btnText(val) {
+    if (val) {
+      this.setAttribute(attributes.BTN_TEXT, val);
+    } else {
+      this.removeAttribute(attributes.BTN_TEXT);
+    }
+  }
+
+  /**
+   * @returns {string} the inner text of the cancel btn
+   */
+  get btnText() {
+    return this.getAttribute(attributes.BTN_TEXT);
   }
 
   /**

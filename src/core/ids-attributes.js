@@ -40,6 +40,7 @@ export const attributes = {
   BP_SM_DOWN: 'bp-sm-down',
   BP_XS_UP: 'bp-xs-up',
   BP_XS_DOWN: 'bp-xs-down',
+  BTN_TEXT: 'btn-text',
   BUTTONS: 'buttons',
   CANCEL: 'cancel',
   CARD_HEIGHT: 'card-height',
