@@ -24,7 +24,7 @@ const IdsHitboxMixin = (superclass) => class extends superclass {
    * @param {boolean|string} value If true, it will apply the hitbox stylings.
    */
   set hitbox(value) {
-    const rootEl = this.shadowRoot.querySelector('[class^="ids"]');
+    const rootEl = this.shadowRoot.querySelector('[class^="ids-"]');
     const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(attributes.HITBOX, val.toString());

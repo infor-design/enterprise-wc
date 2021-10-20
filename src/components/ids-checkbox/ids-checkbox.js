@@ -25,6 +25,7 @@ const attribs = [
   { name: 'color', prop: 'color' },
   { name: 'dirty-tracker', prop: 'dirtyTracker' },
   { name: 'disabled', prop: 'disabled' },
+  { name: 'hitbox', prop: 'hitbox' },
   { name: 'horizontal', prop: 'horizontal' },
   { name: 'indeterminate', prop: 'indeterminate' },
   { name: 'label', prop: 'label' },
@@ -63,8 +64,6 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   constructor() {
     super();
-
-    console.log(this);
   }
 
   /**
