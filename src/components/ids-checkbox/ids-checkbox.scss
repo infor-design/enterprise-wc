@@ -58,8 +58,8 @@
     span.checkmark {
       margin-left: 14px;
       margin-right: 14px;
-      position: absolute;
-      top: 14px;
+      position: absolute !important;
+      top: 14px !important;
     }
 
     .label-text {
