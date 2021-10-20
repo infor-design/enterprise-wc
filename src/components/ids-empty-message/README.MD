@@ -2,7 +2,7 @@
 
 ## Description
 
-The IDS Empty Message component is a layout pattern for alerts that usually, but not always, appear in ids-cards. It supports button inputs, provides styling for a label and secondary description and optional empty-message specific icons.
+The IDS Empty Message component is a layout pattern for indicating there is no data for the object. Empty messages appear in ids-cards, ids-data-grid and other places like forms. The component supports action buttons, provides styling for a label and secondary description and optional empty-message specific icons.
 
 ## Use Cases
 
