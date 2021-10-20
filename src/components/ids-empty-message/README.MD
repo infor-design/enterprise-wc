@@ -33,7 +33,7 @@ a simple implementation of the empty-message component
     </ids-button>
   </ids-empty-message>
 ```
-when making use of the `icon` property it is important to remember that only empty message specific icon options are valid here is a complete list
+When making use of the `icon` property, it is important to remember that only empty message specific icon options are valid. Here is a complete list:
 
 `empty-error-loading`
 `empty-generic`
