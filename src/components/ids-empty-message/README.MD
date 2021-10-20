@@ -6,6 +6,7 @@ The IDS Empty Message component is a layout pattern for indicating there is no d
 
 ## Use Cases
 
+- When no content is present, an empty message is useful to communicate information & action. It is critical to communicate why it’s empty and what the user can do.
 ## Terminology
 
 - **icon**: this property when included and provided with a supported icon id will display the chosen icon in the empty message format
