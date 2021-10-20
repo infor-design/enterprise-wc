@@ -12,6 +12,7 @@ import styles from './ids-checkbox.scss';
 import {
   IdsEventsMixin,
   IdsDirtyTrackerMixin,
+  IdsHitboxMixin,
   IdsValidationMixin,
   IdsThemeMixin,
   IdsLocaleMixin
@@ -24,7 +25,6 @@ const attribs = [
   { name: 'color', prop: 'color' },
   { name: 'dirty-tracker', prop: 'dirtyTracker' },
   { name: 'disabled', prop: 'disabled' },
-  { name: 'hitbox', prop: 'hitbox' },
   { name: 'horizontal', prop: 'horizontal' },
   { name: 'indeterminate', prop: 'indeterminate' },
   { name: 'label', prop: 'label' },
@@ -39,6 +39,7 @@ const attribs = [
  * @type {IdsCheckbox}
  * @inherits IdsElement
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsHitboxMixin
  * @mixes IdsValidationMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
@@ -52,6 +53,7 @@ const attribs = [
 class IdsCheckbox extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsDirtyTrackerMixin,
+    IdsHitboxMixin,
     IdsValidationMixin,
     IdsThemeMixin,
     IdsLocaleMixin
@@ -61,6 +63,8 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   constructor() {
     super();
+
+    console.log(this);
   }
 
   /**
@@ -73,7 +77,6 @@ class IdsCheckbox extends mix(IdsElement).with(
       attributes.CHECKED,
       attributes.COLOR,
       attributes.DISABLED,
-      attributes.HITBOX,
       attributes.HORIZONTAL,
       attributes.INDETERMINATE,
       attributes.LABEL,
@@ -127,9 +130,8 @@ class IdsCheckbox extends mix(IdsElement).with(
     const color = this.color ? ` color="${this.color}"` : '';
     const disabled = IdsStringUtils.stringToBool(this.disabled) ? ' disabled' : '';
     const horizontal = IdsStringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
-    const hitbox = IdsStringUtils.stringToBool(this.hitbox) ? ' hitbox' : '';
     const checked = IdsStringUtils.stringToBool(this.checked) ? ' checked' : '';
-    const rootClass = ` class="ids-checkbox${disabled}${horizontal}${hitbox}"`;
+    const rootClass = ` class="ids-checkbox${disabled}${horizontal}"`;
     let checkboxClass = 'checkbox';
     checkboxClass += IdsStringUtils.stringToBool(this.indeterminate) ? ' indeterminate' : '';
     checkboxClass = ` class="${checkboxClass}"`;
@@ -263,24 +265,6 @@ class IdsCheckbox extends mix(IdsElement).with(
   }
 
   get disabled() { return this.getAttribute(attributes.DISABLED); }
-
-  /**
-   * Sets the checkbox to add hitbox style
-   * @param {boolean|string} value If true, it will apply the hitbox stylings
-   */
-  set hitbox(value) {
-    const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
-    const val = IdsStringUtils.stringToBool(value);
-    if (val) {
-      this.setAttribute(attributes.HITBOX, val.toString());
-      rootEl?.classList.add(attributes.HITBOX);
-    } else {
-      this.removeAttribute(attributes.HITBOX);
-      rootEl?.classList.remove(attributes.HITBOX);
-    }
-  }
-
-  get hitbox() { return this.getAttribute(attributes.HITBOX); }
 
   /**
    * Flips the checkbox orientation to horizontal
