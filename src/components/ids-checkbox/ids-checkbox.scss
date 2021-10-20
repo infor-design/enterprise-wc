@@ -40,29 +40,35 @@
   }
 
   &.hitbox label {
-    align-items: center;
+    align-items: baseline;
     display: inline-flex;
-    height: 44px;
-    padding-left: 0;
-    padding-right: 0;
+    padding: 12px 0;
 
-    &.required .label-text::after {
-      position: relative;
-      right: 0;
+    &.required .label-text {
       top: 0;
+
+      &::after {
+        height: 20px;
+        position: relative;
+        right: 0;
+        top: -2px;
     }
+  }
 
     span.checkmark {
       margin-left: 14px;
       margin-right: 14px;
-      position: relative;
-      top: 0;
+      position: absolute;
+      top: 14px;
     }
 
     .label-text {
       align-items: center;
       display: inline-flex;
       margin-right: 14px;
+      margin-left: 42px;
+      position: relative;
+      top: -1px;
     }
   }
 

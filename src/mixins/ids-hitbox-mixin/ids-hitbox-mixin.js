@@ -16,7 +16,7 @@ const IdsHitboxMixin = (superclass) => class extends superclass {
     return [
       ...super.attributes,
       attributes.HITBOX
-    ]
+    ];
   }
 
   /**
