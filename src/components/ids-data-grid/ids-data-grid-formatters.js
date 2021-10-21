@@ -87,7 +87,12 @@ class IdsDataGridFormatters {
 
   /** Shows a selection checkbox column */
   selectionCheckbox(rowData, columnData) {
-    return `<span class="ids-datagrid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="${columnData.name}" class="ids-datagrid-checkbox"></span></span>`;
+    return `<span class="ids-datagrid-checkbox-container"><span role="checkbox" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-datagrid-checkbox${rowData?.rowSelected ? ' checked' : ''}"></span></span>`;
+  }
+
+  /** Shows a selection radio column */
+  selectionRadio(rowData, columnData) {
+    return `<span class="ids-datagrid-radio-container"><span role="radio" aria-checked="${rowData?.rowSelected ? 'true' : 'false'}" aria-label="${columnData.name}" class="ids-datagrid-radio${rowData?.rowSelected ? ' checked' : ''}"></span></span>`;
   }
 }
 

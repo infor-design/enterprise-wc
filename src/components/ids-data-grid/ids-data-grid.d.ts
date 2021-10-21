@@ -44,6 +44,21 @@ export default class IdsDataGrid extends IdsElement {
   /** Enables the virtual scrolling behavior */
   rowHeight: 'extra-small' | 'small' | 'medium' | 'large';
 
+  /** Set the row selection mode between false, 'single', 'multiple' and 'mixed` */
+  rowSelection: false | 'single' | 'multiple' | 'mixed';
+
+  /**
+   * Set to true to prevent rows from being deactivated if clicked.
+   * i.e. once a row is activated, it remains activated until another row is activated in its place
+   */
+  supressRowDeactivation: boolean;
+
+  /**
+   * Set to true to prevent rows from being deselected if click or space bar the row.
+   * i.e. once a row is selected, it remains selected until another row is selected in its place.
+   */
+  supressRowDeselection: boolean;
+
   /** Sets the style of the grid to list style for simple readonly lists */
   listStyle: boolean;
 

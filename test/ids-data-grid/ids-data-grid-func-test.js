@@ -5,6 +5,7 @@ import { IdsDataGrid, IdsDataGridFormatters } from '../../src/components/ids-dat
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import dataset from '../../demos/data/books.json';
 import createFromTemplate from '../helpers/create-from-template';
+import { IdsDeepCloneUtils as cloneUtils } from '../../src/utils';
 
 describe('IdsDataGrid Component', () => {
   let dataGrid;
@@ -18,7 +19,7 @@ describe('IdsDataGrid Component', () => {
       id: 'selectionCheckbox',
       sortable: false,
       resizable: false,
-      formatter: formatters.text,
+      formatter: formatters.selectionCheckbox,
       align: 'center',
       width: 20
     });
@@ -760,6 +761,18 @@ describe('IdsDataGrid Component', () => {
 
       container.locale = 'de-DE';
       expect(dataGrid.locale.locale.name).toEqual('de-DE');
+    });
+  });
+
+  describe('Selection Tests Tests', () => {
+    it('renders a radio for single select', () => {
+      const newColumns = cloneUtils.deepClone(columns());
+      newColumns[0].id = 'selectionRadio';
+      newColumns[0].formatter = formatters.selectionRadio;
+      dataGrid.rowSelection = 'single';
+      dataGrid.columns = newColumns;
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-datagrid-radio')).toEqual(2);
     });
   });
 });

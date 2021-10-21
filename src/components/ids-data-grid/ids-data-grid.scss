@@ -1,5 +1,6 @@
 @import '../../core/ids-base';
 @import '../../mixins/sass/ids-checkbox-mixin';
+@import '../../mixins/sass/ids-radio-mixin';
 
 $cell-border-color: var(--ids-color-palette-slate-30);
 $header-bg-color: var(--ids-color-palette-slate-80);
@@ -34,8 +35,9 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     display: grid;
     grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
 
-    &.is-selected {
-      @include bg-azure-30();
+    &.selected:not(.mixed),
+    &.activated {
+      @include bg-azure-10();
     }
   }
 
@@ -231,6 +233,37 @@ $header-bg-color: var(--ids-color-palette-slate-80);
         @include checkbox-checked-after();
       }
     }
+
+    &.indeterminate {
+      @include checkbox-indeterminate();
+
+      &::after {
+        @include checkbox-indeterminate-after();
+      }
+    }
+  }
+
+  // Selection Radio
+  .ids-datagrid-radio-container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .ids-datagrid-radio {
+    @include radio-unchecked();
+    @include cursor-pointer();
+    position: relative;
+    left: 0;
+    top: 0;
+
+    &.checked {
+      @include radio-checked();
+
+      &::after {
+        @include radio-checked-after();
+      }
+    }
   }
 
   // Negates the padding
@@ -239,7 +272,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     margin-top: 1px;
     width: 20px;
 
-    .ids-datagrid-checkbox {
+    .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
       @include bg-white();
       @include border-white();
     }
@@ -393,6 +426,28 @@ $header-bg-color: var(--ids-color-palette-slate-80);
       }
     }
   }
+
+  // Selection
+  .ids-data-grid-row.selected:not(.mixed),
+  .ids-data-grid-row.activated {
+    // Uses a non pallette color - no better looking ones
+    background-color: #334d60;
+  }
+
+  .ids-data-grid-cell {
+    .ids-datagrid-checkbox {
+      @include border-slate-40();
+    }
+
+    .ids-datagrid-checkbox.checked {
+      @include border-azure-60();
+    }
+  }
+
+  .ids-data-grid-header-text .ids-datagrid-checkbox-container .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+    @include bg-transparent();
+    @include border-slate-90();
+  }
 }
 
 // Handle Contrast Theme
@@ -477,6 +532,18 @@ $header-bg-color: var(--ids-color-palette-slate-80);
           @include text-slate-30();
         }
       }
+    }
+  }
+
+  // Selection
+  .ids-data-grid-row.selected:not(.mixed),
+  .ids-data-grid-row.activated {
+    @include bg-azure-20();
+  }
+
+  .ids-data-grid-cell {
+    .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+      @include border-slate-90();
     }
   }
 }
@@ -639,12 +706,12 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 }
 
 // Handle Classic - Contrast Theme
-.ids-data-grid[mode='contrast'] {
+.ids-data-grid[version='classic'][mode='contrast'] {
   @include bg-graphite-10();
 
   .ids-data-grid-header-cell {
     @include bg-graphite-70();
-    @include border-graphite-60();
+    @include border-graphite-50();
   }
 
   .ids-data-grid-header-text {

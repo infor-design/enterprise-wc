@@ -54,6 +54,7 @@ class IdsDataGrid extends mix(IdsElement).with(
   }
 
   connectedCallback() {
+    this.state = { selectedRows: [], activatedRow: null };
     super.connectedCallback();
   }
 
@@ -73,7 +74,9 @@ class IdsDataGrid extends mix(IdsElement).with(
       attributes.LOCALE,
       attributes.LIST_STYLE,
       attributes.ROW_HEIGHT,
-      attributes.SELECTABLE,
+      attributes.ROW_SELECTION,
+      attributes.SUPRESS_ROW_DEACTIVATION,
+      attributes.SUPRESS_ROW_DESELECTION,
       attributes.VIRTUAL_SCROLL,
       attributes.MODE,
       attributes.VERSION
@@ -162,6 +165,9 @@ class IdsDataGrid extends mix(IdsElement).with(
     if (dir) {
       this.container.setAttribute('dir', dir);
     }
+
+    // Set back selection
+    this.#setHeaderCheckbox();
   }
 
   /**
@@ -191,10 +197,16 @@ class IdsDataGrid extends mix(IdsElement).with(
     </div>`;
     const cssClasses = `${column.sortable ? ' is-sortable' : ''}`;
 
+    let headerContent = column.name || '';
+    if (column.id === 'selectionCheckbox') {
+      headerContent = `<span class="ids-datagrid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="${column.name}" class="ids-datagrid-checkbox"></span></span>`;
+    }
+    if (column.id === 'selectionRadio') {
+      headerContent = '';
+    }
+
     const headerTemplate = `<span class="ids-data-grid-header-cell${cssClasses}" part="header-cell" data-column-id="${column.id}" role="columnheader">
-      <span class="ids-data-grid-header-text">${column.id === 'selectionCheckbox'
-      ? `<span class="ids-datagrid-checkbox-container"><span role="checkbox" aria-checked="false" aria-label="${column.name}" class="ids-datagrid-checkbox"></span></span>`
-      : column.name || ''}</span>
+      <span class="ids-data-grid-header-text">${headerContent}</span>
       ${column.sortable ? sortIndicator : ''}
     </span>`;
     return headerTemplate;
@@ -223,11 +235,15 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @returns {string} The html string for the row
    */
   rowTemplate(row, index) {
-    let html = `<div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row">`;
+    let rowClasses = row?.rowSelected ? ' selected' : '';
+    rowClasses = row?.rowSelected || this.rowSelection === 'mixed' ? ' mixed' : '';
+    rowClasses = row?.rowActivated ? ' activated' : '';
+
+    let html = `<div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row${rowClasses}">`;
 
     this.columns.forEach((column, j) => {
-      const cssClasses = column?.readonly ? ' readonly' : '';
-      html += `<span role="cell" part="cell" class="ids-data-grid-cell${cssClasses}" aria-colindex="${j + 1}">${this.cellTemplate(row, column, index + 1, this)}</span>`;
+      const cellClasses = column?.readonly ? ' readonly' : '';
+      html += `<span role="cell" part="cell" class="ids-data-grid-cell${cellClasses}" aria-colindex="${j + 1}">${this.cellTemplate(row, column, index + 1, this)}</span>`;
     });
 
     html += '</div>';
@@ -255,8 +271,8 @@ class IdsDataGrid extends mix(IdsElement).with(
     const sortableColumns = this.shadowRoot.querySelector('.ids-data-grid-header');
 
     // Add a sort Handler
-    this.offEvent('click', sortableColumns);
-    this.onEvent('click', sortableColumns, (e) => {
+    this.offEvent('click.sort', sortableColumns);
+    this.onEvent('click.sort', sortableColumns, (e) => {
       const header = e.target.closest('.is-sortable');
 
       if (header) {
@@ -266,13 +282,32 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     // Add a cell click handler
     const body = this.shadowRoot.querySelector('.ids-data-grid-body');
-    this.offEvent('click', body);
-    this.onEvent('click', body, (e) => {
+    this.offEvent('click.body', body);
+    this.onEvent('click.body', body, (e) => {
       const cell = e.target.closest('.ids-data-grid-cell');
       const row = cell.parentNode;
-      this.#handleSelectable(cell, row);
-      // TODO Handle Hidden Cells
       this.setActiveCell(parseInt(cell.getAttribute('aria-colindex') - 1, 10), parseInt(row.getAttribute('aria-rowindex') - 1, 10));
+
+      if (this.rowSelection === 'mixed') {
+        if (cell.children[0].classList.contains('ids-datagrid-checkbox-container')) {
+          this.#handleRowSelection(row);
+        } else {
+          this.#handleRowActivation(row);
+        }
+        return;
+      }
+      this.#handleRowSelection(row);
+    });
+
+    // Add a click to the table header
+    this.headerCheckbox = this.shadowRoot.querySelector('.ids-data-grid-header .ids-datagrid-checkbox-container .ids-datagrid-checkbox');
+    this.offEvent('click.select', this.headerCheckbox);
+    this.onEvent('click.select', this.headerCheckbox, (e) => {
+      if (e.target.classList.contains('checked') || e.target.classList.contains('indeterminate')) {
+        this.deSelectAllRows();
+      } else {
+        this.selectAllRows();
+      }
     });
 
     // Handle the Locale Changes
@@ -323,6 +358,10 @@ class IdsDataGrid extends mix(IdsElement).with(
       e.stopPropagation();
     });
 
+    // Handle Selection
+    this.listen([' '], this, () => {
+      this.#handleRowSelection(this.rowByIndex(this.activeCell.row));
+    });
     return this;
   }
 
@@ -347,7 +386,7 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     this.columns.forEach((column, i) => {
       // Special Columns
-      if (column.id === 'selectionCheckbox') {
+      if (column.id === 'selectionCheckbox' || column.id === 'selectionRadio') {
         column.width = 45;
       }
       if (column.width && this.columns.length === i + 1) {
@@ -519,25 +558,302 @@ class IdsDataGrid extends mix(IdsElement).with(
   get listStyle() { return stringUtils.stringToBool(this.getAttribute(attributes.LIST_STYLE)) || false; }
 
   /**
-   * Set the selection mode between false, 'single', 'multiple' and 'mixed
+   * Set the row selection mode between false, 'single', 'multiple' and 'mixed'
    * @param {string|boolean} value selection mode to use
    */
-  set selectable(value) {
+  set rowSelection(value) {
     if (stringUtils.stringToBool(value)) {
-      this.setAttribute(attributes.SELECTABLE, value);
+      this.setAttribute(attributes.ROW_SELECTION, value);
     } else {
-      this.removeAttribute(attributes.SELECTABLE);
+      this.removeAttribute(attributes.ROW_SELECTION);
     }
-    this.rerender();
   }
 
-  get selectable() { return this.getAttribute(attributes.SELECTABLE) || false; }
+  get rowSelection() { return this.getAttribute(attributes.ROW_SELECTION) || false; }
 
-  #handleSelectable(cell, row) {
-    if (this.selectable === false) {
+  /**
+   * Set to true to prevent rows from being deselected if click or space bar the row.
+   * i.e. once a row is selected, it remains selected until another row is selected in its place.
+   * @param {string|boolean} value true or false
+   */
+  set supressRowDeselection(value) {
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(attributes.SUPRESS_ROW_DESELECTION, value);
+    } else {
+      this.removeAttribute(attributes.SUPRESS_ROW_DESELECTION);
+    }
+  }
+
+  get supressRowDeselection() { return this.getAttribute(attributes.SUPRESS_ROW_DESELECTION) || false; }
+
+  /**
+   * Set to true to prevent rows from being deactivated if clicked.
+   * i.e. once a row is activated, it remains activated until another row is activated in its place.
+   * @param {string|boolean} value true or false
+   */
+  set supressRowDeactivation(value) {
+    if (stringUtils.stringToBool(value)) {
+      this.setAttribute(attributes.SUPRESS_ROW_DEACTIVATION, value);
+    } else {
+      this.removeAttribute(attributes.SUPRESS_ROW_DEACTIVATION);
+    }
+  }
+
+  get supressRowDeactivation() { return this.getAttribute(attributes.SUPRESS_ROW_DEACTIVATION) || false; }
+
+  /**
+   * Get the selected rows
+   * @returns {Array<object>} An array of all currently selected rows
+   */
+  get selectedRows() { return this.state.selectedRows || []; }
+
+  /**
+   * Handle selection via click/keyboard
+   * @param {number} row the row that was clicked
+   */
+  #handleRowSelection(row) {
+    if (this.rowSelection === false) {
       return;
     }
-    row.classList.toggle('is-selected');
+    const isSelected = row.classList.contains('selected');
+    if (isSelected && !this.supressRowDeselection) {
+      this.deSelectRow(row.getAttribute('aria-rowindex') - 1);
+    } else {
+      this.selectRow(row.getAttribute('aria-rowindex') - 1);
+    }
+
+    this.triggerEvent('selectionchanged', this, {
+      detail: {
+        elem: this,
+        selectedRows: this.selectedRows
+      }
+    });
+  }
+
+  /**
+   * Handle activation via click/keyboard
+   * @param {number} row the row that was clicked
+   */
+  #handleRowActivation(row) {
+    const isActivated = row.classList.contains('activated');
+    const currentRow = row.getAttribute('aria-rowindex') - 1;
+
+    if (isActivated && !this.supressRowDeactivation) {
+      this.deActivateRow(currentRow);
+    } else {
+      this.deActivateRow(this.state.activatedRow);
+      this.activateRow(currentRow);
+    }
+
+    this.triggerEvent('activationchanged', this, {
+      detail: {
+        elem: this,
+        activatedRow: this.state.activatedRow,
+        row
+      }
+    });
+  }
+
+  /**
+   * Get the row HTMLElement
+   * @param {number} index the zero based index
+   * @returns {HTMLElement} The HTMLElement
+   */
+  rowByIndex(index) {
+    return this.shadowRoot.querySelector(`.ids-data-grid-body .ids-data-grid-row[aria-rowindex="${index + 1}"]`);
+  }
+
+  /**
+   * Set a row to selected
+   * @param {number} index the zero based index
+   */
+  selectRow(index) {
+    let row = index;
+    if (typeof index === 'number') {
+      row = this.rowByIndex(index);
+    }
+
+    if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
+      const checkbox = row.querySelector('.ids-datagrid-checkbox');
+      checkbox?.classList.add('checked');
+      checkbox?.setAttribute('aria-checked', 'true');
+    }
+
+    if (this.rowSelection === 'single') {
+      this.deSelectAllRows();
+      const radio = row.querySelector('.ids-datagrid-radio');
+      radio?.classList.add('checked');
+      radio?.setAttribute('aria-checked', 'true');
+    }
+
+    row.classList.add('selected');
+    if (this.rowSelection === 'mixed') {
+      row.classList.add('mixed');
+    }
+    this.state.selectedRows.push(index);
+    this.data[index].rowSelected = true;
+
+    this.triggerEvent('rowselected', this, {
+      detail: {
+        elem: this, row, data: this.data[index]
+      }
+    });
+    this.#setHeaderCheckbox();
+  }
+
+  /**
+   * Set a row to be deselected
+   * @param {number} index the zero based index
+   */
+  deSelectRow(index) {
+    let row = index;
+    if (typeof index === 'number') {
+      row = this.rowByIndex(index);
+    }
+
+    if (this.rowSelection === 'mixed') {
+      row.classList.remove('mixed');
+    }
+    row.classList.remove('selected');
+
+    if (this.rowSelection === 'multiple' || this.rowSelection === 'mixed') {
+      const checkbox = row.querySelector('.ids-datagrid-checkbox');
+      checkbox?.classList.remove('checked');
+      checkbox?.setAttribute('aria-checked', 'false');
+    }
+
+    if (this.rowSelection === 'single') {
+      const radio = row.querySelector('.ids-datagrid-radio');
+      radio?.classList.remove('checked');
+      radio?.setAttribute('aria-checked', 'false');
+    }
+
+    this.state.selectedRows = this.state.selectedRows.filter((rowNumber) => rowNumber !== index);
+    this.data[index].rowSelected = undefined;
+
+    this.triggerEvent('rowdeselected', this, {
+      detail: {
+        elem: this, row, data: this.data[index]
+      }
+    });
+    this.#setHeaderCheckbox();
+  }
+
+  /**
+   * Set a row to activated
+   * @param {number} index the zero based index
+   */
+  activateRow(index) {
+    let row = index;
+    if (typeof index === 'number') {
+      row = this.rowByIndex(index);
+    }
+
+    if (this.rowSelection !== 'mixed') {
+      return;
+    }
+
+    row.classList.add('activated');
+    this.state.activatedRow = index;
+    this.data[index].rowActivated = true;
+
+    this.triggerEvent('rowactivated', this, {
+      detail: {
+        elem: this, row, data: this.data[index], index
+      }
+    });
+  }
+
+  /**
+   * Set a row to be deactivated
+   * @param {number} index the zero based index
+   */
+  deActivateRow(index) {
+    let row = index;
+    if (!index) {
+      return;
+    }
+
+    if (typeof index === 'number') {
+      row = this.rowByIndex(index);
+    }
+
+    if (this.rowSelection !== 'mixed') {
+      return;
+    }
+    row.classList.remove('activated');
+    this.state.activatedRow = null;
+    this.data[index].rowActivated = undefined;
+
+    this.triggerEvent('rowdeactivated', this, {
+      detail: {
+        elem: this, row, data: this.data[index], index
+      }
+    });
+  }
+
+  /**
+   * Set a all rows to be selected
+   */
+  selectAllRows() {
+    this.data?.forEach((row, index) => {
+      this.selectRow(index);
+    });
+
+    this.triggerEvent('selectionchanged', this, {
+      detail: {
+        elem: this,
+        selectedRows: this.selectedRows
+      }
+    });
+    this.#setHeaderCheckbox();
+  }
+
+  /**
+   * Set a all rows to be deselected
+   */
+  deSelectAllRows() {
+    this.data?.forEach((row, index) => {
+      this.deSelectRow(index);
+    });
+
+    if (this.rowSelection !== 'single') {
+      this.triggerEvent('selectionchanged', this, {
+        detail: {
+          elem: this,
+          selectedRows: this.selectedRows
+        }
+      });
+    }
+    this.#setHeaderCheckbox();
+  }
+
+  #setHeaderCheckbox() {
+    if (!this.rowSelection || this.rowSelection === 'single' || !this.headerCheckbox) {
+      return;
+    }
+
+    const selectedCount = this.selectedRows.length;
+    const dataCount = this.data.length;
+
+    if (selectedCount === 0) {
+      this.headerCheckbox.classList.remove('indeterminate');
+      this.headerCheckbox.classList.remove('checked');
+      this.headerCheckbox.setAttribute('aria-checked', 'false');
+      return;
+    }
+
+    if (selectedCount === dataCount) {
+      this.headerCheckbox.classList.remove('indeterminate');
+      this.headerCheckbox.classList.add('checked');
+      this.headerCheckbox.setAttribute('aria-checked', 'true');
+      return;
+    }
+
+    if (selectedCount !== dataCount) {
+      this.headerCheckbox.classList.add('indeterminate');
+      this.headerCheckbox.setAttribute('aria-checked', 'mixed');
+    }
   }
 
   /**

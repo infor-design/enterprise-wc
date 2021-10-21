@@ -5,7 +5,7 @@
 - [x] Alternate Row Shading
 - [x] Sorting
 - [] Editing see [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html)
-- [] Selection
+- [x] Selection
 - [] Paging
 - [] Hidden Columns
 - [] Frozen Columns
@@ -17,6 +17,7 @@
 - [] Add deprecated formatters as column settings
 - [] Editors / Editing / Dirty
 - [] Fixed header
+- [] Hidden Columns
 - [] Frozen Columns
 - [] Keyboard Navigation see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, X cell navigation, X row navigation)
 - [] Check all current options
@@ -27,6 +28,7 @@
 - [] Column Reorder
 - [] Comments Columns
 - [] Toolbar
+- [] Use Personalization for selection states
 - [] Empty Message
 - [] Expandable Row
 - [] Tree
