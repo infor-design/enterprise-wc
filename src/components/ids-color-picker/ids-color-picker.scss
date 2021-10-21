@@ -42,6 +42,15 @@ ids-input::part(container) {
   cursor: pointer;
 }
 
+ids-trigger-button .color-preview {
+  display: block;
+  height: 36px;
+  width: 36px;
+  cursor: pointer;
+  position: absolute;
+  z-index: 1;
+}
+
 .color-input {
   display: block;
   height: 100%;

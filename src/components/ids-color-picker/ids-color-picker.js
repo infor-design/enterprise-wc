@@ -17,6 +17,7 @@ import '../ids-color/ids-color';
 import '../ids-trigger-field/ids-trigger-field';
 import '../ids-trigger-field/ids-trigger-button';
 import '../ids-popup/ids-popup';
+
 import styles from './ids-color-picker.scss';
 
 import { IdsStringUtils as stringUtils } from '../../utils';
@@ -51,6 +52,9 @@ class IdsColorPicker extends mix(IdsElement).with(
 
   // Reference to the color picker input
   colorPickerInput = this.root.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value')
+
+  // Reference to the trigger color picker input
+  triggerColorPickerInput = this.root.querySelector('ids-trigger-button').querySelector('input')
 
   // Reference to the color picker's trigger button
   triggerBtn = this.root.querySelector('ids-trigger-button');
@@ -91,6 +95,10 @@ class IdsColorPicker extends mix(IdsElement).with(
 
   template() {
     const id = this.id || 'ids-color';
+    const colorInputHtml = `<label class="color-preview">
+      <input tabindex="-1" class="color-input" type="color" ${!this.advanced || this.disabled || this.readonly ? ' disabled="true"' : ''}></input>
+      <ids-text audible="true">Pick Custom Color</ids-text>
+    </label>`;
 
     const template = `
       <div class="ids-color-picker">
@@ -102,10 +110,7 @@ class IdsColorPicker extends mix(IdsElement).with(
           ${this.disabled ? ' disabled="true"' : ''}
           ${this.readonly ? ' readonly="true"' : ''}
         >
-          <label class="color-preview">
-            <ids-input tabindex="-1" class="color-input" type="color" ${!this.advanced || this.disabled || this.readonly ? ' disabled="true"' : ''}></ids-input>
-            <ids-text audible="true">Pick Custom Color</ids-text>
-          </label>
+          ${colorInputHtml}
           <ids-input
             value="${this.value.toLowerCase()}"
             dirty-tracker="true"
@@ -121,6 +126,7 @@ class IdsColorPicker extends mix(IdsElement).with(
             id="${id}-button" title="${id}"
             tabbable="false" ${this.disabled ? ' disabled="true"' : ''} ${this.readonly ? ' readonly="true"' : ''}
           >
+            ${this.advanced ? colorInputHtml : ''}
             <ids-text audible="true">color picker trigger</ids-text>
             <ids-icon class="ids-dropdown" icon="dropdown" size="medium"></ids-icon>
           </ids-trigger-button>
@@ -245,8 +251,14 @@ class IdsColorPicker extends mix(IdsElement).with(
       }
 
       const target = event.target;
-      let openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown'));
-      const openAdvanced = target.classList.contains('color-input');
+      let openColorCondition = (target.classList.contains('colorpicker-icon') || target.classList.contains('ids-dropdown')
+      || target.classList.contains('color-preview') || target.classList.contains('color-picker-trigger-btn'));
+      let openAdvanced = target.classList.contains('color-input');
+
+      if (target.classList.contains('ids-dropdown') && this.advanced) {
+        openAdvanced = true;
+        openColorCondition = false;
+      }
 
       if (!this.advanced && openAdvanced) {
         openColorCondition = true;
@@ -278,7 +290,7 @@ class IdsColorPicker extends mix(IdsElement).with(
 
     this.onEvent('change', this.swatchInput, () => this.setAttribute('value', this.swatchInput.value.toLowerCase()));
     this.onEvent('change', this.colorPickerInput, () => this.setAttribute('value', this.colorPickerInput.value.toLowerCase()));
-    this.onEvent('click', this.colorPreview, () => this.idsColorsArr.forEach((element) => element.removeAttribute('checked')));
+    this.onEvent('change', this.triggerColorPickerInput, () => this.setAttribute('value', this.triggerColorPickerInput.value.toLowerCase()));
   }
 
   /**

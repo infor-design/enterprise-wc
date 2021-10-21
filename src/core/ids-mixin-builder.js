@@ -3,6 +3,8 @@
  * Adapted from https://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/
  */
 class MixinBuilder {
+  appliedClassMixins = new WeakMap();
+
   /**
    * @param {CustomElementConstructor} superclass the class to originate from
    */
@@ -16,7 +18,16 @@ class MixinBuilder {
    * @returns {HTMLElement} the new "mixed" Class
    */
   with(...mixins) {
-    return mixins.reduce((c, mixin) => mixin(c), this.superclass);
+    this.superclass.appliedMixins = [];
+    return mixins.reduce((c, mixin) => {
+      if (this.superclass.appliedMixins.includes(mixin.name)) {
+        return c;
+      }
+
+      this.superclass.appliedMixins.push(mixin.name);
+      const mixedClass = mixin(c);
+      return mixedClass;
+    }, this.superclass);
   }
 }
 

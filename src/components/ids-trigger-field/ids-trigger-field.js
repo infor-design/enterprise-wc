@@ -25,7 +25,7 @@ import IdsTriggerButton from './ids-trigger-button';
 /**
  * IDS Trigger Field Component
  * @type {IdsTriggerField}
- * @inherits IdsElement
+ * @inherits IdsInput
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  * @part field - the field container
@@ -190,9 +190,10 @@ class IdsTriggerField extends IdsInput {
    */
   set tabbable(value) {
     const isTabbable = stringUtils.stringToBool(value);
-    this.setAttribute(attributes.TABBABLE, isTabbable);
 
+    this.setAttribute(attributes.TABBABLE, value.toString());
     const button = this.querySelector('ids-trigger-button');
+
     if (button) {
       button.tabbable = isTabbable;
     }

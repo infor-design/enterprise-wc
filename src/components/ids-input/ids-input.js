@@ -396,6 +396,10 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {object} The object for chaining.
    */
   #attachNativeEvents() {
+    if (!this.input) {
+      return this;
+    }
+
     const events = ['change.input', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
       this.onEvent(evt, this.input, (e) => {
@@ -722,7 +726,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {string} value id
    */
   set id(value) {
-    /* istanbul ignore else */
     if (value !== '') {
       this.setAttribute(attributes.ID, value);
       this.input?.setAttribute(attributes.ID, `${value}-input`);
