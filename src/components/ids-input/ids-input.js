@@ -194,7 +194,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
         ${labelHtml}
         <div class="field-container" part="field-container">
           <input
-            
             part="input"
             id="${this.id}-input"
             ${type}${inputClass}${placeholder}${inputState}
@@ -759,10 +758,11 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   set noMargins(n) {
     if (stringUtils.stringToBool(n)) {
       this.setAttribute(attributes.NO_MARGINS, 'true');
-      this.container.querySelector('input').style.marginBottom = '0';
+      this.container.querySelector('input').classList.add('no-margin');
       return;
     }
     this.removeAttribute(attributes.NO_MARGINS);
+    this.container.querySelector('input').classList.remove('no-margin');
   }
 
   get noMargins() {
