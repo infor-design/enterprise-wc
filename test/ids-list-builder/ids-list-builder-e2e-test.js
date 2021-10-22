@@ -41,7 +41,7 @@ describe('Ids List Builder e2e Tests', () => {
     await page.mouse.up();
 
     await fourthLi.click();
-    page.keyboard.press('Enter'); // edit an existing value
+    await page.keyboard.press('Enter'); // edit an existing value
   });
 
   it('can click the toolbar buttons', async () => {
@@ -74,24 +74,24 @@ describe('Ids List Builder e2e Tests', () => {
   it('can edit, select, and delete through keyboard', async () => {
     await page.goto(url, { waitUntil: ['networkidle0', 'load'] });
 
-    page.keyboard.press('Tab');
-    page.keyboard.press('Tab');
-    page.keyboard.press('Tab');
-    page.keyboard.press('Tab');
-    page.keyboard.press('Tab');
-    page.keyboard.press('Tab');
-    page.keyboard.press('Tab');
-    page.keyboard.press('Tab');
-    page.keyboard.press('Tab');
-    page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Tab');
 
-    page.keyboard.press('Space'); // select list item
-    page.keyboard.press('Enter'); // this should edit the first list item
-    page.keyboard.press('Enter'); // unfocus editor
-    page.keyboard.press('Tab'); // move to next list item
-    page.keyboard.press('Space'); // select the list item
+    await page.keyboard.press('Space'); // select list item
+    await page.keyboard.press('Enter'); // this should edit the first list item
+    await page.keyboard.press('Enter'); // unfocus editor
+    await page.keyboard.press('Tab'); // move to next list item
+    await page.keyboard.press('Space'); // select the list item
 
     // random button to trigger default keyboard case
-    page.keyboard.press('Shift');
+    await page.keyboard.press('Shift');
   });
 });
