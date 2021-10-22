@@ -84,7 +84,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Homepage (ids-homepage)
  - [x] Hyperlinks (ids-hyperlink)
  - [x] Icons (ids-icon)
- - [ ] Images (ids-image)
+ - [x] Images (ids-image)
  - [x] Input (ids-input)
  - [ ] Line (ids-line-chart)
  - [x] Listbuilder (ids-list-builder)
