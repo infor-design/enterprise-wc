@@ -5,7 +5,17 @@ $cap-header-bg-color: var(--ids-color-palette-slate-10);
 $cap-header-border-color: var(--ids-color-palette-slate-20);
 
 :host {
-  display: block;
+  @include block();
+  @include fixed();
+
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+:host(:not([visible])) {
+  pointer-events: none;
 }
 
 .ids-modal-header {

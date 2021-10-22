@@ -260,6 +260,13 @@ class IdsPopup extends mix(IdsElement).with(
   }
 
   /**
+   * @returns {DOMRect} measurements of the inner ".ids-popup" <div>
+   */
+  get innerRect() {
+    return this.container.getBoundingClientRect();
+  }
+
+  /**
    * @readonly
    * @returns {HTMLElement} reference to the `content-wrapper` element
    */
@@ -1101,6 +1108,7 @@ class IdsPopup extends mix(IdsElement).with(
   async place() {
     return new Promise((resolve) => {
       if (this.visible) {
+        this.#clearPlacement();
         if (this.positionStyle === 'viewport') {
           this.#placeInViewport();
         } else {
@@ -1154,6 +1162,9 @@ class IdsPopup extends mix(IdsElement).with(
 
     // If the Popup bleeds off the viewport, nudge it back into full view
     popupRect = this.#nudge(popupRect);
+
+    // Account for absolute-positioned parents
+    popupRect = this.#removeAbsoluteParentDistance(this.parentNode, popupRect);
 
     this.#renderPlacementInPixels(popupRect);
   }
@@ -1261,6 +1272,9 @@ class IdsPopup extends mix(IdsElement).with(
     if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
       this.#setArrowDirection('', this.oppositeAlignEdge);
     }
+
+    // Account for absolute-positioned parents
+    popupRect = this.#removeAbsoluteParentDistance(this.parentNode, popupRect);
 
     this.#renderPlacementInPixels(popupRect);
   }
@@ -1371,6 +1385,7 @@ class IdsPopup extends mix(IdsElement).with(
   #renderPlacementInPixels(popupRect) {
     this.container.style.left = `${popupRect.x}px`;
     this.container.style.top = `${popupRect.y}px`;
+    debugger;
   }
 
   /**
@@ -1381,6 +1396,15 @@ class IdsPopup extends mix(IdsElement).with(
   #renderPlacementWithTransform() {
     this.container.style.left = `50%`;
     this.container.style.top = `50%`;
+  }
+
+  /**
+   * Clears placement values
+   * @returns {void}
+   */
+  #clearPlacement() {
+    this.container.style.left = '';
+    this.container.style.top = '';
   }
 
   /**
@@ -1431,6 +1455,44 @@ class IdsPopup extends mix(IdsElement).with(
    */
   #remove3dMatrix() {
     this.container.style.transform = '';
+  }
+
+  /**
+   * Returns a DOMRect from `getBoundingClientRect` from an element, with the values adjusted
+   * by subtracting the left/top values from an absolute-positioned parent
+   * @param {HTMLElement} elem the element to measure
+   * @param {DOMRect} [rect] optionally pass in an existing rect and correct it
+   * @returns {DOMRect} measurements adjusted for an absolutely-positioned parent
+   */
+  #removeAbsoluteParentDistance(elem, rect) {
+    const adjustedProps = ['absolute', 'fixed'];
+    const domRectProps = ['bottom', 'left', 'right', 'top', 'x', 'y'];
+    const elemRect = IdsDOMUtils.getEditableRect(rect || elem.getBoundingClientRect());
+
+    let parent = (elem && (elem.host || elem.parentNode));
+    let parentStyle;
+    let parentRect;
+
+    while (parent) {
+      if (parent.toString() === '[object ShadowRoot]') {
+        parent = parent.host;
+      }
+
+      if (parent.toString() === '[object HTMLElement]') {
+        parentStyle = getComputedStyle(parent);
+        if (adjustedProps.includes(parentStyle.position) && parent.popup) {
+          parentRect = parent.popup.innerRect;
+
+          for (let i = 0, prop; i < domRectProps.length; i++) {
+            prop = domRectProps[i];
+            elemRect[prop] -= parentRect[prop];
+          }
+        }
+      }
+
+      parent = parent.parentNode;
+    }
+    return elemRect;
   }
 
   /**
