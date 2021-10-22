@@ -13,6 +13,15 @@ import {
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import styles from './ids-hidden.scss';
 
+const breakpoints = [
+  { bpXxl: '1440px' },
+  { bpXl: '1280px' },
+  { bpLg: '1024px' },
+  { bpMd: '840px' },
+  { bpSm: '600px' },
+  { bpXs: '360px' }
+];
+
 /**
  * IDS Hidden Component
  * @type {IdsHidden}
@@ -28,7 +37,9 @@ class IdsHidden extends IdsElement {
     super();
   }
 
-  connectedCallback() {}
+  connectedCallback() {
+    this.setHidden();
+  }
 
   /**
    * Return the attributes we handle as getters/setters
@@ -47,7 +58,8 @@ class IdsHidden extends IdsElement {
       attributes.BP_SM_UP,
       attributes.BP_SM_DOWN,
       attributes.BP_XS_UP,
-      attributes.BP_XS_DOWN
+      attributes.BP_XS_DOWN,
+      'visible'
     ];
   }
 
@@ -56,10 +68,10 @@ class IdsHidden extends IdsElement {
    * @returns {string} The template
    */
   template() {
-    return `<slot></slot>`;
+    return `<slot part="children"></slot>`;
   }
 
-  set BpXxlUp(val) {
+  set bpXxlUp(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_XXL_UP, true);
@@ -68,11 +80,11 @@ class IdsHidden extends IdsElement {
     }
   }
 
-  get BpXxlUp() {
+  get bpXxlUp() {
     return this.getAttribute(attributes.BP_XXL_UP);
   }
 
-  set BpXxlDown(val) {
+  set bpXxlDown(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_XXL_DOWN, true);
@@ -81,11 +93,11 @@ class IdsHidden extends IdsElement {
     }
   }
 
-  get BpXxlDown() {
+  get bpXxlDown() {
     return this.getAttribute(attributes.BP_XXL_DOWN);
   }
 
-  set BpXlUp(val) {
+  set bpXlUp(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_XL_UP, true);
@@ -94,11 +106,11 @@ class IdsHidden extends IdsElement {
     }
   }
 
-  get BpXlUp() {
+  get bpXlUp() {
     return this.getAttribute(attributes.BP_XL_UP);
   }
 
-  set BpXlDown(val) {
+  set bpXlDown(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_XL_DOWN, true);
@@ -107,11 +119,11 @@ class IdsHidden extends IdsElement {
     }
   }
 
-  get BpXlDown() {
+  get bpXlDown() {
     return this.getAttribute(attributes.BP_XL_DOWN);
   }
 
-  set BpLgUp(val) {
+  set bpLgUp(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_LG_UP, true);
@@ -120,11 +132,11 @@ class IdsHidden extends IdsElement {
     }
   }
 
-  get BpLgUp() {
+  get bpLgUp() {
     return this.getAttribute(attributes.BP_LG_UP);
   }
 
-  set BpLgDown(val) {
+  set bpLgDown(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_LG_DOWN, true);
@@ -133,24 +145,26 @@ class IdsHidden extends IdsElement {
     }
   }
 
-  get BpLgDown() {
+  get bpLgDown() {
     return this.getAttribute(attributes.BP_LG_DOWN);
   }
 
-  set BpMdUp(val) {
+  set bpMdUp(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_MD_UP, true);
+      this.bp = breakpoints[3].md;
     } else {
       this.removeAttribute(attributes.BP_MD_UP);
+      this.bg = null;
     }
   }
 
-  get BpMdUp() {
+  get bpMdUp() {
     return this.getAttribute(attributes.BP_MD_UP);
   }
 
-  set BpMdDown(val) {
+  set bpMdDown(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_MD_DOWN, true);
@@ -159,11 +173,11 @@ class IdsHidden extends IdsElement {
     }
   }
 
-  get BpMdDown() {
+  get bpMdDown() {
     return this.getAttribute(attributes.BP_MD_DOWN);
   }
 
-  set BpSmUp(val) {
+  set bpSmUp(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_SM_UP, true);
@@ -172,24 +186,26 @@ class IdsHidden extends IdsElement {
     }
   }
 
-  get BpSmUp() {
+  get bpSmUp() {
     return this.getAttribute(attributes.BP_SM_UP);
   }
 
-  set BpSmDown(val) {
+  set bpSmDown(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_SM_DOWN, true);
+      this.bp = breakpoints[4].sm;
     } else {
       this.removeAttribute(attributes.BP_SM_DOWN);
+      this.bp = null;
     }
   }
 
-  get BpSmDown() {
+  get bpSmDown() {
     return this.getAttribute(attributes.BP_SM_DOWN);
   }
 
-  set BpXsUp(val) {
+  set bpXsUp(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_XS_UP, true);
@@ -198,11 +214,11 @@ class IdsHidden extends IdsElement {
     }
   }
 
-  get BpXsUp() {
+  get bpXsUp() {
     return this.getAttribute(attributes.BP_XS_UP);
   }
 
-  set BpXsDown(val) {
+  set bpXsDown(val) {
     const isValTruthy = stringToBool(val);
     if (isValTruthy) {
       this.setAttribute(attributes.BP_XS_DOWN, true);
@@ -211,8 +227,77 @@ class IdsHidden extends IdsElement {
     }
   }
 
-  get BpXsDown() {
+  get bpXsDown() {
     return this.getAttribute(attributes.BP_XS_DOWN);
+  }
+
+  checkScreen(e) {
+    if (e.matches) {
+      this.hidden = true;
+      this.removeAttribute('visible');
+    } else {
+      this.removeAttribute('hidden');
+      this.setAttribute('visible', true);
+    }
+  }
+
+  isWidthDown(width) {
+    const mq = window.matchMedia(`(max-width: ${width})`);
+    return mq;
+  }
+
+  isWidthUp(width) {
+    const mq = window.matchMedia(`(min-width: ${width})`);
+    return mq;
+  }
+
+  set visible(val) {
+    const isValTruthy = stringToBool(val);
+    if (isValTruthy) {
+      this.setAttribute('visible', true);
+    } else {
+      this.removeAttribute('visible');
+    }
+  }
+
+  get visible() {
+    return this.getAttribute('visible');
+  }
+
+  setHidden() {
+    breakpoints.forEach((breakpoint) => {
+      const breakpointKey = Object.keys(breakpoint)[0];
+      const breakpointUp = `${breakpointKey}Up`;
+      const breakpointDown = `${breakpointKey}Down`;
+
+      if (this[breakpointUp]) {
+        const mqUp = this.isWidthUp(breakpoint[breakpointKey]);
+        mqUp.addEventListener('change', (e) => {
+          if (e.matches) {
+            this.hidden = true;
+            this.removeAttribute('visible');
+          } else {
+            this.removeAttribute('hidden');
+            this.setAttribute('visible', true);
+          }
+        });
+        this.checkScreen(mqUp);
+      }
+
+      if (this[breakpointDown]) {
+        const mqDown = this.isWidthDown(breakpoint[breakpointKey]);
+        mqDown.addEventListener('change', (e) => {
+          if (e.matches) {
+            this.hidden = true;
+            this.removeAttribute('visible');
+          } else {
+            this.removeAttribute('hidden');
+            this.setAttribute('visible', true);
+          }
+        });
+        this.checkScreen(mqDown);
+      }
+    });
   }
 }
 
