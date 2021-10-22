@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`IdsListBuilder Component renders correctly 1`] = `
-"<ids-list-builder virtual-scroll=\\"true\\" item-height=\\"44\\">
+"<ids-list-builder draggable=\\"true\\" item-height=\\"44\\">
   </ids-list-builder>"
 `;

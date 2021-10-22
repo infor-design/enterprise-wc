@@ -100,11 +100,12 @@
       @include py-12();
       @include px-20();
 
-      width: 100%;
+      border: 1px solid transparent;
       box-sizing: border-box;
-      min-height: 44px;
-      position: relative;
       cursor: pointer;
+      position: relative;
+      min-height: 44px;
+      width: 100%;
 
       &:hover span::after {
         position: absolute;

@@ -39,12 +39,10 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   placeholder;
 
   connectedCallback() {
-    super.connectedCallback();
-
-    this.virtualScroll = true;
+    this.draggable = true;
     this.itemHeight = 44; // hard-coded
-
     this.#attachEventListeners();
+    super.connectedCallback();
   }
 
   /**
@@ -65,7 +63,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     return `
       <div class="ids-list-builder">
           <div class="header">
-            <ids-toolbar>
+            <ids-toolbar tabbable="true">
               <ids-toolbar-section type="buttonset">
                 <ids-button id="button-add">
                   <span slot="text" class="audible">Add List Item</span>
@@ -93,7 +91,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
             </ids-toolbar>
           </div>
           <div class="content">
-            ${super.template()} 
+            ${super.template()}
           </div>
         <slot></slot>
       </div>

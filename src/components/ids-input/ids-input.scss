@@ -246,6 +246,10 @@ $input-compact-height: $input-field-height-xs;
         box-shadow: none;
       }
     }
+
+    &.no-margin {
+      @include mb-0();
+    }
   }
 
   // input sizes: [xs, sm, mm, md, lg, full]

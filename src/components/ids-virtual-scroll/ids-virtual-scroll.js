@@ -91,8 +91,8 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     );
 
     let html = '';
-    data.map((item) => {
-      const node = this.itemTemplate(item);
+    data.map((item, index) => {
+      const node = this.itemTemplate(item, index);
       html += node;
       return node;
     });
@@ -158,7 +158,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    */
   template() {
     return `
-      <div class="ids-virtual-scroll" tabindex="0">
+      <div class="ids-virtual-scroll">
         <div class="ids-virtual-scroll-viewport">
           <slot></slot>
         </div>
@@ -187,7 +187,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {number|string} value the height of each item in pixels
    */
   set itemHeight(value) {
-    if (IdsStringUtils.stringToBool(value) || parseInt(value) === 0) {
+    if (value) {
       this.setAttribute(attributes.ITEM_HEIGHT, value.toString());
       this.applyHeight();
       this.renderItems(false);
