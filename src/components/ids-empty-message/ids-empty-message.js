@@ -44,19 +44,6 @@ class IdsEmptyMessage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
   }
 
   /**
-   * Custom Element `attributeChangedCallback` implementation
-   * @param {string} name The name of attribute changed
-   * @param {any} oldValue The old value
-   * @param {any} newValue The new value
-   * @returns {void}
-   */
-  attributeChangedCallback(name, oldValue, newValue) {
-    if (oldValue !== newValue && name !== 'step-count') {
-      this[name] = newValue;
-    }
-  }
-
-  /**
    * Return the attributes we handle as getters and setters
    * @returns {Array} The attributes in an array
    */

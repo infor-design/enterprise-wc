@@ -6,12 +6,16 @@
   justify-content: center;
   align-items: center;
 
+  .button{
+    margin-bottom: 32px;
+  }
+
   .icon {
     margin: 16px;
     height: 80px;
     width: 80px;
     fill: transparent;
-    color: #0072ed;
+    color: var(--ids-color-brand-primary-base);
   }
 
   .label {
@@ -23,6 +27,7 @@
   }
 
   .description {
-    padding: 0 20px 20px;
+    padding: 0 16px 16px;
   }
+
 }
