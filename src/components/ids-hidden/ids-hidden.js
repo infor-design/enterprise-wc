@@ -272,28 +272,16 @@ class IdsHidden extends IdsElement {
 
       if (this[breakpointUp]) {
         const mqUp = this.isWidthUp(breakpoint[breakpointKey]);
-        mqUp.addEventListener('change', (e) => {
-          if (e.matches) {
-            this.hidden = true;
-            this.removeAttribute('visible');
-          } else {
-            this.removeAttribute('hidden');
-            this.setAttribute('visible', true);
-          }
+        mqUp.addEventListener('change', () => {
+          this.checkScreen(mqUp);
         });
         this.checkScreen(mqUp);
       }
 
       if (this[breakpointDown]) {
         const mqDown = this.isWidthDown(breakpoint[breakpointKey]);
-        mqDown.addEventListener('change', (e) => {
-          if (e.matches) {
-            this.hidden = true;
-            this.removeAttribute('visible');
-          } else {
-            this.removeAttribute('hidden');
-            this.setAttribute('visible', true);
-          }
+        mqDown.addEventListener('change', () => {
+          this.checkScreen(mqDown);
         });
         this.checkScreen(mqDown);
       }

@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   menuBtnEl.addEventListener('click', () => {
     [...hiddenEls].forEach((hiddenEl) => {
       if (!hiddenEl.hidden) {
-        hiddenEl.children[0].visible = !hiddenEl.children[0].visible;
+        hiddenEl.children[0].setAttribute('visible', !hiddenEl.children[0].visible);
       }
     });
   });
