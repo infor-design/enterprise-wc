@@ -1,0 +1,67 @@
+// Custom CSS is required to create similar output to the WebComponent
+
+#images-example {
+  &.ids-layout-grid-cols {
+    grid-template-columns: repeat(7, minmax(calc(var(--grid-min-col-width) * 2), 1fr));
+
+    .ids-layout-grid-col-span.col-span-2 {
+      grid-column: span 2/span 2;
+    }
+  }
+
+  img.ids-image {
+    display: inline-block;
+  }
+
+  .user-status-wrap {
+    position: relative;
+    display: inline-block;
+  }
+
+  .user-status {
+    .ids-icon {
+      position: relative;
+      z-index: 1;
+    }
+  }
+
+  .ids-image {
+    &.round {
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+    }
+
+    &.sm {
+      width: 60px;
+      height: 60px;
+    }
+
+    &.md {
+      width: 154px;
+      height: 120px;
+    }
+
+    &.lg {
+      width: 300px;
+      height: 350px;
+    }
+
+    &.auto {
+      width: auto;
+      height: auto;
+    }
+
+    &.placeholder {
+      border: 1px solid var(--ids-color-palette-slate-20);
+      background-color: var(--ids-color-palette-white);
+
+      .ids-icon {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+
