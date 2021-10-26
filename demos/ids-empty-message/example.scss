@@ -1,5 +1,5 @@
 @import '../../src/core/ids-base.scss';
-ids-card.dark::part(card){
+ids-card.dark::part(card) {
     background-color: var(--ids-color-border-darker);
     color: rgb(239, 239, 240);
 }
