@@ -59,7 +59,7 @@ class IdsHidden extends IdsElement {
       attributes.BP_SM_DOWN,
       attributes.BP_XS_UP,
       attributes.BP_XS_DOWN,
-      'visible'
+      'visible',
     ];
   }
 

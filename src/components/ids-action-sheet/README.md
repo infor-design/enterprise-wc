@@ -21,92 +21,15 @@ The main use case for the IDS Hierarchy component is to create an organizational
 ## Features (With Code Examples)
 
 ```html
-<ids-hierarchy>
-  <ids-hierarchy-item id="item-1" root-item expanded color-variant="full-time">
-    <img src="../assets/headshot-1.jpg" alt="item-1" slot="avatar" />
-    <ids-text slot="heading">Tony Cleveland</ids-text>
-    <ids-text slot="subheading">Director</ids-text>
-    <ids-text slot="micro">FT</ids-text>
-
-    <ids-hierarchy-item id="item-2" color-variant="part-time">
-      <ids-text slot="heading">Julie Dawes</ids-text>
-      <ids-text slot="subheading">Records Clerk</ids-text>
-      <ids-text slot="micro">PT</ids-text>
-    </ids-hierarchy-item>
-    <ids-hierarchy-item id="item-3" color-variant="contractor">
-      <ids-text slot="heading">Kaylee Edwards</ids-text>
-      <ids-text slot="subheading">Records Manager</ids-text>
-      <ids-text slot="micro">C</ids-text>
-
-      <ids-hierarchy-item id="item-4" color-variant="open-position">
-        <ids-text slot="heading">Julie Dawes</ids-text>
-        <ids-text slot="subheading">Records Clerk</ids-text>
-        <ids-text slot="micro">OP</ids-text>
-
-        <ids-hierarchy-item id="item-5" color-variant="contractor">
-          <ids-text slot="heading">Tony Cleveland</ids-text>
-          <ids-text slot="subheading">Director</ids-text>
-          <ids-text slot="micro">C</ids-text>
-        </ids-hierarchy-item>
-      </ids-hierarchy-item>
-    </ids-hierarchy-item>
-  </ids-hierarchy-item>
-</ids-hierarchy>
-```
-
-Example with legend
-
-```html
-<ids-hierarchy-legend>
-  <ids-hierarchy-legend-item
-    text="Full Time"
-    color-variant="full-time"
-  ></ids-hierarchy-legend-item>
-  <ids-hierarchy-legend-item
-    text="Part Time"
-    color-variant="part-time"
-  ></ids-hierarchy-legend-item>
-  <ids-hierarchy-legend-item
-    text="Contractor"
-    color-variant="contractor"
-  ></ids-hierarchy-legend-item>
-  <ids-hierarchy-legend-item
-    text="Open Position"
-    color-variant="open-position"
-  ></ids-hierarchy-legend-item>
-</ids-hierarchy-legend>
-
-<ids-hierarchy>
-  <ids-hierarchy-item id="item-1" root-item expanded color-variant="full-time">
-    <img src="../assets/headshot-1.jpg" alt="item-1" slot="avatar" />
-    <ids-text slot="heading">Tony Cleveland</ids-text>
-    <ids-text slot="subheading">Director</ids-text>
-    <ids-text slot="micro">FT</ids-text>
-
-    <ids-hierarchy-item id="item-2" color-variant="part-time">
-      <ids-text slot="heading">Julie Dawes</ids-text>
-      <ids-text slot="subheading">Records Clerk</ids-text>
-      <ids-text slot="micro">PT</ids-text>
-    </ids-hierarchy-item>
-    <ids-hierarchy-item id="item-3" color-variant="contractor">
-      <ids-text slot="heading">Kaylee Edwards</ids-text>
-      <ids-text slot="subheading">Records Manager</ids-text>
-      <ids-text slot="micro">C</ids-text>
-
-      <ids-hierarchy-item id="item-4" color-variant="open-position">
-        <ids-text slot="heading">Julie Dawes</ids-text>
-        <ids-text slot="subheading">Records Clerk</ids-text>
-        <ids-text slot="micro">OP</ids-text>
-
-        <ids-hierarchy-item id="item-5" color-variant="contractor">
-          <ids-text slot="heading">Tony Cleveland</ids-text>
-          <ids-text slot="subheading">Director</ids-text>
-          <ids-text slot="micro">C</ids-text>
-        </ids-hierarchy-item>
-      </ids-hierarchy-item>
-    </ids-hierarchy-item>
-  </ids-hierarchy-item>
-</ids-hierarchy>
+<ids-action-sheet id="icon-menu">
+    <ids-menu>
+        <ids-menu-group>
+            <ids-menu-item text-align="center">Option One</ids-menu-item>
+            <ids-menu-item text-align="center">Option Two</ids-menu-item>
+            <ids-menu-item text-align="center">Option Three</ids-menu-item>
+        </ids-menu-group>
+    </ids-menu>
+</ids-action-sheet>
 ```
 
 ### Color Variants
