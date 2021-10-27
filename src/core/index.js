@@ -1,4 +1,4 @@
-export { attributes, prefix } from './ids-attributes';
+export { attributes, prefix, breakpoints } from './ids-attributes';
 export { default as IdsDataSource } from './ids-data-source';
 export {
   IdsElement,

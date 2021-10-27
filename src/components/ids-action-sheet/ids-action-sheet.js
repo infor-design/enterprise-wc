@@ -3,6 +3,7 @@ import {
   customElement,
   scss,
   attributes,
+  breakpoints,
   mix
 } from '../../core';
 
@@ -38,6 +39,7 @@ class IdsActionSheet extends mix(IdsElement).with(
     this.overlay = this.shadowRoot.querySelector('ids-overlay');
     this.cancelBtn = this.shadowRoot.querySelector('[part="cancel-btn"]');
     this.#attachEventHandlers();
+    this.#hideOnDesktop();
   }
 
   /**
@@ -77,7 +79,7 @@ class IdsActionSheet extends mix(IdsElement).with(
    */
   set visible(val) {
     const isValTruthy = stringToBool(val);
-    if (isValTruthy) {
+    if (isValTruthy && !this.hidden) {
       this.setAttribute(attributes.VISIBLE, true);
       this.overlay.setAttribute(attributes.VISIBLE, true);
     } else {
@@ -132,6 +134,35 @@ class IdsActionSheet extends mix(IdsElement).with(
       this.removeAttribute(attributes.VISIBLE);
       this.overlay.removeAttribute(attributes.VISIBLE);
     });
+  }
+
+  /**
+   * Hide the action sheet on desktop devices
+   * @returns {void}
+   */
+  #hideOnDesktop() {
+    const mq = window.matchMedia(`(min-width: ${breakpoints.sm})`);
+    mq.addEventListener('change', () => {
+      this.#setHidden(mq);
+    });
+    this.#setHidden(mq);
+  }
+
+  /**
+   * Set the action and overlay to hidden is media query is hit
+   * @param {object} mq the media query to check
+   * @returns {void}
+   */
+  #setHidden(mq) {
+    if (mq.matches) {
+      this.hidden = true;
+      this.overlay.hidden = true;
+      this.removeAttribute('visible');
+      this.overlay.removeAttribute(attributes.VISIBLE);
+    } else {
+      this.removeAttribute('hidden');
+      this.overlay.removeAttribute('hidden');
+    }
   }
 
   /**

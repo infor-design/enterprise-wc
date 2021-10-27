@@ -1,13 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
   const menuBtnEl = document.querySelector('ids-menu-button');
-  const hiddenEls = document.querySelectorAll('ids-hidden');
+  const actionSheet = document.querySelector('ids-action-sheet');
 
   // Toggle the Popup/Actionsheet
   menuBtnEl.addEventListener('click', () => {
-    [...hiddenEls].forEach((hiddenEl) => {
-      if (!hiddenEl.hidden) {
-        hiddenEl.children[0].setAttribute('visible', !hiddenEl.children[0].visible);
-      }
-    });
+    actionSheet.visible = !actionSheet.visible;
   });
 });

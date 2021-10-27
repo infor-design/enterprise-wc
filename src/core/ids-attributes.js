@@ -246,3 +246,12 @@ export const attributes = {
 export const prefix = {
   PREFIX: 'ids'
 };
+
+export const breakpoints = {
+  xxl: '1440px',
+  xl: '1280px',
+  lg: '1024px',
+  md: '840px',
+  sm: '600px',
+  xs: '360px'
+};
