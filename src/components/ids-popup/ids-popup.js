@@ -1385,7 +1385,6 @@ class IdsPopup extends mix(IdsElement).with(
   #renderPlacementInPixels(popupRect) {
     this.container.style.left = `${popupRect.x}px`;
     this.container.style.top = `${popupRect.y}px`;
-    debugger;
   }
 
   /**

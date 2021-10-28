@@ -178,6 +178,12 @@
     transform-origin: left top;
     transform: translate(-50%, -50%);
 
+    min-height: 15%;
+    min-width: 15%;
+    max-height: calc(100% - 16px);
+    max-width: calc(100% - 16px);
+    overflow: hidden;
+
     // Override some default animation styles to add the correct
     // `translate(X/Y/Z/3d)` values to an existing transform property.
     &.animation-scale-in {
