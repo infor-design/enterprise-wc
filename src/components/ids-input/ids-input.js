@@ -11,6 +11,7 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsClearableMixin,
+  IdsColorVariantMixin,
   IdsDirtyTrackerMixin,
   IdsMaskMixin,
   IdsValidationMixin,
@@ -19,7 +20,7 @@ import {
 } from '../../mixins';
 
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import { IdsStringUtils as stringUtils } from '../../utils';
 
 // Supporting components
 import IdsIcon from '../ids-icon';
@@ -70,6 +71,7 @@ const TEXT_ALIGN = {
 const appliedMixins = [
   IdsEventsMixin,
   IdsClearableMixin,
+  IdsColorVariantMixin,
   IdsKeyboardMixin,
   IdsDirtyTrackerMixin,
   IdsMaskMixin,
@@ -85,6 +87,7 @@ let instanceCounter = 0;
  * @type {IdsInput}
  * @inherits IdsElement
  * @mixes IdsClearableMixin
+ * @mixes IdsColorVariantMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsEventsMixin
@@ -107,15 +110,23 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate'];
+
+  /**
    * @returns {Array<string>} IdsInput component observable attributes
    */
   static get attributes() {
     return [
-      ...attributes.AUTOSELECT,
+      ...super.attributes,
+      attributes.AUTOSELECT,
       attributes.BG_TRANSPARENT,
       attributes.CLEARABLE,
       attributes.CLEARABLE_FORCED,
       attributes.COMPACT,
+      attributes.CURSOR,
       attributes.DISABLED,
       attributes.FIELD_HEIGHT,
       attributes.LABEL,
@@ -142,7 +153,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   connectedCallback() {
     this.#attachEventHandlers();
 
-    /* istanbul ignore next */
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
@@ -162,14 +172,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const type = ` type="${this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.textAlign}`;
-    inputClass += IdsStringUtils.stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
-    inputClass += IdsStringUtils.stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
-    inputClass += IdsStringUtils.stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
+    inputClass += stringUtils.stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
+    inputClass += stringUtils.stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
+    inputClass += stringUtils.stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
     inputClass = ` class="${inputClass}"`;
-    let inputState = IdsStringUtils.stringToBool(this.readonly) ? ' readonly' : '';
-    inputState = IdsStringUtils.stringToBool(this.disabled) ? ' disabled' : inputState;
+    let inputState = stringUtils.stringToBool(this.readonly) ? ' readonly' : '';
+    inputState = stringUtils.stringToBool(this.disabled) ? ' disabled' : inputState;
     let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
-    containerClass += IdsStringUtils.stringToBool(this.compact) ? ' compact' : '';
+    containerClass += stringUtils.stringToBool(this.compact) ? ' compact' : '';
 
     const labelHtml = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? '' : (
       `<label for="${this.id}-input" class="ids-label-text">
@@ -191,6 +201,15 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
         </div>
       </div>`
     );
+  }
+
+  set colorVariant(value) {
+    super.colorVariant = value;
+    this.clearable && this.refreshClearableButtonStyles();
+  }
+
+  get colorVariant() {
+    return super.colorVariant;
   }
 
   /**
@@ -234,7 +253,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       const options = {
         prop1: prop,
         prop2: prop !== attributes.READONLY ? attributes.READONLY : attributes.DISABLED,
-        val: IdsStringUtils.stringToBool(this[prop])
+        val: stringUtils.stringToBool(this[prop])
       };
 
       if (options.val) {
@@ -278,7 +297,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean} value Flags a label's text as not displayed explicitly in the label element
    * */
   set labelHidden(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringUtils.stringToBool(value)) {
       this?.setAttribute(attributes.LABEL_HIDDEN, true);
       const existingLabel = this.shadowRoot.querySelector('label');
       if (existingLabel) {
@@ -289,7 +308,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     } else {
       this?.removeAttribute(attributes.LABEL_HIDDEN);
 
-      /* istanbul ignore else */
       if (this.input) {
         this.input?.removeAttribute('aria-label');
 
@@ -378,9 +396,13 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @returns {object} The object for chaining.
    */
   #attachNativeEvents() {
+    if (!this.input) {
+      return this;
+    }
+
     const events = ['change.input', 'focus', 'select', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
-      this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+      this.onEvent(evt, this.input, (e) => {
         /**
          * Trigger event on parent and compose the args
          * will fire nativeEvents.
@@ -415,7 +437,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `autoselect` attribute
    */
   set autoselect(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(attributes.AUTOSELECT, val.toString());
     } else {
@@ -431,7 +453,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `bg-transparent` attribute
    */
   set bgTransparent(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     const className = 'bg-transparent';
     if (val) {
       this.setAttribute(attributes.BG_TRANSPARENT, val.toString());
@@ -449,7 +471,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `text-ellipsis` attribute
    */
   set textEllipsis(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     const className = 'text-ellipsis';
     if (val) {
       this.setAttribute(attributes.TEXT_ELLIPSIS, val.toString());
@@ -467,7 +489,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `clearable` attribute
    */
   set clearable(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CLEARABLE, val.toString());
     } else {
@@ -483,7 +505,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `clearable-forced` attribute
    */
   set clearableForced(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CLEARABLE_FORCED, val.toString());
     } else {
@@ -499,7 +521,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `compact` attribute
    */
   set compact(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(attributes.COMPACT, val.toString());
       this.container?.classList.add(attributes.COMPACT);
@@ -516,7 +538,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, 'true');
     } else {
@@ -525,7 +547,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     this.setInputState(attributes.DISABLED);
   }
 
-  get disabled() { return this.getAttribute(attributes.DISABLED); }
+  get disabled() { return stringUtils.stringToBool(this.getAttribute(attributes.DISABLED)); }
 
   /**
    * internal reference to a label element a user provides
@@ -552,7 +574,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
 
     if (val) {
       this.setAttribute(attributes.LABEL_REQUIRED, val.toString());
@@ -585,7 +607,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `readonly` attribute
    */
   set readonly(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringUtils.stringToBool(value);
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
     } else {
@@ -594,7 +616,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     this.setInputState(attributes.READONLY);
   }
 
-  get readonly() { return this.getAttribute(attributes.READONLY); }
+  get readonly() { return stringUtils.stringToBool(this.getAttribute(attributes.READONLY)); }
 
   /**
    * Set the fieldHeight (height) of input
@@ -645,7 +667,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `triggerfield` attribute
    */
   set triggerfield(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringUtils.stringToBool(stringUtils.stringToBool(value));
     if (val) {
       this.setAttribute(attributes.TRIGGERFIELD, val.toString());
     } else {
@@ -687,7 +709,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     }
 
     this.setAttribute(attributes.VALUE, v);
-    if (this.input?.value !== v) {
+    if (this.input && this.input?.value !== v) {
       this.input.value = v;
       this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
@@ -704,12 +726,34 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {string} value id
    */
   set id(value) {
-    this.setAttribute(attributes.ID, value);
-    this.input?.setAttribute(attributes.ID, `${value}-input`);
+    if (value !== '') {
+      this.setAttribute(attributes.ID, value);
+      this.input?.setAttribute(attributes.ID, `${value}-input`);
+    }
   }
 
   get id() {
     return this.getAttribute(attributes.ID);
+  }
+
+  /**
+   * Set the css cursor property to something other than text
+   * @param {string} value the css cursor value
+   */
+  set cursor(value) {
+    this.setAttribute(attributes.CURSOR, value);
+    this.input.style.cursor = value;
+  }
+
+  get cursor() {
+    return this.getAttribute(attributes.CURSOR);
+  }
+
+  /**
+   * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
+   */
+  focus() {
+    this.input.focus();
   }
 }
 

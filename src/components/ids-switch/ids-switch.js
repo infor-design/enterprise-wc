@@ -59,7 +59,6 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
    * @returns {void}
    */
   connectedCallback() {
-    /** @type {object} */
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
 
@@ -109,7 +108,6 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
       const eventName = 'change';
       if (option === 'remove') {
         const handler = this.handledEvents?.get(eventName);
-        /* istanbul ignore next */
         if (handler && handler.target === this.input) {
           this.offEvent(eventName, this.input);
         }
@@ -138,7 +136,7 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
             this.offEvent(evt, this.input);
           }
         } else {
-          this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+          this.onEvent(evt, this.input, (e) => {
             /**
              * Trigger event on parent and compose the args
              * will fire nativeEvents.
@@ -257,6 +255,13 @@ class IdsSwitch extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, Ids
   }
 
   get value() { return this.getAttribute(attributes.VALUE); }
+
+  /**
+   * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
+   */
+  focus() {
+    this.input.focus();
+  }
 }
 
 export default IdsSwitch;

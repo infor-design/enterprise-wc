@@ -1,6 +1,6 @@
  <link rel="stylesheet" href="../ids-data-grid/ids-data-grid.css"/>
 
-<ids-layout-grid>
+<ids-layout-grid auto="true">
   <ids-text font-size="12" type="h1">Virtual Scroller</ids-text>
 </ids-layout-grid>
 <ids-layout-grid cols="2" gap="xl">
@@ -20,7 +20,7 @@
     </ids-card>
   </ids-layout-grid-cell>
   <ids-layout-grid-cell>
-    <ids-card>
+    <ids-card overflow="hidden">
       <div slot="card-header">
         <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">Table With Virtual Scroll</ids-text>
       </div>

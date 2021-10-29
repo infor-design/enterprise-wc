@@ -17,16 +17,27 @@ class IdsLayoutGridCell extends IdsElement {
    */
   static get attributes() {
     return [
-      attributes.FILL,
       attributes.COL_SPAN,
+      attributes.COL_SPAN_XS,
+      attributes.COL_SPAN_SM,
+      attributes.COL_SPAN_MD,
+      attributes.COL_SPAN_LG,
+      attributes.COL_SPAN_XL,
+      attributes.COL_SPAN_XXL,
       attributes.COL_START,
-      attributes.JUSTIFY,
       attributes.COL_END,
+      attributes.FILL,
+      attributes.JUSTIFY,
       attributes.ROW_SPAN,
       attributes.ROW_START,
       attributes.ROW_END
     ];
   }
+
+  connectedCallback() {
+  }
+
+  parentColSetting = this.parentElement?.getAttribute(attributes.COLS);
 
   /**
    * Handle The Fill Setting
@@ -58,6 +69,14 @@ class IdsLayoutGridCell extends IdsElement {
       this.setAttribute(attributes.COL_SPAN, value);
       this.style.setProperty('--grid-col-span', value);
       this.classList.add(`ids-layout-grid-col-span`);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-${value}`);
+        }
+      });
       return;
     }
 
@@ -67,6 +86,138 @@ class IdsLayoutGridCell extends IdsElement {
   }
 
   get colSpan() { return this.getAttribute(attributes.COL_SPAN); }
+
+  /**
+   * Sets the col span for colSpanXs breakpoint 360px
+   * @param {string | null} value The number value for the colSpanXs col span
+   */
+  set colSpanXs(value) {
+    if (value) {
+      this.setAttribute(attributes.COL_SPAN_XS, value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-xs-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanXs() {
+    return this.getAttribute(attributes.COL_SPAN_XS);
+  }
+
+  /**
+   * Sets the col span for sm breakpoint 600px
+   * @param {string | null} value The number value for the sm col span
+   */
+  set colSpanSm(value) {
+    if (value) {
+      this.setAttribute(attributes.COL_SPAN_SM, value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-sm-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanSm() {
+    return this.getAttribute(attributes.COL_SPAN_SM);
+  }
+
+  /**
+   * Sets the col span for md breakpoint 840px
+   * @param {string | null} value The number value for the md col span
+   */
+  set colSpanMd(value) {
+    if (value) {
+      this.setAttribute(attributes.COL_SPAN_MD, value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-md-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanMd() {
+    return this.getAttribute(attributes.COL_SPAN_MD);
+  }
+
+  /**
+   * Sets the col span for lg breakpoint 1024px
+   * @param {string | null} value The number value for the lg col span
+   */
+  set colSpanLg(value) {
+    if (value) {
+      this.setAttribute(attributes.COL_SPAN_LG, value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-lg-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanLg() {
+    return this.getAttribute(attributes.COL_SPAN_LG);
+  }
+
+  /**
+   * Sets the col span for xl breakpoint 1280px
+   * @param {string | null} value The number value for the xl col span
+   */
+  set colSpanXl(value) {
+    if (value) {
+      this.setAttribute(attributes.COL_SPAN_XL, value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-xl-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanXl() {
+    return this.getAttribute(attributes.COL_SPAN_XL);
+  }
+
+  /**
+   * Sets the col span for xxl breakpoint 1440px
+   * @param {string | null} value The number value for the xxl col span
+   */
+  set colSpanXxl(value) {
+    if (value) {
+      this.setAttribute(attributes.COL_SPAN_XXL, value);
+
+      requestAnimationFrame(() => {
+        const gridCols = this.parentElement?.getAttribute(attributes.COLS);
+        if (gridCols === 'fluid-grid' || gridCols === 'fluid-grid-xl') {
+          this.classList.remove(`ids-layout-grid-col-span`);
+          this.classList.add(`ids-layout-grid-col-span-xxl-${value}`);
+        }
+      });
+    }
+  }
+
+  get colSpanXxl() {
+    return this.getAttribute(attributes.COL_SPAN_XXL);
+  }
 
   /**
    * Set the starting column

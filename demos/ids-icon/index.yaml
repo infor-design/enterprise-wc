@@ -9,4 +9,6 @@
     description: Shows all available icons and sizes
   - link: side-by-side.html
     description: Showing a few icons next to 4.x iconss
+  - link: notification-badge.html
+    description: Example of notifications badges on icons
 

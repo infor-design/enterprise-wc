@@ -4,6 +4,22 @@
 
 We include a trigger field component that helps layout an input next to a button (the trigger button). This component can be used on its own, but its generally used to make other internal components (datepicker, timepicker ect).
 
+## Class Hierarchy
+
+- IdsTriggerField
+  - IdsInput
+    - IdsElement
+- Mixins
+  IdsDirtyTrackerMixin
+  IdsColorVariantMixin
+  IdsClearableMixin
+  IdsEventsMixin
+  IdsKeyboardMixin
+  IdsMaskMixin
+  IdsThemeMixin
+  IdsTooltipMixin
+  IdsValidationMixin
+
 ## Use Cases
 
 - When you want an input with a trigger button/buttons that opens some kind of selection dialog that works with the field.

@@ -8,7 +8,6 @@ const IdsDOMUtils = {
    * @returns {ShadowRoot|undefined} the node.
    */
   getClosestShadow(node) {
-    /** @type {any} */
     let parent = (node && node.parentNode);
     while (parent) {
       if (parent.toString() === '[object ShadowRoot]') {
@@ -47,13 +46,11 @@ const IdsDOMUtils = {
    * @returns {Node|undefined} the node if found, otherwise undefined
    */
   getClosest(node, selector) {
-    /** @type {any} */
     let parent = (node && node.parentNode);
     while (parent) {
       if (parent.toString() === '[object ShadowRoot]') {
         parent = parent.host;
       }
-      /* istanbul ignore next */
       if (parent.toString() === '[object HTMLDocument]') {
         return undefined;
       }
@@ -75,7 +72,7 @@ const IdsDOMUtils = {
   transitionToPromise(el, property, value) {
     return new Promise((resolve) => {
       el.style[property] = value;
-      const transitionEnded = /* istanbul ignore next */ (e) => {
+      const transitionEnded = (e) => {
         if (e.propertyName !== property) return;
         el.removeEventListener('transitionend', transitionEnded);
         resolve();
@@ -93,7 +90,7 @@ const IdsDOMUtils = {
    */
   waitForTransitionEnd(el, property) {
     return new Promise((resolve) => {
-      const transitionEnded = /* istanbul ignore next */ (e) => {
+      const transitionEnded = (e) => {
         if (e.propertyName !== property) return;
         el.removeEventListener('transitionend', transitionEnded);
         resolve();

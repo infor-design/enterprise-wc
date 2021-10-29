@@ -1,11 +1,24 @@
 /* Ids Modal Component */
-@import './ids-modal-base';
 @import '../ids-popup/ids-popup-base';
 
 $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
 
+:host {
+  @include block();
+  @include fixed();
+
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+
+:host(:not([visible])) {
+  pointer-events: none;
+}
+
 .ids-modal {
-  @include internal-position-reset();
+  @include block();
 
   pointer-events: none;
 
@@ -15,11 +28,11 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
 }
 
 .ids-modal-header {
-  @include p-20();
+  @include p-16();
 }
 
 .ids-modal-content {
-  @include px-20();
+  @include px-16();
   @include pt-20();
 }
 
@@ -58,4 +71,11 @@ $modal-border-style: 1px solid var(--ids-color-palette-slate-30);
 
 .ids-modal-button + .ids-modal-button {
   border-left: $modal-border-style;
+}
+
+// Media queries setup
+@media screen and (min-width: $breakpoint-sm) {
+  ::slotted([slot='title']) {
+    font-size: 26px;
+  }
 }

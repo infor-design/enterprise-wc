@@ -11,8 +11,6 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem
 } from '../../mixins';
 
 import { IdsToastShared as shared } from './ids-toast-shared';
@@ -23,7 +21,8 @@ import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
-import renderLoop from '../ids-render-loop/ids-render-loop-global';
+
+import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
 
 /**
  * IDS Toast Message Component
@@ -83,7 +82,7 @@ class IdsToastMessage extends
         <ids-text slot="text" audible="true">
           <slot name="close-button-label">${d.closeButtonLabel}</slot>
         </ids-text>
-        <ids-icon slot="icon" icon="close" part="close-button-icon" size="small"></ids-icon>
+        <ids-icon slot="icon" icon="close" part="close-button-icon" size="xsmall"></ids-icon>
       </ids-trigger-button>`;
 
     const progress = this.progressBar ? '<div class="progress-bar" part="progress-bar"></div>' : '';
@@ -109,7 +108,6 @@ class IdsToastMessage extends
   #setTimer() {
     let progressBar = this.shadowRoot.querySelector('.progress-bar');
     const updateProgressBar = (percentage) => {
-      /* istanbul ignore else */
       if (progressBar) {
         progressBar.style.width = `${percentage}%`;
       }
@@ -121,7 +119,6 @@ class IdsToastMessage extends
       this.container?.classList.add(shared.TOAST_MESSAGE_CLASSES.start);
     }
 
-    /* istanbul ignore next */
     if (!this.progressBar && progressBar) {
       progressBar.parentNode?.removeChild(progressBar);
       progressBar = undefined;

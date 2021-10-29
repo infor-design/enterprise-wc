@@ -12,6 +12,7 @@ import styles from './ids-checkbox.scss';
 import {
   IdsEventsMixin,
   IdsDirtyTrackerMixin,
+  IdsHitboxMixin,
   IdsValidationMixin,
   IdsThemeMixin,
   IdsLocaleMixin
@@ -24,6 +25,7 @@ const attribs = [
   { name: 'color', prop: 'color' },
   { name: 'dirty-tracker', prop: 'dirtyTracker' },
   { name: 'disabled', prop: 'disabled' },
+  { name: 'hitbox', prop: 'hitbox' },
   { name: 'horizontal', prop: 'horizontal' },
   { name: 'indeterminate', prop: 'indeterminate' },
   { name: 'label', prop: 'label' },
@@ -38,6 +40,7 @@ const attribs = [
  * @type {IdsCheckbox}
  * @inherits IdsElement
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsHitboxMixin
  * @mixes IdsValidationMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
@@ -51,6 +54,7 @@ const attribs = [
 class IdsCheckbox extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsDirtyTrackerMixin,
+    IdsHitboxMixin,
     IdsValidationMixin,
     IdsThemeMixin,
     IdsLocaleMixin
@@ -68,7 +72,8 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      ...attributes.CHECKED,
+      ...super.attributes,
+      attributes.CHECKED,
       attributes.COLOR,
       attributes.DISABLED,
       attributes.HORIZONTAL,
@@ -90,9 +95,9 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @returns {void}
    */
   attributeChangedCallback(
-    /** @type {string} */ name,
-    /** @type {any} */ oldValue,
-    /** @type {any} */ newValue
+    name,
+    oldValue,
+    newValue
   ) {
     if (oldValue !== newValue) {
       attribs.forEach((attribute) => {
@@ -171,7 +176,7 @@ class IdsCheckbox extends mix(IdsElement).with(
   attachNativeEvents() {
     const events = ['change', 'focus', 'keydown', 'keypress', 'keyup', 'click', 'dbclick'];
     events.forEach((evt) => {
-      this.onEvent(evt, this.input, (/** @type {any} */ e) => {
+      this.onEvent(evt, this.input, (e) => {
         this.triggerEvent(e.type, this, {
           detail: {
             elem: this,
@@ -350,6 +355,13 @@ class IdsCheckbox extends mix(IdsElement).with(
   }
 
   get value() { return this.getAttribute(attributes.VALUE); }
+
+  /**
+   * Overrides the standard "focus" behavior to instead pass focus to the inner HTMLInput element.
+   */
+  focus() {
+    this.input.focus();
+  }
 }
 
 export default IdsCheckbox;

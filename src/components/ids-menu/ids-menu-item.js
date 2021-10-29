@@ -13,10 +13,13 @@ import { IdsStringUtils } from '../../utils';
 import {
   IdsEventsMixin,
   IdsThemeMixin,
-  IdsLocaleMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem
+  IdsLocaleMixin
 } from '../../mixins';
+
+import {
+  renderLoop,
+  IdsRenderLoopItem
+} from '../ids-render-loop';
 
 import IdsIcon from '../ids-icon/ids-icon';
 
@@ -62,7 +65,6 @@ function safeForAttribute(value) {
  * @type {IdsMenuItem}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsRenderLoopMixin
  * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  * @part menu-item - the menu item element
@@ -73,7 +75,6 @@ function safeForAttribute(value) {
 @customElement('ids-menu-item')
 @scss(styles)
 class IdsMenuItem extends mix(IdsElement).with(
-    IdsRenderLoopMixin,
     IdsEventsMixin,
     IdsLocaleMixin,
     IdsThemeMixin
@@ -205,9 +206,7 @@ class IdsMenuItem extends mix(IdsElement).with(
     const self = this;
     // "Hover" timeout deals with `mouseenter`/`mouseleave` events, and causes the
     // menu to open after a delay.
-    /* istanbul ignore next */
     let hoverTimeout;
-    /* istanbul ignore next */
     const clearHoverTimeout = () => {
       if (hoverTimeout) {
         hoverTimeout.destroy(true);
@@ -217,9 +216,7 @@ class IdsMenuItem extends mix(IdsElement).with(
 
     // "Hide Submenu" timeout causes a submenu to close after a delay, if the mouse/touch
     // does not exist over top of a valid menu/submenu item.
-    /* istanbul ignore next */
     let hideSubmenuTimeout;
-    /* istanbul ignore next */
     const clearHideSubmenuTimeout = () => {
       if (hideSubmenuTimeout) {
         hideSubmenuTimeout.destroy(true);
@@ -229,7 +226,6 @@ class IdsMenuItem extends mix(IdsElement).with(
 
     // On 'mouseenter', after a specified duration, run some events,
     // including activation of submenus where applicable.
-    /* istanbul ignore next */
     this.onEvent('mouseenter', this, () => {
       clearHideSubmenuTimeout();
       if (!this.disabled && this.hasSubmenu) {
@@ -240,7 +236,7 @@ class IdsMenuItem extends mix(IdsElement).with(
             self.showSubmenu();
           }
         });
-        this.rl.register(hoverTimeout);
+        renderLoop.register(hoverTimeout);
       }
 
       // Highlight
@@ -259,7 +255,6 @@ class IdsMenuItem extends mix(IdsElement).with(
 
     // On 'mouseleave', clear any pending timeouts, hide submenus if applicable,
     // and unhighlight the item
-    /* istanbul ignore next */
     this.onEvent('mouseleave', this, () => {
       clearHoverTimeout();
 
@@ -275,7 +270,7 @@ class IdsMenuItem extends mix(IdsElement).with(
             }
           }
         });
-        this.rl.register(hideSubmenuTimeout);
+        renderLoop.register(hideSubmenuTimeout);
       } else {
         this.unhighlight();
       }
@@ -568,7 +563,7 @@ class IdsMenuItem extends mix(IdsElement).with(
     // Build/Fire a `beforeselect` event that will allow an external hook to
     // determine if this menu item can be selected, or perform other actions.
     let canSelect = true;
-    const beforeSelectResponse = (/** @type {any} */ veto) => {
+    const beforeSelectResponse = (veto) => {
       canSelect = !!veto;
     };
     this.triggerEvent(beforeEventName, this, {
@@ -688,7 +683,6 @@ class IdsMenuItem extends mix(IdsElement).with(
    * Displays this menu item's submenu, if one is present.
    * @returns {void}
    */
-  /* istanbul ignore next */
   showSubmenu() {
     if (!this.hasSubmenu || (this.hasSubmenu && !this.submenu.hidden)) {
       return;
@@ -702,7 +696,6 @@ class IdsMenuItem extends mix(IdsElement).with(
    * Hides this menu item's submenu, if one is present.
    * @returns {void}
    */
-  /* istanbul ignore next */
   hideSubmenu() {
     if (!this.hasSubmenu || (this.hasSubmenu && this.submenu.hidden)) {
       return;

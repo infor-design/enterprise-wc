@@ -8,6 +8,14 @@ import {
 import styles from './ids-layout-grid.scss';
 import IdsLayoutGridCell from './ids-layout-grid-cell';
 
+// Class vars
+const fluidGridClass = `ids-layout-fluid-grid`;
+const fluidGridXlClass = `ids-layout-fluid-grid-xl`;
+const autoGridClass = `ids-layout-grid-auto`;
+const colsGridClass = `ids-layout-grid-cols`;
+const rowsClass = `ids-layout-grid-rows`;
+const noMarginsClass = `ids-layout-grid-no-margins`;
+
 /**
  * IDS Layout Grid Component
  * @type {IdsLayoutGrid}
@@ -22,17 +30,36 @@ class IdsLayoutGrid extends IdsElement {
 
   static get attributes() {
     return [
-      attributes.FIXED,
-      attributes.GAP,
       attributes.AUTO,
       attributes.COLS,
-      attributes.ROWS,
-      attributes.NO_MARGINS
+      attributes.FIXED,
+      attributes.GAP,
+      attributes.NO_MARGINS,
+      attributes.MIN_COL_WIDTH,
+      attributes.ROWS
     ];
+  }
+
+  connectedCallback() {
+    this.#setDefaults();
   }
 
   template() {
     return `<slot></slot>`;
+  }
+
+  /**
+   * Sets the default attributes and classes
+   * @private
+   * @returns {void}
+   */
+  #setDefaults() {
+    if (this.cols === null && this.auto === null) {
+      this.setAttribute(attributes.COLS, 'fluid-grid');
+      this.classList.remove(colsGridClass);
+      this.classList.add(fluidGridClass);
+      this.style.removeProperty('--grid-cols');
+    }
   }
 
   /**
@@ -79,12 +106,14 @@ class IdsLayoutGrid extends IdsElement {
   set auto(value) {
     if (value) {
       this.setAttribute(attributes.AUTO, value.toString());
-      this.classList.add('ids-layout-grid-auto');
+      this.classList.add(autoGridClass);
+      this.classList.remove(fluidGridClass);
+      this.removeAttribute(attributes.COLS);
       return;
     }
 
     this.removeAttribute(attributes.AUTO);
-    this.classList.remove('ids-layout-grid-auto');
+    this.classList.remove(autoGridClass);
   }
 
   get auto() { return this.getAttribute(attributes.AUTO); }
@@ -95,17 +124,31 @@ class IdsLayoutGrid extends IdsElement {
    */
   set cols(value) {
     if (value) {
-      this.auto = false;
       this.setAttribute(attributes.COLS, value);
       this.style.setProperty('--grid-cols', value);
-      this.classList.add(`ids-layout-grid-cols`);
-      this.classList.remove('ids-layout-grid-auto');
-      return;
+      this.classList.add(colsGridClass);
+      this.classList.remove(autoGridClass);
+      this.classList.remove(fluidGridClass);
     }
 
-    this.style.removeProperty('--grid-cols');
-    this.removeAttribute(attributes.AUTO);
-    this.classList.remove(`ids-layout-grid-cols`);
+    if (value === 'fluid-grid') {
+      this.setAttribute(attributes.COLS, value);
+      this.classList.remove(colsGridClass);
+      this.classList.add(fluidGridClass);
+      this.style.removeProperty('--grid-cols');
+      this.removeAttribute(attributes.AUTO);
+      this.classList.remove(autoGridClass);
+    }
+
+    if (value === 'fluid-grid-xl') {
+      this.setAttribute(attributes.COLS, value);
+      this.classList.remove(colsGridClass);
+      this.classList.add(fluidGridClass);
+      this.classList.add(fluidGridXlClass);
+      this.style.removeProperty('--grid-cols');
+      this.removeAttribute(attributes.AUTO);
+      this.classList.remove(autoGridClass);
+    }
   }
 
   get cols() { return this.getAttribute(attributes.COLS); }
@@ -119,14 +162,14 @@ class IdsLayoutGrid extends IdsElement {
       this.auto = false;
       this.setAttribute(attributes.ROWS, value);
       this.style.setProperty('--grid-rows', value);
-      this.classList.add(`ids-layout-grid-rows`);
-      this.classList.remove('ids-layout-grid-auto');
+      this.classList.add(rowsClass);
+      this.classList.remove(autoGridClass);
       return;
     }
 
     this.style.removeProperty('--grid-rows');
     this.removeAttribute(attributes.AUTO);
-    this.classList.remove(`ids-layout-grid-rows`);
+    this.classList.remove(rowsClass);
   }
 
   get rows() { return this.getAttribute(attributes.ROWS); }
@@ -138,15 +181,32 @@ class IdsLayoutGrid extends IdsElement {
   set noMargins(value) {
     if (value) {
       this.setAttribute(attributes.NO_MARGINS, value.toString());
-      this.classList.add('ids-layout-grid-no-margins');
+      this.classList.add(noMarginsClass);
       return;
     }
 
     this.removeAttribute(attributes.NO_MARGINS);
-    this.classList.remove('ids-layout-grid-no-margins');
+    this.classList.remove(noMarginsClass);
   }
 
   get noMargins() { return this.getAttribute(attributes.NO_MARGINS); }
+
+  /**
+   * Sets the min col width on the grid
+   * @param {string} value number for pixel length
+   */
+  set minColWidth(value) {
+    if (value) {
+      this.setAttribute(attributes.MIN_COL_WIDTH, value.toString());
+      this.style.setProperty('--grid-min-col-width', value);
+      return;
+    }
+
+    this.removeAttribute(attributes.MIN_COL_WIDTH);
+    this.style.removeProperty('--grid-min-col-width');
+  }
+
+  get minColWidth() { return this.getAttribute(attributes.MIN_COL_WIDTH); }
 }
 
 export default IdsLayoutGrid;

@@ -41,6 +41,15 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 <ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
 ```
 
+## Class Hierarchy
+
+- IdsTag
+    - IdsElement
+- Mixins
+  IdsEventsMixin
+  IdsKeyboardMixin
+  IdsThemeMixin
+
 ## Settings
 
 - `clickable` {boolean} Turns on the functionality to make the tag clickable like a link
@@ -63,7 +72,7 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 - `slider` allows you to further style the sliding part of the switch
 - `label` allows you to further style the label text
 
-## States and Variations (With Code Examples)
+## States and Variations
 
 - Color
 - Linkable
@@ -88,7 +97,8 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 
 ## Designs
 
-[Design Specs](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
+[Design Specs 4.5](https://www.figma.com/file/yaJ8mJrqRRej8oTsd6iT8P/IDS-(SoHo)-Component-Library-v4.5?node-id=760%3A771)
+[Design Specs 4.6](https://www.figma.com/file/ok0LLOT9PP1J0kBkPMaZ5c/IDS_Component_File_v4.6-(Draft))
 
 ## Accessibility Guidelines
 

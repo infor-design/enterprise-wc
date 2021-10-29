@@ -6,9 +6,14 @@ demo-dist
 coverage
 test/**/diff
 tmp
+app
+.build-report
 
 # OS Setting Files
 .DS_Store
 
 # Error Reports from the Test Suite
 report.*.json
+
+# AWS
+.aws-sam/

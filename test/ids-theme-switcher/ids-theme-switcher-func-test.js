@@ -1,6 +1,8 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsThemeSwitcher from '../../src/components/ids-theme-switcher/ids-theme-switcher';
 import expectEnumAttributeBehavior from '../helpers/expect-enum-attribute-behavior';
@@ -33,6 +35,7 @@ describe('IdsThemeSwitcher Component', () => {
   });
 
   it('renders correctly', () => {
+    switcher.shadowRoot.querySelector('style').remove();
     expect(switcher.shadowRoot.innerHTML).toMatchSnapshot();
   });
 

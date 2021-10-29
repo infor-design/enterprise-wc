@@ -1,17 +1,17 @@
 {{> ../layouts/head.html }}
 
-<ids-layout-grid>
+<ids-layout-grid auto="true">
   <ids-text font-size="12" type="h1">Toolbar (Tabbable)</ids-text>
 </ids-layout-grid>
 
-<ids-layout-grid>
+<ids-layout-grid auto="true">
   <ids-layout-grid-cell>
     <ids-text>This Toolbar's items can be navigated with the Tab/Shift+Tab keys</ids-text>
   </ids-layout-grid-cell>
 </ids-layout-grid>
 
-<ids-layout-grid>
-  <ids-layout-grid-column auto="true">
+<ids-layout-grid auto="true">
+  <ids-layout-grid-cell>
 
     <ids-toolbar tabbable="true">
       <ids-toolbar-section>
@@ -77,7 +77,7 @@
       </ids-toolbar-more-actions>
     </ids-toolbar>
 
-  </ids-layout-grid-column>
+  </ids-layout-grid-cell>
 </ids-layout-grid>
 
 {{> ../layouts/footer.html }}

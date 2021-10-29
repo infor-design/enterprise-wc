@@ -24,6 +24,15 @@
 
 // Checkbox
 .ids-checkbox {
+  &.hitbox {
+    input[type='checkbox'] {
+      &:checked ~ .icon-dirty {
+        left: 10px;
+        top: 10px;
+      }
+    }
+  }
+
   input[type='checkbox'] {
     ~ .icon-dirty {
       @include z-1();
@@ -37,4 +46,10 @@
       top: -2px;
     }
   }
+}
+
+// Color Picker / trigger
+.field-container .icon-dirty {
+  left: -2px;
+  top: -2px;
 }

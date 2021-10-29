@@ -3,13 +3,13 @@ export { default as IdsColorVariantMixin } from './ids-color-variant-mixin/ids-c
 export { default as IdsClearableMixin } from './ids-clearable-mixin/ids-clearable-mixin';
 export { default as IdsDirtyTrackerMixin } from './ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 export { default as IdsEventsMixin } from './ids-events-mixin/ids-events-mixin';
+export { default as IdsFocusCaptureMixin } from './ids-focus-capture-mixin/ids-focus-capture-mixin';
+export { default as IdsHitboxMixin } from './ids-hitbox-mixin/ids-hitbox-mixin';
 export { default as IdsKeyboardMixin } from './ids-keyboard-mixin/ids-keyboard-mixin';
 export { default as IdsLocaleMixin } from './ids-locale-mixin/ids-locale-mixin';
 export { default as IdsMaskMixin } from './ids-mask-mixin/ids-mask-mixin';
 export { default as IdsPopupInteractionsMixin } from './ids-popup-interactions-mixin/ids-popup-interactions-mixin';
 export { default as IdsPopupOpenEventsMixin } from './ids-popup-open-events-mixin/ids-popup-open-events-mixin';
-export { IdsRenderLoopMixin, IdsRenderLoopItem } from './ids-render-loop-mixin/ids-render-loop-mixin';
-export { default as IdsResizeMixin } from './ids-resize-mixin/ids-resize-mixin';
 export { default as IdsThemeMixin } from './ids-theme-mixin/ids-theme-mixin';
 export { default as IdsTooltipMixin } from './ids-tooltip-mixin/ids-tooltip-mixin';
 export { default as IdsValidationMixin } from './ids-validation-mixin/ids-validation-mixin';

@@ -123,13 +123,11 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
       // only color the icons and progress labels if it's error, caution, or warning
       if (includesAlert) {
         const progressLabel = this.container.querySelector('.label-progress');
-        /* istanbul ignore else */
         if (progressLabel) {
           progressLabel.style.color = prop;
         }
 
         const icon = this.container.querySelector('ids-icon');
-        /* istanbul ignore else */
         if (icon) {
           icon.style.color = prop;
         }
@@ -148,7 +146,6 @@ class IdsProgressChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
    * @private
    */
   #updateLabel(labelType) {
-    /* istanbul ignore else */
     if (labelType === attributes.LABEL) {
       this.container.querySelector('.label-main').innerHTML = this.label;
     } else if (labelType === attributes.LABEL_PROGRESS) {

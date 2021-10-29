@@ -31,7 +31,12 @@ class IdsColor extends IdsElement {
    * @returns {Array<string>} this component's observable attributes
    */
   static get attributes() {
-    return [...attributes.MODE, attributes.HEX, attributes.VERSION];
+    return [
+      ...super.attributes,
+      attributes.MODE,
+      attributes.HEX,
+      attributes.VERSION
+    ];
   }
 
   /**
@@ -41,7 +46,7 @@ class IdsColor extends IdsElement {
   template() {
     return `
       <div class="ids-color" tabindex="0" part="color">
-        <ids-icon class="color-check" icon="check" size="small" part="hex"></ids-icon>
+        <ids-icon class="color-check" icon="check" size="xsmall" part="hex"></ids-icon>
       </div>`;
   }
 

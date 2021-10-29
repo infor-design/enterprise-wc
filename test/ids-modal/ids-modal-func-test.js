@@ -1,6 +1,9 @@
 /**
  * @jest-environment jsdom
  */
+import '../helpers/resize-observer-mock';
+import wait from '../helpers/wait';
+
 import IdsModal, { IdsOverlay } from '../../src/components/ids-modal';
 import { IdsButton } from '../../src/components/ids-button/ids-button';
 
@@ -36,59 +39,55 @@ describe('IdsModal Component', () => {
     expect(modal.outerHTML).toMatchSnapshot();
   });
 
-  it('can show/hide by using attributes', () => {
+  it('can show/hide by using attributes', async () => {
     modal.setAttribute('visible', 'true');
-
+    await wait(300);
     expect(modal.visible).toBeTruthy();
 
     modal.removeAttribute('visible');
-
+    await wait(300);
     expect(modal.visible).toBeFalsy();
   });
 
-  it('can show/hide by using attributes', () => {
+  it('can show/hide by using attributes', async () => {
     modal.visible = true;
-
+    await wait(300);
     expect(modal.visible).toBeTruthy();
 
     modal.visible = false;
-
+    await wait(300);
     expect(modal.visible).toBeFalsy();
   });
 
-  it('can use `show()`/`hide()` methods', () => {
-    modal.show();
-
+  it('can use `show()`/`hide()` methods', async () => {
+    await modal.show();
+    await wait(300);
     expect(modal.visible).toBeTruthy();
 
-    modal.hide();
-
+    await modal.hide();
+    await wait(300);
     expect(modal.visible).toBeFalsy();
   });
 
-  it('can prevent being opened with the `beforeshow` event', () => {
+  it('can prevent being opened with the `beforeshow` event', async () => {
     modal.addEventListener('beforeshow', (e) => {
       e.detail.response(false);
     });
-    modal.show();
+    await modal.show();
 
-    expect(modal.visible).toBeFalsy();
+    expect(modal.visible).toEqual(false);
   });
 
-  it('can prevent being closed with the `beforehide` event', (done) => {
+  it('can prevent being closed with the `beforehide` event', async () => {
     modal.addEventListener('beforehide', (e) => {
       e.detail.response(false);
     });
-    modal.show();
+    await modal.show();
+    await wait(310);
+    await modal.hide();
+    await wait(310);
 
-    setTimeout(() => {
-      modal.hide();
-
-      setTimeout(() => {
-        expect(modal.visible).toBeTruthy();
-        done();
-      }, 70);
-    }, 70);
+    expect(modal.visible).toBeTruthy();
   });
 
   it('can have a target element', () => {
@@ -147,54 +146,21 @@ describe('IdsModal Component', () => {
   });
 
   // @TODO Not sure why this won't pass (structured similarly to other tests like it)
-  it.skip('can hide a visible modal by pressing the Escape key', (done) => {
+  it.skip('can hide a visible modal by pressing the Escape key', async () => {
     const closeEvent = new KeyboardEvent('keydown', { key: 'Escape', bubbles: true });
 
-    modal.show();
+    await modal.show();
+    await wait(310);
 
-    setTimeout(() => {
-      // Key event is captured within the Modal container (encapsulated)
-      modal.container.dispatchEvent(closeEvent);
-      setTimeout(() => {
-        expect(modal.popup.visible).toBeFalsy();
-        done();
-      }, 70);
-    }, 70);
-  });
+    document.body.dispatchEvent(closeEvent);
+    await wait(310);
 
-  it('can click outside an open modal to close it', (done) => {
-    const clickEvent = new MouseEvent('click', { bubbles: true });
-
-    modal.onOutsideClick = jest.fn();
-    modal.show();
-
-    setTimeout(() => {
-      // Click outside the Modal into the overlay area
-      document.body.dispatchEvent(clickEvent);
-
-      setTimeout(() => {
-        expect(modal.onOutsideClick).toHaveBeenCalled();
-        done();
-      });
-    }, 70);
+    expect(modal.visible).toBeFalsy();
   });
 
   it('will not trigger a vetoable event of any type not supported', () => {
     modal.triggerVetoableEvent('fish');
 
     expect(modal.state.visible).toBeFalsy();
-  });
-
-  it('will focus the first available item in the modal when it opens', (done) => {
-    const extraBtn = new IdsButton();
-    extraBtn.id = 'focusable';
-    extraBtn.type = 'secondary';
-    modal.appendChild(extraBtn);
-    modal.show();
-
-    setTimeout(() => {
-      expect(document.activeElement.isEqualNode(extraBtn)).toBeTruthy();
-      done();
-    }, 300);
   });
 });

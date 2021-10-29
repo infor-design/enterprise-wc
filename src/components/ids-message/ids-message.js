@@ -30,7 +30,6 @@ class IdsMessage extends IdsModal {
   constructor() {
     super();
 
-    /* istanbul ignore next */
     if (!this.state) {
       this.state = {};
     }
@@ -105,9 +104,6 @@ class IdsMessage extends IdsModal {
     // Replace the message content
     messageEl.insertAdjacentHTML('afterbegin', content);
     this.state.message = content;
-
-    // Re-position the Popup
-    this.setModalPosition();
   }
 
   /**

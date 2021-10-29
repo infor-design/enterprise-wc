@@ -5,9 +5,9 @@ import {
 } from '../../core';
 
 import {
+  IdsEventsMixin,
   IdsPopupInteractionsMixin,
   IdsPopupOpenEventsMixin,
-  IdsEventsMixin,
   IdsLocaleMixin
 } from '../../mixins';
 
@@ -19,6 +19,7 @@ import styles from './ids-popup-menu.scss';
  * IDS Popup Menu Component
  * @type {IdsPopupMenu}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
  * @mixes IdsPopupOpenEventsMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsLocaleMixin
@@ -26,6 +27,7 @@ import styles from './ids-popup-menu.scss';
 @customElement('ids-popup-menu')
 @scss(styles)
 class IdsPopupMenu extends mix(IdsMenu).with(
+    IdsEventsMixin,
     IdsPopupOpenEventsMixin,
     IdsPopupInteractionsMixin,
     IdsLocaleMixin
@@ -150,7 +152,6 @@ class IdsPopupMenu extends mix(IdsMenu).with(
         this.hide();
 
         // Since Escape cancels without selection, re-focus the button
-        /* istanbul ignore next */
         if (this.target) {
           this.target.focus();
         }
@@ -208,8 +209,9 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     // Hide any "open" submenus (in the event the menu is already open and being positioned)
     this.hideSubmenus();
 
-    // Show this popup
+    // Show the popup and do placement
     this.popup.visible = true;
+    this.popup.place();
 
     this.addOpenEvents();
   }
@@ -272,8 +274,7 @@ class IdsPopupMenu extends mix(IdsMenu).with(
   onContextMenu(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.popup.x = e.pageX;
-    this.popup.y = e.pageY;
+    this.popup.setPosition(e.pageX, e.pageY);
     this.show();
   }
 

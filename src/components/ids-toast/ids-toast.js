@@ -213,8 +213,6 @@ class IdsToast extends mix(IdsElement).with(
       toastContainer.setAttribute('disabled', 'true');
       toastContainer.classList.add('toast-container', this.position);
       this.container.appendChild(toastContainer);
-
-      // this.shadowRoot.insertBefore(toastContainer, this.shadowRoot.firstChild);
     }
     return toastContainer;
   }
@@ -460,7 +458,6 @@ class IdsToast extends mix(IdsElement).with(
       if (lsPosition) {
         container.style.transform = lsPosition;
         const rect = container.getBoundingClientRect();
-        /* istanbul ignore next */
         if (!this.#isPosInViewport(rect)) {
           reset();
         }

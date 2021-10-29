@@ -617,4 +617,14 @@ describe('IdsInput Component', () => {
     input.version = 'classic';
     expect(input.container.getAttribute('version')).toEqual('classic');
   });
+
+  it('supports setting cursor', () => {
+    input.cursor = 'pointer';
+    expect(input.shadowRoot.querySelector('input').style.cursor).toEqual('pointer');
+  });
+
+  it('can focus its inner Input element', () => {
+    input.focus();
+    expect(document.activeElement).toEqual(input);
+  });
 });

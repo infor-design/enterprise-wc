@@ -12,9 +12,12 @@ import {
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem
 } from '../../mixins';
+
+import {
+  renderLoop,
+  IdsRenderLoopItem
+} from '../ids-render-loop';
 
 // Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-scroll-view.scss';
@@ -36,8 +39,7 @@ import styles from './ids-scroll-view.scss';
 class IdsScrollView extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
-    IdsThemeMixin,
-    IdsRenderLoopMixin
+    IdsThemeMixin
   ) {
   constructor() {
     super();
@@ -101,7 +103,6 @@ class IdsScrollView extends mix(IdsElement).with(
         this.container.scrollBy(-this.container.offsetWidth, 0);
         this.#activateLink(selected.previousElementSibling, true);
       }
-      /* istanbul ignore next */
       if (e.key === 'Enter') {
         e.preventDefault();
         e.stopPropagation();
@@ -109,7 +110,6 @@ class IdsScrollView extends mix(IdsElement).with(
     });
 
     // Set selected state on scroll/swipe
-    /* istanbul ignore next - cant test IntersectionObserver */
     this.querySelectorAll('[slot]').forEach((elem, i) => {
       elem.scrollViewIndex = i;
       const observer = new IntersectionObserver((entries) => {
@@ -130,7 +130,7 @@ class IdsScrollView extends mix(IdsElement).with(
   #resetIsClick() {
     this.isClick = true;
     /* istanbul ignore next */
-    this.timer = this.rl?.register(new IdsRenderLoopItem({
+    this.timer = renderLoop.register(new IdsRenderLoopItem({
       duration: 800,
       timeoutCallback: () => {
         this.isClick = false;
@@ -156,7 +156,6 @@ class IdsScrollView extends mix(IdsElement).with(
     elem.setAttribute('tabindex', '0');
     elem.setAttribute('aria-selected', 'true');
 
-    /* istanbul ignore next - cant test private function/IntersectionObserver */
     if (focus) {
       elem.focus();
     }

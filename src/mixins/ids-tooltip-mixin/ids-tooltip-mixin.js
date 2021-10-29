@@ -1,5 +1,5 @@
 import { attributes } from '../../core';
-import { IdsEventsMixin } from '../ids-events-mixin';
+import IdsTooltip from '../../components/ids-tooltip';
 
 /**
 /**
@@ -7,7 +7,7 @@ import { IdsEventsMixin } from '../ids-events-mixin';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass) {
+const IdsTooltipMixin = (superclass) => class extends superclass {
   constructor() {
     super();
   }
@@ -48,6 +48,9 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
     if (this.nodeName === 'IDS-INPUT') {
       return this.container.querySelector('input');
     }
+    if (this.nodeName === 'IDS-DROPDOWN') {
+      return this.container?.querySelector('ids-input').container?.querySelector('input');
+    }
     return this;
   }
 
@@ -62,7 +65,6 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
 
     // Append an IDS Tooltip and show it
     const tooltip = document.createElement('ids-tooltip');
-    /* istanbul ignore next */
     if (!tooltip.state) {
       tooltip.state = {};
     }
@@ -71,7 +73,6 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
     tooltip.alignTarget = this.toolTipTarget;
 
     // Handle Ellipsis Text if tooltip="true"
-    /* istanbul ignore next */
     tooltip.textContent = this.tooltip === 'true' ? this.textContent : this.tooltip;
 
     let container = document.querySelector('ids-container');
@@ -95,7 +96,7 @@ const IdsTooltipMixin = (superclass) => class extends IdsEventsMixin(superclass)
    */
   set tooltip(value) {
     this.setAttribute('tooltip', value);
-    this.container.setAttribute('tooltip', value);
+    this.container?.setAttribute('tooltip', value);
   }
 
   get tooltip() { return this.getAttribute('tooltip'); }

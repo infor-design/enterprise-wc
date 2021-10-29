@@ -12,9 +12,7 @@ import { IdsStringUtils, IdsDOMUtils } from '../../utils';
 // Import Mixins
 import {
   IdsEventsMixin,
-  IdsThemeMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem
+  IdsThemeMixin
 } from '../../mixins';
 
 // Import Styles
@@ -23,14 +21,12 @@ import styles from './ids-overlay.scss';
 const appliedMixins = [
   IdsEventsMixin,
   IdsThemeMixin,
-  IdsRenderLoopMixin
 ];
 
 /**
  * IDS Overlay Component
  * @type {IdsOverlay}
  * @inherits IdsElement
- * @mixes IdsRenderLoopMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  */
@@ -123,17 +119,15 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
   async #smoothlyAnimateVisibility(val) {
     const cl = this.container.classList;
 
-    /* istanbul ignore else */
     if (val && !cl.contains('visible')) {
       // Make visible
       cl.add('visible');
-      this.rl.onNextTick(() => {
+      requestAnimationFrame(() => {
         this.#changeOpacity(this.opacity);
       });
     } else if (!val && cl.contains('visible')) {
       // Make hidden
       await this.#changeOpacity(0);
-      /* istanbul ignore next */
       cl.remove('visible');
     }
   }

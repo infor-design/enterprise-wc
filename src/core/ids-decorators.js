@@ -6,7 +6,7 @@ const VERSION = '0.0.0-beta.15';
  * @returns {Function} The function that did the decorating
  */
 export function version() {
-  return (/** @type {any} */ target) => {
+  return (target) => {
     target.prototype.version = VERSION;
   };
 }
@@ -17,8 +17,7 @@ export function version() {
  * @returns {Function} The function that did the decorating
  */
 export function customElement(name) {
-  return (/** @type {CustomElementConstructor} */ target) => {
-    /* istanbul ignore next */
+  return (target) => {
     if (!customElements.get(name)) {
       customElements.define(name, target);
     }
@@ -31,7 +30,7 @@ export function customElement(name) {
  * @returns {Function} The function that did the decorating
  */
 export function scss(cssStyles) {
-  return (/** @type {any} */ target) => {
+  return (target) => {
     target.prototype.cssStyles = cssStyles;
   };
 }
@@ -41,7 +40,7 @@ export function scss(cssStyles) {
  * @returns {Function} The function that did the decorating
  */
 export function appendIds() {
-  return (/** @type {any} */ target) => {
+  return (target) => {
     target.prototype.appendIds = true;
   };
 }

@@ -3,14 +3,6 @@
 This mixin adds functionality to change the theme on a component. To use it you need to:
 
 1. Include the IdsThemeMixin in the `mix` list.
-1. Add two attributes to the attributes array. For example:
-
-```js
-  static get attributes() {
-    return [... attributes.MODE, attributes.VERSION];
-  }
-```
-
 1. Make sure if you use connectedCallback that you have a `super.connectedCallback()` in the method
 1. Add types for MODE and VERSION to the `d.ts` file for the new attributes.
 1. Add the theme mixin name to the @mixes tag for future docs.

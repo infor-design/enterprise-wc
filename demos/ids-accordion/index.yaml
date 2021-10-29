@@ -1,6 +1,6 @@
 ---
  component: Accordion
- link: ids-alert
+ link: ids-accordion
  description: Vertically Stacked Sections
  category: Layouts
  keywords: accordion, sections

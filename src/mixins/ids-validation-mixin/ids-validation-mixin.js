@@ -15,7 +15,6 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     this.handleValidation();
   }
 
-  /* istanbul ignore next */
   static get attributes() {
     return [
       ...super.attributes,
@@ -55,10 +54,10 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       const events = (this.validationEvents && typeof this.validationEvents === 'string')
         ? this.validationEvents : defaultEvents;
       this.validationEventsList = [...new Set(events.split(' '))];
-      const getRule = (/** @type {string} */ id) => ({ id, rule: this.rules[id] });
+      const getRule = (id) => ({ id, rule: this.rules[id] });
       let isRulesAdded = false;
 
-      this.validate.split(' ').forEach((/** @type {string} */ strRule) => {
+      this.validate.split(' ').forEach((strRule) => {
         if (strRule === 'required') {
           this.labelEl?.classList.add('required');
           this.input?.setAttribute('aria-required', true);
@@ -84,7 +83,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
           const useRules = this.useRules.get(input);
           if (useRules) {
             let found = false;
-            useRules.forEach((/** @type {object} */ rule) => {
+            useRules.forEach((rule) => {
               if (rule.id === strRule) {
                 found = true;
               }
@@ -132,8 +131,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       this.isTypeNotValid = {};
       let isValid = true;
       const useRules = this.useRules.get(input);
-      useRules?.forEach((/** @type {object} */ thisRule) => {
-        /* istanbul ignore else */
+      useRules?.forEach((thisRule) => {
         if (thisRule.rule !== undefined && !thisRule.rule?.check(input) && this.isTypeNotValid) {
           this.addMessage(thisRule.rule);
           isValid = false;
@@ -198,7 +196,6 @@ const IdsValidationMixin = (superclass) => class extends superclass {
 
     if (!iconName && type === 'icon') {
       iconName = icon || this.VALIDATION_DEFAULT_ICON;
-      /* istanbul ignore next */
       cssClass += iconName ? ' has-custom-icon' : '';
     }
     cssClass += isValidationIcon ? ` ${type}` : '';
@@ -206,7 +203,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const iconHtml = iconName ? `<ids-icon icon="${iconName}" class="ids-icon"></ids-icon>` : '';
 
     // Add error message div and associated aria
-    /* istanbul ignore else */
+
     if (!this.#externalValidationEl) {
       elem = document.createElement('div');
     } else {
@@ -225,7 +222,6 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const rootEl = this.shadowRoot.querySelector('.ids-input, .ids-textarea, .ids-checkbox');
     const parent = rootEl || this.shadowRoot;
 
-    /* istanbul ignore else */
     if (!this.#externalValidationEl) {
       parent.appendChild(elem);
     }
@@ -257,7 +253,6 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     const id = settings.id;
     let type = settings.type;
 
-    /* istanbul ignore else */
     if (!this.#externalValidationEl) {
       const elem = this.shadowRoot.querySelector(`[validation-id="${id}"]`);
       if (elem) {
@@ -285,7 +280,6 @@ const IdsValidationMixin = (superclass) => class extends superclass {
     // If multiple inputs in triggerfield
     if (this.inputs) {
       [...this.inputs].forEach((input) => {
-        /* istanbul ignore else */
         if (this.isTypeNotValid && !this.isTypeNotValid[type]) {
           input.classList.remove(type);
           input.removeAttribute('aria-describedby');
@@ -342,7 +336,6 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       });
     };
 
-    /* istanbul ignore next */
     if (this.input) {
       validationEvents(this.input);
     }
@@ -374,7 +367,6 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       this.removeAllMessages();
     };
 
-    /* istanbul ignore next */
     if (this.input) {
       destroy(this.input);
     }
@@ -397,7 +389,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
      * @private
      */
     required: {
-      check: (/** @type {object} */input) => {
+      check: (input) => {
         // Checkbox
         if (input.getAttribute('type') === 'checkbox') {
           return input.checked;
@@ -407,8 +399,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
           return input.getRootNode()?.host?.checked;
         }
         const val = input.value;
-        /* istanbul ignore next */
-        return !((val === null) || (typeof val === 'string' && val === '') || (typeof val === 'number' && isNaN(val))) // eslint-disable-line
+                return !((val === null) || (typeof val === 'string' && val === '') || (typeof val === 'number' && isNaN(val))) // eslint-disable-line
       },
       message: 'Required',
       type: 'error',
@@ -420,7 +411,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
      * @private
      */
     email: {
-      check: (/** @type {object} */ input) => {
+      check: (input) => {
         const val = input.value;
         const regex = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,16}(?:\.[a-z]{2})?)$/i;
         return (val.length) ? regex.test(val) : true;

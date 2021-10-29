@@ -3,7 +3,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const sass = require('sass');
 const TerserPlugin = require('terser-webpack-plugin');
-
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 const glob = require('glob');
 
@@ -36,9 +36,7 @@ module.exports = {
     libraryTarget: 'umd',
     libraryExport: 'default',
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js',
-    // doesnt work need a way to serve ids-locale/cultures in the distro
-    publicPath: './components/ids-locale/cultures'
+    filename: '[name].js'
   },
   module: {
     rules: [
@@ -93,6 +91,10 @@ module.exports = {
     new CleanWebpackPlugin(),
     new MiniCssExtractPlugin({
       filename: 'css/[name].min.css'
+    }),
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: `./build-report/index-${isProduction ? 'prod' : 'dev'}.html`
     }),
     new CopyWebpackPlugin({
       patterns: [

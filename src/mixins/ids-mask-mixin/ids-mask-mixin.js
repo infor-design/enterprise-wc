@@ -3,7 +3,6 @@ import { convertPatternFromString, PLACEHOLDER_CHAR } from '../../components/ids
 import { dateMask, numberMask } from '../../components/ids-mask/ids-masks';
 
 import { attributes } from '../../core/ids-attributes';
-import { IdsEventsMixin } from '../ids-events-mixin';
 import { IdsStringUtils } from '../../utils';
 
 const MASK_ATTRIBUTES = [
@@ -18,7 +17,7 @@ const MASK_ATTRIBUTES = [
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
+const IdsMaskMixin = (superclass) => class extends superclass {
   constructor() {
     super();
     this.maskState = {
@@ -33,7 +32,6 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   /**
    * @returns {Array<string>} IdsInput component observable attributes
    */
-  /* istanbul ignore next */
   static get attributes() {
     return [...super.attributes, ...MASK_ATTRIBUTES];
   }
@@ -146,7 +144,6 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
   }
 
   handleMaskEvents() {
-    // @ts-ignore
     this.onEvent('input', this, () => this.processMaskWithCurrentValue());
   }
 
@@ -195,7 +192,6 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
     };
 
     // Modify process options in some specific cases
-    /* istanbul ignore next */
     if (posBegin !== posEnd) {
       processOptions.selection.contents = rawValue.substring(posBegin, posEnd);
     }
@@ -234,11 +230,9 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
       previousMaskResult: previousValue,
       previousPlaceholder: this.maskState.previousPlaceholder,
     };
-    /* istanbul ignore next */
     if (processed.pipedCharacterIndexes) {
       adjustCaretOpts.indexesOfPipedChars = processed.pipedCharIndexes;
     }
-    /* istanbul ignore next */
     if (processed.caretTrapIndexes) {
       adjustCaretOpts.caretTrapIndexes = processed.caretTrapIndexes;
     }
@@ -286,7 +280,6 @@ const IdsMaskMixin = (superclass) => class extends IdsEventsMixin(superclass) {
    * @param {number} endPos end position
    * @returns {void}
    */
-  /* istanbul ignore next */
   safelySetSelection(host = document, startPos = 0, endPos = 0) {
     // @ts-ignore
     if (host?.activeElement === this.input) {

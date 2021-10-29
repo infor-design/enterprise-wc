@@ -1,0 +1,10 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "wc-demos"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-wzhtafoh72h7"
+s3_prefix = "wc-demos"
+region = "us-east-1"
+capabilities = "CAPABILITY_NAMED_IAM"
+image_repositories = []

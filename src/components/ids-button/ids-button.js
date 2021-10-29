@@ -11,12 +11,11 @@ import { IdsStringUtils } from '../../utils';
 import {
   IdsEventsMixin,
   IdsColorVariantMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem,
   IdsThemeMixin,
   IdsTooltipMixin
 } from '../../mixins';
 
+import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
 import styles from './ids-button.scss';
 
 const { stringToBool } = IdsStringUtils;
@@ -72,7 +71,6 @@ const baseProtoClasses = [
  * IDS Button Component
  * @type {IdsButton}
  * @inherits IdsElement
- * @mixes IdsRenderLoopMixin
  * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsTooltipMixin
@@ -83,7 +81,6 @@ const baseProtoClasses = [
 @customElement('ids-button')
 @scss(styles)
 class IdsButton extends mix(IdsElement).with(
-    IdsRenderLoopMixin,
     IdsEventsMixin,
     IdsColorVariantMixin,
     IdsThemeMixin,
@@ -170,7 +167,6 @@ class IdsButton extends mix(IdsElement).with(
    */
   refreshProtoClasses() {
     const cl = this.button.classList;
-    /** @type {any} */
     const newProtoClass = this.protoClasses;
 
     cl.remove(...baseProtoClasses);
@@ -208,12 +204,10 @@ class IdsButton extends mix(IdsElement).with(
       type = ` btn-${this.state.type}`;
     }
 
-    /* istanbul ignore next */
     if (this.hasAttribute(attributes.SQUARE)) {
       cssClass += ' square';
     }
 
-    /* istanbul ignore next */
     if (this.protoClasses.length) {
       protoClasses = `${this.protoClasses.join(' ')}`;
     }
@@ -236,7 +230,6 @@ class IdsButton extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-  /* istanbul ignore next */
   attachEventHandlers() {
     let x;
     let y;
@@ -245,7 +238,7 @@ class IdsButton extends mix(IdsElement).with(
       return;
     }
 
-    this.onEvent('click.ripple', this.button, (/** @type {any} */ e) => {
+    this.onEvent('click.ripple', this.button, (e) => {
       if (preceededByTouchstart) {
         preceededByTouchstart = false;
         return;
@@ -255,7 +248,7 @@ class IdsButton extends mix(IdsElement).with(
       this.createRipple(x, y);
     });
 
-    this.onEvent('touchstart.ripple', this.button, (/** @type {any} */ e) => {
+    this.onEvent('touchstart.ripple', this.button, (e) => {
       if (e.touches && e.touches.length > 0) {
         const touch = e.touches[0];
         x = touch.clientX !== 0 ? touch.clientX : undefined;
@@ -335,7 +328,6 @@ class IdsButton extends mix(IdsElement).with(
     this.shouldUpdate = true;
     this.state.disabled = isValueTruthy;
 
-    /* istanbul ignore next */
     if (this.button) {
       this.button.disabled = isValueTruthy;
     }
@@ -422,7 +414,6 @@ class IdsButton extends mix(IdsElement).with(
    */
   appendIcon(iconName) {
     // First look specifically for an icon slot.
-    /** @type {any} */
     const icon = this.querySelector(`ids-icon`); // @TODO check for dropdown/expander icons here
 
     if (icon) {
@@ -464,9 +455,7 @@ class IdsButton extends mix(IdsElement).with(
     }
 
     // Re-arrange the slots
-    /** @type {HTMLElement | null} */
     const iconSlot = this.button.querySelector('slot[name="icon"]');
-    /* istanbul ignore next */
     if (!iconSlot) {
       return;
     }
@@ -636,7 +625,6 @@ class IdsButton extends mix(IdsElement).with(
    */
   getRippleOffsets(x, y) {
     const btnRect = this.getBoundingClientRect();
-    /* istanbul ignore next */
     const halfRippleSize = this.button.classList.contains('ids-icon-button') ? 35 : 125;
     let btnX;
     let btnY;
@@ -688,7 +676,6 @@ class IdsButton extends mix(IdsElement).with(
 
     // Make/Place a new ripple
     const rippleEl = document.createElement('span');
-    /** @type {object} */
     const btnOffsets = this.getRippleOffsets(x, y);
     rippleEl.classList.add('ripple-effect');
     rippleEl.setAttribute('aria-hidden', 'true');
@@ -704,7 +691,7 @@ class IdsButton extends mix(IdsElement).with(
       this.rippleTimeout.destroy(true);
     }
 
-    this.rippleTimeout = this.rl.register(new IdsRenderLoopItem({
+    this.rippleTimeout = renderLoop.register(new IdsRenderLoopItem({
       duration: 1200,
       timeoutCallback() {
         rippleEl.remove();

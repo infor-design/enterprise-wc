@@ -32,7 +32,7 @@ jobs:
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: ids-enterprise-wc-016
+        key: ids-enterprise-wc-018
 
     - name: Install Dependencies
       run: npm ci
@@ -66,4 +66,4 @@ jobs:
        echo "Deploying ${branch_name//./_}"
        aws s3 cp demo-dist/ "s3://wc-demos/${branch_name//./_}" --recursive
        aws configure set preview.cloudfront true
-       aws cloudfront create-invalidation --distribution-id E2Q51X0UO412XH --paths /${branch_name//./_}
+       aws cloudfront create-invalidation --distribution-id E2Q51X0UO412XH --paths /${branch_name//./_} || true

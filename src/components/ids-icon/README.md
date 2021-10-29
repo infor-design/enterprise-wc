@@ -22,12 +22,32 @@ For a normal sized icon just specific the icon name and the web component will d
 <ids-icon icon="notes"></ids-icon>
 ```
 
-Icons come in 3 sizes depending where it is used.
+Icons come in 4 sizes depending where it is used.
 
 ```html
 <ids-icon icon="notes" size="large"></ids-icon>
 <ids-icon icon="notes" size="medium"></ids-icon>
 <ids-icon icon="notes" size="small"></ids-icon>
+<ids-icon icon="notes" size="xsmall"></ids-icon>
+```
+
+Icons also have offer notification badge options in 4 possible positions
+
+```html
+<ids-icon icon="notes" badge-position="top-left"></ids-icon>
+<ids-icon icon="notes" badge-position="top-right"></ids-icon>
+<ids-icon icon="notes" badge-position="bottom-left"></ids-icon>
+<ids-icon icon="notes" badge-position="bottom-right"></ids-icon>
+```
+These badges can also be displayed in 5 possible colors
+
+```html
+
+<ids-icon icon="notes" badge-position="top-left" badge-color="base"></ids-icon>
+<ids-icon icon="notes" badge-position="top-left" badge-color="caution"></ids-icon>
+<ids-icon icon="notes" badge-position="top-left"></ids-icon badge-color="danger">
+<ids-icon icon="notes" badge-position="top-left"></ids-icon badge-color="success">
+<ids-icon icon="notes" badge-position="top-left" badge-color="warning"></ids-icon>
 ```
 
 ## States and Variations
@@ -35,6 +55,8 @@ Icons come in 3 sizes depending where it is used.
 - Color
 - Size
 - Alert
+- Badge-Position
+- Badge-Color
 
 ## Keyboard Guidelines
 

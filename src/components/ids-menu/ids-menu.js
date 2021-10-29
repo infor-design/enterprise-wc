@@ -90,13 +90,13 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   attachEventHandlers() {
     // Highlight handler -- Menu Items Only, don't change if the target is disabled
-    const highlightItem = (/** @type {any} */ e) => {
+    const highlightItem = (e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.highlightItem(thisItem);
     };
 
     // Unhighlight handler - Menu Items Only
-    const unhighlightItem = (/** @type {any} */ e) => {
+    const unhighlightItem = (e) => {
       const thisItem = e.target.closest('ids-menu-item');
       thisItem.unhighlight();
     };
@@ -104,7 +104,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     // Highlight the item on click
     // If the item doesn't contain a submenu, select it.
     // If the item does have a submenu, activate it.
-    this.onEvent('click', this, (/** @type {any} */ e) => {
+    this.onEvent('click', this, (e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.highlightItem(thisItem);
       this.selectItem(thisItem);
@@ -123,21 +123,21 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   attachKeyboardListeners() {
     // Arrow Up navigates focus backward
-    this.listen(['ArrowUp'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowUp'], this, (e) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(-1, true);
     });
 
     // Arrow Right navigates focus forward
-    this.listen(['ArrowDown'], this, (/** @type {any} */ e) => {
+    this.listen(['ArrowDown'], this, (e) => {
       e.preventDefault();
       e.stopPropagation();
       this.navigate(1, true);
     });
 
     // Enter/Spacebar select the menu item
-    this.listen(['Enter', 'Spacebar', ' '], this, (/** @type {any} */ e) => {
+    this.listen(['Enter', 'Spacebar', ' '], this, (e) => {
       const thisItem = e.target.closest('ids-menu-item');
       this.selectItem(thisItem);
       this.lastNavigated = thisItem;
@@ -352,7 +352,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     if (this.children[0]?.tagName === 'SLOT') {
       target = this.children[0].assignedElements();
     }
-    return [...target].filter((/** @type {any} */ e) => e.matches('ids-menu-group'));
+    return [...target].filter((e) => e.matches('ids-menu-group'));
   }
 
   /**

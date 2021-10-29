@@ -1,0 +1,11 @@
+---
+ component: Home Page
+ link: ids-home-page
+ description: Home Page / Card Layout
+ category: Layouts
+ keywords: Home Page, Card, Cards
+ examples:
+  - link: index.html
+    description: Shows home page layout with cards
+  - link: side-by-side.html
+    description: Showing the wc home page with 4.x home page

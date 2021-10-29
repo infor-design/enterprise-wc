@@ -2,6 +2,10 @@
 
 ## 5.0.0 Breaking Changes
 
+- `[App Menu]` The App Menu component is now a web component. ([#130](https://github.com/infor-design/enterprise-wc/issues/130))
+  - Markup has changed to a custom element `<ids-app-menu></ids-app-menu`>
+  - Can now be imported as a single JS file and used with encapsulated styles
+  - Sections are now slotted for easier use.  Accordion is the main slot, and other areas (toolbars, user info, etc) are named slots.
 - `[Button]` The button component has been changed to a web component. ([#4390](https://github.com/infor-design/enterprise/issues/4390))
   - Markup has changed to a custom element `<ids-button id="my-button" type="primary"></ids-button>`
   - Can now be imported as a single JS file and used with encapsulated styles.
@@ -17,6 +21,7 @@
   - Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+  - Can now use the hitbox styles by adding the setting to the ids-checkbox component.
 - `[Colorpicker]` The color picker has been ported from 4.x and converted to a custom element `<ids-color-picker></ids-color-picker>`
 - `[IdsContainer]` Adding a new setting to provide a custom padding property. <ids-container padding="8"></ids-container>
 - `[Counts]` The counts component has been changed to a web component and renamed to ids-counts.
@@ -38,9 +43,15 @@
   - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
   - Can now be imported as a single JS file and used with encapsulated styles.
 - `[Header]` Created an ids header web component. The <ids-header></ids-header> custom element has a color attribute that can be applied to personalize the background color.
+- `[Hierarchy]` The Hierarchy component has been changed to a web component and use with `ids-hierarchy`, `ids-hierarchy-item` and `ids-hierarchy-legend`.
+- `[HomePage]` The HomePage component has been changed to a web component and use with ids-home-page.
+  - Markup has changed to a custom element `<ids-home-page></ids-home-page>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Icons]` The icons are now a web component called ids-icon. You no longer need the huge block of svg in the page
   - The icon and size are set via properties/attributes
   - Can now be imported as a single JS file and used with encapsulated styles
+  - Can now display notification badges
 - `[Input]` The Input component has been changed to a web component and renamed to ids-input.
   - Markup has changed to a custom element `<ids-input></ids-input>`
   - If using events, events are now plain JS events.
@@ -67,12 +78,14 @@
 - `[Message]` The Message is now a web component called ids-message
   - The Message component now extends the Modal component, containing the same properties and methods.
   - Modal Buttons, Title, Status, and Message can be changed via API
+  - Enhance user-interface on mobile and desktop viewports.
   - Markup is `<ids-message></ids-message>`
 - `[Modal]` The Modal is now a web component called ids-modal ([WC#118](https://github.com/infor-design/enterprise-wc/issues/118))
   - All content inside the modal boundary is now user-defined by slot
   - Triggering element for the modal is now configurable with the `target` prop
   - Events are now just plain JS events
   - Markup has been changed to custom element `<ids-modal></ids-modal>`
+  - Enhance user-interface on mobile and desktop viewports.
 - `[NotificationBanner]` The Notification Banner is now a web component called ids-notification-banner
   - The type, alert icon, message text, link and link text are all configurable via properties on the custom element
   - Additionally, user's can define the notification via a JS api, where the `parent` and `id` can be configured
@@ -105,7 +118,6 @@
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[RenderLoop]` The RenderLoop component has been implemented as a mixin.
-  - Added `IdsRenderLoopMixin` for access to a global renderLoop instance from within WebComponents.
   - API has been simplified and made more user-friendly.
 - `[ScrollView/CirclePager]` The IdsScrollView component replaces circle pager from the previous version and adds swiping
   - Markup has changed to a custom element `<ids-scroll-view></ids-scroll-view>`
@@ -152,6 +164,10 @@
   - Content can now be set with `tooltipElem.textContent`
   - Instead of open and close use `tooltipElem.visible=true`
   - After show event was not needed as its the same as show so this is removed
+- `[Tree]` The Tree component has been changed to a web component and use with ids-tree and ids-tree-node.
+  - Markup has changed to a custom element `<ids-tree><ids-tree-node></ids-tree-node></ids-tree>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Wizard]` The Wizard component has been changed to a web component. ([#5026](https://github.com/infor-design/enterprise/issues/5026))
   - Wizard is now a custom element `<ids-wizard></ids-wizard>`
   - Steps are now codified as custom elements `<ids-wizard-step>MY-LABEL</ids-wizard-step>`
@@ -161,6 +177,7 @@
   - Markup has changed to a custom element `<ids-upload></ids-upload>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+  - Shows percent progress on file
 - `[Upload Advanced]` The file upload advanced component has been changed to a web component and renamed to ids-upload-advanced.
   - Markup has changed to a custom element `<ids-upload-advanced></ids-upload-advanced>`
   - Each file ui sections now use as components `<ids-upload-advanced-file></ids-upload-advanced-file>`

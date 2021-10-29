@@ -103,7 +103,6 @@ class IdsSwipeAction extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin)
     }
 
     // Close on click
-    // istanbul ignore next
     if (this.swipeType === 'reveal') {
       this.onEvent('click', this.leftButton, () => {
         this.container.scrollLeft = 85;

@@ -64,7 +64,8 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      ...attributes.DISABLED,
+      ...super.attributes,
+      attributes.DISABLED,
       attributes.LABEL,
       attributes.LABEL_HIDDEN,
       attributes.LANGUAGE,
@@ -88,14 +89,13 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     }
 
     const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
-      ? /* istanbul ignore next */' disabled'
+      ? ' disabled'
       : '';
 
     const buttonDisabledAttribHtml = (
       this.hasAttribute(attributes.DISABLED) || this.hasAttribute(attributes.READONLY)
     ) ? ' disabled' : '';
 
-    /* istanbul ignore next */
     const labelHtml = this.labelHidden ? '<span></span>' : (
       `<label
         ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
@@ -106,7 +106,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       </label>`
     );
 
-    /* istanbul ignore next */
     return (
       `<div
         ${buildClassAttrib(
@@ -197,7 +196,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
 
     // Respond to parent changing language
     this.offEvent('languagechange.spinbox-container');
-    /* istanbul ignore next */
     this.onEvent('languagechange.spinbox-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
     });
@@ -205,7 +203,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     this.labelEl = this.container.children[0];
     this.onEvent('click.label', this.labelEl, () => {
       const isDisabled = this.hasAttribute(attributes.DISABLED);
-      /* istanbul ignore else */
+
       if (!isDisabled) {
         this.input.input?.focus();
       }
@@ -230,14 +228,12 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       this.#getStepButtonCycler('down')
     );
 
-    /* istanbul ignore next */
     this.onEvent('mouseup', window, (e) => {
       this.#onStepButtonUnpressed(e);
     });
 
     this.onEvent('focus', this, (e) => {
       const isDisabled = this.hasAttribute(attributes.DISABLED);
-      /* istanbul ignore next */
       if (!isDisabled) {
         e.preventDefault();
         this.input.focus();
@@ -245,14 +241,11 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     });
 
     this.listen(['ArrowUp', 'ArrowDown'], this, (e) => {
-      /* istanbul ignore next */
       if (stringToBool(this.getAttribute(attributes.DISABLED))) { return; }
-      /* istanbul ignore next */
       const key = e.key;
 
       this.#onStepButtonUnpressed();
 
-      /* istanbul ignore next */
       switch (key) {
       case 'ArrowUp':
         this.#onStep('up');
@@ -437,12 +430,10 @@ export default class IdsSpinbox extends mix(IdsElement).with(
         this.removeAttribute(attributes.LABEL_HIDDEN);
       }
 
-      /* istanbul ignore else */
       if (this.input) {
         this.input?.removeAttribute('aria-label');
 
         const labelTemplate = document.createElement('template');
-        /* istanbul ignore next */
         labelTemplate.innerHTML = (
           `<label
               ${ buildClassAttrib('ids-label-text', this.disabled && 'disabled') }
@@ -513,7 +504,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     if (value) {
       this.setAttribute(attributes.VALIDATE, value);
       this.input.setAttribute(attributes.VALIDATE, value);
-      /* istanbul ignore next */
       if (this.container.children.length === 2) {
         const validateElTemplate = document.createElement('template');
         validateElTemplate.innerHTML = `<div class="validation-message"></div>`;
@@ -592,7 +582,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     const hasValidStep = !Number.isNaN(parseInt(this.step));
     let step = hasValidStep
       ? parseInt(this.step)
-      /* istanbul ignore next */
       : 1;
 
     if (direction === 'down') {
@@ -600,7 +589,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
     }
 
     const hasValidValue = !Number.isNaN(parseInt(this.value));
-    /* istanbul ignore next */
     this.value = (hasValidValue ? parseInt(this.value) : 0) + step;
   }
 
@@ -618,7 +606,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       return;
     }
 
-    /* istanbul ignore next */
     if (parseInt(this.value) >= parseInt(this.max)) {
       this.#incrementButton?.setAttribute(attributes.DISABLED, '');
     } else if (!this.hasAttribute(attributes.READONLY)) {
@@ -634,7 +621,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       return;
     }
 
-    /* istanbul ignore next */
     if (parseInt(this.value) <= parseInt(this.min)) {
       this.#decrementButton.setAttribute(attributes.DISABLED, '');
     } else if (!this.hasAttribute(attributes.READONLY)) {
@@ -662,7 +648,6 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    */
   #getStepButtonCycler(direction) {
     return (e) => {
-      /* istanbul ignore else */
       if (0b001 /* Left Button Mask */ & e.buttons) {
         let tickCounter = 0;
         this.#stepDirection = direction;
@@ -692,8 +677,7 @@ export default class IdsSpinbox extends mix(IdsElement).with(
    * @param {*} e optional mouse event
    */
   #onStepButtonUnpressed(e) {
-    /* istanbul ignore next */
-    if (/* istanbul ignore next */ !e
+    if (!e
     || (e.which === 1 && (this.#stepCycleTimeout || this.#stepDirection))
     ) {
       clearInterval(this.#stepCycleTimeout);

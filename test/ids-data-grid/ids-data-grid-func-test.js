@@ -138,9 +138,11 @@ describe('IdsDataGrid Component', () => {
     window.CSSStyleSheet = function CSSStyleSheet() { //eslint-disable-line
       return { cssRules: [], replaceSync: () => '', insertRule: () => '' };
     };
+    window.StyleSheet.insertRule = () => '';
 
     container = new IdsContainer();
     dataGrid = new IdsDataGrid();
+    dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
     container.appendChild(dataGrid);
     document.body.appendChild(container);
     dataGrid.columns = columns();
@@ -188,9 +190,34 @@ describe('IdsDataGrid Component', () => {
     it('renders column css with styleSheets', () => {
       document.body.innerHTML = '';
       dataGrid = new IdsDataGrid();
-      dataGrid.shadowRoot.styleSheets = () => [window.CSSStyleSheet];
+      dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
       document.body.appendChild(dataGrid);
       dataGrid.columns = columns();
+      dataGrid.data = dataset;
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
+    });
+
+    it('skips render column no styleSheets in headless browsers', () => {
+      document.body.innerHTML = '';
+      dataGrid = new IdsDataGrid();
+      dataGrid.shadowRoot.styleSheets = [];
+      document.body.appendChild(dataGrid);
+      dataGrid.columns = columns();
+      dataGrid.data = dataset;
+
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);
+    });
+
+    it('renders one single column', () => {
+      document.body.innerHTML = '';
+      dataGrid = new IdsDataGrid();
+      dataGrid.shadowRoot.styleSheets = [window.StyleSheet];
+      document.body.appendChild(dataGrid);
+      dataGrid.columns = [{
+        id: 'test',
+        width: 20
+      }];
       dataGrid.data = dataset;
 
       expect(dataGrid.shadowRoot.querySelectorAll('.ids-data-grid-header-cell').length).toEqual(dataGrid.columns.length);

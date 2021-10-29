@@ -7,6 +7,7 @@ import IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger
 import { attributes } from '../../src/core';
 import processAnimFrame from '../helpers/process-anim-frame';
 
+/*
 const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
   this.observe = jest.fn();
   this.disconnect = jest.fn();
@@ -16,6 +17,7 @@ const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
   };
 });
 global.ResizeObserver = resizeObserverMock;
+*/
 
 const DEFAULT_TRIGGERFIELD_HTML = (
   `<ids-trigger-field
@@ -23,7 +25,6 @@ const DEFAULT_TRIGGERFIELD_HTML = (
       size="sm"
       tabbable="false"
       label="Date Field"
-      content-borders
     >
       <ids-input></ids-input>
       <ids-trigger-button>
@@ -40,7 +41,6 @@ const REQUIRED_TRIGGERFIELD_HTML = (
       size="sm"
       tabbable="false"
       label="Date Field"
-      content-borders
       validate="required"
     >
       <ids-input></ids-input>
@@ -58,8 +58,25 @@ const DISABLED_TRIGGERFIELD_HTML = (
       size="sm"
       tabbable="false"
       label="Date Field"
-      content-borders
       disabled="true"
+    >
+      <ids-input></ids-input>
+      <ids-trigger-button>
+        <ids-text audible="true">Date Field trigger</ids-text>
+        <ids-icon slot="icon" icon="schedule"></ids-icon>
+      </ids-trigger-button>
+    </ids-trigger-field>
+  `
+);
+
+const READONLY_TRIGGERFIELD_HTML = (
+  `<ids-trigger-field
+      id="trigger-field-1"
+      size="sm"
+      tabbable="false"
+      label="Date Field"
+      content-borders
+      readonly="true"
     >
       <ids-input></ids-input>
       <ids-trigger-button>
@@ -166,8 +183,13 @@ describe('IdsTriggerField Component', () => {
   });
 
   it('renders disabled setting', async () => {
+    triggerField = await createElemViaTemplate(READONLY_TRIGGERFIELD_HTML);
+    expect(triggerField.readonly).toBe(true);
+  });
+
+  it('renders disabled setting', async () => {
     triggerField = await createElemViaTemplate(DISABLED_TRIGGERFIELD_HTML);
-    expect(triggerField.disabled).toBe('true');
+    expect(triggerField.disabled).toBe(true);
   });
 
   it('renders tabbable setting', () => {
@@ -189,14 +211,34 @@ describe('IdsTriggerField Component', () => {
     expect(triggerField.appearance).toEqual('compact');
   });
 
+  it('has a readonly attribute', () => {
+    triggerField.readonly = false;
+    expect(triggerField.readonly).toEqual(false);
+    expect(triggerField.getAttribute('readonly')).toEqual(null);
+
+    triggerField.readonly = true;
+    expect(triggerField.readonly).toEqual(true);
+    expect(triggerField.getAttribute('readonly')).toEqual('true');
+  });
+
   it('has a disabled attribute', () => {
     triggerField.disabled = false;
-    expect(triggerField.disabled).toEqual(null);
+    expect(triggerField.disabled).toEqual(false);
     expect(triggerField.getAttribute('disabled')).toEqual(null);
 
     triggerField.disabled = true;
-    expect(triggerField.disabled).toEqual('true');
+    expect(triggerField.disabled).toEqual(true);
     expect(triggerField.getAttribute('disabled')).toEqual('true');
+  });
+
+  it('has a readonly attribute', () => {
+    triggerField.readonly = true;
+    expect(triggerField.readonly).toEqual(true);
+    expect(triggerField.getAttribute('readonly')).toEqual('true');
+
+    triggerField.readonly = false;
+    expect(triggerField.readonly).toEqual(false);
+    expect(triggerField.getAttribute('readonly')).toEqual(null);
   });
 
   it('should not set wrong size', () => {

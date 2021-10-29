@@ -92,10 +92,10 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
               <ids-alert class="errored" icon="error-solid"></ids-alert>
             </div>
             <div class="file-name"><span>${this.fileName}</span></div>
-            <ids-text class="size">${this.sizeFormatted}</ids-text>
+            <div class="file-progress"><ids-text class="size">${this.sizeFormatted}</ids-text><div class="progress-text"><span class="bar">|</span><span class="percent">0%</span></div></div>
             <ids-button class="btn-close">
               <span slot="text" class="audible">${this.closeButtonText}</span>
-              <ids-icon slot="icon" icon="close" size="small"></ids-icon>
+              <ids-icon slot="icon" icon="close" size="xsmall"></ids-icon>
             </ids-button>
           </div>
           <div class="progress-row">
@@ -149,14 +149,14 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
       el.root?.classList.add(attributes.DISABLED);
       el.progress.setAttribute(attributes.DISABLED, val.toString());
       el.btnClose.setAttribute(attributes.DISABLED, val.toString());
-      el.alerts.forEach((/** @type {any} */ alert) => {
+      el.alerts.forEach((alert) => {
         alert?.setAttribute(attributes.DISABLED, val.toString());
       });
     } else {
       el.root?.classList.remove(attributes.DISABLED);
       el.progress.removeAttribute(attributes.DISABLED);
       el.btnClose.removeAttribute(attributes.DISABLED);
-      el.alerts.forEach((/** @type {any} */ alert) => {
+      el.alerts.forEach((alert) => {
         alert?.removeAttribute(attributes.DISABLED);
       });
     }
@@ -192,6 +192,16 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
       this.status = shared.STATUS.inProcess;
     }
 
+    const progressText = this.shadowRoot.querySelector('.progress-text');
+    if (progressText) {
+      const percentText = progressText.querySelector('.percent');
+      percentText.textContent = `${Math.round(value)}%`;
+
+      if (this.status === shared.STATUS.completed) {
+        progressText.remove();
+      }
+    }
+
     closeButtonTextEl.innerHTML = this.closeButtonText;
     progress?.setAttribute(attributes.VALUE, value.toString());
     progress?.setAttribute(attributes.LABEL, this.progressLabelText);
@@ -211,7 +221,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    */
   handleBtnCloseClickEvent() {
     const btnClose = this.shadowRoot?.querySelector('.btn-close');
-    this.onEvent('click', btnClose, (/** @type {any} */ e) => {
+    this.onEvent('click', btnClose, (e) => {
       this.abortHandler();
       this.dispatchChangeEvent('closebuttonclick', e);
     });

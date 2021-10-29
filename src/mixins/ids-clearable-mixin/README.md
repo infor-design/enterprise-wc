@@ -7,7 +7,7 @@ To implement the clearable mixin:
 1. Import `IdsClearableMixin`
 1. Add `IdsClearableMixin` to the mixes() section
 1. Add `IdsClearableMixin` to the @mixes comment section
-1. Make sure you attributes extend `return [...attributes` in the `attributes` property because `attributes.CLEARABLE` is added.
+1. Make sure you attributes extend `return [...super.attributes` in the `attributes` property because `attributes.CLEARABLE` is added.
 1. Make sure the `connectedCallback` calls `super.connectedCallback();`
 
 See ids-textarea as an example.

@@ -127,7 +127,7 @@ class IdsRenderLoop {
       requestAnimationFrame(tick);
     }
 
-    tick();
+    requestAnimationFrame(tick);
   }
 
   /**
@@ -148,7 +148,6 @@ class IdsRenderLoop {
    * @returns {number} amount of time that has passed since the RenderLoop was started.
    */
   get elapsedTime() {
-    /* istanbul ignore next */
     return timestamp() - ((this.startTime || 0) + this.totalStoppedTime);
   }
 
@@ -190,29 +189,12 @@ class IdsRenderLoop {
     }
 
     // Cause the item to timeout
-    /* istanbul ignore next */
     if (removedItem?.timeoutCallback) {
       removedItem.timeout();
     }
 
     // If this is undefined, an item was NOT removed from the queue successfully.
     return removedItem;
-  }
-
-  /**
-   * Equivalent to wrapping any function with `requestAnimationFrame` to have it run on the
-   * next possible repaint.
-   * @param {Function} timeoutCallback runs on the next available `requestAnimationFrame` tick
-   * @returns {void}
-   */
-  onNextTick(timeoutCallback) {
-    /* istanbul ignore next */
-    if (typeof timeoutCallback === 'function') {
-      this.register(new IdsRenderLoopItem({
-        duration: 1,
-        timeoutCallback
-      }));
-    }
   }
 }
 
