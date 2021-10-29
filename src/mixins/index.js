@@ -4,6 +4,7 @@ export { default as IdsClearableMixin } from './ids-clearable-mixin/ids-clearabl
 export { default as IdsDirtyTrackerMixin } from './ids-dirty-tracker-mixin/ids-dirty-tracker-mixin';
 export { default as IdsEventsMixin } from './ids-events-mixin/ids-events-mixin';
 export { default as IdsFocusCaptureMixin } from './ids-focus-capture-mixin/ids-focus-capture-mixin';
+export { default as IdsHitboxMixin } from './ids-hitbox-mixin/ids-hitbox-mixin';
 export { default as IdsKeyboardMixin } from './ids-keyboard-mixin/ids-keyboard-mixin';
 export { default as IdsLocaleMixin } from './ids-locale-mixin/ids-locale-mixin';
 export { default as IdsMaskMixin } from './ids-mask-mixin/ids-mask-mixin';
