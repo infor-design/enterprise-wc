@@ -121,10 +121,7 @@ class IdsActionSheet extends mix(IdsElement).with(
    * @returns {void}
    */
   onOutsideClick() {
-    this.onEvent('click', this.overlay, () => {
-      this.removeAttribute(attributes.VISIBLE);
-      this.overlay.removeAttribute(attributes.VISIBLE);
-    });
+    this.onEvent('click', this.overlay, () => this.dismiss());
   }
 
   /**
@@ -132,10 +129,16 @@ class IdsActionSheet extends mix(IdsElement).with(
    * @returns {void}
    */
   onCancelClick() {
-    this.onEvent('click', this.cancelBtn, () => {
-      this.removeAttribute(attributes.VISIBLE);
-      this.overlay.removeAttribute(attributes.VISIBLE);
-    });
+    this.onEvent('click', this.cancelBtn, () => this.dismiss());
+  }
+
+  /**
+   * Remove the action sheet from the page
+   * @returns {void}
+   */
+  dismiss() {
+    this.removeAttribute(attributes.VISIBLE);
+    this.overlay.removeAttribute(attributes.VISIBLE);
   }
 
   /**
