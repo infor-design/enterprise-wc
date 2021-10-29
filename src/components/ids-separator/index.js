@@ -1,1 +1,1 @@
-export { default as IdsSeparator } from './ids-separator';
+export { default } from './ids-separator';

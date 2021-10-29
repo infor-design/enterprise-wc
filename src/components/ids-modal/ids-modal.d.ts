@@ -1,6 +1,6 @@
 import { IdsElement } from '../../core/ids-element';
 import IdsOverlay from './ids-overlay';
-import IdsPopup from '../ids-popup/ids-popup';
+import IdsPopup from '../ids-popup';
 import IdsModalButton from '../ids-modal-button';
 
 interface beforeshow extends Event {

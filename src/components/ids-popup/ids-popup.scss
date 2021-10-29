@@ -173,11 +173,13 @@
   &.position-viewport {
     @include absolute();
 
+    // Position
     left: 50%;
     top: 50%;
     transform-origin: left top;
     transform: translate(-50%, -50%);
 
+    // Boundaries
     min-height: 15%;
     min-width: 15%;
     max-height: calc(100% - 16px);

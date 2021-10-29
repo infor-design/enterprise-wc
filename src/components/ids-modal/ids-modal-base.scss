@@ -8,7 +8,6 @@
     height: 100%;
     width: 100%;
     overflow: hidden;
-
     top: 0;
     left: 0;
   }
@@ -30,7 +29,6 @@
 @mixin modal-content-rules() {
   .ids-modal-content {
     flex-grow: 1;
-
     max-height: 100%;
     max-width: 100%;
     overflow: auto;
