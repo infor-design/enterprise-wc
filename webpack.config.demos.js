@@ -37,7 +37,7 @@ module.exports = {
   experiments: {
   },
   infrastructureLogging: {
-    level: 'warn'
+    level: 'error'
   },
   performance: {
     hints: false

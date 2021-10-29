@@ -9,14 +9,18 @@ import { attributes } from '../../core/ids-attributes';
 
 import {
   IdsEventsMixin,
+  IdsFocusCaptureMixin,
   IdsKeyboardMixin,
   IdsPopupInteractionsMixin,
   IdsPopupOpenEventsMixin,
-  IdsRenderLoopMixin,
-  IdsRenderLoopItem,
   IdsThemeMixin,
   IdsXssMixin
 } from '../../mixins';
+
+import {
+  renderLoop,
+  IdsRenderLoopItem
+} from '../ids-render-loop';
 
 import zCounter from './ids-modal-z-counter';
 import IdsPopup from '../ids-popup';
@@ -35,10 +39,10 @@ const dismissTimeout = 200;
  * @type {IdsModal}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
+ * @mixes IdsFocusCaptureMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsPopupInteractionsMixin
  * @mixes IdsPopupOpenEventsMixin
- * @mixes IdsRenderLoopMixin
  * @mixes IdsThemeMixin
  * @mixes IdsXssMixin
  * @part popup - the popup outer element
@@ -48,10 +52,10 @@ const dismissTimeout = 200;
 @scss(styles)
 class IdsModal extends mix(IdsElement).with(
     IdsEventsMixin,
+    IdsFocusCaptureMixin,
     IdsKeyboardMixin,
     IdsPopupInteractionsMixin,
     IdsPopupOpenEventsMixin,
-    IdsRenderLoopMixin,
     IdsThemeMixin,
     IdsXssMixin,
   ) {
@@ -330,7 +334,8 @@ class IdsModal extends mix(IdsElement).with(
     this.removeAttribute('aria-hidden');
 
     // Focus the correct element
-    this.#setModalFocus();
+    this.capturesFocus = true;
+
     this.addOpenEvents();
     this.triggerEvent('show', this, {
       bubbles: true,
@@ -368,6 +373,9 @@ class IdsModal extends mix(IdsElement).with(
     this.style.zIndex = '';
     this.setAttribute('aria-hidden', 'true');
     zCounter.decrement();
+
+    // Disable focus capture
+    this.capturesFocus = false;
 
     this.triggerEvent('hide', this, {
       bubbles: true,
@@ -542,7 +550,7 @@ class IdsModal extends mix(IdsElement).with(
       };
 
       // Run click handler on a staggered interval
-      this.rl.register(new IdsRenderLoopItem({
+      renderLoop.register(new IdsRenderLoopItem({
         duration: dismissTimeout,
         timeoutCallback
       }));

@@ -39,6 +39,49 @@
     }
   }
 
+  &.hitbox[version='classic'][mode='light']:not([color]),
+  &.hitbox[version='classic'][mode='dark']:not([color]),
+  &.hitbox[version='classic'][mode='contrast']:not([color]),
+  &.hitbox[version='new'][mode='contrast']:not([color]),
+  &.hitbox[version='new'][mode='dark']:not([color]) {
+    input[type='checkbox'] ~ span.checkmark {
+      top: 14px;
+    }
+  }
+
+  &.hitbox label {
+    align-items: baseline;
+    display: inline-flex;
+    padding: 12px 0;
+
+    &.required .label-text {
+      top: 0;
+
+      &::after {
+        height: 20px;
+        position: relative;
+        right: 0;
+        top: -2px;
+      }
+    }
+
+    span.checkmark {
+      margin-left: 14px;
+      margin-right: 14px;
+      position: absolute;
+      top: 14px;
+    }
+
+    .label-text {
+      align-items: center;
+      display: inline-flex;
+      margin-right: 14px;
+      margin-left: 42px;
+      position: relative;
+      top: -1px;
+    }
+  }
+
   &.horizontal {
     @include mr-12();
 

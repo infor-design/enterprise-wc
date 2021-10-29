@@ -41,6 +41,15 @@ A colored tag is done by adding the `color` attribute and one of the following: 
 <ids-tag color="#EDE3FC">Custom Tag Color</ids-tag>
 ```
 
+## Class Hierarchy
+
+- IdsTag
+    - IdsElement
+- Mixins
+  IdsEventsMixin
+  IdsKeyboardMixin
+  IdsThemeMixin
+
 ## Settings
 
 - `clickable` {boolean} Turns on the functionality to make the tag clickable like a link

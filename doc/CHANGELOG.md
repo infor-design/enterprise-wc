@@ -21,6 +21,7 @@
   - Markup has changed to a custom element `<ids-checkbox></ids-checkbox>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+  - Can now use the hitbox styles by adding the setting to the ids-checkbox component.
 - `[Colorpicker]` The color picker has been ported from 4.x and converted to a custom element `<ids-color-picker></ids-color-picker>`
 - `[IdsContainer]` Adding a new setting to provide a custom padding property. <ids-container padding="8"></ids-container>
 - `[Counts]` The counts component has been changed to a web component and renamed to ids-counts.
@@ -42,6 +43,7 @@
   - Markup has changed to a custom element `<ids-fieldset></ids-fieldset>`
   - Can now be imported as a single JS file and used with encapsulated styles.
 - `[Header]` Created an ids header web component. The <ids-header></ids-header> custom element has a color attribute that can be applied to personalize the background color.
+- `[Hierarchy]` The Hierarchy component has been changed to a web component and use with `ids-hierarchy`, `ids-hierarchy-item` and `ids-hierarchy-legend`.
 - `[HomePage]` The HomePage component has been changed to a web component and use with ids-home-page.
   - Markup has changed to a custom element `<ids-home-page></ids-home-page>`
   - If using events, events are now plain JS events.
@@ -116,7 +118,6 @@
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[RenderLoop]` The RenderLoop component has been implemented as a mixin.
-  - Added `IdsRenderLoopMixin` for access to a global renderLoop instance from within WebComponents.
   - API has been simplified and made more user-friendly.
 - `[ScrollView/CirclePager]` The IdsScrollView component replaces circle pager from the previous version and adds swiping
   - Markup has changed to a custom element `<ids-scroll-view></ids-scroll-view>`

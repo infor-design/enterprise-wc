@@ -2,7 +2,6 @@
  * @jest-environment jsdom
  */
 import { IdsRenderLoop, IdsRenderLoopItem } from '../../src/components/ids-render-loop/ids-render-loop';
-import { IdsRenderLoopMixin } from '../../src/mixins';
 
 // Supporting Components
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
@@ -332,20 +331,5 @@ describe('Ids RenderLoop (with Autostart)', () => {
 
   it('won\'t start until it\'s told', () => {
     expect(loop.doLoop).toBeFalsy();
-  });
-});
-
-describe('Ids RenderLoop Mixin', () => {
-  it('Generates and provides access to a global RenderLoop instance', () => {
-    const mixin = IdsRenderLoopMixin;
-    const rl = mixin.rl;
-
-    expect(rl).not.toBe(null);
-
-    // @TODO only needed for coverage?
-    // Compares both references to ensure they are the same.
-    const otherRl = mixin.rl;
-
-    expect(rl).toEqual(otherRl);
   });
 });
