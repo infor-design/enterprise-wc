@@ -131,8 +131,8 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
       });
     } else if (!val && cl.contains('visible')) {
       // Make hidden
-      await this.#changeOpacity(0);
       cl.remove('visible');
+      await this.#changeOpacity(0);
     }
   }
 }

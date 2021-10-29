@@ -14,6 +14,7 @@ import {
 } from '../../mixins';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsOverlay from '../ids-modal/ids-overlay';
+import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import styles from './ids-action-sheet.scss';
 
 /**
@@ -38,6 +39,7 @@ class IdsActionSheet extends mix(IdsElement).with(
     super.connectedCallback();
     this.overlay = this.shadowRoot.querySelector('ids-overlay');
     this.cancelBtn = this.shadowRoot.querySelector('[part="cancel-btn"]');
+    // this.popup = this.shadowRoot.querySelector('ids-popup');
     this.#attachEventHandlers();
     this.#hideOnDesktop();
   }
@@ -143,9 +145,9 @@ class IdsActionSheet extends mix(IdsElement).with(
   #hideOnDesktop() {
     const mq = window.matchMedia(`(min-width: ${breakpoints.sm})`);
     mq.addEventListener('change', () => {
-      this.#setHidden(mq);
+      this.#setVisibility(mq);
     });
-    this.#setHidden(mq);
+    this.#setVisibility(mq);
   }
 
   /**
@@ -153,7 +155,7 @@ class IdsActionSheet extends mix(IdsElement).with(
    * @param {object} mq the media query to check
    * @returns {void}
    */
-  #setHidden(mq) {
+  #setVisibility(mq) {
     if (mq.matches) {
       this.hidden = true;
       this.overlay.hidden = true;

@@ -5,5 +5,6 @@ document.addEventListener('DOMContentLoaded', () => {
   // Toggle the Popup/Actionsheet
   menuBtnEl.addEventListener('click', () => {
     actionSheet.visible = !actionSheet.visible;
+    // actionSheet.popup.visible = !actionSheet.popup.visible;
   });
 });
