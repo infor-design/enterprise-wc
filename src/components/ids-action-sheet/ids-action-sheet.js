@@ -39,7 +39,6 @@ class IdsActionSheet extends mix(IdsElement).with(
     super.connectedCallback();
     this.overlay = this.shadowRoot.querySelector('ids-overlay');
     this.cancelBtn = this.shadowRoot.querySelector('[part="cancel-btn"]');
-    // this.popup = this.shadowRoot.querySelector('ids-popup');
     this.#attachEventHandlers();
     this.#hideOnDesktop();
   }
@@ -122,6 +121,7 @@ class IdsActionSheet extends mix(IdsElement).with(
    */
   onOutsideClick() {
     this.onEvent('click', this.overlay, () => this.dismiss());
+    this.onEvent('touchstart', this.overlay, () => this.dismiss());
   }
 
   /**
@@ -130,6 +130,7 @@ class IdsActionSheet extends mix(IdsElement).with(
    */
   onCancelClick() {
     this.onEvent('click', this.cancelBtn, () => this.dismiss());
+    this.onEvent('touchstart', this.cancelBtn, () => this.dismiss());
   }
 
   /**
