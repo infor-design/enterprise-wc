@@ -12,6 +12,7 @@ import styles from './ids-checkbox.scss';
 import {
   IdsEventsMixin,
   IdsDirtyTrackerMixin,
+  IdsHitboxMixin,
   IdsValidationMixin,
   IdsThemeMixin,
   IdsLocaleMixin
@@ -24,6 +25,7 @@ const attribs = [
   { name: 'color', prop: 'color' },
   { name: 'dirty-tracker', prop: 'dirtyTracker' },
   { name: 'disabled', prop: 'disabled' },
+  { name: 'hitbox', prop: 'hitbox' },
   { name: 'horizontal', prop: 'horizontal' },
   { name: 'indeterminate', prop: 'indeterminate' },
   { name: 'label', prop: 'label' },
@@ -38,6 +40,7 @@ const attribs = [
  * @type {IdsCheckbox}
  * @inherits IdsElement
  * @mixes IdsDirtyTrackerMixin
+ * @mixes IdsHitboxMixin
  * @mixes IdsValidationMixin
  * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
@@ -51,6 +54,7 @@ const attribs = [
 class IdsCheckbox extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsDirtyTrackerMixin,
+    IdsHitboxMixin,
     IdsValidationMixin,
     IdsThemeMixin,
     IdsLocaleMixin

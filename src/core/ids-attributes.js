@@ -93,6 +93,7 @@ export const attributes = {
   GROUP_DISABLED: 'group-disabled',
   HANDLE: 'handle',
   HEIGHT: 'height',
+  HITBOX: 'hitbox',
   HORIZONTAL: 'horizontal',
   HREF: 'href',
   HEX: 'hex',
