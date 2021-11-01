@@ -7,7 +7,7 @@
 }
 
 :host(.hide-sm-down) {
-  @extend .hide-sm-down;
+  @include hide-sm-down();
 }
 
 .ids-popup-menu {

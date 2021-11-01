@@ -37,7 +37,19 @@ $input-field-height-lg: 48px;
   }
 }
 
+@mixin hide-xxl-down {
+  @media all and (max-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
 .hide-xxl-up {
+  @media all and (min-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+@mixin hide-xxl-up {
   @media all and (min-width: $breakpoint-xxl) {
     display: none;
   }
@@ -49,7 +61,19 @@ $input-field-height-lg: 48px;
   }
 }
 
+@mixin hide-xl-down {
+  @media all and (max-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
 .hide-xl-up {
+  @media all and (min-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+@mixin hide-xl-up {
   @media all and (min-width: $breakpoint-xl) {
     display: none;
   }
@@ -61,7 +85,19 @@ $input-field-height-lg: 48px;
   }
 }
 
+@mixin hide-lg-down {
+  @media all and (max-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
 .hide-lg-up {
+  @media all and (min-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+@mixin hide-lg-up {
   @media all and (min-width: $breakpoint-lg) {
     display: none;
   }
@@ -73,7 +109,19 @@ $input-field-height-lg: 48px;
   }
 }
 
+@mixin hide-md-down {
+  @media all and (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
 .hide-md-up {
+  @media all and (min-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+@mixin hide-md-up {
   @media all and (min-width: $breakpoint-md) {
     display: none;
   }
@@ -85,7 +133,19 @@ $input-field-height-lg: 48px;
   }
 }
 
+@mixin hide-sm-down {
+  @media all and (max-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
 .hide-sm-up {
+  @media all and (min-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+@mixin hide-sm-up {
   @media all and (min-width: $breakpoint-sm) {
     display: none;
   }
@@ -97,7 +157,19 @@ $input-field-height-lg: 48px;
   }
 }
 
+@mixin hide-xs-down {
+  @media all and (max-width: $breakpoint-xs) {
+    display: none;
+  }
+}
+
 .hide-xs-up {
+  @media all and (min-width: $breakpoint-xs) {
+    display: none;
+  }
+}
+
+@mixin hide-xs-up {
   @media all and (min-width: $breakpoint-xs) {
     display: none;
   }
