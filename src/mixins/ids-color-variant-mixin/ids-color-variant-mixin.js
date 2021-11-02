@@ -1,6 +1,5 @@
 import { attributes } from '../../core';
-// Import Utils
-import { IdsStringUtils, IdsXssUtils } from '../../utils';
+import { IdsXssUtils } from '../../utils';
 
 /**
  * A mixin that will provide the container element of an IDS Component with a class

@@ -9,7 +9,8 @@ import {
 // Import Mixins
 import {
   IdsColorVariantMixin,
-  IdsEventsMixin
+  IdsEventsMixin,
+  IdsOrientationMixin,
 } from '../../mixins';
 
 // Import Dependencies
@@ -33,7 +34,7 @@ const { stringToBool, buildClassAttrib } = stringUtils;
  */
 @customElement('ids-tab')
 @scss(styles)
-class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin) {
+class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, IdsOrientationMixin) {
   /** store the previous "selected" value to prevent double firing events */
   #prevSelected = false;
 
@@ -49,7 +50,6 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin) 
     return [
       ...super.attributes,
       attributes.COUNT,
-      attributes.ORIENTATION,
       attributes.SELECTED,
       attributes.VALUE
     ];
@@ -226,28 +226,6 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin) 
     if (this.getAttribute(attributes.COUNT) !== value) {
       this.setAttribute(attributes.COUNT, value);
     }
-  }
-
-  /** @param {'horizontal' | 'vertical'} value The direction which tabs will be laid out in */
-  set orientation(value) {
-    switch (value) {
-    case 'vertical': {
-      this.setAttribute(attributes.ORIENTATION, 'vertical');
-      this.container.classList.add('vertical');
-      break;
-    }
-    case 'horizontal':
-    default: {
-      this.setAttribute(attributes.ORIENTATION, 'horizontal');
-      this.container.classList.remove('vertical');
-      break;
-    }
-    }
-  }
-
-  /** @returns {'horizontal' | 'vertical'} value The direction which tabs will be laid out in. */
-  get orientation() {
-    return this.getAttribute(attributes.ORIENTATION);
   }
 
   /**

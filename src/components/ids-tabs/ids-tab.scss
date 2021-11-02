@@ -50,7 +50,7 @@
     @include border-white();
   }
 
-  &.selected.vertical:focus::before {
+  &.selected.orientation-vertical:focus::before {
     position: absolute;
     top: 1px;
     left: 1px;
@@ -98,11 +98,11 @@
     }
   }
 
-  &:not(.vertical):not(.count) {
+  &:not(.orientation-vertical):not(.count) {
     @include pt-8;
   }
 
-  &:not(.vertical) {
+  &:not(.orientation-vertical) {
     @include rounded-default();
     @include pb-8();
 
@@ -111,7 +111,7 @@
     border-bottom-right-radius: 0;
   }
 
-  &.vertical {
+  &.orientation-vertical {
     @include pl-24();
 
     display: flex;
@@ -143,11 +143,11 @@
     @include font-bold();
   }
 
-  &:not(.vertical)::after,
+  &:not(.orientation-vertical)::after,
   /* cannot read css var for color in :after
    * without shadowDOM scope so need .selection-underline div
    * as workaround */
-  &:not(.vertical) .selection-underline {
+  &:not(.orientation-vertical) .selection-underline {
     position: absolute;
     bottom: 0;
     height: 3px;
@@ -158,13 +158,13 @@
     content: '';
   }
 
-  &:not(.vertical):not(.color-variant-alternate)::after,
-  &:not(.vertical):not(.color-variant-alternate) .selection-underline {
+  &:not(.orientation-vertical):not(.color-variant-alternate)::after,
+  &:not(.orientation-vertical):not(.color-variant-alternate) .selection-underline {
     @include bg-azure-60();
   }
 
-  &.color-variant-alternate:not(.vertical)::after,
-  &.color-variant-alternate:not(.vertical) .selection-underline {
+  &.color-variant-alternate:not(.orientation-vertical)::after,
+  &.color-variant-alternate:not(.orientation-vertical) .selection-underline {
     @include bg-white();
   }
 }

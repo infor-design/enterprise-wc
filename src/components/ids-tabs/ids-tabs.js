@@ -11,6 +11,7 @@ import {
   IdsEventsMixin,
   IdsThemeMixin,
   IdsColorVariantMixin,
+  IdsOrientationMixin,
   IdsAttributeProviderMixin
 } from '../../mixins';
 
@@ -27,6 +28,10 @@ import styles from './ids-tabs.scss';
 const attributeProviderDefs = {
   attributesProvided: [{
     attribute: attributes.COLOR_VARIANT,
+    component: IdsTab
+  },
+  {
+    attribute: attributes.ORIENTATION,
     component: IdsTab
   }]
 };
@@ -46,6 +51,7 @@ class IdsTabs extends mix(IdsElement).with(
     IdsColorVariantMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
+    IdsOrientationMixin,
     IdsThemeMixin
   ) {
   constructor() {
@@ -59,7 +65,6 @@ class IdsTabs extends mix(IdsElement).with(
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.ORIENTATION,
       attributes.VALUE
     ];
   }
@@ -98,41 +103,6 @@ class IdsTabs extends mix(IdsElement).with(
    */
   rendered() {
     this.#updateCallbacks();
-  }
-
-  /**
-   * @param {'horizontal' | 'vertical'} value The direction the tabs will be laid out in.
-   */
-  set orientation(value) {
-    const currentValue = this.orientation;
-    if (currentValue !== value) {
-      switch (value) {
-      case 'vertical': {
-        this.setAttribute(attributes.ORIENTATION, 'vertical');
-
-        for (let i = 0; i < this.children.length; i++) {
-          this.children[i].setAttribute('orientation', 'vertical');
-        }
-        break;
-      }
-      case 'horizontal':
-      default: {
-        this.setAttribute(attributes.ORIENTATION, 'horizontal');
-
-        for (let i = 0; i < this.children.length; i++) {
-          this.children[i].setAttribute('orientation', 'horizontal');
-        }
-        break;
-      }
-      }
-    }
-  }
-
-  /**
-   * @returns {string} The direction the tabs will be laid out in.
-   */
-  get orientation() {
-    return this.getAttribute(attributes.ORIENTATION);
   }
 
   /**
