@@ -37,7 +37,7 @@
       background-color: var(--ids-color-palette-slate-60);
     }
 
-    .ids-list-view div[part=list-item]:focus:not([selected=selected]) {
+    .ids-list-view div[part='list-item']:focus:not([selected='selected']) {
       background-color: var(--ids-color-palette-slate-60);
     }
   }
@@ -52,13 +52,13 @@
       }
     }
 
-    .ids-list-view div[part=list-item] {
+    .ids-list-view div[part='list-item'] {
       &:hover:not(:focus):not([selected='selected']) {
         background-color: var(--ids-color-palette-slate-100);
         color: white;
       }
 
-      &:focus:not([selected=selected]) {
+      &:focus:not([selected='selected']) {
         background-color: var(--ids-color-palette-slate-10);
         color: white;
       }
@@ -126,7 +126,7 @@
         background-color: var(--ids-color-palette-azure-60);
         color: white;
         border: 1px solid var(--ids-color-palette-azure-40);
-        box-shadow: 0 0 4px 1px rgb(54 138 192 / 30%);
+        box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
         outline: none;
       }
 
@@ -137,7 +137,7 @@
       &:focus:not([selected='selected']) {
         background-color: var(--ids-color-palette-azure-10);
         border: 1px solid var(--ids-color-palette-azure-40);
-        box-shadow: 0 0 4px 1px rgb(54 138 192 / 30%);
+        box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
         outline: none;
       }
 
