@@ -272,11 +272,19 @@ class IdsTabs extends mix(IdsElement).with(
       this.children[this.children.length - 1].focus();
     });
 
-    this.listen('Enter', this, () => {
+    this.listen('Enter', this, (e) => {
+      const tab = e.target.closest('ids-tab');
+      if (tab) {
+        this.value = tab.value;
+      }
+
+
+      /*
       const focusedTabIndex = this.getFocusedTabIndex();
       if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
         this.setAttribute(attributes.VALUE, this.getTabIndexValue(focusedTabIndex));
       }
+      */
     });
   }
 
