@@ -139,16 +139,6 @@ class IdsTabs extends mix(IdsElement).with(
   }
 
   /**
-   * lets us quickly reference the active element
-   * for current index selected with arrow left/right
-   * mapping
-   *
-   * @type {Map<HTMLElement, number>}
-   * @private
-   */
-  #tabElIndexMap = new Map();
-
-  /**
    * Used to detach event listeners properly
    * @type {Set<string>}
    * @private
@@ -182,32 +172,11 @@ class IdsTabs extends mix(IdsElement).with(
     }
   }
 
-  /** @returns {number} Currently focused tab index, or -1 */
-  getFocusedTabIndex() {
-    if (!(document.activeElement instanceof IdsTab)) {
-      return -1;
-    }
-
-    if (this.#tabElIndexMap.has(document.activeElement)) {
-      return this.#tabElIndexMap.get(document.activeElement);
-    }
-
-    return -1;
-  }
-
   /**
    * When a child value or this component value changes,
    * called to rebind onclick callbacks to each child
    */
   #updateCallbacks() {
-    // map tab el refs to their indexes
-
-    this.#tabElIndexMap.clear();
-
-    for (let i = 0; i < this.children.length; i++) {
-      this.#tabElIndexMap.set(this.children[i], i);
-    }
-
     // clear tab values tracked
     for (const tabValue of this.#tabValueSet) {
       this.offEvent(`click.${tabValue}`);
@@ -228,40 +197,22 @@ class IdsTabs extends mix(IdsElement).with(
       });
     }
 
+    // Reusable arrow key handlers
+    const nextTabHandler = (e) => {
+      this.nextTab(e.target.closest('ids-tab')).focus();
+    };
+    const prevTabHandler = (e) => {
+      this.prevTab(e.target.closest('ids-tab')).focus();
+    };
+
     // add key listeners and consider
     // orientation for assignments
     if (this.orientation !== 'vertical') {
-      this.listen('ArrowLeft', this, () => {
-        const focusedTabIndex = this.getFocusedTabIndex();
-
-        if (focusedTabIndex > 0) {
-          this.children[focusedTabIndex - 1].focus();
-        }
-      });
-
-      this.listen('ArrowRight', this, () => {
-        const focusedTabIndex = this.getFocusedTabIndex();
-
-        if (focusedTabIndex + 1 < this.children.length) {
-          this.children[focusedTabIndex + 1].focus();
-        }
-      });
+      this.listen('ArrowLeft', this, prevTabHandler);
+      this.listen('ArrowRight', this, nextTabHandler);
     } else {
-      this.listen('ArrowUp', this, () => {
-        const focusedTabIndex = this.getFocusedTabIndex();
-
-        if (focusedTabIndex > 0) {
-          this.children[focusedTabIndex - 1].focus();
-        }
-      });
-
-      this.listen('ArrowDown', this, () => {
-        const focusedTabIndex = this.getFocusedTabIndex();
-
-        if (focusedTabIndex + 1 < this.children.length) {
-          this.children[focusedTabIndex + 1].focus();
-        }
-      });
+      this.listen('ArrowUp', this, prevTabHandler);
+      this.listen('ArrowDown', this, nextTabHandler);
     }
 
     this.listen('Home', this, () => {
@@ -277,15 +228,49 @@ class IdsTabs extends mix(IdsElement).with(
       if (tab) {
         this.value = tab.value;
       }
-
-
-      /*
-      const focusedTabIndex = this.getFocusedTabIndex();
-      if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
-        this.setAttribute(attributes.VALUE, this.getTabIndexValue(focusedTabIndex));
-      }
-      */
     });
+  }
+
+  /**
+   * Navigates from a specified Tab to the next-available Tab in the list
+   * @param {HTMLElement} currentTab an contained element (usually an IdsTab) to check for siblings
+   * @returns {IdsTab} the next tab in this Tab list's order
+   */
+  nextTab(currentTab) {
+    let nextTab = currentTab.nextElementSibling;
+
+    // If next sibling isn't a tab or is disabled, try this method again on the found sibling
+    if (nextTab && (nextTab.tagName !== 'IDS-TAB' || nextTab.disabled)) {
+      return nextTab(nextTab);
+    }
+
+    // If null, reset back to the first tab (cycling behavior)
+    if (!nextTab) {
+      nextTab = this.children[0];
+    }
+
+    return nextTab;
+  }
+
+  /**
+   * Navigates from a specified Tab to the previously-available Tab in the list
+   * @param {HTMLElement} currentTab an contained element (usually an IdsTab) to check for siblings
+   * @returns {IdsTab} the previous tab in this Tab list's order
+   */
+  prevTab(currentTab) {
+    let prevTab = currentTab.previousElementSibling;
+
+    // If previous sibling isn't a tab or is disabled, try this method again on the found sibling
+    if (prevTab && (prevTab.tagName !== 'IDS-TAB' || prevTab.disabled)) {
+      return prevTab(prevTab);
+    }
+
+    // If null, reset back to the last tab (cycling behavior)
+    if (!prevTab) {
+      prevTab = this.children[this.children.length - 1];
+    }
+
+    return prevTab;
   }
 
   /**
