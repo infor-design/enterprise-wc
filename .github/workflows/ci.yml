@@ -46,10 +46,8 @@ jobs:
     - name: Run Lint Checks
       run: npm run lint
 
-    - name: Run Tests
-      uses: percy/exec-action@v0.3.1
-      with:
-        command: "npm run test:ci"
+    - name: Run Tests (including Percy)
+      run: npx percy exec -- npm run test:ci
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
 
