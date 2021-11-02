@@ -84,7 +84,7 @@ class IdsTabs extends mix(IdsElement).with(
     this.setAttribute('role', 'tablist');
 
     if (!this.hasAttribute(attributes.COLOR_VARIANT)) {
-      this.#checkAndSetColorVariant();
+      this.#adjustColorVariant();
     }
 
     this.onEvent('tabselect', this, (e) => {
@@ -146,10 +146,10 @@ class IdsTabs extends mix(IdsElement).with(
   #tabValueSet = new Set();
 
   /**
-   * checks if we are in a header tab and adjusts color-variant
-   * accordingly
+   * Traverses parent nodes and scans for parent IdsHeader components.
+   * If an IdsHeader is found, adjusts this component's ColorVariant accordingly.
    */
-  #checkAndSetColorVariant() {
+  #adjustColorVariant() {
     let isHeaderDescendent = false;
     let currentElement = this.host || this.parentNode;
 
