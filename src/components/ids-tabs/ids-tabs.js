@@ -10,6 +10,7 @@ import {
   IdsKeyboardMixin,
   IdsEventsMixin,
   IdsThemeMixin,
+  IdsColorVariantMixin,
   IdsAttributeProviderMixin
 } from '../../mixins';
 
@@ -42,6 +43,7 @@ const attributeProviderDefs = {
 @scss(styles)
 class IdsTabs extends mix(IdsElement).with(
     IdsAttributeProviderMixin(attributeProviderDefs),
+    IdsColorVariantMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsThemeMixin
@@ -56,11 +58,17 @@ class IdsTabs extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.COLOR_VARIANT,
+      ...super.attributes,
       attributes.ORIENTATION,
       attributes.VALUE
     ];
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate'];
 
   template() {
     return '<slot></slot>';
@@ -82,10 +90,6 @@ class IdsTabs extends mix(IdsElement).with(
 
     // set initial selection state
     this.#updateSelectionState();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback?.();
   }
 
   /**
@@ -340,31 +344,6 @@ class IdsTabs extends mix(IdsElement).with(
         this.triggerEvent('tabselect', this.children[0], { bubbles: true });
       });
     }
-  }
-
-  /**
-   * @param {'alternate'|undefined} variant A theming variant to the ids-tabs which
-   * also applies to each ids-tab
-   */
-  set colorVariant(variant) {
-    switch (variant) {
-    case 'alternate': {
-      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
-      break;
-    }
-    default: {
-      this.removeAttribute(attributes.COLOR_VARIANT);
-      break;
-    }
-    }
-  }
-
-  /**
-   * @returns {'alternate'|undefined} A theming variant for the ids-tabs which also
-   * applies to each ids-tab
-   */
-  get colorVariant() {
-    return this.getAttribute(attributes.COLOR_VARIANT);
   }
 }
 

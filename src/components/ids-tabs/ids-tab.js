@@ -7,7 +7,10 @@ import {
 } from '../../core/ids-element';
 
 // Import Mixins
-import { IdsEventsMixin } from '../../mixins';
+import {
+  IdsColorVariantMixin,
+  IdsEventsMixin
+} from '../../mixins';
 
 // Import Dependencies
 import IdsText from '../ids-text';
@@ -30,7 +33,7 @@ const { stringToBool, buildClassAttrib } = stringUtils;
  */
 @customElement('ids-tab')
 @scss(styles)
-class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin) {
   /** store the previous "selected" value to prevent double firing events */
   #prevSelected = false;
 
@@ -40,17 +43,23 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array<string>} The attributes in an array
    */
   static get attributes() {
     return [
-      attributes.COLOR_VARIANT,
+      ...super.attributes,
       attributes.COUNT,
       attributes.ORIENTATION,
       attributes.SELECTED,
       attributes.VALUE
     ];
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate'];
 
   /**
    * Create the Template for the contents
@@ -172,35 +181,6 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
    */
   get selected() {
     return this.hasAttribute(attributes.SELECTED);
-  }
-
-  /**
-   * @param {'alternate'|undefined} variant A value which represents a currently
-   * selected tab; at any time, should match one of the child ids-tab `value`
-   * attributes set for a valid selection.
-   */
-  set colorVariant(variant) {
-    switch (variant) {
-    case 'alternate': {
-      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
-      this.container.classList.add('color-variant-alternate');
-      break;
-    }
-    default: {
-      this.removeAttribute(attributes.COLOR_VARIANT);
-      this.container.classList.remove('color-variant-alternate');
-      break;
-    }
-    }
-  }
-
-  /**
-   * @returns {'alternate'|undefined} A value which represents a currently
-   * selected tab; at any time, should match one of the child ids-tab `value`
-   * attributes set for a valid selection.
-   */
-  get colorVariant() {
-    return this.getAttribute(attributes.COLOR_VARIANT);
   }
 
   /** @param {string} value The value which becomes selected by ids-tabs component */
