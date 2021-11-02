@@ -112,7 +112,6 @@ button {
   // Fixes an issue that causes the ripple effect not to appear "round" on Safari.
   // NOTE: Needs to be applied only when not focused because it cuts off the focus state.
   &:not(:focus) {
-    -webkit-mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
     mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
   }
 

@@ -1,6 +1,7 @@
 /**
  * Checkbox Mixins.
  */
+@use 'sass:list';
 @import './ids-colorpalette-variables';
 @import './ids-general-mixins';
 
@@ -181,8 +182,8 @@
 // Colored
 @mixin checkbox-colored() {
   @each $name in $color-names {
-    $i: index($color-names, $name);
-    $color: var(#{nth($color-vars, $i)});
+    $i: list.index($color-names, $name);
+    $color: var(#{list.nth($color-vars, $i)});
 
     &[color='#{$name}'] input[type='checkbox'] {
       ~ .checkmark {

@@ -77,7 +77,7 @@ $input-compact-height: $input-field-height-xs;
       @include text-white();
 
       &::placeholder {
-        color: rgba(255, 255, 255, 0.7);
+        color: rgba(255 255 255 / 0.7);
       }
     }
   }
@@ -107,7 +107,7 @@ $input-compact-height: $input-field-height-xs;
     @include w-full();
     @include mb-16();
 
-    -webkit-appearance: none;
+    appearance: none;
     border-collapse: separate;
     border-radius: 2px;
     display: inline-block;
@@ -179,7 +179,7 @@ $input-compact-height: $input-field-height-xs;
       &:focus {
         @include border-alert-warning();
 
-        box-shadow: rgba(249, 131, 0, 0.3) 0 0 3px 2px;
+        box-shadow: rgba(249 131 0 / 0.3) 0 0 3px 2px;
       }
 
       &[disabled] {
@@ -212,7 +212,7 @@ $input-compact-height: $input-field-height-xs;
       &:focus {
         @include border-alert-info();
 
-        box-shadow: rgba(0, 102, 212, 0.3) 0 0 3px 2px;
+        box-shadow: rgba(0 102 212 / 0.3) 0 0 3px 2px;
       }
 
       &[disabled] {
@@ -229,7 +229,7 @@ $input-compact-height: $input-field-height-xs;
       &:focus {
         @include border-alert-success();
 
-        box-shadow: rgba(42, 195, 113, 0.3) 0 0 3px 2px;
+        box-shadow: rgba(42 195 113 / 0.3) 0 0 3px 2px;
       }
 
       &[disabled] {

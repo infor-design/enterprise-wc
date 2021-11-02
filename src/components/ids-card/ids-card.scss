@@ -8,7 +8,7 @@
   @include rounded-md();
   @include mb-20();
 
-  box-shadow: rgba(0, 0, 0, 0.1) 0 0 8px;
+  box-shadow: rgba(0 0 0 / 0.1) 0 0 8px;
   contain: content;
   height: 360px;
 
@@ -63,7 +63,7 @@
   @include bg-slate-90();
   @include border-slate-70();
 
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.7);
+  box-shadow: 0 0 8px rgba(0 0 0 / 0.7);
 
   .ids-card-header {
     @include border-slate-70();
@@ -74,7 +74,7 @@
   @include bg-white();
   @include border-slate-60();
 
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px rgba(0 0 0 / 0.1);
 }
 
 .ids-card[version='classic'] .ids-card-header {

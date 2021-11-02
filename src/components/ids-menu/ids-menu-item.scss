@@ -75,7 +75,7 @@
       @include ml-12();
 
       grid-column-start: 3;
-      -webkit-transform: rotateZ(-90deg);
+      transform: rotateZ(-90deg);
       transform: rotateZ(-90deg);
     }
   }

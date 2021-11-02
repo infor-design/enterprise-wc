@@ -1,3 +1,4 @@
+@use 'sass:list';
 @import '../../core/ids-base';
 
 $image-sizes: (
@@ -23,8 +24,8 @@ $user-statuses: (
 @each $key, $value in $image-sizes {
   :host([size='#{$key}']) {
     .ids-image {
-      width: nth($value, 1);
-      height: nth($value, 2);
+      width: list.nth($value, 1);
+      height: list.nth($value, 2);
     }
   }
 }
@@ -39,7 +40,7 @@ $user-statuses: (
   .ids-image {
     @include border-azure-60();
 
-    box-shadow: 0 0 4px 3px rgba(54, 138, 192, 0.3);
+    box-shadow: 0 0 4px 3px rgba(54 138 192 / 0.3);
   }
 }
 
@@ -48,7 +49,7 @@ $user-statuses: (
   .ids-image {
     @include border-azure-60();
 
-    box-shadow: 0 0 4px 2px rgba(141, 201, 230, 0.3);
+    box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
   }
 }
 
@@ -57,7 +58,7 @@ $user-statuses: (
   .ids-image {
     @include border-azure-90();
 
-    box-shadow: 0 0 4px 2px rgba(41, 41, 41, 0.3);
+    box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
   }
 }
 
@@ -109,10 +110,9 @@ $user-statuses: (
 
 .ids-image {
   @include box-border();
-  // to prevent jump on focus
   @include border-solid();
   @include border-1();
-  @include border-transparent();
+  @include border-transparent(); // to prevent jump on focus
 
   max-width: 100%;
   height: auto;

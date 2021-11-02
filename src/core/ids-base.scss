@@ -1,6 +1,8 @@
 /* Sass scss styles. Keep Base very small */
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins.scss';
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.host.variables.scss';
+@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins';
+/* stylelint-disable scss/at-import-partial-extension */
+@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.host.variables';
+/* stylelint-enable scss/at-import-partial-extension */
 
 /* Global SCSS Mixins (might need to become tokens) */
 @import '../mixins/sass/ids-general-mixins';
@@ -20,7 +22,7 @@ $transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
 $input-size-xs: 75px;
 $input-size-sm: 150px;
 $input-size-mm: 225px;
-$input-size-md: 300px;
+$input-size-md: 300px ;
 $input-size-lg: 400px;
 $input-size-full: 100%;
 
