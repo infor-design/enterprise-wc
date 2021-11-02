@@ -128,24 +128,6 @@ class IdsTabs extends mix(IdsElement).with(
   }
 
   /**
-   * Returns the value provided for a tab at a specified
-   * index; if it does not exist, then return zero-based index
-   *
-   * @param {number} index 0-based tab index
-   * @returns {string | number} value or index
-   */
-  getTabIndexValue(index) {
-    return this.children?.[index]?.getAttribute(attributes.VALUE) || index;
-  }
-
-  /**
-   * Used to detach event listeners properly
-   * @type {Set<string>}
-   * @private
-   */
-  #tabValueSet = new Set();
-
-  /**
    * Traverses parent nodes and scans for parent IdsHeader components.
    * If an IdsHeader is found, adjusts this component's ColorVariant accordingly.
    */
@@ -177,36 +159,21 @@ class IdsTabs extends mix(IdsElement).with(
    * called to rebind onclick callbacks to each child
    */
   #updateCallbacks() {
-    // clear tab values tracked
-    for (const tabValue of this.#tabValueSet) {
-      this.offEvent(`click.${tabValue}`);
-      this.#tabValueSet.delete(tabValue);
-    }
-
-    // scan through children and add
-    // click handlers
-    for (let i = 0; i < this.children.length; i++) {
-      const tabValue = this.getTabIndexValue(i);
-      const eventNs = `click.${tabValue}`;
-      this.#tabValueSet.add(eventNs);
-      this.onEvent(eventNs, this.children[i], () => {
-        if (this.value !== tabValue) {
-          this.value = tabValue;
-        }
-        this.focus();
-      });
-    }
-
-    // Reusable arrow key handlers
+    // Reusable handlers
     const nextTabHandler = (e) => {
       this.nextTab(e.target.closest('ids-tab')).focus();
     };
     const prevTabHandler = (e) => {
       this.prevTab(e.target.closest('ids-tab')).focus();
     };
+    const selectTabHandler = (e) => {
+      const tab = e.target.closest('ids-tab');
+      if (tab) {
+        this.value = tab.value;
+      }
+    };
 
-    // add key listeners and consider
-    // orientation for assignments
+    // Add key listeners and consider orientation for assignments
     if (this.orientation !== 'vertical') {
       this.listen('ArrowLeft', this, prevTabHandler);
       this.listen('ArrowRight', this, nextTabHandler);
@@ -215,20 +182,17 @@ class IdsTabs extends mix(IdsElement).with(
       this.listen('ArrowDown', this, nextTabHandler);
     }
 
+    // Home/End keys should navigate to beginning/end of Tab list respectively
     this.listen('Home', this, () => {
       this.children[0].focus();
     });
-
     this.listen('End', this, () => {
       this.children[this.children.length - 1].focus();
     });
 
-    this.listen('Enter', this, (e) => {
-      const tab = e.target.closest('ids-tab');
-      if (tab) {
-        this.value = tab.value;
-      }
-    });
+    // Add Events/Key listeners for Tab Selection via click/keyboard
+    this.onEvent('click.tabs', this, selectTabHandler);
+    this.listen('Enter', this, selectTabHandler);
   }
 
   /**
