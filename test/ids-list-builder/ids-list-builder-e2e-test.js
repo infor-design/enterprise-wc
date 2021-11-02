@@ -15,9 +15,9 @@ describe('Ids List Builder e2e Tests', () => {
     await expect(page).toPassAxeTests();
   });
 
-  it.skip('can drag list items up and down', async () => {
-    const jsPathListItemFirst = `document.querySelector("body > ids-container > ids-layout-grid.ids-layout-grid-gap-md.ids-layout-grid-cols > ids-layout-grid-cell > ids-list-builder").shadowRoot.querySelector("div > div.content > ids-virtual-scroll > div > div > ids-draggable:nth-child(1) > div")`;
-    const jsPathListItemFourth = `document.querySelector("body > ids-container > ids-layout-grid.ids-layout-grid-gap-md.ids-layout-grid-cols > ids-layout-grid-cell > ids-list-builder").shadowRoot.querySelector("div > div.content > ids-virtual-scroll > div > div > ids-draggable:nth-child(4) > div")`;
+  it('can drag list items up and down', async () => {
+    const jsPathListItemFirst = `document.querySelector("ids-list-builder").shadowRoot.querySelector(".ids-list-view > div > ids-draggable:nth-child(1) > div")`;
+    const jsPathListItemFourth = `document.querySelector("ids-list-builder").shadowRoot.querySelector(".ids-list-view > div > ids-draggable:nth-child(4) > div")`;
     const firstLi = await (await page.evaluateHandle(jsPathListItemFirst)).asElement();
     const fourthLi = await (await page.evaluateHandle(jsPathListItemFourth)).asElement();
     const firstLiBox = await firstLi.boundingBox();
@@ -42,12 +42,12 @@ describe('Ids List Builder e2e Tests', () => {
     await page.keyboard.press('Enter'); // edit an existing value
   });
 
-  it.skip('can click the toolbar buttons', async () => {
-    const jsPathToolbarButtonEdit = `document.querySelector("body > ids-container > ids-layout-grid.ids-layout-grid-gap-md.ids-layout-grid-cols > ids-layout-grid-cell > ids-list-builder").shadowRoot.querySelector("#button-edit").shadowRoot.querySelector("button")`;
-    const jsPathToolbarButtonAdd = `document.querySelector("body > ids-container > ids-layout-grid.ids-layout-grid-gap-md.ids-layout-grid-cols > ids-layout-grid-cell > ids-list-builder").shadowRoot.querySelector("#button-add").shadowRoot.querySelector("button")`;
-    const jsPathToolbarButtonUp = `document.querySelector("body > ids-container > ids-layout-grid.ids-layout-grid-gap-md.ids-layout-grid-cols > ids-layout-grid-cell > ids-list-builder").shadowRoot.querySelector("#button-up").shadowRoot.querySelector("button")`;
-    const jsPathToolbarButtonDown = `document.querySelector("body > ids-container > ids-layout-grid.ids-layout-grid-gap-md.ids-layout-grid-cols > ids-layout-grid-cell > ids-list-builder").shadowRoot.querySelector("#button-down").shadowRoot.querySelector("button")`;
-    const jsPathToolbarButtonDelete = `document.querySelector("body > ids-container > ids-layout-grid.ids-layout-grid-gap-md.ids-layout-grid-cols > ids-layout-grid-cell > ids-list-builder").shadowRoot.querySelector("#button-delete").shadowRoot.querySelector("button")`;
+  it('can click the toolbar buttons', async () => {
+    const jsPathToolbarButtonEdit = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-edit").shadowRoot.querySelector("button")`;
+    const jsPathToolbarButtonAdd = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-add").shadowRoot.querySelector("button")`;
+    const jsPathToolbarButtonUp = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-up").shadowRoot.querySelector("button")`;
+    const jsPathToolbarButtonDown = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-down").shadowRoot.querySelector("button")`;
+    const jsPathToolbarButtonDelete = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-delete").shadowRoot.querySelector("button")`;
 
     const editButton = await (await page.evaluateHandle(jsPathToolbarButtonEdit)).asElement();
     const addButton = await (await page.evaluateHandle(jsPathToolbarButtonAdd)).asElement();
@@ -67,7 +67,7 @@ describe('Ids List Builder e2e Tests', () => {
     await deleteButton.click();
   });
 
-  it.skip('can edit, select, and delete through keyboard', async () => {
+  it('can edit, select, and delete through keyboard', async () => {
     await page.keyboard.press('Tab');
     await page.keyboard.press('Tab');
     await page.keyboard.press('Tab');
