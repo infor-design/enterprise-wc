@@ -100,24 +100,27 @@ class IdsTabs extends mix(IdsElement).with(
    * @param {'horizontal' | 'vertical'} value The direction the tabs will be laid out in.
    */
   set orientation(value) {
-    switch (value) {
-    case 'vertical': {
-      this.setAttribute(attributes.ORIENTATION, 'vertical');
+    const currentValue = this.orientation;
+    if (currentValue !== value) {
+      switch (value) {
+      case 'vertical': {
+        this.setAttribute(attributes.ORIENTATION, 'vertical');
 
-      for (let i = 0; i < this.children.length; i++) {
-        this.children[i].setAttribute('orientation', 'vertical');
+        for (let i = 0; i < this.children.length; i++) {
+          this.children[i].setAttribute('orientation', 'vertical');
+        }
+        break;
       }
-      break;
-    }
-    case 'horizontal':
-    default: {
-      this.setAttribute(attributes.ORIENTATION, 'horizontal');
+      case 'horizontal':
+      default: {
+        this.setAttribute(attributes.ORIENTATION, 'horizontal');
 
-      for (let i = 0; i < this.children.length; i++) {
-        this.children[i].setAttribute('orientation', 'horizontal');
+        for (let i = 0; i < this.children.length; i++) {
+          this.children[i].setAttribute('orientation', 'horizontal');
+        }
+        break;
       }
-      break;
-    }
+      }
     }
   }
 
@@ -132,16 +135,15 @@ class IdsTabs extends mix(IdsElement).with(
    * @param {string} value A value which represents a currently selected tab
    */
   set value(value) {
-    if (this.getAttribute(attributes.VALUE) !== value) {
+    const currentValue = this.value;
+    if (currentValue !== value) {
       this.setAttribute(attributes.VALUE, value);
+      this.#updateSelectionState();
+      this.triggerEvent('change', this, {
+        bubbles: false,
+        detail: { elem: this, value }
+      });
     }
-
-    this.#updateSelectionState();
-
-    this.triggerEvent('change', this, {
-      bubbles: false,
-      detail: { elem: this, value }
-    });
   }
 
   /**
@@ -202,7 +204,7 @@ class IdsTabs extends mix(IdsElement).with(
     }
 
     if (isHeaderDescendent) {
-      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
+      this.colorVariant = 'alternate';
     }
   }
 
