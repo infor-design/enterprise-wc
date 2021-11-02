@@ -137,3 +137,4 @@ The IDS Progress Chart component is now a WebComponent. Instead of using classes
 
 <!-- this is the same progress chart using the WebComponent -->
 <ids-progress-chart label="New Progress Chart" progress="13" label-progress="13h" color="#D66221"></ids-progress-chart>
+```

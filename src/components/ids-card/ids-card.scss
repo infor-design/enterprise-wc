@@ -12,22 +12,21 @@
   contain: content;
   height: 360px;
 
-  // Adjust the heights with settings
-  &.ids-card-auto-height {
-    min-height: auto;
-    height: auto;
+  .ids-card-content {
+    @include w-full();
 
-    .ids-card-header {
-      display: none;
-    }
+    height: 310px;
+    overflow: auto;
 
-    .ids-card-content {
-      height: auto;
+    &.overflow-hidden {
+      overflow: hidden;
     }
   }
+}
 
-  // Adjust the width/height to parent fit
-  &.ids-card-auto-fit {
+// Adjust the width/height to parent fit
+:host([auto-fit]) {
+  .ids-card {
     @include box-border();
     @include h-full();
     @include m-0();
@@ -40,14 +39,19 @@
   }
 }
 
-.ids-card-content {
-  @include w-full();
+// Adjust the heights with settings
+:host([auto-height]) {
+  .ids-card {
+    min-height: auto;
+    height: auto;
 
-  height: 310px;
-  overflow: auto;
+    .ids-card-header {
+      display: none;
+    }
 
-  &.overflow-hidden {
-    overflow: hidden;
+    .ids-card-content {
+      height: auto;
+    }
   }
 }
 
