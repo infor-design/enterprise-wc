@@ -11,11 +11,12 @@ export function getSpecs() {
   let browser = navigator.appName;
   let appVersion = ` ${parseFloat(navigator.appVersion)}`;
   const majorVersion = parseInt(navigator.appVersion, 10);
+  const platform = navigator.userAgentData?.platform;
   let nameOffset;
   let verOffset;
   let ix;
   const isIPad = () => !!(navigator.userAgent.match(/(iPad)/)
-    || (navigator.platform === 'MacIntel' && typeof navigator.standalone !== 'undefined'));
+    || (platform === 'macOS' && typeof navigator.standalone !== 'undefined'));
   const browserLanguage = navigator.appName === 'Microsoft Internet Explorer'
     ? navigator.userLanguage
     : navigator.language;
@@ -147,7 +148,7 @@ export function getSpecs() {
     os,
     currentOSVersion: osVersion,
     idsVersion: packageJson.version,
-    platform: navigator.platform,
+    platform,
     browserLanguage
   };
 }
