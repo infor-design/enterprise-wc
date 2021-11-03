@@ -4,7 +4,7 @@ The Ids Splitter is used to divide the user interface of a page. It is composed 
 
 ![Different variations of IdsSplitterLayout](./doc/ids-splitter-markup-legend.png)
 
-The pane can move to the left or the right of the screen. This allows the user to have control of the customized layout. Elements inside and outside the pane will be resized to fit.
+The pane can move to the left or the right of the screen. This allows the user to have control of the customized layout. Elements inside and outside the pane will be resized to fit depending on if their css is fluid.
 
 ## Use Cases
 
