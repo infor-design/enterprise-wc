@@ -3,12 +3,16 @@ import {
   customElement,
   mix,
   scss,
-  IdsDataSource
+  IdsDataSource,
+  attributes
 } from '../../core';
 
 import { IdsEventsMixin } from '../../mixins';
 import { IdsStringUtils } from '../../utils';
 import styles from './ids-virtual-scroll.scss';
+
+const DEFAULT_HEIGHT = 310;
+const DEFAULT_ITEM_HEIGHT = 50;
 
 /**
  * IDS Virtual Scroll Component
@@ -27,7 +31,6 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   connectedCallback() {
     this.datasource = new IdsDataSource();
     this.stringTemplate = '<div class="ids-virtual-scroll-item">${productName}</div>'; //eslint-disable-line
-
     this.applyHeight();
     this.renderItems(false);
     this.#attachEventHandlers();
@@ -88,8 +91,8 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     );
 
     let html = '';
-    data.map((item) => {
-      const node = this.itemTemplate(item);
+    data.map((item, index) => {
+      const node = this.itemTemplate(item, index);
       html += node;
       return node;
     });
@@ -140,7 +143,13 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array} The attributes in an array
    */
   static get attributes() {
-    return ['height', 'item-height', 'buffer-size', 'data', 'scroll-top'];
+    return [
+      attributes.HEIGHT,
+      attributes.ITEM_HEIGHT,
+      attributes.BUFFER_SIZE,
+      attributes.DATA,
+      attributes.SCROLL_TOP,
+    ];
   }
 
   /**
@@ -148,7 +157,13 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-virtual-scroll" tabindex="0"><div class="ids-virtual-scroll-viewport"><slot></slot></div></div>`;
+    return `
+      <div class="ids-virtual-scroll">
+        <div class="ids-virtual-scroll-viewport">
+          <slot></slot>
+        </div>
+      </div>
+    `;
   }
 
   /**
@@ -157,15 +172,15 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set height(value) {
     if (value) {
-      this.setAttribute('height', value.toString());
+      this.setAttribute(attributes.HEIGHT, value.toString());
       this.applyHeight();
       return;
     }
 
-    this.removeAttribute('height');
+    this.removeAttribute(attributes.HEIGHT);
   }
 
-  get height() { return this.data?.length === 0 ? 0 : this.getAttribute('height'); }
+  get height() { return this.getAttribute(attributes.HEIGHT) || DEFAULT_HEIGHT; }
 
   /**
    * The height of each item in the scroller. TODO: support dynamic heights
@@ -173,16 +188,19 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set itemHeight(value) {
     if (value) {
-      this.setAttribute('item-height', value.toString());
+      this.setAttribute(attributes.ITEM_HEIGHT, value.toString());
       this.applyHeight();
       this.renderItems(false);
       return;
     }
 
-    this.removeAttribute('item-height');
+    this.removeAttribute(attributes.ITEM_HEIGHT);
   }
 
-  get itemHeight() { return this.getAttribute('item-height'); }
+  get itemHeight() {
+    const result = this.getAttribute(attributes.ITEM_HEIGHT) || DEFAULT_ITEM_HEIGHT;
+    return result;
+  }
 
   /**
    * Extra padding at the top and bottom so that the data transition smoothly
@@ -190,14 +208,14 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set bufferSize(value) {
     if (value) {
-      this.setAttribute('buffer-size', value.toString());
+      this.setAttribute(attributes.BUFFER_SIZE, value.toString());
       return;
     }
 
-    this.removeAttribute('buffer-size');
+    this.removeAttribute(attributes.BUFFER_SIZE);
   }
 
-  get bufferSize() { return this.getAttribute('buffer-size') || 20; }
+  get bufferSize() { return this.getAttribute(attributes.BUFFER_SIZE) || 20; }
 
   /**
    * Set the scroll top position and scroll down to that location
@@ -205,16 +223,16 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set scrollTop(value) {
     if (value !== null && value !== undefined) {
-      this.setAttribute('scroll-top', value.toString());
+      this.setAttribute(attributes.SCROLL_TOP, value.toString());
       this.container.scrollTop = Number(value);
       this.renderItems(false);
       return;
     }
 
-    this.removeAttribute('scroll-top');
+    this.removeAttribute(attributes.SCROLL_TOP);
   }
 
-  get scrollTop() { return this.getAttribute('scroll-top') || 0; }
+  get scrollTop() { return this.getAttribute(attributes.SCROLL_TOP) || 0; }
 
   /**
    * Scroll to a indexed item bring it into center view.
@@ -253,6 +271,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     let startNode = Math.floor(Number(this.scrollTop) / Number(this.itemHeight))
       - Number(this.bufferSize);
     startNode = Math.max(0, startNode);
+
     return startNode;
   }
 

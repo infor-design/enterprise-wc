@@ -42,7 +42,7 @@ describe('IdsListView Component', () => {
 
   it('renders the template without virtual scroll', () => {
     listView.data = dataset;
-    expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(listView.data.length);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.data.length);
   });
 
   it('renders the template with virtual scroll', () => {
@@ -53,7 +53,7 @@ describe('IdsListView Component', () => {
     document.body.appendChild(listView);
     listView.data = dataset;
 
-    expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(41);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.shadowRoot.querySelector('ids-virtual-scroll').visibleItemCount());
   });
 
   it('renders without errors with no template', () => {
@@ -64,7 +64,7 @@ describe('IdsListView Component', () => {
     document.body.appendChild(listView);
     listView.data = dataset;
 
-    expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(1000);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(1000);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -76,7 +76,7 @@ describe('IdsListView Component', () => {
     document.body.appendChild(listView);
     listView.data = dataset;
 
-    expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(1000);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(1000);
     expect(errors).not.toHaveBeenCalled();
   });
 
@@ -88,23 +88,23 @@ describe('IdsListView Component', () => {
     document.body.appendChild(listView);
     listView.data = dataset;
 
-    expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(1000);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(1000);
     expect(errors).not.toHaveBeenCalled();
   });
 
   it('removes the virtualScroll attribute when reset', () => {
     listView.virtualScroll = true;
     expect(listView.getAttribute('virtual-scroll')).toEqual('true');
-    expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(41);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(listView.shadowRoot.querySelector('ids-virtual-scroll').visibleItemCount());
 
     listView.virtualScroll = false;
     expect(listView.getAttribute('virtual-scroll')).toEqual(null);
-    expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(1000);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(1000);
   });
 
   it('render with empty data', () => {
     listView.data = null;
-    expect(listView.shadowRoot.querySelectorAll('li').length).toEqual(0);
+    expect(listView.shadowRoot.querySelectorAll('div[part="list-item"]').length).toEqual(0);
   });
 
   it('supports setting mode', () => {
