@@ -44,10 +44,4 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
   }
-
-  const testBtn = document.querySelector('.test-button');
-  testBtn.addEventListener('click', () => {
-    const test = document.querySelector('#test');
-    test.setAttribute('icon', 'empty-no-events');
-  });
 });
