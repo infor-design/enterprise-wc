@@ -5,7 +5,7 @@
   @include antialiased();
   @include bg-slate-20();
   @include border-1();
-  @include border-slate-20();
+  // @include border-slate-20();
   @include border-solid();
   @include font-sans();
   @include inline-flex();
@@ -15,7 +15,7 @@
   @include py-1();
   @include rounded-lg();
   @include text-14();
-  @include text-slate-10();
+  @include text-slate-100();
 
   contain: content;
 
