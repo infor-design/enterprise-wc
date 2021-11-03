@@ -129,6 +129,8 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
+
     this.#prevSelected = false;
     this.setAttribute('role', 'tab');
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
@@ -136,6 +138,10 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
     this.setAttribute('aria-label', this.#getReadableAriaLabel());
     this.selected = this.hasAttribute(attributes.SELECTED);
 
+    this.#attachEventHandlers();
+  }
+
+  #attachEventHandlers() {
     this.onEvent('click', this, () => {
       if (!this.hasAttribute(attributes.SELECTED)) {
         this.setAttribute(attributes.SELECTED, '');

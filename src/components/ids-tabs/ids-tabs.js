@@ -11,30 +11,12 @@ import {
   IdsEventsMixin,
   IdsThemeMixin,
   IdsColorVariantMixin,
-  IdsOrientationMixin,
-  IdsAttributeProviderMixin
+  IdsOrientationMixin
 } from '../../mixins';
 
 import IdsHeader from '../ids-header';
 import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
-
-/**
- * list of entries for attributes provided by
- * the ids-tabs-context and how they map,
- * as well as which are listened on for updates
- * in the children
- */
-const attributeProviderDefs = {
-  attributesProvided: [{
-    attribute: attributes.COLOR_VARIANT,
-    component: IdsTab
-  },
-  {
-    attribute: attributes.ORIENTATION,
-    component: IdsTab
-  }]
-};
 
 /**
  * IDS Tabs Component
@@ -47,7 +29,6 @@ const attributeProviderDefs = {
 @customElement('ids-tabs')
 @scss(styles)
 class IdsTabs extends mix(IdsElement).with(
-    IdsAttributeProviderMixin(attributeProviderDefs),
     IdsColorVariantMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
@@ -75,10 +56,16 @@ class IdsTabs extends mix(IdsElement).with(
    */
   colorVariants = ['alternate'];
 
+  /**
+   * @returns {string} template for Tab List
+   */
   template() {
     return '<slot></slot>';
   }
 
+  /**
+   * WebComponent's `connectedCallback` implementation
+   */
   connectedCallback() {
     super.connectedCallback?.();
     this.setAttribute('role', 'tablist');
@@ -113,6 +100,7 @@ class IdsTabs extends mix(IdsElement).with(
   /**
    * Traverses parent nodes and scans for parent IdsHeader components.
    * If an IdsHeader is found, adjusts this component's ColorVariant accordingly.
+   * @returns {void}
    */
   #detectParentColorVariant() {
     let isHeaderDescendent = false;
@@ -140,6 +128,7 @@ class IdsTabs extends mix(IdsElement).with(
   /**
    * When a child value or this component value changes,
    * called to rebind onclick callbacks to each child
+   * @returns {void}
    */
   #attachEventHandlers() {
     // Reusable handlers
@@ -232,21 +221,43 @@ class IdsTabs extends mix(IdsElement).with(
       return;
     }
 
-    const tabsArray = [...this.children];
-    const previouslySelectedTab = tabsArray.find((el) => el.value === currentValue);
+    const tabs = [...this.children];
+    const previouslySelectedTab = tabs.find((el) => el.value === currentValue);
 
     if (!newValue) {
-      newValue = tabsArray.find((el) => el.selected)?.value;
+      newValue = tabs.find((el) => el.selected)?.value;
       if (!newValue) {
-        newValue = tabsArray[0].value;
+        newValue = tabs[0].value;
       }
     }
-    const newSelectedTab = tabsArray.find((el) => el.value === newValue);
+    const newSelectedTab = tabs.find((el) => el.value === newValue);
 
     if (previouslySelectedTab !== newSelectedTab) {
       if (previouslySelectedTab) previouslySelectedTab.selected = false;
       if (newSelectedTab) newSelectedTab.selected = true;
     }
+  }
+
+  /**
+   * Listen for changes to color variant, which updates each child tab.
+   * @returns {void}
+   */
+  onColorVariantRefresh() {
+    const tabs = [...this.querySelectorAll('ids-tab')];
+    tabs.forEach((tab) => {
+      tab.colorVariant = this.colorVariant;
+    });
+  }
+
+  /**
+   * Listen for changes to orientation, which updates each child tab.
+   * @returns {void}
+   */
+  onOrientationRefresh() {
+    const tabs = [...this.querySelectorAll('ids-tab')];
+    tabs.forEach((tab) => {
+      tab.orientation = this.orientation;
+    });
   }
 }
 
