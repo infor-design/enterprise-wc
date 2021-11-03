@@ -62,10 +62,10 @@ describe('IdsUploadAdvanced Component', () => {
     let icon = el.shadowRoot.querySelector('.icon');
     expect(icon.getAttribute('icon')).toEqual(defaultIcon);
     expect(el.getAttribute('icon')).toEqual(null);
-    el.icon = 'upload-adv';
+    el.icon = 'delete';
     icon = el.shadowRoot.querySelector('.icon');
-    expect(icon.getAttribute('icon')).toEqual('upload-adv');
-    expect(el.getAttribute('icon')).toEqual('upload-adv');
+    expect(icon.getAttribute('icon')).toEqual('delete');
+    expect(el.getAttribute('icon')).toEqual('delete');
     el.icon = null;
     icon = el.shadowRoot.querySelector('.icon');
     expect(icon.getAttribute('icon')).toEqual(defaultIcon);
