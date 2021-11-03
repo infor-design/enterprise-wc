@@ -87,21 +87,8 @@ class IdsTabs extends mix(IdsElement).with(
       this.#adjustColorVariant();
     }
 
-    this.onEvent('tabselect', this, (e) => {
-      if (e.target.value !== this.value) {
-        this.setAttribute(attributes.VALUE, e.target.value);
-      }
-    });
-
     this.#updateSelectionState();
-  }
-
-  /**
-   * Binds associated callbacks and cleans
-   * old handlers when template refreshes
-   */
-  rendered() {
-    this.#updateCallbacks();
+    this.#handleEvents();
   }
 
   /**
@@ -157,7 +144,7 @@ class IdsTabs extends mix(IdsElement).with(
    * When a child value or this component value changes,
    * called to rebind onclick callbacks to each child
    */
-  #updateCallbacks() {
+  #handleEvents() {
     // Reusable handlers
     const nextTabHandler = (e) => {
       this.nextTab(e.target.closest('ids-tab')).focus();
@@ -192,6 +179,7 @@ class IdsTabs extends mix(IdsElement).with(
     // Add Events/Key listeners for Tab Selection via click/keyboard
     this.onEvent('click.tabs', this, selectTabHandler);
     this.listen('Enter', this, selectTabHandler);
+    this.onEvent('tabselect', this, selectTabHandler);
   }
 
   /**
@@ -204,7 +192,7 @@ class IdsTabs extends mix(IdsElement).with(
 
     // If next sibling isn't a tab or is disabled, try this method again on the found sibling
     if (nextTab && (nextTab.tagName !== 'IDS-TAB' || nextTab.disabled)) {
-      return nextTab(nextTab);
+      return this.nextTab(nextTab);
     }
 
     // If null, reset back to the first tab (cycling behavior)
@@ -225,7 +213,7 @@ class IdsTabs extends mix(IdsElement).with(
 
     // If previous sibling isn't a tab or is disabled, try this method again on the found sibling
     if (prevTab && (prevTab.tagName !== 'IDS-TAB' || prevTab.disabled)) {
-      return prevTab(prevTab);
+      return this.prevTab(prevTab);
     }
 
     // If null, reset back to the last tab (cycling behavior)
