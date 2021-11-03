@@ -93,7 +93,6 @@ class IdsTabs extends mix(IdsElement).with(
       }
     });
 
-    // set initial selection state
     this.#updateSelectionState();
   }
 
@@ -112,7 +111,7 @@ class IdsTabs extends mix(IdsElement).with(
     const currentValue = this.value;
     if (currentValue !== value) {
       this.setAttribute(attributes.VALUE, value);
-      this.#updateSelectionState();
+      this.#updateSelectionState(currentValue, value);
       this.triggerEvent('change', this, {
         bubbles: false,
         detail: { elem: this, value }
@@ -239,37 +238,29 @@ class IdsTabs extends mix(IdsElement).with(
 
   /**
    * Sets the ids-tab selection states based on the current value
+   * @param {string} currentValue the current tab value
+   * @param {string} newValue the new tab value
+   * @returns {void}
    */
-  #updateSelectionState() {
+  #updateSelectionState(currentValue, newValue) {
     if (!this.children.length) {
       return;
     }
 
-    // determine which child tab value was set, then highlight the item
-    let hadTabSelection = false;
+    const tabsArray = [...this.children];
+    const previouslySelectedTab = tabsArray.find((el) => el.value === currentValue);
 
-    for (let i = 0; i < this.children.length; i++) {
-      const tabValue = this.children[i].getAttribute(attributes.VALUE);
-      const isTabSelected = Boolean(this.value === tabValue);
-
-      if (this.children[i].selected !== isTabSelected) {
-        this.children[i].selected = isTabSelected;
-      }
-
-      if (!hadTabSelection && Boolean(this.children[i].selected)) {
-        hadTabSelection = true;
+    if (!newValue) {
+      newValue = tabsArray.find((el) => el.selected)?.value;
+      if (!newValue) {
+        newValue = tabsArray[0].value;
       }
     }
+    const newSelectedTab = tabsArray.find((el) => el.value === newValue);
 
-    // if no selection found, flag the first child;
-    // this will possibly send a callback up to context for
-    // other listeners and trigger a value change
-
-    if (!hadTabSelection) {
-      window.requestAnimationFrame(() => {
-        this.children[0].selected = true;
-        this.triggerEvent('tabselect', this.children[0], { bubbles: true });
-      });
+    if (previouslySelectedTab !== newSelectedTab) {
+      if (previouslySelectedTab) previouslySelectedTab.selected = false;
+      if (newSelectedTab) newSelectedTab.selected = true;
     }
   }
 }
