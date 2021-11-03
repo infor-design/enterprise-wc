@@ -13,6 +13,6 @@ xmlhttp.onreadystatechange = function onreadystatechange() {
   }
 };
 
-// 3. Execute the request
+// Execute the request
 xmlhttp.open('GET', url, true);
 xmlhttp.send();

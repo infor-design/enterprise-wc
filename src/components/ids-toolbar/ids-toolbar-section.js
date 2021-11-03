@@ -80,9 +80,11 @@ class IdsToolbarSection extends IdsElement {
   }
 
   template() {
-    return `<div class="ids-toolbar-section">
-      <slot></slot>
-    </div>`;
+    return `
+      <div class="ids-toolbar-section">
+        <slot></slot>
+      </div>
+    `;
   }
 
   connectedCallback() {
