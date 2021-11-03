@@ -118,7 +118,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Slider (ids-slider)
  - [ ] Sparkline (ids-spark-line-chart)
  - [x] Spinbox (ids-spin-box)
- - [ ] Splitter (ids-splitter)
+ - [x] Splitter (ids-splitter)
  - [x] Stepchart (ids-step-chart)
  - [x] Summary field (ids-summary-field)
  - [ ] Swaplist (ids-swap-list)
