@@ -29,7 +29,7 @@ describe('Ids Action Sheet e2e Tests', () => {
   it('should open action when clicking the trigger button on mobile', async () => {
     const mobilePage = await browser.newPage();
     await mobilePage.setViewport({ width: 599, height: 9999, deviceScaleFactor: 1 });
-    await mobilePage.goto('http://localhost:4444/ids-action-sheet');
+    await mobilePage.goto(url);
     let isVisible = await mobilePage.evaluate(`document.querySelector("ids-action-sheet").visible`);
     const popupHidden = await mobilePage.evaluate(`document.querySelector("ids-popup-menu").hidden`);
     expect(isVisible).toEqual(null);
