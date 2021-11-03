@@ -83,12 +83,9 @@ class IdsTabs extends mix(IdsElement).with(
     super.connectedCallback?.();
     this.setAttribute('role', 'tablist');
 
-    if (!this.hasAttribute(attributes.COLOR_VARIANT)) {
-      this.#adjustColorVariant();
-    }
-
-    this.#updateSelectionState();
-    this.#handleEvents();
+    this.#detectParentColorVariant();
+    this.#refreshSelectionState();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -98,7 +95,7 @@ class IdsTabs extends mix(IdsElement).with(
     const currentValue = this.value;
     if (currentValue !== value) {
       this.setAttribute(attributes.VALUE, value);
-      this.#updateSelectionState(currentValue, value);
+      this.#refreshSelectionState(currentValue, value);
       this.triggerEvent('change', this, {
         bubbles: false,
         detail: { elem: this, value }
@@ -117,7 +114,7 @@ class IdsTabs extends mix(IdsElement).with(
    * Traverses parent nodes and scans for parent IdsHeader components.
    * If an IdsHeader is found, adjusts this component's ColorVariant accordingly.
    */
-  #adjustColorVariant() {
+  #detectParentColorVariant() {
     let isHeaderDescendent = false;
     let currentElement = this.host || this.parentNode;
 
@@ -144,7 +141,7 @@ class IdsTabs extends mix(IdsElement).with(
    * When a child value or this component value changes,
    * called to rebind onclick callbacks to each child
    */
-  #handleEvents() {
+  #attachEventHandlers() {
     // Reusable handlers
     const nextTabHandler = (e) => {
       this.nextTab(e.target.closest('ids-tab')).focus();
@@ -230,7 +227,7 @@ class IdsTabs extends mix(IdsElement).with(
    * @param {string} newValue the new tab value
    * @returns {void}
    */
-  #updateSelectionState(currentValue, newValue) {
+  #refreshSelectionState(currentValue, newValue) {
     if (!this.children.length) {
       return;
     }
