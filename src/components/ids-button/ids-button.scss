@@ -153,14 +153,12 @@ button {
 
 @include keyframes(ripple-animation) {
   from {
-    @include opacity-50();
-
+    opacity: 0.3;
     transform: scale(0);
   }
 
   to {
-    @include opacity-0();
-
+    opacity: 0;
     transform: scale(2);
   }
 }
