@@ -71,22 +71,29 @@ class IdsTabs extends mix(IdsElement).with(
     this.setAttribute('role', 'tablist');
 
     this.#detectParentColorVariant();
-    this.#refreshSelectionState();
+    this.#refreshSelectionState(null, this.getAttribute('value'));
     this.#attachEventHandlers();
   }
+
+  #value = '';
 
   /**
    * @param {string} value A value which represents a currently selected tab
    */
   set value(value) {
-    const currentValue = this.value;
-    if (currentValue !== value) {
+    const currentValue = this.#value;
+    const isValidValue = this.hasTab(value);
+
+    if (isValidValue && currentValue !== value) {
+      this.#value = value;
       this.setAttribute(attributes.VALUE, value);
       this.#refreshSelectionState(currentValue, value);
       this.triggerEvent('change', this, {
         bubbles: false,
         detail: { elem: this, value }
       });
+    } else {
+      this.setAttribute(attributes.VALUE, this.value);
     }
   }
 
@@ -94,7 +101,16 @@ class IdsTabs extends mix(IdsElement).with(
    * @returns {string} The value representing a currently selected tab
    */
   get value() {
-    return this.getAttribute(attributes.VALUE);
+    return this.#value;
+  }
+
+  /**
+   * Reference to the currently-selected tab, if applicable
+   * @param {string} value the tab value to scan
+   * @returns {boolean} true if this tab list contains a tab with the provided value
+   */
+  hasTab(value) {
+    return this.querySelector(`ids-tab[value="${value}"]`) !== null;
   }
 
   /**

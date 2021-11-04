@@ -35,9 +35,6 @@ const { stringToBool, buildClassAttrib } = stringUtils;
 @customElement('ids-tab')
 @scss(styles)
 class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, IdsOrientationMixin) {
-  /** store the previous "selected" value to prevent double firing events */
-  #prevSelected = false;
-
   constructor() {
     super();
   }
@@ -131,7 +128,6 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
   connectedCallback() {
     super.connectedCallback?.();
 
-    this.#prevSelected = false;
     this.setAttribute('role', 'tab');
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
     this.setAttribute('tabindex', stringToBool(this.selected) ? '0' : '-1');
@@ -143,8 +139,8 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
 
   #attachEventHandlers() {
     this.onEvent('click', this, () => {
-      if (!this.hasAttribute(attributes.SELECTED)) {
-        this.setAttribute(attributes.SELECTED, '');
+      if (!this.selected) {
+        this.selected = true;
       }
       this.focus();
     });
@@ -158,28 +154,24 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
    * @param {boolean} isSelected Whether or not this tab is selected.
    */
   set selected(isSelected) {
-    const isValueTruthy = stringToBool(isSelected);
-
-    if (!isValueTruthy) {
-      this.removeAttribute('selected');
+    const newValue = stringToBool(isSelected);
+    if (!newValue) {
+      this.removeAttribute(attributes.SELECTED);
       this.container.classList.remove('selected');
       this.container?.children?.[0]?.removeAttribute?.('font-weight');
       this.setAttribute('tabindex', '-1');
     } else {
-      this.setAttribute('selected', '');
+      this.setAttribute(attributes.SELECTED, '');
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
       this.container.classList.add('selected');
       this.setAttribute('tabindex', '0');
 
-      if (!this.#prevSelected) {
-        // reqAnimFrame needed to fire for context to read reliably due to onEvent binding
-        window.requestAnimationFrame(() => {
-          this.triggerEvent('tabselect', this, { bubbles: true });
-        });
-      }
+      // reqAnimFrame needed to fire for context to read reliably due to onEvent binding
+      window.requestAnimationFrame(() => {
+        this.triggerEvent('tabselect', this, { bubbles: true });
+      });
     }
-    this.#prevSelected = isValueTruthy;
-    this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
+    this.setAttribute('aria-selected', `${newValue}`);
   }
 
   /**
