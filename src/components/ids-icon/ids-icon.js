@@ -1,20 +1,8 @@
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
-import {
-  attributes,
-  customElement,
-  IdsElement,
-  mix,
-  scss
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin
-} from '../../mixins';
+import { attributes } from '../../core/ids-attributes'
+import { customElement, scss } from '../../core/ids-decorators'
+import SuperClass from './ids-icon-mixin';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 // Import Styles
 import styles from './ids-icon.scss';
@@ -37,14 +25,12 @@ const sizes = {
  */
 @customElement('ids-icon')
 @scss(styles)
-class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
+export default class IdsIcon extends SuperClass {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback();
-    this.#attachEventHandlers();
   }
 
   /**
@@ -62,31 +48,6 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       attributes.SIZE,
       attributes.VERTICAL,
     ];
-  }
-
-  /**
-   * Handle change events
-   */
-  #attachEventHandlers() {
-    this.offEvent('languagechange.icon-container');
-    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      if (this.isFlipped(this.icon)) {
-        this.container.classList.add('flipped');
-      } else {
-        this.container.classList.remove('flipped');
-      }
-    });
-
-    this.offEvent('languagechange.icon');
-    this.onEvent('languagechange.icon', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
-      if (this.isFlipped(this.icon)) {
-        this.shadowRoot.querySelector('svg').classList.add('flipped');
-      } else {
-        this.shadowRoot.querySelector('svg').classList.remove('flipped');
-      }
-    });
   }
 
   /**
@@ -224,7 +185,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       'zoom-out'
     ];
 
-    if (this.locale.isRTL() && flippedIcons.includes(iconName)) {
+    if (flippedIcons.includes(iconName)) {
       return true;
     }
     return false;
@@ -333,7 +294,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
 
   /** @param {string|boolean} value Rotate the icon to vertical */
   set vertical(value) {
-    const isVertical = IdsStringUtils.stringToBool(value);
+    const isVertical = stringToBool(value);
     if (isVertical) {
       this.setAttribute(attributes.VERTICAL, value);
       this.container.classList.add('vertical');
@@ -363,6 +324,4 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       badge.classList.add(`notification-badge`, `${this.badgePosition}`, `${this.badgeColor}`);
     }
   }
-}
-
-export default IdsIcon;
+};

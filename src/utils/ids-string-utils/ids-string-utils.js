@@ -90,19 +90,3 @@ export function isPrintable(e) {
   }
   return true;
 }
-
-/**
- * Ids String parsing/processing utilities
- */
-export const IdsStringUtils = {
-  camelCase,
-  injectTemplate,
-  stringToBool,
-  stringToNumber,
-  removeDuplicates,
-  buildClassAttrib,
-  isPrintable
-};
-
-export default IdsStringUtils;
-export { IdsStringUtils as stringUtils };

@@ -1,5 +1,6 @@
-import { renderLoop, IdsRenderLoopItem } from '../../components/ids-render-loop';
-import { IdsStringUtils as stringUtils } from '../../utils';
+import renderLoop from '../../components/ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
+import { isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * A mixin that adds event handler functionality that is also safely torn down when a component is
@@ -401,7 +402,7 @@ const IdsEventsMixin = (superclass) => class extends superclass {
     let keys = '';
 
     this.onEvent('keydown.eventsmixin', target, (e) => {
-      if (!stringUtils.isPrintable(e)) {
+      if (!isPrintable(e)) {
         return;
       }
       keys += e.key;

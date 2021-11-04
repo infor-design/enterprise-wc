@@ -1,54 +1,56 @@
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const sass = require('sass');
-const TerserPlugin = require('terser-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
-const glob = require('glob');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
+const componentsDir = './src/components';
 
 module.exports = {
-  entry: glob.sync('./src/**/**/ids*.js',).reduce((acc, filePath) => {
-    acc[filePath.replace('./src', '').replace('.js', '')] = filePath;
-    return acc;
-  }, {}),
-  devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
-  mode: isProduction ? 'production' : 'development',
-  performance: {
-    hints: false
-  },
-  cache: {
-    type: 'filesystem',
-    version: '0.0.0'
-  },
-  optimization: {
-    minimize: !!isProduction,
-    minimizer: [
-      new TerserPlugin({
-        test: /\.js(\?.*)?$/i
-      }),
-    ]
+  entry: {
+    'enterprise-wc': `${componentsDir}/enterprise-wc.js`,
+    'ids-rating': `${componentsDir}/ids-rating/ids-rating.js`,
+    'ids-icon': `${componentsDir}/ids-icon/ids-icon.js`
   },
   output: {
-    library: '[name]-lib.js',
-    libraryTarget: 'umd',
-    libraryExport: 'default',
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].js'
+    filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),
+    chunkFormat: 'module',
+    path: path.resolve(__dirname, './build/production/enterprise-wc'),
+    publicPath: '',
+    clean: true,
+  },
+  optimization: {
+    usedExports: true,
+    splitChunks: {
+      chunks: 'async',
+      minSize: 20000,
+      minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        use: [
-          {
-            // Options are all in babel.config.js
-            loader: 'babel-loader',
+        test: /\.(png|jpg|svg)$/,
+        type: 'asset',
+        parser: {
+          dataUrlCondition: {
+            maxSize: 3 * 1024 // 3kb
           }
-        ]
+        }
       },
       {
         test: /\.scss$/,
@@ -84,67 +86,29 @@ module.exports = {
           // Compiles Sass to CSS
           'sass-loader',
         ]
+      },
+      {
+        test: /\.js$/,
+        exclude: '/node_modules/',
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/env'],
+            plugins: ['@babel/plugin-proposal-class-properties']
+          }
+        }
       }
     ]
   },
   plugins: [
-    new CleanWebpackPlugin(),
-    new MiniCssExtractPlugin({
-      filename: 'css/[name].min.css'
-    }),
     new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      reportFilename: `./build-report/index-${isProduction ? 'prod' : 'dev'}.html`
+      analyzerMode: process.env.npm_lifecycle_event === 'build:prod:stats' ? 'server' : 'disabled', // options: server | static | json | disabled
+      reportFilename: 'prod-build-report.html'
     }),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: './src/components/**/*.scss',
-          to({ absoluteFilename }) {
-            const baseName = path.basename(absoluteFilename);
-            const folders = path.dirname(absoluteFilename).split(path.sep);
-            return `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName.replace('scss', 'css')}`;
-          },
-          transform(content, transFormPath) {
-            const result = sass.renderSync({
-              file: transFormPath
-            });
-            let css = result.css.toString();
-            css = css.replace(':host {', ':root {');
-            return css;
-          }
-        },
-        {
-          from: './src/**/**/index.js',
-          to({ absoluteFilename }) {
-            const baseName = path.basename(absoluteFilename);
-            const folders = path.dirname(absoluteFilename).split(path.sep);
-            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
-            filePath = filePath.replace('src/', '');
-            return filePath;
-          }
-        },
-        {
-          from: './src/**/**/*.d.ts',
-          to({ absoluteFilename }) {
-            const baseName = path.basename(absoluteFilename);
-            const folders = path.dirname(absoluteFilename).split(path.sep);
-            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
-            filePath = filePath.replace('src/', '');
-            return filePath;
-          }
-        },
-        {
-          from: './src/**/**/*.md',
-          to({ absoluteFilename }) {
-            const baseName = path.basename(absoluteFilename);
-            const folders = path.dirname(absoluteFilename).split(path.sep);
-            let filePath = `${folders[folders.length - 2]}/${folders[folders.length - 1]}/${baseName}`;
-            filePath = filePath.replace('src/', '');
-            return filePath;
-          }
-        }
-      ]
+    new MiniCssExtractPlugin({
+      filename: '[name]/[name].css'
     })
-  ]
+  ],
+  devtool: 'source-map',
+  mode: 'development'
 };

@@ -1,20 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes,
-} from '../../core/ids-element';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
+import { attributes } from '../../core/ids-attributes';
+import { customElement, appendIds, scss } from '../../core/ids-decorators';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import SuperClass from './ids-rating-mixin';
 import styles from './ids-rating.scss';
 
 /**
@@ -27,7 +14,7 @@ import styles from './ids-rating.scss';
  */
 @customElement('ids-rating')
 @scss(styles)
-class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+export default class IdsRating extends SuperClass {
   constructor() {
     super();
   }
@@ -78,7 +65,7 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
    * @param {string|number} val string value from the value attribute
    */
   set value(val) {
-    const isReadonly = IdsStringUtils.stringToBool(this.readonly);
+    const isReadonly = stringToBool(this.readonly);
 
     if (val && !isReadonly) {
       this.ratingArr.forEach((element) => {
@@ -225,5 +212,3 @@ class IdsRating extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, I
     }
   }
 }
-
-export default IdsRating;
