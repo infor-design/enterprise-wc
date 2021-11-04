@@ -12,8 +12,6 @@ import styles from './ids-contextual-action-panel.scss';
  * IDS Contextual Action Panel
  * @type {IdsContextualActionPanel}
  * @inherits IdsModal
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
  */
 @customElement('ids-contextual-action-panel')
 @scss(styles)
