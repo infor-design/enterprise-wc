@@ -24,6 +24,15 @@
 
 // Checkbox
 .ids-checkbox {
+  &.hitbox {
+    input[type='checkbox'] {
+      &:checked ~ .icon-dirty {
+        left: 10px;
+        top: 10px;
+      }
+    }
+  }
+
   input[type='checkbox'] {
     ~ .icon-dirty {
       @include z-1();

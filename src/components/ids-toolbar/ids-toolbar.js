@@ -38,8 +38,11 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
 
   connectedCallback() {
     this.setAttribute('role', 'toolbar');
-    this.makeTabbable(this.detectTabbable());
     this.#attachKeyboardListeners();
+
+    requestAnimationFrame(() => {
+      this.makeTabbable(this.detectTabbable());
+    });
   }
 
   /**
@@ -179,7 +182,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
       // Pass along the More Actions button, if applicable
       if (section?.name === 'ids-toolbar-more-actions') {
         i.push(section.button);
-      } else {
+      } else if (section.items) {
         i.push(...section.items);
       }
     });

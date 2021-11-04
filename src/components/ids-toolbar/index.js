@@ -1,4 +1,5 @@
-import IdsToolbar, {
+export {
+  default,
   IdsToolbarSection,
   IdsToolbarMoreActions
 } from './ids-toolbar';

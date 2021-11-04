@@ -41,6 +41,12 @@ Set the Dirty Tracking to Checkbox this way:
 <ids-checkbox label="Dirty tracking" dirty-tracker="true"></ids-checkbox>
 ```
 
+Set the Hitbox to Checkbox this way:
+
+```html
+<ids-checkbox label="Checkbox with Hitbox" hitbox="true"></ids-checkbox>
+```
+
 Add an Disabled Checkbox as unchecked:
 
 ```html

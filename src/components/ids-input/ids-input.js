@@ -96,6 +96,7 @@ let instanceCounter = 0;
  * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @part container - the overall container
+ * @part field-container - the container for the input
  * @part input - the input element
  * @part label - the label element
  */
@@ -134,6 +135,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       attributes.LABEL_REQUIRED,
       attributes.ID,
       attributes.MODE,
+      attributes.NO_MARGINS,
       attributes.PLACEHOLDER,
       attributes.SIZE,
       attributes.READONLY,
@@ -190,7 +192,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     return (
       `<div class="${containerClass}" part="container">
         ${labelHtml}
-        <div class="field-container">
+        <div class="field-container" part="field-container">
           <input
             part="input"
             id="${this.id}-input"
@@ -747,6 +749,24 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
 
   get cursor() {
     return this.getAttribute(attributes.CURSOR);
+  }
+
+  /**
+   * Sets the no margins attribute
+   * @param {string} n string value from the no margins attribute
+   */
+  set noMargins(n) {
+    if (stringUtils.stringToBool(n)) {
+      this.setAttribute(attributes.NO_MARGINS, 'true');
+      this.container.querySelector('input').classList.add('no-margin');
+      return;
+    }
+    this.removeAttribute(attributes.NO_MARGINS);
+    this.container.querySelector('input').classList.remove('no-margin');
+  }
+
+  get noMargins() {
+    return stringUtils.stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 
   /**
