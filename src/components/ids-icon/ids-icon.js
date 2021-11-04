@@ -1,7 +1,7 @@
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
 import { attributes } from '../../core/ids-attributes'
 import { customElement, scss } from '../../core/ids-decorators'
-import SuperClass from './ids-icon-mixin';
+import Base from './ids-icon-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 // Import Styles
@@ -25,7 +25,7 @@ const sizes = {
  */
 @customElement('ids-icon')
 @scss(styles)
-export default class IdsIcon extends SuperClass {
+export default class IdsIcon extends Base {
   constructor() {
     super();
   }

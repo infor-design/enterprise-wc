@@ -1,19 +1,15 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix
-} from '../../core';
+//import { IdsElement, customElement, scss, mix } from '../../core';
+
+
+import { customElement, scss } from '../../core/ids-decorators'
+import { attributes } from '../../core/ids-attributes';
 
 import IdsModal from '../ids-modal';
 import IdsHyperlink from '../ids-hyperlink';
 
-import { attributes } from '../../core/ids-attributes';
-import {
-  IdsStringUtils,
-  IdsDOMUtils,
-  IdsDeviceEnvUtils
-} from '../../utils';
+
+
+import { IdsStringUtils, IdsDOMUtils, IdsDeviceEnvUtils } from '../../utils';
 
 import { IdsLocaleMixin } from '../../mixins';
 
@@ -29,7 +25,7 @@ import styles from './ids-about.scss';
  */
 @customElement('ids-about')
 @scss(styles)
-class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
+export default class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
   constructor() {
     super();
   }
@@ -86,21 +82,6 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     super.attachEventHandlers();
 
     this.#refreshProduct();
-
-    // Respond to parent changing language
-    this.offEvent('languagechange.about-container');
-    this.onEvent('languagechange.about-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-    });
-
-    // Respond to the element changing language
-    this.offEvent('languagechange.about');
-    this.onEvent('languagechange.about', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
-      this.#refreshDeviceSpecs();
-      this.#refreshCopyright();
-    });
-
     this.#attachCloseButton();
 
     return this;
@@ -297,5 +278,3 @@ class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     }
   }
 }
-
-export default IdsAbout;

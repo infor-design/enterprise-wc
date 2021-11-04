@@ -1,7 +1,7 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, appendIds, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import SuperClass from './ids-rating-mixin';
+import Base from './ids-rating-base';
 import styles from './ids-rating.scss';
 
 /**
@@ -14,7 +14,7 @@ import styles from './ids-rating.scss';
  */
 @customElement('ids-rating')
 @scss(styles)
-export default class IdsRating extends SuperClass {
+export default class IdsRating extends Base {
   constructor() {
     super();
   }
