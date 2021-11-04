@@ -50,21 +50,22 @@ const IdsOrientationMixin = (superclass) => class extends superclass {
    * @param {string|null} val the name of the orientation to be applied
    */
   set orientation(val) {
-    let safeVal = null;
+    let safeValue = null;
     if (typeof val === 'string') {
-      safeVal = IdsXssUtils.stripTags(val, '');
+      safeValue = IdsXssUtils.stripTags(val, '');
     }
 
-    if (this.orientations.includes(safeVal)) {
-      this.setAttribute(attributes.ORIENTATION, `${safeVal}`);
-    } else {
-      this.removeAttribute(attributes.ORIENTATION);
-      safeVal = null;
-    }
+    const currentValue = this.state.orientation;
+    if (currentValue !== safeValue) {
+      if (this.orientations.includes(safeValue)) {
+        this.setAttribute(attributes.ORIENTATION, `${safeValue}`);
+      } else {
+        this.removeAttribute(attributes.ORIENTATION);
+        safeValue = null;
+      }
 
-    if (this.state.orientation !== safeVal) {
-      this.state.orientation = safeVal;
-      this.#refreshOrientation(safeVal);
+      this.state.orientation = safeValue;
+      this.#refreshOrientation(currentValue, safeValue);
     }
   }
 
@@ -72,22 +73,15 @@ const IdsOrientationMixin = (superclass) => class extends superclass {
    * Refreshes the component's orientation state, driven by
    * a CSS class on the WebComponent's `container` element
    *
-   * @param {string} variantName the orientation variant name to "add" to the style
+   * @param {string} oldVariantName the orientation variant name to "remove" from the style
+   * @param {string} newVariantName the orientation variant name to "add" to the style
    * @returns {void}
    */
-  #refreshOrientation(variantName) {
-    const variantClass = `orientation-${variantName}`;
+  #refreshOrientation(oldVariantName, newVariantName) {
     const cl = this.container.classList;
 
-    // remove any orientation classes
-    cl.forEach((x) => {
-      if (x.includes('orientation')) cl.remove(x);
-    });
-
-    // add the orientation class
-    if (variantName !== null) {
-      cl.add(variantClass);
-    }
+    if (oldVariantName) cl.remove(`orientation-${oldVariantName}`);
+    if (newVariantName) cl.add(`orientation-${newVariantName}`);
 
     // Fire optional callback
     if (typeof this.onOrientationRefresh === 'function') {
