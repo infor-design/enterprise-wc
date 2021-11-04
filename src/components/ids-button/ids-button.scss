@@ -113,6 +113,9 @@ button {
   // NOTE: Needs to be applied only when not focused because it cuts off the focus state.
   &:not(:focus) {
     mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
+    /* stylelint-disable property-no-vendor-prefix */
+    -webkit-mask-image: radial-gradient(var(--ids-color-palette-azure-10), var(--ids-color-palette-azure-10));
+    /* stylelint-enable property-no-vendor-prefix */
   }
 
   .ids-icon {
