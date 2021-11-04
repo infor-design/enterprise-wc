@@ -4,7 +4,6 @@
 .ids-virtual-scroll {
   @include w-full();
 
-  height: 250px;
   overflow: auto;
   display: grid;
   grid-auto-flow: column;

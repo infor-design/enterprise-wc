@@ -5,19 +5,21 @@
   overflow: auto;
   scroll-behavior: smooth;
 
-  ul {
+  div[part='list-item'] {
     @include list-none();
-    @include px-0();
-    @include m-0();
-  }
-
-  li {
     @include py-12();
     @include px-20();
-    @include border-b-1();
-    @include border-slate-20();
 
+    border: 1px solid transparent;
+    border-bottom-color: var(--ids-color-palette-slate-20);
     contain: content;
+
+    &:focus {
+      @include border-azure-40();
+
+      box-shadow: 0 0 4px 1px rgb(54 138 192 / 30%);
+      outline: none;
+    }
   }
 }
 
