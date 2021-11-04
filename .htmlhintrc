@@ -11,7 +11,7 @@
   "title-require": true,
   "head-script-disabled": false,
   "alt-require": true,
-  "tag-self-close": true,
+  "tag-self-close": false,
   "attr-value-not-empty": false,
   "attr-unsafe-chars": true,
   "space-tab-mixed-disabled": "true",
