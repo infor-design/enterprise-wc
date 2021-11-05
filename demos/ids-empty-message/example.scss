@@ -1,0 +1,8 @@
+@import '../../src/core/ids-base.scss';
+ids-card.dark::part(card) {
+    background-color: var(--ids-color-border-darker);
+    color: rgb(239, 239, 240);
+}
+.test-card{
+  max-width: 400px;
+}
