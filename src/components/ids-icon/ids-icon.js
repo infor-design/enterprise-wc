@@ -21,7 +21,7 @@ import styles from './ids-icon.scss';
 
 // Setting Defaults
 const sizes = {
-  largex3: 62,
+  largex3: 64,
   large: 24,
   normal: 18,
   medium: 18,
@@ -314,17 +314,9 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   #adjustViewbox() {
     let viewboxSize = '0 0 18 18';
 
-    switch (this.icon) {
-    case 'logo':
-      viewboxSize = '0 0 34 34';
-      break;
-    case 'logo-trademark':
-      viewboxSize = '0 0 37 32';
-      break;
-    default:
-      break;
+    if (this.icon === 'logo' || this.icon === 'logo-trademark') {
+      viewboxSize = '0 0 35 34';
     }
-
     this.container.setAttribute('viewBox', viewboxSize);
   }
 

@@ -16,7 +16,7 @@ const processAnimFrame = () => new Promise((resolve) => {
 });
 
 const DEFAULT_TABS_HTML = (
-  `<ids-tabs value="hello">
+  `<ids-tabs>
     <ids-tab value="hello">Hello</ids-tab>
     <ids-tab value="world">World</ids-tab>
     <ids-tab value="can">Can</ids-tab>
@@ -129,6 +129,8 @@ describe('IdsTabs Tests', () => {
   it('renders correctly', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
 
+    await processAnimFrame();
+
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
@@ -143,6 +145,7 @@ describe('IdsTabs Tests', () => {
         <ids-tab count="12">Ginger Ales</ids-tab>
       </ids-tabs>`
     );
+    await processAnimFrame();
     expect(elem.outerHTML).toMatchSnapshot();
     expect(errors).not.toHaveBeenCalled();
   });
@@ -159,6 +162,8 @@ describe('IdsTabs Tests', () => {
        <ids-tab count="12">Ginger Ales</ids-tab>
       </ids-tabs>`
     );
+    await processAnimFrame();
+
     expect(elem.outerHTML).toMatchSnapshot();
     expect(errors).not.toHaveBeenCalled();
     expect(elem.querySelector('ids-tab-divider').getAttribute('role')).toEqual('presentation');
@@ -191,8 +196,7 @@ describe('IdsTabs Tests', () => {
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
-  it('sets "selected" state of a new tab directly, and does not '
-  + 'become in an invalid tabs state', async () => {
+  it('sets "selected" state of a new tab directly, and does not become in an invalid tabs state', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
 
     elem.children[1].selected = true;
@@ -202,28 +206,13 @@ describe('IdsTabs Tests', () => {
     // expect(hasValidTabs).toEqual(true);
   });
 
-  it('unsets "selected" state of a selected tab false, and triggers '
-  + 'an error with an invalid tabs state', async () => {
+  it('unsets "selected" state of a selected tab false, and triggers an error with an invalid tabs state', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     elem.children[0].selected = false;
     await processAnimFrame();
     const hasValidTabs = areTabSelectionAttribsValid(elem);
 
     expect(hasValidTabs).toEqual(false);
-  });
-
-  it('sets tabs to an invalid value, and is reset to the first tab value available', async () => {
-    const errors = jest.spyOn(global.console, 'error');
-    elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
-    await processAnimFrame();
-
-    elem.value = 'random_value';
-    await processAnimFrame();
-
-    const hasValidTabs = areTabSelectionAttribsValid(elem);
-
-    expect(hasValidTabs).toEqual(true);
-    expect(errors).not.toHaveBeenCalled();
   });
 
   it('changes content within a text node to fire a slotchange with no errors', async () => {
@@ -239,8 +228,7 @@ describe('IdsTabs Tests', () => {
     expect(elem.outerHTML).toMatchSnapshot();
   });
 
-  it('changes value of ids-tab, and the "selected" attrib of every '
-  + 'ids-tab listed is predictable', async () => {
+  it('changes value of ids-tab, and the "selected" attrib of every ids-tab listed is predictable', async () => {
     elem = await createFromTemplate(elem, DEFAULT_TABS_HTML);
     await processAnimFrame();
 
@@ -260,8 +248,7 @@ describe('IdsTabs Tests', () => {
     elem.value = 'world';
   });
 
-  it('assigns an invalid count to a tab with counts, and triggers '
-  + 'an error', async () => {
+  it('assigns an invalid count to a tab with counts, and triggers an error', async () => {
     const errors = jest.spyOn(global.console, 'error');
 
     await expect(createFromTemplate(
@@ -388,6 +375,5 @@ describe('IdsTabs Tests', () => {
     expect(elem.querySelector('ids-tab').getAttribute('aria-label')).toEqual('Hello');
     elem = await createFromTemplate(elem, `<ids-tabs></ids-tabs>`);
     expect(elem.querySelector('ids-tab')).toBeFalsy();
-    expect(elem.getFocusedTabIndex()).toEqual(-1);
   });
 });

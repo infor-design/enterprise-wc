@@ -37,24 +37,18 @@ class IdsTabContent extends mix(IdsElement).with(
 
   /** @returns {Array} The attributes we handle as getters/setters */
   static get attributes() {
-    return [attributes.VALUE, attributes.ACTIVE];
+    return [
+      ...super.attributes,
+      attributes.VALUE,
+      attributes.ACTIVE
+    ];
   }
 
   template() {
     return `<slot></slot>`;
   }
 
-  connectedCallback() {
-    super.connectedCallback?.();
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback?.();
-  }
-
-  /**
-   * @param {boolean|string} value value representing associated tab
-   */
+  /** @param {string} value representing associated tab */
   set value(value) {
     if (this.getAttribute(attributes.VALUE) === value) {
       return;

@@ -26,5 +26,5 @@
 :host(ids-tabs:not([orientation='vertical']):not([color-variant='alternate'])),
 .ids-tabs-container:not([orientation='vertical']):not([color-variant='alternate']) {
   @include border-b-1;
-  @include border-graphite-60;
+  @include border-graphite-30;
 }

@@ -6,6 +6,10 @@
   }
 }
 
+:host(.hide-sm-down) {
+  @include hide-sm-down();
+}
+
 .ids-popup-menu {
   &:not([hidden]) {
     @include block();
