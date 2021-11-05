@@ -42,7 +42,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
 
  - [x] About (ids-about)
  - [x] Accordion (ids-accordion)
- - [ ] Action Sheet (ids-action-sheet)
+ - [x] Action Sheet (ids-action-sheet)
  - [x] Alerts (ids-alert)
  - [x] Application menu (ids-application-menu)
  - [ ] Area (ids-area-chart)

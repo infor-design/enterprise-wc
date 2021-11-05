@@ -80,6 +80,9 @@ export default class IdsMenuItem extends IdsElement {
   /* the value of the menu item */
   value?: unknown;
 
+  /* defines the text alignment of the menu item, start | center | end */
+  textAlign?: string;
+
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 

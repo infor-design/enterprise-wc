@@ -29,6 +29,7 @@ export const attributes = {
   BG_TRANSPARENT: 'bg-transparent',
   BOLD: 'bold',
   BLEED: 'bleed',
+  BTN_TEXT: 'btn-text',
   BUFFER_SIZE: 'buffer-size',
   BUTTONS: 'buttons',
   CANCEL: 'cancel',
@@ -93,6 +94,8 @@ export const attributes = {
   GROUP_DISABLED: 'group-disabled',
   HANDLE: 'handle',
   HEIGHT: 'height',
+  HIDE_DOWN: 'hide-down',
+  HIDE_UP: 'hide-up',
   HITBOX: 'hitbox',
   HORIZONTAL: 'horizontal',
   HREF: 'href',
@@ -244,4 +247,13 @@ export const attributes = {
 
 export const prefix = {
   PREFIX: 'ids'
+};
+
+export const breakpoints = {
+  xxl: '1440px',
+  xl: '1280px',
+  lg: '1024px',
+  md: '840px',
+  sm: '600px',
+  xs: '360px'
 };
