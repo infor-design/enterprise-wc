@@ -59,7 +59,7 @@
   border: 1px solid var(--ids-color-palette-slate-30);
   margin-block-end: calc(var(--ids-number-spacing-base) * 4);
   width: 315px;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 8px rgba(0 0 0 / 0.1);
   border-radius: 2px;
 
   &::before {
@@ -137,13 +137,13 @@
 
 :host([selected]) {
   .leaf {
-    box-shadow: 0 0 0 5px rgba(54, 138, 192, 0.3);
+    box-shadow: 0 0 0 5px rgba(54 138 192 / 0.3);
   }
 
   // Handle themes - Selected
   .ids-hierarchy-item[version='new'][mode='dark'] {
     .leaf {
-      box-shadow: 0 0 0 5px rgba(141, 201, 230, 0.3);
+      box-shadow: 0 0 0 5px rgba(141 201 230 / 0.3);
     }
   }
 }

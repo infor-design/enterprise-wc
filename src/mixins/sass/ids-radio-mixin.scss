@@ -1,6 +1,7 @@
 /**
  * Radio Mixins.
  */
+@use 'sass:list';
 @import './ids-colorpalette-variables';
 
 // Unchecked
@@ -83,14 +84,17 @@
 
 // Focus
 @mixin radio-focus {
-  box-shadow: 0 0 0 1px var(--ids-color-palette-azure-20), 0 0 0 2px var(--ids-color-palette-azure-60), 0 0 4px 5px var(--ids-color-palette-slate-10);
+  box-shadow:
+    0 0 0 1px var(--ids-color-palette-azure-20),
+    0 0 0 2px var(--ids-color-palette-azure-60),
+    0 0 4px 5px var(--ids-color-palette-slate-10);
 }
 
 // Colored
 @mixin radio-colored() {
   @each $name in $color-names {
-    $i: index($color-names, $name);
-    $color: var(#{nth($color-vars, $i)});
+    $i: list.index($color-names, $name);
+    $color: var(#{list.nth($color-vars, $i)});
 
     &[color='#{$name}'] {
       input[type='radio'] {

@@ -1,8 +1,8 @@
 {
   "plugins": [
-    "stylelint-order"
+    "stylelint-scss"
   ],
-  "extends": "stylelint-config-standard",
+  "extends": ["stylelint-config-standard-scss"],
   "ignoreFiles": ["**/*.js"],
   "rules": {
     "at-rule-no-unknown": [true, {
@@ -11,16 +11,12 @@
         "for",
         "if",
         "include",
-        "mixin"
+        "mixin",
+        "use"
       ]
     }],
-    "order/order": [
-      "custom-properties",
-      "declarations"
-    ],
     "max-nesting-depth": 3,
     "no-descending-specificity": null,
-    "order/properties-alphabetical-order": null,
     "selector-pseudo-class-no-unknown": [true, {
       "ignorePseudoClasses": ["root", "host", "unresolved", "part", "::part"]
     }],
@@ -30,6 +26,11 @@
     "selector-type-no-unknown":  [true, {
       "ignore": ["custom-elements"]
     }],
-    "string-quotes": "single"
+    "string-quotes": "single",
+    "scss/at-mixin-argumentless-call-parentheses": null,
+    "scss/dollar-variable-empty-line-before": null,
+    "alpha-value-notation": "number",
+    "keyframes-name-pattern": null,
+    "max-line-length": 120
   }
 }

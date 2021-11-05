@@ -87,7 +87,10 @@
 // Helper ===========================================
 // Box Shadow
 @mixin switch-focus-shadow {
-  box-shadow: 0 0 0 3px var(--ids-color-palette-azure-20), 0 0 0 4px var(--ids-color-palette-azure-60), 0 0 4px 6px var(--ids-color-palette-slate-20);
+  box-shadow:
+    0 0 0 3px var(--ids-color-palette-azure-20),
+    0 0 0 4px var(--ids-color-palette-azure-60),
+    0 0 4px 6px var(--ids-color-palette-slate-20);
 }
 
 @mixin switch-hover-shadow {
