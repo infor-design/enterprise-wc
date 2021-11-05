@@ -1,4 +1,4 @@
-@import '../../core/ids-base.scss';
+@import '../../core/ids-base';
 
 .ids-empty-message {
   display: flex;
@@ -19,7 +19,7 @@
   }
 
   .label {
-    padding: 0 16px 10px 16px;
+    padding: 16px 10px;
 
     ::slotted(span) {
       font-size: 20px;
