@@ -54,6 +54,7 @@ describe('Ids Splitter e2e Tests', () => {
 
   it('should use arrow keys to move RTL', async () => {
     await page.goto(urlSandbox, { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('#splitter-minmax', { visible: true });
     await page.evaluate('document.querySelector("ids-container").setAttribute("language", "ar")');
     const testKeys = async () => {
       let widthP1 = await page.evaluate('document.querySelector("#minmax-p1").style.width');
@@ -128,6 +129,7 @@ describe('Ids Splitter e2e Tests', () => {
 
   it('should use drag to move RTL', async () => {
     await page.goto(urlSandbox, { waitUntil: ['networkidle2', 'load'] });
+    await page.waitForSelector('#splitter-minmax', { visible: true });
     await page.evaluate('document.querySelector("ids-container").setAttribute("language", "ar")');
     let splitBar = await page.evaluateHandle('document.querySelector("#splitter-basic").shadowRoot.querySelector("#split-1")');
     let startRects = await splitBar.boundingBox();
