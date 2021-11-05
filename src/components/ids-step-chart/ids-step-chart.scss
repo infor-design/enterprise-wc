@@ -1,5 +1,6 @@
-@import '../../mixins/sass/ids-colorpalette-variables.scss';
-@import '../../core/ids-base.scss';
+@use 'sass:list';
+@import '../../mixins/sass/ids-colorpalette-variables';
+@import '../../core/ids-base';
 
 .ids-step-chart {
   @include m-16;
@@ -40,8 +41,8 @@
       @include m-1;
 
       @each $name in $color-names {
-        $i: index($color-names, $name);
-        $color: var(#{nth($color-vars, $i)});
+        $i: list.index($color-names, $name);
+        $color: var(#{list.nth($color-vars, $i)});
 
         &[color='#{$name}'] {
           background-color: $color;

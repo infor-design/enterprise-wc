@@ -1,5 +1,5 @@
 @import '../../core/ids-base';
-@import '../ids-input/ids-input.scss';
+@import '../ids-input/ids-input';
 @import '../../mixins/sass/ids-validation-mixin';
 
 :host(ids-spinbox) {
@@ -110,7 +110,7 @@
       max-width: 33px;
       justify-content: center;
       align-items: center;
-      padding: 0 0;
+      padding: 0;
       box-shadow: none;
       border-width: 1px;
     }
