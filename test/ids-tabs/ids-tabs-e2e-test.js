@@ -35,10 +35,9 @@ describe('Ids Tabs e2e Tests', () => {
     await page.keyboard.press('ArrowRight');
     await page.keyboard.press('ArrowRight');
     await page.keyboard.press('ArrowRight');
-    await page.keyboard.press('ArrowLeft');
     await page.keyboard.press('Enter');
     innerHTML = await page.evaluate('document.activeElement.innerHTML');
-    await expect(innerHTML).toEqual('Attachments');
+    await expect(innerHTML).toEqual('Opportunities');
   });
 
   it('can use home/end keys to focus', async () => {

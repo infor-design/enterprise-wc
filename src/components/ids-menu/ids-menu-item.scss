@@ -75,8 +75,42 @@
       @include ml-12();
 
       grid-column-start: 3;
-      -webkit-transform: rotateZ(-90deg);
       transform: rotateZ(-90deg);
+      transform: rotateZ(-90deg);
+    }
+  }
+
+  &.text-center,
+  &.text-start,
+  &.text-end {
+    a {
+      display: flex;
+      align-items: center;
+
+      .ids-menu-item-text {
+        margin-inline-start: var(--ids-number-spacing-base);
+      }
+    }
+  }
+
+  &.text-center {
+    a {
+      text-align: center;
+      justify-content: center;
+    }
+  }
+
+  &.text-start {
+    a {
+      text-align: start;
+      justify-content: start;
+    }
+  }
+
+  &.text-end {
+    a {
+      text-align: end;
+      justify-content: end;
     }
   }
 

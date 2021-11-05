@@ -8,6 +8,7 @@ export { default as IdsHitboxMixin } from './ids-hitbox-mixin/ids-hitbox-mixin';
 export { default as IdsKeyboardMixin } from './ids-keyboard-mixin/ids-keyboard-mixin';
 export { default as IdsLocaleMixin } from './ids-locale-mixin/ids-locale-mixin';
 export { default as IdsMaskMixin } from './ids-mask-mixin/ids-mask-mixin';
+export { default as IdsOrientationMixin } from './ids-orientation-mixin/ids-orientation-mixin';
 export { default as IdsPopupInteractionsMixin } from './ids-popup-interactions-mixin/ids-popup-interactions-mixin';
 export { default as IdsPopupOpenEventsMixin } from './ids-popup-open-events-mixin/ids-popup-open-events-mixin';
 export { default as IdsThemeMixin } from './ids-theme-mixin/ids-theme-mixin';

@@ -35,10 +35,10 @@ jobs:
       uses: actions/cache@v2
       with:
         path: node_modules
-        key: ids-enterprise-wc-019
+        key: ids-enterprise-wc-022
 
     - name: Install Dependencies
-      run: npm ci
+      run: npm i
 
     - name: Build and Compile
       run: npm run build
@@ -46,10 +46,8 @@ jobs:
     - name: Run Lint Checks
       run: npm run lint
 
-    - name: Run Tests
-      uses: percy/exec-action@v0.3.1
-      with:
-        command: "npm run test:ci"
+    - name: Run Tests (including Percy)
+      run: npx percy exec -- npm run test:ci
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
 

@@ -12,11 +12,11 @@ The IDS About Component builds on top of the [Modal]('../ids-modal/README.md')
 
 ## Settings (Attributes)
 
-- `product-name` `{string}` - product name information to display
-- `product-version` `{string}` - semantic product version number
-- `copyright-year` `{string}` - the year displayed in the copyright, defaults to current year
-- `use-default-copyright` `{true|false}` - whether or not to display legal approved Infor copyright text
-- `device-specs` `{true|false}` - whether or not to display device / browser information
+- `product-name` {string} product name information to display
+- `product-version` {string} semantic product version number
+- `copyright-year` {string} the year displayed in the copyright, defaults to current year
+- `use-default-copyright` {boolean} whether or not to display legal approved Infor copyright text
+- `device-specs` {boolean} whether or not to display device / browser information
 
 ## Slots
 
@@ -30,7 +30,7 @@ Example with application name, product name, product version and logo
 
 ```html
 <ids-about id="about-example" product-name="Product" product-version="4.0.0">
-  <ids-icon slot="icon" icon="logo-trademark" size="largex3" /></ids-icon>
+  <ids-icon slot="icon" icon="logo" size="largex3" /></ids-icon>
   <ids-text id="about-example-name" slot="appName" type="h1" font-size="24" font-weight="bold">Application Name</ids-text>
   <ids-text id="about-example-content" slot="content" type="p">Additional content</ids-text>
 </ids-about>

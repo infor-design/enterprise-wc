@@ -1,5 +1,6 @@
 // Import Every Yaml File
 import accordionYaml from './ids-accordion/index.yaml';
+import actionSheetYaml from './ids-action-sheet/index.yaml';
 import aboutYaml from './ids-about/index.yaml';
 import alertYaml from './ids-alert/index.yaml';
 import appMenuYaml from './ids-app-menu/index.yaml';
@@ -83,6 +84,7 @@ const addYaml = (yaml) => {
 
 // Add each yaml file
 addYaml(accordionYaml);
+addYaml(actionSheetYaml);
 addYaml(aboutYaml);
 addYaml(alertYaml);
 addYaml(appMenuYaml);
