@@ -17,11 +17,11 @@ const container = document.querySelector('ids-container');
   // Set up columns
   columns.push({
     id: 'selectionCheckbox',
+    name: 'selection',
     sortable: false,
     resizable: false,
-    formatter: dataGrid.formatters.text,
-    align: 'center',
-    width: 20
+    formatter: dataGrid.formatters.selectionCheckbox,
+    align: 'center'
   });
   columns.push({
     id: 'rowNumber',

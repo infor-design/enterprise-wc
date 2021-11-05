@@ -774,7 +774,7 @@ describe('IdsDataGrid Component', () => {
       dataGrid.rowSelection = 'single';
       dataGrid.columns = newColumns;
 
-      expect(dataGrid.shadowRoot.querySelectorAll('.ids-datagrid-radio')).toEqual(2);
+      expect(dataGrid.shadowRoot.querySelectorAll('.ids-datagrid-radio').length).toEqual(9);
     });
   });
 });

@@ -294,20 +294,20 @@ class IdsTriggerField extends IdsInput {
     if (stringUtils.stringToBool(d)) {
       this.setAttribute(attributes.DISABLED, 'true');
       this.removeAttribute(attributes.READONLY);
-      this.querySelector('ids-trigger-button').setAttribute(attributes.DISABLED, 'true');
-      this.querySelector('ids-trigger-button').removeAttribute(attributes.READONLY);
+      this.querySelector('ids-trigger-button')?.setAttribute(attributes.DISABLED, 'true');
+      this.querySelector('ids-trigger-button')?.removeAttribute(attributes.READONLY);
       this.querySelector('ids-input').setAttribute(attributes.DISABLED, 'true');
       this.querySelector('ids-input').removeAttribute(attributes.READONLY);
-      this.shadowRoot.querySelector('label ids-text').setAttribute(attributes.DISABLED, 'true');
-      this.shadowRoot.querySelector('.ids-trigger-field-content').removeAttribute(attributes.READONLY);
-      this.shadowRoot.querySelector('.ids-trigger-field-content').setAttribute(attributes.DISABLED, 'true');
+      this.shadowRoot.querySelector('label ids-text')?.setAttribute(attributes.DISABLED, 'true');
+      this.shadowRoot.querySelector('.ids-trigger-field-content')?.removeAttribute(attributes.READONLY);
+      this.shadowRoot.querySelector('.ids-trigger-field-content')?.setAttribute(attributes.DISABLED, 'true');
       return;
     }
     this.removeAttribute(attributes.DISABLED);
-    this.querySelector('ids-trigger-button').removeAttribute(attributes.DISABLED);
+    this.querySelector('ids-trigger-button')?.removeAttribute(attributes.DISABLED);
     this.querySelector('ids-input').removeAttribute(attributes.DISABLED);
-    this.shadowRoot.querySelector('label ids-text').removeAttribute(attributes.DISABLED);
-    this.shadowRoot.querySelector('.ids-trigger-field-content').removeAttribute(attributes.DISABLED);
+    this.shadowRoot.querySelector('label ids-text')?.removeAttribute(attributes.DISABLED);
+    this.shadowRoot.querySelector('.ids-trigger-field-content')?.removeAttribute(attributes.DISABLED);
   }
 
   get disabled() {
@@ -321,12 +321,12 @@ class IdsTriggerField extends IdsInput {
   set readonly(r) {
     if (stringUtils.stringToBool(r)) {
       this.setAttribute(attributes.READONLY, 'true');
-      this.querySelector('ids-trigger-button').setAttribute(attributes.READONLY, 'true');
+      this.querySelector('ids-trigger-button')?.setAttribute(attributes.READONLY, 'true');
       this.shadowRoot.querySelector('.ids-trigger-field-content').setAttribute(attributes.READONLY, 'true');
       return;
     }
     this.removeAttribute(attributes.READONLY);
-    this.querySelector('ids-trigger-button').removeAttribute(attributes.READONLY);
+    this.querySelector('ids-trigger-button')?.removeAttribute(attributes.READONLY);
     this.shadowRoot.querySelector('.ids-trigger-field-content').removeAttribute(attributes.READONLY);
   }
 

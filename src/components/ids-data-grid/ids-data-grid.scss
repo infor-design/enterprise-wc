@@ -347,7 +347,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     // Change Header Checkbox
     .ids-data-grid-header-text .ids-datagrid-checkbox-container {
-      .ids-datagrid-checkbox {
+      .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
         @include border-slate-70();
       }
     }
@@ -423,6 +423,13 @@ $header-bg-color: var(--ids-color-palette-slate-80);
         &:first-child {
           @include text-slate-20();
         }
+      }
+    }
+
+    // Change Header Checkbox
+    .ids-data-grid-header-text .ids-datagrid-checkbox-container {
+      .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
+        @include border-slate-40();
       }
     }
   }

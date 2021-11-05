@@ -4,19 +4,19 @@
 
 - [x] Alternate Row Shading
 - [x] Sorting
-- [] Editing see [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html)
 - [x] Selection
 - [] Paging
 - [] Hidden Columns
 - [] Frozen Columns
 - [] Column Sizes/Widths
 - [] Column Resize
+- [] Fixed header
 - [] Filter Row
+- [] Editing see [example](https://www.w3.org/TR/wai-aria-practices/examples/grid/dataGrids.html)
 - [x] Formatters
-- [] Button formatters left: Checkbox, SelectionCheckbox, Badge, Tag, Alert, Image, Button, Favorite
+- [] Button formatters left: Checkbox, Badge, Tag, Alert, Image, Button, Favorite
 - [] Add deprecated formatters as column settings
 - [] Editors / Editing / Dirty
-- [] Fixed header
 - [] Hidden Columns
 - [] Frozen Columns
 - [] Keyboard Navigation see [standards](https://www.w3.org/TR/wai-aria-practices/#keyboard-interaction-for-layout-grids) (actionable mode, X cell navigation, X row navigation)

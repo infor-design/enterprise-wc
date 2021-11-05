@@ -58,7 +58,8 @@ const container = document.querySelector('ids-container');
   xmlhttp.onreadystatechange = function onreadystatechange() {
     if (this.readyState === 4 && this.status === 200) {
       lookup.dataGridSettings = {
-        rowHeight: 'medium'
+        rowHeight: 'medium',
+        rowSelection: 'multiple'
       };
       lookup.columns = columns;
       lookup.data = JSON.parse(this.responseText);

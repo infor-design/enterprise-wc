@@ -266,3 +266,15 @@ button {
   @include bg-azure-50();
   @include text-white();
 }
+
+.ids-modal-button[mode='dark'] {
+  &:not(.ids-modal-icon-button) {
+    @include bg-transparent();
+  }
+}
+
+.ids-modal-button[mode='contrast'] {
+  &:not(.ids-modal-icon-button) {
+    @include bg-slate-10();
+  }
+}
