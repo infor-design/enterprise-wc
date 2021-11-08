@@ -22,10 +22,10 @@ import styles from './ids-splitter.scss';
 
 // Defaults
 const SPLITTER_DEFAULTS = {
-  axis: 'x',
   align: 'start',
-  label: 'Resize',
+  axis: 'x',
   disabled: false,
+  label: 'Resize',
   resizeOnDragEnd: false
 };
 
@@ -75,8 +75,8 @@ class IdsSplitter extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, I
       ...super.attributes,
       attributes.ALIGN,
       attributes.AXIS,
-      attributes.LABEL,
       attributes.DISABLED,
+      attributes.LABEL,
       attributes.RESIZE_ON_DRAG_END
     ];
   }

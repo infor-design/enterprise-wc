@@ -204,7 +204,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     this.onEvent('mousedown', this.#handleElem, (e) => {
-      if (this.disabled) {
+      if (this.disabled || e.button !== 0) {
         return;
       }
 
