@@ -1,6 +1,5 @@
 import { attributes } from '../../core';
-// Import Utils
-import { IdsStringUtils, IdsXssUtils } from '../../utils';
+import { IdsXssUtils } from '../../utils';
 
 /**
  * A mixin that will provide the container element of an IDS Component with a class
@@ -54,21 +53,22 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
    * @param {string|null} val the name of the color variant to be applied
    */
   set colorVariant(val) {
-    let safeVal = null;
+    let safeValue = null;
     if (typeof val === 'string') {
-      safeVal = IdsXssUtils.stripTags(val, '');
+      safeValue = IdsXssUtils.stripTags(val, '');
     }
 
-    if (this.colorVariants.includes(safeVal)) {
-      this.setAttribute(attributes.COLOR_VARIANT, `${safeVal}`);
-    } else {
-      this.removeAttribute(attributes.COLOR_VARIANT);
-      safeVal = null;
-    }
+    const currentValue = this.state.colorVariant;
+    if (currentValue !== safeValue) {
+      if (this.colorVariants.includes(safeValue)) {
+        this.setAttribute(attributes.COLOR_VARIANT, `${safeValue}`);
+      } else {
+        this.removeAttribute(attributes.COLOR_VARIANT);
+        safeValue = null;
+      }
 
-    if (this.state.colorVariant !== safeVal) {
-      this.state.colorVariant = safeVal;
-      this.#refreshColorVariant(safeVal);
+      this.state.colorVariant = safeValue;
+      this.#refreshColorVariant(currentValue, safeValue);
     }
   }
 
@@ -76,22 +76,15 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
    * Refreshes the component's color variant state, driven by
    * a CSS class on the WebComponent's `container` element
    *
-   * @param {string} variantName the variant name to "add" to the style
+   * @param {string} oldVariantName the variant name to "remove" from the style
+   * @param {string} newVariantName the variant name to "add" to the style
    * @returns {void}
    */
-  #refreshColorVariant(variantName) {
-    const variantClass = `color-variant-${variantName}`;
+  #refreshColorVariant(oldVariantName, newVariantName) {
     const cl = this.container.classList;
 
-    // remove any color-variant classes
-    cl.forEach((x) => {
-      if (x.includes('color-variant')) cl.remove(x);
-    });
-
-    // add the color-variant class
-    if (variantName !== null) {
-      cl.add(variantClass);
-    }
+    if (oldVariantName) cl.remove(`color-variant-${oldVariantName}`);
+    if (newVariantName) cl.add(`color-variant-${newVariantName}`);
 
     // Fire optional callback
     if (typeof this.onColorVariantRefresh === 'function') {

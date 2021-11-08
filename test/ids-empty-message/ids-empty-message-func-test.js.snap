@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Ids Empty Message Tests renders correctly 1`] = `
+"<style nonce=\\"undefined\\">:host { background-color: transparent; }</style><div class=\\"ids-empty-message\\" part=\\"container\\">
+        <svg class=\\"icon\\" xmlns=\\"http://www.w3.org/2000/svg\\" stroke=\\"currentColor\\" aria-hidden=\\"true\\"><path clip-rule=\\"evenodd\\" d=\\"M41 0C18.909 0 1 17.909 1 40s17.909 40 40 40V0z\\" fill=\\"currentColor\\" fill-rule=\\"evenodd\\" opacity=\\".1\\" stroke=\\"none\\"></path><path d=\\"M77.5 40c0 20.158-16.342 36.5-36.5 36.5S4.5 60.158 4.5 40 20.842 3.5 41 3.5 77.5 19.842 77.5 40zM40.5 59v4\\" stroke=\\"currentColor\\" vector-effect=\\"non-scaling-stroke\\"></path><path d=\\"M40.5 54v-7.5c7.362 0 14-4.733 14-13s-6.138-14-13.5-14c-7.733 0-13.5 7.093-13.5 14.5\\" stroke=\\"currentColor\\" vector-effect=\\"non-scaling-stroke\\"></path></svg>
+        <div class=\\"label\\">
+          <slot name=\\"label\\"></slot>
+        </div>
+        <div class=\\"description\\">
+          <slot name=\\"description\\"></slot>
+        </div>
+        <div class=\\"button\\">
+          <slot name=\\"button\\"></slot>
+        </div>
+      </div>
+    "
+`;

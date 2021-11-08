@@ -6,7 +6,7 @@
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
 @mixin blank-shadow() {
-  box-shadow: 0 0 3px 2px rgba(54, 138, 192, 0);
+  box-shadow: 0 0 3px 2px rgba(54 138 192 / 0);
 }
 
 // Used to make the focus "border" appear to be separated from the button.
@@ -24,7 +24,7 @@
 
 @mixin alternate-button-shadow() {
   border-color: var(--ids-color-palette-white);
-  box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 3px 2px rgba(255 255 255 / 0.7);
 }
 
 // Used to include a basic set of ripple-effect styles
@@ -730,7 +730,10 @@
 
     &[mode='dark'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-slate-90),
+          0 0 0 3px var(--ids-color-palette-azure-60),
+          0 0 4px 2px rgba(141 201 230 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -745,7 +748,10 @@
 
     &[mode='contrast'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-slate-10),
+          0 0 0 3px var(--ids-color-palette-azure-90),
+          0 0 4px 2px rgba(41 41 41 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -760,7 +766,10 @@
 
     &[mode='light'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-graphite-10),
+          0 0 0 3px var(--ids-color-palette-azure-50),
+          0 0 4px 2px rgba(54 138 192 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -775,7 +784,10 @@
 
     &[mode='dark'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-classic-slate-80),
+          0 0 0 3px var(--ids-color-palette-azure-50),
+          0 0 4px 2px rgba(141 201 230 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -790,7 +802,10 @@
 
     &[mode='contrast'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-graphite-20)
+          0 0 0 3px var(--ids-color-palette-azure-90),
+          0 0 4px 2px rgba(41 41 41 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -806,7 +821,10 @@
     // Secondary Dark Mode
     &[mode='dark'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-slate-90),
+          0 0 0 3px var(--ids-color-palette-azure-60),
+          0 0 4px 2px rgba(141 201 230 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -821,7 +839,10 @@
 
     &[mode='contrast'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-slate-10),
+          0 0 0 3px var(--ids-color-palette-azure-90),
+          0 0 4px 2px rgba(41 41 41 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -836,7 +857,10 @@
 
     &[mode='light'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-graphite-10),
+          0 0 0 3px var(--ids-color-palette-azure-50),
+          0 0 4px 2px rgba(54 138 192 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -851,7 +875,10 @@
 
     &[mode='dark'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-classic-slate-80),
+          0 0 0 3px var(--ids-color-palette-azure-50),
+          0 0 4px 2px rgba(141 201 230 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -866,7 +893,10 @@
 
     &[mode='contrast'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-graphite-20),
+          0 0 0 3px var(--ids-color-palette-azure-90),
+          0 0 4px 2px rgba(41 41 41 / 0.3);
       }
 
       &.color-variant-alternate {

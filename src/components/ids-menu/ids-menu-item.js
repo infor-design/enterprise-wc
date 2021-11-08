@@ -40,6 +40,7 @@ const MENU_DEFAULTS = {
 
 // Definable attributes
 const MENU_ATTRIBUTES = [
+  attributes.TEXT_ALIGN,
   attributes.DISABLED,
   attributes.ICON,
   attributes.LANGUAGE,
@@ -133,11 +134,23 @@ class IdsMenuItem extends mix(IdsElement).with(
       tabindex = ` tabindex="${this.state.tabIndex}"`;
     }
 
+    // TextAlign
+    let textClass = '';
+    if (this.textAlign === 'center') {
+      textClass = ' text-center';
+    }
+    if (this.textAlign === 'start') {
+      textClass = ' text-start';
+    }
+    if (this.textAlign === 'end') {
+      textClass = ' text-end';
+    }
+
     // Text
     const textSlot = `<span class="ids-menu-item-text" part="text"><slot></slot></span>`;
 
     // Main
-    return `<li role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}">
+    return `<li role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}${textClass}">
       <a ${tabindex} ${disabledAttr}>
         ${check}${iconSlot}${textSlot}
       </a>
@@ -655,6 +668,27 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   get text() {
     return [...this.childNodes].find((i) => i.nodeType === Node.TEXT_NODE).textContent.trim();
+  }
+
+  /**
+   * Set the value of the text align attribute
+   * @param {string} val start / center / end
+   * @memberof IdsMenuItem
+   */
+  set textAlign(val) {
+    if (val) {
+      this.setAttribute(attributes.TEXT_ALIGN, val);
+    } else {
+      this.removeAttribute(attributes.TEXT_ALIGN);
+    }
+  }
+
+  /**
+   * @readonly
+   * @returns {string} a menu item's textAlign attribute
+   */
+  get textAlign() {
+    return this.getAttribute(attributes.TEXT_ALIGN);
   }
 
   /**

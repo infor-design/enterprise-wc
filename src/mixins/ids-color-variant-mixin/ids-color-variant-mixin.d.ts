@@ -6,5 +6,5 @@ export class IdsColorVariantMixin {
   colorVariant: string;
 
   /** refreshes the Color Variant's state applied to the IdsElement container */
-  refreshColorVariant(): void;
+  onColorVariantRefresh?(): void;
 }
