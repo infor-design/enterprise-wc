@@ -1,21 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-import {
-  IdsColorVariantMixin,
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin,
-} from '../../mixins';
-
+import { customElement, scss  } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import IdsAccordionHeader from './ids-accordion-header';
-import { IdsStringUtils } from '../../utils/ids-string-utils';
+import Base from './ids-accordion-base';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import { ALIGNMENT_TYPES, applyContentAlignmentClass } from './ids-accordion-common';
+
 import styles from './ids-accordion-panel.scss';
 
 /**
@@ -29,20 +19,13 @@ import styles from './ids-accordion-panel.scss';
  */
 @customElement('ids-accordion-panel')
 @scss(styles)
-class IdsAccordionPanel extends mix(IdsElement).with(
-    IdsColorVariantMixin,
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsThemeMixin,
-  ) {
+export default class IdsAccordionPanel extends Base {
   constructor() {
     super();
     this.state = {};
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
-
     this.#setTitles();
     this.#attachEventHandlers();
     this.#refreshContentAlignment(this.contentAlignment);
@@ -179,7 +162,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @param {string} value true/false
    */
   set expanded(value) {
-    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    const isValueTruthy = stringToBool(value);
     const currentValue = this.expanded;
 
     if (isValueTruthy) {
@@ -198,7 +181,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @returns {string} the expanded property
    */
   get expanded() {
-    return IdsStringUtils.stringToBool(this.getAttribute(attributes.EXPANDED));
+    return stringToBool(this.getAttribute(attributes.EXPANDED));
   }
 
   /**
@@ -246,7 +229,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
    * @param {boolean} val true if this panel should appear "nested"
    */
   set nested(val) {
-    this.container.classList[IdsStringUtils.stringToBool(val) ? 'add' : 'remove']('nested');
+    this.container.classList[stringToBool(val) ? 'add' : 'remove']('nested');
   }
 
   /**
@@ -397,5 +380,3 @@ class IdsAccordionPanel extends mix(IdsElement).with(
     `;
   }
 }
-
-export default IdsAccordionPanel;

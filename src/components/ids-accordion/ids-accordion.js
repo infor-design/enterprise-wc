@@ -1,24 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import styles from './ids-accordion.scss';
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
-import {
-  IdsAttributeProviderMixin,
-  IdsColorVariantMixin,
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-import IdsDOMUtils from '../../utils/ids-dom-utils';
+import Base from './ids-accordion-base';
 import { refreshRTLStyle } from './ids-accordion-common';
 
 const attributeProviderDefs = {
@@ -44,20 +29,12 @@ const attributeProviderDefs = {
  */
 @customElement('ids-accordion')
 @scss(styles)
-class IdsAccordion extends mix(IdsElement).with(
-    IdsColorVariantMixin,
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsLocaleMixin,
-    IdsThemeMixin,
-    IdsAttributeProviderMixin(attributeProviderDefs),
-  ) {
+export default class IdsAccordion extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
     this.#handleEvents();
     this.#handleKeys();
 
@@ -167,13 +144,6 @@ class IdsAccordion extends mix(IdsElement).with(
     const headerCl = header?.container?.classList;
 
     const subLevelDepth = depth > 1;
-    const isRTL = this.locale.isRTL();
-
-    // Assign RTL CSS Classes
-    if (doRTL) {
-      if (elemCl) refreshRTLStyle(elemCl, isRTL);
-      if (headerCl) refreshRTLStyle(headerCl, isRTL);
-    }
 
     if (depth > 0) {
       // Assign Nested Padding CSS Classes
@@ -233,17 +203,6 @@ class IdsAccordion extends mix(IdsElement).with(
    * @returns {void}
    */
   #handleEvents() {
-    // Respond to a parent container's language change
-    this.offEvent('languagechange.container');
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      this.#assignDepthDependentStyles(this, 0, false, false, false, true);
-    });
-
-    // Responds to `selected` events triggered by children
-    this.onEvent('selected', this, (e) => {
-      this.#deselectOtherHeaders(e.target);
-    });
   }
 
   /**
@@ -396,5 +355,3 @@ class IdsAccordion extends mix(IdsElement).with(
     });
   }
 }
-
-export default IdsAccordion;

@@ -1,4 +1,4 @@
-import { IdsElement } from '../../core';
+import IdsElement from '../../core/ids-element';
 
 const identityFn = ({ value }) => value;
 

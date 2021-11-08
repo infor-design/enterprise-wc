@@ -1,6 +1,5 @@
-import { attributes } from '../../core';
-// Import Utils
-import { IdsStringUtils, IdsXssUtils } from '../../utils';
+import { attributes } from '../../core/ids-attributes';
+import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
 
 /**
  * A mixin that will provide the container element of an IDS Component with a class
@@ -9,7 +8,7 @@ import { IdsStringUtils, IdsXssUtils } from '../../utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsColorVariantMixin = (superclass) => class extends superclass {
+const IdsColorVariantMixin = ( superclass ) => class extends superclass {
   constructor() {
     super();
 
@@ -56,7 +55,7 @@ const IdsColorVariantMixin = (superclass) => class extends superclass {
   set colorVariant(val) {
     let safeVal = null;
     if (typeof val === 'string') {
-      safeVal = IdsXssUtils.stripTags(val, '');
+      safeVal = stripTags(val, '');
     }
 
     if (this.colorVariants.includes(safeVal)) {
