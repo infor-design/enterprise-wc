@@ -134,7 +134,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    */
   visibleItemCount() {
     let count = Math.ceil(this.height / this.itemHeight) + (2 * this.bufferSize);
-    count = Math.min(Number(this.itemCount) - this.startIndex, count);
+    count = Math.min(count);
     return count;
   }
 

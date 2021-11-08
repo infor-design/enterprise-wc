@@ -157,7 +157,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.#attachEventHandlers();
 
     if (this.data.length > 0) {
-      this.setActiveCell(0, 0);
+      this.setActiveCell(0, 0, true);
       this.#attachKeyboardListeners();
     }
 
@@ -236,8 +236,8 @@ class IdsDataGrid extends mix(IdsElement).with(
    */
   rowTemplate(row, index) {
     let rowClasses = row?.rowSelected ? ' selected' : '';
-    rowClasses = row?.rowSelected || this.rowSelection === 'mixed' ? ' mixed' : '';
-    rowClasses = row?.rowActivated ? ' activated' : '';
+    rowClasses += row?.rowSelected && this.rowSelection === 'mixed' ? ' mixed' : '';
+    rowClasses += row?.rowActivated ? ' activated' : '';
 
     let html = `<div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row${rowClasses}">`;
 
@@ -417,6 +417,8 @@ class IdsDataGrid extends mix(IdsElement).with(
   setSortColumn(id, ascending = true) {
     this.sortColumn = { id, ascending };
     this.datasource.sort(id, ascending, null);
+    this.#syncSelectedRows();
+    this.#syncActivatedRow();
     this.rerender();
     this.setSortState(id, ascending);
     this.triggerEvent('sort', this, { detail: { elem: this, sortColumn: this.sortColumn } });
@@ -602,10 +604,50 @@ class IdsDataGrid extends mix(IdsElement).with(
   get supressRowDeactivation() { return this.getAttribute(attributes.SUPRESS_ROW_DEACTIVATION) || false; }
 
   /**
+   * Resync the selected rows array's indexes
+   * @private
+   */
+  #syncSelectedRows() {
+    this.state.selectedRows = [];
+    this.data?.forEach((row, index) => {
+      if (row.rowSelected) {
+        this.state.selectedRows.push(index);
+      }
+    });
+  }
+
+  /**
+   * Resync the selected rows array's indexes
+   * @private
+   */
+  #syncActivatedRow() {
+    this.state.activatedRow = null;
+    this.data?.forEach((row, index) => {
+      if (row.rowActivated) {
+        this.state.activatedRow = index;
+      }
+    });
+  }
+
+  /**
    * Get the selected rows
    * @returns {Array<object>} An array of all currently selected rows
    */
-  get selectedRows() { return this.state.selectedRows || []; }
+  get selectedRows() {
+    const selectedIndex = this.state.selectedRows;
+    return selectedIndex.map((index) => ({ index, data: this.data[index] }));
+  }
+
+  /**
+   * Get the activated row
+   * @returns {number} The index of the selected row
+   */
+  get activatedRow() {
+    if (this.state.activatedRow == null) {
+      return null;
+    }
+    return { index: this.state.activatedRow, data: this.data[this.state.activatedRow] };
+  }
 
   /**
    * Handle selection via click/keyboard
@@ -619,7 +661,12 @@ class IdsDataGrid extends mix(IdsElement).with(
     if (isSelected && !this.supressRowDeselection) {
       this.deSelectRow(row.getAttribute('aria-rowindex') - 1);
     } else {
-      this.selectRow(row.getAttribute('aria-rowindex') - 1);
+      const index = row.getAttribute('aria-rowindex') - 1;
+      // Already selected
+      if (this.state.selectedRows.includes(index)) {
+        return;
+      }
+      this.selectRow(index);
     }
 
     this.triggerEvent('selectionchanged', this, {
@@ -879,11 +926,12 @@ class IdsDataGrid extends mix(IdsElement).with(
 
   /**
    * Set the active cell for focus
-   * @param {number} cell [description]
-   * @param {number} row  [description]
+   * @param {number} cell The cell to focus (zero based)
+   * @param {number} row The row to focus (zero based)
+   * @param {boolean} nofocus If true, do not focus the cell
    * @returns {object} the current active cell
    */
-  setActiveCell(cell, row) {
+  setActiveCell(cell, row, nofocus) {
     // TODO Hidden Columns
     if (row < 0 || cell < 0 || row > this.data.length - 1 || cell > this.columns.length - 1) {
       return this.activeCell;
@@ -902,8 +950,10 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     this.activeCell.node = cellNode;
     cellNode.setAttribute('tabindex', '0');
-    cellNode.focus();
 
+    if (!nofocus) {
+      cellNode.focus();
+    }
     this.triggerEvent('activecellchange', this, { detail: { elem: this, activeCell: this.activeCell } });
     return this.activeCell;
   }
