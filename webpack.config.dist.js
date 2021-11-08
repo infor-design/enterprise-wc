@@ -9,7 +9,8 @@ module.exports = {
     'enterprise-wc': `${componentsDir}/enterprise-wc.js`,
     'ids-rating': `${componentsDir}/ids-rating/ids-rating.js`,
     'ids-icon': `${componentsDir}/ids-icon/ids-icon.js`,
-    'ids-accordion': `${componentsDir}/ids-accordion/ids-accordion.js`
+    'ids-accordion': `${componentsDir}/ids-accordion/ids-accordion.js`,
+    'ids-alert': `${componentsDir}/ids-alert/ids-alert.js`
   },
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),
