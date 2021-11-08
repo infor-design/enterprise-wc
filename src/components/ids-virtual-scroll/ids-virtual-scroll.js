@@ -43,9 +43,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   #attachEventHandlers() {
     this.timeout = null;
 
-    this.onEvent('scroll', this.container, (e) => {
-      this.handleScroll(e);
-    }, { passive: true });
+    this.scrollTarget = this.container;
 
     return this;
   }
