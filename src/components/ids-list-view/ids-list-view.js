@@ -90,7 +90,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    */
   virtualScrollTemplate() {
     const html = `
-      <ids-virtual-scroll height=${this.height} item-height="${this.itemHeight}">
+      <ids-virtual-scroll item-height="${this.itemHeight}">
         <div class="ids-list-view" part="container">
           <div slot="contents" part="list">
           </div>
