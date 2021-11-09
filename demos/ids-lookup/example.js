@@ -61,8 +61,23 @@ const container = document.querySelector('ids-container');
         rowHeight: 'medium',
         rowSelection: 'multiple'
       };
-      lookup.columns = columns;
       lookup.data = JSON.parse(this.responseText);
+      lookup.columns = columns;
+      lookup.addEventListener('change', () => {
+        console.info(`Value Changed`, lookup.dataGrid.selectedRows, lookup.value);
+      });
+
+      lookup.addEventListener('rowselected', (e) => {
+        console.info(`Row Selected`, e.detail);
+      });
+
+      lookup.addEventListener('rowdeselected', (e) => {
+        console.info(`Row DeSelected`, e.detail);
+      });
+
+      lookup.addEventListener('selectionchanged', (e) => {
+        console.info(`Selection Changed`, e.detail);
+      });
     }
   };
 

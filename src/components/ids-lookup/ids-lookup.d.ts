@@ -2,10 +2,26 @@
 // confirm our code is type safe, and to support TypeScript users.
 
 import { IdsElement } from '../../core';
+import { IdsDataGrid } from '../ids-data-grid';
 
 interface IdsLookupEventDetail extends Event {
   detail: {
     elem: IdsLookup
+  }
+}
+
+interface selected extends Event {
+  detail: {
+    elem: IdsDataGrid,
+    row: number;
+    data: Record<string, unknown>
+  }
+}
+
+interface selectionchanged extends Event {
+  detail: {
+    elem: IdsDataGrid,
+    selectedRows: Array<Record<string, unknown>>
   }
 }
 
@@ -25,8 +41,11 @@ export default class IdsLookup extends IdsElement {
   /** Sets the validation required indicator on label text, it's default to `true` */
   labelRequired: boolean;
 
-  /** Maximum characters allowed in textarea */
-  maxlength: number | string;
+  /** Sets the modal title */
+  title: string;
+
+  /** Sets the modal title */
+  field: string;
 
   /** Sets the placeholder text */
   placeholder: string;
@@ -76,6 +95,15 @@ export default class IdsLookup extends IdsElement {
   /** Fires when value change */
   on(event: 'change', listener: (detail: IdsLookupEventDetail) => void): this;
 
-  /** Fires when dropdown get focus */
+  /** Fires when the lookup input gets focus */
   on(event: 'focus', listener: (detail: IdsLookupEventDetail) => void): this;
+
+  /** Fires when an individual row is activation and gives information about that row */
+  on(event: 'rowselected', listener: (event: selected) => void): this;
+
+  /** Fires when an individual row is deselected and gives information about that row */
+  on(event: 'rowdeselected', listener: (event: selected) => void): this;
+
+  /** Fires once for each time selection changes and gives information about all selected rows */
+  on(event: 'selectionchanged', listener: (event: selectionchanged) => void): this;
 }

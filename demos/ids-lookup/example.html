@@ -4,9 +4,9 @@
 
 <ids-layout-grid auto="true">
   <ids-layout-grid-cell>
-    <ids-lookup id="lookup-1" label="Normal Lookup"></ids-lookup>
-    <ids-lookup id="lookup-2" readonly="true" label="Readonly Lookup" value="2241202"></ids-lookup>
-    <ids-lookup id="lookup-3" disabled="true" label="Disabled Lookup" value="2241203"></ids-lookup>
+    <ids-lookup id="lookup-1" label="Normal Lookup" title="Select an Item" field="description" value="102,103"></ids-lookup>
+    <ids-lookup id="lookup-2" readonly="true" label="Readonly Lookup" value="102"></ids-lookup>
+    <ids-lookup id="lookup-3" disabled="true" label="Disabled Lookup" value="103"></ids-lookup>
     <ids-lookup id="lookup-4" label="Required Lookup" validate="required"></ids-lookup>
     <ids-lookup id="lookup-5" label="Custom Lookup">
       <ids-modal slot="lookup-modal" id="custom-lookup-modal" aria-labelledby="custom-lookup-modal-title">
@@ -18,3 +18,4 @@
     </ids-lookup>
   </ids-layout-grid-cell>
 </ids-layout-grid>
+

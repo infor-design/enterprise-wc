@@ -78,12 +78,12 @@ Here is a code example for multi select
 The following events are relevant to selection/activation.
 
 `rowselected` Fires when an individual row is activation and gives information about that row.
-`rowdeselected` Fires when an individual row is activation and gives information about that row.
-`selectionchanged` Fires once for each time activation changes and gives all the activation rows.
+`rowdeselected` Fires when an individual row is deselected and gives information about that row.
+`selectionchanged` Fires once for each time selection changes and gives information about all selected rows.
 
-`rowactivated` Fires when an individual row is activation and gives information about that row.
-`rowdeactivated` Fires when an individual row is activation and gives information about that row.
-`activationchanged` Fires once for each time activation changes and gives all the activation rows.
+`rowactivated` Fires when an individual row is activated and gives information about that row.
+`rowdeactivated` Fires when an individual row is deactivated and gives information about that row.
+`activationchanged` Fires once for each time activation changes and gives information about the active row.
 
 ## Settings and Attributes
 

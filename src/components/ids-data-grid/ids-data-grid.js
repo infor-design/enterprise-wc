@@ -146,7 +146,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.scrollTarget = this.container;
 
-      this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index); //eslint-disable-line
+      this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
       this.virtualScrollContainer.itemCount = this.data.length;
       // TODO Dynamic Height setting - header height
       this.virtualScrollContainer.height = 350 - this.headerPixelHeight;
@@ -353,7 +353,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
 
-      this.setActiveCell(this.activeCell?.cell + cellDiff, this.activeCell?.row + rowDiff);
+      this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, Number(this.activeCell?.row) + rowDiff);
       e.preventDefault();
       e.stopPropagation();
     });

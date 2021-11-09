@@ -92,10 +92,12 @@ class IdsLookup extends mix(IdsElement).with(
   static get attributes() {
     return [
       attributes.DISABLED,
+      attributes.FIELD,
       attributes.LABEL,
       attributes.MODE,
       attributes.READONLY,
       attributes.TABBABLE,
+      attributes.TITLE,
       attributes.VALUE,
       attributes.VERSION
     ];
@@ -130,7 +132,7 @@ class IdsLookup extends mix(IdsElement).with(
     </ids-trigger-field>
     <slot name="lookup-modal">
       <ids-modal id="lookup-modal" aria-labelledby="lookup-modal-title" part="modal">
-        <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">Active IDS Modal</ids-text>
+        <ids-text slot="title" font-size="24" type="h2" id="lookup-modal-title">${this.title}</ids-text>
         <ids-layout-grid class="data-grid-container" auto="true" gap="md" no-margins="true" min-col-width="600px">
           <ids-layout-grid-cell>
             <ids-data-grid id="lookup-data-grid" label="${this.label}" part="data-grid">
@@ -155,9 +157,10 @@ class IdsLookup extends mix(IdsElement).with(
    */
   set value(value) {
     this.shadowRoot.querySelector('ids-input').value = value;
+    this.setAttribute('value', value);
 
-    // Send the change event
     if (this.value === value) {
+      // Send the change event{
       this.triggerEvent('change', this, {
         detail: {
           elem: this,
@@ -165,7 +168,6 @@ class IdsLookup extends mix(IdsElement).with(
         }
       });
     }
-    this.setAttribute('value', value);
   }
 
   get value() { return this.getAttribute('value'); }
@@ -182,7 +184,7 @@ class IdsLookup extends mix(IdsElement).with(
   get label() { return this.getAttribute('label') || ''; }
 
   /**
-   * Sets the readonly attribute
+   * Sets the readonly state of the field
    * @param {string|boolean} value string value from the readonly attribute
    */
   set readonly(value) {
@@ -261,7 +263,7 @@ class IdsLookup extends mix(IdsElement).with(
   }
 
   /**
-   * Set the columns array of the dataGrid
+   * Set the columns array of the data grid
    * @param {Array} value The array to use
    */
   set columns(value) {
@@ -271,14 +273,37 @@ class IdsLookup extends mix(IdsElement).with(
   get columns() { return this.dataGrid.columns; }
 
   /**
-   * Set the data array of the dataGrid
+   * Set the data array of the data grid
    * @param {Array} value The array to use
    */
   set data(value) {
     this.dataGrid.data = value;
+
+    if (value && this.dataGrid.selectedRows.length === 0) {
+      // Sync the dataGrid selected rows
+      this.#syncSelectedRows();
+    }
   }
 
   get data() { return this.dataGrid.data; }
+
+  /**
+   * Sync the selected rows in the dataGrid
+   * @private
+   */
+  #syncSelectedRows() {
+    if (!this.value) {
+      return;
+    }
+
+    const selectedIds = this.value.split(this.delimiter);
+    for (let i = 0; i < selectedIds.length; i++) {
+      const foundIndex = this.dataGrid.data.findIndex((row) => row[this.field] === selectedIds[i]);
+      if (foundIndex > -1) {
+        this.dataGrid.selectRow(foundIndex);
+      }
+    }
+  }
 
   /**
    * Set any number of dataGrid settings
@@ -329,6 +354,58 @@ class IdsLookup extends mix(IdsElement).with(
   get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS) || 'change blur'; }
 
   /**
+   * Set the modal title
+   * @param {string} value The modal title attribute
+   */
+  set title(value) {
+    if (value) {
+      this.setAttribute(attributes.TITLE, value);
+      this.modal.querySelector('[slot="title"]').innerText = value;
+      this.input.setAttribute(attributes.TITLE, value);
+    }
+  }
+
+  get title() { return this.getAttribute(attributes.TITLE) || `${this.label}`; }
+
+  /**
+   * Set the field to use when populating the input
+   * @param {string} value The field name
+   */
+  set field(value) {
+    if (value) {
+      this.setAttribute(attributes.FIELD, value);
+    }
+  }
+
+  get field() { return this.getAttribute(attributes.FIELD) || 'id'; }
+
+  /**
+   * Set the string delimiter on selection
+   * @param {string} value The field name
+   */
+  set delimiter(value) {
+    if (value) {
+      this.setAttribute(attributes.DELIMITER, value);
+    }
+  }
+
+  get delimiter() { return this.getAttribute(attributes.DELIMITER) || ','; }
+
+  /**
+   * Set the value in the input for the selected row(s)
+   * @private
+   */
+  #setInputValue() {
+    let value = '';
+    const length = this.dataGrid.selectedRows.length;
+
+    this.dataGrid.selectedRows.forEach((row, i) => {
+      value += `${row.data[this.field]}${i < length - 1 ? this.delimiter : ''}`;
+    });
+    this.value = value;
+  }
+
+  /**
    * Establish Internal Event Handlers
    * @private
    * @returns {object} The object for chaining.
@@ -340,6 +417,7 @@ class IdsLookup extends mix(IdsElement).with(
       }
       if (e.target.getAttribute('id') === 'modal-apply-btn') {
         this.modal.hide();
+        this.#setInputValue();
       }
     });
 
@@ -348,6 +426,20 @@ class IdsLookup extends mix(IdsElement).with(
         e.detail.response(false);
       }
     });
+
+    // Propagate a few events to the parent
+    this.dataGrid.addEventListener('rowselected', (e) => {
+      this.triggerEvent('rowselected', this, { detail: e.detail });
+    });
+
+    this.dataGrid.addEventListener('rowdeselected', (e) => {
+      this.triggerEvent('rowdeselected', this, { detail: e.detail });
+    });
+
+    this.dataGrid.addEventListener('selectionchanged', (e) => {
+      this.triggerEvent('selectionchanged', this, { detail: e.detail });
+    });
+
     return this;
   }
 
