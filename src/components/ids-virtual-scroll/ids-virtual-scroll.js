@@ -115,6 +115,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     } else {
       this.container.style.height = `${this.height}`;
     }
+
     content.style.height = `${this.contentHeight}px`;
 
     this.itemContainer = this.querySelector('[slot="contents"]');
