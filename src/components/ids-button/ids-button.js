@@ -1,71 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  attributes
-} from '../../core';
-
-import { IdsStringUtils } from '../../utils';
-
-import {
-  IdsEventsMixin,
-  IdsColorVariantMixin,
-  IdsThemeMixin,
-  IdsTooltipMixin
-} from '../../mixins';
-
-import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
+import { customElement, scss } from '../../core';
+import { attributes } from '../../core/ids-attributes'
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-button-base';
+import renderLoop from '../ids-render-loop/ids-render-loop';
+import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
+import { BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses } from './ids-button-attributes'
 import styles from './ids-button.scss';
-
-const { stringToBool } = IdsStringUtils;
-
-// Button Styles
-const BUTTON_TYPES = [
-  'default',
-  'primary',
-  'secondary',
-  'tertiary',
-  'destructive',
-  'swipe-action-left',
-  'swipe-action-right'
-];
-
-// Default Button state values
-const BUTTON_DEFAULTS = {
-  cssClass: [],
-  disabled: false,
-  tabIndex: true,
-  type: BUTTON_TYPES[0]
-};
-
-// Definable attributes
-const BUTTON_ATTRIBUTES = [
-  attributes.CSS_CLASS,
-  attributes.DISABLED,
-  attributes.ICON,
-  attributes.ICON_ALIGN,
-  attributes.ID,
-  attributes.NO_RIPPLE,
-  attributes.SQUARE,
-  attributes.TEXT,
-  attributes.TYPE,
-  attributes.TABINDEX,
-  attributes.COLOR_VARIANT
-];
-
-// Icon alignments
-const ICON_ALIGN = [
-  'align-icon-start',
-  'align-icon-end'
-];
-
-const baseProtoClasses = [
-  'ids-button',
-  'ids-icon-button',
-  'ids-menu-button',
-  'ids-toggle-button'
-];
 
 /**
  * IDS Button Component
@@ -80,12 +20,7 @@ const baseProtoClasses = [
  */
 @customElement('ids-button')
 @scss(styles)
-class IdsButton extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsColorVariantMixin,
-    IdsThemeMixin,
-    IdsTooltipMixin
-  ) {
+export default class IdsButton extends Base {
   constructor() {
     super();
     this.state = {};
@@ -127,7 +62,6 @@ class IdsButton extends mix(IdsElement).with(
     this.attachEventHandlers();
     this.setIconAlignment();
     this.shouldUpdate = true;
-    super.connectedCallback();
   }
 
   /**
@@ -552,7 +486,7 @@ class IdsButton extends mix(IdsElement).with(
    * @param {boolean} val The ripple value
    */
   set noRipple(val) {
-    if (IdsStringUtils.stringToBool(val)) {
+    if (stringToBool(val)) {
       this.setAttribute(attributes.NO_RIPPLE, true);
       this.state.noRipple = true;
       this.offEvent('click.ripple');
@@ -720,5 +654,3 @@ class IdsButton extends mix(IdsElement).with(
     [...icons, ...texts].forEach(iterator);
   }
 }
-
-export { IdsButton, BUTTON_ATTRIBUTES, BUTTON_TYPES };

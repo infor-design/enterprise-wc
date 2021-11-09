@@ -1,14 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
-import { IdsStringUtils } from '../../utils';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-card-base';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import styles from './ids-card.scss';
 
 /**
@@ -23,13 +16,12 @@ import styles from './ids-card.scss';
  */
 @customElement('ids-card')
 @scss(styles)
-class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsCard extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback();
   }
 
   /**
@@ -65,7 +57,7 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean|null} value The auto fit
    */
   set autoFit(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.AUTO_FIT, value);
       return;
     }
@@ -79,8 +71,8 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean|null} value The height can be auto to contents
    */
   set autoHeight(value) {
-    const val = IdsStringUtils.stringToBool(value);
-    if (IdsStringUtils.stringToBool(value)) {
+    const val = stringToBool(value);
+    if (stringToBool(value)) {
       this.setAttribute('auto-height', val);
       return;
     }
@@ -105,5 +97,3 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   get overflow() { return this.getAttribute(attributes.OVERFLOW); }
 }
-
-export default IdsCard;

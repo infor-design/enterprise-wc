@@ -1,12 +1,6 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
-
-import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes'
+import Base from './ids-badge-base';
 import styles from './ids-badge.scss';
 
 /**
@@ -19,13 +13,12 @@ import styles from './ids-badge.scss';
  */
 @customElement('ids-badge')
 @scss(styles)
-class IdsBadge extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsBadge extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback();
   }
 
   /**
@@ -100,5 +93,3 @@ class IdsBadge extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     }
   }
 }
-
-export default IdsBadge;

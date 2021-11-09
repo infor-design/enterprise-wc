@@ -1,20 +1,14 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss
-} from '../../core';
-import { IdsKeyboardMixin } from '../../mixins';
-import { IdsDOMUtils } from '../../utils';
-import IdsDrawer from '../ids-drawer';
+import { customElement, scss } from '../../core/ids-decorators';
+import Base from './ids-app-base';
+import IdsDrawer from '../ids-drawer/ids-drawer';
 import styles from './ids-app-menu.scss';
 
 // Supporting Components
-import '../ids-accordion';
-import '../ids-button';
-import '../ids-icon';
-import '../ids-text';
-import '../ids-toolbar';
+import '../ids-accordion/ids-accordion';
+import '../ids-button/ids-button';
+import '../ids-icon/ids-icon';
+import '../ids-text/ids-text';
+import '../ids-toolbar/ids-toolbar';
 
 /**
  * IDS App Menu Component
@@ -25,13 +19,12 @@ import '../ids-toolbar';
  */
 @customElement('ids-app-menu')
 @scss(styles)
-class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
+export default class IdsAppMenu extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
     this.edge = 'start';
     this.type = 'app-menu';
     this.#refreshVariants();
@@ -110,5 +103,3 @@ class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
     document.removeEventListener('keydown', this.globalKeydownListener);
   }
 }
-
-export default IdsAppMenu;
