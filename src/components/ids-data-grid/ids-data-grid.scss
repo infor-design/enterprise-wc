@@ -32,6 +32,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     display: grid;
     grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
+
+    &:last-child {
+      border-bottom: solid 1px $cell-border-color;
+    }
   }
 
   // Row Height Feature
