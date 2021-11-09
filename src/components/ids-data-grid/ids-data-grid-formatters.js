@@ -2,7 +2,7 @@ import IdsHyperLink from '../ids-hyperlink/ids-hyperlink';
 
 /* eslint-disable jsdoc/require-returns */
 /* eslint-disable jsdoc/require-param */
-class IdsDataGridFormatters {
+export default class IdsDataGridFormatters {
   /** Formats Just the string Data Removing Nulls and Undefined */
   nullToString(rowData, columnData) {
     const value = rowData[columnData.field];
@@ -85,5 +85,3 @@ class IdsDataGridFormatters {
     return `<ids-hyperlink href="${colHref}">${value}</span>`;
   }
 }
-
-export { IdsDataGridFormatters };

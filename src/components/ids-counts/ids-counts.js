@@ -1,25 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-// Import Dependencies
-import IdsText from '../ids-text';
-import IdsHyperlink from '../ids-hyperlink';
-
-// Import Styles
+import { IdsElement, customElement, scss,  } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-count-base';
+import IdsText from '../ids-text/ids-text';
+import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import styles from './ids-counts.scss';
 
 /**
@@ -32,7 +16,7 @@ import styles from './ids-counts.scss';
  */
 @customElement('ids-counts')
 @scss(styles)
-class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsCounts extends Base {
   constructor() {
     super();
   }
@@ -43,7 +27,7 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   #textProperties() {
-    this.querySelectorAll('[count-value]').forEach((value) => { value.fontSize = IdsStringUtils.stringToBool(this.compact) ? 40 : 48; });
+    this.querySelectorAll('[count-value]').forEach((value) => { value.fontSize = stringToBool(this.compact) ? 40 : 48; });
     this.querySelectorAll('[count-text]').forEach((text) => { text.fontSize = 16; });
   }
 
@@ -112,5 +96,3 @@ class IdsCounts extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   get href() { return this.getAttribute(attributes.HREF); }
 }
-
-export default IdsCounts;

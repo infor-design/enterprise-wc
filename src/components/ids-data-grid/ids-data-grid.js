@@ -1,28 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix,
-  IdsDataSource
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils, IdsDeepCloneUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
-// Import Dependencies
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-data-grid-base';
+import IdsDataSource from '../../core/ids-data-source';
 import { IdsDataGridFormatters } from './ids-data-grid-formatters';
-import IdsVirtualScroll from '../ids-virtual-scroll';
-
-// Import Styles
+import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 import styles from './ids-data-grid.scss';
 
 /**
@@ -43,7 +26,7 @@ import styles from './ids-data-grid.scss';
  */
 @customElement('ids-data-grid')
 @scss(styles)
-class IdsDataGrid extends mix(IdsElement).with(
+export default class IdsDataGrid extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsThemeMixin,
     IdsKeyboardMixin,
@@ -135,7 +118,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.container = this.shadowRoot.querySelector('.ids-data-grid');
 
     // Setup virtual scrolling
-    if (IdsStringUtils.stringToBool(this.virtualScroll) && this.data.length > 0) {
+    if (stringToBool(this.virtualScroll) && this.data.length > 0) {
       /** @type {object} */
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
       this.virtualScrollContainer.scrollTarget = this.container;
@@ -397,7 +380,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {boolean|string} value true to use alternate row shading
    */
   set alternateRowShading(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.ALTERNATE_ROW_SHADING, 'true');
       this.shadowRoot?.querySelector('.ids-data-grid').classList.add('alt-row-shading');
       return;
@@ -414,7 +397,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {Array} value The array to use
    */
   set columns(value) {
-    this.currentColumns = value ? IdsDeepCloneUtils.deepClone(value) : [{ id: '', name: '' }];
+    this.currentColumns = value ? deepClone(value) : [{ id: '', name: '' }];
     this.rerender();
   }
 
@@ -484,7 +467,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', 'large');
     }
 
-    if (IdsStringUtils.stringToBool(this.virtualScroll)) {
+    if (stringToBool(this.virtualScroll)) {
       this.rerender();
     }
   }
@@ -543,5 +526,3 @@ class IdsDataGrid extends mix(IdsElement).with(
     return this.activeCell;
   }
 }
-
-export { IdsDataGrid, IdsDataGridFormatters };
