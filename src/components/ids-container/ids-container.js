@@ -1,21 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin,
-  IdsColorVariantMixin,
-} from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-container-base';
 import styles from './ids-container.scss';
 
 /**
@@ -29,12 +15,7 @@ import styles from './ids-container.scss';
  */
 @customElement('ids-container')
 @scss(styles)
-class IdsContainer extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsColorVariantMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsContainer extends Base {
   constructor() {
     super();
   }
@@ -43,8 +24,6 @@ class IdsContainer extends mix(IdsElement).with(
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
-    super.connectedCallback?.();
-
     if (this.reset) {
       this.#addReset();
     }
@@ -98,7 +77,7 @@ class IdsContainer extends mix(IdsElement).with(
    * @param {boolean|string} value true of false depending if the tag is scrollable
    */
   set scrollable(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.SCROLLABLE, 'true');
       this.container.setAttribute(attributes.SCROLLABLE, 'true');
       this.container.setAttribute('tabindex', '0');
@@ -125,7 +104,7 @@ class IdsContainer extends mix(IdsElement).with(
    * @param {boolean|string} value true of false
    */
   set reset(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.#addReset();
       return;
     }
@@ -135,5 +114,3 @@ class IdsContainer extends mix(IdsElement).with(
 
   get reset() { return this.getAttribute(attributes.RESET) || 'true'; }
 }
-
-export default IdsContainer;

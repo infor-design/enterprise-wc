@@ -1,39 +1,10 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  attributes
-} from '../../core';
-
-import { IdsStringUtils } from '../../utils';
+import { customElement, scss } from '../../core';
+import { attributes } from '../../core/ids-attributes'
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-checkbox-base';
+import IdsText from '../ids-text/ids-text';
+import attribs from './ids-checkbox-attributes'
 import styles from './ids-checkbox.scss';
-
-import {
-  IdsEventsMixin,
-  IdsDirtyTrackerMixin,
-  IdsHitboxMixin,
-  IdsValidationMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
-import IdsText from '../ids-text';
-
-const attribs = [
-  { name: 'checked', prop: 'checked' },
-  { name: 'color', prop: 'color' },
-  { name: 'dirty-tracker', prop: 'dirtyTracker' },
-  { name: 'disabled', prop: 'disabled' },
-  { name: 'hitbox', prop: 'hitbox' },
-  { name: 'horizontal', prop: 'horizontal' },
-  { name: 'indeterminate', prop: 'indeterminate' },
-  { name: 'label', prop: 'label' },
-  { name: 'label-required', prop: 'labelRequired' },
-  { name: 'validate', prop: 'validate' },
-  { name: 'validation-events', prop: 'validationEvents' },
-  { name: 'value', prop: 'value' }
-];
 
 /**
  * IDS Checkbox Component
@@ -51,14 +22,7 @@ const attribs = [
  */
 @customElement('ids-checkbox')
 @scss(styles)
-class IdsCheckbox extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsDirtyTrackerMixin,
-    IdsHitboxMixin,
-    IdsValidationMixin,
-    IdsThemeMixin,
-    IdsLocaleMixin
-  ) {
+export default class IdsCheckbox extends Base {
   /**
    * Call the constructor and then initialize
    */
@@ -115,9 +79,7 @@ class IdsCheckbox extends mix(IdsElement).with(
   connectedCallback() {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
-
     this.#attachEventHandlers();
-    super.connectedCallback();
   }
 
   /**
@@ -127,14 +89,14 @@ class IdsCheckbox extends mix(IdsElement).with(
   template() {
     // Checkbox
     const color = this.color ? ` color="${this.color}"` : '';
-    const disabled = IdsStringUtils.stringToBool(this.disabled) ? ' disabled' : '';
-    const horizontal = IdsStringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
-    const checked = IdsStringUtils.stringToBool(this.checked) ? ' checked' : '';
+    const disabled = stringToBool(this.disabled) ? ' disabled' : '';
+    const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
+    const checked = stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-checkbox${disabled}${horizontal}"`;
     let checkboxClass = 'checkbox';
-    checkboxClass += IdsStringUtils.stringToBool(this.indeterminate) ? ' indeterminate' : '';
+    checkboxClass += stringToBool(this.indeterminate) ? ' indeterminate' : '';
     checkboxClass = ` class="${checkboxClass}"`;
-    const rInd = !(IdsStringUtils.stringToBool(this.labelRequired) || this.labelRequired === null);
+    const rInd = !(stringToBool(this.labelRequired) || this.labelRequired === null);
     const labelClass = rInd ? ' class="no-required-indicator"' : '';
 
     return `
@@ -212,7 +174,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   set checked(value) {
     const checkmark = this.shadowRoot.querySelector('.checkmark');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
       this.input?.setAttribute(attributes.CHECKED, val.toString());
@@ -249,7 +211,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   set disabled(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val.toString());
@@ -271,7 +233,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    */
   set horizontal(value) {
     const rootEl = this.shadowRoot.querySelector('.ids-checkbox');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.HORIZONTAL, val.toString());
       rootEl?.classList.add(attributes.HORIZONTAL);
@@ -288,7 +250,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @param {string|boolean} value The `indeterminate` attribute
    */
   set indeterminate(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.INDETERMINATE, val.toString());
     } else {
@@ -330,7 +292,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (value) {
       this.setAttribute(attributes.LABEL_REQUIRED, value.toString());
     } else {
@@ -363,5 +325,3 @@ class IdsCheckbox extends mix(IdsElement).with(
     this.input.focus();
   }
 }
-
-export default IdsCheckbox;

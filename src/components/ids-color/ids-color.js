@@ -1,16 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes
-} from '../../core/ids-element';
-
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import IdsElement from '../../core/ids-element';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-color-base';
 import styles from './ids-color.scss';
 
 /**
@@ -22,7 +13,7 @@ import styles from './ids-color.scss';
  */
 @customElement('ids-color')
 @scss(styles)
-class IdsColor extends IdsElement {
+export default class IdsColor extends IdsElement {
   constructor() {
     super();
   }
@@ -61,5 +52,3 @@ class IdsColor extends IdsElement {
     return this.getAttribute('hex') || '#000000';
   }
 }
-
-export default IdsColor;
