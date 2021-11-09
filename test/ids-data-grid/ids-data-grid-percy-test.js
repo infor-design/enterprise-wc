@@ -55,4 +55,3 @@ describe('Ids Data Grid List Style Percy Tests', () => {
     await percySnapshot(page, 'ids-data-grid-list-style-new-contrast');
   });
 });
-

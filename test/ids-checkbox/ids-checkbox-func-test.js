@@ -269,4 +269,13 @@ describe('IdsCheckbox Component', () => {
     cb.focus();
     expect(document.activeElement).toEqual(cb);
   });
+
+  it('can set/remove the hitbox setting', () => {
+    cb.hitbox = true;
+    expect(cb.container.classList.contains('hitbox')).toBeTruthy();
+    expect(cb.hitbox).toEqual('true');
+    cb.hitbox = false;
+    expect(cb.container.classList.contains('hitbox')).toBeFalsy();
+    expect(cb.hitbox).toEqual(null);
+  });
 });

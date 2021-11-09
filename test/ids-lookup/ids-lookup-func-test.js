@@ -19,9 +19,8 @@ describe('IdsLookup Component', () => {
       id: 'selectionCheckbox',
       sortable: false,
       resizable: false,
-      formatter: formatters.text,
-      align: 'center',
-      width: 20
+      formatter: formatters.selectionCheckbox,
+      align: 'center'
     });
     cols.push({
       id: 'rowNumber',
@@ -58,6 +57,16 @@ describe('IdsLookup Component', () => {
       formatter: formatters.text
     });
     return cols;
+  };
+
+  const createMultiSelectLookup = async () => {
+    lookup = await createFromTemplate(lookup, `<ids-lookup id="lookup-1" label="Normal Lookup" title="Select an Item" field="description"></ids-lookup>`);
+    lookup.dataGridSettings = {
+      rowSelection: 'multiple'
+    };
+    lookup.columns = columns();
+    lookup.data = dataset;
+    return lookup;
   };
 
   beforeEach(async () => {
@@ -236,6 +245,20 @@ describe('IdsLookup Component', () => {
     expect(lookup.modal.visible).toBe(false);
   });
 
+  it('should be able to get and set readonly / disabled', () => {
+    lookup.readonly = true;
+    expect(lookup.readonly).toBe(true);
+    expect(lookup.disabled).toBe(false);
+    lookup.disabled = true;
+    expect(lookup.readonly).toBe(false);
+    expect(lookup.disabled).toBe(true);
+
+    // Prevent error if no triggerField
+    lookup.triggerField = null;
+    lookup.disabled = false;
+    expect(lookup.disabled).toBe(true);
+  });
+
   it('should be able to set modal columns and dataset', () => {
     lookup.columns = columns();
     lookup.data = dataset;
@@ -295,5 +318,70 @@ describe('IdsLookup Component', () => {
     lookup.validationEvents = null;
     expect(lookup.getAttribute('validate')).toBeFalsy();
     expect(lookup.getAttribute('validation-events')).toBeFalsy();
+  });
+
+  it('should set selected rows on init', async () => {
+    lookup = await createFromTemplate(lookup, `<ids-lookup id="lookup-1" label="Normal Lookup" title="Select an Item" field="description" value="102,103"></ids-lookup>`);
+    lookup.columns = columns();
+    lookup.data = dataset;
+    expect(lookup.dataGrid.selectedRows.length).toEqual(2);
+  });
+
+  it('should default the field to id', () => {
+    expect(lookup.field).toEqual('id');
+  });
+
+  it('should be able to set the delimiter', () => {
+    expect(lookup.delimiter).toEqual(',');
+    lookup.delimiter = '|';
+    expect(lookup.delimiter).toEqual('|');
+  });
+
+  it('should be able to select two rows from the modal', async () => {
+    lookup = await createMultiSelectLookup();
+    expect(lookup.value).toEqual(null);
+    lookup.modal.visible = true;
+
+    lookup.dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(1) .ids-data-grid-cell:nth-child(1)').click();
+    lookup.dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(8) .ids-data-grid-cell:nth-child(1)').click();
+    lookup.modal.buttons[1].click();
+
+    expect(lookup.dataGrid.selectedRows.length).toEqual(2);
+    expect(lookup.value).toEqual('101,108');
+  });
+
+  it('should fire rowselected and selectionchanged event', async () => {
+    const mockCallback = jest.fn((x) => {
+      expect(x.detail.data.description).toEqual('108');
+    });
+
+    const mockCallback2 = jest.fn((x) => {
+      expect(x.detail.selectedRows.length).toEqual(1);
+    });
+
+    lookup = await createMultiSelectLookup();
+    lookup.addEventListener('rowselected', mockCallback);
+    lookup.addEventListener('selectionchanged', mockCallback2);
+
+    lookup.modal.visible = true;
+    lookup.dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(8) .ids-data-grid-cell:nth-child(1)').click();
+
+    expect(mockCallback.mock.calls.length).toBe(1);
+    expect(mockCallback2.mock.calls.length).toBe(1);
+  });
+
+  it('should fire rowdeselected event', async () => {
+    const mockCallback = jest.fn((x) => {
+      expect(x.detail.data.description).toEqual('108');
+    });
+
+    lookup = await createMultiSelectLookup();
+    lookup.addEventListener('rowdeselected', mockCallback);
+
+    lookup.modal.visible = true;
+    lookup.dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(8) .ids-data-grid-cell:nth-child(1)').click();
+    lookup.dataGrid.shadowRoot.querySelector('.ids-data-grid-body .ids-data-grid-row:nth-child(8) .ids-data-grid-cell:nth-child(1)').click();
+
+    expect(mockCallback.mock.calls.length).toBe(1);
   });
 });
