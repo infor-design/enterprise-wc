@@ -1,15 +1,6 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsThemeMixin
-} from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-process-step-base';
 import styles from './ids-process-indicator.scss';
 import IdsProcessStep from './ids-process-step';
 
@@ -21,7 +12,7 @@ import IdsProcessStep from './ids-process-step';
  */
 @customElement('ids-process-indicator')
 @scss(styles)
-class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
+export default class IdsProcessIndicator extends Base {
   constructor() {
     super();
   }
@@ -77,5 +68,3 @@ class IdsProcessIndicator extends mix(IdsElement).with(IdsThemeMixin) {
     `;
   }
 }
-
-export default IdsProcessIndicator;

@@ -1,10 +1,5 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
 // Import Utils
 import { IdsStringUtils } from '../../utils';
@@ -115,7 +110,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    */
   template() {
     // Checkbox
-    const toBool = IdsStringUtils.stringToBool;
+    const toBool = stringToBool;
     const isDisabled = toBool(this.groupDisabled) || toBool(this.disabled);
     const disabled = isDisabled ? ' disabled' : '';
     const disabledAria = isDisabled ? ' aria-disabled="true"' : '';
@@ -208,7 +203,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    */
   set checked(value) {
     const circle = this.shadowRoot.querySelector('.circle');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CHECKED, val.toString());
     } else {
@@ -216,8 +211,8 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
     }
     if (this.input && this.rootEl && circle) {
       if (val) {
-        if (!(IdsStringUtils.stringToBool(this.disabled)
-          || IdsStringUtils.stringToBool(this.groupDisabled))) {
+        if (!(stringToBool(this.disabled)
+          || stringToBool(this.groupDisabled))) {
           this.rootEl.setAttribute('tabindex', '0');
         }
         circle.classList.add(attributes.CHECKED);
@@ -254,7 +249,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    */
   set disabled(value) {
     const labelText = this.shadowRoot.querySelector('.label-text');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val);
@@ -279,7 +274,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    */
   set groupDisabled(value) {
     const labelText = this.shadowRoot.querySelector('.label-text');
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.GROUP_DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val);
@@ -301,7 +296,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    * @param {boolean|string} value If true will set `horizontal` attribute
    */
   set horizontal(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.HORIZONTAL, val.toString());
       this.rootEl?.classList.add(attributes.HORIZONTAL);
@@ -336,7 +331,7 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    * @param {boolean|string} value If true will set `validation-has-error` attribute
    */
   set validationHasError(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.VALIDATION_HAS_ERROR, val.toString());
       this.input?.classList.add('error');
