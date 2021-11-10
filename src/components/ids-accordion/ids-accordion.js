@@ -10,7 +10,6 @@ import styles from './ids-accordion.scss';
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
 import {
-  IdsAttributeProviderMixin,
   IdsColorVariantMixin,
   IdsEventsMixin,
   IdsKeyboardMixin,
@@ -21,20 +20,10 @@ import {
 import IdsDOMUtils from '../../utils/ids-dom-utils';
 import { refreshRTLStyle } from './ids-accordion-common';
 
-const attributeProviderDefs = {
-  attributesProvided: [
-    { attribute: attributes.LANGUAGE, component: IdsAccordionHeader },
-    { attribute: attributes.LANGUAGE, component: IdsAccordionPanel },
-    { attribute: attributes.LOCALE, component: IdsAccordionHeader },
-    { attribute: attributes.LOCALE, component: IdsAccordionPanel },
-  ]
-};
-
 /**
  * IDS Accordion Component
  * @type {IdsAccordion}
  * @inherits IdsElement
- * @mixes IdsAttributeProviderMixin
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
@@ -50,7 +39,6 @@ class IdsAccordion extends mix(IdsElement).with(
     IdsKeyboardMixin,
     IdsLocaleMixin,
     IdsThemeMixin,
-    IdsAttributeProviderMixin(attributeProviderDefs),
   ) {
   constructor() {
     super();
@@ -190,6 +178,9 @@ class IdsAccordion extends mix(IdsElement).with(
       }
 
       if (header) {
+        // Pass language/locale down to child components
+        header.language = this.language.name;
+
         // Assign Expander Type
         // (Use Plus/Minus-style expander on any nested panels)
         if (doExpanderType) {

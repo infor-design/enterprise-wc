@@ -10,6 +10,7 @@ import {
   IdsColorVariantMixin,
   IdsEventsMixin,
   IdsKeyboardMixin,
+  IdsLocaleMixin,
   IdsThemeMixin,
 } from '../../mixins';
 
@@ -25,6 +26,7 @@ import styles from './ids-accordion-panel.scss';
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  */
 @customElement('ids-accordion-panel')
@@ -33,6 +35,7 @@ class IdsAccordionPanel extends mix(IdsElement).with(
     IdsColorVariantMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
+    IdsLocaleMixin,
     IdsThemeMixin,
   ) {
   constructor() {

@@ -9,8 +9,9 @@ import {
 import styles from './ids-accordion-header.scss';
 import {
   IdsColorVariantMixin,
-  IdsThemeMixin,
-  IdsEventsMixin
+  IdsEventsMixin,
+  IdsLocaleMixin,
+  IdsThemeMixin
 } from '../../mixins';
 
 import { IdsStringUtils } from '../../utils/ids-string-utils';
@@ -32,6 +33,7 @@ const ICON_PLUS = 'plusminus-folder-open';
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsLocaleMixin
  * @mixes IdsThemeMixin
  * @part header - the accordion header root element
  * @part icon - the accordion header icon element
@@ -41,6 +43,7 @@ const ICON_PLUS = 'plusminus-folder-open';
 class IdsAccordionHeader extends mix(IdsElement).with(
     IdsColorVariantMixin,
     IdsEventsMixin,
+    IdsLocaleMixin,
     IdsThemeMixin
   ) {
   constructor() {
