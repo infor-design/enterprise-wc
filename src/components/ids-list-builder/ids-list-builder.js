@@ -1,19 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-import styles from './ids-list-builder.scss';
-import IdsListView from '../ids-list-view';
+import { customElement, scss } from '../../core/ids-decorators';
 import IdsInput from '../ids-input/ids-input';
+import Base from './ids-list-builder-base';
+import styles from './ids-list-builder.scss';
 
 /**
  * IDS ListBuilder Component

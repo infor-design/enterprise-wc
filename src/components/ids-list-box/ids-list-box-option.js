@@ -1,20 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  attributes
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsTooltipMixin
-} from '../../mixins';
-
-// Import Styles
+import { customElement, scss  } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import styles from './ids-list-box-option.scss';
+import Base from './ids-list-box-base';
 
 /**
  * IDS List Box Option Component
@@ -27,7 +14,7 @@ import styles from './ids-list-box-option.scss';
  */
 @customElement('ids-list-box-option')
 @scss(styles)
-class IdsListBoxOption extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsTooltipMixin) {
+export default class IdsListBoxOption extends Base {
   constructor() {
     super();
   }
@@ -46,7 +33,6 @@ class IdsListBoxOption extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
   connectedCallback() {
     this.setAttribute('role', 'option');
     this.setAttribute('tabindex', '-1');
-    super.connectedCallback();
   }
 
   /**
@@ -57,5 +43,3 @@ class IdsListBoxOption extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixi
     return `<slot></slot>`;
   }
 }
-
-export default IdsListBoxOption;

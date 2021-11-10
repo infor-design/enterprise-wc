@@ -1,9 +1,5 @@
-import {
-  IdsElement,
-  customElement,
-  scss
-} from '../../core';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import IdsElement from '../../core/ids-element';
 import IdsListBoxOption from './ids-list-box-option';
 import styles from './ids-list-box.scss';
 
@@ -14,7 +10,7 @@ import styles from './ids-list-box.scss';
  */
 @customElement('ids-list-box')
 @scss(styles)
-class IdsListBox extends IdsElement {
+export default class IdsListBox extends IdsElement {
   constructor() {
     super();
   }
@@ -32,5 +28,3 @@ class IdsListBox extends IdsElement {
     return `<slot></slot>`;
   }
 }
-
-export default IdsListBox;
