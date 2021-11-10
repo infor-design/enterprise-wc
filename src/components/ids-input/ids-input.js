@@ -1,86 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  attributes
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsClearableMixin,
-  IdsColorVariantMixin,
-  IdsDirtyTrackerMixin,
-  IdsMaskMixin,
-  IdsValidationMixin,
-  IdsThemeMixin,
-  IdsTooltipMixin
-} from '../../mixins';
-
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
-
-// Supporting components
-import IdsIcon from '../ids-icon';
-import IdsText from '../ids-text';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-input-base';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-
-// Import Styles
 import styles from './ids-input.scss';
-
-// Types
-const TYPES = {
-  default: 'text',
-  text: 'text',
-  password: 'password',
-  number: 'number',
-  email: 'email',
-  color: 'color'
-};
-
-// Setting defaults sizes
-export const SIZES = {
-  default: 'md',
-  xs: 'xs',
-  sm: 'sm',
-  mm: 'mm',
-  md: 'md',
-  lg: 'lg',
-  full: 'full'
-};
-
-// Setting defaults field-heights
-const FIELD_HEIGHTS = {
-  default: 'md',
-  xs: 'xs',
-  sm: 'sm',
-  md: 'md',
-  lg: 'lg'
-};
-
-// Setting defaults text-align
-const TEXT_ALIGN = {
-  default: 'left',
-  left: 'left',
-  center: 'center',
-  right: 'right'
-};
-
-const appliedMixins = [
-  IdsEventsMixin,
-  IdsClearableMixin,
-  IdsColorVariantMixin,
-  IdsKeyboardMixin,
-  IdsDirtyTrackerMixin,
-  IdsMaskMixin,
-  IdsThemeMixin,
-  IdsValidationMixin,
-  IdsTooltipMixin
-];
-
-let instanceCounter = 0;
 
 /**
  * IDS Input Component
@@ -102,7 +27,7 @@ let instanceCounter = 0;
  */
 @customElement('ids-input')
 @scss(styles)
-class IdsInput extends mix(IdsElement).with(...appliedMixins) {
+export default class IdsInput extends Base {
   /**
    * Call the constructor and then initialize
    */
@@ -158,7 +83,6 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
-    super.connectedCallback();
   }
 
   /**
@@ -174,14 +98,14 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
     const type = ` type="${this.type || TYPES.default}"`;
     let inputClass = `ids-input-field ${this.textAlign}`;
-    inputClass += stringUtils.stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
-    inputClass += stringUtils.stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
-    inputClass += stringUtils.stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
+    inputClass += stringToBool(this.triggerfield) ? ' has-triggerfield' : '';
+    inputClass += stringToBool(this.bgTransparent) ? ' bg-transparent' : '';
+    inputClass += stringToBool(this.textEllipsis) ? ' text-ellipsis' : '';
     inputClass = ` class="${inputClass}"`;
-    let inputState = stringUtils.stringToBool(this.readonly) ? ' readonly' : '';
-    inputState = stringUtils.stringToBool(this.disabled) ? ' disabled' : inputState;
+    let inputState = stringToBool(this.readonly) ? ' readonly' : '';
+    inputState = stringToBool(this.disabled) ? ' disabled' : inputState;
     let containerClass = `ids-input${inputState} ${this.size} ${this.fieldHeight}`;
-    containerClass += stringUtils.stringToBool(this.compact) ? ' compact' : '';
+    containerClass += stringToBool(this.compact) ? ' compact' : '';
 
     const labelHtml = !this.label || this.getAttribute(attributes.LABEL_HIDDEN) ? '' : (
       `<label for="${this.id}-input" class="ids-label-text">
@@ -255,7 +179,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
       const options = {
         prop1: prop,
         prop2: prop !== attributes.READONLY ? attributes.READONLY : attributes.DISABLED,
-        val: stringUtils.stringToBool(this[prop])
+        val: stringToBool(this[prop])
       };
 
       if (options.val) {
@@ -299,7 +223,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean} value Flags a label's text as not displayed explicitly in the label element
    * */
   set labelHidden(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this?.setAttribute(attributes.LABEL_HIDDEN, true);
       const existingLabel = this.shadowRoot.querySelector('label');
       if (existingLabel) {
@@ -439,7 +363,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `autoselect` attribute
    */
   set autoselect(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.AUTOSELECT, val.toString());
     } else {
@@ -455,7 +379,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `bg-transparent` attribute
    */
   set bgTransparent(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     const className = 'bg-transparent';
     if (val) {
       this.setAttribute(attributes.BG_TRANSPARENT, val.toString());
@@ -473,7 +397,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `text-ellipsis` attribute
    */
   set textEllipsis(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     const className = 'text-ellipsis';
     if (val) {
       this.setAttribute(attributes.TEXT_ELLIPSIS, val.toString());
@@ -491,7 +415,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `clearable` attribute
    */
   set clearable(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CLEARABLE, val.toString());
     } else {
@@ -507,7 +431,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `clearable-forced` attribute
    */
   set clearableForced(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CLEARABLE_FORCED, val.toString());
     } else {
@@ -523,7 +447,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `compact` attribute
    */
   set compact(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.COMPACT, val.toString());
       this.container?.classList.add(attributes.COMPACT);
@@ -540,7 +464,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, 'true');
     } else {
@@ -549,7 +473,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     this.setInputState(attributes.DISABLED);
   }
 
-  get disabled() { return stringUtils.stringToBool(this.getAttribute(attributes.DISABLED)); }
+  get disabled() { return stringToBool(this.getAttribute(attributes.DISABLED)); }
 
   /**
    * internal reference to a label element a user provides
@@ -576,7 +500,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
 
     if (val) {
       this.setAttribute(attributes.LABEL_REQUIRED, val.toString());
@@ -609,7 +533,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `readonly` attribute
    */
   set readonly(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
     } else {
@@ -618,7 +542,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     this.setInputState(attributes.READONLY);
   }
 
-  get readonly() { return stringUtils.stringToBool(this.getAttribute(attributes.READONLY)); }
+  get readonly() { return stringToBool(this.getAttribute(attributes.READONLY)); }
 
   /**
    * Set the fieldHeight (height) of input
@@ -669,7 +593,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean|string} value If true will set `triggerfield` attribute
    */
   set triggerfield(value) {
-    const val = stringUtils.stringToBool(stringUtils.stringToBool(value));
+    const val = stringToBool(stringToBool(value));
     if (val) {
       this.setAttribute(attributes.TRIGGERFIELD, val.toString());
     } else {
@@ -756,7 +680,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
    * @param {string} n string value from the no margins attribute
    */
   set noMargins(n) {
-    if (stringUtils.stringToBool(n)) {
+    if (stringToBool(n)) {
       this.setAttribute(attributes.NO_MARGINS, 'true');
       this.container.querySelector('input').classList.add('no-margin');
       return;
@@ -766,7 +690,7 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
   }
 
   get noMargins() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.NO_MARGINS));
+    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 
   /**
@@ -776,5 +700,3 @@ class IdsInput extends mix(IdsElement).with(...appliedMixins) {
     this.input.focus();
   }
 }
-
-export default IdsInput;

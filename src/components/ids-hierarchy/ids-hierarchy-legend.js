@@ -1,10 +1,5 @@
-import {
-  customElement,
-  IdsElement,
-  scss
-} from '../../core';
-
-// Import Styles
+import { customElement, scss } from '../../core/ids-decorators';
+import { IdsElement } from '../../core/ids-element';
 import styles from './ids-hierarchy-legend.scss';
 
 /**
@@ -14,7 +9,7 @@ import styles from './ids-hierarchy-legend.scss';
  */
 @customElement('ids-hierarchy-legend')
 @scss(styles)
-class IdsHierarchyLegend extends IdsElement {
+export default class IdsHierarchyLegend extends IdsElement {
   constructor() {
     super();
   }
@@ -24,11 +19,9 @@ class IdsHierarchyLegend extends IdsElement {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback?.();
   }
 
   template() {
@@ -39,5 +32,3 @@ class IdsHierarchyLegend extends IdsElement {
     `;
   }
 }
-
-export default IdsHierarchyLegend;

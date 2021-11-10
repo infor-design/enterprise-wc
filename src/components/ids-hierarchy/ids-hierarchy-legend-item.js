@@ -1,18 +1,7 @@
-import {
-  customElement,
-  mix,
-  IdsElement,
-  scss,
-  attributes,
-} from '../../core';
-
-// Import Styles
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-hierarchy-base';
 import styles from './ids-hierarchy-legend-item.scss';
-
-// Import Mixins
-import {
-  IdsColorVariantMixin,
-} from '../../mixins';
 
 /**
  * IDS Hierarchy Legend Item Component
@@ -21,7 +10,7 @@ import {
  */
 @customElement('ids-hierarchy-legend-item')
 @scss(styles)
-class IdsHierarchyLegendItem extends mix(IdsElement).with(IdsColorVariantMixin) {
+export default class IdsHierarchyLegendItem extends Base {
   constructor() {
     super();
   }
@@ -31,11 +20,9 @@ class IdsHierarchyLegendItem extends mix(IdsElement).with(IdsColorVariantMixin) 
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
   }
 
   disconnectedCallback() {
-    super.disconnectedCallback?.();
   }
 
   /**
@@ -86,5 +73,3 @@ class IdsHierarchyLegendItem extends mix(IdsElement).with(IdsColorVariantMixin) 
     return this.getAttribute('text');
   }
 }
-
-export default IdsHierarchyLegendItem;

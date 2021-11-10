@@ -1,39 +1,12 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-import styles from './ids-home-page.scss';
-
-// Supporting components
-import { IdsCard } from '../ids-card/ids-card';
-
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
-
-const { stringToBool, stringToNumber, camelCase } = stringUtils;
-
-const HOME_PAGE_DEFAULTS = {
-  animated: true,
-  cardHeight: 370,
-  cardWidth: 360,
-  cols: 3,
-  gap: 20
-};
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import IdsCard from '../ids-card/ids-card';
+import { stringToBool, stringToNumber, camelCase }  from '../../utils/ids-string-utils/ids-string-utils';
+import { HOME_PAGE_DEFAULTS, EVENTS } from './ids-home-page-attributes';
 HOME_PAGE_DEFAULTS.gapX = HOME_PAGE_DEFAULTS.gap;
 HOME_PAGE_DEFAULTS.gapY = HOME_PAGE_DEFAULTS.gap;
-
-const EVENTS = { resized: 'resized' };
+import Base from './ids-home-page-base';
+import styles from './ids-home-page.scss';
 
 /**
  * IDS Home Page Component
@@ -47,7 +20,7 @@ const EVENTS = { resized: 'resized' };
  */
 @customElement('ids-home-page')
 @scss(styles)
-class IdsHomePage extends mix(IdsElement).with(
+export default class IdsHomePage extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsLocaleMixin,
     IdsThemeMixin
@@ -758,5 +731,3 @@ class IdsHomePage extends mix(IdsElement).with(
 
   get gapY() { return this.getAttribute(attributes.GAP_Y); }
 }
-
-export default IdsHomePage;

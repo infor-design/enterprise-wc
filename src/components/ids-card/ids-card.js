@@ -16,7 +16,7 @@ import styles from './ids-card.scss';
  */
 @customElement('ids-card')
 @scss(styles)
-class IdsCard extends Base {
+export default class IdsCard extends Base {
   constructor() {
     super();
   }
