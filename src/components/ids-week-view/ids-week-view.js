@@ -16,7 +16,8 @@ import IdsText from '../ids-text';
 // Import Mixins
 import {
   IdsThemeMixin,
-  IdsLocaleMixin
+  IdsLocaleMixin,
+  IdsEventsMixin
 } from '../../mixins';
 
 // Import Styles
@@ -31,12 +32,13 @@ import styles from './ids-week-view.scss';
  */
 @customElement('ids-week-view')
 @scss(styles)
-class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsThemeMixin) {
+class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, IdsThemeMixin) {
   constructor() {
     super();
   }
 
   connectedCallback() {
+    this.#render();
     super.connectedCallback();
   }
 
@@ -47,6 +49,10 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsThemeMixin) {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.END_DATE,
+      attributes.FIRST_DAY_OF_WEEK,
+      attributes.SHOW_TODAY,
+      attributes.START_DATE
     ];
   }
 
@@ -55,7 +61,60 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    return '<div>Week View</div>';
+    return '<div class="ids-week-view"></div>';
+  }
+
+  #render() {
+    const layout = `<div class="week-view-container">
+      <table class="week-view-table">
+        <thead class="week-view-table-header">
+          <tr>
+            <th>
+              <div class="week-view-header-wrapper">
+                <span class="audible">Hour</span>
+              </div>
+              <div class="week-view-all-day-wrapper"><ids-text font-size="12">All Day</ids-text></div>
+            </th>
+            ${Array.from({ length: 7 }).map(() => `
+              <th>
+                <div class="week-view-header-wrapper is-today">
+                  <ids-text font-size="20" font-weight="bold">7</ids-text>
+                  <ids-text font-size="16" font-weight="bold">Sun</ids-text>
+                </div>
+                <div class="week-view-all-day-wrapper"></div>
+              </th>
+            `).join('')}
+          </tr>
+        </thead>
+        <tbody>
+          ${Array.from({ length: 12 }).map(() => `
+            <tr class="week-view-hour-row">
+              <td>
+                <div class="week-view-cell-wrapper"><ids-text font-size="12">7:00 AM</ids-text></div>
+              </td>
+              ${Array.from({ length: 7 }).map(() => `
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              `).join('')}
+            </tr>
+            <tr class="week-view-half-hour-row">
+              <td>
+                <div class="week-view-cell-wrapper"></div>
+              </td>
+              ${Array.from({ length: 7 }).map(() => `
+                <td>
+                  <div class="week-view-cell-wrapper"></div>
+                </td>
+              `).join('')}
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>`;
+
+    this.container.querySelector('.ids-week-view-container')?.remove();
+    this.container.insertAdjacentHTML('beforeend', layout);
   }
 }
 
