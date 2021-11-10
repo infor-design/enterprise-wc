@@ -1,19 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
-
-import IdsInput from '../ids-input';
-import IdsText from '../ids-text';
-import { IdsEventsMixin, IdsKeyboardMixin } from '../../mixins';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-pager-base';
+import IdsInput from '../ids-input/ids-input';
+import IdsText from '../ids-text/ids-text';
 import IdsPagerSection from './ids-pager-section';
 import styles from './ids-pager-input.scss';
-import { IdsStringUtils } from '../../utils';
-
-const { stringToBool } = IdsStringUtils;
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * IDS PagerInput Component
@@ -24,10 +16,7 @@ const { stringToBool } = IdsStringUtils;
  */
 @customElement('ids-pager-input')
 @scss(styles)
-export default class IdsPagerInput extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin
-  ) {
+export default class IdsPagerInput extends Base {
   constructor() {
     super();
   }
@@ -100,8 +89,6 @@ export default class IdsPagerInput extends mix(IdsElement).with(
     window.requestAnimationFrame(() => {
       this.#updatePageCountShown();
     });
-
-    super.connectedCallback?.();
   }
 
   /** @param {string|number} value The number of items to show per page */

@@ -1,20 +1,10 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-pager-base';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsText from '../ids-text/ids-text';
-import { IdsEventsMixin, IdsKeyboardMixin } from '../../mixins';
 import IdsButton from '../ids-button/ids-button';
 import styles from './ids-pager-number-list.scss';
-
-const { stringToBool } = IdsStringUtils;
 
 /**
  * IDS PagerNumberList Component
@@ -25,10 +15,7 @@ const { stringToBool } = IdsStringUtils;
  */
 @customElement('ids-pager-number-list')
 @scss(styles)
-export default class IdsPagerNumberList extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin
-  ) {
+export default class IdsPagerNumberList extends Base {
   constructor() {
     super();
   }
