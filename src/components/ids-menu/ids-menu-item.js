@@ -1,64 +1,12 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
-import {
-  renderLoop,
-  IdsRenderLoopItem
-} from '../ids-render-loop';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-menu-base';
+import { MENU_ITEM_SIZE, MENU_DEFAULTS, MENU_ATTRIBUTES, safeForAttribute } from './ids-menu-attributes';
+import renderLoop from '../ids-render-loop/ids-render-loop';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import IdsIcon from '../ids-icon/ids-icon';
-
 import styles from './ids-menu-item.scss';
-
-// @TODO handle other menu-item sizes
-const MENU_ITEM_SIZE = 'medium';
-
-// Default Button state values
-const MENU_DEFAULTS = {
-  disabled: false,
-  icon: null,
-  selected: false,
-  submenu: null,
-  tabIndex: 0,
-  value: null,
-};
-
-// Definable attributes
-const MENU_ATTRIBUTES = [
-  attributes.DISABLED,
-  attributes.ICON,
-  attributes.LANGUAGE,
-  attributes.SELECTED,
-  attributes.SUBMENU,
-  attributes.TABINDEX,
-  attributes.VALUE,
-  attributes.MODE,
-  attributes.VERSION
-];
-
-/**
- * Determines if a menu item's stored value can safely be described by its attribute inside the DOM.
- * @param {any} value the value to be checked
- * @returns {boolean} true if the value can be "stringified" safely for the DOM attribute
- */
-function safeForAttribute(value) {
-  return value !== null && ['string', 'number', 'boolean'].includes(typeof value);
-}
 
 /**
  * IDS Menu Item Component
@@ -74,7 +22,7 @@ function safeForAttribute(value) {
  */
 @customElement('ids-menu-item')
 @scss(styles)
-class IdsMenuItem extends mix(IdsElement).with(
+export default class IdsMenuItem extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsLocaleMixin,
     IdsThemeMixin
@@ -316,7 +264,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   set disabled(val) {
     // Handled as boolean attribute
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     this.state.disabled = trueVal;
 
     const a = this.a;
@@ -359,7 +307,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    * @param {boolean} val true if the menu item should appear highlighted
    */
   set highlighted(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
 
     // Don't highlight if the item is disabled.
     if (trueVal && this.disabled) {
@@ -556,7 +504,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   set selected(val) {
     // Determine true state and event names
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     const duringEventName = trueVal ? 'selected' : 'deselected';
     const beforeEventName = `before${duringEventName}`;
 
@@ -713,5 +661,3 @@ class IdsMenuItem extends mix(IdsElement).with(
     this.a.focus();
   }
 }
-
-export default IdsMenuItem;

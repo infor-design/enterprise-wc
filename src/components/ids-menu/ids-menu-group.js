@@ -1,26 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
-
-// Import Mixins
-import { IdsEventsMixin, IdsLocaleMixin } from '../../mixins';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Styles
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-menu-base';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { MENU_GROUP_SELECT_TYPES } from './ids-menu-attributes';
 import styles from './ids-menu-group.scss';
-
-// Menu Selection Types
-const MENU_GROUP_SELECT_TYPES = [
-  'none',
-  'single',
-  'multiple'
-];
 
 /**
  * IDS Menu Group Component
@@ -31,7 +14,7 @@ const MENU_GROUP_SELECT_TYPES = [
  */
 @customElement('ids-menu-group')
 @scss(styles)
-class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
+export default class IdsMenuGroup extends Base {
   constructor() {
     super();
   }
@@ -71,12 +54,6 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) 
       if (this.select === 'single') {
         this.deselectAllExcept(item);
       }
-    });
-
-    this.onEvent('languagechange.menu-item', this, async (e) => {
-      this.querySelectorAll('ids-menu-item')?.forEach((menuItem) => {
-        menuItem?.setLanguage(e.detail.language.name);
-      });
     });
   }
 
@@ -190,7 +167,7 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) 
    * @param {boolean} val true if the menu should close when an item in this group is selected
    */
   set keepOpen(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     if (trueVal) {
       this.setAttribute(attributes.KEEP_OPEN, `${val}`);
     } else {
@@ -229,5 +206,3 @@ class IdsMenuGroup extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) 
     });
   }
 }
-
-export default IdsMenuGroup;

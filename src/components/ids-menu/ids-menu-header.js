@@ -1,18 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-menu-base';
 import styles from './ids-menu-header.scss';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
 
 /**
  * IDS Menu Header Component
@@ -24,13 +13,12 @@ import {
  */
 @customElement('ids-menu-header')
 @scss(styles)
-class IdsMenuHeader extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsMenuHeader extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback();
   }
 
   static get attributes() {
@@ -41,5 +29,3 @@ class IdsMenuHeader extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) 
     return `<div class="ids-menu-header" part="header"><slot></slot></div>`;
   }
 }
-
-export default IdsMenuHeader;

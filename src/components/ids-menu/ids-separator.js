@@ -1,19 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import IdsDataSource from '../../core/ids-data-source';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
+import Base from './ids-menu-base';
 import styles from './ids-separator.scss';
 
 /**
@@ -26,13 +14,12 @@ import styles from './ids-separator.scss';
  */
 @customElement('ids-separator')
 @scss(styles)
-class IdsSeparator extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsSeparator extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback();
   }
 
   static get attributes() {
@@ -47,5 +34,3 @@ class IdsSeparator extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     return `<${tagName} part="separator" class="ids-separator"></${tagName}>`;
   }
 }
-
-export default IdsSeparator;

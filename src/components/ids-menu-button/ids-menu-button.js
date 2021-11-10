@@ -1,30 +1,14 @@
-import {
-  customElement,
-  scss,
-  attributes
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils, IdsDOMUtils } from '../../utils';
-
-// Import Dependencies
-import { IdsButton, BUTTON_ATTRIBUTES } from '../ids-button';
-import IdsIcon from '../ids-icon';
-import IdsPopupMenu from '../ids-popup-menu';
-
-// Import Styles
+import { customElement, scss } from '../../core';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { IdsButton } from '../ids-button/ids-button';
+import { BUTTON_ATTRIBUTES } from '../ids-button/ids-button-attributes';
+import { MENU_BUTTON_ATTRIBUTES } from './ids-menu-button-attributes';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 import styles from '../ids-button/ids-button.scss';
 
-// Property names
-const MENU_BUTTON_ATTRIBUTES = [
-  'dropdown-icon',
-  attributes.ID,
-  attributes.MENU
-];
-
-/**
- * IDS Menu Button Component
- */
 /**
  * IDS Menu Button Component
  * @type {IdsMenuButton}
@@ -32,7 +16,7 @@ const MENU_BUTTON_ATTRIBUTES = [
  */
 @customElement('ids-menu-button')
 @scss(styles)
-class IdsMenuButton extends IdsButton {
+export default class IdsMenuButton extends IdsButton {
   constructor() {
     super();
   }
@@ -78,7 +62,7 @@ class IdsMenuButton extends IdsButton {
    * @param {string|undefined} val referencing an icon string name to use
    */
   set dropdownIcon(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     const iconName = (typeof val === 'string' && val.length) ? `${val}` : 'dropdown';
     const icon = this.dropdownIconEl;
     if (trueVal) {
@@ -129,7 +113,7 @@ class IdsMenuButton extends IdsButton {
   get menuEl() {
     // Check for a Shadow Root parent.
     // If none, use `document`
-    const target = IdsDOMUtils.getClosestRootNode(this);
+    const target = getClosestRootNode(this);
     return target.querySelector(`ids-popup-menu[id="${this.menu}"]`);
   }
 
@@ -178,5 +162,3 @@ class IdsMenuButton extends IdsButton {
     this.menuEl.popup.arrow = 'bottom';
   }
 }
-
-export default IdsMenuButton;

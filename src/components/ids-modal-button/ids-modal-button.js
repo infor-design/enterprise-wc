@@ -1,14 +1,8 @@
-import {
-  customElement,
-  scss,
-  attributes
-} from '../../core';
-
+import { customElement, scss } from '../../core';
+import { attributes } from '../../core/ids-attributes';
 import styles from '../ids-button/ids-button.scss';
-import { IdsButton } from '../ids-button';
-import { IdsStringUtils } from '../../utils';
-
-const { stringToBool } = IdsStringUtils;
+import IdsButton from '../ids-button/ids-button';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * IDS Modal Button Component
@@ -17,7 +11,7 @@ const { stringToBool } = IdsStringUtils;
  */
 @customElement('ids-modal-button')
 @scss(styles)
-class IdsModalButton extends IdsButton {
+export default class IdsModalButton extends IdsButton {
   constructor() {
     super();
   }
@@ -37,7 +31,6 @@ class IdsModalButton extends IdsButton {
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback?.();
   }
 
   /**
@@ -69,5 +62,3 @@ class IdsModalButton extends IdsButton {
     }
   }
 }
-
-export default IdsModalButton;

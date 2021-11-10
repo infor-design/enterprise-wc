@@ -1,68 +1,13 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix
-} from '../../core';
-
+import { customElement, scss } from '../../core/ids-decorators';
 import IdsDataSource from '../../core/ids-data-source';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin
-} from '../../mixins';
-
-// SubComponents
+import Base from './ids-menu-base';
 import IdsMenuGroup from './ids-menu-group';
 import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
 import IdsSeparator from './ids-separator';
-
+import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { isValidGroup, isUsableItem } from './ids-menu-attributes';
 import styles from './ids-menu.scss';
-import { IdsDOMUtils } from '../../utils';
-
-/**
- * @private
- * @param {string|IdsMenuGroup} menuGroup the group to search for
- * @param {IdsMenu} idsMenu the parent menu element
- * @returns {IdsMenuGroup|undefined} if valid, a reference to the menu group.
- * Otherwise, returns undefined.
- */
-function isValidGroup(menuGroup, idsMenu) {
-  let hasGroup;
-
-  const isElem = menuGroup instanceof IdsMenuGroup;
-  idsMenu.groups.forEach((group) => {
-    if ((isElem && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {
-      hasGroup = group;
-    }
-  });
-  return hasGroup;
-}
-
-/**
- * @private
- * @param {IdsMenuItem} item the element to be checked
- * @param {HTMLElement} idsMenu the parent menu element
- * @returns {boolean} true if the provided element is a "currently-usable" IdsMenuItem type.
- */
-function isUsableItem(item, idsMenu) {
-  const isItem = item instanceof IdsMenuItem;
-  if (!isItem) {
-    return false;
-  }
-
-  // The item is only usable if it's contained by the correct IdsMenu
-  const menuHasItem = idsMenu.contains(item);
-
-  // In some nested cases, we need to detect the item's Shadow Root containment to accurately
-  // figure out if it's slotted inside the same menu.
-  const closestItemRoot = IdsDOMUtils.getClosestRootNode(item.assignedSlot);
-  const itemInMenuShadow = closestItemRoot?.menu?.isEqualNode(idsMenu);
-
-  return (itemInMenuShadow || menuHasItem) && !item.disabled;
-}
 
 /**
  * IDS Menu Component
@@ -74,7 +19,7 @@ function isUsableItem(item, idsMenu) {
  */
 @customElement('ids-menu')
 @scss(styles)
-class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
+export default class IdsMenu extends Base {
   constructor() {
     super();
     this.datasource = new IdsDataSource();
@@ -373,7 +318,7 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
    */
   get focused() {
     return this.items.find((item) => {
-      const containerNode = IdsDOMUtils.getClosestContainerNode(this);
+      const containerNode = getClosestContainerNode(this);
       return containerNode?.activeElement?.isEqualNode(item);
     });
   }
@@ -601,11 +546,3 @@ class IdsMenu extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) {
     });
   }
 }
-
-export {
-  IdsMenu as default,
-  IdsMenuHeader,
-  IdsMenuGroup,
-  IdsMenuItem,
-  IdsSeparator
-};

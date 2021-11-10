@@ -1,44 +1,13 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes,
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import IdsText from '../ids-text/ids-text';
+import IdsAlert from '../ids-alert/ids-alert';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+import IdsButton from '../ids-button/ids-button';
+import Base from './ids-notification-base';
+import { TYPES } from './ids-notification-attributes';
 import styles from './ids-notification-banner.scss';
-import IdsText from '../ids-text';
-import IdsAlert from '../ids-alert';
-import IdsIcon from '../ids-icon';
-import IdsHyperlink from '../ids-hyperlink';
-import IdsButton from '../ids-button';
-
-// Notification Types
-const TYPES = {
-  success: {
-    type: 'success',
-    color: 'emerald',
-  },
-  alert: {
-    type: 'alert',
-    color: 'amber'
-  },
-  info: {
-    type: 'info',
-    color: 'azure'
-  },
-  error: {
-    type: 'error',
-    color: 'ruby'
-  }
-};
 
 /**
  * IDS Notification Banner
@@ -54,11 +23,7 @@ const TYPES = {
  */
 @customElement('ids-notification-banner')
 @scss(styles)
-class IdsNotificationBanner extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsNotificationBanner extends Base{
   /**
    * Call the constructor and then initialize
    */
@@ -73,7 +38,6 @@ class IdsNotificationBanner extends mix(IdsElement).with(
     this
       .#attachEventHandlers()
       .#attachKeyboardListeners();
-    super.connectedCallback();
   }
 
   /**
@@ -264,5 +228,3 @@ class IdsNotificationBanner extends mix(IdsElement).with(
     this.triggerEvent('afterNotificationRemove', this, { detail: { elem: this } });
   }
 }
-
-export default IdsNotificationBanner;
