@@ -36,9 +36,8 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
     display: grid;
     grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
-
   }
-  
+
   // Row Height Feature
   .ids-data-grid-body .ids-data-grid-row {
     height: 50px;
