@@ -38,7 +38,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
   }
 
   connectedCallback() {
-    this.#render();
+    this.attachEventHandlers();
     super.connectedCallback();
   }
 
@@ -64,6 +64,28 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     return '<div class="ids-week-view"></div>';
   }
 
+  /**
+   * Establish internal event handlers
+   * @returns {object} The object for chaining
+   */
+  attachEventHandlers() {
+    // Respond to parent changing language
+    this.offEvent('languagechange.week-view-container');
+    this.onEvent('languagechange.week-view-container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+    });
+
+    // Respond to the element changing language
+    this.offEvent('languagechange.week-view');
+    this.onEvent('languagechange.week-view', this, async (e) => {
+      await this.locale.setLanguage(e.detail.language.name);
+
+      this.#render();
+    });
+
+    return this;
+  }
+
   #render() {
     const layout = `<div class="week-view-container">
       <table class="week-view-table">
@@ -71,15 +93,17 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
           <tr>
             <th>
               <div class="week-view-header-wrapper">
-                <span class="audible">Hour</span>
+                <span class="audible">${this.locale.translate('Hour')}</span>
               </div>
-              <div class="week-view-all-day-wrapper"><ids-text font-size="12">All Day</ids-text></div>
+              <div class="week-view-all-day-wrapper">
+                <ids-text font-size="12">${this.locale.translate('AllDay')}</ids-text>
+              </div>
             </th>
-            ${Array.from({ length: 7 }).map(() => `
+            ${Array.from({ length: 7 }).map((_, index) => `
               <th>
-                <div class="week-view-header-wrapper is-today">
-                  <ids-text font-size="20" font-weight="bold">7</ids-text>
-                  <ids-text font-size="16" font-weight="bold">Sun</ids-text>
+                <div class="week-view-header-wrapper${index === 1 ? ' is-today' : ''}">
+                  <ids-text font-size="20"${index === 1 ? ' font-weight="bold"' : ''}>7</ids-text>
+                  <ids-text font-size="16"${index === 1 ? ' font-weight="bold"' : ''}>Sun</ids-text>
                 </div>
                 <div class="week-view-all-day-wrapper"></div>
               </th>
@@ -113,7 +137,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       </table>
     </div>`;
 
-    this.container.querySelector('.ids-week-view-container')?.remove();
+    this.container.querySelector('.week-view-container')?.remove();
     this.container.insertAdjacentHTML('beforeend', layout);
   }
 }
