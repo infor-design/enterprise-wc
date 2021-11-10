@@ -12,7 +12,7 @@ import styles from './ids-list-builder.scss';
  */
 @customElement('ids-list-builder')
 @scss(styles)
-class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsListBuilder extends Base {
   constructor() {
     super();
   }
@@ -424,5 +424,3 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     });
   }
 }
-
-export default IdsListBuilder;
