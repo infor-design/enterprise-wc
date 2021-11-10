@@ -7,6 +7,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   --ids-data-grid-column-widths: repeat(1, minmax(110px, 1fr));
 }
 
+:host([virtual-scroll]) .ids-data-grid-body .ids-data-grid-row:last-child {
+  border-bottom: solid 1px $cell-border-color;
+}
+
 .ids-data-grid {
   // Outside border and Background and sizing
   @include bg-white();
@@ -33,11 +37,8 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     display: grid;
     grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
 
-    &:last-child {
-      border-bottom: solid 1px $cell-border-color;
-    }
   }
-
+  
   // Row Height Feature
   .ids-data-grid-body .ids-data-grid-row {
     height: 50px;
