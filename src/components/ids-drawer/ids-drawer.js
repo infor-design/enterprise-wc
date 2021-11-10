@@ -15,11 +15,7 @@ import styles from './ids-drawer.scss';
  */
 @customElement('ids-drawer')
 @scss(styles)
-class IdsDrawer extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsPopupOpenEventsMixin
-  ) {
+export default class IdsDrawer extends Base {
   constructor() {
     super();
 

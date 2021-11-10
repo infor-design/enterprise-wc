@@ -1,22 +1,8 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { EXPANDABLE_AREA_TYPES } from './ids-exandable-area-attributes';
 import styles from './ids-expandable-area.scss';
-
-const EXPANDABLE_AREA_TYPES = [
-  'toggle-btn'
-];
+import Base from './ids-exandable-area-base';
 
 /**
  * IDS Expandable Area Component
@@ -32,7 +18,7 @@ const EXPANDABLE_AREA_TYPES = [
  */
 @customElement('ids-expandable-area')
 @scss(styles)
-class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsExpandableArea extends Base {
   constructor() {
     super();
     this.state = {};
@@ -45,7 +31,6 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     this.pane = this.shadowRoot?.querySelector('.ids-expandable-area-pane');
     this.#attachEventHandlers();
     this.switchState();
-    super.connectedCallback();
   }
 
   /**
@@ -207,5 +192,3 @@ class IdsExpandableArea extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     return template;
   }
 }
-
-export default IdsExpandableArea;

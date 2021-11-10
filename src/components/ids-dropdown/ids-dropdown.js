@@ -1,35 +1,14 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsDirtyTrackerMixin,
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsPopupOpenEventsMixin,
-  IdsThemeMixin,
-  IdsValidationMixin,
-  IdsLocaleMixin,
-  IdsTooltipMixin
-} from '../../mixins';
-
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
-
-// Supporting components
-import { IdsTriggerButton, IdsTriggerField } from '../ids-trigger-field';
-import IdsInput from '../ids-input';
-import IdsPopup from '../ids-popup';
-import IdsListBox from '../ids-list-box';
-import IdsText from '../ids-text';
-import IdsIcon from '../ids-icon';
-
-// Import Styles
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field'
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button'
+import IdsInput from '../ids-input/ids-input';
+import IdsPopup from '../ids-popup/ids-popup';
+import IdsListBox from '../ids-list-box/ids-list-box';
+import IdsText from '../ids-text/ids-text';
+import IdsIcon from '../ids-icon/ids-icon';
+import Base from './ids-dropdown-base';
 import styles from './ids-dropdown.scss';
 
 /**
@@ -48,16 +27,7 @@ import styles from './ids-dropdown.scss';
  */
 @customElement('ids-dropdown')
 @scss(styles)
-class IdsDropdown extends mix(IdsElement).with(
-    IdsDirtyTrackerMixin,
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsPopupOpenEventsMixin,
-    IdsThemeMixin,
-    IdsLocaleMixin,
-    IdsValidationMixin,
-    IdsTooltipMixin
-  ) {
+class IdsDropdown extends Base {
   constructor() {
     super();
     this.state = { selectedIndex: 0 };
@@ -85,7 +55,6 @@ class IdsDropdown extends mix(IdsElement).with(
       .#addAria()
       .#attachEventHandlers()
       .#attachKeyboardListeners();
-    super.connectedCallback();
   }
 
   /**
@@ -241,7 +210,7 @@ class IdsDropdown extends mix(IdsElement).with(
    * @param {string|boolean} value string value from the readonly attribute
    */
   set readonly(value) {
-    const isReadonly = stringUtils.stringToBool(value);
+    const isReadonly = stringToBool(value);
     if (isReadonly) {
       if (this.input) {
         this.removeAttribute('disabled');
@@ -268,7 +237,7 @@ class IdsDropdown extends mix(IdsElement).with(
   }
 
   get readonly() {
-    return stringUtils.stringToBool(this.getAttribute('readonly')) || false;
+    return stringToBool(this.getAttribute('readonly')) || false;
   }
 
   /**
@@ -276,7 +245,7 @@ class IdsDropdown extends mix(IdsElement).with(
    * @param {string|boolean} value string value from the disabled attribute
    */
   set disabled(value) {
-    const isDisabled = stringUtils.stringToBool(value);
+    const isDisabled = stringToBool(value);
     if (isDisabled) {
       if (this.inputRoot) {
         this.removeAttribute('readonly');
@@ -303,7 +272,7 @@ class IdsDropdown extends mix(IdsElement).with(
   }
 
   get disabled() {
-    return stringUtils.stringToBool(this.getAttribute('disabled')) || false;
+    return stringToBool(this.getAttribute('disabled')) || false;
   }
 
   /**
@@ -491,18 +460,6 @@ class IdsDropdown extends mix(IdsElement).with(
       }
     });
 
-    // Respond to parent changing language
-    this.onEvent('languagechange.container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      this.setAttribute('aria-description', this.locale.translate('PressDown'));
-    });
-
-    // Respond to the element changing language
-    this.onEvent('languagechange.this', this, async (e) => {
-      await this.locale.setLanguage(e.detail.language.name);
-      this.setAttribute('aria-description', this.locale.translate('PressDown'));
-    });
-
     // Disable text selection on tab (extra info in the screen reader)
     this.onEvent('focus', this.shadowRoot.querySelector('ids-input'), () => {
       window.getSelection().removeAllRanges();
@@ -615,7 +572,7 @@ class IdsDropdown extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
     } else {
@@ -661,5 +618,3 @@ class IdsDropdown extends mix(IdsElement).with(
 
   get validationEvents() { return this.getAttribute(attributes.VALIDATION_EVENTS) || 'change'; }
 }
-
-export default IdsDropdown;
