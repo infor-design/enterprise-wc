@@ -31,10 +31,12 @@
     @include h-full();
     @include m-0();
 
+    display: flex;
+    flex-direction: column;
     min-height: auto;
 
     .ids-card-content {
-      @include h-full();
+      height: unset;
     }
   }
 }

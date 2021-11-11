@@ -50,14 +50,16 @@ class IdsCard extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    return `<div class="ids-card" part="card">
-      <div class="ids-card-header" part="header">
-        <slot name="card-header"></slot>
+    return `
+      <div class="ids-card" part="card">
+        <div class="ids-card-header" part="header">
+          <slot name="card-header"></slot>
+        </div>
+        <div class="ids-card-content ${this.overflow === 'hidden' ? 'overflow-hidden' : ''}" part="content">
+          <slot name="card-content"></slot>
+        </div>
       </div>
-      <div class="ids-card-content${this.overflow === 'hidden' ? ' overflow-hidden' : ''}" part="content">
-        <slot name="card-content"></slot>
-      </div>
-    </div>`;
+    `;
   }
 
   /**
