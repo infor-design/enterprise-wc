@@ -7,7 +7,10 @@ import {
 } from '../../core';
 
 // Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
+import {
+  IdsStringUtils as stringUtils,
+  IdsDateUtils as dateUtils
+} from '../../utils';
 
 // Supporting components
 import IdsIcon from '../ids-icon';
@@ -75,6 +78,12 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       await this.setLanguage(e.detail.language.name);
     });
 
+    // Respond to parent changing locale
+    this.offEvent('localechange.week-view-container');
+    this.onEvent('localechange.week-view-container', this.closest('ids-container'), async (e) => {
+      await this.setLocale(e.detail.locale.name);
+    });
+
     // Respond to the element changing language
     this.offEvent('languagechange.week-view');
     this.onEvent('languagechange.week-view', this, async (e) => {
@@ -83,31 +92,53 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       this.#render();
     });
 
+    // Respond to the element changing locale
+    this.offEvent('localechange.week-view');
+    this.onEvent('localechange.week-view', this, async (e) => {
+      if (!e.detail.locale.name) {
+        return;
+      }
+
+      await this.locale.setLocale(e.detail.locale.name);
+
+      this.#render();
+    });
+
     return this;
   }
 
   #render() {
+    const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
+    const daysHeader = Array.from({ length: daysDiff }, (_, index) => {
+      const day = this.startDate.setDate(this.startDate.getDate() + index);
+      const dayNumeric = this.locale.formatDate(day, { day: 'numeric' });
+      const weekday = this.locale.formatDate(day, { weekday: 'short' });
+      const isToday = dateUtils.isToday(new Date(day));
+
+      return `
+        <th>
+          <div class="week-view-header-wrapper${isToday ? ' is-today' : ''}">
+            <ids-text font-size="20"${isToday ? ' font-weight="bold"' : ''}>${dayNumeric}</ids-text>
+            <ids-text font-size="16"${isToday ? ' font-weight="bold"' : ''}>${weekday}</ids-text>
+          </div>
+          <div class="week-view-all-day-wrapper"></div>
+        </th>
+      `;
+    }).join('');
+
     const layout = `<div class="week-view-container">
       <table class="week-view-table">
         <thead class="week-view-table-header">
           <tr>
             <th>
               <div class="week-view-header-wrapper">
-                <span class="audible">${this.locale.translate('Hour')}</span>
+                <ids-text translate-text="true" audible="true">Hour</ids-text>
               </div>
               <div class="week-view-all-day-wrapper">
-                <ids-text font-size="12">${this.locale.translate('AllDay')}</ids-text>
+                <ids-text font-size="12" translate-text="true">AllDay</ids-text>
               </div>
             </th>
-            ${Array.from({ length: 7 }).map((_, index) => `
-              <th>
-                <div class="week-view-header-wrapper${index === 1 ? ' is-today' : ''}">
-                  <ids-text font-size="20"${index === 1 ? ' font-weight="bold"' : ''}>7</ids-text>
-                  <ids-text font-size="16"${index === 1 ? ' font-weight="bold"' : ''}>Sun</ids-text>
-                </div>
-                <div class="week-view-all-day-wrapper"></div>
-              </th>
-            `).join('')}
+            ${daysHeader}
           </tr>
         </thead>
         <tbody>
@@ -116,7 +147,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
               <td>
                 <div class="week-view-cell-wrapper"><ids-text font-size="12">7:00 AM</ids-text></div>
               </td>
-              ${Array.from({ length: 7 }).map(() => `
+              ${Array.from({ length: daysDiff }).map(() => `
                 <td>
                   <div class="week-view-cell-wrapper"></div>
                 </td>
@@ -126,7 +157,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
               <td>
                 <div class="week-view-cell-wrapper"></div>
               </td>
-              ${Array.from({ length: 7 }).map(() => `
+              ${Array.from({ length: daysDiff }).map(() => `
                 <td>
                   <div class="week-view-cell-wrapper"></div>
                 </td>
@@ -139,6 +170,99 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
     this.container.querySelector('.week-view-container')?.remove();
     this.container.insertAdjacentHTML('beforeend', layout);
+  }
+
+  /**
+   * show-today attribute
+   * @returns {boolean} showToday attribute value converted to boolean
+   */
+  get showToday() {
+    const attrVal = this.getAttribute(attributes.SHOW_TODAY);
+
+    return stringUtils.stringToBool(attrVal);
+  }
+
+  /**
+   * Set whether or not the today button should be shown
+   * @param {string|boolean|null} val showToday attribute value
+   */
+  set showToday(val) {
+    const boolVal = stringUtils.stringToBool(val);
+
+    if (boolVal) {
+      this.setAttribute(attributes.SHOW_TODAY, boolVal);
+
+      return;
+    }
+
+    this.removeAttribute(attributes.SHOW_TODAY);
+  }
+
+  get startDate() {
+    const attrVal = this.getAttribute(attributes.START_DATE);
+    const attrDate = new Date(attrVal);
+
+    if (attrVal && dateUtils.isValidDate(attrDate)) {
+      return attrDate;
+    }
+
+    // If no start-date attribute is set or not valid
+    // set startDate as first day of the week from current date
+    return dateUtils.firstDayOfWeek(new Date(), this.firstDayOfWeek);
+  }
+
+  set startDate(val) {
+    if (val) {
+      this.setAttribute(attributes.START_DATE, val);
+    } else {
+      this.removeAttribute(attributes.START_DATE);
+    }
+
+    this.#render();
+  }
+
+  get endDate() {
+    const attrVal = this.getAttribute(attributes.END_DATE);
+    const attrDate = new Date(attrVal);
+
+    if (attrVal && dateUtils.isValidDate(attrDate)) {
+      return attrDate;
+    }
+
+    // If no end-date attribute is set or not valid
+    // set endDate as last day of the week from current date
+    return dateUtils.lastDayOfWeek(new Date(), this.firstDayOfWeek);
+  }
+
+  set endDate(val) {
+    if (val) {
+      this.setAttribute(attributes.END_DATE, val);
+    } else {
+      this.removeAttribute(attributes.END_DATE);
+    }
+
+    this.#render();
+  }
+
+  get firstDayOfWeek() {
+    const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
+    const numberVal = stringUtils.stringToNumber(attrVal);
+
+    if (numberVal >= 0 && numberVal <= 6) {
+      return numberVal;
+    }
+
+    return 0;
+  }
+
+  set firstDayOfWeek(val) {
+    if (val) {
+      this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
+    } else {
+      this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
+    }
+
+    this.#render();
   }
 }
 
