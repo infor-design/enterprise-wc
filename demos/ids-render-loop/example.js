@@ -1,4 +1,4 @@
-import { IdsRenderLoop, IdsRenderLoopItem } from '../../src/components/ids-render-loop';
+import { IdsRenderLoop, IdsRenderLoopItem } from '../../src/components/ids-render-loop/ids-render-loop';
 
 // Supporting Components
 import IdsText from '../../src/components/ids-text/ids-text';

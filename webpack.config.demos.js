@@ -14,9 +14,10 @@ const fileUpload = require('express-fileupload');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
+const demosDir = './demos';
 
 module.exports = {
-  entry: glob.sync('./demos/**/**.js').reduce((acc, filePath) => {
+  /* entry: glob.sync('./demos/ids-accordion/**.js').reduce((acc, filePath) => {
     let entry = filePath.replace(`/${path.basename(filePath)}`, '');
     entry = (entry === './demos' ? 'index' : entry.replace('./demos/', ''));
 
@@ -30,8 +31,22 @@ module.exports = {
     if (acc.index) {
       acc.example = './demos/example.js';
     }
+    console.log(acc);
     return acc;
   }, {}),
+  */
+  entry: {
+    'ids-accordion/example': `${demosDir}/ids-accordion/example.js`,
+    'ids-accordion/ids-accordion': `${demosDir}/ids-accordion/index.js`,
+    'ids-accordion/nested': `${demosDir}/ids-accordion/nested.js`,
+    // Dependencies for most examples
+    'ids-container/ids-container': `${demosDir}/ids-container/index.js`,
+    'ids-icon/ids-icon': `${demosDir}/ids-icon/index.js`,
+    'ids-layout-grid/ids-layout-grid': `${demosDir}/ids-layout-grid/index.js`,
+    'ids-text/ids-text': `${demosDir}/ids-text/index.js`,
+    // 'ids-theme-switcher/ids-theme-switcher': `${demosDir}/ids-theme-switcher/index.js`,
+    'ids-toolbar/ids-toolbar': `${demosDir}/ids-container/index.js`
+  },
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',
   experiments: {

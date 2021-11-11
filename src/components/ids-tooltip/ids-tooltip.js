@@ -1,23 +1,17 @@
-import {
-  IdsElement,
-  customElement,
-  appendIds,
-  mix,
-  scss,
-  attributes
-} from '../../core';
+// Import Core
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss, appendIds } from '../../core/ids-decorators';
 
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin,
-} from '../../mixins';
+// Import Base
+import Base from './ids-tooltip-base';
 
+// Import Dependencies
 import IdsPopup from '../ids-popup/ids-popup';
+
+// Import styles
 import styles from './ids-tooltip.scss';
 
 /**
@@ -32,11 +26,7 @@ import styles from './ids-tooltip.scss';
 @customElement('ids-tooltip')
 @appendIds()
 @scss(styles)
-class IdsTooltip extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsTooltip extends Base {
   constructor() {
     super();
 
@@ -359,7 +349,7 @@ class IdsTooltip extends mix(IdsElement).with(
    * @param {string|boolean} value The target element selector
    */
   set visible(value) {
-    const trueVal = IdsStringUtils.stringToBool(value);
+    const trueVal = stringToBool(value);
     if (this.state.visible !== trueVal) {
       this.state.visible = trueVal;
 
@@ -383,5 +373,3 @@ class IdsTooltip extends mix(IdsElement).with(
 
   get visible() { return this.state.visible; }
 }
-
-export default IdsTooltip;

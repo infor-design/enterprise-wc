@@ -8,7 +8,7 @@ import { isPrintable } from '../../utils/ids-string-utils/ids-string-utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsEventsMixin = ( superclass ) => class extends superclass {
+const IdsEventsMixin = (superclass) => class extends superclass {
   constructor() {
     super();
     this.handledEvents = new Map();

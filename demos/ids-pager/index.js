@@ -3,4 +3,4 @@ import IdsPager, {
   IdsPagerButton,
   IdsPagerInput,
   IdsPagerNumberList
-} from '../../src/components/ids-pager';
+} from '../../src/components/ids-pager/ids-pager';

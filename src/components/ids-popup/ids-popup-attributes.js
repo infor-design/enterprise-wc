@@ -1,3 +1,4 @@
+import { attributes } from '../../core/ids-attributes';
 
 const CENTER = 'center';
 
@@ -73,4 +74,17 @@ function formatAlignAttribute(alignX, alignY, edge) {
   return `${edge}, ${alignY}`;
 }
 
-export { CENTER, ALIGNMENT_EDGES, ALIGNMENTS_X, ALIGNMENTS_Y, ALIGNMENTS_EDGES_X, ALIGNMENTS_EDGES_Y, ANIMATION_STYLES, ARROW_TYPES, POSITION_STYLES, TYPES, POPUP_PROPERTIES, formatAlignAttribute};
+export {
+  CENTER,
+  ALIGNMENT_EDGES,
+  ALIGNMENTS_X,
+  ALIGNMENTS_Y,
+  ALIGNMENTS_EDGES_X,
+  ALIGNMENTS_EDGES_Y,
+  ANIMATION_STYLES,
+  ARROW_TYPES,
+  POSITION_STYLES,
+  TYPES,
+  POPUP_PROPERTIES,
+  formatAlignAttribute
+};

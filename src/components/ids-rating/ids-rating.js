@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import { customElement, appendIds, scss } from '../../core/ids-decorators';
+import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-rating-base';
 import styles from './ids-rating.scss';

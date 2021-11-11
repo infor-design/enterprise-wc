@@ -24,6 +24,7 @@ export default class IdsContainer extends Base {
    * Invoked each time the custom element is appended into a document-connected element.
    */
   connectedCallback() {
+    super.connectedCallback?.();
     if (this.reset) {
       this.#addReset();
     }

@@ -1,11 +1,34 @@
+// Import Core & Helpers
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
+// Import Utils
 import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosest, getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+
+// Import Base
 import Base from './ids-popup-base';
-import { CENTER, ALIGNMENT_EDGES, ALIGNMENTS_X, ALIGNMENTS_Y, ALIGNMENTS_EDGES_X, ALIGNMENTS_EDGES_Y, ANIMATION_STYLES, ARROW_TYPES, POSITION_STYLES, TYPES, POPUP_PROPERTIES, formatAlignAttribute} from './ids-popup-attributes'
-import renderLoop from '../ids-render-loop/ids-render-loop';
+
+import {
+  CENTER,
+  ALIGNMENT_EDGES,
+  ALIGNMENTS_X,
+  ALIGNMENTS_Y,
+  ALIGNMENTS_EDGES_X,
+  ALIGNMENTS_EDGES_Y,
+  ANIMATION_STYLES,
+  ARROW_TYPES,
+  POSITION_STYLES,
+  TYPES,
+  POPUP_PROPERTIES,
+  formatAlignAttribute
+} from './ids-popup-attributes';
+
+// Import Dependencies
+import { IdsRenderLoop as renderLoop } from '../ids-render-loop/ids-render-loop';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
+
+// Import Styles
 import styles from './ids-popup.scss';
 
 /**

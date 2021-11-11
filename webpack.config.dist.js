@@ -24,8 +24,7 @@ module.exports = {
     'ids-count': `${componentsDir}/ids-count/ids-count.js`,
     'ids-data-grid': `${componentsDir}/ids-data-grid/ids-data-grid.js`,
     'ids-draggable': `${componentsDir}/ids-draggable/ids-draggable.js`,
-    'ids-drawer': `${componentsDir}/ids-drawer/ids-drawer.js`,
-    
+    'ids-drawer': `${componentsDir}/ids-drawer/ids-drawer.js`
   },
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),

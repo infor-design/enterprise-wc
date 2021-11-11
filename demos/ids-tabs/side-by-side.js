@@ -1,7 +1,7 @@
 import './example.scss';
 import './header-tabs-demo.scss';
-import IdsText from '../../src/components/ids-text';
-import IdsHeader from '../../src/components/ids-header';
+import IdsText from '../../src/components/ids-text/ids-text';
+import IdsHeader from '../../src/components/ids-header/ids-header';
 
 import IdsTabs, {
   IdsTab,

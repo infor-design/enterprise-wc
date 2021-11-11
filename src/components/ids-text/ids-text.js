@@ -1,23 +1,14 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix,
-} from '../../core';
+// Import Core
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
 
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsColorVariantMixin,
-  IdsTooltipMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
+// Import Base
+import Base from './ids-text-base';
 
+// Import Styles
 import styles from './ids-text.scss';
 
 const fontSizes = ['xs', 'sm', 'base', 'lg', 'xl', 10, 12, 14, 16, 20, 24, 28, 32, 40, 48, 60, 72];
@@ -38,13 +29,7 @@ const typesCssClasses = ['label', 'legend', 'span'];
  */
 @customElement('ids-text')
 @scss(styles)
-class IdsText extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsThemeMixin,
-    IdsTooltipMixin,
-    IdsLocaleMixin,
-    IdsColorVariantMixin
-  ) {
+export default class IdsText extends Base {
   constructor() {
     super();
   }
@@ -238,7 +223,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {string | null} value The `audible` attribute
    */
   set audible(value) {
-    const isValueTruthy = IdsStringUtils.stringToBool(value);
+    const isValueTruthy = stringToBool(value);
 
     if (isValueTruthy && this.container && !this.container?.classList.contains('audible')) {
       this.container.classList.add('audible');
@@ -258,7 +243,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {boolean} value True if disabled
    */
   set disabled(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, value);
       return;
@@ -273,7 +258,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {boolean} value True if error text
    */
   set error(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.container.classList.add('error');
       this.setAttribute(attributes.ERROR, value);
@@ -290,7 +275,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {boolean} value True if label text
    */
   set label(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.container.classList.add('label');
       this.setAttribute(attributes.LABEL, value);
@@ -307,7 +292,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {boolean} value True if data text
    */
   set data(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.container.classList.add('data');
       this.setAttribute(attributes.DATA, value);
@@ -345,7 +330,7 @@ class IdsText extends mix(IdsElement).with(
    * @param {boolean} value If true translate this value
    */
   set translateText(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val && !this.getAttribute('translation-key')) {
       this.setAttribute(attributes.TRANSLATE_TEXT, value);
       this.setAttribute('translation-key', this.textContent);
@@ -366,5 +351,3 @@ class IdsText extends mix(IdsElement).with(
     return this.getAttribute(attributes.TRANSLATE_TEXT);
   }
 }
-
-export default IdsText;

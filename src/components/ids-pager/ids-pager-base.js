@@ -6,6 +6,6 @@ const Base = IdsEventsMixin(
   IdsKeyboardMixin(
     IdsElement
   )
-)
+);
 
 export default Base;

@@ -1,6 +1,6 @@
 // IdsTree Sandbox
 import './index';
-import '../../src/components/ids-radio';
+import '../../src/components/ids-radio/ids-radio';
 
 // Get some sample data
 const getData = async function getData(callback, url = '/data/tree-basic.json') {

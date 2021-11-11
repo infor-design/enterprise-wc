@@ -1,6 +1,6 @@
-import { IdsLayoutGrid, IdsLayoutGridCell } from '../../src/components/ids-layout-grid';
-import IdsText from '../../src/components/ids-text';
-import IdsButton from '../../src/components/ids-button';
+import { IdsLayoutGrid, IdsLayoutGridCell } from '../../src/components/ids-layout-grid/ids-layout-grid';
+import IdsText from '../../src/components/ids-text/ids-text';
+import IdsButton from '../../src/components/ids-button/ids-button';
 
 const TemplateHTML = {
   INPUT: (
