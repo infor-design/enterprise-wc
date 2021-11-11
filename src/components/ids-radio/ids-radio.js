@@ -1,19 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-import styles from './ids-radio.scss';
-import IdsText from '../ids-text';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from '../ids-accordion/ids-accordion-base';
+import IdsText from '../ids-text/ids-text';
 import IdsRadioGroup from './ids-radio-group';
+import styles from './ids-radio.scss';
 
 const attribs = [
   { name: 'checked', prop: 'checked' },
@@ -39,7 +30,7 @@ const attribs = [
  */
 @customElement('ids-radio')
 @scss(styles)
-class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsThemeMixin) {
+export class IdsRadio extends Base {
   /**
    * Call the constructor and then initialize
    */
@@ -91,7 +82,6 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    * @returns {void}
    */
   connectedCallback() {
-    super.connectedCallback();
 
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     this.labelEl = this.shadowRoot.querySelector('label');
@@ -110,13 +100,12 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
    */
   template() {
     // Checkbox
-    const toBool = stringToBool;
-    const isDisabled = toBool(this.groupDisabled) || toBool(this.disabled);
+    const isDisabled = stringToBool(this.groupDisabled) || stringToBool(this.disabled);
     const disabled = isDisabled ? ' disabled' : '';
     const disabledAria = isDisabled ? ' aria-disabled="true"' : '';
     const color = this.color ? ` color="${this.color}"` : '';
-    const horizontal = toBool(this.horizontal) ? ' horizontal' : '';
-    const checked = toBool(this.checked) ? ' checked' : '';
+    const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
+    const checked = stringToBool(this.checked) ? ' checked' : '';
     const rootClass = ` class="ids-radio${disabled}${horizontal}"`;
     const radioClass = ' class="radio-button"';
 
@@ -365,5 +354,3 @@ class IdsRadio extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsT
     this.input.focus();
   }
 }
-
-export default IdsRadio;
