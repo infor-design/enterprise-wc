@@ -6,7 +6,7 @@ import IdsRenderLoopItem from './ids-render-loop-item';
  * This can be used for controlling animations,  or asynchronously staggering
  * routines for a specified duration.
  */
-class IdsRenderLoop {
+export default class IdsRenderLoop {
   /**
    * @param {object} [settings] incoming settings
    * @param {boolean} [settings.autoStart = true] causes the loop to start immediately
@@ -197,5 +197,3 @@ class IdsRenderLoop {
     return removedItem;
   }
 }
-
-export { IdsRenderLoop, IdsRenderLoopItem };
