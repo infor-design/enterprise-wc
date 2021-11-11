@@ -308,9 +308,10 @@ class IdsSplitter extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, I
    * @returns {void}
    */
   #init() {
-    this.#setProp();
     window.requestAnimationFrame(() => {
       this
+        .#destroy()
+        .#setProp()
         .#setContainer()
         .#initialSizes()
         .#addSplitBars()
@@ -328,7 +329,7 @@ class IdsSplitter extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, I
    */
   #reInit() {
     window.requestAnimationFrame(() => {
-      this.#destroy().#init();
+      this.#init();
     });
   }
 
