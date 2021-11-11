@@ -538,7 +538,6 @@ class IdsDataGrid extends mix(IdsElement).with(
   set autoFit(value) {
     if (IdsStringUtils.stringToBool(value)) {
       this.setAttribute(attributes.AUTO_FIT, value);
-      // set responsive-container to calc(100vh - offsetTop)
       return;
     }
     this.removeAttribute(attributes.AUTO_FIT);
