@@ -1,7 +1,8 @@
 import IdsCard from '../../src/components/ids-card';
+import './index.scss';
 
 // Example for populating the List View
-const listView = document.querySelector('#list-view-1');
+const listView = document.querySelectorAll('ids-list-view');
 
 // Do an ajax request and apply the data to the list
 const xmlhttp = new XMLHttpRequest();
@@ -9,7 +10,9 @@ const url = '/data/products.json';
 
 xmlhttp.onreadystatechange = function onreadystatechange() {
   if (this.readyState === 4 && this.status === 200 && listView) {
-    listView.data = JSON.parse(this.responseText);
+    listView.forEach((l) => {
+      l.data = JSON.parse(this.responseText);
+    });
   }
 };
 
