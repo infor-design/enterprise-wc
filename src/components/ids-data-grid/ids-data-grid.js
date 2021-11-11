@@ -68,6 +68,7 @@ class IdsDataGrid extends mix(IdsElement).with(
   static get attributes() {
     return [
       attributes.ALTERNATE_ROW_SHADING,
+      attributes.AUTO_FIT,
       attributes.LABEL,
       attributes.LANGUAGE,
       attributes.LOCALE,
@@ -90,24 +91,44 @@ class IdsDataGrid extends mix(IdsElement).with(
       return html;
     }
 
-    const additionalClasses = this.alternateRowShading === 'true' ? ' alt-row-shading' : '';
+    const additionalClasses = this.alternateRowShading === 'true' ? 'alt-row-shading' : '';
     if (this?.virtualScroll !== 'true') {
-      html = `<div class="ids-data-grid${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
-      ${this.headerTemplate()}
-      ${this.bodyTemplate()}
-      </div>`;
+      html = `
+        <div class="${this.autoFit && 'responsive-container'}">
+          <div class="ids-data-grid ${additionalClasses}" 
+            role="table"
+            part="table"
+            aria-label="${this.label}"
+            data-row-height="${this.rowHeight}"
+            mode="${this.mode}"
+            version="${this.version}"
+          >
+            ${this.headerTemplate()}
+            ${this.bodyTemplate()}
+          </div>
+        </div>
+      `;
       return html;
     }
 
-    html = `<div class="ids-data-grid${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
-      ${this.headerTemplate()}
-      <ids-virtual-scroll>
-        <div class="ids-data-grid-container" part="container">
-          <div class="ids-data-grid-body" part="body" role="rowgroup" slot="contents">
+    html = `
+      <div class="ids-data-grid${additionalClasses}" 
+        role="table"
+        part="table"
+        aria-label="${this.label}"
+        data-row-height="${this.rowHeight}"
+        mode="${this.mode}"
+        version="${this.version}"
+      >
+        ${this.headerTemplate()}
+        <ids-virtual-scroll>
+          <div class="ids-data-grid-container" part="container">
+            <div class="ids-data-grid-body" part="body" role="rowgroup" slot="contents">
+            </div>
           </div>
-        </div>
-      </ids-virtual-scroll>
-    </div>`;
+        </ids-virtual-scroll>
+      </div>
+    `;
 
     return html;
   }
@@ -509,6 +530,21 @@ class IdsDataGrid extends mix(IdsElement).with(
   get headerPixelHeight() {
     return 35;
   }
+
+  /**
+   * Set the card to auto fit to its parent size
+   * @param {boolean|null} value The auto fit
+   */
+  set autoFit(value) {
+    if (IdsStringUtils.stringToBool(value)) {
+      this.setAttribute(attributes.AUTO_FIT, value);
+      // set responsive-container to calc(100vh - offsetTop)
+      return;
+    }
+    this.removeAttribute(attributes.AUTO_FIT);
+  }
+
+  get autoFit() { return IdsStringUtils.stringToBool(this.getAttribute(attributes.AUTO_FIT)); }
 
   /**
    * Set the active cell for focus

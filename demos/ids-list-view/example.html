@@ -6,7 +6,7 @@
   <ids-layout-grid-cell col-span="1">
     <ids-text font-size="12" type="h1">With Border:</ids-text>
     <div class="parent-container border">
-        <ids-list-view virtual-scroll="true">
+        <ids-list-view virtual-scroll="false">
           <template>
             <ids-text font-size="16" type="h2">${productName}</ids-text>
             <ids-text font-size="12" type="span">Count: ${units}</ids-text>
@@ -18,7 +18,7 @@
   <ids-layout-grid-cell col-span="1">
     <ids-text font-size="12" type="h1">Inside Card Contents:</ids-text>
     <div class="parent-container">
-    <ids-card>
+    <ids-card auto-fit>
       <div slot="card-header">
         <ids-text font-size="20" type="h2">Product List</ids-text>
       </div>

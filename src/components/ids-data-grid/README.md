@@ -133,7 +133,8 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 
 ## Responsive Guidelines
 
-- Datagrid will size in width and height to the parent container and scroll if necessary under the header.
+- By default, datagrid grows depending on the amount of contents within and will scroll if necessary under the header. It stops growing when it reaches the size of the parent container.
+- `autoFit` property or `auto-fit` attribute can be set manually to make the datagrid size fill and be responsive to the size of the screen, regardless of the amount of contents.
 
 ## Converting from Previous Version
 

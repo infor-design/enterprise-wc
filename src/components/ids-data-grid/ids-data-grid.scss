@@ -11,6 +11,11 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   border-bottom: solid 1px $cell-border-color;
 }
 
+.responsive-container {
+  height: 100vh;
+  // display: flex;
+}
+
 .ids-data-grid {
   // Outside border and Background and sizing
   @include bg-white();
@@ -18,7 +23,10 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   @include border-solid();
   @include rounded-default();
   @include w-full();
-
+  
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   border-collapse: collapse;
   border-color: $cell-border-color;
   contain: content;
