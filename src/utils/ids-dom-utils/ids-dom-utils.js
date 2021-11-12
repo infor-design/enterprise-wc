@@ -3,7 +3,22 @@
  */
 const IdsDOMUtils = {
   /**
-   * Returns the closest Shadow Root, if the provided node is contained by one.
+   * Converts a DOMRect to a plain object, making it's properties editable.
+   * @param {DOMRect} rect a readonly DOMRect measurement.
+   * @returns {object} with all the same properties, but editable
+   */
+  getEditableRect(rect) {
+    const {
+      bottom, left, right, top, height, width, x, y
+    } = rect;
+
+    return {
+      bottom, left, right, top, height, width, x, y
+    };
+  },
+
+  /**
+   * Returns the closest Shadow Root, if the provided node is contained b+y one.
    * @param {HTMLElement} node the node to check
    * @returns {ShadowRoot|undefined} the node.
    */
@@ -28,6 +43,15 @@ const IdsDOMUtils = {
   },
 
   /**
+   * Used specifically to detect the closest host element of a Shadow Root, OR `document`.
+   * @param {HTMLElement} node the node to check
+   * @returns {Node} the parent node.
+   */
+  getClosestHostNode(node) {
+    return IdsDOMUtils.getClosestShadow(node)?.host || document;
+  },
+
+  /**
    * Returns the closest Root Node parent of a provided element.  If the provided element is inside
    * a Shadow Root, that Shadow Root's host's parentNode is provided. `document` is used as a
    * fallback. This method allows for `querySelector()` in some nested Shadow Roots to work properly
@@ -35,7 +59,7 @@ const IdsDOMUtils = {
    * @returns {Node} the parent node.
    */
   getClosestRootNode(node) {
-    return IdsDOMUtils.getClosestShadow(node)?.host?.parentNode || document;
+    return IdsDOMUtils.getClosestHostNode(node)?.parentNode || document;
   },
 
   /**
@@ -85,13 +109,14 @@ const IdsDOMUtils = {
    * Similar to `transitionToPromise`, but simply waits for the specified property's `transitionend`
    * event to complete (allows the user to change the property outside the promise)
    * @param {HTMLElement} el the element to act on
-   * @param {string} property the CSS property used to qualify the correct transitionend event
+   * @param {string} [property] the CSS property used to qualify the correct transitionend event.  If not defined, the
+   *  promise will simply be fulfilled when any transition completes.
    * @returns {Promise} fulfulled when the CSS transition completes
    */
   waitForTransitionEnd(el, property) {
     return new Promise((resolve) => {
       const transitionEnded = (e) => {
-        if (e.propertyName !== property) return;
+        if (property && e.propertyName !== property) return;
         el.removeEventListener('transitionend', transitionEnded);
         resolve();
       };

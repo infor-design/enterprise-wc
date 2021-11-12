@@ -1,8 +1,33 @@
 /* Ids Separator Component */
-@import './ids-menu-base';
+@import '../../core/ids-base';
+
+:host {
+  display: block;
+}
+
+:host([vertical]) {
+  justify-self: center;
+  align-self: center;
+}
 
 .ids-separator {
-  @include separator-style();
+  @include block();
+
+  background-color: var(--ids-color-brand-secondary-lighter);
+  list-style: none;
+
+  &:not(.vertical) {
+    @include my-4();
+
+    height: 1px;
+  }
+
+  &.vertical {
+    @include mx-4();
+
+    width: 1px;
+    height: 24px;
+  }
 }
 
 // Handle Themes
