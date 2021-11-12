@@ -90,7 +90,7 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [x] Listbuilder (ids-list-builder)
  - [x] Listview (ids-list-view)
  - [x] Locale (ids-locale)
- - [ ] Lookup (ids-lookup)
+ - [x] Lookup (ids-lookup)
  - [x] Mask (ids-mask)
  - [ ] Masthead (ids-masthead)
  - [x] MenuButton (ids-menu-button)

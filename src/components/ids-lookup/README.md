@@ -84,9 +84,9 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 
 - 3.x: Lookup had all new markup and classes.
 - 4.x: Lookup had all new markup and classes for web components.
-    - inforLookup class changed to lookup
-    - Initialization options and API is different
-    - Uses events rather than callbacks
+  - inforLookup class changed to lookup
+  - Initialization options and API is different
+  - Uses events rather than callbacks
 - 5.x: Lookup had all new markup and classes for web components.
 
 ## Designs

@@ -116,4 +116,16 @@ describe('IdsListView Component', () => {
     listView.version = 'classic';
     expect(listView.container.getAttribute('version')).toEqual('classic');
   });
+
+  it('can use arrow keys to navigate', () => {
+    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').innerHTML.indexOf('Steampan') > -1).toEqual(true);
+    listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').focus();
+    let event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
+    listView.dispatchEvent(event);
+    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').innerHTML.indexOf('Coconut') > -1).toEqual(true);
+
+    event = new KeyboardEvent('keydown', { key: 'ArrowUp' });
+    listView.dispatchEvent(event);
+    expect(listView.shadowRoot.querySelector('[part="list-item"][tabindex="0"]').innerHTML.indexOf('Steampan') > -1).toEqual(true);
+  });
 });
