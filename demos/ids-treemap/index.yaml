@@ -1,0 +1,9 @@
+---
+ component: Treemap
+ link: ids-treemap
+ description: Dataviz
+ category:
+ keywords:
+ examples:
+  - link: index.html
+    description: Dataviz
