@@ -108,25 +108,18 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    #handleKeys() {
     // Arrow key navigates up and down
     this.listen(['ArrowUp', 'ArrowDown'], this, (e) => {
-      const focused = this.shadowRoot.querySelector('[part="list-item"][tabindex="0"]');
-      focused.setAttribute('tabindex', '-1');
+      e.preventDefault();
+      const focusCurrent = this.shadowRoot.querySelector('[part="list-item"][tabindex="0"]');
+      let el;
       if (e.key === 'ArrowDown') {
-        if (this.draggable) {
-          focused.parentElement.nextElementSibling.firstElementChild.setAttribute('tabindex', '0');
-          focused.parentElement.nextElementSibling.firstElementChild.focus();
-        } else {
-          focused.nextElementSibling.setAttribute('tabindex', '0');
-          focused.nextElementSibling.focus();
-        }
-        return;
+        el = this.draggable ? focusCurrent.parentElement.nextElementSibling : focusCurrent.nextElementSibling;
+      } else if (e.key === 'ArrowUp') {
+        el = this.draggable ? focusCurrent.parentElement.previousElementSibling : focusCurrent.previousElementSibling;
       }
-
-      if (this.draggable) {
-        focused.parentElement.previousElementSibling.firstElementChild.setAttribute('tabindex', '0');
-        focused.parentElement.previousElementSibling.firstElementChild.focus();
-      } else {
-        focused.previousElementSibling.setAttribute('tabindex', '0');
-        focused.previousElementSibling.focus();
+      if (el) {
+        focusCurrent.setAttribute('tabindex', '-1');
+        this.draggable ? el.firstElementChild.setAttribute('tabindex', '0') : el.setAttribute('tabindex', '0');
+        this.draggable ? el.firstElementChild.focus() : el.focus();
       }
     });
   }
