@@ -28,7 +28,6 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   constructor() {
     super();
   }
-
   // the currently selected list item
   #selectedLi;
 
@@ -39,6 +38,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   placeholder;
 
   connectedCallback() {
+    this.virtualScroll = true;
     this.draggable = true;
     this.itemHeight = 44; // hard-coded
     this.#attachEventListeners();
@@ -139,11 +139,12 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       if (item !== this.#selectedLi) {
         if (this.#selectedLi) {
           // unselect previous item if it's selected
+          this.#selectedLi.setAttribute('tabindex', '-1');
           this.#toggleSelectedAttribute(this.#selectedLi);
         }
       }
+      this.#focusLi(item);
       this.#toggleSelectedAttribute(item);
-      item.focus();
     }
   }
 
@@ -260,7 +261,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       } else {
         this.#unfocusAnySelectedLiEditor();
       }
-      this.#selectedLi.focus();
+      this.#focusLi(this.#selectedLi);
     }
   }
 
@@ -430,10 +431,40 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       case 'Tab':
         this.#unfocusAnySelectedLiEditor();
         break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.#unfocusAnySelectedLiEditor();
+        this.#focusLi(this.#getPreviousLi(this.#getFocusedLi()));
+        break;
+      case 'ArrowDown':
+        event.preventDefault();
+        this.#unfocusAnySelectedLiEditor();
+        this.#focusLi(this.#getNextLi(this.#getFocusedLi()));
+        break;
       default:
         break;
       }
     });
+  }
+
+  #getPreviousLi(li) {
+    return li.parentElement.previousElementSibling?.firstElementChild;
+  }
+
+  #getNextLi(li) {
+    return li.parentElement.nextElementSibling?.firstElementChild;
+  }
+
+  #focusLi(li) {
+    if (li) {
+      this.#getFocusedLi()?.setAttribute('tabindex', '-1');
+      li.setAttribute('tabindex', '0');
+      li.focus();
+    }
+  }
+
+  #getFocusedLi() {
+    return this.container.querySelector('div[part="list-item"][tabindex="0"]');
   }
 }
 

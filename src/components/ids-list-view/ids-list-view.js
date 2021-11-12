@@ -40,7 +40,6 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   connectedCallback() {
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     super.connectedCallback();
-    this.#handleKeys();
   }
 
   /**
@@ -99,29 +98,6 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     `;
 
     return html;
-  }
-
-  /**
-   * Sets up keyboard navigation among list elements
-   * @returns {void}
-   */
-   #handleKeys() {
-    // Arrow key navigates up and down
-    this.listen(['ArrowUp', 'ArrowDown'], this, (e) => {
-      e.preventDefault();
-      const focusCurrent = this.shadowRoot.querySelector('[part="list-item"][tabindex="0"]');
-      let el;
-      if (e.key === 'ArrowDown') {
-        el = this.draggable ? focusCurrent.parentElement.nextElementSibling : focusCurrent.nextElementSibling;
-      } else if (e.key === 'ArrowUp') {
-        el = this.draggable ? focusCurrent.parentElement.previousElementSibling : focusCurrent.previousElementSibling;
-      }
-      if (el) {
-        focusCurrent.setAttribute('tabindex', '-1');
-        this.draggable ? el.firstElementChild.setAttribute('tabindex', '0') : el.setAttribute('tabindex', '0');
-        this.draggable ? el.firstElementChild.focus() : el.focus();
-      }
-    });
   }
 
    /**
