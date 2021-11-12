@@ -13,14 +13,16 @@ import {
 } from '../../utils';
 
 // Supporting components
+import IdsButton from '../ids-button';
 import IdsIcon from '../ids-icon';
 import IdsText from '../ids-text';
+import IdsToolbar from '../ids-toolbar';
 
 // Import Mixins
 import {
-  IdsThemeMixin,
+  IdsEventsMixin,
   IdsLocaleMixin,
-  IdsEventsMixin
+  IdsThemeMixin
 } from '../../mixins';
 
 // Import Styles
@@ -53,9 +55,11 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     return [
       ...super.attributes,
       attributes.END_DATE,
+      attributes.END_HOUR,
       attributes.FIRST_DAY_OF_WEEK,
       attributes.SHOW_TODAY,
-      attributes.START_DATE
+      attributes.START_DATE,
+      attributes.START_HOUR
     ];
   }
 
@@ -64,7 +68,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    * @returns {string} The template
    */
   template() {
-    return '<div class="ids-week-view"></div>';
+    return `<div class="ids-week-view"></div>`;
   }
 
   /**
@@ -89,7 +93,8 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     this.onEvent('languagechange.week-view', this, async (e) => {
       await this.locale.setLanguage(e.detail.language.name);
 
-      this.#render();
+      this.#renderToolbar();
+      this.#renderWeek();
     });
 
     // Respond to the element changing locale
@@ -101,19 +106,82 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
       await this.locale.setLocale(e.detail.locale.name);
 
-      this.#render();
+      this.#renderWeek();
     });
 
     return this;
   }
 
-  #render() {
+  #renderToolbar() {
+    const toolbarTemplate = `<ids-toolbar>
+      <ids-toolbar-section type="buttonset">
+        <ids-button part="previous">
+          <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
+          <ids-icon slot="icon" icon="chevron-left"></ids-icon>
+        </ids-button>
+        <ids-button part="next">
+          <ids-text audible="true" translate-text="true">NextMonth</ids-text>
+          <ids-icon slot="icon" icon="chevron-right"></ids-icon>
+        </ids-button>
+        ${this.showToday ? `
+          <ids-button part="today">
+            <ids-text font-size="16" translate-text="true">Today</ids-text>
+          </ids-button>` : ''}
+      </ids-toolbar-section>
+    </ids-toolbar>`;
+
+    this.container.querySelector('ids-toolbar')?.remove();
+    this.container.insertAdjacentHTML('afterbegin', toolbarTemplate);
+    this.#attachToolbarEvents();
+  }
+
+  #attachToolbarEvents() {
+    this.offEvent('click.week-view-previous');
+    this.onEvent('click.week-view-previous', this.container.querySelector('[part="previous"]'), () => {
+      this.#paginate('previous');
+    });
+
+    this.offEvent('click.week-view-next');
+    this.onEvent('click.week-view-next', this.container.querySelector('[part="next"]'), () => {
+      this.#paginate('next');
+    });
+
+    if (this.showToday) {
+      this.offEvent('click.week-view-today');
+      this.onEvent('click.week-view-today', this.container.querySelector('[part="today"]'), () => {
+        this.#paginate('today');
+      });
+    } else {
+      this.offEvent('click.week-view-today');
+    }
+  }
+
+  #paginate(type) {
+    const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
+
+    if (type === 'next') {
+      this.startDate = dateUtils.add(this.startDate, daysDiff, 'days');
+      this.endDate = dateUtils.add(this.endDate, daysDiff - 1, 'days');
+    }
+
+    if (type === 'previous') {
+      this.startDate = dateUtils.subtract(this.startDate, daysDiff, 'days');
+      this.endDate = dateUtils.subtract(this.endDate, daysDiff + 1, 'days');
+    }
+
+    if (type === 'today') {
+      this.startDate = dateUtils.firstDayOfWeek(new Date(), this.firstDayOfWeek);
+      this.endDate = dateUtils.add(this.startDate, daysDiff - 1, 'days');
+    }
+  }
+
+  #renderWeek() {
     const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
     const daysHeader = Array.from({ length: daysDiff }, (_, index) => {
-      const day = this.startDate.setDate(this.startDate.getDate() + index);
-      const dayNumeric = this.locale.formatDate(day, { day: 'numeric' });
-      const weekday = this.locale.formatDate(day, { weekday: 'short' });
-      const isToday = dateUtils.isToday(new Date(day));
+      const date = this.startDate.setDate(this.startDate.getDate() + index);
+      const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
+      const weekday = this.locale.formatDate(date, { weekday: 'short' });
+      const isToday = dateUtils.isToday(new Date(date));
 
       return `
         <th>
@@ -126,7 +194,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       `;
     }).join('');
 
-    const layout = `<div class="week-view-container">
+    const weekTemplate = `<div class="week-view-container">
       <table class="week-view-table">
         <thead class="week-view-table-header">
           <tr>
@@ -169,7 +237,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     </div>`;
 
     this.container.querySelector('.week-view-container')?.remove();
-    this.container.insertAdjacentHTML('beforeend', layout);
+    this.container.insertAdjacentHTML('beforeend', weekTemplate);
   }
 
   /**
@@ -191,11 +259,11 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
     if (boolVal) {
       this.setAttribute(attributes.SHOW_TODAY, boolVal);
-
-      return;
+    } else {
+      this.removeAttribute(attributes.SHOW_TODAY);
     }
 
-    this.removeAttribute(attributes.SHOW_TODAY);
+    this.#renderToolbar();
   }
 
   get startDate() {
@@ -206,7 +274,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       return attrDate;
     }
 
-    // If no start-date attribute is set or not valid
+    // If no start-date attribute is set or not valid date
     // set startDate as first day of the week from current date
     return dateUtils.firstDayOfWeek(new Date(), this.firstDayOfWeek);
   }
@@ -218,7 +286,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       this.removeAttribute(attributes.START_DATE);
     }
 
-    this.#render();
+    this.#renderWeek();
   }
 
   get endDate() {
@@ -226,10 +294,11 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     const attrDate = new Date(attrVal);
 
     if (attrVal && dateUtils.isValidDate(attrDate)) {
-      return attrDate;
+      // Adding one day to include end date to the range
+      return dateUtils.add(attrDate, 1, 'days');
     }
 
-    // If no end-date attribute is set or not valid
+    // If no end-date attribute is set or not valid date
     // set endDate as last day of the week from current date
     return dateUtils.lastDayOfWeek(new Date(), this.firstDayOfWeek);
   }
@@ -241,7 +310,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       this.removeAttribute(attributes.END_DATE);
     }
 
-    this.#render();
+    this.#renderWeek();
   }
 
   get firstDayOfWeek() {
@@ -262,7 +331,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
     }
 
-    this.#render();
+    this.#renderWeek();
   }
 }
 

@@ -53,6 +53,7 @@ $hour-row-height: 25px;
 
   .week-view-table {
     @include w-full();
+    @include border-t-1();
 
     border-collapse: separate;
     border-spacing: 0;
@@ -71,8 +72,11 @@ $hour-row-height: 25px;
     td {
       @include border-b-1();
 
-      border-right: 1px solid;
       height: $hour-row-height;
+
+      &:not(:last-child) {
+        border-right: 1px solid;
+      }
     }
 
     // Legend Row with times
@@ -130,6 +134,7 @@ $hour-row-height: 25px;
     @include border-slate-20();
 
     .week-view-table {
+      &,
       th,
       td {
         @include border-slate-20();
@@ -164,6 +169,7 @@ $hour-row-height: 25px;
     @include border-slate-70();
 
     .week-view-table {
+      &,
       th,
       td {
         @include border-slate-70();
@@ -198,6 +204,7 @@ $hour-row-height: 25px;
     @include border-slate-30();
 
     .week-view-table {
+      &,
       th,
       td {
         @include border-slate-30();
