@@ -133,6 +133,11 @@
   - Markup has changed to a custom element `<ids-spinbox></ids-spinbox>`
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
+- `[Splitter]` The splitter component has been changed to a web component and renamed to ids-splitter.
+  - Content should append to `<ids-splitter-pane>` component.
+  - Splitter orientation can be set by use of `axis` settings.
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
 - `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.
   - Markup has changed to a custom element `<ids-switch></ids-switch>`
   - If using events, events are now plain JS events.

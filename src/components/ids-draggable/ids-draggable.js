@@ -204,7 +204,7 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
     }
 
     this.onEvent('mousedown', this.#handleElem, (e) => {
-      if (this.disabled) {
+      if (this.disabled || e.button !== 0) {
         return;
       }
 
@@ -461,12 +461,15 @@ export default class IdsDraggable extends mix(IdsElement).with(IdsEventsMixin) {
   onMouseUp = (e) => {
     if (this.isDragging) {
       this.isDragging = false;
+      const translatePoint = getElTranslatePoint(this);
       this.triggerEvent('ids-dragend', this, {
         detail: {
           mouseX: e.x,
           mouseY: e.y,
           dragDeltaX: e.x - this.#dragStartMousePoint.x,
-          dragDeltaY: e.y - this.#dragStartMousePoint.y
+          dragDeltaY: e.y - this.#dragStartMousePoint.y,
+          translateX: translatePoint.x,
+          translateY: translatePoint.y
         }
       });
 
