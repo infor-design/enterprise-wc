@@ -1,0 +1,9 @@
+---
+ component: Splitter
+ link: ids-splitter
+ description: IDS Splitter
+ category: Layouts
+ keywords: splitter, pane, resize, grid
+ examples:
+  - link: index.html
+    description: Shows some basic examples of splitters and nested splitters.
