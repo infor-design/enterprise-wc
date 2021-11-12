@@ -7,6 +7,7 @@ import {
 } from '../../core';
 
 import IdsDataSource from '../../core/ids-data-source';
+import { IdsStringUtils } from '../../utils/ids-string-utils';
 
 // Import Mixins
 import {
@@ -32,11 +33,14 @@ class IdsSeparator extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
   }
 
   connectedCallback() {
-    super.connectedCallback();
+    super.connectedCallback?.();
   }
 
   static get attributes() {
-    return [attributes.MODE, attributes.VERSION];
+    return [
+      ...super.attributes,
+      attributes.VERTICAL
+    ];
   }
 
   template() {
@@ -45,6 +49,24 @@ class IdsSeparator extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
       tagName = 'li';
     }
     return `<${tagName} part="separator" class="ids-separator"></${tagName}>`;
+  }
+
+  get vertical() {
+    return this.container.classList.contains('vertical');
+  }
+
+  set vertical(val) {
+    const current = this.vertical;
+    const trueVal = IdsStringUtils.stringToBool(val);
+    if (current !== trueVal) {
+      if (trueVal) {
+        this.container.classList.add('vertical');
+        this.setAttribute('vertical', '');
+      } else {
+        this.container.classList.remove('vertical');
+        this.removeAttribute('vertical');
+      }
+    }
   }
 }
 
