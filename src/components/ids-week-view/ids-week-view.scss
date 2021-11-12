@@ -71,6 +71,7 @@ $hour-row-height: 25px;
     th,
     td {
       @include border-b-1();
+      @include p-0();
 
       height: $hour-row-height;
 

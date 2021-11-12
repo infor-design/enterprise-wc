@@ -138,26 +138,27 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
   #attachToolbarEvents() {
     this.offEvent('click.week-view-previous');
     this.onEvent('click.week-view-previous', this.container.querySelector('[part="previous"]'), () => {
-      this.#paginate('previous');
+      this.#changeDate('previous');
     });
 
     this.offEvent('click.week-view-next');
     this.onEvent('click.week-view-next', this.container.querySelector('[part="next"]'), () => {
-      this.#paginate('next');
+      this.#changeDate('next');
     });
 
     if (this.showToday) {
       this.offEvent('click.week-view-today');
       this.onEvent('click.week-view-today', this.container.querySelector('[part="today"]'), () => {
-        this.#paginate('today');
+        this.#changeDate('today');
       });
     } else {
       this.offEvent('click.week-view-today');
     }
   }
 
-  #paginate(type) {
+  #changeDate(type) {
     const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
+    const hasIrregularDays = daysDiff !== 7;
 
     if (type === 'next') {
       this.startDate = dateUtils.add(this.startDate, daysDiff, 'days');
@@ -170,14 +171,15 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     }
 
     if (type === 'today') {
-      this.startDate = dateUtils.firstDayOfWeek(new Date(), this.firstDayOfWeek);
+      this.startDate = hasIrregularDays ? new Date() : dateUtils.firstDayOfWeek(new Date(), this.firstDayOfWeek);
       this.endDate = dateUtils.add(this.startDate, daysDiff - 1, 'days');
     }
   }
 
   #renderWeek() {
     const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
-    const daysHeader = Array.from({ length: daysDiff }, (_, index) => {
+    const hoursDiff = this.endHour - this.startHour;
+    const daysTemplate = Array.from({ length: daysDiff }, (_, index) => {
       const date = this.startDate.setDate(this.startDate.getDate() + index);
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
       const weekday = this.locale.formatDate(date, { weekday: 'short' });
@@ -194,6 +196,29 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       `;
     }).join('');
 
+    const cellTemplate = Array.from({ length: daysDiff }).map(() => `
+      <td>
+        <div class="week-view-cell-wrapper"></div>
+      </td>
+    `).join('');
+
+    const hoursTemplate = Array.from({ length: hoursDiff }).map((_, index) => `
+      <tr class="week-view-hour-row">
+        <td>
+          <div class="week-view-cell-wrapper">
+            <ids-text font-size="12">${this.locale.formatHour(this.startHour + index)}</ids-text>
+          </div>
+        </td>
+        ${cellTemplate}
+      </tr>
+      <tr class="week-view-half-hour-row">
+        <td>
+          <div class="week-view-cell-wrapper"></div>
+        </td>
+        ${cellTemplate}
+      </tr>
+    `).join('');
+
     const weekTemplate = `<div class="week-view-container">
       <table class="week-view-table">
         <thead class="week-view-table-header">
@@ -206,32 +231,11 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
                 <ids-text font-size="12" translate-text="true">AllDay</ids-text>
               </div>
             </th>
-            ${daysHeader}
+            ${daysTemplate}
           </tr>
         </thead>
         <tbody>
-          ${Array.from({ length: 12 }).map(() => `
-            <tr class="week-view-hour-row">
-              <td>
-                <div class="week-view-cell-wrapper"><ids-text font-size="12">7:00 AM</ids-text></div>
-              </td>
-              ${Array.from({ length: daysDiff }).map(() => `
-                <td>
-                  <div class="week-view-cell-wrapper"></div>
-                </td>
-              `).join('')}
-            </tr>
-            <tr class="week-view-half-hour-row">
-              <td>
-                <div class="week-view-cell-wrapper"></div>
-              </td>
-              ${Array.from({ length: daysDiff }).map(() => `
-                <td>
-                  <div class="week-view-cell-wrapper"></div>
-                </td>
-              `).join('')}
-            </tr>
-          `).join('')}
+          ${hoursTemplate}
         </tbody>
       </table>
     </div>`;
@@ -317,7 +321,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
     const numberVal = stringUtils.stringToNumber(attrVal);
 
-    if (numberVal >= 0 && numberVal <= 6) {
+    if (attrVal && numberVal >= 0 && numberVal <= 6) {
       return numberVal;
     }
 
@@ -329,6 +333,48 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
     } else {
       this.removeAttribute(attributes.FIRST_DAY_OF_WEEK);
+    }
+
+    this.#renderWeek();
+  }
+
+  get startHour() {
+    const attrVal = this.getAttribute(attributes.START_HOUR);
+    const numberVal = stringUtils.stringToNumber(attrVal);
+
+    if (attrVal && numberVal >= 0 && numberVal <= 24) {
+      return numberVal;
+    }
+
+    return 7;
+  }
+
+  set startHour(val) {
+    if (val) {
+      this.setAttribute(attributes.START_HOUR, val);
+    } else {
+      this.removeAttribute(attributes.START_HOUR);
+    }
+
+    this.#renderWeek();
+  }
+
+  get endHour() {
+    const attrVal = this.getAttribute(attributes.END_HOUR);
+    const numberVal = stringUtils.stringToNumber(attrVal);
+
+    if (attrVal && numberVal >= 0 && numberVal <= 24) {
+      return numberVal;
+    }
+
+    return 19;
+  }
+
+  set endHour(val) {
+    if (val) {
+      this.setAttribute(attributes.END_HOUR, val);
+    } else {
+      this.removeAttribute(attributes.END_HOUR);
     }
 
     this.#renderWeek();

@@ -10,4 +10,10 @@ export default class IdsWeekView extends HTMLElement {
 
   /** Set whether or not the today button should be shown */
   showToday: 'true' | 'false' | boolean | null;
+
+  /** Set start hour of the day */
+  startHour: string | number | null;
+
+  /** Set end hour of the day */
+  endHour: string | number | null;
 }
