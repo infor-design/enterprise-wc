@@ -146,6 +146,7 @@ export const attributes = {
   NAV_DISABLED: 'nav-disabled',
   NEXT: 'next',
   NO_MARGINS: 'no-margins',
+  NO_PADDING: 'no-padding',
   NO_RIPPLE: 'no-ripple',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
   OPACITY: 'opacity',
