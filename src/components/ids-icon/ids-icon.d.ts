@@ -3,12 +3,27 @@
 import { IdsElement } from '../../core';
 
 export default class IdsIcon extends IdsElement {
-  /* The size of the icon to display */
-  type: 'normal' | 'small' | 'medium' | 'large';
+  /* position of notification badge */
+  badgePosition?: 'base' | 'caution' | 'danger' | 'success' | 'warning';
+
+  /* color of notification badge */
+  badgeColor?: 'bottom-left'| 'bottom-right' | 'top-left' | 'top-right';
+
+  /* sets a custom height for the icon */
+  customHeight?: string;
+
+  /* sets a custom width for the icon */
+  customWidth?: string;
+
+  /* updates the svg viewbox for the icon */
+  customViewbox?: string;
 
   /* The name of the icon to display */
   icon: string;
 
   /** Set the language */
   language: string;
+
+   /* The size of the icon to display */
+   size: 'normal' | 'small' | 'medium' | 'large' | 'xlarge' | 'largex3';
 }
