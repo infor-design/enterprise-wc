@@ -1,4 +1,5 @@
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
+import emptyIconPathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
 import {
   attributes,
   customElement,
@@ -23,6 +24,7 @@ import styles from './ids-icon.scss';
 const sizes = {
   largex3: 64,
   large: 24,
+  xlarge: 34,
   normal: 18,
   medium: 18,
   small: 14,
@@ -56,11 +58,14 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       ...super.attributes,
       attributes.BADGE_COLOR,
       attributes.BADGE_POSITION,
+      attributes.CUSTOM_HEIGHT,
+      attributes.CUSTOM_VIEWBOX,
+      attributes.CUSTOM_WIDTH,
       attributes.LANGUAGE,
       attributes.LOCALE,
       attributes.ICON,
       attributes.SIZE,
-      attributes.VERTICAL,
+      attributes.VERTICAL
     ];
   }
 
@@ -94,8 +99,24 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    * @returns {string} The template
    */
   template() {
-    const size = sizes[this.size];
-    let template = `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${size}" width="${size}" viewBox="0 0 18 18" aria-hidden="true">
+    let height = '';
+    let width = '';
+    let viewBox = '';
+
+    if (this.getAttribute(attributes.CUSTOM_WIDTH) && this.getAttribute(attributes.CUSTOM_HEIGHT)) {
+      height = this.getAttribute(attributes.CUSTOM_HEIGHT);
+      width = this.getAttribute(attributes.CUSTOM_WIDTH);
+    } else {
+      height = sizes[this.size];
+      width = sizes[this.size];
+    }
+
+    if (this.customViewbox) {
+      viewBox = this.customViewbox;
+    } else {
+      viewBox = '0 0 18 18';
+    }
+    let template = `<svg xmlns="http://www.w3.org/2000/svg"${this.isFlipped(this.icon) ? ` class="flipped"` : ''} stroke="currentColor" fill="none" height="${height}" width="${width}" viewBox="${viewBox}" aria-hidden="true">
       ${this.iconData()}
     </svg>`;
     if (this.badgePosition || this.badgeColor) {
@@ -115,7 +136,13 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    * @returns {string} the path data
    */
   iconData() {
-    return pathData[this.icon];
+    let iconData = '';
+    if (emptyIconPathData[this.icon]) {
+      iconData = emptyIconPathData[this.icon];
+    } else {
+      iconData = pathData[this.icon];
+    }
+    return iconData;
   }
 
   /**
@@ -233,7 +260,9 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   /**
    * @returns {string} the current color of the notification badge
    */
-  get badgeColor() { return this.getAttribute(attributes.BADGE_COLOR); }
+  get badgeColor() {
+    return this.getAttribute(attributes.BADGE_COLOR);
+  }
 
   /**
    * @param {string} value sets the color of the notification badge
@@ -267,6 +296,68 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   }
 
   /**
+   * Returns the custom-height attribute
+   * @returns {string} a stringified height number
+   */
+  get customHeight() {
+    return this.getAttribute(attributes.CUSTOM_HEIGHT);
+  }
+
+  /**
+   * @param {string} value allows sets a custom height value for the icon svg
+   */
+  set customHeight(value) {
+    if (value) {
+      this.removeAttribute(attributes.SIZE);
+      this.setAttribute(attributes.CUSTOM_HEIGHT, value);
+      this.container?.setAttribute('height', value);
+    } else {
+      this.removeAttribute(attributes.CUSTOM_HEIGHT);
+    }
+  }
+
+  /**
+   * Return the custom-viewbox
+   * @returns {string} the string of viewbox numbers
+   */
+  get customViewbox() {
+    return this.getAttribute(attributes.CUSTOM_VIEWBOX);
+  }
+
+  /**
+   * @param {string} value set a custom viewbox for the icon svg
+   */
+  set customViewbox(value) {
+    if (value) {
+      this.setAttribute(attributes.CUSTOM_VIEWBOX, value);
+      this.#adjustViewbox();
+    } else {
+      this.removeAttribute(attributes.CUSTOM_VIEWBOX);
+    }
+  }
+
+  /**
+   * Return the custom-width number
+   * @returns {string} the stringified custom width number
+   */
+  get customWidth() {
+    return this.getAttribute(attributes.CUSTOM_WIDTH);
+  }
+
+  /**
+   * @param {string} value sets a custom width for the icon svg
+   */
+  set customWidth(value) {
+    if (value) {
+      this.removeAttribute(attributes.SIZE);
+      this.setAttribute(attributes.CUSTOM_WIDTH, value);
+      this.container?.setAttribute('width', value);
+    } else {
+      this.removeAttribute(attributes.CUSTOM_WIDTH);
+    }
+  }
+
+  /**
    * Return the icon name
    * @returns {string} the icon
    */
@@ -278,7 +369,9 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    */
   set icon(value) {
     const svgElem = this.shadowRoot?.querySelector('svg');
-    if (value && pathData[value]) {
+    const isPathData = pathData.hasOwnProperty(value);
+    const isEmptyPathData = emptyIconPathData.hasOwnProperty(value);
+    if (value && (isPathData || isEmptyPathData)) {
       svgElem.style.display = '';
       this.setAttribute(attributes.ICON, value);
       svgElem.innerHTML = this.iconData();
@@ -314,8 +407,10 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   #adjustViewbox() {
     let viewboxSize = '0 0 18 18';
 
-    if (this.icon === 'logo' || this.icon === 'logo-trademark') {
+    if (this.customViewbox) {
       viewboxSize = '0 0 35 34';
+    } else if (this.icon === 'logo' || this.icon === 'logo-trademark') {
+      viewboxSize = this.customViewbox;
     }
     this.container.setAttribute('viewBox', viewboxSize);
   }

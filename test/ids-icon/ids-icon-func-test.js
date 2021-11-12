@@ -1,8 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-
-/* eslint-disable no-debugger */
 import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsIcon from '../../src/components/ids-icon/ids-icon';
 
@@ -126,5 +124,21 @@ describe('IdsIcon Component', () => {
     elem.badgeColor = 'danger';
     expect(elem.getAttribute('badge-position')).toBe('bottom-right');
     expect(elem.getAttribute('badge-color')).toBe('danger');
+  });
+
+  it('can use empty message icons', () => {
+    expect(elem.getAttribute('icon')).toBe('close');
+    elem.icon = 'empty-generic';
+    expect(elem.getAttribute('icon')).toBe('empty-generic');
+  });
+  it('can add a custom height, width and viewbox', () => {
+    elem.icon = 'empty-generic';
+    elem.customViewbox = '0 0 80 80';
+    elem.customHeight = '80';
+    elem.customWidth = '80';
+    expect(elem.getAttribute('custom-viewbox')).toBe('0 0 80 80');
+    expect(elem.getAttribute('custom-height')).toBe('80');
+    expect(elem.getAttribute('custom-width')).toBe('80');
+    expect(elem.container);
   });
 });

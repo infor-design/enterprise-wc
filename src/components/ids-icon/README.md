@@ -22,13 +22,27 @@ For a normal sized icon just specific the icon name and the web component will d
 <ids-icon icon="notes"></ids-icon>
 ```
 
-Icons come in 4 sizes depending where it is used.
+Icons come in 6 ssizes depending where it is used.
 
 ```html
+<ids-icon icon="notes" size="largex3"></ids-icon>
+<ids-icon icon="notes" size="xlarge"></ids-icon>
 <ids-icon icon="notes" size="large"></ids-icon>
 <ids-icon icon="notes" size="medium"></ids-icon>
 <ids-icon icon="notes" size="small"></ids-icon>
 <ids-icon icon="notes" size="xsmall"></ids-icon>
+```
+
+In addition to the default sizes the icon also supports custom height, width and viewbox properties
+for specialized cases
+
+```html
+<ids-icon icon="notes" custom-height="80" custom-width="70" custom-viewbox="0 0 50 50"></ids-icon>
+```
+
+The most common implimentation of custom sizing is for empty-message icons, which are available through ids-icon
+```html
+<ids-icon icon="empty-generic" custom-height="80" custom-width="80" custom-viewbox="0 0 80 80"></ids-icon>
 ```
 
 Icons also have offer notification badge options in 4 possible positions
@@ -57,6 +71,9 @@ These badges can also be displayed in 5 possible colors
 - Alert
 - Badge-Position
 - Badge-Color
+- Custom-Height
+- Custom-Viewbox
+- Custom-Width
 
 ## Keyboard Guidelines
 
