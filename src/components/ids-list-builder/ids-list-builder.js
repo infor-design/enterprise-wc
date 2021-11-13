@@ -155,6 +155,14 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.#attachClickListeners(); // for toolbar buttons
     this.#attachDragEventListeners(); // for dragging list items
     this.#attachKeyboardListeners(); // for selecting/editing list items
+    
+    if (this.virtualScroll) {
+      this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+        this.#attachDragEventListeners();
+        this.#attachKeyboardListeners();
+        this.#focusLi(this.#getFocusedLi()); //TODO: fix
+      })
+    }
   }
 
   /**
