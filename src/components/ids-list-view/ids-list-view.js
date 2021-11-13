@@ -57,25 +57,30 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     ];
   }
 
-  /**
-   * Helper method to render the static scrolling template
-   * @returns {string} html
-   */
-  staticScrollTemplate() {
-    // TODO: save this variable for list item template (to use in checkTemplateHeight)
-    const listItems = this.data?.map((item, index) => `
+  listItemTemplateFunc() {
+    const func = (item, index) => `
       ${this.draggable ? `<ids-draggable axis="y">` : '' }
         <div part="list-item" tabindex="${index === 0 ? '0' : '-1'}">
           ${this.draggable ? `<span></span>` : ``}
           ${this.itemTemplate(item)}
         </div>
       ${this.draggable ? `</ids-draggable>` : '' }
-    `);
+    `;
+
+    return func;
+  }
+
+  /**
+   * Helper method to render the static scrolling template
+   * @returns {string} html
+   */
+  staticScrollTemplate() {
+    const listItems = this.data?.map(this.listItemTemplateFunc());
 
     const html = `
       <div class="ids-list-view" part="container">
         <div part="list">
-          ${listItems.length > 0 ? listItems.reduce((htmlA, htmlB) => htmlA + htmlB) : ''}
+        ${listItems.length > 0 ? listItems.join('') : ''}
         </div>
       </div>
     `;
@@ -128,14 +133,8 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
 
     if (this.virtualScroll && this?.data.length > 0) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      this.virtualScrollContainer.itemTemplate = (item, index) => `
-      ${this.draggable ? `<ids-draggable axis="y">` : ``}
-        <div part="list-item" tabindex="${index === 0 ? '0' : '-1'}">
-          ${this.draggable ? `<span></span>` : ``}
-          ${this.itemTemplate(item)}
-        </div>
-      ${this.draggable ? `</ids-draggable>` : ``}
-      `;
+
+      this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
       this.virtualScrollContainer.itemCount = this.data.length;
       this.virtualScrollContainer.itemHeight = this.itemHeight || this.checkTemplateHeight(`
       <div part="list-item" tabindex="-1" id="height-tester">
