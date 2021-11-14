@@ -115,17 +115,17 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
   #renderToolbar() {
     const toolbarTemplate = `<ids-toolbar>
       <ids-toolbar-section type="buttonset">
-        <ids-button part="previous">
+        <ids-button class="week-view-btn-previous">
           <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
           <ids-icon slot="icon" icon="chevron-left"></ids-icon>
         </ids-button>
-        <ids-button part="next">
+        <ids-button class="week-view-btn-next">
           <ids-text audible="true" translate-text="true">NextMonth</ids-text>
           <ids-icon slot="icon" icon="chevron-right"></ids-icon>
         </ids-button>
         ${this.showToday ? `
-          <ids-button part="today">
-            <ids-text font-size="16" translate-text="true">Today</ids-text>
+          <ids-button class="week-view-btn-today">
+            <ids-text class="week-view-today-text" font-size="16" translate-text="true" font-weight="bold">Today</ids-text>
           </ids-button>` : ''}
       </ids-toolbar-section>
     </ids-toolbar>`;
@@ -137,18 +137,18 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
   #attachToolbarEvents() {
     this.offEvent('click.week-view-previous');
-    this.onEvent('click.week-view-previous', this.container.querySelector('[part="previous"]'), () => {
+    this.onEvent('click.week-view-previous', this.container.querySelector('.week-view-btn-previous'), () => {
       this.#changeDate('previous');
     });
 
     this.offEvent('click.week-view-next');
-    this.onEvent('click.week-view-next', this.container.querySelector('[part="next"]'), () => {
+    this.onEvent('click.week-view-next', this.container.querySelector('.week-view-btn-next'), () => {
       this.#changeDate('next');
     });
 
     if (this.showToday) {
       this.offEvent('click.week-view-today');
-      this.onEvent('click.week-view-today', this.container.querySelector('[part="today"]'), () => {
+      this.onEvent('click.week-view-today', this.container.querySelector('.week-view-btn-today'), () => {
         this.#changeDate('today');
       });
     } else {
@@ -179,6 +179,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
   #renderWeek() {
     const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
     const hoursDiff = this.endHour - this.startHour;
+    const isDayView = daysDiff === 1 || daysDiff === 0;
     const daysTemplate = Array.from({ length: daysDiff }, (_, index) => {
       const date = this.startDate.setDate(this.startDate.getDate() + index);
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
@@ -187,9 +188,9 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
       return `
         <th>
-          <div class="week-view-header-wrapper${isToday ? ' is-today' : ''}">
-            <ids-text font-size="20"${isToday ? ' font-weight="bold"' : ''}>${dayNumeric}</ids-text>
-            <ids-text font-size="16"${isToday ? ' font-weight="bold"' : ''}>${weekday}</ids-text>
+          <div class="week-view-header-wrapper${isToday ? ' is-today' : ''}${isDayView ? ' is-day-view' : ''}">
+            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="${isDayView ? 32 : 20}"${isToday ? ' font-weight="bold"' : ''}>${dayNumeric}</ids-text>
+            <ids-text class="week-view-header-day-of-week" font-size="16"${isToday ? ' font-weight="bold"' : ''}>${weekday}</ids-text>
           </div>
           <div class="week-view-all-day-wrapper"></div>
         </th>
@@ -224,7 +225,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
         <thead class="week-view-table-header">
           <tr>
             <th>
-              <div class="week-view-header-wrapper">
+              <div class="week-view-header-wrapper${isDayView ? ' is-day-view' : ''}">
                 <ids-text translate-text="true" audible="true">Hour</ids-text>
               </div>
               <div class="week-view-all-day-wrapper">

@@ -32,8 +32,19 @@ $hour-row-height: 25px;
     // Times on the right
     .week-view-header-wrapper {
       padding: 0 5px;
-      line-height: $hour-row-height;
       text-align: center;
+
+      .week-view-header-day-of-week {
+        line-height: $hour-row-height;
+      }
+
+      &.is-day-view {
+        .week-view-header-day-of-week {
+          &.is-emphasis {
+            line-height: 40px;
+          }
+        }
+      }
     }
 
     // All day section
@@ -163,6 +174,10 @@ $hour-row-height: 25px;
 
       box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-60);
     }
+
+    .week-view-today-text {
+      @include text-azure-60();
+    }
   }
 
   &[version='new'][mode='dark'] {
@@ -198,6 +213,10 @@ $hour-row-height: 25px;
 
       box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-60);
     }
+
+    .week-view-today-text {
+      @include text-azure-60();
+    }
   }
 
   &[version='new'][mode='contrast'] {
@@ -232,6 +251,10 @@ $hour-row-height: 25px;
       @include text-azure-90();
 
       box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-90);
+    }
+
+    .week-view-today-text {
+      @include text-azure-90();
     }
   }
 }
