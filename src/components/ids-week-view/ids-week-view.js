@@ -180,6 +180,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
     const hoursDiff = this.endHour - this.startHour;
     const isDayView = daysDiff === 1 || daysDiff === 0;
+    const ifLoadedCalendars = this.locale.loadedLocales.get(this.locale.locale.name)?.calendars;
     const daysTemplate = Array.from({ length: daysDiff }, (_, index) => {
       const date = this.startDate.setDate(this.startDate.getDate() + index);
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
@@ -207,7 +208,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       <tr class="week-view-hour-row">
         <td>
           <div class="week-view-cell-wrapper">
-            <ids-text font-size="12">${this.locale.formatHour(this.startHour + index)}</ids-text>
+            <ids-text font-size="12">${ifLoadedCalendars ? this.locale.formatHour(this.startHour + index) : ''}</ids-text>
           </div>
         </td>
         ${cellTemplate}
