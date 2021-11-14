@@ -11,6 +11,33 @@ $hour-row-height: 25px;
   flex-direction: column;
   overflow: auto;
 
+  // Text direction
+  &[dir='rtl'] {
+    .week-view-all-day-wrapper {
+      text-align: right;
+    }
+
+    .week-view-table {
+      th,
+      td {
+        &:not(:first-child) {
+          border-right: 1px solid;
+        }
+      }
+    }
+  }
+
+  &:not([dir='rtl']) {
+    .week-view-table {
+      th,
+      td {
+        &:not(:last-child) {
+          border-right: 1px solid;
+        }
+      }
+    }
+  }
+
   .week-view-header {
     @include sticky();
 
@@ -51,6 +78,7 @@ $hour-row-height: 25px;
     .week-view-all-day-wrapper {
       @include border-t-1();
       @include relative();
+      @include box-border();
 
       height: 44px;
       text-transform: unset;
@@ -85,10 +113,6 @@ $hour-row-height: 25px;
       @include p-0();
 
       height: $hour-row-height;
-
-      &:not(:last-child) {
-        border-right: 1px solid;
-      }
     }
 
     // Legend Row with times

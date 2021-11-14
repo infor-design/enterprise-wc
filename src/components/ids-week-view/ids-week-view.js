@@ -178,9 +178,16 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
   #renderWeek() {
     const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
-    const hoursDiff = this.endHour - this.startHour;
+    const hoursDiff = this.endHour - this.startHour + 1;
     const isDayView = daysDiff === 1 || daysDiff === 0;
-    const ifLoadedCalendars = this.locale.loadedLocales.get(this.locale.locale.name)?.calendars;
+    const calendars = this.locale.locale.options.calendars;
+    const dayOfWeekSetting = (calendars || [])[0]?.dateFormat?.dayOfWeek;
+    const emphasis = dayOfWeekSetting && dayOfWeekSetting.split(' ')[0] === 'EEE';
+    const getTextFontSize = (isHeading) => {
+      if (!isHeading) return 16;
+
+      return isDayView ? 32 : 20;
+    };
     const daysTemplate = Array.from({ length: daysDiff }, (_, index) => {
       const date = this.startDate.setDate(this.startDate.getDate() + index);
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
@@ -190,8 +197,16 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       return `
         <th>
           <div class="week-view-header-wrapper${isToday ? ' is-today' : ''}${isDayView ? ' is-day-view' : ''}">
-            <ids-text class="week-view-header-day-of-week is-emphasis" font-size="${isDayView ? 32 : 20}"${isToday ? ' font-weight="bold"' : ''}>${dayNumeric}</ids-text>
-            <ids-text class="week-view-header-day-of-week" font-size="16"${isToday ? ' font-weight="bold"' : ''}>${weekday}</ids-text>
+            <ids-text
+              class="week-view-header-day-of-week${emphasis ? '' : ' is-emphasis'}"
+              font-size="${getTextFontSize(!emphasis)}"
+              ${isToday ? 'font-weight="bold"' : ''}
+            >${emphasis ? weekday : dayNumeric}</ids-text>
+            <ids-text
+              class="week-view-header-day-of-week${emphasis ? ' is-emphasis' : ''}"
+              font-size="${getTextFontSize(emphasis)}"
+              ${isToday ? 'font-weight="bold"' : ''}
+            >${emphasis ? dayNumeric : weekday}</ids-text>
           </div>
           <div class="week-view-all-day-wrapper"></div>
         </th>
@@ -208,7 +223,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       <tr class="week-view-hour-row">
         <td>
           <div class="week-view-cell-wrapper">
-            <ids-text font-size="12">${ifLoadedCalendars ? this.locale.formatHour(this.startHour + index) : ''}</ids-text>
+            <ids-text font-size="12">${calendars ? this.locale.formatHour(this.startHour + index) : ''}</ids-text>
           </div>
         </td>
         ${cellTemplate}
