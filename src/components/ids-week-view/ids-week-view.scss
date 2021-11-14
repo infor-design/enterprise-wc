@@ -155,13 +155,13 @@ $hour-row-height: 25px;
     @include border-solid();
     @include border-1();
     @include block();
-    @include w-full();
     @include z-2();
     @include relative();
+    @include box-border();
 
     height: 1px;
     margin-top: -2px;
-    top: -5px;
+    top: var(--timeline-shift);
   }
 
   // Theme mode
@@ -202,6 +202,10 @@ $hour-row-height: 25px;
     .week-view-today-text {
       @include text-azure-60();
     }
+
+    .week-view-time-marker {
+      @include border-azure-60();
+    }
   }
 
   &[version='new'][mode='dark'] {
@@ -241,6 +245,10 @@ $hour-row-height: 25px;
     .week-view-today-text {
       @include text-azure-60();
     }
+
+    .week-view-time-marker {
+      @include border-azure-60();
+    }
   }
 
   &[version='new'][mode='contrast'] {
@@ -279,6 +287,10 @@ $hour-row-height: 25px;
 
     .week-view-today-text {
       @include text-azure-90();
+    }
+
+    .week-view-time-marker {
+      @include border-azure-90();
     }
   }
 }

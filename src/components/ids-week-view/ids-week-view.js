@@ -17,6 +17,7 @@ import IdsButton from '../ids-button';
 import IdsIcon from '../ids-icon';
 import IdsText from '../ids-text';
 import IdsToolbar from '../ids-toolbar';
+import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
 
 // Import Mixins
 import {
@@ -57,6 +58,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       attributes.END_DATE,
       attributes.END_HOUR,
       attributes.FIRST_DAY_OF_WEEK,
+      attributes.SHOW_TIMELINE,
       attributes.SHOW_TODAY,
       attributes.START_DATE,
       attributes.START_HOUR
@@ -95,6 +97,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
       this.#renderToolbar();
       this.#renderWeek();
+      this.#renderTimeline();
     });
 
     // Respond to the element changing locale
@@ -107,6 +110,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       await this.locale.setLocale(e.detail.locale.name);
 
       this.#renderWeek();
+      this.#renderTimeline();
     });
 
     return this;
@@ -261,6 +265,51 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     this.container.insertAdjacentHTML('beforeend', weekTemplate);
   }
 
+  #renderTimeline() {
+    let timer;
+
+    // Clear before rerender
+    this.container.querySelectorAll('.week-view-time-marker')
+      .forEach((item) => item?.remove());
+
+    if (timer) timer.destroy(true);
+
+    if (!this.showTimeline) {
+      return;
+    }
+
+    // Add time line element
+    this.container.querySelectorAll('.week-view-hour-row:nth-child(1) td')
+      .forEach((item) => item.insertAdjacentHTML(
+        'afterbegin',
+        '<div class="week-view-time-marker"></div>'
+      ));
+
+    // Set time line top shift in px to be used in css
+    const setTime = () => {
+      const now = new Date();
+      const hours = now.getHours();
+      const mins = now.getMinutes();
+      const diff = hours - this.startHour + (mins / 60);
+
+      // 53 is the size of one whole hour (25 + two borders)
+      this.container.querySelector('.week-view-hour-row').style = `--timeline-shift: ${diff * 52}px`;
+    };
+
+    setTime();
+
+    // Update time line top shift every 30 seconds
+    timer = new IdsRenderLoopItem({
+      id: 'week-view-timer',
+      updateDuration: 30000,
+      updateCallback() {
+        setTime();
+      }
+    });
+
+    renderLoop.register(timer);
+  }
+
   /**
    * show-today attribute
    * @returns {boolean} showToday attribute value converted to boolean
@@ -374,6 +423,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     }
 
     this.#renderWeek();
+    this.#renderTimeline();
   }
 
   get endHour() {
@@ -395,6 +445,33 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     }
 
     this.#renderWeek();
+    this.#renderTimeline();
+  }
+
+  /**
+   * show-timeline attribute
+   * @returns {boolean} showTimeline attribute value converted to boolean
+   */
+  get showTimeline() {
+    const attrVal = this.getAttribute(attributes.SHOW_TIMELINE);
+
+    if (attrVal) {
+      return stringUtils.stringToBool(attrVal);
+    }
+
+    // Default to true
+    return true;
+  }
+
+  /**
+   * Set whether or not to show a bar across the current time
+   * @param {string|boolean|null} val showTimeline attribute value
+   */
+  set showTimeline(val) {
+    const boolVal = stringUtils.stringToBool(val);
+    this.setAttribute(attributes.SHOW_TIMELINE, boolVal);
+
+    this.#renderTimeline();
   }
 }
 
