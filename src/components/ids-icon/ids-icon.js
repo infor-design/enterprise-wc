@@ -1,9 +1,18 @@
+// Icons as Json
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
+
+// Import Core
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import { sizes } from './ids-icon-attributes';
+
+// Import Mixins
 import Base from './ids-icon-base';
+
+// Other imports
+import { sizes } from './ids-icon-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+// Import Styles
 import styles from './ids-icon.scss';
 
 /**
@@ -20,6 +29,8 @@ export default class IdsIcon extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
+    this.#attachEventHandlers();
   }
 
   /**
@@ -37,6 +48,21 @@ export default class IdsIcon extends Base {
       attributes.SIZE,
       attributes.VERTICAL,
     ];
+  }
+
+  /**
+   * Handle change events
+   */
+  #attachEventHandlers() {
+    this.offEvent('languagechange.icon-container');
+    this.onEvent('languagechange.icon-container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      if (this.isFlipped(this.icon)) {
+        this.container.classList.add('flipped');
+      } else {
+        this.container.classList.remove('flipped');
+      }
+    });
   }
 
   /**
@@ -174,7 +200,7 @@ export default class IdsIcon extends Base {
       'zoom-out'
     ];
 
-    if (flippedIcons.includes(iconName)) {
+    if (this.locale.isRTL() && flippedIcons.includes(iconName)) {
       return true;
     }
     return false;
@@ -313,4 +339,4 @@ export default class IdsIcon extends Base {
       badge.classList.add(`notification-badge`, `${this.badgePosition}`, `${this.badgeColor}`);
     }
   }
-};
+}

@@ -25,7 +25,7 @@ import {
 } from './ids-popup-attributes';
 
 // Import Dependencies
-import { IdsRenderLoop as renderLoop } from '../ids-render-loop/ids-render-loop';
+import IdsRenderLoop from '../ids-render-loop/ids-render-loop';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 // Import Styles
@@ -947,7 +947,7 @@ export default class IdsPopup extends Base {
         this.openCheck.destroy(true);
       }
 
-      this.openCheck = renderLoop.register(new IdsRenderLoopItem({
+      this.openCheck = IdsRenderLoop.register(new IdsRenderLoopItem({
         duration: 70,
         timeoutCallback: () => {
           // Always fire the 'show' event
@@ -995,7 +995,7 @@ export default class IdsPopup extends Base {
       if (this.closedCheck) {
         this.closedCheck.destroy(true);
       }
-      this.closedCheck = renderLoop.register(new IdsRenderLoopItem({
+      this.closedCheck = IdsRenderLoop.register(new IdsRenderLoopItem({
         duration: 200,
         timeoutCallback: () => {
           // Always fire the 'hide' event

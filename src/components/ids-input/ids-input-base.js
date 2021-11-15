@@ -27,6 +27,6 @@ const Base = IdsEventsMixin(
       )
     )
   )
-)
+);
 
 export default Base;

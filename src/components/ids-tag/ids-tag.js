@@ -1,18 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
+// Import Core
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin
-} from '../../mixins';
+// Import Mixins And Basse
+import Base from './ids-tag-base';
 
+// Import Styles
 import styles from './ids-tag.scss';
 
 /**
@@ -27,7 +20,7 @@ import styles from './ids-tag.scss';
  */
 @customElement('ids-tag')
 @scss(styles)
-class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+export default class IdsTag extends Base {
   constructor() {
     super();
   }
@@ -237,5 +230,3 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
     this.triggerEvent('aftertagremove', this, { detail: { elem: this } });
   }
 }
-
-export default IdsTag;

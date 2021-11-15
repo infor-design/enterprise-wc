@@ -36,16 +36,20 @@ module.exports = {
   }, {}),
   */
   entry: {
+    // Accordion
     'ids-accordion/example': `${demosDir}/ids-accordion/example.js`,
     'ids-accordion/ids-accordion': `${demosDir}/ids-accordion/index.js`,
     'ids-accordion/nested': `${demosDir}/ids-accordion/nested.js`,
-    // Dependencies for most examples
+    // Tags
+    'ids-tag/example': `${demosDir}/ids-tag/example.js`,
+    'ids-tag/ids-tag': `${demosDir}/ids-tag/index.js`,
+    // Dependencies for many of the examples
     'ids-container/ids-container': `${demosDir}/ids-container/index.js`,
     'ids-icon/ids-icon': `${demosDir}/ids-icon/index.js`,
     'ids-layout-grid/ids-layout-grid': `${demosDir}/ids-layout-grid/index.js`,
     'ids-text/ids-text': `${demosDir}/ids-text/index.js`,
     // 'ids-theme-switcher/ids-theme-switcher': `${demosDir}/ids-theme-switcher/index.js`,
-    'ids-toolbar/ids-toolbar': `${demosDir}/ids-container/index.js`
+    // 'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`
   },
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',
@@ -68,14 +72,34 @@ module.exports = {
         test: /\.js(\?.*)?$/i
       }),
     ],
-    runtimeChunk: 'single'
+    splitChunks: {
+      chunks: 'async',
+      minSize: 20000,
+      minRemainingSize: 0,
+      minChunks: 1,
+      maxAsyncRequests: 30,
+      maxInitialRequests: 30,
+      enforceSizeThreshold: 50000,
+      cacheGroups: {
+        defaultVendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          reuseExistingChunk: true,
+        },
+        default: {
+          minChunks: 2,
+          priority: -20,
+          reuseExistingChunk: true,
+        },
+      },
+    },
   },
   output: {
-    library: '[name]-lib.js',
-    libraryTarget: 'umd',
-    libraryExport: 'default',
+    chunkFormat: 'module',
     path: path.resolve(__dirname, 'demo-dist'),
-    filename: '[name].js'
+    filename: '[name].js',
+    clean: true,
+    publicPath: '/'
   },
   // Configure the dev server (node) with settings
   devServer: {

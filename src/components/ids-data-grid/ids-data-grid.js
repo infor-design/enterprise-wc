@@ -1,11 +1,20 @@
+// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
+// Import Base and Mixins
 import Base from './ids-data-grid-base';
+
+// Import Utils
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
+
+// Datagrid Dependencies
 import IdsDataSource from '../../core/ids-data-source';
 import { IdsDataGridFormatters } from './ids-data-grid-formatters';
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
+
+// Import Styles
 import styles from './ids-data-grid.scss';
 
 /**
@@ -26,12 +35,7 @@ import styles from './ids-data-grid.scss';
  */
 @customElement('ids-data-grid')
 @scss(styles)
-export default class IdsDataGrid extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsThemeMixin,
-    IdsKeyboardMixin,
-    IdsLocaleMixin
-  ) {
+export default class IdsDataGrid extends Base {
   constructor() {
     super();
   }

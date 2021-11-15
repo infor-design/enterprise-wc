@@ -4,6 +4,8 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-container-base';
 import styles from './ids-container.scss';
 
+import locale from '../ids-locale/ids-locale-global';
+
 /**
  * IDS Container Component
  * @type {IdsContainer}
@@ -18,6 +20,7 @@ import styles from './ids-container.scss';
 export default class IdsContainer extends Base {
   constructor() {
     super();
+    this.state.locale = locale;
   }
 
   /**

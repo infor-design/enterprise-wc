@@ -1,7 +1,7 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
 
-import { IdsElement } from '../../core';
+import Base from './ids-tag-base';
 
 interface IdsTagEventDetail extends Event {
   detail: {
@@ -16,7 +16,7 @@ interface IdsTagEventVetoable extends Event {
   }
 }
 
-export default class IdsTag extends IdsElement {
+export default class IdsTag extends Base {
   /** Set the tag color */
   color: 'secondary' | 'error' | 'success' | 'caution' | string;
 

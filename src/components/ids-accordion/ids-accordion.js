@@ -4,16 +4,6 @@ import styles from './ids-accordion.scss';
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
 import Base from './ids-accordion-base';
-import { refreshRTLStyle } from './ids-accordion-common';
-
-const attributeProviderDefs = {
-  attributesProvided: [
-    { attribute: attributes.LANGUAGE, component: IdsAccordionHeader },
-    { attribute: attributes.LANGUAGE, component: IdsAccordionPanel },
-    { attribute: attributes.LOCALE, component: IdsAccordionHeader },
-    { attribute: attributes.LOCALE, component: IdsAccordionPanel },
-  ]
-};
 
 /**
  * IDS Accordion Component
@@ -140,9 +130,6 @@ export default class IdsAccordion extends Base {
     doRTL = true
   ) {
     const header = element.querySelector(':scope > ids-accordion-header');
-    const elemCl = element.container?.classList;
-    const headerCl = header?.container?.classList;
-
     const subLevelDepth = depth > 1;
 
     if (depth > 0) {

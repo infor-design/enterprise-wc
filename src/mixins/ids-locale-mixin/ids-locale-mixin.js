@@ -1,5 +1,4 @@
 import { attributes } from '../../core/ids-attributes';
-import locale from '../../components/ids-locale/ids-locale-global';
 
 const IdsLocaleMixin = (superclass) => class extends superclass {
   constructor() {
@@ -85,7 +84,11 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
    * @returns {any} link to the global locale instance
    */
   get locale() {
-    return locale;
+    if (this.tagName !== 'IDS-CONTAINER' && !this.state?.locale) {
+      this.state = this.state || {};
+      this.state.locale = document.querySelector('ids-container')?.locale;
+    }
+    return this.state.locale;
   }
 };
 

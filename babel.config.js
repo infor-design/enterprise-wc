@@ -4,7 +4,7 @@ module.exports = (api) => {
   const presets = ['@babel/preset-env'];
   const plugins = [
     ['@babel/plugin-proposal-decorators', { legacy: true }],
-    ['@babel/plugin-transform-runtime'],
+    ['@babel/plugin-transform-runtime', { helpers: false, regenerator: true }],
     ['@babel/plugin-proposal-class-properties'],
     ['@babel/plugin-proposal-private-methods']
   ];

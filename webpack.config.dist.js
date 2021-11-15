@@ -2,6 +2,8 @@ const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
+
 const componentsDir = './src/components';
 
 module.exports = {
@@ -24,14 +26,17 @@ module.exports = {
     'ids-count': `${componentsDir}/ids-count/ids-count.js`,
     'ids-data-grid': `${componentsDir}/ids-data-grid/ids-data-grid.js`,
     'ids-draggable': `${componentsDir}/ids-draggable/ids-draggable.js`,
-    'ids-drawer': `${componentsDir}/ids-drawer/ids-drawer.js`
+    'ids-drawer': `${componentsDir}/ids-drawer/ids-drawer.js`,
+    'ids-layout-grid': `${componentsDir}/layout-grid/layout-grid.js`,
+    'ids-tag': `${componentsDir}/ids-tag/ids-tag.js`,
+    'ids-text': `${componentsDir}/ids-text/ids-text.js`
   },
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),
     chunkFormat: 'module',
-    path: path.resolve(__dirname, './build/production/enterprise-wc'),
-    publicPath: '',
-    clean: true,
+    path: path.resolve(__dirname, 'dist'),
+    publicPath: 'auto',
+    clean: true
   },
   optimization: {
     usedExports: true,
@@ -107,11 +112,8 @@ module.exports = {
         test: /\.js$/,
         exclude: '/node_modules/',
         use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/env'],
-            plugins: ['@babel/plugin-proposal-class-properties']
-          }
+          // Options are all in babel.config.js
+          loader: 'babel-loader'
         }
       }
     ]
@@ -126,5 +128,5 @@ module.exports = {
     })
   ],
   devtool: 'source-map',
-  mode: 'development'
+  mode: isProduction ? 'production' : 'development'
 };
