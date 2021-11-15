@@ -16,12 +16,13 @@ export function isToday(date) {
  * Gets the first day of the week.
  * @param {Date} date The date to check.
  * @param {number} startsOn Day of the week to start on. Sunday is 0, Monday is 1, and so on.
+ * @param {boolean} showRange If calendar is showing range view, day of the week should not be counted backwards
  * @returns {boolean} Returns true or false if the compared date is today.
  */
-export function firstDayOfWeek(date, startsOn = 0) {
+export function firstDayOfWeek(date, startsOn = 0, showRange = false) {
   const dayOfWeek = date.getDay();
   const firstDay = new Date(date);
-  const diff = dayOfWeek >= startsOn ? dayOfWeek - startsOn : 6 - dayOfWeek;
+  const diff = dayOfWeek >= startsOn || showRange ? dayOfWeek - startsOn : 6 - dayOfWeek;
 
   firstDay.setDate(date.getDate() - diff);
   firstDay.setHours(0, 0, 0, 0);
@@ -72,6 +73,16 @@ export function monthDiff(first, second) {
   months += second.getMonth();
 
   return months <= 0 ? 0 : months;
+}
+
+/**
+ * Get the difference in days between two dates.
+ * @param {Date} startDate the beginning of the interval
+ * @param {Date} endDate the end of the interval
+ * @returns {number} number of days
+ */
+export function daysDiff(startDate, endDate) {
+  return Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
 }
 
 /**
@@ -132,16 +143,6 @@ export function isDaylightSavingTime(date) {
  */
 export function isValidDate(date) {
   return date instanceof Date && !Number.isNaN(date);
-}
-
-/**
- * Get difference in days between dates
- * @param {Date} startDate the beginning of the interval
- * @param {Date} endDate the end of the interval
- * @returns {number} number of days
- */
-export function daysDiff(startDate, endDate) {
-  return Math.round((endDate - startDate) / (1000 * 60 * 60 * 24));
 }
 
 /**
