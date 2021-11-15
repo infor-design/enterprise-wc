@@ -40,7 +40,7 @@ for specialized cases
 <ids-icon icon="notes" custom-height="80" custom-width="70" custom-viewbox="0 0 50 50"></ids-icon>
 ```
 
-The most common implimentation of custom sizing is for empty-message icons, which are available through ids-icon
+The most common implementation of custom sizing is for empty-message icons, which are available through ids-icon
 
 ```html
 <ids-icon icon="empty-generic" custom-height="80" custom-width="80" custom-viewbox="0 0 80 80"></ids-icon>
