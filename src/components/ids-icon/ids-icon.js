@@ -22,7 +22,7 @@ import styles from './ids-icon.scss';
 
 // Setting Defaults
 const sizes = {
-  3xl: 64,
+  xl3: 64,
   large: 24,
   xl: 34,
   normal: 18,
