@@ -25,5 +25,5 @@ export default class IdsIcon extends IdsElement {
   language: string;
 
    /* The size of the icon to display */
-   size: 'normal' | 'small' | 'medium' | 'large' | 'xl' | '3xl';
+   size: 'normal' | 'small' | 'medium' | 'large' | 'xl' | 'xl3';
 }
