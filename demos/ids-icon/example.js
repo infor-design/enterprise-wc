@@ -27,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   for (let i = 0; i < emptyIconData.length; i++) {
     emptyIconHtml += `<span class="ids-icon-container"><ids-text font-size="10">icon-${emptyIconData[i][0]}</ids-text><br/>
-    <ids-icon icon="${emptyIconData[i][0]}" custom-height="80" custom-viewbox="0 0 80 80" custom-width="80"></ids-icon></span>`;
+    <ids-icon icon="${emptyIconData[i][0]}" height="80" viewbox="0 0 80 80" width="80"></ids-icon></span>`;
   }
 
   if (section) {

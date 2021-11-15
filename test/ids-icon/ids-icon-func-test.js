@@ -133,12 +133,12 @@ describe('IdsIcon Component', () => {
   });
   it('can add a custom height, width and viewbox', () => {
     elem.icon = 'empty-generic';
-    elem.customViewbox = '0 0 80 80';
-    elem.customHeight = '80';
-    elem.customWidth = '80';
-    expect(elem.getAttribute('custom-viewbox')).toBe('0 0 80 80');
-    expect(elem.getAttribute('custom-height')).toBe('80');
-    expect(elem.getAttribute('custom-width')).toBe('80');
+    elem.viewbox = '0 0 80 80';
+    elem.height = '80';
+    elem.width = '80';
+    expect(elem.getAttribute('viewbox')).toBe('0 0 80 80');
+    expect(elem.getAttribute('height')).toBe('80');
+    expect(elem.getAttribute('width')).toBe('80');
     expect(elem.container);
   });
 });

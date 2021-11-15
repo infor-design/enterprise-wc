@@ -10,13 +10,13 @@ export default class IdsIcon extends IdsElement {
   badgeColor?: 'bottom-left'| 'bottom-right' | 'top-left' | 'top-right';
 
   /* sets a custom height for the icon */
-  customHeight?: string;
+  height?: string;
 
   /* sets a custom width for the icon */
-  customWidth?: string;
+  width?: string;
 
   /* updates the svg viewbox for the icon */
-  customViewbox?: string;
+  viewbox?: string;
 
   /* The name of the icon to display */
   icon: string;

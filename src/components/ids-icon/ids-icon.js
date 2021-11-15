@@ -58,9 +58,9 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
       ...super.attributes,
       attributes.BADGE_COLOR,
       attributes.BADGE_POSITION,
-      attributes.CUSTOM_HEIGHT,
-      attributes.CUSTOM_VIEWBOX,
-      attributes.CUSTOM_WIDTH,
+      attributes.HEIGHT,
+      attributes.VIEWBOX,
+      attributes.WIDTH,
       attributes.LANGUAGE,
       attributes.LOCALE,
       attributes.ICON,
@@ -103,16 +103,16 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     let width = '';
     let viewBox = '';
 
-    if (this.getAttribute(attributes.CUSTOM_WIDTH) && this.getAttribute(attributes.CUSTOM_HEIGHT)) {
-      height = this.getAttribute(attributes.CUSTOM_HEIGHT);
-      width = this.getAttribute(attributes.CUSTOM_WIDTH);
+    if (this.getAttribute(attributes.WIDTH) && this.getAttribute(attributes.HEIGHT)) {
+      height = this.getAttribute(attributes.HEIGHT);
+      width = this.getAttribute(attributes.WIDTH);
     } else {
       height = sizes[this.size];
       width = sizes[this.size];
     }
 
-    if (this.customViewbox) {
-      viewBox = this.customViewbox;
+    if (this.viewbox) {
+      viewBox = this.viewbox;
     } else {
       viewBox = '0 0 18 18';
     }
@@ -296,64 +296,64 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   }
 
   /**
-   * Returns the custom-height attribute
+   * Returns the height attribute
    * @returns {string} a stringified height number
    */
-  get customHeight() {
-    return this.getAttribute(attributes.CUSTOM_HEIGHT);
+  get height() {
+    return this.getAttribute(attributes.HEIGHT);
   }
 
   /**
    * @param {string} value allows sets a custom height value for the icon svg
    */
-  set customHeight(value) {
+  set height(value) {
     if (value) {
       this.removeAttribute(attributes.SIZE);
-      this.setAttribute(attributes.CUSTOM_HEIGHT, value);
+      this.setAttribute(attributes.HEIGHT, value);
       this.container?.setAttribute('height', value);
     } else {
-      this.removeAttribute(attributes.CUSTOM_HEIGHT);
+      this.removeAttribute(attributes.HEIGHT);
     }
   }
 
   /**
-   * Return the custom-viewbox
+   * Return the viewbox
    * @returns {string} the string of viewbox numbers
    */
-  get customViewbox() {
-    return this.getAttribute(attributes.CUSTOM_VIEWBOX);
+  get viewbox() {
+    return this.getAttribute(attributes.VIEWBOX);
   }
 
   /**
    * @param {string} value set a custom viewbox for the icon svg
    */
-  set customViewbox(value) {
+  set viewbox(value) {
     if (value) {
-      this.setAttribute(attributes.CUSTOM_VIEWBOX, value);
+      this.setAttribute(attributes.VIEWBOX, value);
       this.#adjustViewbox();
     } else {
-      this.removeAttribute(attributes.CUSTOM_VIEWBOX);
+      this.removeAttribute(attributes.VIEWBOX);
     }
   }
 
   /**
-   * Return the custom-width number
-   * @returns {string} the stringified custom width number
+   * Return the width number
+   * @returns {string} the stringified width number
    */
-  get customWidth() {
-    return this.getAttribute(attributes.CUSTOM_WIDTH);
+  get width() {
+    return this.getAttribute(attributes.WIDTH);
   }
 
   /**
    * @param {string} value sets a custom width for the icon svg
    */
-  set customWidth(value) {
+  set width(value) {
     if (value) {
       this.removeAttribute(attributes.SIZE);
-      this.setAttribute(attributes.CUSTOM_WIDTH, value);
+      this.setAttribute(attributes.WIDTH, value);
       this.container?.setAttribute('width', value);
     } else {
-      this.removeAttribute(attributes.CUSTOM_WIDTH);
+      this.removeAttribute(attributes.WIDTH);
     }
   }
 
@@ -407,8 +407,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
   #adjustViewbox() {
     let viewboxSize = '0 0 18 18';
 
-    if (this.customViewbox) {
-      viewboxSize = this.customViewbox;
+    if (this.viewbox) {
+      viewboxSize = this.viewbox;
     } else if (this.icon === 'logo' || this.icon === 'logo-trademark') {
       viewboxSize = '0 0 35 34';
     }
