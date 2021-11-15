@@ -2,6 +2,7 @@ describe('Ids Splitter e2e Tests', () => {
   const url = 'http://localhost:4444/ids-splitter';
   const urlSandbox = 'http://localhost:4444/ids-splitter/sandbox.html';
   const stringToNumber = (val) => {
+    // eslint-disable-next-line no-unsafe-optional-chaining
     const v = val?.toString() * 1;
     return !Number.isNaN(v) ? v : 0;
   };

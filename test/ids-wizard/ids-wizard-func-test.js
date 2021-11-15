@@ -21,12 +21,14 @@ describe('IdsWizard Tests', () => {
   let elem;
 
   beforeEach(async () => {
-    elem = createFromTemplate(elem,
+    elem = createFromTemplate(
+      elem,
       `<ids-wizard step-number="1">
         <ids-wizard-step>Step One</ids-wizard-step>
         <ids-wizard-step>Step Two</ids-wizard-step>
         <ids-wizard-step>Step Three</ids-wizard-step>
-      </ids-wizard>`);
+      </ids-wizard>`
+    );
   });
 
   afterEach(async () => {
@@ -50,12 +52,14 @@ describe('IdsWizard Tests', () => {
   });
 
   it('initializes without step number and it is set to -1', () => {
-    elem = createFromTemplate(elem,
+    elem = createFromTemplate(
+      elem,
       `<ids-wizard>
         <ids-wizard-step>Step One</ids-wizard-step>
         <ids-wizard-step>Step Two</ids-wizard-step>
         <ids-wizard-step>Step Three</ids-wizard-step>
-      </ids-wizard>`);
+      </ids-wizard>`
+    );
     expect(elem.stepNumber).toEqual(-1);
     expect(elem.outerHTML).toMatchSnapshot();
   });
@@ -77,12 +81,14 @@ describe('IdsWizard Tests', () => {
   });
 
   it('initializes with a non-clickable step and finds that step does not have a clickable link', () => {
-    elem = createFromTemplate(elem,
+    elem = createFromTemplate(
+      elem,
       `<ids-wizard step-number="1">
         <ids-wizard-step>Step One</ids-wizard-step>
         <ids-wizard-step>Step Two</ids-wizard-step>
         <ids-wizard-step clickable="false">Step Three</ids-wizard-step>
-      </ids-wizard>`);
+      </ids-wizard>`
+    );
 
     /** step 1 and step 3 step should not have href attribs */
     const expectedClickableCount = elem.children.length - 2;
@@ -168,12 +174,14 @@ describe('IdsWizard Tests', () => {
   });
 
   it('handles duplicate steps', () => {
-    elem = createFromTemplate(elem,
+    elem = createFromTemplate(
+      elem,
       `<ids-wizard step-number="1">
         <ids-wizard-step>Step One</ids-wizard-step>
         <ids-wizard-step>Step One</ids-wizard-step>
         <ids-wizard-step>Step One</ids-wizard-step>
-    </ids-wizard>`);
+    </ids-wizard>`
+    );
 
     expect(Array.from(elem.hrefsAssignedSet)[0]).toEqual('Step%20One');
     expect(Array.from(elem.hrefsAssignedSet)[1]).toEqual('Step%20One-1');
@@ -181,10 +189,12 @@ describe('IdsWizard Tests', () => {
   });
 
   it('cancel resize if 1 step', () => {
-    elem = createFromTemplate(elem,
+    elem = createFromTemplate(
+      elem,
       `<ids-wizard step-number="1">
         <ids-wizard-step>Step One</ids-wizard-step>
-    </ids-wizard>`);
+    </ids-wizard>`
+    );
 
     expect(elem.resizeStepLabelRects(elem)).toEqual([{ left: 0, right: 0, width: 0 }]);
   });
