@@ -112,7 +112,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
 
     html = `
-      <div class="ids-data-grid${additionalClasses}" 
+      <div class="ids-data-grid ${additionalClasses}"
         role="table"
         part="table"
         aria-label="${this.label}"
