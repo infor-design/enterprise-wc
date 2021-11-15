@@ -1,4 +1,4 @@
-import { customElement, scss } from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
 import IdsButton from '../ids-button/ids-button';
 import { BUTTON_ATTRIBUTES, BUTTON_TYPES } from '../ids-button/ids-button-attributes';
 import IdsIcon from '../ids-icon/ids-icon';

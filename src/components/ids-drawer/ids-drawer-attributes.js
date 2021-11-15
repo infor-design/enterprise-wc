@@ -4,4 +4,4 @@ const EDGES = ['start', 'bottom'];
 // Types of Available Drawers
 const TYPES = ['app-menu', 'action-sheet'];
 
-export { EDGES, TYPES}
+export { EDGES, TYPES };

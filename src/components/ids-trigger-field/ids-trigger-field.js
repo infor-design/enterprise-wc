@@ -1,25 +1,15 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes
-} from '../../core';
+// Import Core
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
 
 // Import Utils
-import { stringUtils } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import styles from './ids-trigger-field.scss';
 
 // Supporting components
-import { IdsButton } from '../ids-button';
-import IdsInput from '../ids-input';
-import { SIZES } from '../ids-input/ids-input';
+import IdsButton from '../ids-button/ids-button';
+import { IdsInput, SIZES } from '../ids-input/ids-input';
 import IdsTriggerButton from './ids-trigger-button';
 
 /**
@@ -52,7 +42,7 @@ class IdsTriggerField extends IdsInput {
 
     const labelEl = this.container.querySelector('label');
     this.onEvent('click.label', labelEl, () => {
-      if (!stringUtils.stringToBool(this.disabled)) {
+      if (!stringToBool(this.disabled)) {
         [...this.inputs].forEach((input) => {
           input.input.focus();
         });
@@ -150,7 +140,7 @@ class IdsTriggerField extends IdsInput {
     const heightClassName = (h) => `field-height-${h}`;
     const heights = ['xs', 'sm', 'md', 'lg'];
     if (attr.name === 'compact') {
-      this.container?.classList[stringUtils.stringToBool(attr.val) ? 'add' : 'remove']('compact');
+      this.container?.classList[stringToBool(attr.val) ? 'add' : 'remove']('compact');
     } else if (attr.name === 'field-height') {
       this.container?.classList.remove(...heights.map((h) => heightClassName(h)));
       if (attr.val !== null) {
@@ -189,7 +179,7 @@ class IdsTriggerField extends IdsInput {
    * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    const isTabbable = stringUtils.stringToBool(value);
+    const isTabbable = stringToBool(value);
     /** @type {any} */
     this.setAttribute(attributes.TABBABLE, value.toString());
     const button = this.querySelector('ids-trigger-button');
@@ -221,7 +211,7 @@ class IdsTriggerField extends IdsInput {
    * @param {boolean|string} value True of false depending if the button handles events
    */
   set disableNativeEvents(value) {
-    const isDisabled = stringUtils.stringToBool(value);
+    const isDisabled = stringToBool(value);
     if (isDisabled) {
       this.setAttribute(attributes.DISABLE_EVENTS, value.toString());
       this.#attachEventHandlers();
@@ -250,7 +240,7 @@ class IdsTriggerField extends IdsInput {
    * @param {string} n string value from the no margins attribute
    */
   set noMargins(n) {
-    if (stringUtils.stringToBool(n)) {
+    if (stringToBool(n)) {
       this.setAttribute(attributes.NO_MARGINS, 'true');
       this.container.style.marginBottom = '0';
       return;
@@ -259,7 +249,7 @@ class IdsTriggerField extends IdsInput {
   }
 
   get noMargins() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.NO_MARGINS));
+    return stringToBool(this.getAttribute(attributes.NO_MARGINS));
   }
 
   /**
@@ -281,14 +271,14 @@ class IdsTriggerField extends IdsInput {
    * @param {string} d string value from the disabled attribute
    */
   set disabled(d) {
-    if (stringUtils.stringToBool(d)) {
+    if (stringToBool(d)) {
       this.setAttribute(attributes.DISABLED, d.toString());
       this.setAttribute(attributes.TABBABLE, 'false');
     }
   }
 
   get disabled() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.DISABLED));
+    return stringToBool(this.getAttribute(attributes.DISABLED));
   }
 
   /**
@@ -296,7 +286,7 @@ class IdsTriggerField extends IdsInput {
    * @param {string} r string value from the read only attribute
    */
   set readonly(r) {
-    if (stringUtils.stringToBool(r)) {
+    if (stringToBool(r)) {
       this.setAttribute(attributes.READONLY, 'true');
       this.shadowRoot.querySelector('.ids-trigger-field-content').setAttribute(attributes.READONLY, 'true');
       return;
@@ -306,7 +296,7 @@ class IdsTriggerField extends IdsInput {
   }
 
   get readonly() {
-    return stringUtils.stringToBool(this.getAttribute('readonly'));
+    return stringToBool(this.getAttribute('readonly'));
   }
 
   /**

@@ -1,9 +1,16 @@
-import { customElement, scss } from '../../core/ids-element';
+// Import Core
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
+// Import Base and Mixins
 import Base from './ids-drawer-base';
+
+// Import Utils
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { EDGES, TYPES} from './ids-drawer-attributes'
+import { EDGES, TYPES } from './ids-drawer-attributes';
+
+// Import Styles
 import styles from './ids-drawer.scss';
 
 /**

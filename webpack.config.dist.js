@@ -9,8 +9,6 @@ const componentsDir = './src/components';
 module.exports = {
   entry: {
     'enterprise-wc': `${componentsDir}/enterprise-wc.js`,
-    'ids-rating': `${componentsDir}/ids-rating/ids-rating.js`,
-    'ids-icon': `${componentsDir}/ids-icon/ids-icon.js`,
     'ids-accordion': `${componentsDir}/ids-accordion/ids-accordion.js`,
     'ids-alert': `${componentsDir}/ids-alert/ids-alert.js`,
     'ids-app-menu': `${componentsDir}/ids-app-menu/ids-app-menu.js`,
@@ -27,7 +25,9 @@ module.exports = {
     'ids-data-grid': `${componentsDir}/ids-data-grid/ids-data-grid.js`,
     'ids-draggable': `${componentsDir}/ids-draggable/ids-draggable.js`,
     'ids-drawer': `${componentsDir}/ids-drawer/ids-drawer.js`,
+    'ids-icon': `${componentsDir}/ids-icon/ids-icon.js`,
     'ids-layout-grid': `${componentsDir}/layout-grid/layout-grid.js`,
+    'ids-rating': `${componentsDir}/ids-rating/ids-rating.js`,
     'ids-tag': `${componentsDir}/ids-tag/ids-tag.js`,
     'ids-text': `${componentsDir}/ids-text/ids-text.js`
   },

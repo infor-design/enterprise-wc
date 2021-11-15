@@ -6,6 +6,6 @@ const Base = IdsEventsMixin(
   IdsPopupOpenEventsMixin(
     IdsElement
   )
-)
+);
 
 export default Base;

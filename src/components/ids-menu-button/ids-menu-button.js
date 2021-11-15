@@ -1,12 +1,18 @@
-import { customElement, scss } from '../../core';
-import { attributes } from '../../core/ids-attributes';
+// Import Core
+import { customElement, scss } from '../../core/ids-decorators';
+
+// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { IdsButton } from '../ids-button/ids-button';
+
+// Import Dependencies
+import IdsButton from '../ids-button/ids-button';
 import { BUTTON_ATTRIBUTES } from '../ids-button/ids-button-attributes';
 import { MENU_BUTTON_ATTRIBUTES } from './ids-menu-button-attributes';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+
+// Import Styles
 import styles from '../ids-button/ids-button.scss';
 
 /**

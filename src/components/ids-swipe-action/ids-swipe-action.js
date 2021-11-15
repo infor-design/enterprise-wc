@@ -1,4 +1,4 @@
-import { customElement, scss } from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import styles from './ids-swipe-action.scss';
 import Base from './ids-swipe-action-base';
