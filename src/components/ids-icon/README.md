@@ -25,8 +25,8 @@ For a normal sized icon just specific the icon name and the web component will d
 Icons come in 6 sizes depending where it is used.
 
 ```html
-<ids-icon icon="notes" size="largex3"></ids-icon>
-<ids-icon icon="notes" size="xlarge"></ids-icon>
+<ids-icon icon="notes" size="3xl"></ids-icon>
+<ids-icon icon="notes" size="xl"></ids-icon>
 <ids-icon icon="notes" size="large"></ids-icon>
 <ids-icon icon="notes" size="medium"></ids-icon>
 <ids-icon icon="notes" size="small"></ids-icon>
