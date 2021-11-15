@@ -1,28 +1,14 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin,
-} from '../../mixins';
-
-import { IdsToastShared as shared } from './ids-toast-shared';
-import styles from './ids-toast-message.scss';
-
-// Supporting components
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
-
-import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
+import renderLoop from '../ids-render-loop/ids-render-loop';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
+import Base from './ids-toast-base';
+import { IdsToastShared as shared } from './ids-toast-shared';
+import styles from './ids-toast-message.scss';
 
 /**
  * IDS Toast Message Component
@@ -40,8 +26,7 @@ import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
  */
 @customElement('ids-toast-message')
 @scss(styles)
-class IdsToastMessage extends
-  mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+export default class IdsToastMessage extends Base {
   constructor() {
     super();
   }
@@ -53,7 +38,6 @@ class IdsToastMessage extends
     this
       .#setTimer()
       .#attachEventHandlers();
-    super.connectedCallback();
   }
 
   /**
@@ -306,5 +290,3 @@ class IdsToastMessage extends
 
   get messageId() { return this.getAttribute(shared.ATTRIBUTE_MESSAGE_ID); }
 }
-
-export default IdsToastMessage;

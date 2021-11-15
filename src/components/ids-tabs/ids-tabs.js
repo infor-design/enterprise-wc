@@ -1,10 +1,6 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix,
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+
 
 import {
   IdsKeyboardMixin,

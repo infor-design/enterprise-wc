@@ -1,19 +1,9 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core/ids-element';
-
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import IdsColor from '../ids-color/ids-color';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
+import Base from './ids-step-chart-base';
 import styles from './ids-step-chart.scss';
 
 /**
@@ -27,7 +17,7 @@ import styles from './ids-step-chart.scss';
 
 @customElement('ids-step-chart')
 @scss(styles)
-class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsStepChart extends Base {
   constructor() {
     super();
     this.internalStepsInProgress = [];
@@ -254,5 +244,3 @@ class IdsStepChart extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
     });
   }
 }
-
-export default IdsStepChart;

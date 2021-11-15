@@ -1,20 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core/ids-element';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
-import { IdsStringUtils } from '../../utils';
-
+import { customElement, scss,  } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-slider-base';
 import styles from './ids-slider.scss';
 
 const TYPES = [
@@ -37,7 +24,7 @@ const DEFAULT_TYPE = TYPES[0];
  */
 @customElement('ids-slider')
 @scss(styles)
-class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsLocaleMixin) {
+export default class IdsSlider extends Base {
   DEFAULT_MIN = DEFAULT_MIN;
 
   DEFAULT_MAX = DEFAULT_MAX;
@@ -191,7 +178,7 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
    * @param {boolean} value Whether the orientation is vertical or horizontal
    */
   set vertical(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     val ? this.setAttribute(attributes.VERTICAL, val) : this.removeAttribute(attributes.VERTICAL);
     if (val) {
       this.container.classList.add('vertical');
@@ -1035,5 +1022,3 @@ class IdsSlider extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin, IdsL
     }
   }
 }
-
-export default IdsSlider;

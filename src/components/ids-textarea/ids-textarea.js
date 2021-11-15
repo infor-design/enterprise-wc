@@ -1,29 +1,10 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  attributes
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsClearableMixin,
-  IdsDirtyTrackerMixin,
-  IdsValidationMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-// Import Dependencies
-import IdsIcon from '../ids-icon';
-import IdsText from '../ids-text';
-import IdsTriggerButton from '../ids-trigger-field';
-
-// Import Styles
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsText from '../ids-text/ids-text';
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-field';
+import Base from './ids-text-area-base';
 import styles from './ids-textarea.scss';
 
 // Textarea id
@@ -65,13 +46,7 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  */
 @customElement('ids-textarea')
 @scss(styles)
-class IdsTextarea extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsClearableMixin,
-    IdsDirtyTrackerMixin,
-    IdsValidationMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsTextarea extends Base {
   /**
    * Call the constructor and then initialize
    */
@@ -129,15 +104,15 @@ class IdsTextarea extends mix(IdsElement).with(
     const rows = this.rows ? ` rows="${this.rows}"` : '';
     const maxlength = this.maxlength ? ` maxlength="${this.maxlength}"` : '';
     const placeholder = this.placeholder ? ` placeholder="${this.placeholder}"` : '';
-    const isPrintable = IdsStringUtils.stringToBool(this.printable) || this.printable === null;
+    const isPrintable = stringToBool(this.printable) || this.printable === null;
     const printable = isPrintable ? `<span class="textarea-print">${value}</span>` : '';
-    const isCounter = ((IdsStringUtils.stringToBool(this.characterCounter)
+    const isCounter = ((stringToBool(this.characterCounter)
       || this.characterCounter === null) && this.maxlength);
     const counter = isCounter ? '<span class="textarea-character-counter"></span>' : '';
-    let textareaState = IdsStringUtils.stringToBool(this.readonly) ? ' readonly' : '';
-    textareaState = IdsStringUtils.stringToBool(this.disabled) ? ' disabled' : textareaState;
+    let textareaState = stringToBool(this.readonly) ? ' readonly' : '';
+    textareaState = stringToBool(this.disabled) ? ' disabled' : textareaState;
     let textareaClass = `ids-textarea-field ${this.textAlign}`;
-    textareaClass += IdsStringUtils.stringToBool(this.resizable) ? ' resizable' : '';
+    textareaClass += stringToBool(this.resizable) ? ' resizable' : '';
     textareaClass = ` class="${textareaClass}"`;
 
     return `
@@ -167,7 +142,7 @@ class IdsTextarea extends mix(IdsElement).with(
       const options = {
         prop1: prop,
         prop2: prop !== attributes.READONLY ? attributes.READONLY : attributes.DISABLED,
-        val: IdsStringUtils.stringToBool(this[prop])
+        val: stringToBool(this[prop])
       };
       if (options.val) {
         this.input?.removeAttribute(options.prop2);
@@ -308,7 +283,7 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   handleCharacterCounter(value) {
     let elem = this.shadowRoot.querySelector('.textarea-character-counter');
-    if ((IdsStringUtils.stringToBool(this.characterCounter) || value === null) && this.maxlength) {
+    if ((stringToBool(this.characterCounter) || value === null) && this.maxlength) {
       if (!elem) {
         elem = document.createElement('span');
         elem.className = 'textarea-character-counter';
@@ -328,7 +303,7 @@ class IdsTextarea extends mix(IdsElement).with(
    */
   handlePrintable(value) {
     let elem = this.shadowRoot.querySelector('.textarea-print');
-    if (IdsStringUtils.stringToBool(this.printable) || value === null) {
+    if (stringToBool(this.printable) || value === null) {
       if (!elem) {
         elem = document.createElement('span');
         elem.className = 'textarea-print';
@@ -490,7 +465,7 @@ class IdsTextarea extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `autogrow` attribute
    */
   set autogrow(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.AUTOGROW, val.toString());
     } else {
@@ -521,7 +496,7 @@ class IdsTextarea extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `autoselect` attribute
    */
   set autoselect(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.AUTOSELECT, val.toString());
     } else {
@@ -567,7 +542,7 @@ class IdsTextarea extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `character-counter` attribute
    */
   set characterCounter(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CHARACTER_COUNTER, val.toString());
     } else {
@@ -583,7 +558,7 @@ class IdsTextarea extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
     } else {
@@ -614,7 +589,7 @@ class IdsTextarea extends mix(IdsElement).with(
    * @param {string} value The `label-required` attribute
    */
   set labelRequired(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.LABEL_REQUIRED, val.toString());
     } else {
@@ -678,7 +653,7 @@ class IdsTextarea extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `readonly` attribute
    */
   set readonly(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
     } else {
@@ -694,7 +669,7 @@ class IdsTextarea extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set `resizable` attribute
    */
   set resizable(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.RESIZABLE, val.toString());
       this.input?.classList.add(attributes.RESIZABLE);
@@ -768,5 +743,3 @@ class IdsTextarea extends mix(IdsElement).with(
 
   get value() { return this.getAttribute(attributes.VALUE); }
 }
-
-export default IdsTextarea;

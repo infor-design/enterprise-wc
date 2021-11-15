@@ -1,25 +1,8 @@
-// Import Base and Decorators
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin,
-} from '../../mixins';
-
-import {
-  renderLoop,
-  IdsRenderLoopItem
-} from '../ids-render-loop';
-
-// Import Sass to be encapsulated in the component shadowRoot
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import renderLoop from '../ids-render-loop/ids-render-loop';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
+import Base from './ids-scroll-view-base';
 import styles from './ids-scroll-view.scss';
 
 /**
@@ -36,11 +19,7 @@ import styles from './ids-scroll-view.scss';
  */
 @customElement('ids-scroll-view')
 @scss(styles)
-class IdsScrollView extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsScrollView extends Base {
   constructor() {
     super();
   }
@@ -53,7 +32,6 @@ class IdsScrollView extends mix(IdsElement).with(
    * Invoked each time the custom element is add into a document-connected element
    */
   connectedCallback() {
-    super.connectedCallback();
     this.controls = this.shadowRoot.querySelector('.ids-scroll-view-controls');
     this.#renderButtons();
     this.#attachEventHandlers();
@@ -174,5 +152,3 @@ class IdsScrollView extends mix(IdsElement).with(
     });
   }
 }
-
-export default IdsScrollView;

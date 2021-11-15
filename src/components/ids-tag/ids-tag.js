@@ -1,19 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import styles from './ids-tag.scss';
+import Base from './ids-tag-base';
 
 /**
  * IDS Tag Component
@@ -27,7 +15,7 @@ import styles from './ids-tag.scss';
  */
 @customElement('ids-tag')
 @scss(styles)
-class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsThemeMixin) {
+export default class IdsTag extends Base {
   constructor() {
     super();
   }
@@ -39,7 +27,6 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
     this
       .#attachEventHandlers()
       .#attachKeyboardListeners();
-    super.connectedCallback();
   }
 
   /**
@@ -237,5 +224,3 @@ class IdsTag extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, IdsT
     this.triggerEvent('aftertagremove', this, { detail: { elem: this } });
   }
 }
-
-export default IdsTag;
