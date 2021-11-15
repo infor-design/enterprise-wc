@@ -408,9 +408,9 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     let viewboxSize = '0 0 18 18';
 
     if (this.customViewbox) {
-      viewboxSize = '0 0 35 34';
-    } else if (this.icon === 'logo' || this.icon === 'logo-trademark') {
       viewboxSize = this.customViewbox;
+    } else if (this.icon === 'logo' || this.icon === 'logo-trademark') {
+      viewboxSize = '0 0 35 34';
     }
     this.container.setAttribute('viewBox', viewboxSize);
   }
