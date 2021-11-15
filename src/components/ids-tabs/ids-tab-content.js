@@ -1,19 +1,7 @@
-import { IdsStringUtils } from '../../utils';
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
-
-import {
-  IdsKeyboardMixin,
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsTab from './ids-tab';
+import Base from './ids-tabs-base';
 import styles from './ids-tab-content.scss';
 
 /**
@@ -26,7 +14,7 @@ import styles from './ids-tab-content.scss';
  */
 @customElement('ids-tab-content')
 @scss(styles)
-class IdsTabContent extends mix(IdsElement).with(
+export default class IdsTabContent extends mix(IdsElement).with(
     IdsEventsMixin,
     IdsKeyboardMixin,
     IdsThemeMixin
@@ -68,7 +56,7 @@ class IdsTabContent extends mix(IdsElement).with(
 
   /** @param {boolean|string} value Whether or not this tab will be flagged as active/visible */
   set active(value) {
-    const isTruthy = IdsStringUtils.stringToBool(value);
+    const isTruthy = stringToBool(value);
 
     if (isTruthy && !this.hasAttribute(attributes.ACTIVE)) {
       this.setAttribute(attributes.ACTIVE, '');
@@ -84,5 +72,3 @@ class IdsTabContent extends mix(IdsElement).with(
     return this.hasAttribute(attributes.ACTIVE);
   }
 }
-
-export default IdsTabContent;

@@ -1,21 +1,7 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  attributes,
-  scss
-} from '../../core';
-
-// Supporting Components
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
-
-// Import Mixins
-import {
-  IdsColorVariantMixin,
-  IdsEventsMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
+import Base from './ids-theme-switcher-base';
 import styles from './ids-theme-switcher.scss';
 
 /**
@@ -23,17 +9,12 @@ import styles from './ids-theme-switcher.scss';
  */
 @customElement('ids-theme-switcher')
 @scss(styles)
-class IdsThemeSwitcher extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsColorVariantMixin
-  ) {
+export default class IdsThemeSwitcher extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.conenctedCallback?.();
     this.#attachEventHandlers();
   }
 
@@ -52,14 +33,6 @@ class IdsThemeSwitcher extends mix(IdsElement).with(
       if (val === 'light' || val === 'dark' || val === 'contrast') {
         this.mode = val;
       }
-    });
-
-    this.offEvent('languagechange.switcher-container');
-    this.onEvent('languagechange.switcher-container', this.closest('ids-container'), async (e) => {
-      await this.setLanguage(e.detail.language.name);
-      await this.shadowRoot.querySelector('ids-popup-menu').setLanguage(e.detail.language.name);
-      await this.shadowRoot.querySelector('ids-popup-menu')
-        .shadowRoot.querySelector('ids-popup').setLanguage(e.detail.language.name);
     });
   }
 
@@ -153,5 +126,3 @@ class IdsThemeSwitcher extends mix(IdsElement).with(
     this.container.colorVariant = this.colorVariant;
   }
 }
-
-export default IdsThemeSwitcher;

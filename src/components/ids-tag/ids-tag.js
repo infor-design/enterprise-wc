@@ -32,7 +32,6 @@ export default class IdsTag extends Base {
     this
       .#attachEventHandlers()
       .#attachKeyboardListeners();
-    super.connectedCallback();
   }
 
   /**

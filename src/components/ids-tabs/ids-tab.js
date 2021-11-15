@@ -1,24 +1,13 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix,
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import IdsText from '../ids-text/ids-text';
+import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-tabs-base';
+import styles from './ids-tab.scss';
 
 // Import Mixins
 import { IdsEventsMixin } from '../../mixins';
 
-// Import Dependencies
-import IdsText from '../ids-text';
-
-// Import Styles
-import styles from './ids-tab.scss';
-
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
-
-const { stringToBool, buildClassAttrib } = stringUtils;
 
 /**
  * IDS Tab Component
@@ -30,7 +19,7 @@ const { stringToBool, buildClassAttrib } = stringUtils;
  */
 @customElement('ids-tab')
 @scss(styles)
-class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsTab extends Base {
   /** store the previous "selected" value to prevent double firing events */
   #prevSelected = false;
 
@@ -302,5 +291,3 @@ class IdsTab extends mix(IdsElement).with(IdsEventsMixin) {
     this.container.focus();
   }
 }
-
-export default IdsTab;

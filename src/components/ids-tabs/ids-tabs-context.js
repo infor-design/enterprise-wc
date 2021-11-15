@@ -1,16 +1,5 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
-
-import {
-  IdsAttributeProviderMixin,
-  IdsEventsMixin
-} from '../../mixins';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 import IdsTabContent from './ids-tab-content';
 import styles from './ids-tabs.scss';
 

@@ -1,4 +1,4 @@
-import { IdsStringUtils as stringUtils } from '../../utils';
+import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * Shared in between toast.
@@ -91,7 +91,7 @@ const IdsToastShared = {
     const d = this.DEFAULTS;
     const html = (slot) => slot?.assignedNodes()[0]?.innerHTML;
     const slot = root?.querySelector(`slot[name="${slotName}"]`);
-    return html(slot) || d[stringUtils.camelCase(slotName)];
+    return html(slot) || d[camelCase(slotName)];
   },
 
   /**
@@ -103,7 +103,7 @@ const IdsToastShared = {
   getBoolVal(elem, attr) {
     const value = elem?.getAttribute(attr);
     return value !== null
-      ? stringUtils.stringToBool(value) : this.DEFAULTS[stringUtils.camelCase(attr)];
+      ? stringToBool(value) : this.DEFAULTS[camelCase(attr)];
   },
 
   /**
@@ -116,4 +116,4 @@ const IdsToastShared = {
   }
 };
 
-export { IdsToastShared };
+export default IdsToastShared;
