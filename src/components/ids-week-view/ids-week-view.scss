@@ -12,6 +12,8 @@ $hour-row-height: 25px;
   @include flex();
   @include border-solid();
   @include border-1();
+  @include bg-white();
+  @include border-slate-20();
 
   flex-direction: column;
   overflow: auto;
@@ -19,6 +21,8 @@ $hour-row-height: 25px;
 
   .week-view-header {
     @include sticky();
+    @include border-slate-20();
+    @include bg-white();
 
     border-bottom-width: 1px;
     border-bottom-style: solid;
@@ -27,6 +31,10 @@ $hour-row-height: 25px;
     z-index: 4;
     height: 50px;
     flex-shrink: 0;
+  }
+
+  .week-view-today-text {
+    @include text-azure-60();
   }
 
   .week-view-table-header {
@@ -57,6 +65,7 @@ $hour-row-height: 25px;
     .week-view-all-day-wrapper {
       @include relative();
       @include box-border();
+      @include border-slate-20();
 
       height: 44px;
       text-transform: unset;
@@ -85,11 +94,11 @@ $hour-row-height: 25px;
       height: $hour-row-height;
     }
 
-    // Borders
     th,
     td {
       @include border-b-1();
       @include p-0();
+      @include border-slate-20();
 
       height: $hour-row-height;
     }
@@ -109,15 +118,26 @@ $hour-row-height: 25px;
     // Alternate row style
     tr:nth-child(odd) td {
       @include border-b-1();
+
+      border-bottom-color: var(--ids-color-palette-slate-10);
     }
+  }
+
+  .week-view-header-wrapper.is-today {
+    @include text-azure-60();
+
+    box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-60);
   }
 
   // Header Section Container with All Day events
   .week-view-container {
+    @include bg-white();
+
     flex-shrink: 0;
 
     th {
       @include sticky();
+      @include bg-white();
 
       top: 51px;
       z-index: 3;
@@ -140,6 +160,7 @@ $hour-row-height: 25px;
     @include z-2();
     @include relative();
     @include box-border();
+    @include border-azure-60();
 
     height: 1px;
     margin-top: -2px;
@@ -147,52 +168,6 @@ $hour-row-height: 25px;
   }
 
   // Theme mode
-  // [version='new'][mode='light'] as default
-  @include bg-white();
-  @include border-slate-20();
-
-  .week-view-table {
-    th,
-    td {
-      @include border-slate-20();
-    }
-
-    tr:nth-child(odd) td {
-      border-bottom-color: var(--ids-color-palette-slate-10);
-    }
-  }
-
-  .week-view-header {
-    @include border-slate-20();
-    @include bg-white();
-  }
-
-  .week-view-all-day-wrapper {
-    @include border-slate-20();
-  }
-
-  .week-view-container {
-    @include bg-white();
-
-    th {
-      @include bg-white();
-    }
-  }
-
-  .week-view-header-wrapper.is-today {
-    @include text-azure-60();
-
-    box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-60);
-  }
-
-  .week-view-today-text {
-    @include text-azure-60();
-  }
-
-  .week-view-time-marker {
-    @include border-azure-60();
-  }
-
   &[version='classic'][mode='dark'],
   &[version='new'][mode='dark'] {
     @include bg-slate-100();
