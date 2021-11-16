@@ -39,19 +39,20 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   // Row Height Feature
+  // Large by default
   .ids-data-grid-body .ids-data-grid-row {
     height: 50px;
   }
 
-  &[data-row-height='medium'] .ids-data-grid-body .ids-data-grid-row {
+  &[data-row-height='md'] .ids-data-grid-body .ids-data-grid-row {
     height: 40px;
   }
 
-  &[data-row-height='small'] .ids-data-grid-body .ids-data-grid-row {
+  &[data-row-height='sm'] .ids-data-grid-body .ids-data-grid-row {
     height: 35px;
   }
 
-  &[data-row-height='extra-small'] .ids-data-grid-body .ids-data-grid-row {
+  &[data-row-height='xs'] .ids-data-grid-body .ids-data-grid-row {
     height: 30px;
   }
 

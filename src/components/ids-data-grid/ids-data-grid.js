@@ -25,6 +25,13 @@ import IdsVirtualScroll from '../ids-virtual-scroll';
 // Import Styles
 import styles from './ids-data-grid.scss';
 
+const rowHeights = {
+  xs: 30,
+  sm: 35,
+  md: 40,
+  lg: 50
+};
+
 /**
  * IDS Data Grid Component
  * @type {IdsDataGrid}
@@ -84,30 +91,27 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @private
    */
   template() {
-    let html = '';
-
     if (this?.data.length === 0 && this?.columns.length === 0) {
-      return html;
+      return ``;
     }
 
-    const additionalClasses = this.alternateRowShading === 'true' ? ' alt-row-shading' : '';
-    if (this?.virtualScroll !== 'true') {
-      html = `<div class="ids-data-grid${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
+    const html = `
+      <div
+        class="ids-data-grid ${this.alternateRowShading ? `alt-row-shading` : ``}"
+        role="table" part="table" aria-label="${this.label}"
+        data-row-height="${this.rowHeight}"
+        mode="${this.mode}"
+        version="${this.version}"
+      >
       ${this.headerTemplate()}
-      ${this.bodyTemplate()}
-      </div>`;
-      return html;
-    }
-
-    html = `<div class="ids-data-grid${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
-      ${this.headerTemplate()}
-      <ids-virtual-scroll>
-        <div class="ids-data-grid-container" part="container">
-          <div class="ids-data-grid-body" part="body" role="rowgroup" slot="contents">
-          </div>
-        </div>
-      </ids-virtual-scroll>
-    </div>`;
+      ${this.virtualScroll
+      ? `<ids-virtual-scroll>
+              <div class="ids-data-grid-body" part="style-wrapper" part="body" role="rowgroup"></div>
+            </ids-virtual-scroll>`
+      : `${this.bodyTemplate()}`
+      }
+      </div>
+    `;
 
     return html;
   }
@@ -165,12 +169,14 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @private
    */
   headerTemplate() {
-    let header = '<div class="ids-data-grid-header" role="rowgroup" part="header"><div role="row" class="ids-data-grid-row">';
-
-    this.columns.forEach((columnData) => {
-      header += `${this.headerCellTemplate(columnData)}`;
-    });
-    return `${header}</div></div>`;
+    const html = `
+      <div class="ids-data-grid-header" role="rowgroup" part="header">
+        <div role="row" class="ids-data-grid-row">
+          ${this.columns.map((columnData) => `${this.headerCellTemplate(columnData)}`).join('')}
+        </div>
+      </div>
+    `;
+    return html;
   }
 
   /**
@@ -180,17 +186,25 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @returns {string} The resuling header cell template
    */
   headerCellTemplate(column) {
-    const sortIndicator = `<div class="sort-indicator">
-      <ids-icon icon="dropdown"></ids-icon>
-      <ids-icon icon="dropdown"></ids-icon>
-    </div>`;
-    const cssClasses = `${column.sortable ? ' is-sortable' : ''}`;
-
-    const headerTemplate = `<span class="ids-data-grid-header-cell${cssClasses}" part="header-cell" data-column-id="${column.id}" role="columnheader">
-      <span class="ids-data-grid-header-text">${column.name || ''}</span>
-      ${column.sortable ? sortIndicator : ''}
-    </span>`;
-    return headerTemplate;
+    const html = `
+      <span 
+        class="ids-data-grid-header-cell ${column.sortable ? `is-sortable` : ``}"
+        part="header-cell"
+        data-column-id="${column.id}"
+        role="columnheader"
+      >
+        <span class="ids-data-grid-header-text">
+          ${column.name ?? ''}
+        </span>
+        ${column.sortable ? `
+          <div class="sort-indicator">
+            <ids-icon icon="dropdown"></ids-icon>
+            <ids-icon icon="dropdown"></ids-icon>
+          </div>
+        ` : ``}
+      </span>
+    `;
+    return html;
   }
 
   /**
@@ -199,13 +213,11 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @returns {string} The template
    */
   bodyTemplate() {
-    let html = '<div class="ids-data-grid-container"><div class="ids-data-grid-body" part="body" role="rowgroup">';
-
-    this.data.forEach((row, index) => {
-      html += this.rowTemplate(row, index);
-    });
-
-    return `${html}</div></div>`;
+    return `
+      <div class="ids-data-grid-body" part="body" role="rowgroup">
+        ${this.data.map((row, index) => this.rowTemplate(row, index)).join('')}
+      </div> 
+    `;
   }
 
   /**
@@ -216,15 +228,15 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @returns {string} The html string for the row
    */
   rowTemplate(row, index) {
-    let html = `<div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row">`;
-
-    this.columns.forEach((column, j) => {
-      const cssClasses = column?.readonly ? ' readonly' : '';
-      html += `<span role="cell" part="cell" class="ids-data-grid-cell${cssClasses}" aria-colindex="${j + 1}">${this.cellTemplate(row, column, index + 1, this)}</span>`;
-    });
-
-    html += '</div>';
-    return html;
+    return `
+      <div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row">
+        ${this.columns.map((column, j) => `
+          <span role="cell" part="cell" class="ids-data-grid-cell ${column?.readonly ? `readonly` : ``}" aria-colindex="${j + 1}">
+            ${this.cellTemplate(row, column, index + 1, this)}
+          </span>
+        `).join('')}
+      </div>
+    `;
   }
 
   /**
@@ -439,17 +451,14 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @param {boolean|string} value true to use virtual scrolling
    */
   set virtualScroll(value) {
-    if (value === true || value === 'true') {
-      this.setAttribute(attributes.VIRTUAL_SCROLL, 'true');
-      this.rerender();
-      return;
-    }
+    IdsStringUtils.stringToBool(value)
+      ? this.setAttribute(attributes.VIRTUAL_SCROLL, 'true')
+      : this.removeAttribute(attributes.VIRTUAL_SCROLL);
 
-    this.setAttribute(attributes.VIRTUAL_SCROLL, 'false');
     this.rerender();
   }
 
-  get virtualScroll() { return this.getAttribute(attributes.VIRTUAL_SCROLL) || 'false'; }
+  get virtualScroll() { return IdsStringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   /**
    * Set the aria-label element in the DOM. This should be translated.
@@ -479,7 +488,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', value);
     } else {
       this.removeAttribute(attributes.ROW_HEIGHT);
-      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', 'large');
+      this.shadowRoot.querySelector('.ids-data-grid').setAttribute('data-row-height', 'lg');
     }
 
     if (IdsStringUtils.stringToBool(this.virtualScroll)) {
@@ -487,7 +496,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     }
   }
 
-  get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'large'; }
+  get rowHeight() { return this.getAttribute(attributes.ROW_HEIGHT) || 'lg'; }
 
   /**
    * Get the row height in pixels
@@ -495,10 +504,7 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @returns {number} The pixel height
    */
   get rowPixelHeight() {
-    if (this.rowHeight === 'medium') return 40;
-    if (this.rowHeight === 'small') return 35;
-    if (this.rowHeight === 'extra-small') return 30;
-    return 50;
+    return rowHeights[this.rowHeight];
   }
 
   /**
@@ -529,10 +535,12 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.activeCell.cell = cell;
     this.activeCell.row = row;
 
-    const rowNode = this.shadowRoot.querySelectorAll('.ids-data-grid-body .ids-data-grid-row')[row]; // exclude header rows
-    const cellNode = rowNode.querySelectorAll('.ids-data-grid-cell')[cell];
-    this.activeCell?.node?.removeAttribute('tabindex');
+    const queriedRows = this.shadowRoot.querySelectorAll('.ids-data-grid-body .ids-data-grid-row');
+    const rowNode = queriedRows[row]; // exclude header rows
+    const queriedCells = rowNode?.querySelectorAll('.ids-data-grid-cell');
+    const cellNode = queriedCells[cell];
 
+    this.activeCell?.node?.removeAttribute('tabindex');
     this.activeCell.node = cellNode;
     cellNode.setAttribute('tabindex', '0');
     cellNode.focus();

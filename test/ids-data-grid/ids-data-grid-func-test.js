@@ -412,49 +412,49 @@ describe('IdsDataGrid Component', () => {
 
   describe('Row Height Tests', () => {
     it('can set the rowHeight setting', () => {
-      dataGrid.rowHeight = 'extra-small';
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('extra-small');
-      expect(dataGrid.getAttribute('row-height')).toEqual('extra-small');
+      dataGrid.rowHeight = 'xs';
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('xs');
+      expect(dataGrid.getAttribute('row-height')).toEqual('xs');
 
-      dataGrid.rowHeight = 'small';
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('small');
-      expect(dataGrid.getAttribute('row-height')).toEqual('small');
+      dataGrid.rowHeight = 'sm';
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('sm');
+      expect(dataGrid.getAttribute('row-height')).toEqual('sm');
 
-      dataGrid.rowHeight = 'medium';
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('medium');
-      expect(dataGrid.getAttribute('row-height')).toEqual('medium');
+      dataGrid.rowHeight = 'md';
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('md');
+      expect(dataGrid.getAttribute('row-height')).toEqual('md');
 
       dataGrid.rowHeight = null;
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('large');
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('lg');
       expect(dataGrid.getAttribute('row-height')).toEqual(null);
 
-      dataGrid.rowHeight = 'large';
-      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('large');
-      expect(dataGrid.getAttribute('row-height')).toEqual('large');
+      dataGrid.rowHeight = 'lg';
+      expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('lg');
+      expect(dataGrid.getAttribute('row-height')).toEqual('lg');
     });
 
     it('can set the rowHeight setting in virtualScroll mode', () => {
       requestAnimationFrame(() => {
         dataGrid.virtualScroll = true;
-        dataGrid.rowHeight = 'extra-small';
+        dataGrid.rowHeight = 'xs';
         expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('30');
 
-        dataGrid.rowHeight = 'small';
+        dataGrid.rowHeight = 'sm';
         expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('35');
 
-        dataGrid.rowHeight = 'medium';
+        dataGrid.rowHeight = 'md';
         expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('40');
 
         dataGrid.rowHeight = null;
         expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
 
-        dataGrid.rowHeight = 'large';
+        dataGrid.rowHeight = 'lg';
         expect(dataGrid.shadowRoot.querySelector('ids-virtual-scroll').getAttribute('item-height')).toEqual('50');
 
         dataGrid.virtualScroll = false;
-        dataGrid.rowHeight = 'small';
-        expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('small');
-        expect(dataGrid.getAttribute('row-height')).toEqual('small');
+        dataGrid.rowHeight = 'sm';
+        expect(dataGrid.shadowRoot.querySelector('.ids-data-grid').getAttribute('data-row-height')).toEqual('sm');
+        expect(dataGrid.getAttribute('row-height')).toEqual('sm');
       });
     });
   });
