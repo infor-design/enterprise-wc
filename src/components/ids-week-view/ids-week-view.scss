@@ -18,22 +18,18 @@ $hour-row-height: 25px;
     }
 
     .week-view-table {
-      th,
-      td {
-        &:not(:first-child) {
-          border-right: 1px solid;
-        }
+      th:not(:first-child),
+      td:not(:first-child) {
+        border-right: 1px solid;
       }
     }
   }
 
   &:not([dir='rtl']) {
     .week-view-table {
-      th,
-      td {
-        &:not(:last-child) {
-          border-right: 1px solid;
-        }
+      th:not(:last-child),
+      td:not(:last-child) {
+        border-right: 1px solid;
       }
     }
   }
@@ -65,12 +61,8 @@ $hour-row-height: 25px;
         line-height: $hour-row-height;
       }
 
-      &.is-day-view {
-        .week-view-header-day-of-week {
-          &.is-emphasis {
-            line-height: 40px;
-          }
-        }
+      &.is-day-view .week-view-header-day-of-week.is-emphasis {
+        line-height: 40px;
       }
     }
 

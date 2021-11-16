@@ -34,6 +34,7 @@ import styles from './ids-week-view.scss';
  * @type {IdsWeekView}
  * @inherits IdsElement
  * @mixes IdsLocaleMixin
+ * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
  */
 @customElement('ids-week-view')
@@ -266,13 +267,11 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
   }
 
   #renderTimeline() {
-    let timer;
-
     // Clear before rerender
     this.container.querySelectorAll('.week-view-time-marker')
-      .forEach((item) => item?.remove());
+      .forEach((item) => item.remove());
 
-    if (timer) timer.destroy(true);
+    if (this.timer) this.timer.destroy(true);
 
     if (!this.showTimeline) {
       return;
@@ -299,7 +298,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     setTime();
 
     // Update time line top shift every 30 seconds
-    timer = new IdsRenderLoopItem({
+    this.timer = new IdsRenderLoopItem({
       id: 'week-view-timer',
       updateDuration: 30000,
       updateCallback() {
@@ -307,7 +306,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       }
     });
 
-    renderLoop.register(timer);
+    renderLoop.register(this.timer);
   }
 
   /**

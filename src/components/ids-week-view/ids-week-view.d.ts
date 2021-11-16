@@ -18,5 +18,5 @@ export default class IdsWeekView extends HTMLElement {
   endHour: string | number | null;
 
   /** Set whether or not to show a bar across the current time */
-  showTime: 'true' | 'false' | boolean | null;
+  showTimeline: 'true' | 'false' | boolean | null;
 }
