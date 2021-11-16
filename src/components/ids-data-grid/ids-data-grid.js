@@ -34,7 +34,6 @@ import styles from './ids-data-grid.scss';
  * @mixes IdsThemeMixin
  * @mixes IdsLocaleMixin
  * @part table - the table main element
- * @part container - the table container element
  * @part body - the table body element
  * @part header - the header element
  * @part header-cell - the header cells
@@ -90,22 +89,19 @@ class IdsDataGrid extends mix(IdsElement).with(
       return html;
     }
 
-    const additionalClasses = this.alternateRowShading === 'true' ? ' alt-row-shading' : '';
+    const additionalClasses = this.alternateRowShading === 'true' ? 'alt-row-shading' : '';
     if (this?.virtualScroll !== 'true') {
-      html = `<div class="ids-data-grid${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
+      html = `<div class="ids-data-grid ${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
       ${this.headerTemplate()}
       ${this.bodyTemplate()}
       </div>`;
       return html;
     }
 
-    html = `<div class="ids-data-grid${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
+    html = `<div class="ids-data-grid ${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
       ${this.headerTemplate()}
       <ids-virtual-scroll>
-        <div class="ids-data-grid-container" part="container">
-          <div class="ids-data-grid-body" part="body" role="rowgroup" slot="contents">
-          </div>
-        </div>
+        <div class="ids-data-grid-body" part="style-wrapper" part="body" role="rowgroup"></div>
       </ids-virtual-scroll>
     </div>`;
 
@@ -201,13 +197,13 @@ class IdsDataGrid extends mix(IdsElement).with(
    * @returns {string} The template
    */
   bodyTemplate() {
-    let html = '<div class="ids-data-grid-container"><div class="ids-data-grid-body" part="body" role="rowgroup">';
+    let html = '<div class="ids-data-grid-body" part="body" role="rowgroup">';
 
     this.data.forEach((row, index) => {
       html += this.rowTemplate(row, index);
     });
 
-    return `${html}</div></div>`;
+    return `${html}</div>`;
   }
 
   /**
@@ -221,8 +217,12 @@ class IdsDataGrid extends mix(IdsElement).with(
     let html = `<div role="row" part="row" aria-rowindex="${index + 1}" class="ids-data-grid-row">`;
 
     this.columns.forEach((column, j) => {
-      const cssClasses = column?.readonly ? ' readonly' : '';
-      html += `<span role="cell" part="cell" class="ids-data-grid-cell${cssClasses}" aria-colindex="${j + 1}">${this.cellTemplate(row, column, index + 1, this)}</span>`;
+      const cssClasses = column?.readonly ? 'readonly' : '';
+      html += `
+        <span role="cell" part="cell" class="ids-data-grid-cell ${cssClasses}" aria-colindex="${j + 1}">
+          ${this.cellTemplate(row, column, index + 1, this)}
+        </span>
+      `;
     });
 
     html += '</div>';

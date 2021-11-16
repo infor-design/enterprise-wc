@@ -28,6 +28,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   constructor() {
     super();
   }
+
   // the currently selected list item
   #selectedLi;
 
@@ -155,13 +156,13 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.#attachClickListeners(); // for toolbar buttons
     this.#attachDragEventListeners(); // for dragging list items
     this.#attachKeyboardListeners(); // for selecting/editing list items
-    
+
     if (this.virtualScroll) {
       this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
         this.#attachDragEventListeners();
         this.#attachKeyboardListeners();
         this.#focusLi(this.#getFocusedLi()); //TODO: fix
-      })
+      });
     }
   }
 
@@ -343,7 +344,9 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Adds dragging functionality to all list items
    */
   #attachDragEventListeners() {
-    this.container.querySelectorAll('ids-draggable').forEach((draggable) => {
+    const draggables = this.container.querySelectorAll('ids-draggable');
+
+    draggables.forEach((draggable) => {
       this.#attachDragEventListenersForDraggable(draggable);
     });
   }

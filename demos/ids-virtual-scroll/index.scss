@@ -2,16 +2,42 @@ html {
   font-family: 'source sans pro', helvetica, arial, sans-serif;
 }
 
-.ids-data-grid-row {
-  grid-template-columns: 125px 1fr !important;
+ids-virtual-scroll::part(list-item) {
+    padding: 20px 12px;
+    list-style: none;
+    border: 1px solid transparent;
+    border-bottom-color: var(--ids-color-palette-slate-20);
+    contain: content;
 }
 
 .ids-data-grid {
-  border: 0;
-}
 
-ul {
-  list-style: none;
-  margin: 0;
-  padding: 4px 20px;
+  [part="style-wrapper"] {
+    .ids-data-grid-row {
+      grid-template-columns: 125px 1fr !important;
+      padding: 0;
+      display: grid;
+      height: 50px;
+      width: 100%;
+      align-items: center;
+    }
+    .ids-data-grid-cell {
+      display: inline-flex;
+      align-items: center;
+      overflow: hidden;
+      white-space: nowrap;
+      height: 100%;
+      width: 100%;
+    }
+    .text-ellipsis {
+      display: block;
+      padding: 0px 16px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .ids-data-grid-header .ids-data-grid-row {
+    grid-template-columns: 125px 1fr !important;
+  }
 }

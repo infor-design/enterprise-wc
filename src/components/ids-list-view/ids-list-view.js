@@ -25,7 +25,7 @@ const DEFAULT_HEIGHT = 310;
  * @mixes IdsKeyboardMixin
  * @mixes IdsEventsMixin
  * @part container - the root container element
- * @part list - the ul list element
+ * @part list - the list element
  * @part list-item - the li list element
  */
 @customElement('ids-list-view')
@@ -78,11 +78,9 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     const listItems = this.data?.map(this.listItemTemplateFunc());
 
     const html = `
-      <div class="ids-list-view" part="container">
-        <div part="list">
-        ${listItems.length > 0 ? listItems.join('') : ''}
+        <div class="ids-list-view" part="list">
+          ${listItems.length > 0 ? listItems.join('') : ''}
         </div>
-      </div>
     `;
 
     return html;
@@ -95,10 +93,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   virtualScrollTemplate() {
     const html = `
       <ids-virtual-scroll height=${this.height} item-height="${this.itemHeight}">
-        <div class="ids-list-view" part="container">
-          <div slot="contents" part="list">
-          </div>
-        </div>
+        <div class="ids-list-view" part="style-wrapper"></div>
       </ids-virtual-scroll>
     `;
 
@@ -134,15 +129,17 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     if (this.virtualScroll && this?.data.length > 0) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
 
+      const itemHeight = this.itemHeight || this.checkTemplateHeight(`
+        <div part="list-item" tabindex="-1" id="height-tester">
+          ${this.itemTemplate(this.datasource.data[0])}
+        </div>
+      `);
+
+      this.virtualScrollContainer.itemHeight = itemHeight;
+
       this.virtualScrollContainer.itemTemplate = this.listItemTemplateFunc();
       this.virtualScrollContainer.itemCount = this.data.length;
-      this.virtualScrollContainer.itemHeight = this.itemHeight || this.checkTemplateHeight(`
-      <div part="list-item" tabindex="-1" id="height-tester">
-        ${this.itemTemplate(this.datasource.data[0])}
-      </div>
-    `);
       this.virtualScrollContainer.data = this.data;
-      this.shadowRoot.querySelector('.ids-list-view').style.overflow = 'initial';
     }
 
     this.adjustHeight();
@@ -153,7 +150,8 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @private
    */
   adjustHeight() {
-    this.shadowRoot.querySelector('.ids-list-view').style.height = `${this.height}px`;
+    const rootContainer = this.virtualScroll ? this.container.querySelector('ids-virtual-scroll') : this.container;
+    rootContainer.style.height = `${this.height}px`;
   }
 
   /**
@@ -163,7 +161,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @returns {number} The item height
    */
   checkTemplateHeight(itemTemplate) {
-    this.shadowRoot.querySelector('.ids-list-view div').insertAdjacentHTML('beforeEnd', itemTemplate);
+    this.container.insertAdjacentHTML('beforeEnd', itemTemplate);
     const tester = this.shadowRoot.querySelector('#height-tester');
     const height = tester.offsetHeight;
     tester.remove();
@@ -243,14 +241,6 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
 
   get draggable() {
     return stringUtils.stringToBool(this.getAttribute(attributes.DRAGGABLE));
-  }
-
-  /**
-   * Passes focus from the Panel to its Header component
-   * @returns {void}
-   */
-  focus() {
-    this.shadowRoot.querySelector('.ids-list-view [tabindex="0"]')?.focus();
   }
 }
 

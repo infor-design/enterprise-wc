@@ -97,10 +97,13 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
       return node;
     });
 
-    if (this.itemContainer) {
-      this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
-      this.itemContainer.innerHTML = html;
-    }
+    const offset = this.container.querySelector('.offset');
+    offset.style.transform = `translateY(${this.offsetY}px)`;
+
+    // work-around for outside components to style contents inside this shadowroot
+    const wrapper = this.querySelector('[part="style-wrapper"]') ?? offset;
+    wrapper.innerHTML = html;
+
     const elem = this;
     this.triggerEvent('afterrender', elem, { detail: { elem: this, startIndex, endIndex } });
   }
@@ -115,16 +118,8 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     this.container.style.height = `${this.height}px`;
     viewport.style.height = `${this.viewPortHeight}px`;
 
-    this.itemContainer = this.querySelector('[slot="contents"]');
-    if (this.itemContainer) {
-      this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
-    }
-
-    this.isTable = this.querySelectorAll('.ids-data-grid-container').length > 0;
-    if (this.isTable) {
-      const scroll = this.shadowRoot.querySelector('.ids-virtual-scroll');
-      scroll.style.overflow = 'inherit';
-    }
+    const offset = this.container.querySelector('.offset');
+    offset.style.transform = `translateY(${this.offsetY}px)`;
   }
 
   /**
@@ -160,7 +155,9 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     return `
       <div class="ids-virtual-scroll">
         <div class="ids-virtual-scroll-viewport">
-          <slot></slot>
+          <div class="offset">
+            <slot></slot>
+          </div>
         </div>
       </div>
     `;
