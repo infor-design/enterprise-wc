@@ -1,3 +1,5 @@
+import { attributes } from '../../core/ids-attributes';
+
 // Button Styles
 const BUTTON_TYPES = [
   'default',
@@ -45,4 +47,6 @@ const baseProtoClasses = [
   'ids-toggle-button'
 ];
 
-export { BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses}
+export {
+  BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses
+};

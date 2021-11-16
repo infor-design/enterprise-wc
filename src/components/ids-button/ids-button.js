@@ -1,10 +1,22 @@
+// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes'
+import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+// Import Base and Mixins
 import Base from './ids-button-base';
-import renderLoop from '../ids-render-loop/ids-render-loop';
-import IdsRenderLoopItem from '../../components/ids-render-loop/ids-render-loop-item';
-import { BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses } from './ids-button-attributes'
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
+
+import {
+  BUTTON_TYPES,
+  BUTTON_DEFAULTS,
+  BUTTON_ATTRIBUTES,
+  ICON_ALIGN,
+  baseProtoClasses
+} from './ids-button-attributes';
+
+// Import Styles
 import styles from './ids-button.scss';
 
 /**

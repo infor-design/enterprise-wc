@@ -1,9 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes'
+import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-checkbox-base';
 import IdsText from '../ids-text/ids-text';
-import attribs from './ids-checkbox-attributes'
+import attribs from './ids-checkbox-attributes';
 import styles from './ids-checkbox.scss';
 
 /**
@@ -164,7 +164,6 @@ export default class IdsCheckbox extends Base {
     this.offEvent('languagechange.checkbox-container');
     this.onEvent('languagechange.checkbox-container', this.closest('ids-container'), async (e) => {
       await this.setLanguage(e.detail.language.name);
-      // Do something with parent lang
     });
   }
 

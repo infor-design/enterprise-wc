@@ -217,7 +217,6 @@ export default class IdsElement extends HTMLElement {
    * @private
    */
   appendStyles() {
-
     if (this.hasStyles) {
       return;
     }

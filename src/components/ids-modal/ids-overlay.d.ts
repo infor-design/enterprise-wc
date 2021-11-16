@@ -1,6 +1,6 @@
-import { IdsElement } from '../../core/ids-element';
+import Base from './ids-overlay-base';
 
-export default class IdsOverlay extends IdsElement {
+export default class IdsOverlay extends Base {
   /** If true, causes the overlay to be visible */
   visible?: boolean;
 

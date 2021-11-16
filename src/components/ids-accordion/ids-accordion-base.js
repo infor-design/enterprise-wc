@@ -13,6 +13,6 @@ const Base = IdsColorVariantMixin(
       )
     )
   )
-)
+);
 
 export default Base;

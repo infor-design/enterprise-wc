@@ -25,7 +25,7 @@ import {
 } from './ids-popup-attributes';
 
 // Import Dependencies
-import IdsRenderLoop from '../ids-render-loop/ids-render-loop';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 // Import Styles
@@ -97,48 +97,48 @@ export default class IdsPopup extends Base {
    * Watches for changes
    * @property {MutationObserver} mo this Popup component's mutation observer
    */
-    #mo = new MutationObserver((mutations) => {
-      if (this.#visible) {
-        let placed = false;
-        for (const m of mutations) {
-          if (placed) {
-            break;
-          }
-          if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
-            this.place();
-            placed = true;
-          }
+  #mo = new MutationObserver((mutations) => {
+    if (this.#visible) {
+      let placed = false;
+      for (const m of mutations) {
+        if (placed) {
+          break;
+        }
+        if (['subtree', 'childList', 'characterData', 'characterDataOldValue'].includes(m.type)) {
+          this.place();
+          placed = true;
         }
       }
-    })
+    }
+  });
 
-    /**
-     * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
-     * coordinate-specific values to the Popup's inner container.
-     * @private
-     * @property {ResizeObserver} mo this Popup component's resize observer
-     */
-    #ro = new ResizeObserver((entries) => {
-      if (this.open) {
-        for (const entry of entries) {
-          if (entry.target.tagName.toLowerCase() === 'ids-container') {
-            this.#fixPlacementOnResize();
-          } else {
-            this.#fix3dMatrixOnResize();
-          }
+  /**
+   * Watches for resizing that occurs whenever the page changes dimensions, and re-applies some
+   * coordinate-specific values to the Popup's inner container.
+   * @private
+   * @property {ResizeObserver} mo this Popup component's resize observer
+   */
+  #ro = new ResizeObserver((entries) => {
+    if (this.open) {
+      for (const entry of entries) {
+        if (entry.target.tagName.toLowerCase() === 'ids-container') {
+          this.#fixPlacementOnResize();
+        } else {
+          this.#fix3dMatrixOnResize();
         }
       }
-    })
+    }
+  });
 
   /**
    * Places the Popup and performs an adjustment to its `transform: matrix3d()`
    * CSS property, if applicable.
    */
   #fixPlacementOnResize() {
-      this.place().then(() => {
-        this.#fix3dMatrixOnResize();
-      });
-    }
+    this.place().then(() => {
+      this.#fix3dMatrixOnResize();
+    });
+  }
 
   /**
    * Performs an adjustment to the Popup's `transform: matrix3d()`
@@ -947,7 +947,7 @@ export default class IdsPopup extends Base {
         this.openCheck.destroy(true);
       }
 
-      this.openCheck = IdsRenderLoop.register(new IdsRenderLoopItem({
+      this.openCheck = renderLoop.register(new IdsRenderLoopItem({
         duration: 70,
         timeoutCallback: () => {
           // Always fire the 'show' event
@@ -995,7 +995,7 @@ export default class IdsPopup extends Base {
       if (this.closedCheck) {
         this.closedCheck.destroy(true);
       }
-      this.closedCheck = IdsRenderLoop.register(new IdsRenderLoopItem({
+      this.closedCheck = renderLoop.register(new IdsRenderLoopItem({
         duration: 200,
         timeoutCallback: () => {
           // Always fire the 'hide' event

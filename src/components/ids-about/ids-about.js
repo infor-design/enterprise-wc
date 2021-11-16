@@ -1,18 +1,19 @@
-//import { IdsElement, customElement, scss, mix } from '../../core';
-
-
-import { customElement, scss } from '../../core/ids-decorators'
+// Import Core
 import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
 
-import IdsModal from '../ids-modal';
-import IdsHyperlink from '../ids-hyperlink';
+// Import Mixins And Basse
+import Base from './ids-about-base';
 
+// Import Dependencies
+import IdsModal from '../ids-modal/ids-modal';
+import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
+// Import Utils
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { getSpecs } from '../../utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
 
-import { IdsStringUtils, IdsDOMUtils, IdsDeviceEnvUtils } from '../../utils';
-
-import { IdsLocaleMixin } from '../../mixins';
-
+// Import Styles
 import styles from './ids-about.scss';
 
 /**
@@ -25,7 +26,7 @@ import styles from './ids-about.scss';
  */
 @customElement('ids-about')
 @scss(styles)
-export default class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
+export default class IdsAbout extends Base {
   constructor() {
     super();
   }
@@ -84,6 +85,11 @@ export default class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     this.#refreshProduct();
     this.#attachCloseButton();
 
+    this.offEvent('languagechange.about-container');
+    this.onEvent('languagechange.about-container', this.closest('ids-container'), async () => {
+      this.#refreshDeviceSpecs();
+      this.#refreshCopyright();
+    });
     return this;
   }
 
@@ -172,7 +178,7 @@ export default class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     const attrVal = this.getAttribute(attributes.DEVICE_SPECS);
 
     if (attrVal) {
-      return IdsStringUtils.stringToBool(attrVal);
+      return stringToBool(attrVal);
     }
 
     return true;
@@ -183,7 +189,7 @@ export default class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    * @param {string|boolean} val deviceSpecs attribute value
    */
   set deviceSpecs(val) {
-    const boolVal = IdsStringUtils.stringToBool(val);
+    const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.DEVICE_SPECS, boolVal);
 
@@ -202,7 +208,7 @@ export default class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     slot.forEach((item) => item.remove());
 
     if (this.deviceSpecs) {
-      const specs = IdsDeviceEnvUtils.getSpecs();
+      const specs = getSpecs();
       const element = `<ids-text slot="device" type="p"><span>${this.locale.translate('OperatingSystem')} : ${specs.os.replace(specs.currentOSVersion, '')} ${specs.currentOSVersion}</span><br/>
         <span>${this.locale.translate('Platform')} : ${specs.platform}</span><br/>
         <span>${this.locale.translate('Mobile')} : ${specs.isMobile}</span><br/>
@@ -242,7 +248,7 @@ export default class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
     const attrVal = this.getAttribute(attributes.USE_DEFAULT_COPYRIGHT);
 
     if (attrVal) {
-      return IdsStringUtils.stringToBool(attrVal);
+      return stringToBool(attrVal);
     }
 
     return true;
@@ -253,7 +259,7 @@ export default class IdsAbout extends mix(IdsModal).with(IdsLocaleMixin) {
    * @param {string|boolean} val useDefaultCopyright attribute value
    */
   set useDefaultCopyright(val) {
-    const boolVal = IdsStringUtils.stringToBool(val);
+    const boolVal = stringToBool(val);
 
     this.setAttribute(attributes.USE_DEFAULT_COPYRIGHT, boolVal);
 

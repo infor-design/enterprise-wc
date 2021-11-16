@@ -1,6 +1,6 @@
-import IdsModal from '../ids-modal';
+import Base from './ids-about-base';
 
-export default class IdsAbout extends IdsModal {
+export default class IdsAbout extends Base {
   /** Sets semantic product version number */
   productVersion?: string;
 

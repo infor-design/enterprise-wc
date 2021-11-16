@@ -1,7 +1,7 @@
-import { IdsElement } from '../../core/ids-element';
+import Base from './ids-modal-base';
 import IdsOverlay from './ids-overlay';
 import IdsPopup from '../ids-popup/ids-popup';
-import IdsModalButton from '../ids-modal-button';
+import IdsModalButton from '../ids-modal-button/ids-modal-button';
 
 interface beforeshow extends Event {
   bubbles: true,
@@ -41,9 +41,9 @@ export { IdsOverlay };
 /**
  * @type {any}
  */
-export default class IdsModal extends IdsElement {
+export default class IdsModal extends Base {
   /** Allows for the definition of an external overlay, or for the use of a generated, internal overlay */
-  overlay?: IdsOverlay | null
+  overlay?: IdsOverlay | null;
 
   /** If defined, points to an element that causes the Modal to become active when clicked */
   target?: HTMLElement;

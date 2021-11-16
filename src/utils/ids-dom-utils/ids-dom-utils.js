@@ -20,7 +20,7 @@ export function getClosestShadow(node) {
  * @returns {Node} the parent node
  */
 export function getClosestContainerNode(node) {
-  return this.getClosestShadow(node) || document;
+  return getClosestShadow(node) || document;
 }
 
 /**

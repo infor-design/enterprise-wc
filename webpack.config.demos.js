@@ -17,7 +17,8 @@ process.env.NODE_ENV = isProduction ? 'production' : 'development';
 const demosDir = './demos';
 
 module.exports = {
-  /* entry: glob.sync('./demos/ids-accordion/**.js').reduce((acc, filePath) => {
+  /*
+  entry: glob.sync('./demos/ids-about/**.js').reduce((acc, filePath) => {
     let entry = filePath.replace(`/${path.basename(filePath)}`, '');
     entry = (entry === './demos' ? 'index' : entry.replace('./demos/', ''));
 
@@ -36,6 +37,15 @@ module.exports = {
   }, {}),
   */
   entry: {
+    // Dependencies for many of the examples
+    'ids-container/ids-container': `${demosDir}/ids-container/index.js`,
+    'ids-icon/ids-icon': `${demosDir}/ids-icon/index.js`,
+    'ids-layout-grid/ids-layout-grid': `${demosDir}/ids-layout-grid/index.js`,
+    'ids-text/ids-text': `${demosDir}/ids-text/index.js`,
+    // About
+    'ids-about/example': './demos/ids-about/example.js',
+    'ids-about/ids-about': './demos/ids-about/index.js',
+    'ids-about/standalone-css': './demos/ids-about/standalone-css.js',
     // Accordion
     'ids-accordion/example': `${demosDir}/ids-accordion/example.js`,
     'ids-accordion/ids-accordion': `${demosDir}/ids-accordion/index.js`,
@@ -43,11 +53,6 @@ module.exports = {
     // Tags
     'ids-tag/example': `${demosDir}/ids-tag/example.js`,
     'ids-tag/ids-tag': `${demosDir}/ids-tag/index.js`,
-    // Dependencies for many of the examples
-    'ids-container/ids-container': `${demosDir}/ids-container/index.js`,
-    'ids-icon/ids-icon': `${demosDir}/ids-icon/index.js`,
-    'ids-layout-grid/ids-layout-grid': `${demosDir}/ids-layout-grid/index.js`,
-    'ids-text/ids-text': `${demosDir}/ids-text/index.js`,
     // 'ids-theme-switcher/ids-theme-switcher': `${demosDir}/ids-theme-switcher/index.js`,
     // 'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`
   },

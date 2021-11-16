@@ -6,13 +6,13 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
   }
 
   connectedCallback() {
-    if (!this.getAttribute('language')) {
+    super.connectedCallback?.();
+    if (!this.getAttribute('language') && this.language?.name) {
       this.setAttribute('language', this.language.name);
     }
-    if (!this.getAttribute('locale')) {
+    if (!this.getAttribute('locale') && this.locale?.locale) {
       this.setAttribute('locale', this.locale.locale.name);
     }
-    super.connectedCallback?.();
   }
 
   static get attributes() {
@@ -42,7 +42,10 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
       this.locale.updateLangTag(this, value);
       this.locale.updateLangTag(this.container, value);
       this.setAttribute('language', value);
-      this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.locale } });
+
+      requestAnimationFrame(() => {
+        this.triggerEvent('languagechange', this, { detail: { elem: this, language: this.language, locale: this.locale } });
+      });
     }
   }
 
@@ -51,7 +54,8 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
    * @returns {object} The language data object
    */
   get language() {
-    return this.locale.language;
+    this.attachLocale();
+    return this.locale?.language;
   }
 
   /**
@@ -75,7 +79,10 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
     if (value) {
       this.locale.setLocale(value);
       this.setAttribute('locale', value);
-      this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.locale.locale } });
+
+      requestAnimationFrame(() => {
+        this.triggerEvent('localechange', this, { detail: { elem: this, language: this.language, locale: this.locale.locale } });
+      });
     }
   }
 
@@ -84,11 +91,18 @@ const IdsLocaleMixin = (superclass) => class extends superclass {
    * @returns {any} link to the global locale instance
    */
   get locale() {
+    this.attachLocale();
+    return this.state.locale;
+  }
+
+  /**
+   * Attach the container locale to this instance
+   */
+  attachLocale() {
     if (this.tagName !== 'IDS-CONTAINER' && !this.state?.locale) {
       this.state = this.state || {};
       this.state.locale = document.querySelector('ids-container')?.locale;
     }
-    return this.state.locale;
   }
 };
 

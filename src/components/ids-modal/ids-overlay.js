@@ -1,27 +1,16 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  attributes,
-  scss
-} from '../../core/ids-element';
+// Import Core
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
 
 // Import Utils
-import { IdsStringUtils, IdsDOMUtils } from '../../utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import { transitionToPromise } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
+// Import Mixins And Base
+import Base from './ids-overlay-base';
 
 // Import Styles
 import styles from './ids-overlay.scss';
-
-const appliedMixins = [
-  IdsEventsMixin,
-  IdsThemeMixin,
-];
 
 /**
  * IDS Overlay Component
@@ -32,7 +21,7 @@ const appliedMixins = [
  */
 @customElement('ids-overlay')
 @scss(styles)
-class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
+export default class IdsOverlay extends Base {
   constructor() {
     super();
 
@@ -69,7 +58,7 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
    * @param {boolean} val true if the overlay should be made visible
    */
   set visible(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
 
     this.state.visible = trueVal;
     this.#smoothlyAnimateVisibility(trueVal);
@@ -109,7 +98,7 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
    * @returns {Promise} fulfilled after a CSS transition completes.
    */
   async #changeOpacity(val) {
-    return IdsDOMUtils.transitionToPromise(this.container, 'opacity', `${val}`);
+    return transitionToPromise(this.container, 'opacity', `${val}`);
   }
 
   /**
@@ -132,5 +121,3 @@ class IdsOverlay extends mix(IdsElement).with(...appliedMixins) {
     }
   }
 }
-
-export default IdsOverlay;
