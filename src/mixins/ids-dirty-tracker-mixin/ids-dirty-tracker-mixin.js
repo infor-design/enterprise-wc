@@ -1,7 +1,5 @@
-import { attributes } from '../../core';
-
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * Track changes on inputs elements and show a dirty indicator.
@@ -14,7 +12,6 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
     this.handleDirtyTracker();
   }
 
@@ -213,7 +210,7 @@ const IdsDirtyTrackerMixin = (superclass) => class extends superclass {
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
     } else {

@@ -1,9 +1,8 @@
 import maskAPI from '../../components/ids-mask/ids-mask-global';
 import { convertPatternFromString, PLACEHOLDER_CHAR } from '../../components/ids-mask/ids-mask-common';
 import { dateMask, numberMask } from '../../components/ids-mask/ids-masks';
-
 import { attributes } from '../../core/ids-attributes';
-import { IdsStringUtils } from '../../utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 const MASK_ATTRIBUTES = [
   attributes.MASK,
@@ -52,7 +51,7 @@ const IdsMaskMixin = (superclass) => class extends superclass {
   }
 
   set maskGuide(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     this.maskState.guide = trueVal;
     this.processMaskWithCurrentValue();
   }
@@ -94,7 +93,7 @@ const IdsMaskMixin = (superclass) => class extends superclass {
   }
 
   set maskRetainPositions(val) {
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     this.maskState.keepCharacterPositions = trueVal;
   }
 

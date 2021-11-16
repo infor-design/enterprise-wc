@@ -1,5 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
-import IdsTooltip from '../../components/ids-tooltip';
+import IdsTooltip from '../../components/ids-tooltip/ids-tooltip';
 
 /**
 /**

@@ -1,4 +1,4 @@
-import { deepClone } from '../utils/ids-deep-clone-utils/ids-deep-clone-utils';
+import deepClone from '../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 /**
  * Handle Attaching Array / Object Data to Components

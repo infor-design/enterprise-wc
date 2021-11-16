@@ -34,7 +34,7 @@ module.exports = {
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),
     chunkFormat: 'module',
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist/production/sample'),
     publicPath: 'auto',
     clean: true
   },

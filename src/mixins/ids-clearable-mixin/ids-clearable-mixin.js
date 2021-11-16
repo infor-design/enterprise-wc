@@ -1,7 +1,5 @@
-import { attributes } from '../../core';
-
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  *Clearable (Shows an x-icon button to clear).
@@ -203,7 +201,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * @param {boolean|string} value If true will set `clearable` attribute
    */
   set clearable(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CLEARABLE, val.toString());
     } else {
@@ -219,7 +217,7 @@ const IdsClearableMixin = (superclass) => class extends superclass {
    * @param {boolean|string} value If true will set `clearable-forced` attribute
    */
   set clearableForced(value) {
-    const val = stringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.CLEARABLE_FORCED, val.toString());
     } else {
