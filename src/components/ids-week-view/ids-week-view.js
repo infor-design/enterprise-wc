@@ -121,7 +121,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    * Add toolbar HTML to shadow
    */
   #renderToolbar() {
-    const toolbarTemplate = `<ids-toolbar>
+    const toolbarTemplate = `<ids-toolbar class="week-view-header">
       <ids-toolbar-section type="buttonset">
         <ids-button class="week-view-btn-previous">
           <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
@@ -314,15 +314,17 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
         '<div class="week-view-time-marker"></div>'
       ));
 
+    const hoursDiff = this.endHour - this.startHour + 1;
     // Add/remove timeline based on current hour and startHour/endHour parameters
     const setTime = () => {
       const now = new Date();
       const hours = now.getHours();
       const mins = now.getMinutes();
       const diff = hours - this.startHour + (mins / 60);
-
       // 52 is the size of one whole hour (25 + two borders)
-      this.container.querySelector('.week-view-hour-row').style = `--timeline-shift: ${diff * 52}px`;
+      const position = diff <= hoursDiff ? diff * 52 : 0;
+
+      this.container.querySelector('.week-view-hour-row').style = `--timeline-shift: ${position}px`;
     };
 
     setTime();

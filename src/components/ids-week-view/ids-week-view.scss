@@ -2,44 +2,31 @@
 
 $hour-row-height: 25px;
 
-.ids-week-view {
+:host {
   @include h-full();
+
+  contain: content;
+}
+
+.ids-week-view {
   @include flex();
   @include border-solid();
   @include border-1();
 
   flex-direction: column;
   overflow: auto;
-
-  // Text direction
-  &[dir='rtl'] {
-    .week-view-all-day-wrapper {
-      text-align: right;
-    }
-
-    .week-view-table {
-      th:not(:first-child),
-      td:not(:first-child) {
-        border-right: 1px solid;
-      }
-    }
-  }
-
-  &:not([dir='rtl']) {
-    .week-view-table {
-      th:not(:last-child),
-      td:not(:last-child) {
-        border-right: 1px solid;
-      }
-    }
-  }
+  height: inherit;
 
   .week-view-header {
     @include sticky();
 
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
     left: 0;
     top: 0;
-    z-index: 3;
+    z-index: 4;
+    height: 50px;
+    flex-shrink: 0;
   }
 
   .week-view-table-header {
@@ -68,12 +55,13 @@ $hour-row-height: 25px;
 
     // All day section
     .week-view-all-day-wrapper {
-      @include border-t-1();
       @include relative();
       @include box-border();
 
       height: 44px;
       text-transform: unset;
+      border-top-width: 1px;
+      border-top-style: solid;
     }
 
     th:nth-child(1) .week-view-all-day-wrapper {
@@ -84,7 +72,6 @@ $hour-row-height: 25px;
 
   .week-view-table {
     @include w-full();
-    @include border-t-1();
 
     border-collapse: separate;
     border-spacing: 0;
@@ -131,6 +118,9 @@ $hour-row-height: 25px;
 
     th {
       @include sticky();
+
+      top: 51px;
+      z-index: 3;
     }
   }
 
@@ -157,55 +147,58 @@ $hour-row-height: 25px;
   }
 
   // Theme mode
-  &[version='new'][mode='light'] {
-    @include bg-white();
-    @include border-slate-20();
+  // [version='new'][mode='light'] as default
+  @include bg-white();
+  @include border-slate-20();
 
-    .week-view-table {
-      &,
-      th,
-      td {
-        @include border-slate-20();
-      }
-
-      tr:nth-child(odd) td {
-        border-bottom-color: var(--ids-color-palette-slate-10);
-      }
-    }
-
-    .week-view-all-day-wrapper {
+  .week-view-table {
+    th,
+    td {
       @include border-slate-20();
     }
 
-    .week-view-container {
-      @include bg-white();
-
-      th {
-        @include bg-white();
-      }
-    }
-
-    .week-view-header-wrapper.is-today {
-      @include text-azure-60();
-
-      box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-60);
-    }
-
-    .week-view-today-text {
-      @include text-azure-60();
-    }
-
-    .week-view-time-marker {
-      @include border-azure-60();
+    tr:nth-child(odd) td {
+      border-bottom-color: var(--ids-color-palette-slate-10);
     }
   }
 
+  .week-view-header {
+    @include border-slate-20();
+    @include bg-white();
+  }
+
+  .week-view-all-day-wrapper {
+    @include border-slate-20();
+  }
+
+  .week-view-container {
+    @include bg-white();
+
+    th {
+      @include bg-white();
+    }
+  }
+
+  .week-view-header-wrapper.is-today {
+    @include text-azure-60();
+
+    box-shadow: 0 4px 0 0 var(--ids-color-palette-azure-60);
+  }
+
+  .week-view-today-text {
+    @include text-azure-60();
+  }
+
+  .week-view-time-marker {
+    @include border-azure-60();
+  }
+
+  &[version='classic'][mode='dark'],
   &[version='new'][mode='dark'] {
     @include bg-slate-100();
     @include border-slate-70();
 
     .week-view-table {
-      &,
       th,
       td {
         @include border-slate-70();
@@ -214,6 +207,11 @@ $hour-row-height: 25px;
       tr:nth-child(odd) td {
         border-bottom-color: var(--ids-color-palette-slate-70);
       }
+    }
+
+    .week-view-header {
+      @include border-slate-70();
+      @include bg-slate-100();
     }
 
     .week-view-all-day-wrapper {
@@ -243,12 +241,12 @@ $hour-row-height: 25px;
     }
   }
 
+  &[version='classic'][mode='contrast'],
   &[version='new'][mode='contrast'] {
     @include bg-white();
     @include border-slate-30();
 
     .week-view-table {
-      &,
       th,
       td {
         @include border-slate-30();
@@ -257,6 +255,11 @@ $hour-row-height: 25px;
       tr:nth-child(odd) td {
         border-bottom-color: var(--ids-color-palette-slate-30);
       }
+    }
+
+    .week-view-header {
+      @include border-slate-30();
+      @include bg-white();
     }
 
     .week-view-all-day-wrapper {
@@ -283,6 +286,31 @@ $hour-row-height: 25px;
 
     .week-view-time-marker {
       @include border-azure-90();
+    }
+  }
+
+  // Text direction
+  &[dir='rtl'] {
+    .week-view-all-day-wrapper {
+      text-align: right;
+    }
+
+    .week-view-table {
+      th:not(:first-child),
+      td:not(:first-child) {
+        border-right-width: 1px;
+        border-right-style: solid;
+      }
+    }
+  }
+
+  &:not([dir='rtl']) {
+    .week-view-table {
+      th:not(:last-child),
+      td:not(:last-child) {
+        border-right-width: 1px;
+        border-right-style: solid;
+      }
     }
   }
 }
