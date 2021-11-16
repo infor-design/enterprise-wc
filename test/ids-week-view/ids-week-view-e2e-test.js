@@ -132,18 +132,6 @@ describe('Ids Week View e2e Tests', () => {
   });
 
   it('should show/hide timeline', async () => {
-    // Hide timeline
-    await page.evaluate((el) => {
-      const element = document.querySelector(el);
-
-      element.showTimeline = false;
-    }, name);
-
-    let timeline = await page.$eval(name, (el) =>
-      el.shadowRoot.querySelector('.week-view-time-marker'));
-
-    expect(timeline).toBeNull();
-
     // Show timeline
     await page.evaluate((el) => {
       const element = document.querySelector(el);
@@ -151,9 +139,21 @@ describe('Ids Week View e2e Tests', () => {
       element.showTimeline = true;
     }, name);
 
-    timeline = await page.$eval(name, (el) =>
+    let timeline = await page.$eval(name, (el) =>
       el.shadowRoot.querySelector('.week-view-time-marker'));
 
     expect(timeline).not.toBeNull();
+
+    // Hide timeline
+    await page.evaluate((el) => {
+      const element = document.querySelector(el);
+
+      element.showTimeline = false;
+    }, name);
+
+    timeline = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('.week-view-time-marker'));
+
+    expect(timeline).toBeNull();
   });
 });
