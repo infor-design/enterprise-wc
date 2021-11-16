@@ -1,4 +1,4 @@
-import { IdsStringUtils as stringUtils } from '../../utils';
+import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 /**
  * Shared in between tree.
@@ -74,4 +74,4 @@ const IdsTreeShared = {
   }
 };
 
-export { IdsTreeShared };
+export default IdsTreeShared;

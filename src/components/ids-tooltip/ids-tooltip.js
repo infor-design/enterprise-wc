@@ -1,17 +1,8 @@
-// Import Core
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss, appendIds } from '../../core/ids-decorators';
-
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Base
 import Base from './ids-tooltip-base';
-
-// Import Dependencies
 import IdsPopup from '../ids-popup/ids-popup';
-
-// Import styles
 import styles from './ids-tooltip.scss';
 
 /**

@@ -1,26 +1,12 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Supporting Components
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsAlert from '../ids-alert/ids-alert';
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+import IdsProgressBar from '../ids-progress-bar/ids-progress-bar';
+import IdsUploadAdvancedShared from './ids-upload-advanced-shared';
+import Base from './ids-upload-advanced-file-base';
 import styles from './ids-upload-advanced-file.scss';
-import IdsAlert from '../ids-alert';
-import IdsTriggerButton from '../ids-trigger-field';
-import IdsProgressBar from '../ids-progress-bar';
-import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
 
 /**
  * IDS UploadAdvancedFile Component
@@ -30,7 +16,7 @@ import {
  */
 @customElement('ids-upload-advanced-file')
 @scss(styles)
-class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsUploadAdvancedFile extends Base {
   constructor() {
     super();
   }
@@ -62,8 +48,8 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The template
    */
   template() {
-    const toBool = IdsStringUtils.stringToBool;
-    const d = shared.DEFAULTS;
+    const toBool = stringToBool;
+    const d = IdsUploadAdvancedShared.DEFAULTS;
     const disabled = toBool(this.disabled) ? ' disabled' : '';
     const hiddenArea = `
       <div class="hidden">
@@ -144,7 +130,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
       btnClose: this.shadowRoot.querySelector('.btn-close'),
       alerts: [].slice.call(this.shadowRoot.querySelectorAll('.status ids-alert')),
     };
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       el.root?.classList.add(attributes.DISABLED);
       el.progress.setAttribute(attributes.DISABLED, val.toString());
@@ -168,13 +154,13 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   setStatus() {
-    if (this.status === shared.STATUS.aborted) {
+    if (this.status === IdsUploadAdvancedShared.STATUS.aborted) {
       return;
     }
     const rootEl = this.shadowRoot.querySelector('.ids-upload-advanced-file');
     const progress = this.shadowRoot.querySelector('ids-progress-bar');
     const closeButtonTextEl = this.shadowRoot.querySelector('.btn-close .audible');
-    let value = IdsStringUtils.stringToNumber(this.value);
+    let value = stringToNumber(this.value);
     value = value > -1 ? value : 0;
     let shouldTrigger = true;
 
@@ -183,13 +169,13 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
       if (errorMsg) {
         errorMsg.innerHTML = this.errorHtml;
       }
-      if (this.status === shared.STATUS.errored) {
+      if (this.status === IdsUploadAdvancedShared.STATUS.errored) {
         shouldTrigger = false;
       } else {
-        this.status = shared.STATUS.errored;
+        this.status = IdsUploadAdvancedShared.STATUS.errored;
       }
     } else if (value < 100) {
-      this.status = shared.STATUS.inProcess;
+      this.status = IdsUploadAdvancedShared.STATUS.inProcess;
     }
 
     const progressText = this.shadowRoot.querySelector('.progress-text');
@@ -197,7 +183,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
       const percentText = progressText.querySelector('.percent');
       percentText.textContent = `${Math.round(value)}%`;
 
-      if (this.status === shared.STATUS.completed) {
+      if (this.status === IdsUploadAdvancedShared.STATUS.completed) {
         progressText.remove();
       }
     }
@@ -205,10 +191,10 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
     closeButtonTextEl.innerHTML = this.closeButtonText;
     progress?.setAttribute(attributes.VALUE, value.toString());
     progress?.setAttribute(attributes.LABEL, this.progressLabelText);
-    rootEl?.classList.remove(...Object.values(shared.STATUS));
+    rootEl?.classList.remove(...Object.values(IdsUploadAdvancedShared.STATUS));
     rootEl?.classList.add(this.status);
 
-    if (shouldTrigger && this.status !== shared.STATUS.inProcess) {
+    if (shouldTrigger && this.status !== IdsUploadAdvancedShared.STATUS.inProcess) {
       const events = { errored: 'error', completed: 'complete' };
       this.dispatchChangeEvent(events[this.status]);
     }
@@ -242,8 +228,8 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   abortHandler(e = null) {
-    if (this.status === shared.STATUS.inProcess) {
-      this.status = shared.STATUS.aborted;
+    if (this.status === IdsUploadAdvancedShared.STATUS.inProcess) {
+      this.status = IdsUploadAdvancedShared.STATUS.aborted;
       this.dispatchChangeEvent('abort', e);
     }
   }
@@ -265,7 +251,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
   completeHandler(e) {
     if (e.target.readyState === 4 && e.target.status === 200) {
       this.value = '100';
-      this.status = shared.STATUS.completed;
+      this.status = IdsUploadAdvancedShared.STATUS.completed;
       this.setStatus();
     } else {
       if (this.value === '100') {
@@ -287,7 +273,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
     } else if (typeof e === 'object') {
       err = `${e.target.status} - ${e.target.statusText}`;
     }
-    this.status = shared.STATUS.error;
+    this.status = IdsUploadAdvancedShared.STATUS.error;
     this.error = err;
   }
 
@@ -297,8 +283,8 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {number} The close button text
    */
   get loaded() {
-    const percent = IdsStringUtils.stringToNumber(this.value);
-    const total = IdsStringUtils.stringToNumber(this.size);
+    const percent = stringToNumber(this.value);
+    const total = stringToNumber(this.size);
     return (percent * total) / 100;
   }
 
@@ -307,7 +293,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @private
    * @returns {string} The close button text
    */
-  get loadedFormatted() { return shared.formatBytes(this.loaded); }
+  get loadedFormatted() { return IdsUploadAdvancedShared.formatBytes(this.loaded); }
 
   /**
    * Get formatted size value
@@ -315,7 +301,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The close button text
    */
   get sizeFormatted() {
-    return shared.formatBytes(IdsStringUtils.stringToNumber(this.size));
+    return IdsUploadAdvancedShared.formatBytes(stringToNumber(this.size));
   }
 
   /**
@@ -324,11 +310,11 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The close button text
    */
   get closeButtonText() {
-    let text = shared.slotVal(this.shadowRoot, 'text-btn-cancel');
-    if (this.status === shared.STATUS.errored) {
-      text = shared.slotVal(this.shadowRoot, 'text-btn-close-error');
-    } else if (this.status === shared.STATUS.completed) {
-      text = shared.slotVal(this.shadowRoot, 'text-btn-remove');
+    let text = IdsUploadAdvancedShared.slotVal(this.shadowRoot, 'text-btn-cancel');
+    if (this.status === IdsUploadAdvancedShared.STATUS.errored) {
+      text = IdsUploadAdvancedShared.slotVal(this.shadowRoot, 'text-btn-close-error');
+    } else if (this.status === IdsUploadAdvancedShared.STATUS.completed) {
+      text = IdsUploadAdvancedShared.slotVal(this.shadowRoot, 'text-btn-remove');
     }
     return text;
   }
@@ -339,7 +325,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The progress label text
    */
   get progressLabelText() {
-    return shared.slotVal(this.shadowRoot, 'text-progress-label')
+    return IdsUploadAdvancedShared.slotVal(this.shadowRoot, 'text-progress-label')
       .replace('{file-name}', this.fileName)
       .replace('{loaded}', this.loadedFormatted.toString())
       .replace('{size}', this.sizeFormatted.toString())
@@ -352,8 +338,8 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The error
    */
   get errorHtml() {
-    const isInSlot = Object.values(shared.ERRORS).indexOf(this.error) > -1;
-    return isInSlot ? shared.slotVal(this.shadowRoot, this.error) : this.error;
+    const isInSlot = Object.values(IdsUploadAdvancedShared.ERRORS).indexOf(this.error) > -1;
+    return isInSlot ? IdsUploadAdvancedShared.slotVal(this.shadowRoot, this.error) : this.error;
   }
 
   /**
@@ -361,7 +347,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean|string} value If true will set disabled attribute
    */
   set disabled(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
     } else {
@@ -429,7 +415,7 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
    */
   set value(val) {
     if (val) {
-      if (!this.status || this.status === shared.STATUS.inProcess) {
+      if (!this.status || this.status === IdsUploadAdvancedShared.STATUS.inProcess) {
         this.setAttribute(attributes.VALUE, val.toString());
       }
     } else {
@@ -442,5 +428,3 @@ class IdsUploadAdvancedFile extends mix(IdsElement).with(IdsEventsMixin) {
     return this.getAttribute(attributes.VALUE);
   }
 }
-
-export default IdsUploadAdvancedFile;

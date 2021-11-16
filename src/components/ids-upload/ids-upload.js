@@ -1,25 +1,10 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
-
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import '../ids-input/ids-input';
+import '../ids-trigger-field/ids-trigger-field';
+import Base from './ids-upload-base';
 import styles from './ids-upload.scss';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-// Supporting components
-import '../ids-input';
-import '../ids-trigger-field';
 
 // Input id
 const ID = 'ids-upload-id';
@@ -37,7 +22,7 @@ const ID = 'ids-upload-id';
  */
 @customElement('ids-upload')
 @scss(styles)
-class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsUpload extends Base {
   constructor() {
     super();
   }
@@ -86,7 +71,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {string} The template
    */
   template() {
-    const trueVal = (/** @type {any} */v) => IdsStringUtils.stringToBool(v);
+    const trueVal = (/** @type {any} */v) => stringToBool(v);
     const accept = this.accept ? ` accept="${this.accept}"` : '';
     const dirtyTracker = trueVal(this.dirtyTracker) ? ` dirty-tracker="${this.dirtyTracker}"` : '';
     const disabled = trueVal(this.disabled) ? ` disabled="${this.disabled}"` : '';
@@ -332,7 +317,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @returns {boolean} true, if not disabled or readonly
    */
   get hasAccess() {
-    const trueVal = (/** @type {any} */ v) => IdsStringUtils.stringToBool(v);
+    const trueVal = (/** @type {any} */ v) => stringToBool(v);
     return !(trueVal(this.disabled) || trueVal(this.readonly));
   }
 
@@ -357,7 +342,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean|string} value If true will set `dirty-tracker` attribute
    */
   set dirtyTracker(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DIRTY_TRACKER, val.toString());
       this.textInput.dirtyTracker = true;
@@ -374,7 +359,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean|string} value If true will set `disabled` attribute
    */
   set disabled(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
       this.textInput.readonly = false;
@@ -429,7 +414,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    */
   set multiple(value) {
     this.fileInput = this.shadowRoot.querySelector(`#${ID}`);
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.MULTIPLE, val.toString());
       this.fileInput?.setAttribute(attributes.MULTIPLE, 'multiple');
@@ -446,7 +431,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean|string} value of the `no-text-ellipsis` property
    */
   set noTextEllipsis(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.NO_TEXT_ELLIPSIS, val.toString());
       this.textInput.textEllipsis = false;
@@ -479,7 +464,7 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
    * @param {boolean|string} value If true will set `readonly` attribute
    */
   set readonly(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.READONLY, val.toString());
       this.textInput.bgTransparent = false;
@@ -578,5 +563,3 @@ class IdsUpload extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
 
   get value() { return this.getAttribute(attributes.VALUE); }
 }
-
-export default IdsUpload;

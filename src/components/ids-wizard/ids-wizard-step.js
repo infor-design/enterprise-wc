@@ -1,7 +1,5 @@
-import {
-  IdsElement,
-  customElement
-} from '../../core';
+import { customElement } from '../../core/ids-decorators';
+import IdsElement from '../../core/ids-element';
 
 // Note: this component is only used
 // to count steps and retrieve attributes
@@ -15,6 +13,4 @@ import {
  * @inherits IdsElement
  */
 @customElement('ids-wizard-step')
-class IdsWizardStep extends IdsElement {}
-
-export default IdsWizardStep;
+export default class IdsWizardStep extends IdsElement {}

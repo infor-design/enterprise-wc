@@ -1,14 +1,7 @@
-// Import Core
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Dependencies
 import IdsButton from '../ids-button/ids-button';
-
-// Import Styles
 import styles from './ids-trigger-button.scss';
 
 /**
@@ -18,7 +11,7 @@ import styles from './ids-trigger-button.scss';
  */
 @customElement('ids-trigger-button')
 @scss(styles)
-class IdsTriggerButton extends IdsButton {
+export default class IdsTriggerButton extends IdsButton {
   /**
    * Call the constructor and then initialize
    */
@@ -83,5 +76,3 @@ class IdsTriggerButton extends IdsButton {
     return stringToBool(this.getAttribute(attributes.READONLY)) || false;
   }
 }
-
-export default IdsTriggerButton;

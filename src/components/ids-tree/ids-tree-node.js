@@ -1,29 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
-
-// Import Utils
-import { IdsStringUtils as stringUtils } from '../../utils';
-
-import { IdsTreeShared as shared } from './ids-tree-shared';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import IdsTreeShared from './ids-tree-shared';
+import IdsBadge from '../ids-badge/ids-badge';
+import IdsText from '../ids-text/ids-text';
+import Base from './ids-tree-base';
 import styles from './ids-tree-node.scss';
-
-// Supporting components
-import { IdsBadge } from '../ids-badge/ids-badge';
-import { IdsText } from '../ids-text/ids-text';
-
-const { stringToBool } = stringUtils;
 
 /**
  * IDS Tree Node Component
@@ -41,11 +23,7 @@ const { stringToBool } = stringUtils;
  */
 @customElement('ids-tree-node')
 @scss(styles)
-class IdsTreeNode extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsThemeMixin,
-    IdsLocaleMixin
-  ) {
+export default class IdsTreeNode extends Base {
   constructor() {
     super();
   }
@@ -197,7 +175,7 @@ class IdsTreeNode extends mix(IdsElement).with(
   #setExpandCollapse() {
     const iconEl = this.shadowRoot?.querySelector('.icon');
     iconEl?.setAttribute(attributes.ICON, this.nodeIcon);
-    this.container.classList.remove(...Object.values(shared.TOGGLE_CLASSES));
+    this.container.classList.remove(...Object.values(IdsTreeShared.TOGGLE_CLASSES));
     this.container.classList.add(this.toggleClass);
     this.nodeContainer?.setAttribute('aria-expanded', this.expanded.toString());
 
@@ -346,7 +324,7 @@ class IdsTreeNode extends mix(IdsElement).with(
    */
   get toggleClass() {
     return this.expanded
-      ? shared.TOGGLE_CLASSES.expanded : shared.TOGGLE_CLASSES.collapsed;
+      ? IdsTreeShared.TOGGLE_CLASSES.expanded : IdsTreeShared.TOGGLE_CLASSES.collapsed;
   }
 
   /**
@@ -357,9 +335,9 @@ class IdsTreeNode extends mix(IdsElement).with(
     if (this.useToggleTarget) {
       return this.expanded
         ? (this.treeAttribute(attributes.TOGGLE_EXPAND_ICON)
-          || shared.DEFAULTS.toggleExpandIcon)
+          || IdsTreeShared.DEFAULTS.toggleExpandIcon)
         : (this.treeAttribute(attributes.TOGGLE_COLLAPSE_ICON)
-          || shared.DEFAULTS.toggleCollapseIcon);
+          || IdsTreeShared.DEFAULTS.toggleCollapseIcon);
     }
     return '';
   }
@@ -377,7 +355,7 @@ class IdsTreeNode extends mix(IdsElement).with(
     this.#setNodeIcon();
   }
 
-  get collapseIcon() { return shared.getVal(this, attributes.COLLAPSE_ICON); }
+  get collapseIcon() { return IdsTreeShared.getVal(this, attributes.COLLAPSE_ICON); }
 
   /**
    * Sets the tree node to disabled
@@ -414,14 +392,14 @@ class IdsTreeNode extends mix(IdsElement).with(
     this.#setNodeIcon();
   }
 
-  get expandIcon() { return shared.getVal(this, attributes.EXPAND_ICON); }
+  get expandIcon() { return IdsTreeShared.getVal(this, attributes.EXPAND_ICON); }
 
   /**
    * Sets the tree group to be expanded
    * @param {boolean|string} value If true will set expanded attribute
    */
   set expanded(value) {
-    if (shared.isBool(value)) {
+    if (IdsTreeShared.isBool(value)) {
       this.setAttribute(attributes.EXPANDED, `${value}`);
     } else {
       this.removeAttribute(attributes.EXPANDED);
@@ -429,7 +407,7 @@ class IdsTreeNode extends mix(IdsElement).with(
     this.#setExpandCollapse();
   }
 
-  get expanded() { return shared.getBoolVal(this, attributes.EXPANDED); }
+  get expanded() { return IdsTreeShared.getBoolVal(this, attributes.EXPANDED); }
 
   /**
    * Sets the tree node icon
@@ -444,7 +422,7 @@ class IdsTreeNode extends mix(IdsElement).with(
     this.#setNodeIcon();
   }
 
-  get icon() { return shared.getVal(this, attributes.ICON); }
+  get icon() { return IdsTreeShared.getVal(this, attributes.ICON); }
 
   /**
    * Set the node label text
@@ -469,7 +447,7 @@ class IdsTreeNode extends mix(IdsElement).with(
    */
   set selectable(value) {
     const val = `${value}`;
-    const isValid = shared.SELECTABLE.indexOf(val) > -1;
+    const isValid = IdsTreeShared.SELECTABLE.indexOf(val) > -1;
     if (isValid) {
       this.setAttribute(attributes.SELECTABLE, val);
     } else {
@@ -483,7 +461,7 @@ class IdsTreeNode extends mix(IdsElement).with(
     if (value === 'false') {
       return false;
     }
-    return value !== null ? value : shared.DEFAULTS.selectable;
+    return value !== null ? value : IdsTreeShared.DEFAULTS.selectable;
   }
 
   /**
@@ -518,7 +496,7 @@ class IdsTreeNode extends mix(IdsElement).with(
    * @param {boolean|string} value If true will set to use toggle target
    */
   set useToggleTarget(value) {
-    if (shared.isBool(value)) {
+    if (IdsTreeShared.isBool(value)) {
       this.setAttribute(attributes.USE_TOGGLE_TARGET, `${value}`);
     } else {
       this.removeAttribute(attributes.USE_TOGGLE_TARGET);
@@ -526,7 +504,5 @@ class IdsTreeNode extends mix(IdsElement).with(
     this.#setToggleIconElement();
   }
 
-  get useToggleTarget() { return shared.getBoolVal(this, attributes.USE_TOGGLE_TARGET); }
+  get useToggleTarget() { return IdsTreeShared.getBoolVal(this, attributes.USE_TOGGLE_TARGET); }
 }
-
-export default IdsTreeNode;

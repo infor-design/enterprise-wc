@@ -1,14 +1,8 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  IdsDataSource,
-  attributes
-} from '../../core';
-
-import { IdsEventsMixin } from '../../mixins';
-import { IdsStringUtils } from '../../utils';
+import { customElement, scss } from '../../core';
+import { attributes } from '../../core/ids-attributes';
+import IdsDataSource from '../../core/ids-data-source';
+import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-virtual-scroll-base';
 import styles from './ids-virtual-scroll.scss';
 
 const DEFAULT_HEIGHT = 310;
@@ -22,7 +16,7 @@ const DEFAULT_ITEM_HEIGHT = 50;
  */
 @customElement('ids-virtual-scroll')
 @scss(styles)
-class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
+export default class IdsVirtualScroll extends Base {
   constructor() {
     super();
     this.state = { itemCount: 0 };
@@ -281,7 +275,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {string} The html for this item
    */
   itemTemplate(item) {
-    return IdsStringUtils.injectTemplate(this.stringTemplate, item);
+    return injectTemplate(this.stringTemplate, item);
   }
 
   /**
@@ -324,5 +318,3 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     return this?.eventTarget;
   }
 }
-
-export default IdsVirtualScroll;
