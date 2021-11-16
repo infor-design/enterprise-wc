@@ -117,6 +117,9 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     return this;
   }
 
+  /**
+   * Add toolbar HTML to shadow
+   */
   #renderToolbar() {
     const toolbarTemplate = `<ids-toolbar>
       <ids-toolbar-section type="buttonset">
@@ -130,16 +133,27 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
         </ids-button>
         ${this.showToday ? `
           <ids-button class="week-view-btn-today">
-            <ids-text class="week-view-today-text" font-size="16" translate-text="true" font-weight="bold">Today</ids-text>
+            <ids-text
+              class="week-view-today-text"
+              font-size="16"
+              translate-text="true"
+              font-weight="bold"
+            >Today</ids-text>
           </ids-button>` : ''}
       </ids-toolbar-section>
     </ids-toolbar>`;
 
+    // Clear/add HTML
     this.container.querySelector('ids-toolbar')?.remove();
     this.container.insertAdjacentHTML('afterbegin', toolbarTemplate);
+
+    // Toolbar events
     this.#attachToolbarEvents();
   }
 
+  /**
+   * Add next/previous/today click events when toolbar attached to shadow
+   */
   #attachToolbarEvents() {
     this.offEvent('click.week-view-previous');
     this.onEvent('click.week-view-previous', this.container.querySelector('.week-view-btn-previous'), () => {
@@ -161,6 +175,10 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     }
   }
 
+  /**
+   * Change startDate/endDate by event type
+   * @param {'next'|'previous'|'today'} type of event to be called
+   */
   #changeDate(type) {
     const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
     const hasIrregularDays = daysDiff !== 7;
@@ -181,13 +199,19 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     }
   }
 
+  /**
+   * Add week HTML to shadow including day/weekday header, hour rows, event cells
+   */
   #renderWeek() {
     const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
     const hoursDiff = this.endHour - this.startHour + 1;
     const isDayView = daysDiff === 1 || daysDiff === 0;
+    // Get locale loaded calendars and dayOfWeek calendar setting
     const calendars = this.locale.locale.options.calendars;
     const dayOfWeekSetting = (calendars || [])[0]?.dateFormat?.dayOfWeek;
+    // Determinate day/weekday order based on calendar settings (d EEE or EEE)
     const emphasis = dayOfWeekSetting && dayOfWeekSetting.split(' ')[0] === 'EEE';
+    // Helper to define day/weekday font sizes
     const getTextFontSize = (isHeading) => {
       if (!isHeading) return 16;
 
@@ -262,10 +286,15 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       </table>
     </div>`;
 
+    // Clear/add HTML
     this.container.querySelector('.week-view-container')?.remove();
     this.container.insertAdjacentHTML('beforeend', weekTemplate);
   }
 
+  /**
+   * Add/remove timeline HTML to hour row
+   * Update timeline position every 30 seconds
+   */
   #renderTimeline() {
     // Clear before rerender
     this.container.querySelectorAll('.week-view-time-marker')
@@ -277,14 +306,14 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       return;
     }
 
-    // Add time line element
+    // Add timeline element
     this.container.querySelectorAll('.week-view-hour-row:nth-child(1) td')
       .forEach((item) => item.insertAdjacentHTML(
         'afterbegin',
         '<div class="week-view-time-marker"></div>'
       ));
 
-    // Set time line top shift in px to be used in css
+    // Add/remove timeline based on current hour and startHour/endHour parameters
     const setTime = () => {
       const now = new Date();
       const hours = now.getHours();
@@ -297,7 +326,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
     setTime();
 
-    // Update time line top shift every 30 seconds
+    // Update timeline top shift every 30 seconds
     this.timer = new IdsRenderLoopItem({
       id: 'week-view-timer',
       updateDuration: 30000,
@@ -311,7 +340,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
   /**
    * show-today attribute
-   * @returns {boolean} showToday attribute value converted to boolean
+   * @returns {boolean} showToday param converted to boolean from attribute value
    */
   get showToday() {
     const attrVal = this.getAttribute(attributes.SHOW_TODAY);
@@ -321,7 +350,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
   /**
    * Set whether or not the today button should be shown
-   * @param {string|boolean|null} val showToday attribute value
+   * @param {string|boolean|null} val showToday param value
    */
   set showToday(val) {
     const boolVal = stringUtils.stringToBool(val);
@@ -335,6 +364,10 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     this.#renderToolbar();
   }
 
+  /**
+   * start-date attribute
+   * @returns {Date} startDate date parsed from attribute value
+   */
   get startDate() {
     const attrVal = this.getAttribute(attributes.START_DATE);
     const attrDate = new Date(attrVal);
@@ -348,6 +381,10 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     return dateUtils.firstDayOfWeek(new Date(), this.firstDayOfWeek);
   }
 
+  /**
+   * Set start of the week to show
+   * @param {string|null} val startDate param value
+   */
   set startDate(val) {
     if (val) {
       this.setAttribute(attributes.START_DATE, val);
@@ -358,6 +395,10 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     this.#renderWeek();
   }
 
+  /**
+   * end-date attribute
+   * @returns {Date} endDate date parsed from attribute value
+   */
   get endDate() {
     const attrVal = this.getAttribute(attributes.END_DATE);
     const attrDate = new Date(attrVal);
@@ -372,6 +413,10 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     return dateUtils.lastDayOfWeek(new Date(), this.firstDayOfWeek);
   }
 
+  /**
+   * Set end of the week to show
+   * @param {string|null} val endDate param value
+   */
   set endDate(val) {
     if (val) {
       this.setAttribute(attributes.END_DATE, val);
@@ -382,6 +427,10 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     this.#renderWeek();
   }
 
+  /**
+   * fist-day-of-week attribute
+   * @returns {number} firstDayOfWeek param converted to number from attribute value with range (0-6)
+   */
   get firstDayOfWeek() {
     const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
     const numberVal = stringUtils.stringToNumber(attrVal);
@@ -390,9 +439,14 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       return numberVal;
     }
 
+    // Default value
     return 0;
   }
 
+  /**
+   * Set first day of the week (0-6)
+   * @param {string|number|null} val firstDayOfWeek param value
+   */
   set firstDayOfWeek(val) {
     if (val) {
       this.setAttribute(attributes.FIRST_DAY_OF_WEEK, val);
@@ -403,6 +457,10 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     this.#renderWeek();
   }
 
+  /**
+   * start-hour attribute
+   * @returns {number} startHour param converted to number from attribute value with range (0-24)
+   */
   get startHour() {
     const attrVal = this.getAttribute(attributes.START_HOUR);
     const numberVal = stringUtils.stringToNumber(attrVal);
@@ -411,9 +469,14 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       return numberVal;
     }
 
+    // Default value
     return 7;
   }
 
+  /**
+   * Set start hour of the day (0-24)
+   * @param {string|number|null} val startHour param value
+   */
   set startHour(val) {
     if (val) {
       this.setAttribute(attributes.START_HOUR, val);
@@ -425,6 +488,10 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     this.#renderTimeline();
   }
 
+  /**
+   * end-hour attribute
+   * @returns {number} endHour param converted to number from attribute value with range (0-24)
+   */
   get endHour() {
     const attrVal = this.getAttribute(attributes.END_HOUR);
     const numberVal = stringUtils.stringToNumber(attrVal);
@@ -433,9 +500,14 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       return numberVal;
     }
 
+    // Default value
     return 19;
   }
 
+  /**
+   * Set end hour of the day (0-24)
+   * @param {string|number|null} val endHour param value
+   */
   set endHour(val) {
     if (val) {
       this.setAttribute(attributes.END_HOUR, val);
@@ -449,7 +521,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
   /**
    * show-timeline attribute
-   * @returns {boolean} showTimeline attribute value converted to boolean
+   * @returns {boolean} showTimeline param converted to boolean from attribute value
    */
   get showTimeline() {
     const attrVal = this.getAttribute(attributes.SHOW_TIMELINE);
@@ -458,13 +530,13 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       return stringUtils.stringToBool(attrVal);
     }
 
-    // Default to true
+    // Default value
     return true;
   }
 
   /**
    * Set whether or not to show a bar across the current time
-   * @param {string|boolean|null} val showTimeline attribute value
+   * @param {string|boolean|null} val showTimeline param value
    */
   set showTimeline(val) {
     const boolVal = stringUtils.stringToBool(val);

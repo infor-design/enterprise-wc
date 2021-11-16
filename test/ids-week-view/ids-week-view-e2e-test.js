@@ -95,7 +95,7 @@ describe('Ids Week View e2e Tests', () => {
     expect(+dayNumeric).toEqual(new Date().getDate());
   });
 
-  it('should handle locale changes', async () => {
+  it('should change locale', async () => {
     await page.evaluate((el) => {
       const element = document.querySelector(el);
 
@@ -131,17 +131,29 @@ describe('Ids Week View e2e Tests', () => {
     expect(weekDay).toEqual('الاثنين');
   });
 
-  it('should remove timeline', async () => {
-    // Remove timeline
+  it('should show/hide timeline', async () => {
+    // Hide timeline
     await page.evaluate((el) => {
       const element = document.querySelector(el);
 
       element.showTimeline = false;
     }, name);
 
-    const timeline = await page.$eval(name, (el) =>
+    let timeline = await page.$eval(name, (el) =>
       el.shadowRoot.querySelector('.week-view-time-marker'));
 
     expect(timeline).toBeNull();
+
+    // Show timeline
+    await page.evaluate((el) => {
+      const element = document.querySelector(el);
+
+      element.showTimeline = true;
+    }, name);
+
+    timeline = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('.week-view-time-marker'));
+
+    expect(timeline).not.toBeNull();
   });
 });
