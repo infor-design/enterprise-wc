@@ -6,4 +6,6 @@
  keywords: calendar, date, day, week, month, toolbar, time
  examples:
   - link: index.html
-    description: Week View Calendar
+    description: Past dates, no timeline, no today's day highlight
+  - link: current-week.html
+    description: Example showing current week with today's day highlighted and timeline
