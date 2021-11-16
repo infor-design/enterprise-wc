@@ -211,12 +211,13 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     const dayOfWeekSetting = (calendars || [])[0]?.dateFormat?.dayOfWeek;
     // Determinate day/weekday order based on calendar settings (d EEE or EEE)
     const emphasis = dayOfWeekSetting && dayOfWeekSetting.split(' ')[0] === 'EEE';
-    // Helper to define day/weekday font sizes
-    const getTextFontSize = (isHeading) => {
-      if (!isHeading) return 16;
+    // Helper to get day/weekday font size in the template
+    const getTextFontSize = (isEmphasis) => {
+      if (!isEmphasis) return 16;
 
       return isDayView ? 32 : 20;
     };
+
     const daysTemplate = Array.from({ length: daysDiff }, (_, index) => {
       const date = this.startDate.setDate(this.startDate.getDate() + index);
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
@@ -320,7 +321,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       const mins = now.getMinutes();
       const diff = hours - this.startHour + (mins / 60);
 
-      // 53 is the size of one whole hour (25 + two borders)
+      // 52 is the size of one whole hour (25 + two borders)
       this.container.querySelector('.week-view-hour-row').style = `--timeline-shift: ${diff * 52}px`;
     };
 
