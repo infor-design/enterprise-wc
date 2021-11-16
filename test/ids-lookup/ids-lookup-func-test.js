@@ -214,7 +214,8 @@ describe('IdsLookup Component', () => {
     expect(lookup.input.value).toEqual('218902');
   });
 
-  it('should open on click and close on the modal buttons', () => {
+  it('should open on click and close on the modal buttons', async () => {
+    lookup = await createMultiSelectLookup();
     expect(lookup.modal.visible).toBe(false);
     lookup.triggerButton.click();
     expect(lookup.modal.visible).toBe(true);
@@ -226,7 +227,8 @@ describe('IdsLookup Component', () => {
     expect(lookup.modal.visible).toBe(false);
   });
 
-  it('should open on down arrow', () => {
+  it('should open on down arrow', async () => {
+    lookup = await createMultiSelectLookup();
     expect(lookup.modal.visible).toBe(false);
     const event = new KeyboardEvent('keydown', { key: 'ArrowDown' });
     lookup.dispatchEvent(event);
