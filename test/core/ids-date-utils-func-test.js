@@ -37,13 +37,13 @@ describe('IdsDateUtils Tests', () => {
   });
 
   it('should get the difference between two dates', () => {
-    const first = new Date('11/10/2021');
-    const second = new Date('11/14/2021');
+    const first = new Date();
+    const second = dateUtils.add(new Date(), 1, 'days');
 
     // Don't use hours
-    expect(dateUtils.dateDiff(first, second, false)).toEqual(1);
-    // Use hours (96 hours or 4 days)
-    expect(dateUtils.dateDiff(first, second, true)).toEqual(96);
+    expect(dateUtils.dateDiff(first, second, false)).toEqual(0);
+    // Use hours (24 hours or 1 day)
+    expect(dateUtils.dateDiff(first, second, true)).toEqual(24);
   });
 
   it('should get the month difference between two dates', () => {
