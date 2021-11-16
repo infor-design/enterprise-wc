@@ -40,6 +40,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin) 
     this.setAttribute('role', 'toolbar');
     this.#attachKeyboardListeners();
 
+    // After repaint
     requestAnimationFrame(() => {
       this.makeTabbable(this.detectTabbable());
     });

@@ -3,3 +3,8 @@
 :host {
   @include flex();
 }
+
+::slotted(ids-separator) {
+  align-self: center;
+  justify-self: center;
+}

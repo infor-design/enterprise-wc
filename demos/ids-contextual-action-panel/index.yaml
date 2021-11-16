@@ -1,0 +1,12 @@
+---
+ component: Contextual Action Panel
+ link: ids-contextual-action-panel
+ description: A modal component containing complicated forms
+ category: Navigation and Interaction
+ keywords: Contextual Action Panel, Modal, Dialog
+ examples:
+  - link: index.html
+    description: Shows a simple Contextual Action Panel implementation
+  - link: empty.html
+    description: Shows an empty Contextual Action Panel
+

@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`IdsTriggerField Component renders correctly 1`] = `"<ids-trigger-field><ids-input id=\\"ids-input-2\\" triggerfield=\\"true\\" size=\\"md\\" validate=\\"null\\" label-hidden=\\"true\\" bg-transparent=\\"true\\"></ids-input><ids-trigger-button></ids-trigger-button></ids-trigger-field>"`;
+exports[`IdsTriggerField Component renders correctly 1`] = `"<ids-trigger-field><ids-input id=\\"ids-input-2\\" triggerfield=\\"true\\" size=\\"md\\" validate=\\"null\\" label-hidden=\\"true\\" bg-transparent=\\"true\\"></ids-input><ids-trigger-button language=\\"en\\" locale=\\"en-US\\"></ids-trigger-button></ids-trigger-field>"`;
 
-exports[`IdsTriggerField Component renders correctly 2`] = `"<ids-trigger-field><ids-input id=\\"ids-input-2\\" triggerfield=\\"true\\" size=\\"md\\" validate=\\"null\\" label-hidden=\\"true\\" bg-transparent=\\"true\\"></ids-input><ids-trigger-button></ids-trigger-button></ids-trigger-field>"`;
+exports[`IdsTriggerField Component renders correctly 2`] = `"<ids-trigger-field><ids-input id=\\"ids-input-2\\" triggerfield=\\"true\\" size=\\"md\\" validate=\\"null\\" label-hidden=\\"true\\" bg-transparent=\\"true\\"></ids-input><ids-trigger-button language=\\"en\\" locale=\\"en-US\\"></ids-trigger-button></ids-trigger-field>"`;
