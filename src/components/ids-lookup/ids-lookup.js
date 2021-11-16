@@ -422,7 +422,16 @@ class IdsLookup extends mix(IdsElement).with(
     });
 
     this.modal.addEventListener('beforeshow', (e) => {
+      // In the case of readonly/disabled or no data do not show the modal
       if (this.readonly || this.disabled) {
+        e.detail.response(false);
+      }
+      // Show always for custom modals
+      if (this.querySelectorAll('[slot="lookup-modal"]').length === 1) {
+        return;
+      }
+      // In the case of no data do not show the modal
+      if (this.data.length === 0 && this.columns.length === 1 && this.columns[0].id === '') {
         e.detail.response(false);
       }
     });

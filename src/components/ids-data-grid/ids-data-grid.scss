@@ -358,6 +358,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 // Dark Theme
 .ids-data-grid[mode='dark'] {
   @include bg-slate-90();
+  @include border-slate-60();
 
   .ids-data-grid-header-cell {
     @include bg-slate-20();
@@ -443,12 +444,16 @@ $header-bg-color: var(--ids-color-palette-slate-80);
 
   .ids-data-grid-cell {
     .ids-datagrid-checkbox {
-      @include border-slate-40();
+      @include border-slate-30();
     }
 
     .ids-datagrid-checkbox.checked {
       @include border-azure-60();
     }
+  }
+
+  .ids-datagrid-radio {
+    @include border-slate-40();
   }
 
   .ids-data-grid-header-text .ids-datagrid-checkbox-container .ids-datagrid-checkbox:not(.checked):not(.indeterminate) {
