@@ -22,7 +22,7 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   @include border-solid();
   @include rounded-default();
   @include w-full();
-  
+
   display: flex;
   flex-direction: column;
   height: 100%;
