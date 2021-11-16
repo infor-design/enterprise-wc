@@ -1,8 +1,6 @@
-import { IdsElement, scss, customElement } from '../../core';
-
+import { customElement, scss } from '../../core/ids-decorators';
+import IdsElement from '../../core/ids-element';
 import styles from './ids-toolbar-more-actions.scss';
-
-// Subcomponents
 import IdsToolbarSection from './ids-toolbar-section';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
@@ -12,13 +10,12 @@ import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
  */
 @customElement('ids-toolbar-more-actions')
 @scss(styles)
-class IdsToolbarMoreActions extends IdsElement {
+export default class IdsToolbarMoreActions extends IdsElement {
   constructor() {
     super();
   }
 
   connectedCallback() {
-    super.connectedCallback?.();
     this.refresh();
   }
 
@@ -83,9 +80,3 @@ class IdsToolbarMoreActions extends IdsElement {
     this.button.focus();
   }
 }
-
-export default IdsToolbarMoreActions;
-export {
-  IdsMenuButton,
-  IdsPopupMenu
-};
