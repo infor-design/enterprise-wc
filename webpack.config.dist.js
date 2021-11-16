@@ -9,6 +9,7 @@ const componentsDir = './src/components';
 module.exports = {
   entry: {
     'enterprise-wc': `${componentsDir}/enterprise-wc.js`,
+    'ids-about': `${componentsDir}/ids-about/ids-about.js`,
     'ids-accordion': `${componentsDir}/ids-accordion/ids-accordion.js`,
     'ids-alert': `${componentsDir}/ids-alert/ids-alert.js`,
     'ids-app-menu': `${componentsDir}/ids-app-menu/ids-app-menu.js`,
@@ -27,9 +28,13 @@ module.exports = {
     'ids-drawer': `${componentsDir}/ids-drawer/ids-drawer.js`,
     'ids-icon': `${componentsDir}/ids-icon/ids-icon.js`,
     'ids-layout-grid': `${componentsDir}/ids-layout-grid/ids-layout-grid.js`,
+    'ids-popup-menu': `${componentsDir}/ids-popup-menu/ids-popup-menu.js`,
+    'ids-menu': `${componentsDir}/ids-menu/ids-menu.js`,
+    'ids-menu-button': `${componentsDir}/ids-menu-button/ids-menu-button.js`,
     'ids-rating': `${componentsDir}/ids-rating/ids-rating.js`,
     'ids-tag': `${componentsDir}/ids-tag/ids-tag.js`,
-    'ids-text': `${componentsDir}/ids-text/ids-text.js`
+    'ids-text': `${componentsDir}/ids-text/ids-text.js`,
+    'ids-theme-switcher': `${componentsDir}/ids-theme-switcher/ids-theme-switcher.js`,
   },
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),

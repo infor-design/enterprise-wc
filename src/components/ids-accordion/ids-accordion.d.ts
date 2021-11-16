@@ -1,10 +1,8 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
+import Base from './ids-accordion-base';
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
 
-export default class IdsAccordion extends IdsElement {
+export default class IdsAccordion extends Base {
   /** Reference to all inner Accordion Headers */
   readonly headers?: Array<IdsAccordionHeader>;
 

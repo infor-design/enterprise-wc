@@ -1,11 +1,22 @@
+// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
+// Import Base and Mixins
+import Base from './ids-menu-item-base';
+
+// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-menu-base';
-import { MENU_ITEM_SIZE, MENU_DEFAULTS, MENU_ATTRIBUTES, safeForAttribute } from './ids-menu-attributes';
-import renderLoop from '../ids-render-loop/ids-render-loop';
+
+// Import Dependencies
+import {
+  MENU_ITEM_SIZE, MENU_DEFAULTS, MENU_ATTRIBUTES, safeForAttribute
+} from './ids-menu-attributes';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import IdsIcon from '../ids-icon/ids-icon';
+
+// Import Styles
 import styles from './ids-menu-item.scss';
 
 /**
@@ -22,11 +33,7 @@ import styles from './ids-menu-item.scss';
  */
 @customElement('ids-menu-item')
 @scss(styles)
-export default class IdsMenuItem extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsMenuItem extends Base {
   /**
    * Build the menu item
    */
@@ -118,7 +125,7 @@ export default class IdsMenuItem extends mix(IdsElement).with(
         }
         break;
       default:
-        IdsElement.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
+        Base.prototype.attributeChangedCallback.apply(this, [name, oldValue, newValue]);
         break;
       }
     }
@@ -132,7 +139,7 @@ export default class IdsMenuItem extends mix(IdsElement).with(
     this.refresh();
     this.attachEventHandlers();
     this.shouldUpdate = true;
-    super.connectedCallback();
+    super.connectedCallback?.();
   }
 
   /**

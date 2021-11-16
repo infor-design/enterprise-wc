@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import styles from './ids-accordion-header.scss';
-import Base from './ids-accordion-base';
+import Base from './ids-accordion-header-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { applyContentAlignmentClass } from './ids-accordion-common';
 
@@ -27,12 +27,13 @@ const ICON_PLUS = 'plusminus-folder-open';
  */
 @customElement('ids-accordion-header')
 @scss(styles)
-export default class IdsAccordionHeader extends Base{
+export default class IdsAccordionHeader extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.#refreshIconDisplay(this.icon);
   }
 

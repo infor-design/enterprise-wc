@@ -1,7 +1,14 @@
+// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+
+// Import Core and Mixins
 import Base from './ids-theme-switcher-base';
+
+// Import Dependencies
+import IdsMenuButton from '../ids-menu-button/ids-menu-button';
+
+// Import Styles
 import styles from './ids-theme-switcher.scss';
 
 /**
@@ -15,6 +22,7 @@ export default class IdsThemeSwitcher extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.#attachEventHandlers();
   }
 

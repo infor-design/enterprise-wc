@@ -1,8 +1,15 @@
+// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-menu-base';
+
+// Import Base and Mixins
+import Base from './ids-menu-group-base';
+
+// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { MENU_GROUP_SELECT_TYPES } from './ids-menu-attributes';
+
+// Import Styles
 import styles from './ids-menu-group.scss';
 
 /**
@@ -39,6 +46,7 @@ export default class IdsMenuGroup extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback?.();
     this.#attachEventHandlers();
     this.refresh();
   }

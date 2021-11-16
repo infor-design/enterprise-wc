@@ -50,11 +50,25 @@ module.exports = {
     'ids-accordion/example': `${demosDir}/ids-accordion/example.js`,
     'ids-accordion/ids-accordion': `${demosDir}/ids-accordion/index.js`,
     'ids-accordion/nested': `${demosDir}/ids-accordion/nested.js`,
+    // Menu
+    'ids-menu/example': `${demosDir}/ids-menu/example.js`,
+    'ids-menu/ids-menu': `${demosDir}/ids-menu/index.js`,
+    'ids-menu/side-by-side': `${demosDir}/ids-menu/side-by-side.js`,
+    // Menu Button
+    'ids-menu-button/example': `${demosDir}/ids-menu-button/example.js`,
+    'ids-menu-button/ids-menu-button': `${demosDir}/ids-menu-button/index.js`,
+    // Popup Menu
+    'ids-popup-menu/example': `${demosDir}/ids-popup-menu/example.js`,
+    'ids-popup-menu/ids-popup-menu': `${demosDir}/ids-popup-menu/index.js`,
+    'ids-popup-menu/data-driven': `${demosDir}/ids-popup-menu/data-driven.js`,
+    'ids-popup-menu/selected-state': `${demosDir}/ids-popup-menu/selected-state.js`,
+    'ids-popup-menu/standalone-css': `${demosDir}/ids-popup-menu/standalone-css.js`,
+    'ids-popup-menu/trigger-immediate': `${demosDir}/ids-popup-menu/trigger-immediate.js`,
     // Tags
     'ids-tag/example': `${demosDir}/ids-tag/example.js`,
     'ids-tag/ids-tag': `${demosDir}/ids-tag/index.js`,
-    // 'ids-theme-switcher/ids-theme-switcher': `${demosDir}/ids-theme-switcher/index.js`,
-    // 'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`
+    'ids-theme-switcher/ids-theme-switcher': `${demosDir}/ids-theme-switcher/index.js`,
+    'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`
   },
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',

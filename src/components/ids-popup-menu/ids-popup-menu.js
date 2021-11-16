@@ -1,6 +1,13 @@
+// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
+
+// Import Dependencies
 import IdsPopup from '../ids-popup/ids-popup';
+
+// Import Base And Mixins
 import Base from './ids-popup-menu-base';
+
+// Import Styles
 import styles from './ids-popup-menu.scss';
 
 /**
@@ -24,7 +31,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {string} The template
    */
   template() {
-    const menuTemplate = IdsMenu.prototype.template.apply(this);
+    const menuTemplate = Base.prototype.template.apply(this);
     return `<ids-popup class="ids-popup-menu" type="menu">${menuTemplate}</ids-popup>`;
   }
 
@@ -32,6 +39,7 @@ export default class IdsPopupMenu extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback?.();
     if (!this.hasAttribute('hidden')) {
       this.setAttribute('hidden', '');
     }

@@ -20,6 +20,7 @@ export default class IdsSeparator extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
   }
 
   static get attributes() {

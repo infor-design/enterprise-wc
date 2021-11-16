@@ -1,9 +1,16 @@
+// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import styles from './ids-accordion.scss';
+
+// Import Mixins and Base
+import Base from './ids-accordion-base';
+
+// Import Dependencies
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
-import Base from './ids-accordion-base';
+
+// Import Styles
+import styles from './ids-accordion.scss';
 
 /**
  * IDS Accordion Component
@@ -25,6 +32,7 @@ export default class IdsAccordion extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.#handleEvents();
     this.#handleKeys();
 
@@ -129,7 +137,7 @@ export default class IdsAccordion extends Base {
     doDisplayIconType = true,
     doRTL = true
   ) {
-    const header = element.querySelector(':scope > ids-accordion-header');
+    this.header = element.querySelector(':scope > ids-accordion-header');
     const subLevelDepth = depth > 1;
 
     if (depth > 0) {
@@ -141,24 +149,27 @@ export default class IdsAccordion extends Base {
         const variant = subLevelDepth ? `sub-${this.colorVariant}` : this.colorVariant;
         element.colorVariant = variant;
 
-        if (header) {
-          header.colorVariant = variant;
+        if (this.header) {
+          this.header.colorVariant = variant;
         }
       }
 
-      if (header) {
+      if (this.header) {
+        // Pass language/locale down to child components
+        this.header.language = this.language?.name;
+
         // Assign Expander Type
         // (Use Plus/Minus-style expander on any nested panels)
         if (doExpanderType) {
           const expanderType = subLevelDepth ? 'plus-minus' : 'caret';
-          header.expanderType = expanderType;
+          this.header.expanderType = expanderType;
         }
 
         // Assign Content Alignment Style
         // (applies special alignment rules to ALL panes
         // adjacent to panes containing an icon in their header)
         if (doDisplayIconType) {
-          const displayIconType = header.icon;
+          const displayIconType = this.header.icon;
           if (typeof displayIconType === 'string' && displayIconType.length && !element.contentAlignment) {
             this.#markAdjacentPanesForIcons(element, true);
           }
@@ -190,6 +201,10 @@ export default class IdsAccordion extends Base {
    * @returns {void}
    */
   #handleEvents() {
+    this.offEvent('languagechange.accordion-container');
+    this.onEvent('languagechange.accordion-container', this.closest('ids-container'), async () => {
+      this.header.language = this.language?.name;
+    });
   }
 
   /**

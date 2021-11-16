@@ -1,11 +1,18 @@
-import { customElement, scss  } from '../../core/ids-decorators';
+// Import Core
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import IdsAccordionHeader from './ids-accordion-header';
-import Base from './ids-accordion-base';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
+// Import Base and Mixins
+import Base from './ids-accordion-panel-base';
+
+// Import Dependencies
+import IdsAccordionHeader from './ids-accordion-header';
+
+// Import Utils
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { ALIGNMENT_TYPES, applyContentAlignmentClass } from './ids-accordion-common';
 
+// Import Styles
 import styles from './ids-accordion-panel.scss';
 
 /**
@@ -13,9 +20,10 @@ import styles from './ids-accordion-panel.scss';
  * @type {IdsAccordionPanel}
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsKeyboardMixin
+ * @mixes IdsLocaleMixin
+ * @mixes IdsEventsMixin
  */
 @customElement('ids-accordion-panel')
 @scss(styles)
@@ -26,6 +34,7 @@ export default class IdsAccordionPanel extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.#setTitles();
     this.#attachEventHandlers();
     this.#refreshContentAlignment(this.contentAlignment);

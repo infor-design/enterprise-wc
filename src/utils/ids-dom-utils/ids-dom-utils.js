@@ -31,7 +31,7 @@ export function getClosestContainerNode(node) {
  * @returns {Node} the parent node.
  */
 export function getClosestRootNode(node) {
-  return this.getClosestShadow(node)?.host?.parentNode || document;
+  return getClosestShadow(node)?.host?.parentNode || document;
 }
 
 /**

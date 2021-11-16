@@ -1,3 +1,9 @@
+// Import Core
+import { attributes } from '../../core/ids-attributes';
+
+// Import Dependencies
+import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+
 // Menu Selection Types
 const MENU_GROUP_SELECT_TYPES = [
   'none',
@@ -36,23 +42,24 @@ const MENU_ATTRIBUTES = [
  * @param {any} value the value to be checked
  * @returns {boolean} true if the value can be "stringified" safely for the DOM attribute
  */
- function safeForAttribute(value) {
+function safeForAttribute(value) {
   return value !== null && ['string', 'number', 'boolean'].includes(typeof value);
 }
 
 /**
  * @private
- * @param {string|IdsMenuGroup} menuGroup the group to search for
- * @param {IdsMenu} idsMenu the parent menu element
- * @returns {IdsMenuGroup|undefined} if valid, a reference to the menu group.
+ * @param {string|HTMLElement} menuGroup the group to search for
+ * @param {HTMLElement} idsMenu the parent menu element
+ * @returns {HTMLElement|undefined} if valid, a reference to the menu group.
  * Otherwise, returns undefined.
  */
- function isValidGroup(menuGroup, idsMenu) {
+function isValidGroup(menuGroup, idsMenu) {
   let hasGroup;
 
-  const isElem = menuGroup instanceof IdsMenuGroup;
+  // eslint-disable-next-line no-undef
+  const isGroup = menuGroup !== undefined && menuGroup.nodeName === 'IDS-MENU-GROUP';
   idsMenu.groups.forEach((group) => {
-    if ((isElem && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {
+    if ((isGroup && group.isEqualNode(menuGroup)) || (group?.id === menuGroup)) {
       hasGroup = group;
     }
   });
@@ -61,12 +68,12 @@ const MENU_ATTRIBUTES = [
 
 /**
  * @private
- * @param {IdsMenuItem} item the element to be checked
+ * @param {HTMLElement} item the element to be checked
  * @param {HTMLElement} idsMenu the parent menu element
  * @returns {boolean} true if the provided element is a "currently-usable" IdsMenuItem type.
  */
 function isUsableItem(item, idsMenu) {
-  const isItem = item instanceof IdsMenuItem;
+  const isItem = item.nodeName === 'IDS-MENU-ITEM';
   if (!isItem) {
     return false;
   }
@@ -82,4 +89,6 @@ function isUsableItem(item, idsMenu) {
   return (itemInMenuShadow || menuHasItem) && !item.disabled;
 }
 
-export { MENU_GROUP_SELECT_TYPES, MENU_ITEM_SIZE, MENU_DEFAULTS, MENU_ATTRIBUTES, safeForAttribute, isValidGroup, isUsableItem };
+export {
+  MENU_GROUP_SELECT_TYPES, MENU_ITEM_SIZE, MENU_DEFAULTS, MENU_ATTRIBUTES, safeForAttribute, isValidGroup, isUsableItem
+};
