@@ -1,6 +1,3 @@
-import { IdsDataGrid } from '../../src/components/ids-data-grid';
-import './index.scss';
-
 // Example for populating the DataGrid
 const dataGrid = document.querySelector('#data-grid-1');
 const container = document.querySelector('ids-container');
@@ -11,59 +8,126 @@ const container = document.querySelector('ids-container');
 
   // Do an ajax request
   const xmlhttp = new XMLHttpRequest();
-  const url = '/data/products.json';
+  const url = '/data/books.json';
   const columns = [];
 
   // Set up columns
   columns.push({
-    id: 'id',
-    name: 'ID',
-    field: 'id',
+    id: 'selectionCheckbox',
+    sortable: false,
+    resizable: false,
     formatter: dataGrid.formatters.text,
-    width: 80,
-    sortable: true
+    align: 'center',
+    width: 20
   });
   columns.push({
-    id: 'color',
-    name: 'Color',
-    field: 'color',
-    formatter: dataGrid.formatters.text,
-    sortable: true
+    id: 'rowNumber',
+    name: '#',
+    formatter: dataGrid.formatters.rowNumber,
+    sortable: false,
+    readonly: true,
+    width: 65
   });
   columns.push({
-    id: 'inStock',
-    name: 'In Stock',
-    field: 'inStock',
-    formatter: dataGrid.formatters.text,
-    sortable: true
+    id: 'description',
+    name: 'Description',
+    field: 'description',
+    sortable: true,
+    formatter: dataGrid.formatters.text
   });
   columns.push({
-    id: 'productId',
-    name: 'Product Id',
-    field: 'productId',
-    formatter: dataGrid.formatters.text,
-    sortable: true
+    id: 'ledger',
+    name: 'Ledger',
+    field: 'ledger',
+    formatter: dataGrid.formatters.text
   });
   columns.push({
-    id: 'productName',
-    name: 'Product Name',
-    field: 'productName',
-    formatter: dataGrid.formatters.text,
-    sortable: true
+    id: 'publishDate',
+    name: 'Pub. Date',
+    field: 'publishDate',
+    formatter: dataGrid.formatters.date
   });
   columns.push({
-    id: 'unitPrice',
-    name: 'Unit Price',
-    field: 'unitPrice',
-    formatter: dataGrid.formatters.text,
-    sortable: true
+    id: 'publishTime',
+    name: 'Pub. Time',
+    field: 'publishDate',
+    formatter: dataGrid.formatters.time
   });
   columns.push({
-    id: 'units',
-    name: 'Units',
-    field: 'units',
+    id: 'price',
+    name: 'Price',
+    field: 'price',
+    formatter: dataGrid.formatters.decimal,
+    formatOptions: { locale: 'en-US' } // Data Values are in en-US
+  });
+  columns.push({
+    id: 'bookCurrency',
+    name: 'Currency',
+    field: 'bookCurrency',
+    formatter: dataGrid.formatters.text
+  });
+  columns.push({
+    id: 'transactionCurrency',
+    name: 'Transaction Currency',
+    field: 'transactionCurrency',
     formatter: dataGrid.formatters.text,
-    sortable: true
+  });
+  columns.push({
+    id: 'integer',
+    name: 'Price (Int)',
+    field: 'price',
+    formatter: dataGrid.formatters.integer,
+    formatOptions: { locale: 'en-US' } // Data Values are in en-US
+  });
+  columns.push({
+    id: 'location',
+    name: 'Location',
+    field: 'location',
+    formatter: dataGrid.formatters.hyperlink,
+    href: '#'
+  });
+  columns.push({
+    id: 'postHistory',
+    name: 'Post History',
+    field: 'postHistory',
+    formatter: dataGrid.formatters.text
+  });
+  columns.push({
+    id: 'active',
+    name: 'Active',
+    field: 'active',
+    formatter: dataGrid.formatters.text
+  });
+  columns.push({
+    id: 'convention',
+    name: 'Convention',
+    field: 'convention',
+    formatter: dataGrid.formatters.text
+  });
+  columns.push({
+    id: 'methodSwitch',
+    name: 'Method Switch',
+    field: 'methodSwitch',
+    formatter: dataGrid.formatters.text,
+    filterType: 'select'
+  });
+  columns.push({
+    id: 'trackDeprecationHistory',
+    name: 'Track Deprecation History',
+    field: 'trackDeprecationHistory',
+    formatter: dataGrid.formatters.dropdown
+  });
+  columns.push({
+    id: 'useForEmployee',
+    name: 'Use For Employee',
+    field: 'useForEmployee',
+    formatter: dataGrid.formatters.password
+  });
+  columns.push({
+    id: 'deprecationHistory',
+    name: 'Deprecation History',
+    field: 'deprecationHistory',
+    formatter: dataGrid.formatters.text
   });
 
   xmlhttp.onreadystatechange = function onreadystatechange() {
