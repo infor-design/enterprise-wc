@@ -148,8 +148,6 @@ class IdsDataGrid extends mix(IdsElement).with(
 
       this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
       this.virtualScrollContainer.itemCount = this.data.length;
-      // TODO Dynamic Height setting - header height
-      this.virtualScrollContainer.height = 350 - this.headerPixelHeight;
       this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
       this.virtualScrollContainer.data = this.data;
     }

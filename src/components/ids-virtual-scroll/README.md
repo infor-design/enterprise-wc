@@ -55,7 +55,8 @@ virtualScrollUl.data = dataset;
 
 ## Responsive Guidelines
 
-- The width is responsive to the parent however the height is set in fixed pixels but may be dynamically adjusted.
+- The width is responsive to the parent
+- The height is responsive to the screensize by default, but can also be specified a fixed `height` i.e. `height="500px"`
 
 ## Converting from Previous Versions
 
