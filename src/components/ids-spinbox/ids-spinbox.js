@@ -226,10 +226,10 @@ export default class IdsSpinbox extends Base {
       case 'ArrowUp':
         this.#onStep('up');
         break;
-      default:
       case 'ArrowDown':
         this.#onStep('down');
         break;
+      default:
       }
 
       e.preventDefault();

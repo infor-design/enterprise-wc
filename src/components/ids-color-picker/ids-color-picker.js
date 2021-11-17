@@ -23,28 +23,28 @@ export default class IdsColorPicker extends Base {
   }
 
   // Reference to the root
-  root = this.shadowRoot
+  root = this.shadowRoot;
 
   // Reference to internal Popup
   popup = this.root.querySelector('ids-popup');
 
   // Reference to swatch input
-  swatchInput = this.root.querySelector('.color-input')
+  swatchInput = this.root.querySelector('.color-input');
 
   // Reference to the color picker input
-  colorPickerInput = this.root.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value')
+  colorPickerInput = this.root.querySelector(this.label === '' ? '.color-input-value-no-label' : '.color-input-value');
 
   // Reference to the trigger color picker input
-  triggerColorPickerInput = this.root.querySelector('ids-trigger-button').querySelector('input')
+  triggerColorPickerInput = this.root.querySelector('ids-trigger-button').querySelector('input');
 
   // Reference to the color picker's trigger button
   triggerBtn = this.root.querySelector('ids-trigger-button');
 
   // Reference to the color preview
-  colorPreview = this.root.querySelector('.color-preview')
+  colorPreview = this.root.querySelector('.color-preview');
 
   // Reference to the colors
-  idsColorsArr = document.querySelectorAll('ids-color')
+  idsColorsArr = document.querySelectorAll('ids-color');
 
   connectedCallback() {
     // TODO: Need to do this and not sure why or the setters/getters do not work
@@ -261,64 +261,64 @@ export default class IdsColorPicker extends Base {
    * Update color picker value to match setected color hex value
    * @param {string} colorValue the value to update
    */
- #updateColorPickerValues(colorValue) {
+  #updateColorPickerValues(colorValue) {
     this.swatchInput.value = colorValue;
     this.colorPreview.style.backgroundColor = colorValue;
     this.colorPickerInput.value = colorValue;
   }
 
-   /**
-    * Open/Close popup to show and hide color panel
-    * @private
-    */
-   #openCloseColorpicker() {
-   if (!this.popup.visible) {
-     this.show();
-   } else {
-     this.hide();
-   }
- }
+  /**
+   * Open/Close popup to show and hide color panel
+   * @private
+   */
+  #openCloseColorpicker() {
+    if (!this.popup.visible) {
+      this.show();
+    } else {
+      this.hide();
+    }
+  }
 
-   /**
-    * Hides the Color Picker's Popup
-    * @returns {void}
-    */
-   hide() {
-     this.popup.visible = false;
-     this.removeOpenEvents();
-   }
+  /**
+   * Hides the Color Picker's Popup
+   * @returns {void}
+   */
+  hide() {
+    this.popup.visible = false;
+    this.removeOpenEvents();
+  }
 
-   /**
-    * Shows the Color Picker's Popup
-    * @returns {void}
-    */
-   show() {
-     this.popup.alignTarget = this.container.querySelector('ids-icon');
-     this.popup.align = 'bottom, center';
-     this.popup.arrow = 'bottom';
-     this.popup.y = 12;
-     this.popup.visible = true;
-     this.addOpenEvents();
-   }
+  /**
+   * Shows the Color Picker's Popup
+   * @returns {void}
+   */
+  show() {
+    this.popup.alignTarget = this.container.querySelector('ids-icon');
+    this.popup.align = 'bottom, center';
+    this.popup.arrow = 'bottom';
+    this.popup.y = 12;
+    this.popup.visible = true;
+    this.addOpenEvents();
+  }
 
-   /**
-    * Inherited from the Popup Open Events Mixin.
-    * Runs when a click event is propagated to the window.
-    * @returns {void}
-    */
-   onOutsideClick() {
-     this.hide();
-   }
+  /**
+   * Inherited from the Popup Open Events Mixin.
+   * Runs when a click event is propagated to the window.
+   * @returns {void}
+   */
+  onOutsideClick() {
+    this.hide();
+  }
 
-   /**
-    * Update color check to match setected color
-    * @param {any} target event target
-    */
-   #updateColorCheck(target) {
-     const checkedColor = target.parentElement.querySelector('[checked="true"]');
-     if (checkedColor) {
-       checkedColor.removeAttribute('checked');
-     }
-     target.setAttribute('checked', 'true');
-   }
+  /**
+   * Update color check to match setected color
+   * @param {any} target event target
+   */
+  #updateColorCheck(target) {
+    const checkedColor = target.parentElement.querySelector('[checked="true"]');
+    if (checkedColor) {
+      checkedColor.removeAttribute('checked');
+    }
+    target.setAttribute('checked', 'true');
+  }
 }

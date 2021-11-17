@@ -154,16 +154,16 @@ export default class IdsPagerInput extends Base {
     this.#updatePageCountShown();
   }
 
+  /** @returns {string|number} The number of items for pager is tracking */
+  get total() {
+    return parseInt(this.getAttribute(attributes.TOTAL));
+  }
+
   /** @returns {number|null} The calculated pageCount using total and pageSize */
   get pageCount() {
     return (this.total !== null && !Number.isNaN(this.total))
       ? Math.floor(this.total / this.pageSize)
       : null;
-  }
-
-  /** @returns {string|number} The number of items for pager is tracking */
-  get total() {
-    return parseInt(this.getAttribute(attributes.TOTAL));
   }
 
   /** @param {boolean|string} value Whether or not to disable input at app-specified-level */

@@ -505,8 +505,11 @@ class IdsTree extends Base {
       const response = (veto) => {
         canProceed = !!veto;
       };
-      this.triggerEvent(IdsTreeShared.EVENTS.beforeselected, this,
-        { detail: { elem: this, response, node } });
+      this.triggerEvent(
+        IdsTreeShared.EVENTS.beforeselected,
+        this,
+        { detail: { elem: this, response, node } }
+      );
       if (!canProceed) {
         return;
       }
@@ -532,8 +535,11 @@ class IdsTree extends Base {
       const response = (veto) => {
         canProceed = !!veto;
       };
-      this.triggerEvent(IdsTreeShared.EVENTS.beforeunselected, this,
-        { detail: { elem: this, response, node } });
+      this.triggerEvent(
+        IdsTreeShared.EVENTS.beforeunselected,
+        this,
+        { detail: { elem: this, response, node } }
+      );
       if (!canProceed) {
         return;
       }

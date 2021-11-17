@@ -14,7 +14,7 @@ export default class IdsToolbarSection extends Base {
   readonly items: Array<HTMLElement>;
 
   /** Sets alignment of the contents in the section */
-  align?: string
+  align?: string;
 
   /** Sets the "type" of section */
   type?: 'static' | 'fluid' | 'title' | 'buttonset' | 'search' | 'more';

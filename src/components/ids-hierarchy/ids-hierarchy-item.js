@@ -181,7 +181,7 @@ export default class IdsHierarchyItem extends Base {
    * @private
    * @returns {void}
    */
-   #attachEventHandlers() {
+  #attachEventHandlers() {
     this.onEvent('click', this.expander, () => {
       this.#expandCollapse(this.expanded);
     });

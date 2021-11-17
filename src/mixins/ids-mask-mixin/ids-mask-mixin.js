@@ -153,7 +153,7 @@ const IdsMaskMixin = (superclass) => class extends superclass {
    * @param {boolean} [doSetValue=false] if true, attempts to set input state when masking completes
    * @returns {string|boolean} the result of the mask.  If no masking was performed, return `false`
    */
-  processMask = (rawValue = '', opts, doSetValue = false) => {
+  processMask = (rawValue, opts, doSetValue = false) => {
     // If no mask function/pattern is defined, do not process anything.
     if (!this.mask) {
       return false;
@@ -251,7 +251,7 @@ const IdsMaskMixin = (superclass) => class extends superclass {
     }
 
     return finalValue;
-  }
+  };
 
   /**
    * Uses this current input value and pattern options defined to process a

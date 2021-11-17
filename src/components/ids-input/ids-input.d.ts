@@ -64,7 +64,7 @@ export default class IdsInput extends Base {
   labelHidden: boolean;
 
   /** Sets the input placeholder text * */
-  placeholder: string
+  placeholder: string;
 
   /** Sets the size (width) of input * */
   size: 'xs' | 'sm ' | 'mm' | 'md' | 'lg' | 'full' | string;

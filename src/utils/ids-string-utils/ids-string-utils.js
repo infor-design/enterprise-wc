@@ -7,6 +7,7 @@ export function camelCase(str) {
   return (str.slice(0, 1).toLowerCase() + str.slice(1))
     .replace(/([-_ ]){1,}/g, ' ')
     .split(/[-_ ]/)
+    // eslint-disable-next-line no-unsafe-optional-chaining
     .reduce((cur, acc) => cur + acc[0]?.toUpperCase() + acc.substring(1));
 }
 
@@ -42,6 +43,7 @@ export function stringToBool(val) {
  * @returns {number} The return boolean
  */
 export function stringToNumber(val) {
+  // eslint-disable-next-line no-unsafe-optional-chaining
   const v = val?.toString() * 1; // Converting String to Number
   return !isNaN(v) ? v : 0; // eslint-disable-line
 }
@@ -63,7 +65,7 @@ export function injectTemplate(str, obj) {
  * @returns {string} ` class="c1 c2..."` || ""
  */
 export function buildClassAttrib(...classes) {
-  const classAttrib = classes.reduce((attribStr = '', c) => {
+  const classAttrib = classes.reduce((attribStr, c) => {
     if (attribStr && c) { return `${attribStr} ${c}`; }
 
     if (!attribStr && c) { return c; }

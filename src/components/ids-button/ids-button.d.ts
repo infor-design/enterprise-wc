@@ -22,7 +22,7 @@ export class IdsButton extends Base {
   text?: string;
 
   /* The type/purpose of the button to display */
-  type: 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive'
+  type: 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive';
 
   /* Sets up a string based tooltip */
   tooltip?: string;

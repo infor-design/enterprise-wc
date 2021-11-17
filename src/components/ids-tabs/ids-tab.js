@@ -216,6 +216,7 @@ export default class IdsTab extends Base {
    * @returns {string} aria-label content
    */
   #getReadableAriaLabel() {
+    // eslint-disable-next-line no-unsafe-optional-chaining
     const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
     return idsTextEls.map((textEl) => {
       const slotNode = textEl.querySelector('slot')?.assignedNodes?.()?.[0];
@@ -235,7 +236,7 @@ export default class IdsTab extends Base {
     if (slotNode && idsText) {
       idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
     }
-  }
+  };
 
   focus() {
     this.container.focus();
