@@ -1,6 +1,6 @@
-import { IdsElement } from '../../core';
+import Base from './ids-search-field-base';
 
-export default class IdsSearchField extends IdsElement {
+export default class IdsSearchField extends Base {
   /** Sets the main label */
   label: string;
 

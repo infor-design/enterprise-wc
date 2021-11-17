@@ -8,7 +8,7 @@ import { stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
  * @param {any} superclass Accepts a superclass and creates a new subclass from it
  * @returns {any} The extended object
  */
-const IdsColorVariantMixin = ( superclass ) => class extends superclass {
+const IdsColorVariantMixin = (superclass) => class extends superclass {
   constructor() {
     super();
 
@@ -55,7 +55,7 @@ const IdsColorVariantMixin = ( superclass ) => class extends superclass {
   set colorVariant(val) {
     let safeValue = null;
     if (typeof val === 'string') {
-      safeVal = stripTags(val, '');
+      safeValue = stripTags(val, '');
     }
 
     const currentValue = this.state.colorVariant;

@@ -1,17 +1,11 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import IdsText from '../ids-text/ids-text';
 import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-tabs-base';
+
+import Base from './ids-tab-base';
+import IdsText from '../ids-text/ids-text';
+
 import styles from './ids-tab.scss';
-
-// Import Mixins
-import {
-  IdsColorVariantMixin,
-  IdsEventsMixin,
-  IdsOrientationMixin,
-} from '../../mixins';
-
 
 /**
  * IDS Tab Component
@@ -23,14 +17,7 @@ import {
  */
 @customElement('ids-tab')
 @scss(styles)
-<<<<<<< HEAD
 export default class IdsTab extends Base {
-  /** store the previous "selected" value to prevent double firing events */
-  #prevSelected = false;
-
-=======
-class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, IdsOrientationMixin) {
->>>>>>> main
   constructor() {
     super();
   }

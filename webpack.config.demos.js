@@ -53,6 +53,10 @@ module.exports = {
     'ids-accordion/example': `${demosDir}/ids-accordion/example.js`,
     'ids-accordion/ids-accordion': `${demosDir}/ids-accordion/index.js`,
     'ids-accordion/nested': `${demosDir}/ids-accordion/nested.js`,
+    // Header
+    'ids-header/ids-header': `${demosDir}/ids-header/index.js`,
+    'ids-header/button-types': `${demosDir}/ids-header/button-types.js`,
+    'ids-header/standalone-css': `${demosDir}/ids-header/standalone-css.js`,
     // Menu
     'ids-menu/example': `${demosDir}/ids-menu/example.js`,
     'ids-menu/ids-menu': `${demosDir}/ids-menu/index.js`,
@@ -67,6 +71,14 @@ module.exports = {
     'ids-popup-menu/selected-state': `${demosDir}/ids-popup-menu/selected-state.js`,
     'ids-popup-menu/standalone-css': `${demosDir}/ids-popup-menu/standalone-css.js`,
     'ids-popup-menu/trigger-immediate': `${demosDir}/ids-popup-menu/trigger-immediate.js`,
+    // Search Field
+    'ids-search-field/ids-search-field': `${demosDir}/ids-search-field/index.js`,
+    // Tabs
+    'ids-tabs/ids-tabs': `${demosDir}/ids-tabs/index.js`,
+    'ids-tabs/example': `${demosDir}/ids-tabs/example.js`,
+    'ids-tabs/header-tabs': `${demosDir}/ids-tabs/header-tabs.js`,
+    'ids-tabs/side-by-side': `${demosDir}/ids-tabs/side-by-side.js`,
+    'ids-tabs/standalone-css': `${demosDir}/ids-tabs/standalone-css.js`,
     // Tags
     'ids-tag/ids-tag': `${demosDir}/ids-tag/index.js`,
     'ids-tag/example': `${demosDir}/ids-tag/example.js`,

@@ -1,9 +1,11 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes'
-import IdsInput from '../ids-input/ids-input';
-import styles from './ids-header.scss';
-import Base from './ids-header-base';
+import { attributes } from '../../core/ids-attributes';
 import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
+
+import Base from './ids-header-base';
+import IdsInput from '../ids-input/ids-input';
+
+import styles from './ids-header.scss';
 
 /**
  * IDS Header Component
@@ -15,7 +17,6 @@ import { stripHTML } from '../../utils/ids-xss-utils/ids-xss-utils';
  */
 @customElement('ids-header')
 @scss(styles)
-
 export default class IdsHeader extends Base {
   constructor() {
     super();

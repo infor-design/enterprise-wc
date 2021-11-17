@@ -1,6 +1,6 @@
-import { IdsElement } from '../../core';
+import Base from './ids-tab-base';
 
-export default class IdsTab extends IdsElement {
+export default class IdsTab extends Base {
   /**
    * A theming variant which was applied by the parent ids-tab;
    * not meant to be overriden

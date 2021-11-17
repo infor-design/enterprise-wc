@@ -1,11 +1,14 @@
-import { IdsElement, customElement, scss, mix, attributes } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import Base from './ids-search-field-base';
 import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsInput from '../ids-input/ids-input';
 import IdsIcon from '../ids-icon/ids-icon';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import styles from './ids-search-field.scss';
-import Base from './ids-search-field-base';
 
 const DEFAULT_LABEL = 'Search';
 const DEFAULT_PLACEHOLDER = 'Type to search';
@@ -19,7 +22,6 @@ const DEFAULT_PLACEHOLDER = 'Type to search';
  * @mixes IdsKeyboardMixin
  * @mixes IdsColorVariantMixin
  */
-
 @customElement('ids-search-field')
 @scss(styles)
 export default class IdsSearchField extends Base {
@@ -188,8 +190,6 @@ export default class IdsSearchField extends Base {
    * TODO: search function that gets triggered upon 'Enter' key or clicking the trigger button
    */
   #searchFunction() {
-    // const searchParam = this.value;
-    // query the searchParm in some list/database
   }
 
   #attachEventHandlers() {
@@ -202,10 +202,6 @@ export default class IdsSearchField extends Base {
       this.value = e.target.value;
       // TODO: pop up autocomplete suggestions
     });
-
-    // this.onEvent('click', this.triggerButton, () => {
-    //   this.#searchFunction();
-    // });
   }
 
   /**

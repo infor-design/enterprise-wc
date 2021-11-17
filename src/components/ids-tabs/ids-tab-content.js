@@ -1,24 +1,23 @@
+import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsTab from './ids-tab';
-import Base from './ids-tabs-base';
+
+import Base from './ids-tab-content-base';
+
 import styles from './ids-tab-content.scss';
 
 /**
  * IDS TabContent Component
  * @type {IdsTabContent}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
  * @mixes IdsThemeMixin
+ * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
+ * @mixes IdsThemeMixin
  */
 @customElement('ids-tab-content')
 @scss(styles)
-export default class IdsTabContent extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsTabContent extends Base {
   constructor() {
     super();
   }
