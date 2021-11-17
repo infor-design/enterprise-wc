@@ -1,63 +1,15 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-
-// Import Base and Mixins
 import Base from './ids-menu-item-base';
-
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Dependencies
 import {
   MENU_ITEM_SIZE, MENU_DEFAULTS, MENU_ATTRIBUTES, safeForAttribute
 } from './ids-menu-attributes';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import IdsIcon from '../ids-icon/ids-icon';
-
-// Import Styles
 import styles from './ids-menu-item.scss';
 
-<<<<<<< HEAD
-=======
-// @TODO handle other menu-item sizes
-const MENU_ITEM_SIZE = 'medium';
-
-// Default Button state values
-const MENU_DEFAULTS = {
-  disabled: false,
-  icon: null,
-  selected: false,
-  submenu: null,
-  tabIndex: 0,
-  value: null,
-};
-
-// Definable attributes
-const MENU_ATTRIBUTES = [
-  attributes.TEXT_ALIGN,
-  attributes.DISABLED,
-  attributes.ICON,
-  attributes.LANGUAGE,
-  attributes.SELECTED,
-  attributes.SUBMENU,
-  attributes.TABINDEX,
-  attributes.VALUE,
-  attributes.MODE,
-  attributes.VERSION
-];
-
-/**
- * Determines if a menu item's stored value can safely be described by its attribute inside the DOM.
- * @param {any} value the value to be checked
- * @returns {boolean} true if the value can be "stringified" safely for the DOM attribute
- */
-function safeForAttribute(value) {
-  return value !== null && ['string', 'number', 'boolean'].includes(typeof value);
-}
-
->>>>>>> main
 /**
  * IDS Menu Item Component
  * @type {IdsMenuItem}

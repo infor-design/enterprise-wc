@@ -1,33 +1,11 @@
-// Icons as Json
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
-
-// Import Core
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-
-// Import Mixins
 import Base from './ids-icon-base';
-
-// Other imports
 import { sizes } from './ids-icon-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Styles
 import styles from './ids-icon.scss';
 
-<<<<<<< HEAD
-=======
-// Setting Defaults
-const sizes = {
-  largex3: 64,
-  large: 24,
-  normal: 18,
-  medium: 18,
-  small: 14,
-  xsmall: 10
-};
-
->>>>>>> main
 /**
  * IDS Icon Component
  * @type {IdsIcon}

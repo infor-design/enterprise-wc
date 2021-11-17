@@ -1,18 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsDataSource from '../../core/ids-data-source';
-<<<<<<< HEAD:src/components/ids-menu/ids-separator.js
-import Base from './ids-menu-base';
-=======
-import { IdsStringUtils } from '../../utils/ids-string-utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
->>>>>>> main:src/components/ids-separator/ids-separator.js
+import Base from '../ids-menu/ids-menu-base';
 import styles from './ids-separator.scss';
 
 /**

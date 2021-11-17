@@ -1,89 +1,12 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Base and Mixins
 import Base from './ids-button-base';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
-
-import {
-<<<<<<< HEAD
-  BUTTON_TYPES,
-  BUTTON_DEFAULTS,
-  BUTTON_ATTRIBUTES,
-  ICON_ALIGN,
-  baseProtoClasses
-} from './ids-button-attributes';
-
-// Import Styles
+import { BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses } from './ids-button-attributes';
 import styles from './ids-button.scss';
 
-=======
-  IdsEventsMixin,
-  IdsColorVariantMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin,
-  IdsTooltipMixin
-} from '../../mixins';
-
-import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
-import '../ids-text';
-import '../ids-icon';
-import styles from './ids-button.scss';
-
-const { stringToBool } = IdsStringUtils;
-
-// Button Styles
-const BUTTON_TYPES = [
-  'default',
-  'primary',
-  'secondary',
-  'tertiary',
-  'destructive',
-  'swipe-action-left',
-  'swipe-action-right'
-];
-
-// Default Button state values
-const BUTTON_DEFAULTS = {
-  cssClass: [],
-  disabled: false,
-  tabIndex: 0,
-  type: BUTTON_TYPES[0]
-};
-
-// Definable attributes
-const BUTTON_ATTRIBUTES = [
-  attributes.CSS_CLASS,
-  attributes.DISABLED,
-  attributes.ICON,
-  attributes.ICON_ALIGN,
-  attributes.ID,
-  attributes.NO_PADDING,
-  attributes.NO_RIPPLE,
-  attributes.SQUARE,
-  attributes.TEXT,
-  attributes.TYPE,
-  attributes.TABINDEX,
-  attributes.COLOR_VARIANT
-];
-
-// Icon alignments
-const ICON_ALIGN = [
-  'align-icon-start',
-  'align-icon-end'
-];
-
-const baseProtoClasses = [
-  'ids-button',
-  'ids-icon-button',
-  'ids-menu-button',
-  'ids-toggle-button'
-];
-
->>>>>>> main
 /**
  * IDS Button Component
  * @type {IdsButton}
@@ -97,17 +20,7 @@ const baseProtoClasses = [
  */
 @customElement('ids-button')
 @scss(styles)
-<<<<<<< HEAD
 export default class IdsButton extends Base {
-=======
-class IdsButton extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsColorVariantMixin,
-    IdsLocaleMixin,
-    IdsThemeMixin,
-    IdsTooltipMixin
-  ) {
->>>>>>> main
   constructor() {
     super();
     this.state = {};
