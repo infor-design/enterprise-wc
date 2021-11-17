@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import IdsElement from '../../core/ids-element';
 import { attributes } from '../../core/ids-attributes';
+import Base from './ids-summary-field-base';
+
 import styles from './ids-summary-field.scss';
 
 /**
@@ -10,7 +11,7 @@ import styles from './ids-summary-field.scss';
  */
 @customElement('ids-summary-field')
 @scss(styles)
-export default class IdsSummaryField extends IdsElement {
+export default class IdsSummaryField extends Base {
   constructor() {
     super();
   }

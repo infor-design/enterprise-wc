@@ -77,6 +77,8 @@ module.exports = {
     'ids-popup-menu/trigger-immediate': `${demosDir}/ids-popup-menu/trigger-immediate.js`,
     // Search Field
     'ids-search-field/ids-search-field': `${demosDir}/ids-search-field/index.js`,
+    // Search Field
+    'ids-summary-field/ids-summary-field': `${demosDir}/ids-summary-field/index.js`,
     // Swipe Action
     'ids-swipe-action/ids-swipe-action': `${demosDir}/ids-swipe-action/index.js`,
     'ids-swipe-action/example': `${demosDir}/ids-swipe-action/example.js`,

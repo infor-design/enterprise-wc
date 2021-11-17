@@ -1,4 +1,6 @@
-import { ALPHAS_REGEX, ANY_REGEX, CARET_TRAP, DIGITS_REGEX, EMPTY_STRING, NON_DIGITS_REGEX } from './ids-mask-common';
+import {
+  ALPHAS_REGEX, ANY_REGEX, CARET_TRAP, DIGITS_REGEX, EMPTY_STRING, NON_DIGITS_REGEX
+} from './ids-mask-common';
 import { removeDuplicates } from '../../utils/ids-string-utils/ids-string-utils';
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 

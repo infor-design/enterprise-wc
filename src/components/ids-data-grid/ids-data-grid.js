@@ -7,7 +7,7 @@ import Base from './ids-data-grid-base';
 
 // Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsDeepCloneUtils from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
+import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 // Datagrid Dependencies
 import IdsDataSource from '../../core/ids-data-source';
@@ -399,7 +399,7 @@ export default class IdsDataGrid extends Base {
    * @param {Array} value The array to use
    */
   set columns(value) {
-    this.currentColumns = value ? IdsDeepCloneUtils.deepClone(value) : [{ id: '', name: '' }];
+    this.currentColumns = value ? deepClone(value) : [{ id: '', name: '' }];
     this.rerender();
   }
 
