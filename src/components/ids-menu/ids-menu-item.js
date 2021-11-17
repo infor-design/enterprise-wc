@@ -19,6 +19,45 @@ import IdsIcon from '../ids-icon/ids-icon';
 // Import Styles
 import styles from './ids-menu-item.scss';
 
+<<<<<<< HEAD
+=======
+// @TODO handle other menu-item sizes
+const MENU_ITEM_SIZE = 'medium';
+
+// Default Button state values
+const MENU_DEFAULTS = {
+  disabled: false,
+  icon: null,
+  selected: false,
+  submenu: null,
+  tabIndex: 0,
+  value: null,
+};
+
+// Definable attributes
+const MENU_ATTRIBUTES = [
+  attributes.TEXT_ALIGN,
+  attributes.DISABLED,
+  attributes.ICON,
+  attributes.LANGUAGE,
+  attributes.SELECTED,
+  attributes.SUBMENU,
+  attributes.TABINDEX,
+  attributes.VALUE,
+  attributes.MODE,
+  attributes.VERSION
+];
+
+/**
+ * Determines if a menu item's stored value can safely be described by its attribute inside the DOM.
+ * @param {any} value the value to be checked
+ * @returns {boolean} true if the value can be "stringified" safely for the DOM attribute
+ */
+function safeForAttribute(value) {
+  return value !== null && ['string', 'number', 'boolean'].includes(typeof value);
+}
+
+>>>>>>> main
 /**
  * IDS Menu Item Component
  * @type {IdsMenuItem}
@@ -88,11 +127,23 @@ export default class IdsMenuItem extends Base {
       tabindex = ` tabindex="${this.state.tabIndex}"`;
     }
 
+    // TextAlign
+    let textClass = '';
+    if (this.textAlign === 'center') {
+      textClass = ' text-center';
+    }
+    if (this.textAlign === 'start') {
+      textClass = ' text-start';
+    }
+    if (this.textAlign === 'end') {
+      textClass = ' text-end';
+    }
+
     // Text
     const textSlot = `<span class="ids-menu-item-text" part="text"><slot></slot></span>`;
 
     // Main
-    return `<li role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}">
+    return `<li role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}${textClass}">
       <a ${tabindex} ${disabledAttr}>
         ${check}${iconSlot}${textSlot}
       </a>
@@ -610,6 +661,27 @@ export default class IdsMenuItem extends Base {
    */
   get text() {
     return [...this.childNodes].find((i) => i.nodeType === Node.TEXT_NODE).textContent.trim();
+  }
+
+  /**
+   * Set the value of the text align attribute
+   * @param {string} val start / center / end
+   * @memberof IdsMenuItem
+   */
+  set textAlign(val) {
+    if (val) {
+      this.setAttribute(attributes.TEXT_ALIGN, val);
+    } else {
+      this.removeAttribute(attributes.TEXT_ALIGN);
+    }
+  }
+
+  /**
+   * @readonly
+   * @returns {string} a menu item's textAlign attribute
+   */
+  get textAlign() {
+    return this.getAttribute(attributes.TEXT_ALIGN);
   }
 
   /**

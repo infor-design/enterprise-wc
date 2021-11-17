@@ -104,7 +104,10 @@
 
   &:focus input[type='radio'] ~ .circle,
   input[type='radio']:focus ~ .circle {
-    box-shadow: 0 0 0 1px var(--ids-color-palette-slate-10), 0 0 0 2px var(--ids-color-palette-azure-60), 0 0 4px 5px rgba(54, 138, 192, 0.3);
+    box-shadow:
+      0 0 0 1px var(--ids-color-palette-slate-10),
+      0 0 0 2px var(--ids-color-palette-azure-60),
+      0 0 4px 5px rgba(54 138 192 / 0.3);
   }
 
   input[type='radio']:disabled {
@@ -127,7 +130,10 @@
 .ids-radio[mode='dark'][color] {
   &:focus input[type='radio'] ~ .circle,
   input[type='radio']:focus ~ .circle {
-    box-shadow: 0 0 0 1px var(--ids-color-palette-slate-10), 0 0 0 2px var(--ids-color-palette-azure-60), 0 0 4px 5px rgba(54, 138, 192, 0.3);
+    box-shadow:
+      0 0 0 1px var(--ids-color-palette-slate-10),
+      0 0 0 2px var(--ids-color-palette-azure-60),
+      0 0 4px 5px rgba(54 138 192 / 0.3);
   }
 }
 
@@ -144,7 +150,10 @@
 
   &:focus input[type='radio'] ~ .circle,
   input[type='radio']:focus ~ .circle {
-    box-shadow: 0 0 0 1px var(--ids-color-palette-slate-10), 0 0 0 2px var(--ids-color-palette-azure-90), 0 0 4px 5px rgba(54, 138, 192, 0.3);
+    box-shadow:
+      0 0 0 1px var(--ids-color-palette-slate-10),
+      0 0 0 2px var(--ids-color-palette-azure-90),
+      0 0 4px 5px rgba(54 138 192 / 0.3);
   }
 
   input[type='radio']:disabled {
@@ -175,7 +184,10 @@
 
   &:focus input[type='radio'] ~ .circle,
   input[type='radio']:focus ~ .circle {
-    box-shadow: 0 0 0 1px var(--ids-color-palette-slate-10), 0 0 0 2px var(--ids-color-palette-azure-60), 0 0 4px 5px rgba(54, 138, 192, 0.3);
+    box-shadow:
+      0 0 0 1px var(--ids-color-palette-slate-10),
+      0 0 0 2px var(--ids-color-palette-azure-60),
+      0 0 4px 5px rgba(54 138 192 / 0.3);
   }
 
   input[type='radio']:disabled {
@@ -206,7 +218,10 @@
 
   &:focus input[type='radio'] ~ .circle,
   input[type='radio']:focus ~ .circle {
-    box-shadow: 0 0 0 1px var(--ids-color-palette-slate-10), 0 0 0 2px var(--ids-color-palette-azure-60), 0 0 4px 5px rgba(54, 138, 192, 0.3);
+    box-shadow:
+      0 0 0 1px var(--ids-color-palette-slate-10),
+      0 0 0 2px var(--ids-color-palette-azure-60),
+      0 0 4px 5px rgba(54 138 192 / 0.3);
   }
 
   input[type='radio']:disabled {
@@ -239,7 +254,10 @@
 
   &:focus input[type='radio'] ~ .circle,
   input[type='radio']:focus ~ .circle {
-    box-shadow: 0 0 0 1px var(--ids-color-palette-classic-slate-10), 0 0 0 2px var(--ids-color-palette-azure-90), 0 0 4px 5px rgba(54, 138, 192, 0.3);
+    box-shadow:
+      0 0 0 1px var(--ids-color-palette-classic-slate-10),
+      0 0 0 2px var(--ids-color-palette-azure-90),
+      0 0 4px 5px rgba(54 138 192 / 0.3);
   }
 
   input[type='radio']:disabled {

@@ -1,5 +1,10 @@
-@import '../../core/ids-base.scss';
+@import '../../core/ids-base';
 
 :host {
   @include flex();
+}
+
+::slotted(ids-separator) {
+  align-self: center;
+  justify-self: center;
 }

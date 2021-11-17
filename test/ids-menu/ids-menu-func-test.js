@@ -250,6 +250,18 @@ describe('IdsMenu Component', () => {
     expect(items.includes(item4)).toBeFalsy();
   });
 
+  it('can set menu item textAlign', () => {
+    expect(item1.textAlign).toEqual(null);
+
+    item1.textAlign = 'start';
+    item1.setAttribute('text-align', 'start');
+    expect(item1.textAlign).toEqual('start');
+    expect(item1.getAttribute('text-align')).toEqual('start');
+
+    item1.removeAttribute('text-align');
+    expect(item1.textAlign).toEqual(null);
+  });
+
   it('navigates menu items using the keyboard', () => {
     const navigateUpEvent = new KeyboardEvent('keydown', { key: 'ArrowUp' });
     const navigateDownEvent = new KeyboardEvent('keydown', { key: 'ArrowDown' });

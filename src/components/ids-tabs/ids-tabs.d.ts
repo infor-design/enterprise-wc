@@ -8,7 +8,7 @@ export default class IdsTabs extends IdsElement {
   colorVariant? : 'alternate';
 
   /** The direction the tabs will be laid out in; defaults to `horizontal`. */
-   orientation? : 'horizontal' | 'vertical';
+  orientation? : 'horizontal' | 'vertical';
 
   /**
    * A value which represents a currently selected tab; at any time,

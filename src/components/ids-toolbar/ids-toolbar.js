@@ -28,6 +28,7 @@ export default class IdsToolbar extends Base {
     this.setAttribute('role', 'toolbar');
     this.#attachKeyboardListeners();
 
+    // After repaint
     requestAnimationFrame(() => {
       this.makeTabbable(this.detectTabbable());
     });

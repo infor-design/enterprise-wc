@@ -6,7 +6,11 @@ import Base from './ids-tabs-base';
 import styles from './ids-tab.scss';
 
 // Import Mixins
-import { IdsEventsMixin } from '../../mixins';
+import {
+  IdsColorVariantMixin,
+  IdsEventsMixin,
+  IdsOrientationMixin,
+} from '../../mixins';
 
 
 /**
@@ -19,27 +23,36 @@ import { IdsEventsMixin } from '../../mixins';
  */
 @customElement('ids-tab')
 @scss(styles)
+<<<<<<< HEAD
 export default class IdsTab extends Base {
   /** store the previous "selected" value to prevent double firing events */
   #prevSelected = false;
 
+=======
+class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, IdsOrientationMixin) {
+>>>>>>> main
   constructor() {
     super();
   }
 
   /**
    * Return the attributes we handle as getters/setters
-   * @returns {Array} The attributes in an array
+   * @returns {Array<string>} The attributes in an array
    */
   static get attributes() {
     return [
-      attributes.COLOR_VARIANT,
+      ...super.attributes,
       attributes.COUNT,
-      attributes.ORIENTATION,
       attributes.SELECTED,
       attributes.VALUE
     ];
   }
+
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate'];
 
   /**
    * Create the Template for the contents
@@ -109,16 +122,21 @@ export default class IdsTab extends Base {
   }
 
   connectedCallback() {
-    this.#prevSelected = false;
+    super.connectedCallback?.();
+
     this.setAttribute('role', 'tab');
     this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
     this.setAttribute('tabindex', stringToBool(this.selected) ? '0' : '-1');
     this.setAttribute('aria-label', this.#getReadableAriaLabel());
     this.selected = this.hasAttribute(attributes.SELECTED);
 
+    this.#attachEventHandlers();
+  }
+
+  #attachEventHandlers() {
     this.onEvent('click', this, () => {
-      if (!this.hasAttribute(attributes.SELECTED)) {
-        this.setAttribute(attributes.SELECTED, '');
+      if (!this.selected) {
+        this.selected = true;
       }
       this.focus();
     });
@@ -132,28 +150,24 @@ export default class IdsTab extends Base {
    * @param {boolean} isSelected Whether or not this tab is selected.
    */
   set selected(isSelected) {
-    const isValueTruthy = stringToBool(isSelected);
-
-    if (!isValueTruthy) {
-      this.removeAttribute('selected');
+    const newValue = stringToBool(isSelected);
+    if (!newValue) {
+      this.removeAttribute(attributes.SELECTED);
       this.container.classList.remove('selected');
       this.container?.children?.[0]?.removeAttribute?.('font-weight');
       this.setAttribute('tabindex', '-1');
     } else {
-      this.setAttribute('selected', '');
+      this.setAttribute(attributes.SELECTED, '');
       this.container?.children?.[0]?.setAttribute?.('font-weight', 'bold');
       this.container.classList.add('selected');
       this.setAttribute('tabindex', '0');
 
-      if (!this.#prevSelected) {
-        // reqAnimFrame needed to fire for context to read reliably due to onEvent binding
-        window.requestAnimationFrame(() => {
-          this.triggerEvent('tabselect', this, { bubbles: true });
-        });
-      }
+      // reqAnimFrame needed to fire for context to read reliably due to onEvent binding
+      window.requestAnimationFrame(() => {
+        this.triggerEvent('tabselect', this, { bubbles: true });
+      });
     }
-    this.#prevSelected = isValueTruthy;
-    this.setAttribute('aria-selected', `${Boolean(this.selected)}`);
+    this.setAttribute('aria-selected', `${newValue}`);
   }
 
   /**
@@ -161,35 +175,6 @@ export default class IdsTab extends Base {
    */
   get selected() {
     return this.hasAttribute(attributes.SELECTED);
-  }
-
-  /**
-   * @param {'alternate'|undefined} variant A value which represents a currently
-   * selected tab; at any time, should match one of the child ids-tab `value`
-   * attributes set for a valid selection.
-   */
-  set colorVariant(variant) {
-    switch (variant) {
-    case 'alternate': {
-      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
-      this.container.classList.add('color-variant-alternate');
-      break;
-    }
-    default: {
-      this.removeAttribute(attributes.COLOR_VARIANT);
-      this.container.classList.remove('color-variant-alternate');
-      break;
-    }
-    }
-  }
-
-  /**
-   * @returns {'alternate'|undefined} A value which represents a currently
-   * selected tab; at any time, should match one of the child ids-tab `value`
-   * attributes set for a valid selection.
-   */
-  get colorVariant() {
-    return this.getAttribute(attributes.COLOR_VARIANT);
   }
 
   /** @param {string} value The value which becomes selected by ids-tabs component */
@@ -235,28 +220,6 @@ export default class IdsTab extends Base {
     if (this.getAttribute(attributes.COUNT) !== value) {
       this.setAttribute(attributes.COUNT, value);
     }
-  }
-
-  /** @param {'horizontal' | 'vertical'} value The direction which tabs will be laid out in */
-  set orientation(value) {
-    switch (value) {
-    case 'vertical': {
-      this.setAttribute(attributes.ORIENTATION, 'vertical');
-      this.container.classList.add('vertical');
-      break;
-    }
-    case 'horizontal':
-    default: {
-      this.setAttribute(attributes.ORIENTATION, 'horizontal');
-      this.container.classList.remove('vertical');
-      break;
-    }
-    }
-  }
-
-  /** @returns {'horizontal' | 'vertical'} value The direction which tabs will be laid out in. */
-  get orientation() {
-    return this.getAttribute(attributes.ORIENTATION);
   }
 
   /**

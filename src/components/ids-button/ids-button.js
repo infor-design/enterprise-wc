@@ -9,6 +9,7 @@ import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
 import {
+<<<<<<< HEAD
   BUTTON_TYPES,
   BUTTON_DEFAULTS,
   BUTTON_ATTRIBUTES,
@@ -19,6 +20,70 @@ import {
 // Import Styles
 import styles from './ids-button.scss';
 
+=======
+  IdsEventsMixin,
+  IdsColorVariantMixin,
+  IdsLocaleMixin,
+  IdsThemeMixin,
+  IdsTooltipMixin
+} from '../../mixins';
+
+import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
+import '../ids-text';
+import '../ids-icon';
+import styles from './ids-button.scss';
+
+const { stringToBool } = IdsStringUtils;
+
+// Button Styles
+const BUTTON_TYPES = [
+  'default',
+  'primary',
+  'secondary',
+  'tertiary',
+  'destructive',
+  'swipe-action-left',
+  'swipe-action-right'
+];
+
+// Default Button state values
+const BUTTON_DEFAULTS = {
+  cssClass: [],
+  disabled: false,
+  tabIndex: 0,
+  type: BUTTON_TYPES[0]
+};
+
+// Definable attributes
+const BUTTON_ATTRIBUTES = [
+  attributes.CSS_CLASS,
+  attributes.DISABLED,
+  attributes.ICON,
+  attributes.ICON_ALIGN,
+  attributes.ID,
+  attributes.NO_PADDING,
+  attributes.NO_RIPPLE,
+  attributes.SQUARE,
+  attributes.TEXT,
+  attributes.TYPE,
+  attributes.TABINDEX,
+  attributes.COLOR_VARIANT
+];
+
+// Icon alignments
+const ICON_ALIGN = [
+  'align-icon-start',
+  'align-icon-end'
+];
+
+const baseProtoClasses = [
+  'ids-button',
+  'ids-icon-button',
+  'ids-menu-button',
+  'ids-toggle-button'
+];
+
+>>>>>>> main
 /**
  * IDS Button Component
  * @type {IdsButton}
@@ -32,7 +97,17 @@ import styles from './ids-button.scss';
  */
 @customElement('ids-button')
 @scss(styles)
+<<<<<<< HEAD
 export default class IdsButton extends Base {
+=======
+class IdsButton extends mix(IdsElement).with(
+    IdsEventsMixin,
+    IdsColorVariantMixin,
+    IdsLocaleMixin,
+    IdsThemeMixin,
+    IdsTooltipMixin
+  ) {
+>>>>>>> main
   constructor() {
     super();
     this.state = {};
@@ -97,9 +172,8 @@ export default class IdsButton extends Base {
    * @returns {Array} containing classes used to identify this button prototype
    */
   get protoClasses() {
-    const textSlot = this.querySelector('span:not(.audible)');
-    const iconSlot = this.querySelector('ids-icon[slot]')
-      || this.querySelector('ids-icon');
+    const textSlot = this.querySelector('span:not(.audible), ids-text:not([audible])');
+    const iconSlot = this.querySelector('ids-icon[slot]') || this.querySelector('ids-icon');
     if (iconSlot && (!textSlot)) {
       return ['ids-icon-button'];
     }
@@ -204,6 +278,13 @@ export default class IdsButton extends Base {
       }
     }, {
       passive: true
+    });
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.button');
+    this.onEvent('languagechange.button', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      this.container.classList[this.locale.isRTL() ? 'add' : 'remove']('rtl');
     });
   }
 
@@ -514,6 +595,30 @@ export default class IdsButton extends Base {
    */
   get noRipple() {
     return this.state.noRipple || false;
+  }
+
+  /**
+   * @param {boolean} val true if the button should not have standard padding rules applied
+   */
+  set noPadding(val) {
+    const isTruthy = this.noPadding;
+    const trueVal = IdsStringUtils.stringToBool(val);
+    if (isTruthy !== trueVal) {
+      if (trueVal) {
+        this.container.classList.add('no-padding');
+        this.setAttribute('no-padding', '');
+      } else {
+        this.container.classList.remove('no-padding');
+        this.removeAttribute('no-padding');
+      }
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the button does not currently have standard padding rules applied
+   */
+  get noPadding() {
+    return this.container.classList.contains('no-padding');
   }
 
   /**

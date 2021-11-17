@@ -6,25 +6,13 @@ import {
   IdsKeyboardMixin,
   IdsEventsMixin,
   IdsThemeMixin,
-  IdsAttributeProviderMixin
+  IdsColorVariantMixin,
+  IdsOrientationMixin
 } from '../../mixins';
 
 import IdsHeader from '../ids-header';
 import IdsTab from './ids-tab';
 import styles from './ids-tabs.scss';
-
-/**
- * list of entries for attributes provided by
- * the ids-tabs-context and how they map,
- * as well as which are listened on for updates
- * in the children
- */
-const attributeProviderDefs = {
-  attributesProvided: [{
-    attribute: attributes.COLOR_VARIANT,
-    component: IdsTab
-  }]
-};
 
 /**
  * IDS Tabs Component
@@ -37,9 +25,10 @@ const attributeProviderDefs = {
 @customElement('ids-tabs')
 @scss(styles)
 class IdsTabs extends mix(IdsElement).with(
-    IdsAttributeProviderMixin(attributeProviderDefs),
+    IdsColorVariantMixin,
     IdsEventsMixin,
     IdsKeyboardMixin,
+    IdsOrientationMixin,
     IdsThemeMixin
   ) {
   constructor() {
@@ -52,134 +41,80 @@ class IdsTabs extends mix(IdsElement).with(
    */
   static get attributes() {
     return [
-      attributes.COLOR_VARIANT,
-      attributes.ORIENTATION,
+      ...super.attributes,
       attributes.VALUE
     ];
   }
 
+  /**
+   * Inherited from `IdsColorVariantMixin`
+   * @returns {Array<string>} List of available color variants for this component
+   */
+  colorVariants = ['alternate'];
+
+  /**
+   * @returns {string} template for Tab List
+   */
   template() {
     return '<slot></slot>';
   }
 
+  /**
+   * WebComponent's `connectedCallback` implementation
+   */
   connectedCallback() {
     super.connectedCallback?.();
     this.setAttribute('role', 'tablist');
 
-    if (!this.hasAttribute(attributes.COLOR_VARIANT)) {
-      this.#checkAndSetColorVariant();
-    }
-
-    this.onEvent('tabselect', this, (e) => {
-      if (e.target.value !== this.value) {
-        this.setAttribute(attributes.VALUE, e.target.value);
-      }
-    });
-
-    // set initial selection state
-    this.#updateSelectionState();
+    this.#detectParentColorVariant();
+    this.#refreshSelectionState(null, this.getAttribute('value'));
+    this.#attachEventHandlers();
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback?.();
-  }
-
-  /**
-   * Binds associated callbacks and cleans
-   * old handlers when template refreshes
-   */
-  rendered() {
-    this.#updateCallbacks();
-  }
-
-  /**
-   * @param {'horizontal' | 'vertical'} value The direction the tabs will be laid out in.
-   */
-  set orientation(value) {
-    switch (value) {
-    case 'vertical': {
-      this.setAttribute(attributes.ORIENTATION, 'vertical');
-
-      for (let i = 0; i < this.children.length; i++) {
-        this.children[i].setAttribute('orientation', 'vertical');
-      }
-      break;
-    }
-    case 'horizontal':
-    default: {
-      this.setAttribute(attributes.ORIENTATION, 'horizontal');
-
-      for (let i = 0; i < this.children.length; i++) {
-        this.children[i].setAttribute('orientation', 'horizontal');
-      }
-      break;
-    }
-    }
-  }
-
-  /**
-   * @returns {string} The direction the tabs will be laid out in.
-   */
-  get orientation() {
-    return this.getAttribute(attributes.ORIENTATION);
-  }
+  #value = '';
 
   /**
    * @param {string} value A value which represents a currently selected tab
    */
   set value(value) {
-    if (this.getAttribute(attributes.VALUE) !== value) {
+    const currentValue = this.#value;
+    const isValidValue = this.hasTab(value);
+
+    if (isValidValue && currentValue !== value) {
+      this.#value = value;
       this.setAttribute(attributes.VALUE, value);
+      this.#refreshSelectionState(currentValue, value);
+      this.triggerEvent('change', this, {
+        bubbles: false,
+        detail: { elem: this, value }
+      });
+    } else {
+      this.setAttribute(attributes.VALUE, this.value);
     }
-
-    this.#updateSelectionState();
-
-    this.triggerEvent('change', this, {
-      bubbles: false,
-      detail: { elem: this, value }
-    });
   }
 
   /**
    * @returns {string} The value representing a currently selected tab
    */
   get value() {
-    return this.getAttribute(attributes.VALUE);
+    return this.#value;
   }
 
   /**
-   * Returns the value provided for a tab at a specified
-   * index; if it does not exist, then return zero-based index
-   *
-   * @param {number} index 0-based tab index
-   * @returns {string | number} value or index
+   * Reference to the currently-selected tab, if applicable
+   * @param {string} value the tab value to scan
+   * @returns {boolean} true if this tab list contains a tab with the provided value
    */
-  getTabIndexValue(index) {
-    return this.children?.[index]?.getAttribute(attributes.VALUE) || index;
+  hasTab(value) {
+    return this.querySelector(`ids-tab[value="${value}"]`) !== null;
   }
 
   /**
-   * lets us quickly reference the active element
-   * for current index selected with arrow left/right
-   * mapping
-   *
-   * @type {Map<HTMLElement, number>}
-   * @private
+   * Traverses parent nodes and scans for parent IdsHeader components.
+   * If an IdsHeader is found, adjusts this component's ColorVariant accordingly.
+   * @returns {void}
    */
-  #tabElIndexMap = new Map();
-
-  /**
-   * Used to detach event listeners properly
-   * @type {Set<string>}
-   * @private
-   */
-  #tabValueSet = new Set();
-
-  /**
-   * checks if we are in a header tab and adjusts color-variant
-   * accordingly
-   */
-  #checkAndSetColorVariant() {
+  #detectParentColorVariant() {
     let isHeaderDescendent = false;
     let currentElement = this.host || this.parentNode;
 
@@ -198,167 +133,143 @@ class IdsTabs extends mix(IdsElement).with(
     }
 
     if (isHeaderDescendent) {
-      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
+      this.colorVariant = 'alternate';
     }
-  }
-
-  /** @returns {number} Currently focused tab index, or -1 */
-  getFocusedTabIndex() {
-    if (!(document.activeElement instanceof IdsTab)) {
-      return -1;
-    }
-
-    if (this.#tabElIndexMap.has(document.activeElement)) {
-      return this.#tabElIndexMap.get(document.activeElement);
-    }
-
-    return -1;
   }
 
   /**
    * When a child value or this component value changes,
    * called to rebind onclick callbacks to each child
+   * @returns {void}
    */
-  #updateCallbacks() {
-    // map tab el refs to their indexes
+  #attachEventHandlers() {
+    // Reusable handlers
+    const nextTabHandler = (e) => {
+      this.nextTab(e.target.closest('ids-tab')).focus();
+    };
+    const prevTabHandler = (e) => {
+      this.prevTab(e.target.closest('ids-tab')).focus();
+    };
+    const selectTabHandler = (e) => {
+      const tab = e.target.closest('ids-tab');
+      if (tab) {
+        this.value = tab.value;
+      }
+    };
 
-    this.#tabElIndexMap.clear();
-
-    for (let i = 0; i < this.children.length; i++) {
-      this.#tabElIndexMap.set(this.children[i], i);
-    }
-
-    // clear tab values tracked
-    for (const tabValue of this.#tabValueSet) {
-      this.offEvent(`click.${tabValue}`);
-      this.#tabValueSet.delete(tabValue);
-    }
-
-    // scan through children and add
-    // click handlers
-    for (let i = 0; i < this.children.length; i++) {
-      const tabValue = this.getTabIndexValue(i);
-      const eventNs = `click.${tabValue}`;
-      this.#tabValueSet.add(eventNs);
-      this.onEvent(eventNs, this.children[i], () => {
-        if (this.value !== tabValue) {
-          this.value = tabValue;
-        }
-        this.focus();
-      });
-    }
-
-    // add key listeners and consider
-    // orientation for assignments
+    // Add key listeners and consider orientation for assignments
     if (this.orientation !== 'vertical') {
-      this.listen('ArrowLeft', this, () => {
-        const focusedTabIndex = this.getFocusedTabIndex();
-
-        if (focusedTabIndex > 0) {
-          this.children[focusedTabIndex - 1].focus();
-        }
-      });
-
-      this.listen('ArrowRight', this, () => {
-        const focusedTabIndex = this.getFocusedTabIndex();
-
-        if (focusedTabIndex + 1 < this.children.length) {
-          this.children[focusedTabIndex + 1].focus();
-        }
-      });
+      this.listen('ArrowLeft', this, prevTabHandler);
+      this.listen('ArrowRight', this, nextTabHandler);
     } else {
-      this.listen('ArrowUp', this, () => {
-        const focusedTabIndex = this.getFocusedTabIndex();
-
-        if (focusedTabIndex > 0) {
-          this.children[focusedTabIndex - 1].focus();
-        }
-      });
-
-      this.listen('ArrowDown', this, () => {
-        const focusedTabIndex = this.getFocusedTabIndex();
-
-        if (focusedTabIndex + 1 < this.children.length) {
-          this.children[focusedTabIndex + 1].focus();
-        }
-      });
+      this.listen('ArrowUp', this, prevTabHandler);
+      this.listen('ArrowDown', this, nextTabHandler);
     }
 
+    // Home/End keys should navigate to beginning/end of Tab list respectively
     this.listen('Home', this, () => {
       this.children[0].focus();
     });
-
     this.listen('End', this, () => {
       this.children[this.children.length - 1].focus();
     });
 
-    this.listen('Enter', this, () => {
-      const focusedTabIndex = this.getFocusedTabIndex();
-      if (focusedTabIndex >= 0 && focusedTabIndex < this.children.length) {
-        this.setAttribute(attributes.VALUE, this.getTabIndexValue(focusedTabIndex));
-      }
-    });
+    // Add Events/Key listeners for Tab Selection via click/keyboard
+    this.onEvent('click.tabs', this, selectTabHandler);
+    this.listen('Enter', this, selectTabHandler);
+    this.onEvent('tabselect', this, selectTabHandler);
+  }
+
+  /**
+   * Navigates from a specified Tab to the next-available Tab in the list
+   * @param {HTMLElement} currentTab an contained element (usually an IdsTab) to check for siblings
+   * @returns {IdsTab} the next tab in this Tab list's order
+   */
+  nextTab(currentTab) {
+    let nextTab = currentTab.nextElementSibling;
+
+    // If next sibling isn't a tab or is disabled, try this method again on the found sibling
+    if (nextTab && (nextTab.tagName !== 'IDS-TAB' || nextTab.disabled)) {
+      return this.nextTab(nextTab);
+    }
+
+    // If null, reset back to the first tab (cycling behavior)
+    if (!nextTab) {
+      nextTab = this.children[0];
+    }
+
+    return nextTab;
+  }
+
+  /**
+   * Navigates from a specified Tab to the previously-available Tab in the list
+   * @param {HTMLElement} currentTab an contained element (usually an IdsTab) to check for siblings
+   * @returns {IdsTab} the previous tab in this Tab list's order
+   */
+  prevTab(currentTab) {
+    let prevTab = currentTab.previousElementSibling;
+
+    // If previous sibling isn't a tab or is disabled, try this method again on the found sibling
+    if (prevTab && (prevTab.tagName !== 'IDS-TAB' || prevTab.disabled)) {
+      return this.prevTab(prevTab);
+    }
+
+    // If null, reset back to the last tab (cycling behavior)
+    if (!prevTab) {
+      prevTab = this.children[this.children.length - 1];
+    }
+
+    return prevTab;
   }
 
   /**
    * Sets the ids-tab selection states based on the current value
+   * @param {string} currentValue the current tab value
+   * @param {string} newValue the new tab value
+   * @returns {void}
    */
-  #updateSelectionState() {
+  #refreshSelectionState(currentValue, newValue) {
     if (!this.children.length) {
       return;
     }
 
-    // determine which child tab value was set, then highlight the item
-    let hadTabSelection = false;
+    const tabs = [...this.children];
+    const previouslySelectedTab = tabs.find((el) => el.value === currentValue);
 
-    for (let i = 0; i < this.children.length; i++) {
-      const tabValue = this.children[i].getAttribute(attributes.VALUE);
-      const isTabSelected = Boolean(this.value === tabValue);
-
-      if (this.children[i].selected !== isTabSelected) {
-        this.children[i].selected = isTabSelected;
-      }
-
-      if (!hadTabSelection && Boolean(this.children[i].selected)) {
-        hadTabSelection = true;
+    if (!newValue) {
+      newValue = tabs.find((el) => el.selected)?.value;
+      if (!newValue) {
+        newValue = tabs[0].value;
       }
     }
+    const newSelectedTab = tabs.find((el) => el.value === newValue);
 
-    // if no selection found, flag the first child;
-    // this will possibly send a callback up to context for
-    // other listeners and trigger a value change
-
-    if (!hadTabSelection) {
-      window.requestAnimationFrame(() => {
-        this.children[0].selected = true;
-        this.triggerEvent('tabselect', this.children[0], { bubbles: true });
-      });
+    if (previouslySelectedTab !== newSelectedTab) {
+      if (previouslySelectedTab) previouslySelectedTab.selected = false;
+      if (newSelectedTab) newSelectedTab.selected = true;
     }
   }
 
   /**
-   * @param {'alternate'|undefined} variant A theming variant to the ids-tabs which
-   * also applies to each ids-tab
+   * Listen for changes to color variant, which updates each child tab.
+   * @returns {void}
    */
-  set colorVariant(variant) {
-    switch (variant) {
-    case 'alternate': {
-      this.setAttribute(attributes.COLOR_VARIANT, 'alternate');
-      break;
-    }
-    default: {
-      this.removeAttribute(attributes.COLOR_VARIANT);
-      break;
-    }
-    }
+  onColorVariantRefresh() {
+    const tabs = [...this.querySelectorAll('ids-tab')];
+    tabs.forEach((tab) => {
+      tab.colorVariant = this.colorVariant;
+    });
   }
 
   /**
-   * @returns {'alternate'|undefined} A theming variant for the ids-tabs which also
-   * applies to each ids-tab
+   * Listen for changes to orientation, which updates each child tab.
+   * @returns {void}
    */
-  get colorVariant() {
-    return this.getAttribute(attributes.COLOR_VARIANT);
+  onOrientationRefresh() {
+    const tabs = [...this.querySelectorAll('ids-tab')];
+    tabs.forEach((tab) => {
+      tab.orientation = this.orientation;
+    });
   }
 }
 

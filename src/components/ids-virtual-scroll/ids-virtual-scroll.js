@@ -5,7 +5,7 @@ import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-virtual-scroll-base';
 import styles from './ids-virtual-scroll.scss';
 
-const DEFAULT_HEIGHT = 310;
+const DEFAULT_HEIGHT = '100vh';
 const DEFAULT_ITEM_HEIGHT = 50;
 
 /**
@@ -37,9 +37,7 @@ export default class IdsVirtualScroll extends Base {
   #attachEventHandlers() {
     this.timeout = null;
 
-    this.onEvent('scroll', this.container, (e) => {
-      this.handleScroll(e);
-    }, { passive: true });
+    this.scrollTarget = this.container;
 
     return this;
   }
@@ -104,16 +102,23 @@ export default class IdsVirtualScroll extends Base {
    * @private
    */
   applyHeight() {
-    const viewport = this.container.querySelector('.ids-virtual-scroll-viewport');
+    const content = this.container.querySelector('.ids-virtual-scroll-content');
 
-    this.container.style.height = `${this.height}px`;
-    viewport.style.height = `${this.viewPortHeight}px`;
+    if (this.height.includes('vh')) {
+      const spaceFromTop = this.getBoundingClientRect().top;
+      this.style.height = `calc(${this.height} - ${spaceFromTop - 16}px)`; // the actual viewport
+    } else {
+      this.style.height = `${this.height}`;
+    }
+
+    content.style.height = `${this.contentHeight}px`;
 
     this.itemContainer = this.querySelector('[slot="contents"]');
     if (this.itemContainer) {
       this.itemContainer.style.transform = `translateY(${this.offsetY}px)`;
     }
 
+    // TODO: this should belong in the ids-data-grid container, not here -- unnecessary coupling
     this.isTable = this.querySelectorAll('.ids-data-grid-container').length > 0;
     if (this.isTable) {
       const scroll = this.shadowRoot.querySelector('.ids-virtual-scroll');
@@ -127,7 +132,8 @@ export default class IdsVirtualScroll extends Base {
    * @returns {number} The array of visible data
    */
   visibleItemCount() {
-    let count = Math.ceil(this.height / this.itemHeight) + (2 * this.bufferSize);
+    const viewportHeight = this.container.getBoundingClientRect().height;
+    let count = Math.ceil(viewportHeight / this.itemHeight) + (2 * this.bufferSize);
     count = Math.min(Number(this.itemCount) - this.startIndex, count);
     return count;
   }
@@ -153,7 +159,7 @@ export default class IdsVirtualScroll extends Base {
   template() {
     return `
       <div class="ids-virtual-scroll">
-        <div class="ids-virtual-scroll-viewport">
+        <div class="ids-virtual-scroll-content">
           <slot></slot>
         </div>
       </div>
@@ -162,7 +168,7 @@ export default class IdsVirtualScroll extends Base {
 
   /**
    * The height of the virtual scroll container
-   * @param {number|string|undefined} value the height in pixels
+   * @param {number|string|undefined} value the height for css
    */
   set height(value) {
     if (value) {
@@ -237,10 +243,10 @@ export default class IdsVirtualScroll extends Base {
   }
 
   /**
-   * The height of the inner viewport
-   * @returns {number} The calculated viewport height
+   * The height of the content behind the viewport
+   * @returns {number} The calculated content height
    */
-  get viewPortHeight() { return Number(this.itemCount) * Number(this.itemHeight); }
+  get contentHeight() { return Number(this.itemCount) * Number(this.itemHeight); }
 
   /**
    * The number of data items being rendered
@@ -262,8 +268,7 @@ export default class IdsVirtualScroll extends Base {
   }
 
   get startIndex() {
-    let startNode = Math.floor(Number(this.scrollTop) / Number(this.itemHeight))
-      - Number(this.bufferSize);
+    let startNode = Math.floor(Number(this.scrollTop) / Number(this.itemHeight)) - Number(this.bufferSize);
     startNode = Math.max(0, startNode);
 
     return startNode;

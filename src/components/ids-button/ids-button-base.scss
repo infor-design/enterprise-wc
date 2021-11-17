@@ -6,7 +6,7 @@
 
 // Mixin for a "blank" shadow (same as the standard one with a completely transparent alpha)
 @mixin blank-shadow() {
-  box-shadow: 0 0 3px 2px rgba(54, 138, 192, 0);
+  box-shadow: 0 0 3px 2px rgba(54 138 192 / 0);
 }
 
 // Used to make the focus "border" appear to be separated from the button.
@@ -24,7 +24,7 @@
 
 @mixin alternate-button-shadow() {
   border-color: var(--ids-color-palette-white);
-  box-shadow: 0 0 3px 2px rgba(255, 255, 255, 0.7);
+  box-shadow: 0 0 3px 2px rgba(255 255 255 / 0.7);
 }
 
 // Used to include a basic set of ripple-effect styles
@@ -55,7 +55,6 @@
   @include px-28();
   @include text-16();
 
-  color: currentColor;
   overflow: hidden;
   padding-bottom: 6px;
   padding-top: 6px;
@@ -77,6 +76,8 @@
 
   @include bg-transparent();
   @include border-transparent();
+
+  color: currentColor;
 
   // Animate BG/Text/Border color changes on all styles
   transition:
@@ -122,11 +123,21 @@
 }
 
 /**
+ * Provides standardized padding rules for certain button types
+ */
+@mixin ids-standard-button-padding() {
+  @include px-28();
+}
+
+@mixin ids-inline-button-padding() {
+  @include px-12();
+}
+
+/**
  * Provides the standard color rules for all regular buttons
  */
 @mixin ids-standard-button-colors() {
   @include inline-flex();
-  @include px-28();
   @include rounded-default();
 
   // ====================================================
@@ -149,7 +160,7 @@
   }
 
   .ripple-effect {
-    background-color: var(--ids-color-palette-azure-50);
+    background-color: var(--ids-color-palette-azure-70);
   }
 
   // ====================================================
@@ -730,7 +741,10 @@
 
     &[mode='dark'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-slate-90),
+          0 0 0 3px var(--ids-color-palette-azure-60),
+          0 0 4px 2px rgba(141 201 230 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -745,7 +759,10 @@
 
     &[mode='contrast'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-slate-10),
+          0 0 0 3px var(--ids-color-palette-azure-90),
+          0 0 4px 2px rgba(41 41 41 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -760,7 +777,10 @@
 
     &[mode='light'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-graphite-10),
+          0 0 0 3px var(--ids-color-palette-azure-50),
+          0 0 4px 2px rgba(54 138 192 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -775,7 +795,10 @@
 
     &[mode='dark'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-classic-slate-80),
+          0 0 0 3px var(--ids-color-palette-azure-50),
+          0 0 4px 2px rgba(141 201 230 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -790,7 +813,10 @@
 
     &[mode='contrast'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-graphite-20)
+          0 0 0 3px var(--ids-color-palette-azure-90),
+          0 0 4px 2px rgba(41 41 41 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -806,7 +832,10 @@
     // Secondary Dark Mode
     &[mode='dark'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-90), 0 0 0 3px var(--ids-color-palette-azure-60), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-slate-90),
+          0 0 0 3px var(--ids-color-palette-azure-60),
+          0 0 4px 2px rgba(141 201 230 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -821,7 +850,10 @@
 
     &[mode='contrast'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-slate-10), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-slate-10),
+          0 0 0 3px var(--ids-color-palette-azure-90),
+          0 0 4px 2px rgba(41 41 41 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -836,7 +868,10 @@
 
     &[mode='light'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-10), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(54, 138, 192, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-graphite-10),
+          0 0 0 3px var(--ids-color-palette-azure-50),
+          0 0 4px 2px rgba(54 138 192 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -851,7 +886,10 @@
 
     &[mode='dark'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-classic-slate-80), 0 0 0 3px var(--ids-color-palette-azure-50), 0 0 4px 2px rgba(141, 201, 230, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-classic-slate-80),
+          0 0 0 3px var(--ids-color-palette-azure-50),
+          0 0 4px 2px rgba(141 201 230 / 0.3);
       }
 
       &.color-variant-alternate {
@@ -866,7 +904,10 @@
 
     &[mode='contrast'][version='classic'] {
       &:focus {
-        box-shadow: 0 0 0 2px var(--ids-color-palette-graphite-20), 0 0 0 3px var(--ids-color-palette-azure-90), 0 0 4px 2px rgba(41, 41, 41, 0.3);
+        box-shadow:
+          0 0 0 2px var(--ids-color-palette-graphite-20),
+          0 0 0 3px var(--ids-color-palette-azure-90),
+          0 0 4px 2px rgba(41 41 41 / 0.3);
       }
 
       &.color-variant-alternate {

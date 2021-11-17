@@ -15,6 +15,19 @@ import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 // Import Styles
 import styles from './ids-icon.scss';
 
+<<<<<<< HEAD
+=======
+// Setting Defaults
+const sizes = {
+  largex3: 64,
+  large: 24,
+  normal: 18,
+  medium: 18,
+  small: 14,
+  xsmall: 10
+};
+
+>>>>>>> main
 /**
  * IDS Icon Component
  * @type {IdsIcon}
@@ -290,17 +303,9 @@ export default class IdsIcon extends Base {
   #adjustViewbox() {
     let viewboxSize = '0 0 18 18';
 
-    switch (this.icon) {
-    case 'logo':
-      viewboxSize = '0 0 34 34';
-      break;
-    case 'logo-trademark':
-      viewboxSize = '0 0 37 32';
-      break;
-    default:
-      break;
+    if (this.icon === 'logo' || this.icon === 'logo-trademark') {
+      viewboxSize = '0 0 35 34';
     }
-
     this.container.setAttribute('viewBox', viewboxSize);
   }
 

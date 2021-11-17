@@ -55,7 +55,7 @@ export default class IdsMenuButton extends IdsButton {
    * @returns {string[]} containing CSS classes that will be added to the buttons
    */
   get protoClasses() {
-    const textSlot = this.querySelector('span:not(.audible)');
+    const textSlot = this.querySelector('span:not(.audible), ids-text:not(.audible)');
     const iconSlot = this.querySelector('ids-icon[slot]')
       || this.querySelector('ids-icon');
     if (iconSlot && (!textSlot)) {
@@ -119,8 +119,13 @@ export default class IdsMenuButton extends IdsButton {
   get menuEl() {
     // Check for a Shadow Root parent.
     // If none, use `document`
+<<<<<<< HEAD
     const target = getClosestRootNode(this);
     return target.querySelector(`ids-popup-menu[id="${this.menu}"]`);
+=======
+    const target = IdsDOMUtils.getClosestRootNode(this);
+    return target.querySelector(`ids-popup-menu[id="${this.menu}"]`) || target.querySelector(`ids-action-sheet[id="${this.menu}"]`);
+>>>>>>> main
   }
 
   /**

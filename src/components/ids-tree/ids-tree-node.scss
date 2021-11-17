@@ -44,7 +44,10 @@
     }
 
     .text {
-      @include transition(border 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94), color 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94));
+      @include transition(
+        border 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94),
+        color 300ms cubic-bezier(0.17, 0.04, 0.03, 0.94)
+      );
 
       flex-grow: 1;
       margin-inline-end: 2px;
@@ -58,7 +61,7 @@
     &:focus {
       @include border-azure-60();
 
-      box-shadow: 0 0 4px 3px rgb(54, 138, 192, 0.3);
+      box-shadow: 0 0 4px 3px rgb(54 138 192 / 0.3);
       outline: none;
     }
   }
@@ -117,7 +120,7 @@
       &:focus {
         @include border-azure-60();
 
-        box-shadow: 0 0 4px 2px rgb(141, 201, 230, 0.3);
+        box-shadow: 0 0 4px 2px rgb(141 201 230 / 0.3);
       }
     }
 
@@ -161,7 +164,7 @@
       &:focus {
         @include border-azure-90();
 
-        box-shadow: 0 0 4px 2px rgb(41, 41, 41, 0.3);
+        box-shadow: 0 0 4px 2px rgb(41  41 41 / 0.3);
       }
     }
 

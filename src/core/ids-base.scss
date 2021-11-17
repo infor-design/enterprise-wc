@@ -1,6 +1,8 @@
 /* Sass scss styles. Keep Base very small */
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins.scss';
-@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.host.variables.scss';
+@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new-mixins';
+/* stylelint-disable scss/at-import-partial-extension */
+@import '../../node_modules/ids-identity/dist/theme-new/tokens/web/theme-new.host.variables';
+/* stylelint-enable scss/at-import-partial-extension */
 
 /* Global SCSS Mixins (might need to become tokens) */
 @import '../mixins/sass/ids-general-mixins';
@@ -20,7 +22,7 @@ $transition-ease: cubic-bezier(0.4, 0, 0.6, 1);
 $input-size-xs: 75px;
 $input-size-sm: 150px;
 $input-size-mm: 225px;
-$input-size-md: 300px;
+$input-size-md: 300px ;
 $input-size-lg: 400px;
 $input-size-full: 100%;
 
@@ -29,3 +31,148 @@ $input-field-height-xs: 28px;
 $input-field-height-sm: 30px;
 $input-field-height-md: 38px;
 $input-field-height-lg: 48px;
+
+// Hidden Classes
+.hide-xxl-down {
+  @media all and (max-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+@mixin hide-xxl-down {
+  @media all and (max-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+.hide-xxl-up {
+  @media all and (min-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+@mixin hide-xxl-up {
+  @media all and (min-width: $breakpoint-xxl) {
+    display: none;
+  }
+}
+
+.hide-xl-down {
+  @media all and (max-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+@mixin hide-xl-down {
+  @media all and (max-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+.hide-xl-up {
+  @media all and (min-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+@mixin hide-xl-up {
+  @media all and (min-width: $breakpoint-xl) {
+    display: none;
+  }
+}
+
+.hide-lg-down {
+  @media all and (max-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+@mixin hide-lg-down {
+  @media all and (max-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+.hide-lg-up {
+  @media all and (min-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+@mixin hide-lg-up {
+  @media all and (min-width: $breakpoint-lg) {
+    display: none;
+  }
+}
+
+.hide-md-down {
+  @media all and (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+@mixin hide-md-down {
+  @media all and (max-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+.hide-md-up {
+  @media all and (min-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+@mixin hide-md-up {
+  @media all and (min-width: $breakpoint-md) {
+    display: none;
+  }
+}
+
+.hide-sm-down {
+  @media all and (max-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+@mixin hide-sm-down {
+  @media all and (max-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+.hide-sm-up {
+  @media all and (min-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+@mixin hide-sm-up {
+  @media all and (min-width: $breakpoint-sm) {
+    display: none;
+  }
+}
+
+.hide-xs-down {
+  @media all and (max-width: $breakpoint-xs) {
+    display: none;
+  }
+}
+
+@mixin hide-xs-down {
+  @media all and (max-width: $breakpoint-xs) {
+    display: none;
+  }
+}
+
+.hide-xs-up {
+  @media all and (min-width: $breakpoint-xs) {
+    display: none;
+  }
+}
+
+@mixin hide-xs-up {
+  @media all and (min-width: $breakpoint-xs) {
+    display: none;
+  }
+}

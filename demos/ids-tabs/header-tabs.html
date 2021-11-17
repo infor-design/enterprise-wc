@@ -1,4 +1,5 @@
 {{> ../layouts/head-no-padding.html }}
+
 <ids-text font-size="12" type="h1" audible="true">Ids Tabs (Header Tabs)</ids-text>
 <ids-tabs-context>
   <ids-header>
@@ -36,6 +37,7 @@
       </div>
     </ids-tab-content>
     <ids-tab-content value="attachments">
+      <ids-text type="h2" font-size="20" font-weight="bold">Attachments</ids-text>
       <ids-tabs-context>
         <ids-tabs value="b">
           <ids-tab value="a">A</ids-tab>
@@ -69,12 +71,6 @@
         </div>
       </ids-tabs-context>
     </ids-tab-content>
-    <ids-tab-content value="attachments">
-      <pre>=====================</pre>
-    </ids-tab-content>
-    <ids-tab-content value="attachments">
-      Additional Attachments Here
-    </ids-tab-content>
     <ids-tab-content value="notes">
       <ids-text font-size="18">
         If debugging is the process of removing bugs, then programming must be the process of
@@ -83,3 +79,5 @@
     </ids-tab-content>
   </div>
 </ids-tabs-context>
+
+{{> ../layouts/footer.html }}

@@ -131,12 +131,26 @@
     }
   }
 
-  // Animation Style: 'scale-in'
+  // Animation Style: 'scale-in' (Standard Modal)
   &.animation-scale-in {
     @include opacity-0();
 
     transform-style: preserve-3d;
     transform: perspective(1000px) translate3d(0, 0, -500px);
+
+    &.open {
+      @include opacity-100();
+
+      transform: perspective(1000px) translate3d(0, 0, 0);
+    }
+  }
+
+  // Animation Style: 'slide-from-bottom' (Contextual Action Panel)
+  &.animation-slide-from-bottom {
+    @include opacity-0();
+
+    transform-style: preserve-3d;
+    transform: perspective(1000px) translate3d(100%, 0, 0);
 
     &.open {
       @include opacity-100();
@@ -159,16 +173,33 @@
   &.position-viewport {
     @include absolute();
 
+    // Position
     left: 50%;
     top: 50%;
     transform-origin: left top;
     transform: translate(-50%, -50%);
+
+    // Boundaries
+    min-height: 15%;
+    min-width: 15%;
+    max-height: calc(100% - 16px);
+    max-width: calc(100% - 16px);
+    overflow: hidden;
 
     // Override some default animation styles to add the correct
     // `translate(X/Y/Z/3d)` values to an existing transform property.
     &.animation-scale-in {
       transform: perspective(1000px) translate3d(-50%, -50%, -500px);
       width: calc(100% - 16px);
+
+      &.open {
+        transform: perspective(1000px) translate3d(-50%, -50%, 0);
+      }
+    }
+
+    // Contextual Action Panel
+    &.animation-slide-from-bottom {
+      transform: perspective(1000px) translate3d(-50%, 110%, -100px);
 
       &.open {
         transform: perspective(1000px) translate3d(-50%, -50%, 0);
@@ -209,7 +240,7 @@
     @include text-slate-80();
 
     border-color: var(--ids-color-border-lighter);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
 
     .arrow.bottom {
       border-bottom-color: var(--ids-color-border-lighter);
@@ -357,7 +388,7 @@
     @include shadow();
 
     border-color: var(--ids-color-palette-slate-30);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(0 0 0 / 0.2);
   }
 
   // style: "dropdown"
@@ -370,9 +401,9 @@
     @include outline-none();
 
     box-shadow:
-      -3px 3px 3px 0 rgb(54 138 192 / 30%),
-      0 2px 3px 0 rgb(54 138 192 / 30%),
-      3px 3px 3px 0 rgb(54 138 192 / 30%);
+      -3px 3px 3px 0 rgb(54 138 192 / 0.3),
+      0 2px 3px 0 rgb(54 138 192 / 0.3),
+      3px 3px 3px 0 rgb(54 138 192 / 0.3);
     border-radius: 0 0 2px 2px;
     border-top-color: var(--ids-color-palette-slate-30);
 
@@ -381,9 +412,9 @@
       border-bottom-color: var(--ids-color-palette-slate-30);
       border-top-color: var(--ids-color-palette-slate-60);
       box-shadow:
-        0 -1px 2px 0 rgb(54 138 192 / 30%),
-        2px 0 3px 0 rgb(54 138 192 / 30%),
-        -2px -2px 3px 0 rgb(54 138 192 / 30%);
+        0 -1px 2px 0 rgb(54 138 192 / 0.3),
+        2px 0 3px 0 rgb(54 138 192 / 0.3),
+        -2px -2px 3px 0 rgb(54 138 192 / 0.3);
     }
   }
 }
@@ -402,18 +433,18 @@
   @include border-azure-60();
 
   box-shadow:
-    -2px 1px 2px 0 rgb(54 138 192 / 30%),
-    0 1px 2px 0 rgb(54 138 192 / 30%),
-    2px 2px 2px 0 rgb(54 138 192 / 30%);
+    -2px 1px 2px 0 rgb(54 138 192 / 0.3),
+    0 1px 2px 0 rgb(54 138 192 / 0.3),
+    2px 2px 2px 0 rgb(54 138 192 / 0.3);
   border-top-color: var(--ids-color-palette-slate-50);
 
   &.flipped {
     border-bottom-color: var(--ids-color-palette-slate-50);
     border-top-color: var(--ids-color-palette-azure-60);
     box-shadow:
-      0 -1px 2px 0 rgb(54 138 192 / 30%),
-      2px 0 3px 0 rgb(54 138 192 / 30%),
-      -2px -2px 3px 0 rgb(54 138 192 / 30%);
+      0 -1px 2px 0 rgb(54 138 192 / 0.3),
+      2px 0 3px 0 rgb(54 138 192 / 0.3),
+      -2px -2px 3px 0 rgb(54 138 192 / 0.3);
   }
 }
 
@@ -422,7 +453,7 @@
   @include border-slate-50();
   @include text-white();
 
-  box-shadow: 0 2px 5px rgb(239, 239, 240, 0.2);
+  box-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
 }
 
 .ids-popup.menu[mode='dark'] {
@@ -430,7 +461,7 @@
   @include border-slate-50();
   @include text-white();
 
-  box-shadow: 0 2px 5px rgb(239, 239, 240, 0.2);
+  box-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
 
   .arrow.bottom {
     border-bottom-color: var(--ids-color-palette-slate-50);
@@ -445,7 +476,7 @@
   @include bg-white();
   @include text-slate-100();
 
-  box-shadow: 0 2px 5px rgb(239, 239, 240, 0.4);
+  box-shadow: 0 2px 5px rgb(239 239 240 / 0.4);
 
   .arrow.top {
     border-top-color: var(--ids-color-palette-white);
@@ -498,14 +529,14 @@
   @include bg-white();
   @include border-slate-60();
 
-  box-shadow: 0 2px 5px rgb(239, 239, 240, 0.2);
+  box-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
 }
 
 .ids-popup.menu[mode='contrast'] {
   @include bg-white();
   @include border-slate-60();
 
-  box-shadow: 0 2px 5px rgb(239, 239, 240, 0.2);
+  box-shadow: 0 2px 5px rgb(239 239 240 / 0.2);
 
   .arrow.bottom {
     border-bottom-color: var(--ids-color-palette-slate-60);
@@ -522,14 +553,14 @@
   @include bg-white();
   @include border-classic-slate-30();
 
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
 }
 
 .ids-popup.menu[version='classic'][mode='light'] {
   @include bg-white();
   @include border-classic-slate-30();
 
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
 
   .arrow.bottom {
     border-bottom-color: var(--ids-color-palette-classic-slate-30);
@@ -555,7 +586,7 @@
 .ids-popup.tooltip[version='classic'][mode='light'] {
   @include text-classic-slate-80();
 
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
 
   .arrow.top {
     border-top-color: var(--ids-color-palette-classic-slate-80);
@@ -597,18 +628,18 @@
   @include border-azure-60();
 
   box-shadow:
-    -2px 1px 2px 0 rgb(54 138 192 / 30%),
-    0 1px 2px 0 rgb(54 138 192 / 30%),
-    2px 2px 2px 0 rgb(54 138 192 / 30%);
+    -2px 1px 2px 0 rgb(54 138 192 / 0.3),
+    0 1px 2px 0 rgb(54 138 192 / 0.3),
+    2px 2px 2px 0 rgb(54 138 192 / 0.3);
   border-top-color: var(--ids-color-palette-classic-slate-40);
 
   &.flipped {
     border-bottom-color: var(--ids-color-palette-classic-slate-40);
     border-top-color: var(--ids-color-palette-azure-60);
     box-shadow:
-      0 -1px 2px 0 rgb(54 138 192 / 30%),
-      2px 0 3px 0 rgb(54 138 192 / 30%),
-      -2px -2px 3px 0 rgb(54 138 192 / 30%);
+      0 -1px 2px 0 rgb(54 138 192 / 0.3),
+      2px 0 3px 0 rgb(54 138 192 / 0.3),
+      -2px -2px 3px 0 rgb(54 138 192 / 0.3);
   }
 }
 
@@ -616,14 +647,14 @@
   @include border-graphite-50();
   @include bg-classic-slate-70();
 
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
 }
 
 .ids-popup.menu[version='classic'][mode='dark'] {
   @include border-graphite-50();
   @include bg-classic-slate-70();
 
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
 
   .arrow.bottom {
     border-bottom-color: var(--ids-color-palette-graphite-50);
@@ -638,7 +669,7 @@
   @include bg-white();
   @include text-classic-slate-100();
 
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
 
   .arrow.top {
     border-top-color: var(--ids-color-palette-white);
@@ -691,14 +722,14 @@
   @include bg-white();
   @include border-classic-slate-30();
 
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
 }
 
 .ids-popup.menu[version='classic'][mode='contrast'] {
   @include bg-white();
   @include border-classic-slate-30();
 
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
 
   .arrow.bottom {
     border-bottom-color: var(--ids-color-palette-classic-slate-30);
@@ -713,7 +744,7 @@
   @include bg-graphite-80();
   @include text-white();
 
-  box-shadow: 0 2px 5px rgb(0, 0, 0, 0.2);
+  box-shadow: 0 2px 5px rgb(0 0 0 / 0.2);
 
   .arrow.top {
     border-top-color: var(--ids-color-palette-graphite-80);

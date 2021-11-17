@@ -1,5 +1,6 @@
 // Import Every Yaml File
 import accordionYaml from './ids-accordion/index.yaml';
+import actionSheetYaml from './ids-action-sheet/index.yaml';
 import aboutYaml from './ids-about/index.yaml';
 import alertYaml from './ids-alert/index.yaml';
 import appMenuYaml from './ids-app-menu/index.yaml';
@@ -41,6 +42,7 @@ import scrollViewYaml from './ids-scroll-view/index.yaml';
 import searchFieldYaml from './ids-search-field/index.yaml';
 import skiplinkActionYaml from './ids-skip-link/index.yaml';
 import sliderYaml from './ids-slider/index.yaml';
+import splitterYaml from './ids-splitter/index.yaml';
 import spinboxActionYaml from './ids-spinbox/index.yaml';
 import swipeActionYaml from './ids-swipe-action/index.yaml';
 import switchYaml from './ids-switch/index.yaml';
@@ -82,6 +84,7 @@ const addYaml = (yaml) => {
 
 // Add each yaml file
 addYaml(accordionYaml);
+addYaml(actionSheetYaml);
 addYaml(aboutYaml);
 addYaml(alertYaml);
 addYaml(appMenuYaml);
@@ -123,6 +126,7 @@ addYaml(scrollViewYaml);
 addYaml(searchFieldYaml);
 addYaml(skiplinkActionYaml);
 addYaml(sliderYaml);
+addYaml(splitterYaml);
 addYaml(spinboxActionYaml);
 addYaml(swipeActionYaml);
 addYaml(switchYaml);

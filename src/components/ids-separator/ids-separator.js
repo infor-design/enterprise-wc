@@ -1,7 +1,18 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsDataSource from '../../core/ids-data-source';
+<<<<<<< HEAD:src/components/ids-menu/ids-separator.js
 import Base from './ids-menu-base';
+=======
+import { IdsStringUtils } from '../../utils/ids-string-utils';
+
+// Import Mixins
+import {
+  IdsEventsMixin,
+  IdsThemeMixin
+} from '../../mixins';
+
+>>>>>>> main:src/components/ids-separator/ids-separator.js
 import styles from './ids-separator.scss';
 
 /**
@@ -24,7 +35,10 @@ export default class IdsSeparator extends Base {
   }
 
   static get attributes() {
-    return [attributes.MODE, attributes.VERSION];
+    return [
+      ...super.attributes,
+      attributes.VERTICAL
+    ];
   }
 
   template() {
@@ -33,5 +47,23 @@ export default class IdsSeparator extends Base {
       tagName = 'li';
     }
     return `<${tagName} part="separator" class="ids-separator"></${tagName}>`;
+  }
+
+  get vertical() {
+    return this.container.classList.contains('vertical');
+  }
+
+  set vertical(val) {
+    const current = this.vertical;
+    const trueVal = IdsStringUtils.stringToBool(val);
+    if (current !== trueVal) {
+      if (trueVal) {
+        this.container.classList.add('vertical');
+        this.setAttribute('vertical', '');
+      } else {
+        this.container.classList.remove('vertical');
+        this.removeAttribute('vertical');
+      }
+    }
   }
 }
