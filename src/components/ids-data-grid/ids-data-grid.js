@@ -94,19 +94,17 @@ class IdsDataGrid extends mix(IdsElement).with(
     const additionalClasses = this.alternateRowShading === 'true' ? 'alt-row-shading' : '';
     if (this?.virtualScroll !== 'true') {
       html = `
-        <div class="${this.autoFit && 'responsive-container'}">
-          <div
-            class="ids-data-grid ${additionalClasses}" 
-            role="table"
-            part="table"
-            aria-label="${this.label}"
-            data-row-height="${this.rowHeight}"
-            mode="${this.mode}"
-            version="${this.version}"
-          >
-            ${this.headerTemplate()}
-            ${this.bodyTemplate()}
-          </div>
+        <div
+          class="ids-data-grid ${additionalClasses}" 
+          role="table"
+          part="table"
+          aria-label="${this.label}"
+          data-row-height="${this.rowHeight}"
+          mode="${this.mode}"
+          version="${this.version}"
+        >
+          ${this.headerTemplate()}
+          ${this.bodyTemplate()}
         </div>
       `;
       return html;
@@ -175,6 +173,8 @@ class IdsDataGrid extends mix(IdsElement).with(
       this.setActiveCell(0, 0);
       this.#attachKeyboardListeners();
     }
+
+    if (this.autoFit) this.container.style.height = `100%`;
 
     // Set back direction
     if (dir) {
