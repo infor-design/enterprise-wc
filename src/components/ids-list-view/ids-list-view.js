@@ -35,12 +35,16 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     super();
   }
 
+  // the currently selected list item
+  #selectedLi;
+
   datasource = new IdsDataSource();
 
   connectedCallback() {
     this.itemHeight = 72;
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     super.connectedCallback();
+    this.#attachEventListeners();
   }
 
   /**
@@ -56,6 +60,53 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
       attributes.VERSION,
       attributes.VIRTUAL_SCROLL
     ];
+  }
+
+  #attachEventListeners() {
+    // for non-virtual-scroll
+    this.#attachClickListeners();
+    this.#attachKeyboardListeners();
+
+    if (this.virtualScroll) {
+      // wait for virtual-scroll to finish rendering items
+      this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+        console.log('afterrender occured')
+        // this.#attachDragEventListeners();
+        this.#attachClickListeners();
+        this.#attachKeyboardListeners();
+        // this.#focusLi(this.#getFocusedLi()); //TODO: fix
+      });
+    }
+  }
+
+  #attachClickListeners() {
+    const items = this.container.querySelectorAll('div[part="list-item"]');
+
+    items.forEach((item) => {
+      console.log('attaching for')
+      console.log(item);
+      this.#attachClickListenersForItems(item);
+    });
+  }
+
+  #attachClickListenersForItems(item) {
+    this.onEvent('click', item, (event) => {
+      this.selectedLi = item;
+      console.log('click');
+      console.log(this.container.activeElement);
+    });
+  }
+
+  #attachKeyboardListeners() {
+
+  }
+
+  get selectedLi() {
+    return this.#selectedLi;
+  }
+
+  set selectedLi(item) {
+    this.#selectedLi = item;
   }
 
   listItemTemplateFunc() {
