@@ -219,9 +219,10 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {number|string} value The number of pixels from the top
    */
   set scrollTop(value) {
-    if (value !== null && value !== undefined) {
-      this.setAttribute(attributes.SCROLL_TOP, value.toString());
-      this.container.scrollTop = Number(value);
+    const val = parseFloat(value);
+    if (!(Number.isNaN(val))) {
+      this.setAttribute(attributes.SCROLL_TOP, val.toString());
+      this.container.scrollTop = val;
       this.renderItems(false);
       return;
     }

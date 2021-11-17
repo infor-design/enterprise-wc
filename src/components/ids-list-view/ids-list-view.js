@@ -38,6 +38,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   datasource = new IdsDataSource();
 
   connectedCallback() {
+    this.itemHeight = 72;
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     super.connectedCallback();
   }
@@ -78,8 +79,10 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     const listItems = this.data?.map(this.listItemTemplateFunc());
 
     const html = `
-        <div class="ids-list-view" part="list">
-          ${listItems.length > 0 ? listItems.join('') : ''}
+        <div class="ids-list-view">
+          <div class="ids-list-view-body">
+            ${listItems.length > 0 ? listItems.join('') : ''}
+          </div>
         </div>
     `;
 
@@ -92,9 +95,11 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    */
   virtualScrollTemplate() {
     const html = `
+      <div class="ids-list-view">
       <ids-virtual-scroll height=${this.height} item-height="${this.itemHeight}">
-        <div class="ids-list-view" part="style-wrapper"></div>
+        <div class="ids-list-view-body" part="style-wrapper"></div>
       </ids-virtual-scroll>
+      </div>
     `;
 
     return html;
@@ -127,7 +132,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     super.render();
 
     if (this.virtualScroll && this?.data.length > 0) {
-      this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
+      this.virtualScrollContainer = this.container.querySelector('ids-virtual-scroll');
 
       const itemHeight = this.itemHeight || this.checkTemplateHeight(`
         <div part="list-item" tabindex="-1" id="height-tester">
@@ -151,7 +156,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    */
   adjustHeight() {
     const rootContainer = this.virtualScroll ? this.container.querySelector('ids-virtual-scroll') : this.container;
-    rootContainer.style.height = `${this.height}px`;
+    if (rootContainer) rootContainer.style.height = `${this.height}px`;
   }
 
   /**
@@ -174,8 +179,10 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    * @param {Array | null} value The array to use
    */
   set data(value) {
-    this.datasource.data = value || [];
-    this.render(true);
+    if (this.datasource) {
+      this.datasource.data = value || [];
+      this.render(true);
+    }
   }
 
   get data() { return this?.datasource?.data || []; }

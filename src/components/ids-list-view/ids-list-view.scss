@@ -5,22 +5,25 @@
   overflow: auto;
   scroll-behavior: smooth;
 
-  div[part='list-item'] {
-    @include list-none();
-    @include py-12();
-    @include px-20();
-
-    border: 1px solid transparent;
-    border-bottom-color: var(--ids-color-palette-slate-20);
-    contain: content;
-
-    &:focus {
-      @include border-azure-40();
-
-      box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
-      outline: none;
+  .ids-list-view-body {
+    div[part='list-item'] {
+      @include list-none();
+      @include py-12();
+      @include px-20();
+  
+      border: 1px solid transparent;
+      border-bottom-color: var(--ids-color-palette-slate-20);
+      contain: content;
+  
+      &:focus {
+        @include border-azure-40();
+  
+        box-shadow: 0 0 4px 1px rgb(54 138 192 / 0.3);
+        outline: none;
+      }
     }
   }
+
 }
 
 // Handle Themes
