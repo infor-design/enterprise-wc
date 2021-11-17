@@ -1,5 +1,5 @@
 const sizes = {
-  largex3: 62,
+  largex3: 64,
   large: 24,
   normal: 18,
   medium: 18,

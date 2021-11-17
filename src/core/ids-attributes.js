@@ -29,6 +29,7 @@ export const attributes = {
   BG_TRANSPARENT: 'bg-transparent',
   BOLD: 'bold',
   BLEED: 'bleed',
+  BTN_TEXT: 'btn-text',
   BUFFER_SIZE: 'buffer-size',
   BUTTONS: 'buttons',
   CANCEL: 'cancel',
@@ -93,6 +94,8 @@ export const attributes = {
   GROUP_DISABLED: 'group-disabled',
   HANDLE: 'handle',
   HEIGHT: 'height',
+  HIDE_DOWN: 'hide-down',
+  HIDE_UP: 'hide-up',
   HITBOX: 'hitbox',
   HORIZONTAL: 'horizontal',
   HREF: 'href',
@@ -135,6 +138,7 @@ export const attributes = {
   MESSAGE_TITLE: 'message-title',
   MIN: 'min',
   MIN_COL_WIDTH: 'min-col-width',
+  MIN_SIZE: 'min-size',
   MIN_TRANSFORM_X: 'min-transform-x',
   MIN_TRANSFORM_Y: 'min-transform-y',
   MODE: 'mode',
@@ -143,6 +147,7 @@ export const attributes = {
   NAV_DISABLED: 'nav-disabled',
   NEXT: 'next',
   NO_MARGINS: 'no-margins',
+  NO_PADDING: 'no-padding',
   NO_RIPPLE: 'no-ripple',
   NO_TEXT_ELLIPSIS: 'no-text-ellipsis',
   OPACITY: 'opacity',
@@ -173,6 +178,7 @@ export const attributes = {
   PROGRESS_COLOR: 'progress-color',
   READONLY: 'readonly',
   RESIZABLE: 'resizable',
+  RESIZE_ON_DRAG_END: 'resize-on-drag-end',
   REQUIRED: 'required',
   ROUND: 'round',
   ROOT_ITEM: 'root-item',
@@ -244,4 +250,13 @@ export const attributes = {
 
 export const prefix = {
   PREFIX: 'ids'
+};
+
+export const breakpoints = {
+  xxl: '1440px',
+  xl: '1280px',
+  lg: '1024px',
+  md: '840px',
+  sm: '600px',
+  xs: '360px'
 };

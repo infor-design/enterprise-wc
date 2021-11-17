@@ -129,8 +129,6 @@ export default class IdsDataGrid extends Base {
 
       this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index); //eslint-disable-line
       this.virtualScrollContainer.itemCount = this.data.length;
-      // TODO Dynamic Height setting - header height
-      this.virtualScrollContainer.height = 350 - this.headerPixelHeight;
       this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
       this.virtualScrollContainer.data = this.data;
     }

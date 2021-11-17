@@ -8,7 +8,7 @@ import Base from './ids-menu-base';
 import IdsMenuGroup from './ids-menu-group';
 import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
-import IdsSeparator from './ids-separator';
+import IdsSeparator from '../ids-separator';
 
 // Import Utils
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';

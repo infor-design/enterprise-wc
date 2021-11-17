@@ -20,18 +20,18 @@ describe('Ids Tooltip e2e Tests', () => {
 
   it('shows on mouseenter and then hides on mouseleave', async () => {
     await page.hover('#button-1');
-    page.waitForSelector('#tooltip-example', { visible: true });
+    await page.waitForSelector('#tooltip-example', { visible: true });
     await page.hover('ids-text');
-    page.waitForSelector('#tooltip-example', { visible: false });
+    await page.waitForSelector('#tooltip-example', { visible: false });
     const isVisible = await page.evaluate('document.querySelector("#tooltip-example").getAttribute("visible")');
     await expect(isVisible).toEqual(null);
   });
 
   it('shows on mouseenter and then hides on click', async () => {
     await page.hover('#button-1');
-    page.waitForSelector('#tooltip-example', { visible: true });
+    await page.waitForSelector('#tooltip-example', { visible: true });
     await page.click('#button-1');
-    page.waitForSelector('#tooltip-example', { visible: false });
+    await page.waitForSelector('#tooltip-example', { visible: false });
     const isVisible = await page.evaluate('document.querySelector("#tooltip-example").getAttribute("visible")');
     await expect(isVisible).toEqual(null);
   });

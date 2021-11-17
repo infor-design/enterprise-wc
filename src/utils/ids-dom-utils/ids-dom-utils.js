@@ -3,7 +3,7 @@
  * @param {HTMLElement} node the node to check
  * @returns {ShadowRoot|undefined} the node.
  */
-export function getClosestShadow(node) {
+ export function getClosestShadow(node) {
   let parent = (node && node.parentNode);
   while (parent) {
     if (parent.toString() === '[object ShadowRoot]') {

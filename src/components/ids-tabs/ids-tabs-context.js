@@ -1,25 +1,22 @@
+<<<<<<< HEAD
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+=======
+import {
+  IdsElement,
+  customElement,
+  attributes,
+  scss,
+  mix
+} from '../../core';
+
+import {
+  IdsEventsMixin
+} from '../../mixins';
+
+>>>>>>> main
 import IdsTabContent from './ids-tab-content';
 import styles from './ids-tabs.scss';
-
-/**
- * list of entries for attributes provided by
- * the ids-tabs-context and how they map,
- * as well as which are listened on for updates
- * in the children
- */
-const attributeProviderDefs = {
-  attributesProvided: [{
-    attribute: attributes.VALUE,
-    component: IdsTabContent,
-    targetAttribute: attributes.ACTIVE,
-    valueTransformer: ({ value, element }) => element.getAttribute(attributes.VALUE) === value
-  }],
-  attributesListenedFor: [],
-  exitTags: ['IDS-TABS', 'IDS-TAB-CONTENT', 'IDS-TABS-CONTEXT'],
-  maxDepth: 8
-};
 
 /**
  * IDS Tabs Context Component
@@ -33,8 +30,7 @@ const attributeProviderDefs = {
 @customElement('ids-tabs-context')
 @scss(styles)
 class IdsTabsContext extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsAttributeProviderMixin(attributeProviderDefs)
+    IdsEventsMixin
   ) {
   constructor() {
     super();
@@ -57,25 +53,34 @@ class IdsTabsContext extends mix(IdsElement).with(
 
     this.onEvent('tabselect', this, (e) => {
       e.stopPropagation();
-      if (this.getAttribute(attributes.VALUE) !== e.target.value) {
-        this.setAttribute(attributes.VALUE, e.target.value);
-      }
+      this.value = e.target.value;
     });
-  }
-
-  disconnectedCallback() {
-    super.disconnectedCallback?.();
   }
 
   /** @param {string} value The value representing a currently selected tab */
   set value(value) {
-    if (this.getAttribute(attributes.VALUE) !== value) {
+    const currentValue = this.getAttribute(attributes.VALUE);
+    if (currentValue !== value) {
       this.setAttribute(attributes.VALUE, value);
+      this.#changeContentPane(currentValue, value);
     }
   }
 
   get value() {
     return this.getAttribute(attributes.VALUE);
+  }
+
+  /**
+   * Switches the "Active" content pane associated with this Tabs Context
+   * @param {string} currentValue the value of the current pane, used to make it inactive
+   * @param {string} newValue the value of the new pane, used to make it active
+   */
+  #changeContentPane(currentValue, newValue) {
+    const contentPanes = [...this.querySelectorAll('ids-tab-content')];
+    const currentPane = contentPanes.find((el) => el.value === currentValue);
+    const targetPane = contentPanes.find((el) => el.value === newValue);
+    if (currentPane) currentPane.active = false;
+    if (targetPane) targetPane.active = true;
   }
 }
 

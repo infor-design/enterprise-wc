@@ -46,7 +46,7 @@ export default class IdsToggleButton extends IdsButton {
    * @returns {void}
    */
   connectedCallback() {
-    IdsButton.prototype.connectedCallback.apply(this);
+    super.connectedCallback?.();
     this.refreshIcon();
     this.refreshText();
   }

@@ -1,18 +1,11 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
-
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-
-// Import Dependencies
 import IdsButton from '../ids-button/ids-button';
 import { BUTTON_ATTRIBUTES } from '../ids-button/ids-button-attributes';
 import { MENU_BUTTON_ATTRIBUTES } from './ids-menu-button-attributes';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
-
-// Import Styles
 import styles from '../ids-button/ids-button.scss';
 
 /**
@@ -55,7 +48,7 @@ export default class IdsMenuButton extends IdsButton {
    * @returns {string[]} containing CSS classes that will be added to the buttons
    */
   get protoClasses() {
-    const textSlot = this.querySelector('span:not(.audible)');
+    const textSlot = this.querySelector('span:not(.audible), ids-text:not(.audible)');
     const iconSlot = this.querySelector('ids-icon[slot]')
       || this.querySelector('ids-icon');
     if (iconSlot && (!textSlot)) {
@@ -119,8 +112,8 @@ export default class IdsMenuButton extends IdsButton {
   get menuEl() {
     // Check for a Shadow Root parent.
     // If none, use `document`
-    const target = getClosestRootNode(this);
-    return target.querySelector(`ids-popup-menu[id="${this.menu}"]`);
+    const target = IdsDOMUtils.getClosestRootNode(this);
+    return target.querySelector(`ids-popup-menu[id="${this.menu}"]`) || target.querySelector(`ids-action-sheet[id="${this.menu}"]`);
   }
 
   /**

@@ -1,0 +1,40 @@
+@import '../ids-popup/ids-popup-base';
+
+@mixin modal-host-rules() {
+  :host {
+    @include block();
+    @include absolute();
+
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+  }
+
+  :host(:not([visible])) {
+    pointer-events: none;
+  }
+}
+
+@mixin modal-container-rules() {
+  .ids-modal-container {
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    max-width: 100%;
+  }
+}
+
+@mixin modal-content-rules() {
+  .ids-modal-content {
+    flex-grow: 1;
+    max-height: 100%;
+    max-width: 100%;
+    overflow: auto;
+  }
+
+  .ids-modal-header + .ids-modal-content {
+    @include pt-0();
+  }
+}

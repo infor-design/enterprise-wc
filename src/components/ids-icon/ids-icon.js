@@ -1,18 +1,9 @@
-// Icons as Json
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
-
-// Import Core
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-
-// Import Mixins
 import Base from './ids-icon-base';
-
-// Other imports
 import { sizes } from './ids-icon-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Styles
 import styles from './ids-icon.scss';
 
 /**
@@ -290,17 +281,9 @@ export default class IdsIcon extends Base {
   #adjustViewbox() {
     let viewboxSize = '0 0 18 18';
 
-    switch (this.icon) {
-    case 'logo':
-      viewboxSize = '0 0 34 34';
-      break;
-    case 'logo-trademark':
-      viewboxSize = '0 0 37 32';
-      break;
-    default:
-      break;
+    if (this.icon === 'logo' || this.icon === 'logo-trademark') {
+      viewboxSize = '0 0 35 34';
     }
-
     this.container.setAttribute('viewBox', viewboxSize);
   }
 

@@ -1,6 +1,12 @@
 /* Ids Virtual Scroller Css */
 @import '../../core/ids-base';
 
+:host {
+  display: flex;
+  width: 100%;
+  height: 100vh;
+}
+
 .ids-virtual-scroll {
   @include w-full();
 
@@ -15,6 +21,6 @@
   }
 }
 
-.ids-virtual-scroll-viewport {
+.ids-virtual-scroll-content {
   position: relative;
 }

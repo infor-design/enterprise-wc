@@ -189,6 +189,13 @@ export default class IdsPopup extends Base {
   }
 
   /**
+   * @returns {DOMRect} measurements of the inner ".ids-popup" <div>
+   */
+  get innerRect() {
+    return this.container.getBoundingClientRect();
+  }
+
+  /**
    * @readonly
    * @returns {HTMLElement} reference to the `content-wrapper` element
    */
@@ -961,11 +968,14 @@ export default class IdsPopup extends Base {
           if (this.isFlipped) {
             this.container.classList.add('flipped');
           }
-          this.place().then(() => {
+          this.place().then(async () => {
             // If an arrow is displayed, place it correctly.
             this.#setArrowDirection('', this.arrow);
             this.placeArrow();
 
+            if (this.animated) {
+              await IdsDOMUtils.waitForTransitionEnd(this.container);
+            }
             this.#correct3dMatrix();
             this.open = true;
             resolve();
@@ -1027,6 +1037,7 @@ export default class IdsPopup extends Base {
   async place() {
     return new Promise((resolve) => {
       if (this.visible) {
+        this.#clearPlacement();
         if (this.positionStyle === 'viewport') {
           this.#placeInViewport();
         } else {
@@ -1080,6 +1091,9 @@ export default class IdsPopup extends Base {
 
     // If the Popup bleeds off the viewport, nudge it back into full view
     popupRect = this.#nudge(popupRect);
+
+    // Account for absolute-positioned parents
+    popupRect = this.#removeAbsoluteParentDistance(this.parentNode, popupRect);
 
     this.#renderPlacementInPixels(popupRect);
   }
@@ -1187,6 +1201,9 @@ export default class IdsPopup extends Base {
     if (this.arrow !== ARROW_TYPES[0] && targetAlignEdge) {
       this.#setArrowDirection('', this.oppositeAlignEdge);
     }
+
+    // Account for absolute-positioned parents
+    popupRect = this.#removeAbsoluteParentDistance(this.parentNode, popupRect);
 
     this.#renderPlacementInPixels(popupRect);
   }
@@ -1310,6 +1327,15 @@ export default class IdsPopup extends Base {
   }
 
   /**
+   * Clears placement values
+   * @returns {void}
+   */
+  #clearPlacement() {
+    this.container.style.left = '';
+    this.container.style.top = '';
+  }
+
+  /**
    * In cases where 3D CSS transforms are used for Popup positioning,
    * corrects the placement of the Popup after rendering so that it doesn't
    * reside on half-pixels, causing blurriness to text, icons, etc.
@@ -1357,6 +1383,44 @@ export default class IdsPopup extends Base {
    */
   #remove3dMatrix() {
     this.container.style.transform = '';
+  }
+
+  /**
+   * Returns a DOMRect from `getBoundingClientRect` from an element, with the values adjusted
+   * by subtracting the left/top values from an absolute-positioned parent
+   * @param {HTMLElement} elem the element to measure
+   * @param {DOMRect} [rect] optionally pass in an existing rect and correct it
+   * @returns {DOMRect} measurements adjusted for an absolutely-positioned parent
+   */
+  #removeAbsoluteParentDistance(elem, rect) {
+    const adjustedProps = ['absolute', 'fixed'];
+    const domRectProps = ['bottom', 'left', 'right', 'top', 'x', 'y'];
+    const elemRect = IdsDOMUtils.getEditableRect(rect || elem.getBoundingClientRect());
+
+    let parent = (elem && (elem.host || elem.parentNode));
+    let parentStyle;
+    let parentRect;
+
+    while (parent) {
+      if (parent.toString() === '[object ShadowRoot]') {
+        parent = parent.host;
+      }
+
+      if (parent.toString() === '[object HTMLElement]') {
+        parentStyle = getComputedStyle(parent);
+        if (adjustedProps.includes(parentStyle.position) && parent.popup) {
+          parentRect = parent.popup.innerRect;
+
+          for (let i = 0, prop; i < domRectProps.length; i++) {
+            prop = domRectProps[i];
+            elemRect[prop] -= parentRect[prop];
+          }
+        }
+      }
+
+      parent = parent.parentNode;
+    }
+    return elemRect;
   }
 
   /**

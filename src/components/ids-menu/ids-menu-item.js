@@ -1,22 +1,13 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-
-// Import Base and Mixins
 import Base from './ids-menu-item-base';
-
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Dependencies
 import {
   MENU_ITEM_SIZE, MENU_DEFAULTS, MENU_ATTRIBUTES, safeForAttribute
 } from './ids-menu-attributes';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import IdsIcon from '../ids-icon/ids-icon';
-
-// Import Styles
 import styles from './ids-menu-item.scss';
 
 /**
@@ -88,11 +79,23 @@ export default class IdsMenuItem extends Base {
       tabindex = ` tabindex="${this.state.tabIndex}"`;
     }
 
+    // TextAlign
+    let textClass = '';
+    if (this.textAlign === 'center') {
+      textClass = ' text-center';
+    }
+    if (this.textAlign === 'start') {
+      textClass = ' text-start';
+    }
+    if (this.textAlign === 'end') {
+      textClass = ' text-end';
+    }
+
     // Text
     const textSlot = `<span class="ids-menu-item-text" part="text"><slot></slot></span>`;
 
     // Main
-    return `<li role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}">
+    return `<li role="none" part="menu-item" class="ids-menu-item${disabledClass}${selectedClass}${submenuClass}${textClass}">
       <a ${tabindex} ${disabledAttr}>
         ${check}${iconSlot}${textSlot}
       </a>
@@ -610,6 +613,27 @@ export default class IdsMenuItem extends Base {
    */
   get text() {
     return [...this.childNodes].find((i) => i.nodeType === Node.TEXT_NODE).textContent.trim();
+  }
+
+  /**
+   * Set the value of the text align attribute
+   * @param {string} val start / center / end
+   * @memberof IdsMenuItem
+   */
+  set textAlign(val) {
+    if (val) {
+      this.setAttribute(attributes.TEXT_ALIGN, val);
+    } else {
+      this.removeAttribute(attributes.TEXT_ALIGN);
+    }
+  }
+
+  /**
+   * @readonly
+   * @returns {string} a menu item's textAlign attribute
+   */
+  get textAlign() {
+    return this.getAttribute(attributes.TEXT_ALIGN);
   }
 
   /**

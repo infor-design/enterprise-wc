@@ -1,22 +1,10 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Base and Mixins
 import Base from './ids-button-base';
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
-
-import {
-  BUTTON_TYPES,
-  BUTTON_DEFAULTS,
-  BUTTON_ATTRIBUTES,
-  ICON_ALIGN,
-  baseProtoClasses
-} from './ids-button-attributes';
-
-// Import Styles
+import { BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses } from './ids-button-attributes';
 import styles from './ids-button.scss';
 
 /**
@@ -97,9 +85,8 @@ export default class IdsButton extends Base {
    * @returns {Array} containing classes used to identify this button prototype
    */
   get protoClasses() {
-    const textSlot = this.querySelector('span:not(.audible)');
-    const iconSlot = this.querySelector('ids-icon[slot]')
-      || this.querySelector('ids-icon');
+    const textSlot = this.querySelector('span:not(.audible), ids-text:not([audible])');
+    const iconSlot = this.querySelector('ids-icon[slot]') || this.querySelector('ids-icon');
     if (iconSlot && (!textSlot)) {
       return ['ids-icon-button'];
     }
@@ -204,6 +191,13 @@ export default class IdsButton extends Base {
       }
     }, {
       passive: true
+    });
+
+    // Respond to parent changing language
+    this.offEvent('languagechange.button');
+    this.onEvent('languagechange.button', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+      this.container.classList[this.locale.isRTL() ? 'add' : 'remove']('rtl');
     });
   }
 
@@ -514,6 +508,30 @@ export default class IdsButton extends Base {
    */
   get noRipple() {
     return this.state.noRipple || false;
+  }
+
+  /**
+   * @param {boolean} val true if the button should not have standard padding rules applied
+   */
+  set noPadding(val) {
+    const isTruthy = this.noPadding;
+    const trueVal = IdsStringUtils.stringToBool(val);
+    if (isTruthy !== trueVal) {
+      if (trueVal) {
+        this.container.classList.add('no-padding');
+        this.setAttribute('no-padding', '');
+      } else {
+        this.container.classList.remove('no-padding');
+        this.removeAttribute('no-padding');
+      }
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the button does not currently have standard padding rules applied
+   */
+  get noPadding() {
+    return this.container.classList.contains('no-padding');
   }
 
   /**
