@@ -233,6 +233,7 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
    * @returns {string} aria-label content
    */
   #getReadableAriaLabel() {
+    // eslint-disable-next-line no-unsafe-optional-chaining
     const idsTextEls = [...this.container?.querySelectorAll('ids-text')];
     return idsTextEls.map((textEl) => {
       const slotNode = textEl.querySelector('slot')?.assignedNodes?.()?.[0];
@@ -252,7 +253,7 @@ class IdsTab extends mix(IdsElement).with(IdsColorVariantMixin, IdsEventsMixin, 
     if (slotNode && idsText) {
       idsText.container.setAttribute('data-text', `"${slotNode.textContent}"`);
     }
-  }
+  };
 
   focus() {
     this.container.focus();

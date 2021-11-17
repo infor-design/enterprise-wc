@@ -302,7 +302,7 @@ class IdsDropdown extends mix(IdsElement).with(
    * @private
    * @param {HTMLElement} option the option to select
    */
-   #selectOption(option) {
+  #selectOption(option) {
     option?.setAttribute('aria-selected', 'true');
     option?.classList.add('is-selected');
   }
@@ -313,12 +313,12 @@ class IdsDropdown extends mix(IdsElement).with(
    * @param {HTMLElement} option the option to select
    */
   #selectIcon(option) {
-     if (!this.hasIcons) {
-       return;
-     }
-     const icon = option.querySelector('ids-icon');
-     this.shadowRoot.querySelector('.icon-container ids-icon').setAttribute('icon', icon.getAttribute('icon'));
-   }
+    if (!this.hasIcons) {
+      return;
+    }
+    const icon = option.querySelector('ids-icon');
+    this.shadowRoot.querySelector('.icon-container ids-icon').setAttribute('icon', icon.getAttribute('icon'));
+  }
 
   /**
    * Set the tooltip to be visible for the selected option
