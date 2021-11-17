@@ -1,10 +1,12 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsButton from '../ids-button/ids-button';
-import IdsInput from '../ids-input/ids-input';
+
+import Base from './ids-trigger-field-base';
+
 import { SIZES } from '../ids-input/ids-input-attributes';
 import IdsTriggerButton from './ids-trigger-button';
+
 import styles from './ids-trigger-field.scss';
 
 /**
@@ -18,7 +20,7 @@ import styles from './ids-trigger-field.scss';
  */
 @customElement('ids-trigger-field')
 @scss(styles)
-export default class IdsTriggerField extends IdsInput {
+export default class IdsTriggerField extends Base {
   /**
    * Call the constructor and then initialize
    */

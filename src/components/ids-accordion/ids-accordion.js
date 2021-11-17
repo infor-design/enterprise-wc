@@ -199,7 +199,9 @@ export default class IdsAccordion extends Base {
   #handleEvents() {
     this.offEvent('languagechange.accordion-container');
     this.onEvent('languagechange.accordion-container', this.closest('ids-container'), (e) => {
-      this.header.language = e.detail.language.name;
+      if (this.header) {
+        this.header.language = e.detail.language.name;
+      }
     });
   }
 

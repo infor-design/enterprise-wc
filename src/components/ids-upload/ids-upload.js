@@ -1,9 +1,12 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import '../ids-input/ids-input';
-import '../ids-trigger-field/ids-trigger-field';
+
 import Base from './ids-upload-base';
+
+import IdsInput from '../ids-input/ids-input';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+
 import styles from './ids-upload.scss';
 
 // Input id
@@ -95,7 +98,7 @@ export default class IdsUpload extends Base {
           <ids-text audible="true" class="label-filetype" part="label">${labelFiletype}</ids-text>
         </label>
         <input id="${ID}" type="file" class="ids-upload-filetype" aria-hidden="true" tabindex="-1"${accept}${multiple}${value} />
-        <ids-trigger-field 
+        <ids-trigger-field
           ${label}${disabled}${readonlyBtn}${validate}
           css-class="ids-upload"
         >

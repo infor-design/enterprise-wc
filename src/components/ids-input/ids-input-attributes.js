@@ -36,6 +36,12 @@ const TEXT_ALIGN = {
   right: 'right'
 };
 
-let instanceCounter = 0;
+const instanceCounter = 0;
 
-export { TYPES, SIZES, FIELD_HEIGHTS, TEXT_ALIGN, instanceCounter };
+export {
+  TYPES,
+  SIZES,
+  FIELD_HEIGHTS,
+  TEXT_ALIGN,
+  instanceCounter
+};

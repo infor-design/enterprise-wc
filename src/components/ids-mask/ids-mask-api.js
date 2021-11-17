@@ -1,5 +1,11 @@
 /* eslint-disable no-continue, no-underscore-dangle, no-restricted-syntax, no-labels */
-import { CARET_TRAP, EMPTY_STRING, PLACEHOLDER_CHAR, DEFAULT_CONFORM_OPTIONS } from './ids-mask-common';
+import {
+  CARET_TRAP,
+  EMPTY_STRING,
+  PLACEHOLDER_CHAR,
+  DEFAULT_CONFORM_OPTIONS
+} from './ids-mask-common';
+
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
 /**

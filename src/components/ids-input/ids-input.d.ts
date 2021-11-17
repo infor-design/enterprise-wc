@@ -1,6 +1,6 @@
 // Ids is a JavaScript project, but we define TypeScript declarations so we can
 // confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
+import Base from './ids-input-base';
 
 type IdsMaskTypes = {
   /** Adds a mask to the input */
@@ -38,7 +38,7 @@ type IdsValidationTypes = {
   removeMessage(settings: IdsValidationErrorMessageTypes);
 }
 
-export default class IdsInput extends IdsElement {
+export default class IdsInput extends Base {
   /** When set the input will select all text on focus */
   autoselect: boolean;
 

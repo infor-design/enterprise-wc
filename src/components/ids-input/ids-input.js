@@ -1,21 +1,30 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import Base from './ids-input-base';
+
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
+import {
+  TYPES,
+  SIZES,
+  FIELD_HEIGHTS,
+  TEXT_ALIGN
+} from './ids-input-attributes';
+
 import styles from './ids-input.scss';
 
 /**
  * IDS Input Component
  * @type {IdsInput}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  * @mixes IdsClearableMixin
  * @mixes IdsColorVariantMixin
- * @mixes IdsKeyboardMixin
  * @mixes IdsDirtyTrackerMixin
- * @mixes IdsEventsMixin
  * @mixes IdsMaskMixin
  * @mixes IdsValidationMixin
  * @mixes IdsThemeMixin
@@ -33,6 +42,7 @@ export default class IdsInput extends Base {
    */
   constructor() {
     super();
+    this.instanceCounter = 0;
   }
 
   /**
@@ -83,6 +93,7 @@ export default class IdsInput extends Base {
     if (this.hasAttribute(attributes.AUTOSELECT)) {
       this.handleAutoselect();
     }
+    super.connectedCallback();
   }
 
   /**
@@ -91,7 +102,7 @@ export default class IdsInput extends Base {
    */
   template() {
     if (!this.id) {
-      this.setAttribute?.(attributes.ID, `ids-input-${++instanceCounter}`);
+      this.setAttribute?.(attributes.ID, `ids-input-${++this.instanceCounter}`);
     }
 
     // Input

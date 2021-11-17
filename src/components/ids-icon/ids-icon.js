@@ -191,7 +191,7 @@ export default class IdsIcon extends Base {
       'zoom-out'
     ];
 
-    if (this.locale.isRTL() && flippedIcons.includes(iconName)) {
+    if (this.locale?.isRTL() && flippedIcons.includes(iconName)) {
       return true;
     }
     return false;

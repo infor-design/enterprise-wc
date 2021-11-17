@@ -1,5 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
+import Base from './ids-trigger-field-base';
 
 interface IdsTriggerFieldEventDetail extends Event {
   detail: {
@@ -7,7 +6,7 @@ interface IdsTriggerFieldEventDetail extends Event {
   }
 }
 
-export default class IdsTriggerField extends HTMLElement {
+export default class IdsTriggerField extends Base {
   /** Set if the trigger field is tabbable */
   tabbable: boolean;
 

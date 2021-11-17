@@ -18,8 +18,10 @@ import styles from './ids-button.scss';
  * IDS Button Component
  * @type {IdsButton}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsColorVariantMixin
+ * @mixes IdsLocaleMixin
+ * @mixes IdsThemeMixin
  * @mixes IdsTooltipMixin
  * @part button - the button element
  * @part icon - the icon element
@@ -69,6 +71,7 @@ export default class IdsButton extends Base {
     this.attachEventHandlers();
     this.setIconAlignment();
     this.shouldUpdate = true;
+    super.connectedCallback();
   }
 
   /**

@@ -1,25 +1,16 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import { IdsStringUtils } from '../../utils';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import Base from './ids-upload-advanced-base';
 
 import IdsUploadAdvancedFile from './ids-upload-advanced-file';
-import IdsHyperLink from '../ids-hyperlink';
-import { IdsUploadAdvancedShared as shared } from './ids-upload-advanced-shared';
+import IdsHyperLink from '../ids-hyperlink/ids-hyperlink';
+import IdsUploadAdvancedShared from './ids-upload-advanced-shared';
 
 import styles from './ids-upload-advanced.scss';
+
+const shared = IdsUploadAdvancedShared;
 
 /**
  * IDS UploadAdvanced Component
@@ -33,7 +24,7 @@ import styles from './ids-upload-advanced.scss';
  */
 @customElement('ids-upload-advanced')
 @scss(styles)
-class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+class IdsUploadAdvanced extends Base {
   constructor() {
     super();
   }
@@ -78,7 +69,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {string} The template
    */
   template() {
-    const toBool = IdsStringUtils.stringToBool;
+    const toBool = stringToBool;
     const d = shared.DEFAULTS;
     const hiddenClass = (opt) => (opt ? ' hidden' : '');
     const accept = this.accept ? ` accept="${this.accept}"` : '';
@@ -222,7 +213,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @returns {string} The html output
    */
   getDropareaLabel(hasBrowse) {
-    const toBool = IdsStringUtils.stringToBool;
+    const toBool = stringToBool;
     // const isValid = (/** @type {string} */ s) => typeof s === 'string' && s !== '';
     const text = shared.slotVal(this.shadowRoot, 'text-droparea');
     const textHasBrowse = shared.slotVal(this.shadowRoot, 'text-droparea-with-browse');
@@ -343,7 +334,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
         el?.removeAttribute(attributes.DISABLED);
       }
     };
-    const val = IdsStringUtils.stringToBool(this.disabled);
+    const val = stringToBool(this.disabled);
     if (val) {
       attr(this.fileInput, val);
       attr(alertError, val);
@@ -449,7 +440,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
           file,
           elem: this,
           size: file.size,
-          sizeFormatted: shared.formatBytes(IdsStringUtils.stringToNumber(file.size)),
+          sizeFormatted: shared.formatBytes(stringToNumber(file.size)),
           status: shared.STATUS.inProcess,
           value: '0'
         };
@@ -725,7 +716,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   get showBrowseLinkVal() {
     return this.showBrowseLink === null
       ? shared.DEFAULTS.showBrowseLink
-      : IdsStringUtils.stringToBool(this.showBrowseLink);
+      : stringToBool(this.showBrowseLink);
   }
 
   /**
@@ -749,7 +740,7 @@ class IdsUploadAdvanced extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    * @param {boolean|string} value The disabled value
    */
   set disabled(value) {
-    const val = IdsStringUtils.stringToBool(value);
+    const val = stringToBool(value);
     if (val) {
       this.setAttribute(attributes.DISABLED, val.toString());
     } else {

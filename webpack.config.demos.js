@@ -37,6 +37,9 @@ module.exports = {
   }, {}),
   */
   entry: {
+    // Add Demo App Home Page
+    example: `${demosDir}/example.js`,
+    index: `${demosDir}/index.js`,
     // Dependencies for many of the examples
     'ids-container/ids-container': `${demosDir}/ids-container/index.js`,
     'ids-icon/ids-icon': `${demosDir}/ids-icon/index.js`,
@@ -69,6 +72,17 @@ module.exports = {
     'ids-tag/example': `${demosDir}/ids-tag/example.js`,
     // Toolbar
     'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`,
+    // Trigger Field
+    'ids-trigger-field/ids-trigger-field': `${demosDir}/ids-trigger-field/index.js`,
+    'ids-trigger-field/side-by-side': `${demosDir}/ids-trigger-field/side-by-side.js`,
+    // Upload
+    'ids-upload/ids-upload': `${demosDir}/ids-upload/index.js`,
+    'ids-upload/side-by-side': `${demosDir}/ids-upload/side-by-side.js`,
+    // Upload Advanced
+    'ids-upload-advanced/ids-upload-advanced': `${demosDir}/ids-upload-advanced/index.js`,
+    'ids-upload-advanced/example': `${demosDir}/ids-upload-advanced/example.js`,
+    'ids-upload-advanced/side-by-side': `${demosDir}/ids-upload-advanced/side-by-side.js`,
+    'ids-upload-advanced/test-sandbox': `${demosDir}/ids-upload-advanced/test-sandbox.js`,
     // Virtual Scroll
     'ids-virtual-scroll/ids-virtual-scroll': `${demosDir}/ids-virtual-scroll/index.js`,
     'ids-virtual-scroll/example': `${demosDir}/ids-virtual-scroll/example.js`,

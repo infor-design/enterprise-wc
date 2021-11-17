@@ -1,11 +1,14 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
+
+import Base from './ids-upload-advanced-file-base';
+
 import IdsAlert from '../ids-alert/ids-alert';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsProgressBar from '../ids-progress-bar/ids-progress-bar';
 import IdsUploadAdvancedShared from './ids-upload-advanced-shared';
-import Base from './ids-upload-advanced-file-base';
+
 import styles from './ids-upload-advanced-file.scss';
 
 /**
