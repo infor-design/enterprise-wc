@@ -70,6 +70,23 @@ module.exports = {
     // Tags
     'ids-tag/ids-tag': `${demosDir}/ids-tag/index.js`,
     'ids-tag/example': `${demosDir}/ids-tag/example.js`,
+    // Text
+    // 'ids-text/ids-text': `${demosDir}/ids-text/index.js`,
+    'ids-text/variant-alternate': `${demosDir}/ids-text/variant-alternate.js`,
+    // TextArea
+    'ids-textarea/ids-textarea': `${demosDir}/ids-textarea/index.js`,
+    'ids-textarea/example': `${demosDir}/ids-textarea/example.js`,
+    // Theme Switcher
+    'ids-theme-switcher/ids-theme-switcher': `${demosDir}/ids-theme-switcher/index.js`,
+    // Toast
+    'ids-toast/ids-toast': `${demosDir}/ids-toast/index.js`,
+    'ids-toast/example': `${demosDir}/ids-toast/example.js`,
+    'ids-toast/sandbox': `${demosDir}/ids-toast/sandbox.js`,
+    'ids-toast/side-by-side': `${demosDir}/ids-toast/side-by-side.js`,
+    // Toggle Button
+    'ids-toggle-button/ids-toggle-button': `${demosDir}/ids-toggle-button/index.js`,
+    'ids-toggle-button/example': `${demosDir}/ids-toggle-button/example.js`,
+    'ids-toggle-button/side-by-side': `${demosDir}/ids-toggle-button/side-by-side.js`,
     // Toolbar
     'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`,
     'ids-toolbar/example': `${demosDir}/ids-toolbar/example.js`,
@@ -99,8 +116,6 @@ module.exports = {
     'ids-virtual-scroll/example': `${demosDir}/ids-virtual-scroll/example.js`,
     // Wizard
     'ids-wizard/ids-wizard': `${demosDir}/ids-wizard/index.js`,
-    // Theme Switcher
-    'ids-theme-switcher/ids-theme-switcher': `${demosDir}/ids-theme-switcher/index.js`,
   },
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',

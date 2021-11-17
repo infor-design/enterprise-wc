@@ -1,5 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
+import Base from './ids-textarea-base';
 
 interface IdsTextareaEventDetail extends Event {
   detail: {
@@ -7,7 +6,7 @@ interface IdsTextareaEventDetail extends Event {
   }
 }
 
-export class IdsTextarea extends HTMLElement {
+export class IdsTextarea extends Base {
   /** Will automatically expand the textarea to fit the contents when typing */
   autogrow: boolean;
 

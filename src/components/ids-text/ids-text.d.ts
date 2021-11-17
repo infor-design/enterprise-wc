@@ -1,8 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
+import Base from './ids-text-base';
 
-/** A segment of text with standardized settings, theming and fonts */
-export default class IdsText extends HTMLElement {
+export default class IdsText extends Base {
   /** Set the type of element it is (h1-h6, span (default)) */
   type: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'span' | string | null;
 

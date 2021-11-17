@@ -1,6 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
 import Base from './ids-menu-item-base';
+
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import {
   MENU_ITEM_SIZE, MENU_DEFAULTS, MENU_ATTRIBUTES, safeForAttribute
@@ -8,6 +10,7 @@ import {
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import IdsIcon from '../ids-icon/ids-icon';
+
 import styles from './ids-menu-item.scss';
 
 /**

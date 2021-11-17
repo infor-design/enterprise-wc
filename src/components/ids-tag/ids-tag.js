@@ -1,11 +1,8 @@
-// Import Core
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 
-// Import Mixins And Basse
 import Base from './ids-tag-base';
 
-// Import Styles
 import styles from './ids-tag.scss';
 
 /**

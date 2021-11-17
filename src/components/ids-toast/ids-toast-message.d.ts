@@ -1,7 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
+import Base from './ids-toast-message-base';
 
 interface IdsToastMessageRemoveEventDetail extends Event {
   detail: {
@@ -20,7 +17,7 @@ interface IdsToastMessageRemoveEventDetail extends Event {
   }
 }
 
-export default class IdsToastMessage extends IdsElement {
+export default class IdsToastMessage extends Base {
   /** Set as invisible on the screen, but still read out loud by screen readers */
   audible: boolean | string;
 

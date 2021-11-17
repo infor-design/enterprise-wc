@@ -1,13 +1,25 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
+import Base from './ids-toast-base';
+
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
-import renderLoop from '../ids-render-loop/ids-render-loop';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
-import Base from './ids-toast-base';
-import { IdsToastShared as shared } from './ids-toast-shared';
+
+import {
+  ATTRIBUTE_MESSAGE_ID,
+  DEFAULTS,
+  TOAST_MESSAGE_CLASSES,
+  AUDIBLE_TIMEOUT,
+  EVENTS,
+  isBool,
+  getBoolVal,
+} from './ids-toast-shared';
+
 import styles from './ids-toast-message.scss';
 
 /**
@@ -38,6 +50,7 @@ export default class IdsToastMessage extends Base {
     this
       .#setTimer()
       .#attachEventHandlers();
+    super.connectedCallback();
   }
 
   /**
@@ -50,7 +63,7 @@ export default class IdsToastMessage extends Base {
       attributes.AUDIBLE,
       attributes.PROGRESS_BAR,
       attributes.TIMEOUT,
-      shared.ATTRIBUTE_MESSAGE_ID
+      ATTRIBUTE_MESSAGE_ID
     ];
   }
 
@@ -59,7 +72,7 @@ export default class IdsToastMessage extends Base {
    * @returns {string} The template
    */
   template() {
-    const d = shared.DEFAULTS;
+    const d = DEFAULTS;
 
     const closeButton = `
       <ids-trigger-button part="close-button" class="close-button">
@@ -100,7 +113,7 @@ export default class IdsToastMessage extends Base {
     // Animation type css class
     if (!this.audible) {
       this.container?.classList.remove(attributes.AUDIBLE);
-      this.container?.classList.add(shared.TOAST_MESSAGE_CLASSES.start);
+      this.container?.classList.add(TOAST_MESSAGE_CLASSES.start);
     }
 
     if (!this.progressBar && progressBar) {
@@ -108,7 +121,7 @@ export default class IdsToastMessage extends Base {
       progressBar = undefined;
     }
 
-    const duration = this.audible ? shared.AUDIBLE_TIMEOUT : this.timeout;
+    const duration = this.audible ? AUDIBLE_TIMEOUT : this.timeout;
     const self = this;
     let percentage = 100;
 
@@ -146,8 +159,8 @@ export default class IdsToastMessage extends Base {
       if (toast) {
         toast.setAttribute('aria-live', '');
         toast.setAttribute('aria-relevent', '');
-        toast.classList.remove(shared.TOAST_MESSAGE_CLASSES.start);
-        toast.classList.add(shared.TOAST_MESSAGE_CLASSES.end);
+        toast.classList.remove(TOAST_MESSAGE_CLASSES.start);
+        toast.classList.add(TOAST_MESSAGE_CLASSES.end);
         toast.parentNode?.removeChild(toast);
         this.container = null;
         this.offEvent(`keydown.toast-${this.messageId}`, document);
@@ -162,7 +175,7 @@ export default class IdsToastMessage extends Base {
           progressBar: this.progressBar,
           timeout: this.timeout,
         };
-        this.triggerEvent(shared.EVENTS.removeMessage, this, {
+        this.triggerEvent(EVENTS.removeMessage, this, {
           detail: { elem: this, messageId: this.messageId, options }
         });
       }
@@ -236,28 +249,28 @@ export default class IdsToastMessage extends Base {
    * @param {boolean|string} value If true, causes the toast to be invisible on the screen.
    */
   set audible(value) {
-    if (shared.isBool(value)) {
+    if (isBool(value)) {
       this.setAttribute(attributes.AUDIBLE, value.toString());
     } else {
       this.removeAttribute(attributes.AUDIBLE);
     }
   }
 
-  get audible() { return shared.getBoolVal(this, attributes.AUDIBLE); }
+  get audible() { return getBoolVal(this, attributes.AUDIBLE); }
 
   /**
    * Set toast to have a visible progress bar.
    * @param {boolean|string} value if true, will show progress with toast.
    */
   set progressBar(value) {
-    if (shared.isBool(value)) {
+    if (isBool(value)) {
       this.setAttribute(attributes.PROGRESS_BAR, value.toString());
     } else {
       this.removeAttribute(attributes.PROGRESS_BAR);
     }
   }
 
-  get progressBar() { return shared.getBoolVal(this, attributes.PROGRESS_BAR); }
+  get progressBar() { return getBoolVal(this, attributes.PROGRESS_BAR); }
 
   /**
    * Set the amount of time, the toast should be present on-screen.
@@ -273,7 +286,7 @@ export default class IdsToastMessage extends Base {
 
   get timeout() {
     const timeout = parseInt(this.getAttribute(attributes.TIMEOUT), 10);
-    return !isNaN(timeout) ? timeout : shared.DEFAULTS.timeout; // eslint-disable-line
+    return !isNaN(timeout) ? timeout : DEFAULTS.timeout; // eslint-disable-line
   }
 
   /**
@@ -282,11 +295,11 @@ export default class IdsToastMessage extends Base {
    */
   set messageId(value) {
     if (value) {
-      this.setAttribute(shared.ATTRIBUTE_MESSAGE_ID, value.toString());
+      this.setAttribute(ATTRIBUTE_MESSAGE_ID, value.toString());
     } else {
-      this.removeAttribute(shared.ATTRIBUTE_MESSAGE_ID);
+      this.removeAttribute(ATTRIBUTE_MESSAGE_ID);
     }
   }
 
-  get messageId() { return this.getAttribute(shared.ATTRIBUTE_MESSAGE_ID); }
+  get messageId() { return this.getAttribute(ATTRIBUTE_MESSAGE_ID); }
 }

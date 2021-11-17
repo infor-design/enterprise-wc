@@ -1,6 +1,6 @@
-import { IdsElement } from '../../core';
+import Base from './ids-draggable-base';
 
-export default class IdsDraggable extends IdsElement {
+export default class IdsDraggable extends Base {
   /**
    * The axis that the draggable content will
    * be moving along (e.g. X => horizontal, Y => vertical);

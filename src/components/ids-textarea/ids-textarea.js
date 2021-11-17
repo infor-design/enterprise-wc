@@ -1,10 +1,13 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import Base from './ids-textarea-base';
+
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-field';
-import Base from './ids-text-area-base';
+
 import styles from './ids-textarea.scss';
 
 // Textarea id
@@ -36,11 +39,10 @@ const CHAR_REMAINING_TEXT = 'Characters left {0}';
  * @type {IdsTextarea}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
+ * @mixes IdsClearableMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsValidationMixin
- * @mixes IdsClearableMixin
+ * @mixes IdsThemeMixin
  * @part textarea - the textarea element
  * @part label - the label element
  */

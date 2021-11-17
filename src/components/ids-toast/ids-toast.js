@@ -1,31 +1,28 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsKeyboardMixin,
-  IdsThemeMixin,
-  IdsLocaleMixin
-} from '../../mixins';
+import Base from './ids-toast-base';
 
-// Import Utils
-import {
-  IdsObjectUtils as objectUtils,
-  IdsStringUtils as stringUtils,
-  IdsXssUtils as xssUtils
-} from '../../utils';
+import { isObject } from '../../utils/ids-object-utils/ids-object-utils';
+import { stripHTML, stripTags } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 
-import { IdsToastShared as shared } from './ids-toast-shared';
+import {
+  DEFAULTS,
+  id,
+  EVENTS,
+  ATTRIBUTE_MESSAGE_ID,
+  ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE,
+  messageId,
+  slotVal,
+  isBool,
+  getBoolVal,
+  POSITIONS
+} from './ids-toast-shared';
 import { IdsToastMessage } from './ids-toast-message';
-import styles from './ids-toast.scss';
+import { IdsDraggable } from '../ids-draggable/ids-draggable';
 
-import { IdsDraggable } from '../ids-draggable';
+import styles from './ids-toast.scss';
 
 /**
  * IDS Toast Component
@@ -39,12 +36,7 @@ import { IdsDraggable } from '../ids-draggable';
  */
 @customElement('ids-toast')
 @scss(styles)
-class IdsToast extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsKeyboardMixin,
-    IdsThemeMixin,
-    IdsLocaleMixin
-  ) {
+class IdsToast extends Base {
   constructor() {
     super();
   }
@@ -79,7 +71,7 @@ class IdsToast extends mix(IdsElement).with(
       attributes.SAVE_POSITION,
       attributes.TIMEOUT,
       attributes.UNIQUE_ID,
-      shared.ATTRIBUTE_TOAST_DESTROY_AFTER_TIMEOUT
+      ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE
     ];
   }
 
@@ -88,7 +80,7 @@ class IdsToast extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
-    const d = shared.DEFAULTS;
+    const d = DEFAULTS;
     const hiddenArea = `
       <div class="hidden">
         <slot name="title">${d.title}</slot>
@@ -121,14 +113,14 @@ class IdsToast extends mix(IdsElement).with(
     const clearIds = [];
     if (this.#canUseLocalStorage()) {
       const removeId = uniqueId || this.uniqueId;
-      const savedKay = shared.id(removeId);
+      const savedKay = id(removeId);
       const found = Object.keys(localStorage).some((key) => key === savedKay);
       if (found) {
         localStorage.removeItem(savedKay);
         clearIds.push(removeId);
       }
     }
-    this.triggerEvent(shared.EVENTS.clearPosition, this, {
+    this.triggerEvent(EVENTS.clearPosition, this, {
       detail: { elem: this, clearIds }
     });
     this.#removeFromDom();
@@ -144,7 +136,7 @@ class IdsToast extends mix(IdsElement).with(
       const keys = Object.keys(localStorage);
       keys.forEach((key) => {
         const temp = '{idstempclearstorage}';
-        const tempId = shared.id(temp);
+        const tempId = id(temp);
         // from: 'ids-toast-container-{idstempclearstorage}-usersettings-position'
         // to: '^ids-toast-container-(.+)-usersettings-position$'
         const regexFound = new RegExp(`^${tempId.replace(temp, '(.+)')}$`, 'g');
@@ -159,7 +151,7 @@ class IdsToast extends mix(IdsElement).with(
         }
       });
     }
-    this.triggerEvent(shared.EVENTS.clearPosition, this, {
+    this.triggerEvent(EVENTS.clearPosition, this, {
       detail: { elem: this, clearIds }
     });
     this.#removeFromDom();
@@ -167,12 +159,12 @@ class IdsToast extends mix(IdsElement).with(
 
   /**
    * Get message element by given message id.
-   * @param {string} messageId A message id to use.
+   * @param {string} elemId A message id to use.
    * @returns {HTMLElement|undefined} The message element
    */
-  messageElem(messageId) {
-    const attributeKey = shared.ATTRIBUTE_MESSAGE_ID;
-    return this.shadowRoot.querySelector(`[${attributeKey}="${messageId}"]`);
+  messageElem(elemId) {
+    const attributeKey = ATTRIBUTE_MESSAGE_ID;
+    return this.shadowRoot.querySelector(`[${attributeKey}="${elemId}"]`);
   }
 
   /**
@@ -189,7 +181,7 @@ class IdsToast extends mix(IdsElement).with(
    * @returns {void}
    */
   show(options) {
-    const opt = objectUtils.isObject(options) ? options : {};
+    const opt = isObject(options) ? options : {};
     opt.messageId = this.#messageId(opt.messageId);
     const toast = this.#toast(opt);
     this.#toastsMap.set(toast, opt);
@@ -197,7 +189,7 @@ class IdsToast extends mix(IdsElement).with(
     toastContainer?.appendChild(toast);
     this.#handleRemoveToastMessage(toast);
     this.#createDraggable(toastContainer);
-    this.triggerEvent(shared.EVENTS.addMessage, this, {
+    this.triggerEvent(EVENTS.addMessage, this, {
       detail: { elem: toast, messageId: opt.messageId, options: opt }
     });
   }
@@ -227,7 +219,7 @@ class IdsToast extends mix(IdsElement).with(
     const title = value ? value.toString() : this.#slotVal('title');
     const titleEl = document.createElement('span');
     titleEl.setAttribute('slot', 'title');
-    titleEl.innerHTML = xssUtils.stripHTML(title);
+    titleEl.innerHTML = stripHTML(title);
     return titleEl;
   }
 
@@ -243,8 +235,8 @@ class IdsToast extends mix(IdsElement).with(
     const messageEl = document.createElement('span');
     messageEl.setAttribute('slot', 'message');
     messageEl.innerHTML = isAllowLink
-      ? xssUtils.stripTags(message, '<a><br><p><ids-hyperlink>')
-      : xssUtils.stripHTML(message);
+      ? stripTags(message, '<a><br><p><ids-hyperlink>')
+      : stripHTML(message);
     return messageEl;
   }
 
@@ -278,7 +270,7 @@ class IdsToast extends mix(IdsElement).with(
    */
   #toast(options) {
     const addAttribute = (elem, attr) => {
-      const key = stringUtils.camelCase(attr);
+      const key = camelCase(attr);
       const value = { toast: this[key], opt: options[key] };
       if (typeof value.opt !== 'undefined' && value.opt !== null) {
         elem.setAttribute(attr, value.opt.toString());
@@ -286,7 +278,7 @@ class IdsToast extends mix(IdsElement).with(
     };
     const isAllowLink = typeof options.allowLink !== 'undefined' ? options.allowLink : this.allowLink;
     const toastEl = document.createElement('ids-toast-message');
-    toastEl.setAttribute(shared.ATTRIBUTE_MESSAGE_ID, options?.messageId);
+    toastEl.setAttribute(ATTRIBUTE_MESSAGE_ID, options?.messageId);
 
     addAttribute(toastEl, attributes.AUDIBLE);
     addAttribute(toastEl, attributes.PROGRESS_BAR);
@@ -304,7 +296,7 @@ class IdsToast extends mix(IdsElement).with(
    * @returns {string} The message id
    */
   #messageId(value) {
-    let messageId;
+    let returnId;
     if (value) {
       let found = false;
       this.#toastsMap.forEach((val) => {
@@ -312,11 +304,11 @@ class IdsToast extends mix(IdsElement).with(
           found = true;
         }
       });
-      messageId = !found ? value : `${value}-${this.#toastsCounter++}`;
+      returnId = !found ? value : `${value}-${this.#toastsCounter++}`;
     } else {
-      messageId = shared.messageId(this.uniqueId, this.#toastsCounter++);
+      returnId = messageId(this.uniqueId, this.#toastsCounter++);
     }
-    return messageId;
+    return returnId;
   }
 
   /**
@@ -326,7 +318,7 @@ class IdsToast extends mix(IdsElement).with(
    * @returns {string} The slot val.
    */
   #slotVal(slotName) {
-    return shared.slotVal(this.shadowRoot, slotName);
+    return slotVal(this.shadowRoot, slotName);
   }
 
   /**
@@ -347,20 +339,20 @@ class IdsToast extends mix(IdsElement).with(
    */
   #handleRemoveToastMessage(toast) {
     const toastContainer = this.toastContainer();
-    this.onEvent(shared.EVENTS.removeMessage, toast, (e) => {
+    this.onEvent(EVENTS.removeMessage, toast, (e) => {
       const toastEl = e?.detail?.elem;
-      const messageId = this.#toastsMap.get(toastEl)?.messageId;
-      const targetEl = this.messageElem(messageId);
+      const returnId = this.#toastsMap.get(toastEl)?.messageId;
+      const targetEl = this.messageElem(returnId);
 
       targetEl?.parentNode?.removeChild(targetEl);
       this.#toastsMap.delete(toastEl);
 
-      this.triggerEvent(shared.EVENTS.removeMessage, this, { detail: e?.detail });
+      this.triggerEvent(EVENTS.removeMessage, this, { detail: e?.detail });
 
       if (!this.#toastsMap.size) {
         this.#savePosition();
         toastContainer?.parentNode?.removeChild(toastContainer);
-        this.triggerEvent(shared.EVENTS.removeContainer, this, {
+        this.triggerEvent(EVENTS.removeContainer, this, {
           detail: { elem: this, uniqueId: this.uniqueId }
         });
 
@@ -393,8 +385,8 @@ class IdsToast extends mix(IdsElement).with(
 
     if (this.#canSavePosition() && transform) {
       // Save to local storage
-      localStorage.setItem(shared.id(this.uniqueId), transform);
-      this.triggerEvent(shared.EVENTS.savePosition, this, {
+      localStorage.setItem(id(this.uniqueId), transform);
+      this.triggerEvent(EVENTS.savePosition, this, {
         detail: { elem: this, uniqueId: this.uniqueId, value: transform }
       });
     }
@@ -407,7 +399,7 @@ class IdsToast extends mix(IdsElement).with(
    */
   #restorePosition() {
     return this.#canSavePosition()
-      ? localStorage.getItem(shared.id(this.uniqueId)) : null;
+      ? localStorage.getItem(id(this.uniqueId)) : null;
   }
 
   /**
@@ -475,28 +467,28 @@ class IdsToast extends mix(IdsElement).with(
    * @param {boolean|string} value If true, allows user to put links in the toast message.
    */
   set allowLink(value) {
-    if (shared.isBool(value)) {
+    if (isBool(value)) {
       this.setAttribute(attributes.ALLOW_LINK, value.toString());
     } else {
       this.removeAttribute(attributes.ALLOW_LINK);
     }
   }
 
-  get allowLink() { return shared.getBoolVal(this, attributes.ALLOW_LINK); }
+  get allowLink() { return getBoolVal(this, attributes.ALLOW_LINK); }
 
   /**
    * Set as invisible on the screen, but still read out loud by screen readers.
    * @param {boolean|string} value If true, causes the toast to be invisible on the screen.
    */
   set audible(value) {
-    if (shared.isBool(value)) {
+    if (isBool(value)) {
       this.setAttribute(attributes.AUDIBLE, value.toString());
     } else {
       this.removeAttribute(attributes.AUDIBLE);
     }
   }
 
-  get audible() { return shared.getBoolVal(this, attributes.AUDIBLE); }
+  get audible() { return getBoolVal(this, attributes.AUDIBLE); }
 
   /**
    * Set to destroy after complete all the toasts.
@@ -504,15 +496,15 @@ class IdsToast extends mix(IdsElement).with(
    * @param {boolean|string} value if true, will remove from dom.
    */
   set destroyOnComplete(value) {
-    if (shared.isBool(value)) {
-      this.setAttribute(shared.ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE, value.toString());
+    if (isBool(value)) {
+      this.setAttribute(ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE, value.toString());
     } else {
-      this.removeAttribute(shared.ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE);
+      this.removeAttribute(ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE);
     }
   }
 
   get destroyOnComplete() {
-    return shared.getBoolVal(this, shared.ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE);
+    return getBoolVal(this, ATTRIBUTE_TOAST_DESTROY_ON_COMPLETE);
   }
 
   /**
@@ -520,14 +512,14 @@ class IdsToast extends mix(IdsElement).with(
    * @param {boolean|string} value if true, allows the drag/drop toast container.
    */
   set draggable(value) {
-    if (shared.isBool(value)) {
+    if (isBool(value)) {
       this.setAttribute(attributes.DRAGGABLE, value.toString());
     } else {
       this.removeAttribute(attributes.DRAGGABLE);
     }
   }
 
-  get draggable() { return shared.getBoolVal(this, attributes.DRAGGABLE); }
+  get draggable() { return getBoolVal(this, attributes.DRAGGABLE); }
 
   /**
    * Set position of the toast container in specific place.
@@ -536,20 +528,20 @@ class IdsToast extends mix(IdsElement).with(
    */
   set position(value) {
     const toastContainer = this.toastContainer();
-    if (shared.POSITIONS.indexOf(value) > -1) {
+    if (POSITIONS.indexOf(value) > -1) {
       this.setAttribute(attributes.POSITION, value);
-      toastContainer?.classList.remove(...shared.POSITIONS);
+      toastContainer?.classList.remove(...POSITIONS);
       toastContainer?.classList.add(value);
     } else {
       this.removeAttribute(attributes.POSITION);
-      toastContainer?.classList.remove(...shared.POSITIONS);
-      toastContainer?.classList.add(shared.DEFAULTS.position);
+      toastContainer?.classList.remove(...POSITIONS);
+      toastContainer?.classList.add(DEFAULTS.position);
     }
   }
 
   get position() {
     const position = this.getAttribute(attributes.POSITION);
-    return position !== null ? position : shared.DEFAULTS.position;
+    return position !== null ? position : DEFAULTS.position;
   }
 
   /**
@@ -557,28 +549,28 @@ class IdsToast extends mix(IdsElement).with(
    * @param {boolean|string} value if true, will show progress with toast.
    */
   set progressBar(value) {
-    if (shared.isBool(value)) {
+    if (isBool(value)) {
       this.setAttribute(attributes.PROGRESS_BAR, value.toString());
     } else {
       this.removeAttribute(attributes.PROGRESS_BAR);
     }
   }
 
-  get progressBar() { return shared.getBoolVal(this, attributes.PROGRESS_BAR); }
+  get progressBar() { return getBoolVal(this, attributes.PROGRESS_BAR); }
 
   /**
    * Set toast container to save position to local storage.
    * @param {boolean|string} value if true, will allow to save position to local storage.
    */
   set savePosition(value) {
-    if (shared.isBool(value)) {
+    if (isBool(value)) {
       this.setAttribute(attributes.SAVE_POSITION, value.toString());
     } else {
       this.removeAttribute(attributes.SAVE_POSITION);
     }
   }
 
-  get savePosition() { return shared.getBoolVal(this, attributes.SAVE_POSITION); }
+  get savePosition() { return getBoolVal(this, attributes.SAVE_POSITION); }
 
   /**
    * Set the amount of time, the toast should be present on-screen.
@@ -594,7 +586,7 @@ class IdsToast extends mix(IdsElement).with(
 
   get timeout() {
     const timeout = this.getAttribute(attributes.TIMEOUT);
-    return timeout !== null ? timeout : shared.DEFAULTS.timeout;
+    return timeout !== null ? timeout : DEFAULTS.timeout;
   }
 
   /**
@@ -611,7 +603,7 @@ class IdsToast extends mix(IdsElement).with(
 
   get uniqueId() {
     const uniqueId = this.getAttribute(attributes.UNIQUE_ID);
-    return uniqueId !== null ? uniqueId : shared.DEFAULTS.uniqueId;
+    return uniqueId !== null ? uniqueId : DEFAULTS.uniqueId;
   }
 }
 

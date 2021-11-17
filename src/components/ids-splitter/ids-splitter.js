@@ -17,7 +17,7 @@ import {
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsSplitterPane from './ids-splitter-pane';
-import IdsDraggable from '../ids-draggable';
+import IdsDraggable from '../ids-draggable/ids-draggable';
 import styles from './ids-splitter.scss';
 
 // Defaults

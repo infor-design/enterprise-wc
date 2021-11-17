@@ -1,9 +1,12 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBools } from '../../utils/ids-string-utils/ids-string-utils';
+
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import Base from './ids-draggable-base';
 import getElTranslatePoint from './get-el-translate-point';
 import styles from './ids-draggable.scss';
+
 const CURSOR_EL_SIZE = 32;
 
 /**
@@ -11,8 +14,6 @@ const CURSOR_EL_SIZE = 32;
  * @type {IdsDraggable}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsThemeMixin
- * @mixes IdsKeyboardMixin
  */
 @customElement('ids-draggable')
 @scss(styles)
@@ -270,7 +271,7 @@ export default class IdsDraggable extends Base {
    * sets an optional integer attribute for an element
    * (may offload as general util; just need to think
    * through this a bit more)
-   * @param {IdsElement} elem ids element to update
+   * @param {Base} elem ids element to update
    * @param {string} attribute the attribute to update
    * @param {any} value a value to set on the
    */
