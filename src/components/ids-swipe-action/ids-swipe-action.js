@@ -1,14 +1,16 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import styles from './ids-swipe-action.scss';
+
 import Base from './ids-swipe-action-base';
+
+import styles from './ids-swipe-action.scss';
 
 /**
  * IDS SwipeAction Component
  * @type {IdsSwipeAction}
  * @inherits IdsElement
- * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
  * @part container - the contents
  * @part action-left - the left action
  * @part action-right - the right  action

@@ -1,7 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
 import Base from './ids-card-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import styles from './ids-card.scss';
 
 /**
@@ -19,9 +21,6 @@ import styles from './ids-card.scss';
 export default class IdsCard extends Base {
   constructor() {
     super();
-  }
-
-  connectedCallback() {
   }
 
   /**

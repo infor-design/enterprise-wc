@@ -1,12 +1,11 @@
-import IdsEventsMixin from "../../mixins/ids-events-mixin/ids-events-mixin";
-import IdsThemeMixin from "../../mixins/ids-theme-mixin/ids-theme-mixin";
-import IdsElement from "../../core/ids-element";
-import IdsValidationMixin from "../../mixins/ids-validation-mixin/ids-validation-mixin";
+import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
+import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsElement from '../../core/ids-element';
 
-const Base = IdsValidationMixin(
-  IdsThemeMixin(
+const Base = IdsThemeMixin(
+  IdsEventsMixin(
     IdsElement
   )
-)
+);
 
-export default Base
+export default Base;

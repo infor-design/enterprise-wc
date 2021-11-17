@@ -46,13 +46,17 @@ module.exports = {
     'ids-layout-grid/ids-layout-grid': `${demosDir}/ids-layout-grid/index.js`,
     'ids-text/ids-text': `${demosDir}/ids-text/index.js`,
     // About
-    'ids-about/example': './demos/ids-about/example.js',
-    'ids-about/ids-about': './demos/ids-about/index.js',
-    'ids-about/standalone-css': './demos/ids-about/standalone-css.js',
+    'ids-about/example': `${demosDir}/ids-about/example.js`,
+    'ids-about/ids-about': `${demosDir}/ids-about/index.js`,
+    'ids-about/standalone-css': `${demosDir}/ids-about/standalone-css.js`,
     // Accordion
     'ids-accordion/example': `${demosDir}/ids-accordion/example.js`,
     'ids-accordion/ids-accordion': `${demosDir}/ids-accordion/index.js`,
     'ids-accordion/nested': `${demosDir}/ids-accordion/nested.js`,
+    // Card
+    'ids-card/ids-card': `${demosDir}/ids-card/index.js`,
+    'ids-card/auto-fit': `${demosDir}/ids-card/auto-fit.js`,
+    'ids-card/side-by-side': `${demosDir}/ids-card/side-by-side.js`,
     // Header
     'ids-header/ids-header': `${demosDir}/ids-header/index.js`,
     'ids-header/button-types': `${demosDir}/ids-header/button-types.js`,
@@ -73,6 +77,11 @@ module.exports = {
     'ids-popup-menu/trigger-immediate': `${demosDir}/ids-popup-menu/trigger-immediate.js`,
     // Search Field
     'ids-search-field/ids-search-field': `${demosDir}/ids-search-field/index.js`,
+    // Swipe Action
+    'ids-swipe-action/ids-swipe-action': `${demosDir}/ids-swipe-action/index.js`,
+    'ids-swipe-action/example': `${demosDir}/ids-swipe-action/example.js`,
+    // Switch
+    'ids-switch/ids-switch': `${demosDir}/ids-switch/index.js`,
     // Tabs
     'ids-tabs/ids-tabs': `${demosDir}/ids-tabs/index.js`,
     'ids-tabs/example': `${demosDir}/ids-tabs/example.js`,

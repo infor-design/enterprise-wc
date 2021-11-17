@@ -1,8 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsText from '../ids-text/ids-text';
+
 import Base from './ids-switch-base';
+import IdsText from '../ids-text/ids-text';
+
 import styles from './ids-switch.scss';
 
 /**
@@ -57,7 +59,7 @@ export default class IdsSwitch extends Base {
    * @returns {void}
    */
   disconnectedCallback() {
-    IdsElement.prototype.disconnectedCallback.apply(this);
+    Base.prototype.disconnectedCallback.apply(this);
     this.#attachSwitchChangeEvent('remove');
     this.attachNativeEvents('remove');
   }

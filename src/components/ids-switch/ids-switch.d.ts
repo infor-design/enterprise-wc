@@ -1,7 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
+import Base from './ids-switch-base';
 
-export default class IdsSwitch extends HTMLElement {
+export default class IdsSwitch extends Base {
   /** Sets the checked state to true or false */
   checked: boolean;
 
