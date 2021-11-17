@@ -1,4 +1,4 @@
-import { IdsElement } from '../../core';
+import Base from './ids-toolbar-section-base';
 
 declare const TOOLBAR_ITEM_TAGNAMES: [
   'ids-button',
@@ -9,7 +9,7 @@ declare const TOOLBAR_ITEM_TAGNAMES: [
   'ids-toolbar-more-actions'
 ];
 
-export default class IdsToolbarSection extends IdsElement {
+export default class IdsToolbarSection extends Base {
   /** Provides a list of all available toolbar items within this section */
   readonly items: Array<HTMLElement>;
 
@@ -19,4 +19,5 @@ export default class IdsToolbarSection extends IdsElement {
   /** Sets the "type" of section */
   type?: 'static' | 'fluid' | 'title' | 'buttonset' | 'search' | 'more';
 }
+
 export { TOOLBAR_ITEM_TAGNAMES };

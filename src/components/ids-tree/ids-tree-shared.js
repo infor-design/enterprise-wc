@@ -49,7 +49,7 @@ const IdsTreeShared = {
    */
   getVal(elem, attr) {
     const value = elem?.getAttribute(attr);
-    return value !== null ? value : this.DEFAULTS[stringUtils.camelCase(attr)];
+    return value !== null ? value : this.DEFAULTS[camelCase(attr)];
   },
 
   /**
@@ -61,7 +61,7 @@ const IdsTreeShared = {
   getBoolVal(elem, attr) {
     const value = elem?.getAttribute(attr);
     return value !== null
-      ? stringUtils.stringToBool(value) : this.DEFAULTS[stringUtils.camelCase(attr)];
+      ? stringToBool(value) : this.DEFAULTS[camelCase(attr)];
   },
 
   /**

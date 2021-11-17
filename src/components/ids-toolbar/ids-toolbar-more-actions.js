@@ -1,21 +1,22 @@
-import { customElement, scss } from '../../core/ids-decorators';
-import IdsElement from '../../core/ids-element';
-import styles from './ids-toolbar-more-actions.scss';
+import Base from './ids-toolbar-more-actions-base';
 import IdsToolbarSection from './ids-toolbar-section';
 import IdsMenuButton from '../ids-menu-button/ids-menu-button';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+import { customElement, scss } from '../../core/ids-decorators';
+import styles from './ids-toolbar-more-actions.scss';
 
 /**
  * IDS Toolbar Section Component
  */
 @customElement('ids-toolbar-more-actions')
 @scss(styles)
-export default class IdsToolbarMoreActions extends IdsElement {
+export default class IdsToolbarMoreActions extends Base {
   constructor() {
     super();
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.refresh();
   }
 

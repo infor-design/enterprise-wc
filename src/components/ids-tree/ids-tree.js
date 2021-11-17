@@ -1,12 +1,15 @@
-import { customElement, scss } from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
+import Base from './ids-tree-base';
 import IdsDataSource from '../../core/ids-data-source';
 import IdsTreeShared from './ids-tree-shared';
 import IdsTreeNode from './ids-tree-node';
 import IdsText from '../ids-text/ids-text';
-import {unescapeHTML, htmlEntities} from '../../utils/ids-xss-utils/ids-xss-utils';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-tree-base';
+
+import { unescapeHTML, htmlEntities } from '../../utils/ids-xss-utils/ids-xss-utils';
+import { stringToBool, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
+
 import styles from './ids-tree.scss';
 
 /**
@@ -30,6 +33,7 @@ class IdsTree extends Base {
    */
   connectedCallback() {
     this.#init();
+    super.connectedCallback();
   }
 
   /**
@@ -193,8 +197,8 @@ class IdsTree extends Base {
    * @returns {object} The html and data array
    */
   #htmlAndData() {
-    const unescapeHTML = (s) => (/&#?[^\s].{1,9};/g.test(s) ? xssUtils.unescapeHTML(s) : s);
-    const validatedText = (s) => xssUtils.htmlEntities(unescapeHTML(s));
+    const processed = (s) => (/&#?[^\s].{1,9};/g.test(s) ? unescapeHTML(s) : s);
+    const validatedText = (s) => htmlEntities(processed(s));
     let html = '';
     const data = [];
     const nodesHtml = (nodesData) => {
@@ -614,7 +618,7 @@ class IdsTree extends Base {
   #updateNodeAttribute(attr, mustUpdate) {
     this.#nodes.forEach((n) => {
       const nodeVal = n.elem.getAttribute(attr);
-      const value = this[stringUtils.camelCase(attr)];
+      const value = this[camelCase(attr)];
       if (mustUpdate || nodeVal !== value) {
         n.elem.setAttribute(attr, value?.toString());
       }
@@ -628,7 +632,6 @@ class IdsTree extends Base {
    * @returns {object} The object for chaining.
    */
   #attachEventHandlers() {
-
     // Set the move action with arrow keys
     const move = {
       next: (current) => {

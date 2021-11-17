@@ -1,7 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
+import Base from './ids-tree-node';
 
 /** Type for tree node */
 type IdsTreeTypeNode = {
@@ -52,7 +49,7 @@ interface IdsTreeEventDetail extends Event {
   }
 }
 
-export default class IdsTree extends IdsElement {
+export default class IdsTree extends Base {
   /** Sets the tree group collapse icon */
   collapseIcon: string | null;
 

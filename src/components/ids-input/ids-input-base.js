@@ -10,13 +10,13 @@ import IdsEventsMixin from '../../mixins/ids-events-mixin/ids-events-mixin';
 import IdsElement from '../../core/ids-element';
 
 const Base = IdsThemeMixin(
-  IdsKeyboardMixin(
+  IdsTooltipMixin(
     IdsDirtyTrackerMixin(
       IdsClearableMixin(
         IdsColorVariantMixin(
           IdsMaskMixin(
             IdsValidationMixin(
-              IdsTooltipMixin(
+              IdsKeyboardMixin(
                 IdsEventsMixin(
                   IdsElement
                 )

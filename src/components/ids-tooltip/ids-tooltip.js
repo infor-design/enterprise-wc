@@ -1,8 +1,11 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss, appendIds } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import Base from './ids-tooltip-base';
+
 import IdsPopup from '../ids-popup/ids-popup';
+
 import styles from './ids-tooltip.scss';
 
 /**

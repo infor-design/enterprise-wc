@@ -1,10 +1,13 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import Base from './ids-tree-node-base';
+
 import IdsTreeShared from './ids-tree-shared';
 import IdsBadge from '../ids-badge/ids-badge';
 import IdsText from '../ids-text/ids-text';
-import Base from './ids-tree-base';
+
 import styles from './ids-tree-node.scss';
 
 /**

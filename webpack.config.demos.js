@@ -72,6 +72,17 @@ module.exports = {
     'ids-tag/example': `${demosDir}/ids-tag/example.js`,
     // Toolbar
     'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`,
+    'ids-toolbar/example': `${demosDir}/ids-toolbar/example.js`,
+    // Tooltip
+    'ids-tooltip/ids-tooltip': `${demosDir}/ids-tree/index.js`,
+    'ids-tooltip/example': `${demosDir}/ids-tooltip/example.js`,
+    'ids-tooltip/performance': `${demosDir}/ids-tooltip/performance.js`,
+    'ids-tooltip/sandbox': `${demosDir}/ids-tooltip/sandbox.js`,
+    // Tree
+    'ids-tree/ids-tree': `${demosDir}/ids-tree/index.js`,
+    'ids-tree/example': `${demosDir}/ids-tree/example.js`,
+    'ids-tree/sandbox': `${demosDir}/ids-tree/sandbox.js`,
+    'ids-tree/side-by-side': `${demosDir}/ids-tree/side-by-side.js`,
     // Trigger Field
     'ids-trigger-field/ids-trigger-field': `${demosDir}/ids-trigger-field/index.js`,
     'ids-trigger-field/side-by-side': `${demosDir}/ids-trigger-field/side-by-side.js`,

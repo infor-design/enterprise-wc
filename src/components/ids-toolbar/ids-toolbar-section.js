@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import IdsElement from '../../core/ids-element';
+import Base from './ids-toolbar-section-base';
 import { attributes } from '../../core/ids-attributes';
+
 import styles from './ids-toolbar-section.scss';
 
 const TOOLBAR_SECTION_ATTRIBUTES = [
@@ -71,7 +72,7 @@ function setCssClassFromGroup(targetClass, targetElem, group) {
  */
 @customElement('ids-toolbar-section')
 @scss(styles)
-class IdsToolbarSection extends IdsElement {
+class IdsToolbarSection extends Base {
   constructor() {
     super();
   }
