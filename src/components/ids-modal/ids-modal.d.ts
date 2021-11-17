@@ -43,7 +43,7 @@ export { IdsOverlay };
  */
 export default class IdsModal extends IdsElement {
   /** Allows for the definition of an external overlay, or for the use of a generated, internal overlay */
-  overlay?: IdsOverlay | null
+  overlay?: IdsOverlay | null;
 
   /** If defined, points to an element that causes the Modal to become active when clicked */
   target?: HTMLElement;

@@ -250,10 +250,10 @@ export default class IdsSpinbox extends mix(IdsElement).with(
       case 'ArrowUp':
         this.#onStep('up');
         break;
-      default:
       case 'ArrowDown':
         this.#onStep('down');
         break;
+      default:
       }
 
       e.preventDefault();

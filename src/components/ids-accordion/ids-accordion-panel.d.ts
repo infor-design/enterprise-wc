@@ -4,13 +4,13 @@ import { IdsElement } from '../../core';
 
 export default class IdsAccordionPanel extends IdsElement {
   /** Reference to this Accordion Panel's header, if applicable */
-  readonly header?: HTMLElement
+  readonly header?: HTMLElement;
 
   /** Reference to this Accordion Panel's Shadow DOM expander element */
-  readonly expander: HTMLElement
+  readonly expander: HTMLElement;
 
   /** Reference to this Accordion Panel's Shadow DOM pane element */
-  readonly pane: HTMLElement
+  readonly pane: HTMLElement;
 
   /** In nested accordions, describes whether or not this panel resides inside another panel */
   readonly hasParentPanel: boolean;
