@@ -25,7 +25,7 @@ For a normal sized icon just specific the icon name and the web component will d
 Icons come in 6 sizes depending where it is used.
 
 ```html
-<ids-icon icon="notes" size="xl3"></ids-icon>
+<ids-icon icon="notes" size="xxl"></ids-icon>
 <ids-icon icon="notes" size="xl"></ids-icon>
 <ids-icon icon="notes" size="large"></ids-icon>
 <ids-icon icon="notes" size="medium"></ids-icon>
@@ -72,9 +72,9 @@ These badges can also be displayed in 5 possible colors
 - Alert
 - Badge-Position
 - Badge-Color
-- Custom-Height
-- Custom-Viewbox
-- Custom-Width
+- Height
+- Viewbox
+- Width
 
 ## Keyboard Guidelines
 
