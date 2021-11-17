@@ -1,11 +1,14 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-import IdsButton from '../ids-button/ids-button';
 import { BUTTON_ATTRIBUTES } from '../ids-button/ids-button-attributes';
 import { MENU_BUTTON_ATTRIBUTES } from './ids-menu-button-attributes';
+
+// Dependencies
+import IdsButton from '../ids-button/ids-button';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+
 import styles from '../ids-button/ids-button.scss';
 
 /**
@@ -112,7 +115,7 @@ export default class IdsMenuButton extends IdsButton {
   get menuEl() {
     // Check for a Shadow Root parent.
     // If none, use `document`
-    const target = IdsDOMUtils.getClosestRootNode(this);
+    const target = getClosestRootNode(this);
     return target.querySelector(`ids-popup-menu[id="${this.menu}"]`) || target.querySelector(`ids-action-sheet[id="${this.menu}"]`);
   }
 

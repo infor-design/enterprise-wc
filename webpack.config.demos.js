@@ -18,7 +18,7 @@ const demosDir = './demos';
 
 module.exports = {
   /*
-  entry: glob.sync('./demos/ids-about/**.js').reduce((acc, filePath) => {
+  entry: glob.sync('./demos//**.js').reduce((acc, filePath) => {
     let entry = filePath.replace(`/${path.basename(filePath)}`, '');
     entry = (entry === './demos' ? 'index' : entry.replace('./demos/', ''));
 
@@ -58,17 +58,20 @@ module.exports = {
     'ids-menu-button/example': `${demosDir}/ids-menu-button/example.js`,
     'ids-menu-button/ids-menu-button': `${demosDir}/ids-menu-button/index.js`,
     // Popup Menu
-    'ids-popup-menu/example': `${demosDir}/ids-popup-menu/example.js`,
     'ids-popup-menu/ids-popup-menu': `${demosDir}/ids-popup-menu/index.js`,
+    'ids-popup-menu/example': `${demosDir}/ids-popup-menu/example.js`,
     'ids-popup-menu/data-driven': `${demosDir}/ids-popup-menu/data-driven.js`,
     'ids-popup-menu/selected-state': `${demosDir}/ids-popup-menu/selected-state.js`,
     'ids-popup-menu/standalone-css': `${demosDir}/ids-popup-menu/standalone-css.js`,
     'ids-popup-menu/trigger-immediate': `${demosDir}/ids-popup-menu/trigger-immediate.js`,
     // Tags
-    'ids-tag/example': `${demosDir}/ids-tag/example.js`,
     'ids-tag/ids-tag': `${demosDir}/ids-tag/index.js`,
+    'ids-tag/example': `${demosDir}/ids-tag/example.js`,
     // Toolbar
     'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`,
+    // Virtual Scroll
+    'ids-virtual-scroll/ids-virtual-scroll': `${demosDir}/ids-virtual-scroll/index.js`,
+    'ids-virtual-scroll/example': `${demosDir}/ids-virtual-scroll/example.js`,
     // Wizard
     'ids-wizard/ids-wizard': `${demosDir}/ids-wizard/index.js`,
     // Theme Switcher

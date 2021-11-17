@@ -1,19 +1,14 @@
-// Import Core
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 
-// Import Mixins And Basse
 import Base from './ids-about-base';
 
-// Import Dependencies
 import IdsModal from '../ids-modal/ids-modal';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getSpecs } from '../../utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
 
-// Import Styles
 import styles from './ids-about.scss';
 
 /**

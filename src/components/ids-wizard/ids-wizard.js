@@ -1,14 +1,10 @@
-// Import Core
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-
-// Import Mixins And Basse
 import Base from './ids-wizard-base';
 
-// Import Dependencies
+// Dependencies
 import IdsText from '../ids-text/ids-text';
 
-// Import Styles
 import styles from './ids-wizard.scss';
 
 /**

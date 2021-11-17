@@ -3,7 +3,7 @@
  * @param {HTMLElement} node the node to check
  * @returns {ShadowRoot|undefined} the node.
  */
- export function getClosestShadow(node) {
+export function getClosestShadow(node) {
   let parent = (node && node.parentNode);
   while (parent) {
     if (parent.toString() === '[object ShadowRoot]') {
@@ -93,4 +93,19 @@ export function waitForTransitionEnd(el, property) {
     };
     el.addEventListener('transitionend', transitionEnded);
   });
+}
+
+/**
+ * Converts a DOMRect to a plain object, making it's properties editable.
+ * @param {DOMRect} rect a readonly DOMRect measurement.
+ * @returns {object} with all the same properties, but editable
+ */
+export function getEditableRect(rect) {
+  const {
+    bottom, left, right, top, height, width, x, y
+  } = rect;
+
+  return {
+    bottom, left, right, top, height, width, x, y
+  };
 }

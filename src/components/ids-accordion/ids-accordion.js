@@ -1,15 +1,11 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-// Import Mixins and Base
 import Base from './ids-accordion-base';
 
-// Import Dependencies
 import IdsAccordionHeader from './ids-accordion-header';
 import IdsAccordionPanel from './ids-accordion-panel';
 
-// Import Styles
 import styles from './ids-accordion.scss';
 
 /**

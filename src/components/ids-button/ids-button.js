@@ -1,10 +1,17 @@
+// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+// Import Base and mixins
 import Base from './ids-button-base';
+// Import Dependencies
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
-import { BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses } from './ids-button-attributes';
+import {
+  BUTTON_TYPES, BUTTON_DEFAULTS, BUTTON_ATTRIBUTES, ICON_ALIGN, baseProtoClasses
+} from './ids-button-attributes';
+// Import Styles
 import styles from './ids-button.scss';
 
 /**
@@ -515,7 +522,7 @@ export default class IdsButton extends Base {
    */
   set noPadding(val) {
     const isTruthy = this.noPadding;
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     if (isTruthy !== trueVal) {
       if (trueVal) {
         this.container.classList.add('no-padding');

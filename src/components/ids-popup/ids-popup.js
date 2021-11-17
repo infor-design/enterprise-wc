@@ -1,12 +1,14 @@
-// Import Core & Helpers
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-
-// Import Utils
 import { camelCase, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import { getClosest, getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-// Import Base
+import {
+  getClosest,
+  getClosestRootNode,
+  waitForTransitionEnd,
+  getEditableRect
+} from '../../utils/ids-dom-utils/ids-dom-utils';
+
 import Base from './ids-popup-base';
 
 import {
@@ -24,11 +26,9 @@ import {
   formatAlignAttribute
 } from './ids-popup-attributes';
 
-// Import Dependencies
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
-// Import Styles
 import styles from './ids-popup.scss';
 
 /**
@@ -974,7 +974,7 @@ export default class IdsPopup extends Base {
             this.placeArrow();
 
             if (this.animated) {
-              await IdsDOMUtils.waitForTransitionEnd(this.container);
+              await waitForTransitionEnd(this.container);
             }
             this.#correct3dMatrix();
             this.open = true;
@@ -1395,7 +1395,7 @@ export default class IdsPopup extends Base {
   #removeAbsoluteParentDistance(elem, rect) {
     const adjustedProps = ['absolute', 'fixed'];
     const domRectProps = ['bottom', 'left', 'right', 'top', 'x', 'y'];
-    const elemRect = IdsDOMUtils.getEditableRect(rect || elem.getBoundingClientRect());
+    const elemRect = getEditableRect(rect || elem.getBoundingClientRect());
 
     let parent = (elem && (elem.host || elem.parentNode));
     let parentStyle;
