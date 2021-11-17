@@ -1,16 +1,12 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+// Import Core
+import { attributes } from '../../core/ids-attributes';
+import { customElement, scss } from '../../core/ids-decorators';
 
-// Supporting Components
-import IdsText from '../ids-text';
+// Import Mixins And Basse
+import Base from './ids-wizard-base';
 
-// Import Mixins
-import { IdsEventsMixin } from '../../mixins';
+// Import Dependencies
+import IdsText from '../ids-text/ids-text';
 
 // Import Styles
 import styles from './ids-wizard.scss';
@@ -25,7 +21,7 @@ import styles from './ids-wizard.scss';
  */
 @customElement('ids-wizard')
 @scss(styles)
-class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
+class IdsWizard extends Base {
   constructor() {
     super();
   }
@@ -245,6 +241,7 @@ class IdsWizard extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.updateHrefURIs();
     if (window.location.hash.length) {
       const uriHash = window.location.hash.substr(1);

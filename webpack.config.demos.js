@@ -67,8 +67,12 @@ module.exports = {
     // Tags
     'ids-tag/example': `${demosDir}/ids-tag/example.js`,
     'ids-tag/ids-tag': `${demosDir}/ids-tag/index.js`,
+    // Toolbar
+    'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`,
+    // Wizard
+    'ids-wizard/ids-wizard': `${demosDir}/ids-wizard/index.js`,
+    // Theme Switcher
     'ids-theme-switcher/ids-theme-switcher': `${demosDir}/ids-theme-switcher/index.js`,
-    'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`
   },
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',

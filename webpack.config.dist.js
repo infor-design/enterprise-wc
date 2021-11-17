@@ -35,6 +35,7 @@ module.exports = {
     'ids-tag': `${componentsDir}/ids-tag/ids-tag.js`,
     'ids-text': `${componentsDir}/ids-text/ids-text.js`,
     'ids-theme-switcher': `${componentsDir}/ids-theme-switcher/ids-theme-switcher.js`,
+    'ids-wizard': `${componentsDir}/ids-wizard/ids-wizard.js`,
   },
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : '[name]/[name].js'),
