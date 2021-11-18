@@ -1,9 +1,11 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 import Base from './ids-image-base';
+
 import styles from './ids-image.scss';
 
 /**
@@ -21,6 +23,7 @@ export default class IdsImage extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback();
   }
 
   /**

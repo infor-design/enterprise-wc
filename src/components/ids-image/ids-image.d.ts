@@ -1,4 +1,6 @@
-export default class IdsImage extends HTMLElement {
+import Base from './ids-image-base';
+
+export default class IdsImage extends Base {
   /** Set the path to the image */
   src: string | null;
 

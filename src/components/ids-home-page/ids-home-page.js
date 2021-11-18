@@ -1,12 +1,15 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import IdsCard from '../ids-card/ids-card';
-import { stringToBool, stringToNumber, camelCase }  from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool, stringToNumber, camelCase } from '../../utils/ids-string-utils/ids-string-utils';
 import { HOME_PAGE_DEFAULTS, EVENTS } from './ids-home-page-attributes';
+
+import IdsCard from '../ids-card/ids-card';
+import Base from './ids-home-page-base';
+
+import styles from './ids-home-page.scss';
+
 HOME_PAGE_DEFAULTS.gapX = HOME_PAGE_DEFAULTS.gap;
 HOME_PAGE_DEFAULTS.gapY = HOME_PAGE_DEFAULTS.gap;
-import Base from './ids-home-page-base';
-import styles from './ids-home-page.scss';
 
 /**
  * IDS Home Page Component
@@ -20,11 +23,7 @@ import styles from './ids-home-page.scss';
  */
 @customElement('ids-home-page')
 @scss(styles)
-export default class IdsHomePage extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsLocaleMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsHomePage extends Base {
   constructor() {
     super();
   }
@@ -511,7 +510,7 @@ export default class IdsHomePage extends mix(IdsElement).with(
         const box = this.cardWidth + this.#gapX;
         const totalWidth = box * this.#columns;
         const top = (this.cardHeight + this.#gapY) * available.row;
-        const left = this.locale.isRTL()
+        const left = this.locale?.isRTL()
           ? totalWidth - ((box * block.w) + (box * available.col))
           : box * available.col;
         const pos = { left, top };
@@ -531,7 +530,7 @@ export default class IdsHomePage extends mix(IdsElement).with(
       this.container.style.height = `${this.#containerHeight}px`;
 
       // Fires after the page is resized and layout is set
-      this.triggerEvent(EVENTS.resized, this, { detail: { elem: this, ...this.state } });
+      this.triggerEvent(EVENTS.resized, this, { detail: { elem: this, ...this.status } });
     });
 
     return this;
@@ -610,10 +609,10 @@ export default class IdsHomePage extends mix(IdsElement).with(
   }
 
   /**
-   * Get the current state of home page
-   * @returns {object} containing information about the current state
+   * Get the current status of home page
+   * @returns {object} containing information about the current status of the home page
    */
-  get state() {
+  get status() {
     let rows = this.#rowsAndCols.length;
     const cols = rows ? this.#rowsAndCols[0].length : 0;
 
