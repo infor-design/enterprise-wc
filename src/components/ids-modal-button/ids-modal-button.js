@@ -1,8 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import styles from '../ids-button/ids-button.scss';
 import IdsButton from '../ids-button/ids-button';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import styles from '../ids-button/ids-button.scss';
 
 /**
  * IDS Modal Button Component

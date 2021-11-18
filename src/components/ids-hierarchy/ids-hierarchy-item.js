@@ -2,7 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-import Base from './ids-hierarchy-base';
+import Base from './ids-hierarchy-item-base';
 
 import styles from './ids-hierarchy-item.scss';
 
@@ -35,6 +35,7 @@ export default class IdsHierarchyItem extends Base {
     this.#prevSelected = false;
     this.#hasNestedItems();
     this.#attachEventHandlers();
+    super.connectedCallback();
   }
 
   /**

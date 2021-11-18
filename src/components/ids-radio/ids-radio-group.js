@@ -2,8 +2,9 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsText from '../ids-text/ids-text';
+import Base from './ids-radio-group-base';
+
 import styles from './ids-radio-group.scss';
-import Base from './ids-radio-base';
 
 /**
  * IDS Radio Group Component

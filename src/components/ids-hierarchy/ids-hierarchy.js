@@ -23,10 +23,6 @@ export default class IdsHierarchy extends Base {
     super.connectedCallback?.();
   }
 
-  disconnectedCallback() {
-    super.disconnectedCallback?.();
-  }
-
   template() {
     return `<slot></slot>`;
   }

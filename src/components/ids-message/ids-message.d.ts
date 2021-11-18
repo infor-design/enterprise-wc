@@ -1,6 +1,6 @@
-import IdsModal from '../ids-modal';
+import Base from './ids-message-base';
 
-export default class IdsMessage extends IdsModal {
+export default class IdsMessage extends Base {
   /** Sets the current status of the Message component */
   status?: 'none' | 'default' | 'error' | 'warn' | 'success' | 'info';
 

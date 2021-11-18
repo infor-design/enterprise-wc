@@ -1,6 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-hierarchy-base';
+import Base from './ids-hierarchy-legend-item-base';
 
 import styles from './ids-hierarchy-legend-item.scss';
 
@@ -8,6 +8,7 @@ import styles from './ids-hierarchy-legend-item.scss';
  * IDS Hierarchy Legend Item Component
  * @type {IdsHierarchyLegendItem}
  * @inherits IdsElement
+ * @mixes IdsColorVariantMixin
  */
 @customElement('ids-hierarchy-legend-item')
 @scss(styles)

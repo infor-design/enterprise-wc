@@ -1,8 +1,17 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import IdsElement from '../../core/ids-element';
+import {
+  fluidGridClass,
+  fluidGridXlClass,
+  autoGridClass,
+  colsGridClass,
+  rowsClass,
+  noMarginsClass
+} from './ids-layout-grid-attributes';
+
+import Base from './ids-layout-grid-base';
 import IdsLayoutGridCell from './ids-layout-grid-cell';
-import { fluidGridClass, fluidGridXlClass, autoGridClass, colsGridClass, rowsClass, noMarginsClass } from './ids-layout-grid-attributes';
+
 import styles from './ids-layout-grid.scss';
 
 /**
@@ -12,7 +21,7 @@ import styles from './ids-layout-grid.scss';
  */
 @customElement('ids-layout-grid')
 @scss(styles)
-export default class IdsLayoutGrid extends IdsElement {
+export default class IdsLayoutGrid extends Base {
   constructor() {
     super();
   }

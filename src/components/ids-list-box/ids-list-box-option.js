@@ -1,7 +1,8 @@
-import { customElement, scss  } from '../../core/ids-decorators';
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import Base from './ids-list-box-option-base';
+
 import styles from './ids-list-box-option.scss';
-import Base from './ids-list-box-base';
 
 /**
  * IDS List Box Option Component

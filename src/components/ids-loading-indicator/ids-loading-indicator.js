@@ -1,8 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { stringToBool, buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getPercentageTextHtml, getInnerIndicatorHtml } from './ids-loading-indicator-attributes';
+
 import Base from './ids-loading-indicator-base';
+
 import styles from './ids-loading-indicator.scss';
 
 /**

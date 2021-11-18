@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-progress-chart-base';
+
 import styles from './ids-progress-chart.scss';
 
 // Defaults
@@ -24,6 +25,7 @@ export default class IdsProgressChart extends Base {
 
   connectedCallback() {
     this.#attachEventHandlers();
+    super.connectedCallback();
   }
 
   /**

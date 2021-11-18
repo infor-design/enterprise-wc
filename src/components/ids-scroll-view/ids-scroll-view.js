@@ -1,8 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import renderLoop from '../ids-render-loop/ids-render-loop';
+
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 import Base from './ids-scroll-view-base';
+
 import styles from './ids-scroll-view.scss';
 
 /**

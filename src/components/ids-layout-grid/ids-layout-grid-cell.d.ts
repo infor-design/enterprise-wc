@@ -1,8 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
+import Base from './ids-layout-grid-cell-base';
 
-export default class IdsLayoutGridCell extends IdsElement {
+export default class IdsLayoutGridCell extends Base {
   /** Set the background fill color */
   fill: string;
 

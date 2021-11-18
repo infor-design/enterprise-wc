@@ -82,7 +82,7 @@ export class IdsRadio extends Base {
    * @returns {void}
    */
   connectedCallback() {
-
+    super.connectedCallback();
     this.input = this.shadowRoot.querySelector('input[type="radio"]');
     this.labelEl = this.shadowRoot.querySelector('label');
     this.rootEl = this.shadowRoot.querySelector('.ids-radio');

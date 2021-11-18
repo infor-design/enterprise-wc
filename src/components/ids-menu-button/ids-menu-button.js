@@ -4,8 +4,7 @@ import { getClosestRootNode } from '../../utils/ids-dom-utils/ids-dom-utils';
 import { BUTTON_ATTRIBUTES } from '../ids-button/ids-button-attributes';
 import { MENU_BUTTON_ATTRIBUTES } from './ids-menu-button-attributes';
 
-// Dependencies
-import IdsButton from '../ids-button/ids-button';
+import Base from './ids-menu-button-base';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
@@ -18,7 +17,7 @@ import styles from '../ids-button/ids-button.scss';
  */
 @customElement('ids-menu-button')
 @scss(styles)
-export default class IdsMenuButton extends IdsButton {
+export default class IdsMenuButton extends Base {
   constructor() {
     super();
   }
@@ -37,14 +36,14 @@ export default class IdsMenuButton extends IdsButton {
   connectedCallback() {
     this.configureMenu();
     this.attachEventHandlers();
-    IdsButton.prototype.connectedCallback.apply(this);
+    Base.prototype.connectedCallback.apply(this);
   }
 
   /**
    * @returns {void}
    */
   attachEventHandlers() {
-    IdsButton.prototype.attachEventHandlers.apply(this);
+    Base.prototype.attachEventHandlers.apply(this);
   }
 
   /**

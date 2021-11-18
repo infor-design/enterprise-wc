@@ -1,9 +1,10 @@
 import pathData from 'ids-identity/dist/theme-new/icons/standard/path-data.json';
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-import Base from './ids-icon-base';
 import { sizes } from './ids-icon-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import Base from './ids-icon-base';
 import styles from './ids-icon.scss';
 
 /**

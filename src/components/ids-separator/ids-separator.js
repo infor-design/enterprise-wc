@@ -1,7 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsDataSource from '../../core/ids-data-source';
 import Base from '../ids-menu/ids-menu-base';
+
 import styles from './ids-separator.scss';
 
 /**
@@ -44,7 +46,7 @@ export default class IdsSeparator extends Base {
 
   set vertical(val) {
     const current = this.vertical;
-    const trueVal = IdsStringUtils.stringToBool(val);
+    const trueVal = stringToBool(val);
     if (current !== trueVal) {
       if (trueVal) {
         this.container.classList.add('vertical');

@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
-import Base from './ids-pager-base';
+import Base from './ids-pager-input-base';
 import IdsInput from '../ids-input/ids-input';
 import IdsText from '../ids-text/ids-text';
 import IdsPagerSection from './ids-pager-section';

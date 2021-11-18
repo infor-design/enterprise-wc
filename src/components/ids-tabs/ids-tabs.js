@@ -13,7 +13,7 @@ import styles from './ids-tabs.scss';
  * @inherits IdsElement
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin,
+ * @mixes IdsKeyboardMixin
  * @mixes IdsOrientationMixin
  * @mixes IdsThemeMixin
  */
