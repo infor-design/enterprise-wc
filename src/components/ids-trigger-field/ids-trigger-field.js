@@ -39,6 +39,12 @@ class IdsTriggerField extends IdsInput {
    */
   constructor() {
     super();
+
+    this.elements = {
+      content: this.container.querySelector('.ids-trigger-field-content'),
+      label: this.container.querySelector('label'),
+      text: this.container.querySelector('ids-text'),
+    };
   }
 
   /**
@@ -50,8 +56,7 @@ class IdsTriggerField extends IdsInput {
     this.#attachEventHandlers();
     super.connectedCallback();
 
-    const labelEl = this.container.querySelector('label');
-    this.onEvent('click.label', labelEl, () => {
+    this.onEvent('click.label', this.elements.label, () => {
       if (!stringUtils.stringToBool(this.disabled)) {
         [...this.inputs].forEach((input) => {
           input.input.focus();
@@ -83,32 +88,41 @@ class IdsTriggerField extends IdsInput {
    * @returns {string} The template
    */
   template() {
-    const disabledAttribHtml = this.hasAttribute(attributes.DISABLED)
-      ? ' disabled'
-      : '';
+    const attrs = {
+      readonly: this.readonly ? 'readonly' : '',
+      disabled: this.disabled ? 'disabled' : '',
+      required: this.validate ? 'required' : '',
+      noMargins: this.noMargins ? 'no-margins' : '',
+    };
+
+    const label = `
+      <label
+        class="ids-label-text"
+        for="${this.id}-input"
+        slot="ids-trigger-field-label"
+        part="label"
+        ${attrs.readonly}
+        ${attrs.disabled}
+        ${attrs.validate}
+      >
+        <ids-text label ${attrs.disabled}>
+          ${this.label}
+        </ids-text>
+      </label>
+    `;
 
     return `
       <div
         class="ids-trigger-field ${this.size}"
         part="field"
-        ${this.noMargins && ' no-margins'}
+        ${attrs.noMargins}
       >
-        ${ this.label !== '' ? `<label
-          ${this.readonly && ' readonly'}
-          ${this.disabled && ' disabled'}
-          class="ids-label-text"
-          ${this.validate !== null ? ' required' : ''}
-          slot="ids-trigger-field-label"
-          part="label"
-          for="${this.id}-input"
-        >
-          <ids-text label ${disabledAttribHtml}>${this.label}</ids-text>
-        </label>` : ''}
+        ${label}
         <div
           class="ids-trigger-field-content ${this.cssClass}"
           part="content"
-          ${this.readonly && ' readonly'}
-          ${this.disabled && ' disabled'}
+          ${attrs.readonly}
+          ${attrs.disabled}
         >
           <slot></slot>
         </div>
@@ -189,13 +203,11 @@ class IdsTriggerField extends IdsInput {
    * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    const isTabbable = stringUtils.stringToBool(value);
-    /** @type {any} */
-    this.setAttribute(attributes.TABBABLE, value.toString());
+    this.setAttribute(attributes.TABBABLE, !!value);
     const button = this.querySelector('ids-trigger-button');
 
     if (button) {
-      button.tabbable = isTabbable;
+      button.tabbable = this.tabbable;
     }
   }
 
@@ -238,11 +250,12 @@ class IdsTriggerField extends IdsInput {
    * @param {string} value string value from the label attribute
    */
   set label(value) {
-    this.setAttribute('label', value.toString());
+    this.setAttribute(attributes.LABEL, String(value));
+    this.elements.label.innerHTML = String(value);
   }
 
   get label() {
-    return this.getAttribute('label') || '';
+    return this.getAttribute(attributes.LABEL) ?? '';
   }
 
   /**
@@ -278,13 +291,16 @@ class IdsTriggerField extends IdsInput {
 
   /**
    * Sets the disabled attribute
-   * @param {string} d string value from the disabled attribute
+   * @param {string} value string value from the disabled attribute
    */
-  set disabled(d) {
-    if (stringUtils.stringToBool(d)) {
-      this.setAttribute(attributes.DISABLED, d.toString());
-      this.setAttribute(attributes.TABBABLE, 'false');
-    }
+  set disabled(value) {
+    const disabled = value && value !== 'false';
+
+    this.setAttribute(attributes.TABBABLE, !disabled);
+    this.setAttribute(attributes.DISABLED, disabled);
+    this.elements.content?.setAttribute(attributes.DISABLED, disabled);
+    this.elements.label?.setAttribute(attributes.DISABLED, disabled);
+    this.elements.text?.setAttribute(attributes.DISABLED, disabled);
   }
 
   get disabled() {

@@ -1,0 +1,89 @@
+/* Ids Time Picker Component */
+@import '../../core/ids-base';
+@import '../ids-input/ids-input';
+
+.ids-time-picker {
+  @include flex();
+  // TODO: use inline or reduce width of timepicker so onOutsideClick() works laterally
+  // @include inline-flex();
+  min-width: $input-size-xs;
+  width: fit-content;
+
+  ids-dropdown#minutes,
+  ids-dropdown#seconds {
+    & ids-input::before {
+      content: ':';
+    }
+  }
+}
+
+// Handle Themes
+.ids-time-picker[mode='dark'] {
+  // @include bg-slate-60();
+  @include border-slate-60();
+  @include text-white();
+}
+
+.ids-time-picker[mode='dark'] ::slotted(ids-icon) {
+  @include text-slate-10();
+}
+
+.ids-time-picker[mode='dark'] ::slotted(ids-icon:hover) {
+  @include text-white();
+}
+
+.ids-time-picker[mode='contrast'] {
+  // @include bg-slate-20();
+  @include border-slate-20();
+  @include text-slate-100();
+}
+
+.ids-time-picker[mode='contrast'] ::slotted(ids-icon) {
+  @include text-slate-100();
+}
+
+.ids-time-picker[mode='contrast'] ::slotted(ids-icon:hover) {
+  @include text-black();
+}
+
+.ids-time-picker[version='classic'][mode='light'] {
+  // @include bg-graphite-20();
+  @include border-graphite-20();
+  @include text-black();
+}
+
+.ids-time-picker[version='classic'][mode='light'] ::slotted(ids-icon) {
+  @include text-graphite-100();
+}
+
+.ids-time-picker[version='classic'][mode='light'] ::slotted(ids-icon:hover) {
+  @include text-black();
+}
+
+.ids-time-picker[version='classic'][mode='dark'] {
+  // @include bg-graphite-60();
+  @include border-graphite-60();
+  @include text-white();
+}
+
+.ids-time-picker[version='classic'][mode='dark'] ::slotted(ids-icon) {
+  @include text-graphite-10();
+}
+
+.ids-time-picker[version='classic'][mode='dark'] ::slotted(ids-icon:hover) {
+  @include text-white();
+}
+
+.ids-time-picker[version='classic'][mode='contrast'] {
+  // @include bg-graphite-40();
+  @include border-graphite-40();
+  @include text-black();
+}
+
+.ids-time-picker[version='classic'][mode='contrast'] ::slotted(ids-icon) {
+  @include text-graphite-100();
+}
+
+.ids-time-picker[version='classic'][mode='contrast'] ::slotted(ids-icon:hover) {
+  @include text-black();
+}

@@ -36,6 +36,7 @@ import IdsSwipeAction from './ids-swipe-action';
 import IdsSwitch from './ids-switch/ids-switch';
 import IdsTabs, { IdsTab, IdsTabsContext, IdsTabContent } from './ids-tabs';
 import IdsTag from './ids-tag/ids-tag';
+import IdsTimePicker from './ids-time-picker';
 import IdsToggleButton from './ids-toggle-button';
 import IdsToolbar, { IdsToolbarSection, IdsToolbarMoreActions } from './ids-toolbar';
 import IdsTooltip from './ids-tooltip';

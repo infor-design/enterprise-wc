@@ -110,9 +110,11 @@ class IdsDropdown extends mix(IdsElement).with(
    */
   template() {
     this.hasIcons = this.querySelector('ids-list-box-option ids-icon') !== null;
+    this.size = this.getAttribute(attributes.SIZE) || 'md';
 
     return `
     <ids-trigger-field
+      size="${this.size}"
       label="${this.label}"
       part="trigger-field"
       ${this.disabled ? ' disabled="true"' : ''}
@@ -121,6 +123,7 @@ class IdsDropdown extends mix(IdsElement).with(
       ${this.validate && this.validationEvents ? ` validation-events="${this.validationEvents}"` : ''}>
       ${this.hasIcons ? '<span class="icon-container"><ids-icon icon="user-profile"></ids-icon></span>' : ''}
       <ids-input
+        size="${this.size}"
         part="input"
         disabled="${this.disabled}"
         label-hidden="true" ${!this.disabled && !this.readonly ? 'cursor="pointer"' : ''}

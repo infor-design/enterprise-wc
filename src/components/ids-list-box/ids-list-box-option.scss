@@ -14,7 +14,8 @@
   padding: 0;
   text-indent: 8px;
   user-select: none;
-  width: 298px;
+  min-width: $input-size-xs;
+  width: fit-content;
 }
 
 :host(.is-selected) {

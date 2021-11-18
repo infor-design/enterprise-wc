@@ -2,11 +2,12 @@
 @import '../ids-input/ids-input';
 
 .ids-trigger-field {
-  @include flex();
+  @include inline-flex();
   @include mb-16();
 
   align-items: flex-start;
   flex-direction: column;
+  width: fit-content;
 
   &[no-margins] {
     @include mb-0();
