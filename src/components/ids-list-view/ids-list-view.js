@@ -1,10 +1,12 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import IdsDataSource from '../../core/ids-data-source';
-import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import { DEFAULT_HEIGHT } from './ids-list-view-attributes';
+import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import IdsDataSource from '../../core/ids-data-source';
+import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import Base from './ids-list-view-base';
+
 import styles from './ids-list-view.scss';
 
 /**
@@ -128,27 +130,27 @@ export default class IdsListView extends Base {
     return `
       ${this.virtualScroll ? this.virtualScrollTemplate() : this.staticScrollTemplate()}
     `;
-   }
+  }
 
-   /**
-    * Return an item's html injecting any values from the dataset as needed.
-    * @param  {object} item The item to generate
-    * @returns {string} The html for this item
-    */
-   itemTemplate(item) {
-     return injectTemplate(this.defaultTemplate, item);
-   }
+  /**
+   * Return an item's html injecting any values from the dataset as needed.
+   * @param  {object} item The item to generate
+   * @returns {string} The html for this item
+   */
+  itemTemplate(item) {
+    return injectTemplate(this.defaultTemplate, item);
+  }
 
-   /**
-    * Render the list by applying the template
-    * @private
-    */
-   render() {
-     super.render();
+  /**
+   * Render the list by applying the template
+   * @private
+   */
+  render() {
+    super.render();
 
-     if (this.virtualScroll && this?.data.length > 0) {
-       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-       this.virtualScrollContainer.itemTemplate = (item, index) => `
+    if (this.virtualScroll && this?.data.length > 0) {
+      this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
+      this.virtualScrollContainer.itemTemplate = (item, index) => `
         ${this.draggable ? `<ids-draggable axis="y">` : ``}
           <div part="list-item" tabindex="${index === 0 ? '0' : '-1'}">
             ${this.draggable ? `<span></span>` : ``}
@@ -208,7 +210,7 @@ export default class IdsListView extends Base {
    * @param {boolean|string} value true to use virtual scrolling
    */
   set virtualScroll(value) {
-    if (stringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.VIRTUAL_SCROLL, value.toString());
     } else {
       this.removeAttribute(attributes.VIRTUAL_SCROLL);
@@ -216,7 +218,7 @@ export default class IdsListView extends Base {
     this.render();
   }
 
-  get virtualScroll() { return stringUtils.stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
+  get virtualScroll() { return stringToBool(this.getAttribute(attributes.VIRTUAL_SCROLL)); }
 
   /**
    * Set the expected height of the viewport for virtual scrolling
@@ -263,7 +265,7 @@ export default class IdsListView extends Base {
   }
 
   get draggable() {
-    return stringUtils.stringToBool(this.getAttribute(attributes.DRAGGABLE));
+    return stringToBool(this.getAttribute(attributes.DRAGGABLE));
   }
 
   /**

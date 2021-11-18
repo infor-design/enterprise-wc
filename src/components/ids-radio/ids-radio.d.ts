@@ -1,7 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
+import Base from './ids-radio-base';
 
-export default class IdsRadio extends HTMLElement {
+export default class IdsRadio extends Base {
   /** Sets the checked state of the radio */
   checked: boolean;
 

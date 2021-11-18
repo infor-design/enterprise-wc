@@ -2,6 +2,7 @@ import { IdsElement, customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import Base from './ids-skip-link-base';
+
 import styles from './ids-skip-link.scss';
 
 /**

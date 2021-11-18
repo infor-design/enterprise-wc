@@ -1,12 +1,14 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { TYPES } from './ids-notification-attributes';
+
 import IdsText from '../ids-text/ids-text';
 import IdsAlert from '../ids-alert/ids-alert';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 import IdsButton from '../ids-button/ids-button';
-import Base from './ids-notification-base';
-import { TYPES } from './ids-notification-attributes';
+import Base from './ids-notification-banner-base';
+
 import styles from './ids-notification-banner.scss';
 
 /**
@@ -23,10 +25,7 @@ import styles from './ids-notification-banner.scss';
  */
 @customElement('ids-notification-banner')
 @scss(styles)
-export default class IdsNotificationBanner extends Base{
-  /**
-   * Call the constructor and then initialize
-   */
+export default class IdsNotificationBanner extends Base {
   constructor() {
     super();
   }

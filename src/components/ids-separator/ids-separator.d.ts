@@ -1,8 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
+import Base from './ids-separator-base';
 
-export default class IdsSeparator extends IdsElement {
+export default class IdsSeparator extends Base {
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
 

@@ -93,7 +93,6 @@ export default class IdsPager extends Base {
       this.pageNumber = e.detail.value;
     });
 
-    this.provideAttributes();
     super.connectedCallback?.();
   }
 
@@ -254,7 +253,6 @@ export default class IdsPager extends Base {
     case 1:
       break;
     default: {
-      // console.error('ids-pager: invalid number of children passed');
       break;
     }
     }
@@ -281,7 +279,6 @@ export default class IdsPager extends Base {
     for (const m of mutations) {
       if (m.type === 'childList') {
         this.#normalizeSectionContainers();
-        this.provideAttributes();
       }
     }
   });

@@ -1,8 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
+import Base from './ids-popup-base';
 
-export default class IdsPopup extends IdsElement {
+export default class IdsPopup extends Base {
   /** Sets the element to align with via a css selector */
   alignTarget: string | HTMLElement;
 

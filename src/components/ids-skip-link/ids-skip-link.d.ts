@@ -1,7 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
+import Base from './ids-skip-link-base';
 
-export default class IdsSkipLink extends HTMLElement {
+export default class IdsSkipLink extends Base {
   /** Set the links href */
   href: string;
 
