@@ -24,8 +24,6 @@ const DEFAULT_HEIGHT = 310;
  * @mixes IdsThemeMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsEventsMixin
- * @part container - the root container element
- * @part list - the list element
  * @part list-item - the li list element
  */
 @customElement('ids-list-view')
@@ -68,7 +66,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   getAllDraggable() {
-    return this.draggle ? this.container.querySelectorAll('ids-draggable') : null;
+    return this.draggable ? this.container.querySelectorAll('ids-draggable') : null;
   }
 
   #attachEventListeners() {
@@ -84,7 +82,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
 
   // each click on an item - always set that to focus, toggle the selected feature
   #attachClickListenersForItems(item) {
-    this.onEvent('click', item, (event) => {
+    this.onEvent('click', item, () => {
       if (this.getFocusedLi !== item) {
         this.focusLi(item);
       }
@@ -98,14 +96,17 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
 
     this.onEvent('keydown', document, (event) => {
       switch (event.key) {
+      case 'Tab':
+        this.virtualScrollContainer.scrollToIndex(this.#focusedLiIndex);
+        break;
       case 'ArrowUp':
-        if (this.#focusedLiIndex && !this.getFocusedLi()) {
+        if (this.#focusedLiIndex >= 0 && !this.getFocusedLi()) {
           this.virtualScrollContainer.scrollToIndex(this.#focusedLiIndex);
           this.focusLi(this.getPreviousLi(this.getFocusedLi()));
         }
         break;
       case 'ArrowDown':
-        if (this.#focusedLiIndex && !this.getFocusedLi()) {
+        if (this.#focusedLiIndex >= 0 && !this.getFocusedLi()) {
           this.virtualScrollContainer.scrollToIndex(this.#focusedLiIndex);
           this.focusLi(this.getNextLi(this.getFocusedLi()));
         }
@@ -135,12 +136,14 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
 
   focusLi(li) {
     if (li) {
+      const prevFocus = this.getFocusedLi();
       // remove tabindex from previous focus
-      this.getFocusedLi()?.setAttribute('tabindex', '-1');
-
+      if (li !== prevFocus && prevFocus) {
+        prevFocus.setAttribute('tabindex', '-1');
+        this.#focusedLiIndex = li.getAttribute('index');
+      }
       // init new focus
-      this.#focusedLiIndex = li.getAttribute('index');
-      li.setAttribute('tabindex', '0');
+      li.setAttribute('tabindex', '0'); // this clears after every render
       li.focus();
     }
   }
@@ -233,10 +236,10 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   #refocus() {
-    // this causes a circular loop -- setting the scrollTop calls renderItems()
-    // this.virtualScrollContainer.scrollToIndex(this.#focusedLiIndex);
-
-    this.getFocusedLi()?.focus();
+    // focused item is in range
+    if (this.getFocusedLi() && this.#focusedLiIndex >= 0) {
+      this.focusLi(this.getFocusedLi());
+    }
   }
 
   /**
@@ -250,7 +253,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
       // reattach event listeners and refocus any focused list item
       this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
         this.#attachEventListeners();
-        if (this.#focusedLiIndex) this.#refocus();
+        if (this.#focusedLiIndex >= 0) this.#refocus();
       });
 
       // set the virtual-scroll item-height attribute
