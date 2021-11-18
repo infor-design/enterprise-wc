@@ -3,7 +3,7 @@
  link: ids-time-picker
  description: Input field for time and dates
  category: Form Inputs
- keywords: time-picker, label, text
+ keywords: timepicker, time, picker, hours, seconds, minutes, label, text
  examples:
   - link: index.html
     description: Shows all ids-time-picker combinations
