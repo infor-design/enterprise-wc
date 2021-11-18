@@ -4,7 +4,7 @@
 
 The Timepicker Component provides a click/touch user interface for setting a time.
 
-## Use Cases
+## Use Cases (TODO)
 
 - Entering an exact, unrestricted time (allowing any time to be entered, such as 11:39). In this use case, users should be allowed to either type the time values or select them.
 - Entering time intervals (e.g., allowing time entry only in specific set intervals, such as 15 or 30 minutes). In this case, you should either prevent users from manually entering the minute values or automatically correct manual entries to the nearest interval
@@ -12,10 +12,10 @@ The Timepicker Component provides a click/touch user interface for setting a tim
 
 ## Terminology
 
-- **Timepicker**: A UI element for setting hours, minutes, seconds and periods (am/pm)
+- **Timepicker**: A UI element for setting hours, minutes, seconds and periods (am/pm).
 - **Popup**: A window/modal that appears when the timepicker is clicked.
-- **Dropdowns**: Input elements for selecting hours, minutes, seconds and periods (am/pm)
-- **Period**: AM (before noon) and PM (after noon)
+- **Dropdowns**: Input elements for selecting hours, minutes, seconds and periods (am/pm).
+- **Period**: AM (before noon) and PM (after noon).
 - **Toggle**: Timepicker's popup will be opened if already closed, or closed if already opened.
 - **Disabled**: Timepicker can be disabled so it cannot be followed or clicked.
 - **Readonly**: Timepicker can be set to readonly so it cannot be edited.
@@ -25,7 +25,11 @@ The Timepicker Component provides a click/touch user interface for setting a tim
 A normal timepicker used as a web component.
 
 ```html
-<ids-time-picker label="Time Picker"></ids-time-picker>
+<ids-time-picker
+  label="Full Time Picker"
+  placeholder="Enter your start time"
+  format="hh:mm:ss a"
+></ids-time-picker>
 ```
 
 A `disabled` timepicker and a `readonly` timepicker.
@@ -126,8 +130,8 @@ It's also possible to control the intervals of minutes and seconds available for
 
 ## Converting from Previous Versions (TODO)
 
-- 3.x: Timepicker have all new markup and classes.
-- 4.x: Timepicker have all new markup and classes for web components.
+- 3.x: Timepickers have all new markup and classes.
+- 4.x: Timepickers have all new markup and classes for web components.
 
 ## Designs
 

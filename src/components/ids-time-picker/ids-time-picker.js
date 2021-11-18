@@ -15,9 +15,9 @@ import {
 } from '../../mixins';
 
 // Supporting components
-import '../ids-dropdown/ids-dropdown';
-import '../ids-popup/ids-popup';
-import '../ids-trigger-field/ids-trigger-field';
+import IdsDropdown from '../ids-dropdown/ids-dropdown';
+import IdsPopup from '../ids-popup/ids-popup';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
 
 import styles from './ids-time-picker.scss';
 
