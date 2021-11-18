@@ -137,7 +137,6 @@ class IdsDataGrid extends mix(IdsElement).with(
       this.virtualScrollContainer.scrollTarget = this.container;
 
       this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index); //eslint-disable-line
-      this.virtualScrollContainer.itemCount = this.data.length;
       // TODO Dynamic Height setting - header height
       this.virtualScrollContainer.height = 350 - this.headerPixelHeight;
       this.virtualScrollContainer.itemHeight = this.rowPixelHeight;

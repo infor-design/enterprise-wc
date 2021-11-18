@@ -25,7 +25,6 @@ const DEFAULT_ITEM_HEIGHT = 50;
 class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   constructor() {
     super();
-    this.state = { itemCount: 0 };
   }
 
   connectedCallback() {
@@ -72,27 +71,22 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @param {boolean} allowZero Allow a zero length dataset (render empty)
    */
   renderItems(allowZero) {
-    if (!this.data || (!allowZero && this.data.length === 0)) {
-      return;
-    }
+    if (!this.data || (!allowZero && this.data.length === 0)) return;
+
     const startIndex = this.startIndex;
     const endIndex = this.startIndex + this.visibleItemCount();
 
-    if (this.lastStart === startIndex && this.lastEnd === endIndex) {
-      return;
-    }
+    const indexesChanged = this.lastStart === startIndex && this.lastEnd === endIndex;
+    if (indexesChanged) return;
 
     this.lastStart = startIndex;
     this.lastEnd = endIndex;
 
-    const data = this.data.slice(
-      startIndex,
-      endIndex
-    );
+    const visibleItems = this.data.slice(startIndex, endIndex);
 
     let html = '';
-    data.map((item, index) => {
-      const node = this.itemTemplate(item, index);
+    visibleItems.map((item, index) => {
+      const node = this.itemTemplate(item, index + startIndex);
       html += node;
       return node;
     });
@@ -104,9 +98,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     const wrapper = this.querySelector('[part="style-wrapper"]') ?? offset;
     wrapper.innerHTML = html;
 
-    const elem = this;
-    console.log('render()')
-    this.triggerEvent('ids-virtual-scroll-afterrender', elem, { detail: { elem: this, startIndex, endIndex } });
+    this.triggerEvent('ids-virtual-scroll-afterrender', this, { detail: { elem: this, startIndex, endIndex } });
   }
 
   /**
@@ -247,20 +239,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    */
   get viewPortHeight() { return Number(this.itemCount) * Number(this.itemHeight); }
 
-  /**
-   * The number of data items being rendered
-   * @param {number} value The number of pixels from the top
-   */
-  set itemCount(value) {
-    if (value) {
-      this.state.itemCount = value;
-      return;
-    }
-
-    this.state.itemCount = 0;
-  }
-
-  get itemCount() { return this.state.itemCount; }
+  get itemCount() { return this.data?.length; }
 
   get offsetY() {
     return Number(this.startIndex) * Number(this.itemHeight);
@@ -290,7 +269,6 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   set data(value) {
     if (value && this.datasource) {
       this.datasource.data = value;
-      this.itemCount = value.length;
       this.lastStart = null;
       this.lastEnd = null;
       this.scrollTop = 0;

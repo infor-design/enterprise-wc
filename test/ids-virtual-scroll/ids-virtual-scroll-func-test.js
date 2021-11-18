@@ -95,11 +95,6 @@ describe('IdsVirtualScroll Component', () => {
     expect(virtualScroll.getAttribute('item-height')).toEqual(null);
   });
 
-  it('removes the itemCount attribute when reset', () => {
-    virtualScroll.itemCount = null;
-    expect(virtualScroll.getAttribute('item-count')).toEqual(null);
-  });
-
   it('removes the data value when reset', () => {
     virtualScroll.data = null;
     expect(virtualScroll.datasource.data).toEqual(null);
