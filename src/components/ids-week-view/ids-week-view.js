@@ -121,7 +121,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    * Add toolbar HTML to shadow
    */
   #renderToolbar() {
-    const toolbarTemplate = `<ids-toolbar class="week-view-header">
+    const toolbarTemplate = `<ids-toolbar class="week-view-header" tabbable="true">
       <ids-toolbar-section type="buttonset">
         <ids-button class="week-view-btn-previous">
           <ids-text audible="true" translate-text="true">PreviousMonth</ids-text>
