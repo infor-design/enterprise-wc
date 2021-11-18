@@ -570,7 +570,11 @@ class IdsModal extends mix(IdsElement).with(
    * @returns {void}
    */
   onOutsideClick(e) {
-    const isOverlay = e.target.tagName === 'IDS';
+    if (e || !e?.target) {
+      return;
+    }
+
+    const isOverlay = e.target.tagName === 'IDS-OVERLAY';
     if (this.isEqualNode(e.target) || isOverlay) {
       return;
     }
