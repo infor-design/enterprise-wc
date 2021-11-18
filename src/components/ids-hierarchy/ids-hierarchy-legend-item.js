@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-hierarchy-base';
+
 import styles from './ids-hierarchy-legend-item.scss';
 
 /**
@@ -20,9 +21,11 @@ export default class IdsHierarchyLegendItem extends Base {
    * @returns {void}
    */
   connectedCallback() {
+    super.connectedCallback?.();
   }
 
   disconnectedCallback() {
+    super.disconnectedCallback?.();
   }
 
   /**

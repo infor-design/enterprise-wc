@@ -1,7 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import Base from './ids-hierarchy-base';
+
 import styles from './ids-hierarchy-item.scss';
 
 /**

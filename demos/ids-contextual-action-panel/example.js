@@ -1,12 +1,12 @@
 import '../../src/components/ids-contextual-action-panel';
 
 // Supporting components
-import '../../src/components/ids-checkbox';
-import '../../src/components/ids-dropdown';
-import '../../src/components/ids-popup-menu';
-import '../../src/components/ids-textarea';
-import '../../src/components/ids-toolbar';
-import '../../src/components/ids-button';
+import '../../src/components/ids-checkbox/ids-checkbox';
+import '../../src/components/ids-dropdown/ids-dropdown';
+import '../../src/components/ids-popup-menu/ids-popup-menu';
+import '../../src/components/ids-textarea/ids-textarea';
+import '../../src/components/ids-toolbar/ids-toolbar';
+import '../../src/components/ids-button/ids-button';
 import '../../src/components/ids-separator';
 
 document.addEventListener('DOMContentLoaded', () => {

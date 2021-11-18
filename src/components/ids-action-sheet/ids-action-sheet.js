@@ -1,20 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  breakpoints,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes, breakpoints } from '../../core/ids-attributes';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-} from '../../mixins';
+import Base from './ids-action-sheet-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsOverlay from '../ids-modal/ids-overlay';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
+
 import styles from './ids-action-sheet.scss';
 
 /**
@@ -27,10 +18,7 @@ import styles from './ids-action-sheet.scss';
  */
 @customElement('ids-action-sheet')
 @scss(styles)
-class IdsActionSheet extends mix(IdsElement).with(
-    IdsEventsMixin,
-    IdsThemeMixin,
-  ) {
+export default class IdsActionSheet extends Base {
   constructor() {
     super();
   }
@@ -181,5 +169,3 @@ class IdsActionSheet extends mix(IdsElement).with(
     this.onCancelClick();
   }
 }
-
-export default IdsActionSheet;

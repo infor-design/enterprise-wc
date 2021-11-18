@@ -3,7 +3,7 @@
  */
 import IdsRadio from '../../src/components/ids-radio/ids-radio';
 import IdsRadioGroup from '../../src/components/ids-radio/ids-radio-group';
-import IdsContainer from '../../src/components/ids-container';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 jest.useFakeTimers();
 

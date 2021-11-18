@@ -15,10 +15,10 @@ let instanceCounter = 0;
  * IDS Spinbox Component
  * @type {IdsSpinbox}
  * @inherits IdsElement
+ * @mixes IdsThemeMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin
  * @mixes IdsLocaleMixin
- * @mixes IdsThemeMixin
  * @mixes IdsDirtyTrackerMixin
  * @mixes IdsValidationMixin
  * @part container the overall container of the spinbox

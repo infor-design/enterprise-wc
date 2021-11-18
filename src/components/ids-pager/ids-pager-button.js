@@ -1,11 +1,14 @@
-import { customElement, scss} from '../../core/ids-decorators';
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import Base from './ids-pager-base';
+
+import Base from './ids-pager-button-base';
+
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { IdsButton } from '../ids-button/ids-button';
 import { IdsIcon } from '../ids-icon/ids-icon';
 import IdsPagerSection from './ids-pager-section';
-import { buttonTypes } from './ids-pager-attributes'
+import { buttonTypes } from './ids-pager-attributes';
+
 import styles from './ids-pager-button.scss';
 
 /**
@@ -62,6 +65,7 @@ export default class IdsPagerButton extends Base {
 
     this.#updateNavDisabled();
     this.#updateDisabledState();
+    super.connectedCallback?.();
     this.#attachEventHandlers();
   }
 

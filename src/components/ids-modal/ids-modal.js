@@ -2,14 +2,10 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
 
-// Import Mixins And Base
 import Base from './ids-modal-base';
 
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { waitForTransitionEnd } from '../../utils/ids-dom-utils/ids-dom-utils';
-
-// Import Dependencies
 import renderLoop from '../ids-render-loop/ids-render-loop-global';
 import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 

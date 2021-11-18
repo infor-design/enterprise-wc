@@ -1,12 +1,8 @@
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
 
 // Import Mixins
-import { IdsEventsMixin, IdsLocaleMixin, IdsThemeMixin } from '../../mixins';
+import Base from './ids-splitter-base';
+
 import styles from './ids-splitter-pane.scss';
 
 /**
@@ -20,7 +16,7 @@ import styles from './ids-splitter-pane.scss';
  */
 @customElement('ids-splitter-pane')
 @scss(styles)
-class IdsSplitterPane extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsThemeMixin) {
+export default class IdsSplitterPane extends Base {
   constructor() {
     super();
   }
@@ -48,5 +44,3 @@ class IdsSplitterPane extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixi
     super.connectedCallback();
   }
 }
-
-export default IdsSplitterPane;

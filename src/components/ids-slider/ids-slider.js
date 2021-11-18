@@ -1,7 +1,8 @@
-import { customElement, scss,  } from '../../core/ids-decorators';
+import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import Base from './ids-slider-base';
+
 import styles from './ids-slider.scss';
 
 const TYPES = [

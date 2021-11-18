@@ -3,7 +3,8 @@ import IdsToggleButton from '../../src/components/ids-toggle-button/ids-toggle-b
 
 // Access the global RenderLoop instance.
 // When using the mixin on a real component, the `rl` property exists on the component instance.
-import { renderLoop, IdsRenderLoopItem } from '../../src/components/ids-render-loop/ids-render-loop';
+import renderLoop from '../../src/components/ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../../src/components/ids-render-loop/ids-render-loop-item';
 
 // When the DOM Loads, register a loop that counts durations
 // of both the loop and an individual item, as well as sets up play/stop.

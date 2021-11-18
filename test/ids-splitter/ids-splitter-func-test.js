@@ -3,8 +3,8 @@
  */
 import processAnimFrame from '../helpers/process-anim-frame';
 import ResizeObserver from '../helpers/resize-observer-mock'; // eslint-disable-line
-import IdsContainer from '../../src/components/ids-container';
-import IdsSplitter from '../../src/components/ids-splitter';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsSplitter from '../../src/components/ids-splitter/ids-splitter';
 
 describe('IdsSplitter Component', () => {
   let container;

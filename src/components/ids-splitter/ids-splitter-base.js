@@ -3,8 +3,8 @@ import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
-const Base = IdsThemeMixin(
-  IdsLocaleMixin(
+const Base = IdsLocaleMixin(
+  IdsThemeMixin(
     IdsEventsMixin(
       IdsElement
     )

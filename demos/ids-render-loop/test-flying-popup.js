@@ -1,6 +1,7 @@
 // Access the global RenderLoop instance.
 // When using the mixin on a real component, the `rl` property exists on the component instance.
-import { renderLoop, IdsRenderLoopItem } from '../../src/components/ids-render-loop/ids-render-loop';
+import renderLoop from '../../src/components/ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../../src/components/ids-render-loop/ids-render-loop-item';
 
 // Supporting Components
 import IdsPopup from '../../src/components/ids-popup/ids-popup';

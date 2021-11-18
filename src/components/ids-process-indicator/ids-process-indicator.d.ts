@@ -1,4 +1,4 @@
-import { IdsElement } from '../../core';
+import Base from './ids-process-indicator-base';
 
-export default class IdsProcessIndicator extends IdsElement {
+export default class IdsProcessIndicator extends Base {
 }

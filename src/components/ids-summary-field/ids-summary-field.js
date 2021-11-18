@@ -1,5 +1,6 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
 import Base from './ids-summary-field-base';
 
 import styles from './ids-summary-field.scss';

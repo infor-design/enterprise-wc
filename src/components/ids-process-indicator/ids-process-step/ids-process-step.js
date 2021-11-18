@@ -1,7 +1,9 @@
-import { customElement, scss } from '../../../core';
+import { customElement, scss } from '../../../core/ids-decorators';
 import { attributes } from '../../../core/ids-attributes';
-import Base from '../ids-process-step-base';
+import Base from './ids-process-step-base';
+
 import styles from './ids-process-step.scss';
+
 const statuses = ['cancelled', 'started', 'done'];
 
 /**
@@ -12,7 +14,6 @@ const statuses = ['cancelled', 'started', 'done'];
  * @mixes IdsThemeMixin
  * @part label
  */
-
 @customElement('ids-process-step')
 @scss(styles)
 export default class IdsProcessStep extends Base {
@@ -21,6 +22,7 @@ export default class IdsProcessStep extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
   }
 
   /**

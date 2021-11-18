@@ -1,6 +1,6 @@
-import { IdsElement } from '../../core';
+import Base from './ids-pager-base';
 
-export default class IdsPager extends IdsElement {
+export default class IdsPager extends Base {
   /** A 1-based page number displayed */
   pageNumber: number;
 

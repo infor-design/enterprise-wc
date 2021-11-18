@@ -1,7 +1,7 @@
 import '../../src/components/ids-contextual-action-panel';
 
 // Supporting components
-import '../../src/components/ids-button';
+import '../../src/components/ids-button/ids-button';
 
 document.addEventListener('DOMContentLoaded', () => {
   const triggerId = '#cap-trigger-btn';

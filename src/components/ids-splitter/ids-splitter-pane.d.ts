@@ -1,9 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
+import Base from './ids-splitter-base';
 
-import { IdsElement } from '../../core';
-
-export default class IdsSplitterPane extends IdsElement {
+export default class IdsSplitterPane extends Base {
   /** Sets initially the pane size height or width for example: '20%', '200px' or 200 */
   size: string | number | null;
 

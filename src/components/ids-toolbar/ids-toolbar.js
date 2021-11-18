@@ -2,7 +2,7 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-import IdsToolbarSection, { TOOLBAR_ITEM_TAGNAMES } from './ids-toolbar-section';
+import IdsToolbarSection from './ids-toolbar-section';
 import IdsToolbarMoreActions from './ids-toolbar-more-actions';
 import Base from './ids-toolbar-base';
 import styles from './ids-toolbar.scss';

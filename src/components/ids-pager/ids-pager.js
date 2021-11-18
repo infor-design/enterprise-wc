@@ -1,19 +1,15 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 // Import Utils
-import { IdsStringUtils } from '../../utils';
+import Base from './ids-pager-base';
 
-import { IdsAttributeProviderMixin, IdsEventsMixin, IdsThemeMixin } from '../../mixins';
 import IdsPagerSection from './ids-pager-section';
 import IdsPagerButton from './ids-pager-button';
 import IdsPagerInput from './ids-pager-input';
 import IdsPagerNumberList from './ids-pager-number-list';
+
 import styles from './ids-pager.scss';
 
 const {
@@ -24,6 +20,7 @@ const {
   TOTAL
 } = attributes;
 
+// eslint-disable-next-line no-unused-vars
 const attributeProviderDefs = {
   attributesProvided: [
     { attribute: DISABLED, component: IdsPagerInput, targetAttribute: PARENT_DISABLED },
@@ -46,16 +43,13 @@ const attributeProviderDefs = {
  * IDS Pager Component
  * @type {IdsPager}
  * @inherits IdsElement
+ * @mixes IdsEventsMixin
+ * @mixes IdsThemeMixin
  * @part container the overall ids-pager container
- * @mixes IdsAttributeProviderMixin
  */
 @customElement('ids-pager')
 @scss(styles)
-export default class IdsPager extends mix(IdsElement).with(
-    IdsAttributeProviderMixin(attributeProviderDefs),
-    IdsEventsMixin,
-    IdsThemeMixin
-  ) {
+export default class IdsPager extends Base {
   constructor() {
     super();
   }
@@ -121,7 +115,7 @@ export default class IdsPager extends mix(IdsElement).with(
    * @param {boolean} value Whether or not to disable the pager overall
    */
   set disabled(value) {
-    const isTruthy = IdsStringUtils.stringToBool(value);
+    const isTruthy = stringToBool(value);
 
     if (isTruthy && !this.hasAttribute(attributes.DISABLED)) {
       this.setAttribute(attributes.DISABLED, '');

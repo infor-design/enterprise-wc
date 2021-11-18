@@ -1,23 +1,13 @@
 // Import Base and Decorators
 import pathData from 'ids-identity/dist/theme-new/icons/empty/path-data.json';
-import {
-  IdsElement,
-  customElement,
-  scss,
-  mix,
-  attributes
-} from '../../core/ids-element';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin
-} from '../../mixins';
+import Base from './ids-empty-message-base';
 
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 
-// Import Sass to be encapsulated in the component shadowRoot
 import styles from './ids-empty-message.scss';
 
 /**
@@ -30,7 +20,7 @@ import styles from './ids-empty-message.scss';
  */
 @customElement('ids-empty-message')
 @scss(styles)
-class IdsEmptyMessage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin) {
+export default class IdsEmptyMessage extends Base {
   constructor() {
     super();
   }
@@ -101,5 +91,3 @@ class IdsEmptyMessage extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMixin
     }
   }
 }
-
-export default IdsEmptyMessage;

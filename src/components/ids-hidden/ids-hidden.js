@@ -1,30 +1,18 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  breakpoints,
-  scss,
-} from '../../core';
-
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsThemeMixin,
-} from '../../mixins';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes, breakpoints } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+import Base from './ids-hidden-base';
+
 import styles from './ids-hidden.scss';
 
 /**
  * IDS Hidden Component
  * @type {IdsHidden}
  * @inherits IdsElement
- * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
- * @mixes IdsThemeMixin
  */
 @customElement('ids-hidden')
 @scss(styles)
-class IdsHidden extends IdsElement {
+class IdsHidden extends Base {
   constructor() {
     super();
   }

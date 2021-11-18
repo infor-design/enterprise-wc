@@ -14,11 +14,9 @@ const fileUpload = require('express-fileupload');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 process.env.NODE_ENV = isProduction ? 'production' : 'development';
-const demosDir = './demos';
 
 module.exports = {
-  /*
-  entry: glob.sync('./demos//**.js').reduce((acc, filePath) => {
+  entry: glob.sync('./demos/**/**.js').reduce((acc, filePath) => {
     let entry = filePath.replace(`/${path.basename(filePath)}`, '');
     entry = (entry === './demos' ? 'index' : entry.replace('./demos/', ''));
 
@@ -32,114 +30,8 @@ module.exports = {
     if (acc.index) {
       acc.example = './demos/example.js';
     }
-    console.log(acc);
     return acc;
   }, {}),
-  */
-  entry: {
-    // Add Demo App Home Page
-    example: `${demosDir}/example.js`,
-    index: `${demosDir}/index.js`,
-    // Dependencies for many of the examples
-    'ids-container/ids-container': `${demosDir}/ids-container/index.js`,
-    'ids-icon/ids-icon': `${demosDir}/ids-icon/index.js`,
-    'ids-layout-grid/ids-layout-grid': `${demosDir}/ids-layout-grid/index.js`,
-    'ids-text/ids-text': `${demosDir}/ids-text/index.js`,
-    // About
-    'ids-about/example': `${demosDir}/ids-about/example.js`,
-    'ids-about/ids-about': `${demosDir}/ids-about/index.js`,
-    'ids-about/standalone-css': `${demosDir}/ids-about/standalone-css.js`,
-    // Accordion
-    'ids-accordion/example': `${demosDir}/ids-accordion/example.js`,
-    'ids-accordion/ids-accordion': `${demosDir}/ids-accordion/index.js`,
-    'ids-accordion/nested': `${demosDir}/ids-accordion/nested.js`,
-    // Card
-    'ids-card/ids-card': `${demosDir}/ids-card/index.js`,
-    'ids-card/auto-fit': `${demosDir}/ids-card/auto-fit.js`,
-    'ids-card/side-by-side': `${demosDir}/ids-card/side-by-side.js`,
-    // Header
-    'ids-header/ids-header': `${demosDir}/ids-header/index.js`,
-    'ids-header/button-types': `${demosDir}/ids-header/button-types.js`,
-    'ids-header/standalone-css': `${demosDir}/ids-header/standalone-css.js`,
-    // Menu
-    'ids-menu/example': `${demosDir}/ids-menu/example.js`,
-    'ids-menu/ids-menu': `${demosDir}/ids-menu/index.js`,
-    'ids-menu/side-by-side': `${demosDir}/ids-menu/side-by-side.js`,
-    // Menu Button
-    'ids-menu-button/example': `${demosDir}/ids-menu-button/example.js`,
-    'ids-menu-button/ids-menu-button': `${demosDir}/ids-menu-button/index.js`,
-    // Popup Menu
-    'ids-popup-menu/ids-popup-menu': `${demosDir}/ids-popup-menu/index.js`,
-    'ids-popup-menu/example': `${demosDir}/ids-popup-menu/example.js`,
-    'ids-popup-menu/data-driven': `${demosDir}/ids-popup-menu/data-driven.js`,
-    'ids-popup-menu/selected-state': `${demosDir}/ids-popup-menu/selected-state.js`,
-    'ids-popup-menu/standalone-css': `${demosDir}/ids-popup-menu/standalone-css.js`,
-    'ids-popup-menu/trigger-immediate': `${demosDir}/ids-popup-menu/trigger-immediate.js`,
-    // Search Field
-    'ids-search-field/ids-search-field': `${demosDir}/ids-search-field/index.js`,
-    // Search Field
-    'ids-summary-field/ids-summary-field': `${demosDir}/ids-summary-field/index.js`,
-    // Swipe Action
-    'ids-swipe-action/ids-swipe-action': `${demosDir}/ids-swipe-action/index.js`,
-    'ids-swipe-action/example': `${demosDir}/ids-swipe-action/example.js`,
-    // Switch
-    'ids-switch/ids-switch': `${demosDir}/ids-switch/index.js`,
-    // Tabs
-    'ids-tabs/ids-tabs': `${demosDir}/ids-tabs/index.js`,
-    'ids-tabs/example': `${demosDir}/ids-tabs/example.js`,
-    'ids-tabs/header-tabs': `${demosDir}/ids-tabs/header-tabs.js`,
-    'ids-tabs/side-by-side': `${demosDir}/ids-tabs/side-by-side.js`,
-    'ids-tabs/standalone-css': `${demosDir}/ids-tabs/standalone-css.js`,
-    // Tags
-    'ids-tag/ids-tag': `${demosDir}/ids-tag/index.js`,
-    'ids-tag/example': `${demosDir}/ids-tag/example.js`,
-    // Text
-    // 'ids-text/ids-text': `${demosDir}/ids-text/index.js`,
-    'ids-text/variant-alternate': `${demosDir}/ids-text/variant-alternate.js`,
-    // TextArea
-    'ids-textarea/ids-textarea': `${demosDir}/ids-textarea/index.js`,
-    'ids-textarea/example': `${demosDir}/ids-textarea/example.js`,
-    // Theme Switcher
-    'ids-theme-switcher/ids-theme-switcher': `${demosDir}/ids-theme-switcher/index.js`,
-    // Toast
-    'ids-toast/ids-toast': `${demosDir}/ids-toast/index.js`,
-    'ids-toast/example': `${demosDir}/ids-toast/example.js`,
-    'ids-toast/sandbox': `${demosDir}/ids-toast/sandbox.js`,
-    'ids-toast/side-by-side': `${demosDir}/ids-toast/side-by-side.js`,
-    // Toggle Button
-    'ids-toggle-button/ids-toggle-button': `${demosDir}/ids-toggle-button/index.js`,
-    'ids-toggle-button/example': `${demosDir}/ids-toggle-button/example.js`,
-    'ids-toggle-button/side-by-side': `${demosDir}/ids-toggle-button/side-by-side.js`,
-    // Toolbar
-    'ids-toolbar/ids-toolbar': `${demosDir}/ids-toolbar/index.js`,
-    'ids-toolbar/example': `${demosDir}/ids-toolbar/example.js`,
-    // Tooltip
-    'ids-tooltip/ids-tooltip': `${demosDir}/ids-tree/index.js`,
-    'ids-tooltip/example': `${demosDir}/ids-tooltip/example.js`,
-    'ids-tooltip/performance': `${demosDir}/ids-tooltip/performance.js`,
-    'ids-tooltip/sandbox': `${demosDir}/ids-tooltip/sandbox.js`,
-    // Tree
-    'ids-tree/ids-tree': `${demosDir}/ids-tree/index.js`,
-    'ids-tree/example': `${demosDir}/ids-tree/example.js`,
-    'ids-tree/sandbox': `${demosDir}/ids-tree/sandbox.js`,
-    'ids-tree/side-by-side': `${demosDir}/ids-tree/side-by-side.js`,
-    // Trigger Field
-    'ids-trigger-field/ids-trigger-field': `${demosDir}/ids-trigger-field/index.js`,
-    'ids-trigger-field/side-by-side': `${demosDir}/ids-trigger-field/side-by-side.js`,
-    // Upload
-    'ids-upload/ids-upload': `${demosDir}/ids-upload/index.js`,
-    'ids-upload/side-by-side': `${demosDir}/ids-upload/side-by-side.js`,
-    // Upload Advanced
-    'ids-upload-advanced/ids-upload-advanced': `${demosDir}/ids-upload-advanced/index.js`,
-    'ids-upload-advanced/example': `${demosDir}/ids-upload-advanced/example.js`,
-    'ids-upload-advanced/side-by-side': `${demosDir}/ids-upload-advanced/side-by-side.js`,
-    'ids-upload-advanced/test-sandbox': `${demosDir}/ids-upload-advanced/test-sandbox.js`,
-    // Virtual Scroll
-    'ids-virtual-scroll/ids-virtual-scroll': `${demosDir}/ids-virtual-scroll/index.js`,
-    'ids-virtual-scroll/example': `${demosDir}/ids-virtual-scroll/example.js`,
-    // Wizard
-    'ids-wizard/ids-wizard': `${demosDir}/ids-wizard/index.js`,
-  },
   devtool: isProduction ? 'cheap-module-source-map' : 'source-map', // try source-map for prod
   mode: isProduction ? 'production' : 'development',
   experiments: {

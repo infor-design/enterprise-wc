@@ -1,16 +1,20 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
 import Base from './ids-pager-base';
 import IdsInput from '../ids-input/ids-input';
 import IdsText from '../ids-text/ids-text';
 import IdsPagerSection from './ids-pager-section';
-import styles from './ids-pager-input.scss';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
+import styles from './ids-pager-input.scss';
 
 /**
  * IDS PagerInput Component
  *
  * @type {IdsPagerInput}
+ * @mixes IdsEventsMixin
+ * @mixes IdsKeyboardMixin
  * @inherits IdsElement
  * @part container ids-pager-button container
  */
@@ -89,6 +93,8 @@ export default class IdsPagerInput extends Base {
     window.requestAnimationFrame(() => {
       this.#updatePageCountShown();
     });
+
+    super.connectedCallback?.();
   }
 
   /** @param {string|number} value The number of items to show per page */

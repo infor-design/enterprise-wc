@@ -1,4 +1,4 @@
-import { IdsElement } from '../../core';
+import Base from './ids-spinbox-base';
 
 type IdsValidationErrorMessageTypes = {
   /** The unique id in the check messages */
@@ -22,7 +22,7 @@ type IdsValidationTypes = {
   removeMessage(settings: IdsValidationErrorMessageTypes);
 };
 
-export default class IdsSpinbox extends IdsElement {
+export default class IdsSpinbox extends Base {
   /**
    * the maximum value the spinbox' input can be set to
    */

@@ -1,9 +1,12 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+
 import IdsColor from '../ids-color/ids-color';
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
+
 import Base from './ids-step-chart-base';
+
 import styles from './ids-step-chart.scss';
 
 /**

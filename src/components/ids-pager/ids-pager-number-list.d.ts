@@ -1,6 +1,6 @@
-import { IdsElement } from '../../core';
+import Base from './ids-pager-number-list-base';
 
-export default class IdsPagerNumberList extends IdsElement {
+export default class IdsPagerNumberList extends Base {
   /** Whether or not the buttons within the number-list have an override disable state applied */
   disabled: boolean;
 

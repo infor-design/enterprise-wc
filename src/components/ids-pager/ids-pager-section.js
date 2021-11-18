@@ -1,6 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import IdsElement from '../../core/ids-element';
 import { attributes } from '../../core/ids-attributes';
+
+import IdsElement from '../../core/ids-element';
+import Base from './ids-pager-section-base';
+
 import styles from './ids-pager-section.scss';
 
 /**
@@ -10,7 +13,7 @@ import styles from './ids-pager-section.scss';
  */
 @customElement('ids-pager-section')
 @scss(styles)
-export default class IdsPagerSection extends IdsElement {
+export default class IdsPagerSection extends Base {
   constructor() {
     super();
   }

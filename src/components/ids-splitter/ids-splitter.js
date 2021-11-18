@@ -1,23 +1,11 @@
-import {
-  IdsElement,
-  customElement,
-  attributes,
-  scss,
-  mix
-} from '../../core';
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-// Import Utils
+import Base from './ids-splitter-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
 import IdsSplitterPane from './ids-splitter-pane';
 import IdsDraggable from '../ids-draggable/ids-draggable';
+
 import styles from './ids-splitter.scss';
 
 // Defaults
@@ -61,7 +49,7 @@ const COLLAPSED = 'collapsed';
  */
 @customElement('ids-splitter')
 @scss(styles)
-class IdsSplitter extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, IdsThemeMixin) {
+export default class IdsSplitter extends Base {
   constructor() {
     super();
   }
@@ -1216,5 +1204,3 @@ class IdsSplitter extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin, I
       : SPLITTER_DEFAULTS.resizeOnDragEnd;
   }
 }
-
-export default IdsSplitter;
