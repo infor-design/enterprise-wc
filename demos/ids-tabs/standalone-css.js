@@ -24,9 +24,7 @@ class TabController {
   #selectedIndex = -1;
 
   set selectedIndex(value) {
-    this.#selectedIndex = Math.max(0, Math.min(
-      parseInt(value), this.tabContainers.length - 1
-    ));
+    this.#selectedIndex = Math.max(0, Math.min(parseInt(value), this.tabContainers.length - 1));
 
     const prevValue = this.tabContainers.findIndex(
       (t) => t.children[0].classList.contains('selected')

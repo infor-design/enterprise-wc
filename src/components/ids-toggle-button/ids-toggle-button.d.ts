@@ -14,7 +14,7 @@ export default class IdsToggleButton extends IdsButton {
   text?: string;
 
   /* The type/purpose of the button to display */
-  type: 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive'
+  type: 'default' | 'primary' | 'secondary' | 'tertiary' | 'destructive';
 
   /** Set the theme mode */
   mode: 'light' | 'dark' | 'contrast' | string;
