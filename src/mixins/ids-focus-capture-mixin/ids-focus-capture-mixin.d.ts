@@ -9,10 +9,10 @@ export class IdsFocusCaptureMixin {
   cyclesFocus: boolean;
 
   /** A user-configurable list of CSS selectors representing elements that can be focusable within this one */
-  focusableSelectors: Array<string>
+  focusableSelectors: Array<string>;
 
   /** Returns a list of elements matching this component's `focusableSelectors` array */
-  focusableElements: Array<HTMLElement>
+  focusableElements: Array<HTMLElement>;
 
   /** Reference to the first focusable element at the top of this components children */
   firstFocusableElement: HTMLElement | undefined;
