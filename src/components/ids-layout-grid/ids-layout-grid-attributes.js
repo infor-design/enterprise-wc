@@ -6,4 +6,11 @@ const colsGridClass = `ids-layout-grid-cols`;
 const rowsClass = `ids-layout-grid-rows`;
 const noMarginsClass = `ids-layout-grid-no-margins`;
 
-export { fluidGridClass, fluidGridXlClass, autoGridClass, colsGridClass, rowsClass, noMarginsClass };
+export {
+  fluidGridClass,
+  fluidGridXlClass,
+  autoGridClass,
+  colsGridClass,
+  rowsClass,
+  noMarginsClass
+};

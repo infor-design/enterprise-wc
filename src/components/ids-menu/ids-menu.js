@@ -1,20 +1,14 @@
-// IMport Core
 import { customElement, scss } from '../../core/ids-decorators';
-import IdsDataSource from '../../core/ids-data-source';
-// Import Base and Mixins
-import Base from './ids-menu-base';
+import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
+import { isValidGroup, isUsableItem } from './ids-menu-attributes';
 
-// Import Dependencies
+import IdsDataSource from '../../core/ids-data-source';
+import Base from './ids-menu-base';
 import IdsMenuGroup from './ids-menu-group';
 import IdsMenuHeader from './ids-menu-header';
 import IdsMenuItem from './ids-menu-item';
 import IdsSeparator from '../ids-separator';
 
-// Import Utils
-import { getClosestContainerNode } from '../../utils/ids-dom-utils/ids-dom-utils';
-import { isValidGroup, isUsableItem } from './ids-menu-attributes';
-
-// Import Styles
 import styles from './ids-menu.scss';
 
 /**

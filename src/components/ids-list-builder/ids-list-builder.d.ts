@@ -1,5 +1,4 @@
-import { IdsElement } from '../../core';
+import Base from './ids-list-builder-base';
 
-export default class IdsListBuilder extends IdsElement {
-
+export default class IdsListBuilder extends Base {
 }

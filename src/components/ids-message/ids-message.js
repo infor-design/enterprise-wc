@@ -1,8 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { MESSAGE_STATUSES } from './ids-message-attributes';
+
 import IdsModal from '../ids-modal/ids-modal';
 import IdsIcon from '../ids-icon/ids-icon';
-import { MESSAGE_STATUSES } from './ids-message-attributes';
+
 import styles from './ids-message.scss';
 
 /**

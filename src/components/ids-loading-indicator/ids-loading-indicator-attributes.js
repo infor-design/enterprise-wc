@@ -1,4 +1,5 @@
 import { attributes } from '../../core/ids-attributes';
+import { buildClassAttrib } from '../../utils/ids-string-utils/ids-string-utils';
 
 const getPercentageTextHtml = ({ progress, type = 'circular' }) => (
   `<div class="progress-percentage ${type}" part="percentage-text">
@@ -7,7 +8,9 @@ const getPercentageTextHtml = ({ progress, type = 'circular' }) => (
   </div>`
 );
 
-const getInnerIndicatorHtml = ( { progress, type, percentageVisible, inline } ) => {
+const getInnerIndicatorHtml = ({
+  progress, type, percentageVisible, inline
+}) => {
   const isDeterminate = !Number.isNaN(parseInt(progress));
 
   switch (type) {

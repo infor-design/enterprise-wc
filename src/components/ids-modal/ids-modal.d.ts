@@ -1,12 +1,7 @@
 import Base from './ids-modal-base';
 import IdsOverlay from './ids-overlay';
-<<<<<<< HEAD
 import IdsPopup from '../ids-popup/ids-popup';
 import IdsModalButton from '../ids-modal-button/ids-modal-button';
-=======
-import IdsPopup from '../ids-popup';
-import IdsModalButton from '../ids-modal-button';
->>>>>>> main
 
 interface beforeshow extends Event {
   bubbles: true,
