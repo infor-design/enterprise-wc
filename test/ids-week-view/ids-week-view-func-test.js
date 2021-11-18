@@ -10,9 +10,11 @@ const endDate = '11/14/2021';
 const startHour = 6;
 const endHour = 21;
 const firstDayOfWeek = 2;
+const interval = 10000;
 const defaultStartHour = 7;
 const defaultEndHour = 19;
 const defaultFirstDayOfWeek = 0;
+const defaultInterval = 30000;
 
 describe('IdsWeekView Component (using properties)', () => {
   let component;
@@ -25,6 +27,7 @@ describe('IdsWeekView Component (using properties)', () => {
     component.startHour = startHour;
     component.endHour = endHour;
     component.showTimeline = false;
+    component.timelineInterval = interval;
 
     document.body.appendChild(component);
   });
@@ -60,6 +63,7 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.startHour).toEqual(startHour);
     expect(component.endHour).toEqual(endHour);
     expect(component.showTimeline).toBeFalsy();
+    expect(component.timelineInterval).toEqual(interval);
   });
 
   it('should change properties', () => {
@@ -69,6 +73,7 @@ describe('IdsWeekView Component (using properties)', () => {
     component.endHour = null;
     component.firstDayOfWeek = null;
     component.showToday = null;
+    component.timelineInterval = null;
 
     expect(component.startDate.toISOString()).toEqual(dateUtils.firstDayOfWeek(new Date()).toISOString());
     expect(component.endDate.toISOString()).toEqual(dateUtils.lastDayOfWeek(new Date()).toISOString());
@@ -76,6 +81,7 @@ describe('IdsWeekView Component (using properties)', () => {
     expect(component.endHour).toEqual(defaultEndHour);
     expect(component.firstDayOfWeek).toEqual(defaultFirstDayOfWeek);
     expect(component.showToday).toBeFalsy();
+    expect(component.timelineInterval).toEqual(defaultInterval);
   });
 });
 
@@ -90,6 +96,7 @@ describe('IdsWeekView Component (using attributes)', () => {
         start-hour="${startHour}"
         end-hour="${endHour}"
         first-day-of-week="${firstDayOfWeek}"
+        timeline-interval="${interval}"
         show-timeline="false"
       ></ids-week-view>
     `);
@@ -124,6 +131,7 @@ describe('IdsWeekView Component (using attributes)', () => {
     expect(component.startHour).toEqual(startHour);
     expect(component.endHour).toEqual(endHour);
     expect(component.showTimeline).toBeFalsy();
+    expect(component.timelineInterval).toEqual(interval);
   });
 });
 
@@ -155,5 +163,6 @@ describe('IdsWeekView Component (empty)', () => {
     expect(component.showToday).toBeFalsy();
     expect(component.showTimeline).toBeTruthy();
     expect(component.firstDayOfWeek).toEqual(0);
+    expect(component.timelineInterval).toEqual(defaultInterval);
   });
 });

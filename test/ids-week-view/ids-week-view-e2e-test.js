@@ -131,19 +131,48 @@ describe('Ids Week View e2e Tests', () => {
     expect(weekDay).toEqual('الاثنين');
   });
 
-  it('should show/hide timeline', async () => {
-    // Show timeline
+  it('should change timeline position with interval', async () => {
+    // Show timeline and change interval
     await page.evaluate((el) => {
       const element = document.querySelector(el);
 
       element.showTimeline = true;
+      // Set small timeline interval to test position change
+      element.timelineInterval = 500;
     }, name);
 
-    let timeline = await page.$eval(name, (el) =>
-      el.shadowRoot.querySelector('.week-view-time-marker'));
+    const positionBefore = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('.week-view-hour-row')?.dataset.diffInMilliseconds);
 
-    expect(timeline).not.toBeNull();
+    await page.waitForTimeout(1000);
 
+    const positionAfter = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('.week-view-hour-row')?.dataset.diffInMilliseconds);
+
+    expect(positionBefore).not.toEqual(positionAfter);
+  });
+
+  it('should hide timeline if current time is out of start/end hour range', async () => {
+    // Change start/end hour to make timeline hidden
+    await page.evaluate((el) => {
+      const now = new Date();
+      const hours = now.getHours();
+      const startHour = hours >= 12 ? 6 : 18;
+      const endHour = hours >= 12 ? 7 : 19;
+      const element = document.querySelector(el);
+
+      element.timelineInterval = null;
+      element.startHour = startHour;
+      element.endHour = endHour;
+    }, name);
+
+    const timelineShiftCssVar = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('.week-view-hour-row')?.style.cssText);
+
+    expect(timelineShiftCssVar).toEqual('--timeline-shift: 0px;');
+  });
+
+  it('should show/hide timeline', async () => {
     // Hide timeline
     await page.evaluate((el) => {
       const element = document.querySelector(el);
@@ -151,9 +180,21 @@ describe('Ids Week View e2e Tests', () => {
       element.showTimeline = false;
     }, name);
 
-    timeline = await page.$eval(name, (el) =>
+    let timeline = await page.$eval(name, (el) =>
       el.shadowRoot.querySelector('.week-view-time-marker'));
 
     expect(timeline).toBeNull();
+
+    // Show timeline
+    await page.evaluate((el) => {
+      const element = document.querySelector(el);
+
+      element.showTimeline = true;
+    }, name);
+
+    timeline = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('.week-view-time-marker'));
+
+    expect(timeline).not.toBeNull();
   });
 });

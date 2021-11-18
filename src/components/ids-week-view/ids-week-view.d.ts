@@ -19,4 +19,7 @@ export default class IdsWeekView extends HTMLElement {
 
   /** Set whether or not to show a bar across the current time */
   showTimeline: 'true' | 'false' | boolean | null;
+
+  /** Set how often timeline should update it's position (in milliseconds) */
+  timelineInterval: string | number | null;
 }

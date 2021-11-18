@@ -62,7 +62,8 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       attributes.SHOW_TIMELINE,
       attributes.SHOW_TODAY,
       attributes.START_DATE,
-      attributes.START_HOUR
+      attributes.START_HOUR,
+      attributes.TIMELINE_INTERVAL,
     ];
   }
 
@@ -315,26 +316,34 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       ));
 
     const hoursDiff = this.endHour - this.startHour + 1;
-    // Add/remove timeline based on current hour and startHour/endHour parameters
-    const setTime = () => {
+    const hourRowElement = this.container.querySelector('.week-view-hour-row');
+    const timelineInterval = this.timelineInterval;
+
+    // Timeline position based on current hour and startHour/endHour parameters
+    const setTimelinePosition = () => {
       const now = new Date();
       const hours = now.getHours();
       const mins = now.getMinutes();
       const diff = hours - this.startHour + (mins / 60);
+      const diffInMilliseconds = now.getTime() - this.startDate.getTime();
       // 52 is the size of one whole hour (25 + two borders)
       const position = diff <= hoursDiff ? diff * 52 : 0;
 
-      this.container.querySelector('.week-view-hour-row').style = `--timeline-shift: ${position}px`;
+      if (hourRowElement) {
+        hourRowElement.style = `--timeline-shift: ${position}px`;
+        // For testing purposes only
+        hourRowElement.dataset.diffInMilliseconds = diffInMilliseconds;
+      }
     };
 
-    setTime();
+    setTimelinePosition();
 
-    // Update timeline top shift every 30 seconds
+    // Update timeline top shift (default is 30 seconds)
     this.timer = new IdsRenderLoopItem({
       id: 'week-view-timer',
-      updateDuration: 30000,
+      updateDuration: timelineInterval,
       updateCallback() {
-        setTime();
+        setTimelinePosition();
       }
     });
 
@@ -481,7 +490,8 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    * @param {string|number|null} val startHour param value
    */
   set startHour(val) {
-    if (val) {
+    // Allow 0 to be set
+    if (val !== null) {
       this.setAttribute(attributes.START_HOUR, val);
     } else {
       this.removeAttribute(attributes.START_HOUR);
@@ -512,7 +522,8 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    * @param {string|number|null} val endHour param value
    */
   set endHour(val) {
-    if (val) {
+    // Allow 0 to be set
+    if (val !== null) {
       this.setAttribute(attributes.END_HOUR, val);
     } else {
       this.removeAttribute(attributes.END_HOUR);
@@ -544,6 +555,36 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
   set showTimeline(val) {
     const boolVal = stringUtils.stringToBool(val);
     this.setAttribute(attributes.SHOW_TIMELINE, boolVal);
+
+    this.#renderTimeline();
+  }
+
+  /**
+   * timeline-interval attribute value in milliseconds
+   * @returns {number} timelineInterval param converted to number
+   */
+  get timelineInterval() {
+    const attrVal = this.getAttribute(attributes.TIMELINE_INTERVAL);
+    const numberVal = stringUtils.stringToNumber(attrVal);
+
+    if (numberVal > 0) {
+      return numberVal;
+    }
+
+    // Default value
+    return 30000;
+  }
+
+  /**
+   * Set how often timeline should update it's position (in milliseconds)
+   * @param {number|string|null} val timelineInterval param value
+   */
+  set timelineInterval(val) {
+    if (val) {
+      this.setAttribute(attributes.TIMELINE_INTERVAL, val);
+    } else {
+      this.removeAttribute(attributes.TIMELINE_INTERVAL);
+    }
 
     this.#renderTimeline();
   }

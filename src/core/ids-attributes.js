@@ -231,6 +231,7 @@ export const attributes = {
   TEXT_ALIGN: 'text-align',
   TEXT_DECORATION: 'text-decoration',
   TEXT_ELLIPSIS: 'text-ellipsis',
+  TIMELINE_INTERVAL: 'timeline-interval',
   TOGGLE_COLLAPSE_ICON: 'toggle-collapse-icon',
   TOGGLE_EXPAND_ICON: 'toggle-expand-icon',
   TOGGLE_ICON_ROTATE: 'toggle-icon-rotate',
