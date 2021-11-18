@@ -30,7 +30,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   }
 
   // // the currently selected list item
-  // #selectedLi;
+  #selectedLi;
 
   // any active editor of the selected list item
   #selectedLiEditor;
@@ -99,6 +99,14 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     `;
   }
 
+  get selectedLi() {
+    return this.#selectedLi;
+  }
+
+  set selectedLi(item) {
+    this.#selectedLi = item;
+  }
+
   get data() {
     return super.data;
   }
@@ -144,7 +152,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
           this.#toggleSelectedAttribute(this.selectedLi);
         }
       }
-      this.#focusLi(item);
+      this.focusLi(item);
       this.#toggleSelectedAttribute(item);
     }
   }
@@ -157,13 +165,12 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     this.#attachDragEventListeners(); // for dragging list items
     this.#attachKeyboardListeners(); // for selecting/editing list items
 
-    // if (this.virtualScroll) {
-    //   this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
-    //     this.#attachDragEventListeners();
-    //     this.#attachKeyboardListeners();
-    //     this.#focusLi(this.#getFocusedLi()); //TODO: fix
-    //   });
-    // }
+    if (this.virtualScroll) {
+      this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
+        this.#attachDragEventListeners();
+        this.#attachKeyboardListeners();
+      });
+    }
   }
 
   /**
@@ -270,7 +277,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       } else {
         this.#unfocusAnySelectedLiEditor();
       }
-      this.#focusLi(this.selectedLi);
+      this.focusLi(this.selectedLi);
     }
   }
 
@@ -344,9 +351,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Adds dragging functionality to all list items
    */
   #attachDragEventListeners() {
-    const draggables = this.container.querySelectorAll('ids-draggable');
-
-    draggables.forEach((draggable) => {
+    this.getAllDraggable().forEach((draggable) => {
       this.#attachDragEventListenersForDraggable(draggable);
     });
   }
@@ -422,7 +427,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    * Attach selection toggling, editing feature, and navigation focus functionality to keyboard events
    */
   #attachKeyboardListeners() {
-    this.container.querySelectorAll('div[part="list-item"]').forEach((l) => {
+    this.getAllLi().forEach((l) => {
       this.#attachKeyboardListenersForLi(l);
     });
   }
@@ -445,37 +450,15 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       case 'ArrowUp':
         event.preventDefault();
         this.#unfocusAnySelectedLiEditor();
-        this.#focusLi(this.#getPreviousLi(this.#getFocusedLi()));
         break;
       case 'ArrowDown':
         event.preventDefault();
         this.#unfocusAnySelectedLiEditor();
-        this.#focusLi(this.#getNextLi(this.#getFocusedLi()));
         break;
       default:
         break;
       }
     });
-  }
-
-  #getPreviousLi(li) {
-    return li.parentElement.previousElementSibling?.firstElementChild;
-  }
-
-  #getNextLi(li) {
-    return li.parentElement.nextElementSibling?.firstElementChild;
-  }
-
-  #focusLi(li) {
-    if (li) {
-      this.#getFocusedLi()?.setAttribute('tabindex', '-1');
-      li.setAttribute('tabindex', '0');
-      li.focus();
-    }
-  }
-
-  #getFocusedLi() {
-    return this.container.querySelector('div[part="list-item"][tabindex="0"]');
   }
 }
 
