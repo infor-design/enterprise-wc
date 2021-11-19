@@ -169,6 +169,35 @@ $hour-row-height: 25px;
     top: var(--timeline-shift);
   }
 
+  // Datepicker
+  .datepicker {
+    @include flex();
+    @include border-solid();
+    @include border-1();
+    @include border-transparent();
+    @include pl-8();
+    @include ml-4();
+
+    align-items: center;
+    outline: none;
+    outline-color: transparent;
+
+    &-text {
+      @include leading-none();
+      @include mr-2();
+    }
+
+    &-icon {
+      @include mb-2();
+    }
+
+    &:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 3px rgba(54 138 192 / 0.3);
+    }
+  }
+
   // Theme mode
   &[version='classic'][mode='dark'],
   &[version='new'][mode='dark'] {
@@ -215,6 +244,12 @@ $hour-row-height: 25px;
 
     .week-view-time-marker {
       @include border-azure-60();
+    }
+
+    .datepicker:focus {
+      @include border-azure-60();
+
+      box-shadow: 0 0 4px 2px rgba(141 201 230 / 0.3);
     }
   }
 
@@ -263,6 +298,12 @@ $hour-row-height: 25px;
 
     .week-view-time-marker {
       @include border-azure-90();
+    }
+
+    .datepicker:focus {
+      @include border-azure-90();
+
+      box-shadow: 0 0 4px 2px rgba(41 41 41 / 0.3);
     }
   }
 

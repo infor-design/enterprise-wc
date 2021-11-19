@@ -17,6 +17,7 @@ import IdsButton from '../ids-button';
 import IdsIcon from '../ids-icon';
 import IdsText from '../ids-text';
 import IdsToolbar from '../ids-toolbar';
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
 
 // Import Mixins
@@ -114,6 +115,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
 
       this.#renderWeek();
       this.#renderTimeline();
+      this.#attachDatepickerText();
     });
 
     return this;
@@ -133,8 +135,16 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
           <ids-text audible="true" translate-text="true">NextMonth</ids-text>
           <ids-icon slot="icon" icon="chevron-right"></ids-icon>
         </ids-button>
+        <span class="datepicker" tabindex="0">
+          <ids-text font-size="20" class="datepicker-text">${this.#formatMonthRange()}</ids-text>
+          <ids-text audible="true" translate-text="true">SelectDay</ids-text>
+          <ids-trigger-button>
+            <ids-text audible="true" translate-text="true">DatePickerTriggerButton</ids-text>
+            <ids-icon slot="icon" icon="schedule" class="datepicker-icon"></ids-icon>
+          </ids-trigger-button>
+        </span>
         ${this.showToday ? `
-          <ids-button class="week-view-btn-today">
+          <ids-button css-class="no-padding" class="week-view-btn-today">
             <ids-text
               class="week-view-today-text"
               font-size="16"
@@ -160,21 +170,60 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     this.offEvent('click.week-view-previous');
     this.onEvent('click.week-view-previous', this.container.querySelector('.week-view-btn-previous'), () => {
       this.#changeDate('previous');
+      this.#attachDatepickerText();
     });
 
     this.offEvent('click.week-view-next');
     this.onEvent('click.week-view-next', this.container.querySelector('.week-view-btn-next'), () => {
       this.#changeDate('next');
+      this.#attachDatepickerText();
     });
 
     if (this.showToday) {
       this.offEvent('click.week-view-today');
       this.onEvent('click.week-view-today', this.container.querySelector('.week-view-btn-today'), () => {
         this.#changeDate('today');
+        this.#attachDatepickerText();
       });
     } else {
       this.offEvent('click.week-view-today');
     }
+  }
+
+  /**
+   * Helper to format startDate/endDate to month range
+   * @returns {string} locale formatted month range
+   */
+  #formatMonthRange() {
+    const startMonth = this.locale.formatDate(this.startDate, { month: 'long' });
+    const endMonth = this.locale.formatDate(this.endDate, { month: 'long' });
+    const startYear = this.locale.formatDate(this.startDate, { year: 'numeric' });
+    const endYear = this.locale.formatDate(this.endDate, { year: 'numeric' });
+
+    if (endYear !== startYear) {
+      return `${this.locale.formatDate(this.startDate, {
+        month: 'short',
+        year: 'numeric',
+      })} - ${this.locale.formatDate(this.endDate, {
+        month: 'short',
+        year: 'numeric',
+      })}`;
+    }
+
+    if (endMonth !== startMonth) {
+      return `${this.locale.formatDate(this.startDate, { month: 'short' })} - ${endMonth} ${startYear}`;
+    }
+
+    return this.locale.formatDate(this.startDate, { month: 'long', year: 'numeric' });
+  }
+
+  /**
+   * Datepicker changing text
+   */
+  #attachDatepickerText() {
+    const text = this.#formatMonthRange();
+
+    this.container.querySelector('.datepicker-text').innerText = text;
   }
 
   /**
@@ -414,6 +463,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     }
 
     this.#renderWeek();
+    this.#renderToolbar();
   }
 
   /**
@@ -446,6 +496,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     }
 
     this.#renderWeek();
+    this.#renderToolbar();
   }
 
   /**
@@ -476,6 +527,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     }
 
     this.#renderWeek();
+    this.#renderToolbar();
   }
 
   /**
