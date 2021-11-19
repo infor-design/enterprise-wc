@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsTree from '../../src/components/ids-tree';
+import IdsTree from '../../src/components/ids-tree/ids-tree';
 import { IdsTreeShared as shared } from '../../src/components/ids-tree/ids-tree-shared';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 

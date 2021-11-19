@@ -4,7 +4,7 @@
 import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 
-import IdsModal, { IdsOverlay } from '../../src/components/ids-modal';
+import IdsModal, { IdsOverlay } from '../../src/components/ids-modal/ids-modal';
 import { IdsButton } from '../../src/components/ids-button/ids-button';
 
 describe('IdsModal Component', () => {

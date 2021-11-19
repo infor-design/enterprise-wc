@@ -1,13 +1,13 @@
 /**
  * @jest-environment jsdom
  */
-import { IdsDeviceEnvUtils } from '../../src/utils';
+import { getSpecs } from '../../src/utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
 
 describe('IdsDeviceEnvUtils Tests', () => {
   let specs;
 
   beforeEach(async () => {
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
   });
 
   afterEach(async () => {
@@ -41,7 +41,7 @@ describe('IdsDeviceEnvUtils Tests', () => {
     appVersionGetter.mockReturnValue('5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36');
     platformGetter.mockReturnValue('MacIntel');
 
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
 
     expect(specs.currentBrowser).toEqual('Chrome');
     expect(specs.browserVersion).toEqual('92.0.4515.159');
@@ -57,7 +57,7 @@ describe('IdsDeviceEnvUtils Tests', () => {
     appVersionGetter.mockReturnValue('5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.1 Safari/605.1.15');
     platformGetter.mockReturnValue('MacIntel');
 
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
 
     expect(specs.currentBrowser).toEqual('Safari');
     expect(specs.browserVersion).toEqual('14.1');
@@ -71,7 +71,7 @@ describe('IdsDeviceEnvUtils Tests', () => {
 
     userAgentGetter.mockReturnValue('Mozilla/5.0 Android 10.5.2 Firefox/92.0.4515.159');
 
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
 
     expect(specs.os).toEqual('Android');
     expect(specs.currentOSVersion).toEqual('10.5.2');
@@ -80,7 +80,7 @@ describe('IdsDeviceEnvUtils Tests', () => {
 
     userAgentGetter.mockReturnValue('Mozilla/5.0 Windows 10.0 Opera 92 OPR 92');
 
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
 
     expect(specs.os).toEqual('Windows 10');
     expect(specs.currentOSVersion).toEqual('10');
@@ -89,7 +89,7 @@ describe('IdsDeviceEnvUtils Tests', () => {
 
     userAgentGetter.mockReturnValue('Mozilla/5.0 Windows 10.0 Edg 4');
 
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
 
     expect(specs.os).toEqual('Windows 10');
     expect(specs.currentOSVersion).toEqual('10');
@@ -98,7 +98,7 @@ describe('IdsDeviceEnvUtils Tests', () => {
 
     userAgentGetter.mockReturnValue('Mozilla/5.0 Windows 8.0 MSIE 11)');
 
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
 
     expect(specs.os).toEqual('Windows 8');
     expect(specs.currentOSVersion).toEqual('8');
@@ -107,7 +107,7 @@ describe('IdsDeviceEnvUtils Tests', () => {
 
     userAgentGetter.mockReturnValue('Mozilla/5.0 Windows 8.0 Trident/rv:11.0;');
 
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
 
     expect(specs.os).toEqual('Windows 8');
     expect(specs.currentOSVersion).toEqual('8');
@@ -116,21 +116,21 @@ describe('IdsDeviceEnvUtils Tests', () => {
 
     userAgentGetter.mockReturnValue('Mozilla/5.0 Windows 10.0 Opera Version 92');
 
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
 
     expect(specs.currentBrowser).toEqual('Opera');
     expect(specs.browserVersion).toEqual('92');
 
     userAgentGetter.mockReturnValue('Safari/92');
 
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
 
     expect(specs.currentBrowser).toEqual('Safari');
     expect(specs.browserVersion).toEqual('92');
 
     appNameGetter.mockReturnValue('Microsoft Internet Explorer');
 
-    specs = IdsDeviceEnvUtils.getSpecs();
+    specs = getSpecs();
 
     expect(specs.browserLanguage).toBe(undefined);
   });

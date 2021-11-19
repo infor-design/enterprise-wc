@@ -4,8 +4,8 @@
 import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 
-import IdsPopup from '../../src/components/ids-popup';
-import IdsContainer from '../../src/components/ids-container';
+import IdsPopup from '../../src/components/ids-popup/ids-popup';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 /**
  * Creates the test div used as an ArrowTarget in many of the below tests

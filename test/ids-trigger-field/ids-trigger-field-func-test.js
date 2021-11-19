@@ -1,23 +1,11 @@
 /**
  * @jest-environment jsdom
  */
+import { attributes } from '../../src/core/ids-attributes';
 import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 import IdsInput from '../../src/components/ids-input/ids-input';
 import IdsTriggerButton from '../../src/components/ids-trigger-field/ids-trigger-button';
-import { attributes } from '../../src/core';
 import processAnimFrame from '../helpers/process-anim-frame';
-
-/*
-const resizeObserverMock = jest.fn(function ResizeObserver(callback) {
-  this.observe = jest.fn();
-  this.disconnect = jest.fn();
-  this.unobserve = jest.fn();
-  this.trigger = (entryList) => {
-    callback(entryList, this);
-  };
-});
-global.ResizeObserver = resizeObserverMock;
-*/
 
 const DEFAULT_TRIGGERFIELD_HTML = (
   `<ids-trigger-field

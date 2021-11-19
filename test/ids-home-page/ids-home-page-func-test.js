@@ -3,8 +3,8 @@
  */
 import ResizeObserver from '../helpers/resize-observer-mock'; // eslint-disable-line
 import wait from '../helpers/wait';
-import IdsContainer from '../../src/components/ids-container';
-import IdsHomePage from '../../src/components/ids-home-page';
+import IdsContainer from '../../src/components/ids-container/ids-container';
+import IdsHomePage from '../../src/components/ids-home-page/ids-home-page';
 
 describe('IdsHomePage Component', () => {
   const origInnerWidth = window.innerWidth;

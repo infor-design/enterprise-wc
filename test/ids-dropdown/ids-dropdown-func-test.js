@@ -3,14 +3,14 @@
  */
 import '../helpers/resize-observer-mock';
 
-import IdsDropdown from '../../src/components/ids-dropdown';
+import IdsDropdown from '../../src/components/ids-dropdown/ids-dropdown';
 import waitFor from '../helpers/wait-for';
-import IdsListBox from '../../src/components/ids-list-box';
+import IdsListBox from '../../src/components/ids-list-box/ids-list-box';
 import IdsListBoxOption from '../../src/components/ids-list-box/ids-list-box-option';
-import IdsInput from '../../src/components/ids-input';
-import IdsTriggerField from '../../src/components/ids-trigger-field';
+import IdsInput from '../../src/components/ids-input/ids-input';
+import IdsTriggerField from '../../src/components/ids-trigger-field/ids-trigger-field';
 import states from '../../demos/data/states.json';
-import IdsContainer from '../../src/components/ids-container';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 describe('IdsDropdown Component', () => {
   let dropdown;

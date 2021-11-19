@@ -1,7 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
+import Base from './ids-dropdown-base';
 
 interface IdsDropdownEventDetail extends Event {
   detail: {
@@ -9,7 +6,7 @@ interface IdsDropdownEventDetail extends Event {
   }
 }
 
-export default class IdsDropdown extends IdsElement {
+export default class IdsDropdown extends Base {
   /** Sets the dirty tracking feature on to indicate a changed field */
   dirtyTracker: boolean;
 

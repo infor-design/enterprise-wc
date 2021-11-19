@@ -5,8 +5,8 @@ import '../helpers/resize-observer-mock';
 import processAnimFrame from '../helpers/process-anim-frame';
 import wait from '../helpers/wait';
 
-import IdsModal, { IdsOverlay } from '../../src/components/ids-modal';
-import IdsModalButton from '../../src/components/ids-modal-button';
+import IdsModal, { IdsOverlay } from '../../src/components/ids-modal/ids-modal';
+import IdsModalButton from '../../src/components/ids-modal-button/ids-modal-button';
 import { IdsButton } from '../../src/components/ids-button/ids-button';
 
 describe('IdsFocusCaptureMixin)', () => {

@@ -5,7 +5,7 @@ import '../helpers/resize-observer-mock';
 
 import IdsTooltip from '../../src/components/ids-tooltip/ids-tooltip';
 import { IdsButton } from '../../src/components/ids-button/ids-button';
-import IdsPopup from '../../src/components/ids-popup';
+import IdsPopup from '../../src/components/ids-popup/ids-popup';
 import IdsText from '../../src/components/ids-text/ids-text';
 import IdsInput from '../../src/components/ids-input/ids-input';
 import IdsContainer from '../../src/components/ids-container/ids-container';

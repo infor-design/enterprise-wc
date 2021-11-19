@@ -11,7 +11,7 @@
   },
   "scripts": {
     "build:dist": "npx webpack --config ./webpack.config.dist.js",
-    "build:prod:stats": "npx webpack --config ./webpack.config.dist.js",
+    "build:stats": "npx webpack --config ./webpack.config.dist.js",
     "build:dist:prod": "npx webpack --config ./webpack.config.dist.js --mode production",
     "build": "node --max-old-space-size=8192 node_modules/webpack/bin/webpack --config ./webpack.config.demos.js",
     "build:app:prod": "webpack --config ./webpack.config.demos.js --mode production",
@@ -93,7 +93,7 @@
     "nodemon": "^2.0.15",
     "postcss-loader": "^6.2.0",
     "puppeteer": "^11.0.0",
-    "remark-cli": "^10.0.0",
+    "remark-cli": "^10.0.1",
     "remark-preset-lint-markdown-style-guide": "^5.1.1",
     "sass": "^1.43.4",
     "sass-loader": "^12.3.0",

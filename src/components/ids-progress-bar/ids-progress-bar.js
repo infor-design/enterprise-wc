@@ -1,7 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import Base from './ids-progress-base';
+import Base from './ids-progress-bar-base';
 
 import styles from './ids-progress-bar.scss';
 

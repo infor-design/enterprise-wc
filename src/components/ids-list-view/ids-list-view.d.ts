@@ -1,8 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
+import Base from './ids-list-view-base';
 
-export default class IdsListView extends IdsElement {
+export default class IdsListView extends Base {
   /** Enabled virtual scrolling */
   virtualScroll: boolean;
 

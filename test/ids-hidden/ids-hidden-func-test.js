@@ -3,7 +3,7 @@
  */
 import processAnimFrame from '../helpers/process-anim-frame';
 import IdsHidden from '../../src/components/ids-hidden/ids-hidden';
-import IdsContainer from '../../src/components/ids-container';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 
 const DEFAULT_HIDDEN_HTML = (
   `<ids-hidden hide-up="sm" visible="true"></ids-hidden>`

@@ -1,4 +1,4 @@
-import Base from './ids-contextual-action-pane-base';
+import Base from './ids-contextual-action-panel-base';
 import IdsToolbar from '../ids-toolbar/ids-toolbar';
 
 export default class IdsContextualActionPanel extends Base {

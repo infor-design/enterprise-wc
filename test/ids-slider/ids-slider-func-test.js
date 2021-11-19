@@ -4,7 +4,7 @@
 import processAnimFrame from '../helpers/process-anim-frame';
 import '../helpers/resize-observer-mock';
 
-import IdsSlider from '../../src/components/ids-slider';
+import IdsSlider from '../../src/components/ids-slider/ids-slider';
 
 const HTMLSnippets = {
   SINGLE_SLIDER: (

@@ -5,7 +5,7 @@ import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 import createFromTemplate from '../helpers/create-from-template';
 
-import IdsWizard, { IdsWizardStep } from '../../src/components/ids-wizard';
+import IdsWizard, { IdsWizardStep } from '../../src/components/ids-wizard/ids-wizard';
 
 const getLightDOMLabels = (elem) => [...elem.children]
   .map((lEl) => lEl.textContent.trim());

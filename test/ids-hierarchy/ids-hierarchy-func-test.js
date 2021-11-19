@@ -2,9 +2,9 @@
  * @jest-environment jsdom
  */
 import processAnimFrame from '../helpers/process-anim-frame';
-import IdsHierarchy from '../../src/components/ids-hierarchy';
+import IdsHierarchy from '../../src/components/ids-hierarchy/ids-hierarchy';
 import IdsHierarchyItem from '../../src/components/ids-hierarchy/ids-hierarchy-item';
-import IdsContainer from '../../src/components/ids-container';
+import IdsContainer from '../../src/components/ids-container/ids-container';
 import IdsHierarchyLegend from '../../src/components/ids-hierarchy/ids-hierarchy-legend';
 import IdsHierarchyLegendItem from '../../src/components/ids-hierarchy/ids-hierarchy-legend-item';
 

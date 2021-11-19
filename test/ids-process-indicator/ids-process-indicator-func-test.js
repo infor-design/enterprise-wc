@@ -1,7 +1,7 @@
 /**
  * @jest-environment jsdom
  */
-import IdsProcessIndicator from '../../src/components/ids-process-indicator';
+import IdsProcessIndicator from '../../src/components/ids-process-indicator/ids-process-indicator';
 import IdsProcessStep from '../../src/components/ids-process-indicator/ids-process-step';
 
 const HTMLSnippets = {

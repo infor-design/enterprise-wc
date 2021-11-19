@@ -1,7 +1,4 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-
-import { IdsElement } from '../../core';
+import Base from './ids-progress-bar-base';
 
 interface IdsProgressEventDetail extends Event {
   detail: {
@@ -9,7 +6,7 @@ interface IdsProgressEventDetail extends Event {
   }
 }
 
-export default class IdsProgressBar extends IdsElement {
+export default class IdsProgressBar extends Base {
   /** Sets to disabled * */
   disabled: boolean;
 

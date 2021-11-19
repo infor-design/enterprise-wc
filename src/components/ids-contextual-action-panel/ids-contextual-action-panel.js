@@ -1,8 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
 
-import IdsModal from '../ids-modal/ids-modal';
+import Base from './ids-contextual-action-panel-base';
 import IdsToolbar from '../ids-toolbar/ids-toolbar';
-import Base from './ids-contextual-action-pane-base';
 
 import styles from './ids-contextual-action-panel.scss';
 

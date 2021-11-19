@@ -3,7 +3,7 @@
  */
 import '../helpers/resize-observer-mock';
 
-import IdsAbout from '../../src/components/ids-about';
+import IdsAbout from '../../src/components/ids-about/ids-about';
 
 // Supporing components
 import IdsContainer from '../../src/components/ids-container/ids-container';
