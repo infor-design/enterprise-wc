@@ -1,9 +1,11 @@
-import { IdsElement, customElement, scss,  } from '../../core/ids-decorators';
+import { IdsElement, customElement, scss, } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import Base from './ids-count-base';
 import IdsText from '../ids-text/ids-text';
 import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
+
 import styles from './ids-counts.scss';
 
 /**

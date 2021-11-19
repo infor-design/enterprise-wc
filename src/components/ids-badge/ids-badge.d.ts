@@ -1,8 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
-import { IdsElement } from '../../core';
+import Base from './ids-badge-base';
 
-export default class IdsBadge extends IdsElement {
+export default class IdsBadge extends Base {
   /* Set the shape of the badge */
   shape: 'normal' | 'round';
 

@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import IdsElement from '../../core/ids-element';
 import { attributes } from '../../core/ids-attributes';
+import Base from './ids-block-grid-base';
+
 import styles from './ids-block-grid.scss';
 
 /**
@@ -10,7 +11,7 @@ import styles from './ids-block-grid.scss';
  */
 @customElement('ids-block-grid')
 @scss(styles)
-export default class IdsBlockgrid extends IdsElement {
+export default class IdsBlockgrid extends Base {
   constructor() {
     super();
   }

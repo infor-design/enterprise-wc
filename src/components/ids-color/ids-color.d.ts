@@ -1,9 +1,6 @@
-// Ids is a JavaScript project, but we define TypeScript declarations so we can
-// confirm our code is type safe, and to support TypeScript users.
+import Base from './ids-color-base';
 
-import { IdsElement } from '../../core';
-
-export default class IdsColor extends IdsElement {
+export default class IdsColor extends Base {
   /** Set the hex color */
   hex: string;
 }

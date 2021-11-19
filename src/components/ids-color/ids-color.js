@@ -1,7 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import IdsElement from '../../core/ids-element';
 import { attributes } from '../../core/ids-attributes';
+import IdsElement from '../../core/ids-element';
 import Base from './ids-color-base';
+
 import styles from './ids-color.scss';
 
 /**
@@ -13,7 +14,7 @@ import styles from './ids-color.scss';
  */
 @customElement('ids-color')
 @scss(styles)
-export default class IdsColor extends IdsElement {
+export default class IdsColor extends Base {
   constructor() {
     super();
   }

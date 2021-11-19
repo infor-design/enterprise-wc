@@ -1,6 +1,7 @@
 import { customElement, scss } from '../../core/ids-decorators';
-import { attributes } from '../../core/ids-attributes'
+import { attributes } from '../../core/ids-attributes';
 import Base from './ids-badge-base';
+
 import styles from './ids-badge.scss';
 
 /**
@@ -16,9 +17,6 @@ import styles from './ids-badge.scss';
 export default class IdsBadge extends Base {
   constructor() {
     super();
-  }
-
-  connectedCallback() {
   }
 
   /**

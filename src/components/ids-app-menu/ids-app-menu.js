@@ -1,14 +1,14 @@
 import { customElement, scss } from '../../core/ids-decorators';
+
 import Base from './ids-app-base';
 import IdsDrawer from '../ids-drawer/ids-drawer';
-import styles from './ids-app-menu.scss';
+import IdsAccordion from '../ids-accordion/ids-accordion';
+import IdsButton from '../ids-button/ids-button';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsText from '../ids-text/ids-text';
+import IdsToolbar from '../ids-toolbar/ids-toolbar';
 
-// Supporting Components
-import '../ids-accordion/ids-accordion';
-import '../ids-button/ids-button';
-import '../ids-icon/ids-icon';
-import '../ids-text/ids-text';
-import '../ids-toolbar/ids-toolbar';
+import styles from './ids-app-menu.scss';
 
 /**
  * IDS App Menu Component
@@ -25,6 +25,7 @@ export default class IdsAppMenu extends Base {
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.edge = 'start';
     this.type = 'app-menu';
     this.#refreshVariants();

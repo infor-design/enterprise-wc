@@ -1,8 +1,8 @@
 import IdsKeyboardMixin from '../../mixins/ids-keyboard-mixin/ids-keyboard-mixin';
-import IdsElement from '../../core/ids-element';
+import IdsDrawer from '../ids-drawer/ids-drawer';
 
 const Base = IdsKeyboardMixin(
-  IdsElement
-)
+  IdsDrawer
+);
 
 export default Base;

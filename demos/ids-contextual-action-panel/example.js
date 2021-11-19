@@ -1,4 +1,4 @@
-import '../../src/components/ids-contextual-action-panel';
+import IdsContextualActionPanel from '../../src/components/ids-contextual-action-panel/ids-contextual-action-panel';
 
 // Supporting components
 import '../../src/components/ids-checkbox/ids-checkbox';

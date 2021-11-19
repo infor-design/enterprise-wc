@@ -1,20 +1,14 @@
 // Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-
-// Import Base and Mixins
-import Base from './ids-data-grid-base';
-
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { deepClone } from '../../utils/ids-deep-clone-utils/ids-deep-clone-utils';
 
-// Datagrid Dependencies
+import Base from './ids-data-grid-base';
 import IdsDataSource from '../../core/ids-data-source';
 import { IdsDataGridFormatters } from './ids-data-grid-formatters';
 import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 
-// Import Styles
 import styles from './ids-data-grid.scss';
 
 /**
@@ -44,8 +38,10 @@ export default class IdsDataGrid extends Base {
     super.connectedCallback();
   }
 
+  /** API for list of formatters */
   formatters = new IdsDataGridFormatters();
 
+  /** Reference to datasource API */
   datasource = new IdsDataSource();
 
   /**

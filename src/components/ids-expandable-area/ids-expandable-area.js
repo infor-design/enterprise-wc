@@ -1,8 +1,9 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { EXPANDABLE_AREA_TYPES } from './ids-exandable-area-attributes';
-import styles from './ids-expandable-area.scss';
 import Base from './ids-exandable-area-base';
+
+import styles from './ids-expandable-area.scss';
 
 /**
  * IDS Expandable Area Component

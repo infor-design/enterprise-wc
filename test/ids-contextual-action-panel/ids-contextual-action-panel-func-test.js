@@ -4,9 +4,9 @@
 import '../helpers/resize-observer-mock';
 import wait from '../helpers/wait';
 
-import IdsContextualActionPanel from '../../src/components/ids-contextual-action-panel';
+import IdsContextualActionPanel from '../../src/components/ids-contextual-action-panel/ids-contextual-action-pane-base';
 import { IdsButton } from '../../src/components/ids-button/ids-button';
-import { IdsToolbar } from '../../src/components/ids-toolbar';
+import { IdsToolbar } from '../../src/components/ids-toolbar/ids-toolbar';
 
 describe('IdsContextualActionPanel Component', () => {
   let cap;

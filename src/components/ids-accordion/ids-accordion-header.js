@@ -1,9 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import styles from './ids-accordion-header.scss';
-import Base from './ids-accordion-header-base';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { applyContentAlignmentClass } from './ids-accordion-common';
+import Base from './ids-accordion-header-base';
+
+import styles from './ids-accordion-header.scss';
 
 // Expander Types
 const EXPANDER_TYPES = ['caret', 'plus-minus'];

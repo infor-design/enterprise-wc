@@ -1,10 +1,10 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-draggable-base';
 import getElTranslatePoint from './get-el-translate-point';
+
 import styles from './ids-draggable.scss';
 
 const CURSOR_EL_SIZE = 32;

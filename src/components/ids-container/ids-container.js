@@ -1,15 +1,10 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Base
 import Base from './ids-container-base';
 import locale from '../ids-locale/ids-locale-global';
 
-// Import Utils
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-
-// Import Styles
 import styles from './ids-container.scss';
 
 /**

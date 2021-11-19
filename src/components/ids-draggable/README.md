@@ -76,8 +76,8 @@ A draggable component which is draggable only by a specific handle on the tab (n
 - `handle?` {string} A query selector representing an optional handle that can be used to drag the content of the draggable.
 - `min-transform-x` {number} The minimum offset/x-transform/translate the draggable can be translated/dragged on the DOM.
 - `max-transform-x` {number} The maximum offset/x-transform/translate the draggable can be placed from its position on the DOM.
-- `min-transform-y` {number} The minimum offset/y-transform/translate the draggable can be placed frm it's position on the DOM.
-- `max-transform-y` {number} The maximum offset/y-transform/translate the draggable can be from it's position on the dom
+- `min-transform-y` {number} The minimum offset/y-transform/translate the draggable can be placed from it's position on the DOM.
+- `max-transform-y` {number} The maximum offset/y-transform/translate the draggable can be from it's position on the DOM.
 
 ## Accessibility
 

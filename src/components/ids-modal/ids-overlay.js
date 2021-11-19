@@ -1,15 +1,10 @@
-// Import Core
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { transitionToPromise } from '../../utils/ids-dom-utils/ids-dom-utils';
 
-// Import Mixins And Base
 import Base from './ids-overlay-base';
 
-// Import Styles
 import styles from './ids-overlay.scss';
 
 /**

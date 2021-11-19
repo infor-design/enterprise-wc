@@ -4,7 +4,6 @@ import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 
 import Base from './ids-empty-message-base';
-
 import IdsIcon from '../ids-icon/ids-icon';
 import IdsText from '../ids-text/ids-text';
 
@@ -30,7 +29,6 @@ export default class IdsEmptyMessage extends Base {
    */
   connectedCallback() {
     this.#attachEventHandlers();
-    super.connectedCallback();
   }
 
   /**

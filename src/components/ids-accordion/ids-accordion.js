@@ -12,7 +12,6 @@ import styles from './ids-accordion.scss';
  * IDS Accordion Component
  * @type {IdsAccordion}
  * @inherits IdsElement
- * @mixes IdsAttributeProviderMixin
  * @mixes IdsColorVariantMixin
  * @mixes IdsEventsMixin
  * @mixes IdsKeyboardMixin

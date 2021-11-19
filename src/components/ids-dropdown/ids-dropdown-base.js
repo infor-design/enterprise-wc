@@ -4,20 +4,23 @@ import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/id
 import IdsValidationMixin from '../../mixins/ids-validation-mixin/ids-validation-mixin';
 import IdsTooltipMixin from '../../mixins/ids-tooltip-mixin/ids-tooltip-mixin';
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
+import IdsLocaleMixin from '../../mixins/ids-locale-mixin/ids-locale-mixin';
 import IdsElement from '../../core/ids-element';
 
-const Base = IdsEventsMixin(
-  IdsKeyboardMixin(
-    IdsPopupOpenEventsMixin(
-      IdsValidationMixin(
-        IdsTooltipMixin(
-          IdsThemeMixin(
-            IdsElement
+const Base = IdsThemeMixin(
+  IdsLocaleMixin(
+    IdsKeyboardMixin(
+      IdsPopupOpenEventsMixin(
+        IdsValidationMixin(
+          IdsTooltipMixin(
+            IdsEventsMixin(
+              IdsElement
+            )
           )
         )
       )
     )
   )
-)
+);
 
 export default Base;

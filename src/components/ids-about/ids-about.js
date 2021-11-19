@@ -1,13 +1,11 @@
 import { attributes } from '../../core/ids-attributes';
 import { customElement, scss } from '../../core/ids-decorators';
-
-import Base from './ids-about-base';
-
-import IdsModal from '../ids-modal/ids-modal';
-import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
-
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { getSpecs } from '../../utils/ids-device-env-specs-utils/ids-device-env-specs-utils';
+
+import Base from './ids-about-base';
+import IdsModal from '../ids-modal/ids-modal';
+import IdsHyperlink from '../ids-hyperlink/ids-hyperlink';
 
 import styles from './ids-about.scss';
 

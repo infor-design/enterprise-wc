@@ -1,14 +1,16 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import IdsTriggerField from '../ids-trigger-field/ids-trigger-field'
-import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button'
+
+import Base from './ids-dropdown-base';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
 import IdsInput from '../ids-input/ids-input';
 import IdsPopup from '../ids-popup/ids-popup';
 import IdsListBox from '../ids-list-box/ids-list-box';
 import IdsText from '../ids-text/ids-text';
 import IdsIcon from '../ids-icon/ids-icon';
-import Base from './ids-dropdown-base';
+
 import styles from './ids-dropdown.scss';
 
 /**
@@ -55,6 +57,7 @@ class IdsDropdown extends Base {
       .#addAria()
       .#attachEventHandlers()
       .#attachKeyboardListeners();
+    super.connectedCallback();
   }
 
   /**

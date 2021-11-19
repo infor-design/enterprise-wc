@@ -1,11 +1,12 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
-import '../ids-color/ids-color';
-import '../ids-trigger-field/ids-trigger-field';
-import '../ids-trigger-field/ids-trigger-button';
-import '../ids-popup/ids-popup';
+
+import IdsColor from '../ids-color/ids-color';
+import IdsTriggerField from '../ids-trigger-field/ids-trigger-field';
+import IdsPopup from '../ids-popup/ids-popup';
 import Base from './ids-color-picker-base';
+
 import styles from './ids-color-picker.scss';
 
 /**

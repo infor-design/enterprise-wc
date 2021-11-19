@@ -1,8 +1,8 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes, breakpoints } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import Base from './ids-action-sheet-base';
-import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import IdsOverlay from '../ids-modal/ids-overlay';
 import IdsPopupMenu from '../ids-popup-menu/ids-popup-menu';
 
@@ -13,7 +13,6 @@ import styles from './ids-action-sheet.scss';
  * @type {IdsActionSheet}
  * @inherits IdsElement
  * @mixes IdsEventsMixin
- * @mixes IdsKeyboardMixin
  * @mixes IdsThemeMixin
  */
 @customElement('ids-action-sheet')

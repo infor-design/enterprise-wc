@@ -1,18 +1,11 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-
-// Import Base and Mixins
-import Base from './ids-accordion-panel-base';
-
-// Import Dependencies
-import IdsAccordionHeader from './ids-accordion-header';
-
-// Import Utils
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import { ALIGNMENT_TYPES, applyContentAlignmentClass } from './ids-accordion-common';
 
-// Import Styles
+import Base from './ids-accordion-panel-base';
+import IdsAccordionHeader from './ids-accordion-header';
+
 import styles from './ids-accordion-panel.scss';
 
 /**

@@ -1,9 +1,11 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
+
 import Base from './ids-checkbox-base';
 import IdsText from '../ids-text/ids-text';
 import attribs from './ids-checkbox-attributes';
+
 import styles from './ids-checkbox.scss';
 
 /**
@@ -80,6 +82,7 @@ export default class IdsCheckbox extends Base {
     this.input = this.shadowRoot.querySelector('input[type="checkbox"]');
     this.labelEl = this.shadowRoot.querySelector('label');
     this.#attachEventHandlers();
+    super.connectedCallback();
   }
 
   /**

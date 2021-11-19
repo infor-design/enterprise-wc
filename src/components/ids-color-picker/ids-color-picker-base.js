@@ -4,14 +4,14 @@ import IdsPopupOpenEventsMixin from '../../mixins/ids-popup-open-events-mixin/id
 import IdsThemeMixin from '../../mixins/ids-theme-mixin/ids-theme-mixin';
 import IdsElement from '../../core/ids-element';
 
-const Base = IdsEventsMixin(
+const Base = IdsThemeMixin(
   IdsKeyboardMixin(
     IdsPopupOpenEventsMixin(
-      IdsThemeMixin(
+      IdsEventsMixin(
         IdsElement
       )
     )
   )
-)
+);
 
 export default Base;
