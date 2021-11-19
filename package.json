@@ -12,7 +12,7 @@
   "scripts": {
     "build:dist": "npx webpack --config ./webpack.config.dist.js",
     "build:dist:prod": "npx webpack --config ./webpack.config.dist.js --mode production",
-    "build": "webpack --config ./webpack.config.demos.js",
+    "build": "node --max-old-space-size=8192 node_modules/webpack/bin/webpack --config ./webpack.config.demos.js",
     "build:app:prod": "webpack --config ./webpack.config.demos.js --mode production",
     "build:verbose": "npx webpack --config ./webpack.config.demos.js --progress profile",
     "start": "webpack serve --live-reload --open --config ./webpack.config.demos.js",
