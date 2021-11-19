@@ -327,7 +327,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       const diff = hours - this.startHour + (mins / 60);
       const diffInMilliseconds = now.getTime() - this.startDate.getTime();
       // 52 is the size of one whole hour (25 + two borders)
-      const position = diff <= hoursDiff ? diff * 52 : 0;
+      const position = diff > 0 && diff <= hoursDiff ? diff * 52 : 0;
 
       if (hourRowElement) {
         hourRowElement.style = `--timeline-shift: ${position}px`;
