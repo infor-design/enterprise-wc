@@ -333,7 +333,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
 
-      this.setActiveCell(this.activeCell?.cell + cellDiff, this.activeCell?.row + rowDiff);
+      this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, Number(this.activeCell?.row) + rowDiff);
       e.preventDefault();
       e.stopPropagation();
     });

@@ -61,7 +61,8 @@ class IdsElement extends HTMLElement {
     for (let i = 0; i < this.attributes.length; i++) {
       if (this.attributes[i].name.includes('data-') && this.attributes[i].name.includes('id')) {
         this.appendIdtoPart(
-          parts, this.attributes[i].name,
+          parts,
+          this.attributes[i].name,
           this.getAttribute(this.attributes[i].name)
         );
       }

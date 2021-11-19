@@ -201,7 +201,7 @@ class IdsHierarchyItem extends mix(IdsElement).with(
    * @private
    * @returns {void}
    */
-   #attachEventHandlers() {
+  #attachEventHandlers() {
     this.onEvent('click', this.expander, () => {
       this.#expandCollapse(this.expanded);
     });

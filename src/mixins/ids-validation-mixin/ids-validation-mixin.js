@@ -420,7 +420,7 @@ const IdsValidationMixin = (superclass) => class extends superclass {
       type: 'error',
       id: 'email'
     }
-  }
+  };
 
   setValidationElement(el) {
     this.#externalValidationEl = el;
