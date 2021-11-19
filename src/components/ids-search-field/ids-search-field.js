@@ -10,7 +10,8 @@ import {
   IdsEventsMixin,
   IdsThemeMixin,
   IdsKeyboardMixin,
-  IdsColorVariantMixin
+  IdsColorVariantMixin,
+  IdsHeaderMixin
 } from '../../mixins';
 
 import { IdsStringUtils } from '../../utils';
@@ -26,7 +27,8 @@ const appliedMixins = [
   IdsEventsMixin,
   IdsKeyboardMixin,
   IdsThemeMixin,
-  IdsColorVariantMixin
+  IdsColorVariantMixin,
+  IdsHeaderMixin
 ];
 
 const DEFAULT_LABEL = 'Search';
