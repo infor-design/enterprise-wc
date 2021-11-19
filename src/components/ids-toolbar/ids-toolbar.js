@@ -42,7 +42,6 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
 
   static get attributes() {
     return [
-      ...super.attributes,
       attributes.DISABLED,
       attributes.TABBABLE,
       attributes.TYPE
@@ -54,13 +53,29 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
     this.setAttribute('role', 'toolbar');
     this.#setType();
     this.#attachKeyboardListeners();
+    this.#resizeObserver.observe(this);
 
     // After repaint
     requestAnimationFrame(() => {
       this.makeTabbable(this.detectTabbable());
+      this.#resize();
     });
     super.connectedCallback();
   }
+
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+    this.#resizeObserver.disconnect(this.container);
+  }
+
+  /**
+   * Attach the resize observer.
+   * @private
+   * @type {number}
+   */
+  #resizeObserver = new ResizeObserver(() => {
+    this.#resize();
+  });
 
   /**
    * Sets up the connection to the global keyboard handler
@@ -328,6 +343,13 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
       const nonTabbableTargetIndex = elem.isEqualNode(item) ? 0 : -1;
       item.tabIndex = isTabbable ? 0 : nonTabbableTargetIndex;
     });
+  }
+
+  #resize() {
+    const moreSection = document.querySelector('ids-toolbar-more-actions');
+    if (moreSection) {
+      moreSection.refreshOverflowedItems();
+    }
   }
 }
 

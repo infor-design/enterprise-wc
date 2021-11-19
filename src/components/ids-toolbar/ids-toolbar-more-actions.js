@@ -42,6 +42,16 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     });
   }
 
+  disconnectedCallback() {
+    super.disconnectedCallback?.();
+
+    // Cleanup overflow markings on Toolbar items
+    // (possibly still present)
+    this.overflowMenuItems.forEach((item) => {
+      item.removeAttribute('overflowed');
+    });
+  }
+
   template() {
     // Cycle through toolbar items, if present, and render a menu item that represents them
     const renderToolbarItems = () => this.toolbar?.items?.map((i) => this.moreActionsItemTemplate(i)).join('') || '';
@@ -197,6 +207,11 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     this.overflowMenuItems.forEach((item) => {
       const doHide = !this.isOverflowed(item.target);
       item.hidden = doHide;
+      if (doHide) {
+        item.target.removeAttribute('overflowed');
+      } else {
+        item.target.setAttribute('overflowed', '');
+      }
     });
   }
 

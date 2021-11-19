@@ -14,21 +14,16 @@ ids-toolbar-section + ids-toolbar-section[type='buttonset'] {
   width: auto;
 
   // ================================================
-  // Alignments
-  &.align-start {
-    justify-content: flex-start;
+  // Controls animated hide/show of slotted, overflowed toolbar items
+
+  ::slotted(*) {
+    transition: opacity $transition-length $transition-ease;
+    opacity: 1;
   }
 
-  &.align-center {
-    justify-content: center;
-  }
-
-  &.align-center-even {
-    justify-content: space-around;
-  }
-
-  &.align-end {
-    justify-content: flex-end;
+  ::slotted([overflowed]) {
+    opacity: 0;
+    pointer-events: none;
   }
 
   // ================================================

@@ -41,6 +41,24 @@
       }
     }
   }
+
+  // ================================================
+  // Alignments
+  &.align-start {
+    justify-content: flex-start;
+  }
+
+  &.align-center {
+    justify-content: center;
+  }
+
+  &.align-center-even {
+    justify-content: space-around;
+  }
+
+  &.align-end {
+    justify-content: flex-end;
+  }
 }
 
 // These rules are applied to `ids-toolbar-section:host` elements
@@ -75,4 +93,23 @@
     flex: 2 0 auto;
   }
 
+  // ================================================
+  // Alignments
+
+  ::slotted(ids-toolbar-section[align='start']),
+  ::slotted(ids-toolbar-section:not([align])) {
+    justify-content: flex-start;
+  }
+
+  ::slotted(ids-toolbar-section[align='center']) {
+    justify-content: center;
+  }
+
+  ::slotted(ids-toolbar-section[align='center-even']) {
+    justify-content: space-around;
+  }
+
+  ::slotted(ids-toolbar-section[align='end']) {
+    justify-content: flex-end;
+  }
 }
