@@ -202,15 +202,15 @@ export default class IdsAbout extends Base {
 
     if (this.deviceSpecs) {
       const specs = getSpecs();
-      const element = `<ids-text slot="device" type="p"><span>${this.locale.translate('OperatingSystem')} : ${specs.os.replace(specs.currentOSVersion, '')} ${specs.currentOSVersion}</span><br/>
-        <span>${this.locale.translate('Platform')} : ${specs.platform}</span><br/>
-        <span>${this.locale.translate('Mobile')} : ${specs.isMobile}</span><br/>
-        <span>${this.locale.translate('Locale')} : ${this.locale.locale.name}</span><br/>
-        <span>${this.locale.translate('Language')} : ${this.locale.language.name}</span><br/>
-        <span>${this.locale.translate('Browser')} : ${specs.currentBrowser} (${specs.browserVersion})</span><br/>
-        <span>${this.locale.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
-        <span>${this.locale.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br/>
-        <span>${this.locale.translate('Version')} : ${specs.idsVersion}</span>
+      const element = `<ids-text slot="device" type="p"><span>${this.locale?.translate('OperatingSystem')} : ${specs.os.replace(specs.currentOSVersion, '')} ${specs.currentOSVersion}</span><br/>
+        <span>${this.locale?.translate('Platform')} : ${specs.platform}</span><br/>
+        <span>${this.locale?.translate('Mobile')} : ${specs.isMobile}</span><br/>
+        <span>${this.locale?.translate('Locale')} : ${this.locale.locale.name}</span><br/>
+        <span>${this.locale?.translate('Language')} : ${this.locale.language.name}</span><br/>
+        <span>${this.locale?.translate('Browser')} : ${specs.currentBrowser} (${specs.browserVersion})</span><br/>
+        <span>${this.locale?.translate('BrowserLanguage')} : ${specs.browserLanguage}</span><br/>
+        <span>${this.locale?.translate('CookiesEnabled')} : ${specs.cookiesEnabled}</span><br/>
+        <span>${this.locale?.translate('Version')} : ${specs.idsVersion}</span>
       </ids-text>`;
 
       this.insertAdjacentHTML('beforeend', element);
@@ -266,7 +266,7 @@ export default class IdsAbout extends Base {
    */
   #refreshCopyright() {
     const slot = this.querySelectorAll('[slot="copyright"]');
-    const copyrightText = this.locale.translate('AboutText').replace('{0}', this.copyrightYear);
+    const copyrightText = this.locale?.translate('AboutText').replace('{0}', this.copyrightYear);
     const element = `<ids-text slot="copyright" type="p">${copyrightText} <ids-hyperlink target="_blank" text-decoration="underline" href="https://www.infor.com">www.infor.com</ids-hyperlink>.</ids-text>`;
 
     // Clear slot before rerender

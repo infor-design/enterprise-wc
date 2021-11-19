@@ -26,6 +26,10 @@ describe('IdsAbout Component (using properties)', () => {
   let component;
 
   beforeEach(async () => {
+    const container = document.createElement('ids-container');
+    document.body.appendChild(container);
+    await container.setLanguage('en');
+
     component = new IdsAbout();
     component.id = id;
     component.productVersion = productVersion;
@@ -33,8 +37,7 @@ describe('IdsAbout Component (using properties)', () => {
     component.copyrightYear = copyrightYear;
     component.deviceSpecs = deviceSpecs;
     component.useDefaultCopyright = useDefaultCopyright;
-
-    document.body.appendChild(component);
+    container.appendChild(component);
   });
 
   afterEach(async () => {
