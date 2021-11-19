@@ -100,6 +100,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       this.#renderToolbar();
       this.#renderWeek();
       this.#renderTimeline();
+      this.#attachOffsetTop();
     });
 
     // Respond to the element changing locale
@@ -346,6 +347,16 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     });
 
     renderLoop.register(this.timer);
+  }
+
+  /**
+   * Add CSS variable of the container offset top
+   * to be used in CSS to fit the component to the viewport height
+   */
+  #attachOffsetTop() {
+    const offsetTop = this.container.offsetTop;
+
+    this.container.style = `--offset-top: ${offsetTop}px`;
   }
 
   /**
