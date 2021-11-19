@@ -38,9 +38,14 @@ describe('Ids Week View e2e Tests', () => {
     const weekDay = await page.$eval(name, (el) =>
       el.shadowRoot.querySelector('.week-view-header-day-of-week:not(.is-emphasis)').textContent);
 
+    // Month range in toolbar
+    const monthYear = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('.datepicker-text').textContent);
+
     expect(hasCssClass).toBeTruthy();
     expect(dayNumeric).toEqual('8');
     expect(weekDay).toEqual('Mon');
+    expect(monthYear).toEqual('November 2021');
   });
 
   it('should change dates', async () => {
@@ -77,22 +82,43 @@ describe('Ids Week View e2e Tests', () => {
 
     expect(+dayNumeric).toEqual(new Date().getDate());
 
-    // Set regular week
+    // Set regular week with different months to test month range and today button
     await page.evaluate((el) => {
       const element = document.querySelector(el);
 
-      element.startDate = '11/07/2021';
-      element.endDate = '11/13/2021';
+      element.startDate = '11/29/2021';
+      element.endDate = '12/05/2021';
       element.firstDayOfWeek = 0;
     }, name);
 
-    // Today day
+    // Month range
+    let monthYear = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('.datepicker-text').textContent);
+
+    expect(monthYear).toEqual('Nov - December 2021');
+
+    // Click today
     await page.$eval(name, (el) => el.shadowRoot.querySelector('.week-view-btn-today').click());
 
     dayNumeric = await page.$eval(name, (el) =>
       el.shadowRoot.querySelector('.week-view-header-wrapper.is-today .is-emphasis').textContent);
 
     expect(+dayNumeric).toEqual(new Date().getDate());
+
+    // Set different years
+    await page.evaluate((el) => {
+      const element = document.querySelector(el);
+
+      element.startDate = '12/27/2021';
+      element.endDate = '01/02/2022';
+      element.firstDayOfWeek = 1;
+    }, name);
+
+    // Month range
+    monthYear = await page.$eval(name, (el) =>
+      el.shadowRoot.querySelector('.datepicker-text').textContent);
+
+    expect(monthYear).toEqual('Dec 2021 - Jan 2022');
   });
 
   it('should change locale', async () => {
