@@ -329,11 +329,9 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       // 52 is the size of one whole hour (25 + two borders)
       const position = diff > 0 && diff <= hoursDiff ? diff * 52 : 0;
 
-      if (hourRowElement) {
-        hourRowElement.style = `--timeline-shift: ${position}px`;
-        // For testing purposes only
-        hourRowElement.dataset.diffInMilliseconds = diffInMilliseconds;
-      }
+      hourRowElement.style = `--timeline-shift: ${position}px`;
+      // For testing purposes only
+      hourRowElement.dataset.diffInMilliseconds = diffInMilliseconds;
     };
 
     setTimelinePosition();
