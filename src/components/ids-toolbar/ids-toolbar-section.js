@@ -1,18 +1,15 @@
-import {
-  IdsElement,
-  customElement,
-  mix,
-  scss,
-  attributes
-} from '../../core';
+import { IdsElement, scss, mix, customElement } from '../../core';
+import { attributes } from '../../core/ids-attributes';
+import { stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 import styles from './ids-toolbar-section.scss';
 
 // Import Mixins
 import { IdsEventsMixin, IdsThemeMixin } from '../../mixins';
 
 const TOOLBAR_SECTION_ATTRIBUTES = [
-  'align',
   'toolbar-type',
+  attributes.ALIGN,
+  attributes.FAVORABLE,
   attributes.TYPE
 ];
 
@@ -151,6 +148,14 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   }
 
   /**
+   * @readonly
+   * @returns {IdsToolbar} a reference to this section's toolbar parent node
+   */
+  get toolbar() {
+    return this.parentElement;
+  }
+
+  /**
    * @param {string} val the alignment type to set
    */
   set align(val) {
@@ -169,6 +174,29 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
    */
   get align() {
     return this.getAttribute('align') || 'start';
+  }
+
+  /**
+   * @param {boolean|string} val true if this toolbar section should be marked "favorable"
+   * (will try not to be collapsed/shrunk if the parent toolbar size shrinks)
+   */
+  set favorable(val) {
+    const newValue = stringToBool(val);
+    if (newValue) {
+      this.setAttribute(attributes.FAVORABLE, '');
+      this.container.classList.add(attributes.FAVORABLE);
+    } else {
+      this.removeAttribute(attributes.FAVORABLE);
+      this.container.classList.remove(attributes.FAVORABLE);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if this toolbar section is marked "favorable"
+   * (will try not to be collapsed/shrunk if the parent toolbar size shrinks)
+   */
+  get favorable() {
+    return this.hasAttribute(attributes.FAVORABLE);
   }
 
   /**

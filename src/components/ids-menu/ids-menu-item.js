@@ -31,6 +31,7 @@ const MENU_ITEM_SIZE = 'medium';
 // Default Button state values
 const MENU_DEFAULTS = {
   disabled: false,
+  hidden: false,
   icon: null,
   selected: false,
   submenu: null,
@@ -42,10 +43,12 @@ const MENU_DEFAULTS = {
 const MENU_ATTRIBUTES = [
   attributes.TEXT_ALIGN,
   attributes.DISABLED,
+  attributes.HIDDEN,
   attributes.ICON,
   attributes.LANGUAGE,
   attributes.SELECTED,
   attributes.SUBMENU,
+  attributes.TARGET,
   attributes.TABINDEX,
   attributes.VALUE,
   attributes.MODE,
@@ -198,6 +201,10 @@ class IdsMenuItem extends mix(IdsElement).with(
     this.attachEventHandlers();
     this.shouldUpdate = true;
     super.connectedCallback();
+
+    if (this.target) {
+      this.#refreshTargetEvents(undefined, this.target);
+    }
   }
 
   /**
@@ -207,6 +214,7 @@ class IdsMenuItem extends mix(IdsElement).with(
    */
   refresh() {
     this.tabIndex = this.state.tabIndex;
+    this.detectHidden();
     this.detectSubmenu();
     this.detectSelectability();
     this.decorateForIcon();
@@ -369,6 +377,27 @@ class IdsMenuItem extends mix(IdsElement).with(
   }
 
   /**
+   * @param {boolean|string} val true if the menu item should be hidden from view
+   */
+  set hidden(val) {
+    const newValue = IdsStringUtils.stringToBool(val);
+    if (newValue) {
+      this.setAttribute(attributes.HIDDEN, '');
+      this.container.classList.add(attributes.HIDDEN);
+    } else {
+      this.removeAttribute(attributes.HIDDEN);
+      this.container.classList.remove(attributes.HIDDEN);
+    }
+  }
+
+  /**
+   * @returns {boolean} true if the menu item is hidden from view
+   */
+  get hidden() {
+    return this.hasAttribute(attributes.HIDDEN);
+  }
+
+  /**
    * @param {boolean} val true if the menu item should appear highlighted
    */
   set highlighted(val) {
@@ -478,6 +507,13 @@ class IdsMenuItem extends mix(IdsElement).with(
   decorateForIcon() {
     const hasIcons = this.group.itemIcons.length > 0;
     this.container.classList[hasIcons ? 'add' : 'remove']('has-icon');
+  }
+
+  /**
+   *
+   */
+  detectHidden() {
+    this.hidden = this.hasAttribute('hidden');
   }
 
   /**
@@ -662,6 +698,33 @@ class IdsMenuItem extends mix(IdsElement).with(
     return this.state.tabIndex;
   }
 
+  #target = undefined;
+
+  /**
+   * @param {HTMLElement|undefined} element an element reference to use for triggering/responding to elements
+   */
+  set target(element) {
+    const currentTarget = this.target;
+    if (element !== currentTarget) {
+      if (element instanceof HTMLElement) {
+        if (!element.isEqualNode(currentTarget)) {
+          this.#target = element;
+          this.#refreshTargetEvents(currentTarget, element);
+        }
+      } else if (element === null || element === undefined) {
+        this.#target = undefined;
+        this.#refreshTargetEvents(currentTarget);
+      }
+    }
+  }
+
+  /**
+   * @returns {HTMLElement|undefined} a reference to a target element, if applicable
+   */
+  get target() {
+    return this.#target;
+  }
+
   /**
    * @readonly
    * @returns {string} a menu item's textContent stripped of any extraneous white space.
@@ -745,7 +808,23 @@ class IdsMenuItem extends mix(IdsElement).with(
    * @returns {void}
    */
   focus() {
-    this.a.focus();
+    if (!this.hidden && !this.disabled) this.a.focus();
+  }
+
+  /**
+   * Refreshes menu item event handlers attached to a target element when the target element is changed
+   * @private
+   * @param {HTMLElement} [prevTarget] a reference to the previously-set target element
+   * @param {HTMLElement} [newTarget] a reference to the new target element
+   * @returns {void}
+   */
+  #refreshTargetEvents(prevTarget, newTarget) {
+    if (prevTarget) {
+      // remove events from prev target
+    }
+    if (newTarget) {
+      // add events to new target
+    }
   }
 }
 

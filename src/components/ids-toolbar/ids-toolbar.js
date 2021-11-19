@@ -50,6 +50,7 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
   }
 
   connectedCallback() {
+    super.connectedCallback?.();
     this.setAttribute('role', 'toolbar');
     this.#setType();
     this.#attachKeyboardListeners();

@@ -1,0 +1,78 @@
+@import '../../core/ids-base';
+
+// Due to WebComponent construction, these styles are applied to host elements,
+// but also to the `.ids-toolbar` element class for use in standalone CSS styles
+
+// These rules are applied to the `.ids-toolbar` element
+@mixin ids-toolbar-section-inner-size-styles() {
+  &:not(.favorable) {
+    flex: 0 1 auto;
+
+    &.title,
+    &.buttonset {
+      flex: 1 1 auto;
+    }
+  }
+
+  &.title,
+  &.buttonset,
+  &.fluid {
+    flex: 1 0 auto;
+
+    &:not(.favorable) {
+      flex: 0 1 auto;
+      overflow-x: hidden;
+      overflow-y: auto;
+      text-overflow: ellipsis;
+    }
+
+    &.static {
+      flex-grow: 0 0 auto;
+    }
+  }
+
+  &.favorable {
+    flex: 2 0 auto;
+
+    &.title,
+    &.buttonset {
+      &:not(.static) {
+        flex-grow: 2 0 auto;
+      }
+    }
+  }
+}
+
+// These rules are applied to `ids-toolbar-section:host` elements
+@mixin ids-toolbar-section-host-size-styles() {
+  ::slotted(ids-toolbar-section:not([favorable])) {
+    overflow: hidden;
+  }
+
+  ::slotted(ids-toolbar-section:not([type])) {
+    flex: 0 0 auto;
+  }
+
+  ::slotted(ids-toolbar-section[type='fluid']),
+  ::slotted(ids-toolbar-section[type='title']),
+  ::slotted(ids-toolbar-section[type='buttonset']) {
+    flex: 1 0 auto;
+  }
+
+  ::slotted(ids-toolbar-section[type='fluid']:not([favorable])),
+  ::slotted(ids-toolbar-section[type='title']:not([favorable])),
+  ::slotted(ids-toolbar-section[type='buttonset']:not([favorable])) {
+    flex: 1 1 auto;
+  }
+
+  ::slotted(ids-toolbar-section[favorable]) {
+    flex: 2 0 auto;
+  }
+
+  ::slotted(ids-toolbar-section[favorable][type='buttonset']),
+  ::slotted(ids-toolbar-section[favorable][type='title']) {
+    overflow: auto;
+    flex: 2 0 auto;
+  }
+
+}
