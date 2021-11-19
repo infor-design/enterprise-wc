@@ -22,6 +22,7 @@ First day of the week from current date will be set if not valid date or no spec
 - `first-day-of-week` `{string|number|null}` - Specifies first day of the week from 0 to 6 range. 0 is Sunday, 1 is Monday. Defaults to 0 if no specified or out of the range. The setting is used if no `start-date` or `end-date` specified and when Today button is clicked
 - `show-today` `{true|false}` - Whether or not to show the today button in the toolbar
 - `show-timeline` `{true|false}` - Whether or not to show current time indicator
+- `timeline-interval` {string|number|null} - Specifies how often timeline should update it's position (in milliseconds). Defaults to 30000 (30 seconds)
 
 ## Features (With Code Examples)
 
@@ -84,4 +85,7 @@ weekView.showToday = false;
 
 // Remove timeline
 weekView.showTimeline = false;
+
+// Change timeline interval to 1 second
+weekView.timelineInterval = 1000;
 ```
