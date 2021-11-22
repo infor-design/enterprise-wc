@@ -16,9 +16,9 @@ const IdsHeaderMixin = (superclass) => class extends superclass {
     super.connectedCallback?.();
 
     // Check if it has ids-header web component in parent list
-    // If exists, add color-variant `alternate` for the color variant in the header 
+    // If exists, add color-variant `alternate` for the color variant in the header
     let parent = this;
-    while (true) {
+    while (parent) {
       if (parent?.name === 'ids-header' || parent?.localName === 'ids-header') {
         this.colorVariant = 'alternate';
         break;
