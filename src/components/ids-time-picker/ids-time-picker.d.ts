@@ -34,12 +34,6 @@ export default class IdsTimePicker extends IdsElement {
   /** Set the placeholder attribute */
   placeholder?: string;
 
-  /** Set the language (Default: "en") */
-  language?: string | 'en';
-
-  /** Set the locale (Default: "en-US") */
-  locale?: string | 'en-US';
-
   /** Sets the size of the field-width */
   size?: 'sm ' | 'md' | 'lg' | 'full' | string;
 

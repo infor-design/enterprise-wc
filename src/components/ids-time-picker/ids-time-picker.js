@@ -165,10 +165,6 @@ class IdsTimePicker extends mix(IdsElement).with(
 
   get placeholder() { return this.getAttribute(attributes.PLACEHOLDER) ?? ''; }
 
-  get language() { return this.getAttribute('language') ?? 'en'; }
-
-  get locale() { return this.getAttribute('locale') ?? 'en-US'; }
-
   get size() { return this.getAttribute(attributes.SIZE) ?? 'sm'; }
 
   get intervals() {
@@ -337,7 +333,7 @@ class IdsTimePicker extends mix(IdsElement).with(
     const datetime = new Date(`${datestring} ${timestring} ${values.period}`);
 
     if (datetime.getTime()) {
-      const value = datetime.toLocaleTimeString(this.locale, {
+      const value = datetime.toLocaleTimeString(this.container.locale, {
         hour12: !this.is24Hours,
         hour: '2-digit',
         minute: '2-digit',
@@ -407,6 +403,7 @@ class IdsTimePicker extends mix(IdsElement).with(
   #attachKeyboardListeners() {
     this.listen(['ArrowDown', 'Enter', 'Escape', 'Backspace'], this, (e) => {
       if (e.key === 'Enter') {
+        this.setTimeOnField();
         this.toggleTimePopup();
       } else if (e.key === 'ArrowDown') {
         this.openTimePopup();
