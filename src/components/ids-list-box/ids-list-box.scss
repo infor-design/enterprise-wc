@@ -7,6 +7,6 @@
   overflow-y: auto;
   max-height: 300px;
   scroll-behavior: smooth;
-  min-width: $input-size-xs;
-  width: fit-content;
+  min-width: $input-size-xs - 2;
+  width: 100%;
 }
