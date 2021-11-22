@@ -6,6 +6,8 @@ import {
   attributes
 } from '../../core';
 
+import { stringUtils } from '../../utils/ids-string-utils/ids-string-utils';
+
 // Import Mixins
 import {
   IdsEventsMixin,
@@ -128,9 +130,7 @@ class IdsTimePicker extends mix(IdsElement).with(
   get autoupdate() { return this.hasAttribute(attributes.AUTOUPDATE); }
 
   set disabled(value) {
-    value = value === '' ? true : value;
-    const disabled = value ?? (value !== 'false' && value !== false);
-
+    const disabled = stringUtils.stringToBool(value);
     this.setAttribute(attributes.DISABLED, disabled);
     this.elements.triggerField.disabled = disabled;
     this.elements.triggerButton.disabled = disabled;
@@ -140,9 +140,7 @@ class IdsTimePicker extends mix(IdsElement).with(
   get disabled() { return this.getAttribute(attributes.DISABLED) ?? false; }
 
   set readonly(value) {
-    value = value === '' ? true : value;
-    const readonly = value ?? (value !== 'false' && value !== false);
-
+    const readonly = stringUtils.stringToBool(value);
     this.setAttribute(attributes.READONLY, readonly);
     this.elements.triggerField.readonly = readonly;
     this.elements.triggerButton.readonly = readonly;
