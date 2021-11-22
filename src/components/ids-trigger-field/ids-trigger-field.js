@@ -203,11 +203,12 @@ class IdsTriggerField extends IdsInput {
    * @param {boolean|string} value True of false depending if the trigger field is tabbable
    */
   set tabbable(value) {
-    this.setAttribute(attributes.TABBABLE, !!value);
+    const isTabbable = stringUtils.stringToBool(value);
+    this.setAttribute(attributes.TABBABLE, isTabbable);
     const button = this.querySelector('ids-trigger-button');
 
     if (button) {
-      button.tabbable = this.tabbable;
+      button.tabbable = isTabbable;
     }
   }
 
@@ -294,7 +295,7 @@ class IdsTriggerField extends IdsInput {
    * @param {string} value string value from the disabled attribute
    */
   set disabled(value) {
-    const disabled = value && value !== 'false';
+    const disabled = stringUtils.stringToBool(value);
 
     this.setAttribute(attributes.TABBABLE, !disabled);
     this.setAttribute(attributes.DISABLED, disabled);

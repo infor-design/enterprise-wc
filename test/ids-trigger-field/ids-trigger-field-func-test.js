@@ -201,8 +201,8 @@ describe('IdsTriggerField Component', () => {
   it('removes tabbable setting if reset', () => {
     triggerField.tabbable = true;
     triggerField.tabbable = false;
-    expect(triggerField.getAttribute(attributes.TABBABLE)).toBeFalsy();
-    expect(triggerField.tabbable).toBeFalsy();
+    expect(triggerField.getAttribute(attributes.TABBABLE)).toEqual('false');
+    expect(triggerField.tabbable).toEqual('false');
   });
 
   it('renders appearance setting', () => {
@@ -224,7 +224,7 @@ describe('IdsTriggerField Component', () => {
   it('has a disabled attribute', () => {
     triggerField.disabled = false;
     expect(triggerField.disabled).toEqual(false);
-    expect(triggerField.getAttribute('disabled')).toEqual(null);
+    expect(triggerField.getAttribute('disabled')).toEqual('false');
 
     triggerField.disabled = true;
     expect(triggerField.disabled).toEqual(true);
