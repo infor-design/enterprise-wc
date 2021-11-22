@@ -103,7 +103,7 @@ class IdsTriggerField extends IdsInput {
         part="label"
         ${attrs.readonly}
         ${attrs.disabled}
-        ${attrs.validate}
+        ${attrs.required}
       >
         <ids-text label ${attrs.disabled}>
           ${this.label}
@@ -286,7 +286,7 @@ class IdsTriggerField extends IdsInput {
   }
 
   get cssClass() {
-    return this.getAttribute(attributes.CSS_CLASS);
+    return this.getAttribute(attributes.CSS_CLASS) || '';
   }
 
   /**

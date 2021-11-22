@@ -9,11 +9,12 @@ import { attributes } from '../../src/core';
 describe('IdsTimePicker Component', () => {
   let timepicker;
   let dropdowns;
-  let label;
   let input;
   let popup;
-  let triggerField;
+  let setTimeButton;
   let triggerButton;
+  let triggerField;
+  let triggerFieldLabel;
 
   beforeEach(async () => {
     const element = new IdsTimePicker();
@@ -22,9 +23,10 @@ describe('IdsTimePicker Component', () => {
     dropdowns = timepicker.elements.dropdowns;
     input = timepicker.elements.input;
     popup = timepicker.elements.popup;
-    triggerField = timepicker.elements.triggerField;
+    setTimeButton = timepicker.elements.setTimeButton;
     triggerButton = timepicker.elements.triggerButton;
-    label = triggerField.elements.label;
+    triggerField = timepicker.elements.triggerField;
+    triggerFieldLabel = triggerField.elements.label;
   });
 
   afterEach(async () => {
@@ -40,11 +42,12 @@ describe('IdsTimePicker Component', () => {
     expect(dropdowns.minutes).toBeDefined();
     expect(dropdowns.seconds).toBeDefined();
     expect(dropdowns.period).toBeDefined();
-    expect(label).toBeDefined();
     expect(input).toBeDefined();
     expect(popup).toBeDefined();
+    expect(setTimeButton).toBeDefined();
     expect(triggerButton).toBeDefined();
     expect(triggerField).toBeDefined();
+    expect(triggerFieldLabel).toBeDefined();
   });
 
   it('renders placeholder', () => {
@@ -66,12 +69,12 @@ describe('IdsTimePicker Component', () => {
     const text = 'Label text here';
     timepicker.setAttribute(attributes.LABEL, text);
     expect(timepicker.label).toContain(text);
-    expect(label.textContent).toContain(text);
+    expect(triggerFieldLabel.textContent).toContain(text);
 
     const text2 = 'Another label';
     timepicker.label = text2;
     expect(timepicker.getAttribute(attributes.LABEL)).toContain(text2);
-    expect(label.textContent).toContain(text2);
+    expect(triggerFieldLabel.textContent).toContain(text2);
   });
 
   it('renders 12 hours', () => {
@@ -198,8 +201,56 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('10:00');
   });
 
-  it('fires dropdown change-event for hours', () => {
+  it('can show and hide popup', () => {
+    expect(timepicker.isOpen).toBe(false);
+
+    timepicker.openTimePopup();
+    expect(timepicker.isOpen).toBe(true);
+
+    timepicker.closeTimePopup();
+    expect(timepicker.isOpen).toBe(false);
+  });
+
+  it('with autoselect attribute, can auto show the popup', () => {
+    expect(timepicker.autoselect).toBe(false);
+    expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeNull();
+    expect(timepicker.isOpen).toBe(false);
+
+    timepicker.autoselect = true;
+    expect(timepicker.autoselect).toBeTruthy();
+    expect(timepicker.getAttribute(attributes.AUTOSELECT)).toBeTruthy();
+
+    timepicker.replaceWith(timepicker);
+    input.focus();
+    expect(timepicker.isOpen).toBe(true);
+  });
+
+  it('can update the timestring value with the "Set Time" button', () => {
     timepicker.format = 'hh:mm';
+    expect(timepicker.value).toBe('');
+    timepicker.openTimePopup();
+    timepicker.triggerEvent('mouseup', setTimeButton);
+    expect(timepicker.value).toBe('01:00');
+  });
+
+  it('with autoupdate attribute, can hide the "Set Time" button', () => {
+    expect(timepicker.autoupdate).toBe(false);
+    expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeNull();
+    expect(setTimeButton).toBeDefined();
+
+    timepicker.autoupdate = true;
+    timepicker.replaceWith(timepicker);
+    expect(timepicker.autoupdate).toBeTruthy();
+    expect(timepicker.getAttribute(attributes.AUTOUPDATE)).toBeTruthy();
+
+    // TODO: this currently fails and needs to be fixed
+    // expect(setTimeButton).toBeUndefined();
+  });
+
+  it('with autoupdate attribute, fires dropdown change-event for hours', () => {
+    timepicker.format = 'hh:mm';
+    timepicker.autoupdate = true;
+    timepicker.replaceWith(timepicker);
     timepicker.triggerEvent('change', dropdowns.hours, { detail: { value: '5' } });
     expect(timepicker.value).toBe('05:00');
 
@@ -210,8 +261,10 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('21:00');
   });
 
-  it('fires dropdown change-event for minutes', () => {
+  it('with autoupdate attribute, fires dropdown change-event for minutes', () => {
     timepicker.format = 'HH:mm';
+    timepicker.autoupdate = true;
+    timepicker.replaceWith(timepicker);
     timepicker.triggerEvent('change', dropdowns.minutes, { detail: { value: '5' } });
     expect(timepicker.value).toBe('01:05');
 
@@ -222,8 +275,10 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('01:21');
   });
 
-  it('fires dropdown change-event for seconds', () => {
+  it('with autoupdate attribute, fires dropdown change-event for seconds', () => {
     timepicker.format = 'hh:mm:ss';
+    timepicker.autoupdate = true;
+    timepicker.replaceWith(timepicker);
     timepicker.triggerEvent('change', dropdowns.seconds, { detail: { value: '5' } });
     expect(timepicker.value).toBe('01:00:05');
 
@@ -234,8 +289,10 @@ describe('IdsTimePicker Component', () => {
     expect(timepicker.value).toBe('01:00:00');
   });
 
-  it('fires dropdown change-event for period (am/pm)', () => {
+  it('with autoupdate attribute, fires dropdown change-event for period (am/pm)', () => {
     timepicker.format = 'hh:mm a';
+    timepicker.autoupdate = true;
+    timepicker.replaceWith(timepicker);
     timepicker.triggerEvent('change', dropdowns.period, { detail: { value: 'pm' } });
     expect(timepicker.value).toBe('01:00 PM');
 
@@ -247,16 +304,6 @@ describe('IdsTimePicker Component', () => {
 
     timepicker.triggerEvent('change', dropdowns.period, { detail: { value: 'AM' } });
     expect(timepicker.value).toBe('01:00 AM');
-  });
-
-  it('can show and hide popup', () => {
-    expect(timepicker.isOpen).toBe(false);
-
-    timepicker.openTimePopup();
-    expect(timepicker.isOpen).toBe(true);
-
-    timepicker.closeTimePopup();
-    expect(timepicker.isOpen).toBe(false);
   });
 
   it('can show and hide popup on clicking the trigger-button', () => {

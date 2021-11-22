@@ -114,6 +114,7 @@ class IdsDropdown extends mix(IdsElement).with(
 
     return `
     <ids-trigger-field
+      no-margins
       size="${this.size}"
       label="${this.label}"
       part="trigger-field"

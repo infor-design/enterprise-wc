@@ -2,11 +2,13 @@
 
 - [ ] Update README.md
 - [ ] Add "Set Time" button
+- [ ] Fix mobile styles
 - [ ] Make dropdown default values reflect what's in the input-field
 - [ ] Add validation
 - [ ] Write func-tests for "validation"
 - [ ] Write e2e and percy tests
-- [ ] Add custom id's/automation id's that can be used for scripting. 
+- [ ] Fix func-test to hide "Set Time" button when autoupdate attribute true
+- [ ] Add custom id's/automation id's that can be used for scripting.
 - [ ] Fix onOutsideClick() (ids-time-picker width too-wide, but inline-flex breaks alignment)
 - [ ] Fix theme colors
 - [ ] Add "Themeable Parts" for `label`, `input`, and `popup`.

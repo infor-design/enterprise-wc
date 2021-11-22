@@ -63,6 +63,7 @@ class IdsTimePicker extends mix(IdsElement).with(
       popup: this.container.querySelector('ids-popup'),
       triggerButton: this.container.querySelector('ids-trigger-button'),
       triggerField: this.container.querySelector('ids-trigger-field'),
+      setTimeButton: this.container.querySelector('ids-button#set-time'),
     };
   }
 
@@ -85,6 +86,8 @@ class IdsTimePicker extends mix(IdsElement).with(
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.AUTOSELECT,
+      attributes.AUTOUPDATE,
       attributes.DISABLED,
       attributes.LABEL,
       attributes.READONLY,
@@ -116,7 +119,13 @@ class IdsTimePicker extends mix(IdsElement).with(
 
   get value() { return this.getAttribute('value') || ''; }
 
+  set autoselect(value) { this.setAttribute(attributes.AUTOSELECT, !!value); }
+
   get autoselect() { return this.hasAttribute(attributes.AUTOSELECT); }
+
+  set autoupdate(value) { this.setAttribute(attributes.AUTOUPDATE, !!value); }
+
+  get autoupdate() { return this.hasAttribute(attributes.AUTOUPDATE); }
 
   set disabled(value) {
     value = value === '' ? true : value;
@@ -208,15 +217,14 @@ class IdsTimePicker extends mix(IdsElement).with(
     const seconds = this.hasSeconds && this.dropdown({ id: 'seconds', label: 'Seconds', options: options.seconds });
     const period = this.hasPeriod && this.dropdown({ id: 'period', label: 'Period', options: options.period });
 
-    const dropdowns = [hours, minutes, seconds, period]
-      .filter(Boolean)
-      .map((element) => `<ids-layout-grid-cell>${element}</ids-layout-grid-cell>`);
+    const dropdowns = [hours, minutes, seconds, period].filter(Boolean);
+    const setTimeButton = this.autoupdate ? '' : '<ids-button id="set-time">Set Time</ids-button>';
 
     return `
       <div class="ids-time-picker">
         <ids-trigger-field
-          size="${this.size}"
           label="${this.label}"
+          size="${this.size}"
         >
           <ids-input
             type="text"
@@ -237,9 +245,10 @@ class IdsTimePicker extends mix(IdsElement).with(
           arrow="bottom"
           animated="true"
         >
-          <ids-layout-grid slot="content" cols="${dropdowns.length}">
-            ${dropdowns.join('')}
-          </ids-layout-grid>
+          <section slot="content" cols="${dropdowns.length}">
+            <div class="dropdowns">${dropdowns.join('')}</div>
+            ${setTimeButton}
+          </section>
         </ids-popup>
       <div>
     `;
@@ -360,12 +369,25 @@ class IdsTimePicker extends mix(IdsElement).with(
    * @returns {object} this class-instance object for chaining
    */
   #attachEventHandlers() {
-    const { dropdowns, input, triggerButton } = this.elements;
+    const {
+      dropdowns,
+      input,
+      triggerButton,
+      setTimeButton,
+    } = this.elements;
 
-    this.onEvent('change', dropdowns.hours, (e) => { this.setTimeOnField({ hours: e.detail.value }); });
-    this.onEvent('change', dropdowns.minutes, (e) => { this.setTimeOnField({ minutes: e.detail.value }); });
-    this.onEvent('change', dropdowns.seconds, (e) => { this.setTimeOnField({ seconds: e.detail.value }); });
-    this.onEvent('change', dropdowns.period, (e) => { this.setTimeOnField({ period: e.detail.value }); });
+    if (this.autoupdate) {
+      this.onEvent('change', dropdowns.hours, (e) => { this.setTimeOnField({ hours: e.detail.value }); });
+      this.onEvent('change', dropdowns.minutes, (e) => { this.setTimeOnField({ minutes: e.detail.value }); });
+      this.onEvent('change', dropdowns.seconds, (e) => { this.setTimeOnField({ seconds: e.detail.value }); });
+      this.onEvent('change', dropdowns.period, (e) => { this.setTimeOnField({ period: e.detail.value }); });
+    }
+
+    // using on mouseup, because on click interferes with on Enter
+    this.onEvent('mouseup', setTimeButton, () => {
+      this.setTimeOnField();
+      this.closeTimePopup();
+    });
 
     // using on mouseup, because on click interferes with on Enter
     this.onEvent('mouseup', triggerButton, () => this.toggleTimePopup());

@@ -1,4 +1,3 @@
-
 describe('Ids Time Picker e2e Tests', () => {
   const url = 'http://localhost:4444/ids-time-picker';
 

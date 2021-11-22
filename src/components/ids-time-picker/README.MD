@@ -26,7 +26,7 @@ A normal timepicker used as a web component.
 
 ```html
 <ids-time-picker
-  label="Full Time Picker"
+  label="12-Hour Time Picker w/ seconds and period (am/pm)"
   placeholder="Enter your start time"
   format="hh:mm:ss a"
 ></ids-time-picker>
@@ -38,6 +38,14 @@ A `disabled` timepicker and a `readonly` timepicker.
 <ids-time-picker label="Disabled Time Picker" value="10:30 AM" disabled></ids-time-picker>
 
 <ids-time-picker label="Readonly Time Picker" value="10:30 AM" readonly></ids-time-picker>
+```
+
+An `autoselect` timepicker and an `autoupdate` timepicker.
+
+```html
+<ids-time-picker label="Autoselect Time Picker" value="10:30 AM" autoselect></ids-time-picker>
+
+<ids-time-picker label="Autoupdate Time Picker" value="10:30 AM" autoupdate></ids-time-picker>
 ```
 
 It's also possible to configure the timepicker with a custom time format. This allows the timepicker to be configured in 24-hour/Miliary time and/or with a seconds picker for more accurate time.
@@ -83,6 +91,7 @@ It's also possible to control the intervals of minutes and seconds available for
 ## Settings
 
 - `autoselect` {boolean} Automatically opens the popup on focus.
+- `autoupdate` {boolean} Automatically upates the timestring value and hides the "Set Time" button.
 - `disabled` {boolean} Disables the timepicker
 - `readonly` {boolean} Makes the timepicker readonly
 - `label` {string} Set the timepicker's label

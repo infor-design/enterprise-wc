@@ -23,6 +23,7 @@ export const attributes = {
   AUTO_FIT: 'auto-fit',
   AUTO_HEIGHT: 'auto-height',
   AUTOSELECT: 'autoselect',
+  AUTOUPDATE: 'autoupdate',
   AXIS: 'axis',
   BADGE_COLOR: 'badge-color',
   BADGE_POSITION: 'badge-position',

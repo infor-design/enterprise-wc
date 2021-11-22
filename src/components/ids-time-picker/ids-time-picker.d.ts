@@ -16,8 +16,11 @@ export default class IdsTimePicker extends IdsElement {
   /** Multiples of this value are displayed as options in the seconds dropdown. */
   ['second-interval']?: number;
 
-  /** Set the autoselect attribute */
+  /** Enable autoselect popup feature */
   autoselect?: boolean | false;
+
+  /** Enables the autoupdate feature, and removes the "Set Time" button */
+  autoupdate?: boolean | false;
 
   /** Set the disabled attribute */
   disabled?: boolean | false;

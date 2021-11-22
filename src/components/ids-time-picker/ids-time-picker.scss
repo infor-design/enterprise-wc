@@ -9,10 +9,49 @@
   min-width: $input-size-xs;
   width: fit-content;
 
+  .dropdowns {
+    @include flex();
+    @include p-8();
+    border-bottom: 1px solid var(--ids-color-palette-slate-30, #B7B7BA);
+    flex-direction: row;
+  }
+
+  ids-popup::part(popup) {
+    margin: 0;
+    padding: 0;
+  }
+
+  ids-button {
+    align-items: center;
+    height: 45px;
+    width: 100%;
+
+    &::part(button) {
+      color: var(--ids-color-palette-azure-70);
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      padding: 0;
+    }
+  }
+
+  ids-dropdown#minutes,
+  ids-dropdown#seconds,
+  ids-dropdown#period {
+    @include ml-16();
+  }
+
   ids-dropdown#minutes,
   ids-dropdown#seconds {
-    & ids-input::before {
-      content: ':';
+    &::part(input) {
+      position: relative;
+      &::before {
+        color: var(--ids-color-font-muted, #606066);
+        content: ':';
+        position: absolute;
+        left: -11px;
+        top: 6px;
+      }
     }
   }
 }
