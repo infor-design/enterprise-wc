@@ -21,7 +21,6 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
     if (!this.state) {
       this.state = {};
     }
-    this.state.target = null;
     this.state.trigger = POPUP_TRIGGER_TYPES[0];
   }
 
@@ -78,7 +77,6 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
     if (val !== this.popup.alignTarget) {
       this.removeTriggerEvents();
       this.popup.alignTarget = val;
-      this.state.target = val;
       this.refreshTriggerEvents();
     }
   }
@@ -98,6 +96,7 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
     if (!POPUP_TRIGGER_TYPES.includes(val)) {
       trueTriggerType = POPUP_TRIGGER_TYPES[0];
     }
+    this.removeTriggerEvents();
     this.state.trigger = trueTriggerType;
     this.refreshTriggerEvents();
   }
@@ -106,6 +105,10 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
    * Causes events related to the Popupmenu's "trigger" style to be unbound/rebound
    */
   refreshTriggerEvents() {
+    if (this.hasTriggerEvents) {
+      return;
+    }
+
     const targetElem = this.popup.alignTarget || window;
 
     // Based on the trigger type, bind new events
@@ -125,8 +128,9 @@ const IdsPopupInteractionsMixin = (superclass) => class extends superclass {
       this.offEvent('click.trigger');
       this.onEvent('click.trigger', targetElem, (e) => {
         if (typeof this.onTriggerClick === 'function') {
-          this.onTriggerClick(e);
+          return this.onTriggerClick(e);
         }
+        return true;
       });
 
       break;

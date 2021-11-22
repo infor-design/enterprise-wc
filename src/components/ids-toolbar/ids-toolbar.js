@@ -141,8 +141,8 @@ class IdsToolbar extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin, 
         currentItem = items[currentIndex];
       }
 
-      // Don't count disabled items as "taking a step"
-      if (!currentItem.disabled) {
+      // Don't count disabled/overflowed items as "taking a step"
+      if (!currentItem.disabled && !currentItem.hasAttribute('overflowed')) {
         steps -= 1;
       }
     }

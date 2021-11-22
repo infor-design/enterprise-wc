@@ -53,22 +53,24 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   template() {
-    // Cycle through toolbar items, if present, and render a menu item that represents them
-    const renderToolbarItems = () => this.toolbar?.items?.map((i) => this.moreActionsItemTemplate(i)).join('') || '';
-
-    //
     return `<div class="ids-toolbar-section ids-toolbar-more-actions more">
       <ids-menu-button id="icon-button" menu="icon-menu">
         <ids-icon slot="icon" icon="more"></ids-icon>
         <span class="audible">More Actions Button</span>
       </ids-menu-button>
       <ids-popup-menu id="icon-menu" target="#icon-button" trigger="click">
-        <ids-menu-group id="more-actions-items">
-          ${ renderToolbarItems() }
-        </ids-menu-group>
         <slot></slot>
       </ids-popup-menu>
     </div>`;
+  }
+
+  moreActionsMenuTemplate() {
+    // Cycle through toolbar items, if present, and render a menu item that represents them
+    const renderToolbarItems = () => this.toolbar?.items?.map((i) => this.moreActionsItemTemplate(i)).join('') || '';
+
+    return `<ids-menu-group more-actions>
+      ${renderToolbarItems() }
+    </ids-menu-group>`;
   }
 
   moreActionsItemTemplate(item) {
@@ -123,7 +125,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {Array<IdsMenuItem|IdsMenuGroup>} list of menu items that mirror Toolbar items
    */
   get overflowMenuItems() {
-    return [...this.menu.querySelector('#more-actions-items').children];
+    return [...this.querySelector('[more-actions]').children];
   }
 
   /**
@@ -220,6 +222,11 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {void}
    */
   connectOverflowedItems() {
+    const el = this.querySelector('[more-actions]');
+    if (!el) {
+      this.insertAdjacentHTML('afterbegin', this.moreActionsMenuTemplate());
+    }
+
     this.overflowMenuItems.forEach((item, i) => {
       item.target = this.toolbar.items[i];
     });

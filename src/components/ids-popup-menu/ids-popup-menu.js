@@ -95,16 +95,18 @@ class IdsPopupMenu extends mix(IdsMenu).with(
     // Hide the menu when an item is selected
     // (only if `keep-open` attribute is not present)
     this.onEvent('selected', this, (e) => {
-      const item = e.detail.elem;
-      if (!item?.group?.keepOpen) {
-        this.hide();
+      if (this.visible) {
+        const item = e.detail.elem;
+        if (!item?.group?.keepOpen) {
+          this.hideAndFocus();
+        }
       }
     });
 
     // When the underlying Popup triggers it's "show" event,
     // focus on the derived focusTarget.
     this.onEvent('show', this.container, () => {
-      window.requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
         this.focusTarget?.focus();
       });
     });
@@ -149,12 +151,9 @@ class IdsPopupMenu extends mix(IdsMenu).with(
         }
         e.preventDefault();
         e.stopPropagation();
-        this.hide();
 
         // Since Escape cancels without selection, re-focus the button
-        if (this.target) {
-          this.target.focus();
-        }
+        this.hideAndFocus();
       });
     }
   }
@@ -239,6 +238,17 @@ class IdsPopupMenu extends mix(IdsMenu).with(
   }
 
   /**
+   * Hides the popup menu and focuses a target element, if applicable
+   * @returns {void}
+   */
+  hideAndFocus() {
+    this.hide();
+    if (this.target) {
+      this.target.focus();
+    }
+  }
+
+  /**
    * Inherited from the Popup Open Events Mixin.
    * Runs when a click event is propagated to the window.
    * @returns {void}
@@ -258,11 +268,17 @@ class IdsPopupMenu extends mix(IdsMenu).with(
       e.preventDefault();
     }
 
+    // Escape if not using a left-click
+    if (e.button !== 0) {
+      return true;
+    }
+
     if (this.hidden) {
       this.show();
     } else {
       this.hide();
     }
+    return true;
   }
 
   /**

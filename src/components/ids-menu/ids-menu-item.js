@@ -249,7 +249,7 @@ class IdsMenuItem extends mix(IdsElement).with(
     // including activation of submenus where applicable.
     this.onEvent('mouseenter', this, () => {
       clearHideSubmenuTimeout();
-      if (!this.disabled && this.hasSubmenu) {
+      if (!this.disabled && !this.hidden && this.hasSubmenu) {
         clearHoverTimeout();
         hoverTimeout = new IdsRenderLoopItem({
           duration: 200,
@@ -263,10 +263,12 @@ class IdsMenuItem extends mix(IdsElement).with(
       // Highlight
       this.menu.highlightItem(this);
 
+      /*
       // If the parent menu is a Popupmenu, hide its other open submenus.
       if (this.menu.popup) {
         this.menu.hideSubmenus(this);
       }
+      */
 
       // Tell the menu which item to use for converting a hover state to keyboard
       if (!this.disabled) {
