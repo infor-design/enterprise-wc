@@ -2,7 +2,6 @@
 
 - [ ] Update README.md
 - [ ] Add "Set Time" button
-- [ ] Fix mobile styles
 - [ ] Make dropdown default values reflect what's in the input-field
 - [ ] Add validation
 - [ ] Write func-tests for "validation"

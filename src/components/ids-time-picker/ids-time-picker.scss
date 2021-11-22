@@ -54,6 +54,25 @@
       }
     }
   }
+
+  @include breakpoint-xs-down {
+    .dropdowns {
+      flex-direction: column;
+      align-items: center;
+      width: $input-size-sm;
+
+      ids-dropdown#minutes,
+      ids-dropdown#seconds,
+      ids-dropdown#period {
+        margin-left: 0;
+        &::part(input) {
+          &::before {
+            display: none;
+          }
+        }
+      }
+    }
+  }
 }
 
 // Handle Themes
