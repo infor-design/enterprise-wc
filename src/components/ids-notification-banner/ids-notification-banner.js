@@ -129,16 +129,13 @@ class IdsNotificationBanner extends mix(IdsElement).with(
    * success, alert, info, error
    */
   set type(value) {
-    let bgColor;
     if (!value || TYPES[value] === undefined) {
       this.removeAttribute(attributes.TYPE);
       this.setAttribute(attributes.TYPE, TYPES.success.type);
-      bgColor = `var(--ids-color-palette-${TYPES.success.color}-10)`;
-      this.container.style.backgroundColor = bgColor;
+      this.container.setAttribute(attributes.TYPE, TYPES.success.type);
     } else {
       this.setAttribute(attributes.TYPE, value);
-      bgColor = `var(--ids-color-palette-${TYPES[value].color}-10)`;
-      this.container.style.backgroundColor = bgColor;
+      this.container.setAttribute(attributes.TYPE, value);
     }
   }
 

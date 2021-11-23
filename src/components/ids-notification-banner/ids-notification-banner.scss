@@ -33,3 +33,73 @@ ids-hyperlink::part(link) {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.ids-notification-banner[type='success'][mode='light'],
+.ids-notification-banner[type='success'][mode='contrast'],
+.ids-notification-banner[type='alert'][mode='light'],
+.ids-notification-banner[type='alert'][mode='contrast'],
+.ids-notification-banner[type='info'][mode='light'],
+.ids-notification-banner[type='info'][mode='contrast'],
+.ids-notification-banner[type='error'][mode='light'],
+.ids-notification-banner[type='error'][mode='contrast'] {
+  ids-text::part(text) {
+    color: var(--ids-color-palette-slate-90);
+  }
+
+  ids-hyperlink::part(link) {
+    color: var(--ids-color-palette-slate-90);
+  }
+}
+
+.ids-notification-banner[type='success'][mode='dark'],
+.ids-notification-banner[type='alert'][mode='dark'],
+.ids-notification-banner[type='info'][mode='dark'],
+.ids-notification-banner[type='error'][mode='dark'] {
+  ids-text::part(text) {
+    color: var(--ids-color-palette-slate-10);
+  }
+
+  ids-hyperlink::part(link) {
+    color: var(--ids-color-palette-slate-10);
+  }
+}
+
+// For success
+.ids-notification-banner[type='success'][mode='light'],
+.ids-notification-banner[type='success'][mode='contrast'] {
+  @include bg-emerald-10();
+}
+
+.ids-notification-banner[type='success'][mode='dark'] {
+  @include bg-emerald-100();
+}
+
+// For alert
+.ids-notification-banner[type='alert'][mode='light'],
+.ids-notification-banner[type='alert'][mode='contrast'] {
+  @include bg-amber-10();
+}
+
+.ids-notification-banner[type='alert'][mode='dark'] {
+  @include bg-amber-100();
+}
+
+// For info
+.ids-notification-banner[type='info'][mode='light'],
+.ids-notification-banner[type='info'][mode='contrast'] {
+  @include bg-azure-10();
+}
+
+.ids-notification-banner[type='info'][mode='dark'] {
+  @include bg-azure-100();
+}
+
+// For error
+.ids-notification-banner[type='error'][mode='light'],
+.ids-notification-banner[type='error'][mode='contrast'] {
+  @include bg-ruby-10();
+}
+
+.ids-notification-banner[type='error'][mode='dark'] {
+  @include bg-ruby-100();
+}
