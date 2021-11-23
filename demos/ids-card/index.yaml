@@ -7,7 +7,7 @@
  examples:
   - link: index.html
     description: Shows two side by side cards
-  - link: auto-size.html
+  - link: auto-height.html
     description: Shows an auto height card
   - link: side-by-side.html
     description: Showing an cards with a 4.x cards

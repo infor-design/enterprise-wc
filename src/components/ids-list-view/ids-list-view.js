@@ -15,7 +15,7 @@ import { IdsThemeMixin, IdsKeyboardMixin, IdsEventsMixin } from '../../mixins';
 import IdsVirtualScroll from '../ids-virtual-scroll';
 import styles from './ids-list-view.scss';
 
-const DEFAULT_HEIGHT = 310;
+const DEFAULT_HEIGHT = '100%';
 
 /**
  * IDS List View Component
@@ -90,7 +90,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    */
   virtualScrollTemplate() {
     const html = `
-      <ids-virtual-scroll height="${this.height}px" item-height="${this.itemHeight}">
+      <ids-virtual-scroll height="${this.height}" item-height="${this.itemHeight}">
         <div class="ids-list-view" part="container">
           <div slot="contents" part="list">
           </div>
