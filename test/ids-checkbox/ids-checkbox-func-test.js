@@ -130,7 +130,7 @@ describe('IdsCheckbox Component', () => {
   });
 
   it('should set label text', () => {
-    let label = cb.labelEl.querySelector('.label-text');
+    let label = cb.labelEl.querySelector('.label-checkbox');
     label.remove();
     cb.label = 'test';
     cb.radioCheckbox = false;
@@ -138,13 +138,13 @@ describe('IdsCheckbox Component', () => {
     const elem = new IdsCheckbox();
     document.body.appendChild(elem);
     cb = document.querySelector('ids-checkbox');
-    label = cb.labelEl.querySelector('.label-text');
+    label = cb.labelEl.querySelector('.label-checkbox');
     expect(label.textContent.trim()).toBe('');
     cb.label = 'test';
-    label = cb.labelEl.querySelector('.label-text');
+    label = cb.labelEl.querySelector('.label-checkbox');
     expect(label.textContent.trim()).toBe('test');
     cb.label = null;
-    label = cb.labelEl.querySelector('.label-text');
+    label = cb.labelEl.querySelector('.label-checkbox');
     expect(label.textContent.trim()).toBe('');
   });
 
@@ -242,7 +242,7 @@ describe('IdsCheckbox Component', () => {
 
   it('should renders template', () => {
     document.body.innerHTML = '';
-    cb = document.createElement('ids-checkbox');
+    cb = new IdsCheckbox();
     cb.setAttribute('color', 'ruby07');
     cb.setAttribute('disabled', 'true');
     cb.setAttribute('horizontal', 'true');
