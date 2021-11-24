@@ -34,7 +34,8 @@ class IdsTreeMap extends mix(IdsElement).with(
   ) {
   constructor() {
     super();
-    this.result = [];
+    // eslint-disable-next-line no-underscore-dangle
+    this._result = [];
   }
 
   /**
@@ -51,7 +52,9 @@ class IdsTreeMap extends mix(IdsElement).with(
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.COLLAPSE_ICON
+      attributes.WIDTH,
+      attributes.HEIGHT,
+      'result'
     ];
   }
 
@@ -60,11 +63,49 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
+    let groups;
+    if (this.result !== undefined) {
+      groups = this.result.map((rect) => {
+        const html = `
+          <g
+            fill=${rect.data.color}
+          >
+            <rect
+              x=${rect.x}
+              y=${rect.y}
+              width=${rect.width}
+              height=${rect.height}
+            ></rect>
+          </g>
+        `;
+        return html;
+      }).join('');
+    }
+
     return `
-      <svg>
-        Sorry, your browser does not support inline SVG.
+      <svg width="700" height="600">
+        ${groups}
       </svg>
     `;
+  }
+
+  set result(value) {
+    // eslint-disable-next-line no-underscore-dangle
+    this._result = value;
+    this.render(true);
+  }
+
+  get result() {
+    // eslint-disable-next-line no-underscore-dangle
+    return this._result;
+  }
+
+  /**
+   * Render the treemap by applying the template
+   * @private
+   */
+  render() {
+    super.render();
   }
 
   getMaximum = (array) => Math.max(...array);
@@ -103,12 +144,13 @@ class IdsTreeMap extends mix(IdsElement).with(
 
   layoutRow = (row, width, vertical) => {
     const rowHeight = row.reduce(this.sumReducer, 0) / width;
+
     row.forEach((rowItem) => {
       const rowWidth = rowItem / rowHeight;
       const { xBeginning } = this.Rectangle;
       const { yBeginning } = this.Rectangle;
-      // eslint-disable-next-line no-shadow
       let data;
+
       if (vertical) {
         data = {
           x: xBeginning,
@@ -117,6 +159,7 @@ class IdsTreeMap extends mix(IdsElement).with(
           height: rowWidth,
           data: this.initialData[this.Rectangle.data.length],
         };
+
         this.Rectangle.yBeginning += rowWidth;
       } else {
         data = {
@@ -126,8 +169,10 @@ class IdsTreeMap extends mix(IdsElement).with(
           height: rowHeight,
           data: this.initialData[this.Rectangle.data.length],
         };
+
         this.Rectangle.xBeginning += rowWidth;
       }
+
       this.Rectangle.data.push(data);
     });
 
@@ -153,7 +198,9 @@ class IdsTreeMap extends mix(IdsElement).with(
       this.layoutLastRow(row, children, width);
       return;
     }
+
     const rowWithChild = [...row, children[0]];
+
     if (row.length === 0 || this.worstRatio(row, width) >= this.worstRatio(rowWithChild, width)) {
       children.shift();
       this.squarify(children, rowWithChild, width);
