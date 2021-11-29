@@ -99,7 +99,7 @@ class IdsDataGrid extends mix(IdsElement).with(
     let additionalClasses = this.alternateRowShading === true ? ' alt-row-shading' : '';
     additionalClasses += this.listStyle === true ? ' is-list-style' : '';
 
-    if (this?.virtualScroll !== 'true') {
+    if (!this.virtualScroll) {
       html = `
         <div
           class="ids-data-grid ${additionalClasses}"
@@ -165,12 +165,13 @@ class IdsDataGrid extends mix(IdsElement).with(
     // Setup virtual scrolling
     if (this.virtualScroll && this.data.length > 0) {
       this.virtualScrollContainer = this.shadowRoot.querySelector('ids-virtual-scroll');
-      this.virtualScrollContainer.scrollTarget = this.container;
-
-      this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
-      this.virtualScrollContainer.itemCount = this.data.length;
-      this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
-      this.virtualScrollContainer.data = this.data;
+      if (this.virtualScrollContainer) {
+        this.virtualScrollContainer.scrollTarget = this.container;
+        this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index);
+        this.virtualScrollContainer.itemCount = this.data.length;
+        this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
+        this.virtualScrollContainer.data = this.data;
+      }
     }
 
     this.#attachEventHandlers();
