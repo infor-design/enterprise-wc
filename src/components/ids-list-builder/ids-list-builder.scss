@@ -1,6 +1,8 @@
 @import '../../core/ids-base';
 
 .ids-list-builder {
+  display: flex;
+  flex-direction: column;
   border-radius: 2px;
   border: 1px solid var(--ids-color-palette-slate-40);
 
