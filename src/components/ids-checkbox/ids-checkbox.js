@@ -331,6 +331,19 @@ class IdsCheckbox extends mix(IdsElement).with(
 
   get label() { return this.getAttribute(attributes.LABEL) || ''; }
 
+  /**
+   * Set the `label-audible` attribute
+   * @param {boolean} value of the `labelAudible`
+   */
+  set labelAudible(value) {
+    const idsTextElem = this.labelEl?.querySelector('ids-text');
+    if (value === 'true' || value === true) {
+      idsTextElem.setAttribute(attributes.LABEL_AUDIBLE, value);
+    } else {
+      idsTextElem.removeAttribute(attributes.LABEL_AUDIBLE);
+    }
+  }
+
   get labelAudible() { return this.getAttribute(attributes.LABEL_AUDIBLE); }
 
   /**
