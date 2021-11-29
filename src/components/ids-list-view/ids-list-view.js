@@ -40,7 +40,6 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
 
   connectedCallback() {
     this.virtualScroll = true;
-    this.itemHeight = 72;
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     super.connectedCallback();
     if (!this.virtualScroll) this.#attachEventListeners();
@@ -138,8 +137,8 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     if (li) {
       const prevFocus = this.getFocusedLi();
       // remove tabindex from previous focus
-      if (li !== prevFocus && prevFocus) {
-        prevFocus.setAttribute('tabindex', '-1');
+      if (li !== prevFocus) {
+        prevFocus?.setAttribute('tabindex', '-1');
         this.#focusedLiIndex = li.getAttribute('index');
       }
       // init new focus
