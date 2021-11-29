@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   for (let i = 0; i < iconData.length; i++) {
     iconHtml += `<span class="ids-icon-container"><ids-text font-size="10">icon-${iconData[i][0]}</ids-text><br/>
-      <ids-icon icon="${iconData[i][0]}" size="large"></ids-icon>
-      <ids-icon icon="${iconData[i][0]}"></ids-icon>
-      <ids-icon icon="${iconData[i][0]}" size="xsmall"></ids-icon></span>`;
+      <ids-icon icon="${iconData[i][0]}" ${(iconData[i][0] === 'logo' || iconData[i][0] === 'logo-trademark') ? 'viewbox="0 0 35 34"' : ''} size="large"></ids-icon>
+      <ids-icon icon="${iconData[i][0]}" ${(iconData[i][0] === 'logo' || iconData[i][0] === 'logo-trademark') ? 'viewbox="0 0 35 34"' : ''} ></ids-icon>
+      <ids-icon icon="${iconData[i][0]}" ${(iconData[i][0] === 'logo' || iconData[i][0] === 'logo-trademark') ? 'viewbox="0 0 35 34"' : ''} size="xsmall"></ids-icon></span>`;
 
     if (i === 0 && justOne) {
       break;

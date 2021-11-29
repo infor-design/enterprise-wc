@@ -409,8 +409,6 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
 
     if (this.viewbox) {
       viewboxSize = this.viewbox;
-    } else if (this.icon === 'logo' || this.icon === 'logo-trademark') {
-      viewboxSize = '0 0 35 34';
     }
     this.container.setAttribute('viewBox', viewboxSize);
   }
