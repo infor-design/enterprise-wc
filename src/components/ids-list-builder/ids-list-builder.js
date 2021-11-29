@@ -29,8 +29,10 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
     super();
   }
 
-  // // the currently selected list item
+  // the currently selected list item
   #selectedLi;
+
+  #selectedLiIndex;
 
   // any active editor of the selected list item
   #selectedLiEditor;
@@ -41,7 +43,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   connectedCallback() {
     this.virtualScroll = true;
     this.draggable = true;
-    this.itemHeight = 44; // hard-coded
+    this.itemHeight = 46; // hard-coded
     this.#attachEventListeners();
     super.connectedCallback();
   }
@@ -91,20 +93,14 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
               </ids-toolbar-section>
             </ids-toolbar>
           </div>
-          <div class="content">
-            ${super.template()}
-          </div>
-        <slot></slot>
+          ${super.template()}
       </div>
     `;
   }
 
   get selectedLi() {
-    return this.#selectedLi;
-  }
-
-  set selectedLi(item) {
-    this.#selectedLi = item;
+    const savedSelectedLi = this.container.querySelector(`div[part="list-item"][index="${this.#selectedLiIndex}"]`);
+    return savedSelectedLi;
   }
 
   get data() {
@@ -125,18 +121,28 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
   /**
    * Helper function that toggles the 'selected' attribute of an element, then focuses on that element
    * @param {Element} item the item to add/remove the selected attribute
+   * @param {boolean} switchValue optional switch values to force add/remove the selected attribute
    */
-  #toggleSelectedAttribute(item) {
-    const hasSelectedAttribute = item.getAttribute('selected');
-
-    if (hasSelectedAttribute) {
+  #toggleSelectedAttribute(item, switchValue) {
+    const unselect = () => {
       item.removeAttribute('selected');
-      this.selectedLi = null;
-    } else if (!hasSelectedAttribute) {
+      this.#selectedLiIndex = null;
+    };
+
+    const select = () => {
       item.setAttribute('selected', 'selected');
-      this.selectedLi = item;
+      this.#selectedLiIndex = item.getAttribute('index');
+    };
+
+    if (switchValue === true) {
+      select();
+    } else if (switchValue === false) {
+      unselect();
+    } else {
+      // otherwise toggle it depending on whether or not it has the attribute already
+      const hasSelectedAttribute = item.getAttribute('selected');
+      hasSelectedAttribute ? unselect() : select();
     }
-    item.focus();
   }
 
   /**
@@ -145,15 +151,22 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
    */
   #toggleSelectedLi(item) {
     if (item.tagName === 'DIV' && item.getAttribute('part') === 'list-item') {
-      if (item !== this.selectedLi) {
-        if (this.selectedLi) {
+      const prevSelectedLi = this.selectedLi;
+      if (item !== prevSelectedLi) {
+        if (prevSelectedLi) {
           // unselect previous item if it's selected
-          this.selectedLi.setAttribute('tabindex', '-1');
-          this.#toggleSelectedAttribute(this.selectedLi);
+          prevSelectedLi.setAttribute('tabindex', '-1');
+          this.#toggleSelectedAttribute(prevSelectedLi);
         }
       }
-      this.focusLi(item);
       this.#toggleSelectedAttribute(item);
+    }
+  }
+
+  #reselect() {
+    const prevSelectedLi = this.selectedLi;
+    if (prevSelectedLi) {
+      this.#toggleSelectedAttribute(prevSelectedLi, true);
     }
   }
 
@@ -169,6 +182,7 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
         this.#attachDragEventListeners();
         this.#attachKeyboardListeners();
+        this.#reselect();
       });
     }
   }
