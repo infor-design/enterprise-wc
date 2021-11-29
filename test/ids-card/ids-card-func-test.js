@@ -41,10 +41,10 @@ describe('IdsCard Component', () => {
 
   it('renders auto-fit from an attribute', () => {
     card.setAttribute('auto-fit', 'true');
-    expect(card.autoFit).toEqual('true');
+    expect(card.autoFit).toEqual(true);
     expect(card.getAttribute('auto-fit')).toEqual('true');
     card.setAttribute('auto-fit', 'false');
-    expect(card.autoFit).toEqual(null);
+    expect(card.autoFit).toEqual(false);
     expect(card.getAttribute('auto-fit')).toEqual(null);
   });
 
