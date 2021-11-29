@@ -36,6 +36,8 @@ class IdsTreeMap extends mix(IdsElement).with(
     super();
     // eslint-disable-next-line no-underscore-dangle
     this._result = [];
+    this.width = '';
+    this.height = '';
   }
 
   /**
@@ -63,29 +65,30 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
-    let groups;
+    let svg = `<svg></svg>`;
     if (this.result !== undefined) {
-      groups = this.result.map((rect) => {
-        const html = `
-          <g
-            fill=${rect.data.color}
-          >
-            <rect
-              x=${rect.x}
-              y=${rect.y}
-              width=${rect.width}
-              height=${rect.height}
-            ></rect>
-          </g>
-        `;
-        return html;
-      }).join('');
+      svg = `
+        <svg width='${this.width}' height='${this.height}'>
+          ${this.result.map((rect) => this.renderGroups(rect)).join('')}
+        </svg>
+      `;
     }
 
+    return svg;
+  }
+
+  renderGroups(rect) {
     return `
-      <svg width="700" height="600">
-        ${groups}
-      </svg>
+      <g
+        fill=${rect.data.color}
+      >
+        <rect
+          x=${rect.x}
+          y=${rect.y}
+          width=${rect.width}
+          height=${rect.height}
+        ></rect>
+      </g>
     `;
   }
 
@@ -195,23 +198,24 @@ class IdsTreeMap extends mix(IdsElement).with(
 
   squarify = (children, row, width) => {
     if (children.length === 1) {
-      this.layoutLastRow(row, children, width);
-      return;
+      return this.layoutLastRow(row, children, width);
     }
 
     const rowWithChild = [...row, children[0]];
 
     if (row.length === 0 || this.worstRatio(row, width) >= this.worstRatio(rowWithChild, width)) {
       children.shift();
-      this.squarify(children, rowWithChild, width);
-    } else {
-      this.layoutRow(row, width);
-      this.squarify(children, [], this.getMinWidth().value);
+      return this.squarify(children, rowWithChild, width);
     }
+
+    this.layoutRow(row, width, this.getMinWidth().vertical);
+    return this.squarify(children, [], this.getMinWidth().value);
   };
 
   treeMap({ data, width, height }) {
     this.validateArguments({ data, width, height });
+    this.width = width;
+    this.height = height;
 
     this.Rectangle = {
       data: [],

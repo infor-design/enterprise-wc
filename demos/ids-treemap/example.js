@@ -11,7 +11,9 @@ document.addEventListener('DOMContentLoaded', () => {
       { value: 8, color: '#AADACC', label: '8' },
       { value: 7, color: '#DCECC9', label: '7' },
     ],
-    width: 700,
+    width: 1000,
     height: 600
   });
+
+  console.log(treeMapEl.result);
 });
