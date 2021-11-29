@@ -39,8 +39,8 @@ $header-bg-color: var(--ids-color-palette-slate-80);
     display: grid;
     grid-template-columns: var(--ids-data-grid-column-widths); // Filled in dynamically
 
-    &.selected:not(.mixed),
-    &.activated {
+    &.selected:not(.mixed) .ids-data-grid-cell,
+    &.activated .ids-data-grid-cell {
       @include bg-azure-10();
     }
   }
@@ -440,8 +440,8 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   // Selection
-  .ids-data-grid-row.selected:not(.mixed),
-  .ids-data-grid-row.activated {
+  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
+  .ids-data-grid-row.activated .ids-data-grid-cell {
     // Uses a non pallette color - no better looking ones
     background-color: #334d60;
   }
@@ -552,8 +552,8 @@ $header-bg-color: var(--ids-color-palette-slate-80);
   }
 
   // Selection
-  .ids-data-grid-row.selected:not(.mixed),
-  .ids-data-grid-row.activated {
+  .ids-data-grid-row.selected:not(.mixed) .ids-data-grid-cell,
+  .ids-data-grid-row.activated .ids-data-grid-cell {
     @include bg-azure-20();
   }
 
