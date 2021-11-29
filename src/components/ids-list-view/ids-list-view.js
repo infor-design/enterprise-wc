@@ -1,6 +1,5 @@
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
-import { DEFAULT_HEIGHT } from './ids-list-view-attributes';
 import { injectTemplate, stringToBool } from '../../utils/ids-string-utils/ids-string-utils';
 
 import IdsDataSource from '../../core/ids-data-source';
@@ -8,6 +7,8 @@ import IdsVirtualScroll from '../ids-virtual-scroll/ids-virtual-scroll';
 import Base from './ids-list-view-base';
 
 import styles from './ids-list-view.scss';
+
+const DEFAULT_HEIGHT = '100%';
 
 /**
  * IDS List View Component
