@@ -40,6 +40,7 @@ class IdsHeader extends mix(IdsElement).with(
 
   connectedCallback() {
     super.connectedCallback?.();
+    this.#refreshVariants();
   }
 
   static get attributes() {
@@ -60,6 +61,17 @@ class IdsHeader extends mix(IdsElement).with(
     <div class="ids-header">
       <slot></slot>
     </div>`;
+  }
+
+  #refreshVariants() {
+    const elementNames = ['ids-button', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
+
+    for (const element of elementNames) {
+      const idsElements = [...this.querySelectorAll(element)];
+      idsElements.forEach((elem) => {
+        elem.colorVariant = 'alternate';
+      });
+    }
   }
 
   /**

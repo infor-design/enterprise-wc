@@ -13,8 +13,7 @@ import {
   IdsColorVariantMixin,
   IdsLocaleMixin,
   IdsThemeMixin,
-  IdsTooltipMixin,
-  IdsHeaderMixin
+  IdsTooltipMixin
 } from '../../mixins';
 
 import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
@@ -90,8 +89,7 @@ class IdsButton extends mix(IdsElement).with(
     IdsColorVariantMixin,
     IdsLocaleMixin,
     IdsThemeMixin,
-    IdsTooltipMixin,
-    IdsHeaderMixin
+    IdsTooltipMixin
   ) {
   constructor() {
     super();
