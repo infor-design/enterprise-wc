@@ -47,7 +47,7 @@ const attribs = [
  * @mixes IdsLocaleMixin
  * @part label - the label element
  * @part input - the checkbox input element
- * @part label-text - the label text element
+ * @part label-checkbox - the label text element
  */
 @customElement('ids-checkbox')
 @scss(styles)
@@ -80,6 +80,7 @@ class IdsCheckbox extends mix(IdsElement).with(
       attributes.INDETERMINATE,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
+      attributes.LABEL_AUDIBLE,
       attributes.LANGUAGE,
       attributes.VALUE,
       attributes.MODE,
@@ -125,8 +126,13 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @returns {string} The template.
    */
   template() {
+    if (!this.label && !this.labelAudible) {
+      this.label = '&nbsp;';
+    }
+
     // Checkbox
     const color = this.color ? ` color="${this.color}"` : '';
+    const audible = IdsStringUtils.stringToBool(this.labelAudible) ? ' audible="true"' : '';
     const disabled = IdsStringUtils.stringToBool(this.disabled) ? ' disabled' : '';
     const horizontal = IdsStringUtils.stringToBool(this.horizontal) ? ' horizontal' : '';
     const checked = IdsStringUtils.stringToBool(this.checked) ? ' checked' : '';
@@ -142,7 +148,7 @@ class IdsCheckbox extends mix(IdsElement).with(
         <label${labelClass} part="label">
           <input part="input" type="checkbox"${checkboxClass}${disabled}${checked}>
           <span class="checkmark${checked}"></span>
-          <ids-text class="label-text" part="label-text">${this.label}</ids-text>
+          <ids-text${audible} class="label-checkbox" part="label-checkbox">${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -254,12 +260,12 @@ class IdsCheckbox extends mix(IdsElement).with(
       this.setAttribute(attributes.DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val.toString());
       rootEl?.classList.add(attributes.DISABLED);
-      this.labelEl?.querySelector('.label-text')?.setAttribute(attributes.DISABLED, val.toString());
+      this.labelEl?.querySelector('.label-checkbox')?.setAttribute(attributes.DISABLED, val.toString());
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.input?.removeAttribute(attributes.DISABLED);
       rootEl?.classList.remove(attributes.DISABLED);
-      this.labelEl?.querySelector('.label-text').removeAttribute(attributes.DISABLED);
+      this.labelEl?.querySelector('.label-checkbox').removeAttribute(attributes.DISABLED);
     }
   }
 
@@ -312,7 +318,7 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @param {string} value of the `label` text property
    */
   set label(value) {
-    const labelText = this.labelEl?.querySelector('.label-text');
+    const labelText = this.labelEl?.querySelector('.label-checkbox');
     if (value) {
       this.setAttribute(attributes.LABEL, value);
     } else {
@@ -324,6 +330,22 @@ class IdsCheckbox extends mix(IdsElement).with(
   }
 
   get label() { return this.getAttribute(attributes.LABEL) || ''; }
+
+  /**
+   * Set the `label-audible` attribute
+   * @param {boolean} value of the `labelAudible`
+   */
+  set labelAudible(value) {
+    this.setAttribute(attributes.LABEL_AUDIBLE, value);
+    const idsTextElem = this.labelEl?.querySelector('ids-text');
+    if (IdsStringUtils.stringToBool(value)) {
+      idsTextElem.setAttribute(attributes.AUDIBLE, value);
+    } else {
+      idsTextElem.removeAttribute(attributes.AUDIBLE);
+    }
+  }
+
+  get labelAudible() { return this.getAttribute(attributes.LABEL_AUDIBLE); }
 
   /**
    * Sets the checkbox to required
