@@ -20,7 +20,7 @@ import styles from './ids-checkbox.scss';
  * @mixes IdsLocaleMixin
  * @part label - the label element
  * @part input - the checkbox input element
- * @part label-text - the label text element
+ * @part label-checkbox - the label text element
  */
 @customElement('ids-checkbox')
 @scss(styles)
@@ -46,6 +46,7 @@ export default class IdsCheckbox extends Base {
       attributes.INDETERMINATE,
       attributes.LABEL,
       attributes.LABEL_REQUIRED,
+      attributes.LABEL_AUDIBLE,
       attributes.LANGUAGE,
       attributes.VALUE,
       attributes.MODE,
@@ -90,8 +91,13 @@ export default class IdsCheckbox extends Base {
    * @returns {string} The template.
    */
   template() {
+    if (!this.label && !this.labelAudible) {
+      this.label = '&nbsp;';
+    }
+
     // Checkbox
     const color = this.color ? ` color="${this.color}"` : '';
+    const audible = stringToBool(this.labelAudible) ? ' audible="true"' : '';
     const disabled = stringToBool(this.disabled) ? ' disabled' : '';
     const horizontal = stringToBool(this.horizontal) ? ' horizontal' : '';
     const checked = stringToBool(this.checked) ? ' checked' : '';
@@ -107,7 +113,7 @@ export default class IdsCheckbox extends Base {
         <label${labelClass} part="label">
           <input part="input" type="checkbox"${checkboxClass}${disabled}${checked}>
           <span class="checkmark${checked}"></span>
-          <ids-text class="label-text" part="label-text">${this.label}</ids-text>
+          <ids-text${audible} class="label-checkbox" part="label-checkbox">${this.label}</ids-text>
         </label>
       </div>
     `;
@@ -218,12 +224,12 @@ export default class IdsCheckbox extends Base {
       this.setAttribute(attributes.DISABLED, val.toString());
       this.input?.setAttribute(attributes.DISABLED, val.toString());
       rootEl?.classList.add(attributes.DISABLED);
-      this.labelEl?.querySelector('.label-text')?.setAttribute(attributes.DISABLED, val.toString());
+      this.labelEl?.querySelector('.label-checkbox')?.setAttribute(attributes.DISABLED, val.toString());
     } else {
       this.removeAttribute(attributes.DISABLED);
       this.input?.removeAttribute(attributes.DISABLED);
       rootEl?.classList.remove(attributes.DISABLED);
-      this.labelEl?.querySelector('.label-text').removeAttribute(attributes.DISABLED);
+      this.labelEl?.querySelector('.label-checkbox').removeAttribute(attributes.DISABLED);
     }
   }
 
@@ -276,7 +282,7 @@ export default class IdsCheckbox extends Base {
    * @param {string} value of the `label` text property
    */
   set label(value) {
-    const labelText = this.labelEl?.querySelector('.label-text');
+    const labelText = this.labelEl?.querySelector('.label-checkbox');
     if (value) {
       this.setAttribute(attributes.LABEL, value);
     } else {
@@ -288,6 +294,22 @@ export default class IdsCheckbox extends Base {
   }
 
   get label() { return this.getAttribute(attributes.LABEL) || ''; }
+
+  /**
+   * Set the `label-audible` attribute
+   * @param {boolean} value of the `labelAudible`
+   */
+  set labelAudible(value) {
+    this.setAttribute(attributes.LABEL_AUDIBLE, value);
+    const idsTextElem = this.labelEl?.querySelector('ids-text');
+    if (stringToBool(value)) {
+      idsTextElem.setAttribute(attributes.AUDIBLE, value);
+    } else {
+      idsTextElem.removeAttribute(attributes.AUDIBLE);
+    }
+  }
+
+  get labelAudible() { return this.getAttribute(attributes.LABEL_AUDIBLE); }
 
   /**
    * Sets the checkbox to required

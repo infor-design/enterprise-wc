@@ -36,7 +36,7 @@ A Read-Only Datagrid uses "Formatters" to render cell content. A number of these
 A datagrid is created by adding an `ids-data-grid` html element in the page and setting the options either inline in the markup or in the JS part of the code. You can only use simple types (string, boolean ect) for inline markup so passing the data and column arrangement is always done in the JS part. The data will be an array of objects so its in the correct tabular form. The columns are also an array of object but with defined options and types. (See Columns in next section)
 
 ```html
-<ids-data-grid id="data-grid-1" data-automation-id="data-grid-1-automation" alternate-row-shading="true"></ids-card>
+<ids-data-grid id="data-grid-1" data-automation-id="data-grid-1-automation" alternate-row-shading="true"></ids-data-grid>
 
 <script>
 const dataGrid = document.querySelector('#data-grid-1');
@@ -133,7 +133,8 @@ When used as an attribute the settings are kebab case, when used in the JS they 
 
 ## Responsive Guidelines
 
-- Datagrid will size in width and height to the parent container and scroll if necessary under the header.
+- By default, datagrid grows depending on the amount of contents within and will scroll if necessary under the header. It stops growing when it reaches the size of the parent container.
+- `autoFit` property or `auto-fit` attribute can be set manually to make the datagrid size fill and be responsive to the size of the screen, regardless of the amount of contents.
 
 ## Converting from Previous Version
 

@@ -42,4 +42,7 @@ export default class IdsCheckbox extends Base {
 
   /** Set the theme version */
   version: 'new' | 'classic' | string;
+
+  /** Sets the input label text as audible * */
+  labelAudible: 'true' | 'false' | boolean;
 }

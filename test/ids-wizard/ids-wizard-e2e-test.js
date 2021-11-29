@@ -2,7 +2,7 @@ describe('Ids Wizard e2e Tests', () => {
   const url = 'http://localhost:4444/ids-wizard';
 
   beforeAll(async () => {
-    await page.goto(url, { waitUntil: ['domcontentloaded', 'networkidle0'] });
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
   it('should not have errors', async () => {

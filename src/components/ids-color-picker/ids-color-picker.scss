@@ -62,10 +62,6 @@ ids-trigger-button .color-preview {
   display: flex;
 }
 
-.color-input-value-no-label {
-  padding-top: calc(var(--ids-number-spacing-base) * 3);
-}
-
 .color-container {
   border: 1px solid;
   border-color: var(--ids-color-palette-slate-40);

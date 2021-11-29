@@ -81,7 +81,7 @@ export default class IdsListView extends Base {
    */
   virtualScrollTemplate() {
     const html = `
-      <ids-virtual-scroll height="${this.height}px" item-height="${this.itemHeight}">
+      <ids-virtual-scroll height="${this.height}" item-height="${this.itemHeight}">
         <div class="ids-list-view" part="container">
           <div slot="contents" part="list">
           </div>

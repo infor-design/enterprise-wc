@@ -39,6 +39,9 @@ export default class IdsDataGrid extends Base {
   /** Enables the virtual scrolling behavior */
   virtualScroll: boolean;
 
+  /** Sizes the datagrid to the parent container */
+  autoFit: boolean;
+
   /** Enables the virtual scrolling behavior */
   rowHeight: 'extra-small' | 'small' | 'medium' | 'large';
 
