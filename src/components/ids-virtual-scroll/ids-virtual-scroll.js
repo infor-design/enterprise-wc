@@ -76,8 +76,8 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     const startIndex = this.startIndex;
     const endIndex = this.startIndex + this.visibleItemCount();
 
-    const indexesChanged = this.lastStart === startIndex && this.lastEnd === endIndex;
-    if (indexesChanged) return;
+    const indexesChanged = this.lastStart !== startIndex || this.lastEnd !== endIndex;
+    if (!indexesChanged) return;
 
     this.lastStart = startIndex;
     this.lastEnd = endIndex;
@@ -92,6 +92,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     });
 
     const offset = this.container.querySelector('.offset');
+    // console.log('this.offsetY: ' + this.offsetY);
     offset.style.transform = `translateY(${this.offsetY}px)`;
 
     // work-around for outside components to style contents inside this shadowroot
@@ -205,7 +206,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     this.removeAttribute(attributes.BUFFER_SIZE);
   }
 
-  get bufferSize() { return this.getAttribute(attributes.BUFFER_SIZE) || 20; }
+  get bufferSize() { return this.getAttribute(attributes.BUFFER_SIZE) || 2; }
 
   /**
    * Set the scroll top position and scroll down to that location
@@ -266,9 +267,9 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * Set the data array of the listview
    * @param {Array|undefined} value The array to use
    */
-  set data(value) {
-    if (value && this.datasource) {
-      this.datasource.data = value;
+  set data(array) {
+    if (array && this.datasource) {
+      this.datasource.data = array;
       this.lastStart = null;
       this.lastEnd = null;
       this.scrollTop = 0;
