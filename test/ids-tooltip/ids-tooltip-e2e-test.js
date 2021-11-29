@@ -2,7 +2,7 @@ describe('Ids Tooltip e2e Tests', () => {
   const url = 'http://localhost:4444/ids-tooltip';
 
   beforeAll(async () => {
-    await page.goto(url, { waitUntil: 'load' });
+    await page.goto(url, { waitUntil: ['networkidle2', 'load'] });
   });
 
   it('should not have errors', async () => {
