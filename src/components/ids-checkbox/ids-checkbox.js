@@ -338,7 +338,7 @@ class IdsCheckbox extends mix(IdsElement).with(
   set labelAudible(value) {
     this.setAttribute(attributes.LABEL_AUDIBLE, value);
     const idsTextElem = this.labelEl?.querySelector('ids-text');
-    if (value === 'true' || value === true) {
+    if (IdsStringUtils.stringToBool(value)) {
       idsTextElem.setAttribute(attributes.AUDIBLE, value);
     } else {
       idsTextElem.removeAttribute(attributes.AUDIBLE);
