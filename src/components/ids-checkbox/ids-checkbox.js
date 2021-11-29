@@ -336,11 +336,12 @@ class IdsCheckbox extends mix(IdsElement).with(
    * @param {boolean} value of the `labelAudible`
    */
   set labelAudible(value) {
+    this.setAttribute(attributes.LABEL_AUDIBLE, value);
     const idsTextElem = this.labelEl?.querySelector('ids-text');
     if (value === 'true' || value === true) {
-      idsTextElem.setAttribute(attributes.LABEL_AUDIBLE, value);
+      idsTextElem.setAttribute(attributes.AUDIBLE, value);
     } else {
-      idsTextElem.removeAttribute(attributes.LABEL_AUDIBLE);
+      idsTextElem.removeAttribute(attributes.AUDIBLE);
     }
   }
 

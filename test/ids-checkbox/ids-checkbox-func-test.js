@@ -78,6 +78,22 @@ describe('IdsCheckbox Component', () => {
     expect(rootEl.classList).not.toContain('disabled');
   });
 
+  it('should renders as label audible', () => {
+    expect(cb.getAttribute('label-audible')).toEqual(null);
+    let textEl = cb.shadowRoot.querySelector('ids-text');
+    expect(textEl.getAttribute('audible')).toEqual(null);
+
+    cb.labelAudible = 'true';
+    expect(cb.getAttribute('label-audible')).toEqual('true');
+    textEl = cb.shadowRoot.querySelector('ids-text');
+    expect(textEl.getAttribute('audible')).toEqual('true');
+
+    cb.labelAudible = 'false';
+    expect(cb.getAttribute('label-audible')).toEqual('false');
+    textEl = cb.shadowRoot.querySelector('ids-text');
+    expect(textEl.getAttribute('audible')).toEqual(null);
+  });
+
   it('should add/remove required error', () => {
     cb.validate = 'required';
     expect(cb.getAttribute('validate')).toEqual('required');
