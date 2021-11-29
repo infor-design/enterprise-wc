@@ -216,9 +216,9 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   /**
-  * Inner template contents
-  * @returns {string} The template
-  */
+   * Inner template contents
+   * @returns {string} The template
+   */
   template() {
     return `
     ${this.virtualScroll ? this.virtualScrollTemplate() : this.staticScrollTemplate()}
@@ -226,10 +226,10 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   /**
-  * Return an item's html injecting any values from the dataset as needed.
-  * @param  {object} item The item to generate
-  * @returns {string} The html for this item
-  */
+   * Return an item's html injecting any values from the dataset as needed.
+   * @param  {object} item The item to generate
+   * @returns {string} The html for this item
+   */
   itemTemplate(item) {
     return stringUtils.injectTemplate(this.defaultTemplate, item);
   }
@@ -242,9 +242,9 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   }
 
   /**
-  * Render the list by applying the template
-  * @private
-  */
+   * Render the list by applying the template
+   * @private
+   */
   render() {
     super.render();
 

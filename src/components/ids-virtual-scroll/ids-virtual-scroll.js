@@ -268,7 +268,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * Set the data array of the listview
-   * @param {Array|undefined} value The array to use
+   * @param {Array|undefined} array The array to use
    */
   set data(array) {
     if (array && this.datasource) {
