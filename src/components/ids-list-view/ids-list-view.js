@@ -39,10 +39,8 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   datasource = new IdsDataSource();
 
   connectedCallback() {
-    this.virtualScroll = true;
     this.defaultTemplate = `${this.querySelector('template')?.innerHTML || ''}`;
     super.connectedCallback();
-    if (!this.virtualScroll) this.#attachEventListeners();
   }
 
   /**
@@ -68,19 +66,19 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     return this.draggable ? this.container.querySelectorAll('ids-draggable') : null;
   }
 
-  #attachEventListeners() {
-    this.#attachClickListeners();
-    this.#attachKeyboardListeners();
+  attachEventListeners() {
+    this.attachClickListeners();
+    this.attachKeyboardListeners();
   }
 
-  #attachClickListeners() {
+  attachClickListeners() {
     this.getAllLi().forEach((item) => {
-      this.#attachClickListenersForItems(item);
+      this.attachClickListenersForItems(item);
     });
   }
 
   // each click on an item - always set that to focus, toggle the selected feature
-  #attachClickListenersForItems(item) {
+  attachClickListenersForItems(item) {
     this.onEvent('click', item, () => {
       if (this.getFocusedLi !== item) {
         this.focusLi(item);
@@ -88,25 +86,27 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     });
   }
 
-  #attachKeyboardListeners() {
+  attachKeyboardListeners() {
     this.getAllLi().forEach((item) => {
-      this.#attachKeyboardListenersForItems(item);
+      this.attachKeyboardListenersForItems(item);
     });
 
     this.onEvent('keydown', document, (event) => {
       switch (event.key) {
       case 'Tab':
-        this.virtualScrollContainer.scrollToIndex(this.#focusedLiIndex);
+        this.virtualScrollContainer?.scrollToIndex(this.#focusedLiIndex);
         break;
       case 'ArrowUp':
+        event.preventDefault();
         if (this.#focusedLiIndex >= 0 && !this.getFocusedLi()) {
-          this.virtualScrollContainer.scrollToIndex(this.#focusedLiIndex);
+          this.virtualScrollContainer?.scrollToIndex(this.#focusedLiIndex);
           this.focusLi(this.getPreviousLi(this.getFocusedLi()));
         }
         break;
       case 'ArrowDown':
+        event.preventDefault();
         if (this.#focusedLiIndex >= 0 && !this.getFocusedLi()) {
-          this.virtualScrollContainer.scrollToIndex(this.#focusedLiIndex);
+          this.virtualScrollContainer?.scrollToIndex(this.#focusedLiIndex);
           this.focusLi(this.getNextLi(this.getFocusedLi()));
         }
         break;
@@ -116,7 +116,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     });
   }
 
-  #attachKeyboardListenersForItems(item) {
+  attachKeyboardListenersForItems(item) {
     this.onEvent('keydown', item, (event) => {
       switch (event.key) {
       case 'ArrowUp':
@@ -248,10 +248,14 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   render() {
     super.render();
 
-    if (this.virtualScroll && this?.data.length > 0) {
+    if (!this.virtualScroll && this.data?.length > 0) {
+      this.attachEventListeners();
+    }
+
+    if (this.virtualScroll && this.data?.length > 0) {
       // reattach event listeners and refocus any focused list item
       this.onEvent('ids-virtual-scroll-afterrender', this.virtualScrollContainer, () => {
-        this.#attachEventListeners();
+        this.attachEventListeners();
         if (this.#focusedLiIndex >= 0) this.#refocus();
       });
 
