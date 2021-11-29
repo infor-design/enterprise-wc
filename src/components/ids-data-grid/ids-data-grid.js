@@ -67,6 +67,7 @@ class IdsDataGrid extends mix(IdsElement).with(
   static get attributes() {
     return [
       attributes.ALTERNATE_ROW_SHADING,
+      attributes.AUTO_FIT,
       attributes.LABEL,
       attributes.LANGUAGE,
       attributes.LOCALE,
@@ -91,19 +92,42 @@ class IdsDataGrid extends mix(IdsElement).with(
 
     const additionalClasses = this.alternateRowShading === 'true' ? 'alt-row-shading' : '';
     if (this?.virtualScroll !== 'true') {
-      html = `<div class="ids-data-grid ${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
-      ${this.headerTemplate()}
-      ${this.bodyTemplate()}
-      </div>`;
+      html = `
+        <div
+          class="ids-data-grid ${additionalClasses}" 
+          role="table"
+          part="table"
+          aria-label="${this.label}"
+          data-row-height="${this.rowHeight}"
+          mode="${this.mode}"
+          version="${this.version}"
+        >
+          ${this.headerTemplate()}
+          ${this.bodyTemplate()}
+        </div>
+      `;
       return html;
     }
 
-    html = `<div class="ids-data-grid ${additionalClasses}" role="table" part="table" aria-label="${this.label}" data-row-height="${this.rowHeight}" mode="${this.mode}" version="${this.version}" >
-      ${this.headerTemplate()}
-      <ids-virtual-scroll>
-        <div class="ids-data-grid-body" part="style-wrapper" part="body" role="rowgroup"></div>
-      </ids-virtual-scroll>
-    </div>`;
+    html = `
+      <div
+        class="ids-data-grid ${additionalClasses}"
+        role="table"
+        part="table"
+        aria-label="${this.label}"
+        data-row-height="${this.rowHeight}"
+        mode="${this.mode}"
+        version="${this.version}"
+      >
+        ${this.headerTemplate()}
+        <ids-virtual-scroll>
+          <div class="ids-data-grid-container" part="container">
+            <div class="ids-data-grid-body" part="body" role="rowgroup" slot="contents">
+            </div>
+          </div>
+        </ids-virtual-scroll>
+      </div>
+    `;
 
     return html;
   }
@@ -137,8 +161,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       this.virtualScrollContainer.scrollTarget = this.container;
 
       this.virtualScrollContainer.itemTemplate = (row, index) => this.rowTemplate(row, index); //eslint-disable-line
-      // TODO Dynamic Height setting - header height
-      this.virtualScrollContainer.height = 350 - this.headerPixelHeight;
+      this.virtualScrollContainer.itemCount = this.data.length;
       this.virtualScrollContainer.itemHeight = this.rowPixelHeight;
       this.virtualScrollContainer.data = this.data;
     }
@@ -149,6 +172,8 @@ class IdsDataGrid extends mix(IdsElement).with(
       this.setActiveCell(0, 0);
       this.#attachKeyboardListeners();
     }
+
+    if (this.autoFit) this.container.style.height = `100%`;
 
     // Set back direction
     if (dir) {
@@ -311,7 +336,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       const rowDiff = key === 'ArrowDown' ? 1 : (key === 'ArrowUp' ? -1 : 0); //eslint-disable-line
       const cellDiff = key === 'ArrowRight' ? 1 : (key === 'ArrowLeft' ? -1 : 0); //eslint-disable-line
 
-      this.setActiveCell(this.activeCell?.cell + cellDiff, this.activeCell?.row + rowDiff);
+      this.setActiveCell(Number(this.activeCell?.cell) + cellDiff, Number(this.activeCell?.row) + rowDiff);
       e.preventDefault();
       e.stopPropagation();
     });
@@ -503,13 +528,18 @@ class IdsDataGrid extends mix(IdsElement).with(
   }
 
   /**
-   * Get the header height in pixels
-   * @private
-   * @returns {number} The pixel height
+   * Set the card to auto fit to its parent size
+   * @param {boolean|null} value The auto fit
    */
-  get headerPixelHeight() {
-    return 35;
+  set autoFit(value) {
+    if (IdsStringUtils.stringToBool(value)) {
+      this.setAttribute(attributes.AUTO_FIT, value);
+      return;
+    }
+    this.removeAttribute(attributes.AUTO_FIT);
   }
+
+  get autoFit() { return IdsStringUtils.stringToBool(this.getAttribute(attributes.AUTO_FIT)); }
 
   /**
    * Set the active cell for focus

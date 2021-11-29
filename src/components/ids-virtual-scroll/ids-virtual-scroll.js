@@ -11,7 +11,7 @@ import { IdsEventsMixin } from '../../mixins';
 import { IdsStringUtils } from '../../utils';
 import styles from './ids-virtual-scroll.scss';
 
-const DEFAULT_HEIGHT = 310;
+const DEFAULT_HEIGHT = '100vh';
 const DEFAULT_ITEM_HEIGHT = 50;
 
 /**
@@ -42,9 +42,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   #attachEventHandlers() {
     this.timeout = null;
 
-    this.onEvent('scroll', this.container, (e) => {
-      this.handleScroll(e);
-    }, { passive: true });
+    this.scrollTarget = this.container;
 
     return this;
   }
@@ -106,10 +104,16 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @private
    */
   applyHeight() {
-    const viewport = this.container.querySelector('.ids-virtual-scroll-viewport');
+    const content = this.container.querySelector('.ids-virtual-scroll-content');
 
-    this.container.style.height = `${this.height}px`;
-    viewport.style.height = `${this.viewPortHeight}px`;
+    if (this.height.includes('vh')) {
+      const spaceFromTop = this.getBoundingClientRect().top;
+      this.style.height = `calc(${this.height} - ${spaceFromTop - 16}px)`; // the actual viewport
+    } else {
+      this.style.height = `${this.height}`;
+    }
+
+    content.style.height = `${this.contentHeight}px`;
 
     const offset = this.container.querySelector('.offset');
     offset.style.transform = `translateY(${this.offsetY}px)`;
@@ -121,7 +125,8 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
    * @returns {number} The array of visible data
    */
   visibleItemCount() {
-    let count = Math.ceil(this.height / this.itemHeight) + (2 * this.bufferSize);
+    const viewportHeight = this.container.getBoundingClientRect().height;
+    let count = Math.ceil(viewportHeight / this.itemHeight) + (2 * this.bufferSize);
     count = Math.min(Number(this.itemCount) - this.startIndex, count);
     return count;
   }
@@ -147,7 +152,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   template() {
     return `
       <div class="ids-virtual-scroll">
-        <div class="ids-virtual-scroll-viewport">
+        <div class="ids-virtual-scroll-content">
           <div class="offset">
             <slot></slot>
           </div>
@@ -158,7 +163,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * The height of the virtual scroll container
-   * @param {number|string|undefined} value the height in pixels
+   * @param {number|string|undefined} value the height for css
    */
   set height(value) {
     if (value) {
@@ -234,10 +239,10 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   /**
-   * The height of the inner viewport
-   * @returns {number} The calculated viewport height
+   * The height of the content behind the viewport
+   * @returns {number} The calculated content height
    */
-  get viewPortHeight() { return Number(this.itemCount) * Number(this.itemHeight); }
+  get contentHeight() { return Number(this.itemCount) * Number(this.itemHeight); }
 
   get itemCount() { return this.data?.length; }
 
@@ -246,8 +251,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
   }
 
   get startIndex() {
-    let startNode = Math.floor(Number(this.scrollTop) / Number(this.itemHeight))
-      - Number(this.bufferSize);
+    let startNode = Math.floor(Number(this.scrollTop) / Number(this.itemHeight)) - Number(this.bufferSize);
     startNode = Math.max(0, startNode);
 
     return startNode;

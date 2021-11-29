@@ -52,8 +52,6 @@ class IdsRenderLoopItem extends Object {
     this.paused = false;
     this.startTime = timestamp();
     this.totalStoppedTime = 0;
-
-    return this;
   }
 
   /**

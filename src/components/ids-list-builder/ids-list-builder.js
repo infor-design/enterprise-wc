@@ -141,6 +141,8 @@ class IdsListBuilder extends mix(IdsListView).with(IdsEventsMixin, IdsThemeMixin
       // otherwise toggle it depending on whether or not it has the attribute already
       const hasSelectedAttribute = item.getAttribute('selected');
       hasSelectedAttribute ? unselect() : select();
+
+      this.focusLi(item);
     }
   }
 

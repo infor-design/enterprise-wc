@@ -41,3 +41,7 @@ ids-virtual-scroll::part(list-item) {
     grid-template-columns: 125px 1fr !important;
   }
 }
+
+.parent-container {
+  margin: 16px;
+}

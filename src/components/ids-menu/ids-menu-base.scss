@@ -14,13 +14,3 @@ $menu-item-transition-length: 50ms;
   margin-block-start: 0;
   padding-inline-start: 0;
 }
-
-// All styles needed to build a separator
-@mixin separator-style() {
-  @include block();
-  @include my-4();
-
-  background-color: var(--ids-color-brand-secondary-lighter);
-  height: 1px;
-  list-style: none;
-}

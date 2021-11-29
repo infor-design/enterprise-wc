@@ -27,6 +27,9 @@
   - Can now use the hitbox styles by adding the setting to the ids-checkbox component.
 - `[Colorpicker]` The color picker has been ported from 4.x and converted to a custom element `<ids-color-picker></ids-color-picker>`
 - `[IdsContainer]` Adding a new setting to provide a custom padding property. <ids-container padding="8"></ids-container>
+- `[Contextual Action Panel]` The Contextual Action Panel is now a webcomponent.
+  - Markup has changed to a custom element `<ids-contextual-action-panel></ids-contextual-action-panel>`
+  - Component is now fully defined in HTML Markup
 - `[Counts]` The counts component has been changed to a web component and renamed to ids-counts.
   - Text is now contained in an ids-text element `<ids-text></ids-text>`
   - Can now be imported as a single JS file and used with encapsulated styles
@@ -128,6 +131,11 @@
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[Spinbox]` The spinbox component has been changed to a web component and renamed to ids-spinbox.
   - Markup has changed to a custom element `<ids-spinbox></ids-spinbox>`
+  - If using events, events are now plain JS events.
+  - Can now be imported as a single JS file and used with encapsulated styles
+- `[Splitter]` The splitter component has been changed to a web component and renamed to ids-splitter.
+  - Content should append to `<ids-splitter-pane>` component.
+  - Splitter orientation can be set by use of `axis` settings.
   - If using events, events are now plain JS events.
   - Can now be imported as a single JS file and used with encapsulated styles
 - `[Switch]` The Switch component has been changed to a web component and renamed to ids-switch.

@@ -51,6 +51,7 @@ describe('IdsVirtualScroll Component', () => {
 
     virtualScroll.scrollTop = 30000;
     virtualScroll.handleScroll({ target: virtualScroll });
+    // eslint-disable-next-line no-promise-executor-return
     await new Promise((r) => setTimeout(r, 50));
 
     expect(virtualScroll.innerHTML).not.toEqual(startingHtml);
@@ -65,6 +66,7 @@ describe('IdsVirtualScroll Component', () => {
     virtualScroll.handleScroll({ target: virtualScroll });
     virtualScroll.scrollTop = 501;
     virtualScroll.handleScroll({ target: virtualScroll });
+    // eslint-disable-next-line no-promise-executor-return
     await new Promise((r) => setTimeout(r, 50));
 
     expect(virtualScroll.innerHTML).not.toEqual(startingHtml);

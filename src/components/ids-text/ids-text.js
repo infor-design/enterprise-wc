@@ -353,6 +353,10 @@ class IdsText extends mix(IdsElement).with(
     }
   }
 
+  get translateText() {
+    return this.getAttribute(attributes.TRANSLATE_TEXT);
+  }
+
   /**
    * Translate the contents asyncronously
    * @private
@@ -360,10 +364,6 @@ class IdsText extends mix(IdsElement).with(
   async #translateAsync() {
     await this.locale.setLanguage(this.language.name);
     this.textContent = this.locale.translate(this.getAttribute('translation-key') || this.textContent);
-  }
-
-  get translateText() {
-    return this.getAttribute(attributes.TRANSLATE_TEXT);
   }
 }
 

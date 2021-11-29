@@ -1,0 +1,11 @@
+---
+ component: Week View
+ link: ids-week-view
+ description: Displays weeks and days with navigation
+ category: Layouts
+ keywords: calendar, date, day, week, month, toolbar, time
+ examples:
+  - link: index.html
+    description: Past dates, no timeline, no today's day highlight
+  - link: current-week.html
+    description: Example showing current week with today's day highlighted and timeline

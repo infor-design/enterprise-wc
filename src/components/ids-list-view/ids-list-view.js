@@ -15,7 +15,7 @@ import { IdsThemeMixin, IdsKeyboardMixin, IdsEventsMixin } from '../../mixins';
 import IdsVirtualScroll from '../ids-virtual-scroll';
 import styles from './ids-list-view.scss';
 
-const DEFAULT_HEIGHT = 310;
+const DEFAULT_HEIGHT = '100%';
 
 /**
  * IDS List View Component
