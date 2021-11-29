@@ -146,6 +146,12 @@
   }
 }
 
+:host([class='label-checkbox']) .audible {
+  position: relative;
+  line-height: 1;
+  height: unset;
+}
+
 // ========================================================
 // Theme Styles
 
