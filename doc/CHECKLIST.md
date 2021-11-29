@@ -141,5 +141,5 @@ Will get a checkbox at minimum viable product. The rest of the details are cover
  - [ ] Treemap (ids-tree-map)
  - [x] Typography (ids-text)
  - [x] Validation (mixin)
- - [ ] Week View (ids-week-view)
+ - [x] Week View (ids-week-view)
  - [x] Wizard (ids-wizard)
