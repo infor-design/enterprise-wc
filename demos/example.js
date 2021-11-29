@@ -59,6 +59,7 @@ import triggerFieldYaml from './ids-trigger-field/index.yaml';
 import uploadYaml from './ids-upload/index.yaml';
 import uploadAdvancedYaml from './ids-upload-advanced/index.yaml';
 import wizardYaml from './ids-wizard/index.yaml';
+import weekView from './ids-week-view/index.yaml';
 import virtualScrollYaml from './ids-virtual-scroll/index.yaml';
 import typographyYaml from './typography/index.yaml';
 
@@ -144,6 +145,7 @@ addYaml(uploadYaml);
 addYaml(uploadAdvancedYaml);
 addYaml(virtualScrollYaml);
 addYaml(wizardYaml);
+addYaml(weekView);
 addYaml(typographyYaml);
 
 let html = '';
