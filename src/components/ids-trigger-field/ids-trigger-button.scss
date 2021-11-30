@@ -20,7 +20,8 @@
   &:focus {
     @include outline-none();
 
-    box-shadow: 0 0 0 2px transparent, 0 0 0 1px white, 0 0 4px 3px rgb(255 255 255 / 0.3);
+    @include bg-opacity-100();
+    box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 2px rgb(141 201 230 / 0.3);
   }
 
   &:hover {
@@ -42,6 +43,10 @@
 .ids-icon-button[mode='dark'] {
   @include text-slate-20();
 
+  &:focus {
+    box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-60), 0 0 4px 2px rgb(141 201 230 / 0.3);
+  }
+
   &:hover {
     @include text-white();
   }
@@ -57,6 +62,10 @@
 
 .ids-icon-button[mode='contrast'] {
   @include text-slate-90();
+
+  &:focus {
+    box-shadow: 0 0 0 2px transparent, 0 0 0 1px var(--ids-color-palette-azure-90), 0 0 4px 2px rgb(41 41 41 / 0.3);
+  }
 
   &:hover {
     @include text-slate-60();
@@ -100,5 +109,17 @@
 
   &[readonly] {
     @include text-graphite-80();
+  }
+}
+
+.ids-icon-button.color-variant-alternate {
+  &:focus {
+    @include bg-opacity-70();
+
+    box-shadow: 0 0 0 2px transparent, 0 0 0 1px white, 0 0 4px 3px rgb(255 255 255 / 0.3);
+  }
+
+  &:hover {
+    @include bg-opacity-100();
   }
 }
