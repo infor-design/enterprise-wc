@@ -8,7 +8,8 @@
   @include flex();
   @include p-0();
   @include rounded-round();
-  @include text-slate-60();
+  @include text-white();
+  @include bg-opacity-70();
   @include mx-4;
 
   align-items: center;
@@ -17,13 +18,13 @@
   width: 28px;
 
   &:focus {
-    @include border-azure-70();
     @include outline-none();
-    @include shadow();
+
+    box-shadow: 0 0 0 2px transparent, 0 0 0 1px white, 0 0 4px 3px rgb(255 255 255 / 0.3);
   }
 
   &:hover {
-    @include text-slate-100();
+    @include bg-opacity-100();
   }
 
   &[disabled] {
