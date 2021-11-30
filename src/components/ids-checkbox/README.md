@@ -84,6 +84,13 @@ Set as Indeterminate the checkbox. This `indeterminate` attribute will remove on
 <ids-checkbox label="Indeterminate" indeterminate="true"></ids-checkbox>
 ```
 
+Hide label and show only checkbox:
+
+```html
+<ids-checkbox label="UnChecked" label-audible="true"></ids-checkbox>
+<ids-checkbox label="Checked" checked="true" label-audible="false"></ids-checkbox>
+```
+
 ## Settings (Attributes)
 
 - `checked` {boolean} set checked state.
@@ -93,6 +100,7 @@ Set as Indeterminate the checkbox. This `indeterminate` attribute will remove on
 - `horizontal` {boolean} set checkbox layout inline as horizontal.
 - `indeterminate` {boolean} This set to neither checked nor unchecked.
 - `label` {string} set the label text.
+- `label-audible` {boolean} set audible state.
 - `label-required` {boolean} set validation `required` indicator, default is set to `true`.
 - `validate` {string} set the validation rule `required`.
 - `validation-events` {string} set the validation events, use `space` to add multiple default is set to `change`.
