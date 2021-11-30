@@ -1,0 +1,22 @@
+/* Ids Text Css */
+@import '../../core/ids-base';
+
+text {
+  @include antialiased();
+  @include font-sans();
+  @include font-normal();
+  @include block();
+  @include m-0();
+
+  color: currentColor;
+  font-size: 16px;
+}
+
+.treemap-title {
+  font-size: 1.6rem;
+  background-color: #606066;
+  color: #ffffff;
+  height: 34px;
+  line-height: 34px;
+  text-align: center;
+}

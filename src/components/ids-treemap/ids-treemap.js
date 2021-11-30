@@ -45,6 +45,7 @@ class IdsTreeMap extends mix(IdsElement).with(
    */
   connectedCallback() {
     super.connectedCallback();
+    this.resizeTreemap();
   }
 
   /**
@@ -102,6 +103,15 @@ class IdsTreeMap extends mix(IdsElement).with(
         </rect>
         <text
           fill="white"
+          x="${rect.x + 16}"
+          y="${rect.y + 32}"
+        >
+          ${rect.data.text}
+        </text>
+        <text
+          fill="white"
+          x="${rect.x + 16}"
+          y="${rect.y + 56}"
         >
           ${rect.data.label}
         </text>
@@ -172,7 +182,7 @@ class IdsTreeMap extends mix(IdsElement).with(
     const rowMax = this.getMaximum(row);
     const rowMin = this.getMinimum(row);
     return Math.max(((width ** 2) * rowMax) / (sum ** 2), (sum ** 2) / ((width ** 2) * rowMin));
-  }
+  };
 
   getMinWidth = () => {
     if (this.Rectangle.totalHeight ** 2 > this.Rectangle.totalWidth ** 2) {
@@ -250,20 +260,25 @@ class IdsTreeMap extends mix(IdsElement).with(
 
   treeMap({ data, width, height }) {
     this.validateArguments({ data, width, height });
-    this.width = width;
+
+    if (width < this.container.offsetWidth) {
+      this.width = this.container.offsetWidth;
+    } else {
+      this.width = width;
+    }
     this.height = height;
 
     this.Rectangle = {
       data: [],
       xBeginning: 0,
       yBeginning: 0,
-      totalWidth: width,
-      totalHeight: height,
+      totalWidth: this.width,
+      totalHeight: this.height,
     };
 
     this.initialData = data;
     const totalValue = data.map((dataPoint) => dataPoint.value).reduce(this.sumReducer, 0);
-    const dataScaled = data.map((dataPoint) => (dataPoint.value * height * width) / totalValue);
+    const dataScaled = data.map((dataPoint) => (dataPoint.value * this.height * this.width) / totalValue);
 
     this.squarify(dataScaled, [], this.getMinWidth().value);
 
@@ -274,6 +289,18 @@ class IdsTreeMap extends mix(IdsElement).with(
       width: this.roundValue(dataPoint.width),
       height: this.roundValue(dataPoint.height),
     }));
+  }
+
+  resizeTreemap() {
+    window.addEventListener('resize', () => {
+      this.width = this.container.offsetWidth;
+      const updatedObj = {
+        data: this.initialData,
+        width: this.width,
+        height: this.height
+      };
+      this.result = this.treeMap(updatedObj);
+    });
   }
 }
 
