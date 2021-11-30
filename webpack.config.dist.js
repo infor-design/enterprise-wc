@@ -5,21 +5,18 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
 const coreDir = './src/core';
-const mixinsDir = './src/mixins'
+const mixinsDir = './src/mixins';
 const componentsDir = './src/components';
 
 module.exports = {
   entry: {
-
-    //////////////////////////////////////////////////////////////   Core   //////////////////////////////////////////////////////////////////////////////////
-
+    // Core
     'attributes': `${coreDir}/ids-attributes.js`,
     'data-source': `${coreDir}/ids-data-source.js`,
     'decorators': `${coreDir}/ids-decorators.js`,
     'element': `${coreDir}/ids-element.js`,
-    
-    //////////////////////////////////////////////////////////////   Components   //////////////////////////////////////////////////////////////////////////////////
 
+    // Components
     'enterprise-wc': `${componentsDir}/enterprise-wc.js`,
     'about': { import: [`${componentsDir}/ids-about/ids-about.js`] },
     'accordion': { import: [`${componentsDir}/ids-accordion/ids-accordion.js`] },
@@ -101,29 +98,23 @@ module.exports = {
     'week-view': { import: [`${componentsDir}/ids-week-view/ids-week-view.js`] },
     'wizard': { import: [`${componentsDir}/ids-wizard/ids-wizard.js`] },
 
-    //////////////////////////////////////////////////////////////   Components   //////////////////////////////////////////////////////////////////////////////////
-
-    //////////////////////////////////////////////////////////////   Mixins   //////////////////////////////////////////////////////////////////////////////////
-
-    'clearable-mixin': `${mixinsDir}/ids-clearable-mixin.js`,
-    'color-variant-mixin': `${mixinsDir}/ids-color-variant-mixin.js`,
-    'dirty-tracker-mixin': `${mixinsDir}/ids-dirty-tracker-mixin.js`,
-    'events-mixin': `${mixinsDir}/ids-events-mixin.js`,
-    'focus-capture-mixin': `${mixinsDir}/ids-focus-capture-mixin.js`,
-    'hitbox-mixin': `${mixinsDir}/ids-hitbox-mixin.js`,
-    'keyboard-mixin': `${mixinsDir}/ids-keyboard-mixin.js`,
-    'locale-mixin': `${mixinsDir}/ids-locale-mixin.js`,
-    'mask-mixin': `${mixinsDir}/ids-mask-mixin.js`,
-    'orientation-mixin': `${mixinsDir}/ids-orientation-mixin.js`,
-    'popup-interactions-mixin': `${mixinsDir}/ids-popup-interactions-mixin.js`,
-    'popup-open-events-mixin': `${mixinsDir}/ids-popup-open-events-mixin.js`,
-    'theme-mixin': `${mixinsDir}/ids-theme-mixin.js`,
-    'tooltip-mixin': `${mixinsDir}/ids-tooltip-mixin.js`,
-    'validation-mixin': `${mixinsDir}/ids-validation-mixin.js`,
-    'xss-mixin': `${mixinsDir}/ids-xss-mixin.js`,
-
-    //////////////////////////////////////////////////////////////   Mixins   //////////////////////////////////////////////////////////////////////////////////
-
+    // Mixins
+    'clearable-mixin': `${mixinsDir}/ids-clearable-mixin/ids-clearable-mixin.js`,
+    'color-variant-mixin': `${mixinsDir}/ids-color-variant-mixin/ids-color-variant-mixin.js`,
+    'dirty-tracker-mixin': `${mixinsDir}/ids-dirty-tracker-mixin/ids-dirty-tracker-mixin.js`,
+    'events-mixin': `${mixinsDir}/ids-events-mixin/ids-events-mixin.js`,
+    'focus-capture-mixin': `${mixinsDir}/ids-focus-capture-mixin/ids-focus-capture-mixin.js`,
+    'hitbox-mixin': `${mixinsDir}/ids-hitbox-mixin/ids-hitbox-mixin.js`,
+    'keyboard-mixin': `${mixinsDir}/ids-keyboard-mixin/ids-keyboard-mixin.js`,
+    'locale-mixin': `${mixinsDir}/ids-locale-mixin/ids-locale-mixin.js`,
+    'mask-mixin': `${mixinsDir}/ids-mask-mixin/ids-mask-mixin.js`,
+    'orientation-mixin': `${mixinsDir}/ids-orientation-mixin/ids-orientation-mixin.js`,
+    'popup-interactions-mixin': `${mixinsDir}/ids-popup-interactions-mixin/ids-popup-interactions-mixin.js`,
+    'popup-open-events-mixin': `${mixinsDir}/ids-popup-open-events-mixin/ids-popup-open-events-mixin.js`,
+    'theme-mixin': `${mixinsDir}/ids-theme-mixin/ids-theme-mixin.js`,
+    'tooltip-mixin': `${mixinsDir}/ids-tooltip-mixin/ids-tooltip-mixin.js`,
+    'validation-mixin': `${mixinsDir}/ids-validation-mixin/ids-validation-mixin.js`,
+    'xss-mixin': `${mixinsDir}/ids-xss-mixin/ids-xss-mixin.js`,
   },
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : 'ids-[name]/ids-[name].js'),
@@ -206,5 +197,5 @@ module.exports = {
     })
   ],
   devtool: 'source-map',
-  mode: 'production' // isProduction ? 'production' : 'development'
+  mode: isProduction ? 'production' : 'development'
 };
