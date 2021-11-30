@@ -20,7 +20,7 @@ describe('Ids List Builder e2e Tests', () => {
     const jsPathListItemFourth = `document.querySelector("ids-list-builder").shadowRoot.querySelector(".ids-list-view > div > ids-draggable:nth-child(4) > div")`;
     const firstLi = await (await page.evaluateHandle(jsPathListItemFirst)).asElement();
     const fourthLi = await (await page.evaluateHandle(jsPathListItemFourth)).asElement();
-    const firstLiBox = await firstLi.boundingBox();
+    const firstLiBox = await firstLi?.boundingBox();
     const fourthLiBox = await fourthLi.boundingBox();
 
     const midWidth = firstLiBox.x + firstLiBox.width / 2;
