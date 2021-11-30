@@ -69,4 +69,5 @@ import IdsTree from './ids-tree/ids-tree';
 import IdsTriggerField from './ids-trigger-field/ids-trigger-field';
 import IdsUpload from './ids-upload/ids-upload';
 import IdsUploadAdvanced from './ids-upload-advanced/ids-upload-advanced';
+import IdsWeekView from './ids-week-view/ids-week-view';
 import IdsWizard from './ids-wizard/ids-wizard';

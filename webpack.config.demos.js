@@ -290,13 +290,14 @@ glob.sync('./demos/**/*.html').reduce((acc, filePath) => {
   // The specified chunk is added to a list of components that will be pre-loaded,
   // no matter which page is displayed.
   const folderChunks = [
-    chunk,
+    'ids-locale/ids-locale',
     'ids-container/ids-container',
     'ids-icon/ids-icon',
     'ids-layout-grid/ids-layout-grid',
     'ids-text/ids-text',
     'ids-theme-switcher/ids-theme-switcher',
-    'ids-toolbar/ids-toolbar'
+    'ids-toolbar/ids-toolbar',
+    chunk
   ];
 
   // Add example.js to the page as a separate chunk

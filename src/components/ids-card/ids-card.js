@@ -64,7 +64,7 @@ export default class IdsCard extends Base {
     this.removeAttribute(attributes.AUTO_FIT);
   }
 
-  get autoFit() { return IdsStringUtils.stringToBool(this.getAttribute(attributes.AUTO_FIT)); }
+  get autoFit() { return stringToBool(this.getAttribute(attributes.AUTO_FIT)); }
 
   /**
    * Set the card to auto height

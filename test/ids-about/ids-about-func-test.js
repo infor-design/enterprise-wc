@@ -273,10 +273,18 @@ describe('IdsAbout Component locale', () => {
   let container;
 
   beforeEach(async () => {
-    container = new IdsContainer();
-    component = new IdsAbout();
-    container.appendChild(component);
+    container = document.createElement('ids-container');
     document.body.appendChild(container);
+    await container.setLanguage('en');
+
+    component = new IdsAbout();
+    component.id = id;
+    component.productVersion = productVersion;
+    component.productName = productName;
+    component.copyrightYear = copyrightYear;
+    component.deviceSpecs = deviceSpecs;
+    component.useDefaultCopyright = useDefaultCopyright;
+    container.appendChild(component);
   });
 
   afterEach(async () => {
@@ -285,7 +293,7 @@ describe('IdsAbout Component locale', () => {
     container = null;
   });
 
-  it('can change language self', async () => {
+  it('can change language on self', async () => {
     await component.setLanguage('ar');
     expect(component.getAttribute('dir')).toEqual('rtl');
 

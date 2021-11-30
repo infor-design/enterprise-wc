@@ -1,3 +1,4 @@
+/* eslint-disable quote-props */
 const path = require('path');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -85,6 +86,7 @@ module.exports = {
     'upload': { import: [`${componentsDir}/ids-upload/ids-upload.js`] },
     'upload-advanced': { import: [`${componentsDir}/ids-upload-advanced/ids-upload-advanced.js`] },
     'virtual-scroll': { import: [`${componentsDir}/ids-virtual-scroll/ids-virtual-scroll.js`] },
+    'week-view': { import: [`${componentsDir}/ids-week-view/ids-week-view.js`] },
     'wizard': { import: [`${componentsDir}/ids-wizard/ids-wizard.js`] },
   },
   output: {

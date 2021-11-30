@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import IdsTree from '../../src/components/ids-tree/ids-tree';
-import { IdsTreeShared as shared } from '../../src/components/ids-tree/ids-tree-shared';
+import IdsTreeShared from '../../src/components/ids-tree/ids-tree-shared';
 import IdsContainer from '../../src/components/ids-container/ids-container';
 
 const processAnimFrame = () => new Promise((resolve) => {
@@ -90,13 +90,13 @@ describe('IdsTree Component', () => {
   it('should sets the tree group collapse icon', () => {
     const icon = 'user-folder-closed';
     expect(tree.getAttribute('collapse-icon')).toEqual(null);
-    expect(tree.collapseIcon).toEqual(shared.DEFAULTS.collapseIcon);
+    expect(tree.collapseIcon).toEqual(IdsTreeShared.DEFAULTS.collapseIcon);
     tree.collapseIcon = icon;
     expect(tree.getAttribute('collapse-icon')).toEqual(icon);
     expect(tree.collapseIcon).toEqual(icon);
     tree.collapseIcon = null;
     expect(tree.getAttribute('collapse-icon')).toEqual(null);
-    expect(tree.collapseIcon).toEqual(shared.DEFAULTS.collapseIcon);
+    expect(tree.collapseIcon).toEqual(IdsTreeShared.DEFAULTS.collapseIcon);
   });
 
   it('should sets the tree as disabled', () => {
@@ -116,18 +116,18 @@ describe('IdsTree Component', () => {
   it('should sets the tree group expand icon', () => {
     const icon = 'user-folder-open';
     expect(tree.getAttribute('expand-icon')).toEqual(null);
-    expect(tree.expandIcon).toEqual(shared.DEFAULTS.expandIcon);
+    expect(tree.expandIcon).toEqual(IdsTreeShared.DEFAULTS.expandIcon);
     tree.expandIcon = icon;
     expect(tree.getAttribute('expand-icon')).toEqual(icon);
     expect(tree.expandIcon).toEqual(icon);
     tree.expandIcon = null;
     expect(tree.getAttribute('expand-icon')).toEqual(null);
-    expect(tree.expandIcon).toEqual(shared.DEFAULTS.expandIcon);
+    expect(tree.expandIcon).toEqual(IdsTreeShared.DEFAULTS.expandIcon);
   });
 
   it('should sets the tree as expanded', () => {
     expect(tree.getAttribute('expanded')).toEqual(null);
-    expect(tree.expanded).toEqual(shared.DEFAULTS.expanded);
+    expect(tree.expanded).toEqual(IdsTreeShared.DEFAULTS.expanded);
     tree.expanded = true;
     expect(tree.getAttribute('expanded')).toEqual('true');
     expect(tree.expanded).toEqual(true);
@@ -136,37 +136,37 @@ describe('IdsTree Component', () => {
     expect(tree.expanded).toEqual(false);
     tree.expanded = null;
     expect(tree.getAttribute('expanded')).toEqual(null);
-    expect(tree.expanded).toEqual(shared.DEFAULTS.expanded);
+    expect(tree.expanded).toEqual(IdsTreeShared.DEFAULTS.expanded);
   });
 
   it('should sets the tree node icon', () => {
     const icon = 'tree-doc';
     expect(tree.getAttribute('icon')).toEqual(null);
-    expect(tree.icon).toEqual(shared.DEFAULTS.icon);
+    expect(tree.icon).toEqual(IdsTreeShared.DEFAULTS.icon);
     tree.icon = icon;
     expect(tree.getAttribute('icon')).toEqual(icon);
     expect(tree.icon).toEqual(icon);
     tree.icon = null;
     expect(tree.getAttribute('icon')).toEqual(null);
-    expect(tree.icon).toEqual(shared.DEFAULTS.icon);
+    expect(tree.icon).toEqual(IdsTreeShared.DEFAULTS.icon);
   });
 
   it('should sets the tree aria label text', () => {
     const label = 'testing tree';
     expect(tree.getAttribute('label')).toEqual(null);
-    expect(tree.container.getAttribute('aria-label')).toEqual(shared.TREE_ARIA_LABEL);
+    expect(tree.container.getAttribute('aria-label')).toEqual(IdsTreeShared.TREE_ARIA_LABEL);
     tree.label = label;
     expect(tree.getAttribute('label')).toEqual(label);
     expect(tree.container.getAttribute('aria-label')).toEqual(label);
     tree.label = null;
     expect(tree.getAttribute('label')).toEqual(null);
-    expect(tree.container.getAttribute('aria-label')).toEqual(shared.TREE_ARIA_LABEL);
+    expect(tree.container.getAttribute('aria-label')).toEqual(IdsTreeShared.TREE_ARIA_LABEL);
   });
 
   it('should sets the tree selectable', () => {
     let selectable = 'single';
     expect(tree.getAttribute('selectable')).toEqual(null);
-    expect(tree.selectable).toEqual(shared.DEFAULTS.selectable);
+    expect(tree.selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
     tree.selectable = selectable;
     expect(tree.getAttribute('selectable')).toEqual(selectable);
     expect(tree.selectable).toEqual(selectable);
@@ -180,10 +180,10 @@ describe('IdsTree Component', () => {
     expect(tree.selectable).toEqual(false);
     tree.selectable = 'test';
     expect(tree.getAttribute('selectable')).toEqual(null);
-    expect(tree.selectable).toEqual(shared.DEFAULTS.selectable);
+    expect(tree.selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
     tree.selectable = null;
     expect(tree.getAttribute('selectable')).toEqual(null);
-    expect(tree.selectable).toEqual(shared.DEFAULTS.selectable);
+    expect(tree.selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
   });
 
   it('should update toggle collapse icon', () => {
@@ -191,7 +191,7 @@ describe('IdsTree Component', () => {
     tree.useToggleTarget = true;
     const icon = 'chevron-right';
     expect(tree.getAttribute('toggle-collapse-icon')).toEqual(null);
-    expect(tree.toggleCollapseIcon).toEqual(shared.DEFAULTS.toggleCollapseIcon);
+    expect(tree.toggleCollapseIcon).toEqual(IdsTreeShared.DEFAULTS.toggleCollapseIcon);
     tree.toggleCollapseIcon = icon;
     expect(tree.getAttribute('toggle-collapse-icon')).toEqual(icon);
     expect(tree.toggleCollapseIcon).toEqual(icon);
@@ -201,31 +201,31 @@ describe('IdsTree Component', () => {
     const icon = 'chevron-right';
     tree.useToggleTarget = true;
     expect(tree.getAttribute('toggle-collapse-icon')).toEqual(null);
-    expect(tree.toggleCollapseIcon).toEqual(shared.DEFAULTS.toggleCollapseIcon);
+    expect(tree.toggleCollapseIcon).toEqual(IdsTreeShared.DEFAULTS.toggleCollapseIcon);
     tree.toggleCollapseIcon = icon;
     expect(tree.getAttribute('toggle-collapse-icon')).toEqual(icon);
     expect(tree.toggleCollapseIcon).toEqual(icon);
     tree.toggleCollapseIcon = null;
     expect(tree.getAttribute('toggle-collapse-icon')).toEqual(null);
-    expect(tree.toggleCollapseIcon).toEqual(shared.DEFAULTS.toggleCollapseIcon);
+    expect(tree.toggleCollapseIcon).toEqual(IdsTreeShared.DEFAULTS.toggleCollapseIcon);
   });
 
   it('should sets the tree toggle expand icon', () => {
     const icon = 'chevron-down';
     tree.useToggleTarget = true;
     expect(tree.getAttribute('toggle-expand-icon')).toEqual(null);
-    expect(tree.toggleExpandIcon).toEqual(shared.DEFAULTS.toggleExpandIcon);
+    expect(tree.toggleExpandIcon).toEqual(IdsTreeShared.DEFAULTS.toggleExpandIcon);
     tree.toggleExpandIcon = icon;
     expect(tree.getAttribute('toggle-expand-icon')).toEqual(icon);
     expect(tree.toggleExpandIcon).toEqual(icon);
     tree.toggleExpandIcon = null;
     expect(tree.getAttribute('toggle-expand-icon')).toEqual(null);
-    expect(tree.toggleExpandIcon).toEqual(shared.DEFAULTS.toggleExpandIcon);
+    expect(tree.toggleExpandIcon).toEqual(IdsTreeShared.DEFAULTS.toggleExpandIcon);
   });
 
   it('should sets the tree toggle icon rotate', () => {
     expect(tree.getAttribute('toggle-icon-rotate')).toEqual(null);
-    expect(tree.toggleIconRotate).toEqual(shared.DEFAULTS.toggleIconRotate);
+    expect(tree.toggleIconRotate).toEqual(IdsTreeShared.DEFAULTS.toggleIconRotate);
     tree.toggleIconRotate = true;
     expect(tree.getAttribute('toggle-icon-rotate')).toEqual('true');
     expect(tree.toggleIconRotate).toEqual(true);
@@ -234,12 +234,12 @@ describe('IdsTree Component', () => {
     expect(tree.toggleIconRotate).toEqual(false);
     tree.toggleIconRotate = null;
     expect(tree.getAttribute('toggle-icon-rotate')).toEqual(null);
-    expect(tree.toggleIconRotate).toEqual(shared.DEFAULTS.toggleIconRotate);
+    expect(tree.toggleIconRotate).toEqual(IdsTreeShared.DEFAULTS.toggleIconRotate);
   });
 
   it('should sets the tree to use toggle target', () => {
     expect(tree.getAttribute('use-toggle-target')).toEqual(null);
-    expect(tree.useToggleTarget).toEqual(shared.DEFAULTS.useToggleTarget);
+    expect(tree.useToggleTarget).toEqual(IdsTreeShared.DEFAULTS.useToggleTarget);
     tree.useToggleTarget = true;
     expect(tree.getAttribute('use-toggle-target')).toEqual('true');
     expect(tree.useToggleTarget).toEqual(true);
@@ -248,7 +248,7 @@ describe('IdsTree Component', () => {
     expect(tree.useToggleTarget).toEqual(false);
     tree.useToggleTarget = null;
     expect(tree.getAttribute('use-toggle-target')).toEqual(null);
-    expect(tree.useToggleTarget).toEqual(shared.DEFAULTS.useToggleTarget);
+    expect(tree.useToggleTarget).toEqual(IdsTreeShared.DEFAULTS.useToggleTarget);
   });
 
   it('should sets the tree to use dataset', () => {
@@ -827,7 +827,7 @@ describe('IdsTree Component', () => {
 
   it('should veto before collapse response', () => {
     tree.data = dataset;
-    tree.addEventListener(shared.EVENTS.beforecollapsed, (e) => {
+    tree.addEventListener(IdsTreeShared.EVENTS.beforecollapsed, (e) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;
@@ -843,7 +843,7 @@ describe('IdsTree Component', () => {
   it('should trigger collapsed event', () => {
     tree.data = dataset;
     const mockCallback = jest.fn(() => { });
-    tree.addEventListener(shared.EVENTS.collapsed, mockCallback);
+    tree.addEventListener(IdsTreeShared.EVENTS.collapsed, mockCallback);
     const id = '#public-folders';
     let node = tree.getNode(id);
     expect(node.isGroup).toEqual(true);
@@ -856,7 +856,7 @@ describe('IdsTree Component', () => {
 
   it('should veto before expand response', () => {
     tree.data = dataset;
-    tree.addEventListener(shared.EVENTS.beforeexpanded, (e) => {
+    tree.addEventListener(IdsTreeShared.EVENTS.beforeexpanded, (e) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;
@@ -872,7 +872,7 @@ describe('IdsTree Component', () => {
   it('should trigger expanded event', () => {
     tree.data = dataset;
     const mockCallback = jest.fn(() => { });
-    tree.addEventListener(shared.EVENTS.expanded, mockCallback);
+    tree.addEventListener(IdsTreeShared.EVENTS.expanded, mockCallback);
     const id = '#icons';
     let node = tree.getNode(id);
     expect(node.isGroup).toEqual(true);
@@ -885,7 +885,7 @@ describe('IdsTree Component', () => {
 
   it('should veto selection response', () => {
     tree.data = dataset;
-    tree.addEventListener(shared.EVENTS.beforeselected, (e) => {
+    tree.addEventListener(IdsTreeShared.EVENTS.beforeselected, (e) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;
@@ -898,7 +898,7 @@ describe('IdsTree Component', () => {
   it('should trigger selected event', () => {
     tree.data = dataset;
     const mockCallback = jest.fn(() => { });
-    tree.addEventListener(shared.EVENTS.selected, mockCallback);
+    tree.addEventListener(IdsTreeShared.EVENTS.selected, mockCallback);
     const id = '#leadership';
     expect(tree.isSelected(id)).toEqual(false);
     tree.select(id);
@@ -908,7 +908,7 @@ describe('IdsTree Component', () => {
 
   it('should veto unselection response', () => {
     tree.data = dataset;
-    tree.addEventListener(shared.EVENTS.beforeunselected, (e) => {
+    tree.addEventListener(IdsTreeShared.EVENTS.beforeunselected, (e) => {
       e.detail.response(false); // veto
     });
     tree.data = dataset;
@@ -925,7 +925,7 @@ describe('IdsTree Component', () => {
   it('should trigger unselected event', () => {
     tree.data = dataset;
     const mockCallback = jest.fn(() => { });
-    tree.addEventListener(shared.EVENTS.unselected, mockCallback);
+    tree.addEventListener(IdsTreeShared.EVENTS.unselected, mockCallback);
     const id = '#leadership';
     expect(tree.isSelected(id)).toEqual(false);
     tree.select(id);
@@ -952,13 +952,13 @@ describe('IdsTree Component', () => {
   it('should set node selectable', () => {
     tree.data = dataset;
     const id = '#home';
-    expect(tree.getNode(id).elem.selectable).toEqual(shared.DEFAULTS.selectable);
+    expect(tree.getNode(id).elem.selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
     expect(tree.isSelected(id)).toEqual(true);
     tree.getNode(id).elem.selectable = 'false';
     expect(tree.getNode(id).elem.selectable).toEqual(false);
     expect(tree.isSelected(id)).toEqual(false);
     tree.getNode(id).elem.selectable = 'test';
-    expect(tree.getNode(id).elem.selectable).toEqual(shared.DEFAULTS.selectable);
+    expect(tree.getNode(id).elem.selectable).toEqual(IdsTreeShared.DEFAULTS.selectable);
   });
 
   it('should set node null attributes', () => {

@@ -1,10 +1,8 @@
-// Import Core
 import { customElement, scss } from '../../core/ids-decorators';
 import { attributes } from '../../core/ids-attributes';
 import Base from './ids-virtual-scroll-base';
 import { injectTemplate } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Dependencies
 import IdsDataSource from '../../core/ids-data-source';
 
 import styles from './ids-virtual-scroll.scss';

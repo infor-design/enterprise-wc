@@ -1,15 +1,19 @@
 /**
  * @jest-environment jsdom
  */
-import IdsWeekView from '../../src/components/ids-week-view';
-import { IdsDateUtils as dateUtils } from '../../src/utils';
+import IdsWeekView from '../../src/components/ids-week-view/ids-week-view';
+import {
+  addDate,
+  firstDayOfWeek,
+  lastDayOfWeek
+} from '../../src/utils/ids-date-utils/ids-date-utils';
 
 const name = 'ids-week-view';
 const startDate = '11/08/2021';
 const endDate = '11/14/2021';
 const startHour = 6;
 const endHour = 21;
-const firstDayOfWeek = 2;
+const startFirstDayOfWeek = 2;
 const interval = 10000;
 const defaultStartHour = 7;
 const defaultEndHour = 19;
@@ -23,7 +27,7 @@ describe('IdsWeekView Component (using properties)', () => {
     component = new IdsWeekView();
     component.startDate = startDate;
     component.endDate = endDate;
-    component.firstDayOfWeek = firstDayOfWeek;
+    component.firstDayOfWeek = startFirstDayOfWeek;
     component.startHour = startHour;
     component.endHour = endHour;
     component.showTimeline = false;
@@ -58,8 +62,8 @@ describe('IdsWeekView Component (using properties)', () => {
 
   it('has properties', () => {
     expect(component.startDate.toISOString()).toEqual(new Date(startDate).toISOString());
-    expect(component.endDate.toISOString()).toEqual(dateUtils.add(new Date(endDate), 1, 'days').toISOString());
-    expect(component.firstDayOfWeek).toEqual(firstDayOfWeek);
+    expect(component.endDate.toISOString()).toEqual(addDate(new Date(endDate), 1, 'days').toISOString());
+    expect(component.firstDayOfWeek).toEqual(startFirstDayOfWeek);
     expect(component.startHour).toEqual(startHour);
     expect(component.endHour).toEqual(endHour);
     expect(component.showTimeline).toBeFalsy();
@@ -75,8 +79,8 @@ describe('IdsWeekView Component (using properties)', () => {
     component.showToday = null;
     component.timelineInterval = null;
 
-    expect(component.startDate.toISOString()).toEqual(dateUtils.firstDayOfWeek(new Date()).toISOString());
-    expect(component.endDate.toISOString()).toEqual(dateUtils.lastDayOfWeek(new Date()).toISOString());
+    expect(component.startDate.toISOString()).toEqual(firstDayOfWeek(new Date()).toISOString());
+    expect(component.endDate.toISOString()).toEqual(lastDayOfWeek(new Date()).toISOString());
     expect(component.startHour).toEqual(defaultStartHour);
     expect(component.endHour).toEqual(defaultEndHour);
     expect(component.firstDayOfWeek).toEqual(defaultFirstDayOfWeek);
@@ -95,7 +99,7 @@ describe('IdsWeekView Component (using attributes)', () => {
         end-date="${endDate}"
         start-hour="${startHour}"
         end-hour="${endHour}"
-        first-day-of-week="${firstDayOfWeek}"
+        first-day-of-week="${startFirstDayOfWeek}"
         timeline-interval="${interval}"
         show-timeline="false"
       ></ids-week-view>
@@ -126,8 +130,8 @@ describe('IdsWeekView Component (using attributes)', () => {
 
   it('has properties', () => {
     expect(component.startDate.toISOString()).toEqual(new Date(startDate).toISOString());
-    expect(component.endDate.toISOString()).toEqual(dateUtils.add(new Date(endDate), 1, 'days').toISOString());
-    expect(component.firstDayOfWeek).toEqual(firstDayOfWeek);
+    expect(component.endDate.toISOString()).toEqual(addDate(new Date(endDate), 1, 'days').toISOString());
+    expect(component.firstDayOfWeek).toEqual(startFirstDayOfWeek);
     expect(component.startHour).toEqual(startHour);
     expect(component.endHour).toEqual(endHour);
     expect(component.showTimeline).toBeFalsy();
@@ -156,8 +160,8 @@ describe('IdsWeekView Component (empty)', () => {
   });
 
   it('should have default properties', () => {
-    expect(component.startDate.toISOString()).toEqual(dateUtils.firstDayOfWeek(new Date()).toISOString());
-    expect(component.endDate.toISOString()).toEqual(dateUtils.lastDayOfWeek(new Date()).toISOString());
+    expect(component.startDate.toISOString()).toEqual(firstDayOfWeek(new Date()).toISOString());
+    expect(component.endDate.toISOString()).toEqual(lastDayOfWeek(new Date()).toISOString());
     expect(component.startHour).toEqual(7);
     expect(component.endHour).toEqual(19);
     expect(component.showToday).toBeFalsy();

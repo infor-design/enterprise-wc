@@ -27,12 +27,12 @@ export default class IdsAbout extends Base {
   static get attributes() {
     return [
       ...super.attributes,
+      attributes.COPYRIGHT_YEAR,
+      attributes.DEVICE_SPECS,
       attributes.LANGUAGE,
       attributes.LOCALE,
       attributes.PRODUCT_NAME,
       attributes.PRODUCT_VERSION,
-      attributes.COPYRIGHT_YEAR,
-      attributes.DEVICE_SPECS,
       attributes.USE_DEFAULT_COPYRIGHT,
     ];
   }
@@ -78,8 +78,16 @@ export default class IdsAbout extends Base {
     this.#refreshProduct();
     this.#attachCloseButton();
 
+    // Respond to parent changing language
     this.offEvent('languagechange.about-container');
-    this.onEvent('languagechange.about-container', this.closest('ids-container'), async () => {
+    this.onEvent('languagechange.about-container', this.closest('ids-container'), async (e) => {
+      await this.setLanguage(e.detail.language.name);
+    });
+
+    // Respond to the element changing language
+    this.offEvent('languagechange.about');
+    this.onEvent('languagechange.about', this, async (e) => {
+      await this.locale.setLanguage(e.detail.language.name);
       this.#refreshDeviceSpecs();
       this.#refreshCopyright();
     });

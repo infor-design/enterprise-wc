@@ -1,4 +1,4 @@
-import { IdsDataGrid } from '../../src/components/ids-data-grid';
+import { IdsDataGrid } from '../../src/components/ids-data-grid/ids-data-grid';
 import './auto-fit.scss';
 
 // Example for populating the DataGrid

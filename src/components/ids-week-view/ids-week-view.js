@@ -1,33 +1,25 @@
+import { customElement, scss } from '../../core/ids-decorators';
+import { attributes } from '../../core/ids-attributes';
+import Base from './ids-week-view-base';
 import {
-  IdsElement,
-  customElement,
-  scss,
-  attributes,
-  mix
-} from '../../core';
+  daysDiff,
+  addDate,
+  subtractDate,
+  firstDayOfWeek,
+  isTodaysDate,
+  isValidDate,
+  lastDayOfWeek
+} from '../../utils/ids-date-utils/ids-date-utils';
+import { stringToBool, stringToNumber } from '../../utils/ids-string-utils/ids-string-utils';
 
-// Import Utils
-import {
-  IdsStringUtils as stringUtils,
-  IdsDateUtils as dateUtils
-} from '../../utils';
-
-// Supporting components
-import IdsButton from '../ids-button';
-import IdsIcon from '../ids-icon';
-import IdsText from '../ids-text';
-import IdsToolbar from '../ids-toolbar';
+import IdsButton from '../ids-button/ids-button';
+import IdsIcon from '../ids-icon/ids-icon';
+import IdsText from '../ids-text/ids-text';
+import IdsToolbar from '../ids-toolbar/ids-toolbar';
 import IdsTriggerButton from '../ids-trigger-field/ids-trigger-button';
-import { renderLoop, IdsRenderLoopItem } from '../ids-render-loop';
+import renderLoop from '../ids-render-loop/ids-render-loop-global';
+import IdsRenderLoopItem from '../ids-render-loop/ids-render-loop-item';
 
-// Import Mixins
-import {
-  IdsEventsMixin,
-  IdsLocaleMixin,
-  IdsThemeMixin
-} from '../../mixins';
-
-// Import Styles
 import styles from './ids-week-view.scss';
 
 /**
@@ -40,7 +32,7 @@ import styles from './ids-week-view.scss';
  */
 @customElement('ids-week-view')
 @scss(styles)
-class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, IdsThemeMixin) {
+export default class IdsWeekView extends Base {
   constructor() {
     super();
   }
@@ -231,22 +223,22 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    * @param {'next'|'previous'|'today'} type of event to be called
    */
   #changeDate(type) {
-    const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
-    const hasIrregularDays = daysDiff !== 7;
+    const diff = daysDiff(this.startDate, this.endDate);
+    const hasIrregularDays = diff !== 7;
 
     if (type === 'next') {
-      this.startDate = dateUtils.add(this.startDate, daysDiff, 'days');
-      this.endDate = dateUtils.add(this.endDate, daysDiff - 1, 'days');
+      this.startDate = addDate(this.startDate, diff, 'days');
+      this.endDate = addDate(this.endDate, diff - 1, 'days');
     }
 
     if (type === 'previous') {
-      this.startDate = dateUtils.subtract(this.startDate, daysDiff, 'days');
-      this.endDate = dateUtils.subtract(this.endDate, daysDiff + 1, 'days');
+      this.startDate = subtractDate(this.startDate, diff, 'days');
+      this.endDate = subtractDate(this.endDate, diff + 1, 'days');
     }
 
     if (type === 'today') {
-      this.startDate = hasIrregularDays ? new Date() : dateUtils.firstDayOfWeek(new Date(), this.firstDayOfWeek);
-      this.endDate = dateUtils.add(this.startDate, daysDiff - 1, 'days');
+      this.startDate = hasIrregularDays ? new Date() : firstDayOfWeek(new Date(), this.firstDayOfWeek);
+      this.endDate = addDate(this.startDate, diff - 1, 'days');
     }
   }
 
@@ -254,9 +246,9 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    * Add week HTML to shadow including day/weekday header, hour rows, event cells
    */
   #renderWeek() {
-    const daysDiff = dateUtils.daysDiff(this.startDate, this.endDate);
+    const diff = daysDiff(this.startDate, this.endDate);
     const hoursDiff = this.endHour - this.startHour + 1;
-    const isDayView = daysDiff === 1 || daysDiff === 0;
+    const isDayView = diff === 1 || diff === 0;
     // Get locale loaded calendars and dayOfWeek calendar setting
     const calendars = this.locale.locale.options.calendars;
     const dayOfWeekSetting = (calendars || [])[0]?.dateFormat?.dayOfWeek;
@@ -269,11 +261,11 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       return isDayView ? 32 : 20;
     };
 
-    const daysTemplate = Array.from({ length: daysDiff }, (_, index) => {
+    const daysTemplate = Array.from({ length: diff }, (_, index) => {
       const date = this.startDate.setDate(this.startDate.getDate() + index);
       const dayNumeric = this.locale.formatDate(date, { day: 'numeric' });
       const weekday = this.locale.formatDate(date, { weekday: 'short' });
-      const isToday = dateUtils.isToday(new Date(date));
+      const isToday = isTodaysDate(new Date(date));
 
       return `
         <th>
@@ -294,7 +286,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
       `;
     }).join('');
 
-    const cellTemplate = Array.from({ length: daysDiff }).map(() => `
+    const cellTemplate = Array.from({ length: diff }).map(() => `
       <td>
         <div class="week-view-cell-wrapper"></div>
       </td>
@@ -415,7 +407,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
   get showToday() {
     const attrVal = this.getAttribute(attributes.SHOW_TODAY);
 
-    return stringUtils.stringToBool(attrVal);
+    return stringToBool(attrVal);
   }
 
   /**
@@ -423,7 +415,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    * @param {string|boolean|null} val showToday param value
    */
   set showToday(val) {
-    const boolVal = stringUtils.stringToBool(val);
+    const boolVal = stringToBool(val);
 
     if (boolVal) {
       this.setAttribute(attributes.SHOW_TODAY, boolVal);
@@ -442,13 +434,13 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     const attrVal = this.getAttribute(attributes.START_DATE);
     const attrDate = new Date(attrVal);
 
-    if (attrVal && dateUtils.isValidDate(attrDate)) {
+    if (attrVal && isValidDate(attrDate)) {
       return attrDate;
     }
 
     // If no start-date attribute is set or not valid date
     // set startDate as first day of the week from current date
-    return dateUtils.firstDayOfWeek(new Date(), this.firstDayOfWeek);
+    return firstDayOfWeek(new Date(), this.firstDayOfWeek);
   }
 
   /**
@@ -474,14 +466,14 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     const attrVal = this.getAttribute(attributes.END_DATE);
     const attrDate = new Date(attrVal);
 
-    if (attrVal && dateUtils.isValidDate(attrDate)) {
+    if (attrVal && isValidDate(attrDate)) {
       // Adding one day to include end date to the range
-      return dateUtils.add(attrDate, 1, 'days');
+      return addDate(attrDate, 1, 'days');
     }
 
     // If no end-date attribute is set or not valid date
     // set endDate as last day of the week from current date
-    return dateUtils.lastDayOfWeek(new Date(), this.firstDayOfWeek);
+    return lastDayOfWeek(new Date(), this.firstDayOfWeek);
   }
 
   /**
@@ -505,7 +497,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    */
   get firstDayOfWeek() {
     const attrVal = this.getAttribute(attributes.FIRST_DAY_OF_WEEK);
-    const numberVal = stringUtils.stringToNumber(attrVal);
+    const numberVal = stringToNumber(attrVal);
 
     if (attrVal && numberVal >= 0 && numberVal <= 6) {
       return numberVal;
@@ -536,7 +528,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    */
   get startHour() {
     const attrVal = this.getAttribute(attributes.START_HOUR);
-    const numberVal = stringUtils.stringToNumber(attrVal);
+    const numberVal = stringToNumber(attrVal);
 
     if (attrVal && numberVal >= 0 && numberVal <= 24) {
       return numberVal;
@@ -568,7 +560,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    */
   get endHour() {
     const attrVal = this.getAttribute(attributes.END_HOUR);
-    const numberVal = stringUtils.stringToNumber(attrVal);
+    const numberVal = stringToNumber(attrVal);
 
     if (attrVal && numberVal >= 0 && numberVal <= 24) {
       return numberVal;
@@ -602,7 +594,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     const attrVal = this.getAttribute(attributes.SHOW_TIMELINE);
 
     if (attrVal) {
-      return stringUtils.stringToBool(attrVal);
+      return stringToBool(attrVal);
     }
 
     // Default value
@@ -614,7 +606,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    * @param {string|boolean|null} val showTimeline param value
    */
   set showTimeline(val) {
-    const boolVal = stringUtils.stringToBool(val);
+    const boolVal = stringToBool(val);
     this.setAttribute(attributes.SHOW_TIMELINE, boolVal);
 
     this.#renderTimeline();
@@ -626,7 +618,7 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
    */
   get timelineInterval() {
     const attrVal = this.getAttribute(attributes.TIMELINE_INTERVAL);
-    const numberVal = stringUtils.stringToNumber(attrVal);
+    const numberVal = stringToNumber(attrVal);
 
     if (numberVal > 0) {
       return numberVal;
@@ -650,5 +642,3 @@ class IdsWeekView extends mix(IdsElement).with(IdsLocaleMixin, IdsEventsMixin, I
     this.#renderTimeline();
   }
 }
-
-export default IdsWeekView;

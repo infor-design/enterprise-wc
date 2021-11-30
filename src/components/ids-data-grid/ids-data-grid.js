@@ -78,7 +78,7 @@ export default class IdsDataGrid extends Base {
     if (this?.virtualScroll !== 'true') {
       html = `
         <div
-          class="ids-data-grid ${additionalClasses}" 
+          class="ids-data-grid ${additionalClasses}"
           role="table"
           part="table"
           aria-label="${this.label}"
@@ -521,14 +521,14 @@ export default class IdsDataGrid extends Base {
    * @param {boolean|null} value The auto fit
    */
   set autoFit(value) {
-    if (IdsStringUtils.stringToBool(value)) {
+    if (stringToBool(value)) {
       this.setAttribute(attributes.AUTO_FIT, value);
       return;
     }
     this.removeAttribute(attributes.AUTO_FIT);
   }
 
-  get autoFit() { return IdsStringUtils.stringToBool(this.getAttribute(attributes.AUTO_FIT)); }
+  get autoFit() { return stringToBool(this.getAttribute(attributes.AUTO_FIT)); }
 
   /**
    * Set the active cell for focus
