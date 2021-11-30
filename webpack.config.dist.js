@@ -4,10 +4,22 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProduction = process.argv[process.argv.indexOf('--mode') + 1] === 'production';
+const coreDir = './src/core';
+const mixinsDir = './src/mixins'
 const componentsDir = './src/components';
 
 module.exports = {
   entry: {
+
+    //////////////////////////////////////////////////////////////   Core   //////////////////////////////////////////////////////////////////////////////////
+
+    'attributes': `${coreDir}/ids-attributes.js`,
+    'data-source': `${coreDir}/ids-data-source.js`,
+    'decorators': `${coreDir}/ids-decorators.js`,
+    'element': `${coreDir}/ids-element.js`,
+    
+    //////////////////////////////////////////////////////////////   Components   //////////////////////////////////////////////////////////////////////////////////
+
     'enterprise-wc': `${componentsDir}/enterprise-wc.js`,
     'about': { import: [`${componentsDir}/ids-about/ids-about.js`] },
     'accordion': { import: [`${componentsDir}/ids-accordion/ids-accordion.js`] },
@@ -88,22 +100,43 @@ module.exports = {
     'virtual-scroll': { import: [`${componentsDir}/ids-virtual-scroll/ids-virtual-scroll.js`] },
     'week-view': { import: [`${componentsDir}/ids-week-view/ids-week-view.js`] },
     'wizard': { import: [`${componentsDir}/ids-wizard/ids-wizard.js`] },
+
+    //////////////////////////////////////////////////////////////   Components   //////////////////////////////////////////////////////////////////////////////////
+
+    //////////////////////////////////////////////////////////////   Mixins   //////////////////////////////////////////////////////////////////////////////////
+
+    'clearable-mixin': `${mixinsDir}/ids-clearable-mixin.js`,
+    'color-variant-mixin': `${mixinsDir}/ids-color-variant-mixin.js`,
+    'dirty-tracker-mixin': `${mixinsDir}/ids-dirty-tracker-mixin.js`,
+    'events-mixin': `${mixinsDir}/ids-events-mixin.js`,
+    'focus-capture-mixin': `${mixinsDir}/ids-focus-capture-mixin.js`,
+    'hitbox-mixin': `${mixinsDir}/ids-hitbox-mixin.js`,
+    'keyboard-mixin': `${mixinsDir}/ids-keyboard-mixin.js`,
+    'locale-mixin': `${mixinsDir}/ids-locale-mixin.js`,
+    'mask-mixin': `${mixinsDir}/ids-mask-mixin.js`,
+    'orientation-mixin': `${mixinsDir}/ids-orientation-mixin.js`,
+    'popup-interactions-mixin': `${mixinsDir}/ids-popup-interactions-mixin.js`,
+    'popup-open-events-mixin': `${mixinsDir}/ids-popup-open-events-mixin.js`,
+    'theme-mixin': `${mixinsDir}/ids-theme-mixin.js`,
+    'tooltip-mixin': `${mixinsDir}/ids-tooltip-mixin.js`,
+    'validation-mixin': `${mixinsDir}/ids-validation-mixin.js`,
+    'xss-mixin': `${mixinsDir}/ids-xss-mixin.js`,
+
+    //////////////////////////////////////////////////////////////   Mixins   //////////////////////////////////////////////////////////////////////////////////
+
   },
   output: {
     filename: (pathData) => (pathData.chunk.name === 'enterprise-wc' ? '[name].js' : 'ids-[name]/ids-[name].js'),
     chunkFormat: 'module',
+    asyncChunks: true,
     path: path.resolve(__dirname, 'dist/enterprise-wc'),
-    publicPath: 'auto',
+    publicPath: '',
     clean: true
   },
   optimization: {
-    usedExports: true,
     splitChunks: {
-      chunks: 'async'
+      chunks: 'async',
     },
-  },
-  performance: {
-    hints: false
   },
   module: {
     rules: [
@@ -165,7 +198,7 @@ module.exports = {
   },
   plugins: [
     new BundleAnalyzerPlugin({
-      analyzerMode: process.env.npm_lifecycle_event === 'build:stats' ? 'server' : 'disabled',
+      analyzerMode: 'server', // process.env.npm_lifecycle_event === 'build:stats' ? 'server' : 'disabled',
       reportFilename: 'prod-build-report.html'
     }),
     new MiniCssExtractPlugin({
@@ -173,5 +206,5 @@ module.exports = {
     })
   ],
   devtool: 'source-map',
-  mode: isProduction ? 'production' : 'development'
+  mode: 'production' // isProduction ? 'production' : 'development'
 };
