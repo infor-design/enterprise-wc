@@ -43,23 +43,25 @@ describe('Ids List Builder e2e Tests', () => {
   });
 
   it('can click the toolbar buttons', async () => {
-    const jsPathToolbarButtonEdit = `document.querySelector("ids-list-builder").shadowRoot.querySelector("ids-toolbar").querySelector("ids-toolbar-section").querySelector("#button-edit").shadowRoot.querySelector("button")`;
-    const jsPathToolbarButtonAdd = `document.querySelector("ids-list-builder").shadowRoot.querySelector("ids-toolbar").querySelector("ids-toolbar-section").querySelector("#button-add").shadowRoot.querySelector("button")`;
-    const jsPathToolbarButtonUp = `document.querySelector("ids-list-builder").shadowRoot.querySelector("ids-toolbar").querySelector("ids-toolbar-section").querySelector("#button-up").shadowRoot.querySelector("button")`;
-    const jsPathToolbarButtonDown = `document.querySelector("ids-list-builder").shadowRoot.querySelector("ids-toolbar").querySelector("ids-toolbar-section").querySelector("#button-down").shadowRoot.querySelector("button")`;
-    const jsPathToolbarButtonDelete = `document.querySelector("ids-list-builder").shadowRoot.querySelector("ids-toolbar").querySelector("ids-toolbar-section").querySelector("#button-delete").shadowRoot.querySelector("button")`;
+    const jsPathToolbarButtonEdit = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-edit")`;
+    const jsPathToolbarButtonAdd = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-add")`;
+    const jsPathToolbarButtonUp = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-up")`;
+    const jsPathToolbarButtonDown = `document.querySelector("ids-list-builder").shadowRoot.querySelector("#button-down")`;
 
     const editButton = await (await page.evaluateHandle(jsPathToolbarButtonEdit)).asElement();
     const addButton = await (await page.evaluateHandle(jsPathToolbarButtonAdd)).asElement();
     const upButton = await (await page.evaluateHandle(jsPathToolbarButtonUp)).asElement();
     const downButton = await (await page.evaluateHandle(jsPathToolbarButtonDown)).asElement();
-    const deleteButton = await (await page.evaluateHandle(jsPathToolbarButtonDelete)).asElement();
+
+    await addButton.click();
+    await addButton.click();
 
     await editButton.click();
     await addButton.click();
     await upButton.click();
     await downButton.click();
-    await deleteButton.click();
+
+    await addButton.click();
   });
 
   it('can edit, select, and delete through keyboard', async () => {
