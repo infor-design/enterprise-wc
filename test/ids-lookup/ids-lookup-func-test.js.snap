@@ -7,7 +7,7 @@ exports[`IdsLookup Component renders correctly 2`] = `
     <ids-trigger-field label=\\"Normal Lookup\\" part=\\"trigger-field\\" size=\\"md\\">
       <ids-input part=\\"input\\" triggerfield=\\"true\\" label=\\"Normal Lookup\\" size=\\"md\\" validate=\\"null\\" label-hidden=\\"true\\" bg-transparent=\\"true\\" id=\\"ids-input-3\\"></ids-input>
       <ids-trigger-button part=\\"trigger-button\\" tabbable=\\"true\\" readonly=\\"false\\" language=\\"en\\" locale=\\"en-US\\">
-        <ids-text audible=\\"true\\" language=\\"en\\" locale=\\"en-US\\">Lookup Button</ids-text>
+        <ids-text audible=\\"true\\" language=\\"en\\" locale=\\"en-US\\">LookupTriggerButton</ids-text>
         <ids-icon slot=\\"icon\\" icon=\\"search-list\\" part=\\"icon\\" language=\\"en\\" locale=\\"en-US\\"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
