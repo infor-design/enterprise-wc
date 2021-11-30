@@ -103,7 +103,7 @@ export default class IdsDataGrid extends IdsElement {
   /** Set the sort column and sort direction */
   setSortColumn(id: string, ascending?: boolean): void;
 
-  /** Fires bwhen a column is sorted, you can return false in the response to veto */
+  /** Fires when a column is sorted, you can return false in the response to veto */
   on(event: 'sort', listener: (event: sort) => void): this;
 
   /** Fires while the cell is changed */

@@ -126,7 +126,7 @@ class IdsLookup extends mix(IdsElement).with(
         tabbable="${this.tabbable}"
         disabled="${this.disabled}"
         readonly="${this.readonly}">
-        <ids-text audible="true">Lookup Button</ids-text>
+        <ids-text audible="true">LookupTriggerButton</ids-text>
         <ids-icon slot="icon" icon="search-list" part="icon"></ids-icon>
       </ids-trigger-button>
     </ids-trigger-field>
@@ -179,6 +179,7 @@ class IdsLookup extends mix(IdsElement).with(
   set label(value) {
     this.setAttribute('label', value);
     this.shadowRoot.querySelector('ids-input').setAttribute('label', value);
+    this.triggerField.shadowRoot.querySelector('.ids-label-text ids-text').textContent = value;
   }
 
   get label() { return this.getAttribute('label') || ''; }
@@ -329,9 +330,11 @@ class IdsLookup extends mix(IdsElement).with(
     if (value) {
       this.setAttribute(attributes.VALIDATE, value.toString());
       this.input.setAttribute(attributes.VALIDATE, value.toString());
+      this.triggerField.setAttribute(attributes.VALIDATE, value.toString());
     } else {
       this.removeAttribute(attributes.VALIDATE);
       this.input.removeAttribute(attributes.VALIDATE);
+      this.triggerField.removeAttribute(attributes.VALIDATE);
     }
   }
 

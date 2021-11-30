@@ -82,7 +82,7 @@ class IdsDataGridFormatters {
     } else {
       colHref = colHref.replace('{{value}}', value);
     }
-    return `<ids-hyperlink href="${colHref}" tabindex="-1">${value}</span>`;
+    return `<ids-hyperlink href="${colHref}" tabindex="-1">${value}</ids-hyperlink>`;
   }
 
   /** Shows a selection checkbox column */

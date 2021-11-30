@@ -73,7 +73,7 @@ If necessary you can provide your own custom modal to the lookup. When doing thi
 - <kbd>Esc</kbd>: Cancels and closes the open dialog
 - <kbd>Tab/Shift+Tab</kbd>: Tab and Shift Tab when the dialog is open, tab will move around the items, for example, from the search to the data grid
 - <kbd>Down/Up Arrow</kbd>: When focus is on the grid in the dialog this moves the focus up and down on the rows
-- <kbd>Enter/Space</kbd>: Toggle selection on the current row if multiselect. If single select, the row is selected and inserted if autoApply is enabled.
+- <kbd>Space</kbd>: Toggle selection on the current row if multiselect. If single select, the row is selected and inserted if autoApply is enabled.
 
 ## Responsive Guidelines
 
