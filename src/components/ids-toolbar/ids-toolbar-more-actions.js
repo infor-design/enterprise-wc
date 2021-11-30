@@ -130,14 +130,6 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
 
   /**
    * @readonly
-   * @returns {boolean} if this component is in a right-to-left environment
-   */
-  get rtl() {
-    return !!this.closest('[dir="rtl"]');
-  }
-
-  /**
-   * @readonly
    * @returns {IdsToolbar} a reference to this section's toolbar parent node
    */
   get toolbar() {
@@ -249,7 +241,6 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
       return false;
     }
 
-    const isRTL = this.rtl;
     const itemRect = item.getBoundingClientRect();
     const section = item.parentElement;
     const sectionRect = section.getBoundingClientRect();
@@ -257,20 +248,7 @@ class IdsToolbarMoreActions extends mix(IdsElement).with(IdsEventsMixin) {
     const isBeyondRightEdge = itemRect.right > sectionRect.right;
     const isBeyondLeftEdge = itemRect.left < sectionRect.left;
 
-    switch (section.align) {
-    case 'center':
-      return isBeyondRightEdge || isBeyondLeftEdge;
-    case 'end':
-      if (isRTL) {
-        return isBeyondRightEdge;
-      }
-      return isBeyondLeftEdge;
-    default: // 'start'
-      if (isRTL) {
-        return isBeyondLeftEdge;
-      }
-      return isBeyondRightEdge;
-    }
+    return isBeyondLeftEdge || isBeyondRightEdge;
   }
 }
 

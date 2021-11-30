@@ -4,6 +4,7 @@
 // but also to the `.ids-toolbar` element class for use in standalone CSS styles
 
 // These rules are applied to the `.ids-toolbar` element
+// These are used for Standalone CSS Toolbars
 @mixin ids-toolbar-section-inner-size-styles() {
   &:not(.favorable) {
     flex: 0 1 auto;
@@ -43,7 +44,7 @@
   }
 
   // ================================================
-  // Alignments
+  // Alignments for Standalone CSS Toolbar Sections
   &.align-start {
     justify-content: flex-start;
   }
@@ -94,7 +95,8 @@
   }
 
   // ================================================
-  // Alignments
+  // Alignments for the host elements
+  // In the `ids-toolbar-section` web components, the CSS classes are omitted in favor of these
 
   ::slotted(ids-toolbar-section[align='start']),
   ::slotted(ids-toolbar-section:not([align])) {

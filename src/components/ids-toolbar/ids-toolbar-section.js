@@ -106,7 +106,6 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
   }
 
   connectedCallback() {
-    setCssClassFromGroup(`align-${this.align}`, this.container, SECTION_ALIGNS);
     setCssClassFromGroup(this.type, this.container, SECTION_TYPES);
     setCssClassFromGroup(this.toolbarType, this.container, TOOLBAR_TYPES);
     super.connectedCallback();
@@ -166,7 +165,6 @@ class IdsToolbarSection extends mix(IdsElement).with(IdsEventsMixin, IdsThemeMix
     } else {
       this.setAttribute('align', val);
     }
-    setCssClassFromGroup(trueVal, this.container, SECTION_ALIGNS);
   }
 
   /**
