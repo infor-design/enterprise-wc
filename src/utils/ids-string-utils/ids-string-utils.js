@@ -34,18 +34,16 @@ export function stringToBool(val) {
   if (typeof val === 'string' && val.toLowerCase() === 'false') {
     return false;
   }
-  return val !== null && (val === true || (typeof val === 'string' && val !== 'false'));
+  return typeof val === 'string';
 }
 
 /**
- * Converts an attribute string into a number
+ * Converts an attribute string into a number, or returns NaN
  * @param {string|number|any} val string value from the component attribute
  * @returns {number} The return boolean
  */
 export function stringToNumber(val) {
-  // eslint-disable-next-line no-unsafe-optional-chaining
-  const v = val?.toString() * 1; // Converting String to Number
-  return !isNaN(v) ? v : 0; // eslint-disable-line
+  return parseFloat(val); // eslint-disable-line
 }
 
 /**
