@@ -54,9 +54,8 @@ class IdsTreeMap extends mix(IdsElement).with(
   static get attributes() {
     return [
       ...super.attributes,
-      attributes.WIDTH,
-      attributes.HEIGHT,
-      'result'
+      attributes.RESULT,
+      attributes.TITLE
     ];
   }
 
@@ -65,15 +64,26 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @returns {string} The template
    */
   template() {
-    let svg = `<svg></svg>`;
-    if (this.result !== undefined) {
+    const treemap = `
+      <div class="treemap-container">
+        <div class="treemap-title">${this.renderTitle()}</div>
+        ${this.renderSvg(this.result)}
+      </div>
+    `;
+
+    return treemap;
+  }
+
+  renderSvg(result) {
+    let svg = `<svg>Sorry, your browser does not support inline SVG.</svg>`;
+
+    if (result !== undefined) {
       svg = `
         <svg width='${this.width}' height='${this.height}'>
           ${this.result.map((rect) => this.renderGroups(rect)).join('')}
         </svg>
       `;
     }
-
     return svg;
   }
 
@@ -81,15 +91,29 @@ class IdsTreeMap extends mix(IdsElement).with(
     return `
       <g
         fill=${rect.data.color}
+        class="treemap-rect"
       >
         <rect
           x=${rect.x}
           y=${rect.y}
           width=${rect.width}
           height=${rect.height}
-        ></rect>
+        >
+        </rect>
+        <text
+          fill="white"
+        >
+          ${rect.data.label}
+        </text>
       </g>
     `;
+  }
+
+  renderTitle() {
+    return `
+      <ids-text type="span">
+        ${this.title !== null ? this.title : 'Add Treemap Title'}
+      </ids-text>`;
   }
 
   set result(value) {
@@ -101,6 +125,18 @@ class IdsTreeMap extends mix(IdsElement).with(
   get result() {
     // eslint-disable-next-line no-underscore-dangle
     return this._result;
+  }
+
+  set title(value) {
+    if (value) {
+      this.setAttribute(attributes.TITLE, value);
+    } else {
+      this.removeAttribute(attributes.TITLE);
+    }
+  }
+
+  get title() {
+    return this.getAttribute(attributes.TITLE);
   }
 
   /**
