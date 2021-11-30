@@ -3,8 +3,7 @@ import {
   customElement,
   scss,
   mix,
-  attributes,
-  IdsDataSource
+  attributes
 } from '../../core';
 
 // Import Mixins
@@ -89,6 +88,8 @@ class IdsTreeMap extends mix(IdsElement).with(
   }
 
   renderGroups(rect) {
+    const textOffset = 8;
+
     return `
       <g
         fill=${rect.data.color}
@@ -103,15 +104,15 @@ class IdsTreeMap extends mix(IdsElement).with(
         </rect>
         <text
           fill="white"
-          x="${rect.x + 16}"
-          y="${rect.y + 32}"
+          x="${rect.x + textOffset * 2}"
+          y="${rect.y + textOffset * 3}"
         >
           ${rect.data.text}
         </text>
         <text
           fill="white"
-          x="${rect.x + 16}"
-          y="${rect.y + 56}"
+          x="${rect.x + textOffset * 2}"
+          y="${rect.y + textOffset * 6}"
         >
           ${rect.data.label}
         </text>
@@ -121,7 +122,7 @@ class IdsTreeMap extends mix(IdsElement).with(
 
   renderTitle() {
     return `
-      <ids-text type="span">
+      <ids-text type="span" font-weight="bold">
         ${this.title !== null ? this.title : 'Add Treemap Title'}
       </ids-text>`;
   }
@@ -261,11 +262,7 @@ class IdsTreeMap extends mix(IdsElement).with(
   treeMap({ data, width, height }) {
     this.validateArguments({ data, width, height });
 
-    if (width < this.container.offsetWidth) {
-      this.width = this.container.offsetWidth;
-    } else {
-      this.width = width;
-    }
+    this.width = this.container.offsetWidth;
     this.height = height;
 
     this.Rectangle = {

@@ -13,10 +13,9 @@ text {
 }
 
 .treemap-title {
-  font-size: 1.6rem;
-  background-color: #606066;
-  color: #ffffff;
-  height: 34px;
-  line-height: 34px;
+  @include p-8();
+
+  background-color: var(--ids-color-palette-slate-60);
+  color: var(--ids-color-palette-white);
   text-align: center;
 }
