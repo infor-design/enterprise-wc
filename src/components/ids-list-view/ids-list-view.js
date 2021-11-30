@@ -288,7 +288,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
    */
   adjustHeight() {
     const rootContainer = this.virtualScroll ? this.virtualScrollContainer : this.container;
-    rootContainer.style.height = `${this.height}px`;
+    rootContainer.style.height = `${this.height}`;
   }
 
   /**
