@@ -560,12 +560,12 @@ class IdsDataGrid extends mix(IdsElement).with(
     this.activeCell.row = row;
 
     const rowNode = this.shadowRoot.querySelectorAll('.ids-data-grid-body .ids-data-grid-row')[row]; // exclude header rows
-    const cellNode = rowNode.querySelectorAll('.ids-data-grid-cell')[cell];
+    const cellNode = rowNode?.querySelectorAll('.ids-data-grid-cell')[cell];
     this.activeCell?.node?.removeAttribute('tabindex');
 
     this.activeCell.node = cellNode;
-    cellNode.setAttribute('tabindex', '0');
-    cellNode.focus();
+    cellNode?.setAttribute('tabindex', '0');
+    cellNode?.focus();
 
     this.triggerEvent('activecellchange', this, { detail: { elem: this, activeCell: this.activeCell } });
     return this.activeCell;
