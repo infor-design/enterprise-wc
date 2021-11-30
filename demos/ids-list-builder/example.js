@@ -3,7 +3,7 @@ const listBuilder = document.querySelector('ids-list-builder');
 
 // Do an ajax request and apply the data to the list
 const xmlhttp = new XMLHttpRequest();
-const url = '/data/products.json';
+const url = '/data/bikes.json';
 
 xmlhttp.onreadystatechange = function onreadystatechange() {
   if (this.readyState === 4 && this.status === 200 && listBuilder) {
