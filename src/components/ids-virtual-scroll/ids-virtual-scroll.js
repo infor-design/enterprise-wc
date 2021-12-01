@@ -93,7 +93,7 @@ class IdsVirtualScroll extends mix(IdsElement).with(IdsEventsMixin) {
     offset.style.transform = `translateY(${this.offsetY}px)`;
 
     // work-around for outside components to style contents inside this shadowroot
-    const wrapper = this.querySelector('[part="style-wrapper"]') ?? offset;
+    const wrapper = this.querySelector('[part="contents"]') ?? offset;
     wrapper.innerHTML = html;
 
     this.triggerEvent('ids-virtual-scroll-afterrender', this, { detail: { elem: this, startIndex, endIndex } });

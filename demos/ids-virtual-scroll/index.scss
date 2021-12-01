@@ -2,9 +2,11 @@ html {
   font-family: 'source sans pro', helvetica, arial, sans-serif;
 }
 
-ids-virtual-scroll::part(list-item) {
+.ids-list-view {
+  div[part="list-item"] {
     padding: 0 18px;
     list-style: none;
+  }
 }
 
 .ids-data-grid {

@@ -9,7 +9,7 @@ describe('IdsVirtualScroll Component', () => {
 
   const appendVirtualScroll = () => {
     const elem = new IdsVirtualScroll();
-    elem.innerHTML = `<div class="ids-list-view-body" part="style-wrapper"></div>`;
+    elem.innerHTML = `<div class="ids-list-view-body" part="contents"></div>`;
     document.body.appendChild(elem);
     elem.height = 308;
     elem.itemHeight = 20;

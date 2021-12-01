@@ -207,7 +207,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
           height=${this.height}
           item-height="${this.itemHeight}"
         >
-          <div class="ids-list-view-body" part="style-wrapper" tabindex="0"></div>
+          <div class="ids-list-view-body" part="contents" tabindex="0"></div>
         </ids-virtual-scroll>
       </div>
     `;
