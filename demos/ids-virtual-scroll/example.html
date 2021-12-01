@@ -11,7 +11,7 @@
           <ids-text font-size="20" type="h2" overflow="ellipsis" tooltip="true">List With Virtual Scroll</ids-text>
         </div>
         <div slot="card-content">
-          <ids-virtual-scroll height="90vh" id="virtual-scroll-1" item-height="62" item-count="1000">
+          <ids-virtual-scroll height="90vh" id="virtual-scroll-1" item-height="20" item-count="1000">
             <div class="ids-list-view">
               <ul slot="contents">
               </ul>
@@ -35,9 +35,9 @@
                 <span class="ids-data-grid-header-cell" role="columnheader"><span class="ids-data-grid-header-text">Product</span></span>
               </div>
             </div>
-            <ids-virtual-scroll height="90vh" id="virtual-scroll-2" item-height="20" item-count="1000">
+            <ids-virtual-scroll height="90vh" id="virtual-scroll-2" item-height="50" item-count="1000">
               <div class="ids-data-grid-container">
-                <div class="ids-data-grid-body" role="rowgroup" slot="contents">
+                <div class="ids-data-grid-body" part="style-wrapper" role="rowgroup" slot="contents">
                 </div>
               </div>
             </ids-virtual-scroll>

@@ -3,16 +3,14 @@ html {
 }
 
 ids-virtual-scroll::part(list-item) {
-    padding: 20px 12px;
+    padding: 0 18px;
     list-style: none;
-    border: 1px solid transparent;
-    border-bottom-color: var(--ids-color-palette-slate-20);
-    contain: content;
 }
 
 .ids-data-grid {
+  
+  .ids-data-grid-container {
 
-  [part="style-wrapper"] {
     .ids-data-grid-row {
       grid-template-columns: 125px 1fr !important;
       padding: 0;
@@ -40,8 +38,4 @@ ids-virtual-scroll::part(list-item) {
   .ids-data-grid-header .ids-data-grid-row {
     grid-template-columns: 125px 1fr !important;
   }
-}
-
-.parent-container {
-  margin: 16px;
 }
