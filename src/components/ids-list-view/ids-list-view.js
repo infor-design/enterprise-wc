@@ -189,7 +189,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   staticScrollTemplate() {
     return `
       <div class="ids-list-view">
-        <div class="ids-list-view-body">
+        <div class="ids-list-view-body" tabindex="0">
           ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
         </div>
       </div>
@@ -207,7 +207,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
           height=${this.height}
           item-height="${this.itemHeight}"
         >
-          <div class="ids-list-view-body" part="style-wrapper"></div>
+          <div class="ids-list-view-body" part="style-wrapper" tabindex="0"></div>
         </ids-virtual-scroll>
       </div>
     `;
