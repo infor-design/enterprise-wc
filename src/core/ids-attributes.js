@@ -248,8 +248,10 @@ export const attributes = {
   VALUE_SECONDARY: 'value-secondary',
   VERSION: 'version',
   VERTICAL: 'vertical',
+  VIEWBOX: 'viewbox',
   VIRTUAL_SCROLL: 'virtual-scroll',
   VISIBLE: 'visible',
+  WIDTH: 'width',
   X: 'x',
   XSS_IGNORED_TAGS: 'xss-ignored-tags',
   Y: 'y'
