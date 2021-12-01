@@ -33,8 +33,7 @@ class IdsTreeMap extends mix(IdsElement).with(
   ) {
   constructor() {
     super();
-    // eslint-disable-next-line no-underscore-dangle
-    this._result = [];
+    this.res = [];
     this.width = '';
     this.height = '';
   }
@@ -74,12 +73,18 @@ class IdsTreeMap extends mix(IdsElement).with(
     return treemap;
   }
 
+  /**
+   * Render SVG markup
+   * @param {Array} result data array
+   * @returns {*} svg
+   * @memberof IdsTreeMap
+   */
   renderSvg(result) {
     let svg = `<svg>Sorry, your browser does not support inline SVG.</svg>`;
 
     if (result !== undefined) {
       svg = `
-        <svg width='${this.width}' height='${this.height}'>
+        <svg width='${this.width}' height='${this.height}' stroke="#fff" stroke-width="1">
           ${this.result.map((rect) => this.renderGroups(rect)).join('')}
         </svg>
       `;
@@ -87,6 +92,12 @@ class IdsTreeMap extends mix(IdsElement).with(
     return svg;
   }
 
+  /**
+   * Render the group markup
+   * @param {object} rect item in the result array
+   * @returns {*} svg group
+   * @memberof IdsTreeMap
+   */
   renderGroups(rect) {
     const textOffset = 8;
 
@@ -106,6 +117,7 @@ class IdsTreeMap extends mix(IdsElement).with(
           fill="white"
           x="${rect.x + textOffset * 2}"
           y="${rect.y + textOffset * 3}"
+          stroke-width="0"
         >
           ${rect.data.text}
         </text>
@@ -113,6 +125,7 @@ class IdsTreeMap extends mix(IdsElement).with(
           fill="white"
           x="${rect.x + textOffset * 2}"
           y="${rect.y + textOffset * 6}"
+          stroke-width="0"
         >
           ${rect.data.label}
         </text>
@@ -120,6 +133,11 @@ class IdsTreeMap extends mix(IdsElement).with(
     `;
   }
 
+  /**
+   * Render the title markup
+   * @returns {*} Title banner markup
+   * @memberof IdsTreeMap
+   */
   renderTitle() {
     return `
       <ids-text type="span" font-weight="bold">
@@ -128,14 +146,12 @@ class IdsTreeMap extends mix(IdsElement).with(
   }
 
   set result(value) {
-    // eslint-disable-next-line no-underscore-dangle
-    this._result = value;
+    this.res = value;
     this.render(true);
   }
 
   get result() {
-    // eslint-disable-next-line no-underscore-dangle
-    return this._result;
+    return this.res;
   }
 
   set title(value) {
@@ -158,14 +174,51 @@ class IdsTreeMap extends mix(IdsElement).with(
     super.render();
   }
 
+  /**
+   * Get max number
+   * @param {Array} array row
+   * @returns {Array} max number
+   * @memberof IdsTreeMap
+   * @private
+   */
   getMaximum = (array) => Math.max(...array);
 
+  /**
+   * Get min number
+   * @param {Array} array row
+   * @returns {Array} min number
+   * @memberof IdsTreeMap
+   * @private
+   */
   getMinimum = (array) => Math.min(...array);
 
+  /**
+   * Sum Reducer
+   * @param {Array} acc row
+   * @param {Array} cur row
+   * @returns {Array} reduced array
+   * @memberof IdsTreeMap
+   * @private
+   */
   sumReducer = (acc, cur) => acc + cur;
 
+  /**
+   * Round Value
+   * @param {Array} number row
+   * @returns {Array} round value array
+   * @memberof IdsTreeMap
+   * @private
+   */
   roundValue = (number) => Math.max(Math.round(number * 100) / 100, 0);
 
+  /**
+   * Validate Arguments
+   * @param {Array} data.data object
+   * @param {number} data.width number
+   * @param {number} height number
+   * @memberof IdsTreeMap
+   * @private
+   */
   validateArguments = ({ data, width, height }) => {
     if (!width || typeof width !== 'number' || width < 0) {
       throw new Error('You need to specify the width of your treemap');
