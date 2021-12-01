@@ -67,6 +67,10 @@ class IdsHeader extends mix(IdsElement).with(
    * Refresh the color variants on all elements
    * @private
    */
+  /**
+   * Refresh the color variants on all elements
+   * @private
+   */
   #refreshVariants() {
     const elementNames = ['ids-button', 'ids-search-field', 'ids-text', 'ids-theme-switcher'];
 
