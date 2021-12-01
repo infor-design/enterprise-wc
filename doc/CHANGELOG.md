@@ -58,6 +58,8 @@
   - The icon and size are set via properties/attributes
   - Can now be imported as a single JS file and used with encapsulated styles
   - Can now display notification badges
+  - has new sizing options
+  - can now be used to display empty-message options
 - `[Input]` The Input component has been changed to a web component and renamed to ids-input.
   - Markup has changed to a custom element `<ids-input></ids-input>`
   - If using events, events are now plain JS events.
