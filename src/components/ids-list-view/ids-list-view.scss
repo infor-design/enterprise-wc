@@ -6,6 +6,10 @@
   scroll-behavior: smooth;
 
   .ids-list-view-body {
+    &:focus {
+      @include border-azure-40();
+    }
+
     div[part='list-item'] {
       @include list-none();
       @include py-12();
