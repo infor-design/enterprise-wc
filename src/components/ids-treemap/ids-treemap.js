@@ -59,6 +59,49 @@ class IdsTreeMap extends mix(IdsElement).with(
   }
 
   /**
+   * Set the result attribute
+   * @param {string} value of the treemap data object
+   * @memberof IdsTreeMap
+   */
+  set result(value) {
+    this.res = value;
+    this.render(true);
+  }
+
+  /**
+   * Get the result attribute
+   * @returns {object} result of the treemap data object
+   * @readonly
+   * @memberof IdsTreeMap
+   */
+  get result() {
+    return this.res;
+  }
+
+  /**
+   * Set the title attribute
+   * @param {string} value of the title
+   * @memberof IdsTreeMap
+   */
+  set title(value) {
+    if (value) {
+      this.setAttribute(attributes.TITLE, value);
+    } else {
+      this.removeAttribute(attributes.TITLE);
+    }
+  }
+
+  /**
+   * Get the title attribute
+   * @returns {string} The value of the title attribute.
+   * @readonly
+   * @memberof IdsTreeMap
+   */
+  get title() {
+    return this.getAttribute(attributes.TITLE);
+  }
+
+  /**
    * Create the Template for the contents
    * @returns {string} The template
    */
@@ -145,27 +188,6 @@ class IdsTreeMap extends mix(IdsElement).with(
       </ids-text>`;
   }
 
-  set result(value) {
-    this.res = value;
-    this.render(true);
-  }
-
-  get result() {
-    return this.res;
-  }
-
-  set title(value) {
-    if (value) {
-      this.setAttribute(attributes.TITLE, value);
-    } else {
-      this.removeAttribute(attributes.TITLE);
-    }
-  }
-
-  get title() {
-    return this.getAttribute(attributes.TITLE);
-  }
-
   /**
    * Render the treemap by applying the template
    * @private
@@ -212,10 +234,11 @@ class IdsTreeMap extends mix(IdsElement).with(
   roundValue = (number) => Math.max(Math.round(number * 100) / 100, 0);
 
   /**
-   * Validate Arguments
-   * @param {Array} data.data object
-   * @param {number} data.width number
-   * @param {number} height number
+   * Validate the treemap object.
+   * @param {object} obj { data, width, height }
+   * @param {Array} obj.data array that contains the treemap block definitions
+   * @param {number} obj.width total width of the treemap
+   * @param {number} obj.height total hieght of the treemap
    * @memberof IdsTreeMap
    * @private
    */
@@ -231,6 +254,14 @@ class IdsTreeMap extends mix(IdsElement).with(
     }
   };
 
+  /**
+   * Calculate worst ratio
+   * @param {Array} row array
+   * @param {number} width of row
+   * @returns {number} worst ratio number
+   * @memberof IdsTreeMap
+   * @private
+   */
   worstRatio = (row, width) => {
     const sum = row.reduce(this.sumReducer, 0);
     const rowMax = this.getMaximum(row);
@@ -238,6 +269,12 @@ class IdsTreeMap extends mix(IdsElement).with(
     return Math.max(((width ** 2) * rowMax) / (sum ** 2), (sum ** 2) / ((width ** 2) * rowMin));
   };
 
+  /**
+   * Get the min width
+   * @returns {object} the minWidth object
+   * @memberof IdsTreeMap
+   * @private
+   */
   getMinWidth = () => {
     if (this.Rectangle.totalHeight ** 2 > this.Rectangle.totalWidth ** 2) {
       return { value: this.Rectangle.totalWidth, vertical: false };
@@ -245,6 +282,14 @@ class IdsTreeMap extends mix(IdsElement).with(
     return { value: this.Rectangle.totalHeight, vertical: true };
   };
 
+  /**
+   * Layout Row
+   * @param {Array} row array
+   * @param {number} width number
+   * @param {boolean} vertical boolean
+   * @memberof IdsTreeMap
+   * @private
+   */
   layoutRow = (row, width, vertical) => {
     const rowHeight = row.reduce(this.sumReducer, 0) / width;
 
@@ -290,12 +335,28 @@ class IdsTreeMap extends mix(IdsElement).with(
     }
   };
 
+  /**
+   * Layout last row
+   * @param {Array} rows array
+   * @param {Array} children array
+   * @param {number} width number
+   * @memberof IdsTreeMap
+   */
   layoutLastRow = (rows, children, width) => {
     const { vertical } = this.getMinWidth();
     this.layoutRow(rows, width, vertical);
     this.layoutRow(children, width, vertical);
   };
 
+  /**
+   * Squarify
+   * @param {Array} children array
+   * @param {Array} row array
+   * @param {number} width number
+   * @returns {Array} squarified row
+   * @memberof IdsTreeMap
+   * @private
+   */
   squarify = (children, row, width) => {
     if (children.length === 1) {
       return this.layoutLastRow(row, children, width);
@@ -312,6 +373,15 @@ class IdsTreeMap extends mix(IdsElement).with(
     return this.squarify(children, [], this.getMinWidth().value);
   };
 
+  /**
+   * Create the Treemap
+   * @param {object} obj object that contains config for the treemap
+   * @param {Array} obj.data array that contains the treemap block definitions
+   * @param {number} obj.width total width of the treemap
+   * @param {number} obj.height total hieght of the treemap
+   * @returns {Array} treemap array
+   * @memberof IdsTreeMap
+   */
   treeMap({ data, width, height }) {
     this.validateArguments({ data, width, height });
 
