@@ -16,12 +16,14 @@ ids-text::part(text) {
 }
 
 ids-hyperlink::part(link) {
-  @include mx-8();
-
+  font-weight: 300;
   color: var(--ids-color-palette-slate-80);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  line-height: 1;
+  padding: 0;
+  margin-left: 5px;
 }
 
 .ids-notification-banner-button {
@@ -34,72 +36,91 @@ ids-hyperlink::part(link) {
   white-space: nowrap;
 }
 
-.ids-notification-banner[type='success'][mode='light'],
-.ids-notification-banner[type='success'][mode='contrast'],
-.ids-notification-banner[type='alert'][mode='light'],
-.ids-notification-banner[type='alert'][mode='contrast'],
-.ids-notification-banner[type='info'][mode='light'],
-.ids-notification-banner[type='info'][mode='contrast'],
-.ids-notification-banner[type='error'][mode='light'],
-.ids-notification-banner[type='error'][mode='contrast'] {
-  ids-text::part(text) {
-    color: var(--ids-color-palette-slate-90);
-  }
+.ids-notification-banner[mode='light'] {
+  &[type='success'],
+  &[type='alert'],
+  &[type='info'],
+  &[type='error'] {
+    ids-text::part(text) {
+      color: var(--ids-color-palette-slate-80);
+    }
 
-  ids-hyperlink::part(link) {
-    color: var(--ids-color-palette-slate-90);
+    ids-hyperlink::part(link) {
+      color: var(--ids-color-palette-slate-80);
+    }
   }
 }
 
-.ids-notification-banner[type='success'][mode='dark'],
-.ids-notification-banner[type='alert'][mode='dark'],
-.ids-notification-banner[type='info'][mode='dark'],
-.ids-notification-banner[type='error'][mode='dark'] {
-  ids-text::part(text) {
-    color: var(--ids-color-palette-slate-10);
+.ids-notification-banner[mode='contrast'] {
+  &[type='success'],
+  &[type='alert'],
+  &[type='info'],
+  &[type='error'] {
+    ids-text::part(text) {
+      color: var(--ids-color-palette-slate-90);
+    }
+
+    ids-hyperlink::part(link) {
+      color: var(--ids-color-palette-slate-90);
+    }
+  }
+}
+
+.ids-notification-banner[mode='dark'] {
+  &[type='success'],
+  &[type='alert'],
+  &[type='info'],
+  &[type='error'] {
+    ids-text::part(text) {
+      color: var(--ids-color-palette-slate-10);
+    }
+
+    ids-hyperlink::part(link) {
+      color: var(--ids-color-palette-slate-10);
+    }
+  }
+}
+
+.ids-notification-banner[type='success'] {
+  &[mode='light'],
+  &[mode='contrast'] {
+    @include bg-emerald-10();
   }
 
-  ids-hyperlink::part(link) {
-    color: var(--ids-color-palette-slate-10);
+  &[mode='dark'] {
+    @include bg-emerald-100();
   }
 }
 
-// For success
-.ids-notification-banner[type='success'][mode='light'],
-.ids-notification-banner[type='success'][mode='contrast'] {
-  @include bg-emerald-10();
+.ids-notification-banner[type='alert'] {
+  &[mode='light'],
+  &[mode='contrast'] {
+    @include bg-amber-10();
+  }
+
+  &[mode='dark'] {
+    @include bg-amber-100();
+  }
 }
 
-.ids-notification-banner[type='success'][mode='dark'] {
-  @include bg-emerald-100();
+.ids-notification-banner[type='info'] {
+  &[mode='light'],
+  &[mode='contrast'] {
+    @include bg-azure-10();
+  }
+
+  &[mode='dark'] {
+    @include bg-azure-100();
+  }
 }
 
-// For alert
-.ids-notification-banner[type='alert'][mode='light'],
-.ids-notification-banner[type='alert'][mode='contrast'] {
-  @include bg-amber-10();
-}
+.ids-notification-banner[type='error'] {
+  &[mode='light'],
+  &[mode='contrast'] {
+    @include bg-ruby-10();
+  }
 
-.ids-notification-banner[type='alert'][mode='dark'] {
-  @include bg-amber-100();
-}
-
-// For info
-.ids-notification-banner[type='info'][mode='light'],
-.ids-notification-banner[type='info'][mode='contrast'] {
-  @include bg-azure-10();
-}
-
-.ids-notification-banner[type='info'][mode='dark'] {
-  @include bg-azure-100();
-}
-
-// For error
-.ids-notification-banner[type='error'][mode='light'],
-.ids-notification-banner[type='error'][mode='contrast'] {
-  @include bg-ruby-10();
-}
-
-.ids-notification-banner[type='error'][mode='dark'] {
-  @include bg-ruby-100();
+  &[mode='dark'] {
+    @include bg-ruby-100();
+  }
 }
