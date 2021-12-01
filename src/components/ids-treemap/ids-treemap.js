@@ -411,6 +411,10 @@ class IdsTreeMap extends mix(IdsElement).with(
     }));
   }
 
+  /**
+   * Resize the treemap based on screen size
+   * @memberof IdsTreeMap
+   */
   resizeTreemap() {
     window.addEventListener('resize', () => {
       this.width = this.container.offsetWidth;

@@ -7,15 +7,15 @@ text {
   @include font-normal();
   @include block();
   @include m-0();
+  @include text-16();
 
   color: currentColor;
-  font-size: 16px;
 }
 
 .treemap-title {
   @include p-8();
+  @include bg-slate-60();
+  @include text-white();
 
-  background-color: var(--ids-color-palette-slate-60);
-  color: var(--ids-color-palette-white);
   text-align: center;
 }
