@@ -1,7 +1,7 @@
 ---
  component: Dropdown
  link: ids-dropdown
- description: Ui Text decoration
+ description: Select from a list of items
  category: Form Inputs
  keywords: select, dropdown, combobox
  examples:

@@ -56,8 +56,11 @@
 // Style the title
 .ids-card-header {
   @include px-16();
-  @include py-12();
   @include border-slate-30();
+}
+
+::slotted([slot='card-header']) {
+  @include py-12();
 }
 
 // Handle Themes
