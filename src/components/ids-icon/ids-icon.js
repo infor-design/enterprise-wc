@@ -103,13 +103,8 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
     let width = '';
     let viewBox = '';
 
-    if (this.getAttribute(attributes.WIDTH) && this.getAttribute(attributes.HEIGHT)) {
-      height = this.getAttribute(attributes.HEIGHT);
-      width = this.getAttribute(attributes.WIDTH);
-    } else {
-      height = sizes[this.size];
-      width = sizes[this.size];
-    }
+    height = this.height;
+    width = this.width;
 
     if (this.viewbox) {
       viewBox = this.viewbox;
@@ -300,7 +295,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    * @returns {string} a stringified height number
    */
   get height() {
-    return this.getAttribute(attributes.HEIGHT);
+    return this.getAttribute(attributes.HEIGHT) || sizes[this.size];
   }
 
   /**
@@ -341,7 +336,7 @@ class IdsIcon extends mix(IdsElement).with(IdsEventsMixin, IdsLocaleMixin) {
    * @returns {string} the stringified width number
    */
   get width() {
-    return this.getAttribute(attributes.WIDTH);
+    return this.getAttribute(attributes.WIDTH) || sizes[this.size];
   }
 
   /**
