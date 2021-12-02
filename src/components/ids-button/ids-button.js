@@ -147,7 +147,7 @@ class IdsButton extends mix(IdsElement).with(
    * Inherited from `IdsColorVariantMixin`
    * @returns {Array<string>} List of available color variants for this component
    */
-  colorVariants = ['alternate'];
+  colorVariants = ['alternate', 'alternate-formatter'];
 
   /**
    * Figure out the classes
