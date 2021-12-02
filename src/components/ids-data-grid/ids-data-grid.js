@@ -117,7 +117,7 @@ class IdsDataGrid extends mix(IdsElement).with(
       ${this.headerTemplate()}
       ${this.virtualScroll
       ? `<ids-virtual-scroll>
-          <div class="ids-data-grid-body" part="style-wrapper" part="body" role="rowgroup"></div>
+          <div class="ids-data-grid-body" part="body" role="rowgroup"></div>
         </ids-virtual-scroll>`
       : `${this.bodyTemplate()}`
       }
