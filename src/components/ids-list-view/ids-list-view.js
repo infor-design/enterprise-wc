@@ -170,6 +170,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
       ${this.draggable ? `<ids-draggable axis="y">` : '' }
         <div
           part="list-item"
+          role="listitem"
           tabindex="-1"
           index="${index}"
         >
@@ -189,7 +190,7 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
   staticScrollTemplate() {
     return `
       <div class="ids-list-view">
-        <div class="ids-list-view-body" tabindex="0">
+        <div class="ids-list-view-body" role="list" tabindex="0">
           ${this.data.length > 0 ? this.data?.map(this.listItemTemplateFunc()).join('') : ''}
         </div>
       </div>
@@ -204,10 +205,10 @@ class IdsListView extends mix(IdsElement).with(IdsEventsMixin, IdsKeyboardMixin,
     const html = `
       <div class="ids-list-view">
         <ids-virtual-scroll
-          height=${this.height}
+          height="${this.height}"
           item-height="${this.itemHeight}"
         >
-          <div class="ids-list-view-body" part="contents" tabindex="0"></div>
+          <div class="ids-list-view-body" role="list" part="contents" tabindex="0"></div>
         </ids-virtual-scroll>
       </div>
     `;
