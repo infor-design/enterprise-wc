@@ -243,9 +243,6 @@ class IdsTreeMap extends mix(IdsElement).with(
    * @private
    */
   validateArguments = ({ data, width, height }) => {
-    if (!width || typeof width !== 'number' || width < 0) {
-      throw new Error('You need to specify the width of your treemap');
-    }
     if (!height || typeof height !== 'number' || height < 0) {
       throw new Error('You need to specify the height of your treemap');
     }

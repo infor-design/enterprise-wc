@@ -46,7 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
         label: '14%'
       },
     ],
-    width: 1000,
     height: 300
   });
 });

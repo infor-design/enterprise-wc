@@ -7,6 +7,8 @@ Treemaps are used to display hierarchical data. This is useful when space is con
 Treemaps are not good when there is a big difference in the magnitude of the measure values. Nor is a treemap the right choice when mixing absolute and relative values. Negative values cannot be displayed in treemaps.
 
 ## Terminology
+**result** This is a property / attr where the treemap data object gets stored.
+**title** This is an attribute where the treemap title is stored.
 
 ## Features (With Code Examples)
 
@@ -62,21 +64,40 @@ const treeMapEl = document.querySelector('ids-treemap');
         label: '14%'
       },
     ],
-    width: 1000,
+    width: 1000, // Optional. By default takes the width of the container.
     height: 300
   });
 ```
 
 ## Accessibility Guidelines
 
-The contrast and actual colors can be a concern for visibility impaired and color blind people. However, you can customize the color by passing different contrast colors in the colors option.
+The contrast and actual colors can be a concern for visibility impaired and color blind people. However, you can customize the color by passing different contrast colors in the color option.
 
 ## Usage Guidance
 
-- You can control the size of the treemap by setting the size of the parent element the treemap lives in. This may include possibly using an inset margin in some cases.
-- This component does not support drilldown at this time.
-- Using the data you can either show a single set or nested set of data (compare the two examples)
-- You can set tooltips on the treemap by passing in a text or html string in a `tooltip` field in the data. By default a tooltip will show if the data rectangle is small.
+- **data** Required. The data format should be as follows:
+```js
+{
+    data: [{
+        value: 28,
+        color: '#003876',
+        text: 'JSON',
+        label: '28%'
+      },
+      {
+        value: 18,
+        color: '#004A99',
+        text: 'PDF',
+        label: '18%'
+      }
+    ],
+    width: 1000 // Optional
+    height: 300
+}
+```
+
+- **width** Optional. By default the treemap takes on the width of the container. The treemap will resize as the screen size changes.
+= **height** Required. You will need to set the height for the treemap.
 
 ## Keyboard Shortcuts
 
@@ -84,4 +105,4 @@ This chart has no keyboard functionality
 
 ## Responsive Information
 
-As you resize the chart will redraw with in the width of the parent width and height. The nodes in the treemap are sized in proportion.
+As you resize the chart will redraw with in the width of the container width. The nodes in the treemap are sized in proportion.
