@@ -67,7 +67,7 @@ class IdsAppMenu extends mix(IdsDrawer).with(IdsKeyboardMixin) {
         <slot name="footer"></slot>
       </div>
       <div class="ids-app-menu-branding">
-        <ids-icon icon="logo" size="large"></ids-icon>
+        <ids-icon icon="logo" viewbox="0 0 35 34" size="large"></ids-icon>
       </div>
     </div>`;
   }

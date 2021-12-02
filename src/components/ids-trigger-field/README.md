@@ -2,7 +2,7 @@
 
 ## Description
 
-We include a trigger field component that helps layout an input next to a button (the trigger button). This component can be used on its own, but its generally used to make other internal components (datepicker, timepicker ect).
+We include a trigger field component that helps layout an input next to a button (the trigger button). This component can be used on its own, but its generally used to make other internal components (date picker, time picker ect).
 
 ## Class Hierarchy
 
@@ -70,6 +70,7 @@ Example usage with buttons on both sides of input.
 - `label` {string} This adds a label to the trigger field
 - `size` {string} set the input size, it will set `md` as defaults
 - `tabbable` {boolean} Turns on the functionality allow the trigger to be tabbable. For accessibility reasons this should be on in most cases and this is the default.
+- `delimiter` {string} The delimiter to use when multiple values are selected.
 
 ## Converting from Previous Versions
 

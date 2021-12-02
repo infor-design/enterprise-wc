@@ -7,6 +7,14 @@
  examples:
   - link: index.html
     description: Shows a basic datagrid with formatters
+  - link: list-style.html
+    description: Shows a datagrid with readonly list styling
+  - link: multiple-selection.html
+    description: Shows a datagrid with multiple selection
+  - link: single-selection.html
+    description: Shows a datagrid with single selection
+  - link: mixed-selection.html
+    description: Shows a datagrid with mixed selection
   - link: virtual-scroll.html
     description: Shows a basic datagrid with virtual scrolling
   - link: standalone-css.html

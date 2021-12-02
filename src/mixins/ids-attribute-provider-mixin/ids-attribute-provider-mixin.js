@@ -113,9 +113,7 @@ const IdsAttributeProviderMixin = (defs) => (superclass) => {
             if (!component || !(element instanceof component)) { continue; }
 
             const {
-              /** @type {string} */
               targetAttribute = sourceAttribute,
-              /** @type {Function} */
               valueTransformer = identityFn
             } = def;
 

@@ -58,7 +58,7 @@ Set validation `required` to Text Input this way:
 <ids-input label="Last Name" validate="required"></ids-input>
 ```
 
-Set the input to clearbale and add a clear button:
+Set the input to clearable and add a clear button:
 
 ```html
 <ids-input label="Clearable" clearable="true"></ids-input>
@@ -107,7 +107,7 @@ This can be done in a component by:
 1. in your component's `connectedCallback` method, add a call to `input.setLabelElement(myCustomLabelEl)` in order to bind your label to the component.
 1. if you are using `ids-text` for your external label, add a `label` attribute to specify that it should be labeled/themed as a label.
 1. on your `ids-input`, add a `label-hidden` flag in order to mark the label as hidden.
-1. for the sake of accessiblity/screen-readers, the `ids-input`'s `label` attribute should still be set with the text content for the label.
+1. for the sake of accessibility/screen-readers, the `ids-input`'s `label` attribute should still be set with the text content for the label.
 
 ## Keyboard Guidelines
 
@@ -137,21 +137,6 @@ The IDS Input component is now a WebComponent. Instead of using classes to defin
 
 ```
 
-## Designs
-
-## Alternate Designs
-
-## Proposed Changes
-
-## Test Plan
-
-1. Accessibility - Axe
-1. Visual Regression Test
-1. Repeat Tests in All Supported Browsers
-1. Some of these as test cases from the [WC gold standard](https://github.com/webcomponents/gold-standard/wiki#api)
-1. Can be consumed in NG/Vue/React (pull it in standalone/built see it works standalone)
-
 ## Accessibility Guidelines
-There should be a label on all inputs to give an indication what the value means.
 
-## Regional Considerations
+There should be a label on all inputs to give an indication what the field is containing.
